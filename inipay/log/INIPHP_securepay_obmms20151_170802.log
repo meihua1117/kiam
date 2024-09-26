@@ -1,0 +1,242 @@
+INFO	[2017-08-02 16:21:51:230] <16063> START INIPHP chkfake (V5036-141209)(OS:Linux4.4.27,PHP:5.5.17p1)
+DEBUG	[2017-08-02 16:21:51:230] <16063> inipayhome:/home/hosting_users/ilearning3/www/inipay
+DEBUG	[2017-08-02 16:21:51:230] <16063> type:chkfake
+DEBUG	[2017-08-02 16:21:51:230] <16063> debug:true
+DEBUG	[2017-08-02 16:21:51:230] <16063> enctype:asym
+DEBUG	[2017-08-02 16:21:51:230] <16063> admin:1111
+DEBUG	[2017-08-02 16:21:51:230] <16063> checkopt:false
+DEBUG	[2017-08-02 16:21:51:230] <16063> mid:obmms20151
+DEBUG	[2017-08-02 16:21:51:230] <16063> price:9900
+DEBUG	[2017-08-02 16:21:51:230] <16063> nointerest:no
+DEBUG	[2017-08-02 16:21:51:230] <16063> quotabase:ÏÑ†ÌÉù:ÏùºÏãúÎ∂à:2Í∞úÏõî:3Í∞úÏõî:6Í∞úÏõî
+INFO	[2017-08-02 16:21:51:230] <16063> Check Field OK
+INFO	[2017-08-02 16:21:51:230] <16063> MERCHANT PRIV KEY LOAD OK
+INFO	[2017-08-02 16:21:51:231] <16063> MERCHANT PUB KEY LOAD OK []
+INFO	[2017-08-02 16:21:51:231] <16063> CHKFAKE KEY MAKE OK:MjAxNzA4MDIxNjIxNTEyMzE1MzA4Mg==
+
+INFO	[2017-08-02 16:21:51:231] <16063> END chkfake  Laptime:[0.002sec]
+INFO	[2017-08-02 16:21:51:231] <16063> ===============================================================
+INFO	[2017-08-02 16:25:48:575] <15648> START INIPHP securepay (V5036-141209)(OS:Linux4.4.27,PHP:5.5.17p1)
+DEBUG	[2017-08-02 16:25:48:575] <15648> inipayhome:/home/hosting_users/ilearning3/www/inipay
+DEBUG	[2017-08-02 16:25:48:575] <15648> type:securepay
+DEBUG	[2017-08-02 16:25:48:575] <15648> pgid:INIphpCARD
+DEBUG	[2017-08-02 16:25:48:575] <15648> subpgip:203.238.3.10
+DEBUG	[2017-08-02 16:25:48:575] <15648> admin:1111
+DEBUG	[2017-08-02 16:25:48:575] <15648> debug:true
+DEBUG	[2017-08-02 16:25:48:575] <15648> uid:
+DEBUG	[2017-08-02 16:25:48:575] <15648> goodname:ø¬∏Æø¯πÆ¿⁄ - 1∞≥ø˘±‚∞£ 
+DEBUG	[2017-08-02 16:25:48:575] <15648> currency:WON
+DEBUG	[2017-08-02 16:25:48:575] <15648> mid:obmms20151
+DEBUG	[2017-08-02 16:25:48:575] <15648> rn:MjAxNzA4MDIxNjIxNTEyMzE1MzA4Mg==
+
+DEBUG	[2017-08-02 16:25:48:575] <15648> price:9900
+DEBUG	[2017-08-02 16:25:48:575] <15648> enctype:
+DEBUG	[2017-08-02 16:25:48:575] <15648> buyername:æˆºˆøÎ
+DEBUG	[2017-08-02 16:25:48:575] <15648> buyertel:010-8825-4394
+DEBUG	[2017-08-02 16:25:48:575] <15648> buyeremail:turbolight@daum.net
+DEBUG	[2017-08-02 16:25:48:575] <15648> paymethod:Card
+DEBUG	[2017-08-02 16:25:48:575] <15648> encrypted:Version=4.1&PayMethod=Card&RsaKeyNum=1&EncryptionAlgorithm=SEED-CBC&SignAlgorithm=RSAwithSHA1&CertVer=39&moid=11601_170802042151&ver_trace=main(6109,6065)card(6171,6150)n(6009)Cs(6025)Dt(6002)Pa(6002)Cf(6025)Fv(0000)La(6179)Re(6130)Vr(6008)P(6034)en(6068)nP(6006)&pg1=203.238.37.3&pg2=211.219.96.180&pg1ip=203.238.37.3&pg2ip=211.219.96.180&agreeflag=1111&Data=ISLhHk6A4/5HJxxkVQklFDG3zX9RN1NOsi1HMcuhzRBvIXVFMAFT/vhRR2VPCsYL
+p7XSHMG69MvxYX1X+gkQmMTmhtnrHj27lE8NdS1AmDkcmVLpL8ttm4hlArSNeK0t
+KI1rb9g8n1+hp6In+aL1B2JxU8Mmptj9q5nyE0y1hJ3XVYZXajDvK/tkJNv0sIPE
+bSRAD75QLv7LjU3tV0wsLuCakoekzuEcfKa9Oy3sxmARV4sjIHQ6dZ0l5j6Zi3hv
+bYSMbbJHMiptL/v5fRK0NY00F8X4iXS3DOOK6dVxW3vCWzdis8GOP62DMV7jnVYu
+dAT57gY54Vn3mXmKjcHP/1qdhnpWhPhm3WO6r7zYtNeMgufnIYKCbgvoeRNAHM7i
+sowdgFF/WnpCpImuDdFuDv6a2f49ICJNpSqTVDQ4/LQStQR1BB53y0cX2Nw7g9EZ
+Qovk6DxydPYvbrPexqLQ0Z0YiktV3zmJI5ZIaCBV8HM77MQqlTtYe6+m2M/m4eR+
+SplmwQW7L6a1BNkbipOQvgN9MZhKfslh0HBq+qDBb09AJlh0Fo+0gnCTeYyx5IFS
+h5r2GdBuL0Frkwmq+XV4Ml+YK1/Tc6f/psyvbafV0tUT6sxRTCHy3+J8psgclvhf
+LxpMiRxB0eXaszkCqsGICXGyVBhT+tIZYK/S/76c1Y/jE2gp9159Wj13AtcTCCa/
+uZhHTLTNQyeSQFpFnOI5dvxdjiFV5JruTfxUd2EG+L2Cxc3bMT3x/UseuRAJuIpz
+db08zPfrgWGqi3aSAoSq/6GcOxubcO9y+2YK6Knm1uG6eZKTxaRFc4pedzI3D46w
+YsyrKw74IMV7tNs3YO69D54QtSxtq80=
+DEBUG	[2017-08-02 16:25:48:575] <15648> sessionkey:vtH+LbozsTK9rG/V4iGmC4SyM050ki/dVdp3evni/sx7S1tEFNGqhVHdq6PmECiK
+bRaOiugbS9Q0euoHKi0n6tcObK2Pv+LP6ue6sir+qfcwIUyrlLPJBtAXO/zRjJw7
+zVGZas+AjA0w2NNqVAALawmgiRjY5Z8VKAYJBERbMGY=
+DEBUG	[2017-08-02 16:25:48:575] <15648> url:http://www.obmms.net
+DEBUG	[2017-08-02 16:25:48:575] <15648> cardcode:04
+DEBUG	[2017-08-02 16:25:48:575] <15648> parentemail:turbolight@daum.net
+DEBUG	[2017-08-02 16:25:48:575] <15648> recvname:
+DEBUG	[2017-08-02 16:25:48:575] <15648> recvtel:
+DEBUG	[2017-08-02 16:25:48:575] <15648> recvaddr:
+DEBUG	[2017-08-02 16:25:48:575] <15648> recvpostnum:
+DEBUG	[2017-08-02 16:25:48:575] <15648> recvmsg:
+DEBUG	[2017-08-02 16:25:48:575] <15648> joincard:
+DEBUG	[2017-08-02 16:25:48:575] <15648> joinexpire:
+DEBUG	[2017-08-02 16:25:48:575] <15648> id_customer:
+INFO	[2017-08-02 16:25:48:575] <15648> Check Field OK
+INFO	[2017-08-02 16:25:48:575] <15648> Make TID OK INIphpCARDobmms2015120170802162548756058
+INFO	[2017-08-02 16:25:48:575] <15648> PI PUB KEY LOAD OK [39]
+INFO	[2017-08-02 16:25:48:577] <15648> PG PUB KEY LOAD OK [30]
+INFO	[2017-08-02 16:25:48:577] <15648> MERCHANT PRIV KEY LOAD OK
+INFO	[2017-08-02 16:25:48:578] <15648> MERCHANT PUB KEY LOAD OK [0]
+INFO	[2017-08-02 16:25:48:578] <15648> MAKE BODY OK
+INFO	[2017-08-02 16:25:48:579] <15648> SIGN OK
+INFO	[2017-08-02 16:25:48:579] <15648> MAKE HEAD OK
+INFO	[2017-08-02 16:25:48:579] <15648> MSG_TO_PG:[0299900175R SHA1                   0                  39                  300200obmms20151                9900INIphpCARDobmms2015120170802162548756058<?xml version="1.0" encoding="UTF-8"?>
+<INIpay>
+	  <GoodsInfo>
+	    <GoodsCnt>1</GoodsCnt>
+	    <MOID/>
+	    <Currency>WON</Currency>
+	    <Tax/>
+	    <TaxFree/>
+	    <Goods>
+	      <SMID>obmms20151</SMID>
+	      <GoodsName urlencode="1">%BF%C2%B8%AE%BF%F8%B9%AE%C0%DA+-+1%B0%B3%BF%F9%B1%E2%B0%A3+</GoodsName>
+	      <GoodsPrice>9900</GoodsPrice></Goods></GoodsInfo>
+	  <BuyerInfo>
+	    <BuyerName urlencode="1">%BE%F6%BC%F6%BF%EB</BuyerName>
+	    <BuyerTel>010-8825-4394</BuyerTel>
+	    <BuyerEmail urlencode="1">turbolight%40daum.net</BuyerEmail>
+	    <ParentEmail urlencode="1">turbolight%40daum.net</ParentEmail>
+	    <RecvName/>
+	    <RecvTel/>
+	    <RecvMsg/>
+	    <RecvAddr/>
+	    <RecvPostNum/></BuyerInfo>
+	  <PaymentInfo>
+	    <Payment>
+	      <PayMethod>Card</PayMethod>
+	      <JoinCard/>
+	      <JoinExpire/>
+	      <MailOrder/>
+	      <SessionKey>vtH+LbozsTK9rG/V4iGmC4SyM050ki/dVdp3evni/sx7S1tEFNGqhVHdq6PmECiK
+bRaOiugbS9Q0euoHKi0n6tcObK2Pv+LP6ue6sir+qfcwIUyrlLPJBtAXO/zRjJw7
+zVGZas+AjA0w2NNqVAALawmgiRjY5Z8VKAYJBERbMGY=</SessionKey>
+	      <Encrypted urlencode="1">Version%3D4.1%26PayMethod%3DCard%26RsaKeyNum%3D1%26EncryptionAlgorithm%3DSEED-CBC%26SignAlgorithm%3DRSAwithSHA1%26CertVer%3D39%26moid%3D11601_170802042151%26ver_trace%3Dmain%286109%2C6065%29card%286171%2C6150%29n%286009%29Cs%286025%29Dt%286002%29Pa%286002%29Cf%286025%29Fv%280000%29La%286179%29Re%286130%29Vr%286008%29P%286034%29en%286068%29nP%286006%29%26pg1%3D203.238.37.3%26pg2%3D211.219.96.180%26pg1ip%3D203.238.37.3%26pg2ip%3D211.219.96.180%26agreeflag%3D1111%26Data%3DISLhHk6A4%2F5HJxxkVQklFDG3zX9RN1NOsi1HMcuhzRBvIXVFMAFT%2FvhRR2VPCsYL%0D%0Ap7XSHMG69MvxYX1X%2BgkQmMTmhtnrHj27lE8NdS1AmDkcmVLpL8ttm4hlArSNeK0t%0D%0AKI1rb9g8n1%2Bhp6In%2BaL1B2JxU8Mmptj9q5nyE0y1hJ3XVYZXajDvK%2FtkJNv0sIPE%0D%0AbSRAD75QLv7LjU3tV0wsLuCakoekzuEcfKa9Oy3sxmARV4sjIHQ6dZ0l5j6Zi3hv%0D%0AbYSMbbJHMiptL%2Fv5fRK0NY00F8X4iXS3DOOK6dVxW3vCWzdis8GOP62DMV7jnVYu%0D%0AdAT57gY54Vn3mXmKjcHP%2F1qdhnpWhPhm3WO6r7zYtNeMgufnIYKCbgvoeRNAHM7i%0D%0AsowdgFF%2FWnpCpImuDdFuDv6a2f49ICJNpSqTVDQ4%2FLQStQR1BB53y0cX2Nw7g9EZ%0D%0AQovk6DxydPYvbrPexqLQ0Z0YiktV3zmJI5ZIaCBV8HM77MQqlTtYe6%2Bm2M%2Fm4eR%2B%0D%0ASplmwQW7L6a1BNkbipOQvgN9MZhKfslh0HBq%2BqDBb09AJlh0Fo%2B0gnCTeYyx5IFS%0D%0Ah5r2GdBuL0Frkwmq%2BXV4Ml%2BYK1%2FTc6f%2FpsyvbafV0tUT6sxRTCHy3%2BJ8psgclvhf%0D%0ALxpMiRxB0eXaszkCqsGICXGyVBhT%2BtIZYK%2FS%2F76c1Y%2FjE2gp9159Wj13AtcTCCa%2F%0D%0AuZhHTLTNQyeSQFpFnOI5dvxdjiFV5JruTfxUd2EG%2BL2Cxc3bMT3x%2FUseuRAJuIpz%0D%0Adb08zPfrgWGqi3aSAoSq%2F6GcOxubcO9y%2B2YK6Knm1uG6eZKTxaRFc4pedzI3D46w%0D%0AYsyrKw74IMV7tNs3YO69D54QtSxtq80%3D</Encrypted></Payment></PaymentInfo>
+	  <ReservedInfo>
+	    <MReserved1/>
+	    <MReserved2/>
+	    <MReserved3/></ReservedInfo>
+	  <ManageInfo>
+	    <Language/>
+	    <URL urlencode="1">http%3A%2F%2Fwww.obmms.net</URL>
+	    <TXVersion>5036B141209securLinux     PHPchkfake   4.4.27PHP:5.5.17p1            </TXVersion>
+	    <TXUserID/>
+	    <TXRegNum/>
+	    <Ack>1</Ack>
+	    <TXRN>MjAxNzA4MDIxNjIxNTEyMzE1MzA4Mg==
+</TXRN></ManageInfo></INIpay>ARELYIXcznnfpmXZafGxulrAZIv78Iy3l7XyC2D92ZWtQ5YOJEwsSo16zEn0EKiw
+021nfewKv/AlL/MHjuYFlqzoiiCJzF6RRHdjHTedu5OgaVwmbqr6XysJ7BmkLHGj
+PgCxWH1UzpOzCtKzQxniaq8Iy0y3ELznJ765qI4HridA
+]
+INFO	[2017-08-02 16:25:48:579] <15648> DNS LOOKUP OK(203.238.37.3:203.238.37.3:34049) laptime:0
+INFO	[2017-08-02 16:25:48:582] <15648> SOCKET CONNECT OK
+INFO	[2017-08-02 16:25:48:582] <15648> SEND OK
+INFO	[2017-08-02 16:25:49:357] <15648> RECV OK
+INFO	[2017-08-02 16:25:49:357] <15648> MSG_FROM_PG:[0314300175D SHA1                   0                  39                  300210obmms20151                9900INIphpCARDobmms2015120170802162548756058<?xml version="1.0" encoding="UTF-8"?>
+<INIpay>
+  <GoodsInfo>
+    <GoodsCnt>1</GoodsCnt>
+    <MOID urlencode="1">11601_170802042151</MOID>
+    <Currency>WON</Currency>
+    <Goods no="1">
+      <SMID>obmms20151</SMID>
+      <GoodsName urlencode="1">%BF%C2%B8%AE%BF%F8%B9%AE%C0%DA+-+1%B0%B3%BF%F9%B1%E2%B0%A3+</GoodsName>
+      <GoodsCntS>1</GoodsCntS>
+      <GoodsPrice>9900</GoodsPrice>
+    </Goods>
+  </GoodsInfo>
+  <PaymentInfo>
+    <Payment>
+      <SessionKey>ASCgPDeiRcAaiC5NsZibxUEz0a8z4VfeMUnnNxt+EUrt6ihvti3myEX/qaiRivEc
+4rcLcyE+7AvvBuJ8uETvuV2NB9mvOLmF3U2/1HE8NVbd1YG9QjbQDazcHPxMuhui
+4dWXJe/i09GrTW01kdlGJGY6Lwn4iX23FdzHyW+IVNUwzreOWia4UTg=
+</SessionKey>
+      <Encrypted>sc7YVHbvRA3FjY5cfIDaOoN0Lva2x/QaEQjikf35ta4Wz+YetSxntng8I8nAht5K
+0AGMuf9pq6BNhKOspUgkm9csCvE6w8ssxRNcT18Hei57qwUyITHt3bswWkCOvGjf
+DbKPMxk2VxjqdNcoriQ6IBeFvLuFd/4hvwGNDN4Gy5xd+I2bQF8wydZwi6OyPy8a
+UFbN9sq8WrNqhMC9hZnnoIiAJgZr0GbqzFOeA/4zwGo6IK2Zyjm7ilcRKjxDQSm3
+cz8WbzXdipVTi0u1+d0J5IinsI1kYwTLc7V8GVVjvW3y1lwXJrmPWN1cKVBY1bZn
+AUtY8ehF5AkJ9H/pNDtzgFHmWR8NjpViDlheajwhlrplvnPx5UViqsDXBH+Awlpd
+qrVg61BRKg+MzfSRjU6mIS0JUZjpcbI5Qqh120lJDY/93pmnFzvucHtxB3Shwo1Y
+oU9MaHJ/TBoprcG85ZkAi7e1L0Bjt2AJhPLaDY0KKgF8Liy2tRYkwWm6VTp6F7t1
+hIzz8QrUB4HhEQv+blA0zSuogwPQE0K+Icsrm9DRSayRdEKHcG4fmWdSc35ZW3lY
+8OyfuEGxfHpPONpPE62ncA/L6G+KsdrfNAWqnzQKr9wYWbYrD3UpylEp6yUJIJ2m
+Mx8DbkpYKEJqlgjly/sXg9ulrbX0HImA3TkUsbtOajsYleHp8/UefQbWPcQT1czy
+WdjxVRjyTm4Waif/+afwHppz2XScJKV3bduj0CobC3qWFMSIwfjtY5bTCuwpksxz
+SIOnL5HmoDGyMcsUj+7ACT7Z9rlp9nMawRzS0c1cmE9G4bd2mzMnZ+KKOi1YD4qw
+OsbZbSxxtpAu8lhBtnRCZ96f7CpzsowDiXn/angZJR75Von+cJkr6c5t4Q5KY0iN
+Rt4VXKePS69Xd5Vx60oDOJ3xG90MwR5JWmvUxFlyhIo0q5wRtv7c9gDpjrmlAdb3
+ApuYCBA3roJXciNyinmVYAFNWemwnhqAl5r1/GaV2HUzD8GgaSV3oXXYMxCvnTwd
+J/K37iO4vGOCuSTWG8ddr4sG/FqO8IRhpJ35iuzIrZ8CQwzD8+SMUg3ohN5OJ8P1
+YBTrXDn87D2WTFbqn2peoFI63SzrLWoLIYYCvGsZaSz0Et3tNETIInZcuut6QltE
+K2q+DK3PVtwC897xTOofvk7zoBwTrmy6m5jwEIx43veoDdajg9cG0Vbt9dBlPxZx
+t/ZjGYsb0dhHhRMpAQKfTDpYVMafSFsWe51VKp0dbduMczkllKn6EcMhpjbyp5qn
+zuWoztS5dt86OZe+E+mal2XW42i5bcft6dlnWYeyk7ZyZe0+DGCsPbf2ZiEataom
+QR4aLzopFwr+cTGceUlZWs8TlnfSF+AhS9jhV9lfEEtS+hIF8xtn6HEKhysZFfkO
+kX3EZ+6JbjRi3F3TSj0sWF0XWHVBoKY5raQXXVw/VrslQRgOVwEC7Kl1TY1aZF7i
+fky7aPQVaE4Oc1TApUKpp3o2w/Ef82f2SyojdMrF/3Msn5iNXNbjMJyKH4cG6mS9
+se62MGFk7pKHOmIugIb+iNkOD2AWPMMM/JhPwb/t6M9/HCLTgpySFGwKmZyXlSp3
+VAvE5ac5LN16tSxdPb6/zfsaVMAvcYxhailkckhwIap+gHllUo1MlzxUPqItGR00
+gjcny0T/EUNE1QCR0+6JYhjSPrp35saEIOxtQHynQr3ImLjJzDnYuqy6FHPS03hK
+PcI00sVbsFFNuPehx7QNpQ==
+</Encrypted>
+      <PayMethod>Card</PayMethod>
+      <ResultCode>120000</ResultCode>
+      <ResultMsg urlencode="1">%C1%A4%BB%F3%C3%B3%B8%AE%B5%C7%BE%FA%BD%C0%B4%CF%B4%D9.</ResultMsg>
+    </Payment>
+  </PaymentInfo>
+  <ManageInfo>
+    <EventCode></EventCode>
+    <OrgCurrency></OrgCurrency>
+    <ExchangeRate></ExchangeRate>
+    <OrgPrice></OrgPrice>
+  </ManageInfo>
+  <ReservedInfo>
+    <MReserved1 urlencode="1"></MReserved1>
+    <MReserved2 urlencode="1"></MReserved2>
+    <MReserved3 urlencode="1"></MReserved3>
+    <PGReserved1 urlencode="1"></PGReserved1>
+    <PGReserved2 urlencode="1"></PGReserved2>
+    <PGReserved3 urlencode="1"></PGReserved3>
+  </ReservedInfo>
+</INIpay>
+WkEzO+vS0/xLOqkarwrUriCDjjplh8oLFZ4b92x/MjGXJZ59r5abY5pdoKJRAFv1
+/aSUjINAswlSFbNywAal1zkTTp3S19XuZAaCg7lXvFfnBFvhnfC58uJbu1Q8plm+
+CBw+NtHH+pqvb5jfv2mPOlfld24HiAGlZIgg5cahstc=
+]
+INFO	[2017-08-02 16:25:49:357] <15648> VERIFY OK
+INFO	[2017-08-02 16:25:49:357] <15648> PARSE HEAD OK
+INFO	[2017-08-02 16:25:49:358] <15648> PARSE BODY OK
+INFO	[2017-08-02 16:25:49:359] <15648> DECRYPT OK
+DEBUG	[2017-08-02 16:25:49:359] <15648> DECRYPT MSG:[<?xml version="1.0" encoding="UTF-8"?>
+<PaymentInfo>
+  <Payment>
+    <EASYPAY/>
+    <Card>
+      <CARD_ApplPrice>9900</CARD_ApplPrice>
+      <CARD_Num>433028862194</CARD_Num>
+      <CARD_Expire></CARD_Expire>
+      <CARD_Code>04</CARD_Code>
+      <CARD_BankCode>00</CARD_BankCode>
+      <CARD_Quota>00</CARD_Quota>
+      <CARD_Interest>0</CARD_Interest>
+      <CARD_Point></CARD_Point>
+      <CARD_AuthType>99</CARD_AuthType>
+      <CARD_RegNum></CARD_RegNum>
+      <CARD_ApplDate>20170802</CARD_ApplDate>
+      <CARD_ApplTime>162549</CARD_ApplTime>
+      <CARD_ApplNum>00585624</CARD_ApplNum>
+      <CARD_TerminalNum>019048y000</CARD_TerminalNum>
+      <CARD_MemberNum></CARD_MemberNum>
+      <CARD_PurchaseCode></CARD_PurchaseCode>
+      <CARD_ResultCode>120000</CARD_ResultCode>
+      <CARD_ResultMsg urlencode="1">%C1%A4%BB%F3%C3%B3%B8%AE%B5%C7%BE%FA%BD%C0%B4%CF%B4%D9.</CARD_ResultMsg>
+      <CARD_PrtcCode>1</CARD_PrtcCode>
+      <CARD_Quota_Point>00</CARD_Quota_Point>
+      <CARD_CheckFlag>0</CARD_CheckFlag>
+      <CARD_PurchaseName urlencode="1"></CARD_PurchaseName>
+      <CARD_IssuerName urlencode="1"></CARD_IssuerName>
+      <CARD_JoinUsePoint></CARD_JoinUsePoint>
+      <CARD_UsePoint></CARD_UsePoint>
+      <CARD_CouponOnlyMer></CARD_CouponOnlyMer>
+    </Card>
+  </Payment>
+</PaymentInfo>]
+INFO	[2017-08-02 16:25:49:360] <15648> DECRYPT PARSE OK
+INFO	[2017-08-02 16:25:49:360] <15648> WAIT ACK INVOKING
+DEBUG	[2017-08-02 16:25:49:360] <15648> MAKE HEAD OK
+INFO	[2017-08-02 16:25:49:363] <15648> SUCCESS ACK INVOKING
+INFO	[2017-08-02 16:25:49:363] <15648> END securepay ¡§ªÛ√≥∏Æµ«æ˙Ω¿¥œ¥Ÿ. Laptime:[0.788sec]
+INFO	[2017-08-02 16:25:49:363] <15648> ===============================================================

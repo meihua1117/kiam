@@ -1,0 +1,40 @@
+@charset "utf-8";#head_43825 {position:relative;margin:0;text-align:left;font-size:0;border-bottom:1px solid #dddddd;padding:0px 0px 10px 0px;}
+#head_43825 span, #head_43825 .head_link {display:block;text-align:left;font-size:18px;color:#333333;font-family:'Nanum Gothic',NanumGothic, 나눔고딕, 'Malgun Gothic', '맑은 고딕';text-decoration:none;font-weight:normal;font-style:normal;}
+#head_43825 img {vertical-align:top;}
+#head_43825 div img {display:block;}
+#head_43825 div {position:absolute;right:0px;top:25%;}
+#notice_43825 {text-align:left;padding:0;margin:10px 0px 0px 0px;overflow:hidden;display:none;}
+#notice_43825 ul {padding:0;margin:0 -5px;}
+#notice_43825 li{display:inline-block;*display:inline;*zoom:1;vertical-align:top;list-style:none;margin:0;padding:0;width:50%;text-align:center;}
+#notice_43825 li div.each_item {margin:0 5px 0px 5px;border:none 0px ;padding:0px;}
+#notice_43825 .keep_ratio {position:relative;padding:0px; margin:0 auto; display:block; border:none 0px #dddddd;}
+#notice_43825 .each_item.hilite .keep_ratio {border-color:#222222;}
+#notice_43825 .keep_ratio div.keep_ratio_box {height:100%; overflow:hidden;}
+#notice_43825 .notice_thumb {margin:0 auto; display:block; text-align:center;width:100%;}
+#notice_43825 .keep_ratio {height:120px;}
+#notice_43825 .keep_ratio div.keep_ratio_box a {display:block;height:100%;background-size:cover;background-position:center center;background-repeat:no-repeat;}
+.notice_43825 a {display:block;text-decoration:none}
+.notice_43825 h3 {margin:0;padding:5px 0 0 0;word-break:break-all;word-wrap:break-word;text-align:center;line-height:1.3;}
+.notice_43825 h3 a {text-align:center;word-break:break-all;word-wrap:break-word;font-size:12px;color:#1fbab7;font-family:'맑은 고딕','Malgun Gothic',NanumGothic,나눔고딕,'Apple SD Gothic Neo',Dotum,sans-serif;font-weight:normal;font-weight:normal;font-style:normal;}
+.notice_43825 h3 a:hover,.notice_43825 h3 a:focus,.notice_43825 .each_item.hilite h3 a {color:#000000}
+.notice_43825 .notice_memo a {font-size:px;color:;font-family:'Nanum Gothic',NanumGothic, 나눔고딕, 'Malgun Gothic', '맑은 고딕';font-weight:normal;font-weight:normal;font-style:normal;}
+.notice_43825 .notice_memo a:hover,.notice_43825 .notice_memo a:focus,.notice_43825 .each_item.hilite .notice_memo a {color:}
+.notice_43825 h3 .cat {color:#1fbab7;margin-right:2px;font-family:'맑은 고딕','Malgun Gothic',NanumGothic,나눔고딕,'Apple SD Gothic Neo',Dotum,sans-serif;font-weight:normal;font-weight:normal;font-style:normal;}
+.notice_43825 .notice_name {margin:0;padding:3px 0 0 0;text-align:center;word-break:break-all;word-wrap:break-word;font-size:12px;color:#666666;font-family:'맑은 고딕','Malgun Gothic',NanumGothic,나눔고딕,'Apple SD Gothic Neo',Dotum,sans-serif;font-weight:normal;font-style:normal;}
+.notice_43825 .notice_etc {margin:0;padding:3px 0 0 0;text-align:center;font-size:12px;color:#666666;font-family:'맑은 고딕','Malgun Gothic',NanumGothic,나눔고딕,'Apple SD Gothic Neo',Dotum,sans-serif;font-weight:normal;font-style:normal;}
+.notice_43825 .ozspeech {font-family:Tahoma,Geneva,sans-serif;font-size:11px;color:#ffffff;background-color:#b8b8b8; border:1px solid #b8b8b8;font-weight:normal;font-style:normal;}
+.notice_43825 .ozspeech:before {border-color:transparent #b8b8b8 transparent transparent;}
+.notice_43825 .ozspeech:after {border-color:transparent #b8b8b8 transparent transparent;}
+a.notice_prev_43825, a.notice_next_43825 {background:url(/image_bank/scroll_button/scroll_btn_7.png) no-repeat transparent; width:45px; height:50px; display:block; position:absolute;top:50%; margin-top:-25px;}
+a.notice_prev_43825 {background-position:0 0;left:-10px;}
+a.notice_prev_43825:hover {background-position:0 -50px;}
+a.notice_prev_43825.disabled {background-position:0 -100px !important;}
+a.notice_next_43825 {background-position:-50px 0;right:-10px;}
+a.notice_next_43825:hover {background-position:-50px -50px;}
+a.notice_next_43825.disabled {background-position:-50px -100px !important;}
+a.notice_prev_43825.disabled, a.notice_next_43825.disabled {cursor:default;}
+a.notice_prev_43825 span, a.notice_next_43825 span {display:none;}
+@media (max-width:767px) {
+a.notice_prev_43825 {left:0;}
+a.notice_next_43825 {right:0;}
+}

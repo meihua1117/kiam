@@ -1,0 +1,155 @@
+<?
+	include_once "../lib/rlatjd_fun.php";
+	extract($_REQUEST);
+	
+	if($_POST['speech']) $sp=$_POST['speech'];
+	if(!$pcode) $pcode="opb";
+	if($_REQUEST['landing_idx'] != "") {
+    	$sql="update Gn_landing set read_cnt = read_cnt+1 where landing_idx='$landing_idx'";
+    	mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
+
+    	$sql="select * from Gn_landing where landing_idx='$landing_idx'";
+    	$result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
+    	$data=mysqli_fetch_array($result);
+    	
+
+    	if($data['status_yn'] == "N") {
+    	    echo '<meta http-equiv="content-type" content="text/html; charset=euc-kr"/><Script>alert("사용이 종료된 랜딩입니다.");</script>';
+    	    exit;
+    	}
+
+    	$m_id = $row['m_id'];
+    	$event_idx = $row['event_idx'];
+    	$pcode = $data['pcode'];
+	} else {
+    	$sql="update Gn_event set read_cnt = read_cnt+1 where pcode='$pcode'";
+    	mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
+	}
+	
+	$sql="select * from Gn_event where pcode='$pcode' order by event_idx desc";
+	$result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
+	$event_data = $row=mysqli_fetch_array($result);
+	$m_id = $row['m_id'];
+	$event_idx = $row['event_idx'];
+?>
+
+<?
+$sql_serch=" 1=1 ";
+ 
+$now = date("Y-m-d");
+//홍보렙인가를 체크한다		
+$member_id = $data['m_id'];								
+$sql="select mem_leb FROM Gn_Member WHERE mem_id='$member_id'";
+$res=mysqli_query($self_con, $sql);
+$memrow = mysqli_fetch_array($res);
+ 
+if($data['m_id'] != "obmms02" && $memrow['mem_leb'] != "60") {
+    $sql_serch.=" and b.mem_id ='".$data['m_id']."'";
+}									
+
+if($_REQUEST['search_text_review'])
+{
+    $search_text_review = $_REQUEST['search_text_review'];
+    $sql_serch.=" and (lecture_info like '%$search_text_review%' or area like '%$search_text_review%'or instructor like '%$search_text_review%')";
+}
+
+$sql="select count(review_id) as cnt from Gn_review a 
+                               inner join Gn_lecture b
+                                       on  a.lecture_id = b.lecture_id 
+                                where $sql_serch ";
+$result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
+$row=mysqli_fetch_array($result);
+$intRowCount=$row['cnt'];
+if($intRowCount)
+{
+if (!$_POST['lno'])
+$intPageSize =20;
+else
+$intPageSize = $_POST['lno'];
+if($_POST['page'])
+{
+$page=(int)$_POST['page'];
+$sort_no=$intRowCount-($intPageSize*$page-$intPageSize);
+}
+else
+{
+$page=1;
+$sort_no=$intRowCount;
+}
+if($_POST['page2'])
+$page2=(int)$_POST['page2'];
+else
+$page2=1;
+$int=($page-1)*$intPageSize;
+if($_REQUEST['order_status'])
+$order_status=$_REQUEST['order_status'];
+else
+$order_status="desc";
+if($_REQUEST['order_name'])
+$order_name=$_REQUEST['order_name'];
+else
+$order_name="review_id";
+$intPageCount=(int)(($intRowCount+$intPageSize-1)/$intPageSize);
+$sql="select a.*, b.*, c.profile as pic from Gn_review a
+inner join Gn_lecture b
+on  a.lecture_id = b.lecture_id
+left join Gn_Member c
+on  a.mem_id = c.mem_id
+where $sql_serch order by $order_name $order_status limit $int,$intPageSize";
+
+$result=mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
+
+while($row=mysqli_fetch_array($result))
+{
+    $pic = "/images/man.png";
+    if($row['pic']) $pic = $row['pic'];
+    if($row['review_img1']) $pic = $row['review_img1'];
+?>
+
+<tr>
+	<td class="photo" rowspan="3"><img src="<?php echo $pic;?>"><br/> <a href="#"><img src="/images/icon_camera.png" style="width:30%"></a></td>
+	<td class="profile" colspan="3"><?=$row['lecture_info']?> / <?=$row['instructor']?> / <?=$row['start_date']?>~<?=$row['end_date']?> / <?=$row['area']?>
+		<?php if($row['score']=="5"){?>★★★★★<?php }?>
+		<?php if($row['score']=="4"){?>★★★★<?php }?>
+		<?php if($row['score']=="3"){?>★★★<?php }?>
+		<?php if($row['score']=="2"){?>★★<?php }?>
+		<?php if($row['score']=="1"){?>★<?php }?>
+	</td>
+</tr>
+<tr>
+	<td class="content" colspan="3" >
+	    <div class="div_content"> 
+		<?=nl2br($row['content'])?>
+	    </div>
+		<input type="button" value="+" class="button"   >
+	</td>
+</tr>
+<tr>
+	<td style="font-size:12px;text-align:left;"><?=$row['mem_name']?></td>
+	<td class="intro"><?php echo $row['profile'];?></td>
+	<td class="date"><?=$row['regdate']?></td>
+</tr>
+<?
+$sort_no--;
+}
+?>
+<tr>
+	<td colspan="14">
+		<?
+		page_f($page,$page2,$intPageCount,"pay_form");
+		?>
+	</td>
+</tr>
+<?
+}
+else
+{
+?>
+<tr>
+	<td colspan="14">
+		검색된 내용이 없습니다.
+	</td>
+</tr>
+<?
+}
+?>

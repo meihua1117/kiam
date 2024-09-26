@@ -1,0 +1,48 @@
+<?
+   include_once "../lib/rlatjd_fun.php";
+?>    
+
+<!DOCTYPE html>
+    <html lang="en">
+    <head> 
+        <meta charset="euc-kr"> 
+        <title>CSS 속성</title> 
+        <style type="text/css">
+        body {background-color:hsl(0, 25%, 94%);}
+        div {display:inlie;align:center;width: 100%; height: 50px;border: 0 solid; padding: 5px;margin: 10px;}
+        .div1 {display:inlie;text-align:center;height:130px;background-color: #f9bb49;}
+        .div2 {display:inlie;height:1200px; width:600px;background-color: hsl(120, 2%, 68%);margin:0 auto;;}
+        .div3 {background-color: #36FFFF;}span {width: 200px; height: 20px;border: 1px solid; padding: 5px;margin: 10px;}#span1 {background-color: #F9F249; padding: 5px;}
+        .span2 {background-color: #69F354;}
+        .span3 {background-color: #36FFFF;} 
+        </style> 
+    </head> 
+    
+    <body>
+        <div class="div1">
+            <h1 text-align="center">아이엠카드 뷰어</h3>
+            <div class="div2">
+                <select name="search_key" class="select" >
+                    <option value="">전체</option>
+                </select> 
+                    <input type="text" name="search_text" placeholder="" id="search_text"  value="<?=$_REQUEST['search_text']?>"/> 
+                    <a href="javascript:void(0)" onclick="pay_form.submit()"> 조회</a>       </div>
+            <div class="div3">    
+              <input type="radio" name="all" value="HTML" >전체
+              <input type="radio" name="sample" value="CSS">샘플
+             
+              <input type="radio" name="list" value="HTML">리스트
+              <input type="radio" name="img" value="CSS">이미지
+
+            </div>
+        </div>
+        <div class="div3">div 2</div>
+            <div class=div3 div2> 아이엠이미지1 </div>
+            <div class=div4 div2> 아이엠이미지2 </div>
+
+           <span class="span1">span 1</span>
+           <span class="span2">span 2</span>
+    
+    </body> 
+    
+    </html> 

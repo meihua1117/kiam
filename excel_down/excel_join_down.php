@@ -1,0 +1,87 @@
+<?
+include_once "../lib/rlatjd_fun.php";
+set_time_limit(0);
+ini_set('memory_limit','2500M');
+if(strlen($_SESSION[one_member_id]) > 0) {
+	if(!$_REQUEST[grp_id] && !$_REQUEST[down_type])
+	exit;
+	$path="../";
+	include_once $path."lib/rlatjd_fun.php";
+	require_once("Classes/PHPExcel.php");
+	$objPHPExcel = new PHPExcel();
+	$objPHPExcel->getProperties()
+	->setCreator("excel")
+	->setLastModifiedBy("excel")
+	->setTitle("Office 2007 XLSX Test Document")
+	->setSubject("Office 2007 XLSX Test Document")
+	->setDescription("Test document for Office 2007 XLSX, generated using PHP classes.")
+	->setKeywords("office 2007 openxml php")
+	->setCategory("excel file");
+
+	    if($_REQUEST[grp_id] == "") exit;
+		if(strpos($_REQUEST[grp_id], '-') !== false){
+			$arr1 = explode("(", $_REQUEST[grp_id]);
+			$_REQUEST[grp_id] = trim($arr1[0]);
+		}
+		$sql_serch=" mem_id ='$_SESSION[one_member_id]' and grp_id in ($_REQUEST[grp_id])";	
+		$sql="select recv_num,grp,grp_2,name,recv_num from Gn_MMS_Receive where $sql_serch ";
+		$result = mysql_query($sql) or die(mysql_error());
+		$objPHPExcel->setActiveSheetIndex(0)
+					->setCellValue("A1", "소그룹명")
+					->setCellValue("B1", "이름")
+					->setCellValue("C1", "전화번호")
+					->setCellValue("D1", "상태");
+					
+		$h=2;
+		while($row=mysql_fetch_array($result))
+		{
+					$is_zelo=substr($row[recv_num],0,1);
+					$v=$is_zelo?"0".$row[recv_num]:$row[recv_num];	
+					$status_arr=array();
+					$sql_deny="select idx,recv_num from Gn_MMS_Deny where recv_num='$v' and mem_id='$_SESSION[one_member_id]' ";
+					$resul_deny=mysql_query($sql_deny);
+					$row_deny=mysql_fetch_array($resul_deny);
+					if($row_deny[idx])
+					array_push($status_arr,"수신거부");
+						
+					$sql_etc="select seq,dest,msg_flag from sm_log where ori_num='$v' order by seq desc limit 0,1 ";
+					$resul_etc=mysql_query($sql_etc);
+					$row_etc=mysql_fetch_array($resul_etc);
+					if($row_etc[seq])
+					{
+						if($row_etc[msg_flag]==1)
+						array_push($status_arr,"번호변경");//번호변경
+						if($row_etc[msg_flag]==2)
+						array_push($status_arr,"없는번호");//없는번호
+						if($row_etc[msg_flag]==3)
+						array_push($status_arr,"수신불가");//수신불가			
+					}
+					$status_s=implode(",",$status_arr);
+		$objPHPExcel->setActiveSheetIndex(0)
+					->setCellValue("A$h",$row[grp_2]?$row[grp_2]:$row[grp])
+					->setCellValue("B$h",$row[name])
+					->setCellValue("C$h",$row[recv_num])
+					->setCellValue("D$h",$status_s);			
+			$h++;		
+		}
+
+		mysql_free_result($result);
+		
+		$objPHPExcel->getActiveSheet()->setTitle("원마케팅문자 그룹전화번호");
+		$objPHPExcel->setActiveSheetIndex(0);
+		$filename="onemarket_group_".date("YmdHis").".xls";
+	 
+
+	header('Content-type: application/vnd.ms-excel; charset=utf-8');
+	header("Content-Disposition: attachment; filename=$filename");
+	header('Cache-Control: max-age=0');
+	header('Cache-Control: max-age=1');
+	header('Content-Description: PHP4 Generated Data');
+	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+	header('Pragma: public');
+	 
+	$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
+	$objWriter->save('php://output');
+	exit;
+}			  
+?>

@@ -1,0 +1,22 @@
+#visual_1198 {overflow:hidden; position:relative; height:200px;}
+#bg_rolling_1198 {position:relative; top:0; left:50%; width:100%;height:100%; margin:0 0 0 -50%; z-index:10}
+#bg_rolling_1198 div {box-sizing:content-box;position:absolute; top:0; left:0; padding:0;width:100%; height:100%; z-index:10; background-color:transparent !important;}
+#rolling_1198 {display:none;overflow:hidden; position:absolute; top:0; left:50%; width:1100px; height:100%; margin-left:-550px; z-index:20}
+#rolling_1198 .fg_roll {position:absolute; left:0; top:0; width:100%; height:100%; z-index:20; background-color:transparent !important;}
+#rolling_1198 .fg_roll .link_full {position:absolute;width:100%;height:100%;}
+#rolling_1198 .fg_roll .each_obj {position:absolute;white-space:nowrap;line-height:1.18}
+#bg_visual_1198_1 {background:url(/image_bank/dummy/fskin_174/banner_3.jpg) no-repeat center center;background-size:cover;background-repeat:repeat;}
+#layer_1198_11 {padding:0;margin:0;left:432px;top:38px;opacity:0.9;text-align:center;font-family:_다음;font-size:50px;color:#ffffff;font-weight:normal;font-style:normal;text-decoration:none;}
+#layer_1198_12 {padding:0;margin:0;left:395px;top:110px;opacity:0.9;text-align:left;font-family:'Nanum Gothic';font-size:16px;color:#ffffff;font-weight:normal;font-style:normal;text-decoration:none;}
+#bg_visual_1198_2 {background:url(/image_bank/background/bg2.jpg) no-repeat center center;background-size:cover;background-repeat:repeat;display:none;}
+#layer_1198_21 {padding:0;margin:0;left:436px;top:90px;text-align:left;font-family:_다음;font-size:50px;font-weight:normal;font-style:normal;text-decoration:none;}
+#layer_1198_22 {padding:0;margin:0;left:432px;top:67px;text-align:left;font-family:'Nanum Gothic';font-size:13px;font-weight:normal;font-style:normal;text-decoration:none;}
+#bg_visual_1198_3 {background:url(/image_bank/background/bg3.jpg) no-repeat center center;background-size:cover;background-repeat:repeat;display:none;}
+#layer_1198_31 {padding:0;margin:0;left:433px;top:44px;opacity:0.9;text-align:left;font-family:'Nanum Gothic';font-size:50px;color:#092613;font-weight:normal;font-style:normal;text-decoration:none;}
+#layer_1198_32 {padding:0;margin:0;left:397px;top:106px;opacity:0.9;text-align:left;font-family:'Nanum Gothic';font-size:16px;color:#69b5ab;font-weight:normal;font-style:normal;text-decoration:none;}
+#pager_1198 {text-align:center; position:absolute; width:100%;bottom:10px;z-index:50;}
+#pager_1198 .pager {cursor:pointer;position:relative; display:inline-block;*display:inline;*zoom:1;margin-right:5px; height:17px; z-index:50;vertical-align:top;}
+#pager_1198 .roll_control a {display:none; width:18px; height:17px; overflow:hidden; text-indent:999px;white-space:nowrap;vertical-align:top;}
+#pager_1198 .roll_control .btn_pause {background:url(/image_bank/scroll_button/btn_roll_pause.png) no-repeat}
+#pager_1198 .roll_control .btn_play {background:url(/image_bank/scroll_button/btn_roll_play.png) no-repeat}
+#pager_1198 .roll_control .on {display:block}

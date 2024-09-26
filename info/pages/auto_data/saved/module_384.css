@@ -1,0 +1,24 @@
+@charset "utf-8";#head_384 {position:relative;margin:0;text-align:left;font-size:0;border-bottom:1px solid #dddddd;padding:6px 5px 6px 5px;border-top:1px solid #dddddd;border-left:1px solid #dddddd;border-right:1px solid #dddddd;background-color:#ffffff;background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#eeeeee));background: -moz-linear-gradient(top, #ffffff, #eeeeee);background: linear-gradient(to bottom, #ffffff, #eeeeee);filter:progid:DXImageTransform.Microsoft.gradient(gradientType=0,startColorStr=#ffffff, endColorStr=#eeeeee) ;}
+#head_384 span, #head_384 .head_link {display:block;text-align:left;font-size:13px;color:#555555;font-family:'Nanum Gothic';text-decoration:none;font-weight:normal;font-style:normal;}
+#head_384 img {vertical-align:top;}
+#head_384 div img {display:block;}
+#head_384 div {position:absolute;right:5px;top:25%;}
+#notice_384 {text-align:left;padding:0;margin:10px 0px 0px 0px;overflow:hidden;}
+#notice_384 ul {padding:0;margin:0 -10px;}
+#notice_384 li{display:inline-block;*display:inline;*zoom:1;vertical-align:top;list-style:none;margin:0;padding:0;width:25%;text-align:center;}
+#notice_384 li div.each_item {margin:0 10px 15px 10px;border:none 1px #dddddd;padding:0px;}
+#notice_384 .keep_ratio {position:relative;padding:2px; margin:0 auto; display:inline-block;*display:inline;*zoom:1;vertical-align:top; border:solid 1px #dddddd;}
+#notice_384 .each_item.hilite .keep_ratio {border-color:#222222;}
+#notice_384 .notice_thumb {padding:0;margin:0;display:block;width:100%;}
+.notice_384 a {display:block;text-decoration:none}
+.notice_384 h3 {margin:0;padding:5px 0 0 0;word-break:break-all;word-wrap:break-word;text-align:center;line-height:1.3;}
+.notice_384 h3 a {text-align:center;word-break:break-all;word-wrap:break-word;font-size:12px;color:#454d4d;font-family:'Nanum Gothic';font-weight:normal;font-weight:bold;font-style:normal;}
+.notice_384 h3 a:hover,.notice_384 h3 a:focus,.notice_384 .each_item.hilite h3 a {color:#000000}
+.notice_384 .notice_memo a {font-size:12px;color:#777777;font-family:'Nanum Gothic';font-weight:normal;font-weight:normal;font-style:normal;}
+.notice_384 .notice_memo a:hover,.notice_384 .notice_memo a:focus,.notice_384 .each_item.hilite .notice_memo a {color:#000000}
+.notice_384 h3 .cat {color:#1fbab7;margin-right:2px;font-family:'Nanum Gothic';font-weight:normal;font-weight:bold;font-style:normal;}
+.notice_384 .notice_name {margin:0;padding:3px 0 0 0;text-align:center;word-break:break-all;word-wrap:break-word;font-size:12px;color:#666666;font-family:'Nanum Gothic';font-weight:normal;font-style:normal;}
+.notice_384 .notice_etc {margin:0;padding:3px 0 0 0;text-align:center;font-size:12px;color:#666666;font-family:'Nanum Gothic';font-weight:normal;font-style:normal;}
+.notice_384 .ozspeech {font-family:Tahoma,Geneva,sans-serif;font-size:11px;color:#ffffff;background-color:#b8b8b8; border:1px solid #b8b8b8;font-weight:normal;font-style:normal;}
+.notice_384 .ozspeech:before {border-color:transparent #b8b8b8 transparent transparent;}
+.notice_384 .ozspeech:after {border-color:transparent #b8b8b8 transparent transparent;}

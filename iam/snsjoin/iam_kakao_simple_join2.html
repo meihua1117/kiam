@@ -1,0 +1,75 @@
+<html lang="ko"><head>
+    <meta charset="utf-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <title>카카오계정으로 로그인
+    </title>
+    <link rel="stylesheet" type="text/css" href="./../public/css/authorize/authorize_v4.css">
+    <style type="text/css">
+      header, section, footer, aside, nav, main, article, figure {
+        display: block;
+      }
+      
+    </style><!--[if lte IE 9]>
+    <script src="./../public/js/jquery.js"></script>
+    <script src="./../public/js/html5shiv.js"></script><![endif]-->
+  </head>
+  <body>
+    <div id="kakaoWrap">
+      <header id="kakaoHead">
+        <h1 class="tit_logo"><span class="ico_agree ico_logo">개인정보 취급 동의</span></h1>
+      </header>
+      <hr class="hide">
+      <main id="kakaoContent">
+        <div id="cMain">
+          <article id="mArticle">
+            <div id="section_agree" class="section_agree">
+              <div class="agree_head">
+                <h2 id="kakaoBody" class="screen_out"></h2>
+                <div class="wrap_service">
+                  <div id="thumbBrand" class="thumb_brand thumb_brand_bg"><img src="https://k.kakaocdn.net/14/dn/btqxDVGfcHM/7SnMdkg2VOOFqzxQ4kOXek/o.jpg" width="56" alt="아이엠" class="img_g"></div><strong class="tit_service"><span class="txt_bi">아이엠</span><span class="txt_ci">아이엠</span></strong>
+                </div>
+              </div>
+              <form method="post" novalidate="" style="display: block; height: 100%;">
+                <input name="stsc" value="C2U7Y_9S3WVjTvyR86pJj6j-caBvyixjJLjeHFobB6zL6hINXcok0J7qxMvJJfclD1TwebRUXSv1qfot54dG9lcNqEIwjw4QNbpnjaZEYiOumKTbYRtIg0LqWFxVM4mN65JB50EjNZttAzUtfo8N6RGBPfPGBYjPpHktoreWM1Wvasy2NF47JYzo4-cm05y-kc-8mHVzR69cYvS2SyAEkPhV_Yq9L1XZnuAZ4HwZTTtJKRPFYK7aGgtDcLU4WAdQvDB08dQX2Uhh2mejkK5ZO1VqOzGxxy8xEjigK1tZm78gL2EuUVx-0qNXSLJYLcrXmuAp2QN0QYr2glmhSVfaKCM3AX_-zYDTaU6H1qJADq5ihyUM3kco9ucAh9npgUjIrrs-sgGAE7uTv4HNPbP8SqNXkvgfTL3yGASn1vqj6Lk" type="hidden">
+                <input name="csts" value="br_LH5dZmH32z6eMK5wUKwWkEM58QIuz7lqNrknQ2v7h1vDOpYSnwVg84oCjvYcpcpgfld0mj-bLad7SrAv3rkn9QHHBCdRPP1p0BS-nK4vGBD_A0OX99wb3RrAyQF2hrX7Vwwfk08GFerLW7QVPKphNJj_EVz3VlEYjZ84FK-usVAi5Y2SBulvmE-7ACQ3q-qh4hOgj3y3iBZobAUqwFDrZCAZBxGyIeTsDVtxd-fPvHAEyvwMWw71T5HCCf4ipIabqgp2swlyE4Qp2CDR5kg9ctzfB_XxRkSB1T1r52lCxYgUdYDSruuF1E5eJXqIduSgY--_DOhIjQJusrKklYN80y8DvWVCj_C3h1cuhE6vM3oq8sUrHbzHud5JS71VzBXxS8lZN5_w6UEo_b3OrNv3g1JfqlVfIdOZ-lHN_ECWKy56iB7JpKhbk4Hziztg08XQSXg44KioPFewkkA-Uo7VO4XIYO5NN9uOyyiC-f6CvV0mR921AV9fhYs8A4yqS5l8_-5OjlcTpma-PRUtnyu9kylY71A3iqT597KZNBGsaUqR4Ib7jT6wlz2qj2Ie8vY5p7pgWUP079Hw3YYl6GBJQqf-lf5Q8vDbT11TtSd-pXc82XYo0jEBm9_vFjC3c9JyeEVayVrKFM7-59T1QKg" type="hidden">
+                <div id="agree_ctr" class="agree_cont">
+                  <div id="line_ctr" class="info_all">
+                    <!-- 약관 스크롤 시 info_all scrolled 클래스 추가-->
+                    <input id="agreeAll" type="checkbox" class="inp_check inp_all">
+                    <label for="agreeAll" class="lab_all"><span class="ico_agree ico_chk"></span><span class="txt_inner">전체 동의하기</span>
+                    </label>
+                  </div>
+                  <div id="scroll_ctr" class="wrap_info">
+                    <div class="info_agree">
+                      <div class="info_account"><span class="screen_out">로그인된 계정</span><span class="thumb_account"><img src="./../../../public/image/authorize/thumb_account.png"></span><span class="tit_account"><span class="account_id">agapiaman@hanmail.net</span></span><a href="https://accounts.kakao.com/login?continue=https%3A%2F%2Fkauth.kakao.com%2Foauth%2Fauthorize%3Fresponse_type%3Dcode%26redirect_uri%3Dhttps%253A%252F%252Fwww.jejuair.net%252Fjejuair%252Flogin%252Fmember%252FkakaoLoginCallback.do%26state%3D6jra426hm0d8t27o9t83alju9c%26client_id%3D8c1b6988aa0c1a699b43664a2517cbda%26encode_state%3Dtrue" class="link_account">계정 변경</a>
+                      </div>
+                      <p class="desc_agree"><span class="txt_inner">아이엠 서비스 내 이용자 식별, 회원관리 및 서비스 제공을 위해  개인정보를 제공합니다. 정보는 서비스 탈퇴 시  지체없이 파기됩니다.</span></p>
+                      <!--  개인정보 필수-->
+                      <div class="inp_cont more_cont more_cont2">
+                        <input id="required_privacy" type="checkbox" value="true" required="required" class="inp_check inp_need_agree">
+                        <label for="required_privacy" class="lab_agree"><span id="lbl-privacy-required" class="ico_agree ico_chk"></span> [필수] 필수 제공 항목
+                        </label><span class="txt_info">프로필 정보(닉네임/프로필 사진), 카카오계정(이메일)</span><a href="https://kauth.kakao.com/policy/3rd/privacy-provide?client_id=8c1b6988aa0c1a699b43664a2517cbda&amp;scope=account_email,profile&amp;redirect_uri=https%3A%2F%2Fwww.jejuair.net%2Fjejuair%2Flogin%2Fmember%2FkakaoLoginCallback.do" target="_blank" aria-describedby="lbl-privacy-required" class="link_more">
+                          <sapn class="screen_out">약관</sapn>보기</a>
+                        <input type="hidden" name="profile" value="true">
+                        <input type="hidden" name="account_email" value="true">
+                      </div>
+                      <!-- 서비스 접근 권한 필수-->
+                    </div>
+                  </div>
+                </div>
+                <div class="wrap_btn">
+                  <button id="acceptButton" type="submit" name="user_oauth_approval" value="true" class="btn_agree btn_agree_disabled">동의하고 계속하기</button>
+                </div>
+              </form>
+            </div>
+          </article>
+        </div>
+      </main>
+      <hr class="hide">
+      <footer id="kakaoFoot"><span class="txt_copyright">Copyright <a target="_blank" href="https://www.kakaocorp.com" class="link_corp">© Kakao Corp.</a> All rights reserved.</span></footer>
+    </div>
+  
+
+<script src="./../public/js/authorize_v4.js"></script><!--[if lte IE 9]>
+<script src="./../public/js/authorize_v4_ie.js"></script><![endif]--></body></html>

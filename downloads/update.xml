@@ -1,0 +1,30 @@
+<update>
+  <file path="AutoMapper.dll" hash="5a660cf53816906b1acee3cf732d5ba9" />
+  <file path="AutoMapper.Net4.dll" hash="454c9ca312e8d098cb2570fbc8ef2e54" />
+  <file path="AutoMapper.xml" hash="68829070a5126331893e048924a8921b" />
+  <file path="chromedriver.exe" hash="206b032735e207516d48e1354bcffe3e" />
+  <file path="Google.Protobuf.dll" hash="8b961fb11cc67cad7b2ed49e2071a9cd" />
+  <file path="HtmlAgilityPack.dll" hash="f57da9e13934ee91533f5ae0a9ecd377" />
+  <file path="IEDriverServer.exe" hash="7f7c98e511ff5b4defa2ca5fba515e30" />
+  <file path="Interop.SHDocVw.dll" hash="806b29bdee605564e1cd82e9f7a3c060" />
+  <file path="Microsoft.CSharp.dll" hash="ab9058ab045c788a91f87bfe39fd2f14" />
+  <file path="MySql.Data.dll" hash="cace87f0a8037a559e6b1b99b5f5225a" />
+  <file path="MySql.Data.xml" hash="c23d71972efed4ee8a9141ceff0ea2ce" />
+  <file path="Newtonsoft.Json.dll" hash="6815034209687816d8cf401877ec8133" />
+  <file path="Newtonsoft.Json.xml" hash="ad1a946cdbe4fc83907cf558fb80a37f" />
+  <file path="SeleniumExtras.WaitHelpers.dll" hash="35f22b25614f9ca43cbdb70cb41767be" />
+  <file path="shop_keyword.txt" hash="d58716d94e3c4cfb4077f9a9085656be" />
+  <file path="System.Data.dll" hash="21558ac2a084e8675148950fceaa4adf" />
+  <file path="System.dll" hash="3fbd2bbae60040302cdd9aeed911235d" />
+  <file path="System.Drawing.dll" hash="c551e7fba9f8b3211dea597471c9f78f" />
+  <file path="System.Management.dll" hash="4e62f9e915e1e6c96026b1abe5166ca5" />
+  <file path="System.Web.dll" hash="2bcf21590d622ec16cfc8afaf2225806" />
+  <file path="System.Windows.Forms.dll" hash="ef57a33ddd5267449eec553829a00305" />
+  <file path="System.Xml.dll" hash="95977c4ed8fbeb0637484ad2caafbd11" />
+  <file path="Tulpep.NotificationWindow.dll" hash="1f6a5b52b3d99e3bf04164f17ce22c39" />
+  <file path="WebDriver.dll" hash="9283cfa187616d4db0e41bdab6083d88" />
+  <file path="WebDriver.Support.dll" hash="10ea7d402172831486eb48deacf2924b" />
+  <file path="WebDriver.Support.xml" hash="f85ab77bc3dc1476e1e0ae22749a9d2d" />
+  <file path="WebDriver.xml" hash="c41361604cf332cd9f49de9a7cd04a63" />
+  <file path="온리원.exe" hash="592ae2c7057ffc4eb0eaf485542d51f5" />
+</update>

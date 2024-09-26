@@ -1,0 +1,20 @@
+@charset "utf-8";
+.form1_fieldset {clear:both;margin:5px 0;border:1px solid silver;}
+.form1_dl {margin:0;*zoom:1;}
+.form1_dl:after {content:""; display:block; clear:both;}
+.form1_dl dt {display:block; float:left; clear:both; width:80px;margin:5px 5px 0 0; padding:0; color:#000000; font-family:_오성과한음B; font-size:18px;font-weight:normal;font-style:normal;}
+.form1_dl dt img {vertical-align:middle;}
+.form1_dl dd {display:block; float:left;*float:none;margin:5px 0 0 0; padding: 0 0 5px 0;color:#bbbbbb; font-size:18px;}
+.form1_fieldset legend {border:0;width:auto;padding:0 2px;margin-bottom:0;color:#000000; font-family:_오성과한음B; font-size:18px;font-weight:normal;font-style:normal;}
+.termlink1 {padding-top:5px;}
+.termlink1, .termlink1 a {color:#000000; font-family:_오성과한음B; font-size:18px;font-weight:normal;font-style:normal;}
+.form1_dl dd p {margin:2px 0 0 0; padding:0;color:#bbbbbb; font-size:18px;}
+.form1_input {-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;max-width:100%;padding:3px 0;border:solid 1px #cccccc;background-color:#ffffff; color:#555555; height:38px; vertical-align:middle;font-size:px;font-family:_오성과한음B;}
+select.form1_input,input[type="file"].form1_input {padding:0; height:38px;}
+select.form1_input option {padding:0; height:38px;color:#555555;font-family:_오성과한음B;}
+.form1_textarea {-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;max-width:100%;padding:3px 0;border:solid 1px #cccccc;background-color:#ffffff; color:#555555; font-size:px;font-family:_오성과한음B;}
+.form1_btnbox {margin:5px 0;padding-top:5px;border-top:solid 2px #dddddd; text-align:center;}
+@media screen and (max-width:900px) {
+.form1_dl dt, .form1_dl dd {float:none;clear:both;}
+.form1_dl dd {margin-top:5px;}
+}

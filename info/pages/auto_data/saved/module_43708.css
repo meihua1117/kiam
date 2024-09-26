@@ -1,0 +1,20 @@
+#login4_form, .login4_txt2 {display:inline-block;}
+.login4_fs, .login4_fs2 {border:none;}
+.login4_fs label {display:block; margin:10px 0 3px 0;}
+.login4_fs {margin-bottom:7px;}
+.login4_fs2 div {margin:0 0 10px 0;}
+.login4_fs, .login4_fs label, .login4_fs2, .login4_fs2 a, .login4_fs2 label, .zsfCode_box label {color:#666666;font-family:'Nanum Gothic';font-size:13px;text-decoration:none;}
+
+#login4_slogin {margin-top:10px;}
+#login4_slogin ul {margin:0;padding:0;list-style:none;vertical-align:top;white-space:nowrap;}
+#login4_slogin ul li {margin:0 0 3px 0;padding:5px;border:solid 1px #C4CAD1;background-color:#ffffff;}
+#login4_slogin a {display:block;height:32px;padding:0;line-height:32px;overflow:hidden;text-decoration:none;font-family:'Nanum Gothic'; font-size:15px; color:#666666; background-color:#ffffff;font-weight:bold;}
+#login4_slogin ul li a span {display:inline-block;vertical-align:top;width:32px;height:0;padding:32px 0 0 0;margin:0 10px 0 0;overflow:hidden;background:url(/cgi_bank/lib/images/social_login_icon.png) no-repeat;}
+#login4_slogin .google a span {background-position:-34px 0;}
+#login4_slogin .twitter a span {background-position:-68px 0;}
+#login4_slogin .naver a span {background-position:-102px 0;}
+#login4_slogin .kakao a span {background-position:-136px 0;}
+.login4_fs2 button {width:250px;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;}
+.login4_txt2 div, .login4_txt2 p {text-align:center;margin-top:10px;color:#333333;font-family:'Nanum Gothic';font-size:13px;text-decoration:none;}
+.login4_txt2 img {padding-right:3px;vertical-align:middle;}
+.login4_input {padding:3px;width:250px;height:28px; -webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;border:solid 1px #C4CAD1;font-family:'Nanum Gothic'; font-size:15px; color:#666666; background-color:#ffffff;font-weight:bold;}

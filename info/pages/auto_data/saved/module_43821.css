@@ -1,0 +1,25 @@
+@charset "utf-8";
+
+	.history1_list {border:0;width:100%;}
+	.history1_year {vertical-align:top;padding:0;}
+	.history1_year div {font-family:Helvetica,sans-serif; font-size:20px; color:#585f66;white-space:nowrap; line-height:100%; padding:0px 15px 0 15px;font-weight:bold;}
+	.history1_month {vertical-align:top; padding:0;}
+	.history1_month div {font-family:Helvetica,sans-serif; font-size:16px; color:#585f66;white-space:nowrap; line-height:100%; padding:1px 15px 0 15px;font-weight:bold;}
+	.history1_day {vertical-align:top; padding:0;}
+	.history1_day div {font-family:Helvetica,sans-serif; font-size:13px; color:#bfbfbf;white-space:nowrap; line-height:100%; padding:2px 15px 0 15px;font-weight:bold;}
+	.history1_list td {width:100%; vertical-align:top; padding:0;}
+	.history1_list td>div {margin:0; padding:1px 15px 20px 15px;}
+	.history1_list td .summary {font-family:'Nanum Gothic'; font-size:13px; color:#585f66;word-break:break-all;word-wrap:break-word;white-space:normal; text-align:left; line-height:150%; position:relative; margin:-4px 0 0 0; padding:0;font-weight:normal;}
+	.history1_list td .summary p, .history1_list td .summary a {margin:0;}
+	.history1_list .top_line {border-top:solid 1px #e7e7e7; padding-top:20px;}
+	
+	@media screen and (max-width:550px) {
+	.history1_year div, .history1_month div, .history1_day div, .history1_list td>div {padding-left:8px; padding-right:8px;}
+	}
+.history1_dl {margin:0;}
+.history1_dl dt {font-weight:normal; margin:0 0 3px 0; color:#585f66;}
+.history1_dl dd {font-weight:normal; margin:0; padding: 0 0 15px 0; color:#bbbbbb;}
+.history1_dl dd label {font-weight:normal;}
+
+.history1_input {-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;padding:3px 0;border:solid 1px #cccccc;background-color:#ffffff; color:#555555; height:22px; vertical-align:middle;}
+.history1_textarea {padding:3px 0;border:solid 1px #cccccc;background-color:#ffffff; color:#555555; width:99%; height:100px; line-height:150%;}

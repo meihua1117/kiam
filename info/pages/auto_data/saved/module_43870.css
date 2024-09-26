@@ -1,0 +1,12 @@
+#visual_43870 {overflow:hidden; position:relative; height:300px;}
+#bg_rolling_43870 {position:relative; top:0; left:50%; width:100%;height:100%; margin:0 0 0 -50%; z-index:10}
+#bg_rolling_43870 div {box-sizing:content-box;position:absolute; top:0; left:0; padding:0;width:100%; height:100%; z-index:10; background-color:transparent !important;}
+#rolling_43870 {display:none;overflow:hidden; position:absolute; top:0; left:50%; width:600px; height:100%; margin-left:-300px; z-index:20}
+#rolling_43870 .fg_roll {position:absolute; left:0; top:0; width:100%; height:100%; z-index:20; background-color:transparent !important;}
+#rolling_43870 .fg_roll .link_full {position:absolute;width:100%;height:100%;}
+#rolling_43870 .fg_roll .each_obj {position:absolute;white-space:nowrap;line-height:1.18}
+#bg_visual_43870_1 {}
+#layer_43870_11 {padding:0;margin:0;left:-31px;top:21px;width:500px;height:273px;text-decoration:none;}
+#layer_43870_12 {padding:0;margin:0;left:413px;top:44px;text-decoration:none;}
+#layer_43870_13 {padding:0;margin:0;left:118px;top:136px;text-align:left;font-family:'Nanum Gothic',NanumGothic, 나눔고딕, 'Malgun Gothic', '맑은 고딕';font-size:40px;color:#00569c;font-weight:bold;font-style:normal;text-decoration:none;}
+#layer_43870_14 {padding:0;margin:0;left:119px;top:187px;text-align:left;font-family:'Nanum Gothic',NanumGothic, 나눔고딕, 'Malgun Gothic', '맑은 고딕';font-size:13px;font-weight:bold;font-style:normal;text-decoration:none;}
