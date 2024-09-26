@@ -1,0 +1,10 @@
+@charset "utf-8";.fmail1_5332 {border:0; width:100%;table-layout:fixed;}
+.fmail1_5332 th {width:100px;word-break:break-all;word-wrap:break-word;white-space:normal;text-align:right;padding:5px;color:#333333; font-family:'맑은 고딕','Malgun Gothic',NanumGothic,나눔고딕,'Apple SD Gothic Neo',Dotum,sans-serif; font-size:12px;font-weight:bold;}
+.fmail1_5332 td {word-break:break-all;word-wrap:break-word;white-space:normal;padding:5px;color:#555555; font-family:'맑은 고딕','Malgun Gothic',NanumGothic,나눔고딕,'Apple SD Gothic Neo',Dotum,sans-serif; font-size:px;}
+.fmail1_5332 td p {margin:1px 0 0 0; padding:0;}
+
+.fmail1_input_5332 {-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;border:solid 1px #cccccc;background-color:#ffffff; color:#555555; width:100%;height:22px; vertical-align:middle;font-size:12px;font-family:'맑은 고딕','Malgun Gothic',NanumGothic,나눔고딕,'Apple SD Gothic Neo',Dotum,sans-serif;padding:3px 0;}
+select.fmail1_input_5332,input[type="file"].fmail1_input_5332 {padding:0; height:22px;width:auto;}
+select.fmail1_input_5332 option {padding:0; height:22px;color:#555555;font-family:'맑은 고딕','Malgun Gothic',NanumGothic,나눔고딕,'Apple SD Gothic Neo',Dotum,sans-serif;}
+.fmail1_textarea_5332 {-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;padding:3px 0;width:100%; height:258px; border:solid 1px #cccccc;background-color:#ffffff; color:#555555; font-size:12px;font-family:'맑은 고딕','Malgun Gothic',NanumGothic,나눔고딕,'Apple SD Gothic Neo',Dotum,sans-serif;}
+.fmail1_btn_5332 {text-align:center;padding-top:10px; margin:5px 0;border-top:solid 1px #dddddd;}

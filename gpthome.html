@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<style>
+    * {
+box-sizing: border-box;
+margin: 0;
+padding: 0;
+}
+
+body {
+font-family: sans-serif;
+}
+
+header {
+background-color: #1c1c1c;
+color: #fff;
+padding: 2rem;
+}
+
+main {
+display: flex;
+flex-wrap: wrap;
+justify-content: space-between;
+padding: 2rem;
+}
+
+.card {
+background-color: #fff;
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+border-radius: 1rem;
+flex-basis: calc(33.33% - 2rem);
+margin-bottom: 2rem;
+overflow: hidden;
+}
+
+.card img {
+display: block;
+width: 100%;
+height: auto;
+}
+
+.card-content {
+padding: 1rem;
+}
+
+.card h2 {
+font-size: 1.5rem;
+margin-bottom: 0.5rem;
+}
+
+.card p {
+font-size: 1rem;
+margin-bottom: 1rem;
+}
+
+footer {
+background-color: #1c1c1c;
+color: #fff;
+padding: 1rem;
+text-align: center;
+}
+
+</style>
+
+
+<html>
+
+  <head>
+    <title>My Site</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <header>
+      <!-- Header content here -->
+    </header>
+    <main>
+      <!-- Main content here -->
+    </main>
+    <footer>
+      <!-- Footer content here -->
+    </footer>
+
+        <form action="gpt-run.php" method="post">
+          <div>
+            <div><label for="prompt">input ask.</label></div>
+            <textarea id="prompt" name="prompt" cols="40" rows="3" required><?php echo $_POST['prompt']; ?></textarea>
+          </div>
+          <div><?php echo $_POST['response']; ?></div>
+          <div>
+            <input type="submit" value="Submit">
+          </div>
+        </form>
+        <script>
+          document.getElementById("prompt").select();
+        //   document.getElementById("prompt").focus();
+        </script>
+    
+  </body>
+</html>

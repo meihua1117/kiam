@@ -1,0 +1,133 @@
+<?
+include_once "../lib/rlatjd_fun.php";
+extract($_REQUEST);
+    	$sql="select * from Gn_landing where landing_idx='$landing_idx'";
+    	$result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
+		$data=mysqli_fetch_array($result);
+		
+		//홍보렙인가를 체크한다		
+		$member_id = $data['m_id'];								
+		$sql="select mem_leb FROM Gn_Member WHERE mem_id='$member_id'";
+		$res=mysqli_query($self_con, $sql);
+		$memrow = mysqli_fetch_array($res);
+    	
+				$sql_serch=" status='Y'";
+					if($data['m_id'] != "obmms02" && $memrow['mem_leb'] != "60") {
+					    $sql_serch.=" and mem_id ='".$event_data['m_id']."'";
+					}
+															
+					if($_REQUEST['category'])
+					{
+					    $sql_serch.=" and category ='$category'";
+					}
+					$now = date("Y-m-d");
+					if($_REQUEST['end_date'] == "Y")
+					{
+					    $sql_serch.=" and end_date < '$now'";
+					}					
+                    if($_REQUEST['end_date'] == "N")
+					{
+					    $sql_serch.=" and end_date >= '$now'";
+					}										
+				
+					if($_REQUEST['search_text'])
+					{
+					    $search_text = $_REQUEST['search_text'];
+					    $sql_serch.=" and (lecture_info like '%$search_text%' or area like '%$search_text%'or instructor like '%$search_text%')";
+					}				
+				
+				$sql="select count(lecture_id) as cnt from Gn_lecture where $sql_serch ";
+				$result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
+				$row=mysqli_fetch_array($result);
+				$intRowCount=$row['cnt'];
+              if($intRowCount)
+              {
+				if (!$_POST['lno']) 
+					$intPageSize =20;
+				else 
+				   $intPageSize = $_POST['lno'];				
+				if($_POST['page'])
+				{
+				  $page=(int)$_POST['page'];
+				  $sort_no=$intRowCount-($intPageSize*$page-$intPageSize); 
+				}
+				else
+				{
+				  $page=1;
+				  $sort_no=$intRowCount;
+				}
+				if($_POST['page2'])
+				  $page2=(int)$_POST['page2'];
+				else
+				  $page2=1;
+				$int=($page-1)*$intPageSize;
+				if($_REQUEST['order_status'])
+				  $order_status=$_REQUEST['order_status'];
+				else
+				  $order_status="asc"; 
+				if($_REQUEST['order_name'])
+				  $order_name=$_REQUEST['order_name'];
+				else
+				  $order_name="start_date";
+				$intPageCount=(int)(($intRowCount+$intPageSize-1)/$intPageSize);     
+				//$sql="select * from Gn_lecture where $sql_serch order by $order_name $order_status limit $int,$intPageSize";
+				$sql="select * from Gn_lecture where $sql_serch order by start_date desc limit $int,$intPageSize";
+				
+				$result=mysqli_query($self_con, $sql) or die(mysqli_error($self_con));				
+		?>   
+              <?
+                  while($row=mysqli_fetch_array($result))
+                  {
+					  	//$num_arr=array();
+						$sql_num="select * from Gn_event where m_id='{$row['mem_id']}' and event_idx='{$row['event_idx']}' ";
+						$resul_num=mysqli_query($self_con, $sql_num);
+						$crow=mysqli_fetch_array($resul_num);
+						
+ 
+                  ?>
+              <tr>
+                <td><?=$sort_no?></td>
+                <td><?=$row['category']?></td>
+                <td><?=$row['start_date']?>~<BR><?=$row['end_date']?></td>
+                <td><?=$row['lecture_day']?></td>
+                <td><?=$row['lecture_start_time']?>~<BR><?=$row['lecture_end_time']?></td>
+                <td><?=$row['lecture_info']?></td>
+                <td><?=$row['instructor']?></td>
+                <td><div style="width:100px;overflow-y:hidden;height:18px;" class="area_view"><?=$row['area']?></div></td>
+                <td><?=$row['target']?></td>
+                <td><?=$row['max_num']?>명</td>
+                <td><?=$row['fee']==0?"무료":$row['fee']."원"?></td>
+                <td>
+                    <input type="button" value="사용하기" class="button" onclick="useIt('<?php echo $row['lecture_id']?>','<?php echo $row['lecture_info']?>','<?php echo $row['instructor']?>','<?php echo $row['start_date']?>~<?php echo $row['end_date']?>','<?php echo $row['area']?>')">
+                </td>
+                <!--
+                <td>
+                    <a href='mypage_lecture_write.php?lecture_id=<?php echo $row['lecture_id'];?>'>수정</a>/<a href="javascript:;;" onclick="removeRow('<?php echo $row['lecture_id'];?>')">삭제</a>
+                </td>
+                -->
+              </tr>
+              <?
+                    $sort_no--;
+                  }
+                  ?>		               
+              <tr>
+                <td colspan="14">
+                        <?
+                        page_ajax($page,$page2,$intPageCount,"pay_form");
+                        ?>
+                </td>
+              </tr>    
+            <?
+              }
+              else
+              {
+                ?>
+              <tr>
+                <td colspan="14">
+                    검색된 내용이 없습니다.
+                </td>
+              </tr>            
+                <?  
+              }
+              ?>
+            

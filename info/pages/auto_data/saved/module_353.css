@@ -1,0 +1,15 @@
+#hmenu_353 {position:relative;padding:0;margin:0;z-index:1001;background-color:#30343f;display:block;}
+#hmenu_353 a {text-decoration:none;line-height:normal;}
+#hmenu_353 img {vertical-align:bottom;}
+#hmenu_353>li {position:relative; float:left;list-style:none; margin:0; padding:0;z-index:101;}
+#hmenu_353>li>a {-webkit-box-sizing:content-box;-moz-box-sizing:content-box;box-sizing:content-box;display:block;text-align:center;overflow:hidden;white-space:nowrap;font-size:14px;color:#dddddd;border-left:1px solid #777777;font-family:'맑은 고딕','Malgun Gothic',NanumGothic,나눔고딕,'Apple SD Gothic Neo',Dotum,sans-serif;font-weight:normal;font-style:normal;margin:0px 0px 0px 0px;padding:8px 0px 8px 0px;}
+#hmenu_353>li:first-child>a {border-left:none;}
+#hmenu_353>li>a.active, #hmenu_353>li>a.current, #hmenu_353>li>a:hover, #hmenu_353>li>a:focus {border-left:1px solid #777777;font-size:14px;color:#ffffff;font-family:'맑은 고딕','Malgun Gothic',NanumGothic,나눔고딕,'Apple SD Gothic Neo',Dotum,sans-serif;font-weight:normal;font-style:normal;}
+#hmenu_353>li>ul {margin-top:0px !important;left:0 !important;right:auto !important;}
+#hmenu_353 ul {display:none;position:absolute;margin:0 0 0 0px;padding:0px 0 0px 0;border-bottom:solid 1px #87bc43;border-left:solid 1px #87bc43;border-right:solid 1px #87bc43;background-color:#ffffff;z-index:1001;}
+#hmenu_353 ul li {clear:both;position:relative;list-style:none; margin:0; padding:0;left:0;width:150px;}
+#hmenu_353 ul a {display:block; overflow:hidden;font-family:'맑은 고딕','Malgun Gothic',NanumGothic,나눔고딕,'Apple SD Gothic Neo',Dotum,sans-serif;text-align:left;white-space:normal;word-break:break-all;word-wrap:break-word;font-size:12px;color:#555555;margin:0 0px 0 0px;padding:5px 5px 5px 5px;font-weight:normal;font-style:normal;}
+#hmenu_353 ul a.active, #hmenu_353 ul a.current, #hmenu_353 ul a:hover, #hmenu_353 ul a:focus {font-family:'맑은 고딕','Malgun Gothic',NanumGothic,나눔고딕,'Apple SD Gothic Neo',Dotum,sans-serif;background-color:#d4ebb3 !important;font-size:12px;color:#555555;font-weight:normal;font-style:normal;}
+#hmenu_353 ul .arrow {background:url(/image_bank/icon/dot/menu_arrow_black.gif) no-repeat right center;}
+#hmenu_353 ul ul {display:none; position:absolute;margin:0;top:-1px;left:150px;right:auto;border-top:solid 1px #87bc43;z-index:1002;}
+#hmenu_353 ul div.menu_line {display:none;}

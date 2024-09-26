@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: /admin/
+
+#bot deny 20210221
+#User-agent: SemrushBot
+#Disallow: /iam/

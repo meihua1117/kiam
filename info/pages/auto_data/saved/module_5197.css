@@ -1,0 +1,32 @@
+@charset "utf-8";#head_5197 {position:relative;margin:0;text-align:;font-size:0;padding:0px 0px 0px 0px;}
+#head_5197 span, #head_5197 .head_link {display:block;text-align:;font-size:18px;color:#e67e22;font-family:NanumGothic, 나눔고딕, 'Malgun Gothic', '맑은 고딕','_Nanum Gothic';text-decoration:none;}
+#head_5197 img {vertical-align:top;}
+#head_5197 div img {display:block;}
+#head_5197 div {position:absolute;right:0px;top:25%;}
+#notice_5197 {text-align:left;margin:0;padding:0;background-color:#ffffff;}
+#notice_5197 ul {margin:0;padding:0;}
+#notice_5197 li {position:relative;list-style:none;margin:0;padding:0;padding-bottom:5px; margin-bottom:5px;border-bottom:none 1px #eeeeee;}
+.notice_5197 {margin:15px 0px 0px 0px;}
+.notice_pad_5197 {padding-left:95px !important;}
+.notice_5197 .notice_thumb {float:left; width:74px; position:relative; left:-95px; margin-right:-95px; overflow:hidden;}
+.notice_5197 .notice_thumb {padding:2px; border:solid 1px #ffffff;overflow:hidden;}
+.notice_5197 .notice_thumb a {display:block;height:60px;background-size:cover;background-position:center center;background-repeat:no-repeat;}
+.notice_5197 li.hilite .notice_thumb {border-color:#000000;}
+@media screen and (max-width:550px) {.notice_pad_5197 {padding-left:47.5px !important;}
+.notice_5197 .notice_thumb {width:37px; left:-47.5px; margin-right:-47.5px;}
+.notice_5197 .notice_thumb a {height:30px;}
+}
+.notice_5197 a {text-decoration:none}
+.notice_5197 h3 {margin:0; padding:0;word-break:break-all;word-wrap:break-word;}
+.notice_5197 h3 a {display:block;word-break:break-all;word-wrap:break-word;font-size:13px;color:#555555;font-family:NanumGothic, 나눔고딕, 'Malgun Gothic', '맑은 고딕','_Nanum Gothic';font-weight:normal;background:url(/image_bank/icon/dot/head_symbol_11.gif) no-repeat left center; padding-left:8px;}
+.notice_5197 h3.notice a {font-size:px;color:;font-family:;}
+.notice_5197 h3 a:hover,.notice_5197 h3 a:focus,.notice_5197 li.hilite h3 a {color:#000000}
+.notice_5197 h3 .cat {color:#1fbab7;margin-right:2px;font-family:NanumGothic, 나눔고딕, 'Malgun Gothic', '맑은 고딕','_Nanum Gothic';font-weight:normal;}
+.notice_5197 .notice_etc {margin:0;position:absolute;right:0;top:-1px;background-color:#ffffff;}
+.notice_5197 .notice_etc span {font-size:13px;color:#888888;font-family:NanumGothic, 나눔고딕, 'Malgun Gothic', '맑은 고딕','_Nanum Gothic';padding:0 0 0 .5em;}
+.notice_5197 .notice_memo {margin:5px 0 0 0;word-break:break-all;word-wrap:break-word;padding-left:8px;}
+.notice_5197 .notice_memo a {word-break:break-all;word-wrap:break-word;font-size:13px;color:#777777;font-family:NanumGothic, 나눔고딕, 'Malgun Gothic', '맑은 고딕','_Nanum Gothic'; line-height:120%; }
+.notice_5197 .notice_memo a:hover,.notice_5197 .notice_memo a:focus,.notice_5197 li.hilite .notice_memo a {color:#000000}
+.notice_5197 .ozspeech {font-family:NanumGothic, 나눔고딕, 'Malgun Gothic', '맑은 고딕','_Nanum Gothic';font-size:11px;color:#ffffff;background-color:#1fbab7; border:1px solid #ffffff;}
+.notice_5197 .ozspeech:before {border-color:transparent #ffffff transparent transparent;}
+.notice_5197 .ozspeech:after {border-color:transparent #1fbab7 transparent transparent;}

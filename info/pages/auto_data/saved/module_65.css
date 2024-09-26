@@ -1,0 +1,15 @@
+#hmenu_65.drop_gnb_h {position:relative;display:inline-block;zoom:1;*display:inline;vertical-align:middle;padding:0;margin:0;z-index:1001;}
+#hmenu_65.drop_gnb_h a {text-decoration:none;line-height:normal;}
+#hmenu_65.drop_gnb_h img {vertical-align:bottom;}
+#hmenu_65.drop_gnb_h>li {position:relative;float:left;list-style:none; white-space:nowrap; margin:0; padding:0;z-index:101;}
+#hmenu_65.drop_gnb_h>li>a {display:block; overflow:hidden;font-size:13px;color:#dddddd;font-family:'Nanum Gothic';font-weight:normal;font-style:normal; margin:0px 0 0px 0; padding:3px 3px 3px 3px;}
+#hmenu_65.drop_gnb_h>li>a.active, #hmenu_65.drop_gnb_h>li>a:hover, #hmenu_65.drop_gnb_h>li>a:focus {font-size:13px;color:#ffffff;font-family:'Nanum Gothic';font-weight:normal;font-style:normal;}
+#hmenu_65 ul.sub {display:none;position:absolute;margin:0 0 0 0px;padding:0px 0 0px 0;left:0;border-top:solid 1px #87bc43;border-bottom:solid 1px #87bc43;border-left:solid 1px #87bc43;border-right:solid 1px #87bc43;background-color:#ffffff;z-index:1001;}
+#hmenu_65 ul.sub li {clear:both;position:relative;list-style:none; margin:0; padding:0;left:0;width:150px;}
+#hmenu_65 ul.sub a {display:block; overflow:hidden;font-family:'Nanum Gothic';text-align:left;white-space:normal;word-break:break-all;word-wrap:break-word;font-size:12px;color:#555555;margin:0 0px 0 0px;padding:5px 5px 5px 5px;font-weight:normal;font-style:normal;}
+#hmenu_65 ul.sub a.active, #hmenu_65 ul.sub a:hover, #hmenu_65 ul.sub a:focus {font-family:'Nanum Gothic';background-color:#d4ebb3 !important;font-size:12px;color:#555555;font-weight:normal;font-style:normal;}
+#hmenu_65 ul.sub .arrow {background:url(/image_bank/icon/dot/menu_arrow_black.gif) no-repeat right center;}
+#hmenu_65 ul.sub ul.sub {display:none; position:absolute;margin:0;top:-1px;left:150px;right:auto;z-index:1002;}
+#hmenu_65 ul.sub div.menu_line {display:none;}
+#hmenu_65.drop_gnb_h li.noLava {width:0px; padding:0 5px; margin-top:6px;}
+#hmenu_65.drop_gnb_h li.noLava div {height:10px;border-left:solid 1px #333333;border-right:solid 1px #e62e2e;}

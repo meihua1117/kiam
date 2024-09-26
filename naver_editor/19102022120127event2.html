@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<!-- saved from url=(0068)https://btss.kiam.kr/event/event.html?pcode=utBvbWMuNk&sp=utBvbWMuNk -->
+<html lang="ko"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta property="og:title" content="사은품 공급 신청하기">
+	<meta property="og:image" content="https://www.kiam.kr/docs/iam_main_poto1.png">
+	<link rel="stylesheet" href="./event2_files/style.css" type="text/css">
+	<link rel="stylesheet" href="./event2_files/global_sub.css" type="text/css">
+
+	<link rel="stylesheet" href="./event2_files/slick.css" type="text/css">
+	<link rel="stylesheet" href="./event2_files/responsive.css" type="text/css">
+	<link rel="stylesheet" href="./event2_files/font-awesome.min.css" type="text/css">
+	<link rel="stylesheet" href="./event2_files/bootstrap.min.css">
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async="" src="./event2_files/js"></script>	
+	<script language="javascript" type="text/javascript" src="./event2_files/jquery-3.1.1.min.js.다운로드"></script>
+	<script language="javascript" type="text/javascript" src="./event2_files/common.js.다운로드"></script>
+	<script language="javascript" type="text/javascript" src="./event2_files/jquery.rotate.js.다운로드"></script>
+	<script src="./event2_files/bootstrap.min.js.다운로드"></script>
+	<style>
+		.div_content {overflow-y:hidden;}
+		.list_table td{text-align:center;height:40px;border-bottom:1px solid #CCC;}
+		.list_table td li{float:left;margin-right:5px;}
+		.list_table .d_font{font-size:16px;font-weight:600}
+		.list_table .x_font{vertical-align:bottom;padding-bottom:5px;color:#666;}
+		.list_table .xt_font{position:absolute; margin-top:-35px;font-size:16px; font-weight:600;margin-left:50px;color:#000;}
+		.list_table input[type=text]{width:90%;height:30px;}
+		#.list_table tr:first-child td{height:40px; background-color:#f4f4f4;border-bottom:1px solid #000; border-top:1px solid #000;}
+		.list_table tr:first-child td {
+		height: 40px;
+		/* background-color: #f4f4f4; */
+		/* border-bottom: 1px solid #000; */
+		border-top: 1px solid #CCC;
+		}
+		</style>
+	<script language="javascript">
+		//< !--
+			function resize() {
+				var w = 630 + 4;
+				var h = 510 + 24;
+				window.resizeTo(w, h);
+				window.moveTo((screen.width - w) / 2, (screen.height - h) / 2);
+			}
+		//-->
+		var emailnum = "2";
+		function func_check(type, val) {
+			if (type == "mem_id") {
+				val = document.getElementById('id1').value + '-' + document.getElementById('id2').value + '-' + document.getElementById('id3').value;
+			}
+			val = encodeURIComponent(val);
+			//alert(val);
+			$.ajax({
+				url: '/opb/proc/mem_check.html',
+				type: 'POST',
+				data: 'type=' + type + '&val=' + val,
+				success: function (response) {
+					if (response == "id=dup") {
+						document.getElementById('id_reg').value = 0;
+						document.getElementById('id_text').innerHTML = '<span class="jftxt_r">중복된  아이디 입니다.</span>';
+					} else if (response == "id=nouse") {
+						document.getElementById('id_reg').value = 0;
+						document.getElementById('id_text').innerHTML = '<span class="jftxt_r">사용할 수 없는 아이디 입니다.</span>';
+					} else if (response == "id=use") {
+						document.getElementById('id_reg').value = 1;
+						document.getElementById('id_text').innerHTML = '<span class="jftxt_b">사용가능합니다.</span>';
+					} else if (response == "email=dup") {
+						document.getElementById('email_reg').value = 0;
+						document.getElementById('email_text').innerHTML = '<span class="jftxt_r">중복된 이메일 입니다.</span>';
+					} else if (response == "email=reuse") {
+						document.getElementById('email_reg').value = 0;
+						document.getElementById('email_text').innerHTML = '<span class="mftxt_r">사용중인 이메일 입니다.</span>';
+					} else if (response == "email=nouse") {
+						document.getElementById('email_reg').value = 0;
+						document.getElementById('email_text').innerHTML = '<span class="mftxt_r">사용할 수 없는 이메일 입니다.</span>';
+					} else if (response == "email=use") {
+						document.getElementById('email_reg').value = 1;
+						document.getElementById('email_text').innerHTML = '<span class="mftxt_b">사용가능합니다.</span>';
+					} else if (response == "nick=dup") {
+						document.getElementById('nick_reg').value = 0;
+						document.getElementById('nick_text').innerHTML = '<span class="jftxt_r">중복된 닉네임 입니다.</span>';
+					} else if (response == "nick=nouse") {
+						document.getElementById('nick_reg').value = 0;
+						document.getElementById('nick_text').innerHTML = '<span class="jftxt_r">사용할 수 없는 닉네임 입니다.</span>';
+					} else if (response == "nick=use") {
+						document.getElementById('nick_reg').value = 1;
+						document.getElementById('nick_text').innerHTML = '<span class="jftxt_b">사용가능합니다.</span>';
+					} else if (response == "id2=dup") {
+						document.getElementById('id_reg').value = 0;
+						document.getElementById('id2_text').innerHTML = '<span class="jftxt_r">중복된 아이디 입니다.</span>';
+					} else if (response == "id2=nouse") {
+						document.getElementById('id_reg').value = 0;
+						document.getElementById('id2_text').innerHTML = '<span class="jftxt_r">사용할 수 없는 아이디 입니다.</span>';
+					} else if (response == "id2=use") {
+						document.getElementById('id_reg').value = 1;
+						document.getElementById('id2_text').innerHTML = '<span class="jftxt_b">사용가능합니다.</span>';
+					} else {
+						document.getElementById('id_reg').value = 0;
+						document.getElementById('id_text').innerHTML = '<span class="jftxt_r">사용할 수 없는 아이디 입니다.</span>';
+						document.getElementById('id_text').innerHTML = response;
+						document.getElementById('email_reg').value = 0;
+						document.getElementById('email_text').innerHTML = '<span class="mftxt_r">사용할 수 없는 이메일 입니다.</span>';
+					}
+				}
+			});
+		}
+		function hp_certify_send() {
+			var pattern = /^01[0-9][-]{0,1}[0-9]{3,4}[-]{0,1}[0-9]{4}$/;
+			var hp = document.getElementById('id1').value + document.getElementById('id2').value + document.getElementById('id3').value;
+			var reg_id = document.getElementById('id_reg').value;
+
+			if (reg_id != 1) {
+				alert("가입할 수 있는 휴대폰 번호를 입력해주세요.");
+				document.getElementById('id1').focus();
+				return false;
+			}
+			if (!pattern.test(hp)) {
+				alert("휴대폰 번호를 형식에 맞게 입력해 주세요. '-' 를 넣었는지 확인하세요.");
+				document.getElementById('id1').focus();
+				return false;
+			}
+			$.ajax({
+				url: '/opb/proc/sms_approval.html',
+				type: 'POST',
+				data: 'hp=' + hp + '&val=0',
+				success: function (response) {
+					if (response == "000 " || response == "000") {
+						document.getElementById('approval_text').innerHTML = '<span class="jftxt_b">인증번호를 전송하였습니다.</span>';
+
+					} else {
+						document.getElementById('approval_text').innerHTML = '<span class="jftxt_b">인증번호 발송에 실패했습니다. [' + response + ']</span>';
+					}
+				}
+			});
+		}
+		function hp_certify() {
+			var pattern = /^01[0-9][-]{0,1}[0-9]{3,4}[-]{0,1}[0-9]{4}$/;
+			var hp = document.getElementById('id1').value + document.getElementById('id2').value + document.getElementById('id3').value;
+			var sms_approval = document.getElementById('sms_approval').value;
+			var reg_id = document.getElementById('id_reg').value;
+
+			if (sms_approval.length != 6) {
+				document.getElementById('approval_text').innerHTML = '<span class="jftxt_b">인증번호를 입력해주세요.</span>';
+			}
+			//if(!pattern.test(hp)) {
+			//	alert("휴대폰 번호를 형식에 맞게 입력해 주세요. '-' 를 넣었는지 확인하세요.");
+			//	document.getElementById('id1').focus();
+			//	return false;
+			//}
+			document.getElementById('approval_reg').value = 0;
+			$.ajax({
+				url: '/opb/proc/sms_check.html',
+				type: 'POST',
+				data: 'val=' + sms_approval + '&vals=1',
+				success: function (response) {
+					if (response == "1") {
+						document.getElementById('approval_reg').value = 1;
+						document.getElementById('approval_text').innerHTML = '<span class="jftxt_b">인증번호가 맞습니다.</span>';
+					} else {
+						document.getElementById('approval_text').innerHTML = '<span class="jftxt_b">인증번호가 맞지 않습니다.</span>';
+					}
+				}
+			});
+		}
+		function hp_certify_focus() {
+			var reg_id = document.getElementById('id_reg').value;
+			if (reg_id != 1) {
+				document.getElementById('approval_text').innerHTML = '<span class="jftxt_b">사용할 수 있는 휴대폰을 입력해주세요.</span>';
+			} else {
+				document.getElementById('approval_text').innerHTML = '<span class="jftxt_b">인증번호받기를 눌러주세요.</span>';
+			}
+		}
+
+		function chkInput(mode, cid, val) {
+			var obj = document.getElementById(cid);
+			if (mode == 'in') {
+				if (obj.value == val) obj.value = "";
+			} else if (mode == 'out') {
+				if (obj.value == "") obj.value = val;
+			}
+		}
+		function changeIdType(idType) {
+			if (idType == 'email') {
+				document.getElementById('hpid1').style.display = 'none';
+				document.getElementById('hpid2').style.display = 'none';
+				document.getElementById('hpid3').style.display = 'none';
+				document.getElementById('emailid1').style.display = 'inline';
+				document.getElementById('emailid2').style.display = 'inline';
+				document.getElementById('emailid3').style.display = 'none';
+				document.getElementById('id_type').value = 'email';
+				emailnum = "";
+			} else if (idType == 'hp') {
+				document.getElementById('hpid1').style.display = 'inline';
+				document.getElementById('hpid2').style.display = 'inline';
+				document.getElementById('hpid3').style.display = 'inline';
+				document.getElementById('emailid1').style.display = 'none';
+				document.getElementById('emailid2').style.display = 'none';
+				document.getElementById('emailid3').style.display = 'inline';
+				document.getElementById('id_type').value = 'hp';
+				emailnum = "2";
+			}
+		}
+	</script>
+</head>
+
+<body class="body-event">
+	<style>
+		.mftxt { font-size:14pt; color:#4e6e7e; height:30px; padding-top:3px; }
+.mftxt_r { font-weight:bold; font-size:14pt; color:#bb5f5f; height:30px; padding-top:10px; padding-left:0px; }
+.mftxt_b { font-weight:bold; font-size:14pt; color:#4772a2; height:30px; padding-top:10px; padding-left:0px;}
+.content img {max-width:100%}
+
+.m_div input[type=radio] {height:15px;width:15px;}
+
+</style>
+	<div class="content">
+			</div>
+		<script>
+		function checkForm() {
+			if ($('#agree').is(":checked") == false) {
+				alert('개인정보이용동의 해주세요.')
+				return false;
+			}
+
+		}
+	</script>
+
+	<script>
+		$(function () {
+			$('#writeBtn').on("click", function () {
+				if ($('#writeForm').css("display") == "none") {
+					$('#writeForm').css("display", "block");
+				} else {
+					$('#writeForm').css("display", "none");
+				}
+			});
+			if ($('#join_yn').prop("checked")) {
+				$("#div_account").show();
+				$("#phone_verify").show();
+			}
+
+			$('#join_yn').on("change", function () {
+				if (this.checked) {
+					$("#div_account").show();
+					$("#phone_verify").show();
+				}
+				else {
+					$("#div_account").hide();
+					$("#phone_verify").hide();
+				}
+
+			});
+		});
+
+		//아이디 중복확인
+		function id_check(frm, frm_str) {
+			if (!frm.id.value) {
+				frm.id.focus();
+				return;
+			}
+			if (frm.id.value.length < 4) {
+				alert('아이디는 4자 이상 사용이 가능합니다.')
+				frm.id.focus();
+				return;
+
+			}
+			var pattern = /(^([a-z0-9]+)([a-z0-9_]+$))/;
+			if (!pattern.test(frm.id.value)) {
+				document.getElementById('id_html').innerHTML = '올바른 회원아이디 형식이 아닙니다.';
+				frm.id_status.value = ''
+				frm.id.value = ''
+				frm.id.focus();
+				return
+			}
+			else
+				document.getElementById('id_html').innerHTML = '';
+			$.ajax({
+				type: "POST",
+				url: "../ajax/ajax.php",
+				data: {
+					id_che: frm.id.value,
+					id_che_form: frm_str
+				},
+				success: function (data) { $("#ajax_div").html(data) }
+			})
+		}
+
+		//비밀번호 재확인
+		function pwd_cfm_check(i) {
+			if ($('#join_yn').prop("checked")) {
+				if (!document.getElementsByName('pwd_cfm')[i].value) return;
+				if (document.getElementsByName('pwd_cfm')[i].value != document.getElementsByName('pwd')[i].value) {
+					$($(".pwd_cfm_html")[i]).html("두번 입력한 비밀번호가 틀립니다.");
+					document.getElementsByName('pwd_status')[i].value = '';
+					document.getElementsByName('pwd_cfm')[i].focus();
+					return
+				}
+				else {
+					document.getElementsByName('pwd_status')[i].value = 'ok';
+					$($(".pwd_cfm_html")[i]).html("");
+				}
+			}
+
+
+		}
+	</script>
+	<div id="table" class="form-body">
+							
+
+
+
+
+
+
+
+
+
+
+						<form id="dform1" name="dform1" method="post" action="https://btss.kiam.kr/event/event.html?pcode=utBvbWMuNk&amp;sp=utBvbWMuNk" onsubmit="return checkForm()">
+				<input type="hidden" name="mode" value="speech">
+				<input type="hidden" name="pcode" value="utBvbWMuNk">
+				<input type="hidden" name="event_code" value="utBvbWMuNk">
+				<input type="hidden" name="m_id" value="iydtc">
+				<input type="hidden" name="event_idx" value="6829">
+				<input type="hidden" id="id_reg" name="id_reg" value="0">
+				<input type="hidden" id="email_reg" name="email_reg" value="0">
+				<input type="hidden" id="nick_reg" name="nick_reg" value="0">
+				<input type="hidden" id="landing_idx" name="landing_idx" value="">
+
+
+				<div id="apply" class="common-wrap" style="align:center;margin-top: 20px;max-width:600px;">
+					<!-- 신청하기 -->
+					<div class="container" style="width: 100%;">
+						<div class="row" style="margin: 0px;">
+							<div class="col-12">
+								<div class="inner-wrap">
+									<h2 class="title">
+										<!--<em>-->
+																				사은품 공급 신청하기																				<!--</em>-->
+									</h2>
+
+									<section class="input-field">
+										<h3 class="title">1. 기본정보 입력(e프로필 생성)</h3>
+										<div class="utils clearfix">
+											<span class="notice">회원가입과 동시에 e프로필이 생성됩니다.</span>
+											<a href="javascript:;" onclick="load_userinfo()" class="button">회원정보 가져오기(기존회원)</a> 
+										</div>
+										
+
+										<div class="form-wrap">
+											<div id="div_account" style="display:none">
+												<div class="attr-row ">
+													<div class="attr-name">아이디</div>
+													<div class="attr-value">
+														<div class="input-wrap">
+															<input type="text" id="id" name="id" value="" placeholder="6-15자로 입력하세요." style="width:90%; height:40px; border:1px #cacaca solid;font-size: 14px;">
+															<input type="button" style="margin: 5px;" value="중복확인" class="button is-grey" onclick="id_check(dform1,&#39;dform1&#39;)">
+															<span id="id_html" style="width: 60px;"></span>
+															<input type="hidden" name="id_status" value="" itemname="아이디중복확인" required="">
+															&nbsp;&nbsp; ※ 아이디 중복확인을 클릭해주세요.
+
+														</div>
+													</div>
+												</div>
+												<div class="attr-row ">
+													<div class="attr-name">비밀번호</div>
+													<div class="attr-value">
+														<div class="input-wrap">
+															<input type="password" id="pwd" name="pwd" style="width:90%; height:40px; border:1px #cacaca solid;font-size: 14px;" value="">
+														</div>
+													</div>
+												</div>
+												<div class="attr-row ">
+													<div class="attr-name">비번확인</div>
+													<div class="attr-value">
+														<div class="input-wrap">
+															<input type="password" onblur="pwd_cfm_check(&#39;0&#39;)" name="pwd_cfm" value="" style="width:90%; height:40px; border:1px #cacaca solid;font-size: 14px;">
+															<input type="hidden" name="pwd_status" value="">
+														</div>
+													</div>
+
+												</div>
+												<div class="pwd_cfm_html"></div>
+
+											</div>
+											<div class="attr-row is-account">
+												<div class="attr-name">이름</div>
+												<div class="attr-value">
+													<div class="input-wrap">
+														<input type="text" name="name" style="width:90%; height:40px; border:1px #cacaca solid;font-size: 14px;" id="name" value="">
+
+													</div>
+												</div>
+											</div>
+											<div class="attr-row is-phone">
+												<div class="attr-name">휴대폰</div>
+												<div class="attr-value">
+													<div class="input-wrap">
+														<input type="tel" name="mobile" style="width:90%; height:40px; border:1px #cacaca solid;font-size: 14px;" id="tel" onblur="checkPhon()" value="" placeholder="&#39;-&#39;를 빼고 입력하세요(예 : 01012345678)">
+													</div>
+												</div>
+											</div>
+											
+																																																							
+
+
+																						
+											<div class="attr-row is-account">
+
+												<div class="attr-name">신청행사</div>
+												<div class="attr-value">
+													<div class="input-wrap" style="font-size: 14px;">
+														사은품 공급 신청하기														<input type="hidden" name="sp" style="width:90%; height:40px; border:1px #cacaca solid;" id="sp" value="utBvbWMuNk" readonly="">
+
+													</div>
+												</div>
+											</div>
+											<div class="apply inner-wrap agreement-field">
+												<div class="agreement-wrap">
+													<div class="agreement-item">
+														<div class="check-wrap">
+															<input type="checkbox" name="agree" id="agree" value="Y">
+															<label for="agree" style="font-size: 14px;">개인정보이용동의</label>
+														</div>
+														<a href="https://btss.kiam.kr/event/event.html?pcode=utBvbWMuNk&amp;sp=utBvbWMuNk#" onclick="newpop_(&#39;terms.php&#39;)">전문보기</a>
+													</div>
+												</div>
+											</div>
+
+											<!--        <div class="button-wrap">
+
+	                                <input align="middle" src="pop_btn_regist3.png" type="image" class="button is-grey" value="신청하기" />
+								</div>  -->
+
+											<div class="agreement-field">
+												<div class="agreement-wrap">
+																										<div class="agreement-item">
+
+														초대 안내<br>
+<br>
+1) 초대 일시 : 2022년 10월 25일, 화, 14-17시<br>
+<br>
+2) 초대 장소 : 송파구 올림픽대로 342, 아울타워 7층<br>
+<br>
+3) 참여 방법 : 아래 신청창에 신청해주세요. 장소 인원 초과시 다음 모임으로 안내합니다.<br>
+<br>
+4) 모임 순서 : 상품공급배경, 적금상품안내, 사은품/공동구매 안내, 질문응답<br>
+<br>
+5) 초대 기관 : 소상공인홍보지원센터
+													</div>
+
+												</div>
+																							</div>
+											
+											<div class="button-wrap">
+												<input align="middle" src="./event2_files/pop_btn_regist3.png" type="image" class="button is-grey" value="신청하기">
+											</div>
+
+									</div></section>
+
+
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div><!-- // 신청하기 끝 -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+				<div id="ajax_div" style="display:none"></div>
+			</form>
+			<script>
+
+				function viewEvent(str) {
+					window.open(str, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=200,left=200,width=1000,height=1000");
+
+				}
+				function newpop_(str) {
+					window.open(str, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=200,left=200,width=1000,height=350");
+
+				}
+			</script>
+			<script>
+				function newpop() {
+					var win = window.open("/mypage_lecture_list_pop.php?landing_idx=", "event_pop", "toolbar=yes,scrollbars=yes,resizable=yes,top=200,left=200,width=1000,height=1000");
+
+				}
+				$(function () {
+					$('.area_view').on('click', function () {
+						if ($(this).text().length > 10) {
+							if ($(this).css("overflow-y") == "hidden") {
+								$(this).css("overflow-y", "auto");
+								$(this).css("height", "80px");
+
+							} else {
+								$(this).css("overflow-y", "hidden");
+								$(this).css("height", "45px");
+							}
+						}
+					});
+
+					$('.searchBtn').on("click", function () {
+						newpop();
+					});
+				})
+				var saveChk = false;
+				$(function () {
+					$('#saveBtn').on("click", function () {
+
+						if ($('#lecture_id').val() == "") {
+							alert('강의를 선택해 주세요.');
+							$('#lecture_id').focus();
+							return;
+						}
+
+						if ($('#content').val() == "") {
+							alert('리뷰내용을 선택해 주세요.');
+							$('#content').focus();
+							return;
+						}
+						if (saveChk == false) {
+							saveChk = true;
+							$.ajax({
+								type: "POST",
+								url: "/mypage.proc.php",
+								data: {
+									mode: "review_save",
+									score: $('input[name=score]:checked').val(),
+									lecture_id: $('#lecture_id').val(),
+									content: $('#content').val(),
+									profile: $('#profile').val()
+								},
+								success: function (data) {
+
+									alert('리뷰가 등록되었습니다.');
+									saveChk = false;
+									location.reload();
+								}
+							});
+						}
+					});
+					/*
+					$('.copyLinkBtn').bind("click", function() {
+					var trb = $(this).data("link");
+					var IE=(document.all)?true:false;
+					if (IE) {
+					if(confirm("이 링크를 복사하시겠습니까?")) {
+					window.clipboardData.setData("Text", trb);
+					}
+					} else {
+					temp = prompt("Ctrl+C를 눌러 클립보드로 복사하세요", trb);
+					}
+					});
+					$('.switch').on("change", function() {
+					var no = $(this).find("input[type=checkbox]").val();
+					var status = $(this).find("input[type=checkbox]").is(":checked")==true?"Y":"N";
+							$.ajax({
+								type:"POST",
+								url:"mypage.proc.php",
+								data:{
+									mode:"land_update_status",
+									landing_idx:no,
+									status:status,
+									},
+								success:function(data){
+								//alert('신청되었습니다.');location.reload();
+								}
+								})
+		
+					//console.log($(this).find("input[type=checkbox]").is(":checked"));
+					//console.log($(this).find("input[type=checkbox]").val());
+					});
+					*/
+				})
+
+
+			</script>
+		</div>
+		<div id="floating-menu">
+			<ul>
+							</ul>
+		</div>
+		<div id="contents_report_modal" class="modal fade in" tabindex="-1" role="dialog" aria-hidden="false">
+			<div class="modal-dialog modal-sm" role="document" style="width:100%;max-width:500px;">
+				<div class="modal-content">
+					<div>
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+							<img src="./event2_files/icon_close.png" style="width:24px" class="close" data-dismiss="modal" aria-hidden="true">
+						</button>
+					</div>
+					<div class="modal-title" style="width:100%;font-size:18px;text-align: center;color:black;border-bottom: 1px solid #c8c9c8;">
+						<label style="padding:15px 0px">신고 항목 선택하기</label>
+					</div>
+					<div class="modal-header" style="text-align:left;">
+						<span style="font-size:15px;margin-bottom:15px;">아래 항목을 선택하거나 하단에 직접 입력하기에 신고내용을 입력해주세요.</span>
+						<div>
+							<input type="checkbox" name="report_title" value="1" id="sex">
+							<label for="sex">성관련 정보</label>
+						</div>
+						<div>
+							<input type="checkbox" name="report_title" value="2" id="force">
+							<label for="force">폭력물 정보</label>
+						</div>
+						<div>
+							<input type="checkbox" name="report_title" value="3" id="worry">
+							<label for="worry">괴롭힘 정보</label>
+						</div>
+						<div>
+							<input type="checkbox" name="report_title" value="4" id="ownkill">
+							<label for="ownkill">자살 자해 정보</label>
+						</div>
+						<div>
+							<input type="checkbox" name="report_title" value="3" id="wrong">
+							<label for="wrong">왜곡 거짓 정보</label>
+						</div>
+						<div>
+							<input type="checkbox" name="report_title" value="3" id="spam">
+							<label for="spam">불법 스팸성 정보</label>
+						</div>
+						<div>
+							<input type="checkbox" name="report_title" value="3" id="unaccept">
+							<label for="unaccept">무허가 판매 정보</label>
+						</div>
+						<div>
+							<input type="checkbox" name="report_title" value="3" id="dislike">
+							<label for="dislike">혐오 발언 정보</label>
+						</div>
+						<input type="hidden" name="content_idx_report" id="content_idx_report" value="2972093">
+					</div>
+					<div class="modal-body" style="text-align:center;">
+						<span style="font-size:15px;">신고내용 설명하기</span>
+						<textarea id="report_desc_msg" style="width: 100%;border: 1px solid #b5b5b5;height: 100px;margin-bottom: 14px;" placeholder="신고내용을 입력해주세요. 특정 게시자를 괴롭히는 무작위 신고를 제한하기 위해 연락처를 기재하는 경우 답변을 전송해드립니다."></textarea>
+						<textarea id="reporter_phone_num" style="width: 100%;border: 1px solid #b5b5b5;height: 30px;margin-bottom: 14px;" placeholder="연락처(휴대폰)을 입력해주시면 답변 결과를 문자로 보내드립니다."></textarea>
+					</div>
+					<div class="modal-footer" style="text-align: center;padding:0px;">
+						<button type="button" class="btn-link" style="width: 50%;background: #c8c9c8;color: #6e6a6a;padding: 10px 0px;text-align: center;" onclick="set_report()">신고내용 전송하기</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="./event2_files/slick.min.js.다운로드"></script>
+		<script>
+			$('[data-scroll]').on('click', function (e) {
+				e.preventDefault();
+
+				var w = $(this).data('scroll');
+				w = $('#' + w).offset().top;
+
+				$('html, body').animate({
+					scrollTop: w
+				}, 300)
+			});
+
+			function set_report_contents(cont_idx){
+				$("#contents_report_modal").modal("show");
+			}
+
+			function set_block_contents(){
+				if(confirm("이 콘텐츠를 차단하시겠습니까?")){
+					alert('차단 되었습니다.');
+				}
+			}
+
+			$(function () {
+				$('#reviewSlider').slick({
+					infinite: true,
+					slidesToShow: 4,
+					slidesToScroll: 1,
+					appendArrows: $('.slide-arrows'),
+					prevArrow: '<button type="button" class="arrow prev"><i class="fa fa-angle-left" aria-hidden="true"></i></button>',
+					nextArrow: '<button type="button" class="arrow next"><i class="fa fa-angle-right" aria-hidden="true"></i></button>',
+					responsive: [
+						{
+							breakpoint: 1024,
+							settings: {
+								slidesToShow: 3,
+							}
+						},
+						{
+							breakpoint: 767,
+							settings: {
+								slidesToShow: 2,
+							}
+						}
+					]
+				});
+			});
+
+			function email_check() {
+				if (!documentgetElementById("email").value.includes('@')) {
+					alert('이메일 형식에 맞게 입력해주세요.');
+					document.getElementById("email").value = "";
+				}
+			}
+
+			function checkPhon() {
+				if (document.getElementById("tel").value.substring(0, 3) != '010' && ($('#tel').val()).substring(0, 3) != '011' && ($('#tel').val()).substring(0, 3) != '016' && ($('#tel').val()).substring(0, 3) != '017' && ($('#tel').val()).substring(0, 3) != '018' && ($('#tel').val()).substring(0, 3) != '019') {
+					alert('전화번호 첫번째 자리는 010, 011, 016, 017, 018, 019만 가능합니다.');
+					document.getElementById("tel").value = "";
+					return;
+				}
+			}
+
+			function load_userinfo() {
+				$.ajax({
+					type: "GET",
+					url: "https://kiam.kr/ajax/event.userinfo.php",
+					cache: false,
+					dataType: "json",
+					success: function (data) {
+						if (data.result == "success") {
+							$('input[name =name]').val(data.card_name);
+							$('input[name =mobile]').val(data.card_phone);
+							$('input[name =email]').val(data.card_email);
+							$('input[name =addr]').val(data.card_addr);
+							$('input[name =birthday]').val(data.card_birth);
+							$('input[name =job]').val(data.card_company);
+						}
+						else {
+							location.href = "https://kiam.kr/m/login.php?refer2=https://j.mp/3iTpRqj";
+						}
+					}
+				});
+			}
+			function chk_sms() {
+				console.log($('#tel').val().substring(0, 3));
+				if ($('#tel').val() == "") {
+					alert('인증받으실 전화번호를 입력해주세요.')
+					return;
+				}
+				if (($('#tel').val()).substring(0, 3) != '010' && ($('#tel').val()).substring(0, 3) != '011' && ($('#tel').val()).substring(0, 3) != '016' && ($('#tel').val()).substring(0, 3) != '017' && ($('#tel').val()).substring(0, 3) != '018' && ($('#tel').val()).substring(0, 3) != '019') {
+					alert('전화번호 첫번째 자리는 010, 011, 016, 017, 018, 019만 가능합니다.')
+					return;
+				}
+				if (($('#tel').val()).length < 11 || ($('#tel').val()).length > 12) {
+					alert('인증받으실 전화번호를 확인해주세요.')
+					return;
+				}
+
+				$.ajax({
+					type: "POST",
+					url: "/ajax/event.proc.php",
+					cache: false,
+					dataType: "json",
+					data: {
+						mode: "send_sms",
+						rphone: $('#tel').val()
+					},
+					success: function (data) {
+						if (data.result == "success")
+							$('#check_rnum').val("Y");
+						else
+							$('#check_rnum').val("");
+
+						alert(data.msg);
+					}
+				})
+			}
+		</script>
+ <script language="javascript">
+    function checkUrl() {
+        if($('#store_address').val() == "") {
+            alert('샵계정을 입력해주세요');
+            return;
+        }        
+        $('#viewFrame').html('<iframe id="sample_frame"  name="sample_frame" src="/admin/iam_auto_make_check_.php?memid='+$('#store_address').val()+'" style="width: 400px; height: 1200px; border-width: 1px; border-style: solid; border-color: gray;"></iframe>');
+    }
+    
+    function hideFrame() {
+        $('#sample_frame').remove();
+    }
+    
+    function sendId() {
+        if($('#mem_id').val() == "") {
+            alert('샵계정을 입력해주세요');
+            return;
+        }
+        if($('#rphone').val() == "") {
+            alert('휴대폰을 입력해주세요');
+            return;            
+        }        
+        $.ajax({
+				url: '/ajax/join.proc.php',
+				type: 'POST',
+				dataType:"json",
+				data: {"mode":"send_sms2","mem_id":$('#mem_id').val(), "rphone":$('#rphone').val()},
+				success: function (data) {
+					 alert(data.msg);
+				}
+			});        
+    }
+ </script>
+ 		
+
+
+
+</body></html>

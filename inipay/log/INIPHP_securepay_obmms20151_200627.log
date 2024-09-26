@@ -1,0 +1,245 @@
+INFO	[2020-06-27 15:10:22:640] <5626> START INIPHP chkfake (V5036-141209)(OS:Linux2.6.18-274.3.1.el5,PHP:5.2.9)
+DEBUG	[2020-06-27 15:10:22:657] <5626> inipayhome:/home/ilearning3/www/inipay
+DEBUG	[2020-06-27 15:10:22:657] <5626> type:chkfake
+DEBUG	[2020-06-27 15:10:22:657] <5626> debug:true
+DEBUG	[2020-06-27 15:10:22:657] <5626> enctype:asym
+DEBUG	[2020-06-27 15:10:22:657] <5626> admin:1111
+DEBUG	[2020-06-27 15:10:22:657] <5626> checkopt:false
+DEBUG	[2020-06-27 15:10:22:657] <5626> mid:obmms20151
+DEBUG	[2020-06-27 15:10:22:657] <5626> price:550000
+DEBUG	[2020-06-27 15:10:22:657] <5626> nointerest:no
+DEBUG	[2020-06-27 15:10:22:657] <5626> quotabase:ÏùºÏãúÎ∂à
+INFO	[2020-06-27 15:10:22:657] <5626> Check Field OK
+INFO	[2020-06-27 15:10:22:709] <5626> MERCHANT PRIV KEY LOAD OK
+INFO	[2020-06-27 15:10:22:731] <5626> MERCHANT PUB KEY LOAD OK []
+INFO	[2020-06-27 15:10:22:734] <5626> CHKFAKE KEY MAKE OK:MjAyMDA2MjcxNTEwMjI3MzIzNDk4Nw==
+
+INFO	[2020-06-27 15:10:22:734] <5626> END chkfake  Laptime:[0.1sec]
+INFO	[2020-06-27 15:10:22:734] <5626> ===============================================================
+INFO	[2020-06-27 15:17:59:236] <9836> START INIPHP chkfake (V5036-141209)(OS:Linux2.6.18-274.3.1.el5,PHP:5.2.9)
+DEBUG	[2020-06-27 15:17:59:236] <9836> inipayhome:/home/ilearning3/www/inipay
+DEBUG	[2020-06-27 15:17:59:236] <9836> type:chkfake
+DEBUG	[2020-06-27 15:17:59:236] <9836> debug:true
+DEBUG	[2020-06-27 15:17:59:236] <9836> enctype:asym
+DEBUG	[2020-06-27 15:17:59:236] <9836> admin:1111
+DEBUG	[2020-06-27 15:17:59:236] <9836> checkopt:false
+DEBUG	[2020-06-27 15:17:59:236] <9836> mid:obmms20151
+DEBUG	[2020-06-27 15:17:59:236] <9836> price:550000
+DEBUG	[2020-06-27 15:17:59:236] <9836> nointerest:no
+DEBUG	[2020-06-27 15:17:59:236] <9836> quotabase:ÏùºÏãúÎ∂à
+INFO	[2020-06-27 15:17:59:236] <9836> Check Field OK
+INFO	[2020-06-27 15:17:59:237] <9836> MERCHANT PRIV KEY LOAD OK
+INFO	[2020-06-27 15:17:59:237] <9836> MERCHANT PUB KEY LOAD OK []
+INFO	[2020-06-27 15:17:59:238] <9836> CHKFAKE KEY MAKE OK:MjAyMDA2MjcxNTE3NTkyMzczODcxNA==
+
+INFO	[2020-06-27 15:17:59:238] <9836> END chkfake  Laptime:[0sec]
+INFO	[2020-06-27 15:17:59:238] <9836> ===============================================================
+INFO	[2020-06-27 15:19:00:451] <21226> START INIPHP chkfake (V5036-141209)(OS:Linux2.6.18-274.3.1.el5,PHP:5.2.9)
+DEBUG	[2020-06-27 15:19:00:451] <21226> inipayhome:/home/ilearning3/www/inipay
+DEBUG	[2020-06-27 15:19:00:451] <21226> type:chkfake
+DEBUG	[2020-06-27 15:19:00:451] <21226> debug:true
+DEBUG	[2020-06-27 15:19:00:451] <21226> enctype:asym
+DEBUG	[2020-06-27 15:19:00:451] <21226> admin:1111
+DEBUG	[2020-06-27 15:19:00:451] <21226> checkopt:false
+DEBUG	[2020-06-27 15:19:00:451] <21226> mid:obmms20151
+DEBUG	[2020-06-27 15:19:00:451] <21226> price:550000
+DEBUG	[2020-06-27 15:19:00:451] <21226> nointerest:no
+DEBUG	[2020-06-27 15:19:00:451] <21226> quotabase:ÏùºÏãúÎ∂à
+INFO	[2020-06-27 15:19:00:451] <21226> Check Field OK
+INFO	[2020-06-27 15:19:00:452] <21226> MERCHANT PRIV KEY LOAD OK
+INFO	[2020-06-27 15:19:00:452] <21226> MERCHANT PUB KEY LOAD OK []
+INFO	[2020-06-27 15:19:00:453] <21226> CHKFAKE KEY MAKE OK:MjAyMDA2MjcxNTE5MDA0NTI5NDkwNQ==
+
+INFO	[2020-06-27 15:19:00:453] <21226> END chkfake  Laptime:[0sec]
+INFO	[2020-06-27 15:19:00:453] <21226> ===============================================================
+INFO	[2020-06-27 15:23:20:538] <24402> START INIPHP securepay (V5036-141209)(OS:Linux2.6.18-274.3.1.el5,PHP:5.2.9)
+DEBUG	[2020-06-27 15:23:20:538] <24402> inipayhome:/home/ilearning3/www/inipay
+DEBUG	[2020-06-27 15:23:20:538] <24402> type:securepay
+DEBUG	[2020-06-27 15:23:20:538] <24402> pgid:INIphpCARD
+DEBUG	[2020-06-27 15:23:20:538] <24402> subpgip:203.238.3.10
+DEBUG	[2020-06-27 15:23:20:538] <24402> admin:1111
+DEBUG	[2020-06-27 15:23:20:538] <24402> debug:true
+DEBUG	[2020-06-27 15:23:20:538] <24402> uid:
+DEBUG	[2020-06-27 15:23:20:538] <24402> goodname:Business-≥‚∞£∞·¡¶
+DEBUG	[2020-06-27 15:23:20:538] <24402> currency:WON
+DEBUG	[2020-06-27 15:23:20:538] <24402> mid:obmms20151
+DEBUG	[2020-06-27 15:23:20:538] <24402> rn:MjAyMDA2MjcxNTE5MDA0NTI5NDkwNQ==
+
+DEBUG	[2020-06-27 15:23:20:538] <24402> price:550000
+DEBUG	[2020-06-27 15:23:20:538] <24402> enctype:
+DEBUG	[2020-06-27 15:23:20:538] <24402> buyername:¿Ø∞«Ωƒ
+DEBUG	[2020-06-27 15:23:20:538] <24402> buyertel:010-9948-8051
+DEBUG	[2020-06-27 15:23:20:538] <24402> buyeremail:kenyoo21@gmail.com
+DEBUG	[2020-06-27 15:23:20:538] <24402> paymethod:Card
+DEBUG	[2020-06-27 15:23:20:538] <24402> encrypted:Version=4.1&PayMethod=Card&RsaKeyNum=1&EncryptionAlgorithm=SEED-CBC&SignAlgorithm=RSAwithSHA1&CertVer=39&moid=14731_200627031900&ver_trace=main(6109,6065)card(6185,6158)n(6009)Cs(6025)Dt(6002)Pa(6002)Cf(6025)Fv(0000)La(6183)Re(6135)Vr(6008)P(6034)en(6070)nP(6006)&pg1=39.115.212.10&pg2=203.238.37.3&pg1ip=39.115.212.10&pg2ip=203.238.37.3&agreeflag=1111&Data=GwpVD9o7r3F+jpmQ5+1/5PnIWAcGk/VeGNKE9RjhJZhFPy3Y55gNf/HtTWN4R9u2
+PLGYKmq7xuGSt0VJoWxk2H/JkblLSKqCrMS0wzMrPiSI0lyOqvlb85Bv8d7M8SH8
+n8MSeXVYUYJURNaYgHDGeDpHAiWoVUaI3Cm4RHUoaBJruMfvod8LqXpsS+Sf+pno
+1kwm9SD7bfJB9guuWy6j363iT7CQfzl0tGxI9jUXWFcU4hJS7UA4dkJY0sCGfYzC
+GUHuWe22cdgYJrNI0+NPg5pw+CxFxzDxwsQcqWL7gp8PVAwQ7f4sTRdR77D9HblG
+Fs1gkuMk9nsaSr1U+gQmK8F3iJZTBFvzQEUG01CObBqS2DoFzXvVvCPD9+jVRhiM
+6UkwomxyXTgNIgWGX7AS58rFHZ0PiJGBqtJcZeMImWZfX25hWGEczVi5gaxHDbZJ
+GDSti71UNzv4gQziwyBhEZTLHIf0Fwtm6BA5kV1xVg0qxJUS/yR3BbOvPvJW/vuV
+kns8SaheF+4bspiO2/HvFXdXA4E8l7mCkYvOya/4MIzMLtS45S7j3F5AdawZXjkv
+VhBUNtVOhvSW8B7yOHcM8/TLPl92LeQuURkRJ8llrgtrtnlargfXWfK1zZlJFmez
+jZNOYddJXW3Yq4nwS5ZEmAbBE2kWSceAU7fdxYgac9tdG2Cz2WwZRWw38FjUPG0F
+JBbtl8mz78Id+s5Nm9rsjYeRurC57YF9aJ6eDuHqZ+qO5eMbscOJNewDDAcsluNz
+5fIhnlo/sznCyMggbfa9PQGIuCWk+eqsCzbJq9pGO6Z4MDUmp2yvt2YcMImJXukf
+fdiJnzDKE5xg
+DEBUG	[2020-06-27 15:23:20:538] <24402> sessionkey:YRlsAQmRcg0WLEffPrVEzisswiHI2dznsXVhJspuT590BMmazZHE3YUohdDxiXvC
+FJxGs/mGv8QRLvOrSFRi7x25JCays7QkDh9gA8bDbALKlkyXHqJXRiSai7dJCrDi
+eXGbU8O/evaDX0aL1IPLAx2QOBDDfDill028wsLwOHc=
+DEBUG	[2020-06-27 15:23:20:538] <24402> url:http://www.obmms.net
+DEBUG	[2020-06-27 15:23:20:538] <24402> cardcode:14
+DEBUG	[2020-06-27 15:23:20:538] <24402> parentemail:globangs@pionix.co.kr
+DEBUG	[2020-06-27 15:23:20:538] <24402> recvname:
+DEBUG	[2020-06-27 15:23:20:538] <24402> recvtel:
+DEBUG	[2020-06-27 15:23:20:538] <24402> recvaddr:
+DEBUG	[2020-06-27 15:23:20:538] <24402> recvpostnum:
+DEBUG	[2020-06-27 15:23:20:538] <24402> recvmsg:
+DEBUG	[2020-06-27 15:23:20:538] <24402> joincard:
+DEBUG	[2020-06-27 15:23:20:538] <24402> joinexpire:
+DEBUG	[2020-06-27 15:23:20:538] <24402> id_customer:
+INFO	[2020-06-27 15:23:20:538] <24402> Check Field OK
+INFO	[2020-06-27 15:23:20:539] <24402> Make TID OK INIphpCARDobmms2015120200627152320394487
+INFO	[2020-06-27 15:23:20:539] <24402> PI PUB KEY LOAD OK [39]
+INFO	[2020-06-27 15:23:20:564] <24402> PG PUB KEY LOAD OK [30]
+INFO	[2020-06-27 15:23:20:564] <24402> MERCHANT PRIV KEY LOAD OK
+INFO	[2020-06-27 15:23:20:564] <24402> MERCHANT PUB KEY LOAD OK [0]
+INFO	[2020-06-27 15:23:20:567] <24402> MAKE BODY OK
+INFO	[2020-06-27 15:23:20:569] <24402> SIGN OK
+INFO	[2020-06-27 15:23:20:569] <24402> MAKE HEAD OK
+INFO	[2020-06-27 15:23:20:569] <24402> MSG_TO_PG:[0293800175R SHA1                   0                  39                  300200obmms20151              550000INIphpCARDobmms2015120200627152320394487<?xml version="1.0" encoding="UTF-8"?>
+<INIpay>
+	  <GoodsInfo>
+	    <GoodsCnt>1</GoodsCnt>
+	    <MOID/>
+	    <Currency>WON</Currency>
+	    <Tax/>
+	    <TaxFree/>
+	    <Goods>
+	      <SMID>obmms20151</SMID>
+	      <GoodsName urlencode="1">Business-%B3%E2%B0%A3%B0%E1%C1%A6</GoodsName>
+	      <GoodsPrice>550000</GoodsPrice></Goods></GoodsInfo>
+	  <BuyerInfo>
+	    <BuyerName urlencode="1">%C0%AF%B0%C7%BD%C4</BuyerName>
+	    <BuyerTel>010-9948-8051</BuyerTel>
+	    <BuyerEmail urlencode="1">kenyoo21%40gmail.com</BuyerEmail>
+	    <ParentEmail urlencode="1">globangs%40pionix.co.kr</ParentEmail>
+	    <RecvName/>
+	    <RecvTel/>
+	    <RecvMsg/>
+	    <RecvAddr/>
+	    <RecvPostNum/></BuyerInfo>
+	  <PaymentInfo>
+	    <Payment>
+	      <PayMethod>Card</PayMethod>
+	      <JoinCard/>
+	      <JoinExpire/>
+	      <MailOrder/>
+	      <SessionKey>YRlsAQmRcg0WLEffPrVEzisswiHI2dznsXVhJspuT590BMmazZHE3YUohdDxiXvC
+FJxGs/mGv8QRLvOrSFRi7x25JCays7QkDh9gA8bDbALKlkyXHqJXRiSai7dJCrDi
+eXGbU8O/evaDX0aL1IPLAx2QOBDDfDill028wsLwOHc=</SessionKey>
+	      <Encrypted urlencode="1">Version%3D4.1%26PayMethod%3DCard%26RsaKeyNum%3D1%26EncryptionAlgorithm%3DSEED-CBC%26SignAlgorithm%3DRSAwithSHA1%26CertVer%3D39%26moid%3D14731_200627031900%26ver_trace%3Dmain%286109%2C6065%29card%286185%2C6158%29n%286009%29Cs%286025%29Dt%286002%29Pa%286002%29Cf%286025%29Fv%280000%29La%286183%29Re%286135%29Vr%286008%29P%286034%29en%286070%29nP%286006%29%26pg1%3D39.115.212.10%26pg2%3D203.238.37.3%26pg1ip%3D39.115.212.10%26pg2ip%3D203.238.37.3%26agreeflag%3D1111%26Data%3DGwpVD9o7r3F%2BjpmQ5%2B1%2F5PnIWAcGk%2FVeGNKE9RjhJZhFPy3Y55gNf%2FHtTWN4R9u2%0D%0APLGYKmq7xuGSt0VJoWxk2H%2FJkblLSKqCrMS0wzMrPiSI0lyOqvlb85Bv8d7M8SH8%0D%0An8MSeXVYUYJURNaYgHDGeDpHAiWoVUaI3Cm4RHUoaBJruMfvod8LqXpsS%2BSf%2Bpno%0D%0A1kwm9SD7bfJB9guuWy6j363iT7CQfzl0tGxI9jUXWFcU4hJS7UA4dkJY0sCGfYzC%0D%0AGUHuWe22cdgYJrNI0%2BNPg5pw%2BCxFxzDxwsQcqWL7gp8PVAwQ7f4sTRdR77D9HblG%0D%0AFs1gkuMk9nsaSr1U%2BgQmK8F3iJZTBFvzQEUG01CObBqS2DoFzXvVvCPD9%2BjVRhiM%0D%0A6UkwomxyXTgNIgWGX7AS58rFHZ0PiJGBqtJcZeMImWZfX25hWGEczVi5gaxHDbZJ%0D%0AGDSti71UNzv4gQziwyBhEZTLHIf0Fwtm6BA5kV1xVg0qxJUS%2FyR3BbOvPvJW%2FvuV%0D%0Akns8SaheF%2B4bspiO2%2FHvFXdXA4E8l7mCkYvOya%2F4MIzMLtS45S7j3F5AdawZXjkv%0D%0AVhBUNtVOhvSW8B7yOHcM8%2FTLPl92LeQuURkRJ8llrgtrtnlargfXWfK1zZlJFmez%0D%0AjZNOYddJXW3Yq4nwS5ZEmAbBE2kWSceAU7fdxYgac9tdG2Cz2WwZRWw38FjUPG0F%0D%0AJBbtl8mz78Id%2Bs5Nm9rsjYeRurC57YF9aJ6eDuHqZ%2BqO5eMbscOJNewDDAcsluNz%0D%0A5fIhnlo%2FsznCyMggbfa9PQGIuCWk%2BeqsCzbJq9pGO6Z4MDUmp2yvt2YcMImJXukf%0D%0AfdiJnzDKE5xg</Encrypted></Payment></PaymentInfo>
+	  <ReservedInfo>
+	    <MReserved1/>
+	    <MReserved2/>
+	    <MReserved3/></ReservedInfo>
+	  <ManageInfo>
+	    <Language/>
+	    <URL urlencode="1">http%3A%2F%2Fwww.obmms.net</URL>
+	    <TXVersion>5036B141209securLinux     PHPchkfake   2.6.18-274.3.1.el5PHP:5.2.9   </TXVersion>
+	    <TXUserID/>
+	    <TXRegNum/>
+	    <Ack>1</Ack>
+	    <TXRN>MjAyMDA2MjcxNTE5MDA0NTI5NDkwNQ==
+</TXRN></ManageInfo></INIpay>AC0fgRMzG71LwrxR4xfVKda6wYlWnhfDpbSLPXgfRJnd0AYnaq5gbyZWQl4joT7+
+Zoc43Z5kBcBX8qpNJiQNAKv4GdnOnusyYMYsvnTApjl5ECIxksAo2U4AqMxlwdDT
+ZsouUTvuGh5IUMi6oQvREXgiEO6mzqpjWOZ780Aoa0r/
+]
+INFO	[2020-06-27 15:23:20:570] <24402> DNS LOOKUP OK(39.115.212.10:39.115.212.10:34049) laptime:0
+INFO	[2020-06-27 15:23:20:572] <24402> SOCKET CONNECT OK
+INFO	[2020-06-27 15:23:20:572] <24402> SEND OK
+INFO	[2020-06-27 15:23:21:104] <24402> RECV OK
+INFO	[2020-06-27 15:23:21:104] <24402> MSG_FROM_PG:[0195300175D SHA1                   0                  39                  300210obmms20151              550000INIphpCARDobmms2015120200627152320394487<?xml version="1.0" encoding="UTF-8"?><INIpay>
+<GoodsInfo>
+<GoodsCnt>1</GoodsCnt>
+<MOID urlencode="1">14731_200627031900</MOID>
+<Currency>WON</Currency>
+<Goods no="1">
+<SMID>obmms20151</SMID>
+<GoodsName urlencode="1">Business-%B3%E2%B0%A3%B0%E1%C1%A6</GoodsName>
+<GoodsCntS>1</GoodsCntS>
+<GoodsPrice>550000</GoodsPrice>
+</Goods>
+</GoodsInfo>
+<PaymentInfo>
+<Payment>
+<SessionKey>ACN3HEUU3pz26E9uPHwH2eHpVK4gEhI9VwX+EmPVgw7BRdyrzjH2PQhbkYrN8aTt
+jRu7V+4Oz1I8SWIVtXHi9ZsBK4bWazWwOwymjiFerjSK1MIJLOdVglNuhZQ0sf6E
+u4GElEdYYUiitXNLZSq+IR5T9vvJy0/nX8y6NkIzDjhYvRYf/0LfvzU=
+</SessionKey>
+<Encrypted>9/4VA47Xn9T6CuPSFm2XmgK1M9uxj4EVR7tq8VCggxlS4wevjUIMRpK0k0eSs9rB
+lqO2cm2NvQh8KrfAxTXpOdHVFUgqajvrQcoCy7wJAgl7eiPrUsR0jHSMgqTpLB0R
+xE+/h6pknqGWU3SefzbXUhM7Ue0jHzxpoe7ML4M9hrB10I/h9agewvGneOBZMxBn
++a/BUL3YVJnJMZT9Uys4wDBvN2wtAhZH0EuFRSr13WpcDravmmsRaz9pLR4l+N/l
+fWxo8T57sPk/2/XeJ7tDUSLqAhDcF6Uc8K7k+gGXXafPquON1KLs4v8ZYHN+cXrY
+P++Tu/LkjNZ9m0yCnbTpt++UK+hVPsBMEcwS+/DeA7eIYkt/V48d/opg0BribeJW
+PdLlh3aYfidUbpVcxJDbyEtDQ54W6bgAyEpTzNtBF2gKPm9T4vPoJcA6QtRTkbt1
+/jk27GXtMbfQgTqPzqtuqEGzyOIDd9RljI7PBDkh/FruooAOJDD9WcUHkJIBSQ6F
+9Ov7gka7tq45U3DFKN3WruKhfzqTbKD0QYx2RUxL/CZVbMCJiuCxHu8ebjrrbOdF
+iq19QDRpwayv2VI4ewxCi053UrDRrQVh1HHsCxJVC8AIr1fj2PSyayAbKSmT3TYz
+e7MK1P3GLwEj3SD6ZYZjJ5Z6gjuldk5HR3Ih5fY5EpFfgPr1TFbmyl12INBs3O+8
+hr2ttfYUUo2dRGVgtPp2pIl35mgIBxfqSsO8GGOcO6cTGR/zSEaIySjVKTqMox9y
+sNE/lA8cv+H9hqy7uiMpZxzqm12c78Ulljok3jDvCMokbXKgVA7V7VGJhNROgwO8
+TkvrNjXdDeBPwr1X6e4+OqSBwGvEdQUYb/0veO28RfLPpCIeJg0ha3Wt/Gyj0xof
+pmEsJSUZWDIxPi4iuAgg50VmtN/AaUPZQZkgiyBiYd6J+1UbKzUhqiSN3/4ZJfuZ
+/JRz3O7KqEUUC/VpVHtfL90c0ZCSS4ROLRwEYI1aF9N5nfMF/oCl4w==
+</Encrypted>
+<PayMethod>Card</PayMethod>
+<ResultCode>120000</ResultCode>
+<ResultMsg urlencode="1">%C1%A4%BB%F3%C3%B3%B8%AE%B5%C7%BE%FA%BD%C0%B4%CF%B4%D9.</ResultMsg>
+</Payment>
+</PaymentInfo>
+<ManageInfo/>
+<ReservedInfo>
+<MReserved1 urlencode="1"/>
+<MReserved2 urlencode="1"/>
+<MReserved3 urlencode="1"/>
+</ReservedInfo>
+</INIpay>
+25l9Xs7kmAJLoazmnwocoVgbrwR4ipHGTdvnfMA/4aZbNF7BFKtfrhhclUdNQEAm
+iro36TMospq+vCK4vnJEjLRjdXTQ88HSKKr/IbuBYG6h5Fivmna8nWavDuybc7xh
+GOzmCDAkCPpKL/QaL4DT1mWsnyQvy3kxGjwaMhjdGvU=
+]
+INFO	[2020-06-27 15:23:21:104] <24402> VERIFY OK
+INFO	[2020-06-27 15:23:21:104] <24402> PARSE HEAD OK
+INFO	[2020-06-27 15:23:21:140] <24402> PARSE BODY OK
+INFO	[2020-06-27 15:23:21:155] <24402> DECRYPT OK
+DEBUG	[2020-06-27 15:23:21:155] <24402> DECRYPT MSG:[<?xml version="1.0" encoding="UTF-8"?><PaymentInfo>
+<Payment>
+<Card>
+<CARD_ApplPrice>550000</CARD_ApplPrice>
+<CARD_Num>49029841****2551</CARD_Num>
+<CARD_Code>14</CARD_Code>
+<CARD_BankCode>26</CARD_BankCode>
+<CARD_Quota>00</CARD_Quota>
+<CARD_Interest>0</CARD_Interest>
+<CARD_AuthType>99</CARD_AuthType>
+<CARD_ApplDate>20200627</CARD_ApplDate>
+<CARD_ApplTime>152319</CARD_ApplTime>
+<CARD_ApplNum>47464753</CARD_ApplNum>
+<CARD_TerminalNum>0208936000</CARD_TerminalNum>
+<CARD_ResultCode>120000</CARD_ResultCode>
+<CARD_ResultMsg urlencode="1">%C1%A4%BB%F3%C3%B3%B8%AE%B5%C7%BE%FA%BD%C0%B4%CF%B4%D9.</CARD_ResultMsg>
+<CARD_PrtcCode>1</CARD_PrtcCode>
+<CARD_Quota_Point>00</CARD_Quota_Point>
+<CARD_CheckFlag>0</CARD_CheckFlag>
+</Card>
+</Payment>
+</PaymentInfo>]
+INFO	[2020-06-27 15:23:21:156] <24402> DECRYPT PARSE OK
+INFO	[2020-06-27 15:23:21:157] <24402> WAIT ACK INVOKING
+DEBUG	[2020-06-27 15:23:21:157] <24402> MAKE HEAD OK
+INFO	[2020-06-27 15:23:21:161] <24402> SUCCESS ACK INVOKING
+INFO	[2020-06-27 15:23:21:161] <24402> END securepay ¡§ªÛ√≥∏Æµ«æ˙Ω¿¥œ¥Ÿ. Laptime:[0.62sec]
+INFO	[2020-06-27 15:23:21:161] <24402> ===============================================================

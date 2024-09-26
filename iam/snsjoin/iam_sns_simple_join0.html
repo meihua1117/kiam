@@ -1,0 +1,428 @@
+<html lang="ko" class="ua-win10 ua-chrome"><head>
+	
+	<!-- SEO 다국어 처리를 위한 Include 20170424 -->
+	
+
+	<title>회원가입 | 아이엠</title>
+	<meta name="description" content="아이엠과 온리원셀링솔루션의 회원가입을 환영합니다. 회원으로 가입하시면 다양한 서비스를 편리하게 이용하실 수 있습니다.">
+	<meta name="keywords" content="아이엠, 회원가입, 아이엠회원, 아이엠회원가입, 셀링솔루션회원가입하기, 간편회원가입, 내국인가입하기, 외국인가입하기, 어린이회원가입하기, 일반회원, 어린이회원,">
+	<meta http-equiv="content-type" content="text/html; charset=utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="google-site-verification" content="d2t7Qfm48cmakbPCq0UUsZnnlSCNUySVMZeOms-fOak">
+	
+	<meta name="autocomplete" content="off">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0">
+	<iframe src="javascript:void(0)" title="" style="width: 0px; height: 0px; border: 0px; display: none;"></iframe><script src="https://connect.facebook.net/signals/config/909087915818898?v=2.9.15&amp;r=stable" async=""></script><script async="" src="//connect.facebook.net/en_US/fbevents.js"></script><script async="" src="//connect.facebook.net/en_US/fbds.js"></script><script async="" src="//www.google-analytics.com/analytics.js"></script><script src="/jejuair/js/jquery/core/jquery-1.8.3.min.js" type="text/javascript"></script>
+	<script src="/jejuair/js/jquery/plugin/jquery.cookie.js" type="text/javascript"></script><!-- cookie -->
+	<script src="/jejuair/js/jquery/plugin/jquery.placeholder.js" type="text/javascript"></script><!-- placeholder -->
+	<script src="/jejuair/js/jquery/plugin/jquery.easing.1.3.js" type="text/javascript"></script>
+	<script src="/jejuair/js/jquery/ui/jquery-ui-1.10.4.custom.js" type="text/javascript"></script>
+	<script type="text/javascript" src="/jejuair/js/jquery/common/jeju.ibe.jquery.util.js"></script>		<!-- COMMON UTIL -->
+	<script src="/jejuair/js/common_var.js" type="text/javascript"></script>
+	<!-- 회원가입간소화 -->
+	<script src="/jejuair/js/easymember.js" type="text/javascript"></script>
+	<script src="/jejuair/js/common.js" type="text/javascript"></script>
+	<!-- //회원가입간소화 -->
+	<!--	==========================================================	-->
+	<!--	한국신용정보주식회사 처리 모듈 (수정 및 변경하지 마십시오)	-->
+	<!--	==========================================================	-->
+	<script type="text/javascript" src="https://secure.nuguya.com/nuguya/nice.nuguya.oivs.crypto.js"></script>
+	<script type="text/javascript" src="https://secure.nuguya.com/nuguya/nice.nuguya.oivs.msg.js"></script>
+	<script type="text/javascript" src="https://secure.nuguya.com/nuguya/nice.nuguya.oivs.util.js"></script>
+	
+	<script type="text/javascript">	
+		$(function() {
+			hostProtocolSwipe();
+		});
+		
+		function hostProtocolSwipe() {
+			var urlhost = window.location.host;
+			var urlptc = window.location.protocol;
+			var urlstr = window.location.pathname;
+			 
+			if (urlptc.replace(':', '') == 'http') {
+				document.location.href = "https://" + urlhost + urlstr;
+			}
+		}
+		
+		//다국어
+		var jsLang = "KR";
+		var channel = "HOMEPAGE";
+		var jsTopLoginCheck = "false";
+
+		if(jsTopLoginCheck == "true"){
+			alert("로그아웃 후 회원가입을 진행해 주세요.");
+			if(channel=="APP"){
+				MENU_OBJ.moveToPage('menu_home');
+			}else if(channel=="WEB"){
+				//jQuery('<form action="/jejuair/mobile/main.jsp" method="post" target="_self"></form>').appendTo('body').submit().remove();
+				document.location.href="/jejuair/mobile/main.jsp";
+			}else{
+				//jQuery('<form action="/jejuair/main.jsp" method="post" target="_self"></form>').appendTo('body').submit().remove();
+				document.location.href="/jejuair/kr/main.do";
+			}
+		}
+
+
+		if(channel=="APP"){
+			jsLang = PUBLIC_JS.getStorage("EXTERNAL_LANG");
+
+			//PREF_OBJ.setPreferenceObj();
+			//MENU_OBJ.moveToPage("menu_searchid");
+		}
+
+		 //아이핀 값 검증
+		 function validateIpin() {
+			var NiceId	  = document.getElementById( "NiceId" );
+			var PingInfo	= document.getElementById( "PingInfo" );
+			var ReturnURL   = document.getElementById( "ReturnURL" );
+
+			if (NiceId.value == "" ){
+				alert( getCheckMessage( "S60" ) );
+				NiceId.focus();
+				return false;
+			}
+			if (PingInfo.value == ""){
+				alert( getCheckMessage( "S61" ) );
+				return false;
+			}
+			if (ReturnURL.value == ""){
+				alert( getCheckMessage( "S64" ) );
+				ReturnURL.focus();
+				return false;
+			}
+			return true;
+		}
+
+		// 폼넘기기(아이핀으로 인증)
+		function goIpinSubmit() {
+			console.log("simpleMemberCheck : goIpinSubmit");
+			var form = document.frmInfo_ipin;
+			form.action = "https://www.jejuair.net/jejuair/kr/login/join/easyJoinRegForm.do";
+			$("input[name='language_type']").val(jsLang);
+			form.submit();
+		}
+		
+		function fn_snsLogin(type) {
+			
+			$("form[name='frmJoin']").attr("action", jsContextRoot + "/kr/login/join/simpleJoinCheck.do").submit();
+		}
+		function fn_snsLoginFail() {
+			alert("SNS 로그인에 실패했습니다."); 
+		}
+
+	</script>
+	
+	
+	<script type="text/javascript">
+		$(document).ready(function() {
+			var jsJsonUrl = "/jejuair" + "/json/login/join/easyMemberCheck.json";
+			var channel = "HOMEPAGE";
+			//!--- 화면 텍스트 가져오기 ---
+			//jsonData = $.cfn_getProgramScreenText(jsLang, jsJsonUrl);
+			
+			var lan = '{"title":"간편 SNS 회원가입","naverLb":"<span><i class=|naver|><\/i>네이버로 회원가입<\/span>","kakaoLb":"<span><i class=|kakao|><\/i>카카오로 회원가입<\/span>","googleLb":"<span><i class=|google|><\/i>구글로 회원가입<\/span>","facebookLb":"<span><i class=|facebook|><\/i>페이스북으로 회원가입<\/span>" "msgAlertSNSLoginFail":"SNS 로그인에 실패했습니다."}';
+	    	var langData = $.parseJSON(lan);
+	    	
+	    	for(key in langData){
+	    		langData[key] = langData[key].replace(/\|/gi, "\'");
+	    	}
+	    	jsonData = langData;
+	    	
+			
+			//!--- 가져온 텍스트 화면에 설정 ---
+			$.cfn_setProgramScreenText(jsonData);
+
+			// 에러메세지
+			var errMsg = $('#errorMsg');
+			
+			if("" == "N") {
+				alert("회원님은 제휴회원으로 가입되어있습니다. 제휴카드 및 기타 제휴사의 포인트 적립/전환 혜택 등을 이용하기 위해 휴대폰 인증 가입을 해주시기 바랍니다.");
+				
+				// 휴대폰 인증 가입 클릭
+// 				$("#goCtfCheck").trigger('click');
+				window.open('', 'popupChk', 'width=500, height=461, top=100, left=100, fullscreen=no, menubar=no, status=no, toolbar=no, titlebar=yes, location=no, scrollbar=no');
+	            document.reqIdentity.action = "https://check.namecheck.co.kr/checkplus_new_model4/checkplus.cb";
+	            document.reqIdentity.target = "popupChk";
+	            document.reqIdentity.submit();
+			}
+
+			//개인 실명 인증 - 최선혁 2013. 01. 07
+			//function goCtfCheck() {
+			$("#goCtfCheck").click(function(e) {
+				if(channel=="APP"){
+					document.reqIdentity.action = "https://check.namecheck.co.kr/checkplus_new_model4/checkplus.cb";
+					document.reqIdentity.target = "popupChk";
+					document.reqIdentity.submit();
+					openAuthFrame("open");
+				}else{
+					window.open('', 'popupChk', 'width=500, height=461, top=100, left=100, fullscreen=no, menubar=no, status=no, toolbar=no, titlebar=yes, location=no, scrollbar=no');
+		            document.reqIdentity.action = "https://check.namecheck.co.kr/checkplus_new_model4/checkplus.cb";
+		            document.reqIdentity.target = "popupChk";
+		            document.reqIdentity.submit();
+				}
+			});
+
+			//아이핀 인증
+			//function goIDCheckIpin() {
+			$("#goIDCheckIpin").click(function(e) {
+				//아이핀 모듈에 필요한 기초 세팅 확인
+				if ( validateIpin() == true ) {					
+					var strNiceId	= document.getElementById( "NiceId" ).value;
+					var strPingInfo  = document.getElementById( "PingInfo" ).value;
+					var strOrderNo   = document.getElementById( "OrderNo" ).value;
+					
+					var strInqRsn	= document.getElementById( "InqRsn" ).value;
+					var strReturnUrl = document.getElementById( "ReturnURL" ).value;
+					var strSIKey	 = document.getElementById( "SIKey" ).value;
+					
+					document.reqForm.SendInfo.value	= makeCertKeyInfoPA( strNiceId, strPingInfo, strOrderNo, strInqRsn, strReturnUrl, strSIKey );
+					document.reqForm.ProcessType.value = strPersonalCertKey;
+
+					if(channel=="APP"){
+						document.reqForm.target = "popupChk";
+						document.reqForm.action = strCertKeyServiceUrl;
+						document.reqForm.submit();
+						openAuthFrame("open");
+					}else{
+						var popupWindow = window.open( "", "popupCertKey", "top=100, left=200, status=0, width=417, height=490" );
+						document.reqForm.target = "popupCertKey";
+						document.reqForm.action = strCertKeyServiceUrl;
+						document.reqForm.submit();
+						popupWindow.focus();
+					}
+
+				}
+				return;
+			});
+			
+			//14세미만 - 가입 클릭 이벤트 : S
+			$("#goChdJoin").click(function(e) {
+				e.preventDefault();
+				$("input[name='language_type']").val(jsLang);
+				$("form[name='frmChd']").attr("action", jsContextRoot + "/kr/login/join/easyJoinRegForm.do").submit();
+
+			});
+			//14세미만 - 가입 클릭 이벤트 : E
+			
+			//이메일 인증 가입
+			$("#goEmailCheck").click(function(e) {
+				e.preventDefault();
+				$("input[name='language_type']").val(jsLang);
+				$("form[name='frmChd']").attr("action", jsContextRoot + "/kr/login/join/easyJoinMainFore.do").submit();
+
+			});
+
+			// 언어별 이메일 placeholder 변경
+			if ( jsLang == 'JP') {
+				$("#selEmailDomain").attr({placeholder:'yahoo.co.jp',value:'yahoo.co.jp'});
+			} else if ( jsLang == 'CN') {
+				$("#selEmailDomain").attr({placeholder:'baidu.com',value:'baidu.com'});
+			} else if ( jsLang == 'KR') {
+				$("#selEmailDomain").attr({placeholder:'naver.com',value:'naver.com'});
+			} else {
+				$("#selEmailDomain").attr({placeholder:'gmail.com',value:'gmail.com'});
+			}
+
+			// 이메일 셀렉트 박스 선택
+			$("li[name=optionBtn]").click(function(e){
+				var valTxt =  jQuery(this).find("span").attr("value");
+				var valData =  jQuery(this).find("span").attr("data");
+				if(valTxt == 0) {
+					$("[name='emailDomain']").val();
+					$("#selEmailDomain").val($.cfn_setText(jsonData, "typeIn") );
+					$("#selEmailDomain").attr("data", "0");
+					$("[name='emailDomainTxt']").show();
+				} else {
+					$("[name='emailDomain']").val(valTxt);
+					$("#selEmailDomain").val(valTxt);
+					$("#selEmailDomain").attr("data", "");
+					$("[name='emailDomainTxt']").hide();
+				}
+			});
+
+			$("#selEmailDomain").change(function(e){
+				if($("#selEmailDomain").val() == 0){
+					$("[name='emailDomainTxt']").show();
+					//$("[name='emailId']").attr("readonly",true);
+				}else{
+					$("[name='emailDomainTxt']").hide();
+					//$("[name='emailId']").attr("readonly",false);
+				}
+			})
+
+
+			//내국인
+			$('#foreigner1').click(function(e) {
+				$('#domChkForm').attr('style','display:table');
+				$('#domInfo').attr('style','display:block');
+				$('#intChkForm').attr('style','display:none');
+			});
+
+			//외국인
+			$('#foreigner2').click(function(e) {
+				$('#domChkForm').attr('style','display:none');
+				$('#domInfo').attr('style','display:none');
+				$('#intChkForm').attr('style','display:table');
+			});
+
+			//내외국인 탭변경
+			if (jsLang != 'KR') {
+				$('#foreigner2').attr('checked','checked');
+				$('#domChkForm').attr('style','display:none');
+				$('#domInfo').attr('style','display:none');
+				$('#intChkForm').attr('style','display:table');
+			} else {
+				$('#foreigner1').attr('checked','checked');
+				$('#domChkForm').attr('style','display:table');
+				$('#domInfo').attr('style','display:block');
+				$('#intChkForm').attr('style','display:none');
+			}
+
+			//다국어 - 외국인 셋팅
+			if(channel=="APP"){
+
+			}
+
+			//채널별 셋팅
+			if(channel=="APP"){
+				$("#topLink").attr("href","javascript:MENU_OBJ.moveToPage('menu_home');");
+			}else if(channel=="WEB"){
+				$("#topLink").attr("href","/jejuair/mobile/main.jsp");
+			}else{
+				$("#topLink").attr("href","/jejuair/kr/main.do");
+			}
+
+			//incross Track Tag Script 20170324 병훈D 요청 - 첫회원&첫탑승 프모로션_랩사 트렉코드
+			if(channel=="WEB"){	//모바일 WEB CASE
+				Tracking_Event(8468,'','','');
+			}else{	//PC 및 APP CASE
+				Tracking_Event(8466,'','','');
+			}
+			
+			$("#btnMemInfo").click(function(e){
+				$("#memInfoDiv").css("display", "block");
+				$("#lightBox").css("display", "block");
+				$('body').addClass("shidden");
+			});
+			
+			$("#layerCloseDiv, #btnComplete").click(function(e){
+				$("#memInfoDiv").css("display", "none");
+				$("#lightBox").css("display", "none");
+				$('body').removeClass("shidden");
+			});
+		
+			$("#btnMemInfo").click(function(e){
+				
+				openLayerPop(this, 431, 304, jsContextRoot + "/kr/login/join/pop_sns_info.do?language="+"kr", "", false, "exisMember", "");
+				$(document.body).addClass("shidden");	// 팝업 open 시 body에 class 추가(스크롤 바 숨김) 
+			});
+			
+			// 팝업 닫을 때 class 삭제
+			$(".layerClose").click(function(e){
+				$(document.body).removeClass("shidden");
+			});
+		});
+		//document.ready :E
+	</script>
+	
+	
+	<link rel="stylesheet" type="text/css" href="/jejuair/css/simp_style.css">
+
+  <script>!function(a){var e="https://s.go-mpulse.net/boomerang/",t="addEventListener";if("False"=="True")a.BOOMR_config=a.BOOMR_config||{},a.BOOMR_config.PageParams=a.BOOMR_config.PageParams||{},a.BOOMR_config.PageParams.pci=!0,e="https://s2.go-mpulse.net/boomerang/";if(window.BOOMR_API_key="AYF4Y-8J9XB-2BDC5-23EM3-Q7Z28",function(){function n(e){a.BOOMR_onload=e&&e.timeStamp||(new Date).getTime()}if(!a.BOOMR||!a.BOOMR.version&&!a.BOOMR.snippetExecuted){a.BOOMR=a.BOOMR||{},a.BOOMR.snippetExecuted=!0;var i,o,_,r=document.createElement("iframe");if(a[t])a[t]("load",n,!1);else if(a.attachEvent)a.attachEvent("onload",n);r.src="javascript:void(0)",r.title="",r.role="presentation",(r.frameElement||r).style.cssText="width:0;height:0;border:0;display:none;",_=document.getElementsByTagName("script")[0],_.parentNode.insertBefore(r,_);try{o=r.contentWindow.document}catch(O){i=document.domain,r.src="javascript:var d=document.open();d.domain='"+i+"';void(0);",o=r.contentWindow.document}o.open()._l=function(){var a=this.createElement("script");if(i)this.domain=i;a.id="boomr-if-as",a.src=e+"AYF4Y-8J9XB-2BDC5-23EM3-Q7Z28",BOOMR_lstart=(new Date).getTime(),this.body.appendChild(a)},o.write("<bo"+'dy onload="document._l();">'),o.close()}}(),"".length>0)if(a&&"performance"in a&&a.performance&&"function"==typeof a.performance.setResourceTimingBufferSize)a.performance.setResourceTimingBufferSize();!function(){if(BOOMR=a.BOOMR||{},BOOMR.plugins=BOOMR.plugins||{},!BOOMR.plugins.AK){var e=""=="true"?1:0,t="",n="pght7pqxim2vuxu3cjxa-f-3e5042a00-clientnsv4-s.akamaihd.net",i={"ak.v":"27","ak.cp":"881439","ak.ai":parseInt("562947",10),"ak.ol":"0","ak.cr":4,"ak.ipv":4,"ak.proto":"h2","ak.rid":"11dfae84","ak.r":23491,"ak.a2":e,"ak.m":"b","ak.n":"essl","ak.bpcip":"121.143.63.0","ak.cport":1865,"ak.gh":"23.67.53.86","ak.quicv":"","ak.tlsv":"tls1.3","ak.0rtt":"","ak.csrc":"-","ak.acc":"","ak.t":"1587221102","ak.ak":"hOBiQwZUYzCg5VSAfCLimQ==qHwMmmOmQZJVy7LwjMnyvSv1lRkVZQ1OfC0aBrHPQTNGK1RWw63laBu6PRRp5wD84rABS3d6NNJCdKZYmDAdLFeA7EdbDR1n+cBKo93TIrQIrxWQJbJU6Ar6YOKa++AfPhfqQp1nHfQYphPMNoI6X65mE0hIr7MLqUS9cUdztJYI2m58xWY+7h3XZFv88/FzEWX47O7vfvF+9V3v3f6dNBixtcaY7yk+AX8Jd5XyoGUycKBaps//CbY4HwrhwgjaEXhHeVPUxpKpi74sjpHJGpIX0EErr4iIkrf5lrJRSe+Buyy2QAN5rt0+A/aTww2BRpEiRiYLPJBPmeyzWccyJo16Equ5I3yO54jvqhxskDENSZ7oLw/N5HWExtoJplx0wsf6VBDOpX/YjrwrOxGNvyULJUJ1QZh5CCS0s3Ob/iI=","ak.pv":"56"};if(""!==t)i["ak.ruds"]=t;var o={i:!1,av:function(e){var t="http.initiator";if(e&&(!e[t]||"spa_hard"===e[t]))i["ak.feo"]=void 0!==a.aFeoApplied?1:0,BOOMR.addVar(i)},rv:function(){var a=["ak.bpcip","ak.cport","ak.cr","ak.csrc","ak.gh","ak.ipv","ak.m","ak.n","ak.ol","ak.proto","ak.quicv","ak.tlsv","ak.0rtt","ak.r","ak.acc","ak.t"];BOOMR.removeVar(a)}};BOOMR.plugins.AK={akVars:i,akDNSPreFetchDomain:n,init:function(){if(!o.i){var a=BOOMR.subscribe;a("before_beacon",o.av,null,null),a("onbeacon",o.rv,null,null),o.i=!0}return this},is_complete:function(){return!0}}}}()}(window);</script><script type="text/javascript">
+	var sHostURL  = ('https:' == document.location.protocol) ? 'https://mgr.icast-ad.com/' : 'http://mgr.icast-ad.com/';  
+	document.write(unescape("%3Cscript src='" + sHostURL + "tracking_jejuair.js' type='text/javascript'%3E%3C/script%3E"));
+</script><script src="https://mgr.icast-ad.com/tracking_jejuair.js" type="text/javascript"></script><script type="text/javascript">
+		var TRS_AIDX = 10406;
+		var TRS_PROTOCOL = document.location.protocol;
+		document.writeln();
+		var TRS_URL = TRS_PROTOCOL + '//' + ((TRS_PROTOCOL=='https:')?'analysis.adinsight.co.kr':'adlog.adinsight.co.kr') +  '/emnet/trs_esc.js';
+		document.writeln("<scr"+"ipt language='javascript' src='" + TRS_URL + "'></scr"+"ipt>");
+	</script><script language="javascript" src="https://analysis.adinsight.co.kr/emnet/trs_esc.js"></script><script type="text/javascript" src="//wcs.naver.net/wcslog.js"> </script><script type="text/javascript"> 
+		if (!wcs_add) var wcs_add={};
+		wcs_add["wa"] = "s_29f8dbdc0496";
+		if (!_nasa) var _nasa={};
+		wcs.inflow("jejuair.net");
+		wcs_do(_nasa);
+	</script><script>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+		ga('create', 'UA-49935507-1', 'jejuair.net');
+		ga('require', 'displayfeatures');
+		ga('send', 'pageview');
+	</script><script>(function() {
+	var _fbq = window._fbq || (window._fbq = []);
+	if (!_fbq.loaded) {
+	var fbds = document.createElement('script');
+	fbds.async = true;
+	fbds.src = '//connect.facebook.net/en_US/fbds.js';
+	var s = document.getElementsByTagName('script')[0];
+	s.parentNode.insertBefore(fbds, s);
+	_fbq.loaded = true;
+	}
+	})();
+	window._fbq = window._fbq || [];
+	window._fbq.push(['track', '6026725139691', {'value':'0.00','currency':'KRW'}]);
+	</script><script>
+	(function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+	n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+	n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+	t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)})(window,
+	document,'script','//connect.facebook.net/en_US/fbevents.js');
+	fbq('init', '909087915818898');
+	fbq('track', 'PageView');
+	</script><script type="text/javascript" src="/jejuair/tealeaf/tealeaf.js"></script></head>
+
+		
+	<!-- //기존 TOP영역의 include 20161109 -->
+
+<body class="simpUI">
+	<div id="wrap">
+		<!-- container -->
+		<div id="container">	
+			<!-- header -->
+			<div id="header" class="header">
+				<h1><a id="topLink" href="/jejuair/kr/main.do"><img src="http://obmms.net\iam\img\common\logo-2.png"></a></h1>
+			</div>
+			<!-- //header -->		
+			<!-- contents -->
+			<div class="contents">
+				<!-- cont_bx -->
+				
+				<!-- 간편 SNS 회원가입 -->
+				<div class="cont_bx joinMain">
+					<div class="logoList_bx">
+						<h2 class="linkList_tt" id="title">간편 SNS 회원가입</h2>
+						<ul class="linkList logoBtn">
+
+	
+							<li><a href="javascript:fn_naverLogin();" class="bBtn_icon" id="naverLb"><span><i class="naver"></i>네이버로 회원가입</span></a></li>
+							<li><a href="javascript:fn_kakaoLogin();" class="bBtn_icon" id="kakaoLb"><span><i class="kakao"></i>카카오로 회원가입</span></a></li>
+	
+	
+
+						</ul>
+					</div>
+				</div>
+
+		
+				<div class="cont_bx joinAttention">
+					<p class="attention"><span id="attentionLb1">
+					아이엠 회원이 되면 여러분의 재능, 지식, 상품, 서비스 등을 자동셀링솔루션을 통해 자유롭게 홍보할수 있습니다. 
+<span class="corange"> SNS를 통해 간편회원가입을 한 후에 자신의 모바일 명함을 만들기 위해서는 정식 회원가입을 하신 후에 이용하시면 됩니다..</span></span></p><br>
+				
+				</div>
+
+
+</script>
+		
+		
+	
+    
+	<!-- 2019.05.27 간편회원가입 및 회원통합 구축 관련 추가 -->
+	<script type="text/javascript" src="/jejuair/js/simp_common.js"></script>    
+<script type="text/javascript">var _cf = _cf || []; _cf.push(['_setFsp', true]);  _cf.push(['_setBm', true]); _cf.push(['_setAu', '/resources/43bc91b2c02262031bfb591348b0a4']); </script><script type="text/javascript" src="/resources/43bc91b2c02262031bfb591348b0a4"></script>
+
+</body></html>
