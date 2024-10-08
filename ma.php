@@ -1,70 +1,76 @@
 <?
 header("Pragma:no-cache");
-if($_REQUEST['mem_code']) {
-  @setcookie("mem_code", $_REQUEST['mem_code'], time()+3600);
-  $_COOKIE['mem_code'] = $_REQUEST['mem_code'];
+if ($_REQUEST['mem_code']) {
+    @setcookie("mem_code", $_REQUEST['mem_code'], time() + 3600);
+    $_COOKIE['mem_code'] = $_REQUEST['mem_code'];
 }
-include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
+include_once $_SERVER['DOCUMENT_ROOT'] . "/lib/rlatjd_fun.php";
 include_once "_head.php";
 ?>
-<link href='/css/sub_4_re.css' rel='stylesheet' type='text/css'/>
+<link href='/css/sub_4_re.css' rel='stylesheet' type='text/css' />
 <style>
-  .index .midle .bg{
-      position: absolute;
-      overflow: hidden;
-  }
+    .index .midle .bg {
+        position: absolute;
+        overflow: hidden;
+    }
 </style>
 <script src="/js/jquery-2.1.0.js"></script>
 <!-- 아래 이징 플러그인은 부드러운 모션 처리를 위해서 필요 -->
 <script src="/js/jquery.easing.1.3.js"></script>
 <script src="motionj.com.jBanner.1.2.js"></script>
 <script type="text/javascript" src="/jquery.lightbox_me.js"></script>
-<script language="javascript" >
-  jQuery(document).ready(
-      function(){
-          for(var i=0;i<3;i++){
-              var id;
-              if($('#alertid'+i).length)
-                  id = $('#alertid'+i)[0].value;
-              if($('#alertid'+i).length && document.cookie.search('Memo'+id) == -1)
-                  showIframeModal('/notice_pop.php?id='+id);
-          }
-      }
-  );
-  function show_login() {
-      $('.ad_layer_login').lightbox_me({
-          centered: true,
-          onLoad: function() {}
-      });
-  }
-  function showIframeModal(url){
-      window.open(url, "","toolbar=yes,scrollbars=yes,resizable=yes,top=200,left=200,width=800,height=400");
-  }
-  $(function(){
-      $('.jBanner').jBanner({width:570, height:270});
-  });
-  $(function () {
-    tab('#tab',0);
-  });
-  function tab(e, num){
-      var num = num || 0;
-      var menu = $(e).children();
-      var con = $(e+'_con').children();
-      var select = $(menu).eq(num);
-      var i = num;
-      select.addClass('on');
-      con.eq(num).show();
-      menu.click(function(){
-          if(select!==null){
-              select.removeClass("on");
-              con.eq(i).hide();
-          }
-          select = $(this);
-          i = $(this).index();
-          select.addClass('on');
-          con.eq(i).show();
-      });
-  }
+<script language="javascript">
+    jQuery(document).ready(
+        function() {
+            for (var i = 0; i < 3; i++) {
+                var id;
+                if ($('#alertid' + i).length)
+                    id = $('#alertid' + i)[0].value;
+                if ($('#alertid' + i).length && document.cookie.search('Memo' + id) == -1)
+                    showIframeModal('/notice_pop.php?id=' + id);
+            }
+        }
+    );
+
+    function show_login() {
+        $('.ad_layer_login').lightbox_me({
+            centered: true,
+            onLoad: function() {}
+        });
+    }
+
+    function showIframeModal(url) {
+        window.open(url, "", "toolbar=yes,scrollbars=yes,resizable=yes,top=200,left=200,width=800,height=400");
+    }
+    $(function() {
+        $('.jBanner').jBanner({
+            width: 570,
+            height: 270
+        });
+    });
+    $(function() {
+        tab('#tab', 0);
+    });
+
+    function tab(e, num) {
+        var num = num || 0;
+        var menu = $(e).children();
+        var con = $(e + '_con').children();
+        var select = $(menu).eq(num);
+        var i = num;
+        select.addClass('on');
+        con.eq(num).show();
+        menu.click(function() {
+            if (select !== null) {
+                select.removeClass("on");
+                con.eq(i).hide();
+            }
+            select = $(this);
+            i = $(this).index();
+            select.addClass('on');
+            con.eq(i).show();
+        });
+    }
 </script>
 <?/*if($use_domain == false){
       echo "<Script>alert('".$HTTP_HOST."도메인은 독립적으로 사용할 권한이 없습니다.해당 도메인은 www.kiam.kr에 소속되어 있으므로 확인을 누르시면 상위 도메인으로 이동합니다.');location.href = 'https://www.kiam.kr/ma.php';</script>";
@@ -73,171 +79,175 @@ include_once "_head.php";
 ?>
 <div class="container">
     <?
-        $query = "SELECT NO FROM tjd_board WHERE pop_yn='Y' ORDER BY DATE DESC LIMIT 0, 3";
-        $res = mysqli_query($self_con, $query);
-        $totalCnt	=  mysqli_num_rows($res);
+    $query = "SELECT NO FROM tjd_board WHERE pop_yn='Y' ORDER BY DATE DESC LIMIT 0, 3";
+    $res = mysqli_query($self_con, $query);
+    $totalCnt    =  mysqli_num_rows($res);
 
-        for($i = 0;$i<$totalCnt;$i++){
-            $alert_ids	=  mysqli_fetch_array($res);?>
-            <input type="text" id="alertid<?=$i?>" value="<?=$alert_ids[0]?>" hidden>
-        <?}
-        if($sub_domain == true && $domainData['main_default_yn'] == "I") {?>
-            <div class="midle_div">
-                <div style="text-align:center">
-                    <img src="<?=$domainData['main_image']?>" style = "width : 100%">
+    for ($i = 0; $i < $totalCnt; $i++) {
+        $alert_ids    =  mysqli_fetch_array($res); ?>
+        <input type="text" id="alertid<?= $i ?>" value="<?= $alert_ids[0] ?>" hidden>
+    <? }
+    if ($sub_domain == true && $domainData['main_default_yn'] == "I") { ?>
+        <div class="midle_div">
+            <div style="text-align:center">
+                <img src="<?= $domainData['main_image'] ?>" style="width : 100%">
+            </div>
+        </div>
+        <? if ($HTTP_HOST == "moodoga.kiam.kr") { ?>
+            <link href='/css/sub_4_re.css' rel='stylesheet' type='text/css' />
+            <style>
+                .head_left img {
+                    width: 166px !important;
+                    height: 72px !important;
+                }
+
+                .container .vote_top .tab_box {
+                    position: absolute;
+                    top: 300px;
+                    right: 510px;
+                    overflow: hidden;
+                    width: 577px;
+                    height: 269px;
+                }
+            </style>
+            <div class="container">
+                <div class="">
+                    <img src="/images/view_visual_1_moo.jpg" usemap="#Map" border="0" />
+                    <map name="Map" id="Map">
+                        <area shape="rect" coords="597,505,991,622" href="join.php" target="_blank" />
+                    </map>
+                    <div class="tab_box">
+                        <div class="">
+                            <ul>
+                                <li><a href="#"><img src="" alt="" /></a></li>
+                                <li><a href="#"><img src="" alt="" /></a></li>
+                                <li><a href="#"><img src="" alt="" /></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="vote_middle">
+                    <div class="md_con">
+                        <div class="md_con1">
+                            <div>
+                                <img src="/images/vote_middle_1.jpg" alt="문자 발송무제한" />
+                            </div>
+                            <div>
+                                <dl>
+                                    <dt><img class="T_btn" src="/images/vote_middle_btn_11.jpg" /><span class="T_font">문자 발송수 무제한</span></dt>
+                                    <dd class="D_font">스마트폰 무제한 요금제를<br />사용하여 무제한 발송 가능</dd>
+                                </dl>
+                                <p class="dashed"><img src="/images/vote_dashed.jpg" /></p>
+                                <dl>
+                                    <dt><img class="T_btn" src="/images/vote_middle_btn_11.jpg" /><span class="T_font">장문/포토 무제한</span></dt>
+                                    <dd class="D_font">장문, 단문, 포토까지<br />무제한 발송 가능</dd>
+                                </dl>
+                            </div>
+                        </div>
+                        <div class="md_con2">
+                            <div>
+                                <img src="/images/vote_middle_2.jpg" alt="수신거부자동화무제한" />
+                            </div>
+                            <div>
+                                <dl>
+                                    <dt><img class="T_btn" src="/images/vote_middle_btn_11.jpg" /><span class="T_font">수신거부 자동화</span></dt>
+                                    <dd class="D_font">080 대신 수신거부 자동등록<br />및 재발송 중지 기능</dd>
+                                </dl>
+                                <p class="dashed"><img src="/images/vote_dashed.jpg" /></p>
+                                <dl>
+                                    <dt><img class="T_btn" src="/images/vote_middle_btn_11.jpg" /><span class="T_font">수신불가 자동화</span></dt>
+                                    <dd class="D_font">수신불가 번호, 없는 번호,<br />번호변경 건 확인 가능</dd>
+                                </dl>
+                            </div>
+                        </div>
+                        <div class="md_con3">
+                            <div>
+                                <img src="/images/vote_middle_3.jpg" alt="그룹별발송무제한" />
+                            </div>
+                            <div>
+                                <dl>
+                                    <dt><img class="T_btn" src="/images/vote_middle_btn_11.jpg" /><span class="T_font">그룹별 발송기능</span></dt>
+                                    <dd class="D_font">개인번호 입력, 엑셀파일<br />업로드하여 그룹별 발송 가능</dd>
+                                </dl>
+                                <p class="dashed"><img src="/images/vote_dashed.jpg" /></p>
+                                <dl>
+                                    <dt><img class="T_btn" src="/images/vote_middle_btn_11.jpg" /><span class="T_font">시간절약 기능</span></dt>
+                                    <dd class="D_font">그룹에게 최단기간으로<br />발송 가능</dd>
+                                </dl>
+                            </div>
+                        </div>
+                        <div class="md_con4">
+                            <div>
+                                <img src="/images/vote_middle_4.jpg" alt="통계내역 종합확인" />
+                            </div>
+                            <div>
+                                <dl>
+                                    <dt><img class="T_btn" src="/images/vote_middle_btn_11.jpg" /><span class="T_font">수신내역 확인</span></dt>
+                                    <dd class="D_font">수신불가, 없는번호,<br />번호변경 확인 가능</dd>
+                                </dl>
+                                <p class="dashed"><img src="/images/vote_dashed.jpg" /></p>
+                                <dl>
+                                    <dt><img class="T_btn" src="/images/vote_middle_btn_11.jpg" /><span class="T_font">발신내역 확인</span></dt>
+                                    <dd class="D_font">발신내역, 예약내역<br />확인 및 통계 가능</dd>
+                                </dl>
+                                <p class="dashed"><img src="/images/vote_dashed.jpg" /></p>
+                                <dl>
+                                    <dt><img class="T_btn" src="/images/vote_middle_btn_11.jpg" /><span class="T_font">발송통계 확인</span></dt>
+                                    <dd class="D_font">오늘발송건, 이달발송건,<br />이달 수신처 통계 가능</dd>
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="midle_div">
+                    <div align="center"><img src="images/190320_main_03.png" width="900" /></div><br />
+                    <div align="center" height="510px" style="background:url(/images/m_bg_m.JPG) no-repeat center / cover; height:510px;repeat-x;repeat-y;line-height:510px;">
+                        <div style="display: block; padding-top:20px;padding-bottom:20px; "><img src="images/190508_main01.png" width="900" /></div>
+                    </div>
+                    <div class="index con_title" style="background:url(/images/m_bg_bar.JPG) ; repeat-x ;width:1000px; font-color:#EFF2FB;">문자은행 기능비교</div> <br />
+                    <div align="center"><img src="images/190508_main02.png" width="900" /></div><br />
                 </div>
             </div>
-            <?if($HTTP_HOST == "moodoga.kiam.kr") {?>
-                <link href='/css/sub_4_re.css' rel='stylesheet' type='text/css'/>
-                <style>
-                    .head_left img {width:166px !important;height:72px  !important;}
-                    .container .vote_top .tab_box {
-                        position: absolute;
-                        top: 300px;
-                        right: 510px;
-                        overflow: hidden;
-                        width: 577px;
-                        height: 269px;
-                    }
-                </style>
-                <div class="container">
-                    <div class="" >
-                        <img src="/images/view_visual_1_moo.jpg" usemap="#Map" border="0"  />
-                        <map name="Map" id="Map">
-                            <area shape="rect" coords="597,505,991,622" href="join.php" target="_blank" />
-                        </map>
-                        <div class="tab_box">
-                            <div class="">
-                                <ul>
-                                    <li><a href="#"><img src="" alt="" /></a></li>
-                                    <li><a href="#"><img src="" alt="" /></a></li>
-                                    <li><a href="#"><img src="" alt="" /></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="vote_middle">
-                        <div class="md_con">
-                            <div class="md_con1">
-                                <div>
-                                    <img src="/images/vote_middle_1.jpg" alt="문자 발송무제한" />
-                                </div>
-                                <div>
-                                    <dl>
-                                        <dt><img class="T_btn" src="/images/vote_middle_btn_11.jpg" /><span class="T_font">문자 발송수 무제한</span></dt>
-                                        <dd class="D_font">스마트폰 무제한 요금제를<br/>사용하여 무제한 발송 가능</dd>
-                                    </dl>
-                                    <p class="dashed"><img src="/images/vote_dashed.jpg"/></p>
-                                    <dl>
-                                        <dt><img class="T_btn" src="/images/vote_middle_btn_11.jpg" /><span class="T_font">장문/포토 무제한</span></dt>
-                                        <dd class="D_font">장문, 단문, 포토까지<br/>무제한 발송 가능</dd>
-                                    </dl>
-                                </div>
-                            </div>
-                            <div class="md_con2">
-                                <div>
-                                    <img src="/images/vote_middle_2.jpg" alt="수신거부자동화무제한" />
-                                </div>
-                                <div>
-                                    <dl>
-                                        <dt><img class="T_btn" src="/images/vote_middle_btn_11.jpg" /><span class="T_font">수신거부 자동화</span></dt>
-                                        <dd class="D_font">080 대신 수신거부 자동등록<br/>및 재발송 중지 기능</dd>
-                                    </dl>
-                                    <p class="dashed"><img src="/images/vote_dashed.jpg"/></p>
-                                    <dl>
-                                        <dt><img class="T_btn" src="/images/vote_middle_btn_11.jpg" /><span class="T_font">수신불가 자동화</span></dt>
-                                        <dd class="D_font">수신불가 번호, 없는 번호,<br/>번호변경 건 확인 가능</dd>
-                                    </dl>
-                                </div>
-                            </div>
-                            <div class="md_con3">
-                                <div>
-                                    <img src="/images/vote_middle_3.jpg" alt="그룹별발송무제한" />
-                                </div>
-                                <div>
-                                    <dl>
-                                        <dt><img class="T_btn" src="/images/vote_middle_btn_11.jpg" /><span class="T_font">그룹별 발송기능</span></dt>
-                                        <dd class="D_font">개인번호 입력, 엑셀파일<br/>업로드하여 그룹별 발송 가능</dd>
-                                    </dl>
-                                    <p class="dashed"><img src="/images/vote_dashed.jpg"/></p>
-                                    <dl>
-                                        <dt><img class="T_btn" src="/images/vote_middle_btn_11.jpg" /><span class="T_font">시간절약 기능</span></dt>
-                                        <dd class="D_font">그룹에게 최단기간으로<br/>발송 가능</dd>
-                                    </dl>
-                                </div>
-                            </div>
-                            <div class="md_con4">
-                                <div>
-                                    <img src="/images/vote_middle_4.jpg" alt="통계내역 종합확인" />
-                                </div>
-                                <div>
-                                    <dl>
-                                        <dt><img class="T_btn" src="/images/vote_middle_btn_11.jpg" /><span class="T_font">수신내역 확인</span></dt>
-                                        <dd class="D_font">수신불가, 없는번호,<br/>번호변경 확인 가능</dd>
-                                    </dl>
-                                    <p class="dashed"><img src="/images/vote_dashed.jpg"/></p>
-                                    <dl>
-                                        <dt><img class="T_btn" src="/images/vote_middle_btn_11.jpg" /><span class="T_font">발신내역 확인</span></dt>
-                                        <dd class="D_font">발신내역, 예약내역<br/>확인 및 통계 가능</dd>
-                                    </dl>
-                                    <p class="dashed"><img src="/images/vote_dashed.jpg"/></p>
-                                    <dl>
-                                        <dt><img class="T_btn" src="/images/vote_middle_btn_11.jpg" /><span class="T_font">발송통계 확인</span></dt>
-                                        <dd class="D_font">오늘발송건, 이달발송건,<br/>이달 수신처 통계 가능</dd>
-                                    </dl>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="midle_div">
-                        <div align="center"><img src="images/190320_main_03.png" width="900" /></div><br/>
-                        <div align="center" height="510px" style="background:url(/images/m_bg_m.JPG) no-repeat center / cover; height:510px;repeat-x;repeat-y;line-height:510px;">
-                            <div style="display: block; padding-top:20px;padding-bottom:20px; "><img src="images/190508_main01.png" width="900" /></div>
-                        </div>
-                        <div class="index con_title" style="background:url(/images/m_bg_bar.JPG) ; repeat-x ;width:1000px; font-color:#EFF2FB;">문자은행 기능비교</div> <br/>
-                        <div align="center"><img src="images/190508_main02.png" width="900"  /></div><br/>
-                    </div>
-                </div>
-            <?}
-        } else {?>
-            <div class="main-visual main-section">
-                <div class="inner">
-                    <img src="images/191220_01.png">
-                </div>
-            </div>
-            <?if($sub_domain == true) {?>
-                <div class="bnt main-buttons">
-                    <div class="wrap2">
-                    <a href="https://play.google.com/store/apps/details?id=mms.onepagebook.com.onlyonesms" class="button" target="_blank">IAM앱설치</a>
-                        <a href="<?php echo $domainData['kakao'];?>" class="button2" target="_blank">카카오상담</a>
-                        <a href="/join.php" class="button" target="_blank">회원가입하기</a>
-                        <a href="/event/event.html?pcode=&sp=&landing_idx=747" class="button" target="_blank">처음오셨어요?</a>
-                        <a href="https://oog.kiam.kr/pages/page_3208.php" class="button" target="_blank">이용매뉴얼</a>
-                        <a href="/event/event.html?pcode=onlyselling_coaching111&sp=onlyselling_coaching" class="button" target="_blank">코칭신청하기</a>
-                    </div>
-                </div>
-            <? }else{?>
-                    <div class="bnt main-buttons">
-                        <div class="wrap2">
-                    <a href="https://play.google.com/store/apps/details?id=mms.onepagebook.com.onlyonesms" class="button" target="_blank">IAM앱설치</a>
-                            <a href="http://pf.kakao.com/_jVafC/chat" class="button2" target="_blank">카카오상담</a>
-                            <a href="/join.php" class="button" target="_blank">회원가입하기</a>
-                            <a href="/event/event.html?pcode=&sp=&landing_idx=747" class="button" target="_blank">처음오셨어요?</a>
-                            <a href="https://oog.kiam.kr/pages/page_3208.php" class="button" target="_blank">이용매뉴얼</a>
-                            <a href="/event/event.html?pcode=onlyselling_coaching111&sp=onlyselling_coaching" class="button" target="_blank">코칭신청하기</a>
-                        </div>
-                    </div>
-            <? } ?>
-    <div class="main-section">
-        <div class="im_title is-main">
+        <? }
+    } else { ?>
+        <div class="main-visual main-section">
             <div class="inner">
-              <img src="images/191220_11.png">
+                <img src="images/191220_01.png">
             </div>
         </div>
-        <div class="inner">
-            <img src="images/191220_02.png">
+        <? if ($sub_domain == true) { ?>
+            <div class="bnt main-buttons">
+                <div class="wrap2">
+                    <a href="https://play.google.com/store/apps/details?id=mms.onepagebook.com.onlyonesms" class="button" target="_blank">IAM앱설치</a>
+                    <a href="<?php echo $domainData['kakao']; ?>" class="button2" target="_blank">카카오상담</a>
+                    <a href="/join.php" class="button" target="_blank">회원가입하기</a>
+                    <a href="/event/event.html?pcode=&sp=&landing_idx=747" class="button" target="_blank">처음오셨어요?</a>
+                    <a href="https://oog.kiam.kr/pages/page_3208.php" class="button" target="_blank">이용매뉴얼</a>
+                    <a href="/event/event.html?pcode=onlyselling_coaching111&sp=onlyselling_coaching" class="button" target="_blank">코칭신청하기</a>
+                </div>
+            </div>
+        <? } else { ?>
+            <div class="bnt main-buttons">
+                <div class="wrap2">
+                    <a href="https://play.google.com/store/apps/details?id=mms.onepagebook.com.onlyonesms" class="button" target="_blank">IAM앱설치</a>
+                    <a href="http://pf.kakao.com/_jVafC/chat" class="button2" target="_blank">카카오상담</a>
+                    <a href="/join.php" class="button" target="_blank">회원가입하기</a>
+                    <a href="/event/event.html?pcode=&sp=&landing_idx=747" class="button" target="_blank">처음오셨어요?</a>
+                    <a href="https://oog.kiam.kr/pages/page_3208.php" class="button" target="_blank">이용매뉴얼</a>
+                    <a href="/event/event.html?pcode=onlyselling_coaching111&sp=onlyselling_coaching" class="button" target="_blank">코칭신청하기</a>
+                </div>
+            </div>
+        <? } ?>
+        <div class="main-section">
+            <div class="im_title is-main">
+                <div class="inner">
+                    <img src="images/191220_11.png">
+                </div>
+            </div>
+            <div class="inner">
+                <img src="images/191220_02.png">
+            </div>
         </div>
-    </div>
 </div>
 <div class="main-bg-01 main-section">
     <div class="inner">
@@ -280,70 +290,72 @@ include_once "_head.php";
         <img src="images/191220_09.png">
     </div>
 </div>
-<?}
-include_once "_foot.php";
+<? }
+    include_once "_foot.php";
 ?>
 <script>
-function newpop(str){
-//window.open(str, "notice_pop", "toolbar=yes,scrollbars=yes,resizable=yes,top=200,left=200,width=600,height=350");
-}
-if ( Gesi_getCookie( 'Memo' ) != 'done' )
-  newpop('notice_pop.php');
-function getCookie(name){
-var Found = false
-var start, end
-var i = 0
-while(i<= document.cookie.length) {
-  start = i
-  end = start +name.length
-  if(document.cookie.substring(start, end)== name) {
-    Found = true
-    break
-  }
-  i++
-}
-if(Found == true) {
-  start = end + 1
-  end = document.cookie.indexOf(";",start)
-  if(end < start)
-  end = document.cookie.length
-  return document.cookie.substring(start, end)
-}
-return ""
-}
-function setCookie(name, value, expiredays){
-var todayDate = new Date();
-todayDate.setDate( todayDate.getDate() + expiredays );
-document.cookie = name + "=" + escape( value ) +";path=/;expires="+todayDate.toGMTString()+";"
-}
+    function newpop(str) {
+        //window.open(str, "notice_pop", "toolbar=yes,scrollbars=yes,resizable=yes,top=200,left=200,width=600,height=350");
+    }
+    if (Gesi_getCookie('Memo') != 'done')
+        newpop('notice_pop.php');
 
-function dbFree() {
-  var msg = confirm('온리원 디버 무료체험 신청하시겠습니까? 300건의 무료 건수가 제공됩니다.');
-  if($('#password').val() != "") {
-      if($('#password').val() != $('#password_re').val()) {
-        alert('비밀번호를 확인해주세요');
-        return;
-      }
-  }
-  if(msg){
-      $.ajax({
-          type:"POST",
-          url:"/ajax/crawler_request.php",
-          dataType:"json",
-          success:function(result){
-            if(result.result == "fail") {
-              alert(result.msg)
+    function getCookie(name) {
+        var Found = false
+        var start, end
+        var i = 0
+        while (i <= document.cookie.length) {
+            start = i
+            end = start + name.length
+            if (document.cookie.substring(start, end) == name) {
+                Found = true
+                break
+            }
+            i++
+        }
+        if (Found == true) {
+            start = end + 1
+            end = document.cookie.indexOf(";", start)
+            if (end < start)
+                end = document.cookie.length
+            return document.cookie.substring(start, end)
+        }
+        return ""
+    }
+
+    function setCookie(name, value, expiredays) {
+        var todayDate = new Date();
+        todayDate.setDate(todayDate.getDate() + expiredays);
+        document.cookie = name + "=" + escape(value) + ";path=/;expires=" + todayDate.toGMTString() + ";"
+    }
+
+    function dbFree() {
+        var msg = confirm('온리원 디버 무료체험 신청하시겠습니까? 300건의 무료 건수가 제공됩니다.');
+        if ($('#password').val() != "") {
+            if ($('#password').val() != $('#password_re').val()) {
+                alert('비밀번호를 확인해주세요');
+                return;
+            }
+        }
+        if (msg) {
+            $.ajax({
+                type: "POST",
+                url: "/ajax/crawler_request.php",
+                dataType: "json",
+                success: function(result) {
+                    if (result.result == "fail") {
+                        alert(result.msg)
+                    } else {
+                        alert('온리원디버 체험판 신청 완료되었습니다. 디버 체험판을 다운로드 후 이용해주세요.');
+                        return;
+                    }
+                },
+                error: function() {
+                    alert('로그인 후 신청해주세요.');
+                }
+            });
         } else {
-        alert('온리원디버 체험판 신청 완료되었습니다. 디버 체험판을 다운로드 후 이용해주세요.');
-        return;
+            return false;
         }
-        },
-        error: function(){
-        alert('로그인 후 신청해주세요.');
-        }
-          });
-  } else {
-return false;
-  }
-}
+    }
 </script>
