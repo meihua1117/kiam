@@ -1000,7 +1000,12 @@ function drawPagingAdminNavi($totalCnt, $nowPage, $pageCnt = "20", $naviSize = "
                    </div>';    
 	return $pageStr;
 }
-function drawPagingAdminNavi_iama($totalCnt, $nowPage, $pageCnt = "20", $naviSize = "10", $scriptName = "goPage" , $list_type ) {
+//function drawPagingAdminNavi_iama($totalCnt, $nowPage, $pageCnt = "20", $naviSize = "10", $scriptName = "goPage" , $list_type ) {
+function drawPagingAdminNavi_iama($totalCnt, $nowPage, $pageCnt, $naviSize, $scriptName, $list_type ) {
+	$pageCnt="20";
+	$naviSize="10";
+	$scriptName="goPage";
+
 	$pageStr = "";
 	$firstPG = "";
 	$finalPG = "";
