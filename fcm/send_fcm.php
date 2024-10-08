@@ -7,7 +7,7 @@ $client = new Google_Client();
 $client->useApplicationDefaultCredentials();
 $client->setScopes($scope);
 $auth_key = $client->fetchAccessTokenWithAssertion();
-//echo $auth_key['access_token'];
+echo $auth_key['access_token'];
 $ch = curl_init();
 //header 설정 후 삽입
 $headers = array(
