@@ -1,13 +1,13 @@
 <?
 include_once $path."lib/rlatjd_fun.php";
-$_REQUEST['status'] = 1;
+$_REQUEST[status] = 1;
 extract($_GET);
 $mem_id = $_GET["mem_id"];
 $solution_type = $_GET["solution_type"];
 $solution_name = $_GET["solution_name"];
 $sql = "select mem_pass from Gn_Member where mem_id = '$mem_id'";
-$result = mysqli_query($self_con, $sql);
-$row = mysqli_fetch_array($result);
+$result = mysql_query($sql);
+$row = mysql_fetch_array($result);
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">

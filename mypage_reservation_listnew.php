@@ -6,7 +6,7 @@ if(!$_SESSION[one_member_id])
 
 ?>
 <script language="javascript">
-location.replace('/');
+location.replace('/ma.php');
 </script>
 <?
 exit;
@@ -272,7 +272,7 @@ function deleteRow(sms_idx) {
     		 type:"POST",
     		 url:"mypage.proc.php",
     		 data:{
-    			 mode : "reservation_delete",
+    			 mode : "reservation_del",
     			 sms_idx: sms_idx
     			 },
     		 success:function(data){

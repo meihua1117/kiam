@@ -1,7 +1,7 @@
 <?
 $path="./";
 include_once "_head.php";
-if(!$_SESSION['one_member_id'])
+if(!$_SESSION[one_member_id])
 {
 
 ?>
@@ -11,9 +11,9 @@ location.replace('/ma.php');
 <?
 exit;
 }
-	$sql="select * from Gn_Member  where mem_id='".$_SESSION['one_member_id']."'";
-	$sresul_num=mysqli_query($self_con, $sql);
-	$data=mysqli_fetch_array($sresul_num);	
+	$sql="select * from Gn_Member  where mem_id='".$_SESSION[one_member_id]."'";
+	$sresul_num=mysql_query($sql);
+	$data=mysql_fetch_array($sresul_num);	
 	
 	if($data['intro_message'] =="") {
 		$data['intro_message'] = "안녕하세요\n
@@ -25,9 +25,9 @@ exit;
 ";
 	}
 
-	$sql_mem_info = "select step_send_ids from Gn_Member where mem_id='{$_SESSION['one_member_id']}'";
-	$res_mem_info = mysqli_query($self_con, $sql_mem_info);
-	$row_mem_info = mysqli_fetch_array($res_mem_info);
+	$sql_mem_info = "select step_send_ids from Gn_Member where mem_id='{$_SESSION[one_member_id]}'";
+	$res_mem_info = mysql_query($sql_mem_info);
+	$row_mem_info = mysql_fetch_array($res_mem_info);
 	$send_ids = $row_mem_info['step_send_ids'];
 	if($send_ids != ""){
         $cnt = explode(",", $send_ids);
@@ -98,8 +98,8 @@ $(function(){
             <input type="hidden" name="page2" value="<?=$page2?>" />        
         <div class="a1" style="margin-top:50px; margin-bottom:15px">
         <li style="float:left;">		
-			<div class="popup_holder popup_text">스텝예약 메시지 리스트
-				<div class="popupbox" style="height: 75px;width: 245px;left: 200px;top: -37px;">자신의 이벤트 상품이나 서비스를 소개하거나 상세페이지로 만든 랜딩페이지를 리스트로 보는 기능입니다.<br><br>
+			<div class="popup_holder popup_text">스탭예약관리 리스트
+				<div class="popupbox" style="height: 75px;width: 245px;left: 200px;top: -37px;">스텝 예약문자 메시지 세트를 등록하여 활용할수 있는 기능과 예약세트메시지를 리스트로 보는 기능입니다.<br><br>
 				  <a class = "detail_view" style="color: blue;" href="https://tinyurl.com/2p8vsjm2" target="_blank">[자세히 보기]</a>
 				</div>
 			</div>		
@@ -112,18 +112,18 @@ $(function(){
                 <select name="search_key" class="select">
                     <option value="">전체</option>
                 </select>
-                <input type="text" name="search_text" placeholder="" id="search_text" value="<?=$_REQUEST['search_text']?>"/> 
+                <input type="text" name="search_text" placeholder="" id="search_text" value="<?=$_REQUEST[search_text]?>"/> 
                 <a href="javascript:void(0)" onclick="pay_form.submit()"><img src="images/sub_mypage_11.jpg" /></a>                                                            
                 <div style="text-align:right;margin-top:0px;float:right;display: flex;">
 					<div class="popup_holder"> <!--Parent-->
-						<input type="button" value="세트판매" class="button" onclick="sell_step()">
-						<input type="button" value="스텝문자세트 전송" class="button" onclick="send_step()">
-						<input type="button" value="스텝문자 가져오기" class="button" onclick="get_steplist()">
+						<input type="button" value="메시지세트판매" class="button" onclick="sell_step()">
+						<input type="button" value="메시지세트 전송" class="button" onclick="send_step()">
+						<input type="button" value="메시지복제하기" class="button" onclick="get_steplist()">
 						<input type="hidden" name="send_sms_idx" id="send_sms_idx" value="">
 					</div>
 					<div class="popup_holder"> <!--Parent-->
-						<input type="button" value="스텝메시지입력하기" class="button" onclick="location='mypage_reservation_create.php'">
-						<div class="popupbox" style="height: 52px;width: 196px;bottom: 37px;">예약문자를 주기적으로 보내기 위한 예약문자의 세트를 만드는 기능입니다.<br><!--Child-->
+						<input type="button" value="메시지세트등록" class="button" onclick="location='mypage_reservation_create.php'">
+						<div class="popupbox" style="height: 52px;width: 196px;bottom: 37px;">예약문자메시지를 주기적으로 보내기 위한 예약문자의 세트를 만드는 기능입니다.<br><!--Child-->
 						  <a class = "detail_view" href="https://tinyurl.com/uwcybb6p" target="_blank">[자세히 보기]</a>
 						</div>
 					</div>                    
@@ -148,38 +148,38 @@ $(function(){
               </tr>
               <?
 
-				$sql_serch=" m_id ='{$_SESSION['one_member_id']}' ";
-				if($_REQUEST['search_date'])
+				$sql_serch=" m_id ='$_SESSION[one_member_id]' ";
+				if($_REQUEST[search_date])
 				{					
-					if($_REQUEST['rday1'])
+					if($_REQUEST[rday1])
 					{
-					$start_time=strtotime($_REQUEST['rday1']);
-					$sql_serch.=" and unix_timestamp({$_REQUEST['search_date']}) >=$start_time ";
+					$start_time=strtotime($_REQUEST[rday1]);
+					$sql_serch.=" and unix_timestamp({$_REQUEST[search_date]}) >=$start_time ";
 					}
-					if($_REQUEST['rday2'])
+					if($_REQUEST[rday2])
 					{
-					$end_time=strtotime($_REQUEST['rday2']);
-					$sql_serch.=" and unix_timestamp({$_REQUEST['search_date']}) <= $end_time ";
+					$end_time=strtotime($_REQUEST[rday2]);
+					$sql_serch.=" and unix_timestamp({$_REQUEST[search_date]}) <= $end_time ";
 					}
 				}
 				
-				if($_REQUEST['search_text'])
+				if($_REQUEST[search_text])
 				{
-				    $search_text = $_REQUEST['search_text'];
+				    $search_text = $_REQUEST[search_text];
 				    $sql_serch.=" and (reservation_title like '%$search_text%' or reservation_desc like '%$search_text%')";
 				}	
 									
 				$sql="select count(sms_idx) as cnt from Gn_event_sms_info where $sql_serch ";
-				$result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-				$row=mysqli_fetch_array($result);
-				$intRowCount=$row['cnt'];
-				if (!$_POST['lno']) 
+				$result = mysql_query($sql) or die(mysql_error());
+				$row=mysql_fetch_array($result);
+				$intRowCount=$row[cnt];
+				if (!$_POST[lno]) 
 					$intPageSize =20;
 				else 
-				   $intPageSize = $_POST['lno'];				
-				if($_POST['page'])
+				   $intPageSize = $_POST[lno];				
+				if($_POST[page])
 				{
-				  $page=(int)$_POST['page'];
+				  $page=(int)$_POST[page];
 				  $sort_no=$intRowCount-($intPageSize*$page-$intPageSize); 
 				}
 				else
@@ -187,45 +187,45 @@ $(function(){
 				  $page=1;
 				  $sort_no=$intRowCount;
 				}
-				if($_POST['page2'])
-				  $page2=(int)$_POST['page2'];
+				if($_POST[page2])
+				  $page2=(int)$_POST[page2];
 				else
 				  $page2=1;
 				$int=($page-1)*$intPageSize;
-				if($_REQUEST['order_status'])
-				  $order_status=$_REQUEST['order_status'];
+				if($_REQUEST[order_status])
+				  $order_status=$_REQUEST[order_status];
 				else
 				  $order_status="desc"; 
-				if($_REQUEST['order_name'])
-				  $order_name=$_REQUEST['order_name'];
+				if($_REQUEST[order_name])
+				  $order_name=$_REQUEST[order_name];
 				else
 				  $order_name="sms_idx";
 				$intPageCount=(int)(($intRowCount+$intPageSize-1)/$intPageSize);     
               if($intRowCount)
               {
 				$sql="select * from Gn_event_sms_info where $sql_serch order by $order_name $order_status limit $int,$intPageSize";
-				$result=mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
+				$result=mysql_query($sql) or die(mysql_error());
 
 		?>   
               <?
-                  while($row=mysqli_fetch_array($result))
+                  while($row=mysql_fetch_array($result))
                   {
-        				$sql="select count(*) as cnt from Gn_event_sms_step_info where sms_idx='{$row['sms_idx']}'";
-        				$sresult=mysqli_query($self_con, $sql) or die(mysqli_error($self_con));				                    
-        				$srow = mysqli_fetch_array($sresult);
+        				$sql="select count(*) as cnt from Gn_event_sms_step_info where sms_idx='$row[sms_idx]'";
+        				$sresult=mysql_query($sql) or die(mysql_error());				                    
+        				$srow = mysql_fetch_array($sresult);
                   ?>
               <tr>
                 <!-- <td></td> -->
 				<td>
 					<?if($row['sendable'] == 1){?>
-					<input type="checkbox" class="check" name="sms_idx" value="<?php echo $row['sms_idx'];?>" data-event-idx="<?=$row['event_idx']?>" data-name="<?=$row['m_id']?>" data-mobile="<?=$row['mobile']?>"  data-event_name_eng="<?=$row['event_name_eng']?>" data-title="<?=$row['reservation_title']?>"  data-desc="<?=$row['reservation_desc']?>"></td>
+					<input type="checkbox" class="check" name="sms_idx" value="<?php echo $row['sms_idx'];?>" data-event-idx="<?=$row[event_idx]?>" data-name="<?=$row[m_id]?>" data-mobile="<?=$row[mobile]?>"  data-event_name_eng="<?=$row[event_name_eng]?>" data-title="<?=$row[reservation_title]?>"  data-desc="<?=$row[reservation_desc]?>"></td>
 					<?}?>
                 <td><?=$sort_no?></td>
-                <td style="font-size:12px;"><?=$row['reservation_title']?></td>
-                <td><?=$row['reservation_desc']?></td>
-                <td><?=number_format($srow['cnt'])?></td>
+                <td style="font-size:12px;"><?=$row[reservation_title]?></td>
+                <td><?=$row[reservation_desc]?></td>
+                <td><?=number_format($srow[cnt])?></td>
                 <td><?=number_format($cnt)?>/<?=number_format($cnt)?></td>
-                <td><?=$row['regdate']?></td>
+                <td><?=$row[regdate]?></td>
                 <td>
                     <a href='mypage_reservation_create.php?sms_idx=<?php echo $row['sms_idx'];?>'>수정</a>/<a href="javascript:;;" onclick="deleteRow('<?php echo $row['sms_idx'];?>')">삭제</a>
                 </td>                                
@@ -605,7 +605,7 @@ function delete_all(){
 		$.ajax({
 			type:"POST",
 			url:"/admin/ajax/delete_func.php",
-			data:{admin:0, delete_name:"mypage_reservation_list", mem_id:'<?=$_SESSION['one_member_id']?>'},
+			data:{admin:0, delete_name:"mypage_reservation_list", mem_id:'<?=$_SESSION[one_member_id]?>'},
 			success:function(){
 				alert('삭제되었습니다.');
 				location.reload();
@@ -651,7 +651,7 @@ function create_iam_mall(status){
 		$("#iam_mall_sell_price").focus();
 		return;
 	}
-	if('<?=$data['service_type']?>' == '3' || status == 1) {
+	if('<?=$data[service_type]?>' == '3' || status == 1) {
 		var formData = new FormData();
 		formData.append("step_set", 'Y');
 		formData.append("step_set_ids", $("#send_sms_idx").val());

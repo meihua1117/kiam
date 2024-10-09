@@ -1,9 +1,10 @@
 <?
 include_once $path . "lib/rlatjd_fun.php";
-
-$sql = "select * from tjd_pay_result where buyer_id = '{$_SESSION['one_member_id']}' and end_date > '$date_today' and end_status in ('Y','A') order by end_date desc limit 1";
-$res_result = mysqli_query($self_con, $sql);
-$pay_data = mysqli_fetch_array($res_result);
+if ($_SESSION['one_member_id']) {
+    $sql = "select * from tjd_pay_result where buyer_id = '$_SESSION[one_member_id]' and end_date > '$date_today' and end_status in ('Y','A') order by end_date desc limit 1";
+    $res_result = mysql_query($sql);
+    $pay_data = mysql_fetch_array($res_result);
+}
 $rights = 0;
 //echo $pay_data['TotPrice'] ;
 //echo $pay_data['member_type'] ;
@@ -16,24 +17,21 @@ if ($pay_data['TotPrice'] < "55000") {
 }
 $rights = 3;
 $sub_domain = false;
+if ($HTTP_HOST == "kiam.kr")
+    $host = "www.kiam.kr";
+else
+    $host = $HTTP_HOST;
+$query = "select * from Gn_Service where sub_domain like '%{$host}'";
+$res = mysql_query($query);
+$domainData = mysql_fetch_array($res);
 if ($_SERVER['HTTP_HOST'] != "kiam.kr") {
-    $query = "select * from Gn_Service where sub_domain like '%" . $_SERVER['HTTP_HOST'] . "'";
-    $res = mysqli_query($self_con, $query);
-    $domainData = mysqli_fetch_array($res);
-
     if ($domainData['idx'] != "") {
         $sub_domain = true;
     }
 }
-
-$sql = "select * from tjd_pay_result where buyer_id = '{$_SESSION['one_member_id']}' and end_date > '$date_today'  and stop_yn='Y'";
-$res_result = mysqli_query($self_con, $sql);
-$stop = mysqli_fetch_array($res_result);
-if ($stop['stop_yn'] == "Y") {
-    if ($_SERVER['PHP_SELF'] == "/sub_5.php" || $_SERVER['PHP_SELF'] == "/sub_6.php" || strstr($_SERVER['PHP_SELF'], "mypage_") == true || strstr($_SERVER['PHP_SELF'], "daily_") == true) {
-        echo "<script>location='/';</script>";
-        exit;
-    }
+if ($domainData['status'] == "N" || $pay_data['stop_yn'] == "Y") {
+    echo "<script>location='/ma.php';</script>";
+    exit;
 }
 ?>
 <!DOCTYPE html>
@@ -123,7 +121,7 @@ if ($stop['stop_yn'] == "Y") {
 <?
 $path = "./";
 extract($_REQUEST);
-if (!$_SESSION['one_member_id']) {
+if (!$_SESSION[one_member_id]) {
 
 
 ?>
@@ -133,20 +131,20 @@ if (!$_SESSION['one_member_id']) {
 <?
     exit;
 }
-$sql = "select * from Gn_Member  where mem_id='" . $_SESSION['one_member_id'] . "'";
-$sresul_num = mysqli_query($self_con, $sql);
-$data = mysqli_fetch_array($sresul_num);
+$sql = "select * from Gn_Member  where mem_id='" . $_SESSION[one_member_id] . "'";
+$sresul_num = mysql_query($sql);
+$data = mysql_fetch_array($sresul_num);
 //print_r($data);
 
 
 
-$sql = "select * from Gn_MMS_Group where  mem_id='" . $_SESSION['one_member_id'] . "' and grp='아이엠'";
-$sresult = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-$krow = mysqli_fetch_array($sresult);
+$sql = "select * from Gn_MMS_Group where  mem_id='" . $_SESSION[one_member_id] . "' and grp='아이엠'";
+$sresult = mysql_query($sql) or die(mysql_error());
+$krow = mysql_fetch_array($sresult);
 
-$sql = "select count(*) cnt from Gn_MMS_Receive where  mem_id='" . $_SESSION['one_member_id'] . "' and grp_id='$krow[idx]'";
-$sresult = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-$skrow = mysqli_fetch_array($sresult);
+$sql = "select count(*) cnt from Gn_MMS_Receive where  mem_id='" . $_SESSION[one_member_id] . "' and grp_id='$krow[idx]'";
+$sresult = mysql_query($sql) or die(mysql_error());
+$skrow = mysql_fetch_array($sresult);
 ?>
 <script>
     function copyHtml() {
@@ -223,9 +221,9 @@ $skrow = mysqli_fetch_array($sresult);
 
             <form name="sub_4_form" id="sub_4_form" action="mypage.proc.php" method="post" enctype="multipart/form-data">
 
-                <input type="hidden" name="mode" value="<?= $gd_id ? "daily_updat" : "daily_save"; ?>" />
-                <input type="hidden" name="gd_id" value="<?= $gd_id; ?>" />
-                <input type="hidden" name="total_count" id="total_count" value="<?= $row['total_count']; ?>" />
+                <input type="hidden" name="mode" value="<?php echo $gd_id ? "daily_update" : "daily_save"; ?>" />
+                <input type="hidden" name="gd_id" value="<?php echo $gd_id; ?>" />
+                <input type="hidden" name="total_count" id="total_count" value="<?php echo $row[total_count]; ?>" />
                 <input type="hidden" name="iam" value="1" />
 
 
@@ -242,13 +240,13 @@ $skrow = mysqli_fetch_array($sresult);
                                 <th class="w200">[발송폰선택]</th>
                                 <td>
                                     <select name="send_num">
-                                        <option value="<?= str_replace("-", "", $data['mem_phone']) ?>"><?php echo str_replace("-", "", $data['mem_phone']); ?></option>
+                                        <option value="<?= str_replace("-", "", $data[mem_phone]) ?>"><?php echo str_replace("-", "", $data['mem_phone']); ?></option>
                                         <?php
-                                        $query = "select * from Gn_MMS_Number where mem_id='{$_SESSION['one_member_id']}' order by sort_no asc, user_cnt desc , idx desc";
-                                        $resul = mysqli_query($self_con, $query);
-                                        while ($korow = mysqli_fetch_array($resul)) {
+                                        $query = "select * from Gn_MMS_Number where mem_id='$_SESSION[one_member_id]' order by sort_no asc, user_cnt desc , idx desc";
+                                        $resul = mysql_query($query);
+                                        while ($korow = mysql_fetch_array($resul)) {
                                         ?>
-                                            <option value="<?= str_replace("-", "", $korow['sendnum']) ?>" <?php echo $row['send_num'] == str_replace("-", "", $korow['sendnum']) ? "selected" : "" ?>><?php echo str_replace("-", "", $korow['sendnum']); ?></option>
+                                            <option value="<?= str_replace("-", "", $korow[sendnum]) ?>" <?php echo $row['send_num'] == str_replace("-", "", $korow[sendnum]) ? "selected" : "" ?>><?php echo str_replace("-", "", $korow[sendnum]); ?></option>
                                         <?php } ?>
                                     </select>
                                 </td>
@@ -256,7 +254,7 @@ $skrow = mysqli_fetch_array($sresult);
                             <tr>
                                 <th class="w200">[주소록선택]</th>
                                 <td>
-                                    <input type="hidden" name="group_idx" placeholder="" id="address_idx" value="<?= $krow['idx'] ?>" readonly style="width:100px" />
+                                    <input type="hidden" name="group_idx" placeholder="" id="address_idx" value="<?= $krow[idx] ?>" readonly style="width:100px" />
                                     <input type="text" name="address_name" placeholder="" id="address_name" value="아이엠" readonly style="width:100px" />
                                     선택건수<span id="address_cnt"><?php echo $skrow['cnt']; ?></span>
                                 </td>
@@ -274,7 +272,7 @@ $skrow = mysqli_fetch_array($sresult);
                             <tr>
                                 <th class="w200">[문자내용]</th>
                                 <td>
-                                    <textarea readonly style="width:200px; height:200px;" id="txt" name="txt" itemname='내용' id='txt' required placeholder="내용" onkeydown="textCounter(sub_4_form.txt,'wenzi_cnt',2000,0);" onkeyup="textCounter(sub_4_form.txt,'wenzi_cnt',2000,0);type_check();" onfocus="textCounter(sub_4_form.txt,'wenzi_cnt',2000,0);type_check();"><?= $_REQUEST['msg'] ?></textarea>
+                                    <textarea readonly style="width:200px; height:200px;" id="txt" name="txt" itemname='내용' id='txt' required placeholder="내용" onkeydown="textCounter(sub_4_form.txt,'wenzi_cnt',2000,0);" onkeyup="textCounter(sub_4_form.txt,'wenzi_cnt',2000,0);type_check();" onfocus="textCounter(sub_4_form.txt,'wenzi_cnt',2000,0);type_check();"><?= $_REQUEST[msg] ?></textarea>
                                 </td>
                             </tr>
                             <tr>
@@ -312,7 +310,7 @@ $skrow = mysqli_fetch_array($sresult);
                                 <?
                                 for ($i = 9; $i < 22; $i++) {
                                     $iv = $i < 10 ? "0" . $i : $i;
-                                    $selected = $row['htime'] == $iv ? "selected" : "";
+                                    $selected = $row[htime] == $iv ? "selected" : "";
                                 ?>
                                     <option value="<?= $iv ?>" <?= $selected ?>><?= $iv ?></option>
                                 <?
@@ -323,7 +321,7 @@ $skrow = mysqli_fetch_array($sresult);
                                 <?
                                 for ($i = 0; $i < 31; $i += 30) {
                                     $iv = $i == 0 ? "00" : $i;
-                                    $selected = $row['mtime'] == $iv ? "selected" : "";
+                                    $selected = $row[mtime] == $iv ? "selected" : "";
                                 ?>
                                     <option value="<?= $iv ?>" <?= $selected ?>><?= $iv ?></option>
                                 <?
@@ -338,7 +336,7 @@ $skrow = mysqli_fetch_array($sresult);
                             <div style="width:50%;text-align:left;margin:0px;">
                                 <ul id="date_list">
                                     <?php
-                                    $day = ceil($skrow['cnt'] / 100);
+                                    $day = ceil($skrow[cnt] / 100);
                                     for ($i = 1; $i <= $day; $i++) {
                                         $today = date("Y-m-d", strtotime("+$i day"));
                                     ?>

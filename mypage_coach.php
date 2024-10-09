@@ -1,7 +1,7 @@
 <?
 $path="./";
 include_once "_head.php";
-if(!$_SESSION['one_member_id'])
+if(!$_SESSION[one_member_id])
 {
 
 ?>
@@ -11,9 +11,9 @@ location.replace('/ma.php');
 <?
 exit;
 }
-	$sql="select * from Gn_Member  where mem_id='".$_SESSION['one_member_id']."'";
-	$sresul_num=mysqli_query($self_con, $sql);
-	$data=mysqli_fetch_array($sresul_num);	
+	$sql="select * from Gn_Member  where mem_id='".$_SESSION[one_member_id]."'";
+	$sresul_num=mysql_query($sql);
+	$data=mysql_fetch_array($sresul_num);	
 	
 	if($data['intro_message'] =="") {
 		$data['intro_message'] = "안녕하세요\n
@@ -81,7 +81,7 @@ $(function(){
  <!--       <div><img src="images/sub_mypage_03.jpg" /></div> -->
         <div class="join">       
         <form name="join_form" id="join_form" method="post"  enctype="multipart/form-data">
-        <input type="hidden" name="join_modify" value="<?php echo $member_1['mem_code'];?>" />    
+        <input type="hidden" name="join_modify" value="<?php echo $member_1[mem_code];?>" />    
         <div class="a1">
         <li style="float:left;">회원정보 수정</li>
         <li style="float:right;"></li>
@@ -96,12 +96,12 @@ $(function(){
         </colgroup>
         <tr>
         <td>아이디</td>
-        <td><?=$member_1['mem_id']?></td>
+        <td><?=$member_1[mem_id]?></td>
         </tr>
 		<tr>
 		<td>회원구분</td>
         <td>
-            <?php if($member_1['mem_leb'] == "50") {?>
+            <?php if($member_1[mem_leb] == "50") {?>
                 사업회원
             <?php } else {?>
                 일반회원
@@ -112,15 +112,15 @@ $(function(){
 
         <tr>
         <td>휴대폰번호</td>
-        <td  colspan="3"><?=$member_1['mem_phone']?></td>
+        <td  colspan="3"><?=$member_1[mem_phone]?></td>
         </tr>  
         <tr>
         <td>성명/성별</td>
-        <td ><input type="text" name="name" itemname='성명' value="<?=$member_1['mem_name']?>" required /></td>
+        <td ><input type="text" name="name" itemname='성명' value="<?=$member_1[mem_name]?>" required /></td>
 		</tr>  
         <tr>
 		<td>프로필사진</td>
-        <td ><input type="file" name="profile" id="profile" itemname='사진' /><?php if($member_1['profile'] != "") { echo "<img src='$member_1[profile]'>"; }?></td>      
+        <td ><input type="file" name="profile" id="profile" itemname='사진' /><?php if($member_1[profile] != "") { echo "<img src='$member_1[profile]'>"; }?></td>      
         </tr>
         <td>생년월일</td>
         <td colspan="3">
@@ -171,11 +171,11 @@ $(function(){
         </tr>
          <tr>
         <td>소속/직책</td>
-        <td  colspan="3"><input type="text" name="zy" required itemname='소속' style="width:20%;" value="<?=$member_1['zy']?>" /></td>
+        <td  colspan="3"><input type="text" name="zy" required itemname='소속' style="width:20%;" value="<?=$member_1[zy]?>" /></td>
         </tr>
         <tr>
         <td>자택주소</td>
-        <td  colspan="3"><input type="text" name="add1" required itemname='주소' style="width:90%;" value="<?=$member_1['mem_add1']?>" /></td>
+        <td  colspan="3"><input type="text" name="add1" required itemname='주소' style="width:90%;" value="<?=$member_1[mem_add1]?>" /></td>
         </tr>  
         <tr>
         <td>이메일</td>
@@ -197,7 +197,7 @@ $(function(){
             <!--
         <td>닉네임</td>
         <td>
-        <li><input type="text" name="nick" itemname='닉네임' value="<?=$member_1['mem_name']?>" required /></li>
+        <li><input type="text" name="nick" itemname='닉네임' value="<?=$member_1[mem_name]?>" required /></li>
         <li><input type="button" value="중복확인" onClick="nick_check(join_form,'join_form')" /></li>
         <li id='nick_html'></li>
         <input type="hidden" name="nick_status" itemname='닉네임중복확인' required  />                
@@ -205,23 +205,23 @@ $(function(){
         -->
         <td>추천링크</td>
         <td colspan="3">
-            <input type="hidden" name="nick" itemname='닉네임' value="<?=$member_1['mem_name']?>" />
+            <input type="hidden" name="nick" itemname='닉네임' value="<?=$member_1[mem_name]?>" />
             <input type="hidden" name="nick_status" itemname='닉네임중복확인' value="ok"  />                
-               <?php if($member_1['mem_leb'] == "50") {?>
+               <?php if($member_1[mem_leb] == "50") {?>
                <?php }?>
-               <span id="sHtml" style="display:none">https://www.kiam.kr/?mem_code=<?php echo $member_1['mem_code']?></span>
-               <!--<a href="https://www.kiam.kr/?mem_code=<?php echo $member_1['mem_code']?>">온리원문자사이트로 가기</a>-->
+               <span id="sHtml" style="display:none">https://www.kiam.kr/?mem_code=<?php echo $member_1[mem_code]?></span>
+               <!--<a href="https://www.kiam.kr/?mem_code=<?php echo $member_1[mem_code]?>">온리원문자사이트로 가기</a>-->
                <input type="button" name="" value="복사하기" onclick="copyHtml()">
                
         </td>
         </tr>            
         <!--<tr>
         <td>직책</td>
-        <td  colspan="3"><input type="text" name="mem_sch" required itemname='직책' style="width:20%;" value="<?=$member_1['mem_sch']?>" /></td>
+        <td  colspan="3"><input type="text" name="mem_sch" required itemname='직책' style="width:20%;" value="<?=$member_1[mem_sch]?>" /></td>
         </tr>   
         <tr>
         <td>직무</td>
-        <td  colspan="3"><input type="text" name="keywords" required itemname='직무' style="width:90%;" value="<?=$member_1['keywords']?>" /></td>
+        <td  colspan="3"><input type="text" name="keywords" required itemname='직무' style="width:90%;" value="<?=$member_1[keywords]?>" /></td>
         </tr>-->
               
        
@@ -229,32 +229,32 @@ $(function(){
         <!--
         <tr>
         <td>직업</td>
-        <td colspan="3"><input type="text" name="zy" required itemname='직업' value="<?=$member_1['zy']?>" /></td>
+        <td colspan="3"><input type="text" name="zy" required itemname='직업' value="<?=$member_1[zy]?>" /></td>
         </tr>
         -->
         <tr>
         
-        <?php if($member_1['mem_leb'] == "50") {?>
+        <?php if($member_1[mem_leb] == "50") {?>
         <tr>
         <td>통장내역</td>
             <td  colspan="3">
                 <table style="width:100%">
                     <tr>
-                        <td>은행명</td><td><input type="text" name="bank_name"  itemname='주소' style="width:40%;" value="<?=$member_1['bank_name']?>" /></td>
+                        <td>은행명</td><td><input type="text" name="bank_name"  itemname='주소' style="width:40%;" value="<?=$member_1[bank_name]?>" /></td>
                     </tr>
                     <tr>
-                        <td>계좌번호</td><td><input type="text" name="bank_account"  itemname='주소' style="width:40%;" value="<?=$member_1['bank_account']?>" /></td>
+                        <td>계좌번호</td><td><input type="text" name="bank_account"  itemname='주소' style="width:40%;" value="<?=$member_1[bank_account]?>" /></td>
                     </tr>
                     <tr>
-                    <td>이름</td><td><input type="text" name="bank_owner"  itemname='주소' style="width:40%;" value="<?=$member_1['bank_owner']?>" /></td>
+                    <td>이름</td><td><input type="text" name="bank_owner"  itemname='주소' style="width:40%;" value="<?=$member_1[bank_owner]?>" /></td>
                     </tr>
                 </table>
             </td>
         </tr>
         <?}else{?>
-            <input type="hidden" name="bank_name"  itemname='주소' style="width:40%;" value="<?=$member_1['bank_name']?>" />
-            <input type="hidden" name="bank_account"  itemname='주소' style="width:40%;" value="<?=$member_1['bank_account']?>" />
-            <input type="hidden" name="bank_owner"  itemname='주소' style="width:40%;" value="<?=$member_1['bank_owner']?>" />
+            <input type="hidden" name="bank_name"  itemname='주소' style="width:40%;" value="<?=$member_1[bank_name]?>" />
+            <input type="hidden" name="bank_account"  itemname='주소' style="width:40%;" value="<?=$member_1[bank_account]?>" />
+            <input type="hidden" name="bank_owner"  itemname='주소' style="width:40%;" value="<?=$member_1[bank_owner]?>" />
         <?}?>
 
 		        <tr>
@@ -268,11 +268,11 @@ $(function(){
         </tr>
         <tr>
         <td>소식받기</td>
-        <td colspan="3"><label><input type="checkbox" name="is_message" <?=$member_1['is_message']=="Y"?"checked":""?> />※ 아이엠, 셀링솔루션, 셀링대회, 제휴업체, 셀링교육, 마케팅지원과 온리원그룹 활동 및 사업소식을 전달합니다.</label></td>
+        <td colspan="3"><label><input type="checkbox" name="is_message" <?=$member_1[is_message]=="Y"?"checked":""?> />※ 아이엠, 셀링솔루션, 셀링대회, 제휴업체, 셀링교육, 마케팅지원과 온리원그룹 활동 및 사업소식을 전달합니다.</label></td>
         </tr>                                                
         <tr>
         <td colspan="4" style="text-align:center;padding:30px;">
-        <a href="javascript:void(0)" onclick="join_check(join_form,'<?=$member_1['mem_code']?>')"><img src="images/sub_mypage_07.jpg" /></a>
+        <a href="javascript:void(0)" onclick="join_check(join_form,'<?=$member_1[mem_code]?>')"><img src="images/sub_mypage_07.jpg" /></a>
         </td>
         </tr>
 
@@ -281,31 +281,31 @@ $(function(){
     
 
        <!-- <//?
-				$sql_serch=" buyer_id ='{$_SESSION['one_member_id']}' ";
-				if($_REQUEST['search_date'])
+				$sql_serch=" buyer_id ='$_SESSION[one_member_id]' ";
+				if($_REQUEST[search_date])
 				{					
-					if($_REQUEST['rday1'])
+					if($_REQUEST[rday1])
 					{
-					$start_time=strtotime($_REQUEST['rday1']);
-					$sql_serch.=" and unix_timestamp({$_REQUEST['search_date']}) >=$start_time ";
+					$start_time=strtotime($_REQUEST[rday1]);
+					$sql_serch.=" and unix_timestamp({$_REQUEST[search_date]}) >=$start_time ";
 					}
-					if($_REQUEST['rday2'])
+					if($_REQUEST[rday2])
 					{
-					$end_time=strtotime($_REQUEST['rday2']);
-					$sql_serch.=" and unix_timestamp({$_REQUEST['search_date']}) <= $end_time ";
+					$end_time=strtotime($_REQUEST[rday2]);
+					$sql_serch.=" and unix_timestamp({$_REQUEST[search_date]}) <= $end_time ";
 					}
 				}
 				$sql="select count(no) as cnt from tjd_pay_result where $sql_serch ";
-				$result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-				$row=mysqli_fetch_array($result);
-				$intRowCount=$row['cnt'];
-				if (!$_POST['lno']) 
+				$result = mysql_query($sql) or die(mysql_error());
+				$row=mysql_fetch_array($result);
+				$intRowCount=$row[cnt];
+				if (!$_POST[lno]) 
 					$intPageSize =20;
 				else 
-				   $intPageSize = $_POST['lno'];				
-				if($_POST['page'])
+				   $intPageSize = $_POST[lno];				
+				if($_POST[page])
 				{
-				  $page=(int)$_POST['page'];
+				  $page=(int)$_POST[page];
 				  $sort_no=$intRowCount-($intPageSize*$page-$intPageSize); 
 				}
 				else
@@ -313,22 +313,22 @@ $(function(){
 				  $page=1;
 				  $sort_no=$intRowCount;
 				}
-				if($_POST['page2'])
-				  $page2=(int)$_POST['page2'];
+				if($_POST[page2])
+				  $page2=(int)$_POST[page2];
 				else
 				  $page2=1;
 				$int=($page-1)*$intPageSize;
-				if($_REQUEST['order_status'])
-				  $order_status=$_REQUEST['order_status'];
+				if($_REQUEST[order_status])
+				  $order_status=$_REQUEST[order_status];
 				else
 				  $order_status="desc"; 
-				if($_REQUEST['order_name'])
-				  $order_name=$_REQUEST['order_name'];
+				if($_REQUEST[order_name])
+				  $order_name=$_REQUEST[order_name];
 				else
 				  $order_name="end_status";
 				$intPageCount=(int)(($intRowCount+$intPageSize-1)/$intPageSize);     
 				$sql="select * from tjd_pay_result where $sql_serch order by $order_name $order_status limit $int,$intPageSize";
-				$result=mysqli_query($self_con, $sql) or die(mysqli_error($self_con));				
+				$result=mysql_query($sql) or die(mysql_error());				
 		?>
 <link type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.4/themes/base/jquery-ui.css" rel="stylesheet" />
 <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.10.0/jquery-ui.min.js"></script>                
@@ -437,14 +437,14 @@ jQuery(function($){
 				$search_date=array("date"=>"결제일","end_date"=>"만료(해지)일");
 				foreach($search_date as $key=>$v)
 				{
-					$checked=$_REQUEST['search_date']==$key?"checked":"";
+					$checked=$_REQUEST[search_date]==$key?"checked":"";
 				?>
                 	<label><input name="search_date" type="radio" value="<?=$key?>" <?=$checked?> /><?=$v?></label>
                 <?	
 				}
 				?>
-                <input type="text" name="rday1" placeholder="" id="rday1" value="<?=$_REQUEST['rday1']?>"/> ~
-                <input type="text" name="rday2" placeholder="" id="rday2" value="<?=$_REQUEST['rday2']?>"/>
+                <input type="text" name="rday1" placeholder="" id="rday1" value="<?=$_REQUEST[rday1]?>"/> ~
+                <input type="text" name="rday2" placeholder="" id="rday2" value="<?=$_REQUEST[rday2]?>"/>
                 <a href="javascript:void(0)" onclick="pay_form.submit()"><img src="images/sub_mypage_11.jpg" /></a>                                            
             </div>
             <div>
@@ -452,32 +452,32 @@ jQuery(function($){
               <tr>
                 <td style="width:6%;">번호</td>
                 <td style="width:6%;">회원구분</td>
-                <td style="width:15%;"><a href="javascript:void(0)" onclick="order_sort(pay_form,'date',pay_form.order_status.value)">결제일<? if($_REQUEST['order_name']=="date"){echo $_REQUEST['order_status']=="desc"?'▼':'▲';}else{ echo '▼'; }?></a></td>
-                <td style="width:15%;"><a href="javascript:void(0)" onclick="order_sort(pay_form,'end_date',pay_form.order_status.value)">만료(해지)일<? if($_REQUEST['order_name']=="end_date"){echo $_REQUEST['order_status']=="desc"?'▼':'▲';}else{ echo '▼'; }?></a></td>
-                <td style="width:6%"><a href="javascript:void(0)" onclick="order_sort(pay_form,'month_cnt',pay_form.order_status.value)">개월수<? if($_REQUEST['order_name']=="month_cnt"){echo $_REQUEST['order_status']=="desc"?'▼':'▲';}else{ echo '▼'; }?></a></td>
-                <td style="width:8%"><a href="javascript:void(0)" onclick="order_sort(pay_form,'fujia_status',pay_form.order_status.value)">결제상품<? if($_REQUEST['order_name']=="fujia_status"){echo $_REQUEST['order_status']=="desc"?'▼':'▲';}else{ echo '▼'; }?></a></td>
-                <td style="width:10%;"><a href="javascript:void(0)" onclick="order_sort(pay_form,'payMethod',pay_form.order_status.value)">결제방식<? if($_REQUEST['order_name']=="payMethod"){echo $_REQUEST['order_status']=="desc"?'▼':'▲';}else{ echo '▼'; }?></a></td>            
+                <td style="width:15%;"><a href="javascript:void(0)" onclick="order_sort(pay_form,'date',pay_form.order_status.value)">결제일<? if($_REQUEST[order_name]=="date"){echo $_REQUEST[order_status]=="desc"?'▼':'▲';}else{ echo '▼'; }?></a></td>
+                <td style="width:15%;"><a href="javascript:void(0)" onclick="order_sort(pay_form,'end_date',pay_form.order_status.value)">만료(해지)일<? if($_REQUEST[order_name]=="end_date"){echo $_REQUEST[order_status]=="desc"?'▼':'▲';}else{ echo '▼'; }?></a></td>
+                <td style="width:6%"><a href="javascript:void(0)" onclick="order_sort(pay_form,'month_cnt',pay_form.order_status.value)">개월수<? if($_REQUEST[order_name]=="month_cnt"){echo $_REQUEST[order_status]=="desc"?'▼':'▲';}else{ echo '▼'; }?></a></td>
+                <td style="width:8%"><a href="javascript:void(0)" onclick="order_sort(pay_form,'fujia_status',pay_form.order_status.value)">결제상품<? if($_REQUEST[order_name]=="fujia_status"){echo $_REQUEST[order_status]=="desc"?'▼':'▲';}else{ echo '▼'; }?></a></td>
+                <td style="width:10%;"><a href="javascript:void(0)" onclick="order_sort(pay_form,'payMethod',pay_form.order_status.value)">결제방식<? if($_REQUEST[order_name]=="payMethod"){echo $_REQUEST[order_status]=="desc"?'▼':'▲';}else{ echo '▼'; }?></a></td>            
                 
                 <td style="width:9%;">결제한<br />폰 수</td>
                 <td style="width:9%;">등록된<br />건 수</td>
-                <td style="width:10%;"><a href="javascript:void(0)" onclick="order_sort(pay_form,'TotPrice',pay_form.order_status.value)">결제금액<? if($_REQUEST['order_name']=="TotPrice"){echo $_REQUEST['order_status']=="desc"?'▼':'▲';}else{ echo '▼'; }?></a></td>
-                <td style="width:12%;"><a href="javascript:void(0)" onclick="order_sort(pay_form,'end_status',pay_form.order_status.value)">상태<? if($_REQUEST['order_name']=="end_status"){echo $_REQUEST['order_status']=="desc"?'▼':'▲';}else{ echo '▼'; }?></a></td>
+                <td style="width:10%;"><a href="javascript:void(0)" onclick="order_sort(pay_form,'TotPrice',pay_form.order_status.value)">결제금액<? if($_REQUEST[order_name]=="TotPrice"){echo $_REQUEST[order_status]=="desc"?'▼':'▲';}else{ echo '▼'; }?></a></td>
+                <td style="width:12%;"><a href="javascript:void(0)" onclick="order_sort(pay_form,'end_status',pay_form.order_status.value)">상태<? if($_REQUEST[order_name]=="end_status"){echo $_REQUEST[order_status]=="desc"?'▼':'▲';}else{ echo '▼'; }?></a></td>
               </tr>
               <?
               if($intRowCount)
               {
-                  while($row=mysqli_fetch_array($result))
+                  while($row=mysql_fetch_array($result))
                   {
 					  	$num_arr=array();
-						$sql_num="select sendnum from Gn_MMS_Number where mem_id='{$row['buyer_id']}' and end_date='{$row['end_date']}' ";
-						$resul_num=mysqli_query($self_con, $sql_num);
-						while($row_num=mysqli_fetch_array($resul_num))
-						array_push($num_arr,$row_num['sendnum']);
+						$sql_num="select sendnum from Gn_MMS_Number where mem_id='$row[buyer_id]' and end_date='$row[end_date]' ";
+						$resul_num=mysql_query($sql_num);
+						while($row_num=mysql_fetch_array($resul_num))
+						array_push($num_arr,$row_num[sendnum]);
 						//$num_str=implode(",",$num_arr);
 						
-						$sql="select mem_leb from Gn_Member  where mem_id='{$row['buyer_id']}'";
-						$sresul_num=mysqli_query($self_con, $sql);
-						$srow=mysqli_fetch_array($sresul_num);
+						$sql="select mem_leb from Gn_Member  where mem_id='$row[buyer_id]'";
+						$sresul_num=mysql_query($sql);
+						$srow=mysql_fetch_array($sresul_num);
 												
 						if($srow['mem_leb'] == "22") $mem_leb = "일반회원";
 						else  if($srow['mem_leb'] == "50") $mem_leb = "사업회원";
@@ -488,26 +488,26 @@ jQuery(function($){
                 <td>
                     <?=$mem_leb?>
                 </td>
-                <td style="font-size:12px;"><?=$row['date']?></td>
-                <td style="font-size:12px;"><?=$row['end_date']?></td>
-                <td><?=$row['month_cnt']?>개월</td>
-                <!--<td><?=$row['fujia_status']?></td>-->
+                <td style="font-size:12px;"><?=$row[date]?></td>
+                <td style="font-size:12px;"><?=$row[end_date]?></td>
+                <td><?=$row[month_cnt]?>개월</td>
+                <!--<td><?=$row[fujia_status]?></td>-->
                 <td>문자</td>
-                <td><?=$pay_type[$row['payMethod']]?$pay_type[$row['payMethod']]:"무통장"?></td>
-                <td><?=$row['add_phone']?></td>
-                <td><?=$row['phone_cnt']?></td>
+                <td><?=$pay_type[$row[payMethod]]?$pay_type[$row[payMethod]]:"무통장"?></td>
+                <td><?=$row[add_phone]?></td>
+                <td><?=$row[phone_cnt]?></td>
                 <!--<td><?=count($num_arr)?></td>-->
-                <td><?=number_format($row['TotPrice'])?>원</td>
+                <td><?=number_format($row[TotPrice])?>원</td>
                 <td>
-				<?=$pay_result_status[$row['end_status']]?>
+				<?=$pay_result_status[$row[end_status]]?>
                	<?php if($row['monthly_yn'] == "Y") {?>
                	<div style="border:1px solid #000;padding;3px;background:#B2CCFF" ><A href="javascript:void(monthly_remove('<?php echo $row['no'];?>'))">정기결제해지</a> <span class="popbutton pop_view pop_right">?</span></div>
                 <?php }?>
              
 				<!--
-               	<?=$row['end_status']=="Y" && !count($num_arr) && strtotime("+1 week",strtotime($row['date'])) > time() ?"<a href=\"javascript:void(0)\" onclick=\"pay_cancel('{$row['no']}','{$row['payMethod']}','{$row['mid']}','{$row['tid']}','{$row['end_date']}','{$row['fujia_status']}')\" class=\"a_btn_2\">해지</a>":""?>
+               	<?=$row[end_status]=="Y" && !count($num_arr) && strtotime("+1 week",strtotime($row[date])) > time() ?"<a href=\"javascript:void(0)\" onclick=\"pay_cancel('{$row[no]}','{$row[payMethod]}','{$row[mid]}','{$row[tid]}','{$row[end_date]}','{$row[fujia_status]}')\" class=\"a_btn_2\">해지</a>":""?>
                	-->
-               	<? //=$row['end_status']=="N"?"<a href='javascript:void(0)' onclick=\"pay_ex_go('{$row['no']}','{$row['end_date']}','{$is_chrome}')\" class='a_btn_2'>연장</a>":""?>
+               	<? //=$row[end_status]=="N"?"<a href='javascript:void(0)' onclick=\"pay_ex_go('{$row[no]}','{$row[end_date]}','{$is_chrome}')\" class='a_btn_2'>연장</a>":""?>
 
                 </td>
               </tr>
@@ -516,31 +516,31 @@ jQuery(function($){
                   }
                   ?>
         <?
-				$sql_serch=" buyer_id ='{$_SESSION['one_member_id']}' ";
-				if($_REQUEST['search_date'])
+				$sql_serch=" buyer_id ='$_SESSION[one_member_id]' ";
+				if($_REQUEST[search_date])
 				{					
-					if($_REQUEST['rday1'])
+					if($_REQUEST[rday1])
 					{
-					$start_time=strtotime($_REQUEST['rday1']);
-					$sql_serch.=" and unix_timestamp({$_REQUEST['search_date']}) >=$start_time ";
+					$start_time=strtotime($_REQUEST[rday1]);
+					$sql_serch.=" and unix_timestamp({$_REQUEST[search_date]}) >=$start_time ";
 					}
-					if($_REQUEST['rday2'])
+					if($_REQUEST[rday2])
 					{
-					$end_time=strtotime($_REQUEST['rday2']);
-					$sql_serch.=" and unix_timestamp({$_REQUEST['search_date']}) <= $end_time ";
+					$end_time=strtotime($_REQUEST[rday2]);
+					$sql_serch.=" and unix_timestamp({$_REQUEST[search_date]}) <= $end_time ";
 					}
 				}
 				$sql="select count(no) as cnt from tjd_pay_result_db where $sql_serch ";
-				$result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-				$row=mysqli_fetch_array($result);
-				$intRowCount=$row['cnt'];
-				if (!$_POST['lno']) 
+				$result = mysql_query($sql) or die(mysql_error());
+				$row=mysql_fetch_array($result);
+				$intRowCount=$row[cnt];
+				if (!$_POST[lno]) 
 					$intPageSize =20;
 				else 
-				   $intPageSize = $_POST['lno'];				
-				if($_POST['page'])
+				   $intPageSize = $_POST[lno];				
+				if($_POST[page])
 				{
-				  $page=(int)$_POST['page'];
+				  $page=(int)$_POST[page];
 				  $sort_no=$intRowCount-($intPageSize*$page-$intPageSize); 
 				}
 				else
@@ -548,36 +548,36 @@ jQuery(function($){
 				  $page=1;
 				  $sort_no=$intRowCount;
 				}
-				if($_POST['page2'])
-				  $page2=(int)$_POST['page2'];
+				if($_POST[page2])
+				  $page2=(int)$_POST[page2];
 				else
 				  $page2=1;
 				$int=($page-1)*$intPageSize;
-				if($_REQUEST['order_status'])
-				  $order_status=$_REQUEST['order_status'];
+				if($_REQUEST[order_status])
+				  $order_status=$_REQUEST[order_status];
 				else
 				  $order_status="desc"; 
-				if($_REQUEST['order_name'])
-				  $order_name=$_REQUEST['order_name'];
+				if($_REQUEST[order_name])
+				  $order_name=$_REQUEST[order_name];
 				else
 				  $order_name="end_status";
 				$intPageCount=(int)(($intRowCount+$intPageSize-1)/$intPageSize);     
 				$sql="select * from tjd_pay_result_db where $sql_serch order by $order_name $order_status limit $int,$intPageSize";
-				$result=mysqli_query($self_con, $sql) or die(mysqli_error($self_con));				
+				$result=mysql_query($sql) or die(mysql_error());				
 		?>   
               <?
-                  while($row=mysqli_fetch_array($result))
+                  while($row=mysql_fetch_array($result))
                   {
 					  	$num_arr=array();
-						$sql_num="select sendnum from Gn_MMS_Number where mem_id='{$row['buyer_id']}' and end_date='{$row['end_date']}' ";
-						$resul_num=mysqli_query($self_con, $sql_num);
-						while($row_num=mysqli_fetch_array($resul_num))
-						array_push($num_arr,$row_num['sendnum']);
+						$sql_num="select sendnum from Gn_MMS_Number where mem_id='$row[buyer_id]' and end_date='$row[end_date]' ";
+						$resul_num=mysql_query($sql_num);
+						while($row_num=mysql_fetch_array($resul_num))
+						array_push($num_arr,$row_num[sendnum]);
 						//$num_str=implode(",",$num_arr);
 						
-						$sql="select mem_leb from Gn_Member  where mem_id='{$row['buyer_id']}'";
-						$sresul_num=mysqli_query($self_con, $sql);
-						$srow=mysqli_fetch_array($sresul_num);
+						$sql="select mem_leb from Gn_Member  where mem_id='$row[buyer_id]'";
+						$sresul_num=mysql_query($sql);
+						$srow=mysql_fetch_array($sresul_num);
 												
 						if($srow['mem_leb'] == "22") $mem_leb = "일반회원";
 						else  if($srow['mem_leb'] == "50") $mem_leb = "사업회원";
@@ -588,26 +588,26 @@ jQuery(function($){
                 <td>
                     <?=$mem_leb?>
                 </td>
-                <td style="font-size:12px;"><?=$row['date']?></td>
-                <td style="font-size:12px;"><?=$row['end_date']?></td>
-                <td><?=$row['month_cnt']?>개월</td>
-                <!--<td><?=$row['fujia_status']?></td>-->
+                <td style="font-size:12px;"><?=$row[date]?></td>
+                <td style="font-size:12px;"><?=$row[end_date]?></td>
+                <td><?=$row[month_cnt]?>개월</td>
+                <!--<td><?=$row[fujia_status]?></td>-->
                 <td>디버</td>                
-                <td><?=$pay_type[$row['payMethod']]?$pay_type[$row['payMethod']]:"카드"?></td>
-                <td><?=$row['add_phone']?></td>
-                <td><?=$row['phone_cnt']?></td>
+                <td><?=$pay_type[$row[payMethod]]?$pay_type[$row[payMethod]]:"카드"?></td>
+                <td><?=$row[add_phone]?></td>
+                <td><?=$row[phone_cnt]?></td>
                 <!--<td><?=count($num_arr)?></td>-->
-                <td><?=number_format($row['TotPrice'])?>원</td>
+                <td><?=number_format($row[TotPrice])?>원</td>
                 <td>
-				<?=$pay_result_status[$row['end_status']]?>
+				<?=$pay_result_status[$row[end_status]]?>
                	<?php if($row['monthly_yn'] == "Y") {?>
                	<div style="border:1px solid #000;padding;3px;background:#B2CCFF" ><A href="javascript:void(monthly_remove('<?php echo $row['no'];?>'))">정기결제해지</a> <span class="popbutton pop_view pop_right">?</span></div>
                 <?php }?>
              
 				<!--
-               	<?=$row['end_status']=="Y" && !count($num_arr) && strtotime("+1 week",strtotime($row['date'])) > time() ?"<a href=\"javascript:void(0)\" onclick=\"pay_cancel('{$row['no']}','{$row['payMethod']}','{$row['mid']}','{$row['tid']}','{$row['end_date']}','{$row['fujia_status']}')\" class=\"a_btn_2\">해지</a>":""?>
+               	<?=$row[end_status]=="Y" && !count($num_arr) && strtotime("+1 week",strtotime($row[date])) > time() ?"<a href=\"javascript:void(0)\" onclick=\"pay_cancel('{$row[no]}','{$row[payMethod]}','{$row[mid]}','{$row[tid]}','{$row[end_date]}','{$row[fujia_status]}')\" class=\"a_btn_2\">해지</a>":""?>
                	-->
-               	<? //=$row['end_status']=="N"?"<a href='javascript:void(0)' onclick=\"pay_ex_go('{$row['no']}','{$row['end_date']}','{$is_chrome}')\" class='a_btn_2'>연장</a>":""?>
+               	<? //=$row[end_status]=="N"?"<a href='javascript:void(0)' onclick=\"pay_ex_go('{$row[no]}','{$row[end_date]}','{$is_chrome}')\" class='a_btn_2'>연장</a>":""?>
 
                 </td>
               </tr>
@@ -639,19 +639,19 @@ jQuery(function($){
             </div>
         </div>
         </form>
-<!--<?php if($_SESSION['one_mem_lev'] == "50"){       
+<!--<?php if($_SESSION[one_mem_lev] == "50"){       
     $query = "";
     $sql_serch = "";
-				if($_REQUEST['krday1'] || $_REQUEST['krday2'])
+				if($_REQUEST[krday1] || $_REQUEST[krday2])
 				{					
-					if($_REQUEST['krday1'])
+					if($_REQUEST[krday1])
 					{
-					$start_time=strtotime($_REQUEST['krday1']);
+					$start_time=strtotime($_REQUEST[krday1]);
 					$sql_serch.=" and unix_timestamp(a.date) >=$start_time ";
 					}
-					if($_REQUEST['sday2'])
+					if($_REQUEST[sday2])
 					{
-					$end_time=strtotime($_REQUEST['krday2']);
+					$end_time=strtotime($_REQUEST[krday2]);
 					$sql_serch.=" and unix_timestamp(a.date) <= $end_time ";
 					}
 				}    
@@ -660,10 +660,10 @@ jQuery(function($){
         	    SQL_CALC_FOUND_ROWS 
         	   *
         	FROM Gn_Member 
-        	WHERE recommend_id='".$_SESSION['one_member_id']."'
+        	WHERE recommend_id='".$_SESSION[one_member_id]."'
 	              $sql_serch";
-	$res	    = mysqli_query($self_con, $query);
-	$totalCnt	=  mysqli_num_rows($res);	
+	$res	    = mysql_query($query);
+	$totalCnt	=  mysql_num_rows($res);	
                 	
 	$intRowCount=$totalCnt;    
 	
@@ -687,8 +687,8 @@ jQuery(function($){
         </div>
         <div>
             <div class="p1">
-                <input type="text" name="krday1" placeholder="" id="krday1" value="<?=$_REQUEST['krday1']?>"/> ~
-                <input type="text" name="krday2" placeholder="" id="krday2" value="<?=$_REQUEST['krday2']?>"/>
+                <input type="text" name="krday1" placeholder="" id="krday1" value="<?=$_REQUEST[krday1]?>"/> ~
+                <input type="text" name="krday2" placeholder="" id="krday2" value="<?=$_REQUEST[krday2]?>"/>
                 <a href="javascript:void(0)" onclick="payment_form.submit()"><img src="images/sub_mypage_11.jpg" /></a>                                            
             </div>
             <div>
@@ -706,7 +706,7 @@ jQuery(function($){
               if($intRowCount)
               {
                 $num = 1;
-                  while($row=mysqli_fetch_array($res))
+                  while($row=mysql_fetch_array($res))
                   {
                     
                     	$query = "
@@ -717,16 +717,16 @@ jQuery(function($){
                             	LEFT JOIN Gn_Member b
                             	       on b.mem_id =a.buyer_id
                             	WHERE 1=1 
-                    	              and a.buyer_id='{$row['mem_id']}'";
+                    	              and a.buyer_id='$row[mem_id]'";
                     	              
-                    	$sres	    = mysqli_query($self_con, $query);                    
-                        $srow = mysqli_fetch_array($sres);
-                        if($row['business_type'] == "U") {
+                    	$sres	    = mysql_query($query);                    
+                        $srow = mysql_fetch_array($sres);
+                        if($row[business_type] == "U") {
                             if($srow[0] != "")
                                 $member_type = "일반회원";
                             else 
                                 $member_type = "무료회원";
-                        } else if($row['business_type'] == "B") {
+                        } else if($row[business_type] == "B") {
                             $member_type = "사업자회원";
                         }
                     
@@ -781,19 +781,19 @@ jQuery(function($){
         </div>
         </form>
 <?php }?>          
-<?php if($_SESSION['one_mem_lev'] == "50"){       
+<?php if($_SESSION[one_mem_lev] == "50"){       
     $query = "";
     $sql_serch = "";
-				if($_REQUEST['sday1'] || $_REQUEST['sday2'])
+				if($_REQUEST[sday1] || $_REQUEST[sday2])
 				{					
-					if($_REQUEST['sday1'])
+					if($_REQUEST[sday1])
 					{
-					$start_time=strtotime($_REQUEST['sday1']);
+					$start_time=strtotime($_REQUEST[sday1]);
 					$sql_serch.=" and unix_timestamp(a.date) >=$start_time ";
 					}
-					if($_REQUEST['sday2'])
+					if($_REQUEST[sday2])
 					{
-					$end_time=strtotime($_REQUEST['sday2']);
+					$end_time=strtotime($_REQUEST[sday2]);
 					$sql_serch.=" and unix_timestamp(a.date) <= $end_time ";
 					}
 				}    
@@ -824,17 +824,17 @@ jQuery(function($){
                          from tjd_pay_result aa 
                     left join Gn_Member bb
                            on bb.mem_id = aa.buyer_id 
-                        where bb.recommend_id='".$_SESSION['one_member_id']."' and end_status='Y' 
+                        where bb.recommend_id='".$_SESSION[one_member_id]."' and end_status='Y' 
                         
                         group by bb.recommend_id, payment_date
                     ) c
                    on b.mem_id = c.recommend_id 
         	WHERE 1=1 
         	  AND b.mem_leb='50'
-        	  and b.mem_id='".$_SESSION['one_member_id']."'
+        	  and b.mem_id='".$_SESSION[one_member_id]."'
 	              $sql_serch";
-	$res	    = mysqli_query($self_con, $query);
-	$totalCnt	=  mysqli_num_rows($res);	
+	$res	    = mysql_query($query);
+	$totalCnt	=  mysql_num_rows($res);	
                 	
 	$intRowCount=$totalCnt;    
 	
@@ -859,8 +859,8 @@ jQuery(function($){
         </div>
         <div>
             <div class="p1">
-                <input type="text" name="sday1" placeholder="" id="sday1" value="<?=$_REQUEST['sday1']?>"/> ~
-                <input type="text" name="sday2" placeholder="" id="sday2" value="<?=$_REQUEST['sday2']?>"/>
+                <input type="text" name="sday1" placeholder="" id="sday1" value="<?=$_REQUEST[sday1]?>"/> ~
+                <input type="text" name="sday2" placeholder="" id="sday2" value="<?=$_REQUEST[sday2]?>"/>
                 <a href="javascript:void(0)" onclick="payment_form.submit()"><img src="images/sub_mypage_11.jpg" /></a>                                            
             </div>
             <div>
@@ -877,7 +877,7 @@ jQuery(function($){
               <?
               if($intRowCount)
               {
-                  while($row=mysqli_fetch_array($res))
+                  while($row=mysql_fetch_array($res))
                   {
                   ?>
               <tr>
@@ -885,10 +885,10 @@ jQuery(function($){
                 <td>
                     <?=substr($row['balance_date'],0,10)?>
                 </td>
-                <td style="font-size:12px;"><?=number_format($row['total_price']/1.1*0.5)?> 원</td>
+                <td style="font-size:12px;"><?=number_format($row[total_price]/1.1*0.5)?> 원</td>
                 <td style="font-size:12px;">
                     <?php if($row['balance_yn'] == "Y") {?>
-                    <?=number_format($row['total_price']/1.1*0.5)?>
+                    <?=number_format($row[total_price]/1.1*0.5)?>
                     <?php }else{?>
                     0 
                     <?php }?>
@@ -896,7 +896,7 @@ jQuery(function($){
                 </td>
                 <td>
                     <?php if($row['balance_yn'] == "N") {?>
-                    <?=number_format($row['total_price']/1.1*0.5)?>
+                    <?=number_format($row[total_price]/1.1*0.5)?>
                     <?php }else{?>
                     0 
                     <?php }?>
@@ -905,7 +905,7 @@ jQuery(function($){
                 <td></td>                
                 <td>
                     <?php if($row['balance_yn'] == "Y") {?>
-                    <?=number_format($row['total_price']/1.1*0.5)?>
+                    <?=number_format($row[total_price]/1.1*0.5)?>
                     <?php }else{?>
                     0 
                     <?php }?>

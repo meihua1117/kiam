@@ -1,14 +1,14 @@
 <?
 $path="./";
 include_once "_head.php";
-if($member_1['mem_id'] == "") {
+if($member_1[mem_id] == "") {
     echo "<script>location.history(-1);</script>";
     exit;
 }
 $data = $member_1;
 $orderNumber = $_POST['allat_order_no'];
 $pay_info['fujia_status'] = "N"; 
-$pay_info['month_cnt'] = $_POST['month_cnt']>120?120:$_POST['month_cnt']; //12?12를 120?120수정하여 마감기간을 솔루션결제관리페이지에 120개월로 표시
+$pay_info['month_cnt'] = $_POST['month_cnt']>120?120:$_POST[month_cnt]; //12?12를 120?120수정하여 마감기간을 솔루션결제관리페이지에 120개월로 표시
 if($_POST['member_type'] == "가맹점"){
     $_POST['phone_cnt'] = 8000;
     $_POST['db_cnt'] = 1000;
@@ -49,41 +49,41 @@ $pay_info['member_cnt'] = $_POST['member_cnt'];
 $sql = "insert into tjd_pay_result set 
         idx='$orderNumber',
         orderNumber='$orderNumber',
-        VACT_InputName='{$data['mem_name']}',
-        TotPrice='{$pay_info['TotPrice']}',
+        VACT_InputName='$data[mem_name]',
+        TotPrice='$pay_info[TotPrice]',
         end_date=date_add(now(),INTERVAL {$pay_info['month_cnt']} month),
         end_status='N',
-        buyertel='{$data['mem_phone']}',
-        buyeremail='{$data['mem_email']}',
+        buyertel='$data[mem_phone]',
+        buyeremail='$data[mem_email]',
         payMethod='MONTH',
-        buyer_id='{$pay_info['buyer_id']}',
+        buyer_id='$pay_info[buyer_id]',
         date=NOW(),
-        member_type='{$pay_info['member_type']}',
-        month_cnt='{$pay_info['month_cnt']}',
-        max_cnt='{$pay_info['max_cnt']}',
-        phone_cnt='{$pay_info['phone_cnt']}',
-        add_phone='{$pay_info['add_phone']}',
-        db_cnt='{$pay_info['db_cnt']}',
-        email_cnt='{$pay_info['email_cnt']}',
-        iam_card_cnt='{$pay_info['iam_card_cnt']}',
-        onestep1='{$pay_info['onestep1']}',
+        member_type='$pay_info[member_type]',
+        month_cnt='$pay_info[month_cnt]',
+        max_cnt='$pay_info[max_cnt]',
+        phone_cnt='$pay_info[phone_cnt]',
+        add_phone='$pay_info[add_phone]',
+        db_cnt='$pay_info[db_cnt]',
+        email_cnt='$pay_info[email_cnt]',
+        iam_card_cnt='$pay_info[iam_card_cnt]',
+        onestep1='$pay_info[onestep1]',
         onestep2='$pay_info[onestep2]',
         member_cnt='$pay_info[member_cnt]',
         monthly_yn = 'Y'";
-mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
+mysql_query($sql) or die(mysql_error());
 
 if($_POST['phone_cnt'] > 0) {
-    $sql = "select * from tjd_pay_result where orderNumber='{$orderNumber}' and buyer_id='{$member_1['mem_id']}' ";
-    $resul = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-    $row = mysqli_fetch_array($resul);
+    $sql = "select * from tjd_pay_result where orderNumber='{$orderNumber}' and buyer_id='$member_1[mem_id]' ";
+    $resul = mysql_query($sql) or die(mysql_error());
+    $row = mysql_fetch_array($resul);
 
-    $sql = "select * from Gn_Member where mem_id='{$member_1['mem_id']}' ";
-    $sresult = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-    $srow = mysqli_fetch_array($sresult);
+    $sql = "select * from Gn_Member where mem_id='$member_1[mem_id]' ";
+    $sresult = mysql_query($sql) or die(mysql_error());
+    $srow = mysql_fetch_array($sresult);
 
-    $sql = "select * from crawler_member_real where user_id='{$member_1['mem_id']}' ";
-    $sresult = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-    $crow = mysqli_fetch_array($sresult);
+    $sql = "select * from crawler_member_real where user_id='$member_1[mem_id]' ";
+    $sresult = mysql_query($sql) or die(mysql_error());
+    $crow = mysql_fetch_array($sresult);
     $user_id = $srow['mem_id'];
     $user_name = $srow['mem_name'];
     $password = $srow['mem_pass'];
@@ -91,10 +91,10 @@ if($_POST['phone_cnt'] > 0) {
     $email = $srow['mem_email'];
     $address = $srow['mem_add1'];
     $status = "Y";
-    $use_cnt = $row['db_cnt'];
+    $use_cnt = $row[db_cnt];
     $last_time = date("Y-m-d H:i:s", strtotime("+ 120 month"));
     $search_email_date = substr($last_time, 0, 10);
-    $search_email_cnt = $row['email_cnt'];
+    $search_email_cnt = $row[email_cnt];
     $term = substr($last_time, 0, 10);
     if ($crow[0] == '') {
         $user_id = $srow['mem_id'];
@@ -104,9 +104,9 @@ if($_POST['phone_cnt'] > 0) {
         $email = $srow['mem_email'];
         $address = $srow['mem_add1'];
         $status = "N";
-        $use_cnt = $_POST['db_cnt'];
+        $use_cnt = $_POST[db_cnt];
         $search_email_date = substr($last_time, 0, 10);
-        $search_email_cnt = $_POST['email_cnt'];
+        $search_email_cnt = $_POST[email_cnt];
         $term = substr($last_time, 0, 10);
         $query = "insert into crawler_member_real set user_id='$user_id',
                                             user_name='$user_name',
@@ -122,16 +122,16 @@ if($_POST['phone_cnt'] > 0) {
                                             search_email_date='$search_email_date',
                                             search_email_cnt='$search_email_cnt',
                                             shopping_end_date='$search_email_date'";
-        mysqli_query($self_con, $query);
+        mysql_query($query);
     }
     else {
         $query = "update crawler_member_real set
-                                        extra_db_cnt = extra_db_cnt + '{$row['db_cnt']}',
-                                        extra_email_cnt = extra_email_cnt + '{$row['email_cnt']}',
-                                        extra_shopping_cnt = extra_shopping_cnt + '{$row['shop_cnt']}'
+                                        extra_db_cnt = extra_db_cnt + '$row[db_cnt]',
+                                        extra_email_cnt = extra_email_cnt + '$row[email_cnt]',
+                                        extra_shopping_cnt = extra_shopping_cnt + '$row[shop_cnt]'
                                         where user_id='$user_id'
                                         ";
-        mysqli_query($self_con, $query);
+        mysql_query($query);
     }
 }
 ?>

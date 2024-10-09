@@ -4,6 +4,8 @@ include_once $_SERVER['DOCUMENT_ROOT']."/admin/include_once/admin_header.inc.php
 extract($_GET);
 // 오늘날짜
 $date_today=date("Y-m-d");
+$date_month=date("Y-m");
+
 ?>
 <script type="text/javascript" src="/jquery.lightbox_me.js"></script>
 <script>
@@ -97,7 +99,9 @@ input:checked + .slider:before {
     transition: .4s;
 
 }
-
+.agree{
+     /*background: #d5ffd5!important;   */
+    }
 .disagree{
      background: #ffd5d5!important;   
     }
@@ -178,8 +182,8 @@ a.sort-by:after {
              	
                $query = "SELECT ip FROM gn_block_ip";
                              
-               $res	    = mysqli_query($self_con, $query);
-               while($row = mysqli_fetch_array($res)) { 
+               $res	    = mysql_query($query);
+               while($row = mysql_fetch_array($res)) { 
         ?>                                        
               <option value="<?php echo $row[0]?>"><?php echo $row[0]?></option>
         <?}?>                                
@@ -257,8 +261,8 @@ a.sort-by:after {
                         	WHERE 1=1 
                 	              $searchStr";
                 	              
-                	$res	    = mysqli_query($self_con, $query);
-                	$totalCnt	=  mysqli_num_rows($res);	
+                	$res	    = mysql_query($query);
+                	$totalCnt	=  mysql_num_rows($res);	
                 	
                 	$limitStr       = " LIMIT ".(($startPage-1)*$pageCnt).", ".$pageCnt;
                   $number			= $totalCnt - ($nowPage - 1) * $pageCnt;  
@@ -270,8 +274,8 @@ a.sort-by:after {
                 	$i = 1;
                 	$c=0;
                 	$query .= "$orderQuery";
-                	$res = mysqli_query($self_con, $query);
-                    while($row = mysqli_fetch_array($res)) {                       	
+                	$res = mysql_query($query);
+                    while($row = mysql_fetch_array($res)) {                       	
                   ?>
                       <tr <?if($row['success'] == 'N' && $row['count'] >= 5){ ?> style="background-color: #00a65a;"<?}?>>
                         <td><?=$number--?></td>
@@ -320,7 +324,7 @@ a.sort-by:after {
             </div>
           </div><!-- /.row -->         
         </section><!-- /.content -->
-      </div><!-- /content-wrapper -->
+      </div><!-- /.content-wrapper -->
 
 
 

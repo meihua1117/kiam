@@ -11,8 +11,8 @@ if($location != '') {
     }else {
         $query = "SELECT town as location FROM gn_cities WHERE city = '{$location}' group by town";
     }
-    $result = mysqli_query($self_con, $query);
-    while($row = mysqli_fetch_array($result)) {
+    $result = mysql_query($query);
+    while($row = mysql_fetch_array($result)) {
         $locations[] = $row['location'];
     }
 }

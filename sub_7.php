@@ -1,7 +1,7 @@
 <?
 $path = "./";
 include_once "_head.php";
-if (!$_SESSION['one_member_id']) {
+if (!$_SESSION[one_member_id]) {
 ?>
     <script language="javascript">
         location.replace('/ma.php');
@@ -12,16 +12,15 @@ if (!$_SESSION['one_member_id']) {
 
 //Julian 2020-07-04 Problem 19 / 1 , repair top menu 
 
-$sql = "select * from Gn_Member  where mem_id='" . $_SESSION['one_member_id'] . "'";
-$sresul_num = mysqli_query($self_con, $sql);
-$member = $data = mysqli_fetch_array($sresul_num);
-
-if ($_REQUEST['rday1']) {
-    $start_time = strtotime($_REQUEST['rday1']);
+$sql = "select * from Gn_Member  where mem_id='" . $_SESSION[one_member_id] . "'";
+$sresul_num = mysql_query($sql);
+$member = $data = mysql_fetch_array($sresul_num);
+if ($_REQUEST[rday1]) {
+    $start_time = strtotime($_REQUEST[rday1]);
     $sql_serch .= " and unix_timestamp(date) >=$start_time ";
 }
-if ($_REQUEST['rday2']) {
-    $end_time = strtotime($_REQUEST['rday2']);
+if ($_REQUEST[rday2]) {
+    $end_time = strtotime($_REQUEST[rday2]);
     $sql_serch .= " and unix_timestamp(date) <= $end_time ";
 }
 
@@ -33,12 +32,18 @@ if ($_REQUEST['rday2']) {
 
             <input type="hidden" name="page" value="<?= $page ?>" />
             <input type="hidden" name="page2" value="<?= $page2 ?>" />
+
+
             <div style="background-color:#FFF;padding:20px;">
+
                 <div class="a1">
+
                     <li style="float:left;">사업자 추천정보</li>
                     <li style="float:right;"></li>
                     <p style="clear:both"></p>
                 </div> <br>
+
+
                 <div class="sub_4_1_t7">
                     <div style="float:left;">
                         <select name="search_type">
@@ -46,8 +51,8 @@ if ($_REQUEST['rday2']) {
                             <option value="22">일반회원</option>
                             <option value="50">사업자회원</option>
                         </select>
-                        <input type="date" name="rday1" placeholder="" id="rday1" style="padding: 4px;" value="<?= $_REQUEST['rday1'] ?>" /> ~
-                        <input type="date" name="rday2" placeholder="" id="rday2" style="padding: 4px;" value="<?= $_REQUEST['rday2'] ?>" />
+                        <input type="date" name="rday1" placeholder="" id="rday1" value="<?= $_REQUEST[rday1] ?>" /> ~
+                        <input type="date" name="rday2" placeholder="" id="rday2" value="<?= $_REQUEST[rday2] ?>" />
                     </div>
                     <div style="float:right;">
                         <select name="lms_select">
@@ -55,14 +60,16 @@ if ($_REQUEST['rday2']) {
                             <?
                             $select_lms_arr = array("mem_name" => "회원명", "mem_id" => "아이디");
                             foreach ($select_lms_arr as $key => $v) {
-                                $selected = $_REQUEST['lms_select'] == $key ? "selected" : "";
+                                $selected = $_REQUEST[lms_select] == $key ? "selected" : "";
                             ?>
                                 <option value="<?= $key ?>" <?= $selected ?>><?= $v ?></option>
                             <?
                             }
                             ?>
+
                         </select>
-                        <input type="text" name="lms_text" value="<?= $_REQUEST['lms_text'] ?>" />
+                        <input type="text" name="lms_text" value="<?= $_REQUEST[lms_text] ?>" />
+
                         <a href="javascript:void(0)" onclick="pay_form.submit();"><img src="images/sub_button_703.jpg" /></a>
                     </div>
                     <p style="clear:both;"></p>
@@ -83,8 +90,10 @@ if ($_REQUEST['rday2']) {
                     </tr>
                     <?
                     $nowPage = $_REQUEST['page'] ? $_REQUEST['page'] : 1;
-                    $startPage = $_REQUEST['page'] ? $_REQUEST['page'] : 1;
+                    $startPage = $_REQUEST[page] ? $_REQUEST[page] : 1;
                     $pageCnt = 20;
+
+
 
                     $search_type =  $_REQUEST['search_type'];
                     $rday1 =  $_REQUEST['rday1'];
@@ -110,16 +119,25 @@ if ($_REQUEST['rday2']) {
                         $searchStr .= " AND gm.first_regist < '" . $end_date . "'";
                     }
 
+
                     // 검색 조건을 적용한다.
                     // $searchStr .= $search_key ? " AND (gm.mem_id LIKE '%".$search_key."%' or gm.mem_phone like '%".$search_key."%' or a.mem_name like '%".$search_key."%' or b.sendnum like '%".$search_key."%')" : null;
                     // //$searchStr .= " and end_status='Y'";
+
+
+
+
+
+
                     $order = $order ? $order : "desc";
 
                     $query = "select * from Gn_Member gm left join tjd_pay_result p on p.buyer_id = gm.mem_id 
-                	                        where recommend_id = '" . $_SESSION['one_member_id'] . "' $searchStr";
+                	                        where recommend_id = '" . $_SESSION[one_member_id] . "' $searchStr";
 
-                    $res        = mysqli_query($self_con, $query);
-                    $totalCnt    =  mysqli_num_rows($res);
+
+
+                    $res        = mysql_query($query);
+                    $totalCnt    =  mysql_num_rows($res);
 
                     $limitStr       = " LIMIT " . (($startPage - 1) * $pageCnt) . ", " . $pageCnt;
                     $number            = $totalCnt - ($nowPage - 1) * $pageCnt;
@@ -128,20 +146,22 @@ if ($_REQUEST['rday2']) {
 
                     $intPageSize = 20;
 
-                    if ($_REQUEST['page']) {
-                        $page = (int)$_REQUEST['page'];
+                    if ($_REQUEST[page]) {
+                        $page = (int)$_REQUEST[page];
                         $sort_no = $intRowCount - ($intPageSize * $page - $intPageSize);
                     } else {
                         $page = 1;
                         $sort_no = $intRowCount;
                     }
-                    if ($_REQUEST['page2'])
-                        $page2 = (int)$_REQUEST['page2'];
+                    if ($_REQUEST[page2])
+                        $page2 = (int)$_REQUEST[page2];
                     else
                         $page2 = 1;
                     $int = ($page - 1) * $intPageSize;
 
                     $intPageCount = (int)(($intRowCount + $intPageSize - 1) / $intPageSize);
+
+
 
                     $orderQuery .= "
                                     	ORDER BY gm.mem_code DESC
@@ -149,9 +169,9 @@ if ($_REQUEST['rday2']) {
                                     ";
 
                     $i = 1;
-                    $query .= $orderQuery;
-                    $res = mysqli_query($self_con, $query);
-                    while ($row = mysqli_fetch_array($res)) {
+                    $query .= "$orderQuery";
+                    $res = mysql_query($query);
+                    while ($row = mysql_fetch_array($res)) {
                         if ($row['mem_leb'] == "22")
                             $mem_leb = "일반회원";
                         else if ($row['mem_leb'] == "50")
@@ -172,9 +192,9 @@ if ($_REQUEST['rday2']) {
                         <tr>
                             <td><?= $number-- ?></td>
                             <td><?= $new_val ?></td>
-                            <td><?= $row['mem_name'] ?></td>
-                            <td><?= $row['mem_id'] ?></td>
-                            <td><?= $row['mem_phone'] ?></td>
+                            <td><?= $row[mem_name] ?></td>
+                            <td><?= $row[mem_id] ?></td>
+                            <td><?= $row[mem_phone] ?></td>
 
                             <!-- //Julian 2020-07-04 Problem 19 / 3 -->
                             <td><?= $row['first_regist'] ?></td>
@@ -222,6 +242,6 @@ if ($_REQUEST['rday2']) {
 <link type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.4/themes/base/jquery-ui.css" rel="stylesheet" />
 <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.10.0/jquery-ui.min.js"></script>
 <?
-mysqli_close($self_con);
+mysql_close();
 include_once "_foot.php";
 ?>

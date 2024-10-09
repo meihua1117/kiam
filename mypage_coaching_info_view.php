@@ -2,7 +2,7 @@
 $path="./";
 include_once "_head.php";
 extract($_REQUEST);
-if(!$_SESSION['one_member_id'])
+if(!$_SESSION[one_member_id])
 {
 ?>
 <script language="javascript">
@@ -14,8 +14,8 @@ exit;
 
 $sql="select * from gn_coaching_info a inner join Gn_Member b on b.mem_code = a.coty_mem_code inner join gn_coaching_apply c on c.coty_id = a.coty_id where a.coaching_id='".$coaching_id."'";
 
-$sresul_num=mysqli_query($self_con, $sql);
-$coaching_info_data=mysqli_fetch_array($sresul_num);	
+$sresul_num=mysql_query($sql);
+$coaching_info_data=mysql_fetch_array($sresul_num);	
 
 $this_coach_id =$coaching_info_data[coach_id];
 
@@ -84,21 +84,21 @@ $(function(){
                 <table class="list_table1" width="100%" border="0" cellspacing="0" cellpadding="0">
                 <tr>
                     <th>코티이름</th>
-                    <td><?=$coaching_info_data['mem_name']?></td>
+                    <td><?=$coaching_info_data[mem_name]?></td>
                     <th>코티ID</th>
-                    <td><?=$coaching_info_data['mem_id']?></td>
+                    <td><?=$coaching_info_data[mem_id]?></td>
                 </tr>       
                 <tr>
                     <th>전화번호</th>
-                    <td><?=$coaching_info_data['mem_phone']?></td>
+                    <td><?=$coaching_info_data[mem_phone]?></td>
                     <th>이메일</th>
-                    <td><?=$coaching_info_data['mem_email']?></td>
+                    <td><?=$coaching_info_data[mem_email]?></td>
                 </tr>        
                 <tr>
                     <th>계약기간</th>
-                    <td><?=$coaching_info_data['cont_term']?>일</td>
+                    <td><?=$coaching_info_data[cont_term]?>일</td>
                     <th>계약시간</th>
-                    <td><?=$coaching_info_data['cont_time']?>시간</td>
+                    <td><?=$coaching_info_data[cont_time]?>시간</td>
                 </tr>                    
  
                 <tr>
@@ -109,9 +109,9 @@ $(function(){
                 </tr>                      
                 <tr>
                     <th>코칭시작</th>
-                    <td><?=$coaching_info_data['start_date']?></td>
+                    <td><?=$coaching_info_data[start_date]?></td>
                     <th>코칭종료</th>
-                    <td><?=$coaching_info_data['end_date']?></td>
+                    <td><?=$coaching_info_data[end_date]?></td>
                 </tr>                    
  
                 <tr>
@@ -120,13 +120,13 @@ $(function(){
                         <? 
                         $currentTime = date("Y-m-d H:i:s");
 
-                         if($currentTime < $coaching_info_data['start_date']){
+                         if($currentTime < $coaching_info_data[start_date]){
                             echo "<label class='label label-sm label-warning'>대기</label>";
 
-                         }else if($currentTime > $coaching_info_data['start_date'] && $currentTime < $coaching_info_data['end_date']){
+                         }else if($currentTime > $coaching_info_data[start_date] && $currentTime < $coaching_info_data[end_date]){
                             echo "<label class='label label-sm label-primary'>진행중</label>";
                          }
-                         else if($currentTime > $coaching_info_data['end_date']){
+                         else if($currentTime > $coaching_info_data[end_date]){
                             echo "<label class='label label-sm label-danger'>종료</label>";
                          }
 
@@ -159,8 +159,8 @@ $(function(){
 
             $sql="select * from gn_coach_apply a inner join Gn_Member b on b.mem_code = a.mem_code where a.coach_id = ".$this_coach_id;
 
-            $sresul_num=mysqli_query($self_con, $sql);
-            $coach_data=mysqli_fetch_array($sresul_num);    
+            $sresul_num=mysql_query($sql);
+            $coach_data=mysql_fetch_array($sresul_num);    
 
 
 
@@ -177,7 +177,7 @@ $(function(){
                 <tr>
                     <th class="w200">코칭일시</th>
                     <td>
-                        <?=$coaching_info_data['coaching_date']?>
+                        <?=$coaching_info_data[coaching_date]?>
                      </td>
                 </tr>                    
                 <tr>

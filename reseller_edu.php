@@ -80,14 +80,22 @@
             <div class="head_right">
             	<div class="head_right_1">                
                     <form  name="login_form" action="ajax/login.php" method="post" target="login_iframe" onsubmit="return login_check(login_form)">
-                        <a href="http://kiam.kr/sub_14.php">이용정책(필독)</a> |					
-                        <a href="https://oog.kiam.kr/pages/page_3208.php" target="_blank">이용매뉴얼</a> |
-                        <a href="https://oog.kiam.kr/pages/page_3214.php" target="_blank">FAQ</a> |
-                        <a href="https://pf.kakao.com/_jVafC/chat" target="_blank">카톡상담</a> |
-                        <a href="mypage.php">마이페이지</a>&nbsp;| 
-                        <a href="/admin/member_list.php">관리자</a>&nbsp;
-                        <span style="background-color:#43515e;padding:2px 20px 2px 5px;">온리원관리자 님 환영합니다.</span> <a href="javascript:void(0)" onclick="logout()"><img src="images/main_top_button_logout_03.jpg" /></a>
-                    </form>                               
+                    <!--<a href="https://play.google.com/store/apps/details?id=mms.onepagebook.com.onlyonesms" target="_blank">앱설치</a> |-->
+                    
+                  
+                    <a href="http://kiam.kr/sub_14.php">이용정책(필독)</a> |					
+                    <a href="https://oog.kiam.kr/pages/page_3208.php" target="_blank">이용매뉴얼</a> |
+                    <a href="https://oog.kiam.kr/pages/page_3214.php" target="_blank">FAQ</a> |
+                                        <a href="https://pf.kakao.com/_jVafC/chat" target="_blank">카톡상담</a> |
+                        		
+                        				<a href="mypage.php">마이페이지</a>&nbsp;
+    				<!--| <a href="mypage_link_list.php">원스텝문자</a>&nbsp;-->
+                                                        
+                                        | <a href="/admin/member_list.php">관리자</a>&nbsp;
+                    <!--| <a href="/pc_messenger.php">PC문자메신져</a>&nbsp;-->
+                                        <!--| <a href="/sub_7.php">추천인리스트</a>&nbsp;-->
+                                        <span style="background-color:#43515e;padding:2px 20px 2px 5px;">온리원관리자 님 환영합니다.</span> <a href="javascript:void(0)" onclick="logout()"><img src="images/main_top_button_logout_03.jpg" /></a>
+                                        </form>                               
                 </div>
             </div>
     		<p style="clear:both;"></p>

@@ -69,20 +69,20 @@ $at_data   = "allat_shop_id=".$at_shop_id.
     $TICKET_NAME      =getValue("ticket_nm",$at_txt);	
     $PARTCANCEL_YN    =getValue("partcancel_yn",$at_txt);	
 
-    $sql="select * from tjd_pay_result where orderNumber='{$_POST['allat_order_no']}' and buyer_id='{$member_1['mem_id']}' ";
-    $resul=mysqli_query($self_con, $sql)or die(mysqli_error($self_con));
-    $row=mysqli_fetch_array($resul);
+    $sql="select * from tjd_pay_result where orderNumber='$_POST[allat_order_no]' and buyer_id='$member_1[mem_id]' ";
+    $resul=mysql_query($sql)or die(mysql_error());
+    $row=mysql_fetch_array($resul);
     $no = $row['no'];
 
-    $sql = "update tjd_pay_result set end_status='Y' where  orderNumber='{$_POST['allat_order_no']}' and buyer_id='{$member_1['mem_id']}'";
-    mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-    $sql = "select * from Gn_Member where mem_id='{$member_1['mem_id']}' ";
-    $sresult = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-    $srow = mysqli_fetch_array($sresult);
+    $sql = "update tjd_pay_result set end_status='Y' where  orderNumber='$_POST[allat_order_no]' and buyer_id='$member_1[mem_id]'";
+    mysql_query($sql) or die(mysql_error());
+    $sql = "select * from Gn_Member where mem_id='$member_1[mem_id]' ";
+    $sresult = mysql_query($sql) or die(mysql_error());
+    $srow = mysql_fetch_array($sresult);
 
-    $sql = "select * from crawler_member_real where user_id='{$member_1['mem_id']}' ";
-    $sresult = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-    $crow = mysqli_fetch_array($sresult);
+    $sql = "select * from crawler_member_real where user_id='$member_1[mem_id]' ";
+    $sresult = mysql_query($sql) or die(mysql_error());
+    $crow = mysql_fetch_array($sresult);
     $user_id = $srow['mem_id'];
     $user_name = $srow['mem_name'];
     $password = $srow['mem_pass'];
@@ -90,12 +90,12 @@ $at_data   = "allat_shop_id=".$at_shop_id.
     $email = $srow['mem_email'];
     $address = $srow['mem_add1'];
     $status = "Y";
-    $use_cnt = $row['db_cnt'];
+    $use_cnt = $row[db_cnt];
     $last_time = date("Y-m-d H:i:s", strtotime("+ 120 month"));
     $search_email_date = substr($last_time, 0, 10);
-    $search_email_cnt = $row['email_cnt'];
+    $search_email_cnt = $row[email_cnt];
     $term = substr($last_time, 0, 10);
-    if($row['member_type'] == "dber"){
+    if($row[member_type] == "dber"){
         if ($crow[0] == "") {
             $query = "insert into crawler_member_real set user_id='$user_id',
                                             user_name='$user_name',
@@ -111,43 +111,43 @@ $at_data   = "allat_shop_id=".$at_shop_id.
                                             search_email_date='$search_email_date',
                                             search_email_cnt='$search_email_cnt',
                                             shopping_end_date='$search_email_date',
-                                            extra_db_cnt = '{$row['db_cnt']}',
-                                            extra_email_cnt = '{$row['email_cnt']}',
-                                            extra_shopping_cnt = '{$row['shop_cnt']}'";
-            mysqli_query($self_con, $query);
+                                            extra_db_cnt = '$row[db_cnt]',
+                                            extra_email_cnt = '$row[email_cnt]',
+                                            extra_shopping_cnt = '$row[shop_cnt]'";
+            mysql_query($query);
         } else {
             $query = "update crawler_member_real set
-                                            extra_db_cnt = extra_db_cnt + '{$row['db_cnt']}',
-                                            extra_email_cnt = extra_email_cnt + '{$row['email_cnt']}',
-                                            extra_shopping_cnt = extra_shopping_cnt + '{$row['shop_cnt']}'
+                                            extra_db_cnt = extra_db_cnt + '$row[db_cnt]',
+                                            extra_email_cnt = extra_email_cnt + '$row[email_cnt]',
+                                            extra_shopping_cnt = extra_shopping_cnt + '$row[shop_cnt]'
                                             where user_id='$user_id'
                                             ";
-            mysqli_query($self_con, $query);
+            mysql_query($query);
         }
     }
 
-    $sql_m = "update Gn_Member set fujia_date1=now() , fujia_date2=date_add(now(),INTERVAL 120 month)  where mem_id='{$member_1['mem_id']}' ";
-    mysqli_query($self_con, $sql_m) or die(mysqli_error($self_con));
+    $sql_m = "update Gn_Member set fujia_date1=now() , fujia_date2=date_add(now(),INTERVAL 120 month)  where mem_id='$member_1[mem_id]' ";
+    mysql_query($sql_m) or die(mysql_error());
 
-    $add_phone = $row['phone_cnt'] / 9000;
-    $sql_m = "update Gn_Member set   phone_cnt=phone_cnt+'$add_phone' where mem_id='{$member_1['mem_id']}' ";
-    mysqli_query($self_con, $sql_m) or die(mysqli_error($self_con));
+    $add_phone = $row[phone_cnt] / 9000;
+    $sql_m = "update Gn_Member set   phone_cnt=phone_cnt+'$add_phone' where mem_id='$member_1[mem_id]' ";
+    mysql_query($sql_m) or die(mysql_error());
 
     /*if ($srow['recommend_id'] != "") {
-        $sql = "select * from Gn_Member where mem_id='{$srow['recommend_id']}' ";
-        $rresult = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-        if (mysqli_num_rows($rresult) > 0) {
-            $rrow = mysqli_fetch_array($rresult);
+        $sql = "select * from Gn_Member where mem_id='$srow[recommend_id]' ";
+        $rresult = mysql_query($sql) or die(mysql_error());
+        if (mysql_num_rows($rresult) > 0) {
+            $rrow = mysql_fetch_array($rresult);
             $branch_share_id = "";
             $addQuery = "";
             $branch_share_per = 0;
             // 리셀러 / 분양 회원 확인
             // 리셀러 회원인경우 분양회원 아이디 확인
-            if ($rrow['service_type'] == 2) {
+            if ($rrow[service_type] == 2) {
                 // 추천인의 추천인 검색 및 등급 확인
-                $sql = "select * from Gn_Member where mem_id='{$rrow['recommend_id']}'";
-                $rresult = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-                $trow = mysqli_fetch_array($rresult);
+                $sql = "select * from Gn_Member where mem_id='$rrow[recommend_id]'";
+                $rresult = mysql_query($sql) or die(mysql_error());
+                $trow = mysql_fetch_array($rresult);
 
                 $share_per = $recommend_per = $rrow['share_per'] ? $rrow['share_per'] : 30;
                 if ($trow[0] != "") {
@@ -155,13 +155,13 @@ $at_data   = "allat_shop_id=".$at_shop_id.
                     $branch_share_per = $recommend_per - $share_per;
                     $branch_share_id = $trow['mem_id'];
                 }
-            } else if ($rrow['service_type'] == 3) {
+            } else if ($rrow[service_type] == 3) {
                 $share_per = $recommend_per = $rrow['share_per'] ? $rrow['share_per'] : 50;
                 $branch_share_per = 0;
             }
 
-            $sql = "update tjd_pay_result set share_per='$share_per', branch_share_per = '$branch_share_per', share_id='{$srow['recommend_id']}', branch_share_id='$branch_share_id' where no='$no'";
-            mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
+            $sql = "update tjd_pay_result set share_per='$share_per', branch_share_per = '$branch_share_per', share_id='$srow[recommend_id]', branch_share_id='$branch_share_id' where no='$no'";
+            mysql_query($sql) or die(mysql_error());
         }
     }*/
 /*
@@ -326,7 +326,7 @@ $at_data   = "allat_shop_id=".$at_shop_id.
                     <h3><?
                     if($REPLYCD=="0000")//pay_test
                     {
-                        if($row['payMethod']=="VBank")
+                        if($row[payMethod]=="VBank")
                             echo "입금예정시간내로 아래 가상계좌로 입금하시면 구매가 완료됩니다.";
                         else
                             echo "결제가 성공적으로 이루어졌습니다.";
@@ -358,34 +358,34 @@ $at_data   = "allat_shop_id=".$at_shop_id.
                 <tr>
                 <tr>
                 <td>구매자명</td>
-                <td><?=$row['VACT_InputName']?></td>
+                <td><?=$row[VACT_InputName]?></td>
                 </tr>                                        
                 <td>지불금액</td>
-                <td><?=$row['TotPrice']?></td>
+                <td><?=$row[TotPrice]?></td>
                 </tr>
                 <tr>
                 <td>지불시간</td>
-                <td><?=$row['applDate']?><?=$row['applTime']?></td>
+                <td><?=$row[applDate]?><?=$row[applTime]?></td>
                 </tr>
                 <?
-                if($row['payMethod']=="VBank")
+                if($row[payMethod]=="VBank")
                 {
                     ?>                       
                     <tr>
                     <td>예금주</td>
-                    <td><?=$row['VACT_Name']?></td>
+                    <td><?=$row[VACT_Name]?></td>
                     </tr>
                     <tr>
                     <td>은행코드</td>
-                    <td><?=$row['VACT_BankCode']?></td>
+                    <td><?=$row[VACT_BankCode]?></td>
                     </tr>
                     <tr>
                     <td>가상계좌번호</td>
-                    <td><?=$row['VACT_Num']?></td>
+                    <td><?=$row[VACT_Num]?></td>
                     </tr>
                     <tr>
                     <td>입금예정시간</td>
-                    <td><?=$row['VACT_Date']?></td>
+                    <td><?=$row[VACT_Date]?></td>
                     </tr>
                     <?
                 }

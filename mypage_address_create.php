@@ -2,7 +2,7 @@
 $path="./";
 include_once "_head.php";
 extract($_REQUEST);
-if(!$_SESSION['one_member_id'])
+if(!$_SESSION[one_member_id])
 {
 
 ?>
@@ -12,9 +12,9 @@ location.replace('/ma.php');
 <?
 exit;
 }
-	$sql="select * from Gn_Member  where mem_id='".$_SESSION['one_member_id']."'";
-	$sresul_num=mysqli_query($self_con, $sql);
-	$data=mysqli_fetch_array($sresul_num);	
+	$sql="select * from Gn_Member  where mem_id='".$_SESSION[one_member_id]."'";
+	$sresul_num=mysql_query($sql);
+	$data=mysql_fetch_array($sresul_num);	
 	
 	if($data['intro_message'] =="") {
 		$data['intro_message'] = "안녕하세요\n
@@ -31,12 +31,12 @@ $mem_phone = str_replace("-","",$data['mem_phone']);
 
 
 $sql="select * from Gn_event_request  where request_idx='".$request_idx."'";
-$sresul_num=mysqli_query($self_con, $sql);
-$data = $row=mysqli_fetch_array($sresul_num);	
+$sresul_num=mysql_query($sql);
+$data = $row=mysql_fetch_array($sresul_num);	
 
-$sql="select * from Gn_event where event_idx='{$row['event_idx']}' order by event_idx desc";
-$result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-$event_data = $row=mysqli_fetch_array($result);
+$sql="select * from Gn_event where event_idx='$row[event_idx]' order by event_idx desc";
+$result = mysql_query($sql) or die(mysql_error());
+$event_data = $row=mysql_fetch_array($result);
 ?>
 <script>
 function copyHtml(){
@@ -107,9 +107,9 @@ $(function(){
         <p style="clear:both"></p>
         </div>
         <form name="sform" id="sform" action="mypage.proc.php" method="post" enctype="multipart/form-data">
-        <input type="hidden" name="mode" value="<?=$_REQUEST['address_idx']!=""?"address_event_updat":"address_event_add"?>" />
-        <input type="hidden" name="request_idx" value="<?=$request_idx;?>" />
-        <input type="hidden" name="org_event_code" value="<?=$row['sp'];?>" />
+        <input type="hidden" name="mode" value="<?php echo $_REQUEST['address_idx']!=""?"address_event_update":"address_event_add"?>" />
+        <input type="hidden" name="request_idx" value="<?php echo $request_idx;?>" />
+        <input type="hidden" name="org_event_code" value="<?php echo $row['sp'];?>" />
         <input type="hidden" name="event_idx" id="event_idx" value="" />
         <input type="hidden" name="address_idx" id="address_idx" value="" />
         <input type="hidden" name="address_cnt" id="address_cnt" value="" />
@@ -118,12 +118,12 @@ $(function(){
                 <table class="list_table1" width="100%" border="0" cellspacing="0" cellpadding="0">
                 <tr>
                     <th class="w200">주소록명</th>
-                    <td><input type="text" name="address_name" placeholder="" id="address_name" value="<?=$data['name']?>" style="width:200px"/> <input type="button" value="주소록 조회" class="button " id="searchAddressBtn"></td>
+                    <td><input type="text" name="address_name" placeholder="" id="address_name" value="<?=$data[name]?>" style="width:200px"/> <input type="button" value="주소록 조회" class="button " id="searchAddressBtn"></td>
                 </tr>   										
                 <tr>
                     <th class="w200">이벤트</th>
                     <td>
-                        <input type="text" name="sp" placeholder="" id="event_name_eng" value="<?=$data['sp']?>"  style="width:200px"/> <input type="button" value="이벤트 조회" class="button " id="searchBtn"></td>
+                        <input type="text" name="sp" placeholder="" id="event_name_eng" value="<?=$data[sp]?>"  style="width:200px"/> <input type="button" value="이벤트 조회" class="button " id="searchBtn"></td>
                 </tr>   
                 </table>
             </div>

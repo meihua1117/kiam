@@ -199,21 +199,21 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
     전표출력 페이지는 저희 올앳 홈페이지의 일부로써, 홈페이지 개편 등의 이유로 인하여 페이지 변경 또는 URL 변경이 있을 수
     있습니다. 홈페이지 개편에 관한 공지가 있을 경우, 전표출력 URL을 확인하시기 바랍니다.
 */
-$sql="select * from tjd_pay_result where orderNumber='$ORDER_NO' and buyer_id='{$member_1['mem_id']}' ";
-$resul=mysqli_query($self_con, $sql)or die(mysqli_error($self_con));
-$row=mysqli_fetch_array($resul);
+$sql="select * from tjd_pay_result where orderNumber='$ORDER_NO' and buyer_id='$member_1[mem_id]' ";
+$resul=mysql_query($sql)or die(mysql_error());
+$row=mysql_fetch_array($resul);
 $no = $row['no'];
 if($REPLYCD == "0000"){//pay_test
-    $sql = "update tjd_pay_result set end_status='Y' where  orderNumber='$ORDER_NO' and buyer_id='{$member_1['mem_id']}'";
-    mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
+    $sql = "update tjd_pay_result set end_status='Y' where  orderNumber='$ORDER_NO' and buyer_id='$member_1[mem_id]'";
+    mysql_query($sql) or die(mysql_error());
 
-    $sql = "select * from Gn_Member where mem_id='{$member_1['mem_id']}' ";
-    $sresult = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-    $srow = mysqli_fetch_array($sresult);
+    $sql = "select * from Gn_Member where mem_id='$member_1[mem_id]' ";
+    $sresult = mysql_query($sql) or die(mysql_error());
+    $srow = mysql_fetch_array($sresult);
 
-    $sql = "select * from crawler_member_real where user_id='{$member_1['mem_id']}' ";
-    $sresult = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-    $crow = mysqli_fetch_array($sresult);
+    $sql = "select * from crawler_member_real where user_id='$member_1[mem_id]' ";
+    $sresult = mysql_query($sql) or die(mysql_error());
+    $crow = mysql_fetch_array($sresult);
     $user_id = $srow['mem_id'];
     $user_name = $srow['mem_name'];
     $password = $srow['mem_pass'];
@@ -221,10 +221,10 @@ if($REPLYCD == "0000"){//pay_test
     $email = $srow['mem_email'];
     $address = $srow['mem_add1'];
     $status = "Y";
-    $use_cnt = $row['db_cnt'];
+    $use_cnt = $row[db_cnt];
     $last_time = date("Y-m-d H:i:s", strtotime("+ 120 month"));
     $search_email_date = substr($last_time, 0, 10);
-    $search_email_cnt = $row['email_cnt'];
+    $search_email_cnt = $row[email_cnt];
     $term = substr($last_time, 0, 10);
 
     if ($crow[0] == "") {
@@ -242,7 +242,7 @@ if($REPLYCD == "0000"){//pay_test
                                         search_email_date='$search_email_date',
                                         search_email_cnt='$search_email_cnt',
                                         shopping_end_date='$search_email_date'";
-        mysqli_query($self_con, $query);
+        mysql_query($query);
     } else {
         $query = "update crawler_member_real set
                                         cell='$cell',
@@ -262,44 +262,44 @@ if($REPLYCD == "0000"){//pay_test
                                         status='Y'
                                         where user_id='$user_id'
                                         ";
-        mysqli_query($self_con, $query);
+        mysql_query($query);
     }
 
-    $sql_m = "update Gn_Member set fujia_date1=now() , fujia_date2=date_add(now(),INTERVAL 120 month)  where mem_id='{$member_1['mem_id']}' ";
-    mysqli_query($self_con, $sql_m) or die(mysqli_error($self_con));
+    $sql_m = "update Gn_Member set fujia_date1=now() , fujia_date2=date_add(now(),INTERVAL 120 month)  where mem_id='$member_1[mem_id]' ";
+    mysql_query($sql_m) or die(mysql_error());
 
-    $add_phone = $row['phone_cnt'] / 9000;
-    $sql_m = "update Gn_Member set   phone_cnt=phone_cnt+'$add_phone' where mem_id='{$member_1['mem_id']}' ";
-    mysqli_query($self_con, $sql_m) or die(mysqli_error($self_con));
+    $add_phone = $row[phone_cnt] / 9000;
+    $sql_m = "update Gn_Member set   phone_cnt=phone_cnt+'$add_phone' where mem_id='$member_1[mem_id]' ";
+    mysql_query($sql_m) or die(mysql_error());
 
     if ($srow['recommend_id'] != "") {
-        $sql = "select * from Gn_Member where mem_id='{$srow['recommend_id']}' ";
-        $rresult = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-        if (mysqli_num_rows($rresult) > 0) {
-            $rrow = mysqli_fetch_array($rresult);
+        $sql = "select * from Gn_Member where mem_id='$srow[recommend_id]' ";
+        $rresult = mysql_query($sql) or die(mysql_error());
+        if (mysql_num_rows($rresult) > 0) {
+            $rrow = mysql_fetch_array($rresult);
             $branch_share_id = "";
             $addQuery = "";
             $branch_share_per = 0;
             // 리셀러 / 분양 회원 확인
             // 리셀러 회원인경우 분양회원 아이디 확인
-            if ($rrow['service_type'] == 2) {
+            if ($rrow[service_type] == 2) {
                 // 추천인의 추천인 검색 및 등급 확인
-                $sql = "select * from Gn_Member where mem_id='{$rrow['recommend_id']}'";
-                $rresult = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-                $trow = mysqli_fetch_array($rresult);
+                $sql = "select * from Gn_Member where mem_id='$rrow[recommend_id]'";
+                $rresult = mysql_query($sql) or die(mysql_error());
+                $trow = mysql_fetch_array($rresult);
                 $share_per = $recommend_per = $rrow['share_per'] ? $rrow['share_per'] : 30;
                 if ($trow[0] != "") {
                     $recommend_per = $trow['share_per'] ? $trow['share_per'] : 50;
                     $branch_share_per = $recommend_per - $share_per;
                     $branch_share_id = $trow['mem_id'];
                 }
-            } else if ($rrow['service_type'] == 3) {
+            } else if ($rrow[service_type] == 3) {
                 $share_per = $recommend_per = $rrow['share_per'] ? $rrow['share_per'] : 50;
                 $branch_share_per = 0;
             }
 
-            $sql = "update tjd_pay_result set share_per='$share_per', branch_share_per = '$branch_share_per', share_id='{$srow['recommend_id']}', branch_share_id='$branch_share_id' where no='$no'";
-            mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
+            $sql = "update tjd_pay_result set share_per='$share_per', branch_share_per = '$branch_share_per', share_id='$srow[recommend_id]', branch_share_id='$branch_share_id' where no='$no'";
+            mysql_query($sql) or die(mysql_error());
         }
     }
     echo 1;

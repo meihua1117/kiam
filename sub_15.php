@@ -73,7 +73,7 @@ con.eq(i).show();
 }
 function dbFree() {
 <?
-if($_SESSION['one_member_id'] == "")
+if($_SESSION[one_member_id] == "")
 {
 ?>
 alert('로그인 이후에 이용이 가능합니다.');
@@ -149,17 +149,54 @@ return false;
       </div>
     </div>
     <? } ?>
+    <!--<div class="text-wrap">
+      <p>
+        온리원디버 프로그램은 브라우저 크롬에서 다운로드가 잘 되며,<br>
+        컴퓨터 사양은 윈도우10 이상, 64비트 지원될 때 정상 작동합니다.<br>
+        수집된 디비는 M/S 엑셀에 저장되기 때문에 M/S 엑셀 프로그램이 설치되어 있어야 합니다.
+      </p>
+    </div>
+    <div class="button-wrap">
+      <div class="inner-wrap clearfix">
+        <div class="left">
+          <div class="bnt3">
+              <a href="/cliente_list.php?status=1&one_no=85" class="button" target="_blank">온리원디버 정식버전 다운로드</a>
+          </div>
+        </div>
+        <div class="right">
+          <div class="inner">
+            <li class="right-text">온리원디버 정식판 이용방법</li>
+            <li class="right-button"><a href="/cliente_list.php?status=1&one_no=85" target="_blank"><img src="images/sub_02_btn_26.jpg" /></a></li>
+          </div>
+        </div>
+      </div>
+    </div>-->
   </div>
+  
+<!--   <div class="sub-2-section sec-5">
+    <div class="iframe-wrap">
+     <iframe width="900" height="500" src="https://www.youtube.com/embed/9a7sqygX7wo" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+  </div> -->
+  
   <div class="sub-2-section ">
+    <!--<div class="im_title">
+      <p><span class="colored">“타겟 대상별” “웹종류별”</span> 공개 <span class="colored"> 정보</span> 모두 수집!</p>
+    </div>-->
     <div class="content-wrap">
-      <a name="trait"></a>
+    <a name="trait"></a>
       <div class="image-wrapper"><img src="images/200330_06.png"></div>
+      
     </div>
   </div>
 
   <div class="sub-2-section sec-2">
+    <!--<div class="im_title">
+      <p><span class="colored">“타겟 대상별” “웹종류별”</span> 공개 <span class="colored"> 정보</span> 모두 수집!</p>
+    </div>-->
     <div class="content-wrap">
       <div class="image-wrapper"><img src="images/200102_04.png"></div>
+      
     </div>
   </div>
 

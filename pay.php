@@ -10,21 +10,21 @@ extract($_GET);
 include_once "_head.php";
 // include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
 $date = date("Y-m-d H:i:s");
-$sql="select * from Gn_Member where mem_id='{$_SESSION['one_member_id']}' ";
-$resul=mysqli_query($self_con, $sql);
-$data=mysqli_fetch_array($resul);
+$sql="select * from Gn_Member where mem_id='$_SESSION[one_member_id]' ";
+$resul=mysql_query($sql);
+$data=mysql_fetch_array($resul);
 // 이미 진행중인 결제가 있는지 확인
 $mid = date("YmdHis").rand(10,99);
 
 $show_iam_info_status = "N";
-$query = "select count(no) from tjd_pay_result where buyer_id='{$member_1['mem_id']}' and
+$query = "select count(no) from tjd_pay_result where buyer_id='$member_1[mem_id]' and
           ((member_type like '%standard%' or member_type like '%professional%' or member_type like '%enterprise%') or 
           (((iam_pay_type = '' or iam_pay_type = '0' or iam_pay_type = '전문가') and member_type != '포인트충전')) and end_status = 'Y'";
-$res = mysqli_query($self_con, $query);
-$pay_row = mysqli_fetch_array($res);
-$query = "select count(idx) from Gn_Iam_Service where mem_id='{$member_1['mem_id']}'";
-$res = mysqli_query($self_con, $query);
-$iam_service_row = mysqli_fetch_array($res);
+$res = mysql_query($query);
+$pay_row = mysql_fetch_array($res);
+$query = "select count(idx) from Gn_Iam_Service where mem_id='$member_1[mem_id]'";
+$res = mysql_query($query);
+$iam_service_row = mysql_fetch_array($res);
 if($iam_service_row[0] == 0 && $pay_row[0] > 0)
     $show_iam_info_status = "Y";
 ?>
@@ -112,8 +112,8 @@ if($platform == "mobile"){
         <?
             $pay_row = array();
             $sql = "select * from payment_info order by idx";
-            $res = mysqli_query($self_con, $sql);
-            while($row = mysqli_fetch_array($res)){
+            $res = mysql_query($sql);
+            while($row = mysql_fetch_array($res)){
                 array_push($pay_row,$row);
             }
         ?>
@@ -328,7 +328,7 @@ if($platform == "mobile"){
                             <tr>
                                 <td>폰연결수</td>
                                 <?foreach($pay_row as $row){?>
-                                <td><?=$row['phone_cnt'] < 0 ?"무제한" : number_format($row['phone_cnt'])?></td>
+                                <td><?=$row[phone_cnt] < 0 ?"무제한" : number_format($row[phone_cnt])?></td>
                                 <?}?>
                             </tr>
                             <tr>
@@ -510,7 +510,7 @@ if($platform == "mobile"){
                 <!--승인금액-->
                 <input type="hidden" name="allat_amt" id="allat_amt" value="33000" size="19" maxlength=10>
                 <!--회원ID-->
-                <input type="hidden" name="allat_pmember_id" value="<?=$_SESSION['one_member_id'];?>" size="19" maxlength=20>
+                <input type="hidden" name="allat_pmember_id" value="<?=$_SESSION[one_member_id];?>" size="19" maxlength=20>
                 <!--상품코드-->
                 <input type="hidden" name="allat_product_cd" id="allat_product_cd" value="Selling-Best" size="19" maxlength=1000>
                 <!--상품명-->
@@ -548,7 +548,7 @@ if($platform == "mobile"){
                 <!--현금 영수증 발급 여부-->
                 <input type="hidden" name="allat_cash_yn" value="" size="19" maxlength=1>
                 <!--결제 정보 수신 E-mail-->
-                <input type="hidden" name="allat_email_addr" id="allat_email_addr"  size="19" maxlength=50  value="<?php echo $data['mem_email']?$data['mem_email']:"turbolight@daum.net";?>">
+                <input type="hidden" name="allat_email_addr" id="allat_email_addr"  size="19" maxlength=50  value="<?php echo $data['mem_email']?$data[mem_email]:"turbolight@daum.net";?>">
                 <!--테스트 여부 테스트(Y),서비스(N) - Default : N 테스트 결제는 실결제가 나지 않으며 테스트 성공시 결과값은 "0001" 리턴-->
                 <input type="hidden" name="allat_test_yn" value="N" size="19" maxlength=1>
                 <!--상품 실물 여부-->
@@ -632,12 +632,12 @@ if($platform == "mobile"){
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td class="colored fw-bold" colspan="3" >
+                                            <td class="colored fw-bold" colspan="3" style="">
                                                 <span style="font-size:12px">광고없는 IAM카드와 자동화솔루션 이용</span>
                                             </td>
                                         </tr>
                                         <tr class="all-sta collapse">
-                                            <td class="colored fw-bold" colspan="3" >
+                                            <td class="colored fw-bold" colspan="3" style="">
                                                 <span style="font-size:14px">IAM카드</span>
                                             </td>
                                         </tr>
@@ -684,7 +684,7 @@ if($platform == "mobile"){
                                             <td colspan="2">X</td>
                                         </tr>
                                         <tr class="all-sta collapse">
-                                            <td class="colored fw-bold" colspan="3" >
+                                            <td class="colored fw-bold" colspan="3" style="">
                                                 <span style="font-size:14px">IAM콜백</span>
                                             </td>
                                         </tr>
@@ -697,7 +697,7 @@ if($platform == "mobile"){
                                             <td colspan="2">X</td>
                                         </tr>
                                         <tr class="all-sta collapse">
-                                            <td class="colored fw-bold" colspan="3" >
+                                            <td class="colored fw-bold" colspan="3" style="">
                                                 <span style="font-size:14px">IAM문자</span>
                                             </td>
                                         </tr>
@@ -712,7 +712,7 @@ if($platform == "mobile"){
                                             </td>
                                         </tr>
                                         <tr class="all-sta collapse">
-                                            <td class="colored fw-bold" colspan="3" >
+                                            <td class="colored fw-bold" colspan="3" style="">
                                                 <span style="font-size:14px">IAM디버</span>
                                             </td>
                                         </tr>
@@ -729,7 +729,7 @@ if($platform == "mobile"){
                                             <td colspan="2">무제한</td>
                                         </tr>
                                         <tr class="all-sta collapse">
-                                            <td class="colored fw-bold" colspan="3" >
+                                            <td class="colored fw-bold" colspan="3" style="">
                                                 <span style="font-size:14px">IAM스탭</span>
                                             </td>
                                         </tr>
@@ -777,12 +777,12 @@ if($platform == "mobile"){
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td class="colored fw-bold" colspan="3" >
+                                            <td class="colored fw-bold" colspan="3" style="">
                                                 <span style="font-size:12px">IAM멀티플랫폼과 자동화솔루션 이용</span>
                                             </td>
                                         </tr>
                                         <tr class="all-pro collapse in">
-                                            <td class="colored fw-bold" colspan="3" >
+                                            <td class="colored fw-bold" colspan="3" style="">
                                                 <span style="font-size:14px">IAM카드</span>
                                             </td>
                                         </tr>
@@ -829,7 +829,7 @@ if($platform == "mobile"){
                                             <td colspan="2"><?=$pay_row[1][domain] == "Y"?"O":"X"?></td>
                                         </tr>
                                         <tr class="all-pro collapse in">
-                                            <td class="colored fw-bold" colspan="3" >
+                                            <td class="colored fw-bold" colspan="3" style="">
                                                 <span style="font-size:14px">IAM콜백</span>
                                             </td>
                                         </tr>
@@ -842,7 +842,7 @@ if($platform == "mobile"){
                                             <td colspan="2">무제한</td>
                                         </tr>
                                         <tr class="all-pro collapse in">
-                                            <td class="colored fw-bold" colspan="3" >
+                                            <td class="colored fw-bold" colspan="3" style="">
                                                 <span style="font-size:14px">IAM문자</span>
                                             </td>
                                         </tr>
@@ -861,7 +861,7 @@ if($platform == "mobile"){
                                             </td>
                                         </tr>
                                         <tr class="all-pro collapse in">
-                                            <td class="colored fw-bold" colspan="3" >
+                                            <td class="colored fw-bold" colspan="3" style="">
                                                 <span style="font-size:14px">IAM디버</span>
                                                 <input type="button" value="+" id="plus_btn_db" class="db_plus"/>
                                                 <input type="button" value="-" id="minus_btn_db" class="db_minus"/>
@@ -880,7 +880,7 @@ if($platform == "mobile"){
                                             <td colspan="2"><?=$pay_row[1][normal_number] == "Y"?"무제한":"불가"?></td>
                                         </tr>
                                         <tr class="all-pro collapse in">
-                                            <td class="colored fw-bold" colspan="3" >
+                                            <td class="colored fw-bold" colspan="3" style="">
                                                 <span style="font-size:14px">IAM스탭</span>
                                             </td>
                                         </tr>
@@ -929,12 +929,12 @@ if($platform == "mobile"){
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td class="colored fw-bold" colspan="3" >
+                                            <td class="colored fw-bold" colspan="3" style="">
                                                 <span style="font-size:12px">IAM멀티플랫폼으로 비즈니스하기</span>
                                             </td>
                                         </tr>
                                         <tr class="all-ent collapse">
-                                            <td class="colored fw-bold" colspan="3" >
+                                            <td class="colored fw-bold" colspan="3" style="">
                                                 <span style="font-size:14px">IAM카드</span>
                                             </td>
                                         </tr>
@@ -981,7 +981,7 @@ if($platform == "mobile"){
                                             <td colspan="2"><?=$pay_row[2][domain] == "Y"?"O":"X"?></td>
                                         </tr>
                                         <tr class="all-ent collapse">
-                                            <td class="colored fw-bold" colspan="3" >
+                                            <td class="colored fw-bold" colspan="3" style="">
                                                 <span style="font-size:14px">IAM콜백</span>
                                             </td>
                                         </tr>
@@ -994,7 +994,7 @@ if($platform == "mobile"){
                                             <td colspan="2">X</td>
                                         </tr>
                                         <tr class="all-ent collapse">
-                                            <td class="colored fw-bold" colspan="3" >
+                                            <td class="colored fw-bold" colspan="3" style="">
                                                 <span style="font-size:14px">IAM문자</span>
                                             </td>
                                         </tr>
@@ -1013,7 +1013,7 @@ if($platform == "mobile"){
                                             </td-->
                                         </tr>
                                         <tr class="all-ent collapse">
-                                            <td class="colored fw-bold" colspan="3" >
+                                            <td class="colored fw-bold" colspan="3" style="">
                                                 <span style="font-size:14px">IAM디버</span>
                                                 <!--input type="button" value="+" id="plus_btn_db" class="db_plus"/>
                                                 <input type="button" value="-" id="minus_btn_db" class="db_minus"/-->
@@ -1032,7 +1032,7 @@ if($platform == "mobile"){
                                             <td colspan="2"><?=$pay_row[2][normal_number] == "Y"?"무제한":"불가"?></td>
                                         </tr>
                                         <tr class="all-ent collapse">
-                                            <td class="colored fw-bold" colspan="3" >
+                                            <td class="colored fw-bold" colspan="3" style="">
                                                 <span style="font-size:14px">IAM스탭</span>
                                             </td>
                                         </tr>
@@ -1084,12 +1084,12 @@ if($platform == "mobile"){
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td class="colored active fw-bold" colspan="3" >
+                                            <td class="colored active fw-bold" colspan="3" style="">
                                                 <span style="font-size:12px">IAM멀티플랫폼으로 비즈니스하기</span>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td class="colored active fw-bold" colspan="3" >
+                                            <td class="colored active fw-bold" colspan="3" style="">
                                                 <span style="font-size:14px">IAM카드</span>
                                             </td>
                                         </tr>
@@ -1136,7 +1136,7 @@ if($platform == "mobile"){
                                             <td colspan="2"><?=$pay_row[3][domain] == "Y"?"O":"X"?></td>
                                         </tr>
                                         <tr>
-                                            <td class="colored active fw-bold" colspan="3" >
+                                            <td class="colored active fw-bold" colspan="3" style="">
                                                 <span style="font-size:14px">IAM콜백</span>
                                             </td>
                                         </tr>
@@ -1149,7 +1149,7 @@ if($platform == "mobile"){
                                             <td colspan="2">무제한</td>
                                         </tr>
                                         <tr>
-                                            <td class="colored active fw-bold" colspan="3" >
+                                            <td class="colored active fw-bold" colspan="3" style="">
                                                 <span style="font-size:14px">IAM문자</span>
                                             </td>
                                         </tr>
@@ -1168,7 +1168,7 @@ if($platform == "mobile"){
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td class="colored active fw-bold" colspan="3" >
+                                            <td class="colored active fw-bold" colspan="3" style="">
                                                 <span style="font-size:14px">IAM디버</span>
                                                 <input type="button" value="+" id="plus_btn_db" class="db_plus"/>
                                                 <input type="button" value="-" id="minus_btn_db" class="db_minus"/>
@@ -1187,7 +1187,7 @@ if($platform == "mobile"){
                                             <td colspan="2"><?=$pay_row[3][normal_number] == "Y"?"무제한":"불가"?></td>
                                         </tr>
                                         <tr>
-                                            <td class="colored active fw-bold" colspan="3" >
+                                            <td class="colored active fw-bold" colspan="3" style="">
                                                 <span style="font-size:14px">IAM스탭</span>
                                             </td>
                                         </tr>
@@ -1239,12 +1239,12 @@ if($platform == "mobile"){
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td class="colored fw-bold" colspan="3" >
+                                            <td class="colored fw-bold" colspan="3" style="">
                                                 <span style="font-size:12px">공개된 디비수집으로 타겟 마케팅하기</span>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td class="colored active fw-bold" colspan="3" >
+                                            <td class="colored active fw-bold" colspan="3" style="">
                                                 <span style="font-size:14px">IAM디버</span>
                                             </td>
                                         </tr>
@@ -1308,7 +1308,7 @@ if($platform == "mobile"){
                     </div>
                 </div>
                 <div style="padding-bottom: 10px; display : none" id = "detail2"> 입금안내 : 스탠다드차타드은행 617-20-109431 온리원연구소(구,SC제일은행)<br>연결제는 월결제에 2개월치를 추가로 드립니다.<br></div>
-            <?if(!$_SESSION['one_member_id']){?>
+            <?if(!$_SESSION[one_member_id]){?>
                 <div class="a8"><a href="javascript:alert('로그인후 이용이 가능합니다.');"><img src="images/sub_02_btn_23.jpg" style="max-width: 100%"/></a></div>
             <?}else {?>
                 <div class="a8"><a href="javascript:show_modal();"><img src="images/sub_02_btn_23.jpg" style="max-width: 100%"/></a></div>
@@ -1345,7 +1345,7 @@ if($platform == "mobile"){
         <div id="iam_info_modal" class="modal fade" tabindex="-1" role="dialog" style="overflow-x: auto; overflow-y: auto;">
             <div class="modal-dialog" style="width: 100%;max-width:768px;">
                 <!-- Modal content-->
-                <div class="modal-content" >
+                <div class="modal-content" style="">
                     <div class="modal-header" style="border:none;background-color: rgb(130,199,54);border-top-right-radius: 5px;border-top-left-radius: 5px;">
                         <div>
                             <button type="button" class="close" data-dismiss="modal" style="opacity: 2">
@@ -1470,7 +1470,7 @@ if($platform == "mobile"){
         <div id="detail_intro_modal" class="modal fade" tabindex="-1" role="dialog" style="overflow-x: auto; overflow-y: auto;">
             <div class="modal-dialog" style="width: 100%;max-width:768px;">
                 <!-- Modal content-->
-                <div class="modal-content" >
+                <div class="modal-content" style="">
                     <div class="modal-header" style="border:none;background-color: rgb(130,199,54);border-top-right-radius: 5px;border-top-left-radius: 5px;">
                         <div>
                             <button type="button" class="close" data-dismiss="modal" style="opacity: 2">
@@ -1490,8 +1490,8 @@ if($platform == "mobile"){
                                     <tr>
                                         <th class="bold"  colspan="2" style = "text-align: left;font-size: 14px;">
                                             ※ 위약금 종류와 근거자료<br><br>
-                                            1. 등록비(50만원) : 리셀러로서 수당을 받을수 있는 등록비를 말한다. 약정하지 않는 리셀러는 등록비를 사전 납부하고 리셀러로 등록할수 있다. 그러므로 약정을 하고 나서 해지 하는 것은 등록비를 이미 납부한 경우 반환이 되지 않으므로 약정자는 해지할경우 등록비를 위약금으로 납부해야 한다. <br><br>
-                                            2. 관리비(50만원) : 리셀러로 등록하게 되면 기존 추천자가 1-2개월간 플랫폼 설정, 이용, 교육, 대행등을 진행한다. 약정없는 리셀러의 경우 사전에 50만원을 납부하고 진행하지만 약정자는 납부하지 않고 시작하므로 약정후 해지시 이 비용을 위약금으로 납부한다. <br><br>
+                                            1. 등록비(80만원) : 리셀러로서 수당을 받을수 있는 등록비를 말한다. 약정하지 않는 리셀러는 등록비를 사전 납부하고 리셀러로 등록할수 있다. 그러므로 약정을 하고 나서 해지 하는 것은 등록비를 이미 납부한 경우 반환이 되지 않으므로 약정자는 해지할경우 등록비를 위약금으로 납부해야 한다. <br><br>
+                                            2. 관리비(20만원) : 리셀러로 등록하게 되면 기존 추천자가 1-2개월간 플랫폼 설정, 이용, 교육, 대행등을 진행한다. 약정없는 리셀러의 경우 사전에 20만원을 납부하고 진행하지만 약정자는 납부하지 않고 시작하므로 약정후 해지시 이 비용을 위약금으로 납부한다. <br><br>
                                             3. 이용료(9.9만원) : 이용료는 9.9만원을 3.3만원에 지원하므로 매월 지원받은 만큼 위약금으로 납부해야 한다. <br><br>
                                             4. 포인트(100만원) : 리셀러에게 제공되는 초기 포인트 100만 포인트 중 사용한 액수를 위약금으로 환불한다. <br><br>
                                             단, 기간이 지남에 따라 약정의무를 수행하게 되므로 약정기간이 끝나갈때에 맞춰 위약금의 비율을 낮추게 된다.
@@ -1502,8 +1502,8 @@ if($platform == "mobile"){
                         </div>
                     </div>
                     <div class="modal-footer" style="padding:0px;display:flex">
-                        <button type="button" class="btn btn-default btn-left" style="width:50%;" onclick="pay_go(document.pay_form)">잘 확인했습니다</button>
-                        <button type="button" class="btn btn-active btn-right" style="width:50%;" onclick="show_table()">위약금 도표 보기</button>
+                        <button type="button" class="btn btn-default btn-left" style="width:50%" onclick="pay_go(document.pay_form)">잘 확인했습니다</button>
+                        <button type="button" class="btn btn-active btn-right" style="width:50%" onclick="show_table()">위약금 도표 보기</button>
                     </div>
                 </div>
             </div>
@@ -1512,7 +1512,7 @@ if($platform == "mobile"){
         <div id="penalty_modal" class="modal fade" tabindex="-1" role="dialog" style="overflow-x: auto; overflow-y: auto;">
             <div class="modal-dialog" style="width: 100%;max-width:768px;">
                 <!-- Modal content-->
-                <div class="modal-content" >
+                <div class="modal-content" style="">
                     <div class="modal-header" style="border:none;background-color: rgb(130,199,54);border-top-right-radius: 5px;border-top-left-radius: 5px;">
                         <div>
                             <button type="button" class="close" data-dismiss="modal" style="opacity: 2">
@@ -1570,15 +1570,15 @@ if($platform == "mobile"){
                                 <tbody>
                                     <?
                                     $sql_penalty = "select * from gn_penalty_list";
-                                    $res_penalty = mysqli_query($self_con, $sql_penalty);
-                                    while($row_penalty = mysqli_fetch_array($res_penalty)){
+                                    $res_penalty = mysql_query($sql_penalty);
+                                    while($row_penalty = mysql_fetch_array($res_penalty)){
                                     ?>
                                     <tr>
-                                        <td><?=$row_penalty['month']?>개월</td>
-                                        <td><?=number_format($row_penalty['reg_money'])?></td>
-                                        <td><?=number_format($row_penalty['manage_money'])?></td>
-                                        <td><?=number_format($row_penalty['use_money'])?></td>
-                                        <td><?=number_format($row_penalty['penalty_money'])?></td>
+                                        <td><?=$row_penalty[month]?>개월</td>
+                                        <td><?=number_format($row_penalty[reg_money])?></td>
+                                        <td><?=number_format($row_penalty[manage_money])?></td>
+                                        <td><?=number_format($row_penalty[use_money])?></td>
+                                        <td><?=number_format($row_penalty[penalty_money])?></td>
                                     </tr>
                                     <?}?>
                                 </tbody>
@@ -1710,7 +1710,7 @@ if($platform == "mobile"){
                         type:"POST",
                         url:"/ajax/get_mem_address.php",
                         dataType:"json",
-                        data:{mem_id:'<?=$_SESSION['iam_member_id']?>'},
+                        data:{mem_id:'<?=$_SESSION[iam_member_id]?>'},
                         success: function(data){
                             $('#allat_recp_addr').val(data.address);
                             if(product_type != "standard"){
@@ -1779,7 +1779,7 @@ if($platform == "mobile"){
                         type:"POST",
                         url:"/ajax/get_mem_address.php",
                         dataType:"json",
-                        data:{mem_id:'<?=$_SESSION['iam_member_id']?>'},
+                        data:{mem_id:'<?=$_SESSION[iam_member_id]?>'},
                         success: function(data){
                             $('#allat_recp_addr').val(data.address);
                             $('#allat_shop_id').val('bwelcome12');
@@ -1806,7 +1806,7 @@ if($platform == "mobile"){
                         type:"POST",
                         url:"/ajax/get_mem_address.php",
                         dataType:"json",
-                        data:{mem_id:'<?=$_SESSION['iam_member_id']?>'},
+                        data:{mem_id:'<?=$_SESSION[iam_member_id]?>'},
                         success: function(data){
                             $('#allat_recp_addr').val(data.address);
                             $('#allat_shop_id').val('welcome101');

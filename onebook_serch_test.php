@@ -1,6 +1,6 @@
 <?
 $path="./";
-include_once $_REQUEST['status']?"_head_open.php":"_head.php";
+include_once $_REQUEST[status]?"_head_open.php":"_head.php";
 if(!$fujia_pay)
 {
 echo "권한이 없습니다.";	
@@ -16,7 +16,7 @@ exit;
             </div>
             <div class="right_sub_menu">
             <?
-			if(!$_REQUEST['status'])
+			if(!$_REQUEST[status])
 			{
 				?>            
                 <a href="sub_4.php?status=1">휴대폰등록관리</a> &nbsp;|&nbsp; 
@@ -50,33 +50,33 @@ exit;
 									   	it_code2 like '%$book_text%' )";
 					$sql_serch.=" and it_use='1' and  it_state2='1' ";
 					$sql="select count(it_id) as cnt from Gn_Shop_Item where $sql_serch ";
-					$result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-					$row=mysqli_fetch_array($result);
-					$intRowCount=$row['cnt'];
-					if($_POST['page'])
-					  $page=(int)$_POST['page'];
+					$result = mysql_query($sql) or die(mysql_error());
+					$row=mysql_fetch_array($result);
+					$intRowCount=$row[cnt];
+					if($_POST[page])
+					  $page=(int)$_POST[page];
 					else
 					  $page=1;
-					if($_POST['page2'])
-					  $page2=(int)$_POST['page2'];
+					if($_POST[page2])
+					  $page2=(int)$_POST[page2];
 					else
 					  $page2=1;
-					if (!$_POST['lno']) 
+					if (!$_POST[lno]) 
 						$intPageSize =5;
 					else 
-					   $intPageSize = $_POST['lno'];
+					   $intPageSize = $_POST[lno];
 					$int=($page-1)*$intPageSize;
-					if($_REQUEST['order_status'])
-					  $order_status=$_REQUEST['order_status'];
+					if($_REQUEST[order_status])
+					  $order_status=$_REQUEST[order_status];
 					else
 					  $order_status="desc"; 
-					if($_REQUEST['order_name'])
-					  $order_name=$_REQUEST['order_name'];
+					if($_REQUEST[order_name])
+					  $order_name=$_REQUEST[order_name];
 					else
 					  $order_name="it_time";
 					$intPageCount=(int)(($intRowCount+$intPageSize-1)/$intPageSize);     
 					$sql="select * from Gn_Shop_Item where $sql_serch order by $order_name $order_status limit $int,$intPageSize";
-					$result=mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
+					$result=mysql_query($sql) or die(mysql_error());
 				}
 		?>
         <form name="onebook_form" method="post">
@@ -107,7 +107,7 @@ exit;
 					   if($intRowCount)
 					   {
 						   $i=0;
-						 while($row=mysqli_fetch_array($result))
+						 while($row=mysql_fetch_array($result))
 						 {
 							if(strpos($row['propb2_title'],"[|*|]")!==false)
 								$propb2_title=explode("[|*|]",$row['propb2_title']);
@@ -166,7 +166,7 @@ exit;
                             	<div class="a2_1">
                                 	<div class="a2_1_1"><img src="http://onepagebook.net/shop/data/item/<?=$row[it_id]?>_s" width="31" height="45"  /></div>
                                     <div class="a2_1_1">
-                                    	<li class="a2_1_1_1"><?=$row[it_name]?> <input type="button" value="선택" onclick="book_select('<?=$i?>','<?=$member_1['mem_name']?>')" /></li>
+                                    	<li class="a2_1_1_1"><?=$row[it_name]?> <input type="button" value="선택" onclick="book_select('<?=$i?>','<?=$member_1[mem_name]?>')" /></li>
                                         <li class="a2_1_1_2">
 											<?=$row[it_name_ori]?"<br/>원제 : ".$row[it_name_ori]."<br>":""?>
                                             <?=$view2?>                                       

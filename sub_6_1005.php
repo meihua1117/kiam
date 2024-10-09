@@ -10,7 +10,7 @@ include_once "_head.php";
 -->
 <?if(!$_SESSION[one_member_id]){?>
 	<script language="javascript">
-		location.replace('/');
+		location.replace('/ma.php');
 	</script>
 <?
 	exit;

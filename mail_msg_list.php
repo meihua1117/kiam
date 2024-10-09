@@ -32,42 +32,42 @@ function deleteRow(idx) {
                         </div>
                         <?
 
-								$sql_serch=" mem_id ='{$_SESSION['one_member_id']}' ";
-								if($_REQUEST['lms_text'])
+								$sql_serch=" mem_id ='$_SESSION[one_member_id]' ";
+								if($_REQUEST[lms_text])
 								{
-									if($_REQUEST['lms_select'])
-									$sql_serch.=" and {$_REQUEST['lms_select']} like '{$_REQUEST['lms_text']}%' ";
+									if($_REQUEST[lms_select])
+									$sql_serch.=" and {$_REQUEST[lms_select]} like '$_REQUEST[lms_text]%' ";
 									else
-									$sql_serch.=" and (message like '{$_REQUEST['lms_text']}%'  or title like '{$_REQUEST['lms_text']}%') ";
+									$sql_serch.=" and (message like '$_REQUEST[lms_text]%'  or title like '$_REQUEST[lms_text]%') ";
 								}
 								$sql="select count(idx) as cnt from gn_mail_message where $sql_serch ";
-								$result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-								$row=mysqli_fetch_array($result);
-								$intRowCount=$row['cnt'];
-								if($_POST['page'])
-								$page=(int)$_POST['page'];
+								$result = mysql_query($sql) or die(mysql_error());
+								$row=mysql_fetch_array($result);
+								$intRowCount=$row[cnt];
+								if($_POST[page])
+								$page=(int)$_POST[page];
 								else
 								$page=1;
-								if($_POST['page2'])
-								$page2=(int)$_POST['page2'];
+								if($_POST[page2])
+								$page2=(int)$_POST[page2];
 								else
 								$page2=1;
-								if (!$_POST['lno']) 
+								if (!$_POST[lno]) 
 								$intPageSize =8;
 								else 
-								$intPageSize = $_POST['lno'];
+								$intPageSize = $_POST[lno];
 								$int=($page-1)*$intPageSize;
-								if($_REQUEST['order_status'])
-								$order_status=$_REQUEST['order_status'];
+								if($_REQUEST[order_status])
+								$order_status=$_REQUEST[order_status];
 								else
 								$order_status="desc"; 
-								if($_REQUEST['order_name'])
-								$order_name=$_REQUEST['order_name'];
+								if($_REQUEST[order_name])
+								$order_name=$_REQUEST[order_name];
 								else
 								$order_name="idx";
 								$intPageCount=(int)(($intRowCount+$intPageSize-1)/$intPageSize);     
 								$sql="select * from gn_mail_message where $sql_serch order by $order_name $order_status limit $int,$intPageSize";
-								$result=mysqli_query($self_con, $sql) or die(mysqli_error($self_con));							
+								$result=mysql_query($sql) or die(mysql_error());							
 							?>
                         <div class="sub_4_3_t2">
                         	<div class="sub_4_4_t3">
@@ -77,14 +77,14 @@ function deleteRow(idx) {
 									$select_lms_arr=array("title"=>"제목","message"=>"내용");
 									foreach($select_lms_arr as $key=>$v)
 									{
-										$selected=$_REQUEST['lms_select']==$key?"selected":"";
+										$selected=$_REQUEST[lms_select]==$key?"selected":"";
 										?>
 										<option value="<?=$key?>" <?=$selected?>><?=$v?></option>                                        
                                         <?
 									}
 								?>
                                 </select>
-                                <input type="text" name="lms_text" value="<?=$_REQUEST['lms_text']?>" />
+                                <input type="text" name="lms_text" value="<?=$_REQUEST[lms_text]?>" />
                                 <input type="image" src="images/sub_button_703.jpg" />
                             </div>
                             <div class="d_div_font">LMS</div>
@@ -105,13 +105,13 @@ function deleteRow(idx) {
                                     <div>
 										<?
                                         $i=0;
-                                        while($row=mysqli_fetch_array($result))
+                                        while($row=mysql_fetch_array($result))
                                         {
                                             ?>
                                         <div class="sub_4_3_t2_right_1">
                                             <div class="sub_4_3_t2_right_1_1">
-                                                <div class="msg_title" style="margin-bottom:2px;"><?=str_replace("{|REP|}", "{|name|}", $row['title'])?></div>
-                                                <div class="msg_content"><?=html_entity_decode( str_replace("{|REP|}", "{|name|}", $row['message']))?></div>
+                                                <div class="msg_title" style="margin-bottom:2px;"><?=str_replace("{|REP|}", "{|name|}", $row[title])?></div>
+                                                <div class="msg_content"><?=html_entity_decode( str_replace("{|REP|}", "{|name|}", $row[message]))?></div>
                                             </div>
                                             <div class="sub_4_3_t2_right_1_3"><label><input type="radio" name="ab" onclick="show_msg('<?=$i?>')" />사용시 선택</label>
                                                 <div class="sub_4_3_t2_right_1_3" style="float:right"><a href="javascript:deleteRow('<?=$row['idx']?>');">삭제</a></div>
@@ -203,6 +203,6 @@ function page_p(e1,e2,e3)
 
 
 <?
-mysqli_close($self_con);
+mysql_close();
 //include_once "_foot.php";
 ?>

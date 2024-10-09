@@ -22,62 +22,62 @@ include_once "_head.php";
                 	<div class="c1">회원유형</div>
                 	<div class="c2">아이디가 고객님의 등록 정보로 발송됩니다.</div>
                     <div class="c3">
-                    <form name="id_form" action="" method="post">
-                        <table width="100%" border="0" cellspacing="0" cellpadding="0">
-                            <tr>
-                                <td style="width:15%;">이름</td>
-                                <td><input type="text" name="mem_name" required itemname='이름' /></td>
-                            </tr>
-                            <tr>
-                                <td colspan="2" style="padding:10px 0 10px 0;">
-                                	<div>
-                                        <label>
-                                            <input type="radio" name="search_type" checked  value="phone" onClick="show_cencle('email_phone',0,1,'id_mobile','id_email','0','phone')"/>
-                                            휴대폰으로 아이디를 검색합니다.
-                                        </label>
-                                    </div>
-                                    <div>
-                                        <label>
-                                            <input type="radio" name="search_type" value="email" onClick="show_cencle('email_phone',1,0,'id_email','id_mobile','0','email')" />
-                                            이메일로 아이디를 검색합니다.
-                                        </label>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr class="email_phone">
-                                <td>휴대폰</td>
-                                <td>
-                                <input type="text" name="mobile_1" class="id_mobile" required itemname='휴대폰' maxlength="4" style="width:70px;"/> -
-                                <input type="text" name="mobile_2" class="id_mobile" required itemname='휴대폰' maxlength="4" style="width:70px;"/> -
-                                <input type="text" name="mobile_3" class="id_mobile" style="width:70px;" required itemname='휴대폰' maxlength="4"/>
-                    			</td>
-                            </tr>
-                            <tr class="email_phone" style="display:none;">
-                                <td>이메일</td>
-                                <td>
-                                <input type="text" name="email_1" class="id_email" itemname='이메일' style="width:70px;"/> @ 
-                                <input type="text" name="email_2" class="id_email" id='id_email' itemname='이메일' style="width:70px;"/>
-                                <select name="email_3" itemname='이메일' onchange="inmail(this.value,'id_email')" style="background-color:#c8edfc;">
-                                <?
-                                foreach($email_arr as $key=>$v)
-                                {
-                                ?>
-                                <option value="<?=$key?>"><?=$v?></option>                            
-                                <?
-                                }
-                                ?>
-                                </select>
-                    			</td>
-                            </tr>                                                        
-                            <tr>
-                                <td colspan="2" style="text-align:center;padding-top:40px">
-                                <input type="hidden" name="serch_type" value="phone" />
-                                <a href="javascript:void(0)" onClick="search_id_pw(id_form)"><img src="images/sub_btn_07.jpg"></a> &nbsp;
-                                <a href="id_pw.php"><img src="images/sub_btn_09.jpg"></a>                                 
-                                </td>
-                            </tr>
-                        </table>
-                     </form>   
+                        <form name="id_form" action="" method="post">
+                            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                <tr>
+                                    <td style="width:15%;">이름</td>
+                                    <td><input type="text" name="mem_name" required itemname='이름' /></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" style="padding:10px 0 10px 0;">
+                                        <div>
+                                            <label>
+                                                <input type="radio" name="search_type" checked  value="phone" onClick="show_cencle('email_phone',0,1,'id_mobile','id_email','0','phone')"/>
+                                                휴대폰으로 아이디를 검색합니다.
+                                            </label>
+                                        </div>
+                                        <div>
+                                            <label>
+                                                <input type="radio" name="search_type" value="email" onClick="show_cencle('email_phone',1,0,'id_email','id_mobile','0','email')" />
+                                                이메일로 아이디를 검색합니다.
+                                            </label>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr class="email_phone">
+                                    <td>휴대폰</td>
+                                    <td>
+                                    <input type="text" name="mobile_1" class="id_mobile" required itemname='휴대폰' maxlength="4" style="width:70px;"/> -
+                                    <input type="text" name="mobile_2" class="id_mobile" required itemname='휴대폰' maxlength="4" style="width:70px;"/> -
+                                    <input type="text" name="mobile_3" class="id_mobile" style="width:70px;" required itemname='휴대폰' maxlength="4"/>
+                                    </td>
+                                </tr>
+                                <tr class="email_phone" style="display:none;">
+                                    <td>이메일</td>
+                                    <td>
+                                    <input type="text" name="email_1" class="id_email" itemname='이메일' style="width:70px;"/> @ 
+                                    <input type="text" name="email_2" class="id_email" id='id_email' itemname='이메일' style="width:70px;"/>
+                                    <select name="email_3" itemname='이메일' onchange="inmail(this.value,'id_email')" style="background-color:#c8edfc;">
+                                    <?
+                                    foreach($email_arr as $key=>$v)
+                                    {
+                                    ?>
+                                    <option value="<?=$key?>"><?=$v?></option>                            
+                                    <?
+                                    }
+                                    ?>
+                                    </select>
+                                    </td>
+                                </tr>                                                        
+                                <tr>
+                                    <td colspan="2" style="text-align:center;padding-top:40px">
+                                    <input type="hidden" name="serch_type" value="phone" />
+                                    <a href="javascript:void(0)" onClick="search_id_pw(id_form)"><img src="images/sub_btn_07.jpg"></a> &nbsp;
+                                    <a href="id_pw.php"><img src="images/sub_btn_09.jpg"></a>                                 
+                                    </td>
+                                </tr>
+                            </table>
+                        </form>   
                     </div>                    
                 </div>                 
             </div>
@@ -114,9 +114,9 @@ include_once "_head.php";
                             <tr class="email_phone">
                                 <td>휴대폰</td>
                                 <td>
-                    <input type="text" name="mobile_1" required itemname='휴대폰' class="pw_mobile" maxlength="4" style="width:70px;"/> -
-                    <input type="text" name="mobile_2" required itemname='휴대폰' class="pw_mobile" maxlength="4" style="width:70px;"/> -
-                    <input type="text" name="mobile_3" style="width:70px;" class="pw_mobile" required itemname='연락처' maxlength="4"/>
+                                    <input type="text" name="mobile_1" required itemname='휴대폰' class="pw_mobile" maxlength="4" style="width:70px;"/> -
+                                    <input type="text" name="mobile_2" required itemname='휴대폰' class="pw_mobile" maxlength="4" style="width:70px;"/> -
+                                    <input type="text" name="mobile_3" style="width:70px;" class="pw_mobile" required itemname='연락처' maxlength="4"/>
                     			</td>
                             </tr>
                             <tr class="email_phone" style="display:none;">
@@ -149,7 +149,7 @@ include_once "_head.php";
                 </div>       
             </div>
             <p style="clear:both;"></p>
-        </div>    
+        </div> 
         <div class="id_pw">
             <div class="b1" onclick="showInfo()">회원탈퇴(클릭)</div>
             <form name="leave_form" action="" method="post">

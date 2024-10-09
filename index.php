@@ -1,40 +1,53 @@
 <?
 include_once $_SERVER['DOCUMENT_ROOT'] . "/lib/rlatjd_fun.php";
 include $_SERVER['DOCUMENT_ROOT'] . "/iam/inc/login_check.php";
+$currentUrl = "https://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+$_GET['preview'] = getQueryParam('preview', $currentUrl);
+$_GET['smode'] = getQueryParam('smode', $currentUrl);
+$_GET['slink'] = getQueryParam('slink', $currentUrl);
+$_GET['smsg'] = getQueryParam('smsg', $currentUrl);
+
 $language_index = $_COOKIE['language'];
 if ($language_index == "") {
     $language_index = 1;
     @setcookie("language", $language_index, time() + 3600);
 }
 $language_sql = "select * from Gn_Iam_multilang where no = '$language_index'";
-$language_res = mysqli_query($self_con, $language_sql);
-$language_row = mysqli_fetch_array($language_res);
+$language_res = mysql_query($language_sql);
+$language_row = mysql_fetch_array($language_res);
 $lang = $_COOKIE['lang'] ? $_COOKIE['lang'] : "kr";
 $sql = "select * from Gn_Iam_lang ";
-$result = mysqli_query($self_con, $sql);
-while ($row = mysqli_fetch_array($result)) {
+$result = mysql_query($sql);
+while ($row = mysql_fetch_array($result)) {
     $MENU[$row['menu']][$row['pos']] = $row[$lang];
 }
-$menu_site = explode(".", $HTTP_HOST);
-if ($menu_site[0] == "www")
-    $menu_host = "kiam";
-else
-    $menu_host = $menu_site[0];
+
 //added by amigo middle log 로그부분이므로 삭제하지 말것!!!!
 $logs = new Logs("iamlog.txt", false);
 //end
 $is_artist = strstr($member_iam['special_type'], "6");
+
 $Gn_contents_limit = get_search_key('people_except_count');
+
 $Gn_contents_link_limit = get_search_key('contents_link_limit');
+
 $point_ai = get_search_key('ai_card_making');
+
 $group_card_point = get_search_key('group_card_point');
+
 $new_open_url = get_search_key('cont_modal_new_open');
+
 $jungo_market_view = get_search_key('jungo_market_view');
 
 $cart_cnt = 0;
+
 $mid = date("YmdHis") . rand(10, 99);
 $Gn_point = $Gn_cash_point = 0;
-
+if ($_GET['key1'] == 4) {
+    $contents_count_per_page = 20;
+} else {
+    $contents_count_per_page = 6;
+}
 $pagination_count = 10;
 $send_ids = "";
 $send_ids_cnt = 0;
@@ -78,14 +91,16 @@ if (in_array($_SESSION['iam_member_id'], $exp_id_arr)) {
     $is_exp_mem = true;
     $gwc_exp_con_cnt = get_search_key('gwc_exp_reg_contents_cnt');
 }
-$sql_service_gwc = "select gwc_name, gwc_site_cons from Gn_Service where sub_domain like '%" . $HTTP_HOST . "'";
-$res_service_gwc = mysqli_query($self_con, $sql_service_gwc);
-$row_service_gwc = mysqli_fetch_array($res_service_gwc);
 
-if ($member_iam['gwc_leb'] >= 1 && $member_iam['gwc_state'] == "1")
+$sql_service_gwc = "select gwc_name, gwc_site_cons from Gn_Service where sub_domain like '%" . $HTTP_HOST . "'";
+$res_service_gwc = mysql_query($sql_service_gwc);
+$row_service_gwc = mysql_fetch_array($res_service_gwc);
+
+if ($member_iam['gwc_leb'] >= 1 && $member_iam['gwc_state'] == "1") {
     $gwc_mem = 1;
-else
+} else {
     $gwc_mem = 0;
+}
 
 $gwc_pay_mem = 0;
 
@@ -94,8 +109,8 @@ $gwc_pay_mem = 0;
 $provider_arr = "'iamstore'";
 if ($_GET['iamstore'] == "Y") {
     $sql_provider = "SELECT	mem_id FROM	Gn_Iam_Contents_Gwc WHERE provider_req_prod='Y' GROUP BY mem_id";
-    $res_provider = mysqli_query($self_con, $sql_provider);
-    while ($row_provider = mysqli_fetch_array($res_provider)) {
+    $res_provider = mysql_query($sql_provider);
+    while ($row_provider = mysql_fetch_array($res_provider)) {
         $provider_arr .= ",'" . $row_provider['mem_id'] . "'";
     }
 }
@@ -103,11 +118,14 @@ if ($_GET['iamstore'] == "Y") {
 <!DOCTYPE html>
 <?
 $card_num = $_GET['card_num'];
-$alarm_mode = $_GET['alarm_mode'];
 $request_url = $_SERVER['REQUEST_URI'];
 $contents_anchor = $_GET['contents_anchor'];
 if ($_GET['name_card'])
     $request_short_url = $_GET['name_card'];
+if ($_GET['key1'] == "") //추천키워드
+    $_GET['key1'] = 0;
+if ($_GET['key2'] == "") //인기검색어
+    $_GET['key2'] = 0;
 if ($_GET['sort'] == "") //정렬기준
     $_GET['sort'] = 0;
 if ($cur_win == "") {
@@ -117,20 +135,35 @@ if ($cur_win == "") {
         $cur_win = "my_info"; //curwin이 주소에 없으면 my_info로 설정
 }
 if ($cur_win == "iam_mall") {
-    if (!isset($_GET['mall_type']))
-        $mall_type = "gmarket";
-    else
-        $mall_type = $_GET['mall_type'];
+    $mall_type = $_GET['mall_type'];
+    if (!$mall_type)
+        $mall_type = "main_mall";
     $mall_type1 = $_GET['mall_type1'];
     if (!$mall_type1)
         $mall_type1 = "all";
 }
 //추천키워드
 if ($cur_win == "we_story") {
+    $rec_key = get_search_key('wecon_recom_keyword');
+    if ($rec_key != '') {
+        $rec_array = explode(",", $rec_key);
+        $rec_count = count($rec_array) > 6 ? 6 : count($rec_array);
+    } else {
+        $rec_count = 0;
+    }
+    //인기검색어
+    $interest_key = get_search_key('wecon_search_keyword');
+    if ($interest_key != '') {
+        $interest_array = explode(",", $interest_key);
+        $interest_count = count($interest_array);
+    } else {
+        $interest_count = 0;
+    }
+
     $post_display = 1; //댓글박스 보이기 1:보이기 0:감추기
     $card_sql = "select * from Gn_Iam_Name_Card where card_short_url = '$request_short_url'";
-    $card_result = mysqli_query($self_con, $card_sql);
-    $cur_card = mysqli_fetch_array($card_result);
+    $card_result = mysql_query($card_sql);
+    $cur_card = mysql_fetch_array($card_result);
 }
 $recent_post = 0;
 if ($cur_win == "my_info") {
@@ -145,12 +178,12 @@ if ($cur_win == "my_info") {
         $request_short_url = substr($request_short_url, 0, 10);
     }
     $card_sql = "select * from Gn_Iam_Name_Card where card_short_url = '$request_short_url'";
-    $card_result = mysqli_query($self_con, $card_sql);
-    $cur_card = mysqli_fetch_array($card_result);
+    $card_result = mysql_query($card_sql);
+    $cur_card = mysql_fetch_array($card_result);
 
     $card_mem_sql = "select mem_id, site_iam,mem_name from Gn_Member where mem_code = '$card_owner_code'";
-    $card_mem_result = mysqli_query($self_con, $card_mem_sql);
-    $card_mem_row = mysqli_fetch_array($card_mem_result);
+    $card_mem_result = mysql_query($card_mem_sql);
+    $card_mem_row = mysql_fetch_array($card_mem_result);
     $card_owner_site = $card_mem_row['site_iam']; //카드를 방문한 회원의 아이엠분양사명
     $card_owner = $card_mem_row['mem_id'];
 
@@ -166,80 +199,78 @@ if ($cur_win == "my_info") {
         }
         $group_card_url = substr($group_card_url, 0, 10);
         $card_sql = "select * from Gn_Iam_Name_Card where card_short_url = '$group_card_url'";
-        $card_result = mysqli_query($self_con, $card_sql);
-        $cur_card = mysqli_fetch_array($card_result);
+        $card_result = mysql_query($card_sql);
+        $cur_card = mysql_fetch_array($card_result);
     }
 }
-if ($HTTP_HOST != "kiam.kr") //분양사사이트이면
-    $query = "select * from Gn_Iam_Service where sub_domain = 'http://" . $HTTP_HOST . "'";
-else
-    $query = "select * from Gn_Iam_Service where sub_domain = 'http://www.kiam.kr'";
-$res = mysqli_query($self_con, $query);
-$domainData = mysqli_fetch_array($res);
 
-if ($_SESSION['iam_member_id']) {
+if ($HTTP_HOST != "kiam.kr") //분양사사이트이면
+    $query = "select * from Gn_Iam_Service where sub_domain like 'http://" . $HTTP_HOST . "'";
+else
+    $query = "select * from Gn_Iam_Service where sub_domain like 'http://www.kiam.kr'";
+$res = mysql_query($query);
+$domainData = mysql_fetch_array($res);
+if($_SESSION['iam_member_id']){
     $sql = "select * from tjd_pay_result where buyer_id='{$_SESSION['iam_member_id']}' and end_status in ('Y','A')  and gwc_cont_pay=0 and 
             ((member_type like '%standard%' or member_type like '%professional%' or member_type like '%enterprise%') or 
             (((iam_pay_type = '' or iam_pay_type = '0' or iam_pay_type = '전문가') and member_type != '포인트충전')) or member_type='베스트상품') and payMethod <> 'POINT' order by end_date desc";
     /*$sql = "select * from tjd_pay_result where buyer_id='{$_SESSION['iam_member_id']}' and gwc_cont_pay=0 and 
             ((member_type like '%standard%' or member_type like '%professional%' or member_type like '%enterprise%') or 
             (((iam_pay_type = '' or iam_pay_type = '0' or iam_pay_type = '전문가') and member_type != '포인트충전')) or member_type='베스트상품') and payMethod <> 'POINT' order by end_date desc";*/
-    $res_result = mysqli_query($self_con, $sql);
-    $pay_data = mysqli_fetch_array($res_result);
+    $res_result = mysql_query($sql);
+    $pay_data = mysql_fetch_array($res_result);
 }
-if ($domainData['status'] == "N") {
-    echo "<script>window.open(" . "'/payment_pop.php?index={$pay_data['orderNumber']}'" . ", \"notice_pop\", \"toolbar=yes,scrollbars=yes,resizable=yes,top=200,left=200,width=600,height=350\");</script>";
+if($domainData['status'] == "N"){
+    echo "<script>window.open("."'/payment_pop.php?index={$pay_data['orderNumber']}'".", \"notice_pop\", \"toolbar=yes,scrollbars=yes,resizable=yes,top=200,left=200,width=600,height=350\");</script>";
 }/*else if($pay_data['stop_yn'] == "Y" || $pay_data['end_status'] == "N"){
     echo "<script>window.open("."'/payment_pop.php?index={$pay_data['orderNumber']}&type=user'".", \"notice_pop\", \"toolbar=yes,scrollbars=yes,resizable=yes,top=200,left=200,width=600,height=350\");</script>";
 }*/
 
-/*$auto_query = "select short_url from Gn_event where event_idx = '$domainData[auto_join_event_idx]'";
-$auto_res = mysqli_query($self_con, $auto_query);
-$auto_row = mysqli_fetch_array($auto_res);
+$auto_query = "select short_url from Gn_event where event_idx = '$domainData[auto_join_event_idx]'";
+$auto_res = mysql_query($auto_query);
+$auto_row = mysql_fetch_array($auto_res);
 $auto_link = $auto_row[0];
 if (!$auto_link) {
     $auto_query = "select short_url from Gn_event where event_idx = (select auto_join_event_idx from Gn_Iam_Service where mem_id = 'iam1')";
-    $auto_res = mysqli_query($self_con, $auto_query);
-    $auto_row = mysqli_fetch_array($auto_res);
+    $auto_res = mysql_query($auto_query);
+    $auto_row = mysql_fetch_array($auto_res);
     $auto_link = $auto_row[0];
-}*/
+}
 $first_card_idx = $domainData['profile_idx']; //분양사의 1번 카드아이디
 $sql = "select mem_id, main_img1, main_img2, main_img3,video,video_status, card_short_url from Gn_Iam_Name_Card where idx = '$first_card_idx'";
-$result = mysqli_query($self_con, $sql);
-$main_card_row = mysqli_fetch_array($result);
+$result = mysql_query($sql);
+$main_card_row = mysql_fetch_array($result);
 $first_card_url = $main_card_row['card_short_url']; //분양사이트 1번 네임카드 url
 
 $sql = "select site_iam,mem_code from Gn_Member where mem_id = '{$main_card_row['mem_id']}'";
-$result = mysqli_query($self_con, $sql);
-$row = mysqli_fetch_array($result);
+$result = mysql_query($sql);
+$row = mysql_fetch_array($result);
 $bunyang_site = $row['site_iam'];
 $bunyang_site_manager_code = $row['mem_code'];
 
 if ($HTTP_HOST != "kiam.kr") { //분양사사이트이면
-    /*if ($domainData != null) {
-        $curdate = strtotime(date('Y-m-d', time()));
+    if ($domainData != null) {
+        /*$curdate = strtotime(date('Y-m-d', time()));
         $startdate = strtotime($domainData['contract_start_date']);
         $enddate = strtotime($domainData['contract_end_date']);
         if (!($domainData['status'] == 'Y' && $curdate >= $startdate &&  $curdate <= $enddate)) {
             header('Content-Type: text/html; charset=UTF-8');
             echo "<script>alert('본 아이엠은 계약기간이 종료되었습니다. 관리자에게 문의해주세요.');history.go(-1);</script>";
             exit;
-        }
-    } else */
-    if ($domainData == null) {
+        }*/
+    } else {
         header('Content-Type: text/html; charset=UTF-8');
         echo "<script>alert('아이엠 분양솔루션 사용권한이 없습니다. 담당자에게 확인바랍니다.');history.go(-1);</script>";
         exit;
     }
 }
 if ($_SESSION['iam_member_id']) {
-    //$sql_buy_prod_state = "select sum(TotPrice) from tjd_pay_result where gwc_cont_pay=1 and end_status='Y' and buyer_id='{$_SESSION['iam_member_id']}'";
-    $sql_buy_prod_state = "select sum(TotPrice) from tjd_pay_result_gwc where end_status='Y' and buyer_id='{$_SESSION['iam_member_id']}'";
-    $res_buy_prod_state = mysqli_query($self_con, $sql_buy_prod_state);
-    $row_buy_prod_state = mysqli_fetch_array($res_buy_prod_state);
-    if ($row_buy_prod_state[0] >= 20000)
+    $sql_buy_prod_state = "select sum(TotPrice) from tjd_pay_result where gwc_cont_pay=1 and end_status='Y' and buyer_id='{$_SESSION['iam_member_id']}'";
+    $res_buy_prod_state = mysql_query($sql_buy_prod_state);
+    $row_buy_prod_state = mysql_fetch_array($res_buy_prod_state);
+    if ($row_buy_prod_state[0] >= 20000) {
         $gwc_pay_mem = 1;
-
+    }
     $price_service = 0;
     $name_service = "";
     $sellerid_service = "";
@@ -255,12 +286,12 @@ if ($_SESSION['iam_member_id']) {
     }
     $date = date("Y-m-d H:i:s");
     $pay_query = "select count(*) from tjd_pay_result where (member_type like '%standard%' || member_type like '%professional%' || member_type like '%enterprise%') and buyer_id='{$_SESSION['iam_member_id']}' and end_status='Y' and `end_date` > '$date'";
-    $pay_result = mysqli_query($self_con, $pay_query);
-    $pay_row = mysqli_fetch_array($pay_result);
+    $pay_result = mysql_query($pay_query);
+    $pay_row = mysql_fetch_array($pay_result);
     $pay_status = $pay_row[0] + $Gn_mem_row['iam_type']; // 유료회원이면 true,무료회원이면 false
     $show_sql = "select show_iam_card,show_iam_like from Gn_Member where mem_id = '{$_SESSION['iam_member_id']}'";
-    $show_result = mysqli_query($self_con, $show_sql);
-    $show_row = mysqli_fetch_array($show_result);
+    $show_result = mysql_query($show_sql);
+    $show_row = mysql_fetch_array($show_result);
     $show_my_iam_card = $show_row['show_iam_card'];
 
     $exp_status = 0;
@@ -286,39 +317,40 @@ if ($_SESSION['iam_member_id']) {
         }
     }
     $sql_cart_cnt = "select count(*) from Gn_Gwc_Order where mem_id='{$_SESSION['iam_member_id']}' and page_type=1";
-    $res_cart_cnt = mysqli_query($self_con, $sql_cart_cnt);
-    $row_cart_cnt = mysqli_fetch_array($res_cart_cnt);
+    $res_cart_cnt = mysql_query($sql_cart_cnt);
+    $row_cart_cnt = mysql_fetch_array($res_cart_cnt);
     $cart_cnt = $row_cart_cnt[0];
 } else
     $pay_status = false;
 if ($cur_win == "my_info") {
     $card_sql = "select * from Gn_Iam_Name_Card where card_short_url = '$request_short_url'";
-    $card_result = mysqli_query($self_con, $card_sql);
-    $cur_card = mysqli_fetch_array($card_result);
+    $card_result = mysql_query($card_sql);
+    $cur_card = mysql_fetch_array($card_result);
     $mem_sql = "select site_iam from Gn_Member where mem_id = '{$cur_card['mem_id']}'";
-    $mem_res = mysqli_query($self_con, $mem_sql);
-    $mem_row = mysqli_fetch_array($mem_res);
+    $mem_res = mysql_query($mem_sql);
+    $mem_row = mysql_fetch_array($mem_res);
     $mem_site = $mem_row['site_iam'];
     $mem_site .= ($mem_site == "kiam" ? ".kr" : ".kiam.kr");
-    if ($mem_site != $HTTP_HOST)
+    if ($mem_site != $HTTP_HOST) {
         echo "<script>location.href='http://" . $mem_site . $_SERVER['REQUEST_URI'] . "';</script>";
+    }
     if ($card_owner_code != $user_mem_code) { //로긴자가 다른 회원의 아이엠을 보기
         $share_sql = "select mem_id,iam_type from Gn_Member where mem_code = '$card_owner_code'";
-        $share_res = mysqli_query($self_con, $share_sql);
-        $share_row = mysqli_fetch_array($share_res);
+        $share_res = mysql_query($share_sql);
+        $share_row = mysql_fetch_array($share_res);
         $share_member_id = $share_row['mem_id']; //로긴자가 방문하는 다른 회원
         $date = date("Y-m-d H:i:s");
         $pay_query = "select count(*) from tjd_pay_result where ( member_type like '%standard%' || member_type like '%professional%' || member_type like '%enterprise%') and buyer_id='$share_member_id' and end_status='Y' and `end_date` > '$date'";
-        $pay_result = mysqli_query($self_con, $pay_query);
-        $pay_row = mysqli_fetch_array($pay_result);
+        $pay_result = mysql_query($pay_query);
+        $pay_row = mysql_fetch_array($pay_result);
         $share_pay_status = $pay_row[0] + $share_row['iam_type']; //본사 유료회원이면 true,무료회원이면 false
         $share_admin_sql = "select count(*) from Gn_Iam_Service where mem_id = '$share_member_id'";
-        $share_admin_res = mysqli_query($self_con, $share_admin_sql);
-        $share_admin_row = mysqli_fetch_array($share_admin_res);
+        $share_admin_res = mysql_query($share_admin_sql);
+        $share_admin_row = mysql_fetch_array($share_admin_res);
         $share_sub_admin = $share_admin_row[0];
         $show_sql = "select show_iam_card from Gn_Member where mem_id = '$share_member_id'";
-        $show_result = mysqli_query($self_con, $show_sql);
-        $show_row = mysqli_fetch_array($show_result);
+        $show_result = mysql_query($show_sql);
+        $show_row = mysql_fetch_array($show_result);
         $show_share_iam_card = $show_row['show_iam_card'];
     } else {
         $share_pay_status = false;
@@ -332,14 +364,14 @@ if ($cur_win == "my_info") {
         echo "<script>alert('비공개카드입니다.');history.go(-1);</script>";
         exit;
     }
-    $myiam_count_sql = "update Gn_Iam_Name_Card set iam_click = iam_click + 1 where idx = '$cur_card[idx]'";
-    mysqli_query($self_con, $myiam_count_sql) or die(mysqli_error($self_con));
+    $myiam_count_sql = "update Gn_Iam_Name_Card set iam_click = iam_click + 1 where idx = {$cur_card['idx']}";
+    mysql_query($myiam_count_sql) or die(mysql_error());
 
     if ($domainData['sub_domain'] == "")
         $domainData['sub_domain'] = "http://kiam.kr/";
-    if (!$card_owner)
+    if (!$card_owner) {
         $card_owner = trim($_SESSION['iam_member_id']);
-
+    }
     $story_title1 = $cur_card['story_title1']; //내 소개
     $story_title2 = $cur_card['story_title2']; //현재 소속
     $story_title3 = $cur_card['story_title3']; //경력소개
@@ -365,7 +397,6 @@ if ($cur_win == "my_info") {
     } else {
         $main_img1 = str_replace("http://www.kiam.kr", $cdn_ssl, $main_card_row['main_img1']);
     }
-
     if ($cur_card['main_img2']) {
         $main_img2 = str_replace("http://www.kiam.kr", $cdn_ssl, $cur_card['main_img2']);
     } else {
@@ -380,16 +411,6 @@ if ($cur_win == "my_info") {
     if (is_null($cur_card['profile_logo'])) {
         $cur_card['profile_logo'] = "/iam/img/common/logo-2.png";
     }
-} else if ($cur_win == "iam_mall") {
-    $ad_img = array();
-    $ad_sql = "select * from Gn_Ad_Manager where ad_category='store' and use_yn='Y' order by display_order";
-    $ad_res = mysqli_query($self_con, $ad_sql);
-    while ($ad_row = mysqli_fetch_array($ad_res)) {
-        array_push($ad_img, $ad_row['img_url']);
-    }
-    $main_img1 = $ad_img[0];
-    $main_img2 = $ad_img[1];
-    $main_img3 = $ad_img[2];
 } else if ($cur_win == "group-con") {
     if ($gkind == "" && $search_key == "")
         $gkind = "recommend";
@@ -397,20 +418,20 @@ if ($cur_win == "my_info") {
         $gkind = "search_con";
     if ($gkind != "recommend" && $gkind != "mygroup" && $gkind != "search" && $gkind != "search_con") {
         $g_card_sql = "select * from Gn_Iam_Name_Card where card_short_url = '$group_card_url'";
-        $g_card_res = mysqli_query($self_con, $g_card_sql);
-        $group_card = mysqli_fetch_array($g_card_res);
+        $g_card_res = mysql_query($g_card_sql);
+        $group_card = mysql_fetch_array($g_card_res);
         $post_display = $group_card['post_display']; //댓글박스 보이기 1:보이기 0:감추기
         $main_img1 = str_replace("http://www.kiam.kr", $cdn_ssl, $group_card['main_img1']);
         $main_img2 = str_replace("http://www.kiam.kr", $cdn_ssl, $group_card['main_img2']);
         $main_img3 = str_replace("http://www.kiam.kr", $cdn_ssl, $group_card['main_img3']);
         $visit_sql = "update gn_group_member set visit_date = now() where mem_id = '{$_SESSION['iam_member_id']}' and group_id=$gkind";
-        mysqli_query($self_con, $visit_sql);
+        mysql_query($visit_sql);
     }
     if ($_SESSION['iam_member_id']) {
         $sql = "select * from gn_group_member where mem_id = '{$_SESSION['iam_member_id']}'";
-        $res = mysqli_query($self_con, $sql);
+        $res = mysql_query($sql);
         $my_group = array();
-        while ($row = mysqli_fetch_array($res)) {
+        while ($row = mysql_fetch_array($res)) {
             array_push($my_group, $row['group_id']);
         }
         $my_group = implode(",", $my_group);
@@ -424,62 +445,38 @@ $color = array(
     "#4B8A08",
     "#B404AE"
 );
+$cursor = 0;
 
 if ($_GET['tutorial'])
     $end_link = str_replace("tutorial=Y", "tutorial=N&type=image", $_SERVER['REQUEST_URI']);
 if ($cur_card['card_name'] == '') {
-    //$main_img1 = str_replace("http://www.kiam.kr", $cdn_ssl, $main_card_row['main_img1']);
+//    $main_img1 = str_replace("http://www.kiam.kr", $cdn_ssl, $main_card_row['main_img1']);
 }
 $cur_card['card_position'] = str_replace(array("\r", "\n"), "", trim($cur_card['card_position']));
-if (($_SESSION['iam_member_id'] == 'iamstore' && $request_short_url != 'XSKvH4sRS4') ||
-    ($HTTP_HOST == "iamstore.kiam.kr" && $cur_win == "my_info" && $request_short_url != 'XSKvH4sRS4')
-) {
+
+if (($_GET['key1'] == 4 && $_GET['key4'] != 3) || ($_SESSION['iam_member_id'] == 'iamstore' && $request_short_url != 'XSKvH4sRS4') || ($HTTP_HOST == "iamstore.kiam.kr" && (!$cur_win || $cur_win == "my_info") && $request_short_url != 'XSKvH4sRS4')) {
     $gwc_table = 1;
     $content_table_name = "Gn_Iam_Contents_Gwc";
 } else {
     $gwc_table = 0;
     $content_table_name = "Gn_Iam_Contents";
 }
-$show_counts = get_search_key('wecon_show_count');
-$counts_arr = explode(",", $show_counts);
-$limit_count = $counts_arr[0];
-
-$con_sql = "select max(idx) from " . $content_table_name;
-$con_result = mysqli_query($self_con, $con_sql);
-$con_row = mysqli_fetch_array($con_result);
-$recent_idx = $con_row[0] - $limit_count;
-
-$sql_con_recv = "select count(no) from Gn_Item_Pay_Result where point_val=2 and buyer_id='{$_SESSION['iam_member_id']}' and type='contentsrecv' and list_show=1 and alarm_state=0";
-$res_con_recv = mysqli_query($self_con, $sql_con_recv);
-$row_con_recv = mysqli_fetch_array($res_con_recv);
-$recv_con_alarm_cnt = $row_con_recv[0];
-
-$sql_notice_recv = "select count(no) from Gn_Item_Pay_Result WHERE point_val=3 and buyer_id = '{$_SESSION['iam_member_id']}' and type='noticerecv' and alarm_state=0";
-$res_notice_recv = mysqli_query($self_con, $sql_notice_recv);
-$row_notice_recv = mysqli_fetch_array($res_notice_recv);
-$recv_notice_alarm_cnt = $row_notice_recv[0];
-$alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
-
+header('X-Frame-Options: SAMEORIGIN');
+function encodeKorean($matches) {
+    return urlencode($matches[0]);
+}
 ?>
+
 <html lang="ko">
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <!--meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"-->
+    <? if (!$global_is_local) { ?>
+        <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <? } ?>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="naver-site-verification" content="90176b5d8f3b8ebed40060734107b11e6ecdd9d3" />
-    <link rel="shortcut icon" href="/iam/img/common/icon-os.ico">
-    <!--오픈그래프 (웹페이지 미리보기 -페이스북, 카카오톡)-->
-    <meta property="og:title" content="아이엠 멀티명함 IAM Multicard">
-    <meta name="description" content="아이엠으로 브랜딩하고 자동홍보하기,멀티명함,모바일명함,종이명함,자동콜백,리포트설문,멀티브랜딩">
-    <!--제목-->
-    <meta property="og:description" content="<?= $cur_card['card_name'] ? $cur_card['card_name'] : $domainData['mem_name'] ?>님의 명함 <?= $cur_card['card_company'] ?> <?= $cur_card['card_position'] ?>">
-    <!--내용-->
-    <meta property="og:image" content="<?= cross_image($main_img1) ?>">
-    <!--이미지-->
-    <!--오픈그래프 끝-->
     <? if ($HTTP_HOST != "kiam.kr") { ?>
         <title>
             <?
@@ -492,7 +489,23 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
     <? } else { ?>
         <title>아이엠 멀티명함 IAM Multicard</title>
 
-    <? } ?>
+    <? } 
+    $meta_img = preg_replace_callback('/[\x{1100}-\x{11FF}\x{3130}-\x{318F}\x{AC00}-\x{D7AF}]+/u', 'encodeKorean', get_meta_image(cross_image($main_img1)));
+    ?>
+    <meta name="naver-site-verification" content="90176b5d8f3b8ebed40060734107b11e6ecdd9d3" />
+    <link rel="shortcut icon" href="/iam/img/common/icon-os.ico">
+    <!--오픈그래프 (웹페이지 미리보기 -페이스북, 카카오톡)-->
+    <meta property="og:title" content="아이엠 멀티명함 IAM Multicard">
+    <!--meta name="description" content="아이엠으로 브랜딩하고 자동홍보하기,멀티명함,모바일명함,종이명함,자동콜백,리포트설문,멀티브랜딩"-->
+    <!--제목-->
+    <meta property="og:description" content="<?=$cur_card['card_name']?$cur_card['card_name']:$domainData['mem_name']?>님의 명함 <?= $cur_card['card_company'] ?> <?= $cur_card['card_position'] ?>">
+    <!--내용-->
+    <!--meta property="og:video" content="<?= $cur_card['video'] ?>"-->
+    <meta property="og:image" content="<?= $meta_img?>">
+    <!--이미지-->
+    <meta property="og:type" content="website">
+    <!--오픈그래프 끝-->
+    
     <link rel="stylesheet" href="/admin/bootstrap/css/bootstrap.min.css">
     <link rel="shortcut icon" href="/iam/img/common/iconiam.ico">
     <link rel="stylesheet" href="/iam/css/notokr.css">
@@ -504,7 +517,7 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
     <link rel="stylesheet" href="/iam/css/style_j.css">
     <link rel="stylesheet" href="/iam/css/iam.css">
     <link rel='stylesheet' href='/plugin/toastr/css/toastr.css' />
-    <link rel='stylesheet' href='/fonts/kopubdotum.css' />
+    <!-- ########## TODO COMMENT FOR TEST  패치할떄 해제해야함 ###########  -->
     <? if (!$global_is_local) { ?>
         <script src="//developers.kakao.com/sdk/js/kakao.min.js" charset="utf-8"></script>
     <? } ?>
@@ -532,7 +545,7 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
         setInterval(sign_toggle, 500);
 
         var contents_mode_gwc_ori = getCookie('contents_mode');
-        var mall_gwc_show = '<?= $_GET['mall_type'] ?>';
+        var key1_gwc_show = '<?= $_GET['key1'] ?>';
         var wide_show = '<?= $_GET['wide'] ?>';
         var contents_mode_gwc_1 = '<?= $_GET['type'] ?>';
         jQuery(document).ready(
@@ -547,7 +560,8 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
             }
         );
         $(document).ready(function() {
-            if (mall_gwc_show == 'gmarket') {
+            var cur_win_name = '<?= $cur_win ?>';
+            if (key1_gwc_show == '4') {
                 $("#wecon_search_div").hide();
                 if (wide_show == 'Y' && $(window).width() > 650) {
                     $("#wrap").css('max-width', '85%');
@@ -555,23 +569,26 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                     $("#footer_menu").css('max-width', '85%');
                     $(".J_elem").css('max-width', '100%');
                     $("#wrap").css('padding', '0px');
-                    $("#show_prod_widly").show();
+                    //$("#show_prod_widly").show();
                 } else {
                     $("#wrap").css('max-width', '777px');
                     $("#header").css('max-width', '768px');
                     $("#footer_menu").css('max-width', '768px');
                     $(".J_elem").css('max-width', '1088px');
                     $("#wrap").css('padding', '0 5px');
-                    $("#show_prod_widly").hide();
+                    //$("#show_prod_widly").hide();
                 }
                 var scroll = "overflow-y: hidden;";
                 var md_ht = $(".gwc_con_img").width();
+                //console.log('md-ht:'+md_ht);
                 if (contents_mode_gwc_1 == 'pin') {
+                    //md_ht = md_ht * 1 / 2;
                     $(".media-inner").attr('style', 'max-height: 350px;' + scroll);
                     if ($(window).width() > 650) {
                         $(".media-inner").css('height', $(".media-inner").width() * 1 / 4 + 'px');
                     }
                 } else {
+                    //md_ht = md_ht;
                     $(".media-inner").attr('style', 'max-height: 650px;' + scroll);
                     $(".media-inner").css('height', 'auto');
                 }
@@ -579,20 +596,26 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                 $(".gwc_con_img").attr('style', media_height);
             } else {
                 $("#wecon_search_div").show();
+                // var media_height = '';
                 var scroll = "overflow-y: hidden;";
             }
-            var cont_wt = $("#bottom").width() * 1 / 2 - 2;
-            <? if ($_GET['mall_sub_type'] == "visit") { ?>
+            var bottom_wt = $("#bottom").width();
+            var cont_wt = bottom_wt * 1 / 2 - 2;
+            <? if ($_GET['key3'] == "1") { ?>
                 var window_width = $(window).width();
                 if (window_width < 500) {
                     AppScript.getPhoneStatus();
                 }
             <? } ?>
 
+            console.log("show_all= " + $("#show_all").val());
+
             if ('<?= $pre_win ?>' == 'my_info' && '<?= $cur_win ?>' == 'we_story') {
                 show_wecon_guide();
             }
-
+            if ('<?= $cur_win ?>' == "we_story") {
+                $("#star").css("margin-top", $("#header").height() + "px");
+            }
             if (checkMobile()) {
                 $(".J_card_num").css("width", "49%");
                 $(".J_card_num").css("margin-right", "1%");
@@ -603,11 +626,131 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                 $(".J_card_num").css("margin-right", "1%");
             }
             <?php
-            if ($_SESSION['iam_member_id']) {
-                $sql_receive = "select * from Gn_Item_Pay_Result where point_val=2 and receive_state=0 and pay_method='{$_SESSION['iam_member_id']}' and type='cardsend' order by pay_date asc limit 1";
-                $res_recv = mysqli_query($self_con, $sql_receive);
-                $row_recv = mysqli_fetch_array($res_recv);
+            $cur_url = $_SERVER['REQUEST_URI'];
+            if (strpos($cur_url, "?") === false || (($_GET['cur_win'] == "we_story" || $_GET['cur_win'] == "shared_receive" || $_GET['cur_win'] == "shared_send") && $_GET['type'] == "pin")) {
+            ?>
+                if ($(window).width() < 600) {
+                    setCookie('contents_mode', 'image', 1, "");
+                    $("#bottom").attr("style", "");
+                    $(".content_area").attr('style', '');
+                    $(".content-item").show();
+                    $(".desc-wrap").show();
+                    $(".info-wrap").show();
+                    $(".image_mode").show();
+                    $(".pin_mode").hide();
+                    $(".service_title").show();
+                    $("#show_contents_mode").prop("src", '/iam/img/main/icon-pin_list.png');
+                } else {
+                    //$(".movie_play").css("width","50px");
+                    if (key1_gwc_show == '4') {
+                        if (wide_show == 'Y') {
+                            var bottom_wt = $("#bottom").width();
+                            var cont_wt = bottom_wt * 1 / 4 - 2.5;
+                        } else {
+                            var bottom_wt = $("#bottom").width();
+                            var cont_wt = bottom_wt * 1 / 2 - 2;
+                        }
+                        $(".content_area").attr('style', 'width:' + cont_wt + 'px;display:inline-block;vertical-align:top;');
+                    } else {
+                        $("#bottom").attr("style", "column-count:2");
+                    }
+                    $(".content-item").show();
+                    $(".image_mode").hide();
+                    $(".pin_mode").show();
+                    $(".list").hide();
+                    //$(".service_title").hide();
+                    setCookie('contents_mode', 'pin', 1, "");
 
+                    if ($(window).width() < 360) {
+                        $(".percent").attr("style", "width:30px;font-size:12px");
+                        $(".upper").attr("style", "font-size:9px;");
+                        $(".downer").attr("style", "font-size:10px;");
+                        $("#star #bottom .content-item .desc-wrap .desc .desc-inner .outer .order a").attr("style", "padding:1px 2px; font-size:10px;background: #99cc00;cursor: pointer;");
+                        $(".buy_servicecon").attr("style", "left:-30px !important;");
+                    } else if ($(window).width() < 420) {
+                        $(".percent").attr("style", "width:43px;font-size:17px");
+                        $(".downer").attr("style", "font-size:13px;");
+                        $("#star #bottom .content-item .desc-wrap .desc .desc-inner .outer .order a").attr("style", "padding:1px 2px; font-size:10px;background: #99cc00;cursor: pointer;");
+                        $(".buy_servicecon").attr("style", "left:-30px !important;");
+                    }
+
+                    //$(".info-wrap").hide();
+                    $("#show_contents_mode").prop("src", '/iam/img/icon_image.png');
+                    setCookie('contents_mode', 'pin', 1, "");
+                }
+            <?  } else if (strpos($cur_url, "?") !== false && (!isset($_GET['cur_win']) || $_GET['type'] == "image" || $_GET['cur_win'] == "my_info")) { ?>
+                setCookie('contents_mode', 'image', 1, "");
+                $("#bottom").attr("style", "");
+                $(".content_area").attr('style', '');
+                $(".content-item").show();
+                //$(".content-item.list").hide();
+                $(".desc-wrap").show();
+                $(".info-wrap").show();
+                $(".image_mode").show();
+                $(".pin_mode").hide();
+                $(".service_title").show();
+                $("#show_contents_mode").prop("src", '/iam/img/main/icon-pin_list.png');
+                $("#star #bottom .content-item .media-wrap .media-inner").attr('style', 'max-height: 650px;' + scroll);
+                <? if ($_COOKIE['contents_mode'] == "pin" && (!isset($_GET['cur_win']) || $_GET['cur_win'] == "my_info")) { ?>
+                    setCookie('contents_mode', 'image', 1, "");
+                    //$(".movie_play").css("width","50px");
+                    if (key1_gwc_show == '4') {
+                        if (wide_show == 'Y') {
+                            var bottom_wt = $("#bottom").width();
+                            var cont_wt = bottom_wt * 1 / 4 - 2.5;
+                        } else {
+                            var bottom_wt = $("#bottom").width();
+                            var cont_wt = bottom_wt * 1 / 2 - 2;
+                        }
+                        $(".content_area").attr('style', 'width:' + cont_wt + 'px;display:inline-block;vertical-align:top;');
+                    } else {
+                        $("#bottom").attr("style", "column-count:2");
+                    }
+                    $(".content-item .user-item").hide();
+                    $(".content-item").show();
+                    $(".image_mode").hide();
+                    $(".pin_mode").show();
+                    //$(".list").hide();
+                    //$(".service_title").hide();
+                    //$(".info-wrap").hide();
+                    $("#show_contents_mode").prop("src", '/iam/img/icon_image.png');
+                    setCookie('contents_mode', 'pin', 1, "");
+                    $("#star #bottom .content-item .media-wrap .media-inner").attr('style', 'max-height: 350px;' + scroll);
+                    if ($(window).width() < 360) {
+                        $(".percent").attr("style", "width:30px;font-size:12px");
+                        $(".upper").attr("style", "font-size:9px;");
+                        $(".downer").attr("style", "font-size:10px;");
+                        $("#star #bottom .content-item .desc-wrap .desc .desc-inner .outer .order a").attr("style", "padding:1px 2px; font-size:10px;background: #99cc00;cursor: pointer;");
+                        $(".buy_servicecon").attr("style", "left:-30px !important;");
+                    } else if ($(window).width() < 420) {
+                        $(".percent").attr("style", "width:43px;font-size:17px");
+                        $(".downer").attr("style", "font-size:13px;");
+                        $("#star #bottom .content-item .desc-wrap .desc .desc-inner .outer .order a").attr("style", "padding:1px 2px; font-size:10px;background: #99cc00;cursor: pointer;");
+                        $(".buy_servicecon").attr("style", "left:-30px !important;");
+                    }
+            <?  }
+            } ?>
+            <?php
+            if ($_SESSION['iam_member_id']) {
+                if ($_GET['key1'] == "4") { ?>
+                    // var gwc_state = '<?= $member_iam['gwc_state'] ?>';
+                    // if(gwc_state == "0"){
+                    //     location.href="index.php";
+                    // }
+                    $(".buy_service_con").on('click', function() {
+                        var gwc_leb = '<?= $member_iam['gwc_leb'] ?>';
+                        if (gwc_leb == 4 && gwc_leb < 1) {
+                            alert('본 회원은 굿슈머 이상 등급이어야 구매가 가능합니다');
+                            $(".dropdown-menu").hide();
+                        }
+                    });
+                <?php
+                }
+                $sql_receive = "select * from Gn_Item_Pay_Result where point_val=2 and receive_state=0 and pay_method='{$_SESSION['iam_member_id']}' and type='cardsend' order by pay_date asc limit 1";
+                $res_recv = mysql_query($sql_receive);
+                $row_recv = mysql_fetch_array($res_recv);
+
+                // if($row_recv['pay_method'] != NULL && strpos($_SERVER['REQUEST_URI'], "?") === false){
                 if ($row_recv['pay_method'] != NULL) {
                     $sender_id = $row_recv['buyer_id'];
                     $message_recv = $row_recv['message'];
@@ -615,14 +758,14 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                     $message_recv = str_replace('"', "'", $message_recv);
                     $href_url = $row_recv['site'] . "&type=image&preview=Y";
                     $res_no = $row_recv['no'];
-            ?>
+                ?>
                     $("#recv_msg").html("<?= $message_recv ?>");
                     $("#card_recv_popup").modal("show");
-                <?
+                <?php
                 }
                 $sql_con_receive = "select * from Gn_Item_Pay_Result where point_val=2 and buyer_id='{$_SESSION['iam_member_id']}' and type='contentsrecv' and message!='' and alarm_state=0 order by pay_date asc limit 1";
-                $res_con_recv = mysqli_query($self_con, $sql_con_receive);
-                $row_con_recv = mysqli_fetch_array($res_con_recv);
+                $res_con_recv = mysql_query($sql_con_receive);
+                $row_con_recv = mysql_fetch_array($res_con_recv);
                 if ($row_con_recv['buyer_id'] != NULL && strpos($_SERVER['REQUEST_URI'], "?") === false) {
                     $con_sender_id = $row_con_recv['pay_method'];
                     $con_message_recv = $row_con_recv['message'];
@@ -633,10 +776,10 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                 ?>
                     $("#recv_con_msg").html("<?= $con_message_recv ?>");
                     $("#contents_recv_popup").modal("show");
-                <?  }
+                <? }
                 $sql_notice_receive = "select * from Gn_Item_Pay_Result where point_val=3 and buyer_id='{$_SESSION['iam_member_id']}' and type='noticerecv' and alarm_state=0 order by pay_date asc limit 1";
-                $res_notice_recv = mysqli_query($self_con, $sql_notice_receive);
-                $row_notice_recv = mysqli_fetch_array($res_notice_recv);
+                $res_notice_recv = mysql_query($sql_notice_receive);
+                $row_notice_recv = mysql_fetch_array($res_notice_recv);
                 if ($row_notice_recv['buyer_id'] != NULL && strpos($_SERVER['REQUEST_URI'], "?") === false) {
                     $notice_sender_id = $row_notice_recv['pay_method'];
                     $notice_message_recv = $row_notice_recv['message'];
@@ -650,26 +793,38 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                     $msg_detail = "<p style='text-align:center;border-bottom: 1px solid grey;'>" . $notice_title_recv . "</p><br><p>" . $notice_message_recv . "</p><br><a href='" . $notice_href_url . "' target='_blank'>" . $notice_href_url . "</a>"; ?>
                     $("#recv_notice_msg").html("<?= $msg_detail ?>");
                     $("#notice_recv_popup").modal("show");
-                <?  }
-
-                if ($_GET['edit_time'] == "Y") { ?>
+                <? } else if (strpos($_SERVER['REQUEST_URI'], "cur_win=shared_receive&modal=Y") !== false) { ?>
+                    search_send_list("contentsrecv");
+                    $("#contents_receive_list_modal").modal("show");
+                <? } else if (strpos($_SERVER['REQUEST_URI'], "cur_win=shared_send&modal=Y") !== false) { ?>
+                    $("#contents_send_list_modal").modal("show");
+                    search_send_list('contentssend');
+                <? } else if (strpos($_SERVER['REQUEST_URI'], "cur_win=unread_notice&modal=Y") !== false) { ?>
+                    $("#notice_receive_list_modal").modal("show");
+                    notice_send_recv_list('noticerecv');
+                <? } else if (strpos($_SERVER['REQUEST_URI'], "cur_win=request_list") !== false) { ?>
+                    get_request_list(1);
+                <? } else if (strpos($_SERVER['REQUEST_URI'], "cur_win=unread_notice&box=send&modal=Y") !== false) { ?>
+                    $("#notice_send_list_modal").modal("show");
+                    notice_send_recv_list('noticesend');
+                <? } else if ($_GET['edit_time'] == "Y") { ?>
                     edit_card('<?= $cur_card['card_short_url'] ?>');
                     $("#edit_card_business_time").focus();
                     $('body,html').animate({
                         scrollTop: 700,
                     }, 100);
-                    <?  } else if ($_GET['tutorial'] == "Y") {
+                    <? } else if ($_GET['tutorial'] == "Y") {
                     if ($_GET['addafter'] == "Y") { ?>
                         $("#tutorial_addhome_popup").modal("hide");
                         $("#install-modalwindow").modal("show");
-                    <?      } else { ?>
+                    <?  } else { ?>
                         $("#pleaseinstall").modal("hide");
                         $("#install-modalwindow").modal("show");
-                    <?      }
+                    <?  }
                 } else if ($_SESSION['iam_member_subadmin_id']) {
                     $sql_point_state = "select mem_id, point_state from Gn_Iam_Service where mem_id='{$_SESSION['iam_member_subadmin_id']}'";
-                    $res_point_state = mysqli_query($self_con, $sql_point_state);
-                    $row_point_state = mysqli_fetch_array($res_point_state);
+                    $res_point_state = mysql_query($sql_point_state);
+                    $row_point_state = mysql_fetch_array($res_point_state);
                     if ($row_point_state['point_state'] == 0) { ?>
                         alert("현재 포인트가 부족하여 오토회원 가입/콜백메시지 신청이 안되고 있습니다. 포인트를 충전해주세요.");
                         $.ajax({
@@ -684,13 +839,16 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
 
                             }
                         });
-                    <?      }
+                    <? }
                 }
                 if ($_GET['req_provide'] == 'Y') { ?>
                     $("#contents_add_modal").modal('show');
-                    $(".gallery").hide();
-            <?  }
+            <? }
             } ?>
+            console.log('<?= $cur_win ?>', '<?= $_COOKIE['contents_mode'] ?>');
+            if (cur_win_name == 'my_info') {
+                $("#star #bottom .content-item .media-wrap .media-inner").attr('style', 'max-height: 100%;');
+            }
         });
 
         function save_load(mem_id, cont_id, event_kind) { //event_kind : 0:노출,1:클릭
@@ -704,7 +862,9 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                     cont_id: cont_id,
                     event_kind: event_kind
                 },
-                success: function(data) {}
+                success: function(data) {
+                    console.log(data);
+                }
             });
         }
 
@@ -726,6 +886,7 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
         }
 
         function recvPhonePos(lat, lng) {
+            // alert(lat+":"+lng);
             setCookie1('phone_lat', lat, 10800, '');
             setCookie1('phone_lng', lng, 10800, '');
             setCookie1('show_alarm_phonepos', '1', 10800, '');
@@ -734,6 +895,7 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
         }
 
         function recvPhonePos_show(lat, lng, idx, map_pos) {
+            // $("a[id=distance_map_"+idx+"]").html('123' + "Km");
             var start_info = lat + '&' + lng;
             $.ajax({
                 type: "POST",
@@ -745,6 +907,7 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                 },
                 dataType: 'text',
                 success: function(data) {
+                    // $("#distance_map_"+idx).html(data + "Km");
                     $("a[id=distance_map_" + idx + "]").html(data + "Km");
                 }
             });
@@ -822,40 +985,31 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
         }
 
         function set_language(idx) {
+            //document.cookie = "language" + "=" + idx;
+            //setCookie("language",idx,1);
             setCookie("lang", idx, 1, "iam");
             if ((window.location + "").indexOf("?") >= 0)
                 location.href = window.location + "&lang=" + idx;
             else
                 location.href = window.location + "?<?= $request_short_url . $user_mem_code ? $user_mem_code : $card_owner_code ?>&lang=" + idx;
+            //location.reload();
         }
 
         //added by amigo 
 
         var busy = false;
         var limit = 10; //한개 페이지에 보여지는 샘플 갯수
-        var offset = 0; //페이지에 보여지는 시작인덱스   
-        var mycon_limit = 6; //마이콘 한개 페이지에 노출되는 콘갯수  
-        var wecon_limit = 6; //위콘 한개 페이지에 노출되는 콘갯수     
-        var mystory_limit = 6; //마이스토리 한개 페이지에 노출되는 콘갯수
-        var shared_receive_limit = 10; //콘수신 한개 페이지에 노출되는 콘갯수
-        var shared_send_limit = 10; //콘전송 한개 페이지에 노출되는 콘갯수
-        var unread_post_limit = 6; //댓글수신 한개 페이지에 노출되는 콘갯수
-        var notice_limit = 6; //공지사항 한개 페이지에 노출되는 콘갯수
-        var group_con_limit = 6; //그룹콘 한개 페이지에 노출되는 콘갯수
-        var gmarket_limit = 25; //지마켓 한개 페이지에 노출되는 콘갯수
-        var calliya_limit = 25; //콜이야 한개 페이지에 노출되는 콘갯수
+        var offset = 0; //페이지에 보여지는 시작인덱스        
 
         function displaySample(lim, off) {
-            var link = "limit=" + lim + "&offset=" + off + "&sample_type=<?= $cur_win ?>";
-            link = makeParams(link);
             $.ajax({
                 type: "GET",
                 async: false,
                 url: "/iam/ajax/get_iam_sample.php",
-                data: link,
+                data: "limit=" + lim + "&offset=" + off + "&search_key=<?= $_GET['search_key'] ?>" + "&sample_type=<?= $_GET['cur_win'] ?>",
                 cache: false,
                 success: function(html) {
-                    $(".contents_div").append(html);
+                    $(".sample_main").append(html);
                     window.busy = false;
                 }
             });
@@ -863,23 +1017,15 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
 
         function displayMall(lim, off) {
             var cont_mode = getCookie('contents_mode');
-            var data = "limit=" + lim + "&offset=" + off + "&cur_win=<?= $cur_win ?>" + "&art_type=<?= $_GET['art_type'] ?>" + "&contents_mode=" + cont_mode + "&member_iam=<?= $member_iam['site_iam'] ?>";
-            if ('<?= $_GET['search_key'] ?>' != "")
-                data += "&search_key=<?= $_GET['search_key'] ?>";
-            if ('<?= $_GET['sort'] ?>' != "")
-                data += "&sort=<?= $_GET['sort'] ?>";
-            if ('<?= $_GET['mall_type'] ?>' != "")
-                data += "&mall_type=<?= $_GET['mall_type'] ?>";
-            if ('<?= $_GET['mall_type1'] ?>' != "")
-                data += "&mall_type1=<?= $_GET['mall_type1'] ?>";
             $.ajax({
                 type: "GET",
                 async: false,
                 url: "/iam/ajax/get_iam_mall.php",
-                data: data,
+                data: "limit=" + lim + "&offset=" + off + "&search_key=<?= $_GET['search_key'] ?>" + "&cur_win=<?= $_GET['cur_win'] ?>" + "&sort=<?= $_GET['sort'] ?>" +
+                    "&mall_type=<?= $_GET['mall_type'] ?>" + "&mall_type1=<?= $_GET['mall_type1'] ?>" + "&art_type=<?= $_GET['art_type'] ?>" + "&contents_mode=" + cont_mode + "&member_iam=<?= $member_iam['site_iam'] ?>",
                 cache: false,
                 success: function(html) {
-                    $(".contents_div").append(html);
+                    $("#div_mall").append(html);
                     if (html.length <= 10)
                         window.busy = true;
                     else
@@ -888,513 +1034,8 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
             });
         }
 
-        function displayGmarketMall(lim, off) {
-            //var cont_mode = getCookie('contents_mode');
-            var data = "limit=" + lim + "&offset=" + off + "&cur_win=<?= $cur_win ?>";
-            data += "&contents_mode=" + cont_mode + "&member_iam=<?= $member_iam['site_iam'] ?>";
-            if ('<?= $_GET['search_key'] ?>' != "")
-                data += "&search_key=<?= $_GET['search_key'] ?>";
-            if ('<?= $_GET['sort'] ?>' != "")
-                data += "&sort=<?= $_GET['sort'] ?>";
-            if ('<?= $_GET['mall_type'] ?>' != "")
-                data += "&mall_type=<?= $_GET['mall_type'] ?>";
-            if ('<?= $_GET['mall_type1'] ?>' != "")
-                data += "&mall_type1=<?= $_GET['mall_type1'] ?>";
-            if ('<?= $block_contents_sql ?>' != "")
-                data += "&block_contents_sql=<?= $block_contents_sql ?>";
-            if ('<?= $block_user_sql ?>' != "")
-                data += "&block_user_sql=<?= $block_user_sql ?>";
-            if (<?= $provider_arr ?> != "")
-                data += "&provider_arr=<?= $provider_arr ?>";
-            if ('<?= $_GET['cate_prod'] ?>' != "")
-                data += "&cate_prod=<?= $_GET['cate_prod'] ?>";
-            if ('<?= $_GET['iamstore'] ?>' != "")
-                data += "&iamstore=<?= $_GET['iamstore'] ?>";
-            if ('<?= $gwc_pay_mem ?>' != "")
-                data += "&gwc_pay_mem=<?= $gwc_pay_mem ?>";
-            $.ajax({
-                type: "GET",
-                async: false,
-                url: "/iam/ajax/get_gmarket.php",
-                data: data,
-                cache: false,
-                success: function(html) {
-                    $(".contents_div").append(html);
-                    window.busy = false;
-                    //refresh_contents("pin");
-                    refresh_contents('<?= $cur_win ?>');
-                }
-            });
-        }
-
-        function displayCalliya(lim, off) {
-            var cont_mode = getCookie('contents_mode');
-            var data = "limit=" + lim + "&offset=" + off + "&cur_win=<?= $cur_win ?>";
-            data += "&contents_mode=" + cont_mode + "&member_iam=<?= $member_iam['site_iam'] ?>";
-            data += "&recent_idx=<?= $recent_idx ?>";
-            if ('<?= $_GET['search_key'] ?>' != "")
-                data += "&search_key=<?= $_GET['search_key'] ?>";
-            if ('<?= $_GET['sort'] ?>' != "")
-                data += "&sort=<?= $_GET['sort'] ?>";
-            if ('<?= $_GET['sort_calliya'] ?>' != "")
-                data += "&sort_calliya=<?= $_GET['sort_calliya'] ?>";
-            if ('<?= $_GET['mall_type'] ?>' != "")
-                data += "&mall_type=<?= $_GET['mall_type'] ?>";
-            if ('<?= $_GET['mall_type1'] ?>' != "")
-                data += "&mall_type1=<?= $_GET['mall_type1'] ?>";
-            if ('<?= $_GET['mall_sub_type'] ?>' != "")
-                data += "&mall_sub_type=<?= $_GET['mall_sub_type'] ?>";
-            if ('<?= $block_contents_sql ?>' != "")
-                data += "&block_contents_sql=<?= $block_contents_sql ?>";
-            if ('<?= $block_user_sql ?>' != "")
-                data += "&block_user_sql=<?= $block_user_sql ?>";
-            data = makeParams(data);
-            $.ajax({
-                type: "GET",
-                async: false,
-                url: "/iam/ajax/get_calliya.php",
-                data: data,
-                cache: false,
-                success: function(html) {
-                    $(".contents_div").append(html);
-                    window.busy = false;
-                    //refresh_contents("pin");
-                    refresh_contents('<?= $cur_win ?>');
-                }
-            });
-        }
-
-        function refresh_contents(cur_win) {
-            var img_ht = $(".media-inner").width();
-            var img_ht1 = img_ht * 2;
-            var img_ht2 = img_ht * 1 / 2;
-            var navCase = navigator.userAgent.toLocaleLowerCase();
-            var platform = "pc";
-            var contents_mode = "image";
-            if (navCase.search("android") > -1) { //android
-                platform = "android";
-            }
-            if (platform == "pc") {
-                if (cur_win == "my_info")
-                    contents_mode = "image";
-                else if (cur_win == "we_story")
-                    contents_mode = "pin";
-            } else {
-                if (cur_win == "my_info")
-                    contents_mode = "image";
-                else if (cur_win == "we_story")
-                    contents_mode = "image";
-            }
-            if (contents_mode == "image") {
-                $(".movie_play").attr("style", "width:100px");
-                $("#bottom").attr("style", "");
-                $(".content_area").attr('style', '');
-                $("#star #bottom .content-item .media-wrap .media-inner").attr('style', 'max-height: 100%;overflow-y: hidden;');
-                $(".desc-wrap").show();
-                $(".image_mode").show();
-                $(".pin_mode").hide();
-                $(".service_title").show();
-                /*if ($(window).width() < 420) {
-                    $(".movie_play").attr("style", "width:50px");
-                    $(".percent").attr("style", "width:80px;font-size:30px");
-                    $(".downer").attr("style", "font-size:16px;");
-                    $("#star #bottom .content-item .desc-wrap .desc .desc-inner .outer .order a").attr("style", "padding:5px 15px; font-size:14px;background: #99cc00;cursor: pointer;");
-                    $(".buy_servicecon").attr("style", "left:-30px !important;");
-                    $("#star #bottom .content-item .media-wrap .media-inner").attr('style', 'max-height: 350px;overflow-y: hidden;');
-                }*/
-                $(".info-wrap").show();
-                var contents_list = $("div[id='contents_list']");
-                contents_list.each(function() {
-                    $(this).hide();
-                });
-                var contents_image = $("div[id='contents_image']");
-                contents_image.each(function() {
-                    $(this).show();
-                });
-            } else {
-                $(".movie_play").attr("style", "width:50px");
-                if (mall_gwc_show == 'gmarket') {
-                    if (checkMobile())
-                        $(".contents_div").attr("style", "column-count:2");
-                    else
-                        $(".contents_div").attr("style", "column-count:5");
-                } else {
-                    $("#bottom").attr("style", "column-count:2");
-                }
-                $(".image_mode").hide();
-                $(".pin_mode").show();
-                $("#star #bottom .content-item .media-wrap .media-inner").attr('style', 'max-height: 350px;overflow-y: hidden;');
-                if ($(window).width() < 360) {
-                    $(".percent").attr("style", "width:30px;font-size:12px");
-                    $(".upper").attr("style", "font-size:9px;");
-                    $(".downer").attr("style", "font-size:10px;");
-                    $("#star #bottom .content-item .desc-wrap .desc .desc-inner .outer .order a").attr("style", "padding:1px 2px; font-size:10px;background: #99cc00;cursor: pointer;");
-                    $(".buy_servicecon").attr("style", "left:-30px !important;");
-                } else if ($(window).width() < 420) {
-                    $(".percent").attr("style", "width:43px;font-size:17px");
-                    $(".downer").attr("style", "font-size:13px;");
-                    $("#star #bottom .content-item .desc-wrap .desc .desc-inner .outer .order a").attr("style", "padding:1px 2px; font-size:10px;background: #99cc00;cursor: pointer;");
-                    $(".buy_servicecon").attr("style", "left:-30px !important;");
-                }
-                var contents_list = $("div[id='contents_list']");
-                contents_list.each(function() {
-                    $(this).hide();
-                });
-                var contents_image = $("div[id='contents_image']");
-                contents_image.each(function() {
-                    $(this).show();
-                });
-            }
-        }
-
-        function displayMyContents(lim, off) {
-            var data = "limit=" + lim + "&offset=" + off + "&cur_win=<?= $cur_win ?>";
-            data += "&card_idx=<?= $cur_card['idx'] ?>" + "&content_table_name=<?= $content_table_name ?>";
-            data += "&gm=<?= $gwc_table ?>" + "&cont_order_type=<?= $cur_card['cont_order_type'] ?>";
-            data += /*"&contents_mode=" + cont_mode + */ "&card_owner=<?= $card_owner ?>";
-            data += "&card_master=<?= $card_master ?>" + "&my_first_card=<?= $my_first_card ?>";
-            data += "&gwc_mem=<?= $gwc_mem ?>" + "&gwc_pay_mem=<?= $gwc_pay_mem ?>";
-            data += "&is_pay_version=<?= $is_pay_version ?>" + "&open_domain='<?= $open_domain ?>'";
-            data = makeParams(data);
-            $.ajax({
-                type: "GET",
-                async: false,
-                url: "/iam/ajax/get_my_info.php",
-                data: data,
-                cache: false,
-                success: function(html) {
-                    $(".contents_div").append(html);
-                    refresh_contents('<?= $cur_win ?>');
-                    var paging_count = 10; //한개페이지에 노출되는 페이징갯수
-                    var total_count = $("#total_count").data('count');
-                    var total_page = Math.floor(total_count / lim); //전체페이지 갯수
-                    var rem = total_count % lim;
-                    if (rem > 0)
-                        total_page++;
-                    var cur_page = Math.floor(off / lim); //현재 페이지
-                    var start_page = Math.floor(cur_page / paging_count) * paging_count; //현재 노출된 시작페이지
-                    var end_page = Math.floor(cur_page / paging_count) * paging_count + paging_count - 1; //현재 노출된 마감페이지
-                    if (end_page > total_page - 1)
-                        end_page = total_page - 1;
-                    if (cur_page < total_page) {
-                        $(".paging_index").hide();
-                        $(".paging_index").removeClass("active");
-                        $(".arrow").hide();
-                        for (var i = start_page; i <= end_page; i++) {
-                            var index = i % paging_count;
-                            $(".paging_index:eq(" + index + ")").show();
-                            $(".paging_index:eq(" + index + ")").find('a').html(i + 1);
-                            $(".paging_index:eq(" + index + ")").find('a').prop("href", "javascript:onClickMore(" + i * lim + ",'my_info')");
-                            if (i == cur_page)
-                                $(".paging_index:eq(" + (i % paging_count) + ")").addClass("active");
-                        }
-                        if (start_page >= paging_count) {
-                            $("#page_left").show();
-                            $("#page_left").find('a').prop("href", "javascript:onClickMore(" + (cur_page - paging_count) * lim + ",'my_info')");
-                        }
-                        if (total_page - 1 > end_page) {
-                            $("#page_right").show();
-                            var target_page = cur_page + paging_count;
-                            if (target_page > total_page - 1)
-                                target_page = total_page - 1;
-                            $("#page_right").find('a').prop("href", "javascript:onClickMore(" + target_page * lim + ",'my_info')");
-                        }
-                    }
-                    window.busy = false;
-                    if (cur_page == total_page - 1) {
-                        window.busy = true;
-                    }
-                }
-            });
-        }
-
-        function displayWeContents(lim, off) {
-            var cont_mode = getCookie('contents_mode');
-            var data = "limit=" + lim + "&offset=" + off + "&cur_win=<?= $cur_win ?>";
-            data += "&card_idx=<?= $cur_card['idx'] ?>" + "&content_table_name=<?= $content_table_name ?>";
-            data += "&gm=<?= $gwc_table ?>" + "&cont_order_type=<?= $cur_card['cont_order_type'] ?>";
-            data += "&contents_mode=" + cont_mode + "&card_owner=<?= $card_owner ?>";
-            data += "&card_master=<?= $card_master ?>" + "&my_first_card=<?= $my_first_card ?>";
-            data += "&gwc_mem=<?= $gwc_mem ?>" + "&gwc_pay_mem=<?= $gwc_pay_mem ?>";
-            data += "&is_pay_version=<?= $is_pay_version ?>" + "&open_domain='<?= $open_domain ?>'";
-            data += "&recent_idx=<?= $recent_idx ?>";
-            data = makeParams(data);
-            $.ajax({
-                type: "GET",
-                async: false,
-                url: "/iam/ajax/get_wecon_info.php",
-                data: data,
-                cache: false,
-                success: function(html) {
-                    $(".contents_div").append(html);
-                    window.busy = false;
-                    //refresh_contents(cont_mode);
-                    refresh_contents('<?= $cur_win ?>');
-                }
-            });
-        }
-
-        function displayMyGroupContents(lim, off) {
-            var cont_mode = getCookie('contents_mode');
-            $.ajax({
-                type: "GET",
-                async: false,
-                url: "/iam/ajax/get_my_group.php",
-                data: "limit=" + lim + "&offset=" + off + "&search_key=<?= $_GET['search_key'] ?>" + "&cur_win=<?= $cur_win ?>" + "&card_idx=<?= $cur_card['idx'] ?>" +
-                    "&content_table_name=<?= $content_table_name ?>" + "&gm=<?= $gwc_table ?>" + "&cont_order_type=<?= $cur_card['cont_order_type'] ?>" +
-                    "&contents_mode=" + cont_mode + "&card_owner=<?= $card_owner ?>" + "&type=<?= $_GET['type'] ?>" + "&card_master=<?= $card_master ?>" + "&my_first_card=<?= $my_first_card ?>" +
-                    "&iamstore=<?= $_GET['iamstore'] ?>" + "&cate_prod=<?= $_GET['cate_prod'] ?>" + "&gwc_mem=<?= $gwc_mem ?>" + "&gwc_pay_mem=<?= $gwc_pay_mem ?>" +
-                    "&is_pay_version=<?= $is_pay_version ?>" + "&open_domain='<?= $open_domain ?>'" + "&sort=<?= $_GET['sort'] ?>" + "&gkind=<?= $_GET['gkind'] ?>" +
-                    "&group_manager=<?= $group_row['manager'] ?>",
-                cache: false,
-                success: function(html) {
-                    $(".contents_div").append(html);
-                    window.busy = false;
-                    //refresh_contents(cont_mode);
-                    refresh_contents('<?= $cur_win ?>');
-                }
-            });
-        }
-
-        function displayMyStory(lim, off) {
-            var cont_mode = "image"; //getCookie('contents_mode');
-            $.ajax({
-                type: "GET",
-                async: false,
-                url: "/iam/ajax/get_my_story.php",
-                data: "limit=" + lim + "&offset=" + off + "&search_key=<?= $_GET['search_key'] ?>" + "&cur_win=<?= $cur_win ?>" + "&card_idx=<?= $cur_card['idx'] ?>" +
-                    "&content_table_name=<?= $content_table_name ?>" + "&cont_order_type=<?= $cur_card['cont_order_type'] ?>" +
-                    "&contents_mode=" + cont_mode + "&card_owner=<?= $card_owner ?>" + "&type=<?= $_GET['type'] ?>" + "&card_master=<?= $card_master ?>" + "&my_first_card=<?= $my_first_card ?>" +
-                    "&iamstore=<?= $_GET['iamstore'] ?>" + "&cate_prod=<?= $_GET['cate_prod'] ?>" + "&gwc_mem=<?= $gwc_mem ?>" + "&gwc_pay_mem=<?= $gwc_pay_mem ?>" +
-                    "&is_pay_version=<?= $is_pay_version ?>" + "&open_domain='<?= $open_domain ?>'" + "&sort=<?= $_GET['sort'] ?>",
-                cache: false,
-                success: function(html) {
-                    $(".contents_div").append(html);
-                    window.busy = false;
-                    //refresh_contents(cont_mode);
-                    refresh_contents('<?= $cur_win ?>');
-                }
-            });
-        }
-
-        function displaySharedReceive(lim, off) {
-            var cont_mode = "image"; //getCookie('contents_mode');
-            $.ajax({
-                type: "GET",
-                async: false,
-                url: "/iam/ajax/alarm_cont.php",
-                data: "limit=" + lim + "&offset=" + off + "&search_key=<?= $_GET['search_key'] ?>" + "&type=contentsrecv",
-                cache: false,
-                success: function(html) {
-                    $(".contents_div").append(html);
-                    var paging_count = 10; //한개페이지에 노출되는 페이징갯수
-                    var total_count = $("#total_count").data('count');
-                    var total_page = Math.floor(total_count / lim); //전체페이지 갯수
-                    var rem = total_count % lim;
-                    if (rem > 0)
-                        total_page++;
-                    var cur_page = Math.floor(off / lim); //현재 페이지
-                    var start_page = Math.floor(cur_page / paging_count) * paging_count; //현재 노출된 시작페이지
-                    var end_page = Math.floor(cur_page / paging_count) * paging_count + paging_count - 1; //현재 노출된 마감페이지
-                    if (end_page > total_page - 1)
-                        end_page = total_page - 1;
-                    if (cur_page < total_page) {
-                        $(".paging_index").hide();
-                        $(".paging_index").removeClass("active");
-                        $(".arrow").hide();
-                        for (var i = start_page; i <= end_page; i++) {
-                            var index = i % paging_count;
-                            $(".paging_index:eq(" + index + ")").show();
-                            $(".paging_index:eq(" + index + ")").find('a').html(i + 1);
-                            $(".paging_index:eq(" + index + ")").find('a').prop("href", "javascript:onClickMore(" + i * lim + ",'shared_receive')");
-                            if (i == cur_page)
-                                $(".paging_index:eq(" + (i % paging_count) + ")").addClass("active");
-                        }
-                        if (start_page >= paging_count) {
-                            $("#page_left").show();
-                            $("#page_left").find('a').prop("href", "javascript:onClickMore(" + (cur_page - paging_count) * lim + ",'shared_receive')");
-                        }
-                        if (total_page - 1 > end_page) {
-                            $("#page_right").show();
-                            var target_page = cur_page + paging_count;
-                            if (target_page > total_page - 1)
-                                target_page = total_page - 1;
-                            $("#page_right").find('a').prop("href", "javascript:onClickMore(" + target_page * lim + ",'shared_receive')");
-                        }
-                    }
-                    window.busy = false;
-                    if (cur_page == total_page - 1) {
-                        window.busy = true;
-                    }
-                }
-            });
-        }
-
-        function displaySharedSend(lim, off) {
-            $.ajax({
-                type: "GET",
-                async: false,
-                url: "/iam/ajax/alarm_cont.php",
-                data: "limit=" + lim + "&offset=" + off + "&search_key=<?= $_GET['search_key'] ?>" + "&type=contentssend",
-                cache: false,
-                success: function(html) {
-                    $(".contents_div").append(html);
-                    var paging_count = 10; //한개페이지에 노출되는 페이징갯수
-                    var total_count = $("#total_count").data('count');
-                    var total_page = Math.floor(total_count / lim); //전체페이지 갯수
-                    var rem = total_count % lim;
-                    if (rem > 0)
-                        total_page++;
-                    var cur_page = Math.floor(off / lim); //현재 페이지
-                    var start_page = Math.floor(cur_page / paging_count) * paging_count; //현재 노출된 시작페이지
-                    var end_page = Math.floor(cur_page / paging_count) * paging_count + paging_count - 1; //현재 노출된 마감페이지
-                    if (end_page > total_page - 1)
-                        end_page = total_page - 1;
-                    if (cur_page < total_page) {
-                        $(".paging_index").hide();
-                        $(".paging_index").removeClass("active");
-                        $(".arrow").hide();
-                        for (var i = start_page; i <= end_page; i++) {
-                            var index = i % paging_count;
-                            $(".paging_index:eq(" + index + ")").show();
-                            $(".paging_index:eq(" + index + ")").find('a').html(i + 1);
-                            $(".paging_index:eq(" + index + ")").find('a').prop("href", "javascript:onClickMore(" + i * lim + ",'shared_send')");
-                            if (i == cur_page)
-                                $(".paging_index:eq(" + (i % paging_count) + ")").addClass("active");
-                        }
-                        if (start_page >= paging_count) {
-                            $("#page_left").show();
-                            $("#page_left").find('a').prop("href", "javascript:onClickMore(" + (cur_page - paging_count) * lim + ",'shared_send')");
-                        }
-                        if (total_page - 1 > end_page) {
-                            $("#page_right").show();
-                            var target_page = cur_page + paging_count;
-                            if (target_page > total_page - 1)
-                                target_page = total_page - 1;
-                            $("#page_right").find('a').prop("href", "javascript:onClickMore(" + target_page * lim + ",'shared_send')");
-                        }
-                    }
-                    window.busy = false;
-                    if (cur_page == total_page - 1) {
-                        window.busy = true;
-                    }
-                }
-            });
-        }
-
-        function displayUnreadPost(lim, off) {
-            var cont_mode = "image"; //getCookie('contents_mode');
-            $.ajax({
-                type: "GET",
-                async: false,
-                url: "/iam/ajax/get_unread_post_info.php",
-                data: "limit=" + lim + "&offset=" + off + "&search_key=<?= $_GET['search_key'] ?>" + "&cur_win=<?= $cur_win ?>" + "&card_idx=<?= $cur_card['idx'] ?>" +
-                    "&content_table_name=<?= $content_table_name ?>" + "&cont_order_type=<?= $cur_card['cont_order_type'] ?>" +
-                    "&contents_mode=" + cont_mode + "&card_owner=<?= $card_owner ?>" + "&type=<?= $_GET['type'] ?>" + "&card_master=<?= $card_master ?>" + "&my_first_card=<?= $my_first_card ?>" +
-                    "&iamstore=<?= $_GET['iamstore'] ?>" + "&cate_prod=<?= $_GET['cate_prod'] ?>" + "&gwc_mem=<?= $gwc_mem ?>" + "&gwc_pay_mem=<?= $gwc_pay_mem ?>" +
-                    "&is_pay_version=<?= $is_pay_version ?>" + "&open_domain='<?= $open_domain ?>'" + "&sort=<?= $_GET['sort'] ?>",
-                cache: false,
-                success: function(html) {
-                    $(".contents_div").append(html);
-                    window.busy = false;
-                    //refresh_contents(cont_mode);
-                    refresh_contents('<?= $cur_win ?>');
-                }
-            });
-        }
-
-        function displayUnreadNotice(lim, off, mode = "") {
-            var cont_mode = "image"; //getCookie('contents_mode');
-            var notice_mode = mode == "send" ? "notice_send" : "notice_recv";
-            $.ajax({
-                type: "GET",
-                async: false,
-                url: "/iam/ajax/get_unread_notice_info.php",
-                data: "limit=" + lim + "&offset=" + off + "&search_key=<?= $_GET['search_key'] ?>" + "&mode=" + mode,
-                cache: false,
-                success: function(html) {
-                    $(".contents_div").append(html);
-                    var paging_count = 10; //한개페이지에 노출되는 페이징갯수
-                    var total_count = $("#total_count").data('count');
-                    var total_page = Math.floor(total_count / lim); //전체페이지 갯수
-                    var rem = total_count % lim;
-                    if (rem > 0)
-                        total_page++;
-                    var cur_page = Math.floor(off / lim); //현재 페이지
-                    var start_page = Math.floor(cur_page / paging_count) * paging_count; //현재 노출된 시작페이지
-                    var end_page = Math.floor(cur_page / paging_count) * paging_count + paging_count - 1; //현재 노출된 마감페이지
-                    if (end_page > total_page - 1)
-                        end_page = total_page - 1;
-                    if (cur_page < total_page) {
-                        $(".paging_index").hide();
-                        $(".paging_index").removeClass("active");
-                        $(".arrow").hide();
-                        for (var i = start_page; i <= end_page; i++) {
-                            var index = i % paging_count;
-                            $(".paging_index:eq(" + index + ")").show();
-                            $(".paging_index:eq(" + index + ")").find('a').html(i + 1);
-                            $(".paging_index:eq(" + index + ")").find('a').prop("href", "javascript:onClickMore(" + i * lim + ",'" + notice_mode + "')");
-                            if (i == cur_page)
-                                $(".paging_index:eq(" + (i % paging_count) + ")").addClass("active");
-                        }
-                        if (start_page >= paging_count) {
-                            $("#page_left").show();
-                            $("#page_left").find('a').prop("href", "javascript:onClickMore(" + (cur_page - paging_count) * lim + ",'" + notice_mode + "')");
-                        }
-                        if (total_page - 1 > end_page) {
-                            $("#page_right").show();
-                            var target_page = cur_page + paging_count;
-                            if (target_page > total_page - 1)
-                                target_page = total_page - 1;
-                            $("#page_right").find('a').prop("href", "javascript:onClickMore(" + target_page * lim + ",'" + notice_mode + "')");
-                        }
-                    }
-                    window.busy = false;
-                    if (cur_page == total_page - 1) {
-                        window.busy = true;
-                    }
-                }
-            });
-        }
-
-        function displayRequests(page) {
-            $.ajax({
-                type: "GET",
-                url: "/iam/ajax/get_request_list.php",
-                data: "page2=" + page + "&search_key=<?= $_GET['search_key'] ?>",
-                success: function(html) {
-                    $(".contents_div").append(html);
-                }
-            });
-        }
-
-        function displayReports(page) {
-            $.ajax({
-                type: "GET",
-                url: "/iam/ajax/get_report_list.php",
-                data: "page=" + page + "&search_key=<?= $_GET['search_key'] ?>",
-                success: function(html) {
-                    $(".contents_div").append(html);
-                }
-            });
-        }
-
-        function previewReport(str) {
-            window.open(str, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=200,left=200,width=1000,height=1000");
-        }
-
-        function displayFriends(page) {
-            $.ajax({
-                type: "GET",
-                url: "/iam/ajax/get_iam_friends.php",
-                data: "method=" + '<?= $_GET['mode'] ?>' + "&search_key=<?= $_GET['search_key'] ?>",
-                success: function(html) {
-                    $(".contents_div").append(html);
-                }
-            });
-        }
-
         function getIamContact(card_owner, card_master, search_range, phone_count, page, paper_yn) {
+
             var search_str = $("#search_str").val();
             if (search_str == undefined)
                 search_str = "";
@@ -1439,87 +1080,79 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
             });
         }
 
+        function get_request_list(page) {
+            $.ajax({
+                type: "GET",
+                url: "/iam/ajax/get_request_list.php",
+                data: "page2=" + page,
+                success: function(html) {
+                    // $("#request_list_table").html('');
+                    $("#request_list_table").append(html);
+                }
+            });
+        }
+
         function getIamPaper() {
             $.ajax({
                 type: "GET",
                 url: "/iam/ajax/get_paper_list.php",
                 success: function(html) {
+                    // $("#request_list_table").html('');
                     $("#papercard_list").html(html);
                 }
             });
         }
 
+        function displayContents(lim, off) {
+            $(".contents_per_page").load("ajax/get_iam_contents.php?" + "limit=" + lim + "&offset=" + off + "&search_key=<?= $_GET['search_key'] ?>" + "&cur_win=<?= $cur_win ?>" + "&card_owner=<?= $card_owner ?>" +
+                "&name_card=<?= $_GET['name_card'] ?>" + "&key1=<?= $_GET['key1'] ?>" + "&key2=<?= $_GET['key2'] ?>" + "&sort=<?= $_GET['sort'] ?>" + "&request_uri=<?= $_SERVER['REQUEST_URI'] ?>",
+                function(responseTxt, statusTxt, xhr) {
+                    $(".content_main").append($(".contents_per_page").html());
+                });
+            window.busy = false;
+        }
+
+        $(window).scroll(function() {
+            var isScrollAtBottom = window.innerHeight + Math.round(window.scrollY) >= document.body.offsetHeight;
+            <? if ($_GET['cur_win'] == "best_sample" || $_GET['cur_win'] == "sample" || $_GET['cur_win'] == "recent_sample") { ?>
+                //if ($(window).scrollTop() + $(window).height() > $(".sample_main").height() && !busy) {
+                if (isScrollAtBottom && !busy) {
+                    busy = true;
+                    offset = limit + offset;
+                    setTimeout(function() {
+                        displaySample(limit, offset);
+                    }, 500);
+                }
+            <? } else if ($_GET['cur_win'] == "iam_mall") { ?>
+                //if ($(window).scrollTop() + $(window).height() > $(".sample_main").height() && !busy) {
+                if (isScrollAtBottom && !busy) {
+                    busy = true;
+                    offset = limit + offset;
+                    setTimeout(function() {
+                        displayMall(limit, offset);
+                    }, 500);
+                }
+            <? } ?>
+        });
+
         //end block
         $(function() {
             $(document).ajaxStart(function() {
+                    console.log("loading");
                     $("#ajax-loading").show();
                 })
                 .ajaxStop(function() {
                     $("#ajax-loading").delay(10).hide(1);
                 });
             //added by amigo            
-            <? if ($cur_win == "best_sample" || $cur_win == "sample" || $cur_win == "recent_sample") { ?>
-                $('.contents_div').html('');
+            <? if ($_GET['cur_win'] == "best_sample" || $_GET['cur_win'] == "sample" || $_GET['cur_win'] == "recent_sample") { ?>
+                $('.sample_main').html('');
                 offset = 0;
                 displaySample(limit, offset);
-            <? } else if ($cur_win == "iam_mall") { ?>
-                $('.contents_div').html('');
+            <? } else if ($_GET['cur_win'] == "iam_mall") { ?>
+                $('#div_mall').html('');
                 offset = 0;
-                <? if (isset($_GET['mall_type']) && $_GET['mall_type'] != "gmarket" && $_GET['mall_type'] != "calliya") { ?>
-                    displayMall(limit, offset);
-                <? } else if ($_GET['mall_type'] == "gmarket" || !isset($_GET['mall_type'])) { ?>
-                    displayGmarketMall(gmarket_limit, offset);
-                <? } else if ($_GET['mall_type'] == "calliya") { ?>
-                    displayCalliya(calliya_limit, offset);
-                <? } ?>
-            <? } else if ($cur_win == "my_info") { ?>
-                $('.contents_div').html('');
-                offset = 0;
-                displayMyContents(mycon_limit, offset);
-            <? } else if ($cur_win == "we_story") { ?>
-                $('.contents_div').html('');
-                offset = 0;
-                displayWeContents(wecon_limit, offset);
-            <? } else if ($cur_win == "my_story") { ?>
-                $('.contents_div').html('');
-                offset = 0;
-                displayMyStory(mystory_limit, offset);
-            <? } else if ($cur_win == "alarm" && $alarm_mode == "shared_receive") { ?>
-                $('.contents_div').html('');
-                offset = 0;
-                displaySharedReceive(shared_receive_limit, offset);
-            <? } else if ($cur_win == "alarm" && $alarm_mode == "shared_send") { ?>
-                $('.contents_div').html('');
-                offset = 0;
-                displaySharedSend(shared_send_limit, offset);
-            <? } else if ($cur_win == "alarm" && $alarm_mode == "unread_post") { ?>
-                $('.contents_div').html('');
-                offset = 0;
-                displayUnreadPost(unread_post_limit, offset);
-            <? } else if ($cur_win == "alarm" && $alarm_mode == "notice_recv") { ?>
-                $('.contents_div').html('');
-                offset = 0;
-                displayUnreadNotice(notice_limit, offset, 'recv');
-            <? } else if ($cur_win == "alarm" && $alarm_mode == "notice_send") { ?>
-                $('.contents_div').html('');
-                offset = 0;
-                displayUnreadNotice(notice_limit, offset, 'send');
-            <? } else if ($cur_win == "group-con") { ?>
-                $('.contents_div').html('');
-                offset = 0;
-                displayMyGroupContents(group_con_limit, offset);
-            <? } else if ($cur_win == "alarm" && $alarm_mode == "request_list") { ?>
-                $('.contents_div').html('');
-                offset = 0;
-                displayRequests(offset);
-            <? } else if ($cur_win == "alarm" && $alarm_mode == "report_list") { ?>
-                $('.contents_div').html('');
-                offset = 0;
-                displayReports(offset);
-            <? } else if ($cur_win == "alarm" && $alarm_mode == "friends_list") { ?>
-                $('.contents_div').html('');
-                offset = 0;
-                displayFriends(offset);
+                displayMall(limit, offset);
             <? } ?>
             //end block
         })
@@ -1552,18 +1185,6 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
             alert('AI 모델 저작권은 AI 모델 창작자에게 저작권이 귀속되어 있으며, 무단 사용시 법적 책임을 지게 됩니다.');
             location.href = url;
         }
-
-        function checkIfTextIsMoreThanTwoLines() {
-            $(".desc-text").each(function() {
-                var lineHeight = parseInt($(this).lineHeight);
-                var divHeight = $(this).offsetHeight;
-                if (divHeight > lineHeight * 2) {
-                    console.log("텍스트가 2줄 이상입니다.");
-                } else {
-                    console.log("텍스트가 2줄 이하입니다.");
-                }
-            });
-        }
     </script>
     <script type="text/javascript" src="/jquery.lightbox_me.js"></script>
 </head>
@@ -1574,355 +1195,428 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
     <input type="hidden" id="exp_status" value="<?= $exp_status ?>">
     <?
     $query = "SELECT NO FROM tjd_sellerboard WHERE pop_yn='Y' ORDER BY DATE DESC LIMIT 0, 3";
-    $res = mysqli_query($self_con, $query);
-    $totalCnt    =  mysqli_num_rows($res);
+    $res = mysql_query($query);
+    $totalCnt    =  mysql_num_rows($res);
 
     for ($i = 0; $i < $totalCnt; $i++) {
-        $alert_ids    =  mysqli_fetch_array($res); ?>
+        $alert_ids    =  mysql_fetch_array($res); ?>
         <input type="text" id="alertid<?= $i ?>" value="<?= $alert_ids[0] ?>" hidden>
     <? } ?>
     <iframe id="app" style="display: none"></iframe>
     <div id="zoomInVideo" style="z-index:1200;position: fixed;background-color: #ffffff;width :100%;max-width: 600px;height: 340px;top:50px;display: none;border-radius: 2%;border: 1px solid #b5b5b5;">
         <div style="position: absolute;top:-10px;right:-10px" id="btnZoomOut" onclick="clickZoomOut();">
-            <img src="/iam/img/icon_close_black.svg">
+            <img src="/iam/img/icon_close_black.svg" style="">
         </div>
     </div>
     <div id='contents_page' style='left:0px; top:0px; width:320px; height:600px; position:absolute;  z-index:1000; display:none; background-color:white;'></div>
-    <header id="header" class="<?= 'header-' . get_device_type() ?>" style="">
-        <!-- 헤더 시작 -->
-        <div class="container J_elem" style="border-bottom: 1px solid #ddd;">
-            <div style="margin:0px auto;display:flex;justify-content: space-between;width:100%;height:58px;">
-                <!--상단 좌측 로고이미지부분-->
-                <div class="inner-wrap" style="text-align:center;padding:16px 0px 0px 16px;">
-                    <?
-                    if (!$_SESSION['site_iam'])
-                        $my_iam_link = "location.href='http://kiam.kr';";
-                    else
-                        $my_iam_link = "go_my_con_page('" . $_SESSION['sess_mem_id'] . "','" . $_SESSION['site_iam'] . "')";
-                    ?>
-                    <img src="/iam/img/common/logo-2.png" onclick="<?= $my_iam_link ?>" alt="온리원아이엠 로고 이미지" style="height:18px;">
-                </div>
-                <?
-                $logo_status = ($HTTP_HOST != "kiam.kr" && $domainData['head_logo'] != '' && $cur_win == "my_info");
-                if ($logo_status) { ?>
-
-                    <div id="middle-nav" style="margin:17px 0px;height:25px;background:transparent;text-align:center;border:none;width:50%">
-                        <? if ($domainData['head_logo_type'] == "I") { ?>
-                            <!--분양사 로고이미지 부분-->
-                            <img src="<?= cross_image($domainData['head_logo']); ?>" alt="온리원아이엠 로고 이미지" style="width:100%;height:100%" onclick="window.open('<?= $domainData['sub_domain'] . '/?' . $first_card_url . $bunyang_site_manager_code ?>');">
-                        <? } else { ?>
-                            <label style="width: 100%;height:100%;font-size:20px;font-family:kopubdotum-bold"><?= $domainData['head_logo_text'] ?></label>
-                        <? } ?>
-                    </div>
-
-                <? } ?>
-                <div style="display:flex;padding:8px;margin-top:5px;margin-right:10px">
-                    <div onclick="click_search_btn();" style="margin-right:12px;cursor:pointer" title="검색">
-                        <img src="/iam/img/menu/icon_search.png" style="height:32px;">
-                    </div>
-                    <div onclick="location.href='?cur_win=alarm&alarm_mode=shared_receive&modal=Y'" style="margin-right:12px;cursor:pointer" title="검색">
-                        <? if ($cur_win == "alarm") { ?>
-                            <img src="/iam/img/menu/icon_alarm_active.png" style="height:32px;">
-                        <? } else { ?>
-                            <img src="/iam/img/menu/icon_alarm.png" style="height:32px;">
-                        <? } ?>
-                    </div>
-                    <!--div style="margin-right:12px;cursor:pointer">
-                        <? if ($_GET['wide'] != 'Y') { ?>
-                        <a href="javascript:showContentsList('<?= $cur_win ?>','<?= $_GET['mall_type'] ?>')" >
-                            <? if (!$_COOKIE['contents_mode'] || $_COOKIE['contents_mode'] == "image") { ?>
-                                <img src="/iam/img/menu/icon_pin.svg" id = "show_contents_mode" title="<?= $MENU['TOP_MENU']['ICON_PIN']; ?>" style="height: 24px;">
-                            <? } else { ?>
-                                <img src="/iam/img/menu/icon_image.svg"  id = "show_contents_mode" title="<?= $MENU['TOP_MENU']['ICON_IMAGE']; ?>" style="height: 24px;">
-                            <? } ?>
-                        </a>
-                    <? } ?>
-                    </div-->
-                    <!--div style="margin-right:12px;cursor:pointer">
-                            <? if ($_SESSION['iam_member_id']) { ?>
-                                <a href="/?cur_win=shared_receive&modal=Y" title="<?= $MENU['IAM_TOP_MENU']['TITLE3']; ?>">
-                                <? } else { ?>
-                                    <a href="/iam/login.php" title="<?= $MENU['IAM_TOP_MENU']['TITLE3']; ?>">
-                                    <? } ?>
-                                    <img src="/iam/img/menu/icon_alarm.svg" style="height: 24px;">
-                                    <label class="label label-sm share_count" style="top: 10px;margin-left: -10px;<? if ($alarm_count == 0) echo 'display:none' ?>" id="alarm_count"><?= $alarm_count ?></label>
-                                    </a>
-                        </div-->
-                    <div style="cursor:pointer;margin-right:12px;" onclick="$('#total_service_modal').modal('show')">
-                        <img src="/iam/img/menu/icon_top_menu.png" style="height:32px">
-                    </div>
-                    <? if (get_device_type() == "PC") {
-                        if (!$_SESSION['iam_member_id']) { ?>
-                            <div id="btn_login" style="cursor:pointer" onclick="location.href = '<?= ($domainData['status'] == 'N') ? '' : '/iam/login.php?recommend_id=' . $card_owner ?>'">
-                                <img src="/iam/img/menu/icon_bottom_login.png" style="height:32px;width:32px">
-                            </div>
-                            <? } else {
-                            if ($member_iam['profile']) { ?>
-                                <div style="cursor:pointer;width:32px;height:32px;border-radius: 50%;overflow: hidden" onclick="$('#mypage-modalwindow').modal('show');">
-                                    <img src="<?= cross_image($member_iam['profile']) ?>" style="width:100%;height:100%;object-fit: cover;">
-                                </div>
-                            <? } else { ?>
-                                <div style="cursor:pointer;background:<?= $profile_color ?>;padding:5px 0px;width:24px;height:24px;border-radius: 50%;overflow:hidden;text-align:center;" onclick="$('#mypage-modalwindow').modal('show');">
-                                    <a class="profile_font" style="color:white;width:100%;height:100%;object-fit: cover;"><?= mb_substr($member_iam['mem_name'], 0, 3, "utf-8") ?></a>
-                                </div>
-                    <? }
-                        }
-                    } ?>
-                </div>
-            </div>
-
-            <div id="search-box" style="display:none;width: -webkit-calc(100% - 10px);width: calc(100% - 10px);">
-                <div style="padding:10px;">
-                    <div class="right" style="float:right;margin-top:5px;display:inline-flex;">
-                        <? if ($cur_win == "iam_mall" && ($_GET['mall_type'] == "gmarket" || !isset($_GET['mall_type']))) { ?>
-                            <div class="container" style="border-color: #ddd;padding: 0px;display: inline-flex;">
-                                <a href="javascript:show_category()" style="margin-top: 4px;">
-                                    카테고리
+    <div id="wrap" class="common-wrap">
+        <header id="header" style="position: fixed; z-index: 100; width:100%;max-width: 768px;">
+            <!-- 헤더 시작 -->
+            <div class="container J_elem">
+                <div class="row" style="margin-left: auto;margin-right: auto;overflow: hidden">
+                    <div class="col-12">
+                        <div class="inner-wrap" style="text-align:center;padding : 0px">
+                            <!--상단 좌측 로고이미지부분-->
+                            <?
+                            if (!$_SESSION['site_iam'])
+                                $my_iam_link = "http://kiam.kr";
+                            else
+                                $my_iam_link = "javascript:go_my_con_page('" . $_SESSION['iam_member_id'] . "','" . $_SESSION['site_iam'] . "')";
+                            ?>
+                            <a href="<?= $my_iam_link ?>" style="float:left;">
+                                <img src="/iam/img/common/logo-2.png" alt="온리원아이엠 로고 이미지" style="margin-top:15px;height:18px;">
+                            </a>
+                            <!--상단 로고이미지 부분-->
+                            <? $home_link = $domainData['home_link'] == '' ? $domainData['sub_domain'] . '/?' . $first_card_url . $bunyang_site_manager_code : $domainData['home_link']; ?>
+                            <div class="check-item" style="margin-top:13px;position: absolute;left:50%;top:5px;transform:translate(-50%,-50%);height:24px">
+                                <a href="<?= $home_link ?>" target="_self">
+                                    <img src="<?= $domainData['head_logo'] == '' ? '/iam/img/common/logo-2.png' : cross_image($domainData['head_logo']); ?>" alt="온리원아이엠 로고 이미지" style="margin-top:1px;height:35px;">
                                 </a>
-                                <div class="dropdown" style="margin-top: -10px;display: flex;margin-left: 10px;">
-                                    <?
-                                    if ($_GET['sort_key3'] == "0") $txt = '최신순';
-                                    if ($_GET['sort_key3'] == "1") $txt = '할인순';
-                                    if ($_GET['sort_key3'] == "2") $txt = '저가순';
-                                    if ($_GET['sort_key3'] == "3") $txt = '고가순';
-                                    ?>
-                                    <p class="dropdown-toggle westory_dropdown" data-toggle="dropdown" style="width: 60px;height:24px;margin-top: 14px;padding:0px;" aria-expanded="false"><?= $txt ?><img src="/iam/img/menu/icon_sort_gwc.png" style="width: 10px;height: 7px;margin-left: 3px;"></p>
-                                    <ul class="dropdown-menu comunity" style="left: -30px !important;padding: 0px;border:none;min-width: 100px;width: 100px;">
-                                        <li>
-                                            <table class="table table-borderless" style="margin-bottom:0px">
-                                                <tbody>
-                                                    <tr>
-                                                        <td style="border-top:none">
-                                                            <a class="map_gmarket_sort" name="sort_key3" style="padding:0px 1px;<? if ($_GET['sort_key3'] == "0") echo 'color:#99cc00;'; ?>" value="0">최신순</a>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td style="border-top:none">
-                                                            <a class="map_gmarket_sort" name="sort_key3" style="padding:0px 1px;<? if ($_GET['sort_key3'] == "3") echo 'color:#99cc00;'; ?>" value="3">고가순</a>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td style="border-top:none">
-                                                            <a class="map_gmarket_sort" name="sort_key3" style="padding:0px 1px;<? if ($_GET['sort_key3'] == "2") echo 'color:#99cc00;'; ?>" value="2">저가순</a>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td style="border-top:none">
-                                                            <a class="map_gmarket_sort" name="sort_key3" style="padding:0px 1px;<? if ($_GET['sort_key3'] == "1") echo 'color:#99cc00;'; ?>" value="1">할인순</a>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </li>
-                                    </ul>
-                                </div>
                             </div>
-                        <? } ?>
-                    </div>
-                    <div style="display:flex;">
-                        <div class="panel-heading" id="search_wecon_tag" style="display: flex;border-bottom:none;padding:5px 10px;margin-left: 5px;width: -webkit-calc(100% - 72px);width: calc(100% - 72px);">
-                            <img src="/iam/img/menu/icon_bottom_search.png" style="height:24px;margin-top:5px;z-index:10;" onclick="search_clicked()">
-                            <input type="text" class="search_input" style="font-size: 12px;height: 34px !important;width:100%;margin-left: -30px;border: 1px solid #aaa;border-radius: 20px;padding-left:30px;" value="<?= $_GET['search_key'] ?>" id="search_input" placeholder='검색어를 입력해주세요.'>
                         </div>
-                        <div class="dropdown" id="wecon_search_div" style="display: flex">
-                            <img src="/iam/img/menu/icon_filter.png" class="dropdown-toggle westory_dropdown" data-toggle="dropdown" style="width: 20px;height:20px;margin-top: 14px;padding:0px;" aria-expanded="false">
-                            <ul class="dropdown-menu comunity" style="padding: 0px;border:none">
-                                <li>
-                                    <table class="table table-borderless" style="margin-bottom:0px">
-                                        <thead>
-                                            <tr>
-                                                <th>
-                                                    <?
-                                                    $params = "";
-                                                    if ($_GET['search_key'])
-                                                        $params .= '&search_key=' . $_GET['search_key'];
-                                                    if ($_GET['mall_type'])
-                                                        $params .= '&mall_type=' . $_GET['mall_type'];
-                                                    if ($_GET['mall_sub_type'])
-                                                        $params .= '&mall_sub_type=' . $_GET['mall_sub_type'];
-                                                    if ($_GET['sort_key3'])
-                                                        $params .= '&sort_key3=' . $_GET['sort_key3'];
-                                                    if ($_GET['loc_name'])
-                                                        $params .= '&loc_name=' . $_GET['loc_name'];
-                                                    /*if($_GET['key4'])
-                                                            $params .= '&key4='.$_GET['key4'];*/
-                                                    if ($_GET['iamstore'])
-                                                        $params .= '&iamstore=' . $_GET['iamstore'];
-                                                    if ($_GET['cate_prod'])
-                                                        $params .= '&cate_prod=' . $_GET['cate_prod'];
-
-                                                    ?>
-                                                    <a href="<?= '?' . $request_short_url . $card_owner_code . '&cur_win=' . $cur_win . '&sort=0' . $params ?>">
-                                                        업로드 날짜</a>
-                                                </th>
-                                                <th>
-                                                    <a href="<?= '?' . $request_short_url . $card_owner_code . '&cur_win=' . $cur_win . '&sort=0' . $params ?>">
-                                                        정렬기준</a>
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td style="border-top:none">
-                                                    <a href="<?= '?' . $request_short_url . $card_owner_code . '&cur_win=' . $cur_win . '&sort=1' . $params ?>">
-                                                        1시간전</a>
-                                                </td>
-                                                <td style="border-top:none">
-                                                    <a href="<?= '?' . $request_short_url . $card_owner_code . '&cur_win=' . $cur_win . '&sort=11' . $params ?>">
-                                                        게시일짜</a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td style="border-top:none">
-                                                    <a href="<?= '?' . $request_short_url . $card_owner_code . '&cur_win=' . $cur_win . '&sort=2' . $params ?>">
-                                                        오늘</a>
-                                                </td>
-                                                <td style="border-top:none">
-                                                    <a href="<?= '?' . $request_short_url . $card_owner_code . '&cur_win=' . $cur_win . '&sort=12' . $params ?>">
-                                                        조회수</a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td style="border-top:none">
-                                                    <a href="<?= '?' . $request_short_url . $card_owner_code . '&cur_win=' . $cur_win . '&sort=3' . $params ?>">
-                                                        이번주</a>
-                                                </td>
-                                                <td style="border-top:none">
-                                                    <a href="<?= '?' . $request_short_url . $card_owner_code . '&cur_win=' . $cur_win . '&sort=13' . $params ?>">
-                                                        좋아요</a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td style="border-top:none">
-                                                    <a href="<?= '?' . $request_short_url . $card_owner_code . '&cur_win=' . $cur_win . '&sort=4' . $params ?>">
-                                                        이번달</a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td style="border-top:none">
-                                                    <a href="<?= '?' . $request_short_url . $card_owner_code . '&cur_win=' . $cur_win . '&sort=5' . $params ?>">
-                                                        올해</a>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </li>
+                        <!--다국어 아이콘부분-->
+                        <!--div class="dropdown "  style="float:left; position: absolute; left: 55px; top: 12px; width: 18px;height:18px;">
+                        <img class="dropdown-toggle" data-toggle="dropdown" src="img/icon_earth.png" >
+                        <ul class="dropdown-menu" style="left:0px !important">
+                            <li><a href="javascript:void(0)" onclick="set_language('kr')"><?= $language_row[korean] ?></a></li>
+                            <li><a href="javascript:void(0)" onclick="set_language('en')"><?= $language_row[english] ?></a></li>
+                            <li><a href="javascript:void(0)" onclick="set_language('cn')"><?= $language_row[china] ?></a></li>
+                            <li><a href="javascript:void(0)" onclick="set_language('jp')"><?= $language_row[japan] ?></a></li>
+                            <li><a href="javascript:void(0)" onclick="set_language('id')"><?= $language_row[india] ?></a></li>
+                            <li><a href="javascript:void(0)" onclick="set_language('fr')"><?= $language_row[france] ?></a></li>
+                        </ul>
+                    </div-->
+                        <!--상단 우측 프로필 부분-->
+                        <?
+                        /*if($_SESSION['iam_member_id']) {
+                        if($user_mem_code == $card_owner_code){
+                            if($member_iam['profile']){
+                    ?>
+                            <div class="dropdown " style="float:right; position: absolute; right:15px; top: 4px;width: 32px;height: 32px;border-radius: 50%;overflow: hidden;">
+                                <img src="<?=cross_image($member_iam['profile'])?>" style="width:100%;height:100%;object-fit: cover;">
+                            </div>
+                    <?      }else{?>
+                            <div class="dropdown " style="background:<?=$profile_color?>;padding:5px 0px;float:right; position: absolute; right:15px; top: 4px;width: 32px;height: 32px;border-radius: 50%;overflow: hidden;text-align:center">
+                                <a class = "profile_font" style="color:white;width:100%;height:100%;object-fit: cover;"><?=mb_substr($member_iam['mem_name'],0,3,"utf-8")?></a>
+                            </div>
+                    <?      }
+                        }else{
+                    ?>        
+                            <div class="dropdown " style="float:right; position: absolute; right:15px; top: 10px;">
+                                <img src="/iam/img/iam_other.png" style="width:20px;margin:0px 15px 0px 0px;" data-site = '<?=$HTTP_HOST?>'>
+                            </div>
+                    <?  }
+                    }else{?>
+                        <div class="dropdown " style="float:right; position: absolute; right:15px; top: 10px;">
+                            <img src="/iam/img/iam_logout.png" style="width:20px;margin:0px 15px 0px 0px;">
+                        </div>
+                    <?}*/ ?>
+                        <div class="dropdown right" style="position:absolute;right:15px;top:10px;float:right;">
+                            <img class="dropdown-toggle" data-toggle="dropdown" src="/iam/img/menu/icon_top_menu.png" style="width:24px;height:24px">
+                            <ul class="dropdown-menu namecard-dropdown " style="background: white; color : black;top:10px;width: 180px;">
+                                <?
+                                $menu_site = explode(".", $HTTP_HOST);
+                                if ($menu_site[0] == "www")
+                                    $menu_host = "kiam";
+                                else
+                                    $menu_host = $menu_site[0];
+                                if ($domainData['admin_iam_menu'] == 0) {
+                                    $menu_query = "select * from Gn_Iam_Menu where site_iam='kiam' and menu_type='TR' and use_yn = 'y' order by display_order";
+                                } else {
+                                    $menu_query = "select * from Gn_Iam_Menu where site_iam='{$menu_host}' and menu_type='TR' and use_yn = 'y' order by display_order";
+                                }
+                                $menu_res = mysql_query($menu_query);
+                                while ($menu_row = mysql_fetch_array($menu_res)) {
+                                    $func = str_replace("card_link", $request_short_url . $card_owner_code, $menu_row['move_url']);
+                                    $func = str_replace("prewin", $cur_win, $func);
+                                    $func = str_replace("card_name", $cur_card['card_name'], $func);
+                                    if (!strstr($func, "javascript"))
+                                        $target = "target=\"_blank\"";
+                                    else
+                                        $target = "";
+                                    if ($menu_row['page_type'] == "payment" && !$is_pay_version)
+                                        $func = "";
+                                    if ($menu_row['page_type'] == "login" && !$_SESSION['iam_member_id'])
+                                        $func = "/iam/login.php";
+                                    if ($menu_row['page_type'] == "payment" && $is_pay_version) {
+                                        if (strstr($func, "pay.php") && $_SESSION['iam_member_subadmin_id'] && $domainData['pay_link']) {
+                                            $func = $domainData['pay_link'];
+                                        }
+                                    }
+                                    $html = "";
+                                    if ($func != "") {
+                                        $html = "<li>";
+                                        $html .= "<a href=\"" . $func . "\" $target>" .
+                                            "<img src=\"" . $menu_row['img_url'] . "\" title=\"" . $menu_row['menu_desc'] . "\" style=\"height: 20px\">" .
+                                            $menu_row['title'] . "</a>";
+                                        $html .= "</li>";
+                                    }
+                                    echo $html;
+                                } ?>
+                                <!--li>
+                                <a href="javascript:go_home()">
+                                    <img src="/iam/img/menu/icon_bottom_home.png" title="셀링홈으로 가기" style="height: 20px"><?= "셀링홈으로 가기" ?>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="javascript:addMainBtn('<?= str_replace("'", "", $cur_card['card_name']) ?>','?<?= $request_short_url . $card_owner_code ?>');">
+                                    <img src="/iam/img/menu/icon_home_add.png" style="height: 20px"><?= "폰 홈화면에 추가" ?>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://tinyurl.com/hb2pp6n2" target = "_blank">
+                                    <img src="/iam/img/menu/icon_help.png" style="height: 20px"><?= "이용매뉴얼" ?>
+                                </a>
+                            </li>
+                            <li style="border-bottom:1px solid #ddd">
+                                <a href="<?= $domainData['kakao'] ?>" target="_blank">
+                                    <img src="/iam/img/menu/icon_ask.png" style="height: 20px"><?= "관리자에게 문의" ?>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://play.google.com/store/apps/details?id=mms.onepagebook.com.onlyonesms" target = "_blank">
+                                    <img src="/iam/img/menu/icon_install.png" style="height: 20px"><?= "IAM 앱설치" ?>
+                                </a>
+                            </li>
+                            <? if ($is_pay_version) {
+                                if ($_SESSION['iam_member_subadmin_id'] && $domainData['pay_link']) { //payment 
+                            ?>
+                                    <li style="border-bottom:1px solid #ddd">
+                                        <a href="<?= $domainData['pay_link'] ?>" target="_self">
+                                            <img src="/iam/img/menu/icon_pay.png" style="height: 20px"><?= "IAM 플랫폼 결제" ?>
+                                        </a>
+                                    </li>
+                                <? } else { ?>
+                                    <li style="border-bottom:1px solid #ddd">
+                                        <a href="/iam/pay.php" target="_self">
+                                            <img src="/iam/img/menu/icon_pay.png" style="height: 20px"><?= "IAM 플랫폼 결제" ?>
+                                        </a>
+                                    </li>
+                                <?  } ?>
+                                    <li style="border-bottom:1px solid #ddd">
+                                        <a href="javascript:sns_sendSMS('N')">
+                                            <img src="/iam/img/main/icon-kakaoimg.png"  style="height: 15px"><?= "IAM 주소문자발송" ?>
+                                        </a>
+                                    </li>
+                                <? }
+                                ?>
+                            
+                            <li>
+                            <? if ($_SESSION['iam_member_id']) { ?>
+                                <a href="javascript:iam_mystory('cur_win=group-con');">
+                            <? } else { ?>
+                                <a href="/iam/login.php">
+                            <? } ?>
+                                    <img src="/iam/img/menu/icon_group.png" title="그룹페이지로 가기" style="height: 18px"><?= "그룹페이지로 가기" ?>
+                                </a>
+                            </li-->
                             </ul>
                         </div>
-                        <div>
-                            <button type="button" class="close" style="margin-top:12px;margin-left:10px;" onclick="click_search_btn()">
-                                <img src="/iam/img/menu/icon_close.png" style="width:24px" class="close">
-                            </button>
-                        </div>
+                        <? if ($_GET['wide'] != 'Y') { ?>
+                            <a href="javascript:showContentsList('<?= $_GET['key1'] ?>')" style="margin-right:10px;position: absolute;right: 50px;top: 11px;">
+                                <? if (!$_COOKIE['contents_mode'] || $_COOKIE['contents_mode'] == "image") { ?>
+                                    <img src="/iam/img/main/icon-pin_list.png" id="show_contents_mode" title="<?= $MENU['TOP_MENU']['ICON_PIN']; ?>" style="height: 18px">
+                                    <? //}else if($_COOKIE[contents_mode] == "pin"){
+                                    ?>
+                                    <!-- <img src="img/icon_list.svg" id = "show_contents_mode" title="<?= $MENU['TOP_MENU']['ICON_LIST']; ?>" style="height: 18px"> -->
+                                <? } else { ?>
+                                    <img src="/iam/img/icon_image.png" id="show_contents_mode" title="<?= $MENU['TOP_MENU']['ICON_IMAGE']; ?>" style="height: 18px">
+                                <? } ?>
+                            </a>
+                        <? } ?>
+                        <?/*if($_GET['key1'] == 4){?>
+                    <a id="show_prod_widly" href="javascript:show_prod_wide()" style="margin-right:10px;position: absolute;right: 90px;top: 11px;">
+                        <img src="/iam/img/main/icon-findgp.png" title="" style="height: 18px">
+                    </a>
+                    <?}*/ ?>
                     </div>
                 </div>
-            </div>
-            <? if (get_device_type() == "Android") {
-                if ($cur_win == "alarm") { ?><!-- 수발신콘텐츠 버튼 -->
+                <nav id="middle-nav">
+                    <!-- 중단 네비게이션 시작 -->
+                    <div style="background:white;border-bottom:2px solid #ddd;display:flex;justify-content: space-between;">
+                        <script>
+                            function openShop() {
+                                <? if ($is_pay_version) { ?>
+                                    location.href = "?cur_win=iam_mall";
+                                <? } else { ?>
+                                    location.href = "/iam/index_shop.php";
+                                <? } ?>
+                            }
+
+                            function showSample() {
+                                location.href = "?cur_win=best_sample";
+                            }
+
+                            function mall_type_submit() {
+                                location.href = "?cur_win=iam_mall&mall_type=" + $("#mall_type").val();
+                            }
+
+                            function goIamHome() {
+                                var navCase = navigator.userAgent.toLocaleLowerCase();
+                                if (navCase.search("android") > -1) {
+                                    AppScript.goIamHome('<?= $member_iam['site_iam'] ?>');
+                                } else {
+                                    var site = '<?= $member_iam['site_iam'] ?>';
+                                    var homeURL = "https://" + site + ".kiam.kr/m";
+                                    if (site == "kiam")
+                                        homeURL = "https://kiam.kr/m";
+                                    else if (site == "")
+                                        homeURL = "https://" + "<?= $HTTP_HOST ?>" + "/m";
+                                    // window.open(homeURL);
+                                    location.href = homeURL;
+                                }
+                            }
+                        </script>
+                        <?
+                        if ($domainData['admin_iam_menu'] == 0) {
+                            $menu_query = "select * from Gn_Iam_Menu where site_iam='kiam' and menu_type='T' and use_yn = 'y' order by display_order";
+                        } else {
+                            $menu_query = "select * from Gn_Iam_Menu where site_iam='{$menu_host}' and menu_type='T' and use_yn = 'y' order by display_order";
+                        }
+                        $menu_res = mysql_query($menu_query);
+                        while ($menu_row = mysql_fetch_array($menu_res)) {
+                            $img_str = explode(".", $menu_row['img_url']);
+                            $img_default = $img_str[0];
+                            $img_active = $img_default . "_active";
+                            $img_ext = "." . $img_str[1];
+                            $func = str_replace("card_link", $request_short_url . $card_owner_code, $menu_row['move_url']);
+                            $func = str_replace("prewin", $cur_win, $func);
+                            if ($_SESSION['iam_member_id'] == "" && $menu_row['page_type'] == "alarm")
+                                $func = "location.href='/iam/login.php'";
+                            $html = "<li onclick=\"" . $func . "\" class=\"nav-item top\" title=\"" . $menu_row['title'] . "\"";
+                            $menu_cur_win = $cur_win;
+                            if ($cur_win == "we_story") {
+                                if ($key1 == 4)
+                                    $menu_cur_win = "gmarket";
+                                else if ($key1 == 3)
+                                    $menu_cur_win = "calliya";
+                            } else if ($cur_win == "shared_receive" || $cur_win == "shared_send" || $cur_win == "unread_post" || $cur_win == "unread_notice" || $cur_win == "request_list") {
+                                $menu_cur_win = "alarm";
+                            }
+                            if ($menu_row['page_type'] == $menu_cur_win) {
+                                $html .= "\" style='border-bottom:2px solid #99cc00'\">";
+                                $img = $img_active . $img_ext;
+                            } else {
+                                $html .= "\">";
+                                $img = $img_default . $img_ext;
+                            }
+                            $html .= "<img src=\"" . $img . "\" class=\"iconperson\">";
+                            if ($menu_cur_win == "alarm") {
+                                $html .= "<label class=\"label label-sm share_count\" id = \"share_count\"></label>";
+                            }
+                            $html .= "</li>";
+                            echo $html;
+                        }
+                        ?>
+                    </div>
+                </nav><!-- // 중단 네비게이션 끝 -->
+                <? if ($cur_win == "shared_receive" || $cur_win == "shared_send" || $cur_win == "unread_post" || $cur_win == "unread_notice" || $cur_win == "request_list") { ?><!-- 수발신콘텐츠 버튼 -->
                     <div class="panel-group">
-                        <div style="background: #f4f2f2;height:48px;text-align:center;font-weight:bold;font-size:18px;padding-top: 10px">알림</div>
-                        <div style="margin-top: 10px;position:relative">
-                            <?
-                            $alarm_style = "style=\"cursor:pointer;margin-left:10px;padding:10px 20px;border-radius:20px;";
-                            if ($alarm_mode == "shared_send" || $alarm_mode == "shared_receive")
-                                $cont_style = $alarm_style . "background:black;color:white\"";
-                            else
-                                $cont_style = $alarm_style . "background:white;color:black;border: 1px solid #ddd;\"";
-                            if ($alarm_mode == "notice_recv" || $alarm_mode == "notice_send")
-                                $notice_style = $alarm_style . "background:black;color:white\"";
-                            else
-                                $notice_style = $alarm_style . "background:white;color:black;border: 1px solid #ddd;\"";
-                            if ($alarm_mode == "friends_list")
-                                $friend_style = $alarm_style . "background:black;color:white\"";
-                            else
-                                $friend_style = $alarm_style . "background:white;color:black;border: 1px solid #ddd;\"";
-                            if ($alarm_mode == "request_list" || $alarm_mode == "report_list")
-                                $event_style = $alarm_style . "background:black;color:white\"";
-                            else
-                                $event_style = $alarm_style . "background:white;color:black;border: 1px solid #ddd;\"";
-                            ?>
-                            <a onclick="iam_mystory('cur_win=alarm&alarm_mode=shared_receive&modal=Y')" class="badge badge-pill badge-danger" <?= $cont_style ?>>
-                                콘텐츠
-                                <label class="label label-sm share_count" style="top:-5px;margin-left:10px;" id="alarm_cont_count"><?= $recv_con_alarm_cnt > 0 ? $recv_con_alarm_cnt : '' ?></label>
-                            </a>
-                            <a onclick="iam_mystory('cur_win=alarm&alarm_mode=notice_recv&modal=Y')" class="badge badge-pill badge-danger" <?= $notice_style ?>>
-                                공지
-                                <label class="label label-sm share_count" style="top:-5px;margin-left:10px;" id="alarm_cont_count"><?= $recv_notice_alarm_cnt > 0 ? $recv_notice_alarm_cnt : '' ?></label>
-                            </a>
-                            <a onclick="iam_mystory('cur_win=alarm&alarm_mode=friends_list&mode=recv')" class="badge badge-pill badge-danger" <?= $friend_style ?>>프렌즈</a>
-                            <a onclick="iam_mystory('cur_win=alarm&alarm_mode=request_list')" class="badge badge-pill badge-danger" <?= $event_style ?>>신청내역</a>
-                        </div>
-                        <div style="margin-top:10px;display:flex;">
-                            <?
-                            $alarm_style = "style=\"cursor:pointer;width: 50%;height:50px;text-align:center;padding-top:15px;";
-                            if ($alarm_mode == "shared_send" || $alarm_mode == "shared_receive") {
-                                if ($alarm_mode == "shared_send") {
-                                    $con_recv_style = $alarm_style . "background:#f5f5f5;font-weight:bold\"";
-                                    $con_send_style = $alarm_style . "background:white;font-weight:300\"";
-                                } else {
-                                    $con_send_style = $alarm_style . "background:#f5f5f5;font-weight:bold\"";
-                                    $con_recv_style = $alarm_style . "background:white;font-weight:300\"";
-                                }
-                            ?>
-                                <div onclick="iam_mystory('cur_win=alarm&alarm_mode=shared_receive&modal=Y')" <?= $con_recv_style ?>>콘텐츠 수신</div>
-                                <div onclick="iam_mystory('cur_win=alarm&alarm_mode=shared_send&modal=Y')" <?= $con_send_style ?>>콘텐츠 전송</div>
-                            <? } else if ($alarm_mode == "notice_recv" || $alarm_mode == "notice_send") {
-                                if ($alarm_mode == "notice_send") {
-                                    $notice_recv_style = $alarm_style . "background:#f5f5f5;font-weight:bold\"";
-                                    $notice_send_style = $alarm_style . "background:white;font-weight:300\"";
-                                } else {
-                                    $notice_send_style = $alarm_style . "background:#f5f5f5;font-weight:bold\"";
-                                    $notice_recv_style = $alarm_style . "background:white;font-weight:300\"";
-                                }
-                            ?>
-                                <div onclick="iam_mystory('cur_win=alarm&alarm_mode=notice_recv&modal=Y')" <?= $notice_recv_style ?>>공지 수신</div>
-                                <div onclick="iam_mystory('cur_win=alarm&alarm_mode=notice_send&modal=Y')" <?= $notice_send_style ?>>공지 전송</div>
-                            <? } else if ($alarm_mode == "request_list" || $alarm_mode == "report_list") {
-                                if ($alarm_mode == "report_list") {
-                                    $req_style = $alarm_style . "background:#f5f5f5;font-weight:bold\"";
-                                    $repo_style = $alarm_style . "background:white;font-weight:300\"";
-                                } else {
-                                    $repo_style = $alarm_style . "background:#f5f5f5;font-weight:bold\"";
-                                    $req_style = $alarm_style . "background:white;font-weight:300\"";
-                                }
-                            ?>
-                                <div onclick="iam_mystory('cur_win=alarm&alarm_mode=request_list')" <?= $req_style ?>>이벤트 신청내역</div>
-                                <div onclick="iam_mystory('cur_win=alarm&alarm_mode=report_list')" <?= $repo_style ?>>리포트 신청내역</div>
-                            <? } else if ($alarm_mode == "friends_list") {
-                                if ($mode == "recv") {
-                                    $fsend_style = $alarm_style . "background:#f5f5f5;font-weight:bold\"";
-                                    $frecv_style = $alarm_style . "background:white;font-weight:300\"";
-                                } else {
-                                    $frecv_style = $alarm_style . "background:#f5f5f5;font-weight:bold\"";
-                                    $fsend_style = $alarm_style . "background:white;font-weight:300\"";
-                                }
-                            ?>
-                                <div onclick="iam_mystory('cur_win=alarm&alarm_mode=friends_list&mode=recv')" <?= $frecv_style ?>>나를 추가했어요</div>
-                                <div onclick="iam_mystory('cur_win=alarm&alarm_mode=friends_list&mode=send')" <?= $fsend_style ?>>내가 추가했어요</div>
-                            <? } ?>
+                        <div style="margin: 5px;display:flex;justify-content: space-between;">
+                            <div class="mypage_menu" style="">
+                                <!-- <div>
+                            <p style="font-size:14px;padding:9px 12px"></p>
+                        </div> -->
+                                <div style="margin-right: 5px;display:flex;float: right;">
+                                    <button class="btn  btn-link" onclick="iam_mystory('cur_win=shared_receive&modal=Y')" title="<?= $MENU['IAM_MENU']['M7_TITLE']; ?>" style="display:flex;padding:6px 3px">
+                                        <? if ($cur_win == 'shared_receive') { ?>
+                                            <!--img src="/iam/img/menu/icon_alarm_recvcon_active.png" style="height: 22px;"-->
+                                            <p style="font-size:14px;color:#99cc00">콘수신</p>
+                                        <? } else { ?>
+                                            <!--img src="/iam/img/menu/icon_alarm_recvcon.png" style="height: 22px;"-->
+                                            <p style="font-size:14px;color:black">콘수신</p>
+                                        <? } ?>
+                                        <label class="label label-sm" id="share_recv_count" style="background: #ff3333;border-radius: 50%;padding: 2px 5px;margin-left: -5px;font-size:10px"></label>
+                                    </button>
+                                    <button class="btn  btn-link" onclick="iam_mystory('cur_win=shared_send&modal=Y')" title="<?= $MENU['IAM_MENU']['M8_TITLE']; ?>" style="display:flex;padding:6px 3px">
+                                        <? if ($cur_win == 'shared_send') { ?>
+                                            <!--img src="/iam/img/menu/icon_alarm_sendcon_active.png" style="height: 22px;"-->
+                                            <p style="font-size:14px;color:#99cc00">콘전송</p>
+                                        <? } else { ?>
+                                            <!--img src="/iam/img/menu/icon_alarm_sendcon.png" style="height: 22px;"-->
+                                            <p style="font-size:14px;color:black">콘전송</p>
+                                        <? } ?>
+                                        <label class="label label-sm" id="share_send_count" style="background: #ff3333;border-radius: 50%;padding: 2px 5px;margin-left: -5px;font-size:10px"></label>
+                                    </button>
+                                    <button class="btn  btn-link" onclick="iam_mystory('cur_win=unread_post')" title="<?= '댓글알림' ?>" style="display:flex;padding:6px 3px">
+                                        <? if ($cur_win == 'unread_post') { ?>
+                                            <!--img src="/iam/img/menu/icon_alarm_post_active.png" style="height: 22px;"-->
+                                            <p style="font-size:14px;color:#99cc00">댓글수신</p>
+                                        <? } else { ?>
+                                            <!--img src="/iam/img/menu/icon_alarm_post.png" style="height: 22px;"-->
+                                            <p style="font-size:14px;color:black">댓글수신</p>
+                                        <? } ?>
+                                        <label class="label label-sm" id="share_post_count" style="background: #ff3333;border-radius: 50%;padding: 2px 5px;margin-left: -5px;font-size:10px"></label>
+                                    </button>
+                                    <a class="btn  btn-link" href="/iam/mypage_post_lock.php" title="<?= '댓글알림' ?>" style="display:flex;padding:6px 3px">
+                                        <p style="font-size:14px;color:black">댓글차단해지</p>
+                                        <label class="label label-sm" id="share_post_count" style="background: #ff3333;border-radius: 50%;padding: 2px 5px;margin-left: -5px;font-size:10px"></label>
+                                    </a>
+                                    <button class="btn  btn-link" onclick="iam_mystory('cur_win=request_list')" title="<?= '신청알림' ?>" style="display:flex;padding:6px 3px">
+                                        <? if ($cur_win == 'request_list') { ?>
+                                            <!--img src="/iam/img/menu/icon_alarm_post_active.png" style="height: 22px;"-->
+                                            <p style="font-size:14px;color:#99cc00">이벤트신청</p>
+                                        <? } else { ?>
+                                            <!--img src="/iam/img/menu/icon_alarm_post.png" style="height: 22px;"-->
+                                            <p style="font-size:14px;color:black">이벤트신청</p>
+                                        <? } ?>
+                                        <label class="label label-sm" id="share_post_count" style="background: #ff3333;border-radius: 50%;padding: 2px 5px;margin-left: -5px;font-size:10px"></label>
+                                    </button>
+                                </div>
+                                <div style="margin-right: 5px;display:flex;float:right;">
+                                    <a class="btn  btn-link" title="" href="/iam/gwc_order_list.php" style="display:flex;padding:6px 3px">
+                                        <p style="font-size:14px;color:black">주문목록</p>
+                                        <label class="label label-sm" style="background: #ff3333;border-radius: 50%;padding: 2px 5px;margin-left: -5px;font-size:10px"></label>
+                                    </a>
+                                    <? if ($_SESSION['iam_member_subadmin_id'] == $_SESSION['iam_member_id']) { ?>
+                                        <a class="btn  btn-link" title="<?= '공지알림'; ?>" href="?cur_win=unread_notice&box=send&modal=Y" style="display:flex;padding:6px 3px">
+                                            <? if ($_GET['box'] == 'send') { ?>
+                                                <!--img src="/iam/img/menu/icon_alarm_notice_active.png" style="height: 22px;"-->
+                                                <p style="font-size:14px;color:#99cc00">공지전송</p>
+                                            <? } else { ?>
+                                                <!--img src="/iam/img/menu/icon_alarm_notice.png" style="height: 22px;"-->
+                                                <p style="font-size:14px;color:black">공지전송</p>
+                                            <? } ?>
+                                            <label class="label label-sm" id="notice" style="background: #ff3333;border-radius: 50%;padding: 2px 5px;margin-left: -5px;font-size:10px"></label>
+                                        </a>
+                                        <a class="btn  btn-link" title="<?= '공지알림'; ?>" href="?cur_win=unread_notice&modal=Y" style="display:flex;padding:6px 3px">
+                                            <? if ($_GET['box'] != 'send' && $cur_win == 'unread_notice') { ?>
+                                                <!--img src="/iam/img/menu/icon_alarm_notice_active.png" style="height: 22px;"-->
+                                                <p style="font-size:14px;color:#99cc00">공지수신</p>
+                                            <? } else { ?>
+                                                <!--img src="/iam/img/menu/icon_alarm_notice.png" style="height: 22px;"-->
+                                                <p style="font-size:14px;color:black">공지수신</p>
+                                            <? } ?>
+                                            <label class="label label-sm" id="notice" style="background: #ff3333;border-radius: 50%;padding: 2px 5px;margin-left: -5px;font-size:10px"></label>
+                                        </a>
+                                    <? } else { ?>
+                                        <button class="btn  btn-link" title="<?= '공지알림'; ?>" onclick="iam_mystory('cur_win=unread_notice')" style="display:flex;padding:6px 3px">
+                                            <? if ($cur_win == 'unread_notice') { ?>
+                                                <!--img src="/iam/img/menu/icon_alarm_notice_active.png" style="height: 22px;"-->
+                                                <p style="font-size:14px;color:#99cc00">공지</p>
+                                            <? } else { ?>
+                                                <!--img src="/iam/img/menu/icon_alarm_notice.png" style="height: 22px;"-->
+                                                <p style="font-size:14px;color:black">공지</p>
+                                            <? } ?>
+                                            <label class="label label-sm" id="notice" style="background: #ff3333;border-radius: 50%;padding: 2px 5px;margin-left: -5px;font-size:10px"></label>
+                                        </button>
+                                    <? } ?>
+                                    <? if ($is_pay_version) { ?>
+                                        <!-- <button class="btn  btn-link" title = "" onclick="open_payment_item()" style="display:flex;padding:6px 3px">
+                                <p style="font-size:14px;color:black">판매</p>
+                                <label class="label label-sm" id = "sell_service_contents" style="background: #ff3333;border-radius: 50%;padding: 2px 5px;margin-left: -5px;font-size:10px"></label>
+                            </button> -->
+                                        <a class="btn  btn-link" title="" href="/iam/mypage_refer.php" style="display:flex;padding:6px 3px">
+                                            <p style="font-size:14px;color:black">추천</p>
+                                            <label class="label label-sm" id="sell_service_contents" style="background: #ff3333;border-radius: 50%;padding: 2px 5px;margin-left: -5px;font-size:10px"></label>
+                                        </a>
+                                        <a class="btn  btn-link" title="" href="/iam/mypage_payment.php" style="display:flex;padding:6px 3px">
+                                            <p style="font-size:14px;color:black">결제</p>
+                                            <label class="label label-sm" id="sell_service_contents" style="background: #ff3333;border-radius: 50%;padding: 2px 5px;margin-left: -5px;font-size:10px"></label>
+                                        </a>
+                                        <a class="btn  btn-link" title="" href="/iam/mypage_payment_item.php" style="display:flex;padding:6px 3px">
+                                            <p style="font-size:14px;color:black">판매</p>
+                                            <label class="label label-sm" id="sell_service_contents" style="background: #ff3333;border-radius: 50%;padding: 2px 5px;margin-left: -5px;font-size:10px"></label>
+                                        </a>
+                                    <? } ?>
+                                    <? if ($member_iam['service_type'] < 2) {
+                                        $report_link = "/iam/mypage_report_list.php";
+                                    } else {
+                                        $report_link = "/iam/mypage_report.php";
+                                    }
+                                    ?>
+                                    <a class="btn  btn-link" title="" href="<?= $report_link ?>" style="display:flex;padding:6px 3px">
+                                        <p style="font-size:14px;color:black">리포트</p>
+                                        <label class="label label-sm" id="sell_service_contents" style="background: #ff3333;border-radius: 50%;padding: 2px 5px;margin-left: -5px;font-size:10px"></label>
+                                    </a>
+                                    <!-- <a class="btn  btn-link" title = "" href="/?cur_win=unread_notice&req_provide=Y" style="display:flex;padding:6px 3px">
+                                <p style="font-size:14px;color:black">공급사신청</p>
+                                <label class="label label-sm" id = "sell_service_contents" style="background: #ff3333;border-radius: 50%;padding: 2px 5px;margin-left: -5px;font-size:10px"></label>
+                            </a> -->
+                                </div>
+                            </div>
                         </div>
                     </div>
                 <? } else if ($cur_win == "best_sample" || $cur_win == "sample" || $cur_win == "recent_sample") { ?>
-                    <div class="panel-group" style="border-bottom:1px solid #ddd">
-                        <div style="display:flex">
-                            <button class="btn  btn-link" onclick="iam_mystory('cur_win=sample')" title="전체 샘플" style="<?= ($cur_win == 'sample' && $sample_key == "") ? 'color:#99cc00;' : 'color:black' ?>;padding:10px">
-                                <h5 style="text-decoration-line: none">전체</h5>
-                            </button>
-                            <button class="btn  btn-link" onclick="iam_mystory('cur_win=best_sample')" title="베스트 샘플" style="<?= $cur_win == 'best_sample' ? 'color:#99cc00;' : 'color:black' ?>;padding:10px">
-                                <h5>베스트</h5>
-                            </button>
-                            <button class="btn  btn-link" onclick="iam_mystory('cur_win=sample&sample_key=연예')" title="연예" style="<?= $sample_key == '연예' ? 'color:#99cc00;' : 'color:black' ?>;padding:10px">
-                                <h5>연예</h5>
-                            </button>
-                            <button class="btn  btn-link" onclick="iam_mystory('cur_win=sample&sample_key=정치')" title="정치" style="<?= $sample_key == '정치' ? 'color:#99cc00;' : 'color:black' ?>;padding:10px">
-                                <h5>정치</h5>
-                            </button>
-                            <button class="btn  btn-link" onclick="iam_mystory('cur_win=sample&sample_key=대표')" title="대표" style="<?= $sample_key == '대표' ? 'color:#99cc00;' : 'color:black' ?>;padding:10px">
-                                <h5>대표</h5>
-                            </button>
-                            <!--button class="btn  btn-link"  onclick="iam_mystory('cur_win=recent_sample')" title = "<?= $MENU['IAM_MENU']['M12_TITLE']; ?>" style="<?= $cur_win == 'recent_sample' ? 'color:#99cc00;' : 'color:black' ?>;padding:10px">
-                        <h5><?= $MENU['IAM_MENU']['M12']; ?></h5>
-                    </button-->
+                    <div class="panel-group">
+                        <div style="display: flex; margin: 5px;justify-content: space-between;">
+                            <div>
+                                <p style="font-size:14px;padding:9px 12px">IAM샘플</p>
+                            </div>
+                            <div style="margin-right: 20px;display:flex">
+                                <button class="btn  btn-link" onclick="iam_mystory('cur_win=best_sample')" title="<?= $MENU['IAM_MENU']['M10_TITLE']; ?>" style="
+                        <?= $cur_win == 'best_sample' ? 'color:#99cc00;' : 'color:black' ?>;padding:10px">
+                                    <h5><?= $MENU['IAM_MENU']['M10']; ?></h5>
+                                </button>
+                                <button class="btn  btn-link" onclick="iam_mystory('cur_win=sample')" title="<?= $MENU['IAM_MENU']['M11_TITLE']; ?>" style="
+                        <?= $cur_win == 'sample' ? 'color:#99cc00;' : 'color:black' ?>;padding:10px">
+                                    <h5><?= $MENU['IAM_MENU']['M11']; ?></h5>
+                                </button>
+                                <button class="btn  btn-link" onclick="iam_mystory('cur_win=recent_sample')" title="<?= $MENU['IAM_MENU']['M12_TITLE']; ?>" style="
+                        <?= $cur_win == 'recent_sample' ? 'color:#99cc00;' : 'color:black' ?>;padding:10px">
+                                    <h5><?= $MENU['IAM_MENU']['M12']; ?></h5>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 <? } else if ($cur_win == "iam_mall") { ?>
@@ -1937,35 +1631,62 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                         </script>
                     <? } ?>
                     <div class="panel-group">
-                        <div style="background-color:white;padding: 0px;" class="mall-group">
-                            <!--ul class="nav nav-tabs mall-nav-tabs" style="background:transparent">
-                        <li class="nav-item <? if ($mall_type == 'gmarket') echo 'active' ?>" style="<?= $mall_type == 'gmarket' ? "border-bottom: 2px solid #529c03" : "" ?>;width:14.28%;">
-                            <a class="nav-link" style="padding:5px" href="javascript:gwc_tab();">긋마켓</a>
-                        </li>
-                        <li class="nav-item <? if ($mall_type == 'calliya') echo 'active' ?>" style="<?= $mall_type == 'calliya' ? "border-bottom: 2px solid #529c03" : "" ?>;width:14.28%;">
-                            <a class="nav-link" style="padding:5px" href="<?= '?cur_win=' . $cur_win . '&mall_type=calliya' ?>">콜이야</a>
-                        </li>
-                        <? if ($jungo_market_view != "N") { ?>
-                        <li class="nav-item <? if ($mall_type1 == 'service') echo 'active' ?>" style="<?= $mall_type1 == 'service' ? "border-bottom: 2px solid #529c03" : "" ?>;width:14.28%;">
-                            <a class="nav-link" style="padding:5px" href="<?= '?cur_win=' . $cur_win . '&mall_type=main_mall&mall_type1=service' ?>">중고</a>
-                        </li>
-                        <? } ?>
-                        <li class="nav-item <? if ($mall_type1 == 'iam') echo 'active' ?>" style="<?= $mall_type1 == 'iam' ? "border-bottom: 2px solid #529c03" : "" ?>;width:14.28%;">
-                            <a class="nav-link" style="padding:5px" href="javascript:go_mall_page('iam', '<?= '?cur_win=' . $cur_win . '&mall_type=' . $mall_type . '&mall_type1=iam' ?>')">AI앨범</a>
-                        </li>
-                        <li class="nav-item <? if ($mall_type1 == 'card') echo 'active' ?>" style="<?= $mall_type1 == 'card' ? "border-bottom: 2px solid #529c03" : "" ?>;width:14.28%;">
-                            <a class="nav-link" style="padding:5px" href="<?= '?cur_win=' . $cur_win . '&mall_type=main_mall&mall_type1=card' ?>">재능</a>
-                        </li>
-                        <li class="nav-item <? if ($mall_type1 == 'card') echo 'active' ?>" style="<?= $mall_type1 == 'card' ? "border-bottom: 2px solid #529c03" : "" ?>;width:14.28%;">
-                            <a class="nav-link" style="padding:5px" href="<?= '?cur_win=' . $cur_win . '&mall_type=main_mall&mall_type1=card' ?>">직거래</a>
-                        </li>
-                        <li class="nav-item  <? if ($mall_type1 == 'msg_set') echo 'active' ?>" style="<?= $mall_type1 == 'msg_set' ? "border-bottom: 2px solid #529c03" : "" ?>;width:14.28%;">
-                            <a class="nav-link" style="padding:5px" href="<?= '?cur_win=' . $cur_win . '&mall_type=main_mall&mall_type1=msg_set' ?>">메시지</a>
-                        </li>
-                        <li class="nav-item <? if ($mall_type1 == 'gallery') echo 'active' ?>" style="border: 1px solid #ddd;width:<?= $mall_width ?>;">
-                            <a class="nav-link" style="padding:5px" href="<?= '?cur_win=' . $cur_win . '&mall_type=' . $mall_type . '&mall_type1=gallery' ?>">갤러리</a>
-                        </li>
-                    </ul-->
+                        <div style="display:flex;justify-content: space-between;">
+                            <div style="display: flex; margin-top: 5px;">
+                                <button class="btn  btn-link" onclick="openShop()" title="<?= $MENU['IAM_MENU']['M14_TITLE']; ?>" style="color:black;padding:10px">
+                                    <p style="font-size:14px">위드유</p>
+                                </button>
+                                <!--button class="btn  btn-link"  onclick="location.href = '/iam/index_shop.php'" title = "<?= $MENU['IAM_MENU']['M15_TITLE']; ?>" style="color:black;padding:5px">
+                            <h5><?= $MENU['IAM_MENU']['M15']; ?></h5>
+                        </button-->
+                            </div>
+                            <div style="display: flex; margin: 5px;">
+                                <button class="btn  btn-link" onclick="iam_mystory('cur_win=iam_mall&mall_type=best_mall')" title="" style="color:<?= ($mall_type == 'best_mall') ? '#99cc00' : 'black' ?>;padding:5px;">
+                                    <h5>베스트</h5>
+                                </button>
+                                <button class="btn  btn-link" onclick="iam_mystory('cur_win=iam_mall&mall_type=my_mall')" title="<?= $MENU['IAM_MENU']['M11_TITLE']; ?>" style="color:<?= ($mall_type == 'my_mall') ? '#99cc00' : 'black' ?>;padding:5px;">
+                                    <h5>내상품</h5>
+                                </button>
+                                <button class="btn  btn-link" onclick="iam_mystory('cur_win=iam_mall&mall_type=my_mall_like')" title="<?= $MENU['IAM_MENU']['M12_TITLE']; ?>" style="color:<?= $mall_type == 'my_mall_like' ? '#99cc00' : 'black' ?>;padding:5px">
+                                    <h5>찜한상품</h5>
+                                </button>
+                                <select name="mall_type" id="mall_type" style="font-size:12px;margin-right:10px;border: 1px solid #ddd;background: #fff;height: 37px;border-radius: 5px;" onchange="mall_type_submit()">
+                                    <option value="" <? if ($mall_type == "best_mall" || $mall_type == "my_mall_like") { ?>selected<? } ?>></option>
+                                    <option value="main_mall" <? if ($mall_type == "main_mall") { ?>selected<? } ?>>전체몰</option>
+                                    <option value="sub_mall" <? if ($mall_type == "sub_mall") { ?>selected<? } ?>>분양사몰</option>
+                                    <option value="my_mall" <? if ($mall_type == "my_mall") { ?>selected<? } ?>>마이몰</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div style="background-color:white;padding: 10px;" class="mall-group">
+                            <ul class="nav nav-tabs mall-nav-tabs">
+                                <? if ($jungo_market_view != "N") {
+                                    $mall_width = "16.65%";
+                                } else {
+                                    $mall_width = "20%";
+                                } ?>
+
+                                <li class="nav-item <? if ($mall_type1 == 'all') echo 'active' ?>" style="border: 1px solid #ddd;width:<?= $mall_width ?>;">
+                                    <a class="nav-link" style="padding:5px" href="<?= '?cur_win=' . $cur_win . '&mall_type=' . $mall_type . '&mall_type1=all' ?>">전체</a>
+                                </li>
+                                <li class="nav-item  <? if ($mall_type1 == 'msg_set') echo 'active' ?>" style="border: 1px solid #ddd;width:<?= $mall_width ?>;">
+                                    <a class="nav-link" style="padding:5px" href="<?= '?cur_win=' . $cur_win . '&mall_type=' . $mall_type . '&mall_type1=msg_set' ?>">메시지</a>
+                                </li>
+                                <li class="nav-item <? if ($mall_type1 == 'card') echo 'active' ?>" style="border: 1px solid #ddd;width:<?= $mall_width ?>;">
+                                    <a class="nav-link" style="padding:5px" href="<?= '?cur_win=' . $cur_win . '&mall_type=' . $mall_type . '&mall_type1=card' ?>">재능마켓</a>
+                                </li>
+                                <li class="nav-item <? if ($mall_type1 == 'iam') echo 'active' ?>" style="border: 1px solid #ddd;width:<?= $mall_width ?>;">
+                                    <a class="nav-link" style="padding:5px" href="javascript:go_mall_page('iam', '<?= '?cur_win=' . $cur_win . '&mall_type=' . $mall_type . '&mall_type1=iam' ?>')">홍보대사</a>
+                                </li>
+                                <? if ($jungo_market_view != "N") { ?>
+                                    <li class="nav-item <? if ($mall_type1 == 'service') echo 'active' ?>" style="border: 1px solid #ddd;width:<?= $mall_width ?>;">
+                                        <a class="nav-link" style="padding:5px" href="<?= '?cur_win=' . $cur_win . '&mall_type=' . $mall_type . '&mall_type1=service' ?>">중고마켓</a>
+                                    </li>
+                                <? } ?>
+                                <li class="nav-item <? if ($mall_type1 == 'gallery') echo 'active' ?>" style="border: 1px solid #ddd;width:<?= $mall_width ?>;">
+                                    <a class="nav-link" style="padding:5px" href="<?= '?cur_win=' . $cur_win . '&mall_type=' . $mall_type . '&mall_type1=gallery' ?>">갤러리</a>
+                                </li>
+                            </ul>
                             <? if ($mall_type1 == 'gallery') { ?>
                                 <div>
                                     <div style="display: flex;justify-content: space-evenly;">
@@ -1979,21 +1700,130 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                                     </div>
                                 </div>
                             <? } ?>
-                            <? if ($_GET['mall_type'] == 'gmarket' || $_GET['mall_type'] == '') { ?>
-                                <div style="display:flex;justify-content: space-between;">
-                                    <div class="container" style="border-color: #ddd;">
-                                        <a class="gwc_con_type" name="mall_sub_type" style="cursor:pointer;line-height: 40px;<? if ($_GET['mall_sub_type'] == "intro") echo 'color:#529c03;'; ?>" value="intro">소개</a>
-                                        <a href="javascript:gwc_tab()" style="cursor:pointer;line-height: 40px;margin-left: 5px;<? if ($_GET['mall_sub_type'] != "intro" && $_GET['iamstore'] != "Y" && $_GET['iamstore'] != "C" && !$_GET['cate_prod']) echo 'color:#529c03;'; ?>" value="shopping">쇼핑</a>
-                                        <a href="javascript:show_gwc_cate_prod('1268514')" id="recom_gwc_item" style="cursor:pointer;margin-left:5px;<? if ($_GET['cate_prod'] == "1268514") echo 'color:#529c03;'; ?>" value="1">추천</a>
-                                        <a href="javascript:show_gwc_cate_prod('2477701')" id="best_gwc_item" style="cursor:pointer;margin-left:5px;<? if ($_GET['cate_prod'] == "2477701") echo 'color:#529c03;'; ?>" value="1">베스트</a>
+                            <div class="panel panel-default" style="display: flex;border: none;margin-left:auto;margin-right:auto;justify-content: space-between;box-shadow: none;">
+                                <div style="display:flex">
+                                    <div class="dropdown" style="margin-left: 10px;margin-top: 0px;">
+                                        <img src="/iam/img/menu/icon_filter.png" class="dropdown-toggle westory_dropdown" data-toggle="dropdown" style="width: 24px;height:24px;margin-top: 10px;" aria-expanded="false">
+                                        <ul class="dropdown-menu comunity" style="left: 0px !important;padding: 0px;border:none">
+                                            <li>
+                                                <table class="table table-borderless" style="margin-bottom:0px">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>
+                                                                <a href="<?= '?cur_win=' . $cur_win . '&mall_type=' . $mall_type . '&mall_type1=' . $mall_type1 . '&search_key=' . $_GET['search_key'] . '&sort=0' ?>">
+                                                                    업로드 날짜</a>
+                                                            </th>
+                                                            <th><a href="<?= '?cur_win=' . $cur_win . '&mall_type=' . $mall_type . '&mall_type1=' . $mall_type1 . '&search_key=' . $_GET['search_key'] . '&sort=0' ?>">
+                                                                    정렬기준</a>
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td style="border-top:none">
+                                                                <a href="<?= '?cur_win=' . $cur_win . '&mall_type=' . $mall_type . '&mall_type1=' . $mall_type1 . '&search_key=' . $_GET['search_key'] . '&sort=1' ?>">
+                                                                    1시간전</a>
+                                                            </td>
+                                                            <td style="border-top:none">
+                                                                <a href="<?= '?cur_win=' . $cur_win . '&mall_type=' . $mall_type . '&mall_type1=' . $mall_type1 . '&search_key=' . $_GET['search_key'] . '&sort=11' ?>">
+                                                                    게시일짜</a>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="border-top:none">
+                                                                <a href="<?= '?cur_win=' . $cur_win . '&mall_type=' . $mall_type . '&mall_type1=' . $mall_type1 . '&search_key=' . $_GET['search_key'] . '&sort=2' ?>">
+                                                                    오늘</a>
+                                                            </td>
+                                                            <td style="border-top:none">
+                                                                <a href="<?= '?cur_win=' . $cur_win . '&mall_type=' . $mall_type . '&mall_type1=' . $mall_type1 . '&search_key=' . $_GET['search_key'] . '&sort=12' ?>">
+                                                                    조회수</a>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="border-top:none">
+                                                                <a href="<?= '?cur_win=' . $cur_win . '&mall_type=' . $mall_type . '&mall_type1=' . $mall_type1 . '&search_key=' . $_GET['search_key'] . '&sort=3' ?>">
+                                                                    이번주</a>
+                                                            </td>
+                                                            <td style="border-top:none">
+                                                                <a href="<?= '?cur_win=' . $cur_win . '&mall_type=' . $mall_type . '&mall_type1=' . $mall_type1 . '&search_key=' . $_GET['search_key'] . '&sort=13' ?>">
+                                                                    좋아요</a>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="border-top:none">
+                                                                <a href="<?= '?cur_win=' . $cur_win . '&mall_type=' . $mall_type . '&mall_type1=' . $mall_type1 . '&search_key=' . $_GET['search_key'] . '&sort=4' ?>">
+                                                                    이번달</a>
+                                                            </td>
+                                                            <td style="border-top:none">
+                                                                <a href="<?= '?cur_win=' . $cur_win . '&mall_type=' . $mall_type . '&mall_type1=' . $mall_type1 . '&search_key=' . $_GET['search_key'] . '&sort=14' ?>">
+                                                                    가격순</a>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="border-top:none">
+                                                                <a href="<?= '?cur_win=' . $cur_win . '&mall_type=' . $mall_type . '&mall_type1=' . $mall_type1 . '&search_key=' . $_GET['search_key'] . '&sort=5' ?>">
+                                                                    올해</a>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </li>
+                                        </ul>
                                     </div>
-                                    <div class="container" style="padding:0px;margin-left: -20px;margin-right:15px;">
-                                        <ul class="nav" style="display:flex;flex-wrap: wrap;margin-top: 10px;float: right;">
+                                    <div class="panel-heading" style="display: flex;border-bottom:none;background:white">
+                                        <input type="text" class="mall_search_input" style="font-size: 12px;width: 140px;margin-left: -5px;height: 24px;border: 1px solid #aaa;border-radius: 15px;" value="<?= $_GET['search_key'] ?>" id="mall_search_input" placeholder='키워드로 검색하세요.'>
+                                        <i class="glyphicon glyphicon-remove" id="mall_input" style="margin-top: -1px;height: 24px;width: 22px;border: 1px solid #aaaaaa;margin-left: -22px;line-height: 22px;color: darkgrey;border-left: none;border-top: none;border-bottom: none;border-radius: 15px;text-align: center;display: none;" onclick="clear_wecon_search1()"></i>
+                                        <img src="/iam/img/menu/icon_bottom_search.png" style="height:24px" onclick="mall_search_clicked()">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <? } else if ($cur_win == "we_story") { ?>
+                    <div class="panel-group" id="we_story_tab">
+                        <div class="recom_like_tab" style="<? if ($_GET['key1'] != 3 && $_GET['key1'] != 4) echo 'column-count:1;background-color: #f5f5f5;padding:0px;';
+                                                            if ($_GET['key1'] == 4) echo 'padding:5px 0px;' ?>">
+                            <? if ($_GET['key1'] == 4) { ?>
+                                <div class="container" style="border-color: #ddd;">
+                                    <a class="gwc_con_type" name="key4" style="cursor:pointer;line-height: 40px;<? if ($_GET['key4'] == "3") echo 'color:#99cc00;'; ?>" value="3">굿마켓</a>
+                                    <a href="javascript:gwc_tab()" style="cursor:pointer;line-height: 40px;margin-left: 5px;<? if ($_GET['key4'] != "3" && $_GET['iamstore'] != "Y" && $_GET['iamstore'] != "C") echo 'color:#99cc00;'; ?>" value="3">쇼핑</a>
+                                    <a href="javascript:show_gwc_cate_prod('1268514')" id="recom_gwc_item" style="cursor:pointer;margin-left:5px;<? if ($_GET['cate_prod'] == "1268514") echo 'color:#99cc00;'; ?>" value="1">추천</a>
+                                    <a href="javascript:show_gwc_cate_prod('2477701')" id="best_gwc_item" style="cursor:pointer;margin-left:5px;<? if ($_GET['cate_prod'] == "2477701") echo 'color:#99cc00;'; ?>" value="1">베스트</a>
+                                </div>
+                            <? } else if ($_GET['key1'] == 3) { ?>
+                                <div class="container" id="callya_sort">
+                                    <ul class="nav" style="flex-wrap: wrap;margin-top: 5px;">
+                                        <li class="nav-item" style="width: auto;margin-top: 5px;display: inline-block;">
+                                            <a class="map_gmarket" name="key3" style="padding:0px 2px;<? if ($_GET['key3'] == "3") echo 'color:#99cc00;'; ?>" value="3">소개</a>
+                                        </li>
+                                        <li class="nav-item" style="width: auto;margin-top: 5px;display: inline-block;">
+                                            <a class="map_gmarket" name="key3" style="padding:0px 2px;<? if ($_GET['key3'] == "0") echo 'color:#99cc00;'; ?>" value="0">전체</a>
+                                        </li>
+                                        <li class="nav-item" style="width: auto;margin-top: 5px;display: inline-block;">
+                                            <a class="map_gmarket" name="key3" style="padding:0px 2px;<? if ($_GET['key3'] == "2") echo 'color:#99cc00;'; ?>" value="2">배송</a>
+                                        </li>
+                                        <li class="nav-item" style="width: auto;margin-top: 5px;display: inline-block;">
+                                            <a class="map_gmarket" name="key3" style="padding:0px 2px;<? if ($_GET['key3'] == "1") echo 'color:#99cc00;'; ?>" value="1">방문</a>
+                                        </li>
+                                        <? if ($_GET['key3'] == 1) { ?>
+                                            <li class="nav-item" style="width: auto;margin-top: 5px;display: inline-block;">
+                                                <a class="map_gmarket_sort" name="sort_key3" style="padding:0px;<? if ($_GET['sort_key3'] == "2") echo 'color:#99cc00;'; ?>" value="2"></a>
+                                            </li>
+                                            <input type="text" placeholder="지역검색" class="wecon_search_input1" style="font-size:12px;width:100px;height: 24px;border: 1px solid #aaa;" value="<?= $_GET['loc_name'] ?>" id="search_location_name">
+                                            <i class="fa fa-search" style="margin-left:5px;font-size: 18px;margin-top: 5px;" onclick="wecon_location_name()"></i>
+                                        <? } ?>
+                                    </ul>
+                                </div>
+                            <? } ?>
+                            <? if ($_GET['key1'] == 4 || $_GET['key1'] == 3) { ?>
+                                <div class="container" style="padding:0px;margin-left: -20px;margin-right:15px;">
+                                    <ul class="nav" style="display:flex;flex-wrap: wrap;margin-top: 10px;float: right;">
+                                        <? if ($_GET['key1'] == 4) { ?>
                                             <li class="nav-item" style="width: auto;">
-                                                <a href="javascript:show_iamstore_prod('Y')" style="padding:0px 1px;margin-right:2px;<? if ($_GET['iamstore'] == "Y") echo 'color:#529c03;'; ?>" value="1">도매몰 </a>
+                                                <a href="javascript:show_iamstore_prod('Y')" style="padding:0px 1px;margin-right:2px;<? if ($_GET['iamstore'] == "Y") echo 'color:#99cc00;'; ?>" value="1">도매몰 |</a>
                                             </li>
                                             <li class="nav-item" style="width: auto;">
-                                                <a href="javascript:show_iamstore_prod('C')" style="padding:0px 1px;<? if ($_GET['iamstore'] == "C") echo 'color:#529c03;'; ?>" value="2">마이샵 </a>
+                                                <a href="javascript:show_iamstore_prod('C')" style="padding:0px 1px;<? if ($_GET['iamstore'] == "C") echo 'color:#99cc00;'; ?>" value="2">마이샵 |</a>
                                             </li>
                                             <li class="nav-item" style="width: auto;">
                                                 <div class="dropdown" style="display: flex;margin-left:5px;">
@@ -2028,49 +1858,195 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                                                     </ul>
                                                 </div>
                                             </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            <? } else if ($_GET['mall_type'] == 'calliya') { ?>
-                                <div style="display:flex;justify-content: space-between;background-color: #f5f5f5;">
-                                    <div class="callya_sort">
-                                        <ul class="nav">
-                                            <li class="nav-item" style="width: auto;display: inline-block;">
-                                                <a class="map_gmarket" name="mall_sub_type" style="padding:0px 5px;<? if ($_GET['mall_sub_type'] == "intro") echo 'color:#529c03;'; ?>" value="intro">소개</a>
+                                        <? } else if ($_GET['key1'] == 3) { ?>
+                                            <li class="nav-item" style="width: auto;">
+                                                <a class="map_gmarket_sort" name="sort_key3" style="padding:0px 1px;<? if ($_GET['sort_key3'] == "1") echo 'color:#99cc00;'; ?>" value="1">할인 |</a>
                                             </li>
-                                            <!--li class="nav-item" style="width: auto;display: inline-block;">
-                                    <a class="map_gmarket" name="mall_sub_type" style="padding:0px 2px;<? if ($_GET['mall_sub_type'] == "all" || $_GET['mall_sub_type'] == "") echo 'color:#529c03;'; ?>" value="all">전체</a>
-                                </li-->
-                                            <!--li class="nav-item" style="width: auto;margin-top: 5px;display: inline-block;">
-                                    <a class="map_gmarket" name="mall_sub_type" style="padding:0px 2px;<? if ($_GET['mall_sub_type'] == "shipping") echo 'color:#529c03;'; ?>" value="shipping">배송</a>
-                                </li-->
-                                            <li class="nav-item" style="width: auto;display: inline-block;">
-                                                <a class="map_gmarket" name="mall_sub_type" style="padding:0px 5px;<? if ($_GET['mall_sub_type'] == "visit") echo 'color:#529c03;'; ?>" value="visit">방문</a>
+                                            <li class="nav-item" style="width: auto;">
+                                                <a class="map_gmarket_sort" name="sort_key3" style="padding:0px 1px;<? if ($_GET['sort_key3'] == "2") echo 'color:#99cc00;'; ?>" value="2">저가 |</a>
                                             </li>
-                                        </ul>
-                                    </div>
-                                    <div class="recom_like_tab">
-                                        <ul class="nav" style="float: right;">
-                                            <li class="nav-item" style="width: auto;display: inline-block;">
-                                                <a class="map_gmarket_sort" name="sort_calliya" style="padding:0px;<? if ($_GET['sort_calliya'] == "1") echo 'color:#99cc00;'; ?>" value="1">할인 | </a>
+                                            <li class="nav-item" style="width: auto;">
+                                                <a class="map_gmarket_sort" name="sort_key3" style="padding:0px 1px;<? if ($_GET['sort_key3'] == "3") echo 'color:#99cc00;'; ?>" value="3">고가 |</a>
                                             </li>
-                                            <li class="nav-item" style="width: auto;display: inline-block;">
-                                                <a class="map_gmarket_sort" name="sort_calliya" style="padding:0px;<? if ($_GET['sort_calliya'] == "2") echo 'color:#99cc00;'; ?>" value="2">저가 | </a>
+                                            <li class="nav-item" style="width: auto;">
+                                                <a class="map_gmarket_sort" name="sort_key3" style="padding:0px 1px;<? if ($_GET['sort_key3'] == "0") echo 'color:#99cc00;'; ?>" value="0">최신</a>
                                             </li>
-                                            <li class="nav-item" style="width: auto;display: inline-block;">
-                                                <a class="map_gmarket_sort" name="sort_calliya" style="padding:0px;<? if ($_GET['sort_calliya'] == "3") echo 'color:#99cc00;'; ?>" value="3">고가 | </a>
-                                            </li>
-                                            <li class="nav-item" style="width: auto;display: inline-block;">
-                                                <a class="map_gmarket_sort" name="sort_calliya" style="padding:0px;<? if ($_GET['sort_calliya'] == "0") echo 'color:#99cc00;'; ?>" value="0">최신</a>
-                                            </li>
-                                        </ul>
-                                    </div>
+                                        <? } ?>
+                                    </ul>
                                 </div>
                             <? } ?>
                         </div>
+                        <? if ($_GET['key1'] == 4) {
+                            $height = 'height: 50px;';
+                            $hide_sort_call = "flex";
+                        } else if ($_GET['key1'] == 3 || $_GET['key1'] == '' || $_GET['key1'] == 0) {
+                            $height = 'height: 0px;';
+                            $hide_sort_call = "none";
+                        } ?>
+                        <div style="">
+                            <div style="padding:10px;border: 1px solid #ddd;">
+                                <div class="right" style="float:right;margin-top:5px;display:inline-flex;">
+                                    <? if ($_GET['key1'] == 4) { ?>
+                                        <div class="container" style="border-color: #ddd;padding: 0px;display: inline-flex;">
+                                            <a href="javascript:show_category()" style="margin-top: 4px;">
+                                                카테고리
+                                            </a>
+                                            <!-- <a href="javascript:show_iamstore_prod('C')" style="float: right;margin-right: 5px;">
+                                    <? if ($_GET['iamstore'] == "C") { ?>
+                                    <img src="/iam/img/main/iam_gm_mygood_check.png" style="height: 27px;">
+                                    <? } else { ?>
+                                    <img src="/iam/img/main/iam_gm_mygood.PNG" style="height: 27px;">
+                                    <? } ?>
+                                </a>
+                                <a href="javascript:show_iamstore_prod('Y')" style="float: right;margin-right:5px;">
+                                    <? if ($_GET['iamstore'] == "Y") { ?>
+                                    <img src="/iam/img/main/iam_domae_check.png" style="height: 27px;">
+                                    <? } else { ?>
+                                    <img src="/iam/img/main/iam_domae_logo.png" style="height: 27px;">
+                                    <? } ?>
+                                </a>
+                                <a href="javascript:gwc_tab()" style="float: right;margin-right:5px;">
+                                    <? if ($_GET['iamstore'] != "Y" && $_GET['iamstore'] != "C") { ?>
+                                    <img src="/iam/img/main/icon_iam_shopping_chk.PNG" style="height: 27px;">
+                                    <? } else { ?>
+                                    <img src="/iam/img/main/icon_iam_shopping.PNG" style="height: 27px;">
+                                    <? } ?>
+                                </a> -->
+                                            <div class="dropdown" style="margin-top: -10px;display: flex;margin-left: 10px;">
+                                                <?
+                                                if ($_GET['sort_key3'] == "0") $txt = '최신순';
+                                                if ($_GET['sort_key3'] == "1") $txt = '할인순';
+                                                if ($_GET['sort_key3'] == "2") $txt = '저가순';
+                                                if ($_GET['sort_key3'] == "3") $txt = '고가순';
+                                                ?>
+                                                <p class="dropdown-toggle westory_dropdown" data-toggle="dropdown" style="width: 60px;height:24px;margin-top: 14px;padding:0px;" aria-expanded="false"><?= $txt ?><img src="/iam/img/menu/icon_sort_gwc.png" style="width: 10px;height: 7px;margin-left: 3px;"></p>
+                                                <ul class="dropdown-menu comunity" style="left: -30px !important;padding: 0px;border:none;min-width: 100px;width: 100px;">
+                                                    <li>
+                                                        <table class="table table-borderless" style="margin-bottom:0px">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td style="border-top:none">
+                                                                        <a class="map_gmarket_sort" name="sort_key3" style="padding:0px 1px;<? if ($_GET['sort_key3'] == "0") echo 'color:#99cc00;'; ?>" value="0">최신순</a>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="border-top:none">
+                                                                        <a class="map_gmarket_sort" name="sort_key3" style="padding:0px 1px;<? if ($_GET['sort_key3'] == "3") echo 'color:#99cc00;'; ?>" value="3">고가순</a>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="border-top:none">
+                                                                        <a class="map_gmarket_sort" name="sort_key3" style="padding:0px 1px;<? if ($_GET['sort_key3'] == "2") echo 'color:#99cc00;'; ?>" value="2">저가순</a>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="border-top:none">
+                                                                        <a class="map_gmarket_sort" name="sort_key3" style="padding:0px 1px;<? if ($_GET['sort_key3'] == "1") echo 'color:#99cc00;'; ?>" value="1">할인순</a>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    <? } ?>
+                                </div>
+                                <? if ($_GET['key1'] == 4) {
+                                    $width = "width: 260px;";
+                                } else {
+                                    $width = "width: 300px;";
+                                } ?>
+                                <div style="display:flex;<?= $width ?>">
+                                    <div class="dropdown" id="wecon_search_div" style="margin-top: -10px;display: flex">
+                                        <img src="/iam/img/menu/icon_filter.png" class="dropdown-toggle westory_dropdown" data-toggle="dropdown" style="width: 24px;height:24px;margin-top: 14px;padding:0px;" aria-expanded="false">
+                                        <ul class="dropdown-menu comunity" style="left: 0px !important;padding: 0px;border:none">
+                                            <li>
+                                                <table class="table table-borderless" style="margin-bottom:0px">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>
+                                                                <a href="<?= '?' . $request_short_url . $card_owner_code . '&cur_win=we_story&search_key=' . $_GET['search_key'] . '&key1=' . $_GET['key1'] . '&key2=' . $_GET['key2'] . '&key3=' . $_GET['key3'] . '&sort=0&sort_key3=' . $_GET['sort_key3'] . '&loc_name=' . $_GET['loc_name'] . '&key4=' . $_GET['key4'] . '&iamstore=' . $_GET['iamstore'] . '&cate_prod=' . $_GET['cate_prod'] ?>">
+                                                                    업로드 날짜</a>
+                                                            </th>
+                                                            <th>
+                                                                <a href="<?= '?' . $request_short_url . $card_owner_code . '&cur_win=we_story&search_key=' . $_GET['search_key'] . '&key1=' . $_GET['key1'] . '&key2=' . $_GET['key2'] . '&key3=' . $_GET['key3'] . '&sort=0&sort_key3=' . $_GET['sort_key3'] . '&loc_name=' . $_GET['loc_name'] . '&key4=' . $_GET['key4'] . '&iamstore=' . $_GET['iamstore'] . '&cate_prod=' . $_GET['cate_prod'] ?>">
+                                                                    정렬기준</a>
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td style="border-top:none">
+                                                                <a href="<?= '?' . $request_short_url . $card_owner_code . '&cur_win=we_story&search_key=' . $_GET['search_key'] . '&key1=' . $_GET['key1'] . '&key2=' . $_GET['key2'] . '&key3=' . $_GET['key3'] . '&sort=1&sort_key3=' . $_GET['sort_key3'] . '&loc_name=' . $_GET['loc_name'] . '&key4=' . $_GET['key4'] . '&iamstore=' . $_GET['iamstore'] . '&cate_prod=' . $_GET['cate_prod'] ?>">
+                                                                    1시간전</a>
+                                                            </td>
+                                                            <td style="border-top:none">
+                                                                <a href="<?= '?' . $request_short_url . $card_owner_code . '&cur_win=we_story&search_key=' . $_GET['search_key'] . '&key1=' . $_GET['key1'] . '&key2=' . $_GET['key2'] . '&key3=' . $_GET['key3'] . '&sort=11&sort_key3=' . $_GET['sort_key3'] . '&loc_name=' . $_GET['loc_name'] . '&key4=' . $_GET['key4'] . '&iamstore=' . $_GET['iamstore'] . '&cate_prod=' . $_GET['cate_prod'] ?>">
+                                                                    게시일짜</a>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="border-top:none">
+                                                                <a href="<?= '?' . $request_short_url . $card_owner_code . '&cur_win=we_story&search_key=' . $_GET['search_key'] . '&key1=' . $_GET['key1'] . '&key2=' . $_GET['key2'] . '&key3=' . $_GET['key3'] . '&sort=2&sort_key3=' . $_GET['sort_key3'] . '&loc_name=' . $_GET['loc_name'] . '&key4=' . $_GET['key4'] . '&iamstore=' . $_GET['iamstore'] . '&cate_prod=' . $_GET['cate_prod'] ?>">
+                                                                    오늘</a>
+                                                            </td>
+                                                            <td style="border-top:none">
+                                                                <a href="<?= '?' . $request_short_url . $card_owner_code . '&cur_win=we_story&search_key=' . $_GET['search_key'] . '&key1=' . $_GET['key1'] . '&key2=' . $_GET['key2'] . '&key3=' . $_GET['key3'] . '&sort=12&sort_key3=' . $_GET['sort_key3'] . '&loc_name=' . $_GET['loc_name'] . '&key4=' . $_GET['key4'] . '&iamstore=' . $_GET['iamstore'] . '&cate_prod=' . $_GET['cate_prod'] ?>">
+                                                                    조회수</a>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="border-top:none">
+                                                                <a href="<?= '?' . $request_short_url . $card_owner_code . '&cur_win=we_story&search_key=' . $_GET['search_key'] . '&key1=' . $_GET['key1'] . '&key2=' . $_GET['key2'] . '&key3=' . $_GET['key3'] . '&sort=3&sort_key3=' . $_GET['sort_key3'] . '&loc_name=' . $_GET['loc_name'] . '&key4=' . $_GET['key4'] . '&iamstore=' . $_GET['iamstore'] . '&cate_prod=' . $_GET['cate_prod'] ?>">
+                                                                    이번주</a>
+                                                            </td>
+                                                            <td style="border-top:none">
+                                                                <a href="<?= '?' . $request_short_url . $card_owner_code . '&cur_win=we_story&search_key=' . $_GET['search_key'] . '&key1=' . $_GET['key1'] . '&key2=' . $_GET['key2'] . '&key3=' . $_GET['key3'] . '&sort=13&sort_key3=' . $_GET['sort_key3'] . '&loc_name=' . $_GET['loc_name'] . '&key4=' . $_GET['key4'] . '&iamstore=' . $_GET['iamstore'] . '&cate_prod=' . $_GET['cate_prod'] ?>">
+                                                                    좋아요</a>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="border-top:none">
+                                                                <a href="<?= '?' . $request_short_url . $card_owner_code . '&cur_win=we_story&search_key=' . $_GET['search_key'] . '&key1=' . $_GET['key1'] . '&key2=' . $_GET['key2'] . '&key3=' . $_GET['key3'] . '&sort=4&sort_key3=' . $_GET['sort_key3'] . '&loc_name=' . $_GET['loc_name'] . '&key4=' . $_GET['key4'] . '&iamstore=' . $_GET['iamstore'] . '&cate_prod=' . $_GET['cate_prod'] ?>">
+                                                                    이번달</a>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="border-top:none">
+                                                                <a href="<?= '?' . $request_short_url . $card_owner_code . '&cur_win=we_story&search_key=' . $_GET['search_key'] . '&key1=' . $_GET['key1'] . '&key2=' . $_GET['key2'] . '&key3=' . $_GET['key3'] . '&sort=5&sort_key3=' . $_GET['sort_key3'] . '&loc_name=' . $_GET['loc_name'] . '&key4=' . $_GET['key4'] . '&iamstore=' . $_GET['iamstore'] . '&cate_prod=' . $_GET['cate_prod'] ?>">
+                                                                    올해</a>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="panel-heading" id="search_wecon_tag" style="display: flex;border-bottom:none;padding:5px 10px;margin-left: 5px;">
+                                        <input type="text" class="wecon_search_input" style="font-size: 12px;width: 140px;margin-left: -5px;height: 24px;border: 1px solid #aaa;border-radius: 15px;padding-left:7px;" value="<?= $_GET['search_key'] ?>" id="wecon_search_input" placeholder='키워드로 검색하세요.'>
+                                        <i class="glyphicon glyphicon-remove" id="wecon_input" style="margin-top: -1px;height: 24px;width: 22px;border: 1px solid #aaaaaa;margin-left: -22px;line-height: 22px;color: darkgrey;border-left: none;border-top: none;border-bottom: none;border-radius: 15px;text-align: center;<?= $_GET['search_key'] ? '' : 'display: none;' ?>" onclick="clear_wecon_search()"></i>
+                                        <img src="/iam/img/menu/icon_bottom_search.png" style="height:24px" onclick="wecon_search_clicked()">
+                                        <span style="margin-left:2px;margin-top:2px;font-size:10px;line-height: 20px;" id="we_story_count"></span>
+                                    </div>
+                                </div>
+                                <!--div style = "display:flex;justify-content: space-around;margin-top:15px;font-size: 12px;text-align:center;font-weight:700">
+                            <div style = "cursor:pointer;padding:0px 2px;text-align: -webkit-center;" onclick="contents_add_spec(1,<?= $my_first_card ?>)">
+                                <img src = '/iam/img/main/icon-siglconts.png' style="max-width:45px">
+                                <span style="">한개 등록</span>
+                            </div>
+                            <div style = "cursor:pointer;padding:0px 2px;text-align: -webkit-center;" onclick="contents_add_spec(2,<?= $my_first_card ?>)">
+                                <img src = '/iam/img/main/icon-multfiles.png' style="max-width:45px">
+                                <span style="">다수 등록</span>
+                            </div>
+                            <div style = "cursor:pointer;padding:0px 2px;text-align: -webkit-center;" onclick="contents_add_spec(3,<?= $my_first_card ?>)">
+                                <img src = '/iam/img/main/icon-autowebs.png' style="max-width:45px">
+                                <span style="">자동 등록</span>
+                            </div>
+                        </div-->
+                            </div>
+                        </div>
                     </div>
-                <? } else if ($cur_win == "we_story") { ?>
-
                 <? } else if ($cur_win == "group-con") { ?>
                     <div class="panel-group">
                         <div style="display:flex;margin : 10px;justify-content: flex-end;">
@@ -2098,2117 +2074,712 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                             <!--/div-->
                         </div>
                     </div>
+                <? } ?>
+            </div>
+        </header><!-- // 헤더 끝 -->
+        <div id="footer_menu" style="position: fixed;justify-content: space-around;width: 100%;height:50px;z-index: 100;bottom: 0px;display: flex;max-width: 768px;background:white;border-top : 1px solid #ddd">
+            <? //$home = $domainData['sub_domain'].'/?'.$first_card_url.$bunyang_site_manager_code
+            if ($domainData['admin_iam_menu'] == 0) {
+                $menu_query = "select * from Gn_Iam_Menu where site_iam='kiam' and menu_type='B' and use_yn = 'y' order by display_order";
+            } else {
+                $menu_query = "select * from Gn_Iam_Menu where site_iam='{$menu_host}' and menu_type='B' and use_yn = 'y' order by display_order";
+            }
+            $menu_res = mysql_query($menu_query);
+            while ($menu_row = mysql_fetch_array($menu_res)) {
+                $func = str_replace("card_link", $request_short_url . $card_owner_code, $menu_row['move_url']);
+                $func = str_replace("prewin", $cur_win, $func);
+                $html = "<div style=\"margin-top:12px;text-align: center;cursor:pointer\" title=\"" . $menu_row['title'] . "\" onclick=\"" . $func . "\">";
+                $html .= "<img src = \"" . $menu_row['img_url'] . "\" style=\"height:24px;width:24px\">";
+                if (strstr($func, "go_cart()")) {
+                    $html .= "<label class=\"label label-sm share_count\" id = \"cart_cnt\" style=\"top:0px;margin-left: -5px;\">" . ($cart_cnt ? $cart_cnt : '') . "</label>";
+                }
+                $html .= "</div>";
+                echo $html;
+            } ?>
+            <!--div id="btn_home" style="margin-top:12px;text-align: center;cursor:pointer" onclick = "goIamHome();" title="홈">
+            <img src = "/iam/img/menu/icon_bottom_home.png" style="height:24px;width:24px">
+        </div>
+        <div id="btn_notice" style="margin-top:12px;text-align: center;cursor:pointer" title="소식" onclick="openNoticeModal();">
+            <img src = "/iam/img/menu/icon_bottom_news.png" style="height:24px;width:24px">
+        </div>
+        <div id="btn_ai_chat" onclick="location.href='/iam/gpt_chat.php'" style="margin-top:12px;text-align: center;cursor:pointer" title="GPT채트">
+            <img src = "/iam/img/menu/icon_ai.png" style="height:24px;width:24px">
+        </div>
+        <div onclick="showSample()" style="margin-top:12px;text-align: center;cursor:pointer" title="검색">
+            <img src = "/iam/img/menu/icon_sample.png" style="height:24px;width:24px">
+        </div>
+        <div id="btn_intro" style="margin-top:12px;text-align: center;cursor:pointer" title="안내" onclick="showIntro();">
+            <img src = "/iam/img/menu/icon_bottom_intro.png" style="height:24px;width:24px">
+        </div>
+        <div onclick="go_cart()" style="margin-top:12px;text-align: center;cursor:pointer" title="장바구니">
+            <img src = "/iam/img/menu/cart_gwc.png" style="height:24px;width:24px">
+            <label class="label label-sm share_count" id = "cart_cnt" style="top:0px;margin-left: -5px;"><?= $cart_cnt ? $cart_cnt : '' ?></label>
+        </div-->
+            <? if (!$_SESSION['iam_member_id']) { ?>
+                <div id="btn_login" style="margin-top:12px;text-align: center;cursor:pointer" onclick="location.href = '<?= ($domainData['status'] == 'N')?'':'/iam/login.php?recommend_id=' . $card_owner ?>'">
+                    <img src="/iam/img/menu/icon_bottom_login.png" style="height:24px;width:24px">
+                </div>
+                <? } else {
+                if ($member_iam['profile']) { ?>
+                    <div style="cursor:pointer;margin-top:12px;width:24px;height:24px;border-radius: 50%;overflow: hidden" onclick="$('#mypage-modalwindow').modal('show');">
+                        <img src="<?= cross_image($member_iam['profile']) ?>" style="width:100%;height:100%;object-fit: cover;">
+                    </div>
+                <? } else { ?>
+                    <div style="cursor:pointer;margin-top:12px;background:<?= $profile_color ?>;padding:5px 0px;width:24px;height:24px;border-radius: 50%;overflow:hidden;text-align:center;" onclick="$('#mypage-modalwindow').modal('show');">
+                        <a class="profile_font" style="color:white;width:100%;height:100%;object-fit: cover;"><?= mb_substr($member_iam['mem_name'], 0, 3, "utf-8") ?></a>
+                    </div>
             <? }
             } ?>
         </div>
-    </header><!-- // 헤더 끝 -->
-    <? if (get_device_type() == "PC") {
-        if ($cur_win == "my_info") {
-            $my_info_img = "/iam/img/menu/icon_myinfo_active.png";
-            $my_info_style = "font-weight: bold";
-            $we_con_img = "/iam/img/menu/icon_westory.png";
-            $iam_mall_img = "/iam/img/menu/icon_withyou.png";
-        } else if ($cur_win == "we_story") {
-            $my_info_img = "/iam/img/menu/icon_myinfo.png";
-            $we_con_img = "/iam/img/menu/icon_westory_active.png";
-            $we_con_style = "font-weight: bold";
-            $iam_mall_img = "/iam/img/menu/icon_withyou.png";
-        } else if ($cur_win == "iam_mall") {
-            $my_info_img = "/iam/img/menu/icon_myinfo.png";
-            $we_con_img = "/iam/img/menu/icon_westory.png";
-            $iam_mall_img = "/iam/img/menu/icon_withyou_active.png";
-            $iam_mall_style = "font-weight: bold";
-        } else {
-            $my_info_img = "/iam/img/menu/icon_myinfo.png";
-            $we_con_img = "/iam/img/menu/icon_westory.png";
-            $iam_mall_img = "/iam/img/menu/icon_withyou.png";
-        }
-    ?>
-        <div style="display: flex;">
-            <div id="left_menu" style="position:relative;margin-top:58px;">
-                <div style="position: fixed;border-top:1px solid #ddd;" class="iam_menu_lr">
-                    <div onclick="contents_add('<?= $card_owner ?>','','<?= $my_first_card ?>');" style="padding:20px;margin-top: 20px;" class="iam_menu_div"
-                    onmouseover="image_hover(this,'/iam/img/menu/icon_plus_active.png');" 
-                    onmouseout="image_hover(this,'/iam/img/menu/icon_plus.png');">
-                        <img src="/iam/img/menu/icon_plus.png" style="height:32px;">
-                        <span style="font-weight: bold;">&nbsp;&nbsp;콘텐츠 등록</span>
-                    </div>
-                    
-                    <div onclick="iam_mystory('<?=$request_short_url . $card_owner_code?>&type=image&cur_win=my_info');" class="iam_menu_div"
-                    onmouseover="image_hover(this,'/iam/img/menu/icon_myinfo_active.png');" 
-                    onmouseout="image_hover(this,'/iam/img/menu/icon_myinfo.png');">
-                        <img src="<?= $my_info_img ?>" class="iconperson" style="margin-top:0px">
-                        <span style="<?= $my_info_style ?>">&nbsp;&nbsp;마이카드</span>
-                    </div>
-                    <div onclick="iam_mystory('cur_win=we_story&type=pin&pre_win=my_info');" class="iam_menu_div"
-                    onmouseover="image_hover(this,'/iam/img/menu/icon_westory_active.png');" 
-                    onmouseout="image_hover(this,'/iam/img/menu/icon_westory.png');">
-                        <img src="<?= $we_con_img ?>" class="iconperson" style="margin-top:0px">
-                        <span style="<?= $we_con_style ?>">&nbsp;&nbsp;위콘텐츠</span>
-                    </div>
-                    <div onclick="calliya_tab()" class="iam_menu_div"
-                    onmouseover="image_hover(this,'/iam/img/menu/icon_withyou_active.png');" 
-                    onmouseout="image_hover(this,'/iam/img/menu/icon_withyou.png');">
-                        <img src="<?= $iam_mall_img ?>" class="iconperson" style="margin-top:0px">
-                        <span style="<?= $iam_mall_style ?>">&nbsp;&nbsp;아이엠쇼핑</span>
-                    </div>
-                    <div onclick="" class="iam_menu_div"
-                    onmouseover="image_hover(this,'/iam/img/menu/icon_iam_with_active.png');" 
-                    onmouseout="image_hover(this,'/iam/img/menu/icon_iam_with.png');">
-                        <img src="/iam/img/menu/icon_iam_with.png" class="iconperson" style="margin-top:0px">
-                        <span style="<?= $iam_mall_style ?>">&nbsp;&nbsp;아이엠위드</span>
-                    </div>
-                    <div style="height:100px;border-bottom:1px solid #ddd"></div>
-                    <div onclick="go_home()" class="iam_menu_div">
-                        <img src="/iam/img/menu/icon_app_home.png" class="iconperson" style="margin-top:0px">
-                        <span>&nbsp;&nbsp;앱홈으로</span>
-                    </div>
-                    <div onclick="addMainBtn('<?= $cur_card['card_name'] ?>','<?= '?' . $request_short_url . $card_owner_code ?>');" class="iam_menu_div">
-                        <img src="/iam/img/menu/icon_add_main.png" class="iconperson" style="margin-top:0px">
-                        <span>&nbsp;&nbsp;홈화면추가</span>
-                    </div>
-                    <div onclick="make_qr()" class="iam_menu_div">
-                        <img src="/iam/img/menu/icon_qr.png" class="iconperson" style="margin-top:0px">
-                        <span>&nbsp;&nbsp;QR코드생성</span>
-                    </div>
-                    <div onclick="<?= 'location.href=\'https://tinyurl.com/hb2pp6n2\'' ?>" class="iam_menu_div">
-                        <img src="/iam/img/menu/icon_guide.png" class="iconperson" style="margin-top:0px">
-                        <span>&nbsp;&nbsp;이용도움말</span>
-                    </div>
-                    <div onclick="<?= 'location.href=\'' . ($domainData['kakao'] != "" ?$domainData['kakao']:'https://pf.kakao.com/_jVafC/chat') . '\'' ?>" class="iam_menu_div">
-                        <img src="/iam/img/menu/icon_ask_manager.png" class="iconperson" style="margin-top:0px">
-                        <span>&nbsp;&nbsp;관리자문의</span>
-                    </div>
-                    <div onclick="<?= 'location.href=\'http://tinyurl.com/5n8pk32f' ?>" class="iam_menu_div">
-                        <img src="/iam/img/menu/icon_app_install.png" class="iconperson" style="margin-top:0px">
-                        <span>&nbsp;&nbsp;앱설치하기</span>
-                    </div>
-                </div>
-            </div>
-        <? } ?>
-        <div id="wrap" class="common-wrap <?= get_device_type() ?>">
-            <? if (get_device_type() == "Android") { ?>
-                <div id="footer_menu" style="position: fixed;justify-content: space-around;width: 100%;height:52px;z-index: 100;bottom: 0px;display: flex;max-width: 768px;background:white;border-top : 1px solid #ddd">
-                    <?
-                    if ($domainData['admin_iam_menu'] == 0) {
-                        $menu_query = "select * from Gn_Iam_Menu where site_iam='kiam' and menu_type='B' and use_yn = 'y' order by display_order";
-                    } else {
-                        $menu_query = "select * from Gn_Iam_Menu where site_iam='{$menu_host}' and menu_type='B' and use_yn = 'y' order by display_order";
-                    }
-                    $menu_res = mysqli_query($self_con, $menu_query);
-                    while ($menu_row = mysqli_fetch_array($menu_res)) {
-                        $img_str = explode(".", $menu_row['img_url']);
-                        $img_default = $img_str[0];
-                        $img_active = $img_default . "_active";
-                        $img_ext = "." . $img_str[1];
-                        $func = str_replace("card_link", $request_short_url . $card_owner_code, $menu_row['move_url']);
-                        $func = str_replace("prewin", $cur_win, $func);
-                        $func = str_replace("card_owner", $card_owner, $func);
-                        $func = str_replace("my_first_card", $my_first_card, $func);
-                        if (strstr($func, "contents_add")) {
-                            $style = "style=\"cursor:pointer;padding:6px\"";
-                            $style_img = "style=\"height:40px;\"";
-                        } else {
-                            $style = "style=\"cursor:pointer\"";
-                            $style_img = "class=\"iconperson\"";
-                        }
-                        if ($menu_row['page_type'] == $cur_win) {
-                            $img = $img_active . $img_ext;
-                        } else {
-                            $img = $img_default . $img_ext;
-                        }
-                        if ($menu_row['page_type'] == "alarm" && $alarm_count > 0)
-                            $alarm_label = "<label class=\"label label-sm share_count\" style=\"top: 10px;margin-left: -10px;\" id=\"alarm_count\">" . $alarm_count . "</label>";
-                        else
-                            $alarm_label = "";
-                        $html = "<div title=\"" . $menu_row['title'] . "\" onclick=\"" . $func . "\"" . $style . ">";
-                        $html .= "<img src = \"" . $img . "\" " . $style_img . ">";
-                        $html .= $alarm_label;
-                        if (strstr($func, "go_cart()")) {
-                            $html .= "<label class=\"label label-sm share_count\" id = \"cart_cnt\" style=\"top:0px;margin-left: -5px;\">" . ($cart_cnt ? $cart_cnt : '') . "</label>";
-                        }
-                        $html .= "</div>";
-                        echo $html;
-                    }
-                    ?>
-                    <? if (!$_SESSION['iam_member_id']) { ?>
-                        <div id="btn_login" style="margin-top:12px;text-align: center;cursor:pointer" onclick="location.href = '<?= ($domainData['status'] == 'N') ? '' : '/iam/login.php?recommend_id=' . $card_owner ?>'">
-                            <img src="/iam/img/menu/icon_bottom_login.png" style="height:24px;width:24px">
-                        </div>
-                        <? } else {
-                        if ($member_iam['profile']) { ?>
-                            <div style="cursor:pointer;margin-top:12px;width:24px;height:24px;border-radius: 50%;overflow: hidden" onclick="$('#mypage-modalwindow').modal('show');">
-                                <img src="<?= cross_image($member_iam['profile']) ?>" style="width:100%;height:100%;object-fit: cover;">
-                            </div>
-                        <? } else { ?>
-                            <div style="cursor:pointer;margin-top:12px;background:<?= $profile_color ?>;padding:5px 0px;width:24px;height:24px;border-radius: 50%;overflow:hidden;text-align:center;" onclick="$('#mypage-modalwindow').modal('show');">
-                                <a class="profile_font" style="color:white;width:100%;height:100%;object-fit: cover;"><?= mb_substr($member_iam['mem_name'], 0, 3, "utf-8") ?></a>
-                            </div>
-                    <? }
-                    } ?>
-                </div>
-            <?
-            }
-            if ($cur_win == "" || $cur_win == "my_info" || $cur_win == "my_story" || $cur_win == "we_story") {
-                if (get_device_type() == "Android") {
-                    $star_top = 58;
+        <?
+        if ($cur_win == "" || $cur_win == "my_info" || $cur_win == "my_story" || $cur_win == "we_story")
+            $star_top = 86;
+        else if ($cur_win == "iam_mall") {
+            if ($_GET['mall_type1'] == "gallery")
+                $star_top = 305;
+            else
+                $star_top = 255;
+        } else if ($cur_win == "group-con")
+            $star_top = 175;
+        else if ($cur_win == "shared_receive" || $cur_win == "shared_send" || $cur_win == "unread_post" || $cur_win == "request_list" || $cur_win == "unread_notice")
+            $star_top = 165;
+        else
+            $star_top = 135;
+        ?>
+        <main id="star" class="common-wrap" style="margin-top: <?= $star_top . 'px' ?>">
+            <script>
+                if ('<?= $cur_win ?>' == "we_story") {
+                    $("#star").css("margin-top", <?= $star_top ?> + $("#we_story_tab").height() + "px");
                 }
-            } else if ($cur_win == "best_sample" || $cur_win == "sample" || $cur_win == "recent_sample") { 
-                if (get_device_type() == "Android")
-                    $star_top = 100;
-            ?>
-                <div class="panel-group <?=get_device_type()?>" style="border-bottom:1px solid #ddd">
-                    <div style="display:flex">
-                        <button class="btn  btn-link" onclick="iam_mystory('cur_win=sample')" title="전체 샘플" style="<?= ($cur_win == 'sample' && $sample_key == "") ? 'color:#99cc00;' : 'color:black' ?>;padding:10px">
-                            <h5 style="text-decoration-line: none">전체</h5>
-                        </button>
-                        <button class="btn  btn-link" onclick="iam_mystory('cur_win=best_sample')" title="베스트 샘플" style="<?= $cur_win == 'best_sample' ? 'color:#99cc00;' : 'color:black' ?>;padding:10px">
-                            <h5>베스트</h5>
-                        </button>
-                        <button class="btn  btn-link" onclick="iam_mystory('cur_win=sample&sample_key=연예')" title="연예" style="<?= $sample_key == '연예' ? 'color:#99cc00;' : 'color:black' ?>;padding:10px">
-                            <h5>연예</h5>
-                        </button>
-                        <button class="btn  btn-link" onclick="iam_mystory('cur_win=sample&sample_key=정치')" title="정치" style="<?= $sample_key == '정치' ? 'color:#99cc00;' : 'color:black' ?>;padding:10px">
-                            <h5>정치</h5>
-                        </button>
-                        <button class="btn  btn-link" onclick="iam_mystory('cur_win=sample&sample_key=대표')" title="대표" style="<?= $sample_key == '대표' ? 'color:#99cc00;' : 'color:black' ?>;padding:10px">
-                            <h5>대표</h5>
-                        </button>
-                    </div>
-                </div>
-        <? } else if ($cur_win == "iam_mall") {
-                if (get_device_type() == "Android")
-                    $star_top = 100;
-                else {
-                    if ($_GET['mall_type1'] == "iam") { ?>
-                        <script>
-                            $(document).ready(function() {
-                                $(document).bind("contextmenu", function(e) {
-                                    alert('AI모델 저작권은 제작자에게 귀속되어 있으므로 무단 사용시 법적 제제를 받을 수 있습니다');
-                                    return false;
-                                });
-                            });
-                        </script>
-                    <? } ?>
-                    <div class="panel-group <?=get_device_type()?>">
-                        <div style="background-color:white;padding: 0px;" class="mall-group">
-                            <? if ($mall_type1 == 'gallery') { ?>
-                                <div>
-                                    <div style="display: flex;justify-content: space-evenly;">
-                                        <div><input type="radio" class="art_type" value="0" <? if (!isset($_GET['art_type'])) echo "checked"; ?> onclick="location.href='<?= '?cur_win=' . $cur_win . '&mall_type=' . $mall_type . '&mall_type1=gallery' ?>'"><label style="margin: 15px 5px;">전체</label></div>
-                                        <div><input type="radio" class="art_type" value="11" <? if ($_GET['art_type'] == 11) echo "checked"; ?> onclick="location.href='<?= '?cur_win=' . $cur_win . '&mall_type=' . $mall_type . '&mall_type1=gallery&art_type=11' ?>'"><label style="margin: 15px 5px;">회화</label></div>
-                                        <div><input type="radio" class="art_type" value="12" <? if ($_GET['art_type'] == 12) echo "checked"; ?> onclick="location.href='<?= '?cur_win=' . $cur_win . '&mall_type=' . $mall_type . '&mall_type1=gallery&art_type=12' ?>'"><label style="margin: 15px 5px;">판화</label></div>
-                                        <div><input type="radio" class="art_type" value="13" <? if ($_GET['art_type'] == 13) echo "checked"; ?> onclick="location.href='<?= '?cur_win=' . $cur_win . '&mall_type=' . $mall_type . '&mall_type1=gallery&art_type=13' ?>'"><label style="margin: 15px 5px;">조형</label></div>
-                                        <div><input type="radio" class="art_type" value="14" <? if ($_GET['art_type'] == 14) echo "checked"; ?> onclick="location.href='<?= '?cur_win=' . $cur_win . '&mall_type=' . $mall_type . '&mall_type1=gallery&art_type=14' ?>'"><label style="margin: 15px 5px;">사진</label></div>
-                                        <div><input type="radio" class="art_type" value="15" <? if ($_GET['art_type'] == 15) echo "checked"; ?> onclick="location.href='<?= '?cur_win=' . $cur_win . '&mall_type=' . $mall_type . '&mall_type1=gallery&art_type=15' ?>'"><label style="margin: 15px 5px;">AI아트</label></div>
-                                        <div><input type="radio" class="art_type" value="16" <? if ($_GET['art_type'] == 16) echo "checked"; ?> onclick="location.href='<?= '?cur_win=' . $cur_win . '&mall_type=' . $mall_type . '&mall_type1=gallery&art_type=16' ?>'"><label style="margin: 15px 5px;">기타</label></div>
-                                    </div>
-                                </div>
-                            <? } ?>
-                            <? if ($_GET['mall_type'] == 'gmarket' || $_GET['mall_type'] == '') { ?>
-                                <div style="display:flex;justify-content: space-between;">
-                                    <div class="container" style="border-color: #ddd;">
-                                        <a class="gwc_con_type" name="mall_sub_type" style="cursor:pointer;line-height: 40px;<? if ($_GET['mall_sub_type'] == "intro") echo 'color:#529c03;'; ?>" value="intro">소개</a>
-                                        <a href="javascript:gwc_tab()" style="cursor:pointer;line-height: 40px;margin-left: 5px;<? if ($_GET['mall_sub_type'] != "intro" && $_GET['iamstore'] != "Y" && $_GET['iamstore'] != "C" && !$_GET['cate_prod']) echo 'color:#529c03;'; ?>" value="shopping">쇼핑</a>
-                                        <a href="javascript:show_gwc_cate_prod('1268514')" id="recom_gwc_item" style="cursor:pointer;margin-left:5px;<? if ($_GET['cate_prod'] == "1268514") echo 'color:#529c03;'; ?>" value="1">추천</a>
-                                        <a href="javascript:show_gwc_cate_prod('2477701')" id="best_gwc_item" style="cursor:pointer;margin-left:5px;<? if ($_GET['cate_prod'] == "2477701") echo 'color:#529c03;'; ?>" value="1">베스트</a>
-                                    </div>
-                                    <div class="container" style="padding:0px;margin-left: -20px;margin-right:15px;">
-                                        <ul class="nav" style="display:flex;flex-wrap: wrap;margin-top: 10px;float: right;">
-                                            <li class="nav-item" style="width: auto;">
-                                                <a href="javascript:show_iamstore_prod('Y')" style="padding:0px 1px;margin-right:2px;<? if ($_GET['iamstore'] == "Y") echo 'color:#529c03;'; ?>" value="1">도매몰 </a>
-                                            </li>
-                                            <li class="nav-item" style="width: auto;">
-                                                <a href="javascript:show_iamstore_prod('C')" style="padding:0px 1px;<? if ($_GET['iamstore'] == "C") echo 'color:#529c03;'; ?>" value="2">마이샵 </a>
-                                            </li>
-                                            <li class="nav-item" style="width: auto;">
-                                                <div class="dropdown" style="display: flex;margin-left:5px;">
-                                                    <p class="dropdown-toggle westory_dropdown" data-toggle="dropdown" style="height:24px;padding:0px;margin-top:0px;" aria-expanded="false">주문목록<img src="/iam/img/menu/icon_sort_gwc.png" style="width: 10px;height: 7px;margin-left: 3px;"></p>
-                                                    <ul class="dropdown-menu comunity" style="left: -30px !important;padding: 0px;border:none;min-width: 100px;width: 100px;">
-                                                        <li>
-                                                            <table class="table table-borderless" style="margin-bottom:0px">
-                                                                <tbody>
-                                                                    <tr>
-                                                                        <td style="border-top:none">
-                                                                            <a href="/iam/gwc_order_list.php" style="padding:0px 1px;" value="0">주문목록</a>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td style="border-top:none">
-                                                                            <a href="/iam/gwc_order_cart.php" style="padding:0px 1px;" value="0">장바구니</a>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td style="border-top:none">
-                                                                            <a href="/iam/gwc_order_change_list.php" style="padding:0px 1px;" value="0">취소/반품</a>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td style="border-top:none">
-                                                                            <a href="/iam/req_provider_list.php" style="padding:0px 1px;" value="0">공급신청</a>
-                                                                        </td>
-                                                                    </tr>
-                                                                </tbody>
-                                                            </table>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            <? } else if ($_GET['mall_type'] == 'calliya') { ?>
-                                <div style="display:flex;justify-content: space-between;background-color: #f5f5f5;">
-                                    <div class="callya_sort">
-                                        <ul class="nav">
-                                            <li class="nav-item" style="width: auto;display: inline-block;">
-                                                <a class="map_gmarket" name="mall_sub_type" style="padding:0px 5px;<? if ($_GET['mall_sub_type'] == "intro") echo 'color:#529c03;'; ?>" value="intro">소개</a>
-                                            </li>
-                                            <!--li class="nav-item" style="width: auto;display: inline-block;">
-                                <a class="map_gmarket" name="mall_sub_type" style="padding:0px 2px;<? if ($_GET['mall_sub_type'] == "all" || $_GET['mall_sub_type'] == "") echo 'color:#529c03;'; ?>" value="all">전체</a>
-                            </li-->
-                                            <!--li class="nav-item" style="width: auto;margin-top: 5px;display: inline-block;">
-                                <a class="map_gmarket" name="mall_sub_type" style="padding:0px 2px;<? if ($_GET['mall_sub_type'] == "shipping") echo 'color:#529c03;'; ?>" value="shipping">배송</a>
-                            </li-->
-                                            <li class="nav-item" style="width: auto;display: inline-block;">
-                                                <a class="map_gmarket" name="mall_sub_type" style="padding:0px 5px;<? if ($_GET['mall_sub_type'] == "visit") echo 'color:#529c03;'; ?>" value="visit">방문</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="recom_like_tab">
-                                        <ul class="nav" style="float: right;">
-                                            <li class="nav-item" style="width: auto;display: inline-block;">
-                                                <a class="map_gmarket_sort" name="sort_calliya" style="padding:0px;<? if ($_GET['sort_calliya'] == "1") echo 'color:#99cc00;'; ?>" value="1">할인 | </a>
-                                            </li>
-                                            <li class="nav-item" style="width: auto;display: inline-block;">
-                                                <a class="map_gmarket_sort" name="sort_calliya" style="padding:0px;<? if ($_GET['sort_calliya'] == "2") echo 'color:#99cc00;'; ?>" value="2">저가 | </a>
-                                            </li>
-                                            <li class="nav-item" style="width: auto;display: inline-block;">
-                                                <a class="map_gmarket_sort" name="sort_calliya" style="padding:0px;<? if ($_GET['sort_calliya'] == "3") echo 'color:#99cc00;'; ?>" value="3">고가 | </a>
-                                            </li>
-                                            <li class="nav-item" style="width: auto;display: inline-block;">
-                                                <a class="map_gmarket_sort" name="sort_calliya" style="padding:0px;<? if ($_GET['sort_calliya'] == "0") echo 'color:#99cc00;'; ?>" value="0">최신</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            <? } ?>
-                        </div>
-                    </div>
-                <? }
-            } else if ($cur_win == "group-con")
-                $star_top = 175;
-            else if ($cur_win == "alarm") {
-                if (get_device_type() == "Android")
-                    $star_top = 230;
-                else {
-                    $star_top = 0; ?>
-                    <div class="panel-group <?=get_device_type()?>">
-                        <div style="background: #f4f2f2;height:48px;text-align:center;font-weight:bold;font-size:18px;padding-top: 10px">알림</div>
-                        <div style="margin-top: 10px;position:relative">
-                            <?
-                            $alarm_style = "style=\"cursor:pointer;margin-left:10px;padding:10px 20px;border-radius:20px;";
-                            if ($alarm_mode == "shared_send" || $alarm_mode == "shared_receive")
-                                $cont_style = $alarm_style . "background:black;color:white\"";
-                            else
-                                $cont_style = $alarm_style . "background:white;color:black;border: 1px solid #ddd;\"";
-                            if ($alarm_mode == "notice_recv" || $alarm_mode == "notice_send")
-                                $notice_style = $alarm_style . "background:black;color:white\"";
-                            else
-                                $notice_style = $alarm_style . "background:white;color:black;border: 1px solid #ddd;\"";
-                            if ($alarm_mode == "friends_list")
-                                $friend_style = $alarm_style . "background:black;color:white\"";
-                            else
-                                $friend_style = $alarm_style . "background:white;color:black;border: 1px solid #ddd;\"";
-                            if ($alarm_mode == "request_list" || $alarm_mode == "report_list")
-                                $event_style = $alarm_style . "background:black;color:white\"";
-                            else
-                                $event_style = $alarm_style . "background:white;color:black;border: 1px solid #ddd;\"";
-                            ?>
-                            <a onclick="iam_mystory('cur_win=alarm&alarm_mode=shared_receive&modal=Y')" class="badge badge-pill badge-danger" <?= $cont_style ?>>
-                                콘텐츠
-                                <label class="label label-sm share_count" style="top:-5px;margin-left:10px;" id="alarm_cont_count"><?= $recv_con_alarm_cnt > 0 ? $recv_con_alarm_cnt : '' ?></label>
-                            </a>
-                            <a onclick="iam_mystory('cur_win=alarm&alarm_mode=notice_recv&modal=Y')" class="badge badge-pill badge-danger" <?= $notice_style ?>>
-                                공지
-                                <label class="label label-sm share_count" style="top:-5px;margin-left:10px;" id="alarm_cont_count"><?= $recv_notice_alarm_cnt > 0 ? $recv_notice_alarm_cnt : '' ?></label>
-                            </a>
-                            <a onclick="iam_mystory('cur_win=alarm&alarm_mode=friends_list&mode=recv')" class="badge badge-pill badge-danger" <?= $friend_style ?>>프렌즈</a>
-                            <a onclick="iam_mystory('cur_win=alarm&alarm_mode=request_list')" class="badge badge-pill badge-danger" <?= $event_style ?>>신청내역</a>
-                        </div>
-                        <div style="margin-top:10px;display:flex;">
-                            <?
-                            $alarm_style = "style=\"cursor:pointer;width: 50%;height:50px;text-align:center;padding-top:15px;";
-                            if ($alarm_mode == "shared_send" || $alarm_mode == "shared_receive") {
-                                if ($alarm_mode == "shared_send") {
-                                    $con_recv_style = $alarm_style . "background:#f5f5f5;font-weight:bold\"";
-                                    $con_send_style = $alarm_style . "background:white;font-weight:300\"";
-                                } else {
-                                    $con_send_style = $alarm_style . "background:#f5f5f5;font-weight:bold\"";
-                                    $con_recv_style = $alarm_style . "background:white;font-weight:300\"";
-                                }
-                            ?>
-                                <div onclick="iam_mystory('cur_win=alarm&alarm_mode=shared_receive&modal=Y')" <?= $con_recv_style ?>>콘텐츠 수신</div>
-                                <div onclick="iam_mystory('cur_win=alarm&alarm_mode=shared_send&modal=Y')" <?= $con_send_style ?>>콘텐츠 전송</div>
-                            <? } else if ($alarm_mode == "notice_recv" || $alarm_mode == "notice_send") {
-                                if ($alarm_mode == "notice_send") {
-                                    $notice_recv_style = $alarm_style . "background:#f5f5f5;font-weight:bold\"";
-                                    $notice_send_style = $alarm_style . "background:white;font-weight:300\"";
-                                } else {
-                                    $notice_send_style = $alarm_style . "background:#f5f5f5;font-weight:bold\"";
-                                    $notice_recv_style = $alarm_style . "background:white;font-weight:300\"";
-                                }
-                            ?>
-                                <div onclick="iam_mystory('cur_win=alarm&alarm_mode=notice_recv&modal=Y')" <?= $notice_recv_style ?>>공지 수신</div>
-                                <div onclick="iam_mystory('cur_win=alarm&alarm_mode=notice_send&modal=Y')" <?= $notice_send_style ?>>공지 전송</div>
-                            <? } else if ($alarm_mode == "request_list" || $alarm_mode == "report_list") {
-                                if ($alarm_mode == "report_list") {
-                                    $req_style = $alarm_style . "background:#f5f5f5;font-weight:bold\"";
-                                    $repo_style = $alarm_style . "background:white;font-weight:300\"";
-                                } else {
-                                    $repo_style = $alarm_style . "background:#f5f5f5;font-weight:bold\"";
-                                    $req_style = $alarm_style . "background:white;font-weight:300\"";
-                                }
-                            ?>
-                                <div onclick="iam_mystory('cur_win=alarm&alarm_mode=request_list')" <?= $req_style ?>>이벤트 신청내역</div>
-                                <div onclick="iam_mystory('cur_win=alarm&alarm_mode=report_list')" <?= $repo_style ?>>리포트 신청내역</div>
-                            <? } else if ($alarm_mode == "friends_list") {
-                                if ($mode == "recv") {
-                                    $fsend_style = $alarm_style . "background:#f5f5f5;font-weight:bold\"";
-                                    $frecv_style = $alarm_style . "background:white;font-weight:300\"";
-                                } else {
-                                    $frecv_style = $alarm_style . "background:#f5f5f5;font-weight:bold\"";
-                                    $fsend_style = $alarm_style . "background:white;font-weight:300\"";
-                                }
-                            ?>
-                                <div onclick="iam_mystory('cur_win=alarm&alarm_mode=friends_list&mode=recv')" <?= $frecv_style ?>>나를 추가했어요</div>
-                                <div onclick="iam_mystory('cur_win=alarm&alarm_mode=friends_list&mode=send')" <?= $fsend_style ?>>내가 추가했어요</div>
-                            <? } ?>
-                        </div>
-                    </div>
-            <? }
-            } else
-                $star_top = 100;
-            ?>
-            <main id="star" style="margin-top: <?= $star_top . 'px' ?>">
-                <!-- 콘텐츠 영역 시작 -->
-                <?
-                // middle log
-                $logs->add_log("contents start");
-                if ($cur_win == "iam_mall") { ?>
-                    <section id="main-slider">
-                        <!-- 슬라이더 영역 시작 -->
-                        <div id="mainSlider">
-                            <? if ($main_img1) { ?>
+            </script>
+            <!-- 콘텐츠 영역 시작 -->
+            <?
+            // middle log
+            $logs->add_log("contents start");
+
+            if ($cur_win == "my_info") { ?>
+                <section id="main-slider">
+                    <!-- 슬라이더 영역 시작 -->
+                    <div id="mainSlider" style="">
+                        <? if ($cur_card['video_status'] == 'I') {
+                            if ($main_img1) { ?>
                                 <div class="slider-item">
                                     <a data-fancybox="gallery" id="main_img1" href="<?= cross_image($main_img1) ?>">
                                         <img id="for_size_1" src="<?= cross_image($main_img1) ?>" style="opacity:0;">
                                     </a>
                                 </div>
-                            <? }
-                            if ($main_img2) { ?>
+                            <? } ?>
+                            <? if ($main_img2) { ?>
                                 <div class="slider-item">
                                     <a id="main_img2" data-fancybox="gallery" href="<?= cross_image($main_img2) ?>">
                                         <img id="for_size_2" src="<?= cross_image($main_img2) ?>" style="opacity:0;">
                                     </a>
                                 </div>
-                            <? }
-                            if ($main_img3) { ?>
+                            <? } ?>
+                            <? if ($main_img3) { ?>
                                 <div class="slider-item">
                                     <a id="main_img3" data-fancybox="gallery" href="<?= cross_image($main_img3) ?>">
                                         <img id="for_size_3" src="<?= cross_image($main_img3) ?>" style="opacity:0;">
                                     </a>
                                 </div>
-                            <?  } ?>
-                        </div>
-                        <div class="slider-arrows"></div>
-                    </section>
-                <? } else if ($cur_win == "my_info") { ?>
-                    <section id="main-slider">
-                        <!-- 슬라이더 영역 시작 -->
-                        <div id="mainSlider">
-                            <? if ($cur_card['video_status'] == 'I') {
-                                if ($main_img1) { ?>
-                                    <div class="slider-item">
-                                        <a data-fancybox="gallery" id="main_img1" href="<?= cross_image($main_img1) ?>">
-                                            <img id="for_size_1" src="<?= cross_image($main_img1) ?>" style="opacity:0;">
-                                        </a>
-                                    </div>
-                                <? }
-                                if ($main_img2) { ?>
-                                    <div class="slider-item">
-                                        <a id="main_img2" data-fancybox="gallery" href="<?= cross_image($main_img2) ?>">
-                                            <img id="for_size_2" src="<?= cross_image($main_img2) ?>" style="opacity:0;">
-                                        </a>
-                                    </div>
-                                <? }
-                                if ($main_img3) { ?>
-                                    <div class="slider-item">
-                                        <a id="main_img3" data-fancybox="gallery" href="<?= cross_image($main_img3) ?>">
-                                            <img id="for_size_3" src="<?= cross_image($main_img3) ?>" style="opacity:0;">
-                                        </a>
-                                    </div>
-                                <? }
-                            } else { ?>
-                                <div style="position:relative">
-                                    <a style="position: absolute;top: 20px;left: 20px;background: #f3f3f3;display: flex;padding:5px;padding-right:15px;z-index:10;text-decoration-line: none;" class="unmute_btn">
-                                        <img src="/iam/img/main/mute.png" style="height: 30px">
-                                        <p style="margin-top: 5px;font-weight:bold;">탭하여 음소거 해제</p>
-                                    </a>
-                                    <video src="<?= $cur_card['video'] ?>" type="video/mp4" autoplay loop muted playsinline preload style="width:100%;height:100%;object-fit:cover" id="videoSlider">
-                                    </video>
-                                    <img src="/iam/img/movie_play.png" style="display:none;width:70px;top:auto;left:20px;bottom:20px;" class="movie_play">
-                                </div>
-                            <? } ?>
-                        </div>
-                        <? //본사회원,분양사관리자,분양사회원(1번카드가 아니면) 대표이미지 수정가능
-                        if ($_SESSION['iam_member_id'] == $card_owner && $_SESSION['iam_member_id'] == $card_master) {
-                            if (!$cur_card['share_send_card']) { ?>
-                                <a href="#" class="controls" title="<?= $MENU['IAM_MENU']['M9_TITLE']; ?>" data-card_idx="<?= $cur_card['idx'] ?>">
-                                    <i class="fa fa-pencil-square-o" aria-hidden="false" style="background: rgba(255, 255, 255, 0.6);padding: 3px;border-radius: 5px;"></i>
+                            <? }
+                        } else { ?>
+                            <div style="position:relative">
+                                <a style="position: fixed;top: 20px;left: 20px;background: #f3f3f3;display: flex;padding:5px;padding-right:15px;z-index:10;" class="unmute_btn">
+                                    <img src="/iam/img/main/mute.png" style="height: 30px">
+                                    <p style="margin-top: 5px;font-weight:bold;">탭하여 음소거 해제</p>
                                 </a>
-                                <span class="tooltiptext" id="tooltiptext_upload_img" style="display:none;">
-                                    <p style="font-weight:bold;margin-bottom:-15px;"><img src="/iam/img/main/icon-poplogo.png" style="width:12%;margin-right:5px;margin-bottom: 5px;">2. 대표 이미지 업로드</p><br>
-                                    나의 IAM 카드의 대표사진을<br>
-                                    업로드하세요.<br>
-                                    <button type="button" class="btn btn-default btn-submit" style="border-radius: 5px;width:38%;font-size:15px;background-color: lightgrey;margin-top: 10px;margin-left: 20px;" onclick="open_main_img('<?= $cur_card['idx'] ?>')">만들기</button>
-                                    <button type="button" class="btn btn-default btn-submit" style="border-radius: 5px;width:38%;font-size:15px;background-color: lightgrey;margin-top: 10px;" onclick="close_tooptip(2)">다음</button>
-                                </span>
-                        <?  }
-                        }
-                        ?>
-                        <div class="slider-arrows"></div>
-                    </section><!-- // 슬라이더 영역 끝 -->
-                    <!-- // 중단 콘텐츠 영역  -->
-                    <section id="middle">
-                        <?
-                        //연락처 갯수 가져오기
-                        if ($_SESSION['iam_member_id']) {
-                            $contact_count_sql = "select count(idx) from Gn_MMS_Receive_Iam where mem_id = '{$_SESSION['iam_member_id']}' and grp = '아이엠'";
-                            $contact_count_result_ = mysqli_query($self_con, $contact_count_sql);
-                            $contact_count_row = mysqli_fetch_array($contact_count_result_);
-                            $contact_total_count = $contact_count_row[0];
-                        } else {
-                            $contact_total_count = 0;
-                        }
-                        //종이명함 갯수 가져오기
-                        if ($_SESSION['iam_member_id']) {
-                            $paper_count_sql = "select count(*) from Gn_Member_card where mem_id='{$_SESSION['iam_member_id']}'";
-                            $paper_count_result_ = mysqli_query($self_con, $paper_count_sql);
-                            $paper_count_row = mysqli_fetch_array($paper_count_result_);
-                            $paper_total_count = $paper_count_row[0];
-                        } else {
-                            $paper_total_count = 0;
-                        }
+                                <video src="<?= $cur_card['video'] ?>" type="video/mp4" autoplay loop muted playsinline preload style="width:100%;height:100%;object-fit:cover" id="videoSlider">
+                                </video>
+                                <img src="/iam/img/movie_play.png" style="display:none;width:70px;top:auto;left:20px;bottom:20px;" class="movie_play">
+                            </div>
+                        <? } ?>
+                    </div>
+                    <!-- 본사회원,분양사관리자,분양사회원(1번카드가 아니면) 대표이미지 수정가능-->
+                    <? if ($_SESSION['iam_member_id'] == $card_owner && $_SESSION['iam_member_id'] == $card_master) {
+                        if (!$cur_card['share_send_card']) { ?>
+                            <a href="#" class="controls" title="<?= $MENU['IAM_MENU']['M9_TITLE']; ?>" data-card_idx="<?= $cur_card['idx'] ?>">
+                                <i class="fa fa-pencil-square-o" aria-hidden="false" style="background: rgba(255, 255, 255, 0.6);padding: 3px;border-radius: 5px;"></i>
+                            </a>
+                            <span class="tooltiptext" id="tooltiptext_upload_img" style="display:none;">
+                                <p style="font-weight:bold;margin-bottom:-15px;"><img src="/iam/img/main/icon-poplogo.png" style="width:12%;margin-right:5px;margin-bottom: 5px;">2. 대표 이미지 업로드</p><br>
+                                나의 IAM 카드의 대표사진을<br>
+                                업로드하세요.<br>
+                                <button type="button" class="btn btn-default btn-submit" style="border-radius: 5px;width:38%;font-size:15px;background-color: lightgrey;margin-top: 10px;margin-left: 20px;" onclick="open_main_img('<?= $cur_card['idx'] ?>')">만들기</button>
+                                <button type="button" class="btn btn-default btn-submit" style="border-radius: 5px;width:38%;font-size:15px;background-color: lightgrey;margin-top: 10px;" onclick="close_tooptip(2)">다음</button>
+                            </span>
+                    <? }
+                    } ?>
+                    <div class="slider-arrows"></div>
+                </section><!-- // 슬라이더 영역 끝 -->
+                <!-- // 중단 콘텐츠 영역  -->
+                <section id="middle">
+                    <?
+                    //연락처 갯수 가져오기
+                    if ($_SESSION['iam_member_id']) {
+                        $contact_count_sql = "select count(idx) from Gn_MMS_Receive_Iam where mem_id = '{$_SESSION['iam_member_id']}' and grp = '아이엠'";
+                        $contact_count_result_ = mysql_query($contact_count_sql);
+                        $contact_count_row = mysql_fetch_array($contact_count_result_);
+                        $contact_total_count = $contact_count_row[0];
+                    } else {
+                        $contact_total_count = 0;
+                    }
+                    //종이명함 갯수 가져오기
+                    if ($_SESSION['iam_member_id']) {
+                        $paper_count_sql = "select count(*) from Gn_Member_card where mem_id='{$_SESSION['iam_member_id']}'";
+                        $paper_count_result_ = mysql_query($paper_count_sql);
+                        $paper_count_row = mysql_fetch_array($paper_count_result_);
+                        $paper_total_count = $paper_count_row[0];
+                    } else {
+                        $paper_total_count = 0;
+                    }
+                    //프렌즈 갯수 가져오기
+                    $friends_count_sql = "select count(idx) from Gn_Iam_Friends where mem_id = '{$_SESSION['iam_member_id']}'";
+                    $friends_count_result_ = mysql_query($friends_count_sql);
+                    $friends_count_row = mysql_fetch_array($friends_count_result_);
 
-                        // $card_count_sql="select count(*) from Gn_Member";
-                        $card_count_sql = "select idx from Gn_Iam_Name_Card where group_id is NULL order by idx desc limit 1";
-                        $card_count_result = mysqli_query($self_con, $card_count_sql);
-                        $card_count_row = mysqli_fetch_array($card_count_result);
+                    // $card_count_sql="select count(*) from Gn_Member";
+                    $card_count_sql = "select idx from Gn_Iam_Name_Card where group_id is NULL order by idx desc limit 1";
+                    $card_count_result = mysql_query($card_count_sql);
+                    $card_count_row = mysql_fetch_array($card_count_result);
 
-                        $phone_number_sql = "select count(*) from Gn_MMS_Number where mem_id = '{$_SESSION['iam_member_id']}'";
-                        $phone_number_result = mysqli_query($self_con, $phone_number_sql);
-                        $phone_number_row = mysqli_fetch_array($phone_number_result);
-                        $phone_count = $phone_number_row[0];
-                        ?>
-                        <!--a href="#" id="toggleContent" style="position: absolute; right: 5px;"><i class="fa fa-arrow-up" aria-hidden="true"></i></a-->
-                        <!--프로필,스토리,연락처,프렌즈 바-->
-                        <ul class="nav nav-tabs" id="myTab" role="tablist">
-                            <li class="nav-item profile-tab tab_1 active in">
-                                <a class="nav-link" id="profile-tab" title="<?= $MENU['IAM_TAB']['T1_TITLE']; ?>" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="true"><b><?= $MENU['IAM_TAB']['T1']; ?></b><br><small id="my_profile_count"></small></a>
-                            </li>
-                            <li class="nav-item paper-tab tab_1" onclick="loginCheckShowModal()">
-                                <a class="nav-link" id="paper-tab" title="<?= $MENU['IAM_TAB']['T5_TITLE']; ?>" data-toggle="tab" href="#paper" role="tab" onclick="javascript:getIamPaper();" aria-controls="paper" aria-selected="false"><b><?= $MENU['IAM_TAB']['T5']; ?></b><small><br>(<?= number_format_youtube($paper_total_count) ?>)</small></a>
-                            </li>
-                            <li class="nav-item contact-tab tab_1" onclick="loginCheckShowModal()">
-                                <a class="nav-link" id="contact-tab" title="<?= $MENU['IAM_TAB']['T3_TITLE']; ?>" data-toggle="tab" href="#contact" role="tab" onclick="javascript:getIamContact('<?= $card_owner ?>', '<?= $card_master ?>', '<?= $search_range ?>', '<?= $phone_count ?>', 1, 0);" aria-controls="contact" aria-selected="false"><b><?= $MENU['IAM_TAB']['T3']; ?></b><small><br>(<?= number_format_youtube($contact_total_count) ?>)</small></a>
-                            </li>
-                            <li class="nav-item friends-tab tab_1" onclick="loginCheckShowModalFriends()">
-                                <a class="nav-link" id="friends-tab" title="<?= $MENU['IAM_TAB']['T4_TITLE']; ?>" data-toggle="tab" href="#friends" role="tab" onclick="javascript:getIamFriends('<?= $card_owner ?>', '<?= $card_master ?>', '<?= $phone_count ?>', '', 1 );" aria-controls="friends" aria-selected="false"><b><?= $MENU['IAM_TAB']['T4']; ?></b><small><br>(<?= number_format_youtube($card_count_row[0]) ?>)</small></a>
-                            </li>
-                        </ul>
+                    $phone_number_sql = "select count(*) from Gn_MMS_Number where mem_id = '{$_SESSION['iam_member_id']}'";
+                    $phone_number_result = mysql_query($phone_number_sql);
+                    $phone_number_row = mysql_fetch_array($phone_number_result);
+                    $phone_count = $phone_number_row[0];
+                    ?>
+                    <!--a href="#" id="toggleContent" style="position: absolute; right: 5px;"><i class="fa fa-arrow-up" aria-hidden="true"></i></a-->
+                    <!--프로필,스토리,연락처,프렌즈 바-->
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item profile-tab tab_1 active in">
+                            <a class="nav-link" id="profile-tab" title="<?= $MENU['IAM_TAB']['T1_TITLE']; ?>" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="true"><b><?= $MENU['IAM_TAB']['T1']; ?></b><br><small id="my_profile_count"></small></a>
+                        </li>
+                        <li class="nav-item paper-tab tab_1" onclick="loginCheckShowModal()">
+                            <a class="nav-link" id="paper-tab" title="<?= $MENU['IAM_TAB']['T5_TITLE']; ?>" data-toggle="tab" href="#paper" role="tab" onclick="javascript:getIamPaper('<?= $card_owner ?>', '<?= $card_master ?>', '<?= $search_range ?>', '<?= $phone_count ?>', 1 );" aria-controls="paper" aria-selected="false"><b><?= $MENU['IAM_TAB']['T5']; ?></b><small><br>(<?= number_format($paper_total_count) ?>)</small></a>
+                        </li>
+                        <li class="nav-item contact-tab tab_1" onclick="loginCheckShowModal()">
+                            <a class="nav-link" id="contact-tab" title="<?= $MENU['IAM_TAB']['T3_TITLE']; ?>" data-toggle="tab" href="#contact" role="tab" onclick="javascript:getIamContact('<?= $card_owner ?>', '<?= $card_master ?>', '<?= $search_range ?>', '<?= $phone_count ?>', 1, 0);" aria-controls="contact" aria-selected="false"><b><?= $MENU['IAM_TAB']['T3']; ?></b><small><br>(<?= number_format($contact_total_count) ?>)</small></a>
+                        </li>
+                        <li class="nav-item friends-tab tab_1" onclick="loginCheckShowModalFriends()">
+                            <a class="nav-link" id="friends-tab" title="<?= $MENU['IAM_TAB']['T4_TITLE']; ?>" data-toggle="tab" href="#friends" role="tab" onclick="javascript:getIamFriends('<?= $card_owner ?>', '<?= $card_master ?>', '<?= $phone_count ?>', '', 1 );" aria-controls="friends" aria-selected="false"><b><?= $MENU['IAM_TAB']['T4']; ?></b><small><br>(<?= number_format($card_count_row[0]) ?>)</small></a>
+                        </li>
+                    </ul>
 
-                        <div class="tab-content" id="myTabContent">
-                            <div class="tab-pane fade profile-tab-content active in" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                                <?
-                                $sql_card_show = "select card_show from Gn_Iam_Name_Card where card_short_url='{$request_short_url}'";
-                                $res_show = mysqli_query($self_con, $sql_card_show);
-                                $row_show = mysqli_fetch_array($res_show);
-                                if ($row_show[0] == 1) {
-                                    $card_hidden = "display:block;";
-                                    if ($_SESSION['iam_member_id'])
-                                        $style_drop = "min-height:30px;margin-top:10px";
-                                    else
-                                        $style_drop = "min-height:5px;margin-top:10px";
+                    <div class="tab-content" id="myTabContent">
+                        <div class="tab-pane fade profile-tab-content active in" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                            <?
+                            $sql_card_show = "select card_show from Gn_Iam_Name_Card where card_short_url='{$request_short_url}'";
+                            $res_show = mysql_query($sql_card_show);
+                            $row_show = mysql_fetch_array($res_show);
+                            if ($row_show[0] == 1) {
+                                $card_hidden = "display:block;";
+                                $style_drop = "min-height:30px;margin-top:10px";
+                            } else {
+                                $card_hidden = "display:none;";
+                                if ($_GET['preview'] == "Y") {
+                                    $style_drop = "min-height:5px;margin-top:5px";
+                                    $card_hidden1 = "display:none;";
                                 } else {
-                                    $card_hidden = "display:none;";
-                                    if ($_GET['preview'] == "Y") {
-                                        $style_drop = "min-height:5px;margin-top:5px";
-                                        $card_hidden1 = "display:none;";
-                                    } else {
-                                        $style_drop = "min-height:30px;margin-top:10px";
-                                        $card_hidden1 = "display:block;";
-                                    }
-                                } ?>
-                                <div id="right-side-dropdown" style="position:relative;margin-bottom:20px;<?= $style_drop ?>">
-                                    <? //--네임카드 우측 세점 드롭박스 부분--//
-                                    if ($_SESSION['iam_member_id'] && $_SESSION['iam_member_id'] == $card_owner && $_SESSION['iam_member_id'] == $card_master) { ?>
-                                        <div style="position:absolute;right:65px;">
-                                            <a href="javascript:addMainBtn('<?= str_replace("'", "", $cur_card['card_name']) ?>','?<?= $request_short_url . $card_owner_code ?>');">
-                                                <img src="/iam/img/menu/icon_add_main.png" alt="" title="<?= $MENU['IAM_CARD_BTN']['BTN6_TITLE']; ?>" style="margin-left:0px;width:28px;height:28px">
+                                    $style_drop = "min-height:30px;margin-top:10px";
+                                    $card_hidden1 = "display:block;";
+                                }
+                            } ?>
+                            <div id="right-side-dropdown" style="position:relative;<?= $style_drop ?>">
+                                <? //--네임카드 우측 세점 드롭박스 부분--//
+                                if ($_SESSION['iam_member_id'] && $_SESSION['iam_member_id'] == $card_owner && $_SESSION['iam_member_id'] == $card_master) { ?>
+                                    <div style="position:absolute;right:65px;">
+                                        <a href="javascript:addMainBtn('<?= str_replace("'", "", $cur_card['card_name']) ?>','?<?= $request_short_url . $card_owner_code ?>');">
+                                            <img src="/iam/img/menu/icon_home_add.png" alt="" title="<?= $MENU['IAM_CARD_BTN']['BTN6_TITLE']; ?>" style="margin-left:0px;width:24px;height:24px">
+                                        </a>
+                                    </div>
+                                    <?
+                                    $posX = 65;
+                                    if (($card_owner_site == $user_site || $card_owner_site == $bunyang_site)) {
+                                        $posX += 27;
+                                    ?>
+                                        <div style="position:absolute;right:<?= $posX ?>px;float:right;">
+                                            <a href="javascript:move_card();" title="<?= $MENU['IAM_CARD_M']['CM12_TITLE']; ?>">
+                                                <img src="/iam/img/menu/icon_card_move.png" title="<?= $MENU['IAM_CARD_M']['CM12']; ?>" style="width:24px;height:24px">
                                             </a>
                                         </div>
                                         <?
-                                        $posX = 65;
-                                        if (($card_owner_site == $user_site || $card_owner_site == $bunyang_site)) {
-                                            $posX += 36;
-                                        ?>
-                                            <div style="position:absolute;right:<?= $posX ?>px;float:right;">
-                                                <a href="javascript:move_card();" title="<?= $MENU['IAM_CARD_M']['CM12_TITLE']; ?>">
-                                                    <img src="/iam/img/menu/icon_card_move.png" title="<?= $MENU['IAM_CARD_M']['CM12']; ?>" style="width:28px;height:28px">
-                                                </a>
-                                            </div>
-                                            <?
-                                            $posX += 36;
-                                            ?>
-                                            <div style="position:absolute;right:<?= $posX ?>px;float:right;">
-                                                <?
-                                                if ($card_hidden == "display:block;") { ?>
-                                                    <a href="javascript:showCardState('<?= $request_short_url ?>', 0)" id="show_card" title="">
-                                                        <img src="/iam/img/menu/icon_profile_show.png" title="<?= $MENU['IAM_CARD_M']['CM15']; ?>" style="width:28px;height:28px;margin-left: 0px;">
-                                                    </a>
-                                                <?  } else { ?>
-                                                    <a href="javascript:showCardState('<?= $request_short_url ?>', 1)" id="show_card" title="">
-                                                        <img src="/iam/img/menu/icon_profile_show.png" title="<?= $MENU['IAM_CARD_M']['CM16']; ?>" style="width:28px;height:28px;margin-left: 0px;">
-                                                    </a>
-                                                <?  } ?>
-                                            </div>
-                                            <?
-                                            if ($is_pay_version) {
-                                                $posX += 36;
-                                            ?>
-                                                <div style="position:absolute;right:<?= $posX ?>px;float:right;cursor:pointer">
-                                                    <a data-toggle="modal" data-target="#card_send_modal">
-                                                        <img src="/iam/img/menu/icon_card_send.png" title="<?= $MENU['IAM_CARD_M']['CM14']; ?>" style="margin-left:0px;width:28px;height:28px" alt="">
-                                                    </a>
-                                                </div>
-                                            <? } ?>
-                                        <? } ?>
-                                        <?
-                                        $posX += 36;
+                                        $posX += 27;
                                         ?>
                                         <div style="position:absolute;right:<?= $posX ?>px;float:right;">
-                                            <a href="javascript:showSNSModal('<?= $cur_win ?>')" title="<?= $MENU['IAM_TOP_MENU']['TITLE5']; ?>">
-                                                <img src="/iam/img/menu/icon_share_black.png" alt="" title="" style="margin-left:0px;width:28px;height:28px">
-                                            </a>
+                                            <?
+                                            if ($card_hidden == "display:block;") { ?>
+                                                <a href="javascript:showCardState('<?= $request_short_url ?>', 0)" id="show_card" title="">
+                                                    <img src="/iam/img/menu/icon_profile_show.png" title="<?= $MENU['IAM_CARD_M']['CM15']; ?>" style="width:24px;height:24pxmargin-left: 0px;">
+                                                </a>
+                                            <?  } else { ?>
+                                                <a href="javascript:showCardState('<?= $request_short_url ?>', 1)" id="show_card" title="">
+                                                    <img src="/iam/img/menu/icon_profile_show.png" title="<?= $MENU['IAM_CARD_M']['CM16']; ?>" style="width:24px;height:24pxmargin-left: 0px;">
+                                                </a>
+                                            <?  } ?>
                                         </div>
                                         <?
-                                        $posX += 36;
-                                        if (!$cur_card['share_send_card']) {
+                                        if ($is_pay_version) {
+                                            $posX += 27;
                                         ?>
-                                            <div style="position:absolute;right:<?= $posX ?>px;float:right;">
-                                                <a href="javascript:edit_card('<?= $request_short_url ?>');">
-                                                    <img src="/iam/img/menu/icon_edit.png" alt="" title="" style="margin-left:0px;width:28px;height:28px">
+                                            <div style="position:absolute;right:<?= $posX ?>px;float:right;cursor:pointer">
+                                                <a data-toggle="modal" data-target="#card_send_modal">
+                                                    <img src="/iam/img/menu/icon_card_send.png" title="<?= $MENU['IAM_CARD_M']['CM14']; ?>" style="margin-left:0px;width:24px;height:24px" alt="">
                                                 </a>
                                             </div>
                                         <? } ?>
-                                        <div class="dropdown right" style="position:absolute;right:29px;float:right;cursor:pointer">
-                                            <img src="/iam/img/menu/icon_dot.png" style="width:28px;height:28px" onclick="$('#card_con_modal').modal('show');">
-                                        </div>
                                     <? } ?>
-                                    <div id="card_title_down" class="dropdown right" style="position:absolute;right:0px;float:right;cursor:pointer;display:none">
-                                        <img src="/iam/img/menu/icon_cardbox_down.png" style="width:24px;height:24px;margin-right:2px;margin-top:2px;">
-                                    </div>
-                                    <div id="card_title_up" class="dropdown right" style="position:absolute;right:0px;float:right;cursor:pointer;display:none">
-                                        <img src="/iam/img/menu/icon_cardbox_up.png" style="width:24px;height:24px;margin-right:2px;margin-top:2px;">
-                                    </div>
-                                </div>
-                                <? //echo "befoer_card_show_end!!"; exit;
-                                ?>
-                                <? //echo "<script>alarm_cnt++; alert('중간알림'+alarm_cnt);</script>";
-                                ?>
-                                <div class="box-body" style="<?= $card_hidden1 ?>">
-                                    <div class="inner" style="padding-top:0px">
-                                        <div class="utils clearfix" style="margin-bottom: 0px;">
-                                            <? if (isset($_GET['preview']))
-                                                $show_share_iam_card = $_GET['preview'];
-                                            if (isset($_GET['smode'])) { ?>
-                                                <script>
-                                                    $(document).ready(function() {
-                                                        $("#card_send_modal_start").modal("show");
-                                                    });
-                                                </script>
-                                            <? }
-                                            if ($show_share_iam_card == "N") { //카드공유로 방문
-                                                $today = date("Y-m-d");
-                                                //검은색 카드번호
-                                            ?>
-                                                <div class="left">
-                                                    <div class="color-chips">
-                                                        <?
-                                                        $title_display = "inline-block";
-                                                        $card_count = $cont_count = 0;
-                                                        if (
-                                                            $cur_win == "my_info" &&
-                                                            (($user_mem_code == $card_owner_code && !$_SESSION['iam_member_subadmin_id'] && (!$pay_status || $domainData['service_type'] == 2)) ||
-                                                                ($user_mem_code != $card_owner_code && !$share_sub_admin && (!$share_pay_status || $domainData['service_type'] == 2)))
-                                                        ) { //무료회원이거나 단체회원이면 분양사관리자 1번카드를 자신의 1번카드로 한다
-                                                            //$share_pay_status = false;
-                                                            $title_sql = "select card_title,phone_display,next_iam_link from Gn_Iam_Name_Card where idx='$first_card_idx'";
-                                                            $title_res = mysqli_query($self_con, $title_sql);
-                                                            $title_row = mysqli_fetch_array($title_res);
-
-                                                            $private_class = ($title_row['phone_display'] == 'N' ? "private" : "");
-                                                            $active_class = ($request_short_url == $first_card_url ? "active" : "");
-
-                                                            $n_cont_sql = "select count(*) from Gn_Iam_Contents where card_idx = '$first_card_idx' and req_data > '$today'";
-                                                            $n_cont_res = mysqli_query($self_con, $n_cont_sql);
-                                                            $n_cont_row = mysqli_fetch_array($n_cont_res);
-                                                        ?>
-                                                            <a href="?<?= $first_card_url . $card_owner_code ?>" onclick="show_next_iam('<?= $title_row['next_iam_link'] ?>');" class="J_card_num <?= $private_class ?> <?= $active_class ?>" id="card_title" style="display: <?= $title_display ?>;" title=<?= $title_row['card_title'] ?>><?= $title_row['card_title'] ? $title_row['card_title'] : $card_count + 1 ?><?= $title_row['next_iam_link'] == "" ? "" : "+" ?><?= $n_cont_row[0] > 0 ? "(" . $n_cont_row[0] . ")" : "" ?></a>
-                                                            <?
-                                                            $card_count++;
-                                                            $cont_sql = "select count(*) from Gn_Iam_Contents where card_idx='$first_card_idx'";
-                                                            $cont_res = mysqli_query($self_con, $cont_sql);
-                                                            $cont_row = mysqli_fetch_array($cont_res);
-                                                            $cont_count += $cont_row[0];
-                                                        }
-                                                        if ($_SESSION['iam_member_id'] && $user_mem_code == $card_owner_code)
-                                                            $black_circle_sql = "select idx,card_short_url,card_title,phone_display,next_iam_link,mem_id from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$_SESSION['iam_member_id']}' order by req_data asc";
-                                                        else if ($user_mem_code != $card_owner_code)
-                                                            $black_circle_sql = "select idx,card_short_url,card_title,phone_display,next_iam_link,mem_id from Gn_Iam_Name_Card where group_id is NULL and mem_id = '$share_member_id' order by req_data asc";
-                                                        else
-                                                            $black_circle_sql = "select idx,card_short_url,card_title,phone_display,next_iam_link,mem_id from Gn_Iam_Name_Card where group_id is NULL and mem_id = '$card_owner' order by req_data asc";
-                                                        $black_circle_result = mysqli_query($self_con, $black_circle_sql);
-                                                        while ($black_circle_row = mysqli_fetch_array($black_circle_result)) {
-                                                            if ($card_count > 0 && $first_card_url == $black_circle_row['card_short_url'])
-                                                                continue;
-                                                            $private_class = ($black_circle_row['phone_display'] == 'N' ? "private" : "");
-                                                            $active_class = ($request_short_url == $black_circle_row['card_short_url'] ? "active" : "");
-                                                            $card_link = $black_circle_row['card_short_url'];
-                                                            $card_idx = $black_circle_row['idx'];
-                                                            if ($private_class != "private" || $_SESSION['iam_member_id'] == $black_circle_row['mem_id'] || (isset($_GET['smode']) && $card_idx == $_GET['slink'])) {
-                                                                $cont_sql = "select count(*) from Gn_Iam_Contents where card_idx='$card_idx'";
-                                                                $cont_res = mysqli_query($self_con, $cont_sql);
-                                                                $cont_row = mysqli_fetch_array($cont_res);
-                                                                $cont_count += $cont_row[0];
-                                                            ?>
-                                                                <a href="?<?= $card_link . $card_owner_code . (isset($_GET['smode']) ? '&smode=' . $_GET['smode'] . '&slink=' . $_GET['slink'] . '&smsg=' . $_GET['smsg'] : '') ?>" class=" J_card_num <?= $private_class ?> <?= $active_class ?>" id="card_title" onclick="show_next_iam('<?= $black_circle_row['next_iam_link'] ?>');" draggable="false" ondragstart="drag(event,'<?= $card_link ?>')" ondrop="drop(event,'<?= $card_link ?>')" ondragover="allowDrop(event)" ontouchstart="pickup(event,'<?= $card_link ?>')" ontouchmove="move(event)" ontouchend="pickdown(event)" style="z-index:10;display: <?= $title_display ?>;" title=<?= $black_circle_row['card_title'] ?>>
-                                                                    <?= $black_circle_row['card_title'] ? $black_circle_row['card_title'] : $card_count + 1 ?><?= $black_circle_row['next_iam_link'] == "" ? "" : "+" ?><?= $n_cont_row[0] > 0 ? "(" . $n_cont_row[0] . ")" : "" ?>
-                                                                </a>
-                                                                <script>
-                                                                    if ($(".color-chips").height() > 140) {
-                                                                        $("a").last().addClass("card_arrow");
-                                                                    }
-                                                                </script>
-                                                            <? }
-                                                            $card_count++;
-                                                        }
-                                                        if ($_SESSION['iam_member_id'] && $card_owner_code == $user_mem_code) {
-                                                            if ($pay_status) { ?>
-                                                                <a onclick="show_create_card_popup();" class="J_card_num" id="card_title" title="<?= $MENU['IAM_CARD_M']['CM9_TITLE']; ?>" style="z-index:10;background:white;color:#529c03;display: <?= $title_display ?>">
-                                                                    <span style="font-size:15px">새 카드 만들기</span>
-                                                                </a>
-                                                            <? } else { ?>
-                                                                <a onclick="show_pay_popup('<?= $domainData['service_type'] ?>');" class="J_card_num" id="card_title" title="<?= $MENU['IAM_CARD_M']['CM9_TITLE']; ?>" style="z-index:10;background:white;color:#529c03;display: <?= $title_display ?>">
-                                                                    <span style="font-size:15px">새 카드 만들기</span>
-                                                                </a>
-                                                            <? } ?>
-                                                        <? } ?>
-                                                        <script>
-                                                            $("#my_profile_count").html('(' + '<?= $card_count ?>' + '/' + '<?= $cont_count ?>' + ')');
-                                                        </script>
-                                                        <span class="tooltiptext-bottom" id="tooltiptext_card_edit" style="display:none;">
-                                                            <p style="font-weight:bold;margin-bottom:-15px;"><img src="/iam/img/main/icon-poplogo.png" style="width:12%;margin-right:5px;margin-bottom: 5px;">1. 프로필 채우기</p><br>
-                                                            나의 IAM 카드 프로필을<br>
-                                                            완성하세요.<br>
-                                                            <button type="button" class="btn btn-default btn-submit" style="border-radius: 5px;width:38%;font-size:15px;background-color: lightgrey;margin-top: 10px;margin-left: 20px;" onclick="edit_card('<?= $request_short_url ?>')">만들기</button>
-                                                            <button type="button" class="btn btn-default btn-submit" style="border-radius: 5px;width:38%;font-size:15px;background-color: lightgrey;margin-top: 10px;" onclick="close_tooptip(1)">다음</button>
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                            <? } ?>
-                                        </div>
-                                        <div class="profile-card" style="<?= $card_hidden ?>"><!-- 카드 정보 노출 -->
-                                            <div class="box">
-                                                <!-- 입력란 -->
-                                                <div class="formBox">
-                                                    <div>
-                                                        <!-- 로고 이미지-->
-                                                        <? if ($cur_card['profile_logo']) { ?>
-                                                            <img src="<?= cross_image($cur_card['profile_logo']) ?>" alt="온리원그룹" class="logo" id="card_logo" onload="resize(this, '75', '50')" style="right:20px;font-size:15px" />
-                                                        <? } else { ?>
-                                                            <img class="logo" id="card_logo" onload="resize(this, '75', '50')" style="right:20px">
-                                                        <? } ?>
-                                                        <div class="top">
-                                                            <? if (!$ai_map_gmarket) { ?>
-                                                                <div class="J_card_name" style="max-width: 400px;"><?= $cur_card['card_name'] ?><a href="javascript:showmystory()" style="margin-left: 10px;vertical-align: top;"><img src="/images/icon-mystory.png" style="width:30px;"></a></div>
-                                                                <div class="J_card_company"><?= $cur_card['card_company'] ?></div>
-                                                            <? } else {
-                                                                if (strpos($cur_card['card_name'], ",") !== false) {
-                                                                    $name_arr = explode(",", $cur_card['card_name']);
-                                                                    $name = $name_arr[0];
-                                                                    $name1 = str_replace($name . ",", "", $cur_card['card_name']);
-                                                                } else {
-                                                                    $name = $cur_card['card_name'];
-                                                                } ?>
-                                                                <div class="J_card_name" style="max-width: 400px;"><?= $name ?><span style="font-size: 15px;margin-left: 7px;color: #c1a5a5;font-weight: 300;"><?= $name1 ?></span><a href="javascript:showmystory()" style="margin-left: 10px;vertical-align: top;"><img src="/images/icon-mystory.png" style="width:30px;"></a></div>
-                                                                <div class="J_card_company"><?= str_replace('별점', '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 13 13" class="_2XLwD" aria-hidden="true" style="width: 14px;fill: #fc4c4e;"><path d="M8.26 4.68h4.26a.48.48 0 0 1 .28.87L9.35 8.02l1.33 4.01a.48.48 0 0 1-.18.54.48.48 0 0 1-.56 0l-3.44-2.5-3.44 2.5a.48.48 0 0 1-.74-.54l1.33-4L.2 5.54a.48.48 0 0 1 .28-.87h4.26l1.3-4a.48.48 0 0 1 .92 0l1.3 4z"></path></svg>', $cur_card['card_company']) ?></div>
-                                                            <? } ?>
-                                                            <div class="J_card_description"><?= $cur_card['card_position'] ?></div>
-                                                        </div>
-                                                        <div class="mid" style="margin-bottom:0px;">
-                                                            <a href="tel:<?= $cur_card['card_phone'] ?>" class="J_card_number">
-                                                                <?= $cur_card['card_phone'] ?>
-                                                            </a>
-                                                            <br>
-                                                            <a class="J_card_address" href="https://map.naver.com/v5/search/<?= $cur_card['card_addr'] ?>" target="_blank">
-                                                                <?= $cur_card['card_addr'] ?>
-                                                            </a>
-                                                        </div>
-                                                        <div class="J_card_email" style="font-size:14px;">
-                                                            <?= $cur_card['card_email'] ?>
-
-                                                            <? if ($business_time != "") {
-                                                                $busi_time = explode("\n", $business_time);
-                                                            ?>
-                                                                <div class="dropdown">
-                                                                    <a class="btn dropdown-toggle" type="button" data-toggle="dropdown" style="padding: 6px 0px;" aria-expanded="false">
-                                                                        <span>
-                                                                            영업시간 : <?= $busi_time[0] ?>
-                                                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 7" class="_12Coj" aria-hidden="true" style="width:14px;margin-left:5px;">
-                                                                                <path d="M11.47.52a.74.74 0 0 0-1.04 0l-4.4 4.45v.01L1.57.52A.74.74 0 1 0 .53 1.57l5.12 5.08a.5.5 0 0 0 .7 0l5.12-5.08a.74.74 0 0 0 0-1.05z">
-                                                                                </path>
-                                                                            </svg>
-                                                                        </span>
-                                                                    </a>
-                                                                    <ul class="dropdown-menu comunity" style="width: 300px;right: 0 !important;left: 0px !important;">
-                                                                        <?
-                                                                        for ($i = 1; $i < count($busi_time) - 1; $i++) {
-                                                                        ?>
-                                                                            <li><a><?= $busi_time[$i] ?></a></li>
-                                                                        <? } ?>
-                                                                    </ul>
-                                                                </div>
-                                                            <? } ?>
-                                                            <p style="font-size:14px;padding-top:25px;">
-                                                                <? if ($online1_check == "Y") { ?>
-                                                                    <a href="<?= $story_online1 ?>" target="_blank" style="overflow-wrap: break-word;">
-                                                                        <?= $story_online1_text ?> <?= $story_online1 ?>
-                                                                    </a>
-                                                                <? } ?>
-                                                            </p>
-                                                            <p>
-                                                                <? if ($online2_check == "Y") { ?>
-                                                                    <a href="<?= $story_online2 ?>" target="_blank">
-                                                                        <?= $story_online2_text ?> <?= $story_online2 ?>
-                                                                    </a>
-                                                                <? } ?>
-                                                            </p>
-                                                        </div>
-                                                        <?
-                                                        if ($ai_map_gmarket != 0 && $_SESSION['iam_member_id'] == $cur_card['mem_id']) {
-                                                            $sql_chk_service_con = "select count(*) as cnt from Gn_Iam_Contents where card_idx='{$cur_card['idx']}' and contents_type=3";
-                                                            $res_service_con = mysqli_query($self_con, $sql_chk_service_con);
-                                                            $row_service_con = mysqli_fetch_array($res_service_con);
-                                                            if ($row_service_con['cnt']) {
-                                                        ?>
-                                                                <button onclick="set_reduce('<?= $cur_card['idx'] ?>', '<?= $cur_card['sale_cnt'] ?>', '<?= $cur_card['add_reduce_val'] ?>', '<?= $cur_card['add_fixed_val'] ?>')" style="position: absolute;bottom: 20px;right: 20px;background-color: #99cc00;border-radius: 7px;color: white;font-size: 14px;padding: 5px;">할인설정</button>
-                                                        <? }
-                                                        } ?>
-                                                    </div>
-                                                    <div style="display:none;margin-top:-30px">
-                                                        <a href="javascript:show_edit_card_list();" class="btn login_signup" style="width: 100%;background-color: #448af7">다른 카드정보 가져오기
-                                                        </a>
-                                                        <div class="attr-value" id="edit_card_list" style="display:none;font-size: 14px;font-weight: 900;">
-                                                            <?
-                                                            $edit_card_sql = "select card_short_url,card_title from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$_SESSION['iam_member_id']}' order by req_data asc";
-                                                            $edit_card_res = mysqli_query($self_con, $edit_card_sql);
-                                                            $i = 0;
-                                                            while ($edit_card_row = mysqli_fetch_array($edit_card_res)) {
-                                                                $i++;
-                                                            ?>
-                                                                <input type="radio" id="edit_card_url" name="edit_card_url" style="display: inline;width: auto;" value="<?= $edit_card_row['card_short_url'] ?>">
-                                                                <span>
-                                                                    <? if ($edit_card_row['card_title']) {
-                                                                        echo ($edit_card_row['card_title']);
-                                                                    } else {
-                                                                        echo ($i . "번");
-                                                                    } ?>
-                                                                </span>
-                                                            <? } ?>
-                                                        </div>
-                                                        <div style="margin:2px 0px">
-                                                            <? if ($cur_card['profile_logo']) { ?>
-                                                                <img src="<?= cross_image($cur_card['profile_logo']) ?>" alt="" id="edit_card_logo" style="height:20px" />
-                                                            <? } else { ?>
-                                                                <img class="logo" id="edit_card_logo" style="height:20px">
-                                                            <? } ?>
-                                                            <input type="file" class="input" name="edit_card_logo_input" id="edit_card_logo_input" accept=".jpg,.jpeg,.png,.gif,.svc">
-                                                        </div>
-                                                        <div class="top">
-                                                            <div class="J_card_name" style="max-width: 400px">
-                                                                <input id="edit_card_title" class="card-input" style="font-size: 20px" value="<?= htmlspecialchars($cur_card['card_title']) ?>" placeholder="카드제목">
-                                                            </div>
-                                                            <div class="J_card_name" style="max-width: 400px">
-                                                                <input id="edit_card_name" class="card-input" style="font-size: 20px" value="<?= htmlspecialchars($cur_card['card_name']) ?>" placeholder="성명">
-                                                            </div>
-                                                            <div class="J_card_company" style="margin-top:1px;">
-                                                                <input id="edit_card_company" class="card-input" style="font-size: 16px;" value="<?= htmlspecialchars($cur_card['card_company']) ?>" placeholder="소속/직책">
-                                                            </div>
-                                                            <div class="J_card_description" style="margin-top:1px;">
-                                                                <input id="edit_card_position" class="card-input" style="font-size: 14px;" value="<?= htmlspecialchars($cur_card['card_position']) ?>" placeholder="자기소개">
-                                                            </div>
-                                                        </div>
-                                                        <div class="mid" style="margin-bottom:0px;">
-                                                            <input id="edit_card_phone" class="J_card_number card-input" style="font-size: 20px" value='<?= $cur_card['card_phone'] ?>' placeholder="휴대폰번호">
-                                                            <br>
-                                                            <input id="edit_card_address" class="J_card_address card-input" value="<?= htmlspecialchars($cur_card['card_addr']) ?>" placeholder="직장주소">
-                                                        </div>
-                                                        <div class="J_card_email" style="font-size:14px;margin-top:1px;">
-                                                            <input id="edit_card_email" class="card-input" value='<?= $cur_card['card_email'] ?>' placeholder="이메일주소">
-                                                            <? if ($cur_card['business_time'] != "") { ?>
-                                                                <div style="margin-top:25px;vertical-align:middle;display: flex;">
-                                                                    <textarea id="edit_card_business_time" style="width: 100%;height: 150px;"><?= $cur_card['business_time'] ?></textarea>
-                                                                </div>
-                                                            <? } ?>
-                                                            <div style="margin-top:25px;vertical-align:middle;display: flex;">
-                                                                <input id="edit_card_online1_text" class="card-input" value="<?= $online1_check == "Y" ? $story_online1_text : "" ?>" placeholder="사이트이름">
-                                                                <input id="edit_card_online1" class="card-input" style="margin-left:5px;" value="<?= $online1_check == "Y" ? $story_online1 : "" ?>" placeholder="사이트주소">
-                                                                <!-- <input id="edit_card_online1_check" type="checkbox" class="radio" <?= $online1_check == "Y" ? "checked" : "" ?> style="width:40px"> -->
-                                                            </div>
-                                                            <div style="margin-top:1px;vertical-align:middle;display: flex;">
-                                                                <input id="edit_card_online2_text" class="card-input" value="<?= $online2_check == "Y" ? $story_online2_text : "" ?>" placeholder="사이트이름">
-                                                                <input id="edit_card_online2" class="card-input" style="margin-left:5px;" value="<?= $online2_check == "Y" ? $story_online2 : "" ?>" placeholder="사이트주소">
-                                                                <!-- <input id="edit_card_online2_check" type="checkbox" class="radio" <?= $online2_check == "Y" ? "checked" : "" ?> style="width:40px"> -->
-                                                            </div>
-                                                        </div>
-                                                        <div style="margin-top:15px;vertical-align:middle;display: flex;">
-                                                            <input type="checkbox" id="edit_card_radio_spec" class="radio" style="width:20px">
-                                                            <h4>고급설정</h4>
-                                                        </div>
-                                                        <div id="edit_card_special" style="margin-bottom:0px;display:none">
-                                                            <textarea id="edit_card_keyword" class="input card-input" name="edit_card_keyword" style="text-align:left;width:100%;" placeholder="아이엠에서 나를 검색할수 있는 단어 (30개 이내)로 입력하고, 입력시 [,]으로 구분하세요. (예시 : 강사,마케터,변호사,대안학교,노래방, 공부방 등)"><?= $cur_card['card_keyword'] ?></textarea>
-                                                            <input id="edit_card_next_iam_link" class="J_card_address card-input" value='<?= $cur_card['next_iam_link'] ?>' placeholder="카드제목 클릭시 새창으로 열릴 다른 IAM주소 입력">
-                                                        </div>
-                                                        <div class="button-wrap">
-                                                            <a href="javascript:cancel_edit_card();" class="button is-grey">취소</a>
-                                                            <a href="javascript:namecard_check(<?= $cur_card['idx'] ?>);" class="button is-pink">저장</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div><!--카드현시까지 진행됨-->
-                                <script>
-                                    if ($(".color-chips").height() > 140) {
-                                        $("#card_title_down").show();
-                                        $(".card_arrow").hide();
-                                    }
-                                    $(function() {
-                                        $("#card_title_down").on("click", function() {
-                                            $(".card_arrow").show();
-                                            $("#card_title_up").show();
-                                            $("#card_title_down").hide();
-
-                                        });
-                                        $("#card_title_up").on("click", function() {
-                                            $("#card_title_down").show();
-                                            $(".card_arrow").hide();
-                                            $("#card_title_up").hide();
-                                        });
-                                    });
-
-                                    function image_hover(obj, src) {
-                                        $(obj).find("img").prop("src", src);
-                                    }
-                                </script>
-                                <div class="box-footer" <? if ($_SESSION['iam_member_id']) echo "style='display:none'"; ?>>
-                                    <div class="inner clearfix">
-                                        <? if ($_SESSION['iam_member_id'] != $card_owner && !$_SESSION['iam_member_id']) { ?>
-                                            <div class="bottom">
-                                                <? if ($_SESSION['iam_member_id']) { ?>
-                                                    <a href="/index.php" class="buttons" onmouseover="image_hover(this,'/iam/img/menu/icon_join_active.png');" onmouseout="image_hover(this,'/iam/img/menu/icon_join.png');" onclick="image_hover(this,'/iam/img/menu/icon_join_active.png');">
-                                                        <img src="/iam/img/menu/icon_join.png">
-                                                        <p>회원가입</p>
-                                                    </a>
-                                                    <a href="javascript:installApp();" class="buttons pink" title="[통합기능사용] 웹으로 이용이 가능하지만 앱을 설치하면 모든 기능을 이용할수 있습니다." onmouseover="image_hover(this,'/iam/img/menu/icon_sample_active.png');" onmouseout="image_hover(this,'/iam/img/menu/icon_sample.png');" onclick="image_hover(this,'/iam/img/menu/icon_sample_active.png');">
-                                                        <img src="/iam/img/menu/icon_sample.png">
-                                                        <label>베스트아이엠</label>
-                                                    </a>
-                                                    <a href="javascript:friends_join('<?= $cur_card['idx'] ?>');" class="buttons  lightgreen" title="[한번에 만들기] 포토, 프로필, 그리고 콘텐츠까지 한꺼번에 만들수 있습니다." onmouseover="image_hover(this,'/iam/img/menu/icon_add_main_active.png');" onmouseout="image_hover(this,'/iam/img/menu/icon_home_add.png');" onclick="image_hover(this,'/iam/img/menu/icon_home_add_active.png');">
-                                                        <img src="/iam/img/menu/icon_home_add.png">
-                                                        <label>통합 IAM 만들기</label>
-                                                    </a>
-                                                <? } else {
-                                                    if ($HTTP_HOST != "kiam.kr") {
-                                                        $join_link = get_join_link("http://" . $HTTP_HOST, $card_owner);
-                                                    } else {
-                                                        $join_link = get_join_link("http://www.kiam.kr", $card_owner);
-                                                    }
-                                                ?>
-                                                    <a href="<?= $join_link ?>" class="buttons" onmouseover="image_hover(this,'/iam/img/menu/icon_join_active.png');" onmouseout="image_hover(this,'/iam/img/menu/icon_join.png');" onclick="image_hover(this,'/iam/img/menu/icon_join_active.png');">
-                                                        <img src="/iam/img/menu/icon_join.png">
-                                                        <label>회원가입</label>
-                                                    </a>
-                                                    <a href="javascript:installApp();" class="buttons" title="[통합기능사용] 웹으로 이용이 가능하지만 앱을 설치하면 모든 기능을 이용할수 있습니다." onmouseover="image_hover(this,'/iam/img/menu/icon_sample_active.png');" onmouseout="image_hover(this,'/iam/img/menu/icon_sample.png');" onclick="image_hover(this,'/iam/img/menu/icon_sample_active.png');">
-                                                        <img src="/iam/img/menu/icon_sample.png">
-                                                        <label>베스트아이엠</label>
-                                                    </a>
-                                                    <a href="javascript:addMainBtn('<?= str_replace("'", "", $cur_card['card_name']) ?>','?<?= $request_short_url . $card_owner_code ?>');" class="buttons" title="[한번에 가능] 회원가입과 프로필, 그리고 콘텐츠까지 한꺼번에 만들수 있습니다." onmouseover="image_hover(this,'/iam/img/menu/icon_add_main_active.png');" onmouseout="image_hover(this,'/iam/img/menu/icon_add_main.png');" onclick="image_hover(this,'/iam/img/menu/icon_home_add_active.png');">
-                                                        <img src="/iam/img/menu/icon_add_main.png">
-                                                        <label>홈화면추가</label>
-                                                    </a>
-                                                <? } ?>
-                                            </div>
-                                        <? } ?>
-                                    </div>
-                                </div>
-                                <div id="manage_auto_update" hidden style="text-align:center;border: solid 1px black;position:relative;margin-top: 10px;">
-                                    <p style="background:#99cc00;padding:10px;color:white;font-size:18px">콘텐츠 오토데이트 관리</p>
-                                    <div style="width:100%;padding:5px;float:right">
-                                        <button style="float:right;font-size:14px;margin-right:10px;background:#797979;color:white" onclick="show_making_popup()">만들기</button>
-                                    </div>
-                                    <table style="width:100%;display:block;padding:20px;">
-                                        <thead>
-                                            <tr>
-                                                <td class="iam_table" style="width:50px;">CNO</td>
-                                                <td class="iam_table" style="width:60px;">분야</td>
-                                                <td class="iam_table" style="width:85px;">수집키워드</td>
-                                                <td class="iam_table" style="width:120px;">신청일시</td>
-                                                <td class="iam_table" style="width:60px;">결제</td>
-                                                <td class="iam_table" style="width:90px;">P잔액</td>
-                                                <td class="iam_table" style="width:70px;">상태</td>
-                                                <td class="iam_table" style="width:150px;">관리</td>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="auto_contetns_manage_show">
-
-                                        </tbody>
-                                    </table>
-                                    <button style="border-radius:5px;width:20%;font-size:15px;margin-bottom:10px;" onclick="show_manage_auto(1)">닫기</button>
-                                    <button style="border-radius:5px;width:20%;font-size:15px;margin-bottom:10px;" onclick="search_auto_data(true)">더보기</button>
-                                </div>
-                                <? if ($_SESSION['iam_member_id'] == $card_owner) { ?>
-                                    <div style="height:74px;padding: 12px 16px 18px 16px;">
-                                        <div style="padding:0px 8px">
-                                            <div class="wish_card" style="display:flex;" onclick="contents_add('<?= $card_owner ?>','',<?= $my_first_card ?>);">
-                                                <? if ($cur_card['main_img1']) { ?>
-                                                    <div style="width: 44px;height: 44px;border-radius: 50%;overflow: hidden;margin-right:8px;">
-                                                        <img src='<?= cross_image(str_replace("http://www.kiam.kr", $cdn_ssl, $cur_card['main_img1'])) ?>' style="width:44px;height:44px;object-fit: cover;">
-                                                    </div>
-                                                <? } ?>
-                                                <span style="width: calc(100% - 52px);color: #a4a4a4;border: 1px solid #e3dede;border-radius: 20px;padding:5px 10px;font-weight:400;font-size: 12px;line-height: 32px;">소개하고 싶은 콘텐츠를 올려보세요.</span>
-                                            </div>
-                                            <span class="tooltiptext-bottom-con" id="tooltiptext_contents_up" style="display:none;">
-                                                <p style="font-weight:bold;margin-bottom:-15px;"><img src="/iam/img/main/icon-poplogo.png" style="width:12%;margin-right:5px;margin-bottom: 5px;">3. 콘텐츠 업로드</p><br>
-                                                나를 브랜딩하는 콘텐츠를<br>
-                                                한번에 업로드하세요.<br>
-                                                <button type="button" class="btn btn-default btn-submit" style="border-radius: 5px;width:38%;font-size:15px;background-color: lightgrey;margin-top: 10px;margin-left: 20px;" onclick="contents_add('<?= $card_owner ?>','',<?= $my_first_card ?>);">만들기</button>
-                                                <button type="button" class="btn btn-default btn-submit" style="border-radius: 5px;width:38%;font-size:15px;background-color: lightgrey;margin-top: 10px;" onclick="close_tooptip(3)">다음</button>
-                                            </span>
-                                        </div>
-                                    </div>
-                                <? } ?>
-                            </div>
-                            <div class="tab-pane fade story-tab-content" id="story" role="tabpanel" aria-labelledby="story-tab">
-                                <div class="box-body">
-                                    <div class="inner">
-                                        <? if ($_SESSION['iam_member_id'] == $card_owner && $_SESSION['iam_member_id'] == $card_master) { ?>
-                                            <div class="utils clearfix">
-                                                <div class="right">
-                                                    <a onclick="window.open('/iam/story.php?card_num=<?= $cur_card['idx'] ?>')" class="edit">
-                                                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        <? } ?>
-                                        <dl class="story-item">
-                                            <dt class="title">
-                                                <span class="text" id="story_title1">
-                                                    <? if ($story_title1) { ?>
-                                                        <?= $story_title1 ?>
-                                                    <? } else { ?>
-                                                        <!-- 내 소개 -->
-                                                    <? } ?>
-                                                </span>
-                                            </dt>
-                                            <dd class="content" style="position:relative;" id="story_info">
-                                                <? if ($story_myinfo) { ?>
-                                                    <?= nl2br($story_myinfo) ?>
-                                                <? } else { ?>
-                                                    <!-- "그건 할 수 없어,라는 말을 들을 때마다 나는 성공이 가까웠음을 안다."<br>
-                                            온리원셀링으로 단골고객 5만명 확보<br>
-                                            자동셀링경진대회 1회 대상 수상<br>
-                                            아이엠 쇼핑몰 건강분야 판매 1위<br>
-                                            18세부터 쇼핑몰 운영, 10억 매출 달성<br>
-                                            고객의 니즈와 상품을 연결한 마케팅 전문<br>
-                                            1인기업인, 자영업인, 프리랜서를 위한 셀링전략 전문<br> -->
-                                                <? } ?>
-                                            </dd>
-                                        </dl>
-                                        <dl class="story-item">
-                                            <dt class="title">
-                                                <span class="text" id="story_title2">
-                                                    <? if ($story_title2) { ?>
-                                                        <?= $story_title2 ?>
-                                                    <? } else { ?>
-                                                        <!-- 현재소속 -->
-                                                    <? } ?>
-                                                </span>
-                                            </dt>
-                                            <dd class="content" style="position:relative;" id="story_company">
-                                                <? if ($story_company) { ?>
-                                                    <?= nl2br($story_company) ?>
-                                                <? } else { ?>
-                                                    <!-- 아이엠 쇼핑몰 대표<br>
-                                            온리원브랜딩연구소 부소장<br>
-                                            온리원셀링연구소 수석연구원<br>
-                                            자동셀링경진대회 심사위원<br>
-                                            온리원셀링 컨설턴트<br> -->
-                                                <? } ?>
-                                            </dd>
-                                        </dl>
-                                        <dl class="story-item">
-                                            <dt class="title">
-                                                <span class="text" id="story_title3">
-                                                    <? if ($story_title3) { ?>
-                                                        <?= $story_title3 ?>
-                                                    <? } else { ?>
-                                                        <!-- 경력소개 -->
-                                                    <? } ?>
-                                                </span>
-                                            </dt>
-                                            <dd class="content" style="position:relative;" id="story_career">
-                                                <? if ($story_career) { ?>
-                                                    <?= nl2br($story_career) ?>
-                                                <? } else { ?>
-                                                    <!-- 2019년~ 아이엠쇼핑몰 대표<br>
-                                            2010~2018년 년셀스타 의류쇼핑몰 대표<br>
-                                            2017년~ 온리원셀링연구소 연구원<br> -->
-                                                <? } ?>
-                                            </dd>
-                                        </dl>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="tab-pane fade paper-tab-content" id="paper" role="tabpanel" aria-labelledby="paper-tab">
-                                <div class="box-body">
-                                    <div class="inner" id="papercard_list">
-
-                                    </div>
-                                </div>
-                            </div>
-                            <!------------------------>
-                            <!-- 2020-11-09 연락처탭 -->
-                            <div class="tab-pane fade contact-tab-content" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-                                <div class="box-body">
                                     <?
-                                    if ($card_num !== "") {
-                                        $page_search = $cur_card['card_short_url'];
-                                    } else {
-                                        $page_search = "";
-                                    }
-
-                                    $search_range = $_GET['search_range'];
-                                    $search_str = $_GET['search_str'];
-
-                                    if (is_null($search_str)) {
-                                        $search_str = "";
-                                    }
+                                    $posX += 27;
                                     ?>
-                                    <div class="search-box clearfix J1">
-                                        <? if ($_SESSION['iam_member_id'] == $card_owner && $_SESSION['iam_member_id'] == $card_master) { ?>
-                                            <div class="row" style="margin-left: 8px;margin-bottom: 10px;margin-top: 7px;">
-                                                <div class="left">
-                                                    <div class="buttons">
-                                                        <a href="javascript:contact_range('1')" class="button" <? if ((int)$search_range == 1) { ?>style="background-color: #000;" <? } else { ?>style="background-color: #fff;color:black;" <? } ?>>가</a>
-                                                        <a href="javascript:contact_range('3')" class="button" <? if ((int)$search_range == 3) { ?>style="background-color: #000;" <? } else { ?>style="background-color: #fff;color:black;" <? } ?>><i class="fa fa-history" aria-hidden="true"></i></a>
-                                                        <input type="hidden" name="search_range" id="search_range" value="<?= $search_range ?>">
-                                                    </div>
-                                                    <div id="contact_chk_count" class="selects">0개 선택됨</div>
-                                                </div>
-                                            </div>
-                                            <div class="row" style="line-height: 30px">
-                                                <div class="search J_search" style="display:inline;width:60%;margin-right:8px;">
-                                                    <button type="button" onclick="contact_submit();" class="submit" style="top: 3px;background: #f9f9f9;font-size: 17px;">
-                                                        <!--i class="fa fa-search" aria-hidden="true"></i-->
-                                                        <img src="/iam/img/menu/icon_bottom_search.png" style="margin-left:5px;width:24px" onclick="search_clicked()">
-                                                    </button>
-                                                    <input type="text" name="search_str" id="search_str" class="input" value="<?= $search_str ?>" onkeyup="enterkey('contact_submit');" style="font-size:12px;height: 25px;background:#f9f9f9;width:50%;outline:none;" placeholder="검색어를 입력해주세요.">
-                                                </div>
-                                                <!-- 2020-11-09 전체선택 추가 -->
-                                                <div style="float:right;padding-top:5px;padding-left:10px;">
-                                                    <input type="checkbox" name="cbG02" id="cbG02" class="css-checkbox" onclick='groupCheckClick_1(this); '>
-                                                    <label for="cbG02" class="css-label cb0">전체선택</label>
-                                                </div>
-                                                <div style="float:right;padding-top:5px;">
-                                                    <img src="/iam/img/menu/icon_my_stroy.png" style="width:30px;height:30px;" onclick="contact_submit_paper()">
-                                                </div>
-                                            </div>
-                                        <? } ?>
-                                    </div>
-                                    <div class="inner" id="div_contact">
-                                    </div>
-                                </div>
-                            </div>
-                            <!------------->
-                            <!-- 프렌즈탭 -->
-                            <div class="tab-pane fade  friends-tab-content " id="friends" role="tabpanel" aria-labelledby="friends-tab">
-                                <div class="box-body">
-                                    <?
-                                    $site_info_friends = explode(".", $HTTP_HOST);
-                                    $site_name_friends = $site_info_friends[0];
-                                    if ($site_name_friends == "www") {
-                                        $site_name_friends = "kiam";
-                                    }
-
-                                    $show_all = "N";
-                                    if (isset($_GET['show_all'])) {
-                                        $show_all = $_GET['show_all'];
-                                    }
-
-                                    if ($card_num !== "") {
-                                        $page_search2 = $cur_card['card_short_url'];
-                                    } else {
-                                        $page_search2 = "";
-                                    }
-
-                                    if (is_null($search_str2)) {
-                                        $search_str2 = "";
-                                    }
-
-                                    if (!$search_type) {
-                                        if ($_SESSION['iam_member_id'] == $card_owner) {
-                                            $search_type = 2;
-                                        } else {
-                                            $search_type = 1;
-                                        }
-                                    }
-                                    ?>
-                                    <div class="search-box clearfix J2" id="friends_search">
-                                        <? if ($_SESSION['iam_member_id'] == $card_owner && $_SESSION['iam_member_id'] == $card_master) { ?>
-                                            <div class="row" style='margin-left: 8px;margin-bottom: 10px;margin-top: 7px;'>
-                                                <div class="left">
-                                                    <div class="buttons">
-                                                        <a href="javascript:friends_range('1');" class="button" <? if ((int)$search_range2 == 1) { ?>style="background-color: #000;" <? } else { ?>style="background-color: #fff;color:black;" <? } ?>>가</a>
-                                                        <a href="javascript:friends_range('3');" class="button" <? if ((int)$search_range2 == 3) { ?>style="background-color: #000;" <? } else { ?>style="background-color: #fff;color:black;" <? } ?>><i class="fa fa-history" aria-hidden="true"></i></a>
-                                                        <input type="hidden" name="search_range2" id="search_range2" value="<?= $search_range2 ?>">
-                                                    </div>
-                                                    <div id="friends_chk_count" class="selects">0개 선택됨</div>
-                                                </div>
-                                                <div class="right">
-                                                    <select name="search_type" id="search_type" style="font-size:12px;margin-right:20px; margin-right: 20px;border: 1px solid #ddd;background: #fff;height: 33px;border-radius: 5px;" onchange="friends_submit('<?= $show_all ?>')">
-                                                        <option value="1" <? if ((int)$search_type == 1) { ?>selected <? } ?>>나의 프렌즈</option>
-                                                        <option value="2" <? if ((int)$search_type == 2) { ?>selected <? } ?>>공개 프로필</option>
-                                                        <option value="3" <? if ((int)$search_type == 3) { ?>selected <? } ?>>소속 회원</option>
-                                                        <option value="4" <? if ((int)$search_type == 4) { ?>selected <? } ?>>조인 회원</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="row" style="line-height : 30px">
-                                                <div class="search J_search" style="display:inline;width:60%;margin:10px 20px;">
-                                                    <button type="button" onclick="friends_submit('<?= $show_all ?>');" class="submit" style="top: 3px;background: #f9f9f9;font-size: 17px;">
-                                                        <!--i class="fa fa-search" aria-hidden="true"></i-->
-                                                        <img src="/iam/img/menu/icon_bottom_search.png" style="margin-left:5px;width:24px">
-                                                    </button>
-                                                    <input type="text" name="search_str2" id="search_str2" class="input" value="<?= $search_str2 ?>" onkeyup="enterkey('friends_submit');" style="font-size:12px;height: 25px;background:#f9f9f9;width:50%;outline:none;" placeholder="검색어를 입력해주세요.">
-                                                </div>
-
-                                                <div style="float:right;padding-top:5px;padding-left:20px;">
-                                                    <?php
-                                                    if ($search_type == 3 || $search_type == 4) {
-                                                        if ($show_all == "N") {
-                                                            $style_list = "";
-                                                            $style_page = "";
-                                                    ?>
-                                                            <a href="javascript:friends_submit('Y');"><img src="/iam/img/main/icon_all_gray.png" style="width: 20px;display:none;"></a>
-                                                            <img src="/iam/img/star/icon-profile.png" style="width: 20px" onclick="friends_add();">
-                                                        <?  } else {
-                                                            $style_list = "height: 700px;overflow: auto;margin-bottom: 20px;";
-                                                            $style_page = "display:none;"; ?>
-                                                            <a href="javascript:friends_submit('N');"><img src="/iam/img/main/icon_all_green.png" style="width: 20px"></a>
-                                                            <img src="/iam/img/star/icon-profile.png" style="width: 20px" onclick="friends_add();">
-                                                        <?  }
-                                                    } else if ($search_type == 2) { ?>
-                                                        <img src="/iam/img/star/icon-profile.png" style="width: 20px" onclick="friends_add();">
-                                                    <? } ?>
-                                                    <input type="checkbox" name="cbG01" id="cbG01" class="css-checkbox" onclick='groupCheckClick(this);'>
-                                                    <label for="cbG01" class="css-label cb0">전체선택</label>
-                                                </div>
-                                            </div>
-                                        <? } ?>
-                                    </div>
-                                    <input type="hidden" name="show_all" id="show_all" value="<?= $show_all ?>">
-                                    <div class="inner" id="div_friends">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-                    <? } else if ($cur_win == "group-con") {
-                    if ($gkind != "recommend" && $gkind != "mygroup" && $gkind != "search" && $gkind != "search_con") {
-                        $group_sql = "select * from gn_group_info where idx='$gkind'";
-                        $group_res = mysqli_query($self_con, $group_sql);
-                        $group_row = mysqli_fetch_array($group_res);
-                        $group_manager = $group_row['manager'];
-                        $group_card_idx = $group_row['card_idx'];
-                    ?>
-                        <section id="main-slider">
-                            <!-- 슬라이더 영역 시작 -->
-                            <div id="mainSlider">
-                                <? if ($main_img1) { ?>
-                                    <div class="slider-item">
-                                        <a data-fancybox="gallery" id="main_img1" href="<?= cross_image($main_img1) ?>">
-                                            <img id="for_size_1" src="<?= cross_image($main_img1) ?>" style="opacity:0;">
-                                        </a>
-                                    </div>
-                                <? } ?>
-                                <? if ($main_img2) { ?>
-                                    <div class="slider-item">
-                                        <a id="main_img2" data-fancybox="gallery" href="<?= cross_image($main_img2) ?>">
-                                            <img id="for_size_2" src="<?= cross_image($main_img2) ?>" style="opacity:0;">
-                                        </a>
-                                    </div>
-                                <? } ?>
-                                <? if ($main_img3) { ?>
-                                    <div class="slider-item">
-                                        <a id="main_img3" data-fancybox="gallery" href="<?= cross_image($main_img3) ?>">
-                                            <img id="for_size_3" src="<?= cross_image($main_img3) ?>" style="opacity:0;">
-                                        </a>
-                                    </div>
-                                <? } ?>
-                            </div>
-                            <? if ($_SESSION['iam_member_id'] && $_SESSION['iam_member_id'] == $group_manager) { ?>
-                                <a href="#" class="controls" title="<?= $MENU['IAM_MENU']['M9_TITLE']; ?>" data-card_idx="<?= $group_card['idx'] ?>">
-                                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                                </a>
-                            <? } ?>
-                            <div class="slider-arrows"></div>
-                        </section><!-- // 슬라이더 영역 끝 -->
-                    <? } ?>
-                    <section id="middle">
-                        <? if ($gkind == "recommend") {
-                            $group_sql = "select * from gn_group_info";
-                            $group_res = mysqli_query($self_con, $group_sql);
-                            $other_group = array();
-                            while ($group_row = mysqli_fetch_array($group_res)) {
-                                $group_check_sql = "select count(*) from gn_group_member where mem_id='{$_SESSION['iam_member_id']}' and group_id='$group_row[idx]'";
-                                $group_check_res = mysqli_query($self_con, $group_check_sql);
-                                $group_check_row = mysqli_fetch_array($group_check_res);
-                                if ($group_check_row[0] == 0)
-                                    array_push($other_group, $group_row['idx']);
-                            }
-                            $other_group = implode(",", $other_group);
-                            $g_card_sql = "select card_short_url,main_img1,group_id,mem_id from Gn_Iam_Name_Card n where n.group_id in (" . $other_group . ") and sample_click='Y' order by sample_order desc";
-                            $g_card_res = mysqli_query($self_con, $g_card_sql);
-                        ?>
-                            <div style="width:100%;overflow-x:auto;display: -webkit-box;border:1px solid #ddd">
-                                <? while ($g_card_row = mysqli_fetch_array($g_card_res)) {
-                                    $sql_mem_g = "select mem_code from Gn_Member where mem_id='{$g_card_row['mem_id']}'";
-                                    $res_mem_g = mysqli_query($self_con, $sql_mem_g);
-                                    $row_mem_g = mysqli_fetch_array($res_mem_g);
-                                ?>
-                                    <div class="group-card" style="width:25%;float: left;">
-                                        <div class="group-card-sample" onclick="location.href='<?= '/?' . $g_card_row['card_short_url'] . $row_mem_g['mem_code'] . '&cur_win=group-con&gkind=' . $g_card_row['group_id'] ?>'">
-                                            <img src="<?= cross_image($g_card_row['main_img1']) ?>" style="width:100%;">
-                                            <?
-                                            $group_sql = "select * from gn_group_info where idx = '{$g_card_row['group_id']}'";
-                                            $group_res = mysqli_query($self_con, $group_sql);
-                                            $group_row = mysqli_fetch_array($group_res);
-                                            ?>
-                                            <div style="position:absolute;bottom:10px;left:0px;width:100%;text-align:center">
-                                                <span class="label label-info" font-size:90%;width:80%><?= $group_row['name'] ?></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                <? } ?>
-                                <script>
-                                    $(".group-card").height($(".group-card").width());
-                                </script>
-                            </div>
-                            <?
-                            $g_cont_sql = "select * from Gn_Iam_Contents where group_id in (" . $other_group . ") and sample_display='Y' and group_display = 'Y' order by sample_order desc";
-                            $sql_count = str_replace(" * ", " count(idx) ", $g_cont_sql);
-                            $g_cont_res = mysqli_query($self_con, $sql_count);
-                            $g_cont_count_row = mysqli_fetch_array($g_cont_res);
-                            $g_cont_count = $g_cont_count_row[0];
-                            $g_cont_res = mysqli_query($self_con, $g_cont_sql);
-                            if ($g_cont_count > 0) { ?>
-                                <div class="group-item" style="margin-top:10px;border:1px solid #eee;display: flex;justify-content: space-between;">
-                                    <span class="label label-default" style="font-size:120%">회원님을 위한 추천 콘텐츠</span>
-                                    <? if ($g_cont_count > 1) { ?>
-                                        <span class="label label-primary" style="font-size:120%" onclick="show_all_group_sample_contents()">모두 보기(<?= $g_cont_count - 1 ?>)개</span>
-                                    <? } ?>
-                                </div>
-                                <?
-                                $g_cont_row = mysqli_fetch_array($g_cont_res);
-                                $g_card_sql = "select card_short_url, mem_id,main_img1,card_name,group_id from Gn_Iam_Name_Card c where c.idx = '$g_cont_row[card_idx]'";
-                                $g_card_res = mysqli_query($self_con, $g_card_sql);
-                                $g_card_row = mysqli_fetch_array($g_card_res);
-
-                                $sql_mem_g = "select mem_code from Gn_Member where mem_id='{$g_card_row['mem_id']}'";
-                                $res_mem_g = mysqli_query($self_con, $sql_mem_g);
-                                $row_mem_g = mysqli_fetch_array($res_mem_g);
-
-                                if (!$g_cont_row['contents_img'])
-                                    $g_cont_images = null;
-                                else
-                                    $g_cont_images = explode(",", $g_cont_row['contents_img']);
-                                for ($i = 0; $i < count($g_cont_images); $i++) {
-                                    if (strstr($g_cont_images[$i], "kiam")) {
-                                        $g_cont_images[$i] = str_replace("http://kiam.kr", "", $g_cont_images[$i]);
-                                        $g_cont_images[$i] = str_replace("http://www.kiam.kr", "", $g_cont_images[$i]);
-                                    }
-                                    if (!strstr($g_cont_images[$i], "http") && $g_cont_images[$i]) {
-                                        $g_cont_images[$i] = $cdn_ssl . $g_cont_images[$i];
-                                    }
-                                }
-                                ?>
-                                <div class="group_sample_content-item" id="group_sample_contents_list" style="margin-bottom: 20px;box-shadow: 2px 3px 3px 1px #eee;border: 1px solid #ccc;">
-                                    <div class="user-item" style="position: relative;display: flex;padding: 4px;border: none;border-bottom: 1px solid #dddddd;padding-top: 12px;padding-bottom: 12px;overflow:hidden;">
-                                        <a href="<?= '/?' . $g_card_row['card_short_url'] . $row_mem_g['mem_code'] . '&cur_win=group-con&gkind=' . $g_card_row['group_id'] ?>" class="img-box" style="padding: 4px;">
-                                            <div class="user-img" style="width: 38px;height: 38px;border-radius: 50%;overflow: hidden;">
-                                                <img src="<?= $g_card_row['main_img1'] ? cross_image($g_card_row['main_img1']) : '/iam/img/common/logo-2.png' ?>" alt="" style="width: 100%;height: 100%;object-fit: cover;">
-                                            </div>
-                                        </a>
-                                        <div class="wrap" style="width: 50%;display: flex;flex-direction: column;padding: 4px 6px;">
-                                            <a href="<?= '/?' . $g_card_row['card_short_url'] . $row_mem_g['mem_code'] . '&cur_win=group-con&gkind=' . $g_card_row['group_id'] ?>" class="user-name" style="font-size: 15px;font-weight: 700;">
-                                                <?= $g_card_row['card_name'] ?>
-                                            </a>
-                                            <? if ($g_cont_row['contents_title'] != "") { ?>
-                                                <div class="title">
-                                                    <div class="text" style="text-align : left;font-weight: bold;font-size: 25px;margin: auto 10px;overflow: hidden;text-overflow: clip;height: 75px;"><?= $g_cont_row['contents_title'] ?></div>
-                                                </div>
-                                            <? } ?>
-                                            <a href="<?= '/?' . $g_card_row['card_short_url'] . $row_mem_g['mem_code'] . '&cur_win=group-con&gkind=' . $g_card_row['group_id'] ?>" class="date" style="font-size: 13px;color: rgb(153, 153, 153);">
-                                                <?= $g_cont_row['req_data'] ?>
-                                            </a>
-                                        </div>
-                                        <div class="media-inner" style="position: absolute; right: 2px; top: 0px; width: 30%;height: 100%;text-align: center;background:<?= $color[0]; ?>">
-                                            <? if ((int)$g_cont_row['contents_type'] == 1 || (int)$g_cont_row['contents_type'] == 3) {
-                                                if (count($g_cont_images) > 0) {
-                                                    if ($g_cont_row['contents_url']) { ?>
-                                                        <a onclick="showIframeModal('<?= $g_cont_row['contents_url'] ?>')" target="_blank">
-                                                            <? if (count($g_cont_images) == 1) { ?>
-                                                                <img src="<?= cross_image($g_cont_images[0]) ?>" style="height : 100%"></a>
-                                                    <? } else { ?>
-                                                        <img src="<?= cross_image($g_cont_images[0]) ?>" style="height : 100%" onclick=""></a>
-                                                    <? } ?>
-                                                <? } else { ?>
-                                                    <? if (count($g_cont_images) == 1) { ?>
-                                                        <img src="<?= cross_image($g_cont_images[0]) ?>" style="height : 100%">
-                                                    <? } else { ?>
-                                                        <img src="<?= cross_image($g_cont_images[0]) ?>" style="height : 100%" onclick="">
-                                                    <? } ?>
-                                            <?
-                                                    }
-                                                }
-                                            } else if ((int)$g_cont_row['contents_type'] == 2) {
-                                                $img_cnt = count($g_cont_images);
-                                                $vid_array = explode(" ", $g_cont_row['contents_iframe']);
-                                                $vid_array[2] = "height=100%";
-                                                $vid_array[1] = "width=100%";
-                                                $vid_data = implode(' ', $vid_array);
-                                                echo $vid_data;
-                                            } else if ((int)$g_cont_row['contents_type'] == 4) {
-                                                $vid_data = $g_cont_row['source_iframe'];
-                                            ?>
-                                            <div>
-                                                <iframe src="<?= $vid_data ?>" width="100%" height="100%"></iframe>
-                                            </div>
-                                        <? } ?>
-                                        </div>
-                                    </div>
-                                </div>
-                            <?
-                            }
-                        } else if ($gkind == "mygroup") {
-                            $invite_sql = "select info.name,info.card_idx,invite.group_id,invite.mem_id from gn_group_invite invite 
-                                inner join gn_group_info info on info.idx = invite.group_id where invite_id='{$_SESSION['iam_member_id']}'";
-                            $invite_res = mysqli_query($self_con, $invite_sql);
-                            $invite_count = mysqli_num_rows($invite_res);
-                            if ($invite_count > 0) {
-                            ?>
-                                <div style="width:100%;border:1px solid #ddd;padding:5px;">
-                                    <h3 style="margin-left:10px">초대 검토</h3>
-                                    <h5 style="margin-left:10px">다음 그룹에 초대되었습니다.</h5>
-                                    <?
-                                    while ($invite_row = mysqli_fetch_array($invite_res)) {
-                                        $sql_card_in = "select main_img1 as group_img from Gn_Iam_Name_Card where idx='{$invite_row['card_idx']}'";
-                                        $res_card_in = mysqli_query($self_con, $sql_card_in);
-                                        $row_card_in = mysqli_fetch_array($res_card_in);
-
-                                        $sql_mem_in = "select mem_name, profile as mem_img from Gn_Member where mem_id='{$invite_row['mem_id']}'";
-                                        $res_mem_in = mysqli_query($self_con, $sql_mem_in);
-                                        $row_mem_in = mysqli_fetch_array($res_mem_in);
-                                    ?>
-                                        <div style="padding-top: 2px;">
-                                            <div style="border:1px solid #ddd;background-color: #ffffff;border-radius: 10px;padding-bottom: 2px;display:flex;justify-content: space-between;">
-                                                <div style="display: flex">
-                                                    <div style="border-radius: 10%;width: 50px;height: 50px;overflow: hidden;margin: 10px;position:relative">
-                                                        <img src="<?= $row_card_in['group_img'] ?>" style="width: 50px;height:50px;">
-                                                        <div style="position:absolute;border:1px solid white;border-radius: 50%;width: 30px;height: 30px;overflow: hidden;top:25px;left:25px">
-                                                            <img src="<?= $row_mem_in['mem_img'] ?>" style="width: 50px;height:50px;">
-                                                        </div>
-                                                    </div>
-                                                    <div>
-                                                        <h4 style="margin-left: 10px;margin-top: 10px"><?= $invite_row['name'] ?></h4>
-                                                        <h5 style="margin-left: 10px;margin-top: 10px;margin-bottom: 10px">
-                                                            <?= $row_mem_in['mem_name'] . "님이 회원님을 초대했습니다." ?>
-                                                        </h5>
-                                                    </div>
-                                                </div>
-                                                <div style="display:flex;margin-right:10px">
-                                                    <div class="dropdown " style="margin-right: 10px;margin-top: auto;margin-bottom: auto;">
-                                                        <button class="btn dropdown-toggle" type="button" data-toggle="dropdown" style="margin-top:0px">
-                                                            <span class="caret"></span>
-                                                        </button>
-                                                        <ul class="dropdown-menu comunity" style="border: 1px solid #ccc;padding:0px;">
-                                                            <?
-                                                            $card_sql = "select card_name from Gn_Iam_Name_Card where group_id = '{$invite_row['group_id']}' order by req_data";
-                                                            $card_res = mysqli_query($self_con, $card_sql);
-                                                            $card_num = 1;
-                                                            while ($card_row = mysqli_fetch_array($card_res)) {
-                                                            ?>
-                                                                <li><a onclick="javascript:;;" style="padding:3px 3px 0px 3px !important;"><?= $card_row[0] == "" ? $card_num . "번카드" : $card_row[0]; ?></a></li>
-                                                            <?
-                                                                $card_num++;
-                                                            }
-                                                            ?>
-                                                        </ul>
-                                                    </div>
-                                                    <div style="display:grid">
-                                                        <button class="btn btn-primary" style="margin-top:5px" onclick="click_invite('<?= $invite_row['group_id'] ?>','accept')">참여</button>
-                                                        <button class="btn btn-danger" style="margin-top:5px;margin-bottom:5px;" onclick="click_invite('<?= $invite_row['group_id'] ?>','del')">삭제</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    <? } ?>
-                                </div>
-                            <? }
-                            $group_sql = "select description,name,card_idx,manager from gn_group_info info where manager = '{$_SESSION['iam_member_id']}'";
-                            $group_res = mysqli_query($self_con, $group_sql);
-                            $group_num = mysqli_num_rows($group_res);
-                            if ($group_num > 0) {
-                            ?>
-                                <div style="width:100%;border:1px solid #ddd;padding:5px;">
-                                    <h3 style="margin-left:10px">관리중인 그룹</h3>
-                                    <?
-                                    while ($group_row = mysqli_fetch_array($group_res)) {
-                                        $sql_card_g = "select main_img1 as group_img,card_short_url,group_id from Gn_Iam_Name_Card where idx='{$group_row['card_idx']}'";
-                                        $res_card_g = mysqli_query($self_con, $sql_card_g);
-                                        $row_card_g = mysqli_fetch_array($res_card_g);
-
-                                        $sql_mem_g = "select mem_code from Gn_Member where mem_id='{$group_row['manager']}'";
-                                        $res_mem_g = mysqli_query($self_con, $sql_mem_g);
-                                        $row_mem_g = mysqli_fetch_array($res_mem_g);
-                                    ?>
-                                        <div style="padding-top: 2px;cursor:pointer" onclick="location.href = '?' + '<?= $row_card_g['card_short_url'] . $row_mem_g['mem_code'] ?>'+'&cur_win=group-con&gkind=' +'<?= $row_card_g['group_id'] ?>'">
-                                            <div style="border:1px solid #ddd;background-color: #ffffff;border-radius: 10px;padding-bottom: 2px;display:flex;justify-content: space-between;">
-                                                <div style="display: flex">
-                                                    <div style="border-radius: 10%;width: 50px;height: 50px;overflow: hidden;margin: 10px;position:relative">
-                                                        <img src="<?= $row_card_g['group_img'] ?>" style="width: 50px;height:50px;">
-                                                    </div>
-                                                    <div>
-                                                        <h4 style="margin-left: 10px;margin-top: 10px"><?= $group_row['name'] ?></h4>
-                                                        <h5 style="margin-left: 10px;margin-top: 10px;margin-bottom: 10px">
-                                                            <?= $group_row['description'] ?>
-                                                        </h5>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    <? } ?>
-                                </div>
-                            <? }
-                            $group_sql = "select g_mem.group_id,info.card_idx,g_mem.mem_id,description,name from gn_group_member g_mem
-                            inner join gn_group_info info on g_mem.group_id = info.idx where g_mem.mem_id = '{$_SESSION['iam_member_id']}' and g_mem.fix_status = 'Y'";
-                            $group_res = mysqli_query($self_con, $group_sql);
-                            $group_num = mysqli_num_rows($group_res);
-                            ?>
-                            <div style="width:100%;border:1px solid #ddd;padding:5px;">
-                                <div style="display:flex;justify-content: space-between;">
-                                    <h3 style="margin-left:10px">고정한 그룹</h3>
-                                    <button class="btn btn-primary" onclick="change_group_fix_status()">수정</button>
-                                </div>
-                                <?
-                                while ($group_row = mysqli_fetch_array($group_res)) {
-                                    $sql_card_g = "select main_img1 as group_img,card_short_url from Gn_Iam_Name_Card where idx='{$group_row['card_idx']}'";
-                                    $res_card_g = mysqli_query($self_con, $sql_card_g);
-                                    $row_card_g = mysqli_fetch_array($res_card_g);
-
-                                    $sql_mem_g = "select mem_code from Gn_Member where mem_id='{$group_row['mem_id']}'";
-                                    $res_mem_g = mysqli_query($self_con, $sql_mem_g);
-                                    $row_mem_g = mysqli_fetch_array($res_mem_g);
-                                ?>
-                                    <div style="padding-top: 2px;cursor:pointer">
-                                        <div style="border:1px solid #ddd;background-color: #ffffff;border-radius: 10px;padding-bottom: 2px;display:flex;justify-content: space-between;">
-                                            <div style="display: flex" onclick="location.href = '?' + '<?= $row_card_g['card_short_url'] . $row_mem_g['mem_code'] ?>'+'&cur_win=group-con&gkind=' +'<?= $group_row['group_id'] ?>'">
-                                                <div style="border-radius: 10%;width: 50px;height: 50px;overflow: hidden;margin: 10px;position:relative">
-                                                    <img src="<?= $row_card_g['group_img'] ?>" style="width: 50px;height:50px;">
-                                                </div>
-                                                <div>
-                                                    <h4 style="margin-left: 10px;margin-top: 10px"><?= $group_row['name'] ?></h4>
-                                                    <h5 style="margin-left: 10px;margin-top: 10px;margin-bottom: 10px">
-                                                        <?= $group_row['description'] ?>
-                                                    </h5>
-                                                </div>
-                                            </div>
-                                            <div style="display:flex;margin-right:10px">
-                                                <div class="dropdown " style="margin-right: 10px;margin-top: auto;margin-bottom: auto;">
-                                                    <button class="btn dropdown-toggle" type="button" data-toggle="dropdown" style="margin-top:0px">
-                                                        <span class="caret"></span>
-                                                    </button>
-                                                    <ul class="dropdown-menu comunity" style="border: 1px solid #ccc;padding:0px;">
-                                                        <?
-                                                        $card_sql = "select card_name from Gn_Iam_Name_Card where group_id = '{$group_row['group_id']}' order by req_data";
-                                                        $card_res = mysqli_query($self_con, $card_sql);
-                                                        $card_num = 1;
-                                                        while ($card_row = mysqli_fetch_array($card_res)) {
-                                                        ?>
-                                                            <li><a onclick="javascript:;;" style="padding:3px 3px 0px 3px !important;"><?= $card_row[0] == "" ? $card_num . "번카드" : $card_row[0]; ?></a></li>
-                                                        <?
-                                                            $card_num++;
-                                                        }
-                                                        ?>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                <? } ?>
-                            </div>
-                            <?
-                            if ($etc_order == "")
-                                $etc_order = "reg";
-                            $group_order = array("visit" => "visit_date desc", "name" => "name", "reg" => "g_mem.req_date desc");
-                            $group_sql = "select g_mem.group_id,description,name,info.card_idx,g_mem.mem_id from gn_group_member g_mem
-                            inner join gn_group_info info on g_mem.group_id = info.idx where g_mem.mem_id = '{$_SESSION['iam_member_id']}' and g_mem.fix_status = 'N'";
-                            $group_sql .= " order by " . $group_order[$etc_order];
-                            $group_res = mysqli_query($self_con, $group_sql);
-                            $group_num = mysqli_num_rows($group_res);
-                            ?>
-                            <div style="width:100%;border:1px solid #ddd;padding:5px;">
-                                <div style="display:flex;justify-content: space-between;">
-                                    <h3 style="margin-left:10px">기타 그룹</h3>
-                                    <div class="dropdown " style="margin-right: 10px;margin-top: auto;margin-bottom: auto;">
-                                        <button class="btn dropdown-toggle" type="button" data-toggle="dropdown" style="background:white">
-                                            <img src="/iam/img/main/icon-rearrow.png" style="height:20px">
-                                        </button>
-                                        <ul class="dropdown-menu comunity" style="border: 1px solid #ccc;padding:0px;">
-                                            <li><a href="?cur_win=group-con&gkind=mygroup&etc_order=visit" style="padding:3px 3px 0px 3px !important;">방문순</a></li>
-                                            <li><a href="?cur_win=group-con&gkind=mygroup&etc_order=name" style="padding:3px 3px 0px 3px !important;">그룹 이름순</a></li>
-                                            <li><a href="?cur_win=group-con&gkind=mygroup&etc_order=reg" style="padding:3px 3px 0px 3px !important;">최근 가입한 그룹</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <?
-                                while ($group_row = mysqli_fetch_array($group_res)) {
-                                    $sql_card_g = "select main_img1 as group_img,card_short_url from Gn_Iam_Name_Card where idx='{$group_row['card_idx']}'";
-                                    $res_card_g = mysqli_query($self_con, $sql_card_g);
-                                    $row_card_g = mysqli_fetch_array($res_card_g);
-
-                                    $sql_mem_g = "select mem_code from Gn_Member where mem_id='{$group_row['mem_id']}'";
-                                    $res_mem_g = mysqli_query($self_con, $sql_mem_g);
-                                    $row_mem_g = mysqli_fetch_array($res_mem_g);
-                                ?>
-                                    <div style="padding-top: 2px;cursor:pointer">
-                                        <div style="border:1px solid #ddd;background-color: #ffffff;border-radius: 10px;padding-bottom: 2px;display:flex;justify-content: space-between;">
-                                            <div style="display: flex" onclick="location.href = '?' + '<?= $row_card_g['card_short_url'] . $row_mem_g['mem_code'] ?>'+'&cur_win=group-con&gkind=' +'<?= $group_row['group_id'] ?>'">
-                                                <div style="border-radius: 10%;width: 50px;height: 50px;overflow: hidden;margin: 10px;position:relative">
-                                                    <img src="<?= $row_card_g['group_img'] ?>" style="width: 50px;height:50px;">
-                                                </div>
-                                                <div>
-                                                    <h4 style="margin-left: 10px;margin-top: 10px"><?= $group_row['name'] ?></h4>
-                                                    <h5 style="margin-left: 10px;margin-top: 10px;margin-bottom: 10px">
-                                                        <?= $group_row['description'] ?>
-                                                    </h5>
-                                                </div>
-                                            </div>
-                                            <div class="dropdown " style="margin-right: 10px;margin-top: auto;margin-bottom: auto;">
-                                                <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
-                                                    <span class="caret"></span>
-                                                </button>
-                                                <ul class="dropdown-menu comunity" style="border: 1px solid #ccc;padding:0px;">
-                                                    <?
-                                                    $card_sql = "select card_name from Gn_Iam_Name_Card where group_id = '{$group_row['group_id']}' order by req_data";
-                                                    $card_res = mysqli_query($self_con, $card_sql);
-                                                    $card_num = 1;
-                                                    while ($card_row = mysqli_fetch_array($card_res)) {
-                                                    ?>
-                                                        <li><a onclick="javascript:;;" style="padding:3px 3px 0px 3px !important;"><?= $card_row[0] == "" ? $card_num . "번카드" : $card_row[0]; ?></a></li>
-                                                    <?
-                                                        $card_num++;
-                                                    }
-                                                    ?>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                <? } ?>
-                            </div>
-                        <? } else if ($gkind == "search") { ?>
-                            <div style="width:100%;border:1px solid #ddd;padding:5px;">
-                                <div style="display:flex;justify-content: space-between;">
-                                    <div>
-                                        <h3 style="margin-left:10px;margin-top:10px">회원님을 위한 추천</h3>
-                                        <h4 style="margin-left:10px;margin-top:5px"><small>회원님이 관심을 가질 만한 그룹입니다.</small></h4>
-                                    </div>
-                                    <button class="btn btn-link" onclick="show_all_group('sample')">모두 보기</button>
-                                </div>
-                                <? $group_sql = "select card_short_url,main_img1,group_id,card.mem_id from Gn_Iam_Name_Card card
-                                        where group_id is not NULL and group_id > 0 and group_id not in ($my_group) and sample_click = 'Y' order by sample_order desc limit 0,5";
-                                $sample_index = 0;
-                                $group_res = mysqli_query($self_con, $group_sql);
-                                while ($group_row = mysqli_fetch_array($group_res)) {
-                                    $sql_grp_info = "select name from gn_group_info where idx='{$group_row['group_id']}'";
-                                    $res_grp_info = mysqli_query($self_con, $sql_grp_info);
-                                    $row_grp_info = mysqli_fetch_array($res_grp_info);
-
-                                    $sql_mem_info = "select mem_code from Gn_Member where mem_id='{$group_row['mem_id']}'";
-                                    $res_mem_info = mysqli_query($self_con, $sql_mem_info);
-                                    $row_mem_info = mysqli_fetch_array($res_mem_info);
-
-                                    $mem_sql = "select count(idx) from gn_group_member where group_id='{$group_row['group_id']}'";
-                                    $mem_res = mysqli_query($self_con, $mem_sql);
-                                    $mem_row = mysqli_fetch_array($mem_res);
-                                    $weekMondayTime = date("Y-m-d", strtotime('last Monday'));
-                                    $cont_sql = "select count(idx) from Gn_Iam_Contents where group_id='{$group_row['group_id']}' and req_data >= '$weekMondayTime'";
-                                    $cont_res = mysqli_query($self_con, $cont_sql);
-                                    $cont_row = mysqli_fetch_array($cont_res);
-                                    $f_sql = "select mem_name, profile from Gn_Member where site_iam = '{$Gn_mem_row['site_iam']}' and mem_id in (select mem_id from gn_group_member where group_id='{$group_row['group_id']}')";
-                                    $f_res = mysqli_query($self_con, $f_sql);
-                                    $f_count = mysqli_num_rows($f_res);
-                                    if ($sample_index == 0) {
-                                ?>
-                                        <div style="padding-top: 10px;">
-                                            <div style="border:1px solid #ddd;background-color: #ffffff;border-top-right-radius:10px;border-top-left-radius:10px;;padding-bottom: 2px;position:relative;padding-bottom: 60%;overflow: hidden;">
-                                                <div class="content" style="background-image:url('<?= $group_row['main_img1'] ?>');background-size: cover;height:100%;background-position: center;" onclick="location.href = '?' + '<?= $group_row['card_short_url'] . $row_mem_info['mem_code'] ?>'+'&cur_win=group-con&gkind=' +'<?= $group_row['group_id'] ?>'">
-                                                </div>
-                                            </div>
-                                            <div style="border:1px solid #ddd;border-bottom-left-radius: 10px;border-bottom-right-radius: 10px;">
-                                                <h4 style="margin-left:10px;margin-top:10px"><?= $row_grp_info['name'] ?></h4>
-                                                <h4 style="margin-left:10px;margin-top:5px"><small>멤버 <?= $mem_row[0] ?>명 &bull; 주간 게시물 <?= $cont_row[0] ?>개</small></h4>
-                                                <? if ($f_count > 0) { ?>
-                                                    <div style="display:flex;margin-left:20px;margin-top:10px">
-                                                        <?
-                                                        $f_index = 0;
-                                                        while ($f_row = mysqli_fetch_array($f_res)) {
-                                                            if ($f_index == 0)
-                                                                $f_name = $f_row['mem_name'];
-                                                            if ($f_index++ < 12) { ?>
-                                                                <div style="border:1px solid #ddd;border-radius: 50%;width: 30px;height: 30px;overflow: hidden;margin-left: -10px;">
-                                                                    <img src="<?= cross_image($f_row['profile']) ?>" style="width: 100%;height:100%;">
-                                                                </div>
-                                                        <?  }
-                                                        } ?>
-                                                    </div>
-                                                    <h4 style="margin-left:10px;margin-top:5px"><small><?= $f_name . "님 외 친구 " . ($f_count - 1) . "명이 멤버입니다." ?></small></h4>
-                                                <? } ?>
-                                                <div style="text-align:center;margin:10px 0px">
-                                                    <button class="btn btn-success" style="width:95%" onclick="join_group('<?= $group_row['group_id'] ?>')">그룹 참여</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    <?  } else { ?>
-                                        <div style="padding-top: 2px;">
-                                            <div style="border:1px solid #ddd;background-color: #ffffff;border-radius: 10px;padding-bottom: 2px;display:flex;justify-content: space-between;">
-                                                <div style="display: flex" onclick="location.href = '?' + '<?= $group_row['card_short_url'] . $group_row['mem_code'] ?>'+'&cur_win=group-con&gkind=' +'<?= $group_row['group_id'] ?>'">
-                                                    <div style="border-radius: 10%;width: 50px;height: 50px;overflow: hidden;margin: 10px;position:relative">
-                                                        <img src="<?= $group_row['main_img1'] ?>" style="width: 50px;height:50px;">
-                                                    </div>
-                                                    <div>
-                                                        <h4 style="margin-left: 10px;margin-top: 10px"><?= $group_row['name'] ?></h4>
-                                                        <h5 style="margin-left: 10px;margin-top: 10px;margin-bottom: 10px">
-                                                            <small>멤버 <?= $mem_row[0] ?>명 &bull; 주간 게시물 <?= $cont_row[0] ?>개</small>
-                                                        </h5>
-                                                        <? if ($f_count > 0) { ?>
-                                                            <div style="display:flex;margin-left:20px;margin-top:10px">
-                                                                <?
-                                                                $f_index = 0;
-                                                                while ($f_row = mysqli_fetch_array($f_res)) {
-                                                                    if ($f_index == 0)
-                                                                        $f_name = $f_row['mem_name'];
-                                                                    if ($f_index++ < 12) { ?>
-                                                                        <div style="border:1px solid #ddd;border-radius: 50%;width: 30px;height: 30px;overflow: hidden;margin-left: -10px;">
-                                                                            <img src="<?= cross_image($f_row['profile']) ?>" style="width: 100%;height:100%;">
-                                                                        </div>
-                                                                <?  }
-                                                                } ?>
-                                                            </div>
-                                                            <h5 style="margin-left:10px;margin-top:5px"><small><?= $f_name . "님 외 친구 " . ($f_count - 1) . "명이 멤버입니다." ?></small></h5>
-                                                        <? } ?>
-                                                    </div>
-                                                </div>
-                                                <div style="display:flex">
-                                                    <div class="dropdown " style="margin-right: 10px;margin-top: auto;margin-bottom: auto;">
-                                                        <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
-                                                            <span class="caret"></span>
-                                                        </button>
-                                                        <ul class="dropdown-menu comunity" style="border: 1px solid #ccc;padding:0px;">
-                                                            <?
-                                                            $card_sql = "select card_name from Gn_Iam_Name_Card where group_id = '{$group_row['group_id']}' order by req_data";
-                                                            $card_res = mysqli_query($self_con, $card_sql);
-                                                            $card_num = 1;
-                                                            while ($card_row = mysqli_fetch_array($card_res)) {
-                                                            ?>
-                                                                <li><a onclick="javascript:;;" style="padding:3px 3px 0px 3px !important;"><?= $card_row[0] == "" ? $card_num . "번카드" : $card_row[0]; ?></a></li>
-                                                            <?
-                                                                $card_num++;
-                                                            }
-                                                            ?>
-                                                        </ul>
-                                                    </div>
-                                                    <button class="btn btn-link" type="button" onclick="join_group('<?= $group_row['group_id'] ?>')">참여</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                <?  }
-                                    $sample_index++;
-                                } ?>
-                            </div>
-                            <div style="width:100%;border:1px solid #ddd;padding:5px;margin-top:5px">
-                                <div style="display:flex;justify-content: space-between;">
-                                    <div>
-                                        <h3 style="margin-left:10px;margin-top:10px">친구의 그룹</h3>
-                                        <h4 style="margin-left:10px;margin-top:5px"><small>친구들이 가입한 그룹입니다.</small></h4>
-                                    </div>
-                                    <button class="btn btn-link" onclick="show_all_group('friend')">모두 보기</button>
-                                </div>
-                                <?
-                                $group_sql = "select name,ggm.group_id,count(*) as g_mem_count,ggi.card_idx 
-                                    from gn_group_member ggm 
-                                    inner join gn_group_info ggi on ggi.idx=ggm.group_id
-                                    inner join Gn_Member m on m.mem_id=ggm.mem_id
-                                    where m.site_iam='{$Gn_mem_row['site_iam']}'
-                                        and ggm.group_id not in (select group_id from gn_group_member where mem_id ='{$_SESSION['iam_member_id']}') 
-                                        group by group_id order by g_mem_count desc limit 0,5";
-                                $gm_index = 0;
-                                $group_res = mysqli_query($self_con, $group_sql);
-                                while ($group_row = mysqli_fetch_array($group_res)) {
-                                    $sql_card_g = "select mem_id,main_img1,card_short_url from Gn_Iam_Name_Card where idx='{$group_row['card_idx']}'";
-                                    $res_card_g = mysqli_query($self_con, $sql_card_g);
-                                    $row_card_g = mysqli_fetch_array($res_card_g);
-
-                                    $sql_mem_g = "select mem_code from Gn_Member where mem_id='{$row_card_g['mem_id']}'";
-                                    $res_mem_g = mysqli_query($self_con, $sql_mem_g);
-                                    $row_mem_g = mysqli_fetch_array($res_mem_g);
-
-                                    $mem_sql = "select count(*) from gn_group_member where group_id='{$group_row['group_id']}'";
-                                    $mem_res = mysqli_query($self_con, $mem_sql);
-                                    $mem_row = mysqli_fetch_array($mem_res);
-                                    $weekMondayTime = date("Y-m-d", strtotime('last Monday'));
-                                    $cont_sql = "select count(*) from Gn_Iam_Contents where group_id='{$group_row['group_id']}' and group_display = 'Y' and req_data >= '$weekMondayTime'";
-                                    $cont_res = mysqli_query($self_con, $cont_sql);
-                                    $cont_row = mysqli_fetch_array($cont_res);
-                                    $f_sql = "select mem_name, profile from Gn_Member where site_iam = '{$Gn_mem_row['site_iam']}' and mem_id in (select mem_id from gn_group_member where group_id='{$group_row['group_id']}')";
-                                    $f_res = mysqli_query($self_con, $f_sql);
-                                    $f_count = mysqli_num_rows($f_res);
-                                    if ($gm_index == 0) {
-                                ?>
-                                        <div style="padding-top: 10px;">
-                                            <div style="border:1px solid #ddd;background-color: #ffffff;border-top-right-radius:10px;border-top-left-radius:10px;;padding-bottom: 2px;position:relative;padding-bottom: 60%;overflow: hidden;">
-                                                <div class="content" style="background-image:url('<?= $row_card_g['main_img1'] ?>');background-size: cover;height:100%;background-position: center;" onclick="location.href = '?' + '<?= $row_card_g['card_short_url'] . $row_mem_g['mem_code'] ?>'+'&cur_win=group-con&gkind=' +'<?= $group_row['group_id'] ?>'">
-                                                </div>
-                                            </div>
-                                            <div style="border:1px solid #ddd;border-bottom-left-radius: 10px;border-bottom-right-radius: 10px;">
-                                                <h4 style="margin-left:10px;margin-top:10px"><?= $group_row['name'] ?></h4>
-                                                <h4 style="margin-left:10px;margin-top:5px"><small>멤버 <?= $mem_row[0] ?>명 &bull; 주간 게시물 <?= $cont_row[0] ?>개</small></h4>
-                                                <? if ($f_count > 0) { ?>
-                                                    <div style="display:flex;margin-left:20px;margin-top:10px">
-                                                        <?
-                                                        $f_index = 0;
-                                                        while ($f_row = mysqli_fetch_array($f_res)) {
-                                                            if ($f_index == 0)
-                                                                $f_name = $f_row['mem_name'];
-                                                            if ($f_index++ < 12) { ?>
-                                                                <div style="border:1px solid #ddd;border-radius: 50%;width: 30px;height: 30px;overflow: hidden;margin-left: -10px;">
-                                                                    <img src="<?= cross_image($f_row['profile']) ?>" style="width: 100%;height:100%;">
-                                                                </div>
-                                                        <?  }
-                                                        } ?>
-                                                    </div>
-                                                    <h4 style="margin-left:10px;margin-top:5px"><small><?= $f_name . "님 외 친구 " . ($f_count - 1) . "명이 멤버입니다." ?></small></h4>
-                                                <? } ?>
-                                                <div style="text-align:center;margin:10px 0px">
-                                                    <button class="btn btn-success" style="width:95%" onclick="join_group('<?= $group_row['group_id'] ?>')">그룹 참여</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    <?  } else { ?>
-                                        <div style="padding-top: 2px;">
-                                            <div style="border:1px solid #ddd;background-color: #ffffff;border-radius: 10px;padding-bottom: 2px;display:flex;justify-content: space-between;">
-                                                <div style="display: flex" onclick="location.href = '?' + '<?= $row_card_g['card_short_url'] . $row_mem_g['mem_code'] ?>'+'&cur_win=group-con&gkind=' +'<?= $group_row['group_id'] ?>'">
-                                                    <div style="border-radius: 10%;width: 50px;height: 50px;overflow: hidden;margin: 10px;position:relative">
-                                                        <img src="<?= $group_row['main_img1'] ?>" style="width: 50px;height:50px;">
-                                                    </div>
-                                                    <div>
-                                                        <h4 style="margin-left: 10px;margin-top: 10px"><?= $group_row['name'] ?></h4>
-                                                        <h5 style="margin-left: 10px;margin-top: 10px;margin-bottom: 10px">
-                                                            <small>멤버 <?= $mem_row[0] ?>명 &bull; 주간 게시물 <?= $cont_row[0] ?>개</small>
-                                                        </h5>
-                                                        <? if ($f_count > 0) { ?>
-                                                            <div style="display:flex;margin-left:20px;margin-top:10px">
-                                                                <?
-                                                                $f_index = 0;
-                                                                while ($f_row = mysqli_fetch_array($f_res)) {
-                                                                    if ($f_index == 0)
-                                                                        $f_name = $f_row['mem_name'];
-                                                                    if ($f_index++ < 12) { ?>
-                                                                        <div style="border:1px solid #ddd;border-radius: 50%;width: 30px;height: 30px;overflow: hidden;margin-left: -10px;">
-                                                                            <img src="<?= cross_image($f_row['profile']) ?>" style="width: 100%;height:100%;">
-                                                                        </div>
-                                                                <?  }
-                                                                } ?>
-                                                            </div>
-                                                            <h5 style="margin-left:10px;margin-top:5px"><small><?= $f_name . "님 외 친구 " . ($f_count - 1) . "명이 멤버입니다." ?></small></h5>
-                                                        <? } ?>
-                                                    </div>
-                                                </div>
-                                                <div style="display:flex">
-                                                    <div class="dropdown " style="margin-right: 10px;margin-top: auto;margin-bottom: auto;">
-                                                        <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
-                                                            <span class="caret"></span>
-                                                        </button>
-                                                        <ul class="dropdown-menu comunity" style="border: 1px solid #ccc;padding:0px;">
-                                                            <?
-                                                            $card_sql = "select card_name from Gn_Iam_Name_Card where group_id = '{$group_row['group_id']}' order by req_data";
-                                                            $card_res = mysqli_query($self_con, $card_sql);
-                                                            $card_num = 1;
-                                                            while ($card_row = mysqli_fetch_array($card_res)) {
-                                                            ?>
-                                                                <li><a onclick="javascript:;;" style="padding:3px 3px 0px 3px !important;"><?= $card_row[0] == "" ? $card_num . "번카드" : $card_row[0]; ?></a></li>
-                                                            <?
-                                                                $card_num++;
-                                                            }
-                                                            ?>
-                                                        </ul>
-                                                    </div>
-                                                    <button class="btn btn-link" type="button" onclick="join_group('<?= $group_row['group_id'] ?>')">참여</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                <?  }
-                                    $gm_index++;
-                                } ?>
-                            </div>
-                        <? } else if ($gkind != "search_con") { ?>
-                            <div style="cursor:pointer;display:flex;justify-content: space-between;margin-top:5px">
-                                <div>
-                                    <?
-                                    $group_public = $group_row['public_status'] == "Y" ? "공개그룹" : "비공개그룹";
-                                    $group_upload = $group_row['upload_status'];
-                                    ?>
-                                    <h3 style="margin-left:10px" onclick="open_group_info_modal('<?= $gkind ?>', '<?= $Gn_mem_row['site_iam'] ?>')"><?= $group_row['name'] . " >" ?></h3>
-                                    <?
-                                    $group_sql = "select count(idx) from gn_group_member where group_id='$gkind'";
-                                    $group_res = mysqli_query($self_con, $group_sql);
-                                    $group_row = mysqli_fetch_array($group_res);
-                                    $group_mem_count = $group_row[0];
-                                    $time = date("Y-m-d");
-                                    $group_sql = "select count(idx) from gn_group_member where group_id='$gkind' and req_date >= '$time'";
-                                    $group_res = mysqli_query($self_con, $group_sql);
-                                    $group_row = mysqli_fetch_array($group_res);
-                                    $group_new_mem_count = $group_row[0];
-                                    if ($my_group == "")
-                                        $group_sql = "select count(idx) from Gn_Iam_Contents where group_id='$gkind' and group_display = 'Y' and req_data >= '$time'";
-                                    else
-                                        $group_sql = "select count(idx) from Gn_Iam_Contents where group_id='$gkind' and req_data >= '$time'";
-                                    $group_res = mysqli_query($self_con, $group_sql);
-                                    $group_row = mysqli_fetch_array($group_res);
-                                    $group_new_cont_count = $group_row[0];
-
-                                    $group_card_sql = "select card_name,card_title from Gn_Iam_Name_Card where card_short_url = '$group_card_url'";
-                                    $group_card_res = mysqli_query($self_con, $group_card_sql);
-                                    $group_card_row = mysqli_fetch_array($group_card_res);
-
-                                    $group_check_sql = "select count(idx) from gn_group_member where group_id='$gkind' and mem_id='{$_SESSION['iam_member_id']}'";
-                                    $group_check_res = mysqli_query($self_con, $group_check_sql);
-                                    $group_check_row = mysqli_fetch_array($group_check_res);
-                                    ?>
-                                    <div style="display:flex;margin-top:5px;margin-left:10px">
-                                        <h5><?= $group_public . " &bull; 멤버 " . $group_mem_count . "명 &bull;" ?></h5>
-                                        <h5 style="cursor:pointer" onclick="<? if ($_SESSION['iam_member_id'] == $group_manager) echo 'open_all_member_1(' . $gkind . ')' ?>"><?= " 신규 " . $group_new_mem_count . "명 &bull;" ?></h5>
-                                        <h5 style="cursor:pointer" onclick="<? if ($_SESSION['iam_member_id'] == $group_manager /*&& $group_upload == 'N'*/) echo 'open_group_contents(' . $gkind . ')' ?>"><?= " 신규콘텐츠 " . $group_new_cont_count . "개" ?></h5>
-                                    </div>
-                                </div>
-                                <div style="display:flex;margin-right:10px">
-                                    <? if ($group_check_row[0] > 0) { ?>
-                                        <button type="button" class="btn btn-primary" style="height:24px;padding:0px 12px;margin-right:10px" onclick="open_invite_modal()">초대</button>
-                                    <? } else { ?>
-                                        <button type="button" class="btn btn-primary" style="height:24px;padding:0px 12px;margin-right:10px" onclick="join_group('<?= $gkind ?>')">참여</button>
-                                    <? } ?>
-                                    <div>
-                                        <a href="javascript:showGroupShareModal();">
+                                    <div style="position:absolute;right:<?= $posX ?>px;float:right;">
+                                        <a href="javascript:showSNSModal('<?= $cur_win ?>')" title="<?= $MENU['IAM_TOP_MENU']['TITLE5']; ?>">
                                             <img src="/iam/img/menu/icon_share_black.png" alt="" title="" style="margin-left:0px;width:24px;height:24px">
                                         </a>
                                     </div>
-                                    <div>
-                                        <a href="javascript:addMainBtn('<?= str_replace("'", "", $group_card_row['card_name']) ?>','?<?= $group_card_url . $card_owner_code ?>');">
-                                            <img src="/iam/img/menu/icon_add_main.png" alt="" title="<?= $MENU['IAM_CARD_BTN']['BTN6_TITLE']; ?>" style="margin-left:0px;width:24px;height:24px">
-                                        </a>
-                                    </div>
-                                    <? //--그룹카드 우측 세점 드롭박스 부분--//
-                                    if ($group_check_row[0] > 0) {
-                                        if ($_SESSION['iam_member_id'] && $_SESSION['iam_member_id'] == $group_manager) {
+                                    <?
+                                    $posX += 27;
+                                    if (!$cur_card['share_send_card']) {
                                     ?>
-                                            <div class="dropdown right">
-                                                <img class="dropdown-toggle" data-toggle="dropdown" src="/iam/img/menu/icon_dot.png" style="width:24px;height:24px">
-                                                <ul class="dropdown-menu namecard-dropdown " style="background: white; color : black;top:10px;">
-                                                    <li>
-                                                        <? if ($group_card['phone_display'] == 'Y') { ?>
-                                                            <a href="javascript:card_phone_display('<?= $group_card['idx'] ?>', '<?= $_SESSION['iam_member_id'] ?>','N')">
-                                                                <img src="/iam/img/icon_unlock.svg" title="<?= $MENU['IAM_CARD_M']['CM2_TITLE']; ?>" style="width: 20px"><?= $MENU['IAM_CARD_M']['CM2']; ?>
-                                                            </a>
-                                                        <? } else { ?>
-                                                            <a href="javascript:card_phone_display('<?= $group_card['idx'] ?>', '<?= $_SESSION['iam_member_id'] ?>','Y')">
-                                                                <img src="/iam/img/icon_lock.svg" title="<?= $MENU['IAM_CARD_M']['CM1_TITLE']; ?>" style="width: 20px"><?= $MENU['IAM_CARD_M']['CM1']; ?>
-                                                            </a>
-                                                        <? } ?>
-                                                    </li>
-                                                    <? if ($_SESSION['iam_member_id'] == $group_manager) { ?>
-                                                        <li>
-                                                            <a href="javascript:edit_group_card('<?= $group_card_url ?>');">
-                                                                <img src="/iam/img/menu/icon_edit.png" alt="" title="" style="width:20px;">
-                                                                <?= $MENU['IAM_CARD_M']['CM3']; ?>
-                                                            </a>
-                                                        </li>
-                                                    <? } ?>
-                                                    <? if ((int)$_SESSION['iam_member_leb'] != 0) { ?>
-                                                        <li>
-                                                            <a href="/iam/mypage.php" class="edit">
-                                                                <i class="fa fa-pencil-square-o fa-lg" aria-hidden="true" title="<?= $MENU['IAM_CARD_M']['CM3_1_TITLE']; ?>"></i><?= $MENU['IAM_CARD_M']['CM3_1']; ?>
-                                                            </a>
-                                                        </li>
-                                                    <? } ?>
-                                                    <li>
-                                                        <a href="javascript:open_cont_order_popup('<?= $cur_win ?>', '<?= $cur_card['card_short_url'] ?>', '<?= $group_card_url ?>');" title="카드 콘텐츠 편집하기">
-                                                            <img src="/iam/img/main/icon-contedit.png" style="height: 20px">
-                                                            카드 콘텐츠 편집
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a onclick="showCardLike('<?= $post_display == 0 ? 1 : 0; ?>','<?= $group_card_url ?>')" id="show_card_title_menu" title="<?= $MENU['IAM_CARD_M']['CM7_TITLE']; ?>">
-                                                            <img src="/iam/img/main/icon-16.png" title="댓글박스" style="height: 20px">
-                                                            <? if ($post_display == 1) {
-                                                                echo $MENU['IAM_CARD_M']['CM8'];
-                                                            } else {
-                                                                echo $MENU['IAM_CARD_M']['CM7'];
-                                                            } ?>
-                                                        </a>
-                                                    </li>
-                                                    <? if ($group_card_idx != $cur_card['idx']) { ?>
-                                                        <li>
-                                                            <a href="javascript:namecard_del('<?= $group_card['idx'] ?>');" title="<?= $MENU['IAM_CARD_M']['CM11_TITLE']; ?>">
-                                                                <img src="/iam/img/star/icon-bin.png" style="height: 20px">
-                                                                <?= $MENU['IAM_CARD_M']['CM11']; ?>
-                                                            </a>
-                                                        </li>
-                                                    <? } ?>
-                                                    <li>
-                                                        <a href="javascript:move_card();" title="<?= $MENU['IAM_CARD_M']['CM12_TITLE']; ?>">
-                                                            <img src="/iam/img/main/icon-card_move.png" style="height: 20px">
-                                                            <?= $MENU['IAM_CARD_M']['CM12']; ?>
-                                                        </a>
-                                                    </li>
-                                                    <!--li>
-                                            <a href="javascript:show_manage_auto(0)" title="콘텐츠 오토데이트 관리">
-                                                <img src="/iam/img/icon-update.png" title="" style="height: 23px;margin-left: -2px;">
-                                                오토 데이트 기능
+                                        <div style="position:absolute;right:<?= $posX ?>px;float:right;">
+                                            <a href="javascript:edit_card('<?= $request_short_url ?>');">
+                                                <img src="/iam/img/menu/icon_edit.png" alt="" title="" style="margin-left:0px;width:24px;height:24px">
+                                            </a>
+                                        </div>
+                                    <? } ?>
+                                    <div class="dropdown right" style="position:absolute;right:35px;float:right;">
+                                        <img class="dropdown-toggle" data-toggle="dropdown" src="/iam/img/menu/icon_dot.png" style="width:24px;height:24px">
+                                        <ul class="dropdown-menu namecard-dropdown " style="background: white; color : black;top:10px;">
+                                            <li>
+                                                <? if ($cur_card['phone_display'] == 'Y') { ?>
+                                                    <a href="javascript:card_phone_display('<?= $cur_card['idx'] ?>', '<?= $_SESSION['iam_member_id'] ?>','N')">
+                                                        <img src="/iam/img/icon_unlock.svg" title="<?= $MENU['IAM_CARD_M']['CM2_TITLE']; ?>" style="height: 20px"><?= $MENU['IAM_CARD_M']['CM2']; ?>
+                                                    </a>
+                                                <? } else { ?>
+                                                    <a href="javascript:card_phone_display('<?= $cur_card['idx'] ?>', '<?= $_SESSION['iam_member_id'] ?>','Y')">
+                                                        <img src="/iam/img/menu/icon_card_lock.png" title="<?= $MENU['IAM_CARD_M']['CM1_TITLE']; ?>" style="height: 20px"><?= $MENU['IAM_CARD_M']['CM1']; ?>
+                                                    </a>
+                                                <? } ?>
+                                            </li>
+                                            <? if ((int)$_SESSION['iam_member_leb'] != 0) { ?>
+                                                <li>
+                                                    <a href="/iam/mypage.php" class="edit">
+                                                        <i class="fa fa-pencil-square-o fa-lg" aria-hidden="true" title="<?= $MENU['IAM_CARD_M']['CM3_1_TITLE']; ?>"></i><?= $MENU['IAM_CARD_M']['CM3_1']; ?>
+                                                    </a>
+                                                </li>
+                                            <? } ?>
+                                            <!-- <li>
+                                            <a href="javascript:showCardTitle()" id = "show_card_title_menu" title="<?= $MENU['IAM_CARD_M']['CM5_TITLE']; ?>">
+                                                <img src="/iam/img/menu/icon_card_title.png"  style="height: 20px">
+                                                <?
+                                                if ($card_mode == "card_title") {
+                                                    echo $MENU['IAM_CARD_M']['CM5'];
+                                                } else {
+                                                    echo $MENU['IAM_CARD_M']['CM6'];
+                                                } ?>
+                                            </a>
+                                        </li> -->
+                                            <? if (($card_owner_site == $user_site || $card_owner_site == $bunyang_site)) { ?>
+                                                <li>
+                                                    <a href="javascript:open_cont_order_popup('<?= $cur_win ?>', '<?= $cur_card['card_short_url'] ?>', '<?= $group_card_url ?>');" title="카드 콘텐츠 편집하기">
+                                                        <img src="/iam/img/menu/icon_cont_edit.png" style="height: 20px">
+                                                        카드 콘텐츠 편집
+                                                    </a>
+                                                </li>
+                                            <? } ?>
+                                            <!--li>
+                                            <a href="javascript:showCardLike('<?= $post_display == 0 ? 1 : 0; ?>','<?= $request_short_url ?>')" id = "show_card_title_menu" title="<?= $MENU['IAM_CARD_M']['CM7_TITLE']; ?>">
+                                                <img src="/iam/img/menu/icon_show_post.png" title="댓글박스" style="height: 20px">
+                                                <? if ($post_display == 1) {
+                                                    echo $MENU['IAM_CARD_M']['CM8'];
+                                                } else {
+                                                    echo $MENU['IAM_CARD_M']['CM7'];
+                                                } ?>
                                             </a>
                                         </li-->
-                                                </ul>
-                                            </div>
-                                        <? } else if ($_SESSION['iam_member_id']) { ?>
-                                            <div class="dropdown right" style="margin-right:10px;height:30px;">
-                                                <img class="dropdown-toggle" data-toggle="dropdown" src="/iam/img/menu/icon_dot.png" style="height: 24px;">
-                                                <ul class="dropdown-menu namecard-dropdown " style="background: white; color : black;top:10px;">
+                                            <li>
+                                                <a href="javascript:showSNSModal('<?= $cur_win ?>','Y')" id="show_card_title_menu" title="<?= $MENU['IAM_CARD_M']['CM7_TITLE']; ?>">
+                                                    <img src="/iam/img/menu/icon_share_black.png" title="해당 카드 공유하기" style="height: 20px">
+                                                    <?= $MENU['IAM_CARD_M']['CM17']; ?>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:show_manage_auto(0)" title="콘텐츠 오토데이트 관리">
+                                                    <img src="/iam/img/menu/icon_auto_date.png" title="" style="height: 23px;margin-left: -2px;">
+                                                    오토 데이트 기능
+                                                </a>
+                                            </li>
+                                            <? if (($card_owner_site == $user_site || $card_owner_site == $bunyang_site)) {
+                                                if ($is_pay_version) { ?>
                                                     <li>
-                                                        <a href="javascript:group_out('<?= $gkind ?>', '<?= $_SESSION['iam_member_id'] ?>')">
-                                                            <img src="/iam/img/main/icon-exit.png" title="그룹 나가기" style="height: 20px">그룹 나가기
+                                                        <a href="javascript:open_iam_mall_popup('<?= $_SESSION['iam_member_id'] ?>',2,'<?= $cur_card['idx'] ?>');" title="<?= $MENU['IAM_CARD_M']['CM13_TITLE']; ?>">
+                                                            <img src="/iam/img/menu/icon_shop.png" style="height: 20px">
+                                                            <?= $MENU['IAM_CARD_M']['CM13']; ?>
                                                         </a>
                                                     </li>
-                                                </ul>
-                                            </div>
-                                    <? }
-                                    } ?>
-                                    <div id="card_title_down" style="text-align:right;display:none">
-                                        <img src="/iam/img/menu/icon_cardbox_down.png" style="width:24px;height:24px;">
+                                                <? }
+                                                if ($first_card_idx != $cur_card['idx']) { ?>
+                                                    <li>
+                                                        <a href="javascript:namecard_del('<?= $cur_card['idx'] ?>');" title="<?= $MENU['IAM_CARD_M']['CM11_TITLE']; ?>">
+                                                            <img src="/iam/img/menu/icon_card_del.png" style="height: 20px">
+                                                            <?= $MENU['IAM_CARD_M']['CM11']; ?>
+                                                        </a>
+                                                    </li>
+                                            <?  }
+                                            } ?>
+                                        </ul>
                                     </div>
-                                    <div id="card_title_up" style="text-align:right;height:20px;display:none;">
-                                        <img src="/iam/img/menu/icon_cardbox_up.png" style="width:24px;height:24px;">
-                                    </div>
+                                <? } ?>
+                                <div id="card_title_down" style="text-align:right;height:20px;display:none">
+                                    <img src="/iam/img/main/icon-19.png" style="height:20px;margin-right:10px">
                                 </div>
                             </div>
+                            <? //echo "befoer_card_show_end!!"; exit;
+                            ?>
+                            <? //echo "<script>alarm_cnt++; alert('중간알림'+alarm_cnt);</script>";
+                            ?>
+                            <div class="box-body" style="<?= $card_hidden1 ?>">
+                                <div class="inner" style="padding-top:0px">
+                                    <div class="utils clearfix" style="margin-bottom: 0px;">
+                                        <?
+                                        if (isset($_GET['preview']))
+                                            $show_share_iam_card = $_GET['preview'] == "" ? "N" : $_GET['preview'];
+                                        if (isset($_GET['smode'])) { ?>
+                                            <script>
+                                                $(document).ready(function() {
+                                                    $("#card_send_modal_start").modal("show");
+                                                });
+                                            </script>
+                                        <? }
+                                        if ($show_share_iam_card == "N") { //카드공유로 방문
+                                            $today = date("Y-m-d"); //검은색 카드번호
+                                        ?>
+                                            <div class="left">
+                                                <div class="color-chips">
+                                                    <?
+                                                    $title_display = "inline-block";
+                                                    $card_count = $cont_count = 0;
+                                                    //echo $_GET['preview']."|".$_GET['cache']."|".$cur_win."|user_mem_code=".$user_mem_code."|card_owner_code=".urldecode($card_owner_code)."|session_iam_member_subadmin_id=".$_SESSION['iam_member_subadmin_id'] ."|pay_status=".$pay_status."|service_type=".$domainData['service_type']."|share_dub_admin=".$share_sub_admin."|share_pay_status=".$share_pay_status;
+                                                    if (
+                                                        $cur_win == "my_info" &&
+                                                        (($user_mem_code == $card_owner_code && !$_SESSION['iam_member_subadmin_id'] && (!$pay_status || $domainData['service_type'] == 2)) ||
+                                                            ($user_mem_code != $card_owner_code && !$share_sub_admin && (!$share_pay_status || $domainData['service_type'] == 2)))
+                                                    ) { //무료회원이거나 단체회원이면 분양사관리자 1번카드를 자신의 1번카드로 한다
+                                                        //$share_pay_status = false;
+                                                        $title_sql = "select card_title,phone_display,next_iam_link from Gn_Iam_Name_Card where idx='$first_card_idx'";
+                                                        $title_res = mysql_query($title_sql);
+                                                        $title_row = mysql_fetch_array($title_res);
 
-                            <div class="tab-content" id="myTabContent">
-                                <div class="tab-pane fade profile-tab-content in active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                                    <div class="box-body">
-                                        <div class="inner" style="padding-top:0px">
-                                            <div class="utils clearfix" style="margin-bottom: 0px;">
-                                                <div class="left">
-                                                    <div class="color-chips">
+                                                        $private_class = ($title_row['phone_display'] == 'N' ? "private" : "");
+                                                        $active_class = ($request_short_url == $first_card_url ? "active" : "");
+
+                                                        $n_cont_sql = "select count(*) from Gn_Iam_Contents where card_idx = '$first_card_idx' and req_data > '$today'";
+                                                        $n_cont_res = mysql_query($n_cont_sql);
+                                                        $n_cont_row = mysql_fetch_array($n_cont_res);
+                                                    ?>
+                                                        <a href="?<?= $first_card_url . $card_owner_code ?>" onclick="show_next_iam('<?= $title_row['next_iam_link'] ?>');" class="J_card_num <?= $private_class ?> <?= $active_class ?>" id="card_title" style="display: <?= $title_display ?>;" title=<?= $title_row['card_title'] ?>><?= $title_row['card_title'] ? $title_row['card_title'] : $card_count + 1 ?><?= $title_row['next_iam_link'] == "" ? "" : "+" ?><?= $n_cont_row[0] > 0 ? "(" . $n_cont_row[0] . ")" : "" ?></a>
                                                         <?
-                                                        $title_display = "inline-block";
-                                                        $g_card_count = $g_cont_count = 0;
-                                                        $black_circle_sql = "select idx,card_short_url,card_title,card_name,phone_display,next_iam_link,mem_id from Gn_Iam_Name_Card where group_id = '$gkind' order by req_data asc";
-                                                        $black_circle_result = mysqli_query($self_con, $black_circle_sql);
-                                                        while ($black_circle_row = mysqli_fetch_array($black_circle_result)) {
-                                                            $private_class = ($black_circle_row['phone_display'] == 'N' ? "private" : "");
-                                                            $active_class = ($group_card_url == $black_circle_row['card_short_url'] ? "active" : "");
-                                                            $card_link = $black_circle_row['card_short_url'] . $user_mem_code . '&cur_win=group-con&gkind=' . $gkind;
-                                                            $card_idx = $black_circle_row['idx'];
-                                                            $next_iam_link = $black_circle_row['next_iam_link'] ? ($black_circle_row['next_iam_link'] . $user_mem_code . '&cur_win=group-con&gkind=' . $gkind) : "";
+                                                        $card_count++;
+                                                        $cont_sql = "select count(*) from Gn_Iam_Contents where card_idx='$first_card_idx'";
+                                                        $cont_res = mysql_query($cont_sql);
+                                                        $cont_row = mysql_fetch_array($cont_res);
+                                                        $cont_count += $cont_row[0];
+                                                    }
+                                                    if ($_SESSION['iam_member_id'] && $user_mem_code == $card_owner_code)
+                                                        $black_circle_sql = "select idx,card_short_url,card_title,phone_display,next_iam_link,mem_id from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$_SESSION['iam_member_id']}' order by req_data asc";
+                                                    else if ($user_mem_code != $card_owner_code)
+                                                        $black_circle_sql = "select idx,card_short_url,card_title,phone_display,next_iam_link,mem_id from Gn_Iam_Name_Card where group_id is NULL and mem_id = '$share_member_id' order by req_data asc";
+                                                    else
+                                                        $black_circle_sql = "select idx,card_short_url,card_title,phone_display,next_iam_link,mem_id from Gn_Iam_Name_Card where group_id is NULL and mem_id = '$card_owner' order by req_data asc";
+                                                    $black_circle_result = mysql_query($black_circle_sql);
+                                                    while ($black_circle_row = mysql_fetch_array($black_circle_result)) {
+                                                        if ($card_count > 0 && $first_card_url == $black_circle_row['card_short_url'])
+                                                            continue;
+                                                        $private_class = ($black_circle_row['phone_display'] == 'N' ? "private" : "");
+                                                        $active_class = ($request_short_url == $black_circle_row['card_short_url'] ? "active" : "");
+                                                        $card_link = $black_circle_row['card_short_url'];
+                                                        $card_idx = $black_circle_row['idx'];
+                                                        if ($private_class != "private" || $_SESSION['iam_member_id'] == $black_circle_row['mem_id'] || (isset($_GET['smode']) && $card_idx == $_GET['slink'])) {
                                                             $cont_sql = "select count(*) from Gn_Iam_Contents where card_idx='$card_idx'";
-                                                            $cont_res = mysqli_query($self_con, $cont_sql);
-                                                            $cont_row = mysqli_fetch_array($cont_res);
-                                                            $g_cont_count += $cont_row[0];
-                                                            $n_cont_sql = "select count(*) from Gn_Iam_Contents where card_idx = '$card_idx' and req_data > '$today'";
-                                                            $n_cont_res = mysqli_query($self_con, $n_cont_sql);
-                                                            $n_cont_row = mysqli_fetch_array($n_cont_res);
+                                                            $cont_res = mysql_query($cont_sql);
+                                                            $cont_row = mysql_fetch_array($cont_res);
+                                                            $cont_count += $cont_row[0];
                                                         ?>
-                                                            <a href="?<?= $card_link ?>" class="J_card_num <?= $private_class ?> <?= $active_class ?>" id="card_title" onclick="show_next_iam('<?= $next_iam_link ?>');" draggable="false" ondragstart="drag(event,'<?= $card_link ?>')" ondrop="drop(event,'<?= $card_link ?>')" ondragover="allowDrop(event)" ontouchstart="pickup(event,'<?= $card_link ?>')" ontouchmove="move(event)" ontouchend="pickdown(event)" style="z-index:10;display: <?= $title_display ?>;font-size: 15px;" title=<?= $black_circle_row['card_title'] ?>>
-                                                                <?= $black_circle_row['card_title'] ? $black_circle_row['card_title'] : $card_count + 1 ?><?= $next_iam_link == "" ? "" : "+" ?><?= $n_cont_row[0] > 0 ? "(" . $n_cont_row[0] . ")" : "" ?>
+                                                            <a href="?<?= $card_link . $card_owner_code . (isset($_GET['smode']) ? '&smode=' . $_GET['smode'] . '&slink=' . $_GET['slink'] . '&smsg=' . $_GET['smsg'] : '') ?>" class=" J_card_num <?= $private_class ?> <?= $active_class ?>" id="card_title" onclick="show_next_iam('<?= $black_circle_row['next_iam_link'] ?>');" draggable="false" ondragstart="drag(event,'<?= $card_link ?>')" ondrop="drop(event,'<?= $card_link ?>')" ondragover="allowDrop(event)" ontouchstart="pickup(event,'<?= $card_link ?>')" ontouchmove="move(event)" ontouchend="pickdown(event)" style="z-index:10;display: <?= $title_display ?>;" title=<?= $black_circle_row['card_title'] ?>>
+                                                                <?= $black_circle_row['card_title'] ? $black_circle_row['card_title'] : $card_count + 1 ?><?= $black_circle_row['next_iam_link'] == "" ? "" : "+" ?><?= $n_cont_row[0] > 0 ? "(" . $n_cont_row[0] . ")" : "" ?>
                                                             </a>
                                                             <script>
                                                                 if ($(".color-chips").height() > 140) {
                                                                     $("a").last().addClass("card_arrow");
                                                                 }
                                                             </script>
-                                                        <?
-                                                            $g_card_count++;
-                                                        }
-                                                        if ($_SESSION['iam_member_id'] == $group_manager) { ?>
-                                                            <a onclick="show_create_group_card_popup();" class="J_card_num" id="card_title" title="<?= $MENU['IAM_CARD_M']['CM9_TITLE']; ?>" style="font-size: 15px;font-weight: 700;text-align: center;z-index:10;background:white;color:#529c03;display: <?= $title_display ?>">
+                                                        <? }
+                                                        $card_count++;
+                                                    }
+                                                    if ($_SESSION['iam_member_id'] && $card_owner_code == $user_mem_code) {
+                                                        if ($pay_status) { ?>
+                                                            <a onclick="show_create_card_popup();" class="J_card_num" id="card_title" title="<?= $MENU['IAM_CARD_M']['CM9_TITLE']; ?>" style="z-index:10;background:white;color:#529c03;display: <?= $title_display ?>">
+                                                                <span style="font-size:15px">새 카드 만들기</span>
+                                                            </a>
+                                                        <? } else { ?>
+                                                            <a onclick="show_pay_popup('<?= $domainData['service_type'] ?>');" class="J_card_num" id="card_title" title="<?= $MENU['IAM_CARD_M']['CM9_TITLE']; ?>" style="z-index:10;background:white;color:#529c03;display: <?= $title_display ?>">
                                                                 <span style="font-size:15px">새 카드 만들기</span>
                                                             </a>
                                                         <? } ?>
-                                                        <script>
-                                                            if ($(".color-chips").height() > 140) {
-                                                                $("#card_title_down").show();
-                                                                $(".card_arrow").hide();
-                                                            }
-                                                            $(function() {
-                                                                $("#card_title_down").on("click", function() {
-                                                                    $(".card_arrow").show();
-                                                                    $("#card_title_up").show();
-                                                                    $("#card_title_down").hide();
-                                                                });
-                                                                $("#card_title_up").on("click", function() {
-                                                                    $("#card_title_down").show();
-                                                                    $(".card_arrow").hide();
-                                                                    $("#card_title_up").hide();
-                                                                });
-                                                            });
-                                                        </script>
+                                                    <? } ?>
+                                                    <script>
+                                                        $("#my_profile_count").html('(' + '<?= $card_count ?>' + '/' + '<?= $cont_count ?>' + ')');
+                                                    </script>
+                                                    <span class="tooltiptext-bottom" id="tooltiptext_card_edit" style="display:none;">
+                                                        <p style="font-weight:bold;margin-bottom:-15px;"><img src="/iam/img/main/icon-poplogo.png" style="width:12%;margin-right:5px;margin-bottom: 5px;">1. 프로필 채우기</p><br>
+                                                        나의 IAM 카드 프로필을<br>
+                                                        완성하세요.<br>
+                                                        <button type="button" class="btn btn-default btn-submit" style="border-radius: 5px;width:38%;font-size:15px;background-color: lightgrey;margin-top: 10px;margin-left: 20px;" onclick="edit_card('<?= $request_short_url ?>')">만들기</button>
+                                                        <button type="button" class="btn btn-default btn-submit" style="border-radius: 5px;width:38%;font-size:15px;background-color: lightgrey;margin-top: 10px;" onclick="close_tooptip(1)">다음</button>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        <? } ?>
+                                    </div>
+                                    <div id="right-side-dropup" style="min-height:30px;margin-bottom: 25px;margin-top:-30px">
+                                        <div id="card_title_up" style="text-align:right;height:20px;display:none;margin-right:-5px;">
+                                            <img src="/iam/img/main/icon-20.png" style="height:20px">
+                                        </div>
+                                    </div>
+                                    <div class="profile-card" style="<?= $card_hidden ?>"><!-- 카드 정보 노출 -->
+                                        <div class="box">
+                                            <!-- 입력란 -->
+                                            <div class="formBox">
+                                                <div>
+                                                    <!-- 로고 이미지-->
+                                                    <? if ($cur_card['profile_logo']) { ?>
+                                                        <img src="<?= cross_image($cur_card['profile_logo']) ?>" alt="온리원그룹" class="logo" id="card_logo" onload="resize(this, '75', '50')" style="right:20px;font-size:15px" />
+                                                    <? } else { ?>
+                                                        <img class="logo" id="card_logo" onload="resize(this, '75', '50')" style="right:20px">
+                                                    <? } ?>
+                                                    <div class="top">
+                                                        <? if (!$ai_map_gmarket) { ?>
+                                                            <div class="J_card_name" style="max-width: 400px;"><?= $cur_card['card_name'] ?><a href="javascript:showmystory()" style="margin-left: 10px;vertical-align: top;"><img src="/images/icon-mystory.png" style="width:30px;"></a></div>
+                                                            <div class="J_card_company"><?= $cur_card['card_company'] ?></div>
+                                                        <? } else {
+                                                            if (strpos($cur_card['card_name'], ",") !== false) {
+                                                                $name_arr = explode(",", $cur_card['card_name']);
+                                                                $name = $name_arr[0];
+                                                                $name1 = str_replace($name . ",", "", $cur_card['card_name']);
+                                                            } else {
+                                                                $name = $cur_card['card_name'];
+                                                            } ?>
+                                                            <div class="J_card_name" style="max-width: 400px;"><?= $name ?><span style="font-size: 15px;margin-left: 7px;color: #c1a5a5;font-weight: 300;"><?= $name1 ?></span><a href="javascript:showmystory()" style="margin-left: 10px;vertical-align: top;"><img src="/images/icon-mystory.png" style="width:30px;"></a></div>
+                                                            <div class="J_card_company"><?= str_replace('별점', '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 13 13" class="_2XLwD" aria-hidden="true" style="width: 14px;fill: #fc4c4e;"><path d="M8.26 4.68h4.26a.48.48 0 0 1 .28.87L9.35 8.02l1.33 4.01a.48.48 0 0 1-.18.54.48.48 0 0 1-.56 0l-3.44-2.5-3.44 2.5a.48.48 0 0 1-.74-.54l1.33-4L.2 5.54a.48.48 0 0 1 .28-.87h4.26l1.3-4a.48.48 0 0 1 .92 0l1.3 4z"></path></svg>', $cur_card['card_company']) ?></div>
+                                                        <? } ?>
+                                                        <div class="J_card_description"><?= $cur_card['card_position'] ?></div>
+                                                    </div>
+                                                    <div class="mid" style="margin-bottom:0px;">
+                                                        <a href="tel:<?= $cur_card['card_phone'] ?>" class="J_card_number">
+                                                            <?= $cur_card['card_phone'] ?>
+                                                        </a>
+                                                        <br>
+                                                        <a class="J_card_address" href="https://map.naver.com/v5/search/<?= $cur_card['card_addr'] ?>" target="_blank">
+                                                            <?= $cur_card['card_addr'] ?>
+                                                        </a>
+                                                    </div>
+                                                    <div class="J_card_email" style="font-size:14px;">
+                                                        <?= $cur_card['card_email'] ?>
+
+                                                        <? if ($business_time != "") {
+                                                            $busi_time = explode("\n", $business_time);
+                                                        ?>
+                                                            <div class="dropdown" style="">
+                                                                <a class="btn dropdown-toggle" type="button" data-toggle="dropdown" style="padding: 6px 0px;" aria-expanded="false">
+                                                                    <span>
+                                                                        영업시간 : <?= $busi_time[0] ?>
+                                                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 7" class="_12Coj" aria-hidden="true" style="width:14px;margin-left:5px;">
+                                                                            <path d="M11.47.52a.74.74 0 0 0-1.04 0l-4.4 4.45v.01L1.57.52A.74.74 0 1 0 .53 1.57l5.12 5.08a.5.5 0 0 0 .7 0l5.12-5.08a.74.74 0 0 0 0-1.05z">
+                                                                            </path>
+                                                                        </svg>
+                                                                    </span>
+                                                                </a>
+                                                                <ul class="dropdown-menu comunity" style="width: 300px;right: 0 !important;left: 0px !important;">
+                                                                    <?
+                                                                    for ($i = 1; $i < count($busi_time) - 1; $i++) {
+                                                                    ?>
+                                                                        <li><a><?= $busi_time[$i] ?></a></li>
+                                                                    <? } ?>
+                                                                </ul>
+                                                            </div>
+                                                        <? } ?>
+                                                        <p style="font-size:14px;padding-top:25px;">
+                                                            <? if ($online1_check == "Y") { ?>
+                                                                <a href="<?= $story_online1 ?>" target="_blank" style="overflow-wrap: break-word;">
+                                                                    <?= $story_online1_text ?> <?= $story_online1 ?>
+                                                                </a>
+                                                            <? } ?>
+                                                        </p>
+                                                        <p>
+                                                            <? if ($online2_check == "Y") { ?>
+                                                                <a href="<?= $story_online2 ?>" target="_blank">
+                                                                    <?= $story_online2_text ?> <?= $story_online2 ?>
+                                                                </a>
+                                                            <? } ?>
+                                                        </p>
+                                                    </div>
+                                                    <?
+                                                    if ($ai_map_gmarket != 0 && $_SESSION['iam_member_id'] == $cur_card['mem_id']) {
+                                                        $sql_chk_service_con = "select count(*) as cnt from Gn_Iam_Contents where card_idx='{$cur_card['idx']}' and contents_type=3";
+                                                        $res_service_con = mysql_query($sql_chk_service_con);
+                                                        $row_service_con = mysql_fetch_array($res_service_con);
+                                                        if ($row_service_con['cnt']) {
+                                                    ?>
+                                                            <button onclick="set_reduce('<?= $cur_card['idx'] ?>', '<?= $cur_card['sale_cnt'] ?>', '<?= $cur_card['add_reduce_val'] ?>', '<?= $cur_card['add_fixed_val'] ?>')" style="position: absolute;bottom: 20px;right: 20px;background-color: #99cc00;border-radius: 7px;color: white;font-size: 14px;padding: 5px;">할인설정</button>
+                                                    <? }
+                                                    } ?>
+                                                </div>
+                                                <div style="display:none;margin-top:-30px">
+                                                    <a href="javascript:show_edit_card_list();" class="btn login_signup" style="width: 100%;background-color: #337ab7">다른 카드정보 가져오기
+                                                    </a>
+                                                    <div class="attr-value" id="edit_card_list" style="display:none;font-size: 12px;font-weight: 900;">
+                                                        <?
+                                                        $edit_card_sql = "select card_short_url,card_title from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$_SESSION['iam_member_id']}' order by req_data asc";
+                                                        $edit_card_res = mysql_query($edit_card_sql);
+                                                        $i = 0;
+                                                        while ($edit_card_row = mysql_fetch_array($edit_card_res)) {
+                                                            $i++;
+                                                        ?>
+                                                            <input type="radio" id="edit_card_url" name="edit_card_url" style="display: inline;width: auto;" value="<?= $edit_card_row['card_short_url'] ?>">
+                                                            <span style="vertical-align: top;">
+                                                                <? if ($edit_card_row['card_title']) {
+                                                                    echo ($edit_card_row['card_title']);
+                                                                } else {
+                                                                    echo ($i . "번");
+                                                                } ?>
+                                                            </span>
+                                                        <? } ?>
+                                                    </div>
+                                                    <div style="margin:2px 0px">
+                                                        <? if ($cur_card['profile_logo']) { ?>
+                                                            <img src="<?= cross_image($cur_card['profile_logo']) ?>" alt="" id="edit_card_logo" style="width:180px;height:50px" />
+                                                        <? } else { ?>
+                                                            <img class="logo" id="edit_card_logo" style="width:180px;height:50px">
+                                                        <? } ?>
+                                                        <input type="file" class="input" name="edit_card_logo_input" id="edit_card_logo_input" accept=".jpg,.jpeg,.png,.gif,.svc">
+                                                    </div>
+                                                    <div class="top">
+                                                        <div class="J_card_name" style="max-width: 400px">
+                                                            <input id="edit_card_title" class="card-input" style="font-size: 20px" value="<?= htmlspecialchars($cur_card['card_title']) ?>" placeholder="카드제목">
+                                                        </div>
+                                                        <div class="J_card_name" style="max-width: 400px">
+                                                            <input id="edit_card_name" class="card-input" style="font-size: 20px" value="<?= htmlspecialchars($cur_card['card_name']) ?>" placeholder="성명">
+                                                        </div>
+                                                        <div class="J_card_company" style="margin-top:1px;">
+                                                            <input id="edit_card_company" class="card-input" style="font-size: 16px;" value="<?= htmlspecialchars($cur_card['card_company']) ?>" placeholder="소속/직책">
+                                                        </div>
+                                                        <div class="J_card_description" style="margin-top:1px;">
+                                                            <input id="edit_card_position" class="card-input" style="font-size: 14px;" value="<?= htmlspecialchars($cur_card['card_position']) ?>" placeholder="자기소개">
+                                                        </div>
+                                                    </div>
+                                                    <div class="mid" style="margin-bottom:0px;">
+                                                        <input id="edit_card_phone" class="J_card_number card-input" style="font-size: 20px" value='<?= $cur_card['card_phone'] ?>' placeholder="휴대폰번호">
+                                                        <br>
+                                                        <input id="edit_card_address" class="J_card_address card-input" value="<?= htmlspecialchars($cur_card['card_addr']) ?>" placeholder="직장주소">
+                                                    </div>
+                                                    <div class="J_card_email" style="font-size:14px;margin-top:1px;">
+                                                        <input id="edit_card_email" class="card-input" value='<?= $cur_card['card_email'] ?>' placeholder="이메일주소">
+                                                        <? if ($cur_card['business_time'] != "") { ?>
+                                                            <div style="margin-top:25px;vertical-align:middle;display: flex;">
+                                                                <textarea id="edit_card_business_time" style="width: 100%;height: 150px;"><?= $cur_card['business_time'] ?></textarea>
+                                                            </div>
+                                                        <? } ?>
+                                                        <div style="margin-top:25px;vertical-align:middle;display: flex;">
+                                                            <input id="edit_card_online1_text" class="card-input" value="<?= $online1_check == "Y" ? $story_online1_text : "" ?>" placeholder="사이트이름">
+                                                            <input id="edit_card_online1" class="card-input" style="margin-left:5px;" value="<?= $online1_check == "Y" ? $story_online1 : "" ?>" placeholder="사이트주소">
+                                                            <!-- <input id="edit_card_online1_check" type="checkbox" class="radio" <?= $online1_check == "Y" ? "checked" : "" ?> style="width:40px"> -->
+                                                        </div>
+                                                        <div style="margin-top:1px;vertical-align:middle;display: flex;">
+                                                            <input id="edit_card_online2_text" class="card-input" value="<?= $online2_check == "Y" ? $story_online2_text : "" ?>" placeholder="사이트이름">
+                                                            <input id="edit_card_online2" class="card-input" style="margin-left:5px;" value="<?= $online2_check == "Y" ? $story_online2 : "" ?>" placeholder="사이트주소">
+                                                            <!-- <input id="edit_card_online2_check" type="checkbox" class="radio" <?= $online2_check == "Y" ? "checked" : "" ?> style="width:40px"> -->
+                                                        </div>
+                                                    </div>
+                                                    <div style="margin-top:15px;vertical-align:middle;display: flex;">
+                                                        <input type="checkbox" id="edit_card_radio_spec" class="radio" style="width:20px;height:20px;">
+                                                        <h4 style="margin-top:5px;margin-left:5px">고급설정</h4>
+                                                    </div>
+                                                    <div id="edit_card_special" style="margin-bottom:0px;display:none">
+                                                        <textarea id="edit_card_keyword" class="input card-input" name="edit_card_keyword" style="text-align:left;width:100%;" placeholder="아이엠에서 나를 검색할수 있는 단어 (30개 이내)로 입력하고, 입력시 [,]으로 구분하세요. (예시 : 강사,마케터,변호사,대안학교,노래방, 공부방 등)"><?= $cur_card['card_keyword'] ?></textarea>
+                                                        <input id="edit_card_next_iam_link" class="J_card_address card-input" value='<?= $cur_card['next_iam_link'] ?>' placeholder="카드제목 클릭시 새창으로 열릴 다른 IAM주소 입력">
+                                                    </div>
+                                                    <div class="button-wrap">
+                                                        <a href="javascript:cancel_edit_card();" class="button is-grey">취소</a>
+                                                        <a href="javascript:namecard_check(<?= $cur_card['idx'] ?>);" class="button is-pink">저장</a>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+                                </div>
+                            </div><!--카드현시까지 진행됨-->
+                            <script>
+                                if ($(".color-chips").height() > 140) {
+                                    $("#card_title_down").show();
+                                    $(".card_arrow").hide();
+                                }
+                                $(function() {
+                                    $("#card_title_down").on("click", function() {
+                                        $(".card_arrow").show();
+                                        $("#card_title_up").show();
+                                        $("#card_title_down").hide();
+
+                                    });
+                                    $("#card_title_up").on("click", function() {
+                                        $("#card_title_down").show();
+                                        $(".card_arrow").hide();
+                                        $("#card_title_up").hide();
+                                    });
+                                });
+                            </script>
+                            <div class="box-footer" <? if ($_SESSION['iam_member_id']) echo "style='display:none'"; ?>>
+                                <div class="inner clearfix">
+                                    <div class="center" style="display:none;">
+                                        <a href="javascript:iam_icon('iam_iamicon', 'https://oog.kiam.kr/pages/page_3295.php')">
+                                            <span class="icon"><img src="/iam/img/main/icon-info.gif" width="200" height="25"></span>
+                                        </a>
+                                    </div>
+                                    <? if ($_SESSION['iam_member_id'] != $card_owner && !$_SESSION['iam_member_id']) { ?>
+                                        <div class="bottom">
+                                            <? if ($_SESSION['iam_member_id']) { ?>
+                                                <a href="/index.php" class="buttons" style="height:36px;padding-top:6px;font-size: 11px;">
+                                                    <img src="/iam/img/menu/icon_join.png" style="height:24px">
+                                                    <p style="font-size:14px">회원가입</p>
+                                                </a>
+                                                <a href="javascript:installApp();" class="buttons pink" style="height:36px;padding-top:6px;font-size: 11px;" title="[통합기능사용] 웹으로 이용이 가능하지만 앱을 설치하면 모든 기능을 이용할수 있습니다.">
+                                                    <img src="/iam/img/menu/icon_sample.png" style="height:24px">
+                                                    <label style="font-size:14px">샘플아이엠</label>
+                                                </a>
+                                                <a href="javascript:friends_join('<?= $cur_card['idx'] ?>');" class="buttons  lightgreen" style="height:36px;padding-top:6px;font-size: 11px;" title="[한번에 만들기] 포토, 프로필, 그리고 콘텐츠까지 한꺼번에 만들수 있습니다.">
+                                                    <img src="/iam/img/menu/icon_home_add.png" style="height:24px">
+                                                    <label style="font-size:14px">통합 IAM 만들기</label>
+                                                </a>
+                                            <? } else {
+                                                if ($HTTP_HOST != "kiam.kr") {
+                                                    $join_link = get_join_link("http://" . $HTTP_HOST, $card_owner);
+                                                } else {
+                                                    $join_link = get_join_link("http://www.kiam.kr", $card_owner);
+                                                }
+                                            ?>
+                                                <a href="<?= $join_link ?>" class="buttons" style="height:36px;padding-top:6px;">
+                                                    <img src="/iam/img/menu/icon_join.png" style="height:24px">
+                                                    <label style="font-size:14px">회원가입</label>
+                                                </a>
+                                                <a href="javascript:installApp();" class="buttons" style="height:36px;padding-top:6px;" title="[통합기능사용] 웹으로 이용이 가능하지만 앱을 설치하면 모든 기능을 이용할수 있습니다.">
+                                                    <img src="/iam/img/menu/icon_sample.png" style="height:24px">
+                                                    <label style="font-size:14px">샘플아이엠</label>
+                                                </a>
+                                                <a href="javascript:addMainBtn('<?= str_replace("'", "", $cur_card['card_name']) ?>','?<?= $request_short_url . $card_owner_code ?>');" class="buttons" style="height:36px;padding-top:6px;" title="[한번에 가능] 회원가입과 프로필, 그리고 콘텐츠까지 한꺼번에 만들수 있습니다.">
+                                                    <img src="/iam/img/menu/icon_home_add.png" style="height:24px">
+                                                    <label style="font-size:14px">홈화면추가</label>
+                                                </a>
+                                            <? } ?>
+                                        </div>
+                                    <? } ?>
                                 </div>
                             </div>
                             <div id="manage_auto_update" hidden style="text-align:center;border: solid 1px black;position:relative;margin-top: 10px;">
@@ -4236,136 +2807,3182 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                                 <button style="border-radius:5px;width:20%;font-size:15px;margin-bottom:10px;" onclick="show_manage_auto(1)">닫기</button>
                                 <button style="border-radius:5px;width:20%;font-size:15px;margin-bottom:10px;" onclick="search_auto_data(true)">더보기</button>
                             </div>
-                            <div style="padding-bottom:15px;margin-top:10px">
-                                <div style="padding:10px;border: 1px solid #ddd;">
-                                    <div style="display:flex;" onclick="contents_add('<?= $_SESSION['iam_member_id'] ?>','','','<?= $gkind ?>');">
-                                        <? if ($cur_card['main_img1']) { ?>
-                                            <div style="width: 44px;height: 44px;border-radius: 50%;overflow: hidden;">
-                                                <img src='<?= cross_image(str_replace("http://www.kiam.kr", $cdn_ssl, $cur_card['main_img1'])) ?>' style="width:100%;height:100%;object-fit: cover;">
+                            <? if ($_SESSION['iam_member_id'] == $card_owner) { ?>
+                                <div style="padding-bottom:15px;">
+                                    <div style="padding:10px;border: 1px solid #ddd;">
+                                        <div class="right" style="float:right;margin-top:5px">
+                                            <!--콘텐츠박스 만들기-->
+                                            <input type="text" class="mycon_search_input" style="font-size: 12px;width: 140px;margin-left: -5px;height: 24px;border: 1px solid #aaa;border-radius: 15px;" value="<?= $_GET['search_key'] ?>" id="mycon_search_input" placeholder='키워드로 검색하세요.'>
+                                            <i class="glyphicon glyphicon-remove" id="mycon_input" style="margin-top: -1px;height: 21px;width: 19px;border: 1px solid #aaaaaa;margin-left: -22px;line-height: 22px;color: darkgrey;border-left: none;border-top: none;border-bottom: none;border-radius: 15px;text-align: center;<?= $_GET['search_key'] ? '' : 'display: none;' ?>" onclick="clear_mycon_search()"></i>
+                                            <img src="/iam/img/menu/icon_bottom_search.png" style="height:24px" onclick="mycon_search_clicked()">
+                                            <span style="margin-left:2px;margin-top:2px;font-size:10px;line-height: 20px;" id="my_info_count"></span>
+                                        </div>
+                                        <div class="wish_card" style="display:flex;position:relative;" onclick="contents_add('<?= $card_owner ?>','',<?= $my_first_card ?>);">
+                                            <? if ($cur_card['main_img1']) { ?>
+                                                <div style="width: 38px;height: 38px;border-radius: 50%;overflow: hidden;">
+                                                    <img src='<?= cross_image(str_replace("http://www.kiam.kr", $cdn_ssl, $cur_card['main_img1'])) ?>' style="width:100%;height:100%;object-fit: cover;">
+                                                </div>
+                                            <? } ?>
+                                            <span style="margin-left:10px;border: 1px solid #ddd;border-radius: 8px;padding:5px 10px;font-weight:100">소개하고 싶은 콘텐츠를 올려보세요.</span>
+                                        </div>
+                                        <span class="tooltiptext-bottom-con" id="tooltiptext_contents_up" style="display:none;">
+                                            <p style="font-weight:bold;margin-bottom:-15px;"><img src="/iam/img/main/icon-poplogo.png" style="width:12%;margin-right:5px;margin-bottom: 5px;">3. 콘텐츠 업로드</p><br>
+                                            나를 브랜딩하는 콘텐츠를<br>
+                                            한번에 업로드하세요.<br>
+                                            <button type="button" class="btn btn-default btn-submit" style="border-radius: 5px;width:38%;font-size:15px;background-color: lightgrey;margin-top: 10px;margin-left: 20px;" onclick="contents_add('<?= $card_owner ?>','',<?= $my_first_card ?>);">만들기</button>
+                                            <button type="button" class="btn btn-default btn-submit" style="border-radius: 5px;width:38%;font-size:15px;background-color: lightgrey;margin-top: 10px;" onclick="close_tooptip(3)">다음</button>
+                                        </span>
+                                    </div>
+                                </div>
+                            <? } ?>
+                        </div>
+                        <div class="tab-pane fade story-tab-content" id="story" role="tabpanel" aria-labelledby="story-tab">
+                            <div class="box-body">
+                                <div class="inner">
+                                    <? if ($_SESSION['iam_member_id'] == $card_owner && $_SESSION['iam_member_id'] == $card_master) { ?>
+                                        <div class="utils clearfix">
+                                            <div class="right">
+                                                <a onclick="window.open('/iam/story.php?card_num=<?= $cur_card['idx'] ?>')" class="edit">
+                                                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    <? } ?>
+                                    <dl class="story-item">
+                                        <dt class="title">
+                                            <span class="text" id="story_title1">
+                                                <? if ($story_title1) { ?>
+                                                    <?= $story_title1 ?>
+                                                <? } else { ?>
+                                                    내 소개
+                                                <? } ?>
+                                            </span>
+                                        </dt>
+                                        <dd class="content" style="position:relative;" id="story_info">
+                                            <? if ($story_myinfo) { ?>
+                                                <?= nl2br($story_myinfo) ?>
+                                            <? } else { ?>
+                                                "그건 할 수 없어,라는 말을 들을 때마다 나는 성공이 가까웠음을 안다."<br>
+                                                온리원셀링으로 단골고객 5만명 확보<br>
+                                                자동셀링경진대회 1회 대상 수상<br>
+                                                아이엠 쇼핑몰 건강분야 판매 1위<br>
+                                                18세부터 쇼핑몰 운영, 10억 매출 달성<br>
+                                                고객의 니즈와 상품을 연결한 마케팅 전문<br>
+                                                1인기업인, 자영업인, 프리랜서를 위한 셀링전략 전문<br>
+                                            <? } ?>
+                                        </dd>
+                                    </dl>
+                                    <dl class="story-item">
+                                        <dt class="title">
+                                            <span class="text" id="story_title2">
+                                                <? if ($story_title2) { ?>
+                                                    <?= $story_title2 ?>
+                                                <? } else { ?>
+                                                    <!-- 현재소속 -->
+                                                <? } ?>
+                                            </span>
+                                        </dt>
+                                        <dd class="content" style="position:relative;" id="story_company">
+                                            <? if ($story_company) { ?>
+                                                <?= nl2br($story_company) ?>
+                                            <? } else { ?>
+                                                <!-- 아이엠 쇼핑몰 대표<br>
+                                            온리원브랜딩연구소 부소장<br>
+                                            온리원셀링연구소 수석연구원<br>
+                                            자동셀링경진대회 심사위원<br>
+                                            온리원셀링 컨설턴트<br> -->
+                                            <? } ?>
+                                        </dd>
+                                    </dl>
+                                    <dl class="story-item">
+                                        <dt class="title">
+                                            <span class="text" id="story_title3">
+                                                <? if ($story_title3) { ?>
+                                                    <?= $story_title3 ?>
+                                                <? } else { ?>
+                                                    <!-- 경력소개 -->
+                                                <? } ?>
+                                            </span>
+                                        </dt>
+                                        <dd class="content" style="position:relative;" id="story_career">
+                                            <? if ($story_career) { ?>
+                                                <?= nl2br($story_career) ?>
+                                            <? } else { ?>
+                                                <!-- 2019년~ 아이엠쇼핑몰 대표<br>
+                                            2010~2018년 년셀스타 의류쇼핑몰 대표<br>
+                                            2017년~ 온리원셀링연구소 연구원<br> -->
+                                            <? } ?>
+                                        </dd>
+                                    </dl>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade paper-tab-content" id="paper" role="tabpanel" aria-labelledby="paper-tab">
+                            <div class="box-body">
+                                <div class="inner" id="papercard_list">
+
+                                </div>
+                            </div>
+                        </div>
+                        <!-- ########################################################################################################### -->
+                        <!-- 2020-11-09 연락처탭 -->
+                        <div class="tab-pane fade contact-tab-content" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                            <div class="box-body">
+                                <?
+                                if ($card_num !== "") {
+                                    $page_search = $cur_card['card_short_url'];
+                                } else {
+                                    $page_search = "";
+                                }
+
+                                $search_range = $_GET['search_range'];
+                                $search_str = $_GET['search_str'];
+
+                                if (is_null($search_str)) {
+                                    $search_str = "";
+                                }
+                                ?>
+                                <div class="search-box clearfix J1">
+                                    <? if ($_SESSION['iam_member_id'] == $card_owner && $_SESSION['iam_member_id'] == $card_master) { ?>
+                                        <div class="row" style="margin-left: 8px;margin-bottom: 10px;margin-top: 7px;">
+                                            <div class="left">
+                                                <div class="buttons">
+                                                    <a href="javascript:contact_range('1')" class="button" <? if ((int)$search_range == 1) { ?>style="background-color: #000;" <? } else { ?>style="background-color: #fff;color:black;" <? } ?>>가</a>
+                                                    <a href="javascript:contact_range('3')" class="button" <? if ((int)$search_range == 3) { ?>style="background-color: #000;" <? } else { ?>style="background-color: #fff;color:black;" <? } ?>><i class="fa fa-history" aria-hidden="true"></i></a>
+                                                    <input type="hidden" name="search_range" id="search_range" value="<?= $search_range ?>">
+                                                </div>
+                                                <div id="contact_chk_count" class="selects">0개 선택됨</div>
+                                            </div>
+                                        </div>
+                                        <div class="row" style="line-height: 30px">
+                                            <div class="search J_search" style="display:inline;width:60%;margin-right:8px;">
+                                                <button type="button" onclick="contact_submit();" class="submit" style="top: 3px;background: #f9f9f9;font-size: 17px;">
+                                                    <!--i class="fa fa-search" aria-hidden="true"></i-->
+                                                    <img src="/iam/img/menu/icon_bottom_search.png" style="margin-left:5px;width:24px" onclick="wecon_search_clicked()">
+                                                </button>
+                                                <input type="text" name="search_str" id="search_str" class="input" value="<?= $search_str ?>" onkeyup="enterkey('contact_submit');" style="font-size:12px;height: 25px;background:#f9f9f9;width:50%;outline:none;" placeholder="검색어를 입력해주세요.">
+                                            </div>
+                                            <!-- 2020-11-09 전체선택 추가 -->
+                                            <div style="float:right;padding-top:5px;padding-left:10px;">
+                                                <input type="checkbox" name="cbG02" id="cbG02" class="css-checkbox" onclick='groupCheckClick_1(this); '>
+                                                <label for="cbG02" class="css-label cb0">전체선택</label>
+                                            </div>
+                                            <div style="float:right;padding-top:5px;">
+                                                <img src="/iam/img/menu/icon_my_stroy.png" style="width:30px;height:30px;" onclick="contact_submit_paper()">
+                                            </div>
+                                        </div>
+                                    <? } ?>
+                                </div>
+                                <div class="inner" id="div_contact">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- ########################################################################################## -->
+                        <!-- 프렌즈탭 -->
+                        <div class="tab-pane fade  friends-tab-content " id="friends" role="tabpanel" aria-labelledby="friends-tab">
+                            <div class="box-body">
+                                <?
+                                $site_info_friends = explode(".", $HTTP_HOST);
+                                $site_name_friends = $site_info_friends[0];
+                                if ($site_name_friends == "www") {
+                                    $site_name_friends = "kiam";
+                                }
+
+                                $show_all = "N";
+                                if (isset($_GET['show_all'])) {
+                                    $show_all = $_GET['show_all'];
+                                }
+
+                                if ($card_num !== "") {
+                                    $page_search2 = $cur_card['card_short_url'];
+                                } else {
+                                    $page_search2 = "";
+                                }
+
+                                if (is_null($search_str2)) {
+                                    $search_str2 = "";
+                                }
+
+                                if (!$search_type) {
+                                    if ($_SESSION['iam_member_id'] == $card_owner) {
+                                        $search_type = 2;
+                                    } else {
+                                        $search_type = 1;
+                                    }
+                                }
+                                ?>
+                                <div class="search-box clearfix J2" id="friends_search">
+                                    <? if ($_SESSION['iam_member_id'] == $card_owner && $_SESSION['iam_member_id'] == $card_master) { ?>
+                                        <div class="row" style='margin-left: 8px;margin-bottom: 10px;margin-top: 7px;'>
+                                            <div class="left">
+                                                <div class="buttons">
+                                                    <a href="javascript:friends_range('1');" class="button" <? if ((int)$search_range2 == 1) { ?>style="background-color: #000;" <? } else { ?>style="background-color: #fff;color:black;" <? } ?>>가</a>
+                                                    <a href="javascript:friends_range('3');" class="button" <? if ((int)$search_range2 == 3) { ?>style="background-color: #000;" <? } else { ?>style="background-color: #fff;color:black;" <? } ?>><i class="fa fa-history" aria-hidden="true"></i></a>
+                                                    <input type="hidden" name="search_range2" id="search_range2" value="<?= $search_range2 ?>">
+                                                </div>
+                                                <div id="friends_chk_count" class="selects">0개 선택됨</div>
+                                            </div>
+                                            <div class="right">
+                                                <select name="search_type" id="search_type" style="font-size:12px;margin-right:20px; border: 1px solid #ddd;background: #fff;border-radius: 5px;" onchange="friends_submit('<?= $show_all ?>')">
+                                                    <option value="1" <? if ((int)$search_type == 1) { ?>selected <? } ?>>나의 프렌즈</option>
+                                                    <option value="2" <? if ((int)$search_type == 2) { ?>selected <? } ?>>공개 프로필</option>
+                                                    <option value="3" <? if ((int)$search_type == 3) { ?>selected <? } ?>>소속 회원</option>
+                                                    <option value="4" <? if ((int)$search_type == 4) { ?>selected <? } ?>>조인 회원</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row" style="line-height : 30px">
+                                            <div class="search J_search" style="display:inline;width:60%;margin:10px 20px;">
+                                                <button type="button" onclick="friends_submit('<?= $show_all ?>');" class="submit" style="top: 3px;background: #f9f9f9;font-size: 17px;">
+                                                    <!--i class="fa fa-search" aria-hidden="true"></i-->
+                                                    <img src="/iam/img/menu/icon_bottom_search.png" style="margin-left:5px;width:24px">
+                                                </button>
+                                                <input type="text" name="search_str2" id="search_str2" class="input" value="<?= $search_str2 ?>" onkeyup="enterkey('friends_submit');" style="font-size:12px;height: 25px;background:#f9f9f9;width:50%;outline:none;" placeholder="검색어를 입력해주세요.">
+                                            </div>
+
+                                            <div style="float:right;padding-top:5px;padding-left:20px;">
+                                                <?php
+                                                if ($search_type == 3 || $search_type == 4) {
+                                                    if ($show_all == "N") {
+                                                        $style_list = "";
+                                                        $style_page = "";
+                                                ?>
+                                                        <a href="javascript:friends_submit('Y');"><img src="/iam/img/main/icon_all_gray.png" style="width: 20px;display:none;"></a>
+                                                        <img src="/iam/img/star/icon-profile.png" style="width: 20px" onclick="friends_add();">
+                                                    <? } else {
+                                                        $style_list = "height: 700px;overflow: auto;margin-bottom: 20px;";
+                                                        $style_page = "display:none;"; ?>
+                                                        <a href="javascript:friends_submit('N');"><img src="/iam/img/main/icon_all_green.png" style="width: 20px"></a>
+                                                        <img src="/iam/img/star/icon-profile.png" style="width: 20px" onclick="friends_add();">
+                                                <? }
+                                                } ?>
+                                                <? if ($search_type == 2) { ?>
+                                                    <img src="/iam/img/star/icon-profile.png" style="width: 20px" onclick="friends_add();">
+                                                <? } ?>
+                                                <input type="checkbox" name="cbG01" id="cbG01" class="css-checkbox" onclick='groupCheckClick(this);'>
+                                                <label for="cbG01" class="css-label cb0">전체선택</label>
+                                            </div>
+                                        </div>
+                                    <? } ?>
+                                </div>
+                                <input type="hidden" name="show_all" id="show_all" value="<?= $show_all ?>">
+                                <div class="inner" id="div_friends">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <?
+            } else if ($cur_win == "group-con") {
+                if ($gkind != "recommend" && $gkind != "mygroup" && $gkind != "search" && $gkind != "search_con") {
+                    $group_sql = "select * from gn_group_info where idx='$gkind'";
+                    $group_res = mysql_query($group_sql);
+                    $group_row = mysql_fetch_array($group_res);
+                    $group_manager = $group_row['manager'];
+                    $group_card_idx = $group_row['card_idx'];
+                ?>
+                    <section id="main-slider">
+                        <!-- 슬라이더 영역 시작 -->
+                        <div id="mainSlider" style="">
+                            <? if ($main_img1) { ?>
+                                <div class="slider-item">
+                                    <a data-fancybox="gallery" id="main_img1" href="<?= cross_image($main_img1) ?>">
+                                        <img id="for_size_1" src="<?= cross_image($main_img1) ?>" style="opacity:0;">
+                                    </a>
+                                </div>
+                            <? } ?>
+                            <? if ($main_img2) { ?>
+                                <div class="slider-item">
+                                    <a id="main_img2" data-fancybox="gallery" href="<?= cross_image($main_img2) ?>">
+                                        <img id="for_size_2" src="<?= cross_image($main_img2) ?>" style="opacity:0;">
+                                    </a>
+                                </div>
+                            <? } ?>
+                            <? if ($main_img3) { ?>
+                                <div class="slider-item">
+                                    <a id="main_img3" data-fancybox="gallery" href="<?= cross_image($main_img3) ?>">
+                                        <img id="for_size_3" src="<?= cross_image($main_img3) ?>" style="opacity:0;">
+                                    </a>
+                                </div>
+                            <? } ?>
+                        </div>
+                        <? if ($_SESSION['iam_member_id'] && $_SESSION['iam_member_id'] == $group_manager) { ?>
+                            <a href="#" class="controls" title="<?= $MENU['IAM_MENU']['M9_TITLE']; ?>" data-card_idx="<?= $group_card['idx'] ?>">
+                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                            </a>
+                        <? } ?>
+                        <div class="slider-arrows"></div>
+                    </section><!-- // 슬라이더 영역 끝 -->
+                <? } ?>
+                <section id="middle">
+                    <? if ($gkind == "recommend") {
+                        $group_sql = "select * from gn_group_info";
+                        $group_res = mysql_query($group_sql);
+                        $other_group = array();
+                        while ($group_row = mysql_fetch_array($group_res)) {
+                            $group_check_sql = "select count(*) from gn_group_member where mem_id='{$_SESSION['iam_member_id']}' and group_id='{$group_row['idx']}'";
+                            $group_check_res = mysql_query($group_check_sql);
+                            $group_check_row = mysql_fetch_array($group_check_res);
+                            if ($group_check_row[0] == 0)
+                                array_push($other_group, $group_row['idx']);
+                        }
+                        $other_group = implode(",", $other_group);
+                        $g_card_sql = "select card_short_url,main_img1,group_id,mem_id from Gn_Iam_Name_Card n where n.group_id in (" . $other_group . ") and sample_click='Y' order by sample_order desc";
+                        $g_card_res = mysql_query($g_card_sql);
+                    ?>
+                        <div style="width:100%;overflow-x:auto;display: -webkit-box;border:1px solid #ddd">
+                            <? while ($g_card_row = mysql_fetch_array($g_card_res)) {
+                                $sql_mem_g = "select mem_code from Gn_Member where mem_id='{$g_card_row['mem_id']}'";
+                                $res_mem_g = mysql_query($sql_mem_g);
+                                $row_mem_g = mysql_fetch_array($res_mem_g);
+                            ?>
+                                <div class="group-card" style="width:25%;float: left;">
+                                    <div class="group-card-sample" onclick="location.href='<?= '/?' . $g_card_row['card_short_url'] . $row_mem_g['mem_code'] . '&cur_win=group-con&gkind=' . $g_card_row['group_id'] ?>'">
+                                        <img src="<?= cross_image($g_card_row['main_img1']) ?>" style="width:100%;">
+                                        <?
+                                        $group_sql = "select * from gn_group_info where idx = '{$g_card_row['group_id']}'";
+                                        $group_res = mysql_query($group_sql);
+                                        $group_row = mysql_fetch_array($group_res);
+                                        ?>
+                                        <div style="position:absolute;bottom:10px;left:0px;width:100%;text-align:center">
+                                            <span class="label label-info" style="" font-size:90%;width:80%><?= $group_row['name'] ?></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            <? } ?>
+                            <script>
+                                $(".group-card").height($(".group-card").width());
+                            </script>
+                        </div>
+                        <?
+                        $g_cont_sql = "select * from Gn_Iam_Contents where group_id in (" . $other_group . ") and sample_display='Y' and group_display = 'Y' order by sample_order desc";
+                        $sql_count = str_replace(" * ", " count(idx) ", $g_cont_sql);
+                        $g_cont_res = mysql_query($sql_count);
+                        $g_cont_count_row = mysql_fetch_array($g_cont_res);
+                        $g_cont_count = $g_cont_count_row[0];
+                        $g_cont_res = mysql_query($g_cont_sql);
+                        if ($g_cont_count > 0) { ?>
+                            <div class="group-item" style="margin-top:10px;border:1px solid #eee;display: flex;justify-content: space-between;">
+                                <span class="label label-default" style="font-size:120%">회원님을 위한 추천 콘텐츠</span>
+                                <? if ($g_cont_count > 1) { ?>
+                                    <span class="label label-primary" style="font-size:120%" onclick="show_all_group_sample_contents()">모두 보기(<?= $g_cont_count - 1 ?>)개</span>
+                                <? } ?>
+                            </div>
+                            <?
+                            $g_cont_row = mysql_fetch_array($g_cont_res);
+                            $g_card_sql = "select card_short_url, mem_id,main_img1,card_name,group_id from Gn_Iam_Name_Card c where c.idx = '$g_cont_row[card_idx]'";
+                            $g_card_res = mysql_query($g_card_sql);
+                            $g_card_row = mysql_fetch_array($g_card_res);
+
+                            $sql_mem_g = "select mem_code from Gn_Member where mem_id='{$g_card_row['mem_id']}'";
+                            $res_mem_g = mysql_query($sql_mem_g);
+                            $row_mem_g = mysql_fetch_array($res_mem_g);
+
+                            if (!$g_cont_row['contents_img'])
+                                $g_cont_images = null;
+                            else
+                                $g_cont_images = explode(",", $g_cont_row['contents_img']);
+                            for ($i = 0; $i < count($g_cont_images); $i++) {
+                                if (strstr($g_cont_images[$i], "kiam")) {
+                                    $g_cont_images[$i] = str_replace("http://kiam.kr", "", $g_cont_images[$i]);
+                                    $g_cont_images[$i] = str_replace("http://www.kiam.kr", "", $g_cont_images[$i]);
+                                    //$g_cont_images[$i] = $cdn_ssl . $g_cont_images[$i];
+                                }
+                                if (!strstr($g_cont_images[$i], "http") && $g_cont_images[$i]) {
+                                    $g_cont_images[$i] = $cdn_ssl . $g_cont_images[$i];
+                                }
+                            }
+                            ?>
+                            <div class="group_sample_content-item" id="group_sample_contents_list" style="margin-bottom: 20px;box-shadow: 2px 3px 3px 1px #eee;border: 1px solid #ccc;">
+                                <div class="user-item" style="position: relative;display: flex;padding: 4px;border: none;border-bottom: 1px solid #dddddd;padding-top: 12px;padding-bottom: 12px;overflow:hidden;">
+                                    <a href="<?= '/?' . $g_card_row['card_short_url'] . $row_mem_g['mem_code'] . '&cur_win=group-con&gkind=' . $g_card_row['group_id'] ?>" class="img-box" style="padding: 4px;">
+                                        <div class="user-img" style="width: 38px;height: 38px;border-radius: 50%;overflow: hidden;">
+                                            <img src="<?= $g_card_row['main_img1'] ? cross_image($g_card_row['main_img1']) : '/iam/img/common/logo-2.png' ?>" alt="" style="width: 100%;height: 100%;object-fit: cover;">
+                                        </div>
+                                    </a>
+                                    <div class="wrap" style="width: 50%;display: flex;flex-direction: column;padding: 4px 6px;">
+                                        <a href="<?= '/?' . $g_card_row['card_short_url'] . $row_mem_g['mem_code'] . '&cur_win=group-con&gkind=' . $g_card_row['group_id'] ?>" class="user-name" style="font-size: 15px;font-weight: 700;">
+                                            <?= $g_card_row['card_name'] ?>
+                                        </a>
+                                        <? if ($g_cont_row['contents_title'] != "") { ?>
+                                            <div class="title">
+                                                <div class="text" style="text-align : left;font-weight: bold;font-size: 25px;margin: auto 10px;overflow: hidden;text-overflow: clip;height: 75px;"><?= $g_cont_row['contents_title'] ?></div>
                                             </div>
                                         <? } ?>
-                                        <span style="width: calc(100% - 52px);color: #a4a4a4;border: 1px solid #e3dede;border-radius: 20px;padding:5px 10px;font-weight:400;font-size: 12px;line-height: 32px;">소개하고 싶은 콘텐츠를 올려보세요.</span>
+                                        <a href="<?= '/?' . $g_card_row['card_short_url'] . $row_mem_g['mem_code'] . '&cur_win=group-con&gkind=' . $g_card_row['group_id'] ?>" class="date" style="font-size: 13px;color: rgb(153, 153, 153);">
+                                            <?= $g_cont_row['req_data'] ?>
+                                        </a>
+                                    </div>
+                                    <div class="media-inner" style="position: absolute; right: 2px; top: 0px; width: 30%;height: 100%;text-align: center;background:<?= $color[0]; ?>">
+                                        <? if ((int)$g_cont_row['contents_type'] == 1 || (int)$g_cont_row['contents_type'] == 3) {
+                                            if (count($g_cont_images) > 0) {
+                                                if ($g_cont_row['contents_url']) { ?>
+                                                    <a onclick="showIframeModal('<?= $g_cont_row['contents_url'] ?>')" target="_blank">
+                                                        <? if (count($g_cont_images) == 1) { ?>
+                                                            <img src="<?= cross_image($g_cont_images[0]) ?>" style="height : 100%"></a>
+                                                <? } else { ?>
+                                                    <img src="<?= cross_image($g_cont_images[0]) ?>" style="height : 100%" onclick=""></a>
+                                                <? } ?>
+                                            <? } else { ?>
+                                                <? if (count($g_cont_images) == 1) { ?>
+                                                    <img src="<?= cross_image($g_cont_images[0]) ?>" style="height : 100%">
+                                                <? } else { ?>
+                                                    <img src="<?= cross_image($g_cont_images[0]) ?>" style="height : 100%" onclick="">
+                                                <? } ?>
+                                        <?
+                                                }
+                                            }
+                                        } else if ((int)$g_cont_row['contents_type'] == 2) {
+                                            $img_cnt = count($g_cont_images);
+                                            $vid_array = explode(" ", $g_cont_row['contents_iframe']);
+                                            $vid_array[2] = "height=100%";
+                                            $vid_array[1] = "width=100%";
+                                            $vid_data = implode(' ', $vid_array);
+                                            echo $vid_data;
+                                            /*if($img_cnt == 0){
+                                        echo $vid_data;
+                                    }else{?>
+                                        <div onclick="play_list<?=$g_cont_row['idx'];?>();" id="vidwrap_list<?=$g_cont_row['idx'];?>" style="position:relative;">
+                                            <?if(count($g_cont_images) == 1){?>
+                                                <img src="<?=cross_image($g_cont_images[0])?>" style = "height : 110px;">
+                                                <?if($g_cont_row['contents_img']){?>
+                                                    <img src="/iam/img/movie_play.png" style="position: absolute; z-index: 50; left: 40%; width: 50px; top: 40%;">
+                                                <?}?>
+                                            <?}else{?>
+                                                <img src="<?=cross_image($g_cont_images[0])?>" style = "height : 100%" onclick = "">
+                                            <?}?>
+                                        </div>
+                                        <script type="text/javascript">
+                                            function play_list<?=$g_cont_row['idx'];?>() {
+                                                document.getElementById('vidwrap_list<?=$g_cont_row['idx'];?>').innerHTML = "<?=$vid_data?>";
+                                            }
+                                        </script>
+                                    <?
+                                    }*/
+                                        } else if ((int)$g_cont_row['contents_type'] == 4) {
+                                            $vid_data = $g_cont_row['source_iframe'];
+                                        ?>
+                                        <div>
+                                            <iframe src="<?= $vid_data ?>" width="100%" height="100%"></iframe>
+                                        </div>
+                                    <? } ?>
                                     </div>
                                 </div>
                             </div>
-                        <? } ?>
-                    </section>
-                <? } ?>
-                <!-- // 중단 콘텐츠 영역 끝 -->
-                <!------------------->
-                <!-- 하단 영역 시작 -->
-                <section id="bottom">
-                    <!-- 콘텐츠부분 -->
-                    <?
-                    // middle log
-                    $logs->add_log("section start");
-                    if ($cur_win == "request_list" || $cur_win == "report_list" || $alarm_mode == "friends_list") { ?>
-                        <div style="margin-left:20px;" id="alarm_count_text"></div>
-                    <? } ?>
-                    <div class="contents_div">
-                    </div>
-                </section><!-- // 하단 영역 끝 -->
-                <? if ($cur_win == "my_info" || $alarm_mode == "shared_receive" || $alarm_mode == "shared_send" || $alarm_mode == "notice_recv" || $alarm_mode == "notice_send") { ?>
-                    <div class="pagination" style="width: 100%;height: 52px;z-index: 100;bottom: 52px;max-width: 768px;background: white;margin:0px;">
-                        <ul>
-                            <li class='arrow' id="page_left" style="display: none">
-                                <a href=''>
-                                    <i class='fa fa-angle-left' aria-hidden='true'></i>
-                                </a>
-                            </li>
-                            <? for ($i = 1; $i <= 10; $i++) { ?>
-                                <li class="paging_index" style="display: none">
-                                    <a href=""><?= $i ?></a>
-                                </li>
+                        <?
+                        }
+                    } else if ($gkind == "mygroup") {
+                        $invite_sql = "select info.name,info.card_idx,invite.group_id,invite.mem_id from gn_group_invite invite 
+                                inner join gn_group_info info on info.idx = invite.group_id where invite_id='{$_SESSION['iam_member_id']}'";
+                        $invite_res = mysql_query($invite_sql);
+                        $invite_count = mysql_num_rows($invite_res);
+                        if ($invite_count > 0) {
+                        ?>
+                            <div style="width:100%;border:1px solid #ddd;padding:5px;">
+                                <h3 style="margin-left:10px">초대 검토</h3>
+                                <h5 style="margin-left:10px">다음 그룹에 초대되었습니다.</h5>
+                                <?
+                                while ($invite_row = mysql_fetch_array($invite_res)) {
+                                    $sql_card_in = "select main_img1 as group_img from Gn_Iam_Name_Card where idx='{$invite_row['card_idx']}'";
+                                    $res_card_in = mysql_query($sql_card_in);
+                                    $row_card_in = mysql_fetch_array($res_card_in);
+
+                                    $sql_mem_in = "select mem_name, profile as mem_img from Gn_Member where mem_id='{$invite_row['mem_id']}'";
+                                    $res_mem_in = mysql_query($sql_mem_in);
+                                    $row_mem_in = mysql_fetch_array($res_mem_in);
+                                ?>
+                                    <div style="padding-top: 2px;">
+                                        <div style="border:1px solid #ddd;background-color: #ffffff;border-radius: 10px;padding-bottom: 2px;display:flex;justify-content: space-between;">
+                                            <div style="display: flex">
+                                                <div style="border-radius: 10%;width: 50px;height: 50px;overflow: hidden;margin: 10px;position:relative">
+                                                    <img src="<?= $row_card_in['group_img'] ?>" style="width: 50px;height:50px;">
+                                                    <div style="position:absolute;border:1px solid white;border-radius: 50%;width: 30px;height: 30px;overflow: hidden;top:25px;left:25px">
+                                                        <img src="<?= $row_mem_in['mem_img'] ?>" style="width: 50px;height:50px;">
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <h4 style="margin-left: 10px;margin-top: 10px"><?= $invite_row['name'] ?></h4>
+                                                    <h5 style="margin-left: 10px;margin-top: 10px;margin-bottom: 10px">
+                                                        <?= $row_mem_in['mem_name'] . "님이 회원님을 초대했습니다." ?>
+                                                    </h5>
+                                                </div>
+                                            </div>
+                                            <div style="display:flex;margin-right:10px">
+                                                <div class="dropdown " style="margin-right: 10px;margin-top: auto;margin-bottom: auto;">
+                                                    <button class="btn dropdown-toggle" type="button" data-toggle="dropdown" style="margin-top:0px">
+                                                        <span class="caret"></span>
+                                                    </button>
+                                                    <ul class="dropdown-menu comunity" style="border: 1px solid #ccc;padding:0px;">
+                                                        <?
+                                                        $card_sql = "select card_name from Gn_Iam_Name_Card where group_id = '{$invite_row['group_id']}' order by req_data";
+                                                        $card_res = mysql_query($card_sql);
+                                                        $card_num = 1;
+                                                        while ($card_row = mysql_fetch_array($card_res)) {
+                                                        ?>
+                                                            <li><a onclick="javascript:;;" style="padding:3px 3px 0px 3px !important;"><?= $card_row[0] == "" ? $card_num . "번카드" : $card_row[0]; ?></a></li>
+                                                        <?
+                                                            $card_num++;
+                                                        }
+                                                        ?>
+                                                    </ul>
+                                                </div>
+                                                <div style="display:grid">
+                                                    <button class="btn btn-primary" style="margin-top:5px" onclick="click_invite('<?= $invite_row['group_id'] ?>','accept')">참여</button>
+                                                    <button class="btn btn-danger" style="margin-top:5px;margin-bottom:5px;" onclick="click_invite('<?= $invite_row['group_id'] ?>','del')">삭제</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <? } ?>
+                            </div>
+                        <? }
+                        $group_sql = "select description,name,card_idx,manager from gn_group_info info where manager = '{$_SESSION['iam_member_id']}'";
+                        $group_res = mysql_query($group_sql);
+                        $group_num = mysql_num_rows($group_res);
+                        if ($group_num > 0) {
+                        ?>
+                            <div style="width:100%;border:1px solid #ddd;padding:5px;">
+                                <h3 style="margin-left:10px">관리중인 그룹</h3>
+                                <?
+                                while ($group_row = mysql_fetch_array($group_res)) {
+                                    $sql_card_g = "select main_img1 as group_img,card_short_url,group_id from Gn_Iam_Name_Card where idx='{$group_row['card_idx']}'";
+                                    $res_card_g = mysql_query($sql_card_g);
+                                    $row_card_g = mysql_fetch_array($res_card_g);
+
+                                    $sql_mem_g = "select mem_code from Gn_Member where mem_id='{$group_row['manager']}'";
+                                    $res_mem_g = mysql_query($sql_mem_g);
+                                    $row_mem_g = mysql_fetch_array($res_mem_g);
+                                ?>
+                                    <div style="padding-top: 2px;cursor:pointer" onclick="location.href = '?' + '<?= $row_card_g['card_short_url'] . $row_mem_g['mem_code'] ?>'+'&cur_win=group-con&gkind=' +'<?= $row_card_g['group_id'] ?>'">
+                                        <div style="border:1px solid #ddd;background-color: #ffffff;border-radius: 10px;padding-bottom: 2px;display:flex;justify-content: space-between;">
+                                            <div style="display: flex">
+                                                <div style="border-radius: 10%;width: 50px;height: 50px;overflow: hidden;margin: 10px;position:relative">
+                                                    <img src="<?= $row_card_g['group_img'] ?>" style="width: 50px;height:50px;">
+                                                </div>
+                                                <div>
+                                                    <h4 style="margin-left: 10px;margin-top: 10px"><?= $group_row['name'] ?></h4>
+                                                    <h5 style="margin-left: 10px;margin-top: 10px;margin-bottom: 10px">
+                                                        <?= $group_row['description'] ?>
+                                                    </h5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <? } ?>
+                            </div>
+                        <? }
+                        $group_sql = "select g_mem.group_id,info.card_idx,g_mem.mem_id,description,name from gn_group_member g_mem
+                            inner join gn_group_info info on g_mem.group_id = info.idx where g_mem.mem_id = '{$_SESSION['iam_member_id']}' and g_mem.fix_status = 'Y'";
+                        $group_res = mysql_query($group_sql);
+                        $group_num = mysql_num_rows($group_res);
+                        ?>
+                        <div style="width:100%;border:1px solid #ddd;padding:5px;">
+                            <div style="display:flex;justify-content: space-between;">
+                                <h3 style="margin-left:10px">고정한 그룹</h3>
+                                <button class="btn btn-primary" onclick="change_group_fix_status()">수정</button>
+                            </div>
+                            <?
+                            while ($group_row = mysql_fetch_array($group_res)) {
+                                $sql_card_g = "select main_img1 as group_img,card_short_url from Gn_Iam_Name_Card where idx='{$group_row['card_idx']}'";
+                                $res_card_g = mysql_query($sql_card_g);
+                                $row_card_g = mysql_fetch_array($res_card_g);
+
+                                $sql_mem_g = "select mem_code from Gn_Member where mem_id='{$group_row['mem_id']}'";
+                                $res_mem_g = mysql_query($sql_mem_g);
+                                $row_mem_g = mysql_fetch_array($res_mem_g);
+                            ?>
+                                <div style="padding-top: 2px;cursor:pointer">
+                                    <div style="border:1px solid #ddd;background-color: #ffffff;border-radius: 10px;padding-bottom: 2px;display:flex;justify-content: space-between;">
+                                        <div style="display: flex" onclick="location.href = '?' + '<?= $row_card_g['card_short_url'] . $row_mem_g['mem_code'] ?>'+'&cur_win=group-con&gkind=' +'<?= $group_row['group_id'] ?>'">
+                                            <div style="border-radius: 10%;width: 50px;height: 50px;overflow: hidden;margin: 10px;position:relative">
+                                                <img src="<?= $row_card_g['group_img'] ?>" style="width: 50px;height:50px;">
+                                            </div>
+                                            <div>
+                                                <h4 style="margin-left: 10px;margin-top: 10px"><?= $group_row['name'] ?></h4>
+                                                <h5 style="margin-left: 10px;margin-top: 10px;margin-bottom: 10px">
+                                                    <?= $group_row['description'] ?>
+                                                </h5>
+                                            </div>
+                                        </div>
+                                        <div style="display:flex;margin-right:10px">
+                                            <div class="dropdown " style="margin-right: 10px;margin-top: auto;margin-bottom: auto;">
+                                                <button class="btn dropdown-toggle" type="button" data-toggle="dropdown" style="margin-top:0px">
+                                                    <span class="caret"></span>
+                                                </button>
+                                                <ul class="dropdown-menu comunity" style="border: 1px solid #ccc;padding:0px;">
+                                                    <?
+                                                    $card_sql = "select card_name from Gn_Iam_Name_Card where group_id = '{$group_row['group_id']}' order by req_data";
+                                                    $card_res = mysql_query($card_sql);
+                                                    $card_num = 1;
+                                                    while ($card_row = mysql_fetch_array($card_res)) {
+                                                    ?>
+                                                        <li><a onclick="javascript:;;" style="padding:3px 3px 0px 3px !important;"><?= $card_row[0] == "" ? $card_num . "번카드" : $card_row[0]; ?></a></li>
+                                                    <?
+                                                        $card_num++;
+                                                    }
+                                                    ?>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             <? } ?>
-                            <li class='arrow' id="page_right" style="display: none">
-                                <a href=''>
-                                    <i class='fa fa-angle-right' aria-hidden='true'></i>
-                                </a>
-                            </li>
-                        </ul>
-                        <span id="total_count" data-count="" style="display:hidden"><?= "총 " . $cont_count . "건" ?></span>
-                    </div>
-                <? } ?>
+                        </div>
+                        <?
+                        if ($etc_order == "")
+                            $etc_order = "reg";
+                        $group_order = array("visit" => "visit_date desc", "name" => "name", "reg" => "g_mem.req_date desc");
+                        $group_sql = "select g_mem.group_id,description,name,info.card_idx,g_mem.mem_id from gn_group_member g_mem
+                            inner join gn_group_info info on g_mem.group_id = info.idx where g_mem.mem_id = '{$_SESSION['iam_member_id']}' and g_mem.fix_status = 'N'";
+                        $group_sql .= " order by " . $group_order[$etc_order];
+                        $group_res = mysql_query($group_sql);
+                        $group_num = mysql_num_rows($group_res);
+                        ?>
+                        <div style="width:100%;border:1px solid #ddd;padding:5px;">
+                            <div style="display:flex;justify-content: space-between;">
+                                <h3 style="margin-left:10px">기타 그룹</h3>
+                                <div class="dropdown " style="margin-right: 10px;margin-top: auto;margin-bottom: auto;">
+                                    <button class="btn dropdown-toggle" type="button" data-toggle="dropdown" style="background:white">
+                                        <img src="/iam/img/main/icon-rearrow.png" style="height:20px">
+                                    </button>
+                                    <ul class="dropdown-menu comunity" style="border: 1px solid #ccc;padding:0px;">
+                                        <li><a href="?cur_win=group-con&gkind=mygroup&etc_order=visit" style="padding:3px 3px 0px 3px !important;">방문순</a></li>
+                                        <li><a href="?cur_win=group-con&gkind=mygroup&etc_order=name" style="padding:3px 3px 0px 3px !important;">그룹 이름순</a></li>
+                                        <li><a href="?cur_win=group-con&gkind=mygroup&etc_order=reg" style="padding:3px 3px 0px 3px !important;">최근 가입한 그룹</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <?
+                            while ($group_row = mysql_fetch_array($group_res)) {
+                                $sql_card_g = "select main_img1 as group_img,card_short_url from Gn_Iam_Name_Card where idx='{$group_row['card_idx']}'";
+                                $res_card_g = mysql_query($sql_card_g);
+                                $row_card_g = mysql_fetch_array($res_card_g);
+
+                                $sql_mem_g = "select mem_code from Gn_Member where mem_id='{$group_row['mem_id']}'";
+                                $res_mem_g = mysql_query($sql_mem_g);
+                                $row_mem_g = mysql_fetch_array($res_mem_g);
+                            ?>
+                                <div style="padding-top: 2px;cursor:pointer">
+                                    <div style="border:1px solid #ddd;background-color: #ffffff;border-radius: 10px;padding-bottom: 2px;display:flex;justify-content: space-between;">
+                                        <div style="display: flex" onclick="location.href = '?' + '<?= $row_card_g['card_short_url'] . $row_mem_g['mem_code'] ?>'+'&cur_win=group-con&gkind=' +'<?= $group_row['group_id'] ?>'">
+                                            <div style="border-radius: 10%;width: 50px;height: 50px;overflow: hidden;margin: 10px;position:relative">
+                                                <img src="<?= $row_card_g['group_img'] ?>" style="width: 50px;height:50px;">
+                                            </div>
+                                            <div>
+                                                <h4 style="margin-left: 10px;margin-top: 10px"><?= $group_row['name'] ?></h4>
+                                                <h5 style="margin-left: 10px;margin-top: 10px;margin-bottom: 10px">
+                                                    <?= $group_row['description'] ?>
+                                                </h5>
+                                            </div>
+                                        </div>
+                                        <div class="dropdown " style="margin-right: 10px;margin-top: auto;margin-bottom: auto;">
+                                            <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
+                                                <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu comunity" style="border: 1px solid #ccc;padding:0px;">
+                                                <?
+                                                $card_sql = "select card_name from Gn_Iam_Name_Card where group_id = '{$group_row['group_id']}' order by req_data";
+                                                $card_res = mysql_query($card_sql);
+                                                $card_num = 1;
+                                                while ($card_row = mysql_fetch_array($card_res)) {
+                                                ?>
+                                                    <li><a onclick="javascript:;;" style="padding:3px 3px 0px 3px !important;"><?= $card_row[0] == "" ? $card_num . "번카드" : $card_row[0]; ?></a></li>
+                                                <?
+                                                    $card_num++;
+                                                }
+                                                ?>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            <? } ?>
+                        </div>
+                    <? } else if ($gkind == "search") { ?>
+                        <div style="width:100%;border:1px solid #ddd;padding:5px;">
+                            <div style="display:flex;justify-content: space-between;">
+                                <div>
+                                    <h3 style="margin-left:10px;margin-top:10px">회원님을 위한 추천</h3>
+                                    <h4 style="margin-left:10px;margin-top:5px"><small>회원님이 관심을 가질 만한 그룹입니다.</small></h4>
+                                </div>
+                                <button class="btn btn-link" onclick="show_all_group('sample')">모두 보기</button>
+                            </div>
+                            <? $group_sql = "select card_short_url,main_img1,group_id,card.mem_id from Gn_Iam_Name_Card card
+                                        where group_id is not NULL and group_id > 0 and group_id not in ($my_group) and sample_click = 'Y' order by sample_order desc limit 0,5";
+                            $sample_index = 0;
+                            $group_res = mysql_query($group_sql);
+                            while ($group_row = mysql_fetch_array($group_res)) {
+                                $sql_grp_info = "select name from gn_group_info where idx='{$group_row['group_id']}'";
+                                $res_grp_info = mysql_query($sql_grp_info);
+                                $row_grp_info = mysql_fetch_array($res_grp_info);
+
+                                $sql_mem_info = "select mem_code from Gn_Member where mem_id='{$group_row['mem_id']}'";
+                                $res_mem_info = mysql_query($sql_mem_info);
+                                $row_mem_info = mysql_fetch_array($res_mem_info);
+
+                                $mem_sql = "select count(idx) from gn_group_member where group_id='{$group_row['group_id']}'";
+                                $mem_res = mysql_query($mem_sql);
+                                $mem_row = mysql_fetch_array($mem_res);
+                                $weekMondayTime = date("Y-m-d", strtotime('last Monday'));
+                                $cont_sql = "select count(idx) from Gn_Iam_Contents where group_id='{$group_row['group_id']}' and req_data >= '$weekMondayTime'";
+                                $cont_res = mysql_query($cont_sql);
+                                $cont_row = mysql_fetch_array($cont_res);
+                                $f_sql = "select mem_name, profile from Gn_Member where site_iam = '{$Gn_mem_row['site_iam']}' and mem_id in (select mem_id from gn_group_member where group_id='{$group_row['group_id']}')";
+                                $f_res = mysql_query($f_sql);
+                                $f_count = mysql_num_rows($f_res);
+                                if ($sample_index == 0) {
+                            ?>
+                                    <div style="padding-top: 10px;">
+                                        <div style="border:1px solid #ddd;background-color: #ffffff;border-top-right-radius:10px;border-top-left-radius:10px;;padding-bottom: 2px;position:relative;padding-bottom: 60%;overflow: hidden;">
+                                            <div class="content" style="background-image:url('<?= $group_row['main_img1'] ?>');background-size: cover;height:100%;background-position: center;" onclick="location.href = '?' + '<?= $group_row['card_short_url'] . $row_mem_info['mem_code'] ?>'+'&cur_win=group-con&gkind=' +'<?= $group_row['group_id'] ?>'">
+                                            </div>
+                                        </div>
+                                        <div style="border:1px solid #ddd;border-bottom-left-radius: 10px;border-bottom-right-radius: 10px;">
+                                            <h4 style="margin-left:10px;margin-top:10px"><?= $row_grp_info['name'] ?></h4>
+                                            <h4 style="margin-left:10px;margin-top:5px"><small>멤버 <?= $mem_row[0] ?>명 &bull; 주간 게시물 <?= $cont_row[0] ?>개</small></h4>
+                                            <? if ($f_count > 0) { ?>
+                                                <div style="display:flex;margin-left:20px;margin-top:10px">
+                                                    <?
+                                                    $f_index = 0;
+                                                    while ($f_row = mysql_fetch_array($f_res)) {
+                                                        if ($f_index == 0)
+                                                            $f_name = $f_row['mem_name'];
+                                                        if ($f_index++ < 12) { ?>
+                                                            <div style="border:1px solid #ddd;border-radius: 50%;width: 30px;height: 30px;overflow: hidden;margin-left: -10px;">
+                                                                <img src="<?= cross_image($f_row['profile']) ?>" style="width: 100%;height:100%;">
+                                                            </div>
+                                                    <?  }
+                                                    } ?>
+                                                </div>
+                                                <h4 style="margin-left:10px;margin-top:5px"><small><?= $f_name . "님 외 친구 " . ($f_count - 1) . "명이 멤버입니다." ?></small></h4>
+                                            <? } ?>
+                                            <div style="text-align:center;margin:10px 0px">
+                                                <button class="btn btn-success" style="width:95%" onclick="join_group('<?= $group_row['group_id'] ?>')">그룹 참여</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?  } else { ?>
+                                    <div style="padding-top: 2px;">
+                                        <div style="border:1px solid #ddd;background-color: #ffffff;border-radius: 10px;padding-bottom: 2px;display:flex;justify-content: space-between;">
+                                            <div style="display: flex" onclick="location.href = '?' + '<?= $group_row['card_short_url'] . $group_row['mem_code'] ?>'+'&cur_win=group-con&gkind=' +'<?= $group_row['group_id'] ?>'">
+                                                <div style="border-radius: 10%;width: 50px;height: 50px;overflow: hidden;margin: 10px;position:relative">
+                                                    <img src="<?= $group_row['main_img1'] ?>" style="width: 50px;height:50px;">
+                                                </div>
+                                                <div>
+                                                    <h4 style="margin-left: 10px;margin-top: 10px"><?= $group_row['name'] ?></h4>
+                                                    <h5 style="margin-left: 10px;margin-top: 10px;margin-bottom: 10px">
+                                                        <small>멤버 <?= $mem_row[0] ?>명 &bull; 주간 게시물 <?= $cont_row[0] ?>개</small>
+                                                    </h5>
+                                                    <? if ($f_count > 0) { ?>
+                                                        <div style="display:flex;margin-left:20px;margin-top:10px">
+                                                            <?
+                                                            $f_index = 0;
+                                                            while ($f_row = mysql_fetch_array($f_res)) {
+                                                                if ($f_index == 0)
+                                                                    $f_name = $f_row['mem_name'];
+                                                                if ($f_index++ < 12) { ?>
+                                                                    <div style="border:1px solid #ddd;border-radius: 50%;width: 30px;height: 30px;overflow: hidden;margin-left: -10px;">
+                                                                        <img src="<?= cross_image($f_row['profile']) ?>" style="width: 100%;height:100%;">
+                                                                    </div>
+                                                            <?  }
+                                                            } ?>
+                                                        </div>
+                                                        <h5 style="margin-left:10px;margin-top:5px"><small><?= $f_name . "님 외 친구 " . ($f_count - 1) . "명이 멤버입니다." ?></small></h5>
+                                                    <? } ?>
+                                                </div>
+                                            </div>
+                                            <div style="display:flex">
+                                                <div class="dropdown " style="margin-right: 10px;margin-top: auto;margin-bottom: auto;">
+                                                    <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
+                                                        <span class="caret"></span>
+                                                    </button>
+                                                    <ul class="dropdown-menu comunity" style="border: 1px solid #ccc;padding:0px;">
+                                                        <?
+                                                        $card_sql = "select card_name from Gn_Iam_Name_Card where group_id = '{$group_row['group_id']}' order by req_data";
+                                                        $card_res = mysql_query($card_sql);
+                                                        $card_num = 1;
+                                                        while ($card_row = mysql_fetch_array($card_res)) {
+                                                        ?>
+                                                            <li><a onclick="javascript:;;" style="padding:3px 3px 0px 3px !important;"><?= $card_row[0] == "" ? $card_num . "번카드" : $card_row[0]; ?></a></li>
+                                                        <?
+                                                            $card_num++;
+                                                        }
+                                                        ?>
+                                                    </ul>
+                                                </div>
+                                                <button class="btn btn-link" type="button" onclick="join_group('<?= $group_row['group_id'] ?>')">참여</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                            <?  }
+                                $sample_index++;
+                            } ?>
+                        </div>
+                        <div style="width:100%;border:1px solid #ddd;padding:5px;margin-top:5px">
+                            <div style="display:flex;justify-content: space-between;">
+                                <div>
+                                    <h3 style="margin-left:10px;margin-top:10px">친구의 그룹</h3>
+                                    <h4 style="margin-left:10px;margin-top:5px"><small>친구들이 가입한 그룹입니다.</small></h4>
+                                </div>
+                                <button class="btn btn-link" onclick="show_all_group('friend')">모두 보기</button>
+                            </div>
+                            <?
+                            $group_sql = "select name,ggm.group_id,count(*) as g_mem_count,ggi.card_idx 
+                                    from gn_group_member ggm 
+                                    inner join gn_group_info ggi on ggi.idx=ggm.group_id
+                                    inner join Gn_Member m on m.mem_id=ggm.mem_id
+                                    where m.site_iam='{$Gn_mem_row['site_iam']}'
+                                        and ggm.group_id not in (select group_id from gn_group_member where mem_id ='{$_SESSION['iam_member_id']}') 
+                                        group by group_id order by g_mem_count desc limit 0,5";
+                            $gm_index = 0;
+                            $group_res = mysql_query($group_sql);
+                            while ($group_row = mysql_fetch_array($group_res)) {
+                                $sql_card_g = "select mem_id,main_img1,card_short_url from Gn_Iam_Name_Card where idx='{$group_row['card_idx']}'";
+                                $res_card_g = mysql_query($sql_card_g);
+                                $row_card_g = mysql_fetch_array($res_card_g);
+
+                                $sql_mem_g = "select mem_code from Gn_Member where mem_id='{$row_card_g['mem_id']}'";
+                                $res_mem_g = mysql_query($sql_mem_g);
+                                $row_mem_g = mysql_fetch_array($res_mem_g);
+
+                                $mem_sql = "select count(*) from gn_group_member where group_id='{$group_row['group_id']}'";
+                                $mem_res = mysql_query($mem_sql);
+                                $mem_row = mysql_fetch_array($mem_res);
+                                $weekMondayTime = date("Y-m-d", strtotime('last Monday'));
+                                $cont_sql = "select count(*) from Gn_Iam_Contents where group_id='{$group_row['group_id']}' and group_display = 'Y' and req_data >= '$weekMondayTime'";
+                                $cont_res = mysql_query($cont_sql);
+                                $cont_row = mysql_fetch_array($cont_res);
+                                $f_sql = "select mem_name, profile from Gn_Member where site_iam = '{$Gn_mem_row['site_iam']}' and mem_id in (select mem_id from gn_group_member where group_id='{$group_row['group_id']}')";
+                                $f_res = mysql_query($f_sql);
+                                $f_count = mysql_num_rows($f_res);
+                                if ($gm_index == 0) {
+                            ?>
+                                    <div style="padding-top: 10px;">
+                                        <div style="border:1px solid #ddd;background-color: #ffffff;border-top-right-radius:10px;border-top-left-radius:10px;;padding-bottom: 2px;position:relative;padding-bottom: 60%;overflow: hidden;">
+                                            <div class="content" style="background-image:url('<?= $row_card_g['main_img1'] ?>');background-size: cover;height:100%;background-position: center;" onclick="location.href = '?' + '<?= $row_card_g['card_short_url'] . $row_mem_g['mem_code'] ?>'+'&cur_win=group-con&gkind=' +'<?= $group_row['group_id'] ?>'">
+                                            </div>
+                                        </div>
+                                        <div style="border:1px solid #ddd;border-bottom-left-radius: 10px;border-bottom-right-radius: 10px;">
+                                            <h4 style="margin-left:10px;margin-top:10px"><?= $group_row['name'] ?></h4>
+                                            <h4 style="margin-left:10px;margin-top:5px"><small>멤버 <?= $mem_row[0] ?>명 &bull; 주간 게시물 <?= $cont_row[0] ?>개</small></h4>
+                                            <? if ($f_count > 0) { ?>
+                                                <div style="display:flex;margin-left:20px;margin-top:10px">
+                                                    <?
+                                                    $f_index = 0;
+                                                    while ($f_row = mysql_fetch_array($f_res)) {
+                                                        if ($f_index == 0)
+                                                            $f_name = $f_row['mem_name'];
+                                                        if ($f_index++ < 12) { ?>
+                                                            <div style="border:1px solid #ddd;border-radius: 50%;width: 30px;height: 30px;overflow: hidden;margin-left: -10px;">
+                                                                <img src="<?= cross_image($f_row['profile']) ?>" style="width: 100%;height:100%;">
+                                                            </div>
+                                                    <?  }
+                                                    } ?>
+                                                </div>
+                                                <h4 style="margin-left:10px;margin-top:5px"><small><?= $f_name . "님 외 친구 " . ($f_count - 1) . "명이 멤버입니다." ?></small></h4>
+                                            <? } ?>
+                                            <div style="text-align:center;margin:10px 0px">
+                                                <button class="btn btn-success" style="width:95%" onclick="join_group('<?= $group_row['group_id'] ?>')">그룹 참여</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?  } else { ?>
+                                    <div style="padding-top: 2px;">
+                                        <div style="border:1px solid #ddd;background-color: #ffffff;border-radius: 10px;padding-bottom: 2px;display:flex;justify-content: space-between;">
+                                            <div style="display: flex" onclick="location.href = '?' + '<?= $row_card_g['card_short_url'] . $row_mem_g['mem_code'] ?>'+'&cur_win=group-con&gkind=' +'<?= $group_row['group_id'] ?>'">
+                                                <div style="border-radius: 10%;width: 50px;height: 50px;overflow: hidden;margin: 10px;position:relative">
+                                                    <img src="<?= $group_row['main_img1'] ?>" style="width: 50px;height:50px;">
+                                                </div>
+                                                <div>
+                                                    <h4 style="margin-left: 10px;margin-top: 10px"><?= $group_row['name'] ?></h4>
+                                                    <h5 style="margin-left: 10px;margin-top: 10px;margin-bottom: 10px">
+                                                        <small>멤버 <?= $mem_row[0] ?>명 &bull; 주간 게시물 <?= $cont_row[0] ?>개</small>
+                                                    </h5>
+                                                    <? if ($f_count > 0) { ?>
+                                                        <div style="display:flex;margin-left:20px;margin-top:10px">
+                                                            <?
+                                                            $f_index = 0;
+                                                            while ($f_row = mysql_fetch_array($f_res)) {
+                                                                if ($f_index == 0)
+                                                                    $f_name = $f_row['mem_name'];
+                                                                if ($f_index++ < 12) { ?>
+                                                                    <div style="border:1px solid #ddd;border-radius: 50%;width: 30px;height: 30px;overflow: hidden;margin-left: -10px;">
+                                                                        <img src="<?= cross_image($f_row['profile']) ?>" style="width: 100%;height:100%;">
+                                                                    </div>
+                                                            <?  }
+                                                            } ?>
+                                                        </div>
+                                                        <h5 style="margin-left:10px;margin-top:5px"><small><?= $f_name . "님 외 친구 " . ($f_count - 1) . "명이 멤버입니다." ?></small></h5>
+                                                    <? } ?>
+                                                </div>
+                                            </div>
+                                            <div style="display:flex">
+                                                <div class="dropdown " style="margin-right: 10px;margin-top: auto;margin-bottom: auto;">
+                                                    <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
+                                                        <span class="caret"></span>
+                                                    </button>
+                                                    <ul class="dropdown-menu comunity" style="border: 1px solid #ccc;padding:0px;">
+                                                        <?
+                                                        $card_sql = "select card_name from Gn_Iam_Name_Card where group_id = '{$group_row['group_id']}' order by req_data";
+                                                        $card_res = mysql_query($card_sql);
+                                                        $card_num = 1;
+                                                        while ($card_row = mysql_fetch_array($card_res)) {
+                                                        ?>
+                                                            <li><a onclick="javascript:;;" style="padding:3px 3px 0px 3px !important;"><?= $card_row[0] == "" ? $card_num . "번카드" : $card_row[0]; ?></a></li>
+                                                        <?
+                                                            $card_num++;
+                                                        }
+                                                        ?>
+                                                    </ul>
+                                                </div>
+                                                <button class="btn btn-link" type="button" onclick="join_group('<?= $group_row['group_id'] ?>')">참여</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                            <?  }
+                                $gm_index++;
+                            } ?>
+                        </div>
+                    <? } else if ($gkind != "search_con") { ?>
+                        <div style="cursor:pointer;display:flex;justify-content: space-between;margin-top:5px">
+                            <div>
+                                <?
+                                $group_public = $group_row['public_status'] == "Y" ? "공개그룹" : "비공개그룹";
+                                $group_upload = $group_row['upload_status'];
+                                ?>
+                                <h3 style="margin-left:10px" onclick="open_group_info_modal('<?= $gkind ?>', '<?= $Gn_mem_row['site_iam'] ?>')"><?= $group_row['name'] . " >" ?></h3>
+                                <?
+                                $group_sql = "select count(idx) from gn_group_member where group_id='$gkind'";
+                                $group_res = mysql_query($group_sql);
+                                $group_row = mysql_fetch_array($group_res);
+                                $group_mem_count = $group_row[0];
+                                $time = date("Y-m-d");
+                                $group_sql = "select count(idx) from gn_group_member where group_id='$gkind' and req_date >= '$time'";
+                                $group_res = mysql_query($group_sql);
+                                $group_row = mysql_fetch_array($group_res);
+                                $group_new_mem_count = $group_row[0];
+                                if ($my_group == "")
+                                    $group_sql = "select count(idx) from Gn_Iam_Contents where group_id='$gkind' and group_display = 'Y' and req_data >= '$time'";
+                                else
+                                    $group_sql = "select count(idx) from Gn_Iam_Contents where group_id='$gkind' and req_data >= '$time'";
+                                $group_res = mysql_query($group_sql);
+                                $group_row = mysql_fetch_array($group_res);
+                                $group_new_cont_count = $group_row[0];
+
+                                $group_card_sql = "select card_name,card_title from Gn_Iam_Name_Card where card_short_url = '$group_card_url'";
+                                $group_card_res = mysql_query($group_card_sql);
+                                $group_card_row = mysql_fetch_array($group_card_res);
+
+                                $group_check_sql = "select count(idx) from gn_group_member where group_id='$gkind' and mem_id='{$_SESSION['iam_member_id']}'";
+                                $group_check_res = mysql_query($group_check_sql);
+                                $group_check_row = mysql_fetch_array($group_check_res);
+                                ?>
+                                <div style="display:flex;margin-top:5px;margin-left:10px">
+                                    <h5 style=""><?= $group_public . " &bull; 멤버 " . $group_mem_count . "명 &bull;" ?></h5>
+                                    <h5 style="cursor:pointer" onclick="<? if ($_SESSION['iam_member_id'] == $group_manager) echo 'open_all_member_1(' . $gkind . ')' ?>"><?= " 신규 " . $group_new_mem_count . "명 &bull;" ?></h5>
+                                    <h5 style="cursor:pointer" onclick="<? if ($_SESSION['iam_member_id'] == $group_manager /*&& $group_upload == 'N'*/) echo 'open_group_contents(' . $gkind . ')' ?>"><?= " 신규콘텐츠 " . $group_new_cont_count . "개" ?></h5>
+                                </div>
+                            </div>
+                            <div style="display:flex;margin-right:10px">
+                                <? if ($group_check_row[0] > 0) { ?>
+                                    <button type="button" class="btn btn-primary" style="height:24px;padding:0px 12px;margin-right:10px" onclick="open_invite_modal()">초대</button>
+                                <? } else { ?>
+                                    <button type="button" class="btn btn-primary" style="height:24px;padding:0px 12px;margin-right:10px" onclick="join_group('<?= $gkind ?>')">참여</button>
+                                <? } ?>
+                                <div>
+                                    <a href="javascript:showGroupShareModal();" style="">
+                                        <img src="/iam/img/menu/icon_share_black.png" alt="" title="" style="margin-left:0px;width:24px;height:24px">
+                                    </a>
+                                </div>
+                                <div>
+                                    <a href="javascript:addMainBtn('<?= str_replace("'", "", $group_card_row['card_name']) ?>','?<?= $group_card_url . $card_owner_code ?>');">
+                                        <img src="/iam/img/menu/icon_home_add.png" alt="" title="<?= $MENU['IAM_CARD_BTN']['BTN6_TITLE']; ?>" style="margin-left:0px;width:24px;height:24px">
+                                    </a>
+                                </div>
+                                <? //--그룹카드 우측 세점 드롭박스 부분--//
+                                if ($group_check_row[0] > 0) {
+                                    if ($_SESSION['iam_member_id'] && $_SESSION['iam_member_id'] == $group_manager) {
+                                ?>
+                                        <div class="dropdown right" style="">
+                                            <img class="dropdown-toggle" data-toggle="dropdown" src="/iam/img/menu/icon_dot.png" style="width:24px;height:24px">
+                                            <ul class="dropdown-menu namecard-dropdown " style="background: white; color : black;top:10px;">
+                                                <li>
+                                                    <? if ($group_card['phone_display'] == 'Y') { ?>
+                                                        <a href="javascript:card_phone_display('<?= $group_card['idx'] ?>', '<?= $_SESSION['iam_member_id'] ?>','N')">
+                                                            <img src="/iam/img/icon_unlock.svg" title="<?= $MENU['IAM_CARD_M']['CM2_TITLE']; ?>" style="width: 20px"><?= $MENU['IAM_CARD_M']['CM2']; ?>
+                                                        </a>
+                                                    <? } else { ?>
+                                                        <a href="javascript:card_phone_display('<?= $group_card['idx'] ?>', '<?= $_SESSION['iam_member_id'] ?>','Y')">
+                                                            <img src="/iam/img/icon_lock.svg" title="<?= $MENU['IAM_CARD_M']['CM1_TITLE']; ?>" style="width: 20px"><?= $MENU['IAM_CARD_M']['CM1']; ?>
+                                                        </a>
+                                                    <? } ?>
+                                                </li>
+                                                <? if ($_SESSION['iam_member_id'] == $group_manager) { ?>
+                                                    <li>
+                                                        <a href="javascript:edit_group_card('<?= $group_card_url ?>');">
+                                                            <img src="/iam/img/menu/icon_edit.png" alt="" title="" style="width:20px;">
+                                                            <?= $MENU['IAM_CARD_M']['CM3']; ?>
+                                                        </a>
+                                                    </li>
+                                                <? } ?>
+                                                <? if ((int)$_SESSION['iam_member_leb'] != 0) { ?>
+                                                    <li>
+                                                        <a href="/iam/mypage.php" class="edit">
+                                                            <i class="fa fa-pencil-square-o fa-lg" aria-hidden="true" title="<?= $MENU['IAM_CARD_M']['CM3_1_TITLE']; ?>"></i><?= $MENU['IAM_CARD_M']['CM3_1']; ?>
+                                                        </a>
+                                                    </li>
+                                                <? } ?>
+                                                <li>
+                                                    <a href="javascript:open_cont_order_popup('<?= $cur_win ?>', '<?= $cur_card['card_short_url'] ?>', '<?= $group_card_url ?>');" title="카드 콘텐츠 편집하기">
+                                                        <img src="/iam/img/main/icon-contedit.png" style="height: 20px">
+                                                        카드 콘텐츠 편집
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a onclick="showCardLike('<?= $post_display == 0 ? 1 : 0; ?>','<?= $group_card_url ?>')" id="show_card_title_menu" title="<?= $MENU['IAM_CARD_M']['CM7_TITLE']; ?>">
+                                                        <img src="/iam/img/main/icon-16.png" title="댓글박스" style="height: 20px">
+                                                        <? if ($post_display == 1) {
+                                                            echo $MENU['IAM_CARD_M']['CM8'];
+                                                        } else {
+                                                            echo $MENU['IAM_CARD_M']['CM7'];
+                                                        } ?>
+                                                    </a>
+                                                </li>
+                                                <? if ($group_card_idx != $cur_card['idx']) { ?>
+                                                    <li>
+                                                        <a href="javascript:namecard_del('<?= $group_card['idx'] ?>');" title="<?= $MENU['IAM_CARD_M']['CM11_TITLE']; ?>">
+                                                            <img src="/iam/img/star/icon-bin.png" style="height: 20px">
+                                                            <?= $MENU['IAM_CARD_M']['CM11']; ?>
+                                                        </a>
+                                                    </li>
+                                                <? } ?>
+                                                <li>
+                                                    <a href="javascript:move_card();" title="<?= $MENU['IAM_CARD_M']['CM12_TITLE']; ?>">
+                                                        <img src="/iam/img/main/icon-card_move.png" style="height: 20px">
+                                                        <?= $MENU['IAM_CARD_M']['CM12']; ?>
+                                                    </a>
+                                                </li>
+                                                <!--li>
+                                            <a href="javascript:show_manage_auto(0)" title="콘텐츠 오토데이트 관리">
+                                                <img src="/iam/img/icon-update.png" title="" style="height: 23px;margin-left: -2px;">
+                                                오토 데이트 기능
+                                            </a>
+                                        </li-->
+                                            </ul>
+                                        </div>
+                                    <? } else if ($_SESSION['iam_member_id']) { ?>
+                                        <div class="dropdown right" style="margin-right:10px;height:30px;">
+                                            <img class="dropdown-toggle" data-toggle="dropdown" src="/iam/img/menu/icon_dot.png" style="height: 24px;">
+                                            <ul class="dropdown-menu namecard-dropdown " style="background: white; color : black;top:10px;">
+                                                <li>
+                                                    <a href="javascript:group_out('<?= $gkind ?>', '<?= $_SESSION['iam_member_id'] ?>')">
+                                                        <img src="/iam/img/main/icon-exit.png" title="그룹 나가기" style="height: 20px">그룹 나가기
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                <? }
+                                } ?>
+                            </div>
+                        </div>
+
+                        <div class="tab-content" id="myTabContent">
+                            <div class="tab-pane fade profile-tab-content in active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                                <div id="right-side-dropdown" style="min-height:30px;position:relative;margin-top:10px">
+                                    <div id="card_title_down" style="text-align:right;height:20px;display:none">
+                                        <img src="/iam/img/main/icon-19.png" style="height:20px;margin-right:10px">
+                                    </div>
+                                </div>
+                                <div class="box-body" style="">
+                                    <div class="inner" style="padding-top:0px">
+                                        <div class="utils clearfix" style="margin-bottom: 0px;">
+                                            <div class="left">
+                                                <div class="color-chips">
+                                                    <?
+                                                    $title_display = "inline-block";
+                                                    $g_card_count = $g_cont_count = 0;
+                                                    $black_circle_sql = "select idx,card_short_url,card_title,card_name,phone_display,next_iam_link,mem_id from Gn_Iam_Name_Card where group_id = '$gkind' order by req_data asc";
+                                                    $black_circle_result = mysql_query($black_circle_sql);
+                                                    while ($black_circle_row = mysql_fetch_array($black_circle_result)) {
+                                                        $private_class = ($black_circle_row['phone_display'] == 'N' ? "private" : "");
+                                                        $active_class = ($group_card_url == $black_circle_row['card_short_url'] ? "active" : "");
+                                                        $card_link = $black_circle_row['card_short_url'] . $user_mem_code . '&cur_win=group-con&gkind=' . $gkind;
+                                                        $card_idx = $black_circle_row['idx'];
+                                                        $next_iam_link = $black_circle_row['next_iam_link'] ? ($black_circle_row['next_iam_link'] . $user_mem_code . '&cur_win=group-con&gkind=' . $gkind) : "";
+                                                        $cont_sql = "select count(*) from Gn_Iam_Contents where card_idx='$card_idx'";
+                                                        $cont_res = mysql_query($cont_sql);
+                                                        $cont_row = mysql_fetch_array($cont_res);
+                                                        $g_cont_count += $cont_row[0];
+                                                        $n_cont_sql = "select count(*) from Gn_Iam_Contents where card_idx = '$card_idx' and req_data > '$today'";
+                                                        $n_cont_res = mysql_query($n_cont_sql);
+                                                        $n_cont_row = mysql_fetch_array($n_cont_res);
+                                                    ?>
+                                                        <a href="?<?= $card_link ?>" class="J_card_num <?= $private_class ?> <?= $active_class ?>" id="card_title" onclick="show_next_iam('<?= $next_iam_link ?>');" draggable="false" ondragstart="drag(event,'<?= $card_link ?>')" ondrop="drop(event,'<?= $card_link ?>')" ondragover="allowDrop(event)" ontouchstart="pickup(event,'<?= $card_link ?>')" ontouchmove="move(event)" ontouchend="pickdown(event)" style="z-index:10;display: <?= $title_display ?>;font-size: 15px;" title=<?= $black_circle_row['card_title'] ?>>
+                                                            <?= $black_circle_row['card_title'] ? $black_circle_row['card_title'] : $card_count + 1 ?><?= $next_iam_link == "" ? "" : "+" ?><?= $n_cont_row[0] > 0 ? "(" . $n_cont_row[0] . ")" : "" ?>
+                                                        </a>
+                                                        <script>
+                                                            if ($(".color-chips").height() > 140) {
+                                                                $("a").last().addClass("card_arrow");
+                                                            }
+                                                        </script>
+                                                    <?
+                                                        $g_card_count++;
+                                                    }
+                                                    if ($_SESSION['iam_member_id'] == $group_manager) { ?>
+                                                        <a onclick="show_create_group_card_popup();" class="J_card_num" id="card_title" title="<?= $MENU['IAM_CARD_M']['CM9_TITLE']; ?>" style="font-size: 15px;font-weight: 700;text-align: center;z-index:10;background:white;color:#529c03;display: <?= $title_display ?>">
+                                                            <span style="font-size:15px">새 카드 만들기</span>
+                                                        </a>
+                                                    <? } ?>
+                                                    <script>
+                                                        if ($(".color-chips").height() > 140) {
+                                                            $("#card_title_down").show();
+                                                            $(".card_arrow").hide();
+                                                        }
+                                                        $(function() {
+                                                            $("#card_title_down").on("click", function() {
+                                                                $(".card_arrow").show();
+                                                                $("#card_title_up").show();
+                                                                $("#card_title_down").hide();
+                                                            });
+                                                            $("#card_title_up").on("click", function() {
+                                                                $("#card_title_down").show();
+                                                                $(".card_arrow").hide();
+                                                                $("#card_title_up").hide();
+                                                            });
+                                                        });
+                                                    </script>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="card_title_up" style="text-align:right;height:20px;display:none;">
+                            <img src="/iam/img/main/icon-20.png" style="height:20px;margin-right:10px">
+                        </div>
+                        <div id="manage_auto_update" hidden style="text-align:center;border: solid 1px black;position:relative;margin-top: 10px;">
+                            <p style="background:#99cc00;padding:10px;color:white;font-size:18px">콘텐츠 오토데이트 관리</p>
+                            <div style="width:100%;padding:5px;float:right">
+                                <button style="float:right;font-size:14px;margin-right:10px;background:#797979;color:white" onclick="show_making_popup()">만들기</button>
+                            </div>
+                            <table style="width:100%;display:block;padding:20px;">
+                                <thead>
+                                    <tr>
+                                        <td class="iam_table" style="width:50px;">CNO</td>
+                                        <td class="iam_table" style="width:60px;">분야</td>
+                                        <td class="iam_table" style="width:85px;">수집키워드</td>
+                                        <td class="iam_table" style="width:120px;">신청일시</td>
+                                        <td class="iam_table" style="width:60px;">결제</td>
+                                        <td class="iam_table" style="width:90px;">P잔액</td>
+                                        <td class="iam_table" style="width:70px;">상태</td>
+                                        <td class="iam_table" style="width:150px;">관리</td>
+                                    </tr>
+                                </thead>
+                                <tbody id="auto_contetns_manage_show">
+
+                                </tbody>
+                            </table>
+                            <button style="border-radius:5px;width:20%;font-size:15px;margin-bottom:10px;" onclick="show_manage_auto(1)">닫기</button>
+                            <button style="border-radius:5px;width:20%;font-size:15px;margin-bottom:10px;" onclick="search_auto_data(true)">더보기</button>
+                        </div>
+                        <div style="padding-bottom:15px;margin-top:10px">
+                            <div style="padding:10px;border: 1px solid #ddd;">
+                                <div style="display:flex;" onclick="contents_add('<?= $_SESSION['iam_member_id'] ?>','','','<?= $gkind ?>');">
+                                    <? if ($cur_card['main_img1']) { ?>
+                                        <div style="width: 38px;height: 38px;border-radius: 50%;overflow: hidden;">
+                                            <img src='<?= cross_image(str_replace("http://www.kiam.kr", $cdn_ssl, $cur_card['main_img1'])) ?>' style="width:100%;height:100%;object-fit: cover;">
+                                        </div>
+                                    <? } ?>
+                                    <span style="margin-left:10px;border: 1px solid #ddd;border-radius: 8px;padding:5px 10px;font-weight:100">소개하고 싶은 콘텐츠를 올려보세요.</span>
+                                </div>
+                            </div>
+                        </div>
+                    <? } ?>
+                </section>
+            <? } ?>
+            <!-- // 중단 콘텐츠 영역 끝 -->
+            <!-- ############################################################################################################################## -->
+            <!-- 하단 영역 시작 -->
+            <section id="bottom">
                 <!-- 콘텐츠부분 -->
-                <div id="ajax_div" style="display:none"></div>
-            </main>
-            <!-- ============================================= // 콘텐츠 영역 끝 =============================================== -->
-            <footer id="footer" style="text-align: center;">
-                <? if ($domainData['footer_logo_type'] == "I") { ?>
-                    <a href="<?= $domainData['footer_link']; ?>">
-                        <img src="<?= $domainData['footer_logo'] == "" ? "/iam/img/common/logo.png" : $domainData['footer_logo']; ?>" alt="아이엠 푸터로고" width="150">
-                    </a>
-                <? } else { ?>
-                    <a href="<?= $domainData['footer_link']; ?>" style="font-family:kopubdotum-bold;font-size:15px;text-decoration:none">
-                        <?= $domainData['footer_logo_text'] ?>
-                    </a>
+                <?
+                // middle log
+                $logs->add_log("section start");
+                // julian 콘텐츠를 순환하면서 뿌려주는 부분
+                $search_key = $_GET['search_key'];
+                $cont_array = array();
+                //카드명이 검색키와 같은거 꺼내기
+                if ($search_key) {
+                    if ($_GET['key1'] == 4) {
+                        $search_title = $search_seperate = '';
+                        if (strpos($search_key, '|') !== false) {
+                            $gwc_search_key_arr = explode('|', $search_key);
+                            for ($i = 0; $i < count($gwc_search_key_arr); $i++) {
+                                if ($i == count($gwc_search_key_arr) - 1) {
+                                    $and_str = '';
+                                } else {
+                                    $and_str = ' or ';
+                                }
+                                $gwc_search_key = trim($gwc_search_key_arr[$i]);
+                                $search_title .= "contents_title like '%$gwc_search_key%'" . $and_str;
+                                $search_seperate .= "product_seperate like '%$gwc_search_key%'" . $and_str;
+                            }
+                            $search_sql = "((" . $search_title . ") or (" . $search_seperate . ") ";
+                        } else if (strpos($search_key, ' ') !== false) {
+                            $gwc_search_key_arr = explode(' ', $search_key);
+                            for ($i = 0; $i < count($gwc_search_key_arr); $i++) {
+                                if ($i == count($gwc_search_key_arr) - 1) {
+                                    $and_str = '';
+                                } else {
+                                    $and_str = ' and ';
+                                }
+                                $gwc_search_key = trim($gwc_search_key_arr[$i]);
+                                $search_title .= "contents_title like '%$gwc_search_key%'" . $and_str;
+                                $search_seperate .= "product_seperate like '%$gwc_search_key%'" . $and_str;
+                            }
+                            $search_sql = "((" . $search_title . ") or (" . $search_seperate . ") ";
+                        } else {
+                            $search_sql = "((contents_title like '%" . $search_key . "%') or (product_seperate like '%" . $search_key . "%') ";
+                        }
+                    } else {
+                        if (strpos($search_key, ' ') !== false) {
+                            $search_key_arr = explode(' ', $search_key);
+                            $search_key11 = trim($search_key_arr[0]);
+                            $search_key22 = trim($search_key_arr[1]);
+                            $search_sql = "((contents_title like '%$search_key11%' and contents_title like '%$search_key22%') or (contents_desc like '%$search_key11%' and contents_desc like '%$search_key22%') ";
+                        } else {
+                            $search_sql = "(contents_title like '%$search_key%' or contents_desc like '%$search_key%' ";
+                        }
+                    }
+                    $search_sql .= ") ";
+                } else {
+                    $search_sql = "1=1";
+                }
+                if ($cur_win == "we_story") {
+                    $show_counts = get_search_key('wecon_show_count');
+                    $counts_arr = explode(",", $show_counts);
+                    $limit_count = $counts_arr[0];
+                    if ($_GET['key1'] == 3) { //콜이야
+                        $limit_count = $counts_arr[1];
+                    } else if ($_GET['key1'] == 4) { //굿마켓
+                        $limit_count = $counts_arr[2];
+                    }
+
+                    $con_sql = "select max(idx) from " . $content_table_name;
+                    $con_result = mysql_query($con_sql);
+                    $con_row = mysql_fetch_array($con_result);
+                    $recent_idx = $con_row[0] - $limit_count;
+                    if ($_GET['key1'] == 4 && $_GET['key4'] == 3)
+                        $search_sql .= "";
+                    else
+                        $search_sql .= " and c.idx > $recent_idx";
+                }
+
+                $w_page = $_GET['w_page'];
+                if (!$w_page)
+                    $w_page = 1;
+                if (!$cur_win || $cur_win == "my_info") {
+                    $cont_id_array_ = array();
+                    $total_count_ = 0;
+                    //공유받은 명함은 공유한 사람의 프로필 콘텐츠가 보여야 해요// comment
+                    $w_offset = $contents_count_per_page * ($w_page - 1); //페이지 내 첫 콘텐츠 offset
+                    if ($w_offset < 0) {
+                        $w_offset = 0;
+                    }
+                    if ($search_key)
+                        $sql8 = "select count(idx) from " . $content_table_name . " WHERE group_id is NULL and mem_id = '{$_SESSION['iam_member_id']}' and ($search_sql) ORDER BY contents_order desc";
+                    else if ($gwc_table) {
+                        $sql8 = "select count(idx) from Gn_Iam_Contents_Gwc WHERE card_idx = {$cur_card['idx']} and public_display='Y' and " . $search_sql;
+                    } else {
+                        $sql8 = "select count(idx) from Gn_Iam_Con_Card WHERE card_idx = '{$cur_card['idx']}'";
+                    }
+
+                    $result_cnt = mysql_query($sql8) or die(mysql_error());
+                    $total_row = mysql_fetch_array($result_cnt);
+                    $cont_count = $total_row[0];
+
+                    if ($cont_count > 0 && !$gwc_table) {
+                        $sql8_ = "select count(idx) from Gn_Iam_Contents_Gwc WHERE card_idx = {$cur_card['idx']} and public_display='Y' and " . $search_sql;
+                        $result_cnt_ = mysql_query($sql8_) or die(mysql_error());
+                        $total_row_ = mysql_fetch_array($result_cnt_);
+                        $total_count_ = $total_row_[0];
+
+                        $f_sql_ = str_replace("count(idx)", "idx", $sql8_);
+                        //$f_sql .= " group by c.card_idx $order_sql limit 0,300";
+                        $f_sql_ .= $order_sql;
+                        $f_sql_ = "select * from ($f_sql_) as tt limit 0,300";
+                        $f_res_ = mysql_query($f_sql_);
+                        while ($f_row_ = mysql_fetch_array($f_res_)) {
+                            array_push($cont_id_array_, $f_row_[0]);
+                        }
+                    }
+                    $cont_id_array_ = array_unique($cont_id_array_);
+                    $cont_count += count($cont_id_array_);
+
+                    if ($cur_card['cont_order_type'] == 1)
+                        $cont_order_type = 'contents_order desc';
+                    else if ($cur_card['cont_order_type'] == 2)
+                        $cont_order_type = 'req_data desc';
+                    else if ($cur_card['cont_order_type'] == 3)
+                        $cont_order_type = 'wm_date desc';
+                    else if ($cur_card['cont_order_type'] == 4)
+                        $cont_order_type = 'contents_title';
+                    if ($search_key)
+                        $sql8 = "select * from " . $content_table_name . " WHERE group_id is NULL and mem_id = '{$_SESSION['iam_member_id']}' and ($search_sql) ORDER BY " . $cont_order_type;
+                    else if ($gwc_table) {
+                        $sql8 = "select ct.* from Gn_Iam_Contents_Gwc ct WHERE ct.card_idx = {$cur_card['idx']} and public_display='Y' and " . $search_sql . " ORDER BY " . $cont_order_type;
+                    } else
+                        $sql8 = "select ct.* from Gn_Iam_Contents ct INNER JOIN Gn_Iam_Con_Card cc on cc.cont_idx = ct.idx WHERE cc.card_idx = {$cur_card['idx']} and " . $search_sql . " ORDER BY " . $cont_order_type;
+
+                    if ($contents_count_per_page * ($w_page - 1) < count($cont_id_array_)) {
+                        $temp_cont_arr = array_slice($cont_id_array_, $contents_count_per_page * ($w_page - 1), $contents_count_per_page);
+                        foreach ($temp_cont_arr as $idx) {
+                            $sort_sql = "select * from Gn_Iam_Contents_Gwc where idx = $idx";
+                            $sort_res = mysql_query($sort_sql);
+                            $sort_row = mysql_fetch_array($sort_res);
+                            array_push($cont_array, $sort_row);
+                        }
+                        $w_offset = 0; //페이지 내 첫 콘텐츠 offset
+                        $contents_count_per_page = $contents_count_per_page * $w_page - count($cont_id_array_);
+                        if ($contents_count_per_page < 0)
+                            $contents_count_per_page = 0;
+                    } else {
+                        $w_offset = $contents_count_per_page * ($w_page - 1) - count($cont_id_array_);
+                    }
+                    $sql8 .= " limit $contents_count_per_page offset " . $w_offset;
+                } else if ($cur_win == "my_story") {
+                    if ($_SESSION['iam_member_id'] == "") {
+                        $w_offset = $contents_count_per_page * ($w_page - 1); //페이지 내 첫 콘텐츠 offset
+                        if ($w_offset < 0) {
+                            $w_offset = 0;
+                        }
+                        $sql8 = "select count(idx) from " . $content_table_name . " WHERE card_idx={$cur_card['idx']} and $search_sql ";
+                        $result_cnt = mysql_query($sql8) or die(mysql_error());
+                        $total_row = mysql_fetch_array($result_cnt);
+                        $cont_count = $total_row[0];
+                        $sql8 = "select * from " . $content_table_name . " use index(card_idx) WHERE card_idx={$cur_card['idx']} and $search_sql ORDER BY contents_order desc";
+                        $sql8 .= " limit $contents_count_per_page offset " . $w_offset;
+                    } else {
+                        $w_offset = $contents_count_per_page * ($w_page - 1); //페이지 내 첫 콘텐츠 offset
+                        if ($w_offset < 0) {
+                            $w_offset = 0;
+                        }
+                        $sql8 = "select count(idx) from " . $content_table_name . " WHERE group_id is NULL and (mem_id = '$card_owner' or contents_share_text like '%$card_owner%')  and $search_sql order by idx desc, up_data desc";
+                        $result_cnt = mysql_query($sql8) or die(mysql_error());
+                        $total_row = mysql_fetch_array($result_cnt);
+                        $cont_count = $total_row[0];
+                        $sql8 = "select * from " . $content_table_name . " WHERE group_id is NULL and (mem_id = '$card_owner' or contents_share_text like '%$card_owner%')  and $search_sql order by idx desc, up_data desc";
+                        $sql8 .= " limit $contents_count_per_page offset " . $w_offset;
+                    }
+                } else if ($cur_win == "shared_receive" &&  $_SESSION['iam_member_id'] != "") {
+                    $w_offset = $contents_count_per_page * ($w_page - 1); //페이지 내 첫 콘텐츠 offset
+                    if ($w_offset < 0) {
+                        $w_offset = 0;
+                    }
+                    $sql8 = "select count(idx) from Gn_Iam_Contents WHERE contents_share_text like '%{$_SESSION['iam_member_id']}%'  and $search_sql order by idx desc, up_data desc";
+                    $result_cnt = mysql_query($sql8) or die(mysql_error());
+                    $total_row = mysql_fetch_array($result_cnt);
+                    $cont_count = $total_row[0];
+                    $sql8 = "select * from Gn_Iam_Contents WHERE contents_share_text like '%{$_SESSION['iam_member_id']}%'  and $search_sql order by idx desc, up_data desc";
+                    $sql8 .= " limit $contents_count_per_page offset " . $w_offset;
+                } else if ($cur_win == "shared_send" &&  $_SESSION['iam_member_id'] != "") {
+                    $w_offset = $contents_count_per_page * ($w_page - 1); //페이지 내 첫 콘텐츠 offset
+                    if ($w_offset < 0) {
+                        $w_offset = 0;
+                    }
+                    $sql8 = "select count(idx) from Gn_Iam_Contents WHERE mem_id = '{$_SESSION['iam_member_id']}' and contents_share_text != ''  and $search_sql order by idx desc, up_data desc";
+                    $result_cnt = mysql_query($sql8) or die(mysql_error());
+                    $total_row = mysql_fetch_array($result_cnt);
+                    $cont_count = $total_row[0];
+                    $sql8 = "select * from Gn_Iam_Contents WHERE mem_id = '{$_SESSION['iam_member_id']}' and contents_share_text != ''  and $search_sql order by idx desc, up_data desc";
+                    $sql8 .= " limit $contents_count_per_page offset " . $w_offset;
+                } else if ($cur_win == "unread_post" &&  $_SESSION['iam_member_id'] != "") {
+                    $w_offset = $contents_count_per_page * ($w_page - 1);
+                    if ($w_offset < 0) {
+                        $w_offset = 0;
+                    }
+                    $sql8 = "select count(idx) from Gn_Iam_Contents c inner join  Gn_Iam_Post p on c.idx = p.content_idx WHERE c.mem_id = '{$_SESSION['iam_member_id']}' and p.status = 'N'  and $search_sql GROUP BY c.idx";
+                    $result_cnt = mysql_query($sql8) or die(mysql_error());
+                    $total_row = mysql_fetch_array($result_cnt);
+                    $cont_count = $total_row[0];
+                    $sql8 = "select c.*,p.id,p.content_idx,p.content,p.reg_date,p.status,p.lock_status from Gn_Iam_Contents c inner join  Gn_Iam_Post p on c.idx = p.content_idx WHERE c.mem_id = '{$_SESSION['iam_member_id']}' and p.status = 'N'  and $search_sql GROUP BY c.idx ORDER BY reg_date desc ";
+                    $sql8 .= " limit $contents_count_per_page offset " . $w_offset;
+                } else if ($cur_win == "iam_mall") {
+                } else if ($cur_win == "we_story") {
+                    $sql = "select block_user,block_contents from Gn_Iam_Info where mem_id = '{$_SESSION['iam_member_id']}'";
+                    $result = mysql_query($sql) or die(mysql_error());
+                    $row_iam_info = mysql_fetch_array($result);
+
+                    if ($row_iam_info['block_contents']) {
+                        $block_contents_sql = " and c.idx not in ($row_iam_info[block_contents]) ";
+                    } else {
+                        $block_contents_sql = "";
+                    }
+                    if ($row_iam_info['block_user']) {
+                        $b_arr = explode(',', $row_iam_info['block_user']);
+                        $b_str = "('" . implode("','", $b_arr) . "')";
+                        $block_user_sql = " and c.mem_id not in $b_str ";
+                    } else {
+                        $block_user_sql = "";
+                    }
+                    if ($_GET['sort'] == 11) { //게시일짜
+                        $order_sql = " order by c.idx desc";
+                    } elseif ($_GET['sort'] == 12) { //조회수
+                        $order_sql = " ORDER BY c.contents_temp desc";
+                    } elseif ($_GET['sort'] == 13) { //좋아요
+                        $order_sql = " ORDER BY c.contents_like desc";
+                    } elseif ($_GET['sort_key3'] == 1) { //할인율
+                        $order_sql = " ORDER BY reduce_val desc";
+                    } elseif ($_GET['sort_key3'] == 2) { //저가순
+                        $order_sql = " ORDER BY contents_sell_price asc";
+                    } elseif ($_GET['sort_key3'] == 3) { //고가순
+                        $order_sql = " ORDER BY contents_sell_price desc";
+                    } else {
+                        $order_sql = " order by c.idx desc";
+                    }
+
+                    if ($_GET['sort'] == 1) { //1시간전
+                        $search_sql .= " and c.req_data >= ADDTIME(now(), '-1:0:0') ";
+                    } else if ($_GET['sort'] == 2) { //오늘
+                        $search_sql .= " and c.req_data >= DATE(now()) ";
+                    } else if ($_GET['sort'] == 3) { //이번주
+                        $search_sql .= " and WEEKOFYEAR(c.req_data) = WEEKOFYEAR(now()) and YEAR(c.req_data) = YEAR(now()) ";
+                    } else if ($_GET['sort'] == 4) { //이번달
+                        $search_sql .= " and MONTH(c.req_data) = MONTH(now()) and YEAR(c.req_data) = YEAR(now()) ";
+                    } else if ($_GET['sort'] == 5) { //올해
+                        $search_sql .= " and YEAR(c.req_data) = YEAR(now()) ";
+                    }
+
+                    if ($_GET['key2'] != 0) {
+                        $k = $interest_array[$_GET['key2'] - 1];
+                        $search_sql .= " and (c.contents_title like '%$k%' or c.contents_desc like '%$k%')";
+                    }
+                    if ($_GET['key1'] == 1) { //소속콘
+                        $sql8 = "select count(c.idx) from Gn_Iam_Contents c use index(idx) INNER  JOIN  Gn_Member m on c.mem_id=m.mem_id 
+                            where m.site_iam =  '$bunyang_site' and contents_westory_display = 'Y' and public_display = 'Y' and $search_sql $block_contents_sql $block_user_sql";
+                    } elseif ($_GET['key1'] == 2) { //영상콘
+                        $sql8 = "select count(c.idx) from Gn_Iam_Contents c use index(idx) 
+                            where contents_type = 2 and contents_westory_display = 'Y' and public_display = 'Y' and $search_sql $block_contents_sql $block_user_sql";
+                    } elseif ($_GET['key1'] == 3) { //콜이야
+                        if ($_GET['key3'] == 3) {
+                            $sql8 = "select count(c.idx) from Gn_Iam_Contents c use index(card_idx) where card_idx='168534' and $search_sql $block_contents_sql $block_user_sql";
+                        } else {
+                            if (isset($_GET['key3']) && $_GET['key3'] != 0 && (isset($_GET['sort_key3']))) { //배송,방문=>적립,기본
+                                if (isset($_GET['loc_name']) && $_GET['loc_name'] != '') { //방문=>지역
+                                    $search_sql_loc = " and d.card_addr like '%{$_GET['loc_name']}%'";
+                                    $sql8 = "select count(c.idx) from Gn_Iam_Contents c use index(idx) inner join Gn_Iam_Name_Card d on c.card_idx=d.idx where c.ai_map_gmarket=" . $_GET['key3'] . " and c.contents_type = 3 and c.contents_westory_display = 'Y' and c.public_display = 'Y' and $search_sql $search_sql_loc $block_contents_sql $block_user_sql";
+                                } else {
+                                    $sql8 = "select count(c.idx) from Gn_Iam_Contents c use index(idx) where c.ai_map_gmarket=" . $_GET['key3'] . " and c.contents_type = 3 and c.contents_westory_display = 'Y' and c.public_display = 'Y' and $search_sql $block_contents_sql $block_user_sql";
+                                }
+                            } else {
+                                if ($_GET['sort_key3'] == 1) { //전체=>적립
+                                    $sql8 = "select count(c.idx) from Gn_Iam_Contents c use index(idx) where c.ai_map_gmarket!=3 and contents_type = 3 and contents_westory_display = 'Y' and public_display = 'Y' and $search_sql $block_contents_sql $block_user_sql";
+                                } else { //전체=>기본
+                                    $sql8 = "select count(c.idx) from Gn_Iam_Contents c use index(idx) where c.ai_map_gmarket!=3 and contents_type = 3 and contents_westory_display = 'Y' and public_display = 'Y' and $search_sql $block_contents_sql $block_user_sql";
+                                }
+                            }
+                        }
+                    } elseif ($_GET['key1'] == 4) { //굿마켓
+                        $public_str = "public_display = 'Y'";
+                        if ($_GET['cate_prod'] != '') {
+                            if ($_GET['iamstore'] == "Y") {
+                                $search_sql .= " and card_idx='{$_GET['cate_prod']}'";
+                            } else {
+                                $search_sql .= " and card_idx='{$_GET['cate_prod']}' and send_provide_price!=0";
+                            }
+                            $public_str = "(public_display = 'Y' or public_display='N')";
+                        }
+                        if ($_GET['iamstore'] == "Y") {
+                            $search_sql .= " and mem_id in (" . $provider_arr . ") and send_provide_price!=0 and ori_store_prod_idx=0";
+                        } else if ($_GET['iamstore'] == "C") {
+                            $search_sql .= " and mem_id='{$_SESSION['iam_member_id']}' and ori_store_prod_idx!=0";
+                        }
+                        if ($_GET['key4'] == 3) {
+                            $sql8 = "select count(c.idx) from " . $content_table_name . " c where card_idx='934328'";
+                        } else {
+                            $sql8 = "select count(c.idx) from " . $content_table_name . " c use index(idx) where contents_type = 3 and c.gwc_con_state=" . $_GET['key4'] . " and contents_westory_display = 'Y' and $public_str and $search_sql $block_contents_sql $block_user_sql";
+                        }
+                    } elseif ($_GET['key1'] >= 5) { //기타콘
+                        $k = $rec_array[$_GET['key1'] - 5];
+                        $search_sql .= " and (contents_title like '%$k%' or contents_desc like '%$k%')";
+                        $sql8 = "select count(c.idx) from Gn_Iam_Contents c use index(idx) where contents_westory_display = 'Y' and public_display = 'Y' and $search_sql $block_contents_sql $block_user_sql";
+                    } else { //공개된 콘텐츠 다 현시
+                        $search_sql .= " and gwc_con_state=0";
+                        $sql8 = "select count(c.idx) from Gn_Iam_Contents c use index(idx) where contents_westory_display = 'Y' and public_display = 'Y' and contents_title!='방문자리뷰' and $search_sql $block_contents_sql $block_user_sql";
+                    }
+                    $sql8 .= " and group_display = 'Y' ";
+                    // middle log
+                    $logs->add_log("카운팅 하기 전 $sql8");
+
+                    $result_cnt = mysql_query($sql8) or die(mysql_error());
+                    $total_row = mysql_fetch_array($result_cnt);
+                    $cont_count = $total_row[0];
+                    // middle log
+                    $logs->add_log("카운팅 갯수 : $cont_count");
+                    // echo $sql8;
+                    $cont_id_array = array();
+                    if (!$search_key && $_GET['key1'] != 4) {
+                        if ($cont_count > 0) {
+                            $f_sql = str_replace("count(c.idx)", "c.idx", $sql8);
+                            //$f_sql .= " group by c.card_idx $order_sql limit 0,300";
+                            $f_sql .= " group by c.card_idx $order_sql";
+                            $f_sql = "select * from ($f_sql) as tt limit 0,300";
+                            $f_res = mysql_query($f_sql);
+                            while ($f_row = mysql_fetch_array($f_res)) {
+                                array_push($cont_id_array, $f_row[0]);
+                            }
+                        }
+
+                        $cont_id_array = array_unique($cont_id_array);
+                        $cont_count += count($cont_id_array);
+                        // middle log
+                        $logs->add_log("노출적용 포함갯수=>" . $cont_count);
+                    }
+
+                    if ($_GET['key1'] == 1) { //소속콘
+                        $sql8 = "select c.* from Gn_Iam_Contents c use index(idx) INNER  JOIN  Gn_Member m on c.mem_id=m.mem_id where m.site_iam =  '$bunyang_site' and contents_westory_display = 'Y' and public_display = 'Y' and $search_sql $block_contents_sql $block_user_sql";
+                    } elseif ($_GET['key1'] == 2) { //영상콘
+                        $sql8 = "select c.* from Gn_Iam_Contents c use index(idx) where contents_type = 2 and contents_westory_display = 'Y' and public_display = 'Y' and $search_sql $block_contents_sql $block_user_sql";
+                    } elseif ($_GET['key1'] == 3) { //콜이야
+                        if ($_GET['key3'] == 3) {
+                            $sql8 = "select c.* from Gn_Iam_Contents c use index(card_idx) where card_idx='168534' and $search_sql $block_contents_sql $block_user_sql";
+                        } else {
+                            if (isset($_GET['key3']) && $_GET['key3'] != 0 && ($_GET['sort_key3'] == 1 || $_GET['sort_key3'] == 0)) { //배송,방문=>적립,기본
+                                if (isset($_GET['loc_name']) && $_GET['loc_name'] != '') { //방문=>지역
+                                    $search_sql_loc = " and d.card_addr like '%{$_GET['loc_name']}%'";
+                                    $sql8 = "select c.* from Gn_Iam_Contents c use index(idx) inner join Gn_Iam_Name_Card d on c.card_idx=d.idx where c.ai_map_gmarket=" . $_GET['key3'] . " and c.contents_type = 3 and c.contents_westory_display = 'Y' and c.public_display = 'Y' and $search_sql $search_sql_loc $block_contents_sql $block_user_sql";
+                                } else {
+                                    $sql8 = "select c.* from Gn_Iam_Contents c use index(idx) where c.ai_map_gmarket=" . $_GET['key3'] . " and c.contents_type = 3 and c.contents_westory_display = 'Y' and c.public_display = 'Y' and $search_sql $block_contents_sql $block_user_sql";
+                                }
+                            } else {
+                                if ($_GET['sort_key3'] == 1) { //전체=>적립
+                                    $sql8 = "select c.* from Gn_Iam_Contents c use index(idx) where c.ai_map_gmarket!=3 and contents_type = 3 and contents_westory_display = 'Y' and public_display = 'Y' and $search_sql $block_contents_sql $block_user_sql";
+                                } else { //전체=>기본
+                                    $sql8 = "select c.* from Gn_Iam_Contents c use index(idx) where c.ai_map_gmarket!=3 and contents_type = 3 and contents_westory_display = 'Y' and public_display = 'Y' and $search_sql $block_contents_sql $block_user_sql";
+                                }
+                            }
+                        }
+                    } elseif ($_GET['key1'] == 4) { //굿마켓
+                        if ($_GET['key4'] == 3) {
+                            $sql8 = "select * from " . $content_table_name . " c where card_idx='934328'";
+                        } else {
+                            if ($_GET['sort_key3']) {
+                                $sql8 = "select * from " . $content_table_name . " c use index(idx_2) where contents_type = 3 and c.gwc_con_state=" . $_GET['key4'] . " and contents_westory_display = 'Y' and $public_str and $search_sql $block_contents_sql $block_user_sql";
+                            } else {
+                                $sql8 = "select c.* from " . $content_table_name . " c use index(idx_2) where contents_type = 3 and c.gwc_con_state=" . $_GET['key4'] . " and contents_westory_display = 'Y' and $public_str and $search_sql $block_contents_sql $block_user_sql";
+                            }
+                        }
+                    } elseif ($_GET['key1'] >= 5) {
+                        $k = $rec_array[$_GET['key1'] - 5];
+                        $search_sql .= " and (contents_title like '%$k%' or contents_desc like '%$k%')";
+                        $sql8 = "select c.* from Gn_Iam_Contents c use index(idx) where contents_westory_display = 'Y' and public_display = 'Y' and $search_sql $block_contents_sql $block_user_sql";
+                    } else { //공개된 콘텐츠 다 현시
+                        $sql8 = "select c.* from Gn_Iam_Contents c use index(idx) where contents_westory_display = 'Y' and public_display = 'Y' and contents_title!='방문자리뷰' and $search_sql $block_contents_sql $block_user_sql";
+                    }
+                    $sql8 .= " and group_display = 'Y' ";
+                    $sql8 .= $order_sql;
+
+                    if ($contents_count_per_page * ($w_page - 1) < count($cont_id_array)) {
+                        $temp_cont_arr = array_slice($cont_id_array, $contents_count_per_page * ($w_page - 1), $contents_count_per_page);
+                        foreach ($temp_cont_arr as $idx) {
+                            $sort_sql = "select * from Gn_Iam_Contents where idx = $idx";
+                            $sort_res = mysql_query($sort_sql);
+                            $sort_row = mysql_fetch_array($sort_res);
+                            array_push($cont_array, $sort_row);
+                        }
+                        $w_offset = 0; //페이지 내 첫 콘텐츠 offset
+                        $contents_count_per_page = $contents_count_per_page * $w_page - count($cont_id_array);
+                        if ($contents_count_per_page < 0)
+                            $contents_count_per_page = 0;
+                    } else {
+                        $w_offset = $contents_count_per_page * ($w_page - 1) - count($cont_id_array);
+                    }
+
+                    $sql8 .= " limit $contents_count_per_page offset " . $w_offset;
+                    ///
+                    // middle log
+                    $logs->add_log("쿼리완료");
+                    ////
+                } else if ($cur_win == "best_sample") {
+                } else if ($cur_win == "sample") {
+                } else if ($cur_win == "recent_sample") {
+                } else if ($cur_win == "group-con") {
+                    if ($gkind != "recommend" && $gkind != "mygroup" && $gkind != "search" && $gkind != "search_con") {
+                        $w_offset = $contents_count_per_page * ($w_page - 1); //페이지 내 첫 콘텐츠 offset
+                        if ($w_offset < 0) {
+                            $w_offset = 0;
+                        }
+                        //$sql8="select count(idx) from Gn_Iam_Contents WHERE card_short_url like '%$group_card_url%' and group_display = 'Y' and $search_sql";
+                        $sql8 = "select count(ct.idx) from Gn_Iam_Contents ct INNER JOIN Gn_Iam_Con_Card cc on cc.cont_idx = ct.idx WHERE cc.card_idx = {$cur_card['idx']} and group_display = 'Y' and $search_sql";
+                        $result_cnt = mysql_query($sql8) or die(mysql_error());
+                        $total_row = mysql_fetch_array($result_cnt);
+                        $cont_count = $total_row[0];
+                        //$sql8="select * from Gn_Iam_Contents use index(idx) WHERE card_short_url like '%$group_card_url%' and group_display = 'Y' and ".$search_sql." ORDER BY group_fix desc,contents_order desc";
+                        $sql8 = "select ct.* from Gn_Iam_Contents ct INNER JOIN Gn_Iam_Con_Card cc on cc.cont_idx = ct.idx WHERE cc.card_idx = {$cur_card['idx']}  and group_display = 'Y' and $search_sql ORDER BY group_fix desc,contents_order desc";
+                        $sql8 .= " limit $contents_count_per_page offset " . $w_offset;
+                    } else if ($gkind == "recommend") {
+                        $w_offset = $contents_count_per_page * ($w_page - 1); //페이지 내 첫 콘텐츠 offset
+                        if ($w_offset < 0) {
+                            $w_offset = 0;
+                        }
+                        if ($other_group != "")
+                            $sql8 = "select count(idx) from Gn_Iam_Contents WHERE group_id is not NULL and group_id > 0 and group_id not in ($other_group) and group_display = 'Y' and public_display = 'Y' and $search_sql ORDER BY contents_order desc";
+                        else
+                            $sql8 = "select count(idx) from Gn_Iam_Contents WHERE group_id is not NULL and group_id > 0 and group_display = 'Y' and public_display = 'Y' and $search_sql ORDER BY contents_order desc";
+                        $result_cnt = mysql_query($sql8) or die(mysql_error());
+                        $total_row = mysql_fetch_array($result_cnt);
+                        $cont_count = $total_row[0];
+                        if ($other_group != "")
+                            $sql8 = "select * from Gn_Iam_Contents WHERE group_id is not NULL and group_id > 0 and group_id not in ($other_group) and group_display = 'Y' and public_display = 'Y' and $search_sql order by idx desc";
+                        else
+                            $sql8 = "select * from Gn_Iam_Contents WHERE group_id is not NULL and group_id > 0 and group_display = 'Y' and public_display = 'Y' and $search_sql order by idx desc";
+                        $sql8 .= " limit $contents_count_per_page offset " . $w_offset;
+                    } else if ($gkind == "search_con") {
+                        $w_offset = $contents_count_per_page * ($w_page - 1); //페이지 내 첫 콘텐츠 offset
+                        if ($w_offset < 0) {
+                            $w_offset = 0;
+                        }
+                        $sql8 = "select count(idx) from Gn_Iam_Contents WHERE group_id is not NULL and group_id > 0 and group_display = 'Y' and public_display = 'Y' and $search_sql ORDER BY contents_order desc";
+                        $result_cnt = mysql_query($sql8) or die(mysql_error());
+                        $total_row = mysql_fetch_array($result_cnt);
+                        $cont_count = $total_row[0];
+                        $sql8 = "select * from Gn_Iam_Contents WHERE group_id is not NULL and group_id > 0 and group_display = 'Y' and public_display = 'Y' and $search_sql ORDER BY contents_order desc";
+                        $sql8 .= " limit $contents_count_per_page offset " . $w_offset;
+                    }
+                } else if ($cur_win == "unread_notice" &&  $_SESSION['iam_member_id'] != "") {
+                    $w_offset = $contents_count_per_page * ($w_page - 1); //페이지 내 첫 콘텐츠 offset
+                    if ($w_offset < 0) {
+                        $w_offset = 0;
+                    }
+                    $sql_recv_notice = "select * from Gn_Item_Pay_Result WHERE buyer_id = '{$_SESSION['iam_member_id']}' and type='noticerecv' and point_val=3 ORDER BY pay_date desc";
+                    if (isset($_GET['box']) && $_GET['box'] == "send") {
+                        $sql_recv_notice = "select * from Gn_Item_Pay_Result WHERE buyer_id = '{$_SESSION['iam_member_id']}' and type='noticesend' and point_val=3 ORDER BY pay_date desc";
+                    }
+                    $result_notice = mysql_query($sql_recv_notice) or die(mysql_error());
+                    $notice_count = mysql_num_rows($result_notice);
+                    $sql_recv_notice .= " limit $contents_count_per_page offset " . $w_offset;
+                }
+                $share_recv_count = $r_row['cnt'];
+                $share_send_count = $s_row['cnt'];
+                $share_post_count = $p_row['cnt'];
+                $sell_service_con = $sell_row['cnt'];
+                $notice = $notice_row['cnt'];
+
+                $share_count = $r_row['cnt'] + $s_row['cnt'] + $p_row['cnt'] + $sell_row['cnt'] + $notice_row['cnt'];
+                if ($_SESSION['iam_member_id'] == "") {
+                    echo "<script>$('#share_count').hide();</script>";
+                    echo "<script>$('#share_recv_count').hide();</script>";
+                    echo "<script>$('#share_send_count').hide();</script>";
+                    echo "<script>$('#share_post_count').hide();</script>";
+                    echo "<script>$('#sell_service_contents').hide();</script>";
+                    echo "<script>$('#notice').hide();</script>";
+                } else {
+                    if ($share_count == 0) {
+                        echo "<script>$('#share_count').hide();</script>";
+                        echo "<script>$('#share_recv_count').hide();</script>";
+                        echo "<script>$('#share_send_count').hide();</script>";
+                        echo "<script>$('#share_post_count').hide();</script>";
+                        echo "<script>$('#sell_service_contents').hide();</script>";
+                        echo "<script>$('#notice').hide();</script>";
+                    } else {
+                        echo "<script>  $('#share_count').html(" . $share_count . "); </script>";
+                        echo "<script>  $('#share_count').show(); </script>";
+                        if ($share_recv_count == 0) {
+                            echo "<script>$('#share_recv_count').hide();</script>";
+                        } else {
+                            echo "<script>  $('#share_recv_count').html(" . $share_recv_count . "); </script>";
+                            echo "<script>  $('#share_recv_count').show(); </script>";
+                        }
+                        if ($share_send_count == 0) {
+                            echo "<script>$('#share_send_count').hide();</script>";
+                        } else {
+                            echo "<script>  $('#share_send_count').html(" . $share_send_count . "); </script>";
+                            echo "<script>  $('#share_send_count').show(); </script>";
+                        }
+                        if ($share_post_count == 0) {
+                            echo "<script>$('#share_post_count').hide();</script>";
+                        } else {
+                            echo "<script>  $('#share_post_count').html(" . $share_post_count . "); </script>";
+                            echo "<script>  $('#share_post_count').show(); </script>";
+                        }
+                        if ($sell_service_con == 0) {
+                            echo "<script>$('#sell_service_contents').hide();</script>";
+                        } else {
+                            echo "<script>  $('#sell_service_contents').html(" . $sell_service_con . "); </script>";
+                            echo "<script>  $('#sell_service_contents').show(); </script>";
+                        }
+                        if ($notice == 0) {
+                            echo "<script>$('#notice').hide();</script>";
+                        } else {
+                            echo "<script>  $('#notice').html(" . $notice . "); </script>";
+                            echo "<script>  $('#notice').show(); </script>";
+                        }
+                    }
+                }
+                // middle log
+                $logs->add_log("before sql8   $sql8");
+                //echo $sql8;
+                if ($sql8 && $cont_count > 0 && $contents_count_per_page > 0)
+                    $result8 = mysql_query($sql8) or die(mysql_error());
+                if (strstr($cur_win, "sample")) { ?>
+                    <div class="sample_main">
+                    </div>
+                <? } else if ($cur_win == "iam_mall") { ?>
+                    <div id="div_mall" class="sample_main" style="padding:0px;background:white">
+                    </div>
+                <? } else if ($cur_win == "unread_notice" && $notice_count != 0) { ?>
+                    <div class="content-item" style="display : block;">
+                        <?
+                        while ($notice_row = mysql_fetch_array($result_notice)) {
+                            $sender_id = $notice_row['pay_method'];
+                            $sender_mem_card_info = "select * from Gn_Iam_Name_Card where mem_id='{$sender_id}' order by req_data asc limit 1";
+                            $res_card_info = mysql_query($sender_mem_card_info);
+                            $row_card_info = mysql_fetch_array($res_card_info);
+
+                            $sender_mem_info = "select mem_code, mem_name from Gn_Member where mem_id='{$sender_id}'";
+                            $res_sender_info = mysql_query($sender_mem_info);
+                            $row_sender_info = mysql_fetch_array($res_sender_info);
+
+                            $href = "/?" . $row_card_info['card_short_url'] . $row_sender_info['mem_code'];
+                            $img = $row_card_info['main_img1'];
+                        ?>
+                            <div class="user-item" style="">
+                                <a href="<?= $href ?>" class="img-box" target="_blank">
+                                    <div class="user-img">
+                                        <img src="<?= $img ? cross_image($img) : '/iam/img/common/logo-2.png' ?>" alt="">
+                                    </div>
+                                </a>
+                                <div class="wrap image_mode">
+                                    <a href="<?= $href ?>" class="user-name" style=""><?= $row_sender_info['mem_name'] ?></a>
+                                    <a href="<?= $href ?>" class="date" style=""><?= $notice_row['pay_date'] ?></a>
+                                </div>
+                                <div style="position:absolute; right:0px; padding:7px;">
+                                    <a href="javascript:remove_recv_notice('<?= $notice_row['no'] ?>');" style="margin-left: -5px">
+                                        <img src="/iam/img/main/icon-hide.png" width="35">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="desc-wrap" style="border-bottom: 1px solid #dddddd;display:block;padding: 15px;">
+                                <div class="title" style="display: flex;flex-direction: column;justify-content: center;height:100%;border-radius: 10px;border: 2px solid lightgrey;">
+                                    <h3 style="border-bottom:1px solid;"><?= $notice_row['seller_id'] ?></h3><br>
+                                    <p><?= str_replace("\n", "<br>", $notice_row['message']) ?></p><br>
+                                    <a href="<?= $notice_row['site'] ?>" target="_blank"><?= $notice_row['site'] ?></a>
+                                </div>
+                            </div>
+                        <? } ?>
+                    </div>
+                <? } else if ($cur_win == "request_list") { ?>
+                    <div class="content-item" style="display : block;">
+                        <table style="width:100%;display:block;padding:20px;">
+                            <colgroup>
+                                <col width="10%">
+                                <col width="10%">
+                                <col width="20%">
+                                <col width="15%">
+                                <col width="15%">
+                                <col width="15%">
+                                <col width="10%">
+                            </colgroup>
+                            <thead style="width:100%;">
+                                <tr>
+                                    <td class="iam_table">아이디</td>
+                                    <td class="iam_table">신청자이름</td>
+                                    <td class="iam_table">이벤트제목</td>
+                                    <td class="iam_table">신청폰번호</td>
+                                    <td class="iam_table">발신폰번호</td>
+                                    <td class="iam_table">신청일자</td>
+                                    <td class="iam_table">신청취소</td>
+                                </tr>
+                            </thead>
+                            <tbody id="request_list_table">
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <? } else {
+                    if (($cont_count == 0 && ($cur_win == "shared_send" || $cur_win == "shared_receive" || $cur_win == "unread_post")) || ($notice_count == 0 && $cur_win == "unread_notice")) {
+                    ?>
+                        <div class="content-item" id="contents_welcome" style="">
+                            <div class="desc-wrap" style="">
+                                <div class="title" style="display: flex;flex-direction: column;justify-content: center">
+                                    <h3 style="text-align: center">환영합니다!</h3>
+                                </div>
+                            </div>
+                            <div class="media-wrap">
+                                <div class="media-inner" style="width:fit-content;margin:20px auto;min-height:30px">
+                                    <img src="/iam/img/smile.png" class="contents_img">
+                                </div>
+                            </div>
+                            <div style='border:none;'>
+                                <div>
+                                    <div class="desc-inner desc-text" style="height:auto;text-align:center">
+                                        <img src="/iam/img/menu/icon_alarm_recvcon.png" style="height:15px">
+                                        <label style="margin-left:10px;font-size:14px;">내가 받은 모든 콘텐츠를 확인해요.</label>
+                                        <br>
+                                        <img src="/iam/img/menu/icon_alarm_sendcon.png" style="height:15px">
+                                        <label style="margin-left:10px;font-size:14px;">내가 보낸 모든 콘텐츠를 확인해요.</label>
+                                        <br>
+                                        <img src="/iam/img/menu/icon_alarm_post.png" style="height:15px">
+                                        <label style="margin-left:10px;font-size:14px;">내게 받은 모든 댓글을 확인해요.&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                        <br>
+                                        <img src="/iam/img/menu/icon_alarm_notice.png" style="height:15px">
+                                        <label style="margin-left:10px;font-size:14px;">내가 받은 공지사항을 확인해요.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                        <br>
+                                        <img src="/iam/img/menu/icon_alarm_sold.png" style="height:15px">
+                                        <label style="margin-left:10px;font-size:14px;">나의 쇼핑몰 판매정보를 확인해요.</label>
+                                        <br>
+                                        <label style="margin-top:20px;margin-bottom:20px;color:#99cc00;font-size:14px">새로운 알람이 오면 꼭 확인해주세요.</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <?  } else if ($cont_count == 0 && $_GET['iamstore'] == 'C') { ?>
+                        <div class="content-item" id="contents_welcome" style="">
+                            <div class="desc-wrap" style="">
+                                <div class="title" style="display: flex;flex-direction: column;justify-content: center;height:150px;">
+                                    <h3 style="text-align: left">현재 IAMSTORE에서 가져온 상품이 없습니다.<br>회원님의 익월 소비금액이 있으면 지금 상품을 가져오시면 됩니다.<br>소비금액이 없으면 프로슈머 굿마켓의 미션달성을 위해 소비활동을 여기서 해주시기바랍니다.</h3>
+                                </div>
+                            </div>
+                        </div>
+                    <?  }
+                    // middle log               
+                    $logs->add_log("after sql8");
+                    while ($contents_row = mysql_fetch_array($result8)) {
+                        array_push($cont_array, $contents_row);
+                    }
+                    foreach ($cont_array as $contents_row) {
+                        if ($_SESSION['iam_member_id']) {
+                            //로딩속도가 느려서 임시로 막아둔 상태
+                            // echo "<script>save_load('".$_SESSION['iam_member_id']."','".$contents_row['idx']."',"."0);</script>";
+                        }
+                        //컨텐츠 조회수 카운팅(contents_temp1)
+                        $sql_temp1 = "update {$content_table_name} set contents_temp1=contents_temp1+1 where idx='{$contents_row['idx']}'";
+                        mysql_query($sql_temp1);
+
+                        if (!$contents_row['contents_img'])
+                            $content_images = null;
+                        else
+                            $content_images = explode(",", $contents_row['contents_img']);
+                        for ($i = 0; $i < count($content_images); $i++) {
+                            if (strstr($content_images[$i], "kiam")) {
+                                $content_images[$i] = str_replace("http://kiam.kr", "", $content_images[$i]);
+                                $content_images[$i] = str_replace("http://www.kiam.kr", "", $content_images[$i]);
+                                //$content_images[$i] = $cdn_ssl . $content_images[$i];
+                            }
+                            if (!strstr($content_images[$i], "http") && $content_images[$i]) {
+                                $content_images[$i] = $cdn_ssl . $content_images[$i];
+                            }
+                        }
+                        //디폴트 아바타
+                        if ($HTTP_HOST != "kiam.kr") //분양사사이트이면
+                            $sub_domain = "http://" . $HTTP_HOST;
+                        else
+                            $sub_domain = "http://www.kiam.kr";
+                        $sql = "select main_img1 from Gn_Iam_Service s where sub_domain = '$sub_domain'";
+                        $result = mysql_query($sql) or die(mysql_error());
+                        $row = mysql_fetch_array($result);
+                        $default_avatar =  $row['main_img1'];
+
+                        //westory 카드
+                        $sql = "select * from Gn_Iam_Name_Card where idx = '$contents_row[card_idx]'";
+                        $result = mysql_query($sql) or die(mysql_error());
+                        $westory_card = mysql_fetch_array($result);
+                        $sql = "select mem_code from Gn_Member where mem_id = '{$westory_card['mem_id']}'";
+                        $result = mysql_query($sql) or die(mysql_error());
+                        $m_row = mysql_fetch_array($result);
+                        $m_code = $m_row['mem_code'];
+                        //콘텐츠에 현시할 이름과 아바타
+                        $contents_user_name = $cur_card['card_name'];
+                        $contents_card_url = $request_short_url;
+                        $contents_owner_id = $contents_row['mem_id'];
+                        $contents_avatar = "";
+                        if ($cur_card['main_img1']) {
+                            $contents_avatar = $cur_card['main_img1'];
+                        } else {
+                            $contents_avatar = $default_avatar;
+                        }
+
+                        //위스토리에서 현시할 이름과 아바타
+                        if ($cur_win == "we_story" || $cur_win == "shared_receive" || $cur_win == "shared_send") {
+                            $contents_user_name = $westory_card['card_name'];
+                            $contents_card_url = $westory_card['card_short_url'];
+                            $card_locked = $westory_card['phone_display'];
+                            if (!$_SESSION['iam_member_id'])
+                                $card_owner_code = $m_code;
+                            if ($westory_card['main_img1'])
+                                $contents_avatar = $westory_card['main_img1'];
+                            else
+                                $contents_avatar = $default_avatar;
+                        }
+                        //카드가 위콘에서 공개인가 비공개인가?
+                        if ($cur_win == "we_story") {
+                            if ($card_locked == "N") {
+                                echo "<!-- " . $contents_card_url . " 카드가 비공개    -->";
+                                echo "<!-- idx = " . $contents_row['idx'] . " | time = " . $contents_row['req_data'] . "-->";
+                                echo "<!-- -----------------------------    -->";
+                                continue;
+                            }
+                            $except_keywords = trim($contents_row['except_keyword']);
+                            if ($except_keywords != "") {
+                                $except_count = 0;
+                                $except_keywords = explode(",", $except_keywords);
+                                for ($index = 0; $index < count($except_keywords); $index++) {
+                                    $except_keyword = trim($except_keywords[$index]);
+                                    $except_sql = "select count(*) from Gn_Iam_Contents where mem_id = '{$_SESSION['iam_member_id']}'" .
+                                        " and (contents_title like '%$except_keyword%' or contents_desc like '%$except_keyword%')";
+                                    $except_result = mysql_query($except_sql);
+                                    $except_row = mysql_fetch_array($except_result);
+                                    $except_count += $except_row[0] * 1;
+
+                                    $except_sql = "select count(*) from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$_SESSION['iam_member_id']}'" .
+                                        " and card_keyword like '%$except_keyword%'";
+                                    $except_result = mysql_query($except_sql);
+                                    $except_row = mysql_fetch_array($except_result);
+                                    $except_count += $except_row[0] * 1;
+                                }
+                                if ($except_count > 0) {
+                                    echo "<!-- " . $contents_card_url . " 카드가 제외    -->";
+                                    echo "<!-- idx = " . $contents_row['idx'] . " | time = " . $contents_row['req_data'] . "-->";
+                                    echo "<!-- -----------------------------    -->";
+                                    continue;
+                                }
+                            }
+                        }
+                        $user_display = "";
+                        if ($contents_row['contents_user_display'] == "N" || ($cur_win != "we_story" && $cur_win != "shared_receive" && $cur_win != "shared_send")) {
+                            $user_display = "display:none";
+                        }
+                        $post_sql = "select SQL_CALC_FOUND_ROWS * from Gn_Iam_Post p where p.content_idx = '{$contents_row['idx']}' and p.lock_status = 'N' order by p.reg_date";
+                        $post_res = mysql_query($post_sql);
+                        $post_count =  mysql_num_rows($post_res);
+                    ?>
+                        <div class="content_area">
+                            <input type="hidden" id="<?= 'contents_display_' . $contents_row['idx'] ?>" value="<?= $contents_row['contents_display'] ?>">
+                            <input type="hidden" id="<?= 'contents_user_display_' . $contents_row['idx'] ?>" value="<?= $contents_row['contents_user_display'] ?>">
+                            <input type="hidden" id="<?= 'contents_type_display_' . $contents_row['idx'] ?>" value="<?= $contents_row['contents_type_display'] ?>">
+                            <input type="hidden" id="<?= 'contents_footer_display_' . $contents_row['idx'] ?>" value="<?= $contents_row['contents_footer_display'] ?>">
+                            <input type="hidden" id="<?= 'contents_media_type_' . $contents_row['idx'] ?>" value="<?= $contents_row['media_type'] ?>">
+                            <input type="hidden" id="<?= 'contents_type_' . $contents_row['idx'] ?>" value="<?= $contents_row['contents_type'] ?>">
+                            <input type="hidden" id="<?= 'contents_title_' . $contents_row['idx'] ?>" value="<?= $contents_row['contents_title'] ?>">
+                            <input type="hidden" id="<?= 'contents_img_' . $contents_row['idx'] ?>" value="<?= $contents_row['contents_img'] ?>">
+                            <input type="hidden" id="<?= 'contents_url_' . $contents_row['idx'] ?>" value="<?= $contents_row['contents_url'] ?>">
+                            <input type="hidden" id="<?= 'contents_iframe_' . $contents_row['idx'] ?>" value="<?= str_replace('"', "'", $contents_row['contents_iframe']) ?>">
+                            <input type="hidden" id="<?= 'contents_price_' . $contents_row['idx'] ?>" value="<?= $contents_row['contents_price'] ?>">
+                            <input type="hidden" id="<?= 'contents_sell_price_' . $contents_row['idx'] ?>" value="<?= $contents_row['contents_sell_price'] ?>">
+                            <input type="hidden" id="<?= 'contents_desc_' . $contents_row['idx'] ?>" value="<?= $contents_row['contents_desc'] ?>">
+                            <input type="hidden" id="<?= 'except_keyword_' . $contents_row['idx'] ?>" value="<?= $except_keyword ?>">
+                            <input type="hidden" id="<?= 'contents_share_text_' . $contents_row['idx'] ?>" value="<?= $contents_row['contents_share_text'] ?>">
+                            <input type="hidden" id="<?= 'share_names_' . $contents_row['idx'] ?>" value="<?= $share_names ?>">
+                            <input type="hidden" id="<?= 'contents_westory_display_' . $contents_row['idx'] ?>" value="<?= $contents_row['contents_westory_display'] ?>">
+                            <input type="hidden" id="<?= 'card_short_url_' . $contents_row['idx'] ?>" value="<?= $contents_row['card_short_url'] ?>">
+                            <input type="hidden" id="<?= 'westory_card_url_' . $contents_row['idx'] ?>" value="<?= $contents_row['westory_card_url'] ?>">
+                            <input type="hidden" id="<?= 'req_data_' . $contents_row['idx'] ?>" value="<?= $contents_row['req_data'] ?>">
+                            <input type="hidden" id="<?= 'card_owner_' . $contents_row['idx'] ?>" value="<?= $card_owner ?>">
+                            <input type="hidden" id="<?= 'contents_user_name_' . $contents_row['idx'] ?>" value="<?= $contents_user_name ?>">
+                            <input type="hidden" id="<?= 'post_display_' . $contents_row['idx'] ?>" value="<?= $westory_card['post_display'] ?>">
+                            <input type="hidden" id="<?= 'contents_like_' . $contents_row['idx'] ?>" value="<?= number_format($contents_row['contents_like']) ?>">
+                            <input type="hidden" id="<?= 'post_count_' . $contents_row['idx'] ?>" value="<?= $post_count ?>">
+                            <input type="hidden" id="<?= 'open_type_' . $contents_row['idx'] ?>" value="<?= $contents_row['open_type']; ?>">
+                            <input type="hidden" id="<?= 'gwc_con_state_' . $contents_row['idx'] ?>" value="<?= $contents_row['gwc_con_state']; ?>">
+                            <input type="hidden" id="<?= 'product_code_' . $contents_row['idx'] ?>" value="<?= $contents_row['product_code']; ?>">
+                            <input type="hidden" id="<?= 'product_model_name_' . $contents_row['idx'] ?>" value="<?= $contents_row['product_model_name']; ?>">
+                            <input type="hidden" id="<?= 'product_seperate_' . $contents_row['idx'] ?>" value="<?= $contents_row['product_seperate']; ?>">
+                            <input type="hidden" id="<?= 'prod_manufact_price_' . $contents_row['idx'] ?>" value="<?= $contents_row['prod_manufact_price']; ?>">
+                            <input type="hidden" id="<?= 'send_salary_price_' . $contents_row['idx'] ?>" value="<?= $contents_row['send_salary_price']; ?>">
+                            <input type="hidden" id="<?= 'send_provide_price_' . $contents_row['idx'] ?>" value="<?= $contents_row['send_provide_price']; ?>">
+                            <input type="hidden" id="<?= 'landing_mode_' . $contents_row['idx'] ?>" value="<?= $contents_row['landing_mode']; ?>">
+                            <? if ((int)$contents_row['contents_type'] == 3) {
+                                $art_sql = "select mall_type from Gn_Iam_Mall use index(card_idx) where card_idx={$contents_row['idx']}";
+                                $art_res = mysql_query($art_sql);
+                                $art_row = mysql_fetch_assoc($art_res);
+                                if ($art_row['mall_type'] == "")
+                                    $art_row['mall_type'] = 0;
+                            ?>
+                                <input type="hidden" id="<?= 'art_type_' . $contents_row['idx'] ?>" value="<?= $art_row['mall_type']; ?>">
+                            <? } else { ?>
+                                <input type="hidden" id="<?= 'art_type_' . $contents_row['idx'] ?>" value="0">
+                            <? } ?>
+                            <div class="content-item" id="contents_image" style="">
+                                <?
+                                $pad_top = "";
+                                if ($_GET['key3'] == 1) {
+                                    $pad_top = "padding-bottom:20px;";
+                                }
+                                if ($_GET['key1'] == 4) {
+                                    $pad_top = "padding:4px;";
+                                }
+                                ?>
+                                <div class="user-item" style="<?= $user_display . $pad_top ?>">
+                                    <a href="/?<?= strip_tags($contents_row['westory_card_url'] . $m_code)?>" class="img-box" target="_blank">
+                                        <div class="user-img" style="margin: 5px;width:32px;height:32px;">
+                                            <img src="<?= $contents_avatar ? cross_image($contents_avatar) : '/iam/img/common/logo-2.png' ?>" alt="">
+                                        </div>
+                                    </a>
+                                    <div class="wrap image_mode">
+                                        <a href="/?<?= strip_tags($contents_row['westory_card_url'] . $m_code)?>" class="user-name" style="">
+                                            <?= $contents_user_name ?>
+                                        </a>
+                                        <? if ($_GET['iamstore'] != 'N' || $_GET['cate_prod'] == '1268514') { ?>
+                                            <a href="/?<?= strip_tags($contents_row['westory_card_url'] . $m_code)?>" class="date" style="">
+                                                <?= get_date_time($contents_row['req_data']) ?>
+                                            </a>
+                                        <? } ?>
+                                    </div>
+                                    <div class="wrap pin_mode" style="display:none;">
+                                        <? //if($contents_row['contents_title'] != "") { 
+                                        ?>
+                                        <!-- <a href="/?<?= strip_tags($contents_row['westory_card_url'] . $m_code)?>" class="user-name pin-mode" style="text-overflow: ellipsis;white-space: nowrap;width:100%">
+                                            <?= $contents_row['contents_title'] ?>
+                                        </a> -->
+                                        <? //}else{
+                                        ?>
+                                        <a href="/?<?= strip_tags($contents_row['westory_card_url'] . $m_code)?>" class="user-name" style="">
+                                            <?= $contents_user_name ?>
+                                        </a>
+                                        <? //}
+                                        ?>
+                                        <? if ($_GET['iamstore'] != 'N') { ?>
+                                            <a href="/?<?= strip_tags($contents_row['westory_card_url'] . $m_code)?>" class="date" style="">
+                                                <?= get_date_time($contents_row['req_data']) ?>
+                                            </a>
+                                        <? } ?>
+                                    </div>
+                                    <?
+                                    if ($_GET['key3'] == 1 || $chk_map_con == 1) {
+                                        $card_addr = "select map_pos from Gn_Iam_Name_Card where idx='{$contents_row['card_idx']}'";
+                                        $res_addr = mysql_query($card_addr);
+                                        $row_addr = mysql_fetch_array($res_addr);
+                                        $card_map_pos = $row_addr[0];
+                                    ?>
+                                        <script>
+                                            $(document).ready(function() {
+                                                var window_width = $(window).width();
+                                                if (window_width < 500) {
+                                                    var phone_pos_lat = getCookie('phone_lat');
+                                                    var phone_pos_lng = getCookie('phone_lng');
+                                                    $("#pc_mode_<?= $contents_row['idx'] ?>").hide();
+                                                    $("#mobile_mode_<?= $contents_row['idx'] ?>").show();
+
+                                                    if (phone_pos_lat != '' && phone_pos_lng != '') {
+                                                        recvPhonePos_show(phone_pos_lat, phone_pos_lng, <?= $contents_row['idx'] ?>, '<?= $card_map_pos ?>');
+                                                    }
+                                                }
+                                            });
+                                        </script>
+                                        <div style="position: absolute;right: 10px;bottom: 0px;" id="pc_mode_<?= $contents_row['idx'] ?>">
+                                            <a class="navermap" href="javascript:show_map_address(<?= $contents_row['card_idx'] ?>)">주소</a>&nbsp;|&nbsp;<a class="navermap" href="javascript:show_map_position(<?= $contents_row['card_idx'] ?>)">지도</a>&nbsp;|&nbsp;<a class="navermap" href="javascript:show_map_distance(<?= $contents_row['card_idx'] ?>)">거리</a>&nbsp;|&nbsp;<a class="navermap" href="javascript:show_map_busitime(<?= $contents_row['card_idx'] ?>)">영업시간</a>
+                                        </div>
+                                        <div style="position: absolute;right: 10px;bottom: 0px;" id="mobile_mode_<?= $contents_row['idx'] ?>" hidden>
+                                            <a class="navermap" href="javascript:show_map_address(<?= $contents_row['card_idx'] ?>)">주소</a>&nbsp;|&nbsp;<a class="navermap" href="javascript:show_map_position(<?= $contents_row['card_idx'] ?>)" id="distance_map_<?= $contents_row['idx'] ?>"></a>&nbsp;|&nbsp;<a class="navermap" href="javascript:show_map_busitime(<?= $contents_row['card_idx'] ?>)">영업시간</a>
+                                        </div>
+                                    <? } ?>
+                                    <? if ($_SESSION['iam_member_id'] != "" && ($_SESSION['iam_member_id'] != $contents_owner_id || ($_SESSION['iam_member_id'] == $contents_owner_id && $_SESSION['iam_member_id'] != 'iamstore' && $contents_row['provider_req_prod'] == "Y"))) { ?>
+                                        <div class="dropdown" style="position: absolute; right: 10px; top: 8px;">
+                                            <button class="btn-link dropdown-toggle westory_dropdown" type="button" data-toggle="dropdown" style="">
+                                                <img src="/iam/img/menu/icon_dot.png" style="height:24px">
+                                            </button>
+                                            <ul class="dropdown-menu comunity">
+                                                <li><a onclick="window.open('/?<?= strip_tags($contents_row['westory_card_url']) ?>');">이 콘텐츠 게시자 보기</a></li>
+                                                <li><a onclick="set_friend('<?= $westory_card['mem_id'] ?>','<?= $westory_card['card_name'] ?>','<?= $westory_card['card_short_url'] ?>','<?= $westory_card['idx'] ?>')">이 게시자와 프렌즈 하기</a></li>
+                                                <li><a onclick="set_block_contents('<?= $contents_row['idx'] ?>')">이 콘텐츠 하나만 차단하기</a></li>
+                                                <li><a onclick="set_block_user('<?= $westory_card['mem_id'] ?>','<?= $westory_card['card_short_url'] ?>')">이 게시자의 정보 차단하기</a></li>
+                                                <? if ($contents_row['ai_map_gmarket'] != 3) { ?>
+                                                    <li><a onclick="set_my_share_contents('<?= $contents_row['idx'] ?>')">이 콘텐츠 나에게 가져오기</a></li>
+                                                <? } else if ($contents_row['ai_map_gmarket'] == 3 && $_GET['iamstore'] == "Y" && $gwc_mem) { ?>
+                                                    <li><a onclick="set_my_share_contents('<?= $contents_row['idx'] ?>', 'gwc_prod')">내 계정으로 가져오기</a></li>
+                                                <? } ?>
+                                                <li><a onclick="set_report_contents('<?= $contents_row['idx'] ?>')">이 콘텐츠 신고하기</a></li>
+                                                <li><a onclick="show_block_list('<?= $contents_row['idx'] ?>')">감추기 리스트 보기</a></li>
+                                            </ul>
+                                        </div>
+                                    <? } ?>
+                                    <? if ($_SESSION['iam_member_id'] != "" && $_SESSION['iam_member_id'] == $contents_owner_id && $_SESSION['iam_member_id'] != 'iamstore' && $contents_row['ai_map_gmarket'] == 3 && $contents_row['provider_req_prod'] == "N") { ?>
+                                        <div class="dropdown" style="position: absolute; right: 10px; top: 8px;">
+                                            <button class="btn-link dropdown-toggle westory_dropdown" type="button" data-toggle="dropdown" style="">
+                                                <img src="/iam/img/menu/icon_dot.png" style="height:24px">
+                                            </button>
+                                            <ul class="dropdown-menu comunity">
+                                                <li><a onclick="set_my_share_contents('<?= $contents_row['idx'] ?>', 'gwc_prod_unset')">도매몰로 내보내기</a></li>
+                                            </ul>
+                                        </div>
+                                    <? } ?>
+                                    <? if ($_SESSION['iam_member_id'] == "") { ?>
+                                        <div class="dropdown " style="position: absolute; right: 10px; top: 8px;">
+                                            <button class="btn-link dropdown-toggle westory_dropdown" type="button" data-toggle="dropdown" style="">
+                                                <img src="/iam/img/menu/icon_dot.png" style="height:24px">
+                                            </button>
+                                            <ul class="dropdown-menu comunity">
+                                                <li><a onclick="javascript:location.href='/iam/join.php'">나도 아이엠 만들고 싶어요</a></li>
+                                                <li><a onclick="javascript:window.open('/?<?= strip_tags($contents_row['westory_card_url'] . $card_owner_code) ?>');">이 콘텐츠 게시자 보기</a></li>
+                                                <li><a onclick="javascript:window.open('/?<?= $contents_row['westory_card_url'] . $card_owner_code ?>&cur_win=my_story')">더 많은 콘텐츠 보러가기</a></li>
+                                                <li><a onclick="set_report_contents('<?= $contents_row['idx'] ?>')">이 콘텐츠 신고하기</a></li>
+                                            </ul>
+                                        </div>
+                                    <?
+                                    }
+                                    $cursor++;
+                                    ?>
+                                </div>
+                                <? if ($_GET['key1'] != 4) { //긋마켓상품이 아니면
+                                ?>
+                                    <div class="desc-wrap" style="border-bottom: 1px solid #dddddd;">
+                                        <? if ($contents_row['contents_title'] != "") { ?>
+                                            <div class="title service_title" style="display: flex;flex-direction: column;justify-content: center">
+                                                <h3 style=""><?= $contents_row['contents_title'] ?></h3>
+                                            </div>
+                                        <?
+                                        }
+                                        if ((int)$contents_row['contents_type'] == 3) {
+                                            $price_show1 = "적립금";
+                                            $price_show2 = "판매가";
+                                            $price_style = "";
+                                            $sql_card = "select sale_cnt, sale_cnt_set, add_reduce_val from Gn_Iam_Name_Card where idx='{$contents_row['card_idx']}'";
+                                            $res_card = mysql_query($sql_card);
+                                            $row_card = mysql_fetch_array($res_card); ?>
+                                            <div class="desc is-product">
+                                                <div class="desc-inner">
+                                                    <div class="outer <?= $row_card['sale_cnt_set'] ?>">
+                                                        <?
+                                                        $buy_btn = "";
+                                                        $contents_price_arr = explode("|", $contents_row['contents_price']);
+                                                        $contents_row['contents_price'] = $contents_price_arr[0] * 1;
+                                                        $contents_row['contents_download_price'] = $contents_price_arr[3] * 1;
+                                                        if ($contents_row['contents_price'] > 0) {
+                                                            if (!$row_card['sale_cnt_set']) {
+                                                                $style_decor = "";
+                                                                $state_end = "";
+                                                                $discount = $contents_row['reduce_val']; //100 - ($contents_row['contents_sell_price'] / $contents_row['contents_price']) * 100;
+                                                                $add_point = $contents_row['contents_price'] * ((int)$discount / 100);
+                                                            } else {
+                                                                if (!$row_card['sale_cnt']) {
+                                                                    $style_decor = "text-decoration: line-through;";
+                                                                    $state_end = "마감";
+                                                                    $discount = $contents_row['reduce_val']; //100 - ($contents_row['contents_sell_price'] / $contents_row['contents_price']) * 100;
+                                                                    $add_point = $contents_row['contents_price'] * (((int)$discount - $row_card['add_reduce_val']) / 100);
+                                                                } else {
+                                                                    $style_decor = "";
+                                                                    $state_end = "적립";
+                                                                    $discount = $contents_row['reduce_val']; //100 - ($contents_row['contents_sell_price'] / $contents_row['contents_price']) * 100;
+                                                                    $add_point = $contents_row['contents_price'] * ((int)$discount / 100);
+                                                                }
+                                                            }
+                                                            if ($cur_win == "my_info") {
+                                                                $state_end = "";
+                                                                if ($contents_row['gwc_con_state'] != 0) {
+                                                                    $price_show1 = "최저가";
+                                                                    $price_show2 = "정상가";
+                                                                    $price_style = "text-decoration: line-through;";
+                                                                    $add_point = $contents_row['contents_sell_price'];
+                                                                    if ($_SESSION['iam_member_id'] != 'iamstore') {
+                                                                        $buy_btn_con = "visibility: hidden;";
+                                                                    } else {
+                                                                        $buy_btn_con = "";
+                                                                    }
+                                                                }
+                                                            }
+                                                            if (($_GET['iamstore'] == "Y" && $gwc_pay_mem) || $_GET['iamstore'] == "C") {
+                                                                $buy_btn_con = "visibility: hidden;";
+                                                                $discount = 100 - ($contents_row['send_provide_price'] / $contents_row['contents_sell_price']) * 100;
+                                                            }
+                                                        ?>
+                                                            <div class="price" style="width:230px;">
+                                                                <span class="downer"><?= $price_show2 ?>:<span style="vertical-align: top;<?= $price_style ?>"><?= number_format($contents_row['contents_price']) ?></span>원</span>
+                                                                <? if (($_GET['iamstore'] == "Y" && $gwc_pay_mem) || $_GET['iamstore'] == "C") { ?>
+                                                                    <span class="downer" style="color:red;"><?= $price_show1 ?>:<?= number_format((int)$add_point) ?>원</span>
+                                                                    <span class="downer" style="color:blue;">공급가:<?= number_format($contents_row['send_provide_price']) ?>원 <span style="vertical-align: top;color: red;margin-left: 10px;font-weight: bold;"><?= (int)$discount ?>%</span></span>
+                                                                <? } else { ?>
+                                                                    <span class="downer" style="color:red;"><?= $price_show1 ?>:<?= number_format((int)$add_point) ?>원 <span style="vertical-align: top;color: red;margin-left: 10px;font-weight: bold;"><?= (int)$discount ?>%</span></span>
+                                                                <? } ?>
+                                                            </div>
+                                                            <span style="font-size: 15px;"><?= $state_end ?></span>
+                                                        <? } else { ?>
+                                                            <div class="price">
+                                                                <span class="downer"><?= $price_show2 ?>:<span style="vertical-align: top;<?= $price_style ?>"><?= number_format($contents_row['contents_price']) ?></span>원 <span style="vertical-align: top;color: red;margin-left: 10px;font-weight: bold;">0%</span></span>
+                                                                <span class="downer" style="color:red;"><?= $price_show1 ?>:<?= number_format($contents_row['contents_price']) ?>원</span>
+                                                            </div>
+                                                            <!-- <div class="percent">0%</div> -->
+                                                        <? }
+                                                        //}
+                                                        ?>
+                                                        <?
+                                                        if ($cur_win == 'my_info' && $_SESSION['iam_member_id'] == 'iamstore') {
+                                                            $buy_btn = "display:none;";
+                                                        } ?>
+                                                        <div class="order" style="<?= $buy_btn ?><?= $buy_btn_con ?>">
+                                                            <? if ($_SESSION['iam_member_id']) {
+                                                                $price_service = $contents_row['contents_sell_price'];
+                                                                $contents_row['contents_title'] = str_replace('"', ' ', $contents_row['contents_title']);
+                                                                $contents_row['contents_title'] = str_replace("'", ' ', $contents_row['contents_title']);
+                                                                $name_service = $contents_row['contents_title'];
+                                                                $sellerid_service = $contents_row['mem_id'];
+                                                                $contents_url = $contents_row['contents_url'];
+                                                                $card_price = $contents_row['contents_sell_price'] * 1 + $contents_row['send_salary_price'] * 1;
+                                                                $pay_link = "/iam/pay_spgd.php?item_name=" . $contents_row['contents_title'] . '&item_price=' . $card_price . '&manager=' . $contents_row['mem_id'] . "&conidx=" . $contents_row['idx'] . "&sale_cnt=" . $row_card['sale_cnt'];
+                                                            ?>
+                                                                <div class="dropdown" style="float:right;width: 82px;">
+                                                                    <a class="dropdown-toggle" data-toggle="dropdown" expanded="false" style="background:#99cc00;border-radius:10px;cursor:pointer;">구매</a>
+                                                                    <ul class="dropdown-menu buy_servicecon" style="width: 82px;">
+                                                                        <li>
+                                                                            <a href="<?= $pay_link ?>" target="_blank" style="font-size: 12px;background-color:#99cc00;">카드결제</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a onclick="point_settle_modal(<?= $contents_row['contents_sell_price'] ?>, '<?= $contents_row['contents_title'] ?>', '<?= $contents_row['idx'] ?>', '<?= $contents_row['mem_id'] ?>', '<?= $row_card['sale_cnt'] ? $row_card['sale_cnt'] : '0' ?>', '<?= $contents_row['send_salary_price'] ? $contents_row['send_salary_price'] : '0' ?>')" style="font-size: 12px;background-color:#99cc00;">포인트결제</a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                            <? } else { ?>
+                                                                <a href="<? echo '/iam/login.php?contents_idx=' . $contents_row['idx'] ?>" target="_self" style="background:#99cc00;border-radius:10px;">구매</a>
+                                                            <? } ?>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        <? } ?>
+                                        <div class="desc">
+                                            <div class="desc-inner desc-text desc-inner-content">
+                                                <p style="overflow-wrap: break-word;font-size: 14px;"><?= nl2br($contents_row['contents_desc']) ?></p>
+                                            </div>
+                                            <!--a class="arrow" style="color:#669933;font-weight:bold;cursor:pointer">
+                                        [더 보기]
+                                    </a-->
+                                            <? if ($content_images == null) {
+                                                if (!$_SESSION['iam_member_id'] || $cur_card['share_send_card'] != 0 || ($cur_win != "shared_receive" && $_SESSION['iam_member_id'] != $contents_row['mem_id'] && $_SESSION['iam_member_id'] != $group_manager)) { ?>
+                                                    <a class="content-utils" style="cursor:pointer;position:absolute;bottom:5px;right:10px;z-index:10;" onclick="showSNSModal_byContents('<?= $contents_row['idx'] ?>', '<?= $contents_row['gwc_con_state'] ?>');">
+                                                        <img src="/iam/img/menu/icon_share_white.png" style="width:13px;height:16px;margin-left:3px;margin-top:-1px;">
+                                                    </a>
+                                                <? } else { ?>
+                                                    <a onclick="show_contents_utils(<?= $contents_row['idx'] ?>);" class="content-utils" style="position: absolute;bottom:5px;right: 10px;z-index:10;" title="">
+                                                        <!--i class="fa fa-pencil-square-o" aria-hidden="false"></i-->
+                                                        <img src="/iam/img/menu/icon_utils_box.png" style="height:20px;">
+                                                    </a>
+                                                    <div class="utils-index" id="<?= 'utils_index_' . $contents_row['idx'] ?>" style="display:none;z-index:10;">
+                                                        <?
+                                                        if ($cur_win != "we_story" && $_SESSION['iam_member_id'] == $card_owner && $_SESSION['iam_member_id'] == $card_master) { ?>
+                                                            <a class="content-utils" onclick="contents_add('<?= $card_owner ?>','<?= $contents_row['contents_order'] ?>',<?= $my_first_card ?>);" style="">
+                                                                <img src="/iam/img/menu/icon_plus.png" style="width:20px;height:20px;">
+                                                            </a>
+                                                        <?  }
+                                                        if ($_SESSION['iam_member_id'] && ($_SESSION['iam_member_id'] == $contents_row['mem_id'] || $_SESSION['iam_member_id'] == $group_manager)) { ?>
+                                                            <a class="content-utils" onclick="contents_del('<?= $contents_row['idx'] ?>', '<?= $contents_row['ori_store_prod_idx'] ?>', '<?= $contents_row['product_seperate'] ?>', '<?= $contents_row['gwc_con_state'] ?>');">
+                                                                <img src="/iam/img/menu/icon_minus.png" style="width:20px;height:20px;">
+                                                            </a>
+                                                            <? if (!$cur_win || $cur_win == "my_info") { ?>
+                                                                <a class="content-utils" onclick="contents_range_down('<?= $contents_row['idx'] ?>', '<?= $contents_row['contents_order'] ?>','<?= $cur_card['card_short_url'] ?>', '<?= $contents_row['product_seperate'] ?>', '<?= $contents_row['gwc_con_state'] ?>');">
+                                                                    <img src="/iam/img/menu/icon_arrow_down.png" style="width:20px;height:20px;">
+                                                                </a>
+                                                                <a class="content-utils" onclick="contents_range_up('<?= $contents_row['idx'] ?>', '<?= $contents_row['contents_order'] ?>','<?= $cur_card['card_short_url'] ?>', '<?= $contents_row['product_seperate'] ?>', '<?= $contents_row['gwc_con_state'] ?>');">
+                                                                    <img src="/iam/img/menu/icon_arrow_up.png" style="width:20px;height:20px;">
+                                                                </a>
+                                                                <a class="content-utils" onclick="contents_range_down('<?= $contents_row['idx'] ?>', '<?= $contents_row['contents_order'] ?>','<?= $cur_card['card_short_url'] ?>', '<?= $contents_row['product_seperate'] ?>', '<?= $contents_row['gwc_con_state'] ?>','min');">
+                                                                    <img src="/iam/img/menu/icon_arrow_end.png" style="width:20px;height:20px;">
+                                                                </a>
+                                                                <a class="content-utils" onclick="contents_range_up('<?= $contents_row['idx'] ?>', '<?= $contents_row['contents_order'] ?>','<?= $cur_card['card_short_url'] ?>', '<?= $contents_row['product_seperate'] ?>', '<?= $contents_row['gwc_con_state'] ?>','max');">
+                                                                    <img src="/iam/img/menu/icon_arrow_start.png" style="width:20px;height:20px;">
+                                                                </a>
+                                                            <?  } ?>
+                                                            <? if ($_SESSION['iam_member_id'] == $group_manager) { ?>
+                                                                <a class="content-utils" onclick="contents_fix('<?= $contents_row['idx'] ?>');">
+                                                                    <img src="<?= $contents_row['group_fix'] > 0 ? '/iam/img/main/icon-pin.png' : '/iam/img/main/icon-graypin.png' ?>" style="width:20px;height:20px;">
+                                                                </a>
+                                                            <? } ?>
+                                                            <? if ($_SESSION['iam_member_id'] == $contents_row['mem_id']) {
+                                                                if ($is_pay_version) { ?>
+                                                                    <a class="content-utils" onclick="show_con_send('<?= $contents_row['idx'] ?>')">
+                                                                        <img src="/iam/img/main/icon_con_send.png" style="width:20px;height:20px;">
+                                                                    </a>
+                                                        <? }
+                                                            }
+                                                        } ?>
+                                                        <? if ($cur_win == "shared_receive") { ?>
+                                                            <a class="content-utils" onclick="remove_shared_content('<?= $contents_row['idx'] ?>','<?= $_SESSION['iam_member_id'] ?>');" style="">
+                                                                <img src="/iam/img/main/icon-hide.png" style="width:20px;height:20px;">
+                                                            </a>
+                                                        <? } ?>
+                                                        <a class="content-utils" onclick="showSNSModal_byContents('<?= $contents_row['idx'] ?>', '<?= $contents_row['gwc_con_state'] ?>');" style="">
+                                                            <img src="/iam/img/menu/icon_share.png" style="width:20px;height:20px">
+                                                        </a>
+                                                        <? if ($_SESSION['iam_member_id'] && ($_SESSION['iam_member_id'] == $contents_row['mem_id'] || $_SESSION['iam_member_id'] == $group_manager)) { ?>
+                                                            <? if ($_SESSION['iam_member_id'] == $contents_row['mem_id']) {
+                                                                $share_ids = explode(",", $contents_row['contents_share_text']);
+                                                                for ($index = 0; $index < count($share_ids); $index++) {
+                                                                    $share_sql = "select mem_name from Gn_Member where mem_id = '$share_ids[$index]'";
+                                                                    $share_result = mysql_query($share_sql);
+                                                                    $share_row = mysql_fetch_array($share_result);
+                                                                    $share_names[$index] = htmlspecialchars($share_row['mem_name']);
+                                                                }
+                                                                $share_names = implode(",", $share_names);
+                                                            ?>
+                                                                <a class="content-utils" onclick="contents_edit('<?= $contents_row['idx'] ?>', '<?= $contents_row['ori_store_prod_idx'] ?>');">
+                                                                    <img src="/iam/img/menu/icon_edit_white.png" style="width:20px;height:20px;">
+                                                                </a>
+                                                            <? } ?>
+                                                        <? } ?>
+                                                    </div>
+                                            <? }
+                                            } ?>
+                                        </div>
+                                    </div>
+                                <? } ?>
+                                <div class="media-wrap">
+                                    <?
+                                    $except_keyword = $contents_row['except_keyword'];
+                                    $except_keyword = str_replace('"', urlencode('"'), $except_keyword);
+                                    $except_keyword = str_replace("'", urlencode("\'"), $except_keyword);
+
+                                    if ($_SESSION['iam_member_id'] == $card_owner) {
+                                        if ($cur_win == "my_story") { ?>
+                                            <span class="pull-left " style="position:absolute;left:10px;top:10px;"><?= $contents_row['req_data'] ?></span>
+                                    <? }
+                                    } ?>
+                                    <div class="media-inner <?= $_GET['type'] ?>" style="overflow-y: hidden;<? if ($contents_row['contents_type'] == 1 && count($content_images) == 0) echo "min-height :30px;"; ?>">
+                                        <? if ($content_images != null) {
+                                            if (!$_SESSION['iam_member_id'] || $cur_card['share_send_card'] != 0 || ($cur_win != "shared_receive" && $_SESSION['iam_member_id'] != $contents_row['mem_id'] && $_SESSION['iam_member_id'] != $group_manager)) { ?>
+                                                <a class="content-utils" style="cursor:pointer;position:absolute;top:5px;right:10px;z-index:10;" onclick="showSNSModal_byContents('<?= $contents_row['idx'] ?>', '<?= $contents_row['gwc_con_state'] ?>');">
+                                                    <img src="/iam/img/menu/icon_share_white.png" style="width:13px;height:16px;margin-left:0px;margin-top:-1px;">
+                                                </a>
+                                            <? } else { ?>
+                                                <a onclick="show_contents_utils(<?= $contents_row['idx'] ?>);" class="content-utils" style="position: absolute;top:5px;right: 10px;z-index:10;" title="">
+                                                    <!--i class="fa fa-pencil-square-o" aria-hidden="false"></i-->
+                                                    <img src="/iam/img/menu/icon_utils_box.png" style="height:20px;">
+                                                </a>
+                                                <div class="utils-index" id="<?= 'utils_index_' . $contents_row['idx'] ?>" style="display:none;z-index:10;top:5px">
+                                                    <?
+                                                    if ($cur_win != "we_story" && $_SESSION['iam_member_id'] == $card_owner && $_SESSION['iam_member_id'] == $card_master) { ?>
+                                                        <a class="content-utils" onclick="contents_add('<?= $card_owner ?>','<?= $contents_row['contents_order'] ?>',<?= $my_first_card ?>);" style="">
+                                                            <img src="/iam/img/menu/icon_plus.png" style="width:20px;height:20px;">
+                                                        </a>
+                                                    <?  }
+                                                    if ($_SESSION['iam_member_id'] && ($_SESSION['iam_member_id'] == $contents_row['mem_id'] || $_SESSION['iam_member_id'] == $group_manager)) { ?>
+                                                        <a class="content-utils" onclick="contents_del('<?= $contents_row['idx'] ?>', '<?= $contents_row['ori_store_prod_idx'] ?>', '<?= $contents_row['product_seperate'] ?>', '<?= $contents_row['gwc_con_state'] ?>');">
+                                                            <img src="/iam/img/menu/icon_minus.png" style="width:20px;height:20px;">
+                                                        </a>
+                                                        <? if (!$cur_win || $cur_win == "my_info") { ?>
+                                                            <a class="content-utils" onclick="contents_range_down('<?= $contents_row['idx'] ?>', '<?= $contents_row['contents_order'] ?>','<?= $cur_card['card_short_url'] ?>', '<?= $contents_row['product_seperate'] ?>', '<?= $contents_row['gwc_con_state'] ?>');">
+                                                                <img src="/iam/img/menu/icon_arrow_down.png" style="width:20px;height:20px;">
+                                                            </a>
+                                                            <a class="content-utils" onclick="contents_range_up('<?= $contents_row['idx'] ?>', '<?= $contents_row['contents_order'] ?>','<?= $cur_card['card_short_url'] ?>', '<?= $contents_row['product_seperate'] ?>', '<?= $contents_row['gwc_con_state'] ?>');">
+                                                                <img src="/iam/img/menu/icon_arrow_up.png" style="width:20px;height:20px;">
+                                                            </a>
+                                                            <a class="content-utils" onclick="contents_range_down('<?= $contents_row['idx'] ?>', '<?= $contents_row['contents_order'] ?>','<?= $cur_card['card_short_url'] ?>', '<?= $contents_row['product_seperate'] ?>', '<?= $contents_row['gwc_con_state'] ?>','min');">
+                                                                <img src="/iam/img/menu/icon_arrow_end.png" style="width:20px;height:20px;">
+                                                            </a>
+                                                            <a class="content-utils" onclick="contents_range_up('<?= $contents_row['idx'] ?>', '<?= $contents_row['contents_order'] ?>','<?= $cur_card['card_short_url'] ?>', '<?= $contents_row['product_seperate'] ?>', '<?= $contents_row['gwc_con_state'] ?>','max');">
+                                                                <img src="/iam/img/menu/icon_arrow_start.png" style="width:20px;height:20px;">
+                                                            </a>
+                                                        <?  } ?>
+                                                        <? if ($_SESSION['iam_member_id'] == $group_manager) { ?>
+                                                            <a class="content-utils" onclick="contents_fix('<?= $contents_row['idx'] ?>');">
+                                                                <img src="<?= $contents_row['group_fix'] > 0 ? '/iam/img/main/icon-pin.png' : '/iam/img/main/icon-graypin.png' ?>" style="width:20px;height:20px;">
+                                                            </a>
+                                                        <? } ?>
+                                                        <? if ($_SESSION['iam_member_id'] == $contents_row['mem_id']) {
+                                                            if ($is_pay_version) { ?>
+                                                                <a class="content-utils" onclick="show_con_send('<?= $contents_row['idx'] ?>')">
+                                                                    <img src="/iam/img/main/icon_con_send.png" style="width:20px;height:20px;">
+                                                                </a>
+                                                    <? }
+                                                        }
+                                                    } ?>
+                                                    <? if ($cur_win == "shared_receive") { ?>
+                                                        <a class="content-utils" onclick="remove_shared_content('<?= $contents_row['idx'] ?>','<?= $_SESSION['iam_member_id'] ?>');" style="">
+                                                            <img src="/iam/img/main/icon-hide.png" style="width:20px;height:20px;">
+                                                        </a>
+                                                    <? } ?>
+                                                    <a class="content-utils" onclick="showSNSModal_byContents('<?= $contents_row['idx'] ?>', '<?= $contents_row['gwc_con_state'] ?>');" style="">
+                                                        <img src="/iam/img/menu/icon_share.png" style="width:20px;height:20px">
+                                                    </a>
+                                                    <? if ($_SESSION['iam_member_id'] && ($_SESSION['iam_member_id'] == $contents_row['mem_id'] || $_SESSION['iam_member_id'] == $group_manager)) { ?>
+                                                        <? if ($_SESSION['iam_member_id'] == $contents_row['mem_id']) {
+                                                            $share_ids = explode(",", $contents_row['contents_share_text']);
+                                                            for ($index = 0; $index < count($share_ids); $index++) {
+                                                                $share_sql = "select mem_name from Gn_Member where mem_id = '$share_ids[$index]'";
+                                                                $share_result = mysql_query($share_sql);
+                                                                $share_row = mysql_fetch_array($share_result);
+                                                                $share_names[$index] = htmlspecialchars($share_row['mem_name']);
+                                                            }
+                                                            $share_names = implode(",", $share_names);
+                                                        ?>
+                                                            <a class="content-utils" onclick="contents_edit('<?= $contents_row['idx'] ?>', '<?= $contents_row['ori_store_prod_idx'] ?>');">
+                                                                <img src="/iam/img/menu/icon_edit_white.png" style="width:20px;height:20px;">
+                                                            </a>
+                                                        <? } ?>
+                                                    <? } ?>
+                                                </div>
+                                        <? }
+                                        } ?>
+                                        <?
+                                        if ((int)$contents_row['contents_type'] == 1 || (int)$contents_row['contents_type'] == 3) {
+                                            if (count($content_images) > 1 && $contents_row['landing_mode'] == "N" && !$contents_row['gwc_con_state']) { ?>
+                                                <button onclick="show_all_content_images('<?= $contents_row['idx'] ?>')" id="content_all_image<?= $contents_row['idx'] ?>" style="position: absolute;right:0px;bottom:0px;font-size: 14px;opacity: 60%;background: black;color: white;">
+                                                    <?= "+" . (count($content_images) - 1) ?>
+                                                </button>
+                                                <button onclick="hide_all_content_images('<?= $contents_row['idx'] ?>')" id="hide_content_all_image<?= $contents_row['idx'] ?>" style="position: absolute;left:0px;top:300px;font-size: 14px;display:none;background: transparent">
+                                                    <img src="/iam/img/main/icon-img_fold.png" style="width:30px">
+                                                </button>
+                                            <? }
+                                            $open_state = 0;
+                                            if ($open_domain != '') {
+                                                $filter = explode(",", trim($open_domain));
+                                                for ($j = 0; $j < count($filter); $j++) {
+                                                    $str = trim($filter[$j]);
+                                                    if (strpos($contents_row['contents_url'], $str) !== false) {
+                                                        $open_state = 1;
+                                                    }
+                                                }
+                                            }
+                                            if ($open_state) { ?>
+                                                <a href='<?= $contents_row['contents_url'] ?>' data="01" target="_blank" id="pagewrap<?= $contents_row['idx'] ?>">
+                                                    <? if (count($content_images) > 0) { ?>
+                                                        <img src="<?= cross_image($content_images[0]) ?>" class="contents_img">
+                                                        <? }
+                                                    if (count($content_images) > 1) {
+                                                        for ($c = 1; $c < count($content_images); $c++) { ?>
+                                                            <img src="<?= cross_image($content_images[$c]) ?>" class="contents_img hidden_image<?= $contents_row['idx'] ?>" style="<?= $landing ?>">
+                                                    <? }
+                                                    } ?>
+                                                </a>
+                                                <? } else if ((int)$contents_row['open_type'] == 1) { //내부열기
+                                                if ($contents_row['media_type'] == "I") {
+                                                    if (count($content_images) > 0 && strstr($contents_row['contents_url'], ".mp4") === false) { ?>
+                                                        <div class="gwc_con_img" data="02" onclick="showpage<?= $contents_row['idx'] ?>('<?= $contents_row['contents_url'] ?>', '<?= $contents_row['landing_mode'] ?>', '<?= $contents_row['gwc_con_state'] ?>')" id="pagewrap<?= $contents_row['idx'] ?>">
+                                                            <img src="<?= cross_image($content_images[0]) ?>" class="contents_img">
+                                                            <?
+                                                            if (!$contents_row['gwc_con_state']) {
+                                                                if ($contents_row['landing_mode'] == "Y") {
+                                                                    $hide_img_state = "";
+                                                                } else {
+                                                                    $hide_img_state = "display:none";
+                                                                }
+                                                                for ($c = 1; $c < count($content_images); $c++) { ?>
+                                                                    <img src="<?= cross_image($content_images[$c]) ?>" class="contents_img hidden_image<?= $contents_row['idx'] ?>" style="<?= $hide_img_state ?>">
+                                                            <? }
+                                                            } ?>
+                                                        </div>
+                                                    <? } else if ($contents_row['contents_url'] != "") { ?>
+                                                        <div class="gwc_con_img">
+                                                            <iframe src="<?= strpos($contents_row['contents_url'], 'http://') !== false ? $cross_page . urlencode($contents_row['contents_url']) : $contents_row['contents_url'] ?>" width="100%" height="600px" sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-top-navigation"></iframe>
+                                                        </div>
+                                                    <? }
+                                                } else { ?>
+                                                    <div class="gwc_con_img" style="position: relative">
+                                                        <a style="position: absolute;top: 20px;left: 20px;background: #f3f3f3;display: flex;padding:5px;padding-right:15px;z-index:10;font-size:14px" class="unmute_btn">
+                                                            <img src="/iam/img/main/mute.png" style="height: 30px">
+                                                            <p style="margin-top: 5px;font-weight:bold;">탭하여 음소거 해제</p>
+                                                        </a>
+                                                        <video src="<?= $contents_row['contents_img'] ?>" type="video/mp4" autoplay loop muted playsinline preload style="width:100%;" autoplay></video>
+                                                        <img src="/iam/img/movie_play.png" style="display:none;width:70px;" class="movie_play">
+                                                    </div>
+                                                <? } ?>
+                                                <? } else { //외부열기
+                                                if ($contents_row['contents_url'] != "") { ?>
+                                                    <a href='<?= $contents_row['contents_url'] ?>' target="_blank" id="pagewrap<?= $contents_row['idx'] ?>">
+                                                    <? } ?>
+                                                    <? if (count($content_images) > 0) { ?>
+                                                        <img src="<?= cross_image($content_images[0]) ?>" class="contents_img">
+                                                        <? }
+                                                    if (count($content_images) > 1 && !$contents_row['gwc_con_state']) {
+                                                        for ($c = 1; $c < count($content_images); $c++) { ?>
+                                                            <img src="<?= cross_image($content_images[$c]) ?>" class="contents_img hidden_image<?= $contents_row['idx'] ?>" style="<?= $landing ?>">
+                                                        <? }
+                                                    }
+                                                    if ($contents_row['contents_url'] != "") { ?>
+                                                    </a>
+                                                <? } ?>
+                                            <? } ?>
+                                            <script type="text/javascript">
+                                                function showpage<?= $contents_row['idx']; ?>(url, landing, gwc) {
+                                                    <? if ($cur_win == "my_info") { ?>
+                                                        if (url != "")
+                                                            document.getElementById('pagewrap<?= $contents_row['idx']; ?>').innerHTML = '<iframe src="' + url + '" width="100%" height="600px" sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-top-navigation"></iframe>';
+                                                    <? } else { ?>
+                                                        var navCase = navigator.userAgent.toLocaleLowerCase();
+                                                        if (gwc == 1) {
+                                                            var contents_mode_gwc = getCookie('contents_mode');
+                                                            if (landing == "Y") {
+                                                                if (navCase.search("android") > -1) {
+                                                                    $("#contents_page").html("<iframe id='ALLAT_MOBILE_FRAME' name='ALLAT_MOBILE_FRAME' src='https://<?= $HTTP_HOST ?>/iam/contents_gwc.php?contents_idx=<?= $contents_row['idx']; ?>&gwc=Y&mobile=Y' frameborder=0 width=100%px height=100%px scrolling=no></iframe>");
+                                                                    document.getElementById("contents_page").style.width = "100%";
+                                                                    document.getElementById("contents_page").style.height = "100%";
+                                                                    document.getElementById("contents_page").style.left = 0 + "px";
+                                                                    document.getElementById("contents_page").style.top = 0 + "px";
+                                                                    document.getElementById("contents_page").style.display = "block";
+                                                                    document.getElementById("wrap").style.display = "none";
+                                                                    $('body,html').animate({
+                                                                        scrollTop: 0,
+                                                                    }, 100);
+                                                                } else {
+                                                                    window.open('/iam/contents_gwc.php?contents_idx=<?= $contents_row['idx']; ?>&gwc=Y', '_blank');
+                                                                }
+                                                            }
+                                                        } else {
+                                                            if (navCase.search("android") > -1) {
+                                                                var link = "";
+                                                                if (url == "")
+                                                                    link = 'https://<?= $HTTP_HOST ?>/iam/contents.php?contents_idx=<?= $contents_row['idx']; ?>&mobile=Y';
+                                                                else
+                                                                    link = url;
+                                                                $("#contents_page").html("<iframe id='ALLAT_MOBILE_FRAME' name='ALLAT_MOBILE_FRAME' src='" + link + "' frameborder=0 width=100%px height=100%px scrolling=no></iframe>");
+                                                                document.getElementById("contents_page").style.width = "100%";
+                                                                document.getElementById("contents_page").style.height = "100%";
+                                                                document.getElementById("contents_page").style.left = 0 + "px";
+                                                                document.getElementById("contents_page").style.top = 0 + "px";
+                                                                document.getElementById("contents_page").style.display = "block";
+                                                                document.getElementById("wrap").style.display = "none";
+                                                                $('body,html').animate({
+                                                                    scrollTop: 0,
+                                                                }, 100);
+                                                            } else {
+                                                                var link = "";
+                                                                if (url == "")
+                                                                    link = '/iam/contents.php?contents_idx=<?= $contents_row['idx']; ?>';
+                                                                else
+                                                                    link = url;
+                                                                window.open(link, '_blank');
+                                                            }
+                                                            save_load('<?= $_SESSION['iam_member_id'] ?>', '<?= $contents_row['idx'] ?>', 1);
+                                                        }
+                                                    <? } ?>
+                                                }
+                                            </script>
+                                            <?
+                                        } else if ((int)$contents_row['contents_type'] == 2) {
+                                            echo $contents_row['contents_iframe'];
+                                            /*$contents_movie = true;
+                                        if(!$contents_row['contents_img']){
+                                            $contents_movie = false;
+                                            echo $contents_row['contents_iframe'];
+                                        }else{
+                                            if((int)$contents_row['open_type'] == 1){?>
+                                                <div onclick="play<?=$contents_row['idx'];?>();" id="vidwrap<?=$contents_row['idx'];?>" style="position: relative;">
+                                                    <img src="<?=cross_image($content_images[0])?>" class="contents_img">
+                                                    <?if($contents_movie){?>
+                                                        <img class="movie_play" src="/iam/img/movie_play.png" style="">
+                                                    <?}?>
+                                                    <?if(count($content_images) > 1){?>
+                                                        <?for($c = 1;$c < count($content_images);$c ++){?>
+                                                            <img src="<?=cross_image($content_images[$c])?>" class="contents_img hidden_image<?=$contents_row['idx']?>" style="<?=$landing?>">
+                                                        <?}?>
+                                                    <?}?>
+                                                </div>
+                                            <?}else{?>
+                                                <a href="<?=$contents_row[contents_url]?>" target="_blank" id="vidwrap<?=$contents_row['idx'];?>" style="position: relative;">
+                                                    <img src="<?=cross_image($content_images[0])?>" class="contents_img">
+                                                    <?if($contents_movie){?>
+                                                        <img class="movie_play" src="/iam/img/movie_play.png" style="">
+                                                    <?}?>
+                                                    <?if(count($content_images) > 1){?>
+                                                        <?for($c = 1;$c < count($content_images);$c ++){?>
+                                                            <img src="<?=cross_image($content_images[$c])?>" class="contents_img hidden_image<?=$contents_row['idx']?>" style="<?=$landing?>">
+                                                        <?}?>
+                                                    <?}?>
+                                                </a>
+                                            <?}?>
+                                            <script type="text/javascript">
+                                                function play<?=$contents_row['idx'];?>() {
+                                                    document.getElementById('vidwrap<?=$contents_row['idx'];?>').innerHTML = "<?=$contents_row[contents_iframe]?>";
+                                                    save_load('<?=$_SESSION['iam_member_id']?>','<?=$contents_row['idx']?>',1);
+                                                }
+                                            </script>
+                                        <?}*/
+                                        } else if ((int)$contents_row['contents_type'] == 4) {
+                                            $vid_data = $contents_row['source_iframe'];
+                                            if ((int)$contents_row['open_type'] == 1) { ?>
+                                                <div onclick="play<?= $contents_row['idx']; ?>();" id="vidwrap<?= $contents_row['idx']; ?>">
+                                                    <? if ($content_images[0]) { ?>
+                                                        <img src="<?= cross_image($content_images[0]) ?>" class="contents_img">
+                                                        <iframe src="<?= $vid_data ?>" style="width:100%;height: 600px;display:none"></iframe>
+                                                    <? } else { ?>
+                                                        <iframe src="<?= $vid_data ?>" style="width:100%;height: 600px;"></iframe>
+                                                    <? } ?>
+                                                </div>
+                                            <? } else { ?>
+                                                <a href="<?= $contents_row['contents_url'] ?>" id="vidwrap<?= $contents_row['idx']; ?>">
+                                                    <? if ($content_images[0]) { ?>
+                                                        <img src="<?= cross_image($content_images[0]) ?>" class="contents_img">
+                                                        <iframe src="<?= $vid_data ?>" style="width:100%;height: 600px;display:none"></iframe>
+                                                    <? } else { ?>
+                                                        <iframe src="<?= $vid_data ?>" style="width:100%;height: 600px;"></iframe>
+                                                    <? } ?>
+                                                </a>
+                                            <? } ?>
+                                            <script type="text/javascript">
+                                                function play<?= $contents_row['idx']; ?>() {
+                                                    $('#vidwrap<?= $contents_row['idx']; ?> > iframe').css("display", "block");
+                                                    $('#vidwrap<?= $contents_row['idx']; ?> > img').css("display", "none");
+                                                    save_load('<?= $_SESSION['iam_member_id'] ?>', '<?= $contents_row['idx'] ?>', 1);
+                                                }
+                                            </script>
+                                        <? } ?>
+                                        <!-- <a class="content-utils" style="cursor:pointer;position:absolute;bottom:35px;right:10px;z-index:10;background-color: unset;width: 35px;height: 35px;" 
+                                        onclick="scroll_down();">
+                                        <img src="/iam/img/menu/icon_next_con.png"  style="width:65px;height:35px;margin-left:0px;margin-top:-1px;">
+                                    </a> -->
+                                    </div>
+                                </div>
+                                <? if ($_GET['key1'] == 4) { ?>
+                                    <div class="desc-wrap" style="border-bottom: 1px solid #dddddd;">
+                                        <? if ((int)$contents_row['contents_type'] == 3) {
+                                            $price_show1 = "적립금";
+                                            $price_show2 = "판매가";
+                                            $price_style = "";
+                                            $sql_card = "select sale_cnt, sale_cnt_set, add_reduce_val from Gn_Iam_Name_Card where idx='{$contents_row['card_idx']}'";
+                                            $res_card = mysql_query($sql_card);
+                                            $row_card = mysql_fetch_array($res_card); ?>
+                                            <div class="desc is-product" style="margin-top: 10px;">
+                                                <div class="desc-inner">
+                                                    <div class="outer <?= $row_card['sale_cnt_set'] ?>">
+                                                        <?
+                                                        $buy_btn = "";
+                                                        $contents_price_arr = explode("|", $contents_row['contents_price']);
+                                                        $contents_row['contents_price'] = $contents_price_arr[0] * 1;
+                                                        $contents_row['contents_download_price'] = $contents_price_arr[3] * 1;
+                                                        if ($contents_row['contents_price'] > 0) {
+                                                            if (!$row_card['sale_cnt_set']) {
+                                                                $style_decor = "";
+                                                                $state_end = "";
+                                                                $discount = $contents_row['reduce_val']; //100 - ($contents_row['contents_sell_price'] / $contents_row['contents_price']) * 100;
+                                                                $add_point = $contents_row['contents_price'] * ((int)$discount / 100);
+                                                            } else {
+                                                                if (!$row_card['sale_cnt']) {
+                                                                    $style_decor = "text-decoration: line-through;";
+                                                                    $state_end = "마감";
+                                                                    $discount = $contents_row['reduce_val']; //100 - ($contents_row['contents_sell_price'] / $contents_row['contents_price']) * 100;
+                                                                    $add_point = $contents_row['contents_price'] * (((int)$discount - $row_card['add_reduce_val']) / 100);
+                                                                } else {
+                                                                    $style_decor = "";
+                                                                    $state_end = "적립";
+                                                                    $discount = $contents_row['reduce_val']; //100 - ($contents_row['contents_sell_price'] / $contents_row['contents_price']) * 100;
+                                                                    $add_point = $contents_row['contents_price'] * ((int)$discount / 100);
+                                                                }
+                                                            }
+                                                            if ($_GET['key1'] == 4) {
+                                                                $state_end = "";
+                                                                if ($contents_row['gwc_con_state'] != 0) {
+                                                                    $price_show1 = "최저가";
+                                                                    $price_show2 = "정상가";
+                                                                    $price_style = "text-decoration: line-through;";
+                                                                    $add_point = $contents_row['contents_sell_price'];
+                                                                }
+                                                            }
+                                                            if ($cur_win == "my_info") {
+                                                                $state_end = "";
+                                                                if ($contents_row['gwc_con_state'] != 0) {
+                                                                    $price_show1 = "최저가";
+                                                                    $price_show2 = "정상가";
+                                                                    $price_style = "text-decoration: line-through darkgrey;";
+                                                                    $add_point = $contents_row['contents_sell_price'];
+                                                                    if ($_SESSION['iam_member_id'] != 'iamstore') {
+                                                                        $buy_btn_con = "visibility: hidden;";
+                                                                    } else {
+                                                                        $buy_btn_con = "";
+                                                                    }
+                                                                }
+                                                            }
+                                                            if (($_GET['iamstore'] == "Y" && $gwc_pay_mem) || $_GET['iamstore'] == "C") {
+                                                                $buy_btn_con = "visibility: hidden;";
+                                                                $discount = 100 - ($contents_row['send_provide_price'] / $contents_row['contents_sell_price']) * 100;
+                                                            }
+                                                        ?>
+                                                            <div class="price" style="width:100%;display: inline-flex;">
+                                                                <span style="vertical-align: top;color: red;font-size: 18px;font-weight: bold;margin-right: 3px;"><?= (int)$discount ?>% </span>
+                                                                <span class="downer" style="color:black;font-size: 18px;margin-right: 3px;"><?= number_format((int)$add_point) ?>원 </span>
+                                                                <span class="downer" style="font-size: 12px;color:darkgrey;"><span style="vertical-align: text-bottom;font-size: 12px;<?= $price_style ?>"><?= number_format($contents_row['contents_price']) ?></span>원 </span>
+                                                                <? if (($_GET['iamstore'] == "Y" && $gwc_pay_mem) || $_GET['iamstore'] == "C") { ?>
+                                                                    <span class="downer" style="color:black;font-size: 14px;margin-right: 5px;margin-left: 5px;">|| </span>
+                                                                    <span style="vertical-align: top;color: blue;font-size: 16px;font-weight: bold;margin-right: 3px;">공급가</span>
+                                                                    <span class="downer" style="color:black;font-size: 18px;margin-right: 3px;"><?= number_format($contents_row['send_provide_price']) ?>원 </span>
+                                                                <? } ?>
+                                                            </div>
+                                                            <span style="font-size: 15px;"><?= $state_end ?></span>
+                                                        <? } else { ?>
+                                                            <div class="price" style="width:230px;display: inline-flex;">
+                                                                <span style="vertical-align: top;color: red;font-size: 18px;font-weight: bold;margin-right: 3px;">0%</span>
+                                                                <span class="downer" style="color:black;font-size: 18px;margin-right: 3px;"><?= number_format($contents_row['contents_price']) ?>원</span>
+                                                                <span class="downer" style="font-size: 12px;color:darkgrey;"><span style="vertical-align: text-bottom;<?= $price_style ?>"><?= number_format($contents_row['contents_price']) ?></span>원</span>
+                                                            </div>
+                                                        <? } ?>
+                                                        <? if ($_GET['key1'] != 4) {
+                                                            if ($cur_win == 'my_info' && $_SESSION['iam_member_id'] == 'iamstore') {
+                                                                $buy_btn = "display:none;";
+                                                            } ?>
+                                                            <div class="order" style="<?= $buy_btn ?><?= $buy_btn_con ?>">
+                                                                <? if ($_SESSION['iam_member_id']) {
+                                                                    $price_service = $contents_row['contents_sell_price'];
+                                                                    $contents_row['contents_title'] = str_replace('"', ' ', $contents_row['contents_title']);
+                                                                    $contents_row['contents_title'] = str_replace("'", ' ', $contents_row['contents_title']);
+                                                                    $name_service = $contents_row['contents_title'];
+                                                                    $sellerid_service = $contents_row['mem_id'];
+                                                                    $contents_url = $contents_row['contents_url'];
+                                                                    $card_price = $contents_row['contents_sell_price'] * 1 + $contents_row['send_salary_price'] * 1;
+                                                                    $pay_link = "/iam/pay_spgd.php?item_name=" . $contents_row['contents_title'] . '&item_price=' . $card_price . '&manager=' . $contents_row['mem_id'] . "&conidx=" . $contents_row['idx'] . "&sale_cnt=" . $row_card['sale_cnt'];
+                                                                ?>
+                                                                    <div class="dropdown" style="float:right;width: 82px;">
+                                                                        <a class="dropdown-toggle" data-toggle="dropdown" expanded="false" style="background:#99cc00;border-radius:10px;cursor:pointer;">구매</a>
+                                                                        <ul class="dropdown-menu buy_servicecon" style="width: 82px;">
+                                                                            <li>
+                                                                                <a href="<?= $pay_link ?>" target="_blank" style="font-size: 12px;background-color:#99cc00;">카드결제</a>
+                                                                            </li>
+                                                                            <li>
+                                                                                <a onclick="point_settle_modal(<?= $contents_row['contents_sell_price'] ?>, '<?= $contents_row['contents_title'] ?>', '<?= $contents_row['idx'] ?>', '<?= $contents_row['mem_id'] ?>', '<?= $row_card['sale_cnt'] ? $row_card['sale_cnt'] : '0' ?>', '<?= $contents_row['send_salary_price'] ? $contents_row['send_salary_price'] : '0' ?>')" style="font-size: 12px;background-color:#99cc00;">포인트결제</a>
+                                                                            </li>
+                                                                        </ul>
+                                                                    </div>
+                                                                <? } else { ?>
+                                                                    <a href="<? echo '/iam/login.php?contents_idx=' . $contents_row['idx'] ?>" target="_self" style="background:#99cc00;border-radius:10px;">구매</a>
+                                                                <? } ?>
+                                                            </div>
+                                                        <? } ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        <? } ?>
+                                        <? if ($contents_row['contents_title'] != "") { ?>
+                                            <div class="title service_title" style="display: flex;flex-direction: column;justify-content: center;height:45px;">
+                                                <h3 style="font-size: 14px;text-align: left;"><?= $contents_row['contents_title'] ?></h3>
+                                            </div>
+                                        <? } ?>
+                                        <div class="desc" style="display:none;">
+                                            <div class="desc-inner desc-text desc-inner-content">
+                                                <p style="overflow-wrap: break-word;font-size: 14px;"><?= nl2br($contents_row['contents_desc']) ?></p>
+                                            </div>
+                                            <!--a class="arrow" style="color:#669933;font-weight:bold;cursor:pointer">
+                                        [더 보기]
+                                    </a-->
+                                            <? if ($content_images == null) {
+                                                if (!$_SESSION['iam_member_id'] || $cur_card['share_send_card'] != 0 || ($cur_win != "shared_receive" && $_SESSION['iam_member_id'] != $contents_row['mem_id'] && $_SESSION['iam_member_id'] != $group_manager)) { ?>
+                                                    <a class="content-utils" style="cursor:pointer;position:absolute;bottom:5px;right:10px;z-index:10;" onclick="showSNSModal_byContents('<?= $contents_row['idx'] ?>', '<?= $contents_row['gwc_con_state'] ?>');">
+                                                        <img src="/iam/img/menu/icon_share_white.png" style="width:13px;height:16px;margin-left:3px;margin-top:-1px;">
+                                                    </a>
+                                                <? } else { ?>
+                                                    <a onclick="show_contents_utils(<?= $contents_row['idx'] ?>);" class="content-utils" style="position: absolute;bottom:5px;right: 10px;z-index:10;" title="">
+                                                        <!--i class="fa fa-pencil-square-o" aria-hidden="false"></i-->
+                                                        <img src="/iam/img/menu/icon_utils_box.png" style="height:20px;">
+                                                    </a>
+                                                    <div class="utils-index" id="<?= 'utils_index_' . $contents_row['idx'] ?>" style="display:none;z-index:10;">
+                                                        <?
+                                                        if ($cur_win != "we_story" && $_SESSION['iam_member_id'] == $card_owner && $_SESSION['iam_member_id'] == $card_master) { ?>
+                                                            <a class="content-utils" onclick="contents_add('<?= $card_owner ?>','<?= $contents_row['contents_order'] ?>',<?= $my_first_card ?>);" style="">
+                                                                <img src="/iam/img/menu/icon_plus.png" style="width:20px;height:20px;">
+                                                            </a>
+                                                        <?  }
+                                                        if ($_SESSION['iam_member_id'] && ($_SESSION['iam_member_id'] == $contents_row['mem_id'] || $_SESSION['iam_member_id'] == $group_manager)) { ?>
+                                                            <a class="content-utils" onclick="contents_del('<?= $contents_row['idx'] ?>', '<?= $contents_row['ori_store_prod_idx'] ?>', '<?= $contents_row['product_seperate'] ?>', '<?= $contents_row['gwc_con_state'] ?>');">
+                                                                <img src="/iam/img/menu/icon_minus.png" style="width:20px;height:20px;">
+                                                            </a>
+                                                            <? if (!$cur_win || $cur_win == "my_info") { ?>
+                                                                <a class="content-utils" onclick="contents_range_down('<?= $contents_row['idx'] ?>', '<?= $contents_row['contents_order'] ?>','<?= $cur_card['card_short_url'] ?>', '<?= $contents_row['product_seperate'] ?>', '<?= $contents_row['gwc_con_state'] ?>');">
+                                                                    <img src="/iam/img/menu/icon_arrow_down.png" style="width:20px;height:20px;">
+                                                                </a>
+                                                                <a class="content-utils" onclick="contents_range_up('<?= $contents_row['idx'] ?>', '<?= $contents_row['contents_order'] ?>','<?= $cur_card['card_short_url'] ?>', '<?= $contents_row['product_seperate'] ?>', '<?= $contents_row['gwc_con_state'] ?>');">
+                                                                    <img src="/iam/img/menu/icon_arrow_up.png" style="width:20px;height:20px;">
+                                                                </a>
+                                                                <a class="content-utils" onclick="contents_range_down('<?= $contents_row['idx'] ?>', '<?= $contents_row['contents_order'] ?>','<?= $cur_card['card_short_url'] ?>', '<?= $contents_row['product_seperate'] ?>', '<?= $contents_row['gwc_con_state'] ?>','min');">
+                                                                    <img src="/iam/img/menu/icon_arrow_end.png" style="width:20px;height:20px;">
+                                                                </a>
+                                                                <a class="content-utils" onclick="contents_range_up('<?= $contents_row['idx'] ?>', '<?= $contents_row['contents_order'] ?>','<?= $cur_card['card_short_url'] ?>', '<?= $contents_row['product_seperate'] ?>', '<?= $contents_row['gwc_con_state'] ?>','max');">
+                                                                    <img src="/iam/img/menu/icon_arrow_start.png" style="width:20px;height:20px;">
+                                                                </a>
+                                                            <?  } ?>
+                                                            <? if ($_SESSION['iam_member_id'] == $group_manager) { ?>
+                                                                <a class="content-utils" onclick="contents_fix('<?= $contents_row['idx'] ?>');">
+                                                                    <img src="<?= $contents_row['group_fix'] > 0 ? '/iam/img/main/icon-pin.png' : '/iam/img/main/icon-graypin.png' ?>" style="width:20px;height:20px;">
+                                                                </a>
+                                                            <? } ?>
+                                                            <? if ($_SESSION['iam_member_id'] == $contents_row['mem_id']) {
+                                                                if ($is_pay_version) { ?>
+                                                                    <a class="content-utils" onclick="show_con_send('<?= $contents_row['idx'] ?>')">
+                                                                        <img src="/iam/img/main/icon_con_send.png" style="width:20px;height:20px;">
+                                                                    </a>
+                                                        <? }
+                                                            }
+                                                        } ?>
+                                                        <? if ($cur_win == "shared_receive") { ?>
+                                                            <a class="content-utils" onclick="remove_shared_content('<?= $contents_row['idx'] ?>','<?= $_SESSION['iam_member_id'] ?>');" style="">
+                                                                <img src="/iam/img/main/icon-hide.png" style="width:20px;height:20px;">
+                                                            </a>
+                                                        <? } ?>
+                                                        <a class="content-utils" onclick="showSNSModal_byContents('<?= $contents_row['idx'] ?>', '<?= $contents_row['gwc_con_state'] ?>');" style="">
+                                                            <img src="/iam/img/menu/icon_share.png" style="width:20px;height:20px">
+                                                        </a>
+                                                        <? if ($_SESSION['iam_member_id'] && ($_SESSION['iam_member_id'] == $contents_row['mem_id'] || $_SESSION['iam_member_id'] == $group_manager)) { ?>
+                                                            <? if ($_SESSION['iam_member_id'] == $contents_row['mem_id']) {
+                                                                $share_ids = explode(",", $contents_row['contents_share_text']);
+                                                                for ($index = 0; $index < count($share_ids); $index++) {
+                                                                    $share_sql = "select mem_name from Gn_Member where mem_id = '$share_ids[$index]'";
+                                                                    $share_result = mysql_query($share_sql);
+                                                                    $share_row = mysql_fetch_array($share_result);
+                                                                    $share_names[$index] = htmlspecialchars($share_row['mem_name']);
+                                                                }
+                                                                $share_names = implode(",", $share_names);
+                                                            ?>
+                                                                <a class="content-utils" onclick="contents_edit('<?= $contents_row['idx'] ?>', '<?= $contents_row['ori_store_prod_idx'] ?>');">
+                                                                    <img src="/iam/img/menu/icon_edit_white.png" style="width:20px;height:20px;">
+                                                                </a>
+                                                            <? } ?>
+                                                        <? } ?>
+                                                    </div>
+                                            <? }
+                                            } ?>
+                                        </div>
+                                    </div>
+                                <? } ?>
+                                <div class="info-wrap" <?
+                                                        if (($contents_row['contents_type'] == 1 && count($content_images) == 0) || $_GET['key1'] == 4)
+                                                            echo "style = 'min-height :30px;border:none;height: 50px;'";
+                                                        else
+                                                            echo "style = 'border:none;border-top:1px solid #dddddd;'";
+                                                        ?>>
+                                    <?
+                                    $host_pos = strpos($contents_row['contents_url'], "//");
+                                    $host_name = substr($contents_row['contents_url'], $host_pos + 2);
+                                    $host_pos = strpos($host_name, "/");
+                                    $host_name = substr($host_name, 0, $host_pos);
+                                    ?>
+                                    <? if ($contents_row['contents_url_title'] || $contents_row['contents_url']) {
+                                        if ($_GET['key1'] == 4 && $contents_row['ai_map_gmarket'] == 3) {
+                                            $display_gwc_con = "display:none;";
+                                        } else {
+                                            $display_gwc_con = "";
+                                        } ?>
+                                        <div class="media-tit" style="<?= $display_gwc_con ?>">
+                                            <a href="<?= $contents_row['contents_url'] ?>" target="_blank"><?= $host_name ?></a>
+                                            <br><?= $contents_row['contents_url_title'] ?>
+                                        </div>
+                                    <? } ?>
+                                    <div class="second-box" style="<? if ($westory_card['post_display'] == 0) echo ('display:none !important'); ?>">
+                                	<div class="in-box">
+                                    	    <div style="display: flex;vertical-align: middle">
+                                        	<a  class = "hand" href="javascript:contents_like('<?= $contents_row['idx'] ?>','<?= $_SESSION['iam_member_id'] ?>', '<?= $contents_row['product_seperate'] ?>', '<?= $contents_row['gwc_con_state'] ?>');">
+                                            	    <? if (in_array($_SESSION['iam_member_id'], explode(",", $contents_row['contents_like']))) { ?> 
+                                            	    <img src="/iam/img/menu/icon_like_active.png" width="24px" alt="" id="like_img_<?= $contents_row['idx'] ?>">
+                                            	    <? } else { ?>
+                                            	    <img src="/iam/img/menu/icon_like.png" width="24px" alt="" id="like_img_<?= $contents_row['idx'] ?>">
+                                            	    <? } ?>
+                                        	</a>
+                                        	<p class = "second-box-like like-count like_<?= $contents_row['idx'] ?>" style="font-size:13px">
+                                            	    <?= number_format(count(explode(",", $contents_row['contents_like']))) ?>개
+                                        	</p>
+                                        	<? if ($_GET['key1'] != 4) { ?>
+                                        	&nbsp;&nbsp;&nbsp;
+                                        	<a href="javascript:show_post('<?= $contents_row['idx'] ?>');" class="hand">
+                                            	    <img id="<?= 'show_post_img_' . $contents_row['idx'] ?>" src="/iam/img/menu/icon_post.png" height="24px" alt="">
+                                            	    <label style="font-size: 10px;background: #ff3333;border-radius: 50%!important;padding: 3px 5px!important;color: #fff;
+                                                        text-align: center;line-height: 1;position: absolute;margin-left: -15px" id = "<?= 'post_alarm_' . $contents_row['idx'] ?>"></label>
+                                        	</a>
+                                        	<p onclick = "refresh_post('<?= $contents_row['idx'] ?>')" class="second-box-like like-count" id="<?= 'post_count_' . $contents_row['idx'] ?>" style="font-size:13px"><?= $post_count ?>  &#x21BA;</p>
+                                        	<? } ?>
+                                    	    </div>
+                                	</div>
+                                	<? if ($_GET['key1'] == 4 && $_GET['iamstore'] == "N") { ?>
+                                	<div class="in-box" style="position: absolute;right: 10px;">
+                                    	    <a class="gwc_order_btn1" href="javascript:show_order_option('<?= $contents_row['idx'] ?>', 'cart', '<?= $gwc_mem ?>')" style="margin-bottom: 5px;font-size: 12px;border: 1px solid #99cc00;margin-right: 10px;padding: 3px 10px;border-radius: 10px;">장바구니</a>
+                                    	    <a class="gwc_order_btn2" href="javascript:show_order_option('<?= $contents_row['idx'] ?>', 'pay', '<?= $gwc_mem ?>')" style="margin-bottom: 5px;font-size: 12px;padding: 3px 10px;border-radius: 10px;border: 1px solid;color: white;background-color: #99cc00;">바로구매</a>
+                                	</div>
+                                	<? } ?>
+                            	    </div>
+                                </div>
+                                <?
+                                $post_status_sql = "select count(*) from Gn_Iam_Post where content_idx = '{$contents_row['idx']}' and status = 'N' and lock_status = 'N'";
+                                $post_status_res = mysql_query($post_status_sql);
+                                $post_status_row =  mysql_fetch_array($post_status_res);
+                                $post_status_count = $post_status_row[0];
+                                if ($post_status_count  > 0)
+                                    echo "<script>  $('#post_alarm_" . $contents_row['idx'] . "').html(" . $post_status_count . "); </script>";
+                                else
+                                    echo "<script>  $('#post_alarm_" . $contents_row['idx'] . "').hide(); </script>";
+                                ?>
+                                <div class="post-wrap <?= 'post_wrap' . $contents_row['idx'] ?>" style="display:none" id="<?= 'post_wrap' . $contents_row['idx'] ?>">
+                                    <div style="display: flex;justify-content: flex-end;">
+                                        <div style="margin-left:30px;margin-right:15px;width:100%">
+                                            <textarea id="post_content<?= $contents_row['idx'] ?>" name="post_content<?= $contents_row['idx'] ?>" class="post_content" maxlength="300" style="font-size:14px;width:100%;height:35px;border: 1px;" placeholder="댓글은 300자 이내로 작성해주세요"></textarea>
+                                        </div>
+                                        <div style="">
+                                            <button type="button" class="btn btn-link" style="font-size:14px;padding: 5px 12px;color:#99cc00" id="send_post" onclick="add_post('<?= $contents_row['idx'] ?>')">작성</button>
+                                        </div>
+                                    </div>
+                                    <div style="margin-left:30px;">
+                                        <span id="post_status" name="post_status" style="padding: 10px;font-size:10px">0/300</span>
+                                    </div>
+                                    <div style="border: 0px solid #dddddd;margin-left:30px;" id="<?= 'post_list_' . $contents_row['idx'] ?>" name="<?= 'post_list_' . $contents_row['idx'] ?>">
+                                        <? while ($post_row = mysql_fetch_array($post_res)) {
+                                            $sql_mem_p = "select profile, mem_name,  from Gn_Member where mem_id='{$post_row['mem_id']}'";
+                                            $res_mem_p = mysql_query($sql_mem_p);
+                                            $row_mem_p = mysql_fetch_array($res_mem_p);
+
+                                            $post_card_sql = "select card_short_url from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$post_row['mem_id']}' order by req_data asc";
+                                            $post_card_result = mysql_query($post_card_sql);
+                                            $post_card_row = mysql_fetch_array($post_card_result);
+                                        ?>
+                                            <div class="user-item" id="<?= 'post_reply' . $post_row['id'] ?>">
+                                                <a href="/?<?= strip_tags($post_card_row['card_short_url']) ?>" class="img-box">
+                                                    <div class="user-img" style="margin: 5px;width:32px;height:32px;">
+                                                        <? if ($row_mem_p['profile']) { ?>
+                                                            <img src="<?= $row_mem_p['profile'] ?>" alt="">
+                                                        <? } else { ?>
+                                                            <img src="/iam/img/profile_img.png" alt="">
+                                                        <? } ?>
+                                                    </div>
+                                                </a>
+                                                <div class="wrap" style="margin:10px 0px;">
+                                                    <span class="date">
+                                                        <?= $row_mem_p['mem_name'] . " " . $post_row['reg_date'] ?>
+                                                    </span>
+                                                    <span class="user-name">
+                                                        <? if ($post_row['type']) { ?>
+                                                            <?= $post_row['title'] ?><br>
+                                                        <? } ?>
+                                                        <?= str_replace("\n", "<br>", $post_row['content']) ?>
+                                                    </span>
+                                                </div>
+                                                <?
+                                                if ($_SESSION['iam_member_id'] && $_SESSION['iam_member_id'] == $post_row['mem_id']) {
+                                                    if ($post_row['type'] == 0) { ?>
+                                                        <div class="dropdown" style="top : 10px;position : absolute;right:30px;height:24px;">
+                                                            <img class="dropdown-toggle" data-toggle="dropdown" src="/iam/img/menu/icon_dot.png" style="height: 24px;">
+                                                            <ul class="dropdown-menu namecard-dropdown " style="background: white; color : black;top:10px;">
+                                                                <li>
+                                                                    <a href="javascript:void(0)" onclick="edit_post('<?= $contents_row['idx'] ?>','<?= $post_row['id'] ?>','<?= $post_row['content'] ?>')" title="댓글 수정">
+                                                                        <p>수정</p>
+                                                                    </a>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="javascript:void(0)" onclick="delete_post('<?= $contents_row['idx'] ?>','<?= $post_row['id'] ?>')" title="댓글 삭제">
+                                                                        <p>삭제</p>
+                                                                    </a>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    <? }
+                                                } else if ($_SESSION['iam_member_id'] && $_SESSION['iam_member_id'] == $contents_row['mem_id']) {
+                                                    if ($post_row['type'] == 0) { ?>
+                                                        <div class="dropdown" style="top : 10px;position : absolute;right:30px;height:24px">
+                                                            <img class="dropdown-toggle" data-toggle="dropdown" src="/iam/img/menu/icon_dot.png" style="height: 24px;">
+                                                            <ul class="dropdown-menu namecard-dropdown " style="background: white; color : black;top:10px;">
+                                                                <li>
+                                                                    <a href="javascript:void(0)" onclick="delete_post('<?= $contents_row['idx'] ?>','<?= $post_row['id'] ?>')" title="댓글 삭제">
+                                                                        <p>삭제</p>
+                                                                    </a>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="javascript:void(0)" onclick="lock_post('<?= $contents_row['idx'] ?>','<?= $post_row['id'] ?>')" title="댓글 차단">
+                                                                        <p>차단</p>
+                                                                    </a>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                <? }
+                                                } ?>
+                                                <? if ($post_row['type'] == 0) { ?>
+                                                    <div style="position: absolute;left: 60px;bottom: 0px">
+                                                        <span style="color: #bdbdbd;cursor:pointer;font-size:13px" onclick="show_post_reply(<?= $post_row['id'] ?>);">
+                                                            답글달기
+                                                        </span>
+                                                    </div>
+                                                <? } ?>
+                                            </div>
+                                            <div id="<?= 'post_reply_' . $post_row['id'] ?>" class="post_reply_wrap" style="display: none;margin : 10px 0px">
+                                                <div style="display: flex;justify-content: flex-end;">
+                                                    <div style="margin-left:60px;margin-right:15px;width:100%">
+                                                        <textarea id="<?= 'post_reply_' . $post_row['id'] . '_content' ?>" name="<?= 'post_reply_' . $post_row['id'] . '_content' ?>" class="post_reply_content" maxlength="300" placeholder="답글은 300자 이내로 작성해주세요" style="font-size:14px;height:35px;width: 100%;border: 1px;"></textarea>
+                                                    </div>
+                                                    <div style="">
+                                                        <button type="button" class="btn btn-link" style="font-size:14px;padding: 5px 12px;color:#99cc00" onclick="add_post_reply('<?= $contents_row['idx'] ?>','<?= $post_row['id'] ?>')">작성</button>
+                                                    </div>
+                                                </div>
+                                                <div style="border-bottom: 0px solid #dddddd;margin-left:60px">
+                                                    <span id="post_reply_status" name="post_reply_status" style="padding: 10px">0/300</span>
+                                                </div>
+                                            </div>
+                                            <?
+                                            $reply_sql = "select * from Gn_Iam_Post_Response r where r.post_idx = '{$post_row['id']}' order by r.reg_date";
+                                            $reply_res = mysql_query($reply_sql);
+                                            while ($reply_row = mysql_fetch_array($reply_res)) {
+                                                $sql_mem_pr = "select mem_name, profile from Gn_Member where mem_id='{$reply_row['mem_id']}'";
+                                                $res_mem_pr = mysql_query($sql_mem_pr);
+                                                $row_mem_pr = mysql_fetch_array($res_mem_pr);
+
+                                                $reply_card_sql = "select card_short_url from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$reply_row['mem_id']}' order by req_data asc";
+                                                $reply_card_result = mysql_query($reply_card_sql);
+                                                $reply_card_row = mysql_fetch_array($reply_card_result);
+                                            ?>
+                                                <div class="user-item" style="padding-left: 50px">
+                                                    <a href="/?<?= strip_tags($reply_card_row['card_short_url']) ?>" class="img-box">
+                                                        <div class="user-img" style="margin: 5px;width:32px;height:32px;">
+                                                            <? if ($row_mem_pr['profile']) { ?>
+                                                                <img src="<?= $row_mem_pr['profile'] ?>" alt="">
+                                                            <? } else { ?>
+                                                                <img src="/iam/img/profile_img.png" alt="">
+                                                            <? } ?>
+                                                        </div>
+                                                    </a>
+                                                    <div class="wrap">
+                                                        <span class="date">
+                                                            <?= $row_mem_pr['mem_name'] . " " . $reply_row['reg_date'] ?>
+                                                        </span>
+                                                        <span class="user-name" id="<?= 'reply_list_' . $reply_row['id'] ?>">
+                                                            <?= str_replace("\n", "<br>", $reply_row['contents']) ?>
+                                                        </span>
+                                                    </div>
+                                                    <? if ($_SESSION['iam_member_id'] && $_SESSION['iam_member_id'] == $post_row['mem_id']) {
+                                                        if ($reply_row['type'] == 0) { ?>
+                                                            <div class="dropdown" style="top : 10px;position : absolute;right:30px;height:24px">
+                                                                <img class="dropdown-toggle" data-toggle="dropdown" src="/iam/img/menu/icon_dot.png" style="height: 24px;">
+                                                                <ul class="dropdown-menu namecard-dropdown " style="background: white; color : black;top:10px;">
+                                                                    <li>
+                                                                        <a href="javascript:void(0)" onclick="edit_post_reply('<?= $contents_row['idx'] ?>','<?= $post_row['id'] ?>','<?= $reply_row['id'] ?>','<?= $reply_row['contents'] ?>')" title="답글 수정">
+                                                                            <p>수정</p>
+                                                                        </a>
+                                                                    </li>
+                                                                    <li>
+                                                                        <a href="javascript:void(0)" onclick="delete_post_reply('<?= $contents_row['idx'] ?>','<?= $reply_row['id'] ?>')" title="답글 삭제">
+                                                                            <p>삭제</p>
+                                                                        </a>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                        <? }
+                                                    } else if ($_SESSION['iam_member_id'] && $_SESSION['iam_member_id'] == $contents_row['mem_id']) {
+                                                        if ($reply_row['type'] == 0) { ?>
+                                                            <div class="dropdown" style="top : 10px;position : absolute;right:30px;height:24px">
+                                                                <img class="dropdown-toggle" data-toggle="dropdown" src="/iam/img/menu/icon_dot.png" style="height: 24px;">
+                                                                <ul class="dropdown-menu namecard-dropdown " style="background: white; color : black;top:10px;">
+                                                                    <li>
+                                                                        <a href="javascript:void(0)" onclick="delete_post_reply('<?= $contents_row['idx'] ?>','<?= $reply_row['id'] ?>')" title="답글 삭제">
+                                                                            <p>삭제</p>
+                                                                        </a>
+                                                                    </li>
+                                                                    <li>
+                                                                        <a href="javascript:void(0)" onclick="lock_post_reply('<?= $contents_row['idx'] ?>','<?= $reply_row['id'] ?>')" title="답글 차단">
+                                                                            <p>차단</p>
+                                                                        </a>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                    <? }
+                                                    } ?>
+                                                </div>
+                                        <? }
+                                        } ?>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                <?  } //while
+                    // middle log
+                    $logs->add_log("after render");
+                    // echo "after render"; exit;
+                }
+                ?>
+                <script type="text/javascript">
+                    var isClicked = false;
+
+                    function onClickMore(page) {
+                        var type = getCookie('contents_mode');
+                        if ('<?= $cur_win ?>' != "group-con")
+                            iam_mystory('<?= $request_short_url . $card_owner_code ?>&cur_win=<?= $cur_win ?>&type=' + type + '&w_page=' + page + '&search_key=' + '<?= $_GET['search_key'] ?>' + '&key1=' + '<?= $_GET['key1'] ?>' + '&key2=' + '<?= $_GET['key2'] ?>' + '&sort=' + '<?= $_GET['sort'] ?>' + '&key3=' + '<?= $_GET['key3'] ?>' + '&sort_key3=' + '<?= $_GET['sort_key3'] ?>' + '&loc_name=' + '<?= $_GET['loc_name'] ?>' + '&key4=' + '<?= $_GET['key4'] ?>' + '&iamstore=' + '<?= $_GET['iamstore'] ?>' + '&cate_prod=' + '<?= $_GET['cate_prod'] ?>' + '&wide=' + '<?= $_GET['wide'] ?>' + '&preview=' + '<?= $_GET['preview'] ?>');
+                        else
+                            iam_mystory('<?= $group_card_url . $card_owner_code ?>&cur_win=<?= $cur_win ?>&type=' + type + '&w_page=' + page + '&search_key=' + '<?= $_GET['search_key'] ?>' + '&key1=' + '<?= $_GET['key1'] ?>' + '&key2=' + '<?= $_GET['key2'] ?>' + '&sort=' + '<?= $_GET['sort'] ?>' + "&gkind=" + '<?= $gkind ?>');
+                    }
+                    <? if ($is_show_con_count == true || $_GET['search_key'] != '') { ?>
+                        $("#we_story_count").html("(" + <?= $cont_count ?> + ")건");
+                        $("#my_info_count").html("(" + <?= $cont_count ?> + ")건");
+                    <? } ?>
+
+                    $(document).ready(function() {
+                        var page = $(".show_next_paging").attr('data');
+                        $(".show_next_paging").on({
+                            mouseenter: function(e) {
+                                e.preventDefault();
+                                if (!isClicked) onClickMore(page);
+                                isClicked = true;
+                            },
+                            click: function() {
+                                onClickMore(page);
+                            }
+                        });
+                    })
+                </script>
+            </section><!-- // 하단 영역 끝 -->
+            <div class="pagination">
+                <ul <? if ($_GET['cur_win'] == "best_sample" || $_GET['cur_win'] == "sample" || $_GET['cur_win'] == "recent_sample") {
+                        echo 'hidden';
+                    } ?>>
+                    <? if (floor(($w_page - 1) / $pagination_count) >= 1) { //만약 현재 페이지가 12인데 이전버튼을 누르면 2번페이지로 갈 수 있게 함
+                    ?>
+                        <li class='arrow'>
+                            <a href='javascript:onClickMore(<?= $w_page - 10 ?>)'>
+                                <i class='fa fa-angle-left' aria-hidden='true'></i>
+                            </a>
+                        </li>
+                        <? }
+                    $start_page = floor(($w_page - 1) / $pagination_count) * $pagination_count + 1;
+                    $page_count = $pagination_count;
+                    if (($start_page + $pagination_count - 1) * $contents_count_per_page > $cont_count) {
+                        $page_count = floor(($cont_count + $contents_count_per_page - 1) / $contents_count_per_page) % $pagination_count;
+                    }
+                    //for문 반복문을 사용하여, 초기값을 블록의 시작번호를 조건으로 블록시작번호가 마지박블록보다 작거나 같을 때까지 $i를 반복시킨다
+                    for ($i = 0; $i < $page_count; $i++) {
+                        $cur_page = $i + $start_page;
+                        if ($w_page == $cur_page) { //만약 현재페이지이면 해당하는 번호에 굵은 빨간색을 적용한다
+                        ?>
+                            <li class='active'>
+                                <span><?= $cur_page ?></span>
+                            </li>
+                        <? } else { ?>
+                            <li>
+                                <a href="javascript:onClickMore('<?= $cur_page ?>')"><?= $cur_page ?></a>
+                            </li>
+                        <? }
+                    }
+                    if (($start_page + $page_count - 1) * $contents_count_per_page < $cont_count) { //만약 현재 페이지가 2인데 다음버튼을 누르면 12번페이지로 갈 수 있게 함
+                        $next_page = $w_page + 10;
+                        if ($next_page * $contents_count_per_page > $cont_count)
+                            $next_page = round($cont_count / $contents_count_per_page);
+                        ?>
+                        <li class='arrow'>
+                            <a href='javascript:onClickMore(<?= $next_page ?>)'>
+                                <i class='fa fa-angle-right' aria-hidden='true'></i>
+                            </a>
+                        </li>
+                    <? } ?>
+                </ul>
+                <? if ($cur_win == "my_info" || $cur_win == "my_story") { ?>
+                    <span style="margin-top:10px"><?= "총 " . $cont_count . "건" ?></span>
                 <? } ?>
-            </footer>
-            <div id="ajax-loading"><img src="/iam/img/ajax-loader.gif"></div>
-            <div id="tutorial-loading"></div>
-            <a class="content-utils" id="gpt" href="/iam/gpt_chat.php">
-                <img src="/iam/img/robot.png" style="width:32px;height:32px;">
-            </a>
-        </div><!--end wrap-->
-        <? if (get_device_type() == "PC") { ?>
-            <div id="right_menu" style="position:relative;margin-top:58px;">
-                <div style="position: fixed;border-top:1px solid #ddd;" class="iam_menu_lr">
-                    <div onclick="<?= 'location.href=\'/?cur_win=best_sample\'' ?>" style="margin-top: 20px;" class="right_iam_menu_div">
-                        <img src="/iam/img/menu/icon_malll_best.png" class="iconperson" style="margin-top:0px">
-                        <span>&nbsp;&nbsp;베스트IAM</span>
-                    </div>
-                    <div onclick="sns_sendSMS('N');" class="right_iam_menu_div">
-                        <img src="/iam/img/menu/icon_send_iam.png" class="iconperson" style="margin-top:0px">
-                        <span>&nbsp;&nbsp;IAM 전송</span>
-                    </div>
-                    <div onclick="create_auto_card();" class="right_iam_menu_div">
-                        <img src="/iam/img/menu/icon_auto_card.png" class="iconperson" style="margin-top:0px">
-                        <span>&nbsp;&nbsp;AI자동카드</span>
-                    </div>
-                    <div onclick="<?= 'location.href=\'/iam/mypage_report.php\'' ?>" class="right_iam_menu_div">
-                        <img src="/iam/img/menu/icon_report.png" class="iconperson" style="margin-top:0px">
-                        <span>&nbsp;&nbsp;설문리포트</span>
-                    </div>
-                    <div onclick="<?= 'location.href=\'/iam/gpt_chat.php\'' ?>" class="right_iam_menu_div">
-                        <img src="/iam/img/menu/icon_gpt_alzi.png" class="iconperson" style="margin-top:0px">
-                        <span>&nbsp;&nbsp;GPT알지</span>
-                    </div>
-                    <div style="height:100px;border-bottom:1px solid #ddd"></div>
-                    <div onclick="<?= 'location.href=\'http://mk5.kr\'' ?>" class="right_iam_menu_div">
-                        <img src="/iam/img/menu/icon_business_munja.png" class="iconperson" style="margin-top:0px">
-                        <span>&nbsp;&nbsp;기업문자</span>
-                    </div>
-                    <div onclick="<?= 'location.href =\'/sub_10.php\'' ?>" class="right_iam_menu_div">
-                        <img src="/iam/img/menu/icon_web_munja.png" class="iconperson" style="margin-top:0px">
-                        <span>&nbsp;&nbsp;웹문자</span>
-                    </div>
-                    <div onclick="<?= 'window.open(\'/sub_10.php\')' ?>" class="right_iam_menu_div">
-                        <img src="/iam/img/menu/icon_phone_munja.png" class="iconperson" style="margin-top:0px">
-                        <span>&nbsp;&nbsp;폰문자</span>
-                    </div>
-                    <div onclick="<?= 'location.href=\'/sub_10.php\'' ?>" class="right_iam_menu_div">
-                        <img src="/iam/img/menu/icon_callback_munja.png" class="iconperson" style="margin-top:0px">
-                        <span>&nbsp;&nbsp;콜백문자</span>
-                    </div>
-                    <div onclick="<?= 'location.href=\'/sub_10.php\'' ?>" class="right_iam_menu_div">
-                        <img src="/iam/img/menu/icon_dber.png" class="iconperson" style="margin-top:0px">
-                        <span>&nbsp;&nbsp;디비수집</span>
-                    </div>
-                    <div onclick="<?= 'location.href=\'http://iamgpt.kr/dashboard' ?>" class="right_iam_menu_div">
-                        <img src="/iam/img/menu/icon_gpt_iam.png" class="iconperson" style="margin-top:0px">
-                        <span>&nbsp;&nbsp;IAM GPT</span>
-                    </div>
-                </div>
+                <br>
+                <?
+                if ($w_page * $contents_count_per_page < $cont_count) {
+                    $next_page = $w_page + 1;
+                ?>
+                    <button style="width: 100%;padding: 7px;font-size: 20px;background-color: #039f57;color: white;" class="show_next_paging" data='<?= $next_page ?>'>다음페이지 열기</button>
+                <? } ?>
             </div>
-        </div>
-    <? } ?>
+            <!-- 콘텐츠부분 -->
+            <!-- ############################################################################################################################## -->
+            <div id="ajax_div" style="display:none"></div>
+        </main>
+        <!-- ============================================= // 콘텐츠 영역 끝 =============================================== -->
+        <footer id="footer" style="text-align: center;">
+            <? //if($HTTP_HOST != "kiam.kr") {
+            ?>
+            <a href="<?= $domainData['footer_link']; ?>"><img src="<?= $domainData['footer_logo'] == "" ? "/iam/img/common/logo.png" : $domainData['footer_logo']; ?>" alt="아이엠 푸터로고" width="150"></a>
+            <?/*} else {?>
+            <a href="/m/"><img src="/iam/img/common/logo.png" alt="아이엠 푸터로고" width="120"></a>
+        <?}*/ ?>
+        </footer>
+        <div id="ajax-loading"><img src="/iam/img/ajax-loader.gif"></div>
+        <div id="tutorial-loading"></div>
+        <a class="content-utils" id="scroll_down" onclick="scroll_down();">
+            <img src="/iam/img/menu/icon_next_con.png" style="width:60px;height:58px;margin-left:0px;margin-top:-1px;">
+        </a>
+    </div>
     <?
     if (!$pay_status && $my_first_card) {
         echo "<script>toastr.error('본 카드는 공유카드이기 때문에 편집 또는 삭제가 안됩니다.');</script>";
     }
     // middle log
     $logs->add_log("section End");
+
     // echo "before_popup"; exit;
     ?>
     <form name="index_form" method="post">
@@ -4506,6 +6123,21 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
             $("#contents_add_modal").attr('style', 'display: block;overflow: auto;');
         }
 
+        function clear_wecon_search() {
+            $("#wecon_search_input").val('');
+            wecon_search_clicked();
+        }
+
+        function clear_mycon_search() {
+            $("#mycon_search_input").val('');
+            mycon_search_clicked();
+        }
+
+        function clear_wecon_search1() {
+            $("#mall_search_input").val('');
+            mall_search_clicked();
+        }
+
         function show_category() {
             $("#gwc_category_list_modal").modal('show');
         }
@@ -4626,12 +6258,14 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                             opt_price = 0;
                             if (opt_txt.indexOf('(+') != -1 && opt_txt.indexOf('원)') != -1) {
                                 opt_txt_arr = opt_txt.split('(+');
+                                //opt_txt = opt_txt_arr[1].replace('원)', '');
                                 opt_txt = opt_txt.match(/(?<=\+)(.*?)(?=원)/g)[0];
                                 opt_price = opt_txt.replace(/,/g, '');
                             }
 
                             let cur_price_1 = parseInt($("#gwc_conts_price").text().replace(/,/g, ""));
                             $("#gwc_conts_price").text(number_format(cur_price_1 * 1 + opt_price * 1));
+                            // $("#gwc_ori_opt_price").val(opt_price);
 
                             if (option_array.toString().indexOf(opt_txt_arr[0]) == -1) {
                                 option_array.push(opt_txt_arr[0]);
@@ -4681,6 +6315,7 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
             var cur_price = parseInt($("#gwc_conts_price").text().replace(/,/g, ""));
             var ori_price = parseInt($("#gwc_ori_price").val());
 
+            // console.log(cur_cnt, cur_price, ori_price);
             if (val == "0") {
                 if (cur_cnt * 1 - 1 == 0) {
                     alert('최소 구매수량은 1 이상 입니다.');
@@ -4778,13 +6413,17 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                     success: function(data) {
                         alert('삭제되었습니다.');
                         $("#paper_list_" + id).remove();
-                        if ($('.paper_list').length == 0) {
-                            var html = '<p style="text-align: center;font-size: 17px;font-weight: 900;">종이명함이 없습니다.</p>';
+                        if ($(".paper_list").length == 0) {
+                            var html = "<p style='text-align:center;font-size:17px;font-weight:900;'>종이명함이 없습니다.</p>";
                             $("#papercard_list").html(html);
                         }
                     }
                 })
             }
+        }
+
+        function click_paper_tab() {
+            $("#paper-tab").click();
         }
 
         function show_comment() {
@@ -4842,17 +6481,17 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                 },
                 success: function(data) {
                     alert("저장되었습니다.");
-                    //location.reload();
                     $("#paper_list_edit_modal").modal("hide");
+		    AppScript.savePaper();
                 }
             });
         }
 
-        function show_paper_img(img_link) {
-            var img_tab = '<img src="' + img_link + '">';
+        /*function show_paper_img(img_link){
+            var img_tab = '<img src="'+img_link+'">';
             $("#paper_image_link").html(img_tab);
             $("#show_paper_image").modal('show');
-        }
+        }*/
 
         function cancel_req(req_idx) {
             if (confirm('취소하시겠습니까?')) {
@@ -4882,23 +6521,6 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                         req_idx: req_idx,
                         req_state: 'Y',
                         mode: 'update_state'
-                    },
-                    success: function(data) {
-                        location.reload();
-                    }
-                })
-            }
-        }
-
-        function del_req(req_idx) {
-            if (confirm('삭제하시겠습니까?')) {
-                $.ajax({
-                    type: "POST",
-                    url: "/iam/ajax/manage_request_list.php",
-                    dataType: "json",
-                    data: {
-                        req_idx: req_idx,
-                        mode: 'del_req'
                     },
                     success: function(data) {
                         location.reload();
@@ -4994,7 +6616,6 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
         }
 
         function hide_all_content_images(content_idx) {
-            var parent = $("#hide_content_all_image" + content_idx).parents(".media-inner");
             $("#content_all_image" + content_idx).show();
             $("#hide_content_all_image" + content_idx).hide();
             $(".hidden_image" + content_idx).hide();
@@ -5006,7 +6627,7 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
         function installApp() {
             /*var navCase = navigator.userAgent.toLocaleLowerCase();
              if(navCase.search("android") > -1){
-             location.href = "https://m.onestore.co.kr/mobilepoc/apps/appsDetail.omp?prodId=0000763801";
+             location.href = "https://play.google.com/store/apps/details?id=mms.onepagebook.com.onlyonesms";
              }
              else{
              alert("휴대폰에서 이용해주세요.");
@@ -5015,6 +6636,27 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
         }
 
         function show_post(content_idx) {
+            //var recent_post = $("#recent_post").val();
+            /*if(recent_post == 0){
+                $.ajax({
+                    type:"POST",
+                    url:"/iam/ajax/ajax.v1.php",
+                    dataType:"json",
+                    data:{
+                        post_alert : "Y",
+                        mem_id: '<?= $_SESSION['iam_member_id'] ?>'
+                    },
+                    success:function(data){
+                        $("#recent_post").val(1);
+                    },
+                    error: function(data){
+                    }
+                });
+                //$("#post_popup").modal("show");
+                //$("#post_popup").find("#content_idx").val(content_idx);
+            }*/
+            //else{
+            //$(".post-wrap").hide();
             if ($(".post_wrap" + content_idx).css('display') == "none") {
                 $(".post_wrap" + content_idx).show();
                 $("#show_post_img_" + content_idx).prop("src", "/iam/img/menu/icon_post_active.png");
@@ -5038,6 +6680,7 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                 $(".post_wrap" + content_idx).hide();
                 $("#show_post_img_" + content_idx).prop("src", "/iam/img/menu/icon_post.png");
             }
+            //}
         }
 
         function show_next_iam(link) {
@@ -5102,8 +6745,8 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                 autoplay: true,
                 infinite: false,
                 appendArrows: $('.slider-arrows'),
-                prevArrow: '<button class="arrows prev" style="height:90px;width:70px"><i class="fa fa-chevron-circle-left" aria-hidden="true" style="font-size:30px"></i></button>',
-                nextArrow: '<button class="arrows next" style="height:90px;width:70px"><i class="fa fa-chevron-circle-right" aria-hidden="true" style="font-size:30px"></i></button>'
+                prevArrow: '<button class="arrows prev"><i class="fa fa-chevron-circle-left" aria-hidden="true" style="font-size:18px"></i></button>',
+                nextArrow: '<button class="arrows next"><i class="fa fa-chevron-circle-right" aria-hidden="true" style="font-size:18px"></i></button>'
             });
             var innerImgFrame = $('.slick-track');
             var innerImgFrame2 = $('.slider-item');
@@ -5178,59 +6821,29 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
             }
         });
 
+        // ######re####
         $(window).ready(function() {
             var t_width = $('.slick-list').width();
             var t_height = Math.floor(t_width / 6 * 4);
-            if ('<?= $cur_win ?>' == 'iam_mall')
-                t_height /= 2;
             $(".slick-track").css("height", t_height);
 
             var win_width = $(window).width();
             var wrap_width = $("#wrap").width();
             var right = Math.floor((win_width - wrap_width) / 2) + 30;
-            $("#gpt").attr('style', 'position: fixed;bottom: 60px;right: ' + right + 'px;z-index: 997;width: 44px;height: 44px;padding:6px;background-color: white;');
+
+            $("#scroll_down").attr('style', 'position: fixed;bottom: 60px;right: ' + right + 'px;z-index: 997;width: 55px;height: 55px;background-color: unset;');
         });
         $(window).resize(function() {
             var t_width = $('.slick-list').width();
             var t_height = Math.floor(t_width / 6 * 4);
-            if ('<?= $cur_win ?>' == 'iam_mall')
-                t_height /= 2;
             $(".slick-track").css("height", t_height);
 
             var win_width = $(window).width();
             var wrap_width = $("#wrap").width();
             var right = Math.floor((win_width - wrap_width) / 2) + 30;
-            $("#gpt").attr('style', 'position: fixed;bottom: 60px;right: ' + right + 'px;z-index: 997;width: 44px;height: 44px;padding:6px;background-color: white;');
-        });
 
-        function makeParams(link) {
-            /*if('<?= $_GET['search_key'] ?>' != "" && link.search('search_key') == -1)
-                link +='&search_key=' + '<?= $_GET['search_key'] ?>';*/
-            var inputVal = $("#search_input").val();
-            if (inputVal != "")
-                link += '&search_key=' + inputVal;
-            if ('<?= $_GET['sample_key'] ?>' != "" && link.search('sample_key') == -1)
-                link += '&sample_key=' + '<?= $_GET['sample_key'] ?>';
-            if ('<?= $_GET['mall_type'] ?>' != "" && link.search('mall_type') == -1)
-                link += '&mall_type=' + '<?= $_GET['mall_type'] ?>';
-            if ('<?= $_GET['mall_sub_type'] ?>' != "" && link.search('mall_sub_type') == -1)
-                link += '&mall_sub_type=' + '<?= $_GET['mall_sub_type'] ?>';
-            if ('<?= $_GET['key4'] ?>' != "" && link.search('key4') == -1)
-                link += '&key4=' + '<?= $_GET['key4'] ?>';
-            if ('<?= $_GET['sort'] ?>' != "" && link.search('sort=') == -1)
-                link += '&sort=' + '<?= $_GET['sort'] ?>';
-            if ('<?= $_GET['sort_key3'] ?>' != "" && link.search('sort_key3') == -1)
-                link += '&sort_key3=' + '<?= $_GET['sort_key3'] ?>';
-            if ('<?= $_GET['loc_name'] ?>' != "" && link.search('loc_name') == -1)
-                link += '&loc_name=' + '<?= $_GET['loc_name'] ?>';
-            if ('<?= $_GET['iamstore'] ?>' != "" && link.search('iam_store') == -1)
-                link += '&iamstore=' + '<?= $_GET['iamstore'] ?>';
-            if ('<?= $_GET['cate_prod'] ?>' != "" && link.search('cate_prod') == -1)
-                link += '&cate_prod=' + '<?= $_GET['cate_prod'] ?>';
-            if ('<?= $_GET['wide'] ?>' != "" && link.search('wide') == -1)
-                link += '&wide=' + '<?= $_GET['wide'] ?>';
-            return link;
-        }
+            $("#scroll_down").attr('style', 'position: fixed;bottom: 60px;right: ' + right + 'px;z-index: 997;width: 55px;height: 55px;background-color: unset;');
+        });
         // 아이엠스토에 페이지 상품 보기
         function show_iamstore_prod(val) {
             var type = getCookie('contents_mode');
@@ -5257,23 +6870,23 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                         } else {
                             if (data.cont_cnt == '0') {
                                 alert("현재 IAMSTORE에서 가져온 상품이 없습니다.\n회원님의 익월 소비금액이 있으면 지금 상품을 가져오시면 됩니다.\n소비금액이 없으면 프로슈머 굿마켓의 미션달성을 위해 소비활동을 여기서 해주시기바랍니다.");
+                                // return;
                             }
-                            var link = "?" + "<?= $request_short_url . $card_owner_code ?>&cur_win=iam_mall&key4=1&type=" + type;
-                            location.href = makeParams(link);
+                            // else{
+                            location.href = "?" + "<?= $request_short_url . $card_owner_code ?>&cur_win=we_story&type=" + type + "&search_key=" + "<?= $_GET['search_key'] ?>" + "&key1=" + "<?= $_GET['key1'] ?>" + "&key2=" + "<?= $_GET['key2'] ?>" + "&key3=" + "<?= $_GET['key3'] ?>" + "&sort_key3=" + "<?= $_GET['sort_key3'] ?>" + "&key4=1&iamstore=" + val + "&wide=" + "<?= $_GET['wide'] ?>";
+                            // }
                         }
                     }
                 })
             } else if (val == "R") {
-                var link = "?" + "<?= $request_short_url . $card_owner_code ?>&cur_win=we_story&key4=1&req_provide=Y&type=" + type;
-                location.href = makeParams(link);
+                location.href = "?" + "<?= $request_short_url . $card_owner_code ?>&cur_win=we_story&type=" + type + "&search_key=" + "<?= $_GET['search_key'] ?>" + "&key1=" + "<?= $_GET['key1'] ?>" + "&key2=" + "<?= $_GET['key2'] ?>" + "&key3=" + "<?= $_GET['key3'] ?>" + "&sort_key3=" + "<?= $_GET['sort_key3'] ?>" + "&key4=1&iamstore=<?= $_GET['sort_key3'] ?>&req_provide=Y";
             } else {
                 if (gwc_mem_id == '') {
                     location.href = '/iam/login.php';
                     return;
                 }
                 if (gwc_pay_mem == '1') {
-                    var link = "?" + "<?= $request_short_url . $card_owner_code ?>&cur_win=iam_mall&key4=1&type=" + type + "&iamstore=" + val;
-                    location.href = makeParams(link);
+                    location.href = "?" + "<?= $request_short_url . $card_owner_code ?>&cur_win=we_story&type=" + type + "&search_key=" + "<?= $_GET['search_key'] ?>" + "&key1=" + "<?= $_GET['key1'] ?>" + "&key2=" + "<?= $_GET['key2'] ?>" + "&key3=" + "<?= $_GET['key3'] ?>" + "&sort_key3=" + "<?= $_GET['sort_key3'] ?>" + "&key4=1&iamstore=" + val + "&wide=" + "<?= $_GET['wide'] ?>";
                 } else {
                     alert('2만원이상 구매회원에게만 보여줍니다.');
                     return;
@@ -5290,31 +6903,28 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
             <? } else { ?>
                 var iamstore = "<?= $_GET['iamstore'] ?>";
             <? } ?>
-            var link = "?" + "<?= $request_short_url . $card_owner_code ?>&cur_win=iam_mall&type=" + type + "&sort_key3=" + sort_key3 + "&key4=1&iamstore=" + iamstore + "&cate_prod=" + val;
             if (val == '1268514') {
                 iamstore = "N";
                 if ($("#recom_gwc_item").attr('style').indexOf('#99cc00') == -1) {
-                    location.href = makeParams(link);
+                    location.href = "?" + "<?= $request_short_url . $card_owner_code ?>&cur_win=we_story&type=" + type + "&search_key=" + "<?= $_GET['search_key'] ?>" + "&key1=" + "<?= $_GET['key1'] ?>" + "&key2=" + "<?= $_GET['key2'] ?>" + "&key3=" + "<?= $_GET['key3'] ?>" + "&sort_key3=" + sort_key3 + "&key4=1&iamstore=" + iamstore + "&cate_prod=" + val + "&wide=" + "<?= $_GET['wide'] ?>";
                 } else {
-                    location.href = makeParams(link);
+                    location.href = "?" + "<?= $request_short_url . $card_owner_code ?>&cur_win=we_story&type=" + type + "&search_key=" + "<?= $_GET['search_key'] ?>" + "&key1=" + "<?= $_GET['key1'] ?>" + "&key2=" + "<?= $_GET['key2'] ?>" + "&key3=" + "<?= $_GET['key3'] ?>" + "&sort_key3=" + sort_key3 + "&key4=1&iamstore=" + iamstore + "&cate_prod=" + "&wide=" + "<?= $_GET['wide'] ?>";
                 }
             } else {
-                location.href = makeParams(link);
+                location.href = "?" + "<?= $request_short_url . $card_owner_code ?>&cur_win=we_story&type=" + type + "&search_key=" + "<?= $_GET['search_key'] ?>" + "&key1=" + "<?= $_GET['key1'] ?>" + "&key2=" + "<?= $_GET['key2'] ?>" + "&key3=" + "<?= $_GET['key3'] ?>" + "&sort_key3=" + sort_key3 + "&key4=1&iamstore=" + iamstore + "&cate_prod=" + val + "&wide=" + "<?= $_GET['wide'] ?>";
             }
         }
 
         function gwc_tab() {
             var type = getCookie('contents_mode');
             var sort_key3 = Math.floor(Math.random() * 4);
-            var link = "?" + "<?= $request_short_url . $card_owner_code ?>&cur_win=iam_mall&type=pin&mall_type=gmarket&mall_sub_type=all&sort_key3=" + sort_key3 + "&key4=1&iamstore=N&wide=Y";
-            location.href = makeParams(link);
+            location.href = "?" + "<?= $request_short_url . $card_owner_code ?>&cur_win=we_story&type=pin&search_key=" + "<?= $_GET['search_key'] ?>" + "&key1=4&key2=" + "<?= $_GET['key2'] ?>" + "&key3=0&sort_key3=" + sort_key3 + "&key4=1&iamstore=N" + "&wide=Y";
         }
 
-        function calliya_tab() {
+        function callya_tab() {
             var type = getCookie('contents_mode');
-            var sort_calliya = 1; //소개
-            var link = "?" + "<?= $request_short_url . $card_owner_code ?>&cur_win=iam_mall&type=" + type + "&mall_type=calliya&mall_sub_type=intro&sort_calliya=" + sort_calliya;
-            location.href = makeParams(link);
+            sort_key3 = 1;
+            location.href = "?" + "<?= $request_short_url . $card_owner_code ?>&cur_win=we_story&type=" + type + "&search_key=" + "<?= $_GET['search_key'] ?>" + "&key1=3&key2=" + "<?= $_GET['key2'] ?>" + "&key3=0&sort_key3=" + sort_key3;
         }
 
         //네이버지도방문 콘텐츠 보기
@@ -5416,11 +7026,6 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
             $("#set_reduction_modal").modal("show");
         }
 
-        function show_point_modal() {
-            $("#total_service_modal").modal("hide");
-            $("#point_modal").modal("show");
-        }
-
         function save_set_reduce(type) {
             var fixed = $('#reduction_percent_fixed').val();
             var event_val = $('#reduction_percent_event').val();
@@ -5466,7 +7071,10 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                 }
             });
         }
-
+        /*function colse_reduce(){
+            $("#set_reduction_modal").modal('hide');
+            location.reload();
+        }*/
         function show_map_busitime(card_idx) {
             $.ajax({
                 type: "POST",
@@ -5494,6 +7102,7 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                 },
                 dataType: 'text',
                 success: function(data) {
+                    console.log(data);
                     location.href = '?' + data + '&edit_time=Y';
                 }
             });
@@ -5521,7 +7130,6 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
         //자동아이엠만들기 스크립트 시작
         function create_auto_card() {
             $('#mypage-modalwindow').modal('hide');
-            $('#total_service_modal').modal('hide');
             $('#people_iam_modal').modal('show');
         }
         //새계정 만들기 현시prop("disabled", false)
@@ -5587,7 +7195,6 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
 
         function point_chung() {
             $('#people_iam_modal').modal('hide');
-            $('#point_modal').modal('hide');
             $('#card_send_modal').modal('hide');
             $('#contents_send_modal').modal('hide');
             $('#cashtoseed_settlement').modal('show');
@@ -5651,7 +7258,9 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                     point_val: 1
                 },
                 dataType: 'json',
-                success: function(data) {}
+                success: function(data) {
+                    console.log(data);
+                }
             });
             $("#mutong_settlement").modal('hide');
             $("#mutong_settle").modal('show');
@@ -5887,6 +7496,7 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
             } else {
                 var data = $("#point_pay_data").val();
                 var mall_pay_type = data.substring(0, 1) * 1;
+                console.log(data + '>>', mall_pay_type);
                 return;
                 $.ajax({
                     type: "POST",
@@ -5927,9 +7537,12 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                 var ele = 0;
                 var item_type = $('input[name=make_iam]:checked').val();
                 var settlment_type = $('input[name=pay_type]:checked').val();
+                // var auto_type_bank = false;
+                // var auto_type_card = false;
                 var type_card = false;
                 var type_bank = false;
 
+                // var settlment_type_auto = $('input[name=pay_type_auto]:checked').val();
                 if (auto_up == "auto") {
                     auto = 1;
                     item_type = "auto";
@@ -5973,6 +7586,7 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                 $('#total_amount').text(ele);
                 $('#onestep1').val("ON");
                 $('#onestep2').val("ON");
+                console.log(ele);
 
                 $('#member_type').val(memberType);
                 $('#add_phone').val(con_cnt);
@@ -5990,6 +7604,7 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                             dataType: "json",
                             data: $('#pay_form').serialize(),
                             success: function(data) {
+                                console.log("mutongjang!!!!!!");
                                 if (data == 1) {
                                     if (auto == 1) {
                                         auto_point_chung('<?= $_SESSION['iam_member_id'] ?>', 'bank', ele);
@@ -6038,7 +7653,6 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
         //결제/이용내역 팝업 현시
         function show_contents() {
             $('#people_iam_modal').modal('hide');
-            $('#point_modal').modal('hide');
             $('#card_send_modal').modal('hide');
             $('#contents_send_modal').modal('hide');
             $('#settlement_contents_modal').modal('show');
@@ -6099,7 +7713,7 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
             mem_zy = $("#blog_mem_zy").val();
             mem_address = $("#blog_mem_address").val();
             state = $("#blog_mem_name").prop("disabled");
-            if ($("#updat").prop("checked") == true) {
+            if ($("#update").prop("checked") == true) {
                 auto_data = true;
             } else {
                 auto_data = false;
@@ -6211,6 +7825,7 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                 pwd = $("#pwd").val();
                 site = '<?= $user_site ?>';
                 recommend_id = '<?= $_SESSION['iam_member_id']; ?>';
+                console.log(address, contents_cnt, phone_num, new_id, pwd, site);
                 style = $("#checkdup").attr('style');
                 if (style.indexOf("blue") == -1) {
                     alert("아이디 중복확인을 하세요.");
@@ -6272,9 +7887,11 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                         if (data == 5) {
                             alert("사진이 없어서 수집할수 없습니다");
                             location.reload();
+                            // return;
                         }
                     }
                 });
+                // console.log("OK mineid!!");
             } else if (style_cardsel == "") { //카드에 추가하기
                 slt = 2;
                 my_id = '<?= $_SESSION['iam_member_id']; ?>';
@@ -6297,7 +7914,9 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                         short_url: sel_type
                     },
                     url: url,
-                    success: function(data) {}
+                    success: function(data) {
+                        console.log(data);
+                    }
                 });
             }
 
@@ -6307,6 +7926,7 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
             //크롤링 진행 상태값 얻어 오기
             if (type == 'people') {
                 var interval_people = setInterval(function() {
+                    console.log(count_interval);
                     $.ajax({
                         type: "POST",
                         url: "/admin/people_crawling_status.php",
@@ -6318,6 +7938,7 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                             mem_id_status: mem_id_status
                         },
                         success: function(data) {
+                            console.log(data.status);
                             if (data.status == 0) {
                                 $("#startmaking").attr('disabled', false);
                                 clearInterval(interval_people);
@@ -6346,6 +7967,7 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                 }, 5000);
             } else if (type == 'news') {
                 var interval_news = setInterval(function() {
+                    console.log(count_interval);
                     $.ajax({
                         type: "POST",
                         url: "/admin/news_crawling_status.php",
@@ -6356,6 +7978,7 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                             mem_id_status: mem_id_status
                         },
                         success: function(data) {
+                            console.log(data.status);
                             if (data.status == 0) {
                                 $("#startmaking").attr('disabled', false);
                                 clearInterval(interval_news);
@@ -6395,6 +8018,7 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                             mem_id_status: mem_id_status
                         },
                         success: function(data) {
+                            console.log(data.status);
                             if (data.status == 0) {
                                 $("#startmaking").attr('disabled', false);
                                 clearInterval(interval_map);
@@ -6412,8 +8036,12 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                                 alert("콘텐츠 데이터가 없거나 이미 다 가져 왔습니다. 웹링크를 다시 확인해 주세요.");
                                 clearInterval(interval_map);
                                 location.reload();
-                            } else if (data.status == 3 || count_interval == 6) {
+                            } else if (data.status == 3) {
                                 alert("아이엠 자동 생성중 오류가 발생 하였습니다.");
+                                clearInterval(interval_map);
+                                location.reload();
+                            } else if (count_interval == 6) {
+                                alert("아이엠 자동 생성중 오류가 발생 하였습니다...");
                                 clearInterval(interval_map);
                                 location.reload();
                             }
@@ -6434,6 +8062,7 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                             mem_id_status: mem_id_status
                         },
                         success: function(data) {
+                            console.log(data.status);
                             if (data.status == 0) {
                                 $("#startmaking").attr('disabled', false);
                                 clearInterval(interval_gmarket);
@@ -6469,6 +8098,7 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                             mem_id_status: mem_id_status
                         },
                         success: function(data) {
+                            console.log(data.status);
                             if (data.status == 0) {
                                 $("#startmaking").attr('disabled', false);
                                 clearInterval(interval_nshop);
@@ -6504,6 +8134,7 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                             mem_id_status: mem_id_status
                         },
                         success: function(data) {
+                            console.log(data.status);
                             if (data.status == 0) {
                                 $("#startmaking").attr('disabled', false);
                                 clearInterval(interval_blog);
@@ -6543,6 +8174,7 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                             mem_id_status: mem_id_status
                         },
                         success: function(data) {
+                            console.log(data.status);
                             if (data.status == 0) {
                                 $("#startmaking").attr('disabled', false);
                                 clearInterval(interval_youtube);
@@ -6587,13 +8219,17 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                         keyword: keyword,
                         id_status: id_status
                     },
-                    success: function(data) {}
+                    success: function(data) {
+                        console.log(data);
+                        // alert("결제 되었습니다!");
+                    }
                 })
             }
         }
 
         //새계정 만들기에서 아이디 증복 검사
         function id_check1() {
+            // var formData = new FormData();
             if (!$('#newID').val()) {
                 $('#newID').focus();
                 return;
@@ -6610,6 +8246,9 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                 $('#newID').focus();
                 return;
             }
+            // formData.append('mode', 'id_check');
+            // formData.append('id', $('#newID').val());
+            // formData.append('card_idx', card_idx);
             $.ajax({
                 type: "POST",
                 url: "/ajax/ajax_checkid.php",
@@ -6617,16 +8256,23 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                 data: {
                     id: $('#newID').val()
                 },
+                // contentType: false,
+                // processData: false,
                 success: function(data) {
+                    console.log(data);
+                    // $("#ajax_div").html(data);
+                    // alert('사용 가능한 아이디 입니다.');
                     if (data.result == "0") {
                         alert("이미 가입되어있는 아이디 입니다.");
                         $('#id_status').val("");
                         $('#newID').val("");
                         $('#newID').focus();
                     } else {
+                        // alert('사용 가능한 아이디 입니다.');
                         $("#checkdup").attr('style', 'background-color: skyblue;');
                         $("#id_html").prop('hidden', false);
                     }
+                    // console.log(data);
                 }
             });
         }
@@ -6635,8 +8281,13 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
         function search_people(val) {
             start = $("#search_start_date").val();
             end = $("#search_end_date").val();
+            // type = $("#use_buy_type").val();
+            // item_type='AI카드';
+            // ID = $("#search_ID").val();
             see = 'false';
             if (val == 'more') see = 'see_more';
+
+            // console.log(start, end, type, ID, see, val);
             $.ajax({
                 type: "POST",
                 url: "/ajax/use_contents.php",
@@ -6648,6 +8299,7 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                     more: see
                 },
                 success: function(data) {
+                    // console.log(data);
                     $("#contents_side").html(data);
                 }
             })
@@ -6683,6 +8335,7 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                     id: '<?= $_SESSION['iam_member_id'] ?>'
                 },
                 success: function(data) {
+                    console.log(data.url);
                     location.href = "?" + data.url + data.mem_code;
                 }
             })
@@ -6900,10 +8553,10 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
         //오토데이트 팝업 현시
         function set_auto_update(val) {
             if (val == 'hide') {
-                $("#updat").prop("checked", false);
+                $("#update").prop("checked", false);
                 $("#people_contents_cnt").attr('disabled', false);
             }
-            if ($("#updat").prop("checked") == true) {
+            if ($("#update").prop("checked") == true) {
                 $("#auto_update_contents").attr("style", "display:block;");
                 $("#startmaking").attr('disabled', true);
                 // $("#people_contents_cnt").attr('disabled', true);
@@ -6947,6 +8600,7 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                 alert("시간을 선택해 주세요.");
                 return;
             }
+            // console.log(slt); return;
             if (confirm("포인트 차감 안내" + "\n" + "콘텐츠 오토데이트 기능을 사용하게 되면 선택한 IAM카드에서 발생하는 트래픽 비용으로 매월 1100원의 포인트가 차감됩니다. 포인트가 부족할 경우 오토데이트가 중지됩니다. 미리 포인트를 충분히 충전해두시기 바랍니다.")) {
                 address = $("#people_web_address").val();
                 contents_keyword = $("#people_contents_key").val();
@@ -6960,6 +8614,7 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                 web_type = $('input[name=web_type]:checked').attr('id');
                 sel_type = $('input[name=multi_westory_card_url]:checked').attr('value');
                 upload_time = $("#upload_time").val();
+                console.log('hello');
                 $.ajax({
                     type: "POST",
                     url: "/iam/auto_update_contents.php",
@@ -6976,13 +8631,16 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                         end_date: end_date
                     },
                     success: function(data) {
+                        console.log(data);
                         if (data == 3) {
                             alert("이 카드로 오토데이트가 진행중입니다.");
                             return;
                         } else if (data == 1) {
                             alert("오토데이트가 등록되었습니다.");
                             $("#startmaking").prop("disabled", false);
+                            // location.reload();
                         }
+                        // alert("결제 되었습니다!");
                     }
                 });
             }
@@ -7006,6 +8664,7 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
 
         //오토데이트 관리 부분 현시
         function show_manage_auto(val) {
+            console.log('auto', val);
             if (val == 0) {
                 $("#manage_auto_update").prop("hidden", false);
                 search_auto_data();
@@ -7019,32 +8678,6 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
             $("#auto_making_modal").modal("show");
         }
 
-        function onClickMore(page, cur_win) {
-            $('.contents_div').html('');
-            window.busy = true;
-            offset = page;
-            window.scrollTo(0, 0);
-            if (cur_win == "my_info")
-                setTimeout(function() {
-                    displayMyContents(mycon_limit, offset);
-                }, 500);
-            else if (cur_win == "shared_receive")
-                setTimeout(function() {
-                    displaySharedReceive(shared_receive_limit, offset);
-                }, 500);
-            else if (cur_win == "shared_send")
-                setTimeout(function() {
-                    displaySharedSend(shared_send_limit, offset);
-                }, 500);
-            else if (cur_win == "notice_recv")
-                setTimeout(function() {
-                    displayUnreadNotice(notice_limit, offset, 'recv');
-                }, 500);
-            else if (cur_win == "notice_send")
-                setTimeout(function() {
-                    displayUnreadNotice(notice_limit, offset, 'send');
-                }, 500);
-        }
         //오토데이트 포인트 충전하기
         function auto_point_chung(memid, type, price) {
             $.ajax({
@@ -7056,6 +8689,8 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                     memid: memid
                 },
                 success: function(data) {
+                    console.log(data);
+                    // alert("결제 되었습니다!");
                     $('#auto_settlement_modal').modal('hide');
                     if (type == "bank") {
                         $("#buy_point").text(price);
@@ -7079,6 +8714,7 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                     id: id
                 },
                 success: function(data) {
+                    console.log(data.state_flag);
                     if (data.state_flag == 2) {
                         alert('현재 중지되어 있는 상태입니다.');
                         return;
@@ -7105,7 +8741,7 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                             $("input[id=" + arr[i] + "hour]").prop("checked", true);
                         }
                     }
-                    $("#updat").prop("checked", true);
+                    $("#update").prop("checked", true);
                     $("#24_hours").show();
                     $(".btn-submit.start").hide();
                     $(".btn-submit.edit").show();
@@ -7133,6 +8769,8 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                 upload_time = $("#upload_time").val();
                 start_date = $("#people_contents_start_date").val();
                 end_date = $("#people_contents_end_date").val();
+                // console.log(start_date); return;
+                console.log("edit_auto_data!!!" + auto_id);
                 $.ajax({
                     type: "POST",
                     url: "/iam/auto_update_contents.php",
@@ -7149,12 +8787,38 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                         end_date: end_date
                     },
                     success: function(data) {
+                        console.log(data);
                         alert("오토데이트가 변경되었습니다.");
                         location.reload();
                     }
                 });
             }
         }
+
+        //오토데이트 중지/진행
+
+        // function stop_auto_data(val){
+        //     my_id = '<?= $_SESSION['iam_member_id']; ?>';
+        //     $.ajax({
+        //         type:"POST",
+        //         url:"/iam/auto_update_contents.php",
+        //         dataType:"json",
+        //         data:{stop_auto:true, my_id:my_id, id:val},
+        //         success:function (data) {
+        //             console.log(data);
+        //             if(data == 1){
+        //                 alert("오토데이트가 중지상태로 되었습니다.");
+        //             }
+        //             else if(data == 2){
+        //                 alert("오토데이트가 진행상태로 되었습니다.");
+        //             }
+        //             else if(data == 3){
+        //                 alert('포인트가 부족하여 진행상태로 될수 없습니다.');
+        //             }
+        //             location.reload();
+        //         }
+        //     });
+        // }
 
         //오토데이트 삭제
         function remove_auto_data(val) {
@@ -7170,6 +8834,7 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                         id: val
                     },
                     success: function(data) {
+                        console.log(data);
                         if (data == 1) {
                             alert("오토데이트가 삭제 되었습니다.");
                         }
@@ -7195,6 +8860,7 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                     $('.switch').on("change", function() {
                         my_id = '<?= $_SESSION['iam_member_id']; ?>';
                         var id = $(this).find("input[type=checkbox]").val();
+                        // var status = $(this).find("input[type=checkbox]").is(":checked")==true?"1":"0";
                         $.ajax({
                             type: "POST",
                             url: "/iam/auto_update_contents.php",
@@ -7235,6 +8901,7 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
         //자동아이엠만들기 스크립트 끝
 
         //카드, 컨텐츠 전송 스크립트 시작
+
         function show_more_con_detail(str) {
             $("#contents_detail").html(str);
             $("#show_detail_more").modal("show");
@@ -7531,7 +9198,8 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                 }
             })
         }
-        /*function set_callback_time(callback_idx,obj){
+
+        function set_callback_time(callback_idx, obj) {
             $.ajax({
                 type: "POST",
                 url: "/ajax/edit_event_callback.php",
@@ -7544,7 +9212,8 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                     alert("콜백횟수가 수정되었습니다.")
                 }
             });
-        }*/
+        }
+
         function make_qr() {
             $("#total_service_modal").modal("hide");
             $("#qr_code_modal").modal("show");
@@ -7573,6 +9242,7 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                     search_key: search_key
                 },
                 success: function(data) {
+                    // console.log(data);
                     if (type == "card")
                         $("#card_send_side").html(data);
                     else if (type == "contentssend")
@@ -7631,13 +9301,10 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                     no: val1
                 },
                 success: function(data) {
-                    $("#contents_recv_popup").modal("hide");
                     if (val2 != "") {
-                        if (val2 == "refresh")
-                            location.reload();
-                        else
-                            window.open(val2, '_blank');
+                        window.open(val2, '_blank');
                     }
+                    $("#contents_recv_popup").modal("hide");
                 }
             })
         }
@@ -7686,6 +9353,8 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                     ID: '<?= $_SESSION['iam_member_id']; ?>'
                 },
                 success: function(data) {
+                    // res = JSON.parse(data);
+                    console.log(data);
                     if (val == "recv")
                         del_send_list(data.toString(), 'contents');
                     else {
@@ -7797,6 +9466,7 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                     search_key: search_key
                 },
                 success: function(data) {
+                    // console.log(data);
                     if (type == "noticerecv")
                         $("#notice_recv_side").html(data);
                     else
@@ -7865,9 +9535,14 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                     id: id
                 },
                 success: function(data) {
+                    console.log(data);
+                    // for(var i in data.res) {
+                    // console.log(data.m_id);
                     $("#event_idx").val(data.id);
+                    // $("#mem_id").val(data.m_id);
                     $("#event_title").val(data.event_title);
                     $("#event_desc").val(data.event_desc);
+                    // $("#card_short_url").val(data.card_short_url);
                     $("#btn_title").val(data.btn_title);
                     $("#btn_link").val(data.btn_link);
                     $("#short_url").val(data.short_url);
@@ -7885,8 +9560,11 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                         } else {
                             $("#step_allow_state").prop("checked", false);
                         }
+
                         var href = '<a class="reserv_btn" href="javascript:view_step_list(' + data.id + ', `update`)">리스트변경</a> <a class="reserv_btn" href="/mypage_reservation_create.php?sms_idx=' + data.reserv_sms_id + '" target="_blank">내용수정</a>';
                         $("#step_info").html(href);
+
+                        // $("#step_info_tr").show();
                     } else {
                         $("#step_title").val('');
                         $("#step_phone").val('');
@@ -7908,6 +9586,8 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                             $('input[id=multi_westory_card_url1_' + arr[k] + ']').prop("checked", true);
                         }
                     }
+                    // }
+
                     $('#auto_list_edit_modal').modal('show');
                 }
             });
@@ -7956,23 +9636,8 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
             });
         }
 
-        function copyReportLink() {
-            var url = $('.copyReportLink').data("link");
-            copyHtml(url);
-        }
+
         $(function() {
-            $('.iam_menu_div').mouseover(function() {
-                $(this).css('background', '#f5f5f5');
-            });
-            $('.iam_menu_div').mouseout(function() {
-                $(this).css('background', 'white');
-            });
-            $('.right_iam_menu_div').mouseover(function() {
-                $(this).css('background', '#f5f5f5');
-            });
-            $('.right_iam_menu_div').mouseout(function() {
-                $(this).css('background', 'white');
-            });
             $('.movie_play').each(function() {
                 $(this).on("click", function() {
                     $(this).parent("div").find("video").trigger("play");
@@ -7982,6 +9647,7 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
             // And you would kick this off where appropriate with:
             playPauseVideo();
 
+            //delay(1000).then(() => toggle_sound());
             $('.unmute_btn').each(function() {
                 $(this).on("click", function() {
                     $(this).parent().find("video").prop("muted", false);
@@ -8066,6 +9732,7 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                 $(this).closest('#contents_side1').find("input[id!=auto_stauts_" + id + "]").prop("checked", false);
                 var status = $(this).find("input[type=checkbox]").is(":checked") == true ? "1" : "0";
                 var auto_service_id = $("#auto_service_id").val();
+                console.log(id, status, auto_service_id);
                 $.ajax({
                     type: "POST",
                     url: "/ajax/edit_event.php",
@@ -8086,6 +9753,7 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                 $(this).closest('#contents_side1').find("input[id!=auto_stauts_" + id + "]").prop("checked", false);
                 var status = $(this).find("input[type=checkbox]").is(":checked") == true ? "1" : "0";
                 var auto_service_id = $("#auto_service_id").val();
+                console.log(id, status, auto_service_id);
                 $.ajax({
                     type: "POST",
                     url: "/ajax/edit_event.php",
@@ -8117,6 +9785,7 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                         id: id
                     },
                     success: function(data) {
+                        console.log(data);
                         if (data == 1) {
                             alert('삭제 되었습니다.');
                             window.location.reload();
@@ -8133,6 +9802,7 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
             var cnt1;
             $('input[class=we_story_radio1]:checked').each(function() {
                 var idVal1 = $(this).attr("value");
+                // console.log(idVal);
                 cnt1 = sel_card1.push(idVal1);
                 if (cnt1 > 4) {
                     alert('최대 4개까지 선택할수 있습니다.');
@@ -8692,7 +10362,9 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                         }
                     }
                 },
-                error: function(data) {}
+                error: function(data) {
+                    //console.log(data);
+                }
             })
         }
 
@@ -8799,19 +10471,19 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                         success: function(data) {
                             toastr.success(data);
                             if (img_name == "main_img1") {
-                                $("#main_upload1_link").val("");
+                                $("#main_upload1_link").val('');
                                 $('#main_upload_img1').css('background-image', "");
                                 $("#main_img1").css("background-image", "url('')");
                                 $("#main_img1").attr("href", "#");
                                 $("#for_size_1").attr("src", "");
                             } else if (img_name == "main_img2") {
-                                $("#main_upload2_link").val("");
+                                $("#main_upload2_link").val('');
                                 $('#main_upload_img2').css('background-image', "");
                                 $("#main_img2").css("background-image", "url('')");
                                 $("#main_img2").attr("href", "#");
                                 $("#for_size_2").attr("src", "");
                             } else if (img_name == "main_img3") {
-                                $("#main_upload3_link").val("");
+                                $("#main_upload3_link").val('');
                                 $('#main_upload_img3').css('background-image', "");
                                 $("#main_img3").css("background-image", "url('')");
                                 $("#main_img3").attr("href", "#");
@@ -8827,19 +10499,19 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                 } else {
                     toastr.success("대표이미지가 삭제 되었습니다.");
                     if (img_name == "main_img1") {
-                        $("#main_upload1_link").val("");
+                        $("#main_upload1_link").val('');
                         $('#main_upload_img1').css('background-image', "url()");
                         $("#main_img1").css("background-image", "url('')");
                         $("#main_img1").attr("href", "#");
                         $("#for_size_1").attr("src", "");
                     } else if (img_name == "main_img2") {
-                        $("#main_upload2_link").val("");
+                        $("#main_upload2_link").val('');
                         $('#main_upload_img2').css('background-image', "url()");
                         $("#main_img2").css("background-image", "url('')");
                         $("#main_img2").attr("href", "#");
                         $("#for_size_2").attr("src", "");
                     } else if (img_name == "main_img3") {
-                        $("#main_upload3_link").val("");
+                        $("#main_upload3_link").val('');
                         $('#main_upload_img3').css('background-image', "url()");
                         $("#main_img3").css("background-image", "url('')");
                         $("#main_img3").attr("href", "#");
@@ -8881,6 +10553,7 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
         // 카카오톡
         try {
             Kakao.init("<?php echo $domainData['kakao_api_key'] != "" ? $domainData['kakao_api_key'] : "c0550dad4e9fdb8a298f6a5ef39ebae6"; ?>"); // 사용할 앱의 JavaScript 키를 설정
+            //Kakao.init("2e50869591823e28ed57afa55ff56b47");      // 사용할 앱의 JavaScript 키를 설정
         } catch (e) {
             console.log("Kakao 로딩 failed : " + e);
         }
@@ -8902,6 +10575,7 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                 contentType: false,
                 processData: false,
                 success: function(data) {
+                    // console.log(data);
                     $('#favorite').val(data);
                 }
             });
@@ -9009,20 +10683,26 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
             })
         }
 
+
         //프렌즈 정렬
         function friends_range(v1) {
             if (Number($("#search_range2").val()) == 1 && Number(v1) == 1) {
                 $("#search_range2").val('2');
                 getIamFriends('<?= $card_owner ?>', '<?= $card_master ?>', '<?= $phone_count ?>', 2, 1);
+
+
             } else if (Number($("#search_range2").val()) == 2 && Number(v1) == 1) {
                 $("#search_range2").val('1');
                 getIamFriends('<?= $card_owner ?>', '<?= $card_master ?>', '<?= $phone_count ?>', 1, 1);
+
             } else if (Number($("#search_range2").val()) == 3 && Number(v1) == 3) {
                 $("#search_range2").val('4');
                 getIamFriends('<?= $card_owner ?>', '<?= $card_master ?>', '<?= $phone_count ?>', 4, 1);
+
             } else if (Number($("#search_range2").val()) == 4 && Number(v1) == 3) {
                 $("#search_range2").val('3');
                 getIamFriends('<?= $card_owner ?>', '<?= $card_master ?>', '<?= $phone_count ?>', 3, 1);
+
             } else {
                 $("#search_range2").val(v1);
                 getIamFriends('<?= $card_owner ?>', '<?= $card_master ?>', '<?= $phone_count ?>', v1, 1);
@@ -9031,24 +10711,25 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
         //프렌즈 검색
         function friends_submit(val) {
             $("#show_all").val(val);
+
             getIamFriends('<?= $card_owner ?>', '<?= $card_master ?>', '<?= $phone_count ?>', $("#search_range2").val(), 1);
+
+            // location.href = "?<?= $page_search2 ?>&show_all="+val+"&search_type=" + $("#search_type").val() + "&search_str2=" + $(
+            //     "#search_str2").val() + "&tab=friends#friends";
         }
         //프렌즈 체크박스
         function friends_chk_count() {
             $("#friends_chk_count").text($("input[name=friends_chk]:checked").length + "개 선택됨");
         }
         //프렌즈 삭제
-        function friends_del(idx = "") {
+        function friends_del() {
             var formData = new FormData();
+
             if (confirm("정말 프렌즈를 삭제 하시겠습니까?")) {
                 formData.append('mode', "del");
-                if (idx == "") {
-                    for (i = 0; i < $("input[name=friends_chk]:checked").length; i++) {
-                        var idx = $("#friends_card_idx" + $("input[name=friends_chk]:checked").eq(i).val()).val();
-                        //formData.append('friends_idx[]', $("input[name=friends_chk]:checked").eq(i).val());
-                        formData.append('friends_idx[]', idx);
-                    }
-                } else {
+                for (i = 0; i < $("input[name=friends_chk]:checked").length; i++) {
+                    var idx = $("#friends_card_idx" + $("input[name=friends_chk]:checked").eq(i).val()).val();
+                    //formData.append('friends_idx[]', $("input[name=friends_chk]:checked").eq(i).val());
                     formData.append('friends_idx[]', idx);
                 }
                 $.ajax({
@@ -9208,6 +10889,8 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                 contentType: false,
                 processData: false,
                 success: function(data) {
+                    //alert(data);
+                    //console.log(data);
                     location.reload();
                 }
             });
@@ -9262,7 +10945,7 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
         }
 
         function iam_mystory(url) {
-            if (url.indexOf("alarm_mode=notice_recv") != -1) {
+            if (url == "cur_win=unread_notice") {
                 $.ajax({
                     type: "POST",
                     url: "/iam/card_con_send.php",
@@ -9275,8 +10958,7 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
 
                     }
                 });
-                //location.href = "?" + url + "&modal=Y";
-                location.href = "?" + url;
+                location.href = "?" + url + "&modal=Y";
             } else if (url.indexOf("type=image") != -1) {
                 iam_count('iam_mystory');
                 setCookie('contents_mode', 'image', 1, "");
@@ -9285,7 +10967,7 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                 iam_count('iam_mystory');
                 setCookie('contents_mode', 'pin', 1, "");
                 location.href = "?" + url;
-            } else if (url == "alarm_mode=request_list" || url == "alarm_mode=report_list" || url == "alarm_mode=friend_list") {
+            } else if (url == "cur_win=request_list") {
                 location.href = "?" + url;
             } else {
                 iam_count('iam_mystory');
@@ -9296,43 +10978,231 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
         function iam_count(str) {
             var member_id = '<?= $card_owner ?>';
             var card_idx = '<?= $cur_card['idx'] ?>';
-            if (card_idx) {
-                var formData = new FormData();
-                formData.append('str', str);
-                formData.append('mem_id', member_id);
-                formData.append('card_idx', card_idx);
-                $.ajax({
-                    type: "POST",
-                    url: "/iam/ajax/iam_count.proc.php",
-                    data: formData,
-                    contentType: false,
-                    processData: false,
-                    success: function(data) {
+            var formData = new FormData();
+            formData.append('str', str);
+            formData.append('mem_id', member_id);
+            formData.append('card_idx', card_idx);
+            $.ajax({
+                type: "POST",
+                url: "/iam/ajax/iam_count.proc.php",
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(data) {
 
-                    }
-                });
-            }
+                }
+            });
         }
 
         function showIframeModal(url) {
             window.open(url, "", "toolbar=yes,scrollbars=yes,resizable=yes,top=200,left=200,width=1000,height=600");
         }
 
-        function showContentsList(cur_win, mall_type) {
-            var contents_mode = getCookie('contents_mode');
-            if (contents_mode == "pin") {
-                contents_mode = "image";
-                $("#show_contents_mode").prop("src", '/iam/img/menu/icon_pin.svg');
-                $("#show_contents_mode").prop("title", '[이미지타일로 보기] 콘텐츠방식을 변경합니다.');
+        function showContentsList(val) {
+            if (val == '4') {
+                var media_height = 'height:' + $(".gwc_con_img").width() + 'px;';
+                var scroll = "overflow-y: hidden;";
             } else {
-                contents_mode = "pin";
-                $("#show_contents_mode").prop("src", '/iam/img/menu/icon_image.svg');
-                $("#show_contents_mode").prop("title", '[이미지로 보기] 콘텐츠방식을 변경합니다.');
+                var media_height = '';
+                var scroll = "overflow-y: hidden;";
             }
+            <? if ($_GET['cur_win'] == "best_sample" ||  $_GET['cur_win'] == "unread_notice") { ?>
+                return;
+            <? } ?>
+            var contents_mode = getCookie('contents_mode');
+            var cur_win = '<?= $cur_win ?>';
+            var img_ht = $(".media-inner").width();
+            var img_ht1 = img_ht * 2;
+            var img_ht2 = img_ht * 1 / 2;
+            if (cur_win == "my_info") {
+                if (contents_mode == "pin") {
+                    contents_mode = "image";
+                    $("#show_contents_mode").prop("src", '/iam/img/main/icon-pin_list.png');
+                    $("#show_contents_mode").prop("title", '[이미지타일로 보기] 콘텐츠방식을 변경합니다.');
+                    //$(".movie_play").css("width","100px");
+                    $("#bottom").attr("style", "");
+                    $(".content_area").attr('style', '');
+                    $("#star #bottom .content-item .media-wrap .media-inner").attr('style', 'max-height: 100%;' + scroll);
+                    $(".gwc_con_img").attr('style', 'height: ' + img_ht1 + 'px');
+                    <? if (!$cur_win || $cur_win == "my_info") { ?>
+                        $("#contents_image .user-item").hide();
+                    <? } else { ?>
+                        $("#contents_image .user-item").show();
+                    <? } ?>
+                    $(".desc-wrap").show();
+                    $(".image_mode").show();
+                    $(".pin_mode").hide();
+                    $(".service_title").show();
+                    if ($(window).width() < 420) {
+                        //$(".movie_play").css("width","50px");
+                        $(".percent").attr("style", "width:80px;font-size:30px");
+                        $(".downer").attr("style", "font-size:16px;");
+                        $("#star #bottom .content-item .desc-wrap .desc .desc-inner .outer .order a").attr("style", "padding:5px 15px; font-size:14px;background: #99cc00;cursor: pointer;");
+                        $(".buy_servicecon").attr("style", "left:-30px !important;");
+                        $("#star #bottom .content-item .media-wrap .media-inner").attr('style', 'max-height: 350px;' + scroll);
+                        $(".gwc_con_img").attr('style', 'height: ' + img_ht + 'px');
+                    }
+                    $(".info-wrap").show();
+                    var contents_list = $("div[id='contents_list']");
+                    contents_list.each(function() {
+                        $(this).hide();
+                    });
+                    var contents_image = $("div[id='contents_image']");
+                    contents_image.each(function() {
+                        $(this).show();
+                    });
+                } else {
+                    contents_mode = "pin";
+                    $("#show_contents_mode").prop("src", '/iam/img/icon_image.png');
+                    $("#show_contents_mode").prop("title", '[이미지로 보기] 콘텐츠방식을 변경합니다.');
+                    //$(".movie_play").css("width","50px");
+                    if (key1_gwc_show == '4') {
+                        if (wide_show == 'Y') {
+                            var bottom_wt = $("#bottom").width();
+                            var cont_wt = bottom_wt * 1 / 4 - 2.5;
+                        } else {
+                            var bottom_wt = $("#bottom").width();
+                            var cont_wt = bottom_wt * 1 / 2 - 2;
+                        }
+                        $(".content_area").attr('style', 'width:' + cont_wt + 'px;display:inline-block;vertical-align:top;');
+                    } else {
+                        $("#bottom").attr("style", "column-count:2");
+                    }
+                    $("#contents_image .user-item").hide();
+                    $(".image_mode").hide();
+                    $(".pin_mode").show();
+                    $("#star #bottom .content-item .media-wrap .media-inner").attr('style', 'max-height: 350px;' + scroll);
+                    $(".gwc_con_img").attr('style', 'height: ' + img_ht + 'px');
+                    if ($(window).width() < 360) {
+                        $(".percent").attr("style", "width:30px;font-size:12px");
+                        $(".upper").attr("style", "font-size:9px;");
+                        $(".downer").attr("style", "font-size:10px;");
+                        $("#star #bottom .content-item .desc-wrap .desc .desc-inner .outer .order a").attr("style", "padding:1px 2px; font-size:10px;background: #99cc00;cursor: pointer;");
+                        $(".buy_servicecon").attr("style", "left:-30px !important;");
+                    } else if ($(window).width() < 420) {
+                        $(".percent").attr("style", "width:43px;font-size:17px");
+                        $(".downer").attr("style", "font-size:13px;");
+                        $("#star #bottom .content-item .desc-wrap .desc .desc-inner .outer .order a").attr("style", "padding:1px 2px; font-size:10px;background: #99cc00;cursor: pointer;");
+                        $(".buy_servicecon").attr("style", "left:-30px !important;");
+                    }
+                    //$(".info-wrap").hide();
+                    var contents_list = $("div[id='contents_list']");
+                    contents_list.each(function() {
+                        $(this).hide();
+                    });
+                    var contents_image = $("div[id='contents_image']");
+                    contents_image.each(function() {
+                        $(this).show();
+                    });
+                }
+            } else if (cur_win == "iam_mall") {
+                if (contents_mode == "pin") {
+                    contents_mode = "image";
+                    $("#show_contents_mode").prop("src", '/iam/img/main/icon-pin_list.png');
+                    $("#show_contents_mode").prop("title", '[이미지타일로 보기] 콘텐츠방식을 변경합니다.');
+                    $(".col-xs-6").removeClass("col-xs-6").addClass("col-xs-12");
+                    $(".mall-content").css("height", "35%");
+                    $(".mall-content-message").css("height", "15%");
+                    $(".mall-img").css("height", "70%");
+                    $(".mall-img-message").css("height", "85%");
+                    $(".square").css("padding-bottom", "80%");
+                } else {
+                    contents_mode = "pin";
+                    $("#show_contents_mode").prop("src", '/iam/img/icon_image.png');
+                    $("#show_contents_mode").prop("title", '[이미지로 보기] 콘텐츠방식을 변경합니다.');
+                    $(".col-xs-12").removeClass("col-xs-12").addClass("col-xs-6");
+                    $(".mall-content").css("height", "48%");
+                    $(".mall-content-message").css("height", "23%");
+                    $(".mall-img").css("height", "50%");
+                    $(".mall-img-message").css("height", "77%");
+                    $(".square").css("padding-bottom", "120%");
+                }
+            } else {
+                if (contents_mode == "pin") {
+                    contents_mode = "image";
+                    $("#show_contents_mode").prop("src", '/iam/img/main/icon-pin_list.png');
+                    $("#show_contents_mode").prop("title", '[이미지타일로 보기] 콘텐츠방식을 변경합니다.');
+                    //$(".movie_play").css("width","100px");
+                    $("#bottom").attr("style", "");
+                    $(".content_area").attr('style', '');
+                    $("#star #bottom .content-item .media-wrap .media-inner").attr('style', 'max-height: 650px;' + scroll);
+                    $(".gwc_con_img").attr('style', 'height: ' + img_ht1 + 'px');
+                    <? if (!$cur_win) { ?>
+                        $("#contents_image .user-item").hide();
+                    <? } else { ?>
+                        $("#contents_image .user-item").show();
+                    <? } ?>
+                    $(".desc-wrap").show();
+                    $(".image_mode").show();
+                    $(".pin_mode").hide();
+                    $(".service_title").show();
+                    $("#star #bottom .content-item .desc-wrap .desc .desc-inner .outer .order a").attr("style", "padding:5px 15px; font-size:14px;background: #99cc00;cursor: pointer;");
+                    $(".buy_servicecon a").attr("style", "font-size:12px;background: #99cc00;cursor: pointer;");
+                    if ($(window).width() < 420) {
+                        //$(".movie_play").css("width","50px");
+                        $(".percent").attr("style", "width:80px;font-size:30px");
+                        $(".downer").attr("style", "font-size:16px;");
+                        $(".buy_servicecon").attr("style", "left:-30px !important;");
+                        $("#star #bottom .content-item .media-wrap .media-inner").attr('style', 'max-height: 350px;' + scroll);
+                        $(".gwc_con_img").attr('style', 'height: ' + img_ht + 'px');
+                    }
+
+                    $(".info-wrap").show();
+                    var contents_list = $("div[id='contents_list']");
+                    contents_list.each(function() {
+                        $(this).hide();
+                    });
+                    var contents_image = $("div[id='contents_image']");
+                    contents_image.each(function() {
+                        $(this).show();
+                    });
+                } else {
+                    contents_mode = "pin";
+                    $("#show_contents_mode").prop("src", '/iam/img/icon_image.png');
+                    $("#show_contents_mode").prop("title", '[이미지로 보기] 콘텐츠방식을 변경합니다.');
+                    //$(".movie_play").css("width","50px");
+                    if (key1_gwc_show == '4') {
+                        if (wide_show == 'Y') {
+                            var bottom_wt = $("#bottom").width();
+                            var cont_wt = bottom_wt * 1 / 4 - 2.5;
+                        } else {
+                            var bottom_wt = $("#bottom").width();
+                            var cont_wt = bottom_wt * 1 / 2 - 2;
+                        }
+                        $(".content_area").attr('style', 'width:' + cont_wt + 'px;display:inline-block;vertical-align:top;');
+                    } else {
+                        $("#bottom").attr("style", "column-count:2");
+                    }
+                    $("#contents_image .user-item").show();
+                    $(".image_mode").hide();
+                    $(".pin_mode").show();
+                    $("#star #bottom .content-item .media-wrap .media-inner").attr('style', 'max-height: 350px;' + scroll);
+                    $(".gwc_con_img").attr('style', 'height: ' + img_ht2 + 'px');
+                    if ($(window).width() < 360) {
+                        $(".percent").attr("style", "width:30px;font-size:12px");
+                        $(".upper").attr("style", "font-size:9px;");
+                        $(".downer").attr("style", "font-size:10px;");
+                        $("#star #bottom .content-item .desc-wrap .desc .desc-inner .outer .order a").attr("style", "padding:1px 2px; font-size:10px;background: #99cc00;cursor: pointer;");
+                        $(".buy_servicecon").attr("style", "left:-30px !important;");
+                    } else if ($(window).width() < 420) {
+                        $(".percent").attr("style", "width:43px;font-size:17px");
+                        $(".downer").attr("style", "font-size:13px;");
+                        $("#star #bottom .content-item .desc-wrap .desc .desc-inner .outer .order a").attr("style", "padding:1px 2px; font-size:10px;background: #99cc00;cursor: pointer;");
+                        $(".buy_servicecon").attr("style", "left:-30px !important;");
+                    }
+                    var contents_list = $("div[id='contents_list']");
+                    contents_list.each(function() {
+                        $(this).hide();
+                    });
+                    var contents_image = $("div[id='contents_image']");
+                    contents_image.each(function() {
+                        $(this).show();
+                    });
+                }
+            }
+            if (val != 'gwc')
+                contents_mode_gwc_ori = contents_mode;
             setCookie('contents_mode', contents_mode, 1, "");
-            if (cur_win != "shared_receive" && cur_win != "shared_send" && cur_win != "notice_recv" && cur_win != "notice_send") {
-                refresh_contents(contents_mode);
-            }
         }
 
         function showmystory() {
@@ -9343,6 +11213,10 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                 $(this).removeClass('in active');
             });
             $("#story").addClass('active in');
+            /*$('body,html').animate({
+                scrollTop: 800 ,
+                }, 100
+            );*/
         }
 
         function showSNSModal(cur_win, preview = 'N') {
@@ -9383,7 +11257,9 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
             document.body.appendChild(link);
             link.click();
             link.remove();
+            //alert("다운로드 중입니다.잠시후 폰 파일창 또는 설치파일창에서 확인하세요.");
         }
+        // ############# 스크립트부분##################
         var card = null;
         var moving = false;
         var src_idx = null;
@@ -9463,6 +11339,7 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                 },
                 dataType: 'html',
                 success: function(data) {
+                    // console.log(data);
                     $("#answer_side").hide();
                     $("#answer_side1").hide();
                     $("#gpt_req_list_title").show();
@@ -9474,7 +11351,20 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
 
         function copy_msg() {
             var value = $("#answer_side").text().trim();
-            copyHtml(value);
+            console.log(value.trim());
+            // return;
+            var aux1 = document.createElement("input");
+            // 지정된 요소의 값을 할당 한다.
+            aux1.setAttribute("value", value);
+            // bdy에 추가한다.
+            document.body.appendChild(aux1);
+            // 지정된 내용을 강조한다.
+            aux1.select();
+            // 텍스트를 카피 하는 변수를 생성
+            document.execCommand("copy");
+            // body 로 부터 다시 반환 한다.
+            document.body.removeChild(aux1);
+            alert("복사되었습니다. 원하는 곳에 붙여 넣으세요.");
         }
 
         function del_list(id) {
@@ -9540,9 +11430,39 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
             }, 25)
         }
 
+        // function send_post(mem_id) {
+        //     $("#answer_side1").hide();
+        //     $("#answer_side2").hide();
+        //     $("#answer_side").show();
+        //     var prompt = $("#question").val();
+        //     if (prompt == "") {
+        //         alert('질문을 입력해 주세요.');
+        //         return;
+        //     }
+
+        //     $.ajax({
+        //         cache: true,
+        //         type: "POST",
+        //         url: "/iam/ajax/message.php",
+        //         data: {
+        //             mem_id:mem_id,
+        //             message: prompt,
+        //             context:$("#keep").prop("checked")?JSON.stringify(contextarray):'[]',
+        //         },
+        //         dataType: "json",
+        //         success: function (results) {
+        //             $("#question").val("");
+        //             $("#question").css("height", "58px");
+        //             $(".send_ask").css("height", "98%");
+        //             contextarray.push([prompt, results.raw_message]);
+        //             articlewrapper(prompt,randomString(16),results.raw_message);
+        //         }
+        //     });
+        // }
+
         function randomString(len) {
             len = len || 32;
-            var $chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678'; /****혼란스러운 문자는 기본적으로 제거됩니다oOLl,9gq,Vv,Uu,I1****/
+            var $chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678'; //혼란스러운 문자는 기본적으로 제거됩니다oOLl,9gq,Vv,Uu,I1
             var maxPos = $chars.length;
             var pwd = '';
             for (i = 0; i < len; i++) {
@@ -9814,6 +11734,7 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                             var left = $(this).position().left;
                             var width = $(this).width();
                             var height = $(this).height();
+                            console.log(src_idx + "/" + idx + "|" + left + "/" + movingX + "/" + width + "|" + top + "/" + movingY + "/" + height);
                             if (src_idx != idx && movingX >= left && movingX <= left + width && movingY >= top && movingY <= top + height) {
                                 $.ajax({
                                     type: "POST",
@@ -9910,7 +11831,6 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
         //콘텐츠 데일리 발송 팝업
         function contents_send_pop() {
             $("#sns-modalwindow_contents").modal("hide");
-            $("#total_service_modal").modal("hide");
             iam_count('iam_msms');
             jQuery.fn.center = function() {
                 this.css('position', 'absolute');
@@ -9972,6 +11892,7 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
             var iam_link = $(".J_card_name").text().trim() + "님의 명함 <?= htmlspecialchars($cur_card['card_company']) ?> <?= htmlspecialchars($cur_card['card_position']) ?>";
             var link = " <?= str_replace('http:', 'https:', $domainData['sub_domain']); ?>/?<?= $cur_card['card_short_url'] . $card_owner_code ?>" + "&preview=" + $("#card_share_preview").val();
             iam_link += encodeURIComponent(link);
+            // alert(iam_link); return;
             iam_count('iam_sms');
             var sms = "";
             for (var i = 0; i < $("input[name=friends_chk]:checked").length; i++) {
@@ -10274,19 +12195,22 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
         function copy(link = "") {
             iam_count('iam_share');
             var iam_link = "";
+            //iam_link = '<?= str_replace("http:", "https:", $domainData['sub_domain']); ?>/?<?= $cur_card['card_short_url'] . $card_owner_code ?>';
             if (link == "")
                 iam_link = '<?= str_replace("http:", "https:", $domainData['sub_domain']); ?>/?<?= $cur_card['card_short_url'] . $card_owner_code ?>' + "&preview=" + $("#card_share_preview").val();
-            else if (link.indexOf("http") !== -1)
-                iam_link = link;
             else
                 iam_link = '<?= str_replace("http:", "https:", $domainData['sub_domain']); ?>/?<?= $cur_card['card_short_url'] . $card_owner_code ?>&' + link;
+            iam_link = iam_link.replace(/&/g, "%26");
+            iam_link += '%26cache='+Math.floor(Math.random() * 10);
+            //iam_link = encodeURI(iam_link);
             // 글을 쓸 수 있는 란을 만든다.
             var aux = document.createElement("input");
             var msg = "";
             if (link == "") {
-                msg = $(".J_card_name").text().trim() + "님의 명함 <?= htmlspecialchars($cur_card['card_company']) ?> <?= htmlspecialchars($cur_card['card_position']) ?> <?= $cur_card['card_phone'] ?> " + iam_link
+                //msg = $(".J_card_name").text().trim() + "님의 명함 <?= htmlspecialchars($cur_card['card_company']) ?> <?= htmlspecialchars($cur_card['card_position']) ?> <?= $cur_card['card_phone'] ?> "+iam_link
                 // 지정된 요소의 값을 할당 한다.
-                aux.setAttribute("value", msg);
+                //aux.setAttribute("value",msg);
+                aux.setAttribute("value", iam_link);
                 // bdy에 추가한다.
                 document.body.appendChild(aux);
                 // 지정된 내용을 강조한다.
@@ -10317,10 +12241,6 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
         function contents_copyContacts() {
             $("#sns-modalwindow_contents").modal("hide");
             contents_copy(j_idx);
-        }
-
-        function click_paper_tab() {
-            $("#paper-tab").click();
         }
         //콘텐츠 복사
         function contents_copy(idx) {
@@ -10428,6 +12348,13 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                 $(".my_info_" + card_url_arr[i]).prop("checked", true);
             }
             arrayToInput();
+            /*if('<?= $cur_win ?>' != "group-con"){
+                $(".my_info_<?= $cur_card['card_short_url'] ?>").attr("checked", true);
+                $(".we_story_<?= $cur_card['card_short_url'] ?>").attr("checked", true);
+            }else{
+                $(".my_info_<?= $group_card_url ?>").attr("checked", true);
+                $(".we_story_<?= $group_card_url ?>").attr("checked", true);
+            }*/
         }
 
         function format_add_modal() {
@@ -10459,6 +12386,10 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
             $("#btn_add_shop_cont").removeClass("btn-active").addClass("btn-default");
             $("#edit_content_radio_spec").prop("checked", false);
             $("#contents_add_modal .hide_spec").addClass("develop");
+            //체크박스 초기화
+            //$(".we_story_radio").attr("checked", false);
+            //$(".my_info_check").attr("checked", false);
+            //이미지 초기화
             $("#cont_modal_image_type_file").addClass("develop");
             $("#cont_modal_image_type_link").addClass("develop");
             $("#cont_modal_video_type_file").addClass("develop");
@@ -10468,6 +12399,7 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
             $("#cont_modal_video").val("");
             $("#cont_modal_video_url").val("");
             $("#preview_img").empty();
+            //웹링크 초기화
             $('div').remove(".cont_modal_web_link");
         }
 
@@ -10695,6 +12627,7 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
             $("#cont_media_type_box").hide();
             $("#market_radio").show();
             $("#edit_content_radio_market").prop("checked", false);
+
             click_cont_image();
             $('.art_type').prop("checked", false);
             $('.gallery').hide();
@@ -10944,6 +12877,7 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                     }, 1000);
             }
         })
+        var is_artist = '<?= $is_artist ?>';
 
         function post_contents(service_type) {
             var mem_type = '<?= $gwc_mem ?>';
@@ -10984,12 +12918,12 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                     $("#contents_iframe").focus();
                     return;
                 }
-                if ( /*$("#contents_type").val() == 3*/ $("#contents_price").is(":visible") && $("#contents_price").val().trim() == "") {
+                if ($("#contents_price").is(":visible") && $("#contents_price").val().trim() == "") {
                     toastr.error("정가를 입력하세요.", "오류");
                     $("#contents_price").focus();
                     return;
                 }
-                if ( /*$("#contents_type").val() == 3*/ $("#contents_sell_price").is(":visible") && $("#contents_sell_price").val().trim() == "") {
+                if ($("#contents_sell_price").is(":visible") && $("#contents_sell_price").val().trim() == "") {
                     toastr.error("최저가를 입력하세요.", "오류");
                     $("#contents_sell_price").focus();
                     return;
@@ -11052,9 +12986,9 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                                 formData.append("contents_sell_price", $('#contents_sell_price').val().replace(",", ""));
                             } else {
                                 formData.append("contents_price", $('#gallery_price').val().replace(",", "") + "|" +
-                                    $("#gallery_format").val().trim() + "|" +
-                                    $("#gallery_size").val().trim() + "|" +
-                                    $('#gallery_download_price').val().replace(",", ""));
+                                                                $("#gallery_format").val().trim() + "|" +
+                                                                $("#gallery_size").val().trim() + "|" + 
+                                                                $('#gallery_download_price').val().replace(",", ""));
                                 formData.append("contents_sell_price", $('#gallery_sell_price').val().replace(",", ""));
                             }
                         }
@@ -11064,7 +12998,6 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                         formData.append("contents_sell_price", $('#contents_sell_price').val().replace(",", ""));
                     }
                 }
-
                 var media_type = "I";
                 if ($("#cont_modal_btn_image").hasClass("btn-cont-active")) {
                     if (cont_modal_fileBuffer.length > 0) {
@@ -11089,8 +13022,6 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                 formData.append("contents_url", $('#contents_url').val());
                 formData.append("contents_iframe", $('#contents_iframe').val());
                 formData.append("source_iframe", $('#source_iframe').val());
-                //formData.append("contents_price", $('#contents_price').val().replace(",", ""));
-                //formData.append("contents_sell_price", $('#contents_sell_price').val().replace(",", ""));
                 formData.append("contents_desc", $('#contents_desc').val());
                 formData.append("except_keyword", $('#except_keyword').val());
                 formData.append("contents_add_multi_free", $('#contents_add_multi').val());
@@ -11109,6 +13040,8 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                 formData.append("contents_user_display", "Y");
                 formData.append("open_type", $("input[name='contents_open']:checked").val());
                 formData.append("group_id", $("#contents_group").val());
+                
+
                 if (req_provide == "Y") {
                     if ($("#deliver_id").val() == '') {
                         alert('배송정보를 확인해주세요.');
@@ -11256,7 +13189,11 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                     },
                     error: function() {
                         cnt--;
+                        console.log("error : " + cnt);
                         alert(web_page + ' 페이지는 크롤링이 되지 않습니다. 다른 페이지 주소를 입력해주세요.');
+                        //$('#multi_btn_cancel').attr("disabled", false);
+                        //$('#multi_btn_ok').attr("disabled", false);
+                        //location.reload();
                     }
                 });
             });
@@ -11306,7 +13243,9 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                         $('#multi_btn_ok').attr("disabled", false);
                         alert('콘텐츠가 등록 되었습니다.');
                         location.reload();
-                    }
+                    } else
+                        console.log(data);
+                    //alert(data);
                 }
             });
         }
@@ -11314,6 +13253,7 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
         function contents_img_del(contents_img_src, imgID) {
             var formData = new FormData();
             if (confirm("정말 이미지를 삭제 하시겠습니까?")) {
+                //contents_img_src = contents_img_src.replace("http://cdn.kiam.kr","");
                 contents_img_src = contents_img_src.replace("<?= $cdn ?>", "");
                 formData.append("post_type", "img_del");
                 formData.append("contents_idx", $("#contents_idx").val());
@@ -11438,7 +13378,7 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
 
         function show_mall_icons(cont_idx) {
             if ($("#mall_edit_utils_" + cont_idx).css("display") == "none") {
-                $("#mall_edit_utils_" + cont_idx).css("display", "flex");
+                $("#mall_edit_utils_" + cont_idx).css("display", "block");
             } else {
                 $("#mall_edit_utils_" + cont_idx).css("display", "none");
             }
@@ -11488,14 +13428,6 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
             $("#contents_date").html($("#req_data_" + idx).val());
             $("#contents_url").val(encodeURI($("#contents_url_" + idx).val()));
             $("#contents_iframe").val($("#contents_iframe_" + idx).val().replace(/\+/g, " "));
-            /*
-            var contents_price = $("#contents_price_" + idx).val();
-            var contents_sell_price = $("#contents_sell_price_" + idx).val();
-            var contents_percent = parseInt(100 - (contents_sell_price * 1 / contents_price * 1) * 100);
-            $("#contents_price").val($("#contents_price_" + idx).val());
-            $("#contents_sell_price").val($("#contents_sell_price_" + idx).val());
-            $("#contents_percent").val(contents_percent);
-            */
             $("#contents_desc").val($("#contents_desc_" + idx).val().replace(/<br \/>/g, "\n"));
             $("#except_keyword").val($("#except_keyword_" + idx).val().replace(/<br \/>/g, "\n"));
             var contents_share_text = $("#contents_share_text_" + idx).val();
@@ -11529,7 +13461,7 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
             $("#send_provide_price").val($("#send_provide_price_" + idx).val());
             $("#confirm_model").attr("style", "background-color:#99cc00;color: white;padding: 5px;border-radius: 7px;margin: 5px;cursor:pointer;");
             $("#market_radio").hide();
-            <? if ($_GET['mall_sub_type'] == "visit") { ?>
+            <? if ($_GET['key3'] == 1) { ?>
                 $("#edit_busitime_side").show();
                 $("#cur_con_idx_time").val(idx);
             <? } ?>
@@ -11552,7 +13484,7 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                     gallery.push(contents_price.substring(pIndex, comma));
                     pIndex = comma + 1;
                 }
-                gallery.push(contents_price.substring(pIndex));
+                gallery.push(contents_price.substring(pIndex)); 
                 var gallery_format = gallery[1];
                 var gallery_size = gallery[2];
                 var gallery_price = gallery[0];
@@ -11568,6 +13500,7 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                 $(".nogallery").hide();
                 $(".gallery").show();
             }
+
             var media_src = $("#contents_img_" + idx).val();
             if (media_type == "I") {
                 if (media_src) {
@@ -11666,26 +13599,71 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                 iam_mystory('<?= $request_short_url . $card_owner_code ?>&cur_win=' + cur_win + '&search_key=' + inputVal);
             }
         });
-        $(document).on("keypress", ".search_input", function(e) {
+        $(document).on("keypress", ".wecon_search_input", function(e) {
             if (e.which == 13) {
-                search_clicked();
+                var inputVal = $("#wecon_search_input").val();
+                var type = getCookie('contents_mode');
+                iam_mystory('<?= $request_short_url . $card_owner_code ?>&cur_win=we_story' + '&search_key=' + inputVal + '&type=' + type + '&key1=' + '<?= $_GET['key1'] ?>' + '&key2=' + '<?= $_GET['key2'] ?>' + '&sort=' + '<?= $_GET['sort'] ?>' + '&key3=' + '<?= $_GET['key3'] ?>' + '&key4=' + '<?= $_GET['key4'] ?>' + '&sort_key3=' + '<?= $_GET['sort_key3'] ?>' + '&loc_name=' + '<?= $_GET['loc_name'] ?>' + '&iamstore=' + '<?= $_GET['iamstore'] ?>' + '&cate_prod=' + '<?= $_GET['cate_prod'] ?>' + '&wide=' + '<?= $_GET['wide'] ?>');
+            }
+        });
+        $(document).on("keypress", ".mycon_search_input", function(e) {
+            if (e.which == 13) {
+                var inputVal = $("#mycon_search_input").val();
+                var type = getCookie('contents_mode');
+                iam_mystory('<?= $request_short_url . $card_owner_code ?>&cur_win=my_info' + '&search_key=' + inputVal + '&type=' + type + '&key1=' + '<?= $_GET['key1'] ?>' + '&key2=' + '<?= $_GET['key2'] ?>' + '&sort=' + '<?= $_GET['sort'] ?>' + '&key3=' + '<?= $_GET['key3'] ?>' + '&key4=' + '<?= $_GET['key4'] ?>' + '&sort_key3=' + '<?= $_GET['sort_key3'] ?>' + '&loc_name=' + '<?= $_GET['loc_name'] ?>' + '&iamstore=' + '<?= $_GET['iamstore'] ?>' + '&cate_prod=' + '<?= $_GET['cate_prod'] ?>' + '&wide=' + '<?= $_GET['wide'] ?>');
             }
         });
 
-        function search_clicked() {
+        $(document).on("keypress", ".wecon_search_input1", function(e) {
+            <? if ($_GET['key3'] != 1) { ?>
+                alert('방문탭에서만 사용가능합니다.');
+                $("#search_location_name").val('');
+                return;
+            <? } ?>
+            if (e.which == 13) {
+                var inputVal = $("#search_location_name").val();
+                var type = getCookie('contents_mode');
+                iam_mystory('<?= $request_short_url . $card_owner_code ?>&cur_win=we_story' + '&search_key=' + '<?= $_GET['search_key'] ?>' + '&type=' + type + '&key1=' + '<?= $_GET['key1'] ?>' + '&key2=' + '<?= $_GET['key2'] ?>' + '&key3=' + '<?= $_GET['key3'] ?>' + '&key4=' + '<?= $_GET['key4'] ?>' + '&sort=' + '<?= $_GET['sort'] ?>' + '&sort_key3=' + '<?= $_GET['sort_key3'] ?>' + '&loc_name=' + inputVal);
+            }
+        });
+        $(document).on("keypress", "#mall_search_input", function(e) {
+            if (e.which == 13) {
+                var inputVal = $("#mall_search_input").val();
+                iam_mystory('cur_win=' + '<?= $cur_win ?>' + '&mall_type=' + '<?= $mall_type ?>' + '&mall_type1=' + '<?= $mall_type1 ?>' + '&search_key=' + inputVal + '&sort=' + '<?= $_GET['sort'] ?>');
+            }
+        });
+
+        function search_clicked(cur_win) {
+            var parent = $(".popup_box2[id=" + cur_win + "]");
+            var inputVal = parent.find(".contents_search_input").val();
+            iam_mystory('<?= $request_short_url . $card_owner_code ?>&cur_win=' + cur_win + '&search_key=' + inputVal);
+        }
+
+        function wecon_search_clicked() {
+            var inputVal = $("#wecon_search_input").val();
             var type = getCookie('contents_mode');
-            var link = '<?= $request_short_url . $card_owner_code ?>&cur_win=' + '<?= $cur_win ?>' + '&type=' + type;
-            iam_mystory(makeParams(link));
+            iam_mystory('<?= $request_short_url . $card_owner_code ?>&cur_win=we_story' + '&search_key=' + inputVal + '&type=' + type + '&key1=' + '<?= $_GET['key1'] ?>' + '&key2=' + '<?= $_GET['key2'] ?>' + '&sort=' + '<?= $_GET['sort'] ?>' + '&key3=' + '<?= $_GET['key3'] ?>' + '&key4=' + '<?= $_GET['key4'] ?>' + '&sort=' + '<?= $_GET['sort'] ?>' + '&sort_key3=' + '<?= $_GET['sort_key3'] ?>' + '&loc_name=' + '<?= $_GET['loc_name'] ?>' + '&iamstore=' + '<?= $_GET['iamstore'] ?>' + '&cate_prod=' + '<?= $_GET['cate_prod'] ?>' + '&wide=' + '<?= $_GET['wide'] ?>');
+        }
+
+        function mycon_search_clicked() {
+            var inputVal = $("#mycon_search_input").val();
+            var type = getCookie('contents_mode');
+            iam_mystory('<?= $request_short_url . $card_owner_code ?>&cur_win=my_info' + '&search_key=' + inputVal + '&type=' + type + '&key1=' + '<?= $_GET['key1'] ?>' + '&key2=' + '<?= $_GET['key2'] ?>' + '&sort=' + '<?= $_GET['sort'] ?>' + '&key3=' + '<?= $_GET['key3'] ?>' + '&key4=' + '<?= $_GET['key4'] ?>' + '&sort=' + '<?= $_GET['sort'] ?>' + '&sort_key3=' + '<?= $_GET['sort_key3'] ?>' + '&loc_name=' + '<?= $_GET['loc_name'] ?>' + '&iamstore=' + '<?= $_GET['iamstore'] ?>' + '&cate_prod=' + '<?= $_GET['cate_prod'] ?>' + '&wide=' + '<?= $_GET['wide'] ?>');
         }
 
         function wecon_location_name() {
-            <? if ($_GET['mall_sub_type'] != 'visit') { ?>
+            <? if ($_GET['key3'] != 1) { ?>
                 alert('방문탭에서만 사용가능합니다.');
                 $("#search_location_name").val('');
                 return;
             <? } ?>
             var inputVal = $("#search_location_name").val();
-            iam_mystory('<?= $request_short_url . $card_owner_code ?>&cur_win=we_story' + '&search_key=' + '<?= $_GET['search_key'] ?>' + '&mall_type=' + '<?= $_GET['mall_type'] ?>' + '&mall_sub_type=' + '<?= $_GET['mall_sub_type'] ?>' + '&sort=' + '<?= $_GET['sort'] ?>' + '&sort_key3=' + '<?= $_GET['sort_key3'] ?>' + '&loc_name=' + inputVal);
+            iam_mystory('<?= $request_short_url . $card_owner_code ?>&cur_win=we_story' + '&search_key=' + '<?= $_GET['search_key'] ?>' + '&key1=' + '<?= $_GET['key1'] ?>' + '&key2=' + '<?= $_GET['key2'] ?>' + '&key3=' + '<?= $_GET['key3'] ?>' + '&sort=' + '<?= $_GET['sort'] ?>' + '&sort_key3=' + '<?= $_GET['sort_key3'] ?>' + '&loc_name=' + inputVal);
+        }
+
+        function mall_search_clicked() {
+            var inputVal = $("#mall_search_input").val();
+            iam_mystory('cur_win=' + '<?= $cur_win ?>' + '&mall_type=' + '<?= $mall_type ?>' + '&mall_type1=' + '<?= $mall_type1 ?>' + '&search_key=' + inputVal + '&sort=' + '<?= $_GET['sort'] ?>');
         }
 
         function set_my_share_contents(contents_id, gwc_state) {
@@ -11714,6 +13692,7 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                     },
                     dataType: "json",
                     success: function(data) {
+                        console.log(data);
                         $("#all_get_cnt").val(data.all_get_cnt); //전체가져오기한 건수
                         $("#pre_get_cnt").val(data.pre_get_cnt); //전달가져오기한 건수
                         $("#pre_month_cnt").val(data.pre_month_cnt); //전달가져오기 가능건수
@@ -12047,6 +14026,7 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
             width = $("#for_size_1").prop("naturalWidth");
             height = $("#for_size_1").prop("naturalHeight");
             if ((width / 6) > (height / 4)) {
+                //console.log("width =" + width);
                 $("#main_img1").css("background-size", "auto 100%");
             } else {
                 $("#main_img1").css("background-size", "100% auto");
@@ -12072,36 +14052,35 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                 $("#main_img3").css("background-size", "100% auto");
             }
         }
-
-        function getMainImage(index) {
-            if ($('#main_upload' + index + '_link').val() == "")
-                alert("웹주소" + index + "를 입력해주세요.");
+        /*function getMainImage(index){
+            if($('#main_upload'+index+'_link').val() == "")
+                alert("웹주소"+index+"를 입력해주세요.");
             else {
-                $('#main_upload_btn' + index).attr("disabled", true);
+                $('#main_upload_btn'+index).attr("disabled", true);
                 $.ajax({
                     type: "POST",
                     url: "https://www.goodhow.com/crawler/crawler/scrape/getImage.php",
                     dataType: "json",
                     data: {
-                        web_address: $('#main_upload' + index + '_link').val()
+                        web_address: $('#main_upload'+index+'_link').val()
                     },
-                    success: function(result) {
-                        $('#main_upload' + index + '_link').val(result.link);
-                        $('#main_upload_img' + index).attr('src', result.link);
-                        $('#main_upload_btn' + index).attr("disabled", false);
+                    success: function (result) {
+                        $('#main_upload'+index+'_link').val(result.link);
+                        $('#main_upload_img'+ index).attr('src', result.link);
+                        $('#main_upload_btn'+index).attr("disabled", false);
                     },
-                    error: function() {
-                        $('#main_upload_btn' + index).attr("disabled", false);
+                    error: function () {
+                        $('#main_upload_btn'+index).attr("disabled", false);
                         alert("웹주소를 크롤링할수 없습니다.");
                     }
                 });
             }
-        }
-
+        }*/
         function addMainBtn(title, link) {
             var filter = "win16|win32|win64|mac";
             if (navigator.platform) {
                 if (0 > filter.indexOf(navigator.platform.toLowerCase())) {} else {
+                    //alert('모바일에서만 추가가 가능합니다.');
                     var bookmarkURL = window.location.href;
                     var bookmarkTitle = document.title;
                     var triggerDefault = false;
@@ -12464,6 +14443,17 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
             } else {
                 formData.append('business_time', $('#edit_card_business_time').val());
             }
+            // if ($('#edit_card_online1_check').is(":checked")) {
+            //     formData.append('online1_check', "Y");
+            // } else {
+            //     formData.append('online1_check', "N");
+            // }
+            // if ($('#edit_card_online2_check').is(":checked")) {
+            //     formData.append('online2_check', "Y");
+            // } else {
+            //     formData.append('online2_check', "N");
+            // }
+
             if ($('#edit_card_logo_input')[0].files.length) {
                 formData.append('uploadFile', $('#edit_card_logo_input')[0].files[0]);
             } else if ($('#edit_card_logo').attr('src')) {
@@ -12719,7 +14709,7 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                     $(".price").hide();
                     $("#iam_mall_desc").val("1. 서비스 제목\n\n2. 카테고리\n\n3. 서비스 방식\n\n4. 서비스 판매가\n\n5. 서비스 기간\n");
                 } else {
-                    $("#iam_mall_text").html("홍보대사몰에 등록하기");
+                    $("#iam_mall_text").html("IAM몰에 내 아이엠 등록하기");
                     $(".price").show();
                 }
             }
@@ -12878,6 +14868,7 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
         function open_mall_description(idx, title) {
             $("#custom_notice_popup").modal("show");
             var desc = $("#mall_desc_" + idx).val().replace(/\n/g, "<br>");
+            console.log(desc);
             if (desc == '') {
                 desc = "1. AI 모델 이름 : <br><br>2. AI 모델 명함의 구성<br>1) AI 모델 명함은 대표이미지 3장, 다양한 콘텐츠 10장 내외로 구성됩니다.<br>2) 카드는 2장으로 구성되면, 첫번째 카드는 IAM소개 두번째는 해당 모델의 이미지 콘텐츠로 구성됩니다.<br><br>3. AI 모델 명함의 활용 절차<br>1) AI 모델 명함 선택 : 여러 AI 모델명함을 살펴보면서 마음에 드는 모델을 선택합니다.<br>2) AI 모델 명함 구매 : 해당 모델의 명함을 매월 정기 결제로 구매합니다.<br>3) 모델명함 계정 기록 : 구매할때 아이디와 비번을 입력하는데 이때 계정을 기록해둡니다. <br>4) 홍보콘텐츠의 삽입 : 해당 모델 명함의 콘텐츠 사이에 업체의 상품, 서비스 등의 콘텐츠를 삽입합니다. 이때, 카드 한개당 한개 정도의 상품/서비스 콘텐츠를 넣어야 합니다. 많으면 모델명함을 보는 고객들이 싫어할 것입니다. <br><br>4. 홍보 명함 단가<br>1) AI모델 명함  : 33,000원(부가세 포함)<br>* 카드를 추가할 경우에는 한건당 1만원씩 추가되므로 관리자에게 별도 주문해주세요. <br>2) 실제 연예인 명함 : 165,000원(부가세 포함)<br>* 계약된 연예인만 가능하며, 아직 계약이 되지 않는 연예인의 경우 샘플용이므로 구매가 되지 않습니다. <br><br>5. 부가 서비스<br>1) AI모델 명함의 수정 사항 : 이용자는 AI모델 이미지 추가시 배경이나 모델의 액션을 요청하고 제작자가 개발하게 되면 비용을 추가납부합니다.<br>2) 명함에 추가한 상품 콘텐츠 제작 : 업체에서 제작하고 싶은 이미지가 있을 경우, 해당 비용을 납부하고 제작자에게 의뢰할수 있습니다.<br>3) 해당 명함의 홍보 서비스 : 해당 명함을 플랫폼 본사가 가진 디비에 홍보를 요청할수 있습니다. <br><br>감사합니다.";
             }
@@ -12945,6 +14936,7 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                         $("#point_settlement").modal('show');
                     }
                 });
+
             } else if (category == 5) { //메시지세트
                 $.ajax({
                     type: "POST",
@@ -12962,6 +14954,7 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                         $("#sell_con_url_cash").val(mall_id);
                     }
                 });
+
             }
         }
 
@@ -13187,6 +15180,10 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
             var report_desc = $("#report_desc_msg").val();
             var report_phone = $("#reporter_phone_num").val();
             var mem_id = '<?= $_SESSION['iam_member_id'] == "" ? $_SERVER['REMOTE_ADDR'] : $_SESSION['iam_member_id']; ?>';
+            // if(report_desc == ''){
+            //     alert('신고내용을 입력해 주세요.');
+            //     return;
+            // }
             if (report_phone == '') {
                 alert('연락처를 입력해 주세요.');
                 return;
@@ -13316,6 +15313,7 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
         }
 
         function add_group_list(group_info) {
+            //var group_info = JSON.parse(group);
             var html = "<div style=\"padding-top: 2px;cursor:pointer\">" +
                 "<div style=\"background-color: #ffffff;border-radius: 10px;padding-bottom: 2px;display:flex;justify-content: space-between;\">" +
                 "<div style=\"display: flex\" onclick=\"location.href='/?" + group_info.link + "&cur_win=group-con&gkind=" + group_info.group + "'\">" +
@@ -13813,6 +15811,7 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                     alert("아이디 중복확인을 하세요.");
                     return;
                 }
+                // console.log(card_short_url); return;
                 var mem_name = $("#simple_mem_name").val();
                 var mem_phone = $("#simple_mem_phone").val();
                 var mem_id = $("#simple_mem_id").val();
@@ -13976,6 +15975,7 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                 });
             })
             $("#agreement-field").on("click", function() {
+                console.log("simple");
                 if ($('#agreement-wrap').css("display") == "none")
                     $('#agreement-wrap').show();
                 else
@@ -14029,20 +16029,22 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                     reader.readAsDataURL(input.files[0]);
                 }
             });
-            $(".map_gmarket").click(function() {
-                var mall_sub_type = $(this).attr('value');
+            //추천키워드 클릭 이벤트
+            $(".form-check-input").click(function() {
+                var key1 = $(this).attr('value');
                 var type = getCookie('contents_mode');
-                var link = "?" + "<?= $request_short_url . $card_owner_code ?>&cur_win=iam_mall&type=" + type;
-                link += "&mall_type=calliya&mall_sub_type=" + mall_sub_type + "&sort_calliya=1";
-                if ("<?= $_GET['search_key'] ?>" != "")
-                    link += "&search_key=" + "<?= $_GET['search_key'] ?>";
-                if ("<?= $_GET['loc_name'] ?>" != "")
-                    link += "&loc_name=" + "<?= $_GET['loc_name'] ?>";
-                location.href = link;
+
+                sort_key3 = '';
+                location.href = "?" + "<?= $request_short_url . $card_owner_code ?>&cur_win=we_story&type=" + type + "&search_key=" + "<?= $_GET['search_key'] ?>" + "&key1=" + key1 + "&key2=" + "<?= $_GET['key2'] ?>" + "&key3=0&sort_key3=" + sort_key3;
+            });
+            $(".map_gmarket").click(function() {
+                var key3 = $(this).attr('value');
+                var type = getCookie('contents_mode');
+                location.href = "?" + "<?= $request_short_url . $card_owner_code ?>&cur_win=we_story&type=" + type + "&search_key=" + "<?= $_GET['search_key'] ?>" + "&key1=3&key2=" + "<?= $_GET['key2'] ?>" + "&key3=" + key3 + "&sort_key3=1&loc_name=" + "<?= $_GET['loc_name'] ?>";
             });
             $(".gwc_con_type").click(function() {
-                var gwc_con_key = $(this).attr('value');
-                if (gwc_con_key == "2") {
+                var key4 = $(this).attr('value');
+                if (key4 == "2") {
                     alert("지금 개발중입니다.");
                     return;
                 }
@@ -14063,12 +16065,17 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                 }
             });
             $(".map_gmarket_sort").click(function() {
-                var sort_calliya = $(this).attr('value');
-                var mall_type = '<?= $_GET['mall_type'] ?>';
+                var sort_key3 = $(this).attr('value');
+                var key1 = '<?= $_GET['key1'] ?>';
+                var key1_click = '<?= $_GET['key1'] ?>';
+                if (sort_key3 == 1) {
+                    key1_click = 3;
+                }
+                if (key1 == '4') {
+                    key1_click = 4;
+                }
                 var type = getCookie('contents_mode');
-                var link = "?" + "<?= $request_short_url . $card_owner_code ?>&cur_win=iam_mall&type=" + type;
-                link += "&mall_type=" + mall_type + "&sort_calliya=" + sort_calliya;
-                location.href = makeParams(link);
+                location.href = "?" + "<?= $request_short_url . $card_owner_code ?>&cur_win=we_story&type=" + type + "&search_key=" + "<?= $_GET['search_key'] ?>" + "&key1=" + key1_click + "&key2=" + "<?= $_GET['key2'] ?>" + "&key3=" + "<?= $_GET['key3'] ?>" + "&sort_key3=" + sort_key3 + "&loc_name=" + "<?= $_GET['loc_name'] ?>" + "&key4=" + "<?= $_GET['key4'] ?>" + "&iamstore=" + "<?= $_GET['iamstore'] ?>" + "&cate_prod=" + "<?= $_GET['cate_prod'] ?>" + "&wide=" + "<?= $_GET['wide'] ?>";
             });
             $("#main_upload1_link").keyup(function() {
                 $('#main_upload_img1').css('background-image', "url(" + $(this).val() + ")");
@@ -14210,11 +16217,27 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                 $('#main_upload2_link').hide();
                 $('#main_upload3_link').hide();
             });
+            // $("#reduction_percent_event").keyup(function(){
+            //     $('#reduction_percent_fixed').val('');
+            // });
+
+            // $("#reduction_percent_fixed").keyup(function(){
+            //     $('#reduction_percent_event').val('');
+            //     $('#reduction_percent_cnt').val('');
+            // });
+
             // 프로필 스토리 등 콘텐츠 영역 숨기기 펼치기 스크립트
             $('#toggleContent').on('click', function() {
                 $('.tab-content').toggle();
                 $(this).toggleClass('active')
             });
+            // 하단 콘텐츠 접기 펼치기 스크립트
+            /*$('.content-item .arrow').on('click', function() {
+                var desc = $(this).parents('.content-item').find('.desc-inner-content');
+                desc.toggleClass('show_content');
+                $(this).toggleClass('active')
+                return false;
+            });*/
             //이미지 업로드 팝업
             $('.controls').on('click', function() {
                 $('.main_image_popup').css('display', 'block');
@@ -14233,10 +16256,10 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                         .scrollLeft()) + 'px');
                     return this;
                 }
+                //$(".popup2").center();
             });
             $(".sharepoint").on('click', function() {
                 $('#people_iam_modal').modal('hide');
-                $('#point_modal').modal('hide');
                 $('#card_send_modal').modal('hide');
                 $('#contents_send_modal').modal('hide');
                 $('#place_before').val($(this).attr('data'));
@@ -14322,7 +16345,7 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                 $("#mypage-modalwindow").modal("hide");
             });
             //내용 글자수 제한 더보기
-            /*$("#bottom .content-item").each(function() {
+            $("#bottom .content-item").each(function() {
                 var updateCon = $(this).find('.desc-text').html();
                 if (updateCon) {
                     if (updateCon.length > 200 && $(this).prop("id") != "contents_welcome") {
@@ -14341,7 +16364,13 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                     }
                     $(this).remove();
                 });
-            });*/
+            });
+            $(".popup_holder2").click(function() {
+                if ('<?= $cur_win ?>' == "we_story")
+                    $("#we_story input").focus();
+                else if ('<?= $cur_win ?>' == "my_info")
+                    $("#my_info input").focus();
+            });
             $("#contents_url").keyup(function() {
                 var url = $(this).val();
                 var new_open_url = $("#new_open_url").val();
@@ -14356,7 +16385,6 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
             $("#contents_percent").keyup(function() {
                 var con_price = $("#contents_price").val();
                 var con_percent = $(this).val();
-
                 var con_sell_price = parseInt((100 - con_percent) / 100 * con_price);
                 $("#contents_sell_price").val(con_sell_price);
             });
@@ -14364,7 +16392,6 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
             $("#contents_sell_price").keyup(function() {
                 var con_price = $("#contents_price").val();
                 var con_sell_price = $(this).val();
-
                 var con_percent = parseInt(100 - (con_sell_price / con_price) * 100);
                 $("#contents_percent").val(con_percent);
             });
@@ -14379,6 +16406,14 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                 var con_sell_price = $(this).val();
                 var con_percent = parseInt(100 - (con_sell_price / con_price) * 100);
                 $("#gallery_discount").val(con_percent);
+            });
+            $("#wecon_search_input").keyup(function() {
+                var inputVal = $("#wecon_search_input").val();
+                if (inputVal != '') {
+                    $("#wecon_input").show();
+                } else {
+                    $("#wecon_input").hide();
+                }
             });
             $("#mycon_search_input").keyup(function() {
                 var inputVal = $("#mycon_search_input").val();
@@ -14445,10 +16480,12 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
             $("#contents_box_alarm_more").on("click", function() {
                 if ($(this).data("more") == "close") {
                     $(this).data("more", "open");
+                    //$(this).html("[닫기]");
                     $("#contents_box_more").css("display", "none");
                     $("#contents_box_all").css("display", "block");
                 } else {
                     $(this).data("more", "close");
+                    //$(this).html("[더 보기]");
                     $("#contents_box_more").css("display", "block");
                     $("#contents_box_all").css("display", "none");
                 }
@@ -14510,122 +16547,6 @@ $alarm_count = $recv_con_alarm_cnt + $recv_notice_alarm_cnt;
                     $('.nogallery').show();
                 }
             });
-        });
-
-        function click_search_btn() {
-            if ($("#search-box").css("display") == "none") {
-                $('#search-box').show();
-            } else {
-                $('#search-box').hide();
-                var key = $('#search_input').val();
-                if (key != '') {
-                    $('#search_input').val('');
-                    var url = window.location.href;
-                    var pos = url.indexOf("search_key=");
-                    var link1 = url.substring(0, pos + 11);
-                    var link2 = url.substring(pos + 11);
-                    pos = link2.indexOf("&");
-                    link2 = link2.substring(pos);
-                    location.href = link1 + link2;
-                }
-            }
-            //$("#star").css("margin-top", <?= $star_top ?> + $("#we_story_tab").height() + "px");
-        }
-        $(window).scroll(function(e) {
-            var isScrollAtBottom = window.innerHeight + Math.round(window.scrollY) >= document.body.offsetHeight;
-            /*var target = e.currentTarget,
-                scrollTop = target.scrollTop || window.pageYOffset,
-                scrollHeight = target.scrollHeight || document.body.scrollHeight;*/
-            if (isScrollAtBottom && !window.busy) {
-                <? if ($cur_win == "best_sample" || $cur_win == "sample" || $cur_win == "recent_sample") { ?>
-                    busy = true;
-                    offset += limit;
-                    setTimeout(function() {
-                        displaySample(limit, offset);
-                    }, 500);
-                <? } else if ($cur_win == "iam_mall") { ?>
-                    busy = true;
-                    <? if (isset($_GET['mall_type']) && $_GET['mall_type'] != "gmarket" && $_GET['mall_type'] != "calliya") { ?>
-                        offset += limit;
-                        setTimeout(function() {
-                            displayMall(limit, offset);
-                        }, 500);
-                    <? } else if (!isset($_GET['mall_type']) || $_GET['mall_type'] == "gmarket") { ?>
-                        offset += gmarket_limit;
-                        setTimeout(function() {
-                            displayGmarketMall(gmarket_limit, offset);
-                        }, 500);
-                    <? } else if ($_GET['mall_type'] == "calliya") { ?>
-                        offset += calliya_limit;
-                        setTimeout(function() {
-                            displayCalliya(calliya_limit, offset);
-                        }, 500);
-                    <? } ?>
-                <? } /*else if($cur_win == "my_info"){?>      
-                    $('.contents_div').html('');
-                    busy = true;
-                    offset += mycon_limit;
-                    window.scrollTo(0, 0);
-                    setTimeout(function() { displayMyContents(mycon_limit, offset); }, 500);
-            <?}*/ else if ($cur_win == "we_story") { ?>
-                    busy = true;
-                    offset += wecon_limit;
-                    setTimeout(function() {
-                        displayWeContents(wecon_limit, offset);
-                    }, 500);
-                <? } else if ($cur_win == "my_story") { ?>
-                    $('.contents_div').html('');
-                    busy = true;
-                    offset += mystory_limit;
-                    setTimeout(function() {
-                        displayMyStory(mystory_limit, offset);
-                    }, 500);
-                <? } else if ($cur_win == "alarm" && $alarm_mode == "shared_receive") { ?>
-                    $('.contents_div').html('');
-                    busy = true;
-                    offset += shared_receive_limit;
-                    window.scrollTo(0, 0);
-                    setTimeout(function() {
-                        displaySharedReceive(shared_receive_limit, offset);
-                    }, 500);
-                <? } else if ($cur_win == "alarm" && $alarm_mode == "shared_send") { ?>
-                    $('.contents_div').html('');
-                    busy = true;
-                    offset += shared_send_limit;
-                    window.scrollTo(0, 0);
-                    setTimeout(function() {
-                        displaySharedSend(shared_send_limit, offset);
-                    }, 500);
-                <? } else if ($cur_win == "unread_post") { ?>
-                    busy = true;
-                    offset += unread_post_limit;
-                    setTimeout(function() {
-                        displayUnreadPost(unread_post_limit, offset);
-                    }, 500);
-                <? } else if ($cur_win == "alarm" && $alarm_mode == "notice_recv") { ?>
-                    $('.contents_div').html('');
-                    busy = true;
-                    offset += notice_limit;
-                    window.scrollTo(0, 0);
-                    setTimeout(function() {
-                        displayUnreadNotice(notice_limit, offset, 'recv');
-                    }, 500);
-                <? } else if ($cur_win == "alarm" && $alarm_mode == "notice_send") { ?>
-                    $('.contents_div').html('');
-                    busy = true;
-                    offset += notice_limit;
-                    window.scrollTo(0, 0);
-                    setTimeout(function() {
-                        displayUnreadNotice(notice_limit, offset, 'send');
-                    }, 500);
-                <? } else if ($cur_win == "group-con") { ?>
-                    busy = true;
-                    offset += group_con_limit;
-                    setTimeout(function() {
-                        displayMyGroupContents(group_con_limit, offset);
-                    }, 500);
-                <? } ?>
-            }
         });
     </script>
     <? include $_SERVER['DOCUMENT_ROOT'] . "/iam/inc/index_popup.php"; ?>

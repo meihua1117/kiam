@@ -1,434 +1,452 @@
 <?
-$path = "./";
+$path="./";
 include_once "_head.php";
-if (!$_SESSION['one_member_id']) {
+if(!$_SESSION[one_member_id])
+{
 
 ?>
-	<script language="javascript">
-		location.replace('/ma.php');
-	</script>
+<script language="javascript">
+location.replace('/ma.php');
+</script>
 <?
-	exit;
+exit;
 }
 extract($_REQUEST);
-$sql = "select * from Gn_Member  where mem_id='" . $_SESSION['one_member_id'] . "'";
-$sresul_num = mysqli_query($self_con, $sql);
-$data = mysqli_fetch_array($sresul_num);
-
+$sql="select * from Gn_Member  where mem_id='".$_SESSION[one_member_id]."'";
+$sresul_num=mysql_query($sql);
+$data=mysql_fetch_array($sresul_num);	
+	
 ?>
 
 <script>
-	function copyHtml() {
-		//oViewLink = $( "ViewLink" ).innerHTML;
-		////alert ( oViewLink.value );
-		//window.clipboardData.setData("Text", oViewLink);
-		//alert ( "주소가 복사되었습니다. \'Ctrl+V\'를 눌러 붙여넣기 해주세요." );
-		var trb = $.trim($('#sHtml').html());
-		var IE = (document.all) ? true : false;
-		if (IE) {
-			if (confirm("이 링크를 복사하시겠습니까?")) {
-				window.clipboardData.setData("Text", trb);
+function copyHtml(){
+    //oViewLink = $( "ViewLink" ).innerHTML;
+    ////alert ( oViewLink.value );
+    //window.clipboardData.setData("Text", oViewLink);
+    //alert ( "주소가 복사되었습니다. \'Ctrl+V\'를 눌러 붙여넣기 해주세요." );
+    var trb = $.trim($('#sHtml').html());
+    var IE=(document.all)?true:false;
+    if (IE) {
+        if(confirm("이 링크를 복사하시겠습니까?")) {
+            window.clipboardData.setData("Text", trb);
+        } 
+    } else {
+            temp = prompt("Ctrl+C를 눌러 클립보드로 복사하세요", trb);
+    }
+
+} 
+$(function(){
+	$(".popbutton").click(function(){
+		$('.ad_layer_info').lightbox_me({
+			centered: true,
+			onLoad: function() {
 			}
-		} else {
-			temp = prompt("Ctrl+C를 눌러 클립보드로 복사하세요", trb);
-		}
+		});
+	})
 
-	}
-	$(function() {
-		$(".popbutton").click(function() {
-			$('.ad_layer_info').lightbox_me({
-				centered: true,
-				onLoad: function() {}
-			});
-		})
-
-	});
+});
 </script>
 <style>
-	.pop_right {
-		position: relative;
-		right: 2px;
-		display: inline;
-		margin-bottom: 6px;
-		width: 5px;
-	}
+.pop_right {
+    position: relative;
+    right: 2px;
+    display: inline;
+    margin-bottom: 6px;
+    width: 5px;
+}    
 </style>
 
 <div class="big_sub">
+    
+<?php include_once "mypage_base_navi.php";?>
 
-	<?php include_once "mypage_base_navi.php"; ?>
+   <div class="m_div">
+       <?php include_once "mypage_left_menu.php";?>
+       <div class="m_body">
 
-	<div class="m_div">
-		<?php include_once "mypage_left_menu.php"; ?>
-		<div class="m_body">
+        <form name="pay_form" action="" method="post" class="my_pay">
 
-			<form name="pay_form" action="" method="post" class="my_pay">
-
-				<input type="hidden" name="page" value="<?= $page ?>" />
-				<input type="hidden" name="page2" value="<?= $page2 ?>" />
-
-
-				<div class="bnt main-buttons" style="background-color:  #086A87; padding-bottom:20px;">
-					<div class="wrap2"><br>
-						<a href="" class="button2" target="_blank">코치신청하기<br>가르치고싶어요!</a>
-						<a href="mypage_coaching_apply.php" class="button2" target="_blank">코티신청하기<br>배우고싶어요!</a>
-					</div>
-				</div> <br><br>
-
-				<div class="a1" style="margin-top:15px; margin-bottom:15px">
-					<li style="float:left;" 셀링코치 코칭정보리스트</li>
-					<li style="float:right;"></li>
-					<p style="clear:both"></p>
-				</div>
+            <input type="hidden" name="page" value="<?=$page?>" />
+            <input type="hidden" name="page2" value="<?=$page2?>" />        
 
 
+	    <div class="bnt main-buttons" style="background-color:  #086A87; padding-bottom:20px;">
+   	   <div class="wrap2"><br>
+	        <a href="" class="button2" target="_blank">코치신청하기<br>가르치고싶어요!</a>
+ 	       <a href="mypage_coaching_apply.php" class="button2" target="_blank">코티신청하기<br>배우고싶어요!</a>
+   	   </div>
+  	  </div>  <br><br>
 
-
-				<div>
-					<div class="p1">
-
-						<!--   <input type="radio" name="category" value="" checked>전체
-                <input type="radio" name="category" value="강연" <?php echo $_REQUEST['category'] == "강연" ? "checked" : "" ?>>강연
-                <input type="radio" name="category" value="교육" <?php echo $_REQUEST['category'] == "교육" ? "checked" : "" ?>>교육
-                <input type="radio" name="category" value="영상" <?php echo $_REQUEST['category'] == "영상" ? "checked" : "" ?>>영상 -->
-						<input type="text" name="search_text" placeholder="" id="search_text" value="<?= $_REQUEST['search_text'] ?>" />
-						<a href="javascript:void(0)" onclick="pay_form.submit()"><img src="/images/sub_mypage_11.jpg" /></a>
-						<div style="float:right">
-							<input type="radio" name="end_date" value="">전체
-							<input type="radio" name="end_date" value="Y" <?php echo $_REQUEST['end_date'] == "Y" ? "checked" : "" ?>>진행완료
-							<input type="radio" name="end_date" value="N" <?php echo $_REQUEST['end_date'] == "N" || $_REQUEST['end_date'] == "" ? "checked" : "" ?>>진행중
-							<input type="button" value="코칭정보입력" class="button" onclick="location='mypage_coaching_write.php'">
-						</div>
-					</div>
-					<div>
-						<table class="list_table" width="100%" border="0" cellspacing="0" cellpadding="0">
-							<tr>
-								<td style="width:4%;">No</td>
-								<td style="width:3%;">코칭<br>회차</td>
-								<td style="width:6%;">코티<br>이름</td>
-								<td style="width:5%;">계약<br>조건</td>
-								<td style="width:5%;">잔여<br>계약</td>
-								<td style="width:8%;">코칭<br>일자</td>
-								<td style="width:4%;">코칭<br>시간</td>
-								<td style="width:10%;">코칭<br>제목</td>
-								<td style="width:10%;">코칭<br>내용</td>
-								<td style="width:6%;">코칭<br>평가</td>
-								<td style="width:8%;">등록<br>일시</td>
-								<td style="width:6%;">코칭<br>조회</td>
-								<td style="width:5%;">대기<br>승인</td>
-								<td style="width:4%;">수정<br>삭제</td>
-							</tr>
-
-
-
-							<?
-
-							$sql_serch = " m_id ='$_SESSION[one_member_id]' ";
-							if ($_REQUEST['search_date']) {
-								if ($_REQUEST['rday1']) {
-									$start_time = strtotime($_REQUEST['rday1']);
-									$sql_serch .= " and unix_timestamp({$_REQUEST['search_date']}) >=$start_time ";
-								}
-								if ($_REQUEST['rday2']) {
-									$end_time = strtotime($_REQUEST['rday2']);
-									$sql_serch .= " and unix_timestamp({$_REQUEST['search_date']}) <= $end_time ";
-								}
-							}
-
-							if ($_REQUEST['search_text']) {
-								$search_text = $_REQUEST['search_text'];
-								$sql_serch .= " and (title like '%$search_text%' or description like '%$search_text%')";
-							}
-
-							$sql = "select count(mem_code) as cnt from Gn_Member where $sql_serch ";
-							$result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-							$row = mysqli_fetch_array($result);
-							$intRowCount = $row['cnt'];
-							if ($intRowCount) {
-								if (!$_POST['lno'])
-									$intPageSize = 20;
-								else
-									$intPageSize = $_POST['lno'];
-								if ($_POST['page']) {
-									$page = (int)$_POST['page'];
-									$sort_no = $intRowCount - ($intPageSize * $page - $intPageSize);
-								} else {
-									$page = 1;
-									$sort_no = $intRowCount;
-								}
-								if ($_POST['page2'])
-									$page2 = (int)$_POST['page2'];
-								else
-									$page2 = 1;
-								$int = ($page - 1) * $intPageSize;
-								if ($_REQUEST['order_status'])
-									$order_status = $_REQUEST['order_status'];
-								else
-									$order_status = "mem_name";
-								if ($_REQUEST['order_name'])
-									$order_name = $_REQUEST['order_name'];
-								else
-									$order_name = "mem_code";
-								$intPageCount = (int)(($intRowCount + $intPageSize - 1) / $intPageSize);
-								$sql = "select * from Gn_Member where $sql_serch order by $order_name $order_status limit $int,$intPageSize";
-								$result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-							?>
-								<?
-								while ($row = mysqli_fetch_array($result)) {
-									//$num_arr=array();
-									//$sql_num="select sendnum from Gn_landing where mem_id='$row[buyer_id]' and end_date='$row[end_date]' ";
-									//$resul_num=mysqli_query($sql_num);
-									//while($row_num=mysqli_fetch_array($resul_num))
-									//array_push($num_arr,$row_num[sendnum]);
-									//$num_str=implode(",",$num_arr);
-								?>
-									<tr>
-										<td><?= $sort_no ?></td>
-										<td style="font-size:12px;"><?= $row['mem_id'] ?></td>
-										<td style="font-size:12px;"><?= $row['mem_name'] ?></td>
-										<td style="font-size:12px;">
-											<input type="button" value="미리보기" class="button" onclick="viewEvent('<?php echo $row['short_url'] ?>')">
-											<input type="button" value="링크복사" class="button copyLinkBtn" data-link="<?php echo $row['short_url'] ?>">
-										</td>
-										<td><?= number_format($row['mem_phone']) ?></td>
-										<td><?= number_format($row['mem_email']) ?></td>
-										<td><?= $row['regdate'] ?></td>
-										<td>
-											<a href='mypage_landing_write.php?landing_idx=<?php echo $row['landing_idx']; ?>'>수정</a>/<a href="javascript:;;" onclick="removeRow('<?php echo $row['landing_idx']; ?>')">삭제</a>
-										</td>
-										<td>
-											<label class="switch">
-												<input type="checkbox" name="status" id="stauts_<?php echo $row['landing_idx']; ?>" value="<?php echo $row['landing_idx']; ?>" <?php echo $row['status_yn'] == "Y" ? "checked" : "" ?>>
-												<span class="slider round" name="status_round" id="stauts_round_<?php echo $row['landing_idx']; ?>"></span>
-											</label>
-										</td>
-
-									</tr>
+        <div class="a1" style="margin-top:15px; margin-bottom:15px">
+        <li style="float:left;"셀링코치 코칭정보리스트</li>
+        <li style="float:right;"></li>
+        <p style="clear:both"></p>
+        </div>
 
 
 
 
-								<?
-									$sort_no--;
-								}
-								?>
-								<tr>
-									<td colspan="14">
-										<?
-										page_f($page, $page2, $intPageCount, "pay_form");
-										?>
-									</td>
-								</tr>
-							<?
-							} else {
-							?>
-								<tr>
-									<td colspan="14">
-										검색된 내용이 없습니다.
-									</td>
-								</tr>
-							<?
-							}
-							?>
-						</table>
-						<!--
+        <div>
+            <div class="p1">
+                
+             <!--   <input type="radio" name="category" value="" checked>전체
+                <input type="radio" name="category" value="강연" <?php echo $_REQUEST['category'] =="강연"?"checked":""?>>강연
+                <input type="radio" name="category" value="교육" <?php echo $_REQUEST['category'] =="교육"?"checked":""?>>교육
+                <input type="radio" name="category" value="영상" <?php echo $_REQUEST['category'] =="영상"?"checked":""?>>영상 -->
+                <input type="text" name="search_text" placeholder="" id="search_text" value="<?=$_REQUEST[search_text]?>"/> 
+                <a href="javascript:void(0)" onclick="pay_form.submit()"><img src="/images/sub_mypage_11.jpg" /></a>                                            
+              <div style="float:right">
+                    <input type="radio" name="end_date" value="">전체
+                    <input type="radio" name="end_date" value="Y" <?php echo $_REQUEST['end_date']=="Y"?"checked":""?>>진행완료
+                    <input type="radio" name="end_date" value="N" <?php echo $_REQUEST['end_date']=="N"||$_REQUEST['end_date']==""?"checked":""?>>진행중
+                    <input type="button" value="코칭정보입력" class="button" onclick="location='mypage_coaching_write.php'">
+                </div>
+            </div>
+            <div>
+            <table class="list_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td style="width:4%;">No</td>
+                <td style="width:3%;">코칭<br>회차</td>
+                <td style="width:6%;">코티<br>이름</td>						
+                <td style="width:5%;">계약<br>조건</td>
+                <td style="width:5%;">잔여<br>계약</td>
+                <td style="width:8%;">코칭<br>일자</td>
+                <td style="width:4%;">코칭<br>시간</td>
+                <td style="width:10%;">코칭<br>제목</td>
+                <td style="width:10%;">코칭<br>내용</td>						
+                <td style="width:6%;">코칭<br>평가</td>		
+                <td style="width:8%;">등록<br>일시</td>
+                <td style="width:6%;">코칭<br>조회</td>
+                <td style="width:5%;">대기<br>승인</td>
+                <td style="width:4%;">수정<br>삭제</td>
+              </tr>
+			  
+
+
+              <?
+
+				$sql_serch=" m_id ='$_SESSION[one_member_id]' ";
+				if($_REQUEST[search_date])
+				{					
+					if($_REQUEST[rday1])
+					{
+					$start_time=strtotime($_REQUEST[rday1]);
+					$sql_serch.=" and unix_timestamp({$_REQUEST[search_date]}) >=$start_time ";
+					}
+					if($_REQUEST[rday2])
+					{
+					$end_time=strtotime($_REQUEST[rday2]);
+					$sql_serch.=" and unix_timestamp({$_REQUEST[search_date]}) <= $end_time ";
+					}
+				}
+				
+					if($_REQUEST[search_text])
+					{
+					    $search_text = $_REQUEST[search_text];
+					    $sql_serch.=" and (title like '%$search_text%' or description like '%$search_text%')";
+					}				
+				
+				$sql="select count(mem_code) as cnt from Gn_Member where $sql_serch ";
+				$result = mysql_query($sql) or die(mysql_error());
+				$row=mysql_fetch_array($result);
+				$intRowCount=$row[cnt];
+              if($intRowCount)
+              {
+				if (!$_POST[lno]) 
+					$intPageSize =20;
+				else 
+				   $intPageSize = $_POST[lno];				
+				if($_POST[page])
+				{
+				  $page=(int)$_POST[page];
+				  $sort_no=$intRowCount-($intPageSize*$page-$intPageSize); 
+				}
+				else
+				{
+				  $page=1;
+				  $sort_no=$intRowCount;
+				}
+				if($_POST[page2])
+				  $page2=(int)$_POST[page2];
+				else
+				  $page2=1;
+				$int=($page-1)*$intPageSize;
+				if($_REQUEST[order_status])
+				  $order_status=$_REQUEST[order_status];
+				else
+				  $order_status="mem_name"; 
+				if($_REQUEST[order_name])
+				  $order_name=$_REQUEST[order_name];
+				else
+				  $order_name="mem_code";
+				$intPageCount=(int)(($intRowCount+$intPageSize-1)/$intPageSize);     
+				$sql="select * from Gn_Member where $sql_serch order by $order_name $order_status limit $int,$intPageSize";
+				$result=mysql_query($sql) or die(mysql_error());				
+		?>   
+              <?
+                  while($row=mysql_fetch_array($result))
+                  {
+					  	//$num_arr=array();
+						//$sql_num="select sendnum from Gn_landing where mem_id='$row[buyer_id]' and end_date='$row[end_date]' ";
+						//$resul_num=mysql_query($sql_num);
+						//while($row_num=mysql_fetch_array($resul_num))
+						//array_push($num_arr,$row_num[sendnum]);
+						//$num_str=implode(",",$num_arr);
+						
+ 
+                  ?>
+
+
+
+
+              <tr>
+                <td><?=$sort_no?></td>
+                <td style="font-size:12px;"><?=$row[mem_id]?></td>
+                <td style="font-size:12px;"><?=$row[mem_name]?></td>
+                <td style="font-size:12px;">
+                    <input type="button" value="미리보기" class="button" onclick="viewEvent('<?php echo $row['short_url']?>')">
+                    <input type="button" value="링크복사" class="button copyLinkBtn" data-link="<?php echo $row['short_url']?>">
+                </td>
+                <td><?=number_format($row[mem_phone])?></td>
+                <td><?=number_format($row[mem_email])?></td>
+                <td><?=$row[regdate]?></td>
+                <td>
+                    <a href='mypage_landing_write.php?landing_idx=<?php echo $row['landing_idx'];?>'>수정</a>/<a href="javascript:;;" onclick="removeRow('<?php echo $row['landing_idx'];?>')">삭제</a>
+                </td>
+                <td>
+                    <label class="switch">
+                      <input type="checkbox" name="status" id="stauts_<?php echo $row['landing_idx'];?>" value="<?php echo $row['landing_idx'];?>" <?php echo $row['status_yn']=="Y"?"checked":""?> >
+                      <span class="slider round" name="status_round" id="stauts_round_<?php echo $row['landing_idx'];?>"></span>
+                    </label>                    
+                </td>
+               
+              </tr>
+
+
+
+
+              <?
+                    $sort_no--;
+                  }
+                  ?>		               
+              <tr>
+                <td colspan="14">
+                        <?
+                        page_f($page,$page2,$intPageCount,"pay_form");
+                        ?>
+                </td>
+              </tr>    
+            <?
+              }
+              else
+              {
+                ?>
+              <tr>
+                <td colspan="14">
+                    검색된 내용이 없습니다.
+                </td>
+              </tr>            
+                <?  
+              }
+              ?>
+            </table>
+            <!--
             <input type="button" value="랜딩 페이지 삭제" class="button">
             -->
-					</div>
-				</div>
-			</form>
-		</div>
+            </div>
+        </div>
+        </form>
+    </div>     
+    
+</div> 
+<Script>
+$(function() {
+    $('.area_view').on('click', function(){
+        if($(this).text().length > 10) {
+            if($(this).css("overflow-y") == "hidden") {
+                $(this).css("overflow-y","auto");
+                $(this).css("height","80px");
+                
+            } else {
+                $(this).css("overflow-y","hidden");
+                $(this).css("height","18px");
+            }
+        }
+    });    
+    $('.copyLinkBtn').bind("click", function() {
+        var trb = $(this).data("link");
+        var IE=(document.all)?true:false;
+        if (IE) {
+            if(confirm("이 링크를 복사하시겠습니까?")) {
+                window.clipboardData.setData("Text", trb);
+            } 
+        } else {
+                temp = prompt("Ctrl+C를 눌러 클립보드로 복사하세요", trb);
+        }        
+    });
+    $('.switch').on("change", function() {
+        var no = $(this).find("input[type=checkbox]").val();
+        var status = $(this).find("input[type=checkbox]").is(":checked")==true?"Y":"N";
+		$.ajax({
+			 type:"POST",
+			 url:"mypage.proc.php",
+			 data:{
+				 mode:"land_updat_status",
+				 landing_idx:no,
+				 status:status,
+				 },
+			 success:function(data){
+			    //alert('신청되었습니다.');location.reload();
+			 }
+			})    
+			        
+        //console.log($(this).find("input[type=checkbox]").is(":checked"));
+        //console.log($(this).find("input[type=checkbox]").val());
+    });
+})
+function viewEvent(str){
+    window.open(str, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=200,left=200,width=1000,height=1000");    
+    
+}
+    
+function change_message(form) {
+	if(form.intro_message.value == "") {
+		  alert('정보를 입력해주세요.');
+		  form.intro_message.focus();
+		  return false;
+	}
 
-	</div>
-	<Script>
-		$(function() {
-			$('.area_view').on('click', function() {
-				if ($(this).text().length > 10) {
-					if ($(this).css("overflow-y") == "hidden") {
-						$(this).css("overflow-y", "auto");
-						$(this).css("height", "80px");
+	$.ajax({
+		 type:"POST",
+		 url:"ajax/ajax.php",
+		 data:{
+			 mode : "intro_message",
+			 intro_message: form.intro_message.value
+			 },
+		 success:function(data){
+		 	$("#ajax_div").html(data);
+		 	alert('저장되었습니다.');
+		 	}
+		});
+		return false;
+}
+function showInfo() {
+    if($('#outLayer').css("display") == "none") {
+        $('#outLayer').show();
+    } else {
+        $('#outLayer').hide();
+    }
+}
 
-					} else {
-						$(this).css("overflow-y", "hidden");
-						$(this).css("height", "18px");
-					}
-				}
-			});
-			$('.copyLinkBtn').bind("click", function() {
-				var trb = $(this).data("link");
-				var IE = (document.all) ? true : false;
-				if (IE) {
-					if (confirm("이 링크를 복사하시겠습니까?")) {
-						window.clipboardData.setData("Text", trb);
-					}
-				} else {
-					temp = prompt("Ctrl+C를 눌러 클립보드로 복사하세요", trb);
-				}
-			});
-			$('.switch').on("change", function() {
-				var no = $(this).find("input[type=checkbox]").val();
-				var status = $(this).find("input[type=checkbox]").is(":checked") == true ? "Y" : "N";
-				$.ajax({
-					type: "POST",
-					url: "mypage.proc.php",
-					data: {
-						mode: "land_updat_status",
-						landing_idx: no,
-						status: status,
-					},
-					success: function(data) {
-						//alert('신청되었습니다.');location.reload();
-					}
-				})
-
-				//console.log($(this).find("input[type=checkbox]").is(":checked"));
-				//console.log($(this).find("input[type=checkbox]").val());
-			});
-		})
-
-		function viewEvent(str) {
-			window.open(str, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=200,left=200,width=1000,height=1000");
-
-		}
-
-		function change_message(form) {
-			if (form.intro_message.value == "") {
-				alert('정보를 입력해주세요.');
-				form.intro_message.focus();
-				return false;
-			}
-
-			$.ajax({
-				type: "POST",
-				url: "ajax/ajax.php",
-				data: {
-					mode: "intro_message",
-					intro_message: form.intro_message.value
-				},
-				success: function(data) {
-					$("#ajax_div").html(data);
-					alert('저장되었습니다.');
-				}
-			});
-			return false;
-		}
-
-		function showInfo() {
-			if ($('#outLayer').css("display") == "none") {
-				$('#outLayer').show();
-			} else {
-				$('#outLayer').hide();
-			}
-		}
-	</Script>
+</Script>
 
 
-	<script>
-		//회원가입체크
-		function join_check(frm, modify) {
-			if (!wrestSubmit(frm))
-				return false;
-			var id_str = "";
-			var app_pwd = "";
-			var web_pwd = "";
-			var phone_str = "";
-			if (document.getElementsByName('pwd')[0])
-				app_pwd = document.getElementsByName('pwd')[0].value;
-			if (document.getElementsByName('pwd')[1])
-				web_pwd = document.getElementsByName('pwd')[1].value;
-			if (frm.id)
-				id_str = frm.id.value;
-			var msg = modify ? "수정하시겠습니까?" : "등록하시겠습니까?";
-			var email_str = frm.email_1.value + "@" + frm.email_2.value + frm.email_3.value;
-			if (!modify)
-				phone_str = frm.mobile_1.value + "-" + frm.mobile_2.value + "-" + frm.mobile_3.value;
-			var birth_str = frm.birth_1.value + "-" + frm.birth_2.value + "-" + frm.birth_3.value;
-			var is_message_str = frm.is_message.checked ? "Y" : "N";
+<script>
+//회원가입체크
+function join_check(frm,modify)
+{
+	if(!wrestSubmit(frm))
+		return  false;
+	var id_str="";
+	var app_pwd="";
+	var web_pwd="";
+	var phone_str="";
+	if(document.getElementsByName('pwd')[0])
+	app_pwd=document.getElementsByName('pwd')[0].value;
+	if(document.getElementsByName('pwd')[1])
+	web_pwd=document.getElementsByName('pwd')[1].value;	
+	if(frm.id)	
+	id_str=frm.id.value;	
+	var msg=modify?"수정하시겠습니까?":"등록하시겠습니까?";	
+	var email_str=frm.email_1.value+"@"+frm.email_2.value+frm.email_3.value;
+	if(!modify)
+	phone_str=frm.mobile_1.value+"-"+frm.mobile_2.value+"-"+frm.mobile_3.value;
+	var birth_str=frm.birth_1.value+"-"+frm.birth_2.value+"-"+frm.birth_3.value;
+	var is_message_str=frm.is_message.checked?"Y":"N";
+	
+	var bank_name = frm.bank_name.value;
+	var bank_account = frm.bank_account.value;
+	var bank_owner = frm.bank_owner.value;
+	
+	if(confirm(msg))
+	{
+		$.ajax({
+			 type:"POST",
+			 url:"ajax/ajax.php",
+			 data:{
+				 join_id:id_str,
+				 join_nick:frm.nick.value,
+				 join_pwd:app_pwd,
+				 join_web_pwd:web_pwd,				 
+				 join_name:frm.name.value,
+				 join_email:email_str,
+				 join_phone:phone_str,
+				 join_add1:frm.add1.value,
+				 join_zy:frm.zy.value,
+				 join_birth:birth_str,
+				 join_is_message:is_message_str,
+				 join_modify:modify,
+				 bank_name:bank_name,
+				 bank_account:bank_account,
+				 bank_owner:bank_owner
+				 },
+			 success:function(data){$("#ajax_div").html(data)}
+			})
+	}
+}    
 
-			var bank_name = frm.bank_name.value;
-			var bank_account = frm.bank_account.value;
-			var bank_owner = frm.bank_owner.value;
+function monthly_remove(no) {
+    if(confirm('정기결제 해지신청하시겠습니까?')) {
+		$.ajax({
+			 type:"POST",
+			 url:"ajax/ajax_add.php",
+			 data:{
+				 mode:"monthly",
+				 no:no
+				 },
+			 success:function(data){alert('신청되었습니다.');location.reload();}
+			})        
+        
+    }
+}
 
-			if (confirm(msg)) {
-				$.ajax({
-					type: "POST",
-					url: "ajax/ajax.php",
-					data: {
-						join_id: id_str,
-						join_nick: frm.nick.value,
-						join_pwd: app_pwd,
-						join_web_pwd: web_pwd,
-						join_name: frm.name.value,
-						join_email: email_str,
-						join_phone: phone_str,
-						join_add1: frm.add1.value,
-						join_zy: frm.zy.value,
-						join_birth: birth_str,
-						join_is_message: is_message_str,
-						join_modify: modify,
-						bank_name: bank_name,
-						bank_account: bank_account,
-						bank_owner: bank_owner
-					},
-					success: function(data) {
-						$("#ajax_div").html(data)
-					}
-				})
-			}
-		}
+function removeRow(no) {
+    if(confirm('삭제하시겠습니까?')) {
+		$.ajax({
+			 type:"POST",
+			 url:"mypage.proc.php",
+			 data:{
+				 mode:"lecture_del",
+				 lecture_id:no
+				 },
+			 success:function(data){
+			    alert('삭제되었습니다.');
+			    location.reload();
+			    }
+			})        
+        
+    }
+}
 
-		function monthly_remove(no) {
-			if (confirm('정기결제 해지신청하시겠습니까?')) {
-				$.ajax({
-					type: "POST",
-					url: "ajax/ajax_add.php",
-					data: {
-						mode: "monthly",
-						no: no
-					},
-					success: function(data) {
-						alert('신청되었습니다.');
-						location.reload();
-					}
-				})
+function removeAll() {
+    var no ="";
+    if(confirm('삭제하시겠습니까?')) {
+		$.ajax({
+			 type:"POST",
+			 url:"mypage.proc.php",
+			 data:{
+				 mode:"lecture_del",
+				 landing_idx:no
+				 },
+			 success:function(data){
+			    alert('삭제되었습니다.');
+			    location.reload();
+			    }
+			})        
+        
+    }
+}
 
-			}
-		}
 
-		function removeRow(no) {
-			if (confirm('삭제하시겠습니까?')) {
-				$.ajax({
-					type: "POST",
-					url: "mypage.proc.php",
-					data: {
-						mode: "lecture_del",
-						lecture_id: no
-					},
-					success: function(data) {
-						alert('삭제되었습니다.');
-						location.reload();
-					}
-				})
 
-			}
-		}
-
-		function removeAll() {
-			var no = "";
-			if (confirm('삭제하시겠습니까?')) {
-				$.ajax({
-					type: "POST",
-					url: "mypage.proc.php",
-					data: {
-						mode: "lecture_del",
-						landing_idx: no
-					},
-					success: function(data) {
-						alert('삭제되었습니다.');
-						location.reload();
-					}
-				})
-
-			}
-		}
-	</script>
+</script>      

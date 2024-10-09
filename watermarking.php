@@ -1,91 +1,96 @@
 <?
 header("Content-type:text/html;charset=utf-8");
 include_once "lib/db_config.php";
-addWatermark("upload_month/upload_2024_04/watermark.png","iamgallery");
-//watermarking("upload_month/upload_2024_04/watermark.png","upload_month/upload_2024_04/mark.jpg",50,50);
+$sql = "select idx,img,card_idx from Gn_Iam_Mall where mall_type > 10 order by idx";
+$res = mysql_query($sql);
+while ($row = mysql_fetch_assoc($res)) {
+    if ($_GET["content"] == "Y") {
+        $sql = "update Gn_Iam_Contents set contents_img = '{$row['img']}' where idx = {$row['card_idx']}";
+        mysql_query($sql);
+        echo $row['idx'] . " changing...";
+    } else {
+        $srcFile = $row['img'];
+        if (strpos($srcFile, "/") == 0)
+            $srcFile = substr($srcFile, 1);
+        $dstFile = addWatermark($srcFile, "iamgallery", "iam/img/common/mark.png");
+        if ($dstFile != false) {
+            $sql = "update Gn_Iam_Mall set img = '{$dstFile}' where idx={$row['idx']}";
+            mysql_query($sql);
+            $sql = "update Gn_Iam_Contents set contents_img = '{$dstFile}' where idx = {$row['card_idx']}";
+            mysql_query($sql);
+            echo $row['idx'] . " changing...";
+        } else {
+            echo $row['idx'] . " have no img";
+        }
+    }
+    echo "<br>";
+}
+echo "add water mark completed!";
 function addWatermark($sourceFile, $watermarkText = NULL, $watermarkImage = NULL)
 {
-	// 원본 이미지 로드
-	echo $sourceFile."<br>";
-    $dstFile = mb_substr($sourceFile,0,mb_strrpos($sourceFile,"."));
-    $ext = mb_substr($sourceFile,mb_strrpos($sourceFile,"."));
-    $dstFile .= "wm".$ext;
-    echo $dstFile."<br>";
-	$info = getimagesize($sourceFile);
-	$type = $info[2];
-	print_r($info);
-	echo "<br>";
-	switch ($type) {
-		case IMAGETYPE_JPEG:
-			$image = imagecreatefromjpeg($sourceFile);
-			break;
-		case IMAGETYPE_PNG:
-			echo "type png:".$image = imagecreatefrompng($sourceFile)."<br>";
-			break;
-		default:
-			die("Unsupported image type.");
-	}
-	// 텍스트 워터마크 추가
-	if ($watermarkText) {
-		$textColor = imagecolorallocatealpha($image, 255, 255, 255, 50); // 백색, 반투명
-		$fontFile = 'fonts/fontawesome-webfont.ttf'; // 글꼴 파일 경로 지정 필요
-		echo "color=>".$textColor.":".imagettftext($image, 200, 50, 100, 25, $textColor, $fontFile, $watermarkText);
-	}
-	echo imagesx($image)."/".imagesy($image)."<br>";
-	// 이미지 워터마크 추가
-	if ($watermarkImage && file_exists($watermarkImage)) {
-		$watermark = imagecreatefrompng($watermarkImage);
-		$wx = imagesx($watermark);
-		$wy = imagesy($watermark);
-		imagecopy($image, $watermark, imagesx($image) - $wx - 10, imagesy($image) - $wy - 10, 0, 0, $wx, $wy);
-	}
+    if ($sourceFile == "")
+        return false;
+    // 원본 이미지 로드
+    $dstFile = mb_substr($sourceFile, 0, mb_strrpos($sourceFile, "."));
+    $ext = mb_substr($sourceFile, mb_strrpos($sourceFile, "."));
+    $dstFile .= "wm" . $ext;
+    $info = getimagesize($sourceFile);
+    $type = $info[2];
+    switch ($type) {
+        case IMAGETYPE_JPEG:
+            $image = imagecreatefromjpeg($sourceFile);
+            break;
+        case IMAGETYPE_PNG:
+            $image = imagecreatefrompng($sourceFile);
+            break;
+        default:
+            die("Unsupported image type.");
+    }
 
-	// 이미지 저장
-	switch ($type) {
-		case IMAGETYPE_JPEG:
-			imagejpeg($image, $dstFile);
-			break;
-		case IMAGETYPE_PNG:
-			$wres = imagepng($image, "upload_month/upload_2024_04/test.png");
-			echo "png=".$wres."<br>";
-			break;
-	}
-	
-	// 리소스 해제
-	imagedestroy($image);
-	if (isset($watermark)) {
-		imagedestroy($watermark);
-	}
+    // 이미지 워터마크 추가
+    if ($watermarkImage && file_exists($watermarkImage)) {
+        $watermark = imagecreatefrompng($watermarkImage);
+        $image_width = imagesx($image);
+        $image_height = imagesy($image);
+        $wx = imagesx($watermark);
+        $wy = imagesy($watermark);
+        $x_interval = 100;
+        $y_interval = 100;
+        for ($x = 0; $x < $image_width; $x += $x_interval) {
+            for ($y = 0; $y < $image_height; $y += $y_interval) {
+                imagecopy($image, $watermark, $x, $y, 0, 0, $wx, $wy);
+            }
+        }
+    }
+    // 텍스트 워터마크 추가
+    if ($watermarkText) {
+        $text_height = imagefontheight(5);
+        $textColor = imagecolorallocatealpha($image, 13, 13, 13, 100); // 백색, 반투명
+        $fontFile = 'fonts/KoPubDotumLight.ttf'; // 글꼴 파일 경로 지정 필요
+        $image_width = imagesx($image);
+        $image_height = imagesy($image);
+        $x_interval = 100;
+        $y_interval = 100;
+        for ($x = 0; $x < $image_width; $x += $x_interval) {
+            for ($y = 0; $y < $image_height; $y += $y_interval) {
+                imagettftext($image, 12, 0, $x + 10, $y + 5, $textColor, $fontFile, $watermarkText);
+            }
+        }
+    }
+    // 이미지 저장
+    switch ($type) {
+        case IMAGETYPE_JPEG:
+            imagejpeg($image, $dstFile);
+            break;
+        case IMAGETYPE_PNG:
+            imagepng($image, $dstFile);
+            break;
+    }
+
+    // 리소스 해제
+    imagedestroy($image);
+    if (isset($watermark)) {
+        imagedestroy($watermark);
+    }
+    return $dstFile;
 }
-function watermarking($file, $mark, $x = 0, $y = 0, $opacity = 60)
-{
-	$ext = strtolower(substr(strrchr($file, "."), 1));
-	$mark_size = getimagesize($mark);
-    print_r($mark_size);
-    echo "<br>";
-	if ($ext == "jpg" || $ext == "jpeg") {
-		$mark = imagecreatefromgif($mark);
-		$dest = imagecreatefromjpeg($file);
-		$size = getimagesize($file);
-
-		imagecopymerge($dest, $mark, $x, $y, 0, 0, $mark_size[0], $mark_size[1], $opacity);
-		imagejpeg($dest, $file);
-	} elseif ($ext == "gif") {
-		$mark = imagecreatefromgif($mark);
-		$dest = imagecreatefromgif($file);
-		$size = getimagesize($file);
-
-		imagecopymerge($dest, $mark, $x, $y, 0, 0, $mark_size[0], $mark_size[1], $opacity);
-		imagegif($dest, $file);
-	} elseif ($ext == "png") {
-		$mark = imagecreatefromgif($mark);
-		$dest = imagecreatefrompng($file);
-		$size = getimagesize($file);
-        print_r($size);
-        echo "<br>";
-		echo "merge:".imagecopymerge($dest, $mark, $x, $y, 0, 0, $mark_size[0], $mark_size[1], $opacity);
-        echo "<br>";
-		echo "png:".imagepng($dest, $file);
-	}
-}
-?>

@@ -13,7 +13,7 @@
 		       <button type="button" style="background:#D8D8D8">
                 <a href="/sub_7.php">추천정보</a> </button>
 		       <button type="button" style="background:#D8D8D8">
-                <?if($data['mem_leb'] == 21 || $data['mem_leb'] == 60 || $data['mem_id'] == "obmms02") {?>
+                <?if($data[mem_leb] == 21 || $data[mem_leb] == 60 || $data[mem_id] == "obmms02") {?>
                 <a href="/mypage_lecture_list.php">강연관리</a></button>
                 <?}?>
             </div>
