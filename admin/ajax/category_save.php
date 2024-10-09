@@ -30,7 +30,7 @@ if($_POST['mode'] == "inser") {
                                   `status`          ='$status', 
                                   `regdate`         =NOW() 
                                  ";
-    mysqli_query($self_con, $query);	
+    mysql_query($query);	
 } else if($_POST['mode'] == "save") {
 
     
@@ -38,7 +38,7 @@ if($_POST['mode'] == "inser") {
                                   
                          WHERE category='$category'
                                  ";
-    mysqli_query($self_con, $query);	
+    mysql_query($query);	
     //echo $query;
     echo '{"result":"success","msg":"변경되었습니다."}';
     exit    ;
@@ -47,7 +47,7 @@ if($_POST['mode'] == "inser") {
     $query="delete  from    Gn_Service 
                          WHERE idx='$idx'
                                  ";
-    mysqli_query($self_con, $query);	
+    mysql_query($query);	
 }
 echo "<script>alert('저장되었습니다.');location='/admin/board_category.php';</script>";
 exit;

@@ -1,9 +1,9 @@
 <?
     include_once $path."lib/rlatjd_fun.php";
 
-    $sql = "select * from tjd_pay_result where buyer_id = '{$_SESSION['one_member_id']}' and end_date > '$date_today' and end_status in ('Y','A') order by end_date desc limit 1";
-    $res_result = mysqli_query($self_con, $sql);
-    $pay_data = mysqli_fetch_array($res_result);
+    $sql = "select * from tjd_pay_result where buyer_id = '$_SESSION[one_member_id]' and end_date > '$date_today' and end_status in ('Y','A') order by end_date desc limit 1";
+    $res_result = mysql_query($sql);
+    $pay_data = mysql_fetch_array($res_result);
     $rights = 0;
     //echo $pay_data['TotPrice'] ;
     //echo $pay_data['member_type'] ;
@@ -19,8 +19,8 @@
     $sub_domain = false;
     if($HTTP_HOST != "kiam.kr") {
         $query = "select * from Gn_Service where sub_domain like '%".$HTTP_HOST."'";
-        $res = mysqli_query($self_con, $query);
-        $domainData = mysqli_fetch_array($res);
+        $res = mysql_query($query);
+        $domainData = mysql_fetch_array($res);
         
         if($domainData['idx'] != "") {
             $sub_domain = true;
@@ -36,10 +36,10 @@
         
     }
     
-    $sql = "select * from tjd_pay_result where buyer_id = '{$_SESSION['one_member_id']}' and end_date > '$date_today'  and stop_yn='Y'";
-    $res_result = mysqli_query($self_con, $sql);
-    $stop = mysqli_fetch_array($res_result);    
-    if($stop['stop_yn'] == "Y") {
+    $sql = "select * from tjd_pay_result where buyer_id = '$_SESSION[one_member_id]' and end_date > '$date_today'  and stop_yn='Y'";
+    $res_result = mysql_query($sql);
+    $stop = mysql_fetch_array($res_result);    
+    if($stop[stop_yn] == "Y") {
         if($_SERVER['PHP_SELF'] == "/sub_5.php" || $_SERVER['PHP_SELF'] == "/sub_6.php" || strstr($_SERVER['PHP_SELF'], "mypage_") == true || strstr($_SERVER['PHP_SELF'], "daily_") == true) {
             if(strstr($_SERVER['PHP_SELF'], "mypage_payment") == true) {} else {
                 echo "<script>location='/';</script>";
@@ -48,8 +48,8 @@
         }
     }
 	$sql = "select * from Gn_Ad_Manager where ad_position = 'H' and use_yn ='Y'";
-    $res_result = mysqli_query($self_con, $sql);
-    $ad_data = mysqli_fetch_array($res_result); 	
+    $res_result = mysql_query($sql);
+    $ad_data = mysql_fetch_array($res_result); 	
 ?>
 <!DOCTYPE html>
 <html lang="ko">
@@ -139,7 +139,7 @@
 <!--	<? //if($_COOKIE['ad'] != 'hide'){?> -->
  <?php   if($HTTP_HOST != "dbstar.kiam.kr") { ?>
 		<div class="ad_header">
-			<a href="<?echo $ad_data['move_url']?>"><div class="ad_banner ad_img_banner" style="background-image: url('<?echo $ad_data[img_url]?>')"></div></a>
+			<a href="<?echo $ad_data[move_url]?>"><div class="ad_banner ad_img_banner" style="background-image: url('<?echo $ad_data[img_url]?>')"></div></a>
 			<div id="b_exit" class="b_exit"><img src="http://kiam.kr/images/bt_close.gif"></div>
 		</div>
 <!--	<?php  //} ?>  --> 
@@ -184,7 +184,7 @@
             <div class="head_right">
             	<div class="head_right_1">                
                     <form  name="login_form" action="ajax/login.php" method="post" target="login_iframe" onsubmit="return login_check(login_form)">
-                    <!--<a href="https://m.onestore.co.kr/mobilepoc/apps/appsDetail.omp?prodId=0000763801" target="_blank">앱설치</a> |-->
+                    <!--<a href="https://play.google.com/store/apps/details?id=mms.onepagebook.com.onlyonesms" target="_blank">앱설치</a> |-->
                     
 					<?
 						$server_name = $_SERVER['SERVER_NAME'];
@@ -212,7 +212,7 @@
                     <?php } ?>
 
     		
-                    <?if(!$_SESSION['one_member_id']){?><a href="join.php">회원가입</a> |
+                    <?if(!$_SESSION[one_member_id]){?><a href="join.php">회원가입</a> |
                     <a href="id_pw.php">아이디/비밀번호찾기</a>&nbsp;
                     <iframe name="login_iframe" style="display:none;"></iframe>
                 	<input type="text" name="one_id" itemname='아이디' placeholder="아이디" required style="width:100px;"  />
@@ -222,22 +222,22 @@
     				<a href="mypage.php">마이페이지</a>&nbsp;
     				<!--| <a href="mypage_link_list.php">원스텝문자</a>&nbsp;-->
                     <?
-                    if($_SESSION['one_member_id'] == "db"){
+                    if($_SESSION[one_member_id] == "db"){
                     ?>
                       | <a href="/admin/crawler_member_list_v.php">관리자</a>&nbsp;				
                     <?php } ?>
                     <?
-                    if($_SESSION['one_member_subadmin_id'] != "" && $_SESSION['one_member_subadmin_domain'] == $HTTP_HOST){
+                    if($_SESSION[one_member_subadmin_id] != "" && $_SESSION[one_member_subadmin_domain] == $HTTP_HOST){
                     ?>
                       | <a href="/admin/member_list.php">관리자</a>&nbsp;				
                     <?php } ?>                
                     <?
-                    if($_SESSION['one_member_id'] == "obmms01"){
+                    if($_SESSION[one_member_id] == "obmms01"){
                     ?>
                        | <a href="permit_number.php">승인처리</a>&nbsp;
                     <?
                     }
-                    if($_SESSION['one_member_admin_id'] != ""){
+                    if($_SESSION[one_member_admin_id] != ""){
                     ?>
                     <?if($_SESSION['one_member_admin_id'] == "emi0542" || $_SESSION['one_member_admin_id'] == "gwunki"){?>
                     | <a href="/admin/member_list_con.php">관리자</a>&nbsp;   
@@ -247,8 +247,8 @@
                     <!--| <a href="/pc_messenger.php">PC문자메신져</a>&nbsp;-->
                     <?
                     }
-                    //if($_SESSION['one_mem_lev'] == "50"){
-                    if($_SESSION['one_member_id'] == "lecturem") {
+                    //if($_SESSION[one_mem_lev] == "50"){
+                    if($_SESSION[one_member_id] == "lecturem") {
                     ?>
                       | <a href="/admin/lecture_list.php">관리자</a>&nbsp;				
                     <?php } ?>
@@ -256,7 +256,7 @@
                     <?
                     //}
                     ?>
-                    <span style="background-color:#43515e;padding:2px 20px 2px 5px;"><?=$member_1['mem_name']?> 님 환영합니다.</span> <a href="javascript:void(0)" onclick="logout()"><img src="images/main_top_button_logout_03.jpg" /></a>
+                    <span style="background-color:#43515e;padding:2px 20px 2px 5px;"><?=$member_1[mem_name]?> 님 환영합니다.</span> <a href="javascript:void(0)" onclick="logout()"><img src="images/main_top_button_logout_03.jpg" /></a>
                     <?}?>
                     </form>                               
                 </div>
@@ -484,7 +484,7 @@
 			<div class="left_sub_menu">
 				<a href="./">홈</a> >
 				<a href="sub_1.php">온리원문자</a> >
-				<a href="?status=<?=$_REQUEST['status']?>"><?=$left_str?></a>
+				<a href="?status=<?=$_REQUEST[status]?>"><?=$left_str?></a>
 			</div>
 			<div style="position:absolute;left:530px;">
 			   <a href="sub_1.php">폰문자소개</a> ㅣ<a href="sub_5.php">휴대폰등록</a> ㅣ <a href="sub_6.php">문자발송</a> ㅣ <a href="sub_4_return_.php">발신내역</a> ㅣ <a href="sub_4.php?status=5&status2=3">수신내역</a> ㅣ <a href="sub_4.php?status=6">수신여부</a>
@@ -507,7 +507,7 @@
 			<div class="left_sub_menu">
 			  <a href="./">홈</a> >
 			  <a href="sub_2.php">온리원디버</a> >
-			  <a href="?status=<?=$_REQUEST['status']?>"><?=$left_str?></a>
+			  <a href="?status=<?=$_REQUEST[status]?>"><?=$left_str?></a>
 			</div>
 			<div style="position:absolute;left:320px;">     
 			  <a href="sub_2.php">디버알아보기</a> ㅣ <a href="http://kiam.kr/app/201004OnlyOneDB.exe">디버설치하기</a>ㅣ <a href="https://url.kr/IYUGDV">디버수집하기</a> 
@@ -519,7 +519,7 @@
 			<div class="left_sub_menu">
 			  <a href="./">홈</a> >
 			  <a href="sub_11.php">온리원콜백</a> >
-			  <a href="?status=<?=$_REQUEST['status']?>"><?=$left_str?></a>
+			  <a href="?status=<?=$_REQUEST[status]?>"><?=$left_str?></a>
 			</div>
 			<div style="position:absolute;left:430px;">     
 			  <a href="sub_11.php">콜백알아보기</a> ㅣ <a href="https://www.onestore.co.kr/userpoc/apps/view?pid=0000738690">콜백설치하기</a>ㅣ <a href="https://url.kr/IYUGDV">콜백이용하기</a> 
@@ -574,7 +574,7 @@
 			<div class="left_sub_menu">
 			  <a href="./">홈</a> >
 			  <a href="sub_8.php">솔루션소개</a> >
-			  <a href="?status=<?=$_REQUEST['status']?>"><?=$left_str?></a>
+			  <a href="?status=<?=$_REQUEST[status]?>"><?=$left_str?></a>
 			</div>
 			<div style="position:absolute;left:140px;">
 			  <!--

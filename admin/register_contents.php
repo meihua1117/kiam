@@ -12,8 +12,8 @@ if(isset($_GET['reg_id'])){
 }
 $id = $_GET['reg_id'];
 $sql = "select * from reg_biz_contents where id={$id}";
-$res = mysqli_query($self_con, $sql);
-while($row = mysqli_fetch_array($res)){
+$res = mysql_query($sql);
+while($row = mysql_fetch_array($res)){
     $info_source = $row['info_source'];
     $info_type = $row['info_type'];
     $web_address = $row['web_address'];

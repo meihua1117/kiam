@@ -8,8 +8,8 @@ extract($_GET);
 </script>
 <?
 $mid = date("YmdHis").rand(10,99);
-$item_name = $_GET['item_name'];
-$item_price = $_GET['item_price'];
+$item_name = $_GET[item_name];
+$item_price = $_GET[item_price];
 $seller_id = $_GET[manager];
 if(isset($_GET[conidx])){
     $conidx = $_GET[conidx];
@@ -28,7 +28,7 @@ include "inc/header.inc.php";
     <!--오픈그래프 (웹페이지 미리보기 -페이스북, 카카오톡)-->
     <meta property="og:title" content="아이엠으로 나를 브랜딩하기">
     <!--제목-->
-    <meta property="og:description" content="<?=$G_card['card_name']?>님의 명함 <?=$G_card['card_company']?> <?=$G_card['card_position']?>">
+    <meta property="og:description" content="<?=$G_card[card_name]?>님의 명함 <?=$G_card[card_company]?> <?=$G_card[card_position]?>">
     <!--내용-->
     <meta property="og:image" content="<?=$main_img1?>">
     <!--이미지-->
@@ -143,11 +143,11 @@ if($platform == "mobile"){
         dfm.allat_product_nm.value = dfm.item_name.value;
         var navCase = navigator.userAgent.toLocaleLowerCase();
         if(navCase.search("android") > -1){
-            dfm.allat_app_scheme.value = navCase;
+    	    dfm.allat_app_scheme.value = navCase;
             Allat_Mobile_Approval(dfm, 0, 0);
         }
         else{
-            dfm.allat_app_scheme.value = '';
+    	    dfm.allat_app_scheme.value = '';
             AllatPay_Approval(dfm);
             // 결제창 자동종료 체크 시작
             AllatPay_Closechk_Start();
@@ -238,7 +238,7 @@ if($platform == "mobile"){
                     type:"POST",
                     url:"/ajax/get_mem_address.php",
                     dataType:"json",
-                    data:{mem_id:'<?=$_SESSION['iam_member_id']?>'},
+                    data:{mem_id:'<?=$_SESSION[iam_member_id]?>'},
                     success: function(data){
                         console.log(data.address);
                         $('#allat_recp_addr').val(data.address);
@@ -273,7 +273,7 @@ if($platform == "mobile"){
             </div>
             <div class="modal-body">
                 <div class="login_bold" style="margin-bottom: 0px">
-                    카드 할부결제는 개인과 카드사와의 약정에 따라 가능합니다.본 쇼핑몰에서 지원하는 할부정책은 없습니다.
+                    카드 할부결제는 개인과 카드사의 약정에 따라 가능합니다. 본 쇼핑몰에서 지원하는 할부정책은 없습니다.
                 </div>
             </div>
             <div class="modal-footer" style="text-align: center">
@@ -321,7 +321,7 @@ if($platform == "mobile"){
             <!--승인금액-->
             <input type="hidden" name="allat_amt" id="allat_amt" value="" size="19" maxlength=10>
             <!--회원ID-->
-            <input type="hidden" name="allat_pmember_id" value="<?=$_SESSION['iam_member_id'];?>" size="19" maxlength=20>
+            <input type="hidden" name="allat_pmember_id" value="<?=$_SESSION[iam_member_id];?>" size="19" maxlength=20>
             <!--상품코드-->
             <input type="hidden" name="allat_product_cd" id="allat_product_cd" value="상품결제" size="19" maxlength=1000>
             <!--상품명-->
@@ -366,7 +366,7 @@ if($platform == "mobile"){
                                         <div><input type="number" name="item_price" id="item_price" style="border-radius: 5px;line-height: 20px;text-align: right;" placeholder="원" readonly value="<?=$item_price?>"></div>
                                     </div>
                                 </div>
-                                <?if(!$_SESSION['iam_member_id']){?>
+                                <?if(!$_SESSION[iam_member_id]){?>
                                     <div class="a8">
                                         <a href="javascript:void(0)" onclick="alert('로그인후 이용이 가능합니다.');">
                                             <img src="/images/sub_02_btn_23.jpg" style="width: 80%"/>
@@ -425,7 +425,7 @@ if($platform == "mobile"){
     </div>
 </div>
 <?
-mysqli_close($self_con);
+mysql_close();
 include_once "_foot.php";
 ?>
 </body>

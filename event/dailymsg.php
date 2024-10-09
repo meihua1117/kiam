@@ -5,8 +5,8 @@
 	if($_GET['pcode']) $pcode = $_GET['pcode'];
 
 	$sql_recom = "select * from Gn_event where pcode='{$pcode}'";
-	$res = mysqli_query($self_con, $sql_recom);
-	$event_data = $row = mysqli_fetch_array($res);
+	$res = mysql_query($sql_recom);
+	$event_data = $row = mysql_fetch_array($res);
 	$recom_id = $row['m_id'];
 	$up_img = $row['object'];
 	$daily_cnt = $row['callback_no'];
@@ -20,24 +20,24 @@
 
 
 	$sql="update Gn_event set read_cnt = read_cnt+1 where pcode='$pcode'";
-	mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
+	mysql_query($sql) or die(mysql_error());
 
 	$cur_point = 0;
 	$sql_cur_point = "select mem_point from Gn_Member where mem_id='{$recom_id}'";
-	$res_point = mysqli_query($self_con, $sql_cur_point);
-	$row_point = mysqli_fetch_array($res_point);
+	$res_point = mysql_query($sql_cur_point);
+	$row_point = mysql_fetch_array($res_point);
 	$cur_point = $row_point['mem_point'];
 
-	if ($HTTP_HOST != "kiam.kr") //분양사사이트이면
+	if ($HTTP_HOST != "obmms.net") //분양사사이트이면
 		$query = "select * from Gn_Iam_Service where sub_domain like 'http://" . $HTTP_HOST . "'";
 	else
-		$query = "select * from Gn_Iam_Service where sub_domain like 'http://www.kiam.kr'";
-	$res = mysqli_query($self_con, $query);
-	$domainData = mysqli_fetch_array($res);
+		$query = "select * from Gn_Iam_Service where sub_domain like 'http://www.obmms.net'";
+	$res = mysql_query($query);
+	$domainData = mysql_fetch_array($res);
 	$first_card_idx = $domainData['profile_idx'];//분양사의 1번 카드아이디
 	$sql = "select * from Gn_Iam_Name_Card where idx = '$first_card_idx'";
-	$result = mysqli_query($self_con, $sql);
-	$main_card_row = mysqli_fetch_array($result);
+	$result = mysql_query($sql);
+	$main_card_row = mysql_fetch_array($result);
 
 	$main_img1 = $main_card_row['main_img1'];
 
@@ -47,18 +47,18 @@
 		if(strpos($up_img, ",") !== false){
 			$img_name_arr = explode(",", $up_img);
 			$img_cnt = count($img_name_arr);
-			$main_img1 = "http://www.kiam.kr/".trim($img_name_arr[0]);
+			$main_img1 = "http://www.obmms.net/".trim($img_name_arr[0]);
 		}
 		else{
 			$img_cnt = 1;
 			$img_name_arr[0] = $up_img;
-			$main_img1 = "http://www.kiam.kr/".$up_img;
+			$main_img1 = "http://www.obmms.net/".$up_img;
 		}
 	}
 
 	$sql_point = "select key_content from Gn_Search_Key where key_id='dailymsg_set_point'";
-	$res_point = mysqli_query($self_con, $sql_point);
-	$row_point = mysqli_fetch_array($res_point);
+	$res_point = mysql_query($sql_point);
+	$row_point = mysql_fetch_array($res_point);
 	$daily_set_point = $row_point['key_content'];
 ?>
 <!DOCTYPE html>
@@ -292,29 +292,28 @@
 											</h4>
 											<div style="border:1px solid;">
 											<?if($img_cnt){?>
-												<div class="container" style="margin: 10px 0 0 9%;text-align: center;width: 83%;padding: 5px;">
+											<div class="container" style="margin: 10px 0 0 9%;text-align: center;width: 83%;padding: 5px;">
 												<?
 												for($i = 0; $i < $img_cnt; $i++){
 												?>
-													<img src="<?="http://www.kiam.kr/".trim($img_name_arr[$i])?>" style="width:100%;">
+												<img src="<?="http://www.obmms.net/".trim($img_name_arr[$i])?>" style="width:100%;">
 												<?}?>
-												</div>
+											</div>
 											<?}?>
-												<div class="container" style="margin-top: 20px;text-align: center;width: 100%;">
-													<h4 id="call_title" style="text-align:left;margin: 20px 0 0 10%;width: 80%;padding: 5px;font-size: 15px;overflow-wrap: break-word;"><?=$event_data['event_info']?></h4>
-													<h4 class="" id = "call_detail" style="text-align:left;margin: 20px 0 0 10%;width: 80%;padding: 5px;font-size: 15px;overflow-wrap: break-word;">
-														<?=$msg_desc?>
-													</h4><br>
-													<a href="<?=$event_data['daily_req_link']?>" target="_blank" style="color: blue;font-size: 15px;"><?=$event_data['daily_req_link']?></a>
-												</div>
+											<div class="container" style="margin-top: 20px;text-align: center;width: 100%;">
+											<h4 id="call_title" style="text-align:left;margin: 20px 0 0 10%;width: 80%;padding: 5px;font-size: 15px;overflow-wrap: break-word;"><?=$event_data['event_info']?></h4>
+											<h4 class="" id = "call_detail" style="text-align:left;margin: 20px 0 0 10%;width: 80%;padding: 5px;font-size: 15px;overflow-wrap: break-word;">
+											<?=$msg_desc?></h4><br>
+											<a href="<?=$event_data['daily_req_link']?>" target="_blank" style="color: blue;font-size: 15px;"><?=$event_data['daily_req_link']?></a>
+											</div>
 											</div>
 											<div class="container" style="margin: 10px 0 0 9%;text-align: center;width: 83%;padding: 5px;">
 											<?
-											if($_SESSION['iam_member_id'] != ""){
+											if($_SESSION[iam_member_id] != ""){
 											?>
-												<input type="text" name="member_id" id="member_id" value="<?=$_SESSION['iam_member_id']?>" placeholder="회원님의 아이디를 입력하세요." style="width:250px;font-size: 15px;padding:5px;">
-											<?} else if($_SESSION['one_member_id'] != ""){?>
-												<input type="text" name="member_id" id="member_id" value="<?=$_SESSION['one_member_id']?>" placeholder="회원님의 아이디를 입력하세요." style="width:250px;font-size: 15px;padding:5px;">
+												<input type="text" name="member_id" id="member_id" value="<?=$_SESSION[iam_member_id]?>" placeholder="회원님의 아이디를 입력하세요." style="width:250px;font-size: 15px;padding:5px;">
+											<?} else if($_SESSION[one_member_id] != ""){?>
+												<input type="text" name="member_id" id="member_id" value="<?=$_SESSION[one_member_id]?>" placeholder="회원님의 아이디를 입력하세요." style="width:250px;font-size: 15px;padding:5px;">
 											<?} else{?>
 												<input type="text" name="member_id" id="member_id" placeholder="회원님의 아이디를 입력하세요." style="width:250px;font-size: 15px;padding:5px;">
 											<?}?>
@@ -323,7 +322,7 @@
 												<button class="people_iam_show" style="font-size: 15px;background-color: #6868ed;width: 200px;" onclick="deny_add_multi()">발송 제외 폰 등록하기</button>
 											</div>
 											<div class="container" style="margin-top: 20px;text-align: center;width: 100%;">
-												<button class="people_iam_show"  onclick="makingiam('make')">신청하기</button>
+												<button class="people_iam_show" style="" onclick="makingiam('make')">신청하기</button>
 											</div>
 										</section>
 									</div>
@@ -381,7 +380,7 @@
 					type:"POST",
 					dataType:"json",
 					url:'/ajax/service_point_state.php',
-					data:{point_stop:true, service_id:'<?=$event_data['m_id']?>'},
+					data:{point_stop:true, service_id:'<?=$event_data[m_id]?>'},
 					success:function(data){
 
 					}

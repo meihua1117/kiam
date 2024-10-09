@@ -11,8 +11,8 @@ $site = $HTTP_HOST;
 if ($HTTP_HOST == "kiam.kr")
     $site = "www." . $HTTP_HOST;
 $query = "select * from Gn_Iam_Service where sub_domain = 'http://" . $site . "'";
-$res = mysqli_query($self_con, $query);
-$domainData = mysqli_fetch_assoc($res);
+$res = mysql_query( $query);
+$domainData = mysql_fetch_array($res);
 if ($domainData['mem_id'] != $_SESSION['iam_member_id']) {
     echo "<script>location='/';</script>";
     exit;
@@ -114,6 +114,10 @@ $logs->add_log("start");
             height: 34px;
         }
 
+        input:checked+.slider {
+            background-color: #2196F3;
+        }
+
         .slider.round {
             border-radius: 34px;
         }
@@ -152,11 +156,9 @@ $logs->add_log("start");
             transition: .4s;
 
         }
-
         .disagree {
             background: #ffd5d5 !important;
         }
-
         th a.sort-by {
             padding-right: 18px;
             position: relative;
@@ -246,6 +248,18 @@ $logs->add_log("start");
             width: 120px;
             height: 120px;
             margin: -60px 0 0 -60px;
+        }
+        .loading_div {
+            display: none;
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            display: none;
+            z-index: 1000;
+        }
+
+        th {
+            width: 100px;
         }
 
         .locked {
@@ -400,6 +414,20 @@ $logs->add_log("start");
             word-break: keep-all;
         }
 
+        input[type="checkbox" i] {
+            background-color: initial;
+            cursor: default;
+            -webkit-appearance: checkbox;
+            box-sizing: border-box;
+            margin: 3px 3px 3px 4px;
+            padding: initial;
+            border: initial;
+        }
+
+        input:checked+.slider {
+            background-color: #2196F3;
+        }
+
         .step_switch input {
             opacity: 0;
             width: 0;
@@ -437,6 +465,48 @@ $logs->add_log("start");
             display: inline-block;
             width: 60px;
             height: 34px;
+        }
+
+        input:checked+.slider {
+            background-color: #2196F3;
+        }
+
+        .slider.round {
+            border-radius: 34px;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+        input:checked+.slider:before {
+            -webkit-transform: translateX(26px);
+            -ms-transform: translateX(26px);
+            transform: translateX(26px);
+        }
+
+        .slider.round:before {
+            border-radius: 50%;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
         }
 
         .reserv_btn {
@@ -658,36 +728,6 @@ $logs->add_log("start");
             right: 10px;
             top: 10px;
         }
-
-        th.readonly {
-            color: #003087;
-
-        }
-
-        th {
-            width: 120px;
-            background: #f3f3f3;
-        }
-
-        th.category {
-            background: white;
-        }
-
-        input:focus {
-            outline: none;
-        }
-        input{
-            border:none;
-        }
-        tr.category{
-            border-bottom:2px solid #AAA4A4;
-        }
-        tr.cont{
-            border-bottom:3px double #AAA4A4;
-        }
-        tr.end{
-            border-bottom:2px solid #AAA4A4;
-        }
     </style>
     <script src="/admin/plugins/jQuery/jQuery-2.1.4.min.js"></script>
     <link rel='stylesheet' href='../plugin/toastr/css/toastr.css' />
@@ -729,15 +769,15 @@ $logs->add_log("start");
         }
     </script>
     <style>
-
+        
     </style>
     <div class="loading_div"><img src="/images/ajax-loader.gif"></div>
     <div class="wrapper">
         <!-- Top 메뉴 -->
         <? include "header.php"; ?>
-        <form method="post" id="dForm" name="dForm" action="/admin/ajax/service_Iam_save.php" enctype="multipart/form-data" style="background: white;">
+        <form method="post" id="dForm" name="dForm" action="/admin/ajax/service_Iam_save.php" enctype="multipart/form-data">
             <input type="hidden" name="idx" value="<?= $domainData['idx'] ?>" />
-            <input type="hidden" name="mode" value="<?= $domainData['idx'] ? "updat" : "creat" ?>" />
+            <input type="hidden" name="mode" value="<?= $domainData['idx'] ? "updat" : "inser" ?>" />
             <input type="hidden" name="profile_idx" value="<?= $domainData['profile_idx'] ?>" />
             <input type="hidden" name="service_type" value="<?= $domainData['service_type'] ?>" />
             <input type="hidden" name="service_exp_date" value="<?= $domainData['service_price'] ?>" />
@@ -765,167 +805,349 @@ $logs->add_log("start");
             <input type="hidden" name="daily_start_date" value="<?= $domainData['daily_point_start'] ?>" />
             <input type="hidden" name="daily_end_date" value="<?= $domainData['daily_point_end'] ?>" />
             <input type="hidden" name="from_page" id="from_page" value="iama" />
-            <div class="row" style="margin: 0px;">
-                <div class="box" style="margin-bottom: 0px;border-radius:0px">
-                    <div class="box-body" style="border-radius:0px">
-                        <table id="detail1" class="table ">
+            <div class="row">
+                <div class="box">
+                    <div class="box-body">
+                        <table id="detail1" class="table table-bordered table-striped">
                             <tbody>
-                                <tr class="category">
-                                    <th class="category" colspan="2" style="text-align:left !important;">
-                                        <p style="font-size:16px;font-weight:bold;margin-bottom:0px;">&#x2802 계정 정보</P>
+                                <tr>
+                                    <th>
+                                        <input type='button' style="background-color:blue;color:white;" value='맞춤IAM정보' />
                                     </th>
-                                </tr>
-                                <tr class="cont">
-                                    <th  class="readonly">아이디</th>
-                                    <td><input type="text" style="width:97%;" name="mem_id" id="mem_id" value="<?= $domainData['mem_id'] ?>" readonly></td>
-                                </tr>
-
-                                <tr class="end">
-                                    <th  class="readonly">이름</th>
-                                    <td><input type="text" style="width:97%;" name="mem_name" id="mem_name" value="<?= $domainData['mem_name'] ?>" readonly></td>
-                                </tr>
-                                <tr class="category">
-                                    <th class="category" colspan="2" style="text-align:left !important;">
-                                        <p style="font-size:16px;font-weight:bold;margin-bottom:0px;">&#x2802 아이엠 정보</P>
-                                    </th>
-                                </tr>
-                                <tr class="cont">
-                                    <th  class="readonly">아이엠브랜드</th>
-                                    <td><input type="text" style="width:97%;" name="brand_name" id="brand_name" value="<?= $domainData['brand_name'] ?>" readonly></td>
-                                </tr>
-
-                                <tr class="cont">
-                                    <th  class="readonly">메인도메인</th>
-                                    <td><input type="text" style="width:97%;" name="main_domain" id="main_domain" value="<?= $domainData['main_domain'] ?>" readonly></td>
-                                </tr>
-
-                                <tr class="cont">
-                                    <th  class="readonly">서브도메인</th>
-                                    <td><input type="text" style="width:97%;" name="sub_domain" id="sub_domain" value="<?= $domainData['sub_domain'] ?>" readonly></td>
-                                </tr>
-                                <tr class="cont">
-                                    <th  class="readonly">회원승인건수</th>
-                                    <td><input type="text" style="width:97%;" name="mem_cnt" id="mem_cnt" value="<?= $domainData['mem_cnt'] ?>" readonly></td>
-                                </tr>
-                                <tr class="cont">
-                                    <th  class="readonly">멤버카드승인</th>
-                                    <td><input type="text" style="width:97%;" name="iamcard_cnt" id="iamcard_cnt" value="<?= $domainData['iamcard_cnt'] ?>" readonly></td>
-                                </tr>
-                                <tr class="cont">
-                                    <th  class="readonly">분양카드승인</th>
-                                    <td><input type="text" style="width:97%;" name="my_card_cnt" id="my_card_cnt" value="<?= $domainData['my_card_cnt'] ?>" readonly></td>
-                                </tr>
-                                <tr class="cont">
-                                    <th  class="readonly">콘텐츠전송건</th>
-                                    <td><input type="text" style="width:97%;" name="send_content" id="send_content" value="<?= $domainData['send_content'] ?>" readonly></td>
-                                </tr>
-
-                                <tr class="cont">
-                                    <th  class="readonly">분양비용</th>
-                                    <td><input type="text" style="width:97%;" name="share_price" id="share_price" value="<?= $domainData['share_price'] ?>" readonly></td>
-                                </tr>
-
-                                <tr class="cont">
-                                    <th  class="readonly">월이용료</th>
-                                    <td><input type="text" style="width:97%;" name="month_price" id="month_price" value="<?= $domainData['month_price'] ?>" readonly></td>
-                                </tr>
-                                <tr class="end">
-                                    <th  class="readonly">사용여부</th>
                                     <td>
-                                        <select name="status">
-                                            <option value="Y" <?= $data['status'] == "Y" ? "selected" : "" ?>>사용</option>
-                                            <option value="N" <?= $data['status'] == "N" ? "selected" : "" ?>>미사용</option>
-                                        </select>
+                                        <h5 style="width:auto;">※아래 항목의 정보중 붉은색 제목이 있는 정보는 본사에서 수정하고 그외에 정보는 직접 수정이 가능합니다. </h5>
                                     </td>
                                 </tr>
-                                <tr class="category">
-                                    <th class="category" colspan="2" style="text-align:left !important;">
-                                        <p style="font-size:16px;font-weight:bold;margin-bottom:0px;">&#x2802 회사 정보</P>
-                                    </th>
-                                </tr>
-                                <tr class="cont">
-                                    <th  class="readonly">대표자이름</th>
-                                    <td><input type="text" style="width:97%;" name="owner_name" id="owner_name" value="<?= $domainData['owner_name'] ?>" readonly></td>
+                                <tr>
+                                    <th style="width:110px;color:red;">분양자아이디</th>
+                                    <td>
+                                        <input type="text" style="width:97%;" name="mem_id" id="mem_id" value="<?= $domainData['mem_id'] ?>" readonly>
+                                    </td>
                                 </tr>
 
-                                <tr class="cont">
-                                    <th  class="readonly">관리자이름</th>
-                                    <td><input type="text" style="width:97%;" name="manager_name" id="manager_name" value="<?= $domainData['manager_name'] ?>" readonly></td>
+                                <tr>
+                                    <th style="width:110px;color:red;">분양자이름</th>
+                                    <td>
+                                        <input type="text" style="width:97%;" name="mem_name" id="mem_name" value="<?= $domainData['mem_name'] ?>" readonly>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="width:110px;color:red;">업체대표이름</th>
+                                    <td>
+                                        <input type="text" style="width:97%;" name="owner_name" id="owner_name" value="<?= $domainData['owner_name'] ?>" readonly>
+                                    </td>
                                 </tr>
 
-                                <tr class="cont">
-                                    <th  class="readonly">회사명</th>
-                                    <td><input type="text" style="width:97%;" name="company_name" id="company_name" value="<?= $domainData['company_name'] ?>" readonly></td>
+                                <tr>
+                                    <th>관리자이름</th>
+                                    <td>
+                                        <input type="text" style="width:97%;" name="manager_name" id="manager_name" value="<?= $domainData['manager_name'] ?>">
+                                    </td>
                                 </tr>
 
-                                <tr class="cont">
-                                    <th  class="readonly">사업자번호</th>
-                                    <td><input type="text" style="width:97%;" name="business_number" id="business_number" value="<?= $domainData['business_number'] ?>" readonly></td>
+                                <tr>
+                                    <th style="width:110px;color:red;">업체이름</th>
+                                    <td>
+                                        <input type="text" style="width:97%;" name="company_name" id="company_name" value="<?= $domainData['company_name'] ?>" readonly>
+                                    </td>
                                 </tr>
 
-                                <tr class="cont">
-                                    <th  class="readonly">통신판매번호</th>
-                                    <td><input type="text" style="width:97%;" name="communications_vendors" id="communications_vendors" value="<?= $domainData['communications_vendors'] ?>" readonly></td>
+                                <tr>
+                                    <th style="width:110px;color:red;">사업자번호</th>
+                                    <td>
+                                        <input type="text" style="width:97%;" name="business_number" id="business_number" value="<?= $domainData['business_number'] ?>" readonly>
+                                    </td>
                                 </tr>
 
-                                <tr class="cont">
+                                <tr>
+                                    <th style="width:110px;color:red;">통신판매번호</th>
+                                    <td>
+                                        <input type="text" style="width:97%;" name="communications_vendors" id="communications_vendors" value="<?= $domainData['communications_vendors'] ?>" readonly>
+                                    </td>
+                                </tr>
+
+                                <tr>
                                     <th>업체주소</th>
                                     <td>
                                         <input type="text" style="width:97%;" name="address" id="address" value="<?= $domainData['address'] ?>">
                                     </td>
                                 </tr>
 
-                                <tr class="cont">
+                                <tr>
                                     <th>정보책임자</th>
                                     <td>
                                         <input type="text" style="width:97%;" name="privacy" id="privacy" value="<?= $domainData['privacy'] ?>">
                                     </td>
                                 </tr>
 
-                                <tr class="cont">
+                                <tr>
                                     <th>팩스번호</th>
                                     <td>
                                         <input type="text" style="width:97%;" name="fax" id="fax" value="<?= $domainData['fax'] ?>">
                                     </td>
                                 </tr>
 
-                                <tr class="cont">
-                                    <th>대표 전화번호</th>
+                                <tr>
+                                    <th>대표전화번호</th>
                                     <td>
                                         <input type="text" style="width:97%;" name="owner_cell" id="owner_cell" value="<?= $domainData['owner_cell'] ?>">
                                     </td>
                                 </tr>
 
-                                <tr class="cont">
-                                    <th>관리자 폰번호</th>
+                                <tr>
+                                    <th>관리자폰번호</th>
                                     <td>
                                         <input type="text" style="width:97%;" name="manager_tel" id="manager_tel" value="<?= $domainData['manager_tel'] ?>">
                                     </td>
                                 </tr>
 
-                                <tr class="end">
-                                    <th>담당 이메일</th>
+                                <tr>
+                                    <th>이메일</th>
                                     <td>
                                         <input type="text" style="width:97%;" name="email" id="email" value="<?= $domainData['email'] ?>">
                                     </td>
                                 </tr>
-                                <tr class="category">
-                                    <th class="category" colspan="2" style="text-align:left !important;">
-                                        <p style="font-size:16px;font-weight:bold;margin-bottom:0px;">&#x2802 계약 정보</P>
-                                    </th>
-                                </tr>
-                                <tr class="cont">
-                                    <th  class="readonly">계약기간</th>
+
+                                <tr>
+                                    <th style="width:110px;color:red;">아이엠브랜드</th>
                                     <td>
-                                        <input type="text" class="readonly" name="contract_start_date" id="contract_start_date" value="<?= $domainData['contract_start_date'] ?>" style="width:130px" readonly>
-                                        ~
-                                        <input type="text" class="readonly" name="contract_end_date" id="contract_end_date" value="<?= $domainData['contract_end_date'] ?>" style="width:130px" readonly>
+                                        <input type="text" style="width:97%;" name="brand_name" id="brand_name" value="<?= $domainData['brand_name'] ?>" readonly>
                                     </td>
                                 </tr>
-                                <tr class="cont">
-                                    <th  class="readonly">등록일</th>
+
+                                <tr>
+                                    <th style="width:110px;color:red;">메인도메인</th>
                                     <td>
-                                        <input type="text" class="readonly" name="regdate" id="regdate" value="<?= $domainData['regdate'] ?>" style="width:97%" readonly>
+                                        <input type="text" style="width:97%;" name="main_domain" id="main_domain" value="<?= $domainData['main_domain'] ?>" readonly>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th style="width:110px;color:red;">서브도메인</th>
+                                    <td>
+                                        <input type="text" style="width:97%;" name="sub_domain" id="sub_domain" value="<?= $domainData['sub_domain'] ?>" readonly>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="width:110px;color:red;">회원승인건수</th>
+                                    <td>
+                                        <input type="text" style="width:97%;" name="mem_cnt" id="mem_cnt" value="<?= $domainData['mem_cnt'] ?>" readonly>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="width:110px;color:red;">멤버카드승인</th>
+                                    <td>
+                                        <input type="text" style="width:97%;" name="iamcard_cnt" id="iamcard_cnt" value="<?= $domainData['iamcard_cnt'] ?>" readonly>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="width:110px;color:red;">분양카드승인</th>
+                                    <td>
+                                        <input type="text" style="width:97%;" name="my_card_cnt" id="my_card_cnt" value="<?= $domainData['my_card_cnt'] ?>" readonly>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="width:110px;color:red;">콘텐츠전송건</th>
+                                    <td>
+                                        <input type="text" style="width:97%;" name="send_content" id="send_content" value="<?= $domainData['send_content'] ?>" readonly>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th style="width:110px;color:red;">분양비용</th>
+                                    <td>
+                                        <input type="text" style="width:97%;" name="share_price" id="share_price" value="<?= $domainData['share_price'] ?>" readonly>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th style="width:110px;color:red;">월이용료</th>
+                                    <td>
+                                        <input type="text" style="width:97%;" name="month_price" id="month_price" value="<?= $domainData['month_price'] ?>" readonly>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="width:110px;color:red;">사용여부</th>
+                                    <td>
+                                        <select name="status">
+                                            <option value="Y" <?=$data['status'] == "Y" ? "selected" : "" ?>>사용</option>
+                                            <option value="N" <?=$data['status'] == "N" ? "selected" : "" ?>>미사용</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="width:180px;">홈페이지제목</th>
+                                    <td>
+                                        <input type="text" style="width:97%;" name="web_theme" id="web_theme" value="<?= $domainData['web_theme'] ?>">
+                                    </td>
+                                </tr>
+                                <? if ($member_type >= 2) { ?>
+                                    <tr>
+                                        <th style="width:180px;">셀프회원 공유카드선택</th>
+                                        <td>
+                                            <input type="text" id="self_share_card" name="self_share_card" value="<?= $domainData['self_share_card'] ?>" hidden>
+                                            <p>가입회원들에게 1번 카드는 디폴트로 공유되며, 다른 1개 카드를 추가로 선택해야 합니다. 총 4개까지 공유가능합니다.</p>
+                                            <div id="cardsel_self" onclick="limit_selcard_self()" style="margin-top:15px;">
+                                                <?
+                                                $sql5_self = "select card_short_url,phone_display, card_title from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$_SESSION['iam_member_id']}' order by req_data asc";
+                                                $result5_self = mysql_query( $sql5_self);
+                                                $i = 0;
+
+                                                $share_card = $domainData['self_share_card'];
+                                                if ($share_card != "") {
+                                                    $card_arr = explode(",", $share_card);
+                                                } else {
+                                                    $card_arr = "";
+                                                }
+                                                while ($row5_self = mysql_fetch_array($result5_self)) {
+                                                    if ($i == 0) 
+                                                        $hidden = "hidden";
+                                                    else
+                                                        $hidden = "";
+
+                                                    if (in_array($i + 1, $card_arr))
+                                                        $checked = "checked";
+                                                    else
+                                                        $checked = "";
+
+                                                    if ($row5_self['phone_display'] == "N") 
+                                                        $click = "onclick='locked_card_click();'";
+                                                    else    
+                                                        $click = "";
+                                                ?>
+                                                    <input type="checkbox" id="multi_westory_card_url_self_<?= $i + 1 ?>" name="multi_westory_card_url_self" class="we_story_radio_self" <?= $checked ?> value="<?= $i + 1 ?>" <?=$click?> <?= $hidden ?>>
+                                                    <span <?=$row5_self['phone_display'] == "N"?"class='locked' title='비공개카드'":"title='". $row5_self['card_title']."'";?> <?= $hidden ?>>
+                                                        <?= $i + 1 ?>번(<?= $row5_self['card_title'] ?>)
+                                                    </span>
+                                                <?
+                                                    $i++;
+                                                }
+                                                ?>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <th style="width:180px;">자동회원 공유카드 기능</th>
+                                        <td>
+                                            <input type="text" id="sel_card" hidden>
+                                            <p>가입회원들에게 1번 카드는 디폴트로 공유되며, 추가로 1번 카드 외 3개까지 공유가능합니다.</p>
+                                            <div id="cardsel" onclick="limit_selcard()" style="margin-top:15px;">
+                                                <?
+                                                $sql5 = "select card_short_url,phone_display, card_title from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$_SESSION['iam_member_id']}' order by req_data asc";
+                                                $result5 = mysql_query( $sql5);
+                                                $i = 0;
+                                                while ($row5 = mysql_fetch_array($result5)) {
+                                                    if ($i == 0) 
+                                                        $hidden = "hidden";
+                                                    else 
+                                                        $hidden = "";
+                                                    
+                                                    if ($row5['phone_display'] == "N") 
+                                                        $click = "onclick='locked_card_click();'";
+                                                    else    
+                                                        $click = "";
+                                                ?>
+                                                    <input type="checkbox" id="multi_westory_card_url_<?= $i + 1 ?>" name="multi_westory_card_url" class="we_story_radio" value="<?= $i + 1 ?>" <?=$click?> <?=$hidden?>>
+                                                    <span <?=$row5['phone_display'] == "N"?"class='locked' title='비공개카드'":"title='".$row5['card_title']."'";?> <?=$hidden?>>
+                                                        <?= $i + 1 ?>번(<?= $row5['card_title'] ?>)
+                                                    </span>
+                                                <?
+                                                    $i++;
+                                                }
+                                                ?>
+                                                <br><br>
+                                                <a class="btn" style="border: 1px solid #ead0d0;" onclick="state_check()">회원가입 메시지만들기</a>
+                                                <a class="btn" onclick="$('#auto_list_modal').modal('show');" style="border: 1px solid #ead0d0;">리스트보기</a>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <th style="width:180px;">콜백공유화설정</th>
+                                        <td>
+                                            <a class="btn" onclick="$('#callback_msg_modal').modal('show');" style="border: 1px solid #ead0d0;">콜백 메시지만들기</a>
+                                            <a class="btn" onclick="callback_list()" style="border: 1px solid #ead0d0;">리스트보기</a>
+                                            <select id="callback_times" class="btn" style="border: 1px solid #ead0d0;">
+                                                <option value="a0" <?= substr($member_iam['callback_times'],1) == 0 ? "selected" : "" ?>>1회만</option>
+                                                <option value="a1" <?= substr($member_iam['callback_times'],1) == 1 ? "selected" : "" ?>>일 1회</option>
+                                                <option value="a2" <?= substr($member_iam['callback_times'],1) == 2 ? "selected" : "" ?>>주 1회</option>
+                                                <option value="a3" <?= substr($member_iam['callback_times'],1) == 3 ? "selected" : "" ?>>월 1회</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+
+                                    <!-- <tr>
+                        <th style="width:180px;">콜백동기화설정</th>
+                        <td>
+                            <a class="btn" data-toggle="modal" data-target="#callback_sync_modal" style="border: 1px solid #ead0d0;">동기화 폰 리스트 및 설정</a>
+                        </td>
+                    </tr> -->
+
+                                    <tr>
+                                        <th style="width:180px;">디비데일리설정</th>
+                                        <td>
+                                            <a class="btn" onclick="$('#daily_msg_modal').modal('show');" style="border: 1px solid #ead0d0;">데일리메시지만들기</a>
+                                            <a class="btn" onclick="$('#daily_list_modal').modal('show');" style="border: 1px solid #ead0d0;">리스트보기</a>
+                                        </td>
+                                    </tr>
+                                <? } ?>
+                                <tr>
+                                    <th>아이엠로고</th>
+                                    <td>
+                                        <div style="display:flex">
+                                            <input type="file" name="head_logo">
+                                            <input type="button" onclick="clear_head_logo('<?=$domainData['idx']?>');" value="삭제">
+                                        </div>
+                                        <? if ($domainData['head_logo'] != "") { ?>
+                                            <img src="<?= $domainData['head_logo'] ?>" style="width:120px">
+                                        <? } ?>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>홈아이콘링크</th>
+                                    <td>
+                                        <input type="text" style="width:97%;" name="home_link" id="home_link" value="<?= $domainData['home_link'] ?>">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>푸터로고</th>
+                                    <td>
+                                        <div style="display:flex">
+                                            <input type="file" name="footer_logo">
+                                            <input type="button" onclick="clear_footer_logo('<?= $domainData['idx'] ?>');" value="삭제">
+                                        </div>
+                                        <? if ($domainData['footer_logo'] != "") { ?>
+                                            <img src="<?= $domainData['footer_logo'] ?>" style="width:120px">
+                                        <? } ?>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th>푸터링크</th>
+                                    <td>
+                                        <input type="text" style="width:97%;" name="footer_link" id="footer_link" value="<?= $domainData['footer_link'] ?>">
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th>KaKao Iink</th>
+                                    <td>
+                                        <input type="text" style="width:97%;" name="kakao" id="kakao" value="<?= $domainData['kakao'] ?>">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="width:110px;color:red;">계약기간</th>
+                                    <td>
+                                        <input type="text" name="contract_start_date" id="contract_start_date" value="<?= $domainData['contract_start_date'] ?>" style="width:130px" readonly>
+                                        ~
+                                        <input type="text" name="contract_end_date" id="contract_end_date" value="<?= $domainData['contract_end_date'] ?>" style="width:130px" readonly>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="width:110px;color:red;">등록일</th>
+                                    <td>
+                                        <input type="text" name="regdate" id="regdate" value="<?= $domainData['regdate'] ?>" style="width:97%" readonly>
                                     </td>
                                 </tr>
                             </tbody>
@@ -933,8 +1155,8 @@ $logs->add_log("start");
                     </div><!-- /.box-body -->
                 </div><!-- /.box -->
             </div><!-- /.row -->
-            <div class="box-footer" style="text-align:center;padding:0px;margin-top:20px">
-                <button class="btn btn-active" style="width:100%;" onclick="form_save();return false;"><i class="fa fa-save"></i> 저장</button>
+            <div class="box-footer" style="text-align:center">
+                <button class="btn btn-primary" style="margin-right: 5px;" onclick="form_save();return false;"><i class="fa fa-save"></i> 저장</button>
             </div>
         </form>
         <!-- Footer -->
@@ -1306,15 +1528,15 @@ $logs->add_log("start");
                                     <?
 
                                     $mem_sql = "select mem_phone from Gn_Member where mem_id='{$_SESSION['iam_member_id']}'";
-                                    $mem_res = mysqli_query($self_con, $mem_sql);
-                                    $data = mysqli_fetch_array($mem_res);
+                                    $mem_res = mysql_query( $mem_sql);
+                                    $data = mysql_fetch_array($mem_res);
                                     $mem_phone = str_replace("-", "", $data['mem_phone']);
                                     ?>
                                     <option value="<?= $mem_phone ?>"><?php echo $mem_phone; ?></option>
                                     <?
                                     $query = "select * from Gn_MMS_Number where mem_id='{$_SESSION['iam_member_id']}' order by sort_no asc, user_cnt desc , idx desc";
-                                    $resul = mysqli_query($self_con, $query);
-                                    while ($korow = mysqli_fetch_array($resul)) {
+                                    $resul = mysql_query( $query);
+                                    while ($korow = mysql_fetch_array($resul)) {
                                         $send_phone = str_replace("-", "", $korow['sendnum']);
                                         if ($send_phone != $mem_phone) {
                                     ?>
@@ -1486,6 +1708,103 @@ $logs->add_log("start");
             </div>
         </div>
     </div>
+    <?
+    $logs->add_log("middle_modal_log");
+    ?>
+    <!-- ./오토회원 설정리스트 모달 -->
+    <div id="auto_list_modal" class="modal fade" role="dialog" style="overflow-x: auto; overflow-y: auto;">
+        <div class="modal-dialog" style="margin: 100px auto;width: fit-content;">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div>
+                    <button type="button" class="close" data-dismiss="modal" style="opacity:2 !important">
+                        <img src="/iam/img/menu/icon_close_white.png" style="width:24px;opacity:2 !important" class="close" data-dismiss="modal">
+                    </button>
+                </div>
+                <div class="modal-title" style="width:100%;font-size:18px;text-align: center;background:#99cc00;color:white;">
+                    <label style="padding:15px 0px">회원가입 메시지 리스트</label>
+                </div>
+                <div class="modal-body">
+                    <div class="container" style="display:inline-block;margin-top: 20px;">
+                        <input type="date" placeholder="시작일" id="search_start_date1" value="<?= $_REQUEST['search_start_date'] ?>" style="border: 1px solid black;width:130px;"><span style="margin-left: 3px;">~</span>
+                        <input type="date" placeholder="종료일" id="search_end_date1" value="<?= $_REQUEST['search_end_date'] ?>" style="border: 1px solid black;width:130px;">
+                        <button onclick="search_auto()"><i class="fa fa-search"></i></button>
+                        <a class="btn" onclick="show_msg_make()" style="border: 1px solid #ead0d0;float: right;">회원가입 메시지만들기</a>
+                    </div>
+                    <div class="container" style="margin-top: 20px;text-align: center;">
+                        <table style="width:100%">
+                            <thead>
+                                <th class="iam_table" style="width:5%;">No</th>
+                                <th class="iam_table" style="width:22%;">제목</th>
+                                <th class="iam_table" style="width:15%;">보기/링크</th>
+                                <th class="iam_table" style="width:15%;">이미지</th>
+                                <th class="iam_table">조회/가입</th>
+                                <th class="iam_table">등록일</th>
+                                <th class="iam_table">수정/삭제</th>
+                                <th class="iam_table">이용</th>
+                            </thead>
+                            <tbody id="contents_side1">
+                                <?php
+                                $sql = "select * from Gn_event where m_id='{$_SESSION['iam_member_id']}' and event_name_kor='단체회원자동가입및아이엠카드생성' order by regdate desc";
+                                $res = mysql_query( $sql);
+                                $i = 0;
+                                while ($row = mysql_fetch_array($res)) {
+                                    $pop_url = '/event/automember.php?pcode=' . $row['pcode'] . '&eventidx=' . $row['event_idx'];
+                                    $id_sql = "select count(event_id) as cnt from Gn_Member where event_id={$row['event_idx']} and mem_type='A'";
+                                    $res_id = mysql_query( $id_sql);
+                                    $row_id = mysql_fetch_array($res_id);
+                                    if ($row_id['cnt'] != null) {
+                                        $cnt_join = $row_id['cnt'];
+                                    } else {
+                                        $cnt_join = 0;
+                                    }
+                                    $i++;
+                                    $sql_service = "select auto_join_event_idx from Gn_Iam_Service where mem_id='{$row['m_id']}'";
+                                    $res_service = mysql_query( $sql_service);
+                                    $row_service = mysql_fetch_array($res_service);
+                                    if ($row["event_idx"] == $row_service['auto_join_event_idx']) {
+                                        $checked_auto = "checked";
+                                    } else {
+                                        $checked_auto = "";
+                                    }
+                                ?>
+                                    <tr>
+                                        <td class="iam_table"><?= $i ?></td>
+                                        <td class="iam_table"><?= $row['event_title'] ?></td>
+                                        <td class="iam_table"><a onclick="newpop('<?= $pop_url ?>')">미리보기</a>/<a onclick="copy('<?= $row['short_url'] ?>')">링크복사</a></td>
+                                        <td class="iam_table"><? if ($row['object'] != "") { ?><img class="zoom" src="<?= $row['object'] ?>" style="width:90%;"><? } ?></td>
+                                        <td class="iam_table"><?= $row['read_cnt'] ?>/<?= $cnt_join ?></td>
+                                        <td class="iam_table"><?= $row['regdate'] ?></td>
+                                        <td class="iam_table"><a onclick="edit_ev(<?= $row['event_idx'] ?>)">수정</a>/<a onclick="delete_ev(<?= $row['event_idx'] ?>)">삭제</a></td>
+                                        <? if ($_SESSION['iam_member_id'] == "iam1") { ?>
+                                            <td class="iam_table">
+                                                <label class="auto_switch_copy">
+                                                    <input type="checkbox" name="auto_status" id="auto_stauts_<?php echo $row['event_idx']; ?>" value="<?php echo $row['event_idx']; ?>" <?= $checked_auto ?>>
+                                                    <span class="slider round" name="auto_status_round" id="auto_stauts_round_<?php echo $row['event_idx']; ?>"></span>
+                                                </label>
+                                                <input type="hidden" name="auto_service_id" id="auto_service_id" value="<?= $row['m_id'] ?>">
+                                            </td>
+                                        <? } else { ?>
+                                            <td class="iam_table">
+                                                <label class="auto_switch">
+                                                    <input type="checkbox" name="auto_status" id="auto_stauts_<?php echo $row['event_idx']; ?>" value="<?php echo $row['event_idx']; ?>" <?= $checked_auto ?>>
+                                                    <span class="slider round" name="auto_status_round" id="auto_stauts_round_<?php echo $row['event_idx']; ?>"></span>
+                                                </label>
+                                                <input type="hidden" name="auto_service_id" id="auto_service_id" value="<?= $row['m_id'] ?>">
+                                            </td>
+                                        <? } ?>
+                                    </tr>
+                                <? } ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?
+    $logs->add_log("autoreg_modal_log");
+    ?>
     <!-- ./오토회원 설정리스트 수정 모달 -->
     <div id="auto_list_edit_modal" class="modal fade" role="dialog" style="overflow-x: auto; overflow-y: auto;">
         <div class="modal-dialog" style="margin: 100px auto;width: fit-content;">
@@ -1527,9 +1846,9 @@ $logs->add_log("start");
                                             <div id="cardsel1" onclick="limit_selcard1()" style="margin-top:15px;">
                                                 <?
                                                 $sql5 = "select card_short_url,phone_display, card_title from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$_SESSION['iam_member_id']}' order by req_data asc";
-                                                $result5 = mysqli_query($self_con, $sql5);
+                                                $result5 = mysql_query( $sql5);
                                                 $i = 0;
-                                                while ($row5 = mysqli_fetch_array($result5)) {
+                                                while ($row5 = mysql_fetch_array($result5)) {
                                                     if ($i == 0) {
                                                         $hidden = "hidden";
                                                     } else {
@@ -1537,10 +1856,10 @@ $logs->add_log("start");
                                                     }
                                                 ?>
                                                     <input type="checkbox" id="multi_westory_card_url1_<?= $i + 1 ?>" name="multi_westory_card_url1" class="we_story_radio1" value="<?= $i + 1 ?>" <? if (
-                                                                                                                                                                                                        $row5['phone_display'] == "N"
-                                                                                                                                                                                                    ) {
-                                                                                                                                                                                                        echo "onclick='locked_card_click();'";
-                                                                                                                                                                                                    } ?> <?= $hidden ?>>
+                                                                                                                                                                                                    $row5['phone_display'] == "N"
+                                                                                                                                                                                                ) {
+                                                                                                                                                                                                    echo "onclick='locked_card_click();'";
+                                                                                                                                                                                                } ?> <?= $hidden ?>>
                                                     <span <? if ($row5['phone_display'] == "N") {
                                                                 echo "class='locked' title='비공개카드'";
                                                             } ?> <?= $hidden ?>>
@@ -1792,19 +2111,19 @@ $logs->add_log("start");
                             <tbody id="contents_side1">
                                 <?php
                                 $sql = "select * from Gn_event where m_id='{$_SESSION['iam_member_id']}' and event_name_kor='데일리문자세트자동생성' order by regdate desc";
-                                $res = mysqli_query($self_con, $sql);
+                                $res = mysql_query( $sql);
                                 $i = 0;
 
                                 $sql_service_set_idx = "select daily_msg_event_idx from Gn_Iam_Service where mem_id='iam1'";
-                                $res_set_idx = mysqli_query($self_con, $sql_service_set_idx);
-                                $row_set_idx = mysqli_fetch_array($res_set_idx);
+                                $res_set_idx = mysql_query( $sql_service_set_idx);
+                                $row_set_idx = mysql_fetch_array($res_set_idx);
 
-                                while ($row = mysqli_fetch_array($res)) {
+                                while ($row = mysql_fetch_array($res)) {
                                     $pop_url = '/event/dailymsg.php?pcode=' . $row['pcode'] . '&eventidx=' . $row['event_idx'];
                                     $i++;
                                     $sql_req_mem = "select count(*) as cnt from Gn_daily where event_idx={$row['event_idx']}";
-                                    $res_req_mem = mysqli_query($self_con, $sql_req_mem);
-                                    $row_req_mem = mysqli_fetch_array($res_req_mem);
+                                    $res_req_mem = mysql_query( $sql_req_mem);
+                                    $row_req_mem = mysql_fetch_array($res_req_mem);
 
                                     if ($row_set_idx['daily_msg_event_idx'] == $row['event_idx']) {
                                         $checked_dup = "checked";
@@ -2422,7 +2741,7 @@ $logs->add_log("start");
             $("#event_link").parents("div").first().show();
         });
         $("#callback_times").on('change', function() {
-            var mem_code = '<?= $member_iam['mem_code'] ?>';
+            var mem_code ='<?=$member_iam['mem_code']?>';
             var callback_type = $(this).val();
             $.ajax({
                 type: "POST",
@@ -2522,6 +2841,21 @@ $logs->add_log("start");
                     return;
                 }*/
                 $("#sel_card").val(sel_card.join(","));
+            });
+        }
+
+        function limit_selcard_self() {
+            var sel_card = new Array();
+            var cnt;
+            $('input[class=we_story_radio_self]:checked').each(function() {
+                var idVal = $(this).attr("value");
+                cnt = sel_card.push(idVal);
+                /*if(cnt > 4){
+                    alert('최대 4개까지 선택할수 있습니다.');
+                    $('input[id=multi_westory_card_url_self_'+idVal+']').prop("checked", false);
+                    return;
+                }*/
+                $("#self_share_card").val(sel_card.join(","));
             });
         }
 
@@ -2664,8 +2998,7 @@ $logs->add_log("start");
                 }
             });
         }
-
-        function set_callback_state(obj) {
+        function set_callback_state(obj){
             var id = $(obj).find("input[type=checkbox]").val();
             var status = $(obj).find("input[type=checkbox]").is(":checked") == true ? "1" : "0";
             $.ajax({
@@ -3057,7 +3390,8 @@ $logs->add_log("start");
                         use: true,
                         memid: memid
                     },
-                    success: function(data) {}
+                    success: function(data) {
+                    }
                 })
             } else {
                 $.ajax({

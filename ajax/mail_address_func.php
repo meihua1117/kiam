@@ -7,16 +7,16 @@ if($_SESSION['one_member_id'] != "")
     {
         if($_POST['mail_addr'])
         {
-            $query = "insert into gn_member_emails set mem_id='{$_SESSION['one_member_id']}',
+            $query = "insert into gn_member_emails set mem_id='$_SESSION[one_member_id]',
             email='$_POST[mail_addr]'";
-            mysqli_query($self_con, $query);
+            mysql_query($query);
         }
     
     }else if($_POST['mode'] == "use")
     {
         $query = "select email from gn_member_emails where idx='$_POST[idx]'";
-        $result = mysqli_query($self_con, $query);
-        $row = mysqli_fetch_array($result);
+        $result = mysql_query($query);
+        $row = mysql_fetch_array($result);
         if($row != "")
             echo json_encode(array('status'=>'success', 'msg' => $row[0]));
         else
@@ -25,7 +25,7 @@ if($_SESSION['one_member_id'] != "")
     }else if($_POST['mode'] == "del")
     {
         $query = "delete from gn_member_emails where idx='$_POST[idx]'";
-        mysqli_query($self_con, $query);
+        mysql_query($query);
     }
 
 

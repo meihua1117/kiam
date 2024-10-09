@@ -1,4 +1,4 @@
-<?
+﻿<?
 include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
 include_once $_SERVER['DOCUMENT_ROOT']."/admin/include/admin_header.inc.php";
 extract($_GET);
@@ -94,7 +94,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                 <div class="col-xs-12" style="padding-bottom:20px">
                     <div style="padding:10px">
                         <? if($_SESSION['one_member_admin_id'] != "onlyonemaket"){
-                                if($_SESSION['one_member_subadmin_id'] != "" && $_SESSION['one_member_subadmin_domain'] == $HTTP_HOST) {} else {?>
+                                if($_SESSION[one_member_subadmin_id] != "" && $_SESSION[one_member_subadmin_domain] == $HTTP_HOST) {} else {?>
                                     <button class="btn btn-primary pull-right" style="margin-right: 5px;" onclick="excel_down('/excel_down/excel_member_down_.php');return false;"><i class="fa fa-download"></i> 엑셀다운받기</button>
                                 <? }
                         }?>
@@ -105,8 +105,8 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                         <div class="box-tools">
                             <div class="input-group">
                                 <div class="form-group">
-                                    <input type="date" style="height: 30px" name="sdate" placeholder="" id="search_start_date" value="<?=$_REQUEST['sdate']?>" multiple/> ~
-                                    <input type="date" style="height: 30px" name="edate" placeholder="" id="search_end_date" value="<?=$_REQUEST['edate']?>"/>
+                                    <input type="date" style="height: 30px" name="sdate" placeholder="" id="search_start_date" value="<?=$_REQUEST[sdate]?>" multiple/> ~
+                                    <input type="date" style="height: 30px" name="edate" placeholder="" id="search_end_date" value="<?=$_REQUEST[edate]?>"/>
                                 </div>
                                 <div class="form-group">
                                     <input type="text" name="s_key" id="s_key" value="<?=$s_key?>" class="form-control input-sm pull-right" placeholder="셀링소속">
@@ -121,7 +121,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                                     <input type="text" name="n_key" id="n_key" value="<?=$n_key?>" class="form-control input-sm pull-right" placeholder="이름">
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" name="mesasge_content" id="mesasge_content" class="form-control input-sm pull-right"  placeholder="발신내용" value="<?=$mesasge_content?>">
+                                    <input type="text" name="m_key" id="m_key" value="<?=$m_key?>" class="form-control input-sm pull-right" style="" placeholder="발신내용" >
                                 </div>
                                 <div class="input-group-btn">
                                     <button class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>
@@ -138,7 +138,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
             <div class="row">
                 <div class="box">
                     <div class="box-body">
-                        <table id="report_table" class="table table-bordered table-striped">
+                        <table id="sms_table" class="table table-bordered table-striped">
                             <colgroup>
                                 <col width="30px">
                                 <col width="50px">
@@ -194,84 +194,58 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                                 // 검색 조건을 적용한다.
                                 $searchStr = '1=1';
                                 if($sdate)
-                                    $searchStr .= " AND r.reg_date >= '$sdate'";
+                                    $searchStr .= " AND s.reg_date >= '$sdate'";
                                 if($edate)
-                                    $searchStr .= " AND r.reg_date <= '$edate'";
+                                    $searchStr .= " AND s.reg_date <= '$edate'";
+
                                 if($search_key){
                                     if($search_type == 'a')
-                                        $searchStr .= " AND (r.user_id LIKE '%$search_key%' or r.title like '%$search_key%'  or r.descript like '%$search_key%' or m.mem_name like '%$search_key%')" ;
+                                        $searchStr .= " AND (s.user_id LIKE '%$search_key%' or s.title like '%$search_key%'  or s.descript like '%$search_key%' or m.mem_name like '%$search_key%')" ;
                                     else
                                         $searchStr .= " AND $search_type LIKE '%$search_key%'" ;
                                 }
 
-                                $query = "SELECT count(r.id) FROM gn_report_form r inner join Gn_Member m on m.mem_id = r.user_id WHERE $searchStr";
-                                $res    = mysqli_query($self_con, $query);
-                                $totalRow	=  mysqli_fetch_array($res);
+                                $query = "SELECT count(s.id) FROM gn_ad_sms_stats s inner join Gn_Member m on m.mem_id = s.mem_id WHERE $searchStr";
+                                $res    = mysql_query($query);
+                                $totalRow	=  mysql_fetch_array($res);
                                 $totalCnt = $totalRow[0];
-                                //$query = "SELECT r.*,m.mem_name,m.site_iam FROM gn_report_form r inner join Gn_Member m on m.mem_id = r.user_id WHERE $searchStr ";
-                                $query = "SELECT r.* FROM gn_report_form r use index(user_id) WHERE $searchStr ";
+                                
+                                $query = "SELECT s.* FROM gn_ad_sms_stats s use index(idx_mem_id) WHERE $searchStr ";
                                 $limitStr = " LIMIT ".(($startPage-1)*$pageCnt).", ".$pageCnt;
                                 $number	= $totalCnt - ($nowPage - 1) * $pageCnt;
-                                $orderQuery .= "ORDER BY r.id desc $limitStr";
+                                $orderQuery .= "ORDER BY s.id desc $limitStr";
                                 $i = 1;
                                 $query .= "$orderQuery";
-                                $res = mysqli_query($self_con, $query);
-                                while($row = mysqli_fetch_array($res)) {
-                                    $mem_sql = "SELECT mem_name,site_iam FROM Gn_Member use index(mem_id) where mem_id='$row[user_id]'";
-                                    $mem_res = mysqli_query($self_con, $mem_sql);
-                                    $mem_row = mysqli_fetch_array($mem_res);
+                                $res = mysql_query($query);
+                                while($row = mysql_fetch_array($res)) {
+                                    $mem_sql = "SELECT mem_name,site_iam,site FROM Gn_Member use index(mem_id) where mem_id='$row[mem_id]'";
+                                    $mem_res = mysql_query($mem_sql);
+                                    $mem_row = mysql_fetch_array($mem_res);
                             ?>
                                 <tr>
                                     <td><input type="checkbox" class="check" id="check_one" name="" value="<?=$row['id']?>"></td>
                                     <td style="font-size:12px;"><?=($startPage-1)*$pageCnt + $i?></td>
+                                    <td style="font-size:12px;"><?=$mem_row['site']."/<br>".$mem_row['site_iam']?></td>
                                     <td style="font-size:12px;"><?=$mem_row['mem_name']?></td>
-                                    <td style="font-size:12px;"><?=$row['user_id']?></td>
-                                    <td style="font-size:12px;"><?=$mem_row['site_iam']?></td>
+                                    <td style="font-size:12px;"><?=$row['mem_id']?></td>
+                                    <td style="font-size:12px;"><?=$row['m_type']?></td>
+                                    <td style="font-size:12px;"><?=$row['total_count']?></td>
+                                    <td style="font-size:12px;"><?=$row['first_count']?></td>
+                                    <td style="font-size:12px;"><?=$row['second_count']?></td>
+                                    <td style="font-size:12px;"><?=$row['failed_count']?></td>
+                                    <td style="font-size:12px;"><?=number_format($row['total_cost'])?>원</td>
                                     <td style="font-size:12px;">
-                                        <a href="javascript:show_more('<?='title'.$i?>')"><?=cut_str($row['title'], 10)?></a>
-                                        <input type="hidden" id=<?='title'.$i?> value="<?=htmlspecialchars($row['title'])?>">
+                                        <a href="javascript:show_more('<?='title'.$i?>')"><?=cut_str($row['message_content'], 10)?></a>
+                                        <input type="hidden" id=<?='title'.$i?> value="<?=htmlspecialchars($row['message_content'])?>">
                                     </td>
-                                    <td style="font-size:12px;">
-                                        <a href="javascript:show_more('<?='desc'.$i?>')"><?=cut_str($row['descript'], 10)?></a>
-                                        <input type="hidden" id=<?='desc'.$i?> value="<?=htmlspecialchars($row['descript'])?>">
-                                    </td>
-                                    <?
-                                    $sql1 = "select count(idx) from gn_report_table where repo_id='{$row['id']}'";
-                                    $res1 = mysqli_query($self_con, $sql1);
-                                    $row1 = mysqli_fetch_array($res1);
-                                    $count = $row1[0];
-                                    if($count == null)
-                                        $count = 0;
-                                    ?>
-                                    <td style="font-size:12px;"><?=$row['visit']?>/<?=$count?></td>
-                                    <td class="iam_table">
-                                        <?
-                                            $link_pre = "/iam/report_preview.php?repo={$row['id']}";
-                                            $link = $row['short_url'];
-                                        ?>
-                                        <input type="button" value="미리보기" class="button" onclick="viewEvent('<?=$link_pre?>')">
-                                        <input type="button" value="링크복사" class="button copyLinkBtn" data-link="<?=$link?>">
-                                    </td>
-                                    <td><?=$row['reg_date']?></td>
-                                    <td>
-                                        <textarea id="<?='detail'.$row['id']?>" style="width:100%;"><?=$row['detail']?></textarea>
-                                        <br>
-                                        <button type="button" class="btn-default" style="margin-top:5px;padding:5px 10px;border:1px solid #ccc;cursor:pointer" onclick="save_detail(<?=$row['id']?>);">저장</button>
-                                    </td>
-                                    <td><a href="report_reply.php?repo=<?=$row['id']?>" target="_blank">답변</a></td>
-                                    <td>
-                                        <?if($count != 0){?>
-                                            <a onclick="deleteRow(<?=$row['id']?>)">삭제</a>
-                                        <?}else{?>
-                                            <a href="report_edit.php?repo=<?=$row['id']?>">수정</a>/<a href="javascript:delete_report(<?=$row['id']?>)">삭제</a>
-                                        <?}?>
-                                    </td>
-                                    <td>
-                                        <label class="switch_repo_status" style="margin:0 25px;">
-                                            <input type="checkbox" name="status" id="stauts_logo_<?php echo $row['id'];?>" value="<?php echo $row['id'];?>" <?php echo $row['status']==1?"checked":""?>>
-                                            <span class="slider round" name="status_round" id="stauts_round_<?php echo $row['idx'];?>"></span>
-                                        </label>
-                                    </td>
+                                    <td style="font-size:12px;"><?=$row['ad_title']?></td>
+                                    <td style="font-size:12px;"><?=$row['ad_desc']?></td>
+                                    <td style="font-size:12px;"><?=$row['addrs']?></td>
+                                    <td style="font-size:12px;"><?=$row['con_type']?></td>
+                                    <td style="font-size:12px;"><?=$row['age']?></td>
+                                    <td style="font-size:12px;"><?=$row['gen']?></td>
+                                    <td style="font-size:12px;"><?=$row['school']?></td>
+                                    <td style="font-size:12px;"><?=$row['marrage']?></td>
                               </tr>
                             <?
                                 $i++;
@@ -279,7 +253,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                             if($i == 1) {
                             ?>
                                 <tr>
-                                    <td colspan="14" style="text-align:center;background:#fff">
+                                    <td colspan="20" style="text-align:center;background:#fff">
                                         등록된 내용이 없습니다.
                                     </td>
                                 </tr>
@@ -301,6 +275,15 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
             </div>
         </section><!-- /.content -->
     </div><!-- /content-wrapper -->
+
+    <form id="excel_down_form" name="excel_down_form"  target="excel_iframe" method="post">
+        <input type="hidden" name="grp_id" value="" />
+        <input type="hidden" name="box_text" value="" />
+        <input type="hidden" name="one_member_id" id="one_member_id" value="" />
+        <input type="hidden" name="excel_sql" value="<?=$excel_sql?>" />
+    </form>
+    <iframe name="excel_iframe" style="display:none;"></iframe>
+
     <?include_once $_SERVER['DOCUMENT_ROOT']."/admin/include/admin_footer.inc.php";?>
 </div>
 <div id="show_detail_more" class="modal fade" tabindex="-1" role="dialog" style="overflow-x: auto; overflow-y: auto;">
@@ -391,7 +374,7 @@ $(function() {
 });
 function deleteMultiRow() {
     if(confirm('삭제하시겠습니까?')) {
-        var check_array = $("#report_table").children().find(".check");
+        var check_array = $("#sms_table").children().find(".check");
         var no_array = [];
         var index = 0;
         check_array.each(function(){
@@ -399,12 +382,12 @@ function deleteMultiRow() {
                 no_array[index++] = $(this).val();
         });
         if(index == 0){
-            alert("삭제할 리포트를 선택해주세요.");
+            alert("삭제할 레코드를 선택해주세요.");
             return;
         }
         $.ajax({
             type:"POST",
-            url:"/ajax/ajax.report.php",
+            url:"/ajax/ajax.ad_sms.php",
             dataType:"json",
             data:{
                 method:"del",
@@ -459,7 +442,7 @@ function delete_report(id){
 }
 function cloneMultiRow() {
     if(confirm('복제하시겠습니까?')) {
-        var check_array = $("#report_table").children().find(".check");
+        var check_array = $("#sms_table").children().find(".check");
         var no_array = [];
         var index = 0;
         check_array.each(function(){
@@ -507,7 +490,7 @@ function save_detail(idx){
 }
 
 function onSetCost() {
-    
+    window.location = "/admin/ad_sms_cost.php";
 }
 
 </script>

@@ -156,9 +156,9 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                         	WHERE a.event_name_kor='데일리문자세트자동생성' 
                 	              $searchStr";
                 	              
-                	$res	    = mysqli_query($self_con, $query);
-                  //$totalCnt	=  mysqli_num_rows($res);	
-                  $totalRow	=  mysqli_fetch_array($res);
+                	$res	    = mysql_query($query);
+                  //$totalCnt	=  mysql_num_rows($res);	
+                  $totalRow	=  mysql_fetch_array($res);
                 	$totalCnt = $totalRow[0];
                   
 
@@ -181,18 +181,18 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                 	$i = 1;
                 	$c=0;
                 	$query .= "$orderQuery";
-                	$res = mysqli_query($self_con, $query);
-                  while($row = mysqli_fetch_array($res)) {
+                	$res = mysql_query($query);
+                  while($row = mysql_fetch_array($res)) {
                     $sql_req_mem = "select count(*) as cnt from Gn_daily where event_idx={$row['event_idx']}";
-                    $res_req_mem = mysqli_query($self_con, $sql_req_mem);
-                    $row_req_mem = mysqli_fetch_array($res_req_mem);
+                    $res_req_mem = mysql_query($sql_req_mem);
+                    $row_req_mem = mysql_fetch_array($res_req_mem);
                   ?>
                       <tr>
                             <td><input type="checkbox" class="check" id="check_one_member" name="" value="<?=$row['event_idx']?>">&nbsp;&nbsp;<?=$number--?></td>
-                            <td style="font-size:12px;"><?=$row['site']?></td>
-                            <td style="font-size:12px;"><?=$row['m_id']?></td>
-                            <td style="font-size:12px;"><?=$row['mem_name']?></td>
-                            <td style="font-size:12px;"><?=$row['event_title']?></td>
+                            <td style="font-size:12px;"><?=$row[site]?></td>
+                            <td style="font-size:12px;"><?=$row[m_id]?></td>
+                            <td style="font-size:12px;"><?=$row[mem_name]?></td>
+                            <td style="font-size:12px;"><?=$row[event_title]?></td>
                             <td style="font-size:12px;"><a href="javascript:show_more('<?=str_replace("\n", "<br>", $row['event_desc'])?>')"><?=cut_str($row['event_desc'], 50)?></a></td>
                             <td style="font-size:12px;"><?if($row['object'] != ""){?><img class="zoom" src="http://www.kiam.kr/<?=$row['object']?>" style="width:90%;"><?}?></td>
                             <td style="font-size:12px;">
@@ -200,8 +200,8 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                                 <input type="button" value="링크복사" class="button copyLinkBtn" data-link="<?php echo $row['short_url']?>">
                             </td>
                             <td style="font-size:12px;"><a href="javascript:show_req_mem('<?=$row['event_idx']?>')"><?=$row['read_cnt']?>/<?=$row_req_mem['cnt']?></a></td>
-                            <td style="font-size:12px;"><?=$row['regdate']?></td>
-                            <td><a href="edit_daily_msg_service.php?event_idx=<?=$row['event_idx']?>">수정</a>/<a href="javascript:delete_event(<?=$row['event_idx']?>)">삭제</a></td>
+                            <td style="font-size:12px;"><?=$row[regdate]?></td>
+                            <td><a href="edit_daily_msg_service.php?event_idx=<?=$row[event_idx]?>">수정</a>/<a href="javascript:delete_event(<?=$row[event_idx]?>)">삭제</a></td>
                       </tr>
                     <?
                     $c++;

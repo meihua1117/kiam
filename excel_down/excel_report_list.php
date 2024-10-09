@@ -12,11 +12,12 @@ function getExcelTag($w){
     }
     return $tag;
 }
-if(strlen($_SESSION[one_member_id]) > 0) {
+if(strlen($_SESSION['one_member_id']) > 0 || strlen($_SESSION['iam_member_id']) > 0) 
+{
     $path="../";
     include_once $path."lib/rlatjd_fun.php";
-    $excel_sql=$_REQUEST['excel_sql'];
-    $repo_id = $_POST['index'];
+    $excel_sql= base64_decode($_POST['excel_sql']);
+    $repo_id =  $_POST['index'];
     require_once("Classes/PHPExcel.php");
     $objPHPExcel = new PHPExcel();
     $h=1;
@@ -99,7 +100,7 @@ if(strlen($_SESSION[one_member_id]) > 0) {
             if($item[item_type] == 0 || $item[item_type] == 3){
                 $val = $repo_value;
             }else{
-                $val = ($repo_value == 1?"예":"아니오");
+                $val = ($repo_value == 1?"예":"");
             }
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue("$tag$h",$val);
         }

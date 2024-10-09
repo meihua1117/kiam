@@ -10,7 +10,7 @@ $cam_id = $_POST["cam_id"];
 
     $query="delete from Gn_Ad_Manager WHERE cam_id='$cam_id'
                                  ";
-    mysqli_query($self_con, $query);	
+    mysql_query($query);	
 
 echo "<script>alert('저장되었습니다.');location='/admin/ad_mo_list.php';</script>";
 exit;

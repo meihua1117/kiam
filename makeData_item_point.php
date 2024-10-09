@@ -1,5 +1,7 @@
 <?
 include_once "lib/rlatjd_fun.php";
+if($_SESSION['one_member_id'] == "")
+	exit;
 $year = date('Y');
 $month = date('m');
 $day = date('d');

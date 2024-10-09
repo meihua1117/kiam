@@ -2,9 +2,9 @@
 include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
 include_once $_SERVER['DOCUMENT_ROOT']."/admin/include/admin_header.inc.php";
 extract($_GET);
-$sql_no="select * from tjd_sellerboard where no='{$_REQUEST['no']}'";
-$resul_no=mysqli_query($self_con, $sql_no);
-$row_no=mysqli_fetch_array($resul_no);
+$sql_no="select * from tjd_sellerboard where no='$_REQUEST[no]'";
+$resul_no=mysql_query($sql_no);
+$row_no=mysql_fetch_array($resul_no);
 ?>
 <script type="text/javascript" src="/jquery.lightbox_me.js"></script>
 <style>
@@ -62,7 +62,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                             <table id="example1" class="table table-bordered table-striped">
                                 <tr>
                                     <td>제목</td>
-                                    <td style="width:90%"><input type="text" style="width:90%;" name="title" value="<?=$row_no['title']?>" required itemname='제목'  class="form-control input-sm"  /></td>
+                                    <td style="width:90%"><input type="text" style="width:90%;" name="title" value="<?=$row_no[title]?>" required itemname='제목'  class="form-control input-sm"  /></td>
                                 </tr>
                                 <tr>
                                     <td>분류</td>
@@ -81,16 +81,16 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                                 <tr>
                                     <td colspan="2" style="background-color:#FFF">
                                         <script language="javascript" src="/naver_editor/js/HuskyEZCreator.js" charset="utf-8"></script>
-                                        <textarea name="ir1" id="ir1" rows="10" cols="100" style="width:100%; height:200px; display:none;min-width: 100px"><?=$row_no['content']?></textarea>
+                                        <textarea name="ir1" id="ir1" rows="10" cols="100" style="width:100%; height:200px; display:none;min-width: 100px"><?=$row_no[content]?></textarea>
                                         <script language="javascript" src="/naver_editor/js/naver_editor.js" charset="utf-8"></script>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td colspan="2" style="background-color:#FFF">
                                         <iframe src="/upload.php?up_path=<?=$up_path?>&frm=board_write_form" name="upload_iframe" frameborder="0" width="100%" scrolling="no" height="100" style="margin:0; padding:0;"></iframe>
-                                        <input type="hidden" name="board_write_form_img_hid" id="board_write_form_img_hid" value="<?=$row_no['adjunct_1']?>" />
-                                        <input type="hidden" name="board_write_form_img_hid_2" id="board_write_form_img_hid_2" value="<?=$row_no['adjunct_2']?>" />
-                                        <input type="hidden" itemname='이미지메모' name="board_write_form_memo_hid" id="board_write_form_memo_hid" value="<?=$row_no['adjunct_memo']?>" />
+                                        <input type="hidden" name="board_write_form_img_hid" id="board_write_form_img_hid" value="<?=$row_no[adjunct_1]?>" />
+                                        <input type="hidden" name="board_write_form_img_hid_2" id="board_write_form_img_hid_2" value="<?=$row_no[adjunct_2]?>" />
+                                        <input type="hidden" itemname='이미지메모' name="board_write_form_memo_hid" id="board_write_form_memo_hid" value="<?=$row_no[adjunct_memo]?>" />
                                         <input type="hidden" name="up_path" value="<?=$up_path?>" />
                                     </td>
                                 </tr>
@@ -112,7 +112,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                                 </tr>
                                 <tr>
                                     <td colspan="2" style="text-align:right;">
-                                        <a href="javascript:;;" onclick="sellerboard_save(board_write_form,'<?=$row_no['no']?>','10')"><img src="/images/client_2_3.jpg" /></a>
+                                        <a href="javascript:;;" onclick="sellerboard_save(board_write_form,'<?=$row_no[no]?>','10')"><img src="/images/client_2_3.jpg" /></a>
                                         <a href="iam_notice_list.php"><img src="/images/client_2_4.jpg" /></a>
                                     </td>
                                 </tr>

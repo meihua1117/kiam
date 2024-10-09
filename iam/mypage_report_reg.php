@@ -1,9 +1,9 @@
 <?php 
 include "inc/header.inc.php";
-if($_SESSION['iam_member_id'] == "") {
+if($_SESSION[iam_member_id] == "") {
     echo "<script>location='/';</script>";
 }
-if($member_iam['service_type'] < 2){
+if($member_iam[service_type] < 2){
     echo "<script>alert('리포트추가 권한이 없습니다.');location='/';</script>";
 }
 $index = 0;
@@ -11,12 +11,13 @@ if(isset($_GET["index"]))
     $index  = $_GET["index"];
 if($index != 0){
     $sql = "select * from gn_report_form where id = $index";
-    $res = mysqli_query($self_con, $sql);
-    $row_form = mysqli_fetch_array($res);
+    $res = mysql_query($sql);
+    $row_form = mysql_fetch_array($res);
     if($row_form['request_yn'] == 'Y'){
-        $erq_sql = "select * from Gn_event where event_idx = {$row_form['pcode']}";
-        $erq_res = mysqli_query($self_con, $erq_sql);
-        $erq_row = mysqli_fetch_array($erq_res);
+        //$erq_sql = "select * from Gn_event_request where request_idx = $row_form[pcode]";
+        $erq_sql = "select * from Gn_event where event_idx = $row_form[pcode]";
+        $erq_res = mysql_query($erq_sql);
+        $erq_row = mysql_fetch_array($erq_res);
     }
 }
 ?>
@@ -125,7 +126,7 @@ input:checked + .slider:before {
                             </a>
                         </div>
                         <div style="display:flex;margin: 0px 35px;float: right;">
-                            <?if($_SESSION['iam_member_subadmin_id'] ==$_SESSION['iam_member_id']){?>
+                            <?if($_SESSION[iam_member_subadmin_id] == $_SESSION[iam_member_id]){?>
                                 <a class="btn  btn-link" title = "<?='공지알림';?>" href="/?cur_win=unread_notice&box=send&modal=Y" style="display:flex;padding:6px 3px">
                                     <p style="font-size:14px;color:black">공지전송</p>
                                     <label class="label label-sm" id = "notice" style="background: #ff3333;border-radius: 50%;padding: 2px 5px;margin-left: -5px;font-size:10px"></label>
@@ -154,7 +155,7 @@ input:checked + .slider:before {
                                     <label class="label label-sm" id = "sell_service_contents" style="background: #ff3333;border-radius: 50%;padding: 2px 5px;margin-left: -5px;font-size:10px"></label>
                                 </a>
                             <?}?>
-                            <?if($member_iam['service_type'] < 2){
+                            <?if($member_iam[service_type] < 2){
                                 $report_link = "/iam/mypage_report_list.php";
                             }else{
                                 $report_link = "/iam/mypage_report.php";
@@ -215,8 +216,8 @@ input:checked + .slider:before {
                             <h3 class="title">리포트 포맷 선택</h3>
                             <?if($index != 0){
                                 $sql = "select * from gn_report_form1 where form_id = $index order by item_order";
-                                $res = mysqli_query($self_con, $sql);
-                                while($row = mysqli_fetch_array($res)){
+                                $res = mysql_query($sql);
+                                while($row = mysql_fetch_array($res)){
                             ?>
                                     <div class="form-wrap" data-index="<?=$row['item_order']?>">
                                         <input type="radio" name="item_type_<?=$row['item_order']?>"  value="0" onclick="chk_item_type(this,0);" <?=$row['item_type']==0?"checked":"";?>>
@@ -231,7 +232,7 @@ input:checked + .slider:before {
                                             <div class="attr-name">항목명</div>
                                             <div class="attr-value">
                                                 <div class="input-wrap">
-                                                    <input type="text" name="repo_item" class="input" placeholder="항목 입력" value="<?=htmlspecialchars($row['item_title'])?>">
+                                                    <input type="text" name="repo_item" class="input" placeholder="항목 입력" value="<?=htmlspecialchars($row[item_title])?>">
                                                 </div>
                                             </div>
                                         </div>
@@ -247,9 +248,9 @@ input:checked + .slider:before {
 
                                         <div class="jesi-content">
                                             <?
-                                            $repo_sql = "select * from gn_report_form2 where form_id=$index and item_id='{$row['id']}' order by id";
-                                            $repo_res = mysqli_query($self_con, $repo_sql);
-                                            while($repo_row = mysqli_fetch_array($repo_res)){
+                                            $repo_sql = "select * from gn_report_form2 where form_id=$index and item_id=$row[id] order by id";
+                                            $repo_res = mysql_query($repo_sql);
+                                            while($repo_row = mysql_fetch_array($repo_res)){
                                                 if($row['item_type'] == 0){?>
                                                 <div class="attr-row" style="margin-top: 5px">
                                                     <div class="attr-value">
@@ -391,7 +392,7 @@ input:checked + .slider:before {
                             </label>
                         </div>
                         <div id="signature-pad" class="m-signature-pad">
-                            <p class="marb3"><strong class="blink">하단에 서명(마우스로 싸인)을 해주세요.</strong><button type="button" id="clear" class="btn_ssmall bx-white">서명 초기화</button></p>
+                            <p class="marb3"><strong class="blink">아래 박스안에 서명을 남겨주세요.</strong><button type="button" id="clear" class="btn_ssmall bx-white">서명 초기화</button></p>
                             <div id="sign"></div>
                             <textarea name="signatureJSON" id="signatureJSON" style="display: none" readonly=""></textarea>
                         </div>

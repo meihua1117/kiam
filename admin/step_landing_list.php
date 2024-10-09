@@ -208,9 +208,9 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                   WHERE 1=1 
                         $searchStr";             
                 	              
-                	$res	    = mysqli_query($self_con, $query);
-                  //$totalCnt	=  mysqli_num_rows($res);	
-                  $totalRow	=  mysqli_fetch_array($res);	                	
+                	$res	    = mysql_query($query);
+                  //$totalCnt	=  mysql_num_rows($res);	
+                  $totalRow	=  mysql_fetch_array($res);	                	
                 	$totalCnt = $totalRow[0];
                   
 
@@ -234,28 +234,28 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                 	$i = 1;
                 	$c=0;
                 	$query .= "$orderQuery";
-                	$res = mysqli_query($self_con, $query);
-                    while($row = mysqli_fetch_array($res)) {                       	
+                	$res = mysql_query($query);
+                    while($row = mysql_fetch_array($res)) {                       	
                       $query = "
-                      SELECT mem_name from Gn_Member where mem_id='{$row['m_id']}'";
-                      $sres = mysqli_query($self_con, $query);
-                      $srow = mysqli_fetch_array($sres);         				
+                      SELECT mem_name from Gn_Member where mem_id='$row[m_id]'";
+                      $sres = mysql_query($query);
+                      $srow = mysql_fetch_array($sres);         				
                   ?>
                       <tr>
                         
                             <td><input type="checkbox" name=""></td>
                             <td><?=$number--?></td>
-                            <td style="font-size:12px;"><?=$row['m_id']?></td>
-                            <td style="font-size:12px;"><?=$srow['mem_name']?></td>
-                            <td style="font-size:12px;"><?=$row['title']?></td>
-                            <td style="font-size:12px;"><?=$row['description']?></td>
+                            <td style="font-size:12px;"><?=$row[m_id]?></td>
+                            <td style="font-size:12px;"><?=$srow[mem_name]?></td>
+                            <td style="font-size:12px;"><?=$row[title]?></td>
+                            <td style="font-size:12px;"><?=$row[description]?></td>
                             <td style="font-size:12px;">
                                 <input type="button" value="미리보기" class="button" onclick="viewEvent('<?php echo $row['short_url']?>')">
                                 <input type="button" value="링크복사" class="button copyLinkBtn" data-link="<?php echo $row['short_url']?>">
                             </td>
-                            <td><?=number_format($row['cnt'])?></td>
-                            <td><?=number_format($row['read_cnt'])?></td>
-                            <td><?=$row['regdate']?></td>
+                            <td><?=number_format($row[cnt])?></td>
+                            <td><?=number_format($row[read_cnt])?></td>
+                            <td><?=$row[regdate]?></td>
 
                             <td>
                                 <label class="switch">

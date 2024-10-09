@@ -89,7 +89,7 @@ if($idx == "") {
                                   `display_order`      ='$display_order',
                                   `reg_date` = '$date'
                                  ";
-    mysqli_query($self_con, $query);	
+    mysql_query($query);	
 } else {
     if($file_name) {
         $info = explode(".",$file_name);
@@ -121,8 +121,9 @@ if($idx == "") {
                                         WHERE idx='$idx'
                                             ";
     }
-    mysqli_query($self_con, $query);	
+    mysql_query($query);	
 }
+//echo "<script>alert('".$query."')</script>";
 echo "<script>location='/admin/app_home_menu.php?site={$site_iam}';</script>";
 exit;
 ?>

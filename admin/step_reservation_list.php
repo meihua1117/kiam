@@ -194,9 +194,9 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                   $searchStr .= $search_key ? " AND (a.reservation_title LIKE '".$search_key."%' or a.reservation_desc like '".$search_key."%'  )" : null;
                 	$order = $order?$order:"desc"; 		
                 	$query = "SELECT count(a.m_id) FROM Gn_event_sms_info a WHERE 1=1 $searchStr";
-                	$res	    = mysqli_query($self_con, $query);
-                  //$totalCnt	=  mysqli_num_rows($res);	
-                  $totalRow	=  mysqli_fetch_array($res);	                	
+                	$res	    = mysql_query($query);
+                  //$totalCnt	=  mysql_num_rows($res);	
+                  $totalRow	=  mysql_fetch_array($res);	                	
                 	$totalCnt = $totalRow[0];
                   $query = "SELECT a.sms_idx, a.m_id, a.event_name_eng, a.reservation_title, a.reservation_desc, a.mobile,a.sendable, a.regdate FROM Gn_event_sms_info a WHERE 1=1 $searchStr";
                 	$limitStr       = " LIMIT ".(($startPage-1)*$pageCnt).", ".$pageCnt;
@@ -205,24 +205,24 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                 	$i = 1;
                 	$c=0;
                 	$query .= $orderQuery;
-                  $res = mysqli_query($self_con, $query);
-                  while($row = mysqli_fetch_array($res)) { 
-                    $query = "SELECT mem_name from Gn_Member where mem_id='{$row['m_id']}'";
-                    $sres = mysqli_query($self_con, $query);
-                    $srow = mysqli_fetch_array($sres);                        	
+                  $res = mysql_query($query);
+                  while($row = mysql_fetch_array($res)) { 
+                    $query = "SELECT mem_name from Gn_Member where mem_id='$row[m_id]'";
+                    $sres = mysql_query($query);
+                    $srow = mysql_fetch_array($sres);                        	
 
-                    $sql = "select count(*) as cnt from Gn_event_sms_step_info where sms_idx='{$row['sms_idx']}'";
-                    $sresult = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));				                    
-                    $strow = mysqli_fetch_array($sresult);
+                    $sql = "select count(*) as cnt from Gn_event_sms_step_info where sms_idx='$row[sms_idx]'";
+                    $sresult = mysql_query($sql) or die(mysql_error());				                    
+                    $strow = mysql_fetch_array($sresult);
                   ?>
                     <tr>
                       <td><input type="checkbox" name=""></td>
                       <td><?=$number--?></td>
-                      <td style="font-size:12px;"><?=$row['m_id']?></td>
-                      <td style="font-size:12px;"><?=$srow['mem_name']?></td>
-                      <td style="font-size:12px;"><?=$row['reservation_title']?></td>
-                      <td><?=$row['reservation_desc']?></td>
-                      <td><a href="/mypage_reservation_create.php?sms_idx=<?=$row['sms_idx']?>" target="_blank"><?=number_format($strow['cnt'])?></a></td>
+                      <td style="font-size:12px;"><?=$row[m_id]?></td>
+                      <td style="font-size:12px;"><?=$srow[mem_name]?></td>
+                      <td style="font-size:12px;"><?=$row[reservation_title]?></td>
+                      <td><?=$row[reservation_desc]?></td>
+                      <td><a href="/mypage_reservation_create.php?sms_idx=<?=$row[sms_idx]?>" target="_blank"><?=number_format($strow[cnt])?></a></td>
                       <td><?=number_format($cnt)?>/<?=number_format($cnt)?></td>
                       <td>
                           <label class="switch">
@@ -231,7 +231,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                           </label>
                       </td>
                       </td>
-                      <td><?=$row['regdate']?></td>
+                      <td><?=$row[regdate]?></td>
                     </tr>
                     <?
                     $c++;

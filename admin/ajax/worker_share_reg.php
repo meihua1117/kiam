@@ -14,24 +14,27 @@ if($mode == "worker_share_reg") {
         $idx_arr = explode(",", $card_idx);
         for($i = 0; $i < count($idx_arr); $i++){
             $sql_reg_share = "update Gn_Iam_Name_Card set worker_service_state={$worker_service_state} where idx={$idx_arr[$i]}";
-            $res = mysqli_query($self_con, $sql_reg_share);
+            $res = mysql_query($sql_reg_share);
         }
     }
     else{
         $sql_reg_share = "update Gn_Iam_Name_Card set worker_service_state={$worker_service_state} where idx={$card_idx}";
-        $res = mysqli_query($self_con, $sql_reg_share);
+        $res = mysql_query($sql_reg_share);
     }
     echo $res;
 }
 if($mode == "reg_req_id"){
     $sql_chk = "select count(a.mem_code) as cnt from Gn_Member a inner join Gn_Iam_Service b on a.mem_id=b.mem_id where a.service_type>=2 and a.mem_id='{$req_id}'";
-    $res_chk = mysqli_query($self_con, $sql_chk);
-    $row_chk = mysqli_fetch_array($res_chk);
+    $res_chk = mysql_query($sql_chk);
+    $row_chk = mysql_fetch_array($res_chk);
 
-    if($row_chk[0] || $req_id == 'obmms02'){
+    if(!$row_chk[0]){
+        echo 0;
+    }
+    else{
         $sql_chk_cnt = "select count(*) as cnt from Gn_Iam_Name_Card where req_worker_id='{$req_id}' and org_use_state=0 and worker_service_state=1";
-        $res_chk_cnt = mysqli_query($self_con, $sql_chk_cnt);
-        $row_chk_cnt = mysqli_fetch_array($res_chk_cnt);
+        $res_chk_cnt = mysql_query($sql_chk_cnt);
+        $row_chk_cnt = mysql_fetch_array($res_chk_cnt);
         $cnt = $row_chk_cnt[0];
 
         if($cnt >= 5){
@@ -40,45 +43,42 @@ if($mode == "reg_req_id"){
         }
 
         $sql_update_req_id = "update Gn_Iam_Name_Card set req_worker_id='{$req_id}', req_worker_date='{$date_today}' where idx={$card_idx}";
-        $res = mysqli_query($self_con, $sql_update_req_id);
+        $res = mysql_query($sql_update_req_id);
         echo $res;
-    }
-    else{
-        echo 0;
     }
 }
 if($mode == "cancel_req_id"){
     $sql_cancel = "update Gn_Iam_Name_Card set req_worker_id='', req_worker_date='' where idx={$card_idx}";
-    $res = mysqli_query($self_con, $sql_cancel);
+    $res = mysql_query($sql_cancel);
 
     echo $res;
 }
 if($mode == "check_info_exist"){
     $sql_mem_data = "select mem_phone, mem_add1, bank_name, bank_owner, bank_account, mem_email from Gn_Member where mem_id='{$mem_id}'";
-    $res_mem_data = mysqli_query($self_con, $sql_mem_data);
-    $row_mem_data = mysqli_fetch_array($res_mem_data);
+    $res_mem_data = mysql_query($sql_mem_data);
+    $row_mem_data = mysql_fetch_array($res_mem_data);
 
-    echo '{"mem_phone":"'.$row_mem_data['mem_phone'].'", "mem_add1":"'.$row_mem_data['mem_add1'].'", "bank_name":"'.$row_mem_data['bank_name'].'", "bank_owner":"'.$row_mem_data['bank_owner'].'", "bank_account":"'.$row_mem_data['bank_account'].'", "mem_email":"'.$row_mem_data['mem_email'].'"}';
+    echo '{"mem_phone":"'.$row_mem_data[mem_phone].'", "mem_add1":"'.$row_mem_data[mem_add1].'", "bank_name":"'.$row_mem_data[bank_name].'", "bank_owner":"'.$row_mem_data[bank_owner].'", "bank_account":"'.$row_mem_data[bank_account].'", "mem_email":"'.$row_mem_data[mem_email].'"}';
 }
 if($mode == "update_member_info"){
     $sql_req_data = "select site, site_iam from Gn_Member where mem_id='{$req_id}'";
-    $res_req_data = mysqli_query($self_con, $sql_req_data);
-    $row_req_data = mysqli_fetch_array($res_req_data);
+    $res_req_data = mysql_query($sql_req_data);
+    $row_req_data = mysql_fetch_array($res_req_data);
 
     $sql_card_update = "update Gn_Iam_Name_Card set org_use_state=1 where idx={$card_idx}";
-    mysqli_query($self_con, $sql_card_update);
+    mysql_query($sql_card_update);
 
-    $sql_update = "update Gn_Member set mem_phone='{$mem_phone}', mem_email='{$mem_email}', mem_add1='{$mem_add1}', bank_name='{$bank_name}', bank_owner='{$bank_owner}', bank_account='{$bank_account}', site='{$row_req_data['site']}', site_iam='{$row_req_data['site_iam']}', recommend_id='{$req_id}' where mem_id='{$mem_id}'";
+    $sql_update = "update Gn_Member set mem_phone='{$mem_phone}', mem_email='{$mem_email}', mem_add1='{$mem_add1}', bank_name='{$bank_name}', bank_owner='{$bank_owner}', bank_account='{$bank_account}', site='{$row_req_data[site]}', site_iam='{$row_req_data[site_iam]}', recommend_id='{$req_id}' where mem_id='{$mem_id}'";
 
-    $res = mysqli_query($self_con, $sql_update);
+    $res = mysql_query($sql_update);
     echo $res;
 }
 if($mode == "uncheck_use_org"){
     $sql_card_update = "update Gn_Iam_Name_Card set org_use_state=0, req_worker_date='{$date_today}' where idx={$card_idx}";
-    mysqli_query($self_con, $sql_card_update);
+    mysql_query($sql_card_update);
 
     $sql_mem_update = "update Gn_Member set site='kiam', site_iam='kiam', recommend_id='obmms02' where mem_id='{$mem_id}'";
-    $res = mysqli_query($self_con, $sql_mem_update);
+    $res = mysql_query($sql_mem_update);
 
     echo $res;
 }

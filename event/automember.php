@@ -6,11 +6,11 @@
 	if($_GET['pcode']) $pcode = $_GET['pcode'];
 	
 	$sql="update Gn_event set read_cnt = read_cnt+1 where (pcode='$pcode' or event_idx='$event_idx')";
-	mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
+	mysql_query( $sql) or die(mysql_error());
 	
 	$sql_recom = "select * from Gn_event where (pcode='$pcode' or event_idx='$event_idx')";
-	$res = mysqli_query($self_con, $sql_recom);
-	$event_data = mysqli_fetch_array($res);
+	$res = mysql_query( $sql_recom);
+	$event_data = mysql_fetch_array($res);
 	
 	if($_GET['recommend_id']) 
 		$recom_id = $_GET['recommend_id'];
@@ -20,8 +20,8 @@
 	$card_idx = $event_data['event_info'];
 
 	$sql_auto_point = "select * from Gn_Search_Key where key_id='auto_member_join'";
-	$res_auto = mysqli_query($self_con, $sql_auto_point);
-	$row_auto = mysqli_fetch_array($res_auto);
+	$res_auto = mysql_query( $sql_auto_point);
+	$row_auto = mysql_fetch_array($res_auto);
 	$point_auto = $row_auto['key_content'];
 
 	$card_url = "";
@@ -30,8 +30,8 @@
 		for($i = 0; $i < count($card_idx); $i++){
 			$idx = $card_idx[$i] * 1 - 1;
 			$sql_card_url = "select * from Gn_Iam_Name_Card where mem_id='{$recom_id}' order by req_data asc limit ".$idx.", 1;";
-			$res_url = mysqli_query($self_con, $sql_card_url);
-			$row_url = mysqli_fetch_array($res_url);
+			$res_url = mysql_query( $sql_card_url);
+			$row_url = mysql_fetch_array($res_url);
 			if($i == count($card_idx) - 1)
 			$card_url .= $row_url['card_short_url'];
 			else
@@ -41,20 +41,20 @@
 	else{
 		$idx = $card_idx * 1 - 1;
 		$sql_card_url = "select * from Gn_Iam_Name_Card where mem_id='{$recom_id}' order by req_data asc limit ".$idx.", 1;";
-		$res_url = mysqli_query($self_con, $sql_card_url);
-		$row_url = mysqli_fetch_array($res_url);
+		$res_url = mysql_query( $sql_card_url);
+		$row_url = mysql_fetch_array($res_url);
 		$card_url .= $row_url['card_short_url'];
 	}
 
 	$sql_site = "select site, site_iam from Gn_Member where mem_id='{$recom_id}'";
-	$res_site = mysqli_query($self_con, $sql_site);
-	$row_site = mysqli_fetch_array($res_site);
+	$res_site = mysql_query( $sql_site);
+	$row_site = mysql_fetch_array($res_site);
 	$site = $row_site['site'];
 	$site_iam = $row_site['site_iam'];
 
 	$sql_exp = "select service_type from Gn_Iam_Service where sub_domain = 'http://".$HTTP_HOST."'";
-	$res_exp = mysqli_query($self_con, $sql_exp);
-	$row_exp = mysqli_fetch_array($res_exp);
+	$res_exp = mysql_query( $sql_exp);
+	$row_exp = mysql_fetch_array($res_exp);
 	$exp_mem = $row_exp['service_type'];
 	// echo $exp_mem;
 	if($exp_mem == 3){
@@ -73,20 +73,20 @@
 	$cur_point = 0;
 	// $sql_cur_point = "select current_point from Gn_Item_Pay_Result where buyer_id='{$m_id}' order by pay_date desc limit 1";
 	$sql_cur_point = "select mem_point from Gn_Member where mem_id='{$m_id}'";
-	$res_point = mysqli_query($self_con, $sql_cur_point);
-	$row_point = mysqli_fetch_array($res_point);
+	$res_point = mysql_query( $sql_cur_point);
+	$row_point = mysql_fetch_array($res_point);
 	$cur_point = $row_point['mem_point'];
 
 	if ($HTTP_HOST != "kiam.kr") //분양사사이트이면
 		$query = "select * from Gn_Iam_Service where sub_domain like 'http://" . $HTTP_HOST . "'";
 	else
 		$query = "select * from Gn_Iam_Service where sub_domain like 'http://www.kiam.kr'";
-	$res = mysqli_query($self_con, $query);
-	$domainData = mysqli_fetch_array($res);
+	$res = mysql_query( $query);
+	$domainData = mysql_fetch_array($res);
 	$first_card_idx = $domainData['profile_idx'];//분양사의 1번 카드아이디
 	$sql = "select * from Gn_Iam_Name_Card where idx = '$first_card_idx'";
-	$result = mysqli_query($self_con, $sql);
-	$main_card_row = mysqli_fetch_array($result);
+	$result = mysql_query( $sql);
+	$main_card_row = mysql_fetch_array($result);
 
 	if($main_img1 == "")
 		$main_img1 = $main_card_row['main_img1'];
@@ -100,8 +100,7 @@
 
 		<meta property="og:title" content="<?=$page_title?>">
 		<meta property="og:image" content="<?=$main_img1?>">
-        <link rel="stylesheet" href="/css/main.css" type="text/css">
-
+    		<link rel="stylesheet" href="/css/main.css" type="text/css">
 		<link rel="stylesheet" href="css/slick.css" type="text/css">
 		<link rel="stylesheet" href="../css/responsive.css" type="text/css">
 		<link rel="stylesheet" href="../css/font-awesome.min.css" type="text/css">
@@ -110,7 +109,7 @@
 		<script language="javascript" type="text/javascript" src="common.js"></script>
 		<script language="javascript" type="text/javascript" src="jquery.rotate.js"></script>
         <!-- Global site tag (gtag.js) - Google Analytics -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-3E40Q09QGE"></script>
+        <script async src='https://www.googletagmanager.com/gtag/js?id=G-3E40Q09QGE'></script>
 		<script language="javascript">
 			$(function(){
 				$(document).ajaxStart(function() {
@@ -243,8 +242,9 @@
 				text-align: left;
 				position: absolute;
 				z-index: 200;
-				top: 25%;
-				left: 22%;
+				top: 100px;
+				left: 50%;
+				transform: translate(-50%, 0px);
 			}
 
 			.title_app{
@@ -297,7 +297,6 @@
 					left:8%;
 				}
 			}
-
 			#tutorial-loading{position:fixed;top:0;left:0;width:100%;height:100%;z-index:150;text-align:center;display:none;background-color: grey;opacity: 0.7;}
 		</style>
 	</head>
@@ -313,9 +312,6 @@
 						</form>
 						<div class="row">
 							<div class="col-12">
-								<!--div style="background:#99cc00;height:40px;color:white">
-									<h3 style="text-align:center;padding-top:10px">미리보기</h3>
-								</div-->
 								<div>
 									<div style="border-top:1px solid #ddd;margin-top:20px">
 										<h2 id="msg_title" style="text-align:center;"><?=str_replace("\n", "<br>",$event_data['event_title'])?></h2>
@@ -446,7 +442,7 @@
 											<button class="people_iam_show" style="background:white;color:black" onclick="window.close();">취소하기</button>
 										</div>
 										<div style="width:50%">
-											<button class="people_iam_show" id="reg_automem"  onclick="makingiam('make')">신청하기</button>
+											<button class="people_iam_show" id="reg_automem"  onclick="makingiam('<?=$join_type?>')">신청하기</button>
 											<button class="people_iam_show" id="event_reqlink" hidden onclick="go_eventlink('<?=$event_data['event_req_link']?>')">이벤트 신청하기</button>
 											<input type="text" id="shorturl" hidden>
 										</div>
@@ -458,16 +454,16 @@
 				</div>
 			</div>
 		</div>
-		<!--span class="tooltiptext-bottom" id="tooltiptext_card_edit" style="display:none;">
+		<span class="tooltiptext-bottom" id="app_install_modal" style="display:none">
 			<p class="title_app">앱 설치하기 안내</p><br>
 			<p class="desc_app">※ 앱을 설치하면 콜백문자, 대량문자, 포털디비수집, 365일 자동메시지발동, 자동예약메시지기능, IAM기능 등 통합적인 모든 기능을 사용할 수 있습니다.<br><br>
 			※ 현재 앱설치는 안드로이드폰만 가능, IAM은 아이폰에서 [홈화면추가]로 이용 가능합니다.<br><br>
 			※ IAM 앱설치가 완료되면 앱을 통해 문자를 수신하고, 이후에도 온리원 플랫폼에서 보내는 문자는 IAM앱을 통해서 수신됩니다.</p>
 			<div class="button_app">
 			<a href="javascript:void(0)" onclick="downloadApp()" class="btn login_signup" style="width: 40%;background-color: #ff0066">앱 설치하기</a>
-			<a href="javascript:gotoLogin()" class="btn login_signup" style="width: 40%;background-color: #bbbbbb">나중에 하기</a>
+			<a href="/ma.php" class="btn login_signup" style="width: 40%;background-color: #bbbbbb">나중에 하기</a>
 			</div>
-		</span-->
+		</span>
 		<div id="tutorial-loading"></div>
 		<div id="ajax-loading"><img src="/iam/img/ajax-loader.gif"></div>
 		<script>
@@ -511,9 +507,7 @@
 				// Windows Phone must come first because its UA also contains "Android"
 				if (/windows phone/i.test(userAgent)) {
 					return true;
-
 				}
-
 				if (/android/i.test(userAgent)) {
 					if (/chrome/i.test(userAgent)) {
 						return false;
@@ -528,13 +522,10 @@
 			}
 			function checkMobile1() {
 				var userAgent = navigator.userAgent || navigator.vendor || window.opera;
-
 				// Windows Phone must come first because its UA also contains "Android"
 				if (/windows phone/i.test(userAgent)) {
 					return true;
-
 				}
-
 				if (/android/i.test(userAgent)) {
 					return true;
 				}
@@ -547,7 +538,9 @@
 
 			function downloadApp()
 			{
-				var uri = "http://www.kiam.kr/data/onlyone-release.apk";
+				var uri = "https://play.google.com/store/apps/details?id=mms.onepagebook.com.onlyonesms";
+				location.href = uri;
+				/*var uri = "http://www.kiam.kr/data/onlyone-release.apk";
 				if(checkMobile())
 					uri = "intent://www.kiam.kr/data/onlyone-release.apk#Intent;scheme=http;package=com.android.chrome;S.browser_fallback_url=http%3A%2F%2Fwww.kiam.kr%2Fdata%2Fonlyone-release.apk;end;";
 				var name = "app_link";
@@ -556,7 +549,7 @@
 				link.href = uri;
 				document.body.appendChild(link);
 				link.click();
-				link.remove();				
+				link.remove();*/
 			}
 
 			function go_eventlink(val){
@@ -568,8 +561,8 @@
 				}
 			}
 
-			function makingiam(){
-				<?php
+			function makingiam(join_type){
+				/*<?php
 				if($cur_point < $point_auto){
 				?>
 				alert("현재 기능 정지 중입니다. 관리자에게 문의해주세요.");
@@ -583,7 +576,7 @@
 					}
 				});
 				return;
-				<?}?>
+				<?}?>*/
 				var recom_id = '<?=$recom_id?>';
 				var site = '<?=$site?>';
 				var site_iam = '<?=$site_iam?>';
@@ -631,20 +624,22 @@
 							recom_id:recom_id, 
 							card_short_url:card_short_url, 
 							event_id:<?=$event_idx?>, 
-							exp_mem:exp_mem
+							exp_mem:exp_mem,
+							join_type:join_type
 						},
 						success:function(data){
 							if(data.status == 1){
-								iam_item(recom_id, 'use', mem_name, mem_id);
+								if(join_type == "iam")
+								    iam_item(recom_id, 'use', mem_name, mem_id);
 								$('input[name=one_id]').val(data.mem_id);
 								$('input[name=mem_pass]').val(data.mem_pass);
 								$('input[name=mem_code]').val(data.mem_code);
 								$("#shorturl").val(data.short_url+data.mem_code);
-								if(event_id == '5169' && checkMobile()){
+								if(event_id == '5169' && checkMobile() && join_type =="iam"){
 									AppScript.goAppLogin(mem_id, mem_pwd);
 								}
 								else{
-									gotoLogin();
+									gotoLogin(join_type);
 								}
 							}
 						},error:function(request,status,error){
@@ -654,7 +649,7 @@
 				}
 			}
 
-			function gotoLogin() {
+			function gotoLogin(join_type) {
 				var link = $("#shorturl").val();
 				console.log($('input[name=one_id]').val());
 				$.ajax({
@@ -662,7 +657,12 @@
 					url:"/admin/ajax/login_iamuser.php",
 					data:$('form[name=login_form]').serialize(),
 					success:function(){
+					    if(join_type == "iam"){
 						location.href = "/?"+link+"&tutorial=Y";
+					    }else{
+						alert('회원가입 되었습니다.');
+						$("#app_install_modal").show();
+					    }
 					},
 					error: function(){
 						alert('초기화 실패');

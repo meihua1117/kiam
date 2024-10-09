@@ -15,8 +15,8 @@ $mem_stop_phone = array();
 $s = 0;
 
 $sql_reg = "select id, get_time, info_source, info_type, web_address, search_key, status from reg_biz_contents where work_status=1";
-$res_reg = mysqli_query($self_con, $sql_reg);
-while($row_reg = mysqli_fetch_array($res_reg)){
+$res_reg = mysql_query($sql_reg);
+while($row_reg = mysql_fetch_array($res_reg)){
     $time = $row_reg['get_time'];//시간
     $info_source = $row_reg['info_source'];//정보출처(기업마당, 나라장터...)
     $info_type = $row_reg['info_type'];//정보형태(지원사업, 행사교육...)
@@ -52,7 +52,7 @@ while($row_reg = mysqli_fetch_array($res_reg)){
             $db_time = date("Y-m-d ").$time.":50";
             if($cur_time == $db_time){
                 // $sql_insert = "insert into adsf set dasdf=100, namem='bizinfo', date='{$cur_time1}', update_id=100";
-                // mysqli_query($self_con, $sql_insert);
+                // mysql_query($sql_insert);
                 echo $db_time.PHP_EOL;
                 echo $url;
                 send_request($web_address, $info_type, $search_key, $status, $headers, $port, $url, $reg_id);
@@ -66,7 +66,7 @@ while($row_reg = mysqli_fetch_array($res_reg)){
         $db_time = date("Y-m-d ").$time.":00";
         if($cur_time == $db_time){
             // $sql_insert = "insert into adsf set dasdf=100, namem='bizinfo', date='{$cur_time1}', update_id=100";
-            // mysqli_query($self_con, $sql_insert);
+            // mysql_query($sql_insert);
             echo $db_time.PHP_EOL;
             echo $url;
             send_request($web_address, $info_type, $search_key, $status, $headers, $port, $url, $reg_id);

@@ -7,14 +7,14 @@ $mode = $_POST['mode'];
 $mem_id = $_POST['mem_id'];
 $card_idx = $_POST['card_idx'];
 
-$story_title1 = $_POST['story_title1'];
-$story_title2 = $_POST['story_title2'];
-$story_title3 = $_POST['story_title3'];
-$story_title4 = $_POST['story_title4'];
+$story_title1 = str_replace("'", "\'", $_POST['story_title1']);
+$story_title2 = str_replace("'", "\'", $_POST['story_title2']);
+$story_title3 = str_replace("'", "\'", $_POST['story_title3']);
+$story_title4 = str_replace("'", "\'", $_POST['story_title4']);
 
-$story_myinfo = $_POST['story_myinfo'];
-$story_company = $_POST['story_company'];
-$story_career = $_POST['story_career'];
+$story_myinfo = str_replace("'", "\'", $_POST['story_myinfo']);
+$story_company = str_replace("'", "\'", $_POST['story_company']);
+$story_career = str_replace("'", "\'", $_POST['story_career']);
 $story_online1_text = $_POST['story_online1_text'];
 $story_online2_text = $_POST['story_online2_text'];
 
@@ -40,7 +40,7 @@ if(!$card_idx) {
 }
 $sql2="update Gn_Iam_Name_Card set story_title1 = '$story_title1', story_title2 = '$story_title2', story_title3 = '$story_title3', story_myinfo = '$story_myinfo',".
     " story_company = '$story_company', story_career = '$story_career',up_data=now() where idx = '$card_idx' and mem_id = '$mem_id'";
-$result2 = mysqli_query($self_con, $sql2) or die(mysqli_error($self_con));
+$result2 = mysql_query($sql2) or die(mysql_error());
 echo '스토리 등록이 완료 되었습니다.';
 // echo '{"result":"success","msg":"'.$img_url1.'|'.$img_url2.'|'.$img_url3.'|'.$img_url4.'"}';
 exit;

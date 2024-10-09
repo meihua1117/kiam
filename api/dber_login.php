@@ -14,8 +14,8 @@ $user_pwd = trim($_POST["user_pwd"]);
 $serial = trim($_POST["serial"]);
 
 $sql = "SELECT user_id, password, serial FROM crawler_member_real WHERE user_id = '$user_id'";
-$result = mysqli_query($self_con, $sql);
-$row=mysqli_fetch_array($result);
+$result = mysql_query($sql);
+$row=mysql_fetch_array($result);
 if($row['user_id'] == "") {
     echo json_encode(array('result' => 1));
     exit;
@@ -32,9 +32,10 @@ $ip = $_SERVER['REMOTE_ADDR'];
 
 //디비에 로그인시간과 ip를 저장한다.
 $sql = "update crawler_member_real set serial='$serial', token='$token', login_ip='$ip',login_date=now() where user_id = '$user_id'";
-$result = mysqli_query($self_con, $sql);
+$result = mysql_query($sql);
 
 echo json_encode(array('result' => 0, 'token' => $token));
+
 
 function generateRandomString($length = 10){
 	$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -48,8 +49,8 @@ function generateRandomString($length = 10){
 	}
 	else {
 		$name_count_sql = "select count(idx) from Gn_Iam_Name_Card where card_short_url = '$randomString'";
-		$name_count_result = mysqli_query($self_con, $name_count_sql);
-		$name_count_row = mysqli_fetch_array($name_count_result);
+		$name_count_result = mysql_query($name_count_sql);
+		$name_count_row = mysql_fetch_array($name_count_result);
 
 		if ((int)$name_count_row[0]) {
 			generateRandomString();

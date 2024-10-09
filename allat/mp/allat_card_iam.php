@@ -1,10 +1,5 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <?php
-/*$sess_path=$_SERVER['DOCUMENT_ROOT']."/_session";
-ini_set("session.cache_expire", 60);
-ini_set("session.gc_maxlifetime", 86400);
-@session_save_path($sess_path);
-@session_start();*/
 //include_once "../../lib/rlatjd_fun.php";
 include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
 // 올앳관련 함수 Include

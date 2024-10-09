@@ -1,28 +1,28 @@
 <? include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
-if($_COOKIE['recommender_code']) {
-    $sql="select * from Gn_Member where mem_code='{$_COOKIE['recommender_code']}'";
-    $result=mysqli_query($self_con, $sql);
-    $info=mysqli_fetch_array($result);
-    $recommmender = $info['mem_id'];
+if($_COOKIE[recommender_code]) {
+    $sql="select * from Gn_Member where mem_code='$_COOKIE[recommender_code]'";
+    $result=mysql_query($sql);
+    $info=mysql_fetch_array($result);
+    $recommmender = $info[mem_id];
 }
 else {
     if ($HTTP_HOST != "kiam.kr") {
         $sql = "select * from Gn_Iam_Service where sub_domain like '%http://" . $HTTP_HOST . "'";
-        $res = mysqli_query($self_con, $sql);
-        $row = mysqli_fetch_array($res);
+        $res = mysql_query($sql);
+        $row = mysql_fetch_array($res);
         $recommmender = $row['mem_id'];
     } else {
         $recommmender = 'onlymain';
     }
 }
-if($member == 'on' &&$_SESSION['iam_member_id']) {
-    $sql="select mem_name, zy, mem_phone, mem_email, mem_add1 from Gn_Member where mem_id = '{$_SESSION['iam_member_id']}'";
-    $result=mysqli_query($self_con, $sql);
-    $row=mysqli_fetch_array($result);
-    //$card_idx = $row['idx'];
+if($member == 'on' && $_SESSION[iam_member_id]) {
+    $sql="select mem_name, zy, mem_phone, mem_email, mem_add1 from Gn_Member where mem_id = '$_SESSION[iam_member_id]'";
+    $result=mysql_query($sql);
+    $row=mysql_fetch_array($result);
+    //$card_idx = $row[idx];
     $card_name = $row['mem_name'];
     $card_company = $row['zy'];
-    // $card_position = $row['card_position'];
+    // $card_position = $row[card_position];
     $card_phone = $row['mem_phone'];
     $card_email = $row['mem_email'];
     $card_addr = $row['mem_add1'];
@@ -31,9 +31,9 @@ if($member == 'on' &&$_SESSION['iam_member_id']) {
 }
 $lang = $_COOKIE['lang']?$_COOKIE['lang']:"kr";
 $sql = "select * from Gn_Iam_lang where menu='IAM_PROFILE'";
-$result = mysqli_query($self_con, $sql);
-while($row = mysqli_fetch_array($result)) {
-    $MENU[$row['menu']][$row['pos']] = $row[$lang];
+$result = mysql_query($sql);
+while($row = mysql_fetch_array($result)) {
+    $MENU[$row[menu]][$row[pos]] = $row[$lang];
 }
 $country_code = whois_ascc($whois_api_key, $_SERVER['REMOTE_ADDR']);
 ?>
@@ -43,7 +43,7 @@ $country_code = whois_ascc($whois_api_key, $_SERVER['REMOTE_ADDR']);
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>통합 아이엠 만들기</title>
     <link rel="stylesheet" href="css/notokr.css">
     <link rel="stylesheet" href="css/font-awesome.min.css">
@@ -79,11 +79,11 @@ input[type=button] {
                                 <form name="iam_form" id ="iam_form" method="post" enctype="multipart/form-data" onsubmit="javascript:return false;">
                                     <input type="hidden" name="check_rnum" id="check_rnum" value="">
                                     <input type="hidden" name="mode" id="mode" value="creat"/>
-                                    <input type="hidden" name="memid" id="memid" value = <?=$_SESSION['iam_member_id']?>>
+                                    <input type="hidden" name="memid" id="memid" value = <?=$_SESSION[iam_member_id]?>>
                                     <input type="hidden" name="site" id="site" value="site_iam">
                                     <?$site = explode(".",$HTTP_HOST);$site_name = $site[0];?>
                                     <input type="hidden" name="site_name" id="site_name" value='<?=$site_name?>'>
-                                <?if(!$_SESSION['iam_member_id']) {?>
+                                <?if(!$_SESSION[iam_member_id]) {?>
                                     <h3 class="title">아이엠 회원정보 입력</h3>
                                     <br>
                                     <div class="attr-row" >
@@ -284,7 +284,7 @@ input[type=button] {
                                             </div>
                                         </div>
                                     </div>
-                                    <?if(!$_SESSION['iam_member_id']){?>
+                                    <?if(!$_SESSION[iam_member_id]){?>
                                     <div class="attr-row is-phone">
                                         <div class="attr-name">인증번호</div>
                                         <div class="attr-value">
@@ -326,15 +326,15 @@ input[type=button] {
                                                     $member_address = explode(" ", $card_addr);
                                                     $province_list = array();
                                                     $query = "SELECT province FROM gn_cities group by province";
-                                                    $res = mysqli_query($self_con, $query);
-                                                    while($row = mysqli_fetch_array($res)) {
+                                                    $res = mysql_query($query);
+                                                    while($row = mysql_fetch_array($res)) {
                                                         $province_list[] = $row['province'];
                                                     }
                                                     $city_list = array();
                                                     if(isset($member_address[0])) {
                                                         $query = "SELECT city FROM gn_cities WHERE province = '{$member_address[0]}' group by city ";
-                                                        $res = mysqli_query($self_con, $query);
-                                                        while($row = mysqli_fetch_array($res)) {
+                                                        $res = mysql_query($query);
+                                                        while($row = mysql_fetch_array($res)) {
                                                             $city_list[] = $row['city'];
                                                         }
                                                     }
@@ -342,8 +342,8 @@ input[type=button] {
                                                     $town_list = array();
                                                     if(isset($member_address[1])) {
                                                         $query = "SELECT town FROM gn_cities WHERE city = '{$member_address[1]}' and province = '{$member_address[0]}' group by town";
-                                                        $res = mysqli_query($self_con, $query);
-                                                        while($row = mysqli_fetch_array($res)) {
+                                                        $res = mysql_query($query);
+                                                        while($row = mysql_fetch_array($res)) {
                                                             $town_list[] = $row['town'];
                                                         }
                                                     }

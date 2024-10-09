@@ -13,8 +13,8 @@ $result=0;
 
 // 정보 확인
 $sql="select * from Gn_Member where mem_code='$mem_code'";
-$resul=mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-$row=mysqli_fetch_array($resul);    
+$resul=mysql_query($sql) or die(mysql_error());
+$row=mysql_fetch_array($resul);    
 
 if($_POST['mem_code']) {
     // 기본회원 정보 수정 []
@@ -42,11 +42,11 @@ if($_POST['mem_code']) {
 	    $date_today=date("Y-m-d g:i:s");
     	$dateLimit = date("Y-m-d 23:59:59",strtotime($date_today."+6 months")); //가입일 +6개월        
         $asql="insert into tjd_pay_result (phone_cnt,fujia_status,month_cnt,end_date,end_status,TotPrice,pc_mobile, date, cancel_status,buyertel,buyer_id) values";
-        $asql.="(300,'Y',6,'".$dateLimit."','Y','".$total_pay_money."',pc_mobile, '".$date_today."', cancel_status,'".$mem_phone."','".$row['mem_id']."')";
-	    mysqli_query($self_con, $asql);
+        $asql.="(300,'Y',6,'".$dateLimit."','Y','".$total_pay_money."',pc_mobile, '".$date_today."', cancel_status,'".$mem_phone."','".$row[mem_id]."')";
+	    mysql_query($asql);
 	    
-	    $sql_num_up="update Gn_MMS_Number set end_status='Y' , end_date=date_add(now(),INTERVAL 6 MONTH) where mem_id='{$row['mem_id']}' ";
-	    mysqli_query($self_con, $sql_num_up);	    
+	    $sql_num_up="update Gn_MMS_Number set end_status='Y' , end_date=date_add(now(),INTERVAL 6 MONTH) where mem_id='$row[mem_id]' ";
+	    mysql_query($sql_num_up);	    
 	}
     // 앱비밀번호가 있을경우
     if($passwd) {
@@ -57,15 +57,15 @@ if($_POST['mem_code']) {
     if($web_passwd) {
         $addSql .= " ,web_pwd=password('$web_passwd')";
         $web_pwd = md5($web_passwd);
-        $dber_sql="update crawler_member_real set `password` = '$web_pwd' where user_id='{$row['mem_id']}'";
-        mysqli_query($self_con, $dber_sql);
+        $dber_sql="update crawler_member_real set `password` = '$web_pwd' where user_id='$row[mem_id]'";
+        mysql_query($dber_sql);
     }
     // 스마트폰 번호가 있을경우
     if($row['mem_phone'] != $mem_phone) {
         $addSql .= " ,mem_phone='$mem_phone'";
         $changePhone = true;
-        $sql="update tjd_pay_result set fujia_status='Y' where buyer_id='{$row['mem_id']}'";
-        mysqli_query($self_con, $sql);	        
+        $sql="update tjd_pay_result set fujia_status='Y' where buyer_id='$row[mem_id]'";
+        mysql_query($sql);	        
     }
     if($row['mem_phone1'] != $mem_phone1) {
         $addSql .= " ,mem_phone1='$mem_phone1'";        
@@ -89,7 +89,7 @@ if($_POST['mem_code']) {
         $p_cnt = $data1[1];
 
         $sql_update = "update tjd_pay_result set max_cnt={$limit}, add_phone={$p_cnt} where buyer_id='{$row['mem_id']}' order by no desc limit 1";
-        mysqli_query($self_con, $sql_update);
+        mysql_query($sql_update);
     }
 
     if(isset($_POST['vote_member'])){
@@ -119,11 +119,11 @@ if($_POST['mem_code']) {
                                        video_upload = '$video_upload'
                                        $addSql
                                  where mem_code='$mem_code'";
-        mysqli_query($self_con, $sql);
+        mysql_query($sql);
     }
     else{
         $sql="update Gn_Member set mem_code='$mem_code' $addSql where mem_code='$mem_code'";
-        mysqli_query($self_con, $sql);    
+        mysql_query($sql);    
     }
     // 스마트폰 변경시 변경되어야 하는 테이블
     if($changePhone === true) {
@@ -132,47 +132,47 @@ if($_POST['mem_code']) {
 if($_POST['mem_code'] && $_POST['sendnum']) {
     // 기부회원 정보 수정 [기부비율]
     if($donation_rate) {
-        $sql_num="update Gn_MMS_Number set donation_rate='$donation_rate' where mem_id='{$row['mem_id']}' and sendnum='$sendnum' ";
-        mysqli_query($self_con, $sql_num);
+        $sql_num="update Gn_MMS_Number set donation_rate='$donation_rate' where mem_id='$row[mem_id]' and sendnum='$sendnum' ";
+        mysql_query($sql_num);
     }
 }
 if($_POST['update_memo']){
     $sql_update = "update Gn_Member set mem_memo='{$memo}' where mem_id='{$mem_id}'";
-    $result = mysqli_query($self_con, $sql_update);
+    $result = mysql_query($sql_update);
 }
 if($_POST['video_upload']){
     $sql_update = "update Gn_Member set video_upload='{$status}' where mem_code='{$index}'";
-    $result = mysqli_query($self_con, $sql_update);
+    $result = mysql_query($sql_update);
 }
-echo json_encode(array("result"=>$result));
+echo "{\"result\":\"$result\"}";
 function setPosition($user_id, $position)
 {
     $sql3="select sub_domain FROM Gn_Service WHERE sub_domain like '%kiam.kr' And mem_id='$user_id'";
-    $res=mysqli_query($self_con, $sql3);
-    $row1 = mysqli_fetch_array($res);
+    $res=mysql_query($sql3);
+    $row1 = mysql_fetch_array($res);
     if($row1['sub_domain'])
         return;
 
     $strQuery = "select mem_id from Gn_Member WHERE recommend_id='$user_id'";
-    $res=mysqli_query($self_con, $strQuery);
+    $res=mysql_query($strQuery);
     $bOnce = false;
-    while($arrResult = mysqli_fetch_array($res))
+    while($arrResult = mysql_fetch_array($res))
     {
         if(!$bOnce)
         {
             $strQuery1 = "update Gn_Member set site='$position' where recommend_id='$user_id'";
-            mysqli_query($self_con, $strQuery1);
+            mysql_query($strQuery1);
             $bOnce = true;
         }
-        setPosition($arrResult['mem_id'], $position);
+        setPosition($arrResult[mem_id], $position);
     }
 }
 
 function getPosition($recommender)
 {
     $sql3="select sub_domain FROM Gn_Service WHERE sub_domain like '%kiam.kr' And mem_id='$recommender'";
-    $res=mysqli_query($self_con, $sql3);
-    $row1 = mysqli_fetch_array($res);
+    $res=mysql_query($sql3);
+    $row1 = mysql_fetch_array($res);
     if($row1['sub_domain'])
     {
         $parse = parse_url($row1['sub_domain']);
@@ -182,8 +182,8 @@ function getPosition($recommender)
     else
     {
         $sql3 = "select site from Gn_Member WHERE mem_id='$recommender'";
-        $res=mysqli_query($self_con, $sql3);
-        $row1 = mysqli_fetch_array($res);        
+        $res=mysql_query($sql3);
+        $row1 = mysql_fetch_array($res);        
         $site = $row1['site'];
     }
     return $site;

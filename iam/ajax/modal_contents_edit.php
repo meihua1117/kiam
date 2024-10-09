@@ -13,11 +13,11 @@ if($cur_win=="my_info" && $short_url){
     $cont_order_sql = "select idx,contents_img from Gn_Iam_Contents WHERE westory_card_url = '$short_url' ORDER BY contents_order desc";
 }else if($cur_win == "group-con" && $group_card_url){
     //$cont_order_sql = "select idx,contents_img from Gn_Iam_Contents WHERE card_short_url like '%$group_card_url%' ORDER BY contents_order desc";    
-    $cont_order_sql = "select idx,contents_img from Gn_Iam_Contents WHERE westory_card_url = '$group_card_url' ORDER BY contents_order desc";    
+    $cont_order_sql = "select idx,contents_img from Gn_Iam_Contents WHERE westory_card_url = '$group_card_url' ORDER BY contents_order desc";
 }
 if($cont_order_sql){
-    $cont_order_res = mysqli_query($self_con, $cont_order_sql);
-    while($cont_order_row = mysqli_fetch_array($cont_order_res)){
+    $cont_order_res = mysql_query($cont_order_sql);
+    while($cont_order_row = mysql_fetch_array($cont_order_res)){
         $cont_images = explode(",",$cont_order_row['contents_img']);
         $cont_img = $cont_images[0];
 

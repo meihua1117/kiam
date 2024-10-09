@@ -109,11 +109,11 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <input type="date" style="height: 30px" name="sdate" placeholder="" id="search_start_date" value="<?=$_REQUEST['sdate']?>" multiple/> ~
-                                    <input type="date" style="height: 30px" name="edate" placeholder="" id="search_end_date" value="<?=$_REQUEST['edate']?>"/>
+                                    <input type="date" style="height: 30px" name="sdate" placeholder="" id="search_start_date" value="<?=$_REQUEST[sdate]?>" multiple/> ~
+                                    <input type="date" style="height: 30px" name="edate" placeholder="" id="search_end_date" value="<?=$_REQUEST[edate]?>"/>
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" name="search_key" id="search_key" class="form-control input-sm pull-right"  placeholder="검색키워드" value="<?=$search_key?>">
+                                    <input type="text" name="search_key" id="search_key" class="form-control input-sm pull-right" style="" placeholder="검색키워드" value="<?=$search_key?>">
                                 </div>
                                 <div class="input-group-btn">
                                     <button class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>
@@ -183,8 +183,8 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                                 }
 
                                 $query = "SELECT count(r.id) FROM gn_report_form r inner join Gn_Member m on m.mem_id = r.user_id WHERE $searchStr";
-                                $res    = mysqli_query($self_con, $query);
-                                $totalRow	=  mysqli_fetch_array($res);
+                                $res    = mysql_query($query);
+                                $totalRow	=  mysql_fetch_array($res);
                                 $totalCnt = $totalRow[0];
                                 //$query = "SELECT r.*,m.mem_name,m.site_iam FROM gn_report_form r inner join Gn_Member m on m.mem_id = r.user_id WHERE $searchStr ";
                                 $query = "SELECT r.* FROM gn_report_form r use index(user_id) WHERE $searchStr ";
@@ -193,11 +193,11 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                                 $orderQuery .= "ORDER BY r.id desc $limitStr";
                                 $i = 1;
                                 $query .= "$orderQuery";
-                                $res = mysqli_query($self_con, $query);
-                                while($row = mysqli_fetch_array($res)) {
+                                $res = mysql_query($query);
+                                while($row = mysql_fetch_array($res)) {
                                     $mem_sql = "SELECT mem_name,site_iam FROM Gn_Member use index(mem_id) where mem_id='$row[user_id]'";
-                                    $mem_res = mysqli_query($self_con, $mem_sql);
-                                    $mem_row = mysqli_fetch_array($mem_res);
+                                    $mem_res = mysql_query($mem_sql);
+                                    $mem_row = mysql_fetch_array($mem_res);
                             ?>
                                 <tr>
                                     <td><input type="checkbox" class="check" id="check_one" name="" value="<?=$row['id']?>"></td>
@@ -207,16 +207,16 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                                     <td style="font-size:12px;"><?=$mem_row['site_iam']?></td>
                                     <td style="font-size:12px;">
                                         <a href="javascript:show_more('<?='title'.$i?>')"><?=cut_str($row['title'], 10)?></a>
-                                        <input type="hidden" id=<?='title'.$i?> value="<?=htmlspecialchars($row['title'])?>">
+                                        <input type="hidden" id=<?='title'.$i?> value="<?=htmlspecialchars($row[title])?>">
                                     </td>
                                     <td style="font-size:12px;">
                                         <a href="javascript:show_more('<?='desc'.$i?>')"><?=cut_str($row['descript'], 10)?></a>
-                                        <input type="hidden" id=<?='desc'.$i?> value="<?=htmlspecialchars($row['descript'])?>">
+                                        <input type="hidden" id=<?='desc'.$i?> value="<?=htmlspecialchars($row[descript])?>">
                                     </td>
                                     <?
-                                    $sql1 = "select count(idx) from gn_report_table where repo_id='{$row['id']}'";
-                                    $res1 = mysqli_query($self_con, $sql1);
-                                    $row1 = mysqli_fetch_array($res1);
+                                    $sql1 = "select count(idx) from gn_report_table where repo_id=$row[id]";
+                                    $res1 = mysql_query($sql1);
+                                    $row1 = mysql_fetch_array($res1);
                                     $count = $row1[0];
                                     if($count == null)
                                         $count = 0;
@@ -224,7 +224,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                                     <td style="font-size:12px;"><?=$row['visit']?>/<?=$count?></td>
                                     <td class="iam_table">
                                         <?
-                                            $link_pre = "/iam/report_preview.php?repo={$row['id']}";
+                                            $link_pre = "/iam/report_preview.php?repo=$row[id]";
                                             $link = $row['short_url'];
                                         ?>
                                         <input type="button" value="미리보기" class="button" onclick="viewEvent('<?=$link_pre?>')">

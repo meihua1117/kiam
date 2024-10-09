@@ -3,33 +3,33 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
 include_once $_SERVER['DOCUMENT_ROOT']."/admin/include/admin_header.inc.php";
 extract($_GET);
 					
-$sql="select * from Gn_MMS where idx={$_GET['idx']}";
-$result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-$krow=mysqli_fetch_array($result);
+$sql="select * from Gn_MMS where idx='$_GET[idx]'";
+$result = mysql_query($sql) or die(mysql_error());
+$krow=mysql_fetch_array($result);
 $date = $krow['up_date'];
 
-$recv_num = explode(",", $krow['recv_num']);
+$recv_num = explode(",", $krow[recv_num]);
 $recv_num_in = "'".implode("','", $recv_num)."'";
 
 $sql_serch.=" and  send_num='$send_num' and recv_num in ($recv_num_in) and recv_num like '01%'  and regdate >= '$date' and sms not like '[%'";
-if($_REQUEST['status2'])
-$sql_serch.=" and msg_flag='{$_REQUEST['status2']}' ";							
-if($_REQUEST['serch_colum'] && $_REQUEST['serch_text'])
+if($_REQUEST[status2])
+$sql_serch.=" and msg_flag='$_REQUEST[status2]' ";							
+if($_REQUEST[serch_colum] && $_REQUEST[serch_text])
 {
     $sql_serch.=" and $_REQUEST[serch_colum] like '%$_REQUEST[serch_text]%' ";	
 }
 $sql="select count(seq) as cnt from call_app_log where api_name='receive_sms' and LENGTH(recv_num) >= 10 $sql_serch ";
-$result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-$row=mysqli_fetch_array($result);
-$intRowCount=$row['cnt'];
-if (!$_POST['lno']) 
+$result = mysql_query($sql) or die(mysql_error());
+$row=mysql_fetch_array($result);
+$intRowCount=$row[cnt];
+if (!$_POST[lno]) 
     $intPageSize =20;
 else 
-    $intPageSize = $_POST['lno'];				
+    $intPageSize = $_POST[lno];				
     
-if($_POST['page'])
+if($_POST[page])
 {
-    $page=(int)$_POST['page'];
+    $page=(int)$_POST[page];
     $sort_no=$intRowCount-($intPageSize*$page-$intPageSize); 
 }
 else
@@ -37,18 +37,18 @@ else
     $page=1;
     $sort_no=$intRowCount;
 }
-if($_POST['page2'])
-    $page2=(int)$_POST['page2'];
+if($_POST[page2])
+    $page2=(int)$_POST[page2];
 else
     $page2=1;
     
 $int=($page-1)*$intPageSize;
-if($_REQUEST['order_status'])
-    $order_status=$_REQUEST['order_status'];
+if($_REQUEST[order_status])
+    $order_status=$_REQUEST[order_status];
 else
     $order_status="desc"; 
-if($_REQUEST['order_name'])
-    $order_name=$_REQUEST['order_name'];
+if($_REQUEST[order_name])
+    $order_name=$_REQUEST[order_name];
 else
     $order_name="seq";
     
@@ -83,7 +83,9 @@ $(function(){
 
 //폰정보 수정
 function modify_phone_info(){
+
 	var phno = $("#pno").val();
+
 	if(!phno){
 		alert('폰 정보가 없습니다.');
 		return false;
@@ -109,8 +111,11 @@ function modify_phone_info(){
 
 //계정 삭제
 function del_member_info(mem_code){
+
 	var msg = confirm('정말로 삭제하시겠습니까?');
+
 	if(msg){
+
 			$.ajax({
 				type:"POST",
 				url:"/admin/ajax/user_leave.php",
@@ -123,6 +128,7 @@ function del_member_info(mem_code){
 				  alert('삭제 실패');
 				}
 			});		
+
 	}else{
 		return false;
 	}
@@ -133,6 +139,7 @@ function excel_down_(){
 	$("#excel_down_form").submit();
 	return false;
 }
+
 
 function goPage(pgNum) {
     location.href = '?<?=$nowPage?>&nowPage='+pgNum+"&search_key=<?php echo $_GET['search_key'];?>";
@@ -284,31 +291,31 @@ function excel_down_p_group(pno,one_member_id){
                     $sql="select * from call_app_log where api_name='receive_sms' and LENGTH(recv_num) >= 10 $sql_serch order by $order_name $order_status ";
                     $excel_sql="select *   from call_app_log where api_name='receive_sms' and LENGTH(recv_num) >= 10 $sql_serch order by $order_name $order_status";
                     $excel_sql=str_replace("'","`",$excel_sql);
-                    $result=mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
+                    $result=mysql_query($sql) or die(mysql_error());
                     $c=0;
-                    $totalCnt = mysqli_num_rows($result);
-                    while($row = mysqli_fetch_array($result)) {                       	
-    					$sql_n="select memo from Gn_MMS_Number where sendnum='{$row['send_num']}' ";
-						$resul_n=mysqli_query($self_con, $sql_n);
-						$row_n=mysqli_fetch_array($resul_n);										
-						//$recv_num = split(",",$row['recv_num']);
+                    $totalCnt = mysql_num_rows($result);
+                    while($row = mysql_fetch_array($result)) {                       	
+    					$sql_n="select memo from Gn_MMS_Number where sendnum='$row[send_num]' ";
+						$resul_n=mysql_query($sql_n);
+						$row_n=mysql_fetch_array($resul_n);										
+						//$recv_num = split(",",$row[recv_num]);
 						$recv_num= $row['recv_num'];
 						
 						//회신자명
-						$sql_n="select name from Gn_MMS_Receive where mem_id='{$_SESSION['one_member_id']}' and recv_num='{$row['recv_num']}' ";
-						$resul_s=mysqli_query($self_con, $sql_n);
-						$row_s=mysqli_fetch_array($resul_s);		 
+						$sql_n="select name from Gn_MMS_Receive where mem_id='$_SESSION[one_member_id]' and recv_num='$row[recv_num]' ";
+						$resul_s=mysql_query($sql_n);
+						$row_s=mysql_fetch_array($resul_s);		 
                   ?>
                       <tr>
                         <td><?=$totalCnt--?></td>
-                        <td><?=$row['send_num']?></td>
-                        <td><?=$row_n['memo']?></td>
-                       	<td style="font-size:12px;"><?=substr($krow['up_date'],0,16)?></td>
-                        <td><a href="javascript:void(0)" onclick="show_recv('show_content','<?=$c?>','문자내용')"><?=str_substr($krow['content'],0,30,'utf-8')?></a><input type="hidden" name="show_content" value="<?=$krow['content']?>"/></td>
+                        <td><?=$row[send_num]?></td>
+                        <td><?=$row_n[memo]?></td>
+                       	<td style="font-size:12px;"><?=substr($krow[up_date],0,16)?></td>
+                        <td><a href="javascript:void(0)" onclick="show_recv('show_content','<?=$c?>','문자내용')"><?=str_substr($krow[content],0,30,'utf-8')?></a><input type="hidden" name="show_content" value="<?=$krow[content]?>"/></td>
                         <td><?=$recv_num?></td>
-                        <td><?=$row_s['name']?></td>
-                        <td style="font-size:12px;"><?=substr($row['regdate'],0,16)?></td>
-                        <td><?=$row['sms']?></td>
+                        <td><?=$row_s[name]?></td>
+                        <td style="font-size:12px;"><?=substr($row[regdate],0,16)?></td>
+                        <td><?=$row[sms]?></td>
                       </tr>
                     <?
                     $i++;
@@ -342,8 +349,14 @@ function excel_down_p_group(pno,one_member_id){
                 </div>
             </div>
           </div><!-- /.row -->
+          
+          
+
+        
+          
+          
         </section><!-- /.content -->
-      </div><!-- /content-wrapper -->
+      </div><!-- /.content-wrapper -->
 <div id='ajax_div'></div>
 <div class="loading_div"><img src="/images/ajax-loader.gif"></div>
 <div id='open_recv_div' class="open_1">
@@ -352,8 +365,10 @@ function excel_down_p_group(pno,one_member_id){
     	<li class="open_2_2"><a href="javascript:void(0)" onClick="close_div(open_recv_div)"><img src="/images/div_pop_01.jpg" /></a></li>         
     </div>
     <div class="open_recv open_3" style="width:300px;overflow:auto;word-break:break-all;">
+		
     </div>
 </div>
+
     <form id="excel_down_form" name="excel_down_form"  target="excel_iframe" method="post">
         <input type="hidden" name="grp_id" value="" />
         <input type="hidden" name="box_text" value="" />        

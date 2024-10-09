@@ -213,8 +213,8 @@ $(function() {
                   $startPage = $nowPage?$nowPage:1;
                   $pageCnt = 20;
                   $count_query = "select count(idx) from Gn_Iam_Contents";
-                  $count_result = mysqli_query($self_con, $count_query);
-                  $count_row = mysqli_fetch_array($count_result);
+                  $count_result = mysql_query($count_query);
+                  $count_row = mysql_fetch_array($count_result);
                     $totalCnt	=  $count_row[0];
                 // 검색 조건을 적용한다.
                   // $searchStr .= $search_name ? " AND (card_name like '%".$search_name."%' )" : null;
@@ -245,69 +245,69 @@ $(function() {
                   $i = 1;
                   $c=0;
                   $query .= $orderQuery;
-                  $res = mysqli_query($self_con, $query);
-                  while($row = mysqli_fetch_array($res)) {
-                    $mem_sql = "select site, site_iam from Gn_Member where mem_id='{$row['mem_id']}'";
-                    $mem_res = mysqli_query($self_con, $mem_sql);
-                    $mem_row = mysqli_fetch_array($mem_res);
-                    if(strpos($row['contents_img'], ",") !== false){
-                      $img_link_arr = explode(",", $row['contents_img']);
+                  $res = mysql_query($query);
+                  while($row = mysql_fetch_array($res)) {
+                    $mem_sql = "select site, site_iam from Gn_Member where mem_id='$row[mem_id]'";
+                    $mem_res = mysql_query($mem_sql);
+                    $mem_row = mysql_fetch_array($mem_res);
+                    if(strpos($row[contents_img], ",") !== false){
+                      $img_link_arr = explode(",", $row[contents_img]);
                       $img_link = trim($img_link_arr[0]);
                     }
                     else{
-                      $img_link = $row['contents_img'];
+                      $img_link = $row[contents_img];
                     }
                     $card_sql = "select card_name from Gn_Iam_Name_Card where idx='$row[card_idx]'";
-                    $res_card = mysqli_query($self_con, $card_sql);
-                    $row_card = mysqli_fetch_array($res_card);
+                    $res_card = mysql_query($card_sql);
+                    $row_card = mysql_fetch_array($res_card);
 
                     if(!$search_group){
-                      $sql_group = "select name as group_name from gn_group_info where idx='{$row['group_id']}'";
-                      $res_group = mysqli_query($self_con, $sql_group);
-                      $row_group = mysqli_fetch_array($res_group);
-                      $g_name = $row_group['group_name'];
+                      $sql_group = "select name as group_name from gn_group_info where idx='{$row[group_id]}'";
+                      $res_group = mysql_query($sql_group);
+                      $row_group = mysql_fetch_array($res_group);
+                      $g_name = $row_group[group_name];
                     }
                     else{
-                      $g_name = $row['group_name'];
+                      $g_name = $row[group_name];
                     }
                   ?>
                       <tr>
                         <td><?=$number--?></td>
-                        <td><?=$row['idx']?></td>
+                        <td><?=$row[idx]?></td>
                         <td>
                             <div style="overflow-x:hidden;width:100px;">
-                              <?=$mem_row[0]?>/<br><?=$mem_row[1]?>/<br><?=$row['mem_id']?>
+                              <?=$mem_row[0]?>/<br><?=$mem_row[1]?>/<br><?=$row[mem_id]?>
                             </div>
                         </td>
-                        <td><a href="/iam/contents.php?contents_idx=<?=$row['idx']?>" target="_blank"><?=$row_card['card_name']?></a></td>
+                        <td><a href="/iam/contents.php?contents_idx=<?=$row[idx]?>" target="_blank"><?=$row_card[card_name]?></a></td>
                         <td><?=$g_name?></td>
-                        <td><?=$row['contents_type']?></td>
+                        <td><?=$row[contents_type]?></td>
                         <td>
-                          <a href="<?=$row['contents_url']?>" target="_blank">
+                          <a href="<?=$row[contents_url]?>" target="_blank">
                             <img class="zoom" src="<?=cross_image($img_link)?>" style="width:50px;"> 
                             </a>
                         </td>
-                        <td><?=$row['contents_title']?></td>
+                        <td><?=$row[contents_title]?></td>
                         <!-- <td>
                             <div style="overflow-x:hidden;width:100px;">
-                            <a href="<?=$row['contents_url']?>" target="_blank"><?=$row['contents_url']?></a> 
+                            <a href="<?=$row[contents_url]?>" target="_blank"><?=$row[contents_url]?></a> 
                             </div>
                         </td> -->
-                        <!-- <td><a href="/iam/contents.php?contents_idx=<?=$row['idx']?>" target="_blank"> <?=$row['card_short_url']?></a></td> -->
-                        <td><?=$row['contents_sell_price']?></td>
-                        <td><?=$row['contents_temp']?></td>
-                        <td><?=$row['contents_temp1']?></td>
-                        <td><?=$row['contents_like']?></td>
-                        <td><?=$row['contents_share_text']?></td>
-                        <td><?=$row['contents_share_count']?></td>
-                        <td><?=$row['up_data']?></td>
+                        <!-- <td><a href="/iam/contents.php?contents_idx=<?=$row[idx]?>" target="_blank"> <?=$row[card_short_url]?></a></td> -->
+                        <td><?=$row[contents_sell_price]?></td>
+                        <td><?=$row[contents_temp]?></td>
+                        <td><?=$row[contents_temp1]?></td>
+                        <td><?=$row[contents_like]?></td>
+                        <td><?=$row[contents_share_text]?></td>
+                        <td><?=$row[contents_share_count]?></td>
+                        <td><?=$row[up_data]?></td>
                         <td style="font-size:12px;">
                             <label class="switch">
                                 <input type="checkbox" class="chkclick" name="cardclick" id="card_click_<?=$row['idx'];?>" <?php echo $row['sample_display']=="Y"?"checked":"";?> >
                                 <span class="slider round" name="status_round" id="card_click_<?=$row['idx'];?>"></span>
                             </label>
                         </td>
-                        <td><input type = "number" class = "number" value='<?=$row['sample_order']?>' style="width: 50px;text-align: right" data-no="<?=$row['idx']?>"></td>
+                        <td><input type = "number" class = "number" value='<?=$row[sample_order]?>' style="width: 50px;text-align: right" data-no="<?=$row['idx']?>"></td>
                         <td><a href="javascript:delContent('<?=$row['idx']?>')">삭제</a></td>
                       </tr>
                   <?

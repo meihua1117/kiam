@@ -4,18 +4,19 @@ include_once $_SERVER['DOCUMENT_ROOT']."/admin/include/admin_header.inc.php";
 extract($_GET);
 // 오늘날짜
 $date_today=date("Y-m-d");
+$date_month=date("Y-m");
 
 $sql = "SELECT id, round_num, state_flag, iam_count FROM crawler_gm_seller_info_ad ORDER BY id DESC LIMIT 1";
-$result = mysqli_query($self_con, $sql);
-while($res = mysqli_fetch_array($result)){
+$result = mysql_query($sql);
+while($res = mysql_fetch_array($result)){
     $id = $res['id'];
 }
 $round_num = (int)$id + 1;
 
 $state = null;
 $sql_state = "SELECT round_num, state_flag, market_count FROM crawler_gm_status_info_ad ORDER BY id DESC LIMIT 1";
-$result_state = mysqli_query($self_con, $sql_state);
-while($res = mysqli_fetch_array($result_state)){
+$result_state = mysql_query($sql_state);
+while($res = mysql_fetch_array($result_state)){
     $round = $res['round_num'];
     $state = $res['state_flag'];
     $iam_count = $res['market_count'];
@@ -28,8 +29,8 @@ while($res = mysqli_fetch_array($result_state)){
     $( document ).ready( function() {
         <?php
         $sql_member = "SELECT a.mem_id FROM Gn_Member a INNER JOIN crawler_gm_seller_info_ad b on SUBSTRING_INDEX(a.mem_id, '_', -1)=b.store_id WHERE b.round_num={$round}";
-        $result_member = mysqli_query($self_con, $sql_member);
-        if((mysqli_num_rows($result_member) == 0) && ($state == 0) && ($state != null)){
+        $result_member = mysql_query($sql_member);
+        if((mysql_num_rows($result_member) == 0) && ($state == 0) && ($state != null)){
         ?>
         $.ajax({
             type: "POST",
@@ -80,13 +81,13 @@ while($res = mysqli_fetch_array($result_state)){
                 send_mtime:0,
                 send_type:1,
                 send_agree_msg:'N',
-                send_go_num:['sendnum'],
+                send_go_num:[sendnum],
                 send_save_mms:0,
                 send_ssh_check : 0,
                 send_deny_wushi_0:'ok',
                 send_deny_wushi_1:'ok',
                 send_deny_wushi_2:'ok',
-                send_go_user_cnt:['user_cnt'],
+                send_go_user_cnt:[user_cnt],
                 send_go_max_cnt:[go_max_cnt],
                 send_go_memo2:[go_memo2],
                 send_go_cnt1:[go_cnt1],
@@ -356,17 +357,17 @@ while($res = mysqli_fetch_array($result_state)){
                             // $query = "select * from crawler_gm_seller_info";
                             $query = "select a.*, b.card_short_url, b.mem_id from crawler_gm_seller_info_ad a inner join Gn_Iam_Name_Card b on a.store_id=SUBSTRING_INDEX(b.mem_id, '_', -1) where a.round_num={$round}";
                             // echo $query; exit;
-                            $res = mysqli_query($self_con, $query);
-                            $totalCnt = mysqli_num_rows($res);
+                            $res = mysql_query($query);
+                            $totalCnt = mysql_num_rows($res);
 
                             $query1 = $query.$limitStr;
-                            $res1 = mysqli_query($self_con, $query1);
+                            $res1 = mysql_query($query1);
                             $no = 0;
-                            while($row=mysqli_fetch_array($res1))
+                            while($row=mysql_fetch_array($res1))
                             {
                                 $mem_sql = "select mem_code from Gn_Member where mem_id='{$row['mem_id']}'";
-                                $res_mem = mysqli_query($self_con, $mem_sql);
-                                $row_mem = mysqli_fetch_array($res_mem);
+                                $res_mem = mysql_query($mem_sql);
+                                $row_mem = mysql_fetch_array($res_mem);
                                 $no++;
                             ?>
                                 <tr>
@@ -403,7 +404,7 @@ while($res = mysqli_fetch_array($result_state)){
                 </div>
             </div><!-- /.row -->
         </section><!-- /.content -->
-    </div><!-- /content-wrapper -->
+    </div><!-- /.content-wrapper -->
 
 <form id="excel_down_form" name="excel_down_form"  target="excel_iframe" method="post">
     <input type="hidden" name="grp_id" value="" />

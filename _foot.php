@@ -66,8 +66,15 @@ if($site){
                         <a href="/sub_14.php">이용정책(필독)</a> |
                         <a href="/cliente_list.php?status=1" target="_blank">공지사항</a>
 		            <?}
-		            if(!$_SESSION['one_member_id']){ ?>
-                        <a href="join.php">회원가입</a>
+		            if(!$_SESSION['one_member_id']){ 
+		        	if ($HTTP_HOST != "kiam.kr") {
+		                    $join_link = get_join_link("http://" . $HTTP_HOST, "","");
+		                } else {
+		                    $join_link = get_join_link("http://www.kiam.kr", "","");
+		                }
+		                //$join_link = "join.php";?>
+                        <!--a href="join.php">회원가입</a-->
+                        <a href="<?=$join_link?>">회원가입</a>
                         <a href="id_pw.php">아이디/비밀번호찾기</a>
                     </div>
                     <iframe name="login_iframe" style="display:none;"></iframe>

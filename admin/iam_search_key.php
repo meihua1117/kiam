@@ -113,25 +113,25 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                             </colgroup>
                             <?
                             $sql = "select SQL_CALC_FOUND_ROWS * from Gn_Search_Key order by no";
-                            $result = mysqli_query($self_con, $sql);
-                            while($key_row=mysqli_fetch_array($result)){?>
+                            $result = mysql_query($sql);
+                            while($key_row=mysql_fetch_array($result)){?>
                                 <tr>
                                     <th>
-                                        <input type="text" name="key_type" id="<?='key_type'.$key_row['no']?>" value="<?=$key_row['key_type']?>" style="width: 100%">
+                                        <input type="text" name="key_type" id="<?='key_type'.$key_row[no]?>" value="<?=$key_row[key_type]?>" style="width: 100%">
                                     </th>
                                     <td>
-                                    <?if($key_row['key_id'] == 'daily_msg_contents' || $key_row['key_id'] == 'gwc_req_alarm' || $key_row['key_id'] == 'gpt_answer_example' || $key_row['key_id'] == 'gpt_question_example'){?>
-                                        <textarea name="key_content" id="<?='key_content'.$key_row['no']?>" style="width:100%;height:100px;"><?=htmlspecialchars_decode($key_row['key_content'])?></textarea>
+                                    <?if(strlen($key_row[key_content]) > 200){?>
+                                        <textarea name="key_content" id="<?='key_content'.$key_row[no]?>" style="width:100%;height:100px;"><?=htmlspecialchars_decode($key_row[key_content])?></textarea>
                                     <?}
                                     else{?>
-                                        <input type="text" name="key_content" id="<?='key_content'.$key_row['no']?>" value="<?=$key_row['key_content']?>" style="width: 100%">
+                                        <input type="text" name="key_content" id="<?='key_content'.$key_row[no]?>" value="<?=$key_row[key_content]?>" style="width: 100%">
                                     <?}?>
                                     </td>
                                     <td>
-                                        <input type="text" name="key_content" id="<?='key_id'.$key_row['no']?>" value="<?=$key_row['key_id']?>" style="width: 100%">
+                                        <input type="text" name="key_content" id="<?='key_id'.$key_row[no]?>" value="<?=$key_row[key_id]?>" style="width: 100%">
                                     </td>
                                     <th>
-                                        <input type="button" onclick="save_key('<?=$key_row['no']?>')" name="key_save" id="<?='key_save'.$key_row['no']?>" value="저장" style="width: 100%">
+                                        <input type="button" onclick="save_key('<?=$key_row[no]?>')" name="key_save" id="<?='key_save'.$key_row[no]?>" value="저장" style="width: 100%">
                                     </th>
                                 </tr>
                             <?}?>

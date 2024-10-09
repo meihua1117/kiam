@@ -38,7 +38,7 @@
                 <!-- User Account: style can be found in dropdown.less -->
                 <li class="dropdown user user-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <?=$member_1['mem_nick']?>님 환영합니다.
+                        <?=$member_1[mem_nick]?>님 환영합니다.
                     </a>
                 </li>
                 <!-- Control Sidebar Toggle Button -->

@@ -30,13 +30,7 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
 							</a>
 							<?}?>
 							<h1 class="logo">
-								<?
-								$query = "select * from Gn_Ad_Manager where ad_position='L' and use_yn='Y' order by display_order desc limit 1";
-								$res = mysqli_query($self_con, $query);
-								while($data = mysqli_fetch_array($res)) {
-								?>
-								<a href="<?=$data['move_url']?>"><img src="<?=$data['img_url'];?>" alt="<?=$data['title'];?>"></a>
-								<?}?>
+								<a href="/m/"><img src="/iam/img/common/logo-2.png" alt="온리원셀링 로고 이미지"></a>
 							</h1>
 						</div>
 					</div>

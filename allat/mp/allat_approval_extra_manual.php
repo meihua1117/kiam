@@ -1,12 +1,6 @@
 <?php
 $path = "../../";
 include_once "../../_head.php";
-/*$sess_path=$_SERVER['DOCUMENT_ROOT']."/_session";
-ini_set("session.cache_expire", 60);  
-ini_set("session.gc_maxlifetime", 86400);
-@session_save_path($sess_path);
-@session_start();
-include_once "../../lib/db_config.php";*/
   // 올앳관련 함수 Include
   //----------------------
   include "./allatutil.php";
@@ -20,8 +14,8 @@ include_once "../../lib/db_config.php";*/
     if($ORDER_NO_MONTH == "") exit;
     $ORDER_NO = substr($ORDER_NO_MONTH,0,16);
     $sql="select * from tjd_pay_result where orderNumber='$ORDER_NO' ";
-    $resul=mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-    $row=mysqli_fetch_array($resul);	
+    $resul=mysql_query($sql) or die(mysql_error());
+    $row=mysql_fetch_array($resul);	
     if($row[0] == "") exit;
     $mem_id=$row['buyer_id'];
     if(strlen($ORDER_NO_MONTH) == 16)
@@ -30,9 +24,9 @@ include_once "../../lib/db_config.php";*/
         $order_no = $ORDER_NO_MONTH;
     // 필수 항목
     $at_cross_key      = "304f3a821cac298ff8a0ef504e1c2309";   //CrossKey값(최대200자)
-    $at_fix_key        = $row['billkey'];   //카드키(최대 24자)
+    $at_fix_key        = $row[billkey];   //카드키(최대 24자)
     $at_sell_mm        = "00";   //할부개월값(최대  2자)
-    $at_amt            = $row['TotPrice'];   //금액(최대 10자)
+    $at_amt            = $row[TotPrice];   //금액(최대 10자)
     $at_business_type  = "0";   //결제자 카드종류(최대 1자)       : 개인(0),법인(1)
     $at_registry_no    = "";   //주민번호(최대 13자리)           : szBusinessType=0 일경우
     $at_biz_no         = "";   //사업자번호(최대 20자리)         : szBusinessType=1 일경우
@@ -95,7 +89,7 @@ include_once "../../lib/db_config.php";*/
     $REPLYCD   =getValue("reply_cd",$at_txt);        //결과코드
     $REPLYMSG  =getValue("reply_msg",$at_txt);       //결과 메세지
     $sql="delete from tjd_pay_result_month where order_number='$ORDER_NO_MONTH' ";
-    mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
+    mysql_query($sql) or die(mysql_error());
     if( !strcmp($REPLYCD,"0000") ){
         // reply_cd "0000" 일때만 성공
         $ORDER_NO         =getValue("order_no",$at_txt);
@@ -110,29 +104,29 @@ include_once "../../lib/db_config.php";*/
         $ZEROFEE_YN       =getValue("zerofee_yn",$at_txt);
         $CERT_YN          =getValue("cert_yn",$at_txt);
         $CONTRACT_YN      =getValue("contract_yn",$at_txt);
-        $sql = "insert into tjd_pay_result_month set pay_idx={$row['idx']},
+        $sql = "insert into tjd_pay_result_month set pay_idx='$row[idx]',
                                                      order_number='$order_no',
                                                      regdate = NOW(),
                                                      pay_yn='Y',
                                                      msg='성공_mp_extra_manual',
-                                                     amount='{$row['TotPrice']}',
+                                                     amount='$row[TotPrice]',
                                                      buyer_id='$mem_id'";
-        mysqli_query($self_con, $sql)or die(mysqli_error($self_con));
+        mysql_query($sql)or die(mysql_error());
         
         $sql = "update tjd_pay_result set monthly_yn='Y', end_status='Y' where  orderNumber='$ORDER_NO'";
-        $resul=mysqli_query($self_con, $sql)or die(mysqli_error($self_con));
+        $resul=mysql_query($sql)or die(mysql_error());
         
         $sql="select * from Gn_Member where mem_id='$mem_id' ";
-        $sresult=mysqli_query($self_con, $sql)or die(mysqli_error($self_con));
-        $srow=mysqli_fetch_array($sresult);	
+        $sresult=mysql_query($sql)or die(mysql_error());
+        $srow=mysql_fetch_array($sresult);	
         
-        //$sql_num_up="update Gn_MMS_Number set end_status='Y' , end_date=date_add(now(),INTERVAL {$ro['month_cnt']} month) where end_date = '$_POST[pay_ex_end_date]' and mem_id='{$member_1['mem_id']}' ";
-        //mysqli_query($self_con, $sql_num_up) or die(mysqli_error($self_con));				    
+        //$sql_num_up="update Gn_MMS_Number set end_status='Y' , end_date=date_add(now(),INTERVAL {$ro[month_cnt]} month) where end_date = '$_POST[pay_ex_end_date]' and mem_id='$member_1[mem_id]' ";
+        //mysql_query($sql_num_up) or die(mysql_error());				    
 
     
         $sql="select * from crawler_member_real where user_id='$mem_id'";
-        $sresult=mysqli_query($self_con, $sql)or die(mysqli_error($self_con));
-        $crow=mysqli_fetch_array($sresult);	        
+        $sresult=mysql_query($sql)or die(mysql_error());
+        $crow=mysql_fetch_array($sresult);	        
         $user_id=$srow['mem_id'];
         $user_name=$srow['mem_name'];
         $password=$srow['mem_pass'];
@@ -140,10 +134,10 @@ include_once "../../lib/db_config.php";*/
         $email=$srow['mem_email'];
         $address=$srow['mem_add1'];
         $status="Y";
-        $use_cnt = $row['db_cnt'];
+        $use_cnt = $row[db_cnt];
         $last_time = date("Y-m-d H:i:s", strtotime("+ 120 month"));
         $search_email_date = substr($last_time,0,10);
-        $search_email_cnt = $row['email_cnt'];
+        $search_email_cnt = $row[email_cnt];
         $term = substr($last_time,0,10);
                     
         if($crow[0] == "") {
@@ -161,7 +155,7 @@ include_once "../../lib/db_config.php";*/
                                             search_email_date='$search_email_date',
                                             search_email_cnt='$search_email_cnt',
                                             shopping_end_date='$search_email_date'";
-            mysqli_query($self_con, $query);
+            mysql_query($query);
         } else {
             $query = "update crawler_member_real set 
                                             cell='$cell',
@@ -181,32 +175,32 @@ include_once "../../lib/db_config.php";*/
                                             status='Y'
                                             where user_id='$user_id'
                                             ";
-            mysqli_query($self_con, $query);                
+            mysql_query($query);                
         }    
     
         $sql_m="update Gn_Member set fujia_date1=now() , fujia_date2=date_add(now(),INTERVAL 120 month)  where mem_id='$mem_id' ";
-        mysqli_query($self_con, $sql_m)or die(mysqli_error($self_con));
+        mysql_query($sql_m)or die(mysql_error());
 
-        $add_phone = $row['phone_cnt'] / 9000;
+        $add_phone = $row[phone_cnt] / 9000;
         $sql_m="update Gn_Member set   phone_cnt=phone_cnt+'$add_phone' where mem_id='$mem_id' ";
-        mysqli_query($self_con, $sql_m)or die(mysqli_error($self_con));		    
+        mysql_query($sql_m)or die(mysql_error());		    
 	
         if($srow['recommend_id'] != "") {
             $share_id = $srow['recommend_id'];
-            $sql="select * from Gn_Member where mem_id='{$srow['recommend_id']}' ";
-            $rresult=mysqli_query($self_con, $sql)or die(mysqli_error($self_con));
-            if(mysqli_num_rows($rresult) > 0){
-                $rrow=mysqli_fetch_array($rresult);	    	
+            $sql="select * from Gn_Member where mem_id='$srow[recommend_id]' ";
+            $rresult=mysql_query($sql)or die(mysql_error());
+            if(mysql_num_rows($rresult) > 0){
+                $rrow=mysql_fetch_array($rresult);	    	
                 $branch_share_id = "";
                 $addQuery = "";
                 $branch_share_per = 0;
                 // 리셀러 / 분양 회원 확인
                 // 리셀러 회원인경우 분양회원 아이디 확인
-                if($rrow['service_type'] == 2) {
+                if($rrow[service_type] == 2) {
                     // 추천인의 추천인 검색 및 등급 확인
-                    $sql="select * from Gn_Member where mem_id='{$rrow['recommend_id']}'";
-                    $rresult=mysqli_query($self_con, $sql)or die(mysqli_error($self_con));
-                    $trow=mysqli_fetch_array($rresult);
+                    $sql="select * from Gn_Member where mem_id='$rrow[recommend_id]'";
+                    $rresult=mysql_query($sql)or die(mysql_error());
+                    $trow=mysql_fetch_array($rresult);
 
                     $share_per = $recommend_per = $rrow['share_per']?$rrow['share_per']:30;
                     if($trow[0] !="") {
@@ -214,13 +208,13 @@ include_once "../../lib/db_config.php";*/
                         $branch_share_per = $recommend_per - $share_per;
                         $branch_share_id = $trow['mem_id'];
                     }
-                } else if($rrow['service_type'] == 3) {
+                } else if($rrow[service_type] == 3) {
                     $share_per = $recommend_per = $rrow['share_per']?$rrow['share_per']:50;
                     $branch_share_per = 0;
                 }
                 
-                $sql = "update tjd_pay_result set share_per='$share_per', branch_share_per = '$branch_share_per', share_id='{$srow['recommend_id']}', branch_share_id='$branch_share_id' where orderNumber='$ORDER_NO'";
-                mysqli_query($self_con, $sql)or die(mysqli_error($self_con));			
+                $sql = "update tjd_pay_result set share_per='$share_per', branch_share_per = '$branch_share_per', share_id='$srow[recommend_id]', branch_share_id='$branch_share_id' where orderNumber='$ORDER_NO'";
+                mysql_query($sql)or die(mysql_error());			
             }
         }        
  //       echo "결과코드              : ".$REPLYCD."<br>";
@@ -242,14 +236,14 @@ include_once "../../lib/db_config.php";*/
         // reply_msg 는 실패에 대한 메세지
         //echo "결과코드  : ".$REPLYCD."<br>";
         //echo "결과메세지: ".$REPLYMSG."<br>";
-        $sql = "insert into tjd_pay_result_month set pay_idx={$row['idx']},
+        $sql = "insert into tjd_pay_result_month set pay_idx='$row[idx]',
                                                                      order_number='$order_no',
                                                                      regdate = NOW(),
                                                                      pay_yn='N',
                                                                      msg='".iconv("euc-kr","utf-8",$REPLYMSG).'_mp_extra_manual'."',
-                                                                     amount='{$row['TotPrice']}',
+                                                                     amount='$row[TotPrice]',
                                                                      buyer_id='$mem_id'";
-        mysqli_query($self_con, $sql)or die(mysqli_error($self_con));   
+        mysql_query($sql)or die(mysql_error());   
     }
 
 ?>
@@ -277,7 +271,7 @@ include_once "../../lib/db_config.php";*/
                     <h3><?
                     if($REPLYCD=="0000")
                     {
-                        if($row['payMethod']=="VBank")
+                        if($row[payMethod]=="VBank")
                         echo "입금예정시간내로 아래 가상계좌로 입금하시면 구매가 완료됩니다.";
                         else
                         echo "결제가 성공적으로 이루어졌습니다.";
@@ -311,34 +305,34 @@ include_once "../../lib/db_config.php";*/
                 <tr>
                 <tr>
                 <td>구매자명</td>
-                <td><?=$row['VACT_InputName']?></td>
+                <td><?=$row[VACT_InputName]?></td>
                 </tr>                                        
                 <td>지불금액</td>
-                <td><?=$row['TotPrice']?></td>
+                <td><?=$row[TotPrice]?></td>
                 </tr>
                 <tr>
                 <td>지불시간</td>
-                <td><?=$row['applDate']?><?=$row['applTime']?></td>
+                <td><?=$row[applDate]?><?=$row[applTime]?></td>
                 </tr>
                 <?
-                if($row['payMethod']=="VBank")
+                if($row[payMethod]=="VBank")
                 {
                     ?>                       
                     <tr>
                     <td>예금주</td>
-                    <td><?=$row['VACT_Name']?></td>
+                    <td><?=$row[VACT_Name]?></td>
                     </tr>
                     <tr>
                     <td>은행코드</td>
-                    <td><?=$row['VACT_BankCode']?></td>
+                    <td><?=$row[VACT_BankCode]?></td>
                     </tr>
                     <tr>
                     <td>가상계좌번호</td>
-                    <td><?=$row['VACT_Num']?></td>
+                    <td><?=$row[VACT_Num]?></td>
                     </tr>
                     <tr>
                     <td>입금예정시간</td>
-                    <td><?=$row['VACT_Date']?></td>
+                    <td><?=$row[VACT_Date]?></td>
                     </tr>
                     <?
                 }

@@ -162,7 +162,7 @@ $date_today=date("Y-m-d");
                 <div class="col-xs-12" style="padding-bottom:20px">
                     <?
                     if($_SESSION['one_member_admin_id'] != "onlyonemaket"){
-                        //if($_SESSION['one_member_subadmin_id'] != "" && $_SESSION['one_member_subadmin_domain'] == $HTTP_HOST) {}
+                        //if($_SESSION[one_member_subadmin_id] != "" && $_SESSION[one_member_subadmin_domain] == $HTTP_HOST) {}
                         //else
                         {?>
                             <button class="btn btn-primary pull-right" style="margin-right: 5px;" onclick="excel_down('/excel_down/excel_item_payment_down.php');return false;"><i class="fa fa-download"></i> 엑셀다운받기</button>
@@ -173,8 +173,8 @@ $date_today=date("Y-m-d");
                         <div class="box-tools">
                             <div class="input-group"  >
                                 <div class="form-group">
-                                    <input type="text" style="height: 30px" name="search_start_date" placeholder="" id="search_start_date" value="<?=$_REQUEST['search_start_date']?>"/> ~
-                                    <input type="text" style="height: 30px" name="search_end_date" placeholder="" id="search_end_date" value="<?=$_REQUEST['search_end_date']?>"/>
+                                    <input type="text" style="height: 30px" name="search_start_date" placeholder="" id="search_start_date" value="<?=$_REQUEST[search_start_date]?>"/> ~
+                                    <input type="text" style="height: 30px" name="search_end_date" placeholder="" id="search_end_date" value="<?=$_REQUEST[search_end_date]?>"/>
                                 </div>
                                 <div class="form-group">
                                     <input type="text" style="margin-left:5px" name="search_key" id="search_key" class="form-control input-sm pull-right" placeholder="아이디/상품명">
@@ -255,18 +255,18 @@ $date_today=date("Y-m-d");
                                 $query = "SELECT SQL_CALC_FOUND_ROWS * FROM Gn_Item_Pay_Result a WHERE (a.point_val=0 or (a.point_val=1 and a.site is not null and a.type='servicebuy')) and gwc_cont_pay=0 $searchStr";
                                 $excel_sql=$query;
                                 $excel_sql=str_replace("'","`",$excel_sql);
-                                $res	    = mysqli_query($self_con, $query);
-                                $totalCnt	=  mysqli_num_rows($res);
+                                $res	    = mysql_query($query);
+                                $totalCnt	=  mysql_num_rows($res);
                                 $limitStr       = " LIMIT ".(($startPage-1)*$pageCnt).", ".$pageCnt;
                                 $number			= $totalCnt - ($nowPage - 1) * $pageCnt;
                                 $orderQuery .= " ORDER BY a.no DESC $limitStr ";
                                 $i = 1;
                                 $query .= "$orderQuery";
-                                $res = mysqli_query($self_con, $query);
-                                while($row = mysqli_fetch_array($res)) {
-                                    $sql_mem_data = "select mem_id, site, recommend_id, mem_name, mem_phone,site_iam from Gn_Member where mem_id='{$row['buyer_id']}'";
-                                    $res_mem_data = mysqli_query($self_con, $sql_mem_data);
-                                    $row_mem_data = mysqli_fetch_array($res_mem_data);
+                                $res = mysql_query($query);
+                                while($row = mysql_fetch_array($res)) {
+                                    $sql_mem_data = "select mem_id, site, recommend_id, mem_name, mem_phone,site_iam from Gn_Member where mem_id='{$row[buyer_id]}'";
+                                    $res_mem_data = mysql_query($sql_mem_data);
+                                    $row_mem_data = mysql_fetch_array($res_mem_data);
                                     if($row['pay_method'] == "CARD" || $row['pay_method'] == "BANK"){
                                         $pay_method = $pay_type[$row['pay_method']];
                                     }

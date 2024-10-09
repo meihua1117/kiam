@@ -4,8 +4,8 @@ set_time_limit(0);
 ini_set('memory_limit','-1');
 
 $mysql_host = 'localhost';
-$mysql_user = 'kiam';
-$mysql_password = '49155f27kiam';
+$mysql_user = 'root';
+$mysql_password = 'only12!@db';
 $mysql_db = 'kiam';
 
 $self_con=mysql_connect($mysql_host,$mysql_user,$mysql_password) or die(mysql_error());

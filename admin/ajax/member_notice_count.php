@@ -158,9 +158,9 @@ foreach($searchParam as $param) {
     /***** =============== select count ============= *******/
     /*if($key == "recommend" && $details[0] == "count" && $from == 0) {
         $query = "SELECT recommend_id FROM Gn_Member GROUP BY recommend_id";
-        $res  = mysqli_query($self_con, $query);
+        $res  = mysql_query($query);
         $recommends = array();
-        while($row = mysqli_fetch_array($res)) {
+        while($row = mysql_fetch_array($res)) {
             $recommends[] = $row['recommend_id'];
         }
         $in = implode("','", $recommends);
@@ -236,8 +236,8 @@ if(count($search) > 0) {
 
 //file_put_contents("query.txt", "condition:".print_r($searchParam, 1), FILE_APPEND);
 //file_put_contents("query.txt", $query."\n", FILE_APPEND);
-$res = mysqli_query($self_con, $query);
-$row = mysqli_fetch_row($res);
+$res = mysql_query($query);
+$row = mysql_fetch_row($res);
 $ret['count'] = $row[0];
 echo json_encode($ret);
 ?>

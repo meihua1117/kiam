@@ -1,12 +1,6 @@
 <?php
 $path = "../../";
 include_once "../../_head.php";
-/*$sess_path=$_SERVER['DOCUMENT_ROOT']."/_session";
-ini_set("session.cache_expire", 60);
-ini_set("session.gc_maxlifetime", 86400);
-@session_save_path($sess_path);
-@session_start();
-include_once "../../lib/db_config.php";*/
 // 올앳관련 함수 Include
 //----------------------
 include "./allatutil.php";
@@ -17,14 +11,14 @@ $ORDER_NO = $_GET['ORDER_NO'];
 $link = $_GET['link'];
 
 $sql="select * from Gn_Item_Pay_Result where order_number='$ORDER_NO'";
-$resul=mysqli_query($self_con, $sql)or die(mysqli_error($self_con));
-$row=mysqli_fetch_array($resul);
+$resul=mysql_query($sql)or die(mysql_error());
+$row=mysql_fetch_array($resul);
 $mem_id = $row['buyer_id'];
 // 필수 항목
 $at_cross_key      = "304f3a821cac298ff8a0ef504e1c2309";   //CrossKey값(최대200자)
-$at_fix_key        = $row['billkey'];   //카드키(최대 24자)
+$at_fix_key        = $row[billkey];   //카드키(최대 24자)
 $at_sell_mm        = "00";   //할부개월값(최대  2자)
-$at_amt            = $row['item_price'];   //금액(최대 10자)
+$at_amt            = $row[item_price];   //금액(최대 10자)
 $at_business_type  = "0";   //결제자 카드종류(최대 1자)       : 개인(0),법인(1)
 $at_registry_no    = "";   //주민번호(최대 13자리)           : szBusinessType=0 일경우
 $at_biz_no         = "";   //사업자번호(최대 20자리)         : szBusinessType=1 일경우
@@ -106,9 +100,9 @@ if(!strcmp($REPLYCD,"0000")){//pay_test
                                                     pay_yn='Y',
                                                     msg='성공_mp_item',
                                                     regdate = NOW(),
-                                                    amount='{$row['item_price']}',
+                                                    amount='$row[item_price]',
                                                     buyer_id='$mem_id'";
-    mysqli_query($self_con, $sql)or die(mysqli_error($self_con));
+    mysql_query($sql)or die(mysql_error());
 }
 ?>
 <div class="big_main">
@@ -141,9 +135,9 @@ if(!strcmp($REPLYCD,"0000")){//pay_test
                                                                                 regdate = NOW(),
                                                                                 pay_yn='N',
                                                                                 msg='".iconv("euc-kr","utf-8",$REPLYMSG)."_mp_item"."',
-                                                                                amount='{$row['item_price']}',
+                                                                                amount='$row[item_price]',
                                                                                 buyer_id='$mem_id'";
-                                mysqli_query($self_con, $sql)or die(mysqli_error($self_con));
+                                mysql_query($sql)or die(mysql_error());
                             }?>
                         </h3>
                     </td>
@@ -170,11 +164,11 @@ if(!strcmp($REPLYCD,"0000")){//pay_test
                 </tr>
                 <tr>
                     <td>구매자명</td>
-                    <td><?=$row['VACT_InputName']?></td>
+                    <td><?=$row[VACT_InputName]?></td>
                 </tr>
                 <tr>
                     <td>지불금액</td>
-                    <td><?=$row['TotPrice']?></td>
+                    <td><?=$row[TotPrice]?></td>
                 </tr>
                 <tr>
                     <td colspan="2" style="text-align:center;">

@@ -13,8 +13,8 @@ if($_POST['mode'] == "munja_send"){
     $api_key = $_POST['api_key'];
     $recv_phone = str_replace("-", "", $_POST['phone_number']);
     $query = "select mem_id,check_type from gn_check_phone where api_key = '$api_key' and status='Y'";
-    $res = mysqli_query($self_con, $query);
-    $row = mysqli_fetch_array($res);
+    $res = mysql_query($query);
+    $row = mysql_fetch_array($res);
     if($row['mem_id'] == ""){
         echo json_encode(array("result"=>"등록되지 않은 api입니다."));
     }else{
@@ -25,15 +25,15 @@ if($_POST['mode'] == "munja_send"){
             $send_num = "";
             $pkey = "";
             $sql="select * from Gn_MMS_Number where (not(cnt1 = 10 and cnt2 = 20)) and mem_id='$mem_id' order by sort_no asc, user_cnt desc , idx desc";
-            $res=mysqli_query($self_con, $sql);
-            while($row = mysqli_fetch_array($res)){
-                $today_send_sql = "select SUM(recv_num_cnt) from Gn_MMS where send_num='{$row['sendnum']}' and ((reg_date like '$date_today%' and reservation is null) or up_date like '$date_today%')";
-                $today_send_res = mysqli_query($self_con, $today_send_sql);			
-                $today_send_row = mysqli_fetch_array($today_send_res);
+            $res=mysql_query($sql);
+            while($row = mysql_fetch_array($res)){
+                $today_send_sql = "select SUM(recv_num_cnt) from Gn_MMS where send_num='$row[sendnum]' and ((reg_date like '$date_today%' and reservation is null) or up_date like '$date_today%')";
+                $today_send_res = mysql_query($today_send_sql);			
+                $today_send_row = mysql_fetch_array($today_send_res);
                 $today_send_count = 0;
                 $today_send_count += $today_send_row[0] * 1;
                 
-                if($row['daily_limit_cnt_user'] > $today_send_count){
+                if($row[daily_limit_cnt_user] > $today_send_count){
                     $send_num = $row['sendnum'];
                     $pkey = $row['pkey'];
                     break;
@@ -43,7 +43,7 @@ if($_POST['mode'] == "munja_send"){
                 echo json_encode(array("result"=>"전송할 폰이 없습니다."));
             }else{
                 $query = "update Gn_MMS set content = '폰문자인증 완료' where mem_id='$mem_id' and type='10' and recv_num = '$recv_phone'";
-                $res = mysqli_query($self_con, $query);
+                $res = mysql_query($query);
                 $content = "IAM플랫폼에서 발송한 인증문자입니다.인증번호 ".$rand_num."를 입력하세요.";
 		$send_num = '01067226400';
                 $result = sendmms(10,$mem_id,$send_num,$recv_phone,"","폰문자인증",$content,"","","","Y");
@@ -54,28 +54,28 @@ if($_POST['mode'] == "munja_send"){
             }
         }else{
             $sql="select count(*) cnt from Gn_Member_Check_Sms where mem_phone='$recv_phone' and date_format(regdate, '%Y-%m-%d' )=curdate() ";
-            $result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-            $data = $row=mysqli_fetch_array($result);
-            if($data['cnt'] >=5) {
+            $result = mysql_query($sql) or die(mysql_error());
+            $data = $row=mysql_fetch_array($result);
+            if($data[cnt] >=5) {
                 echo json_encode(array("result"=>"1일 5번까지 인증이 가능합니다.","code"=>0));
                 exit;
             }
 
             $sql="select * from Gn_Member_Check_Sms where REPLACE(mem_phone,'-','')=REPLACE('$recv_phone','-','') order by idx desc";
-            $result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-            $data = $row=mysqli_fetch_array($result);
+            $result = mysql_query($sql) or die(mysql_error());
+            $data = $row=mysql_fetch_array($result);
 
             $sql="update Gn_Member_Check_Sms set status='N' where mem_phone='$recv_phone'";
-            $result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
+            $result = mysql_query($sql) or die(mysql_error());
 
             $sql="insert into Gn_Member_Check_Sms set mem_phone='$recv_phone', secret_key='$rand_num', regdate= NOW()";
-            $result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
+            $result = mysql_query($sql) or die(mysql_error());
 
             $data = "";
 
             $conf_sql = "select web_phone from gn_conf";
-            $conf_result = mysqli_query($self_con, $conf_sql);
-            $conf_row = mysqli_fetch_array($conf_result);
+            $conf_result = mysql_query($conf_sql);
+            $conf_row = mysql_fetch_array($conf_result);
             $sphone1 = substr($conf_row[0], 0, 3);
             $sphone2 = substr($conf_row[0], 3, 4);
             $sphone3 = substr($conf_row[0], 7, 4);
@@ -179,15 +179,15 @@ if($_POST['mode'] == "munja_send"){
     $api_key = $_POST['api_key'];
     $recv_phone = str_replace("-", "", $_POST['phone_number']);
     $query = "select mem_id,check_type from gn_check_phone where api_key = '$api_key' and status='Y'";
-    $res = mysqli_query($self_con, $query);
-    $row = mysqli_fetch_array($res);
+    $res = mysql_query($query);
+    $row = mysql_fetch_array($res);
     if($row['mem_id'] == ""){
         echo json_encode(array("result"=>"등록되지 않은 api입니다."));
     }else{
         if($row['check_type'] == "phone"){
-            $query = "select count(idx) from Gn_MMS where mem_id='{$row['mem_id']}' and content like '%$check_str%' and type='10' and recv_num = '$recv_phone' order by idx desc";
-            $res = mysqli_query($self_con, $query);
-            $row = mysqli_fetch_array($res);
+            $query = "select count(idx) from Gn_MMS where mem_id='$row[mem_id]' and content like '%$check_str%' and type='10' and recv_num = '$recv_phone' order by idx desc";
+            $res = mysql_query($query);
+            $row = mysql_fetch_array($res);
             if($row[0] > 0){
                 echo json_encode(array("result"=>"정확히 인증되었습니다.","code"=>1));
             }else{
@@ -195,8 +195,8 @@ if($_POST['mode'] == "munja_send"){
             }
         }else{
             $sql="select * from Gn_Member_Check_Sms where mem_phone='$recv_phone' order by idx desc";
-            $result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-            $data = $row=mysqli_fetch_array($result);
+            $result = mysql_query($sql) or die(mysql_error());
+            $data = $row=mysql_fetch_array($result);
 
             if($data['secret_key'] == $check_str) {
                 echo json_encode(array("code"=>1,"result"=>"인증되었습니다."));

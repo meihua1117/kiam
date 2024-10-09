@@ -2,12 +2,12 @@
 include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
 $repo_id = $_GET['repo'];
 $sql = "select * from gn_report_form where id=$repo_id";
-$res = mysqli_query($self_con, $sql);
-$row = mysqli_fetch_array($res);
+$res = mysql_query($sql);
+$row = mysql_fetch_array($res);
 
 $query = "SELECT count(idx) FROM gn_report_table where repo_id = $repo_id ";
-$res    = mysqli_query($self_con, $query);
-$totalRow	=  mysqli_fetch_array($res);
+$res    = mysql_query($query);
+$totalRow	=  mysql_fetch_array($res);
 $totalCnt = $totalRow[0];
 $nowPage= $_REQUEST['nowPage']?$_REQUEST['nowPage']:1;
 $startPage = $nowPage?$nowPage:1;
@@ -17,15 +17,16 @@ $number	= $totalCnt - ($nowPage - 1) * $pageCnt;
 $orderQuery .= "ORDER BY idx desc $limitStr";
 
 $sql = "select * from gn_report_table where repo_id = $repo_id ";
-if($_REQUEST['sday']){
-    $sql.=" and reg_date >= '{$_REQUEST['sday']}' ";
+if($_REQUEST[sday]){
+    $sql.=" and reg_date >= '{$_REQUEST[sday]}' ";
 }
-if($_REQUEST['eday']){
-    $sql.=" and reg_date <= '{$_REQUEST['eday']}' ";
+if($_REQUEST[eday]){
+    $sql.=" and reg_date <= '{$_REQUEST[eday]}' ";
 }
 $excel_sql=str_replace("'","`",$sql);
+//$excel_sql=str_replace(" ","#",$excel_sql);
 $sql .= $orderQuery;
-$repo_res = mysqli_query($self_con, $sql);
+$repo_res = mysql_query($sql);
 ?>
 <style>
 .report_item{
@@ -76,7 +77,7 @@ thead tr:nth-child(2) th { position: sticky; top: 57px; }
 <body >
 	<div id="wrap1" class="common-wrap" style="overflow:hidden">
 		<main id="star" class="common-wrap" style="border: none !important"><!-- 컨텐츠 영역 시작 -->
-			<section id="bottom" >
+			<section id="bottom" style="">
 				<div class="content-item" style="border: none !important;box-shadow: none !important;">
 					<div style="margin-top: 20px;margin-left: 20px">
                         <h2 class="title"><?=$row['title']?></h2>
@@ -86,14 +87,14 @@ thead tr:nth-child(2) th { position: sticky; top: 57px; }
                     </div>
                     <form name="pay_form1" action="" method="post" class="my_pay" enctype="multipart/form-data" style="margin-top: 10px">
                         <div style="margin-top: 10px;margin-left: 20px;margin-right: 20px;">
-                            <input type="date" name="sday" value="<?=$_REQUEST['sday']?>"/> ~
-                            <input type="date" name="eday" value="<?=$_REQUEST['eday']?>"/>
+                            <input type="date" name="sday" value="<?=$_REQUEST[sday]?>"/> ~
+                            <input type="date" name="eday" value="<?=$_REQUEST[eday]?>"/>
                             <a onclick="pay_form1.submit();"><img src="/images/sub_mypage_11.jpg" /></a>
                             <a style="background-color: white;color: black;padding: 3px;border: 1px solid #000000;padding: 6px 5px;cursor: pointer" onclick="deleteMultiRow();">선택삭제</a>
                             <a onclick="excel_down('/excel_down/excel_report_list.php');return false;" style="background-color: white;color: black;padding: 3px;border: 1px solid #000000;padding: 6px 5px;cursor: pointer">엑셀저장</a>
                         </div>
                     </form>
-                    <div class="table-responsive report_item" >
+                    <div class="table-responsive report_item" style="">
                         <table class="table" style="border: 1px solid #ddd" id="report_table">
                             <thead>
                                 <tr>
@@ -109,16 +110,16 @@ thead tr:nth-child(2) th { position: sticky; top: 57px; }
                                 $form_arr = array();
                                 $item_arr = array();
                                 $sql1 = "select * from gn_report_form1 where form_id=$repo_id and item_type <> 2 order by item_order";
-                                $res1 = mysqli_query($self_con, $sql1);
-                                while($row1 = mysqli_fetch_array($res1)){
+                                $res1 = mysql_query($sql1);
+                                while($row1 = mysql_fetch_array($res1)){
                                     array_push($form_arr,$row1);
-                                    $sql2 = "select count(id) from gn_report_form2 where form_id=$repo_id and item_id = {$row1['id']}";
-                                    $res2 = mysqli_query($self_con, $sql2);
-                                    $row2 = mysqli_fetch_array($res2);
+                                    $sql2 = "select count(id) from gn_report_form2 where form_id=$repo_id and item_id = $row1[id]";
+                                    $res2 = mysql_query($sql2);
+                                    $row2 = mysql_fetch_array($res2);
                                     ?>
                                     <th colspan="<?=$row2[0]?>" style="border: 1px solid #ddd">
-                                        <a href="javascript:show_more('<?=str_replace("\n", "<br>", $row1['item_title'])?>')"><?=cut_str($row1['item_title'], 10)?></a><br>
-                                        <a href="javascript:show_more('<?=str_replace("\n", "<br>", $row1['item_req'])?>')"><?=cut_str($row1['item_req'], 10)?>
+                                        <a href="javascript:show_more('<?=str_replace("\n", "<br>", $row1[item_title])?>')"><?=cut_str($row1['item_title'], 10)?></a><br>
+                                        <a href="javascript:show_more('<?=str_replace("\n", "<br>", $row1[item_req])?>')"><?=cut_str($row1['item_req'], 10)?>
                                     </th>
                                 <?}?>
                                     <th rowspan=2 style="border: 1px solid #ddd;width: 20px">서명</th>
@@ -126,14 +127,14 @@ thead tr:nth-child(2) th { position: sticky; top: 57px; }
                                 <tr>
                                     <?
                                     foreach($form_arr as $form){
-                                        $sql2 = "select * from gn_report_form2 where form_id=$repo_id and item_id = {$form['id']} order by id";
-                                        $res2 = mysqli_query($self_con, $sql2);
-                                        while($row2 = mysqli_fetch_array($res2)){
-                                            $row2['item_type'] = $form['item_type'];
+                                        $sql2 = "select * from gn_report_form2 where form_id=$repo_id and item_id = $form[id] order by id";
+                                        $res2 = mysql_query($sql2);
+                                        while($row2 = mysql_fetch_array($res2)){
+                                            $row2['item_type'] = $form[item_type];
                                             array_push($item_arr,$row2);
                                     ?>
                                             <th style="border: 1px solid #ddd">
-                                                <a href="javascript:show_more('<?=str_replace("\n", "<br>", $row2['tag_name'])?>')"><?=cut_str($row2['tag_name'], 10)?>
+                                                <a href="javascript:show_more('<?=str_replace("\n", "<br>", $row2[tag_name])?>')"><?=cut_str($row2['tag_name'], 10)?>
                                             </th>
                                     <?  }
                                     }
@@ -143,7 +144,7 @@ thead tr:nth-child(2) th { position: sticky; top: 57px; }
                             <tbody>
                                 <?
                                 $i = 1;
-                                while($repo_row = mysqli_fetch_array($repo_res)){
+                                while($repo_row = mysql_fetch_array($repo_res)){
                                     $conts = json_decode($repo_row['cont'],true);
                                 ?>
                                 <tr>
@@ -165,7 +166,7 @@ thead tr:nth-child(2) th { position: sticky; top: 57px; }
                                         }
                                     ?>
                                     <td style="border: 1px solid #ddd">
-                                        <?if($item['item_type'] == 0 || $item['item_type'] == 3){
+                                        <?if($item[item_type] == 0 || $item[item_type] == 3){
                                             if(mb_strlen($repo_value,"UTF-8") < 10){
                                                 echo $repo_value;
                                             }else{?>

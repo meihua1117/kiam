@@ -163,9 +163,9 @@ if($_REQUEST['dir'] == "desc"){
         }
     }
     thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;text-align: center}
-    .wrapper{height:100%;overflow:auto !important;}
-    .content-wrapper{min-height : 80% !important;}
-    .box-body{overflow:auto;padding:0px !important;}
+.wrapper{height:100%;overflow:auto !important;}
+.content-wrapper{min-height : 80% !important;}
+.box-body{overflow:auto;padding:0px !important;}
 </style>
 
 <div class="loading_div" ><img src="/images/ajax-loader.gif"></div>
@@ -260,18 +260,18 @@ if($_REQUEST['dir'] == "desc"){
                             $searchStr .= $search_key ? " AND (mem_id LIKE '%".$search_key."%' or company_name like '%".$search_key."%' or mem_name like '%".$search_key."%' or sub_domain like '%".$search_key."%')" : null;
                             $order = $order?$order:"desc";
                             $query = "SELECT SQL_CALC_FOUND_ROWS * FROM Gn_Iam_Service a WHERE 1=1 $searchStr";
-                            $res	    = mysqli_query($self_con, $query);
-                            $totalCnt	=  mysqli_num_rows($res);
+                            $res	    = mysql_query($query);
+                            $totalCnt	=  mysql_num_rows($res);
                             $limitStr       = " LIMIT ".(($startPage-1)*$pageCnt).", ".$pageCnt;
                             $number			= $totalCnt - ($nowPage - 1) * $pageCnt;
                             $orderQuery .= " ORDER BY a.regdate DESC $limitStr ";
                             $i = 1;
                             $query .= "$orderQuery";
-                            $res = mysqli_query($self_con, $query);
-                            while($row = mysqli_fetch_array($res)) {
-                                $mem_sql = "select web_pwd,mem_code, site_iam from Gn_Member where mem_id = '{$row['mem_id']}'";
-                                $mem_result = mysqli_query($self_con, $mem_sql);
-                                $mem_row = mysqli_fetch_array($mem_result);
+                            $res = mysql_query($query);
+                            while($row = mysql_fetch_array($res)) {
+                                $mem_sql = "select web_pwd,mem_code, site_iam from Gn_Member where mem_id = '$row[mem_id]'";
+                                $mem_result = mysql_query($mem_sql);
+                                $mem_row = mysql_fetch_array($mem_result);
                             ?>
                                 <tr>
                                     <td><input type="checkbox" class="check" id="check_one_member" name="" value="<?=$row['idx']?>"><?=$number--?></td>

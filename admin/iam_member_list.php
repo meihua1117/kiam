@@ -4,6 +4,7 @@ include_once $_SERVER['DOCUMENT_ROOT']."/admin/include/admin_header.inc.php";
 extract($_GET);
 // 오늘날짜
 $date_today=date("Y-m-d");
+$date_month=date("Y-m");
 
 ?>
 <script type="text/javascript" src="/jquery.lightbox_me.js"></script>
@@ -188,7 +189,7 @@ function excel_down_p_group(pno,one_member_id){
                     <? // 검색 조건을 적용한다.
                     $searchStr .= $search_key ? " AND (a.mem_id LIKE '%".$search_key."%' or a.card_phon like '%".$search_key."%' or a.card_name like '%".$search_key."%' or a.card_company like  '%" : null;
                     
-                    if($_SESSION['one_member_subadmin_id'] != "" && $_SESSION['one_member_subadmin_domain'] == $HTTP_HOST) {
+                    if($_SESSION[one_member_subadmin_id] != "" && $_SESSION[one_member_subadmin_domain] == $HTTP_HOST) {
                         $do = explode(".", $HTTP_HOST);
                         $searchStr .= " and a.site = '".$do[0]."'";
                     }
@@ -211,8 +212,8 @@ function excel_down_p_group(pno,one_member_id){
                         	       on b.mem_id =a.mem_id
                         	WHERE group_id is NULL $searchStr";
                 	              
-                	$res	    = mysqli_query($self_con, $query);
-                	$totalCnt	=  mysqli_num_rows($res);	
+                	$res	    = mysql_query($query);
+                	$totalCnt	=  mysql_num_rows($res);	
                 	
                 	$limitStr       = " LIMIT ".(($startPage-1)*$pageCnt).", ".$pageCnt;
                 	$number			= $totalCnt - ($nowPage - 1) * $pageCnt;                      
@@ -263,7 +264,7 @@ function excel_down_p_group(pno,one_member_id){
             
       
         </section><!-- /.content -->
-      </div><!-- /content-wrapper -->
+      </div><!-- /.content-wrapper -->
 
     <form id="excel_down_form" name="excel_down_form"  target="excel_iframe" method="post">
         <input type="hidden" name="grp_id" value="" />

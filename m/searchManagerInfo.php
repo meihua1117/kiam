@@ -1,6 +1,6 @@
 <?
 include_once "../lib/rlatjd_fun.php";
-$_REQUEST['status'] = 1;
+$_REQUEST[status] = 1;
 extract($_POST);
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -57,18 +57,18 @@ $left_str="팀장검색";
                                 $sql_search .= " AND (mem_name ='$search_name' and REPLACE(mem_phone,'-', '') =REPLACE('$search_cell','-',''))";
                                 
 								$sql="select count(mem_code) as cnt from Gn_Member where 1=1 $sql_search ";
-								$result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-								$row=mysqli_fetch_array($result);
-								$intRowCount=$row['cnt'];
-								if (!$_POST['lno']) 
+								$result = mysql_query($sql) or die(mysql_error());
+								$row=mysql_fetch_array($result);
+								$intRowCount=$row[cnt];
+								if (!$_POST[lno]) 
 									$intPageSize =15;
 								else 
-								   $intPageSize = $_POST['lno'];				
+								   $intPageSize = $_POST[lno];				
 								$intPageCount=(int)(($intRowCount+$intPageSize-1)/$intPageSize);     
 								   
-								if($_POST['page'])
+								if($_POST[page])
 								{
-								  $page=(int)$_POST['page'];
+								  $page=(int)$_POST[page];
 								  $sort_no=$intRowCount-($intPageSize*$page-$intPageSize); 
 								}
 								else
@@ -76,21 +76,21 @@ $left_str="팀장검색";
 								  $page=1;
 								  $sort_no=$intRowCount;
 								}
-								if($_POST['page2'])
-								    $page2=(int)$_POST['page2'];
+								if($_POST[page2])
+								    $page2=(int)$_POST[page2];
 								else
 								    $page2=1;								
 									                                
     				            $sql="select * from Gn_Member where 1=1 $sql_search ";
-    				            $result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));                                
+    				            $result = mysql_query($sql) or die(mysql_error());                                
                                 if($intRowCount)
     							{
-    								while($row=mysqli_fetch_array($result))
+    								while($row=mysql_fetch_array($result))
     								{
     								?>
                                     <tr>
                                         <td style="width:6%;text-align:left;"><label><?=$sort_no?></label></td>
-                                        <td style="width:80%;"><?=$row['mem_name']?></td>
+                                        <td style="width:80%;"><?=$row[mem_name]?></td>
                                         <td style="width:14%;"><a href="javascript:;;" onclick="choiceId('<? echo $row['mem_id']?>')" style="border:1px solid #000;padding:5px">선택</a></td>
                                     </tr>
                                     <?
@@ -121,5 +121,5 @@ $left_str="팀장검색";
     </div>
 </div> 
 <?
-mysqli_close($self_con);
+mysql_close();
 ?>

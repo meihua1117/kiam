@@ -83,22 +83,22 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                 <div class="col-xs-12" style="padding-bottom:20px">
                 <?
                 if($_SESSION['one_member_admin_id'] != "onlyonemaket"){
-                    if($_SESSION['one_member_subadmin_id'] != "" && $_SESSION['one_member_subadmin_domain'] == $HTTP_HOST) {}
+                    if($_SESSION[one_member_subadmin_id] != "" && $_SESSION[one_member_subadmin_domain] == $HTTP_HOST) {}
                     else {}
                 }?>
                     <form method="get" name="search_form" id="search_form " class="form-inline">
                         <div class="box-tools">
                             <div class="input-group"  >
                                 <select name="search_year" class="form-inline" style="padding: 5px;">
-                                    <option value=""  <?php echo isset($_GET['search_year'])?"":"selected"?>>전체</option>
+                                    <option value=""  <?php echo isset($_GET[search_year])?"":"selected"?>>전체</option>
                                     <?for($i=$search_year-4;$i<=$search_year;$i++){?>
-                                        <option value="<?=$i?>"  <?php echo $i==$_GET['search_year']?"selected":""?>><?=$i?></option>
+                                        <option value="<?=$i?>"  <?php echo $i==$_GET[search_year]?"selected":""?>><?=$i?></option>
                                     <?}?>
                                 </select>
                                 <select name="search_month" class="form-inline" style="padding: 5px;">
-                                    <option value=""  <?php echo isset($_GET['search_month'])?"":"selected"?>>전체</option>
+                                    <option value=""  <?php echo isset($_GET[search_month])?"":"selected"?>>전체</option>
                                     <?for($i=1;$i<13;$i++){?>
-                                        <option value="<?=$i?>" <?php echo sprintf("%02d",$i)==$_GET['search_month']?"selected":""?>><?=$i?></option>
+                                        <option value="<?=$i?>" <?php echo sprintf("%02d",$i)==$_GET[search_month]?"selected":""?>><?=$i?></option>
                                     <?}?>
                                 </select>
                                 <div class="form-group">
@@ -173,7 +173,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                                 $searchStr .= $search_site ? " AND b.branch_share_id = '".$search_site."'" : null;
                                 // $searchStr .= $search_iam ? " AND c.site_iam = '".$search_iam."'" : null;
                                 $searchStr .= $search_price ? " AND b.TotPrice = '".$search_price."'" : null;
-                                if(isset($_GET['search_year']) && $_GET['search_year'] && isset($_GET['search_month']) && $_GET['search_month'])
+                                if(isset($_GET[search_year]) && $_GET[search_year] && isset($_GET[search_month]) && $_GET[search_month])
                                 $searchStr .=" and a.regdate like '%$search_year-$search_month%' ";
                                 if($search_start_date && $search_end_date) {
                                     $searchStr .= " AND date >= '$search_start_date' and date <= '$search_end_date'";
@@ -192,15 +192,15 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                                           WHERE 1=1 $searchStr";
                                 $excel_sql=$query;
                                 $excel_sql=str_replace("'","`",$excel_sql);
-                                $res	    = mysqli_query($self_con, $query);
-                                $totalCnt	=  mysqli_num_rows($res);
+                                $res	    = mysql_query($query);
+                                $totalCnt	=  mysql_num_rows($res);
                                 $limitStr       = " LIMIT ".(($startPage-1)*$pageCnt).", ".$pageCnt;
                                 $number			= $totalCnt - ($nowPage - 1) * $pageCnt;
                                 $orderQuery .= " ORDER BY a.idx DESC $limitStr ";
                                 $i = 1;
                                 $query .= $orderQuery;
-                                $res = mysqli_query($self_con, $query);
-                                while($row = mysqli_fetch_array($res)) {?>
+                                $res = mysql_query($query);
+                                while($row = mysql_fetch_array($res)) {?>
                                     <tr>
                                         <td><?=$number--?></td>
                                         <td><?=$row['buyer_id']?></td>

@@ -1,7 +1,7 @@
 <?
 include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
-if($_SESSION['one_member_admin_id'] == "") {
-    if($_SESSION['one_member_id'] == "lecturem" || $_SESSION['one_member_id'] == "sungmheo" || ($_SESSION['one_member_subadmin_id'] != "" && $_SESSION['one_member_subadmin_domain'] == $HTTP_HOST) || ($_SESSION['iam_member_subadmin_id'] != "" && $_SESSION['iam_member_subadmin_domain'] == $HTTP_HOST)) {} else {
+if($_SESSION[one_member_admin_id] == "") {
+    if($_SESSION[one_member_id] == "lecturem" || $_SESSION[one_member_id] == "sungmheo" || ($_SESSION[one_member_subadmin_id] != "" && $_SESSION[one_member_subadmin_domain] == $HTTP_HOST) || ($_SESSION[iam_member_subadmin_id] != "" && $_SESSION[iam_member_subadmin_domain] == $HTTP_HOST)) {} else {
     header('Location: /');
     exit;
     }

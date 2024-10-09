@@ -1,0 +1,1 @@
+select * from Gn_MMS where result > 0 and send_num = '01032089231' and  (reg_date < now() and reg_date >= adddate(reg_date,INTERVAL -40 Minute)) and (reservation is null or reservation <= DATE_ADD(NOW(), INTERVAL 30 MINUTE))   and idx ='2783451' order by idx asc limit 1

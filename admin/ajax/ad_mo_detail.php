@@ -5,13 +5,14 @@ extract($_GET);
 
 // 오늘날짜
 $date_today=date("Y-m-d");
+$date_month=date("Y-m");
 
 if($cam_id) {
     // 가입 회원 상세 정보
     $query = "select *
                 from Gn_Ad_Manager where cam_id='$cam_id'";
-    $res = mysqli_query($self_con, $query);
-    $data = mysqli_fetch_array($res);
+    $res = mysql_query($query);
+    $data = mysql_fetch_array($res);
 }
 
 ?>
@@ -173,7 +174,7 @@ if($cam_id) {
           
         </section><!-- /.content -->
         </form>
-      </div><!-- /content-wrapper -->
+      </div><!-- /.content-wrapper -->
 
 
       <!-- Footer -->

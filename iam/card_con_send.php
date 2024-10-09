@@ -2,9 +2,9 @@
 include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
 
 $date_today=date("Y-m-d");
-$sql="select * from Gn_Member where mem_id='{$_SESSION['iam_member_id']}' and site != '' ";
-$resul=mysqli_query($self_con, $sql);
-$data=mysqli_fetch_array($resul);
+$sql="select * from Gn_Member where mem_id='$_SESSION[iam_member_id]' and site != '' ";
+$resul=mysql_query($sql);
+$data=mysql_fetch_array($resul);
 
 if(isset($_POST['settle_type'])){
     $point = 2;
@@ -27,8 +27,8 @@ if(isset($_POST['settle_type'])){
         $no_ids = array();
         for($mi = 0; $mi < count($arr_id); $mi++){
             $sql_chk_id = "select count(*) as cnt from Gn_Member where mem_id='{$arr_id[$mi]}'";
-            $res_ids = mysqli_query($self_con, $sql_chk_id);
-            $row_ids = mysqli_fetch_array($res_ids);
+            $res_ids = mysql_query($sql_chk_id);
+            $row_ids = mysql_fetch_array($res_ids);
             if($row_ids['cnt'] == 0){
                 array_push($no_ids, $arr_id[$mi]);
             }
@@ -45,16 +45,16 @@ if(isset($_POST['settle_type'])){
     if($type == "card_send"){
         $card_send_mode = $_POST['card_send_mode'];
         $get_point = "select mem_point, mem_cash from Gn_Member where mem_id='{$_SESSION['iam_member_id']}'";
-        $result_point = mysqli_query($self_con, $get_point);
-        $row_point = mysqli_fetch_array($result_point);
+        $result_point = mysql_query($get_point);
+        $row_point = mysql_fetch_array($result_point);
         $current_point_buy = $row_point['mem_point'];
         $current_cash_buy = $row_point['mem_cash'];
         
         $sql_ids = "update Gn_Member set send_ids='{$payMethod}' where mem_id='{$_SESSION['iam_member_id']}'";
-        mysqli_query($self_con, $sql_ids) or die(mysqli_error($self_con));
+        mysql_query($sql_ids) or die(mysql_error());
         $sql_card_title = "select card_title from Gn_Iam_Name_Card where card_short_url='{$member_type}'";
-        $res_title = mysqli_query($self_con, $sql_card_title);
-        $row_title = mysqli_fetch_array($res_title);
+        $res_title = mysql_query($sql_card_title);
+        $row_title = mysql_fetch_array($res_title);
         $member_type = "IAM 카드/" . $row_title['card_title'];
         for($i = 0; $i < count($arr_id); $i++){
             $sql_card_send = "insert into Gn_Item_Pay_Result
@@ -77,18 +77,18 @@ if(isset($_POST['settle_type'])){
                             receive_state=0,
                             message='$message',
                             payment_day='$card_send_mode'";
-            $res_result = mysqli_query($self_con, $sql_card_send);
+               $res_result = mysql_query($sql_card_send);
         }
     }
     else if($type == "contents_send"){
         $send_type = $_POST['send_type'];
         $sql_ids = "update Gn_Member set send_ids='{$payMethod}' where mem_id='{$_SESSION['iam_member_id']}'";
-        mysqli_query($self_con, $sql_ids) or die(mysqli_error($self_con));
+        mysql_query($sql_ids) or die(mysql_error());
 
         $sql_service = "select * from Gn_Iam_Service where mem_id='{$_SESSION['iam_member_id']}'";//분양사아이디이면.
-        $res_service = mysqli_query($self_con, $sql_service);
-        if(mysqli_num_rows($res_service)){
-            $row = mysqli_fetch_array($res_service);
+        $res_service = mysql_query($sql_service);
+        if(mysql_num_rows($res_service)){
+            $row = mysql_fetch_array($res_service);
             if($row['contents_point_end'] < $date_today){
                 $min_point = $_POST['allat_amt'] * 1;
             }
@@ -109,15 +109,15 @@ if(isset($_POST['settle_type'])){
         }
 
         $sql_con_title = "select contents_title from Gn_Iam_Contents where idx={$member_type}";
-        $res_con_title = mysqli_query($self_con, $sql_con_title);
-        $row_con_title = mysqli_fetch_array($res_con_title);
+        $res_con_title = mysql_query($sql_con_title);
+        $row_con_title = mysql_fetch_array($res_con_title);
         $con_url = "http://".$HTTP_HOST."/iam/contents.php?contents_idx=".$member_type;
         $item_name = "IAM 콘텐츠/" . $row_con_title['contents_title'];
         
         for($i = 0; $i < count($arr_id); $i++){
             $get_point = "select mem_point, mem_cash from Gn_Member where mem_id='{$_SESSION['iam_member_id']}'";
-            $result_point = mysqli_query($self_con, $get_point);
-            $row_point = mysqli_fetch_array($result_point);
+            $result_point = mysql_query($get_point);
+            $row_point = mysql_fetch_array($result_point);
             $current_point_buy = $row_point['mem_point'];
             $current_cash_buy = $row_point['mem_cash'];
             $current_point = $current_point_buy * 1 - $min_point * 1;
@@ -142,11 +142,11 @@ if(isset($_POST['settle_type'])){
                             receive_state=1,
                             message='$message'";
                             // echo $sql_contents_send; exit;
-            $res_result = mysqli_query($self_con, $sql_contents_send);
+            $res_result = mysql_query($sql_contents_send);
 
             $sql_mem_recv = "select * from Gn_Member where mem_id='{$arr_id[$i]}'";
-            $res_recv = mysqli_query($self_con, $sql_mem_recv);
-            $data1 = mysqli_fetch_array($res_recv);
+            $res_recv = mysql_query($sql_mem_recv);
+            $data1 = mysql_fetch_array($res_recv);
             $sql_contents_recv = "insert into Gn_Item_Pay_Result
                         set buyer_id='$arr_id[$i]',
                             buyer_tel='{$data1['mem_phone']}',
@@ -167,15 +167,15 @@ if(isset($_POST['settle_type'])){
                             receive_state=1,
                             message='$message',
                             alarm_state=0";
-            $res_result = mysqli_query($self_con, $sql_contents_recv);
+            $res_result = mysql_query($sql_contents_recv);
 
-            $sql_update = "update Gn_Member set mem_point={$current_point} where mem_id='{$_SESSION['iam_member_id']}'";
-            mysqli_query($self_con, $sql_update);
+            $sql_update = "update Gn_Member set mem_point={$current_point} where mem_id='{$_SESSION[iam_member_id]}'";
+            mysql_query($sql_update);
         }
 
         $sql_ori = "select * from Gn_Iam_Contents where idx={$member_type}";
-        $res_ori = mysqli_query($self_con, $sql_ori);
-        $row_ori = mysqli_fetch_array($res_ori);
+        $res_ori = mysql_query($sql_ori);
+        $row_ori = mysql_fetch_array($res_ori);
         $mem_ori = $row_ori['contents_share_text'];
         $mem_ids = $mem_ori . "," . $payMethod;
         $share_count = 0;
@@ -184,7 +184,7 @@ if(isset($_POST['settle_type'])){
             $share_count = count($share_array);
         }
         $sql_share_con = "update Gn_Iam_Contents set contents_share_text='{$mem_ids}',contents_share_count = $share_count, up_data=now() where idx={$member_type}";
-        mysqli_query($self_con, $sql_share_con);
+        mysql_query($sql_share_con);
     }
     else if($type == "del"){
         $no = $_POST['no'];
@@ -194,16 +194,16 @@ if(isset($_POST['settle_type'])){
                 $nos = explode(",", $no);
                 for($i = 0; $i < count($nos); $i++){
                     $sql_mem = "select * from Gn_Item_Pay_Result where no={$nos[$i]}";
-                    $res_mem = mysqli_query($self_con, $sql_mem);
-                    $row_mem = mysqli_fetch_array($res_mem);
+                    $res_mem = mysql_query($sql_mem);
+                    $row_mem = mysql_fetch_array($res_mem);
 
                     $con_id = $row_mem['site'];
                     $val_id = explode("=", $con_id);
                     $con_id = trim($val_id[1]);
                     
-                    $sql_contents = "select contents_share_text from Gn_Iam_Contents where idx={$con_id}";
-                    $res_contents = mysqli_query($self_con, $sql_contents);
-                    $row_contents = mysqli_fetch_array($res_contents);
+                    $sql_contents = "select * from Gn_Iam_Contents where idx={$con_id}";
+                    $res_contents = mysql_query($sql_contents);
+                    $row_contents = mysql_fetch_array($res_contents);
                     $contents_share_txt = $row_contents['contents_share_text'];
                     $contents_share_txt = str_replace($row_mem['buyer_id'], "", $contents_share_txt);
                     $share_count = 0;
@@ -212,24 +212,24 @@ if(isset($_POST['settle_type'])){
                         $share_count = count($share_array);
                     }
                     $sql_update_con = "update Gn_Iam_Contents set contents_share_text='{$contents_share_txt}',contents_share_count=$share_count where idx={$con_id}";
-                    mysqli_query($self_con, $sql_update_con);
+                    mysql_query($sql_update_con);
 
                     $sql_del = "update Gn_Item_Pay_Result set list_show=0 where no={$nos[$i]}";
-                    mysqli_query($self_con, $sql_del);
+                    mysql_query($sql_del);
                 }
             }
             else{
                 $sql_mem = "select * from Gn_Item_Pay_Result where no={$no}";
-                $res_mem = mysqli_query($self_con, $sql_mem);
-                $row_mem = mysqli_fetch_array($res_mem);
+                $res_mem = mysql_query($sql_mem);
+                $row_mem = mysql_fetch_array($res_mem);
     
                 $con_id = $row_mem['site'];
                 $val_id = explode("=", $con_id);
                 $con_id = trim($val_id[1]);
                 
-                $sql_contents = "select contents_share_text from Gn_Iam_Contents where idx={$con_id}";
-                $res_contents = mysqli_query($self_con, $sql_contents);
-                $row_contents = mysqli_fetch_array($res_contents);
+                $sql_contents = "select * from Gn_Iam_Contents where idx={$con_id}";
+                $res_contents = mysql_query($sql_contents);
+                $row_contents = mysql_fetch_array($res_contents);
                 $contents_share_txt = $row_contents['contents_share_text'];
     
                 $contents_share_txt = str_replace($row_mem['buyer_id'], "", $contents_share_txt);
@@ -239,17 +239,17 @@ if(isset($_POST['settle_type'])){
                     $share_count = count($share_array);
                 }
                 $sql_update_con = "update Gn_Iam_Contents set contents_share_text='{$contents_share_txt}',contents_share_count=$share_count where idx={$con_id}";
-                mysqli_query($self_con, $sql_update_con);
+                mysql_query($sql_update_con);
 
                 $sql_del = "update Gn_Item_Pay_Result set list_show=0 where no={$no}";
-                mysqli_query($self_con, $sql_del);
+                mysql_query($sql_del);
 
                 $i = 1;
             }
         }
         else{
             $sql_del = "update Gn_Item_Pay_Result set list_show=0 where no={$no}";
-            mysqli_query($self_con, $sql_del);
+            mysql_query($sql_del);
             $i = 1;
         }
         echo $i; exit;
@@ -259,9 +259,9 @@ if(isset($_POST['settle_type'])){
         $sender = $_POST['sender'];
 
         $sql_service = "select * from Gn_Iam_Service where mem_id='{$sender}'";//분양사아이디이면.
-        $res_service = mysqli_query($self_con, $sql_service);
-        if(mysqli_num_rows($res_service)){
-            $row = mysqli_fetch_array($res_service);
+        $res_service = mysql_query($sql_service);
+        if(mysql_num_rows($res_service)){
+            $row = mysql_fetch_array($res_service);
             if($row['card_point_end'] < $date_today){
                 $settle_point = $_POST['settle_point'] * 1;
             }
@@ -283,8 +283,8 @@ if(isset($_POST['settle_type'])){
 
         // $sql_point = "select current_point from Gn_Item_Pay_Result where point_val!=0 and buyer_id='{$sender}' order by pay_date desc limit 1";
         $sql_point = "select mem_point from Gn_Member where mem_id='{$sender}'";
-        $res_point = mysqli_query($self_con, $sql_point);
-        $row_point = mysqli_fetch_array($res_point);
+        $res_point = mysql_query($sql_point);
+        $row_point = mysql_fetch_array($res_point);
         $cur_point = $row_point['mem_point'];
 
         if($cur_point < $settle_point){
@@ -293,8 +293,8 @@ if(isset($_POST['settle_type'])){
         }
 
         $sql_card = "select * from Gn_Item_Pay_Result where no={$no}";
-        $res_card = mysqli_query($self_con, $sql_card);
-        $row_card = mysqli_fetch_array($res_card);
+        $res_card = mysql_query($sql_card);
+        $row_card = mysql_fetch_array($res_card);
 
         $card_url = $row_card['site'];
         $val1 = explode("?", $card_url);
@@ -319,75 +319,75 @@ if(isset($_POST['settle_type'])){
                                                 iam_mystory, now(), now(), sample_click, sample_order, main_img1, main_img2, main_img3, 
                                                 next_iam_link, card_show, '{$row_card['payment_day']}' FROM Gn_Iam_Name_Card WHERE card_short_url='{$card_url}')";
 		// echo $sql_name; exit;
-		mysqli_query($self_con, $sql_name) or die(mysqli_error($self_con));
-		$card_idx = mysqli_insert_id($self_con);
+		mysql_query($sql_name) or die(mysql_error());
+		$card_idx = mysql_insert_id();
 		
 		$sql_con = "INSERT INTO Gn_Iam_Contents(mem_id, contents_type, contents_img, contents_title, contents_url, contents_url_title, 
                                             contents_iframe, source_iframe, contents_price,contents_order, contents_sell_price, contents_desc, contents_display, 
                                             contents_user_display, contents_type_display, contents_footer_display, contents_temp, contents_like, 
                                             contents_share_text, contents_share_count, req_data, up_data, card_short_url, contents_westory_display, 
-                                            westory_card_url, public_display, card_idx, except_keyword, share_send_cont, reduce_val,open_type,media_type) 
+                                            westory_card_url, public_display, card_idx, except_keyword, share_send_cont, reduce_val, open_type,media_type) 
                                             (SELECT '{$_SESSION['iam_member_id']}', contents_type, contents_img, contents_title, contents_url, contents_url_title, 
                                             contents_iframe, source_iframe, contents_price,contents_order, contents_sell_price, contents_desc, contents_display, 
                                             contents_user_display, contents_type_display, contents_footer_display, contents_temp, contents_like, 
                                             '', contents_share_count, now(), now(), '{$short_url}', contents_westory_display, 
-                                            '{$short_url}', public_display, {$card_idx}, except_keyword, idx, reduce_val,open_type,media_type FROM Gn_Iam_Contents WHERE westory_card_url='{$card_url}')";
-        mysqli_query($self_con, $sql_con) or die(mysqli_error($self_con));
+                                            '{$short_url}', public_display, {$card_idx}, except_keyword, idx, reduce_val, open_type,media_type FROM Gn_Iam_Contents WHERE westory_card_url='{$card_url}')";
+        mysql_query($sql_con) or die(mysql_error());
 
         $sql_con = "select idx from Gn_Iam_Contents where card_idx = $card_idx";
-        $res_con = mysqli_query($self_con, $sql_con);
-        while($row_con = mysqli_fetch_array($res_con)){
+        $res_con = mysql_query($sql_con);
+        while($row_con = mysql_fetch_array($res_con)){
             $sql2 = "insert into Gn_Iam_Con_Card set cont_idx=$row_con[idx],card_idx=$card_idx,main_card=$card_idx";
-            mysqli_query($self_con, $sql2) or die(mysqli_error($self_con));
+            mysql_query($sql2) or die(mysql_error());
         }
         
         $card_link = "http://" . $HTTP_HOST . "/?" . $short_url . $data['mem_code'];
 
         $cur_point = $cur_point * 1 - $settle_point * 1;
         $sql_update1 = "update Gn_Member set mem_point={$cur_point} where mem_id='{$sender}'";
-        mysqli_query($self_con, $sql_update1);
+        mysql_query($sql_update1);
 
         $sql_update = "update Gn_Item_Pay_Result set seller_id='{$card_link}', receive_state=1, item_price={$settle_point}, current_point={$cur_point}, pay_date=now() where no={$no}";
-        $res_result = mysqli_query($self_con, $sql_update);
+        $res_result = mysql_query($sql_update);
     }
     else if($type == "show_cnt"){
         $no = $_POST['no'];
         $update_cnt = "update Gn_Item_Pay_Result set con_show_cnt=con_show_cnt+1 where no={$no}";
-        $res_result = mysqli_query($self_con, $update_cnt);
+        $res_result = mysql_query($update_cnt);
     }
     else if($type == "payment_show"){
-        $sql_sell = "update Gn_Item_Pay_Result set alarm_state=1 where buyer_id='{$_SESSION['iam_member_id']}' and point_val=1 and site is not null and type='servicebuy' and alarm_state=0";
-        $res_result = mysqli_query($self_con, $sql_sell);
+        $sql_sell = "update Gn_Item_Pay_Result set alarm_state=1 where buyer_id='$_SESSION[iam_member_id]' and point_val=1 and site is not null and type='servicebuy' and alarm_state=0";
+        $res_result = mysql_query($sql_sell);
     }
     else if($type == "refuse"){
         $no = $_POST['no'];
         $update_use = "update Gn_Item_Pay_Result set receive_state=2 where no={$no}";
-        $res_result = mysqli_query($self_con, $update_use);
+        $res_result = mysql_query($update_use);
     }
     else if($type == "delete_ai"){
         $no = $_POST['no'];
         $ID = $_POST['ID'];
         if($no != "all"){
             $sql_del = "update Gn_Item_Pay_Result set list_show=0 where no={$no}";
-            $res_result = mysqli_query($self_con, $sql_del);
+            $res_result = mysql_query($sql_del);
         }
         else{
             $sql_del = "update Gn_Item_Pay_Result set list_show=0 where item_name='AI카드' and buyer_id='{$ID}'";
-            $res_result = mysqli_query($self_con, $sql_del);
+            $res_result = mysql_query($sql_del);
         }
     }
     else if($type == "recv_contents"){
         $no = $_POST['no'];
         $update_use = "update Gn_Item_Pay_Result set alarm_state=2 where no={$no}";
-        $res_result = mysqli_query($self_con, $update_use);
+        $res_result = mysql_query($update_use);
     }
     else if($type == "notice_send"){
         $sql_ids = "update Gn_Member set send_ids='{$payMethod}' where mem_id='{$_SESSION['iam_member_id']}'";
-        mysqli_query($self_con, $sql_ids) or die(mysqli_error($self_con));
+        mysql_query($sql_ids) or die(mysql_error());
 
         $get_point = "select mem_point, mem_cash from Gn_Member where mem_id='{$_SESSION['iam_member_id']}'";
-        $result_point = mysqli_query($self_con, $get_point);
-        $row_point = mysqli_fetch_array($result_point);
+        $result_point = mysql_query($get_point);
+        $row_point = mysql_fetch_array($result_point);
         $current_point_buy = $row_point['mem_point'];
         $current_cash_buy = $row_point['mem_cash'];
 
@@ -415,11 +415,11 @@ if(isset($_POST['settle_type'])){
                             current_cash=$current_cash_buy,
                             receive_state=0,
                             message='$message'";
-            $res_result = mysqli_query($self_con, $sql_notice_send);
+            $res_result = mysql_query($sql_notice_send);
 
             $sql_mem_recv = "select * from Gn_Member where mem_id='{$arr_id[$i]}'";
-            $res_recv = mysqli_query($self_con, $sql_mem_recv);
-            $data1 = mysqli_fetch_array($res_recv);
+            $res_recv = mysql_query($sql_mem_recv);
+            $data1 = mysql_fetch_array($res_recv);
             $sql_notice_recv = "insert into Gn_Item_Pay_Result
                         set buyer_id='$arr_id[$i]',
                             buyer_tel='{$data1['mem_phone']}',
@@ -439,7 +439,7 @@ if(isset($_POST['settle_type'])){
                             receive_state=1,
                             message='$message',
                             alarm_state=0";
-            $res_result = mysqli_query($self_con, $sql_notice_recv);
+            $res_result = mysql_query($sql_notice_recv);
         }
     }
     else if($type == "self_phone_send"){
@@ -449,8 +449,8 @@ if(isset($_POST['settle_type'])){
 
         for($i = 0; $i < count($arr_id); $i++){
             $sql_mem_data = "select mem_phone from Gn_Member where mem_id='{$arr_id[$i]}'";
-            $res_mem_data = mysqli_query($self_con, $sql_mem_data);
-            $row_mem_data = mysqli_fetch_array($res_mem_data);
+            $res_mem_data = mysql_query($sql_mem_data);
+            $row_mem_data = mysql_fetch_array($res_mem_data);
             $mem_phone = $row_mem_data['mem_phone'];
 
             sendmms(5, $arr_id[$i], $mem_phone, $mem_phone, "", $title, $txt, "", "", "", "Y");
@@ -460,17 +460,17 @@ if(isset($_POST['settle_type'])){
     else if($type == "recv_notice"){
         $no = $_POST['no'];
         $update_use = "update Gn_Item_Pay_Result set alarm_state=2 where no={$no}";
-        $res_result = mysqli_query($self_con, $update_use);
+        $res_result = mysql_query($update_use);
     }
     else if($type == "read_all"){
         $mem_id = $_POST['mem_id'];
         $update_use = "update Gn_Item_Pay_Result set alarm_state=2 where buyer_id='{$mem_id}' and alarm_state=0 and point_val=3";
-        $res_result = mysqli_query($self_con, $update_use);
+        $res_result = mysql_query($update_use);
     }
     else if($type == "remove_notice"){
         $no = $_POST['no'];
         $delete_use = "delete from Gn_Item_Pay_Result where no={$no}";
-        $res_result = mysqli_query($self_con, $delete_use);
+        $res_result = mysql_query($delete_use);
     }
     echo $res_result;
 }

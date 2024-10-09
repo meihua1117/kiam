@@ -3,11 +3,11 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
 $repo_id = $_GET['repo'];
 $idx = $_GET['idx'];
 $sql = "select * from gn_report_form where id=$repo_id";
-$res = mysqli_query($self_con, $sql);
-$row = mysqli_fetch_array($res);
-$sql = "select * from gn_report_table where userid='{$_SESSION['iam_member_id']}' and repo_id = $repo_id";
-$repo_res = mysqli_query($self_con, $sql);
-$repo_row = mysqli_fetch_array($repo_res);
+$res = mysql_query($sql);
+$row = mysql_fetch_array($res);
+$sql = "select * from gn_report_table where userid='$_SESSION[iam_member_id]' and repo_id = $repo_id";
+$repo_res = mysql_query($sql);
+$repo_row = mysql_fetch_array($repo_res);
 $conts = json_decode($repo_row['cont'],true);
 ?>
 <style>
@@ -147,6 +147,8 @@ $conts = json_decode($repo_row['cont'],true);
 	<link rel="stylesheet" href="css/grid.min.css">
 	<link rel="stylesheet" href="css/slick.min.css">
 	<link rel="stylesheet" href="css/style_j.css">
+	<!-- ########## TODO COMMENT FOR TEST  패치할떄 해제해야함 ###########  -->
+	<!--script src="//developers.kakao.com/sdk/js/kakao.min.js" charset="utf-8"></script-->
 	<script src="js/jquery-3.1.1.min.js"></script>
 	<script src="js/slick.min.js"></script>
 	<script src="js/main.js"></script>
@@ -171,8 +173,8 @@ $conts = json_decode($repo_row['cont'],true);
                     </div>
                     <?
                     $sql1 = "select * from gn_report_form1 where form_id=$repo_id order by item_order";
-                    $res1 = mysqli_query($self_con, $sql1);
-                    while($row1 = mysqli_fetch_array($res1)){
+                    $res1 = mysql_query($sql1);
+                    while($row1 = mysql_fetch_array($res1)){
                         if($row1['item_req']){?>
                             <div style="width:100%;margin-top:20px">
                                 <div class="report_item_tag" style="width: 100%;text-align: left;padding:5px 10px;display:block">
@@ -191,9 +193,9 @@ $conts = json_decode($repo_row['cont'],true);
                             }?>
                             <div class="report_item_div" style="<?=$style?>">
                             <?
-                            $sql2 = "select * from gn_report_form2 where form_id=$repo_id and item_id = {$row1['id']} order by id";
-                            $res2 = mysqli_query($self_con, $sql2);
-                            while($row2 = mysqli_fetch_array($res2)){
+                            $sql2 = "select * from gn_report_form2 where form_id=$repo_id and item_id = $row1[id] order by id";
+                            $res2 = mysql_query($sql2);
+                            while($row2 = mysql_fetch_array($res2)){
                                 foreach($conts as $cont){
                                     foreach($cont as $key => $value)
                                     {
@@ -220,7 +222,7 @@ $conts = json_decode($repo_row['cont'],true);
                                 </div>
                             <?  }else if($row1['item_type'] == 3){?>
                                     <div class="report_item_body">
-                                        <div class="report_item_tag2" >
+                                        <div class="report_item_tag2" style="">
                                             <?=$row2['tag_name']?>
                                         </div>
                                         <div class="report_item_tag2" style="background-color: transparent;margin-top: 5px;padding: 0px">
@@ -270,7 +272,7 @@ $conts = json_decode($repo_row['cont'],true);
                     <?if($row['sign_visible'] == 1){?>
                     <div class="report_item">
                         <div id="signature-pad" class="m-signature-pad">
-                            <p class="marb3"><strong class="blink">하단에 서명(마우스로 싸인)을 해주세요.</strong><button type="button" id="clear" class="btn_ssmall bx-white">서명 초기화</button></p>
+                            <p class="marb3"><strong class="blink">아래 박스안에 서명을 남겨주세요.</strong><button type="button" id="clear" class="btn_ssmall bx-white">서명 초기화</button></p>
                             <div id="sign"></div>
                             <textarea name="signatureJSON" id="signatureJSON" style="display: none" readonly=""><?=$repo_row['sign']?></textarea>
                         </div>

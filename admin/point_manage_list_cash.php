@@ -100,8 +100,8 @@ $date_today=date("Y-m-d");
                     <form method="get" name="search_people" id="search_people">
                         <div class="box-tools">
                             <div class="input-group" style="display:inline-flex;">
-                                <input type="date" placeholder="시작일" name="search_start_date" value="<?=$_REQUEST['search_start_date']?>" style="margin-right:5px;border: 1px solid black;width:125px;">
-                                <input type="date" placeholder="종료일" name="search_end_date" value="<?=$_REQUEST['search_end_date']?>" style="margin-right:5px;border: 1px solid black;width:125px;">
+                                <input type="date" placeholder="시작일" name="search_start_date" value="<?=$_REQUEST[search_start_date]?>" style="margin-right:5px;border: 1px solid black;width:125px;">
+                                <input type="date" placeholder="종료일" name="search_end_date" value="<?=$_REQUEST[search_end_date]?>" style="margin-right:5px;border: 1px solid black;width:125px;">
                                 <select title="" name="use_buy_type" data-plugin-selectTwo onchange="" style="width:90px;margin-right:5px;">
                                     <option value="">전체</option>
                                     <option value="sell" <?if($_REQUEST['use_buy_type'] == "sell") echo "selected"?>>판매포인트</option>
@@ -165,8 +165,8 @@ $date_today=date("Y-m-d");
                             if($search_start_date && $search_end_date)
                                 $searchStr .= " AND date >= '$search_start_date' and date <= '$search_end_date'";
                             $sql = "select * from tjd_pay_result where member_type = '현금전환'".$searchStr;
-                            $res = mysqli_query($self_con, $sql);
-                            $totalCnt = mysqli_num_rows($res);
+                            $res = mysql_query($sql);
+                            $totalCnt = mysql_num_rows($res);
 
                             $limitStr = " LIMIT ".(($startPage-1)*$pageCnt).", ".$pageCnt;
                             $number = $totalCnt - ($nowPage - 1) * $pageCnt;
@@ -174,11 +174,11 @@ $date_today=date("Y-m-d");
                             // $no = 0;
 
                             $query = $sql.$searchStr.$orderQuery;
-                            $result = mysqli_query($self_con, $query);
-                            while($row = mysqli_fetch_array($result)){
+                            $result = mysql_query($query);
+                            while($row = mysql_fetch_array($result)){
                                 $mem_sql = "select site_iam, recommend_id, mem_point, mem_cash,bank_name,bank_account from Gn_Member where mem_id= '".$row['buyer_id']."'";
-                                $mem_sql_res = mysqli_query($self_con, $mem_sql);
-                                $member = mysqli_fetch_array($mem_sql_res);
+                                $mem_sql_res = mysql_query($mem_sql);
+                                $member = mysql_fetch_array($mem_sql_res);
                                 ?>
                                 <tr>
                                     <td align="center">

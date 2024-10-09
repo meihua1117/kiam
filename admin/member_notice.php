@@ -13,27 +13,27 @@ $curYear = date("Y");
 // 셀링분양 특정도메인 목록
 $selling_domains = array();
 $query = "SELECT sub_domain FROM Gn_Service GROUP BY sub_domain";
-$res = mysqli_query($self_con, $query);
-while($row = mysqli_fetch_array($res)) {
+$res = mysql_query($query);
+while($row = mysql_fetch_array($res)) {
     $selling_domains[] = $row['sub_domain'];
 }
 // IAM분양 특정도메인 목록
 $iam_selling_domains = array();
 $query = "SELECT sub_domain FROM Gn_Iam_Service GROUP BY sub_domain";
-$res = mysqli_query($self_con, $query);
-while($row = mysqli_fetch_array($res)) {
+$res = mysql_query($query);
+while($row = mysql_fetch_array($res)) {
     $iam_selling_domains[] = $row['sub_domain'];
 }
 /*$query = "SELECT site FROM Gn_Member GROUP BY site";
-$res = mysqli_query($self_con, $query);
-while($row = mysqli_fetch_array($res)) {
+$res = mysql_query($query);
+while($row = mysql_fetch_array($res)) {
     $iam_selling_domains[] = $row['site'];
 }*/
 // 광역시도 목록
 $province_list = array();
 $query = "SELECT province FROM gn_cities group by province";
-$res = mysqli_query($self_con, $query);
-while($row = mysqli_fetch_array($res)) {
+$res = mysql_query($query);
+while($row = mysql_fetch_array($res)) {
     $province_list[] = $row['province'];
 }
 

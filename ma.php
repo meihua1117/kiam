@@ -1,18 +1,52 @@
 <?
 header("Pragma:no-cache");
-if ($_REQUEST[mem_code]) {
-    @setcookie("mem_code", $_REQUEST[mem_code], time() + 3600);
-    $_COOKIE[mem_code] = $_REQUEST[mem_code];
+if ($_REQUEST['mem_code']) {
+    @setcookie("mem_code", $_REQUEST['mem_code'], time() + 3600);
+    $_COOKIE['mem_code'] = $_REQUEST['mem_code'];
 }
 include_once $_SERVER['DOCUMENT_ROOT'] . "/lib/rlatjd_fun.php";
 include_once "_head.php";
-
 ?>
 <link href='/css/sub_4_re.css' rel='stylesheet' type='text/css' />
 <style>
     .index .midle .bg {
         position: absolute;
         overflow: hidden;
+    }
+
+    .daily_tmp_popup {
+        font-size: 15px;
+        background-color: white;
+        color: black;
+        text-align: left;
+        position: absolute;
+        z-index: 200;
+        top: 100px;
+        left: 50%;
+        transform: translate(-50%, 0px);
+    }
+
+    .daily_tmp_title {
+        text-align: center;
+        background-color: rgb(130, 199, 54);
+        padding: 10px;
+        font-size: 20px;
+        color: white;
+    }
+
+    .daily_tmp_desc {
+        padding: 15px;
+    }
+
+    .daily_tmp_button {
+        text-align: center;
+        padding: 10px;
+    }
+
+    @media only screen and (max-width: 450px) {
+        .daily_tmp_popup {
+            width: 80%;
+        }
     }
 </style>
 <script src="/js/jquery-2.1.0.js"></script>
@@ -90,7 +124,7 @@ include_once "_head.php";
     <? }
     if ($sub_domain == true && $domainData['main_default_yn'] == "I") { ?>
         <div class="midle_div">
-            <div align="center">
+            <div style="text-align:center">
                 <img src="<?= $domainData['main_image'] ?>" style="width : 100%">
             </div>
         </div>
@@ -307,6 +341,32 @@ include_once "_head.php";
 <? }
     include_once "_foot.php";
 ?>
+<span class="daily_tmp_popup" id="daily_tmp_popup" style="display:none;">
+    <p class="daily_tmp_title" style="font-size: 14px;">
+        경기중소기업CEO연합회 회원사의 회원가입 및 로그인 안내
+        <a href="javascript:hide_daily_popup()" style="float:right;color:white;font-size: 20px;font-weight: bold;margin-top: -5px;cursor:pointer;">X</a>
+    </p>
+    <br>
+    <p class="daily_tmp_desc">
+        환영합니다.<br>
+        본 플랫폼은 CEO연합회 회원사를 위한 자동화 마케팅 및 고객관리 플랫폼입니다.<br>
+        본 플랫폼을 이용하실 분은 아래와 같은 로그인 지침을 확인하시기바랍니다.<br><br>
+        1. 연합회 회원사는 gscf.kr에서 회원가입한 경우 아래처럼 로그인해주세요<br>
+        - http://gscf.kr 홈피의 아이디에 'ceo_'를 앞에 붙이고 임시비번 123456으로 로그인하여 비번 변경을 하시면 됩니다.<br>
+        - 본 플랫폼을 이용하시기 위해서는 gscf.kr에 접속하여 먼저 회원가입해주세요.<br>
+        - 휴대폰에서 아래 주소를 클릭하여 앱설치를 하시기바랍니다.<br>
+        <a href='https://me2.do/xVB4OHoO' target='_blank'>https://me2.do/xVB4OHoO</a><br><br>
+        2. 본 플랫폼을 활용하시기 위해서는 아래 이용안내 영상을 보시고활용해주세요.<br>
+        <a href='https://me2.do/IDFIAJMO' target='_blank'>https://me2.do/IDFIAJMO</a><br><br>
+        3. 본 플랫폼 이용중 문의 사항은 아래 카톡상담창으로 남겨주세요<br>
+        <a href='https://pf.kakao.com/_jVafC/chat' target='_blank'>https://pf.kakao.com/_jVafC/chat</a><br><br>
+        감사합니다.
+    </p>
+    <div class="daily_tmp_button" style="float:right">
+        <div style="float: left;">더 이상 보지 않기</div>
+        <input type="checkbox" onclick="deny_tmp_popup(this)" style="float:left;">
+    </div>
+</span>
 <script>
     function newpop(str) {
         //window.open(str, "notice_pop", "toolbar=yes,scrollbars=yes,resizable=yes,top=200,left=200,width=600,height=350");
@@ -370,6 +430,20 @@ include_once "_head.php";
             });
         } else {
             return false;
+        }
+    }
+    if(window.location.host  == "gscfceo.kiam.kr" && getCookie("gscfceo") != "off"){
+        $("#daily_tmp_popup").show();
+    }
+
+    function hide_daily_popup() {
+        $("#daily_tmp_popup").hide();
+    }
+
+    function deny_tmp_popup(object) {
+        if ($(object).prop("checked")) {
+            setCookie("gscfceo","off",365);
+            hide_daily_popup();
         }
     }
 </script>

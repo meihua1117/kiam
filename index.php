@@ -210,7 +210,7 @@ else
     $query = "select * from Gn_Iam_Service where sub_domain like 'http://www.kiam.kr'";
 $res = mysql_query($query);
 $domainData = mysql_fetch_array($res);
-if($_SESSION['iam_member_id']){
+if ($_SESSION['iam_member_id']) {
     $sql = "select * from tjd_pay_result where buyer_id='{$_SESSION['iam_member_id']}' and end_status in ('Y','A')  and gwc_cont_pay=0 and 
             ((member_type like '%standard%' or member_type like '%professional%' or member_type like '%enterprise%') or 
             (((iam_pay_type = '' or iam_pay_type = '0' or iam_pay_type = '전문가') and member_type != '포인트충전')) or member_type='베스트상품') and payMethod <> 'POINT' order by end_date desc";
@@ -220,8 +220,8 @@ if($_SESSION['iam_member_id']){
     $res_result = mysql_query($sql);
     $pay_data = mysql_fetch_array($res_result);
 }
-if($domainData['status'] == "N"){
-    echo "<script>window.open("."'/payment_pop.php?index={$pay_data['orderNumber']}'".", \"notice_pop\", \"toolbar=yes,scrollbars=yes,resizable=yes,top=200,left=200,width=600,height=350\");</script>";
+if ($domainData['status'] == "N") {
+    echo "<script>window.open(" . "'/payment_pop.php?index={$pay_data['orderNumber']}'" . ", \"notice_pop\", \"toolbar=yes,scrollbars=yes,resizable=yes,top=200,left=200,width=600,height=350\");</script>";
 }/*else if($pay_data['stop_yn'] == "Y" || $pay_data['end_status'] == "N"){
     echo "<script>window.open("."'/payment_pop.php?index={$pay_data['orderNumber']}&type=user'".", \"notice_pop\", \"toolbar=yes,scrollbars=yes,resizable=yes,top=200,left=200,width=600,height=350\");</script>";
 }*/
@@ -450,7 +450,7 @@ $cursor = 0;
 if ($_GET['tutorial'])
     $end_link = str_replace("tutorial=Y", "tutorial=N&type=image", $_SERVER['REQUEST_URI']);
 if ($cur_card['card_name'] == '') {
-//    $main_img1 = str_replace("http://www.kiam.kr", $cdn_ssl, $main_card_row['main_img1']);
+    //    $main_img1 = str_replace("http://www.kiam.kr", $cdn_ssl, $main_card_row['main_img1']);
 }
 $cur_card['card_position'] = str_replace(array("\r", "\n"), "", trim($cur_card['card_position']));
 
@@ -462,7 +462,8 @@ if (($_GET['key1'] == 4 && $_GET['key4'] != 3) || ($_SESSION['iam_member_id'] ==
     $content_table_name = "Gn_Iam_Contents";
 }
 header('X-Frame-Options: SAMEORIGIN');
-function encodeKorean($matches) {
+function encodeKorean($matches)
+{
     return urlencode($matches[0]);
 }
 ?>
@@ -489,7 +490,7 @@ function encodeKorean($matches) {
     <? } else { ?>
         <title>아이엠 멀티명함 IAM Multicard</title>
 
-    <? } 
+    <? }
     $meta_img = preg_replace_callback('/[\x{1100}-\x{11FF}\x{3130}-\x{318F}\x{AC00}-\x{D7AF}]+/u', 'encodeKorean', get_meta_image(cross_image($main_img1)));
     ?>
     <meta name="naver-site-verification" content="90176b5d8f3b8ebed40060734107b11e6ecdd9d3" />
@@ -498,14 +499,14 @@ function encodeKorean($matches) {
     <meta property="og:title" content="아이엠 멀티명함 IAM Multicard">
     <!--meta name="description" content="아이엠으로 브랜딩하고 자동홍보하기,멀티명함,모바일명함,종이명함,자동콜백,리포트설문,멀티브랜딩"-->
     <!--제목-->
-    <meta property="og:description" content="<?=$cur_card['card_name']?$cur_card['card_name']:$domainData['mem_name']?>님의 명함 <?= $cur_card['card_company'] ?> <?= $cur_card['card_position'] ?>">
+    <meta property="og:description" content="<?= $cur_card['card_name'] ? $cur_card['card_name'] : $domainData['mem_name'] ?>님의 명함 <?= $cur_card['card_company'] ?> <?= $cur_card['card_position'] ?>">
     <!--내용-->
     <!--meta property="og:video" content="<?= $cur_card['video'] ?>"-->
-    <meta property="og:image" content="<?= $meta_img?>">
+    <meta property="og:image" content="<?= $meta_img ?>">
     <!--이미지-->
     <meta property="og:type" content="website">
     <!--오픈그래프 끝-->
-    
+
     <link rel="stylesheet" href="/admin/bootstrap/css/bootstrap.min.css">
     <link rel="shortcut icon" href="/iam/img/common/iconiam.ico">
     <link rel="stylesheet" href="/iam/css/notokr.css">
@@ -842,7 +843,8 @@ function encodeKorean($matches) {
                     <? }
                 }
                 if ($_GET['req_provide'] == 'Y') { ?>
-                    $("#contents_add_modal").modal('show');
+                    $("#contents_add_modal").modal("show");
+                    $(".gallery").hide();
             <? }
             } ?>
             console.log('<?= $cur_win ?>', '<?= $_COOKIE['contents_mode'] ?>');
@@ -1035,11 +1037,9 @@ function encodeKorean($matches) {
         }
 
         function getIamContact(card_owner, card_master, search_range, phone_count, page, paper_yn) {
-
-            var search_str = $("#search_str").val();
+            var search_str = $("#contact_search_str").val();
             if (search_str == undefined)
                 search_str = "";
-
             $.ajax({
                 type: "GET",
                 url: "/iam/ajax/get_iam_contact.php",
@@ -1058,7 +1058,7 @@ function encodeKorean($matches) {
         }
 
         function getIamFriends(card_owner, card_master, phone_count, search_range, page) {
-            var search_str = $("#search_str2").val();
+            var search_str = $("#friend_search_str").val();
             if (search_str == undefined)
                 search_str = "";
 
@@ -1086,21 +1086,35 @@ function encodeKorean($matches) {
                 url: "/iam/ajax/get_request_list.php",
                 data: "page2=" + page,
                 success: function(html) {
-                    // $("#request_list_table").html('');
                     $("#request_list_table").append(html);
                 }
             });
         }
 
-        function getIamPaper() {
+        function getIamPaper(card_owner, card_master, search_range, phone_count, page) {
+            var search_str = $("#paper_search_str").val();
+            if (search_str == undefined)
+                search_str = "";
             $.ajax({
                 type: "GET",
                 url: "/iam/ajax/get_paper_list.php",
+                data: "search_str=" + search_str +
+                    "&card_owner=" + card_owner +
+                    "&card_master=" + card_master +
+                    "&phone_count=" + phone_count +
+                    "&search_range=" + search_range +
+                    "&page=" + page,
                 success: function(html) {
-                    // $("#request_list_table").html('');
                     $("#papercard_list").html(html);
                 }
             });
+            /*$.ajax({
+                type: "GET",
+                url: "/iam/ajax/get_paper_list.php",
+                success: function(html) {
+                    $("#papercard_list").html(html);
+                }
+            });*/
         }
 
         function displayContents(lim, off) {
@@ -1290,6 +1304,11 @@ function encodeKorean($matches) {
                                     $func = str_replace("card_link", $request_short_url . $card_owner_code, $menu_row['move_url']);
                                     $func = str_replace("prewin", $cur_win, $func);
                                     $func = str_replace("card_name", $cur_card['card_name'], $func);
+                                    if (strstr($func, "domainData['kakao']")) {
+                                        $func = $domainData['kakao'];
+                                        if ($func == "")
+                                            $func = 'https://pf.kakao.com/_jVafC/chat';
+                                    }
                                     if (!strstr($func, "javascript"))
                                         $target = "target=\"_blank\"";
                                     else
@@ -2116,7 +2135,7 @@ function encodeKorean($matches) {
             <label class="label label-sm share_count" id = "cart_cnt" style="top:0px;margin-left: -5px;"><?= $cart_cnt ? $cart_cnt : '' ?></label>
         </div-->
             <? if (!$_SESSION['iam_member_id']) { ?>
-                <div id="btn_login" style="margin-top:12px;text-align: center;cursor:pointer" onclick="location.href = '<?= ($domainData['status'] == 'N')?'':'/iam/login.php?recommend_id=' . $card_owner ?>'">
+                <div id="btn_login" style="margin-top:12px;text-align: center;cursor:pointer" onclick="location.href = '<?= ($domainData['status'] == 'N') ? '' : '/iam/login.php?recommend_id=' . $card_owner ?>'">
                     <img src="/iam/img/menu/icon_bottom_login.png" style="height:24px;width:24px">
                 </div>
                 <? } else {
@@ -2226,7 +2245,8 @@ function encodeKorean($matches) {
                     }
                     //종이명함 갯수 가져오기
                     if ($_SESSION['iam_member_id']) {
-                        $paper_count_sql = "select count(*) from Gn_Member_card where mem_id='{$_SESSION['iam_member_id']}'";
+                        $paper_count_sql = "select count(idx) from Gn_MMS_Receive_Iam where mem_id = '{$_SESSION['iam_member_id']}' and grp = '아이엠' and paper_yn=1";
+                        //"select count(*) from Gn_Member_card where mem_id='{$_SESSION['iam_member_id']}'";
                         $paper_count_result_ = mysql_query($paper_count_sql);
                         $paper_count_row = mysql_fetch_array($paper_count_result_);
                         $paper_total_count = $paper_count_row[0];
@@ -2917,8 +2937,50 @@ function encodeKorean($matches) {
                                 </div>
                             </div>
                         </div>
+                        <!-- 2020-11-09 종이명함탭 -->
                         <div class="tab-pane fade paper-tab-content" id="paper" role="tabpanel" aria-labelledby="paper-tab">
                             <div class="box-body">
+                                <?
+                                if ($card_num !== "") {
+                                    $page_search = $cur_card['card_short_url'];
+                                } else {
+                                    $page_search = "";
+                                }
+
+                                $search_range = $_GET['search_range'];
+                                $search_str = $_GET['search_str'];
+
+                                if (is_null($search_str)) {
+                                    $search_str = "";
+                                }
+                                ?>
+                                <div class="search-box clearfix J1">
+                                    <? if ($_SESSION['iam_member_id'] == $card_owner && $_SESSION['iam_member_id'] == $card_master) { ?>
+                                        <div class="row" style="margin-left: 8px;margin-bottom: 10px;margin-top: 7px;">
+                                            <div class="left">
+                                                <div class="buttons">
+                                                    <a href="javascript:paper_range('1')" class="button" <? if ((int)$search_range == 1) { ?>style="background-color: #000;" <? } else { ?>style="background-color: #fff;color:black;" <? } ?>>가</a>
+                                                    <a href="javascript:paper_range('3')" class="button" <? if ((int)$search_range == 3) { ?>style="background-color: #000;" <? } else { ?>style="background-color: #fff;color:black;" <? } ?>><i class="fa fa-history" aria-hidden="true"></i></a>
+                                                    <input type="hidden" name="paper_range" id="paper_range" value="<?= $search_range ?>">
+                                                </div>
+                                                <div id="paper_chk_count" class="selects">0개 선택됨</div>
+                                            </div>
+                                        </div>
+                                        <div class="row" style="line-height: 30px">
+                                            <div class="search J_search" style="display:inline;width:60%;margin-right:8px;">
+                                                <button type="button" onclick="paper_submit();" class="submit" style="top: 3px;background: #f9f9f9;font-size: 17px;">
+                                                    <img src="/iam/img/menu/icon_bottom_search.png" style="margin-left:5px;width:24px">
+                                                </button>
+                                                <input type="text" name="paper_search_str" id="paper_search_str" class="input" value="<?= $search_str ?>" onkeyup="enterkey('paper_submit');" style="font-size:12px;height: 25px;background:#f9f9f9;width:50%;outline:none;" placeholder="검색어를 입력해주세요.">
+                                            </div>
+                                            <!-- 2020-11-09 전체선택 추가 -->
+                                            <div style="float:right;padding-top:5px;padding-left:10px;">
+                                                <input type="checkbox" name="cbG03" id="cbG03" class="css-checkbox" onclick='groupCheckClick_paper(this); '>
+                                                <label for="cbG03" class="css-label cb0">전체선택</label>
+                                            </div>
+                                        </div>
+                                    <? } ?>
+                                </div>
                                 <div class="inner" id="papercard_list">
 
                                 </div>
@@ -2949,7 +3011,7 @@ function encodeKorean($matches) {
                                                 <div class="buttons">
                                                     <a href="javascript:contact_range('1')" class="button" <? if ((int)$search_range == 1) { ?>style="background-color: #000;" <? } else { ?>style="background-color: #fff;color:black;" <? } ?>>가</a>
                                                     <a href="javascript:contact_range('3')" class="button" <? if ((int)$search_range == 3) { ?>style="background-color: #000;" <? } else { ?>style="background-color: #fff;color:black;" <? } ?>><i class="fa fa-history" aria-hidden="true"></i></a>
-                                                    <input type="hidden" name="search_range" id="search_range" value="<?= $search_range ?>">
+                                                    <input type="hidden" name="contact_range" id="contact_range" value="<?= $search_range ?>">
                                                 </div>
                                                 <div id="contact_chk_count" class="selects">0개 선택됨</div>
                                             </div>
@@ -2957,14 +3019,14 @@ function encodeKorean($matches) {
                                         <div class="row" style="line-height: 30px">
                                             <div class="search J_search" style="display:inline;width:60%;margin-right:8px;">
                                                 <button type="button" onclick="contact_submit();" class="submit" style="top: 3px;background: #f9f9f9;font-size: 17px;">
-                                                    <!--i class="fa fa-search" aria-hidden="true"></i-->
-                                                    <img src="/iam/img/menu/icon_bottom_search.png" style="margin-left:5px;width:24px" onclick="wecon_search_clicked()">
+                                                    <!--img src="/iam/img/menu/icon_bottom_search.png" style="margin-left:5px;width:24px" onclick="wecon_search_clicked()"-->
+                                                    <img src="/iam/img/menu/icon_bottom_search.png" style="margin-left:5px;width:24px">
                                                 </button>
-                                                <input type="text" name="search_str" id="search_str" class="input" value="<?= $search_str ?>" onkeyup="enterkey('contact_submit');" style="font-size:12px;height: 25px;background:#f9f9f9;width:50%;outline:none;" placeholder="검색어를 입력해주세요.">
+                                                <input type="text" name="contact_search_str" id="contact_search_str" class="input" value="<?= $search_str ?>" onkeyup="enterkey('contact_submit');" style="font-size:12px;height: 25px;background:#f9f9f9;width:50%;outline:none;" placeholder="검색어를 입력해주세요.">
                                             </div>
                                             <!-- 2020-11-09 전체선택 추가 -->
                                             <div style="float:right;padding-top:5px;padding-left:10px;">
-                                                <input type="checkbox" name="cbG02" id="cbG02" class="css-checkbox" onclick='groupCheckClick_1(this); '>
+                                                <input type="checkbox" name="cbG02" id="cbG02" class="css-checkbox" onclick='groupCheckClick_contact(this); '>
                                                 <label for="cbG02" class="css-label cb0">전체선택</label>
                                             </div>
                                             <div style="float:right;padding-top:5px;">
@@ -3018,7 +3080,7 @@ function encodeKorean($matches) {
                                                 <div class="buttons">
                                                     <a href="javascript:friends_range('1');" class="button" <? if ((int)$search_range2 == 1) { ?>style="background-color: #000;" <? } else { ?>style="background-color: #fff;color:black;" <? } ?>>가</a>
                                                     <a href="javascript:friends_range('3');" class="button" <? if ((int)$search_range2 == 3) { ?>style="background-color: #000;" <? } else { ?>style="background-color: #fff;color:black;" <? } ?>><i class="fa fa-history" aria-hidden="true"></i></a>
-                                                    <input type="hidden" name="search_range2" id="search_range2" value="<?= $search_range2 ?>">
+                                                    <input type="hidden" name="friends_range" id="friends_range" value="<?= $search_range2 ?>">
                                                 </div>
                                                 <div id="friends_chk_count" class="selects">0개 선택됨</div>
                                             </div>
@@ -3037,7 +3099,7 @@ function encodeKorean($matches) {
                                                     <!--i class="fa fa-search" aria-hidden="true"></i-->
                                                     <img src="/iam/img/menu/icon_bottom_search.png" style="margin-left:5px;width:24px">
                                                 </button>
-                                                <input type="text" name="search_str2" id="search_str2" class="input" value="<?= $search_str2 ?>" onkeyup="enterkey('friends_submit');" style="font-size:12px;height: 25px;background:#f9f9f9;width:50%;outline:none;" placeholder="검색어를 입력해주세요.">
+                                                <input type="text" name="friend_search_str" id="friend_search_str" class="input" value="<?= $search_str2 ?>" onkeyup="enterkey('friends_submit');" style="font-size:12px;height: 25px;background:#f9f9f9;width:50%;outline:none;" placeholder="검색어를 입력해주세요.">
                                             </div>
 
                                             <div style="float:right;padding-top:5px;padding-left:20px;">
@@ -4238,7 +4300,7 @@ function encodeKorean($matches) {
                     } elseif ($_GET['sort_key3'] == 3) { //고가순
                         $order_sql = " ORDER BY contents_sell_price desc";
                     } else {
-                        $order_sql = " order by c.idx desc";
+                        $order_sql = " order by c.up_data desc,c.idx desc";
                     }
 
                     if ($_GET['sort'] == 1) { //1시간전
@@ -4319,7 +4381,7 @@ function encodeKorean($matches) {
                     $cont_count = $total_row[0];
                     // middle log
                     $logs->add_log("카운팅 갯수 : $cont_count");
-                    // echo $sql8;
+                    //echo $sql8;
                     $cont_id_array = array();
                     if (!$search_key && $_GET['key1'] != 4) {
                         if ($cont_count > 0) {
@@ -4381,7 +4443,7 @@ function encodeKorean($matches) {
                     }
                     $sql8 .= " and group_display = 'Y' ";
                     $sql8 .= $order_sql;
-
+                    //echo $sql8;
                     if ($contents_count_per_page * ($w_page - 1) < count($cont_id_array)) {
                         $temp_cont_arr = array_slice($cont_id_array, $contents_count_per_page * ($w_page - 1), $contents_count_per_page);
                         foreach ($temp_cont_arr as $idx) {
@@ -4813,17 +4875,17 @@ function encodeKorean($matches) {
                                 }
                                 ?>
                                 <div class="user-item" style="<?= $user_display . $pad_top ?>">
-                                    <a href="/?<?= strip_tags($contents_row['westory_card_url'] . $m_code)?>" class="img-box" target="_blank">
+                                    <a href="/?<?= strip_tags($contents_row['westory_card_url'] . $m_code) ?>" class="img-box" target="_blank">
                                         <div class="user-img" style="margin: 5px;width:32px;height:32px;">
                                             <img src="<?= $contents_avatar ? cross_image($contents_avatar) : '/iam/img/common/logo-2.png' ?>" alt="">
                                         </div>
                                     </a>
                                     <div class="wrap image_mode">
-                                        <a href="/?<?= strip_tags($contents_row['westory_card_url'] . $m_code)?>" class="user-name" style="">
+                                        <a href="/?<?= strip_tags($contents_row['westory_card_url'] . $m_code) ?>" class="user-name" style="">
                                             <?= $contents_user_name ?>
                                         </a>
                                         <? if ($_GET['iamstore'] != 'N' || $_GET['cate_prod'] == '1268514') { ?>
-                                            <a href="/?<?= strip_tags($contents_row['westory_card_url'] . $m_code)?>" class="date" style="">
+                                            <a href="/?<?= strip_tags($contents_row['westory_card_url'] . $m_code) ?>" class="date" style="">
                                                 <?= get_date_time($contents_row['req_data']) ?>
                                             </a>
                                         <? } ?>
@@ -4831,18 +4893,18 @@ function encodeKorean($matches) {
                                     <div class="wrap pin_mode" style="display:none;">
                                         <? //if($contents_row['contents_title'] != "") { 
                                         ?>
-                                        <!-- <a href="/?<?= strip_tags($contents_row['westory_card_url'] . $m_code)?>" class="user-name pin-mode" style="text-overflow: ellipsis;white-space: nowrap;width:100%">
+                                        <!-- <a href="/?<?= strip_tags($contents_row['westory_card_url'] . $m_code) ?>" class="user-name pin-mode" style="text-overflow: ellipsis;white-space: nowrap;width:100%">
                                             <?= $contents_row['contents_title'] ?>
                                         </a> -->
                                         <? //}else{
                                         ?>
-                                        <a href="/?<?= strip_tags($contents_row['westory_card_url'] . $m_code)?>" class="user-name" style="">
+                                        <a href="/?<?= strip_tags($contents_row['westory_card_url'] . $m_code) ?>" class="user-name" style="">
                                             <?= $contents_user_name ?>
                                         </a>
                                         <? //}
                                         ?>
                                         <? if ($_GET['iamstore'] != 'N') { ?>
-                                            <a href="/?<?= strip_tags($contents_row['westory_card_url'] . $m_code)?>" class="date" style="">
+                                            <a href="/?<?= strip_tags($contents_row['westory_card_url'] . $m_code) ?>" class="date" style="">
                                                 <?= get_date_time($contents_row['req_data']) ?>
                                             </a>
                                         <? } ?>
@@ -5650,36 +5712,36 @@ function encodeKorean($matches) {
                                         </div>
                                     <? } ?>
                                     <div class="second-box" style="<? if ($westory_card['post_display'] == 0) echo ('display:none !important'); ?>">
-                                	<div class="in-box">
-                                    	    <div style="display: flex;vertical-align: middle">
-                                        	<a  class = "hand" href="javascript:contents_like('<?= $contents_row['idx'] ?>','<?= $_SESSION['iam_member_id'] ?>', '<?= $contents_row['product_seperate'] ?>', '<?= $contents_row['gwc_con_state'] ?>');">
-                                            	    <? if (in_array($_SESSION['iam_member_id'], explode(",", $contents_row['contents_like']))) { ?> 
-                                            	    <img src="/iam/img/menu/icon_like_active.png" width="24px" alt="" id="like_img_<?= $contents_row['idx'] ?>">
-                                            	    <? } else { ?>
-                                            	    <img src="/iam/img/menu/icon_like.png" width="24px" alt="" id="like_img_<?= $contents_row['idx'] ?>">
-                                            	    <? } ?>
-                                        	</a>
-                                        	<p class = "second-box-like like-count like_<?= $contents_row['idx'] ?>" style="font-size:13px">
-                                            	    <?= number_format(count(explode(",", $contents_row['contents_like']))) ?>개
-                                        	</p>
-                                        	<? if ($_GET['key1'] != 4) { ?>
-                                        	&nbsp;&nbsp;&nbsp;
-                                        	<a href="javascript:show_post('<?= $contents_row['idx'] ?>');" class="hand">
-                                            	    <img id="<?= 'show_post_img_' . $contents_row['idx'] ?>" src="/iam/img/menu/icon_post.png" height="24px" alt="">
-                                            	    <label style="font-size: 10px;background: #ff3333;border-radius: 50%!important;padding: 3px 5px!important;color: #fff;
-                                                        text-align: center;line-height: 1;position: absolute;margin-left: -15px" id = "<?= 'post_alarm_' . $contents_row['idx'] ?>"></label>
-                                        	</a>
-                                        	<p onclick = "refresh_post('<?= $contents_row['idx'] ?>')" class="second-box-like like-count" id="<?= 'post_count_' . $contents_row['idx'] ?>" style="font-size:13px"><?= $post_count ?>  &#x21BA;</p>
-                                        	<? } ?>
-                                    	    </div>
-                                	</div>
-                                	<? if ($_GET['key1'] == 4 && $_GET['iamstore'] == "N") { ?>
-                                	<div class="in-box" style="position: absolute;right: 10px;">
-                                    	    <a class="gwc_order_btn1" href="javascript:show_order_option('<?= $contents_row['idx'] ?>', 'cart', '<?= $gwc_mem ?>')" style="margin-bottom: 5px;font-size: 12px;border: 1px solid #99cc00;margin-right: 10px;padding: 3px 10px;border-radius: 10px;">장바구니</a>
-                                    	    <a class="gwc_order_btn2" href="javascript:show_order_option('<?= $contents_row['idx'] ?>', 'pay', '<?= $gwc_mem ?>')" style="margin-bottom: 5px;font-size: 12px;padding: 3px 10px;border-radius: 10px;border: 1px solid;color: white;background-color: #99cc00;">바로구매</a>
-                                	</div>
-                                	<? } ?>
-                            	    </div>
+                                        <div class="in-box">
+                                            <div style="display: flex;vertical-align: middle">
+                                                <a class="hand" href="javascript:contents_like('<?= $contents_row['idx'] ?>','<?= $_SESSION['iam_member_id'] ?>', '<?= $contents_row['product_seperate'] ?>', '<?= $contents_row['gwc_con_state'] ?>');">
+                                                    <? if (in_array($_SESSION['iam_member_id'], explode(",", $contents_row['contents_like']))) { ?>
+                                                        <img src="/iam/img/menu/icon_like_active.png" width="24px" alt="" id="like_img_<?= $contents_row['idx'] ?>">
+                                                    <? } else { ?>
+                                                        <img src="/iam/img/menu/icon_like.png" width="24px" alt="" id="like_img_<?= $contents_row['idx'] ?>">
+                                                    <? } ?>
+                                                </a>
+                                                <p class="second-box-like like-count like_<?= $contents_row['idx'] ?>" style="font-size:13px">
+                                                    <?= number_format(count(explode(",", $contents_row['contents_like']))) ?>개
+                                                </p>
+                                                <? if ($_GET['key1'] != 4) { ?>
+                                                    &nbsp;&nbsp;&nbsp;
+                                                    <a href="javascript:show_post('<?= $contents_row['idx'] ?>');" class="hand">
+                                                        <img id="<?= 'show_post_img_' . $contents_row['idx'] ?>" src="/iam/img/menu/icon_post.png" height="24px" alt="">
+                                                        <label style="font-size: 10px;background: #ff3333;border-radius: 50%!important;padding: 3px 5px!important;color: #fff;
+                                                        text-align: center;line-height: 1;position: absolute;margin-left: -15px" id="<?= 'post_alarm_' . $contents_row['idx'] ?>"></label>
+                                                    </a>
+                                                    <p onclick="refresh_post('<?= $contents_row['idx'] ?>')" class="second-box-like like-count" id="<?= 'post_count_' . $contents_row['idx'] ?>" style="font-size:13px"><?= $post_count ?> &#x21BA;</p>
+                                                <? } ?>
+                                            </div>
+                                        </div>
+                                        <? if ($_GET['key1'] == 4 && $_GET['iamstore'] == "N") { ?>
+                                            <div class="in-box" style="position: absolute;right: 10px;">
+                                                <a class="gwc_order_btn1" href="javascript:show_order_option('<?= $contents_row['idx'] ?>', 'cart', '<?= $gwc_mem ?>')" style="margin-bottom: 5px;font-size: 12px;border: 1px solid #99cc00;margin-right: 10px;padding: 3px 10px;border-radius: 10px;">장바구니</a>
+                                                <a class="gwc_order_btn2" href="javascript:show_order_option('<?= $contents_row['idx'] ?>', 'pay', '<?= $gwc_mem ?>')" style="margin-bottom: 5px;font-size: 12px;padding: 3px 10px;border-radius: 10px;border: 1px solid;color: white;background-color: #99cc00;">바로구매</a>
+                                            </div>
+                                        <? } ?>
+                                    </div>
                                 </div>
                                 <?
                                 $post_status_sql = "select count(*) from Gn_Iam_Post where content_idx = '{$contents_row['idx']}' and status = 'N' and lock_status = 'N'";
@@ -6384,6 +6446,8 @@ function encodeKorean($matches) {
                     get_data: 'Y'
                 },
                 success: function(data) {
+                    if (checkMobile())
+                        AppScript.setClearCache();
                     $("#paper_name").val(data.name);
                     $("#paper_job").val(data.job);
                     $("#paper_org").val(data.org_name);
@@ -6400,6 +6464,10 @@ function encodeKorean($matches) {
             $("#paper_list_edit_modal").modal("show");
         }
 
+        function app_camera_paper() {
+            AppScript.goCardCamera();
+        }
+
         function delete_paper(id) {
             if (confirm('삭제하시겠습니까?')) {
                 $.ajax({
@@ -6411,6 +6479,7 @@ function encodeKorean($matches) {
                         del: 'Y'
                     },
                     success: function(data) {
+                        AppScript.setClearCache();
                         alert('삭제되었습니다.');
                         $("#paper_list_" + id).remove();
                         if ($(".paper_list").length == 0) {
@@ -6426,8 +6495,9 @@ function encodeKorean($matches) {
             $("#paper-tab").click();
         }
 
-        function show_comment() {
-            var seqid = $("#paper_seq").val();
+        function show_comment(seqid = "") {
+            if (seqid == "")
+                seqid = $("#paper_seq").val();
             $.ajax({
                 type: "POST",
                 url: "/iam/ajax/manage_paper_list.php",
@@ -6452,7 +6522,7 @@ function encodeKorean($matches) {
             var paper_name = $("#paper_name").val();
             var paper_job = $("#paper_job").val();
             var paper_org_name = $("#paper_org").val();
-            var paper_address = $("#paper_address").val();
+            var paper_address = $("#paper_addr").val();
             var paper_phone1 = $("#paper_phone1").val();
             var paper_phone2 = $("#paper_phone2").val();
             var paper_mobile = $("#paper_mobile").val();
@@ -6482,16 +6552,16 @@ function encodeKorean($matches) {
                 success: function(data) {
                     alert("저장되었습니다.");
                     $("#paper_list_edit_modal").modal("hide");
-		    AppScript.savePaper();
+                    //AppScript.savePaper();
                 }
             });
         }
 
-        /*function show_paper_img(img_link){
-            var img_tab = '<img src="'+img_link+'">';
+        function show_paper_img(img_link) {
+            var img_tab = '<img src="' + img_link + '">';
             $("#paper_image_link").html(img_tab);
             $("#show_paper_image").modal('show');
-        }*/
+        }
 
         function cancel_req(req_idx) {
             if (confirm('취소하시겠습니까?')) {
@@ -10471,19 +10541,19 @@ function encodeKorean($matches) {
                         success: function(data) {
                             toastr.success(data);
                             if (img_name == "main_img1") {
-                                $("#main_upload1_link").val('');
+                                $("#main_upload1_link").val("");
                                 $('#main_upload_img1').css('background-image', "");
                                 $("#main_img1").css("background-image", "url('')");
                                 $("#main_img1").attr("href", "#");
                                 $("#for_size_1").attr("src", "");
                             } else if (img_name == "main_img2") {
-                                $("#main_upload2_link").val('');
+                                $("#main_upload2_link").val("");
                                 $('#main_upload_img2').css('background-image', "");
                                 $("#main_img2").css("background-image", "url('')");
                                 $("#main_img2").attr("href", "#");
                                 $("#for_size_2").attr("src", "");
                             } else if (img_name == "main_img3") {
-                                $("#main_upload3_link").val('');
+                                $("#main_upload3_link").val("");
                                 $('#main_upload_img3').css('background-image', "");
                                 $("#main_img3").css("background-image", "url('')");
                                 $("#main_img3").attr("href", "#");
@@ -10499,19 +10569,19 @@ function encodeKorean($matches) {
                 } else {
                     toastr.success("대표이미지가 삭제 되었습니다.");
                     if (img_name == "main_img1") {
-                        $("#main_upload1_link").val('');
+                        $("#main_upload1_link").val("");
                         $('#main_upload_img1').css('background-image', "url()");
                         $("#main_img1").css("background-image", "url('')");
                         $("#main_img1").attr("href", "#");
                         $("#for_size_1").attr("src", "");
                     } else if (img_name == "main_img2") {
-                        $("#main_upload2_link").val('');
+                        $("#main_upload2_link").val("");
                         $('#main_upload_img2').css('background-image', "url()");
                         $("#main_img2").css("background-image", "url('')");
                         $("#main_img2").attr("href", "#");
                         $("#for_size_2").attr("src", "");
                     } else if (img_name == "main_img3") {
-                        $("#main_upload3_link").val('');
+                        $("#main_upload3_link").val("");
                         $('#main_upload_img3').css('background-image', "url()");
                         $("#main_img3").css("background-image", "url('')");
                         $("#main_img3").attr("href", "#");
@@ -10606,27 +10676,50 @@ function encodeKorean($matches) {
         }
 
         function contact_range(v1) {
-            if (Number($("#search_range").val()) == 1 && Number(v1) == 1) {
+            if (Number($("#contact_range").val()) == 1 && Number(v1) == 1) {
                 getIamContact('<?= $card_owner ?>', '<?= $card_master ?>', 2, '<?= $phone_count ?>', 1, 0);
-                $("#search_range").val('2');
-            } else if (Number($("#search_range").val()) == 2 && Number(v1) == 1) {
+                $("#contact_range").val('2');
+            } else if (Number($("#contact_range").val()) == 2 && Number(v1) == 1) {
                 getIamContact('<?= $card_owner ?>', '<?= $card_master ?>', 1, '<?= $phone_count ?>', 1, 0);
-                $("#search_range").val('1');
-            } else if (Number($("#search_range").val()) == 3 && Number(v1) == 3) {
+                $("#contact_range").val('1');
+            } else if (Number($("#contact_range").val()) == 3 && Number(v1) == 3) {
                 getIamContact('<?= $card_owner ?>', '<?= $card_master ?>', 4, '<?= $phone_count ?>', 1, 0);
-                $("#search_range").val('4');
-            } else if (Number($("#search_range").val()) == 4 && Number(v1) == 3) {
+                $("#contact_range").val('4');
+            } else if (Number($("#contact_range").val()) == 4 && Number(v1) == 3) {
                 getIamContact('<?= $card_owner ?>', '<?= $card_master ?>', 3, '<?= $phone_count ?>', 1, 0);
-                $("#search_range").val('3');
+                $("#contact_range").val('3');
             } else {
                 getIamContact('<?= $card_owner ?>', '<?= $card_master ?>', v1, '<?= $phone_count ?>', 1, 0);
-                $("#search_range").val(v1);
+                $("#contact_range").val(v1);
+            }
+        }
+
+        function paper_range(v1) {
+            if (Number($("#paper_range").val()) == 1 && Number(v1) == 1) {
+                getIamPaper('<?= $card_owner ?>', '<?= $card_master ?>', 2, '<?= $phone_count ?>', 1, 0);
+                $("#paper_range").val('2');
+            } else if (Number($("#paper_range").val()) == 2 && Number(v1) == 1) {
+                getIamPaper('<?= $card_owner ?>', '<?= $card_master ?>', 1, '<?= $phone_count ?>', 1, 0);
+                $("#paper_range").val('1');
+            } else if (Number($("#paper_range").val()) == 3 && Number(v1) == 3) {
+                getIamPaper('<?= $card_owner ?>', '<?= $card_master ?>', 4, '<?= $phone_count ?>', 1, 0);
+                $("#paper_range").val('4');
+            } else if (Number($("#paper_range").val()) == 4 && Number(v1) == 3) {
+                getIamPaper('<?= $card_owner ?>', '<?= $card_master ?>', 3, '<?= $phone_count ?>', 1, 0);
+                $("#paper_range").val('3');
+            } else {
+                getIamPaper('<?= $card_owner ?>', '<?= $card_master ?>', v1, '<?= $phone_count ?>', 1, 0);
+                $("#paper_range").val(v1);
             }
         }
 
         // 연락처 검색
         function contact_submit() {
             getIamContact('<?= $card_owner ?>', '<?= $card_master ?>', '<?= $search_range ?>', '<?= $phone_count ?>', 1, 0);
+        }
+        // 종이명함 검색
+        function paper_submit() {
+            getIamPaper('<?= $card_owner ?>', '<?= $card_master ?>', '<?= $search_range ?>', '<?= $phone_count ?>', 1, 0);
         }
 
         function contact_submit_paper() {
@@ -10635,6 +10728,10 @@ function encodeKorean($matches) {
         //연락처 선택 2020-11-09
         function contact_chk_count() {
             $("#contact_chk_count").text($("input[name=contact_chk]:checked").length + "개 선택됨");
+        }
+        //종이명함 선택 2024-10-13
+        function paper_chk_count() {
+            $("#paper_chk_count").text($("input[name=paper_chk]:checked").length + "개 선택됨");
         }
         //연락처 전화하기
         function contact_call() {
@@ -10663,6 +10760,24 @@ function encodeKorean($matches) {
                 alert("휴대폰에서 이용해주세요.");
             }
         }
+        //종이명함 문자발송
+        function paper_sms() {
+            iam_count('iam_sms');
+            var sms = "";
+            for (var i = 0; i < $("input[name=paper_chk]:checked").length; i++) {
+                sms = sms + $("#paper_idx" + $("input[name=paper_chk]:checked").eq(i).val()).val() + ",";
+            }
+            sms = sms.substring(0, sms.length - 1);
+            var navCase = navigator.userAgent.toLocaleLowerCase();
+            if (navCase.search("android") > -1) {
+                location.href = "sms:" + sms +
+                    "<? echo (preg_match('/iPhone/', $_SERVER['HTTP_USER_AGENT'])) ? '&' : '?'; ?>body=" +
+                    $(".J_card_name").text().trim() +
+                    "님의 명함 <?= htmlspecialchars($cur_card['card_company']) ?> <?= htmlspecialchars($cur_card['card_position']) ?> <?= $cur_card['card_phone'] ?> <?= str_replace("http:", "https:", $domainData['sub_domain']); ?>/?<?= $cur_card['card_short_url'] ?>";
+            } else {
+                alert("휴대폰에서 이용해주세요.");
+            }
+        }
         //연락처 삭제
         function contact_del() {
             var formData = new FormData();
@@ -10678,44 +10793,63 @@ function encodeKorean($matches) {
                 processData: false,
                 success: function(data) {
                     alert(data);
-                    location.reload();
+                    //location.reload();
+                    for (i = 0; i < $("input[name=contact_chk]:checked").length; i++) {
+                        var delItem = $("input[name=contact_chk]:checked").eq(i).parents(".list-item");
+                        delItem.remove();
+                    }
                 }
             })
         }
-
-
+        //종이명함 삭제
+        function paper_del() {
+            var formData = new FormData();
+            formData.append('mode', "del");
+            for (i = 0; i < $("input[name=paper_chk]:checked").length; i++) {
+                formData.append('contact_idx[]', $("input[name=paper_chk]:checked").eq(i).val());
+            }
+            $.ajax({
+                type: "POST",
+                url: "/iam/ajax/contact.proc.php",
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(data) {
+                    alert(data);
+                    //location.reload();
+                    for (i = 0; i < $("input[name=paper_chk]:checked").length; i++) {
+                        var delItem = $("input[name=paper_chk]:checked").eq(i).parents(".list-item");
+                        delItem.remove();
+                    }
+                }
+            })
+        }
         //프렌즈 정렬
         function friends_range(v1) {
-            if (Number($("#search_range2").val()) == 1 && Number(v1) == 1) {
-                $("#search_range2").val('2');
+            if (Number($("#friends_range").val()) == 1 && Number(v1) == 1) {
+                $("#friends_range").val('2');
                 getIamFriends('<?= $card_owner ?>', '<?= $card_master ?>', '<?= $phone_count ?>', 2, 1);
-
-
-            } else if (Number($("#search_range2").val()) == 2 && Number(v1) == 1) {
-                $("#search_range2").val('1');
+            } else if (Number($("#friends_range").val()) == 2 && Number(v1) == 1) {
+                $("#friends_range").val('1');
                 getIamFriends('<?= $card_owner ?>', '<?= $card_master ?>', '<?= $phone_count ?>', 1, 1);
 
-            } else if (Number($("#search_range2").val()) == 3 && Number(v1) == 3) {
-                $("#search_range2").val('4');
+            } else if (Number($("#friends_range").val()) == 3 && Number(v1) == 3) {
+                $("#friends_range").val('4');
                 getIamFriends('<?= $card_owner ?>', '<?= $card_master ?>', '<?= $phone_count ?>', 4, 1);
 
-            } else if (Number($("#search_range2").val()) == 4 && Number(v1) == 3) {
-                $("#search_range2").val('3');
+            } else if (Number($("#friends_range").val()) == 4 && Number(v1) == 3) {
+                $("#friends_range").val('3');
                 getIamFriends('<?= $card_owner ?>', '<?= $card_master ?>', '<?= $phone_count ?>', 3, 1);
 
             } else {
-                $("#search_range2").val(v1);
+                $("#friends_range").val(v1);
                 getIamFriends('<?= $card_owner ?>', '<?= $card_master ?>', '<?= $phone_count ?>', v1, 1);
             }
         }
         //프렌즈 검색
         function friends_submit(val) {
             $("#show_all").val(val);
-
-            getIamFriends('<?= $card_owner ?>', '<?= $card_master ?>', '<?= $phone_count ?>', $("#search_range2").val(), 1);
-
-            // location.href = "?<?= $page_search2 ?>&show_all="+val+"&search_type=" + $("#search_type").val() + "&search_str2=" + $(
-            //     "#search_str2").val() + "&tab=friends#friends";
+            getIamFriends('<?= $card_owner ?>', '<?= $card_master ?>', '<?= $phone_count ?>', $("#friends_range").val(), 1);
         }
         //프렌즈 체크박스
         function friends_chk_count() {
@@ -10933,6 +11067,8 @@ function encodeKorean($matches) {
                 // 엔터키가 눌렸을 때 실행할 내용
                 if (v1 == 'contact_submit') {
                     contact_submit();
+                } else if (v1 == 'paper_submit') {
+                    paper_submit();
                 } else {
                     friends_submit('<?= $show_all ?>');
                 }
@@ -12195,13 +12331,12 @@ function encodeKorean($matches) {
         function copy(link = "") {
             iam_count('iam_share');
             var iam_link = "";
-            //iam_link = '<?= str_replace("http:", "https:", $domainData['sub_domain']); ?>/?<?= $cur_card['card_short_url'] . $card_owner_code ?>';
             if (link == "")
                 iam_link = '<?= str_replace("http:", "https:", $domainData['sub_domain']); ?>/?<?= $cur_card['card_short_url'] . $card_owner_code ?>' + "&preview=" + $("#card_share_preview").val();
             else
                 iam_link = '<?= str_replace("http:", "https:", $domainData['sub_domain']); ?>/?<?= $cur_card['card_short_url'] . $card_owner_code ?>&' + link;
-            iam_link = iam_link.replace(/&/g, "%26");
-            iam_link += '%26cache='+Math.floor(Math.random() * 10);
+            iam_link = iam_link.replace('/&/g', "%26");
+            iam_link += '%26cache=' + Math.floor(Math.random() * 10);
             //iam_link = encodeURI(iam_link);
             // 글을 쓸 수 있는 란을 만든다.
             var aux = document.createElement("input");
@@ -12949,7 +13084,7 @@ function encodeKorean($matches) {
                         formData.append("prod_manufact_price", 0);
                         formData.append("send_provide_price", $("#send_provide_price").val());
                     }
-                    if (is_artist) {
+                    if (is_artist && req_provide != "Y") {
                         var art_type = $("input[name='art_type']:checked").val();
                         if (art_type == undefined) {
                             toastr.error("작품구분을 선택해주세요.", "오류");
@@ -12986,9 +13121,9 @@ function encodeKorean($matches) {
                                 formData.append("contents_sell_price", $('#contents_sell_price').val().replace(",", ""));
                             } else {
                                 formData.append("contents_price", $('#gallery_price').val().replace(",", "") + "|" +
-                                                                $("#gallery_format").val().trim() + "|" +
-                                                                $("#gallery_size").val().trim() + "|" + 
-                                                                $('#gallery_download_price').val().replace(",", ""));
+                                    $("#gallery_format").val().trim() + "|" +
+                                    $("#gallery_size").val().trim() + "|" +
+                                    $('#gallery_download_price').val().replace(",", ""));
                                 formData.append("contents_sell_price", $('#gallery_sell_price').val().replace(",", ""));
                             }
                         }
@@ -13040,7 +13175,7 @@ function encodeKorean($matches) {
                 formData.append("contents_user_display", "Y");
                 formData.append("open_type", $("input[name='contents_open']:checked").val());
                 formData.append("group_id", $("#contents_group").val());
-                
+
 
                 if (req_provide == "Y") {
                     if ($("#deliver_id").val() == '') {
@@ -13484,7 +13619,7 @@ function encodeKorean($matches) {
                     gallery.push(contents_price.substring(pIndex, comma));
                     pIndex = comma + 1;
                 }
-                gallery.push(contents_price.substring(pIndex)); 
+                gallery.push(contents_price.substring(pIndex));
                 var gallery_format = gallery[1];
                 var gallery_size = gallery[2];
                 var gallery_price = gallery[0];
@@ -14004,7 +14139,7 @@ function encodeKorean($matches) {
             friends_chk_count();
         }
         //연락처 2020-11-09
-        function groupCheckClick_1(e) {
+        function groupCheckClick_contact(e) {
             var checkboxes = $(".contacts.checkboxes");
             if (e.checked) {
                 for (var i = 0; i < checkboxes.length; i++) {
@@ -14016,6 +14151,20 @@ function encodeKorean($matches) {
                 }
             }
             contact_chk_count();
+        }
+        //종이명함 2024-10-09
+        function groupCheckClick_paper(e) {
+            var checkboxes = $(".paper.checkboxes");
+            if (e.checked) {
+                for (var i = 0; i < checkboxes.length; i++) {
+                    $(checkboxes[i]).prop("checked", true);
+                }
+            } else {
+                for (var i = 0; i < checkboxes.length; i++) {
+                    $(checkboxes[i]).prop("checked", false);
+                }
+            }
+            paper_chk_count();
         }
         resizeImg();
 

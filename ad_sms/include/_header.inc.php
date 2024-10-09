@@ -1,11 +1,10 @@
 <?
 include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
-// if($_SESSION['one_member_admin_id'] == "") {
-//     if($_SESSION['one_member_id'] == "lecturem" || $_SESSION['one_member_id'] == "sungmheo" || ($_SESSION['one_member_subadmin_id'] != "" && $_SESSION['one_member_subadmin_domain'] == $HTTP_HOST) || ($_SESSION['iam_member_subadmin_id'] != "" && $_SESSION['iam_member_subadmin_domain'] == $HTTP_HOST)) {} else {
-//     header('Location: /');
-//     exit;
-//     }
-// }
+/*
+if($_SESSION[one_member_id] === "" && $_SESSION[iam_member_id] === "") {
+    header('Location: /');
+    exit;
+}*/
 // 파일 확장자추출
 //$fileInfo = explode("/",$_SERVER[REQUEST_URI]);
 $fileInfo = explode("/",$_SERVER[PHP_SELF]);

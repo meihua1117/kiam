@@ -6,8 +6,8 @@ extract($_GET);
 // 오늘날짜
 $date_today=date("Y-m-d");
 $sql="select * from Gn_Iam_Mall where idx='".$idx."'";
-$res=mysqli_query($self_con, $sql);
-$row=mysqli_fetch_array($res);	
+$res=mysql_query($sql);
+$row=mysql_fetch_array($res);	
 
 ?>
 <style>
@@ -119,11 +119,11 @@ $row=mysqli_fetch_array($res);
 									<table class="list_table1" width="100%" border="0" cellspacing="0" cellpadding="0">
 										<tr>
 											<th class="w200">아아디</th>
-											<td><input type="text" name="m_id" id="m_id" value="<?=$row['mem_id']?>"></td>
+											<td><input type="text" name="m_id" id="m_id" value="<?=$row[mem_id]?>"></td>
 										</tr>
 										<tr>
 											<th class="w200">상품제목</th>
-											<td><input type="text" name="title" id="title" value="<?=$row['title']?>"></td>
+											<td><input type="text" name="title" id="title" value="<?=$row[title]?>"></td>
 										</tr>
 										<tr>
 											<th class="w200">상품부제목</th>
@@ -131,11 +131,11 @@ $row=mysqli_fetch_array($res);
 										</tr>
 										<tr>
 											<th class="w200">이미지</th>
-											<td><input type="text" name="img" id="img" value="<?=$row['img']?>"><?if($row['img'] != ""){?><br><img class="zoom" src="<?=$row['img']?>" style="width:200px;"><?}?></td>
+											<td><input type="text" name="img" id="img" value="<?=$row[img]?>"><?if($row['img'] != ""){?><br><img class="zoom" src="<?=$row['img']?>" style="width:200px;"><?}?></td>
 										</tr>
 										<tr>
 											<th class="w200">상세설명</th>
-											<td><textarea name="description" id="description" style="width: 300px;height: 100px;" value="<?=$row['description']?>"><?=$row['description']?></textarea></td>
+											<td><textarea name="description" id="description" style="width: 300px;height: 100px;" value="<?=$row[description]?>"><?=$row[description]?></textarea></td>
 										</tr>
 										<tr>
 											<th class="w200">검색키워드</th>
@@ -163,7 +163,7 @@ $row=mysqli_fetch_array($res);
 			</div><!-- /.row -->
 		</section><!-- /.content -->
 	</form>
-</div><!-- /content-wrapper -->
+</div><!-- /.content-wrapper -->
 <!-- Footer -->
 <script language="javascript">
 	function form_save() {

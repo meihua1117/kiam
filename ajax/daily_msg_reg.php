@@ -14,26 +14,26 @@ $cur_time_mms_com = date("Y-m-d H:i:s", $cur_time_com_mms);
 $s = 0;
 
 $sql_point = "select key_content from Gn_Search_Key where key_id='dailymsg_set_point'";
-$res_point = mysqli_query($self_con, $sql_point);
-$row_point = mysqli_fetch_array($res_point);
+$res_point = mysql_query($sql_point);
+$row_point = mysql_fetch_array($res_point);
 $daily_set_point = $row_point['key_content'];
 
 $sql_mem = "select * from Gn_Member where mem_id='{$member_id}'";
-$res_mem = mysqli_query($self_con, $sql_mem);
-if(mysqli_num_rows($res_mem) == 0){
+$res_mem = mysql_query($sql_mem);
+if(mysql_num_rows($res_mem) == 0){
     echo 3;
     exit;
 }
 else{
-    $row_mem = mysqli_fetch_array($res_mem);
+    $row_mem = mysql_fetch_array($res_mem);
     $mem_name = $row_mem['mem_name'];
     $mem_phone = $row_mem['mem_phone'];
     $method = $member_id . "/" . $mem_name;
 }
 
 $sql_send_num = "select sendnum from Gn_MMS_Number where mem_id='{$member_id}' order by sort_no asc, user_cnt desc , idx desc limit 1";
-$res_send_num = mysqli_query($self_con, $sql_send_num);
-$row_send_num = mysqli_fetch_array($res_send_num);
+$res_send_num = mysql_query($sql_send_num);
+$row_send_num = mysql_fetch_array($res_send_num);
 if($row_send_num[0] == ""){
     $send_num = $mem_phone;
 }
@@ -42,8 +42,8 @@ else{
 }
 
 $sql_data = "select * from Gn_event where event_idx={$event_idx}";
-$res_data = mysqli_query($self_con, $sql_data);
-$row_data = mysqli_fetch_array($res_data);
+$res_data = mysql_query($sql_data);
+$row_data = mysql_fetch_array($res_data);
 $mem_id1 = $row_data['m_id'];//분양사 아이디
 
 $up_img = $row_data['object'];
@@ -58,15 +58,15 @@ if($up_img != ""){
 }
 
 $sql="select * from Gn_MMS_Group where  mem_id='".$member_id."' and grp='아이엠'";
-$sresult=mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-$krow = mysqli_fetch_array($sresult);    
+$sresult=mysql_query($sql) or die(mysql_error());
+$krow = mysql_fetch_array($sresult);    
 
-$sql="select count(*) cnt from Gn_MMS_Receive_Iam where  mem_id='".$member_id."' and grp_id='{$krow['idx']}'";
-$sresult=mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-$skrow = mysqli_fetch_array($sresult);
+$sql="select count(*) cnt from Gn_MMS_Receive_Iam where  mem_id='".$member_id."' and grp_id='$krow[idx]'";
+$sresult=mysql_query($sql) or die(mysql_error());
+$skrow = mysql_fetch_array($sresult);
 
 $send_day = "";
-$day = ceil($skrow['cnt'] / (int)$row_data['callback_no']);
+$day = ceil($skrow[cnt] / (int)$row_data['callback_no']);
 for($i = 1; $i <= $day;$i++) {
     if($i == $day) $comma = "";
     else $comma = ",";
@@ -74,8 +74,8 @@ for($i = 1; $i <= $day;$i++) {
 }
 
 $sql_memdata = "select * from Gn_Member where mem_id='{$mem_id1}'";
-$res_memdata = mysqli_query($self_con, $sql_memdata);
-$row_memdata = mysqli_fetch_array($res_memdata);
+$res_memdata = mysql_query($sql_memdata);
+$row_memdata = mysql_fetch_array($res_memdata);
 $point = $row_memdata['mem_point'];
 $cash = $row_memdata['mem_cash'];
 
@@ -88,8 +88,8 @@ $kk = 0;
 
 if($row_data['daily_req_link'] == ''){
     $sql_req_mem_card = "select card_short_url from Gn_Iam_Name_Card where mem_id='{$member_id}' order by idx asc limit 1";
-    $res_req_mem_card = mysqli_query($self_con, $sql_req_mem_card);
-    $row_req_mem_card = mysqli_fetch_array($res_req_mem_card);
+    $res_req_mem_card = mysql_query($sql_req_mem_card);
+    $row_req_mem_card = mysql_fetch_array($res_req_mem_card);
 
     if($row_mem['site_iam'] == "obmms"){
         $site_iam = "www";
@@ -103,7 +103,7 @@ else{
     $txt = $row_data['event_req_link'];
 }
 
-$total_count = $skrow['cnt'];
+$total_count = $skrow[cnt];
 $iam = 1;
 $title = $row_data['event_info'];
 $send_num = $mem_phone;
@@ -149,13 +149,13 @@ insert into Gn_daily set mem_id='{$mem_id}',
                             event_idx='$event_idx';
                             
 ";
-mysqli_query($self_con, $query);    
+mysql_query($query);    
 //echo $query."<BR>";
-$gd_id = mysqli_insert_id($self_con);
+$gd_id = mysql_insert_id();
 
 $sql="select * from Gn_MMS_Receive where grp_id = '$group_idx' ";
-$sresult = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-while($srow=mysqli_fetch_array($sresult)) {
+$sresult = mysql_query($sql) or die(mysql_error());
+while($srow=mysql_fetch_array($sresult)) {
     if($kk == $daily_cnt) { 
         $k++;
         $kk = 0;
@@ -176,14 +176,14 @@ for($i=0;$i <count($date);$i++) {
     $query = "insert into Gn_daily_date set gd_id='$gd_id',
                                             send_date='$date[$i]',
                                             recv_num='$recv_num_set[$i]'";
-    mysqli_query($self_con, $query);    
+    mysql_query($query);    
     //echo $query."<BR>";;
 }
 
 // $ch_daily = curl_init();
 
 // $fields['mode'] = "daily_save";
-// $fields['total_count'] = $skrow['cnt'];
+// $fields['total_count'] = $skrow[cnt];
 // $fields['iam'] = 1;
 // $fields['title'] = $row_data['event_info'];
 // $fields['txt'] = $row_data['event_req_link'];
@@ -216,9 +216,9 @@ for($i=0;$i <count($date);$i++) {
 // curl_close($ch_daily);
 
 $sql_service = "select * from Gn_Iam_Service where mem_id='{$mem_id1}'";//분양사아이디이면.
-$res_service = mysqli_query($self_con, $sql_service);
-if(mysqli_num_rows($res_service)){
-    $row = mysqli_fetch_array($res_service);
+$res_service = mysql_query($sql_service);
+if(mysql_num_rows($res_service)){
+    $row = mysql_fetch_array($res_service);
     if($row['daily_point_end'] < $date_today){
         $min_point = $daily_set_point * 1;
     }
@@ -238,15 +238,15 @@ else{
     $min_point = $daily_set_point * 1;
 }
 
-$sql_insert = "insert into Gn_Item_Pay_Result set buyer_id='{$mem_id1}', buyer_tel='{$row_memdata['mem_phone']}', item_name='데일리메시지', item_price={$min_point}, pay_percent=90, current_point={$point}-{$min_point}, current_cash='{$cash}', pay_status='Y', VACT_InputName='{$row_memdata['mem_name']}', type='use', pay_method='{$method}', pay_date=now(), point_val=1";
-mysqli_query($self_con, $sql_insert);
+$sql_insert = "insert into Gn_Item_Pay_Result set buyer_id='{$mem_id1}', buyer_tel='{$row_memdata['mem_phone']}', item_name='데일리메시지', item_price={$min_point}, pay_percent=90, current_point={$point}-{$min_point}, current_cash='{$cash}', pay_status='Y', VACT_InputName='{$row_memdata[mem_name]}', type='use', pay_method='{$method}', pay_date=now(), point_val=1";
+mysql_query($sql_insert);
 
 $sql_point_update = "update Gn_Member set mem_point=mem_point-{$min_point} where mem_id='{$mem_id1}'";
-$result = mysqli_query($self_con, $sql_point_update) or die(mysqli_error($self_con));
+$result = mysql_query($sql_point_update) or die(mysql_error());
 
 $sql_point = "select mem_id, mem_point, mem_phone from Gn_Member where mem_id='{$mem_id1}'";
-$res_point = mysqli_query($self_con, $sql_point);
-$row_point = mysqli_fetch_array($res_point);
+$res_point = mysql_query($sql_point);
+$row_point = mysql_fetch_array($res_point);
 
 $mem_phone = str_replace('-', '', $row_point['mem_phone']);
 $point = (int)$row_point['mem_point'];
@@ -258,9 +258,9 @@ $s++;
 $uni_id=time().sprintf("%02d",$s);
 if($mem_point != 0){
     $sql_mms_send = "select reg_date, recv_num from Gn_MMS where title='포인트 충전 안내' and content='".$mem_id1.", 고객님의 잔여 포인트가 ".$mem_point." 포인트 이하입니다. 포인트가 부족할 경우 현재 이용중이신 기능이 중지되오니 충전해주시길 바랍니다. 감사합니다.' and mem_id='{$mem_id1}' order by idx desc limit 1";
-    $res_mms_send = mysqli_query($self_con, $sql_mms_send);
-    if(mysqli_num_rows($res_mms_send)){
-        while($row_mms_send = mysqli_fetch_array($res_mms_send)){
+    $res_mms_send = mysql_query($sql_mms_send);
+    if(mysql_num_rows($res_mms_send)){
+        while($row_mms_send = mysql_fetch_array($res_mms_send)){
             $reg_date_msg = $row_mms_send['reg_date'];
             if($reg_date_msg < $cur_time_mms_com){
                 send_mms($mem_id1, $mem_phone, $uni_id, $mem_point);

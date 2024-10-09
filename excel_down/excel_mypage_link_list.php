@@ -4,7 +4,7 @@ set_time_limit(0);
 ini_set('memory_limit','2500M');
 $excel_sql=$_POST['excel_sql'];
 $excel_sql=str_replace("`","'",$excel_sql);
-$result = mysqli_query($self_con, $excel_sql) or die(mysqli_error($self_con));
+$result = mysql_query($excel_sql) or die(mysql_error());
 require_once("Classes/PHPExcel.php");
 $objPHPExcel = new PHPExcel();
 $objPHPExcel->getProperties()
@@ -26,16 +26,16 @@ $objPHPExcel->setActiveSheetIndex(0)
 			->setCellValue("H1", "등록일");
 $h=2;
 $No = 1;
-while($row=mysqli_fetch_array($result)){
+while($row=mysql_fetch_array($result)){
 	$objPHPExcel->setActiveSheetIndex(0)
 				->setCellValue("A$h",$No++)
-				->setCellValue("B$h",$row['event_name_eng'])
-				->setCellValue("C$h",$row['event_name_kor'])
+				->setCellValue("B$h",$row[event_name_eng])
+				->setCellValue("C$h",$row[event_name_kor])
 				->setCellValue("D$h",$row[short_url])
-				->setCellValue("E$h",$row['read_cnt'])
-				->setCellValue("F$h",$row['pcode'])
-				->setCellValue("G$h",$row['mobile'])
-				->setCellValue("H$h",$row['regdate']);
+				->setCellValue("E$h",$row[read_cnt])
+				->setCellValue("F$h",$row[pcode])
+				->setCellValue("G$h",$row[mobile])
+				->setCellValue("H$h",$row[regdate]);
 	$h++;		
 }
 $objPHPExcel->getActiveSheet()->setTitle("고객신청 리스트 ");

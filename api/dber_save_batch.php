@@ -1,6 +1,6 @@
 <?php
 set_time_limit(0);
-ini_set('memory_limit','-1');
+ini_set('memory_limit', '-1');
 include_once $_SERVER['DOCUMENT_ROOT']."/lib/db_config.php";
 /*
 크롤링 데이터 저장
@@ -13,8 +13,8 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/db_config.php";
 $token = $_POST["token"];
 
 $sql = "SELECT user_id FROM crawler_member_real WHERE token = '$token'";
-$result = mysqli_query($self_con, $sql);
-$row=mysqli_fetch_array($result);
+$result = mysql_query($sql);
+$row=mysql_fetch_array($result);
 if($row['user_id'] == "") {
     echo json_encode(array('result' => 1));
     exit;
@@ -51,7 +51,7 @@ for($i = 0; $i < count($items) ; $i++)
 }
 
 //echo json_encode(array('result' => 0, 'sql' => $sql));
-mysqli_query($self_con, $sql);
+mysql_query($sql);
 
 
 

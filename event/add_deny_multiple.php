@@ -9,8 +9,8 @@
 	}
 	
 	$sql_mem_data = "select mem_phone, mem_id from Gn_Member where mem_id='{$mem_id}'";
-	$res_mem_data = mysqli_query($self_con, $sql_mem_data);
-	$row_mem_data = mysqli_fetch_array($res_mem_data);
+	$res_mem_data = mysql_query($sql_mem_data);
+	$row_mem_data = mysql_fetch_array($res_mem_data);
 	$mem_phone = $row_mem_data['mem_phone'];
 	$mem_id = $row_mem_data['mem_id'];
 
@@ -19,9 +19,9 @@
 	}
 
 	$phone = str_replace("-", "", $mem_phone);
-	// $sql_grp = "select idx from Gn_MMS_Group where grp like '%{$phone}%' order by reg_date desc limit 1";
-	// $res_grp = sql_query($sql_grp);
-	// $row_grp = sql_fetch_array($res_grp);
+	$sql_grp = "select idx from Gn_MMS_Group where grp like '%{$phone}%' order by reg_date desc limit 1";
+	$res_grp = sql_query($sql_grp);
+	$row_grp = sql_fetch_array($res_grp);
 ?>
 <!DOCTYPE html>
 <html lang="ko">
@@ -230,7 +230,7 @@
 											</div>
 											<div class="container" style="margin-top: 20px;text-align: center;width: 100%;">
 												<button class="people_iam_show" style="width:40%" onclick="cancel()">취소</button>
-												<!-- <button class="people_iam_show"  onclick="view_list()">목록보기</button> -->
+												<!-- <button class="people_iam_show" style="" onclick="view_list()">목록보기</button> -->
 												<button class="people_iam_show" style="width:40%" onclick="makingiam('make')">등록</button>
 											</div>
 										</section>

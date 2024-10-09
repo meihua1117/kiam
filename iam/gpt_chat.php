@@ -7,7 +7,7 @@ $gpt_an = get_search_key('gpt_answer_example');
 $gpt_qu_arr = explode("||", $gpt_qu);
 $gpt_an_arr = explode("||", $gpt_an);
 
-// if(!$member_iam['gpt_chat_api_key']){
+// if(!$member_iam[gpt_chat_api_key]){
 //     echo '<script>alert("회원정보에서 본인의 API 키를 입력해주세요."); location.href="mypage.php";</script>';
 // }
 ?>
@@ -266,14 +266,14 @@ $gpt_an_arr = explode("||", $gpt_an);
             <ul id="answer_side2" hidden>
             </ul>
             <!-- <div class="gpt_act"> -->
-            <a class="history" href="javascript:show_req_history('<?=$_SESSION['iam_member_id']?>');"><img src="/iam/img/gpt_req_list.png" style="height: 30px;"></a>
+            <a class="history" href="javascript:show_req_history('<?=$_SESSION[iam_member_id]?>');"><img src="/iam/img/gpt_req_list.png" style="height: 30px;"></a>
             <a class="newpane" href="javascript:show_new_chat();"><span style="font-size: 4px;">NEW</a>
             <!-- </div> -->
             <div class="search_keyword">
-                <input type="hidden" name="key" id="key" value="<?=$member_iam['gpt_chat_api_key']?>">
-                <!-- <input type="search" class="search_input" autocomplete="off" name="question" id="question" value="" title="질문을 입력하세요" placeholder="알지AI에게 구체적으로 질문해보세요" onclick="check_login('<?=$_SESSION['iam_member_id']?>')"> -->
-                <textarea class="search_input" autocomplete="off" name="question" id="question" title="질문을 입력하세요" placeholder="알지AI에게 구체적으로 질문해보세요" onclick="check_login('<?=$_SESSION['iam_member_id']?>')"></textarea>
-                <button type="button" onclick="send_post('<?=$_SESSION['iam_member_id']?>')" class="send_ask"><img src="/iam/img/send_ask.png" alt="전송"></button>
+                <input type="hidden" name="key" id="key" value="<?=$member_iam[gpt_chat_api_key]?>">
+                <!-- <input type="search" class="search_input" autocomplete="off" name="question" id="question" value="" title="질문을 입력하세요" placeholder="알지AI에게 구체적으로 질문해보세요" onclick="check_login('<?=$_SESSION[iam_member_id]?>')"> -->
+                <textarea class="search_input" autocomplete="off" name="question" id="question" value="" title="질문을 입력하세요" placeholder="알지AI에게 구체적으로 질문해보세요" onclick="check_login('<?=$_SESSION[iam_member_id]?>')"></textarea>
+                <button type="button" onclick="send_post('<?=$_SESSION[iam_member_id]?>')" class="send_ask"><img src="/iam/img/send_ask.png" alt="전송"></button>
             </div>
         </div>
     </div>
@@ -287,7 +287,7 @@ $gpt_an_arr = explode("||", $gpt_an);
                         <img src="/iam/img/menu/icon_close_white.png" style="width:24px" class="close" data-dismiss="modal" aria-hidden="true">
                     </button>
                 </div>
-                <div class = "modal-title" style="width:100%;font-size:18px;text-align: center;background:#99cc00;color:white;">
+                <div class = "modal-title" style="width:100%;font-size:18px;text-align: center;background:#82C836;color:white;">
                     <label style="padding:7px 0px">알림</label>
                 </div>
                 <div class="modal-body">
@@ -300,7 +300,7 @@ $gpt_an_arr = explode("||", $gpt_an);
                 </div>
                 <div class="modal-footer" style="text-align: center;display:flex;padding:0px;margin-top: 10px;">
                     <button type="button" class="btn-default" style="width:50%;padding:15px 0px" onclick="location.href='onlysong.kiam.kr/event/automember.php?pcode=aimem20221005171502231&eventidx=6557&recommend_id=onlysong'">회원가입</button>
-                    <button type="button" style="width:50%;background:#99cc00;color:white;padding:15px 0px" onclick="location.href='login.php'">로그인</button>
+                    <button type="button" style="width:50%;background:#82C836;color:white;padding:15px 0px" onclick="location.href='login.php'">로그인</button>
                 </div>
             </div>
         </div>
@@ -309,7 +309,7 @@ $gpt_an_arr = explode("||", $gpt_an);
         $(document).ready(function () {
             var win_hg = $(window).height();
             var side_hg = win_hg - 240;
-            var api_state = '<?=$member_iam['gpt_chat_api_key']?>';
+            var api_state = '<?=$member_iam[gpt_chat_api_key]?>';
             $("#answer_side").css('height', side_hg+'px');
             $("#answer_side1").css('height', side_hg+'px');
             $("#answer_side2").css('height', side_hg+'px');
@@ -332,7 +332,7 @@ $gpt_an_arr = explode("||", $gpt_an);
                         event.stopPropagation();
                     }
                     else{
-                        send_post('<?=$_SESSION['iam_member_id']?>');
+                        send_post('<?=$_SESSION[iam_member_id]?>');
                     }
                 }
             });
@@ -395,7 +395,7 @@ $gpt_an_arr = explode("||", $gpt_an);
             $.ajax({
                 type:"POST",
                 url:"/iam/ajax/manage_gpt_chat.php",
-                data:{mem_id:"<?=$_SESSION['iam_member_id']?>", method:'show_req_list'},
+                data:{mem_id:"<?=$_SESSION[iam_member_id]?>", method:'show_req_list'},
                 dataType: 'html',
                 success:function(data){
                     // console.log(data);

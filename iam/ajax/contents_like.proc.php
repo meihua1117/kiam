@@ -21,8 +21,8 @@ else{
 // echo $card_name;
 # 배열 같은게 각 줄마다 나와서 보기좋게 함
 $sql = "select contents_like from ".$contents_table_name." where idx='$contents_idx'";
-$res = mysqli_query($self_con, $sql);
-$row = mysqli_fetch_array($res);
+$res = mysql_query($sql);
+$row = mysql_fetch_array($res);
 if($row[0] == ""){
     $contents_like = $like_id;
     $like_count = 1;
@@ -44,7 +44,7 @@ if($row[0] == ""){
 }
 
 $sql="update ".$contents_table_name." set contents_like = '$contents_like' where idx = '$contents_idx'";
-mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
+mysql_query($sql) or die(mysql_error());
 echo json_encode(array("count"=>$like_count,"like_status"=>$like_status));
 exit;
 ?>

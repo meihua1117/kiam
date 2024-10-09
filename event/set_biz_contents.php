@@ -3,10 +3,19 @@
 	extract($_REQUEST);
 	if($_GET['id']) $id = $_GET['id'];
 
-	$sql_reg = "select * from reg_biz_contents where id={$id}";
+	$sql_recom = "select * from get_crawler_bizinfo where id='{$id}'";
+	$res = mysql_query($sql_recom);
+	$row = mysql_fetch_array($res);
+	$info_source = $row['info_source'];
+	$web_type = $row['web_type'];
+
+	if($info_source == "국립산림과학원"){
+		$info_source = "산림과학원";
+	}
+	$sql_reg = "select * from reg_biz_contents where info_source='{$info_source}' and info_type='{$web_type}'";
 	// echo $sql_reg;
-	$res_reg = mysqli_query($self_con, $sql_reg);
-	$row_reg = mysqli_fetch_array($res_reg);
+	$res_reg = mysql_query($sql_reg);
+	$row_reg = mysql_fetch_array($res_reg);
 ?>
 <!DOCTYPE html>
 <html lang="ko">
@@ -51,23 +60,23 @@
 							<tr>
 								<td>1</td>
 								<td>정보출처</td>
-								<td><input type="text" name="info_source" id="info_source" placeholder="페이지에서 출처를 입력합니다." value='<?=$row_reg['info_source']?>' style="width: 100%;"></td>
+								<td><input type="text" name="info_source" id="info_source" placeholder="페이지에서 출처를 입력합니다." value='<?=$info_source?>' style="width: 100%;"></td>
 							</tr>
 							<tr>
 								<td>2</td>
 								<td>정보구분</td>
 								<td>
 								<?php
-								if($row_reg['info_type'] == "지원사업"){
+								if($web_type == "지원사업"){
 									$sel1 = "checked";
 								}
-								else if($row_reg['info_type'] == "입찰공고"){
+								else if($web_type == "입찰공고"){
 									$sel2 = "checked";
 								}
-								else if($row_reg['info_type'] == "행사교육"){
+								else if($web_type == "행사교육"){
 									$sel3 = "checked";
 								}
-								else if($row_reg['info_type'] == "기타정보"){
+								else if($web_type == "기타정보"){
 									$sel4 = "checked";
 								}
 								?>
@@ -104,16 +113,11 @@
 									// $sta1 = "";
 									$sta2 = "checked";
 								}
-								else if($row_reg['status'] == 3){
-									$sta3 = "checked";
-								}
 								?>
 									<input type="radio" name="status" id="online" style="vertical-align: top;" <?=$sta1?>>
 									<label for="online" value="1" style="font-size:15px;">진행사업</label>
 									<input type="radio" name="status" id="end" style="vertical-align: top;" <?=$sta2?>>
 									<label for="end" value="2" style="font-size:15px;">종료사업</label>
-									<input type="radio" name="status" id="all" style="vertical-align: top;" <?=$sta3?>>
-									<label for="all" value="3" style="font-size:15px;">전체사업</label>
 								</td>
 							</tr>
 							<tr>
@@ -142,17 +146,31 @@
 								</td>
 							</tr>
 							<tr>
-								<td>8</td>
+								<td rowspan="2" style="vertical-align: middle;">8</td>
+								<td>기획내용</td>
+								<td><input type="text" name="plan_detail" id="plan_detail" placeholder="해당 페이지에서 크롤링하는 기획내용을 입력합니다." style="width:100%;"></td>
+							</tr>
+							<tr>
+								<td>파일첨부</td>
+								<td><input type="text" name="add_file" id="add_file" placeholder="해당 페이지에서 크롤링하는 기획내용을 입력합니다." style="width:100%;"></td>
+							</tr>
+							<tr>
+								<td>9</td>
+								<td>코딩소스</td>
+								<td><input type="text" name="code_source" id="code_source" placeholder="개발자가 위 기획내용을 보고 개발한 소스를 입력하면 해당 소스가 메인 소스에 적용되어 크롤링합니다." style="width:100%;"></td>
+							</tr>
+							<tr>
+								<td>10</td>
 								<td>메모내용</td>
 								<td><input type="text" name="memo_detail" id="memo_detail" placeholder="관리자나 개발자가 필요한 메모를 합니다." style="width:100%;" value='<?=$row_reg['memo']?>'></td>
 							</tr>
 							<tr>
-								<td>9</td>
+								<td>11</td>
 								<td>게시일시</td>
 								<td><input type="text" name="reg_date" id="reg_date" value="<?=$row_reg['reg_date']?>" style="width:100%;"></td>
 							</tr>
 							<tr>
-								<td>10</td>
+								<td>12</td>
 								<td>진행상태</td>
 								<td>
 								<?php

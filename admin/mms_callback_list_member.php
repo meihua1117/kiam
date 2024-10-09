@@ -90,7 +90,9 @@ input:checked + .slider:before {
     transition: .4s;
 
 }
-
+.agree{
+     /*background: #d5ffd5!important;   */
+    }
 .disagree{
      background: #ffd5d5!important;   
     }
@@ -176,9 +178,9 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
               <form method="get" name="search_form" id="search_form">
               <div class="box-tools">
                 <div class="input-group" style="width: 300px;display:flex;">
-                  <input type="text" name="search_key" id="search_key" class="form-control input-sm pull-right" value="<?=$_REQUEST['search_key']?>" placeholder="타이틀/콘텐츠">
-                  <input type="text" name="mem_id" id="mem_id" class="form-control input-sm pull-right" value="<?=$_REQUEST['mem_id']?>" placeholder="아이디">
-                  <!-- <input type="text" name="mem_site" id="mem_site" class="form-control input-sm pull-right" value="<?=$_REQUEST['mem_site']?>" placeholder="소속"> -->
+                  <input type="text" name="search_key" id="search_key" class="form-control input-sm pull-right" value="<?=$_REQUEST[search_key]?>" placeholder="타이틀/콘텐츠">
+                  <input type="text" name="mem_id" id="mem_id" class="form-control input-sm pull-right" value="<?=$_REQUEST[mem_id]?>" placeholder="아이디">
+                  <!-- <input type="text" name="mem_site" id="mem_site" class="form-control input-sm pull-right" value="<?=$_REQUEST[mem_site]?>" placeholder="소속"> -->
                   <div class="input-group-btn">
                     <button class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>
                   </div>
@@ -238,8 +240,8 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                     $memname = " AND (c.mem_id = '".$mem_id."')";
                   }
                   $sql = "select count(*)  from gn_mms_callback a".$memjoin. " where a.service_state=2 ".$searchStr.$memname.$memsite;
-                  $res	    = mysqli_query($self_con, $sql);
-                  $row	=  mysqli_fetch_array($res);
+                  $res	    = mysql_query($sql);
+                  $row	=  mysql_fetch_array($res);
                   $totalCnt = $row[0];
 
                   $sql = "select a.* ".$mem_select." from gn_mms_callback a".$memjoin. " where a.service_state=2 ".$searchStr.$memname.$memsite;
@@ -250,10 +252,9 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
 
                 	$i = 1;
                 	$c=0;
-                	$sql .= $orderQuery;
-                  echo $sql;
-                	$res = mysqli_query($self_con, $sql);
-                    while($row = mysqli_fetch_array($res)) {
+                	$sql .= "$orderQuery";
+                	$res = mysql_query($sql);
+                    while($row = mysql_fetch_array($res)) {
                   ?>
                       <tr>
                         <td><?=$number--?></td>
@@ -263,7 +264,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                         <td><?=cut_str($row['title'], 25)?></td>
                         <td><?=cut_str($row['content'], 60)?></td>
                         <td>
-                          <div >
+                          <div style="">
                           <?
                           if($row['img']){
                             $thumb_img =  $row['img'];

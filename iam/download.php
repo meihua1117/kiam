@@ -2,8 +2,10 @@
 // 다운로드할 이미지 파일 경로 설정
 $file_path = base64_decode($_GET['id']); // 실제 이미지 파일 경로로 변경하세요.
 $pos = strpos($file_path,"wm.");
+//$file_name = mb_substr($file_path,0,$pos,'UTF-8');
 $ext = substr($file_path,$pos + 2);
 $file_path = "..".str_replace("wm.",".",$file_path);
+//$file_path = substr($file_path,1);
 $file_name = date("YmdHis").$ext; // 다운로드될 파일 이름
 // 파일이 존재하는지 확인
 if (file_exists($file_path)) {
@@ -19,9 +21,10 @@ if (file_exists($file_path)) {
     header('Cache-Control: must-revalidate');
     header('Pragma: public');
     header('Content-Length: ' . $file_size);
+
     // 파일을 출력하여 다운로드 시작
     readfile($file_path);
-    
+    echo "<script>history.back(-1);</script>";
     exit;
 } else {
     // 파일이 존재하지 않을 때 에러 메시지 출력

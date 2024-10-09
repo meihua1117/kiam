@@ -12,8 +12,8 @@ $result=0;
 
 // 정보 확인
 $sql="select * from Gn_Member where mem_id='$mem_id'";
-$resul=mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-$row=mysqli_fetch_array($resul);    
+$resul=mysql_query($sql) or die(mysql_error());
+$row=mysql_fetch_array($resul);    
 
 if($row[0] == "") {
     $result = -1;
@@ -30,7 +30,7 @@ if($_POST['remain_money'] == "") {
 
     $sql="update Gn_Member set remain_money='".$_POST['remain_money']."' 
                              where mem_id='$mem_id'";
-    mysqli_query($self_con, $sql);	
+    mysql_query($sql);	
     
 
 echo "<script>alert('수정되었습니다.');location='/admin/member_manager_list.php';</script>";

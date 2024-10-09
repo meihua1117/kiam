@@ -5,18 +5,19 @@ extract($_GET);
 
 // 오늘날짜
 $date_today=date("Y-m-d");
+$date_month=date("Y-m");
 
 $sql="select * from Gn_daily  where gd_id='".$gd_id."'";
-$sresul_num=mysqli_query($self_con, $sql);
-$row=mysqli_fetch_array($sresul_num);	
+$sresul_num=mysql_query($sql);
+$row=mysql_fetch_array($sresul_num);	
 if($row[0]) {
     $sql="select * from Gn_MMS_Group where idx='$row[group_idx]'";
-    $sresult=mysqli_query($self_con, $sql) or die(mysqli_error($self_con));					  	 
-    $krow = mysqli_fetch_array($sresult);   
+    $sresult=mysql_query($sql) or die(mysql_error());					  	 
+    $krow = mysql_fetch_array($sresult);   
     
-    $sql="select * from Gn_Member  where mem_id='".$row['mem_id']."'";
-    $sresul_num=mysqli_query($self_con, $sql);
-    $data=mysqli_fetch_array($sresul_num);
+    $sql="select * from Gn_Member  where mem_id='".$row[mem_id]."'";
+    $sresul_num=mysql_query($sql);
+    $data=mysql_fetch_array($sresul_num);
 }
 if(!$_REQUEST[daily_cnt]){
     $daily_cnt = 50;
@@ -76,7 +77,7 @@ else $link = "daily_msg_list_mem.php";
 							<h3 class="box-title">데일리 메시지 상세정보</h3>
 						</div><!-- /.box-header -->
 						<div class="box-body">
-							<input type="hidden" name="mode" value="daily_updat" />
+							<input type="hidden" name="mode" value="daily_update" />
 							<input type="hidden" name="gd_id" value="<?php echo $gd_id;?>" />
 							<input type="hidden" name="total_count" id="total_count" value="<?php echo $_GET[address_cnt]?$_GET[address_cnt]:$row[total_count];?>" />
 							<div>
@@ -86,16 +87,16 @@ else $link = "daily_msg_list_mem.php";
 											<th class="w200">[발송폰선택]</th>
 											<td>
 												<select name="send_num">
-													<option value="<?=str_replace("-", "", $row['send_num'])?>">
+													<option value="<?=str_replace("-", "", $row[send_num])?>">
 														<?php echo str_replace("-","",$row['send_num']);?></option>
 													<?php
-													$query = "select * from Gn_MMS_Number where mem_id='{$_SESSION['one_member_id']}' order by sort_no asc, user_cnt desc , idx desc";
-													$resul=mysqli_query($self_con, $query);
-													while($korow=mysqli_fetch_array($resul)) {
+													$query = "select * from Gn_MMS_Number where mem_id='$_SESSION[one_member_id]' order by sort_no asc, user_cnt desc , idx desc";
+													$resul=mysql_query($query);
+													while($korow=mysql_fetch_array($resul)) {
 													?>
-													<option value="<?=str_replace("-","",$korow['sendnum'])?>"
-														<?php echo $row['send_num']==str_replace("-","",$korow['sendnum'])?"selected":""?>>
-														<?php echo str_replace("-","",$korow['sendnum']);?></option>
+													<option value="<?=str_replace("-","",$korow[sendnum])?>"
+														<?php echo $row['send_num']==str_replace("-","",$korow[sendnum])?"selected":""?>>
+														<?php echo str_replace("-","",$korow[sendnum]);?></option>
 													<?php }?>
 												</select>
 											</td>
@@ -104,7 +105,7 @@ else $link = "daily_msg_list_mem.php";
 											<th class="w200">[주소록선택]</th>
 											<td>
 												<input type="hidden" name="group_idx" placeholder="" id="address_idx" value="<?php echo $_GET[address_idx]?$_GET[address_idx]:$row[group_idx];?>" readonly style="width:100px" />
-												<input type="text" name="address_name" placeholder="" id="address_name" value="<?php echo $_GET[address_name]?$_GET[address_name]:$krow['grp']?>" readonly style="width:100px" />
+												<input type="text" name="address_name" placeholder="" id="address_name" value="<?php echo $_GET[address_name]?$_GET[address_name]:$krow[grp]?>" readonly style="width:100px" />
 												<input type="button" value="주소록 조회" class="button " id="searchBtn">[선택건수]<span id="address_cnt"><?php echo $_GET[address_cnt]?$_GET[address_cnt]:$row['total_count'];?></span>
 											</td>
 										</tr>
@@ -117,12 +118,12 @@ else $link = "daily_msg_list_mem.php";
 										</tr>
 										<tr>
 											<th class="w200">[메시지제목]</th>
-											<td><input type="text" name="title" itemname='제목' required placeholder="제목을 입력하세요" style="width:100%;" value="<?=$row['title']?>" /></td>
+											<td><input type="text" name="title" itemname='제목' required placeholder="제목을 입력하세요" style="width:100%;" value="<?=$row[title]?>" /></td>
 										</tr>
 										<tr>
 											<th class="w200">[메시지내용]</th>
 											<td>
-												<textarea style="width:200px; height:200px;" id="txt" name="txt" itemname='내용' id='txt' required placeholder="보내고 싶은 메시지를 입력하세요" onkeydown="textCounter(sub_4_form.txt,'wenzi_cnt',2000,0);" onkeyup="textCounter(sub_4_form.txt,'wenzi_cnt',2000,0);type_check();" onfocus="textCounter(sub_4_form.txt,'wenzi_cnt',2000,0);type_check();"><?=$row['content']?></textarea>
+												<textarea style="width:200px; height:200px;" id="txt" name="txt" itemname='내용' id='txt' required placeholder="보내고 싶은 메시지를 입력하세요" onkeydown="textCounter(sub_4_form.txt,'wenzi_cnt',2000,0);" onkeyup="textCounter(sub_4_form.txt,'wenzi_cnt',2000,0);type_check();" onfocus="textCounter(sub_4_form.txt,'wenzi_cnt',2000,0);type_check();"><?=$row[content]?></textarea>
 											</td>
 										</tr>
 										<tr>
@@ -167,7 +168,7 @@ else $link = "daily_msg_list_mem.php";
 												for($i=9; $i<20; $i++)
 												{
 													$iv=$i<10?"0".$i:$i;
-													$selected=$row['htime']==$iv?"selected":"";
+													$selected=$row[htime]==$iv?"selected":"";
 													?>
 												<option value="<?=$iv?>" <?=$selected?>><?=$iv?></option>
 												<?
@@ -179,7 +180,7 @@ else $link = "daily_msg_list_mem.php";
 												for($i=0; $i<31; $i+=30)
 												{
 													$iv=$i==0?"00":$i;
-													$selected=$row['mtime']==$iv?"selected":"";
+													$selected=$row[mtime]==$iv?"selected":"";
 													?>
 															<option value="<?=$iv?>" <?=$selected?>><?=$iv?></option>
 															<?
@@ -249,7 +250,7 @@ else $link = "daily_msg_list_mem.php";
 			</div><!-- /.row -->
 		</section><!-- /.content -->
 	</form>
-</div><!-- /content-wrapper -->
+</div><!-- /.content-wrapper -->
 <!-- Footer -->
 <script language="javascript">
 	function form_save() {

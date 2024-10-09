@@ -120,7 +120,7 @@ $date_today=date("Y-m-d");
                 url:"ajax/payment_save.php",
                 dataType : "json",
                 data:{
-                    type : "onestep2_updat",
+                    type : "onestep2_update",
                     no : $(this).data("no"),
                     yak : yak
                 },
@@ -300,8 +300,8 @@ $date_today=date("Y-m-d");
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <input type="date" style="height: 30px" name="search_start_date" placeholder="" id="search_start_date" value="<?=$_REQUEST['search_start_date']?>" multiple/> ~
-                                    <input type="date" style="height: 30px" name="search_end_date" placeholder="" id="search_end_date" value="<?=$_REQUEST['search_end_date']?>"/>
+                                    <input type="date" style="height: 30px" name="search_start_date" placeholder="" id="search_start_date" value="<?=$_REQUEST[search_start_date]?>" multiple/> ~
+                                    <input type="date" style="height: 30px" name="search_end_date" placeholder="" id="search_end_date" value="<?=$_REQUEST[search_end_date]?>"/>
                                 </div>
                                 <div class="form-group">
                                     <input type="text" name="site_iam" id="site_iam" style="width:100px" class="form-control input-sm pull-right" placeholder="아이엠소속" value="<?=$site_iam?>">
@@ -417,19 +417,18 @@ $date_today=date("Y-m-d");
                                     $searchStr .= " AND (iam_pay_type !='' and iam_pay_type !='0')";*/
 
                                 $order = $order?$order:"desc";
-                                //$query = "SELECT SQL_CALC_FOUND_ROWS a.*$sel_str FROM tjd_pay_result a $join_str WHERE a.member_type!='포인트충전' and gwc_cont_pay=0 $searchStr";
-                                $query = "SELECT SQL_CALC_FOUND_ROWS a.*$sel_str FROM tjd_pay_result a $join_str WHERE a.member_type!='포인트충전' $searchStr";
+                                $query = "SELECT SQL_CALC_FOUND_ROWS a.*$sel_str FROM tjd_pay_result a $join_str WHERE a.member_type!='포인트충전' and gwc_cont_pay=0 $searchStr";
                                 $excel_sql=$query;
                                 $excel_sql=str_replace("'","`",$excel_sql);
-                                $res	    = mysqli_query($self_con, $query);
-                                $totalCnt	=  mysqli_num_rows($res);
+                                $res	    = mysql_query($query);
+                                $totalCnt	=  mysql_num_rows($res);
                                 $limitStr       = " LIMIT ".(($startPage-1)*$pageCnt).", ".$pageCnt;
                                 $number			= $totalCnt - ($nowPage - 1) * $pageCnt;
                                 $orderQuery .= " ORDER BY a.no DESC $limitStr ";
                                 $i = 1;
                                 $query .= $orderQuery;
-                                $res = mysqli_query($self_con, $query);
-                                while($row = mysqli_fetch_array($res)) {
+                                $res = mysql_query($query);
+                                while($row = mysql_fetch_array($res)) {
                                     if($rec_id || $site || $site_iam){
                                         $chk_str = 0;
                                         $mem_phone = $row['mem_phone'];
@@ -438,8 +437,8 @@ $date_today=date("Y-m-d");
                                     else{
                                         $chk_str = 1;
                                         $sql_mem = "select site, site_iam, recommend_id, mem_phone, first_regist from Gn_Member where mem_id='{$row['buyer_id']}'";
-                                        $res_mem = mysqli_query($self_con, $sql_mem);
-                                        $row_mem = mysqli_fetch_array($res_mem);
+                                        $res_mem = mysql_query($sql_mem);
+                                        $row_mem = mysql_fetch_array($res_mem);
                                         $mem_phone = $row_mem['mem_phone'];
                                         $first_regist = $row_mem['first_regist'];
                                     }
@@ -453,18 +452,18 @@ $date_today=date("Y-m-d");
                                         <td>
                                             <?
                                             if($row['member_type'] != "dber")
-                                                echo number_format($row['iam_card_cnt']).'/'.number_format($row['db_cnt']).'/'.number_format($row['max_cnt']);
+                                                echo number_format($row[iam_card_cnt]).'/'.number_format($row[db_cnt]).'/'.number_format($row[max_cnt]);
                                             else
-                                                echo number_format($row['db_cnt']).'/'.number_format($row['email_cnt']).'/'.number_format($row['shop_cnt']);
+                                                echo number_format($row[db_cnt]).'/'.number_format($row[email_cnt]).'/'.number_format($row[shop_cnt]);
                                             ?>
                                         </td>
                                         <td><?=$row['VACT_InputName']?></td>
                                         <td><?=str_replace("-", "",$mem_phone)==$row['sendnum']||$row['sendnum']==""?str_replace("-", "",$mem_phone):$row['sendnum']?></td>
-                                        <td><?=$pay_type[$row['payMethod']]?></td>
+                                        <td><?=$pay_type[$row[payMethod]]?></td>
                                         <td>
-                                            <input type="text" name="price" id="price<?=$i?>" value="<?=$row['TotPrice']?>" onchange="$('#price_<?=$i?>').val(this.value)" style="width:70px;">원
+                                            <input type="text" name="price" id="price<?=$i?>" value="<?=$row[TotPrice]?>" onchange="$('#price_<?=$i?>').val(this.value)" style="width:70px;">원
                                         </td>
-                                        <!--td><?=number_format($row['add_phone'])?>개</td-->
+                                        <!--td><?=number_format($row[add_phone])?>개</td-->
                                         <td>
                                             <select name="onestep2" class="onestep2yak" data-no = "<?=$row['no']?>">
                                                 <option value="ON" <?php echo $row['onestep2'] == "ON"?"selected":""?>>ON</option>
@@ -472,7 +471,7 @@ $date_today=date("Y-m-d");
                                             </select>
                                         </td>
                                         <td>
-                                            <input type="number" value = "<?=number_format($row['month_cnt'])?>" class = "month_count" style="width: 50px" data-no = "<?=$row['no']?>">
+                                            <input type="number" value = "<?=number_format($row[month_cnt])?>" class = "month_count" style="width: 50px" data-no = "<?=$row['no']?>">
                                         </td>
                                         <td>
                                             <label class="switch">
@@ -483,7 +482,7 @@ $date_today=date("Y-m-d");
                                         <td>
                                             <form method="post" name="ssForm<?=$i?>" id="ssForm<?=$i?>" action="ajax/payment_save.php">
                                                 <input type="hidden" name="no" value="<?=$row['no']?>" >
-                                                <input type="hidden" name="price" id="price_<?=$i?>" value="<?=$row['TotPrice']?>" >
+                                                <input type="hidden" name="price" id="price_<?=$i?>" value="<?=$row[TotPrice]?>" >
                                                 <input type="hidden" name="type" id="type_<?=$i?>" value="main">
                                                 <select name="end_status"  onchange="payment_save('#ssForm<?=$i?>');return false;">
                                                     <option value="N" <?php echo $row['end_status'] == "N"?"selected":""?>>결제대기</option>

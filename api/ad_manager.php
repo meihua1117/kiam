@@ -11,11 +11,11 @@ if($ad_position == "window" || $ad_position == "dber") {
     //$addQuery = "and start_time <= '$time' and end_time > '$time'";
 }
 $sql = "select * from crawler_ad_manager where ad_position='$ad_position' and use_yn='Y' $addQuery order by cam_id desc";
-$result = mysqli_query($self_con, $sql);
+$result = mysql_query($sql);
 //$info["display_time"] = "09,12,18,20";
 $info["result"] = "1";
 $k = 0;
-while($row=mysqli_fetch_array($result)) {
+while($row=mysql_fetch_array($result)) {
     $info["data"][$k]['cam_id'] = $row['cam_id'];
     $info["data"][$k]['ad_position'] = $row['ad_position'];
     $info["data"][$k]['title'] = $row['title'];

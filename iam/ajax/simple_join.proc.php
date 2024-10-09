@@ -30,10 +30,10 @@ if($mode == "join") {
   }
 
   $sql="select mem_id from Gn_Member where mem_phone='$simple_phone'";
-  $resul=mysqli_query($self_con, $sql);
-  $row=mysqli_fetch_array($resul);
+  $resul=mysql_query($sql);
+  $row=mysql_fetch_array($resul);
 
-  if($row['mem_id']) {
+  if($row[mem_id]) {
     echo '이미 가입되어있는 회원입니다.';
     exit;
   } else {
@@ -43,9 +43,9 @@ if($mode == "join") {
     $ip=$_SERVER['REMOTE_ADDR'];
 
     $sql2="insert into Gn_Member (mem_leb, mem_id, mem_pass, web_pwd, mem_phone, first_regist, join_ip, iam_leb) values ('22', '$id_che', '$mem_pass', password('$mem_id'), '$simple_phone', now(), '$ip', 1)";
-    $result2 = mysqli_query($self_con, $sql2) or die(mysqli_error($self_con));
+    $result2 = mysql_query($sql2) or die(mysql_error());
 
-    $_SESSION['one_member_id']=$mem_id;
+    $_SESSION[one_member_id]=$mem_id;
     $_SESSION[one_member_iam_leb]=1;
 
     echo '회원가입 되었습니다.';
@@ -53,9 +53,9 @@ if($mode == "join") {
   }
 } else if($mode == "id_check") {
   $sql="select mem_id from Gn_Member where mem_id='$id_che'";
-  $resul=mysqli_query($self_con, $sql);
-  $row=mysqli_fetch_array($resul);
-  if($row['mem_id']) {
+  $resul=mysql_query($sql);
+  $row=mysql_fetch_array($resul);
+  if($row[mem_id]) {
     echo '0';
     exit;
   } else {

@@ -9,7 +9,7 @@ extract($_POST);
 
     $query="delete from Gn_app_version WHERE seq='$seq'
                                  ";
-    mysqli_query($self_con, $query);	
+    mysql_query($query);	
 
 echo "<script>alert('삭제되었습니다.');location='/admin/app_manage_list.php';</script>";
 exit;

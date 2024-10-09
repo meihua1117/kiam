@@ -2,18 +2,39 @@
 $path="./";
 include_once "_head.php";
 $date = date("Y-m-d H:i:s");
-$sql="select * from Gn_Member where mem_id='{$_SESSION['one_member_id']}' ";
-$resul=mysqli_query($self_con, $sql);
-$data=mysqli_fetch_array($resul);
+$sql="select * from Gn_Member where mem_id='$_SESSION[one_member_id]' ";
+$resul=mysql_query($sql);
+$data=mysql_fetch_array($resul);
+// 이미 진행중인 결제가 있는지 확인
 $mid = date("YmdHis").rand(10,99);
+//$query = "select * from tjd_pay_result where buyer_id='$_SESSION[one_member_id]' and end_status='Y' and `end_date` > '$date'";
+//$res = mysql_query($query);
+//$sdata = mysql_fetch_array($res);
+//if($sdata['no'] != "") {
+//$chk = "Y";
+//}
+// 3 -> 건당 0.70000 부터 -0.00006
+// 100 -> 건당 0.50000 부터 -0.00006
+// 5000 개까지
 ?>
 
 
 <style type="text/css">
+    button, input, select, textarea {
+     /*font-family: inherit; */
+     /*font-size: inherit; */
+     /*line-height: inherit; */
+    }
     input {
          line-height: normal!important; 
     }
-    .head_right a{
+    button, input, optgroup, select, textarea {
+        /* margin: 0; */
+        /* font: inherit; */
+        /* color: inherit; */
+    }
+    .head_right a
+    {
         font-size: 13px!important;
         font-family: "Nanum Gothic"!important;
     }
@@ -148,7 +169,7 @@ $(function(){
     
 function dbFree() {
         <?
-        if($_SESSION['one_member_id'] == "")
+        if($_SESSION[one_member_id] == "")
         {
         ?>    
         alert('로그인 이후에 이용이 가능합니다.');
@@ -482,7 +503,7 @@ var send_cnt = 9000;
             <!--승인금액-->
             <input type="hidden" name="allat_amt" id="allat_amt" value="" size="19" maxlength=10>
             <!--회원ID-->
-            <input type="hidden" name="allat_pmember_id" value="<?php echo $_SESSION['one_member_id'];?>" size="19" maxlength=20>
+            <input type="hidden" name="allat_pmember_id" value="<?php echo $_SESSION[one_member_id];?>" size="19" maxlength=20>
             <!--상품코드-->
             <input type="hidden" name="allat_product_cd" id="allat_product_cd" value="Business-월간결제" size="19" maxlength=1000>
             <!--상품명-->
@@ -522,7 +543,7 @@ var send_cnt = 9000;
             <!--현금 영수증 발급 여부-->
             <input type="hidden" name="allat_cash_yn" value="" size="19" maxlength=1>
             <!--결제 정보 수신 E-mail-->
-            <input type="hidden" name="allat_email_addr" id="allat_email_addr"  size="19" maxlength=50  value="<?php echo $data['mem_email']?$data['mem_email']:"turbolight@daum.net";?>">
+            <input type="hidden" name="allat_email_addr" id="allat_email_addr"  size="19" maxlength=50  value="<?php echo $data['mem_email']?$data[mem_email]:"turbolight@daum.net";?>">
             <!--테스트 여부-->
             <input type="hidden" name="allat_test_yn" value="N" size="19" maxlength=1>
             <!--테스트(Y),서비스(N) - Default : N <br>
@@ -1120,7 +1141,7 @@ var send_cnt = 9000;
                 <input type="hidden" name="fujia_status" id="fujia_status" />
                 <input type="hidden" name="mid" value="obmms20151" />
                 <?
-                if(!$_SESSION['one_member_id'])
+                if(!$_SESSION[one_member_id])
                 {
                 ?>
 
@@ -1401,7 +1422,7 @@ var send_cnt = 9000;
 
 
        <?
-       mysqli_close($self_con);
+       mysql_close();
        include_once "_foot.php";
        ?>
             <script>

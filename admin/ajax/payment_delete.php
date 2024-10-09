@@ -9,11 +9,11 @@ $no_array = explode(",",$no);
 for($i = 0 ; $i < count($no_array); $i++){
     $no = $no_array[$i];
     $query = "select * from tjd_pay_result where no='$no'";
-    $res = mysqli_query($self_con, $query);
-    $row = mysqli_fetch_array($res);
-    if ($row['no'] == "") exit;
+    $res = mysql_query($query);
+    $row = mysql_fetch_array($res);
+    if ($row[no] == "") exit;
     $query = "delete from tjd_pay_result where `no`='$no'";
-    mysqli_query($self_con, $query);
+    mysql_query($query);
 }
 echo "삭제되었습니다.";
 exit;

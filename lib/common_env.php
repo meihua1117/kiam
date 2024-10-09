@@ -1,3 +1,3 @@
 <?
-$global_is_local = true;
+$global_is_local = false;
 ?>

@@ -29,12 +29,12 @@ $FIX_KEY	= getValue("fix_key",$at_txt);
 $APPLY_YMD	= getValue("apply_ymd",$at_txt);
 
 $sql="select * from tjd_pay_result where orderNumber='$ORDER_NO'";
-$resul=mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-$row=mysqli_fetch_array($resul);
+$resul=mysql_query($sql) or die(mysql_error());
+$row=mysql_fetch_array($resul);
 $no = $row['no'];
 if(!strcmp($REPLYCD,"0000")){//pay_test
     $sql = "update tjd_pay_result set end_status='Y',billkey='$FIX_KEY',billdate='$APPLY_YMD' where  orderNumber='$ORDER_NO'";
-    mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
+    mysql_query($sql) or die(mysql_error());
 //디버회원가입하기
     $user_id = $member_1['mem_id'];
     $user_name = $member_1['mem_name'];
@@ -49,9 +49,9 @@ if(!strcmp($REPLYCD,"0000")){//pay_test
     $search_email_cnt = $row['email_cnt'];
     $term = substr($last_time, 0, 10);
 
-    $sql = "select count(cmid) from crawler_member_real where user_id='{$member_1['mem_id']}' ";
-    $sresult = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-    $crow = mysqli_fetch_array($sresult);
+    $sql = "select count(cmid) from crawler_member_real where user_id='$member_1[mem_id]' ";
+    $sresult = mysql_query($sql) or die(mysql_error());
+    $crow = mysql_fetch_array($sresult);
     if ($crow[0] == 0) {
         $query = "insert into crawler_member_real set user_id='$user_id',
                                         user_name='$user_name',
@@ -67,7 +67,7 @@ if(!strcmp($REPLYCD,"0000")){//pay_test
                                         search_email_date='$search_email_date',
                                         search_email_cnt='$search_email_cnt',
                                         shopping_end_date='$search_email_date'";
-        mysqli_query($self_con, $query);
+        mysql_query($query);
     } else {
         $query = "update crawler_member_real set
                                         cell='$cell',
@@ -86,28 +86,28 @@ if(!strcmp($REPLYCD,"0000")){//pay_test
                                         shopping_end_date='$search_email_date',
                                         status='Y'
                                         where user_id='$user_id'";
-        mysqli_query($self_con, $query);
+        mysql_query($query);
     }
-    $add_phone = $row['phone_cnt'] / 9000;
+    $add_phone = $row[phone_cnt] / 9000;
     $sql_m = "update Gn_Member set fujia_date1=now() , fujia_date2=date_add(now(),INTERVAL 120 month),phone_cnt=phone_cnt+'$add_phone'";
-    $sql_m .= " where mem_id='{$member_1['mem_id']}'";
-    mysqli_query($self_con, $sql_m) or die(mysqli_error($self_con));
+    $sql_m .= " where mem_id='$member_1[mem_id]'";
+    mysql_query($sql_m) or die(mysql_error());
 
     if ($member_1['recommend_id'] != "") {
-        $sql = "select * from Gn_Member where mem_id='{$member_1['recommend_id']}' ";
-        $rresult = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-        if (mysqli_num_rows($rresult) > 0) {
-            $rrow = mysqli_fetch_array($rresult);
+        $sql = "select * from Gn_Member where mem_id='$member_1[recommend_id]' ";
+        $rresult = mysql_query($sql) or die(mysql_error());
+        if (mysql_num_rows($rresult) > 0) {
+            $rrow = mysql_fetch_array($rresult);
             $branch_share_id = "";
             $addQuery = "";
             $branch_share_per = 0;
             // 리셀러 / 분양 회원 확인
             // 리셀러 회원인경우 분양회원 아이디 확인
-            if ($rrow['service_type'] == 2) {
+            if ($rrow[service_type] == 2) {
                 // 추천인의 추천인 검색 및 등급 확인
-                $sql = "select * from Gn_Member where mem_id='{$rrow['recommend_id']}'";
-                $rresult = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-                $trow = mysqli_fetch_array($rresult);
+                $sql = "select * from Gn_Member where mem_id='$rrow[recommend_id]'";
+                $rresult = mysql_query($sql) or die(mysql_error());
+                $trow = mysql_fetch_array($rresult);
             
                 $share_per = $recommend_per = $rrow['share_per'] ? $rrow['share_per'] : 30;
                 if ($trow[0] != "") {
@@ -115,17 +115,17 @@ if(!strcmp($REPLYCD,"0000")){//pay_test
                     $branch_share_per = $recommend_per - $share_per;
                     $branch_share_id = $trow['mem_id'];
                 }
-            } else if ($rrow['service_type'] == 3) {
+            } else if ($rrow[service_type] == 3) {
                 $share_per = $recommend_per = $rrow['share_per'] ? $rrow['share_per'] : 50;
                 $branch_share_per = 0;
             }
 
-            $sql = "update tjd_pay_result set share_per='$share_per', branch_share_per = '$branch_share_per', share_id='{$member_1['recommend_id']}', branch_share_id='$branch_share_id' where no='$no'";
-            mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
+            $sql = "update tjd_pay_result set share_per='$share_per', branch_share_per = '$branch_share_per', share_id='$member_1[recommend_id]', branch_share_id='$branch_share_id' where no='$no'";
+            mysql_query($sql) or die(mysql_error());
         }
     }//디버회원가입 완료
-    $iam_card_cnt = $_POST['iam_card_cnt'];
-    $iam_share_cnt = $_POST['iam_share_cnt'];
+    $iam_card_cnt = $_POST[iam_card_cnt];
+    $iam_share_cnt = $_POST[iam_share_cnt];
     $sql_m = "update Gn_Member set fujia_date1=now() ,
                                 fujia_date2=date_add(now(),INTERVAL 120 month),
                                 iam_card_cnt = iam_card_cnt + '$iam_card_cnt',
@@ -134,8 +134,8 @@ if(!strcmp($REPLYCD,"0000")){//pay_test
                                 exp_mid_status = 0,
                                 exp_limit_status = 0,
                                 exp_limit_date = NULL
-                            where mem_id='{$member_1['mem_id']}' ";
-    mysqli_query($self_con, $sql_m) or die(mysqli_error($self_con));
+                            where mem_id='$member_1[mem_id]' ";
+    mysql_query($sql_m) or die(mysql_error());
     // 결과값 처리
     // reply_cd "0000" 일때만 성공
     $FIX_KEY	= getValue("fix_key",$at_txt);

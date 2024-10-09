@@ -34,7 +34,7 @@ if($_REQUEST['mode']=="inser")
 	$sql_d="select idx from Gn_MMS_Deny where send_num='$row[send_num]' and recv_num='$_REQUEST[n]'".$search_str;
 	$resul_d=mysql_query($sql_d);
 	$row_d=mysql_fetch_array($resul_d);
-	if(!$row_d[idx])
+	if($row_d[idx] != null)
 	{
 		$deny_info[send_num]=$row[send_num];
 		$deny_info[recv_num]=$_REQUEST[n];

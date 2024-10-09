@@ -135,8 +135,9 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                         	WHERE event_name_kor!='단체회원자동가입및아이엠카드생성' AND event_name_kor!='콜백메시지관리자설정동의' AND event_name_kor!='데일리문자세트자동생성' 
                 	              $searchStr";
                 	              
-                	$res	    = mysqli_query($self_con, $query);
-                  $totalRow	=  mysqli_fetch_array($res);	                	
+                	$res	    = mysql_query($query);
+                  //$totalCnt	=  mysql_num_rows($res);	
+                  $totalRow	=  mysql_fetch_array($res);	                	
                 	$totalCnt = $totalRow[0];
                   $query = "
                   SELECT 
@@ -155,27 +156,27 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                 	$i = 1;
                 	$c=0;
                 	$query .= "$orderQuery";
-                	$res = mysqli_query($self_con, $query);
-                    while($row = mysqli_fetch_array($res)) {                       	
+                	$res = mysql_query($query);
+                    while($row = mysql_fetch_array($res)) {                       	
                         $query = "
-                        SELECT mem_name from Gn_Member where mem_id='{$row['m_id']}'";
-                        $sres = mysqli_query($self_con, $query);
-                        $srow = mysqli_fetch_array($sres);        				
+                        SELECT mem_name from Gn_Member where mem_id='$row[m_id]'";
+                        $sres = mysql_query($query);
+                        $srow = mysql_fetch_array($sres);        				
                   ?>
                       <tr>
                         <td><input type="checkbox" name="event_idx" value="<?php echo $row['event_idx'];?>"></td>
                         <td><?=$number--?></td>
-                            <td style="font-size:12px;"><?=$row['m_id']?></td>
-                            <td style="font-size:12px;"><?=$srow['mem_name']?></td>
-                        <td style="font-size:12px;"><?=$row['event_name_eng']?></td>
-                        <td style="font-size:12px;"><?=$row['event_name_kor']?></td>
+                            <td style="font-size:12px;"><?=$row[m_id]?></td>
+                            <td style="font-size:12px;"><?=$srow[mem_name]?></td>
+                        <td style="font-size:12px;"><?=$row[event_name_eng]?></td>
+                        <td style="font-size:12px;"><?=$row[event_name_kor]?></td>
                         <td>
                           <?php
-                          if($row['event_name_kor'] == "단체회원자동가입및아이엠카드생성"){
+                          if($row[event_name_kor] == "단체회원자동가입및아이엠카드생성"){
                             $pop_url = '/event/automember.php?pcode='.$row['pcode'].'&eventidx='.$row['event_idx'];
-                          }else if($row['event_name_kor'] == "콜백메시지관리자설정동의"){
+                          }else if($row[event_name_kor] == "콜백메시지관리자설정동의"){
                             $pop_url = '/event/callbackmsg.php?pcode='.$row['pcode'].'&eventidx='.$row['event_idx'];
-                          }else if($row['event_name_kor'] == "데일리문자세트자동생성"){
+                          }else if($row[event_name_kor] == "데일리문자세트자동생성"){
                             $pop_url = '/event/dailymsg.php?pcode='.$row['pcode'].'&eventidx='.$row['event_idx'];
                           }else{
                             $pop_url = '/event/event.html?pcode='.$row['pcode'].'&sp='.$row['event_name_eng'];
@@ -184,11 +185,11 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                             <input type="button" value="미리보기" class="button" onclick="newpop('<?=$pop_url?>')"><br>
                             <input type="button" value="링크복사" class="button"  id="copyBtn" onclick="copyHtml('<?php echo $row['short_url']?>')">            
                         </td>
-                        <td><?=$row['read_cnt']?></td>
-                        <td><?=$row['pcode']?></td>
-                        <td><?=$row['mobile']?></td>
+                        <td><?=$row[read_cnt]?></td>
+                        <td><?=$row[pcode]?></td>
+                        <td><?=$row[mobile]?></td>
                             
-                        <td><?=$row['regdate']?></td>
+                        <td><?=$row[regdate]?></td>
                       </tr>
                     <?
                     $c++;

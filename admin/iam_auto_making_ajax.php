@@ -9,13 +9,13 @@ set_time_limit(0);
 $ua = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36';
 $header =array('Accept: application/json, text/plain, */*','Cache-Control: no-cache');
 $query = "update Gn_Iam_automem set status = 1 where (status = 2 or image1 = '')";
-mysqli_query($self_con, $query);
+mysql_query($query);
 $query = "select * from Gn_Iam_automem where status = 1";
-$res = mysqli_query($self_con, $query);
+$res = mysql_query($query);
 $phone_numbers = '';
 $mem_ids = '';
 $sendnum = '';
-while($row=mysqli_fetch_array($res)){
+while($row=mysql_fetch_array($res)){
     $name = $row['mem_name'];
     $pos = strpos($name,'(') ;
     if($pos > 0){
@@ -34,7 +34,7 @@ while($row=mysqli_fetch_array($res)){
     $profile_logo = "/iam/img/common/logo-2.png";
     $profile_self_info = $row['profile_self_info'];
     $query_automem = "update Gn_Iam_automem set memid ='$memid' where memid='$old_memid'";
-    mysqli_query($self_con, $query_automem);
+    mysql_query($query_automem);
     $query_join = "insert into Gn_Member set mem_id='$memid',
                                                   mem_leb=22,
                                                   web_pwd=password('$passwd'),
@@ -51,7 +51,7 @@ while($row=mysqli_fetch_array($res)){
                                                   site='$site',
                                                   site_iam='$site',
                                                   mem_birth='$birthday'";
-    mysqli_query($self_con, $query_join);
+    mysql_query($query_join);
     $homepage = $row['profile_homepage'];
     $homepage = preg_replace('/http/is', 'https', $homepage);
 
@@ -89,8 +89,8 @@ while($row=mysqli_fetch_array($res)){
     curl_close($ch);
     if ($cerr) {
         echo('Fail get named:' . $cerr);
-        $query_contents = "update Gn_Iam_automem set status = 3,reg_date=now() where `No`={$row['no']}";
-        mysqli_query($self_con, $query_contents);
+        $query_contents = "update Gn_Iam_automem set status = 3,reg_date=now() where `No`='$row[No]'";
+        mysql_query($query_contents);
     }else {
         $category = explode('CategoryProducts', $cr);
         $categoryProduct = $category[1];
@@ -121,11 +121,11 @@ while($row=mysqli_fetch_array($res)){
         $iam_makingURL = '/?' . $short_url;
         $apply_link = '/admin/iam_auto_make_check.php?memid=' . $memid;
         $query_contents = "update Gn_Iam_automem set image1 ='$profile_image[0]',image2 ='$profile_image[1]',image3 ='$profile_image[2]',
-            iam_making = '$iam_makingURL', apply_link = '$apply_link', status = 0,reg_date=now() where `No`={$row['no']}";
-        mysqli_query($self_con, $query_contents);
+                        iam_making = '$iam_makingURL', apply_link = '$apply_link', status = 0,reg_date=now() where `No`='$row[No]'";
+        mysql_query($query_contents);
         $query_info = "insert into Gn_Iam_Info (mem_id,main_img1,main_img2,main_img3, reg_data) 
                     values ('$memid','$profile_image[0]','$profile_image[1]','$profile_image[2]', now())";
-        mysqli_query($self_con, $query_info);
+        mysql_query($query_info);
         $card_position = $profile_self_info;
         $card_map = '';
         $card_keyword = '';
@@ -189,8 +189,8 @@ while($row=mysqli_fetch_array($res)){
                                 'N',
                                  now(), 
                                  now())";
-        mysqli_query($self_con, $name_card_sql);
-        $card_idx = mysqli_insert_id($self_con);
+        mysql_query($name_card_sql);
+        $card_idx = mysql_insert_id();
 
         $contents_type = 1;
         $contents_url_title = $profile_title[0];
@@ -256,10 +256,10 @@ while($row=mysqli_fetch_array($res)){
               '$card_idx',
               $contents_order
               )";
-            mysqli_query($self_con, $sql2) or die(mysqli_error($self_con));
-            $contents_idx = mysqli_insert_id($self_con);
+            mysql_query($sql2) or die(mysql_error());
+            $contents_idx = mysql_insert_id();
             $sql2 = "insert into Gn_Iam_Con_Card set cont_idx=$contents_idx,card_idx=$card_idx,main_card=$card_idx";
-            mysqli_query($self_con, $sql2) or die(mysqli_error($self_con));
+            mysql_query($sql2) or die(mysql_error());
         }
     }
 }

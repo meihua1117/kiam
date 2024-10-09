@@ -180,8 +180,8 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                         	FROM crawler_ad_manager 
                         	WHERE 1=1 
                 	              $searchStr";
-                	$res	    = mysqli_query($self_con, $query);
-                	$totalCnt	=  mysqli_num_rows($res);	
+                	$res	    = mysql_query($query);
+                	$totalCnt	=  mysql_num_rows($res);	
                 	$limitStr       = " LIMIT ".(($startPage-1)*$pageCnt).", ".$pageCnt;
                 	$number			= $totalCnt - ($nowPage - 1) * $pageCnt;                      
                   $orderQuery .= " ORDER BY cam_id DESC $limitStr";            	
@@ -189,8 +189,8 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                 	$i = 1;
                 	$c=0;
                 	$query .= "$orderQuery";
-                	$res = mysqli_query($self_con, $query);
-                    while($row = mysqli_fetch_array($res)) {                       	
+                	$res = mysql_query($query);
+                    while($row = mysql_fetch_array($res)) {                       	
                   ?>
                       <tr>
                         <td><?=$number--?></td>
@@ -202,7 +202,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                         <td><?php echo $row['send_end_date']?></td>
 
                         <td>
-                            <div >
+                            <div style="">
                                 <?
                                 if($row['img_url']){
                                   $thumb_img =  $row['img_url'];

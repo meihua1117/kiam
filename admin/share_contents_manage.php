@@ -9,16 +9,16 @@ $time = time() - (86400 * 365);
 $comp_date = date("Y-m-d", $time);
 
 $sql_share = "select * from share_contents_mng where share_obj='장수군청산림과'";
-$res_share = mysqli_query($self_con, $sql_share);
-$row_share = mysqli_fetch_array($res_share);
+$res_share = mysql_query($sql_share);
+$row_share = mysql_fetch_array($res_share);
 
 if($row_share['end_date'] < $date_today){
     $sql_update = "update share_contents_mng set share_state=2 where share_obj='장수군청산림과'";
-    mysqli_query($self_con, $sql_update);
+    mysql_query($sql_update);
 }
 else{
     $sql_update = "update share_contents_mng set share_state=1 where share_obj='장수군청산림과'";
-    mysqli_query($self_con, $sql_update);
+    mysql_query($sql_update);
 }
 
 $sql_key_search_work = get_search_key($row_share['work_key']);
@@ -29,14 +29,37 @@ $sql_key_search_other = get_search_key($row_share['other_key']);
 $sql_key_search = " and ((web_type='지원사업'".$sql_key_search_work.") or (web_type='행사교육'".$sql_key_search_edu.") or (web_type='입찰공고'".$sql_key_search_public.") or (web_type='기타정보'".$sql_key_search_other."))";
 
 $sql_count1 = "select * from get_crawler_bizinfo where allow_state=1 and allow_state_biz=1 and reg_date>'{$comp_date}'".$sql_key_search;
-$row_cnt1 = mysqli_query($self_con, $sql_count1);
-$contents_cnt1 = mysqli_num_rows($row_cnt1);
+$row_cnt1 = mysql_query($sql_count1);
+$contents_cnt1 = mysql_num_rows($row_cnt1);
 
 $sql_count2 = "select * from get_crawler_bizinfo where allow_state=1 and allow_state_biz=0 and reg_date>'{$comp_date}'".$sql_key_search;
-$row_cnt2 = mysqli_query($self_con, $sql_count2);
-$contents_cnt2 = mysqli_num_rows($row_cnt2);
+$row_cnt2 = mysql_query($sql_count2);
+$contents_cnt2 = mysql_num_rows($row_cnt2);
 
 $contents_cnt = $contents_cnt1 * 1 + $contents_cnt2 * 1;
+//
+//function get_search_key($key){
+//    $sql_key_search = "";
+//    if($key != ""){
+//        if(strpos($key, ",") !== false){
+//            $key_arr = explode(",", $key);
+//            for($i = 0; $i < count($key_arr); $i++){
+//                if($i == count($key_arr) - 1){
+//                    $sql_key_search .= " work_name like '%".$key_arr[$i]."%'";
+//                }
+//                else{
+//                    $sql_key_search .= " work_name like '%".$key_arr[$i]."%' or";
+//                }
+//            }
+//        }
+//        else{
+//            $key_arr[0] = $key;
+//            $sql_key_search .= " work_name like '%".$key_arr[0]."%'";
+//        }
+//        $sql_key_search = " and (".$sql_key_search.")";
+//    }
+//    return $sql_key_search;
+//}
 ?>
 <script type="text/javascript" src="/jquery.lightbox_me.js"></script>
 <script>
@@ -284,17 +307,17 @@ $contents_cnt = $contents_cnt1 * 1 + $contents_cnt2 * 1;
 
                             $sql = "select * from share_contents_mng where 1=1";
                             $query = $sql.$searchStr;
-                            $res = mysqli_query($self_con, $query);
-                            $totalCnt = mysqli_num_rows($res);
+                            $res = mysql_query($query);
+                            $totalCnt = mysql_num_rows($res);
 
                             $limitStr = " LIMIT ".(($startPage-1)*$pageCnt).", ".$pageCnt;
                             $number = $totalCnt - ($nowPage - 1) * $pageCnt;
                             $orderQuery .= " ORDER BY id DESC $limitStr ";
 
                             $query = $sql.$searchStr.$orderQuery;
-                            $result = mysqli_query($self_con, $query);
+                            $result = mysql_query($query);
                             $i = 1;
-                            while($row = mysqli_fetch_array($result)){
+                            while($row = mysql_fetch_array($result)){
                             ?>
                                 <tr>
                                     <th><?=$number--?></th>

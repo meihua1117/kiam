@@ -4,6 +4,8 @@ include_once $_SERVER['DOCUMENT_ROOT']."/admin/include/admin_header.inc.php";
 extract($_GET);
 // 오늘날짜
 $date_today=date("Y-m-d");
+$date_month=date("Y-m");
+
 ?>
 <script type="text/javascript" src="/jquery.lightbox_me.js"></script>
 <script>
@@ -174,8 +176,8 @@ input:checked + .slider:before {
                                     </select>
                                 </div>
                                 <div class="form-group">  
-                                    <input type="date" name="search_start_date" placeholder="" id="search_start_date" value="<?=$_REQUEST['search_start_date']?>"/> ~
-                                    <input type="date"  name="search_end_date" placeholder="" id="search_end_date" value="<?=$_REQUEST['search_end_date']?>"/>                  
+                                    <input type="date" name="search_start_date" placeholder="" id="search_start_date" value="<?=$_REQUEST[search_start_date]?>"/> ~
+                                    <input type="date"  name="search_end_date" placeholder="" id="search_end_date" value="<?=$_REQUEST[search_end_date]?>"/>                  
                                 </div>
                                 <div class="form-group">
                                     <input type="text" name="search_key" id="search_key" class="form-control input-sm pull-right" placeholder="이름/아이디/금액">
@@ -236,15 +238,15 @@ input:checked + .slider:before {
                                 $query = "SELECT SQL_CALC_FOUND_ROWS *, a.share_per FROM tjd_pay_result a 
                                             INNER JOIN Gn_Member b on b.mem_id =a.buyer_id
                                             WHERE 1=1 $searchStr";
-                                $res	    = mysqli_query($self_con, $query);
-                                $totalCnt	=  mysqli_num_rows($res);	
+                                $res	    = mysql_query($query);
+                                $totalCnt	=  mysql_num_rows($res);	
                                 $limitStr   = " LIMIT ".(($startPage-1)*$pageCnt).", ".$pageCnt;
                                 $number		= $totalCnt - ($nowPage - 1) * $pageCnt;                      
                                 $orderQuery .= " ORDER BY a.no DESC $limitStr ";
                                 $i = 1;
                                 $query .= "$orderQuery";
-                                $res = mysqli_query($self_con, $query);
-                                while($row = mysqli_fetch_array($res)) {
+                                $res = mysql_query($query);
+                                while($row = mysql_fetch_array($res)) {
                             ?>
                                 <tr>
                                     <td><input type="checkbox" class="check_no" id="check_one_member" name="" value="<?=$row['no']?>"><?=$number--?></td>
@@ -252,14 +254,14 @@ input:checked + .slider:before {
                                     <td><?=$row['mem_id']?></td>
                                     <td><?=$row['member_type']?></td>
                                     <td><?=$row['mem_name']?></td>
-                                    <td><?=$pay_type[$row['payMethod']]?></td>
-                                    <td><?=number_format($row['TotPrice'])?>원</td>
+                                    <td><?=$pay_type[$row[payMethod]]?></td>
+                                    <td><?=number_format($row[TotPrice])?>원</td>
                                     <td><?=$row['recommend_id']?></td>
                                     <td>
                                         <form method="post" name="ssForm<?=$i?>" id="ssForm<?=$i?>" action="ajax/payment_per_save.php">
                                         <input type="hidden" name="no" value="<?php echo $row['no']?>" >
-                                        <input type="text" name="share_per" id="share_per<?=$i?>" value="<?=$row['share_per']?>"  style="width:70px;">
-                                        <input type="text" name="branch_share_per" id="branch_share_per<?=$i?>" value="<?=$row['branch_share_per']?>"  style="width:70px;">
+                                        <input type="text" name="share_per" id="share_per<?=$i?>" value="<?=$row[share_per]?>"  style="width:70px;">
+                                        <input type="text" name="branch_share_per" id="branch_share_per<?=$i?>" value="<?=$row[branch_share_per]?>"  style="width:70px;">
                                         <button class="btn btn-primary pull-right" style="margin-right: 5px;" onclick="payment_save('#ssForm<?=$i?>');return false;"><i class="fa fa-download"></i> 변경</button>
                                         </form>
                                     </td>
@@ -291,7 +293,7 @@ input:checked + .slider:before {
                 </div>
             </div><!-- /.row -->
         </section><!-- /.content -->
-    </div><!-- /content-wrapper -->
+    </div><!-- /.content-wrapper -->
     <form id="excel_down_form" name="excel_down_form"  target="excel_iframe" method="post">
         <input type="hidden" name="grp_id" value="" />
         <input type="hidden" name="box_text" value="" />        

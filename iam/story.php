@@ -1,14 +1,14 @@
 <?php include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";?>
 <?
-// echo "<script>console.log('console : ". $_SESSION['one_member_id']. "');</script>"
+// echo "<script>console.log('console : ". $_SESSION[one_member_id]. "');</script>"
 
 $card_idx = $_GET['card_num'];
 
-$sql="select * from Gn_Iam_Name_Card where idx = '$card_idx' and mem_id = '{$_SESSION['iam_member_id']}'";
-$result=mysqli_query($self_con, $sql);
-$row=mysqli_fetch_array($result);
+$sql="select * from Gn_Iam_Name_Card where idx = '$card_idx' and mem_id = '$_SESSION[iam_member_id]'";
+$result=mysql_query($sql);
+$row=mysql_fetch_array($result);
 
-// $card_idx = $row['idx'];
+// $card_idx = $row[idx];
 $story_title1 = $row[story_title1];
 $story_title2 = $row[story_title2];
 $story_title3 = $row[story_title3];
@@ -81,7 +81,7 @@ $online2_check = $row[online2_check];
 									아래 부분은 편집버튼 클릭 시 활성화 되도록 작업 부탁드립니다.
 									제가 단순히 display none <-> block 으로 토글 되도록 할 작업이 아니라고 판단됩니다.-->
 								<form name="story_form" method="post">
-									<input type="hidden" name="mem_id" id="mem_id" value="<?=$_SESSION['iam_member_id']?>">
+									<input type="hidden" name="mem_id" id="mem_id" value="<?=$_SESSION[iam_member_id]?>">
 									<input type="hidden" name="card_idx" id="card_idx" value="<?=$card_idx?>">
 									<input type="hidden" name="online1_check" id="online1_check" value="<?=$online1_check?>">
 									<input type="hidden" name="online2_check" id="online2_check" value="<?=$online2_check?>">

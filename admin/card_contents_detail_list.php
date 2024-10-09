@@ -10,16 +10,16 @@ if($idx) {
     // 가입 회원 상세 정보
     $query = "select *
                 from Gn_Iam_Contents_Gwc where idx='$idx'";
-    $res = mysqli_query($self_con, $query);
-    $data = mysqli_fetch_array($res);
+    $res = mysql_query($query);
+    $data = mysql_fetch_array($res);
 
-    $sql_mem = "select gwc_provider_name, gwc_worker_no, gwc_worker_img, gwc_worker_state, mem_id, mem_code, mem_name, mem_phone, mem_email, mem_add1, bank_name, bank_owner, bank_account from Gn_Member where mem_id='{$data['mem_id']}'";
-    $res_mem = mysqli_query($self_con, $sql_mem);
-    $row_mem = mysqli_fetch_array($res_mem);
+    $sql_mem = "select gwc_provider_name, gwc_worker_no, gwc_worker_img, gwc_worker_state, mem_id, mem_code, mem_name, mem_phone, mem_email, mem_add1, bank_name, bank_owner, bank_account from Gn_Member where mem_id='{$data[mem_id]}'";
+    $res_mem = mysql_query($sql_mem);
+    $row_mem = mysql_fetch_array($res_mem);
 
-    $sql_provider_id = "select mem_id, mem_code, mem_name, mem_phone, mem_email, mem_add1, bank_name, bank_owner, bank_account from Gn_Member where mem_code='{$data['delivery_id_code']}'";
-    $res_provider_id = mysqli_query($self_con, $sql_provider_id);
-    $row_provider_id = mysqli_fetch_array($res_provider_id);
+    $sql_provider_id = "select mem_id, mem_code, mem_name, mem_phone, mem_email, mem_add1, bank_name, bank_owner, bank_account from Gn_Member where mem_code='{$data[delivery_id_code]}'";
+    $res_provider_id = mysql_query($sql_provider_id);
+    $row_provider_id = mysql_fetch_array($res_provider_id);
 }
 
 ?>
@@ -66,22 +66,22 @@ if($idx) {
                 </div><!-- /.box-header -->                
                 <div style="padding:20px;">
                   <input type="hidden" id="mode" name="mode" value="req_provider">
-                  <input type="hidden" id="gongup_id" name="gongup_id" value="<?=$row_mem['mem_id']?>">
-                  <input type="hidden" id="gwc_worker_state" name="gwc_worker_state" value="<?=$row_mem['gwc_worker_state']?'1':'0'?>">
+                  <input type="hidden" id="gongup_id" name="gongup_id" value="<?=$row_mem[mem_id]?>">
+                  <input type="hidden" id="gwc_worker_state" name="gwc_worker_state" value="<?=$row_mem[gwc_worker_state]?'1':'0'?>">
                   <div style="display:flex;margin-top:10px;">
-                      공급사명:<input type="text" name="provider_name" id="provider_name" value="<?=$row_mem['gwc_provider_name']?>" style="width: 200px;height: 15px;padding: 10px;margin-left: 45px;">
+                      공급사명:<input type="text" name="provider_name" id="provider_name" value="<?=$row_mem[gwc_provider_name]?>" style="width: 200px;height: 15px;padding: 10px;margin-left: 45px;">
                   </div>
-                  <div style="display:<?=$row_mem['gwc_worker_state']?'flex':'none'?>;margin-top:10px;" id="worker_no_side">
-                      사업자등록번호:<input type="text" name="worker_no" id="worker_no" value="<?=$row_mem['gwc_worker_no']?>" style="width: 200px;height: 15px;padding: 10px;margin-left: 6px;">
+                  <div style="display:<?=$row_mem[gwc_worker_state]?'flex':'none'?>;margin-top:10px;" id="worker_no_side">
+                      사업자등록번호:<input type="text" name="worker_no" id="worker_no" value="<?=$row_mem[gwc_worker_no]?>" style="width: 200px;height: 15px;padding: 10px;margin-left: 6px;">
                   </div>
-                  <div style="display:<?=$row_mem['gwc_worker_state']?'flex':'none'?>;margin-top:10px;" id="worker_img_side">
-                      사업자등록증:<input type="file" name="worker_img" id="worker_img" value="<?=$row_mem['gwc_worker_img']?>" style="width: 200px;margin-left: 20px;">
+                  <div style="display:<?=$row_mem[gwc_worker_state]?'flex':'none'?>;margin-top:10px;" id="worker_img_side">
+                      사업자등록증:<input type="file" name="worker_img" id="worker_img" value="<?=$row_mem[gwc_worker_img]?>" style="width: 200px;margin-left: 20px;">
                   </div>
-                  <?if($row_mem['gwc_worker_img']){?>
-                  <img src="<?=$row_mem['gwc_worker_img']?>" style="width:80px;margin-left:100px;">
+                  <?if($row_mem[gwc_worker_img]){?>
+                  <img src="<?=$row_mem[gwc_worker_img]?>" style="width:80px;margin-left:100px;">
                   <?}?>
                   <div style="margin-top: 10px;width: 300px;text-align: left;height: 25px;">
-                      <input type="checkbox" name="gwc_worker_state_" id="gwc_worker_state_" <?=$row_mem['gwc_worker_state']?'checked':''?> style="vertical-align: text-top;margin-left:100px;" onclick="gwc_worker()"><span style="margin-left:7px;">사업자</span>
+                      <input type="checkbox" name="gwc_worker_state_" id="gwc_worker_state_" <?=$row_mem[gwc_worker_state]?'checked':''?> style="vertical-align: text-top;margin-left:100px;" onclick="gwc_worker()"><span style="margin-left:7px;">사업자</span>
                       <a href="javascript:save_req_provider();" id="save_req_provider_side" style="background-color: black;color: white;padding: 5px;border-radius: 7px;margin: 5px;cursor: pointer;float:right;">저장</a>
                   </div>
                 </div>
@@ -96,8 +96,8 @@ if($idx) {
         <input type="hidden" name="contents_type" value="3" />
         <input type="hidden" name="mem_id" value="<?=$data['mem_id']?>" />
         <input type="hidden" name="admin" value="1" />
-        <input type="hidden" name="provider" value="<?=$_GET['provider']?>" />
-        <input type="hidden" name="member" value="<?=$_GET['member']?>" />
+        <input type="hidden" name="provider" value="<?=$_GET[provider]?>" />
+        <input type="hidden" name="member" value="<?=$_GET[member]?>" />
         <input type="hidden" name="card_short_url" value="<?=$data['card_short_url']?>" />
         <input type="hidden" name="westory_card_url" value="<?=$data['westory_card_url']?>" />
         <input type="hidden" name="contents_url_title" value="<?=$data['contents_url_title']?>" />
@@ -116,6 +116,8 @@ if($idx) {
         <input type="hidden" name="source_iframe" value="<?=$data['source_iframe']?>" />
         <!-- Main content -->
         <section class="content">
+ 
+         
           <div class="row">
               <div class="box">
                 <div class="box-header">
@@ -223,16 +225,16 @@ if($idx) {
                         <td>
                           <?
                           $sql5="select card_short_url,card_title from Gn_Iam_Name_Card where mem_id = 'iamstore' order by req_data asc";
-                          $result5=mysqli_query($self_con, $sql5);
+                          $result5=mysql_query($sql5);
                           $i = 0;
-                          while($row5=mysqli_fetch_array($result5)) {
+                          while($row5=mysql_fetch_array($result5)) {
                               ?>
                               <input type="radio" name="gwc_card_url"
                                       class="my_info_check"
-                                      value="<?= $row5['card_short_url'] ?>" <?=$row5['card_short_url']==$data['westory_card_url']?'checked':''?>>
+                                      value="<?= $row5[card_short_url] ?>" <?=$row5[card_short_url]==$data[westory_card_url]?'checked':''?>>
                               <?
                                   echo($i+1);
-                              echo "(".$row5['card_title'].")";?>
+                              echo "(".$row5[card_title].")";?>
                               <?$i++;
                           }
                           ?>
@@ -243,27 +245,27 @@ if($idx) {
                         <th>배송정보</th>
                         <td>
                           <input type="hidden" id="check_deliver_id_state" name="check_deliver_id_state" value="N">
-                          <input type="hidden" id="deliver_id_code" name="deliver_id_code" value="<?=$row_provider_id['mem_code']?>">
+                          <input type="hidden" id="deliver_id_code" name="deliver_id_code" value="<?=$row_provider_id[mem_code]?>">
                           <input type="checkbox" id="same_gonggupsa" name="same_gonggupsa" onclick="self_deliver()" style="vertical-align: text-top;margin-right:5px;">공급사와 동일
                           <div style="display:flex;margin-top:10px;">
-                              아이디:<input type="text" name="deliver_id" id="deliver_id" value="<?=$row_provider_id['mem_id']?>" style="width: 200px;height: 15px;padding: 10px;margin-left: 20px;"><a href="javascript:check_deliver_id();" id="check_deliver_id" style="background-color: #99cc00;color: white;padding: 2px 5px;margin: -1px 5px;cursor: pointer;">확인</a>
+                              아이디:<input type="text" name="deliver_id" id="deliver_id" value="<?=$row_provider_id[mem_id]?>" style="width: 200px;height: 15px;padding: 10px;margin-left: 20px;"><a href="javascript:check_deliver_id();" id="check_deliver_id" style="background-color: #82c836;color: white;padding: 2px 5px;margin: -1px 5px;cursor: pointer;">확인</a>
                           </div>
                           <div style="display:flex;margin-top:10px;">
-                              이름:<input type="text" name="deliver_name" id="deliver_name" value="<?=$row_provider_id['mem_name']?>" style="width: 200px;height: 15px;padding: 10px;margin-left: 33px;" readonly>
+                              이름:<input type="text" name="deliver_name" id="deliver_name" value="<?=$row_provider_id[mem_name]?>" style="width: 200px;height: 15px;padding: 10px;margin-left: 33px;" readonly>
                           </div>
                           <div style="display:flex;margin-top:10px;">
-                              핸드폰:<input type="text" name="deliver_phone" id="deliver_phone" value="<?=$row_provider_id['mem_phone']?>" style="width: 200px;height: 15px;padding: 10px;margin-left: 20px;" readonly>
+                              핸드폰:<input type="text" name="deliver_phone" id="deliver_phone" value="<?=$row_provider_id[mem_phone]?>" style="width: 200px;height: 15px;padding: 10px;margin-left: 20px;" readonly>
                           </div>
                           <div style="display:flex;margin-top:10px;">
-                              주소:<input type="text" name="deliver_addr" id="deliver_addr" value="<?=$row_provider_id['mem_add1']?>" style="width: 200px;height: 15px;padding: 10px;margin-left: 33px;" readonly>
+                              주소:<input type="text" name="deliver_addr" id="deliver_addr" value="<?=$row_provider_id[mem_add1]?>" style="width: 200px;height: 15px;padding: 10px;margin-left: 33px;" readonly>
                           </div>
                           <div style="display:flex;margin-top:10px;">
-                              이메일:<input type="text" name="deliver_email" id="deliver_email" value="<?=$row_provider_id['mem_email']?>" style="width: 200px;height: 15px;padding: 10px;margin-left: 20px;" readonly>
+                              이메일:<input type="text" name="deliver_email" id="deliver_email" value="<?=$row_provider_id[mem_email]?>" style="width: 200px;height: 15px;padding: 10px;margin-left: 20px;" readonly>
                           </div>
                           <div style="display:flex;margin-top:10px;">
-                              입금계좌:<input type="text" name="deliver_bank" id="deliver_bank" value="<?=$row_provider_id['bank_name']?>" style="width: 70px;height: 15px;padding: 10px;margin-left: 8px;" readonly>
-                              <input type="text" name="deliver_owner" id="deliver_owner" value="<?=$row_provider_id['bank_owner']?>" style="width: 70px;height: 15px;padding: 10px;" readonly>
-                              <input type="text" name="deliver_account" id="deliver_account" value="<?=$row_provider_id['bank_account']?>" style="width: 70px;height: 15px;padding: 10px;" readonly>
+                              입금계좌:<input type="text" name="deliver_bank" id="deliver_bank" value="<?=$row_provider_id[bank_name]?>" style="width: 70px;height: 15px;padding: 10px;margin-left: 8px;" readonly>
+                              <input type="text" name="deliver_owner" id="deliver_owner" value="<?=$row_provider_id[bank_owner]?>" style="width: 70px;height: 15px;padding: 10px;" readonly>
+                              <input type="text" name="deliver_account" id="deliver_account" value="<?=$row_provider_id[bank_account]?>" style="width: 70px;height: 15px;padding: 10px;" readonly>
                           </div>
                         </td>
                       </tr>
@@ -292,7 +294,7 @@ if($idx) {
           
         </section><!-- /.content -->
         </form>
-      </div><!-- /content-wrapper -->
+      </div><!-- /.content-wrapper -->
 
 
       <!-- Footer -->
@@ -405,16 +407,16 @@ function check_deliver_id(){
 }
 function self_deliver(){
     if($("#same_gonggupsa").prop('checked')){
-        $("#deliver_id").val('<?=$row_mem['mem_id']?>');
-        $("#deliver_name").val('<?=$row_mem['mem_name']?>');
-        $("#deliver_phone").val('<?=$row_mem['mem_phone']?>');
-        $("#deliver_addr").val('<?=$row_mem['mem_add1']?>');
-        $("#deliver_email").val('<?=$row_mem['mem_email']?>');
-        $("#deliver_bank").val('<?=$row_mem['bank_name']?>');
-        $("#deliver_owner").val('<?=$row_mem['bank_owner']?>');
-        $("#deliver_account").val('<?=$row_mem['bank_account']?>');
+        $("#deliver_id").val('<?=$row_mem[mem_id]?>');
+        $("#deliver_name").val('<?=$row_mem[mem_name]?>');
+        $("#deliver_phone").val('<?=$row_mem[mem_phone]?>');
+        $("#deliver_addr").val('<?=$row_mem[mem_add1]?>');
+        $("#deliver_email").val('<?=$row_mem[mem_email]?>');
+        $("#deliver_bank").val('<?=$row_mem[bank_name]?>');
+        $("#deliver_owner").val('<?=$row_mem[bank_owner]?>');
+        $("#deliver_account").val('<?=$row_mem[bank_account]?>');
         $("#check_deliver_id").hide();
-        $("#deliver_id_code").val('<?=$row_mem['mem_code']?>');
+        $("#deliver_id_code").val('<?=$row_mem[mem_code]?>');
         if($("#deliver_id").val() != '' && $("#deliver_name").val() != '' && $("#deliver_phone").val() != '' && $("#deliver_addr").val() != '' && $("#deliver_email").val() != '' && $("#deliver_bank").val() != '' && $("#deliver_owner").val() != '' && $("#deliver_account").val() != ''){
             $("#check_deliver_id_state").val('Y');
         }

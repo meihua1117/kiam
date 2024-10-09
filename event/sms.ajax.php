@@ -3,18 +3,18 @@ include_once "../lib/rlatjd_fun.php";
 extract($_REQUEST);
 if($mode == "send_sms") {
     $sql="select * from Gn_Iam_automem where memid='$mem_id'";
-    $result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-    $data = $row=mysqli_fetch_array($result);
+    $result = mysql_query($sql) or die(mysql_error());
+    $data = $row=mysql_fetch_array($result);
     if($data[0] == "") {
         echo '{"result":"fail","msg":"정보를 확인해주세요."}';
         exit;        
     }
     $sql="update Gn_Iam_automem set confirm_telno='$rphone' where memid='$mem_id'";
-    $result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
+    $result = mysql_query($sql) or die(mysql_error());
 
     $conf_sql = "select web_phone from gn_conf";
-    $conf_result = mysqli_query($self_con, $conf_sql);
-    $conf_row = mysqli_fetch_array($conf_result);
+    $conf_result = mysql_query($conf_sql);
+    $conf_row = mysql_fetch_array($conf_result);
     $sphone1 = substr($conf_row[0], 0, 3);
     $sphone2 = substr($conf_row[0], 3, 4);
     $sphone3 = substr($conf_row[0], 7, 4);  

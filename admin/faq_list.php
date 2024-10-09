@@ -129,8 +129,8 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                         	WHERE 1=1 and category=4
                 	              $searchStr";
                 	              
-                	$res	    = mysqli_query($self_con, $query);
-                	$totalCnt	=  mysqli_num_rows($res);	
+                	$res	    = mysql_query($query);
+                	$totalCnt	=  mysql_num_rows($res);	
                 	
                 	$limitStr       = " LIMIT ".(($startPage-1)*$pageCnt).", ".$pageCnt;
                 	$number			= $totalCnt - ($nowPage - 1) * $pageCnt;                      
@@ -142,8 +142,8 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                 	
                 	$i = 1;
                 	$query .= "$orderQuery";
-                	$res = mysqli_query($self_con, $query);
-                    while($row = mysqli_fetch_array($res)) {                       	
+                	$res = mysql_query($query);
+                    while($row = mysql_fetch_array($res)) {                       	
                         
                   ?>
                       <tr>
@@ -155,7 +155,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                             <a href="faq_write.php?no=<?php echo $row['no']?>"><?php echo $row['title'];?></a>
                         </td>
                         <td>
-                            <?=substr($row['date'],0,10)?>
+                            <?=substr($row[date],0,10)?>
                         </td>
                         <td>
                             <input type="hidden" name="no[]" value="<?=$row['no']?>" >
@@ -163,7 +163,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                         </td>                        
                         <td><?=$row['view_cnt']?></td>
 
-                        <td><a href="javascript:;;" onclick="board_del('<?=$row['no']?>','<?=$_REQUEST['status']?>')">삭제</a></td>
+                        <td><a href="javascript:;;" onclick="board_del('<?=$row[no]?>','<?=$_REQUEST[status]?>')">삭제</a></td>
                        
                       </tr>
                     <?

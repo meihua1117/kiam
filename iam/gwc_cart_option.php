@@ -2,12 +2,12 @@
 include_once "../lib/rlatjd_fun.php";
 echo '<script type="text/JavaScript" src="/iam/js/jquery-3.1.1.min.js"></script>'.PHP_EOL;
 
-if($_SESSION['iam_member_id'] == "") {
+if($_SESSION[iam_member_id] == "") {
     echo "<script>location='/';</script>";
 }
 extract($_POST);
 $sql_order = "select * from Gn_Gwc_Order where id='{$gs_id}'";
-$result = mysqli_query($self_con, $sql_order);
+$result = mysql_query($sql_order);
 
 ?>
 <script src="js/shop.js"></script>
@@ -21,10 +21,10 @@ $result = mysqli_query($self_con, $sql_order);
     <input type="hidden" name="gwc_ori_sup_price" id="gwc_ori_sup_price" val='0'>
     <div class="sp_wrap" style="border-top:0">
         <?php
-        for($i=0; $row=mysqli_fetch_array($result); $i++) {
-            $sql_contents = "select contents_title, prod_order_option from Gn_Iam_Contents_Gwc where idx='{$row['contents_idx']}'";
-            $res_contents = mysqli_query($self_con, $sql_contents);
-            $row_contents = mysqli_fetch_array($res_contents);
+        for($i=0; $row=mysql_fetch_array($result); $i++) {
+            $sql_contents = "select contents_title, prod_order_option from Gn_Iam_Contents_Gwc where idx='{$row[contents_idx]}'";
+            $res_contents = mysql_query($sql_contents);
+            $row_contents = mysql_fetch_array($res_contents);
             $order_option = htmlspecialchars_decode(str_replace("disabled", "", $row_contents[prod_order_option]));
             if($row[order_option] != ''){
                 $val_arr = explode('>>', $row[order_option]);
@@ -48,7 +48,7 @@ $result = mysqli_query($self_con, $sql_order);
                 }
             }
         ?>
-        <input type="hidden" id="it_price" name="it_price" value="<?=$row['contents_price'] * 1 / $row['contents_cnt'] * 1?>">
+        <input type="hidden" id="it_price" name="it_price" value="<?=$row[contents_price] * 1 / $row[contents_cnt] * 1?>">
         <input type="hidden" class="io_price" name="io_price" value="<?=$row[salary_price]?$row[salary_price]:'0'?>">
 
         <div class="sp_tbox" style="border-top:0">
@@ -61,7 +61,7 @@ $result = mysqli_query($self_con, $sql_order);
                 <li class="sit_opt_list">
                     <div class="sp_opt_set">
                         <ul>
-                            <li class="it_name"><span class="sit_opt_subj"><?=$row_contents['contents_title']?></span></li>
+                            <li class="it_name"><span class="sit_opt_subj"><?=$row_contents[contents_title]?></span></li>
                             <li class="it_qty">
                                 <?
                                 $gwc_order_option_content = json_decode($row['gwc_order_option_content'],true);
@@ -86,7 +86,7 @@ $result = mysqli_query($self_con, $sql_order);
                                 ?>
                                 <dl class="fl" style="display: inline-flex;">
                                     <dt class="fl padr3"><button type="button" class="btn_small grey">감소</button></dt>
-                                    <dt class="fl padr3"><input type="text" name="ct_qty[<?php echo $gs_id;?>][]" value="<?=$row['contents_cnt']?>" style="text-align: center"></dt>
+                                    <dt class="fl padr3"><input type="text" name="ct_qty[<?php echo $gs_id;?>][]" value="<?=$row[contents_cnt]?>" style="text-align: center"></dt>
                                     <dt class="fl padr3"><button type="button" class="btn_small grey">증가</button></dt>
                                 </dl>
                                 <? }?>

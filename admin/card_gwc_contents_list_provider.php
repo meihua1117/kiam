@@ -234,8 +234,8 @@ $(function() {
                   else{
                     $count_query = "select count(*) from Gn_Iam_Contents_Gwc contents inner join Gn_Iam_Name_Card cards on contents.card_idx = cards.idx where contents.gwc_con_state!=0 and contents.provider_req_prod='Y' $searchStr";
                   }
-                  $count_result = mysqli_query($self_con, $count_query);
-                  $count_row = mysqli_fetch_array($count_result);
+                  $count_result = mysql_query($count_query);
+                  $count_row = mysql_fetch_array($count_result);
                     $totalCnt	=  $count_row[0];
 
                   $query = "SELECT  cards.card_name as card_name , cards.card_title, contents.idx, contents.mem_id,contents.contents_type,contents.contents_img,contents.group_id,".
@@ -251,31 +251,31 @@ $(function() {
                   $i = 1;
                   $c=0;
                   $query .= $orderQuery;
-                  $res = mysqli_query($self_con, $query);
-                  while($row = mysqli_fetch_array($res)) {
-                    $mem_sql = "select site, site_iam, gwc_provider_name, mem_name, gwc_manage_price, mem_code from Gn_Member where mem_id='{$row['mem_id']}'";
-                    $mem_res = mysqli_query($self_con, $mem_sql);
-                    $mem_row = mysqli_fetch_array($mem_res);
-                    if($mem_row['gwc_manage_price']){
-                      $mng_price = $mem_row['gwc_manage_price'];
+                  $res = mysql_query($query);
+                  while($row = mysql_fetch_array($res)) {
+                    $mem_sql = "select site, site_iam, gwc_provider_name, mem_name, gwc_manage_price, mem_code from Gn_Member where mem_id='$row[mem_id]'";
+                    $mem_res = mysql_query($mem_sql);
+                    $mem_row = mysql_fetch_array($mem_res);
+                    if($mem_row[gwc_manage_price]){
+                      $mng_price = $mem_row[gwc_manage_price];
                     }
                     else{
-                      $mng_price = $row['send_provide_price'] * 1 - $row['prod_manufact_price'] * 1;
+                      $mng_price = $row[send_provide_price] * 1 - $row[prod_manufact_price] * 1;
                     }
 
-                    if(strpos($row['contents_img'], ",") !== false){
-                      $img_link_arr = explode(",", $row['contents_img']);
+                    if(strpos($row[contents_img], ",") !== false){
+                      $img_link_arr = explode(",", $row[contents_img]);
                       $img_link = trim($img_link_arr[0]);
                     }
                     else{
-                      $img_link = $row['contents_img'];
+                      $img_link = $row[contents_img];
                     }
 
-                    if(!$row['prod_sehu_price']){
-                      $sehu_price = $row['contents_sell_price'] * 1 - ceil($row['contents_sell_price'] * 1 * 0.1) - ceil($row['contents_sell_price'] * 1 * 0.03);
+                    if(!$row[prod_sehu_price]){
+                      $sehu_price = $row[contents_sell_price] * 1 - ceil($row[contents_sell_price] * 1 * 0.1) - ceil($row[contents_sell_price] * 1 * 0.03);
                     }
                     else{
-                      $sehu_price = $row['prod_sehu_price'];
+                      $sehu_price = $row[prod_sehu_price];
                     }
                   ?>
                       <tr>
@@ -287,7 +287,7 @@ $(function() {
                           </label>
                         </td>
                         <td>온리원</td>
-                        <td><?=$mem_row['gwc_provider_name']?></td>
+                        <td><?=$mem_row[gwc_provider_name]?></td>
                         <td>
                             <div style="overflow-x:hidden;width:100px;">
                               <?=$mem_row[0]?>/<br><?=$mem_row[1]?>
@@ -295,25 +295,25 @@ $(function() {
                         </td>
                         <td>
                             <div style="overflow-x:hidden;width:100px;">
-                              <?=$mem_row['mem_name']?>/<br><?=$row['mem_id']?>
+                              <?=$mem_row[mem_name]?>/<br><?=$row[mem_id]?>
                             </div>
                         </td>
-                        <td><?=$row['gwc_con_state'] == 1?"well":"공동구매용"?></td>
+                        <td><?=$row[gwc_con_state] == 1?"well":"공동구매용"?></td>
                         <td>
-                          <a href="/iam/contents_gwc.php?contents_idx=<?=$row['idx']?>&gwc=Y" target="_blank">
+                          <a href="/iam/contents_gwc.php?contents_idx=<?=$row[idx]?>&gwc=Y" target="_blank">
                             <img class="zoom" src="<?=$img_link?>" style="width:50px;"> 
                             </a>
                         </td>
-                        <td><?=$row['contents_title']?></td>
-                        <td><?=$row['card_title']?></td>
-                        <td><?=$row['product_seperate']?></td>
-                        <td><?=$row['contents_price']?></td>
-                        <td><?=$row['contents_sell_price']?></td>
-                        <td><input type="number" name="sehu_price_<?=$row['idx']?>" value="<?=$sehu_price?>" style="width:65px;font-size: 11px;"><button onclick="save_sehu_price('<?=$row['idx']?>');return false;" style="font-size: 11px;color: white;background-color: black;padding: 0px 5px;">저장</button></td>
-                        <td><?=$row['send_provide_price']?></td>
-                        <td><?=$row['prod_manufact_price']?></td>
-                        <td><input type="number" name="manage_price_<?=$mem_row['mem_code']?>" value="<?=$mng_price?>" style="width:65px;font-size: 11px;"><button onclick="save_manage_price('<?=$mem_row['mem_code']?>');return false;" style="font-size: 11px;color: white;background-color: black;padding: 0px 5px;">저장</button></td>
-                        <td><?=$row['up_data']?></td>
+                        <td><?=$row[contents_title]?></td>
+                        <td><?=$row[card_title]?></td>
+                        <td><?=$row[product_seperate]?></td>
+                        <td><?=$row[contents_price]?></td>
+                        <td><?=$row[contents_sell_price]?></td>
+                        <td><input type="number" name="sehu_price_<?=$row[idx]?>" value="<?=$sehu_price?>" style="width:65px;font-size: 11px;"><button onclick="save_sehu_price('<?=$row[idx]?>');return false;" style="font-size: 11px;color: white;background-color: black;padding: 0px 5px;">저장</button></td>
+                        <td><?=$row[send_provide_price]?></td>
+                        <td><?=$row[prod_manufact_price]?></td>
+                        <td><input type="number" name="manage_price_<?=$mem_row[mem_code]?>" value="<?=$mng_price?>" style="width:65px;font-size: 11px;"><button onclick="save_manage_price('<?=$mem_row[mem_code]?>');return false;" style="font-size: 11px;color: white;background-color: black;padding: 0px 5px;">저장</button></td>
+                        <td><?=$row[up_data]?></td>
                         <td><a href="card_contents_detail_list.php?idx=<?=$row['idx']?>&provider=Y">수정</a></td>
                       </tr>
                   <?

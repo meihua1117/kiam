@@ -5,13 +5,13 @@ extract($_GET);
 // 오늘날짜
 $date_today=date("Y-m-d");
 $sql="select * from Gn_review  where review_id='".$review_id."'";
-$sresul_num=mysqli_query($self_con, $sql);
-$row=mysqli_fetch_array($sresul_num);	
+$sresul_num=mysql_query($sql);
+$row=mysql_fetch_array($sresul_num);	
 
 
 $sql="select * from Gn_lecture  where lecture_id='".$row['lecture_id']."'";
-$sresul_num=mysqli_query($self_con, $sql);
-$srow=mysqli_fetch_array($sresul_num);	
+$sresul_num=mysql_query($sql);
+$srow=mysql_fetch_array($sresul_num);	
 ?>
 <script type="text/javascript" src="/jquery.lightbox_me.js"></script>
 <script>
@@ -78,7 +78,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
             <div class="row">
                 <div class="box">
                     <form name="sform" id="sform" action="ajax/review.proc.php" method="post" class="my_pay">
-                        <input type="hidden" name="mode" value="<?php echo $review_id?"review_updat":"review_save";?>" />
+                        <input type="hidden" name="mode" value="<?php echo $review_id?"review_update":"review_save";?>" />
                         <input type="hidden" name="review_id" value="<?php echo $row['review_id'];?>" />
                         <div id="writeForm" class="box-body">
                             <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table table-bordered table-striped">

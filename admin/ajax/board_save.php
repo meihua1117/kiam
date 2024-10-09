@@ -12,14 +12,14 @@ if($_POST['mode'] == "sort") {
         $query="update      tjd_board set `sort_order`          ='$sort_order[$i]'
                              WHERE no='$no[$i]'";
                                     
-        mysqli_query($self_con, $query);	
+        mysql_query($query);	
     }
 } else if($_POST['mode'] == "diber") { 
         $query="update      tjd_board set `diber`          ='$diber'
                              WHERE no='$no'";
                                     
         echo $query."<BR>";
-        mysqli_query($self_con, $query);	    
+        mysql_query($query);	    
 }
 echo "<script>alert('저장되었습니다.');location='/admin/faq_list.php';</script>";
 exit;

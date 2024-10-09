@@ -3,19 +3,19 @@
 ?>
 <link rel="stylesheet" href="/admin/bootstrap/css/bootstrap.min.css">
 <?
-/*if($HTTP_HOST != "kiam.kr") {
+if($HTTP_HOST != "kiam.kr") {
 	$query = "select * from Gn_Iam_Service where sub_domain like '%".$HTTP_HOST."'";
-    $res = mysqli_query($self_con, $query);
-    $domainData = mysqli_fetch_array($res);
+    $res = mysql_query($query);
+    $domainData = mysql_fetch_array($res);
     if(date("Y-m-d") >= $domainData['contract_end_date']) {
         @header('Content-Type: text/html; charset=UTF-8');
         echo "<script>alert('본 아이엠은 계약기간이 종료되었습니다. 관리자에게 문의해주세요.');hisotory.go(-1);</script>";
         exit;
     }
-}*/
+}
 
 if(!$mem_id) {
-	$mem_id = trim($_SESSION['iam_member_id']);
+	$mem_id = trim($_SESSION[iam_member_id]);
 }
 if($_GET['type']){
 	$type = $_GET['type'];
@@ -77,7 +77,7 @@ if($_GET['type']){
 							}
 						?>
 						<div class="search-box clearfix J2" id="friends_search">
-							<?if($_SESSION['iam_member_id'] == $mem_id) {?>
+							<?if($_SESSION[iam_member_id] == $mem_id) {?>
 							<div class="row" style='margin-left: 8px;margin-bottom: 0px;margin-top: 7px; '>
 								<div class="left">
 									<div id="friends_chk_count" class="selects">0개 선택됨</div>
@@ -99,7 +99,7 @@ if($_GET['type']){
 							<div class="contact-list">
 								<ul>
 									<?
-									if($_SESSION['iam_member_subadmin_id'] != "" && $_SESSION['iam_member_subadmin_domain'] == $HTTP_HOST) {
+									if($_SESSION[iam_member_subadmin_id] != "" && $_SESSION[iam_member_subadmin_domain] == $HTTP_HOST) {
 										$do = explode(".", $HTTP_HOST);
 										$searchStr .= " and a.site_iam = '$do[0]'";
 									}
@@ -111,8 +111,8 @@ if($_GET['type']){
 
 									$sql5 = "SELECT count(a.mem_code) FROM Gn_Member a LEFT JOIN Gn_MMS_Number b on b.mem_id =a.mem_id WHERE a.is_leave='N'".$searchStr." and (REPLACE(a.mem_phone,'-','')=REPLACE(b.sendnum, '-','') and b.sendnum is not null and b.sendnum != '') ORDER BY a.mem_code desc";
 
-									$result5=mysqli_query($self_con, $sql5);
-									$comment_row5=mysqli_fetch_array($result5);
+									$result5=mysql_query($sql5);
+									$comment_row5=mysql_fetch_array($result5);
 									$row_num5 = $comment_row5[0];
 
 									$list2 = 10; //한 페이지에 보여줄 개수
@@ -138,33 +138,33 @@ if($_GET['type']){
 // echo $sql6;
 									$all_mem_ids = "";
 									$sql6_all = "SELECT SQL_CALC_FOUND_ROWS a.mem_id FROM Gn_Member a LEFT JOIN Gn_MMS_Number b on b.mem_id =a.mem_id WHERE a.is_leave='N'".$searchStr." and (REPLACE(a.mem_phone,'-','')=REPLACE(b.sendnum, '-','') and b.sendnum is not null and b.sendnum != '') ORDER BY a.mem_code desc ";
-									$res_all = mysqli_query($self_con, $sql6_all) or die(mysqli_error($self_con));
+									$res_all = mysql_query($sql6_all) or die(mysql_error());
 									$k = 1;
-									while($row_all = mysqli_fetch_array($res_all)){
+									while($row_all = mysql_fetch_array($res_all)){
 										if($k == $row_num5){
-											$all_mem_ids .= $row_all['mem_id'];
+											$all_mem_ids .= $row_all[mem_id];
 										}
 										else{
-											$all_mem_ids .= $row_all['mem_id'].",";
+											$all_mem_ids .= $row_all[mem_id].",";
 										}
 										$k++;
 									}
 									// echo $sql6;
 
-									$result6=mysqli_query($self_con, $sql6) or die(mysqli_error($self_con));
-									while($row6=mysqli_fetch_array($result6)){
-										$diplay_sql="select main_img1, card_phone as friends_phone, card_short_url as friends_url, mem_id from Gn_Iam_Name_Card where mem_id = '{$row6['mem_id']}' order by idx asc limit 1";
-										$diplay_result=mysqli_query($self_con, $diplay_sql) or die(mysqli_error($self_con));
-										$diplay_row=mysqli_fetch_array($diplay_result);
-										$friends_main_img = $diplay_row['main_img1'];
+									$result6=mysql_query($sql6) or die(mysql_error());
+									while($row6=mysql_fetch_array($result6)){
+										$diplay_sql="select main_img1, card_phone as friends_phone, card_short_url as friends_url, mem_id from Gn_Iam_Name_Card where mem_id = '$row6[mem_id]' order by idx asc limit 1";
+										$diplay_result=mysql_query($diplay_sql) or die(mysql_error());
+										$diplay_row=mysql_fetch_array($diplay_result);
+										$friends_main_img = $diplay_row[main_img1];
 										if(!$friends_main_img) {
 											$friends_main_img = "img/profile_img.png";
 										}
-										if(!$diplay_row['friends_url']){
+										if(!$diplay_row[friends_url]){
 											$href = "";
 										}
 										else{
-											$href = "/?".$diplay_row['friends_url'].$row6['mem_code'];
+											$href = "/?".$diplay_row[friends_url].$row6[mem_code];
 										}?>
 										<li class="list-item">
 											<div class="item-wrap">
@@ -178,17 +178,17 @@ if($_GET['type']){
 												<div class="info">
 													<div class="upper">
 														<span class="name">
-															<?=$row6['mem_name']?>
+															<?=$row6[mem_name]?>
 														</span>
-														<span class="company"><?=$row6['mem_id']?></span>
+														<span class="company"><?=$row6[mem_id]?></span>
 													</div>
 													<div class="downer">
-														<a href="tel:<?=$row6['mem_phone']?>"><?=$row6['mem_phone']?></a>
+														<a href="tel:<?=$row6[mem_phone]?>"><?=$row6[mem_phone]?></a>
 													</div>
 												</div>
 												<div class="check">
-													<input type="checkbox" name="friends_chk" id="inputItem<?=$row6['mem_code']?>" class="friends checkboxes input css-checkbox ####<?=$row6['mem_code']?>" onclick='friends_chk_count() ' value="<?=$row6['mem_code']?>" data-name = "<?=$row6['mem_id']?>">
-													<label for="inputItem<?=$row6['mem_code']?>" class="css-label cb0" data-name = "<?=$row6['mem_id']?>"></label>
+													<input type="checkbox" name="friends_chk" id="inputItem<?=$row6[mem_code]?>" class="friends checkboxes input css-checkbox ####<?=$row6[mem_code]?>" onclick='friends_chk_count() ' value="<?=$row6[mem_code]?>" data-name = "<?=$row6[mem_id]?>">
+													<label for="inputItem<?=$row6[mem_code]?>" class="css-label cb0" data-name = "<?=$row6[mem_id]?>"></label>
 													<input type="hidden" name="friends_idx<?=$row6['mem_code']?>" id="friends_idx<?=$row6['mem_code']?>" value="<?=$row6['mem_phone']?>">
 												</div>
 											</div>
@@ -272,7 +272,7 @@ if($_GET['type']){
 			console.log(str);
 			var isExist = false;
 			for(var j = 0 ; j < id_array.length ;j++){
-				if(id_array[j] == str || str == '<?=$_SESSION['iam_member_id']?>'){
+				if(id_array[j] == str || str == '<?=$_SESSION[iam_member_id]?>'){
 					isExist = true;
 					break;
 				}
@@ -357,7 +357,7 @@ if($_GET['type']){
 			var name = $("input[name=friends_chk]:checked").eq(i).data("name");
 			var isExist = false;
 			for(var j = 0 ; j < id_array.length ;j++){
-				if(id_array[j] == str || str == '<?=$_SESSION['iam_member_id']?>'){
+				if(id_array[j] == str || str == '<?=$_SESSION[iam_member_id]?>'){
 					isExist = true;
 					break;
 				}

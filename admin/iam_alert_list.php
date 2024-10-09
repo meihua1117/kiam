@@ -126,15 +126,15 @@ if($_REQUEST['dir'] == "desc"){
                             $searchStr .= $search_key ? " AND (a.mem_id LIKE '%".$search_key."%' or a.company_name like '%".$search_key."%' or a.mem_name like '%".$search_key."%' or b.sendnum like '%".$search_key."%')" : null;
                             $order = $order?$order:"desc";
                             $query = "SELECT SQL_CALC_FOUND_ROWS * FROM gn_alert WHERE `type`='iam' $searchStr";
-                            $res	    = mysqli_query($self_con, $query);
-                            $totalCnt	=  mysqli_num_rows($res);
+                            $res	    = mysql_query($query);
+                            $totalCnt	=  mysql_num_rows($res);
                             $limitStr       = " LIMIT ".(($startPage-1)*$pageCnt).", ".$pageCnt;
                             $number			= ($nowPage - 1) * $pageCnt + 1;
                             $orderQuery .= " ORDER BY no $limitStr ";
                             $i = 1;
                             $query .= "$orderQuery";
-                            $res = mysqli_query($self_con, $query);
-                            while($row = mysqli_fetch_array($res)) {?>
+                            $res = mysql_query($query);
+                            while($row = mysql_fetch_array($res)) {?>
                                 <tr>
                                     <td><?=$number++?></td>
                                     <td><?=$row['title']?></td>

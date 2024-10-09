@@ -16,8 +16,8 @@ if(!isset($_GET['menu_type']))
   $menu_type = "T";
 
 $sql_service = "select admin_iam_menu from Gn_Iam_Service where sub_domain like '%".$domain."%'";
-$res_service = mysqli_query($self_con, $sql_service);
-$row_service = mysqli_fetch_array($res_service);
+$res_service = mysql_query($sql_service);
+$row_service = mysql_fetch_array($res_service);
 ?>
 <script type="text/javascript" src="/jquery.lightbox_me.js"></script>
 <script>
@@ -265,6 +265,9 @@ input:checked + .slider:before {
     transition: .4s;
 
 }
+.agree{
+     /*background: #d5ffd5!important;   */
+    }
 .disagree{
      background: #ffd5d5!important;   
     }
@@ -396,8 +399,8 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
           <?
           $index = 0;
           $sql_menu_data = "select count(idx) from Gn_Iam_Menu where site_iam='{$site}' and menu_type='{$menu_type}'";
-          $res_menu_data = mysqli_query($self_con, $sql_menu_data);
-          $menu_data = mysqli_fetch_array($res_menu_data);
+          $res_menu_data = mysql_query($sql_menu_data);
+          $menu_data = mysql_fetch_array($res_menu_data);
           if($menu_data[0] == 0){
             $sql_data = "select * from Gn_Iam_Menu where site_iam='kiam' and menu_type='{$menu_type}' order by display_order";
             $mode = "save";
@@ -405,9 +408,9 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
             $sql_data = "select * from Gn_Iam_Menu where site_iam='{$site}' and menu_type='{$menu_type}' order by display_order";
             $mode = "updat";
           }
-          $res_data = mysqli_query($self_con, $sql_data);
-          if(mysqli_num_rows($res_data)){
-            while($data = mysqli_fetch_array($res_data)){
+          $res_data = mysql_query($sql_data);
+          if(mysql_num_rows($res_data)){
+            while($data = mysql_fetch_array($res_data)){
               $index++;
           ?>
           <form method="post" id="menu_Form_<?=$index?>" name="menu_Form_<?=$index?>" enctype="multipart/form-data">

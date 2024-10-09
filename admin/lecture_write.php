@@ -5,8 +5,8 @@ extract($_GET);
 // 오늘날짜
 $date_today=date("Y-m-d");
 $sql="select * from Gn_lecture  where lecture_id='".$lecture_id."'";
-$sresul_num=mysqli_query($self_con, $sql);
-$row=mysqli_fetch_array($sresul_num);	
+$sresul_num=mysql_query($sql);
+$row=mysql_fetch_array($sresul_num);	
 ?>
 <script type="text/javascript" src="/jquery.lightbox_me.js"></script>
 <script>
@@ -73,9 +73,9 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
           <div class="row">
             <div class="box">
             <form name="sform" id="sform" action="ajax/lecture.proc.php" method="post" enctype="multipart/form-data">
-            <input type="hidden" name="mode" value="<?=$lecture_id?"lecture_updat":"lecture_save";?>" />
-            <input type="hidden" name="lecture_id" value="<?=$row['lecture_id'];?>" />
-            <input type="hidden" name="event_idx" id="event_idx" value="<?=$event_idx;?>" />
+            <input type="hidden" name="mode" value="<?php echo $lecture_id?"lecture_update":"lecture_save";?>" />
+            <input type="hidden" name="lecture_id" value="<?php echo $row['lecture_id'];?>" />
+            <input type="hidden" name="event_idx" id="event_idx" value="<?php echo $event_idx;?>" />
             <div>
                 <div class="box-body">
                     <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table table-bordered table-striped">
@@ -83,17 +83,17 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                         <th class="w200">분야</th>
                         <td>
                             <select name="category" id="category" style="height:35px;width:80px">
-                                <option value="강연" <?=$row['category']=="강연"?"selected":""?>>강연</option>
-                                <option value="교육" <?=$row['category']=="교육"?"selected":""?>>교육</option>
-                                <option value="영상" <?=$row['category']=="영상"?"selected":""?>>영상</option>
+                                <option value="강연" <?php echo $row['category']=="강연"?"selected":""?>>강연</option>
+                                <option value="교육" <?php echo $row['category']=="교육"?"selected":""?>>교육</option>
+                                <option value="영상" <?php echo $row['category']=="영상"?"selected":""?>>영상</option>
                             </select>
                         </td>
                     </tr>    
                     <tr>
                         <th class="w200">일정</th>
                         <td>
-                            <input type="text" name="start_date" id="start_date" placeholder=""  value="<?=$row['start_date']?>" style="width:100px" autocomplete="off"/> ~  
-                            <input type="text" name="end_date" id="end_date" placeholder=""  value="<?=$row['end_date']?>" style="width:100px" autocomplete="off"/> 
+                            <input type="text" name="start_date" id="start_date" placeholder=""  value="<?=$row[start_date]?>" style="width:100px" autocomplete="off"/> ~  
+                            <input type="text" name="end_date" id="end_date" placeholder=""  value="<?=$row[end_date]?>" style="width:100px" autocomplete="off"/> 
                         </td>
                     </tr>                    
                     <tr>
@@ -111,45 +111,45 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                     <tr>
                         <th class="w200">시간</th>
                         <td>
-                            <input type="text" name="lecture_start_time" placeholder="" id="lecture_start_time" value="<?=$row['lecture_start_time']?>" style="width:100px"/> ~ 
-                            <input type="text" name="lecture_end_time" placeholder="" id="lecture_end_time" value="<?=$row['lecture_end_time']?>" style="width:100px"/>
+                            <input type="text" name="lecture_start_time" placeholder="" id="lecture_start_time" value="<?=$row[lecture_start_time]?>" style="width:100px"/> ~ 
+                            <input type="text" name="lecture_end_time" placeholder="" id="lecture_end_time" value="<?=$row[lecture_end_time]?>" style="width:100px"/>
                             </td>
                         
                     </tr>                    
                     <tr>
                         <th class="w200">강의내용</th>
-                        <td><input type="text" name="lecture_info" placeholder="" id="lecture_info" value="<?=$row['lecture_info']?>"/> </td>
+                        <td><input type="text" name="lecture_info" placeholder="" id="lecture_info" value="<?=$row[lecture_info]?>"/> </td>
                     </tr>      
                     
                     <tr>
                        <th class="w200">랜딩URL</th>
-                       <td><input type="text" name="lecture_url" placeholder="" id="lecture_url"   value="<?=$row['lecture_url']?>"/> </td>
+                       <td><input type="text" name="lecture_url" placeholder="" id="lecture_url"   value="<?=$row[lecture_url]?>"/> </td>
                     </tr>     
 
                     <tr>
                         <th class="w200">강사</th>
-                        <td><input type="text" name="instructor" placeholder="" id="instructor" value="<?=$row['instructor']?>"/> </td>
+                        <td><input type="text" name="instructor" placeholder="" id="instructor" value="<?=$row[instructor]?>"/> </td>
                     </tr>                    
                     <tr>
                         <th class="w200">지역</th>
-                        <td><input type="text" name="area" placeholder="" id="area" value="<?=$row['area']?>"/> </td>
+                        <td><input type="text" name="area" placeholder="" id="area" value="<?=$row[area]?>"/> </td>
                     </tr>                    
                     <tr>
                         <th class="w200">대상</th>
-                        <td><input type="text" name="target" placeholder="" id="target" value="<?=$row['target']?>"/> </td>
+                        <td><input type="text" name="target" placeholder="" id="target" value="<?=$row[target]?>"/> </td>
                     </tr>                                        
                     <tr>
                         <th class="w200">정원</th>
-                        <td><input type="text" name="max_num" placeholder="" id="max_num" value="<?=$row['max_num']?>" style="width:100px"/> 명 </td>
+                        <td><input type="text" name="max_num" placeholder="" id="max_num" value="<?=$row[max_num]?>" style="width:100px"/> 명 </td>
                     </tr>                    
                     <tr>
                         <th class="w200">비용</th>
-                        <td><input type="text" name="fee" placeholder="" id="fee" value="<?=$row['fee']?>" style="width:100px"/> 원 </td>
+                        <td><input type="text" name="fee" placeholder="" id="fee" value="<?=$row[fee]?>" style="width:100px"/> 원 </td>
                     </tr>                    
                     <tr>
                         <th class="w200">신청</th>
                         <td>
-                            <input type="text" name="event_code" placeholder="" id="event_code" value="<?=$row['event_code']?>"  style="width:100px"/> 이벤트영문명
+                            <input type="text" name="event_code" placeholder="" id="event_code" value="<?=$row[event_code]?>"  style="width:100px"/> 이벤트영문명
                              <input type="button" value="이벤트 조회" class="button btn btn-primary " id="searchBtn">
                         </td>
                     </tr>                                  

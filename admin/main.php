@@ -191,7 +191,7 @@ include_once $_SERVER['DOCUMENT_ROOT']."/admin/include/admin_header.inc.php"
           
           
         </section><!-- /.content -->
-      </div><!-- /content-wrapper -->
+      </div><!-- /.content-wrapper -->
 
       <!-- Footer -->
 <?include_once $_SERVER['DOCUMENT_ROOT']."/admin/include/admin_footer.inc.php";?>      

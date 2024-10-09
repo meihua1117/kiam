@@ -59,8 +59,8 @@ $date_today=date("Y-m-d");
                             <div class="input-group"  >
                                 <div class="form-group"></div>
                                 <div class="form-group">
-                                    <input type="date" name="search_start_date" placeholder="" id="search_start_date" value="<?=$_REQUEST['search_start_date']?>"/> ~
-                                    <input type="date"  name="search_end_date" placeholder="" id="search_end_date" value="<?=$_REQUEST['search_end_date']?>"/>
+                                    <input type="date" name="search_start_date" placeholder="" id="search_start_date" value="<?=$_REQUEST[search_start_date]?>"/> ~
+                                    <input type="date"  name="search_end_date" placeholder="" id="search_end_date" value="<?=$_REQUEST[search_end_date]?>"/>
                                 </div>
                                 <div class="form-group">
                                     <select name="search_key" class="form-control" >
@@ -72,7 +72,7 @@ $date_today=date("Y-m-d");
                                 </div>
                                 <div class="form-group"></div>
                                 <div class="form-group">
-                                    <input type="text" name="search_word" id="search_word" class="form-control input-sm pull-right" placeholder="아이디/휴대폰번호" value="<?=$_REQUEST['search_word']?>">
+                                    <input type="text" name="search_word" id="search_word" class="form-control input-sm pull-right" placeholder="아이디/휴대폰번호" value="<?=$_REQUEST[search_word]?>">
                                 </div>
                                 <div class="input-group-btn">
                                     <button class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>
@@ -125,8 +125,8 @@ $date_today=date("Y-m-d");
                                 $order = $order?$order:"desc";
                                 $query = "SELECT count(a.dest) FROM sm_data a ";
                                 $query .= " WHERE 1=1 $searchStr";
-                                $res    = mysqli_query($self_con, $query);
-                                $totalRow	=  mysqli_fetch_array($res);
+                                $res    = mysql_query($query);
+                                $totalRow	=  mysql_fetch_array($res);
                                 $totalCnt = $totalRow[0];
                                 $query = "SELECT a.dest, a.grp, a.msg_text, a.msg_url, a.reservation_time FROM sm_data a";
                                 $query .= " WHERE 1=1 $searchStr";
@@ -138,16 +138,16 @@ $date_today=date("Y-m-d");
                                 $orderQuery .= " ORDER BY a.seq DESC $limitStr ";
                                 $i = 1;
                                 $query .= $orderQuery;
-                                $res = mysqli_query($self_con, $query);
-                                while($row = mysqli_fetch_array($res)) {
-                                    $sql="select mem_id, mem_name from Gn_Member where REPLACE(mem_phone, '-', '')='{$row['dest']}'";
-                                    $sresul=mysqli_query($self_con, $sql);
-                                    $srow=mysqli_fetch_array($sresul);
+                                $res = mysql_query($query);
+                                while($row = mysql_fetch_array($res)) {
+                                    $sql="select mem_id, mem_name from Gn_Member where REPLACE(mem_phone, '-', '')='$row[dest]'";
+                                    $sresul=mysql_query($sql);
+                                    $srow=mysql_fetch_array($sresul);
                                     if($srow['mem_id'] == "")
                                     {
-                                        $sql="select m.mem_id, mem_name from Gn_Member m inner join Gn_MMS_Number n on m.mem_id=n.mem_id where n.sendnum='{$row['dest']}'";
-                                        $sresul=mysqli_query($self_con, $sql);
-                                        $srow=mysqli_fetch_array($sresul);
+                                        $sql="select m.mem_id, mem_name from Gn_Member m inner join Gn_MMS_Number n on m.mem_id=n.mem_id where n.sendnum='$row[dest]'";
+                                        $sresul=mysql_query($sql);
+                                        $srow=mysql_fetch_array($sresul);
                                     }?>
                                     <tr>
                                         <td><?=$number--?></td>

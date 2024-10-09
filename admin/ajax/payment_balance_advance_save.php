@@ -13,19 +13,19 @@ for($i = 0;$i <count($mem_id_array);$i++) {
     if ($end_status != "") {
         if ($end_status == "N") {
             $sql = "update tjd_pay_result_balance set   balance_yn='" . $end_status . "',balance_confirm_date=NULL where balance_date ='$balance_date' and seller_id='$mem_id' ";
-            mysqli_query($self_con, $sql);
+            mysql_query($sql);
             $sql = "update tjd_pay_result_balance set   branch_balance_yn='" . $end_status . "',branch_balance_confirm_date=null where balance_date ='$balance_date' and branch_id='$mem_id'  ";
-            mysqli_query($self_con, $sql);
+            mysql_query($sql);
         } else {
             $sql = "update tjd_pay_result_balance set   balance_yn='" . $end_status . "',balance_confirm_date=NOW() where balance_date ='$balance_date' and seller_id='$mem_id' ";
-            mysqli_query($self_con, $sql);
+            mysql_query($sql);
             $sql = "update tjd_pay_result_balance set   branch_balance_yn='" . $end_status . "',branch_balance_confirm_date=NOW() where balance_date ='$balance_date' and branch_id='$mem_id'  ";
-            mysqli_query($self_con, $sql);
+            mysql_query($sql);
         }
     }
 }
 if(count($mem_id_array) == 1) {
-    echo "<script>alert('저장되었습니다.');location.href='/admin/payment_balance_advance_list.php?search_year=".$_POST['search_year']."&search_month=".$_POST['search_month']."';</script>";
+    echo "<script>alert('저장되었습니다.');location.href='/admin/payment_balance_advance_list.php?search_year=$_POST[search_year]&search_month=$_POST[search_month]';</script>";
 }else{
     echo json_encode(array("result"=>"success"));
 }

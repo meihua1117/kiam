@@ -1,10 +1,10 @@
 <?
 include_once "../lib/rlatjd_fun.php";
 
-$recv_nums = $_POST['deny_add_recv'];
-$mem_id = $_POST['mem_id'];
-$chanel = $_POST['reg_chanel'];
-$type = $_POST['type'];
+$recv_nums = $_POST[deny_add_recv];
+$mem_id = $_POST[mem_id];
+$chanel = $_POST[reg_chanel];
+$type = $_POST[type];
 $k = $u = 0;
 if(strpos($recv_nums, ",") !== false){
     $recv_nums_arr = explode(",", $recv_nums);
@@ -26,7 +26,7 @@ for($c = 0; $c < count($recv_nums_arr); $c++){
     if(!check_cellno($recv_num)){
         continue;
     }
-    $send_num=str_replace(array("-"," ",","),"",$_POST['deny_add_send']);
+    $send_num=str_replace(array("-"," ",","),"",$_POST[deny_add_send]);
     $is_zero=substr($send_num,0,1);
     $send_num=$is_zero?"0".$send_num:$send_num;
     $send_num = ereg_replace("[^0-9]", "", $send_num);
@@ -35,9 +35,9 @@ for($c = 0; $c < count($recv_nums_arr); $c++){
         exit;
     }
     $sql_num="select sendnum from Gn_MMS_Number where mem_id ='$mem_id' and sendnum='$send_num' ";
-    $resul_num=mysqli_query($self_con, $sql_num);
-    $row_num=mysqli_fetch_array($resul_num);
-    if(!$row_num['sendnum']){
+    $resul_num=mysql_query($sql_num);
+    $row_num=mysql_fetch_array($resul_num);
+    if(!$row_num[sendnum]){
         echo 2;
         exit;
     }
@@ -54,22 +54,22 @@ for($c = 0; $c < count($recv_nums_arr); $c++){
         }
         
         $sql_s="select idx from Gn_MMS_Deny where recv_num='$recv_num' and send_num='$send_num'".$sql_search;
-        $resul_s=mysqli_query($self_con, $sql_s);
-        $row_s=mysqli_fetch_array($resul_s);
-        if($row_s['idx']){
+        $resul_s=mysql_query($sql_s);
+        $row_s=mysql_fetch_array($resul_s);
+        if($row_s[idx]){
             continue;
         }
-        $deny_info['send_num']=$send_num;
-        $deny_info['recv_num']=$recv_num;
-        if($_POST['deny_add_idx']){
+        $deny_info[send_num]=$send_num;
+        $deny_info[recv_num]=$recv_num;
+        if($_POST[deny_add_idx]){
             $sql="update Gn_MMS_Deny set ";
         }else{
             $sql="insert into Gn_MMS_Deny set ";
-            $deny_info['title']="수동입력";
-            $deny_info['content']="수동입력";
-            $deny_info['status']="B";
-            $deny_info['chanel_type']=$chanel;
-            $deny_info['mem_id']=$mem_id;
+            $deny_info[title]="수동입력";
+            $deny_info[content]="수동입력";
+            $deny_info[status]="B";
+            $deny_info[chanel_type]=$chanel;
+            $deny_info[mem_id]=$mem_id;
         }
         $i=0;
         foreach($deny_info as $key=>$v){
@@ -77,17 +77,17 @@ for($c = 0; $c < count($recv_nums_arr); $c++){
             $sql.=" $key='$v' $bd ";
             $i++;
         }
-        if($_POST['deny_add_idx'])
-            $sql.=" where idx='{$_POST['deny_add_idx']}' ";
+        if($_POST[deny_add_idx])
+            $sql.=" where idx='$_POST[deny_add_idx]' ";
         else
             $sql.=" , reg_date=now() ";
-        if(mysqli_query($self_con, $sql) or die(mysqli_error($self_con))){
+        if(mysql_query($sql) or die(mysql_error())){
             $k++;
         }
     }
     else if($type == "undeny"){
         $sql_del = "delete from Gn_MMS_Deny where recv_num='$recv_num' and send_num='$send_num' and chanel_type=9";
-        if(mysqli_query($self_con, $sql_del) or die(mysqli_error($self_con))){
+        if(mysql_query($sql_del) or die(mysql_error())){
             $u++;
         }
     }

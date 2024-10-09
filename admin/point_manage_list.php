@@ -196,8 +196,8 @@ $date_today=date("Y-m-d");
                     <form method="get" name="search_people" id="search_people">
                         <div class="box-tools">
                             <div class="input-group" style="display:inline-flex;">
-                                <input type="date" placeholder="시작일" name="search_start_date" value="<?=$_REQUEST['search_start_date']?>" style="margin-right:5px;border: 1px solid black;width:125px;">
-                                <input type="date" placeholder="종료일" name="search_end_date" value="<?=$_REQUEST['search_end_date']?>" style="margin-right:5px;border: 1px solid black;width:125px;">
+                                <input type="date" placeholder="시작일" name="search_start_date" value="<?=$_REQUEST[search_start_date]?>" style="margin-right:5px;border: 1px solid black;width:125px;">
+                                <input type="date" placeholder="종료일" name="search_end_date" value="<?=$_REQUEST[search_end_date]?>" style="margin-right:5px;border: 1px solid black;width:125px;">
                                 <select title="" name="use_buy_type" data-plugin-selectTwo onchange="" style="width:90px;margin-right:5px;">
                                     <option value="">전체</option>
                                     <option value="sell" <?if($_REQUEST['use_buy_type'] == "sell") echo "selected"?>>판매포인트</option>
@@ -330,8 +330,8 @@ $date_today=date("Y-m-d");
                             else if($use_buy_type == "chung")
                                 $searchStr .= " AND site is null";
                             $sql = "select * from Gn_Item_Pay_Result where (point_val=1 or (point_val=2 and receive_state=1))".$searchStr;
-                            $res = mysqli_query($self_con, $sql);
-                            $totalCnt = mysqli_num_rows($res);
+                            $res = mysql_query($sql);
+                            $totalCnt = mysql_num_rows($res);
 
                             $limitStr = " LIMIT ".(($startPage-1)*$pageCnt).", ".$pageCnt;
                             $number = $totalCnt - ($nowPage - 1) * $pageCnt;
@@ -339,11 +339,11 @@ $date_today=date("Y-m-d");
                             // $no = 0;
                             
                             $query = $sql.$searchStr.$orderQuery;
-                            $result = mysqli_query($self_con, $query);
-                            while($row = mysqli_fetch_array($result)){
+                            $result = mysql_query($query);
+                            while($row = mysql_fetch_array($result)){
                                 $mem_name_sql = "select mem_name from Gn_Member where mem_id= '".$row['buyer_id']."'";
-                                $mem_name_sql_res = mysqli_query($self_con, $mem_name_sql);
-                                $mem_name = mysqli_fetch_array($mem_name_sql_res);
+                                $mem_name_sql_res = mysql_query($mem_name_sql);
+                                $mem_name = mysql_fetch_array($mem_name_sql_res);
                                 $no++;
                                 if(($row['type'] == "buy") || ($row['type'] == "service")){
                                     $type = "충전";

@@ -4,9 +4,10 @@ include_once $_SERVER['DOCUMENT_ROOT']."/admin/include/admin_header.inc.php";
 extract($_GET);
 // 오늘날짜
 $date_today=date("Y-m-d");
-$sql_no="select * from tjd_board where no='{$_REQUEST['no']}'";
-$resul_no=mysqli_query($self_con, $sql_no);
-$row_no=mysqli_fetch_array($resul_no);
+$date_month=date("Y-m");
+	$sql_no="select * from tjd_board where no='$_REQUEST[no]'";
+	$resul_no=mysql_query($sql_no);
+	$row_no=mysql_fetch_array($resul_no);
 ?>
 <script type="text/javascript" src="/jquery.lightbox_me.js"></script>
 <script>
@@ -193,7 +194,7 @@ td div {
             <form name="board_write_form" id="board_write_form" action="" method="post">
                 <input type="hidden" name="return_url" value="iammanual.php">
                 <?
-                if(!$_REQUEST['status'] || $_REQUEST['status'] == 1)
+                if(!$_REQUEST[status] || $_REQUEST[status] == 1)
                 {
                     ?>
                 <div style="position:relative;left:20px;">
@@ -209,10 +210,10 @@ td div {
                 <table id="example1" class="table table-bordered table-striped">
                 <tr>
                 <td>제목</td>
-                <td style="width:90%"><input type="text" style="width:90%;" name="title" value="<?=$row_no['title']?>" required itemname='제목'  class="form-control input-sm"  /></td>
+                <td style="width:90%"><input type="text" style="width:90%;" name="title" value="<?=$row_no[title]?>" required itemname='제목'  class="form-control input-sm"  /></td>
                 </tr>
                 <?
-				if($_REQUEST['status']==2)
+				if($_REQUEST[status]==2)
 				{
 					?>
                 <tr>
@@ -231,7 +232,7 @@ td div {
                 </tr>                
                 <?
 				}
-				if($_REQUEST['status']!=1)
+				if($_REQUEST[status]!=1)
 				{
 				?>
 				<!--
@@ -283,7 +284,7 @@ td div {
                 </tr>
                 <tr>
                 <td>비밀글</td>
-                <td><input type="checkbox" name="status_1" <?=$row_no['status_1']=="Y"?"checked":""?> /></td>
+                <td><input type="checkbox" name="status_1" <?=$row_no[status_1]=="Y"?"checked":""?> /></td>
                 </tr>
                 -->
                 <?
@@ -292,16 +293,16 @@ td div {
                 <tr>
                 	<td colspan="2" style="background-color:#FFF">
 						<script language="javascript" src="/naver_editor/js/HuskyEZCreator.js" charset="utf-8"></script>
-                        <textarea name="ir1" id="ir1" rows="10" cols="100" style="width:100%; height:200px; min-width:645px; display:none;"><?=$row_no['content']?></textarea>
+                        <textarea name="ir1" id="ir1" rows="10" cols="100" style="width:100%; height:200px; min-width:645px; display:none;"><?=$row_no[content]?></textarea>
                         <script language="javascript" src="/naver_editor/js/naver_editor.js" charset="utf-8"></script>
                     </td>
                 </tr>
                 <tr>
                     <td colspan="2" style="background-color:#FFF">
                         <iframe src="/upload.php?up_path=<?=$up_path?>&frm=board_write_form" name="upload_iframe" frameborder="0" width="100%" scrolling="no" height="100" style="margin:0; padding:0;"></iframe>
-                        <input type="hidden" name="board_write_form_img_hid" id="board_write_form_img_hid" value="<?=$row_no['adjunct_1']?>" />
-                        <input type="hidden" name="board_write_form_img_hid_2" id="board_write_form_img_hid_2" value="<?=$row_no['adjunct_2']?>" />
-                        <input type="hidden" itemname='이미지메모' name="board_write_form_memo_hid" id="board_write_form_memo_hid" value="<?=$row_no['adjunct_memo']?>" />
+                        <input type="hidden" name="board_write_form_img_hid" id="board_write_form_img_hid" value="<?=$row_no[adjunct_1]?>" />
+                        <input type="hidden" name="board_write_form_img_hid_2" id="board_write_form_img_hid_2" value="<?=$row_no[adjunct_2]?>" />
+                        <input type="hidden" itemname='이미지메모' name="board_write_form_memo_hid" id="board_write_form_memo_hid" value="<?=$row_no[adjunct_memo]?>" />
                         <input type="hidden" name="up_path" value="<?=$up_path?>" />                
                     </td>
                 </tr>                
@@ -323,7 +324,7 @@ td div {
                 </tr>          -->                                               
                 <tr>
                     <td colspan="2" style="text-align:right;">
-                    	<a href="javascript:void(0)" onclick="board_save(board_write_form,'<?=$row_no['no']?>','1')"><img src="/images/client_2_3.jpg" /></a>
+                    	<a href="javascript:void(0)" onclick="board_save(board_write_form,'<?=$row_no[no]?>','1')"><img src="/images/client_2_3.jpg" /></a>
                     	<a href="iammanual.php"><img src="/images/client_2_4.jpg" /></a>                        
                     </td>
                 </tr>
@@ -337,7 +338,7 @@ td div {
           
           
         </section><!-- /.content -->
-      </div><!-- /content-wrapper -->
+      </div><!-- /.content-wrapper -->
 
     <form id="excel_down_form" name="excel_down_form"  target="excel_iframe" method="post">
         <input type="hidden" name="grp_id" value="" />

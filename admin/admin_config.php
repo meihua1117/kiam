@@ -3,8 +3,8 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
 include_once $_SERVER['DOCUMENT_ROOT']."/admin/include/admin_header.inc.php";
 extract($_GET);
 $sql="select * from gn_conf";
-$result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-$row=mysqli_fetch_array($result);
+$result = mysql_query($sql) or die(mysql_error());
+$row=mysql_fetch_array($result);
 ?>
 <script type="text/javascript" src="/jquery.lightbox_me.js"></script>
 <script>

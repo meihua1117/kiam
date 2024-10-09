@@ -13,15 +13,15 @@ if($mode == "update_status") {
 
     // 정보 확인
     $sql="select * from Gn_lecture where lecture_id='$lecture_id'";
-    $resul=mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-    $row=mysqli_fetch_array($resul);    
+    $resul=mysql_query($sql) or die(mysql_error());
+    $row=mysql_fetch_array($resul);    
 
 
     if($_POST['lecture_id']) { 
         
         $sql="update Gn_lecture set status='".$_POST['status']."' 
                                  where lecture_id='$lecture_id'";
-        mysqli_query($self_con, $sql);	
+        mysql_query($sql);	
         
         
     }
@@ -31,11 +31,11 @@ if($mode == "update_status") {
 	                                   score='$score',
 	                                   content='$content',
 	                                   profile='$profile', 
-	                                   mem_id='{$_SESSION['one_member_id']}',
+	                                   mem_id='$_SESSION[one_member_id]',
 	                                   status='N',
 	                                   regdate=NOW()
 	       ";
-	$result=mysqli_query($self_con, $sql);    
+	$result=mysql_query($sql);    
 	echo "<script>alert('등록되었습니다.');location='/admin/review_list.php';</script>";    
 	exit;    
 } else if($mode == "del") {
@@ -43,10 +43,10 @@ if($mode == "update_status") {
 	                            where  review_id='$review_id'
 	                                   
 	       ";
-	$result=mysqli_query($self_con, $sql);	    
+	$result=mysql_query($sql);	    
 	echo "<script>alert('삭제되었습니다.');location='/admin/review_list.php';</script>";    
     exit;
-} else if($mode == "review_updat") {
+} else if($mode == "review_update") {
     $lecture_day = implode(",",$lecture_day);
 	$sql = "update Gn_review set  
 	                                   score='$score',
@@ -55,10 +55,10 @@ if($mode == "update_status") {
 	                            where  review_id='$review_id'
 	                                   
 	       ";
-	$result=mysqli_query($self_con, $sql);	
+	$result=mysql_query($sql);	
 	echo "<script>alert('수정되었습니다.');location='/admin/review_list.php';</script>";    
 	exit;       
 }
 
-echo json_encode(array("result"=>$result));
+echo "{\"result\":\"$result\"}";
 ?>

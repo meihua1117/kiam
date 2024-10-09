@@ -191,15 +191,14 @@
                         else
                             $menu_host = $menu_site[0];
                         if ($domainData['admin_iam_menu'] == 0) {
-                            $menu_query = "select * from Gn_Iam_Menu where site_iam='kiam' and menu_type='TR' and use_yn = 'y' and (platform='All' || platform='".get_device_type()."') order by display_order";
+                            $menu_query = "select * from Gn_Iam_Menu where site_iam='kiam' and menu_type='TR' and use_yn = 'y' order by display_order";
                         } else {
-                            $menu_query = "select * from Gn_Iam_Menu where site_iam='{$menu_host}' and menu_type='TR' and use_yn = 'y' and (platform='All' || platform='".get_device_type()."') order by display_order";
+                            $menu_query = "select * from Gn_Iam_Menu where site_iam='{$menu_host}' and menu_type='TR' and use_yn = 'y' order by display_order";
                         }
-                        $menu_res = mysqli_query($self_con, $menu_query);
+                        $menu_res = mysql_query($menu_query);
                         $odd = 0;
-                        while ($menu_row = mysqli_fetch_array($menu_res)) {
-                            $func = str_replace("HOST", "https://".$_SESSION['site_iam'].".kiam.kr", $menu_row['move_url']);
-                            $func = str_replace("card_link", $request_short_url . $card_owner_code, $func);
+                        while ($menu_row = mysql_fetch_array($menu_res)) {
+                            $func = str_replace("card_link", $request_short_url . $card_owner_code, $menu_row['move_url']);
                             $func = str_replace("prewin", $cur_win, $func);
                             $func = str_replace("card_name", $cur_card['card_name'], $func);
                             if (!strstr($func, "javascript"))
@@ -223,24 +222,14 @@
                                 if ($odd == 0) {
                                     $html = "<tr>";
                                 }
-
-                                if ($menu_row['display_order'] == 19) {
-                                    $html .= "<td class=\"total_service\" style=\"border:none;padding:8px 8px 30px 8px!important;text-align:left;\"><a href=\"" . $func . "\" oncontextmenu='return false;' style=\"text-decoration-line: none;margin-left:5px;\" $target>" .
-                                        "<img src=\"" . $menu_row['img_url'] . "\" title=\"" . $menu_row['menu_desc'] . "\" style=\"height: 20px\">&nbsp" .
-                                        $menu_row['title'] . "</a></td>";
+                                $html .= "<td style=\"border:none;background:white;padding:8px !important;text-align:left;\"><a href=\"" . $func . "\" style=\"text-decoration-line: none;margin-left:5px;\" $target>" .
+                                    "<img src=\"" . $menu_row['img_url'] . "\" title=\"" . $menu_row['menu_desc'] . "\" style=\"height: 20px\">&nbsp" .
+                                    $menu_row['title'] . "</a></td>";
+                                if ($odd == 1) {
                                     $html .= "</tr>";
-                                    $html .= "<tr style='margin-top:10px'><td colspan='2' style='border-top:1px solid #ddd;border-bottom:1px solid #ddd;font-weight:bold'>자동홍보 기능 더보기</td></tr>";
-                                    $odd = 0;
-                                } else {
-                                    $html .= "<td class=\"total_service\" style=\"border:none;padding:8px !important;text-align:left;\"><a href=\"" . $func . "\" oncontextmenu='return false;' style=\"text-decoration-line: none;margin-left:5px;\" $target>" .
-                                        "<img src=\"" . $menu_row['img_url'] . "\" title=\"" . $menu_row['menu_desc'] . "\" style=\"height: 20px\">&nbsp" .
-                                        $menu_row['title'] . "</a></td>";
-                                    if ($odd == 1) {
-                                        $html .= "</tr>";
-                                    }
-                                    $odd++;
-                                    $odd = $odd % 2;
                                 }
+                                $odd++;
+                                $odd = $odd % 2;
                             }
                             echo $html;
                         } ?>
@@ -733,9 +722,9 @@
                     <div id="cardsel" style="margin-top:15px; display:none;">
                         <?
                         $sql5 = "select card_short_url,phone_display, card_title from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$_SESSION['iam_member_id']}' order by req_data asc";
-                        $result5 = mysqli_query($self_con, $sql5);
+                        $result5 = mysql_query($sql5);
                         $i = 0;
-                        while ($row5 = mysqli_fetch_array($result5)) {
+                        while ($row5 = mysql_fetch_array($result5)) {
                         ?>
                             <input type="radio" id="multi_westory_card_url_<?= $row5['card_short_url'] ?>" name="multi_westory_card_url" class="we_story_radio we_story_<?= $row5['card_short_url'] ?>" value="<?= $row5['card_short_url'] ?>" <? if (
                                                                                                                                                                                                                                                     $row5['phone_display'] == "N"
@@ -2112,9 +2101,9 @@
                                         <div id="cardsel1" onclick="limit_selcard1()" style="margin-top:15px;">
                                             <?
                                             $sql5 = "select card_short_url,phone_display, card_title from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$_SESSION['iam_member_id']}' order by req_data asc";
-                                            $result5 = mysqli_query($self_con, $sql5);
+                                            $result5 = mysql_query($sql5);
                                             $i = 0;
-                                            while ($row5 = mysqli_fetch_array($result5)) {
+                                            while ($row5 = mysql_fetch_array($result5)) {
                                                 if ($i == 0) {
                                                     $hidden = "hidden";
                                                 } else {
@@ -2920,8 +2909,8 @@
                     </div>
                     <?
                     $news_sql = "select * from tjd_sellerboard where category=10 and important_yn='Y' order by date desc";
-                    $news_res = mysqli_query($self_con, $news_sql);
-                    while ($news_row = mysqli_fetch_array($news_res)) { ?>
+                    $news_res = mysql_query($news_sql);
+                    while ($news_row = mysql_fetch_array($news_res)) { ?>
                         <div style="padding-top: 1px;background-color: #ffffff;border-radius: 10px;margin-top: 2px" class="news_content <?= 'news_kind_' . $news_row['fl'] ?>">
                             <div style="display: flex">
                                 <p style="font-size:14px;margin-top:2px;margin-left: 10px;margin-right: 10px"><?= $iam_notice_arr[$news_row['fl']] ?></p>
@@ -3039,7 +3028,7 @@
                                 <a class="profile_font" style="color:white;width:100%;height:100%;object-fit: cover;"><?= mb_substr($member_iam['mem_name'], 0, 3, "utf-8") ?></a>
                             </div>
                         <?  } ?>
-                        <img src="/iam/img/menu/icon_profile_edit.png" style="position:absolute;left: 45px;top: 45px;cursor:pointer" onclick="<?='location.href=\''.$_SESSION['site_iam'].'/iam/mypage.php'?>">
+                        <img src="/iam/img/menu/icon_profile_edit.png" style="position:absolute;left: 45px;top: 45px;cursor:pointer" onclick="<?='location.href=\'https://'.$_SESSION['site_iam'].'.kiam.kr/iam/mypage.php\''?>">
                         <div style="margin-left:20px;">
                             <h4><?= $member_iam['mem_name'] ?></h4>
                             <div style="display:flex;margin-top:10px">
@@ -3061,13 +3050,13 @@
                                 } else if ($member_iam['service_type'] == "2") {
                                     $mem_leb = "리셀러";
                                 } else if ($member_iam['service_type'] == "3") {
-                                    $mem_leb = "분양자";
+                            	    $mem_leb = "분양자";
                                 }
                                 ?>
                                 <p style="font-size:10px;margin-left:20px;background:#99cc00;border-radius:20px;color:white;padding:5px 10px"><?= $mem_leb ?></p>
                             </div>
-                            </div>
                         </div>
+                    </div>
                     <div class="sns_item" style="display:flex;justify-content: space-around;margin-top:10px;text-align:center;width:100%">
                         <div style="background: #99cc00;color:white;padding:4px 2px;border-radius:15px;">
                             <a href="<?= "javascript:go_my_con_page('" . $_SESSION['iam_member_id'] . "','" . $_SESSION['site_iam'] . "')" ?>" style="font-size:14px;font-weight:500;padding:10px;">내 IAM가기</a>
@@ -3110,10 +3099,11 @@
                 } else {
                     $menu_query = "select * from Gn_Iam_Menu where site_iam='{$menu_host}' and menu_type='BR' and use_yn = 'y' order by display_order";
                 }
-                $menu_res = mysqli_query($self_con, $menu_query);
+                $menu_res = mysql_query($menu_query);
                 $menu_idx = 0;
-                while ($menu_row = mysqli_fetch_array($menu_res)) {
-                    $func = str_replace("card_link", $request_short_url . $card_owner_code, $menu_row['move_url']);
+                while ($menu_row = mysql_fetch_array($menu_res)) {
+            	    $func = str_replace("HOST", "https://" . ($_SESSION['site_iam'] == "kiam" ? "www" : $_SESSION['site_iam']) . ".kiam.kr", $menu_row['move_url']);
+                    $func = str_replace("card_link", $request_short_url . $card_owner_code, $func);
                     $func = str_replace("prewin", $cur_win, $func);
                     $func = str_replace("card_name", $cur_card['card_name'], $func);
                     $func = str_replace("id", $_SESSION['iam_member_id'], $func);
@@ -3922,9 +3912,9 @@
                         </tr>
                     <? } ?>
                     <? if ($_GET['req_provide'] != 'Y') { ?>
-                        <? if (!strstr($Gn_mem_row['special_type'],"1") && !strstr($Gn_mem_row['special_type'],"6")) { ?>
+                        <? if (!strstr($Gn_mem_row['special_type'], "1") && !strstr($Gn_mem_row['special_type'], "6")) { ?>
                             <tr class="service">
-                                <td class="bold" style="text-align:center;border:none" >
+                                <td class="bold" style="text-align:center;border:none">
                                     <div style="display: flex;justify-content: space-evenly;">
                                         <div style="padding:5px;font-size:12px;background:black;color:white;width:40%;cursor:pointer" onclick="selling_request(1)"> 판매자신청</div>
                                         <div style="padding:5px;font-size:12px;background:black;color:white;width:40%;cursor:pointer" onclick="selling_request(6)"> 작가신청</div>
@@ -3975,9 +3965,9 @@
                                         $sql5 = "select card_short_url,card_title from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$_SESSION['iam_member_id']}' order by req_data asc";
                                     else
                                         $sql5 = "select card_short_url,card_title from Gn_Iam_Name_Card where group_id = '$gkind' order by req_data asc";
-                                    $result5 = mysqli_query($self_con, $sql5);
+                                    $result5 = mysql_query($sql5);
                                     $i = 0;
-                                    while ($row5 = mysqli_fetch_array($result5)) {
+                                    while ($row5 = mysql_fetch_array($result5)) {
                                     ?>
                                         <div title="<?= $row5['card_title'] ?>">
                                             <input type="checkbox" onchange="onChangeCardCheck(this)" class="my_info_check my_info_<?= $row5['card_short_url'] ?>" value="<?= $row5['card_short_url'] ?>">
@@ -4017,9 +4007,9 @@
                                         $sql5 = "select card_short_url,phone_display from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$_SESSION['iam_member_id']}' order by req_data asc";
                                     else
                                         $sql5 = "select card_short_url,phone_display from Gn_Iam_Name_Card where group_id = '$gkind' order by req_data asc";
-                                    $result5 = mysqli_query($self_con, $sql5);
+                                    $result5 = mysql_query($sql5);
                                     $i = 0;
-                                    while ($row5 = mysqli_fetch_array($result5)) {
+                                    while ($row5 = mysql_fetch_array($result5)) {
                                     ?>
                                         <div class="we_story_div we_story_div_<?= $row5['card_short_url'] ?>">
                                             <input type="radio" id="westory_card_url" name="westory_card_url" class="we_story_radio we_story_<?= $row5['card_short_url'] ?>" value="<?= $row5['card_short_url'] ?>" <? if ($row5['phone_display'] == "N") {
@@ -4108,9 +4098,9 @@
                                 <div class="attr-value" style="display:flex;flex-wrap: wrap;">
                                     <?
                                     $sql5 = "select card_short_url,card_title from Gn_Iam_Name_Card where mem_id = 'iamstore' and idx not in(934328, 2477701, 1274691, 1268514) order by req_data asc";
-                                    $result5 = mysqli_query($self_con, $sql5);
+                                    $result5 = mysql_query($sql5);
                                     $i = 0;
-                                    while ($row5 = mysqli_fetch_array($result5)) {
+                                    while ($row5 = mysql_fetch_array($result5)) {
                                     ?>
                                         <input type="radio" name="gwc_card_url" class="my_info_check my_info_<?= $row5['card_short_url'] ?>" value="<?= $row5['card_short_url'] ?>">
                                         <? //if(!$_SESSION['iam_member_subadmin_id'] && !$pay_status){
@@ -4266,9 +4256,9 @@
                             <div class="attr-value" style="display:flex;flex-wrap: wrap;">
                                 <?
                                 $sql5 = "select card_short_url,card_title from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$_SESSION['iam_member_id']}' order by req_data asc";
-                                $result5 = mysqli_query($self_con, $sql5);
+                                $result5 = mysql_query($sql5);
                                 $i = 0;
-                                while ($row5 = mysqli_fetch_array($result5)) {
+                                while ($row5 = mysql_fetch_array($result5)) {
                                 ?>
                                     <div title="<?= $row5['card_title'] ?>">
                                         <input type="checkbox" onchange="onChangeCardGetCheck(this)" class="contents_get_check" value="<?= $row5['card_short_url'] ?>">
@@ -4657,9 +4647,9 @@
                         <div class="attr-value" id="create_card_list">
                             <?
                             $create_card_sql = "select card_short_url,card_title from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$_SESSION['iam_member_id']}' order by req_data asc";
-                            $create_card_res = mysqli_query($self_con, $create_card_sql);
+                            $create_card_res = mysql_query($create_card_sql);
                             $i = 0;
-                            while ($create_card_row = mysqli_fetch_array($create_card_res)) {
+                            while ($create_card_row = mysql_fetch_array($create_card_res)) {
                                 $i++;
                             ?>
                                 <input type="radio" id="create_card_url" name="create_card_url" value="<?= $create_card_row['card_short_url'] ?>">
@@ -5032,16 +5022,16 @@
             <div class="modal-body" style="border-bottom-left-radius: 5px;border-bottom-right-radius: 5px;">
                 <?
                 $g_cont_sql = "select * from Gn_Iam_Contents where group_id in (" . $other_group . ") and sample_display='Y' order by sample_order desc";
-                $g_cont_res = mysqli_query($self_con, $g_cont_sql);
+                $g_cont_res = mysql_query($g_cont_sql);
                 $g_index = 1;
-                while ($g_cont_row = mysqli_fetch_array($g_cont_res)) {
+                while ($g_cont_row = mysql_fetch_array($g_cont_res)) {
                     $g_card_sql = "select mem_id,card_short_url,main_img1,card_name,group_id from Gn_Iam_Name_Card c where c.idx = '$g_cont_row[card_idx]'";
-                    $g_card_res = mysqli_query($self_con, $g_card_sql);
-                    $g_card_row = mysqli_fetch_array($g_card_res);
+                    $g_card_res = mysql_query($g_card_sql);
+                    $g_card_row = mysql_fetch_array($g_card_res);
 
                     $sql_mem_g = "select mem_code from Gn_Member where mem_id='{$g_card_row['mem_id']}'";
-                    $res_mem_g = mysqli_query($self_con, $sql_mem_g);
-                    $row_mem_g = mysqli_fetch_array($res_mem_g);
+                    $res_mem_g = mysql_query($sql_mem_g);
+                    $row_mem_g = mysql_fetch_array($res_mem_g);
 
                     if (!$g_cont_row['contents_img'])
                         $g_cont_images = null;

@@ -16,7 +16,7 @@ if($mode == "save")
                                     `app_version` ='$app_version', 
                                     createAt=NOW()
                                      ";                      
-        mysqli_query($self_con, $query);	
+        mysql_query($query);	
     } else {
         $query="update Gn_app_version set 
                                     `app_code`  ='$app_code', 
@@ -24,7 +24,7 @@ if($mode == "save")
                                     createAt=NOW()
                              WHERE seq='$seq'
                                      ";
-        mysqli_query($self_con, $query);		
+        mysql_query($query);		
     }
     echo "<script>alert('저장되었습니다.');location='/admin/app_manage_list.php';</script>";
 }
@@ -33,13 +33,13 @@ else if($mode == "type")
     if($type != 0)
     {
         $query="update Gn_app_version set type = 0 where type = '$type'";
-        mysqli_query($self_con, $query);
+        mysql_query($query);
         $query="update Gn_app_version set 
                         `type`          ='$type', 
                         createAt=NOW()
                         WHERE seq='$seq'
                         ";
-        mysqli_query($self_con, $query);
+        mysql_query($query);
     }
     else{
         $query="update Gn_app_version set 
@@ -47,7 +47,7 @@ else if($mode == "type")
                         createAt=NOW()
                         WHERE seq='$seq'
                         ";
-        mysqli_query($self_con, $query);
+        mysql_query($query);
     }
 
 }

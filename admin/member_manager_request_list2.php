@@ -188,8 +188,8 @@ function excel_down_(){
                         	WHERE 1=1 
                 	              $searchStr";
                 	              
-                	$res	    = mysqli_query($self_con, $query);
-                	$totalCnt	=  mysqli_num_rows($res);	
+                	$res	    = mysql_query($query);
+                	$totalCnt	=  mysql_num_rows($res);	
                 	
                 	$limitStr       = " LIMIT ".(($startPage-1)*$pageCnt).", ".$pageCnt;
                 	$number			= $totalCnt - ($nowPage - 1) * $pageCnt;                      
@@ -201,17 +201,17 @@ function excel_down_(){
                 	
                 	$i = 1;
                 	$query .= "$orderQuery";
-                	$res = mysqli_query($self_con, $query);
-                    while($row = mysqli_fetch_array($res)) {      
-                    	$sql = "select * from Gn_Member where mem_id='{$row['recommend_id']}'";
-                    	$res_result = mysqli_query($self_con, $sql);
-                    	$sInfo = mysqli_fetch_array($res_result);
-                    	mysqli_free_result($res_result);                        
+                	$res = mysql_query($query);
+                    while($row = mysql_fetch_array($res)) {      
+                    	$sql = "select * from Gn_Member where mem_id='$row[recommend_id]'";
+                    	$res_result = mysql_query($sql);
+                    	$sInfo = mysql_fetch_array($res_result);
+                    	mysql_free_result($res_result);                        
                         
-                    	$sql = "select * from Gn_Member where mem_id='{$row['mem_id']}'";
-                    	$res_result = mysqli_query($self_con, $sql);
-                    	$sData = mysqli_fetch_array($res_result);
-                    	mysqli_free_result($res_result);
+                    	$sql = "select * from Gn_Member where mem_id='$row[mem_id]'";
+                    	$res_result = mysql_query($sql);
+                    	$sData = mysql_fetch_array($res_result);
+                    	mysql_free_result($res_result);
                     	
                       if($row['service_type'] == 1) {
                           $mem_level = $service_type = "이용자";
@@ -249,10 +249,10 @@ function excel_down_(){
                             -->
                         </td>
                         <td>
-                            (<?php echo number_format($row['recommend_cnt']);?>/<?php echo number_format($row['recommend_money']);?>)
+                            (<?php echo number_format($row[recommend_cnt]);?>/<?php echo number_format($row[recommend_money]);?>)
                         </td>
                         <td>
-                            <?php echo $sInfo['mem_name'];?>
+                            <?php echo $sInfo[mem_name];?>
                         </td>
                         <td>
                             <?php echo $mem_want_level;?>
@@ -260,6 +260,12 @@ function excel_down_(){
                         <td><?=$row['regdate']?></td>
                         <td>
                             <?php if(str_replace("-", "",$row['mem_phone'])==$row['sendnum']||$row['sendnum']==""){?>
+                            <!--
+                            <select name="mem_leb" id="mem_leb<?=$row['mem_code']?>">
+                                <option value="22" <?php echo $row['mem_leb'] == "22"?"selected":""?>>일반</option>
+                                <option value="50" <?php echo $row['mem_leb'] == "50"?"selected":""?>>사업자</option>
+                            </select>
+                            -->
                             <select name="service_type" id="service_type<?=$row['seq']?>">
                                 <option value="0" <?php echo $sData['service_type'] == "0"?"selected":""?>>FREE</option>
                                 <option value="1" <?php echo $sData['service_type'] == "1"?"selected":""?>>이용자</option>
@@ -310,7 +316,7 @@ function excel_down_(){
           
           
         </section><!-- /.content -->
-      </div><!-- /content-wrapper -->
+      </div><!-- /.content-wrapper -->
 
     <form id="excel_down_form" name="excel_down_form"  target="excel_iframe" method="post">
         <input type="hidden" name="grp_id" value="" />

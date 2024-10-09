@@ -178,7 +178,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                         <th >회차</th>
                         <th >문자제목</th>
                         <th >문자내용</th>
-                        <th ><?=$_REQUEST['status2']=='2'?"예약일시":"첨부파일"?></th>
+                        <th ><?=$_REQUEST[status2]=='2'?"예약일시":"첨부파일"?></th>
                         <th >이벤트명</th>
                         <th >발송예정일시</th>                                        
                       </tr>
@@ -202,9 +202,9 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                         	WHERE 1=1  and result = 1  and sms_detail_idx is not null
                 	              $searchStr";
                 	              
-                	$res	    = mysqli_query($self_con, $query);
-                  //$totalCnt	=  mysqli_num_rows($res);	
-                  $totalRow	=  mysqli_fetch_array($res);	                	
+                	$res	    = mysql_query($query);
+                  //$totalCnt	=  mysql_num_rows($res);	
+                  $totalRow	=  mysql_fetch_array($res);	                	
                 	$totalCnt = $totalRow[0];
                   
                   $query = "
@@ -224,75 +224,78 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                 	$i = 1;
                 	$c=0;
                 	$query .= "$orderQuery";
-                	$res = mysqli_query($self_con, $query);
-                    while($row = mysqli_fetch_array($res)) {  
+                	$res = mysql_query($query);
+                    while($row = mysql_fetch_array($res)) {  
                       
                       $query = "
-                      SELECT mem_name from Gn_Member where mem_id='{$row['mem_id']}'";
-                      $sres = mysqli_query($self_con, $query);
-                      $urow = mysqli_fetch_array($sres);    
+                      SELECT mem_name from Gn_Member where mem_id='$row[mem_id]'";
+                      $sres = mysql_query($query);
+                      $urow = mysql_fetch_array($sres);    
 
     														    
-                      $sql_n="select memo from Gn_MMS_Number where sendnum='{$row['send_num']}' ";
-                      $resul_n=mysqli_query($self_con, $sql_n);
-                      $row_n=mysqli_fetch_array($resul_n);
-                      mysqli_free_result($resul_n);
+                      $sql_n="select memo from Gn_MMS_Number where sendnum='$row[send_num]' ";
+                      $resul_n=mysql_query($sql_n);
+                      $row_n=mysql_fetch_array($resul_n);
+                      mysql_free_result($resul_n);
                       
-                      $recv_cnt=explode(",",$row['recv_num']);
+                      $recv_cnt=explode(",",$row[recv_num]);
                       
                       
-                      $sql_as="select count(idx) as cnt from Gn_MMS_status where idx={$row['idx']} ";
-                      $resul_as=mysqli_query($self_con, $sql_as);
-                      $row_as=mysqli_fetch_array($resul_as);
+                      $sql_as="select count(idx) as cnt from Gn_MMS_status where idx='$row[idx]' ";
+                      $resul_as=mysql_query($sql_as);
+                      $row_as=mysql_fetch_array($resul_as);
                       $status_total_cnt = $row_as[0];											
                       
-                      $sql_cs="select count(idx) as cnt from Gn_MMS_status where idx={$row['idx']} and status='0'";
-                      $resul_cs=mysqli_query($self_con, $sql_cs);
-                      $row_cs=mysqli_fetch_array($resul_cs);
+                      $sql_cs="select count(idx) as cnt from Gn_MMS_status where idx='$row[idx]' and status='0'";
+                      $resul_cs=mysql_query($sql_cs);
+                      $row_cs=mysql_fetch_array($resul_cs);
                       $success_cnt = $row_cs[0];
                      
                       $total_cnt = count($recv_cnt);											
                       
-                      $sql_sn="select name, sp from Gn_event_request where request_idx={$row['request_idx']} ";
-                      $sresul=mysqli_query($self_con, $sql_sn);
-                      $srow=mysqli_fetch_array($sresul);											
+                      $sql_sn="select name, sp from Gn_event_request where request_idx='$row[request_idx]' ";
+                      $sresul=mysql_query($sql_sn);
+                      $srow=mysql_fetch_array($sresul);											
                       
-                      $sql_sn="select count(*) as cnt from Gn_event_sms_step_info where sms_idx='{$row['sms_idx']}' ";
-                      $sresul=mysqli_query($self_con, $sql_sn);
-                      $crow=mysqli_fetch_array($sresul);
-                      $total_cnt = $crow['cnt'];
+                      $sql_sn="select count(*) as cnt from Gn_event_sms_step_info where sms_idx='$row[sms_idx]' ";
+                      $sresul=mysql_query($sql_sn);
+                      $crow=mysql_fetch_array($sresul);
+                      $total_cnt = $crow[cnt];
                       
-                      $sql_sn="select step from Gn_event_sms_step_info where sms_detail_idx='{$row['sms_detail_idx']}' ";
-                      $sresul=mysqli_query($self_con, $sql_sn);
-                      $crow=mysqli_fetch_array($sresul);        				
+                      $sql_sn="select step from Gn_event_sms_step_info where sms_detail_idx='$row[sms_detail_idx]' ";
+                      $sresul=mysql_query($sql_sn);
+                      $crow=mysql_fetch_array($sresul);        				
                   ?>
                       <tr>
                         
-											<td><label><input type="checkbox" name="fs_idx" value="<?=$row['idx']?>" /></label></td>
+											<td><label><input type="checkbox" name="fs_idx" value="<?=$row[idx]?>" /></label></td>
 											<td><?=$number--?></td>
-                      <td style="font-size:12px;"><?=$row['mem_id']?></td>
-                      <td style="font-size:12px;"><?=$urow['mem_name']?></td>											
-											<td><?=$row_n['memo']?></td>											
-                      <td><?=$row['send_num']?></td>
-											<td style="font-size:12px;"><a href="javascript:void(0)" onclick="show_recv('show_recv_num','<?=$c?>','수신번호')"><?=str_substr($row['recv_num'],0,14,'utf-8')?>
+                                            <td style="font-size:12px;"><?=$row[mem_id]?></td>
+                                            <td style="font-size:12px;"><?=$urow[mem_name]?></td>											
+											<td><?=$row_n[memo]?></td>											
+	                                        <td><?=$row[send_num]?></td>
+											<td style="font-size:12px;"><a href="javascript:void(0)" onclick="show_recv('show_recv_num','<?=$c?>','수신번호')"><?=str_substr($row[recv_num],0,14,'utf-8')?>
 											</td>
 											<td><?php echo $srow['name'];?></td>
 											<td><?php echo $total_cnt;?></td>
-											<td><?php echo $crow['step'];?></td>
-											<td><a href="javascript:void(0)" onclick="show_recv('show_title','<?=$c?>','문자제목')"><?=str_substr($row['title'],0,14,'utf-8')?></a><input type="hidden" name="show_title" value="<?=$row['title']?>"/></td>
-											<td style="font-size:12px;"><a href="javascript:void(0)" onclick="show_recv('show_content','<?=$c?>','문자내용')"><?=str_substr($row['content'],0,30,'utf-8')?></a><input type="hidden" name="show_content" value="<?=$row['content']?>"/></td>
-											<?if($_REQUEST['status2']=='2'){?>
-                      <td style="width:5%;"><?if($row['up_date']!=''&&$row['result']==0){?>완료<?}elseif($row['up_date']==''&&$row['result']==1){?>대기<?}elseif($row['result']==3){?>실패<?}?></td>
-                      <?}?>
+											<td><?php echo $crow[step];?></td>
+											<td><a href="javascript:void(0)" onclick="show_recv('show_title','<?=$c?>','문자제목')"><?=str_substr($row[title],0,14,'utf-8')?></a><input type="hidden" name="show_title" value="<?=$row[title]?>"/></td>
+											<td style="font-size:12px;"><a href="javascript:void(0)" onclick="show_recv('show_content','<?=$c?>','문자내용')"><?=str_substr($row[content],0,30,'utf-8')?></a><input type="hidden" name="show_content" value="<?=$row[content]?>"/></td>
+											<?if($_REQUEST[status2]=='2'){?>
+		                                    <td style="width:5%;"><?if($row[up_date]!=''&&$row[result]==0){?>완료<?}elseif($row[up_date]==''&&$row[result]==1){?>대기<?}elseif($row[result]==3){?>실패<?}?></td>
+		                                    <?}?>
 											<td>
-											    <?if ($_REQUEST['status2']==2){ echo substr($row['reservation'],0,16); }else{?>
-											    <a href="javascript:void(0)" onclick="show_recv('show_jpg','<?=$c?>','첨부파일')"><?=str_substr($row['jpg'],0,20,'utf-8')?></a><input type="hidden" name="show_jpg" value="<?=$row['jpg']?>"/>
-											    <a href="javascript:void(0)" onclick="show_recv('show_jpg1','<?=$c?>','첨부파일')"><?=str_substr($row['jpg1'],0,20,'utf-8')?></a><input type="hidden" name="show_jpg1" value="<?=$row['jpg1']?>"/>
-											    <a href="javascript:void(0)" onclick="show_recv('show_jpg2','<?=$c?>','첨부파일')"><?=str_substr($row['jpg2'],0,20,'utf-8')?></a><input type="hidden" name="show_jpg2" value="<?=$row['jpg2']?>"/>
+											    <?if ($_REQUEST[status2]==2){ echo substr($row[reservation],0,16); }else{?>
+											    <a href="javascript:void(0)" onclick="show_recv('show_jpg','<?=$c?>','첨부파일')"><?=str_substr($row[jpg],0,20,'utf-8')?></a><input type="hidden" name="show_jpg" value="<?=$row[jpg]?>"/>
+											    <a href="javascript:void(0)" onclick="show_recv('show_jpg1','<?=$c?>','첨부파일')"><?=str_substr($row[jpg1],0,20,'utf-8')?></a><input type="hidden" name="show_jpg1" value="<?=$row[jpg1]?>"/>
+											    <a href="javascript:void(0)" onclick="show_recv('show_jpg2','<?=$c?>','첨부파일')"><?=str_substr($row[jpg2],0,20,'utf-8')?></a><input type="hidden" name="show_jpg2" value="<?=$row[jpg2]?>"/>
+											    
+											    
 											    <?}?>
+											    
 											</td>
-                      <td><?php echo $srow['sp'];?></td>
-											<td style="font-size:12px;"><?=substr($row['reservation'],0,16)?></td>
+                                            <td><?php echo $srow['sp'];?></td>
+											<td style="font-size:12px;"><?=substr($row[reservation],0,16)?></td>
                       </tr>
                     <?
                     $c++;

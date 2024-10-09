@@ -229,7 +229,7 @@ if($totalCnt != 0)
 }
     
 $result['count'] = $totalCnt;
-$result['update'] = $udate;
+$result["updat"] = $udate;
 $result['items'] = $items;
 echo json_encode($result);
 exit;

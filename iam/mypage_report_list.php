@@ -7,7 +7,7 @@ if(isset($_GET["for_report"])){
     echo "<script>alert('신청되었습니다.');</script>";
 }
 $sql = "select * from gn_report_form where status = 1 order by id desc";
-$form_res = mysqli_query($self_con,$sql);
+$form_res = mysql_query($sql);
 ?>
 <style>
     input[type=checkbox] {
@@ -159,18 +159,18 @@ $form_res = mysqli_query($self_con,$sql);
                                 </tr>
                                 <?
                                 $index = 1;
-                                while ($form_row = mysqli_fetch_array($form_res)) {
+                                while ($form_row = mysql_fetch_array($form_res)) {
                                     $sql = "select count(idx) from gn_report_table where userid = '{$_SESSION['iam_member_id']}' and repo_id={$form_row['id']}";
-                                    $repo_res = mysqli_query($self_con,$sql);
-                                    $repo_row = mysqli_fetch_array($repo_res);
+                                    $repo_res = mysql_query($sql);
+                                    $repo_row = mysql_fetch_array($repo_res);
                                     if ($repo_row[0] > 0) {
                                         $sql = "select mem_name from Gn_Member where mem_id = '{$form_row['user_id']}'";
-                                        $mem_res = mysqli_query($self_con,$sql);
-                                        $mem_row = mysqli_fetch_array($mem_res);
+                                        $mem_res = mysql_query($sql);
+                                        $mem_row = mysql_fetch_array($mem_res);
                                         $mem_name = $mem_row['mem_name'];
                                         $sql = "select idx from gn_report_table where userid = '{$_SESSION['iam_member_id']}' and repo_id={$form_row['id']}";
-                                        $repo_res = mysqli_query($self_con,$sql);
-                                        $repo_row = mysqli_fetch_array($repo_res);
+                                        $repo_res = mysql_query($sql);
+                                        $repo_row = mysql_fetch_array($repo_res);
                                 ?>
                                         <tr>
                                             <td><?= $index ?></td>

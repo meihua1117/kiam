@@ -4,6 +4,8 @@ include_once $_SERVER['DOCUMENT_ROOT']."/admin/include/admin_header.inc.php";
 extract($_GET);
 // 오늘날짜
 $date_today=date("Y-m-d");
+$date_month=date("Y-m");
+
 ?>
 <script type="text/javascript" src="/jquery.lightbox_me.js"></script>
 <script>
@@ -230,8 +232,8 @@ input:checked + .slider:before {
                   </select>
                   </div>
                   <div class="form-group">  
-                      <input type="text" name="search_start_date" placeholder="" id="search_start_date" value="<?=$_REQUEST['search_start_date']?>"/> ~
-                      <input type="text"  name="search_end_date" placeholder="" id="search_end_date" value="<?=$_REQUEST['search_end_date']?>"/>                  
+                      <input type="text" name="search_start_date" placeholder="" id="search_start_date" value="<?=$_REQUEST[search_start_date]?>"/> ~
+                      <input type="text"  name="search_end_date" placeholder="" id="search_end_date" value="<?=$_REQUEST[search_end_date]?>"/>                  
                   </div>
                   <div class="form-group">
                       <input type="text" name="search_key" id="search_key" class="form-control input-sm pull-right" placeholder="이름/아이디/금액">
@@ -335,8 +337,8 @@ input:checked + .slider:before {
                         	WHERE 1=1 
                 	              $searchStr";
                 	              
-                	$res	    = mysqli_query($self_con, $query);
-                	$totalCnt	=  mysqli_num_rows($res);	
+                	$res	    = mysql_query($query);
+                	$totalCnt	=  mysql_num_rows($res);	
                 	
                 	$limitStr       = " LIMIT ".(($startPage-1)*$pageCnt).", ".$pageCnt;
                 	$number			= $totalCnt - ($nowPage - 1) * $pageCnt;                      
@@ -348,25 +350,25 @@ input:checked + .slider:before {
                 	
                 	$i = 1;
                 	$query .= "$orderQuery";
-                	$res = mysqli_query($self_con, $query);
-                    while($row = mysqli_fetch_array($res)) {                       	
+                	$res = mysql_query($query);
+                    while($row = mysql_fetch_array($res)) {                       	
                   ?>
                       <tr>
                         <td><?=$number--?></td>
                         <td><?=$row['site']?></td>
                         <td><?=$row['mem_id']?></td>
                         <td><?=$row['member_type']?></td>
-                        <td><?=number_format($row['max_cnt'])?> 개</td>
+                        <td><?=number_format($row[max_cnt])?> 개</td>
                         <td><?=$row['mem_name']?></td>
                         <td>
                             <?=str_replace("-", "",$row['mem_phone'])==$row['sendnum']||$row['sendnum']==""?str_replace("-", "",$row['mem_phone']):$row['sendnum']?>
                         </td>
-                        <td><?=$pay_type[$row['payMethod']]?></td>
+                        <td><?=$pay_type[$row[payMethod]]?></td>
                         <td>
-                        	<input type="text" name="price" id="price<?=$i?>" value="<?=$row['TotPrice']?>" onchange="$('#price_<?=$i?>').val(this.value)" style="width:70px;">
+                        	<input type="text" name="price" id="price<?=$i?>" value="<?=$row[TotPrice]?>" onchange="$('#price_<?=$i?>').val(this.value)" style="width:70px;">
                         	원</td>
-                        <td><?=number_format($row['add_phone'])?> 개</td>
-                        <td><?=number_format($row['month_cnt'])?> 개월 <A href="javascript:deleteRow('<?php echo $row['no']?>');" style="border:1px solid #000;padding:5px;">삭제</A></td>
+                        <td><?=number_format($row[add_phone])?> 개</td>
+                        <td><?=number_format($row[month_cnt])?> 개월 <A href="javascript:deleteRow('<?php echo $row['no']?>');" style="border:1px solid #000;padding:5px;">삭제</A></td>
                         <td>
                             <label class="switch">
                               <input type="checkbox" name="status" id="stauts_<?php echo $row['no'];?>" value="<?php echo $row['no'];?>" <?php echo $row['stop_yn']=="Y"?"checked":""?> >
@@ -377,7 +379,7 @@ input:checked + .slider:before {
                         <td>
                             <form method="post" name="ssForm<?=$i?>" id="ssForm<?=$i?>" action="ajax/payment_save.php">
                             <input type="hidden" name="no" value="<?php echo $row['no']?>" >
-                            <input type="hidden" name="price" id="price_<?=$i?>" value="<?=$row['TotPrice']?>" >
+                            <input type="hidden" name="price" id="price_<?=$i?>" value="<?=($row[TotPrice])?>" >
                             <select name="payment_day">
                                 <option value="" >결제일</option>
                                 <option value="5" <?php echo $row['payment_day'] == "5"?"selected":""?>>5</option>
@@ -439,7 +441,7 @@ input:checked + .slider:before {
           
           
         </section><!-- /.content -->
-      </div><!-- /content-wrapper -->
+      </div><!-- /.content-wrapper -->
 
     <form id="excel_down_form" name="excel_down_form"  target="excel_iframe" method="post">
         <input type="hidden" name="grp_id" value="" />

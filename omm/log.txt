@@ -1,0 +1,278 @@
+insert into app_debug_log set mem_id='iamgreat',phone_number='01032304818',log='10/08 11:54:27:183    firebase Message: {body={\"Send\":\"Start\",\"idx\":\"2782804\",\"send_type\":\"1\"}, title={\"MMS Push\"}}
+
+10/08 11:54:27:193    FCM MESSAGE BODY: Send: Start, send_type: 1, idx: 2782804
+
+10/08 11:54:27:308    prepareSending start: mmsc:http://omammsc.uplus.co.kr:9084| proxy:| prot:| idx: 2782804
+
+10/08 11:54:27:320    WorkingThread start
+
+10/08 11:54:27:338    WorkingThread body:| id:01032304818| mem_id :2782804| idx :iamgreat| mem_token :sg5kzTJLql| user_id :iamgreat| user_password :4818| phone_num :01032304818
+
+10/08 11:54:27:398    WorkingThread response next
+
+10/08 11:54:27:414    WorkingThread response result:| reqId: 17283560650| type: 1| delay: 5| delay2: 5| close: 24| title: 온리원의 이효정입니다| txt: 안녕하세요 이효정입니다.
+평안하시지요~^^*
+
+
+\\&quot;한 사람과 다른 사람의 차이는
+단순한 능력 차이가 아니다
+열정의 차이다
+-토머스 아널드-
+
+
+오늘도 열정 가득히 화이팅하세요!
+
+
+대량발송 테스트중이여요.
+양해부탁드립니다~
+
+감사합니다.
+| jpg: | jpg1: | jpg2: | pnum: [mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@dc75476, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@2df1a77, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@218b6e4, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@497874d, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@24c4202, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@620e713, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@e1c5d50, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@2624b49, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@a407c4e, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@5a8e16f, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@871fe7c, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@3fb5305, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@2c0f5a, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@90c258b, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@21e8668, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@631a81, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@d0bc726, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@2158f67, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@589a114, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@425ddbd, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@add2fb2, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@a61bb03, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@9e9ba80, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@e5798b9, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@3ea94fe, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@ebb045f, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@16ffeac, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@1500775, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@ad7030a, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@435877b, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@e345998, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@326a5f1, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@76a45d6, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@30b2057, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@9e17744, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@9eeb02d, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@41ce962, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@3376af3, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@c20c3b0, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@fb32229, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@86439ae, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@6d3c34f, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@bc66adc, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@a32b7e5, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@bbe42ba, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@e33456b, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@6bd58c8, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@25bed61, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@d7dd086, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@1becd47, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@cb33974, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@788fe9d, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@d566f12, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@d90f6e3, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@88478e0, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@a7be799, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@a86a5e, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@ad21e3f, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@468430c, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@c1a6455, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@8cce6a, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@2d45f5b, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@4dc83f8, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@be9f0d1, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@ca16736, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@7ef9637, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@651e7a4, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@24bc90d, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@e94c0c2, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@1d5ed3, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@997da10, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@278e909, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@a72270e, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@d55152f, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@b08873c, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@3e0cc5, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@7ada61a, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@fa7d54b, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@74db28, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@577b041, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@ef009e6, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@d1c7b27, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@9d081d4, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@34e0f7d, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@8a2de72, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@b4ba2c3, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@9de740, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@b312679, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@83c6fbe, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@6bba81f, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@21a376c, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@b94b135, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@4bc9ca, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@3fca73b, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@295e58, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@c6c2bb1, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@b44b896, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@6847c17, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@5020804, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@766d1ed, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@50bc822, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@94ac2b3, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@599a070, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@7eb9fe9, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@142446e, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@524d70f, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@ed0539c, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@ed551a5, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@a52397a, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@e1d52b, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@95d0d88, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@5ee6321, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@53a7346, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@7269907, mms5.onepagebook.com.onlyonesms.model.ReceiverInfo@797a34]| token_res: null
+
+10/08 11:54:27:417    handleTask start task reqid:17283560650
+
+10/08 11:54:27:423    handleTask alarm start
+
+10/08 11:54:27:429    handleTask message realm start
+
+10/08 11:54:27:635    handleTask send message0
+
+10/08 11:54:27:685    handleTask send message1
+
+10/08 11:54:27:736    handleTask send message2
+
+10/08 11:54:27:788    handleTask send message3
+
+10/08 11:54:27:827    handleTask send message4
+
+10/08 11:54:27:859    handleTask send message5
+
+10/08 11:54:27:901    handleTask send message6
+
+10/08 11:54:27:947    handleTask send message7
+
+10/08 11:54:27:983    handleTask send message8
+
+10/08 11:54:28:029    handleTask send message9
+
+10/08 11:54:28:080    handleTask send message10
+
+10/08 11:54:28:111    handleTask send message11
+
+10/08 11:54:28:134    handleTask send message12
+
+10/08 11:54:28:159    handleTask send message13
+
+10/08 11:54:28:181    handleTask send message14
+
+10/08 11:54:28:197    handleTask send message15
+
+10/08 11:54:28:214    handleTask send message16
+
+10/08 11:54:28:233    handleTask send message17
+
+10/08 11:54:28:253    handleTask send message18
+
+10/08 11:54:28:272    handleTask send message19
+
+10/08 11:54:28:289    handleTask send message20
+
+10/08 11:54:28:306    handleTask send message21
+
+10/08 11:54:28:323    handleTask send message22
+
+10/08 11:54:28:340    handleTask send message23
+
+10/08 11:54:28:365    handleTask send message24
+
+10/08 11:54:28:385    handleTask send message25
+
+10/08 11:54:28:403    handleTask send message26
+
+10/08 11:54:28:420    handleTask send message27
+
+10/08 11:54:28:441    handleTask send message28
+
+10/08 11:54:28:460    handleTask send message29
+
+10/08 11:54:28:488    handleTask send message30
+
+10/08 11:54:28:507    handleTask send message31
+
+10/08 11:54:28:539    handleTask send message32
+
+10/08 11:54:28:567    handleTask send message33
+
+10/08 11:54:28:595    handleTask send message34
+
+10/08 11:54:28:624    handleTask send message35
+
+10/08 11:54:28:656    handleTask send message36
+
+10/08 11:54:28:708    handleTask send message37
+
+10/08 11:54:28:769    handleTask send message38
+
+10/08 11:54:28:856    handleTask send message39
+
+10/08 11:54:28:940    handleTask send message40
+
+10/08 11:54:29:012    handleTask send message41
+
+10/08 11:54:29:052    handleTask send message42
+
+10/08 11:54:29:080    handleTask send message43
+
+10/08 11:54:29:105    handleTask send message44
+
+10/08 11:54:29:149    handleTask send message45
+
+10/08 11:54:29:204    handleTask send message46
+
+10/08 11:54:29:235    handleTask send message47
+
+10/08 11:54:29:267    handleTask send message48
+
+10/08 11:54:29:296    handleTask send message49
+
+10/08 11:54:29:347    handleTask send message50
+
+10/08 11:54:29:387    handleTask send message51
+
+10/08 11:54:29:419    handleTask send message52
+
+10/08 11:54:29:443    handleTask send message53
+
+10/08 11:54:29:472    handleTask send message54
+
+10/08 11:54:29:492    handleTask send message55
+
+10/08 11:54:29:520    handleTask send message56
+
+10/08 11:54:29:554    handleTask send message57
+
+10/08 11:54:29:585    handleTask send message58
+
+10/08 11:54:29:619    handleTask send message59
+
+10/08 11:54:29:652    handleTask send message60
+
+10/08 11:54:29:684    handleTask send message61
+
+10/08 11:54:29:711    handleTask send message62
+
+10/08 11:54:29:739    handleTask send message63
+
+10/08 11:54:29:772    handleTask send message64
+
+10/08 11:54:29:801    handleTask send message65
+
+10/08 11:54:29:833    handleTask send message66
+
+10/08 11:54:29:863    handleTask send message67
+
+10/08 11:54:29:895    handleTask send message68
+
+10/08 11:54:29:923    handleTask send message69
+
+10/08 11:54:29:953    handleTask send message70
+
+10/08 11:54:29:976    handleTask send message71
+
+10/08 11:54:30:003    handleTask send message72
+
+10/08 11:54:30:032    handleTask send message73
+
+10/08 11:54:30:076    handleTask send message74
+
+10/08 11:54:30:097    handleTask send message75
+
+10/08 11:54:30:132    handleTask send message76
+
+10/08 11:54:30:167    handleTask send message77
+
+10/08 11:54:30:215    handleTask send message78
+
+10/08 11:54:30:236    handleTask send message79
+
+10/08 11:54:30:279    handleTask send message80
+
+10/08 11:54:30:319    handleTask send message81
+
+10/08 11:54:30:348    handleTask send message82
+
+10/08 11:54:30:370    handleTask send message83
+
+10/08 11:54:30:415    handleTask send message84
+
+10/08 11:54:30:492    handleTask send message85
+
+10/08 11:54:30:549    handleTask send message86
+
+10/08 11:54:30:592    handleTask send message87
+
+10/08 11:54:30:624    handleTask send message88
+
+10/08 11:54:30:651    handleTask send message89
+
+10/08 11:54:30:683    handleTask send message90
+
+10/08 11:54:30:717    handleTask send message91
+
+10/08 11:54:30:744    handleTask send message92
+
+10/08 11:54:30:779    handleTask send message93
+
+10/08 11:54:30:801    handleTask send message94
+
+10/08 11:54:30:830    handleTask send message95
+
+10/08 11:54:30:858    handleTask send message96
+
+10/08 11:54:30:888    handleTask send message97
+
+10/08 11:54:30:919    handleTask send message98
+
+10/08 11:54:30:945    handleTask send message99
+
+10/08 11:54:30:968    handleTask send message100
+
+10/08 11:54:31:003    handleTask send message101
+
+10/08 11:54:31:064    handleTask send message102
+
+10/08 11:54:31:103    handleTask send message103
+
+10/08 11:54:31:148    handleTask send message104
+
+10/08 11:54:31:184    handleTask send message105
+
+10/08 11:54:31:210    handleTask send message106
+
+10/08 11:54:31:253    handleTask send message107
+
+10/08 11:54:31:279    handleTask send message108
+
+10/08 11:54:31:307    handleTask send message109
+
+10/08 11:54:31:331    handleTask send message110
+
+10/08 11:54:31:355    handleTask send message111
+
+10/08 11:54:31:383    handleTask send message112
+
+10/08 11:54:31:407    handleTask send message113
+
+10/08 11:54:31:437    handleTask send message114
+
+10/08 11:54:31:449    handleTask send status end
+
+10/08 11:54:31:459    handleTask completeTask start 
+
+10/08 11:54:31:463    handleTask body:| reqid:17283560650| error :| mem_token :sg5kzTJLql| user_id :iamgreat| user_password :4818| phone_num :01032304818
+
+10/08 11:54:31:523    handleTask completeTask response
+
+10/08 11:54:31:532    handleTask completeTask response not null :0
+
+10/08 11:54:31:540    handleTask send status onSuccess'

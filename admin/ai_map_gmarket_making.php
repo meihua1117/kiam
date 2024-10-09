@@ -6,8 +6,8 @@ extract($_GET);
 $date_today=date("Y-m-d");
 
 $sql = "SELECT id, round_num, state_flag, iam_count FROM crawler_gm_seller_info_ad ORDER BY id DESC LIMIT 1";
-$result = mysqli_query($self_con, $sql);
-while($res = mysqli_fetch_array($result)){
+$result = mysql_query($sql);
+while($res = mysql_fetch_array($result)){
     $id = $res['id'];
 }
 $round_num = (int)$id + 1;
@@ -79,7 +79,7 @@ $round_num = (int)$id + 1;
             <div class="row">
                 <div class="box">
                     <div class="box-body">
-                        <table class="table table-bordered table-striped"  id="gm_iam">
+                        <table class="table table-bordered table-striped" style="" id="gm_iam">
                             <colgroup>
                                 <col width="60px">
                                 <col width="100px">
@@ -119,8 +119,8 @@ $round_num = (int)$id + 1;
                             $query = "select * from crawler_shop_admin";
                             $query_cnt = $query . $sql_where;
                             // echo $query; exit;
-                            $res = mysqli_query($self_con, $query_cnt);
-                            $totalCnt = mysqli_num_rows($res);
+                            $res = mysql_query($query_cnt);
+                            $totalCnt = mysql_num_rows($res);
 
                             $limitStr = " LIMIT ".(($startPage-1)*$pageCnt).", ".$pageCnt;
                             $number = $totalCnt - ($nowPage - 1) * $pageCnt;
@@ -128,8 +128,8 @@ $round_num = (int)$id + 1;
                             $order = " order by reg_date desc";
                             $query1 = $query.$sql_where.$order.$limitStr;
                             // echo $query1;
-                            $res1 = mysqli_query($self_con, $query1);
-                            while($row=mysqli_fetch_array($res1))
+                            $res1 = mysql_query($query1);
+                            while($row=mysql_fetch_array($res1))
                             {
                             ?>
                                 <tr>

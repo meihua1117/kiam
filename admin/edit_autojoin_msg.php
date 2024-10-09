@@ -6,12 +6,12 @@ extract($_GET);
 // 오늘날짜
 $date_today=date("Y-m-d");
 $sql="select * from Gn_event  where event_idx='".$event_idx."'";
-$res=mysqli_query($self_con, $sql);
-$row=mysqli_fetch_array($res);	
+$res=mysql_query($sql);
+$row=mysql_fetch_array($res);	
 if($row[0]) {
-    $sql="select * from Gn_Member  where mem_id='".$row['m_id']."'";
-    $sresul_num=mysqli_query($self_con, $sql);
-    $data=mysqli_fetch_array($sresul_num);
+    $sql="select * from Gn_Member  where mem_id='".$row[m_id]."'";
+    $sresul_num=mysql_query($sql);
+    $data=mysql_fetch_array($sresul_num);
 }
 
 ?>
@@ -92,11 +92,11 @@ if($row[0]) {
 									<table class="list_table1" width="100%" border="0" cellspacing="0" cellpadding="0">
 										<tr>
 											<th class="w200">아아디</th>
-											<td><input type="text" name="m_id" id="m_id" value="<?=$row['m_id']?>"></td>
+											<td><input type="text" name="m_id" id="m_id" value="<?=$row[m_id]?>"></td>
 										</tr>
 										<tr>
 											<th class="w200">이벤트타이틀</th>
-											<td><input type="text" name="event_title" id="event_title" value="<?=$row['event_title']?>"></td>
+											<td><input type="text" name="event_title" id="event_title" value="<?=$row[event_title]?>"></td>
 										</tr>
 										<tr>
 											<th class="w200">이벤트메시지</th>
@@ -105,13 +105,13 @@ if($row[0]) {
 										<tr>
 											<th class="w200">카드링크</th>
 											<td>
-												<input type="text" id="card_short_url" name="card_short_url" value="<?=$row['event_info']?>" hidden>
+												<input type="text" id="card_short_url" name="card_short_url" value="<?=$row[event_info]?>" hidden>
 												<div id="cardsel1" onclick="limit_selcard1()" style="margin-top:15px;">
 													<?
 													$sql5="select card_short_url,phone_display, card_title from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$row['m_id']}' order by req_data asc";
-													$result5=mysqli_query($self_con, $sql5);
+													$result5=mysql_query($sql5);
 													$i = 0;
-													while($row5=mysqli_fetch_array($result5)) {
+													while($row5=mysql_fetch_array($result5)) {
 														if($i == 0){
 															$hidden = "hidden";
 														}
@@ -120,13 +120,13 @@ if($row[0]) {
 														}
 
 														$checked = "";
-														if($row['event_info'] != ""){
+														if($row[event_info] != ""){
 															$card_idx_arr = array();
-															if(strpos($row['event_info'], ",") !== false){
-																$card_idx_arr = explode(",", $row['event_info']);
+															if(strpos($row[event_info], ",") !== false){
+																$card_idx_arr = explode(",", $row[event_info]);
 															}
 															else{
-																$card_idx_arr[0] = $row['event_info'];
+																$card_idx_arr[0] = $row[event_info];
 															}
 															$num = $i+1;
 															for($c = 0; $c < count($card_idx_arr); $c++){
@@ -165,11 +165,11 @@ if($row[0]) {
 										</tr>
 										<tr>
 											<th class="w200">이벤트신청주소</th>
-											<td><input type="text" name="event_req_link" id="event_req_link" value="<?=$row['event_req_link']?>"></td>
+											<td><input type="text" name="event_req_link" id="event_req_link" value="<?=$row[event_req_link]?>"></td>
 										</tr>
 										<tr>
 											<th class="w200">조회수</th>
-											<td><input type="text" name="read_cnt" id="read_cnt" value="<?=$row['read_cnt']?>"></td>
+											<td><input type="text" name="read_cnt" id="read_cnt" value="<?=$row[read_cnt]?>"></td>
 										</tr>
 										<tr>
 											<th class="w200">이미지</th>
@@ -178,9 +178,9 @@ if($row[0]) {
 										<?
 										$sql_step = "select a.idx, a.send_num, a.allow_state, a.reserv_sms_id, b.step, b.title, b.content from gn_automem_sms_reserv a inner join Gn_event_sms_step_info b on a.reserv_sms_id=b.sms_idx where a.auto_event_id={$event_idx}";
 										// echo $sql_step;
-										$res_step = mysqli_query($self_con, $sql_step);
-										$row_step = mysqli_fetch_array($res_step);
-										if($row_step['idx']){
+										$res_step = mysql_query($sql_step);
+										$row_step = mysql_fetch_array($res_step);
+										if($row_step[idx]){
 											if($row_step[allow_state]){
 												$checked = "checked";
 											}
@@ -191,12 +191,12 @@ if($row[0]) {
 										<tr>
 											<th class="w200">스텝문자정보</th>
 											<td>
-												<input type="text" style="width:45%;" name="step_title" id="step_title" value="<?=$row_step['title']?>" disabled>
-												<input type="text" style="width:100px;" name="step_phone" id="step_phone" value="<?=$row_step['send_num']?>" disabled>
+												<input type="text" style="width:45%;" name="step_title" id="step_title" value="<?=$row_step[title]?>" disabled>
+												<input type="text" style="width:100px;" name="step_phone" id="step_phone" value="<?=$row_step[send_num]?>" disabled>
 												<input type="text" style="width:50px;" name="step_cnt" id="step_cnt" value="<?=$row_step[step]?>" disabled><br><br>
 												적용상황
 												<label class="step_switch">
-													<input type="checkbox" name="step_allow_state" id="step_allow_state" value="<?=$row_step['idx']?>" <?=$checked?>>
+													<input type="checkbox" name="step_allow_state" id="step_allow_state" value="<?=$row_step[idx]?>" <?=$checked?>>
 													<span class="slider round" name="step_status_round" id="step_status_round"></span>
 												</label>
 												수정하기
@@ -208,7 +208,7 @@ if($row[0]) {
 										<?}?>
 										<tr>
 											<th class="w200">등록일시</th>
-											<td><input type="text" name="regdate" id="regdate" value="<?=$row['regdate']?>"></td>
+											<td><input type="text" name="regdate" id="regdate" value="<?=$row[regdate]?>"></td>
 										</tr>
 									</table>
 								</div>

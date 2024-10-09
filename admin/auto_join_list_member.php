@@ -4,6 +4,8 @@ include_once $_SERVER['DOCUMENT_ROOT']."/admin/include/admin_header.inc.php";
 extract($_GET);
 // 오늘날짜
 $date_today=date("Y-m-d");
+$date_month=date("Y-m");
+
 ?>
 <script type="text/javascript" src="/jquery.lightbox_me.js"></script>
 <script>
@@ -268,8 +270,8 @@ function excel_down_p_group(pno,one_member_id){
                   }
                 	
                   $sql = "select b.* ".$mem_select." from Gn_event b ".$memjoin. " where event_name_kor='단체회원자동가입및아이엠카드생성' ".$searchStr.$memname.$memsite;
-                  $res	    = mysqli_query($self_con, $sql);
-                  $totalCnt	=  mysqli_num_rows($res);
+                  $res	    = mysql_query($sql);
+                  $totalCnt	=  mysql_num_rows($res);
 
                   $limitStr       = " LIMIT ".(($startPage-1)*$pageCnt).", ".$pageCnt;
                 	$number			= $totalCnt - ($nowPage - 1) * $pageCnt;
@@ -282,11 +284,11 @@ function excel_down_p_group(pno,one_member_id){
                 	$i = 1;
                 	$c=0;
                   $sql .= "$orderQuery";
-                	$res = mysqli_query($self_con, $sql);
-                    while($row = mysqli_fetch_array($res)) {
+                	$res = mysql_query($sql);
+                    while($row = mysql_fetch_array($res)) {
                       $sql_site = "select site, mem_name from Gn_Member where mem_id='{$row['m_id']}'";
-                      $res_site = mysqli_query($self_con, $sql_site);
-                      $row_site = mysqli_fetch_array($res_site);
+                      $res_site = mysql_query($sql_site);
+                      $row_site = mysql_fetch_array($res_site);
                       if($row['allow_state'] == 1){
                           $checked = "checked";
                       }
@@ -294,13 +296,13 @@ function excel_down_p_group(pno,one_member_id){
                           $checked = "";
                       }
 
-                      $sql_sel_service_mem = "select * from Gn_Member where mem_callback={$row['idx']}";
-                      $res_sel_service = mysqli_query($self_con, $sql_sel_service_mem);
-                      $cnt_sel_service = mysqli_num_rows($res_sel_service);
+                      $sql_sel_service_mem = "select * from Gn_Member where mem_callback={$row[idx]}";
+                      $res_sel_service = mysql_query($sql_sel_service_mem);
+                      $cnt_sel_service = mysql_num_rows($res_sel_service);
 
                       $id_sql = "select count(event_id) as cnt from Gn_Member where event_id={$row['event_idx']} and mem_type='A'";
-                      $res_id = mysqli_query($self_con, $id_sql);
-                      $row_id = mysqli_fetch_array($res_id);
+                      $res_id = mysql_query($id_sql);
+                      $row_id = mysql_fetch_array($res_id);
                       if($row_id['cnt'] != null){
                           $cnt_join = $row_id['cnt'];
                       }
@@ -308,9 +310,9 @@ function excel_down_p_group(pno,one_member_id){
                           $cnt_join = 0;
                       }
 
-                      $sql_sel_mem = "select mem_id, mem_name, phone_callback, mun_callback from Gn_Member where mem_callback={$row['idx']} and (phone_callback={$row['idx']} or mun_callback={$row['idx']})";
-                      $res_sel_mem = mysqli_query($self_con, $sql_sel_mem);
-                      $cnt_sel_mem = mysqli_num_rows($res_sel_mem);
+                      $sql_sel_mem = "select mem_id, mem_name, phone_callback, mun_callback from Gn_Member where mem_callback={$row[idx]} and (phone_callback={$row['idx']} or mun_callback={$row[idx]})";
+                      $res_sel_mem = mysql_query($sql_sel_mem);
+                      $cnt_sel_mem = mysql_num_rows($res_sel_mem);
 
                       $cnt_unsel_mem = $cnt_sel_service * 1 - $cnt_sel_mem * 1;
                   ?>
@@ -368,7 +370,7 @@ function excel_down_p_group(pno,one_member_id){
           
           
         </section><!-- /.content -->
-      </div><!-- /content-wrapper -->
+      </div><!-- /.content-wrapper -->
 
     <form id="excel_down_form" name="excel_down_form"  target="excel_iframe" method="post">
         <input type="hidden" name="grp_id" value="" />

@@ -202,15 +202,15 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                                 else if($type == 2)
                                     $searchStr .= " and use_cnt > '300' ";
                                 $query = "SELECT SQL_CALC_FOUND_ROWS * FROM crawler_member_real WHERE 1=1 $searchStr";
-                                $res	    =   mysqli_query($self_con, $query);
-                                $totalCnt	=   mysqli_num_rows($res);
+                                $res	    =   mysql_query($query);
+                                $totalCnt	=   mysql_num_rows($res);
                                 $limitStr   = " LIMIT ".(($startPage-1)*$pageCnt).", ".$pageCnt;
                                 $number		= $totalCnt - ($nowPage - 1) * $pageCnt;
                                 $orderQuery .= " ORDER BY cmid DESC $limitStr";
                                 $i = 1;
                                 $query .= $orderQuery;
-                                $res = mysqli_query($self_con, $query);
-                                while($row = mysqli_fetch_array($res)) {
+                                $res = mysql_query($query);
+                                while($row = mysql_fetch_array($res)) {
                             ?>
                                 <tr>
                                     <td><input type="checkbox" class="check" id="check_one_member" name="" value="<?=$row['cmid']?>"><?=$number--?></td>

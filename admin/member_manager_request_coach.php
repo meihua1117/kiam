@@ -81,6 +81,9 @@ input:checked + .slider:before {
     transition: .4s;
 
 }
+.agree{
+     /*background: #d5ffd5!important;   */
+    }
 .disagree{
      background: #ffd5d5!important;   
     }
@@ -293,8 +296,8 @@ function changeType(coach_id) {
                           WHERE 1=1 
                                 $searchStr";
                                 
-                  $res      = mysqli_query($self_con, $query);
-                  $totalCnt =  mysqli_num_rows($res);  
+                  $res      = mysql_query($query);
+                  $totalCnt =  mysql_num_rows($res);  
                   
                   $limitStr       = " LIMIT ".(($startPage-1)*$pageCnt).", ".$pageCnt;
                   $number     = $totalCnt - ($nowPage - 1) * $pageCnt;                      
@@ -308,10 +311,10 @@ function changeType(coach_id) {
                   $query .= "$orderQuery";
 
 
-                  $res = mysqli_query($self_con, $query);
-                    while($row = mysqli_fetch_array($res)) {                         
+                  $res = mysql_query($query);
+                    while($row = mysql_fetch_array($res)) {                         
                   ?>
-                        <tr class="<? if($row['agree']==0){
+                        <tr class="<? if($row[agree]==0){
                         echo "disagree";
                      }else{
                         echo "agree";
@@ -336,11 +339,16 @@ function changeType(coach_id) {
                         </td>
                         <td>
                           <select name="mem_leb" id="coach_type<?=$row['coach_id']?>" >
+                                <!-- <option >셀링코치</option>
+                                <option >선임코치</option>
+                                <option >강사코치</option>
+
+ -->
                                 <option value="0" <?php echo $row['coach_type'] == "0"?"selected":""?>>셀링코치</option>
                                 <option value="1" <?php echo $row['coach_type'] == "1"?"selected":""?>>선임코치</option>
                                 <option value="2" <?php echo $row['coach_type'] == "2"?"selected":""?>>강사코치</option>
                             </select>
-                             <?php if($_SESSION['one_member_admin_id'] == "onlyonemaket" || $_SESSION['one_member_subadmin_id']!=""){?>
+                             <?php if($_SESSION['one_member_admin_id'] == "onlyonemaket" || $_SESSION[one_member_subadmin_id]!=""){?>
                             <?php }else{?>
                             <input type="button" name="변경" value=" 변경 " onclick="changeType('<?=$row['coach_id'];?>')">
                             <?php }?>
@@ -405,5 +413,27 @@ function loginGo(mem_id, mem_pw, mem_code) {
     $('#mem_code').val(mem_code);
     $('#login_form').submit();
 }
+
+
+function changeLevel(mem_id, seq) {
+    service_type= $('#service_type'+seq+" option:selected").val();
+    var data = {mode:"change",mem_id:mem_id,seq:seq,service_type:service_type};
+    $.ajax({
+    type:"POST",
+    url:"/admin/ajax/user_request_change.php",
+    dataType:"json",
+    data:data,
+    success:function(data){
+      alert('변경이 완료되었습니다.');
+      location.reload();
+    },
+    error: function(){
+      alert('초기화 실패');
+    }
+  }); 
+    
+//    alert(mem_code);
+}
+
 </script>
            

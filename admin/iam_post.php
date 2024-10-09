@@ -179,16 +179,16 @@ $path="./";
                                 <div class="form-group">
                                     <select name="search_type" style="height: 30px">
                                         <option value="">전체</option>
-                                        <option value="mem_name" <?=$_REQUEST['search_type']=='mem_name'?"selected":"";?>>이름</option>
-                                        <option value="mem_id" <?=$_REQUEST['search_type']=='mem_id'?"selected":"";?>>아이디</option>
-                                        <option value="mem_phone" <?=$_REQUEST['search_type']=='mem_phone'?"selected":"";?>>휴대폰</option>
-                                        <option value="content" <?=$_REQUEST['search_type']=='content'?"selected":"";?>>내용</option>
+                                        <option value="mem_name" <?=$_REQUEST[search_type]=='mem_name'?"selected":"";?>>이름</option>
+                                        <option value="mem_id" <?=$_REQUEST[search_type]=='mem_id'?"selected":"";?>>아이디</option>
+                                        <option value="mem_phone" <?=$_REQUEST[search_type]=='mem_phone'?"selected":"";?>>휴대폰</option>
+                                        <option value="content" <?=$_REQUEST[search_type]=='content'?"selected":"";?>>내용</option>
                                     </select>
-                                    <input type="date" style="height: 30px" name="search_start_date" placeholder="" id="search_start_date" value="<?=$_REQUEST['search_start_date']?>"/> ~
-                                    <input type="date" style="height: 30px" name="search_end_date" placeholder="" id="search_end_date" value="<?=$_REQUEST['search_end_date']?>"/>
+                                    <input type="date" style="height: 30px" name="search_start_date" placeholder="" id="search_start_date" value="<?=$_REQUEST[search_start_date]?>"/> ~
+                                    <input type="date" style="height: 30px" name="search_end_date" placeholder="" id="search_end_date" value="<?=$_REQUEST[search_end_date]?>"/>
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" style="margin-left:5px" name="search_key" id="search_key" class="form-control input-sm pull-right" value="<?=$_REQUEST['search_key']?>">
+                                    <input type="text" style="margin-left:5px" name="search_key" id="search_key" class="form-control input-sm pull-right" value="<?=$_REQUEST[search_key]?>">
                                 </div>
                                 <div class="input-group-btn">
                                     <button style="margin-left:5px" class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>
@@ -256,19 +256,19 @@ $path="./";
                                 $query = "SELECT SQL_CALC_FOUND_ROWS p.*,m.mem_name,mem_phone,cont.idx,cont.contents_title ,cont.westory_card_url,site_iam from Gn_Iam_Contents cont inner join Gn_Iam_Post p on p.content_idx = cont.idx inner join Gn_Member m on m.mem_id = p.mem_id where p.type=0 and lock_status='N' $searchStr";
                                 $excel_sql=$query;
                                 $excel_sql=str_replace("'","`",$excel_sql);
-                                $res	    = mysqli_query($self_con, $query);
-                                $totalCnt	=  mysqli_num_rows($res);
+                                $res	    = mysql_query($query);
+                                $totalCnt	=  mysql_num_rows($res);
                                 $limitStr       = " LIMIT ".(($startPage-1)*$pageCnt).", ".$pageCnt;
                                 $number			= $totalCnt - ($nowPage - 1) * $pageCnt;
                                 $orderQuery .= " ORDER BY reg_date DESC $limitStr ";
                                 $i = 0;
                                 $query .= $orderQuery;
-                                $res = mysqli_query($self_con, $query);
-                                while($row = mysqli_fetch_array($res)) {
+                                $res = mysql_query($query);
+                                while($row = mysql_fetch_array($res)) {
                                 ?>
                                     <tr>
                                         <td>
-                                            <input type="checkbox" name="<?='post_'.$row['id']?>" id = "<?='post_'.$row['id']?>" value="<?=$row['id']?>">
+                                            <input type="checkbox" name="<?='post_'.$row[id]?>" id = "<?='post_'.$row[id]?>" value="<?=$row[id]?>">
                                         </td>
                                         <td><?=$number--?></td>
                                         <td><?=$row['site_iam']?></td>
@@ -276,22 +276,22 @@ $path="./";
                                         <td><?=$row['mem_name']?></td>
                                         <td><?=str_replace("-", "",$row['mem_phone'])?></td>
                                         <td><a href = "<?='/?'.$row['westory_card_url']?>" target = "_blank"><?=$row['westory_card_url']?></a></td>
-                                        <td><a href = "<?='/iam/contents.php?contents_idx='.$row['idx']?>" target = "_blank"><?=$row['contents_title']?></a></td>
+                                        <td><a href = "<?='/iam/contents.php?contents_idx='.$row[idx]?>" target = "_blank"><?=$row['contents_title']?></a></td>
                                         <td>
                                             <a href="javascript:void(0)" onclick="show_recv('show_content','<?=$i?>','댓글내용')"><?=str_substr($row['content'],0,30,'utf-8')?></a>
                                             <input type="hidden" name="show_content" value="<?=$row['content']?>"/>
                                         </td>
                                         <td><?=$row['reg_date']?></td>
                                         <?
-                                            $reply_sql = "select count(*) from Gn_Iam_Post_Response where post_idx = ''{$row['id']}''";
-                                            $reply_res = mysqli_query($self_con, $reply_sql);
-                                            $reply_row = mysqli_fetch_array($reply_res);
+                                            $reply_sql = "select count(*) from Gn_Iam_Post_Response where post_idx = '$row[id]'";
+                                            $reply_res = mysql_query($reply_sql);
+                                            $reply_row = mysql_fetch_array($reply_res);
                                         ?>
                                         <td>
-                                            <a href = "<?='iam_post_reply.php?post_idx='.$row['id']?>"><?=$reply_row[0]."건"?></a>
+                                            <a href = "<?='iam_post_reply.php?post_idx='.$row[id]?>"><?=$reply_row[0]."건"?></a>
                                         </td>
                                         <td>
-                                            <button class="btn btn-primary" onclick="post_delete('<?=$row['id']?>');return false;"><i class="fa"></i> 삭제</button>
+                                            <button class="btn btn-primary" onclick="post_delete('<?=$row[id]?>');return false;"><i class="fa"></i> 삭제</button>
                                         </td>
                                     </tr>
                                 <?$i++;

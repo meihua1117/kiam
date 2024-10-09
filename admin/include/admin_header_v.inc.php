@@ -1,11 +1,11 @@
 <?
-if($_SESSION['one_member_id'] != "db") {
+if($_SESSION[one_member_id] != "db") {
     header('Location: /');
     exit;
 }
 // 파일 확장자추출
 //$fileInfo = explode("/",$_SERVER[REQUEST_URI]);
-$fileInfo = explode("/",$_SERVER['PHP_SELF']);
+$fileInfo = explode("/",$_SERVER[PHP_SELF]);
 // 파일명
 $fileName = $fileInfo[count($fileInfo) - 1];
 // 폴더명
