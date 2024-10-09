@@ -137,7 +137,7 @@ if ($user_id) {
         for ($i = 0; $i < count($num_arr); $i++) {
             $is_zero = substr($num_arr[$i], 0, 1);
             $recv_arr[$i] = $is_zero ? "0" . $num_arr[$i] : $num_arr[$i];
-            $recv_arr[$i] = ereg_replace("[^0-9]", "", $recv_arr[$i]);
+            $recv_arr[$i] = preg_replace("/[^0-9]/i", "", $recv_arr[$i]);
 
             if (!check_cellno($recv_arr[$i])) { //기타 번호(폰번호아님) 모으기: $_POST[send_deny_wushi_2]
 
@@ -145,7 +145,7 @@ if ($user_id) {
                 if ($_POST['send_deny_wushi_2'])
                     continue;
             }
-            $num_arr[$i] = ereg_replace("[^0-9]", "", $num_arr[$i]);
+            $num_arr[$i] = preg_replace("/[^0-9]/i", "", $num_arr[$i]);
             $search_str = " and (chanel_type=1 or chanel_type=4 or chanel_type=9)";
             $send_type = $_POST['send_type'];
             if ($send_type == 2 || $send_type == 3 || $send_type == 4) {

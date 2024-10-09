@@ -22,14 +22,14 @@ for($c = 0; $c < count($recv_nums_arr); $c++){
 
     $is_zero=substr($recv_num,0,1);
     $recv_num=$is_zero?"0".$recv_num:$recv_num;
-    $recv_num = ereg_replace("[^0-9]", "", $recv_num);
+    $recv_num = preg_replace("/[^0-9]/i", "", $recv_num);
     if(!check_cellno($recv_num)){
         continue;
     }
     $send_num=str_replace(array("-"," ",","),"",$_POST[deny_add_send]);
     $is_zero=substr($send_num,0,1);
     $send_num=$is_zero?"0".$send_num:$send_num;
-    $send_num = ereg_replace("[^0-9]", "", $send_num);
+    $send_num = preg_replace("/[^0-9]/i", "", $send_num);
     if(!check_cellno($send_num)){
         echo 4;
         exit;

@@ -455,7 +455,7 @@ if($_POST[num_check_go])
 			if($_POST[send_deny_wushi_2])
 			continue;
 		}			
-		$num_arr2[$i]=ereg_replace("[^0-9]","",$num_arr2[$i]);					
+		$num_arr2[$i]=preg_replace("/[^0-9]/i","",$num_arr2[$i]);					
 
 		$sql_deny = "select idx from Gn_MMS_Deny where recv_num = '$num_arr2[$i]' and mem_id = '$_SESSION[one_member_id]'";//수신거부
 		$resul_deny=mysql_query($sql_deny)or die(mysql_error());
@@ -502,7 +502,7 @@ if($_POST[num_check_go])
 	{
 			$is_zero=substr($v,0,1);
 			$v=$is_zero?"0".$v:$v;			
-			$v=ereg_replace("[^0-9]","",$v);
+			$v=preg_replace("/[^0-9]/i","",$v);
 			//if(!check_cellno($v))
 			//    array_push($check_cnt2,$v);//기타			
 			$sql_deny="select idx,recv_num from Gn_MMS_Deny where recv_num='$v' and mem_id='$_SESSION[one_member_id]' ";
@@ -542,7 +542,7 @@ if($_POST[num_check_go])
 	{
 		$is_zero=substr($num_arr[$i],0,1);
 		$recv_arr[$i]=$is_zero?"0".$num_arr[$i]:$num_arr[$i];
-	    $recv_arr[$i] = ereg_replace("[^0-9]", "", $recv_arr[$i]); 
+	    $recv_arr[$i] = preg_replace("/[^0-9]/i", "", $recv_arr[$i]); 
 
 		if(!check_cellno($recv_arr[$i]))
 
@@ -551,7 +551,7 @@ if($_POST[num_check_go])
 			if($_POST[send_deny_wushi_2])
 			continue;
 		}			
-		$num_arr[$i]=ereg_replace("[^0-9]","",$num_arr[$i]);					
+		$num_arr[$i]=preg_replace("/[^0-9]/i","",$num_arr[$i]);					
 
 		$sql_deny = "select idx from Gn_MMS_Deny where recv_num = '$num_arr[$i]' and mem_id = '$_SESSION[one_member_id]'";//수신거부
 		$resul_deny=mysql_query($sql_deny)or die(mysql_error());
@@ -1291,7 +1291,7 @@ if($_POST[g_dt_status])
 	$recv_num=str_replace(array("-"," ",","),"",$_POST[g_dt_num]);
 	$is_zero=substr($recv_num,0,1);
 	$recv_num=$is_zero?"0".$recv_num:$recv_num;
-	$recv_num = ereg_replace("[^0-9]", "", $recv_num); 
+	$recv_num = preg_replace("/[^0-9]/i", "", $recv_num); 
 
 	if(!check_cellno($recv_num))
 	{
@@ -1468,7 +1468,7 @@ if($_POST[deny_add_send] && $_POST[deny_add_recv])
 	$recv_num=str_replace(array("-"," ",","),"",$_POST[deny_add_recv]);
 	$is_zero=substr($recv_num,0,1);
 	$recv_num=$is_zero?"0".$recv_num:$recv_num;
-	$recv_num = ereg_replace("[^0-9]", "", $recv_num); 
+	$recv_num = preg_replace("/[^0-9]/i", "", $recv_num); 
 	if(!check_cellno($recv_num))
 	{
 		?>
@@ -1481,7 +1481,7 @@ if($_POST[deny_add_send] && $_POST[deny_add_recv])
 	$send_num=str_replace(array("-"," ",","),"",$_POST[deny_add_send]);
 	$is_zero=substr($send_num,0,1);
 	$send_num=$is_zero?"0".$send_num:$send_num;	
-	$send_num = ereg_replace("[^0-9]", "", $send_num); 
+	$send_num = preg_replace("/[^0-9]/i", "", $send_num); 
 	if(!check_cellno($send_num))
 	{
 		?>
@@ -1559,7 +1559,7 @@ if($_POST[agree_add_send] && $_POST[agree_add_recv])
 	$recv_num=str_replace(array("-"," ",","),"",$_POST[agree_add_recv]);
 	$is_zero=substr($recv_num,0,1);
 	$recv_num=$is_zero?"0".$recv_num:$recv_num;
-	$recv_num = ereg_replace("[^0-9]", "", $recv_num); 
+	$recv_num = preg_replace("/[^0-9]/i", "", $recv_num); 
 	if(!check_cellno($recv_num))
 	{
 		?>
@@ -1572,7 +1572,7 @@ if($_POST[agree_add_send] && $_POST[agree_add_recv])
 	$send_num=str_replace(array("-"," ",","),"",$_POST[agree_add_send]);
 	$is_zero=substr($send_num,0,1);
 	$send_num=$is_zero?"0".$send_num:$send_num;	
-	$send_num = ereg_replace("[^0-9]", "", $send_num); 
+	$send_num = preg_replace("/[^0-9]/i", "", $send_num); 
 	if(!check_cellno($send_num))
 	{
 		?>
@@ -1653,7 +1653,7 @@ if($_POST[deny_g_add_recv_num] && $_POST[deny_g_add_send_num])
 			$is_zero=substr($recv_num,0,1);
 			$recv_num=$is_zero?"0".$recv_num:$recv_num;
 			
-			$v=ereg_replace("[^0-9]","",$v);
+			$v=preg_replace("/[^0-9]/i","",$v);
 			$is_zero=substr($v,0,1);
 			$v=$is_zero?"0".$v:$v;
 			if(!check_cellno($v))
@@ -1769,7 +1769,8 @@ if($_POST[select_app_check_num])
 
                 $fields['priority'] = "high";
                 $fields['to'] = $id;
-                $fields['token'] = $id;
+                $fields['token'] = $id;
+
                 //$fields = json_encode ($fields);
                 $fields = http_build_query($fields);
                 $ch = curl_init ();
@@ -2198,11 +2199,11 @@ if($_POST[log_del_ids])
 //로그기록등록수정
 if($_POST[log_add_dest] && $_POST[log_add_ori])
 {
-	$dest=ereg_replace("[^0-9]", "", $_POST[log_add_dest]);
+	$dest=preg_replace("/[^0-9]/i", "", $_POST[log_add_dest]);
 	$is_zero=substr($dest,0,1);
 	$dest=$is_zero?"0".$dest:$dest;
 	
-	$ori_num=ereg_replace("[^0-9]", "", $_POST[log_add_ori]);
+	$ori_num=preg_replace("/[^0-9]/i", "", $_POST[log_add_ori]);
 	$is_zero=substr($ori_num,0,1);
 	$ori_num=$is_zero?"0".$ori_num:$ori_num;
 

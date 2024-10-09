@@ -183,7 +183,7 @@ if(isset($_POST['auto'])){
         {
             $is_zero=substr($num_arr[$i],0,1);
             $recv_arr[$i]=$is_zero?"0".$num_arr[$i]:$num_arr[$i];
-            $recv_arr[$i] = ereg_replace("[^0-9]", "", $recv_arr[$i]);
+            $recv_arr[$i] = preg_replace("/[^0-9]/i", "", $recv_arr[$i]);
 
             if(!check_cellno($recv_arr[$i]))
             {//기타 번호(폰번호아님) 모으기: $_POST[send_deny_wushi_2]
@@ -192,7 +192,7 @@ if(isset($_POST['auto'])){
                 if($_POST[send_deny_wushi_2])
                 continue;
             }
-            $num_arr[$i]=ereg_replace("[^0-9]","",$num_arr[$i]);
+            $num_arr[$i]=preg_replace("/[^0-9]/i","",$num_arr[$i]);
             $sql_deny = "select idx from Gn_MMS_Deny where recv_num = '$num_arr[$i]' and mem_id = '$mem_id_mms'";//수신거부
             $resul_deny=mysql_query($sql_deny)or die(mysql_error());
             $row_deny=mysql_fetch_array($resul_deny);
