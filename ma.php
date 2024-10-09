@@ -1,6 +1,6 @@
 <?
 header("Pragma:no-cache");
-if ($_REQUEST['mem_code']) {
+if (isset($_REQUEST['mem_code']) && $_REQUEST['mem_code']) {
     @setcookie("mem_code", $_REQUEST['mem_code'], time() + 3600);
     $_COOKIE['mem_code'] = $_REQUEST['mem_code'];
 }
