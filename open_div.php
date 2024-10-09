@@ -1,7 +1,7 @@
 <div id='ajax_div'></div>
 <div class="loading_div"><img src="images/ajax-loader.gif"></div>
 <?
-if(eregi("mypage",$_SERVER[PHP_SELF]))
+if(preg_match("/mypage/i",$_SERVER['PHP_SELF']))
 {
 ?>
 <div id='open_pay_extend' class="open_1">

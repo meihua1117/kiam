@@ -75,7 +75,7 @@ if($_SESSION[iam_member_id])
 	$query = "select card_mode from Gn_Member where mem_id = '$_SESSION[iam_member_id]'";
 	$result = mysql_query($query);
 	$row = mysql_fetch_array($result);
-	$card_mode = $row[card_mode];
+	$card_mode = $row['card_mode'];
 }
 else{
 	$card_mode = "card_title";
@@ -111,7 +111,7 @@ $pc_pay_method=array("obmms20151"=>"신용카드","obmms20152"=>"자동결제");
 $sign_arr=array("INIpayTest"=>"SU5JTElURV9UUklQTEVERVNfS0VZU1RS","IESobmms00"=>"Z0RpL2daakxEWWdoZ3RXMThHNVlTQT09","obmms20151"=>"YmVFN2RtTldRR25zS2x2S055cnRxUT09","obmms20152"=>"T2ZJUkRxaE1IamtJMGhoTnlEMXlFdz09");
 $mobile_pay_method=array("onlyvbank"=>"무통장입금","wcard"=>"신용카드");
 $pay_type=array("Card"=>"카드결제","CARD"=>"카드결제","Auto_Card"=>"자동결제","MONTH"=>"통장정기","BANK"=>"무통장","VCard"=>"V카드","MONTH_Card"=>"카드정기");
-$is_chrome=eregi('Chrome',$_SERVER['HTTP_USER_AGENT'])?"disabled":"";
+$is_chrome=preg_match('/Chrome/i',$_SERVER['HTTP_USER_AGENT'])?"disabled":"";
 $pay_phone_status=array("N"=>"결제대기","Y"=>"결제완료","M"=>"본인폰");
 $pay_result_status=array("N"=>"결제대기","Y"=>"결제완료","C"=>"해지완료","A"=>"후불결제", "E"=>"기간만료");
 $profile_colors = array("#99b433","#00a300","#1e7145","#ff0097","#9f00a7","#7e3878","#603cba","#1d1d1d","#00aba9","#2d89ef","#e3a21a","#b91d47");
@@ -352,7 +352,7 @@ if($_SESSION[one_member_id]){
 	$sql_format="select idx,format_date,sendnum from Gn_MMS_Number where mem_id='$_SESSION[one_member_id]' order by idx desc ";
 	$resul_format=mysql_query($sql_format);
 	while($row_format=mysql_fetch_array($resul_format)){
-		if(!eregi($format_month,$row_format[format_date])){
+		if(!preg_match("/".$format_month."/i",$row_format[format_date])){
 			$sql_format_u="update Gn_MMS_Number set format_date=curdate(),cnt1=0,cnt2=0 where idx='$row_format[idx]' ";
 			mysql_query($sql_format_u);
 			$sql_d_result1 = "delete from Gn_MMS where result='1' and send_num='$row_format[sendnum]' and reservation < '$format_month'";
@@ -386,7 +386,7 @@ if($_SESSION[iam_member_id])
 	$resul_format=mysql_query($sql_format);
 	while($row_format=mysql_fetch_array($resul_format))
 	{
-		if(!eregi($format_month,$row_format[format_date]))
+		if(!preg_match("/".$format_month."/i",$row_format[format_date]))
 		{
 			$sql_format_u="update Gn_MMS_Number set format_date=curdate(),cnt1=0,cnt2=0 where idx='$row_format[idx]' ";
 			mysql_query($sql_format_u);
@@ -788,7 +788,7 @@ function str_substr($str,$star,$end,$charset="utf-8")
 function check_cellno ($str)
 {
 	// 넘어온 값의 숫자만 가지고 패턴 검사 
-    $no = ereg_replace("[^0-9]", "", $str); 
+    $no = preg_replace("/[^0-9]/i", "", $str); 
     
     if(substr($no,0,3) == "050" && (strlen($no) == 11 || strlen($no) == 12)){
         if(substr($no,0,3) == "010" && strlen($no) < 12) 

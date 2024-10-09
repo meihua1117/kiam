@@ -77,7 +77,7 @@ $pc_pay_method=array("obmms20151"=>"신용카드","obmms20152"=>"자동결제");
 $sign_arr=array("INIpayTest"=>"SU5JTElURV9UUklQTEVERVNfS0VZU1RS","IESobmms00"=>"Z0RpL2daakxEWWdoZ3RXMThHNVlTQT09","obmms20151"=>"YmVFN2RtTldRR25zS2x2S055cnRxUT09","obmms20152"=>"T2ZJUkRxaE1IamtJMGhoTnlEMXlFdz09");
 $mobile_pay_method=array("onlyvbank"=>"무통장입금","wcard"=>"신용카드");
 $pay_type=array("Card"=>"직접결제","CARD"=>"직접결제","Auto_Card"=>"자동결제","MONTH"=>"통장정기","BANK"=>"무통장","VCard"=>"V카드","MONTH_Card"=>"카드정기");
-$is_chrome=eregi('Chrome',$_SERVER['HTTP_USER_AGENT'])?"disabled":"";
+$is_chrome=preg_match('/Chrome/i',$_SERVER['HTTP_USER_AGENT'])?"disabled":"";
 $pay_phone_status=array("N"=>"결제대기","Y"=>"결제완료","M"=>"본인폰");
 $pay_result_status=array("N"=>"결제대기","Y"=>"결제완료","C"=>"해지완료");
 if($_REQUEST[one_no])
@@ -174,7 +174,7 @@ if($_SESSION[one_member_id])
 	$resul_format=mysql_query($sql_format);
 	while($row_format=mysql_fetch_array($resul_format))
 	{
-		if(!eregi($format_month,$row_format[format_date]))
+		if(!preg_match("/".$format_month."/i",$row_format[format_date]))
 		{
 			$sql_format_u="update Gn_MMS_Number set format_date=curdate(),cnt1=0,cnt2=0 where idx='$row_format[idx]' ";
 			mysql_query($sql_format_u);
@@ -209,7 +209,7 @@ if($_SESSION[iam_member_id])
 	$resul_format=mysql_query($sql_format);
 	while($row_format=mysql_fetch_array($resul_format))
 	{
-		if(!eregi($format_month,$row_format[format_date]))
+		if(!preg_match("/".$format_month."/i",$row_format[format_date]))
 		{
 			$sql_format_u="update Gn_MMS_Number set format_date=curdate(),cnt1=0,cnt2=0 where idx='$row_format[idx]' ";
 			mysql_query($sql_format_u);
