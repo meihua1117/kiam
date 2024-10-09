@@ -1063,7 +1063,7 @@ function gcUploadRename($file_name, $file_tmp_name, $file_size, $folder) {
         $file_type_size = count($file_type);
         $file_ext = $file_type[$file_type_size - 1];
         
-        $newName = mktime()."_".sprintf("%04d",rand(1,9999)).".".$file_ext;
+        $newName = time()."_".sprintf("%04d",rand(1,9999)).".".$file_ext;
         //echo $_SERVER['DOCUMENT_ROOT'].$gConf['board_data']."/$folder/$file_name";
         move_uploaded_file($file_tmp_name,$_SERVER['DOCUMENT_ROOT'].$gConf['board_data']."/$folder/$file_name") or die('파일1 Upload에 실패했습니다.');
         rename($_SERVER['DOCUMENT_ROOT'].$gConf['board_data']."/$folder/$file_name",$_SERVER['DOCUMENT_ROOT'].$gConf['board_data']."/$folder/$newName") or die('파일 rename에 실패했습니다.');

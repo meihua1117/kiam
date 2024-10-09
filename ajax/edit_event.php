@@ -64,7 +64,7 @@ else if(isset($_POST['save'])){
   if($_FILES['autojoin_img']['name']) {
     $info = explode(".",$_FILES['autojoin_img']['name']);
     $ext = $info[count($info)-1];
-    $filename = mktime().".".$ext;
+    $filename = time().".".$ext;
     //메인에 옮길때 수정패치 할것 test->www
     $autojoin_img_path = "http://www.kiam.kr".gcUpload($_FILES['autojoin_img']['name'], $_FILES['autojoin_img']['tmp_name'], $_FILES['autojoin_img']['size'], "ad", $filename);
   }

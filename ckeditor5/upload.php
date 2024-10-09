@@ -10,7 +10,7 @@ if(isset($_FILES["upload"])){
 			mkdir($folder, 0777, true);
 	
 	$ext = ".".end((explode(".", $_FILES["upload"]["name"]))); 
-	$upload_filename = mktime().rand(10000, 99999).$ext;
+	$upload_filename = time().rand(10000, 99999).$ext;
 	
 	$upload_file = $folder. $upload_filename;
 	$success=move_uploaded_file($_FILES["upload"]["tmp_name"], $upload_file);
