@@ -4,11 +4,12 @@ include_once $_SERVER['DOCUMENT_ROOT']."/admin/include/admin_header.inc.php";
 extract($_GET);
 // 오늘날짜
 $date_today=date("Y-m-d");
+$date_month=date("Y-m");
 
 // 아이엠 상세 정보
 $query = "select * from Gn_Iam_automem where memid='$memid'";
-$res = mysqli_query($self_con, $query);
-$data = mysqli_fetch_array($res);
+$res = mysql_query($query);
+$data = mysql_fetch_array($res);
 ?>
 <style>
     .box-body th {background:#ddd;}
@@ -108,7 +109,7 @@ function form_save(){
                       <!--tr>
                           <th>대표이미지1</th>
                           <td>
-                              <div >
+                              <div style="">
                                   <a href="<?=$data['image1']?>" target="_blank">
                                       <img class="zoom" src="<?=$data['image1']?>" style="width:50px;">
                                   </a>
@@ -116,14 +117,14 @@ function form_save(){
                           </td>
                           <th>대표이미지2</th>
                           <td>
-                              <div >
+                              <div style="">
                                   <a href="<?=$data['image2']?>" target="_blank">
                                       <img class="zoom" src="<?=$data['image2']?>" style="width:50px;">
                                   </a>
                               </div>
                           </td><th>대표이미지3</th>
                           <td>
-                              <div >
+                              <div style="">
                                   <a href="<?=$data['image3']?>" target="_blank">
                                       <img class="zoom" src="<?=$data['image3']?>" style="width:50px;">
                                   </a>
@@ -156,7 +157,7 @@ function form_save(){
           </div><!-- /.row -->
         </section><!-- /.content -->
         </form>
-      </div><!-- /content-wrapper -->
+      </div><!-- /.content-wrapper -->
 
       <!-- Footer -->
 <?include_once $_SERVER['DOCUMENT_ROOT']."/admin/include/admin_footer.inc.php";?>      

@@ -517,7 +517,7 @@ if(msg){
     $.ajax({
       type:"POST",
       url:"/ajax/edit_event_callback.php",
-      data:{delete:true, id:idx},
+      data:{del:true, id:idx},
       success:function(){
         alert('삭제되었습니다.');
         location.reload();

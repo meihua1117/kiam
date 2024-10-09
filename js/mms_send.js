@@ -111,6 +111,11 @@ function send_msg_new(frm)
 		return false;
 	}
 	
+
+
+	
+	
+	
 	var save_mms_s="";
 	if(frm.save_mms.checked)
 	save_mms_s="ok";

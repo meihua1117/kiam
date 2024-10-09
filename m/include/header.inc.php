@@ -1,9 +1,9 @@
 <?php
 include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
 
-$sql_iam = "select site_iam from Gn_Member where mem_id='{$_SESSION['iam_member_id']}'";
-$res_iam = mysqli_query($self_con,$sql_iam);
-$row_iam = mysqli_fetch_array($res_iam);
+$sql_iam = "select site_iam from Gn_Member where mem_id='{$_SESSION[iam_member_id]}'";
+$res_iam = mysql_query($sql_iam);
+$row_iam = mysql_fetch_array($res_iam);
 
 $site_iam = $row_iam[0];
 
@@ -15,8 +15,8 @@ else{
 }
 $domain = $domain1.".kiam.kr";
 $sql_service = "select admin_app_home from Gn_Iam_Service where sub_domain like '%".$domain."%'";
-$res_service = mysqli_query($self_con,$sql_service);
-$row_service = mysqli_fetch_array($res_service);
+$res_service = mysql_query($sql_service);
+$row_service = mysql_fetch_array($res_service);
 
 if($row_service[admin_app_home]){
 	$site_iam = $row_iam[0];
@@ -34,7 +34,7 @@ if(!$_SESSION[iam_member_id]){
 <head>
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
 	<title>온리원 셀링</title>
     <link rel="shortcut icon" href="img/common/icon-os.ico">
 	<link rel="stylesheet" href="/m/css/notokr.css">
@@ -105,8 +105,8 @@ if(!$_SESSION[iam_member_id]){
 							<h1 class="logo">
 								<?
 								$query = "select * from Gn_App_Home_Manager where ad_position='L' and use_yn='Y' and site_iam='{$site_iam}' order by display_order desc limit 1";
-								$res = mysqli_query($self_con,$query);
-								while($data = mysqli_fetch_array($res)) {
+								$res = mysql_query($query);
+								while($data = mysql_fetch_array($res)) {
 								?>
 								<a href="<?=$data[move_url]?>"><img src="<?=$data['img_url'];?>" alt="<?=$data['title'];?>" style="height:30px"></a>
 								<?}?>

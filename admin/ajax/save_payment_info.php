@@ -6,5 +6,5 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
 */
 extract($_POST);
 $sql = "update payment_info set $field = '$value' where idx='$idx'";
-echo mysqli_query($self_con, $sql);
+echo mysql_query($sql);
 ?>

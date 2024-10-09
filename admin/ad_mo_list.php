@@ -173,28 +173,35 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                 	$startPage = $nowPage?$nowPage:1;
                 	$pageCnt = 20;
                 	
-                  // 검색 조건을 적용한다.
-                  $searchStr .= $search_key ? " AND (title LIKE '%".$search_key."%' or client like '%".$search_key."%' )" : null;
+                    // 검색 조건을 적용한다.
+                    $searchStr .= $search_key ? " AND (title LIKE '%".$search_key."%' or client like '%".$search_key."%' )" : null;
+                	
                 	$order = $order?$order:"desc"; 		
+                	
                 	$query = "
                         	SELECT 
                         	    SQL_CALC_FOUND_ROWS 
                         	    `cam_id`, `ad_position`,`client`, `title`, `img_url`, `move_url`, `use_yn`, `display_order`, `start_date`,`send_start_date`, `send_end_date`,`end_time` ,display_order
                         	FROM Gn_Ad_Manager 
-                        	WHERE ad_category='mo' and ad_position='H'
+                        	WHERE 1=1 and ad_position='H'
                 	              $searchStr";
                 	              
-                	$res	    = mysqli_query($self_con, $query);
-                	$totalCnt	=  mysqli_num_rows($res);	
+                	$res	    = mysql_query($query);
+                	$totalCnt	=  mysql_num_rows($res);	
                 	
                 	$limitStr       = " LIMIT ".(($startPage-1)*$pageCnt).", ".$pageCnt;
                 	$number			= $totalCnt - ($nowPage - 1) * $pageCnt;                      
-                  $orderQuery .= " ORDER BY cam_id DESC $limitStr";            	
+                	
+                    $orderQuery .= "
+                    	ORDER BY cam_id DESC
+                    	$limitStr
+                    ";            	
+                	
                 	$i = 1;
                 	$c=0;
                 	$query .= "$orderQuery";
-                	$res = mysqli_query($self_con, $query);
-                  while($row = mysqli_fetch_array($res)) {                       	
+                	$res = mysql_query($query);
+                    while($row = mysql_fetch_array($res)) {                       	
                   ?>
                       <tr>
                         <td><?=$number--?></td>
@@ -206,7 +213,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                         <td><?php echo $row['send_end_date']?></td>
 
                         <td>
-                                <div >
+                                <div style="">
                                 <?
                                 
                                 

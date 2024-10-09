@@ -1,13 +1,13 @@
 <?php 
 include $_SERVER['DOCUMENT_ROOT']."/m/include/header.inc.php";
-if($_SESSION['one_member_id'] == "") {
+if($_SESSION[one_member_id] == "") {
     echo "<script>location='/m/';</script>";
 }
 include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
-//$sql="select * from Gn_Member  where mem_id='".$_SESSION['one_member_id']."'";
-//$sresul_num=mysqli_query($self_con, $sql);
-//$data=mysqli_fetch_array($sresul_num);
-//$m_birth_arr = explode("-",$data['mem_birth']);
+//$sql="select * from Gn_Member  where mem_id='".$_SESSION[one_member_id]."'";
+//$sresul_num=mysql_query($sql);
+//$data=mysql_fetch_array($sresul_num);
+//$m_birth_arr = explode("-",$data[mem_birth]);
 
 ?>
 <style>
@@ -70,7 +70,7 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                     <br>
                     <h2 class="title">회원정보수정</h2>
                     <form name="edit_form" id="edit_form" method="post" enctype="multipart/form-data">
-                        <input type="hidden" name="join_modify" value="<?php echo $member_1['mem_code']?>">
+                        <input type="hidden" name="join_modify" value="<?php echo $member_1[mem_code]?>">
                         <section class="input-field">
                             <h3 class="title">기본정보수정</h3>
                             <div class="utils clearfix"></div>
@@ -87,22 +87,22 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                                     <div class="attr-name">회원구분</div>
                                     <div class="attr-value">
                                         <div class="input-wrap">
-                                            <?if($member_1['mem_leb'] == "50") {?>
+                                            <?if($member_1[mem_leb] == "50") {?>
                                                 사업회원
-                                            <?} else if($member_1['mem_leb'] == "22"){?>
+                                            <?} else if($member_1[mem_leb] == "22"){?>
                                                 일반회원
-                                            <?} else if($member_1['mem_leb'] == "21"){?>
+                                            <?} else if($member_1[mem_leb] == "21"){?>
                                                 강사회원
-                                            <?} else if($member_1['mem_leb'] == "60"){?>
+                                            <?} else if($member_1[mem_leb] == "60"){?>
                                                 홍보회원
                                             <?}
-                                            if($member_1['service_type'] == "0") {?>
+                                            if($member_1[service_type] == "0") {?>
                                                 / FREE
-                                            <?}else if($member_1['service_type'] == "1") {?>
+                                            <?}else if($member_1[service_type] == "1") {?>
                                                 / 이용자
-                                            <?}else if($member_1['service_type'] == "2") {?>
+                                            <?}else if($member_1[service_type] == "2") {?>
                                                 / 리셀러
-                                            <?}else if($member_1['service_type'] == "3") {?>
+                                            <?}else if($member_1[service_type] == "3") {?>
                                                 / 분양자
                                             <?}?>
                                         </div>
@@ -136,7 +136,7 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                                     <div class="attr-name">프로필사진</div>
                                     <div class="attr-value">
                                         <div class="input-wrap">
-                                            <input type="file" name="profile" id="profile" itemname='사진' /><?php if($member_1['profile'] != "") { echo "<img src='$member_1[profile]'>"; }?>
+                                            <input type="file" name="profile" id="profile" itemname='사진' /><?php if($member_1[profile] != "") { echo "<img src='$member_1[profile]'>"; }?>
                                         </div>
                                     </div>
                                 </div>
@@ -189,16 +189,16 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                                             // 광역시도 목록
                                             $province_list = array();
                                             $query = "SELECT province FROM gn_cities group by province";
-                                            $res = mysqli_query($self_con, $query);
-                                            while($row = mysqli_fetch_array($res)) {
+                                            $res = mysql_query($query);
+                                            while($row = mysql_fetch_array($res)) {
                                                 $province_list[] = $row['province'];
                                             }
                                             $member_address = explode(" ", $member_1['mem_add1']);
                                             $city_list = array();
                                             if(isset($member_address[0])) {
                                                 $query = "SELECT city FROM gn_cities WHERE province = '{$member_address[0]}' group by city ";
-                                                $res = mysqli_query($self_con, $query);
-                                                while($row = mysqli_fetch_array($res)) {
+                                                $res = mysql_query($query);
+                                                while($row = mysql_fetch_array($res)) {
                                                     $city_list[] = $row['city'];
                                                 }
                                             }
@@ -206,8 +206,8 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                                             $town_list = array();
                                             if(isset($member_address[1])) {
                                                 $query = "SELECT town FROM gn_cities WHERE city = '{$member_address[1]}' and province = '{$member_address[0]}' group by town";
-                                                $res = mysqli_query($self_con, $query);
-                                                while($row = mysqli_fetch_array($res)) {
+                                                $res = mysql_query($query);
+                                                while($row = mysql_fetch_array($res)) {
                                                     $town_list[] = $row['town'];
                                                 }
                                             }
@@ -270,12 +270,12 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                                     <div class="attr-value">
                                         <div class="input-wrap">
                                             <?
-                                            $query = "select * from Gn_Iam_Name_Card where group_id is NULL and mem_id  = '{$member_1['mem_id']}' ORDER BY idx";
-                                            $result = mysqli_query($self_con, $query);
-                                            $row = mysqli_fetch_array($result);
+                                            $query = "select * from Gn_Iam_Name_Card where group_id is NULL and mem_id  = '$member_1[mem_id]' ORDER BY idx";
+                                            $result = mysql_query($query);
+                                            $row = mysql_fetch_array($result);
                                             $card_url = $row['card_short_url'];
                                             ?>
-                                            <span id="sHtml" style="display:none"><?='http://'.$HTTP_HOST.'/?mem_code='.$member_1['mem_code']?></span>
+                                            <span id="sHtml" style="display:none"><?='http://'.$HTTP_HOST.'/?mem_code='.$member_1[mem_code]?></span>
                                            <input type="button" name="" value="복사하기" onclick="copyHtml()">
                                         </div>
                                     </div>
@@ -284,8 +284,8 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                                     <div class="attr-name">추천아이디</div>
                                     <div class="attr-value">
                                         <div class="input-wrap">
-                                            <input type="hidden" name="nick" itemname='닉네임' value="<?=$member_1['mem_name']?>" />
-                                            <?=$member_1['recommend_id']?>
+                                            <input type="hidden" name="nick" itemname='닉네임' value="<?=$member_1[mem_name]?>" />
+                                            <?=$member_1[recommend_id]?>
                                         </div>
                                     </div>
                                 </div>
@@ -302,7 +302,7 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                                     <div class="attr-name">소식받기</div>
                                     <div class="attr-value">
                                         <div class="check-wrap">
-                                            <input type="checkbox" class="check" id="is_message" name="is_message" <?=$member_1['is_message']=="Y"?"checked":""?>>
+                                            <input type="checkbox" class="check" id="is_message" name="is_message" <?=$member_1[is_message]=="Y"?"checked":""?>>
                                             <label for="is_message">온리원그룹의 소식 받기</label>
                                         </div>
                                         <div class="desc">
@@ -316,7 +316,7 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                         </section>
                         <div class="button-wrap">
                             <a href="javascript:history.back(-1);" class="button is-grey">취소</a>
-                            <a href="javascript:save_form(edit_form,'<?=$member_1['mem_code']?>')" class="button is-pink">정보수정</a>
+                            <a href="javascript:save_form(edit_form,'<?=$member_1[mem_code]?>')" class="button is-pink">정보수정</a>
                         </div>
                     </form>
                 </div>

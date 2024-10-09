@@ -273,7 +273,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
               $convertedTime = date('Y-m-d',strtotime('-3 day',strtotime($date_today)));
 
               $sql1 = "update gn_coaching_info set agree = 1, site_value=3, coty_value=3, coaching_status=2  where reg_date  < '$convertedTime' and agree=0";
-              $sql1_res = mysqli_query($self_con, $sql1) or die(mysqli_error($self_con));
+              $sql1_res = mysql_query($sql1) or die(mysql_error());
               echo $convertedTime."  이전에 등록한 코칭정보가 자동승인이 되었습니다.";
               //echo $sql1;
                 ?>
@@ -361,8 +361,8 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                         	WHERE 1=1 
                 	              $searchStr";
                 	              
-                	$res	    = mysqli_query($self_con, $query);
-                	$totalCnt	=  mysqli_num_rows($res);	
+                	$res	    = mysql_query($query);
+                	$totalCnt	=  mysql_num_rows($res);	
                 	
                 	$limitStr       = " LIMIT ".(($startPage-1)*$pageCnt).", ".$pageCnt;
                 	$number			= $totalCnt - ($nowPage - 1) * $pageCnt;                      
@@ -380,18 +380,18 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
 
                   // echo $query."<br>";
 
-                	$res = mysqli_query($self_con, $query) or die(mysqli_error($self_con));
+                	$res = mysql_query($query) or die(mysql_error());
 
 
 
-                    while($coaching_info_data = mysqli_fetch_array($res)) {                       	
+                    while($coaching_info_data = mysql_fetch_array($res)) {                       	
                         $sql_num="select * from gn_coach_apply a left join Gn_Member b on a.mem_code = b.mem_code where a.coach_id='$coaching_info_data[coach_id]' ";
-                        $resul_num=mysqli_query($self_con, $sql_num);
-                        $coach_data=mysqli_fetch_array($resul_num); 
+                        $resul_num=mysql_query($sql_num);
+                        $coach_data=mysql_fetch_array($resul_num); 
 
                         $sql_num="select * from gn_coaching_apply a left join Gn_Member b on a.mem_code = b.mem_code where a.coty_id='$coaching_info_data[coty_id]' ";
-                        $resul_num=mysqli_query($self_con, $sql_num);
-                        $coaching_data=mysqli_fetch_array($resul_num); 
+                        $resul_num=mysql_query($sql_num);
+                        $coaching_data=mysql_fetch_array($resul_num); 
                   ?>
 
 
@@ -404,26 +404,26 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                       ?>">
                         <td><?=$number--?></td>
                         <td style="font-size:12px;"><?=$coaching_info_data[coaching_turn]?></td>
-                        <td style="font-size:12px;"><?=$coach_data['mem_id']?></td>
-                        <td style="font-size:12px;"><?=$coach_data['mem_name']?></td>
+                        <td style="font-size:12px;"><?=$coach_data[mem_id]?></td>
+                        <td style="font-size:12px;"><?=$coach_data[mem_name]?></td>
                         <td style="font-size:12px;"><?=$coaching_info_data[coty_id]?></td>
-                        <td style="font-size:12px;"><?=$coaching_data['mem_name']?></td>
-                        <td style="font-size:12px;"><?=$coaching_data['reg_date']?></td>
-                        <td style="font-size:12px;color:red;"><?=$coaching_data['cont_term']?> 일</td>
-                        <td style="font-size:12px;color:red;"><?=$coaching_data['cont_time']?> 시간</td>
+                        <td style="font-size:12px;"><?=$coaching_data[mem_name]?></td>
+                        <td style="font-size:12px;"><?=$coaching_data[reg_date]?></td>
+                        <td style="font-size:12px;color:red;"><?=$coaching_data[cont_term]?> 일</td>
+                        <td style="font-size:12px;color:red;"><?=$coaching_data[cont_time]?> 시간</td>
                         <td style="font-size:12px;"><?=$coaching_data[coaching_price]/10000?>만원</td>
-                        <td style="font-size:12px;"><?=$coaching_info_data['coaching_date']?></td>
-                        <td style="font-size:12px;"><?=$coaching_info_data['coaching_time']?> 분</td>
+                        <td style="font-size:12px;"><?=$coaching_info_data[coaching_date]?></td>
+                        <td style="font-size:12px;"><?=$coaching_info_data[coaching_time]?> 분</td>
                         <td style="font-size:12px;color:red;">
                               <?
                             // 잔여일시 계산
 
                             // $sql_startdate="select coaching_date from gn_coaching_info where coty_id='$coaching_info_data[coty_id]' and coach_id='$coaching_info_data[coach_id]' and coaching_turn= 1 ";
-                            // $resul_num=mysqli_query($self_con, $sql_startdate);
-                            // $startdate_data=mysqli_fetch_array($resul_num);
+                            // $resul_num=mysql_query($sql_startdate);
+                            // $startdate_data=mysql_fetch_array($resul_num);
 
 
-                            // $enddate = date('Y-m-d H:i:s',strtotime('+'.$coaching_data['cont_term'].' day',strtotime($startdate_data['coaching_date'])));
+                            // $enddate = date('Y-m-d H:i:s',strtotime('+'.$coaching_data[cont_term].' day',strtotime($startdate_data[coaching_date])));
 
                             // $currentTime = date("Y-m-d H:i:s");
 
@@ -435,17 +435,17 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                             //     $diff = floor(abs($date2 - $date1)/3600 / 24) + 1;
 
 
-                            //     echo $diff >$coaching_data['cont_term']?$coaching_data['cont_term']:$diff;
+                            //     echo $diff >$coaching_data[cont_term]?$coaching_data[cont_term]:$diff;
     
                             // }
 
 
                             
-                                  $date1 = strtotime($coaching_info_data['end_date']);
+                                  $date1 = strtotime($coaching_info_data[end_date]);
                                 $date1 = strtotime(date('Y-m-d', $date1));
                                 //echo $date1."일<br>";
 
-                                $date2 = strtotime($coaching_info_data['coaching_date']);
+                                $date2 = strtotime($coaching_info_data[coaching_date]);
                                 $date2 = strtotime(date('Y-m-d', $date2));
                                 //echo $date2."일<br>";
 
@@ -460,7 +460,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                             // 잔여시간
 
  // 잔여시간
-                                    $remain_tatal_min =  ($coaching_data['cont_time'] * 60) - $coaching_info_data[past_time_sum] - $coaching_info_data['coaching_time'];
+                                    $remain_tatal_min =  ($coaching_data[cont_time] * 60) - $coaching_info_data[past_time_sum] - $coaching_info_data[coaching_time];
                                     $remain_hour = floor($remain_tatal_min / 60);
                                     $remain_min = $remain_tatal_min % 60;
                                     if($remain_min < 10){
@@ -482,7 +482,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                                     } ?>
                         </a>
                         </td>
-                        <td style="font-size:12px;"><?=$coaching_info_data['reg_date']?></td>
+                        <td style="font-size:12px;"><?=$coaching_info_data[reg_date]?></td>
                         <td style="font-size:12px;"><?=$coaching_info_data[coach_value]?></td>
                         <td style="font-size:12px;"><?=$coaching_info_data[coty_value]?></td>
                         <td style="font-size:12px; text-align: center;">
@@ -609,8 +609,8 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
 
                                 $sql_1="select SUM(coty_value) as coty_sum,SUM(coach_value) as coach_sum,SUM(site_value) as site_sum from gn_coaching_info where coty_id='$coaching_info_data[coty_id]' and coach_id='$coaching_info_data[coach_id]' and coaching_turn <= '$coaching_info_data[coaching_turn]'";
                                 //echo $sql_1;
-                                $res_1=mysqli_query($self_con, $sql_1);
-                                $sum=mysqli_fetch_array($res_1);
+                                $res_1=mysql_query($sql_1);
+                                $sum=mysql_fetch_array($res_1);
 
 
                                 //누적 합점
@@ -659,21 +659,21 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                                                 <table class="list_table1" width="100%" border="0" cellspacing="0" cellpadding="0">
                                                 <tr>
                                                     <th>코티이름</th>
-                                                    <td><?=$coaching_data['mem_name']?></td>
+                                                    <td><?=$coaching_data[mem_name]?></td>
                                                     <th>코티ID</th>
-                                                    <td><?=$coaching_data['mem_id']?></td>
+                                                    <td><?=$coaching_data[mem_id]?></td>
                                                 </tr>       
                                                 <tr>
                                                     <th>전화번호</th>
-                                                    <td><?=$coaching_data['mem_phone']?></td>
+                                                    <td><?=$coaching_data[mem_phone]?></td>
                                                     <th>이메일</th>
-                                                    <td><?=$coaching_data['mem_email']?></td>
+                                                    <td><?=$coaching_data[mem_email]?></td>
                                                 </tr>        
                                                 <tr>
                                                     <th>계약기간</th>
-                                                    <td><?=$coaching_data['cont_term']?>일</td>
+                                                    <td><?=$coaching_data[cont_term]?>일</td>
                                                     <th>계약시간</th>
-                                                    <td><?=$coaching_data['cont_time']?>시간</td>
+                                                    <td><?=$coaching_data[cont_time]?>시간</td>
                                                 </tr>                    
                                  
                                                 <tr>
@@ -684,9 +684,9 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                                                 </tr>                      
                                                 <tr>
                                                     <th>코칭시작</th>
-                                                    <td><?=$coaching_info_data['start_date']?></td>
+                                                    <td><?=$coaching_info_data[start_date]?></td>
                                                     <th>코칭종료</th>
-                                                    <td><?=$coaching_info_data['end_date']?></td>
+                                                    <td><?=$coaching_info_data[end_date]?></td>
                                                 </tr>                    
                                  
                                                 <tr>
@@ -695,13 +695,13 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                                                         <? 
                                                         $currentTime = date("Y-m-d H:i:s");
 
-                                                         if($currentTime < $coaching_info_data['start_date']){
+                                                         if($currentTime < $coaching_info_data[start_date]){
                                                             echo "<label class='label label-sm label-warning'>대기</label>";
 
-                                                         }else if($currentTime > $coaching_info_data['start_date'] && $currentTime < $coaching_info_data['end_date']){
+                                                         }else if($currentTime > $coaching_info_data[start_date] && $currentTime < $coaching_info_data[end_date]){
                                                             echo "<label class='label label-sm label-primary'>진행중</label>";
                                                          }
-                                                         else if($currentTime > $coaching_info_data['end_date']){
+                                                         else if($currentTime > $coaching_info_data[end_date]){
                                                             echo "<label class='label label-sm label-danger'>종료</label>";
                                                          }
 
@@ -726,7 +726,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                                               <tr>
                                                   <th class="w200">코칭일시</th>
                                                   <td>
-                                                      <?=$coaching_info_data['coaching_date']?>
+                                                      <?=$coaching_info_data[coaching_date]?>
                                                    </td>
                                               </tr>                    
                                               <tr>

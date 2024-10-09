@@ -90,8 +90,8 @@ if($_GET['key'] && $_GET['key'] == session_id()) {
 		<div id="mainSlider">
 		<?
 			$query = "select * from Gn_App_Home_Manager where ad_position='R' and use_yn='Y' and site_iam='{$site_iam}' order by display_order asc";
-    		$res = mysqli_query($self_con, $query);
-    		while($data = mysqli_fetch_array($res)) {
+    		$res = mysql_query($query);
+    		while($data = mysql_fetch_array($res)) {
 				if($is_pay_version){
 					$url_top = $data['move_url'];
 				}
@@ -113,25 +113,25 @@ if($_GET['key'] && $_GET['key'] == session_id()) {
 	<section id="main-menus"><!-- 메인화면 메뉴 영역 시작 -->
 		<div class="menu-list clearfix">
             <?
-				// if($_SESSION['iam_member_id'] == ""){
+				// if($_SESSION[iam_member_id] == ""){
 				// 	$url = "https://kiam.kr";
 				// }else{
-				// 	$sql="select site_iam from Gn_Member where mem_id = '{$_SESSION['iam_member_id']}'";
-				// 	$resul=mysqli_query($self_con, $sql);
-				// 	$row=mysqli_fetch_array($resul);
+				// 	$sql="select site_iam from Gn_Member where mem_id = '$_SESSION[iam_member_id]'";
+				// 	$resul=mysql_query($sql);
+				// 	$row=mysql_fetch_array($resul);
 				// 	if($row[0] == "kiam")
 				// 		$url = "https://kiam.kr";
 				// 	else if($row[0] != "")
 				// 		$url = "https://".$row[0].".kiam.kr";
 				// }
 			$query = "select * from Gn_App_Home_Manager where ad_position='M' and use_yn='Y' and site_iam='{$site_iam}' order by display_order asc";
-			$res = mysqli_query($self_con, $query);
-			while($data = mysqli_fetch_array($res)) {
-				if(strpos($data['move_url'], "/iam/daily_write_iam.php") !== false){
-					$href = "javascript:go_move_url('".$_SESSION['iam_member_id']."', '".$data['move_url']."')";
+			$res = mysql_query($query);
+			while($data = mysql_fetch_array($res)) {
+				if(strpos($data[move_url], "/iam/daily_write_iam.php") !== false){
+					$href = "javascript:go_move_url('".$_SESSION[iam_member_id]."', '".$data[move_url]."')";
 				}
 				else{
-					$href = $data['move_url'];
+					$href = $data[move_url];
 				}
 			?>
 			<a href="<?=$href?>" class="menu-item">
@@ -219,21 +219,21 @@ if($_GET['key'] && $_GET['key'] == session_id()) {
 		<div class="menu-list clearfix">
             <?
 			$query = "select * from Gn_App_Home_Manager where ad_position='I' and use_yn='Y' and site_iam='{$site_iam}' order by display_order asc";
-			$res = mysqli_query($self_con, $query);
-			if(mysqli_num_rows($res)){
+			$res = mysql_query($query);
+			if(mysql_num_rows($res)){
 				$sql_title = "select market_title from Gn_App_Home_Manager where market_title!='' and site_iam='{$site_iam}'";
-				$res_title = mysqli_query($self_con, $sql_title);
-				$row_title = mysqli_fetch_array($res_title);
+				$res_title = mysql_query($sql_title);
+				$row_title = mysql_fetch_array($res_title);
 			?>
 			<h4 style="padding: 25px 25px 0px;"><?=$row_title[0]?$row_title[0]:'IAM마켓'?></h4>
 			<?
 			}
-			while($data = mysqli_fetch_array($res)) {
-				if($data['title'] == "굿마켓"){
-					$href = "javascript:go_market_url('".$_SESSION['iam_member_id']."', '".$data['move_url']."')";
+			while($data = mysql_fetch_array($res)) {
+				if($data[title] == "굿마켓"){
+					$href = "javascript:go_market_url('".$_SESSION[iam_member_id]."', '".$data[move_url]."')";
 				}
 				else{
-					$href = $data['move_url'];
+					$href = $data[move_url];
 				}
 			?>
 			<a href="<?=$href?>" class="menu-item">
@@ -253,11 +253,11 @@ if($_GET['key'] && $_GET['key'] == session_id()) {
 	<section id="main-slider1"><!-- 메인 슬라이드 아이엠 카드 영역 시작 -->
 		<?
 		$query = "select * from Gn_App_Home_Manager where ad_position='C' and use_yn='Y' and site_iam='{$site_iam}' order by display_order asc";
-		$res = mysqli_query($self_con, $query);
-		if(mysqli_num_rows($res)){
+		$res = mysql_query($query);
+		if(mysql_num_rows($res)){
 			$sql_title = "select card_title from Gn_App_Home_Manager where card_title!='' and site_iam='{$site_iam}'";
-			$res_title = mysqli_query($self_con, $sql_title);
-			$row_title = mysqli_fetch_array($res_title);	
+			$res_title = mysql_query($sql_title);
+			$row_title = mysql_fetch_array($res_title);	
 		?>
 		<h4 style="padding: 25px 25px 0px;"><?=$row_title[0]?$row_title[0]:'IAM카드'?></h4>
 		<div class="btmbanner_list" style="margin-top: 2px;">
@@ -266,10 +266,10 @@ if($_GET['key'] && $_GET['key'] == session_id()) {
 					<div class="btmbr_list">
 						<div class="btmbrl_obj" style="left: 0px;">
 							<?
-							while($data = mysqli_fetch_array($res)) {
+							while($data = mysql_fetch_array($res)) {
 								?>
 								<div class="btmbrl_item">
-									<a href="<?=$data['move_url']?>" class="menu-item">
+									<a href="<?=$data[move_url]?>" class="menu-item">
 										<div class="outer">
 											<div class="inner">
 												<span class="icon-wrap">
@@ -319,14 +319,14 @@ if($_GET['key'] && $_GET['key'] == session_id()) {
 			$data_arr = array();
 			$i = 0;
 
-			if($_SESSION['iam_member_id']){
-				$mem_type = $member_iam['service_type'];
+			if($_SESSION[iam_member_id]){
+				$mem_type = $member_iam[service_type];
 				if($mem_type == 3){//분양자
-					$sql_notice = "select seller_id, pay_date, message from Gn_Item_Pay_Result where buyer_id='{$_SESSION['iam_member_id']}' and item_name='공지사항전송' order by pay_date desc limit 1";
-					$res_notice = mysqli_query($self_con, $sql_notice);
-					$row_notice = mysqli_fetch_array($res_notice);
+					$sql_notice = "select seller_id, pay_date, message from Gn_Item_Pay_Result where buyer_id='{$_SESSION[iam_member_id]}' and item_name='공지사항전송' order by pay_date desc limit 1";
+					$res_notice = mysql_query($sql_notice);
+					$row_notice = mysql_fetch_array($res_notice);
 
-					if($row_notice['seller_id'] != ''){
+					if($row_notice[seller_id] != ''){
 						$data['title'] = $row_notice['seller_id'];
 						$data['date'] = $row_notice['pay_date'];
 						$data['domain'] = $member_iam['site_iam'];
@@ -340,11 +340,11 @@ if($_GET['key'] && $_GET['key'] == session_id()) {
 					}
 				}
 				else if($mem_type == 2){//리셀러
-					$sql_notice = "select seller_id, pay_date, message from Gn_Item_Pay_Result where buyer_id='{$_SESSION['iam_member_id']}' and item_name='공지사항전송' order by pay_date desc limit 1";
-					$res_notice = mysqli_query($self_con, $sql_notice);
-					$row_notice = mysqli_fetch_array($res_notice);
+					$sql_notice = "select seller_id, pay_date, message from Gn_Item_Pay_Result where buyer_id='{$_SESSION[iam_member_id]}' and item_name='공지사항전송' order by pay_date desc limit 1";
+					$res_notice = mysql_query($sql_notice);
+					$row_notice = mysql_fetch_array($res_notice);
 
-					if($row_notice['seller_id'] != ''){
+					if($row_notice[seller_id] != ''){
 						$data['title'] = $row_notice['seller_id'];
 						$data['date'] = $row_notice['pay_date'];
 						$data['domain'] = $member_iam['site_iam'];
@@ -357,16 +357,16 @@ if($_GET['key'] && $_GET['key'] == session_id()) {
 						$i++;
 					}
 					
-					$sql_service = "select mem_id from Gn_Service where sub_domain like '%".$member_iam['site']."%'";
-					$res_service = mysqli_query($self_con, $sql_service);
-					$row_service = mysqli_fetch_array($res_service);
+					$sql_service = "select mem_id from Gn_Service where sub_domain like '%".$member_iam[site]."%'";
+					$res_service = mysql_query($sql_service);
+					$row_service = mysql_fetch_array($res_service);
 
-					if($row_service['mem_id'] !=$_SESSION['iam_member_id']){
-						$sql_notice = "select seller_id, pay_date, message from Gn_Item_Pay_Result where buyer_id='{$row_service['mem_id']}' and item_name='공지사항전송' order by pay_date desc limit 1";
-						$res_notice = mysqli_query($self_con, $sql_notice);
-						$row_notice = mysqli_fetch_array($res_notice);
+					if($row_service[mem_id] != $_SESSION[iam_member_id]){
+						$sql_notice = "select seller_id, pay_date, message from Gn_Item_Pay_Result where buyer_id='{$row_service[mem_id]}' and item_name='공지사항전송' order by pay_date desc limit 1";
+						$res_notice = mysql_query($sql_notice);
+						$row_notice = mysql_fetch_array($res_notice);
 
-						if($row_notice['seller_id'] != ''){
+						if($row_notice[seller_id] != ''){
 							$data['title'] = $row_notice['seller_id'];
 							$data['date'] = $row_notice['pay_date'];
 							$data['domain'] = $member_iam['site_iam'];
@@ -381,15 +381,15 @@ if($_GET['key'] && $_GET['key'] == session_id()) {
 					}
 				}
 				else{//일반회원
-					$sql_service = "select mem_id from Gn_Iam_Service where sub_domain like '%".$member_iam['site_iam']."%'";
-					$res_service = mysqli_query($self_con, $sql_service);
-					$row_service = mysqli_fetch_array($res_service);
+					$sql_service = "select mem_id from Gn_Iam_Service where sub_domain like '%".$member_iam[site_iam]."%'";
+					$res_service = mysql_query($sql_service);
+					$row_service = mysql_fetch_array($res_service);
 
-					$sql_notice = "select seller_id, pay_date, message from Gn_Item_Pay_Result where buyer_id='{$row_service['mem_id']}' and item_name='공지사항전송' order by pay_date desc limit 1";
-					$res_notice = mysqli_query($self_con, $sql_notice);
-					$row_notice = mysqli_fetch_array($res_notice);
+					$sql_notice = "select seller_id, pay_date, message from Gn_Item_Pay_Result where buyer_id='{$row_service[mem_id]}' and item_name='공지사항전송' order by pay_date desc limit 1";
+					$res_notice = mysql_query($sql_notice);
+					$row_notice = mysql_fetch_array($res_notice);
 
-					if($row_notice['seller_id'] != ''){
+					if($row_notice[seller_id] != ''){
 						$data['title'] = $row_notice['seller_id'];
 						$data['date'] = $row_notice['pay_date'];
 						$data['domain'] = $member_iam['site_iam'];
@@ -402,15 +402,15 @@ if($_GET['key'] && $_GET['key'] == session_id()) {
 						$i++;
 					}
 					
-					$sql_service = "select mem_id from Gn_Service where sub_domain like '%".$member_iam['site_iam']."%'";
-					$res_service = mysqli_query($self_con, $sql_service);
-					$row_service = mysqli_fetch_array($res_service);
+					$sql_service = "select mem_id from Gn_Service where sub_domain like '%".$member_iam[site_iam]."%'";
+					$res_service = mysql_query($sql_service);
+					$row_service = mysql_fetch_array($res_service);
 
-					$sql_notice = "select seller_id, pay_date, message from Gn_Item_Pay_Result where buyer_id='{$row_service['mem_id']}' and item_name='공지사항전송' order by pay_date desc limit 1";
-					$res_notice = mysqli_query($self_con, $sql_notice);
-					$row_notice = mysqli_fetch_array($res_notice);
+					$sql_notice = "select seller_id, pay_date, message from Gn_Item_Pay_Result where buyer_id='{$row_service[mem_id]}' and item_name='공지사항전송' order by pay_date desc limit 1";
+					$res_notice = mysql_query($sql_notice);
+					$row_notice = mysql_fetch_array($res_notice);
 
-					if($row_notice['seller_id'] != ''){
+					if($row_notice[seller_id] != ''){
 						$data['title'] = $row_notice['seller_id'];
 						$data['date'] = $row_notice['pay_date'];
 						$data['domain'] = $member_iam['site_iam'];
@@ -426,8 +426,8 @@ if($_GET['key'] && $_GET['key'] == session_id()) {
 			}
 			$cnt = 4 - $i * 1;
 			$sql_admin = "select title, date, content from tjd_sellerboard order by date desc limit ".$cnt;
-			$res_admin = mysqli_query($self_con, $sql_admin);
-			while($row_admin = mysqli_fetch_array($res_admin)){
+			$res_admin = mysql_query($sql_admin);
+			while($row_admin = mysql_fetch_array($res_admin)){
 				$data['title'] = $row_admin['title'];
 				$data['date'] = $row_admin['date'];
 				$data['domain'] = "kiam";
@@ -437,8 +437,8 @@ if($_GET['key'] && $_GET['key'] == session_id()) {
 			}
 			if(count($data_arr)){
 				$sql_title = "select notice_title from Gn_App_Home_Manager where notice_title!='' and site_iam='{$site_iam}'";
-				$res_title = mysqli_query($self_con, $sql_title);
-				$row_title = mysqli_fetch_array($res_title);
+				$res_title = mysql_query($sql_title);
+				$row_title = mysql_fetch_array($res_title);
 			?>
 			<h4 style="padding: 25px 25px 0px;"><?=$row_title[0]?$row_title[0]:'IAM공지'?><a href="https://<?=$HTTP_HOST?>/?cur_win=unread_notice" style="float: right;color: #5ceb5c;">more</a></h4>
 			<?
@@ -456,8 +456,8 @@ if($_GET['key'] && $_GET['key'] == session_id()) {
 
 	<div class="banner-wrap"><!-- 하단 베너 영역 -->
 	<?	$query = "select * from Gn_App_Home_Manager where ad_position='B' and use_yn='Y' and site_iam='{$site_iam}' order by display_order asc";
-    	$res = mysqli_query($self_con, $query);
-    	while($data = mysqli_fetch_array($res)) {?>
+    	$res = mysql_query($query);
+    	while($data = mysql_fetch_array($res)) {?>
 				<a href="<?php echo $data['move_url'];?>" target="_self">
 					<img src="<?php echo $data['img_url'];?>">
 				</a>
@@ -466,9 +466,9 @@ if($_GET['key'] && $_GET['key'] == session_id()) {
 
 	<div class="banner-wrap"><!-- 하단 전환하기 영역 -->
 	<?	$query = "select * from Gn_App_Home_Manager where ad_position='E' and use_yn='Y' and site_iam='{$site_iam}' order by display_order asc";
-    	$res = mysqli_query($self_con, $query);
-    	while($data = mysqli_fetch_array($res)) {?>
-				<a href="javascript:change_site('<?=$data['idx']?>')">
+    	$res = mysql_query($query);
+    	while($data = mysql_fetch_array($res)) {?>
+				<a href="javascript:change_site('<?=$data[idx]?>')">
 					<img src="<?php echo $data['img_url'];?>">
 				</a>
 		<?}?>
@@ -505,19 +505,15 @@ function goCallbackApp() {
     var navCase = navigator.userAgent.toLocaleLowerCase();
 	if(navCase.search("android") > -1){
 		try {
-			AppScript.goCallbackApp('<?php echo $_SESSION['one_member_id'];?>');
+			AppScript.goCallbackApp('<?php echo $_SESSION[one_member_id];?>');
 		} catch(e) {
 			openAndroid();
 		}
 	}else{
-		var iam_mem_id = "<?=$_SESSION['one_member_id'];?>";
+		var iam_mem_id = "<?=$_SESSION[one_member_id];?>";
 		if(iam_mem_id == "")
 			alert("휴대폰에서 이용해주세요.");
 	}
-}
-function gotoiam(){
-	window.location = "/index.php?cur_win=my_info";
-	click_paper_tab();
 }
 function openAndroid(){
     var userAgent = navigator.userAgent.toLowerCase();

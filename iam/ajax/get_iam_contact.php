@@ -1,6 +1,12 @@
 
 <?
 include_once "../../lib/rlatjd_fun.php";
+// if($cur_win != "my_info")
+// {
+//     echo '';
+//     exit;
+// }
+
 $search_str = $_GET['search_str'];
 $card_owner = $_GET['card_owner'];
 $search_range = $_GET['search_range'];
@@ -23,8 +29,8 @@ else{
 }
 
 $sql9="select count(idx) from Gn_MMS_Receive_Iam where mem_id = '$card_owner' and grp = '아이엠' $contact_sql_msg";
-$result9=mysqli_query($self_con, $sql9);
-$comment_row9=mysqli_fetch_array($result9);
+$result9=mysql_query($sql9);
+$comment_row9=mysql_fetch_array($result9);
 $row_num9 = $comment_row9[0];
 
 $list = 10; //한 페이지에 보여줄 개수
@@ -59,9 +65,9 @@ $body = '<div class="contact-list">';
 $body .= '<ul>';
 
 $sql10="select idx,name,reg_date,recv_num,paper_yn,paper_seq from Gn_MMS_Receive_Iam where mem_id = '$card_owner' and grp = '아이엠' $contact_sql_msg limit $start_num, $list";
-$result10=mysqli_query($self_con, $sql10) or die(mysqli_error($self_con));
+$result10=mysql_query($sql10) or die(mysql_error());
 //file_put_contents("iamlog.txt", $sql10 . "\n", FILE_APPEND);
-while($row10=mysqli_fetch_array($result10)){
+while($row10=mysql_fetch_array($result10)){
 
     if((int)$row10['recv_num'] > 10) {
         $contact_phone1 = substr($row10['recv_num'], 0, 3);
@@ -86,8 +92,8 @@ while($row10=mysqli_fetch_array($result10)){
     $body .=  '         </div>';
     if($row10['paper_yn']){
         $sql_paper_info = "select seq,img_url from Gn_Member_card where seq='{$row10['paper_seq']}'";
-        $res_paper_info = mysqli_query($self_con, $sql_paper_info);
-        $row_paper_info = mysqli_fetch_array($res_paper_info);
+        $res_paper_info = mysql_query($sql_paper_info);
+        $row_paper_info = mysql_fetch_array($res_paper_info);
         $body .=  '         <div class="info" onclick="edit_paper('.$row_paper_info['seq'].')">';
     }
     else{
@@ -111,7 +117,7 @@ while($row10=mysqli_fetch_array($result10)){
     $body .=  '<div class="downer">'. $row10['reg_date'] . '</div>';
     $body .=  '</div>';
     if($row10['paper_yn']){
-        $body .=  '          <div class="thumb" onclick="show_paper_img(`'.$row_paper_info['img_url'].'`)">';
+        $body .=  '          <div class="thumb" onclick="show_comment(`'.$row_paper_info['seq'].'`)">';
         $body .=  '              <div class="thumb-inner">';
         $body .=  '                 <img src="/iam/img/menu/icon_my_stroy.png" style="height: 42px;width: 42px;">';
         $body .=  '             </div>';
@@ -120,9 +126,9 @@ while($row10=mysqli_fetch_array($result10)){
     $body .=  '               <div class="number">';
     $body .=  '                    <div class="downer">';
                     
-    $sql7="select count(idx) from Gn_Iam_Name_Card use index(card_phone) where use index(card_phone) card_phone = '$contact_phone'";
-    $result7=mysqli_query($self_con, $sql7);
-    $card_phone_count=mysqli_fetch_array($result7);
+    $sql7="select count(idx) from Gn_Iam_Name_Card use index(card_phone) where card_phone = '$contact_phone'";
+    $result7=mysql_query($sql7);
+    $card_phone_count=mysql_fetch_array($result7);
     if((int)$card_phone_count[0] == 0) {
         $body .=  '<span style="color:red">OFF</span>';
     }else{

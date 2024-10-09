@@ -186,7 +186,7 @@ function excel_down_p_group(pno,one_member_id){
                </div>
                                
               <?php if($_SESSION['one_member_admin_id'] != "onlyonemaket"){
-                  if($_SESSION['one_member_subadmin_id'] != "" && $_SESSION['one_member_subadmin_domain'] == $HTTP_HOST) {} else {?>
+                  if($_SESSION[one_member_subadmin_id] != "" && $_SESSION[one_member_subadmin_domain] == $HTTP_HOST) {} else {?>
                     <button class="btn btn-primary pull-right" style="margin-right: 5px;" onclick="excel_down('/excel_down/excel_member_down_.php');return false;"><i class="fa fa-download"></i> 엑셀다운받기</button>
                 <?}
               }?>
@@ -276,7 +276,7 @@ function excel_down_p_group(pno,one_member_id){
                 	$pageCnt = 20;
                     // 검색 조건을 적용한다.
                     $searchStr .= $search_key ? " AND (a.mem_id LIKE '%".$search_key."%' or a.mem_phone like '%".$search_key."%' or a.mem_name like '%".$search_key."%' or a.site like  '%" .$search_key."%' or a.recommend_id like  '%".$search_key. "%' or b.sendnum like '%".$search_key. "%' or a.zy like '%".$search_key."%')" : null;
-                    if($_SESSION['one_member_subadmin_id'] != "" && $_SESSION['one_member_subadmin_domain'] == $HTTP_HOST) {
+                    if($_SESSION[one_member_subadmin_id] != "" && $_SESSION[one_member_subadmin_domain] == $HTTP_HOST) {
                         $do = explode(".", $HTTP_HOST);
                         $searchStr .= " and a.site = '".$do[0]."'";
                     }
@@ -299,8 +299,8 @@ function excel_down_p_group(pno,one_member_id){
                         	WHERE 1=1 
                 	              $searchStr";
                 	              
-                	$res	    = mysqli_query($self_con,$query);
-                	$totalCnt	=  mysqli_num_rows($res);	
+                	$res	    = mysql_query($query);
+                	$totalCnt	=  mysql_num_rows($res);	
                 	
                 	$limitStr       = " LIMIT ".(($startPage-1)*$pageCnt).", ".$pageCnt;
                 	$number			= $totalCnt - ($nowPage - 1) * $pageCnt;                      
@@ -312,13 +312,13 @@ function excel_down_p_group(pno,one_member_id){
                 	
                 	$i = 1;
                 	$query .= "$orderQuery";
-                	$res = mysqli_query($self_con, $query);
-                    while($row = mysqli_fetch_array($res)) {                       	
+                	$res = mysql_query($query);
+                    while($row = mysql_fetch_array($res)) {                       	
                         // =====================  유료결제건 시작 ===================== 
                     	$sql = "select phone_cnt from tjd_pay_result where buyer_id = '".$row['mem_id']."' and end_date > '$date_today' and end_status='Y' order by end_date desc limit 1";
-                    	$res_result = mysqli_query($self_con, $sql);
-                    	$buyPhoneCnt = mysqli_fetch_row($res_result);
-                    	mysqli_free_result($res_result);
+                    	$res_result = mysql_query($sql);
+                    	$buyPhoneCnt = mysql_fetch_row($res_result);
+                    	mysql_free_result($res_result);
                     	
                     	if($buyPhoneCnt == 0){	
                     		$buyMMSCount = 0;
@@ -330,9 +330,9 @@ function excel_down_p_group(pno,one_member_id){
                     	
                         // =====================  총결제금액 시작 ===================== 
                     	$sql = "select sum(TotPrice) totPrice from tjd_pay_result where buyer_id = '".$row['mem_id']."' and end_status='Y'";
-                    	$res_result = mysqli_query($self_con,$sql);
-                    	$totPriceRow = mysqli_fetch_row($res_result);
-                    	mysqli_free_result($res_result);
+                    	$res_result = mysql_query($sql);
+                    	$totPriceRow = mysql_fetch_row($res_result);
+                    	mysql_free_result($res_result);
                     	
                     	$totPrice = $totPriceRow[0];
                     	// ===================== 총결제금액 끝 =====================                     	

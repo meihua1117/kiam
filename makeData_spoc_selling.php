@@ -1,5 +1,7 @@
 <?
 include_once "lib/rlatjd_fun.php";
+if($_SESSION['one_member_id'] == "")
+	exit;
 $sql="select * from Gn_Member where mem_id='$_SESSION[one_member_id]' and site != '' ";
 $resul=mysql_query($sql);
 $data=mysql_fetch_array($resul);

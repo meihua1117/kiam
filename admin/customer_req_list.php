@@ -151,7 +151,9 @@ input:checked + .slider:before {
     transition: .4s;
 
 }
-
+.agree{
+     /*background: #d5ffd5!important;   */
+    }
 .disagree{
      background: #ffd5d5!important;   
     }
@@ -314,8 +316,8 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                       WHERE 1=1 
                             $searchStr";
                 	              
-                	$res	    = mysqli_query($self_con, $query);
-                	$totalCnt	=  mysqli_num_rows($res);	
+                	$res	    = mysql_query($query);
+                	$totalCnt	=  mysql_num_rows($res);	
                 	
                 	$limitStr       = " LIMIT ".(($startPage-1)*$pageCnt).", ".$pageCnt;
                 	$number			= $totalCnt - ($nowPage - 1) * $pageCnt;                      
@@ -328,13 +330,13 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                 	$i = 1;
                 	$c=0;
                 	$query .= "$orderQuery";
-                	$res = mysqli_query($self_con, $query);
-                    while($row = mysqli_fetch_array($res)) {                       	
-                      $sql_mem_reg = "select * from Gn_Member where mem_name='{$row['name']}' and mem_phone='{$row['mobile']}' and is_leave='N' limit 1";
-                      $res_mem_reg = mysqli_query($self_con, $sql_mem_reg);
-                      $row_mem_reg = mysqli_fetch_array($res_mem_reg);
+                	$res = mysql_query($query);
+                    while($row = mysql_fetch_array($res)) {                       	
+                      $sql_mem_reg = "select * from Gn_Member where mem_name='{$row[name]}' and mem_phone='{$row[mobile]}' and is_leave='N' limit 1";
+                      $res_mem_reg = mysql_query($sql_mem_reg);
+                      $row_mem_reg = mysql_fetch_array($res_mem_reg);
                       $mem_code = '';
-                      if($row_mem_reg['mem_code'] != ''){
+                      if($row_mem_reg[mem_code] != ''){
                         $edit_type = "member_req_edit";
                         $mem_code = $row_mem_reg['mem_code'];
                         $user_id = $row_mem_reg['mem_id']?$row_mem_reg['mem_id']:'';
@@ -351,9 +353,9 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                         $memo = $row_mem_reg['mem_memo']?$row_mem_reg['mem_memo']:'';
                         $reg_date = $row_mem_reg['first_regist']?$row_mem_reg['first_regist']:'';
 
-                        $query = "select card_short_url from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$row_mem_reg['mem_id']}' order by req_data asc";
-                        $cres = mysqli_query($self_con, $query);
-                        $crow = mysqli_fetch_array($cres);
+                        $query = "select card_short_url from Gn_Iam_Name_Card where group_id is NULL and mem_id = '$row_mem_reg[mem_id]' order by req_data asc";
+                        $cres = mysql_query($query);
+                        $crow = mysql_fetch_array($cres);
                         $card_url = $crow[0];
 
                         $link = "card_list.php?mem_id=".$row_mem_reg['mem_id'];

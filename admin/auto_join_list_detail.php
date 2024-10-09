@@ -5,12 +5,14 @@ extract($_GET);
 
 // 오늘날짜
 $date_today=date("Y-m-d");
+$date_month=date("Y-m");
+
 if($idx) {
     // 가입 회원 상세 정보
     $query = "select *
                 from Gn_event where event_idx='$idx'";
-    $res = mysqli_query($self_con, $query);
-    $data = mysqli_fetch_array($res);
+    $res = mysql_query($query);
+    $data = mysql_fetch_array($res);
 }
 
 ?>
@@ -80,13 +82,13 @@ if($idx) {
                       <tr>
                         <th>카드링크</th>
                         <td>
-                          <input type="text" id="card_short_url" value="<?=$data['event_info']?>" hidden>
+                          <input type="text" id="card_short_url" value="<?=$data[event_info]?>" hidden>
                           <div id="cardsel1" onclick="limit_selcard1()" style="margin-top:15px;">
                             <?
-                            $sql5="select card_short_url,phone_display, card_title from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$data['m_id']}' order by req_data asc";
-                            $result5=mysqli_query($self_con, $sql5);
+                            $sql5="select card_short_url,phone_display, card_title from Gn_Iam_Name_Card where group_id is NULL and mem_id = '$data[m_id]' order by req_data asc";
+                            $result5=mysql_query($sql5);
                             $i = 0;
-                            while($row5=mysqli_fetch_array($result5)) {
+                            while($row5=mysql_fetch_array($result5)) {
                                 $order = $i+1;
                                 $card_arr = explode(",", $data['event_info']);
                                 for($k = 0; $k < count($card_arr); $k++){
@@ -175,7 +177,7 @@ if($idx) {
           
           
         </section><!-- /.content -->
-      </div><!-- /content-wrapper -->
+      </div><!-- /.content-wrapper -->
 
 
       <!-- Footer -->

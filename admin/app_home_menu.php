@@ -14,8 +14,8 @@ else{
 $domain = $domain1.".kiam.kr";
 
 $sql_service = "select admin_app_home from Gn_Iam_Service where sub_domain like '%".$domain."%'";
-$res_service = mysqli_query($self_con, $sql_service);
-$row_service = mysqli_fetch_array($res_service);
+$res_service = mysql_query($sql_service);
+$row_service = mysql_fetch_array($res_service);
 ?>
 <script type="text/javascript" src="/jquery.lightbox_me.js"></script>
 <script>
@@ -636,7 +636,9 @@ input:checked + .slider:before {
     transition: .4s;
 
 }
-
+.agree{
+     /*background: #d5ffd5!important;   */
+    }
 .disagree{
      background: #ffd5d5!important;   
     }
@@ -764,8 +766,8 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
             <div class="row" id="logo_set" style="text-align:center;">
               <?
               $sql_menu_data = "select * from Gn_App_Home_Manager where site_iam='{$site}' and ad_position='L'";
-              $res_menu_data = mysqli_query($self_con, $sql_menu_data);
-              if(!mysqli_num_rows($res_menu_data)){
+              $res_menu_data = mysql_query($sql_menu_data);
+              if(!mysql_num_rows($res_menu_data)){
                 $sql_data = "select * from Gn_App_Home_Manager where site_iam='kiam' and ad_position='L'";
                 $mode = "save";
               }
@@ -773,15 +775,15 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                 $sql_data = "select * from Gn_App_Home_Manager where site_iam='{$site}' and ad_position='L'";
                 $mode = "updat";
               }
-              $res_data = mysqli_query($self_con, $sql_data);
-              if(mysqli_num_rows($res_data)){
-                while($data = mysqli_fetch_array($res_data)){
+              $res_data = mysql_query($sql_data);
+              if(mysql_num_rows($res_data)){
+                while($data = mysql_fetch_array($res_data)){
               ?>
-              <form method="post" id="logo_Form_<?=$data['idx']?>" name="logo_Form_<?=$data['idx']?>" action="/admin/ajax/app_home_save.php" enctype="multipart/form-data">
+              <form method="post" id="logo_Form_<?=$data[idx]?>" name="logo_Form_<?=$data[idx]?>" action="/admin/ajax/app_home_save.php" enctype="multipart/form-data">
                 <input type="hidden" name="position" value="logo" />
                 <input type="hidden" name="mode" value="<?=$mode?>" />
                 <input type="hidden" name="site_iam" value="<?=$site?>" />
-                <input type="hidden" name="idx" value="<?=$data['idx']?>" />
+                <input type="hidden" name="idx" value="<?=$data[idx]?>" />
                 <div class="box" id="logo_box" style="display: inline-flex;padding: 10px;height: 50px;">
                   <p class="menu_title">앱로고입력</p>
                   <input type="file" name="app_logo" class="input_file">
@@ -793,14 +795,14 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                   else{?>
                   <img src="" style="width:50px;">
                   <?}?>
-                  <input type="text" name="logo_move_url" value="<?=$data['move_url']?>" placeholder="로고클릭시 이동할 링크입력하세요." style="width:30%;">
+                  <input type="text" name="logo_move_url" value="<?=$data[move_url]?>" placeholder="로고클릭시 이동할 링크입력하세요." style="width:30%;">
                   <?if($mode == "updat"){?>
                   <label class="switch_logo" style="margin:0 25px;">
                       <input type="checkbox" name="status" id="stauts_logo_<?php echo $data['idx'];?>" value="<?php echo $data['idx'];?>" <?php echo $data['use_yn']=="Y"?"checked":""?>>
                       <span class="slider round" name="status_round" id="stauts_round_<?php echo $data['idx'];?>"></span>
                   </label>
                   <?}?>
-                  <button class="btn btn-primary" style="margin-right: 5px;padding: 3px 10px;" onclick="logo_form_save('<?=$data['idx']?>');return false;">저장</button>
+                  <button class="btn btn-primary" style="margin-right: 5px;padding: 3px 10px;" onclick="logo_form_save('<?=$data[idx]?>');return false;">저장</button>
                 </div>
               </form>
               <?}
@@ -833,8 +835,8 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
               <?
               $R_no = 0;
               $sql_menu_data = "select * from Gn_App_Home_Manager where site_iam='{$site}' and ad_position='R'";
-              $res_menu_data = mysqli_query($self_con, $sql_menu_data);
-              if(!mysqli_num_rows($res_menu_data)){
+              $res_menu_data = mysql_query($sql_menu_data);
+              if(!mysql_num_rows($res_menu_data)){
                 $sql_data = "select * from Gn_App_Home_Manager where site_iam='kiam' and ad_position='R'";
                 $mode = "save";
               }
@@ -842,16 +844,16 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                 $sql_data = "select * from Gn_App_Home_Manager where site_iam='{$site}' and ad_position='R'";
                 $mode = "updat";
               }
-              $res_data = mysqli_query($self_con, $sql_data);
-              if(mysqli_num_rows($res_data)){
-                while($data = mysqli_fetch_array($res_data)){
+              $res_data = mysql_query($sql_data);
+              if(mysql_num_rows($res_data)){
+                while($data = mysql_fetch_array($res_data)){
                   $R_no++;
               ?>
               <form method="post" id="rolling_Form_<?=$R_no?>" name="rolling_Form_<?=$R_no?>" action="/admin/ajax/app_home_save.php" enctype="multipart/form-data">
                 <input type="hidden" name="position" value="rolling" />
                 <input type="hidden" name="mode" value="<?=$mode?>" />
                 <input type="hidden" name="site_iam" value="<?=$site?>" />
-                <input type="hidden" name="idx" value="<?=$data['idx']?>" />
+                <input type="hidden" name="idx" value="<?=$data[idx]?>" />
                 <div class="box" id="rolling_box" style="display: inline-flex;padding: 10px;height: 50px;margin-bottom: 0px;">
                   <p class="menu_title">배너<?=$R_no?>번</p>
                   <input type="file" name="app_rolling" class="input_file">
@@ -863,7 +865,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                   else{?>
                   <img src="" style="width:50px;">
                   <?}?>
-                  <input type="text" name="rolling_move_url" value="<?=$data['move_url']?>" placeholder="배너클릭시 이동할 링크입력하세요." style="width:30%;">
+                  <input type="text" name="rolling_move_url" value="<?=$data[move_url]?>" placeholder="배너클릭시 이동할 링크입력하세요." style="width:30%;">
                   <input type="text" name="rolling_display_order" value="<?=$data[display_order]?>" placeholder="노출순서" style="width:7%;margin-left:10px;">
                   <?if($mode == "updat"){?>
                   <label class="switch_roll" style="margin:0 25px;">
@@ -903,8 +905,8 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
               <?
               $M_no = 0;
               $sql_menu_data = "select * from Gn_App_Home_Manager where site_iam='{$site}' and ad_position='M'";
-              $res_menu_data = mysqli_query($self_con, $sql_menu_data);
-              if(!mysqli_num_rows($res_menu_data)){
+              $res_menu_data = mysql_query($sql_menu_data);
+              if(!mysql_num_rows($res_menu_data)){
                 $sql_data = "select * from Gn_App_Home_Manager where site_iam='kiam' and ad_position='M'";
                 $mode = "save";
               }
@@ -912,16 +914,16 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                 $sql_data = "select * from Gn_App_Home_Manager where site_iam='{$site}' and ad_position='M'";
                 $mode = "updat";
               }
-              $res_data = mysqli_query($self_con, $sql_data);
-              if(mysqli_num_rows($res_data)){
-                while($data = mysqli_fetch_array($res_data)){
+              $res_data = mysql_query($sql_data);
+              if(mysql_num_rows($res_data)){
+                while($data = mysql_fetch_array($res_data)){
                   $M_no++;
               ?>
               <form method="post" id="menu_Form_<?=$M_no?>" name="menu_Form_<?=$M_no?>" action="/admin/ajax/app_home_save.php" enctype="multipart/form-data">
                 <input type="hidden" name="position" value="menu" />
                 <input type="hidden" name="mode" value="<?=$mode?>" />
                 <input type="hidden" name="site_iam" value="<?=$site?>" />
-                <input type="hidden" name="idx" value="<?=$data['idx']?>" />
+                <input type="hidden" name="idx" value="<?=$data[idx]?>" />
                 <div class="box" id="menu_box" style="display: inline-flex;padding: 10px;height: 50px;margin-bottom: 0px;">
                   <p class="menu_title">매뉴<?=$M_no?>번</p>
                   <input type="file" name="app_menu" class="input_file">
@@ -933,8 +935,8 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                   else{?>
                   <img src="" style="width:50px;">
                   <?}?>
-                  <input type="text" name="menu_move_url" value="<?=$data['move_url']?>" placeholder="링크입력" style="width:14%;">
-                  <input type="text" name="menu_title" value="<?=$data['title']?>" placeholder="제목입력" style="width:14%;margin-left:5px;">
+                  <input type="text" name="menu_move_url" value="<?=$data[move_url]?>" placeholder="링크입력" style="width:14%;">
+                  <input type="text" name="menu_title" value="<?=$data[title]?>" placeholder="제목입력" style="width:14%;margin-left:5px;">
                   <input type="text" name="menu_display_order" value="<?=$data[display_order]?>" placeholder="노출순서" style="width:7%;margin-left:10px;">
                   <?if($mode == "updat"){?>
                   <label class="switch_menu" style="margin:0 25px;">
@@ -969,8 +971,8 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
             <div>
               <?
               $sql_desc = "select menu_desc from Gn_App_Home_Manager where menu_desc!='' and site_iam='{$site}'";
-              $res_desc = mysqli_query($self_con, $sql_desc);
-              $row_desc = mysqli_fetch_array($res_desc);
+              $res_desc = mysql_query($sql_desc);
+              $row_desc = mysql_fetch_array($res_desc);
               ?>
               <input type="text" name="menu_desc" id="menu_desc" value="<?=$row_desc[menu_desc]?$row_desc[menu_desc]:'';?>" placeholder="기본매뉴 설명문입력" style="width:60%;margin-top:5px;">
               <button class="btn btn-primary" style="margin-left: 5px;margin-top:3px;padding: 3px 10px;" onclick="save_menu_desc();return false;">저장</button>
@@ -981,16 +983,16 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
           <div>
             <?
             $sql_title = "select market_title from Gn_App_Home_Manager where site_iam='{$site}' and market_title!=''";
-            $res_title = mysqli_query($self_con, $sql_title);
-            $row_title = mysqli_fetch_array($res_title);
+            $res_title = mysql_query($sql_title);
+            $row_title = mysql_fetch_array($res_title);
             ?>
             <h4><?=$row_title[market_title]?$row_title[market_title]:'IAM마켓';?></h4>
             <div class="row" id="market_set" style="text-align:center;">
               <?
               $I_no = 0;
               $sql_menu_data = "select * from Gn_App_Home_Manager where site_iam='{$site}' and ad_position='I'";
-              $res_menu_data = mysqli_query($self_con, $sql_menu_data);
-              if(!mysqli_num_rows($res_menu_data)){
+              $res_menu_data = mysql_query($sql_menu_data);
+              if(!mysql_num_rows($res_menu_data)){
                 $sql_data = "select * from Gn_App_Home_Manager where site_iam='kiam' and ad_position='I'";
                 $mode = "save";
               }
@@ -998,16 +1000,16 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                 $sql_data = "select * from Gn_App_Home_Manager where site_iam='{$site}' and ad_position='I'";
                 $mode = "updat";
               }
-              $res_data = mysqli_query($self_con, $sql_data);
-              if(mysqli_num_rows($res_data)){
-                while($data = mysqli_fetch_array($res_data)){
+              $res_data = mysql_query($sql_data);
+              if(mysql_num_rows($res_data)){
+                while($data = mysql_fetch_array($res_data)){
                   $I_no++;
               ?>
               <form method="post" id="market_Form_<?=$I_no?>" name="market_Form_<?=$I_no?>" action="/admin/ajax/app_home_save.php" enctype="multipart/form-data">
                 <input type="hidden" name="position" value="market" />
                 <input type="hidden" name="mode" value="<?=$mode?>" />
                 <input type="hidden" name="site_iam" value="<?=$site?>" />
-                <input type="hidden" name="idx" value="<?=$data['idx']?>" />
+                <input type="hidden" name="idx" value="<?=$data[idx]?>" />
                 <div class="box" id="market_box" style="display: inline-flex;padding: 10px;height: 50px;margin-bottom: 0px;">
                   <p class="menu_title">매뉴<?=$I_no?>번</p>
                   <input type="file" name="app_market" class="input_file">
@@ -1019,8 +1021,8 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                   else{?>
                   <img src="" style="width:50px;">
                   <?}?>
-                  <input type="text" name="market_move_url" value="<?=$data['move_url']?>" placeholder="링크입력" style="width:14%;">
-                  <input type="text" name="market_title" value="<?=$data['title']?>" placeholder="제목입력" style="width:14%;margin-left:5px;">
+                  <input type="text" name="market_move_url" value="<?=$data[move_url]?>" placeholder="링크입력" style="width:14%;">
+                  <input type="text" name="market_title" value="<?=$data[title]?>" placeholder="제목입력" style="width:14%;margin-left:5px;">
                   <input type="text" name="market_display_order" value="<?=$data[display_order]?>" placeholder="노출순서" style="width:7%;margin-left:10px;">
                   <?if($mode == "updat"){?>
                   <label class="switch_market" style="margin:0 25px;">
@@ -1055,8 +1057,8 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
             <div>
               <?
               $sql_desc = "select market_desc from Gn_App_Home_Manager where market_desc!='' and site_iam='{$site}'";
-              $res_desc = mysqli_query($self_con, $sql_desc);
-              $row_desc = mysqli_fetch_array($res_desc);
+              $res_desc = mysql_query($sql_desc);
+              $row_desc = mysql_fetch_array($res_desc);
               ?>
               <input type="text" name="market_desc" id="market_desc" value="<?=$row_desc[market_desc]?$row_desc[market_desc]:'';?>" placeholder="IAM마켓 설명문입력" style="width:60%;margin-top:5px;">
               <button class="btn btn-primary" style="margin-left: 5px;margin-top:3px;padding: 3px 10px;" onclick="save_market_desc();return false;">저장</button>
@@ -1071,16 +1073,16 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
           <div>
             <?
             $sql_title = "select card_title from Gn_App_Home_Manager where site_iam='{$site}' and card_title!=''";
-            $res_title = mysqli_query($self_con, $sql_title);
-            $row_title = mysqli_fetch_array($res_title);
+            $res_title = mysql_query($sql_title);
+            $row_title = mysql_fetch_array($res_title);
             ?>
-            <h4><?=$row_title['card_title']?$row_title['card_title']:'IAM카드';?></h4>
+            <h4><?=$row_title[card_title]?$row_title[card_title]:'IAM카드';?></h4>
             <div class="row" id="card_set" style="text-align:center;">
               <?
               $C_no = 0;
               $sql_menu_data = "select * from Gn_App_Home_Manager where site_iam='{$site}' and ad_position='C'";
-              $res_menu_data = mysqli_query($self_con, $sql_menu_data);
-              if(!mysqli_num_rows($res_menu_data)){
+              $res_menu_data = mysql_query($sql_menu_data);
+              if(!mysql_num_rows($res_menu_data)){
                 $sql_data = "select * from Gn_App_Home_Manager where site_iam='kiam' and ad_position='C'";
                 $mode = "save";
               }
@@ -1088,16 +1090,16 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                 $sql_data = "select * from Gn_App_Home_Manager where site_iam='{$site}' and ad_position='C'";
                 $mode = "updat";
               }
-              $res_data = mysqli_query($self_con, $sql_data);
-              if(mysqli_num_rows($res_data)){
-                while($data = mysqli_fetch_array($res_data)){
+              $res_data = mysql_query($sql_data);
+              if(mysql_num_rows($res_data)){
+                while($data = mysql_fetch_array($res_data)){
                   $C_no++;
               ?>
               <form method="post" id="card_Form_<?=$C_no?>" name="card_Form_<?=$C_no?>" action="/admin/ajax/app_home_save.php" enctype="multipart/form-data">
                 <input type="hidden" name="position" value="card" />
                 <input type="hidden" name="mode" value="<?=$mode?>" />
                 <input type="hidden" name="site_iam" value="<?=$site?>" />
-                <input type="hidden" name="idx" value="<?=$data['idx']?>" />
+                <input type="hidden" name="idx" value="<?=$data[idx]?>" />
                 <div class="box" id="card_box" style="display: inline-flex;padding: 10px;height: 50px;margin-bottom: 0px;">
                   <p class="menu_title">매뉴<?=$C_no?>번</p>
                   <input type="file" name="app_card" class="input_file">
@@ -1109,8 +1111,8 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                   else{?>
                   <img src="" style="width:50px;">
                   <?}?>
-                  <input type="text" name="card_move_url" value="<?=$data['move_url']?>" placeholder="링크입력" style="width:14%;">
-                  <input type="text" name="card_title" value="<?=$data['title']?>" placeholder="제목입력" style="width:14%;margin-left:5px;">
+                  <input type="text" name="card_move_url" value="<?=$data[move_url]?>" placeholder="링크입력" style="width:14%;">
+                  <input type="text" name="card_title" value="<?=$data[title]?>" placeholder="제목입력" style="width:14%;margin-left:5px;">
                   <input type="text" name="card_display_order" value="<?=$data[display_order]?>" placeholder="노출순서" style="width:7%;margin-left:10px;">
                   <?if($mode == "updat"){?>
                   <label class="switch_card" style="margin:0 25px;">
@@ -1145,14 +1147,14 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
             <div>
               <?
               $sql_desc = "select card_desc from Gn_App_Home_Manager where card_desc!='' and site_iam='{$site}'";
-              $res_desc = mysqli_query($self_con, $sql_desc);
-              $row_desc = mysqli_fetch_array($res_desc);
+              $res_desc = mysql_query($sql_desc);
+              $row_desc = mysql_fetch_array($res_desc);
               ?>
               <input type="text" name="card_desc" id="card_desc" value="<?=$row_desc[card_desc]?$row_desc[card_desc]:'';?>" placeholder="IAM카드 설명문입력" style="width:60%;margin-top:5px;">
               <button class="btn btn-primary" style="margin-left: 5px;margin-top:3px;padding: 3px 10px;" onclick="save_card_desc();return false;">저장</button>
             </div>
             <div>
-              <input type="text" name="card_t_title" id="card_t_title" value="<?=$row_title['card_title']?$row_title['card_title']:'';?>" placeholder="타이틀입력" style="width:60%;margin-top:5px;">
+              <input type="text" name="card_t_title" id="card_t_title" value="<?=$row_title[card_title]?$row_title[card_title]:'';?>" placeholder="타이틀입력" style="width:60%;margin-top:5px;">
               <button class="btn btn-primary" style="margin-left: 5px;margin-top:3px;padding: 3px 10px;" onclick="save_card_title();return false;">저장</button>
             </div>
             <a class="add_menu_a" href="javascript:add_menu('card')">매뉴추가하기</a>
@@ -1161,8 +1163,8 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
           <div style="margin-bottom: 40px;">
             <?
             $sql_title = "select notice_title from Gn_App_Home_Manager where site_iam='{$site}' and notice_title!=''";
-            $res_title = mysqli_query($self_con, $sql_title);
-            $row_title = mysqli_fetch_array($res_title);
+            $res_title = mysql_query($sql_title);
+            $row_title = mysql_fetch_array($res_title);
             ?>
             <h4><?=$row_title[notice_title]?$row_title[notice_title]:'IAM공지';?></h4>
             <div class="row" id="other_set" style="text-align:center;">
@@ -1196,8 +1198,8 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
               <?
               $B_no = 0;
               $sql_menu_data = "select * from Gn_App_Home_Manager where site_iam='{$site}' and ad_position='B'";
-              $res_menu_data = mysqli_query($self_con, $sql_menu_data);
-              if(!mysqli_num_rows($res_menu_data)){
+              $res_menu_data = mysql_query($sql_menu_data);
+              if(!mysql_num_rows($res_menu_data)){
                 $sql_data = "select * from Gn_App_Home_Manager where site_iam='kiam' and ad_position='B'";
                 $mode = "save";
               }
@@ -1205,16 +1207,16 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                 $sql_data = "select * from Gn_App_Home_Manager where site_iam='{$site}' and ad_position='B'";
                 $mode = "updat";
               }
-              $res_data = mysqli_query($self_con, $sql_data);
-              if(mysqli_num_rows($res_data)){
-                while($data = mysqli_fetch_array($res_data)){
+              $res_data = mysql_query($sql_data);
+              if(mysql_num_rows($res_data)){
+                while($data = mysql_fetch_array($res_data)){
                   $B_no++;
               ?>
               <form method="post" id="banner_Form_<?=$B_no?>" name="banner_Form_<?=$B_no?>" action="/admin/ajax/app_home_save.php" enctype="multipart/form-data">
                 <input type="hidden" name="position" value="banner" />
                 <input type="hidden" name="mode" value="<?=$mode?>" />
                 <input type="hidden" name="site_iam" value="<?=$site?>" />
-                <input type="hidden" name="idx" value="<?=$data['idx']?>" />
+                <input type="hidden" name="idx" value="<?=$data[idx]?>" />
                 <div class="box" id="banner_box" style="display: inline-flex;padding: 10px;height: 50px;margin-bottom: 0px;">
                   <p class="menu_title">배너<?=$B_no?>번</p>
                   <input type="file" name="app_banner" class="input_file">
@@ -1226,7 +1228,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                   else{?>
                   <img src="" style="width:50px;">
                   <?}?>
-                  <input type="text" name="banner_move_url" value="<?=$data['move_url']?>" placeholder="배너클릭시 이동할 링크입력하세요." style="width:30%;">
+                  <input type="text" name="banner_move_url" value="<?=$data[move_url]?>" placeholder="배너클릭시 이동할 링크입력하세요." style="width:30%;">
                   <input type="text" name="banner_display_order" value="<?=$data[display_order]?>" placeholder="노출순서" style="width:7%;margin-left:10px;">
                   <?if($mode == "updat"){?>
                   <label class="switch_banner" style="margin:0 25px;">
@@ -1262,21 +1264,21 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
 
           <?
           $sql_service_chk = "select duplicate_idx from Gn_Iam_Service where sub_domain like '%".$domain."%'";
-          $res_service_chk = mysqli_query($self_con, $sql_service_chk);
-          $row_service_chk = mysqli_fetch_array($res_service_chk);
+          $res_service_chk = mysql_query($sql_service_chk);
+          $row_service_chk = mysql_fetch_array($res_service_chk);
 
           if($row_service_chk[duplicate_idx]){
             $sql_ori_site = "select sub_domain from Gn_Iam_Service where idx='{$row_service_chk[duplicate_idx]}'";
-            $res_ori_site = mysqli_query($self_con, $sql_ori_site);
-            $row_ori_site = mysqli_fetch_array($res_ori_site);
+            $res_ori_site = mysql_query($sql_ori_site);
+            $row_ori_site = mysql_fetch_array($res_ori_site);
           ?>
           <div>
             <h4>전환하기</h4>
             <div class="row" id="change_set" style="text-align:center;">
               <?
               $sql_change_data = "select * from Gn_App_Home_Manager where ad_position='E' and site_iam='{$site}'";
-              $res_change_data = mysqli_query($self_con, $sql_change_data);
-              if(!mysqli_num_rows($res_change_data)){
+              $res_change_data = mysql_query($sql_change_data);
+              if(!mysql_num_rows($res_change_data)){
                 $sql_data = "select * from Gn_App_Home_Manager where site_iam='kiam' and ad_position='E'";
                 $mode = "save";
               }
@@ -1284,13 +1286,13 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                 $sql_data = "select * from Gn_App_Home_Manager where site_iam='{$site}' and ad_position='E'";
                 $mode = "updat";
               }
-              $res_data = mysqli_query($self_con, $sql_data);
-              $data = mysqli_fetch_array($res_data);
+              $res_data = mysql_query($sql_data);
+              $data = mysql_fetch_array($res_data);
               ?>
               <form method="post" id="change_Form_0" name="change_Form_0" action="/admin/ajax/app_home_save.php" enctype="multipart/form-data">
                 <input type="hidden" name="position" value="change" />
                 <input type="hidden" name="site_iam" value="<?=$site?>" />
-                <input type="hidden" name="idx" value="<?=$data['idx']?>" />
+                <input type="hidden" name="idx" value="<?=$data[idx]?>" />
                 <div class="box" style="display: inline-flex;padding: 10px;height: 50px;margin-bottom:0px;">
                   <p class="menu_title">배너 1번</p>
                   <input type="file" name="app_change" class="input_file">
@@ -1302,7 +1304,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                   else{?>
                   <img src="" style="width:50px;">
                   <?}?>
-                  <input type="text" name="change_move_url" value="<?=$row_ori_site['sub_domain']?>" readonly placeholder="링크입력" style="width:14%;">
+                  <input type="text" name="change_move_url" value="<?=$row_ori_site[sub_domain]?>" readonly placeholder="링크입력" style="width:14%;">
                   <label class="switch_change" style="margin:0 25px;">
                       <input type="checkbox" name="status" id="stauts_<?php echo $data['idx'];?>" value="<?php echo $data['idx'];?>" <?php echo $data['use_yn']=="Y"?"checked":""?>>
                       <span class="slider round" name="status_round" id="stauts_round_<?php echo $data['idx'];?>"></span>

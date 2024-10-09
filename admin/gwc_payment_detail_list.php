@@ -109,7 +109,7 @@ $search_month = $search_month?sprintf("%02d",$search_month):sprintf("%02d",date(
                 url:"ajax/payment_save.php",
                 dataType : "json",
                 data:{
-                    type : "onestep2_updat",
+                    type : "onestep2_update",
                     no : $(this).data("no"),
                     yak : yak
                 },
@@ -289,8 +289,8 @@ $search_month = $search_month?sprintf("%02d",$search_month):sprintf("%02d",date(
                             <div class="input-group"  >
                                 <div class="form-group">
                                     <input type="hidden" name="seller_id" value='<?=$seller_id?>'>
-                                    <!-- <input type="date" style="height: 30px" name="search_start_date" placeholder="" id="search_start_date" value="<?=$_REQUEST['search_start_date']?>" multiple/> ~
-                                    <input type="date" style="height: 30px" name="search_end_date" placeholder="" id="search_end_date" value="<?=$_REQUEST['search_end_date']?>"/> -->
+                                    <!-- <input type="date" style="height: 30px" name="search_start_date" placeholder="" id="search_start_date" value="<?=$_REQUEST[search_start_date]?>" multiple/> ~
+                                    <input type="date" style="height: 30px" name="search_end_date" placeholder="" id="search_end_date" value="<?=$_REQUEST[search_end_date]?>"/> -->
                                     <select name="search_year" class="form-inline" style="height: 30px;">
                                         <?for($i=$search_year-4;$i<=$search_year;$i++){?>
                                             <option value="<?=$i?>"  <?php echo $i==$search_year?"selected":""?>><?=$i?></option>
@@ -383,29 +383,29 @@ $search_month = $search_month?sprintf("%02d",$search_month):sprintf("%02d",date(
                                 $query = "select * from Gn_Gwc_Order where (seller_id='{$seller_id}' and page_type=0 and pay_status='Y' ".$searchStr.") or (seller_id in (select mem_id from Gn_Member where recommend_id='{$seller_id}' and mem_id in (select seller_id from Gn_Gwc_Order where page_type=0 and pay_status='Y')) and page_type=0 and pay_status='Y')";
                                 $excel_sql=$query;
                                 $excel_sql=str_replace("'","`",$excel_sql);
-                                $res	    = mysqli_query($self_con, $query);
-                                $totalCnt	=  mysqli_num_rows($res);
+                                $res	    = mysql_query($query);
+                                $totalCnt	=  mysql_num_rows($res);
                                 $limitStr       = " LIMIT ".(($startPage-1)*$pageCnt).", ".$pageCnt;
                                 $number			= $totalCnt - ($nowPage - 1) * $pageCnt;
                                 $orderQuery .= $limitStr;
                                 $i = 1;
                                 $query .= $orderQuery;
                                 // echo $query;
-                                $res = mysqli_query($self_con, $query);
-                                while($row = mysqli_fetch_array($res)) {
+                                $res = mysql_query($query);
+                                while($row = mysql_fetch_array($res)) {
                                     $show_link = "http://kiam.kr/iam/gwc_order_pay.php?contents_idx=".$row['contents_idx']."&contents_cnt=".$row['contents_cnt']."&contents_price=".$row['contents_price']."&contents_salary=".$row['salary_price']."&seller_id=".$row['seller_id']."&order_option=".$row['order_option']."&admin=Y&mem_id=".$row['mem_id']."&use_point_val=".$row['use_point']."&pay_method=".$row['payMethod'];
 
-                                    $sql_seller = "select mem_name, mem_id from Gn_Member where mem_id='{$row['seller_id']}'";
-                                    $res_seller = mysqli_query($self_con, $sql_seller);
-                                    $row_seller = mysqli_fetch_array($res_seller);
+                                    $sql_seller = "select mem_name, mem_id from Gn_Member where mem_id='{$row[seller_id]}'";
+                                    $res_seller = mysql_query($sql_seller);
+                                    $row_seller = mysql_fetch_array($res_seller);
                                     $seller_data = $row_seller[0]."/\n".$row_seller[1];
 
-                                    $sql_mem = "select site, site_iam, service_type, gwc_leb, gwc_center_per, gwc_service_per, mem_cash, recommend_id from Gn_Member where mem_id='{$row['seller_id']}'";
-                                    $res_mem = mysqli_query($self_con, $sql_mem);
-                                    $row_mem = mysqli_fetch_array($res_mem);
+                                    $sql_mem = "select site, site_iam, service_type, gwc_leb, gwc_center_per, gwc_service_per, mem_cash, recommend_id from Gn_Member where mem_id='{$row[seller_id]}'";
+                                    $res_mem = mysql_query($sql_mem);
+                                    $row_mem = mysql_fetch_array($res_mem);
                                     $site_data = $row_mem[0]."/\n".$row_mem[1];
 
-                                    if($row_mem['service_type'] == 2 || $row_mem['service_type'] == 3){
+                                    if($row_mem[service_type] == 2 || $row_mem[service_type] == 3){
                                         if($row_mem[gwc_leb] == 3){
                                             $mem_type = 3;
                                         }
@@ -413,10 +413,10 @@ $search_month = $search_month?sprintf("%02d",$search_month):sprintf("%02d",date(
                                             $mem_type = 2;
                                         }
                                         if(!$row_mem[gwc_service_per]){
-                                            if($row_mem['service_type'] == 3){
+                                            if($row_mem[service_type] == 3){
                                                 $row_mem[gwc_service_per] = 1;
                                             }
-                                            else if($row_mem['service_type'] == 2){
+                                            else if($row_mem[service_type] == 2){
                                                 $row_mem[gwc_service_per] = 4;
                                             }
                                         }
@@ -426,9 +426,9 @@ $search_month = $search_month?sprintf("%02d",$search_month):sprintf("%02d",date(
                                     }
                                     else{
                                         $mem_type = 1;
-                                        $sql_per = "select gwc_center_per, gwc_service_per from Gn_Member where mem_id='{$row_mem['recommend_id']}'";
-                                        $res_per = mysqli_query($self_con, $sql_per);
-                                        $row_per = mysqli_fetch_array($res_per);
+                                        $sql_per = "select gwc_center_per, gwc_service_per from Gn_Member where mem_id='{$row_mem[recommend_id]}'";
+                                        $res_per = mysql_query($sql_per);
+                                        $row_per = mysql_fetch_array($res_per);
 
                                         if(!$row_per[gwc_service_per]){
                                             $row_mem[gwc_service_per] = 1;
@@ -444,34 +444,34 @@ $search_month = $search_month?sprintf("%02d",$search_month):sprintf("%02d",date(
                                         }
                                     }
 
-                                    $sql_title = "select member_type from tjd_pay_result where no='{$row['tjd_idx']}'";
-                                    $res_title = mysqli_query($self_con, $sql_title);
-                                    $row_title = mysqli_fetch_array($res_title);
+                                    $sql_title = "select member_type from tjd_pay_result where no='{$row[tjd_idx]}'";
+                                    $res_title = mysql_query($sql_title);
+                                    $row_title = mysql_fetch_array($res_title);
 
-                                    $sql_cont_data = "select idx, contents_sell_price, send_provide_price, send_salary_price, contents_img, contents_title from Gn_Iam_Contents_Gwc where idx='{$row['contents_idx']}'";
-                                    $res_cont_data = mysqli_query($self_con, $sql_cont_data);
-                                    $row_cont_data = mysqli_fetch_array($res_cont_data);
+                                    $sql_cont_data = "select idx, contents_sell_price, send_provide_price, send_salary_price, contents_img, contents_title from Gn_Iam_Contents_Gwc where idx='{$row[contents_idx]}'";
+                                    $res_cont_data = mysql_query($sql_cont_data);
+                                    $row_cont_data = mysql_fetch_array($res_cont_data);
 
-                                    if(strpos($row_cont_data['contents_img'], ",") !== false){
-                                        $img_link1 = explode(",", $row_cont_data['contents_img']);
+                                    if(strpos($row_cont_data[contents_img], ",") !== false){
+                                        $img_link1 = explode(",", $row_cont_data[contents_img]);
                                         $img_link = trim($img_link1[0]);
                                     }
                                     else{
-                                        $img_link = $row_cont_data['contents_img'];
+                                        $img_link = $row_cont_data[contents_img];
                                     }
 
-                                    $price_data2 = number_format($row['use_point'])."/\n".number_format($row['contents_price'] * 1 + $row[salary_price] * 1 - $row['use_point'] * 1);
+                                    $price_data2 = number_format($row[use_point])."/\n".number_format($row[contents_price] * 1 + $row[salary_price] * 1 - $row[use_point] * 1);
 
-                                    $price_data1 = number_format($row['contents_price'] * 1 + $row[salary_price] * 1)."/\n0";
+                                    $price_data1 = number_format($row[contents_price] * 1 + $row[salary_price] * 1)."/\n0";
 
-                                    if(!$row['use_point']){
-                                        $min_val = ceil(($row['contents_price'] * 1 / $row['contents_cnt'] * 1) * 0.03);
+                                    if(!$row[use_point]){
+                                        $min_val = ceil(($row[contents_price] * 1 / $row[contents_cnt] * 1) * 0.03);
                                     }
                                     else{
                                         $min_val = 0;
                                     }
-                                    $sell_money += ceil(((($row['contents_price'] * 1 / $row['contents_cnt'] * 1) - $row['contents_provide_price'] * 1) * 0.9 - $min_val) * $row['contents_cnt'] * 1);
-                                    // $sell_money = ceil((($row['contents_price'] * 1 / $row['contents_cnt'] * 1) - $row['contents_provide_price'] * 1) * 0.9 * $row['contents_cnt'] * 1);
+                                    $sell_money += ceil(((($row[contents_price] * 1 / $row[contents_cnt] * 1) - $row[contents_provide_price] * 1) * 0.9 - $min_val) * $row[contents_cnt] * 1);
+                                    // $sell_money = ceil((($row[contents_price] * 1 / $row[contents_cnt] * 1) - $row[contents_provide_price] * 1) * 0.9 * $row[contents_cnt] * 1);
                                     $recom_money = ceil($sell_money * ($row_mem[gwc_service_per] * 1 / 100));
                                     $center_money = ceil($sell_money * ($row_mem[gwc_center_per] * 1 / 100));
 
@@ -492,9 +492,9 @@ $search_month = $search_month?sprintf("%02d",$search_month):sprintf("%02d",date(
                                         <td><?=$site_data?></td>
                                         <td><?=$seller_data?></td>
                                         <td><?=$row['order_mem_name']?><br><?=$row['mem_id']?></td>
-                                        <td><?=number_format(($row['contents_price'] * 1 / $row['contents_cnt'] * 1))?><br><?=number_format($row['contents_provide_price'])?></td>
-                                        <td><?=$row['contents_cnt']?></td>
-                                        <td><?=number_format($row['contents_price'])?><br><?=number_format($row[salary_price])?></td>
+                                        <td><?=number_format(($row[contents_price] * 1 / $row[contents_cnt] * 1))?><br><?=number_format($row[contents_provide_price])?></td>
+                                        <td><?=$row[contents_cnt]?></td>
+                                        <td><?=number_format($row[contents_price])?><br><?=number_format($row[salary_price])?></td>
                                         <td><?=$price_data2?></td>
                                         <td><?=$price_data1?></td>
                                         <td style="<?=$mem_type==3?'color:blue;':'color:green;'?>"><?=number_format($sell_money)?></td>
@@ -523,7 +523,7 @@ $search_month = $search_month?sprintf("%02d",$search_month):sprintf("%02d",date(
                 </div>
             </div>
         </section><!-- /.content -->
-    </div><!-- /content-wrapper -->
+    </div><!-- /.content-wrapper -->
     <form id="excel_down_form" name="excel_down_form"  target="excel_iframe" method="post">
         <input type="hidden" name="grp_id" value="" />
         <input type="hidden" name="box_text" value="" />

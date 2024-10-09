@@ -1030,7 +1030,8 @@ function copyHtml(){
     }
 
     function onCotyDuplicated(){
-        showMessageModal("신청 확인", "<p>귀하는 이미 수강신청을 하셨습니다. <br/> 송금계좌 : SC제일은행 617-20-197207 온리원연구소 송조은 <br/> 코칭문의 : 사이트 상/하단 카카오 상담 이용</p>");
+	//showMessageModal("신청 확인", "<p>귀하는 이미 수강신청을 하셨습니다. <br/> 송금계좌 : SC제일은행 617-20-197207 온리원연구소 송조은 <br/> 코칭문의 : 사이트 상/하단 카카오 상담 이용</p>");
+	onCoty();
     }
 
     function onCoachServiceNotAllow(){

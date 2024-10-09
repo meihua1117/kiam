@@ -170,10 +170,10 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                                     $group_sql = "select main_img1 as group_img,g_mem.group_id,description,name,fix_status from gn_group_member g_mem
                                                 inner join gn_group_info info on g_mem.group_id = info.idx
                                                 inner join Gn_Iam_Name_Card card on card.idx = info.card_idx 
-                                                inner join Gn_Member mem on mem.mem_id = g_mem.mem_id where g_mem.mem_id = '{$_SESSION['iam_member_id']}'";
+                                                inner join Gn_Member mem on mem.mem_id = g_mem.mem_id where g_mem.mem_id = '$_SESSION[iam_member_id]'";
                                     $group_sql .= " order by ".$group_order[$etc_order];
-                                    $group_res = mysqli_query($self_con, $group_sql);
-                                    $row_num = mysqli_num_rows($group_res);
+                                    $group_res = mysql_query($group_sql);
+                                    $row_num = mysql_num_rows($group_res);
                                     $list2 = 10; //한 페이지에 보여줄 개수
                                     $block_ct2 = 10; //블록당 보여줄 페이지 개수
 
@@ -194,12 +194,12 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
 
                                     $limit_str = " limit " . $start_num2 . ", " . $list2;
                                     $group_sql .= $limit_str;
-                                    $group_res=mysqli_query($self_con, $group_sql) or die(mysqli_error($self_con));
-                                    while($row = mysqli_fetch_array($group_res)){
-                                        $friends_main_img = $row['group_img'];
+                                    $group_res=mysql_query($group_sql) or die(mysql_error());
+                                    while($row = mysql_fetch_array($group_res)){
+                                        $friends_main_img = $row[group_img];
                                         if(!$friends_main_img)
                                             $friends_main_img = "img/profile_img.png";
-                                        if($row['fix_status'] == "Y")
+                                        if($row[fix_status] == "Y")
                                             $pin = "img/main/icon-redpin.png";
                                         else
                                             $pin = "img/main/icon-pin.png";
@@ -214,10 +214,10 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                                                 </div>
                                                 <div class="info">
                                                     <div class="upper">
-                                                        <span class="name"><?=$row['name']?></span>
+                                                        <span class="name"><?=$row[name]?></span>
                                                     </div>
                                                     <div class="downer">
-                                                        <span class="name"><?=$row['description']?></span>
+                                                        <span class="name"><?=$row[description]?></span>
                                                     </div>
                                                 </div>
                                                 <div class="dropdown" style="width:30px">
@@ -226,10 +226,10 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                                                     </button>
                                                     <ul class="dropdown-menu comunity" style="border: 1px solid #ccc;padding:0px;">
                                                         <?
-                                                        $card_sql = "select card_name from Gn_Iam_Name_Card where group_id = '{$row['group_id']}' order by req_data";
-                                                        $card_res = mysqli_query($self_con, $card_sql);
+                                                        $card_sql = "select card_name from Gn_Iam_Name_Card where group_id = '$row[group_id]' order by req_data";
+                                                        $card_res = mysql_query($card_sql);
                                                         $card_num = 1;
-                                                        while($card_row = mysqli_fetch_array($card_res)){
+                                                        while($card_row = mysql_fetch_array($card_res)){
                                                             ?>
                                                             <li><a style="padding:3px 3px 0px 3px !important;"><?=$card_row[0] == ""?$card_num."번카드":$card_row[0];?></a></li>
                                                             <?
@@ -239,8 +239,8 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                                                     </ul>
                                                 </div>
                                                 <div style="width:20px">
-                                                    <a onclick="click_pin('<?=$row['group_id']?>')">
-                                                        <img src="<?=$pin?>" id="<?='pin'.$row['group_id']?>" class="friends_logo" style="width:20px;height:20px;object-fit:cover;">
+                                                    <a onclick="click_pin('<?=$row[group_id]?>')">
+                                                        <img src="<?=$pin?>" id="<?='pin'.$row[group_id]?>" class="friends_logo" style="width:20px;height:20px;object-fit:cover;">
                                                     </a>
                                                 </div>
                                             </div>
@@ -271,7 +271,7 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                                 </ul>
                             </div>
                             <div class = "button-group" style="display: flex;justify-content: center;">
-                                <button class="btn btn-primary"  onclick = "fix_close()">끝내기</button>
+                                <button class="btn btn-primary" style="" onclick = "fix_close()">끝내기</button>
                             </div>
                         </div>
                     </div>

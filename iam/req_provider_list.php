@@ -1,6 +1,6 @@
 <?php 
 include "inc/header.inc.php";
-if($_SESSION['iam_member_id'] == "") {
+if($_SESSION[iam_member_id] == "") {
     echo "<script>location='/';</script>";
 }
 extract($_GET);
@@ -77,11 +77,11 @@ extract($_GET);
         </form>
         <div style="position: absolute;right: 10px;">
             <form name="fsellerexcel" id="fsellerexcel" method="post" onsubmit="return fsellerexcel_submit(this);" enctype="MULTIPART/FORM-DATA" style="display: inline;">
-            <input type="submit" style="background-color: #99cc00;color: white;padding: 4px;border: 1px solid #99cc00;" value="일괄등록">
+            <input type="submit" style="background-color: #82c836;color: white;padding: 4px;border: 1px solid #82c836;" value="일괄등록">
             <input type="file" name="excelfile" style="display: inline;width: 190px;">
             </form>
-            <button style="background-color: #99cc00;color: white;padding: 4px;border: 1px solid #99cc00;" onclick="sample_download()">샘플다운로드</button>
-            <button style="background-color: #99cc00;color: white;padding: 4px;border: 1px solid #99cc00;" onclick="new_req()">새로등록</button>
+            <button style="background-color: #82c836;color: white;padding: 4px;border: 1px solid #82c836;" onclick="sample_download()">샘플다운로드</button>
+            <button style="background-color: #82c836;color: white;padding: 4px;border: 1px solid #82c836;" onclick="new_req()">새로등록</button>
             <button style="background-color: white;border: 1px solid;padding: 4px;" onclick="deleteMultiRow()">선택삭제</button>
         </div>
     </div>
@@ -117,32 +117,32 @@ extract($_GET);
 		<?php
         $nowPage= $_REQUEST['nowPage']?$_REQUEST['nowPage']:1;
         $startPage = $nowPage?$nowPage:1;
-        $pageCnt = 20;
+        $pageCnt = 50;
 
         $searchStr = '';
         if($search_key){
             $searchStr .= " AND contents_title like '%$search_key%'";
         }
 
-        $sql = "select * from Gn_Iam_Contents_Gwc where mem_id='{$_SESSION['iam_member_id']}' and provider_req_prod='Y' ".$searchStr." order by req_data desc";
-        $res_cnt = mysqli_query($self_con, $sql);
-        $cart_count = mysqli_num_rows($res_cnt);
+        $sql = "select * from Gn_Iam_Contents_Gwc where mem_id='{$_SESSION[iam_member_id]}' and provider_req_prod='Y' ".$searchStr." order by req_data desc";
+        $res_cnt = mysql_query($sql);
+        $cart_count = mysql_num_rows($res_cnt);
 
         $limitStr = " LIMIT ".(($startPage-1)*$pageCnt).", ".$pageCnt;
         $number = $cart_count - ($nowPage - 1) * $pageCnt;
         $sql .= $limitStr;
-        $result = mysqli_query($self_con, $sql);
-		for($i=0; $row=mysqli_fetch_array($result); $i++) {
-			if(strpos($row['contents_img'], ",") !== false){
-                $img_link_arr = explode(",", $row['contents_img']);
+        $result = mysql_query($sql);
+		for($i=0; $row=mysql_fetch_array($result); $i++) {
+			if(strpos($row[contents_img], ",") !== false){
+                $img_link_arr = explode(",", $row[contents_img]);
                 $img_link = trim($img_link_arr[0]);
             }
             else{
-                $img_link = $row['contents_img'];
+                $img_link = $row[contents_img];
             }
 
-            if($row['public_display'] == "N"){
-                $mng = '<a href="javascript:edit_prod('.$row['idx'].')">수정</a>';
+            if($row[public_display] == "N"){
+                $mng = '<a href="javascript:edit_prod('.$row[idx].')">수정</a>';
                 $allow = "대기";
             }
             else{
@@ -152,13 +152,13 @@ extract($_GET);
 		?>
 		<tr class="rows">
 			<td class="tac"><input type="checkbox" class="check" id="check_one_member" name="" value="<?=$row['idx']?>"><?=$number--?></td>
-            <td class="tac"><?=$row['contents_title']?></td>
+            <td class="tac"><?=$row[contents_title]?></td>
             <td class="tac"><img class="zoom" src="<?=$img_link?>" style="width:50px;"></a></td>
-            <td class="tac"><?=$row['contents_price']?></td>
-            <td class="tac"><?=$row['contents_sell_price']?></td>
-            <td class="tac"><?=$row['send_provide_price']?></td>
-            <td class="tac"><?=$row['prod_manufact_price']?></td>
-            <td class="tac"><?=$row['req_data']?></td>
+            <td class="tac"><?=$row[contents_price]?></td>
+            <td class="tac"><?=$row[contents_sell_price]?></td>
+            <td class="tac"><?=$row[send_provide_price]?></td>
+            <td class="tac"><?=$row[prod_manufact_price]?></td>
+            <td class="tac"><?=$row[req_data]?></td>
             <td class="tac"><?=$mng?></td>
             <td class="tac"><?=$allow?></td>
 		</tr>
@@ -181,7 +181,7 @@ extract($_GET);
                         <img src="/iam/img/menu/icon_close.png" style="width:24px" class="close" data-dismiss="modal" aria-hidden="true">
                     </button>
                 </div>
-                <div class = "modal-title" style="width:100%;font-size:18px;text-align: center;color:white;border-bottom: 1px solid #c8c9c8;background-color: #99cc00;">
+                <div class = "modal-title" style="width:100%;font-size:18px;text-align: center;color:white;border-bottom: 1px solid #c8c9c8;background-color: #82c836;">
                     <label style="padding:7px 20px">신청상품 수정</label>
                 </div>
                 <div class="modal-header" style="text-align:left;">
@@ -191,23 +191,23 @@ extract($_GET);
                     <div class="box">       
                         <div style="padding:20px;">
                         <input type="hidden" id="mode" name="mode" value="req_provider">
-                        <input type="hidden" id="gongup_id" name="gongup_id" value="<?=$member_iam['mem_id']?>">
-                        <input type="hidden" id="gwc_worker_state" name="gwc_worker_state" value="<?=$member_iam['gwc_worker_state']?'1':'0'?>">
+                        <input type="hidden" id="gongup_id" name="gongup_id" value="<?=$member_iam[mem_id]?>">
+                        <input type="hidden" id="gwc_worker_state" name="gwc_worker_state" value="<?=$member_iam[gwc_worker_state]?'1':'0'?>">
                         <div style="display:flex;margin-top:10px;">
-                            공급사명:<input type="text" name="provider_name" id="provider_name" value="<?=$member_iam['gwc_provider_name']?>" style="width: 200px;height: 15px;padding: 10px;margin-left: 45px;border: 1px solid;">
+                            공급사명:<input type="text" name="provider_name" id="provider_name" value="<?=$member_iam[gwc_provider_name]?>" style="width: 200px;height: 15px;padding: 10px;margin-left: 45px;border: 1px solid;">
                         </div>
-                        <div style="display:<?=$member_iam['gwc_worker_state']?'flex':'none'?>;margin-top:10px;" id="worker_no_side">
-                            사업자등록번호:<input type="text" name="worker_no" id="worker_no" value="<?=$member_iam['gwc_worker_no']?>" style="width: 200px;height: 15px;padding: 10px;margin-left: 6px;border: 1px solid;">
+                        <div style="display:<?=$member_iam[gwc_worker_state]?'flex':'none'?>;margin-top:10px;" id="worker_no_side">
+                            사업자등록번호:<input type="text" name="worker_no" id="worker_no" value="<?=$member_iam[gwc_worker_no]?>" style="width: 200px;height: 15px;padding: 10px;margin-left: 6px;border: 1px solid;">
                         </div>
-                        <div style="display:<?=$member_iam['gwc_worker_state']?'flex':'none'?>;margin-top:10px;" id="worker_img_side">
-                            사업자등록증:<input type="file" name="worker_img" id="worker_img" value="<?=$member_iam['gwc_worker_img']?>" style="width: 200px;margin-left: 20px;border: 1px solid;">
+                        <div style="display:<?=$member_iam[gwc_worker_state]?'flex':'none'?>;margin-top:10px;" id="worker_img_side">
+                            사업자등록증:<input type="file" name="worker_img" id="worker_img" value="<?=$member_iam[gwc_worker_img]?>" style="width: 200px;margin-left: 20px;border: 1px solid;">
                         </div>
-                        <?if($member_iam['gwc_worker_img']){?>
-                        <img src="<?="https://www.kiam.kr".$member_iam['gwc_worker_img']?>" style="width:80px;margin-left:100px;">
+                        <?if($member_iam[gwc_worker_img]){?>
+                        <img src="<?="https://www.kiam.kr".$member_iam[gwc_worker_img]?>" style="width:80px;margin-left:100px;">
                         <?}?>
                         <div style="margin-top: 10px;width: 300px;text-align: left;height: 25px;">
-                            <input type="checkbox" name="gwc_worker_state_" id="gwc_worker_state_" <?=$member_iam['gwc_worker_state']?'checked':''?> style="vertical-align: text-top;margin-left:100px;" onclick="gwc_worker()"><span style="margin-left:7px;">사업자</span>
-                            <a href="javascript:save_req_provider();" id="save_req_provider_side" style="background-color: black;color: white;padding: 5px;border-radius: 7px;margin: 5px;cursor: pointer;float:right;" <?=$member_iam['gwc_worker_state']?'':'hidden'?>>저장</a>
+                            <input type="checkbox" name="gwc_worker_state_" id="gwc_worker_state_" <?=$member_iam[gwc_worker_state]?'checked':''?> style="vertical-align: text-top;margin-left:100px;" onclick="gwc_worker()"><span style="margin-left:7px;">사업자</span>
+                            <a href="javascript:save_req_provider();" id="save_req_provider_side" style="background-color: black;color: white;padding: 5px;border-radius: 7px;margin: 5px;cursor: pointer;float:right;" <?=$member_iam[gwc_worker_state]?'':'hidden'?>>저장</a>
                         </div>
                         </div>
                     </div>
@@ -220,7 +220,7 @@ extract($_GET);
                         <input type="hidden" name="contents_idx" value="" />
                         <input type="hidden" name="post_type" value="edit" />
                         <input type="hidden" name="contents_type" value="3" />
-                        <input type="hidden" name="mem_id" value="<?=$_SESSION['iam_member_id']?>" />
+                        <input type="hidden" name="mem_id" value="<?=$_SESSION[iam_member_id]?>" />
                         <input type="hidden" name="admin" value="1" />
                         <input type="hidden" name="provider" value="Y" />
                         <input type="hidden" name="provider_iam" value="Y" />
@@ -333,7 +333,7 @@ extract($_GET);
                                             <input type="hidden" id="deliver_id_code" name="deliver_id_code" value="">
                                             <input type="checkbox" id="same_gonggupsa" name="same_gonggupsa" onclick="self_deliver()" style="vertical-align: text-top;margin-right:5px;">공급사와 동일
                                             <div style="display:flex;margin-top:10px;">
-                                                아이디:<input type="text" name="deliver_id" id="deliver_id" value="" style="width: 200px;height: 15px;padding: 10px;margin-left: 20px;border: 1px solid;"><a href="javascript:check_deliver_id();" id="check_deliver_id" style="background-color: #99cc00;color: white;padding: 2px 5px;margin: -1px 5px;cursor: pointer;">확인</a>
+                                                아이디:<input type="text" name="deliver_id" id="deliver_id" value="" style="width: 200px;height: 15px;padding: 10px;margin-left: 20px;border: 1px solid;"><a href="javascript:check_deliver_id();" id="check_deliver_id" style="background-color: #82c836;color: white;padding: 2px 5px;margin: -1px 5px;cursor: pointer;">확인</a>
                                             </div>
                                             <div style="display:flex;margin-top:10px;">
                                                 이름:<input type="text" name="deliver_name" id="deliver_name" value="" style="width: 200px;height: 15px;padding: 10px;margin-left: 33px;border: 1px solid;" readonly>
@@ -359,16 +359,16 @@ extract($_GET);
                                         <td>
                                         <?
                                         $sql5="select card_short_url,card_title from Gn_Iam_Name_Card where mem_id = 'iamstore' and idx not in(934328, 2477701, 1274691, 1268514) order by req_data asc";
-                                        $result5=mysqli_query($self_con, $sql5);
+                                        $result5=mysql_query($sql5);
                                         $i = 0;
-                                        while($row5=mysqli_fetch_array($result5)) {
+                                        while($row5=mysql_fetch_array($result5)) {
                                             ?>
                                             <input type="radio" name="gwc_card_url"
-                                                    class="my_info_check" id="gwc_card_check_<?= $row5['card_short_url'] ?>"
-                                                    value="<?= $row5['card_short_url'] ?>">
+                                                    class="my_info_check" id="gwc_card_check_<?= $row5[card_short_url] ?>"
+                                                    value="<?= $row5[card_short_url] ?>">
                                             <?
                                                 echo($i+1);
-                                            echo "(".$row5['card_title'].")";?>
+                                            echo "(".$row5[card_title].")";?>
                                             <?$i++;
                                         }
                                         ?>
@@ -390,8 +390,8 @@ extract($_GET);
                     <p id="other_desc_letter" style="text-align: right;">0/250</p>
                 </div>
                 <div class="modal-footer" style="text-align: center;padding:5px;">
-                    <button type="button" class="btn-link" style="width: 35%;background: white;color: #6e6a6a;padding: 10px 0px;border: 1px solid #99cc00;border-radius: 10px;" onclick="close_modal()">취소하기</button>
-                    <button type="button" class="btn-link" style="width: 35%;background: #99cc00;color: white;padding: 10px 0px;border-radius: 10px;border: 1px solid #99cc00;" onclick="req_report('')">신청하기</button>
+                    <button type="button" class="btn-link" style="width: 35%;background: white;color: #6e6a6a;padding: 10px 0px;border: 1px solid #82c836;border-radius: 10px;" onclick="close_modal()">취소하기</button>
+                    <button type="button" class="btn-link" style="width: 35%;background: #82c836;color: white;padding: 10px 0px;border-radius: 10px;border: 1px solid #82c836;" onclick="req_report('')">신청하기</button>
                 </div> -->
             </div>
         </div>
@@ -527,16 +527,16 @@ extract($_GET);
 
         function self_deliver(){
             if($("#same_gonggupsa").prop('checked')){
-                $("#deliver_id").val('<?=$_SESSION['iam_member_id']?>');
-                $("#deliver_name").val('<?=$member_iam['mem_name']?>');
-                $("#deliver_phone").val('<?=$member_iam['mem_phone']?>');
-                $("#deliver_addr").val('<?=$member_iam['mem_add1']?>');
-                $("#deliver_email").val('<?=$member_iam['mem_email']?>');
-                $("#deliver_bank").val('<?=$member_iam['bank_name']?>');
-                $("#deliver_owner").val('<?=$member_iam['bank_owner']?>');
-                $("#deliver_account").val('<?=$member_iam['bank_account']?>');
+                $("#deliver_id").val('<?=$_SESSION[iam_member_id]?>');
+                $("#deliver_name").val('<?=$member_iam[mem_name]?>');
+                $("#deliver_phone").val('<?=$member_iam[mem_phone]?>');
+                $("#deliver_addr").val('<?=$member_iam[mem_add1]?>');
+                $("#deliver_email").val('<?=$member_iam[mem_email]?>');
+                $("#deliver_bank").val('<?=$member_iam[bank_name]?>');
+                $("#deliver_owner").val('<?=$member_iam[bank_owner]?>');
+                $("#deliver_account").val('<?=$member_iam[bank_account]?>');
                 $("#check_deliver_id").hide();
-                $("#deliver_id_code").val('<?=$member_iam['mem_code']?>');
+                $("#deliver_id_code").val('<?=$member_iam[mem_code]?>');
                 if($("#deliver_id").val() != '' && $("#deliver_name").val() != '' && $("#deliver_phone").val() != '' && $("#deliver_addr").val() != '' && $("#deliver_email").val() != '' && $("#deliver_bank").val() != '' && $("#deliver_owner").val() != '' && $("#deliver_account").val() != ''){
                     $("#check_deliver_id_state").val('Y');
                 }
@@ -630,7 +630,7 @@ extract($_GET);
 
         function fsellerexcel_submit(f)
         {
-            var provider_state = '<?=$member_iam['gwc_provider_name']?>';
+            var provider_state = '<?=$member_iam[gwc_provider_name]?>';
             if(provider_state == ''){
                 alert('공급사신청을 먼저 해주세요.');
                 return false;

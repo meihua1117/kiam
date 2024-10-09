@@ -38,32 +38,32 @@ ini_set("session.gc_maxlifetime", 86400);
 
     }
     echo $query."<BR>";
-    $res=mysqli_query($self_con, $query)or die(mysqli_error($self_con));
-    while($data=mysqli_fetch_array($res)) {
+    $res=mysql_query($query)or die(mysql_error());
+    while($data=mysql_fetch_array($res)) {
         $ORDER_NO = $data['idx'];
-        $member_1['mem_id'] = $data['buyer_id'];
+        $member_1[mem_id] = $data['buyer_id'];
             
-        $sql="select * from tjd_pay_result where orderNumber='$ORDER_NO' and buyer_id='{$member_1['mem_id']}' ";
-        $resul=mysqli_query($self_con, $sql)or die(mysqli_error($self_con));
-        $row=mysqli_fetch_array($resul);	        
+        $sql="select * from tjd_pay_result where orderNumber='$ORDER_NO' and buyer_id='$member_1[mem_id]' ";
+        $resul=mysql_query($sql)or die(mysql_error());
+        $row=mysql_fetch_array($resul);	        
 
         $ORDER_NO = $row['ORDER_NO'];
-        $member_1['mem_id'] = $row[one_member_id];
+        $member_1[mem_id] = $row[one_member_id];
         
         if($ORDER_NO == "") exit;
-        if($member_1['mem_id'] == "" ) exit;
+        if($member_1[mem_id] == "" ) exit;
       
 /*        
         // 필수 항목
         $at_cross_key      = "304f3a821cac298ff8a0ef504e1c2309";   //CrossKey값(최대200자)
-        $at_fix_key        = "$row['billkey']";   //카드키(최대 24자)
+        $at_fix_key        = "$row[billkey]";   //카드키(최대 24자)
         $at_sell_mm        = "00";   //할부개월값(최대  2자)
-        $at_amt            = "{$row['TotPrice']}";   //금액(최대 10자)
+        $at_amt            = "$row[TotPrice]";   //금액(최대 10자)
         $at_business_type  = "0";   //결제자 카드종류(최대 1자)       : 개인(0),법인(1)
         $at_registry_no    = "";   //주민번호(최대 13자리)           : szBusinessType=0 일경우
         $at_biz_no         = "";   //사업자번호(최대 20자리)         : szBusinessType=1 일경우
         $at_shop_id        = "bwelcome12";   //상점ID(최대 20자)
-        $at_shop_member_id = $member_1['mem_id'];   //회원ID(최대 20자)               : 쇼핑몰회원ID
+        $at_shop_member_id = $member_1[mem_id];   //회원ID(최대 20자)               : 쇼핑몰회원ID
         $at_order_no       = $ORDER_NO;   //주문번호(최대 80자)             : 쇼핑몰 고유 주문번호
         $at_product_cd     = "";   //상품코드(최대 1000자)           : 여러 상품의 경우 구분자 이용, 구분자('||':파이프 2개)
         $at_product_nm     = iconv("UTF-8","EUC-KR",$row['member_type']);   //상품명(최대 1000자)             : 여러 상품의 경우 구분자 이용, 구분자('||':파이프 2개)
@@ -137,28 +137,28 @@ ini_set("session.gc_maxlifetime", 86400);
             $CONTRACT_YN      =getValue("contract_yn",$at_txt);
  
             
-            $sql = "insert into tjd_pay_result_month set pay_idx={$row['idx']},
+            $sql = "insert into tjd_pay_result_month set pay_idx='$row[idx]',
                                                          regdate = NOW(),
-                                                         amount='{$row['TotPrice']}',
-                                                         buyer_id='{$member_1['mem_id']}'
+                                                         amount='$row[TotPrice]',
+                                                         buyer_id='$member_1[mem_id]'
             ";
             echo $sql."\n";
-            mysqli_query($self_con, $sql)or die(mysqli_error($self_con));
+            mysql_query($sql)or die(mysql_error());
             
-        $sql = "update tjd_pay_result set monthly_yn='Y', end_status='Y' where  orderNumber='$ORDER_NO' and buyer_id='{$member_1['mem_id']}'";
-        $resul=mysqli_query($self_con, $sql)or die(mysqli_error($self_con));
+        $sql = "update tjd_pay_result set monthly_yn='Y', end_status='Y' where  orderNumber='$ORDER_NO' and buyer_id='$member_1[mem_id]'";
+        $resul=mysql_query($sql)or die(mysql_error());
         
-        $sql="select * from Gn_Member where mem_id='{$member_1['mem_id']}' ";
-        $sresult=mysqli_query($self_con, $sql)or die(mysqli_error($self_con));
-        $srow=mysqli_fetch_array($sresult);	
+        $sql="select * from Gn_Member where mem_id='$member_1[mem_id]' ";
+        $sresult=mysql_query($sql)or die(mysql_error());
+        $srow=mysql_fetch_array($sresult);	
         
-    	//$sql_num_up="update Gn_MMS_Number set end_status='Y' , end_date=date_add(now(),INTERVAL {$ro['month_cnt']} month) where end_date = '$_POST[pay_ex_end_date]' and mem_id='{$member_1['mem_id']}' ";
-    	//mysqli_query($self_con, $sql_num_up) or die(mysqli_error($self_con));				    
+    	//$sql_num_up="update Gn_MMS_Number set end_status='Y' , end_date=date_add(now(),INTERVAL {$ro[month_cnt]} month) where end_date = '$_POST[pay_ex_end_date]' and mem_id='$member_1[mem_id]' ";
+    	//mysql_query($sql_num_up) or die(mysql_error());				    
 
         
-        $sql="select * from crawler_member_real where user_id='{$member_1['mem_id']}' ";
-        $sresult=mysqli_query($self_con, $sql)or die(mysqli_error($self_con));
-        $crow=mysqli_fetch_array($sresult);	        
+        $sql="select * from crawler_member_real where user_id='$member_1[mem_id]' ";
+        $sresult=mysql_query($sql)or die(mysql_error());
+        $crow=mysql_fetch_array($sresult);	        
         $user_id=$srow['mem_id'];
         $user_name=$srow['mem_name'];
         $password=$srow['mem_pass'];
@@ -166,11 +166,11 @@ ini_set("session.gc_maxlifetime", 86400);
         $email=$srow['mem_email'];
         $address=$srow['mem_add1'];
         $status="Y";
-        $use_cnt = $row['db_cnt'];
+        $use_cnt = $row[db_cnt];
         //$last_time = date("Y-m-d H:i:s", "+120 month");
         $last_time = date("Y-m-d H:i:s", strtotime("+ 120 month"));
         $search_email_date = substr($last_time,0,10);
-        $search_email_cnt = $row['email_cnt'];
+        $search_email_cnt = $row[email_cnt];
         $term = substr($last_time,0,10);
                                
     */

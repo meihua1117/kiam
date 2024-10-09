@@ -4,6 +4,8 @@ include_once $_SERVER['DOCUMENT_ROOT']."/admin/include/admin_header.inc.php";
 extract($_GET);
 // 오늘날짜
 $date_today=date("Y-m-d");
+$date_month=date("Y-m");
+
 ?>
 <script type="text/javascript" src="/jquery.lightbox_me.js"></script>
 <script>
@@ -199,7 +201,7 @@ function excel_down_p_group(pno,one_member_id){
             
       
         </section><!-- /.content -->
-      </div><!-- /content-wrapper -->
+      </div><!-- /.content-wrapper -->
 
     <form id="excel_down_form" name="excel_down_form"  target="excel_iframe" method="post">
         <input type="hidden" name="grp_id" value="" />

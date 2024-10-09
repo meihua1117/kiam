@@ -7,29 +7,31 @@ $userid = isset($_REQUEST['userid']) ? $_REQUEST['userid'] : "";
 $token = $_REQUEST['mem_token'];
 $phone_num = $_REQUEST['phone_num'];
 if (isset($_POST['method'])) {
+	$userid = $_POST['userid'];
     $method = $_POST['method'];
     if ($method == "get") {
         $sql = "select callback_times from Gn_Member use index(mem_id) where mem_id='{$userid}'";
-        $res = mysqli_query($self_con, $sql);
-        $row = mysqli_fetch_assoc($res);
-        echo json_encode(array("type" => substr($row['callback_times'], 1) * 1));
+        $res = mysql_query($sql);
+        $row = mysql_fetch_assoc($res);
+        echo json_encode(array("type" => substr($row['callback_times'],1)*1));
     } else if ($method == "set") {
-        $type = "s" . $_POST['type'];
+        $type = "s".$_POST['type'];
         $sql = "update Gn_Member set callback_times='{$type}' where mem_id='{$userid}'";
-        $res = mysqli_query($self_con, $sql);
-        if ($res)
+        $res = mysql_query($sql);
+        if($res)
             echo json_encode(array("result" => "success"));
         else
-            echo json_encode(array("result" => "failed"));
+    	    echo json_encode(array("result" => "failed"));
     }
 } else {
     $result = array();
     $items = array();
     $index  = 0;
     $totalCnt = 0;
+
     $sql_idx = "select * from Gn_Member where mem_id='{$userid}'";
-    $res_idx = mysqli_query($self_con, $sql_idx);
-    $row_idx = mysqli_fetch_array($res_idx);
+    $res_idx = mysql_query( $sql_idx);
+    $row_idx = mysql_fetch_array($res_idx);
     $callback_idx = $row_idx['mem_callback'];
 
     $phone_callback = $row_idx['phone_callback'];
@@ -44,10 +46,10 @@ if (isset($_POST['method'])) {
         $index  = 0;
     } else {
         $sql = "select SQL_CALC_FOUND_ROWS * from gn_mms_callback where service_state=1 and allow_state=1 and idx={$callback_idx}";
-        $res_call = mysqli_query($self_con, $sql);
-        if (mysqli_num_rows($res_call)) {
+        $res_call = mysql_query( $sql);
+        if (mysql_num_rows($res_call)) {
             $callback_state = 0;
-            $row_call = mysqli_fetch_array($res_call);
+            $row_call = mysql_fetch_array($res_call);
             $item['idx'] = $row_call['idx'];
             $item['title'] = $row_call['title'];
             $item['content'] = $row_call['content'];
@@ -76,12 +78,12 @@ if (isset($_POST['method'])) {
             if ($row_call['iam_link'] == "") {
                 if ($userid != "") {
                     $query  = "select mem_code from Gn_Member where mem_id='$userid'";
-                    $res    = mysqli_query($self_con, $query);
-                    $row    = mysqli_fetch_array($res);
+                    $res    = mysql_query( $query);
+                    $row    = mysql_fetch_array($res);
                     $mem_code = $row[0];
                     $query = "select card_short_url from Gn_Iam_Name_Card where group_id is NULL and mem_id='$userid' order by req_data limit 0,1";
-                    $res        = mysqli_query($self_con, $query);
-                    $row = mysqli_fetch_array($res);
+                    $res        = mysql_query( $query);
+                    $row = mysql_fetch_array($res);
                     $cardlink = $row[0];
 
                     $item['content'] = $item['content'] . "\r\nhttps://www.kiam.kr/?" . $cardlink . $mem_code;
@@ -96,9 +98,11 @@ if (isset($_POST['method'])) {
         }
     }
     $query  = "select SQL_CALC_FOUND_ROWS * from gn_mms_callback where service_state=0";
-    $res1        = mysqli_query($self_con, $query);
-    $totalCnt    +=  mysqli_num_rows($res1);
-    while ($rows = mysqli_fetch_array($res1)) {
+
+    $res1        = mysql_query($query);
+    $totalCnt    +=  mysql_num_rows($res1);
+
+    while ($rows = mysql_fetch_array($res1)) {
         $item['idx'] = $rows['idx'];
         $item['title'] = $rows['title'];
         $item['content'] = $rows['content'];
@@ -128,12 +132,12 @@ if (isset($_POST['method'])) {
         if ($rows['iam_link'] == "") {
             if ($userid != "") {
                 $query = "select mem_code from Gn_Member where mem_id='$userid'";
-                $res        = mysqli_query($self_con, $query);
-                $row = mysqli_fetch_array($res);
+                $res        = mysql_query( $query);
+                $row = mysql_fetch_array($res);
                 $mem_code = $row[0];
                 $query = "select card_short_url from Gn_Iam_Name_Card where group_id is NULL and mem_id='$userid' order by req_data limit 0,1";
-                $res        = mysqli_query($self_con, $query);
-                $row = mysqli_fetch_array($res);
+                $res        = mysql_query( $query);
+                $row = mysql_fetch_array($res);
                 $cardlink = $row[0];
 
                 $item['content'] = $item['content'] . "\r\nhttps://www.kiam.kr/?" . $cardlink . $mem_code;
@@ -145,10 +149,10 @@ if (isset($_POST['method'])) {
     }
 
     $query2 = "select SQL_CALC_FOUND_ROWS * from gn_mms_callback where service_state=2 and mb_id='{$userid}'";
-    $res2        = mysqli_query($self_con, $query2);
-    $totalCnt    +=  mysqli_num_rows($res2);
+    $res2        = mysql_query( $query2);
+    $totalCnt    +=  mysql_num_rows($res2);
 
-    while ($rows_mem = mysqli_fetch_array($res2)) {
+    while ($rows_mem = mysql_fetch_array($res2)) {
         $item['idx'] = $rows_mem['idx'];
         $item['title'] = $rows_mem['title'];
         $item['content'] = $rows_mem['content'];
@@ -182,12 +186,12 @@ if (isset($_POST['method'])) {
     //if($totalCnt != 0)
     {
         $query  = "select regdate from gn_mms_callback order by regdate desc";
-        $res    = mysqli_query($self_con, $query);
-        $row    = mysqli_fetch_array($res);
+        $res    = mysql_query( $query);
+        $row    = mysql_fetch_array($res);
         $udate  = date("YmdHis", strtotime($row['regdate']));
     }
     $result['count'] = $totalCnt;
-    $result["update"] = $udate;
+    $result['update'] = $udate;
     $result['token_res'] = 1;
     $result['items'] = $items;
     echo json_encode($result);

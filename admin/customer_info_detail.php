@@ -7,8 +7,8 @@ extract($_GET);
 $date_today=date("Y-m-d");
 if($edit_type == "member_reg_edit" || $edit_type == "member_req_edit" || $edit_type == "member_get_edit"){
   $query_data = "select * from Gn_Member where mem_code='{$mem_code}'";
-  $res_data = mysqli_query($self_con, $query_data);
-  $data = mysqli_fetch_array($res_data);
+  $res_data = mysql_query($query_data);
+  $data = mysql_fetch_array($res_data);
 
   $list_idx = $data['mem_code'];
   $user_id = $data['mem_id']?$data['mem_id']:'';
@@ -25,17 +25,17 @@ if($edit_type == "member_reg_edit" || $edit_type == "member_req_edit" || $edit_t
   $memo = $data['mem_memo']?$data['mem_memo']:'';
   $reg_date = $data['first_regist']?$data['first_regist']:'';
 
-  $query = "select card_short_url from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$data['mem_id']}' order by req_data asc";
-  $cres = mysqli_query($self_con, $query);
-  $crow = mysqli_fetch_array($cres);
+  $query = "select card_short_url from Gn_Iam_Name_Card where group_id is NULL and mem_id = '$data[mem_id]' order by req_data asc";
+  $cres = mysql_query($query);
+  $crow = mysql_fetch_array($cres);
   $card_url = $crow[0];
 
   $link = "card_list.php?mem_id=".$data['mem_id'];
 }
 else if($edit_type == "reg_cust_edit"){
   $query_data = "select * from gn_reg_customer where id='{$idx}'";
-  $res_data = mysqli_query($self_con, $query_data);
-  $data = mysqli_fetch_array($res_data);
+  $res_data = mysql_query($query_data);
+  $data = mysql_fetch_array($res_data);
 
   $idx = $data['id'];
   $user_id = $data['mem_id']?$data['mem_id']:'';
@@ -55,8 +55,8 @@ else if($edit_type == "reg_cust_edit"){
 }
 else if($edit_type == "req_cust_edit"){
   $query_data = "select * from Gn_event_request a inner join Gn_event b on a.event_idx=b.event_idx where request_idx='{$idx}'";
-  $res_data = mysqli_query($self_con, $query_data);
-  $data = mysqli_fetch_array($res_data);
+  $res_data = mysql_query($query_data);
+  $data = mysql_fetch_array($res_data);
 
   $idx = $data['request_idx'];
   $user_id = $data['m_id']?$data['m_id']:'';
@@ -76,8 +76,8 @@ else if($edit_type == "req_cust_edit"){
 }
 else if($edit_type == "get_cust_edit"){
   $query_data = "select * from crawler_data where seq='{$idx}'";
-  $res_data = mysqli_query($self_con, $query_data);
-  $data = mysqli_fetch_array($res_data);
+  $res_data = mysql_query($query_data);
+  $data = mysql_fetch_array($res_data);
 
   $idx = $data['seq'];
   $user_id = $data['user_id']?$data['user_id']:'';

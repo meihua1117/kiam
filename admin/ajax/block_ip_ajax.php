@@ -9,12 +9,12 @@ extract($_POST);
 if($mode=="plus")
 {
     $query = "select ip from gn_block_ip where ip='$ip'";
-    $res = mysqli_query($self_con, $query);
-    $row = mysqli_fetch_array($res);
+    $res = mysql_query($query);
+    $row = mysql_fetch_array($res);
     if($row[0] == "")
     {
         $query = "insert into gn_block_ip (ip) values('$ip')";
-        $res = mysqli_query($self_con, $query);
+        $res = mysql_query($query);
         echo $ip. "가 차단되었습니다.";
     }
     else
@@ -25,15 +25,15 @@ if($mode=="plus")
 else if($mode == "minus")
 {
     $query = "delete from gn_block_ip where ip='$ip'";
-    $res = mysqli_query($self_con, $query);
+    $res = mysql_query($query);
 
     $query = "delete from gn_hist_login where ip='$ip'";
-    $res = mysqli_query($self_con, $query);    
+    $res = mysql_query($query);    
     echo $ip. "가 차단리스트에서 해지되었습니다.";
 }else if($mode == "del")
 {
     $query = "delete from gn_hist_login";
-    $res = mysqli_query($self_con, $query);
+    $res = mysql_query($query);
     echo "전체 삭제되었습니다.";   
 }
 

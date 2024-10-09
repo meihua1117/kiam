@@ -243,7 +243,6 @@ function _init() {
       _this.fix();
       _this.fixSidebar();
       $(window, ".wrapper").resize(function () {
-        console.log('app js');
         _this.fix();
         _this.fixSidebar();
       });
@@ -262,10 +261,10 @@ function _init() {
         if (window_height >= sidebar_height) {
           $(".content-wrapper, .right-side").css('min-height', window_height - neg);
           postSetWidth = window_height - neg;
-        } /*else {
+        } else {
           $(".content-wrapper, .right-side").css('min-height', sidebar_height);
           postSetWidth = sidebar_height;
-        }*/
+        }
 
         //Fix for the control sidebar height
         var controlSidebar = $($.AdminLTE.options.controlSidebarOptions.selector);

@@ -1,11 +1,11 @@
 //로그아웃
-function logout() {
+function logout(type = "selling") {
 	if (confirm('로그아웃하시겠습니까?')) {
 		$.ajax({
 			type: "POST",
 			url: "/ajax/ajax_session.php",
 			data: {
-				logout_go: "로그아웃가자"
+				logout_go: type
 			},
 			success: function (data) {
 				try {

@@ -9,7 +9,7 @@ if($search != '') {
 }else {
     $query = "select * from Gn_event_sms_info a order by sms_idx desc";
 }
-$res = mysqli_query($self_con, $query);
+$res = mysql_query($query);
 ?>
 
 <div class="row">
@@ -41,19 +41,19 @@ $res = mysqli_query($self_con, $query);
                 <td style="width:9%;">등록일</td>
                 <td style="width:9%;">관리</td>
               </tr>
-              <?php $i = 0; while($row = mysqli_fetch_array($res)) {
-                  $sql="select count(*) as cnt from Gn_event_sms_step_info where sms_idx='{$row['sms_idx']}'";
-                  $sresult=mysqli_query($self_con, $sql) or die(mysqli_error($self_con));				                    
-                  $srow = mysqli_fetch_array($sresult);
+              <?php $i = 0; while($row = mysql_fetch_array($res)) {
+                  $sql="select count(*) as cnt from Gn_event_sms_step_info where sms_idx='$row[sms_idx]'";
+                  $sresult=mysql_query($sql) or die(mysql_error());				                    
+                  $srow = mysql_fetch_array($sresult);
               ?>
                 <tr>
-                    <td><input type="checkbox" class="check_step" key = "<?=$row['sms_idx']?>" title="<?=$row['reservation_title']?>"></td>
+                    <td><input type="checkbox" class="check_step" key = "<?=$row[sms_idx]?>" title="<?=$row[reservation_title]?>"></td>
                     <td><?=$i?></td>
                     <td><?=$row['m_id']?></td>
-                    <td style="font-size:12px;"><?=$row['reservation_title']?></td>
-                    <td><?=$row['reservation_desc']?></td>
+                    <td style="font-size:12px;"><?=$row[reservation_title]?></td>
+                    <td><?=$row[reservation_desc]?></td>
                     <td><?=$srow['cnt']?></td>
-                    <td><?=$row['regdate']?></td>
+                    <td><?=$row[regdate]?></td>
                     <td>
                         <a href="/mypage_reservation_create.php?sms_idx=<?=$row['sms_idx']?>">수정</a>/<a href="javascript:;;" onclick="deleteRow('<?=$row['sms_idx']?>')">삭제</a>
                     </td>

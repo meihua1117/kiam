@@ -211,8 +211,8 @@ $order = $order?$order:"desc";
                                 <?
                                 $query = "SELECT count(b.mem_id) FROM tjd_pay_result_balance c INNER JOIN Gn_Member b on b.mem_id = c.seller_id
                                             WHERE 1=1 and b.service_type > 1 $searchStr group by b.mem_id";
-                                $res	    = mysqli_query($self_con, $query);
-                                $totalCnt	=  mysqli_num_rows($res);
+                                $res	    = mysql_query($query);
+                                $totalCnt	=  mysql_num_rows($res);
                                 // echo $totalCnt."|".$nowPage;
                                 $query = "SELECT SQL_CALC_FOUND_ROWS b.mem_id,b.mem_name,b.mem_phone,c.balance_date,b.service_type,c.balance_yn 
                                             FROM tjd_pay_result_balance c INNER JOIN Gn_Member b on b.mem_id = c.seller_id
@@ -222,8 +222,8 @@ $order = $order?$order:"desc";
                                 $orderQuery .= " ORDER BY b.mem_id DESC ";
                                 $i = 1;
                                 $query .= $orderQuery;
-                                $res = mysqli_query($self_con, $query);
-                                while($row = mysqli_fetch_array($res)) {
+                                $res = mysql_query($query);
+                                while($row = mysql_fetch_array($res)) {
                                     if($row['service_type'] == 2) {
                                         $mem_level = "리셀러";
                                     } else if($row['service_type'] == 3) {
@@ -238,9 +238,9 @@ $order = $order?$order:"desc";
                                                   balance_yn,
                                                   balance_confirm_date
                                                 from tjd_pay_result_balance 
-                                                where seller_id='{$row['mem_id']}' and balance_date='$search_year$search_month' ";
-                                    $pres = mysqli_query($self_con, $pquery);
-                                    $prow = mysqli_fetch_array($pres);
+                                                where seller_id='$row[mem_id]' and balance_date='$search_year$search_month' ";
+                                    $pres = mysql_query($pquery);
+                                    $prow = mysql_fetch_array($pres);
 
                                     //$row['balance_yn']  ="N";
                                     $row['balance_confirm_date'] = $prow['balance_confirm_date'];
@@ -252,9 +252,9 @@ $order = $order?$order:"desc";
                                                          branch_balance_yn,
                                                          branch_balance_confirm_date
                                                     from tjd_pay_result_balance 
-                                                    where branch_id='{$row['mem_id']}' and balance_date='$search_year$search_month' ";
-                                        $sres = mysqli_query($self_con, $squery);
-                                        $srow = mysqli_fetch_array($sres);
+                                                    where branch_id='$row[mem_id]' and balance_date='$search_year$search_month' ";
+                                        $sres = mysql_query($squery);
+                                        $srow = mysql_fetch_array($sres);
                                         $branch_share_fee = $srow[price];
                                     }
                                     if($prow[balance_yn] =="Y") {
@@ -274,8 +274,8 @@ $order = $order?$order:"desc";
                                 }
                                 
                                 $query .= $limitStr;
-                                $res = mysqli_query($self_con, $query);
-                                while($row = mysqli_fetch_array($res)) {
+                                $res = mysql_query($query);
+                                while($row = mysql_fetch_array($res)) {
                                     if($row['service_type'] == 2) {
                                         $mem_level = "리셀러";
                                     } else if($row['service_type'] == 3) {
@@ -292,9 +292,9 @@ $order = $order?$order:"desc";
                                                   balance_yn,
                                                   balance_confirm_date
                                                 from tjd_pay_result_balance 
-                                                where seller_id='{$row['mem_id']}' and balance_date='$search_year$search_month' ";
-                                    $pres = mysqli_query($self_con, $pquery);
-                                    $prow = mysqli_fetch_array($pres);
+                                                where seller_id='$row[mem_id]' and balance_date='$search_year$search_month' ";
+                                    $pres = mysql_query($pquery);
+                                    $prow = mysql_fetch_array($pres);
 
                                     //$row['balance_yn']  ="N";
                                     $row['balance_confirm_date'] = $prow['balance_confirm_date'];
@@ -306,9 +306,9 @@ $order = $order?$order:"desc";
                                                          branch_balance_yn,
                                                          branch_balance_confirm_date
                                                     from tjd_pay_result_balance 
-                                                    where branch_id='{$row['mem_id']}' and balance_date='$search_year$search_month' ";
-                                        $sres = mysqli_query($self_con, $squery);
-                                        $srow = mysqli_fetch_array($sres);
+                                                    where branch_id='$row[mem_id]' and balance_date='$search_year$search_month' ";
+                                        $sres = mysql_query($squery);
+                                        $srow = mysql_fetch_array($sres);
                                         $branch_share_fee = $srow[price];
                                     }
                                     if($prow[balance_yn] =="Y") {

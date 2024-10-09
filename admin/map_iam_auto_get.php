@@ -4,18 +4,19 @@ include_once $_SERVER['DOCUMENT_ROOT']."/admin/include/admin_header.inc.php";
 extract($_GET);
 // 오늘날짜
 $date_today=date("Y-m-d");
+$date_month=date("Y-m");
 
 $sql = "SELECT id, round_num, state_flag, iam_count FROM crawler_gm_seller_info ORDER BY id DESC LIMIT 1";
-$result = mysqli_query($self_con, $sql);
-while($res = mysqli_fetch_array($result)){
+$result = mysql_query($sql);
+while($res = mysql_fetch_array($result)){
     $id = $res['id'];
 }
 $round_num = (int)$id + 1;
 
 $state = null;
 $sql_state = "SELECT round_num, state_flag, market_count FROM crawler_gm_status_info ORDER BY id DESC LIMIT 1";
-$result_state = mysqli_query($self_con, $sql_state);
-while($res = mysqli_fetch_array($result_state)){
+$result_state = mysql_query($sql_state);
+while($res = mysql_fetch_array($result_state)){
     $round = $res['round_num'];
     $state = $res['state_flag'];
     $iam_count = $res['market_count'];
@@ -28,8 +29,8 @@ while($res = mysqli_fetch_array($result_state)){
     $( document ).ready( function() {
         <?php
         $sql_member = "SELECT a.mem_id FROM Gn_Member a INNER JOIN crawler_gm_seller_info b on SUBSTRING_INDEX(a.mem_id, '_', -1)=b.store_id WHERE b.round_num={$round}";
-        $result_member = mysqli_query($self_con, $sql_member);
-        if((mysqli_num_rows($result_member) == 0) && ($state == 0) && ($state != null)){
+        $result_member = mysql_query($sql_member);
+        if((mysql_num_rows($result_member) == 0) && ($state == 0) && ($state != null)){
         ?>
         $.ajax({
             type: "POST",
@@ -239,8 +240,8 @@ while($res = mysqli_fetch_array($result_state)){
                                 
                                 $order = $order?$order:"desc";
                                 $query = "select b.*, c.get_cnt, d.recommend_id, d.site from crawler_map_info a INNER JOIN Gn_Iam_Name_Card b on a.iam_link=b.card_short_url INNER JOIN crawler_map_status_info c on a.id=c.info_id inner join Gn_Member d on c.mem_id=d.mem_id where 1=1 $searchStr";
-                                $res	    = mysqli_query($self_con, $query);
-                                $totalCnt	=  mysqli_num_rows($res);
+                                $res	    = mysql_query($query);
+                                $totalCnt	=  mysql_num_rows($res);
                                 $limitStr   = " LIMIT ".(($startPage-1)*$pageCnt).", ".$pageCnt;
                                 $number		= $totalCnt - ($nowPage - 1) * $pageCnt;
                                 $i = 1;
@@ -249,8 +250,8 @@ while($res = mysqli_fetch_array($result_state)){
                                 $excel_sql = $query;
                                 $query .= "$limitStr";
                                 // echo $query; exit;
-                                $res = mysqli_query($self_con, $query);
-                                while($row=mysqli_fetch_array($res)){
+                                $res = mysql_query($query);
+                                while($row=mysql_fetch_array($res)){
                                     $no++;
                                 ?>
                                 <tr>
@@ -259,7 +260,7 @@ while($res = mysqli_fetch_array($result_state)){
                                     <td><?=$row['mem_id']?></td>
                                     <td><?=$row['card_name']?></td>
                                     <td>
-                                        <div >
+                                        <div style="">
                                             <a href="<?=$row['main_img1']?>" target="_blank">
                                                 <img class="zoom" src="<?=$row['main_img1']?>">
                                             </a>
@@ -294,7 +295,7 @@ while($res = mysqli_fetch_array($result_state)){
                 </div>
             </div><!-- /.row -->
         </section><!-- /.content -->
-    </div><!-- /content-wrapper -->
+    </div><!-- /.content-wrapper -->
 
 <form id="excel_down_form" name="excel_down_form"  target="excel_iframe" method="post">
     <input type="hidden" name="grp_id" value="" />

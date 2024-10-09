@@ -116,7 +116,9 @@ input:checked + .slider:before {
     transition: .4s;
 
 }
-
+.agree{
+     /*background: #d5ffd5!important;   */
+    }
 .disagree{
      background: #ffd5d5!important;
     }
@@ -244,15 +246,15 @@ a.sort-by:after {
                                 SQL_CALC_FOUND_ROWS
                                 *
                             FROM Gn_Iam_multilang ";
-                    $res	    = mysqli_query($self_con, $query);
-                    $totalCnt	=  mysqli_num_rows($res);
+                    $res	    = mysql_query($query);
+                    $totalCnt	=  mysql_num_rows($res);
                     $limitStr       = " LIMIT ".(($startPage-1)*$pageCnt).", ".$pageCnt;
                     $number			= $totalCnt - ($nowPage - 1) * $pageCnt;
                     $orderQuery .= " ORDER BY no ".$limitStr;
                     $i = 1;
                     $query .= "$orderQuery";
-                    $res = mysqli_query($self_con, $query);
-                    while($row = mysqli_fetch_array($res)) {
+                    $res = mysql_query($query);
+                    while($row = mysql_fetch_array($res)) {
                   ?>
                   <tr>
                     <td><?=$i?></td>
@@ -303,6 +305,6 @@ a.sort-by:after {
       </div>
     </section><!-- /.content -->
   </div><!-- /.row -->
-</div><!-- /content-wrapper -->
+</div><!-- /.content-wrapper -->
 <iframe name="excel_iframe" style="display:none;"></iframe>
 <?include_once $_SERVER['DOCUMENT_ROOT']."/admin/include/admin_footer.inc.php";?>

@@ -3,7 +3,8 @@
 set_time_limit(0);
 ini_set('memory_limit','-1');
 getDirContents('/home/kiam/www/naver_editor/upload/');
-// $handle = new Image("naver_editor/upload/test.jpg", 800);
+ //$handle = new Image("/naver_editor/upload/test.jpg", 800);
+// $handle = new Image("/home/kiam/www/upload_month/upload_2024_04/020420241651170.JPG", 800);
 // $handle->resize();
 // echo $handle->log;
 echo "Done!!!";
@@ -61,6 +62,7 @@ Class Image{
 
     function  __construct($file, $basepixel)
     {
+	$this->log = '<br>log:<br>';
         try{
             $this->file_is_image = false;
             $this->file_src_pathname = $file;
@@ -71,14 +73,17 @@ Class Image{
                 return;
 
             $size = filesize($this->file_src_pathname);
-            if($size > 100 * 1024 * 1024 || $size < 1000 * 1024)
+            $this->log .= $this->file_src_pathname."=".$size."<br>";
+            if($size > 100 * 1024 * 1024 || $size < 1000 * 1024){
+        	$this->log .= "size error<br>";
                 return;    
-
+            }
+$this->log .= "before img size<br>";
             list($origW, $origH) = getimagesize($file);
-    
+$this->log .= "after img size<br>";    
             $this->image_src_x = $w = $origW;
             $this->image_src_y = $h = $origH; 
-            
+            $this->log .= "x=".$w.",y=".$h."<br>";
             $maxPixel = ($origW > $origH) ?$origW: $origH; 
             if($maxPixel <= $basepixel)
                 return ;
@@ -90,7 +95,7 @@ Class Image{
             $this->image_transparent_color  = null;
             $this->image_background_color   = null;
             $this->image_is_palette  = false;
-            $this->log = '';
+            //$this->log = 'log:';
             $this->image_auto_rotate = true;
             $this->image_default_color      = '#ffffff';
             $this->image_resize = true;
@@ -106,7 +111,7 @@ Class Image{
 
         }
         catch(Exception $e){
-            
+    	    $this->log .= $e->getMessage();    
         }
 
     }

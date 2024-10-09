@@ -44,8 +44,8 @@ $contents_idx = $_GET['contents_idx'];
 					<div class="banner-wrap">
 						<?
 						$query = "select * from Gn_Ad_Manager where ad_position='B' and use_yn='Y' and  CURDATE() between send_start_date and send_end_date limit 1";
-						$res = mysqli_query($self_con,$query);
-						while ($data = mysqli_fetch_array($res)) {
+						$res = mysql_query($query);
+						while ($data = mysql_fetch_array($res)) {
 						?>
 							<a href="<?= $data['move_url']; ?>" target="_blank">
 								<img src="<?= $data['img_url']; ?>">

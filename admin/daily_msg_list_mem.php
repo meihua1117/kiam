@@ -136,9 +136,9 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                         	WHERE 1=1 
                 	              $searchStr";
                 	              
-                	$res	    = mysqli_query($self_con, $query);
-                  //$totalCnt	=  mysqli_num_rows($res);	
-                  $totalRow	=  mysqli_fetch_array($res);	                	
+                	$res	    = mysql_query($query);
+                  //$totalCnt	=  mysql_num_rows($res);	
+                  $totalRow	=  mysql_fetch_array($res);	                	
                 	$totalCnt = $totalRow[0];
                   
 
@@ -161,31 +161,31 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                 	$i = 1;
                 	$c=0;
                 	$query .= "$orderQuery";
-                	$res = mysqli_query($self_con, $query);
-                    while($row = mysqli_fetch_array($res)) {      				
+                	$res = mysql_query($query);
+                    while($row = mysql_fetch_array($res)) {      				
                       $ksql="select * from Gn_MMS_Group where idx='$row[group_idx]'";
-                      $kresult=mysqli_query($self_con, $ksql) or die(mysqli_error($self_con));
-                      $krow = mysqli_fetch_array($kresult);
+                      $kresult=mysql_query($ksql) or die(mysql_error());
+                      $krow = mysql_fetch_array($kresult);
 
                       $sql="select count(*) cnt from Gn_daily_date where gd_id='$row[gd_id]'";
-                      $sresult=mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-                      $srow = mysqli_fetch_array($sresult);
+                      $sresult=mysql_query($sql) or die(mysql_error());
+                      $srow = mysql_fetch_array($sresult);
                   ?>
                       <tr>
                             <td><input type="checkbox" class="check" id="check_one_member" name="" value="<?=$row['gd_id']?>">&nbsp;&nbsp;<?=$number--?></td>
-                            <td style="font-size:12px;"><?=$row['site']?></td>
-                            <td style="font-size:12px;"><?=$row['mem_id']?></td>
-                            <td style="font-size:12px;"><?=$row['mem_name']?></td>
-                            <td style="font-size:12px;"><?=$row['title']?></td>
-                            <td style="font-size:12px;"><?=$row['send_num']?></td>
-                            <td><?=$krow['grp']?></td>
-                            <td><?=$row['total_count']?></td>
-                            <td><?=$srow['cnt']?></td>
-                            <td><?=$row['daily_cnt']?></td>
-                            <td><?=$row['start_date']?></td>
-                            <td><?=$row['end_date']?></td>
-                            <td><?=$row['reg_date']?></td>
-                            <td><a href="edit_daily_msg.php?type=mem&gd_id=<?=$row['gd_id']?>">수정</a>/<a href="javascript:delete_daily(<?=$row['gd_id']?>)">삭제</a></td>
+                            <td style="font-size:12px;"><?=$row[site]?></td>
+                            <td style="font-size:12px;"><?=$row[mem_id]?></td>
+                            <td style="font-size:12px;"><?=$row[mem_name]?></td>
+                            <td style="font-size:12px;"><?=$row[title]?></td>
+                            <td style="font-size:12px;"><?=$row[send_num]?></td>
+                            <td><?=$krow[grp]?></td>
+                            <td><?=$row[total_count]?></td>
+                            <td><?=$srow[cnt]?></td>
+                            <td><?=$row[daily_cnt]?></td>
+                            <td><?=$row[start_date]?></td>
+                            <td><?=$row[end_date]?></td>
+                            <td><?=$row[reg_date]?></td>
+                            <td><a href="edit_daily_msg.php?type=mem&gd_id=<?=$row[gd_id]?>">수정</a>/<a href="javascript:delete_daily(<?=$row[gd_id]?>)">삭제</a></td>
                       </tr>
                     <?
                     $c++;

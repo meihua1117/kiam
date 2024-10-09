@@ -80,7 +80,8 @@ if ($domainData['status'] == "N") { ?>
             newpop1('payment_pop.php?index=' + '<?= $pay_data['orderNumber'] ?>' + '&type=user');
     </script>
 <?
-}*/
+}
+*/
 
 $sql = "select * from Gn_Ad_Manager where ad_position = 'H' and use_yn ='Y'";
 $res_result = mysql_query($sql);
@@ -91,9 +92,19 @@ if ($domainData['status'] == "N") {
     $sql_recom_id = "select mem_id from Gn_Member where mem_code='{$_REQUEST['mem_code']}'";
     $res_recom_id = mysql_query($sql_recom_id);
     $row_recom_id = mysql_fetch_array($res_recom_id);
-    $join_link = "join.php?recom_id=" . $row_recom_id['mem_id'];
+    if ($HTTP_HOST != "kiam.kr") {
+        $join_link = get_join_link("http://" . $HTTP_HOST, $row_recom_id['mem_id'],"");
+    } else {
+        $join_link = get_join_link("http://www.kiam.kr", $row_recom_id['mem_id'],"");
+    }
+    //$join_link = "join.php?recom_id=" . $row_recom_id['mem_id'];
 } else {
-    $join_link = "join.php";
+    if ($HTTP_HOST != "kiam.kr") {
+        $join_link = get_join_link("http://" . $HTTP_HOST, "","");
+    } else {
+        $join_link = get_join_link("http://www.kiam.kr", "","");
+    }
+    //$join_link = "join.php";
 }
 ?>
 <!DOCTYPE html>
@@ -217,7 +228,7 @@ if ($domainData['status'] == "N") {
                             <a href=""><img src="<?= $domainData['logo'] ?>" style="width:252px;height:70px" /></a>
                         <? } ?>
                     <?php } else { ?>
-                        <a href=""><img src="images/only_m_lo_03.jpg" style="width:252px;height:70px" /></a>
+                        <a href=""><img src="images/only_m_lo_03-1.png" style="width:252px;height:70px" /></a>
                     <?php } ?>
                 <? } ?>
             </div>

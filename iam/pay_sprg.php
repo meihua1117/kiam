@@ -19,7 +19,7 @@ include "inc/header.inc.php";
     <!--오픈그래프 (웹페이지 미리보기 -페이스북, 카카오톡)-->
     <meta property="og:title" content="아이엠으로 나를 브랜딩하기">
     <!--제목-->
-    <meta property="og:description" content="<?=$G_card['card_name']?>님의 명함 <?=$G_card['card_company']?> <?=$G_card['card_position']?>">
+    <meta property="og:description" content="<?=$G_card[card_name]?>님의 명함 <?=$G_card[card_company]?> <?=$G_card[card_position]?>">
     <!--내용-->
     <meta property="og:image" content="<?=$main_img1?>">
     <!--이미지-->
@@ -41,6 +41,8 @@ include "inc/header.inc.php";
     <link rel='stylesheet' href='/css/font-awesome.min.css' /><!-- 2019.11 반응형 CSS -->
     <link rel="stylesheet" href="/admin/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/style_j.css">
+    <!-- ########## TODO COMMENT FOR TEST  패치할떄 해제해야함 ###########  -->
+    <!--script src="//developers.kakao.com/sdk/js/kakao.min.js" charset="utf-8"></script-->
     <script src="js/jquery-3.1.1.min.js"></script>
     <script src="js/slick.min.js"></script>
     <script src="js/main.js"></script>
@@ -197,7 +199,7 @@ if($platform == "mobile"){
                         type:"POST",
                         url:"/ajax/get_mem_address.php",
                         dataType:"json",
-                        data:{mem_id:'<?=$_SESSION['iam_member_id']?>'},
+                        data:{mem_id:'<?=$_SESSION[iam_member_id]?>'},
                         success: function(data){
                             console.log(data.address);
                             $('#allat_recp_addr').val(data.address);
@@ -247,13 +249,13 @@ if($platform == "mobile"){
         $('.daily_popup').css('display', 'block');
         var iam_link = "";
         if(share_kind == 0) {
-            iam_link = "daily_write_iam.php?msg=" + '<?=$G_card['card_name']?>' + "님의 명함입니다.  " +
-            "<?=$G_card['card_company'].'<br>'.$G_card['card_position'].'<br>'.$G_card['card_phone'].'<br>'.$domainData['sub_domain'].'/?'.$G_card['card_short_url']?>" +
+            iam_link = "daily_write_iam.php?msg=" + '<?=$G_card[card_name]?>' + "님의 명함입니다.  " +
+            "<?=$G_card[card_company].'<br>'.$G_card[card_position].'<br>'.$G_card[card_phone].'<br>'.$domainData[sub_domain].'/?'.$G_card[card_short_url]?>" +
             " 모바일 명함을 새로 만들었습니다. 휴대폰에 저장부탁해요. 혹시 명함 만들면 저에게도 보내주시구요. 감사합니다. ";
         }
         else if(share_kind == 1) {
-            iam_link = "daily_write_iam.php?msg=" + '<?=$G_card['card_name']?>' + "님의 명함입니다.  " +
-            '<?=$G_card['card_company']?> ' + ' <?=$G_card['card_position']?> ' + ' <?=$G_card['card_phone']?> ' + '<?=$domainData['sub_domain']."/?mem_code=".$all_card_row['mem_code']?>' +
+            iam_link = "daily_write_iam.php?msg=" + '<?=$G_card[card_name]?>' + "님의 명함입니다.  " +
+            '<?=$G_card[card_company]?> ' + ' <?=$G_card[card_position]?> ' + ' <?=$G_card[card_phone]?> ' + '<?=$domainData[sub_domain]."/?mem_code=".$all_card_row['mem_code']?>' +
             " 모바일 명함을 새로 만들었습니다. 휴대폰에 저장부탁해요. 혹시 명함 만들면 저에게도 보내주시구요. 감사합니다. ";
         }
         //location = iam_link;
@@ -263,9 +265,9 @@ if($platform == "mobile"){
         $("#sns-modalwindow").modal("hide");
         var iam_link = "";
         if(share_kind == 0)
-            iam_link = '<?=$G_card['card_name']?>님의 명함 <?=$G_card['card_company']?> <?=$G_card['card_position']?> <?=$G_card['card_phone']?> <?php echo $domainData['sub_domain'];?>/?<?=$G_card['card_short_url']?>';
+            iam_link = '<?=$G_card[card_name]?>님의 명함 <?=$G_card[card_company]?> <?=$G_card[card_position]?> <?=$G_card[card_phone]?> <?php echo $domainData[sub_domain];?>/?<?=$G_card[card_short_url]?>';
         else
-            iam_link = '<?=$G_card['card_name']?>님의 명함 <?=$G_card['card_company']?> <?=$G_card['card_position']?> <?=$G_card['card_phone']?> <?=$domainData['sub_domain']."/?mem_code=".$all_card_row['mem_code']?>';
+            iam_link = '<?=$G_card[card_name]?>님의 명함 <?=$G_card[card_company]?> <?=$G_card[card_position]?> <?=$G_card[card_phone]?> <?=$domainData[sub_domain]."/?mem_code=".$all_card_row[mem_code]?>';
         iam_sms(iam_link);
     }
     function iam_sms(url) {
@@ -275,7 +277,7 @@ if($platform == "mobile"){
     }
     function iam_count(str) {
         var member_id = '<?=$card_owner?>';
-        var card_idx = '<?=$G_card['idx']?>';
+        var card_idx = '<?=$G_card[idx]?>';
         var formData = new FormData();
         formData.append('str', str);
         formData.append('mem_id', member_id);
@@ -297,16 +299,16 @@ if($platform == "mobile"){
     function shareKakaotalk() {
         var iam_link = "";
         if(share_kind == 0)
-            iam_link = '<?=$domainData['sub_domain'];?>/?<?=$G_card['card_short_url']?>';
+            iam_link = '<?=$domainData[sub_domain];?>/?<?=$G_card[card_short_url]?>';
         else
-            iam_link = '<?=$domainData['sub_domain']."/?mem_code=".$all_card_row['mem_code']?>';
+            iam_link = '<?=$domainData[sub_domain]."/?mem_code=".$all_card_row[mem_code]?>';
         iam_count('iam_kakao');
         try{
             Kakao.Link.sendDefault({
                 objectType: "feed",
                 content: {
                     title: "아이엠으로 나를 브랜딩하기", // 콘텐츠의 타이틀
-                    description: "<?=$G_card['card_name']?>/<?=$G_card['card_company']?>/<?=$G_card['card_position']?>/<?=$G_card['card_phone']?>", // 콘텐츠 상세설명
+                    description: "<?=$G_card[card_name]?>/<?=$G_card[card_company]?>/<?=$G_card[card_position]?>/<?=$G_card[card_phone]?>", // 콘텐츠 상세설명
                     imageUrl: "<?=$main_img1?>", // 썸네일 이미지
                     link: {
                         mobileWebUrl: iam_link, // 모바일 카카오톡에서 사용하는 웹 링크 URL
@@ -332,10 +334,10 @@ if($platform == "mobile"){
         $("#sns-modalwindow").modal("hide");
         var iam_link = "";
         if(share_kind == 0)
-            iam_link = '<?=$domainData['sub_domain'];?>/?<?=$G_card['card_short_url']?>';
+            iam_link = '<?=$domainData[sub_domain];?>/?<?=$G_card[card_short_url]?>';
         else
-            iam_link = '<?=$domainData['sub_domain']."/?mem_code=".$all_card_row['mem_code']?>';
-        shareFaceBook('<?=$G_card['card_name']?>님의 명함 <?=$G_card['card_company']?> <?=$G_card['card_position']?>', iam_link);
+            iam_link = '<?=$domainData[sub_domain]."/?mem_code=".$all_card_row[mem_code]?>';
+        shareFaceBook('<?=$G_card[card_name]?>님의 명함 <?=$G_card[card_company]?> <?=$G_card[card_position]?>', iam_link);
     }
     function shareFaceBook(desc, url) {
         var text = encodeURIComponent(desc);
@@ -378,14 +380,14 @@ if($platform == "mobile"){
         iam_count('iam_share');
         var iam_link = "";
         if(share_kind == 0)
-            iam_link = '<?=$domainData['sub_domain'];?>/?<?=$G_card['card_short_url']?>';
+            iam_link = '<?=$domainData[sub_domain];?>/?<?=$G_card[card_short_url]?>';
         else
-            iam_link = '<?=$domainData['sub_domain']."/?mem_code=".$all_card_row['mem_code']?>';
+            iam_link = '<?=$domainData[sub_domain]."/?mem_code=".$all_card_row[mem_code]?>';
         // 글을 쓸 수 있는 란을 만든다.
         var aux = document.createElement("input");
         // 지정된 요소의 값을 할당 한다.
         aux.setAttribute("value",
-            "<?=$G_card['card_name']?>님의 명함 <?=$G_card['card_company']?> <?=$G_card['card_position']?> <?=$G_card['card_phone']?> "+iam_link
+            "<?=$G_card[card_name]?>님의 명함 <?=$G_card[card_company]?> <?=$G_card[card_position]?> <?=$G_card[card_phone]?> "+iam_link
         );
         // bdy에 추가한다.
         document.body.appendChild(aux);
@@ -435,7 +437,7 @@ if($platform == "mobile"){
                     <!--승인금액-->
                     <input type="hidden" name="allat_amt" id="allat_amt" value="" size="19" maxlength=10>
                     <!--회원ID-->
-                    <input type="hidden" name="allat_pmember_id" value="<?php echo $_SESSION['one_member_id'];?>" size="19" maxlength=20>
+                    <input type="hidden" name="allat_pmember_id" value="<?php echo $_SESSION[one_member_id];?>" size="19" maxlength=20>
                     <!--상품코드-->
                     <input type="hidden" name="allat_product_cd" id="allat_product_cd" value="특별정기결제" size="19" maxlength=1000>
                     <!--상품명-->
@@ -500,7 +502,7 @@ if($platform == "mobile"){
                     <input type="hidden" name="member_type" id="member_type" />
                     <input type="hidden" name="fujia_status" id="fujia_status" />
                     <input type="hidden" name="mid" value="obmms20151" />
-                    <?if(!$_SESSION['iam_member_id']){?>
+                    <?if(!$_SESSION[iam_member_id]){?>
                         <div class="a8"><a href="javascript:void(0)" onclick="alert('로그인후 이용이 가능합니다.');"><img src="/images/sub_02_btn_23.jpg" /></a></div>
                     <?}else {?>
                         <div class="a8"><a href="javascript:void(0)" onclick="pay_go(document.pay_form)"><img src="/images/sub_02_btn_23.jpg" /></a></div>
@@ -559,7 +561,7 @@ if($platform == "mobile"){
                     ※ 아이엠을 보내는 기능은 무료이지만 일반 메시지를 보내는 것은 유료입니다.</h3>
                 </div>
                 <div class="button-wrap">
-                    <?if($_SESSION['iam_member_id']) {?>
+                    <?if($_SESSION[iam_member_id]) {?>
                         <a href="#" id="closePopup" class="buttons is-cancel">다음에보내기</a>
                         <a  id="daily_popup_content" href="#" target="_blank" class="buttons is-save">시작하기</a>
                     <?} else {?>
@@ -595,7 +597,7 @@ if($platform == "mobile"){
             </div>
         </div>
     <?
-    mysqli_close($self_con);
+    mysql_close();
     include_once "_foot.php";
     ?>
 </body>

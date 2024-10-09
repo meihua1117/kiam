@@ -79,7 +79,7 @@ set_gwc_delivery_state();
                     <?if($_SESSION['one_member_admin_id'] != "onlyonemaket"){?>
                         <div style="margin-bottom:40px">
                             <button class="btn btn-primary pull-right" style="margin-right: 5px;" onclick="excel_down('/excel_down/excel_gwc_payment_down.php');return false;"><i class="fa fa-download"></i> 엑셀다운받기</button>
-                            <?if($_SESSION['one_member_id'] != 'sungmheo'){?>
+                            <?if($_SESSION[one_member_id] != 'sungmheo'){?>
                             <button class="btn btn-primary pull-right" style="margin-right: 5px;" onclick="deleteMultiRow();return false;"> 선택삭제</button>
                             <button class="btn btn-primary pull-right" style="margin-right: 5px;" onclick="location='gwc_payment_balance_list.php';return false;"> 굿마켓정산관리</button>
                             <?}?>
@@ -89,8 +89,8 @@ set_gwc_delivery_state();
                         <div class="box-tools">
                             <div class="input-group"  >
                                 <div class="form-group">
-                                    <input type="date" style="height: 30px" name="search_start_date" placeholder="" id="search_start_date" value="<?=$_REQUEST['search_start_date']?>" multiple/> ~
-                                    <input type="date" style="height: 30px" name="search_end_date" placeholder="" id="search_end_date" value="<?=$_REQUEST['search_end_date']?>"/>
+                                    <input type="date" style="height: 30px" name="search_start_date" placeholder="" id="search_start_date" value="<?=$_REQUEST[search_start_date]?>" multiple/> ~
+                                    <input type="date" style="height: 30px" name="search_end_date" placeholder="" id="search_end_date" value="<?=$_REQUEST[search_end_date]?>"/>
                                 </div>
                                 <div class="form-group">
                                     <select name="yutong" class="form-control input-sm " style="margin-right:5px">
@@ -104,8 +104,8 @@ set_gwc_delivery_state();
                                         <option value="">공급사</option>
                                         <?
                                         $sql_gongupsa = "select gwc_provider_name from Gn_Member where gwc_provider_name!='' GROUP BY gwc_provider_name";
-                                        $res_gongupsa = mysqli_query($self_con, $sql_gongupsa);
-                                        while($row_gongupsa = mysqli_fetch_array($res_gongupsa)){
+                                        $res_gongupsa = mysql_query($sql_gongupsa);
+                                        while($row_gongupsa = mysql_fetch_array($res_gongupsa)){
                                         ?>
                                         <option value="<?=$row_gongupsa[0]?>" <?if($_REQUEST['provide'] == $row_gongupsa[0]) echo "selected"?>><?=$row_gongupsa[0]?></option>
                                         <?}?>
@@ -246,20 +246,18 @@ set_gwc_delivery_state();
                                 }
 
                                 $order = $order?$order:"desc";
-                                //$query = "SELECT SQL_CALC_FOUND_ROWS a.*$sel_str FROM tjd_pay_result_gwc a $join_str WHERE a.gwc_cont_pay=1 $searchStr";
-                                $query = "SELECT SQL_CALC_FOUND_ROWS a.*$sel_str FROM tjd_pay_result_gwc a $join_str WHERE 1=1 $searchStr";
+                                $query = "SELECT SQL_CALC_FOUND_ROWS a.*$sel_str FROM tjd_pay_result a $join_str WHERE a.gwc_cont_pay=1 $searchStr";
                                 $excel_sql=$query;
                                 $excel_sql=str_replace("'","`",$excel_sql);
-                                $res	    = mysqli_query($self_con, $query);
-                                $totalCnt	=  mysqli_num_rows($res);
+                                $res	    = mysql_query($query);
+                                $totalCnt	=  mysql_num_rows($res);
                                 $limitStr       = " LIMIT ".(($startPage-1)*$pageCnt).", ".$pageCnt;
                                 $number			= $totalCnt - ($nowPage - 1) * $pageCnt;
                                 $orderQuery .= " ORDER BY a.date DESC $limitStr ";
                                 $i = 1;
                                 $query .= $orderQuery;
-                                echo $query;
-                                $res = mysqli_query($self_con, $query);
-                                while($row = mysqli_fetch_array($res)) {
+                                $res = mysql_query($query);
+                                while($row = mysql_fetch_array($res)) {
                                     if($rec_id || $site || $site_iam){
                                         $chk_str = 0;
                                         $recommend_id = $row['recommend_id'];
@@ -267,104 +265,102 @@ set_gwc_delivery_state();
                                     else{
                                         $chk_str = 1;
                                         $sql_mem = "select recommend_id from Gn_Member where mem_id='{$row['buyer_id']}'";
-                                        $res_mem = mysqli_query($self_con, $sql_mem);
-                                        $row_mem = mysqli_fetch_array($res_mem);
+                                        $res_mem = mysql_query($sql_mem);
+                                        $row_mem = mysql_fetch_array($res_mem);
                                         $recommend_id = $row_mem['recommend_id'];
                                     }
 
-                                    $sql_order = "select * from Gn_Gwc_Order where tjd_idx='{$row['no']}'";
-                                    $res_order = mysqli_query($self_con, $sql_order);
-                                    $row_order = mysqli_fetch_array($res_order);
+                                    $sql_order = "select * from Gn_Gwc_Order where tjd_idx='{$row[no]}'";
+                                    $res_order = mysql_query($sql_order);
+                                    $row_order = mysql_fetch_array($res_order);
 
                                     $show_link = "http://kiam.kr/iam/gwc_order_pay.php?contents_idx=".$row_order['contents_idx']."&contents_cnt=".$row_order['contents_cnt']."&contents_price=".$row_order['contents_price']."&contents_salary=".$row_order['salary_price']."&seller_id=".$row['seller_id']."&order_option=".$row_order['order_option']."&admin=Y&mem_id=".$row_order['mem_id']."&use_point_val=".$row_order['use_point']."&pay_method=".$row_order['payMethod'];
 
                                     if($row['yutong_name'] == 1){
                                         $sql_gong = "select mem_name from Gn_Member where mem_id='iamstore'";
-                                        $res_gong = mysqli_query($self_con, $sql_gong);
-                                        $row_gong = mysqli_fetch_array($res_gong);
+                                        $res_gong = mysql_query($sql_gong);
+                                        $row_gong = mysql_fetch_array($res_gong);
                                         $gong_data = $row_gong[0]."<br> iamstore";
                                         $yt_name = "웹빙몰";
                                     }
                                     else{
                                         $sql_gong = "select mem_id, mem_name from Gn_Member where gwc_provider_name='{$row['provider_name']}'";
-                                        $res_gong = mysqli_query($self_con, $sql_gong);
-                                        $row_gong = mysqli_fetch_array($res_gong);
-                                        $gong_data = $row_gong['mem_name']."<br>".$row_gong['mem_id'];
+                                        $res_gong = mysql_query($sql_gong);
+                                        $row_gong = mysql_fetch_array($res_gong);
+                                        $gong_data = $row_gong[mem_name]."<br>".$row_gong[mem_id];
 
                                         $yt_name = $row['provider_name']."<br>온리원";
                                     }
-                                    $sql_seller = "select mem_name from Gn_Member where mem_id='{$row['seller_id']}'";
-                                    $res_seller = mysqli_query($self_con, $sql_seller);
-                                    $row_seller = mysqli_fetch_array($res_seller);
-                                    $seller_data = $row_seller[0]."<br>".$row['seller_id'];
+                                    $sql_seller = "select mem_name from Gn_Member where mem_id='{$row[seller_id]}'";
+                                    $res_seller = mysql_query($sql_seller);
+                                    $row_seller = mysql_fetch_array($res_seller);
+                                    $seller_data = $row_seller[0]."<br>".$row[seller_id];
 
                                     $sql_recommend = "select mem_name from Gn_Member where mem_id='{$recommend_id}'";
-                                    $res_recommend = mysqli_query($self_con, $sql_recommend);
-                                    $row_recommend = mysqli_fetch_array($res_recommend);
+                                    $res_recommend = mysql_query($sql_recommend);
+                                    $row_recommend = mysql_fetch_array($res_recommend);
                                     $recommend_data = $row_recommend[0]."<br>".$recommend_id;
 
-                                    $sql_cont_data = "select idx, contents_sell_price, send_provide_price, send_salary_price, contents_img, product_code from Gn_Iam_Contents_Gwc where idx='{$row_order['contents_idx']}'";
-                                    $res_cont_data = mysqli_query($self_con, $sql_cont_data);
-                                    $row_cont_data = mysqli_fetch_array($res_cont_data);
-                                    $price_data = ($row_order['contents_price'] * 1 / $row_order['contents_cnt'] * 1)."<br>".$row_order['contents_provide_price'];
+                                    $sql_cont_data = "select idx, contents_sell_price, send_provide_price, send_salary_price, contents_img, product_code from Gn_Iam_Contents_Gwc where idx='{$row_order[contents_idx]}'";
+                                    $res_cont_data = mysql_query($sql_cont_data);
+                                    $row_cont_data = mysql_fetch_array($res_cont_data);
+                                    $price_data = ($row_order['contents_price'] * 1 / $row_order['contents_cnt'] * 1)."<br>".$row_order[contents_provide_price];
 
                                     $price_data1 = ($row_order['contents_price'])."<br>".$row_order['salary_price'];
 
-                                    if(strpos($row_cont_data['contents_img'], ",") !== false){
-                                        $img_link1 = explode(",", $row_cont_data['contents_img']);
+                                    if(strpos($row_cont_data[contents_img], ",") !== false){
+                                        $img_link1 = explode(",", $row_cont_data[contents_img]);
                                         $img_link = trim($img_link1[0]);
                                     }
                                     else{
-                                        $img_link = $row_cont_data['contents_img'];
+                                        $img_link = $row_cont_data[contents_img];
                                     }
 
-                                    $sql_order_point = "select use_point from Gn_Gwc_Order where tjd_idx='{$row['no']}'";
-                                    $res_order_point = mysqli_query($self_con, $sql_order_point);
-                                    $row_order_point = mysqli_fetch_array($res_order_point);
+                                    $sql_order_point = "select use_point from Gn_Gwc_Order where tjd_idx='{$row[no]}'";
+                                    $res_order_point = mysql_query($sql_order_point);
+                                    $row_order_point = mysql_fetch_array($res_order_point);
 
-                                    $price_data2 = $row_order_point[0]."/\n".($row['TotPrice'] * 1 - $row_order_point[0] * 1);
+                                    $price_data2 = $row_order_point[0]."/\n".($row[TotPrice] * 1 - $row_order_point[0] * 1);
 
-                                    if($row['payMethod'] == "BANK" || $row['payMethod'] == "BANKPOINT"){
+                                    if($row[payMethod] == "BANK" || $row[payMethod] == "BANKPOINT"){
                                         $card_price = 0;
-                                        $bank_price = $row['TotPrice'] * 1 - $row_order_point[0] * 1;
+                                        $bank_price = $row[TotPrice] * 1 - $row_order_point[0] * 1;
                                     }
                                     else{
                                         $bank_price = 0;
-                                        $card_price = $row['TotPrice'] * 1 - $row_order_point[0] * 1;
+                                        $card_price = $row[TotPrice] * 1 - $row_order_point[0] * 1;
                                     }
 
-                                    $sql_item_cnt_month = "select SUM(contents_cnt) as month_cnt from Gn_Gwc_Order where contents_idx='{$row_order['contents_idx']}' and reg_date > '{$date_today}' and page_type=0";
-                                    $res_item_cnt_month = mysqli_query($self_con, $sql_item_cnt_month);
-                                    $row_item_cnt_month = mysqli_fetch_array($res_item_cnt_month);
+                                    $sql_item_cnt_month = "select SUM(contents_cnt) as month_cnt from Gn_Gwc_Order where contents_idx='{$row_order[contents_idx]}' and reg_date > '{$date_today}' and page_type=0";
+                                    $res_item_cnt_month = mysql_query($sql_item_cnt_month);
+                                    $row_item_cnt_month = mysql_fetch_array($res_item_cnt_month);
 
-                                    $sql_item_cnt_all = "select SUM(contents_cnt) as all_cnt from Gn_Gwc_Order where contents_idx='{$row_order['contents_idx']}' and page_type=0";
-                                    $res_item_cnt_all = mysqli_query($self_con, $sql_item_cnt_all);
-                                    $row_item_cnt_all = mysqli_fetch_array($res_item_cnt_all);
+                                    $sql_item_cnt_all = "select SUM(contents_cnt) as all_cnt from Gn_Gwc_Order where contents_idx='{$row_order[contents_idx]}' and page_type=0";
+                                    $res_item_cnt_all = mysql_query($sql_item_cnt_all);
+                                    $row_item_cnt_all = mysql_fetch_array($res_item_cnt_all);
 
                                     $month_cnt = $row_item_cnt_month[0]?$row_item_cnt_month[0]:"0";
                                     $cnt_data = $month_cnt."/\n".$row_item_cnt_all[0];
 
-                                    //$sql_price_month = "select SUM(TotPrice) as month_price from tjd_pay_result_gwc where gwc_cont_pay=1 and date > '{$date_today}' and buyer_id='{$row['buyer_id']}' and end_status='Y'";
-                                    $sql_price_month = "select SUM(TotPrice) as month_price from tjd_pay_result_gwc where date > '{$date_today}' and buyer_id='{$row['buyer_id']}' and end_status='Y'";
-                                    $res_price_month = mysqli_query($self_con, $sql_price_month);
-                                    $row_price_month = mysqli_fetch_array($res_price_month);
+                                    $sql_price_month = "select SUM(TotPrice) as month_price from tjd_pay_result where gwc_cont_pay=1 and date > '{$date_today}' and buyer_id='{$row['buyer_id']}' and end_status='Y'";
+                                    $res_price_month = mysql_query($sql_price_month);
+                                    $row_price_month = mysql_fetch_array($res_price_month);
 
-                                    //$sql_price_all = "select SUM(TotPrice) as all_price from tjd_pay_result_gwc where gwc_cont_pay=1 and buyer_id='{$row['buyer_id']}' and end_status='Y'";
-                                    $sql_price_all = "select SUM(TotPrice) as all_price from tjd_pay_result_gwc where buyer_id='{$row['buyer_id']}' and end_status='Y'";
-                                    $res_price_all = mysqli_query($self_con, $sql_price_all);
-                                    $row_price_all = mysqli_fetch_array($res_price_all);
+                                    $sql_price_all = "select SUM(TotPrice) as all_price from tjd_pay_result where gwc_cont_pay=1 and buyer_id='{$row['buyer_id']}' and end_status='Y'";
+                                    $res_price_all = mysql_query($sql_price_all);
+                                    $row_price_all = mysql_fetch_array($res_price_all);
 
                                     $month_money = $row_price_month[0]?$row_price_month[0]:"0";
                                     $money_data = $month_money."<br>".$row_price_all[0];
 
                                     $prod_state = '주문';
-                                    if($row_order['prod_state'] == '1'){
+                                    if($row_order[prod_state] == '1'){
                                         $prod_state = "취소";
                                     }
-                                    else if($row_order['prod_state'] == '2'){
+                                    else if($row_order[prod_state] == '2'){
                                         $prod_state = "반품";
                                     }
-                                    else if($row_order['prod_state'] == '3'){
+                                    else if($row_order[prod_state] == '3'){
                                         $prod_state = "교환";
                                     }
                                 ?>
@@ -391,12 +387,12 @@ set_gwc_delivery_state();
                                         <td><?=$row_order_point[0]?></td>
                                         <td><?=$bank_price?></td>
                                         <td><?=$card_price?></td>
-                                        <td><?=$row['TotPrice']?></td>
+                                        <td><?=$row[TotPrice]?></td>
                                         <td>
                                             <form method="post" name="ssForm<?=$i?>" id="ssForm<?=$i?>" action="ajax/gwc_payment_save.php">
                                                 <input type="hidden" name="no" value="<?=$row['no']?>" >
-                                                <input type="hidden" name="mem_id" value="<?=$_SESSION['one_member_id']?>" >
-                                                <input type="hidden" name="price" id="price_<?=$i?>" value="<?=$row['TotPrice']?>" >
+                                                <input type="hidden" name="mem_id" value="<?=$_SESSION[one_member_id]?>" >
+                                                <input type="hidden" name="price" id="price_<?=$i?>" value="<?=$row[TotPrice]?>" >
                                                 <input type="hidden" name="type" id="type_<?=$i?>" value="main">
                                                 <select name="end_status"  onchange="payment_save('#ssForm<?=$i?>');return false;">
                                                     <option value="N" <?php echo $row['end_status'] == "N"?"selected":""?>>결제대기</option>
@@ -409,7 +405,7 @@ set_gwc_delivery_state();
                                         <td>
                                             <form method="post" name="releaseForm<?=$i?>" id="releaseForm<?=$i?>" action="ajax/gwc_payment_save.php">
                                                 <input type="hidden" name="no" value="<?=$row_order['id']?>" >
-                                                <input type="hidden" name="mem_id" value="<?=$_SESSION['one_member_id']?>" >
+                                                <input type="hidden" name="mem_id" value="<?=$_SESSION[one_member_id]?>" >
                                                 <input type="hidden" name="type" id="type_<?=$i?>" value="release">
                                                 <select name="prod_release_state"  onchange="payment_save('#releaseForm<?=$i?>');return false;">
                                                     <option value="0" <?php echo $row_order['prod_release_state'] == 0?"selected":""?>>입금대기</option>
@@ -425,24 +421,24 @@ set_gwc_delivery_state();
                                                 <option value="">배송회사</option>
                                                 <?
                                                 $sql_delivery = "select * from delivery_list";
-                                                $res_delivery = mysqli_query($self_con, $sql_delivery);
-                                                while($row_delivery = mysqli_fetch_array($res_delivery)){
+                                                $res_delivery = mysql_query($sql_delivery);
+                                                while($row_delivery = mysql_fetch_array($res_delivery)){
                                                 ?>
-                                                <option value="<?=$row_delivery['id']?>" title="<?=$row_delivery['delivery_name']?>" <?=$row_delivery['id']==$row_order['delivery']?'selected':''?>><?=cut_str($row_delivery['delivery_name'], 5)?></option>
+                                                <option value="<?=$row_delivery[id]?>" title="<?=$row_delivery[delivery_name]?>" <?=$row_delivery[id]==$row_order[delivery]?'selected':''?>><?=cut_str($row_delivery[delivery_name], 5)?></option>
                                                 <?}?>
                                             </select>
                                             <select name="delivery_state_<?=$row_order['id']?>" style="font-size:11px;">
-                                                <option value="<?=$row_order['delivery_state']?>" <?=$row_order['delivery_state']==1?'selected':''?>>상품준비중</option>
-                                                <option value="<?=$row_order['delivery_state']?>" <?=$row_order['delivery_state']==2?'selected':''?>>배송중</option>
-                                                <option value="<?=$row_order['delivery_state']?>" <?=$row_order['delivery_state']==3?'selected':''?>>배송완료</option>
+                                                <option value="<?=$row_order[delivery_state]?>" <?=$row_order[delivery_state]==1?'selected':''?>>상품준비중</option>
+                                                <option value="<?=$row_order[delivery_state]?>" <?=$row_order[delivery_state]==2?'selected':''?>>배송중</option>
+                                                <option value="<?=$row_order[delivery_state]?>" <?=$row_order[delivery_state]==3?'selected':''?>>배송완료</option>
                                             </select>
                                         </td>
                                         <td>
-                                            <input type="text" name="delivery_no_<?=$row_order['id']?>" value="<?=$row_order['delivery_no']?>" style="width:80px;font-size: 11px;">
-                                            <button onclick="show_delivery_link('<?=$row_order['delivery']?>');return false;" style="font-size: 11px;color: white;background-color: black;padding: 0px 5px;">배송조회</button>
+                                            <input type="text" name="delivery_no_<?=$row_order['id']?>" value="<?=$row_order[delivery_no]?>" style="width:80px;font-size: 11px;">
+                                            <button onclick="show_delivery_link('<?=$row_order[delivery]?>');return false;" style="font-size: 11px;color: white;background-color: black;padding: 0px 5px;">배송조회</button>
                                             <button onclick="save_delivery('<?=$row_order['id']?>');return false;" style="font-size: 11px;color: white;background-color: black;padding: 0px 5px;">저장</button>
                                         </td>
-                                        <td><a href="javascript:show_detail_prod('<?=$row_order['state_detail']?>')"><?=$prod_state?></a></td>
+                                        <td><a href="javascript:show_detail_prod('<?=$row_order[state_detail]?>')"><?=$prod_state?></a></td>
                                     </tr>
                                 <?$i++;
                                 }

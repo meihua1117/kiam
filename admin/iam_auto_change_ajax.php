@@ -31,7 +31,7 @@ $query="update Gn_Iam_automem set memid = '$memid',
                                     apply_link = '$apply_link',
                                     reg_date=now()
         where memid = '$mem_id'";
-mysqli_query($self_con, $query);
+mysql_query($query);
 
-echo json_encode(array("result"=>$result));
+echo "{\"result\":\"$result\"}";
 ?>

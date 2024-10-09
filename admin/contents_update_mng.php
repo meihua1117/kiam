@@ -4,6 +4,7 @@ include_once $_SERVER['DOCUMENT_ROOT']."/admin/include/admin_header.inc.php";
 extract($_GET);
 // 오늘날짜
 $date_today=date("Y-m-d");
+$date_month=date("Y-m");
 ?>
 
 <script type="text/javascript" src="/jquery.lightbox_me.js"></script>
@@ -124,8 +125,8 @@ $date_today=date("Y-m-d");
                             <form method="get" name="search_people" id="search_people">
                                 <div class="box-tools">
                                     <div class="input-group" style="display:inline-flex;">
-                                        <input type="date" placeholder="시작일" name="search_start_date" value="<?=$_REQUEST['search_start_date']?>" style="margin-right:5px;border: 1px solid black;width:125px;">
-                                        <input type="date" placeholder="종료일" name="search_end_date" value="<?=$_REQUEST['search_end_date']?>" style="margin-right:5px;border: 1px solid black;width:125px;">
+                                        <input type="date" placeholder="시작일" name="search_start_date" value="<?=$_REQUEST[search_start_date]?>" style="margin-right:5px;border: 1px solid black;width:125px;">
+                                        <input type="date" placeholder="종료일" name="search_end_date" value="<?=$_REQUEST[search_end_date]?>" style="margin-right:5px;border: 1px solid black;width:125px;">
                                         <select title="" name="settle_type" data-plugin-selectTwo onchange="" style="width:90px;margin-right:5px;">
                                             <option value="">전체</option>
                                             <option value="1" <?if($_REQUEST['settle_type'] == "1") echo "selected"?>>신청</option>
@@ -186,8 +187,8 @@ $date_today=date("Y-m-d");
                                 $searchStr .= " AND a.state='{$settle_type}'";
 
                             $sql = "select a.*, b.card_title, c.mem_name, c.mem_point from contents_update_history a inner join Gn_Iam_Name_Card b on a.card_idx=b.idx inner join Gn_Member c on a.mem_id=c.mem_id where 1=1";
-                            $res = mysqli_query($self_con, $sql);
-                            $totalCnt = mysqli_num_rows($res);
+                            $res = mysql_query($sql);
+                            $totalCnt = mysql_num_rows($res);
 
                             $limitStr = " LIMIT ".(($startPage-1)*$pageCnt).", ".$pageCnt;
                             $number = $totalCnt - ($nowPage - 1) * $pageCnt;
@@ -196,8 +197,8 @@ $date_today=date("Y-m-d");
                             
                             $query = $sql.$searchStr.$orderQuery;
                             // echo $query; exit;
-                            $result = mysqli_query($self_con, $query);
-                            while($row = mysqli_fetch_array($result)){
+                            $result = mysql_query($query);
+                            while($row = mysql_fetch_array($result)){
                                 $no++;
                                 switch ($row['web_type']){
                                     case 'peopleid':
@@ -258,7 +259,7 @@ $date_today=date("Y-m-d");
                 </div>
             </div><!-- /.row -->
         </section><!-- /.content -->
-    </div><!-- /content-wrapper -->
+    </div><!-- /.content-wrapper -->
 
 <form id="excel_down_form" name="excel_down_form"  target="excel_iframe" method="post">
     <input type="hidden" name="grp_id" value="" />

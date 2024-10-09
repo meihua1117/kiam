@@ -4,11 +4,12 @@ include_once $_SERVER['DOCUMENT_ROOT']."/admin/include/admin_header.inc.php";
 extract($_GET);
 // 오늘날짜
 $date_today=date("Y-m-d");
+$date_month=date("Y-m");
 if($idx) {
     // 상세 정보
     $query = "select * from Gn_Iam_multilang where no='$idx'";
-    $res = mysqli_query($self_con, $query);
-    $data = mysqli_fetch_array($res);
+    $res = mysql_query($query);
+    $data = mysql_fetch_array($res);
 }
 ?>
 <style>
@@ -100,7 +101,7 @@ if($idx) {
                 </div><!-- /.row -->
             </section><!-- /.content -->
         </form>
-    </div><!-- /content-wrapper -->
+    </div><!-- /.content-wrapper -->
 <script language="javascript">
     function form_save() {
         $.ajax({

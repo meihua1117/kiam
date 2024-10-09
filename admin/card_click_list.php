@@ -214,8 +214,8 @@ $(function() {
                                 <?
                                 //디폴트 아바타
                                 $sql = "select main_img1 from Gn_Iam_Info where mem_id = 'obmms02'";
-                                $result=mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-                                $row=mysqli_fetch_array($result);
+                                $result=mysql_query($sql) or die(mysql_error());
+                                $row=mysql_fetch_array($result);
                                 $default_img =  $row['main_img1'];
 
 
@@ -226,8 +226,8 @@ $(function() {
                                 $searchStr .= $search_key ? " AND (ca_1.mem_id LIKE '%".$search_key."%' or ca_1.card_name like '%".$search_key."%' or ca_1.card_company like '%".$search_key."%' )" : null;
 
                                 $count_query = "select count(idx) from Gn_Iam_Name_Card ca_1 WHERE group_id is NULL $searchStr";
-                                $count_result = mysqli_query($self_con, $count_query);
-                                $count_row = mysqli_fetch_array($count_result);
+                                $count_result = mysql_query($count_query);
+                                $count_row = mysql_fetch_array($count_result);
                                 $totalCnt	=  $count_row[0];
 
                                 $query = "SELECT * FROM Gn_Iam_Name_Card ca_1";
@@ -240,48 +240,48 @@ $(function() {
                                 $i = 1;
                                 $c=0;
                                 $query .= $orderQuery;
-                                $res = mysqli_query($self_con, $query);
-                                while($row = mysqli_fetch_array($res)) {
+                                $res = mysql_query($query);
+                                while($row = mysql_fetch_array($res)) {
                                     $mem_sql = "select mem_code, site, site_iam from Gn_Member where mem_id='{$row['mem_id']}'";
-                                    $mem_res = mysqli_query($self_con, $mem_sql);
-                                    $mem_row = mysqli_fetch_array($mem_res);
+                                    $mem_res = mysql_query($mem_sql);
+                                    $mem_row = mysql_fetch_array($mem_res);
 
                                     $fquery = "select count(*) from Gn_Iam_Friends where friends_card_idx = ".$row['idx'];
-                                    $fresult = mysqli_query($self_con, $fquery);
-                                    $frow = mysqli_fetch_array($fresult);
+                                    $fresult = mysql_query($fquery);
+                                    $frow = mysql_fetch_array($fresult);
                                     //$friend_count	=  $frow[0];
 
                                     $cquery = "select count(*) from Gn_Iam_Contents where westory_card_url = '{$row['card_short_url']}'";
-                                    $cresult = mysqli_query($self_con, $cquery);
-                                    $crow = mysqli_fetch_array($cresult);?>
+                                    $cresult = mysql_query($cquery);
+                                    $crow = mysql_fetch_array($cresult);?>
                                     <tr>
                                         <td><?=$number--?></td>
-                                        <td><?=$row['idx']?></td>
+                                        <td><?=$row[idx]?></td>
                                         <td>
                                             <div style="overflow-x:hidden;width:100px;">
-                                                <?=$mem_row['site']?>/<br><?=$mem_row['site_iam']?>/<br><?=$row['mem_id']?>
+                                                <?=$mem_row[site]?>/<br><?=$mem_row[site_iam]?>/<br><?=$row[mem_id]?>
                                             </div>
                                         </td>
                                         <td>
                                             <div style="overflow-x:hidden;width:100px;">
-                                                <?=$row['card_name']?>
+                                                <?=$row[card_name]?>
                                             </div>
                                         </td>
                                         <!-- <td>
                                             <div style="overflow-x:hidden;width:100px;">
-                                                <a href="http://kiam.kr/?<?=strip_tags($row['card_short_url'].$mem_row['mem_code'])?>" target="_blank"><?=$row['card_short_url']?></a>
+                                                <a href="http://kiam.kr/?<?=strip_tags($row['card_short_url'].$mem_row[mem_code])?>" target="_blank"><?=$row['card_short_url']?></a>
                                             </div>
                                         </td> -->
                                         <td>
                                             <div >
                                                 <?
-                                                if($row['main_img1']){
-                                                    $thumb_img =  $row['main_img1'];
+                                                if($row[main_img1]){
+                                                    $thumb_img =  $row[main_img1];
                                                 }else{
                                                     $thumb_img =  $default_img;
                                                 }
                                                 ?>
-                                                <a href="http://kiam.kr/?<?=strip_tags($row['card_short_url'].$mem_row['mem_code'])?>" target="_blank">
+                                                <a href="http://kiam.kr/?<?=strip_tags($row['card_short_url'].$mem_row[mem_code])?>" target="_blank">
                                                     <img class="zoom" src="<?=$thumb_img?>" style="width:50px;">
                                                 </a>
                                             </div>
@@ -295,11 +295,11 @@ $(function() {
                                         </td>
                                         <td>
                                             <div style="overflow-x:hidden;width:100px;">
-                                                <?=$row['card_company']?>
+                                                <?=$row[card_company]?>
                                             </div>
                                         </td>
-                                        <td><?=$row['card_addr']?></td>
-                                        <td><?=$row['card_phone']?></td>
+                                        <td><?=$row[card_addr]?></td>
+                                        <td><?=$row[card_phone]?></td>
                                         <td>
                                             <label class="switch">
                                                 <input type="checkbox" class="chkagree" name="status" id="card_idx_<?php echo $row['idx'];?>"<?php echo $row['phone_display']!="N"?"checked":""?> >
@@ -308,21 +308,21 @@ $(function() {
                                         </td>
                                         <td>
                                             <div style="overflow-x:hidden;width:30px;">
-                                                <?=$row['card_email']?>
+                                                <?=$row[card_email]?>
                                             </div>
                                         </td>
                                         <td><?=$frow[0]?></td>
-                                        <td><?=$row['req_data']?></td>
+                                        <td><?=$row[req_data]?></td>
                                         <td><?=$crow[0]?></td>
-                                        <td><?=$row['iam_click']?></td>
-                                        <td><?=$row['iam_share']?></td>
+                                        <td><?=$row[iam_click]?></td>
+                                        <td><?=$row[iam_share]?></td>
                                         <td style="font-size:12px;">
                                             <label class="switch">
                                                 <input type="checkbox" class="chkclick" name="cardclick" id="card_click_<?=$row['idx'];?>" <?php echo $row['sample_click']=="Y"?"checked":"";?> >
                                                 <span class="slider round" name="status_round" id="card_click_<?=$row['idx'];?>"></span>
                                             </label>
                                         </td>
-                                        <td><input type = "number" class = "number" value='<?=$row['sample_order']?>' style="width: 50px;text-align: right" data-no="<?=$row['idx']?>"></td>
+                                        <td><input type = "number" class = "number" value='<?=$row[sample_order]?>' style="width: 50px;text-align: right" data-no="<?=$row['idx']?>"></td>
                                         <td style="font-size:12px;">
                                             <label class="switch">
                                                 <input type="checkbox" class="chkcall" name="cardclick" id="card_call_<?=$row['idx'];?>" <?php echo $row['admin_shopping']=="0"?"":"checked";?> >

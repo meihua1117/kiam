@@ -2,81 +2,70 @@
 <?
 include_once "../../lib/rlatjd_fun.php";
 
-$search_key = $_GET['search_key'];
-if($search_key != "")
-    $search_sql = " and (m_id like '%".$search_key."%' or name like '%".$search_key."%')";
-$sql_list_count = "select count(*) from Gn_event_request where req_id='{$_SESSION['iam_member_id']}' $search_sql order by request_idx desc";
-$res_list_count = mysqli_query($self_con, $sql_list_count);
-$row_list_count = mysqli_fetch_array($res_list_count);
-$req_count = $row_list_count[0];
-$body = "<script>$('#alarm_count_text').html('총 <span style=\"color:#99cc00\">".$req_count."</span>개의 신청내역');</script>";
+$mem_id = $_SESSION[iam_member_id];
 
-if($req_count == 0){
-    $body .= "<div class=\"content_area\" style=\"text-align:center\">".
-                "<img src=\"/iam/img/menu/no_alarm.png\" ><br>".
-                "<a style=\"text-decoration-line:none;font-weight:bold\">해당 알림이 없습니다.</a>".
-              "</div>";
+$sql_list_count = "select count(*) from Gn_event_request where req_id ='{$mem_id}' order by request_idx desc";
+$res_list_count = mysql_query($sql_list_count);
+$row_list_count = mysql_fetch_array($res_list_count);
+
+$row_num5 = $row_list_count[0];
+
+if(!$row_num5){
+    $body = '<tr>
+                <td colspan="7" style="text-align:center;">
+                    신청항목이 없습니다.
+                </td>
+            </tr>';
     echo $body;
-}else{
-    $sql_list = "select * from Gn_event_request where req_id='{$_SESSION['iam_member_id']}' $search_sql order by request_idx desc";
-    $result=mysqli_query($self_con, $sql_list);
-    while($row=mysqli_fetch_array($result)){
-        $sql_event_data = "select event_title, m_id from Gn_event where event_idx={$row['event_idx']}";
-        $res_event_data = mysqli_query($self_con, $sql_event_data);
-        $row_event_data = mysqli_fetch_array($res_event_data);
-        if($row['req_yn'] == "Y"){
-            $status = "<a style=\"text-decoration-line:none;font-size:10px\">신청완료</a>";
-            $button = "<li><a onclick=\"cancel_req('".$row['request_idx']."');\">취소하기</a></li>";
-        }else{
-            $status = "<a style=\"text-decoration-line:none;font-size:10px;color:red;\">신청취소</a>";
-            $button = "<li><a onclick=\"allow_req('".$row['request_idx']."')\">신청하기</a></li>";
-        }
-        $sql_mem = "select mem_phone from Gn_Member where mem_id='{$row_event_data['m_id']}'";
-        $res_mem = mysqli_query($self_con, $sql_mem);
-        $row_mem = mysqli_fetch_array($res_mem);
-        $body .= "<div class=\"content_area\" style=\"margin-left:15px;margin-right:15px;\">".
-                    "<div class=\"content-item\" style=\"position:relative;box-shadow:none;border-bottom:none\">".
-                        "<div style=\"display:flex;justify-content: space-between;\">".
-                            "<div style=\"margin-top:5px\">".
-                                "<a style=\"text-decoration-line:none;font-size:10px;margin-right:20px\">".
-                                    $row['regdate'].
-                                "</a>".
-                                $status.
-                            "</div>".
-                            "<div class=\"dropdown\" style=\"\">".
-                                "<button class=\"btn-link dropdown-toggle westory_dropdown\" type=\"button\" data-toggle=\"dropdown\" style=\"margin-top:0px;height:24px\">".
-                                    "<img src=\"/iam/img/menu/icon_dot.png\" style=\"height:24px\">".
-                                "</button>".
-                                "<ul class=\"dropdown-menu comunity\">".
-                                    $button.
-                                    "<li><a onclick=\"del_req('".$row['request_idx']."')\">삭제하기</a></li>".
-                                "</ul>".
-                            "</div>".
-                        "</div>".
-                        
-                        "<div style=\"font-weight:bold\">".$row_event_data['event_title']."</div>".
-                        "<div style=\"display:flex;justify-content: space-between;\">".
-                            "<a style=\"text-decoration-line:none;font-size:12px;\">".$row['name']."&nbsp;&nbsp;".str_replace("-", "", $row['mobile'])."</a>".
-                            "<a style=\"text-decoration-line:none;font-size:12px;\">"."발신&nbsp;&nbsp;".$row_mem['mem_phone']."</a>".
-                        "</div>".
-                    "</div>".
-                "</div>";
-        /*$body .= '<tr>';
-        $body .= '    <td class="iam_table">'.$row['m_id'].'</td>';
-        $body .= '    <td class="iam_table">'.$row['name'].'</td>';
-        $body .= '    <td class="iam_table">'.$row_event_data['event_title'].'</td>';
-        $body .= '    <td class="iam_table">'.str_replace("-", "", $row['mobile']).'</td>';
-        $body .= '    <td class="iam_table">'.str_replace("-", "", $row_mem['mem_phone']).'</td>';
-        $body .= '    <td class="iam_table">'.$row['regdate'].'</td>';
-        if($row['req_yn'] == "Y"){
-            $body .= '    <td class="iam_table" onclick="cancel_req('.$row['request_idx'].')" style="cursor:pointer;">취소</td>';
-        }
-        else{
-            $body .= '    <td class="iam_table" onclick="allow_req('.$row['request_idx'].')" style="cursor:pointer;">신청</td>';
-        }
-        
-        $body .= '<tr>';*/
-    }
-    echo $body;
+    exit;
 }
+
+$sql_list = "select * from Gn_event_request where req_id ='{$mem_id}' order by request_idx desc";
+
+// $list2 = 10; //한 페이지에 보여줄 개수
+// $block_ct2 = 10; //블록당 보여줄 페이지 개수
+
+// if($_GET['page2']) {
+//     $page2 = $_GET['page2'];
+// } else {
+//     $page2 = 1;
+// }
+
+$block_num2 = ceil($page2/$block_ct2); // 현재 페이지 블록 구하기
+$block_start2 = (($block_num2 - 1) * $block_ct2) + 1; // 블록의 시작번호
+$block_end2 = $block_start2 + $block_ct2 - 1; //블록 마지막 번호
+$total_page2 = ceil($row_num5 / $list2); // 페이징한 페이지 수 구하기
+if($block_end2 > $total_page2) $block_end2 = $total_page2; //만약 블록의 마지박 번호가 페이지수보다 많다면 마지박번호는 페이지 수
+$total_block2 = ceil($total_page2/$block_ct2); //블럭 총 개수
+$start_num2 = ($page2-1) * $list2; //시작번호 (page-1)에서 $list를 곱한다.
+
+$limit_str = "limit " . $start_num2 . ", " . $list2;
+$sql6 = $sql_list.$limit_str;
+$result6=mysql_query($sql_list);
+while($row6=mysql_fetch_array($result6)){
+    $sql_event_data = "select event_title, m_id from Gn_event where event_idx={$row6['event_idx']}";
+    $res_event_data = mysql_query($sql_event_data);
+    $row_event_data = mysql_fetch_array($res_event_data);
+
+    $sql_mem = "select mem_phone from Gn_Member where mem_id='{$row_event_data[m_id]}'";
+    $res_mem = mysql_query($sql_mem);
+    $row_mem = mysql_fetch_array($res_mem);
+        
+    $body .= '<tr>';
+    $body .= '    <td class="iam_table">'.$row6[m_id].'</td>';
+    $body .= '    <td class="iam_table">'.$row6[name].'</td>';
+    $body .= '    <td class="iam_table">'.$row_event_data[event_title].'</td>';
+    $body .= '    <td class="iam_table">'.str_replace("-", "", $row6[mobile]).'</td>';
+    $body .= '    <td class="iam_table">'.str_replace("-", "", $row_mem[mem_phone]).'</td>';
+    $body .= '    <td class="iam_table">'.$row6[regdate].'</td>';
+    if($row6[req_yn] == "Y"){
+        $body .= '    <td class="iam_table" onclick="cancel_req('.$row6[request_idx].')" style="cursor:pointer;">취소</td>';
+    }
+    else{
+        $body .= '    <td class="iam_table" onclick="allow_req('.$row6[request_idx].')" style="cursor:pointer;">신청</td>';
+    }
+    
+    $body .= '<tr>';
+}
+echo $body;
 ?>

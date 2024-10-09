@@ -218,8 +218,8 @@ function payment_save(fm) {
                 	              and branch_share_id='$mem_id'   
                 	              and end_status='Y'             	              
                                 ";
-                	$res	    = mysqli_query($self_con, $query);
-                	$totalCnt	=  mysqli_num_rows($res);	
+                	$res	    = mysql_query($query);
+                	$totalCnt	=  mysql_num_rows($res);	
                 	
                 	$limitStr       = " LIMIT ".(($startPage-1)*$pageCnt).", ".$pageCnt;
                 	$number			= $totalCnt - ($nowPage - 1) * $pageCnt;                      
@@ -231,14 +231,14 @@ function payment_save(fm) {
               
                 	$i = 1;
                 	$query .= "$orderQuery";
-                	$res = mysqli_query($self_con, $query);
-                    while($row = mysqli_fetch_array($res)) {                       	
-                        if($row['total_price'] == 500000) {
-                            $query = "Select * from tjd_pay_result_delaer where m_id='{$row['mem_id']}'";
-                            $sres = mysqli_query($self_con, $query);
-                            $srow = mysqli_fetch_array($sres);                            
+                	$res = mysql_query($query);
+                    while($row = mysql_fetch_array($res)) {                       	
+                        if($row[total_price] == 500000) {
+                            $query = "Select * from tjd_pay_result_delaer where m_id='$row[mem_id]'";
+                            $sres = mysql_query($query);
+                            $srow = mysql_fetch_array($sres);                            
                             if(substr($row['date'],0,10) != substr($srow['regtime'], 0,10)) {
-                                $row['total_price'] = 0;
+                                $row[total_price] = 0;
                             }
                         }
                         
@@ -252,7 +252,7 @@ function payment_save(fm) {
                             $mem_level = "FREE";
                        }                           
                        $balance_fee = 0;
-                       $share_fee = $row['total_price'];
+                       $share_fee = $row[total_price];
                        if($row['balance_yn'] == "Y") 
                            $balance_fee = $share_fee;
                   ?>
@@ -265,7 +265,7 @@ function payment_save(fm) {
                         <td>
                             <?=str_replace("-", "",$row['mem_phone'])==$row['sendnum']||$row['sendnum']==""?str_replace("-", "",$row['mem_phone']):$row['sendnum']?>
                         </td>
-                        <td><?=substr($row['date'],0,10)?></td>
+                        <td><?=substr($row[date],0,10)?></td>
                         <td><?=$row['TotPrice']?></td>
                         <td><?=number_format($share_fee)?> 원</td>
                         <td><?=number_format($balance_fee)?> </td>
@@ -274,8 +274,8 @@ function payment_save(fm) {
                  <!--       <td>
                             <form method="post" name="ssForm<?=$i?>" id="ssForm<?=$i?>" action="ajax/payment_per_save.php">
                             <input type="hidden" name="no" value="<?php echo $row['no']?>" >
-                            <input type="text" name="share_per" id="share_per<?=$i?>" value="<?=$row['share_per']?>"  style="width:70px;">
-                            <input type="text" name="branch_share_per" id="branch_share_per<?=$i?>" value="<?=$row['branch_share_per']?>"  style="width:70px;">
+                            <input type="text" name="share_per" id="share_per<?=$i?>" value="<?=$row[share_per]?>"  style="width:70px;">
+                            <input type="text" name="branch_share_per" id="branch_share_per<?=$i?>" value="<?=$row[branch_share_per]?>"  style="width:70px;">
                             <button class="btn btn-primary pull-right" style="margin-right: 5px;" onclick="payment_save('#ssForm<?=$i?>');return false;"><i class="fa fa-download"></i> 변경</button>
                             </form>
                         </td> -->
@@ -319,7 +319,7 @@ function payment_save(fm) {
           
           
         </section><!-- /.content -->
-      </div><!-- /content-wrapper -->
+      </div><!-- /.content-wrapper -->
 
     <form id="excel_down_form" name="excel_down_form"  target="excel_iframe" method="post">
         <input type="hidden" name="grp_id" value="" />

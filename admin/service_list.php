@@ -187,16 +187,16 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                                             "%' or a.site_name like '%".$search_key."%' or a.manage_name like '%".$search_key."%')" : null;
                             $order = $order?$order:"desc";
                             $query = "SELECT SQL_CALC_FOUND_ROWS * FROM Gn_Service a WHERE 1=1 $searchStr";
-                            $res	    = mysqli_query($self_con, $query);
-                            $totalCnt	=  mysqli_num_rows($res);
+                            $res	    = mysql_query($query);
+                            $totalCnt	=  mysql_num_rows($res);
                             $limitStr   = " LIMIT ".(($startPage-1)*$pageCnt).", ".$pageCnt;
                             $number		= ($nowPage - 1) * $pageCnt;
                             $orderField = $orderField?$orderField:"a.idx";
                             $orderQuery .= " ORDER BY a.regdate $dir $limitStr";
                             $i = 1;
                             $query .= $orderQuery;
-                            $res = mysqli_query($self_con, $query);
-                            while($row = mysqli_fetch_array($res)) {
+                            $res = mysql_query($query);
+                            while($row = mysql_fetch_array($res)) {
                             ?>
                                 <tr>
                                     <td><input type="checkbox" class="check" id="check_one_member" name="" value="<?=$row['idx']?>"><?=$i + $number?></td>

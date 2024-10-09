@@ -14,8 +14,8 @@ if($_POST['get'] == true){
 
     // $sql = "SELECT state_flag, mem_id FROM crawler_gm_status_info where mem_id='{$mem_id}' and market_count={$contents_cnt} ORDER BY id DESC LIMIT 1";
     $sql = "SELECT state_flag, mem_id FROM crawler_status_info where mem_id='{$mem_id}' and type='GMARKET' and contents_cnt={$contents_cnt} ORDER BY id DESC LIMIT 1";
-    $result1 = mysqli_query($self_con, $sql);
-    while($res1 = mysqli_fetch_array($result1)){
+    $result1 = mysql_query($sql);
+    while($res1 = mysql_fetch_array($result1)){
         $state = $res1['state_flag'];
         $mem_id = $res1['mem_id'];
     }

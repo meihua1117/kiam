@@ -58,8 +58,8 @@ if($_GET['site'])
 $mysql_host = '222.239.248.226';
 //$mysql_user = 'kiam';
 $mysql_user = 'root';
-//$mysql_password = '49155f27kiam';
-$mysql_password = '2323@#@#';
+//$mysql_password = 'only12!';
+$mysql_password = 'only12!@db';
 $mysql_db = 'kiam';
 $self_con=mysql_connect($mysql_host,$mysql_user,$mysql_password) ;
 mysql_select_db($mysql_db) or die(mysql_error());

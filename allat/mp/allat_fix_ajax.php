@@ -28,12 +28,12 @@ $FIX_KEY   = getValue("fix_key",$at_txt);
 $APPLY_YMD = getValue("apply_ymd",$at_txt);
 
 $sql="select * from tjd_pay_result where orderNumber='$ORDER_NO'";
-$resul=mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-$row=mysqli_fetch_array($resul);
+$resul=mysql_query($sql) or die(mysql_error());
+$row=mysql_fetch_array($resul);
 $no = $row['no'];
 if(!strcmp($REPLYCD,"0000")){//pay_test
     $sql = "update tjd_pay_result set end_status='Y',billkey='$FIX_KEY',billdate='$APPLY_YMD' where  orderNumber='$ORDER_NO'";
-    mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
+    mysql_query($sql) or die(mysql_error());
     //디버회원가입하기
     $user_id = $member_1['mem_id'];
     $user_name = $member_1['mem_name'];
@@ -42,15 +42,15 @@ if(!strcmp($REPLYCD,"0000")){//pay_test
     $email = $member_1['mem_email'];
     $address = $member_1['mem_add1'];
     $status = "Y";
-    $use_cnt = $row['db_cnt'];
-    $last_time = date("Y-m-d H:i:s", strtotime("+{$row['month_cnt']} month"));
+    $use_cnt = $row[db_cnt];
+    $last_time = date("Y-m-d H:i:s", strtotime("+$row[month_cnt] month"));
     $search_email_date = substr($last_time, 0, 10);
-    $search_email_cnt = $row['email_cnt'];
+    $search_email_cnt = $row[email_cnt];
     $term = substr($last_time, 0, 10);
 
-    $sql = "select count(cmid) from crawler_member_real where user_id='{$member_1['mem_id']}' ";
-    $sresult = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-    $crow = mysqli_fetch_array($sresult);
+    $sql = "select count(cmid) from crawler_member_real where user_id='$member_1[mem_id]' ";
+    $sresult = mysql_query($sql) or die(mysql_error());
+    $crow = mysql_fetch_array($sresult);
     if ($crow[0] == 0) {
         $query = "insert into crawler_member_real set user_id='$user_id',
                                     user_name='$user_name',
@@ -66,7 +66,7 @@ if(!strcmp($REPLYCD,"0000")){//pay_test
                                     search_email_date='$search_email_date',
                                     search_email_cnt='$search_email_cnt',
                                     shopping_end_date='$search_email_date'";
-        mysqli_query($self_con, $query);
+        mysql_query($query);
     } else {
         $query = "update crawler_member_real set
                                     cell='$cell',
@@ -85,9 +85,9 @@ if(!strcmp($REPLYCD,"0000")){//pay_test
                                     shopping_end_date='$search_email_date',
                                     status='Y'
                                     where user_id='$user_id'";
-        mysqli_query($self_con, $query);
+        mysql_query($query);
     }
-    $add_phone = $row['phone_cnt'] / 9000;
+    $add_phone = $row[phone_cnt] / 9000;
     $sql_m = "update Gn_Member set fujia_date1=now() , fujia_date2=date_add(now(),INTERVAL 120 month),phone_cnt=phone_cnt+'$add_phone'";
     if($row['member_type'] == "year-professional")
         $sql_m .=",mem_point = mem_point + 1000000,service_type=2";  
@@ -95,51 +95,51 @@ if(!strcmp($REPLYCD,"0000")){//pay_test
         $sql_m .=",service_type=1";
     else if($row['member_type'] == "enterprise")
         $sql_m .=",service_type=1";
-    $sql_m .= " where mem_id='{$member_1['mem_id']}'";
-    mysqli_query($self_con, $sql_m) or die(mysqli_error($self_con));
+    $sql_m .= " where mem_id='$member_1[mem_id]'";
+    mysql_query($sql_m) or die(mysql_error());
 
     if($row['member_type'] == "year-professional"){
-        $sql_data = "select mem_phone, mem_point, mem_cash, mem_name from Gn_Member where mem_id='{$member_1['mem_id']}'";
-        $res_data = mysqli_query($self_con, $sql_data);
-        $row_data = mysqli_fetch_array($res_data);
+        $sql_data = "select mem_phone, mem_point, mem_cash, mem_name from Gn_Member where mem_id='{$member_1[mem_id]}'";
+        $res_data = mysql_query($sql_data);
+        $row_data = mysql_fetch_array($res_data);
         
-        $sql_res = "insert into Gn_Item_Pay_Result set buyer_id='{$member_1['mem_id']}', buyer_tel='{$row_data['mem_phone']}', item_name='씨드포인트충전', item_price=1000000, pay_percent=90, current_point={$row_data['mem_point']}, current_cash={$row_data['mem_cash']}, pay_status='Y', VACT_InputName='{$row_data['mem_name']}', type='buy', seller_id='{$member_1['mem_id']}', pay_method='결제씨드충전', pay_date=now(), point_val=1";
+        $sql_res = "insert into Gn_Item_Pay_Result set buyer_id='{$member_1[mem_id]}', buyer_tel='{$row_data['mem_phone']}', item_name='씨드포인트충전', item_price=1000000, pay_percent=90, current_point={$row_data['mem_point']}, current_cash={$row_data[mem_cash]}, pay_status='Y', VACT_InputName='{$row_data[mem_name]}', type='buy', seller_id='{$member_1[mem_id]}', pay_method='결제씨드충전', pay_date=now(), point_val=1";
     
-        mysqli_query($self_con, $sql_res);
+        mysql_query($sql_res);
     }
 
     if ($member_1['recommend_id'] != "") {
-        $sql = "select * from Gn_Member where mem_id='{$member_1['recommend_id']}' ";
-        $rresult = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-        if (mysqli_num_rows($rresult) > 0) {
-            $rrow = mysqli_fetch_array($rresult);
+        $sql = "select * from Gn_Member where mem_id='$member_1[recommend_id]' ";
+        $rresult = mysql_query($sql) or die(mysql_error());
+        if (mysql_num_rows($rresult) > 0) {
+            $rrow = mysql_fetch_array($rresult);
             $branch_share_id = "";
             $addQuery = "";
             $branch_share_per = 0;
             // 리셀러 / 분양 회원 확인
             // 리셀러 회원인경우 분양회원 아이디 확인
-            if ($rrow['service_type'] == 2) {
+            if ($rrow[service_type] == 2) {
                 // 추천인의 추천인 검색 및 등급 확인
-                $sql = "select * from Gn_Member where mem_id='{$rrow['recommend_id']}'";
-                $rresult = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-                $trow = mysqli_fetch_array($rresult);
+                $sql = "select * from Gn_Member where mem_id='$rrow[recommend_id]'";
+                $rresult = mysql_query($sql) or die(mysql_error());
+                $trow = mysql_fetch_array($rresult);
                 $share_per = $recommend_per = $rrow['share_per'] ? $rrow['share_per'] : 30;
                 if ($trow[0] != "") {
                     $recommend_per = $trow['share_per'] ? $trow['share_per'] : 50;
                     $branch_share_per = $recommend_per - $share_per;
                     $branch_share_id = $trow['mem_id'];
                 }
-            } else if ($rrow['service_type'] == 3) {
+            } else if ($rrow[service_type] == 3) {
                 $share_per = $recommend_per = $rrow['share_per'] ? $rrow['share_per'] : 50;
                 $branch_share_per = 0;
             }
 
-            $sql = "update tjd_pay_result set share_per='$share_per', branch_share_per = '$branch_share_per', share_id='{$member_1['recommend_id']}', branch_share_id='$branch_share_id' where no='$no'";
-            mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
+            $sql = "update tjd_pay_result set share_per='$share_per', branch_share_per = '$branch_share_per', share_id='$member_1[recommend_id]', branch_share_id='$branch_share_id' where no='$no'";
+            mysql_query($sql) or die(mysql_error());
         }
     }//디버회원가입 완료
-    $iam_card_cnt = $_POST['iam_card_cnt'];
-    $iam_share_cnt = $_POST['iam_share_cnt'];
+    $iam_card_cnt = $_POST[iam_card_cnt];
+    $iam_share_cnt = $_POST[iam_share_cnt];
     $sql_m = "update Gn_Member set fujia_date1=now() ,
                                 fujia_date2=date_add(now(),INTERVAL 120 month),
                                 iam_card_cnt = iam_card_cnt + '$iam_card_cnt',
@@ -148,8 +148,8 @@ if(!strcmp($REPLYCD,"0000")){//pay_test
                                 exp_mid_status = 0,
                                 exp_limit_status = 0,
                                 exp_limit_date = NULL
-                            where mem_id='{$member_1['mem_id']}' ";
-    mysqli_query($self_con, $sql_m) or die(mysqli_error($self_con));
+                            where mem_id='$member_1[mem_id]' ";
+    mysql_query($sql_m) or die(mysql_error());
     
     $at_enc       = "";
     $at_data      = "";
@@ -158,12 +158,12 @@ if(!strcmp($REPLYCD,"0000")){//pay_test
     $at_cross_key      = "304f3a821cac298ff8a0ef504e1c2309";   //CrossKey값(최대200자)
     $at_fix_key        = $FIX_KEY;   //카드키(최대 24자)
     $at_sell_mm        = "00";   //할부개월값(최대  2자)
-    $at_amt            = $row['TotPrice'];   //금액(최대 10자)
+    $at_amt            = $row[TotPrice];   //금액(최대 10자)
     $at_business_type  = "0";   //결제자 카드종류(최대 1자)       : 개인(0),법인(1)
     $at_registry_no    = "";   //주민번호(최대 13자리)           : szBusinessType=0 일경우
     $at_biz_no         = "";   //사업자번호(최대 20자리)         : szBusinessType=1 일경우
     $at_shop_id        = "bwelcome12";   //상점ID(최대 20자)
-    $at_shop_member_id = $member_1['mem_id'];   //회원ID(최대 20자)               : 쇼핑몰회원ID
+    $at_shop_member_id = $member_1[mem_id];   //회원ID(최대 20자)               : 쇼핑몰회원ID
     $at_order_no       = $ORDER_NO;   //주문번호(최대 80자)             : 쇼핑몰 고유 주문번호
     $at_product_cd     = "";   //상품코드(최대 1000자)           : 여러 상품의 경우 구분자 이용, 구분자('||':파이프 2개)
     $at_product_nm     = iconv("UTF-8","EUC-KR",$row['member_type']);   //상품명(최대 1000자)             : 여러 상품의 경우 구분자 이용, 구분자('||':파이프 2개)
@@ -232,16 +232,16 @@ if(!strcmp($REPLYCD,"0000")){//pay_test
         $ZEROFEE_YN       =getValue("zerofee_yn",$at_txt);
         $CERT_YN          =getValue("cert_yn",$at_txt);
         $CONTRACT_YN      =getValue("contract_yn",$at_txt);
-        $sql = "insert into tjd_pay_result_month set pay_idx={$row['idx']},
-                                                    order_number={$row['idx']},
+        $sql = "insert into tjd_pay_result_month set pay_idx='$row[idx]',
+                                                    order_number='$row[idx]',
                                                     pay_yn='Y',
                                                     msg='성공_mp_fix_ajax',
                                                     regdate = NOW(),
-                                                    amount='{$row['TotPrice']}',
-                                                    buyer_id='{$member_1['mem_id']}'";
-        mysqli_query($self_con, $sql)or die(mysqli_error($self_con));
-        $sql = "update tjd_pay_result set monthly_yn='Y', end_status='Y' where  orderNumber='$ORDER_NO' and buyer_id='{$member_1['mem_id']}'";
-        mysqli_query($self_con, $sql)or die(mysqli_error($self_con));
+                                                    amount='$row[TotPrice]',
+                                                    buyer_id='$member_1[mem_id]'";
+        mysql_query($sql)or die(mysql_error());
+        $sql = "update tjd_pay_result set monthly_yn='Y', end_status='Y' where  orderNumber='$ORDER_NO' and buyer_id='$member_1[mem_id]'";
+        mysql_query($sql)or die(mysql_error());
 
         ?>
         <script language="javascript">
@@ -251,23 +251,23 @@ if(!strcmp($REPLYCD,"0000")){//pay_test
     }else{
         echo "결과코드  : ".$REPLYCD."<br>";
         echo "결과메세지: ".$REPLYMSG."<br>";
-        $sql = "insert into tjd_pay_result_month set pay_idx={$row['idx']},
+        $sql = "insert into tjd_pay_result_month set pay_idx='$row[idx]',
                                                         order_number='$ORDER_NO',
                                                         regdate = NOW(),
                                                         pay_yn='N',
                                                         msg='".iconv("euc-kr","utf-8",$REPLYMSG)."_mp_fix_ajax"."',
-                                                        amount='{$row['TotPrice']}',
-                                                        buyer_id='{$member_1['mem_id']}'";
+                                                        amount='$row[TotPrice]',
+                                                        buyer_id='$member_1[mem_id]'";
     }
 }else{
     echo "결과코드  : ".$REPLYCD."<br>";
     echo "결과메세지: ".$REPLYMSG."<br>";
-    $sql = "insert into tjd_pay_result_month set pay_idx={$row['idx']},
+    $sql = "insert into tjd_pay_result_month set pay_idx='$row[idx]',
                                                         order_number='$ORDER_NO',
                                                         regdate = NOW(),
                                                         pay_yn='N',
                                                         msg='".iconv("euc-kr","utf-8",$REPLYMSG)."_mp_fix_ajax"."',
-                                                        amount='{$row['TotPrice']}',
-                                                        buyer_id='{$member_1['mem_id']}'";
+                                                        amount='$row[TotPrice]',
+                                                        buyer_id='$member_1[mem_id]'";
 }
 ?>

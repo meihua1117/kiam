@@ -1,37 +1,37 @@
 ﻿<?php 
 include "inc/header.inc.php";
-if($_SESSION['iam_member_id'] == "") {
+if($_SESSION[iam_member_id] == "") {
     echo "<script>location='/iam/';</script>";
 }
-$sql_serch=" (r.seller_id ='{$_SESSION['iam_member_id']}' and r.point_val=0) or (r.point_val=1 and r.buyer_id ='{$_SESSION['iam_member_id']}' and r.site is not null and r.type='servicebuy') ";
-if($_REQUEST['search_date'])
+$sql_serch=" (r.seller_id ='$_SESSION[iam_member_id]' and r.point_val=0) or (r.point_val=1 and r.buyer_id ='$_SESSION[iam_member_id]' and r.site is not null and r.type='servicebuy') ";
+if($_REQUEST[search_date])
 {
-    if($_REQUEST['rday1'])
+    if($_REQUEST[rday1])
     {
-        $start_time=strtotime($_REQUEST['rday1']);
-        $sql_serch.=" and unix_timestamp({$_REQUEST['search_date']}) >=$start_time ";
+        $start_time=strtotime($_REQUEST[rday1]);
+        $sql_serch.=" and unix_timestamp({$_REQUEST[search_date]}) >=$start_time ";
     }
-    if($_REQUEST['rday2'])
+    if($_REQUEST[rday2])
     {
-        $end_time=strtotime($_REQUEST['rday2']);
-        $sql_serch.=" and unix_timestamp({$_REQUEST['search_date']}) <= $end_time ";
+        $end_time=strtotime($_REQUEST[rday2]);
+        $sql_serch.=" and unix_timestamp({$_REQUEST[search_date]}) <= $end_time ";
     }
 }
-if($_REQUEST['lms_text'])
+if($_REQUEST[lms_text])
 {
-    $sql_serch.=" and {$_REQUEST['lms_select']} = '{$_REQUEST['lms_text']}' ";
+    $sql_serch.=" and {$_REQUEST[lms_select]} = '{$_REQUEST[lms_text]}' ";
 }
 $sql="select count(r.no) as cnt from Gn_Item_Pay_Result r where $sql_serch ";
-$result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-$row=mysqli_fetch_array($result);
-$intRowCount=$row['cnt'];
-if (!$_POST['lno'])
+$result = mysql_query($sql) or die(mysql_error());
+$row=mysql_fetch_array($result);
+$intRowCount=$row[cnt];
+if (!$_POST[lno])
     $intPageSize =20;
 else
-    $intPageSize = $_POST['lno'];
-if($_POST['page'])
+    $intPageSize = $_POST[lno];
+if($_POST[page])
 {
-    $page=(int)$_POST['page'];
+    $page=(int)$_POST[page];
     $sort_no=$intRowCount-($intPageSize*$page-$intPageSize);
 }
 else
@@ -39,24 +39,24 @@ else
     $page=1;
     $sort_no=$intRowCount;
 }
-if($_POST['page2'])
-    $page2=(int)$_POST['page2'];
+if($_POST[page2])
+    $page2=(int)$_POST[page2];
 else
     $page2=1;
 $int=($page-1)*$intPageSize;
-if($_REQUEST['order_status'])
-    $order_status=$_REQUEST['order_status'];
+if($_REQUEST[order_status])
+    $order_status=$_REQUEST[order_status];
 else
     $order_status="desc";
-if($_REQUEST['order_name'])
-    $order_name=$_REQUEST['order_name'];
+if($_REQUEST[order_name])
+    $order_name=$_REQUEST[order_name];
 else
     $order_name="no";
 $intPageCount=(int)(($intRowCount+$intPageSize-1)/$intPageSize);
 $sql="select r.*,p.regdate as jongsan_date,p.balance_yn
       from Gn_Item_Pay_Result r left join Gn_Item_Pay_Result_Balance p on r.no = p.pay_no
       where $sql_serch order by $order_name $order_status limit $int,$intPageSize";
-$result=mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
+$result=mysql_query($sql) or die(mysql_error());
 ?>
 <style>
 .desc li {
@@ -156,7 +156,7 @@ input:checked + .slider:before {
 </style>
 <link href='/css/main.css' rel='stylesheet' type='text/css'/>
 <link href='/css/responsive.css' rel='stylesheet' type='text/css'/>
-<main id="register" class="common-wrap" ><!-- 컨텐츠 영역 시작 -->
+<main id="register" class="common-wrap" style=""><!-- 컨텐츠 영역 시작 -->
     <div class="container">
         <div class="inner-wrap">
                     <h2 class="title"></h2>
@@ -184,7 +184,7 @@ input:checked + .slider:before {
                             </a>
                         </div>
                         <div style="display:flex;float: right;">
-                            <?if($_SESSION['iam_member_subadmin_id'] ==$_SESSION['iam_member_id']){?>
+                            <?if($_SESSION[iam_member_subadmin_id] == $_SESSION[iam_member_id]){?>
                             <a class="btn  btn-link" title = "<?='공지알림';?>" href="/?cur_win=unread_notice&box=send&modal=Y" style="display:flex;padding:6px 3px">
                                 <p style="font-size:14px;color:black">공지전송</p>
                                 <label class="label label-sm" id = "notice" style="background: #ff3333;border-radius: 50%;padding: 2px 5px;margin-left: -5px;font-size:10px"></label>
@@ -213,7 +213,7 @@ input:checked + .slider:before {
                                 <label class="label label-sm" id = "sell_service_contents" style="background: #ff3333;border-radius: 50%;padding: 2px 5px;margin-left: -5px;font-size:10px"></label>
                             </a>
                             <?}?>
-                            <?if($member_iam['service_type'] < 2){
+                            <?if($member_iam[service_type] < 2){
                                 $report_link = "/iam/mypage_report_list.php";
                             }else{
                                 $report_link = "/iam/mypage_report.php";
@@ -243,11 +243,11 @@ input:checked + .slider:before {
                             <div style="float:left;">
                                 <select name="search_date">
                                     <option value="">전체</option>
-                                    <option value="r.pay_date" <?=$_REQUEST['search_date']=='pay_date'?"selected":"";?>>결제일</option>
-                                    <option value="p.regdate" <?=$_REQUEST['search_date']=='regdate'?"selected":"";?>>정산일</option>
+                                    <option value="r.pay_date" <?=$_REQUEST[search_date]=='pay_date'?"selected":"";?>>결제일</option>
+                                    <option value="p.regdate" <?=$_REQUEST[search_date]=='regdate'?"selected":"";?>>정산일</option>
                                 </select>
-                                <input type="date" name="rday1" placeholder="" id="rday1" value="<?=$_REQUEST['rday1']?>"/> ~
-                                <input type="date" name="rday2" placeholder="" id="rday2" value="<?=$_REQUEST['rday2']?>"/>
+                                <input type="date" name="rday1" placeholder="" id="rday1" value="<?=$_REQUEST[rday1]?>"/> ~
+                                <input type="date" name="rday2" placeholder="" id="rday2" value="<?=$_REQUEST[rday2]?>"/>
                             </div>
                             <div style="float:right;">
                                 <img src="/images/sub_button_703.jpg" onclick="pay_form.submit();" style="height: 30px" />
@@ -259,12 +259,12 @@ input:checked + .slider:before {
                                     $select_lms_arr=array("mem_name"=>"회원명","p.mem_id"=>"아이디","item_name"=>"상품명");
                                     foreach($select_lms_arr as $key=>$v)
                                     {
-                                        $selected=$_REQUEST['lms_select']==$key?"selected":"";
+                                        $selected=$_REQUEST[lms_select]==$key?"selected":"";
                                         ?>
                                         <option value="<?=$key?>" <?=$selected?>><?=$v?></option>
                                     <?}?>
                                 </select>
-                                <input type="text" name="lms_text" value="<?=$_REQUEST['lms_text']?>" />
+                                <input type="text" name="lms_text" value="<?=$_REQUEST[lms_text]?>" />
                             </div>
                             <p style="clear:both;"></p>
                         </div>
@@ -284,45 +284,45 @@ input:checked + .slider:before {
                                 <?
                                 if($intRowCount)
                                 {
-                                    while($row=mysqli_fetch_array($result))
+                                    while($row=mysql_fetch_array($result))
                                     {
-                                        if($row['point_val'] == 0){
+                                        if($row[point_val] == 0){
                                             $method = "카드결제";
                                             $sql_mem_data = "select mem_id, mem_name, mem_phone from Gn_Member where mem_id='{$row['buyer_id']}'";
-                                            $res_mem_data = mysqli_query($self_con, $sql_mem_data);
-                                            $row_mem_data = mysqli_fetch_array($res_mem_data);
+                                            $res_mem_data = mysql_query($sql_mem_data);
+                                            $row_mem_data = mysql_fetch_array($res_mem_data);
                                         }
                                         else{
                                             $method = "포인트결제";
                                         $sql_mem_data = "select mem_id, mem_name, mem_phone from Gn_Member where mem_id='{$row['seller_id']}'";
-                                        $res_mem_data = mysqli_query($self_con, $sql_mem_data);
-                                        $row_mem_data = mysqli_fetch_array($res_mem_data);
+                                        $res_mem_data = mysql_query($sql_mem_data);
+                                        $row_mem_data = mysql_fetch_array($res_mem_data);
                                         }
 
                                         $buyer_no = $row['no'] * 1 - 1;
 
-                                        if($row['pay_method'] == "CARD"){
+                                        if($row[pay_method] == "CARD"){
                                             $card = "card";
                                         }
                                         else{
                                             $card = "point";
                                         }
-                                        if($row['gwc_cont_pay']){
-                                            $sql_total_price = "select sum(item_price) from Gn_Item_Pay_Result where item_name='{$row['item_name']}' and order_number='{$row[order_number]}' and pay_date='{$row['pay_date']}'";
-                                            $res_total_price = mysqli_query($self_con, $sql_total_price);
-                                            $row_total_price = mysqli_fetch_array($res_total_price);
+                                        if($row[gwc_cont_pay]){
+                                            $sql_total_price = "select sum(item_price) from Gn_Item_Pay_Result where item_name='{$row[item_name]}' and order_number='{$row[order_number]}' and pay_date='{$row[pay_date]}'";
+                                            $res_total_price = mysql_query($sql_total_price);
+                                            $row_total_price = mysql_fetch_array($res_total_price);
                                             $row['item_price'] = $row_total_price[0];
                                         }
                                         ?>
                                         <tr >
-                                            <td ><?=$sort_no?></td>
-                                            <td ><?=$method?></td>
-                                            <td style="font-size:11px;"><?=$row['item_name']?></td>
-                                            <td ><?=$row_mem_data['mem_id']?>/<?=$row_mem_data['mem_name']?></td>
-                                            <td ><?=$row_mem_data['mem_phone']?></td>
-                                            <td style="font-size:11px;"><?=$row['pay_date']?></td>
+                                            <td style=""><?=$sort_no?></td>
+                                            <td style=""><?=$method?></td>
+                                            <td style="font-size:11px;"><?=$row[item_name]?></td>
+                                            <td style=""><?=$row_mem_data[mem_id]?>/<?=$row_mem_data[mem_name]?></td>
+                                            <td style=""><?=$row_mem_data[mem_phone]?></td>
+                                            <td style="font-size:11px;"><?=$row[pay_date]?></td>
                                             <?php
-                                            if($row['point_val'] == 0){
+                                            if($row[point_val] == 0){
                                             ?>
                                             <td><?=$row['item_price']?> 원</td>
                                             <?}else{?>
@@ -331,11 +331,11 @@ input:checked + .slider:before {
                                             <td style="font-size:11px;">
                                                 <?php
                                                 if($row['gwc_cont_pay'] == 0){
-                                                if($row['apply_buyer_date'] == ''){
+                                                if($row[apply_buyer_date] == ''){
                                                     echo "확인대기";
                                                 }
                                                 else{
-                                                    echo "확인<br>".$row['apply_buyer_date'];
+                                                    echo "확인<br>".$row[apply_buyer_date];
                                                 }
                                                 }
                                                 ?>
@@ -343,7 +343,7 @@ input:checked + .slider:before {
                                             <td style="font-size:11px;">
                                                 <?php
                                                 if($row['gwc_cont_pay'] == 0){
-                                                if($row['apply_seller_date'] == ''){
+                                                if($row[apply_seller_date] == ''){
                                                 ?>
                                                 <label class="switch">
                                                     <input type="checkbox" name="auto_status" id="auto_stauts_<?php echo $row['no'];?>_<?=$card?>" value="<?php echo $row['no']."/".$buyer_no;?>">
@@ -354,7 +354,7 @@ input:checked + .slider:before {
                                                     <input type="checkbox" name="auto_status" id="auto_stauts_<?php echo $row['no'];?>_<?=$card?>" value="<?php echo $row['no']."/".$buyer_no;?>" checked>
                                                     <span class="slider round" name="auto_status" id="auto_stauts_<?php echo $row['no'];?>_<?=$card?>"></span>
                                                 </label><br>
-                                                <? echo $row['apply_seller_date'];}}?>
+                                                <? echo $row[apply_seller_date];}}?>
                                             </td>
                                             <!-- <td><?=$row['balance_yn'] != ''?$row['item_price'] * $row['pay_percent']/100:0?> 원</td> -->
                                         </tr>

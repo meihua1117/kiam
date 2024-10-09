@@ -43,17 +43,17 @@ if ($cart_ids != '') {
     $ids_arr = explode(',', $cart_ids);
     for ($i = 0; $i < count($ids_arr); $i++) {
         $sql_update = "update Gn_Gwc_Order set pay_order_no='{$mid}' where id='{$ids_arr[$i]}'";
-        mysqli_query($self_con, $sql_update);
+        mysql_query($sql_update);
         $sql_data = "select * from Gn_Gwc_Order where id='{$ids_arr[$i]}'";
-        $res_data = mysqli_query($self_con, $sql_data);
-        $row_data = mysqli_fetch_array($res_data);
+        $res_data = mysql_query($sql_data);
+        $row_data = mysql_fetch_array($res_data);
 
         if ($table == "Gn_Iam_Contents_Gwc")
             $sql_con = "select contents_title, contents_img, contents_url, send_provide_price, over_send_salary from {$table} where idx='{$row_data['contents_idx']}'";
         else
             $sql_con = "select contents_title, contents_img, contents_url, send_provide_price from {$table} where idx='{$row_data['contents_idx']}'";
-        $res_con = mysqli_query($self_con, $sql_con);
-        $row_con = mysqli_fetch_array($res_con);
+        $res_con = mysql_query($sql_con);
+        $row_con = mysql_fetch_array($res_con);
         if ($row_con['send_provide_price'] == "")
             $row_con['send_provide_price'] = 0;
 
@@ -79,8 +79,8 @@ if ($cart_ids != '') {
     }
 } else {
     $sql_cont_data = "select contents_title, contents_img, contents_url, send_provide_price from {$table} where idx='{$contents_idx}'";
-    $res_cont_data = mysqli_query($self_con, $sql_cont_data);
-    $row_cont_data = mysqli_fetch_array($res_cont_data);
+    $res_cont_data = mysql_query($sql_cont_data);
+    $row_cont_data = mysql_fetch_array($res_cont_data);
     if ($row_cont_data['send_provide_price'] == "")
         $row_cont_data['send_provide_price'] = 0;
 
@@ -114,8 +114,8 @@ if ($platform == "mobile") {
 }
 
 $sql_main_addr = "select * from Gn_Order_Address where mem_id='{$mem_id_page}' and main_addr=1 order by id desc limit 1";
-$res_main_addr = mysqli_query($self_con, $sql_main_addr);
-$row_main_addr = mysqli_fetch_array($res_main_addr);
+$res_main_addr = mysql_query($sql_main_addr);
+$row_main_addr = mysql_fetch_array($res_main_addr);
 ?>
 <script language=Javascript>
     $(function() {

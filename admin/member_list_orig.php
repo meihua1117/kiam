@@ -62,7 +62,7 @@ if($case == 0 )
                 type:"POST",
                 url:"/admin/ajax/user_leave.php",
                 data:{
-                    type : "delete",
+                    type : "del",
                     mem_code:mem_code
                     },
                 success:function(){

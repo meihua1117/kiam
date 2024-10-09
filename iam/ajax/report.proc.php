@@ -18,11 +18,11 @@ if($mode == "report_reg"){
     exit;
   }
   $sql_cont = "select mem_id from Gn_Iam_Contents where idx='{$cont_idx}'";
-  $res_cont = mysqli_query($self_con, $sql_cont);
-  $row_cont = mysqli_fetch_array($res_cont);
+  $res_cont = mysql_query($sql_cont);
+  $row_cont = mysql_fetch_array($res_cont);
 
   $sql2="insert into Gn_Iam_Post set mem_id='{$mem_id}', reporter_phone='{$report_phone}', content_idx='{$cont_idx}', reg_date='{$date}', title='{$report_title}', content='{$report_desc}', type=1";
-  $result2 = mysqli_query($self_con, $sql2) or die(mysqli_error($self_con));
+  $result2 = mysql_query($sql2) or die(mysql_error());
   echo $result2;
 }
 else if($mode == "reg_post_response"){
@@ -31,7 +31,7 @@ else if($mode == "reg_post_response"){
     exit;
   }
   $sql = "insert into Gn_Iam_Post_Response set post_idx='{$post_id}', contents='{$content}', reg_date='{$date}', mem_id='{$mem_id}', type=1";
-  $res = mysqli_query($self_con, $sql);
+  $res = mysql_query($sql);
 
   $send_num = "01083904260";
   sendmms(5, $mem_id, $send_num, $phone, "", "신고답변문자", $content, "", "", "", "Y");

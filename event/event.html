@@ -8,14 +8,14 @@
 	if($_GET['landing_idx'] != "") {
     	$landing_idx=$_GET['landing_idx'];
     	$sql="update Gn_landing set read_cnt = read_cnt+1 where landing_idx='$landing_idx'";
-    	mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
+    	mysql_query($sql) or die(mysql_error());
 
     	$sql="select * from Gn_landing where landing_idx='$landing_idx'";
-    	$result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-    	$data=mysqli_fetch_array($result);
+    	$result = mysql_query($sql) or die(mysql_error());
+    	$data=mysql_fetch_array($result);
 
 
-    	if($data['status_yn'] == "N") {
+    	if($data[status_yn] == "N") {
     	    echo '<meta http-equiv="content-type" content="text/html; charset=euc-kr"/><Script>alert("사용이 종료된 랜딩입니다.");</script>';
     	    exit;
     	}
@@ -30,13 +30,13 @@
 		}
 		else{
 			// 기존에디터로 편집된 랜딩페이지를 위해서 추가됨
-			if(strpos($data['content'], '<img src="upload/') !== false){
-				$meta_img1 = explode('<img src="upload/', $data['content']);
+			if(strpos($data[content], '<img src="upload/') !== false){
+				$meta_img1 = explode('<img src="upload/', $data[content]);
 				$meta_img2 = explode('"', trim($meta_img1[1]));
 				$meta_img = "/upload/".trim($meta_img2[0]);
 			}
-			else if(strpos($data['content'], '<img src="/naver_editor/upload_editor/') !== false){
-				$meta_img1 = explode('<img src="/naver_editor/upload_editor/', $data['content']);
+			else if(strpos($data[content], '<img src="/naver_editor/upload_editor/') !== false){
+				$meta_img1 = explode('<img src="/naver_editor/upload_editor/', $data[content]);
 				$meta_img2 = explode('"', trim($meta_img1[1]));
 				$meta_img = "/naver_editor/upload_editor/".trim($meta_img2[0]);
 			}
@@ -44,13 +44,13 @@
 
 	} else {
     	$sql="update Gn_event set read_cnt = read_cnt+1 where pcode='$pcode'";
-    	mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
+    	mysql_query($sql) or die(mysql_error());
 		$page_title = "";
 	}
 
 	$sql="select * from Gn_event where pcode='$pcode' order by event_idx desc";
-	$result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-	$event_data = $row=mysqli_fetch_array($result);
+	$result = mysql_query($sql) or die(mysql_error());
+	$event_data = $row=mysql_fetch_array($result);
 	$m_id = $row['m_id'];
 	$event_idx = $row['event_idx'];
 	$step_idx1 = $row['sms_idx1'];
@@ -72,13 +72,13 @@
 		echo("<script>location.href = '$direct_url';</script>");
 	}
 	
-//	김세규대표 아이엠 자동링크
+//	김세규 대표 아이엠 자동 링크
 	if($landing_idx == "790") {
 		$direct_url = "https://kiam.kr/?EtYTwm9OZn";
 		echo("<script>location.href = '$direct_url';</script>");
 	}	
 	
-//아이엠공유정보 더보기 자동링크
+//아이엠 공유정보더보기 자동링크
 	if($landing_idx == "788") {
 		$direct_url = "https://oog.kiam.kr/pages/page_3302.php";
 		echo("<script>location.href = '$direct_url';</script>");
@@ -119,7 +119,7 @@
 		.list_table .x_font{vertical-align:bottom;padding-bottom:5px;color:#666;}
 		.list_table .xt_font{position:absolute; margin-top:-35px;font-size:16px; font-weight:600;margin-left:50px;color:#000;}
 		.list_table input[type=text]{width:90%;height:30px;}
-		.list_table tr:first-child td{height:40px; background-color:#f4f4f4;border-bottom:1px solid #000; border-top:1px solid #000;}
+		#.list_table tr:first-child td{height:40px; background-color:#f4f4f4;border-bottom:1px solid #000; border-top:1px solid #000;}
 		.list_table tr:first-child td {
 		height: 40px;
 		/* background-color: #f4f4f4; */
@@ -230,7 +230,7 @@
 						document.getElementById('id2_text').innerHTML = '<span class="jftxt_r">중복된 아이디 입니다.</span>';
 					} else if (response == "id2=nouse") {
 						document.getElementById('id_reg').value = 0;
-						document.getElementById('id2_text').innerHTML = '<span class="jftxt_r">사용할 수 없는 아이디입니다.</span>';
+						document.getElementById('id2_text').innerHTML = '<span class="jftxt_r">사용할 수 없는 아이디 입니다.</span>';
 					} else if (response == "id2=use") {
 						document.getElementById('id_reg').value = 1;
 						document.getElementById('id2_text').innerHTML = '<span class="jftxt_b">사용가능합니다.</span>';
@@ -282,7 +282,11 @@
 			if (sms_approval.length != 6) {
 				document.getElementById('approval_text').innerHTML = '<span class="jftxt_b">인증번호를 입력해주세요.</span>';
 			}
-			
+			//if(!pattern.test(hp)) {
+			//	alert("휴대폰 번호를 형식에 맞게 입력해 주세요. '-' 를 넣었는지 확인하세요.");
+			//	document.getElementById('id1').focus();
+			//	return false;
+			//}
 			document.getElementById('approval_reg').value = 0;
 			$.ajax({
 				url: '/opb/proc/sms_check.html',
@@ -346,7 +350,7 @@
 	echo "<script>alert('".$msg."');</script>";
 	}
 	if($mode && $chk && $over=="yes") {
-	//referer_check();
+	referer_check();
 	if($chk!=$_SESSION['join']) alert('중복가입이 방지 되었습니다.');
 	$ipcheck=$_SERVER['REMOTE_ADDR'];
 	$sql="insert into Gn_event_request set landing_idx='$landing_idx',
@@ -378,34 +382,44 @@
 
 	if($_POST['mobile'] != "")
 	{
-		$sql="select mem_phone from Gn_Member where mem_phone='$_POST['mobile']'";
-		$res=mysqli_query($self_con, $sql);
-		$row333=mysqli_fetch_array($res);	
+		$sql="select mem_phone from Gn_Member where mem_phone='$_POST[mobile]'";
+		$res=mysql_query($sql);
+		$row333=mysql_fetch_array($res);	
 	}
 
 
 	if($_POST['mode']=="speech") {
 		if($_POST['name']=="") {
-			alerting('신청자명을 입력해주세요.');
-		} else if($_POST['mobile']=="") {
+			alerting('신청자명을 입력해주세요');
+			//} else if($_POST['email']=="") {
+			//	alerting('신청자 이메일을 입력해주세요.');
+			//} else if(strpos($_POST['email'],"@")<=0) {
+			//alerting('이메일 형식에 맞게 입력해주세요.');
+			} else if($_POST['mobile']=="") {
 			alerting('전화번호를 입력해주세요. ');
-		} else if($_POST['sp']=="") {
+			//} else if($_POST['job']=="") {
+			//	alerting('직업을 입력해주세요.');
+			} else if($_POST['sp']=="") {
 			alerting('신청강좌를 입력해주세요.');
-		} else {
+			} 
+		// 	else if($join_yn =='Y' && $row333){
+		// 		alerting('그 전화번호는 이미 등록되었습니다.');
+		// }
+		else {
 			$ipcheck=$_SERVER['REMOTE_ADDR'];
 			extract($_POST);
 
 			$sql="select * from Gn_event where pcode='$pcode'";
-			$result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-			$event_data = $row=mysqli_fetch_array($result);
+			$result = mysql_query($sql) or die(mysql_error());
+			$event_data = $row=mysql_fetch_array($result);
 			$mem_id = $event_data['m_id'];
 			$send_num = $event_data['mobile'];
 
 
 			if(strstr($event_data['event_info'],"sms") && $join_yn =='Y') {
 				$sql="select * from Gn_Event_Check_Sms where mem_phone='$mobile' order by idx desc";
-				$result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-				$check_data = $row=mysqli_fetch_array($result);
+				$result = mysql_query($sql) or die(mysql_error());
+				$check_data = $row=mysql_fetch_array($result);
 				if($check_data['secret_key'] != $rnum) {
 					echo "<script>alert('인증번호를 확인해주세요.');history.go(-1);</script>";
 					exit;
@@ -416,7 +430,7 @@
 				$m_id1 = $id;
 			}
 			else{
-				$m_id1 = $_SESSION['one_member_id'];
+				$m_id1 = $_SESSION[one_member_id];
 			}
 
 			$sql="insert into Gn_event_request set landing_idx='$landing_idx',
@@ -438,13 +452,23 @@
 			pcode='$pcode',
 			sp='$sp',
 			ip_addr='$ipcheck',
-			regdate=now()";
+			regdate=now()
+			";
 
 			
-			$res1=mysqli_query($self_con, $sql);
-			$request_idx = mysqli_insert_id($self_con);
+			$res1=mysql_query($sql);
+			$request_idx = mysql_insert_id();
 			$recv_num = $mobile;
 			$recv_num = str_replace("-","", $recv_num);
+
+			/*$sql_recv_mem = "select a.* from Gn_Member a left join Gn_MMS_Number b on a.mem_id=b.mem_id where REPLACE(a.mem_phone,'-','')='{$recv_num}' and (REPLACE(a.mem_phone,'-','')=REPLACE(b.sendnum, '-','') and b.sendnum is not null and b.sendnum != '')";
+			$res_recv_mem = mysql_query($sql_recv_mem);
+			if(mysql_num_rows($res_recv_mem)){
+				$row_recv_mem = mysql_fetch_array($res_recv_mem);
+				$mem_id = $row_recv_mem[mem_id];
+				$send_num = $recv_num;
+			}*/
+
 
 			if($mem_id == "") $mem_id=$m_id;
 			if($mem_id != "")
@@ -452,7 +476,7 @@
 				$reg = time();
 
 				// 접수내용 접수자에게 전송
-				$stitle = "이벤트신청 내역";
+				$stitle = "이벤트 신청 내역";
 				$scontent = "
 				신청해주셔서 감사합니다.\n\n
 				$name 님!\n
@@ -463,8 +487,8 @@
 				sendmms(1, $mem_id, $send_num, $recv_num, "", $stitle, $scontent, "", "", "", "Y");	
 	
 				$sql="select * from Gn_event_sms_info where sms_idx='$step_idx1' or sms_idx='$step_idx2' or sms_idx='$step_idx3'";
-				$lresult=mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-				while($lrow=mysqli_fetch_array($lresult)) {
+				$lresult=mysql_query($sql) or die(mysql_error());
+				while($lrow=mysql_fetch_array($lresult)) {
 	
 					$sms_idx = $lrow['sms_idx'];
 	
@@ -472,15 +496,15 @@
 	
 					//알람등록
 					$sql="select * from Gn_event_sms_info where sms_idx='$sms_idx'";
-					$result=mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-					$row=mysqli_fetch_array($result);
+					$result=mysql_query($sql) or die(mysql_error());
+					$row=mysql_fetch_array($result);
 	
 	
 					$sql="select * from Gn_event_sms_step_info where sms_idx='$sms_idx'";
-					$result=mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
+					$result=mysql_query($sql) or die(mysql_error());
 					
 					$k = 0;
-					while($row=mysqli_fetch_array($result)) {
+					while($row=mysql_fetch_array($result)) {
 						// 시간 확인
 						$k++;
 	
@@ -507,54 +531,58 @@
 						if($row['image2'])
 							$jpg2 = "https://kiam.kr/adjunct/mms/thum/".$row['image2'];
 	
-						$row['content'] = htmlspecialchars($row['content'],ENT_QUOTES );
+						//$row[content] = htmlspecialchars($row[content],ENT_QUOTES );
 	
-						sendmms(4, $mem_id, $send_num, $recv_num, $reservation, $row['title'], $row['content'], $jpg, $jpg1, $jpg2, "Y", $row['sms_idx'], $row['sms_detail_idx'], $request_idx, "", $row['send_deny']);	
+						sendmms(4, $mem_id, $send_num, $recv_num, $reservation, $row[title], $row[content], $jpg, $jpg1, $jpg2, "Y", $row[sms_idx], $row[sms_detail_idx], $request_idx, "", $row[send_deny]);	
 	
 						$query = "insert into Gn_MMS_Agree set mem_id='$mem_id',
 						send_num='$send_num',
 						recv_num='$recv_num',
-						content='{$row['content']}',
-						title='{$row['title']}',
+						content='$row[content]',
+						title='$row[title]',
 						jpg='$jpg',
 						reg_date=NOW(),
 						reservation='$reservation',
-						sms_idx='{$row['sms_idx']}',
-						sms_detail_idx='{$row['sms_detail_idx']}',
+						sms_idx='$row[sms_idx]',
+						sms_detail_idx='$row[sms_detail_idx]',
 						request_idx='$request_idx'
 						";
 						//echo $query."<BR>";
-						mysqli_query($self_con, $query) or die(mysqli_error($self_con));
+						mysql_query($query) or die(mysql_error());
+	
 					}
+	
 				}
 
 				//중단예약처리를 진행한다.
 				if($stop_event_idx != 0)
 				{
 					$query = "select sms_idx1, sms_idx2, sms_idx3 from Gn_event where evne_idx='$stop_event_idx'";
-					$stop_res = mysqli_query($self_con, $query);
-					$stop_row = mysqli_fetch_array($stop_res);
+					$stop_res = mysql_query($query);
+					$stop_row = mysql_fetch_array($stop_res);
 
 					$query = "select count(*) from Gn_MMS where recv_num='$recv_num' and reservation is not null and result=1 and (sms_idx='$stop_row[0]' or sms_idx='$stop_row[1]' or sms_idx='$stop_row[2]')";
-					$cnt_res = mysqli_query($self_con, $query);
-					$cnt_row = mysqli_fetch_array($cnt_res);
+					$cnt_res = mysql_query($query);
+					$cnt_row = mysql_fetch_array($cnt_res);
 					if($cnt_row[0] > 0)
 					{
-						//중단정보테이블에 해당값을 저장한다.
+						//중단정보테이블에 해당 값을 저장한다.
 						$qury = "insert into gn_event_sms_stop_info set event_idx='$stop_event_idx', mobile='$recv_num'";
-						mysqli_query($self_con, $query);
+						mysql_query($query);
 
 						//문자테이블에서 해당 예약을 삭제한다.
 						$query = "delete from Gn_MMS where recv_num='$recv_num' and reservation is not null and result=1 and (sms_idx='$stop_row[0]' or sms_idx='$stop_row[1]' or sms_idx='$stop_row[2]')";
-						mysqli_query($self_con, query);
+						mysql_query(query);
+					
 					}
 				}	
 	
 				if($join_yn=='Y') {
+				
 					//회원가입
 					$sql3="select sub_domain FROM Gn_Service WHERE sub_domain like '%kiam.kr' And mem_id='$m_id'";
-					$res=mysqli_query($self_con, $sql3);
-					$row1 = mysqli_fetch_array($res);
+					$res=mysql_query($sql3);
+					$row1 = mysql_fetch_array($res);
 					if($row1['sub_domain'])
 					{
 						$parse = parse_url($row1['sub_domain']);
@@ -564,13 +592,13 @@
 					else
 					{
 						$sql3 = "select site from Gn_Member WHERE mem_id='$m_id'";
-						$res=mysqli_query($self_con, $sql3);
-						$row1 = mysqli_fetch_array($res);
+						$res=mysql_query($sql3);
+						$row1 = mysql_fetch_array($res);
 						$site = $row1['site'];
 					}
 					$sql3_iam="select sub_domain FROM Gn_Service_Iam WHERE sub_domain like '%kiam.kr' And mem_id='$m_id'";
-					$res=mysqli_query($self_con, $sql3_iam);
-					$row1_iam = mysqli_fetch_array($res);
+					$res=mysql_query($sql3_iam);
+					$row1_iam = mysql_fetch_array($res);
 					if($row1_iam['sub_domain'])
 					{
 						$parse = parse_url($row1_iam['sub_domain']);
@@ -580,8 +608,8 @@
 					else
 					{
 						$sql3_iam = "select site from Gn_Member WHERE mem_id='$m_id'";
-						$res=mysqli_query($self_con, $sql3_iam);
-						$row1_iam = mysqli_fetch_array($res);
+						$res=mysql_query($sql3_iam);
+						$row1_iam = mysql_fetch_array($res);
 						$site_iam = $row1_iam['site'];
 					}
 					$userid = $id;
@@ -606,8 +634,8 @@
 					mem_sex='$sex',
 					join_ip='$_SERVER[REMOTE_ADDR]'
 					";
-					mysqli_query($self_con, $query);
-					$mem_code = mysqli_insert_id($self_con);
+					mysql_query($query);
+					$mem_code = mysql_insert_id();
 	
 				}
 	
@@ -623,6 +651,17 @@
 				echo "msg+='\\n';";
 				echo "msg+='늘 행복하세요!!\\n';";
 
+				/*
+				echo "msg+='신청해주셔서 감사합니다.\\n';";
+				echo "msg+='고객님의 신청정보는 다음과 같습니다. \\n';";
+				echo "msg+='1)신청자 : $name \\n';";
+				echo "msg+='2)이메일 : $email \\n';";
+				echo "msg+='3)직업 : $job \\n';";
+				echo "msg+='4)신청행사 : $pcode \\n';";
+				echo "msg+='5)신청경로 : $sp \\n\\n';";
+				echo "msg+='위의 정보로 고객님에게 정기적으로 계속되는 이벤트정보와 안내정보를 보내드리겠습니다. \\n\\n';";
+				echo "msg+='감사합니다.';";
+				*/
 				if($join_yn=='Y') {
 					echo "alert(msg);gotoLogin('$userid','$passwd','$mem_code');</script>";
 				}
@@ -730,7 +769,7 @@
 			}
 			var pattern = /(^([a-z0-9]+)([a-z0-9_]+$))/;
 			if (!pattern.test(frm.id.value)) {
-				document.getElementById('id_html').innerHTML = '옳바른 회원아이디 형식이 아닙니다.';
+				document.getElementById('id_html').innerHTML = '올바른 회원아이디 형식이 아닙니다.';
 				frm.id_status.value = ''
 				frm.id.value = ''
 				frm.id.focus();
@@ -749,7 +788,7 @@
 			})
 		}
 
-		//비밀번???�확??
+		//비밀번호 재확인
 		function pwd_cfm_check(i) {
 			if ($('#join_yn').prop("checked")) {
 				if (!document.getElementsByName('pwd_cfm')[i].value) return;
@@ -775,14 +814,14 @@
 		</div>
 		<?}?>
 		<?php
-			if(($landing_idx != "" && $data['lecture_yn'] == "Y") || ($landing_idx != "" && $data['lecture_yn'] == "Y")) {?>
+			if(($landing_idx != "" && $data[lecture_yn] == "Y") || ($landing_idx != "" && $data[lecture_yn] == "Y")) {?>
 		<div class="big_sub">
 			<div class="m_div">
 				<?php include "mypage_left_menu.php";?>
 				<div class="m_body">
 					<div style="text-align:center;background:#4b657c">
 						<p style="font-size:2.125rem;font-weight:bold;font-family:KoPubDotum; color: #FFFFFF;">온리원플랫폼 전국 설명회 및 교육 일정</p>
-						<a href="https://blog.naver.com/onlyonemj18/222646448643" style="font-weight:bold;font-size:25px;color:yellow" target="_blank">[전국지원센터와 사업단보기]   </a>
+						<a href="https://blog.naver.com/onlyonemj18/222646448643" style="font-weight:bold;font-size:25px;color:yellow" target="_blank">[전국지역센터와 사업단 보기]   </a>
 					</div>
 					<form name="pay_form" action="" method="post" class="my_pay">
 						<input type="hidden" name="lecture_id" value="<?php echo $row['lecture_id'];?>" />
@@ -793,7 +832,7 @@
 						<input type="hidden" name="page" value="<?=$page?>" />
 						<input type="hidden" name="page2" value="<?=$page2?>" />
 						<div class="a1" style="margin-top:15px; margin-bottom:15px;color: #FFFFFF">
-							<li style="float:left;">강연/교육과정 입력결과보기/li>
+							<li style="float:left;">강연/교육과정 입력결과보기</li>
 							<li style="float:right;"></li>
 							<p style="clear:both"></p>
 						</div>
@@ -805,31 +844,31 @@
 										전체
 									</label>
 									<label class="check-item">
-										<input type="radio" name="category" value="강연 <?php echo $_REQUEST['category']=="강연" ?"checked":""?>>
+										<input type="radio" name="category" value="강연" <?php echo $_REQUEST['category']=="강연" ?"checked":""?>>
 										강연
 									</label>
 									<label class="check-item">
-										<input type="radio" name="category" value="교육 <?php echo $_REQUEST['category']=="교육" ?"checked":""?>>
+										<input type="radio" name="category" value="교육" <?php echo $_REQUEST['category']=="교육" ?"checked":""?>>
 										교육
 									</label>
 									<label class="check-item">
 										<input type="radio" name="category" value="영상" <?php echo $_REQUEST['category']=="영상" ?"checked":""?>>
 										영상
 									</label>
-									<input type="text" name="search_text" placeholder="" id="search_text" value="<?=$_REQUEST['search_text']?>" />
+									<input type="text" name="search_text" placeholder="" id="search_text" value="<?=$_REQUEST[search_text]?>" />
 									<a href="javascript:void(0)" id="searchC" onclick="#pay_form.submit()"><img src="/images/sub_mypage_11.jpg" /></a>
 								</div>
 
 
 								<div class="right">
-									<label class="check-item"><input type="radio" name="end_date" value="">전체/label>
+									<label class="check-item"><input type="radio" name="end_date" value="">전체</label>
 									<label class="check-item"><input type="radio" name="end_date" value="Y" <?php echo ($_REQUEST['end_date']=="Y"||$_REQUEST['end_date']=="")?"checked":""?>>진행완료</label>
 									<label class="check-item"><input type="radio" name="end_date" value="N" <?php echo $_REQUEST['end_date']=="N"?"checked":""?>>진행중</label>
 								</div>
 							</div>
 
-							<div style="text-align:center; color:#0075FF;font-size:15px;"> <b>강의신청방법 : 참여하고 싶은 강의제목을 확인한 후에 참여신청하기버튼을 클릭하셔서
-									신청합니다./b></style>
+							<div style="text-align:center; color:#0075FF;font-size:15px;"> <b>※강의신청방법 : 참여하고 싶은 강의제목을 확인한 후에 참여신청하기 버튼을 클릭하셔서
+									신청합니다</b></style>
 							</div>
 
 							<script>
@@ -915,27 +954,27 @@
 								}
 							</script>
 							<?
-								//홍보렙인가를 체크한다.	
+								//홍보렙인가를 체크한다		
 								$member_id = $data['m_id'];								
 								$sql="select mem_leb FROM Gn_Member WHERE mem_id='$member_id'";
-								$res=mysqli_query($self_con, $sql);
-								$memrow = mysqli_fetch_array($res);
+								$res=mysql_query($sql);
+								$memrow = mysql_fetch_array($res);
 								?>
 							<div class="table-wrap">
 								<table class="list_table" border="0" cellspacing="0" cellpadding="0">
 									<thead>
 										<tr>
 											<th class="no">No</th>
-											<th class="category">분야/th>
+											<th class="category">분야</th>
 											<th class="date">일정/기간</th>
-											<th class="day">요일/th>
+											<th class="day">요일</th>
 											<th class="time">강의<br>시간</th>
-											<th class="title">강의제목/a></th>
+											<th class="title">강의제목</a></th>
 											<th class="teacher">강사이름</th>
 											<th class="place">지역/장소<br>(클릭)</th>
 											<th class="object">참여대상</th>
 											<th class="limit">정원</th>
-											<th class="price">비용/th>
+											<th class="price">비용</th>
 											<?if($memrow['mem_leb'] != "60"){?>
 											<th class="request">신청</th>
 											<?}?>
@@ -950,7 +989,7 @@
 											if(isset($_REQUEST['end_date'])) {
 
 											} else {
-											    $_REQUEST['end_date']= "N";
+											    $_REQUEST[end_date]= "N";
 											}
 
 											$sql_serch=" status='Y'";
@@ -959,44 +998,44 @@
 											    $sql_serch.=" and mem_id ='".$data['m_id']."'";
 											}
 
-											//if($_REQUEST['category']=="")
-											//    $sql_serch.=" and category ='강연";
+											//if($_REQUEST[category]=="")
+											//    $sql_serch.=" and category ='강연'";
 
 											$photo_sql = $sql_serch;
-											if($_REQUEST['category'])
+											if($_REQUEST[category])
 											{
 											$sql_serch.=" and category ='$category'";
 
 											}
 											$now = date("Y-m-d");
-											if($_REQUEST['end_date'] == "Y")
+											if($_REQUEST[end_date] == "Y")
 											{
 											$sql_serch.=" and end_date < '$now'";
 											}
-											if($_REQUEST['end_date'] == "N")
+											if($_REQUEST[end_date] == "N")
 											{
 											$sql_serch.=" and end_date >= '$now'";
 											}
 
-											if($_REQUEST['search_text'])
+											if($_REQUEST[search_text])
 											{
-											    $search_text = $_REQUEST['search_text'];
+											    $search_text = $_REQUEST[search_text];
 											    $sql_serch.=" and (lecture_info like '%$search_text%' or area like '%$search_text%'or instructor like '%$search_text%')";
 											}
 
 											$sql="select count(lecture_id) as cnt from Gn_lecture where $sql_serch ";
-											$result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-											$row=mysqli_fetch_array($result);
-											$intRowCount=$row['cnt'];
+											$result = mysql_query($sql) or die(mysql_error());
+											$row=mysql_fetch_array($result);
+											$intRowCount=$row[cnt];
 											if($intRowCount)
 											{
-											    if (!$_POST['lno'])
+											    if (!$_POST[lno])
 											        $intPageSize =30;
 											    else
-											    $intPageSize = $_POST['lno'];
-											    if($_POST['page'])
+											    $intPageSize = $_POST[lno];
+											    if($_POST[page])
 											    {
-											        $page=(int)$_POST['page'];
+											        $page=(int)$_POST[page];
 											        $sort_no=$intRowCount-($intPageSize*$page-$intPageSize);
 											    }
 											    else
@@ -1004,20 +1043,20 @@
 											        $page=1;
 											        $sort_no=$intRowCount;
 											    }
-    											if($_POST['page2'])
-    											    $page2=(int)$_POST['page2'];
+    											if($_POST[page2])
+    											    $page2=(int)$_POST[page2];
     											else
     											    $page2=1;
 
     											$int=($page-1)*$intPageSize;
 
-    											if($_REQUEST['order_status'])
-    											    $order_status=$_REQUEST['order_status'];
+    											if($_REQUEST[order_status])
+    											    $order_status=$_REQUEST[order_status];
     											else
     											    $order_status="asc";
 
-    											if($_REQUEST['order_name'])
-    											    $order_name=$_REQUEST['order_name'];
+    											if($_REQUEST[order_name])
+    											    $order_name=$_REQUEST[order_name];
     											else
     											    $order_name="start_date";
 
@@ -1028,30 +1067,40 @@
 												echo "<!-- [ $sql ] -->";
 
 
-    											$result=mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-												while($row=mysqli_fetch_array($result))
-												{
-													$sql_num="select * from Gn_event where m_id='{$row['mem_id']}' and event_idx='{$row['event_idx']}' ";
-													$resul_num=mysqli_query($self_con, $sql_num);
-													$crow=mysqli_fetch_array($resul_num);
+    											$result=mysql_query($sql) or die(mysql_error());
 											?>
+
+
+										<?
+											while($row=mysql_fetch_array($result))
+											{
+											//$num_arr=array();
+											    $sql_num="select * from Gn_event where m_id='$row[mem_id]' and event_idx='$row[event_idx]' ";
+											    $resul_num=mysql_query($sql_num);
+											    $crow=mysql_fetch_array($resul_num);
+
+
+											?>
+
+
+
 										<tr>
 											<td>
 												<?=$sort_no?>
 											</td>
 											<td>
-												<?=$row['category']?>
+												<?=$row[category]?>
 											</td>
 											<td>
-												<?=$row['start_date']?>~<BR>
-												<?=$row['end_date']?>
+												<?=$row[start_date]?>~<BR>
+												<?=$row[end_date]?>
 											</td>
 											<td>
-												<?=$row['lecture_day']?>
+												<?=$row[lecture_day]?>
 											</td>
 											<td>
-												<?=$row['lecture_start_time']?>~<BR>
-												<?=$row['lecture_end_time']?>
+												<?=$row[lecture_start_time]?>~<BR>
+												<?=$row[lecture_end_time]?>
 											</td>
 
 											<td>
@@ -1059,29 +1108,29 @@
 												<a href="<?php echo $row['lecture_url'];?>" target="_blank">
 													<?php }?>
 													<div style="font-size:13px; text-align:left; font-weight:bold;color:blue;">
-														<?=$row['lecture_info']?>
+														<?=$row[lecture_info]?>
 														</a</div> </td> <!-- <td>
 														<?php if($row['lecture_url']) {?>
 														<a href="<?php echo $row['lecture_url'];?>" target="_blank">
 															<?php }?>
-															<?=$row['lecture_info']?></a></td> -->
+															<?=$row[lecture_info]?></a></td> -->
 											<td>
-												<?=$row['instructor']?>
+												<?=$row[instructor]?>
 											</td>
 											<td>
 												<div style="width:155px;overflow-y:hidden;height:45px;cursor:pointer;" class="area_view">
-													<?=$row['area']?>
+													<?=$row[area]?>
 												</div>
 											</td>
 											<td>
 												<div style="text-align:left; color:#0075FF;">
-												<?=$row['target']?>
+												<?=$row[target]?>
 												</div>
 											</td>
 											<td>
-												<?=$row['max_num']?>명</td>
+												<?=$row[max_num]?>명</td>
 											<td>
-												<?=$row['fee']==0?"무료":$row['fee']."원"?>
+												<?=$row[fee]==0?"무료":$row[fee]."원"?>
 											</td>
 											<?if($memrow['mem_leb'] != "60"){?>
 											<td>
@@ -1091,7 +1140,7 @@
 
 											<!--
 												<td>
-													<a href='mypage_lecture_write.php?lecture_id=<?php echo $row['lecture_id'];?>'>수정</a>/<a href="javascript:;;" onclick="removeRow('<?php echo $row['lecture_id'];?>')">?�?�</a>
+													<a href='mypage_lecture_write.php?lecture_id=<?php echo $row['lecture_id'];?>'>수정</a>/<a href="javascript:;;" onclick="removeRow('<?php echo $row['lecture_id'];?>')">삭제</a>
 												</td>
 												-->
 										</tr>
@@ -1122,7 +1171,7 @@
 									</tbody>
 								</table>
 								<!--
-									<input type="button" value="랜딩페이지 삭제" class="button">
+									<input type="button" value="랜딩 페이지 삭제" class="button">
 									-->
 							</div>
 						</div>
@@ -1152,14 +1201,14 @@
 					<div style="text-align:center;background:#4b657c">
 						<p style="font-size:25px;font-weight:bold; font-family:KoPubDotum; color: #FFFFFF;">실시간 리뷰보기</p>
 						<p style="font-size:15px;font-weight:bold; font-family:KoPubDotum; color: #FFFFFF;">**리뷰를 쓰고 자신과 자신의 자산을
-							홍보해보세요. 리뷰없이 홍보만 하면 지워집니다.*</p>
+							홍보해보세요. 리뷰없이 홍보만 하면 지워집니다**</p>
 					</div>
 					<div>
 						<div class="review-button clearfix">
 							<input type="button" value="리뷰 입력하기" class="button" id="writeBtn">
 						</div>
 						<form name="sform" id="sform" action="mypage.proc.php" method="post" enctype="multipart/form-data">
-							<input type="hidden" name="mode" value="<?=$lecture_id?"lecture_updat":"lecture_save_event";?>" />
+							<input type="hidden" name="mode" value="<?php echo $lecture_id?" lecture_update":"lecture_save_event";?>" />
 							<input type="hidden" name="lecture_id" value="<?php echo $row['lecture_id'];?>" />
 							<input type="hidden" name="event_idx" value="<?php echo $event_idx;?>" />
 							<input type="hidden" name="pcode" value="<?php echo $pcode;?>" />
@@ -1170,11 +1219,11 @@
 									<tr>
 										<th>평가</th>
 										<td>
-											<input type="radio" name="score" value="5" checked><span style="color:#FFCE0B">?�?�?�?�?�</span>
-											<input type="radio" name="score" value="4"><span style="color:#FFCE0B">?�?�?�?�</span>
-											<input type="radio" name="score" value="3"><span style="color:#FFCE0B">?�?�?�</span>
-											<input type="radio" name="score" value="2"><span style="color:#FFCE0B">?�?�</span>
-											<input type="radio" name="score" value="1"><span style="color:#FFCE0B">?�</span>
+											<input type="radio" name="score" value="5" checked><span style="color:#FFCE0B">★★★★★</span>
+											<input type="radio" name="score" value="4"><span style="color:#FFCE0B">★★★★</span>
+											<input type="radio" name="score" value="3"><span style="color:#FFCE0B">★★★</span>
+											<input type="radio" name="score" value="2"><span style="color:#FFCE0B">★★</span>
+											<input type="radio" name="score" value="1"><span style="color:#FFCE0B">★</span>
 										</td>
 									</tr>
 									<tr>
@@ -1186,14 +1235,15 @@
 										</td>
 									</tr>
 									<tr>
-										<th>리뷰내용/th>
+										<th>리뷰내용</th>
 										<td>
 											<textarea name="content" id="content"></textarea>
 										</td>
 									</tr>
 									<tr>
 										<th>자기소개</th>
-										<td><input type="text" name="profile" maxlength="50" id="profile" placeholder="50자 이내로 나와 내 서비스,그리고 연락처를 남겨서 서로 소통하세요."></td>									</tr>
+										<td><input type="text" name="profile" maxlength="50" id="profile" placeholder="50자 이내로 나와 내 서비스 그리고 연락처를 남겨서 서로 소통하세요."></td>
+									</tr>
 									<tr>
 										<td colspan="2" style="text-align:right;">
 											<input type="button" value="취소" class="button" id="cancleBtn">
@@ -1208,42 +1258,42 @@
 							<div id="reviewSlider">
 								<? 
 									$sql="select * from Gn_lecture where $photo_sql order by start_date desc";
-									$result=mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
+									$result=mysql_query($sql) or die(mysql_error());
 									$count = 0;
-									while($row=mysqli_fetch_array($result))
+									while($row=mysql_fetch_array($result))
 									{
-										if($row['review_img1'])
+										if($row[review_img1])
 										{
 											?>
-								<div class="slide-item"> <img src="upload/lecture/<?=$row['review_img1']?>"></div>
+								<div class="slide-item"> <img src="upload/lecture/<?=$row[review_img1]?>"></div>
 								<?
 											$count++;
 										}
-										if($row['review_img2'])
+										if($row[review_img2])
 										{
 											?>
-								<div class="slide-item"> <img src="upload/lecture/<?=$row['review_img2']?>"></div>
+								<div class="slide-item"> <img src="upload/lecture/<?=$row[review_img2]?>"></div>
 								<?
 											$count++;
 										}
-										if($row['review_img3'])
+										if($row[review_img3])
 										{
 											?>
-								<div class="slide-item"> <img src="upload/lecture/<?=$row['review_img3']?>"></div>
+								<div class="slide-item"> <img src="upload/lecture/<?=$row[review_img3]?>"></div>
 								<?
 											$count++;
 										}
-										if($row['review_img4'])
+										if($row[review_img4])
 										{
 											?>
-								<div class="slide-item"> <img src="upload/lecture/<?=$row['review_img4']?>"></div>
+								<div class="slide-item"> <img src="upload/lecture/<?=$row[review_img4]?>"></div>
 								<?
 											$count++;
 										}
-										if($row['review_img5'])
+										if($row[review_img5])
 										{
 											?>
-								<div class="slide-item"> <img src="upload/lecture/<?=$row['review_img5']?>"></div>
+								<div class="slide-item"> <img src="upload/lecture/<?=$row[review_img5]?>"></div>
 								<?
 											$count++;
 										}
@@ -1268,27 +1318,27 @@
 								<?
 									$sql_serch=" 1=1 ";
 									//$sql_serch = "";
-									//if($_REQUEST['category'])
+									//if($_REQUEST[category])
 									//{
 									//    $sql_serch.=" and category ='$category'";
 									//}
 									$now = date("Y-m-d");
-									//if($_REQUEST['end_date'] == "Y")
+									//if($_REQUEST[end_date] == "Y")
 									//{
 									//    $sql_serch.=" and end_date < '$now'";
 									//}
-									//if($_REQUEST['end_date'] == "N")
+									//if($_REQUEST[end_date] == "N")
 									//{
 									//    $sql_serch.=" and end_date >= '$now'";
 									//}
 									//홍보렙인가를 체크한다
-									if($data['m_id'] != "obmms02" && $memrow['mem_leb'] != "60") {
+									if($data['m_id'] != "obmms02" && $memrow[mem_leb] != "60") {
 									    $sql_serch.=" and b.mem_id ='".$data['m_id']."'";
 									}
 
-									if($_REQUEST['search_text_review'])
+									if($_REQUEST[search_text_review])
 									{
-									    $search_text_review = $_REQUEST['search_text_review'];
+									    $search_text_review = $_REQUEST[search_text_review];
 									    $sql_serch.=" and (lecture_info like '%$search_text_review%' or area like '%$search_text_review%'or instructor like '%$search_text_review%')";
 									}
 
@@ -1296,18 +1346,18 @@
 									                               inner join Gn_lecture b
 									                                       on  a.lecture_id = b.lecture_id
 									                                where $sql_serch ";
-									$result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-									$row=mysqli_fetch_array($result);
-									$intRowCount=$row['cnt'];
+									$result = mysql_query($sql) or die(mysql_error());
+									$row=mysql_fetch_array($result);
+									$intRowCount=$row[cnt];
 									if($intRowCount)
 									{
-									if (!$_POST['lno'])
+									if (!$_POST[lno])
 									$intPageSize =30;
 									else
-									$intPageSize = $_POST['lno'];
-									if($_POST['page'])
+									$intPageSize = $_POST[lno];
+									if($_POST[page])
 									{
-									$page=(int)$_POST['page'];
+									$page=(int)$_POST[page];
 									$sort_no=$intRowCount-($intPageSize*$page-$intPageSize);
 									}
 									else
@@ -1315,18 +1365,18 @@
 									$page=1;
 									$sort_no=$intRowCount;
 									}
-									if($_POST['page2'])
-									$page2=(int)$_POST['page2'];
+									if($_POST[page2])
+									$page2=(int)$_POST[page2];
 									else
 									$page2=1;
 
 									$int=($page-1)*$intPageSize;
-									if($_REQUEST['order_status'])
-									$order_status=$_REQUEST['order_status'];
+									if($_REQUEST[order_status])
+									$order_status=$_REQUEST[order_status];
 									else
 									$order_status="desc";
-									if($_REQUEST['order_name'])
-									$order_name=$_REQUEST['order_name'];
+									if($_REQUEST[order_name])
+									$order_name=$_REQUEST[order_name];
 									else
 									$order_name="review_id";
 									$intPageCount=(int)(($intRowCount+$intPageSize-1)/$intPageSize);
@@ -1334,41 +1384,41 @@
 									inner join Gn_lecture b
 									on  a.lecture_id = b.lecture_id
 									where $sql_serch order by start_date desc limit $int,$intPageSize";
-									$result=mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
+									$result=mysql_query($sql) or die(mysql_error());
 									?>
 								<?
-									while($row=mysqli_fetch_array($result))
+									while($row=mysql_fetch_array($result))
 									{
 									?>
 
 								<tr>
 									<td class="photo" rowspan="3"><img src="/images/man.png" width= "60" height= "60" ></td>
 									<td style="font-size:14px;font-weight:bold; text-align:left;" class="profile" colspan="3">
-										<?=$row['lecture_info']?> /
-										<?=$row['instructor']?> /
-										<?=$row['start_date']?>~
-										<?=$row['end_date']?> /
-										<?=$row['area']?>
-										<?php if($row['score']=="5"){?>?�?�?�?�?�
+										<?=$row[lecture_info]?> /
+										<?=$row[instructor]?> /
+										<?=$row[start_date]?>~
+										<?=$row[end_date]?> /
+										<?=$row[area]?>
+										<?php if($row['score']=="5"){?>★★★★★
 										<?php }?>
-										<?php if($row['score']=="4"){?>?�?�?�?�
+										<?php if($row['score']=="4"){?>★★★★
 										<?php }?>
-										<?php if($row['score']=="3"){?>?�?�?�
+										<?php if($row['score']=="3"){?>★★★
 										<?php }?>
-										<?php if($row['score']=="2"){?>?�?�
+										<?php if($row['score']=="2"){?>★★
 										<?php }?>
-										<?php if($row['score']=="1"){?>?�
+										<?php if($row['score']=="1"){?>★
 										<?php }?>
 									</td>
 								</tr>
 								<tr>
-									<td class="content" colspan="3" >
+									<td class="content" colspan="3" style="">
 										<div class="div_content">
-											<?=nl2br($row['content'])?>
+											<?=nl2br($row[content])?>
 										</div>
 										<input type="button" value="+" class="button" id="viewMore" style="line-height: revert;font-size: 20px;right: 40px;">
 										<div class="dropdown" style="position: absolute; right: 3px; bottom: 0px;">
-											<button class="btn-link dropdown-toggle westory_dropdown" type="button" data-toggle="dropdown"  aria-expanded="false">
+											<button class="btn-link dropdown-toggle westory_dropdown" type="button" data-toggle="dropdown" style="" aria-expanded="false">
 												<img src="/iam/img/menu/icon_dot.png" style="height:24px">
 											</button>
 											<ul class="dropdown-menu comunity" style="left: revert;right: 0;">
@@ -1380,13 +1430,13 @@
 								</tr>
 								<tr>
 									<td style="font-size:12px;color:#7F7F7F;">
-										<?=$row['mem_name']?>
+										<?=$row[mem_name]?>
 									</td>
 									<td style="font-size:12px;font-weight:bold;color:#2F5597;" class="intro">
 										<?php echo $row['profile'];?>
 									</td>
 									<td class="date">
-										<?=$row['regdate']?>
+										<?=$row[regdate]?>
 									</td>
 								</tr>
 								<?
@@ -1415,7 +1465,7 @@
 									?>
 							</table>
 							<!--
-								<input type="button" value="랜딩페이지 삭제" class="button">
+								<input type="button" value="랜딩 페이지 삭제" class="button">
 								-->
 						</div>
 					</div>
@@ -1427,7 +1477,7 @@
 			<iframe width="100%" height="600px" src="<?php echo $data['movie_url'];?>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
 			 allowfullscreen></iframe>
 			<?php }?>
-			<?php if(($landing_idx != "" && $data['request_yn'] == "Y") || $landing_idx == "") {?>
+			<?php if(($landing_idx != "" && $data[request_yn] == "Y") || $landing_idx == "") {?>
 			<form id="dform1" name="dform1" method="post" action="<?=$SERVER['PHP_SELF']?>" onsubmit="return checkForm()">
 				<input type="hidden" name="mode" value="speech">
 				<input type="hidden" name="pcode" value="<?=$pcode?>">
@@ -1439,7 +1489,7 @@
 				<input type="hidden" id="nick_reg" name="nick_reg" value="0">
 				<input type="hidden" id="landing_idx" name="landing_idx" value="<?php echo $landing_idx;?>">
 				<div id="apply" class="common-wrap" style="align:center;margin-top: 20px;max-width:600px;">
-					<!-- ?�청?��?-->
+					<!-- 신청하기 -->
 					<div class="container" style="width: 100%;">
 						<div class="row" style="margin: 0px;">
 							<div class="col-12">
@@ -1449,7 +1499,7 @@
 										<?php if($event_data['event_title'] != ""){?>
 										<?php echo $event_data['event_title'];?>
 										<?php } else {?>
-										?�청?��?
+										신청하기
 										<?php } ?>
 										<!--</em>-->
 									</h2>
@@ -1464,10 +1514,10 @@
 											<label for="iam_mem" value="iam_mem_ori" style="font-size:17px;">IAM기존회원</label>
 											<br>
 											<span class="main_info" id="no_txt">
-												신청정보의 수정/취소를 위해서는 확인코드(6~10자)를 꼭 입력해주세요.
-												비번은 휴대폰 뒷 4자리로 자동 설정됩니다.
+												신청정보의 수정/취소를 위해서는 확인코드(6-10자)를 꼭 입력해주세요.
+												비번은 휴대폰 뒷4자리로 자동 설정됩니다.
 											</span>
-											<!-- <span class="main_info" id="iam_txt" hidden>계?�?� ?�?�하?��??�?�?��? ?�?�됩니??</span> -->
+											<!-- <span class="main_info" id="iam_txt" hidden>계정을 입력하시면 자동으로 입력됩니다.</span> -->
 										</div>
 										<?}?>
 										<!-- <div class="utils clearfix">
@@ -1478,12 +1528,12 @@
 										<input type="hidden" name="join_yn" value="Y">
 										<!-- <div class="form-wrap" style="background-color: lemonchiffon">
 											<div class="attr-row">
-												<div class="attr-name"><b>?�?�가?�</b></div>
+												<div class="attr-name"><b>회원가입</b></div>
 												<div class="attr-value">
 													<div class="input-wrap" style="font-size:14px;">
 														<input type="checkbox" id="join_yn" name="join_yn" value="Y" <? if($join_yn=='Y' ) echo checked ?> >
-														<label><span style="color:#DF0101"><b>??체크�???꼭 ?�릭?�야해요!!</b><br> ?�?�가?� 체크�??��? ?�릭?��??�청???�료?��? 추?� ?�보제공이나 ?�?�엠
-																?��? 무�?문자, ?�버?��??��?가?�합니?? ?��?가?�?�분?� ?�?� ?�?�?�보�??�오기�??�릭?�?�요.</span></label>
+														<label><span style="color:#DF0101"><b>※ 체크박스 꼭 클릭해야해요!!</b><br> 회원가입 체크박스를 클릭해야 신청이 완료되며, 추후 정보제공이나 아이엠
+																사용, 무료문자, 디버사용 등이 가능합니다. 이미 가입된분은 위의 회원정보가져오기를 클릭하세요.</span></label>
 													</div>
 												</div>
 											</div>
@@ -1500,11 +1550,11 @@
 													<div class="attr-name">신청확인코드</div>
 													<div class="attr-value">
 														<div class="input-wrap">
-															<input type="text" id="id" name="id" value="<?=$_POST['id']?>" placeholder="영문 또는 숫자 6-15자로 입력하세요." style="width:90%; height:40px; border:1px #cacaca solid;font-size: 14px;" />
+															<input type="text" id="id" name="id" value="<?=$_POST[id]?>" placeholder="영문 또는 숫자 6-10자로 입력하세요." style="width:90%; height:40px; border:1px #cacaca solid;font-size: 14px;" />
 															<input type="button" style="margin: 5px;" value="중복확인" class="button is-grey" onClick="id_check(dform1,'dform1')" />
 															<span id='id_html' style="width: 60px;"></span>
-															<input type="hidden" name="id_status" value="<?=$_POST['id_status']?>" itemname='확인코드중복확인' required />
-															&nbsp;&nbsp; <p id="id_chk_str" style="display: inline-block;">중복확인 꼭 클릭하세요.</p>
+															<input type="hidden" name="id_status" value="<?=$_POST[id_status]?>" itemname='확인코드중복확인' required />
+															&nbsp;&nbsp; <p id="id_chk_str" style="display: inline-block;">※중복확인 꼭 클릭하세요</p>
 
 														</div>
 													</div>
@@ -1515,7 +1565,7 @@
 													<div class="attr-value">
 														<div class="input-wrap">
 															<input type="password" id="pwd" name="pwd" style="width:90%; height:40px; border:1px #cacaca solid;font-size: 14px;"
-															 value="<?=$_POST['pwd']?>" />
+															 value="<?=$_POST[pwd]?>" />
 														</div>
 													</div>
 												</div>
@@ -1553,9 +1603,9 @@
 															$width = "90%";
 														}?>
 														<input type="tel" name="mobile" style="width:<?=$width?>; height:40px; border:1px #cacaca solid;font-size: 14px;"
-														 id="tel" onblur="checkPhon()" value="<?=$_POST['mobile']?>" placeholder="'-'를 빼고 입력 (예 : 01012345678)" />
+														 id="tel" onblur="checkPhon()" value="<?=$_POST['mobile']?>" placeholder="'-'를 빼고 입력(예 : 01012345678)" />
 														 <?php if(strstr($event_data['event_info'],"sms")) {?>
-														 <input type="button" value="인증번호받기" class="button" onclick="chk_sms()" style=" height:42px; border:1px #cacaca solid;font-size: 14px;">
+														 <input type="button" value="인증번호 받기" class="button" onclick="chk_sms()" style=" height:42px; border:1px #cacaca solid;font-size: 14px;">
 														 <?}?>
 													</div>
 												</div>
@@ -1566,7 +1616,7 @@
 													<div class="attr-name">인증번호</div>
 													<div class="attr-value">
 														<div class="input-wrap">
-															<input type="text" name="rnum" id="rnum" itemname='인증번호" maxlength="10" style="width:50%; height:40px; border:1px #cacaca solid;font-size: 14px;" />
+															<input type="text" name="rnum" id="rnum" itemname='인증번호' maxlength="10" style="width:50%; height:40px; border:1px #cacaca solid;font-size: 14px;" />
 															<input type="button" value="인증번호 확인" class="button" onclick="chk_sms1()" style=" height:42px; border:1px #cacaca solid;font-size: 14px;">
 															<span id="check_sms"></span>
 														</div>
@@ -1606,7 +1656,7 @@
 												<div class="attr-value">
 													<div class="input-wrap">
 														<input type="text" name="job" style="width:90%; height:40px; border:1px #cacaca solid;font-size: 14px;"
-														 id="job" value="<?=$_POST['job']?>" placeholder="/로 소속과 직업 분리 입력해요." />
+														 id="job" value="<?=$_POST['job']?>" placeholder="/로 소속과 직업 분리 입력해요" />
 													</div>
 												</div>
 											</div>
@@ -1618,7 +1668,7 @@
 												<div class="attr-value">
 													<div class="input-wrap">
 														<input type="text" name="addr" style="width:90%; height:40px; border:1px #cacaca solid;font-size: 14px;"
-														 id="addr" value="" placeholder="이벤트에 필요하니 정확히 입력해요." />
+														 id="addr" value="" placeholder="이벤트에 필요하니 정확히 입력해요" />
 													</div>
 												</div>
 											</div>
@@ -1630,7 +1680,7 @@
 												<div class="attr-value">
 													<div class="input-wrap">
 														<input type="text" name="birthday" style="width:90%; height:40px; border:1px #cacaca solid;font-size: 14px;"
-														 id="birthday" value="" placeholder="출생년도만 입력하세요." />
+														 id="birthday" value="" placeholder="출생년도만 입력하세요" />
 													</div>
 												</div>
 											</div>
@@ -1644,10 +1694,10 @@
 												<div class="attr-name">신청강좌명</div>
 												<div class="attr-value">
 													<div class="input-wrap">
-														<!-- <input type="text" name="consult_date" style="width:90%; height:40px; border:1px #cacaca solid;font-size: 14px;" id="consult_date" value="" placeholder="참여�? ?�?�?� 강좌명?� ?�?�하?�요"/> -->
+														<!-- <input type="text" name="consult_date" style="width:90%; height:40px; border:1px #cacaca solid;font-size: 14px;" id="consult_date" value="" placeholder="참여를 원하는 강좌명을 입력하세요"/> -->
 
 														<input type="hidden" name="consult_date" id="lecture_id_2">
-														<input type="text" name="consult_date" id="lecture_info_2" readonly placeholder="참여를 원하는 강좌명을 입력하세요."
+														<input type="text" name="consult_date" id="lecture_info_2" readonly placeholder="참여를 원하는 강좌명을 입력하세요"
 														 style="width:70%; height:40px; border:1px #cacaca solid;font-size: 14px;">
 														<input type="button" value="강의선택" class="button searchBtn" style="height: 42px;border: 1px #cacaca solid;font-size: 14px;">
 													</div>
@@ -1769,7 +1819,7 @@
 						}
 
 						if ($('#content').val() == "") {
-							alert('리뷰내용을 선택해주세요.');
+							alert('리뷰내용을 선택해 주세요.');
 							$('#content').focus();
 							return;
 						}
@@ -1794,15 +1844,47 @@
 							});
 						}
 					});
+					/*
+					$('.copyLinkBtn').bind("click", function() {
+					var trb = $(this).data("link");
+					var IE=(document.all)?true:false;
+					if (IE) {
+					if(confirm("이 링크를 복사하시겠습니까?")) {
+					window.clipboardData.setData("Text", trb);
+					}
+					} else {
+					temp = prompt("Ctrl+C를 눌러 클립보드로 복사하세요", trb);
+					}
+					});
+					$('.switch').on("change", function() {
+					var no = $(this).find("input[type=checkbox]").val();
+					var status = $(this).find("input[type=checkbox]").is(":checked")==true?"Y":"N";
+							$.ajax({
+								type:"POST",
+								url:"mypage.proc.php",
+								data:{
+									mode:"land_update_status",
+									landing_idx:no,
+									status:status,
+									},
+								success:function(data){
+								//alert('신청되었습니다.');location.reload();
+								}
+								})
+		
+					//console.log($(this).find("input[type=checkbox]").is(":checked"));
+					//console.log($(this).find("input[type=checkbox]").val());
+					});
+					*/
 				})
 			</Script>
 		</div>
 		<div id="floating-menu">
 			<ul>
-				<?php if($data['lecture_yn'] == "Y") {?>
+				<?php if($data[lecture_yn] == "Y") {?>
 				<li class="menu"><a href="#" data-scroll="table"><img src="images/side_01.png" alt="강연일정 바로가기" width="200px"></a></li>
 				<li class="menu"><a href="#" data-scroll="review"><img src="images/side_02.png" alt="실시간리뷰 바로가기" width="200px"></a></li>
-				<li class="menu"><a href="#" data-scroll="apply"><img src="images/side_03.png" alt="강연교육 신청하기" width="200px"></a></li>
+				<li class="menu"><a href="#" data-scroll="apply"><img src="images/side_03.png" alt="강연교육신청하기" width="200px"></a></li>
 				<?php } ?>
 			</ul>
 		</div>
@@ -1845,7 +1927,7 @@
 						</div>
 						<div>
 							<input type="checkbox" name="report_title" value="3" id="unaccept">
-							<label for="unaccept">무허가 판매정보</label>
+							<label for="unaccept">무허가 판매 정보</label>
 						</div>
 						<div>
 							<input type="checkbox" name="report_title" value="3" id="dislike">
@@ -2014,7 +2096,7 @@
  <script language="javascript">
     function checkUrl() {
         if($('#store_address').val() == "") {
-            alert('샵계정을 입력해주세요.');
+            alert('샵계정을 입력해주세요');
             return;
         }        
         $('#viewFrame').html('<iframe id="sample_frame"  name="sample_frame" src="/admin/iam_auto_make_check_.php?memid='+$('#store_address').val()+'" style="width: 400px; height: 1200px; border-width: 1px; border-style: solid; border-color: gray;"></iframe>');
@@ -2026,11 +2108,11 @@
     
     function sendId() {
         if($('#mem_id').val() == "") {
-            alert('샵계정을 입력해주세요.');
+            alert('샵계정을 입력해주세요');
             return;
         }
         if($('#rphone').val() == "") {
-            alert('휴대폰을 입력해주세요.');
+            alert('휴대폰을 입력해주세요');
             return;            
         }        
         $.ajax({
@@ -2046,5 +2128,5 @@
  </script>
  		
 </body>
-
 </html>
+

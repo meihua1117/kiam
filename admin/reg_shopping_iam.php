@@ -8,13 +8,13 @@ $date_today=date("Y-m-d");
 if($idx) {
     // 가입 회원 상세 정보
     $query = "select * from crawler_shop_admin where id='$idx'";
-    $res = mysqli_query($self_con, $query);
-    $data = mysqli_fetch_array($res);
+    $res = mysql_query($query);
+    $data = mysql_fetch_array($res);
 }
 $sync_gwc = get_search_key('gwc_prod_sync_status');
 $sql_sync = "select up_data from Gn_Iam_Contents_Gwc where mem_id='iamstore' and card_idx in (934329,934722,935615,935757,936099,937019,937056,937141,937226,937314,937339,937416,937427,937435,937473,974442,1002328,1029774,1034733,1034893,1036309,1036310,1036445,1037573,1037592,1037708,1037798,1047845,1047846,1047943) and sync_date is not null order by up_data desc limit 1";
-$res_sync = mysqli_query($self_con, $sql_sync);
-$row_sync = mysqli_fetch_array($res_sync);
+$res_sync = mysql_query($sql_sync);
+$row_sync = mysql_fetch_array($res_sync);
 ?>
 <style>
     .box-body th {
@@ -159,23 +159,17 @@ $row_sync = mysqli_fetch_array($res_sync);
                                         <input type="text" name="reg_title" id="reg_title" class="ai_reg_input" placeholder="자동생성을 위한 제목을 입력합니다." value="<?=$data['reg_title']?$data['reg_title']:"";?>">
                                     </td>
                                 </tr>
-                                <?if($_GET['store'] != "Y"){?>
+                                <?if($_GET[store] != "Y"){?>
                                 <tr id="search_str">
                                     <td>3</td>
                                     <td>검색조건</td>
                                     <td>
                                         <input type="text" name="reg_search_busi_type" id="reg_search_busi_type" class="ai_reg_input1" placeholder="업종"  value="<?=$data['reg_search_busi_type']?$data['reg_search_busi_type']:"";?>">
                                         <input type="text" name="reg_search_busi" id="reg_search_busi" class="ai_reg_input1" placeholder="상호"  value="<?=$data['reg_search_busi']?$data['reg_search_busi']:"";?>">
-                                        <input type="text" name="reg_search_addr" id="reg_search_addr" class="ai_reg_input1" placeholder="주소"  value="<?=$data['reg_search_addr']?$data['reg_search_addr']:"";?>">
+                                        <input type="text" name="reg_search_addr" id="reg_search_addr" class="ai_reg_input1" placeholder="주소"  value="<?=$reg_search_addr?$reg_search_addr:"";?>">
                                         <input type="text" name="reg_search_keyword" id="reg_search_keyword" class="ai_reg_input1" placeholder="검색어"  value="<?=$data['reg_search_keyword']?$data['reg_search_keyword']:"";?>">
                                     </td>
                                 </tr>
-                                <!--tr>
-                                    <td colspan="2"></td>
-                                    <td>
-                                        <input type="text" name="reg_search_region" id="reg_search_region" class="ai_reg_input" placeholder="여러지역을 수집할때 입력하세요."  value="">
-                                    </td>
-                                </tr-->
                                 <tr id="make_cnt">
                                     <td>4</td>
                                     <td>생성건수</td>
@@ -217,7 +211,7 @@ $row_sync = mysqli_fetch_array($res_sync);
                                     </td>
                                 </tr>
                                 <?}?>
-                                <tr id="iam_store_link" <?=$_GET['store'] != "Y"?"hidden":""?>>
+                                <tr id="iam_store_link" <?=$_GET[store] != "Y"?"hidden":""?>>
                                     <td>3</td>
                                     <td>상품주소</td>
                                     <td>
@@ -225,14 +219,14 @@ $row_sync = mysqli_fetch_array($res_sync);
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td id="memo_no"><?=$_GET['store'] != "Y"?"9":"4"?></td>
+                                    <td id="memo_no"><?=$_GET[store] != "Y"?"9":"4"?></td>
                                     <td>메모남기기</td>
                                     <td>
                                         <input type="text" name="reg_memo" id="reg_memo" class="ai_reg_input" placeholder="IAM 자동생성에 필요한 정보를 메모장에 남긴다." value="<?=$data['reg_memo']?$data['reg_memo']:"";?>">
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td id="memo_regdate"><?=$_GET['store'] != "Y"?"10":"5"?></td>
+                                    <td id="memo_regdate"><?=$_GET[store] != "Y"?"10":"5"?></td>
                                     <td>등록일시</td>
                                     <td>
                                         <input type="text" name="reg_date" id="reg_date" value='<?=$data['reg_date']?$data['reg_date']:date('Y-m-d H:i:s')?>'>
@@ -388,7 +382,7 @@ $row_sync = mysqli_fetch_array($res_sync);
             success:function(data){
                 if(data.status == 1){
                     alert("저장 되었습니다.");
-                    location.href="reg_shopping_iam.php?idx="+data.set_id+"&store="+store;
+                    location.href="reg_shopping_iam.php?idx="+data.set_id+"&store="+store+"&idxs="+data.set_ids+"&reg_search_addr="+data.reg_search_addr;
                 }
             }
         });
@@ -466,23 +460,13 @@ $row_sync = mysqli_fetch_array($res_sync);
         var reg_search_busi = $('#reg_search_busi').val();
         var reg_search_addr = $('#reg_search_addr').val();
         var reg_search_keyword = $('#reg_search_keyword').val();
-        var set_idx = '<?=$_REQUEST['idx']?>';
+        var set_idx = '<?=$_REQUEST['idxs']?>';
         var iamstore_link = $('#iamstore_link').val();
 
         $.ajax({
             type:"POST",
             dataType:"json",
-            data:{
-                contents_cnt:contents_cnt, 
-                account_cnt:account_cnt, 
-                reg_search_busi_type:reg_search_busi_type,
-                reg_search_busi:reg_search_busi, 
-                reg_search_addr:reg_search_addr, 
-                reg_search_keyword:reg_search_keyword, 
-                admin_shopping:true, 
-                set_idx:set_idx, 
-                iamstore_link:iamstore_link
-            },
+            data:{contents_cnt:contents_cnt, account_cnt:account_cnt, reg_search_busi_type:reg_search_busi_type,reg_search_busi:reg_search_busi, reg_search_addr:reg_search_addr, reg_search_keyword:reg_search_keyword, admin_shopping:true, set_idx:set_idx, iamstore_link:iamstore_link},
             url:url,
             success: function(data){
                 if(web_type == "iamstore"){

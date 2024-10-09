@@ -33,30 +33,30 @@ $sql = "insert into tjd_pay_result set ";
 foreach ($pay_info as $key => $v) {
     $sql .= " $key = '$v' , ";
 }
-$sql .= " end_date=date_add(now(),INTERVAL {$_POST['month_cnt']} month) , date=now()";
-mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-$no = mysqli_insert_id($self_con);
+$sql .= " end_date=date_add(now(),INTERVAL {$_POST[month_cnt]} month) , date=now()";
+mysql_query($sql) or die(mysql_error());
+$no = mysql_insert_id();
 
 $sql = "insert into tjd_pay_result_month set pay_idx='$orderNumber',
                                             order_number='$orderNumber',
                                             pay_yn='N',
                                             msg='셀링통장정기결제',
                                             regdate = NOW(),
-                                            amount='{$_POST['allat_amt']}',
-                                            buyer_id='{$member_1['mem_id']}'";
-mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
+                                            amount='$_POST[allat_amt]',
+                                            buyer_id='$member_1[mem_id]'";
+mysql_query($sql) or die(mysql_error());
 
 if($_POST['phone_cnt'] > 0) {
-    $sql = "select * from tjd_pay_result where orderNumber='{$orderNumber}' and buyer_id='{$member_1['mem_id']}' ";
-    $resul = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-    $row = mysqli_fetch_array($resul);
+    $sql = "select * from tjd_pay_result where orderNumber='{$orderNumber}' and buyer_id='$member_1[mem_id]' ";
+    $resul = mysql_query($sql) or die(mysql_error());
+    $row = mysql_fetch_array($resul);
 
-    $sql = "select * from Gn_Member where mem_id='{$member_1['mem_id']}' ";
-    $sresult = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-    $srow = mysqli_fetch_array($sresult);
-    $sql = "select count(cmid) from crawler_member_real where user_id='{$member_1['mem_id']}' ";
-    $sresult = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-    $crow = mysqli_fetch_array($sresult);
+    $sql = "select * from Gn_Member where mem_id='$member_1[mem_id]' ";
+    $sresult = mysql_query($sql) or die(mysql_error());
+    $srow = mysql_fetch_array($sresult);
+    $sql = "select count(cmid) from crawler_member_real where user_id='$member_1[mem_id]' ";
+    $sresult = mysql_query($sql) or die(mysql_error());
+    $crow = mysql_fetch_array($sresult);
     if ($crow[0] == 0) {
         $user_id = $srow['mem_id'];
         $user_name = $srow['mem_name'];
@@ -65,9 +65,9 @@ if($_POST['phone_cnt'] > 0) {
         $email = $srow['mem_email'];
         $address = $srow['mem_add1'];
         $status = "N";
-        $use_cnt = $_POST['db_cnt'];
+        $use_cnt = $_POST[db_cnt];
         $search_email_date = substr($last_time, 0, 10);
-        $search_email_cnt = $_POST['email_cnt'];
+        $search_email_cnt = $_POST[email_cnt];
         $term = substr($last_time, 0, 10);
         $query = "insert into crawler_member_real set user_id='$user_id',
                                             user_name='$user_name',
@@ -83,23 +83,23 @@ if($_POST['phone_cnt'] > 0) {
                                             search_email_date='$search_email_date',
                                             search_email_cnt='$search_email_cnt',
                                             shopping_end_date='$search_email_date'";
-        mysqli_query($self_con, $query);
+        mysql_query($query);
     } 
     if ($srow['recommend_id'] != "") {
         $share_id = $srow['recommend_id'];
         $sql = "select * from Gn_Member where mem_id='$share_id'";
-        $rresult = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-        if(mysqli_num_rows($rresult) > 0){
-            $rrow = mysqli_fetch_array($rresult);
+        $rresult = mysql_query($sql) or die(mysql_error());
+        if(mysql_num_rows($rresult) > 0){
+            $rrow = mysql_fetch_array($rresult);
             $addQuery = "";
             $branch_share_per = 0;
             // 리셀러 / 분양 회원 확인
             // 리셀러 회원인경우 분양회원 아이디 확인
-            if ($rrow['service_type'] == 2) {
+            if ($rrow[service_type] == 2) {
                 // 추천인의 추천인 검색 및 등급 확인
-                $sql = "select * from Gn_Member where mem_id='{$rrow['recommend_id']}'";
-                $rresult = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-                $trow = mysqli_fetch_array($rresult);
+                $sql = "select * from Gn_Member where mem_id='$rrow[recommend_id]'";
+                $rresult = mysql_query($sql) or die(mysql_error());
+                $trow = mysql_fetch_array($rresult);
 
                 $share_per = $recommend_per = $rrow['share_per'] ? $rrow['share_per'] : 30;
                 if ($trow[0] != "") {
@@ -108,13 +108,13 @@ if($_POST['phone_cnt'] > 0) {
                     if ($share_per == "" || $share_per == 0) $branch_share_per = 0;
                     $branch_share_id = $trow['mem_id'];
                 }
-            } else if ($rrow['service_type'] == 3) {
+            } else if ($rrow[service_type] == 3) {
                 $share_per = $recommend_per = $rrow['share_per'] ? $rrow['share_per'] : 50;
                 $branch_share_per = 0;
             }
 
             $sql = "update tjd_pay_result set share_id='$share_id',share_per='$share_per', branch_share_id='$branch_share_id',branch_share_per = '$branch_share_per'  where no='$no'";
-            mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
+            mysql_query($sql) or die(mysql_error());
         }
     }
 }

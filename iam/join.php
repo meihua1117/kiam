@@ -18,27 +18,27 @@ include "inc/header.inc.php";
                         <input type="hidden" name="contents_count" id="contents_count" value='1'>
                         <!---->
                         <section class="input-field">
-                            <?if($domainData['service_type'] == 0) {?>
+                            <?if($domainData[service_type] == 0) {?>
                                 <h3 class="title">1. 회원가입 유형 확인*</h3>
-                                <input type="radio" name="service_type" value="0" class="check"  checked>무료회원
+                                <input type="radio" name="service_type" value="0" class="check" style="" checked>무료회원
                                 <div class="utils clearfix">
                                     <span class="notice">
                                         1.본 플랫폼 제공자는 플랫폼 개발 연구소와 협의 하에 회원들에게 베이직상품을 지원합니다.<br>
                                         2.본 플랫폼의 1번 카드가 공유되며,홍보용 유용콘텐츠나 알림 수신이 동의 처리 됩니다.
                                     </span>
                                 </div>
-                            <?} elseif($domainData['service_type'] == 1) {?>
+                            <?} elseif($domainData[service_type] == 1) {?>
                                 <h3 class="title">1. 회원가입 유형 확인*</h3>
-                                <input type="radio" name="service_type" value="4" class="check"  checked>유료회원
+                                <input type="radio" name="service_type" value="4" class="check" style="" checked>유료회원
                                 <div class="utils clearfix">
                                     <span class="notice">
                                         1.본 플랫폼 회원은 가입시 다른 아이엠 보기,내 홈피에 저장하기가 가능합니다.<br>
                                         2.내 아이엠을 만들 때는 정기결제를 진행해야 합니다.
                                     </span>
                                 </div>
-                            <?} elseif($domainData['service_type'] == 2) {?>
+                            <?} elseif($domainData[service_type] == 2) {?>
                                 <h3 class="title">1. 회원가입 유형 확인*</h3>
-                                <input type="radio" name="service_type" value="5" class="check"  checked>단체회원
+                                <input type="radio" name="service_type" value="5" class="check" style="" checked>단체회원
                                 <div class="utils clearfix">
                                     <span class="notice">
                                         1.본 플랫폼 제공자는 플랫폼 개발 연구소와 협의 하에 회원들에게 베이직상품을 지원합니다.<br>
@@ -192,8 +192,8 @@ include "inc/header.inc.php";
                                             // 광역시도 목록
                                             $province_list = array();
                                             $query = "SELECT province FROM gn_cities group by province";
-                                            $res = mysqli_query($self_con, $query);
-                                            while($row = mysqli_fetch_array($res)) {
+                                            $res = mysql_query($query);
+                                            while($row = mysql_fetch_array($res)) {
                                                 $province_list[] = $row['province'];
                                             }
                                         ?>
@@ -238,7 +238,7 @@ include "inc/header.inc.php";
                                     <div class="attr-name">추천인 ID</div>
                                     <div class="attr-value">
                                         <div class="input-wrap">
-                                            <input type="text"  class="input" name="recommend_id" id="recommend_id" onblur="check_recommender()" itemname='추천인ID' value="<?=$_GET['recommend_id'];?>"/>
+                                            <input type="text"  class="input" name="recommend_id" id="recommend_id" onblur="check_recommender()" itemname='추천인ID' value="<?=$_GET[recommend_id];?>"/>
                                             <input type="hidden" id="is_exist_recommender" name="is_exist_recommender">
                                         </div>
                                         <div class="desc">
@@ -350,8 +350,8 @@ include "inc/header.inc.php";
                             <h3 class="title tabmenu2">4. IAM 카드정보 입력(선택)</h3>
                             <p class="notice" style="margin-left:20px;color:#555">입력하면 1번카드에 적용되어 생성됩니다.</p>
                             <div class="form-wrap"  id="iam_form" style="display:none">
-                            <div >
-                                <h4 >1. 포토등록 <span class="popbutton1 pop_view" style="color:#000;padding:0px 4px;">?</span></h4>
+                            <div style="">
+                                <h4 style="">1. 포토등록 <span class="popbutton1 pop_view" style="color:#000;padding:0px 4px;">?</span></h4>
                                 <h5 style="color:#555;margin-top:10px;margin-bottom:10px">*파일과 웹주소 중 하나만 이미지 업로드 가능</h5>
                             </div>
                             <div class="attr-row">
@@ -419,7 +419,7 @@ include "inc/header.inc.php";
                                 </div>
                             </div>
                             <div style="margin-bottom:10px">
-                                <h4 >2. 프로필 등록 <span class="popbutton2 pop_view" style="color:#000;padding:0px 4px;">?</span></h4>
+                                <h4 style="">2. 프로필 등록 <span class="popbutton2 pop_view" style="color:#000;padding:0px 4px;">?</span></h4>
                             </div>
                             <div class="attr-row">
                                 <div class="attr-name">명함로고</div>
@@ -516,8 +516,8 @@ include "inc/header.inc.php";
                                         // 광역시도 목록
                                         /*$province_list = array();
                                         $query = "SELECT province FROM gn_cities group by province";
-                                        $res = mysqli_query($self_con, $query);
-                                        while($row = mysqli_fetch_array($res)) {
+                                        $res = mysql_query($query);
+                                        while($row = mysql_fetch_array($res)) {
                                             $province_list[] = $row['province'];
                                         }
                                         if($code == "KR") {?>
@@ -575,8 +575,8 @@ include "inc/header.inc.php";
                                     </div>
                                 </div>
                             </div>
-                            <div >
-                                <h4 >3. 마이스토리등록 <span class="popbutton3 pop_view" style="color:#000;padding:0px 4px;">?</span></h4>
+                            <div style="">
+                                <h4 style="">3. 마이스토리등록 <span class="popbutton3 pop_view" style="color:#000;padding:0px 4px;">?</span></h4>
                             </div>
                             <div class="attr-row" style="margin-top:10px">
                                 <div class="attr-name" style="text-align:center">마이스토리<br>자기소개</div>
@@ -607,8 +607,8 @@ include "inc/header.inc.php";
                                     </div>
                                 </div>
                             </div>
-                            <div >
-                                <h4 >4. 콘텐츠 등록 <span class="popbutton4 pop_view" style="color:#000;padding:0px 4px;">?</span></h4>
+                            <div style="">
+                                <h4 style="">4. 콘텐츠 등록 <span class="popbutton4 pop_view" style="color:#000;padding:0px 4px;">?</span></h4>
                             </div>
                             <div class="attr-row" style="margin-top:10px">
                                 <div class="attr-name" style="text-align:center">콘텐츠1번<br>제목</div>
@@ -983,8 +983,8 @@ function check_recommender(){
                         $("#result").html(data.result);
                     }
                 },
-                error: function(data){
-                    console.log(data);
+                error: function(xhr,status,error){
+                    console.log(xhr.responseText);
                 }
             });
         }
@@ -1038,11 +1038,11 @@ function check_recommender(){
             },
             success:function(data){
                 if(data.code == "1") {
-			        $('#check_rnum').val("Y");
-			    } else{ 
-			         $('#check_rnum').val("");
-                }
-			    alert(data.result);
+		    $('#check_rnum').val("Y");
+		} else {
+		    $('#check_rnum').val("");
+		}	         
+		alert(data.result);
             },
             error: function(){
                 alert('변경 실패');
@@ -1107,14 +1107,12 @@ function check_recommender(){
             if($('#checkAll_join').prop("checked") == true) {
                 $("#checkAll_title_join").prop("checked", true);
                 $("#checkPersonal_join").prop("checked", true);
-                $("#checkReceive_join").prop("checked", true);
                 $("#checkTerms_join").prop("checked", true);
                 $("#checkReceive_join").prop("checked", true);
                 $("#checkThirdparty_join").prop("checked", true);
             } else {
                 $("#checkAll_title_join").prop("checked", false);
                 $("#checkPersonal_join").prop("checked", false);
-                $("#checkReceive_join").prop("checked", false);
                 $("#checkTerms_join").prop("checked", false);
                 $("#checkReceive_join").prop("checked", false);
                 $("#checkThirdparty_join").prop("checked", false);
@@ -1124,14 +1122,12 @@ function check_recommender(){
             if($('#checkAll_title_join').prop("checked") == true) {
                 $("#checkAll_join").prop("checked", true);
                 $("#checkPersonal_join").prop("checked", true);
-                $("#checkReceive_join").prop("checked", true);
                 $("#checkTerms_join").prop("checked", true);
                 $("#checkReceive_join").prop("checked", true);
                 $("#checkThirdparty_join").prop("checked", true);
             } else {
                 $("#checkAll_join").prop("checked", false);
                 $("#checkPersonal_join").prop("checked", false);
-                $("#checkReceive_join").prop("checked", false);
                 $("#checkTerms_join").prop("checked", false);
                 $("#checkReceive_join").prop("checked", false);
                 $("#checkThirdparty_join").prop("checked", false);
@@ -1193,6 +1189,93 @@ function install_cancel(){
     });
 }
 </script>
+    <div id="install-modalwindow" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-sm" role="document" style="margin-top: 10%;width : 80%;max-width:600px;margin-left:auto;margin-right:auto;">
+            <div class="modal-content">
+                <div class="modal-header" style="border:none;background-color: rgb(130,199,54)">
+                    <div class="login_bold" style="margin-bottom: 0px;color: #ffffff;font-size: 20px;text-align: center">
+                        앱 설치하기 안내
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <div class="a1">
+                            ※ 앱을 설치하면 콜백문자, 대량문자, 포털디비수집, 365일 자동메시지발동, 자동예약메시지기능, IAM기능 등 통합적인 모든 기능을 사용할 수 있습니다.<br><br>
+                            ※ 현재 앱설치는 안드로이드폰만 가능, IAM은 아이폰에서 [홈화면추가]로 이용 가능합니다.
+                        </div>
+                        <div class="a1" id = "result">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer"  style="border:none;text-align: center">
+                    <div >
+                        <a href="https://play.google.com/store/apps/details?id=mms.onepagebook.com.onlyonesms" class="btn login_signup" style="width: 40%;background-color: #ff0066">IAM앱 설치하기</a>
+                        <a href="javascript:install_cancel()" class="btn login_signup" style="width: 40%;background-color: #bbbbbb">나중에 하기</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="sns-modalwindow" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-sm" role="document" style="margin-top: 200px;max-width:300px;margin-left:auto;margin-right:auto;">
+            <div class="modal-content">
+                <div class="modal-header" style="border:none;">  
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ><img src = "img/icon_close_black.svg"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="center_text">
+                        <div class="sns_item" onclick="daily_send_pop()"><div class="sns_icon_div"><img class="sns_icon" src = "img/sns_icon1.png"></div><div class="sns_item_text" >데일리<br>문자발송</div></div>
+                        <div class="sns_item" onclick="sns_sendSMS()"><div class="sns_icon_div"><img class="sns_icon" src = "img/sns_icon2.png"></div><div class="sns_item_text" >문자<br>보내기</div></div>
+                        <div class="sns_item" onclick="sns_shareKakaoTalk()"><div class="sns_icon_div"><img class="sns_icon" src = "img/sns_icon3.png"></div><div class="sns_item_text" >카톡<br>공유</div></div>
+                    </div>  
+                    <div class="center_text">
+           <!--        <div class="sns_item" onclick="sns_shareInsta()"><div class="sns_icon_div"><img class="sns_icon" src = "img/sns_icon7.png"></div><div class="sns_item_text" >인스타<br>공유</div></div>
+                        <div class="sns_item" onclick="sns_shareBand()"><div class="sns_icon_div"><img class="sns_icon" src = "img/sns_icon6.png"></div><div class="sns_item_text" >밴드<br>공유</div></div> --> 
+                        <div class="sns_item" onclick="sns_shareEmail()"><div class="sns_icon_div"><img class="sns_icon" src = "img/sns_icon8.png"></div><div class="sns_item_text" >이메일<br>공유</div></div>
+                        <div class="sns_item" onclick="sns_shareFaceBook()"><div class="sns_icon_div"><img class="sns_icon" src = "img/sns_icon5.png"></div><div class="sns_item_text" >페북<br>공유</div></div>
+                        <div class="sns_item" onclick="sns_copyContacts()"><div class="sns_icon_div"><img class="sns_icon" src = "img/sns_icon4.png"></div><div class="sns_item_text" >주소<br>복사</div></div>
+                    </div> 
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--데일리 발송 팝업-->
+    <div id="popup" class="daily_popup">
+        <!-- 팝업 시작 -->
+        <div class="popup-wrap" id="dailysend">
+            <div class="text-wrap">
+                <h3>내 아이엠을 내 폰 지인 모두에게 보내기!</h3><br><br>
+                새명함이 나오면 지인들께 보내고<br>
+                싶은데 방법이 마땅치 않지요?<br><br>
+
+                ①데일리발송기능과 ②내 폰안의 무료 문자를<br>
+                이용하여 내 폰주소록의 모든 지인에게<br>
+                매일매일 자동으로 발송해보세요!<br>
+                <br><br>
+                <h3>내 아이엠을 보내는 절차!</h3><br><br>
+
+                <a href="join.php">첫째 회원가입 먼저 해야지요(클릭)</a><br>
+                <a href="https://www.onestore.co.kr/userpoc/apps/view?pid=0000738690">둘째 내 폰의 문자를 보내려면 앱을
+                    설치해야지요!(클릭)</a><br>
+                셋째 데일리발송을 시작해요!<br>
+                ※ 아이엠을 보내는 기능은 무료이지만 일반 메시지를 보내는 것은 유료입니다.</h3>
+            </div>
+            <div class="button-wrap">
+                <?if($_SESSION[iam_member_id]) {?>
+                    <a href="#" id="closePopup" class="buttons is-cancel">다음에보내기</a>
+                    <a  id="daily_popup_content" href="#" target="_blank" onclick="daily_send_pop_close()" class="buttons is-save">시작하기</a>
+                <?} else {?>
+
+                    <a href="#" id="closePopup" class="buttons is-cancel">다음에보내기</a>
+                    <a href="login.php"
+                       target="_blank" class="buttons is-save" onclick="daily_send_pop_close()">시작하기</a>
+                <?}?>
+            </div>
+        </div>
+
+        <div class="popup-overlay"></div>
+    </div><!-- // 팝업 끝 -->
     <div class="ad_layer1">
         <div class="layer_in" style="height:500px;overflow-y:scroll">
             <span class="layer_close close" ><img src="/images/close_button_05.jpg"></span>
@@ -1219,10 +1302,11 @@ function install_cancel(){
     </div>
 
 <script>
+	// #asd############ 스크립트부분
 	var tid;
     function sns_sendSMS(){
         $("#sns-modalwindow").modal("hide");
-        var iam_link = '<?=$G_card['card_name']?>님의 명함 <?=$G_card['card_company']?> <?=$G_card['card_position']?> <?=$G_card['card_phone']?> <?=$domainData['sub_domain'];?>/?<?=$G_card['card_short_url']?>';
+        var iam_link = '<?=$G_card[card_name]?>님의 명함 <?=$G_card[card_company]?> <?=$G_card[card_position]?> <?=$G_card[card_phone]?> <?php echo $domainData[sub_domain];?>/?<?=$G_card[card_short_url]?>';
         iam_sms(iam_link);
     }
     function sns_shareEmail(){
@@ -1240,8 +1324,8 @@ function install_cancel(){
     }
     function sns_shareFaceBook(){
         $("#sns-modalwindow").modal("hide");
-        var iam_link = '<?=$domainData['sub_domain'];?>/?<?=$G_card['card_short_url']?>';
-        shareFaceBook('<?=$G_card['card_name']?>님의 명함 <?=$G_card['card_company']?> <?=$G_card['card_position']?>', iam_link);
+        var iam_link = '<?=$domainData[sub_domain];?>/?<?=$G_card[card_short_url]?>';
+        shareFaceBook('<?=$G_card[card_name]?>님의 명함 <?=$G_card[card_company]?> <?=$G_card[card_position]?>', iam_link);
     }
     function sns_copyContacts(){
         $("#sns-modalwindow").modal("hide");
@@ -1411,7 +1495,7 @@ function install_cancel(){
         else
             alert("로고 웹주소를 입력해주세요.");
     }
-    /*function getMainImage(index){
+    function getMainImage(index){
         console.log(index);
         if($('#main_img'+index+'_link').val()){
             console.log($('#main_img'+index+'_link').val());
@@ -1436,7 +1520,7 @@ function install_cancel(){
         }
         else
             alert("웹주소"+index+"를 입력해주세요.");
-    }*/
+    }
     $("#main_img1_link").keyup(function () {
         $('#main_upload_img1').attr('src', $(this).val());
     });
@@ -1498,7 +1582,7 @@ function install_cancel(){
         }
     });
     $(document).ready(function() {
-       <?php if($show_iam_like == "Y" &&$_SESSION['iam_member_id'] != $card_owner) {?>
+       <?php if($show_iam_like == "Y" && $_SESSION[iam_member_id] != $card_owner) {?>
            $('.second-box').hide();
        <?php }?>
     });
@@ -1548,8 +1632,8 @@ function install_cancel(){
         $(".daily_popup").center();
 
         $('.daily_popup').css('display', 'block');
-        var iam_link = "daily_write_iam.php?msg=" + '<?=$G_card['card_name']?>' + "님의 명함입니다.  " +
-            "<?=$G_card['card_company'].'<br>'.$G_card['card_position'].'<br>'.$G_card['card_phone'].'<br>'.$domainData['sub_domain'].'/?'.$G_card['card_short_url']?>" +
+        var iam_link = "daily_write_iam.php?msg=" + '<?=$G_card[card_name]?>' + "님의 명함입니다.  " +
+            "<?=$G_card[card_company].'<br>'.$G_card[card_position].'<br>'.$G_card[card_phone].'<br>'.$domainData[sub_domain].'/?'.$G_card[card_short_url]?>" +
             " 모바일 명함을 새로 만들었습니다. 휴대폰에 저장부탁해요. 혹시 명함 만들면 저에게도 보내주시구요. 감사합니다. ";
         //location = iam_link;
         $("#daily_popup_content").prop("href",iam_link);
@@ -1598,14 +1682,14 @@ function install_cancel(){
         console.log("Kakao 로딩 failed : " + e);
     }
     function shareKakaotalk() {
-        var iam_link = '<?=$domainData['sub_domain'];?>/?<?=$G_card['card_short_url']?>';
+        var iam_link = '<?=$domainData[sub_domain];?>/?<?=$G_card[card_short_url]?>';
         iam_count('iam_kakao');
         try{
             Kakao.Link.sendDefault({
                 objectType: "feed",
                 content: {
                     title: "아이엠으로 나를 브랜딩하기", // 콘텐츠의 타이틀
-                    description: "<?=$G_card['card_name']?>/<?=$G_card['card_company']?>/<?=$G_card['card_position']?>/<?=$G_card['card_phone']?>", // 콘텐츠 상세설명
+                    description: "<?=$G_card[card_name]?>/<?=$G_card[card_company]?>/<?=$G_card[card_position]?>/<?=$G_card[card_phone]?>", // 콘텐츠 상세설명
                     imageUrl: "<?=$main_img1?>", // 썸네일 이미지
                     link: {
                         mobileWebUrl: iam_link, // 모바일 카카오톡에서 사용하는 웹 링크 URL
@@ -1627,12 +1711,12 @@ function install_cancel(){
     //텍스트 복사
     function copy() {
         iam_count('iam_share');
-        var iam_link = '<?=$domainData['sub_domain'];?>/?<?=$G_card['card_short_url']?>';
+        var iam_link = '<?=$domainData[sub_domain];?>/?<?=$G_card[card_short_url]?>';
         // 글을 쓸 수 있는 란을 만든다.
         var aux = document.createElement("input");
         // 지정된 요소의 값을 할당 한다.
         aux.setAttribute("value",
-            "<?=$G_card['card_name']?>님의 명함 <?=$G_card['card_company']?> <?=$G_card['card_position']?> <?=$G_card['card_phone']?> "+iam_link
+            "<?=$G_card[card_name]?>님의 명함 <?=$G_card[card_company]?> <?=$G_card[card_position]?> <?=$G_card[card_phone]?> "+iam_link
         );
         // bdy에 추가한다.
         document.body.appendChild(aux);
@@ -1651,7 +1735,7 @@ function install_cancel(){
     }
     function iam_count(str) {
         var member_id = '<?=$card_owner?>';
-        var card_idx = '<?=$G_card['idx']?>';
+        var card_idx = '<?=$G_card[idx]?>';
         var formData = new FormData();
         formData.append('str', str);
         formData.append('mem_id', member_id);

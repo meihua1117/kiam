@@ -13,12 +13,12 @@ if($_POST['get'] == true){
 
     // $sql = "SELECT state_flag, mem_id FROM crawler_blog_status_info where mem_id='{$mem_id}' and contents_cnt={$contents_cnt} ORDER BY id DESC LIMIT 1";
     $sql = "SELECT state_flag, mem_id, keyword FROM crawler_status_info where mem_id='{$mem_id}' and type='NEWS' and contents_cnt={$contents_cnt} ORDER BY id DESC LIMIT 1";
-    $result1 = mysqli_query($self_con, $sql);
-    if(mysqli_num_rows($result1) == 0){
+    $result1 = mysql_query($sql);
+    if(mysql_num_rows($result1) == 0){
         echo '{"status":3, "mem_id":"'.$mem_id.'"}';
     }
     else{
-        while($res1 = mysqli_fetch_array($result1)){
+        while($res1 = mysql_fetch_array($result1)){
             $state = $res1['state_flag'];
             $mem_id = $res1['mem_id'];
             $keyword = $res1['keyword'];

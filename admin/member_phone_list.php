@@ -4,6 +4,8 @@ include_once $_SERVER['DOCUMENT_ROOT']."/admin/include/admin_header.inc.php";
 extract($_GET);
 // 오늘날짜
 $date_today=date("Y-m-d");
+$date_month=date("Y-m");
+
 ?>
 <script type="text/javascript" src="/jquery.lightbox_me.js"></script>
 <script>
@@ -274,8 +276,8 @@ function excel_down_p_group(pno,one_member_id){
                         	WHERE 1=1 
                 	              $searchStr";
                 	              
-                	$res	    = mysqli_query($self_con, $query);
-                	$totalCnt	=  mysqli_num_rows($res);	
+                	$res	    = mysql_query($query);
+                	$totalCnt	=  mysql_num_rows($res);	
                 	
                 	$limitStr       = " LIMIT ".(($startPage-1)*$pageCnt).", ".$pageCnt;
                 	$number			= $totalCnt - ($nowPage - 1) * $pageCnt;                      
@@ -287,31 +289,33 @@ function excel_down_p_group(pno,one_member_id){
                 	
                 	$i = 1;
                 	$query .= "$orderQuery";
-                	$res = mysqli_query($self_con, $query);
-                    while($row = mysqli_fetch_array($res)) {                       	
+                	$res = mysql_query($query);
+                    while($row = mysql_fetch_array($res)) {                       	
                         // =====================  유료결제건 시작 ===================== 
                     	$sql = "select phone_cnt from tjd_pay_result where buyer_id = '".$row['mem_id']."' and end_date > '$date_today' and end_status='Y' order by end_date desc limit 1";
-                    	$res_result = mysqli_query($self_con, $sql);
-                    	$buyPhoneCnt = mysqli_fetch_row($res_result);
-                    	mysqli_free_result($res_result);
+                    	$res_result = mysql_query($sql);
+                    	$buyPhoneCnt = mysql_fetch_row($res_result);
+                    	mysql_free_result($res_result);
                     	
                     	if($buyPhoneCnt == 0){	
                     		$buyMMSCount = 0;
                     	}else{
+                    		//$buyMMSCount = ($buyPhoneCnt[0] -1) * 9000;
                     		$buyMMSCount = $buyPhoneCnt[0];
                     	}                    	
                     	// ===================== 유료결제건 끝 ===================== 
                     	
                         // =====================  총결제금액 시작 ===================== 
                     	$sql = "select sum(TotPrice) totPrice from tjd_pay_result where buyer_id = '".$row['mem_id']."' and end_status='Y'";
-                    	$res_result = mysqli_query($self_con, $sql);
-                    	$totPriceRow = mysqli_fetch_row($res_result);
-                    	mysqli_free_result($res_result);
+                    	$res_result = mysql_query($sql);
+                    	$totPriceRow = mysql_fetch_row($res_result);
+                    	mysql_free_result($res_result);
                     	
                     	$totPrice = $totPriceRow[0];
                     	// ===================== 총결제금액 끝 =====================                     	
                     	
                     	// 부가서비스 이용 여부 확인
+                    	// tjd_pay_result.fujia_status
                     	if($row['fujia_date2'] >= date("Y-m-d H:i:s")) {
                     	    $add_opt = "사용";
                     	} else {
@@ -402,7 +406,7 @@ function excel_down_p_group(pno,one_member_id){
           
           
         </section><!-- /.content -->
-      </div><!-- /content-wrapper -->
+      </div><!-- /.content-wrapper -->
 
     <form id="excel_down_form" name="excel_down_form"  target="excel_iframe" method="post">
         <input type="hidden" name="grp_id" value="" />

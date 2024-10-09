@@ -117,8 +117,8 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                   $searchStr .= $search_key ? " AND (a.event_title LIKE '".$search_key."%' or a.event_desc like '".$search_key."%'  )" : null;
                 	$order = $order?$order:"desc";
                 	$query = "SELECT count(a.m_id) FROM Gn_event a WHERE a.event_name_kor='단체회원자동가입및아이엠카드생성' $searchStr";
-                	$res	    = mysqli_query($self_con, $query);
-                  $totalRow	=  mysqli_fetch_array($res);
+                	$res	    = mysql_query($query);
+                  $totalRow	=  mysql_fetch_array($res);
                 	$totalCnt = $totalRow[0];
 
                   $query = "SELECT a.* FROM Gn_event a WHERE a.event_name_kor='단체회원자동가입및아이엠카드생성' $searchStr";
@@ -128,15 +128,15 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                 	$i = 1;
                 	$c=0;
                 	$query .= $orderQuery;
-                	$res = mysqli_query($self_con, $query);
-                    while($row = mysqli_fetch_array($res)) {
-                      $sql_mem = "select site, mem_name from Gn_Member where mem_id='{$row['m_id']}'";
-                      $res_mem = mysqli_query($self_con, $sql_mem);
-                      $row_mem = mysqli_fetch_array($res_mem);
+                	$res = mysql_query($query);
+                    while($row = mysql_fetch_array($res)) {
+                      $sql_mem = "select site, mem_name from Gn_Member where mem_id='{$row[m_id]}'";
+                      $res_mem = mysql_query($sql_mem);
+                      $row_mem = mysql_fetch_array($res_mem);
                       $pop_url = '/event/automember.php?pcode='.$row['pcode'].'&eventidx='.$row['event_idx'];
                       $id_sql = "select count(event_id) as cnt from Gn_Member where event_id={$row['event_idx']} and mem_type='A'";
-                      $res_id = mysqli_query($self_con, $id_sql);
-                      $row_id = mysqli_fetch_array($res_id);
+                      $res_id = mysql_query($id_sql);
+                      $row_id = mysql_fetch_array($res_id);
                       if($row_id['cnt'] != null){
                           $cnt_join = $row_id['cnt'];
                       }
@@ -146,19 +146,19 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                   ?>
                       <tr>
                             <td><input type="checkbox" class="check" id="check_one_member" name="" value="<?=$row['event_idx']?>">&nbsp;&nbsp;<?=$number--?></td>
-                            <td style="font-size:12px;"><?=$row_mem['site']?></td>
-                            <td style="font-size:12px;"><?=$row['m_id']?></td>
-                            <td style="font-size:12px;"><?=$row_mem['mem_name']?></td>
-                            <td style="font-size:12px;"><?=$row['event_title']?></td>
+                            <td style="font-size:12px;"><?=$row_mem[site]?></td>
+                            <td style="font-size:12px;"><?=$row[m_id]?></td>
+                            <td style="font-size:12px;"><?=$row_mem[mem_name]?></td>
+                            <td style="font-size:12px;"><?=$row[event_title]?></td>
                             <td style="font-size:12px;"><a href="javascript:show_more('<?=str_replace("\n", "<br>", $row['event_desc'])?>')"><?=cut_str($row['event_desc'], 50)?></a></td>
                             <td style="font-size:12px;"><?if($row['object'] != ""){?><img class="zoom" src="<?=$row['object']?>" style="width:90%;"><?}?></td>
                             <td class="iam_table">
                               <input type="button" value="미리보기" class="button" onclick="viewEvent('<?=$pop_url?>')">
                               <input type="button" value="링크복사" class="button copyLinkBtn" data-link="<?=$row['short_url']?>">
                             </td>
-                            <td><?=$row['regdate']?></td>
+                            <td><?=$row[regdate]?></td>
                             <td><?=$row['read_cnt']?>/<?=$cnt_join?></td>
-                            <td><a href="edit_autojoin_msg.php?event_idx=<?=$row['event_idx']?>">수정</a>/<a href="javascript:delete_autojoin(<?=$row['event_idx']?>)">삭제</a></td>
+                            <td><a href="edit_autojoin_msg.php?event_idx=<?=$row[event_idx]?>">수정</a>/<a href="javascript:delete_autojoin(<?=$row[event_idx]?>)">삭제</a></td>
                       </tr>
                     <?
                     $c++;

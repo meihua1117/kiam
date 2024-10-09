@@ -5,13 +5,15 @@ extract($_GET);
 
 // 오늘날짜
 $date_today=date("Y-m-d");
+$date_month=date("Y-m");
+
 $sql="select * from Gn_event  where event_idx='".$event_idx."'";
-$res=mysqli_query($self_con, $sql);
-$row=mysqli_fetch_array($res);	
+$res=mysql_query($sql);
+$row=mysql_fetch_array($res);	
 if($row[0]) {
-    $sql="select * from Gn_Member  where mem_id='".$row['m_id']."'";
-    $sresul_num=mysqli_query($self_con, $sql);
-    $data=mysqli_fetch_array($sresul_num);
+    $sql="select * from Gn_Member  where mem_id='".$row[m_id]."'";
+    $sresul_num=mysql_query($sql);
+    $data=mysql_fetch_array($sresul_num);
 }
 
 ?>
@@ -131,11 +133,11 @@ if($row[0]) {
 									<table class="list_table1" width="100%" border="0" cellspacing="0" cellpadding="0">
 										<tr>
 											<th class="w200">아아디</th>
-											<td><input type="text" name="m_id" id="m_id" value="<?=$row['m_id']?>" disabled></td>
+											<td><input type="text" name="m_id" id="m_id" value="<?=$row[m_id]?>" disabled></td>
 										</tr>
 										<tr>
 											<th class="w200">이벤트타이틀</th>
-											<td><input type="text" name="daily_event_title_intro" id="daily_event_title_intro" value="<?=$row['event_title']?>"></td>
+											<td><input type="text" name="daily_event_title_intro" id="daily_event_title_intro" value="<?=$row[event_title]?>"></td>
 										</tr>
 										<tr>
 											<th class="w200">이벤트메시지</th>
@@ -143,11 +145,11 @@ if($row[0]) {
 										</tr>
 										<tr>
 											<th class="w200">제목</th>
-											<td><input type="text" name="daily_event_title" id="daily_event_title" value="<?=$row['event_info']?>"></td>
+											<td><input type="text" name="daily_event_title" id="daily_event_title" value="<?=$row[event_info]?>"></td>
 										</tr>
 										<tr>
 											<th class="w200">내용</th>
-											<td><textarea name="daily_event_desc" id="daily_event_desc" style="width: 300px;height: 100px;" value="<?=$row['event_req_link']?>"><?=$row['event_req_link']?></textarea></td>
+											<td><textarea name="daily_event_desc" id="daily_event_desc" style="width: 300px;height: 100px;" value="<?=$row[event_req_link]?>"><?=$row[event_req_link]?></textarea></td>
 										</tr>
 										<tr>
 											<th class="w200">단축주소</th>
@@ -159,7 +161,7 @@ if($row[0]) {
 										</tr>
 										<tr>
 											<th class="w200">조회수</th>
-											<td><input type="text" name="daily_read_cnt" id="daily_read_cnt" value="<?=$row['read_cnt']?>"></td>
+											<td><input type="text" name="daily_read_cnt" id="daily_read_cnt" value="<?=$row[read_cnt]?>"></td>
 										</tr>
 										<tr>
 											<th class="w200">이미지</th>
@@ -198,7 +200,7 @@ if($row[0]) {
 										</tr>
 										<tr>
 											<th class="w200">등록일시</th>
-											<td><input type="text" name="daily_regdate1" id="daily_regdate1" value="<?=$row['regdate']?>"></td>
+											<td><input type="text" name="daily_regdate1" id="daily_regdate1" value="<?=$row[regdate]?>"></td>
 										</tr>
 									</table>
 								</div>
@@ -214,7 +216,7 @@ if($row[0]) {
 			</div><!-- /.row -->
 		</section><!-- /.content -->
 	</form>
-</div><!-- /content-wrapper -->
+</div><!-- /.content-wrapper -->
 <!-- Footer -->
 <script language="javascript">
 	function save_form() {

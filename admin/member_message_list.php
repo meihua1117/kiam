@@ -13,6 +13,8 @@ include_once $_SERVER['DOCUMENT_ROOT']."/admin/include/admin_header.inc.php";
 extract($_GET);
 // 오늘날짜
 $date_today=date("Y-m-d");
+$date_month=date("Y-m");
+
 ?>
 <script type="text/javascript" src="/jquery.lightbox_me.js"></script>
 <script>
@@ -282,8 +284,8 @@ function excel_down_p_group(pno,one_member_id){
                         	WHERE 1=1 
                 	              $searchStr";
                 	              
-                	$res	    = mysqli_query($self_con, $query);
-                	$totalCnt	=  mysqli_num_rows($res);	
+                	$res	    = mysql_query($query);
+                	$totalCnt	=  mysql_num_rows($res);	
                 	
                 	$limitStr       = " LIMIT ".(($startPage-1)*$pageCnt).", ".$pageCnt;
                 	$number			= $totalCnt - ($nowPage - 1) * $pageCnt;                      
@@ -297,70 +299,70 @@ function excel_down_p_group(pno,one_member_id){
                 	$i = 1;
                 	$c=0;
                 	$query .= "$orderQuery";
-                	$res = mysqli_query($self_con, $query);
-                    while($row = mysqli_fetch_array($res)) {                       	
-                        $sql_s="select * from Gn_MMS_status where idx={$row['idx']} ";
-						$resul_s=mysqli_query($self_con, $sql_s);
-						$row_s=mysqli_fetch_array($resul_s);
-						mysqli_free_result($resul_s);
+                	$res = mysql_query($query);
+                    while($row = mysql_fetch_array($res)) {                       	
+                        $sql_s="select * from Gn_MMS_status where idx='$row[idx]' ";
+						$resul_s=mysql_query($sql_s);
+						$row_s=mysql_fetch_array($resul_s);
+						mysql_free_result($resul_s);
 																    
-						$sql_n="select memo from Gn_MMS_Number where sendnum='{$row['send_num']}' ";
-						$resul_n=mysqli_query($self_con, $sql_n);
-						$row_n=mysqli_fetch_array($resul_n);
-						mysqli_free_result($resul_n);
+						$sql_n="select memo from Gn_MMS_Number where sendnum='$row[send_num]' ";
+						$resul_n=mysql_query($sql_n);
+						$row_n=mysql_fetch_array($resul_n);
+						mysql_free_result($resul_n);
 						
-						$recv_num = $recv_cnt=explode(",",$row['recv_num']);
+						$recv_num = $recv_cnt=explode(",",$row[recv_num]);
 						$recv_num_in = "'".implode("','", $recv_num)."'";
 						$date = $row['up_date'];
 
-						$sql="select count(seq) as cnt from call_app_log where api_name='receive_sms' and LENGTH(recv_num) >= 10 and  send_num='{$row['send_num']}' and recv_num in ($recv_num_in) and recv_num like '01%'  and regdate >= '$date' and sms not like '[%'";
-						$kresult = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-						$krow=mysqli_fetch_array($kresult);
-						$intRowCount=$krow['cnt'];											
+						$sql="select count(seq) as cnt from call_app_log where api_name='receive_sms' and LENGTH(recv_num) >= 10 and  send_num='$row[send_num]' and recv_num in ($recv_num_in) and recv_num like '01%'  and regdate >= '$date' and sms not like '[%'";
+						$kresult = mysql_query($sql) or die(mysql_error());
+						$krow=mysql_fetch_array($kresult);
+						$intRowCount=$krow[cnt];											
 						
-        				$sql_as="select count(idx) as cnt from Gn_MMS_status where idx={$row['idx']} ";
-        				$resul_as=mysqli_query($self_con, $sql_as);
-        				$row_as=mysqli_fetch_array($resul_as);
+        				$sql_as="select count(idx) as cnt from Gn_MMS_status where idx='$row[idx]' ";
+        				$resul_as=mysql_query($sql_as);
+        				$row_as=mysql_fetch_array($resul_as);
         				$status_total_cnt = $row_as[0];											
         				
-        				$sql_cs="select count(idx) as cnt from Gn_MMS_status where idx={$row['idx']} and status='0'";
-        				$resul_cs=mysqli_query($self_con, $sql_cs);
-        				$row_cs=mysqli_fetch_array($resul_cs);
+        				$sql_cs="select count(idx) as cnt from Gn_MMS_status where idx='$row[idx]' and status='0'";
+        				$resul_cs=mysql_query($sql_cs);
+        				$row_cs=mysql_fetch_array($resul_cs);
         				$success_cnt = $row_cs[0];
 
-        				$sql_sn="select * from Gn_MMS where idx={$row['idx']} ";
-        				$resul_sn=mysqli_query($self_con, $sql_sn);
-        				$row_sn=mysqli_fetch_array($resul_sn);									
-        				$recv_cnt=explode(",",$row_sn['recv_num']);        				
+        				$sql_sn="select * from Gn_MMS where idx='$row[idx]' ";
+        				$resul_sn=mysql_query($sql_sn);
+        				$row_sn=mysql_fetch_array($resul_sn);									
+        				$recv_cnt=explode(",",$row_sn[recv_num]);        				
         				$total_cnt = count($recv_cnt);			 
 
-                        $sql_gn="select * from Gn_MMS_group where idx={$row['idx']} ";
-        				$resul_gn=mysqli_query($self_con, $sql_gn);
-                        $row_gn=mysqli_fetch_array($resul_gn);	
-						mysqli_free_result($resul_gn); 
-						$reg_date_1hour = strtotime("{$row['reg_date']} +1hours"); 
+                        $sql_gn="select * from Gn_MMS_group where idx='$row[idx]' ";
+        				$resul_gn=mysql_query($sql_gn);
+                        $row_gn=mysql_fetch_array($resul_gn);	
+						mysql_free_result($resul_gn); 
+						$reg_date_1hour = strtotime("$row[reg_date] +1hours"); 
 								
                   ?>
                       <tr>
                         <td><?=$number--?></td>
-    					<td><?=$row['mem_id']?></td>											
-                        <td><?=$row['send_num']?></td>
-                        <td><?=$row_n['memo']?></td>
-                        <td style="font-size:12px;"><a href="javascript:void(0)" onclick="show_recv('show_title','<?=$c?>','문자제목')"><?=str_substr($row['title'],0,30,'utf-8')?></a><input type="hidden" name="show_title" value="<?=$row['title']?>"/></td>
-                        <td style="font-size:12px;"><a href="javascript:void(0)" onclick="show_recv('show_content','<?=$c?>','문자내용')"><?=str_substr($row['content'],0,30,'utf-8')?></a><input type="hidden" name="show_content" value="<?=$row['content']?>"/></td>
-                        <td style="font-size:12px;"><?=$row['grp']?></td>
+    					<td><?=$row[mem_id]?></td>											
+                        <td><?=$row[send_num]?></td>
+                        <td><?=$row_n[memo]?></td>
+                        <td style="font-size:12px;"><a href="javascript:void(0)" onclick="show_recv('show_title','<?=$c?>','문자제목')"><?=str_substr($row[title],0,30,'utf-8')?></a><input type="hidden" name="show_title" value="<?=$row[title]?>"/></td>
+                        <td style="font-size:12px;"><a href="javascript:void(0)" onclick="show_recv('show_content','<?=$c?>','문자내용')"><?=str_substr($row[content],0,30,'utf-8')?></a><input type="hidden" name="show_content" value="<?=$row[content]?>"/></td>
+                        <td style="font-size:12px;"><?=substr($row[grp])?></td>
     					<td>
-    					    <?if($row['reservation']) {?>
+    					    <?if($row[reservation]) {?>
     					    예약
     					    <?}?>
     					    <?if($success_cnt==0){?>
-								<?if(time() > $reg_date_1hour && $row['up_date'] == "") {?>
-									<?php if($row['reservation'] > date("Y-m-d H:i:s")){?>
+								<?if(time() > $reg_date_1hour && $row[up_date] == "") {?>
+									<?php if($row[reservation] > date("Y-m-d H:i:s")){?>
 									<?}else{?>
 										실패
 									<?}?>
 								<?}else{?>
-									<?if(time() > $reg_date_1hour && $row_s['up_date'] == "") {?>
+									<?if(time() > $reg_date_1hour && $row_s[up_date] == "") {?>
 										발송실패
 									<?}else{?>
 										발송중
@@ -370,8 +372,8 @@ function excel_down_p_group(pno,one_member_id){
     					        <?=$success_cnt?>/<?php echo $total_cnt-$success_cnt;?>
     					    <?}?>
     					    </td>
-                        <td style="font-size:12px;"><?=substr($row['reg_date'],0,16)?></td>
-    					<td style="font-size:12px;"><a href="member_return_detail.php?idx=<?php echo $row['idx']?>&send_num=<?=$row['send_num']?>"><?=$intRowCount;?></a> </td>           
+                        <td style="font-size:12px;"><?=substr($row[reg_date],0,16)?></td>
+    					<td style="font-size:12px;"><a href="member_return_detail.php?idx=<?php echo $row['idx']?>&send_num=<?=$row[send_num]?>"><?=$intRowCount;?></a> </td>           
                       </tr>
                     <?
                     $c++;
@@ -412,7 +414,7 @@ function excel_down_p_group(pno,one_member_id){
           
           
         </section><!-- /.content -->
-      </div><!-- /content-wrapper -->
+      </div><!-- /.content-wrapper -->
 
     <form id="excel_down_form" name="excel_down_form"  target="excel_iframe" method="post">
         <input type="hidden" name="grp_id" value="" />

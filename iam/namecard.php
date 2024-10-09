@@ -2,21 +2,21 @@
 <?php
     $lang = $_COOKIE['lang']?$_COOKIE['lang']:"kr";
     $sql = "select * from Gn_Iam_lang where menu='IAM_PROFILE'";
-    $result = mysqli_query($self_con, $sql);
-    while($row = mysqli_fetch_array($result)) {
+    $result = mysql_query($sql);
+    while($row = mysql_fetch_array($result)) {
         $MENU[$row[menu]][$row[pos]] = $row[$lang];
     }
 ?>
 <?
 $member = $_GET['member'];
 if($member == 'on') {
-	$sql="select mem_name, zy, mem_phone, mem_email, mem_add1 from Gn_Member where mem_id = '{$_SESSION['iam_member_id']}'";
-	$result=mysqli_query($self_con, $sql);
-	$row=mysqli_fetch_array($result);
-	//$card_idx = $row['idx'];
+	$sql="select mem_name, zy, mem_phone, mem_email, mem_add1 from Gn_Member where mem_id = '$_SESSION[iam_member_id]'";
+	$result=mysql_query($sql);
+	$row=mysql_fetch_array($result);
+	//$card_idx = $row[idx];
 	$card_name = $row['mem_name'];
 	$card_company = $row['zy'];
-	// $card_position = $row['card_position'];
+	// $card_position = $row[card_position];
 	$card_phone = $row['mem_phone'];
 	$card_email = $row['mem_email'];
 	$card_addr = $row['mem_add1'];
@@ -31,7 +31,7 @@ if($member == 'on') {
 <head>
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
 	<title>명함추가</title>
 	<link rel="stylesheet" href="css/notokr.css">
 	<link rel="stylesheet" href="css/font-awesome.min.css">
@@ -56,7 +56,7 @@ if($member == 'on') {
                   					<form name="namecard_form" method="post" enctype="multipart/form-data">
                     					<input type="hidden" name="check_rnum" id="check_rnum" value="Y">
 										<input type="hidden" name="mode" id="mode" value="creat">
-										<input type="hidden" name="mem_id" id="mem_id" value="<?=$_SESSION['iam_member_id']?>">
+										<input type="hidden" name="mem_id" id="mem_id" value="<?=$_SESSION[iam_member_id]?>">
 										<div class="attr-row">
 											<div class="attr-name"><?php echo $MENU['IAM_PROFILE']['TITLE1'];?></div>
 											<div class="attr-value">

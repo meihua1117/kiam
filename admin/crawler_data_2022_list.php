@@ -90,6 +90,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                           <option value="지도" <?if($_REQUEST['data_type'] == "지도") echo "selected"?>>지도</option>
                           <option value="블로그" <?if($_REQUEST['data_type'] == "블로그") echo "selected"?>>블로그</option>
                           <option value="웹사이트" <?if($_REQUEST['data_type'] == "웹사이트") echo "selected"?>>웹사이트</option>
+                          <option value="뉴스" <?if($_REQUEST['data_type'] == "뉴스") echo "selected"?>>뉴스</option>
                           <option value="쇼핑" <?if($_REQUEST['data_type'] == "쇼핑") echo "selected"?>>쇼핑</option>
                           <option value="카페" <?if($_REQUEST['data_type'] == "카페") echo "selected"?>>카페</option>
                           <option value="포스트" <?if($_REQUEST['data_type'] == "포스트") echo "selected"?>>포스트</option>
@@ -98,6 +99,9 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                   </div>
                   <div class="form-group">
                     <input type="text" name="company_type" id="company_type" class="form-control input-sm pull-right" placeholder="업종" value="<?=$_REQUEST['company_type']?>">
+                  </div>
+<div class="form-group">
+                    <input type="text" name="cell" id="cell" class="form-control input-sm pull-right" placeholder="전화번호" value="<?=$_REQUEST['cell']?>">
                   </div>
                   <div class="form-group">
                     <input type="text" name="address" id="address" class="form-control input-sm pull-right" placeholder="주소" value="<?=$_REQUEST['address']?>">
@@ -192,6 +196,10 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                   if($company_type ) {
                       $searchStr .= " AND (a.company_type LIKE '%".$company_type."%')";
                   }
+ 	     if($cell) {
+                      $searchStr .= " AND (a.cell LIKE '%".$cell."%')";
+                  }
+
                   if($address) {
                       $searchStr .= " AND (a.address LIKE '%".$address."%')";
                   }
@@ -212,8 +220,8 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                         	WHERE 1=1 
                 	              $searchStr";
                 	              
-                	$res	    = mysqli_query($self_con, $query);
-                	$totalRow	=  mysqli_fetch_array($res);	                	
+                	$res	    = mysql_query($query);
+                	$totalRow	=  mysql_fetch_array($res);	                	
                 	$totalCnt = $totalRow[0];
                 	
                 	                	
@@ -227,8 +235,8 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                                 $searchStr";
                                 
 
-                	//$res	    = mysqli_query($self_con, $query);
-                	//$totalCnt	=  mysqli_num_rows($res);	
+                	//$res	    = mysql_query($query);
+                	//$totalCnt	=  mysql_num_rows($res);	
                   $excel_sql = $query;
                 	
                 	$limitStr       = " LIMIT ".(($startPage-1)*$pageCnt).", ".$pageCnt;
@@ -243,11 +251,11 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                   $query .= "$orderQuery";
                   //echo $query;              
                 	              
-                	$res = mysqli_query($self_con, $query);
-                    while($row = mysqli_fetch_array($res)) {                       	
+                	$res = mysql_query($query);
+                    while($row = mysql_fetch_array($res)) {                       	
                             $query = "Select * from crawler_member_real where user_id='$row[user_id]'";
-                            $sres = mysqli_query($self_con, $query);
-                            $srow = mysqli_fetch_array($sres);                                                    
+                            $sres = mysql_query($query);
+                            $srow = mysql_fetch_array($sres);                                                    
                        
                   ?>
                       <tr>

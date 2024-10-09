@@ -221,8 +221,8 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                 	
                 	$order = $order?$order:"desc"; 		
                 	$query = "SELECT count(a.mem_id) FROM Gn_lecture a WHERE 1=1 $searchStr";
-                	$res	    = mysqli_query($self_con, $query);
-                  $totalRow	=  mysqli_fetch_array($res);	                	
+                	$res	    = mysql_query($query);
+                  $totalRow	=  mysql_fetch_array($res);	                	
                 	$totalCnt = $totalRow[0];
                   $query = "SELECT a.* FROM Gn_lecture a WHERE 1=1 $searchStr";
                 	$limitStr       = " LIMIT ".(($startPage-1)*$pageCnt).", ".$pageCnt;
@@ -231,57 +231,57 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                 	$i = 1;
                 	$c=0;
                 	$query .= "$orderQuery";
-                	$res = mysqli_query($self_con, $query);
-                  while($row = mysqli_fetch_array($res)) {                       	
-                    $sql_num="select short_url from Gn_event where m_id='{$row['mem_id']}' and event_idx='{$row['event_idx']}' ";
-                    $resul_num=mysqli_query($self_con, $sql_num);
-                    $crow=mysqli_fetch_array($resul_num); 	 
-                    $sql_num="select mem_name from Gn_Member where mem_id='{$row['mem_id']}' ";
-                    $resul_num=mysqli_query($self_con, $sql_num);
-                    $mrow=mysqli_fetch_array($resul_num);
+                	$res = mysql_query($query);
+                  while($row = mysql_fetch_array($res)) {                       	
+                    $sql_num="select short_url from Gn_event where m_id='$row[mem_id]' and event_idx='$row[event_idx]' ";
+                    $resul_num=mysql_query($sql_num);
+                    $crow=mysql_fetch_array($resul_num); 	 
+                    $sql_num="select mem_name from Gn_Member where mem_id='$row[mem_id]' ";
+                    $resul_num=mysql_query($sql_num);
+                    $mrow=mysql_fetch_array($resul_num);
                   ?>
                       <tr>
                         <td><?=$number--?></td>
-                        <td style="font-size:12px;"><?=$row['mem_id']?></td>
+                        <td style="font-size:12px;"><?=$row[mem_id]?></td>
                         <td style="font-size:12px;"><?=$mrow[0]?></td>
-                        <td style="font-size:12px;"><?=$row['category']?></td>
-                        <td style="font-size:12px;"><?=$row['start_date']?>~<?=$row['end_date']?></td>
-                        <td style="font-size:12px;"><?=$row['lecture_start_time']?>~<?=$row['lecture_end_time']?></td>
-                        <td style="font-size:12px;"><?=$row['lecture_info']?></td>
-                        <td style="font-size:12px;"><?=$row['instructor']?></td>
-                        <td style="font-size:12px;"><?=$row['area']?></td>
+                        <td style="font-size:12px;"><?=$row[category]?></td>
+                        <td style="font-size:12px;"><?=$row[start_date]?>~<?=$row[end_date]?></td>
+                        <td style="font-size:12px;"><?=$row[lecture_start_time]?>~<?=$row[lecture_end_time]?></td>
+                        <td style="font-size:12px;"><?=$row[lecture_info]?></td>
+                        <td style="font-size:12px;"><?=$row[instructor]?></td>
+                        <td style="font-size:12px;"><?=$row[area]?></td>
                         <td style="font-size:12px;">
-                        <?if($row['review_img1']){?>
-                            <a href="http://kiam.kr/upload/lecture/<?=$row['review_img1']?>" target="_blank">
-                            <img class="zoom" src="http://kiam.kr/upload/lecture/<?=$row['review_img1']?>" style="width:50px;"> 
+                        <?if($row[review_img1]){?>
+                            <a href="http://kiam.kr/upload/lecture/<?=$row[review_img1]?>" target="_blank">
+                            <img class="zoom" src="http://kiam.kr/upload/lecture/<?=$row[review_img1]?>" style="width:50px;"> 
                             </a>
                             <?}?>
                         </td>
                         <td style="font-size:12px;">
-                        <?if($row['review_img2']){?>
-                            <a href="http://kiam.kr/upload/lecture/<?=$row['review_img2']?>" target="_blank">
-                            <img class="zoom" src="http://kiam.kr/upload/lecture/<?=$row['review_img2']?>" style="width:50px;"> 
+                        <?if($row[review_img2]){?>
+                            <a href="http://kiam.kr/upload/lecture/<?=$row[review_img2]?>" target="_blank">
+                            <img class="zoom" src="http://kiam.kr/upload/lecture/<?=$row[review_img2]?>" style="width:50px;"> 
                             </a>
                             <?}?>
                         </td>
                         <td style="font-size:12px;">
-                        <?if($row['review_img3']){?>
-                            <a href="http://kiam.kr/upload/lecture/<?=$row['review_img3']?>" target="_blank">
-                            <img class="zoom" src="http://kiam.kr/upload/lecture/<?=$row['review_img3']?>" style="width:50px;"> 
+                        <?if($row[review_img3]){?>
+                            <a href="http://kiam.kr/upload/lecture/<?=$row[review_img3]?>" target="_blank">
+                            <img class="zoom" src="http://kiam.kr/upload/lecture/<?=$row[review_img3]?>" style="width:50px;"> 
                             </a>
                             <?}?>
                         </td>
                         <td style="font-size:12px;">
-                        <?if($row['review_img4']){?>
-                            <a href="http://kiam.kr/upload/lecture/<?=$row['review_img4']?>" target="_blank">
-                            <img class="zoom" src="http://kiam.kr/upload/lecture/<?=$row['review_img4']?>" style="width:50px;"> 
+                        <?if($row[review_img4]){?>
+                            <a href="http://kiam.kr/upload/lecture/<?=$row[review_img4]?>" target="_blank">
+                            <img class="zoom" src="http://kiam.kr/upload/lecture/<?=$row[review_img4]?>" style="width:50px;"> 
                             </a>
                             <?}?>
                         </td>
                         <td style="font-size:12px;">
-                        <?if($row['review_img5']){?>
-                            <a href="http://kiam.kr/upload/lecture/<?=$row['review_img5']?>" target="_blank">
-                            <img class="zoom" src="http://kiam.kr/upload/lecture/<?=$row['review_img5']?>" style="width:50px;"> 
+                        <?if($row[review_img5]){?>
+                            <a href="http://kiam.kr/upload/lecture/<?=$row[review_img5]?>" target="_blank">
+                            <img class="zoom" src="http://kiam.kr/upload/lecture/<?=$row[review_img5]?>" style="width:50px;"> 
                             </a>
                             <?}?>
                         </td>

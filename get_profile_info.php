@@ -79,7 +79,7 @@ function GetPrompt($url, $key)
     return $jsonData->value;
 }
 
-function getGptResponse($prompt, $model = "gpt-4o", $maxTokens = 200) {
+function getGptResponse($prompt, $model = "o1-preview", $maxTokens = 200) {
     $apiKey = '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';
     $url = 'https://api.openai.com/v1/chat/completions';
     

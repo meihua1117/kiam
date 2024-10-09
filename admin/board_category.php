@@ -4,10 +4,11 @@ include_once $_SERVER['DOCUMENT_ROOT']."/admin/include/admin_header.inc.php";
 extract($_GET);
 // 오늘날짜
 $date_today=date("Y-m-d");
+$date_month=date("Y-m");
 
 $sql = "select * from tjd_board_category where category='4'";
-$res_result = mysqli_query($self_con, $sql);
-$data = mysqli_fetch_array($res_result);
+$res_result = mysql_query($sql);
+$data = mysql_fetch_array($res_result);
 
 ?>
 <script type="text/javascript" src="/jquery.lightbox_me.js"></script>

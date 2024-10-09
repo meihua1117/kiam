@@ -6,14 +6,15 @@ extract($_GET);
 // 오늘날짜
 $date_today=date("Y-m-d");
 $date_today1=date("Y-m-d H:i:s");
+$date_month=date("Y-m");
 
 if(isset($_GET['id'])){
     $update = true;
 }
 $id = $_GET['id'];
 $sql = "select * from get_crawler_bizinfo where id={$id}";
-$res = mysqli_query($self_con, $sql);
-while($row = mysqli_fetch_array($res)){
+$res = mysql_query($sql);
+while($row = mysql_fetch_array($res)){
     $info_source = $row['info_source'];
     $web_type = $row['web_type'];
     $work_name = $row['work_name'];
@@ -197,7 +198,7 @@ while($row = mysqli_fetch_array($res)){
 
 
     </section><!-- /.content -->
-</div><!-- /content-wrapper -->
+</div><!-- /.content-wrapper -->
 
 <form id="excel_down_form" name="excel_down_form"  target="excel_iframe" method="post">
     <input type="hidden" name="grp_id" value="" />

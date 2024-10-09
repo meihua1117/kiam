@@ -14,7 +14,7 @@ $seller_id = "";
 if(isset($_GET['item_price'])){
     $item_price = $_GET['item_price'] * 1;
 }
-if(isset($_GET['url'])){
+if(isset($_GET[url])){
     $cur_url = $_GET['url'];
 }
 ?>
@@ -27,7 +27,7 @@ if(isset($_GET['url'])){
     <!--오픈그래프 (웹페이지 미리보기 -페이스북, 카카오톡)-->
     <meta property="og:title" content="아이엠으로 나를 브랜딩하기">
     <!--제목-->
-    <meta property="og:description" content="<?=$G_card['card_name']?>님의 명함 <?=$G_card['card_company']?> <?=$G_card['card_position']?>">
+    <meta property="og:description" content="<?=$G_card[card_name]?>님의 명함 <?=$G_card[card_company]?> <?=$G_card[card_position]?>">
     <!--내용-->
     <meta property="og:image" content="<?=$main_img1?>">
     <!--이미지-->
@@ -49,6 +49,8 @@ if(isset($_GET['url'])){
     <link rel='stylesheet' href='/css/font-awesome.min.css' /><!-- 2019.11 반응형 CSS -->
     <link rel="stylesheet" href="/admin/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/style_j.css">
+    <!-- ########## TODO COMMENT FOR TEST  패치할떄 해제해야함 ###########  -->
+    <!--script src="//developers.kakao.com/sdk/js/kakao.min.js" charset="utf-8"></script-->
     <script src="js/jquery-3.1.1.min.js"></script>
     <script src="js/slick.min.js"></script>
     <script src="js/main.js"></script>
@@ -130,11 +132,11 @@ if($platform == "mobile"){
         dfm.allat_product_nm.value = dfm.item_name.value;
         var navCase = navigator.userAgent.toLocaleLowerCase();
         if(navCase.search("android") > -1){
-            dfm.allat_app_scheme.value = navCase;
+    	    dfm.allat_app_scheme.value = navCase;
             Allat_Mobile_Approval(dfm, 0, 0);
         }
         else{
-            dfm.allat_app_scheme.value = '';
+    	    dfm.allat_app_scheme.value = '';
             AllatPay_Approval(dfm);
             // 결제창 자동종료 체크 시작
             AllatPay_Closechk_Start();
@@ -157,7 +159,7 @@ if($platform == "mobile"){
             alert(result_cd + " : " + result_msg);
             location.reload();
         } else {
-            iam_item('<?=$_SESSION['iam_member_id'];?>', 'buy', 'card');
+            iam_item('<?=$_SESSION[iam_member_id];?>', 'buy', 'card');
             pay_form.acceptCharset = 'utf-8';
             document.charset = 'utf-8';
             pay_form.allat_enc_data.value = enc_data;
@@ -224,7 +226,7 @@ if($platform == "mobile"){
                     type:"POST",
                     url:"/ajax/get_mem_address.php",
                     dataType:"json",
-                    data:{mem_id:'<?=$_SESSION['iam_member_id']?>'},
+                    data:{mem_id:'<?=$_SESSION[iam_member_id]?>'},
                     success: function(data){
                         $('#allat_recp_addr').val(data.address);
                         ftn_approval(document.pay_form);
@@ -328,7 +330,7 @@ if($platform == "mobile"){
             <!--승인금액-->
             <input type="hidden" name="allat_amt" id="allat_amt" value="" size="19" maxlength=10>
             <!--회원ID-->
-            <input type="hidden" name="allat_pmember_id" value="<?php echo $_SESSION['one_member_id'];?>" size="19" maxlength=20>
+            <input type="hidden" name="allat_pmember_id" value="<?php echo $_SESSION[one_member_id];?>" size="19" maxlength=20>
             <!--상품코드-->
             <input type="hidden" name="allat_product_cd" id="allat_product_cd" value="포인트충전" size="19" maxlength=1000>
             <!--상품명-->
@@ -363,7 +365,7 @@ if($platform == "mobile"){
                                         <div><input type="number" name="item_price" id="item_price" style="border-radius: 5px;line-height: 20px;text-align: center;" placeholder="원" readonly value="<?=$item_price?>"></div>
                                     </div>
                                 </div>
-                                <?if(!$_SESSION['one_member_id']){?>
+                                <?if(!$_SESSION[one_member_id]){?>
                                     <div class="a8">
                                         <a href="javascript:void(0)" onclick="alert('로그인후 이용이 가능합니다.');">
                                             <img src="/images/sub_02_btn_23.jpg" style="width: 80%"/>
@@ -441,7 +443,7 @@ if($platform == "mobile"){
             ※ 아이엠을 보내는 기능은 무료이지만 일반 메시지를 보내는 것은 유료입니다.</h3>
         </div>
         <div class="button-wrap">
-            <?if($_SESSION['iam_member_id']) {?>
+            <?if($_SESSION[iam_member_id]) {?>
                 <a href="#" id="closePopup" class="buttons is-cancel">다음에보내기</a>
                 <a  id="daily_popup_content" href="#" target="_blank" class="buttons is-save">시작하기</a>
             <?} else {?>
@@ -479,7 +481,7 @@ if($platform == "mobile"){
     </div>
 </div>
 <?
-mysqli_close($self_con);
+mysql_close();
 include_once "_foot.php";
 ?>
 </body>

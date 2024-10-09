@@ -9,9 +9,9 @@ if($_REQUEST['mode']=="inser")
 	$row=mysql_fetch_array($resul);
 	
 	$sql_d="select idx from Gn_MMS_Agree where send_num='$row[send_num]' and recv_num='$_REQUEST[n]' ";
-	$resul_d=mysql_query($sql_d);
-	$row_d=mysql_fetch_array($resul_d);
-	if(!$row_d[idx])
+	$resul_d = mysql_query($sql_d);
+	$row_d = mysql_fetch_array($resul_d);
+	if($row_d['idx'] != null)
 	{
 		$deny_info[send_num]=$row[send_num];
 		$deny_info[recv_num]=$_REQUEST[n];
@@ -30,21 +30,19 @@ if($_REQUEST['mode']=="inser")
 		mysql_query($sql);
 	}
 	$user_id = $row[mem_id];
-
-
 	if($_REQUEST[u])
 	{
 	?>
 	<script>
-	alert('귀하가 <?=date("Y");?>년<?=date("m");?>월<?=date("d");?>일에 요청하신 수신동의가 정상적으로 처리 되었습니다.'); 
-	location.href='https://kiam.kr'; 
+	    alert('귀하가 <?=date("Y");?>년<?=date("m");?>월<?=date("d");?>일에 요청하신 수신동의가 정상적으로 처리 되었습니다.'); 
+	    location.href='https://kiam.kr'; 
 	</script>
 	<?
 	}else{
 	?>
 	<script>
-	alert('수신동의가 정상적으로 처리되었습니다.'); 
-	location.href='https://kiam.kr'; 
+	    alert('수신동의가 정상적으로 처리되었습니다.'); 
+	    location.href='https://kiam.kr'; 
 	</script>
 	<?	
 	}
@@ -54,9 +52,9 @@ if($_REQUEST['mode']=="inser")
 <script>
 
 	if(confirm('무료 문자 수신동의를 하시겠습니까?'))
-	location.href='<?=$PHP_SELF?>?u=<?=$_REQUEST[u]?>&n=<?=$_REQUEST[n]?>&mode=inser';		 
+	    location.href='<?=$PHP_SELF?>?u=<?=$_REQUEST[u]?>&n=<?=$_REQUEST[n]?>&mode=inser';		 
 	else
-	location.href='https://kiam.kr';	
+	    location.href='https://kiam.kr';	
 
 </script>
 <?

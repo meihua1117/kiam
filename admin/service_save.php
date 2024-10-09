@@ -8,9 +8,9 @@ extract($_POST);
 
 $idx = $_POST["idx"]; 
 if($_POST['mode'] == "inser") {
-    $logo = gcUploadRename($_FILES['logo']["name"],$_FILES["logo"]['tmp_name'],$_FILES["logo"]['size'], "data/site");    
-    $main_image = gcUploadRename($_FILES['main_image']["name"],$_FILES["main_image"]['tmp_name'],$_FILES["main_image"]['size'], "data/site");    
-    $footer_image = gcUploadRename($_FILES['footer_image']["name"],$_FILES["footer_image"]['tmp_name'],$_FILES["footer_image"]['size'], "data/site");    
+    $logo = gcUploadRename($_FILES['logo']["name"],$_FILES["logo"][tmp_name],$_FILES["logo"][size], "data/site");    
+    $main_image = gcUploadRename($_FILES['main_image']["name"],$_FILES["main_image"][tmp_name],$_FILES["main_image"][size], "data/site");    
+    $footer_image = gcUploadRename($_FILES['footer_image']["name"],$_FILES["footer_image"][tmp_name],$_FILES["footer_image"][size], "data/site");    
         
     $query="insert into Gn_Service set `service_name`          ='$service_name', 
                                   `domain`      ='$domain', 
@@ -46,11 +46,11 @@ if($_POST['mode'] == "inser") {
                                   `status`          ='$status', 
                                   `regdate`         =NOW() 
                                  ";
-    mysqli_query($self_con, $query);	
+    mysql_query($query);	
 } else if($_POST['mode'] == "updat") {
-    $logo = gcUploadRename($_FILES['logo']["name"],$_FILES["logo"]['tmp_name'],$_FILES["logo"]['size'], "data/site");    
-    $main_image = gcUploadRename($_FILES['main_image']["name"],$_FILES["main_image"]['tmp_name'],$_FILES["main_image"]['size'], "data/site");    
-    $footer_image = gcUploadRename($_FILES['footer_image']["name"],$_FILES["footer_image"]['tmp_name'],$_FILES["footer_image"]['size'], "data/site");    
+    $logo = gcUploadRename($_FILES['logo']["name"],$_FILES["logo"][tmp_name],$_FILES["logo"][size], "data/site");    
+    $main_image = gcUploadRename($_FILES['main_image']["name"],$_FILES["main_image"][tmp_name],$_FILES["main_image"][size], "data/site");    
+    $footer_image = gcUploadRename($_FILES['footer_image']["name"],$_FILES["footer_image"][tmp_name],$_FILES["footer_image"][size], "data/site");    
     $addQuery = "";
     if($logo)
         $addQuery .= "logo='$logo',";
@@ -91,13 +91,13 @@ if($_POST['mode'] == "inser") {
                                   
                          WHERE idx='$idx'
                                  ";
-    mysqli_query($self_con, $query);	
+    mysql_query($query);	
 } else if($_POST['mode'] == "del") {
 
     $query="delete  from    Gn_Service 
                          WHERE idx='$idx'
                                  ";
-    mysqli_query($self_con, $query);	
+    mysql_query($query);	
 }
 echo "<script>alert('저장되었습니다.');location='/admin/service_list.php';</script>";
 exit;

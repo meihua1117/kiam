@@ -1417,7 +1417,9 @@ if (!empty($row_sum_b)) {
 																	echo "background:#efefef";
 																} ?>">
 														<td style="text-align:left;">
-															<label><input type="checkbox" name="go_num" value="<?= $row[sendnum] ?>" <?= !$is_send ? "disabled" : "" ?> <?= $fujia_pay == "" && $row[sendnum] != $mem_phone ? "disabled" : "" ?> onclick="send_sj_fun()" data-user_cnt="<?= $row[user_cnt] ?>" data-send-cnt="<?= $ssh_cnt ?>" data-max-cnt="<?= $monthly_limit_ssh ?>" data-name="<?= $row[memo] ?>" /><?= $row[sendnum] ?></label>
+															<label>
+															    <input type="checkbox" name="go_num" value="<?= $row[sendnum] ?>" <?= !$is_send ? "disabled" : "" ?> <?= $fujia_pay == "" && $row[sendnum] != $mem_phone ? "disabled" : "" ?> onclick="send_sj_fun()" data-user_cnt="<?= $row[user_cnt] ?>" data-send-cnt="<?= $ssh_cnt ?>" data-max-cnt="<?= $monthly_limit_ssh ?>" data-name="<?= $row[memo] ?>" /><?= $row[sendnum] ?>
+															</label>
 															<input type="hidden" name="go_user_cnt" value="<?= $row[user_cnt] ?>" />
 															<input type="hidden" name="go_max_cnt" value="<?= $row[daily_limit_cnt_user] ?>" />
 															<input type="hidden" name="go_memo2" value="<?= $row[memo2] ?>" />

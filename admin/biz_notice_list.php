@@ -84,7 +84,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                     <div class="row" id="toolbox">
             <div class="col-xs-12" style="padding-bottom:20px">
               <?php if($_SESSION['one_member_admin_id'] != "onlyonemaket"){?>
-                <?php if($_SESSION['one_member_subadmin_id'] == "" || $_SESSION['one_member_subadmin_domain'] != $HTTP_HOST) {?>
+                <?php if($_SESSION[one_member_subadmin_id] == "" || $_SESSION[one_member_subadmin_domain] != $HTTP_HOST) {?>
                   <button class="btn btn-primary pull-right" style="margin-right: 5px;" onclick="location='biz_notice_write.php'"><i class="fa fa-download"></i>작성하기</button>
                 <?php }}?>
               <form method="get" name="search_form" id="search_form">
@@ -108,7 +108,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                       <col width="600px">
                       <col width="100px">
                       <col width="100px">
-                      <?if($_SESSION['one_member_subadmin_id'] == "" || $_SESSION['one_member_subadmin_domain'] != $HTTP_HOST) {?>
+                      <?if($_SESSION[one_member_subadmin_id] == "" || $_SESSION[one_member_subadmin_domain] != $HTTP_HOST) {?>
                       <col width="50px">
                       <?}?>
                      </colgroup>
@@ -118,7 +118,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                         <th>제목</th>
                         <th>작성일</th>
                         <th>조회수</th>
-                         <?if($_SESSION['one_member_subadmin_id'] == "" || $_SESSION['one_member_subadmin_domain'] != $HTTP_HOST) {?>
+                         <?if($_SESSION[one_member_subadmin_id] == "" || $_SESSION[one_member_subadmin_domain] != $HTTP_HOST) {?>
                         <th>삭제</th>
                          <?}?>
                       </tr>
@@ -133,29 +133,29 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                 	
                 	$order = $order?$order:"desc"; 		
                 	$query = "SELECT SQL_CALC_FOUND_ROWS * FROM tjd_sellerboard WHERE 1=1 and category=11 $searchStr";
-                	$res	    = mysqli_query($self_con, $query);
-                	$totalCnt	=  mysqli_num_rows($res);	
+                	$res	    = mysql_query($query);
+                	$totalCnt	=  mysql_num_rows($res);	
                 	
                 	$limitStr       = " LIMIT ".(($startPage-1)*$pageCnt).", ".$pageCnt;
                 	$number			= $totalCnt - ($nowPage - 1) * $pageCnt;                      
                   $orderQuery .= " ORDER BY no DESC $limitStr ";            	
                 	$i = 1;
                 	$query .= "$orderQuery";
-                	$res = mysqli_query($self_con, $query);
-                  while($row = mysqli_fetch_array($res)) {                       	
+                	$res = mysql_query($query);
+                  while($row = mysql_fetch_array($res)) {                       	
                   ?>
                       <tr>
                         <td><?=$number--?></td>
                         <td>
-                        <?php if($_SESSION['one_member_subadmin_id'] != "" && $_SESSION['one_member_subadmin_domain'] == $HTTP_HOST) {?>
-                            <a onclick="onView('<?=$row['no']; ?>')" ><?php echo $row['title'];?></a>
+                        <?php if($_SESSION[one_member_subadmin_id] != "" && $_SESSION[one_member_subadmin_domain] == $HTTP_HOST) {?>
+                            <a onclick="onView('<?=$row[no]; ?>')" ><?php echo $row['title'];?></a>
                             <script type="text/javascript">
                                 function onView(board_no){
                                         $("#modal-tjd_sellerboard_"+board_no).modal("show");
                                 }
                             </script>
                               <!-- board모달 -->
-                              <div class="modal fade" id="modal-tjd_sellerboard_<?=$row['no']; ?>">
+                              <div class="modal fade" id="modal-tjd_sellerboard_<?=$row[no]; ?>">
                                   <div class="modal-dialog">
                                       <div class="modal-content">
                                           <div class="modal-header">
@@ -172,12 +172,12 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                                                     <th>연락처</th>
                                                     <td><?=$row[phone]?></td>
                                                     <th>이메일</th>
-                                                    <td><?=$row['email']?></td>
+                                                    <td><?=$row[email]?></td>
                                                 </tr>       
                                              
                                                 <tr>
                                                     <th>답변</th>
-                                                    <td><?=$row['reply']?></td>
+                                                    <td><?=$row[reply]?></td>
                                                     <th></th>
                                                     <td></td>
                                                 </tr>                      
@@ -194,12 +194,12 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                             <a href="biz_notice_write.php?no=<?php echo $row['no']?>"><?php echo $row['title'];?></a>
                         <? } ?>
                         <td>
-                            <?=substr($row['date'],0,10)?>
+                            <?=substr($row[date],0,10)?>
                         </td>
                         <td><?=$row['view_cnt']?></td>
 
-                        <?php if($_SESSION['one_member_subadmin_id'] != "" && $_SESSION['one_member_subadmin_domain'] == $HTTP_HOST) {} else {?>
-                        <td><a href="javascript:;;" onclick="board_del('<?=$row['no']?>','<?=$_REQUEST['status']?>')">삭제</a></td>
+                        <?php if($_SESSION[one_member_subadmin_id] != "" && $_SESSION[one_member_subadmin_domain] == $HTTP_HOST) {} else {?>
+                        <td><a href="javascript:;;" onclick="board_del('<?=$row[no]?>','<?=$_REQUEST[status]?>')">삭제</a></td>
                       <? } ?>
                       </tr>
                     <?

@@ -5,12 +5,14 @@ extract($_GET);
 
 // 오늘날짜
 $date_today=date("Y-m-d");
+$date_month=date("Y-m");
 
 if($idx) {
     // 가입 회원 상세 정보
-    $query = "select * from gn_mms_callback where idx=$idx";
-    $res = mysqli_query($self_con, $query);
-    $data = mysqli_fetch_array($res);
+    $query = "select *
+                from gn_mms_callback where idx='$idx'";
+    $res = mysql_query($query);
+    $data = mysql_fetch_array($res);
 }
 
 ?>
@@ -114,7 +116,7 @@ if($idx) {
           
         </section><!-- /.content -->
         </form>
-      </div><!-- /content-wrapper -->
+      </div><!-- /.content-wrapper -->
 
 
       <!-- Footer -->

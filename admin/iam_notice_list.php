@@ -127,26 +127,26 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                             $searchStr .= $search_key ? " AND (title '%".$search_key."%' or content like '%".$search_key."%' or id like '%".$search_key."%')" : null;
                             $order = $order?$order:"desc";
                             $query = "SELECT SQL_CALC_FOUND_ROWS * FROM tjd_sellerboard WHERE 1=1 and category=10 $searchStr";
-                            $res	    = mysqli_query($self_con, $query);
-                            $totalCnt	=  mysqli_num_rows($res);
+                            $res	    = mysql_query($query);
+                            $totalCnt	=  mysql_num_rows($res);
                             $limitStr       = " LIMIT ".(($startPage-1)*$pageCnt).", ".$pageCnt;
                             $number			= ($nowPage - 1) * $pageCnt + 1;
                             $orderQuery .= " ORDER BY no DESC $limitStr ";
                             $i = 1;
                             $query .= "$orderQuery";
-                            $res = mysqli_query($self_con, $query);
-                            while($row = mysqli_fetch_array($res)) {?>
+                            $res = mysql_query($query);
+                            while($row = mysql_fetch_array($res)) {?>
                                 <tr>
                                     <td><?=$number++?></td>
                                     <td>
                                         <a href="iam_notice_write.php?no=<?php echo $row['no']?>"><?=$row['title'];?></a>
                                     </td>
-                                    <td><?=substr($row['date'],0,10)?></td>
+                                    <td><?=substr($row[date],0,10)?></td>
                                     <td><?=$row['view_cnt']?></td>
                                     <td><input type="checkbox" disabled="true" name="important_yn" value="Y" data-no="<?php echo $row['no']?>" <?php echo $row['important_yn']=="Y"?"checked":""?>></td>
                                     <td><input type="checkbox" disabled="true" name="pop_yn" value="Y" data-no="<?php echo $row['no']?>" <?php echo $row['pop_yn']=="Y"?"checked":""?>></td>
                                     <td><input type="text" disabled="true" name="working_date" data-no="<?php echo $row['no']?>" value="<?php echo ($row['start_date']&&$row['end_date'])?$row['start_date'].'-'.$row['end_date']:"날자가 존재하지 않습니다."?>"></td>
-                                    <td><a href="javascript:;;" onclick="iam_board_del('<?=$row['no']?>')">삭제</a></td>
+                                    <td><a href="javascript:;;" onclick="iam_board_del('<?=$row[no]?>')">삭제</a></td>
                                 </tr>
                                 <?$i++;
                             }
@@ -194,11 +194,11 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                             <th>연락처</th>
                             <td id="phone"><?=$row[phone]?></td>
                             <th>이메일</th>
-                            <td id="email"><?=$row['email']?></td>
+                            <td id="email"><?=$row[email]?></td>
                         </tr>
                         <tr>
                             <th>답변</th>
-                            <td id="reply"><?=$row['reply']?></td>
+                            <td id="reply"><?=$row[reply]?></td>
                             <th></th>
                             <td></td>
                         </tr>

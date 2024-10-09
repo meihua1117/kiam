@@ -24,7 +24,7 @@ if($_POST['mode'] == "creat") {
         uploadFTP($uploadfile);
     }
     $sql="insert into gn_alert (`type`, title, pos, img,`desc`,link) values ('$type', '$title','$pos', '$img_url','$desc','$link')";
-    mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
+    mysql_query($sql) or die(mysql_error());
 }
 else if($_POST['mode'] == "updat") {
     $icon_file_name = str_replace(" ", "", basename($_FILES["img"]["name"]));
@@ -41,18 +41,18 @@ else if($_POST['mode'] == "updat") {
     }else{
         $sql="update gn_alert set title='$title', pos = '$pos', `desc` = '$desc',link = '$link' where no = '$no'";
     }
-    mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
+    mysql_query($sql) or die(mysql_error());
 } else if($_POST['mode'] == "del") {
     $query="delete  from  gn_alert WHERE no='$no'";
-    mysqli_query($self_con, $query);	
+    mysql_query($query);	
 } else if($_POST['mode'] == "get"){
     $pos = $_POST['pos'];
     if($pos == "")
 	$pos = "my_info";
     $sql = "select * from gn_alert where pos = '$pos'";
-    $row = mysqli_fetch_array(mysqli_query($self_con, $sql));
+    $row = mysql_fetch_array(mysql_query($sql));
     if($row['pos'] != "") {
-        echo json_encode(array("title" => $row['title'], "img" => $row['img'], "desc" => $row[desc], "link" => $row[link]));
+        echo json_encode(array("title" => $row[title], "img" => $row[img], "desc" => $row[desc], "link" => $row[link]));
     }
     exit;
 }

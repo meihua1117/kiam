@@ -64,9 +64,9 @@ set_gwc_delivery_state();
                 }
 
                 $sql = "select a.*,DATEDIFF(CURRENT_DATE(), a.delivery_set_date) AS pass_days from Gn_Gwc_Order a " . $join_str . " where a.mem_id='{$_SESSION['iam_member_id']}' and a.page_type=0 " . $searchStr . " order by a.reg_date desc";
-                $result = mysqli_query($self_con, $sql);
-                $cart_count = mysqli_num_rows($result);
-                for ($i = 0; $row = mysqli_fetch_array($result); $i++) {
+                $result = mysql_query($sql);
+                $cart_count = mysql_num_rows($result);
+                for ($i = 0; $row = mysql_fetch_array($result); $i++) {
 
                     if (strpos($row['order_options'], "gallery>>") == 0) {
                         $sql = " select * from Gn_Iam_Contents where idx = '$row[contents_idx]' ";
@@ -75,8 +75,8 @@ set_gwc_delivery_state();
                         $sql = " select * from Gn_Iam_Contents_Gwc where idx = '$row[contents_idx]' ";
                         $shop = "gwc";
                     }
-                    $res = mysqli_query($self_con, $sql);
-                    $row_con = mysqli_fetch_array($res);
+                    $res = mysql_query($sql);
+                    $row_con = mysql_fetch_array($res);
 
                     if (strpos($row_con['contents_img'], ",") !== false) {
                         $img_arr = explode(",", $row_con['contents_img']);
@@ -87,13 +87,13 @@ set_gwc_delivery_state();
 
                     if (!$row_con['contents_title']) {
                         $sql_title = "select member_type from tjd_pay_result where no={$row['tjd_idx']}";
-                        $res_title = mysqli_query($self_con, $sql_title);
-                        $row_title = mysqli_fetch_array($res_title);
+                        $res_title = mysql_query($sql_title);
+                        $row_title = mysql_fetch_array($res_title);
                         $row_con['contents_title'] = $row_title['member_type'];
                     }
                     $sql_delivery = "select * from delivery_list where id='{$row['delivery']}'";
-                    $res_delivery = mysqli_query($self_con, $sql_delivery);
-                    $row_delivery = mysqli_fetch_array($res_delivery);
+                    $res_delivery = mysql_query($sql_delivery);
+                    $row_delivery = mysql_fetch_array($res_delivery);
                     $show_link = "http://" . $HTTP_HOST . "/iam/gwc_order_pay.php?contents_idx=" . $row['contents_idx'] . "&contents_cnt=" . $row['contents_cnt'] . "&contents_price=" . $row['contents_price'] . "&contents_salary=" . $row['salary_price'] . "&seller_id=" . $row['seller_id'] . "&order_option=" . $row['order_option'] . "&admin=M&order_id=" . $row['id'] . "&mem_id=" . $row['mem_id'] . "&use_point_val=" . $row['use_point'] . "&pay_method=" . $row['payMethod'];
                     if ($shop == "gallery")
                         $show_link .= "&shop=gallery";
@@ -115,20 +115,20 @@ set_gwc_delivery_state();
                         <td class="tac">
                             <p class="bold"><?= substr($row['reg_date'], 0, 10); ?></p>
                             <p class="padt5" onclick="gotoDetail(
-    				    '<?= $HTTP_HOST ?>',
-                        '<?= $row['id'] ?>',
-                        '<?= $row['contents_idx'] ?>',
-                        '<?= $row['contents_cnt'] ?>',
-                        '<?= $row['contents_price'] ?>',
-                        '<?= $row['salary_price'] ?>',
-                        '<?= $row['seller_id'] ?>',
-                        '<?= $row['order_option'] ?>',
-                        '<?= $row['use_point'] ?>',
-                        '<?= $row['payMethod'] ?>',
-                        '<?= $row['mem_id'] ?>',
+                                                            '<?= $HTTP_HOST ?>',
+                                                            '<?= $row['id'] ?>',
+                                                            '<?= $row['contents_idx'] ?>',
+                                                            '<?= $row['contents_cnt'] ?>',
+                                                            '<?= $row['contents_price'] ?>',
+                                                            '<?= $row['salary_price'] ?>',
+                                                            '<?= $row['seller_id'] ?>',
+                                                            '<?= $row['order_option'] ?>',
+                                                            '<?= $row['use_point'] ?>',
+                                                            '<?= $row['payMethod'] ?>',
+                                                            '<?= $row['mem_id'] ?>',
                                                             data['<?= $i ?>'],
                                                             '<?= $row['order_option'] ?>'
-                        )">
+                                                            )">
                                 <a class="btn_small grey">상세보기</a>
                             </p>
                             <p class="bold"><?= number_format($row['contents_price']); ?>원</p>
@@ -166,7 +166,7 @@ set_gwc_delivery_state();
                                             <? if ($gallery_options[1] == "download") {
                                                 if ($row['pass_days'] < 16) {
                                                     //$download_link = str_replace("wm.", ".", $img);
-                                                    $download_link = "download.php?id=" . base64_encode($img);
+                                                    $download_link = "download.php?id=".base64_encode($img);
                                             ?>
                                                     <div style="margin-top: 10px;">
                                                         <a href="<?= $download_link ?>" onclick="toastr.info('다운로드 시작중...');" style="border-radius:10px;background-color: #daf684;height:auto !important;padding:5px 25px;border:none">다운로드 받기</a>
@@ -190,9 +190,9 @@ set_gwc_delivery_state();
                             <? } ?>
                         </td>
                         <!--td class="tac">
-				<p style="padding: 5px;"><a href="javascript:edit_order('1', '<?= $row['id'] ?>')" class="btn_small" style="border: 1px solid lightgrey;padding: 2px;font-size: 11px;color:black!important;<?= $row['prod_state'] == 1 ? 'background-color:lightgrey;' : '' ?>">주문취소<i class="fa fa-angle-right" style="font-weight: bold;margin-left: 10px;"></i></a></p>
-				<p style="padding: 5px;"><a href="javascript:edit_order('2', '<?= $row['id'] ?>')" class="btn_small" style="border: 1px solid lightgrey;padding: 2px;font-size: 11px;color:black!important;<?= $row['prod_state'] == 2 ? 'background-color:lightgrey;' : '' ?>">반품신청<i class="fa fa-angle-right" style="font-weight: bold;margin-left: 10px;"></i></a></p>
-                <p style="padding: 5px;"><a href="javascript:edit_order('3', '<?= $row['id'] ?>')" class="btn_small" style="border: 1px solid lightgrey;padding: 2px;font-size: 11px;color:black!important;<?= $row['prod_state'] == 3 ? 'background-color:lightgrey;' : '' ?>">교환신청<i class="fa fa-angle-right" style="font-weight: bold;margin-left: 10px;"></i></a></p>
+                            <p style="padding: 5px;"><a href="javascript:edit_order('1', '<?= $row['id'] ?>')" class="btn_small" style="border: 1px solid lightgrey;padding: 2px;font-size: 11px;color:black!important;<?= $row['prod_state'] == 1 ? 'background-color:lightgrey;' : '' ?>">주문취소<i class="fa fa-angle-right" style="font-weight: bold;margin-left: 10px;"></i></a></p>
+                            <p style="padding: 5px;"><a href="javascript:edit_order('2', '<?= $row['id'] ?>')" class="btn_small" style="border: 1px solid lightgrey;padding: 2px;font-size: 11px;color:black!important;<?= $row['prod_state'] == 2 ? 'background-color:lightgrey;' : '' ?>">반품신청<i class="fa fa-angle-right" style="font-weight: bold;margin-left: 10px;"></i></a></p>
+                            <p style="padding: 5px;"><a href="javascript:edit_order('3', '<?= $row['id'] ?>')" class="btn_small" style="border: 1px solid lightgrey;padding: 2px;font-size: 11px;color:black!important;<?= $row['prod_state'] == 3 ? 'background-color:lightgrey;' : '' ?>">교환신청<i class="fa fa-angle-right" style="font-weight: bold;margin-left: 10px;"></i></a></p>
                         </td-->
                     </tr>
                 <?

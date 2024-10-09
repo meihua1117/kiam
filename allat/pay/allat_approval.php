@@ -4,20 +4,20 @@ include_once "_head.php";
  
 
 //$sql = "select * from tjd_pay_amount where pay_id = '$_GET[mid]'";
-//$res_result = mysqli_query($self_con, $sql);
-//$data = mysqli_fetch_array($res_result);  
+//$res_result = mysql_query($sql);
+//$data = mysql_fetch_array($res_result);  
 //print_r($_SESSION);
-  // ì˜¬ì•³ê´€ë ¨ í•¨ìˆ˜ Include
+  // ¿Ã¾Ü°ü·Ã ÇÔ¼ö Include
   //----------------------
   include_once "./allatutil.php";
 
   //Request Value Define
   //----------------------
-  $at_cross_key = "382331665febf9857b8a8b47f9a02e04";	//ì„¤ì •í•„ìš” [ì‚¬ì´íŠ¸ ì°¸ì¡° - http://www.allatpay.com/servlet/AllatBiz/support/sp_install_guide_scriptapi.jsp#shop]
-  $at_shop_id   = "welcome101";		//ì„¤ì •í•„ìš”
-  $at_amt=$_SESSION['allat_amt'];						//ê²°ì œ ê¸ˆì•¡ì„ ë‹¤ì‹œ ê³„ì‚°í•´ì„œ ë§Œë“¤ì–´ì•¼ í•¨(í•´í‚¹ë°©ì§€), ( session, DB ì‚¬ìš© )
+  $at_cross_key = "382331665febf9857b8a8b47f9a02e04";	//¼³Á¤ÇÊ¿ä [»çÀÌÆ® ÂüÁ¶ - http://www.allatpay.com/servlet/AllatBiz/support/sp_install_guide_scriptapi.jsp#shop]
+  $at_shop_id   = "welcome101";		//¼³Á¤ÇÊ¿ä
+  $at_amt=$_SESSION['allat_amt'];						//°áÁ¦ ±Ý¾×À» ´Ù½Ã °è»êÇØ¼­ ¸¸µé¾î¾ß ÇÔ(ÇØÅ·¹æÁö), ( session, DB »ç¿ë )
 
-  // ìš”ì²­ ë°ì´í„° ì„¤ì •
+  // ¿äÃ» µ¥ÀÌÅÍ ¼³Á¤
   //----------------------
   $at_data   = "allat_shop_id=".$at_shop_id.
                "&allat_amt=".$at_amt.
@@ -25,27 +25,27 @@ include_once "_head.php";
                "&allat_cross_key=".$at_cross_key;
 
 
-  // ì˜¬ì•³ ê²°ì œ ì„œë²„ì™€ í†µì‹  : ApprovalReq->í†µì‹ í•¨ìˆ˜, $at_txt->ê²°ê³¼ê°’
+  // ¿Ã¾Ü °áÁ¦ ¼­¹ö¿Í Åë½Å : ApprovalReq->Åë½ÅÇÔ¼ö, $at_txt->°á°ú°ª
   //----------------------------------------------------------------
-  // PHP5 ì´ìƒë§Œ SSL ì‚¬ìš©ê°€ëŠ¥
+  // PHP5 ÀÌ»ó¸¸ SSL »ç¿ë°¡´É
   $at_txt = ApprovalReq($at_data,"SSL");
-  // $at_txt = ApprovalReq($at_data, "NOSSL"); // PHP5 ì´í•˜ë²„ì „ì¼ ê²½ìš°
-  // ì´ ë¶€ë¶„ì—ì„œ ë¡œê·¸ë¥¼ ë‚¨ê¸°ëŠ” ê²ƒì´ ì¢‹ìŠµë‹ˆë‹¤.
-  // (ì˜¬ì•³ ê²°ì œ ì„œë²„ì™€ í†µì‹  í›„ì— ë¡œê·¸ë¥¼ ë‚¨ê¸°ë©´, í†µì‹ ì—ëŸ¬ì‹œ ë¹ ë¥¸ ì›ì¸íŒŒì•…ì´ ê°€ëŠ¥í•©ë‹ˆë‹¤.)
+  // $at_txt = ApprovalReq($at_data, "NOSSL"); // PHP5 ÀÌÇÏ¹öÀüÀÏ °æ¿ì
+  // ÀÌ ºÎºÐ¿¡¼­ ·Î±×¸¦ ³²±â´Â °ÍÀÌ ÁÁ½À´Ï´Ù.
+  // (¿Ã¾Ü °áÁ¦ ¼­¹ö¿Í Åë½Å ÈÄ¿¡ ·Î±×¸¦ ³²±â¸é, Åë½Å¿¡·¯½Ã ºü¸¥ ¿øÀÎÆÄ¾ÇÀÌ °¡´ÉÇÕ´Ï´Ù.)
 
-  // ê²°ì œ ê²°ê³¼ ê°’ í™•ì¸
+  // °áÁ¦ °á°ú °ª È®ÀÎ
   //------------------
-  $REPLYCD   =getValue("reply_cd",$at_txt);        //ê²°ê³¼ì½”ë“œ
-  $REPLYMSG  =getValue("reply_msg",$at_txt);       //ê²°ê³¼ ë©”ì„¸ì§€
+  $REPLYCD   =getValue("reply_cd",$at_txt);        //°á°úÄÚµå
+  $REPLYMSG  =getValue("reply_msg",$at_txt);       //°á°ú ¸Þ¼¼Áö
 
-  // ê²°ê³¼ê°’ ì²˜ë¦¬
+  // °á°ú°ª Ã³¸®
   //--------------------------------------------------------------------------
-  // ê²°ê³¼ ê°’ì´ '0000'ì´ë©´ ì •ìƒìž„. ë‹¨, allat_test_yn=Y ì¼ê²½ìš° '0001'ì´ ì •ìƒìž„.
-  // ì‹¤ì œ ê²°ì œ   : allat_test_yn=N ì¼ ê²½ìš° reply_cd=0000 ì´ë©´ ì •ìƒ
-  // í…ŒìŠ¤íŠ¸ ê²°ì œ : allat_test_yn=Y ì¼ ê²½ìš° reply_cd=0001 ì´ë©´ ì •ìƒ
+  // °á°ú °ªÀÌ '0000'ÀÌ¸é Á¤»óÀÓ. ´Ü, allat_test_yn=Y ÀÏ°æ¿ì '0001'ÀÌ Á¤»óÀÓ.
+  // ½ÇÁ¦ °áÁ¦   : allat_test_yn=N ÀÏ °æ¿ì reply_cd=0000 ÀÌ¸é Á¤»ó
+  // Å×½ºÆ® °áÁ¦ : allat_test_yn=Y ÀÏ °æ¿ì reply_cd=0001 ÀÌ¸é Á¤»ó
   //--------------------------------------------------------------------------
   if( !strcmp($REPLYCD,"0000") ){
-    // reply_cd "0000" ì¼ë•Œë§Œ ì„±ê³µ
+    // reply_cd "0000" ÀÏ¶§¸¸ ¼º°ø
     $ORDER_NO         =getValue("order_no",$at_txt);
     $AMT              =getValue("amt",$at_txt);
     $PAY_TYPE         =getValue("pay_type",$at_txt);
@@ -76,46 +76,46 @@ include_once "_head.php";
     $TICKET_NAME      =getValue("ticket_nm",$at_txt);	
     $PARTCANCEL_YN    =getValue("partcancel_yn",$at_txt);	
 
-    echo "ê²°ê³¼ì½”ë“œ              : ".$REPLYCD."<br>";
-    echo "ê²°ê³¼ë©”ì„¸ì§€            : ".$REPLYMSG."<br>";
-    echo "ì£¼ë¬¸ë²ˆí˜¸              : ".$ORDER_NO."<br>";
-    echo "ìŠ¹ì¸ê¸ˆì•¡              : ".$AMT."<br>";
-    echo "ì§€ë¶ˆìˆ˜ë‹¨              : ".$PAY_TYPE."<br>";
-    echo "ìŠ¹ì¸ì¼ì‹œ              : ".$APPROVAL_YMDHMS."<br>";
-    echo "ê±°ëž˜ì¼ë ¨ë²ˆí˜¸          : ".$SEQ_NO."<br>";
-    echo "ì—ìŠ¤í¬ë¡œ ì ìš© ì—¬ë¶€    : ".$ESCROW_YN."<br>";
-    echo "=============== ì‹ ìš© ì¹´ë“œ ===============================<br>";
-    echo "ìŠ¹ì¸ë²ˆí˜¸              : ".$APPROVAL_NO."<br>";
-    echo "ì¹´ë“œID                : ".$CARD_ID."<br>";
-    echo "ì¹´ë“œëª…                : ".$CARD_NM."<br>";
-    echo "í• ë¶€ê°œì›”              : ".$SELL_MM."<br>";
-    echo "ë¬´ì´ìžì—¬ë¶€            : ".$ZEROFEE_YN."<br>";   //ë¬´ì´ìž(Y),ì¼ì‹œë¶ˆ(N)
-    echo "ì¸ì¦ì—¬ë¶€              : ".$CERT_YN."<br>";      //ì¸ì¦(Y),ë¯¸ì¸ì¦(N)
-    echo "ì§ê°€ë§¹ì—¬ë¶€            : ".$CONTRACT_YN."<br>";  //3ìžê°€ë§¹ì (Y),ëŒ€í‘œê°€ë§¹ì (N)
-    echo "ì„¸ì´ë¸Œ ê²°ì œ ê¸ˆì•¡      : ".$SAVE_AMT."<br>";
-    echo "í¬ì¸íŠ¸í• ì¸ ê²°ì œ ê¸ˆì•¡  : ".$CARD_POINTDC_AMT."<br>";
-    echo "=============== ê³„ì¢Œ ì´ì²´ / ê°€ìƒê³„ì¢Œ ====================<br>";
-    echo "ì€í–‰ID                : ".$BANK_ID."<br>";
-    echo "ì€í–‰ëª…                : ".$BANK_NM."<br>";
-    echo "í˜„ê¸ˆì˜ìˆ˜ì¦ ì¼ë ¨ ë²ˆí˜¸  : ".$CASH_BILL_NO."<br>";
-    echo "=============== ê°€ìƒê³„ì¢Œ ================================<br>";
-    echo "ê³„ì¢Œë²ˆí˜¸              : ".$ACCOUNT_NO."<br>";
-    echo "ìž…ê¸ˆê³„ì¢Œëª…            : ".$INCOME_ACC_NM."<br>";
-    echo "ìž…ê¸ˆìžëª…              : ".$ACCOUNT_NM."<br>";
-    echo "ìž…ê¸ˆê¸°í•œì¼            : ".$INCOME_LIMIT_YMD."<br>";
-    echo "ìž…ê¸ˆì˜ˆì •ì¼            : ".$INCOME_EXPECT_YMD."<br>";
-    echo "í˜„ê¸ˆì˜ìˆ˜ì¦ì‹ ì²­ ì—¬ë¶€   : ".$CASH_YN."<br>";
-    echo "=============== íœ´ëŒ€í° ê²°ì œ =============================<br>";
-    echo "ì´ë™í†µì‹ ì‚¬êµ¬ë¶„        : ".$HP_ID."<br>";
-    echo "=============== ìƒí’ˆê¶Œ ê²°ì œ =============================<br>";
-    echo "ìƒí’ˆê¶Œ ID             : ".$TICKET_ID."<br>";
-    echo "ìƒí’ˆê¶Œ ì´ë¦„           : ".$TICKET_NAME."<br>";
-    echo "ê²°ì œêµ¬ë¶„              : ".$TICKET_PAY_TYPE."<br>";
+    echo "°á°úÄÚµå              : ".$REPLYCD."<br>";
+    echo "°á°ú¸Þ¼¼Áö            : ".$REPLYMSG."<br>";
+    echo "ÁÖ¹®¹øÈ£              : ".$ORDER_NO."<br>";
+    echo "½ÂÀÎ±Ý¾×              : ".$AMT."<br>";
+    echo "ÁöºÒ¼ö´Ü              : ".$PAY_TYPE."<br>";
+    echo "½ÂÀÎÀÏ½Ã              : ".$APPROVAL_YMDHMS."<br>";
+    echo "°Å·¡ÀÏ·Ã¹øÈ£          : ".$SEQ_NO."<br>";
+    echo "¿¡½ºÅ©·Î Àû¿ë ¿©ºÎ    : ".$ESCROW_YN."<br>";
+    echo "=============== ½Å¿ë Ä«µå ===============================<br>";
+    echo "½ÂÀÎ¹øÈ£              : ".$APPROVAL_NO."<br>";
+    echo "Ä«µåID                : ".$CARD_ID."<br>";
+    echo "Ä«µå¸í                : ".$CARD_NM."<br>";
+    echo "ÇÒºÎ°³¿ù              : ".$SELL_MM."<br>";
+    echo "¹«ÀÌÀÚ¿©ºÎ            : ".$ZEROFEE_YN."<br>";   //¹«ÀÌÀÚ(Y),ÀÏ½ÃºÒ(N)
+    echo "ÀÎÁõ¿©ºÎ              : ".$CERT_YN."<br>";      //ÀÎÁõ(Y),¹ÌÀÎÁõ(N)
+    echo "Á÷°¡¸Í¿©ºÎ            : ".$CONTRACT_YN."<br>";  //3ÀÚ°¡¸ÍÁ¡(Y),´ëÇ¥°¡¸ÍÁ¡(N)
+    echo "¼¼ÀÌºê °áÁ¦ ±Ý¾×      : ".$SAVE_AMT."<br>";
+    echo "Æ÷ÀÎÆ®ÇÒÀÎ °áÁ¦ ±Ý¾×  : ".$CARD_POINTDC_AMT."<br>";
+    echo "=============== °èÁÂ ÀÌÃ¼ / °¡»ó°èÁÂ ====================<br>";
+    echo "ÀºÇàID                : ".$BANK_ID."<br>";
+    echo "ÀºÇà¸í                : ".$BANK_NM."<br>";
+    echo "Çö±Ý¿µ¼öÁõ ÀÏ·Ã ¹øÈ£  : ".$CASH_BILL_NO."<br>";
+    echo "=============== °¡»ó°èÁÂ ================================<br>";
+    echo "°èÁÂ¹øÈ£              : ".$ACCOUNT_NO."<br>";
+    echo "ÀÔ±Ý°èÁÂ¸í            : ".$INCOME_ACC_NM."<br>";
+    echo "ÀÔ±ÝÀÚ¸í              : ".$ACCOUNT_NM."<br>";
+    echo "ÀÔ±Ý±âÇÑÀÏ            : ".$INCOME_LIMIT_YMD."<br>";
+    echo "ÀÔ±Ý¿¹Á¤ÀÏ            : ".$INCOME_EXPECT_YMD."<br>";
+    echo "Çö±Ý¿µ¼öÁõ½ÅÃ» ¿©ºÎ   : ".$CASH_YN."<br>";
+    echo "=============== ÈÞ´ëÆù °áÁ¦ =============================<br>";
+    echo "ÀÌµ¿Åë½Å»ç±¸ºÐ        : ".$HP_ID."<br>";
+    echo "=============== »óÇ°±Ç °áÁ¦ =============================<br>";
+    echo "»óÇ°±Ç ID             : ".$TICKET_ID."<br>";
+    echo "»óÇ°±Ç ÀÌ¸§           : ".$TICKET_NAME."<br>";
+    echo "°áÁ¦±¸ºÐ              : ".$TICKET_PAY_TYPE."<br>";
 
-	echo "ë¶€ë¶„ì·¨ì†Œê°€ëŠ¥ì—¬ë¶€ : ".$PARTCANCEL_YN."<br>";
+	echo "ºÎºÐÃë¼Ò°¡´É¿©ºÎ : ".$PARTCANCEL_YN."<br>";
 
   }else{
-    // reply_cd "0000" ì¼ë•Œë§Œ ì„±ê³µ
+    // reply_cd "0000" ÀÏ¶§¸¸ ¼º°ø
     $ORDER_NO         =getValue("order_no",$at_txt);
     $AMT              =getValue("amt",$at_txt);
     $PAY_TYPE         =getValue("pay_type",$at_txt);
@@ -146,71 +146,71 @@ include_once "_head.php";
     $TICKET_NAME      =getValue("ticket_nm",$at_txt);	
     $PARTCANCEL_YN    =getValue("partcancel_yn",$at_txt);	
 
-    echo "ê²°ê³¼ì½”ë“œ              : ".$REPLYCD."<br>";
-    echo "ê²°ê³¼ë©”ì„¸ì§€            : ".$REPLYMSG."<br>";
-    echo "ì£¼ë¬¸ë²ˆí˜¸              : ".$ORDER_NO."<br>";
-    echo "ìŠ¹ì¸ê¸ˆì•¡              : ".$AMT."<br>";
-    echo "ì§€ë¶ˆìˆ˜ë‹¨              : ".$PAY_TYPE."<br>";
-    echo "ìŠ¹ì¸ì¼ì‹œ              : ".$APPROVAL_YMDHMS."<br>";
-    echo "ê±°ëž˜ì¼ë ¨ë²ˆí˜¸          : ".$SEQ_NO."<br>";
-    echo "ì—ìŠ¤í¬ë¡œ ì ìš© ì—¬ë¶€    : ".$ESCROW_YN."<br>";
-    echo "=============== ì‹ ìš© ì¹´ë“œ ===============================<br>";
-    echo "ìŠ¹ì¸ë²ˆí˜¸              : ".$APPROVAL_NO."<br>";
-    echo "ì¹´ë“œID                : ".$CARD_ID."<br>";
-    echo "ì¹´ë“œëª…                : ".$CARD_NM."<br>";
-    echo "í• ë¶€ê°œì›”              : ".$SELL_MM."<br>";
-    echo "ë¬´ì´ìžì—¬ë¶€            : ".$ZEROFEE_YN."<br>";   //ë¬´ì´ìž(Y),ì¼ì‹œë¶ˆ(N)
-    echo "ì¸ì¦ì—¬ë¶€              : ".$CERT_YN."<br>";      //ì¸ì¦(Y),ë¯¸ì¸ì¦(N)
-    echo "ì§ê°€ë§¹ì—¬ë¶€            : ".$CONTRACT_YN."<br>";  //3ìžê°€ë§¹ì (Y),ëŒ€í‘œê°€ë§¹ì (N)
-    echo "ì„¸ì´ë¸Œ ê²°ì œ ê¸ˆì•¡      : ".$SAVE_AMT."<br>";
-    echo "í¬ì¸íŠ¸í• ì¸ ê²°ì œ ê¸ˆì•¡  : ".$CARD_POINTDC_AMT."<br>";
-    echo "=============== ê³„ì¢Œ ì´ì²´ / ê°€ìƒê³„ì¢Œ ====================<br>";
-    echo "ì€í–‰ID                : ".$BANK_ID."<br>";
-    echo "ì€í–‰ëª…                : ".$BANK_NM."<br>";
-    echo "í˜„ê¸ˆì˜ìˆ˜ì¦ ì¼ë ¨ ë²ˆí˜¸  : ".$CASH_BILL_NO."<br>";
-    echo "=============== ê°€ìƒê³„ì¢Œ ================================<br>";
-    echo "ê³„ì¢Œë²ˆí˜¸              : ".$ACCOUNT_NO."<br>";
-    echo "ìž…ê¸ˆê³„ì¢Œëª…            : ".$INCOME_ACC_NM."<br>";
-    echo "ìž…ê¸ˆìžëª…              : ".$ACCOUNT_NM."<br>";
-    echo "ìž…ê¸ˆê¸°í•œì¼            : ".$INCOME_LIMIT_YMD."<br>";
-    echo "ìž…ê¸ˆì˜ˆì •ì¼            : ".$INCOME_EXPECT_YMD."<br>";
-    echo "í˜„ê¸ˆì˜ìˆ˜ì¦ì‹ ì²­ ì—¬ë¶€   : ".$CASH_YN."<br>";
-    echo "=============== íœ´ëŒ€í° ê²°ì œ =============================<br>";
-    echo "ì´ë™í†µì‹ ì‚¬êµ¬ë¶„        : ".$HP_ID."<br>";
-    echo "=============== ìƒí’ˆê¶Œ ê²°ì œ =============================<br>";
-    echo "ìƒí’ˆê¶Œ ID             : ".$TICKET_ID."<br>";
-    echo "ìƒí’ˆê¶Œ ì´ë¦„           : ".$TICKET_NAME."<br>";
-    echo "ê²°ì œêµ¬ë¶„              : ".$TICKET_PAY_TYPE."<br>";
+    echo "°á°úÄÚµå              : ".$REPLYCD."<br>";
+    echo "°á°ú¸Þ¼¼Áö            : ".$REPLYMSG."<br>";
+    echo "ÁÖ¹®¹øÈ£              : ".$ORDER_NO."<br>";
+    echo "½ÂÀÎ±Ý¾×              : ".$AMT."<br>";
+    echo "ÁöºÒ¼ö´Ü              : ".$PAY_TYPE."<br>";
+    echo "½ÂÀÎÀÏ½Ã              : ".$APPROVAL_YMDHMS."<br>";
+    echo "°Å·¡ÀÏ·Ã¹øÈ£          : ".$SEQ_NO."<br>";
+    echo "¿¡½ºÅ©·Î Àû¿ë ¿©ºÎ    : ".$ESCROW_YN."<br>";
+    echo "=============== ½Å¿ë Ä«µå ===============================<br>";
+    echo "½ÂÀÎ¹øÈ£              : ".$APPROVAL_NO."<br>";
+    echo "Ä«µåID                : ".$CARD_ID."<br>";
+    echo "Ä«µå¸í                : ".$CARD_NM."<br>";
+    echo "ÇÒºÎ°³¿ù              : ".$SELL_MM."<br>";
+    echo "¹«ÀÌÀÚ¿©ºÎ            : ".$ZEROFEE_YN."<br>";   //¹«ÀÌÀÚ(Y),ÀÏ½ÃºÒ(N)
+    echo "ÀÎÁõ¿©ºÎ              : ".$CERT_YN."<br>";      //ÀÎÁõ(Y),¹ÌÀÎÁõ(N)
+    echo "Á÷°¡¸Í¿©ºÎ            : ".$CONTRACT_YN."<br>";  //3ÀÚ°¡¸ÍÁ¡(Y),´ëÇ¥°¡¸ÍÁ¡(N)
+    echo "¼¼ÀÌºê °áÁ¦ ±Ý¾×      : ".$SAVE_AMT."<br>";
+    echo "Æ÷ÀÎÆ®ÇÒÀÎ °áÁ¦ ±Ý¾×  : ".$CARD_POINTDC_AMT."<br>";
+    echo "=============== °èÁÂ ÀÌÃ¼ / °¡»ó°èÁÂ ====================<br>";
+    echo "ÀºÇàID                : ".$BANK_ID."<br>";
+    echo "ÀºÇà¸í                : ".$BANK_NM."<br>";
+    echo "Çö±Ý¿µ¼öÁõ ÀÏ·Ã ¹øÈ£  : ".$CASH_BILL_NO."<br>";
+    echo "=============== °¡»ó°èÁÂ ================================<br>";
+    echo "°èÁÂ¹øÈ£              : ".$ACCOUNT_NO."<br>";
+    echo "ÀÔ±Ý°èÁÂ¸í            : ".$INCOME_ACC_NM."<br>";
+    echo "ÀÔ±ÝÀÚ¸í              : ".$ACCOUNT_NM."<br>";
+    echo "ÀÔ±Ý±âÇÑÀÏ            : ".$INCOME_LIMIT_YMD."<br>";
+    echo "ÀÔ±Ý¿¹Á¤ÀÏ            : ".$INCOME_EXPECT_YMD."<br>";
+    echo "Çö±Ý¿µ¼öÁõ½ÅÃ» ¿©ºÎ   : ".$CASH_YN."<br>";
+    echo "=============== ÈÞ´ëÆù °áÁ¦ =============================<br>";
+    echo "ÀÌµ¿Åë½Å»ç±¸ºÐ        : ".$HP_ID."<br>";
+    echo "=============== »óÇ°±Ç °áÁ¦ =============================<br>";
+    echo "»óÇ°±Ç ID             : ".$TICKET_ID."<br>";
+    echo "»óÇ°±Ç ÀÌ¸§           : ".$TICKET_NAME."<br>";
+    echo "°áÁ¦±¸ºÐ              : ".$TICKET_PAY_TYPE."<br>";
 
-	echo "ë¶€ë¶„ì·¨ì†Œê°€ëŠ¥ì—¬ë¶€ : ".$PARTCANCEL_YN."<br>";    
-    // reply_cd ê°€ "0000" ì•„ë‹ë•ŒëŠ” ì—ëŸ¬ (ìžì„¸í•œ ë‚´ìš©ì€ ë§¤ë‰´ì–¼ì°¸ì¡°)
-    // reply_msg ëŠ” ì‹¤íŒ¨ì— ëŒ€í•œ ë©”ì„¸ì§€
-    echo "ê²°ê³¼ì½”ë“œ  : ".$REPLYCD."<br>";
-    echo "ê²°ê³¼ë©”ì„¸ì§€: ".$REPLYMSG."<br>";
+	echo "ºÎºÐÃë¼Ò°¡´É¿©ºÎ : ".$PARTCANCEL_YN."<br>";    
+    // reply_cd °¡ "0000" ¾Æ´Ò¶§´Â ¿¡·¯ (ÀÚ¼¼ÇÑ ³»¿ëÀº ¸Å´º¾óÂüÁ¶)
+    // reply_msg ´Â ½ÇÆÐ¿¡ ´ëÇÑ ¸Þ¼¼Áö
+    echo "°á°úÄÚµå  : ".$REPLYCD."<br>";
+    echo "°á°ú¸Þ¼¼Áö: ".$REPLYMSG."<br>";
   }
 
 /*
-    [ì‹ ìš©ì¹´ë“œ ì „í‘œì¶œë ¥ ì˜ˆì œ]
+    [½Å¿ëÄ«µå ÀüÇ¥Ãâ·Â ¿¹Á¦]
 
-    ê²°ì œê°€ ì •ìƒì ìœ¼ë¡œ ì™„ë£Œë˜ë©´ ì•„ëž˜ì˜ ì†ŒìŠ¤ë¥¼ ì´ìš©í•˜ì—¬, ê³ ê°ì—ê²Œ ì‹ ìš©ì¹´ë“œ ì „í‘œë¥¼ ë³´ì—¬ì¤„ ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
-    ì „í‘œ ì¶œë ¥ì‹œ ìƒì ì•„ì´ë””ì™€ ì£¼ë¬¸ë²ˆí˜¸ë¥¼ ì„¤ì •í•˜ì‹œê¸° ë°”ëžë‹ˆë‹¤.
+    °áÁ¦°¡ Á¤»óÀûÀ¸·Î ¿Ï·áµÇ¸é ¾Æ·¡ÀÇ ¼Ò½º¸¦ ÀÌ¿ëÇÏ¿©, °í°´¿¡°Ô ½Å¿ëÄ«µå ÀüÇ¥¸¦ º¸¿©ÁÙ ¼ö ÀÖ½À´Ï´Ù.
+    ÀüÇ¥ Ãâ·Â½Ã »óÁ¡¾ÆÀÌµð¿Í ÁÖ¹®¹øÈ£¸¦ ¼³Á¤ÇÏ½Ã±â ¹Ù¶ø´Ï´Ù.
 
-    var urls ="http://www.allatpay.com/servlet/AllatBizPop/member/pop_card_receipt.jsp?shop_id=ìƒì ì•„ì´ë””&order_no=ì£¼ë¬¸ë²ˆí˜¸";
+    var urls ="http://www.allatpay.com/servlet/AllatBizPop/member/pop_card_receipt.jsp?shop_id=»óÁ¡¾ÆÀÌµð&order_no=ÁÖ¹®¹øÈ£";
     window.open(urls,"app","width=410,height=650,scrollbars=0");
 
-    í˜„ê¸ˆì˜ìˆ˜ì¦ ì „í‘œ ë˜ëŠ” ê±°ëž˜í™•ì¸ì„œ ì¶œë ¥ì— ëŒ€í•œ ë¬¸ì˜ëŠ” ì˜¬ì•³íŽ˜ì´ ì‚¬ì´íŠ¸ì˜ 1:1ìƒë‹´ì„ ì´ìš©í•˜ì‹œê±°ë‚˜
-    02) 3788-9990 ìœ¼ë¡œ ì „í™” ì£¼ì‹œê¸° ë°”ëžë‹ˆë‹¤.
+    Çö±Ý¿µ¼öÁõ ÀüÇ¥ ¶Ç´Â °Å·¡È®ÀÎ¼­ Ãâ·Â¿¡ ´ëÇÑ ¹®ÀÇ´Â ¿Ã¾ÜÆäÀÌ »çÀÌÆ®ÀÇ 1:1»ó´ãÀ» ÀÌ¿ëÇÏ½Ã°Å³ª
+    02) 3788-9990 À¸·Î ÀüÈ­ ÁÖ½Ã±â ¹Ù¶ø´Ï´Ù.
 
-    ì „í‘œì¶œë ¥ íŽ˜ì´ì§€ëŠ” ì €í¬ ì˜¬ì•³ í™ˆíŽ˜ì´ì§€ì˜ ì¼ë¶€ë¡œì¨, í™ˆíŽ˜ì´ì§€ ê°œíŽ¸ ë“±ì˜ ì´ìœ ë¡œ ì¸í•˜ì—¬ íŽ˜ì´ì§€ ë³€ê²½ ë˜ëŠ” URL ë³€ê²½ì´ ìžˆì„ ìˆ˜
-    ìžˆìŠµë‹ˆë‹¤. í™ˆíŽ˜ì´ì§€ ê°œíŽ¸ì— ê´€í•œ ê³µì§€ê°€ ìžˆì„ ê²½ìš°, ì „í‘œì¶œë ¥ URLì„ í™•ì¸í•˜ì‹œê¸° ë°”ëžë‹ˆë‹¤.
+    ÀüÇ¥Ãâ·Â ÆäÀÌÁö´Â ÀúÈñ ¿Ã¾Ü È¨ÆäÀÌÁöÀÇ ÀÏºÎ·Î½á, È¨ÆäÀÌÁö °³Æí µîÀÇ ÀÌÀ¯·Î ÀÎÇÏ¿© ÆäÀÌÁö º¯°æ ¶Ç´Â URL º¯°æÀÌ ÀÖÀ» ¼ö
+    ÀÖ½À´Ï´Ù. È¨ÆäÀÌÁö °³Æí¿¡ °üÇÑ °øÁö°¡ ÀÖÀ» °æ¿ì, ÀüÇ¥Ãâ·Â URLÀ» È®ÀÎÇÏ½Ã±â ¹Ù¶ø´Ï´Ù.
 */
 ?>
 <div class="big_main">
 	<div class="big_1">
     	<div class="m_div">
         	<div class="left_sub_menu">
-                <a href="./">í™ˆ</a> > 
-                <a href="pay_return.php">ê²°ì œê²°ê³¼</a>
+                <a href="./">È¨</a> > 
+                <a href="pay_return.php">°áÁ¦°á°ú</a>
             </div>
             <div class="right_sub_menu">&nbsp;</div>
             <p style="clear:both;"></p>
@@ -227,77 +227,77 @@ include_once "_head.php";
                     <tr>
                     <td colspan="2" style="text-align:center;">
                     <h3><?
-                    if($row['resultCode']=="0000")
+                    if($row[resultCode]=="0000")
                     {
-                        if($row['payMethod']=="VBank")
-                        echo "ìž…ê¸ˆì˜ˆì •ì‹œê°„ë‚´ë¡œ ì•„ëž˜ ê°€ìƒê³„ì¢Œë¡œ ìž…ê¸ˆí•˜ì‹œë©´ êµ¬ë§¤ê°€ ì™„ë£Œë©ë‹ˆë‹¤.";
+                        if($row[payMethod]=="VBank")
+                        echo "ÀÔ±Ý¿¹Á¤½Ã°£³»·Î ¾Æ·¡ °¡»ó°èÁÂ·Î ÀÔ±ÝÇÏ½Ã¸é ±¸¸Å°¡ ¿Ï·áµË´Ï´Ù.";
                         else
-                        echo "ê²°ì œê°€ ì„±ê³µì ìœ¼ë¡œ ì´ë£¨ì–´ì¡ŒìŠµë‹ˆë‹¤.";
+                        echo "°áÁ¦°¡ ¼º°øÀûÀ¸·Î ÀÌ·ç¾îÁ³½À´Ï´Ù.";
                     }
                     else
-                        echo "ê²°ì œì‹¤íŒ¨í•˜ì˜€ìŠµë‹ˆë‹¤.ë‹¤ì‹œ ì‹œë„í•˜ì‹œê±°ë‚˜ í™ˆíŽ˜ì´ì§€ ê´€ë¦¬ìžì— ë¬¸ì˜í•˜ì„¸ìš”.";
+                        echo "°áÁ¦½ÇÆÐÇÏ¿´½À´Ï´Ù.´Ù½Ã ½ÃµµÇÏ½Ã°Å³ª È¨ÆäÀÌÁö °ü¸®ÀÚ¿¡ ¹®ÀÇÇÏ¼¼¿ä.";
                     ?></h3></td>
                     </tr>
                 <tr>
-                <td>ê²°ê³¼ì½”ë“œ</td>
-                <td><?=$row['resultCode']?></td>
+                <td>°á°úÄÚµå</td>
+                <td><?=$row[resultCode]?></td>
                 </tr>                    
                 <tr>
-                <td>ê²°ê³¼ë©”ì‹œì§€</td>
+                <td>°á°ú¸Þ½ÃÁö</td>
                 <td><?=iconv("euc-kr","utf-8",$inipay->GetResult('ResultMsg'))?></td>
                 </tr>
                 <tr>
                 <td>TID</td>
-                <td><?=$row['tid']?></td>
+                <td><?=$row[tid]?></td>
                 </tr>                                                    
                 <tr>
-                <td>ì§€ë¶ˆìˆ˜ë‹¨</td>
-                <td><?=$row['payMethod']?></td>
+                <td>ÁöºÒ¼ö´Ü</td>
+                <td><?=$row[payMethod]?></td>
                 </tr>
                 <tr>
-                <td>ì£¼ë¬¸ë²ˆí˜¸</td>
-                <td><?=$row['orderNumber']?></td>
+                <td>ÁÖ¹®¹øÈ£</td>
+                <td><?=$row[orderNumber]?></td>
                 </tr>                    
                 <tr>
                 <tr>
-                <td>êµ¬ë§¤ìžëª…</td>
-                <td><?=$row['VACT_InputName']?></td>
+                <td>±¸¸ÅÀÚ¸í</td>
+                <td><?=$row[VACT_InputName]?></td>
                 </tr>                                        
-                <td>ì§€ë¶ˆê¸ˆì•¡</td>
-                <td><?=$row['TotPrice']?></td>
+                <td>ÁöºÒ±Ý¾×</td>
+                <td><?=$row[TotPrice]?></td>
                 </tr>
                 <tr>
-                <td>ì§€ë¶ˆì‹œê°„</td>
-                <td><?=$row['applDate']?><?=$row['applTime']?></td>
+                <td>ÁöºÒ½Ã°£</td>
+                <td><?=$row[applDate]?><?=$row[applTime]?></td>
                 </tr>
                 <?
-                if($row['payMethod']=="VBank")
+                if($row[payMethod]=="VBank")
                 {
                     ?>                       
                     <tr>
-                    <td>ì˜ˆê¸ˆì£¼</td>
-                    <td><?=$row['VACT_Name']?></td>
+                    <td>¿¹±ÝÁÖ</td>
+                    <td><?=$row[VACT_Name]?></td>
                     </tr>
                     <tr>
-                    <td>ì€í–‰ì½”ë“œ</td>
-                    <td><?=$row['VACT_BankCode']?></td>
+                    <td>ÀºÇàÄÚµå</td>
+                    <td><?=$row[VACT_BankCode]?></td>
                     </tr>
                     <tr>
-                    <td>ê°€ìƒê³„ì¢Œë²ˆí˜¸</td>
-                    <td><?=$row['VACT_Num']?></td>
+                    <td>°¡»ó°èÁÂ¹øÈ£</td>
+                    <td><?=$row[VACT_Num]?></td>
                     </tr>
                     <tr>
-                    <td>ìž…ê¸ˆì˜ˆì •ì‹œê°„</td>
-                    <td><?=$row['VACT_Date']?></td>
+                    <td>ÀÔ±Ý¿¹Á¤½Ã°£</td>
+                    <td><?=$row[VACT_Date]?></td>
                     </tr>
                     <?
                 }
                 ?>
                 <tr>
                 	<td colspan="2" style="text-align:center;">
-                    	<input type="button" value="ë©”ì¸ìœ¼ë¡œ" onclick="location.replace('/')"  />
+                    	<input type="button" value="¸ÞÀÎÀ¸·Î" onclick="location.replace('/')"  />
                         &nbsp;&nbsp;&nbsp;
-                    	<input type="button" value="ê²°ì œë‹¤ì‹œí•˜ê¸°" onclick="location.replace('pay.php')"  />                        
+                    	<input type="button" value="°áÁ¦´Ù½ÃÇÏ±â" onclick="location.replace('pay.php')"  />                        
                     </td>
                 </tr>
             </table>

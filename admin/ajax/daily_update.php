@@ -9,7 +9,7 @@ $cur_time = date("Y-m-d H:i:s");
 $cur_time1 = date("YmdHis");
 extract($_POST);
 
-if($mode == "daily_updat")
+if($mode == "daily_update")
 {
     $reg = time();
     $uni_id=$reg.sprintf("%02d",$k);
@@ -25,7 +25,7 @@ if($mode == "daily_updat")
     }
     
     $query = "
-    update Gn_daily set mem_id='{$_SESSION['one_member_id']}', 
+    update Gn_daily set mem_id='$_SESSION[one_member_id]', 
                                 send_num='$send_num',
                                 group_idx='$group_idx',
                                 total_count='$total_count',
@@ -48,23 +48,23 @@ if($mode == "daily_updat")
                         where gd_id='$gd_id'
                                 
     ";
-    mysqli_query($self_con, $query);
+    mysql_query($query);
     
     if($gd_id > 0)  {
         $query = "delete from Gn_daily_date where gd_id='$gd_id';";
-        mysqli_query($self_con, $query);
+        mysql_query($query);
         
         $query = "delete from Gn_MMS where gd_id='$gd_id' ";
-        mysqli_query($self_con, $query);
+        mysql_query($query);
 
         $query = "delete from gn_mail where gd_id='$gd_id' ";
-        mysqli_query($self_con, $query);  
+        mysql_query($query);  
     }
     $k = 0;
     $kk = 0;
     $sql="select * from Gn_MMS_Receive where grp_id = '$group_idx' ";
-    $sresult = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-    while($srow=mysqli_fetch_array($sresult)) {
+    $sresult = mysql_query($sql) or die(mysql_error());
+    while($srow=mysql_fetch_array($sresult)) {
         if($kk == $daily_cnt) { 
             $k++;
             $kk = 0;
@@ -77,12 +77,12 @@ if($mode == "daily_updat")
     }
     for($i=0;$i <count($date);$i++) {
         $reservation = $date[$i]." ".$htime.":".$mtime.":00";
-        sendmms(6, $_SESSION['one_member_id'], $send_num, $recv_num_set[$i], $reservation, $title, $txt, $upimage_str, $upimage_str1, $upimage_str2, 'Y', "", "", "", $gd_id, $deny);
+        sendmms(6, $_SESSION[one_member_id], $send_num, $recv_num_set[$i], $reservation, $title, $txt, $upimage_str, $upimage_str1, $upimage_str2, 'Y', "", "", "", $gd_id, $deny);
     }
                 
     for($i=0;$i <count($date);$i++) {
         $query = "insert into Gn_daily_date set gd_id='$gd_id', send_date='$date[$i]', recv_num='$recv_num_set[$i]'";
-        mysqli_query($self_con, $query);    
+        mysql_query($query);    
     }
     echo "<script>alert('수정되었습니다.');location='daily_msg_list_service.php';</script>";
 }

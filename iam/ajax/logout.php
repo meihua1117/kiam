@@ -1,7 +1,6 @@
 <?
-include_once $_SERVER['DOCUMENT_ROOT'] . "/lib/db_config.php";
-
-if ($_SESSION['iam_member_id']) {
+include_once $_SERVER['DOCUMENT_ROOT']."/lib/db_config.php";
+if($_SESSION['iam_member_id']){
   $_SESSION['one_member_id'] = "";
   $_SESSION['iam_member_id'] = "";
   $_SESSION['one_member_admin_id'] = "";
@@ -12,10 +11,10 @@ if ($_SESSION['iam_member_id']) {
   $_SESSION['one_mem_leb'] = "";
   $_SESSION['iam_member_leb'] = "";
 ?>
-  <script language="javascript">
+<script language="javascript">
 	location.href = ('/');
-  </script>
+</script>
 <?
-  exit;
+	exit;
 }
 ?>

@@ -11,18 +11,18 @@ $result=0;
 
 // 정보 확인
 $sql="select * from Gn_Member where mem_code='$mem_code'";
-$resul=mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-$row=mysqli_fetch_array($resul);    
+$resul=mysql_query($sql) or die(mysql_error());
+$row=mysql_fetch_array($resul);    
 
 if($_POST['mode'] == "") {
     $result = -1;
-    echo json_encode(array("result"=>$result));
+    echo "{\"result\":\"$result\"}";
     exit;
 }
 
 if($_POST['mem_leb'] == "") {
     $result = -1;
-    echo json_encode(array("result"=>$result));
+    echo "{\"result\":\"$result\"}";
     exit;
 }
 
@@ -30,9 +30,9 @@ if($_POST['mem_code']) {
     // 탈퇴
     $sql="update Gn_Member set mem_leb='".$_POST['mem_leb']."' 
                              where mem_code='$mem_code'";
-    mysqli_query($self_con, $sql);	
+    mysql_query($sql);	
     
 }
 
-echo json_encode(array("result"=>$result));
+echo "{\"result\":\"$result\"}";
 ?>

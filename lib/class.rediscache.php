@@ -85,15 +85,15 @@ class RedisCache
 
     protected function get_query_result($query, $is_array) {
         //$this->add_debug_info("[" . __METHOD__ . "()] 쿼리= ".$query);
-        $result = mysqli_query($self_con, $query);
+        $result = mysql_query($query);
         if($is_array){
-            while(($row = mysqli_fetch_array($result)) != null) {
+            while(($row = mysql_fetch_array($result)) != null) {
                 $list[] = $row;
             }
             return $list;           
         }
         else{
-            return mysqli_fetch_array($result);
+            return mysql_fetch_array($result);
         }
     }
 

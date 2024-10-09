@@ -1,14 +1,14 @@
 <?
 include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
-$sql = "select card.*,mem.mem_code from Gn_Iam_Name_Card card inner join Gn_Member mem on mem.mem_id=card.mem_id where card.mem_id= '{$_SESSION['iam_member_id']}' order by card.req_data";
-$res = mysqli_query($self_con, $sql);
-$G_card = mysqli_fetch_array($res);
+$sql = "select card.*,mem.mem_code from Gn_Iam_Name_Card card inner join Gn_Member mem on mem.mem_id=card.mem_id where card.mem_id= '$_SESSION[iam_member_id]' order by card.req_data";
+$res = mysql_query($sql);
+$G_card = mysql_fetch_array($res);
 if ($HTTP_HOST != "kiam.kr") //분양사사이트이면
     $query = "select * from Gn_Iam_Service where sub_domain like 'http://" . $HTTP_HOST . "'";
 else
     $query = "select * from Gn_Iam_Service where sub_domain like 'http://www.kiam.kr'";
-$res = mysqli_query($self_con, $query);
-$domainData = mysqli_fetch_array($res);
+$res = mysql_query($query);
+$domainData = mysql_fetch_array($res);
 ?>
 <html lang="ko">
 <head>
@@ -159,9 +159,9 @@ $domainData = mysqli_fetch_array($res);
                 <div style="padding: 10px 15px;background-color: #ffffff;">
                     <div class="box-body">
                         <?
-                        $mem_sql = "select site_iam from Gn_Member where mem_id='{$_SESSION['iam_member_id']}'";
-                        $mem_res = mysqli_query($self_con, $mem_sql);
-                        $mem_row = mysqli_fetch_array($mem_res);
+                        $mem_sql = "select site_iam from Gn_Member where mem_id='$_SESSION[iam_member_id]'";
+                        $mem_res = mysql_query($mem_sql);
+                        $mem_row = mysql_fetch_array($mem_res);
                         $site_iam = $mem_row[0];
                         $group = $_GET['group'];
                         $search_range2 = $_GET['search_range2'];
@@ -225,11 +225,11 @@ $domainData = mysqli_fetch_array($res);
                                     else
                                         $friends_sql_msg = "";
                                     if((int)$search_type == 1)
-                                        $sql = "select gmem.*,mem.profile,mem.mem_name,zy,mem_phone,mem_code from gn_group_member gmem inner join Gn_Member mem on mem.mem_id = gmem.mem_id where group_id=$group and gmem.mem_id != '{$_SESSION['iam_member_id']}' $friends_sql_msg";
+                                        $sql = "select gmem.*,mem.profile,mem.mem_name,zy,mem_phone,mem_code from gn_group_member gmem inner join Gn_Member mem on mem.mem_id = gmem.mem_id where group_id=$group and gmem.mem_id != '$_SESSION[iam_member_id]' $friends_sql_msg";
                                     else
-                                        $sql = "select gmem.*,mem.profile,mem.mem_name,zy,mem_phone,mem_code from gn_group_member gmem inner join Gn_Member mem on mem.mem_id = gmem.mem_id where group_id=$group and gmem.mem_id != '{$_SESSION['iam_member_id']}' and site_iam='$site_iam' $friends_sql_msg";
-                                    $result = mysqli_query($self_con, $sql);
-                                    $row_num = mysqli_num_rows($result);
+                                        $sql = "select gmem.*,mem.profile,mem.mem_name,zy,mem_phone,mem_code from gn_group_member gmem inner join Gn_Member mem on mem.mem_id = gmem.mem_id where group_id=$group and gmem.mem_id != '$_SESSION[iam_member_id]' and site_iam='$site_iam' $friends_sql_msg";
+                                    $result = mysql_query($sql);
+                                    $row_num = mysql_num_rows($result);
                                     $list2 = 10; //한 페이지에 보여줄 개수
                                     $block_ct2 = 10; //블록당 보여줄 페이지 개수
 
@@ -262,15 +262,15 @@ $domainData = mysqli_fetch_array($res);
                                     $sql .= $friends_sql_msg;
                                     $limit_str = " limit " . $start_num2 . ", " . $list2;
                                     $sql .= $limit_str;
-                                    $result=mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-                                    while($row = mysqli_fetch_array($result)){
-                                        $card_sql="select main_img1 ,card_short_url from Gn_Iam_Name_Card where mem_id = '{$_SESSION['iam_member_id']}' order by req_data";
-                                        $card_result=mysqli_query($self_con, $card_sql) or die(mysqli_error($self_con));
-                                        $card_row=mysqli_fetch_array($card_result);
-                                        $friends_main_img = $row['profile'];
-                                        $row[friends_url] = $card_row['card_short_url'].$row['mem_code'];
+                                    $result=mysql_query($sql) or die(mysql_error());
+                                    while($row = mysql_fetch_array($result)){
+                                        $card_sql="select main_img1 ,card_short_url from Gn_Iam_Name_Card where mem_id = '$_SESSION[iam_member_id]' order by req_data";
+                                        $card_result=mysql_query($card_sql) or die(mysql_error());
+                                        $card_row=mysql_fetch_array($card_result);
+                                        $friends_main_img = $row[profile];
+                                        $row[friends_url] = $card_row[card_short_url].$row[mem_code];
                                         if(!$friends_main_img) {
-                                            $friends_main_img = $card_row['main_img1'];
+                                            $friends_main_img = $card_row[main_img1];
                                             if(!$friends_main_img) {
                                                 $friends_main_img = "img/profile_img.png";
                                             }
@@ -279,7 +279,7 @@ $domainData = mysqli_fetch_array($res);
                                         <li class="list-item">
                                             <div class="item-wrap">
                                                 <!--div class="check" style="padding-left: 0px;padding-right: 10px;">
-                                                    <input type="checkbox"  data-mem_id = '<?=$row['mem_id']?>'>
+                                                    <input type="checkbox" style="" data-mem_id = '<?=$row[mem_id]?>'>
                                                 </div-->
                                                 <div class="thumb">
                                                     <div class="thumb-inner">
@@ -289,21 +289,21 @@ $domainData = mysqli_fetch_array($res);
                                                 </div>
                                                 <div class="info">
                                                     <div class="upper">
-                                                        <span class="name"><?=$row['mem_name']?></span>
-                                                        <span class="company"><?=$row['zy']?></span>
+                                                        <span class="name"><?=$row[mem_name]?></span>
+                                                        <span class="company"><?=$row[zy]?></span>
                                                         <?if($row[req_date] >= $now){?>
                                                             <span class="name" style="margin-left:10px;color:red">(신규)</span>
                                                         <?}?>
                                                     </div>
                                                     <div class="downer">
-                                                        <a href="tel:<?=$row['mem_phone']?>"><?=$row['mem_phone']?></a>
+                                                        <a href="tel:<?=$row[mem_phone]?>"><?=$row[mem_phone]?></a>
                                                     </div>
                                                 </div>
                                                 <div class="check">
                                                     <div style="display: flex;margin-right: 20px;">
-                                                        <input type="checkbox" name="friends_chk" id="inputItem<?=$row['mem_code']?>" class="friends checkboxes input css-checkbox" onclick='friends_chk_count() ' value="<?=$row['mem_code']?>">
-                                                        <label for="inputItem<?=$row['mem_code']?>" class="css-label cb0"></label>
-                                                        <input type="hidden" name="friends_idx<?=$row['mem_code']?>" id="friends_idx<?=$row['mem_code']?>" value="<?=$row['mem_id']?>">
+                                                        <input type="checkbox" name="friends_chk" id="inputItem<?=$row[mem_code]?>" class="friends checkboxes input css-checkbox" onclick='friends_chk_count() ' value="<?=$row[mem_code]?>">
+                                                        <label for="inputItem<?=$row[mem_code]?>" class="css-label cb0"></label>
+                                                        <input type="hidden" name="friends_idx<?=$row[mem_code]?>" id="friends_idx<?=$row[mem_code]?>" value="<?=$row['mem_id']?>">
                                                     </div>
                                                 </div>
                                             </div>
@@ -436,7 +436,7 @@ $domainData = mysqli_fetch_array($res);
         if(navCase.search("android") > -1){
             location.href = "sms:" + sms +
                 "<?echo (preg_match('/iPhone/',$_SERVER['HTTP_USER_AGENT']))?'&':'?';?>body="+
-                "<?=$G_card['card_name']?>님의 명함 <?=$G_card['card_company']?> <?=htmlspecialchars($G_card['card_position'])?> <?=$G_card['card_phone']?> <?php echo $domainData['sub_domain'];?>/?<?=$G_card['card_short_url'].$G_card['mem_code']?>";
+                "<?=$G_card[card_name]?>님의 명함 <?=$G_card[card_company]?> <?=htmlspecialchars($G_card[card_position])?> <?=$G_card[card_phone]?> <?php echo $domainData[sub_domain];?>/?<?=$G_card[card_short_url].$G_card[mem_code]?>";
         }
         else{
             alert("휴대폰에서 이용해주세요.");

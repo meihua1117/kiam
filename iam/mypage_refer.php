@@ -1,13 +1,13 @@
 ﻿<?php 
 include_once "inc/header.inc.php";
-if($_SESSION['iam_member_id'] == "") {
+if($_SESSION[iam_member_id] == "") {
     echo "<script>location='/iam/';</script>";
 }
 include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
-//$sql="select * from Gn_Member  where mem_id='".$_SESSION['iam_member_id']."'";
-//$sresul_num=mysqli_query($self_con, $sql);
-//$data=mysqli_fetch_array($sresul_num);
-//$iam_birth_arr = explode("-",$data['mem_birth']);
+//$sql="select * from Gn_Member  where mem_id='".$_SESSION[iam_member_id]."'";
+//$sresul_num=mysql_query($sql);
+//$data=mysql_fetch_array($sresul_num);
+//$iam_birth_arr = explode("-",$data[mem_birth]);
 
 ?>
 <style>
@@ -77,7 +77,7 @@ td {
 </style>
 <link href='/css/main.css' rel='stylesheet' type='text/css'/>
 <link href='/css/responsive.css' rel='stylesheet' type='text/css'/><!-- 2019.11 반응형 CSS -->
-<main id="register" class="common-wrap" ><!-- 컨텐츠 영역 시작 -->
+<main id="register" class="common-wrap" style=""><!-- 컨텐츠 영역 시작 -->
     <div class="container">
         <div class="inner-wrap">
                     <h2 class="title"></h2>
@@ -105,7 +105,7 @@ td {
                             </a>
                         </div>
                         <div style="display:flex;float: right;">
-                            <?if($_SESSION['iam_member_subadmin_id'] ==$_SESSION['iam_member_id']){?>
+                            <?if($_SESSION[iam_member_subadmin_id] == $_SESSION[iam_member_id]){?>
                             <a class="btn  btn-link" title = "<?='공지알림';?>" href="/?cur_win=unread_notice&box=send&modal=Y" style="display:flex;padding:6px 3px">
                                 <p style="font-size:14px;color:black">공지전송</p>
                                 <label class="label label-sm" id = "notice" style="background: #ff3333;border-radius: 50%;padding: 2px 5px;margin-left: -5px;font-size:10px"></label>
@@ -134,7 +134,7 @@ td {
                                 <label class="label label-sm" id = "sell_service_contents" style="background: #ff3333;border-radius: 50%;padding: 2px 5px;margin-left: -5px;font-size:10px"></label>
                             </a>
                             <?}?>
-                            <?if($member_iam['service_type'] < 2){
+                            <?if($member_iam[service_type] < 2){
                                 $report_link = "/iam/mypage_report_list.php";
                             }else{
                                 $report_link = "/iam/mypage_report.php";
@@ -165,8 +165,8 @@ td {
                                     <option value="22">일반회원</option>
                                     <option value="50">사업자회원</option>
                                 </select>
-                                <input type="date" name="rday1" placeholder="" id="rday1" value="<?=$_REQUEST['rday1']?>"/> ~
-                                <input type="date" name="rday2" placeholder="" id="rday2" value="<?=$_REQUEST['rday2']?>"/>
+                                <input type="date" name="rday1" placeholder="" id="rday1" value="<?=$_REQUEST[rday1]?>"/> ~
+                                <input type="date" name="rday2" placeholder="" id="rday2" value="<?=$_REQUEST[rday2]?>"/>
                             </div>
                             <div style="float:right;">
                                 <img src="/images/sub_button_703.jpg" onclick="pay_form.submit();" style="height: 30px" />
@@ -178,12 +178,12 @@ td {
                                     $select_lms_arr=array("mem_name"=>"회원명","mem_id"=>"아이디");
                                     foreach($select_lms_arr as $key=>$v)
                                     {
-                                        $selected=$_REQUEST['lms_select']==$key?"selected":"";
+                                        $selected=$_REQUEST[lms_select]==$key?"selected":"";
                                         ?>
                                         <option value="<?=$key?>" <?=$selected?>><?=$v?></option>
                                     <?}?>
                                 </select>
-                                <input type="text" name="lms_text" value="<?=$_REQUEST['lms_text']?>" />
+                                <input type="text" name="lms_text" value="<?=$_REQUEST[lms_text]?>" />
                             </div>
                             <p style="clear:both;"></p>
                         </div>
@@ -200,7 +200,7 @@ td {
                             </tr>
                             <?
                             $nowPage= $_REQUEST['page']?$_REQUEST['page']:1;
-                            $startPage = $_REQUEST['page']?$_REQUEST['page']:1;
+                            $startPage = $_REQUEST[page]?$_REQUEST[page]:1;
                             $pageCnt = 20;
                             $search_type =  $_REQUEST['search_type'];
                             $rday1 =  $_REQUEST['rday1'];
@@ -227,16 +227,16 @@ td {
                             }
                             $order = $order?$order:"desc";
                             $query = "select * from Gn_Member gm left join tjd_pay_result p on p.buyer_id = gm.mem_id
-                	                        where recommend_id = '".$_SESSION['iam_member_id']."' $searchStr";
-                            $res	    = mysqli_query($self_con, $query);
-                            $totalCnt	=  mysqli_num_rows($res);
+                	                        where recommend_id = '".$_SESSION[iam_member_id]."' $searchStr";
+                            $res	    = mysql_query($query);
+                            $totalCnt	=  mysql_num_rows($res);
                             $limitStr       = " LIMIT ".(($startPage-1)*$pageCnt).", ".$pageCnt;
                             $number			= $totalCnt - ($nowPage - 1) * $pageCnt;
                             $intRowCount=$totalCnt;
                             $intPageSize =20;
-                            if($_REQUEST['page'])
+                            if($_REQUEST[page])
                             {
-                                $page=(int)$_REQUEST['page'];
+                                $page=(int)$_REQUEST[page];
                                 $sort_no=$intRowCount-($intPageSize*$page-$intPageSize);
                             }
                             else
@@ -244,8 +244,8 @@ td {
                                 $page=1;
                                 $sort_no=$intRowCount;
                             }
-                            if($_REQUEST['page2'])
-                                $page2=(int)$_REQUEST['page2'];
+                            if($_REQUEST[page2])
+                                $page2=(int)$_REQUEST[page2];
                             else
                                 $page2=1;
                             $int=($page-1)*$intPageSize;
@@ -258,8 +258,8 @@ td {
 
                             $i = 1;
                             $query .= "$orderQuery";
-                            $res = mysqli_query($self_con, $query);
-                            while($row = mysqli_fetch_array($res)) {
+                            $res = mysql_query($query);
+                            while($row = mysql_fetch_array($res)) {
                                 if($row['mem_leb'] == "22")
                                     $mem_leb = "일반회원";
                                 else if($row['mem_leb'] == "50")
@@ -291,9 +291,9 @@ td {
                                 <tr>
                                     <td><?=$number--?></td>
                                     <td ><?=$new_val ?></td>
-                                    <td ><?=$row['mem_name']?></td>
-                                    <td ><?=$row['mem_id']?></td>
-                                    <td><?=$row['mem_phone']?></td>
+                                    <td ><?=$row[mem_name]?></td>
+                                    <td ><?=$row[mem_id]?></td>
+                                    <td><?=$row[mem_phone]?></td>
                                     <td><?=$row['first_regist']?></td>
                                     <td><?=$row['date']?></td>
                                     <td><?=$row['cancel_completetime']?></td>

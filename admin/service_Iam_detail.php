@@ -8,16 +8,16 @@ $date_today=date("Y-m-d");
 if($idx) {
     // 가입 회원 상세 정보
     $query = "select * from Gn_Iam_Service where idx='$idx'";
-    $res = mysqli_query($self_con, $query);
-    $data = mysqli_fetch_array($res);
+    $res = mysql_query($query);
+    $data = mysql_fetch_array($res);
 
     $query = "select * from Gn_Iam_Name_Card where idx = $data[profile_idx]";
-    $res = mysqli_query($self_con, $query);
-    $card_data = mysqli_fetch_array($res);
+    $res = mysql_query($query);
+    $card_data = mysql_fetch_array($res);
 }else{
     $query = "select * from Gn_Iam_Service where idx='$idx'";
-    $res = mysqli_query($self_con, $query);
-    $data = mysqli_fetch_array($res);
+    $res = mysql_query($query);
+    $data = mysql_fetch_array($res);
 }
 ?>
 <style>
@@ -174,7 +174,7 @@ if($idx) {
                                         <td >
                                             <div style="display:flex">
                                                 <input type="file" name="head_logo">
-                                                <input type="button" onclick="clear_logo('<?=$data['profile_idx']?>');" value="삭제" >
+                                                <input type="button" onclick="clear_logo('<?=$data[profile_idx]?>');" value="삭제" style="">
                                             </div>
                                             <?php if($card_data['profile_logo'] != "") {?>
                                                 <img src="<?=$card_data['profile_logo']?>" style="width:120px">
@@ -188,7 +188,7 @@ if($idx) {
                                         <td > 
                                             <div style="display:flex">
                                                 <input type="file" name="footer_logo">
-                                                <input type="button" onclick="clear_footer_logo('<?=$idx?>');" value="삭제" >
+                                                <input type="button" onclick="clear_footer_logo('<?=$idx?>');" value="삭제" style="">
                                             </div>
                                             <?php if($data['footer_logo'] != "") {?><img src="<?=$data['footer_logo']?>" style="width:120px"><?php }?> 
                                         </td>

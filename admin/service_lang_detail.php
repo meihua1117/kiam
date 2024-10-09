@@ -8,8 +8,8 @@ $date_today=date("Y-m-d");
 // 가입 회원 상세 정보
 $query = "select *
             from Gn_Iam_lang where no='$no'";
-$res = mysqli_query($self_con, $query);
-$data = mysqli_fetch_array($res);
+$res = mysql_query($query);
+$data = mysql_fetch_array($res);
 
 // 기부회원 상세정보
 

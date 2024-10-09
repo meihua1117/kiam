@@ -237,8 +237,8 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                 	$order = $order?$order:"desc"; 		
                 	
                 	$query = "SELECT count(a.mem_id) FROM Gn_lecture a WHERE 1=1 $searchStr";
-                	$res	    = mysqli_query($self_con, $query);
-                  $totalRow	=  mysqli_fetch_array($res);	                	
+                	$res	    = mysql_query($query);
+                  $totalRow	=  mysql_fetch_array($res);	                	
                 	$totalCnt = $totalRow[0];
                   
                   $query = "SELECT a.* FROM Gn_lecture a WHERE 1=1 $searchStr";
@@ -249,30 +249,30 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                 	$i = 1;
                 	$c=0;
                 	$query .= "$orderQuery";
-                	$res = mysqli_query($self_con, $query);
-                  while($row = mysqli_fetch_array($res)) {                       	
-                    $sql_num="select short_url from Gn_event where m_id='{$row['mem_id']}' and event_idx='{$row['event_idx']}' ";
-                    $resul_num=mysqli_query($self_con, $sql_num);
-                    $crow=mysqli_fetch_array($resul_num); 	 
+                	$res = mysql_query($query);
+                  while($row = mysql_fetch_array($res)) {                       	
+                    $sql_num="select short_url from Gn_event where m_id='$row[mem_id]' and event_idx='$row[event_idx]' ";
+                    $resul_num=mysql_query($sql_num);
+                    $crow=mysql_fetch_array($resul_num); 	 
                     
-                    $sql_num="select mem_name from Gn_Member where mem_id='{$row['mem_id']}' ";
-                    $resul_num=mysqli_query($self_con, $sql_num);
-                    $mrow=mysqli_fetch_array($resul_num); 
+                    $sql_num="select mem_name from Gn_Member where mem_id='$row[mem_id]' ";
+                    $resul_num=mysql_query($sql_num);
+                    $mrow=mysql_fetch_array($resul_num); 
                   ?>
                       <tr>
                         <td><?=$number--?></td>
-                        <td style="font-size:12px;"><?=$row['mem_id']?></td>
-                        <td style="font-size:12px;"><?=$mrow['mem_name']?></td>
-                        <td style="font-size:12px;"><?=$row['category']?></td>
-                        <td style="font-size:12px;"><?=$row['start_date']?>~<?=$row['end_date']?></td>
-                        <td style="font-size:12px;"><?=$row['lecture_day']?></td>
-                        <td style="font-size:12px;"><?=$row['lecture_start_time']?>~<?=$row['lecture_end_time']?></td>
-                        <td style="font-size:12px;"><?=$row['lecture_info']?></td>
-                        <td style="font-size:12px;"><?=$row['instructor']?></td>
-                        <td style="font-size:12px;"><?=$row['area']?></td>
-                        <td style="font-size:12px;"><?=$row['max_num']?>명</td>
-                        <td style="font-size:12px;"><?=$row['fee']==0?"무료":$row['fee']."원"?></td>
-                        <td style="font-size:12px;"><?=$row['target']?></td>
+                        <td style="font-size:12px;"><?=$row[mem_id]?></td>
+                        <td style="font-size:12px;"><?=$mrow[mem_name]?></td>
+                        <td style="font-size:12px;"><?=$row[category]?></td>
+                        <td style="font-size:12px;"><?=$row[start_date]?>~<?=$row[end_date]?></td>
+                        <td style="font-size:12px;"><?=$row[lecture_day]?></td>
+                        <td style="font-size:12px;"><?=$row[lecture_start_time]?>~<?=$row[lecture_end_time]?></td>
+                        <td style="font-size:12px;"><?=$row[lecture_info]?></td>
+                        <td style="font-size:12px;"><?=$row[instructor]?></td>
+                        <td style="font-size:12px;"><?=$row[area]?></td>
+                        <td style="font-size:12px;"><?=$row[max_num]?>명</td>
+                        <td style="font-size:12px;"><?=$row[fee]==0?"무료":$row[fee]."원"?></td>
+                        <td style="font-size:12px;"><?=$row[target]?></td>
                         <td style="font-size:12px;">
                             <input type="button" value="신청하기" class="button" onclick="viewEvent('<?php echo $crow['short_url']?>')">
                         </td>

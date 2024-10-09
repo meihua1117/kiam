@@ -7,8 +7,8 @@ if(isset($_POST['memid'])){
   $echostr = '';
 
   $sql_res_point = "select mem_point from Gn_Member where mem_id='{$mem_id}'";
-  $res_auto_po = mysqli_query($self_con, $sql_res_point);
-  $row_auto_po = mysqli_fetch_array($res_auto_po);
+  $res_auto_po = mysql_query($sql_res_point);
+  $row_auto_po = mysql_fetch_array($res_auto_po);
   $rest_point = $row_auto_po['mem_point'];
   $sql_auto_con = "select * from auto_update_contents where mem_id='{$mem_id}'";
   $orderQuery = " ORDER BY id DESC limit 10 ";
@@ -16,9 +16,9 @@ if(isset($_POST['memid'])){
     $orderQuery = " ORDER BY id DESC limit 20 ";
   }
   $query = $sql_auto_con.$orderQuery;
-  $res_con = mysqli_query($self_con, $query);
+  $res_con = mysql_query($query);
   $i = 0;
-  while($row_con=mysqli_fetch_array($res_con)){
+  while($row_con=mysql_fetch_array($res_con)){
     $i++;
     switch ($row_con['web_type']){
         case 'peopleid':
@@ -64,8 +64,8 @@ if(isset($_POST['memid'])){
         <td class="iam_table">
             <a href="javascript:edit_auto_data('.$row_con['id'].')"><img src="/iam/img/menu/icon_edit.png" width="22"></a>
             <label class="switch">
-            <input type="checkbox" name="status" id="stauts_'.$row_con['id'].'" value="'.$row_con['id'].'" '.$checked.'>
-            <span class="slider round" name="status_round" id="stauts_round_'.$row_con['id'].'"></span>
+            <input type="checkbox" name="status" id="stauts_'.$row_con[id].'" value="'.$row_con[id].'" '.$checked.'>
+            <span class="slider round" name="status_round" id="stauts_round_'.$row_con[id].'"></span>
             </label>
             <a href="javascript:remove_auto_data('.$row_con['id'].')"><img src="/iam/img/menu/icon_card_del.png" width="22"></a>
         </td>

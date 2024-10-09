@@ -3,9 +3,9 @@ include_once "../lib/rlatjd_fun.php";
 echo '<meta name="viewport" content="width=device-width,initial-scale=1">';
 echo '<script type="text/JavaScript" src="/iam/js/jquery-3.1.1.min.js"></script>'.PHP_EOL;
 
-$sql = " select * from Gn_Order_Address where mem_id='{$_SESSION['iam_member_id']}' order by reg_date desc";
-$result = mysqli_query($self_con, $sql);
-$total_count = mysqli_num_rows($res);
+$sql = " select * from Gn_Order_Address where mem_id='{$_SESSION[iam_member_id]}' order by reg_date desc";
+$result = mysql_query($sql);
+$total_count = mysql_num_rows($res);
 ?>
 <link rel="stylesheet" href="/iam/css/style_gwc.css">
 <style>
@@ -96,13 +96,13 @@ $total_count = mysqli_num_rows($res);
 	}
 	.sel_main_address{
 		color: white;
-		background-color: #99cc00;
+		background-color: #82c836;
 		text-decoration: none;
 	}
 	.del_address{
 		text-decoration: none;
 		color: #857d7d;
-		border: 1px	solid #99cc00;
+		border: 1px	solid #82c836;
 	}
 </style>
 <form name="forderaddress" id="forderaddress" method="post" class="new_win">

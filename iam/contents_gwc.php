@@ -2,13 +2,13 @@
 include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
 $contents_idx = $_GET['contents_idx'];
 $recent_post = 0;
-if(isset($_GET['gwc'])){
+if(isset($_GET[gwc])){
 	$gwc = 1;
 }
 else{
 	$gwc = 0;
 }
-if($member_iam['gwc_leb'] >= 1 && $member_iam['gwc_state'] == "1"){
+if($member_iam[gwc_leb] >= 1 && $member_iam[gwc_state] == "1"){
     $gwc_mem = 1;
 }
 else{
@@ -17,45 +17,45 @@ else{
 $HTTP_HOST = str_replace("www.","",$_SERVER['HTTP_HOST']);
 if ($HTTP_HOST != "kiam.kr") {//분양사사이트이면
 	$query = "select * from Gn_Iam_Service where sub_domain like '%http://" . $HTTP_HOST . "'";
-	$res = mysqli_query($self_con, $query);
-	$domainData = mysqli_fetch_array($res);
+	$res = mysql_query($query);
+	$domainData = mysql_fetch_array($res);
 } else {
 	$query = "select * from Gn_Iam_Service where sub_domain like 'http://www.kiam.kr'";
-	$res = mysqli_query($self_con, $query);
-	$domainData = mysqli_fetch_array($res);
-	$domainData['sub_domain'] = "http://kiam.kr/";
+	$res = mysql_query($query);
+	$domainData = mysql_fetch_array($res);
+	$domainData[sub_domain] = "http://kiam.kr/";
 }
-if ($_SESSION['iam_member_id']) {
+if ($_SESSION[iam_member_id]) {
 	$post_time = date("Y-m-d H:i:s", strtotime("-1 week"));
-	$post_sql = "select count(*) from Gn_Member where mem_id = '{$_SESSION['iam_member_id']}' and last_regist > '$post_time'";
-	$post_result = mysqli_query($self_con, $post_sql);
-	$post_row = mysqli_fetch_array($post_result);
+	$post_sql = "select count(*) from Gn_Member where mem_id = '$_SESSION[iam_member_id]' and last_regist > '$post_time'";
+	$post_result = mysql_query($post_sql);
+	$post_row = mysql_fetch_array($post_result);
 	$recent_post = $post_row[0];
 }
-$mem_sql = "select mem_code from Gn_Member where mem_id = '{$domainData['mem_id']}'";
-$mem_result=mysqli_query($self_con, $mem_sql);
-$mem_row=mysqli_fetch_array($mem_result);
+$mem_sql = "select mem_code from Gn_Member where mem_id = '$domainData[mem_id]'";
+$mem_result=mysql_query($mem_sql);
+$mem_row=mysql_fetch_array($mem_result);
 
 $meta_sql="update Gn_Iam_Contents_Gwc set contents_temp=contents_temp+1 where idx = '$contents_idx'";
-mysqli_query($self_con, $meta_sql);
+mysql_query($meta_sql);
 
 $meta_sql="select * from Gn_Iam_Contents_Gwc where idx = '$contents_idx'";
-$meta_result=mysqli_query($self_con, $meta_sql);
-$meta_row=mysqli_fetch_array($meta_result);
+$meta_result=mysql_query($meta_sql);
+$meta_row=mysql_fetch_array($meta_result);
 
 $sql = "select main_img1 from Gn_Iam_Info where mem_id = 'obmms02'";
-$result=mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-$row=mysqli_fetch_array($result);
+$result=mysql_query($sql) or die(mysql_error());
+$row=mysql_fetch_array($result);
 $default_avatar =  $row['main_img1'];
 
 $sql = "select * from Gn_Iam_Name_Card where idx = '$meta_row[card_idx]'";
-$result=mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-$name_card=mysqli_fetch_array($result);
+$result=mysql_query($sql) or die(mysql_error());
+$name_card=mysql_fetch_array($result);
 
-$card_owner = $name_card['mem_id'];
+$card_owner = $name_card[mem_id];
 $_SESSION['recommender_code'] = $card_owner;
 @setcookie("recommender_code", $card_owner, time()+3600);
-$_COOKIE['recommender_code'] = $card_owner;
+$_COOKIE[recommender_code] = $card_owner;
 
 //콘텐츠에 현시할 이름과 아바타
 $contents_user_name = $name_card['card_name'];
@@ -88,9 +88,9 @@ for($i = 0; $i < count($content_images); $i++) {
 		$content_images[$i] = $cdn_ssl . $content_images[$i];
 	}
 }
-$meta_title = $meta_row['contents_title'];
-$cur_card_short_url = $meta_row['westory_card_url'];
-$meta_desc = $meta_row['contents_desc'];
+$meta_title = $meta_row[contents_title];
+$cur_card_short_url = $meta_row[westory_card_url];
+$meta_desc = $meta_row[contents_desc];
 ?>
 <style>
 	.post_content,.post_reply_content{
@@ -121,7 +121,7 @@ $meta_desc = $meta_row['contents_desc'];
 	<meta charset="UTF-8">
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
 	<!--오픈그래프 (웹페이지 미리보기 -페이스북, 카카오톡)-->
 	<meta property="og:title" content="<?=$meta_title?>">  <!--제목-->
 	<meta property="og:description" content="<?=$meta_desc?>">  <!--내용-->
@@ -136,6 +136,8 @@ $meta_desc = $meta_row['contents_desc'];
 	<link rel="stylesheet" href="css/grid.min.css">
 	<link rel="stylesheet" href="css/slick.min.css">
 	<link rel="stylesheet" href="css/style_j.css">
+	<!-- ########## TODO COMMENT FOR TEST  패치할떄 해제해야함 ###########  -->
+	<script src="//developers.kakao.com/sdk/js/kakao.min.js" charset="utf-8"></script>
 	<script src="js/jquery-3.1.1.min.js"></script>
 	<script src="js/slick.min.js"></script>
 	<script src="js/main.js"></script>
@@ -144,7 +146,7 @@ $meta_desc = $meta_row['contents_desc'];
 	<script src='../plugin/toastr/js/toastr.min.js'></script>
 </head>
 <body>
-	<input type = "hidden" id = "mem_id" value="<?=$_SESSION['iam_member_id']?>">
+	<input type = "hidden" id = "mem_id" value="<?=$_SESSION[iam_member_id]?>">
 	<input type = "hidden" id = "recent_post" value="<?=$recent_post?>">
 	<div id="wrap" class="common-wrap">
 		<main id="star" class="common-wrap"><!-- 컨텐츠 영역 시작 -->
@@ -194,30 +196,30 @@ $meta_desc = $meta_row['contents_desc'];
 								$price_show1 = "적립금";
 								$price_show2 = "판매가";
 								$price_style = "";
-								$sql_card = "select sale_cnt, sale_cnt_set, add_reduce_val from Gn_Iam_Name_Card where idx='{$meta_row['card_idx']}'";
-								$res_card = mysqli_query($self_con, $sql_card);
-								$row_card = mysqli_fetch_array($res_card);?>
+								$sql_card = "select sale_cnt, sale_cnt_set, add_reduce_val from Gn_Iam_Name_Card where idx='{$meta_row[card_idx]}'";
+								$res_card = mysql_query($sql_card);
+								$row_card = mysql_fetch_array($res_card);?>
 								<div class="desc is-product">
 									<div class="desc-inner">
-										<div class="outer <?=$row_card['sale_cnt_set']?>" style="text-align:left;">
+										<div class="outer <?=$row_card[sale_cnt_set]?>" style="text-align:left;">
 											<?//if($gwc && !$gwc_mem){
 												//$buy_btn = "display:none;";?>
 											<!-- <span style="font-size: 15px;">공급/소비 회원에게만 보입니다.</span> -->
 											<?//}else{
 												$buy_btn = "";
 												if($meta_row['contents_price'] > 0){
-												if(!$row_card['sale_cnt_set']){
+												if(!$row_card[sale_cnt_set]){
 													$style_decor = "";
 													$state_end = "";
 													$discount = 100 - ($meta_row['contents_sell_price'] / $meta_row['contents_price']) * 100;
 													$add_point = $meta_row['contents_price'] * ((int)$discount / 100);
 												}
 												else{
-													if(!$row_card['sale_cnt']){
+													if(!$row_card[sale_cnt]){
 														$style_decor = "text-decoration: line-through;";
 														$state_end = "마감";
 														$discount = 100 - ($meta_row['contents_sell_price'] / $meta_row['contents_price']) * 100;
-														$add_point = $meta_row['contents_price'] * (((int)$discount - $row_card['add_reduce_val']) / 100);
+														$add_point = $meta_row['contents_price'] * (((int)$discount - $row_card[add_reduce_val]) / 100);
 													}
 													else{
 														$style_decor = "";
@@ -242,7 +244,7 @@ $meta_desc = $meta_row['contents_desc'];
 												// 		$price_show2 = "정상가";
 												// 		$price_style = "text-decoration: line-through;";
 												// 		$add_point = $meta_row['contents_sell_price'];
-												// 		if($_SESSION['iam_member_id'] != 'iamstore'){
+												// 		if($_SESSION[iam_member_id] != 'iamstore'){
 												// 			$buy_btn_con = "visibility: hidden;";
 												// 		}
 												// 		else{
@@ -255,7 +257,7 @@ $meta_desc = $meta_row['contents_desc'];
 													<span style="vertical-align: top;color: red;font-size: 18px;font-weight: bold;margin-right: 3px;"><?=(int)$discount?>% </span>
 													<span class="downer" style="color:black;font-size: 18px;margin-right: 3px;"><?=number_format((int)$add_point)?>원 </span>
 													<span class="downer" style="font-size: 12px;color:darkgrey;"><span style="vertical-align: text-bottom;font-size: 12px;<?=$price_style?>"><?=number_format($meta_row['contents_price'])?></span>원 </span>
-													<?if(($_GET['iamstore'] == "Y") || $_GET['iamstore'] == "C"){?>
+													<?if(($_GET[iamstore] == "Y") || $_GET[iamstore] == "C"){?>
 													<!-- <span class="downer" style="color:blue;"><?=number_format($meta_row['send_provide_price'])?>원</span> -->
 													<?}?>
 												</div>
@@ -271,7 +273,7 @@ $meta_desc = $meta_row['contents_desc'];
 											<?}
 											//}?>
 											<?if(!$gwc){
-												if($cur_win == 'my_info' && $_SESSION['iam_member_id'] == 'iamstore'){
+												if($cur_win == 'my_info' && $_SESSION[iam_member_id] == 'iamstore'){
 													$buy_btn = "display:none;";
 												}?>
 											<!-- <div class="price_help" style="position: absolute;right: 100px;top: 37%;<?=$buy_btn?><?=$buy_btn_con?>">
@@ -279,7 +281,7 @@ $meta_desc = $meta_row['contents_desc'];
 											</div> -->
 											
 											<div class="order" style="<?=$buy_btn?><?=$buy_btn_con?>">
-												<?if($_SESSION['iam_member_id']){
+												<?if($_SESSION[iam_member_id]){
 													$price_service = $meta_row['contents_sell_price'];
 													$meta_row['contents_title'] = str_replace('"', ' ', $meta_row['contents_title']);
 													$meta_row['contents_title'] = str_replace("'", ' ', $meta_row['contents_title']);
@@ -290,18 +292,18 @@ $meta_desc = $meta_row['contents_desc'];
 													$pay_link = "/iam/pay_spgd.php?item_name=". $meta_row['contents_title'].'&item_price='.$card_price.'&manager='.$meta_row['mem_id']."&conidx=".$meta_row['idx']."&sale_cnt=".$row_card['sale_cnt'];
 												?>
 												<div class="dropdown" style="float:right;width: 82px;">
-													<a class = "dropdown-toggle" data-toggle="dropdown" expanded = "false" style="background:#99cc00;border-radius:10px;cursor:pointer;">구매</a>
+													<a class = "dropdown-toggle" data-toggle="dropdown" expanded = "false" style="background:#82c836;border-radius:10px;cursor:pointer;">구매</a>
 													<ul class="dropdown-menu buy_servicecon" style="width: 82px;">
 														<li>
-															<a href="<?=$pay_link?>" target="_blank" style="font-size: 12px;background-color:#99cc00;">카드결제</a>
+															<a href="<?=$pay_link?>" target="_blank" style="font-size: 12px;background-color:#82c836;">카드결제</a>
 														</li>
 														<li>
-															<a onclick="point_settle_modal(<?=$meta_row['contents_sell_price']?>, '<?=$meta_row['contents_title']?>', '<?=$meta_row['idx']?>', '<?=$meta_row['mem_id']?>', '<?=$row_card['sale_cnt']?$row_card['sale_cnt']:'0'?>', '<?=$meta_row['send_salary_price']?$meta_row['send_salary_price']:'0'?>')" style="font-size: 12px;background-color:#99cc00;">포인트결제</a>
+															<a onclick="point_settle_modal(<?=$meta_row['contents_sell_price']?>, '<?=$meta_row['contents_title']?>', '<?=$meta_row['idx']?>', '<?=$meta_row['mem_id']?>', '<?=$row_card['sale_cnt']?$row_card['sale_cnt']:'0'?>', '<?=$meta_row['send_salary_price']?$meta_row['send_salary_price']:'0'?>')" style="font-size: 12px;background-color:#82c836;">포인트결제</a>
 														</li>
 													</ul>
 												</div>
 												<?}else{?>
-													<a href="<?echo '/iam/login.php?contents_idx='. $meta_row['idx']?>" target="_self" style="background:#99cc00;border-radius:10px;">구매</a>
+													<a href="<?echo '/iam/login.php?contents_idx='. $meta_row['idx']?>" target="_self" style="background:#82c836;border-radius:10px;">구매</a>
 												<?}?>
 											</div>
 											<?}?>
@@ -335,9 +337,9 @@ $meta_desc = $meta_row['contents_desc'];
 							if((int)$meta_row['contents_type'] == 1 || (int)$meta_row['contents_type'] == 3 ) {
 								if($meta_row['contents_url']) {?>
 									<?if(count($content_images) > 1){?>
-										<button onclick="show_all_content_images('<?=$meta_row['idx']?>')"  id = "content_all_image<?=$meta_row['idx']?>" <?=$gwc?'hidden':''?>
+										<button onclick="show_all_content_images('<?=$meta_row[idx]?>')"  id = "content_all_image<?=$meta_row[idx]?>" <?=$gwc?'hidden':''?>
 												style="position: absolute;right:0px;bottom:0px;font-size: 14px;opacity: 60%;background: black;color: white;"><?="+".(count($content_images)-1)?></button>
-										<button onclick="hide_all_content_images('<?=$meta_row['idx']?>')"  id = "hide_content_all_image<?=$meta_row['idx']?>"
+										<button onclick="hide_all_content_images('<?=$meta_row[idx]?>')"  id = "hide_content_all_image<?=$meta_row[idx]?>"
 												style="position: absolute;left:0px;top:300px;font-size: 14px;display:none;background: transparent">
 											<img src="img/main/icon-img_fold.png" style="width:30px">
 										</button>
@@ -347,7 +349,7 @@ $meta_desc = $meta_row['contents_desc'];
 											<div onclick="showpage('<?=$cross_page.urlencode($meta_row['contents_url'])?>')" id="pagewrap">
 												<img src="<?=cross_image($content_images[0])?>" class="contents_img">
 												<?for($c = 1;$c < count($content_images);$c ++){?>
-													<img src="<?=cross_image($content_images[$c])?>" class="contents_img hidden_image<?=$meta_row['idx']?>" style="display:none">
+													<img src="<?=cross_image($content_images[$c])?>" class="contents_img hidden_image<?=$meta_row[idx]?>" style="<?=$landing?>">
 												<?}?>
 											</div>
 										<?}else{?>
@@ -361,7 +363,7 @@ $meta_desc = $meta_row['contents_desc'];
 												<a href='<?=$meta_row['contents_url']?>' target="_blank" id="pagewrap">
 													<img src="<?=cross_image($content_images[0])?>" class="contents_img">
 													<?for($c = 1;$c < count($content_images);$c ++){?>
-														<img src="<?=cross_image($content_images[$c])?>" class="contents_img hidden_image<?=$meta_row['idx']?>" style="display:none">
+														<img src="<?=cross_image($content_images[$c])?>" class="contents_img hidden_image<?=$meta_row[idx]?>" style="<?=$landing?>">
 													<?}?>
 												</a>		
 											<?}else{?>
@@ -374,26 +376,26 @@ $meta_desc = $meta_row['contents_desc'];
 										<img src="<?=$content_images[0]?>" class="contents_img">
 										<?if(count($content_images) > 1){?>
 											<?for($c = 1;$c < count($content_images);$c ++){?>
-												<img src="<?=cross_image($content_images[$c])?>" class="contents_img hidden_image<?=$meta_row['idx']?>" style="display:none">
+												<img src="<?=cross_image($content_images[$c])?>" class="contents_img hidden_image<?=$meta_row[idx]?>" style="display:none">
 											<?}?>
 										<?}?>
 									</a-->
 								<?} else {?>
 									<img src="<?=cross_image($content_images[0])?>" class="contents_img">
 									<?if(count($content_images) > 1){?>
-										<button onclick="show_all_content_images('<?=$meta_row['idx']?>')"  id = "content_all_image<?=$meta_row['idx']?>" <?=$gwc?'hidden':''?>
+										<button onclick="show_all_content_images('<?=$meta_row[idx]?>')"  id = "content_all_image<?=$meta_row[idx]?>" <?=$gwc?'hidden':''?>
 												style="position: absolute;right:0px;bottom:0px;font-size: 14px;opacity: 60%;background: black;color: white;"><?="+".(count($content_images)-1)?></button>
-										<button onclick="hide_all_content_images('<?=$meta_row['idx']?>')"  id = "hide_content_all_image<?=$meta_row['idx']?>"
+										<button onclick="hide_all_content_images('<?=$meta_row[idx]?>')"  id = "hide_content_all_image<?=$meta_row[idx]?>"
 												style="position: absolute;left:0px;top:300px;font-size: 14px;display:none;background: transparent">
 											<img src="img/main/icon-img_fold.png" style="width:30px">
 										</button>
 										<?for($c = 1;$c < count($content_images);$c ++){?>
-											<img src="<?=cross_image($content_images[$c])?>" class="contents_img hidden_image<?=$meta_row['idx']?>" >
+											<img src="<?=cross_image($content_images[$c])?>" class="contents_img hidden_image<?=$meta_row[idx]?>" style="">
 										<?}?>
 									<?}?>
 							<?	}
 							} else if((int)$meta_row['contents_type'] == 2) {
-								$vid_array = explode(" ",$meta_row['contents_iframe']);
+								$vid_array = explode(" ",$meta_row[contents_iframe]);
 								$vid_array[2] = "height=100%";
 								$vid_array[1] = "width=100%";
 								$vid_data = implode(" ",$vid_array);
@@ -401,9 +403,9 @@ $meta_desc = $meta_row['contents_desc'];
 									echo $meta_row['contents_iframe'];
 								}else{
 									if(count($content_images) > 1){?>
-										<button onclick="show_all_content_images('<?=$meta_row['idx']?>')"  id = "content_all_image<?=$meta_row['idx']?>" <?=$gwc?'hidden':''?>
+										<button onclick="show_all_content_images('<?=$meta_row[idx]?>')"  id = "content_all_image<?=$meta_row[idx]?>" <?=$gwc?'hidden':''?>
 												style="position: absolute;right:0px;bottom:0px;font-size: 14px;opacity: 60%;background: black;color: white;"><?="+".(count($content_images)-1)?></button>
-										<button onclick="hide_all_content_images('<?=$meta_row['idx']?>')"  id = "hide_content_all_image<?=$meta_row['idx']?>"
+										<button onclick="hide_all_content_images('<?=$meta_row[idx]?>')"  id = "hide_content_all_image<?=$meta_row[idx]?>"
 												style="position: absolute;left:0px;top:300px;font-size: 14px;display:none;background: transparent">
 											<img src="img/main/icon-img_fold.png" style="width:30px">
 										</button>
@@ -413,26 +415,26 @@ $meta_desc = $meta_row['contents_desc'];
 										<img src="/iam/img/movie_play.png" style="position: absolute; z-index: 50; left: 45%; width: 100px; top: 45%;">
 										<?if(count($content_images) > 1){?>
 											<?for($c = 1;$c < count($content_images);$c ++){?>
-												<img src="<?=cross_image($content_images[$c])?>" class="contents_img hidden_image<?=$meta_row['idx']?>" style="display:none">
+												<img src="<?=cross_image($content_images[$c])?>" class="contents_img hidden_image<?=$meta_row[idx]?>" style="display:none">
 											<?}?>
 										<?}?>
 									</div>
 									<script type="text/javascript">
 										function play() {
-											document.getElementById('vidwrap').innerHTML = "<?=$meta_row['contents_iframe']?>";
+											document.getElementById('vidwrap').innerHTML = "<?=$meta_row[contents_iframe]?>";
 										}
 									</script>
 								<?
 								}
 							} else if((int)$meta_row['contents_type'] == 4) {
-								$vid_data = $meta_row['source_iframe'];
+								$vid_data = $meta_row[source_iframe];
 							?>
 								<div>
 									<iframe src="<?=$vid_data?>" style="width:100%;height: 600px"></iframe>
 								</div>
 								<script type="text/javascript">
 									function play() {
-										document.getElementById('vidwrap').innerHTML = '<iframe src="<?=$meta_row['source_iframe']?>" width="100%" height="100%"></iframe>';
+										document.getElementById('vidwrap').innerHTML = '<iframe src="<?=$meta_row[source_iframe]?>" width="100%" height="100%"></iframe>';
 									}
 								</script>
 							<?}?>
@@ -458,8 +460,8 @@ $meta_desc = $meta_row['contents_desc'];
 						
 						<div class="second-box">
 							<div class="in-box">
-								<a href="javascript:contents_like('<?=$meta_row['idx']?>','<?=$_SESSION['iam_member_id']?>');" class="hand">
-									<?if(in_array($_SESSION['iam_member_id'],explode(",",$meta_row['contents_like']))){?>	
+								<a href="javascript:contents_like('<?=$meta_row['idx']?>','<?=$_SESSION[iam_member_id]?>');" class="hand">
+									<?if(in_array($_SESSION[iam_member_id],explode(",",$meta_row['contents_like']))){?>	
 									<img src="img/menu/icon_like_active.png" width="24px" alt="" id="like_img_<?=$meta_row['idx']?>">
 									<?}else{?>
 									<img src="img/menu/icon_like.png" width="24px" alt="" id="like_img_<?=$meta_row['idx']?>">
@@ -475,47 +477,48 @@ $meta_desc = $meta_row['contents_desc'];
 								</a>
 								<?
 									$post_sql = "select SQL_CALC_FOUND_ROWS * from Gn_Iam_Post p inner join Gn_Member m on p.mem_id = m.mem_id where p.content_idx = '$meta_row[idx]' and p.lock_status = 'N' order by p.reg_date";
-									$post_res = mysqli_query($self_con, $post_sql);
-									$post_count	=  mysqli_num_rows($post_res);
+									$post_res = mysql_query($post_sql);
+									$post_count	=  mysql_num_rows($post_res);
 
 									$post_status_sql = "select count(*) from Gn_Iam_Post where content_idx = '$meta_row[idx]' and status = 'N' and lock_status = 'N'";
-									$post_status_res = mysqli_query($self_con, $post_status_sql);
-									$post_status_row =  mysqli_fetch_array($post_status_res);
+									$post_status_res = mysql_query($post_status_sql);
+									$post_status_row =  mysql_fetch_array($post_status_res);
 									$post_status_count = $post_status_row[0];
 									if ($post_status_count  > 0)
-										echo "<script>  $('#post_alarm_".$meta_row['idx']."').html(".$post_status_count."); </script>";
+										echo "<script>  $('#post_alarm_".$meta_row[idx]."').html(".$post_status_count."); </script>";
 									else
-										echo "<script>  $('#post_alarm_".$meta_row['idx']."').hide(); </script>";
+										echo "<script>  $('#post_alarm_".$meta_row[idx]."').hide(); </script>";
 								?>
-								<p onclick = "refresh_post('<?=$meta_row['idx']?>')" style="font-size:13px;margin: 5px;font-weight: 600;" id = "<?='post_count_'.$meta_row['idx']?>"><?=$post_count?>  &#x21BA;</p>
+								<p onclick = "refresh_post('<?=$meta_row[idx]?>')" style="font-size:13px;margin: 5px;font-weight: 600;" id = "<?='post_count_'.$meta_row[idx]?>"><?=$post_count?>  &#x21BA;</p>
 							</div>
 							<?if($gwc){?>
 							<div class="in-box" style="position: absolute;right: 10px;">
-								<a class="gwc_order_btn1" href="javascript:show_order_option('<?=$meta_row['idx']?>', 'cart', '<?=$gwc_mem?>')" style="margin-bottom: 5px;font-size: 18px;border: 1px solid #99cc00;margin-right: 10px;padding: 3px 10px;border-radius: 10px;">장바구니</a>
-								<a class="gwc_order_btn2" href="javascript:show_order_option('<?=$meta_row['idx']?>', 'pay', '<?=$gwc_mem?>')" style="margin-bottom: 5px;font-size: 18px;padding: 3px 10px;border-radius: 10px;border: 1px solid;color: white;background-color: #99cc00;">바로구매</a>
+								<!-- <a href="javascript:show_order_option('<?=$meta_row[idx]?>')" style="margin-top: 5px;font-weight:bold;font-size:15px;">주문옵션</a> -->
+								<a class="gwc_order_btn1" href="javascript:show_order_option('<?=$meta_row[idx]?>', 'cart', '<?=$gwc_mem?>')" style="margin-bottom: 5px;font-size: 18px;border: 1px solid #82c836;margin-right: 10px;padding: 3px 10px;border-radius: 10px;">장바구니</a>
+								<a class="gwc_order_btn2" href="javascript:show_order_option('<?=$meta_row[idx]?>', 'pay', '<?=$gwc_mem?>')" style="margin-bottom: 5px;font-size: 18px;padding: 3px 10px;border-radius: 10px;border: 1px solid;color: white;background-color: #82c836;">바로구매</a>
 							</div>
 							<?}?>
 						</div>
 					</div>
-					<div class="post-wrap <?='post_wrap'.$meta_row['idx']?>" style="display:none;position: fixed;max-width: 700px;width: 100%;bottom: 80px;" id = "<?='post_wrap'.$meta_row['idx']?>">
+					<div class="post-wrap <?='post_wrap'.$meta_row[idx]?>" style="display:none;position: fixed;max-width: 700px;width: 100%;bottom: 80px;" id = "<?='post_wrap'.$meta_row[idx]?>">
 						<div style="display: flex;justify-content: flex-end;">
 							<div style="margin-left:30px;margin-right:35px;width:100%">
-								<textarea id = "post_content<?=$meta_row['idx']?>" name = "post_content<?=$meta_row['idx']?>" class="post_content" maxlength="300" style="font-size:14px;height:35px;width:100%;border: 1px" placeholder="댓글은 300자 이내로 작성해주세요" ></textarea>
+								<textarea id = "post_content<?=$meta_row[idx]?>" name = "post_content<?=$meta_row[idx]?>" class="post_content" maxlength="300" style="font-size:14px;height:35px;width:100%;border: 1px" placeholder="댓글은 300자 이내로 작성해주세요" ></textarea>
 							</div>
 							<div style="width:35px">
-								<button type="button" class="btn btn-link" style="position: absolute; right: 1px; padding: 9px 12px;color:#99cc00" id="send_post" onclick="add_post('<?=$meta_row['idx']?>')">작성</button>
+								<button type="button" class="btn btn-link" style="position: absolute; right: 1px; padding: 9px 12px;color:#82c836" id="send_post" onclick="add_post('<?=$meta_row[idx]?>')">작성</button>
 							</div>
 						</div>
 						<div style="margin-left:30px;">
 							<span id = "post_status" name = "post_status" style="padding: 10px;font-size:10px">0/300</span>
 						</div>
-						<div style="border: 0px solid #dddddd;margin-left:30px;" id = "<?='post_list_'.$meta_row['idx']?>" name = "<?='post_list_'.$meta_row['idx']?>">
-							<?while($post_row = mysqli_fetch_array($post_res)){?>
+						<div style="border: 0px solid #dddddd;margin-left:30px;" id = "<?='post_list_'.$meta_row[idx]?>" name = "<?='post_list_'.$meta_row[idx]?>">
+							<?while($post_row = mysql_fetch_array($post_res)){?>
 								<div class="user-item" id="<?='post_reply'.$post_row['id']?>">
 									<a href="/?<?=strip_tags($meta_row['westory_card_url'])?>" class="img-box">
 										<div class="user-img" style="margin: 5px;width:32px;height:32px;">
-											<?if($post_row['profile']){?>
-												<img src="<?=$post_row['profile'] ?>" alt="">
+											<?if($post_row[profile]){?>
+												<img src="<?=$post_row[profile] ?>" alt="">
 											<?}else{?>
 												<img src="<?=$contents_avatar?>" alt="">
 											<?}?>
@@ -523,39 +526,39 @@ $meta_desc = $meta_row['contents_desc'];
 									</a>
 									<div class="wrap" style="margin:10px 0px;">
 										<span class="date">
-											<?=$post_row['mem_name']." ". $post_row['reg_date']?>
+											<?=$post_row[mem_name]." ". $post_row[reg_date]?>
 										</span>
 										<span class="user-name">
 											<?=$post_row['content']?>
 										</span>
 									</div>
-									<?if($_SESSION['iam_member_id'] && $_SESSION['iam_member_id'] == $post_row['mem_id']){?>
+									<?if($_SESSION[iam_member_id] && $_SESSION[iam_member_id] == $post_row[mem_id]){?>
 										<div class="dropdown" style="top : 10px;position : absolute;right:30px;height:24px">
 											<img class="dropdown-toggle" data-toggle="dropdown" src="/iam/img/menu/icon_dot.png" style="height: 24px;">
 											<ul class="dropdown-menu namecard-dropdown " style="background: white; color : black;top:10px;">
 												<li>
-													<a href="javascript:void(0)" onclick="edit_post('<?=$meta_row['idx']?>','<?=$post_row['id']?>','<?=$post_row['content']?>')" title="댓글 수정">
+													<a href="javascript:void(0)" onclick="edit_post('<?=$meta_row[idx]?>','<?=$post_row[id]?>','<?=$post_row['content']?>')" title="댓글 수정">
 														<p>수정</p>
 													</a>
 												</li>
 												<li>
-													<a href="javascript:void(0)" onclick="delete_post('<?=$meta_row['idx']?>','<?=$post_row['id']?>')" title="댓글 삭제">
+													<a href="javascript:void(0)" onclick="delete_post('<?=$meta_row[idx]?>','<?=$post_row[id]?>')" title="댓글 삭제">
 														<p>삭제</p>
 													</a>
 												</li>
 											</ul>
 										</div>
-									<?}else if($_SESSION['iam_member_id'] && $_SESSION['iam_member_id'] == $meta_row['mem_id']){?>
+									<?}else if($_SESSION[iam_member_id] && $_SESSION[iam_member_id] == $meta_row[mem_id]){?>
 										<div class="dropdown" style="top : 10px;position : absolute;right:30px;height:24px">
 											<img class="dropdown-toggle" data-toggle="dropdown" src="/iam/img/menu/icon_dot.png" style="height: 24px;">
 											<ul class="dropdown-menu namecard-dropdown " style="background: white; color : black;top:10px;">
 												<li>
-													<a href="javascript:void(0)" onclick="delete_post('<?=$meta_row['idx']?>','<?=$post_row['id']?>')" title="댓글 삭제">
+													<a href="javascript:void(0)" onclick="delete_post('<?=$meta_row[idx]?>','<?=$post_row[id]?>')" title="댓글 삭제">
 														<p>삭제</p>
 													</a>
 												</li>
 												<li>
-													<a href="javascript:void(0)" onclick="lock_post('<?=$meta_row['idx']?>','<?=$post_row['id']?>')" title="댓글 차단">
+													<a href="javascript:void(0)" onclick="lock_post('<?=$meta_row[idx]?>','<?=$post_row[id]?>')" title="댓글 차단">
 														<p>차단</p>
 													</a>
 												</li>
@@ -574,7 +577,7 @@ $meta_desc = $meta_row['contents_desc'];
 											<textarea id = "<?='post_reply_'.$post_row['id'].'_content'?>" name = "<?='post_reply_'.$post_row['id'].'_content'?>" class  = "post_reply_content" maxlength="300" placeholder="답글은 300자 이내로 작성해주세요" style="font-size:14px;height:35px;width: 100%;border: 1px;"></textarea>
 										</div>
 										<div style="width:35px">
-											<button type="button" class="btn btn-link" style="font-size:14px;position: absolute; right: 1px; padding: 5px 12px;color:#99cc00" onclick="add_post_reply('<?=$meta_row['idx']?>','<?=$post_row['id']?>')">작성</button>
+											<button type="button" class="btn btn-link" style="font-size:14px;position: absolute; right: 1px; padding: 5px 12px;color:#82c836" onclick="add_post_reply('<?=$meta_row[idx]?>','<?=$post_row[id]?>')">작성</button>
 										</div>
 									</div>
 									<div style="border-bottom: 0px solid #dddddd;margin-left:60px">
@@ -582,14 +585,14 @@ $meta_desc = $meta_row['contents_desc'];
 									</div>
 								</div>
 								<?
-								$reply_sql = "select * from Gn_Iam_Post_Response r inner join Gn_Member m on r.mem_id = m.mem_id where r.post_idx = {$post_row['id']} order by r.reg_date";
-								$reply_res = mysqli_query($self_con, $reply_sql);
-								while($reply_row = mysqli_fetch_array($reply_res)){?>
+								$reply_sql = "select * from Gn_Iam_Post_Response r inner join Gn_Member m on r.mem_id = m.mem_id where r.post_idx = '$post_row[id]' order by r.reg_date";
+								$reply_res = mysql_query($reply_sql);
+								while($reply_row = mysql_fetch_array($reply_res)){?>
 									<div class="user-item" style="padding-left: 50px">
 										<a href="/?<?=strip_tags($meta_row['westory_card_url'])?>" class="img-box">
 											<div class="user-img" style="margin: 5px;width:32px;height:32px;">
-												<?if($reply_row['profile']){?>
-													<img src="<?=$reply_row['profile'] ?>" alt="">
+												<?if($reply_row[profile]){?>
+													<img src="<?=$reply_row[profile] ?>" alt="">
 												<?}else{?>
 													<img src="<?=$contents_avatar?>" alt="">
 												<?}?>
@@ -597,7 +600,7 @@ $meta_desc = $meta_row['contents_desc'];
 										</a>
 										<div class="wrap">
                                             <span class="user-name">
-												<?=$reply_row['mem_name'] ?>
+												<?=$reply_row[mem_name] ?>
                                             </span>
 											<span class="user-name">
                                                 <?=$reply_row['contents']?>
@@ -619,7 +622,7 @@ $meta_desc = $meta_row['contents_desc'];
 			<?php
 			if($HTTP_HOST != "kiam.kr") {
 				?>
-				<a href="<?php echo $domainData['footer_link'];?>"><img src="<?=$domainData['footer_logo']==""?"img/common/logo.png":cross_image($domainData['footer_logo']);?>" alt="아이엠 푸터로고" width="100"></a>
+				<a href="<?php echo $domainData[footer_link];?>"><img src="<?=$domainData[footer_logo]==""?"img/common/logo.png":cross_image($domainData[footer_logo]);?>" alt="아이엠 푸터로고" width="100"></a>
 			<?php } else {?>
 				<a href="/m/"><img src="img/common/logo.png" alt="아이엠 푸터로고" width="100"></a>
 			<?php }?>
@@ -673,8 +676,8 @@ $meta_desc = $meta_row['contents_desc'];
 				※ 아이엠을 보내는 기능은 무료이지만 일반 메시지를 보내는 것은 유료입니다.</h3>
 			</div>
 			<div class="button-wrap">
-				<?if($_SESSION['iam_member_id']) {
-						$iam_link = $domainData['sub_domain']."/?".$cur_card_short_url;
+				<?if($_SESSION[iam_member_id]) {
+						$iam_link = $domainData[sub_domain]."/?".$cur_card_short_url;
 					?>
 					<a href="#" id="closePopup" class="buttons is-cancel">다음에보내기</a>
 					<a  id="daily_popup_content" href="#" target="_blank" class="buttons is-save">시작하기</a>
@@ -731,8 +734,7 @@ $meta_desc = $meta_row['contents_desc'];
 <script>
 	var ft_ht = $(".info-wrap").height();
 	var win_ht = $(window).height();
-	var mobile = '<?=$_GET['mobile']?>';
-	var order = '<?=$_GET['order']?>';
+	var mobile = '<?=$_GET[mobile]?>';
 	$(document).ready(function(){
 		var media_ht = win_ht * 1 - ft_ht * 1 - 10;
 		$('.media-inner').attr('style', 'max-height:'+media_ht+'px');
@@ -741,12 +743,7 @@ $meta_desc = $meta_row['contents_desc'];
 	function close_win(){
 		if(mobile == "Y"){
 			window.parent.document.getElementById('contents_page').style.display = "none";
-			if(order == "Y"){
-				window.parent.document.getElementById("container").style.display = "flow-root";
-			}
-			else{
-				window.parent.document.getElementById("wrap").style.display = "flow-root";
-			}
+			window.parent.document.getElementById("wrap").style.display = "flow-root";
 		}
 		else{
 			window.close();
@@ -791,7 +788,7 @@ $meta_desc = $meta_row['contents_desc'];
 		$(".daily_popup").center();
 		$('.daily_popup').css('display', 'block');
 		var iam_link = "daily_write_iam.php?msg_title=콘텐츠 제목을 가져와서 디폴트로 입력해주세요."+"&msg=아래 내용을 디폴트로 넣어주세요.멋진 콘텐츠를 소개합니다.  "+
-					"<?=$domainData['sub_domain']."/iam/contents_gwc.php?gwc=Y&contents_idx =".$contents_idx?>";
+					"<?=$domainData[sub_domain]."/iam/contents_gwc.php?gwc=Y&contents_idx =".$contents_idx?>";
 		$("#daily_popup_content").attr("href",iam_link);
 	}
 	function daily_send_pop_close() {
@@ -817,8 +814,8 @@ $meta_desc = $meta_row['contents_desc'];
 		location.href = "/?" + url;
 	}
 		function iam_count(str) {
-			var member_id = '<?=$name_card['mem_id']?>';
-			var card_idx = '<?=$name_card['idx']?>';
+			var member_id = '<?=$name_card[mem_id]?>';
+			var card_idx = '<?=$name_card[idx]?>';
 			var formData = new FormData();
 			formData.append('str', str);
 			formData.append('mem_id', member_id);
@@ -838,7 +835,7 @@ $meta_desc = $meta_row['contents_desc'];
 		$("#sns-modalwindow").modal("hide");
 		var navCase = navigator.userAgent.toLocaleLowerCase();
 		if(navCase.search("android") > -1){
-			location.href="sms:?body=<?php echo $domainData['sub_domain'];?>/iam/contents_gwc.php?gwc=Y&contents_idx=" + j_idx;
+			location.href="sms:?body=<?php echo $domainData[sub_domain];?>/iam/contents_gwc.php?gwc=Y&contents_idx=" + j_idx;
 		}
 		else{
 			alert("휴대폰에서 이용해주세요.");
@@ -876,15 +873,15 @@ $meta_desc = $meta_row['contents_desc'];
 					description: desc, // 콘텐츠 상세설명
 					imageUrl: img, // 썸네일 이미지
 					link: {
-						mobileWebUrl: '<?=$domainData['sub_domain'];?>/iam/contents_gwc.php?gwc=Y&contents_idx=' + idx, // 모바일 카카오톡에서 사용하는 웹 링크 URL
-						webUrl: '<?=$domainData['sub_domain'];?>/iam/contents_gwc.php?gwc=Y&contents_idx=' + idx // PC버전 카카오톡에서 사용하는 웹 링크 URL
+						mobileWebUrl: '<?php echo $domainData[sub_domain];?>/iam/contents_gwc.php?gwc=Y&contents_idx=' + idx, // 모바일 카카오톡에서 사용하는 웹 링크 URL
+						webUrl: '<?php echo $domainData[sub_domain];?>/iam/contents_gwc.php?gwc=Y&contents_idx=' + idx // PC버전 카카오톡에서 사용하는 웹 링크 URL
 					}
 				},
 				buttons: [{
 					title: "우리 프렌즈해요!", // 버튼 제목
 					link: {
-						mobileWebUrl: '<?=$domainData['sub_domain'];?>/iam/contents_gwc.php?gwc=Y&contents_idx=' +idx, // 모바일 카카오톡에서 사용하는 웹 링크 URL
-						webUrl: '<?=$domainData['sub_domain'];?>/iam/contents_gwc.php?gwc=Y&contents_idx=' +idx // PC버전 카카오톡에서 사용하는 웹 링크 URL
+						mobileWebUrl: '<?php echo $domainData[sub_domain];?>/iam/contents_gwc.php?gwc=Y&contents_idx=' +idx, // 모바일 카카오톡에서 사용하는 웹 링크 URL
+						webUrl: '<?php echo $domainData[sub_domain];?>/iam/contents_gwc.php?gwc=Y&contents_idx=' +idx // PC버전 카카오톡에서 사용하는 웹 링크 URL
 					}
 				}]
 			});
@@ -896,14 +893,14 @@ $meta_desc = $meta_row['contents_desc'];
 		// alert(idx + " " + name);
 		// return;
 		var text = encodeURIComponent('아이엠의' + name + '님');
-		var linkUrl = encodeURIComponent('<?=$domainData['sub_domain'];?>/iam/contents_gwc.php?gwc=Y&contents_idx=' + idx);
+		var linkUrl = encodeURIComponent('<?php echo $domainData[sub_domain];?>/iam/contents_gwc.php?gwc=Y&contents_idx=' + idx);
 		window.open('http://www.facebook.com/sharer.php?u=' + linkUrl + '&t=' + text);
 	}
 	//콘텐츠 복사
 	function contents_copy(idx) {
 		var aux = document.createElement("input");
 		// 지정된 요소의 값을 할당 한다.
-		aux.setAttribute("value", "<?=$domainData['sub_domain'];?>/iam/contents_gwc.php?gwc=Y&contents_idx=" + idx);
+		aux.setAttribute("value", "<?php echo $domainData[sub_domain];?>/iam/contents_gwc.php?gwc=Y&contents_idx=" + idx);
 		// bdy에 추가한다.
 		document.body.appendChild(aux);
 		$("#sns-modalwindow").modal("hide");
@@ -983,7 +980,7 @@ $meta_desc = $meta_row['contents_desc'];
 					data: {
 						content_idx: content_idx,
 						mode: 'read',
-						mem_id: '<?=$_SESSION['iam_member_id']?>'
+						mem_id: '<?=$_SESSION[iam_member_id]?>'
 					},
 					success: function (data) {
 						if (data.result == 'Y') {
@@ -1010,7 +1007,7 @@ $meta_desc = $meta_row['contents_desc'];
 			data:{
 				content_idx : content_idx,
 				mode : 'add',
-				mem_id : '<?=$_SESSION['iam_member_id']?>',
+				mem_id : '<?=$_SESSION[iam_member_id]?>',
 				post_content:post_content.val()
 			},
 			success:function(data){
@@ -1058,7 +1055,7 @@ $meta_desc = $meta_row['contents_desc'];
 				content_idx : content_idx,
 				post_idx : post_idx,
 				mode : 'del',
-				mem_id : '<?=$_SESSION['iam_member_id']?>'
+				mem_id : '<?=$_SESSION[iam_member_id]?>'
 			},
 			success:function(data){
 				$("#post_count_" + content_idx).html(data.post_count + "개의 댓글  &#x21BA;");
@@ -1103,7 +1100,7 @@ $meta_desc = $meta_row['contents_desc'];
 				content_idx : content_idx,
 				post_idx : post_idx,
 				mode : 'edit',
-				mem_id : '<?=$_SESSION['iam_member_id']?>',
+				mem_id : '<?=$_SESSION[iam_member_id]?>',
 				post_content:post_content.val()
 			},
 			success:function(data){
@@ -1143,7 +1140,7 @@ $meta_desc = $meta_row['contents_desc'];
 				content_idx : content_idx,
 				post_idx : post_idx,
 				mode : 'add_reply',
-				mem_id : '<?=$_SESSION['iam_member_id']?>',
+				mem_id : '<?=$_SESSION[iam_member_id]?>',
 				post_content:post_content.val()
 			},
 			success:function(data){
@@ -1252,7 +1249,7 @@ $meta_desc = $meta_row['contents_desc'];
                     "<textarea id = \"post_reply_" + post_idx +"_content\" name = \"post_reply_"+post_idx+"_content\" class=\"post_reply_content\" maxlength=\"300\" placeholder=\"답글은 300자 이내로 작성해주세요\" style=\"font-size:14px;height:35px;width: 100%;border: 1px;\"></textarea>"+
                 "</div>"+
                 "<div style=\"width:35px\">"+
-                    "<button type=\"button\" class=\"btn btn-link\" style=\"font-size:14px;position: absolute; right: 1px; padding: 5px 12px;color:#99cc00\" onclick=\"add_post_reply('"+content_idx+"','"+post_idx+"')\">작성</button>"+
+                    "<button type=\"button\" class=\"btn btn-link\" style=\"font-size:14px;position: absolute; right: 1px; padding: 5px 12px;color:#82c836\" onclick=\"add_post_reply('"+content_idx+"','"+post_idx+"')\">작성</button>"+
                 "</div>"+
             "</div>"+
             "<div style=\"border-bottom: 0px solid #dddddd;margin-left:60px\">"+
@@ -1323,7 +1320,7 @@ $meta_desc = $meta_row['contents_desc'];
 			data:{
 				content_idx : content_idx,
 				mode : 'refresh',
-				mem_id : '<?=$_SESSION['iam_member_id']?>'
+				mem_id : '<?=$_SESSION[iam_member_id]?>'
 			},
 			success:function(data){
 				$("#post_count_" + content_idx).html(data.post_count + "개의 댓글  &#x21BA;");
@@ -1360,7 +1357,7 @@ $meta_desc = $meta_row['contents_desc'];
 				content_idx : content_idx,
 				post_idx : post_idx,
 				mode : 'lock',
-				mem_id : '<?=$_SESSION['iam_member_id']?>'
+				mem_id : '<?=$_SESSION[iam_member_id]?>'
 			},
 			success:function(data){
 				$("#post_count_" + content_idx).html(data.post_count + "개의 댓글  &#x21BA;");
@@ -1396,7 +1393,7 @@ $meta_desc = $meta_row['contents_desc'];
 				data:{
 					content_idx : content_idx,
 					mode : 'read',
-					mem_id : '<?=$_SESSION['iam_member_id']?>'
+					mem_id : '<?=$_SESSION[iam_member_id]?>'
 				},
 				success:function(data){
 					if(data.result == 'Y'){

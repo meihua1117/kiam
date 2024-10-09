@@ -4,10 +4,11 @@ include_once $_SERVER['DOCUMENT_ROOT']."/admin/include/admin_header.inc.php";
 extract($_GET);
 // 오늘날짜
 $date_today=date("Y-m-d");
+$date_month=date("Y-m");
 // 가입 회원 상세 정보
 $query = "select * from crawler_member_real where cmid='$cmid'";
-$res = mysqli_query($self_con, $query);
-$data = mysqli_fetch_array($res);
+$res = mysql_query($query);
+$data = mysql_fetch_array($res);
 ?>
 <style>
     .box-body th {background:#ddd;}
@@ -180,7 +181,7 @@ function form_save(){
           </div><!-- /.row -->          
         </section><!-- /.content -->
         </form>
-      </div><!-- /content-wrapper -->
+      </div><!-- /.content-wrapper -->
       <!-- Footer -->
 <link type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.4/themes/base/jquery-ui.css" rel="stylesheet" />
 <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.10.0/jquery-ui.min.js"></script>                

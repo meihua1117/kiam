@@ -132,8 +132,8 @@ $(function() {
                                         </select>
                                     </div>
                                     <div class="form-group">
-                                        <input type="date" name="search_start_date" placeholder="" id="search_start_date" value="<?=$_REQUEST['search_start_date']?>"/> ~
-                                        <input type="date"  name="search_end_date" placeholder="" id="search_end_date" value="<?=$_REQUEST['search_end_date']?>"/>
+                                        <input type="date" name="search_start_date" placeholder="" id="search_start_date" value="<?=$_REQUEST[search_start_date]?>"/> ~
+                                        <input type="date"  name="search_end_date" placeholder="" id="search_end_date" value="<?=$_REQUEST[search_end_date]?>"/>
                                     </div>
                                     <div class="form-group">
                                         <input type="text" name="search_key" id="search_key" class="form-control input-sm pull-right" placeholder="이름/아이디/금액">
@@ -227,8 +227,8 @@ $(function() {
                                             WHERE 1=1
                                                   $searchStr";
 
-                                    $res	    = mysqli_query($self_con, $query);
-                                    $totalRow	=  mysqli_fetch_array($res);
+                                    $res	    = mysql_query($query);
+                                    $totalRow	=  mysql_fetch_array($res);
                                     $totalCnt = $totalRow[0];
                                     $query = "SELECT a.buyertel, a.member_type, a.TotPrice, a.buyer_id, a.VACT_InputName,
                                         a.date, a.end_date, a.cancel_Requesttime, a.no,a.payMethod, a.payment_day, a.monthly_status, a.cancel_completetime,a.print_msg
@@ -240,11 +240,11 @@ $(function() {
                                     $orderQuery .= " ORDER BY a.cancel_requesttime DESC $limitStr";
                                     $i = 1;
                                     $query .= $orderQuery;
-                                    $res = mysqli_query($self_con, $query);
-                                    while($row = mysqli_fetch_array($res)) {
-                                        $sql_mem = "select recommend_id from Gn_Member where mem_id='{$row['buyer_id']}'";
-                                        $res_mem = mysqli_query($self_con, $sql_mem);
-                                        $row_mem = mysqli_fetch_array($res_mem);
+                                    $res = mysql_query($query);
+                                    while($row = mysql_fetch_array($res)) {
+                                        $sql_mem = "select recommend_id from Gn_Member where mem_id='{$row[buyer_id]}'";
+                                        $res_mem = mysql_query($sql_mem);
+                                        $row_mem = mysql_fetch_array($res_mem);
                                 ?>
                                     <tr>
                                         <td><input type="checkbox" class="check_no" id="check_one_member" name="" value="<?=$row['no']?>"><?=$number--?></td>
@@ -254,7 +254,7 @@ $(function() {
                                         <td><?=$row['buyertel']?></td>
                                         <td><?=$row['member_type']?></td>
                                         <td><?=$row['TotPrice']?></td>
-                                        <td><?=$pay_type[$row['payMethod']]?></td>
+                                        <td><?=$pay_type[$row[payMethod]]?></td>
                                         <td><?=$row['date']?></td>
                                         <td>
                                             <!--form method="post" name="ssForm<?=$i?>" id="eeForm<?=$i?>" action="ajax/payment_month_save.php">

@@ -6,10 +6,10 @@ $keyword = $_REQUEST['keyword'];
 
 
 $jobs = array();
-$query = "SELECT job_title FROM gn_job_titles WHERE job_title Like '%{$keyword}%'";
+$query = "SELECT job_title FROM gn_job_titles WHERE job_title Like '%{$keyword}%' GROUP BY job_title";
 
-$result = mysqli_query($self_con, $query);
-while($row = mysqli_fetch_array($result)) {
+$result = mysql_query($query);
+while($row = mysql_fetch_array($result)) {
     $jobs[] = $row['job_title'];
 }
 

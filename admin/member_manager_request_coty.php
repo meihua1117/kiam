@@ -82,7 +82,9 @@ input:checked + .slider:before {
     transition: .4s;
 
 }
-
+.agree{
+     /*background: #d5ffd5!important;   */
+    }
 .disagree{
      background: #ffd5d5!important;   
     }
@@ -305,9 +307,9 @@ function excel_down_(){
                         	WHERE 1=1 
                 	              $searchStr";
                 	      //echo $query."<br>";        
-                	$res	    = mysqli_query($self_con, $query) or die(mysqli_error($self_con));
+                	$res	    = mysql_query($query) or die(mysql_error());
 
-                	$totalCnt	=  mysqli_num_rows($res);	
+                	$totalCnt	=  mysql_num_rows($res);	
                 	
                 	$limitStr       = " LIMIT ".(($startPage-1)*$pageCnt).", ".$pageCnt;
                 	$number			= $totalCnt - ($nowPage - 1) * $pageCnt;                      
@@ -321,8 +323,8 @@ function excel_down_(){
                 	$query .= "$orderQuery";
                   //echo $query;
 
-                	$res = mysqli_query($self_con, $query);
-                  while($row = mysqli_fetch_array($res)) {                       	
+                	$res = mysql_query($query);
+                  while($row = mysql_fetch_array($res)) {                       	
                     	
                     
 
@@ -357,8 +359,8 @@ function excel_down_(){
                                 <option value="-1">없음</option>
                                 <? $coach_sql = "select * from gn_coach_apply a inner join Gn_Member b on b.mem_code = a.mem_code where a.agree= 1";
                       
-                                $coach_res = mysqli_query($self_con, $coach_sql);
-                                while($coach_row = mysqli_fetch_array($coach_res)) {   
+                                $coach_res = mysql_query($coach_sql);
+                                while($coach_row = mysql_fetch_array($coach_res)) {   
                                   ?>
                                       <option value="<?=$coach_row['coach_id']?>">[<?=$coach_row['mem_id']  ?>] <?=$coach_row['mem_name']  ?></option>
                                   <?

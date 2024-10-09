@@ -2,11 +2,11 @@
 include_once "../lib/rlatjd_fun.php";
 set_time_limit(0);
 ini_set('memory_limit','4500M');
-if(strlen($_SESSION['one_member_id']) > 0) {
+if(strlen($_SESSION[one_member_id]) > 0) {
 	$excel_sql=base64_decode($_POST['excel_sql']);
 	$excel_sql=str_replace("`","'",$excel_sql);
-    $result = mysqli_query($self_con, $excel_sql) or die(mysqli_error($self_con));
-    $totalCnt = mysqli_num_rows($result);
+    $result = mysql_query($excel_sql) or die(mysql_error());
+    $totalCnt = mysql_num_rows($result);
     $number			= $totalCnt;
     require_once("Classes/PHPExcel.php");
     $objPHPExcel = new PHPExcel();
@@ -36,8 +36,8 @@ if(strlen($_SESSION['one_member_id']) > 0) {
 		->setCellValue("O1", "가입일")
 		->setCellValue("P1", "결제일/종료일");
 	$h=2;
-    while($row=mysqli_fetch_array($result)){
-		$cardstr =$pay_type[$row['payMethod']];
+    while($row=mysql_fetch_array($result)){
+		$cardstr =$pay_type[$row[payMethod]];
 		$payment_status = "";
 		if($row['end_status'] == "N") $payment_status = "결제대기";
 		else if($row['end_status'] == "Y") $payment_status = "결제완료";
@@ -50,13 +50,13 @@ if(strlen($_SESSION['one_member_id']) > 0) {
 					->setCellValue("C$h",$row['recommend_id'])
 					->setCellValue("D$h",$row['buyer_id'])
 					->setCellValue("E$h",$row['member_type'])
-					->setCellValue("F$h",number_format($row['max_cnt']))
+					->setCellValue("F$h",number_format($row[max_cnt]))
 					->setCellValue("G$h",$row['mem_name'])
 					->setCellValue("H$h",str_replace("-", "",$row['mem_phone'])==$row['sendnum']||$row['sendnum']==""?str_replace("-", "",$row['mem_phone']):$row['sendnum'])
 					->setCellValue("I$h",$cardstr)
-					->setCellValue("J$h",$row['TotPrice'])
-					->setCellValue("K$h",number_format($row['add_phone']))
-					->setCellValue("L$h",number_format($row['month_cnt']))
+					->setCellValue("J$h",$row[TotPrice])
+					->setCellValue("K$h",number_format($row[add_phone]))
+					->setCellValue("L$h",number_format($row[month_cnt]))
 					->setCellValue("M$h", $row['stop_yn'])
 					->setCellValue("N$h", $payment_status)
 					->setCellValue("O$h", $row['first_regist'])

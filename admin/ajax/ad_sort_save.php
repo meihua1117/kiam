@@ -11,7 +11,7 @@ for($i=0;$i<count($gaid);$i++) {
     $query="update      Gn_Ad set `sort_order`      ='$sort_order[$i]'
                          WHERE gaid='$gaid[$i]'
                                  ";
-    mysqli_query($self_con, $query);	
+    mysql_query($query);	
     echo "<script>alert('저장되었습니다.');location='/admin/ad_list.php';</script>";
 }
 exit;

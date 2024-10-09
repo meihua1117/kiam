@@ -14,15 +14,9 @@ if ($_REQUEST['eday']) {
     $sql_serch .= " and reg_date <= '{$_REQUEST['eday']}' ";
 }
 $report_sql = "select * from gn_report_form where $sql_serch order by id desc";
-$report_res = mysqli_query($self_con, $report_sql);
+$report_res = mysql_query($report_sql);
 ?>
 <style>
-    .container {
-        background-color: #fff;
-        -webkit-box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05), 0 0 5px 0 rgba(0, 0, 0, 0.1);
-        padding: 0 !important;
-    }
-
     input[type=checkbox] {
         font-family: '나눔고딕', 'Nanum Gothic', '맑은고딕', 'Malgun Gothic', 'gulim', 'arial', 'Dotum', 'AppleGothic', sans-serif;
         font-weight: 400;
@@ -110,10 +104,9 @@ $report_res = mysqli_query($self_con, $report_sql);
         font-size: 10px;
         cursor: pointer;
     }
-
-    .table_textarea {
+    .table_textarea{
         resize: none;
-        overflow: hidden;
+        overflow:hidden;
     }
 </style>
 <link href='/css/main.css' rel='stylesheet' type='text/css' />
@@ -121,170 +114,174 @@ $report_res = mysqli_query($self_con, $report_sql);
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <main id="register" class="common-wrap"><!-- 컨텐츠 영역 시작 -->
     <div class="container">
-        <div class="inner-wrap">
-            <h2 class="title"></h2>
-            <div class="mypage_menu">
-                <div style="display:flex;float: right">
-                    <a class="btn  btn-link" href="javascript:iam_mystory('cur_win=shared_receive&modal=Y')" title="<?= $MENU['IAM_MENU']['M7_TITLE']; ?>" style="display:flex;padding:6px 3px">
-                        <p style="font-size:14px;color:black">콘수신</p>
-                        <label class="label label-sm" id="share_recv_count" style="background: #ff3333;border-radius: 50%;padding: 2px 5px;margin-left: -5px;font-size:10px"></label>
-                    </a>
-                    <a class="btn  btn-link" href="javascript:iam_mystory('cur_win=shared_send&modal=Y')" title="<?= $MENU['IAM_MENU']['M8_TITLE']; ?>" style="display:flex;padding:6px 3px">
-                        <p style="font-size:14px;color:black">콘전송</p>
-                        <label class="label label-sm" id="share_send_count" style="background: #ff3333;border-radius: 50%;padding: 2px 5px;margin-left: -5px;font-size:10px"></label>
-                    </a>
-                    <a class="btn  btn-link" href="javascript:iam_mystory('cur_win=unread_post')" title="<?= '댓글알림' ?>" style="display:flex;padding:6px 3px">
-                        <p style="font-size:14px;color:black">댓글수신</p>
-                        <label class="label label-sm" id="share_post_count" style="background: #ff3333;border-radius: 50%;padding: 2px 5px;margin-left: -5px;font-size:10px"></label>
-                    </a>
-                    <a class="btn  btn-link" href="/iam/mypage_post_lock.php" title="<?= '댓글알림' ?>" style="display:flex;padding:6px 3px">
-                        <p style="font-size:14px;color:black">댓글차단해지</p>
-                        <label class="label label-sm" id="share_post_count" style="background: #ff3333;border-radius: 50%;padding: 2px 5px;margin-left: -5px;font-size:10px"></label>
-                    </a>
-                    <a class="btn  btn-link" href="javascript:iam_mystory('cur_win=request_list')" title="<?= '신청알림' ?>" style="display:flex;padding:6px 3px">
-                        <p style="font-size:14px;color:black">이벤트신청</p>
-                        <label class="label label-sm" id="share_post_count" style="background: #ff3333;border-radius: 50%;padding: 2px 5px;margin-left: -5px;font-size:10px"></label>
-                    </a>
-                </div>
-                <div style="display:flex;float: right;">
-                    <? if ($_SESSION['iam_member_subadmin_id'] == $_SESSION['iam_member_id']) { ?>
-                        <a class="btn  btn-link" title="<?= '공지알림'; ?>" href="/?cur_win=unread_notice&box=send&modal=Y" style="display:flex;padding:6px 3px">
-                            <p style="font-size:14px;color:black">공지전송</p>
-                            <label class="label label-sm" id="notice" style="background: #ff3333;border-radius: 50%;padding: 2px 5px;margin-left: -5px;font-size:10px"></label>
-                        </a>
-                        <a class="btn  btn-link" title="<?= '공지알림'; ?>" href="/?cur_win=unread_notice&modal=Y" style="display:flex;padding:6px 3px">
-                            <p style="font-size:14px;color:black">공지수신</p>
-                            <label class="label label-sm" id="notice" style="background: #ff3333;border-radius: 50%;padding: 2px 5px;margin-left: -5px;font-size:10px"></label>
-                        </a>
-                    <? } else { ?>
-                        <a class="btn  btn-link" title="<?= '공지알림'; ?>" href="javascript:iam_mystory('cur_win=unread_notice')" style="display:flex;padding:6px 3px">
-                            <p style="font-size:14px;color:black">공지</p>
-                            <label class="label label-sm" id="notice" style="background: #ff3333;border-radius: 50%;padding: 2px 5px;margin-left: -5px;font-size:10px"></label>
-                        </a>
-                    <? } ?>
-                    <? if ($is_pay_version) { ?>
-                        <a class="btn  btn-link" title="" href="/iam/mypage_refer.php" style="display:flex;padding:6px 3px">
-                            <p style="font-size:14px;color:black">추천</p>
-                            <label class="label label-sm" id="sell_service_contents" style="background: #ff3333;border-radius: 50%;padding: 2px 5px;margin-left: -5px;font-size:10px"></label>
-                        </a>
-                        <a class="btn  btn-link" title="" href="/iam/mypage_payment.php" style="display:flex;padding:6px 3px">
-                            <p style="font-size:14px;color:black">결제</p>
-                            <label class="label label-sm" id="sell_service_contents" style="background: #ff3333;border-radius: 50%;padding: 2px 5px;margin-left: -5px;font-size:10px"></label>
-                        </a>
-                        <a class="btn  btn-link" title="" href="/iam/mypage_payment_item.php" style="display:flex;padding:6px 3px">
-                            <p style="font-size:14px;color:black">판매</p>
-                            <label class="label label-sm" id="sell_service_contents" style="background: #ff3333;border-radius: 50%;padding: 2px 5px;margin-left: -5px;font-size:10px"></label>
-                        </a>
-                    <? } ?>
-                    <? if ($member_iam['service_type'] < 2) {
-                        $report_link = "/iam/mypage_report_list.php";
-                    } else {
-                        $report_link = "/iam/mypage_report.php";
-                    }
-                    ?>
-                    <a class="btn  btn-link" title="" href="<?= $report_link ?>" style="display:flex;padding:6px 3px">
-                        <p style="font-size:14px;color:#99cc00">리포트</p>
-                        <label class="label label-sm" id="sell_service_contents" style="background: #ff3333;border-radius: 50%;padding: 2px 5px;margin-left: -5px;font-size:10px"></label>
-                    </a>
-                    <a class="btn  btn-link" title="" href="/?cur_win=unread_notice&req_provide=Y" style="display:flex;padding:6px 3px">
-                        <p style="font-size:14px;color:black">공급사신청</p>
-                        <label class="label label-sm" id="sell_service_contents" style="background: #ff3333;border-radius: 50%;padding: 2px 5px;margin-left: -5px;font-size:10px"></label>
-                    </a>
-                </div>
-            </div>
-            <br>
-            <form name="pay_form1" action="" method="post" class="my_pay" enctype="multipart/form-data" style="margin-top: 10px">
-                <div style="text-align: center;margin-top: 70px;">
-                    <h2 class="title">사업자 리포트정보</h2>
-                </div>
-                <br>
-                <div class="p1">
-                    <input type="date" name="sday" value="<?= $_REQUEST['sday'] ?>" /> ~
-                    <input type="date" name="eday" value="<?= $_REQUEST['eday'] ?>" />
-                    <a onclick="pay_form1.submit();"><img src="/images/sub_mypage_11.jpg" /></a>
-                    <a style="background-color: white;color: black;padding: 3px;border: 1px solid #000000;padding: 6px 5px;cursor: pointer" onclick="cloneMultiRow();">복제하기</a>
-                    <a style="background-color: white;color: black;padding: 3px;border: 1px solid #000000;padding: 6px 5px;cursor: pointer" onclick="deleteMultiRow();">선택삭제</a>
-                    <a style="background-color: white;color: black;padding: 3px;border: 1px solid #000000;padding: 6px 5px;cursor: pointer" onclick="sendReport();">전송하기</a>
-                    <a href="mypage_report_reg.php" style="background-color: white;color: black;padding: 3px;border: 1px solid #000000;padding: 6px 5px;cursor: pointer">새로등록</a>
-                    <a href="mypage_report_list.php" style="background-color: #92d050;color: white;padding: 3px;border: 1px solid #92d050;padding: 6px 5px;cursor: pointer">제출내역</a>
-                </div>
-                <div>
-                    <table class="list_table" id="report_table" width="100%" border="0" cellspacing="0" cellpadding="0">
-                        <tr>
-                            <th scope="col" style="width:4%;">
-                                <input type="checkbox" class="check" id="check_all" value="0">
-                            </th>
-                            <th style="width:5%;">번호</th>
-                            <th style="width:15%;">타이틀/설명글</th>
-                            <th style="width:18%;">광고상세정보</th>
-                            <th style="width:10%;">클릭/응답</th>
-                            <th style="width:10%;">등록일</th>
-                            <th style="width:5%;">응답</th>
-                            <th style="width:10%;">관리</th>
-                            <th style="width:5%;">상태</th>
-                            <th style="width:10%;">미리보기</th>
-                        </tr>
-                        <?
-                        $index = 1;
-                        while ($report_row = mysqli_fetch_array($report_res)) { ?>
-                            <tr>
-                                <td>
-                                    <input type="checkbox" class="check" id="check_one" value="<?= $report_row['id'] ?>">
-                                </td>
-                                <td><?= $index ?></td>
-                                <td>
-                                    <a href="javascript:show_more('<?= 'title' . $index ?>')"><?= cut_str($report_row['title'], 10) ?></a>
-                                    <input type="hidden" id=<?= 'title' . $index ?> value="<?= htmlspecialchars($report_row['title']) ?>">
-                                    <br>
-                                    <a href="javascript:show_more('<?= 'desc' . $index ?>')"><?= cut_str($report_row['descript'], 10) ?></a>
-                                    <input type="hidden" id=<?= 'desc' . $index ?> value="<?= htmlspecialchars($report_row['descript']) ?>">
-                                </td>
-                                <td style="padding-top:1px !important">
-                                    <textarea id="<?= 'detail' . $report_row['id'] ?>" class="table_textarea" style="width:100%;"><?= $report_row['detail'] ?></textarea>
-                                    <br>
-                                    <button type="button" class="btn-default" style="margin-top:5px;padding:5px 10px;border:1px solid #ccc;cursor:pointer" onclick="show_detail(<?= $report_row['id'] ?>);">상세보기</button>
-                                    <button type="button" class="btn-default" style="margin-top:5px;padding:5px 10px;border:1px solid #ccc;cursor:pointer" onclick="save_detail_idx(<?= $report_row['id'] ?>);">저장</button>
-                                </td>
+        <div class="row">
+            <div class="col-12">
+                <div class="inner-wrap">
+                    <h2 class="title"></h2>
+                    <div class="mypage_menu">
+                        <div style="display:flex;margin: 0px;">
+                            <a class="btn  btn-link" href="javascript:iam_mystory('cur_win=shared_receive&modal=Y')" title="<?= $MENU['IAM_MENU']['M7_TITLE']; ?>" style="display:flex;padding:6px 3px">
+                                <p style="font-size:14px;color:black">콘수신</p>
+                                <label class="label label-sm" id="share_recv_count" style="background: #ff3333;border-radius: 50%;padding: 2px 5px;margin-left: -5px;font-size:10px"></label>
+                            </a>
+                            <a class="btn  btn-link" href="javascript:iam_mystory('cur_win=shared_send&modal=Y')" title="<?= $MENU['IAM_MENU']['M8_TITLE']; ?>" style="display:flex;padding:6px 3px">
+                                <p style="font-size:14px;color:black">콘전송</p>
+                                <label class="label label-sm" id="share_send_count" style="background: #ff3333;border-radius: 50%;padding: 2px 5px;margin-left: -5px;font-size:10px"></label>
+                            </a>
+                            <a class="btn  btn-link" href="javascript:iam_mystory('cur_win=unread_post')" title="<?= '댓글알림' ?>" style="display:flex;padding:6px 3px">
+                                <p style="font-size:14px;color:black">댓글수신</p>
+                                <label class="label label-sm" id="share_post_count" style="background: #ff3333;border-radius: 50%;padding: 2px 5px;margin-left: -5px;font-size:10px"></label>
+                            </a>
+                            <a class="btn  btn-link" href="/iam/mypage_post_lock.php" title="<?= '댓글알림' ?>" style="display:flex;padding:6px 3px">
+                                <p style="font-size:14px;color:black">댓글차단해지</p>
+                                <label class="label label-sm" id="share_post_count" style="background: #ff3333;border-radius: 50%;padding: 2px 5px;margin-left: -5px;font-size:10px"></label>
+                            </a>
+                            <a class="btn  btn-link" href="javascript:iam_mystory('cur_win=request_list')" title="<?= '신청알림' ?>" style="display:flex;padding:6px 3px">
+                                <p style="font-size:14px;color:black">이벤트신청</p>
+                                <label class="label label-sm" id="share_post_count" style="background: #ff3333;border-radius: 50%;padding: 2px 5px;margin-left: -5px;font-size:10px"></label>
+                            </a>
+                        </div>
+                        <div style="display:flex;margin: 0px 35px;float: right;">
+                            <? if ($_SESSION['iam_member_subadmin_id'] == $_SESSION['iam_member_id']) { ?>
+                                <a class="btn  btn-link" title="<?= '공지알림'; ?>" href="/?cur_win=unread_notice&box=send&modal=Y" style="display:flex;padding:6px 3px">
+                                    <p style="font-size:14px;color:black">공지전송</p>
+                                    <label class="label label-sm" id="notice" style="background: #ff3333;border-radius: 50%;padding: 2px 5px;margin-left: -5px;font-size:10px"></label>
+                                </a>
+                                <a class="btn  btn-link" title="<?= '공지알림'; ?>" href="/?cur_win=unread_notice&modal=Y" style="display:flex;padding:6px 3px">
+                                    <p style="font-size:14px;color:black">공지수신</p>
+                                    <label class="label label-sm" id="notice" style="background: #ff3333;border-radius: 50%;padding: 2px 5px;margin-left: -5px;font-size:10px"></label>
+                                </a>
+                            <? } else { ?>
+                                <a class="btn  btn-link" title="<?= '공지알림'; ?>" href="javascript:iam_mystory('cur_win=unread_notice')" style="display:flex;padding:6px 3px">
+                                    <p style="font-size:14px;color:black">공지</p>
+                                    <label class="label label-sm" id="notice" style="background: #ff3333;border-radius: 50%;padding: 2px 5px;margin-left: -5px;font-size:10px"></label>
+                                </a>
+                            <? } ?>
+                            <? if ($is_pay_version) { ?>
+                                <a class="btn  btn-link" title="" href="/iam/mypage_refer.php" style="display:flex;padding:6px 3px">
+                                    <p style="font-size:14px;color:black">추천</p>
+                                    <label class="label label-sm" id="sell_service_contents" style="background: #ff3333;border-radius: 50%;padding: 2px 5px;margin-left: -5px;font-size:10px"></label>
+                                </a>
+                                <a class="btn  btn-link" title="" href="/iam/mypage_payment.php" style="display:flex;padding:6px 3px">
+                                    <p style="font-size:14px;color:black">결제</p>
+                                    <label class="label label-sm" id="sell_service_contents" style="background: #ff3333;border-radius: 50%;padding: 2px 5px;margin-left: -5px;font-size:10px"></label>
+                                </a>
+                                <a class="btn  btn-link" title="" href="/iam/mypage_payment_item.php" style="display:flex;padding:6px 3px">
+                                    <p style="font-size:14px;color:black">판매</p>
+                                    <label class="label label-sm" id="sell_service_contents" style="background: #ff3333;border-radius: 50%;padding: 2px 5px;margin-left: -5px;font-size:10px"></label>
+                                </a>
+                            <? } ?>
+                            <? if ($member_iam['service_type'] < 2) {
+                                $report_link = "/iam/mypage_report_list.php";
+                            } else {
+                                $report_link = "/iam/mypage_report.php";
+                            }
+                            ?>
+                            <a class="btn  btn-link" title="" href="<?= $report_link ?>" style="display:flex;padding:6px 3px">
+                                <p style="font-size:14px;color:#99cc00">리포트</p>
+                                <label class="label label-sm" id="sell_service_contents" style="background: #ff3333;border-radius: 50%;padding: 2px 5px;margin-left: -5px;font-size:10px"></label>
+                            </a>
+                            <a class="btn  btn-link" title="" href="/?cur_win=unread_notice&req_provide=Y" style="display:flex;padding:6px 3px">
+                                <p style="font-size:14px;color:black">공급사신청</p>
+                                <label class="label label-sm" id="sell_service_contents" style="background: #ff3333;border-radius: 50%;padding: 2px 5px;margin-left: -5px;font-size:10px"></label>
+                            </a>
+                        </div>
+                    </div>
+                    <br>
+                    <form name="pay_form1" action="" method="post" class="my_pay" enctype="multipart/form-data" style="margin-top: 10px">
+                        <div style="text-align: center;margin-top: 25px;">
+                            <h2 class="title">사업자 리포트정보</h2>
+                        </div>
+                        <br>
+                        <div class="p1">
+                            <input type="date" name="sday" value="<?= $_REQUEST['sday'] ?>" /> ~
+                            <input type="date" name="eday" value="<?= $_REQUEST['eday'] ?>" />
+                            <a onclick="pay_form1.submit();"><img src="/images/sub_mypage_11.jpg" /></a>
+                            <a style="background-color: white;color: black;padding: 3px;border: 1px solid #000000;padding: 6px 5px;cursor: pointer" onclick="cloneMultiRow();">복제하기</a>
+                            <a style="background-color: white;color: black;padding: 3px;border: 1px solid #000000;padding: 6px 5px;cursor: pointer" onclick="deleteMultiRow();">선택삭제</a>
+                            <a style="background-color: white;color: black;padding: 3px;border: 1px solid #000000;padding: 6px 5px;cursor: pointer" onclick="sendReport();">전송하기</a>
+                            <a href="mypage_report_reg.php" style="background-color: white;color: black;padding: 3px;border: 1px solid #000000;padding: 6px 5px;cursor: pointer">새로등록</a>
+                            <a href="mypage_report_list.php" style="background-color: #92d050;color: white;padding: 3px;border: 1px solid #92d050;padding: 6px 5px;cursor: pointer">제출내역</a>
+                        </div>
+                        <div>
+                            <table class="list_table" id="report_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+                                <tr>
+                                    <th scope="col" style="width:4%;">
+                                        <input type="checkbox" class="check" id="check_all" value="0">
+                                    </th>
+                                    <th style="width:5%;">번호</th>
+                                    <th style="width:15%;">타이틀/설명글</th>
+                                    <th style="width:18%;">광고상세정보</th>
+                                    <th style="width:10%;">클릭/응답</th>
+                                    <th style="width:10%;">등록일</th>
+                                    <th style="width:5%;">응답</th>
+                                    <th style="width:10%;">관리</th>
+                                    <th style="width:5%;">상태</th>
+                                    <th style="width:10%;">미리보기</th>
+                                </tr>
                                 <?
-                                $sql = "select count(idx) from gn_report_table where repo_id={$report_row['id']}";
-                                $res = mysqli_query($self_con, $sql);
-                                $row = mysqli_fetch_array($res);
-                                $count = $row[0];
-                                if ($count == null)
-                                    $count = 0;
-                                ?>
-                                        <td><?= (($report_row['display_count'] + $report_row['send_count']) > 0 ? $report_row['display_count'] + $report_row['send_count']." / ": "").$report_row['visit'] ." / ". $count ?><br>
-                                    <span id="<?= 'detail_' . $report_row['id'] ?>"><?= $report_row['channel'] ?></span><br><br>
+                                $index = 1;
+                                while ($report_row = mysql_fetch_array($report_res)) { ?>
+                                    <tr>
+                                        <td>
+                                            <input type="checkbox" class="check" id="check_one" value="<?= $report_row['id'] ?>">
+                                        </td>
+                                        <td><?= $index ?></td>
+                                        <td>
+                                            <a href="javascript:show_more('<?= 'title' . $index ?>')"><?= cut_str($report_row['title'], 10) ?></a>
+                                            <input type="hidden" id=<?= 'title' . $index ?> value="<?= htmlspecialchars($report_row['title']) ?>">
+                                            <br>
+                                            <a href="javascript:show_more('<?= 'desc' . $index ?>')"><?= cut_str($report_row['descript'], 10) ?></a>
+                                            <input type="hidden" id=<?= 'desc' . $index ?> value="<?= htmlspecialchars($report_row['descript']) ?>">
+                                        </td>
+                                        <td style="padding-top:1px !important">
+                                            <textarea id="<?= 'detail' . $report_row['id'] ?>" class = "table_textarea" style="width:100%;"><?= $report_row['detail'] ?></textarea>
+                                            <br>
+                                            <button type="button" class="btn-default" style="margin-top:5px;padding:5px 10px;border:1px solid #ccc;cursor:pointer" onclick="show_detail(<?= $report_row['id'] ?>);">상세보기</button>
+                                            <button type="button" class="btn-default" style="margin-top:5px;padding:5px 10px;border:1px solid #ccc;cursor:pointer" onclick="save_detail_idx(<?= $report_row['id'] ?>);">저장</button>
+                                        </td>
+                                        <?
+                                        $sql = "select count(idx) from gn_report_table where repo_id={$report_row['id']}";
+                                        $res = mysql_query($sql);
+                                        $row = mysql_fetch_array($res);
+                                        $count = $row[0];
+                                        if ($count == null)
+                                            $count = 0;
+                                        ?>
+                                        <td><?=(($report_row['display_count'] + $report_row['send_count']) > 0 ? $report_row['display_count'] + $report_row['send_count']." / ": ""). $report_row['visit']." / ". $count ?><br>
+                                            <span id="<?= 'detail_' . $report_row['id'] ?>"><?= $report_row['channel'] ?></span><br><br>
                                     <?if($report_row['price_per_reply'] != 0){
                                         $style_detail = "cursor:pointer;background:blue;color:white;border:1px solid #ddd";
                                     }else{
                                         $style_detail = "cursor:pointer;background:white;border:1px solid #ddd";
                                     }?>
                                     <span id="<?='static_'.$report_row['id']?>" onclick="show_statistic(<?= $report_row['id'] ?>);" style="<?=$style_detail?>">상세보기</span>
-                                </td>
-                                <td><?= $report_row['reg_date'] ?></td>
-                                <td><a href="report_result.php?repo=<?= $report_row['id'] ?>" target="_blank">답변</a></td>
-                                <td>
-                                    <? if ($count == 0) { ?>
-                                        <a href="mypage_report_reg.php?index=<?= $report_row['id'] ?>">수정</a>
-                                    <? } ?>
-                                </td>
-                                <td><?= $report_row['status'] == 0 ? "비노출" : "노출"; ?></td>
+                                        </td>
+                                        <td><?= $report_row['reg_date'] ?></td>
+                                        <td><a href="report_result.php?repo=<?= $report_row['id'] ?>" target="_blank">답변</a></td>
+                                        <td>
+                                            <? if ($count == 0) { ?>
+                                                <a href="mypage_report_reg.php?index=<?= $report_row['id'] ?>">수정</a>
+                                            <? } ?>
+                                        </td>
+                                        <td><?= $report_row['status'] == 0 ? "비노출" : "노출"; ?></td>
+                                        <?
+                                        $link_pre = "/iam/report_preview.php?repo={$report_row['id']}";
+                                        $link = $report_row['short_url'];
+                                        ?>
+                                        <td>
+                                            <input type="button" value="미리보기" class="button" onclick="previewReport('<?= $link_pre ?>')">
+                                            <input type="button" value="링크복사" class="button copyLinkBtn" data-link="<?= $link ?>">
+                                        </td>
+                                    </tr>
                                 <?
-                                $link_pre = "/iam/report_preview.php?repo={$report_row['id']}";
-                                $link = $report_row['short_url'];
-                                ?>
-                                <td>
-                                    <input type="button" value="미리보기" class="button" onclick="previewReport('<?= $link_pre ?>')">
-                                    <input type="button" value="링크복사" class="button copyLinkBtn" data-link="<?= $link ?>">
-                                </td>
-                            </tr>
-                        <?
-                            $index++;
-                        } ?>
-                    </table>
+                                    $index++;
+                                } ?>
+                            </table>
+                        </div>
+                    </form>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
 </main><!-- // 컨텐츠 영역 끝 -->
@@ -332,11 +329,11 @@ $report_res = mysqli_query($self_con, $report_sql);
         <div class="modal-content">
             <div>
                 <button type="button" class="close" data-dismiss="modal">
-                    <img src="/iam/img/menu/icon_close_white.png" class="close" data-dismiss="modal">
+                    <img src="/iam/img/menu/icon_close_white.png" style="" class="close" data-dismiss="modal">
                 </button>
             </div>
-            <div class="modal-title">
-                <label></label>
+            <div class="modal-title" style="">
+                <label style=""></label>
             </div>
             <div class="modal-body">
                 <div class="container" style="box-shadow: none;width: 100%;">
@@ -550,7 +547,7 @@ $report_res = mysqli_query($self_con, $report_sql);
             else
                 profit_ads = profit_ads.toFixed(1);
             $("#profit_ads").val(profit_ads);
-
+                    
             var profit_total_ads = (total_payment - ads_price - manage_price) / (ads_price + manage_price) * 100;
             if ((ads_price + manage_price) == 0)
                 profit_total_ads = 0;
@@ -746,13 +743,12 @@ $report_res = mysqli_query($self_con, $report_sql);
         });
     });
 
-    function show_detail(repo_id) {
+    function show_detail(repo_id){
         $("#detail_repo_id").val(repo_id);
         var detail = $("#detail" + repo_id).val();
         $("#report_detail").val(detail);
         $("#report_detail_modal").modal("show");
     };
-
     function show_notice(key) {
         var msg = "";
         if (key == "sn_count")
@@ -1073,7 +1069,7 @@ $report_res = mysqli_query($self_con, $report_sql);
         });
     }
 
-    function save_detail() {
+    function save_detail(){
         var idx = $("#detail_repo_id").val();
         $.ajax({
             type: "POST",
@@ -1091,8 +1087,7 @@ $report_res = mysqli_query($self_con, $report_sql);
             }
         });
     }
-
-    function save_detail_idx(idx) {
+    function save_detail_idx(idx){
         $.ajax({
             type: "POST",
             url: "/ajax/ajax.report.php",
@@ -1100,7 +1095,7 @@ $report_res = mysqli_query($self_con, $report_sql);
             data: {
                 method: "save_report_detail",
                 id: idx,
-                cont: $("#detail" + idx).val()
+                cont: $("#detail"+idx).val()
             },
             success: function(data) {
                 alert("성공적으로 저장되었습니다.");

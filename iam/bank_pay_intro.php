@@ -46,7 +46,7 @@
 			.auto_iam {
 				padding: 7px;
 				font-size: 14px;
-				background-color: #99cc00;
+				background-color: #82c836;
 				font-weight: 500;
 				border-radius:10px;
 				width:28%;
@@ -54,13 +54,13 @@
 			.auto_iam1 {
 				padding: 7px;
 				font-size: 15px;
-				background-color: #99cc00;
+				background-color: #82c836;
 				font-weight: 500;
 				width:28%;
 			}
 			.people_iam_show{
 				font-size:18px;
-				background-color:#99cc00;
+				background-color:#82c836;
 				font-weight:bold;
 				color:white;
 				border:none;
@@ -70,7 +70,7 @@
 			#checkdup {
 				border: 1px solid #ddd;
 				float:right;
-				background-color: #99cc00;
+				background-color: #82c836;
 				color: white;
 				width: 85px; 
 				border-radius: 5px;
@@ -105,7 +105,7 @@
 				#checkdup {
 					border: 1px solid #ddd;
 					float:right;
-					background-color: #99cc00;
+					background-color: #82c836;
 					color: white;
 					border-radius: 5px;
 				}
@@ -171,7 +171,7 @@
 									<div style="margin-top:20px">
 										<h1 id="msg_title" style="text-align:left;margin-left:30px;font-weight: 500;"><letter style="color:red">입금계좌번호</letter> 안내드립니다.</h1>
 									</div>
-									<div >
+									<div style="">
 										<h3>굿마켓 상품구매를 해주셔서 감사합니다.<br>입금 기한내에 입급해주셔야 결제가 완료 됩니다.</h3>
 									</div>
 									<div style="text-align:left;border-bottom: 3px solid;font-weight: 500;">
@@ -215,7 +215,7 @@
 											<button class="people_iam_show" style="background:white;color:black" onclick="copy_link('<?=$link?>');">복사하기</button>
 										</div>
 										<div style="width:50%">
-											<button class="people_iam_show" id="reg_automem"  onclick="makingiam('make')">확인</button>
+											<button class="people_iam_show" id="reg_automem" style="" onclick="makingiam('make')">확인</button>
 										</div>
 									</div>
 								</div>

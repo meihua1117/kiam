@@ -6,9 +6,13 @@ $mode = $_POST['mode'];
 $contact_idx = $_POST['contact_idx'];
 
 // echo $_SESSION[one_member_iam_leb];
-// // echo ($_SESSION['one_member_id'] == "" || $_SESSION[one_member_iam_leb] == "");
+// // echo ($_SESSION[one_member_id] == "" || $_SESSION[one_member_iam_leb] == "");
 // exit;
 if($mode == "del") {
+  // echo count($_POST['friends_idx']);
+  // echo $_POST['friends_idx'][1];
+  // echo $_POST['friends_idx'][2];
+
   if($_SESSION['iam_member_id'] == "") {
     echo '로그아웃 되었습니다. 다시 로그인을 해주세요.';
     exit;
@@ -22,8 +26,8 @@ if($mode == "del") {
   for($i=0; $i<count($_POST['contact_idx']); $i++) {
     $contact_idx = $_POST['contact_idx'][$i];
     // exit;
-    $sql="delete from Gn_MMS_Receive where idx = $contact_idx and mem_id = '{$_SESSION['iam_member_id']}'";
-    $result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
+    $sql="delete from Gn_MMS_Receive_Iam where idx = $contact_idx and mem_id = '$_SESSION[iam_member_id]'";
+    $result = mysql_query($sql) or die(mysql_error());
   }
 
   echo '연락처가 삭제 되었습니다.';

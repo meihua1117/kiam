@@ -213,8 +213,8 @@ $date_today1=date("Y-m-d H:i:s");
 
                             $sql = "select * from reg_biz_contents where 1=1";
                             $query = $sql.$searchStr;
-                            $res = mysqli_query($self_con, $query);
-                            $totalCnt = mysqli_num_rows($res);
+                            $res = mysql_query($query);
+                            $totalCnt = mysql_num_rows($res);
 
                             $limitStr = " LIMIT ".(($startPage-1)*$pageCnt).", ".$pageCnt;
                             $number = $totalCnt - ($nowPage - 1) * $pageCnt;
@@ -223,11 +223,11 @@ $date_today1=date("Y-m-d H:i:s");
                                     $orderField = "up_date";
                             $orderQuery .= " ORDER BY $orderField $dir $limitStr";
                             $query = $sql.$searchStr.$orderQuery;
-                            $result = mysqli_query($self_con, $query);
+                            $result = mysql_query($query);
 
                             $i = 1;
 
-                            while($row = mysqli_fetch_array($result)){
+                            while($row = mysql_fetch_array($result)){
                                 if($row['status'] == 1){
                                     $status = "진행사업";
                                 }

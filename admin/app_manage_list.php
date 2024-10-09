@@ -124,8 +124,8 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                   $searchStr .= $search_key ? " AND (app_code LIKE '%".$search_key."%' or app_version like '%".$search_key."%' )" : null;
                 	$order = $order?$order:"desc"; 		
                 	$query = "SELECT SQL_CALC_FOUND_ROWS * FROM Gn_app_version WHERE 1=1 $searchStr";
-                	$res	    = mysqli_query($self_con, $query);
-                	$totalCnt	=  mysqli_num_rows($res);	
+                	$res	    = mysql_query($query);
+                	$totalCnt	=  mysql_num_rows($res);	
                 	
                 	$limitStr       = " LIMIT ".(($startPage-1)*$pageCnt).", ".$pageCnt;
                 	$number			= $totalCnt - ($nowPage - 1) * $pageCnt;                      
@@ -134,8 +134,8 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                 	$i = 1;
                 	$c=0;
                 	$query .= "$orderQuery";
-                	$res = mysqli_query($self_con, $query);
-                  while($row = mysqli_fetch_array($res)) {                       	
+                	$res = mysql_query($query);
+                  while($row = mysql_fetch_array($res)) {                       	
                   ?>
                       <tr>
                         <td><?=$number--?></td>

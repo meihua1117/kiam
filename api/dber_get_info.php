@@ -12,15 +12,15 @@ $token = trim($_POST["token"]);
 $type = trim($_POST["type"]);
 
 $sql = "SELECT date_format(now(), '%Y%m%d')";
-$result = mysqli_query($self_con, $sql);
-$row=mysqli_fetch_array($result);
+$result = mysql_query($sql);
+$row=mysql_fetch_array($result);
 $cur_time = strtotime($row[0]);
 
 if($type == 1){
 
     $sql = "SELECT user_id, status, use_cnt, monthly_cnt, term, extra_db_cnt FROM crawler_member_real WHERE token='$token'";
-    $result = mysqli_query($self_con, $sql);
-    $row=mysqli_fetch_array($result);
+    $result = mysql_query($sql);
+    $row=mysql_fetch_array($result);
 
     if($row['user_id'] == "") {
         echo json_encode(array('result' => 1));
@@ -53,8 +53,8 @@ if($type == 1){
 
 }else if( $type == 2){
     $sql = "SELECT user_id, search_email_cnt, search_email_use_cnt, search_email_date, search_email_yn, extra_email_cnt FROM crawler_member_real WHERE token='$token'";
-    $result = mysqli_query($self_con, $sql);
-    $row=mysqli_fetch_array($result);
+    $result = mysql_query($sql);
+    $row=mysql_fetch_array($result);
     if($row['user_id'] == "") {
         echo json_encode(array('result' => 1));
         exit;
@@ -85,8 +85,8 @@ if($type == 1){
 }
 else if( $type == 3){
     $sql = "SELECT user_id,shopping_yn, shopping_use_cnt, shopping_cnt, shopping_end_date, extra_shopping_cnt FROM crawler_member_real WHERE token='$token'";
-    $result = mysqli_query($self_con, $sql);
-    $row=mysqli_fetch_array($result);
+    $result = mysql_query($sql);
+    $row=mysql_fetch_array($result);
     if($row['user_id'] == "") {
         echo json_encode(array('result' => 1));
         exit;

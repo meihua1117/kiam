@@ -128,8 +128,8 @@ function payment_save(fm) {
                   <div class="form-group">
                   </div>
                   <div class="form-group">  
-                      <input type="text" name="search_start_date" placeholder="" id="search_start_date" value="<?=$_REQUEST['search_start_date']?>"/> ~
-                      <input type="text"  name="search_end_date" placeholder="" id="search_end_date" value="<?=$_REQUEST['search_end_date']?>"/>                  
+                      <input type="text" name="search_start_date" placeholder="" id="search_start_date" value="<?=$_REQUEST[search_start_date]?>"/> ~
+                      <input type="text"  name="search_end_date" placeholder="" id="search_end_date" value="<?=$_REQUEST[search_end_date]?>"/>                  
                   </div>
                   <div class="form-group">
                       <input type="text" name="search_key" id="search_key" class="form-control input-sm pull-right" placeholder="이름/아이디/금액">
@@ -258,8 +258,8 @@ function payment_save(fm) {
                         	WHERE 1=1 
                 	              and b.service_type > 0
                 	              ";
-                	$res	    = mysqli_query($self_con, $query);
-                	$totalCnt	=  mysqli_num_rows($res);	
+                	$res	    = mysql_query($query);
+                	$totalCnt	=  mysql_num_rows($res);	
                 	
                 	$limitStr       = " LIMIT ".(($startPage-1)*$pageCnt).", ".$pageCnt;
                 	$number			= $totalCnt - ($nowPage - 1) * $pageCnt;                      
@@ -270,8 +270,17 @@ function payment_save(fm) {
                     ";            	
             	    $i = 1;
                 	$query .= "$orderQuery";
-                	$res = mysqli_query($self_con, $query);
-                    while($row = mysqli_fetch_array($res)) {                       	
+                	$res = mysql_query($query);
+                    while($row = mysql_fetch_array($res)) {                       	
+                        //if($row[total_price] == 500000) {
+                        //    $query = "Select * from tjd_pay_result_delaer where m_id='$row[mem_id]'";
+                        //    $sres = mysql_query($query);
+                        //    $srow = mysql_fetch_array($sres);                            
+                        //    if(substr($row['date'],0,10) != substr($srow['regtime'], 0,10)) {
+                        //        $row[total_price] = 0;
+                        //    }
+                        //}
+                        
                        if($row['service_type'] == 2) {
                            $mem_level = "리셀러";
                        } else if($row['service_type'] == 3) {
@@ -293,11 +302,11 @@ function payment_save(fm) {
                                        on bb.mem_id = aa.buyer_id 
                                     where 1=1 
                                     and end_status='Y' 
-                                    AND aa.share_id='{$row['mem_id']}'
+                                    AND aa.share_id='$row[mem_id]'
                                     ";
                                     //echo $query."<BR>";
-                       $sres = mysqli_query($self_con, $query);
-                       $prow = mysqli_fetch_array($sres);
+                       $sres = mysql_query($query);
+                       $prow = mysql_fetch_array($sres);
                        
                        $row['balance_yn']  ="N";
                        $row['balance_date'] = "";
@@ -316,10 +325,10 @@ function payment_save(fm) {
                                         where 1=1 
                                         $searchStr
                                         and end_status='Y' 
-                                        AND aa.branch_share_id='{$row['mem_id']}'
+                                        AND aa.branch_share_id='$row[mem_id]'
                                         ";
-                           $sres = mysqli_query($self_con, $query);
-                           $srow = mysqli_fetch_array($sres);
+                           $sres = mysql_query($query);
+                           $srow = mysql_fetch_array($sres);
                            
                            $branch_share_fee = $srow[price];
                        }                  
@@ -413,7 +422,7 @@ function payment_save(fm) {
             </div>
           </div><!-- /.row -->
         </section><!-- /.content -->
-      </div><!-- /content-wrapper -->
+      </div><!-- /.content-wrapper -->
       <form id="excel_down_form" name="excel_down_form"  target="excel_iframe" method="post">
           <input type="hidden" name="grp_id" value="" />
           <input type="hidden" name="box_text" value="" />        

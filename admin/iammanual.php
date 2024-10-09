@@ -4,6 +4,7 @@ include_once $_SERVER['DOCUMENT_ROOT']."/admin/include/admin_header.inc.php";
 extract($_GET);
 // 오늘날짜
 $date_today=date("Y-m-d");
+$date_month=date("Y-m");
 
 ?>
 <script type="text/javascript" src="/jquery.lightbox_me.js"></script>
@@ -158,8 +159,8 @@ $(function(){
                         	WHERE 1=1 and category=1 
                 	              $searchStr";
                 	              
-                	$res	    = mysqli_query($self_con, $query);
-                	$totalCnt	=  mysqli_num_rows($res);	
+                	$res	    = mysql_query($query);
+                	$totalCnt	=  mysql_num_rows($res);	
                 	
                 	$limitStr       = " LIMIT ".(($startPage-1)*$pageCnt).", ".$pageCnt;
                 	$number			= $totalCnt - ($nowPage - 1) * $pageCnt;                      
@@ -171,8 +172,8 @@ $(function(){
                 	
                 	$i = 1;
                 	$query .= "$orderQuery";
-                	$res = mysqli_query($self_con, $query);
-                    while($row = mysqli_fetch_array($res)) {                       	
+                	$res = mysql_query($query);
+                    while($row = mysql_fetch_array($res)) {                       	
                         
                   ?>
                       <tr>
@@ -183,7 +184,7 @@ $(function(){
                             <a href="iammanual_write.php?no=<?php echo $row['no']?>"><?php echo $row['title'];?></a>
                         </td>
                         <td>
-                                <div >
+                                <div style="">
                                 <?
                                 
                                 
@@ -208,7 +209,7 @@ $(function(){
                             <?=substr($row['date'],0,10)?>
                         </td>
                         <td><?=$row['veiw_cnt']?></td>
-                        <td><a href="javascript:;;" onclick="board_del('<?=$row['no']?>','<?=$_REQUEST['status']?>')">삭제</a></td>
+                        <td><a href="javascript:;;" onclick="board_del('<?=$row[no]?>','<?=$_REQUEST[status]?>')">삭제</a></td>
                        
                       </tr>
                     <?
@@ -249,7 +250,7 @@ $(function(){
           
           
         </section><!-- /.content -->
-      </div><!-- /content-wrapper -->
+      </div><!-- /.content-wrapper -->
 
     <form id="excel_down_form" name="excel_down_form"  target="excel_iframe" method="post">
         <input type="hidden" name="grp_id" value="" />

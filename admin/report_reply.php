@@ -3,12 +3,12 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
 include_once $_SERVER['DOCUMENT_ROOT']."/admin/include/admin_header.inc.php";
 $repo = $_GET['repo'];
 $sql = "select * from gn_report_form where id=$repo";
-$res = mysqli_query($self_con, $sql);
-$row = mysqli_fetch_array($res);
+$res = mysql_query($sql);
+$row = mysql_fetch_array($res);
 
 $query = "SELECT count(idx) FROM gn_report_table where repo_id=$repo";
-$res    = mysqli_query($self_con, $query);
-$totalRow	=  mysqli_fetch_array($res);
+$res    = mysql_query($query);
+$totalRow	=  mysql_fetch_array($res);
 $totalCnt = $totalRow[0];
 $nowPage= $_REQUEST['nowPage']?$_REQUEST['nowPage']:1;
 $startPage = $nowPage?$nowPage:1;
@@ -17,15 +17,15 @@ $limitStr = " LIMIT ".(($startPage-1)*$pageCnt).", ".$pageCnt;
 $number	= $totalCnt - ($nowPage - 1) * $pageCnt;
 $orderQuery .= "ORDER BY idx desc $limitStr";
 $sql = "select * from gn_report_table where repo_id=$repo ";
-if($_REQUEST['sdate']){
-    $sql.=" and reg_date >= '{$_REQUEST['sdate']}' ";
+if($_REQUEST[sdate]){
+    $sql.=" and reg_date >= '{$_REQUEST[sdate]}' ";
 }
-if($_REQUEST['edate']){
-    $sql.=" and reg_date <= '{$_REQUEST['edate']}' ";
+if($_REQUEST[edate]){
+    $sql.=" and reg_date <= '{$_REQUEST[edate]}' ";
 }
 $excel_sql=str_replace("'","`",$sql);
 $sql .= $orderQuery;
-$repo_res = mysqli_query($self_con, $sql);
+$repo_res = mysql_query($sql);
 
 ?>
 <script src="/iam/js/jquery-3.1.1.min.js"></script>
@@ -130,8 +130,8 @@ thead tr:nth-child(2) th { position: sticky; top: 57px; }
                         <div class="box-tools">
                             <div class="input-group">
                                 <div class="form-group">
-                                    <input type="date" style="height: 30px" name="sdate" placeholder="" id="search_start_date" value="<?=$_REQUEST['sdate']?>" multiple/> ~
-                                    <input type="date" style="height: 30px" name="edate" placeholder="" id="search_end_date" value="<?=$_REQUEST['edate']?>"/>
+                                    <input type="date" style="height: 30px" name="sdate" placeholder="" id="search_start_date" value="<?=$_REQUEST[sdate]?>" multiple/> ~
+                                    <input type="date" style="height: 30px" name="edate" placeholder="" id="search_end_date" value="<?=$_REQUEST[edate]?>"/>
                                 </div>
                                 <div class="input-group-btn">
                                     <button class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>
@@ -157,16 +157,16 @@ thead tr:nth-child(2) th { position: sticky; top: 57px; }
                                 $form_arr = array();
                                 $item_arr = array();
                                 $sql1 = "select * from gn_report_form1 where form_id=$repo and item_type <> 2 order by item_order";
-                                $res1 = mysqli_query($self_con, $sql1);
-                                while($row1 = mysqli_fetch_array($res1)){
+                                $res1 = mysql_query($sql1);
+                                while($row1 = mysql_fetch_array($res1)){
                                     array_push($form_arr,$row1);
-                                    $sql2 = "select count(id) from gn_report_form2 where form_id=$repo and item_id = {$row1['id']}";
-                                    $res2 = mysqli_query($self_con, $sql2);
-                                    $row2 = mysqli_fetch_array($res2);
+                                    $sql2 = "select count(id) from gn_report_form2 where form_id=$repo and item_id = $row1[id]";
+                                    $res2 = mysql_query($sql2);
+                                    $row2 = mysql_fetch_array($res2);
                                     ?>
                                     <th colspan="<?=$row2[0]?>" style="border: 1px solid #ddd">
-                                        <a href="javascript:show_more('<?=str_replace("\n", "<br>", $row1['item_title'])?>')"><?=cut_str($row1['item_title'], 10)?></a><br>
-                                        <a href="javascript:show_more('<?=str_replace("\n", "<br>", $row1['item_req'])?>')"><?=cut_str($row1['item_req'], 10)?>
+                                        <a href="javascript:show_more('<?=str_replace("\n", "<br>", $row1[item_title])?>')"><?=cut_str($row1['item_title'], 10)?></a><br>
+                                        <a href="javascript:show_more('<?=str_replace("\n", "<br>", $row1[item_req])?>')"><?=cut_str($row1['item_req'], 10)?>
                                     </th>
                                 <?}?>
                                 <th rowspan=2 style="border: 1px solid #ddd;width: 20px">서명</th>
@@ -174,14 +174,14 @@ thead tr:nth-child(2) th { position: sticky; top: 57px; }
                             <tr>
                                 <?
                                 foreach($form_arr as $form){
-                                    $sql2 = "select * from gn_report_form2 where form_id=$repo and item_id = {$form['id']}  order by id";
-                                    $res2 = mysqli_query($self_con, $sql2);
-                                    while($row2 = mysqli_fetch_array($res2)){
-                                        $row2['item_type'] = $form['item_type'];
+                                    $sql2 = "select * from gn_report_form2 where form_id=$repo and item_id = $form[id]  order by id";
+                                    $res2 = mysql_query($sql2);
+                                    while($row2 = mysql_fetch_array($res2)){
+                                        $row2['item_type'] = $form[item_type];
                                         array_push($item_arr,$row2);
                                         ?>
                                         <th style="border: 1px solid #ddd">
-                                            <a href="javascript:show_more('<?=str_replace("\n", "<br>", $row2['tag_name'])?>')"><?=cut_str($row2['tag_name'], 10)?>
+                                            <a href="javascript:show_more('<?=str_replace("\n", "<br>", $row2[tag_name])?>')"><?=cut_str($row2['tag_name'], 10)?>
                                         </th>
                                     <?  }
                                 }
@@ -191,7 +191,7 @@ thead tr:nth-child(2) th { position: sticky; top: 57px; }
                             <tbody>
                             <?
                             $i = 1;
-                            while($repo_row = mysqli_fetch_array($repo_res)){?>
+                            while($repo_row = mysql_fetch_array($repo_res)){?>
                                 <tr>
                                     <td style="border: 1px solid #ddd"><input type="checkbox" class="check" id="check_one" name="" value="<?=$repo_row['idx']?>"></td>
                                     <td style="border: 1px solid #ddd"><?=($startPage-1)*$pageCnt + $i?></td>
@@ -210,7 +210,7 @@ thead tr:nth-child(2) th { position: sticky; top: 57px; }
                                             }
                                         }?>
                                         <td style="border: 1px solid #ddd">
-                                            <?if($item['item_type'] == 0 || $item['item_type'] == 3){
+                                            <?if($item[item_type] == 0 || $item[item_type] == 3){
                                                 if(mb_strlen($repo_value,"UTF-8") < 10){
                                                     echo $repo_value;
                                                 }else{?>

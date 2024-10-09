@@ -7,20 +7,20 @@ extract($_GET);
     }
 </script>
 <?
-if(!$_GET['type'])
+if(!$_GET[type])
     $type = 1;
 else
-    $type = $_GET['type'];
+    $type = $_GET[type];
 include "inc/header.inc.php";
 $show_iam_info_status = "N";
-$query = "select count(no) from tjd_pay_result where buyer_id='{$member_iam['mem_id']}' and
+$query = "select count(no) from tjd_pay_result where buyer_id='$member_iam[mem_id]' and
           ((member_type like '%standard%' or member_type like '%professional%' or member_type like '%enterprise%') or 
           (((iam_pay_type = '' or iam_pay_type = '0' or iam_pay_type = '전문가') and member_type != '포인트충전')) and end_status = 'Y'";
-$res = mysqli_query($self_con, $query);
-$pay_row = mysqli_fetch_array($res);
-$query = "select count(idx) from Gn_Iam_Service where mem_id='{$member_iam['mem_id']}'";
-$res = mysqli_query($self_con, $query);
-$iam_service_row = mysqli_fetch_array($res);
+$res = mysql_query($query);
+$pay_row = mysql_fetch_array($res);
+$query = "select count(idx) from Gn_Iam_Service where mem_id='$member_iam[mem_id]'";
+$res = mysql_query($query);
+$iam_service_row = mysql_fetch_array($res);
 if($iam_service_row[0] == 0 && $pay_row[0] > 0)
     $show_iam_info_status = "Y";
 ?>
@@ -34,7 +34,7 @@ if($iam_service_row[0] == 0 && $pay_row[0] > 0)
     <!--오픈그래프 (웹페이지 미리보기 -페이스북, 카카오톡)-->
     <meta property="og:title" content="아이엠으로 나를 브랜딩하기">
     <!--제목-->
-    <meta property="og:description" content="<?=$G_card['card_name']?>님의 명함 <?=$G_card['card_company']?> <?=$G_card['card_position']?>">
+    <meta property="og:description" content="<?=$G_card[card_name]?>님의 명함 <?=$G_card[card_company]?> <?=$G_card[card_position]?>">
     <!--내용-->
     <meta property="og:image" content="<?=$main_img1?>">
     <!--이미지-->
@@ -56,6 +56,8 @@ if($iam_service_row[0] == 0 && $pay_row[0] > 0)
     <link rel='stylesheet' href='/css/font-awesome.min.css' />
     <link rel="stylesheet" href="/admin/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/style_j.css">
+    <!-- ########## TODO COMMENT FOR TEST  패치할떄 해제해야함 ###########  -->
+    <script src="//developers.kakao.com/sdk/js/kakao.min.js" charset="utf-8"></script>
     <script src="js/main.js"></script>
     <script src="/js/rlatjd_fun.js"></script>
     <!--script src="/js/jquery-2.1.0.js"></script-->
@@ -256,7 +258,6 @@ if($platform == "mobile"){
         });
     }
     $(function(){
-        $("#detail_intro_modal").modal("show");
         set_monthly_payment();
         if($("#show_iam_info_status").val() == "N"){
             $(".iam_info_btn").css("display","none");
@@ -594,7 +595,7 @@ if($platform == "mobile"){
         var payment = table.find("#payment");
         var price = payment.data("num") * 1;
         if(price < 0){
-            location.href = '<?=$domainData['kakao']?>';
+            location.href = '<?=$domainData[kakao]?>';
             return;
         }
         $('#allat_amt').val(price);
@@ -644,7 +645,7 @@ if($platform == "mobile"){
                         type:"POST",
                         url:"/ajax/get_mem_address.php",
                         dataType:"json",
-                        data:{mem_id:'<?=$_SESSION['iam_member_id']?>'},
+                        data:{mem_id:'<?=$_SESSION[iam_member_id]?>'},
                         success: function(data){
                             $('#allat_recp_addr').val(data.address);
                             if(product_type != "standard"){
@@ -713,7 +714,7 @@ if($platform == "mobile"){
                         type:"POST",
                         url:"/ajax/get_mem_address.php",
                         dataType:"json",
-                        data:{mem_id:'<?=$_SESSION['iam_member_id']?>'},
+                        data:{mem_id:'<?=$_SESSION[iam_member_id]?>'},
                         success: function(data){
                             $('#allat_recp_addr').val(data.address);
                             $('#allat_shop_id').val('bwelcome12');
@@ -740,7 +741,7 @@ if($platform == "mobile"){
                         type:"POST",
                         url:"/ajax/get_mem_address.php",
                         dataType:"json",
-                        data:{mem_id:'<?=$_SESSION['iam_member_id']?>'},
+                        data:{mem_id:'<?=$_SESSION[iam_member_id]?>'},
                         success: function(data){
                             $('#allat_recp_addr').val(data.address);
                             $('#allat_shop_id').val('welcome101');
@@ -872,8 +873,8 @@ if($platform == "mobile"){
                 <?
                     $pay_row = array();
                     $sql = "select * from payment_info order by idx";
-                    $res = mysqli_query($self_con, $sql);
-                    while($row = mysqli_fetch_array($res)){
+                    $res = mysql_query($sql);
+                    while($row = mysql_fetch_array($res)){
                         array_push($pay_row,$row);
                     }
                 ?>
@@ -891,7 +892,7 @@ if($platform == "mobile"){
                                 <tr style="height: 40px;background-color: #f4f4f4;">
                                     <th></th>
                                     <?foreach($pay_row as $row){?>
-                                        <th><?=$row['kind']?></th>
+                                        <th><?=$row[kind]?></th>
                                     <?}?>
                                 </tr>
                             </thead>
@@ -899,7 +900,7 @@ if($platform == "mobile"){
                                 <tr>
                                     <td>가격</td>
                                     <?foreach($pay_row as $row){?>
-                                        <td><?=number_format($row['price'])?></td>
+                                        <td><?=number_format($row[price])?></td>
                                     <?}?>
                                 </tr>
                                 <tr>
@@ -911,49 +912,49 @@ if($platform == "mobile"){
                                 <tr>
                                     <td>독립서브도메인 구축</td>
                                     <?foreach($pay_row as $row){?>
-                                    <td><?=$row['domain'] == "Y"?"&#x2705;":""?></td>
+                                    <td><?=$row[domain] == "Y"?"&#x2705;":""?></td>
                                     <?}?>
                                 </tr>
                                 <tr>
                                     <td>메인로고, 푸터로고</td>
                                     <?foreach($pay_row as $row){?>
-                                    <td><?=$row['logo'] == "Y"?"&#x2705;":""?></td>
+                                    <td><?=$row[logo] == "Y"?"&#x2705;":""?></td>
                                     <?}?>
                                 </tr>
                                 <tr>
                                     <td>플랫폼 회원승인수</td>
                                     <?foreach($pay_row as $row){?>
-                                    <td><?=number_format($row['mem_cnt'])?></td>
+                                    <td><?=number_format($row[mem_cnt])?></td>
                                     <?}?>
                                 </tr>
                                 <tr>
                                     <td>마케팅통합관리자기능</td>
                                     <?foreach($pay_row as $row){?>
-                                    <td><?=$row['marketing'] == "Y"?"&#x2705;":""?></td>
+                                    <td><?=$row[marketing] == "Y"?"&#x2705;":""?></td>
                                     <?}?>
                                 </tr>
                                 <tr>
                                     <td>오토회원생성기능</td>
                                     <?foreach($pay_row as $row){?>
-                                    <td><?=$row['auto_mem'] == "Y"?"&#x2705;":""?></td>
+                                    <td><?=$row[auto_mem] == "Y"?"&#x2705;":""?></td>
                                     <?}?>
                                 </tr>
                                 <tr>
                                     <td>단체콜백전송기능</td>
                                     <?foreach($pay_row as $row){?>
-                                    <td><?=$row['callback'] == "Y"?"&#x2705;":""?></td>
+                                    <td><?=$row[callback] == "Y"?"&#x2705;":""?></td>
                                     <?}?>
                                 </tr>
                                 <tr>
                                     <td>전체회원스텝문자기능</td>
                                     <?foreach($pay_row as $row){?>
-                                    <td><?=$row['step'] == "Y"?"&#x2705;":""?></td>
+                                    <td><?=$row[step] == "Y"?"&#x2705;":""?></td>
                                     <?}?>
                                 </tr>
                                 <tr>
                                     <td>관리자공지기능</td>
                                     <?foreach($pay_row as $row){?>
-                                    <td><?=$row['alert'] == "Y"?"&#x2705;":""?></td>
+                                    <td><?=$row[alert] == "Y"?"&#x2705;":""?></td>
                                     <?}?>
                                 </tr>
                                 <tr>
@@ -962,7 +963,7 @@ if($platform == "mobile"){
                                 <tr>
                                     <td>포토+프로필+콘텐츠</td>
                                     <?foreach($pay_row as $row){?>
-                                    <td><?=number_format($row['card_cnt'])?></td>
+                                    <td><?=number_format($row[card_cnt])?></td>
                                     <?}?>
                                 </tr>
                                 <tr>
@@ -971,7 +972,7 @@ if($platform == "mobile"){
                                 <tr>
                                     <td>한개/다수/자동/상품 등록</td>
                                     <?foreach($pay_row as $row){?>
-                                    <td><?=$row['cont_make'] == "Y"?"&#x2705;":""?></td>
+                                    <td><?=$row[cont_make] == "Y"?"&#x2705;":""?></td>
                                     <?}?>
                                 </tr>
                                 <tr>
@@ -980,13 +981,13 @@ if($platform == "mobile"){
                                 <tr>
                                     <td>IAM카드별 공유</td>
                                     <?foreach($pay_row as $row){?>
-                                    <td><?=$row['card_share'] == "Y"?"&#x2705;":""?></td>
+                                    <td><?=$row[card_share] == "Y"?"&#x2705;":""?></td>
                                     <?}?>
                                 </tr>
                                 <tr>
                                     <td>콘텐츠별 공유</td>
                                     <?foreach($pay_row as $row){?>
-                                    <td><?=$row['cont_share'] == "Y"?"&#x2705;":""?></td>
+                                    <td><?=$row[cont_share] == "Y"?"&#x2705;":""?></td>
                                     <?}?>
                                 </tr>
                                 <tr>
@@ -995,7 +996,7 @@ if($platform == "mobile"){
                                 <tr>
                                     <td>폰주소록 관리</td>
                                     <?foreach($pay_row as $row){?>
-                                    <td><?=$row['phone_addr_list'] == "Y"?"&#x2705;":""?></td>
+                                    <td><?=$row[phone_addr_list] == "Y"?"&#x2705;":""?></td>
                                     <?}?>
                                 </tr>
                                 <tr>
@@ -1004,13 +1005,13 @@ if($platform == "mobile"){
                                 <tr>
                                     <td>AI자동생성</td>
                                     <?foreach($pay_row as $row){?>
-                                    <td><?=$row['ai_auto']?></td>
+                                    <td><?=$row[ai_auto]?></td>
                                     <?}?>
                                 </tr>
                                 <tr>
                                     <td>오토데이트</td>
                                     <?foreach($pay_row as $row){?>
-                                    <td><?=$row['autodate']?></td>
+                                    <td><?=$row[autodate]?></td>
                                     <?}?>
                                 </tr>
                                 <tr>
@@ -1019,13 +1020,13 @@ if($platform == "mobile"){
                                 <tr>
                                     <td>카드전송하기</td>
                                     <?foreach($pay_row as $row){?>
-                                    <td><?=$row['card_send']?></td>
+                                    <td><?=$row[card_send]?></td>
                                     <?}?>
                                 </tr>
                                 <tr>
                                     <td>콘텐츠전송하기</td>
                                     <?foreach($pay_row as $row){?>
-                                    <td><?=$row['cont_send']?></td>
+                                    <td><?=$row[cont_send]?></td>
                                     <?}?>
                                 </tr>
                                 <tr>
@@ -1034,13 +1035,13 @@ if($platform == "mobile"){
                                 <tr>
                                     <td>광고카드보기</td>
                                     <?foreach($pay_row as $row){?>
-                                    <td><?=$row['banner_view'] == "Y"?"&#x2705;":""?></td>
+                                    <td><?=$row[banner_view] == "Y"?"&#x2705;":""?></td>
                                     <?}?>
                                 </tr>
                                 <tr>
                                     <td>광고카드만들기</td>
                                     <?foreach($pay_row as $row){?>
-                                    <td><?=$row['banner_make'] == "Y"?"&#x2705;":""?></td>
+                                    <td><?=$row[banner_make] == "Y"?"&#x2705;":""?></td>
                                     <?}?>
                                 </tr>
                                 <tr>
@@ -1049,7 +1050,7 @@ if($platform == "mobile"){
                                 <tr>
                                     <td>프렌즈</td>
                                     <?foreach($pay_row as $row){?>
-                                    <td><?=$row['friends_connecting'] == "Y"?"&#x2705;":""?></td>
+                                    <td><?=$row[friends_connecting] == "Y"?"&#x2705;":""?></td>
                                     <?}?>
                                 </tr>
                                 <tr>
@@ -1058,13 +1059,13 @@ if($platform == "mobile"){
                                 <tr>
                                     <td>그룹페이지참여</td>
                                     <?foreach($pay_row as $row){?>
-                                    <td><?=$row['group_join'] == "Y"?"&#x2705;":""?></td>
+                                    <td><?=$row[group_join] == "Y"?"&#x2705;":""?></td>
                                     <?}?>
                                 </tr>
                                 <tr>
                                     <td>그룹페이지개설</td>
                                     <?foreach($pay_row as $row){?>
-                                    <td><?=$row["group_creat"] == "Y"?"&#x2705;":""?></td>
+                                    <td><?=$row[group_create] == "Y"?"&#x2705;":""?></td>
                                     <?}?>
                                 </tr>
                                 <tr>
@@ -1073,13 +1074,13 @@ if($platform == "mobile"){
                                 <tr>
                                     <td>개인자동/선택콜백</td>
                                     <?foreach($pay_row as $row){?>
-                                    <td><?=$row['iam_callback'] == "Y"?"&#x2705;":""?></td>
+                                    <td><?=$row[iam_callback] == "Y"?"&#x2705;":""?></td>
                                     <?}?>
                                 </tr>
                                 <tr>
                                     <td>단체콜백전송기능</td>
                                     <?foreach($pay_row as $row){?>
-                                    <td><?=$row['callback'] == "Y"?"&#x2705;":""?></td>
+                                    <td><?=$row[callback] == "Y"?"&#x2705;":""?></td>
                                     <?}?>
                                 </tr>
                                 <tr>
@@ -1088,85 +1089,85 @@ if($platform == "mobile"){
                                 <tr>
                                     <td>폰연결수</td>
                                     <?foreach($pay_row as $row){?>
-                                    <td><?=$row['phone_cnt'] < 0 ?"무제한" : number_format($row['phone_cnt'])?></td>
+                                    <td><?=$row[phone_cnt] < 0 ?"무제한" : number_format($row[phone_cnt])?></td>
                                     <?}?>
                                 </tr>
                                 <tr>
                                     <td>발송건수(+가능)</td>
                                     <?foreach($pay_row as $row){?>
-                                    <td><?=number_format($row['send_daily_cnt'])?></td>
+                                    <td><?=number_format($row[send_daily_cnt])?></td>
                                     <?}?>
                                 </tr>
                                 <tr>
                                     <td>대량엑셀발송</td>
                                     <?foreach($pay_row as $row){?>
-                                    <td><?=$row['excel_send'] == "Y"?"&#x2705;":""?></td>
+                                    <td><?=$row[excel_send] == "Y"?"&#x2705;":""?></td>
                                     <?}?>
                                 </tr>
                                 <tr>
                                     <td>수신거부 자동관리</td>
                                     <?foreach($pay_row as $row){?>
-                                    <td><?=$row['recv_n'] == "Y"?"&#x2705;":""?></td>
+                                    <td><?=$row[recv_n] == "Y"?"&#x2705;":""?></td>
                                     <?}?>
                                 </tr>
                                 <tr>
                                     <td>수신동의 자동관리</td>
                                     <?foreach($pay_row as $row){?>
-                                    <td><?=$row['recv_y'] == "Y"?"&#x2705;":""?></td>
+                                    <td><?=$row[recv_y] == "Y"?"&#x2705;":""?></td>
                                     <?}?>
                                 </tr>
                                 <tr>
                                     <td>수신불가번호 자동관리</td>
                                     <?foreach($pay_row as $row){?>
-                                    <td><?=$row['recv_block'] == "Y"?"&#x2705;":""?></td>
+                                    <td><?=$row[recv_block] == "Y"?"&#x2705;":""?></td>
                                     <?}?>
                                 </tr>
                                 <tr>
                                     <td>없는번호 자동관리</td>
                                     <?foreach($pay_row as $row){?>
-                                    <td><?=$row['no_number'] == "Y"?"&#x2705;":""?></td>
+                                    <td><?=$row[no_number] == "Y"?"&#x2705;":""?></td>
                                     <?}?>
                                 </tr>
                                 <tr>
                                     <td>변경번호 자동관리</td>
                                     <?foreach($pay_row as $row){?>
-                                    <td><?=$row['change_number'] == "Y"?"&#x2705;":""?></td>
+                                    <td><?=$row[change_number] == "Y"?"&#x2705;":""?></td>
                                     <?}?>
                                 </tr>
                                 <tr>
                                     <td>그룹별 발송</td>
                                     <?foreach($pay_row as $row){?>
-                                    <td><?=$row['group_send'] == "Y"?"&#x2705;":""?></td>
+                                    <td><?=$row[group_send] == "Y"?"&#x2705;":""?></td>
                                     <?}?>
                                 </tr>
                                 <tr>
                                     <td>포토3장 발송</td>
                                     <?foreach($pay_row as $row){?>
-                                    <td><?=$row['photo_send'] == "Y"?"&#x2705;":""?></td>
+                                    <td><?=$row[photo_send] == "Y"?"&#x2705;":""?></td>
                                     <?}?>
                                 </tr>
                                 <tr>
                                     <td>수신처제한 자동관리</td>
                                     <?foreach($pay_row as $row){?>
-                                    <td><?=$row['recv_limit'] == "Y"?"&#x2705;":""?></td>
+                                    <td><?=$row[recv_limit] == "Y"?"&#x2705;":""?></td>
                                     <?}?>
                                 </tr>
                                 <tr>
                                     <td>고객이름 치환관리</td>
                                     <?foreach($pay_row as $row){?>
-                                    <td><?=$row['name_change'] == "Y"?"&#x2705;":""?></td>
+                                    <td><?=$row[name_change] == "Y"?"&#x2705;":""?></td>
                                     <?}?>
                                 </tr>
                                 <tr>
                                     <td>발송비율 자동조절</td>
                                     <?foreach($pay_row as $row){?>
-                                    <td><?=$row['send_percent'] == "Y"?"&#x2705;":""?></td>
+                                    <td><?=$row[send_percent] == "Y"?"&#x2705;":""?></td>
                                     <?}?>
                                 </tr>
                                 <tr>
                                     <td>예약발송</td>
                                     <?foreach($pay_row as $row){?>
-                                    <td><?=$row['reserve_send'] == "Y"?"&#x2705;":""?></td>
+                                    <td><?=$row[reserve_send] == "Y"?"&#x2705;":""?></td>
                                     <?}?>
                                 </tr>
                                 <tr>
@@ -1175,31 +1176,31 @@ if($platform == "mobile"){
                                 <tr>
                                     <td>휴대폰디비</td>
                                     <?foreach($pay_row as $row){?>
-                                    <td><?=number_format($row['phone_db'])?></td>
+                                    <td><?=number_format($row[phone_db])?></td>
                                     <?}?>
                                 </tr>
                                 <tr>
                                     <td>이메일디비</td>
                                     <?foreach($pay_row as $row){?>
-                                    <td><?=number_format($row['email_db'])?></td>
+                                    <td><?=number_format($row[email_db])?></td>
                                     <?}?>
                                 </tr>
                                 <tr>
                                     <td>일반번호</td>
                                     <?foreach($pay_row as $row){?>
-                                    <td><?=$row['normal_number'] == "Y"?"&#x2705;":""?></td>
+                                    <td><?=$row[normal_number] == "Y"?"&#x2705;":""?></td>
                                     <?}?>
                                 </tr>
                                 <tr>
                                     <td>수집출처</td>
                                     <?foreach($pay_row as $row){?>
-                                    <td><?=$row['recv_from'] == "Y"?"&#x2705;":""?></td>
+                                    <td><?=$row[recv_from] == "Y"?"&#x2705;":""?></td>
                                     <?}?>
                                 </tr>
                                 <tr>
                                     <td>쇼핑 디비</td>
                                     <?foreach($pay_row as $row){?>
-                                    <td><?=$row['shop_db'] < 0 ?"별도":$row['shop_db']?></td>
+                                    <td><?=$row[shop_db] < 0 ?"별도":$row[shop_db]?></td>
                                     <?}?>
                                 </tr>
                                 <tr>
@@ -1208,49 +1209,49 @@ if($platform == "mobile"){
                                 <tr>
                                     <td>랜딩페이지</td>
                                     <?foreach($pay_row as $row){?>
-                                    <td><?=$row['landing'] == "Y"?"&#x2705;":""?></td>
+                                    <td><?=$row[landing] == "Y"?"&#x2705;":""?></td>
                                     <?}?>
                                 </tr>
                                 <tr>
                                     <td>고객신청창</td>
                                     <?foreach($pay_row as $row){?>
-                                    <td><?=$row['request'] == "Y"?"&#x2705;":""?></td>
+                                    <td><?=$row[request] == "Y"?"&#x2705;":""?></td>
                                     <?}?>
                                 </tr>
                                 <tr>
                                     <td>스텝예약발송</td>
                                     <?foreach($pay_row as $row){?>
-                                    <td><?=$row['reserve_step'] == "Y"?"&#x2705;":""?></td>
+                                    <td><?=$row[reserve_step] == "Y"?"&#x2705;":""?></td>
                                     <?}?>
                                 </tr>
                                 <tr>
                                     <td>데일리발송</td>
                                     <?foreach($pay_row as $row){?>
-                                    <td><?=$row['send_daily'] == "Y"?"&#x2705;":""?></td>
+                                    <td><?=$row[send_daily] == "Y"?"&#x2705;":""?></td>
                                     <?}?>
                                 </tr>
                                 <tr>
                                     <td>신청고객관리</td>
                                     <?foreach($pay_row as $row){?>
-                                    <td><?=$row['new_mem'] == "Y"?"&#x2705;":""?></td>
+                                    <td><?=$row[new_mem] == "Y"?"&#x2705;":""?></td>
                                     <?}?>
                                 </tr>
                                 <tr>
                                     <td>기존고객관리</td>
                                     <?foreach($pay_row as $row){?>
-                                    <td><?=$row['old_mem'] == "Y"?"&#x2705;":""?></td>
+                                    <td><?=$row[old_mem] == "Y"?"&#x2705;":""?></td>
                                     <?}?>
                                 </tr>
                                 <tr>
                                     <td>발송예정내역관리</td>
                                     <?foreach($pay_row as $row){?>
-                                    <td><?=$row['send_pre'] == "Y"?"&#x2705;":""?></td>
+                                    <td><?=$row[send_pre] == "Y"?"&#x2705;":""?></td>
                                     <?}?>
                                 </tr>
                                 <tr>
                                     <td style="font-size:12px">발송결과내역확인</td>
                                     <?foreach($pay_row as $row){?>
-                                    <td  style="font-size:12px"><?=$row['send_result'] == "Y"?"&#x2705;":""?></td>
+                                    <td  style="font-size:12px"><?=$row[send_result] == "Y"?"&#x2705;":""?></td>
                                     <?}?>
                                 </tr>
                             </tbody>
@@ -1270,7 +1271,7 @@ if($platform == "mobile"){
                     <!--승인금액-->
                     <input type="hidden" name="allat_amt" id="allat_amt" value="" size="19" maxlength=10>
                     <!--회원ID-->
-                    <input type="hidden" name="allat_pmember_id" value="<?=$_SESSION['one_member_id'];?>" size="19" maxlength=20>
+                    <input type="hidden" name="allat_pmember_id" value="<?=$_SESSION[one_member_id];?>" size="19" maxlength=20>
                     <!--상품코드-->
                     <input type="hidden" name="allat_product_cd" id="allat_product_cd" value="전문가-구축" size="19" maxlength=1000>
                     <!--상품명-->
@@ -1308,7 +1309,7 @@ if($platform == "mobile"){
                     <!--현금 영수증 발급 여부-->
                     <input type="hidden" name="allat_cash_yn" value="" size="19" maxlength=1>
                     <!--결제 정보 수신 E-mail-->
-                    <input type="hidden" name="allat_email_addr" id="allat_email_addr"  size="19" maxlength=50  value="<?php echo $data['mem_email']?$data['mem_email']:"turbolight@daum.net";?>">
+                    <input type="hidden" name="allat_email_addr" id="allat_email_addr"  size="19" maxlength=50  value="<?php echo $data['mem_email']?$data[mem_email]:"turbolight@daum.net";?>">
                     <!--테스트 여부 테스트(Y),서비스(N) - Default : N 테스트 결제는 실결제가 나지 않으며 테스트 성공시 결과값은 "0001" 리턴-->
                     <input type="hidden" name="allat_test_yn" value="N" size="19" maxlength=1>
                     <!--상품 실물 여부-->
@@ -1389,26 +1390,26 @@ if($platform == "mobile"){
                                         <thead>
                                             <tr>
                                                 <th class="colored active" colspan="3" style="text-align: center;">
-                                                    <input type="checkbox" name="service_type" class="service_type"  data-product = <?=$pay_row[1]['product_type']?> checked><?=$pay_row[1]['kind']?>
+                                                    <input type="checkbox" name="service_type" class="service_type"  data-product = <?=$pay_row[1][product_type]?> checked><?=$pay_row[1][kind]?>
                                                     <img src="img/menu/icon_pay_check.png" style="height:20px" data-toggle="collapse" data-target=".all-sta" class="">
                                                 </th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td class="colored fw-bold" colspan="3" >
+                                                <td class="colored fw-bold" colspan="3" style="">
                                                     <span style="font-size:12px">광고없는 IAM카드와 자동화솔루션 이용</span>
                                                 </td>
                                             </tr>
                                             <tr class="all-sta collapse in">
-                                                <td class="colored fw-bold" colspan="3" >
+                                                <td class="colored fw-bold" colspan="3" style="">
                                                     <span style="font-size:14px">IAM카드</span>
                                                 </td>
                                             </tr>
                                             <tr class="all-sta collapse in">
                                                 <td class="fw-bold" >아이엠카드수</td>
                                                 <td colspan="2">
-                                                    <span name="iam_card_num" id="iam_card_num" data-num=<?=$pay_row[1]['card_cnt']?>><?=$pay_row[1]['card_cnt']?></span>개
+                                                    <span name="iam_card_num" id="iam_card_num" data-num=<?=$pay_row[1][card_cnt]?>><?=$pay_row[1][card_cnt]?></span>개
                                                 </td>
                                             </tr>
                                             <tr class="all-sta collapse in">
@@ -1448,7 +1449,7 @@ if($platform == "mobile"){
                                                 <td colspan="2">X</td>
                                             </tr>
                                             <tr class="all-sta collapse in">
-                                                <td class="colored fw-bold" colspan="3" >
+                                                <td class="colored fw-bold" colspan="3" style="">
                                                     <span style="font-size:14px">IAM콜백</span>
                                                 </td>
                                             </tr>
@@ -1461,7 +1462,7 @@ if($platform == "mobile"){
                                                 <td colspan="2">X</td>
                                             </tr>
                                             <tr class="all-sta collapse in">
-                                                <td class="colored fw-bold" colspan="3" >
+                                                <td class="colored fw-bold" colspan="3" style="">
                                                     <span style="font-size:14px">IAM문자</span>
                                                 </td>
                                             </tr>
@@ -1472,28 +1473,28 @@ if($platform == "mobile"){
                                             <tr class="all-sta collapse in">
                                                 <td class="fw-bold">발송건수</td>
                                                 <td colspan="2">
-                                                    <span name="send_count" id="send_count" data-num = <?=$pay_row[1]['send_daily_cnt']?> data-min = <?=$pay_row[1]['send_daily_cnt']?>><?=number_format($pay_row[1]['send_daily_cnt'])?></span>건
+                                                    <span name="send_count" id="send_count" data-num = <?=$pay_row[1][send_daily_cnt]?> data-min = <?=$pay_row[1][send_daily_cnt]?>><?=number_format($pay_row[1][send_daily_cnt])?></span>건
                                                 </td>
                                             </tr>
                                             <tr class="all-sta collapse in">
-                                                <td class="colored fw-bold" colspan="3" >
+                                                <td class="colored fw-bold" colspan="3" style="">
                                                     <span style="font-size:14px">IAM디버</span>
                                                 </td>
                                             </tr>
                                             <tr class="all-sta collapse in">
                                                 <td class="fw-bold">휴대폰디비</td>
-                                                <td colspan="2" id="phone_db" data-num = <?=$pay_row[1]['phone_db']?>><?=number_format($pay_row[1]['phone_db'])?>건</td>
+                                                <td colspan="2" id="phone_db" data-num = <?=$pay_row[1][phone_db]?>><?=number_format($pay_row[1][phone_db])?>건</td>
                                             </tr>
                                             <tr class="all-sta collapse in">
                                                 <td class="fw-bold">이메일디비</td>
-                                                <td colspan="2" id="email_db" data-num = <?=$pay_row[1]['email_db']?>><?=number_format($pay_row[1]['email_db'])?>건</td>
+                                                <td colspan="2" id="email_db" data-num = <?=$pay_row[1][email_db]?>><?=number_format($pay_row[1][email_db])?>건</td>
                                             </tr>
                                             <tr class="all-sta collapse in">
                                                 <td class="fw-bold">일반번호</td>
                                                 <td colspan="2">무제한</td>
                                             </tr>
                                             <tr class="all-sta collapse in">
-                                                <td class="colored fw-bold" colspan="3" >
+                                                <td class="colored fw-bold" colspan="3" style="">
                                                     <span style="font-size:14px">IAM스탭</span>
                                                 </td>
                                             </tr>
@@ -1523,7 +1524,7 @@ if($platform == "mobile"){
                                             </tr>
                                             <tr>
                                                 <td class="colored fw-bold" colspan="3" style="position:relative">
-                                                    <span id="payment" class="payment" data-num = <?=$pay_row[1]['price']?>><?=number_format($pay_row[1]['price'])?>원</span>
+                                                    <span id="payment" class="payment" data-num = <?=$pay_row[1][price]?>><?=number_format($pay_row[1][price])?>원</span>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -1534,26 +1535,26 @@ if($platform == "mobile"){
                                         <thead>
                                             <tr>
                                                 <th class="colored active" colspan="3" style="text-align: center;">
-                                                    <input type="checkbox" name="service_type" class="service_type"  data-product = <?=$pay_row[1]['product_type']?> checked><?=$pay_row[1]['kind']?>
+                                                    <input type="checkbox" name="service_type" class="service_type"  data-product = <?=$pay_row[1][product_type]?> checked><?=$pay_row[1][kind]?>
                                                     <img src="img/menu/icon_pay_check.png" style="height:20px" data-toggle="collapse" data-target=".all-pro" class="">
                                                 </th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td class="colored fw-bold" colspan="3" >
+                                                <td class="colored fw-bold" colspan="3" style="">
                                                     <span style="font-size:12px">IAM멀티플랫폼과 자동화솔루션 이용</span>
                                                 </td>
                                             </tr>
                                             <tr class="all-pro collapse in">
-                                                <td class="colored fw-bold" colspan="3" >
+                                                <td class="colored fw-bold" colspan="3" style="">
                                                     <span style="font-size:14px">IAM카드</span>
                                                 </td>
                                             </tr>
                                             <tr class="all-pro collapse in">
                                                 <td class="fw-bold" >아이엠카드수</td>
                                                 <td colspan="2">
-                                                    <span name="iam_card_num" id="iam_card_num" data-num=<?=$pay_row[1]['card_cnt']?>><?=$pay_row[1]['card_cnt']?></span>개
+                                                    <span name="iam_card_num" id="iam_card_num" data-num=<?=$pay_row[1][card_cnt]?>><?=$pay_row[1][card_cnt]?></span>개
                                                 </td>
                                             </tr>
                                             <tr class="all-pro collapse in">
@@ -1590,10 +1591,10 @@ if($platform == "mobile"){
                                             </tr>
                                             <tr class="all-pro collapse in">
                                                 <td class="fw-bold">독립도메인/독립로고</td>
-                                                <td colspan="2"><?=$pay_row[1]['domain'] == "Y"?"O":"X"?></td>
+                                                <td colspan="2"><?=$pay_row[1][domain] == "Y"?"O":"X"?></td>
                                             </tr>
                                             <tr class="all-pro collapse in">
-                                                <td class="colored fw-bold" colspan="3" >
+                                                <td class="colored fw-bold" colspan="3" style="">
                                                     <span style="font-size:14px">IAM콜백</span>
                                                 </td>
                                             </tr>
@@ -1606,7 +1607,7 @@ if($platform == "mobile"){
                                                 <td colspan="2">무제한</td>
                                             </tr>
                                             <tr class="all-pro collapse in">
-                                                <td class="colored fw-bold" colspan="3" >
+                                                <td class="colored fw-bold" colspan="3" style="">
                                                     <span style="font-size:14px">IAM문자</span>
                                                 </td>
                                             </tr>
@@ -1617,7 +1618,7 @@ if($platform == "mobile"){
                                             <tr class="all-pro collapse in">
                                                 <td class="fw-bold">발송건수</td>
                                                 <td>
-                                                    <span name="send_count" id="send_count" data-num = <?=$pay_row[1]['send_daily_cnt']?> data-min = <?=$pay_row[1]['send_daily_cnt']?>><?=number_format($pay_row[1]['send_daily_cnt'])?></span>건
+                                                    <span name="send_count" id="send_count" data-num = <?=$pay_row[1][send_daily_cnt]?> data-min = <?=$pay_row[1][send_daily_cnt]?>><?=number_format($pay_row[1][send_daily_cnt])?></span>건
                                                 </td>
                                                 <td>
                                                     <input type="button" value="+" class="send_count_plus"/>
@@ -1625,7 +1626,7 @@ if($platform == "mobile"){
                                                 </td>
                                             </tr>
                                             <tr class="all-pro collapse in">
-                                                <td class="colored fw-bold" colspan="3" >
+                                                <td class="colored fw-bold" colspan="3" style="">
                                                     <span style="font-size:14px">IAM디버</span>
                                                     <input type="button" value="+" id="plus_btn_db" class="db_plus"/>
                                                     <input type="button" value="-" id="minus_btn_db" class="db_minus"/>
@@ -1633,48 +1634,48 @@ if($platform == "mobile"){
                                             </tr>
                                             <tr class="all-pro collapse in">
                                                 <td class="fw-bold">휴대폰디비</td>
-                                                <td colspan="2" id="phone_db" data-num = <?=$pay_row[1]['phone_db']?> data-min = <?=$pay_row[1]['phone_db']?>><?=number_format($pay_row[1]['phone_db'])?>건</td>
+                                                <td colspan="2" id="phone_db" data-num = <?=$pay_row[1][phone_db]?> data-min = <?=$pay_row[1][phone_db]?>><?=number_format($pay_row[1][phone_db])?>건</td>
                                             </tr>
                                             <tr class="all-pro collapse in">
                                                 <td class="fw-bold">이메일디비</td>
-                                                <td colspan="2" id="email_db" data-num = <?=$pay_row[1]['email_db']?> data-min = <?=$pay_row[1]['email_db']?>><?=number_format($pay_row[1]['email_db'])?>건</td>
+                                                <td colspan="2" id="email_db" data-num = <?=$pay_row[1][email_db]?> data-min = <?=$pay_row[1][email_db]?>><?=number_format($pay_row[1][email_db])?>건</td>
                                             </tr>
                                             <tr class="all-pro collapse in">
                                                 <td class="fw-bold">일반번호</td>
-                                                <td colspan="2"><?=$pay_row[1]['normal_number'] == "Y"?"무제한":"불가"?></td>
+                                                <td colspan="2"><?=$pay_row[1][normal_number] == "Y"?"무제한":"불가"?></td>
                                             </tr>
                                             <tr class="all-pro collapse in">
-                                                <td class="colored fw-bold" colspan="3" >
+                                                <td class="colored fw-bold" colspan="3" style="">
                                                     <span style="font-size:14px">IAM스탭</span>
                                                 </td>
                                             </tr>
                                             <tr class="all-pro collapse in">
                                                 <td class="fw-bold">랜딩페이지</td>
                                                 <td colspan="2">
-                                                    <span id="landing" data-value = "<?=$pay_row[1]['landing'] == "Y"?"ON":"OFF"?>"><?=$pay_row[1]['landing'] == "Y"?"무제한":"불가"?></span>
+                                                    <span id="landing" data-value = "<?=$pay_row[1][landing] == "Y"?"ON":"OFF"?>"><?=$pay_row[1][landing] == "Y"?"무제한":"불가"?></span>
                                                 </td>
                                             </tr>
                                             <tr class="all-pro collapse in">
                                                 <td class="fw-bold">고객신청창</td>
                                                 <td colspan="2">
-                                                    <span id="req" data-value = "<?=$pay_row[1]['request'] == "Y"?"ON":"OFF"?>"><?=$pay_row[1]['request'] == "Y"?"무제한":"불가"?></span>
+                                                    <span id="req" data-value = "<?=$pay_row[1][request] == "Y"?"ON":"OFF"?>"><?=$pay_row[1][request] == "Y"?"무제한":"불가"?></span>
                                                 </td>
                                             </tr>
                                             <tr class="all-pro collapse in">
                                                 <td class="fw-bold">스텝예약발송</td>
                                                 <td colspan="2">
-                                                    <span id="step" data-value = "<?=$pay_row[1]['reserve_step'] == "Y"?"ON":"OFF"?>"><?=$pay_row[1]['reserve_step'] == "Y"?"무제한":"불가"?></span>
+                                                    <span id="step" data-value = "<?=$pay_row[1][reserve_step] == "Y"?"ON":"OFF"?>"><?=$pay_row[1][reserve_step] == "Y"?"무제한":"불가"?></span>
                                                 </td>
                                             </tr>
                                             <tr class="all-pro collapse in">
                                                 <td class="fw-bold">데일리발송</td>
                                                 <td colspan="2">
-                                                    <span id="daily" data-value = "<?=$pay_row[1]['send_daily'] == "Y"?"ON":"OFF"?>"><?=$pay_row[1]['send_daily'] == "Y"?"무제한":"불가"?></span>
+                                                    <span id="daily" data-value = "<?=$pay_row[1][send_daily] == "Y"?"ON":"OFF"?>"><?=$pay_row[1][send_daily] == "Y"?"무제한":"불가"?></span>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td class="colored fw-bold" colspan="3" style="position:relative">
-                                                    <span id="payment" class="payment" data-num = <?=$pay_row[1]['price']?>><?=number_format($pay_row[1]['price'])?>원</span>
+                                                    <span id="payment" class="payment" data-num = <?=$pay_row[1][price]?>><?=number_format($pay_row[1][price])?>원</span>
                                                     <button type="button" id="iam_info_btn" class="btn btn-primary iam_info_btn" style="position:absolute;top:15px;right:10px;padding:2px;font-size:10px;" onclick="$('#iam_info_modal').modal('show');">구축정보입력</button>
                                                 </td>
                                             </tr>
@@ -1686,26 +1687,26 @@ if($platform == "mobile"){
                                         <thead>
                                             <tr>
                                                 <th class="colored" colspan="3" style="text-align: center;">
-                                                    <input type="checkbox" name="service_type" class="service_type"  data-product = <?=$pay_row[2]['product_type']?>><?=$pay_row[2]['kind']?>
+                                                    <input type="checkbox" name="service_type" class="service_type"  data-product = <?=$pay_row[2][product_type]?>><?=$pay_row[2][kind]?>
                                                     <img src="img/menu/icon_pay_check.png" style="height:20px" data-toggle="collapse" data-target=".all-ent" class="">
                                                 </th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td class="colored fw-bold" colspan="3" >
+                                                <td class="colored fw-bold" colspan="3" style="">
                                                     <span style="font-size:12px">IAM멀티플랫폼으로 비즈니스하기</span>
                                                 </td>
                                             </tr>
                                             <tr class="all-ent collapse">
-                                                <td class="colored fw-bold" colspan="3" >
+                                                <td class="colored fw-bold" colspan="3" style="">
                                                     <span style="font-size:14px">IAM카드</span>
                                                 </td>
                                             </tr>
                                             <tr class="all-ent collapse">
                                                 <td class="fw-bold" >아이엠카드수</td>
                                                 <td colspan="2">
-                                                    <span name="iam_card_num" id="iam_card_num" data-num=<?=$pay_row[2]['card_cnt']?>><?=$pay_row[2]['card_cnt']?></span>개
+                                                    <span name="iam_card_num" id="iam_card_num" data-num=<?=$pay_row[2][card_cnt]?>><?=$pay_row[2][card_cnt]?></span>개
                                                 </td>
                                             </tr>
                                             <tr class="all-ent collapse">
@@ -1742,10 +1743,10 @@ if($platform == "mobile"){
                                             </tr>
                                             <tr class="all-ent collapse">
                                                 <td class="fw-bold">독립도메인/독립로고</td>
-                                                <td colspan="2"><?=$pay_row[2]['domain'] == "Y"?"O":"X"?></td>
+                                                <td colspan="2"><?=$pay_row[2][domain] == "Y"?"O":"X"?></td>
                                             </tr>
                                             <tr class="all-ent collapse">
-                                                <td class="colored fw-bold" colspan="3" >
+                                                <td class="colored fw-bold" colspan="3" style="">
                                                     <span style="font-size:14px">IAM콜백</span>
                                                 </td>
                                             </tr>
@@ -1758,7 +1759,7 @@ if($platform == "mobile"){
                                                 <td colspan="2">X</td>
                                             </tr>
                                             <tr class="all-ent collapse">
-                                                <td class="colored fw-bold" colspan="3" >
+                                                <td class="colored fw-bold" colspan="3" style="">
                                                     <span style="font-size:14px">IAM문자</span>
                                                 </td>
                                             </tr>
@@ -1769,7 +1770,7 @@ if($platform == "mobile"){
                                             <tr class="all-ent collapse">
                                                 <td class="fw-bold">발송건수</td>
                                                 <td colspan="2">
-                                                    <span name="send_count" id="send_count" data-num = <?=$pay_row[2]['send_daily_cnt']?> data-min = <?=$pay_row[2]['send_daily_cnt']?>><?=number_format($pay_row[2]['send_daily_cnt'])?></span>건
+                                                    <span name="send_count" id="send_count" data-num = <?=$pay_row[2][send_daily_cnt]?> data-min = <?=$pay_row[2][send_daily_cnt]?>><?=number_format($pay_row[2][send_daily_cnt])?></span>건
                                                 </td>
                                                 <!--td>
                                                     <input type="button" value="+" class="send_count_plus"/>
@@ -1777,7 +1778,7 @@ if($platform == "mobile"){
                                                 </td-->
                                             </tr>
                                             <tr class="all-ent collapse">
-                                                <td class="colored fw-bold" colspan="3" >
+                                                <td class="colored fw-bold" colspan="3" style="">
                                                     <span style="font-size:14px">IAM디버</span>
                                                     <!--input type="button" value="+" id="plus_btn_db" class="db_plus"/>
                                                     <input type="button" value="-" id="minus_btn_db" class="db_minus"/-->
@@ -1785,48 +1786,48 @@ if($platform == "mobile"){
                                             </tr>
                                             <tr class="all-ent collapse">
                                                 <td class="fw-bold">휴대폰디비</td>
-                                                <td colspan="2" id="phone_db" data-num = <?=$pay_row[2]['phone_db']?> data-min = <?=$pay_row[2]['phone_db']?>><?=number_format($pay_row[2]['phone_db'])?>건</td>
+                                                <td colspan="2" id="phone_db" data-num = <?=$pay_row[2][phone_db]?> data-min = <?=$pay_row[2][phone_db]?>><?=number_format($pay_row[2][phone_db])?>건</td>
                                             </tr>
                                             <tr class="all-ent collapse">
                                                 <td class="fw-bold">이메일디비</td>
-                                                <td colspan="2" id="email_db" data-num = <?=$pay_row[2]['email_db']?> data-min = <?=$pay_row[2]['email_db']?>><?=number_format($pay_row[2]['email_db'])?>건</td>
+                                                <td colspan="2" id="email_db" data-num = <?=$pay_row[2][email_db]?> data-min = <?=$pay_row[2][email_db]?>><?=number_format($pay_row[2][email_db])?>건</td>
                                             </tr>
                                             <tr class="all-ent collapse">
                                                 <td class="fw-bold">일반번호</td>
-                                                <td colspan="2"><?=$pay_row[2]['normal_number'] == "Y"?"무제한":"불가"?></td>
+                                                <td colspan="2"><?=$pay_row[2][normal_number] == "Y"?"무제한":"불가"?></td>
                                             </tr>
                                             <tr class="all-ent collapse">
-                                                <td class="colored fw-bold" colspan="3" >
+                                                <td class="colored fw-bold" colspan="3" style="">
                                                     <span style="font-size:14px">IAM스탭</span>
                                                 </td>
                                             </tr>
                                             <tr class="all-ent collapse">
                                                 <td class="fw-bold">랜딩페이지</td>
                                                 <td colspan="2">
-                                                    <span id="landing" data-value = "<?=$pay_row[2]['landing'] == "Y"?"ON":"OFF"?>"><?=$pay_row[2]['landing'] == "Y"?"무제한":"불가"?></span>
+                                                    <span id="landing" data-value = "<?=$pay_row[2][landing] == "Y"?"ON":"OFF"?>"><?=$pay_row[2][landing] == "Y"?"무제한":"불가"?></span>
                                                 </td>
                                             </tr>
                                             <tr class="all-ent collapse">
                                                 <td class="fw-bold">고객신청창</td>
                                                 <td colspan="2">
-                                                    <span id="req" data-value = "<?=$pay_row[2]['request'] == "Y"?"ON":"OFF"?>"><?=$pay_row[2]['request'] == "Y"?"무제한":"불가"?></span>
+                                                    <span id="req" data-value = "<?=$pay_row[2][request] == "Y"?"ON":"OFF"?>"><?=$pay_row[2][request] == "Y"?"무제한":"불가"?></span>
                                                 </td>
                                             </tr>
                                             <tr class="all-ent collapse">
                                                 <td class="fw-bold">스텝예약발송</td>
                                                 <td colspan="2">
-                                                    <span id="step" data-value = "<?=$pay_row[2]['reserve_step'] == "Y"?"ON":"OFF"?>"><?=$pay_row[2]['reserve_step'] == "Y"?"무제한":"불가"?></span>
+                                                    <span id="step" data-value = "<?=$pay_row[2][reserve_step] == "Y"?"ON":"OFF"?>"><?=$pay_row[2][reserve_step] == "Y"?"무제한":"불가"?></span>
                                                 </td>
                                             </tr>
                                             <tr class="all-ent collapse">
                                                 <td class="fw-bold">데일리발송</td>
                                                 <td colspan="2">
-                                                    <span id="daily" data-value = "<?=$pay_row[2]['send_daily'] == "Y"?"ON":"OFF"?>"><?=$pay_row[2]['send_daily'] == "Y"?"무제한":"불가"?></span>
+                                                    <span id="daily" data-value = "<?=$pay_row[2][send_daily] == "Y"?"ON":"OFF"?>"><?=$pay_row[2][send_daily] == "Y"?"무제한":"불가"?></span>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td class="colored fw-bold" colspan="3" style="position:relative">
-                                                    <span id="payment" class="payment" data-num = <?=$pay_row[2]['price']?>><?=number_format($pay_row[2]['price'])?>원</span>
+                                                    <span id="payment" class="payment" data-num = <?=$pay_row[2][price]?>><?=number_format($pay_row[2][price])?>원</span>
                                                     <button type="button" id="iam_info_btn" class="btn btn-primary iam_info_btn" style="position:absolute;top:15px;right:10px;padding:2px;font-size:10px;" onclick="$('#iam_info_modal').modal('show');">구축정보입력</button>
                                                 </td>
                                             </tr>
@@ -1842,25 +1843,25 @@ if($platform == "mobile"){
                                         <thead>
                                             <tr>
                                                 <th class="colored active" colspan="3" style="text-align: center;">
-                                                    <?=$pay_row[3]['kind']?>
+                                                    <?=$pay_row[3][kind]?>
                                                 </th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td class="colored active fw-bold" colspan="3" >
+                                                <td class="colored active fw-bold" colspan="3" style="">
                                                     <span style="font-size:12px">IAM멀티플랫폼으로 비즈니스하기</span>
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td class="colored active fw-bold" colspan="3" >
+                                                <td class="colored active fw-bold" colspan="3" style="">
                                                     <span style="font-size:14px">IAM카드</span>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td class="fw-bold" >아이엠카드수</td>
                                                 <td colspan="2">
-                                                    <span name="iam_card_num" id="iam_card_num" data-num=<?=$pay_row[3]['card_cnt']?>><?=$pay_row[3]['card_cnt']?></span>개
+                                                    <span name="iam_card_num" id="iam_card_num" data-num=<?=$pay_row[3][card_cnt]?>><?=$pay_row[3][card_cnt]?></span>개
                                                 </td>
                                             </tr>
                                             <tr>
@@ -1897,10 +1898,10 @@ if($platform == "mobile"){
                                             </tr>
                                             <tr>
                                                 <td class="fw-bold">독립도메인/독립로고</td>
-                                                <td colspan="2"><?=$pay_row[3]['domain'] == "Y"?"O":"X"?></td>
+                                                <td colspan="2"><?=$pay_row[3][domain] == "Y"?"O":"X"?></td>
                                             </tr>
                                             <tr>
-                                                <td class="colored active fw-bold" colspan="3" >
+                                                <td class="colored active fw-bold" colspan="3" style="">
                                                     <span style="font-size:14px">IAM콜백</span>
                                                 </td>
                                             </tr>
@@ -1913,7 +1914,7 @@ if($platform == "mobile"){
                                                 <td colspan="2">무제한</td>
                                             </tr>
                                             <tr>
-                                                <td class="colored active fw-bold" colspan="3" >
+                                                <td class="colored active fw-bold" colspan="3" style="">
                                                     <span style="font-size:14px">IAM문자</span>
                                                 </td>
                                             </tr>
@@ -1924,7 +1925,7 @@ if($platform == "mobile"){
                                             <tr>
                                                 <td class="fw-bold">발송건수</td>
                                                 <td>
-                                                    <span name="send_count" id="send_count" data-num = <?=$pay_row[3]['send_daily_cnt']?> data-min = <?=$pay_row[3]['send_daily_cnt']?>><?=number_format($pay_row[3]['send_daily_cnt'])?></span>건
+                                                    <span name="send_count" id="send_count" data-num = <?=$pay_row[3][send_daily_cnt]?> data-min = <?=$pay_row[3][send_daily_cnt]?>><?=number_format($pay_row[3][send_daily_cnt])?></span>건
                                                 </td>
                                                 <td>
                                                     <input type="button" value="+" class="send_count_plus"/>
@@ -1932,7 +1933,7 @@ if($platform == "mobile"){
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td class="colored active fw-bold" colspan="3" >
+                                                <td class="colored active fw-bold" colspan="3" style="">
                                                     <span style="font-size:14px">IAM디버</span>
                                                     <input type="button" value="+" id="plus_btn_db" class="db_plus"/>
                                                     <input type="button" value="-" id="minus_btn_db" class="db_minus"/>
@@ -1940,48 +1941,48 @@ if($platform == "mobile"){
                                             </tr>
                                             <tr>
                                                 <td class="fw-bold">휴대폰디비</td>
-                                                <td colspan="2" id="phone_db" data-num = <?=$pay_row[3]['phone_db']?> data-min = <?=$pay_row[3]['phone_db']?>><?=number_format($pay_row[3]['phone_db'])?>건</td>
+                                                <td colspan="2" id="phone_db" data-num = <?=$pay_row[3][phone_db]?> data-min = <?=$pay_row[3][phone_db]?>><?=number_format($pay_row[3][phone_db])?>건</td>
                                             </tr>
                                             <tr>
                                                 <td class="fw-bold">이메일디비</td>
-                                                <td colspan="2" id="email_db" data-num = <?=$pay_row[3]['email_db']?> data-min = <?=$pay_row[3]['email_db']?>><?=number_format($pay_row[3]['email_db'])?>건</td>
+                                                <td colspan="2" id="email_db" data-num = <?=$pay_row[3][email_db]?> data-min = <?=$pay_row[3][email_db]?>><?=number_format($pay_row[3][email_db])?>건</td>
                                             </tr>
                                             <tr>
                                                 <td class="fw-bold">일반번호</td>
-                                                <td colspan="2"><?=$pay_row[3]['normal_number'] == "Y"?"무제한":"불가"?></td>
+                                                <td colspan="2"><?=$pay_row[3][normal_number] == "Y"?"무제한":"불가"?></td>
                                             </tr>
                                             <tr>
-                                                <td class="colored active fw-bold" colspan="3" >
+                                                <td class="colored active fw-bold" colspan="3" style="">
                                                     <span style="font-size:14px">IAM스탭</span>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td class="fw-bold">랜딩페이지</td>
                                                 <td colspan="2">
-                                                    <span id="landing" data-value = "<?=$pay_row[3]['landing'] == "Y"?"ON":"OFF"?>"><?=$pay_row[3]['landing'] == "Y"?"무제한":"불가"?></span>
+                                                    <span id="landing" data-value = "<?=$pay_row[3][landing] == "Y"?"ON":"OFF"?>"><?=$pay_row[3][landing] == "Y"?"무제한":"불가"?></span>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td class="fw-bold">고객신청창</td>
                                                 <td colspan="2">
-                                                    <span id="req" data-value = "<?=$pay_row[3]['request'] == "Y"?"ON":"OFF"?>"><?=$pay_row[3]['request'] == "Y"?"무제한":"불가"?></span>
+                                                    <span id="req" data-value = "<?=$pay_row[3][request] == "Y"?"ON":"OFF"?>"><?=$pay_row[3][request] == "Y"?"무제한":"불가"?></span>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td class="fw-bold">스텝예약발송</td>
                                                 <td colspan="2">
-                                                    <span id="step" data-value = "<?=$pay_row[3]['reserve_step'] == "Y"?"ON":"OFF"?>"><?=$pay_row[3]['reserve_step'] == "Y"?"무제한":"불가"?></span>
+                                                    <span id="step" data-value = "<?=$pay_row[3][reserve_step] == "Y"?"ON":"OFF"?>"><?=$pay_row[3][reserve_step] == "Y"?"무제한":"불가"?></span>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td class="fw-bold">데일리발송</td>
                                                 <td colspan="2">
-                                                    <span id="daily" data-value = "<?=$pay_row[3]['send_daily'] == "Y"?"ON":"OFF"?>"><?=$pay_row[3]['send_daily'] == "Y"?"무제한":"불가"?></span>
+                                                    <span id="daily" data-value = "<?=$pay_row[3][send_daily] == "Y"?"ON":"OFF"?>"><?=$pay_row[3][send_daily] == "Y"?"무제한":"불가"?></span>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td class="colored active fw-bold" colspan="3" style="position:relative">
-                                                    <span id="payment" class="payment" data-num = <?=$pay_row[3]['price']?>><?=number_format($pay_row[3]['price'])?>원</span>
+                                                    <span id="payment" class="payment" data-num = <?=$pay_row[3][price]?>><?=number_format($pay_row[3][price])?>원</span>
                                                     <button type="button" id="iam_info_btn" class="btn btn-primary iam_info_btn" style="position:absolute;top:15px;right:10px;padding:2px;font-size:10px;" onclick="$('#iam_info_modal').modal('show');">구축정보입력</button>
                                                 </td>
                                             </tr>
@@ -2003,12 +2004,12 @@ if($platform == "mobile"){
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td class="colored fw-bold" colspan="3" >
+                                                <td class="colored fw-bold" colspan="3" style="">
                                                     <span style="font-size:12px">공개된 디비수집으로 타겟 마케팅하기</span>
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td class="colored active fw-bold" colspan="3" >
+                                                <td class="colored active fw-bold" colspan="3" style="">
                                                     <span style="font-size:14px">IAM디버</span>
                                                 </td>
                                             </tr>
@@ -2071,7 +2072,7 @@ if($platform == "mobile"){
                         <input type="radio" name="payment_type" id="payment_type_month" value="month"> [통장결제]</input>는 ARS콜수신, 이용승인, 잔고부족시 이용 중지되므로 가능한 [카드결제]를 사용하세요<br />
                     </div>
                     <?
-                    if(!$_SESSION['iam_member_id'])
+                    if(!$_SESSION[iam_member_id])
                     {?>
                     <div class="a8"><a href="javascript:alert('로그인후 이용이 가능합니다.');location.href='login.php'"><img src="/images/sub_02_btn_23.jpg" /></a></div>
                     <?}else {?>
@@ -2122,7 +2123,7 @@ if($platform == "mobile"){
         <div id="detail_intro_modal" class="modal fade" tabindex="-1" role="dialog" style="overflow-x: auto; overflow-y: auto;">
             <div class="modal-dialog" style="width: 100%;max-width:768px;">
                 <!-- Modal content-->
-                <div class="modal-content" >
+                <div class="modal-content" style="">
                     <div class="modal-header" style="border:none;background-color: rgb(130,199,54);border-top-right-radius: 5px;border-top-left-radius: 5px;">
                         <div>
                             <button type="button" class="close" data-dismiss="modal" style="opacity: 2">
@@ -2142,8 +2143,8 @@ if($platform == "mobile"){
                                     <tr>
                                         <th class="bold"  colspan="2" style = "text-align: left;font-size: 14px;">
                                             ※ 위약금 종류와 근거자료<br><br>
-                                            1. 등록비(50만원) : 리셀러로서 수당을 받을수 있는 등록비를 말한다. 약정하지 않는 리셀러는 등록비를 사전 납부하고 리셀러로 등록할수 있다. 그러므로 약정을 하고 나서 해지 하는 것은 등록비를 이미 납부한 경우 반환이 되지 않으므로 약정자는 해지할경우 등록비를 위약금으로 납부해야 한다. <br><br>
-                                            2. 관리비(50만원) : 리셀러로 등록하게 되면 기존 추천자가 1-2개월간 플랫폼 설정, 이용, 교육, 대행등을 진행한다. 약정없는 리셀러의 경우 사전에 50만원을 납부하고 진행하지만 약정자는 납부하지 않고 시작하므로 약정후 해지시 이 비용을 위약금으로 납부한다. <br><br>
+                                            1. 등록비(80만원) : 리셀러로서 수당을 받을수 있는 등록비를 말한다. 약정하지 않는 리셀러는 등록비를 사전 납부하고 리셀러로 등록할수 있다. 그러므로 약정을 하고 나서 해지 하는 것은 등록비를 이미 납부한 경우 반환이 되지 않으므로 약정자는 해지할경우 등록비를 위약금으로 납부해야 한다. <br><br>
+                                            2. 관리비(20만원) : 리셀러로 등록하게 되면 기존 추천자가 1-2개월간 플랫폼 설정, 이용, 교육, 대행등을 진행한다. 약정없는 리셀러의 경우 사전에 20만원을 납부하고 진행하지만 약정자는 납부하지 않고 시작하므로 약정후 해지시 이 비용을 위약금으로 납부한다. <br><br>
                                             3. 이용료(9.9만원) : 이용료는 9.9만원을 3.3만원에 지원하므로 매월 지원받은 만큼 위약금으로 납부해야 한다. <br><br>
                                             4. 포인트(100만원) : 리셀러에게 제공되는 초기 포인트 100만 포인트 중 사용한 액수를 위약금으로 환불한다. <br><br>
                                             단, 기간이 지남에 따라 약정의무를 수행하게 되므로 약정기간이 끝나갈때에 맞춰 위약금의 비율을 낮추게 된다.
@@ -2164,7 +2165,7 @@ if($platform == "mobile"){
         <div id="penalty_modal" class="modal fade" tabindex="-1" role="dialog" style="overflow-x: auto; overflow-y: auto;">
             <div class="modal-dialog" style="width: 100%;max-width:768px;">
                 <!-- Modal content-->
-                <div class="modal-content" >
+                <div class="modal-content" style="">
                     <div class="modal-header" style="border:none;background-color: rgb(130,199,54);border-top-right-radius: 5px;border-top-left-radius: 5px;">
                         <div>
                             <button type="button" class="close" data-dismiss="modal" style="opacity: 2">
@@ -2222,15 +2223,15 @@ if($platform == "mobile"){
                                 <tbody>
                                     <?
                                     $sql_penalty = "select * from gn_penalty_list";
-                                    $res_penalty = mysqli_query($self_con, $sql_penalty);
-                                    while($row_penalty = mysqli_fetch_array($res_penalty)){
+                                    $res_penalty = mysql_query($sql_penalty);
+                                    while($row_penalty = mysql_fetch_array($res_penalty)){
                                     ?>
                                     <tr>
-                                        <td><?=$row_penalty['month']?>개월</td>
-                                        <td><?=number_format($row_penalty['reg_money'])?></td>
-                                        <td><?=number_format($row_penalty['manage_money'])?></td>
-                                        <td><?=number_format($row_penalty['use_money'])?></td>
-                                        <td><?=number_format($row_penalty['penalty_money'])?></td>
+                                        <td><?=$row_penalty[month]?>개월</td>
+                                        <td><?=number_format($row_penalty[reg_money])?></td>
+                                        <td><?=number_format($row_penalty[manage_money])?></td>
+                                        <td><?=number_format($row_penalty[use_money])?></td>
+                                        <td><?=number_format($row_penalty[penalty_money])?></td>
                                     </tr>
                                     <?}?>
                                 </tbody>
@@ -2244,14 +2245,14 @@ if($platform == "mobile"){
             </div>
         </div>
 <?
-       mysqli_close($self_con);
+       mysql_close();
        include_once "_foot.php";
 ?>
 <!-- 아이엠 구축 팝업 -->
 <div id="iam_info_modal" class="modal fade" tabindex="-1" role="dialog" style="overflow-x: auto; overflow-y: auto;">
     <div class="modal-dialog" style="width: 100%;max-width:768px;">
         <!-- Modal content-->
-        <div class="modal-content" >
+        <div class="modal-content" style="">
             <div class="modal-header" style="border:none;background-color: rgb(130,199,54);border-top-right-radius: 5px;border-top-left-radius: 5px;">
                 <div>
                     <button type="button" class="close" data-dismiss="modal" style="opacity: 2">

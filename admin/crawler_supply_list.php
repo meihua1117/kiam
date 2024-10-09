@@ -228,14 +228,14 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                   }      	
 
                 	$query = "SELECT count(seq) cnt FROM crawler_data_supply a WHERE 1=1 $searchStr";
-                	$res	    = mysqli_query($self_con, $query);
-                	$totalRow	=  mysqli_fetch_array($res);	                	
+                	$res	    = mysql_query($query);
+                	$totalRow	=  mysql_fetch_array($res);	                	
                 	$totalCnt = $totalRow[0];
                 	
                 	$query = "SELECT a.seq, a.user_id, a.keyword, a.incword, a.exword, a.data_type, a.cell, a.email, a.ceo, a.company_name, a.company_type,
                               a.address, a.page_title, a.url, a.tag, a.info, a.regdate FROM crawler_data_supply a WHERE 1=1 $searchStr";
-                	//$res	    = mysqli_query($self_con, $query);
-                	//$totalCnt	=  mysqli_num_rows($res);	
+                	//$res	    = mysql_query($query);
+                	//$totalCnt	=  mysql_num_rows($res);	
                   $excel_sql = $query;
                 	
                 	$limitStr       = " LIMIT ".(($startPage-1)*$pageCnt).", ".$pageCnt;
@@ -247,11 +247,11 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                 	$i = 1;
                   $query .= $orderQuery;
                   // echo $query;              
-                	$res = mysqli_query($self_con, $query);
-                    while($row = mysqli_fetch_array($res)) {                       	
+                	$res = mysql_query($query);
+                    while($row = mysql_fetch_array($res)) {                       	
                             $query = "Select * from crawler_member_real where user_id='$row[user_id]'";
-                            $sres = mysqli_query($self_con, $query);
-                            $srow = mysqli_fetch_array($sres);                                                    
+                            $sres = mysql_query($query);
+                            $srow = mysql_fetch_array($sres);                                                    
                        
                   ?>
                       <tr>

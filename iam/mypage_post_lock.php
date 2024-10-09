@@ -1,35 +1,35 @@
 ﻿<?php 
 include "inc/header.inc.php";
-if($_SESSION['iam_member_id'] == "") {
+if($_SESSION[iam_member_id] == "") {
     echo "<script>location='/iam/';</script>";
 }
-$mem_id =$_SESSION['iam_member_id'];
-$sql_serch=" mem_id ='{$_SESSION['iam_member_id']}' ";
+$mem_id = $_SESSION[iam_member_id];
+$sql_serch=" mem_id ='$_SESSION[iam_member_id]' ";
 $sql="select count(*) from Gn_Iam_Contents cont inner join Gn_Iam_Post p on p.content_idx = cont.idx where cont.mem_id  = '$mem_id' and lock_status='Y' order by p.reg_date";
-$result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-$row = mysqli_fetch_array($result);
+$result = mysql_query($sql) or die(mysql_error());
+$row = mysql_fetch_array($result);
 $post_count	=  $row[0];
-if (!$_POST['lno'])
+if (!$_POST[lno])
     $intPageSize =20;
 else
-    $intPageSize = $_POST['lno'];
-if($_POST['page'])
+    $intPageSize = $_POST[lno];
+if($_POST[page])
 {
-    $page=(int)$_POST['page'];
+    $page=(int)$_POST[page];
     $sort_no=$post_count-($intPageSize*$page-$intPageSize);
 }
 else
 {
     $page=1;
 }
-if($_POST['page2'])
-    $page2=(int)$_POST['page2'];
+if($_POST[page2])
+    $page2=(int)$_POST[page2];
 else
     $page2=1;
 $startIndex = ($page - 1) * $intPageSize;
 $intPageCount=(int)(($post_count + $intPageSize - 1)/$intPageSize);
 $sql="select p.*,m.mem_name,m.profile,cont.westory_card_url from Gn_Iam_Contents cont inner join Gn_Iam_Post p on p.content_idx = cont.idx inner join Gn_Member m on m.mem_id = p.mem_id where cont.mem_id  = '$mem_id' and lock_status='Y' order by p.reg_date limit $startIndex,$intPageSize";
-$result=mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
+$result=mysql_query($sql) or die(mysql_error());
 ?>
 <style>
 .container {
@@ -44,7 +44,7 @@ td {
 </style>
 <link href='/css/main.css' rel='stylesheet' type='text/css'/>
 <link href='/css/responsive.css' rel='stylesheet' type='text/css'/>
-<main id="register" class="common-wrap" ><!-- 컨텐츠 영역 시작 -->
+<main id="register" class="common-wrap" style=""><!-- 컨텐츠 영역 시작 -->
     <div class="container">
         <div class="inner-wrap">
                     <h2 class="title"></h2>
@@ -72,7 +72,7 @@ td {
                             </a>
                         </div>
                         <div style="display:flex;float: right;">
-                            <?if($_SESSION['iam_member_subadmin_id'] ==$_SESSION['iam_member_id']){?>
+                            <?if($_SESSION[iam_member_subadmin_id] == $_SESSION[iam_member_id]){?>
                             <a class="btn  btn-link" title = "<?='공지알림';?>" href="/?cur_win=unread_notice&box=send&modal=Y" style="display:flex;padding:6px 3px">
                                 <p style="font-size:14px;color:black">공지전송</p>
                                 <label class="label label-sm" id = "notice" style="background: #ff3333;border-radius: 50%;padding: 2px 5px;margin-left: -5px;font-size:10px"></label>
@@ -101,7 +101,7 @@ td {
                                 <label class="label label-sm" id = "sell_service_contents" style="background: #ff3333;border-radius: 50%;padding: 2px 5px;margin-left: -5px;font-size:10px"></label>
                             </a>
                             <?}?>
-                            <?if($member_iam['service_type'] < 2){
+                            <?if($member_iam[service_type] < 2){
                                 $report_link = "/iam/mypage_report_list.php";
                             }else{
                                 $report_link = "/iam/mypage_report.php";
@@ -141,22 +141,22 @@ td {
                                 <?
                                 if($post_count)
                                 {
-                                    while($row=mysqli_fetch_array($result))
+                                    while($row=mysql_fetch_array($result))
                                     {
                                         ?>
                                         <tr >
-                                            <td ><?=$row['westory_card_url']?></td>
+                                            <td style=""><?=$row[westory_card_url]?></td>
                                             <td style="text-align: center">
                                                 <div style="margin: 5px;width: 38px;height: 38px;border-radius: 50%;overflow: hidden;">
-                                                    <img src='<?=$row['profile']?>'>
+                                                    <img src='<?=$row[profile]?>'>
                                                 </div>
                                             </td>
-                                            <td ><?=$row['mem_name']?></td>
-                                            <td ><?=$row['mem_id']?></td>
-                                            <td ><?=$row['content']?></td>
-                                            <td style="font-size:11px;"><?=$row['reg_date']?></td>
+                                            <td style=""><?=$row[mem_name]?></td>
+                                            <td style=""><?=$row[mem_id]?></td>
+                                            <td style=""><?=$row[content]?></td>
+                                            <td style="font-size:11px;"><?=$row[reg_date]?></td>
                                             <td style="font-size:11px;">
-                                                <button type="button" class="btn btn-primary" style="position: relative; right: 1px; padding: 9px 12px" onclick="unlock_post('<?=$row['id']?>');">해제</button>
+                                                <button type="button" class="btn btn-primary" style="position: relative; right: 1px; padding: 9px 12px" onclick="unlock_post('<?=$row[id]?>');">해제</button>
                                             </td>
                                         </tr>
                                         <?
@@ -199,7 +199,7 @@ td {
                 data:{
                     post_idx : post_id,
                     mode : 'unlock',
-                    mem_id : '<?=$_SESSION['iam_member_id']?>'
+                    mem_id : '<?=$_SESSION[iam_member_id]?>'
                 },
                 success:function(data){
                     alert('댓글차단이 해제되었습니다.');

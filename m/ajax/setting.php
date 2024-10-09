@@ -13,6 +13,6 @@ if($_POST['exe_5'])
     $sql.=" exe_5 = '".$_POST['exe_5']."' ";            
 if($_POST['exe_6'])
     $sql.=" exe_6 = '".$_POST['exe_6']."' ";
-$sql.=" where mem_id='{$_SESSION['one_member_id']}' ";
-$result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
+$sql.=" where mem_id='$_SESSION[one_member_id]' ";
+$result = mysql_query($sql) or die(mysql_error());
 ?>

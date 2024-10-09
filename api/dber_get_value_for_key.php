@@ -12,8 +12,8 @@ $key = trim($_POST["key"]);
 
 
 $sql = "SELECT key_content FROM Gn_Search_Key WHERE key_id = '$key'";
-$result = mysqli_query($self_con, $sql);
-$row=mysqli_fetch_array($result);
+$result = mysql_query($sql);
+$row=mysql_fetch_array($result);
 
 echo json_encode(array('result' => 0, 'value' => $row[0]));
 ?>

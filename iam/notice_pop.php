@@ -70,24 +70,24 @@ function Memo_closeWin(id){
     <div class="pop-container">
         <div class="pop-conts">
             <!--content //-->
-            <?if($_GET['id']){
-                    $query = "SELECT * FROM tjd_sellerboard WHERE no={$_GET['id']}";
-                    $res = mysqli_query($self_con, $query);
-                    $row_no = mysqli_fetch_array($res);
+            <?if($_GET[id]){
+                    $query = "SELECT * FROM tjd_sellerboard WHERE no=$_GET[id]";
+                    $res = mysql_query($query);
+                    $row_no = mysql_fetch_array($res);
             ?>
             <table class="view_table_1" width="100%" border="0" cellspacing="0" cellpadding="0">
                 <tr>
-                    <td style="width:90%;"><?=htmlspecialchars_decode($row_no['title'])?></td>
-                    <td style="text-align:right;"><?=substr($row_no['date'],0,10)?></td>
+                    <td style="width:90%;"><?=htmlspecialchars_decode($row_no[title])?></td>
+                    <td style="text-align:right;"><?=substr($row_no[date],0,10)?></td>
                 </tr>
                 <tr>
-                    <td colspan="2"><?=htmlspecialchars_decode($row_no['content'])?></td>
+                    <td colspan="2"><?=htmlspecialchars_decode($row_no[content])?></td>
                 </tr>
             </table>
             <?}?>
             <div class="btn-r">
                  <span style='font-size:15pt;color:#000000;font-weight:bold;'>
-                    <input type='checkbox' name='Memo' onclick='javascript:Memo_closeWin(<?=$_GET['id']?>);'>&nbsp;오늘은 그만보기 &nbsp;&nbsp;&nbsp;
+                    <input type='checkbox' name='Memo' onclick='javascript:Memo_closeWin(<?=$_GET[id]?>);'>&nbsp;오늘은 그만보기 &nbsp;&nbsp;&nbsp;
                     <a href= 'javascript:self.close()' class="btn-layerClose">창닫기</a>
                  </span>
             </div>

@@ -1,11 +1,22 @@
 <?php
 include $_SERVER['DOCUMENT_ROOT']."/lib/db_config.php";
 @ini_set('display_errors', false);
+//@ini_set('error_reporting', E_ERROR);
 @ini_set("session.cache_expire", 60);
 @ini_set("session.gc_maxlifetime", 86400);
 
 $sess_path=$_SERVER['DOCUMENT_ROOT']."/_session";
 @session_save_path($sess_path);
+$cookieDomain = '.kiam.kr'; // 상위 도메인으로 설정. 도메인 앞에 점(.)이 붙는 것에 주의하세요.
+session_set_cookie_params(array(
+	'lifetime' => 0, // 브라우저 닫힐 때까지 유효
+	'path' => '/',
+	'domain' => $cookieDomain, // 상위 도메인 설정
+	//'secure' => true, // HTTPS 사용 시 true로 설정
+	//'httponly' => true, // JavaScript에서 접근 불가
+	'samesite' => 'None' // 또는 'Lax'나 'Strict'
+));
+session_start();
 
 @header('Content-Type: text/html; charset=utf-8');
 define("GOOGLE_SERVER_KEY", "AAAAmvl-uQA:APA91bHP4S4L8-nMvfOJ9vcjYlTmiRjEfOcLbAm6ITDFo9Ky-ziKAowlZi0rWhO3c7jsZ50unqWabQCBAmtr9bOxUIbwyAMgRsxO1jeLKlJ9l_Gir_wc1sZ66VBtHVBSjeAZcRfffVwo7M2fBvrrt1d5vz5clf7PVQ");
@@ -16,7 +27,7 @@ $gmnow = gmdate('D, d M Y H:i:s') . ' GMT';
 @header('Cache-Control: pre-check=0, post-check=0, max-age=0'); // HTTP/1.1
 @header('Pragma: no-cache'); // HTTP/1.0
 extract($_GET);
-if($_GET['key'] && $_GET['key'] != @session_id()) {
+/*if($_GET['key'] && $_GET['key'] != @session_id()) {
 	@session_id($_GET['key']);
 	@session_start();
 	$request_url = $_SERVER['REQUEST_URI'];
@@ -38,42 +49,12 @@ if($_GET['key'] && $_GET['key'] != @session_id()) {
 }
 else {
 	@session_start();
-}
+}*/
 $whois_api_key = "2021030317024746733699";
 $domain_url = "http://www.kiam.kr";
-/*
-if($_REQUEST[work])
-$_SESSION[work]=1;
-if(!$_SESSION[work])
-header("location: /work.php");*/
+
 $HTTP_HOST = str_replace("www.","",$_SERVER['HTTP_HOST']);
 $REQUEST_URI = $_SERVER['REQUEST_URI'];
-//echo $_SERVER['REDIRECT_STATUS'];
-/*if(substr($REQUEST_URI, 1 ,3) == "iam") {
-	$query = "select * from Gn_Iam_Service where sub_domain like '%http://" . $HTTP_HOST . "%' or main_domain like '%http://" . $HTTP_HOST . "%'";
-	$result = mysqli_query($self_con, $query);
-	$row = mysqli_fetch_array($result);
-	$domain = "http://" . $HTTP_HOST;
-	if($row[main_domain] == $domain && $row['sub_domain']!= $domain) {
-		$url = $row['sub_domain'].$REQUEST_URI;
-		echo "<script>location.href='$url';</script>";
-	}
-}
-else{
-	$query = "select * from Gn_Service where sub_domain like '%http://" . $HTTP_HOST . "%' or domain like '%http://" . $HTTP_HOST . "%'";
-	$result = mysqli_query($self_con, $query);
-	$row = mysqli_fetch_array($result);
-	$domain = "http://" . $HTTP_HOST;
-	if($row[domain] == $domain && $row['sub_domain']!= $domain) {
-		$url = $row['sub_domain'].$REQUEST_URI;
-		echo "<script>location.href='$url';</script>";
-		//echo $url;
-		//exit;
-	}
-}
-*/
-if($_COOKIE['cookie_id'])
-	$_SESSION['one_member_id']=$_COOKIE['cookie_id'];
 //site_config
 $ip=$_SERVER['REMOTE_ADDR'];
 $email_arr=array(""=>"직접입력","hanmail.net"=>"hanmail.net","daum.net"=>"daum.net","daum.com"=>"daum.com","naver.com"=>"naver.com","gmail.com"=>"gmail.com","paran.com"=>"paran.com","nate.com"=>"nate.com","yahoo.co.kr"=>"yahoo.co.kr","yahoo.com"=>"yahoo.com","hotmail.com"=>"hotmail.com","dreamwiz.com"=>"dreamwiz.com","chol.com"=>"chol.com","korea.com"=>"korea.com","freechal.com"=>"freechal.com","empal.com"=>"empal.com","hanafos.com"=>"hanafos.com","hanmir.com"=>"hanmir.com","hitel.net"=>"hitel.net","lycos.co.kr"=>"lycos.co.kr","netian.com"=>"netian.com");
@@ -99,20 +80,20 @@ $pay_type=array("Card"=>"직접결제","CARD"=>"직접결제","Auto_Card"=>"자�
 $is_chrome=eregi('Chrome',$_SERVER['HTTP_USER_AGENT'])?"disabled":"";
 $pay_phone_status=array("N"=>"결제대기","Y"=>"결제완료","M"=>"본인폰");
 $pay_result_status=array("N"=>"결제대기","Y"=>"결제완료","C"=>"해지완료");
-if($_REQUEST['one_no'])
+if($_REQUEST[one_no])
 {
-	$cookie_name="board_".$_REQUEST['status'].$_REQUEST['one_no'];
+	$cookie_name="board_".$_REQUEST[status].$_REQUEST[one_no];
 	if(!$_COOKIE[$cookie_name])
 	 {
 		setcookie($cookie_name,"ok",time()+3600*24);
-		$sql_view="update tjd_board set view_cnt=view_cnt+1 where no='{$_REQUEST['one_no']}'";
-		mysqli_query($self_con, $sql_view) or die(mysqli_error($self_con));
+		$sql_view="update tjd_board set view_cnt=view_cnt+1 where no='$_REQUEST[one_no]'";
+		mysql_query($sql_view) or die(mysql_error());
 	 }
-	$sql_no="select * from tjd_board where no='{$_REQUEST['one_no']}'";
-	$resul_no=mysqli_query($self_con, $sql_no);
-	$row_no=mysqli_fetch_array($resul_no);
-	$phone=explode("-",$row_no['phone']);
-	$email=explode("@",$row_no['email']); 
+	$sql_no="select * from tjd_board where no='$_REQUEST[one_no]'";
+	$resul_no=mysql_query($sql_no);
+	$row_no=mysql_fetch_array($resul_no);
+	$phone=explode("-",$row_no[phone]);
+	$email=explode("@",$row_no[email]); 
 }
 /*
     사용방법: IP 국가 조회
@@ -148,11 +129,11 @@ function generateRandomString($length = 10){
 	}
 	if($length == 32) {
 		return $randomString;
-	}else {
-		global $self_con;
+	}
+	else {
 		$name_count_sql = "select count(idx) from Gn_Iam_Name_Card where card_short_url = '$randomString'";
-		$name_count_result = mysqli_query($self_con, $name_count_sql);
-		$name_count_row = mysqli_fetch_array($name_count_result);
+		$name_count_result = mysql_query($name_count_sql);
+		$name_count_row = mysql_fetch_array($name_count_result);
 
 		if ((int)$name_count_row[0]) {
 			generateRandomString();
@@ -164,118 +145,99 @@ function generateRandomString($length = 10){
 //회원정보 내오기
 function get_member($id,$column="")
 {
-	global $self_con;
-	$column=$column?" mem_code , ".$column:" * ";
-	$sql="select $column from Gn_Member where mem_id='$id' ";
-	$resul=mysqli_query($self_con, $sql);
-	$row=mysqli_fetch_array($resul);
-	if($row['mem_code'])
-		return $row;		
+  $column=$column?" mem_code , ".$column:" * ";
+  $sql="select $column from Gn_Member where mem_id='$id' ";
+  $resul=mysql_query($sql);
+  $row=mysql_fetch_array($resul);
+  if($row[mem_code])
+  return $row;		
 }
 $time=time();
 $sql_fujia_up="update Gn_Member set fujia_date1='' , fujia_date2='' where  unix_timestamp(fujia_date2) < $time and unix_timestamp(fujia_date2)<>'0'";
-mysqli_query($self_con, $sql_fujia_up);
+mysql_query($sql_fujia_up);
 $sql_pay_up="update tjd_pay_result set  end_status='N' where timestamp(end_date) < $time and end_status='Y' ";
-mysqli_query($self_con, $sql_pay_up);
+mysql_query($sql_pay_up);
 $sql_num_up="update Gn_MMS_Number set end_status='N' where unix_timestamp(end_date) < $time and end_status='Y' ";
-mysqli_query($self_con, $sql_num_up);
-if($_SESSION['one_member_id'])
+mysql_query($sql_num_up);
+if($_SESSION[one_member_id])
 {
-	$member_1=get_member($_SESSION['one_member_id']);
-	if($member_1['fujia_date2']!="0000-00-00 00:00:00")	
+	$member_1=get_member($_SESSION[one_member_id]);
+	if($member_1[fujia_date2]!="0000-00-00 00:00:00")	
 	$fujia_pay=true;
 	
-	$m_email_arr=explode("@",$member_1['mem_email']);
-	$m_phone_arr=explode("-",$member_1['mem_phone']);
-	$m_birth_arr=explode("-",$member_1['mem_birth']);
+	$m_email_arr=explode("@",$member_1[mem_email]);
+	$m_phone_arr=explode("-",$member_1[mem_phone]);
+	$m_birth_arr=explode("-",$member_1[mem_birth]);
 	
 	$format_month=date("Y-m");
-	$sql_format="select idx,format_date,sendnum from Gn_MMS_Number where mem_id='{$_SESSION['one_member_id']}' order by idx desc ";
-	$resul_format=mysqli_query($self_con, $sql_format);
-	while($row_format=mysqli_fetch_array($resul_format))
+	$sql_format="select idx,format_date,sendnum from Gn_MMS_Number where mem_id='$_SESSION[one_member_id]' order by idx desc ";
+	$resul_format=mysql_query($sql_format);
+	while($row_format=mysql_fetch_array($resul_format))
 	{
-		if(!eregi($format_month,$row_format['format_date']))
+		if(!eregi($format_month,$row_format[format_date]))
 		{
 			$sql_format_u="update Gn_MMS_Number set format_date=curdate(),cnt1=0,cnt2=0 where idx='$row_format[idx]' ";
-			mysqli_query($self_con, $sql_format_u);
-			$sql_d_result1 = "delete from Gn_MMS where result='1' and send_num='{$row_format['sendnum']}' ";
-			mysqli_query($self_con, $sql_d_result1);			
+			mysql_query($sql_format_u);
+			$sql_d_result1 = "delete from Gn_MMS where result='1' and send_num='$row_format[sendnum]' ";
+			mysql_query($sql_d_result1);			
 		}
 	}
 
-	$sql_cnt_s="select idx,cnt1,cnt2,user_cnt from Gn_MMS_Number where mem_id='{$_SESSION['one_member_id']}' ";
-	$resul_cnt_s=mysqli_query($self_con, $sql_cnt_s);
-	while($row_cnt_s=mysqli_fetch_array($resul_cnt_s))
+	$sql_cnt_s="select idx,cnt1,cnt2,user_cnt from Gn_MMS_Number where mem_id='$_SESSION[one_member_id]' ";
+	$resul_cnt_s=mysql_query($sql_cnt_s);
+	while($row_cnt_s=mysql_fetch_array($resul_cnt_s))
 	{
-		if(($row_cnt_s['cnt1']==10 && $row_cnt_s['cnt2']==20) || ($row_cnt_s['cnt1']==10 && $row_cnt_s['user_cnt']>200))
+		if(($row_cnt_s[cnt1]==10 && $row_cnt_s[cnt2]==20) || ($row_cnt_s[cnt1]==10 && $row_cnt_s[user_cnt]>200))
 		{
 			//$sql_cnt_u=" update Gn_MMS_Number set user_cnt=0 where idx='$row_cnt_s[idx]' ";
-			//mysqli_query($self_con, $sql_cnt_u);
+			//mysql_query($sql_cnt_u);
 		}		
 	}
 }
-if($_SESSION['iam_member_id'])
+if($_SESSION[iam_member_id])
 {
-	$member_iam=get_member($_SESSION['iam_member_id']);
-	if($member_iam['fujia_date2']!="0000-00-00 00:00:00")
+	$member_iam=get_member($_SESSION[iam_member_id]);
+	if($member_iam[fujia_date2]!="0000-00-00 00:00:00")
 		$fujia_pay=true;
 
-	$iam_email_arr=explode("@",$member_iam['mem_email']);
-	$iam_phone_arr=explode("-",$member_iam['mem_phone']);
-	$iam_birth_arr=explode("-",$member_iam['mem_birth']);
+	$iam_email_arr=explode("@",$member_iam[mem_email]);
+	$iam_phone_arr=explode("-",$member_iam[mem_phone]);
+	$iam_birth_arr=explode("-",$member_iam[mem_birth]);
 
 	$format_month=date("Y-m");
-	$sql_format="select idx,format_date,sendnum from Gn_MMS_Number where mem_id='{$_SESSION['iam_member_id']}' order by idx desc ";
-	$resul_format=mysqli_query($self_con, $sql_format);
-	while($row_format=mysqli_fetch_array($resul_format))
+	$sql_format="select idx,format_date,sendnum from Gn_MMS_Number where mem_id='$_SESSION[iam_member_id]' order by idx desc ";
+	$resul_format=mysql_query($sql_format);
+	while($row_format=mysql_fetch_array($resul_format))
 	{
-		if(!eregi($format_month,$row_format['format_date']))
+		if(!eregi($format_month,$row_format[format_date]))
 		{
 			$sql_format_u="update Gn_MMS_Number set format_date=curdate(),cnt1=0,cnt2=0 where idx='$row_format[idx]' ";
-			mysqli_query($self_con, $sql_format_u);
-			$sql_d_result1 = "delete from Gn_MMS where result='1' and send_num='{$row_format['sendnum']}' ";
-			mysqli_query($self_con, $sql_d_result1);
+			mysql_query($sql_format_u);
+			$sql_d_result1 = "delete from Gn_MMS where result='1' and send_num='$row_format[sendnum]' ";
+			mysql_query($sql_d_result1);
 		}
 	}
 
-	$sql_cnt_s="select idx,cnt1,cnt2,user_cnt from Gn_MMS_Number where mem_id='{$_SESSION['iam_member_id']}' ";
-	$resul_cnt_s=mysqli_query($self_con, $sql_cnt_s);
-	while($row_cnt_s=mysqli_fetch_array($resul_cnt_s))
+	$sql_cnt_s="select idx,cnt1,cnt2,user_cnt from Gn_MMS_Number where mem_id='$_SESSION[iam_member_id]' ";
+	$resul_cnt_s=mysql_query($sql_cnt_s);
+	while($row_cnt_s=mysql_fetch_array($resul_cnt_s))
 	{
-		if(($row_cnt_s['cnt1']==10 && $row_cnt_s['cnt2']==20) || ($row_cnt_s['cnt1']==10 && $row_cnt_s['user_cnt']>200))
+		if(($row_cnt_s[cnt1]==10 && $row_cnt_s[cnt2]==20) || ($row_cnt_s[cnt1]==10 && $row_cnt_s[user_cnt]>200))
 		{
 			//$sql_cnt_u=" update Gn_MMS_Number set user_cnt=0 where idx='$row_cnt_s[idx]' ";
-			//mysqli_query($self_con, $sql_cnt_u);
+			//mysql_query($sql_cnt_u);
 		}
 	}
 }
-if(!$_SESSION['iam_member_id'] && !$_SESSION['one_member_id'])
+if(!$_SESSION[iam_member_id] && !$_SESSION[one_member_id])
 {
-	if(!$_SESSION['guest'])
+	if(!$_SESSION[guest])
 	{
 		$guest=str_replace(".","",$ip);
 		$guest=substr($guest,3,strlen($guest));
-		$_SESSION['guest']="손님".$guest;
+		$_SESSION[guest]="손님".$guest;
 	}
 }
-/*function update_session($newsessid = '') {
-	// Backup the current session
-	$session_backup = $_SESSION;
-	// Set current session to expire in 1 minute
-	$_SESSION['OBSOLETE'] = true;
-	$_SESSION['EXPIRES'] = time() + 60;
-	// Close the current session
-	session_write_close();
-	// Set a new session id and start the session
-	$newSession = session_id($newsessid);
-	session_start();
-	// Restore the previous session backup
-	$_SESSION = $session_backup;
-	// Clean up
-	unset($session_backup);
-	unset($_SESSION['OBSOLETE']);
-	unset($_SESSION['EXPIRES']);
-}*/
 //타이틀부분
 $title_mm="<a href='/'>홈</a>";
 function return_radio_checkbox($jb_arr,$field,$field_arr)
@@ -556,11 +518,10 @@ function return_current_id()
 }
 function sql_query($sql, $error=TRUE)
 {
-	global $self_con;
     if ($error)
-        $result = @mysqli_query($self_con, $sql) or die("<p>$sql<p>" . mysqli_errno($self_con) . " : " .  mysqli_error($self_con) . "<p>error file : $_SERVER[PHP_SELF]");
+        $result = @mysql_query($sql) or die("<p>$sql<p>" . mysql_errno() . " : " .  mysql_error() . "<p>error file : $_SERVER[PHP_SELF]");
     else
-        $result = @mysqli_query($self_con, $sql);
+        $result = @mysql_query($sql);
     return $result;
 }
 function sql_fetch($sql, $error=TRUE)
@@ -571,12 +532,12 @@ function sql_fetch($sql, $error=TRUE)
 }
 function sql_fetch_array($result)
 {
-    $row = @mysqli_fetch_assoc($result);
+    $row = @mysql_fetch_assoc($result);
     return $row;
 }
 function sql_free_result($result)
 {
-    return mysqli_free_result($result);
+    return mysql_free_result($result);
 }
 function sql_password($value)
 {
@@ -598,7 +559,7 @@ function opb_text($db_value1,$db_value2,$db_value) {
 		$db_value=str_replace("<br/><br/>","<br/>",$db_value);
 		$db_value=str_replace("<br /><br />","<br/>",$db_value);
 		$db_value=str_replace("<br/><br/>","<br/>",$db_value);
-		$return_value="<br>";
+		$return_value.="<br>";
 		if($db_value1) $return_value.="{$db_value1}<br>";
 		if($db_value2) $return_value.="{$db_value2}<br>";
 		$return_value.="{$db_value}";
@@ -689,12 +650,12 @@ function drawPagingAdminNavi($totalCnt, $nowPage, $pageCnt = "20", $naviSize = "
 	//이전 페이지 block 보기
 	if($totalPage > 1 ) {
                         
-		if( $block > 1 ) $prev_b = "<li class='paginate_button previous disabled' id='list_previous'><a href=\"javascript:" . $scriptName . "('" . $prevPG . "')\" >Prev</a></li>";
-		else $prev_b = "<li class='paginate_button previous disabled' id='list_previous'><a href=\"javascript:void(0)\">Prev</a></li>";
+		if( $block > 1 ) $prev_b .= "<li class='paginate_button previous disabled' id='list_previous'><a href=\"javascript:" . $scriptName . "('" . $prevPG . "')\" >Prev</a></li>";
+		else $prev_b .= "<li class='paginate_button previous disabled' id='list_previous'><a href=\"javascript:void(0)\">Prev</a></li>";
 		
 		//다음 페이지 block 보기
-		if( $block < $total_block) $next_b = "<li class='paginate_button next' id='list_next'><a href=\"javascript:" . $scriptName . "('" . $nextPG . "')\" >Next</a></li>";
-		else $next_b = "<li class='paginate_button next' id='list_next'><a href=\"javascript:void(0)\">Next</a></li>";
+		if( $block < $total_block) $next_b .= "<li class='paginate_button next' id='list_next'><a href=\"javascript:" . $scriptName . "('" . $nextPG . "')\" >Next</a></li>";
+		else $next_b .= "<li class='paginate_button next' id='list_next'><a href=\"javascript:void(0)\">Next</a></li>";
 		
 		$pageStr .= $prev_b;
 		
@@ -728,76 +689,76 @@ function cell_change_log ($now_num, $old_num) {
            
     */
     if(check_cellno($now_num) === false || check_cellno($old_num) === false) {
-        $return_result['code'] = false;
-        $return_result['msg'] = "번호 형식에 문제가 있습니다.";        
+        $return_result[code] = false;
+        $return_result[msg] = "번호 형식에 문제가 있습니다.";        
         return $return_result;
     }
-	global $self_con;
+        
     // [새 번호]가 변경로그에 있는지 확인
     $query = "select now_num, old_nums from Gn_MMS_Receive_Change_Log where old_nums like '$now_num%'";
-    $result = mysqli_query($self_con, $query);
-    $row = mysqli_fetch_array($result);
+    $result = mysql_query($query);
+    $row = mysql_fetch_array($result);
     if($row[0]) {
-        $return_result['code'] = false;
-        $return_result['msg'] = "신규 번호가 이미 변경된 로그가있습니다.";
+        $return_result[code] = false;
+        $return_result[msg] = "신규 번호가 이미 변경된 로그가있습니다.";
         return $return_result;
     }
     
     // [과거 번호]가 변경로그에 있는지 확인
     $query = "select now_num, old_nums from Gn_MMS_Receive_Change_Log where old_nums like '$old_num%'";
-    $result = mysqli_query($self_con, $query);
-    $row = mysqli_fetch_array($result);
+    $result = mysql_query($query);
+    $row = mysql_fetch_array($result);
     if($row[0]) {
-        $return_result['code'] = false;
-        $return_result['msg'] = "과거 번호가 이미 변경된 로그가있습니다.";
+        $return_result[code] = false;
+        $return_result[msg] = "과거 번호가 이미 변경된 로그가있습니다.";
         return $return_result;
     }    
     
     // [새 번호] 변경 로그에 존재하는지 확인
     $query = "select now_num, old_nums from Gn_MMS_Receive_Change_Log where now_num = '$now_num'";
-    $result = mysqli_query($self_con, $query);
-    $row = mysqli_fetch_array($result);
+    $result = mysql_query($query);
+    $row = mysql_fetch_array($result);
     
     if($row[0]) {
         // 변경 로그에 새 번호로 있을 경우 과거 번호로 변경후 
-        $return_result['code'] = false;
-        $return_result['msg'] = "이미 변경된 로그가있습니다.";
+        $return_result[code] = false;
+        $return_result[msg] = "이미 변경된 로그가있습니다.";
         return $return_result;        
     }
     
     // [과거 번호] 변경 로그에 존재하는지 확인
     $query = "select now_num, old_nums from Gn_MMS_Receive_Change_Log where now_num = '$old_num'";
-    $result = mysqli_query($self_con, $query);
-    $row = mysqli_fetch_array($result);    
+    $result = mysql_query($query);
+    $row = mysql_fetch_array($result);    
     
     // 디비에 저장
     if($row[0]) {
         // 업데이트
         $query = "update Gn_MMS_Receive_Change_Log set old_nums=concat(old_nums,',', '$old_num'), now_num='$now_num' where now_num='$old_num'";
-        mysqli_query($self_con, $query);
+        mysql_query($query);
         
         // 주소록 정보 변경. Gn_MMS_Receive
         // 주소록 정보 변경. 사용자 로그인 안되어있기때문에 사용자 정보 뺌.
-        //$query = "update Gn_MMS_Receive set recv_num='$now_num' where mem_id='{$_SESSION['one_member_id']}' and recv_num='$old_num'";
+        //$query = "update Gn_MMS_Receive set recv_num='$now_num' where mem_id='$_SESSION[one_member_id]' and recv_num='$old_num'";
         $query = "update Gn_MMS_Receive set recv_num='$now_num' where 1=1 and recv_num='$old_num'";
-        mysqli_query($self_con, $query);
+        mysql_query($query);
         
         // 주소록 데이터 변경  sm_data
         $query = "update sm_data set msg_url='$now_num' where msg_url='$old_num'";
-        mysqli_query($self_con, $query);
+        mysql_query($query);
     } else {
         // 입력
         $query = "insert into Gn_MMS_Receive_Change_Log set old_nums='$old_num', now_num='$now_num'";
-        mysqli_query($self_con, $query);        
+        mysql_query($query);        
         
         // 주소록 정보 변경. 사용자 로그인 안되어있기때문에 사용자 정보 뺌.
-        //$query = "update Gn_MMS_Receive set recv_num='$now_num' where mem_id='{$_SESSION['one_member_id']}' and recv_num='$old_num'";
+        //$query = "update Gn_MMS_Receive set recv_num='$now_num' where mem_id='$_SESSION[one_member_id]' and recv_num='$old_num'";
         $query = "update Gn_MMS_Receive set recv_num='$now_num' where 1=1 and recv_num='$old_num'";
-        mysqli_query($self_con, $query);        
+        mysql_query($query);        
         
         // 주소록 데이터 변경  sm_data
         $query = "update sm_data set msg_url='$now_num' where msg_url='$old_num'";
-        mysqli_query($self_con, $query);        
+        mysql_query($query);        
     }
     
     return true;

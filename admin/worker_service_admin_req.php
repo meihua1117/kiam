@@ -136,8 +136,8 @@ $(function() {
                                 <?
                                 //디폴트 아바타
                                 $sql = "select main_img1 from Gn_Iam_Info where mem_id = 'obmms02'";
-                                $result=mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-                                $row=mysqli_fetch_array($result);
+                                $result=mysql_query($sql) or die(mysql_error());
+                                $row=mysql_fetch_array($result);
                                 $default_img =  $row['main_img1'];
 
 
@@ -151,8 +151,8 @@ $(function() {
                                 $searchStr .= $search_key ? " AND (ca_1.mem_id LIKE '%".$search_key."%' or ca_1.card_name like '%".$search_key."%' or ca_1.card_company like '%".$search_key."%' )" : null;
 
                                 $count_query = "select count(idx) from Gn_Iam_Name_Card ca_1 WHERE worker_service_state=1 AND req_worker_id !='' AND group_id is NULL AND admin_shopping!=0 $searchStr";
-                                $count_result = mysqli_query($self_con, $count_query);
-                                $count_row = mysqli_fetch_array($count_result);
+                                $count_result = mysql_query($count_query);
+                                $count_row = mysql_fetch_array($count_result);
                                 $totalCnt	=  $count_row[0];
 
                                 $query = "SELECT * FROM Gn_Iam_Name_Card ca_1";
@@ -165,40 +165,40 @@ $(function() {
                                 $i = 1;
                                 $c=0;
                                 $query .= $orderQuery;
-                                $res = mysqli_query($self_con, $query);
-                                while($row = mysqli_fetch_array($res)) {
-                                    $mem_sql = "select mem_code from Gn_Member where mem_id='{$row['mem_id']}'";
-                                    $mem_res = mysqli_query($self_con, $mem_sql);
-                                    $mem_row = mysqli_fetch_array($mem_res);
+                                $res = mysql_query($query);
+                                while($row = mysql_fetch_array($res)) {
+                                    $mem_sql = "select mem_code from Gn_Member where mem_id='$row[mem_id]'";
+                                    $mem_res = mysql_query($mem_sql);
+                                    $mem_row = mysql_fetch_array($mem_res);
 
                                     $fquery = "select count(*) from Gn_Iam_Friends where friends_card_idx = ".$row['idx'];
-                                    $fresult = mysqli_query($self_con, $fquery);
-                                    $frow = mysqli_fetch_array($fresult);
+                                    $fresult = mysql_query($fquery);
+                                    $frow = mysql_fetch_array($fresult);
                                     //$friend_count	=  $frow[0];
 
                                     $sql_pay = "select sum(TotPrice) totPrice, date from tjd_pay_result where buyer_id = '".$row['mem_id']."' and end_status='Y'";
-                                    $res_result = mysqli_query($self_con, $sql_pay);
-                                    $totPriceRow = mysqli_fetch_row($res_result);
+                                    $res_result = mysql_query($sql_pay);
+                                    $totPriceRow = mysql_fetch_row($res_result);
                                     $totPrice = $totPriceRow[0];
 
-                                    $cquery = "select count(*) from Gn_Iam_Contents where westory_card_url = '{$row['card_short_url']}'";
-                                    $cresult = mysqli_query($self_con, $cquery);
-                                    $crow = mysqli_fetch_array($cresult);
+                                    $cquery = "select count(*) from Gn_Iam_Contents where westory_card_url = "."'$row[card_short_url]'";
+                                    $cresult = mysql_query($cquery);
+                                    $crow = mysql_fetch_array($cresult);
                                     
                                     if($row['ai_map_gmarket'] == 1){
                                         $chanel = "지도";
                                         $card_arr = array();
                                         $index_card = 0;
-                                        $sql_card = "select card_title from Gn_Iam_Name_Card where mem_id='{$row['mem_id']}' order by idx asc";
-                                        $res_card = mysqli_query($self_con, $sql_card);
-                                        while($row_card = mysqli_fetch_array($res_card)){
-                                            if($row_card['card_title'] == "업체보기"){
+                                        $sql_card = "select card_title from Gn_Iam_Name_Card where mem_id='{$row[mem_id]}' order by idx asc";
+                                        $res_card = mysql_query($sql_card);
+                                        while($row_card = mysql_fetch_array($res_card)){
+                                            if($row_card[card_title] == "업체보기"){
                                                 $card_arr[$index_card] = 1;
                                             }
-                                            if($row_card['card_title'] == "메뉴보기"){
+                                            if($row_card[card_title] == "메뉴보기"){
                                                 $card_arr[$index_card] = 2;
                                             }
-                                            if($row_card['card_title'] == "리뷰보기"){
+                                            if($row_card[card_title] == "리뷰보기"){
                                                 $card_arr[$index_card] = 3;
                                             }
                                             $index_card++;
@@ -216,10 +216,10 @@ $(function() {
                                     ?>
                                     <tr>
                                         <td><?=$number--?></td>
-                                        <td><?=$row['req_worker_id']?></td>
+                                        <td><?=$row[req_worker_id]?></td>
                                         <td>
                                             <div style="overflow-x:hidden;width:100px;">
-                                                <?=$row['mem_id']?>
+                                                <?=$row[mem_id]?>
                                             </div>
                                         </td>
                                         <td>
@@ -229,51 +229,51 @@ $(function() {
                                         </td>
                                         <td>
                                             <div style="overflow-x:hidden;width:100px;">
-                                                <?=$row['card_name']?>
+                                                <?=$row[card_name]?>
                                             </div>
                                         </td>
                                         <!-- <td>
                                             <div style="overflow-x:hidden;width:100px;">
-                                                <a href="http://obmms.net/iam/?<?=strip_tags($row['card_short_url'].$mem_row['mem_code'])?>" target="_blank"><?=$row['card_short_url']?></a>
+                                                <a href="http://obmms.net/iam/?<?=strip_tags($row['card_short_url'].$mem_row[mem_code])?>" target="_blank"><?=$row['card_short_url']?></a>
                                             </div>
                                         </td> -->
                                         <td>
-                                            <div >
+                                            <div style="">
                                                 <?
-                                                if($row['main_img1']){
-                                                    $thumb_img =  $row['main_img1'];
+                                                if($row[main_img1]){
+                                                    $thumb_img =  $row[main_img1];
                                                 }else{
                                                     $thumb_img =  $default_img;
                                                 }
                                                 ?>
-                                                <a href="http://kiam.kr/?<?=strip_tags($row['card_short_url'].$mem_row['mem_code'])?>" target="_blank">
+                                                <a href="http://kiam.kr/?<?=strip_tags($row['card_short_url'].$mem_row[mem_code])?>" target="_blank">
                                                     <img class="zoom" src="<?=$thumb_img?>" style="width:50px;">
                                                 </a>
                                             </div>
                                         </td>
                                         <td>
                                             <div style="overflow-x:hidden;width:100px;">
-                                                <?=$row['card_company']?>
+                                                <?=$row[card_company]?>
                                             </div>
                                         </td>
-                                        <td><?=$row['card_phone']?></td>
+                                        <td><?=$row[card_phone]?></td>
                                         <td>
                                             <div style="overflow-x:hidden;">
                                                 <?=$card_cnt?>
                                             </div>
                                         </td>
                                         <td><?=$totPrice?$totPrice:"0"?></td>
-                                        <td><?=$row['req_data']?></td>
+                                        <td><?=$row[req_data]?></td>
                                         <td><?=$crow[0]?></td>
-                                        <td><?=$row['iam_click']?></td>
-                                        <!-- <td><?=$row['req_worker_id']?></td> -->
+                                        <td><?=$row[iam_click]?></td>
+                                        <!-- <td><?=$row[req_worker_id]?></td> -->
                                         <td style="font-size:12px;">
                                             <label class="switch">
-                                                <input type="checkbox" class="chkclick" name="cardclick" id="card_click_<?=$row['idx'];?>_<?=$row['mem_id']?>" <?php echo $row['org_use_state']=="1"?"checked":"";?> >
-                                                <span class="slider round" name="status_round" id="card_click_<?=$row['idx'];?>_<?=$row['mem_id']?>"></span>
+                                                <input type="checkbox" class="chkclick" name="cardclick" id="card_click_<?=$row['idx'];?>_<?=$row[mem_id]?>" <?php echo $row['org_use_state']=="1"?"checked":"";?> >
+                                                <span class="slider round" name="status_round" id="card_click_<?=$row['idx'];?>_<?=$row[mem_id]?>"></span>
                                             </label>
                                         </td>
-                                        <td><a href="javascript:cancelset('<?=$row['idx']?>', '<?=$row['mem_id']?>')">취소</a></td>
+                                        <td><a href="javascript:cancelset('<?=$row['idx']?>', '<?=$row[mem_id]?>')">취소</a></td>
                                     </tr>
                                     <?
                                     $c++;
@@ -436,7 +436,7 @@ $(function(){
                         $("#card_idx").val(card_idx);
                         $("#check_id").val(mem_id1);
                         $("#mem_id").val(mem_id);
-                        $("#req_id").val('<?=$_SESSION['one_member_id']?>');
+                        $("#req_id").val('<?=$_SESSION[one_member_id]?>');
                     },
                     error: function(){
                         alert('삭제 실패');

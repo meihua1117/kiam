@@ -19,12 +19,10 @@ for($i = 0; $i < count($id_arr); $i++){
                                         email, company_name, brand_name, business_number, 
                                         contract_start_date, contract_end_date, mem_id, mem_name, 
                                         owner_name, owner_cell, manager_name, manager_tel, 
-                                        fax, status, address,web_theme, 
-                                        head_logo_type,head_logo,head_logo_text, home_link,
-                                        footer_logo_type, footer_logo, footer_logo_text, footer_link, 
-                                        share_price, month_price, regdate, 
-                                        main_img1, main_img2, main_img3, 
-                                        keywords, kakao, pay_link, profile_idx, 
+                                        fax, status, address, head_logo, 
+                                        web_theme, home_link, footer_logo, 
+                                        footer_link, share_price, month_price, regdate, 
+                                        main_img1, main_img2, main_img3, keywords, kakao, pay_link, profile_idx, 
                                         consultation_request, kakao_api_key, service_type, service_price, 
                                         service_price_exp, ai_card_point, ai_point_start, ai_point_end, 
                                         auto_member_point, card_send_point, contents_send_point, autodata_point, 
@@ -38,12 +36,10 @@ for($i = 0; $i < count($id_arr); $i++){
                                         privacy, email, company_name, '', 
                                         business_number, contract_start_date, contract_end_date, '', 
                                         mem_name, owner_name, owner_cell, manager_name, 
-                                        manager_tel, fax, status, address, web_theme, 
-                                        head_logo_type,head_logo,head_logo_text, home_link,
-                                        footer_logo_type, footer_logo, footer_logo_text, footer_link,
-                                        share_price, month_price, regdate, 
-                                        main_img1, main_img2, main_img3,  
-                                        keywords, kakao, pay_link, profile_idx, 
+                                        manager_tel, fax, status, address, head_logo, 
+                                        web_theme, home_link, footer_logo, 
+                                        footer_link, share_price, month_price, regdate, 
+                                        main_img1, main_img2, main_img3, keywords, kakao, pay_link, profile_idx, 
                                         consultation_request, kakao_api_key, service_type, 
                                         service_price, service_price_exp, ai_card_point, 
                                         ai_point_start, ai_point_end, auto_member_point, 
@@ -55,7 +51,7 @@ for($i = 0; $i < count($id_arr); $i++){
                                         daily_set_point, daily_point_start, daily_point_end, 
                                         point_state, auto_join_event_idx, daily_msg_event_idx, 
                                         '{$id_arr[$i]}', 1 FROM Gn_Iam_Service where idx='{$id_arr[$i]}')";
-        mysqli_query($self_con, $sql_insert) or die(mysqli_error($self_con));
+        mysql_query($sql_insert) or die(mysql_error());
 }
 echo json_encode(array("result"=>"ok"));
 exit;

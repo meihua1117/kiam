@@ -193,9 +193,9 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                   $searchStr .= $search_key ? " AND (a.m_id LIKE '".$search_key."%' or a.name like '".$search_key."%'  or a.mobile like '".$search_key."%'  or b.event_title like '".$search_key."%'  )" : null;
                 	$order = $order?$order:"desc"; 		
                 	$query = "SELECT count(a.m_id) FROM Gn_event_request a inner join Gn_event b on b.event_idx=a.event_idx WHERE 1=1 $searchStr";
-                	$res	    = mysqli_query($self_con, $query);
-                  //$totalCnt	=  mysqli_num_rows($res);	
-                  $totalRow	=  mysqli_fetch_array($res);	                	
+                	$res	    = mysql_query($query);
+                  //$totalCnt	=  mysql_num_rows($res);	
+                  $totalRow	=  mysql_fetch_array($res);	                	
                 	$totalCnt = $totalRow[0];
                   
                   $query = "SELECT a.m_id, a.sp, a.name, a.mobile, a.email, a.job, a.event_code, a.event_idx, a.request_idx, a.regdate, a.other,b.event_title,b.event_info
@@ -206,11 +206,11 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                 	$i = 1;
                 	$c=0;
                 	$query .= "$orderQuery";
-                	$res = mysqli_query($self_con, $query);
-                    while($row = mysqli_fetch_array($res)) {                       	
-                      $query = "SELECT mem_name from Gn_Member where mem_id='{$row['m_id']}'";
-                      $sres = mysqli_query($self_con, $query);
-                      $srow = mysqli_fetch_array($sres);             				
+                	$res = mysql_query($query);
+                    while($row = mysql_fetch_array($res)) {                       	
+                      $query = "SELECT mem_name from Gn_Member where mem_id='$row[m_id]'";
+                      $sres = mysql_query($query);
+                      $srow = mysql_fetch_array($sres);             				
 
                       if(strpos($row['event_info'], "other") !== false){
                           $event_other_txt = $row['other'];
@@ -220,18 +220,18 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                       }
                   ?>
                       <tr>
-                            <td><input type="checkbox" name="event_idx" value="<?php echo $row['event_idx'];?>" data-name="<?=$row['name']?>" data-mobile="<?=$row['mobile']?>"  data-email="<?=$row['email']?>" data-job="<?=$row['job']?>"  data-event_code="<?=$row['event_code']?>"  data-sp="<?=$row['sp']?>" data-request_idx="<?php echo $row['request_idx'];?>"></td>
+                            <td><input type="checkbox" name="event_idx" value="<?php echo $row['event_idx'];?>" data-name="<?=$row[name]?>" data-mobile="<?=$row[mobile]?>"  data-email="<?=$row[email]?>" data-job="<?=$row[job]?>"  data-event_code="<?=$row[event_code]?>"  data-sp="<?=$row[sp]?>" data-request_idx="<?php echo $row['request_idx'];?>"></td>
                             <td><?=$number--?></td>
-                            <td style="font-size:12px;"><?=$row['m_id']?></td>
-                            <td style="font-size:12px;"><?=$srow['mem_name']?></td>                            
-                        <td><?=$row['event_title']?></td>
-                            <td style="font-size:12px;"><?=$row['name']?></td>
-                            <td ><?=$row['mobile']?></td>
-                            <td ><?=$row['email']?></td>
-                            <td ><?=$row['job']?></td>
+                            <td style="font-size:12px;"><?=$row[m_id]?></td>
+                            <td style="font-size:12px;"><?=$srow[mem_name]?></td>                            
+                        <td><?=$row[event_title]?></td>
+                            <td style="font-size:12px;"><?=$row[name]?></td>
+                            <td ><?=$row[mobile]?></td>
+                            <td ><?=$row[email]?></td>
+                            <td ><?=$row[job]?></td>
                             <td><a href="javascript:show_txt_detail('<?=$event_other_txt?>')"><?=cut_str($event_other_txt, 5)?></a></td>
-                            <td style="font-size:12px;"><?=$row['event_code']?></td>
-                            <td ><?=$row['regdate']?></td>
+                            <td style="font-size:12px;"><?=$row[event_code]?></td>
+                            <td ><?=$row[regdate]?></td>
                       </tr>
                     <?
                     $c++;

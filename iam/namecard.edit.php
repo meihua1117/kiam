@@ -1,17 +1,17 @@
 <?include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";?>
 <?
 $card_idx = $_GET['card_num'];
-$sql="select * from Gn_Iam_Name_Card where idx = '$card_idx' and mem_id = '{$_SESSION['iam_member_id']}'";
-$result=mysqli_query($self_con, $sql);
-$row=mysqli_fetch_array($result);
-$card_link = $row['card_short_url'];
-$card_title = $row['card_title'];
-$card_name = $row['card_name'];
-$card_company = $row['card_company'];
-$card_position = $row['card_position'];
-$card_phone = $row['card_phone'];
+$sql="select * from Gn_Iam_Name_Card where idx = '$card_idx' and mem_id = '$_SESSION[iam_member_id]'";
+$result=mysql_query($sql);
+$row=mysql_fetch_array($result);
+$card_link = $row[card_short_url];
+$card_title = $row[card_title];
+$card_name = $row[card_name];
+$card_company = $row[card_company];
+$card_position = $row[card_position];
+$card_phone = $row[card_phone];
 $card_email = $row[card_email];
-$card_addr = $row['card_addr'];
+$card_addr = $row[card_addr];
 $card_map = $row[card_map];
 $card_keyword = $row[card_keyword];
 $next_iam_link = $row[next_iam_link];
@@ -24,21 +24,21 @@ $online1_check = $row[online1_check];
 $story_online2 = $row[story_online2];
 $online2_check = $row[online2_check];
 //$card_phone_ = explode('-',$card_phone);
-$sql="select mem_name, zy, mem_phone, mem_email, mem_add1,mem_code from Gn_Member where mem_id = '{$_SESSION['iam_member_id']}'";
-$result=mysqli_query($self_con, $sql);
-$row=mysqli_fetch_array($result);
+$sql="select mem_name, zy, mem_phone, mem_email, mem_add1,mem_code from Gn_Member where mem_id = '$_SESSION[iam_member_id]'";
+$result=mysql_query($sql);
+$row=mysql_fetch_array($result);
 $member = $_GET['member'];
 if($member == 'on') {
-	//$card_idx = $row['idx'];
-	$card_name = $row['mem_name'];
-    if($row['zy'])
-	    $card_company = $row['zy'];
-	// $card_position = $row['card_position'];
-	$card_phone = $row['mem_phone'];
-    if($row['mem_email'])
-	    $card_email = $row['mem_email'];
-    if($row['mem_add1'])
-	    $card_addr = $row['mem_add1'];
+	//$card_idx = $row[idx];
+	$card_name = $row[mem_name];
+    if($row[zy])
+	    $card_company = $row[zy];
+	// $card_position = $row[card_position];
+	$card_phone = $row[mem_phone];
+    if($row[mem_email])
+	    $card_email = $row[mem_email];
+    if($row[mem_add1])
+	    $card_addr = $row[mem_add1];
 	// $profile_logo = $row[profile_logo];
 	//$card_phone_ = explode('-',$card_phone);
 }
@@ -89,7 +89,7 @@ $card_email_array = explode('@',$card_email);
                                         <input type="hidden" name="check_rnum" id="check_rnum" value="Y">
                                         <input type="hidden" name="mode" id="mode" value="edit">
                                         <input type="hidden" name="mem_id" id="mem_id"
-                                            value="<?=$_SESSION['iam_member_id']?>">
+                                            value="<?=$_SESSION[iam_member_id]?>">
                                         <input type="hidden" name="card_idx" id="card_idx" value="<?=$card_idx?>">
                                         <div class="attr-row">
                                             <div class="attr-name">카드제목</div>
@@ -227,17 +227,17 @@ $card_email_array = explode('@',$card_email);
                                             </div>
                                         </div>
                                         <div class="attr-row">
-                                            <div class="attr-name">앱설치하기</div>
+                                            <div class="attr-name">IAM앱설치하기</div>
                                             <div class="attr-value">
                                                 <div class="input-wrap">
                                                     <textarea style="height:70px" class="input" name="keywords"
                                                         id="keywords"
-                                                        placeholder="온리원셀링앱을 설치하면 콜백문자, 대량문자, 포털디비수집, 365일 자동메시지발송, 자동예약메시지기능, 아이엠기능 등을 사용할수 있습니다."></textarea>
+                                                        placeholder="IAM앱을 설치하면 콜백문자, 대량문자, 포털디비수집, 365일 자동메시지발송, 자동예약메시지기능, 아이엠기능 등을 사용할수 있습니다."></textarea>
                                                 </div>
                                             </div>
                                             <div class="utils clearfix">
-                                                <a href="https://m.onestore.co.kr/mobilepoc/apps/appsDetail.omp?prodId=0000763801" target="_blank"
-                                                    class="button">셀링앱<br>설치하기</a>
+                                                <a href="https://play.google.com/store/apps/details?id=mms.onepagebook.com.onlyonesms" target="_blank"
+                                                    class="button">IAM앱<br>설치하기</a>
                                             </div
                                         </div>
                                     </form>
@@ -246,7 +246,7 @@ $card_email_array = explode('@',$card_email);
 
                             <div class="button-wrap">
                                 <a href="javascript:history.back()" class="button is-grey">다음에수정</a>
-                                <a href="javascript:namecard_check('<?=$card_link.$row['mem_code']?>');" class="button is-pink">아이엠수정</a>
+                                <a href="javascript:namecard_check('<?=$card_link.$row[mem_code]?>');" class="button is-pink">아이엠수정</a>
                             </div>
                         </div>
                     </div>

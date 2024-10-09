@@ -86,7 +86,7 @@ $link  = $_GET["link"];
                         <div style="text-align: center">
                             <h2 class="title">회원정보수정</h2>
                         </div>
-                        <input type="hidden" name="join_modify" value="<?=$member_iam['mem_code']?>">
+                        <input type="hidden" name="join_modify" value="<?php echo $member_iam[mem_code] ?>">
                         <section class="input-field">
                             <h3 class="title">기본정보수정</h3>
                             <div class="utils clearfix"></div>
@@ -248,8 +248,8 @@ $link  = $_GET["link"];
                                             // 광역시도 목록
                                             // $province_list = array();
                                             // $query = "SELECT province FROM gn_cities group by province";
-                                            // $res = mysqli_query($self_con,$query);
-                                            // while($row = mysqli_fetch_array($res)) {
+                                            // $res = mysql_query($query);
+                                            // while($row = mysql_fetch_array($res)) {
                                             //     $province_list[] = $row['province'];
                                             // }
                                             // $member_address = explode(" ", $member_iam['mem_add1']);
@@ -266,16 +266,16 @@ $link  = $_GET["link"];
                                             // $city_list = array();
                                             // if(isset($provice1)) {
                                             //     $query = "SELECT city FROM gn_cities WHERE province = '{$provice1}' group by city ";
-                                            //     $res = mysqli_query($self_con,$query);
-                                            //     while($row = mysqli_fetch_array($res))
+                                            //     $res = mysql_query($query);
+                                            //     while($row = mysql_fetch_array($res))
                                             //         $city_list[] = $row['city'];
                                             // }
 
                                             // $town_list = array();
                                             // if(isset($city1)) {
                                             //     $query = "SELECT town FROM gn_cities WHERE city = '{$city1}' and province = '{$provice1}' group by town";
-                                            //     $res = mysqli_query($self_con,$query);
-                                            //     while($row = mysqli_fetch_array($res))
+                                            //     $res = mysql_query($query);
+                                            //     while($row = mysql_fetch_array($res))
                                             //         $town_list[] = $row['town'];
                                             // }
                                             ?>
@@ -372,8 +372,8 @@ $link  = $_GET["link"];
                                             <div class="input-wrap">
                                                 <?
                                                 $query = "select * from Gn_Iam_Name_Card where group_id is NULL and mem_id  = '$member_iam[mem_id]' ORDER BY idx";
-                                                $result = mysqli_query($self_con,$query);
-                                                $row = mysqli_fetch_array($result);
+                                                $result = mysql_query($query);
+                                                $row = mysql_fetch_array($result);
                                                 $card_url = $row['card_short_url'];
                                                 ?>
                                                 <span id="sHtml" style="display:none"><?= 'http://' . $HTTP_HOST . '/?' . $card_url ?></span>
@@ -964,6 +964,7 @@ $link  = $_GET["link"];
                 },
                 success: function(data) {
                     $("#ajax_div").html(data);
+
                 }
             });
         }
