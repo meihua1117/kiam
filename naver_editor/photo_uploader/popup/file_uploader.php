@@ -20,7 +20,7 @@ if(bSuccessUpload) {
 		if(!is_dir($uploadDir)){
 			mkdir($uploadDir, 0777);
 		}
-		$rand = mktime().rand(10000, 99999);
+		$rand = time().rand(10000, 99999);
 		
 		$newPath = $uploadDir.$rand."_".urlencode($_FILES['Filedata']['name']);
 		

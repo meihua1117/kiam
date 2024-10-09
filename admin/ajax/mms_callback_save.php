@@ -15,7 +15,7 @@ if($mode == "save")
     if($_FILES['img']['name']) {
         $info = explode(".",$_FILES['img']['name']);
         $ext = $info[count($info)-1];
-        $filename = mktime().".".$ext;
+        $filename = time().".".$ext;
         $img_path = "http://www.kiam.kr".gcUpload($_FILES['img']['name'], $_FILES['img']['tmp_name'], $_FILES['img']['size'], "ad", $filename);
     }
     if($idx == "") {
@@ -48,7 +48,7 @@ else if($mode == "reg_msg")
     if($_FILES['call_img']['name']) {
         $info = explode(".",$_FILES['call_img']['name']);
         $ext = $info[count($info)-1];
-        $filename = mktime().".".$ext;
+        $filename = time().".".$ext;
         $call_img_path = "http://www.kiam.kr".gcUpload($_FILES['call_img']['name'], $_FILES['call_img']['tmp_name'], $_FILES['call_img']['size'], "ad", $filename);
     }
     // echo $call_img_path; exit;
@@ -87,7 +87,7 @@ else if($mode == "servicesave"){
     if($_FILES['img']['name']) {
         $info = explode(".",$_FILES['img']['name']);
         $ext = $info[count($info)-1];
-        $filename = mktime().".".$ext;
+        $filename = time().".".$ext;
         $img_path = "http://www.kiam.kr".gcUpload($_FILES['img']['name'], $_FILES['img']['tmp_name'], $_FILES['img']['size'], "ad", $filename);
     }
     if($idx == "") {

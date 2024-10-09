@@ -16,7 +16,7 @@ if($mode == "save"){
         if($file_name) {
             $info = explode(".",$file_name);
             $ext = $info[count($info)-1];
-            $filename = mktime().".".$ext;
+            $filename = time().".".$ext;
             $img_path = "http://www.kiam.kr".gcUpload($file_name, $temp_name, $file_size, "ad", $filename);
         }
         $query="insert into Gn_Iam_Menu set `title`     ='$menu_title',
@@ -34,7 +34,7 @@ if($mode == "save"){
         if($file_name) {
             $info = explode(".",$file_name);
             $ext = $info[count($info)-1];
-            $filename = mktime().".".$ext;
+            $filename = time().".".$ext;
             $img_path = "http://www.kiam.kr".gcUpload($file_name, $temp_name, $file_size, "ad", $filename);
         }
         if($img_path)
@@ -56,7 +56,7 @@ if($mode == "save"){
     if($file_name) {
         $info = explode(".",$file_name);
         $ext = $info[count($info)-1];
-        $filename = mktime().".".$ext;
+        $filename = time().".".$ext;
         $img_path = "http://www.kiam.kr".gcUpload($file_name, $temp_name, $file_size, "ad", $filename);
     }
     if($img_path)

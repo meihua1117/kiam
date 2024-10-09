@@ -804,7 +804,7 @@ function gcUploadRename($file_name, $file_tmp_name, $file_size, $folder) {
         $file_type_size = count($file_type);
         $file_ext = $file_type[$file_type_size - 1];
         
-        $newName = mktime()."_".sprintf("%04d",rand(1,9999)).".".$file_ext;
+        $newName = time()."_".sprintf("%04d",rand(1,9999)).".".$file_ext;
         
         //$gConf['board_data'] = "/data";
         

@@ -303,4 +303,4 @@ function loginGo(mem_id, mem_pw, mem_code) {
 </script>
       <!-- Footer -->
 <?include_once $_SERVER['DOCUMENT_ROOT']."/admin/include/admin_footer.inc.php";?>      
-<script type="text/javascript" src="/js/rlatjd_admin.js?m=<?php echo mktime();?>"></script>
+<script type="text/javascript" src="/js/rlatjd_admin.js?m=<?php echo time();?>"></script>

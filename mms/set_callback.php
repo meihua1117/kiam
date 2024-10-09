@@ -177,7 +177,7 @@ $phone_num = $_POST['phone_num'];
         }
         // $info = explode(".", $_FILES['msg_img']['tmp_name']);
         // $ext = $info[count($info)-1];
-        // $filename = mktime().".".$ext;
+        // $filename = time().".".$ext;
         // $msg_img_path = "http://www.kiam.kr".gcUpload($_FILES['msg_img']['name'], $_FILES['msg_img']['tmp_name'], $_FILES['msg_img']['size'], "ad", $filename);
     }
     

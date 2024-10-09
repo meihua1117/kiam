@@ -11,7 +11,7 @@ if($cam_id == "") {
     if($_FILES['img']['name']) {
         $info = explode(".",$_FILES['img']['name']);
         $ext = $info[count($info)-1];
-        $filename = mktime().".".$ext;
+        $filename = time().".".$ext;
         $img_path = "http://www.kiam.kr".gcUpload($_FILES['img']['name'], $_FILES['img']['tmp_name'], $_FILES['img']['size'], "ad", $filename);
     }
     $query="insert into Gn_Ad_Manager set `client`          ='$client', 
@@ -33,7 +33,7 @@ if($cam_id == "") {
     if($_FILES['img']['name']) {
         $info = explode(".",$_FILES['img']['name']);
         $ext = $info[count($info)-1];
-        $filename = mktime().".".$ext;
+        $filename = time().".".$ext;
         $img_path = "http://www.kiam.kr".gcUpload($_FILES['img']['name'], $_FILES['img']['tmp_name'], $_FILES['img']['size'], "ad", $filename);
     }
     if($img_path)

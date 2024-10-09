@@ -93,7 +93,8 @@ $is_pay_version = true;
 /*if ($_GET['site'])
 	$_SESSION['site_iam'] = $_GET['site'];
 if ($_GET['sess_mem_id'])
-	$_SESSION['sess_mem_id'] = $_GET['sess_mem_id'];*/
+	$_SESSION['sess_mem_id'] = $_GET['sess_mem_id'];
+*/
 
 $whois_api_key = "2021030317024746733699";
 $domain_url = "http://www.kiam.kr";
@@ -1132,7 +1133,7 @@ function gcUploadRename($file_name, $file_tmp_name, $file_size, $folder)
 		$file_type = explode(".", $file_name);
 		$file_type_size = count($file_type);
 		$file_ext = $file_type[$file_type_size - 1];
-
+time()
 		$newName = mktime() . "_" . sprintf("%04d", rand(1, 9999)) . "." . $file_ext;
 		//echo $_SERVER['DOCUMENT_ROOT'].$gConf['board_data']."/$folder/$file_name";
 		move_uploaded_file($file_tmp_name, $_SERVER['DOCUMENT_ROOT'] . $gConf['board_data'] . "/$folder/$file_name") or die('파일1 Upload에 실패했습니다.');

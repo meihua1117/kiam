@@ -36,7 +36,7 @@ if($_POST['mem_code']) {
     
     // 부가서비스가 있을경우
     if($add_opt == "Y") {
-        $addSql .= " ,fujia_date2 = '".date("Y-m-d H:i:s", mktime()+(86400*365))."' ";
+        $addSql .= " ,fujia_date2 = '".date("Y-m-d H:i:s", time()+(86400*365))."' ";
     } else if($add_opt == "N"){
         $addSql .= " ,fujia_date2 = '0000-00-00 00:00:00' ";
     }

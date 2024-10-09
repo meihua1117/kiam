@@ -42,7 +42,7 @@ if($mode == "land_save") {
                 mkdir($folder, 0777, true);
         
         $ext = ".".end((explode(".", $_FILES["thumbnail"]["name"]))); 
-        $upload_filename = "thumb_".mktime().rand(10000, 99999).$ext;
+        $upload_filename = "thumb_".time().rand(10000, 99999).$ext;
         
         $upload_file = $folder. $upload_filename;
         if (move_uploaded_file($_FILES['thumbnail']['tmp_name'], $upload_file)) {
@@ -98,7 +98,7 @@ if($mode == "land_save") {
         $tmp_name=str_replace("'","",$tmp_name);	
         $tmp_name=str_replace('"',"",$tmp_name);
                 
-        $upload_filename = mktime().rand(10000, 99999)."_".$tmp_name;
+        $upload_filename = time().rand(10000, 99999)."_".$tmp_name;
         
         $upload_file = $folder. $upload_filename;               
         if (move_uploaded_file($_FILES['file']['tmp_name'], $upload_file)) {
@@ -116,7 +116,7 @@ if($mode == "land_save") {
                 mkdir($folder, 0777, true);
         
         $ext = ".".end((explode(".", $_FILES["thumbnail"]["name"]))); 
-        $upload_filename = "thumb_".mktime().rand(10000, 99999).$ext;
+        $upload_filename = "thumb_".time().rand(10000, 99999).$ext;
         
         $upload_file = $folder. $upload_filename;
         if (move_uploaded_file($_FILES['thumbnail']['tmp_name'], $upload_file)) {
