@@ -1,7 +1,7 @@
 <?
 $attachDir = "attachment/";
 include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
-if($_FILES['file_attach']['name']){
+if($_FILES['file_attach'][name]){
 	$size = filesize($_FILES['file_attach']['tmp_name']);
 	if($size > 3 * 1024 * 1024) {
 		?>
@@ -21,7 +21,6 @@ if($_FILES['file_attach']['name']){
 		$tmp_name=str_replace('"',"",$tmp_name);
 		$tmp_name=basename($tmp_name);
 		$upload_file = $folder .$tmp_name;
-		//$upload_file = iconv("UTF-8","EUC-KR",$upload_file); //서버에서는 커멘트
 		if(move_uploaded_file($_FILES['file_attach']['tmp_name'], $upload_file)){
 			?>
 			<script language="javascript">

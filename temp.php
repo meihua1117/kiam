@@ -142,7 +142,8 @@ while($friend_row = mysqli_fetch_array($f_res)){
         mysqli_query($self_con,  $sql) or die(mysqli_error($self_con));
     }
 }*/
-$sql = "select idx,mem_id from Gn_Iam_Service where auto_join_event_idx=0";
+//간편회원가입설정하기
+/*$sql = "select idx,mem_id from Gn_Iam_Service where auto_join_event_idx=0";
 $res = mysql_query($sql);
 while($row = mysql_fetch_assoc($res)){
     $sql1 = "select event_idx from Gn_event where event_name_kor='단체회원자동가입및아이엠카드생성' and m_id='{$row['mem_id']}' order by regdate desc";
@@ -152,7 +153,61 @@ while($row = mysql_fetch_assoc($res)){
         mysql_query("update Gn_Iam_Service set auto_join_event_idx = '{$row1['event_idx']}' where idx={$row['idx']}");
         echo "update ".$row['mem_id']."=>".$row1['event_idx']."<br>";
     }
-}
+}*/
+/*$sql = "select request_idx,m_id from Gn_event_request where mobile=''";
+$res = mysql_query($sql);
+while($row = mysql_fetch_assoc($res)){
+    $sql1 = "select mem_phone from Gn_Member where mem_id='{$row['m_id']}'";
+    $res1 = mysql_query($sql1);
+    $row1 = mysql_fetch_assoc($res1);
+    if($row1['mem_phone']){
+	$mobile = str_replace("-","",$row1['mem_phone']);
+        mysql_query("update Gn_event_request set mobile = '{$mobile}' where request_idx = {$row['request_idx']}");
+        echo "update ".$row['request_idx']."=>".$mobile."<br>";
+    }else if(!$row1){
+	mysql_query("delete from Gn_event_request where request_idx = {$row['request_idx']}");
+        echo "delete ".$row['request_idx']."=>".$mobile."<br>";
+    }
+}*/
+/*$sql = "select idx from Gn_Iam_Name_Card where mem_id='arinlee' order by idx";
+$res = mysql_query($sql);
+while($card_row = mysql_fetch_assoc($res)){
+    if($card_row['idx'] == 4219444 || $card_row['idx'] == 4222652)
+        continue;
+    if($card_row['idx'] == 4222654 || $card_row['idx'] == 4222655 || $card_row['idx'] == 4222816)
+        $mall_type = 11;
+    else
+        $mall_type = 14;
+    $con_sql = "select idx,contents_title,contents_img,contents_desc from Gn_Iam_Contents where card_idx = {$card_row['idx']} order by idx";
+    $con_res = mysql_query($con_sql);
+    while($con_row = mysql_fetch_assoc($con_res)){
+        $sql = "update Gn_Iam_Contents set contents_type=3,contents_price = 33000,contents_sell_price=33000 where idx={$con_row['idx']}";
+        mysql_query($sql);
+        $contents_imgs = explode(",",$con_row['contents_img']);
+        $mall_img = $contents_imgs[0];
+        $sql = "insert into Gn_Iam_Mall (mem_id,mall_type,title,img,description,price,sell_price,display_status,reg_date,card_idx) " .
+                    "values ('arinlee',{$mall_type},'{$con_row['contents_title']}','{$mall_img}','{$con_row['$contents_desc']}',33000,33000,1,now(),{$con_row['idx']})";
+        mysql_query($sql) or die(mysql_error());
+        echo $sql."<br>";
+    }
+
+}*/
+/*$sql = "select idx,card_idx,mall_type from Gn_Iam_Mall where mall_type > 10 order by idx";
+$res = mysql_query($sql);
+while($mall_row = mysql_fetch_assoc($res)){
+    if($mall_row['mall_type'] == 11){//회화
+        $price = '9900000|A2|420X594|33000';
+        $sell_price = 9900000;
+    }else{
+        $price = '1100000|A2|420X594|11000';
+        $sell_price = 1100000;
+    }
+    $sql = "update Gn_Iam_Mall set price = '{$price}',sell_price='{$sell_price}' where idx = {$mall_row['idx']}";
+    mysql_query($sql);
+    $sql = "update Gn_Iam_Contents set contents_price = '{$price}',contents_sell_price='{$sell_price}',reduce_val=0 where idx = {$mall_row['card_idx']}";
+    mysql_query($sql);
+    echo $sql."<br>";
+}*/
 echo "completed!!!";
 //echo "result=";//.password_verify('2019-10-19 15:16:59'.'123456','$2y$12$'.'AyEnd5XdXhvQwFgt8NRNNOd6EI6s.vqU1ClLEOVDN0/di4KihS026');
 //echo "completed!";

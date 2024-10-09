@@ -1,6 +1,6 @@
 <?
 header("Progma:no-cache");
-$path = "./";
+$path="./";
 include_once "_head.php";
 ?>
 <!-- <script language="javascript">
@@ -8,7 +8,7 @@ include_once "_head.php";
 	history.back();
 </script>
 -->
-<? if (!$_SESSION['one_member_id']) { ?>
+<? if (!$_SESSION[one_member_id]) { ?>
 	<script language="javascript">
 		location.replace('/ma.php');
 	</script>
@@ -17,20 +17,12 @@ include_once "_head.php";
 } else {
 	$date_today = date("Y-m-d");
 	$date_month = date("Y-m");
-	//회원가입일 (선거용 3일 무료 사용 관련)
-	//$sql = "select first_regist from Gn_Member where mem_id = '{$_SESSION['one_member_id']}'";
-	//$res_result = mysqli_query($self_con, $sql);
-	//$rsJoinDate = mysqli_fetch_row($res_result);
-	//mysqli_free_result($res_result);
-	//$trialLimit = date("Y-m-d 23:59:59",strtotime($rsJoinDate[0]."+3 days")); //회원가입일+3일
-	//$trialLimit = date("Y-m-d 23:59:59",strtotime($rsJoinDate[0]."-1 days")); //회원가입일+3일
-	$trialLimit = date("Y-m-d 23:59:59", strtotime($member_1['first_regist'] . "-1 days")); //회원가입일+3일
-	//$sql = "select phone_cnt from tjd_pay_result where buyer_id = '{$_SESSION['one_member_id']}' and end_date > '$date_today' and end_status in ('Y','A') and gwc_cont_pay=0 order by end_date desc";
-	$sql = "select phone_cnt from tjd_pay_result where buyer_id = '{$_SESSION['one_member_id']}' and end_date > '$date_today' and end_status in ('Y','A') order by end_date desc";
-	$res_result = mysqli_query($self_con, $sql);
+	$trialLimit = date("Y-m-d 23:59:59", strtotime($member_1[first_regist] . "-1 days")); //회원가입일+3일
+	$sql = "select phone_cnt from tjd_pay_result where buyer_id = '$_SESSION[one_member_id]' and end_date > '$date_today' and end_status in ('Y','A') and gwc_cont_pay=0 order by end_date desc";
+	$res_result = mysql_query($sql);
 	//결제 휴대폰 수
-	$buyPhoneCnt = mysqli_fetch_row($res_result);
-	mysqli_free_result($res_result);
+	$buyPhoneCnt = mysql_fetch_row($res_result);
+	mysql_free_result($res_result);
 	if ($buyPhoneCnt[0] == 0) {	//유료결제건
 		$buyMMSCount = 0;
 	} else {
@@ -50,84 +42,78 @@ include_once "_head.php";
 	// 16-01-20 예약발송 건 전송 제한 30분
 	// 1) reservation ~ 30분까지만 가져간다. 
 	// 2) 시간 지난 것은 실패 처리 : Gn_MMS_ReservationFail로 이동,result = 3
-	$sql_where = "where now() > adddate(reservation,INTERVAL 30 Minute) and result = 1 and mem_id = '{$_SESSION['one_member_id']}'";
+	$sql_where = "where now() > adddate(reservation,INTERVAL 30 Minute) and result = 1 and mem_id = '$_SESSION[one_member_id]'";
 	$sql = "insert into Gn_MMS_ReservationFail select * from Gn_MMS $sql_where";
-	mysqli_query($self_con, $sql);
-	//$sql = "delete from Gn_MMS $sql_where";
-	//mysqli_query($self_con, $sql);
+	mysql_query($sql);
 	$sql = "update Gn_MMS_ReservationFail set result = 3 $sql_where";
-	mysqli_query($self_con, $sql);
+	mysql_query($sql);
 
 	//수신처수는 당월 차감 / 발송 수는 당일 차감
 	//오늘 예약 건 확인
 	$reserv_cnt_today = 0;
-	$sql_result2 = "select SUM(recv_num_cnt) as cnt from Gn_MMS where reservation like '$date_today%' and up_date is null and mem_id = '{$_SESSION['one_member_id']}' ";
-	$res_result2 = mysqli_query($self_con, $sql_result2);
-	$row_result2 = mysqli_fetch_array($res_result2);
+	$sql_result2 = "select SUM(recv_num_cnt) as cnt from Gn_MMS where reservation like '$date_today%' and up_date is null and mem_id = '$_SESSION[one_member_id]' ";
+	$res_result2 = mysql_query($sql_result2);
+	$row_result2 = mysql_fetch_array($res_result2);
 	$reserv_cnt_today += $row_result2[0] * 1;
-	mysqli_free_result($res_result2);
+	mysql_free_result($res_result2);
 	//-이번달 예약건 수
 	$reserv_cnt_thismonth = 0;
-	$sql_result = "select SUM(recv_num_cnt) as cnt from Gn_MMS where reservation like '$date_month%' and up_date is null and mem_id = '{$_SESSION['one_member_id']}' ";
-	$res_result = mysqli_query($self_con, $sql_result);
-	$row_result = mysqli_fetch_array($res_result);
+	$sql_result = "select SUM(recv_num_cnt) as cnt from Gn_MMS where reservation like '$date_month%' and up_date is null and mem_id = '$_SESSION[one_member_id]' ";
+	$res_result = mysql_query($sql_result);
+	$row_result = mysql_fetch_array($res_result);
 	$reserv_cnt_today += $row_result[0] * 1;
-	mysqli_free_result($res_result);
+	mysql_free_result($res_result);
 	//-이번달 발송된 수
 	$recv_num_ex_sum = 0;
-	$sql_result = "select SUM(recv_num_cnt) as cnt from Gn_MMS where reg_date like '$date_month%' and mem_id = '{$_SESSION['one_member_id']}' ";
-	$res_result = mysqli_query($self_con, $sql_result);
-	$row_result = mysqli_fetch_array($res_result);
+	$sql_result = "select SUM(recv_num_cnt) as cnt from Gn_MMS where reg_date like '$date_month%' and mem_id = '$_SESSION[one_member_id]' ";
+	$res_result = mysql_query($sql_result);
+	$row_result = mysql_fetch_array($res_result);
 	$recv_num_ex_sum += $row_result[0] * 1;
-	mysqli_free_result($res_result);
+	mysql_free_result($res_result);
 	$recv_num_ex_sum += $reserv_cnt_thismonth; //이번 달 예약된 수 추가
 	//-오늘발송 건 수
 	$rec_cnt_today = 0;
-	$sql_result2 = "select SUM(recv_num_cnt) as cnt from Gn_MMS where reg_date like '$date_today%' and mem_id = '{$_SESSION['one_member_id']}' ";
-	$res_result2 = mysqli_query($self_con, $sql_result2);
-	$row_result2 = mysqli_fetch_array($res_result2);
+	$sql_result2 = "select SUM(recv_num_cnt) as cnt from Gn_MMS where reg_date like '$date_today%' and mem_id = '$_SESSION[one_member_id]' ";
+	$res_result2 = mysql_query($sql_result2);
+	$row_result2 = mysql_fetch_array($res_result2);
 	$rec_cnt_today += $row_result2[0] * 1;
-	mysqli_free_result($res_result2);
+	mysql_free_result($res_result2);
 	//-이번발송 $uni_id
 	$rec_cnt_current = 0;
-	$sql_result3 = "select uni_id from Gn_MMS where mem_id = '{$_SESSION['one_member_id']}' order by idx desc";
-	$res_result3 = mysqli_query($self_con, $sql_result3);
-	$row_result3 = mysqli_fetch_array($res_result3);
-	$uni_id = substr($row_result3['uni_id'], 0, 10);
-	mysqli_free_result($res_result3);
+	$sql_result3 = "select uni_id from Gn_MMS use index(gn_mms_mem_id) where mem_id = '$_SESSION[one_member_id]' order by idx desc";
+	$res_result3 = mysql_query($sql_result3);
+	$row_result3 = mysql_fetch_array($res_result3);
+	$uni_id = substr($row_result3[uni_id], 0, 10);
+	mysql_free_result($res_result3);
 	//마지막 발송 건수
-	$sql_result32 = "select SUM(recv_num_cnt) as cnt from Gn_MMS where mem_id = '{$_SESSION['one_member_id']}' and uni_id like '$uni_id%'";
-	$res_result32 = mysqli_query($self_con, $sql_result32);
-	$row_result32 = mysqli_fetch_array($res_result32);
+	$sql_result32 = "select SUM(recv_num_cnt) as cnt from Gn_MMS where mem_id = '$_SESSION[one_member_id]' and uni_id like '$uni_id%'";
+	$res_result32 = mysql_query($sql_result32);
+	$row_result32 = mysql_fetch_array($res_result32);
 	$rec_cnt_current += $row_result32[0] * 1;
-	mysqli_free_result($res_result32);
+	mysql_free_result($res_result32);
 	//-마지막발송일
-	/*$sql_result4 = "select reg_date from Gn_MMS where mem_id = '{$_SESSION['one_member_id']}' order by reg_date desc limit 1";
-	$res_result4 = mysqli_query($self_con, $sql_result4);
-	$row_result4 = mysqli_fetch_row($res_result4);
-	if($row_result4 == 0){
+	$sql_result4 = "select reg_date from Gn_MMS use index(gn_mms_mem_id) where mem_id = '$_SESSION[one_member_id]' order by reg_date desc";
+	$res_result4 = mysql_query($sql_result4);
+	$row_result4 = mysql_fetch_row($res_result4);
+	if ($row_result4 == 0) {
 		$last_reg_date = "-";
-	}else{
-		$last_reg_date=date("Y.m.d", strtotime($row_result4[0]));
-	}*/
-	mysqli_free_result($res_result4);
+	} else {
+		$last_reg_date = date("Y.m.d", strtotime($row_result4[0]));
+	}
+	mysql_free_result($res_result4);
 	//이달 제공건
-	//$thiMonTotCnt = $freeMMSCount + $buyMMSCount;
+	$thiMonTotCnt = $freeMMSCount + $buyMMSCount;
 	//이달잔여건
-	//$thiMonleftCnt = $thiMonTotCnt - $recv_num_ex_sum;
+	$thiMonleftCnt = $thiMonTotCnt - $recv_num_ex_sum;
 }
 $hour = date("H");
-//$sql="select * from Gn_Member where mem_id = '{$_SESSION['one_member_id']}' ";
-//$result=mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-//$memberInfo=mysqli_fetch_array($result);
-//$mem_phone = str_replace("-", "", $memberInfo['mem_phone']);
 $mem_phone = str_replace("-", "", $member_1['mem_phone']);
 
 $sql = "(select idx,sendnum,memo,memo2,cnt1,cnt2,donation_rate,daily_limit_cnt from Gn_MMS_Number where  sendnum = '$mem_phone') ";
-$result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-$srow = mysqli_fetch_array($result);
+$result = mysql_query($sql) or die(mysql_error());
+$srow = mysql_fetch_array($result);
 $total_cnt = 0;
-if ($member_1['mem_type'] == "V" || $member_1['mem_type'] == "") {
+if ($member_1[mem_type] == "V" || $member_1[mem_type] == "") {
 	if ($srow['memo2'] == "LG") {
 		$total_cnt = 1000000 * $srow['donation_rate'] * 0.01;
 	} else if ($srow['memo2'] == "KT") {
@@ -137,25 +123,25 @@ if ($member_1['mem_type'] == "V" || $member_1['mem_type'] == "") {
 	}
 }
 ///금일발송가능 , 회발송가능 횟수
-$sql_sum = "select sum(user_cnt) as sumnum, sum(max_cnt) as summax ,sum(gl_cnt) as sumgl from Gn_MMS_Number where mem_id = '{$_SESSION['one_member_id']}'";
-$resul_sum = mysqli_query($self_con, $sql_sum);
-$row_sum_b = mysqli_fetch_array($resul_sum);
+$sql_sum = "select sum(user_cnt) as sumnum, sum(max_cnt) as summax ,sum(gl_cnt) as sumgl from Gn_MMS_Number where mem_id = '$_SESSION[one_member_id]'";
+$resul_sum = mysql_query($sql_sum);
+$row_sum_b = mysql_fetch_array($resul_sum);
 //월별 총 발송가능 횟수
 $cu_user_cnt =  "";
 $cu_today_cnt =  "";
 $mon_text_pcount =  "";
 if (!empty($row_sum_b)) {
-	$cu_user_cnt = $row_sum_b['sumnum'] ? $row_sum_b['sumnum'] : $freeMMSCount;
-	$cu_today_cnt = $row_sum_b['summax'] ? $row_sum_b['summax'] : 0;
-	$mon_text_pcount = $row_sum_b['summax'] ? ($row_sum_b['summax'] * 10) + ((199 * 20) - ($row_sum_b['sumgl'] * 20)) : 0;
+	$cu_user_cnt = $row_sum_b[sumnum] ? $row_sum_b[sumnum] : $freeMMSCount;
+	$cu_today_cnt = $row_sum_b[summax] ? $row_sum_b[summax] : 0;
+	$mon_text_pcount = $row_sum_b[summax] ? ($row_sum_b[summax] * 10) + ((199 * 20) - ($row_sum_b[sumgl] * 20)) : 0;
 	if ($freeChk) {
 		$cu_user_cnt = $freeMMSCount - $recv_num_ex_sum;
 		$cu_today_cnt = $recv_num_ex_sum;
 		$mon_text_pcount = $recv_num_ex_sum;
 	}
 } else {
-	$cu_user_cnt = $row_sum_b['sumnum'] ? $row_sum_b['sumnum'] : $freeMMSCount;
-	$cu_today_cnt = $row_sum_b['summax'] ? $row_sum_b['summax'] : 0;
+	$cu_user_cnt = $row_sum_b[sumnum] ? $row_sum_b[sumnum] : $freeMMSCount;
+	$cu_today_cnt = $row_sum_b[summax] ? $row_sum_b[summax] : 0;
 	$mon_text_pcount = $cu_user_cnt - $cu_today_cnt;
 }
 ?>
@@ -214,7 +200,6 @@ if (!empty($row_sum_b)) {
 			$("#is_send_mail").val("Y");
 			hide_mail_box();
 		}
-
 	}
 
 	function onSaveMailAddress() {
@@ -243,23 +228,16 @@ if (!empty($row_sum_b)) {
 				}
 			});
 		}
-
 	}
 
 	function onLoadMailAddresses() {
 		window.open("mail_address_list.php", "", "scrollbars=yes,resizable=yes,top=200,left=200,width=500,height=600");
 	}
-
-
 	$(function() {
 		if ($("#group_num").val() || $("#num").val()) {
-			<?
-			if ($_REQUEST['deny_wushi']) {
-			?>
+			<? if ($_REQUEST[deny_wushi]) { ?>
 				numchk('4');
-			<?
-			}
-			?>
+			<? } ?>
 		}
 
 		$('#down_excel').bind("click", function() {
@@ -353,7 +331,7 @@ if (!empty($row_sum_b)) {
 	$(document).ready(function() {
 		var textarea = document.getElementById("question");
 		var limit = 100; //height limit
-		var api_state = '<?= $member_1['gpt_chat_api_key'] ?>';
+		var api_state = '<?= $member_1[gpt_chat_api_key] ?>';
 
 		textarea.oninput = function() {
 			textarea.style.height = "";
@@ -370,7 +348,7 @@ if (!empty($row_sum_b)) {
 					$("#kw-target").html($("#kw-target").html() + "\n");
 					event.stopPropagation();
 				} else {
-					send_post('<?= $_SESSION['iam_member_id'] ?>');
+					send_post('<?= $_SESSION[iam_member_id] ?>');
 				}
 			}
 		});
@@ -408,7 +386,7 @@ if (!empty($row_sum_b)) {
 			type: "POST",
 			url: "/iam/ajax/manage_gpt_chat.php",
 			data: {
-				mem_id: "<?= $_SESSION['iam_member_id'] ?>",
+				mem_id: "<?= $_SESSION[iam_member_id] ?>",
 				method: 'show_req_list'
 			},
 			dataType: 'html',
@@ -495,37 +473,6 @@ if (!empty($row_sum_b)) {
 			}, 10);
 		}, 25)
 	}
-
-	// function send_post(mem_id) {
-	// 	$("#answer_side1").hide();
-	// 	$("#answer_side2").hide();
-	// 	$("#answer_side").show();
-	// 	$("#ajax-loading").show();
-	// 	var prompt = $("#question").val();
-	// 	if (prompt == "") {
-	// 		alert('질문을 입력해 주세요.');
-	// 		return;
-	// 	}
-
-	// 	$.ajax({
-	// 		cache: true,
-	// 		type: "POST",
-	// 		url: "/iam/ajax/message.php",
-	// 		data: {
-	// 			mem_id:mem_id,
-	// 			message: prompt,
-	// 			context:$("#keep").prop("checked")?JSON.stringify(contextarray):'[]',
-	// 		},
-	// 		dataType: "json",
-	// 		success: function (results) {
-	// 			$("#ajax-loading").hide();
-	// 			$("#question").val("");
-	// 			$("#question").css("height", "50px");
-	// 			contextarray.push([prompt, results.raw_message]);
-	// 			articlewrapper(prompt,randomString(16),results.raw_message);
-	// 		}
-	// 	});
-	// }
 
 	function randomString(len) {
 		len = len || 32;
@@ -885,21 +832,21 @@ if (!empty($row_sum_b)) {
 								<div class="a1">
 									<div class="b1">주소관리</div>
 									<div class="b2 select_group_div">그룹번호</div>
-									<div class="div_2px"><textarea name="group_num" id="group_num" itemname='그룹번호' placeholder="그룹번호" onblur="numchk('4')"><?= $_REQUEST['group_num'] ?></textarea></div>
+									<div class="div_2px"><textarea name="group_num" id="group_num" itemname='그룹번호' placeholder="그룹번호" onblur="numchk('4')"><?= $_REQUEST[group_num] ?></textarea></div>
 									<div class="b2">개별번호</div>
-									<div class="div_2px"><textarea name="num" id="num" itemname='전화번호' placeholder="전화번호(쉼표로 구분)" onblur="numchk('4')"><?= $_REQUEST['num'] ?></textarea></div>
+									<div class="div_2px"><textarea name="num" id="num" itemname='전화번호' placeholder="전화번호(쉼표로 구분)" onblur="numchk('4')"><?= $_REQUEST[num] ?></textarea></div>
 									<div class="b4">
-										<div class="div_2px">
+										<div class="div_2px" style="">
 											<label><input type="radio" name="type" value="1" checked />묶음발송</label>
 											<label><input type="radio" name="type" value="0" />개별발송</label>
 										</div>
 										<div class="div_2px">
 											<div style="float:left; display:none;" id="delay">
-												<input type="text" name="delay" placeholder="발송간격" value="<?= $_REQUEST['delay'] ? $_REQUEST['delay'] : 5 ?>" onblur="send_delay(sub_4_form,this,1)" onkeyup="send_delay(sub_4_form,this,1)" />~
-												<input type="text" name="delay2" placeholder="발송간격" value="<?= $_REQUEST['delay'] ? $_REQUEST['delay'] : 15 ?>" onblur="send_delay(sub_4_form,this,2)" />초
+												<input type="text" name="delay" placeholder="발송간격" value="<?= $_REQUEST[delay] ? $_REQUEST[delay] : 5 ?>" onblur="send_delay(sub_4_form,this,1)" onkeyup="send_delay(sub_4_form,this,1)" />~
+												<input type="text" name="delay2" placeholder="발송간격" value="<?= $_REQUEST[delay] ? $_REQUEST[delay] : 15 ?>" onblur="send_delay(sub_4_form,this,2)" />초
 											</div>
 											<div style="float:left;clear:both; display:none">
-												<input type="text" id="close" name="close" placeholder="발송제한" value="<?= $_REQUEST['close'] ? $_REQUEST['close'] : 24 ?>" onblur="limitNight();" />시(20시)
+												<input type="text" id="close" name="close" placeholder="발송제한" value="<?= $_REQUEST[close] ? $_REQUEST[close] : 24 ?>" onblur="limitNight();" />시(20시)
 												<input type="checkbox" value="Y" id="time_limit" checked> 제한해제
 											</div>
 											<p style="clear:both;"></p>
@@ -915,9 +862,9 @@ if (!empty($row_sum_b)) {
 											<div>중복제거(<a href="javascript:void(0)" onclick="show_recv('deny_num','7','중복제거된번호')" class="num_check_c">0</a>)</div>
 										</div>
 										<div class="c1">
-											<div><label><input type="checkbox" name="deny_wushi[]" checked <?= $_REQUEST['deny_wushi'][0] ? "checked" : "" ?> onclick="numchk('0');type_check()" />수신불가</label>(<a href="javascript:void(0)" onclick="show_recv('deny_num','0','수신불가')" class="num_check_c">0</a>)</div>
-											<div><label><input type="checkbox" name="deny_wushi[]" checked <?= $_REQUEST['deny_wushi'][1] ? "checked" : "" ?> onclick="numchk('1');type_check()" />없는번호</label>(<a href="javascript:void(0)" onclick="show_recv('deny_num','1','없는번호')" class="num_check_c">0</a>)</div>
-											<div><label><input type="checkbox" name="deny_wushi[]" <?= $_REQUEST['deny_wushi'][2] ? "checked" : "" ?> onclick="numchk('2');type_check()" />기타</label>(<a href="javascript:void(0)" onclick="show_recv('deny_num','2','기타')" class="num_check_c">0</a>)</div>
+											<div><label><input type="checkbox" name="deny_wushi[]" checked <?= $_REQUEST[deny_wushi][0] ? "checked" : "" ?> onclick="numchk('0');type_check()" />수신불가</label>(<a href="javascript:void(0)" onclick="show_recv('deny_num','0','수신불가')" class="num_check_c">0</a>)</div>
+											<div><label><input type="checkbox" name="deny_wushi[]" checked <?= $_REQUEST[deny_wushi][1] ? "checked" : "" ?> onclick="numchk('1');type_check()" />없는번호</label>(<a href="javascript:void(0)" onclick="show_recv('deny_num','1','없는번호')" class="num_check_c">0</a>)</div>
+											<div><label><input type="checkbox" name="deny_wushi[]" <?= $_REQUEST[deny_wushi][2] ? "checked" : "" ?> onclick="numchk('2');type_check()" />기타</label>(<a href="javascript:void(0)" onclick="show_recv('deny_num','2','기타')" class="num_check_c">0</a>)</div>
 											<p style="clear:both;"></p>
 											<input type="hidden" name="deny_num" />
 											<input type="hidden" name="deny_num" />
@@ -1037,13 +984,13 @@ if (!empty($row_sum_b)) {
 								<div class="a3">
 									<div class="b1">예약서비스</div>
 									<div>예약발송일:
-										<input type="date" <?= $fujia_pay ? "" : "disabled" ?> name="rday" onfocus="type_check();" onblur="check_date('<?= date("Ymd") ?>')" placeholder="예약발송(일)" id="rday" value="<?= $_REQUEST['rday'] ?>" style="width:130px;" />
+										<input type="date" <?= $fujia_pay ? "" : "disabled" ?> name="rday" onfocus="type_check();" onblur="check_date('<?= date("Ymd") ?>')" placeholder="예약발송(일)" id="rday" value="<?= $_REQUEST[rday] ?>" style="width:130px;" />
 										<br>
 										<select name="htime" style="width:50px;" <?= $fujia_pay ? "" : "disabled" ?>>
 											<?
 											for ($i = 9; $i < 22; $i++) {
 												$iv = $i < 10 ? "0" . $i : $i;
-												$selected = $_REQUEST['htime'] == $iv ? "selected" : "";
+												$selected = $_REQUEST[htime] == $iv ? "selected" : "";
 											?>
 												<option value="<?= $iv ?>" <?= $selected ?>><?= $iv ?></option>
 											<?
@@ -1054,7 +1001,7 @@ if (!empty($row_sum_b)) {
 											<?
 											for ($i = 0; $i < 60; $i += 10) {
 												$iv = $i == 0 ? "00" : $i;
-												$selected = $_REQUEST['mtime'] == $iv ? "selected" : "";
+												$selected = $_REQUEST[mtime] == $iv ? "selected" : "";
 											?>
 												<option value="<?= $iv ?>" <?= $selected ?>><?= $iv ?></option>
 											<?
@@ -1066,15 +1013,15 @@ if (!empty($row_sum_b)) {
 								<div class="a4">
 									<div class="b1">문자입력<span class="popbutton7 pop_view pop_right">?</span>
 										<input type="button" id="btn_mail" name="btn_mail" value="메일입력" title="선택한 그룹에 메일 등록이 된 디비에만 이메일도 발송됩니다" class="pull-right" style="margin-bottom:3px;height:28px;" onclick="show_mail_box()" />
-										<button onclick="show_chat('<?= $member_1['gpt_chat_api_key'] ?>')" class="chat_btn">AI와 대화하기</button>
+										<button onclick="show_chat('<?= $member_1[gpt_chat_api_key] ?>')" class="chat_btn">AI와 대화하기</button>
 									</div>
 
 									<div class="b2">
 										<div class="div_2px"> </div>
 									</div>
-									<div class="div_2px"><input type="text" name="title" itemname='제목' required placeholder="제목" style="width:100%;" value="<?= $_REQUEST['title'] ?>" /></div>
+									<div class="div_2px"><input type="text" name="title" itemname='제목' required placeholder="제목" style="width:100%;" value="<?= $_REQUEST[title] ?>" /></div>
 									<div class="div_2px">
-										<textarea name="txt" itemname='내용' id='txt' required placeholder="내용" onkeydown="textCounter(sub_4_form.txt,'wenzi_cnt',2000,0);" onkeyup="textCounter(sub_4_form.txt,'wenzi_cnt',2000,0);type_check();" onfocus="textCounter(sub_4_form.txt,'wenzi_cnt',2000,0);type_check();"><?= $_REQUEST['txt'] ?></textarea>
+										<textarea name="txt" itemname='내용' id='txt' required placeholder="내용" onkeydown="textCounter(sub_4_form.txt,'wenzi_cnt',2000,0);" onkeyup="textCounter(sub_4_form.txt,'wenzi_cnt',2000,0);type_check();" onfocus="textCounter(sub_4_form.txt,'wenzi_cnt',2000,0);type_check();"><?= $_REQUEST[txt] ?></textarea>
 										<input type="hidden" name="onebook_status" value="N" />
 										<input type="hidden" name="onebook_url" value="" />
 									</div>
@@ -1112,7 +1059,7 @@ if (!empty($row_sum_b)) {
 												<a href="javascript:void(0)" onclick="ml_view('txt','0','미리보기')">문자미리보기</a>
 											</div>
 											<div style="float:left;margin-left:30px;">
-												<label><input type="checkbox" name="save_mms" value="Y" <?= $_REQUEST['save_mms'] ? "checked" : "" ?> />문자발송후 저장하기</label>
+												<label><input type="checkbox" name="save_mms" value="Y" <?= $_REQUEST[save_mms] ? "checked" : "" ?> />문자발송후 저장하기</label>
 											</div>
 											<p style="clear:both;"></p>
 										</div>
@@ -1120,7 +1067,7 @@ if (!empty($row_sum_b)) {
 									</div>
 									<div class="b2">
 										<div style="float:left;">
-											<label><input type="checkbox" name="agreement_yn" id="agreement_yn" value="Y" <?= $_REQUEST['agreement_yn'] ? "checked" : "" ?> />수신동의 문자</label>
+											<label><input type="checkbox" name="agreement_yn" id="agreement_yn" value="Y" <?= $_REQUEST[agreement_yn] ? "checked" : "" ?> />수신동의 문자</label>
 											<div class="deny_msg_span " id="agreement_yn_span">OFF</div>
 											<p style="clear:both"></p>
 										</div>
@@ -1166,95 +1113,103 @@ if (!empty($row_sum_b)) {
 									<p style="clear:both;"></p>
 								</div>
 								<div>
-									<input type="text" style="width:250px;" placeholder="그룹명" name="group_name" value="<?= $_REQUEST['group_name'] ?>" />
+									<input type="text" style="width:250px;" placeholder="그룹명" name="group_name" value="<?= $_REQUEST[group_name] ?>" />
 									<input type="button" value="검색" style="height:32px;" onclick="sub_4_form.submit()" />
 								</div>
 								<div style="margin-bottom:5px;margin-top:5px;">
 									<?
-									$sql_serch = " mem_id ='{$_SESSION['one_member_id']}' ";
-									if ($_REQUEST['group_name'])
-										$sql_serch .= " and grp like '%{$_REQUEST['group_name']}%' ";
+									$sql_serch = " mem_id ='$_SESSION[one_member_id]' ";
+									if ($_REQUEST[group_name])
+										$sql_serch .= " and grp like '%$_REQUEST[group_name]%' ";
 									$sql_serch .= " and grp != '아이엠' ";
 									$sql = "select count(idx) as cnt from Gn_MMS_Group where $sql_serch ";
-									$result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-									$row = mysqli_fetch_array($result);
-									$intRowCount = $row['cnt'];
-									if (!$_POST['lno'])
+									$result = mysql_query($sql) or die(mysql_error());
+									$row = mysql_fetch_array($result);
+									$intRowCount = $row[cnt];
+									if (!$_POST[lno])
 										$intPageSize = 15;
 									else
-										$intPageSize = $_POST['lno'];
-									if ($_POST['page']) {
-										$page = (int)$_POST['page'];
+										$intPageSize = $_POST[lno];
+									if ($_POST[page]) {
+										$page = (int)$_POST[page];
 										$sort_no = $intRowCount - ($intPageSize * $page - $intPageSize);
 									} else {
 										$page = 1;
 										$sort_no = $intRowCount;
 									}
-									if ($_POST['page2'])
-										$page2 = (int)$_POST['page2'];
+									if ($_POST[page2])
+										$page2 = (int)$_POST[page2];
 									else
 										$page2 = 1;
 									$int = ($page - 1) * $intPageSize;
-									if ($_REQUEST['order_status'])
-										$order_status = $_REQUEST['order_status'];
+									if ($_REQUEST[order_status])
+										$order_status = $_REQUEST[order_status];
 									else
 										$order_status = "desc";
-									if ($_REQUEST['order_name'])
-										$order_name = $_REQUEST['order_name'];
+									if ($_REQUEST[order_name])
+										$order_name = $_REQUEST[order_name];
 									else
 										$order_name = "idx";
 									$intPageCount = (int)(($intRowCount + $intPageSize - 1) / $intPageSize);
 									$sql = "select * from Gn_MMS_Group where $sql_serch order by $order_name $order_status limit $int,$intPageSize";
-									$result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
+									$result = mysql_query($sql) or die(mysql_error());
 									?>
 									<table class="list_table" width="100%" border="0" cellspacing="0" cellpadding="0">
 										<tr>
-											<td style="width:15%;"><label><input type="checkbox" onclick="check_all(this,'chk');group_choice()" />선택</label></td>
-											<td style="width:40%;"><a href="javascript:order_sort(sub_4_form,'grp',sub_4_form.order_status.value)">그룹명<? if ($_REQUEST['order_name'] == "grp") {
-																																							echo $_REQUEST['order_status'] == "desc" ? '▼' : '▲';
-																																						} else {
-																																							echo '▼';
-																																						} ?></a></td>
-											<td style="width:20%;"><a href="javascript:order_sort(sub_4_form,'reg_date',sub_4_form.order_status.value)">날짜<? if ($_REQUEST['order_name'] == "reg_date") {
-																																								echo $_REQUEST['order_status'] == "desc" ? '▼' : '▲';
-																																							} else {
-																																								echo '▼';
-																																							} ?></a></td>
-											<td style="width:15%;"><a href="javascript:order_sort(sub_4_form,'count',sub_4_form.order_status.value)">인원</a><? if ($_REQUEST['order_name'] == "count") {
-																																								echo $_REQUEST['order_status'] == "desc" ? '▼' : '▲';
-																																							} else {
-																																								echo '▼';
-																																							} ?></td>
+											<td style="width:15%;">
+												<label><input type="checkbox" onclick="check_all(this,'chk');group_choice()" />선택</label>
+											</td>
+											<td style="width:40%;">
+												<a href="javascript:order_sort(sub_4_form,'grp',sub_4_form.order_status.value)">그룹명<? if ($_REQUEST[order_name] == "grp") {
+																																		echo $_REQUEST[order_status] == "desc" ? '▼' : '▲';
+																																	} else {
+																																		echo '▼';
+																																	} ?></a>
+											</td>
+											<td style="width:20%;">
+												<a href="javascript:order_sort(sub_4_form,'reg_date',sub_4_form.order_status.value)">날짜<? if ($_REQUEST[order_name] == "reg_date") {
+																																			echo $_REQUEST[order_status] == "desc" ? '▼' : '▲';
+																																		} else {
+																																			echo '▼';
+																																		} ?></a>
+											</td>
+											<td style="width:15%;">
+												<a href="javascript:order_sort(sub_4_form,'count',sub_4_form.order_status.value)">인원</a><? if ($_REQUEST[order_name] == "count") {
+																																			echo $_REQUEST[order_status] == "desc" ? '▼' : '▲';
+																																		} else {
+																																			echo '▼';
+																																		} ?>
+											</td>
 											<td style="width:10%;">엑셀</td>
 										</tr>
 										<?
 										if ($intRowCount) {
 											$g = 0;
-											while ($row = mysqli_fetch_array($result)) {
-												$sql = "select count(idx) as cnt from Gn_MMS_Receive where grp_id = {$row['idx']} ";
-												$sresult = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-												$srow = mysqli_fetch_array($sresult);
+											while ($row = mysql_fetch_array($result)) {
+												$sql = "select count(idx) as cnt from Gn_MMS_Receive where grp_id = '$row[idx]' ";
+												$sresult = mysql_query($sql) or die(mysql_error());
+												$srow = mysql_fetch_array($sresult);
 										?>
 												<tr>
 													<td>
 														<label>
-															<input type="checkbox" value="<?= $row['idx'] ?>" data="<?= $srow['cnt'] ?>" name="chk" id="chk" onchange="group_choice_betw('<?= $g ?>')" />
+															<input type="checkbox" value="<?= $row[idx] ?>" data="<?= $srow[cnt] ?>" name="chk" id="chk" onchange="group_choice_betw('<?= $g ?>')" />
 															<?= $sort_no ?>
 														</label>
 													</td>
 													<td class="group_title_<?= $g ?>">
-														<a href="javascript:show_detail('group_detail.php?grp_id=<?= $row['idx'] ?>','<?= $g ?>')"><?= str_substr($row['grp'], 0, 20, "utf-8") ?></a>
+														<a href="javascript:show_detail('group_detail.php?grp_id=<?= $row[idx] ?>','<?= $g ?>')"><?= str_substr($row[grp], 0, 20, "utf-8") ?></a>
 														<a href="javascript:g_dt_show_cencle('group_title_','','','<?= $g ?>', '')" class="a_btn" style="background-color:#4f81bd;color:#FFF;float:right;">Re</a>
 													</td>
 													<td class="group_title_<?= $g ?>" style="display:none;">
-														<input type="text" name="group_title" value="<?= $row['grp'] ?>" style="width:65%;" />
-														<a href="javascript:group_title_modify('<?= $row['idx'] ?>','<?= $g ?>')" class="a_btn">저장</a>
+														<input type="text" name="group_title" value="<?= $row[grp] ?>" style="width:65%;" />
+														<a href="javascript:group_title_modify('<?= $row[idx] ?>','<?= $g ?>')" class="a_btn">저장</a>
 														<a href="javascript:g_dt_cencle('group_title_','','','<?= $g ?>')">x</a>
 													</td>
-													<td><?= substr($row['reg_date'], 2, 9) ?></td>
-													<td><?= $srow['cnt'] ?></td>
+													<td><?= substr($row[reg_date], 2, 9) ?></td>
+													<td><?= $srow[cnt] ?></td>
 													<td>
-														<a href="javascript:excel_down('excel_down/excel_down.php?down_type=1','<?= $row['idx'] ?>')"><img src="images/ico_xls.gif"></a>
+														<a href="javascript:excel_down('excel_down/excel_down.php?down_type=1','<?= $row[idx] ?>')"><img src="images/ico_xls.gif"></a>
 														<a href="#" class="btn_option_white" onclick="frm_update(document.getElementById('group<?= $i ?>').value,document.getElementById('group_name<?= $i ?>').value)" id="upt<?= $i ?>" style="display:none;">수정</a>&nbsp;<a href="#" class="btn_option_red" onclick="frm_del(document.getElementById('group_name<?= $i ?>').value)" id="del<?= $i ?>" style="display:none;">삭제</a>
 													</td>
 												</tr>
@@ -1300,24 +1255,24 @@ if (!empty($row_sum_b)) {
 								<div style="margin:0px 0 20px 0;height:1200px;overflow-y:auto;">
 									<?
 									$date = date("Y-m-d");
-									$sql = "select count(idx) from Gn_MMS where mem_id='" . $_SESSION['one_member_id'] . "' and DATE(reg_date)='" . $date . "' and  content like '%app_check_process%' and result=0 group by send_num order by reg_date desc";
-									$resul = mysqli_query($self_con, $sql);
-									$row = mysqli_fetch_array($resul);
+									$sql = "select count(idx) from Gn_MMS where mem_id='" . $_SESSION[one_member_id] . "' and DATE(reg_date)='" . $date . "' and  content like '%app_check_process%' and result=0 group by send_num order by reg_date desc";
+									$resul = mysql_query($sql);
+									$row = mysql_fetch_array($resul);
 									$ablable = $row[0];
 
-									$sql = "select send_num from Gn_MMS where mem_id='" . $_SESSION['one_member_id'] . "' and DATE(reg_date)='" . $date . "' and  content like '%app_check_process%' and result=0 group by send_num order by reg_date desc";
-									$resul = mysqli_query($self_con, $sql);
-									while ($row = mysqli_fetch_array($resul)) {
+									$sql = "select send_num from Gn_MMS where mem_id='" . $_SESSION[one_member_id] . "' and DATE(reg_date)='" . $date . "' and  content like '%app_check_process%' and result=0 group by send_num order by reg_date desc";
+									$resul = mysql_query($sql);
+									while ($row = mysql_fetch_array($resul)) {
 										$ableNum[$row['send_num']] = $row['send_num'];
 									}
-									$sql = "select count(idx) from Gn_MMS_Number where mem_id='{$_SESSION['one_member_id']}' order by sort_no asc, user_cnt desc , idx desc";
-									$resul = mysqli_query($self_con, $sql);
-									$row = mysqli_fetch_array($resul);
+									$sql = "select count(idx) from Gn_MMS_Number where mem_id='$_SESSION[one_member_id]' order by sort_no asc, user_cnt desc , idx desc";
+									$resul = mysql_query($sql);
+									$row = mysql_fetch_array($resul);
 									$intRowCount = $row[0];
-									$sql = "select * from Gn_MMS_Number where mem_id='{$_SESSION['one_member_id']}' order by sort_no asc, user_cnt desc , idx desc";
-									$resul = mysqli_query($self_con, $sql);
+									$sql = "select * from Gn_MMS_Number where mem_id='$_SESSION[one_member_id]' order by sort_no asc, user_cnt desc , idx desc";
+									$resul = mysql_query($sql);
 									?>
-									<div class="button_box">
+									<div class="button_box" style="">
 										<div class="left_box">
 											<span class="popup_holder button_type">
 												<a href="javascript:void(0)" onclick="select_app_check_push('check_num')">앱 상태 체크</a>
@@ -1354,51 +1309,52 @@ if (!empty($row_sum_b)) {
 												$today_send_total = 0;
 												$use_phone_cnt = 0;
 												$today_reg = date("Y-m-d");
-												while ($row = mysqli_fetch_array($resul)) {
-													$row['user_cnt'] = $row['daily_limit_cnt_user'];
+												while ($row = mysql_fetch_array($resul)) {
+													$row[user_cnt] = $row[daily_limit_cnt_user];
 													$is_send = true;
-													$sql_result2_g = "select SUM(recv_num_cnt) from Gn_MMS where send_num='{$row['sendnum']}' and ((reg_date like '$today_reg%' and reservation is null) or reservation like '$today_reg%')";
-													$res_result2_g = mysqli_query($self_con, $sql_result2_g) or die(mysqli_error($self_con));
+													$sql_result2_g = "select SUM(recv_num_cnt) from Gn_MMS where send_num='$row[sendnum]' and ((reg_date like '$today_reg%' and reservation is null) or reservation like '$today_reg%')";
+													$res_result2_g = mysql_query($sql_result2_g) or die(mysql_error());
 													$today_cnt_1 = 0;
-													$row_result2_g = mysqli_fetch_array($res_result2_g);
+													$row_result2_g = mysql_fetch_array($res_result2_g);
 													$today_cnt_1 += $row_result2_g[0] * 1;
-													$total_cnt = $row['daily_limit_cnt']; //기본 일별 총발송 가능량
-													$donation_rate = $row['donation_rate']; //기부 비율
+													$total_cnt = $row[daily_limit_cnt]; //기본 일별 총발송 가능량
+													$donation_rate = $row[donation_rate]; //기부 비율
 													$donation_cnt = ceil($total_cnt * $donation_rate / 100); //기부 받은 수
 
-													if ($mem_phone == $row['sendnum'] && ($member_1['mem_type'] == "V" || $member_1['mem_type'] == "")) {
+													if ($mem_phone == $row['sendnum'] && ($member_1[mem_type] == "V" || $member_1[mem_type] == "")) {
 														$limitCnt = 1000000; // 무제한
-														$row['user_cnt'] = "무제한";
+														$row[user_cnt] = "무제한";
 													}
-													$row['user_cnt'] = $row['user_cnt'] - $today_cnt_1;
-													if ($row['user_cnt'] < 0) $row['user_cnt'] = 0;
-													if ($row['daily_limit_cnt_user'] - $today_cnt_1 > $row['user_cnt']) {
-														if ($row['cnt1'] >= 10 &&  $today_cnt_1 < $row['daily_min_cnt_user']) {
-															if ($row['user_cnt'] > $row['daily_min_cnt_user'] - $today_cnt_1)
-																$row['user_cnt'] =     $row['daily_min_cnt_user'] - $today_cnt_1;
+													$row[user_cnt] = $row[user_cnt] - $today_cnt_1;
+													if ($row[user_cnt] < 0) $row[user_cnt] = 0;
+													if ($row[daily_limit_cnt_user] - $today_cnt_1 > $row[user_cnt]) {
+														if ($row[cnt1] >= 10 &&  $today_cnt_1 < $row['daily_min_cnt_user']) {
+															//$row[user_cnt] = 199;
+															if ($row[user_cnt] > $row['daily_min_cnt_user'] - $today_cnt_1)
+																$row[user_cnt] =     $row['daily_min_cnt_user'] - $today_cnt_1;
 														} else {
-															$row['user_cnt'] =     $row['daily_limit_cnt_user'] - $today_cnt_1;
+															$row[user_cnt] =     $row[daily_limit_cnt_user] - $today_cnt_1;
 														}
 													}
-													if ($row['user_cnt'] < 0) $row['user_cnt'] = 0;
+													if ($row[user_cnt] < 0) $row[user_cnt] = 0;
 													// =========== Cooper add 폰별 월 발송량 체크  Start ===========
-													// $query = "select * from Gn_MMS_Number where mem_id='{$_SESSION['one_member_id']}' and sendnum='".$row['sendnum']."'";
-													// $result = mysqli_query($self_con, $query);
+													// $query = "select * from Gn_MMS_Number where mem_id='$_SESSION[one_member_id]' and sendnum='".$row[sendnum]."'";
+													// $result = mysql_query($query);
 
-													$memo2 = $row['memo2'];
+													$memo2 = $row[memo2];
 													$monthly_limit_ssh = $memo2 ? $agency_arr[$memo2] : 800; //월별 수신처 제한 수
 													//이번 달 총 수신처 수
 													$ssh_cnt = 0;
-													$sql_ssh = "select recv_num from Gn_MMS where send_num='" . $row['sendnum'] . "' and and (reg_date like '$date_month%' or reservation like '$date_month%')  group by(recv_num)";
-													$result_ssh = mysqli_query($self_con, $sql_ssh);
-													while ($row_ssh = mysqli_fetch_array($result_ssh)) {
-														$ssh_arr = explode(",", $row_ssh['recv_num']);
+													$sql_ssh = "select recv_num from Gn_MMS where send_num='" . $row[sendnum] . "' and and (reg_date like '$date_month%' or reservation like '$date_month%')  group by(recv_num)";
+													$result_ssh = mysql_query($sql_ssh);
+													while ($row_ssh = mysql_fetch_array($result_ssh)) {
+														$ssh_arr = explode(",", $row_ssh[recv_num]);
 														$ssh_numT = array_merge($ssh_numT, (array)$ssh_arr);
 													}
 													$ssh_arr = array_unique($ssh_numT);
 													$ssh_cnt = count($ssh_arr);
-													mysqli_free_result($result_ssh);
-													if ($mem_phone == $row['sendnum'] && ($member_1['mem_type'] == "V" || $member_1['mem_type'] == "")) {
+													mysql_free_result($result_ssh);
+													if ($mem_phone == $row['sendnum'] && ($member_1[mem_type] == "V" || $member_1[mem_type] == "")) {
 														if ($row['memo2'] == "SK") {
 															//        // SKT
 															$limitCnt = 2000;
@@ -1411,37 +1367,39 @@ if (!empty($row_sum_b)) {
 														}
 														//    $daily_cnt = $limitCnt * 0.01 * $row['donation_rate'];
 														//    // 1일 발송 가능량
-														$row['user_cnt'] = $limitCnt - $today_cnt_1;
-														//$row['user_cnt'] = "무제한";
+														$row[user_cnt] = $limitCnt - $today_cnt_1;
+														//$row[user_cnt] = "무제한";
 													}
 
 													// 당일 발송회수가 1이면 한개를 더 차감으로 커멘트함
 													// if($today_cnt_1 == 1)
-													// 	$row['user_cnt'] = $row['user_cnt'] - $today_cnt_1;
+													// 	$row[user_cnt] = $row[user_cnt] - $today_cnt_1;
 
-													if ($member_1['mem_type'] == "V" && $mem_phone == $row['sendnum']) {
+													if ($member_1[mem_type] == "V" && $mem_phone == $row['sendnum']) {
 														$is_send = true;
-														$today_send_total += $row['user_cnt'];
+														//$today_send_total+=$row[user_cnt];
+														$today_send_total += $row[user_cnt];
 														$send_status = "가능";
-													} else if ($today_cnt_1 > $row['daily_limit_cnt_user']) {
-														$row['user_cnt'] = 0;
+													} else if ($today_cnt_1 > $row[daily_limit_cnt_user]) {
+														$row[user_cnt] = 0;
 														$is_send = false;
 														$send_status = "<span style='color:red'>불가</span>";
 													} else {
 														$is_send = true;
-														$today_send_total += $row['user_cnt'];
+														$today_send_total += $row[user_cnt];
 														$send_status = "가능";
 													}
 													// 200~500건 10번 이상 발송 경우 건수 조정 금일 발송 기록이 있는경우 발송 불가
-													if ($row['cnt1'] > 10 && $today_cnt_1 > $row['daily_min_cnt_user'] - 1) {
-														$row['user_cnt'] = 0;
+													//echo "$row[user_cnt] - $today_cnt_1<BR>";
+													if ($row[cnt1] > 10 && $today_cnt_1 > $row['daily_min_cnt_user'] - 1) {
+														$row[user_cnt] = 0;
 														$is_send = false;
 														$send_status = "<span style='color:red'>불가</span>";
 													}
-													$sql_s = "select status,regdate from Gn_MMS_status where send_num='{$row['sendnum']}' order by regdate desc";
-													$resul_s = mysqli_query($self_con, $sql_s);
-													$row_s = mysqli_fetch_array($resul_s);
-													mysqli_free_result($resul_s);
+													$sql_s = "select status,regdate from Gn_MMS_status where send_num='$row[sendnum]' order by regdate desc";
+													$resul_s = mysql_query($sql_s);
+													$row_s = mysql_fetch_array($resul_s);
+													mysql_free_result($resul_s);
 													if ($row_s['status'] == "-1") {
 														$rdate = date("Y-m-d", strtotime($row_s['regdate']));
 														if ($rdate == $today_reg) {
@@ -1449,7 +1407,7 @@ if (!empty($row_sum_b)) {
 															$send_status = "<span style='color:red'>불가</span>";
 														}
 													}
-													if ($ableNum[$row['sendnum']] == "") {
+													if ($ableNum[$row[sendnum]] == "") {
 														$is_send = false;
 													}
 													if ($is_send == true)
@@ -1459,24 +1417,24 @@ if (!empty($row_sum_b)) {
 																	echo "background:#efefef";
 																} ?>">
 														<td style="text-align:left;">
-															<label><input type="checkbox" name="go_num" value="<?= $row['sendnum'] ?>" <?= !$is_send ? "disabled" : "" ?> <?= $fujia_pay == "" && $row['sendnum'] != $mem_phone ? "disabled" : "" ?> onclick="send_sj_fun()" data-user_cnt="<?= $row['user_cnt'] ?>" data-send-cnt="<?= $ssh_cnt ?>" data-max-cnt="<?= $monthly_limit_ssh ?>" data-name="<?= $row['memo'] ?>" /><?= $row['sendnum'] ?></label>
-															<input type="hidden" name="go_user_cnt" value="<?= $row['user_cnt'] ?>" />
-															<input type="hidden" name="go_max_cnt" value="<?= $row['daily_limit_cnt_user'] ?>" />
-															<input type="hidden" name="go_memo2" value="<?= $row['memo2'] ?>" />
-															<input type="hidden" name="go_cnt1" value="<?= $row['cnt1'] ?>" />
-															<input type="hidden" name="go_cnt2" value="<?= $row['cnt2'] ?>" />
+															<label><input type="checkbox" name="go_num" value="<?= $row[sendnum] ?>" <?= !$is_send ? "disabled" : "" ?> <?= $fujia_pay == "" && $row[sendnum] != $mem_phone ? "disabled" : "" ?> onclick="send_sj_fun()" data-user_cnt="<?= $row[user_cnt] ?>" data-send-cnt="<?= $ssh_cnt ?>" data-max-cnt="<?= $monthly_limit_ssh ?>" data-name="<?= $row[memo] ?>" /><?= $row[sendnum] ?></label>
+															<input type="hidden" name="go_user_cnt" value="<?= $row[user_cnt] ?>" />
+															<input type="hidden" name="go_max_cnt" value="<?= $row[daily_limit_cnt_user] ?>" />
+															<input type="hidden" name="go_memo2" value="<?= $row[memo2] ?>" />
+															<input type="hidden" name="go_cnt1" value="<?= $row[cnt1] ?>" />
+															<input type="hidden" name="go_cnt2" value="<?= $row[cnt2] ?>" />
 															<input type="hidden" name="go_remain_cnt" value="<?= $remain_cnt ?>" />
 														</td>
-														<td><?= $row['memo'] ?></td>
+														<td><?= $row[memo] ?></td>
 														<td>
-															<? if ($row['daily_limit_cnt_user'] >= 10000) { ?>
+															<? if ($row[daily_limit_cnt_user] >= 10000) { ?>
 																<?= $today_cnt_1; ?> <?= $ssh_cnt; ?>
 															<? } else { ?>
-																<?= $row['user_cnt'] ?>
+																<?= $row[user_cnt] ?>
 															<? } ?>
 														</td>
 														<td style="text-align:center;">
-															<input type="checkbox" name="check_num" value="<?= $row['sendnum'] ?>" />
+															<input type="checkbox" name="check_num" value="<?= $row[sendnum] ?>" />
 														</td>
 														<td><?= $send_status ?></td>
 													</tr>
@@ -1484,7 +1442,9 @@ if (!empty($row_sum_b)) {
 												}
 												?>
 												<tr>
-													<td colspan="5" style="text-align:right;"><span class="send_sj_c">0</span> / <?= number_format($today_send_total) ?></td>
+													<td colspan="5" style="text-align:right;">
+														<span class="send_sj_c">0</span> / <?= number_format($today_send_total) ?>
+													</td>
 												</tr>
 											<? } else { ?>
 												<tr>
@@ -1633,9 +1593,9 @@ if (!empty($row_sum_b)) {
 				<a class="newpane" href="javascript:show_new_chat();"><span style="font-size: 5px;">NEW</a>
 			</div>
 			<div class="search_keyword">
-				<input type="hidden" name="key" id="key" value="<?= $member_1['gpt_chat_api_key'] ?>">
-				<textarea class="search_input" autocomplete="off" name="question" id="question" value="" title="질문을 입력하세요" placeholder="알지AI에게 질문해보세요" onclick="check_login('<?= $_SESSION['iam_member_id'] ?>')"></textarea>
-				<button type="button" onclick="send_post('<?= $_SESSION['iam_member_id'] ?>')" class="send_ask"><img src="/iam/img/send_ask.png" alt="전송"></button>
+				<input type="hidden" name="key" id="key" value="<?= $member_1[gpt_chat_api_key] ?>">
+				<textarea class="search_input" autocomplete="off" name="question" id="question" value="" title="질문을 입력하세요" placeholder="알지AI에게 질문해보세요" onclick="check_login('<?= $_SESSION[iam_member_id] ?>')"></textarea>
+				<button type="button" onclick="send_post('<?= $_SESSION[iam_member_id] ?>')" class="send_ask"><img src="/iam/img/send_ask.png" alt="전송"></button>
 			</div>
 		</div>
 		<div style="background-color: lightgrey;text-align: center;padding: 7px;">
@@ -1719,9 +1679,7 @@ if (!empty($row_sum_b)) {
 	<input type="hidden" name="excel_sql" value="<?= $excel_sql ?>" />
 </form>
 <iframe name="excel_iframe" style="display:none"></iframe>
-<?
-include_once "_foot.php";
-?>
+<?include_once "_foot.php";?>
 <script language="javascript" src="js/mms_send.2020.js?<?= date("His") ?>"></script>
 <script language="javascript">
 	$('#use_cnt').html('<?= $use_phone_cnt ?>');
@@ -1729,7 +1687,6 @@ include_once "_foot.php";
 		$('#agreement_yn').on("change", function() {
 			if ($(this).is(":checked") == true) {
 				$('#agreement_yn_span').html('ON').css('color', 'rgb(0, 0, 255)');
-
 			} else {
 				$('#agreement_yn_span').html('OFF').css('color', '');
 			}
@@ -1807,7 +1764,7 @@ include_once "_foot.php";
 		if (status != "4" && status != "5") {
 			if (!$("#group_num").val() && !$("#num").val()) {
 				alert('선택된 번호가 없습니다.');
-				document.getElementsByName('deny_wushi[]')['status'].checked = false;
+				document.getElementsByName('deny_wushi[]')[status].checked = false;
 				return false;
 			}
 		}
@@ -1918,7 +1875,7 @@ include_once "_foot.php";
 	<? } ?>
 </script>
 <?
-if ($_SESSION['one_member_admin_id'] != "") {
+if ($_SESSION[one_member_admin_id] != "") {
 ?>
 	<Script>
 		chk_time = true;

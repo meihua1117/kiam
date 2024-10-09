@@ -11,8 +11,12 @@ if (!$_SESSION['one_member_id']) {
     exit;
 }
 $sql = "select * from Gn_landing  where landing_idx='" . $landing_idx . "'";
-$sresul_num = mysqli_query($self_con, $sql);
-$row = mysqli_fetch_array($sresul_num);
+$sresul_num = mysql_query($sql);
+$row = mysql_fetch_array($sresul_num);
+//clean code 22-01-19
+/*$sql = "select * from Gn_Member where mem_id = '$_SESSION[one_member_id]' and site != ''";
+$res_result = mysql_query($sql);
+$member_1 = mysql_fetch_array($res_result);*/
 ?>
 <script>
     function copyHtml() {
@@ -581,13 +585,13 @@ $row = mysqli_fetch_array($sresul_num);
                         </li>
 
                         <!--<li style="float:right; font-size:13px;">
-                    <a href="http://kiam.kr/movie/landing_making.mp4" target="_blank" >
-                    <button type="button" style="background:#D8D8D8;">랜딩만들기영상보기</button>
-                    </a> </li>
-                
-            
-                <li style="float:right;"></li>
-                <p style="clear:both"></p> -->
+              <a href="http://kiam.kr/movie/landing_making.mp4" target="_blank" >
+              <button type="button" style="background:#D8D8D8;">랜딩만들기영상보기</button>
+              </a> </li>
+        
+	
+        <li style="float:right;"></li>
+        <p style="clear:both"></p> -->
                     </div>
                     <div>
                         <div class="p1">
@@ -618,9 +622,9 @@ $row = mysqli_fetch_array($sresul_num);
                                     <th class="w200">신청창 자동 삽입</th>
                                     <td>
                                         <?
-                                        $sql = "select event_title from Gn_event where pcode='{$row['pcode']}'";
-                                        $eres = mysqli_query($self_con, $sql);
-                                        $erow = mysqli_fetch_array($eres);
+                                        $sql = "select event_title from Gn_event where pcode='$row[pcode]'";
+                                        $eres = mysql_query($sql);
+                                        $erow = mysql_fetch_array($eres);
                                         ?>
                                         <input type="radio" name="request_yn" id="request_y" value="Y" <?php echo $row['request_yn'] == "Y" ? "checked" : "" ?>>사용
                                         <input type="radio" name="request_yn" id="request_n" value="N" <?php echo $row['request_yn'] == "N" || $row['request_yn'] == "" ? "checked" : "" ?>>사용 안함
@@ -806,7 +810,6 @@ $row = mysqli_fetch_array($sresul_num);
 
     function newpop() {
         var win = window.open("mypage_pop_event_list.php", "event_pop", "toolbar=yes,scrollbars=yes,resizable=yes,top=200,left=200,width=1000,height=1000");
-
     }
     $(function() {
         $('#searchBtn').on("click", function() {
@@ -830,7 +833,7 @@ $row = mysqli_fetch_array($sresul_num);
             }
 
             $('#ir1').val(window.editor1.getData());
-            <?php if ($_SESSION['one_member_admin_id'] != "") { ?>
+            <? if ($_SESSION['one_member_admin_id'] != "") { ?>
                 $('#ir2').val(window.editor2.getData());
             <? } ?>
             $('#sform').submit();

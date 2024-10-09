@@ -92,23 +92,36 @@ function tab(e, num){
                         </div>
                     </div>   
                                  
-                    <?php if($sub_domain != true) {?>
-                    <div class="bnt main-buttons" style="background-color: #0B3861; padding-bottom:20px;">
-                        <div class="wrap2" style="max-width: 849px; margin: 0 auto;">
-                            <a href="/cliente_list.php?status=1&one_no=64"  class="button" target="_blank">온리원문자(앱) 다운로드</a>
+                    <?php if($sub_domain == true) {?>        
+                    <!--<div class="bnt main-buttons" style="background-color: #0B3861; padding-bottom:20px;">
+                      <div class="wrap2" style="max-width: 849px; margin: 0 auto;">
+                        <a href="/cliente_list.php?status=1&one_no=64"  class="button" target="_blank">온리원문자(앱) 다운로드</a>
+                        <a href="https://oog.kiam.kr/pages/page_3208.php"  class="button" target="_blank">온리원문자 이용매뉴얼</a>      
+                        <a href="<?=$domainData['kakao'];?>" class="button2" target="_blank">카카오상담하기</a>
+                        <a href="https://oog.kiam.kr/pages/page_3214.php" class="button" target="_blank">자주하는 질문</a>
+                      </div> 
+                    </div>-->                         
+                  <?php }else{?>
+                   
+                   <div class="bnt main-buttons" style="background-color: #0B3861; padding-bottom:20px;">
+                      <div class="wrap2" style="max-width: 849px; margin: 0 auto;">
+                        <a href="/cliente_list.php?status=1&one_no=64"  class="button" target="_blank">온리원문자(앱) 다운로드</a>
                         <a href="https://tinyurl.com/3dr4afcp"  class="button" target="_blank">온리원문자 이용매뉴얼</a>      
-                            <a href="http://pf.kakao.com/_jVafC/chat" class="button2" target="_blank">카카오상담하기</a>
+                        <a href="http://pf.kakao.com/_jVafC/chat" class="button2" target="_blank">카카오상담하기</a>
                         <a href="https://tinyurl.com/yrnyd537" class="button" target="_blank">IAM플랫폼 통합매뉴얼</a>
-                        </div> 
+                      </div> 
                     </div>      
                    <?} ?>
                     <div class="text-wrap" style="background-color: #0B3861;">
                       <p>
                         온리원문자는 문자발송 솔루션입니다. 본 솔루션을 통해 발송된 문자내용은 발송자가 제공하는 정보로서 이를 신뢰하여 취한 조치에 대해 책임지지 않습니다.
+
                       </p>
                      </div>
+                                        
    				</div>
-                <div class="sub-1-section sec-4">
+                
+                 <div class="sub-1-section sec-4">
                     <div class="content-wrap">
                         <div class="image-wrapper">
                             <img src="images/200330_09.png">
@@ -117,6 +130,9 @@ function tab(e, num){
                 </div>
                   
                 <div class="sub-1-section sec-3">
+                     <!--<div class="im_title">
+                        “Web문자” vs “온리원문자” 가격 비교 해볼까요?
+                    </div>-->
                     <div class="content-wrap">
                         <div class="image-wrapper">
                             <img src="images/200107_09.png">

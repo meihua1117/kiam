@@ -1,11 +1,12 @@
 <?
 header("Pragma:no-cache");
-if ($_REQUEST['mem_code']) {
-    @setcookie("mem_code", $_REQUEST['mem_code'], time() + 3600);
-    $_COOKIE['mem_code'] = $_REQUEST['mem_code'];
+if ($_REQUEST[mem_code]) {
+    @setcookie("mem_code", $_REQUEST[mem_code], time() + 3600);
+    $_COOKIE[mem_code] = $_REQUEST[mem_code];
 }
 include_once $_SERVER['DOCUMENT_ROOT'] . "/lib/rlatjd_fun.php";
 include_once "_head.php";
+
 ?>
 <link href='/css/sub_4_re.css' rel='stylesheet' type='text/css' />
 <style>
@@ -80,21 +81,22 @@ include_once "_head.php";
 <div class="container">
     <?
     $query = "SELECT NO FROM tjd_board WHERE pop_yn='Y' ORDER BY DATE DESC LIMIT 0, 3";
-    $res = mysqli_query($self_con, $query);
-    $totalCnt    =  mysqli_num_rows($res);
+    $res = mysql_query($query);
+    $totalCnt    =  mysql_num_rows($res);
 
     for ($i = 0; $i < $totalCnt; $i++) {
-        $alert_ids    =  mysqli_fetch_array($res); ?>
+        $alert_ids    =  mysql_fetch_array($res); ?>
         <input type="text" id="alertid<?= $i ?>" value="<?= $alert_ids[0] ?>" hidden>
     <? }
     if ($sub_domain == true && $domainData['main_default_yn'] == "I") { ?>
         <div class="midle_div">
-            <div style="text-align:center">
+            <div align="center">
                 <img src="<?= $domainData['main_image'] ?>" style="width : 100%">
             </div>
         </div>
         <? if ($HTTP_HOST == "moodoga.kiam.kr") { ?>
             <link href='/css/sub_4_re.css' rel='stylesheet' type='text/css' />
+            <script src="/js/jquery-2.1.0.js"></script>
             <style>
                 .head_left img {
                     width: 166px !important;
@@ -110,6 +112,18 @@ include_once "_head.php";
                     height: 269px;
                 }
             </style>
+            <!-- 아래 이징 플러그인은 부드러운 모션 처리를 위해서 필요 -->
+            <script src="/js/jquery.easing.1.3.js"></script>
+            <script src="motionj.com.jBanner.1.2.js"></script>
+            <script type="text/javascript" src="/jquery.lightbox_me.js"></script>
+            <script type="text/javascript">
+                $(function() {
+                    $('.jBanner').jBanner({
+                        width: 570,
+                        height: 270
+                    });
+                });
+            </script>
             <div class="container">
                 <div class="">
                     <img src="/images/view_visual_1_moo.jpg" usemap="#Map" border="0" />

@@ -1,7 +1,7 @@
 <?
 $path="./";
 include_once "_head.php";
-//$code = whois_ascc($whois_api_key, $_SERVER['REMOTE_ADDR']);
+$code = whois_ascc($whois_api_key, $_SERVER['REMOTE_ADDR']);
 ?>
 <script>
 </script>

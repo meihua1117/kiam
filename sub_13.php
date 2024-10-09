@@ -94,8 +94,10 @@ con.eq(i).show();
       </div>
     </div>
     <?php }else{?>
+    
     <div class="bnt main-buttons" style="background-color:  #086A87; padding-bottom:20px;">
       <div class="wrap2">
+       
         <a href="http://pf.kakao.com/_jVafC/chat" class="button2" target="_blank">카카오상담하기</a>
         <a href="/m/agree.php" class="button" target="_blank">마이샵 이용하기</a>
       </div>
@@ -108,12 +110,28 @@ con.eq(i).show();
         <img src="images/200330_05.png">
       </div>
     </div>
+
+    
+
+    <!--<div class="im_title is-main">
+      <p>
+        <span style="color:#FF6; font-size:25px;">고객맞춤 메시지카피 솔루션</span><br/>
+        메시지 카피
+      </p>
+    </div>-->
     <div class="sub-13-section">
       <a name="technic"></a>
       <div class="inner">
         <img src="images/200324_06.png">
       </div>
     </div>
+
+    <!--<div class="im_title is-main">
+      <p>
+        <span style="color:#FF6; font-size:25px;">모두 0.7원 문자 솔루션</span><br/>
+        온리원문자
+      </p>
+    </div>-->
     <div class="sub-13-section">
       <a name="uses"></a>
       <div class="inner">

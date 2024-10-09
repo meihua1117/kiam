@@ -1,14 +1,14 @@
 <?
 include_once "_head.php";
 $data = $member_1;
-if($_POST['member_type'] != "")
-    $_POST['iam_pay_type'] = $_POST['member_type'];
+if($_POST[member_type] != "")
+    $_POST[iam_pay_type] = $_POST[member_type];
 $sql = "insert into tjd_pay_result
     set idx='$_POST[allat_order_no]',
         orderNumber='$_POST[allat_order_no]',
         VACT_InputName='$data[mem_name]',
         TotPrice='$_POST[allat_amt]',
-        end_date=date_add(now(),INTERVAL {$_POST['month_cnt']} month),
+        end_date=date_add(now(),INTERVAL {$_POST[month_cnt]} month),
         end_status='N',
         buyertel='$data[mem_phone]',
         buyeremail='$data[mem_email]',
@@ -22,4 +22,4 @@ $sql = "insert into tjd_pay_result
         member_cnt='$_POST[member_cnt]',
         monthly_yn = 'Y'
         ";
-mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+mysql_query($sql) or die(mysql_error());

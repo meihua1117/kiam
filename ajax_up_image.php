@@ -1,6 +1,6 @@
 <?
 include_once "lib/rlatjd_fun.php";
-if($_FILES["upimage".$_REQUEST['k']]['name']){
+if($_FILES["upimage".$_REQUEST['k']][name]){
     $img_name=date("dmYHis").str_replace(" ","",basename($_FILES["upimage".$_REQUEST['k']]["name"]));	
     $img_name=str_replace("'","",$img_name);	
     $img_name=str_replace('"',"",$img_name);	
@@ -19,6 +19,7 @@ if($_FILES["upimage".$_REQUEST['k']]['name']){
 			$show_img = "adjunct/mms/thum/".$img_name;
 		}		
 		echo json_encode(array('status' => '1', 'value' => $show_img));		
+
     }
 	else
 		echo json_encode(array('status' => '0', 'value' => "업로드 실패"));	

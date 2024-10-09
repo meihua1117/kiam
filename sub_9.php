@@ -16,6 +16,7 @@
     position: absolute;
     top: 370px;
     right: 510px;
+    overflow: ;
     width: 577px;
     height: 200px;
 }
@@ -74,7 +75,7 @@ function tab(e, num){
         <div class="left_sub_menu">
             <a href="./">홈</a> >
             <a href="sub_9.php">메시지카피</a> >
-            <a href="?status=<?=$_REQUEST['status']?>"><?=$left_str?></a>
+            <a href="?status=<?=$_REQUEST[status]?>"><?=$left_str?></a>
         </div>
         <div class="right_sub_menu">
             <a href="sub_9.php#Introduce">메시지카피소개</a> ㅣ <a href="sub_9.php#education">메시지카피교육</a> ㅣ<a href="sub_9.php#trait">메시지카피특징</a> ㅣ <a href="sub_9.php#effect">메시지카피효과</a> ㅣ <a href="sub_9.php#case">메시지카피사례</a>
@@ -125,13 +126,28 @@ function tab(e, num){
     <? } ?>
    
     </div>
+    
+  <!--  <div class="sub-2-section sec-5">
+    <div class="iframe-wrap">
+      <iframe width="900" height="500" src="https://www.youtube.com/embed/3mYwvPX2JkY" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>     
+    </div>
+  </div> -->
+    
     <div class="sub-9-section">
+        <!--<div class="im_title" style="b ">
+            <p>메시지카피 특징</p>
+        </div>-->
         <a name="technic"></a>
         <div class="content-wrap">
             <img src="images/200330_07.png">
         </div>
     </div>
+    
+    
     <div class="sub-9-bg-03 sub-9-section">
+        <!--<div class="im_title" style="b ">
+            <p>메시지카피 특징</p>
+        </div>-->
         <a name="technic"></a>
         <div class="content-wrap">
             <img src="images/200107_04.png">
@@ -139,6 +155,9 @@ function tab(e, num){
     </div>
     
     <div class=" sub-9-section">
+        <!--<div class="im_title" style="b ">
+            <p>메시지카피 특징</p>
+        </div>-->
         <a name="technic"></a>
         <div class="content-wrap">
             <img src="images/200330_08.png">
@@ -147,19 +166,44 @@ function tab(e, num){
     
      <div class="sub-9-section outer ">
         <a name="effect"></a>
-        <div class="im_title">
+        <div class="im_title" style="b ">
             <p><span class="colored">고객의 마음을 잡는 메시지카피라이팅</span><br/>
                 고객과 소통하는 메시지! </p>
         </div>
      </div>
      
     <div class="sub-9-section">
+       <!-- <div class="im_title">
+            <p>
+                <span class="colored">
+                    고객맞춤 메시지카피 솔루션
+                <br/>
+                메시지 카피
+            </p>
+        </div>-->
         <a name="case"></a>
         <div class="content-wrap">
             <img src="images/200107_05.png">
         </div>
     </div>
+    
+    
+    <!--<div class="sub-9-section">
+        <div class="im_title">
+            <p>
+                <span class="colored">
+                    1차 회신율 55% 달성
+                </span><br/>
+                메시지카피 예시
+            </p>
+        </div>
+        <div class="content-wrap">
+            <img src="images/190910_sub_9_03.png">
+        </div>
+    </div>-->
+
 </div>
+
 <?
     include_once "_foot.php";
 ?>

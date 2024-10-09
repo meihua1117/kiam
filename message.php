@@ -82,8 +82,8 @@ $questionarr = json_decode($_SESSION['data'], true);
 // fclose($myfile);
 curl_close($ch);
 
-/*function save_req_list($mem_id, $msg, $res){
+function save_req_list($mem_id, $msg, $res){
     $sql_insert = "insert into Gn_Gpt_Req_List set mem_id='{$mem_id}', gpt_question='{$msg}', gpt_answer='{$res}', reg_date=now()";
-    mysqli_query($sql_insert);
-}*/
+    mysql_query($sql_insert);
+}
 ?>

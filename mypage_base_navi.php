@@ -9,7 +9,7 @@
 
                 <a href="/mypage_payment.php">결제정보</a> | 
 
-                 <?if($data['service_type'] == 2 || $data['service_type'] == 3 || $data['mem_id'] == "obmms02") {?>
+                 <?if($data[service_type] == 3 || $data[service_type] == 2 || $data[mem_id] == "obmms02") {?>
                 <a href="/mypage_payment_reseller.php">정산정보</a> |
                 <a href="/sub_7.php">추천정보</a> | 
                 <?}?>
@@ -17,10 +17,10 @@
 
                <?
                //mem_leb 21:강사, 22: 일반, 50: 사업자
-               //service_type: 1: 이용자, 2: 리셀러, 3: 분양자
+               //service_type: 0: 이용자, 1: 리셀러, 3: 분양자
 
                ?>
-                <?if($data['mem_leb'] == 21 || $data['mem_leb'] == 60 || $data['mem_id'] == "obmms02") {?>
+                <?if($data[mem_leb] == 21 || $data[mem_leb] == 60 || $data[mem_id] == "obmms02") {?>
                 <a href="/mypage_lecture_list.php">강연관리</a> | 
                 
                 <?}?>

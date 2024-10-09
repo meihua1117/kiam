@@ -1,7 +1,7 @@
 <?
 $path="./"; 
-include_once $_REQUEST['status']?"_head_open.php":"_head.php";
-if($_REQUEST['status2']==2)
+include_once $_REQUEST[status]?"_head_open.php":"_head.php";
+if($_REQUEST[status2]==2)
 {
 	if(!$fujia_pay)
 	{
@@ -13,7 +13,7 @@ if($_REQUEST['status2']==2)
 <script language="javascript">
 function deleteRow(idx) {
     if(confirm('삭제하시겠습니까?')) {
-        location = "msg_search.proc.php?mode=del&idx="+idx+"&status2=<?php echo $_GET['status2'];?>";
+        location = "msg_search.proc.php?mode=del&idx="+idx+"&status2=<?php echo $_GET[status2];?>";
     }
 }
 </script>
@@ -27,7 +27,7 @@ function deleteRow(idx) {
             </div>
             <div class="right_sub_menu">
             <?
-			if(!$_REQUEST['status'])
+			if(!$_REQUEST[status])
 			{
 				?>            
                 <a href="sub_4.php?status=1">휴대폰등록관리</a> &nbsp;|&nbsp; 
@@ -47,50 +47,50 @@ function deleteRow(idx) {
         <form name="msg_serch_form" method="post">
 					<div class="sub_4_3_t1">
                     	<div class="sub_4_1_t3">
-						<a href="msg_serch.php?status=1&status2=1" <?if($_REQUEST['status2']==1) echo "style='color:#9dff9d'";?>>LMS 문자</a>
+						<a href="msg_serch.php?status=1&status2=1" <?if($_REQUEST[status2]==1) echo "style='color:#9dff9d'";?>>LMS 문자</a>
 						<span style="margin: 20px"></span>
-						<a href="msg_serch.php?status=1&status2=2" <?if($_REQUEST['status2']==2) echo "style='color:#9dff9d'";?>>포토 문자</a>
+						<a href="msg_serch.php?status=1&status2=2" <?if($_REQUEST[status2]==2) echo "style='color:#9dff9d'";?>>포토 문자</a>
                         </div>
                         <?
-						switch($_REQUEST['status2'])
+						switch($_REQUEST[status2])
 						{
 							case 1:
-								$sql_serch=" mem_id ='{$_SESSION['one_member_id']}' and msg_type='A' ";
-								if($_REQUEST['lms_text'])
+								$sql_serch=" mem_id ='$_SESSION[one_member_id]' and msg_type='A' ";
+								if($_REQUEST[lms_text])
 								{
-									if($_REQUEST['lms_select'])
-									$sql_serch.=" and {$_REQUEST['lms_select']} like '{$_REQUEST['lms_text']}%' ";
+									if($_REQUEST[lms_select])
+									$sql_serch.=" and {$_REQUEST[lms_select]} like '$_REQUEST[lms_text]%' ";
 									else
-									$sql_serch.=" and (message like '{$_REQUEST['lms_text']}%'  or title like '{$_REQUEST['lms_text']}%') ";
+									$sql_serch.=" and (message like '$_REQUEST[lms_text]%'  or title like '$_REQUEST[lms_text]%') ";
 								}
 								$sql="select count(idx) as cnt from Gn_MMS_Message where $sql_serch ";
-								$result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-								$row=mysqli_fetch_array($result);
-								$intRowCount=$row['cnt'];
-								if($_POST['page'])
-								$page=(int)$_POST['page'];
+								$result = mysql_query($sql) or die(mysql_error());
+								$row=mysql_fetch_array($result);
+								$intRowCount=$row[cnt];
+								if($_POST[page])
+								$page=(int)$_POST[page];
 								else
 								$page=1;
-								if($_POST['page2'])
-								$page2=(int)$_POST['page2'];
+								if($_POST[page2])
+								$page2=(int)$_POST[page2];
 								else
 								$page2=1;
-								if (!$_POST['lno']) 
+								if (!$_POST[lno]) 
 								$intPageSize =8;
 								else 
-								$intPageSize = $_POST['lno'];
+								$intPageSize = $_POST[lno];
 								$int=($page-1)*$intPageSize;
-								if($_REQUEST['order_status'])
-								$order_status=$_REQUEST['order_status'];
+								if($_REQUEST[order_status])
+								$order_status=$_REQUEST[order_status];
 								else
 								$order_status="desc"; 
-								if($_REQUEST['order_name'])
-								$order_name=$_REQUEST['order_name'];
+								if($_REQUEST[order_name])
+								$order_name=$_REQUEST[order_name];
 								else
 								$order_name="idx";
 								$intPageCount=(int)(($intRowCount+$intPageSize-1)/$intPageSize);     
 								$sql="select * from Gn_MMS_Message where $sql_serch order by $order_name $order_status limit $int,$intPageSize";
-								$result=mysqli_query($self_con, $sql) or die(mysqli_error($self_con));							
+								$result=mysql_query($sql) or die(mysql_error());							
 							?>
                         <div class="sub_4_3_t2">
                         	<div class="sub_4_4_t3">
@@ -100,14 +100,14 @@ function deleteRow(idx) {
 									$select_lms_arr=array("title"=>"제목","message"=>"내용");
 									foreach($select_lms_arr as $key=>$v)
 									{
-										$selected=$_REQUEST['lms_select']==$key?"selected":"";
+										$selected=$_REQUEST[lms_select]==$key?"selected":"";
 										?>
 										<option value="<?=$key?>" <?=$selected?>><?=$v?></option>                                        
                                         <?
 									}
 								?>
                                 </select>
-                                <input type="text" name="lms_text" value="<?=$_REQUEST['lms_text']?>" />
+                                <input type="text" name="lms_text" value="<?=$_REQUEST[lms_text]?>" />
                                 <input type="image" src="images/sub_button_703.jpg" />
                             </div>
                             <div class="d_div_font">LMS</div>
@@ -127,13 +127,13 @@ function deleteRow(idx) {
                                     <div>
 										<?
                                         $i=0;
-                                        while($row=mysqli_fetch_array($result))
+                                        while($row=mysql_fetch_array($result))
                                         {
                                             ?>
                                         <div class="sub_4_3_t2_right_1">
                                             <div class="sub_4_3_t2_right_1_1">
-                                                <div class="msg_title" style="margin-bottom:2px;"><?=str_replace("{|REP|}", "{|name|}", $row['title'])?></div>
-                                                <div class="msg_content"><?=html_entity_decode( str_replace("{|REP|}", "{|name|}", $row['message']))?></div>
+                                                <div class="msg_title" style="margin-bottom:2px;"><?=str_replace("{|REP|}", "{|name|}", $row[title])?></div>
+                                                <div class="msg_content"><?=html_entity_decode( str_replace("{|REP|}", "{|name|}", $row[message]))?></div>
                                             </div>
                                             <div class="sub_4_3_t2_right_1_3"><label><input type="radio" name="ab" onclick="show_msg('<?=$i?>')" />사용시 선택</label>
                                                 <div class="sub_4_3_t2_right_1_3" style="float:right"><a href="javascript:deleteRow('<?=$row['idx']?>');">삭제</a></div>
@@ -166,42 +166,42 @@ function deleteRow(idx) {
 							<?
 							break;
 							case 2:
-								$sql_serch=" mem_id ='{$_SESSION['one_member_id']}' and msg_type='B' ";
-									if($_REQUEST['lms_text'])
+								$sql_serch=" mem_id ='$_SESSION[one_member_id]' and msg_type='B' ";
+									if($_REQUEST[lms_text])
 									{
-										if($_REQUEST['lms_select'])
-										$sql_serch.=" and {$_REQUEST['lms_select']} like '{$_REQUEST['lms_text']}%' ";
+										if($_REQUEST[lms_select])
+										$sql_serch.=" and {$_REQUEST[lms_select]} like '$_REQUEST[lms_text]%' ";
 										else
-										$sql_serch.=" and (message like '{$_REQUEST['lms_text']}%'  or title like '{$_REQUEST['lms_text']}%') ";
+										$sql_serch.=" and (message like '$_REQUEST[lms_text]%'  or title like '$_REQUEST[lms_text]%') ";
 									}									
 									$sql="select count(idx) as cnt from Gn_MMS_Message where $sql_serch ";
-									$result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-									$row=mysqli_fetch_array($result);
-									$intRowCount=$row['cnt'];
-									if($_POST['page'])
-									$page=(int)$_POST['page'];
+									$result = mysql_query($sql) or die(mysql_error());
+									$row=mysql_fetch_array($result);
+									$intRowCount=$row[cnt];
+									if($_POST[page])
+									$page=(int)$_POST[page];
 									else
 									$page=1;
-									if($_POST['page2'])
-									$page2=(int)$_POST['page2'];
+									if($_POST[page2])
+									$page2=(int)$_POST[page2];
 									else
 									$page2=1;
-									if (!$_POST['lno']) 
+									if (!$_POST[lno]) 
 									$intPageSize =8;
 									else 
-									$intPageSize = $_POST['lno'];
+									$intPageSize = $_POST[lno];
 									$int=($page-1)*$intPageSize;
-									if($_REQUEST['order_status'])
-									$order_status=$_REQUEST['order_status'];
+									if($_REQUEST[order_status])
+									$order_status=$_REQUEST[order_status];
 									else
 									$order_status="desc"; 
-									if($_REQUEST['order_name'])
-									$order_name=$_REQUEST['order_name'];
+									if($_REQUEST[order_name])
+									$order_name=$_REQUEST[order_name];
 									else
 									$order_name="idx";
 									$intPageCount=(int)(($intRowCount+$intPageSize-1)/$intPageSize);     
 									$sql="select * from Gn_MMS_Message where $sql_serch order by $order_name $order_status limit $int,$intPageSize";
-									$result=mysqli_query($self_con, $sql) or die(mysqli_error($self_con));							
+									$result=mysql_query($sql) or die(mysql_error());							
 							?>
                         <div class="sub_4_3_t2">
                         	<div class="sub_4_4_t3">
@@ -211,14 +211,14 @@ function deleteRow(idx) {
 									$select_photo_arr=array("title"=>"제목","message"=>"내용");
 									foreach($select_photo_arr as $key=>$v)
 									{
-										$selected=$_REQUEST['photo_select']==$key?"selected":"";
+										$selected=$_REQUEST[photo_select]==$key?"selected":"";
 										?>
 										<option value="<?=$key?>" <?=$selected?>><?=$v?></option>                                        
                                         <?
 									}
 								?>
                                 </select>
-                                <input type="text" name="photo_text" value="<?=$_REQUEST['photo_text']?>" />
+                                <input type="text" name="photo_text" value="<?=$_REQUEST[photo_text]?>" />
                                 <input type="image" src="images/sub_button_703.jpg" />
                             </div>
                             <div class="d_div_font">포토문자</div>
@@ -244,24 +244,24 @@ function deleteRow(idx) {
                                     <div>
 										<?
                                         $i=1;
-                                        while($row=mysqli_fetch_array($result))
+                                        while($row=mysql_fetch_array($result))
                                         {
                                             ?>
                                         <div class="sub_4_3_t2_right_1">
                                             <div class="sub_4_3_t2_right_1_1" style="height:250px">
-                                                <div class="msg_title"><?=$row['title']?></div>
-                                                <div class="img_view_1"><img src="<?=$row['img']?>" /></div>
+                                                <div class="msg_title"><?=$row[title]?></div>
+                                                <div class="img_view_1"><img src="<?=$row[img]?>" /></div>
                                                 <?php if($row['img1'] != "") {?>
-                                                <div class="img_view_1"><img src="<?=$row['img1']?>" /></div>
+                                                <div class="img_view_1"><img src="<?=$row[img1]?>" /></div>
                                                 <?php }?>
                                                 <?php if($row['img2'] != "") {?>
-                                                <div class="img_view_1"><img src="<?=$row['img2']?>" /></div>
+                                                <div class="img_view_1"><img src="<?=$row[img2]?>" /></div>
                                                 <?php } ?>
                                                 <div>
-                                                    <input type="hidden" name="photo_content" value="<?=$row['img']?>" />
-                                                    <input type="hidden" name="photo_content1" value="<?=$row['img1']?>" />
-                                                    <input type="hidden" name="photo_content2" value="<?=$row['img2']?>" />
-                                                    <textarea name="message" style="display:none"><?=$row['message']?></textarea>
+                                                    <input type="hidden" name="photo_content" value="<?=$row[img]?>" />
+                                                    <input type="hidden" name="photo_content1" value="<?=$row[img1]?>" />
+                                                    <input type="hidden" name="photo_content2" value="<?=$row[img2]?>" />
+                                                    <textarea name="message" style="display:none"><?=$row[message]?></textarea>
                                                 </div>                                            
                                             </div>
                                             <div class="sub_4_3_t2_right_1_3"><label><input type="radio" name="ab" onclick="show_photo('<?=$i?>')" />사용시 선택
@@ -400,6 +400,6 @@ function page_p(e1,e2,e3)
 
 
 <?
-mysqli_close($self_con);
+mysql_close();
 //include_once "_foot.php";
 ?>

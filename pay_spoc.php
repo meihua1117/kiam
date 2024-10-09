@@ -10,10 +10,19 @@ extract($_GET);
 include_once "_head.php";
 include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
 $date = date("Y-m-d H:i:s");
-$sql="select * from Gn_Member where mem_id='{$_SESSION['one_member_id']}' ";
-$resul=mysqli_query($self_con, $sql);
-$data=mysqli_fetch_array($resul);
+$sql="select * from Gn_Member where mem_id='$_SESSION[one_member_id]' ";
+$resul=mysql_query($sql);
+$data=mysql_fetch_array($resul);
+// 이미 진행중인 결제가 있는지 확인
 $mid = date("YmdHis").rand(10,99);
+/*$query = "select * from tjd_pay_result where buyer_id='$_SESSION[one_member_id]' and end_status='Y' and `end_date` > '$date'";
+$res = mysql_query($query);
+$sdata = mysql_fetch_array($res);
+if($sdata['no'] != "") {
+//echo "<Script>alert('이미 진행중인 결제가 있습니다.');history.go(-1);</script>";
+//exit;
+$chk = "Y";
+}*/
 ?>
 <!DOCTYPE html>
 <html lang="ko">
@@ -70,11 +79,11 @@ if($platform == "mobile"){
                 document.charset = 'euc-kr';
                 var navCase = navigator.userAgent.toLocaleLowerCase();
                 if(navCase.search("android") > -1){
-                    dfm.allat_app_scheme.value = navCase;
+            	    dfm.allat_app_scheme.value = navCase;
                     Allat_Mobile_Approval(dfm, 0, 0);
                 }
                 else{
-                    dfm.allat_app_scheme.value = '';
+            	    dfm.allat_app_scheme.value = '';
                     AllatPay_Approval(dfm);
                     // 결제창 자동종료 체크 시작
                     AllatPay_Closechk_Start();
@@ -162,7 +171,7 @@ if($platform == "mobile"){
                     type:"POST",
                     url:"/ajax/get_mem_address.php",
                     dataType:"json",
-                    data:{mem_id:'<?=$_SESSION['one_member_id']?>'},
+                    data:{mem_id:'<?=$_SESSION[one_member_id]?>'},
                     success: function(data){
                         console.log(data.address);
                         $('#allat_recp_addr').val(data.address);
@@ -283,7 +292,7 @@ if($platform == "mobile"){
                 </div>
             </div>
         </div>
-        <div class="pay" >
+        <div class="pay" style="">
             <form name="pay_form" id="pay_form" method="post"> <!--승인요청 및 결과수신페이지 지정 //-->
                 <!--주문정보암호화필드-->
                 <input type="hidden" name="allat_enc_data" value=''>
@@ -298,7 +307,7 @@ if($platform == "mobile"){
                 <!--승인금액-->
                 <input type="hidden" name="allat_amt" id="allat_amt" value="" size="19" maxlength=10>
                 <!--회원ID-->
-                <input type="hidden" name="allat_pmember_id" value="<?php echo $_SESSION['one_member_id'];?>" size="19" maxlength=20>
+                <input type="hidden" name="allat_pmember_id" value="<?php echo $_SESSION[one_member_id];?>" size="19" maxlength=20>
                 <!--상품코드-->
                 <input type="hidden" name="allat_product_cd" id="allat_product_cd" value="특별단회결제" size="19" maxlength=1000>
                 <!--상품명-->
@@ -340,7 +349,7 @@ if($platform == "mobile"){
                                             <div><input type="number" name="item_price" id="item_price" style="border-radius: 5px;line-height: 20px;text-align: right;" placeholder="원" readonly></div>
                                         </div>
                                     </div>
-                                    <?if(!$_SESSION['one_member_id']){?>
+                                    <?if(!$_SESSION[one_member_id]){?>
                                         <div class="a8">
                                             <a href="javascript:void(0)" onclick="alert('로그인후 이용이 가능합니다.');">
                                                 <img src="/images/sub_02_btn_23.jpg" style="width: 80%"/>
@@ -388,7 +397,7 @@ if($platform == "mobile"){
     </div>
 </div>
 <?
-mysqli_close($self_con);
+mysql_close();
 include_once "_foot.php";
 ?>
 </body>

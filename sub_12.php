@@ -85,7 +85,16 @@ con.eq(i).show();
         </div>
      
       
-	<?php if($sub_domain != true) {?>
+	<?php if($sub_domain == true) {?>
+    <!--<div class="bnt main-buttons" style="background-color: #585858; ">
+      <div class="wrap2">
+        <a href="https://oog.kiam.kr/pages/page_3219.php" class="button" target="_blank" >원스텝문자 이용매뉴얼</a><br />
+        <a href="<?=$domainData['kakao'];?>" class="button2" target="_blank">카카오상담하기</a>
+        <a href="https://oog.kiam.kr/pages/page_3214.php" class="button" target="_blank">FAQ</a>
+      </div>
+    </div>-->  
+    <?php }else{?>
+    
     <div class="bnt main-buttons" style="background-color: #585858; ">
       <div class="wrap2">
         <a href="https://tinyurl.com/26trbfnj" class="button" target="_blank">원스텝문자 이용매뉴얼</a><br />
@@ -103,30 +112,67 @@ con.eq(i).show();
     </div>
     </div>
     </div>
+<!--   
+    <div class="sub-2-section sec-5">
+    <div class="iframe-wrap">
+      <iframe width="900" height="500" src="https://www.youtube.com/embed/KugMWpxVP0U" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>     
+    </div>
+    <div class="iframe-wrap">
+      <iframe width="900" height="500" src="https://www.youtube.com/embed/76L7JqUkhkk" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>     
+    </div>
+    <div class="iframe-wrap">
+      <iframe width="900" height="500" src="https://www.youtube.com/embed/ufq2yg-EPF4" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>     
+    </div>
+  </div> -->
+    
     <div class="sub-12-section">
       <div class="inner">
         <img src="images/200330_10.png">
       </div>
     </div>
+
+    <!--<div class="im_title is-main">
+      <p>
+        <span style="color:#FF6; font-size:25px;">다채널 종합DB수집 솔루션</span><br/>
+        온리원디버
+      </p>
+    </div>-->
     <div class="sub-12-bg-02 sub-12-section">
       <div class="inner">
         <img src="images/191229_04.png">
       </div>
     </div>
+
+    <!--<div class="im_title is-main">
+      <p>
+        <span style="color:#FF6; font-size:25px;">고객맞춤 메시지카피 솔루션</span><br/>
+        메시지 카피
+      </p>
+    </div>-->
     <div class=" sub-12-section">
       <a name="technic"></a>
       <div class="inner">
         <img src="images/191229_05.png">
       </div>
     </div>
+
+    <!--<div class="im_title is-main">
+      <p>
+        <span style="color:#FF6; font-size:25px;">모두 0.7원 문자 솔루션</span><br/>
+        온리원문자
+      </p>
+    </div>-->
     <div class="sub-12-bg-02 sub-12-section">
       <a name="uses"></a>
       <div class="inner">
         <img src="images/191229_06.png">
       </div>
     </div>
+        
   </div>
+  
 </div>
+
 <?
 include_once "_foot.php";
 ?>

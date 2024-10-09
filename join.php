@@ -3,14 +3,10 @@
 $path="./";
 include_once "_head.php";
 include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
-if($_COOKIE['mem_code']) {
+if($_COOKIE[mem_code]) {
 	$sql="select * from Gn_Member where mem_code='$_COOKIE[mem_code]' and site != ''";
-	$result=mysqli_query($self_con, $sql);
-	$info=mysqli_fetch_array($result);
-	
-	//$sql="select * from Gn_Service where mem_id='$info['mem_id']'";
-	//$result=mysqli_query($self_con, $sql);
-	//$sinfo=mysqli_fetch_array($result);
+	$result=mysql_query($sql);
+	$info=mysql_fetch_array($result);
 }
 $code = whois_ascc($whois_api_key, $_SERVER['REMOTE_ADDR']);
 ?>
@@ -120,7 +116,7 @@ $code = whois_ascc($whois_api_key, $_SERVER['REMOTE_ADDR']);
                 alert(data.result);
             },
             error: function(){
-                alert('발송 실패');
+                alert('변경 실패');
             }
         });
     }
@@ -171,7 +167,7 @@ $code = whois_ascc($whois_api_key, $_SERVER['REMOTE_ADDR']);
                 alert(data.result);
             },
             error: function(){
-                alert('인증 실패');
+                alert('변경 실패');
             }
         });
     }
@@ -311,32 +307,41 @@ $(function(){
                                                         <select name="birth_1" type='select-one' required itemname='생년' style="background-color:#c8edfc;">
                                                             <option value="">년</option>
                                                             <?
-                                                            for($i=date("Y"); $i>1899; $i--){
+                                                            for($i=date("Y"); $i>1899; $i--)
+                                                            {
                                                             ?>
                                                             <option value="<?=$i?>"><?=$i?></option>
-                                                            <?}?>
+                                                            <?
+                                                            }
+                                                            ?>
                                                         </select>
                                                     </li>
                                                     <li>
                                                         <select name="birth_2" required type='select-one' itemname='월' style="background-color:#c8edfc;">
                                                             <option value="">월</option>
                                                             <?
-                                                            for($i=1; $i<13; $i++){
-                                                                $k=$i<10?"0".$i:$i;
+                                                            for($i=1; $i<13; $i++)
+                                                            {
+                                                            $k=$i<10?"0".$i:$i;
                                                             ?>
                                                             <option value="<?=$k?>"><?=$k?></option>
-                                                            <?}?>
+                                                            <?
+                                                            }
+                                                            ?>
                                                         </select>
                                                     </li>
                                                     <li>
                                                         <select name="birth_3" required type='select-one' itemname='일' style="background-color:#c8edfc;">
                                                             <option value="">일</option>
                                                             <?
-                                                            for($i=1; $i<32; $i++){
-                                                                $k=$i<10?"0".$i:$i;
+                                                            for($i=1; $i<32; $i++)
+                                                            {
+                                                            $k=$i<10?"0".$i:$i;
                                                             ?>
                                                             <option value="<?=$k?>"><?=$k?></option>
-                                                            <?}?>
+                                                            <?
+                                                            }
+                                                            ?>
                                                         </select>
                                                     </li>
                                                 </td>
@@ -352,8 +357,8 @@ $(function(){
                                                     // 광역시도 목록
                                                     $province_list = array();
                                                     $query = "SELECT province FROM gn_cities group by province";
-                                                    $res = mysqli_query($self_con, $query);
-                                                    while($row = mysqli_fetch_array($res)) {
+                                                    $res = mysql_query($query);
+                                                    while($row = mysql_fetch_array($res)) {
                                                         $province_list[] = $row['province'];
                                                     }
                                                 ?>
@@ -378,25 +383,28 @@ $(function(){
                                                     <input type="text" name="email_1" required itemname='이메일' style="width:70px;background-color:#c8edfc;" /> @ <input type="text" name="email_2" id='email_2' itemname='이메일' required style="width:70px;background-color:#c8edfc;" />
                                                     <select name="email_3" itemname='이메일' onchange="inmail(this.value,'email_2')" style="background-color:#c8edfc;">
                                                         <?
-                                                        foreach($email_arr as $key=>$v){
+                                                        foreach($email_arr as $key=>$v)
+                                                        {
                                                         ?>
                                                         <option value="<?=$key?>"><?=$v?></option>
-                                                        <?}?>
+                                                        <?
+                                                        }
+                                                        ?>
                                                     </select>
                                                 </td>
                                             </tr>
                                             <tr>
                                             <td>추천인ID</td>
                                                 <td>
-                                                    <input type="text" name="recommend_id" id="recommend_id" onblur="check_recommender()" itemname='추천인ID' style="width:21%;" value="<?php echo $info['mem_id']?>" <?php if($info['mem_id']!="") echo  "readonly";?>/>
+                                                    <input type="text" name="recommend_id" id="recommend_id" onblur="check_recommender()" itemname='추천인ID' style="width:21%;" value="<?php echo $info[mem_id]?>" <?php if($info[mem_id]!="") echo  "readonly";?>/>
                                                     <input type="hidden" id="is_exist_recommender" name="is_exist_recommender" >
                                                     <label>※추천인 아이디를 입력하되 추천자가 없을 경우 패스합니다. </label>
-                                                    <input type="hidden" name="recommend_branch" id="recommend_branch" itemname='추천인대리점ID' style="width:21%;" value="<?php echo $info['mem_id']?>" <?php if($info['mem_id']!="") echo  "readonly";?>/>
+                                                    <input type="hidden" name="recommend_branch" id="recommend_branch" itemname='추천인대리점ID' style="width:21%;" value="<?php echo $info[mem_id]?>" <?php if($info[mem_id]!="") echo  "readonly";?>/>
                                                 </td>
                                             </tr-->
-                                            <?if($_REQUEST['recom_id']){?>
-                                            <input type="hidden" id="recommend_id" name="recommend_id" value="<?=$_REQUEST['recom_id']?>">
-                                            <input type="hidden" id="recommend_branch" name="recommend_branch" value="<?=$_REQUEST['recom_id']?>">
+                                            <?if($_REQUEST[recom_id]){?>
+                                            <input type="hidden" id="recommend_id" name="recommend_id" value="<?=$_REQUEST[recom_id]?>">
+                                            <input type="hidden" id="recommend_branch" name="recommend_branch" value="<?=$_REQUEST[recom_id]?>">
                                             <?}?>
                                             <tr>
                                                 <td><div class="attr-name">앱다운받기</div></td>
@@ -411,7 +419,7 @@ $(function(){
                                             </tr>
                                             <tr>
                                                 <td>온리원그룹 소식받기</td>
-                                                <td colspan="3"><label><input type="checkbox" name="is_message" <?=$member_1['is_message']=="Y"?"checked":"checked"?> />※ 아이엠, 셀링솔루션, 셀링대회, 제휴업체, 셀링교육, 마케팅지원과 온리원그룹 활동 및 사업소식을 전달합니다.</label></td>
+                                                <td colspan="3"><label><input type="checkbox" name="is_message" <?=$member_1[is_message]=="Y"?"checked":"checked"?> />※ 아이엠, 셀링솔루션, 셀링대회, 제휴업체, 셀링교육, 마케팅지원과 온리원그룹 활동 및 사업소식을 전달합니다.</label></td>
                                                 </td>
                                             </tr>
                                         </table>
@@ -603,7 +611,8 @@ function searchManagerInfo() {
 }
 function check_recommender()
 {
-	if($('#recommend_id').val() != ''){
+	if($('#recommend_id').val() != '')
+	{
 		$.ajax({
 			 type:"POST",
 			 url:"/ajax/join.proc.php",
@@ -620,8 +629,9 @@ function check_recommender()
 					$('#is_exist_recommender').val("N"); 
 			        alert('아이디가 없습니다.');
                 }
-            }
-        })    		
+
+			    }
+			})    		
 	}
 }
 </script>

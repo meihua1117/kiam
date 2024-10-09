@@ -1,13 +1,13 @@
 <?
 $path="./";
 include_once "_head.php";
-if($member_1['mem_id'] == "") {
+if($member_1[mem_id] == "") {
     echo "<script>location.history(-1);</script>";
     exit;
 }
-$sql="select * from Gn_Member where mem_id='{$member_1['mem_id']}' ";
-$res=mysqli_query($self_con, $sql)or die(mysqli_error($self_con));
-$data=mysqli_fetch_array($res);
+$sql="select * from Gn_Member where mem_id='$member_1[mem_id]' ";
+$res=mysql_query($sql)or die(mysql_error());
+$data=mysql_fetch_array($res);
 ?>
 <script>
     function cancel(){
@@ -81,13 +81,13 @@ $data=mysqli_fetch_array($res);
     <!--상점 ID-->
     <input type="hidden" name="allat_shop_id" id="allat_shop_id" value="welcome101" size="19" maxlength=20>
     <!--주문번호-->
-    <input type="hidden" name="allat_order_no" id="allat_order_no" value="<?=$_POST['allat_order_no']?>" size="19" maxlength=70>
+    <input type="hidden" name="allat_order_no" id="allat_order_no" value="<?=$_POST[allat_order_no]?>" size="19" maxlength=70>
     <!--인증정보수신URL-->
     <input type="hidden" name="shop_receive_url" id="shop_receive_url" value="http://<?php echo $_SERVER['SERVER_NAME'];?>/allat/pay/allat_receive.php?mid=<?php echo $mid;?>" size="19">
     <!--승인금액-->
-    <input type="hidden" name="allat_amt" id="allat_amt" value="<?=$_POST['allat_amt']?>" size="19" maxlength=10>
+    <input type="hidden" name="allat_amt" id="allat_amt" value="<?=$_POST[allat_amt]?>" size="19" maxlength=10>
     <!--회원ID-->
-    <input type="hidden" name="allat_pmember_id" value="<?php echo $_SESSION['one_member_id'];?>" size="19" maxlength=20>
+    <input type="hidden" name="allat_pmember_id" value="<?php echo $_SESSION[one_member_id];?>" size="19" maxlength=20>
     <!--상품코드-->
     <input type="hidden" name="allat_product_cd" id="allat_product_cd" value="<?=$_POST[allat_product_cd]?>" size="19" maxlength=1000>
     <!--상품명-->
@@ -99,17 +99,17 @@ $data=mysqli_fetch_array($res);
     <!--수취인주소-->
     <input type="hidden" name="allat_recp_addr" id="allat_recp_addr" value="<?php echo $data['mem_add1'];?>" size="19" maxlength=120>
     <!--아이엠결제타입-->
-    <!--input type="hidden" name="iam_pay_type" id="iam_pay_type" value='<?=$_POST['iam_pay_type']?>'-->
+    <!--input type="hidden" name="iam_pay_type" id="iam_pay_type" value='<?=$_POST[iam_pay_type]?>'-->
     <!--아이엠카드갯수-->
-    <input type="hidden" name="iam_card_cnt" id="iam_card_cnt" value='<?=$_POST['iam_card_cnt']?>'>
+    <input type="hidden" name="iam_card_cnt" id="iam_card_cnt" value='<?=$_POST[iam_card_cnt]?>'>
     <!--아이엠공유갯수-->
-    <input type="hidden" name="iam_share_cnt" id="iam_share_cnt" value='<?=$_POST['iam_share_cnt']?>'>
+    <input type="hidden" name="iam_share_cnt" id="iam_share_cnt" value='<?=$_POST[iam_share_cnt]?>'>
     <!--결제타입-->
     <input type="hidden" name="payMethod" id="payMethod" value='BANK'>
     <!--아이엠회원승인수-->
     <input type="hidden" name="member_cnt" id="member_cnt" value='<?=$_POST[member_cnt]?>'>
-    <input type="hidden" name="month_cnt" id="month_cnt" value='<?=$_POST['month_cnt']?>'>
-    <input type="hidden" name="member_type" id="member_type" value = "<?=$_POST['member_type']?>"/>
+    <input type="hidden" name="month_cnt" id="month_cnt" value='<?=$_POST[month_cnt]?>'>
+    <input type="hidden" name="member_type" id="member_type" value = "<?=$_POST[member_type]?>"/>
 
     <div class="big_main">
         <div class="big_1">
@@ -148,16 +148,16 @@ $data=mysqli_fetch_array($res);
                     </tr>
                     <tr>
                         <td>주문번호</td>
-                        <td><?=$_POST['allat_order_no']?></td>
+                        <td><?=$_POST[allat_order_no]?></td>
                     </tr>
                     <tr>
                         <td>구매자명</td>
-                        <td><?=$member_1['mem_name']?></td>
+                        <td><?=$member_1[mem_name]?></td>
                     </tr>
                     <tr class="price">
                         <td >입금금액</td>
                         <td class="price">
-                            <?=number_format($_POST['allat_amt'])?> 원
+                            <?=number_format($_POST[allat_amt])?> 원
                         </td>
                     </tr>
                     <tr>
@@ -175,7 +175,7 @@ $data=mysqli_fetch_array($res);
 <div id="iam_info_modal" class="modal fade" tabindex="-1" role="dialog" style="overflow-x: auto; overflow-y: auto;">
     <div class="modal-dialog" style="width: 100%;max-width:768px;">
         <!-- Modal content-->
-        <div class="modal-content" >
+        <div class="modal-content" style="">
             <div class="modal-header" style="border:none;background-color: rgb(130,199,54);border-top-right-radius: 5px;border-top-left-radius: 5px;">
                 <div>
                     <button type="button" class="close" data-dismiss="modal" style="opacity: 2">

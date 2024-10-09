@@ -7,7 +7,7 @@ if(!$_SESSION[one_member_id])
 
 ?>
 <script language="javascript">
-location.replace('/');
+location.replace('/ma.php');
 </script>
 <?
 exit;
@@ -383,7 +383,7 @@ function deleteRow(sms_detail_idx, sms_idx) {
     		 type:"POST",
     		 url:"mypage.proc.php",
     		 data:{
-    			 mode : "sms_detail_delete",
+    			 mode : "sms_detail_del",
     			 sms_detail_idx: sms_detail_idx,
     			 sms_idx: sms_idx
     			 },

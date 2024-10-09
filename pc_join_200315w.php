@@ -1,10 +1,10 @@
 <?
 $path="./";
 include_once "_head.php";
-if($_COOKIE['mem_code']) {
-	$sql="select * from Gn_Member where mem_code='{$_COOKIE['mem_code']}'";
-	$result=mysqli_query($self_con, $sql);
-	$info=mysqli_fetch_array($result);
+if($_COOKIE[mem_code]) {
+	$sql="select * from Gn_Member where mem_code='$_COOKIE[mem_code]'";
+	$result=mysql_query($sql);
+	$info=mysql_fetch_array($result);
 }
 
 ?>
@@ -246,8 +246,8 @@ $(function(){
         <tr>
         <td>추천인ID</td>
             <td>
-                <input type="text" name="recommend_id" id="recommend_id" itemname='추천인ID' style="width:21%;" value="<?php echo $info['mem_id']?>" <?php if($info['mem_id']!="") echo  "readonly";?>/>
-                <?php if($_COOKIE['mem_code'] == "") {?>
+                <input type="text" name="recommend_id" id="recommend_id" itemname='추천인ID' style="width:21%;" value="<?php echo $info[mem_id]?>" <?php if($info[mem_id]!="") echo  "readonly";?>/>
+                <?php if($_COOKIE[mem_code] == "") {?>
                 <!--<input type="button" name="검색" value="검색" onclick="searchManager()">-->
                 <input type="button" name="추천인 찾기" value="추천인 찾기" onclick="searchManagerInfo()">
                 <?php }?>
@@ -256,8 +256,8 @@ $(function(){
         </tr>        
         <td>대리점ID</td>
             <td>
-                <input type="text" name="recommend_branch" id="recommend_branch" itemname='추천인대리점ID' style="width:21%;" value="<?php echo $info['mem_id']?>" <?php if($info['mem_id']!="") echo  "readonly";?>/>
-                <?php if($_COOKIE['mem_code'] == "") {?>
+                <input type="text" name="recommend_branch" id="recommend_branch" itemname='추천인대리점ID' style="width:21%;" value="<?php echo $info[mem_id]?>" <?php if($info[mem_id]!="") echo  "readonly";?>/>
+                <?php if($_COOKIE[mem_code] == "") {?>
                 <!--<input type="button" name="검색" value="검색" onclick="searchManager()">-->
                 <input type="button" name="대리점 찾기" value="대리점 찾기" onclick="searchBranchManagerInfo()">
                 <?php }?>
@@ -279,7 +279,7 @@ $(function(){
                                         </div>							   
         <tr>
         <td>온리원그룹 소식받기</td>
-        <td colspan="3"><label><input type="checkbox" name="is_message" <?=$member_1['is_message']=="Y"?"checked":"checked"?> />※ 아이엠, 셀링솔루션, 셀링대회, 제휴업체, 셀링교육, 마케팅지원과 온리원그룹 활동 및 사업소식을 전달합니다.</label></td>
+        <td colspan="3"><label><input type="checkbox" name="is_message" <?=$member_1[is_message]=="Y"?"checked":"checked"?> />※ 아이엠, 셀링솔루션, 셀링대회, 제휴업체, 셀링교육, 마케팅지원과 온리원그룹 활동 및 사업소식을 전달합니다.</label></td>
         </td>
         </tr>
         

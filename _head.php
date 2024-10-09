@@ -30,8 +30,8 @@ if ($_SESSION['one_member_id']) {
     /*$sql = "select * from tjd_pay_result where buyer_id='{$_SESSION['one_member_id']}' and gwc_cont_pay=0 and 
         ((member_type like '%standard%' or member_type like '%professional%' or member_type like '%enterprise%') or 
         (((iam_pay_type = '' or iam_pay_type = '0' or iam_pay_type = '전문가') and member_type != '포인트충전')) or member_type='베스트상품') and payMethod <> 'POINT' order by end_date desc";*/
-    $res_result = mysqli_query($sql);
-    $pay_data = mysqli_fetch_array($res_result);
+    $res_result = mysql_query($sql);
+    $pay_data = mysql_fetch_array($res_result);
 }
 $mem_type = $member_1['mem_type'];
 $site = $member_1['site_iam'];
@@ -51,8 +51,8 @@ if ($HTTP_HOST == "kiam.kr")
 else
     $host = $HTTP_HOST;
 $query = "select * from Gn_Service where sub_domain like '%{$host}%'";
-$res = mysqli_query($query);
-$domainData = mysqli_fetch_array($res);
+$res = mysql_query($query);
+$domainData = mysql_fetch_array($res);
 if ($HTTP_HOST != "kiam.kr") {
     if ($domainData['idx'] != "") {
         $sub_domain = true;
@@ -80,18 +80,17 @@ if ($domainData['status'] == "N") { ?>
             newpop1('payment_pop.php?index=' + '<?= $pay_data['orderNumber'] ?>' + '&type=user');
     </script>
 <?
-}
-*/
+}*/
 
 $sql = "select * from Gn_Ad_Manager where ad_position = 'H' and use_yn ='Y'";
-$res_result = mysqli_query($sql);
-$ad_data = mysqli_fetch_array($res_result);
+$res_result = mysql_query($sql);
+$ad_data = mysql_fetch_array($res_result);
 if ($domainData['status'] == "N") {
     $join_link = "ma.php";
 } else if ($_REQUEST['mem_code']) {
     $sql_recom_id = "select mem_id from Gn_Member where mem_code='{$_REQUEST['mem_code']}'";
-    $res_recom_id = mysqli_query($sql_recom_id);
-    $row_recom_id = mysqli_fetch_array($res_recom_id);
+    $res_recom_id = mysql_query($sql_recom_id);
+    $row_recom_id = mysql_fetch_array($res_recom_id);
     $join_link = "join.php?recom_id=" . $row_recom_id['mem_id'];
 } else {
     $join_link = "join.php";
@@ -174,7 +173,7 @@ if ($domainData['status'] == "N") {
         <!--
     <div class="ad_header">
         <? $i = 0;
-        $ad_cnt = mysqli_num_rows($res_result);
+        $ad_cnt = mysql_num_rows($res_result);
         do { ?>
             <a href="<? echo $ad_data['move_url'] ?>">
                 <img class="ad_img_banner" id="banner_<? echo $i ?>" src='<? echo $ad_data['img_url'] ?>'>
@@ -183,11 +182,11 @@ if ($domainData['status'] == "N") {
                 <img class="ad_img_banner" id="banner_<? echo $i + $ad_cnt ?>" src='<? echo $ad_data['img_url'] ?>'>
             </a>
             <? $i++;
-        } while ($ad_data = mysqli_fetch_array($res_result)); ?>
+        } while ($ad_data = mysql_fetch_array($res_result)); ?>
         <div id="b_exit" class="b_exit"><img src="/images/bt_close.gif"></div>
     </div>
     -->
-        <!-- <header style="background: #D8D8D8;">
+        <header style="background: #D8D8D8;">
             <div class="h_div" style="background-color: #D8D8D8;height: 35px;">
                 <div class="d_head_right_1" style="overflow-x:auto; white-space: nowrap; margin-left:20px;line-height:25px;color:#535353;">
                     <a href="/event/event.html?pcode=KYUFA8kKuJ&sp=KYUFA8kKuJ&landing_idx=4054" target="_blank">전국강연회</a>
@@ -204,7 +203,7 @@ if ($domainData['status'] == "N") {
                 </div>
                 <p style="clear:both;"></p>
             </div>
-        </header> -->
+        </header>
     <? } ?>
     <header class="big_h_f" id="header">
         <div class="h_div" style="background-color: #24303e;">
@@ -836,8 +835,8 @@ if ($domainData['status'] == "N") {
                 <a href="https://tinyurl.com/557nca2b" target="_blank">아이엠매뉴얼</a> |
                 <?
                 $sql_chk = "select count(a.mem_code) as cnt from Gn_Member a inner join Gn_Iam_Service b on a.mem_id=b.mem_id where a.service_type>=2 and a.mem_id='{$_SESSION['one_member_id']}'";
-                $res_chk = mysqli_query($sql_chk);
-                $row_chk = mysqli_fetch_array($res_chk);
+                $res_chk = mysql_query($sql_chk);
+                $row_chk = mysql_fetch_array($res_chk);
                 if ($row_chk[0] || $_SESSION['one_member_id'] == 'obmms02') {
                 ?>
                     <a href="calliya.php">콜이야</a>

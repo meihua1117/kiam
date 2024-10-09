@@ -1,25 +1,25 @@
 <?
 $path="./";
 include_once "_head.php";
-if($member_1['mem_id'] == "") {
+if($member_1[mem_id] == "") {
     echo "<script>location.history(-1);</script>";
     exit;
 }
 $data = $member_iam;
 $orderNumber = $_POST['allat_order_no'];
-$pay_info['month_cnt'] = $_POST['month_cnt']>120?120:$_POST['month_cnt']; //12?12를 120?120수정하여 마감기간을 솔루션결제관리페이지에 120개월로 표시
+$pay_info['month_cnt'] = $_POST['month_cnt']>120?120:$_POST[month_cnt]; //12?12를 120?120수정하여 마감기간을 솔루션결제관리페이지에 120개월로 표시
 $pay_info['fujia_status'] = "N"; 
 $pay_info['max_cnt'] = $pay_info['phone_cnt'] = $_POST['phone_cnt']; // 추가갯수
 $pay_info['end_status'] = "N";
-$pay_info['buyertel'] = $member_1['mem_phone']; //구매자 전화번호
-$pay_info['buyeremail'] = $member_1['mem_email']; //구매자 연락처
+$pay_info['buyertel'] = $member_1[mem_phone]; //구매자 전화번호
+$pay_info['buyeremail'] = $member_1[mem_email]; //구매자 연락처
 $pay_info['resultCode'] = "00";
 $pay_info['resultMsg'] = "정기결제";
 $pay_info['payMethod'] = "MONTH";
 $pay_info['TotPrice'] = $_POST['allat_amt']; //금액
 $pay_info['pc_mobile'] = "A"; //금액
-$pay_info['VACT_InputName'] =$member_1['mem_name'];
-$pay_info['buyer_id'] = $member_1['mem_id'];        
+$pay_info['VACT_InputName'] =$member_1[mem_name];
+$pay_info['buyer_id'] = $member_1[mem_id];        
 $member_type = /*$pay_info['iam_pay_type'] =*/ $_POST['member_type'];
 $pay_info['add_opt'] = $_POST['add_opt'];
 $pay_info['db_cnt'] = $_POST['db_cnt'];
@@ -28,27 +28,27 @@ $pay_info['onestep1'] = $_POST['onestep1'];
 $pay_info['onestep2'] = $_POST['onestep2'];
 $pay_info['idx'] = $orderNumber;
 $pay_info['orderNumber'] = $orderNumber;
-//if($_POST['member_type'] != "")
-//    $_POST['iam_pay_type'] = $_POST['member_type'];
+//if($_POST[member_type] != "")
+//    $_POST[iam_pay_type] = $_POST[member_type];
 $sql = "insert into tjd_pay_result
     set idx='$orderNumber',
     orderNumber='$orderNumber',
-    VACT_InputName='{$data['mem_name']}',
-    TotPrice='{$pay_info['TotPrice']}',
-    end_date=date_add(now(),INTERVAL {$_pay_info['month_cnt']} month),
+    VACT_InputName='$data[mem_name]',
+    TotPrice='$pay_info[TotPrice]',
+    end_date=date_add(now(),INTERVAL {$_pay_info[month_cnt]} month),
     end_status='N',
-    buyertel='{$data['mem_phone']}',
-    buyeremail='{$data['mem_email']}',
+    buyertel='$data[mem_phone]',
+    buyeremail='$data[mem_email]',
     payMethod='MONTH',
-    buyer_id='{$pay_info['buyer_id']}',
+    buyer_id='$pay_info[buyer_id]',
     date=NOW(),
-    member_type='{$_POST['member_type']}',
-    iam_card_cnt='{$_POST['iam_card_cnt']}',
-    iam_share_cnt='{$_POST['iam_share_cnt']}',
-    month_cnt='{$_pay_info['month_cnt']}',
+    member_type='$_POST[member_type]',
+    iam_card_cnt='$_POST[iam_card_cnt]',
+    iam_share_cnt='$_POST[iam_share_cnt]',
+    month_cnt='$_pay_info[month_cnt]',
     member_cnt='$_POST[member_cnt]',
     monthly_yn = 'Y'";
-mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
+mysql_query($sql) or die(mysql_error());
 ?>
 <link href='/css/main.css' rel='stylesheet' type='text/css'/>
 <link href='/css/responsive.css' rel='stylesheet' type='text/css'/>
