@@ -80,7 +80,7 @@ function GetPrompt($url, $key)
 }
 
 function getGptResponse($prompt, $model = "o1-preview", $maxTokens = 200) {
-    $apiKey = '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';
+    $apiKey = 'sk-yJ0vn_lQNNkRot8t9I4oZcgNTi0ItPp2qYv9W1YJ5vT3BlbkFJ57W5n62AJ0M43_BJ533TW5OPlsBPR2WWaHQZHW_P0A';
     $url = 'https://api.openai.com/v1/chat/completions';
     
     // cURL 초기화
