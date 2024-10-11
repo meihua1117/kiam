@@ -158,17 +158,17 @@ if ($_REQUEST['one_no'] && strlen($_REQUEST['one_no']) < 4) {
 	$phone = explode("-", $row_no[phone]);
 	$email = explode("@", $row_no[email]);
 }
-
 /* 
 보안접속부분 추가
 */
+$_SESSION['one_member_admin_id'] = "";
 $admin_sql = "select mem_id from Gn_Admin where mem_id= '{$_SESSION['one_member_id']}'";
 $admin_result = mysqli_query($self_con,$admin_sql);
-$admin_row = mysqli_fetch_array($admin_result);
-if ($admin_row[0] != "") {
-	$_SESSION[one_member_admin_id] = "";
-	$secure_sql = "select secure_connect from gn_conf";
-	$secure_result = mysqli_query($self_con,$secure_sql);
+if ($admin_result && mysqli_num_rows($admin_result) > 0) {
+    $admin_row = mysqli_fetch_array($admin_result);
+    $secure_sql = "select secure_connect from gn_conf";
+    $secure_result = mysqli_query($self_con,$secure_sql);
+    if($secure_result && mysqli_num_rows($secure_result) > 0){
 	$secure_row = mysqli_fetch_array($secure_result);
 	if ($secure_row[0] == 'Y') {
 		$secure_sql = "select idx from gn_admin_allowip where mem_id='{$_SESSION['one_member_id']}' and ip='$ip'";
@@ -179,10 +179,10 @@ if ($admin_row[0] != "") {
 	} else {
 		$_SESSION[one_member_admin_id] = $_SESSION['one_member_id'];
 	}
-} else {
-	$_SESSION[one_member_admin_id] = "";
-}
-
+    }else{
+	$_SESSION[one_member_admin_id] = $_SESSION['one_member_id'];
+    }
+} 
 if ($_SESSION[one_member_subadmin_id] != "" && $_SESSION[one_member_subadmin_domain] == "test.kiam.kr") {
 	$secure_sql = "select secure_connect from gn_conf";
 	$secure_result = mysqli_query($self_con,$secure_sql);
