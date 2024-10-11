@@ -27,7 +27,6 @@ $gmnow = gmdate('D, d M Y H:i:s') . ' GMT';
 include_once "common_class.php";
 include_once "common_var.php";
 include_once "common_env.php";
-
 // SQL Injection 대응 문자열 필터링
 define('G5_ESCAPE_PATTERN',  '/(and|or).*(union|select|insert|update|delete|from|where|limit|create|drop).*/i');
 define('G5_ESCAPE_REPLACE',  '');
