@@ -1,8 +1,8 @@
 <?
 include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
-if($_POST['one_id'] && $_POST[mem_pass])
+if($_POST['one_id'] && $_POST['mem_pass'])
 {
-	$mem_pass=$_POST[one_pwd];
+	$mem_pass=$_POST['one_pwd'];
 	$sql="select mem_code,mem_leb from Gn_Member where mem_id = '{$_POST['one_id']}' and web_pwd=password('{$_POST['mem_pass']}') and mem_code='{$_POST['mem_code']}' ";
 	// echo $sql;
 	$resul=mysqli_query($self_con,$sql);
@@ -22,14 +22,14 @@ if($_POST['one_id'] && $_POST[mem_pass])
 	        $_SESSION['one_member_admin_id'] = "";	        
 	    }
 		$_SESSION['one_member_id']=$_POST['one_id'];
-		$_SESSION[one_mem_lev]=$srow[mem_leb];
+		$_SESSION['one_mem_lev']=$srow['mem_leb'];
 		//user_session_check($_POST['one_id']);
 
         $_SESSION['iam_member_id'] = $_POST['one_id'];
-        $_SESSION['iam_member_leb'] = $row[mem_leb];
+        $_SESSION['iam_member_leb'] = $row['mem_leb'];
 
-		if($_POST[sub_domain]) {
-			$sub_domain = $_POST[sub_domain];
+		if($_POST['sub_domain']) {
+			$sub_domain = $_POST['sub_domain'];
 			if (strpos($sub_domain, "/iam") === false)
 				$sub_domain .= "/iam";
 		}

@@ -250,12 +250,12 @@ if($platform == "mobile"){
         var iam_link = "";
         if(share_kind == 0) {
             iam_link = "daily_write_iam.php?msg=" + '<?=$G_card[card_name]?>' + "님의 명함입니다.  " +
-            "<?=$G_card[card_company].'<br>'.$G_card[card_position].'<br>'.$G_card[card_phone].'<br>'.$domainData[sub_domain].'/?'.$G_card[card_short_url]?>" +
+            "<?=$G_card[card_company].'<br>'.$G_card[card_position].'<br>'.$G_card[card_phone].'<br>'.$domainData['sub_domain'].'/?'.$G_card[card_short_url]?>" +
             " 모바일 명함을 새로 만들었습니다. 휴대폰에 저장부탁해요. 혹시 명함 만들면 저에게도 보내주시구요. 감사합니다. ";
         }
         else if(share_kind == 1) {
             iam_link = "daily_write_iam.php?msg=" + '<?=$G_card[card_name]?>' + "님의 명함입니다.  " +
-            '<?=$G_card[card_company]?> ' + ' <?=$G_card[card_position]?> ' + ' <?=$G_card[card_phone]?> ' + '<?=$domainData[sub_domain]."/?mem_code=".$all_card_row['mem_code']?>' +
+            '<?=$G_card[card_company]?> ' + ' <?=$G_card[card_position]?> ' + ' <?=$G_card[card_phone]?> ' + '<?=$domainData['sub_domain']."/?mem_code=".$all_card_row['mem_code']?>' +
             " 모바일 명함을 새로 만들었습니다. 휴대폰에 저장부탁해요. 혹시 명함 만들면 저에게도 보내주시구요. 감사합니다. ";
         }
         //location = iam_link;
@@ -265,9 +265,9 @@ if($platform == "mobile"){
         $("#sns-modalwindow").modal("hide");
         var iam_link = "";
         if(share_kind == 0)
-            iam_link = '<?=$G_card[card_name]?>님의 명함 <?=$G_card[card_company]?> <?=$G_card[card_position]?> <?=$G_card[card_phone]?> <?php echo $domainData[sub_domain];?>/?<?=$G_card[card_short_url]?>';
+            iam_link = '<?=$G_card[card_name]?>님의 명함 <?=$G_card[card_company]?> <?=$G_card[card_position]?> <?=$G_card[card_phone]?> <?php echo $domainData['sub_domain'];?>/?<?=$G_card[card_short_url]?>';
         else
-            iam_link = '<?=$G_card[card_name]?>님의 명함 <?=$G_card[card_company]?> <?=$G_card[card_position]?> <?=$G_card[card_phone]?> <?=$domainData[sub_domain]."/?mem_code=".$all_card_row['mem_code']?>';
+            iam_link = '<?=$G_card[card_name]?>님의 명함 <?=$G_card[card_company]?> <?=$G_card[card_position]?> <?=$G_card[card_phone]?> <?=$domainData['sub_domain']."/?mem_code=".$all_card_row['mem_code']?>';
         iam_sms(iam_link);
     }
     function iam_sms(url) {
@@ -299,9 +299,9 @@ if($platform == "mobile"){
     function shareKakaotalk() {
         var iam_link = "";
         if(share_kind == 0)
-            iam_link = '<?=$domainData[sub_domain];?>/?<?=$G_card[card_short_url]?>';
+            iam_link = '<?=$domainData['sub_domain'];?>/?<?=$G_card[card_short_url]?>';
         else
-            iam_link = '<?=$domainData[sub_domain]."/?mem_code=".$all_card_row['mem_code']?>';
+            iam_link = '<?=$domainData['sub_domain']."/?mem_code=".$all_card_row['mem_code']?>';
         iam_count('iam_kakao');
         try{
             Kakao.Link.sendDefault({
@@ -334,9 +334,9 @@ if($platform == "mobile"){
         $("#sns-modalwindow").modal("hide");
         var iam_link = "";
         if(share_kind == 0)
-            iam_link = '<?=$domainData[sub_domain];?>/?<?=$G_card[card_short_url]?>';
+            iam_link = '<?=$domainData['sub_domain'];?>/?<?=$G_card[card_short_url]?>';
         else
-            iam_link = '<?=$domainData[sub_domain]."/?mem_code=".$all_card_row['mem_code']?>';
+            iam_link = '<?=$domainData['sub_domain']."/?mem_code=".$all_card_row['mem_code']?>';
         shareFaceBook('<?=$G_card[card_name]?>님의 명함 <?=$G_card[card_company]?> <?=$G_card[card_position]?>', iam_link);
     }
     function shareFaceBook(desc, url) {
@@ -380,9 +380,9 @@ if($platform == "mobile"){
         iam_count('iam_share');
         var iam_link = "";
         if(share_kind == 0)
-            iam_link = '<?=$domainData[sub_domain];?>/?<?=$G_card[card_short_url]?>';
+            iam_link = '<?=$domainData['sub_domain'];?>/?<?=$G_card[card_short_url]?>';
         else
-            iam_link = '<?=$domainData[sub_domain]."/?mem_code=".$all_card_row['mem_code']?>';
+            iam_link = '<?=$domainData['sub_domain']."/?mem_code=".$all_card_row['mem_code']?>';
         // 글을 쓸 수 있는 란을 만든다.
         var aux = document.createElement("input");
         // 지정된 요소의 값을 할당 한다.

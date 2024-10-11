@@ -240,7 +240,7 @@ $skrow = mysqli_fetch_array($sresult);
                                 <th class="w200">[발송폰선택]</th>
                                 <td>
                                     <select name="send_num">
-                                        <option value="<?= str_replace("-", "", $data[mem_phone]) ?>"><?php echo str_replace("-", "", $data['mem_phone']); ?></option>
+                                        <option value="<?= str_replace("-", "", $data['mem_phone']) ?>"><?php echo str_replace("-", "", $data['mem_phone']); ?></option>
                                         <?php
                                         $query = "select * from Gn_MMS_Number where mem_id='{$_SESSION['one_member_id']}' order by sort_no asc, user_cnt desc , idx desc";
                                         $resul = mysqli_query($self_con,$query);

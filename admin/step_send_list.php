@@ -242,7 +242,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
 											<td><?php echo $srow['name'];?></td>
 											<td><?php echo $total_cnt;?></td>
 											<td><?php echo $crow[step];?></td>
-											<td><a href="javascript:void(0)" onclick="show_recv('show_title','<?=$c?>','문자제목')"><?=str_substr($row[title],0,14,'utf-8')?></a><input type="hidden" name="show_title" value="<?=$row[title]?>"/></td>
+											<td><a href="javascript:void(0)" onclick="show_recv('show_title','<?=$c?>','문자제목')"><?=str_substr($row['title'],0,14,'utf-8')?></a><input type="hidden" name="show_title" value="<?=$row['title']?>"/></td>
 											<td style="font-size:12px;"><a href="javascript:void(0)" onclick="show_recv('show_content','<?=$c?>','문자내용')"><?=str_substr($row['content'],0,30,'utf-8')?></a><input type="hidden" name="show_content" value="<?=$row['content']?>"/></td>
 											<?if($_REQUEST['status2']=='2'){?>
 		                                    <td style="width:5%;"><?if($row['up_date']!=''&&$row[result]==0){?>완료<?}elseif($row['up_date']==''&&$row[result]==1){?>대기<?}elseif($row[result]==3){?>실패<?}?></td>

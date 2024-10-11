@@ -199,7 +199,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                         <td><?=$row['view_cnt']?></td>
 
                         <?php if($_SESSION['one_member_subadmin_id'] != "" && $_SESSION['one_member_subadmin_domain'] == $HTTP_HOST) {} else {?>
-                        <td><a href="javascript:;;" onclick="board_del('<?=$row['no']?>','<?=$_REQUEST[status]?>')">삭제</a></td>
+                        <td><a href="javascript:;;" onclick="board_del('<?=$row['no']?>','<?=$_REQUEST['status']?>')">삭제</a></td>
                       <? } ?>
                       </tr>
                     <?

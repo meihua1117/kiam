@@ -22,7 +22,7 @@ if($type == "main"){
         }
         mysqli_query($self_con,$sql_m)or die(mysqli_error($self_con));
 
-        $sql_m="update Gn_Member set  phone_cnt=phone_cnt-'$row[add_phone]' where mem_id='{$row['buyer_id']}' ";
+        $sql_m="update Gn_Member set  phone_cnt=phone_cnt-'{$row['add_phone']}' where mem_id='{$row['buyer_id']}' ";
         mysqli_query($self_con,$sql_m)or die(mysqli_error($self_con));
 
         $query = "update tjd_pay_result set TotPrice='$price', end_status='E',end_date='$end_date' where `no`='$no'";
@@ -43,9 +43,9 @@ if($type == "main"){
         $email=$srow['mem_email'];
         $address=$srow['mem_add1'];
         $status="Y";
-        $use_cnt = $row[db_cnt];
+        $use_cnt = $row['db_cnt'];
         $search_email_date = substr($last_time,0,10);
-        $search_email_cnt = $row[email_cnt];
+        $search_email_cnt = $row['email_cnt'];
         $term = substr($last_time,0,10);
         if($search_email_cnt > 0) $search_email_yn = "Y";
         else $search_email_yn = "N";
@@ -69,7 +69,7 @@ if($type == "main"){
                                             ";
          mysqli_query($self_con,$query);
 
-        if($row[member_type] == 'year-professional'){
+        if($row['member_type'] == 'year-professional'){
             $sql_seed_point = "update Gn_Member set mem_point=mem_point+1000000 where mem_id='{$row['buyer_id']}'";
             mysqli_query($self_con,$sql_seed_point);
     
@@ -94,7 +94,7 @@ if($type == "main"){
             $query = "update tjd_pay_result_month set pay_yn='Y' where order_number='$row[orderNumber]' and regdate like '$date%'";
             mysqli_query($self_con,$query);
         }
-        if($row[member_type] == "dber"){
+        if($row['member_type'] == "dber"){
             $mem_sql = "select * from Gn_Member where mem_id = '{$row['buyer_id']}'";
             $mem_res = mysqli_query($self_con,$mem_sql);
             $member = mysqli_fetch_array($mem_res);
@@ -104,10 +104,10 @@ if($type == "main"){
             $cell = $member['mem_phone'];
             $email = $member['mem_email'];
             $address = $member['mem_add1'];
-            $use_cnt = $row[db_cnt];
+            $use_cnt = $row['db_cnt'];
             $last_time = date("Y-m-d H:i:s", strtotime("+{$row['month_cnt']} month"));
             $search_email_date = substr($last_time, 0, 10);
-            $search_email_cnt = $row[email_cnt];
+            $search_email_cnt = $row['email_cnt'];
             $term = substr($last_time, 0, 10);
 
             $sql = "select count(cmid) from crawler_member_real where user_id='{$member_iam['mem_id']}' ";
@@ -126,14 +126,14 @@ if($type == "main"){
                                             search_email_date='$search_email_date',
                                             search_email_cnt='$search_email_cnt',
                                             shopping_end_date='$search_email_date',
-                                            extra_db_cnt = '$row[db_cnt]',
-                                            extra_email_cnt = '$row[email_cnt]',
+                                            extra_db_cnt = '{$row['db_cnt']}',
+                                            extra_email_cnt = '{$row['email_cnt']}',
                                             extra_shopping_cnt = '$row[shop_cnt]'";
                 mysqli_query($self_con,$query);
             } else {
                 $query = "update crawler_member_real set
-                                            extra_db_cnt = extra_db_cnt + '$row[db_cnt]',
-                                            extra_email_cnt = extra_email_cnt + '$row[email_cnt]',
+                                            extra_db_cnt = extra_db_cnt + '{$row['db_cnt']}',
+                                            extra_email_cnt = extra_email_cnt + '{$row['email_cnt']}',
                                             extra_shopping_cnt = extra_shopping_cnt + '$row[shop_cnt]'
                                             where user_id='$user_id'";
                 mysqli_query($self_con,$query);
@@ -149,9 +149,9 @@ if($type == "main"){
             
             $sql = "insert into Gn_Item_Pay_Result
                         set buyer_id='{$row['buyer_id']}',
-                            buyer_tel='$data[mem_phone]',
+                            buyer_tel='{$data['mem_phone']}',
                             pay_method='BANK',
-                            item_name = '$row[member_type]',
+                            item_name = '{$row['member_type']}',
                             item_price=$row[TotPrice],
                             seller_id='',
                             pay_status='Y',
@@ -166,9 +166,9 @@ if($type == "main"){
                             // echo $sql; exit;
             $res_result = mysqli_query($self_con,$sql);
         }else if(strstr($row['member_type'],"professional") || strstr($row['member_type'],"enterprise")){
-            $iam_card_cnt = $row[iam_card_cnt];
-            $iam_share_cnt = $row[iam_share_cnt]?$row[iam_share_cnt]:0;
-            $add_phone = $row[add_phone];
+            $iam_card_cnt = $row['iam_card_cnt'];
+            $iam_share_cnt = $row['iam_share_cnt']?$row['iam_share_cnt']:0;
+            $add_phone = $row['add_phone'];
             $sql_m="update Gn_Member set fujia_date1=now() ,
                                         fujia_date2=date_add(now(),INTERVAL 120 month),
                                         phone_cnt = phone_cnt + $add_phone,
@@ -269,8 +269,8 @@ if($type == "main"){
         }
         $sql_m="update Gn_Member set fujia_date1=now() , fujia_date2='{$row['end_date']}' where mem_id='{$row['buyer_id']}' ";
         mysqli_query($self_con,$sql_m) or die(mysqli_error($self_con));
-        if($row[member_type] != "dber") {//셀링결제인 경우
-            $sql_m = "update Gn_Member set   phone_cnt=phone_cnt+'$row[add_phone]' where mem_id='{$row['buyer_id']}' ";
+        if($row['member_type'] != "dber") {//셀링결제인 경우
+            $sql_m = "update Gn_Member set   phone_cnt=phone_cnt+'{$row['add_phone']}' where mem_id='{$row['buyer_id']}' ";
             //echo $sql_m."<BR>";
             mysqli_query($self_con,$sql_m) or die(mysqli_error($self_con));
 
@@ -288,9 +288,9 @@ if($type == "main"){
             $email = $srow['mem_email'];
             $address = $srow['mem_add1'];
             $status = "Y";
-            $use_cnt = $row[db_cnt];
+            $use_cnt = $row['db_cnt'];
             $search_email_date = substr($last_time, 0, 10);
-            $search_email_cnt = $row[email_cnt];
+            $search_email_cnt = $row['email_cnt'];
             $term = substr($last_time, 0, 10);
             if ($search_email_cnt > 0) $search_email_yn = "Y";
             else $search_email_yn = "N";
@@ -350,7 +350,7 @@ if($type == "main"){
         }
     }
 
-    if($row[gwc_cont_pay] == 1 && $end_status == "Y"){
+    if($row['gwc_cont_pay'] == 1 && $end_status == "Y"){
         echo "<script>alert('저장되었습니다.');location='/admin/gwc_payment_list.php?send_mms=Y&tjd_no=".$no."';</script>";
     }
     else{

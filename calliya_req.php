@@ -237,7 +237,7 @@ $data = mysqli_fetch_array($sresul_num);
                                             </td>
                                             <!-- <td><a href="http://obmms.net/iam/?<?= strip_tags($row['card_short_url'] . $mem_row['mem_code']) ?>" target="_blank"><?= $row['card_short_url'] ?></a></td> -->
                                             <td>
-                                                <div style="">
+                                                <div>
                                                     <?
                                                     if ($row[main_img1]) {
                                                         $thumb_img =  $row[main_img1];

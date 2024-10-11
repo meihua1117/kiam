@@ -150,10 +150,10 @@
 												</div>
 												
 											</div>
-											<input type="button" id="checkdup" value="아이디중복확인" style="" onclick="id_check1()">
+											<input type="button" id="checkdup" value="아이디중복확인" onclick="id_check1()">
 											<li id="id_html" style="font-weight:normal; font-size:13px;margin-top: 35px;margin-bottom: -30px;" hidden><img src="/images/check.gif"> 사용 가능하신 아이디입니다.</li>
 											<h4 class="" id = "" style="margin-top: 35px; text-align:center;">★비밀번호는 핸드폰 뒤 4자리 입니다.</br>마이페이지에서 수정 가능합니다..</h4>
-											<h3 class="title" id = "agreement-field" style="">
+											<h3 class="title" id = "agreement-field">
 												약관 동의하기<span style="color:red">[필수]</span>
 												<input type="checkbox" class="check" id="checkAll_title" >
 												<label for="checkAll_title">모두 동의</label>
@@ -208,8 +208,8 @@
 													</div>
 												</div>
 											</div>
-											<button class="people_iam_show" style="" onclick="makingiam('make')">신청하기</button>
-											<button class="people_iam_show" id="goiam" style="" onclick="gotoLogin()" hidden>로그인</button>
+											<button class="people_iam_show" onclick="makingiam('make')">신청하기</button>
+											<button class="people_iam_show" id="goiam" onclick="gotoLogin()" hidden>로그인</button>
 											<input type="text" id="shorturl" hidden>
 										</section>
 									</div>

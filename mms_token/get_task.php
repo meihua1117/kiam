@@ -80,7 +80,7 @@ if (!$token || !check_token($phone_num, $token)) {
 	$msg = str_replace("{|name|}", "{|REP|}", $row['content']);
 	$msg = str_replace("{|email|}", "{|REP1|}", $msg);
 	//$msg = json_encode($msg);
-	$title = str_replace("{|name|}", "{|REP|}", $row[title]);
+	$title = str_replace("{|name|}", "{|REP|}", $row['title']);
 	$title = str_replace("{|email|}", "{|REP1|}", $title);
 	//$title = json_encode($title);
 	$url = $row[url];

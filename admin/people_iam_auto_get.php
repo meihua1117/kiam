@@ -98,7 +98,7 @@ $date_today=date("Y-m-d");
             <div class="row">
                 <div class="box">
                     <div class="box-body">
-                        <table class="table table-bordered table-striped" style="" id="gm_iam">
+                        <table class="table table-bordered table-striped" id="gm_iam">
                             <colgroup>
                                 <col width="50px">
                                 <col width="100px">
@@ -173,7 +173,7 @@ $date_today=date("Y-m-d");
                                     <td><?=$row['mem_id']?></td>
                                     <td><?=$row_card['card_name']?></td>
                                     <td>
-                                        <div style="">
+                                        <div>
                                             <a href="<?=$row_card['main_img1']?>" target="_blank">
                                                 <img class="zoom" src="<?=$row_card['main_img1']?>">
                                             </a>

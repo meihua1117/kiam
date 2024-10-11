@@ -264,7 +264,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                         <td><?=cut_str($row['title'], 25)?></td>
                         <td><?=cut_str($row['content'], 60)?></td>
                         <td>
-                          <div style="">
+                          <div>
                           <?
                           if($row['img']){
                             $thumb_img =  $row['img'];

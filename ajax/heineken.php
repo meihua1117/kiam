@@ -837,7 +837,7 @@ if ($user_id) {
                     $mms_start_info['recv_num']=$sendnum[$j];
                     $mms_start_info[uni_id]=$reg."999";
                     $mms_start_info['content']="온리원문자 문자발송시작";
-                    $mms_start_info[title]="온리원문자";
+                    $mms_start_info['title']="온리원문자";
                     $sql_start="insert into Gn_MMS set ";
                     foreach($mms_start_info as $key=>$v)
                     $sql_start.=" $key='$v' ,";
@@ -1076,7 +1076,7 @@ if ($user_id) {
             }
             $sql = "insert into Gn_MMS_Message set "; //발송
             $message_info['mem_id'] = $user_id;
-            $message_info[title] = htmlspecialchars(str_replace("{|name|}", "{|REP|}", $_POST[send_title]));
+            $message_info['title'] = htmlspecialchars(str_replace("{|name|}", "{|REP|}", $_POST[send_title]));
             $message_info[message] = htmlspecialchars(str_replace("{|name|}", "{|REP|}", $_POST[send_txt]));
             $message_info[img] = $_POST[send_img];
             $message_info[img1] = $_POST[send_img1];

@@ -56,7 +56,7 @@ while($row6=mysqli_fetch_array($result6)){
     $body .= '    <td class="iam_table">'.$row6['name'].'</td>';
     $body .= '    <td class="iam_table">'.$row_event_data[event_title].'</td>';
     $body .= '    <td class="iam_table">'.str_replace("-", "", $row6[mobile]).'</td>';
-    $body .= '    <td class="iam_table">'.str_replace("-", "", $row_mem[mem_phone]).'</td>';
+    $body .= '    <td class="iam_table">'.str_replace("-", "", $row_mem['mem_phone']).'</td>';
     $body .= '    <td class="iam_table">'.$row6['regdate'].'</td>';
     if($row6[req_yn] == "Y"){
         $body .= '    <td class="iam_table" onclick="cancel_req('.$row6[request_idx].')" style="cursor:pointer;">취소</td>';

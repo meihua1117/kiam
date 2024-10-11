@@ -599,7 +599,7 @@ function PMA_download_header($filename, $mimetype, $length = 0, $no_cache = true
 /**
  * Returns value of an element in $array given by $path.
  * $path is a string describing position of an element in an associative array,
- * eg. Servers/1/host refers to $array[Servers][1][host]
+ * eg. Servers/1/host refers to $array[Servers][1]['host']
  *
  * @param string   $path
  * @param array    $array

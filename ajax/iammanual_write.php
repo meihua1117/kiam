@@ -194,7 +194,7 @@ td div {
             <form name="board_write_form" id="board_write_form" action="" method="post">
                 <input type="hidden" name="return_url" value="iammanual.php">
                 <?
-                if(!$_REQUEST[status] || $_REQUEST[status] == 1)
+                if(!$_REQUEST['status'] || $_REQUEST['status'] == 1)
                 {
                     ?>
                 <div style="position:relative;left:20px;">
@@ -210,10 +210,10 @@ td div {
                 <table id="example1" class="table table-bordered table-striped">
                 <tr>
                 <td>제목</td>
-                <td style="width:90%"><input type="text" style="width:90%;" name="title" value="<?=$row_no[title]?>" required itemname='제목'  class="form-control input-sm"  /></td>
+                <td style="width:90%"><input type="text" style="width:90%;" name="title" value="<?=$row_no['title']?>" required itemname='제목'  class="form-control input-sm"  /></td>
                 </tr>
                 <?
-				if($_REQUEST[status]==2)
+				if($_REQUEST['status']==2)
 				{
 					?>
                 <tr>
@@ -222,7 +222,7 @@ td div {
                 	<?
 					foreach($fl_arr as $key=>$v)
 					{
-						$checked=$row_no[fl]==$key?"checked":"";
+						$checked=$row_no['fl']==$key?"checked":"";
 						?>
                         <label><input  type="radio" value="<?=$key?>" name="fl" <?=$checked?> /><?=$v?></label> &nbsp;
                         <?	
@@ -232,7 +232,7 @@ td div {
                 </tr>                
                 <?
 				}
-				if($_REQUEST[status]!=1)
+				if($_REQUEST['status']!=1)
 				{
 				?>
 				<!--

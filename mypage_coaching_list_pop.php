@@ -55,7 +55,6 @@ $(function(){
 }
 
 .label_content input{display:none;}
-.label_content input + label {}
 .label_content input + label + div {
     display : none;
     width : 300px;

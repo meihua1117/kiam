@@ -325,9 +325,9 @@ if($mode == "land_save") {
     echo "<script>location='mypage_reservation_list.php';</script>";
     exit;
 } else if($mode == "step_update") {
-    $tempFile = $_FILES[image][tmp_name];
-    $tempFile1 = $_FILES[image1][tmp_name];
-    $tempFile2 = $_FILES[image2][tmp_name];
+    $tempFile = $_FILES[image]['tmp_name'];
+    $tempFile1 = $_FILES[image1]['tmp_name'];
+    $tempFile2 = $_FILES[image2]['tmp_name'];
     $addQuery = "";
     if($tempFile) {
         $file_arr=explode(".",$_FILES[image]['name']);
@@ -431,9 +431,9 @@ if($mode == "land_save") {
     echo "<script>location='mypage_reservation_create.php?sms_idx=$sms_idx';</script>";
     exit;    
 } else if($mode == "step_add") {
-    $tempFile = $_FILES[image][tmp_name];
-    $tempFile1 = $_FILES[image1][tmp_name];
-    $tempFile2 = $_FILES[image2][tmp_name];
+    $tempFile = $_FILES[image]['tmp_name'];
+    $tempFile1 = $_FILES[image1]['tmp_name'];
+    $tempFile2 = $_FILES[image2]['tmp_name'];
     $addQuery = "";
     if($tempFile) {
         $file_arr=explode(".",$_FILES[image]['name']);
@@ -636,13 +636,13 @@ if($mode == "land_save") {
             if($row['image2'])
                 $jpg2 = "http://www.kiam.kr/adjunct/mms/thum/".$row['image2'];
 
-            sendmms(3, $mem_id, $send_num, $recv_num, $reservation, $row[title], $row['content'], $jpg, $jpg1, $jpg2, 'Y', $row[sms_idx], $row[sms_detail_idx], $request_idx, "", $row[send_deny]);
+            sendmms(3, $mem_id, $send_num, $recv_num, $reservation, $row['title'], $row['content'], $jpg, $jpg1, $jpg2, 'Y', $row[sms_idx], $row[sms_detail_idx], $request_idx, "", $row[send_deny]);
             
             $query = "insert into Gn_MMS_Agree set mem_id='$mem_id',
                                                 send_num='$send_num',
                                                 recv_num='$recv_num',
                                                 content='{$row['content']}',
-                                                title='$row[title]',
+                                                title='{$row['title']}',
                                                 jpg='$jpg',
                                                 reg_date=NOW(),
                                                 reservation='$reservation',
@@ -855,7 +855,7 @@ else if($mode == "old_customer_reservation") {
                 if ($row['image2'])
                     $jpg2 = "http://www.kiam.kr/adjunct/mms/thum/" . $row['image2'];
 
-                sendmms(8, $mem_id, $send_num, $recv_num, $reservation, $row[title], $row['content'], $jpg, $jpg1, $jpg2, "Y", $row[sms_idx], $row[sms_detail_idx], "", "", "", $or_id);
+                sendmms(8, $mem_id, $send_num, $recv_num, $reservation, $row['title'], $row['content'], $jpg, $jpg1, $jpg2, "Y", $row[sms_idx], $row[sms_detail_idx], "", "", "", $or_id);
             }
         }
 
@@ -978,13 +978,13 @@ else if($mode == "old_customer_reservation") {
                 $jpg2 = "http://www.kiam.kr/adjunct/mms/thum/".$row['image2'];
                                     
             for($m = 0; $m < count($mobile);$m++ ) {
-                sendmms(3, $mem_id/*$_SESSION['one_member_id']*/, $send_num, $mobile[$m], $reservation, $row[title], $row['content'], $jpg, $jpg1, $jpg2, 'Y', $row[sms_idx], $row[sms_detail_idx], $request_idx[$m], "", $row[send_deny]);
+                sendmms(3, $mem_id/*$_SESSION['one_member_id']*/, $send_num, $mobile[$m], $reservation, $row['title'], $row['content'], $jpg, $jpg1, $jpg2, 'Y', $row[sms_idx], $row[sms_detail_idx], $request_idx[$m], "", $row[send_deny]);
                 
                 $query = "insert into Gn_MMS_Agree set mem_id='$mem_id',
                                                  send_num='$send_num',
                                                  recv_num='$mobile[$m]',
                                                  content='{$row['content']}',
-                                                 title='$row[title]',
+                                                 title='{$row['title']}',
                                                  jpg='$jpg',
                                                  reg_date=NOW(),
                                                  reservation='$reservation',
@@ -1085,13 +1085,13 @@ else if($mode == "old_customer_reservation") {
                 $jpg2 = "http://www.kiam.kr/adjunct/mms/thum/".$row['image2'];
                                     
             for($m = 0; $m < count($mobile);$m++ ) {
-                sendmms(3, $mem_id/*$_SESSION['one_member_id']*/, $send_num, $mobile[$m], $reservation, $row[title], $row['content'], $jpg, $jpg1, $jpg2, 'Y', $row[sms_idx], $row[sms_detail_idx], $request_idx[$m], "", $row[send_deny]);
+                sendmms(3, $mem_id/*$_SESSION['one_member_id']*/, $send_num, $mobile[$m], $reservation, $row['title'], $row['content'], $jpg, $jpg1, $jpg2, 'Y', $row[sms_idx], $row[sms_detail_idx], $request_idx[$m], "", $row[send_deny]);
                 
                 $query = "insert into Gn_MMS_Agree set mem_id='$mem_id',
                                                  send_num='$send_num',
                                                  recv_num='$mobile[$m]',
                                                  content='{$row['content']}',
-                                                 title='$row[title]',
+                                                 title='{$row['title']}',
                                                  jpg='$jpg',
                                                  reg_date=NOW(),
                                                  reservation='$reservation',
@@ -1112,7 +1112,7 @@ else if($mode == "old_customer_reservation") {
     exit;    
 } else if($mode == "lecture_save") {
     $file_arr=explode(".",$_FILES[review_img1]['name']);
-    $tempFile = $_FILES[review_img1][tmp_name];
+    $tempFile = $_FILES[review_img1]['tmp_name'];
     $tmp_file_arr=explode("/",$tempFile);
     $file_name=date("Ymds")."_".$tmp_file_arr[count($tmp_file_arr)-1].".".$file_arr[count($file_arr)-1];    
     $upload_file = "upload/lecture/".$file_name;
@@ -1125,7 +1125,7 @@ else if($mode == "old_customer_reservation") {
     }   
     
     $file_arr=explode(".",$_FILES[review_img2]['name']);
-    $tempFile = $_FILES[review_img2][tmp_name];
+    $tempFile = $_FILES[review_img2]['tmp_name'];
     $tmp_file_arr=explode("/",$tempFile);
     $file_name=date("Ymds")."_".$tmp_file_arr[count($tmp_file_arr)-1].".".$file_arr[count($file_arr)-1];    
     $upload_file = "upload/lecture/".$file_name;
@@ -1138,7 +1138,7 @@ else if($mode == "old_customer_reservation") {
     }       
     
     $file_arr=explode(".",$_FILES[review_img3]['name']);
-    $tempFile = $_FILES[review_img3][tmp_name];
+    $tempFile = $_FILES[review_img3]['tmp_name'];
     $tmp_file_arr=explode("/",$tempFile);
     $file_name=date("Ymds")."_".$tmp_file_arr[count($tmp_file_arr)-1].".".$file_arr[count($file_arr)-1];    
     $upload_file = "upload/lecture/".$file_name;
@@ -1151,7 +1151,7 @@ else if($mode == "old_customer_reservation") {
     }       
     
     $file_arr=explode(".",$_FILES[review_img4]['name']);
-    $tempFile = $_FILES[review_img4][tmp_name];
+    $tempFile = $_FILES[review_img4]['tmp_name'];
     $tmp_file_arr=explode("/",$tempFile);
     $file_name=date("Ymds")."_".$tmp_file_arr[count($tmp_file_arr)-1].".".$file_arr[count($file_arr)-1];    
     $upload_file = "upload/lecture/".$file_name;
@@ -1164,7 +1164,7 @@ else if($mode == "old_customer_reservation") {
     }       
     
     $file_arr=explode(".",$_FILES[review_img5]['name']);
-    $tempFile = $_FILES[review_img5][tmp_name];
+    $tempFile = $_FILES[review_img5]['tmp_name'];
     $tmp_file_arr=explode("/",$tempFile);
     $file_name=date("Ymds")."_".$tmp_file_arr[count($tmp_file_arr)-1].".".$file_arr[count($file_arr)-1];    
     $upload_file = "upload/lecture/".$file_name;
@@ -1232,7 +1232,7 @@ else if($mode == "old_customer_reservation") {
 } else if($mode == "lecture_update") {
 
     $file_arr=explode(".",$_FILES[review_img1]['name']);
-    $tempFile = $_FILES[review_img1][tmp_name];
+    $tempFile = $_FILES[review_img1]['tmp_name'];
     $tmp_file_arr=explode("/",$tempFile);
 	$file_ext=strtolower(end(explode('.',$_FILES[review_img1]['name'])));
     $file_name=$_POST['lecture_id']."_".date("YmdHis")."_1.".$file_ext;
@@ -1247,7 +1247,7 @@ else if($mode == "old_customer_reservation") {
     }   
     
     $file_arr=explode(".",$_FILES[review_img2]['name']);
-    $tempFile = $_FILES[review_img2][tmp_name];
+    $tempFile = $_FILES[review_img2]['tmp_name'];
     $tmp_file_arr=explode("/",$tempFile);
     $file_name=$_POST['lecture_id']."_".date("YmdHis")."_2.".$file_ext;//$file_name=date("Ymds")."_".$tmp_file_arr[count($tmp_file_arr)-1].".".$file_arr[count($file_arr)-1];    
     
@@ -1262,7 +1262,7 @@ else if($mode == "old_customer_reservation") {
     }       
     
     $file_arr=explode(".",$_FILES[review_img3]['name']);
-    $tempFile = $_FILES[review_img3][tmp_name];
+    $tempFile = $_FILES[review_img3]['tmp_name'];
     $tmp_file_arr=explode("/",$tempFile);
     $file_name=$_POST['lecture_id']."_".date("YmdHis")."_3.".$file_ext;//$file_name=date("Ymds")."_".$tmp_file_arr[count($tmp_file_arr)-1].".".$file_arr[count($file_arr)-1];    
     
@@ -1277,7 +1277,7 @@ else if($mode == "old_customer_reservation") {
     }       
     
     $file_arr=explode(".",$_FILES[review_img4]['name']);
-    $tempFile = $_FILES[review_img4][tmp_name];
+    $tempFile = $_FILES[review_img4]['tmp_name'];
     $tmp_file_arr=explode("/",$tempFile);
     $file_name=$_POST['lecture_id']."_".date("YmdHis")."_4.".$file_ext;//$file_name=date("Ymds")."_".$tmp_file_arr[count($tmp_file_arr)-1].".".$file_arr[count($file_arr)-1];    
     
@@ -1292,7 +1292,7 @@ else if($mode == "old_customer_reservation") {
     }       
     
     $file_arr=explode(".",$_FILES[review_img5]['name']);
-    $tempFile = $_FILES[review_img5][tmp_name];
+    $tempFile = $_FILES[review_img5]['tmp_name'];
     $tmp_file_arr=explode("/",$tempFile);
     $file_name=$_POST['lecture_id']."_".date("YmdHis")."_5.".$file_ext;//$file_name=date("Ymds")."_".$tmp_file_arr[count($tmp_file_arr)-1].".".$file_arr[count($file_arr)-1];    
     
@@ -1345,7 +1345,7 @@ else if($mode == "old_customer_reservation") {
     exit;   
 } else if($mode == "review_save") {
     $file_arr=explode(".",$_FILES[image]['name']);
-    $tempFile = $_FILES[image][tmp_name];
+    $tempFile = $_FILES[image]['tmp_name'];
     $tmp_file_arr=explode("/",$tempFile);
     $file_name=date("Ymds")."_".$tmp_file_arr[count($tmp_file_arr)-1].".".$file_arr[count($file_arr)-1];    
     $upload_file = "upload/review/".$file_name;
@@ -1441,7 +1441,7 @@ else if($mode == "old_customer_reservation") {
                 $res_sms = mysqli_query($self_con,$sql_sms);
                 $row_sms = mysqli_fetch_array($res_sms);
     
-                $title = $row_sms[title];
+                $title = $row_sms['title'];
                 $txt = $row_sms['content'];
                 $deny = $row_sms[send_deny];
                 $row_sms[image]?$upimage_str = 'https://kiam.kr/upload/'.$row_sms[image]:'';
@@ -1603,7 +1603,7 @@ else if($mode == "old_customer_reservation") {
                         $htime = trim($time_arr[0]);
                         $mtime = trim($time_arr[1]);
                     }
-                    $title = $row_sms[title];
+                    $title = $row_sms['title'];
                     $txt = $row_sms['content'];
                     $deny = $row_sms[send_deny];
                     $row_sms[image]?$upimage_str = 'https://kiam.kr/upload/'.$row_sms[image]:'';
@@ -2173,13 +2173,13 @@ else if($mode == "read_coaching_apply") {
                 if ($row['image2'])
                     $jpg2 = "http://www.kiam.kr/adjunct/mms/thum/" . $row['image2'];
 
-                sendmms(8, $mem_id, $mobile, $recv_num, $reservation, $row[title], $row['content'], $jpg, $jpg1, $jpg2, "Y", $row[sms_idx], $row[sms_detail_idx], "", "", "", $idx);
+                sendmms(8, $mem_id, $mobile, $recv_num, $reservation, $row['title'], $row['content'], $jpg, $jpg1, $jpg2, "Y", $row[sms_idx], $row[sms_detail_idx], "", "", "", $idx);
 
                 // $query = "insert into Gn_MMS_Agree set mem_id='$mem_id',
                 //                          send_num='$mobile',
                 //                          recv_num='$recv_num',
                 //                          content='{$row['content']}',
-                //                          title='$row[title]',
+                //                          title='{$row['title']}',
                 //                          jpg='$jpg',
                 //                          reg_date=NOW(),
                 //                          reservation='$reservation',

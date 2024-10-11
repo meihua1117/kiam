@@ -194,7 +194,7 @@ $(function(){
                 <!--<td><?=$row[fujia_status]?></td>-->
                 <td>디버</td>                
                 <td><?=$pay_type[$row[payMethod]]?$pay_type[$row[payMethod]]:"카드"?></td>
-                <td><?=$row[add_phone]?></td>
+                <td><?=$row['add_phone']?></td>
                 <td><?=$row[phone_cnt]?></td>
                 <!--<td><?=count($num_arr)?></td>-->
                 <td><?=number_format($row[TotPrice])?>원</td>

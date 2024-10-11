@@ -52,7 +52,7 @@ else if($_POST['mode'] == "updat") {
     $sql = "select * from gn_alert where pos = '$pos'";
     $row = mysqli_fetch_array(mysqli_query($self_con,$sql));
     if($row['pos'] != "") {
-        echo json_encode(array("title" => $row[title], "img" => $row[img], "desc" => $row[desc], "link" => $row[link]));
+        echo json_encode(array("title" => $row['title'], "img" => $row[img], "desc" => $row[desc], "link" => $row[link]));
     }
     exit;
 }

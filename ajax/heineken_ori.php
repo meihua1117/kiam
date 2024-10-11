@@ -531,7 +531,7 @@ if($user_id){
                         $resul_check_s=mysqli_query($self_con,$sql_check_s);
                         $row_check_s=mysqli_fetch_array($resul_check_s);
                         if($row_check_s['no']) { //tjd_mms_cnt_check에 자료 있으면 : 오늘 보낸 적 있음
-                            if($row_check_s[status]=="N") { //200미만 건 발송 이력 있음
+                            if($row_check_s['status']=="N") { //200미만 건 발송 이력 있음
                                 // Cooper Add  2016-05-08
                                 if($user_cnt[$sendnum[$j]] + count($send_num_list[$sendnum[$j]]) >= $daily_min_cnt_user  && count($send_num_list[$sendnum[$j]]) > 0) {
                                     $sql_num="update Gn_MMS_Number set cnt1=cnt1+1, cnt2=cnt2-1 where mem_id='$user_id' and sendnum='$sendnum[$j]' ";
@@ -545,7 +545,7 @@ if($user_id){
                                     $cnt1_log_arr[$j] += 1;
                                     $cnt2_log_arr[$j] -= 1;
                                 }
-                            } else if($row_check_s[status]=="Y") { //200미만 건 발송 이력 있음
+                            } else if($row_check_s['status']=="Y") { //200미만 건 발송 이력 있음
                             }
                             $cntYN_log_arr[$j] = count($send_num_list[$sendnum[$j]]); //2016-05-08 추가
                         } else {
@@ -577,7 +577,7 @@ if($user_id){
                         $resul_check_s=mysqli_query($self_con,$sql_check_s);
                         $row_check_s=mysqli_fetch_array($resul_check_s);
                         if($row_check_s['no']) { //tjd_mms_cnt_check에 자료 있으면 : 오늘 보낸 적 있음
-                            if($row_check_s[status]=="N") { //200미만 건 발송 이력 있음
+                            if($row_check_s['status']=="N") { //200미만 건 발송 이력 있음
                                 // Cooper Add  2016-05-08
                                 if($user_cnt[$sendnum[$j]] + count($send_num_list[$sendnum[$j]]) >= $daily_min_cnt_user  && count($send_num_list[$sendnum[$j]]) > 0) {
                                     $sql_num="update Gn_MMS_Number set cnt1=cnt1+1, cnt2=cnt2-1 where mem_id='$user_id' and sendnum='$sendnum[$j]' ";
@@ -593,7 +593,7 @@ if($user_id){
                                     $cnt2_log_arr[$j] -= 1;
                                     $cntYN_log_arr[$j] = count($send_num_list[$sendnum[$j]]); //2016-05-08 추가
                                 }
-                            } else if($row_check_s[status]=="Y") { //200미만 건 발송 이력 있음
+                            } else if($row_check_s['status']=="Y") { //200미만 건 발송 이력 있음
                             }
                         } else {
                             if($user_cnt[$sendnum[$j]] + count($send_num_list[$sendnum[$j]]) >= $daily_min_cnt_user  && count($send_num_list[$sendnum[$j]]) > 0) {
@@ -780,7 +780,7 @@ if($user_id){
                 $row_check_s=mysqli_fetch_array($resul_check_s);
                 if($row_check_s['no']) { //tjd_mms_cnt_check에 자료 있으면 : 오늘 보낸 적 있음
 
-                    if($row_check_s[status]=="N") { //200미만 건 발송 이력 있음
+                    if($row_check_s['status']=="N") { //200미만 건 발송 이력 있음
                         // Cooper Add  2016-05-08
                         if($user_cnt[$sendnum[$j]] + count($send_num_list[$sendnum[$j]]) >= $daily_min_cnt_user  && count($send_num_list[$sendnum[$j]]) > 0) {
                             $sql_num="update Gn_MMS_Number set cnt1=cnt1+1, cnt2=cnt2-1 where mem_id='$user_id' and sendnum='$sendnum[$j]' ";
@@ -798,7 +798,7 @@ if($user_id){
 
                             //$this_time_send
                         }
-                    } else if($row_check_s[status]=="Y") { //200미만 건 발송 이력 있음
+                    } else if($row_check_s['status']=="Y") { //200미만 건 발송 이력 있음
                     }
                     $cntYN_log_arr[$j] = count($send_num_list[$sendnum[$j]]); //2016-05-08 추가
                 } else {
@@ -861,7 +861,7 @@ if($user_id){
                     $mms_start_info['recv_num']=$sendnum[$j];
                     $mms_start_info[uni_id]=$reg."999";
                     $mms_start_info['content']="온리원문자 문자발송시작";
-                    $mms_start_info[title]="온리원문자";
+                    $mms_start_info['title']="온리원문자";
                     $sql_start="insert into Gn_MMS set ";
                     foreach($mms_start_info as $key=>$v)
                     $sql_start.=" $key='$v' ,";
@@ -980,7 +980,7 @@ if($user_id){
                     $mms_info['content']=addslashes(htmlspecialchars($_POST[send_txt]));
                     $mms_info[jpg]=$img;
                     $mms_info[type]=$_POST[send_type];
-                    $mms_info[title]=htmlspecialchars($_POST[send_title]);
+                    $mms_info['title']=htmlspecialchars($_POST[send_title]);
                     $mms_info[delay]=$_POST[send_delay];
                     $mms_info[delay2]=$_POST[send_delay2];
                     $mms_info[close]=$_POST[send_close];
@@ -1107,7 +1107,7 @@ if($user_id){
             }
             $sql="insert into Gn_MMS_Message set "; //발송
             $message_info['mem_id']=$user_id;
-            $message_info[title]=htmlspecialchars(str_replace("{|name|}", "{|REP|}",$_POST[send_title]));
+            $message_info['title']=htmlspecialchars(str_replace("{|name|}", "{|REP|}",$_POST[send_title]));
             $message_info[message]=htmlspecialchars(str_replace("{|name|}", "{|REP|}",$_POST[send_txt]));
             $message_info[img]=$_POST[send_img];
             $message_info[img1]=$_POST[send_img1];

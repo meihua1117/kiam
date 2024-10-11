@@ -325,7 +325,7 @@ a.sort-by:after {
 
 
                         <td>
-                                <div style="">
+                                <div>
                                 <?
                                 
                                 

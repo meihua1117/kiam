@@ -56,35 +56,35 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                 <div class="row">
                     <form name="board_write_form" id="board_write_form" action="" method="post">
                         <input type="hidden" name="return_url" value="admin_manual.php">
-                        <?if(!$_REQUEST[status] || $_REQUEST[status] == 1){?>
+                        <?if(!$_REQUEST['status'] || $_REQUEST['status'] == 1){?>
                         <div style="position:relative;left:20px;">
-                            <label><input type="radio" value="아이엠" name="fl" onclick="oncategorychange(1)" id="c_miam" <?=$row_no[fl]=="아이엠"?'checked':''?>>아이엠</label> &nbsp;
-                            <label><input type="radio" value="폰문자" name="fl" onclick="oncategorychange(2)" id="c_ptext" <?=$row_no[fl]=='폰문자'?'checked':''?>>폰문자</label> &nbsp;
-                            <label><input type="radio" value="디비수집" name="fl" onclick="oncategorychange(3)" id="c_getdb" <?=$row_no[fl]=='디비수집'?'checked':''?>>디비수집</label> &nbsp;
-                            <label><input type="radio" value="콜백문자" name="fl" onclick="oncategorychange(4)" id="c_cbtext" <?=$row_no[fl]=='콜백문자'?'checked':''?>>콜백문자</label> &nbsp;
-                            <label><input type="radio" value="스텝문자" name="fl" onclick="oncategorychange(5)" id="c_steptext" <?=$row_no[fl]=='스텝문자'?'checked':''?>>스텝문자</label> &nbsp;
-                            <label><input type="radio" value="웹문자" name="fl" onclick="oncategorychange(6)" id="c_webtext" <?=$row_no[fl]=='웹문자'?'checked':''?>>웹문자</label> &nbsp;
-                            <label><input type="radio" value="국제문자" name="fl" onclick="oncategorychange(7)" id="c_intertext" <?=$row_no[fl]=='국제문자'?'checked':''?>>국제문자</label> &nbsp;
-                            <label><input type="radio" value="결제" name="fl" onclick="oncategorychange(8)" id="c_settle" <?=$row_no[fl]=='결제'?'checked':''?>>결제</label> &nbsp;
-                            <label><input type="radio" value="사업" name="fl" onclick="oncategorychange(9)" id="c_working" <?=$row_no[fl]=='사업'?'checked':''?>>사업</label> &nbsp;
-                            <label><input type="radio" value="마케팅" name="fl" onclick="oncategorychange(10)" id="c_marketing" <?=$row_no[fl]=='마케팅'?'checked':''?>>마케팅</label> &nbsp;
-                            <label><input type="radio" value="디비테이블" name="fl" onclick="oncategorychange(11)" id="c_dbtable" <?=$row_no[fl]=='디비테이블'?'checked':''?>>디비테이블</label> &nbsp;
-                            <label><input type="radio" value="카페24" name="fl" onclick="oncategorychange(12)" id="c_cafe24" <?=$row_no[fl]=='카페24'?'checked':''?>>카페24</label> &nbsp;
-                            <label><input type="radio" value="서버" name="fl" onclick="oncategorychange(13)" id="c_server" <?=$row_no[fl]=='서버'?'checked':''?>>서버</label> &nbsp;
-                            <label><input type="radio" value="기타" name="fl" onclick="oncategorychange(14)" id="c_other" <?=$row_no[fl]=='기타'?'checked':''?>>기타</label> &nbsp;
+                            <label><input type="radio" value="아이엠" name="fl" onclick="oncategorychange(1)" id="c_miam" <?=$row_no['fl']=="아이엠"?'checked':''?>>아이엠</label> &nbsp;
+                            <label><input type="radio" value="폰문자" name="fl" onclick="oncategorychange(2)" id="c_ptext" <?=$row_no['fl']=='폰문자'?'checked':''?>>폰문자</label> &nbsp;
+                            <label><input type="radio" value="디비수집" name="fl" onclick="oncategorychange(3)" id="c_getdb" <?=$row_no['fl']=='디비수집'?'checked':''?>>디비수집</label> &nbsp;
+                            <label><input type="radio" value="콜백문자" name="fl" onclick="oncategorychange(4)" id="c_cbtext" <?=$row_no['fl']=='콜백문자'?'checked':''?>>콜백문자</label> &nbsp;
+                            <label><input type="radio" value="스텝문자" name="fl" onclick="oncategorychange(5)" id="c_steptext" <?=$row_no['fl']=='스텝문자'?'checked':''?>>스텝문자</label> &nbsp;
+                            <label><input type="radio" value="웹문자" name="fl" onclick="oncategorychange(6)" id="c_webtext" <?=$row_no['fl']=='웹문자'?'checked':''?>>웹문자</label> &nbsp;
+                            <label><input type="radio" value="국제문자" name="fl" onclick="oncategorychange(7)" id="c_intertext" <?=$row_no['fl']=='국제문자'?'checked':''?>>국제문자</label> &nbsp;
+                            <label><input type="radio" value="결제" name="fl" onclick="oncategorychange(8)" id="c_settle" <?=$row_no['fl']=='결제'?'checked':''?>>결제</label> &nbsp;
+                            <label><input type="radio" value="사업" name="fl" onclick="oncategorychange(9)" id="c_working" <?=$row_no['fl']=='사업'?'checked':''?>>사업</label> &nbsp;
+                            <label><input type="radio" value="마케팅" name="fl" onclick="oncategorychange(10)" id="c_marketing" <?=$row_no['fl']=='마케팅'?'checked':''?>>마케팅</label> &nbsp;
+                            <label><input type="radio" value="디비테이블" name="fl" onclick="oncategorychange(11)" id="c_dbtable" <?=$row_no['fl']=='디비테이블'?'checked':''?>>디비테이블</label> &nbsp;
+                            <label><input type="radio" value="카페24" name="fl" onclick="oncategorychange(12)" id="c_cafe24" <?=$row_no['fl']=='카페24'?'checked':''?>>카페24</label> &nbsp;
+                            <label><input type="radio" value="서버" name="fl" onclick="oncategorychange(13)" id="c_server" <?=$row_no['fl']=='서버'?'checked':''?>>서버</label> &nbsp;
+                            <label><input type="radio" value="기타" name="fl" onclick="oncategorychange(14)" id="c_other" <?=$row_no['fl']=='기타'?'checked':''?>>기타</label> &nbsp;
                         </div>
                         <?}?>
                         <table id="example1" class="table table-bordered table-striped">
                             <tr>
                                 <td>제목</td>
-                                <td style="width:90%"><input type="text" style="width:90%;" name="title" value="<?=$row_no[title]?>" required itemname='제목'  class="form-control input-sm"  /></td>
+                                <td style="width:90%"><input type="text" style="width:90%;" name="title" value="<?=$row_no['title']?>" required itemname='제목'  class="form-control input-sm"  /></td>
                             </tr>
-                            <?if($_REQUEST[status]==2){?>
+                            <?if($_REQUEST['status']==2){?>
                             <tr>
                                 <td>분류</td>
                                 <td>
                                 <?foreach($fl_arr as $key=>$v){
-                                    $checked=$row_no[fl]==$key?"checked":"";
+                                    $checked=$row_no['fl']==$key?"checked":"";
                                 ?>
                                 <label><input  type="radio" value="<?=$key?>" name="fl" <?=$checked?> /><?=$v?></label> &nbsp;
                                 <?}?>

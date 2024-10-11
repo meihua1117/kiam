@@ -769,7 +769,7 @@ $row_data = mysqli_fetch_array($res_data);
 									$intRowCount=mysqli_num_rows($resul);
 
 									?>
-									<div class="button_box" style="">
+									<div class="button_box">
 										<div class="left_box">
                                 						<span class="popup_holder button_type">
                                                 <a href="javascript:void(0)" onclick="select_app_check_push('check_num')">앱 상태 체크</a>
@@ -1252,7 +1252,7 @@ include_once "_foot.php";
 			if(!document.getElementsByName('group_num')[0].value && !document.getElementsByName('num')[0].value)
 			{
 				alert('선택된 번호가 없습니다.');
-				document.getElementsByName('deny_wushi[]')[status].checked=false;
+				document.getElementsByName('deny_wushi[]')['status'].checked=false;
 				return false;
 			}
 		}

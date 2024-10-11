@@ -1,6 +1,6 @@
 <?
 $path="./";
-include_once $_REQUEST[status]?"_head_open.php":"_head.php";
+include_once $_REQUEST['status']?"_head_open.php":"_head.php";
 if(!$fujia_pay)
 {
 //echo "권한이 없습니다.";	
@@ -16,7 +16,7 @@ if(!$fujia_pay)
             </div>
             <div class="right_sub_menu">
             <?
-			if(!$_REQUEST[status])
+			if(!$_REQUEST['status'])
 			{
 				?>            
                 <a href="sub_4.php?status=1">휴대폰등록관리</a> &nbsp;|&nbsp; 

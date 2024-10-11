@@ -128,7 +128,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                                         <td><input type="checkbox" disabled="true" name="important_yn" value="Y" data-no="<?php echo $row['no']?>" <?php echo $row['important_yn']=="Y"?"checked":""?>></td>
                                         <td><input type="checkbox" disabled="true" name="pop_yn" value="Y" data-no="<?php echo $row['no']?>" <?php echo $row['pop_yn']=="Y"?"checked":""?>></td>
                                         <td><input type="text" disabled="true" name="working_date" data-no="<?php echo $row['no']?>" value="<?php echo ($row['start_date']&&$row['end_date'])?$row['start_date'].'-'.$row['end_date']:"날자가 존재하지 않습니다."?>"></td>
-                                        <td><a href="javascript:;;" onclick="board_del('<?=$row['no']?>','<?=$_REQUEST[status]?>')">삭제</a></td>
+                                        <td><a href="javascript:;;" onclick="board_del('<?=$row['no']?>','<?=$_REQUEST['status']?>')">삭제</a></td>
                                     </tr>
                                 <?
                                     $i++;

@@ -1,6 +1,6 @@
 <?
 include_once "../lib/rlatjd_fun.php";
-$_REQUEST[status] = 1;
+$_REQUEST['status'] = 1;
 extract($_POST);
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

@@ -53,19 +53,19 @@ $sql = "insert into tjd_pay_result set
         TotPrice='$pay_info[TotPrice]',
         end_date=date_add(now(),INTERVAL {$pay_info['month_cnt']} month),
         end_status='N',
-        buyertel='$data[mem_phone]',
-        buyeremail='$data[mem_email]',
+        buyertel='{$data['mem_phone']}',
+        buyeremail='{$data['mem_email']}',
         payMethod='MONTH',
         buyer_id='{$pay_info['buyer_id']}',
         date=NOW(),
-        member_type='$pay_info[member_type]',
+        member_type='{$pay_info['member_type']}',
         month_cnt='{$pay_info['month_cnt']}',
         max_cnt='$pay_info[max_cnt]',
         phone_cnt='$pay_info[phone_cnt]',
-        add_phone='$pay_info[add_phone]',
-        db_cnt='$pay_info[db_cnt]',
-        email_cnt='$pay_info[email_cnt]',
-        iam_card_cnt='$pay_info[iam_card_cnt]',
+        add_phone='{$pay_info['add_phone']}',
+        db_cnt='{$pay_info['db_cnt']}',
+        email_cnt='{$pay_info['email_cnt']}',
+        iam_card_cnt='{$pay_info['iam_card_cnt']}',
         onestep1='$pay_info[onestep1]',
         onestep2='$pay_info[onestep2]',
         member_cnt='$pay_info[member_cnt]',
@@ -91,10 +91,10 @@ if($_POST['phone_cnt'] > 0) {
     $email = $srow['mem_email'];
     $address = $srow['mem_add1'];
     $status = "Y";
-    $use_cnt = $row[db_cnt];
+    $use_cnt = $row['db_cnt'];
     $last_time = date("Y-m-d H:i:s", strtotime("+ 120 month"));
     $search_email_date = substr($last_time, 0, 10);
-    $search_email_cnt = $row[email_cnt];
+    $search_email_cnt = $row['email_cnt'];
     $term = substr($last_time, 0, 10);
     if ($crow[0] == '') {
         $user_id = $srow['mem_id'];
@@ -104,9 +104,9 @@ if($_POST['phone_cnt'] > 0) {
         $email = $srow['mem_email'];
         $address = $srow['mem_add1'];
         $status = "N";
-        $use_cnt = $_POST[db_cnt];
+        $use_cnt = $_POST['db_cnt'];
         $search_email_date = substr($last_time, 0, 10);
-        $search_email_cnt = $_POST[email_cnt];
+        $search_email_cnt = $_POST['email_cnt'];
         $term = substr($last_time, 0, 10);
         $query = "insert into crawler_member_real set user_id='$user_id',
                                             user_name='$user_name',
@@ -126,8 +126,8 @@ if($_POST['phone_cnt'] > 0) {
     }
     else {
         $query = "update crawler_member_real set
-                                        extra_db_cnt = extra_db_cnt + '$row[db_cnt]',
-                                        extra_email_cnt = extra_email_cnt + '$row[email_cnt]',
+                                        extra_db_cnt = extra_db_cnt + '{$row['db_cnt']}',
+                                        extra_email_cnt = extra_email_cnt + '{$row['email_cnt']}',
                                         extra_shopping_cnt = extra_shopping_cnt + '$row[shop_cnt]'
                                         where user_id='$user_id'
                                         ";

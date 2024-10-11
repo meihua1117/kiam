@@ -18,35 +18,35 @@ for($i = 0; $i < count($id_arr); $i++){
     $res = mysqli_query($self_con,$query);
     $row = mysqli_fetch_array($res);
 
-    $sql = "select count(idx) from Gn_Service where sub_domain = '$row[sub_domain]'";
+    $sql = "select count(idx) from Gn_Service where sub_domain = '{$row['sub_domain']}'";
     $res = mysqli_query($self_con,$sql);
     $old_row = mysqli_fetch_array($res);
 
     if($old_row[0] == 0){
         $query="insert into Gn_Service set `service_name`          ='$row[web_theme]', 
-                                    `domain`      ='$row[main_domain]', 
-                                    `sub_domain` ='$row[sub_domain]', 
-                                    `company_name` ='$row[company_name]', 
-                                    `manage_cell`   ='$row[owner_cell]', 
-                                    `manage_name`      ='$row[owner_name]',
-                                    `communications_vendors` ='$row[communications_vendors]',
-                                    `privacy` ='$row[privacy]',
-                                    `fax` ='$row[fax]',
-                                    ceo_name = '$row[owner_name]',
-                                    address ='$row[address]',
-                                    price='$row[month_price]',
-                                    logo='$row[head_logo]',
-                                    main_url='$row[home_link]',
-                                    member_cnt='$row[mem_cnt]',
-                                    main_image='$row[main_img1]',
-                                    footer_image='$row[footer_logo]',
-                                    contract_start_date='$row[contract_start_date]',
-                                    contract_end_date='$row[contract_end_date]',
+                                    `domain`      ='{$row['main_domain']}', 
+                                    `sub_domain` ='{$row['sub_domain']}', 
+                                    `company_name` ='{$row['company_name']}', 
+                                    `manage_cell`   ='{$row['owner_cell']}', 
+                                    `manage_name`      ='{$row['owner_name']}',
+                                    `communications_vendors` ='{$row['communications_vendors']}',
+                                    `privacy` ='{$row['privacy']}',
+                                    `fax` ='{$row['fax']}',
+                                    ceo_name = '{$row['owner_name']}',
+                                    address ='{$row['address']}',
+                                    price='{$row['month_price']}',
+                                    logo='{$row['head_logo']}',
+                                    main_url='{$row['home_link']}',
+                                    member_cnt='{$row['mem_cnt']}',
+                                    main_image='{$row['main_img1']}',
+                                    footer_image='{$row['footer_logo']}',
+                                    contract_start_date='{$row['contract_start_date']}',
+                                    contract_end_date='{$row['contract_end_date']}',
                                     mem_id='{$row['mem_id']}',
                                     mem_name='{$row['mem_name']}',
-                                    site_name='$row[brand_name]',
-                                    keywords='$row[keywords]',
-                                    kakao='$row[kakao]',
+                                    site_name='{$row['brand_name']}',
+                                    keywords='{$row['keywords']}',
+                                    kakao='{$row['kakao']}',
                                     `status`          ='Y', 
                                     `regdate`         =NOW() ";
         mysqli_query($self_con,$query) or die(mysqli_error($self_con));
@@ -73,7 +73,7 @@ for($i = 0; $i < count($id_arr); $i++){
                                         daily_point_end  = '$row[contract_end_date]'
                                     where idx = {$row['idx']}";
         mysqli_query($self_con,$query) or die(mysqli_error($self_con));
-        $domain = $row[sub_domain];
+        $domain = $row['sub_domain'];
         $domain_arr = explode(".", $domain);
         $site = $domain_arr[0];
         $site = str_replace("http://","",$site);

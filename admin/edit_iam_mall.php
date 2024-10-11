@@ -123,7 +123,7 @@ $row=mysqli_fetch_array($res);
 										</tr>
 										<tr>
 											<th class="w200">상품제목</th>
-											<td><input type="text" name="title" id="title" value="<?=$row[title]?>"></td>
+											<td><input type="text" name="title" id="title" value="<?=$row['title']?>"></td>
 										</tr>
 										<tr>
 											<th class="w200">상품부제목</th>

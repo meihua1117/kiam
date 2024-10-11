@@ -452,9 +452,9 @@ $date_today=date("Y-m-d");
                                         <td>
                                             <?
                                             if($row['member_type'] != "dber")
-                                                echo number_format($row[iam_card_cnt]).'/'.number_format($row[db_cnt]).'/'.number_format($row[max_cnt]);
+                                                echo number_format($row['iam_card_cnt']).'/'.number_format($row['db_cnt']).'/'.number_format($row[max_cnt]);
                                             else
-                                                echo number_format($row[db_cnt]).'/'.number_format($row[email_cnt]).'/'.number_format($row[shop_cnt]);
+                                                echo number_format($row['db_cnt']).'/'.number_format($row['email_cnt']).'/'.number_format($row[shop_cnt]);
                                             ?>
                                         </td>
                                         <td><?=$row['VACT_InputName']?></td>
@@ -463,7 +463,7 @@ $date_today=date("Y-m-d");
                                         <td>
                                             <input type="text" name="price" id="price<?=$i?>" value="<?=$row[TotPrice]?>" onchange="$('#price_<?=$i?>').val(this.value)" style="width:70px;">원
                                         </td>
-                                        <!--td><?=number_format($row[add_phone])?>개</td-->
+                                        <!--td><?=number_format($row['add_phone'])?>개</td-->
                                         <td>
                                             <select name="onestep2" class="onestep2yak" data-no = "<?=$row['no']?>">
                                                 <option value="ON" <?php echo $row['onestep2'] == "ON"?"selected":""?>>ON</option>

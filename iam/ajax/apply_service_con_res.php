@@ -18,10 +18,10 @@ if(isset($_POST['seed_point'])){
 
     $sql_buyer = "insert into Gn_Item_Pay_Result
             set buyer_id='{$_SESSION['one_member_id']}',
-                buyer_tel='$row_mem_data[mem_phone]',
+                buyer_tel='{$row_mem_data['mem_phone']}',
                 site='',
                 pay_method='$_POST[payMethod]',
-                item_name = '$_POST[member_type]',
+                item_name = '{$_POST['member_type']}',
                 item_price=$_POST[allat_amt],
                 seller_id='',
                 pay_date=NOW(),

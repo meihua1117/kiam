@@ -258,7 +258,7 @@ a.sort-by:after {
               <tr>
 			  	<td><input type="checkbox" class="check" name="land_idx" value="<?=$row['landing_idx'];?>"></td>
                 <td><?=$sort_no?></td>
-                <td style="font-size:12px;"><?=$row[title]?></td>
+                <td style="font-size:12px;"><?=$row['title']?></td>
                 <td style="font-size:12px;"><?=$row[description]?></td>
                 <td style="font-size:12px;">
                     <input type="button" value="미리보기" class="button" onclick="viewEvent('<?php echo $row['short_url']?>')">

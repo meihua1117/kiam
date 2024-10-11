@@ -49,8 +49,8 @@ if(strlen($_SESSION['one_member_id']) > 0) {
 					->setCellValue("F$h",$add_opt);
 			$h++;		
 		}
-      $msg=$_REQUEST[status]==1?"발신내역":"수신내역";
-      $msg2=$_REQUEST[status]==1?"send":"recv";
+      $msg=$_REQUEST['status']==1?"발신내역":"수신내역";
+      $msg2=$_REQUEST['status']==1?"send":"recv";
       $objPHPExcel->getActiveSheet()->setTitle("원마케팅문자 ".$msg);
       $objPHPExcel->setActiveSheetIndex(0);
 

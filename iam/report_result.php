@@ -77,7 +77,7 @@ thead tr:nth-child(2) th { position: sticky; top: 57px; }
 <body >
 	<div id="wrap1" class="common-wrap" style="overflow:hidden">
 		<main id="star" class="common-wrap" style="border: none !important"><!-- 컨텐츠 영역 시작 -->
-			<section id="bottom" style="">
+			<section id="bottom">
 				<div class="content-item" style="border: none !important;box-shadow: none !important;">
 					<div style="margin-top: 20px;margin-left: 20px">
                         <h2 class="title"><?=$row['title']?></h2>
@@ -94,7 +94,7 @@ thead tr:nth-child(2) th { position: sticky; top: 57px; }
                             <a onclick="excel_down('/excel_down/excel_report_list.php');return false;" style="background-color: white;color: black;padding: 3px;border: 1px solid #000000;padding: 6px 5px;cursor: pointer">엑셀저장</a>
                         </div>
                     </form>
-                    <div class="table-responsive report_item" style="">
+                    <div class="table-responsive report_item">
                         <table class="table" style="border: 1px solid #ddd" id="report_table">
                             <thead>
                                 <tr>

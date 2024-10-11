@@ -553,12 +553,12 @@ $skrow['cnt'] = $skrow['cnt'] * 1 - $count;
                 <div>
                     <div class="p1">
                         <table class="list_table1" width="100%" border="0" cellspacing="0" cellpadding="0">
-                            <input type="hidden" name="send_num" id="send_num" value="<?= str_replace("-", "", $data[mem_phone]) ?>">
+                            <input type="hidden" name="send_num" id="send_num" value="<?= str_replace("-", "", $data['mem_phone']) ?>">
                             <!-- <tr>
                                 <th class="w200">[발송폰선택]</th>
                                 <td>
                                     <select name="send_num" id="send_num">
-                                        <option value="<?= str_replace("-", "", $data[mem_phone]) ?>">
+                                        <option value="<?= str_replace("-", "", $data['mem_phone']) ?>">
                                             <?php echo str_replace("-", "", $data['mem_phone']); ?></option>
                                         <?
                                         $query = "select * from Gn_MMS_Number where mem_id='{$_SESSION['iam_member_id']}' order by sort_no asc, user_cnt desc , idx desc";
@@ -806,7 +806,7 @@ $skrow['cnt'] = $skrow['cnt'] * 1 - $count;
         <tbody>
             <tr class="hide_spec">
                 <td>
-                    <div style="">
+                    <div>
                         <ul id="date_list" style="margin-left:10px;padding:0px;">
                             <?php
                             if (isset($_REQUEST['daily_cnt'])) {

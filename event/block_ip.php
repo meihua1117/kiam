@@ -187,7 +187,7 @@
 												<input type="text" name="member_phone" id="member_phone" placeholder="폰번호 (-)없이  입력하세요." style="width:200px;font-size: 14px;padding: 7px;margin-bottom: 10px;">
 											</div>
 											<div class="container" style="margin-top: 20px;text-align: center;width: 100%;">
-												<button class="people_iam_show" style="" onclick="makingiam()">확인</button>
+												<button class="people_iam_show" onclick="makingiam()">확인</button>
 											</div>
 										</section>
 									</div>

@@ -151,7 +151,7 @@ $(function() {
                 </div><!-- row end-->
             <?php }?>
             <br> 
-                <div class="row text-center" style="">
+                <div class="row text-center">
                     <section class="content-header">
                         <h1>회원 정보보기</h1>
                     </section>

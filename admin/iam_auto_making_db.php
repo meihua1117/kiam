@@ -270,7 +270,7 @@ $date_month=date("Y-m");
                                        <a href="<?=$row['iam_making'].$row_mem['mem_code']?>" target="_blank"><?=$row['iam_making'].$row_mem['mem_code']?></a> </div>
                                     </th>
                                     <th>
-                                        <div style="">
+                                        <div>
                                             <?
                                             if($row[image1]){
                                                 $thumb_img =  $row[image1];

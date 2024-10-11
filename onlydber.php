@@ -351,7 +351,7 @@ if ($domainData['status'] == "N" || $pay_data['stop_yn'] == "Y") {
     <div class="left_sub_menu">
       <a href="./">홈</a> >
       <a href="sub_1.php">온리원디버</a> >
-      <a href="?status=<?= $_REQUEST[status] ?>"><?= $left_str ?></a>
+      <a href="?status=<?= $_REQUEST['status'] ?>"><?= $left_str ?></a>
     </div>
     <div class="right_sub_menu">     
       <a href="#Introduce">온리원디버란</a> ㅣ <a href="#trait">온리원디버특징</a> ㅣ <a href="#technic">온리원디버기능</a> ㅣ <a href="#uses">온리원디버활용</a> 

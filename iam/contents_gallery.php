@@ -210,7 +210,7 @@ $add_point = $gallery_price * ((int)$discount / 100);
 									<img src="img/main/icon-img_fold.png" style="width:30px">
 								</button>
 								<? for ($c = 1; $c < count($content_images); $c++) { ?>
-									<img src="<?= cross_image($content_images[$c]) ?>" class="contents_img hidden_image<?= $meta_row['idx'] ?>" style="">
+									<img src="<?= cross_image($content_images[$c]) ?>" class="contents_img hidden_image<?= $meta_row['idx'] ?>">
 								<? } ?>
 							<? } ?>
 						</div>

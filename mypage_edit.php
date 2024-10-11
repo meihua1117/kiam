@@ -67,7 +67,7 @@ exit;
         </tr>
         <tr>
         <td>핸드폰</td>
-        <td><?=$member_1[mem_phone]?></td>
+        <td><?=$member_1['mem_phone']?></td>
         </tr>        
         <tr>
         <td>주소</td>
@@ -295,7 +295,7 @@ jQuery(function($){
                 <!--<td><?=$row[fujia_status]?></td>-->
                 <td>Y</td>                
                 <td><?=$pay_type[$row[payMethod]]?$pay_type[$row[payMethod]]:"카드"?></td>
-                <td><?=$row[add_phone]?></td>
+                <td><?=$row['add_phone']?></td>
                 <td><?=$row[phone_cnt]?></td>
                 <!--<td><?=count($num_arr)?></td>-->
                 <td><?=number_format($row[TotPrice])?>원</td>

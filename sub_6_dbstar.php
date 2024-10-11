@@ -544,7 +544,7 @@ $(function(){
 									<div class="b1">문자입력<span class="popbutton7 pop_view pop_right">?</span></div>
 									<div class="b2">
 											<div class="div_2px"> </div></div>                                
-										<div class="div_2px"><input type="text" name="title" itemname='제목' required placeholder="제목" style="width:100%;" value="<?=$_REQUEST[title]?>" /></div>
+										<div class="div_2px"><input type="text" name="title" itemname='제목' required placeholder="제목" style="width:100%;" value="<?=$_REQUEST['title']?>" /></div>
 										<div class="div_2px">
 											<textarea name="txt" itemname='내용' id='txt' required placeholder="내용" onkeydown="textCounter(sub_4_form.txt,'wenzi_cnt',2000,0);" onkeyup="textCounter(sub_4_form.txt,'wenzi_cnt',2000,0);type_check();" onfocus="textCounter(sub_4_form.txt,'wenzi_cnt',2000,0);type_check();"><?=$_REQUEST[txt]?></textarea>
 											<input type="hidden" name="onebook_status" value="N" />
@@ -1152,7 +1152,7 @@ function numchk(status)
 		if(!document.getElementsByName('group_num')[0].value && !document.getElementsByName('num')[0].value)
 		{
 			alert('선택된 번호가 없습니다.');
-			document.getElementsByName('deny_wushi[]')[status].checked=false;
+			document.getElementsByName('deny_wushi[]')['status'].checked=false;
 			return false;
 		}		
 	}

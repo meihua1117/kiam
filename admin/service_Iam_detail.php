@@ -174,7 +174,7 @@ if($idx) {
                                         <td >
                                             <div style="display:flex">
                                                 <input type="file" name="head_logo">
-                                                <input type="button" onclick="clear_logo('<?=$data[profile_idx]?>');" value="삭제" style="">
+                                                <input type="button" onclick="clear_logo('<?=$data[profile_idx]?>');" value="삭제">
                                             </div>
                                             <?php if($card_data['profile_logo'] != "") {?>
                                                 <img src="<?=$card_data['profile_logo']?>" style="width:120px">
@@ -188,7 +188,7 @@ if($idx) {
                                         <td > 
                                             <div style="display:flex">
                                                 <input type="file" name="footer_logo">
-                                                <input type="button" onclick="clear_footer_logo('<?=$idx?>');" value="삭제" style="">
+                                                <input type="button" onclick="clear_footer_logo('<?=$idx?>');" value="삭제">
                                             </div>
                                             <?php if($data['footer_logo'] != "") {?><img src="<?=$data['footer_logo']?>" style="width:120px"><?php }?> 
                                         </td>

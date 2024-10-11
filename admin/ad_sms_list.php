@@ -121,7 +121,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                                     <input type="text" name="n_key" id="n_key" value="<?=$n_key?>" class="form-control input-sm pull-right" placeholder="이름">
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" name="m_key" id="m_key" value="<?=$m_key?>" class="form-control input-sm pull-right" style="" placeholder="발신내용" >
+                                    <input type="text" name="m_key" id="m_key" value="<?=$m_key?>" class="form-control input-sm pull-right" placeholder="발신내용" >
                                 </div>
                                 <div class="input-group-btn">
                                     <button class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>

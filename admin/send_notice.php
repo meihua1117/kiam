@@ -427,7 +427,7 @@ foreach($memberList as $member) {
                                                      recv_num='$send_num',
                                                      uni_id='$uni_id',
                                                      content='{$row['content']}',
-                                                     title='$row[title]',
+                                                     title='{$row['title']}',
                                                      type='5',
                                                      jpg='$jpg',
                                                      jpg1='$jpg1',
@@ -457,7 +457,7 @@ foreach($memberList as $member) {
                                                      send_num='$send_num',
                                                      recv_num='$send_num',
                                                      content='{$row['content']}',
-                                                     title='$row[title]',
+                                                     title='{$row['title']}',
                                                      jpg='$jpg',
                                                      reg_date=NOW(),
                                                      reservation='$reservation',
@@ -523,7 +523,7 @@ foreach($memberList as $member) {
                     $message_info[msg_type]="A";
                 $sql="insert into Gn_MMS_Message set "; //발송
                 $message_info['mem_id']=$member['mem_id'];
-                $message_info[title]=htmlspecialchars(str_replace("{|name|}", "{|REP|}",$title));
+                $message_info['title']=htmlspecialchars(str_replace("{|name|}", "{|REP|}",$title));
                 $message_info[message]=htmlspecialchars(str_replace("{|name|}", "{|REP|}",$text));
                 $message_info[img]=$send_img;
                 $message_info[img1]=$send_img1;

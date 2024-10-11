@@ -62,12 +62,12 @@ $body .= '                </small>';
 $body .= '            </h4>';
 if($_SESSION['iam_member_id'] == $group_row[manager]){
     $body .= '                <div style="display:flex;justify-content: space-between;margin-left:10px;margin-top:15px">';
-    $body .= '                    <h4 style="">'. "총 멤버 ".$group_mem_count."명" .'</h4>';
+    $body .= '                    <h4>'. "총 멤버 ".$group_mem_count."명" .'</h4>';
     $body .= '                    <button type="button" class = "btn btn-link" onclick = "open_all_member_1('. $group_row['idx'] .')">모두 보기</button>';
     $body .= '               </div>';
 }else{
     $body .= '               <div style="display:flex;justify-content: space-between;margin-left:10px;margin-top:15px">';
-    $body .= '    <h4 style="">'. "총 멤버 ".$group_mem_count."명" .'</h4>';
+    $body .= '    <h4>'. "총 멤버 ".$group_mem_count."명" .'</h4>';
     $body .= '                    <button type="button" class = "btn btn-link" onclick = "open_all_member_2('. $group_row['idx'] .')">모두 보기</button>';
     $body .= '                </div>';
 }

@@ -36,7 +36,7 @@ if(strlen($_SESSION['one_member_id']) > 0) {
                   ->setCellValue("A$h",$sort_no)
                   ->setCellValue("B$h",$row['send_num'])
                   ->setCellValue("C$h",$row['recv_num'])
-                  ->setCellValue("D$h",str_replace("=","-",$row[title]))
+                  ->setCellValue("D$h",str_replace("=","-",$row['title']))
                   ->setCellValue("E$h",str_replace("=","-",$row['content']))
                   ->setCellValue("F$h",$row[jpg])
                   ->setCellValue("G$h",$row['up_date'])
@@ -44,8 +44,8 @@ if(strlen($_SESSION['one_member_id']) > 0) {
       	$h++;
       	$sort_no--;
       }
-      $msg=$_REQUEST[status]==1?"발신내역":"수신내역";
-      $msg2=$_REQUEST[status]==1?"send":"recv";
+      $msg=$_REQUEST['status']==1?"발신내역":"수신내역";
+      $msg2=$_REQUEST['status']==1?"send":"recv";
       $objPHPExcel->getActiveSheet()->setTitle("원마케팅문자 ".$msg);
       $objPHPExcel->setActiveSheetIndex(0);
 

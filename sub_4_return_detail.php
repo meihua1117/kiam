@@ -10,7 +10,7 @@ if (!$_SESSION['one_member_id']) {
 <?
 	exit;
 }
-switch ($_REQUEST[status]) {
+switch ($_REQUEST['status']) {
 	case 1:
 		$left_str = "휴대폰등록관리";
 		break;

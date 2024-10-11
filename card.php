@@ -46,7 +46,7 @@ $pay_res = mysqli_query($self_con,$query) or die(mysqli_error($self_con));
 while($data=mysqli_fetch_array($pay_res)) {
     //$ORDER_NO = $data['idx'];
     $buyer_id = $data['buyer_id'];
-    if($data[member_type]=="전문가" || $data[member_type]=="단체용" || $data[member_type]=="베스트상품"){
+    if($data['member_type']=="전문가" || $data['member_type']=="단체용" || $data['member_type']=="베스트상품"){
         $sql = "select site_iam from Gn_Member where mem_id = '$buyer_id'";
         $res = mysqli_query($self_con,$sql);
         $row = mysqli_fetch_array($res);

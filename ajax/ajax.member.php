@@ -6,7 +6,7 @@ if($_REQUEST[nick])
 {	
 	$member_info[mem_nick]=htmlspecialchars($_REQUEST[nick]);
 	$member_info['mem_name']=htmlspecialchars($_REQUEST['name']);
-	$member_info[mem_email]=$_REQUEST[email_1]."@".$_REQUEST[email_2];
+	$member_info['mem_email']=$_REQUEST[email_1]."@".$_REQUEST[email_2];
 	$member_info[mem_add1]=$_REQUEST[add1];
 	if(isset($_REQUEST[zip])){
 		$member_info[mem_zip]=$_REQUEST[zip];
@@ -77,7 +77,7 @@ if($_REQUEST[nick])
 	 $sql.=" $key=$v $bd ";
 	 $i++;	 
 	}
-    $site = explode(".", $_SERVER[SERVER_NAME]);
+    $site = explode(".", $_SERVER['SERVER_NAME']);
 	$sql.=" where mem_code='$_REQUEST[join_modify]' ";
 	if(mysqli_query($self_con,$sql) or die(mysqli_error($self_con)))
 	{

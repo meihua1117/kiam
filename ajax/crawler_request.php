@@ -39,7 +39,7 @@ $term = date("Y-m-d", strtotime("next Year"));
         }
         
     
-        //$addSql .= " ,`password`='$row[mem_pass]'";
+        //$addSql .= " ,`password`='$row['mem_pass']'";
         
         $addSql .= " ,`password`=md5('1234')";
     
@@ -47,8 +47,8 @@ $term = date("Y-m-d", strtotime("next Year"));
         
         $sql="insert into crawler_member set user_id='{$_SESSION['one_member_id']}', 
                                    user_name='{$row['mem_name']}',
-                                   cell='$row[mem_phone]',
-                                   email='$row[mem_email]',
+                                   cell='{$row['mem_phone']}',
+                                   email='{$row['mem_email']}',
                                    address='$row[mem_add1]',
                                    term='$term',
                                    price='0',

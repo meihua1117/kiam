@@ -201,7 +201,7 @@ $data = mysqli_fetch_array($sresul_num);
 											<td><input type="checkbox" class="check" name="gd_id" value="<?php echo $row['gd_id']; ?>"></td>
 											<td><?= $sort_no ?></td>
 
-											<td style="font-size:12px;"><?= $row[title] ?></td>
+											<td style="font-size:12px;"><?= $row['title'] ?></td>
 											<td style="font-size:12px;"><?= $row['send_num'] ?></td>
 											<td style="font-size:12px;"><?= $krow[grp] ?></td>
 											<td style="font-size:12px;"><?= $row[total_count] ?></td>
@@ -211,7 +211,7 @@ $data = mysqli_fetch_array($sresul_num);
 											<td style="font-size:12px;"><?= $row['end_date'] ?></td>
 
 											<td><?= $row[reg_date] ?></td>
-											<!--<td><?= $row[status] ?></td>-->
+											<!--<td><?= $row['status'] ?></td>-->
 											<td>
 												<a href='daily_write.php?gd_id=<?php echo $row['gd_id']; ?>'>수정</a>/<a href="javascript:;;" onclick="deleteRow('<?php echo $row['gd_id']; ?>')">삭제</a>
 											</td>

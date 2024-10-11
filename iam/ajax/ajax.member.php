@@ -6,7 +6,7 @@ if($_REQUEST[nick])
 {	
 	$member_info[mem_nick]=htmlspecialchars($_REQUEST[nick]);
 	$member_info['mem_name']=htmlspecialchars($_REQUEST['name']);
-	$member_info[mem_email]=$_REQUEST[email_1]."@".$_REQUEST[email_2];
+	$member_info['mem_email']=$_REQUEST[email_1]."@".$_REQUEST[email_2];
 	$member_info[mem_add1]=$_REQUEST[add1];
 	$member_info[zy]=$_REQUEST[zy];
 	$member_info[mem_sch]=$_REQUEST[mem_sch];
@@ -18,7 +18,7 @@ if($_REQUEST[nick])
 	else
 		$member_info[is_message]="N";
 	if($_FILES[profile]) {
-    	$tempFile = $_FILES[profile][tmp_name];
+    	$tempFile = $_FILES[profile]['tmp_name'];
     	if($tempFile) {
     	    $file_arr=explode(".",$_FILES[profile]['name']);
     	    $tmp_file_arr=explode("/",$tempFile);
@@ -58,13 +58,13 @@ if($_REQUEST[nick])
 	 $sql.=" $key=$v $bd ";
 	 $i++;	 
 	}
-    $site = explode(".", $_SERVER[SERVER_NAME]);
+    $site = explode(".", $_SERVER['SERVER_NAME']);
 	$sql.=" where mem_code='$_REQUEST[join_modify]' ";
 	if(mysqli_query($self_con,$sql) or die(mysqli_error($self_con)))
 	{
-                $sql2 = "update Gn_Iam_Name_Card set card_email='$member_info[mem_email]',
-                                                     card_addr='$member_info[mem_add1]',
-                                                     card_company='$member_info[zy]'
+                $sql2 = "update Gn_Iam_Name_Card set card_email='{$member_info['mem_email']}',
+                                                     card_addr='{$member_info['mem_add1']}',
+                                                     card_company='{$member_info['zy']}'
                 where mem_id='$mem_id'";
                 $result2 = mysqli_query($self_con,$sql2) or die(mysqli_error($self_con));
 	    //메일, 주소, 소속직책

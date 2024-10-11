@@ -8,9 +8,9 @@ extract($_POST);
 
 $idx = $_POST["idx"]; 
 if($_POST['mode'] == "inser") {
-    $logo = gcUploadRename($_FILES['logo']["name"],$_FILES["logo"][tmp_name],$_FILES["logo"][size], "data/site");    
-    $main_image = gcUploadRename($_FILES['main_image']["name"],$_FILES["main_image"][tmp_name],$_FILES["main_image"][size], "data/site");    
-    $footer_image = gcUploadRename($_FILES['footer_image']["name"],$_FILES["footer_image"][tmp_name],$_FILES["footer_image"][size], "data/site");    
+    $logo = gcUploadRename($_FILES['logo']["name"],$_FILES["logo"]['tmp_name'],$_FILES["logo"]['size'], "data/site");    
+    $main_image = gcUploadRename($_FILES['main_image']["name"],$_FILES["main_image"]['tmp_name'],$_FILES["main_image"]['size'], "data/site");    
+    $footer_image = gcUploadRename($_FILES['footer_image']["name"],$_FILES["footer_image"]['tmp_name'],$_FILES["footer_image"]['size'], "data/site");    
         
     $query="insert into Gn_Service set `service_name`          ='$service_name', 
                                   `domain`      ='$domain', 
@@ -48,9 +48,9 @@ if($_POST['mode'] == "inser") {
                                  ";
     mysqli_query($self_con,$query);	
 } else if($_POST['mode'] == "updat") {
-    $logo = gcUploadRename($_FILES['logo']["name"],$_FILES["logo"][tmp_name],$_FILES["logo"][size], "data/site");    
-    $main_image = gcUploadRename($_FILES['main_image']["name"],$_FILES["main_image"][tmp_name],$_FILES["main_image"][size], "data/site");    
-    $footer_image = gcUploadRename($_FILES['footer_image']["name"],$_FILES["footer_image"][tmp_name],$_FILES["footer_image"][size], "data/site");    
+    $logo = gcUploadRename($_FILES['logo']["name"],$_FILES["logo"]['tmp_name'],$_FILES["logo"]['size'], "data/site");    
+    $main_image = gcUploadRename($_FILES['main_image']["name"],$_FILES["main_image"]['tmp_name'],$_FILES["main_image"]['size'], "data/site");    
+    $footer_image = gcUploadRename($_FILES['footer_image']["name"],$_FILES["footer_image"]['tmp_name'],$_FILES["footer_image"]['size'], "data/site");    
     $addQuery = "";
     if($logo)
         $addQuery .= "logo='$logo',";

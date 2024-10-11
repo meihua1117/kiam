@@ -182,7 +182,7 @@ ul{list-style:none;}
       
       <div style="font-weight: normal; text-align: left;"><img src="http://obmms.net/iam/img/frenz_num.PNG" width="400px"><br><br></div>
 
-      <div style=""><span style="font-family: 나눔고딕코딩, NanumGothicCoding, sans-serif; font-size: 14pt; color: rgb(0, 0, 0);">2. 위콘텐츠에서 홍보하기</span></div><br>
+      <div><span style="font-family: 나눔고딕코딩, NanumGothicCoding, sans-serif; font-size: 14pt; color: rgb(0, 0, 0);">2. 위콘텐츠에서 홍보하기</span></div><br>
       
       <span style="font-weight: normal; font-family: 나눔고딕코딩, NanumGothicCoding, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);">▷위콘텐츠는 10만명의 회원들이 자신의 아이엠에 올린 정보를 함께 공유하는 곳입니다.</span><br><span style="font-weight: normal; font-size: 12pt;">
 
@@ -193,7 +193,7 @@ ul{list-style:none;}
 
       <div style="font-weight: normal; text-align: left;"><img src="http://obmms.net/iam/img/wecontent.PNG" width="400px"></div><br>
 
-      <div style=""><span style="font-family: 나눔고딕코딩, NanumGothicCoding, sans-serif; font-size: 14pt; color: rgb(0, 0, 0);">3. 데일리발송으로 홍보하기</span></div><br>
+      <div><span style="font-family: 나눔고딕코딩, NanumGothicCoding, sans-serif; font-size: 14pt; color: rgb(0, 0, 0);">3. 데일리발송으로 홍보하기</span></div><br>
       
       <span style="font-weight: normal; font-family: 나눔고딕코딩, NanumGothicCoding, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);">▷데일리발송은 운영자님의 휴대폰 주소록에 있는 지인들에게 매일 지정한 인원에게 홍보하는 기능입니다.</span><br><span style="font-weight: normal; font-size: 12pt;">
 
@@ -204,7 +204,7 @@ ul{list-style:none;}
 
       <div style="font-weight: normal; text-align: left;"><img src="http://obmms.net/iam/img/dailysend.PNG" width="400px"></div><br>
 
-      <div style=""><span style="font-family: 나눔고딕코딩, NanumGothicCoding, sans-serif; font-size: 14pt; color: rgb(0, 0, 0);">4. 공유링크로 홍보하기</span></div><br>
+      <div><span style="font-family: 나눔고딕코딩, NanumGothicCoding, sans-serif; font-size: 14pt; color: rgb(0, 0, 0);">4. 공유링크로 홍보하기</span></div><br>
       
       <span style="font-weight: normal; font-family: 나눔고딕코딩, NanumGothicCoding, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);">▷공유기능에는 카톡, 문자, 데일리, 복사, 페북, 이메일로 홍보할수 있습니다.</span><br><span style="font-weight: normal; font-size: 12pt;">
 

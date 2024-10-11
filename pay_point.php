@@ -334,7 +334,7 @@ if(isset($_GET[url])){
                 </div>
             </div>
         </div>
-        <div class="pay" style="">
+        <div class="pay">
             <form name="pay_form" id="pay_form" method="post"> <!--승인요청 및 결과수신페이지 지정 //-->
                 <!--주문정보암호화필드-->
                 <input type="hidden" name="allat_enc_data" value=''>

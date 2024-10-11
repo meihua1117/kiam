@@ -113,7 +113,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                                     <input type="date" style="height: 30px" name="edate" placeholder="" id="search_end_date" value="<?=$_REQUEST['edate']?>"/>
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" name="search_key" id="search_key" class="form-control input-sm pull-right" style="" placeholder="검색키워드" value="<?=$search_key?>">
+                                    <input type="text" name="search_key" id="search_key" class="form-control input-sm pull-right" placeholder="검색키워드" value="<?=$search_key?>">
                                 </div>
                                 <div class="input-group-btn">
                                     <button class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>
@@ -207,7 +207,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                                     <td style="font-size:12px;"><?=$mem_row['site_iam']?></td>
                                     <td style="font-size:12px;">
                                         <a href="javascript:show_more('<?='title'.$i?>')"><?=cut_str($row['title'], 10)?></a>
-                                        <input type="hidden" id=<?='title'.$i?> value="<?=htmlspecialchars($row[title])?>">
+                                        <input type="hidden" id=<?='title'.$i?> value="<?=htmlspecialchars($row['title'])?>">
                                     </td>
                                     <td style="font-size:12px;">
                                         <a href="javascript:show_more('<?='desc'.$i?>')"><?=cut_str($row['descript'], 10)?></a>

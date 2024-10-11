@@ -564,7 +564,7 @@ $row_content = mysqli_fetch_array($res_content);
                                 <th class="w200">[발송폰선택]</th>
                                 <td>
                                     <select name="send_num" id="send_num">
-                                        <option value="<?= str_replace("-", "", $data[mem_phone]) ?>"><?php echo str_replace("-", "", $data['mem_phone']); ?></option>
+                                        <option value="<?= str_replace("-", "", $data['mem_phone']) ?>"><?php echo str_replace("-", "", $data['mem_phone']); ?></option>
                                         <?php
                                         $query = "select * from Gn_MMS_Number where mem_id='{$_SESSION['one_member_id']}' order by sort_no asc, user_cnt desc , idx desc";
                                         $resul = mysqli_query($self_con,$query);
@@ -730,7 +730,7 @@ $row_content = mysqli_fetch_array($res_content);
                             } ?>
                             <tr class="msg_info" <?= $hide_msg ?>>
                                 <th class="w200">[메시지제목]</th>
-                                <td><input type="text" name="title" onclick="check_apply()" itemname='문자 제목' required placeholder="문자 제목 입력" style="width:40%;" value="<?= $row[title] ? $row[title] : $row_title[0] ?>" /></td>
+                                <td><input type="text" name="title" onclick="check_apply()" itemname='문자 제목' required placeholder="문자 제목 입력" style="width:40%;" value="<?= $row['title'] ? $row['title'] : $row_title[0] ?>" /></td>
                             </tr>
                             <tr class="msg_info" <?= $hide_msg ?>>
                                 <th class="w200">[메시지내용]</th>
@@ -943,7 +943,7 @@ $row_content = mysqli_fetch_array($res_content);
             <tbody>
                 <tr class="hide_spec">
                     <td>
-                        <div style="">
+                        <div>
                             <ul id="date_list" style="margin-left:10px;padding:0px;">
                                 <?php
                                 if (isset($_GET[address_cnt])) {

@@ -38,10 +38,10 @@ if(strlen($_SESSION['one_member_id']) > 0) {
 					->setCellValue("A$h",$sort_no)
 					->setCellValue("B$h",$row['send_num'])
 					->setCellValue("C$h",$row['recv_num'])
-					->setCellValue("D$h",$row[title])
+					->setCellValue("D$h",$row['title'])
 					->setCellValue("E$h",$row['content'])
 					->setCellValue("F$h",$row[jpg])
-					->setCellValue("G$h",$row[status])
+					->setCellValue("G$h",$row['status'])
 					->setCellValue("H$h",$row[reg_date]);
 			$h++;
 			$sort_no--;

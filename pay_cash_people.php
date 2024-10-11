@@ -25,8 +25,8 @@ $pay_info['VACT_InputName'] =$member_iam['mem_name'];
 $pay_info['TotPrice'] = $_POST['allat_amt']; //금액
 $pay_info['month_cnt'] = $_POST['month_cnt'];
 $pay_info['end_status'] = "N";
-$pay_info['buyertel'] = $member_iam[mem_phone]; //구매자 전화번호
-$pay_info['buyeremail'] = $member_iam[mem_email]; //구매자 연락처
+$pay_info['buyertel'] = $member_iam['mem_phone']; //구매자 전화번호
+$pay_info['buyeremail'] = $member_iam['mem_email']; //구매자 연락처
 $pay_info['payMethod'] = "BANK";
 $pay_info['buyer_id'] = $member_iam['mem_id'];
 $pay_info['member_type'] = $_POST['member_type'];
@@ -82,9 +82,9 @@ if($crow[0] == "") {
     $email=$srow['mem_email'];
     $address=$srow['mem_add1'];
     $status="N";
-    $use_cnt = $_POST[db_cnt];
+    $use_cnt = $_POST['db_cnt'];
     $search_email_date = substr($last_time,0,10);
-    $search_email_cnt = $_POST[email_cnt];
+    $search_email_cnt = $_POST['email_cnt'];
     $term = substr($last_time,0,10);
     $query = "insert into crawler_member_real set user_id='$user_id',
                                         user_name='$user_name',

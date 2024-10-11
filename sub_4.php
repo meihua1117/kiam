@@ -10,7 +10,7 @@ location.replace('/ma.php');
 <?
 exit;
 }
-switch($_REQUEST[status])
+switch($_REQUEST['status'])
 {
 	case 1:
 		$left_str="휴대폰등록관리";
@@ -34,7 +34,7 @@ switch($_REQUEST[status])
 		$left_str="휴대폰등록관리";
 	break;
 }
-if($_REQUEST[status]==1 || $_REQUEST[status]==2)
+if($_REQUEST['status']==1 || $_REQUEST['status']==2)
 {
 	///금일발송가능 , 회발송가능 횟수
 	$sql_sum = "select sum(user_cnt) as sumnum, sum(max_cnt) as summax ,sum(gl_cnt) as sumgl from Gn_MMS_Number where mem_id = '{$_SESSION['one_member_id']}'";
@@ -162,7 +162,7 @@ $(function(){
 		<div class="m_div sub_4c" >
 			<form name="sub_4_form" action="" method="post" enctype="multipart/form-data">            
 			<?
-				switch($_REQUEST[status])
+				switch($_REQUEST['status'])
 				{
 					case 1:
 						$sql_serch=" mem_id ='{$_SESSION['one_member_id']}' ";
@@ -527,7 +527,7 @@ $(function(){
 										</div>                                    
 									</div>
 									<div class="a4">                                
-										<div class="div_2px"><input type="text" name="title" itemname='제목' required placeholder="제목" style="width:100%;" value="<?=$_REQUEST[title]?>" /></div>
+										<div class="div_2px"><input type="text" name="title" itemname='제목' required placeholder="제목" style="width:100%;" value="<?=$_REQUEST['title']?>" /></div>
 										<div class="div_2px">
 											<textarea name="txt" itemname='내용' id='txt' required placeholder="내용" onkeydown="textCounter(sub_4_form.txt,'wenzi_cnt',2000,0);" onkeyup="textCounter(sub_4_form.txt,'wenzi_cnt',2000,0);type_check();" onfocus="textCounter(sub_4_form.txt,'wenzi_cnt',2000,0);type_check();"><?=$_REQUEST[txt]?></textarea>
 											<input type="hidden" name="onebook_status" value="N" />
@@ -838,7 +838,7 @@ $(function(){
 										<div class="sub_4_3_t2_right_1">
 											<div class="sub_4_3_t2_right_1_1">
 												<div style="margin-bottom:2px;">
-												<input type="text" name="title" placeholder="제목" value="<?=$row[title]?>" />
+												<input type="text" name="title" placeholder="제목" value="<?=$row['title']?>" />
 												</div>
 												<div>
 												<textarea name="lms_content" placeholder="내용" onkeydown="textCounter(document.getElementsByName('lms_content')[<?=$i?>],'wenzi_cnt',2000,'<?=$i?>')" onkeyup="textCounter(document.getElementsByName('lms_content')[<?=$i?>],'wenzi_cnt',2000,'<?=$i?>')"><?=$row[message]?></textarea>
@@ -953,7 +953,7 @@ $(function(){
 									<div class="sub_4_3_t2_right_1">
 										<div class="sub_4_3_t2_right_1_1">
                                         	<div style="margin-bottom:2px;">
-                                        	<input type="text" name="title" placeholder="제목" value="<?=$row[title]?>" />
+                                        	<input type="text" name="title" placeholder="제목" value="<?=$row['title']?>" />
                                             </div>
 											<div class="img_view_1"><img src="<?=$row[img]?>" /></div>
                                             <div><input type="file" name="upimage[]" onChange="sub_4_form.action='up_image2.php?i=<?=$i?>';sub_4_form.target='excel_iframe';sub_4_form.submit();" /></div>
@@ -1070,7 +1070,7 @@ $(function(){
                                     <tr>
                                         <td><input type="checkbox" value="<?=$row['idx']?>" name="one_idx" /></td>
                                         <td><?=$sort_no?></td>
-                                        <td><a href="javascript:void(0)" onclick="show_recv('show_title','<?=$c?>','원북저장-제목')"><?=$row[title]?></a><input type="hidden" name="show_title" value="<?=$row[title]?>" /></td>
+                                        <td><a href="javascript:void(0)" onclick="show_recv('show_title','<?=$c?>','원북저장-제목')"><?=$row['title']?></a><input type="hidden" name="show_title" value="<?=$row['title']?>" /></td>
                                         <td style="text-align:left;"><a href="javascript:void(0)" onclick="show_recv('show_message','<?=$c?>','원북저장-내용')"><?=str_substr($row[message],0,50,"utf-8")?></a><input type="hidden" name="show_message" value="<?=$row[message]?>" /></td>
                                         <td><?=substr($row[reg_date],0,16)?></td>                                        
                                     </tr>
@@ -1319,7 +1319,7 @@ $(function(){
 	                                        <td><?=$row['send_num']?></td>
 											<td style="font-size:12px;"><a href="javascript:void(0)" onclick="show_recv('show_recv_num','<?=$c?>','수신번호')"><?=str_substr($row['recv_num'],0,14,'utf-8')?>
 												<?=$row[reservation]?"<br>".$row[reservation]:""?></a> <span style="color:#F00;">(<?=count($recv_cnt)?>)</span><input type="hidden" name="show_recv_num" value="<?=$row['recv_num']?>"/></td>
-											<td><a href="javascript:void(0)" onclick="show_recv('show_title','<?=$c?>','문자제목')"><?=str_substr($row[title],0,14,'utf-8')?></a><input type="hidden" name="show_title" value="<?=$row[title]?>"/></td>
+											<td><a href="javascript:void(0)" onclick="show_recv('show_title','<?=$c?>','문자제목')"><?=str_substr($row['title'],0,14,'utf-8')?></a><input type="hidden" name="show_title" value="<?=$row['title']?>"/></td>
 											<td style="font-size:12px;"><a href="javascript:void(0)" onclick="show_recv('show_content','<?=$c?>','문자내용')"><?=str_substr($row['content'],0,30,'utf-8')?></a><input type="hidden" name="show_content" value="<?=$row['content']?>"/></td>
 											<?if($_REQUEST['status2']=='2'){?>
 		                                    <td style="width:5%;"><?if($row['up_date']!=''&&$row[result]==0){?>완료<?}elseif($row['up_date']==''&&$row[result]==1){?>대기<?}elseif($row[result]==3){?>실패<?}?></td>
@@ -1724,7 +1724,7 @@ $(function(){
 										<td class="g_dt_name_<?=$i?>" style="display:none;"><input type="text" value="<?=$row['send_num']?>" name="deny_send" /> </td>
                                         <td class="g_dt_num_<?=$i?>"><?=$row['recv_num']?></td>
                                         <td class="g_dt_num_<?=$i?>" style="display:none"><input type="text" value="<?=$row['recv_num']?>" name="deny_recv" /></td>                                        
-                                        <td><a href="javascript:void(0)" onclick="show_recv('show_title','<?=$i?>','문자제목')"><?=str_substr($row[title],0,20,'utf-8')?></a><input type="hidden" name="show_title" value="<?=$row[title]?>"/></td>
+                                        <td><a href="javascript:void(0)" onclick="show_recv('show_title','<?=$i?>','문자제목')"><?=str_substr($row['title'],0,20,'utf-8')?></a><input type="hidden" name="show_title" value="<?=$row['title']?>"/></td>
                                         <td><a href="javascript:void(0)" onclick="show_recv('show_content','<?=$i?>','문자내용')"><?=str_substr($row['content'],0,30,'utf-8')?></a><input type="hidden" name="show_content" value="<?=$row['content']?>"/></td>
                                         <td><a href="javascript:void(0)" onclick="show_recv('show_jpg','<?=$c?>','첨부파일')"><?=str_substr($row[jpg],0,20,'utf-8')?></a><input type="hidden" name="show_jpg" value="<?=$row[jpg]?>"/></td>
 
@@ -1746,10 +1746,10 @@ $(function(){
 											}
 											?>
 										</td>
-										<td><?=$deny_type_arr[$row[status]]?></td>
+										<td><?=$deny_type_arr[$row['status']]?></td>
                                         <td><?=substr($row[reg_date],0,16)?></td>
                                         <td>
-                                        <a href="javascript:void(0)" class="modify_btn_<?=$i?> a_btn_2" style="" onclick="g_dt_show_cencle('g_dt_name_','g_dt_num_','modify_btn_','<?=$i?>')">수정</a>
+                                        <a href="javascript:void(0)" class="modify_btn_<?=$i?> a_btn_2" onclick="g_dt_show_cencle('g_dt_name_','g_dt_num_','modify_btn_','<?=$i?>')">수정</a>
                                         <a href="javascript:void(0)" class="modify_btn_<?=$i?> a_btn_2" style="display:none;" onclick="deny_add(sub_4_form,'<?=$i?>','<?=$row['idx']?>', <?=$row[chanel_type]?>)">수정</a>
                                         <a href="javascript:void(0)" onclick="deny_del('<?=$row['idx']?>')" class="a_btn_2">삭제</a>                                        
                                         </td>

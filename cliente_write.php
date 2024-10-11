@@ -7,7 +7,7 @@ $member = mysqli_fetch_array($result);
 $phone = explode("-", $member['mem_phone']);
 $email = explode("@", $member['mem_email']);
 
-if ($_REQUEST[status] == 1 && $member_1['mem_id'] != 'obmms02') {
+if ($_REQUEST['status'] == 1 && $member_1['mem_id'] != 'obmms02') {
 ?>
     <script language="javascript">
         location.replace('/ma.php');
@@ -23,7 +23,7 @@ if (!$_SESSION['one_member_id']) {
 <?
     exit;
 }
-switch ($_REQUEST[status]) {
+switch ($_REQUEST['status']) {
     case 1:
         $left_str = "공지사항";
         break;
@@ -40,7 +40,7 @@ switch ($_REQUEST[status]) {
 if ($_REQUEST['one_no'])
     $up_path = $row_no[up_path];
 else
-    $up_path = "one_" . $_REQUEST[status];
+    $up_path = "one_" . $_REQUEST['status'];
 ?>
 <div class="big_main">
     <div class="big_1">
@@ -48,7 +48,7 @@ else
             <div class="left_sub_menu">
                 <a href="./">홈</a> >
                 <a href="cliente_list.php?status=1">고객센터</a> >
-                <a href="cliente_list.php?status=<?= $_REQUEST[status] ?>"><?= $left_str ?></a>
+                <a href="cliente_list.php?status=<?= $_REQUEST['status'] ?>"><?= $left_str ?></a>
             </div>
             <div class="right_sub_menu">
                 <a href="cliente_list.php?status=1">공지사항</a> &nbsp;|&nbsp;
@@ -60,7 +60,7 @@ else
         </div>
     </div>
     <div class="m_div" style="padding-bottom:50px;">
-        <div><img src="images/client_<?= $_REQUEST[status] ?>_1.jpg" /></div>
+        <div><img src="images/client_<?= $_REQUEST['status'] ?>_1.jpg" /></div>
         <div class="client">
             <div class="a1"><?= $left_str ?> 글쓰기</div>
             <div>
@@ -68,17 +68,17 @@ else
                     <table class="write_table" width="100%" border="0" cellspacing="0" cellpadding="0">
                         <tr>
                             <td>제목</td>
-                            <td><input type="text" style="width:90%;" name="title" value="<?= $row_no[title] ?>" required itemname='제목' /></td>
+                            <td><input type="text" style="width:90%;" name="title" value="<?= $row_no['title'] ?>" required itemname='제목' /></td>
                         </tr>
                         <?
-                        if ($_REQUEST[status] == 2) {
+                        if ($_REQUEST['status'] == 2) {
                         ?>
                             <tr>
                                 <td>분류</td>
                                 <td>
                                     <?
                                     foreach ($fl_arr as $key => $v) {
-                                        $checked = $row_no[fl] == $key ? "checked" : "";
+                                        $checked = $row_no['fl'] == $key ? "checked" : "";
                                     ?>
                                         <label><input type="radio" value="<?= $key ?>" name="fl" <?= $checked ?> /><?= $v ?></label> &nbsp;
                                     <?
@@ -88,7 +88,7 @@ else
                             </tr>
                         <?
                         }
-                        if ($_REQUEST[status] != 1) {
+                        if ($_REQUEST['status'] != 1) {
                         ?>
                             <tr>
                                 <td>아이디</td>
@@ -151,8 +151,8 @@ else
                         </tr>
                         <tr>
                             <td colspan="2" style="text-align:right;">
-                                <a href="javascript:void(0)" onclick="board_save(board_write_form,'<?= $row_no['no'] ?>','<?= $_REQUEST[status] ?>')"><img src="images/client_2_3.jpg" /></a>
-                                <a href="cliente_list.php?status=<?= $_REQUEST[status] ?>"><img src="images/client_2_4.jpg" /></a>
+                                <a href="javascript:void(0)" onclick="board_save(board_write_form,'<?= $row_no['no'] ?>','<?= $_REQUEST['status'] ?>')"><img src="images/client_2_3.jpg" /></a>
+                                <a href="cliente_list.php?status=<?= $_REQUEST['status'] ?>"><img src="images/client_2_4.jpg" /></a>
                             </td>
                         </tr>
                     </table>

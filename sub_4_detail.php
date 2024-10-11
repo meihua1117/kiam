@@ -10,7 +10,7 @@ location.replace('/ma.php');
 <?
 exit;
 }
-switch($_REQUEST[status])
+switch($_REQUEST['status'])
 {
 	case 1:
 		$left_str="휴대폰등록관리";
@@ -34,7 +34,7 @@ switch($_REQUEST[status])
 		$left_str="휴대폰등록관리";
 	break;
 }
-if($_REQUEST[status]==1 || $_REQUEST[status]==2)
+if($_REQUEST['status']==1 || $_REQUEST['status']==2)
 {
 ///금일발송가능 , 회발송가능 횟수
 	$sql_sum = "select sum(user_cnt) as sumnum, sum(max_cnt) as summax ,sum(gl_cnt) as sumgl from Gn_MMS_Number where mem_id = '{$_SESSION['one_member_id']}'";
@@ -230,7 +230,7 @@ function arr_del($list_arr, $del_value) // 배열, 삭제할 값
 	                                        <td><?=$row['send_num']?></td>
 	                                        <td><?=$row['recv_num']?></td>
 	                                        <td><?=$row['regdate']?></td>
-	                                        <td><?=$row[status]=="0"?"성공":"실패"?></td>
+	                                        <td><?=$row['status']=="0"?"성공":"실패"?></td>
  
 										</tr>
 										<?

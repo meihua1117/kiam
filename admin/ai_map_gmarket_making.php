@@ -79,7 +79,7 @@ $round_num = (int)$id + 1;
             <div class="row">
                 <div class="box">
                     <div class="box-body">
-                        <table class="table table-bordered table-striped" style="" id="gm_iam">
+                        <table class="table table-bordered table-striped" id="gm_iam">
                             <colgroup>
                                 <col width="60px">
                                 <col width="100px">

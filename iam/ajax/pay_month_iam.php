@@ -65,9 +65,9 @@ if($_POST['phone_cnt'] > 0) {
         $email = $srow['mem_email'];
         $address = $srow['mem_add1'];
         $status = "N";
-        $use_cnt = $_POST[db_cnt];
+        $use_cnt = $_POST['db_cnt'];
         $search_email_date = substr($last_time, 0, 10);
-        $search_email_cnt = $_POST[email_cnt];
+        $search_email_cnt = $_POST['email_cnt'];
         $term = substr($last_time, 0, 10);
         $query = "insert into crawler_member_real set user_id='$user_id',
                                             user_name='$user_name',

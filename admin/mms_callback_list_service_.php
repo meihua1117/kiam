@@ -356,7 +356,7 @@ a.sort-by:after {
                         <td><?php echo cut_str($row['title'], 25)?></td>
                         <td><?php echo cut_str($row['content'], 60)?></td>
                         <td>
-                          <div style="">
+                          <div>
                           <?
                           if($row['img']){
                             $thumb_img =  $row['img'];

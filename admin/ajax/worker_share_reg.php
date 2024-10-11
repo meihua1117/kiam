@@ -58,7 +58,7 @@ if($mode == "check_info_exist"){
     $res_mem_data = mysqli_query($self_con,$sql_mem_data);
     $row_mem_data = mysqli_fetch_array($res_mem_data);
 
-    echo '{"mem_phone":"'.$row_mem_data[mem_phone].'", "mem_add1":"'.$row_mem_data[mem_add1].'", "bank_name":"'.$row_mem_data[bank_name].'", "bank_owner":"'.$row_mem_data[bank_owner].'", "bank_account":"'.$row_mem_data[bank_account].'", "mem_email":"'.$row_mem_data[mem_email].'"}';
+    echo '{"mem_phone":"'.$row_mem_data['mem_phone'].'", "mem_add1":"'.$row_mem_data[mem_add1].'", "bank_name":"'.$row_mem_data[bank_name].'", "bank_owner":"'.$row_mem_data[bank_owner].'", "bank_account":"'.$row_mem_data[bank_account].'", "mem_email":"'.$row_mem_data['mem_email'].'"}';
 }
 if($mode == "update_member_info"){
     $sql_req_data = "select site, site_iam from Gn_Member where mem_id='{$req_id}'";

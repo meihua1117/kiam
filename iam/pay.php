@@ -1309,7 +1309,7 @@ if($platform == "mobile"){
                     <!--현금 영수증 발급 여부-->
                     <input type="hidden" name="allat_cash_yn" value="" size="19" maxlength=1>
                     <!--결제 정보 수신 E-mail-->
-                    <input type="hidden" name="allat_email_addr" id="allat_email_addr"  size="19" maxlength=50  value="<?php echo $data['mem_email']?$data[mem_email]:"turbolight@daum.net";?>">
+                    <input type="hidden" name="allat_email_addr" id="allat_email_addr"  size="19" maxlength=50  value="<?php echo $data['mem_email']?$data['mem_email']:"turbolight@daum.net";?>">
                     <!--테스트 여부 테스트(Y),서비스(N) - Default : N 테스트 결제는 실결제가 나지 않으며 테스트 성공시 결과값은 "0001" 리턴-->
                     <input type="hidden" name="allat_test_yn" value="N" size="19" maxlength=1>
                     <!--상품 실물 여부-->
@@ -1397,12 +1397,12 @@ if($platform == "mobile"){
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td class="colored fw-bold" colspan="3" style="">
+                                                <td class="colored fw-bold" colspan="3">
                                                     <span style="font-size:12px">광고없는 IAM카드와 자동화솔루션 이용</span>
                                                 </td>
                                             </tr>
                                             <tr class="all-sta collapse in">
-                                                <td class="colored fw-bold" colspan="3" style="">
+                                                <td class="colored fw-bold" colspan="3">
                                                     <span style="font-size:14px">IAM카드</span>
                                                 </td>
                                             </tr>
@@ -1449,7 +1449,7 @@ if($platform == "mobile"){
                                                 <td colspan="2">X</td>
                                             </tr>
                                             <tr class="all-sta collapse in">
-                                                <td class="colored fw-bold" colspan="3" style="">
+                                                <td class="colored fw-bold" colspan="3">
                                                     <span style="font-size:14px">IAM콜백</span>
                                                 </td>
                                             </tr>
@@ -1462,7 +1462,7 @@ if($platform == "mobile"){
                                                 <td colspan="2">X</td>
                                             </tr>
                                             <tr class="all-sta collapse in">
-                                                <td class="colored fw-bold" colspan="3" style="">
+                                                <td class="colored fw-bold" colspan="3">
                                                     <span style="font-size:14px">IAM문자</span>
                                                 </td>
                                             </tr>
@@ -1477,7 +1477,7 @@ if($platform == "mobile"){
                                                 </td>
                                             </tr>
                                             <tr class="all-sta collapse in">
-                                                <td class="colored fw-bold" colspan="3" style="">
+                                                <td class="colored fw-bold" colspan="3">
                                                     <span style="font-size:14px">IAM디버</span>
                                                 </td>
                                             </tr>
@@ -1494,7 +1494,7 @@ if($platform == "mobile"){
                                                 <td colspan="2">무제한</td>
                                             </tr>
                                             <tr class="all-sta collapse in">
-                                                <td class="colored fw-bold" colspan="3" style="">
+                                                <td class="colored fw-bold" colspan="3">
                                                     <span style="font-size:14px">IAM스탭</span>
                                                 </td>
                                             </tr>
@@ -1542,12 +1542,12 @@ if($platform == "mobile"){
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td class="colored fw-bold" colspan="3" style="">
+                                                <td class="colored fw-bold" colspan="3">
                                                     <span style="font-size:12px">IAM멀티플랫폼과 자동화솔루션 이용</span>
                                                 </td>
                                             </tr>
                                             <tr class="all-pro collapse in">
-                                                <td class="colored fw-bold" colspan="3" style="">
+                                                <td class="colored fw-bold" colspan="3">
                                                     <span style="font-size:14px">IAM카드</span>
                                                 </td>
                                             </tr>
@@ -1594,7 +1594,7 @@ if($platform == "mobile"){
                                                 <td colspan="2"><?=$pay_row[1][domain] == "Y"?"O":"X"?></td>
                                             </tr>
                                             <tr class="all-pro collapse in">
-                                                <td class="colored fw-bold" colspan="3" style="">
+                                                <td class="colored fw-bold" colspan="3">
                                                     <span style="font-size:14px">IAM콜백</span>
                                                 </td>
                                             </tr>
@@ -1607,7 +1607,7 @@ if($platform == "mobile"){
                                                 <td colspan="2">무제한</td>
                                             </tr>
                                             <tr class="all-pro collapse in">
-                                                <td class="colored fw-bold" colspan="3" style="">
+                                                <td class="colored fw-bold" colspan="3">
                                                     <span style="font-size:14px">IAM문자</span>
                                                 </td>
                                             </tr>
@@ -1626,7 +1626,7 @@ if($platform == "mobile"){
                                                 </td>
                                             </tr>
                                             <tr class="all-pro collapse in">
-                                                <td class="colored fw-bold" colspan="3" style="">
+                                                <td class="colored fw-bold" colspan="3">
                                                     <span style="font-size:14px">IAM디버</span>
                                                     <input type="button" value="+" id="plus_btn_db" class="db_plus"/>
                                                     <input type="button" value="-" id="minus_btn_db" class="db_minus"/>
@@ -1645,7 +1645,7 @@ if($platform == "mobile"){
                                                 <td colspan="2"><?=$pay_row[1][normal_number] == "Y"?"무제한":"불가"?></td>
                                             </tr>
                                             <tr class="all-pro collapse in">
-                                                <td class="colored fw-bold" colspan="3" style="">
+                                                <td class="colored fw-bold" colspan="3">
                                                     <span style="font-size:14px">IAM스탭</span>
                                                 </td>
                                             </tr>
@@ -1694,12 +1694,12 @@ if($platform == "mobile"){
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td class="colored fw-bold" colspan="3" style="">
+                                                <td class="colored fw-bold" colspan="3">
                                                     <span style="font-size:12px">IAM멀티플랫폼으로 비즈니스하기</span>
                                                 </td>
                                             </tr>
                                             <tr class="all-ent collapse">
-                                                <td class="colored fw-bold" colspan="3" style="">
+                                                <td class="colored fw-bold" colspan="3">
                                                     <span style="font-size:14px">IAM카드</span>
                                                 </td>
                                             </tr>
@@ -1746,7 +1746,7 @@ if($platform == "mobile"){
                                                 <td colspan="2"><?=$pay_row[2][domain] == "Y"?"O":"X"?></td>
                                             </tr>
                                             <tr class="all-ent collapse">
-                                                <td class="colored fw-bold" colspan="3" style="">
+                                                <td class="colored fw-bold" colspan="3">
                                                     <span style="font-size:14px">IAM콜백</span>
                                                 </td>
                                             </tr>
@@ -1759,7 +1759,7 @@ if($platform == "mobile"){
                                                 <td colspan="2">X</td>
                                             </tr>
                                             <tr class="all-ent collapse">
-                                                <td class="colored fw-bold" colspan="3" style="">
+                                                <td class="colored fw-bold" colspan="3">
                                                     <span style="font-size:14px">IAM문자</span>
                                                 </td>
                                             </tr>
@@ -1778,7 +1778,7 @@ if($platform == "mobile"){
                                                 </td-->
                                             </tr>
                                             <tr class="all-ent collapse">
-                                                <td class="colored fw-bold" colspan="3" style="">
+                                                <td class="colored fw-bold" colspan="3">
                                                     <span style="font-size:14px">IAM디버</span>
                                                     <!--input type="button" value="+" id="plus_btn_db" class="db_plus"/>
                                                     <input type="button" value="-" id="minus_btn_db" class="db_minus"/-->
@@ -1797,7 +1797,7 @@ if($platform == "mobile"){
                                                 <td colspan="2"><?=$pay_row[2][normal_number] == "Y"?"무제한":"불가"?></td>
                                             </tr>
                                             <tr class="all-ent collapse">
-                                                <td class="colored fw-bold" colspan="3" style="">
+                                                <td class="colored fw-bold" colspan="3">
                                                     <span style="font-size:14px">IAM스탭</span>
                                                 </td>
                                             </tr>
@@ -1849,12 +1849,12 @@ if($platform == "mobile"){
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td class="colored active fw-bold" colspan="3" style="">
+                                                <td class="colored active fw-bold" colspan="3">
                                                     <span style="font-size:12px">IAM멀티플랫폼으로 비즈니스하기</span>
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td class="colored active fw-bold" colspan="3" style="">
+                                                <td class="colored active fw-bold" colspan="3">
                                                     <span style="font-size:14px">IAM카드</span>
                                                 </td>
                                             </tr>
@@ -1901,7 +1901,7 @@ if($platform == "mobile"){
                                                 <td colspan="2"><?=$pay_row[3][domain] == "Y"?"O":"X"?></td>
                                             </tr>
                                             <tr>
-                                                <td class="colored active fw-bold" colspan="3" style="">
+                                                <td class="colored active fw-bold" colspan="3">
                                                     <span style="font-size:14px">IAM콜백</span>
                                                 </td>
                                             </tr>
@@ -1914,7 +1914,7 @@ if($platform == "mobile"){
                                                 <td colspan="2">무제한</td>
                                             </tr>
                                             <tr>
-                                                <td class="colored active fw-bold" colspan="3" style="">
+                                                <td class="colored active fw-bold" colspan="3">
                                                     <span style="font-size:14px">IAM문자</span>
                                                 </td>
                                             </tr>
@@ -1933,7 +1933,7 @@ if($platform == "mobile"){
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td class="colored active fw-bold" colspan="3" style="">
+                                                <td class="colored active fw-bold" colspan="3">
                                                     <span style="font-size:14px">IAM디버</span>
                                                     <input type="button" value="+" id="plus_btn_db" class="db_plus"/>
                                                     <input type="button" value="-" id="minus_btn_db" class="db_minus"/>
@@ -1952,7 +1952,7 @@ if($platform == "mobile"){
                                                 <td colspan="2"><?=$pay_row[3][normal_number] == "Y"?"무제한":"불가"?></td>
                                             </tr>
                                             <tr>
-                                                <td class="colored active fw-bold" colspan="3" style="">
+                                                <td class="colored active fw-bold" colspan="3">
                                                     <span style="font-size:14px">IAM스탭</span>
                                                 </td>
                                             </tr>
@@ -2004,12 +2004,12 @@ if($platform == "mobile"){
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td class="colored fw-bold" colspan="3" style="">
+                                                <td class="colored fw-bold" colspan="3">
                                                     <span style="font-size:12px">공개된 디비수집으로 타겟 마케팅하기</span>
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td class="colored active fw-bold" colspan="3" style="">
+                                                <td class="colored active fw-bold" colspan="3">
                                                     <span style="font-size:14px">IAM디버</span>
                                                 </td>
                                             </tr>
@@ -2123,7 +2123,7 @@ if($platform == "mobile"){
         <div id="detail_intro_modal" class="modal fade" tabindex="-1" role="dialog" style="overflow-x: auto; overflow-y: auto;">
             <div class="modal-dialog" style="width: 100%;max-width:768px;">
                 <!-- Modal content-->
-                <div class="modal-content" style="">
+                <div class="modal-content">
                     <div class="modal-header" style="border:none;background-color: rgb(130,199,54);border-top-right-radius: 5px;border-top-left-radius: 5px;">
                         <div>
                             <button type="button" class="close" data-dismiss="modal" style="opacity: 2">
@@ -2165,7 +2165,7 @@ if($platform == "mobile"){
         <div id="penalty_modal" class="modal fade" tabindex="-1" role="dialog" style="overflow-x: auto; overflow-y: auto;">
             <div class="modal-dialog" style="width: 100%;max-width:768px;">
                 <!-- Modal content-->
-                <div class="modal-content" style="">
+                <div class="modal-content">
                     <div class="modal-header" style="border:none;background-color: rgb(130,199,54);border-top-right-radius: 5px;border-top-left-radius: 5px;">
                         <div>
                             <button type="button" class="close" data-dismiss="modal" style="opacity: 2">
@@ -2252,7 +2252,7 @@ if($platform == "mobile"){
 <div id="iam_info_modal" class="modal fade" tabindex="-1" role="dialog" style="overflow-x: auto; overflow-y: auto;">
     <div class="modal-dialog" style="width: 100%;max-width:768px;">
         <!-- Modal content-->
-        <div class="modal-content" style="">
+        <div class="modal-content">
             <div class="modal-header" style="border:none;background-color: rgb(130,199,54);border-top-right-radius: 5px;border-top-left-radius: 5px;">
                 <div>
                     <button type="button" class="close" data-dismiss="modal" style="opacity: 2">

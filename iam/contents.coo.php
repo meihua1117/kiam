@@ -9,7 +9,7 @@ if ($HTTP_HOST != "kiam.kr") {//분양사사이트이면
 	$query = "select * from Gn_Iam_Service where sub_domain like 'http://www.kiam.kr'";
 	$res = mysqli_query($self_con,$query);
 	$domainData = mysqli_fetch_array($res);
-	$domainData[sub_domain] = "http://kiam.kr/";
+	$domainData['sub_domain'] = "http://kiam.kr/";
 }
 $mem_sql = "select mem_code from Gn_Member where mem_id = '{$domainData['mem_id']}'";
 $mem_result=mysqli_query($self_con,$mem_sql);
@@ -303,7 +303,7 @@ $meta_desc = $meta_row[contents_desc];
 			</div>
 			<div class="button-wrap">
 				<?if($_SESSION['iam_member_id']) {
-						$iam_link = $domainData[sub_domain]."/iam/?".$cur_card_short_url;
+						$iam_link = $domainData['sub_domain']."/iam/?".$cur_card_short_url;
 					?>
 					<a href="#" id="closePopup" class="buttons is-cancel">다음에보내기</a>
 					<a  id="popup5_content" href="#" target="_blank" class="buttons is-save">시작하기</a>
@@ -344,7 +344,7 @@ $meta_desc = $meta_row[contents_desc];
 		$(".popup5").center();
 		$('.popup5').css('display', 'block');
 		var iam_link = "daily_write_iam.php?msg_title=콘텐츠 제목을 가져와서 디폴트로 입력해주세요."+"&msg=아래 내용을 디폴트로 넣어주세요.멋진 콘텐츠를 소개합니다.  "+
-					"<?=$domainData[sub_domain]."/iam/contents.php?contents_idx =".$contents_idx?>";
+					"<?=$domainData['sub_domain']."/iam/contents.php?contents_idx =".$contents_idx?>";
 		$("#popup5_content").attr("href",iam_link);
 	}
 	function daily_send_pop_close() {
@@ -387,7 +387,7 @@ $meta_desc = $meta_row[contents_desc];
 		}
 	function contents_sendSMS(){
 		$("#sns-modalwindow").modal("hide");
-		location.href="sms:?body=<?php echo $domainData[sub_domain];?>/iam/contents.php?contents_idx=" + j_idx;
+		location.href="sms:?body=<?php echo $domainData['sub_domain'];?>/iam/contents.php?contents_idx=" + j_idx;
 	}
 	function sns_shareInsta(){
 		$("#sns-modalwindow").modal("hide");
@@ -419,15 +419,15 @@ $meta_desc = $meta_row[contents_desc];
 					description: desc, // 콘텐츠 상세설명
 					imageUrl: img, // 썸네일 이미지
 					link: {
-						mobileWebUrl: '<?php echo $domainData[sub_domain];?>/iam/contents.php?contents_idx=' + idx, // 모바일 카카오톡에서 사용하는 웹 링크 URL
-						webUrl: '<?php echo $domainData[sub_domain];?>/iam/contents.php?contents_idx=' + idx // PC버전 카카오톡에서 사용하는 웹 링크 URL
+						mobileWebUrl: '<?php echo $domainData['sub_domain'];?>/iam/contents.php?contents_idx=' + idx, // 모바일 카카오톡에서 사용하는 웹 링크 URL
+						webUrl: '<?php echo $domainData['sub_domain'];?>/iam/contents.php?contents_idx=' + idx // PC버전 카카오톡에서 사용하는 웹 링크 URL
 					}
 				},
 				buttons: [{
 					title: "우리 프렌즈해요!", // 버튼 제목
 					link: {
-						mobileWebUrl: '<?php echo $domainData[sub_domain];?>/iam/contents.php?contents_idx=' +idx, // 모바일 카카오톡에서 사용하는 웹 링크 URL
-						webUrl: '<?php echo $domainData[sub_domain];?>/iam/contents.php?contents_idx=' +idx // PC버전 카카오톡에서 사용하는 웹 링크 URL
+						mobileWebUrl: '<?php echo $domainData['sub_domain'];?>/iam/contents.php?contents_idx=' +idx, // 모바일 카카오톡에서 사용하는 웹 링크 URL
+						webUrl: '<?php echo $domainData['sub_domain'];?>/iam/contents.php?contents_idx=' +idx // PC버전 카카오톡에서 사용하는 웹 링크 URL
 					}
 				}]
 			});
@@ -439,14 +439,14 @@ $meta_desc = $meta_row[contents_desc];
 		// alert(idx + " " + name);
 		// return;
 		var text = encodeURIComponent('아이엠의' + name + '님');
-		var linkUrl = encodeURIComponent('<?php echo $domainData[sub_domain];?>/iam/contents.php?contents_idx=' + idx);
+		var linkUrl = encodeURIComponent('<?php echo $domainData['sub_domain'];?>/iam/contents.php?contents_idx=' + idx);
 		window.open('http://www.facebook.com/sharer.php?u=' + linkUrl + '&t=' + text);
 	}
 	//콘텐츠 복사
 	function contents_copy(idx) {
 		var aux = document.createElement("input");
 		// 지정된 요소의 값을 할당 한다.
-		aux.setAttribute("value", "<?php echo $domainData[sub_domain];?>/iam/contents.php?contents_idx=" + idx);
+		aux.setAttribute("value", "<?php echo $domainData['sub_domain'];?>/iam/contents.php?contents_idx=" + idx);
 		// bdy에 추가한다.
 		document.body.appendChild(aux);
 		$("#sns-modalwindow").modal("hide");

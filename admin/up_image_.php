@@ -3,7 +3,7 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
 if($_FILES["upimage".$_REQUEST['k']]['name'])
 {
     // echo "upimage".$_REQUEST['k'];
-	$tempFile = $_FILES["upimage".$_REQUEST['k']][tmp_name];
+	$tempFile = $_FILES["upimage".$_REQUEST['k']]['tmp_name'];
 	$file_arr=explode(".",$_FILES["upimage".$_REQUEST['k']]['name']);
 	$tmp_file_arr=explode("/",$tempFile);
 	$img_name=date("Ymds")."_".$tmp_file_arr[count($tmp_file_arr)-1].".".$file_arr[count($file_arr)-1];

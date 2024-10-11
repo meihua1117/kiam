@@ -936,7 +936,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                   <img src="" style="width:50px;">
                   <?}?>
                   <input type="text" name="menu_move_url" value="<?=$data[move_url]?>" placeholder="링크입력" style="width:14%;">
-                  <input type="text" name="menu_title" value="<?=$data[title]?>" placeholder="제목입력" style="width:14%;margin-left:5px;">
+                  <input type="text" name="menu_title" value="<?=$data['title']?>" placeholder="제목입력" style="width:14%;margin-left:5px;">
                   <input type="text" name="menu_display_order" value="<?=$data[display_order]?>" placeholder="노출순서" style="width:7%;margin-left:10px;">
                   <?if($mode == "updat"){?>
                   <label class="switch_menu" style="margin:0 25px;">
@@ -1022,7 +1022,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                   <img src="" style="width:50px;">
                   <?}?>
                   <input type="text" name="market_move_url" value="<?=$data[move_url]?>" placeholder="링크입력" style="width:14%;">
-                  <input type="text" name="market_title" value="<?=$data[title]?>" placeholder="제목입력" style="width:14%;margin-left:5px;">
+                  <input type="text" name="market_title" value="<?=$data['title']?>" placeholder="제목입력" style="width:14%;margin-left:5px;">
                   <input type="text" name="market_display_order" value="<?=$data[display_order]?>" placeholder="노출순서" style="width:7%;margin-left:10px;">
                   <?if($mode == "updat"){?>
                   <label class="switch_market" style="margin:0 25px;">
@@ -1112,7 +1112,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                   <img src="" style="width:50px;">
                   <?}?>
                   <input type="text" name="card_move_url" value="<?=$data[move_url]?>" placeholder="링크입력" style="width:14%;">
-                  <input type="text" name="card_title" value="<?=$data[title]?>" placeholder="제목입력" style="width:14%;margin-left:5px;">
+                  <input type="text" name="card_title" value="<?=$data['title']?>" placeholder="제목입력" style="width:14%;margin-left:5px;">
                   <input type="text" name="card_display_order" value="<?=$data[display_order]?>" placeholder="노출순서" style="width:7%;margin-left:10px;">
                   <?if($mode == "updat"){?>
                   <label class="switch_card" style="margin:0 25px;">
@@ -1304,7 +1304,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                   else{?>
                   <img src="" style="width:50px;">
                   <?}?>
-                  <input type="text" name="change_move_url" value="<?=$row_ori_site[sub_domain]?>" readonly placeholder="링크입력" style="width:14%;">
+                  <input type="text" name="change_move_url" value="<?=$row_ori_site['sub_domain']?>" readonly placeholder="링크입력" style="width:14%;">
                   <label class="switch_change" style="margin:0 25px;">
                       <input type="checkbox" name="status" id="stauts_<?php echo $data['idx'];?>" value="<?php echo $data['idx'];?>" <?php echo $data['use_yn']=="Y"?"checked":""?>>
                       <span class="slider round" name="status_round" id="stauts_round_<?php echo $data['idx'];?>"></span>

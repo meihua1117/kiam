@@ -156,7 +156,7 @@ input:checked + .slider:before {
 </style>
 <link href='/css/main.css' rel='stylesheet' type='text/css'/>
 <link href='/css/responsive.css' rel='stylesheet' type='text/css'/>
-<main id="register" class="common-wrap" style=""><!-- 컨텐츠 영역 시작 -->
+<main id="register" class="common-wrap"><!-- 컨텐츠 영역 시작 -->
     <div class="container">
         <div class="inner-wrap">
                     <h2 class="title"></h2>
@@ -307,7 +307,7 @@ input:checked + .slider:before {
                                         else{
                                             $card = "point";
                                         }
-                                        if($row[gwc_cont_pay]){
+                                        if($row['gwc_cont_pay']){
                                             $sql_total_price = "select sum(item_price) from Gn_Item_Pay_Result where item_name='{$row[item_name]}' and order_number='{$row[order_number]}' and pay_date='{$row[pay_date]}'";
                                             $res_total_price = mysqli_query($self_con,$sql_total_price);
                                             $row_total_price = mysqli_fetch_array($res_total_price);
@@ -315,11 +315,11 @@ input:checked + .slider:before {
                                         }
                                         ?>
                                         <tr >
-                                            <td style=""><?=$sort_no?></td>
-                                            <td style=""><?=$method?></td>
+                                            <td><?=$sort_no?></td>
+                                            <td><?=$method?></td>
                                             <td style="font-size:11px;"><?=$row[item_name]?></td>
-                                            <td style=""><?=$row_mem_data['mem_id']?>/<?=$row_mem_data['mem_name']?></td>
-                                            <td style=""><?=$row_mem_data[mem_phone]?></td>
+                                            <td><?=$row_mem_data['mem_id']?>/<?=$row_mem_data['mem_name']?></td>
+                                            <td><?=$row_mem_data['mem_phone']?></td>
                                             <td style="font-size:11px;"><?=$row[pay_date]?></td>
                                             <?php
                                             if($row[point_val] == 0){

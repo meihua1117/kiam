@@ -939,13 +939,13 @@ if($_POST[num_check_go])
     				$resul_check_s=mysqli_query($self_con,$sql_check_s);
     				$row_check_s=mysqli_fetch_array($resul_check_s);
     				if($row_check_s['no']) { //tjd_mms_cnt_check에 자료 있으면 : 오늘 보낸 적 있음
-    				    if($row_check_s[status]=="N") { //200미만 건 발송 이력 있음
+    				    if($row_check_s['status']=="N") { //200미만 건 발송 이력 있음
     					    // Cooper Add  2016-05-08
     					    if($this_time_send >= 200) {
 //    							$cntYN_log_arr[$j] = $this_time_send; //2016-05-08 추가
     							$cntYN_log_arr[$j] = count($send_num_list[$sendnum[$j]]); //2016-05-08 추가
     						}
-    					} else if($row_check_s[status]=="Y") { //200미만 건 발송 이력 있음
+    					} else if($row_check_s['status']=="Y") { //200미만 건 발송 이력 있음
     					    
     					}
     				} else {
@@ -958,12 +958,12 @@ if($_POST[num_check_go])
     				$resul_check_s=mysqli_query($self_con,$sql_check_s);
     				$row_check_s=mysqli_fetch_array($resul_check_s);
     				if($row_check_s['no']) { //tjd_mms_cnt_check에 자료 있으면 : 오늘 보낸 적 있음
-    				    if($row_check_s[status]=="N") { //200미만 건 발송 이력 있음
+    				    if($row_check_s['status']=="N") { //200미만 건 발송 이력 있음
     					    // Cooper Add  2016-05-08
     					    if($this_time_send >= 200) {
     							$cntYN_log_arr[$j] = count($send_num_list[$sendnum[$j]]); //2016-05-08 추가
     						}
-    					} else if($row_check_s[status]=="Y") { //200미만 건 발송 이력 있음
+    					} else if($row_check_s['status']=="Y") { //200미만 건 발송 이력 있음
     					}
     				} else {
     					$cntYN_log_arr[$j] = count($send_num_list[$sendnum[$j]]); //2016-05-08 추가
@@ -1107,10 +1107,10 @@ if($_POST[num_check_go])
 				$resul_check_s=mysqli_query($self_con,$sql_check_s);
 				$row_check_s=mysqli_fetch_array($resul_check_s);
 				if($row_check_s['no']) { //tjd_mms_cnt_check에 자료 있으면 : 오늘 보낸 적 있음
-				    if($row_check_s[status]=="N") { //200미만 건 발송 이력 있음
+				    if($row_check_s['status']=="N") { //200미만 건 발송 이력 있음
 					    // Cooper Add  2016-05-08
 							$cntYN_log_arr[$j] = count($send_num_list[$sendnum[$j]]); //2016-05-08 추가
-					} else if($row_check_s[status]=="Y") { //200미만 건 발송 이력 있음
+					} else if($row_check_s['status']=="Y") { //200미만 건 발송 이력 있음
 					}
 				} else {
 					$cntYN_log_arr[$j] = count($send_num_list[$sendnum[$j]]); //2016-05-08 추가
@@ -1382,7 +1382,7 @@ if($_POST[lms_save_title])
 	{
 	$sql="update Gn_MMS_Message set ";		
 	}
-	$message_info[title]=htmlspecialchars($_POST[lms_save_title]);	
+	$message_info['title']=htmlspecialchars($_POST[lms_save_title]);	
 	$message_info[message]=htmlspecialchars($_POST[lms_save_content]);
 	if($_POST[lms_save_img])
 	$message_info[msg_type]="B";
@@ -1526,9 +1526,9 @@ if($_POST[deny_add_send] && $_POST[deny_add_recv])
 	else
 	{	
 		$sql="insert into Gn_MMS_Deny set ";
-		$deny_info[title]="수동입력";
+		$deny_info['title']="수동입력";
 		$deny_info['content']="수동입력";	
-		$deny_info[status]="B";		
+		$deny_info['status']="B";		
 		$deny_info['mem_id']=$_SESSION['one_member_id'];	
 	}
 	$i=0;
@@ -1617,9 +1617,9 @@ if($_POST[agree_add_send] && $_POST[agree_add_recv])
 	else
 	{	
 		$sql="insert into Gn_MMS_Agree set ";
-		$deny_info[title]="수동입력";
+		$deny_info['title']="수동입력";
 		$deny_info['content']="수동입력";	
-		$deny_info[status]="B";		
+		$deny_info['status']="B";		
 		$deny_info['mem_id']=$_SESSION['one_member_id'];	
 	}
 	$i=0;
@@ -1674,9 +1674,9 @@ if($_POST[deny_g_add_recv_num] && $_POST[deny_g_add_send_num])
 			$sql_i="insert into Gn_MMS_Deny set ";
 			$deny_info['send_num']=$v;	
 			$deny_info['recv_num']=$recv_num;			
-			$deny_info[title]="수동입력";
+			$deny_info['title']="수동입력";
 			$deny_info['content']="수동입력";	
-			$deny_info[status]="B";		
+			$deny_info['status']="B";		
 			$deny_info['mem_id']=$_SESSION['one_member_id'];
 			foreach($deny_info as $key2=>$v2)
 			$sql_i.=" $key2='$v2' , ";
@@ -2233,13 +2233,13 @@ if($_POST[log_add_dest] && $_POST[log_add_ori])
 //고객센터 글등록
 if($_POST[board_save_title] && ($_POST[board_save_content] || $_POST[board_save_reply]))
 {
-	$board_info[title]=htmlspecialchars($_POST[board_save_title]);
+	$board_info['title']=htmlspecialchars($_POST[board_save_title]);
 	if($_POST[board_save_content])
 	    $board_info['content']=htmlspecialchars($_POST[board_save_content]);
 	if($_POST[board_save_reply])
 	    $board_info[reply]=htmlspecialchars($_POST[board_save_reply]);
 	$board_info['phone']=$_POST[board_save_phone];
-	$board_info[fl]=$_POST[board_save_fl];
+	$board_info['fl']=$_POST[board_save_fl];
 	$board_info['email']=$_POST[board_save_email];
 	$board_info[adjunct_1]=$_POST[board_save_adjunct_1];
 	$board_info[adjunct_2]=$_POST[board_save_adjunct_2];
@@ -2495,8 +2495,8 @@ if($_POST[pay_go_mid] && $_POST[pay_go_goodname])
         <input type="hidden" name="price" value="<?=$price?>"  />
         <input type="hidden" name="currency" value="WON"  />
         <input type="hidden" name="buyername" value="<?=$member_1['mem_name']?>"  />
-        <input type="hidden" name="buyertel" value="<?=$member_1[mem_phone]?>"  />
-        <input type="hidden" name="buyeremail" value="<?=$member_1[mem_email]?>"  />
+        <input type="hidden" name="buyertel" value="<?=$member_1['mem_phone']?>"  />
+        <input type="hidden" name="buyeremail" value="<?=$member_1['mem_email']?>"  />
         <input type="hidden" name="timestamp" value="<?=$timestamp ?>"  />
         <input type="hidden" name="signature" value="<?=$sign?>"  />
         <input type="hidden" name="returnUrl" value="<?=$siteDomain?>/pay_return.php"  /><!--pay_return.php inipay/INIStdPaySample/INIStdPayReturn.php-->

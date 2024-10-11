@@ -166,11 +166,11 @@ ini_set("session.gc_maxlifetime", 86400);
         $email=$srow['mem_email'];
         $address=$srow['mem_add1'];
         $status="Y";
-        $use_cnt = $row[db_cnt];
+        $use_cnt = $row['db_cnt'];
         //$last_time = date("Y-m-d H:i:s", "+120 month");
         $last_time = date("Y-m-d H:i:s", strtotime("+ 120 month"));
         $search_email_date = substr($last_time,0,10);
-        $search_email_cnt = $row[email_cnt];
+        $search_email_cnt = $row['email_cnt'];
         $term = substr($last_time,0,10);
                                
     */

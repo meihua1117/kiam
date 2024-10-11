@@ -329,11 +329,11 @@ $report_res = mysqli_query($self_con,$report_sql);
         <div class="modal-content">
             <div>
                 <button type="button" class="close" data-dismiss="modal">
-                    <img src="/iam/img/menu/icon_close_white.png" style="" class="close" data-dismiss="modal">
+                    <img src="/iam/img/menu/icon_close_white.png" class="close" data-dismiss="modal">
                 </button>
             </div>
-            <div class="modal-title" style="">
-                <label style=""></label>
+            <div class="modal-title">
+                <label></label>
             </div>
             <div class="modal-body">
                 <div class="container" style="box-shadow: none;width: 100%;">

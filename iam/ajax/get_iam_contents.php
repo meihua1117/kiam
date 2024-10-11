@@ -196,8 +196,8 @@ if($cur_win == "my_info"){
     $myiam_count_sql="update Gn_Iam_Name_Card set iam_click = iam_click + 1 where idx = '{$G_card['idx']}'";
     mysqli_query($self_con,$myiam_count_sql) or die(mysqli_error($self_con));
 
-    if($domainData[sub_domain] == "")
-        $domainData[sub_domain] = "http://kiam.kr/";
+    if($domainData['sub_domain'] == "")
+        $domainData['sub_domain'] = "http://kiam.kr/";
     if(!$card_owner) {
         $card_owner = trim($_SESSION['iam_member_id']);
     }
@@ -782,30 +782,30 @@ else{
                         </div>
                     </a>
                     <div class="wrap image_mode">
-                        <a href="/?<?=strip_tags($contents_card_url.$m_code)?>" class="user-name" style="">
+                        <a href="/?<?=strip_tags($contents_card_url.$m_code)?>" class="user-name">
                             <?=$contents_user_name ?>
                         </a>
-                        <a href="/?<?=strip_tags($contents_card_url.$m_code)?>" class="date" style="">
+                        <a href="/?<?=strip_tags($contents_card_url.$m_code)?>" class="date">
                             <?=$contents_row['req_data']?>
                         </a>
                     </div>
                     <div class="wrap pin_mode" style="display:none;">
                         <?if($contents_row['contents_title'] != "") { ?>
-                        <a href="/?<?=strip_tags($contents_card_url.$m_code)?>" class="user-name pin-mode" style="">
+                        <a href="/?<?=strip_tags($contents_card_url.$m_code)?>" class="user-name pin-mode">
                             <?=$contents_row['contents_title'] ?>
                         </a>
                         <?}else{?>
-                        <a href="/?<?=strip_tags($contents_card_url.$m_code)?>" class="user-name" style="">
+                        <a href="/?<?=strip_tags($contents_card_url.$m_code)?>" class="user-name">
                             <?=$contents_user_name ?>
                         </a>
-                        <a href="/?<?=strip_tags($contents_card_url.$m_code)?>" class="date" style="">
+                        <a href="/?<?=strip_tags($contents_card_url.$m_code)?>" class="date">
                             <?=$contents_row['req_data']?>
                         </a>
                         <?}?>
                     </div>
                     <?if( $_SESSION['iam_member_id'] != "" && $_SESSION['iam_member_id'] != $contents_owner_id  ){?>
                         <div class="dropdown" style="position: absolute; right: 10px; top: 8px;">
-                            <button class="btn dropdown-toggle westory_dropdown" type="button" data-toggle="dropdown" style="">
+                            <button class="btn dropdown-toggle westory_dropdown" type="button" data-toggle="dropdown">
                                 <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu comunity">
@@ -820,7 +820,7 @@ else{
                     <?}?>
                     <?if( $_SESSION['iam_member_id'] =="" ){?>
                         <div class="dropdown " style="position: absolute; right: 10px; top: 8px;">
-                            <button class="btn dropdown-toggle westory_dropdown" type="button" data-toggle="dropdown" style="">
+                            <button class="btn dropdown-toggle westory_dropdown" type="button" data-toggle="dropdown">
                                 <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu comunity">
@@ -838,7 +838,7 @@ else{
                 <div class="desc-wrap" style="border-bottom: 1px solid #dddddd;">
                     <?if($contents_row['contents_title'] != "") { ?>
                         <div class="title service_title" style="display: flex;flex-direction: column;justify-content: center">
-                            <h3 style=""><?= $contents_row['contents_title'] ?></h3>
+                            <h3><?= $contents_row['contents_title'] ?></h3>
                         </div>
                     <?
                     }
@@ -870,7 +870,7 @@ else{
                                         ?>
                                         <div class="dropdown" style="float:right;">
                                             <a class = "dropdown-toggle" data-toggle="dropdown" expanded = "false" style="background:blue;cursor:pointer;">구매하기</a>
-                                            <ul class="dropdown-menu buy_servicecon" style="">
+                                            <ul class="dropdown-menu buy_servicecon">
                                                 <li>
                                                     <a href="<?=$pay_link?>" target="_blank" style="font-size: 15px;background-color:blue;">카드결제</a>
                                                 </li>
@@ -1066,7 +1066,7 @@ else{
                         if($cur_win == 'we_story' && $_COOKIE[contents_mode] == "pin"){?>
                             <a href='/iam/contents.php?contents_idx=<?=$contents_row['idx']?>' target="_blank">
                             <img src="<?=$content_images[0]?>" class="contents_img">
-                            <img class="movie_play" src="/iam/img/movie_play.png" style="">
+                            <img class="movie_play" src="/iam/img/movie_play.png">
                                 <?if(count($content_images) > 1){?>
                                     <?for($c = 1;$c < count($content_images);$c ++){?>
                                         <img src="<?=$content_images[$c]?>" class="contents_img hidden_image<?=$contents_row['idx']?>" style="display:none">
@@ -1079,7 +1079,7 @@ else{
                             <div onclick="play<?=$kk;?>();" id="vidwrap<?=$kk;?>" style="position: relative;">
                                 <img src="<?=$content_images[0]?>" class="contents_img">
                                 <?if($contents_movie){?>
-                                    <img class="movie_play" src="/iam/img/movie_play.png" style="">
+                                    <img class="movie_play" src="/iam/img/movie_play.png">
                                 <?}?>
                                 <?if(count($content_images) > 1){?>
                                     <?for($c = 1;$c < count($content_images);$c ++){?>
@@ -1091,7 +1091,7 @@ else{
                             <a href="<?=$contents_row[contents_url]?>" target="_blank" id="vidwrap<?=$kk;?>" style="position: relative;">
                                 <img src="<?=$content_images[0]?>" class="contents_img">
                                 <?if($contents_movie){?>
-                                    <img class="movie_play" src="/iam/img/movie_play.png" style="">
+                                    <img class="movie_play" src="/iam/img/movie_play.png">
                                 <?}?>
                                 <?if(count($content_images) > 1){?>
                                     <?for($c = 1;$c < count($content_images);$c ++){?>

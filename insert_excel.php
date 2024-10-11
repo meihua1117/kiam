@@ -8,11 +8,11 @@ if(!$_SESSION['one_member_id']){?>
 <?
     exit;
 }
-if($_FILES[excel_file][tmp_name])
+if($_FILES[excel_file]['tmp_name'])
 {
 $data = new Spreadsheet_Excel_Reader();
 $data->setOutputEncoding('utf-8');  
-$data->read($_FILES[excel_file][tmp_name]);
+$data->read($_FILES[excel_file]['tmp_name']);
 error_reporting(E_ALL ^ E_NOTICE);
 $excel_rows=$data->sheets[0]['numRows'];
 
@@ -29,9 +29,9 @@ $excel_rows=$data->sheets[0]['numRows'];
 else
 exit;
 $error_arr=array();
-	if($_REQUEST[status]=="old")
+	if($_REQUEST['status']=="old")
 	{
-		if(!$_FILES[excel_file][tmp_name])
+		if(!$_FILES[excel_file]['tmp_name'])
 		exit;
 			$sql="select * from Gn_MMS_Group where idx in($_POST[old_group])";
 			$resul=mysqli_query($self_con,$sql);
@@ -65,7 +65,7 @@ $error_arr=array();
 				mysqli_query($self_con,$sql_u);					
 			}
 	}
-	else if($_REQUEST[status]=="new")
+	else if($_REQUEST['status']=="new")
 	{
 		$group_name=htmlspecialchars($_POST[new_group]);
 		$sql_s="select idx from Gn_MMS_Group where grp='$group_name' and mem_id='{$_SESSION['one_member_id']}'";
@@ -84,7 +84,7 @@ $error_arr=array();
 		$sql = "insert Gn_MMS_Group set mem_id = '{$_SESSION['one_member_id']}', grp = '$group_name', reg_date = now()";
 		mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 		
-		if($_FILES[excel_file][tmp_name])
+		if($_FILES[excel_file]['tmp_name'])
 		{
 			$sql_s="select idx from Gn_MMS_Group where grp='$group_name' and mem_id='{$_SESSION['one_member_id']}' ";
 			$resul_s=mysqli_query($self_con,$sql_s);
@@ -118,9 +118,9 @@ $error_arr=array();
 			mysqli_query($self_con,$sql_u);			
 		}
 	}
-	else if($_REQUEST[status]=="deny")
+	else if($_REQUEST['status']=="deny")
 	{
-		if(!$_FILES[excel_file][tmp_name])
+		if(!$_FILES[excel_file]['tmp_name'])
 		exit;
 		$cnt=0;
 		for ($i=2; $i <=$excel_rows; $i++) 
@@ -168,9 +168,9 @@ $error_arr=array();
 					$deny_info['mem_id']=$_SESSION['one_member_id'];
 					$deny_info['send_num']=$send_num;	
 					$deny_info['recv_num']=$recv_num;			
-					$deny_info[title]=$data->sheets[0]['cells'][$i][3];
+					$deny_info['title']=$data->sheets[0]['cells'][$i][3];
 					$deny_info['content']=$data->sheets[0]['cells'][$i][4];
-					$deny_info[status]="B";
+					$deny_info['status']="B";
 					foreach($deny_info as $key=>$v)
 					$sql_i.=" $key='$v' , ";
 					$sql_i.=" reg_date=now() ";

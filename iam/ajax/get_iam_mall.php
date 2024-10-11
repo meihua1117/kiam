@@ -295,7 +295,7 @@ while( $contents_row = mysqli_fetch_array($result8)){
     $body .= '<img src="'.$avatar.'"  style="width:100%;height:100%" onclick="window.open(\''.$card_url.'\')">';
     $body .= '</div>';
     $body .= '<p class="card-text" style="margin-left:10px;font-size:13px">'. $mem_row['mem_name'].'</p>';
-    $body .= '<p class="card-text" style="position:absolute;right:3px;" onclick="open_mall_description(\''.$contents_row['idx'].'\',\'상세설명\');"><strong style="">상세보기</strong></p>';
+    $body .= '<p class="card-text" style="position:absolute;right:3px;" onclick="open_mall_description(\''.$contents_row['idx'].'\',\'상세설명\');"><strong>상세보기</strong></p>';
     $body .= '</div>';
     if($contents_row['mall_type'] == 5)
         $body .= '<div class="card-data" style="cursor:pointer" onclick="open_mall_description(\''.$contents_row['idx'].'\',\'상세설명\');">';     
@@ -305,7 +305,7 @@ while( $contents_row = mysqli_fetch_array($result8)){
     $body .= '</div>';
     $body .= '<div class="card-data" style = "display:flex;justify-content: space-between;">';
     $body .= '<p class="card-text mall-desc">'.$contents_row['sub_title'].'</p>';
-    // $body .= '<p class="card-text" style="float:right"><strong style="">상세보기</strong></p>';
+    // $body .= '<p class="card-text" style="float:right"><strong>상세보기</strong></p>';
     $body .= '<input type="hidden" id="mall_desc_'.$contents_row['idx'].'" value="'.$contents_row['description'].'">';
     $body .= '</div>';
     if($contents_row['mall_type'] != 2){
@@ -334,7 +334,7 @@ while( $contents_row = mysqli_fetch_array($result8)){
     }
     $body .= $map_show;
     if($contents_row['mall_type'] != 2 && $contents_row['mall_type'] < 10){
-        $body .= '<div class="mall-btn-div" style="">';
+        $body .= '<div class="mall-btn-div">';
         $body .= '<button type="button" class="mall_btn" style="border: 1px solid #ddd" onclick="open_mall_pay_popup(\''.$contents_row['idx']. '\',\''. $contents_row['mall_type'].'\',\''.$contents_row['title'].'\',\''.$contents_row['card_idx'].'\',\''.$contents_row['sell_price'].'\')">구매하기</button>';
         $body .= '</div>';
     }

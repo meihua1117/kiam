@@ -1,6 +1,6 @@
 <?
 include_once $path."lib/rlatjd_fun.php";
-$_REQUEST[status] = 1;
+$_REQUEST['status'] = 1;
 extract($_GET);
 $mem_id = $_GET["mem_id"];
 $solution_type = $_GET["solution_type"];

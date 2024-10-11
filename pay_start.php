@@ -90,9 +90,9 @@ window.onload=function()
 <form name="send_form" target="_parent" action="/pay_end.php" method="post">
     <input type="hidden" name="goodname"  value="<?=$_POST[goodname]?>">
     <input type="hidden" name="buyername"  value="<?=$member_1['mem_name']?>">
-    <input type="hidden" name="buyeremail"  value="<?=$member_1[mem_email]?>">
-    <input type="hidden" name="parentemail"  value="<?=$member_1[mem_email]?>">
-    <input type="hidden" name="buyertel"  value="<?=$member_1[mem_phone]?>">
+    <input type="hidden" name="buyeremail"  value="<?=$member_1['mem_email']?>">
+    <input type="hidden" name="parentemail"  value="<?=$member_1['mem_email']?>">
+    <input type="hidden" name="buyertel"  value="<?=$member_1['mem_phone']?>">
     <input type="hidden" name="currency"  value="WON">
     <input type="hidden" name="acceptmethod"  value="HPP(2):Card(0):OCB:receipt:cardpoint">
     <input type="hidden" name="ini_encfield" value="<?php echo($inipay->GetResult("encfield")); ?>">
@@ -112,7 +112,7 @@ window.onload=function()
     <input type="hidden" name="version" value="4000">
     <input type="hidden" name="clickcontrol" value="">
     
-    <input type="hidden" name="add_phone" value="<?=$_POST[add_phone]?>" />
+    <input type="hidden" name="add_phone" value="<?=$_POST['add_phone']?>" />
     <input type="hidden" name="phone_cnt" value="<?=$_POST[max_cnt]?>" />
     <input type="hidden" name="month_cnt" value="<?=$_POST['month_cnt']?>" />
     <input type="hidden" name="max_cnt" value="<?=$_POST[max_cnt]?>" />
@@ -122,11 +122,11 @@ window.onload=function()
     <input type="hidden" name="pay_ex_end_date" value="<?=$_POST[pay_ex_end_date]?>" />    
     <input type="hidden" name="add_opt" value="<?=$_POST[add_opt]?>" />
     
-    <input type="hidden" name="db_cnt" value="<?=$_POST[db_cnt]?>" />
-    <input type="hidden" name="email_cnt" value="<?=$_POST[email_cnt]?>" />
+    <input type="hidden" name="db_cnt" value="<?=$_POST['db_cnt']?>" />
+    <input type="hidden" name="email_cnt" value="<?=$_POST['email_cnt']?>" />
     <input type="hidden" name="onestep1" value="<?=$_POST[onestep1]?>" />
     <input type="hidden" name="onestep2" value="<?=$_POST[onestep2]?>" />
-    <input type="hidden" name="member_type" value="<?=$_POST[member_type]?>" />
+    <input type="hidden" name="member_type" value="<?=$_POST['member_type']?>" />
     
 </form>
 </body>

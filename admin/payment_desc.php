@@ -103,7 +103,7 @@ while($row = mysqli_fetch_array($res)){
     <!-- Left 메뉴 -->
     <?include_once $_SERVER['DOCUMENT_ROOT']."/admin/include/admin_left_menu.inc.php";?>
     <!-- Content Wrapper. Contains page content -->
-    <div class="content-wrapper" style="">
+    <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>결제상품 구성 관리<small>결제상품 구성정보를 관리합니다.</small></h1>

@@ -665,9 +665,9 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                                                 </tr>       
                                                 <tr>
                                                     <th>전화번호</th>
-                                                    <td><?=$coaching_data[mem_phone]?></td>
+                                                    <td><?=$coaching_data['mem_phone']?></td>
                                                     <th>이메일</th>
-                                                    <td><?=$coaching_data[mem_email]?></td>
+                                                    <td><?=$coaching_data['mem_email']?></td>
                                                 </tr>        
                                                 <tr>
                                                     <th>계약기간</th>

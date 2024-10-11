@@ -230,7 +230,7 @@
 											</div>
 											<div class="container" style="margin-top: 20px;text-align: center;width: 100%;">
 												<button class="people_iam_show" style="width:40%" onclick="cancel()">취소</button>
-												<!-- <button class="people_iam_show" style="" onclick="view_list()">목록보기</button> -->
+												<!-- <button class="people_iam_show" onclick="view_list()">목록보기</button> -->
 												<button class="people_iam_show" style="width:40%" onclick="makingiam('make')">등록</button>
 											</div>
 										</section>

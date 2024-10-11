@@ -283,11 +283,11 @@ else{
 					<div class="col-12">
                         <div class="inner-wrap" style = "padding : 0px">
 							<!--상단 좌측 로고이미지부분-->
-							<a href="<?=$domainData[sub_domain].'/?'.$first_card_url.$bunyang_site_manager_code?>" target = "blank" style="float:left;">
+							<a href="<?=$domainData['sub_domain'].'/?'.$first_card_url.$bunyang_site_manager_code?>" target = "blank" style="float:left;">
 								<img src="/iam/img/common/logo-2.png" alt="온리원아이엠 로고 이미지" style="margin-top:15px;height:18px;">
 							</a> 
 							<!--상단 로고이미지 부분-->
-							<? $home_link=$domainData['home_link'] == ''?$domainData[sub_domain].'/?'.$first_card_url.$bunyang_site_manager_code:$domainData['home_link'];?>
+							<? $home_link=$domainData['home_link'] == ''?$domainData['sub_domain'].'/?'.$first_card_url.$bunyang_site_manager_code:$domainData['home_link'];?>
 							<div class="check-item" style="margin-top:13px;position: absolute;left:50%;top:5px;transform:translate(-50%,-50%);height:35px">
                             <a href="<?=$home_link?>" target = "_self">
                                 <?if($HTTP_HOST != "kiam.kr") {?>
@@ -438,7 +438,7 @@ else{
 				<?if(strpos($_SERVER['REQUEST_URI'], 'gwc_order_list.php') !== false || strpos($_SERVER['REQUEST_URI'], 'gwc_order_change_list.php') !== false){?>
 				<div class="panel-group" style="border: 1px solid lightgrey;">
 					<div style="margin: 5px;display:flex;justify-content: space-between;">
-						<div class="mypage_menu" style="">
+						<div class="mypage_menu">
 							<div style="margin-right: 5px;display:flex;float: right;">
 								<button class="btn  btn-link" onclick="iam_mystory('cur_win=shared_receive&modal=Y')" title = "<?=$MENU['IAM_MENU']['M7_TITLE'];?>" style="display:flex;padding:6px 3px">
 									<p style="font-size:14px;color:black">콘수신</p>
@@ -694,10 +694,10 @@ else{
 				<div class="modal-content">
 					<div>
 						<button type="button" class="close" data-dismiss="modal">
-							<img src="/iam/img/menu/icon_close_white.png" style="" class="close" data-dismiss="modal">
+							<img src="/iam/img/menu/icon_close_white.png" class="close" data-dismiss="modal">
 						</button>
 					</div>
-					<div class = "modal-title" style="">
+					<div class = "modal-title">
 						<label style="padding:15px 0px">AI로 자동 IAM 만들기</label>
 					</div>
 					<div class="modal-header" style="padding:0px">
@@ -879,8 +879,8 @@ else{
 						</div>
 						<div class="container" style="margin-top: 20px;text-align: center;">
 							<!-- <div style="border: 1px solid black;">인물주소입력<input type="text" placeholder="네이버 인물검색 웹주소입력"></div>
-								<div style=""></div>
-								<div style=""></div> -->
+								<div></div>
+								<div></div> -->
 							<table style="width:100%">
 								<thead>
 								<th class="iam_table" style="width:20%;">일시</th>
@@ -1096,11 +1096,11 @@ else{
                 <div class="modal-content">
                     <div>
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true" >
-                            <img src = "/iam/img/menu/icon_close_white.png" style="" class="close" data-dismiss="modal" aria-hidden="true">
+                            <img src = "/iam/img/menu/icon_close_white.png" class="close" data-dismiss="modal" aria-hidden="true">
                         </button>
                     </div>
                     <div class="modal-title" style="padding: 10px 0;">
-                        <label style="">포인트 전환</label>
+                        <label>포인트 전환</label>
                     </div>
                     <div class="modal-body">
                         <div class="modal-body-div">
@@ -1299,8 +1299,8 @@ else{
 								</tbody>
 								</form>
 							</table>
-							<button style="" class="button_edit btn_back" onclick="goback('auto_list')">뒤로가기</button>
-							<button style="" class="button_edit btn_save" onclick="save_edit_ev()">저장</button>
+							<button class="button_edit btn_back" onclick="goback('auto_list')">뒤로가기</button>
+							<button class="button_edit btn_save" onclick="save_edit_ev()">저장</button>
 						</div>
 					</div>
 				</div>
@@ -1312,10 +1312,10 @@ else{
 				<div class="modal-content">
 					<div>
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-							<img src="/iam/img/menu/icon_close_white.png" style="" class="close" data-dismiss="modal" aria-hidden="true">
+							<img src="/iam/img/menu/icon_close_white.png" class="close" data-dismiss="modal" aria-hidden="true">
 						</button>
 					</div>
-					<div class = "modal-title" style="">
+					<div class = "modal-title">
 						<label style="padding:15px 0px">공지사항 전송하기</label>
 					</div>
 					<div class="modal-header" style="background:#f5f5f5;border:none">
@@ -1339,7 +1339,7 @@ else{
 							</tbody>
 						</table>
 					</div>
-					<div class="modal-footer" style="">
+					<div class="modal-footer">
 						<button type="button" class="btn-default btn-left" style="padding:15px 0px"  data-dismiss="modal" onclick="location.reload();">취소하기</button>
 						<button type="button" class="btn-active btn-right" style="padding:15px 0px"  onclick="notice_send_settle()">전송하기</button>
 					</div>
@@ -1347,7 +1347,7 @@ else{
 			</div>
 		</div>
 		<div style="position: fixed;justify-content: space-around;width: 100%;height:50px;z-index: 100;bottom: 0px;display: flex;max-width: 768px;background:white;border-top : 1px solid #ddd">
-			<?$home = $domainData[sub_domain].'/?'.$first_card_url.$bunyang_site_manager_code?>
+			<?$home = $domainData['sub_domain'].'/?'.$first_card_url.$bunyang_site_manager_code?>
 			<div id="btn_home" style="margin-top:12px;text-align: center;cursor:pointer" onclick = "goIamHome();" title="홈">
 				<img src = "/iam/img/menu/icon_bottom_home.png" style="height:24px;width:24px">
 				<!--label style="font-size:12px">홈</label-->
@@ -1421,19 +1421,19 @@ else{
 					</div>
 					<div>
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true" >
-							<img src = "/iam/img/menu/icon_close_white.png" style="" class="close" data-dismiss="modal" aria-hidden="true">
+							<img src = "/iam/img/menu/icon_close_white.png" class="close" data-dismiss="modal" aria-hidden="true">
 						</button>
 					</div>
-					<div class="modal-title" style="">
+					<div class="modal-title">
 						<div>
 							<img src = '/iam/img/menu/icon_sample_white.png' style="width:24px;vertical-align:bottom">
-							<label style="">베스트 샘플IAM</label>
+							<label>베스트 샘플IAM</label>
 						</div>
 					</div>
 					<div class="modal-body" style="background-color: #e5e5e5;overflow-y:auto;padding-top:0px">
 						<div style="padding-top: 2px;" >
 							<div style="background-color: #ffffff;border-radius: 10px;padding-bottom: 2px;display: flex">
-								<div style="">
+								<div>
 									<img src="/iam/img/main/masterimage.png" style="width: 24px;margin: 10px;">
 								</div>
 								<div>
@@ -1457,19 +1457,19 @@ else{
 					</div>
 					<div>
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true" >
-							<img src = "/iam/img/menu/icon_close_white.png" style="" class="close" data-dismiss="modal" aria-hidden="true">
+							<img src = "/iam/img/menu/icon_close_white.png" class="close" data-dismiss="modal" aria-hidden="true">
 						</button>
 					</div>
-					<div class="modal-title" style="">
+					<div class="modal-title">
 						<div>
 							<img src = '/iam/img/menu/icon_news_white.png' style="width:24px;vertical-align:bottom">
-							<label style="">회원님들의 콘텐츠 업로드</label>
+							<label>회원님들의 콘텐츠 업로드</label>
 						</div>
 					</div>
 					<div class="modal-body popup-bottom" style="padding:5px 15px 15px 15px;background-color: #e5e5e5;overflow-y:auto">
 						<div style="padding-top: 2px;" >
 							<div style="background-color: #ffffff;border-radius: 10px;padding-bottom: 2px;display: flex">
-								<div style="">
+								<div>
 									<img src="/iam/img/main/masterimage.png" style="width: 50px;margin: 10px;">
 								</div>
 								<div>
@@ -1500,7 +1500,7 @@ else{
 								<label style="color: #ffffff;font-size:16px">업데이트 및 교육정보 등을 안내합니다</label>
 							</span>
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="margin-top:0px" >
-							<img src = "/iam/img/menu/icon_close_white.png" style="" class="close" data-dismiss="modal" aria-hidden="true">
+							<img src = "/iam/img/menu/icon_close_white.png" class="close" data-dismiss="modal" aria-hidden="true">
 						</button>
 					</div>
 					<div class="modal-body popup-bottom" style="background-color: #e5e5e5;max-height:400px;overflow-y:auto">
@@ -1538,13 +1538,13 @@ else{
 							$news_sql = "select * from tjd_sellerboard where category=10 and important_yn='Y' order by date desc";
 							$news_res = mysqli_query($self_con,$news_sql);
 							while($news_row = mysqli_fetch_array($news_res)){?>
-								<div style="padding-top: 1px;background-color: #ffffff;border-radius: 10px;margin-top: 2px" class = "news_content <?='news_kind_'.$news_row[fl]?>">
+								<div style="padding-top: 1px;background-color: #ffffff;border-radius: 10px;margin-top: 2px" class = "news_content <?='news_kind_'.$news_row['fl']?>">
 									<div style="display: flex">
-										<p style="font-size:14px;margin-top:2px;margin-left: 10px;margin-right: 10px"><?=$iam_notice_arr[$news_row[fl]]?></p>
+										<p style="font-size:14px;margin-top:2px;margin-left: 10px;margin-right: 10px"><?=$iam_notice_arr[$news_row['fl']]?></p>
 										<p style="font-size:14px"><?=$news_row[date]?></p>
 									</div>
 									<div style="text-align: center">
-										<p style="font-size:18px"><?=$news_row[title]?></p><br>
+										<p style="font-size:18px"><?=$news_row['title']?></p><br>
 									</div>
 									<div style="text-align: left;margin-left: 10px">
 										<?=htmlspecialchars_decode($news_row['content'])?>
@@ -1563,13 +1563,13 @@ else{
 				<div class="modal-content" style = "margin-right:0px;">
 					<div>
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true" >
-							<img src = "/iam/img/menu/icon_close_white.png" style="" class="close" data-dismiss="modal" aria-hidden="true">
+							<img src = "/iam/img/menu/icon_close_white.png" class="close" data-dismiss="modal" aria-hidden="true">
 						</button>
 					</div>
 					<div class="modal-title" style="padding: 10px;">
 						<div>
 							<img src = '/iam/img/menu/icon_intro_white.png' style="width:24px;vertical-align:bottom">
-							<label style="">안내</label>
+							<label>안내</label>
 						</div>
 					</div>
 					<div class="modal-body popup-bottom" style="background-color: #e5e5e5;">

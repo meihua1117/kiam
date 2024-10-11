@@ -207,7 +207,7 @@ $row=mysqli_fetch_array($resul);
 if(!strcmp($REPLYCD,"0000")){//pay_test
     $sql = "update Gn_Item_Pay_Result set pay_status='Y' where  order_number='$_POST[allat_order_no]' and buyer_id='{$member_iam['mem_id']}'";
     mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
-    if($row[gwc_cont_pay] == 1){
+    if($row['gwc_cont_pay'] == 1){
         $sql_tjd = "update tjd_pay_result set end_status='Y' where orderNumber='$_POST[allat_order_no]' and buyer_id='{$member_iam['mem_id']}'";
         mysqli_query($self_con,$sql_tjd) or die(mysqli_error($self_con));
         $sql_update = "update Gn_Gwc_Order set pay_status='Y' where pay_order_no='$_POST[allat_order_no]' and mem_id='{$member_iam['mem_id']}'";

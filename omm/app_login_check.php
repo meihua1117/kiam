@@ -25,26 +25,26 @@ if($row['mem_code'] and $row[is_leave] == 'N')
 	$site = explode(".", $HTTP_HOST);
 	if($row['site'] != "") {
 		$_SESSION['one_member_id'] = $_POST['one_id'];
-		$_SESSION[one_mem_lev] = $row[mem_leb];
+		$_SESSION['one_mem_lev'] = $row['mem_leb'];
 		$service_sql = "select mem_id,sub_domain from Gn_Service where mem_id= '{$_POST['one_id']}'";
 		$service_result = mysqli_query($self_con,$service_sql);
 		$service_row = mysqli_fetch_array($service_result);
 		if ($service_row['mem_id'] != "") {
-			$url = parse_url($service_row[sub_domain]);
+			$url = parse_url($service_row['sub_domain']);
 			$_SESSION['one_member_subadmin_id'] = $_POST['one_id'];
-			$_SESSION['one_member_subadmin_domain'] = $url[host];
+			$_SESSION['one_member_subadmin_domain'] = $url['host'];
 		}
 	}
 	if($row['site_iam'] != ""){
 		$_SESSION['iam_member_id'] = $_POST['one_id'];;
-		$_SESSION['iam_member_leb'] = $row[iam_leb];
+		$_SESSION['iam_member_leb'] = $row['iam_leb'];
 		$iam_sql = "select mem_id,sub_domain from Gn_Iam_Service where mem_id= '{$_POST['one_id']}'";
 		$iam_result = mysqli_query($self_con,$iam_sql);
 		$iam_row = mysqli_fetch_array($iam_result);
 		if ($iam_row['mem_id'] != "") {
-			$url = parse_url($iam_row[sub_domain]);
+			$url = parse_url($iam_row['sub_domain']);
 			$_SESSION['iam_member_subadmin_id'] = $_POST['one_id'];
-			$_SESSION['iam_member_subadmin_domain'] = $url[host];
+			$_SESSION['iam_member_subadmin_domain'] = $url['host'];
 		}
 	}
 	// $memToken = generateRandomString(10);

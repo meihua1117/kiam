@@ -275,7 +275,7 @@ extract($_REQUEST);
                                 <input type="hidden" name="page2" value="<?=$page2?>" />        
                             </form>	                        
 							<?
-							if($_REQUEST[chanel] == 2 || $_REQUEST[chanel] == 4 || (!$_REQUEST[chanel] && !$_REQUEST[status])){
+							if($_REQUEST[chanel] == 2 || $_REQUEST[chanel] == 4 || (!$_REQUEST[chanel] && !$_REQUEST['status'])){
 							?>
             				<div class="button_box">
 								<?if($_REQUEST[chanel] == 4){?>
@@ -380,8 +380,8 @@ extract($_REQUEST);
 												<input type="hidden" name="show_recv_num" value="<?=$row['recv_num']?>"/>
 											</td>
 											<td>
-												<a href="javascript:void(0)" onclick="show_recv('show_title','<?=$c?>','문자제목')"><?=str_substr($row[title],0,14,'utf-8')?></a>
-												<input type="hidden" name="show_title" value="<?=$row[title]?>"/>
+												<a href="javascript:void(0)" onclick="show_recv('show_title','<?=$c?>','문자제목')"><?=str_substr($row['title'],0,14,'utf-8')?></a>
+												<input type="hidden" name="show_title" value="<?=$row['title']?>"/>
 											</td>
 											<td style="font-size:12px;">
 												<a href="javascript:void(0)" onclick="show_recv('show_content','<?=$c?>','문자내용')"><?=str_substr($row['content'],0,30,'utf-8')?></a>
