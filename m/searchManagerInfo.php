@@ -59,16 +59,16 @@ $left_str="팀장검색";
 								$sql="select count(mem_code) as cnt from Gn_Member where 1=1 $sql_search ";
 								$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 								$row=mysqli_fetch_array($result);
-								$intRowCount=$row[cnt];
-								if (!$_POST[lno]) 
+								$intRowCount=$row['cnt'];
+								if (!$_POST['lno']) 
 									$intPageSize =15;
 								else 
-								   $intPageSize = $_POST[lno];				
+								   $intPageSize = $_POST['lno'];				
 								$intPageCount=(int)(($intRowCount+$intPageSize-1)/$intPageSize);     
 								   
-								if($_POST[page])
+								if($_POST['page'])
 								{
-								  $page=(int)$_POST[page];
+								  $page=(int)$_POST['page'];
 								  $sort_no=$intRowCount-($intPageSize*$page-$intPageSize); 
 								}
 								else
@@ -76,8 +76,8 @@ $left_str="팀장검색";
 								  $page=1;
 								  $sort_no=$intRowCount;
 								}
-								if($_POST[page2])
-								    $page2=(int)$_POST[page2];
+								if($_POST['page2'])
+								    $page2=(int)$_POST['page2'];
 								else
 								    $page2=1;								
 									                                
@@ -90,7 +90,7 @@ $left_str="팀장검색";
     								?>
                                     <tr>
                                         <td style="width:6%;text-align:left;"><label><?=$sort_no?></label></td>
-                                        <td style="width:80%;"><?=$row[mem_name]?></td>
+                                        <td style="width:80%;"><?=$row['mem_name']?></td>
                                         <td style="width:14%;"><a href="javascript:;;" onclick="choiceId('<? echo $row['mem_id']?>')" style="border:1px solid #000;padding:5px">선택</a></td>
                                     </tr>
                                     <?

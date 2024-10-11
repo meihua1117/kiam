@@ -1,7 +1,7 @@
 <?
 $path="./";
 include_once "_head_open.php";
-if(!$_SESSION[one_member_id])
+if(!$_SESSION['one_member_id'])
 {
 
 ?>
@@ -11,7 +11,7 @@ location.replace('/ma.php');
 <?
 exit;
 }
-	$sql="select * from Gn_Member  where mem_id='".$_SESSION[one_member_id]."'";
+	$sql="select * from Gn_Member  where mem_id='".$_SESSION['one_member_id']."'";
 	$sresul_num=mysqli_query($self_con,$sql);
 	$data=mysqli_fetch_array($sresul_num);	
 	
@@ -108,7 +108,7 @@ function copyHtml(url){
               </tr>
               <?
 
-        $sql_serch=" m_id ='$_SESSION[one_member_id]' and event_name_kor!='단체회원자동가입및아이엠카드생성' AND event_name_kor!='콜백메시지관리자설정동의' AND event_name_kor!='데일리문자세트자동생성' ";
+        $sql_serch=" m_id ='{$_SESSION['one_member_id']}' and event_name_kor!='단체회원자동가입및아이엠카드생성' AND event_name_kor!='콜백메시지관리자설정동의' AND event_name_kor!='데일리문자세트자동생성' ";
 				if($_REQUEST[search_date])
 				{					
 					if($_REQUEST[rday1])
@@ -125,17 +125,17 @@ function copyHtml(url){
 				$sql="select count(event_idx) as cnt from Gn_event where $sql_serch ";
 				$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 				$row=mysqli_fetch_array($result);
-				$intRowCount=$row[cnt];
+				$intRowCount=$row['cnt'];
 				
               if($intRowCount)
               {				
-				if (!$_POST[lno]) 
+				if (!$_POST['lno']) 
 					$intPageSize =20;
 				else 
-				   $intPageSize = $_POST[lno];				
-				if($_POST[page])
+				   $intPageSize = $_POST['lno'];				
+				if($_POST['page'])
 				{
-				  $page=(int)$_POST[page];
+				  $page=(int)$_POST['page'];
 				  $sort_no=$intRowCount-($intPageSize*$page-$intPageSize); 
 				}
 				else
@@ -143,17 +143,17 @@ function copyHtml(url){
 				  $page=1;
 				  $sort_no=$intRowCount;
 				}
-				if($_POST[page2])
-				  $page2=(int)$_POST[page2];
+				if($_POST['page2'])
+				  $page2=(int)$_POST['page2'];
 				else
 				  $page2=1;
 				$int=($page-1)*$intPageSize;
-				if($_REQUEST[order_status])
-				  $order_status=$_REQUEST[order_status];
+				if($_REQUEST['order_status'])
+				  $order_status=$_REQUEST['order_status'];
 				else
 				  $order_status="desc"; 
-				if($_REQUEST[order_name])
-				  $order_name=$_REQUEST[order_name];
+				if($_REQUEST['order_name'])
+				  $order_name=$_REQUEST['order_name'];
 				else
 				  $order_name="event_idx";
 				  

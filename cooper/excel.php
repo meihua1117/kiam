@@ -39,7 +39,7 @@ include_once "../lib/rlatjd_fun.php";
                                               mem_add1='$addr',
                                               mem_email='$email',
                                               mem_sex='$sex',
-                                              join_ip='$_SERVER[REMOTE_ADDR]'
+                                              join_ip='{$_SERVER['REMOTE_ADDR']}'
           ";
           echo $query;
           //mysqli_query($self_con,$query);

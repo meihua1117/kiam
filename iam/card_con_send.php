@@ -2,7 +2,7 @@
 include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
 
 $date_today=date("Y-m-d");
-$sql="select * from Gn_Member where mem_id='$_SESSION[iam_member_id]' and site != '' ";
+$sql="select * from Gn_Member where mem_id='{$_SESSION['iam_member_id']}' and site != '' ";
 $resul=mysqli_query($self_con,$sql);
 $data=mysqli_fetch_array($resul);
 
@@ -169,7 +169,7 @@ if(isset($_POST['settle_type'])){
                             alarm_state=0";
             $res_result = mysqli_query($self_con,$sql_contents_recv);
 
-            $sql_update = "update Gn_Member set mem_point={$current_point} where mem_id='{$_SESSION[iam_member_id]}'";
+            $sql_update = "update Gn_Member set mem_point={$current_point} where mem_id='{$_SESSION['iam_member_id']}'";
             mysqli_query($self_con,$sql_update);
         }
 
@@ -356,7 +356,7 @@ if(isset($_POST['settle_type'])){
         $res_result = mysqli_query($self_con,$update_cnt);
     }
     else if($type == "payment_show"){
-        $sql_sell = "update Gn_Item_Pay_Result set alarm_state=1 where buyer_id='$_SESSION[iam_member_id]' and point_val=1 and site is not null and type='servicebuy' and alarm_state=0";
+        $sql_sell = "update Gn_Item_Pay_Result set alarm_state=1 where buyer_id='{$_SESSION['iam_member_id']}' and point_val=1 and site is not null and type='servicebuy' and alarm_state=0";
         $res_result = mysqli_query($self_con,$sql_sell);
     }
     else if($type == "refuse"){

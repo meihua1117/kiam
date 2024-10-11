@@ -1,5 +1,5 @@
 <?
-if($_SESSION[one_member_id] != "db") {
+if($_SESSION['one_member_id'] != "db") {
     header('Location: /');
     exit;
 }

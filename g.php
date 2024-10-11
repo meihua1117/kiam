@@ -8,20 +8,20 @@ if($_REQUEST['mode']=="inser")
 	$resul=mysqli_query($self_con,$sql);
 	$row=mysqli_fetch_array($resul);
 	
-	$sql_d="select idx from Gn_MMS_Agree where send_num='$row[send_num]' and recv_num='$_REQUEST[n]' ";
+	$sql_d="select idx from Gn_MMS_Agree where send_num='{$row['send_num']}' and recv_num='$_REQUEST[n]' ";
 	$resul_d = mysqli_query($self_con,$sql_d);
 	$row_d = mysqli_fetch_array($resul_d);
 	if($row_d['idx'] != null)
 	{
-		$deny_info[send_num]=$row[send_num];
-		$deny_info[recv_num]=$_REQUEST[n];
+		$deny_info['send_num']=$row['send_num'];
+		$deny_info['recv_num']=$_REQUEST[n];
 		$deny_info[mem_id]=$row[mem_id];
 		$deny_info[title]=$row[title];
-		$deny_info[content]=substr(htmlspecialchars($row[content]),0,20)."...";
+		$deny_info['content']=substr(htmlspecialchars($row['content']),0,20)."...";
 		$deny_info[jpg]=$row[jpg];
 		$deny_info[jpg1]=$row[jpg1];
 		$deny_info[jpg2]=$row[jpg2];
-		$deny_info[up_date]=$row[up_date];		
+		$deny_info['up_date']=$row['up_date'];		
 		$deny_info[status]='A';		
 		$sql="insert into Gn_MMS_Agree set ";
 		foreach($deny_info as $key=>$v)

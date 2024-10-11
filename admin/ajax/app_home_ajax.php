@@ -113,7 +113,7 @@ else if($mode == "change_site"){
         $site2 = explode(".", trim($site1[1]));
         $site = trim($site2[0]);
 
-        $sql_update = "update Gn_Member set site='{$site}' where mem_id='{$_SESSION[iam_member_id]}'";
+        $sql_update = "update Gn_Member set site='{$site}' where mem_id='{$_SESSION['iam_member_id']}'";
         $res = mysqli_query($self_con,$sql_update);
     }
     else{
@@ -125,7 +125,7 @@ else if($mode == "change_site"){
         $res_site = mysqli_query($self_con,$mem_site);
         $row_site = mysqli_fetch_array($res_site);
 
-        $sql_update = "update Gn_Member set site='{$row_site[site]}' where mem_id='{$_SESSION[iam_member_id]}'";
+        $sql_update = "update Gn_Member set site='{$row_site[site]}' where mem_id='{$_SESSION['iam_member_id']}'";
         $res = mysqli_query($self_con,$sql_update);
     }
 }

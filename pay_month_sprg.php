@@ -18,7 +18,7 @@ $pay_info['resultMsg'] = "정기결제";
 $pay_info['payMethod'] = "MONTH";
 $pay_info['TotPrice'] = $_POST['allat_amt']; //금액
 $pay_info['pc_mobile'] = "A"; //금액
-$pay_info['VACT_InputName'] =$member_1[mem_name];
+$pay_info['VACT_InputName'] =$member_1['mem_name'];
 $pay_info['buyer_id'] = $member_1[mem_id];        
 $member_type = /*$pay_info['iam_pay_type'] =*/ $_POST['member_type'];
 $pay_info['add_opt'] = $_POST['add_opt'];
@@ -33,7 +33,7 @@ $pay_info['orderNumber'] = $orderNumber;
 $sql = "insert into tjd_pay_result
     set idx='$orderNumber',
     orderNumber='$orderNumber',
-    VACT_InputName='$data[mem_name]',
+    VACT_InputName='{$data['mem_name']}',
     TotPrice='$pay_info[TotPrice]',
     end_date=date_add(now(),INTERVAL {$_pay_info[month_cnt]} month),
     end_status='N',

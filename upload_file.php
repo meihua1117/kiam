@@ -1,7 +1,7 @@
 <?
 $attachDir = "attachment/";
 include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
-if($_FILES['file_attach'][name]){
+if($_FILES['file_attach']['name']){
 	$size = filesize($_FILES['file_attach']['tmp_name']);
 	if($size > 3 * 1024 * 1024) {
 		?>

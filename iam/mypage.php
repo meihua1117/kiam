@@ -1,6 +1,6 @@
 <?php
 include "inc/header.inc.php";
-if ($_SESSION[iam_member_id] == "") {
+if ($_SESSION['iam_member_id'] == "") {
     echo "<script>location='/';</script>";
 }
 $link  = $_GET["link"];
@@ -86,7 +86,7 @@ $link  = $_GET["link"];
                         <div style="text-align: center">
                             <h2 class="title">회원정보수정</h2>
                         </div>
-                        <input type="hidden" name="join_modify" value="<?php echo $member_iam[mem_code] ?>">
+                        <input type="hidden" name="join_modify" value="<?php echo $member_iam['mem_code'] ?>">
                         <section class="input-field">
                             <h3 class="title">기본정보수정</h3>
                             <div class="utils clearfix"></div>
@@ -365,7 +365,7 @@ $link  = $_GET["link"];
                                         </div>
                                     </div>
                                 </div>
-                                <? if ($_SESSION[iam_member_subadmin_id]) { ?>
+                                <? if ($_SESSION['iam_member_subadmin_id']) { ?>
                                     <div class="attr-row">
                                         <div class="attr-name">추천링크</div>
                                         <div class="attr-value">
@@ -386,13 +386,13 @@ $link  = $_GET["link"];
                                         <div class="attr-name">추천아이디</div>
                                         <div class="attr-value">
                                             <div class="input-wrap">
-                                                <input type="hidden" name="nick" itemname='닉네임' value="<?= $member_iam[mem_name] ?>" />
+                                                <input type="hidden" name="nick" itemname='닉네임' value="<?= $member_iam['mem_name'] ?>" />
                                                 <?= $member_iam[recommend_id] ?>
                                             </div>
                                         </div>
                                     </div>
                                 <? } else { ?>
-                                    <input type="hidden" name="nick" itemname='닉네임' value="<?= $member_iam[mem_name] ?>" />
+                                    <input type="hidden" name="nick" itemname='닉네임' value="<?= $member_iam['mem_name'] ?>" />
                                 <? } ?>
                                 <? echo $member_iam[keywords]; ?>
                                 <div class="attr-row">
@@ -444,7 +444,7 @@ $link  = $_GET["link"];
                         </section>
                         <div class="button-wrap">
                             <a href="javascript:history.back(-1);" class="button is-grey">취소</a>
-                            <a href="javascript:save_form(edit_form,'<?= $member_iam[mem_code] ?>')" class="button is-pink">정보수정</a>
+                            <a href="javascript:save_form(edit_form,'<?= $member_iam['mem_code'] ?>')" class="button is-pink">정보수정</a>
                         </div>
                     </form>
                 </div>
@@ -559,7 +559,7 @@ $link  = $_GET["link"];
                     <label style="padding:15px 0px"></label>
                 </div>
                 <div class="modal-body">
-                    <img src="img/icon_gm_apply.PNG" onclick="save_form(edit_form,'<?= $member_iam[mem_code] ?>')">
+                    <img src="img/icon_gm_apply.PNG" onclick="save_form(edit_form,'<?= $member_iam['mem_code'] ?>')">
                 </div>
             </div>
         </div>
@@ -628,7 +628,7 @@ $link  = $_GET["link"];
                     url: "/ajax/get_mem_address.php",
                     data: {
                         mode: 'reseller_state',
-                        mem_id: '<?= $_SESSION[iam_member_id] ?>'
+                        mem_id: '<?= $_SESSION['iam_member_id'] ?>'
                     },
                     dataType: 'json',
                     success: function(data) {
@@ -646,7 +646,7 @@ $link  = $_GET["link"];
                     url: "/ajax/get_mem_address.php",
                     data: {
                         mode: 'cur_gwcleb_state',
-                        mem_id: '<?= $_SESSION[iam_member_id] ?>'
+                        mem_id: '<?= $_SESSION['iam_member_id'] ?>'
                     },
                     dataType: 'json',
                     success: function(data) {

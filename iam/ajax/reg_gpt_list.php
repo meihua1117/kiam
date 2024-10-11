@@ -2,7 +2,7 @@
 <?
 include_once "../../lib/rlatjd_fun.php";
 
-$mem_id = $_SESSION[iam_member_id];
+$mem_id = $_SESSION['iam_member_id'];
 
 $qu = htmlspecialchars($_POST[question]);
 $an = htmlspecialchars($_POST[answer]);

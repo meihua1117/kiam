@@ -2,7 +2,7 @@
 include_once "../lib/rlatjd_fun.php";
 echo '<script type="text/JavaScript" src="/iam/js/jquery-3.1.1.min.js"></script>'.PHP_EOL;
 
-if($_SESSION[iam_member_id] == "") {
+if($_SESSION['iam_member_id'] == "") {
     echo "<script>location='/';</script>";
 }
 extract($_POST);

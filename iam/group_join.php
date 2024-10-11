@@ -99,7 +99,7 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                 $img = "img/main/img-forfds.jpg";
                 $title = "친구의 그룹";
             }
-            $sql = "select * from gn_group_member where mem_id = '$_SESSION[iam_member_id]'";
+            $sql = "select * from gn_group_member where mem_id = '{$_SESSION['iam_member_id']}'";
             $res = mysqli_query($self_con,$sql);
             $my_group = array();
             while($row = mysqli_fetch_array($res)){
@@ -182,7 +182,7 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                 $total_block2 = ceil($total_page2/$block_ct2); //블럭 총 개수
                 $start_num2 = ($page2-1) * $list2; //시작번호 (page-1)에서 $list를 곱한다.
 
-                $mem_sql = "select site_iam from Gn_Member where mem_id='$_SESSION[iam_member_id]'";
+                $mem_sql = "select site_iam from Gn_Member where mem_id='{$_SESSION['iam_member_id']}'";
                 $mem_res = mysqli_query($self_con,$mem_sql);
                 $mem_row = mysqli_fetch_array($mem_res);
                 if($type == "friend") {
@@ -192,7 +192,7 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                             inner join Gn_Iam_Name_Card card on card.idx = ggi.card_idx 
                             inner join Gn_Member mem on mem.mem_id = card.mem_id 
                             where ggm.mem_id in (select mem_id from Gn_Member where site_iam='$mem_row[site_iam]') 
-                                and ggm.group_id not in (select group_id from gn_group_member where mem_id ='$_SESSION[iam_member_id]')";
+                                and ggm.group_id not in (select group_id from gn_group_member where mem_id ='{$_SESSION['iam_member_id']}')";
                     if($search_str)
                         $group_sql .= " and ggi.name like '%$search_str%' ";
                     $group_sql .= " group by group_id order by g_mem_count desc";
@@ -259,12 +259,12 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                         ?>
                         <div style="padding-top: 2px;">
                             <div style="border:1px solid #ddd;background-color: #ffffff;border-radius: 10px;padding-bottom: 2px;display:flex;justify-content: space-between;">
-                                <div style="display: flex" onclick = "location.href = '/index.php?' + '<?=$group_row[card_short_url].$group_row[mem_code]?>'+'&cur_win=group-con&gkind=' +'<?=$group_row[group_id]?>'">
+                                <div style="display: flex" onclick = "location.href = '/index.php?' + '<?=$group_row[card_short_url].$group_row['mem_code']?>'+'&cur_win=group-con&gkind=' +'<?=$group_row[group_id]?>'">
                                     <div style="border-radius: 10%;width: 50px;height: 50px;overflow: hidden;margin: 10px;position:relative">
                                         <img src="<?=$group_row[main_img1]?>" style="width: 50px;height:50px;">
                                     </div>
                                     <div>
-                                        <h4 style="margin-left: 10px;margin-top: 10px"><?=$group_row[name]?></h4>
+                                        <h4 style="margin-left: 10px;margin-top: 10px"><?=$group_row['name']?></h4>
                                         <h5 style="margin-left: 10px;margin-top: 10px;margin-bottom: 10px">
                                             <small>멤버 <?=$mem_row[0]?>명 &bull; 주간 게시물 <?=$cont_row[0]?>개</small>
                                         </h5>
@@ -274,7 +274,7 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                                                 $f_index = 0;
                                                 while($f_row = mysqli_fetch_array($f_res)){
                                                     if($f_index == 0)
-                                                        $f_name = $f_row[mem_name];
+                                                        $f_name = $f_row['mem_name'];
                                                     if($f_index++ < 12){?>
                                                         <div style="border:1px solid #ddd;border-radius: 50%;width: 30px;height: 30px;overflow: hidden;margin-left: -10px;">
                                                             <img src="<?=$f_row[profile]?>" style="width: 100%;height:100%;">
@@ -328,7 +328,7 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                         $card_res = mysqli_query($self_con,$card_sql);
                         $card_row = mysqli_fetch_array($card_res);
                         $contents_card_url = $card_row[card_short_url];
-                        $m_code = $card_row[mem_code];
+                        $m_code = $card_row['mem_code'];
                         $group_info = $group_row[public_status] == "Y"?"공개그룹":"비공개그룹";
                         $group_info .= "&bull;";
                         $mem_sql = "select count(*) from gn_group_member where group_id = '$group_row[group_id]'";
@@ -345,14 +345,14 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                                 </a>
                                 <div class="wrap" style="margin-left: 10px">
                                     <a href="/?<?=strip_tags($contents_card_url.$m_code)?>" class="user-name" style="display: block;margin-top: 0px;font-size: 15px;font-weight: 700;color: #000000;">
-                                        <?=$group_row[name] ?>
+                                        <?=$group_row['name'] ?>
                                     </a>
                                     <a href="/?<?=strip_tags($contents_card_url.$m_code)?>" class="user-name" style="">
                                         <?=$group_info?>
                                     </a>
                                 </div>
                                 <button class = "btn btn-link" type="button" style="position: absolute; right: 40px; top: 16px;" onclick = "join_group('<?=$group_row[group_id]?>')">참여</button>
-                                <?if( $_SESSION[iam_member_id] != "" && $_SESSION[iam_member_id] != $group_row[mem_id]  ){?>
+                                <?if( $_SESSION['iam_member_id'] != "" && $_SESSION['iam_member_id'] != $group_row[mem_id]  ){?>
                                     <div class="dropdown" style="position: absolute; right: 10px; top: 8px;">
                                         <button class="btn-link dropdown-toggle westory_dropdown" type="button" data-toggle="dropdown" style="">
                                             <img src="/iam/img/menu/icon_dot.png" style="height:24px">
@@ -391,7 +391,7 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                                                     </div>
                                                 <?}?>
                                                 <div class="order" style="text-align: right;display: table-cell;vertical-align: middle;">
-                                                    <?if($_SESSION[iam_member_id]){
+                                                    <?if($_SESSION['iam_member_id']){
                                                         $price_service = $group_row['contents_sell_price'];
                                                         $name_service = $group_row['contents_title'];
                                                         $sellerid_service = $group_row['mem_id'];
@@ -582,8 +582,8 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                                                 $post_sql = "select SQL_CALC_FOUND_ROWS * from Gn_Iam_Post p inner join Gn_Member m on p.mem_id = m.mem_id where p.content_idx = '$group_row[idx]' and p.lock_status = 'N' order by p.reg_date";
                                                 $post_res = mysqli_query($self_con,$post_sql);
                                             ?>
-                                            <a  class = "hand" href="javascript:contents_like('<?=$group_row['idx']?>','<?=$_SESSION[iam_member_id]?>');">
-                                                <?if(in_array($_SESSION[iam_member_id],explode(",",$group_row['contents_like']))){?>	
+                                            <a  class = "hand" href="javascript:contents_like('<?=$group_row['idx']?>','<?=$_SESSION['iam_member_id']?>');">
+                                                <?if(in_array($_SESSION['iam_member_id'],explode(",",$group_row['contents_like']))){?>	
                                                 <img src="/iam/img/menu/icon_like_active.png" width="24px" alt="" id="like_img_<?=$group_row['idx']?>">
                                                 <?}else{?>
                                                 <img src="/iam/img/menu/icon_like.png" width="24px" alt="" id="like_img_<?=$group_row['idx']?>">
@@ -642,39 +642,39 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                                             </a>
                                             <div class="wrap" style="margin:10px 0px;">
                                                 <span class="date">
-                                                    <?=$post_row[mem_name] ." ".$post_row['reg_date']?>
+                                                    <?=$post_row['mem_name'] ." ".$post_row['reg_date']?>
                                                 </span>
                                                 <span class="user-name">
                                                     <?=$post_row['content']?>
                                                 </span>
                                             </div>
-                                            <?if($_SESSION[iam_member_id] && $_SESSION[iam_member_id] == $post_row[mem_id]){?>
+                                            <?if($_SESSION['iam_member_id'] && $_SESSION['iam_member_id'] == $post_row[mem_id]){?>
                                                 <div class="dropdown" style="top : 10px;position : absolute;right:30px;height:24px">
                                                     <img class="dropdown-toggle" data-toggle="dropdown" src="/iam/img/menu/icon_dot.png" style="height: 24px;">
                                                     <ul class="dropdown-menu namecard-dropdown " style="background: white; color : black;top:10px;">
                                                         <li>
-                                                            <a href="javascript:void(0)" onclick="edit_post('<?=$group_row[idx]?>','<?=$post_row[id]?>','<?=$post_row['content']?>')" title="댓글 수정">
+                                                            <a href="javascript:void(0)" onclick="edit_post('<?=$group_row[idx]?>','<?=$post_row['id']?>','<?=$post_row['content']?>')" title="댓글 수정">
                                                                 <p>수정</p>
                                                             </a>
                                                         </li>
                                                         <li>
-                                                            <a href="javascript:void(0)" onclick="delete_post('<?=$group_row[idx]?>','<?=$post_row[id]?>')" title="댓글 삭제">
+                                                            <a href="javascript:void(0)" onclick="delete_post('<?=$group_row[idx]?>','<?=$post_row['id']?>')" title="댓글 삭제">
                                                                 <p>삭제</p>
                                                             </a>
                                                         </li>
                                                     </ul>
                                                 </div>
-                                            <?}else if($_SESSION[iam_member_id] && $_SESSION[iam_member_id] == $group_row[mem_id]){?>
+                                            <?}else if($_SESSION['iam_member_id'] && $_SESSION['iam_member_id'] == $group_row[mem_id]){?>
                                                 <div class="dropdown" style="top : 10px;position : absolute;right:30px;height:24px">
                                                     <img class="dropdown-toggle" data-toggle="dropdown" src="/iam/img/menu/icon_dot.png" style="height: 24px;">
                                                     <ul class="dropdown-menu namecard-dropdown " style="background: white; color : black;top:10px;">
                                                         <li>
-                                                            <a href="javascript:void(0)" onclick="delete_post('<?=$group_row[idx]?>','<?=$post_row[id]?>')" title="댓글 삭제">
+                                                            <a href="javascript:void(0)" onclick="delete_post('<?=$group_row[idx]?>','<?=$post_row['id']?>')" title="댓글 삭제">
                                                                 <p>삭제</p>
                                                             </a>
                                                         </li>
                                                         <li>
-                                                            <a href="javascript:void(0)" onclick="lock_post('<?=$group_row[idx]?>','<?=$post_row[id]?>')" title="댓글 차단">
+                                                            <a href="javascript:void(0)" onclick="lock_post('<?=$group_row[idx]?>','<?=$post_row['id']?>')" title="댓글 차단">
                                                                 <p>차단</p>
                                                             </a>
                                                         </li>
@@ -693,7 +693,7 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                                                     <textarea id = "<?='post_reply_'.$post_row['id'].'_content'?>" name = "<?='post_reply_'.$post_row['id'].'_content'?>" class  = "post_reply_content" maxlength="300" placeholder="답글은 300자 이내로 작성해주세요" style="font-size:14px;height:35px;width: 100%;border: 1px;"></textarea>
                                                 </div>
                                                 <div style="width:35px">
-                                                    <button type="button" class="btn btn-link" style="position: absolute; right: 1px; padding: 5px 12px;color:#82c836;font-size:18px" onclick="add_post_reply('<?=$group_row[idx]?>','<?=$post_row[id]?>')">작성</button>
+                                                    <button type="button" class="btn btn-link" style="position: absolute; right: 1px; padding: 5px 12px;color:#82c836;font-size:18px" onclick="add_post_reply('<?=$group_row[idx]?>','<?=$post_row['id']?>')">작성</button>
                                                 </div>
                                             </div>
                                             <div style="border-bottom: 0px solid #dddddd;margin-left:60px">
@@ -701,7 +701,7 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                                             </div>
                                         </div>
                                         <?
-                                        $reply_sql = "select * from Gn_Iam_Post_Response r inner join Gn_Member m on r.mem_id = m.mem_id where r.post_idx = '$post_row[id]' order by r.reg_date";
+                                        $reply_sql = "select * from Gn_Iam_Post_Response r inner join Gn_Member m on r.mem_id = m.mem_id where r.post_idx = '{$post_row['id']}' order by r.reg_date";
                                         $reply_res = mysqli_query($self_con,$reply_sql);
                                         while($reply_row = mysqli_fetch_array($reply_res)){
                                             $reply_card_sql = "select card_short_url from Gn_Iam_Name_Card where group_id is NULL and mem_id = '$reply_row[mem_id]' order by req_data asc";
@@ -720,39 +720,39 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                                                 </a>
                                                 <div class="wrap">
                                                     <span class="date">
-                                                        <?=$reply_row[mem_name] ?>&nbsp;&nbsp;&nbsp;<?=$reply_row['reg_date']?>
+                                                        <?=$reply_row['mem_name'] ?>&nbsp;&nbsp;&nbsp;<?=$reply_row['reg_date']?>
                                                     </span>
                                                     <span class="user-name" id = "<?='reply_list_'.$reply_row['id']?>">
                                                         <?=$reply_row['contents']?>
                                                     </span>
                                                 </div>
-                                                <?if($_SESSION[iam_member_id] && $_SESSION[iam_member_id] == $post_row[mem_id]){?>
+                                                <?if($_SESSION['iam_member_id'] && $_SESSION['iam_member_id'] == $post_row[mem_id]){?>
                                                     <div class="dropdown" style="top : 10px;position : absolute;right:30px;height:24px">
                                                         <img class="dropdown-toggle" data-toggle="dropdown" src="/iam/img/menu/icon_dot.png" style="height:24px">
                                                         <ul class="dropdown-menu namecard-dropdown " style="background: white; color : black;top:10px;">
                                                             <li>
-                                                                <a href="javascript:void(0)" onclick="edit_post_reply('<?=$group_row[idx]?>','<?=$post_row[id]?>','<?=$reply_row[id]?>','<?=$reply_row['contents']?>')" title="답글 수정">
+                                                                <a href="javascript:void(0)" onclick="edit_post_reply('<?=$group_row[idx]?>','<?=$post_row['id']?>','<?=$reply_row['id']?>','<?=$reply_row['contents']?>')" title="답글 수정">
                                                                     <p>수정</p>
                                                                 </a>
                                                             </li>
                                                             <li>
-                                                                <a href="javascript:void(0)" onclick="delete_post_reply('<?=$group_row[idx]?>','<?=$reply_row[id]?>')" title="답글 삭제">
+                                                                <a href="javascript:void(0)" onclick="delete_post_reply('<?=$group_row[idx]?>','<?=$reply_row['id']?>')" title="답글 삭제">
                                                                     <p>삭제</p>
                                                                 </a>
                                                             </li>
                                                         </ul>
                                                     </div>
-                                                <?}else if($_SESSION[iam_member_id] && $_SESSION[iam_member_id] == $group_row[mem_id]){?>
+                                                <?}else if($_SESSION['iam_member_id'] && $_SESSION['iam_member_id'] == $group_row[mem_id]){?>
                                                     <div class="dropdown" style="top : 10px;position : absolute;right:30px;height:24px">
                                                         <img class="dropdown-toggle" data-toggle="dropdown" src="/iam/img/menu/icon_dot.png" style="height: 24px;">
                                                         <ul class="dropdown-menu namecard-dropdown " style="background: white; color : black;top:10px;">
                                                             <li>
-                                                                <a href="javascript:void(0)" onclick="delete_post_reply('<?=$group_row[idx]?>','<?=$reply_row[id]?>')" title="답글 삭제">
+                                                                <a href="javascript:void(0)" onclick="delete_post_reply('<?=$group_row[idx]?>','<?=$reply_row['id']?>')" title="답글 삭제">
                                                                     <p>삭제</p>
                                                                 </a>
                                                             </li>
                                                             <li>
-                                                                <a href="javascript:void(0)" onclick="lock_post_reply('<?=$group_row[idx]?>','<?=$reply_row[id]?>')" title="답글 차단">
+                                                                <a href="javascript:void(0)" onclick="lock_post_reply('<?=$group_row[idx]?>','<?=$reply_row['id']?>')" title="답글 차단">
                                                                     <p>차단</p>
                                                                 </a>
                                                             </li>
@@ -809,7 +809,7 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                         <td>
                             <div class="attr-value" style="display:flex;flex-wrap: wrap;">
                                 <?
-                                $sql5="select card_short_url,card_title from Gn_Iam_Name_Card where group_id is NULL and mem_id = '$_SESSION[iam_member_id]' order by req_data asc";
+                                $sql5="select card_short_url,card_title from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$_SESSION['iam_member_id']}' order by req_data asc";
                                 $result5=mysqli_query($self_con,$sql5);
                                 $i = 0;
                                 while($row5=mysqli_fetch_array($result5)) {
@@ -962,7 +962,7 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                 dataType:"json",
                 data:{
                     post_alert : "Y",
-                    mem_id: '<?=$_SESSION[iam_member_id]?>'
+                    mem_id: '<?=$_SESSION['iam_member_id']?>'
                 },
                 success:function(data){
                     $("#recent_post").val(1);
@@ -981,7 +981,7 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                 data: {
                     content_idx: content_idx,
                     mode: 'read',
-                    mem_id: '<?=$_SESSION[iam_member_id]?>'
+                    mem_id: '<?=$_SESSION['iam_member_id']?>'
                 },
                 success: function (data) {
                     if (data.result == 'success') {
@@ -1033,7 +1033,7 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
             data:{
                 content_idx : content_idx,
                 mode : 'refresh',
-                mem_id : '<?=$_SESSION[iam_member_id]?>'
+                mem_id : '<?=$_SESSION['iam_member_id']?>'
             },
             success:function(data){
                 reloadShareCount(data.share_recv_count,data.share_send_count,data.share_post_count);
@@ -1195,7 +1195,7 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
             data:{
                 content_idx : content_idx,
                 mode : 'add',
-                mem_id : '<?=$_SESSION[iam_member_id]?>',
+                mem_id : '<?=$_SESSION['iam_member_id']?>',
                 post_content:post_content.val()
             },
             success:function(data){
@@ -1244,7 +1244,7 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                 content_idx : content_idx,
                 post_idx : post_idx,
                 mode : 'add_reply',
-                mem_id : '<?=$_SESSION[iam_member_id]?>',
+                mem_id : '<?=$_SESSION['iam_member_id']?>',
                 post_content:post_content.val()
             },
             success:function(data){
@@ -1287,7 +1287,7 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                 content_idx : content_idx,
                 post_idx : post_idx,
                 mode : 'del',
-                mem_id : '<?=$_SESSION[iam_member_id]?>'
+                mem_id : '<?=$_SESSION['iam_member_id']?>'
             },
             success:function(data){
                 reloadShareCount(data.share_recv_count,data.share_send_count,data.share_post_count);
@@ -1321,7 +1321,7 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                 content_idx : content_idx,
                 post_idx : reply_idx,
                 mode : 'delete_reply',
-                mem_id : '<?=$_SESSION[iam_member_id]?>'
+                mem_id : '<?=$_SESSION['iam_member_id']?>'
             },
             success:function(data){
                 reloadShareCount(data.share_recv_count,data.share_send_count,data.share_post_count);
@@ -1355,7 +1355,7 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                 content_idx : content_idx,
                 post_idx : post_idx,
                 mode : 'lock',
-                mem_id : '<?=$_SESSION[iam_member_id]?>'
+                mem_id : '<?=$_SESSION['iam_member_id']?>'
             },
             success:function(data){
                 reloadShareCount(data.share_recv_count,data.share_send_count,data.share_post_count);
@@ -1389,7 +1389,7 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                 content_idx : content_idx,
                 post_idx : reply_idx,
                 mode : 'lock_reply',
-                mem_id : '<?=$_SESSION[iam_member_id]?>'
+                mem_id : '<?=$_SESSION['iam_member_id']?>'
             },
             success:function(data){
                 reloadShareCount(data.share_recv_count,data.share_send_count,data.share_post_count);
@@ -1431,7 +1431,7 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                 content_idx : content_idx,
                 post_idx : post_idx,
                 mode : 'edit',
-                mem_id : '<?=$_SESSION[iam_member_id]?>',
+                mem_id : '<?=$_SESSION['iam_member_id']?>',
                 post_content:post_content.val()
             },
             success:function(data){
@@ -1488,7 +1488,7 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                 content_idx : content_idx,
                 post_idx : reply_idx,
                 mode : 'edit_reply',
-                mem_id : '<?=$_SESSION[iam_member_id]?>',
+                mem_id : '<?=$_SESSION['iam_member_id']?>',
                 post_content:post_content.val()
             },
             success:function(data){

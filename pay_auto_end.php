@@ -1,7 +1,7 @@
 <?
 $path="./";
 include_once "_head.php";
-if(!$_SESSION[one_member_id] || !$_SESSION[form_submit])
+if(!$_SESSION['one_member_id'] || !$_SESSION[form_submit])
 {
 ?>
 <script language="javascript">

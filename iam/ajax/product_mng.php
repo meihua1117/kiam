@@ -13,7 +13,7 @@ else{
     $up_dir = "/upload/";
 }
 
-$mem_id = $_SESSION[iam_member_id];
+$mem_id = $_SESSION['iam_member_id'];
 
 if($mode == "check_model_name"){
     $sql_chk = "select idx from Gn_Iam_Contents_Gwc where product_model_name='{$model_name}'";
@@ -43,7 +43,7 @@ else if($mode == "get_pay_res"){
     $date_this_month = date("Y-m", $cur_time)."-01 00:00:00";
     $date_pre_month = date("Y-m", $prev_month_ts)."-01 00:00:00";
 
-    $sql_this_month_pay = "select SUM(TotPrice) as money from tjd_pay_result where cash_prod_pay=0 and gwc_cont_pay=1 and buyer_id='{$_SESSION[iam_member_id]}' and end_status='Y' and date>'{$date_this_month}'";//당월 구매금액
+    $sql_this_month_pay = "select SUM(TotPrice) as money from tjd_pay_result where cash_prod_pay=0 and gwc_cont_pay=1 and buyer_id='{$_SESSION['iam_member_id']}' and end_status='Y' and date>'{$date_this_month}'";//당월 구매금액
     $res_this_month_pay = mysqli_query($self_con,$sql_this_month_pay);
     $row_this_month_pay = mysqli_fetch_array($res_this_month_pay);
     
@@ -53,11 +53,11 @@ else if($mode == "get_pay_res"){
         $cnt_all_prod_this = 20;
     }
 
-    $sql_get_prod_this = "select count(*) from Gn_Iam_Contents_Gwc where mem_id='{$_SESSION[iam_member_id]}' and ori_store_prod_idx!=0 and req_data>'{$date_this_month}'";
+    $sql_get_prod_this = "select count(*) from Gn_Iam_Contents_Gwc where mem_id='{$_SESSION['iam_member_id']}' and ori_store_prod_idx!=0 and req_data>'{$date_this_month}'";
     $res_get_prod_this = mysqli_query($self_con,$sql_get_prod_this);
     $row_get_prod_this = mysqli_fetch_array($res_get_prod_this);//당월 가져오기한 총 건수
 
-    $sql_pre_month_pay = "select SUM(TotPrice) as money from tjd_pay_result where cash_prod_pay=0 and gwc_cont_pay=1 and buyer_id='{$_SESSION[iam_member_id]}' and end_status='Y' and date>'{$date_pre_month}' and date<'{$date_this_month}'";//전달 구매금액
+    $sql_pre_month_pay = "select SUM(TotPrice) as money from tjd_pay_result where cash_prod_pay=0 and gwc_cont_pay=1 and buyer_id='{$_SESSION['iam_member_id']}' and end_status='Y' and date>'{$date_pre_month}' and date<'{$date_this_month}'";//전달 구매금액
     $res_pre_month_pay = mysqli_query($self_con,$sql_pre_month_pay);
     $row_pre_month_pay = mysqli_fetch_array($res_pre_month_pay);
     
@@ -67,12 +67,12 @@ else if($mode == "get_pay_res"){
         $cnt_all_prod_pre = 20;
     }
 
-    $sql_get_prod_pre = "select count(*) from Gn_Iam_Contents_Gwc where mem_id='{$_SESSION[iam_member_id]}' and ori_store_prod_idx!=0 and req_data>'{$date_pre_month}' and req_data<'{$date_this_month}'";
+    $sql_get_prod_pre = "select count(*) from Gn_Iam_Contents_Gwc where mem_id='{$_SESSION['iam_member_id']}' and ori_store_prod_idx!=0 and req_data>'{$date_pre_month}' and req_data<'{$date_this_month}'";
     $res_get_prod_pre = mysqli_query($self_con,$sql_get_prod_pre);
     $row_get_prod_pre = mysqli_fetch_array($res_get_prod_pre);//전달 가져오기한 총 건수
 
 
-    $sql_get_prod = "select count(*) from Gn_Iam_Contents_Gwc where mem_id='{$_SESSION[iam_member_id]}' and ori_store_prod_idx!=0";
+    $sql_get_prod = "select count(*) from Gn_Iam_Contents_Gwc where mem_id='{$_SESSION['iam_member_id']}' and ori_store_prod_idx!=0";
     $res_get_prod = mysqli_query($self_con,$sql_get_prod);
     $row_get_prod = mysqli_fetch_array($res_get_prod);//현재까지 가져오기한 총 건수
 
@@ -101,7 +101,7 @@ else if($mode == "req_provider"){
         $mem_id = $gongup_id;
     }
     else{
-        $mem_id = $_SESSION[iam_member_id];
+        $mem_id = $_SESSION['iam_member_id'];
     }
     $sql_update = "update Gn_Member set gwc_leb=2, gwc_req_leb=2, gwc_provider_name='{$provider_name}', gwc_worker_no='{$worker_no}', gwc_worker_state='{$gwc_worker_state}'".$img_str." where mem_id='{$mem_id}'";
     mysqli_query($self_con,$sql_update);
@@ -148,14 +148,14 @@ else if($mode == "get_prod_info"){
     }
     if($row_prod[idx]){
         if($mem_id != ''){
-            $mem_name = $row_mem_data[mem_name];
+            $mem_name = $row_mem_data['mem_name'];
             $mem_phone = $row_mem_data[mem_phone];
             $mem_add1 = $row_mem_data[mem_add1];
             $mem_email = $row_mem_data[mem_email];
             $bank_name = $row_mem_data[bank_name];
             $bank_owner = $row_mem_data[bank_owner];
             $bank_account = $row_mem_data[bank_account];
-            if($mem_id == $_SESSION[iam_member_id]){
+            if($mem_id == $_SESSION['iam_member_id']){
                 $same = "Y";
             }
         }

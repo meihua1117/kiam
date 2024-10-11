@@ -309,11 +309,11 @@
 											</div>
 											<div class="container" style="margin: 10px 0 0 9%;text-align: center;width: 83%;padding: 5px;">
 											<?
-											if($_SESSION[iam_member_id] != ""){
+											if($_SESSION['iam_member_id'] != ""){
 											?>
-												<input type="text" name="member_id" id="member_id" value="<?=$_SESSION[iam_member_id]?>" placeholder="회원님의 아이디를 입력하세요." style="width:250px;font-size: 15px;padding:5px;">
-											<?} else if($_SESSION[one_member_id] != ""){?>
-												<input type="text" name="member_id" id="member_id" value="<?=$_SESSION[one_member_id]?>" placeholder="회원님의 아이디를 입력하세요." style="width:250px;font-size: 15px;padding:5px;">
+												<input type="text" name="member_id" id="member_id" value="<?=$_SESSION['iam_member_id']?>" placeholder="회원님의 아이디를 입력하세요." style="width:250px;font-size: 15px;padding:5px;">
+											<?} else if($_SESSION['one_member_id'] != ""){?>
+												<input type="text" name="member_id" id="member_id" value="<?=$_SESSION['one_member_id']?>" placeholder="회원님의 아이디를 입력하세요." style="width:250px;font-size: 15px;padding:5px;">
 											<?} else{?>
 												<input type="text" name="member_id" id="member_id" placeholder="회원님의 아이디를 입력하세요." style="width:250px;font-size: 15px;padding:5px;">
 											<?}?>

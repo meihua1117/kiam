@@ -59,7 +59,7 @@ else if((int)$search_type == 3){
     $sql5="select count(idx) from Gn_Iam_Name_Card a inner join Gn_Member b on a.mem_id=b.mem_id where a.group_id is NULL and a.phone_display = 'Y' and b.site='$site_name_friends' $friends_sql_msg";
 }
 else if((int)$search_type == 4){
-    $sql5="select count(idx) from Gn_Iam_Name_Card a inner join Gn_Member b on a.mem_id=b.mem_id where b.recommend_id='$_SESSION[iam_member_id]' and a.group_id is NULL and a.phone_display = 'Y' $friends_sql_msg";
+    $sql5="select count(idx) from Gn_Iam_Name_Card a inner join Gn_Member b on a.mem_id=b.mem_id where b.recommend_id='{$_SESSION['iam_member_id']}' and a.group_id is NULL and a.phone_display = 'Y' $friends_sql_msg";
 } else {
     $sql5="select count(idx) from Gn_Iam_Friends where mem_id = '$card_owner' $friends_sql_msg";
 }
@@ -116,7 +116,7 @@ if((int)$search_type == 2) {
                 a.card_company as friends_company, a.card_phone as friends_phone from Gn_Iam_Name_Card a inner join Gn_Member b on a.mem_id=b.mem_id where group_id is NULL and phone_display = 'Y' and b.site_iam='$site_name_friends' $friends_sql_msg " . $limit_str;// limit $start_num2, $list2  height: 800px;overflow: auto;
 } else if((int)$search_type == 4){
     $sql6="select a.idx as friends_card_idx, a.card_short_url as friends_url, a.card_name as friends_name,
-                a.card_company as friends_company, a.card_phone as friends_phone from Gn_Iam_Name_Card a inner join Gn_Member b on a.mem_id=b.mem_id where b.recommend_id='$_SESSION[iam_member_id]' and group_id is NULL and phone_display = 'Y' $friends_sql_msg " . $limit_str;// limit $start_num2, $list2  height: 800px;overflow: auto;
+                a.card_company as friends_company, a.card_phone as friends_phone from Gn_Iam_Name_Card a inner join Gn_Member b on a.mem_id=b.mem_id where b.recommend_id='{$_SESSION['iam_member_id']}' and group_id is NULL and phone_display = 'Y' $friends_sql_msg " . $limit_str;// limit $start_num2, $list2  height: 800px;overflow: auto;
 } else {
     $sql6="select * from Gn_Iam_Friends where mem_id = '$card_owner' $friends_sql_msg " . $limit_str;
 }
@@ -154,7 +154,7 @@ foreach($cont_array as $row6){
     $body .= '        <div class="item-wrap">';
     $body .= '            <div class="thumb">';
     $body .= '                <div class="thumb-inner">';
-                        if($_SESSION[iam_member_id] == $card_owner && $_SESSION[iam_member_id] == $card_master) {
+                        if($_SESSION['iam_member_id'] == $card_owner && $_SESSION['iam_member_id'] == $card_master) {
                             if((int)$search_type != 1) {
                                 $body .= '        <a href="/?' . $row6[friends_url] .'" target="blank">';
                                 $body .= '            <img src="'. cross_image($friends_main_img) .'" id="friends_logo" class="friends_logo" style="max-height:40px;height:100%;object-fit:cover;"></a>';
@@ -181,13 +181,13 @@ foreach($cont_array as $row6){
     $body .= '                <div class="upper">';
     $body .= '                        <span class="name">';
                         if($diplay_row[phone_display] == "Y") {
-                            if($_SESSION[iam_member_id] == $card_owner && $_SESSION[iam_member_id] == $card_master) {
+                            if($_SESSION['iam_member_id'] == $card_owner && $_SESSION['iam_member_id'] == $card_master) {
                                 $body .= $diplay_row[friends_name];
                             }else{
                                 $body .= iconv_substr($diplay_row['friends_name'], 0, 1, "utf-8")."**";
                             }
                         }else{
-                            if($_SESSION[iam_member_id] == $card_owner && $_SESSION[iam_member_id] == $card_master) {
+                            if($_SESSION['iam_member_id'] == $card_owner && $_SESSION['iam_member_id'] == $card_master) {
                                 $body .= $diplay_row[friends_name];
                             }else{
                                 $body .= iconv_substr($diplay_row['friends_name'], 0, 1, "utf-8")."**";
@@ -198,13 +198,13 @@ foreach($cont_array as $row6){
     $body .= '                </div>';
     $body .= '                <div class="downer">';
                         if($diplay_row[phone_display] == "Y") {
-                            if($_SESSION[iam_member_id] == $card_owner && $phone_count > 0 && $_SESSION[iam_member_id] == $card_master) {
+                            if($_SESSION['iam_member_id'] == $card_owner && $phone_count > 0 && $_SESSION['iam_member_id'] == $card_master) {
                                 $body .= '                            <a href="tel:'. $diplay_row[friends_phone] .'">'. $diplay_row[friends_phone].'</a>';
                             }else{
                                 $body .= iconv_substr($diplay_row[friends_phone], 0, 6, "utf-8")."**-****";
                             }
                         }else{
-                            if($_SESSION[iam_member_id] == $card_owner && $phone_count > 0 && $_SESSION[iam_member_id] == $card_master) {
+                            if($_SESSION['iam_member_id'] == $card_owner && $phone_count > 0 && $_SESSION['iam_member_id'] == $card_master) {
                                 $body .= '                            <a href="tel:'. $diplay_row[friends_phone] . '">'. $diplay_row[friends_phone].'</a>';
                             }else{
                                 $body .= iconv_substr($diplay_row[friends_phone], 0, 6, "utf-8")."**-****";
@@ -212,7 +212,7 @@ foreach($cont_array as $row6){
                         }
     $body .= '                 </div>';
     $body .= '             </div>';
-                if($_SESSION[iam_member_id] == $card_owner && $_SESSION[iam_member_id] == $card_master) {
+                if($_SESSION['iam_member_id'] == $card_owner && $_SESSION['iam_member_id'] == $card_master) {
                     if((int)$search_type != 1) {
                         $myFriends_sql="select count(idx) from Gn_Iam_Friends where mem_id = '$card_owner' and friends_card_idx = '$row6[friends_card_idx]'";
                         $myFriends_result=mysqli_query($self_con,$myFriends_sql);
@@ -283,7 +283,7 @@ $body .= ' <ul style="min-height:25px">';
         $body .= '<li class=\'arrow\'><a href="javascript:getIamFriends(\''.$card_owner.'\', \''. $card_master. '\', \''. $phone_count .'\', \''. $search_range2. '\', '. $next2 .' )"><i class=\'fa fa-angle-right\' aria-hidden=\'true\'></i></a></li>'; //다음글자에 next변수를 링크한다. 현재 4페이지에 있다면 +1하여 5페이지로 이동하게 된다.
     }
     
-    if($_SESSION[iam_member_id] == $card_owner && $_SESSION[iam_member_id] == $card_master) {
+    if($_SESSION['iam_member_id'] == $card_owner && $_SESSION['iam_member_id'] == $card_master) {
         if((int)$search_type !== 2) {
             if((int)$search_type != 1 || $total_block2 != 0){
                 $body .= '<li style="float:right">';

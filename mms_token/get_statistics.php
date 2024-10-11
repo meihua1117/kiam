@@ -29,7 +29,7 @@ else{
 	$sub_resul=mysqli_query($self_con,$sql);	
 	$row_result = mysqli_fetch_array($sub_resul);
 	// while($row_result = mysqli_fetch_array($sub_resul))
-	// $reserv_cnt_thisday += count(explode(",",$row_result[recv_num]));
+	// $reserv_cnt_thisday += count(explode(",",$row_result['recv_num']));
 	$reserv_cnt_thisday += $row_result[0] * 1;
 
 	// QUERY
@@ -38,7 +38,7 @@ else{
 	$sub_resul=mysqli_query($self_con,$sql);				
 	$row_result = mysqli_fetch_array($sub_resul);
 	// while($row_result = mysqli_fetch_array($sub_resul))
-	// $reserv_cnt_thismonth += count(explode(",",$row_result[recv_num]));
+	// $reserv_cnt_thismonth += count(explode(",",$row_result['recv_num']));
 	$reserv_cnt_thismonth += $row_result[0] * 1;
 
 	$phone_num = $id;

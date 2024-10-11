@@ -1,6 +1,6 @@
 <?include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";?>
 <?
-// echo "<script>console.log('console : ". $_SESSION[one_member_id]. "');</script>"
+// echo "<script>console.log('console : ". $_SESSION['one_member_id']. "');</script>"
 
 $mode = $_POST['mode'];
 $card_idx = $_POST['card_idx'];

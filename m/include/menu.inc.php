@@ -18,7 +18,7 @@ $card_name = str_replace("'","",$card_row['card_name']);
 $mem_sql = "select mem_code from Gn_Member where mem_id='$card_row[mem_id]'";
 $mem_res = mysqli_query($self_con,$mem_sql);
 $mem_row = mysqli_fetch_array($mem_res);
-$card_url.=$mem_row[mem_code];
+$card_url.=$mem_row['mem_code'];
 ?>
 <aside id="aside" style="overflow:scroll;"><!-- 사이브 메뉴 시작 -->
 	<div class="aside-header">
@@ -30,7 +30,7 @@ $card_url.=$mem_row[mem_code];
 				<!--<a href="#" id="activeSetting" class="setting"><i class="fa fa-cog" aria-hidden="true"></i></a> <!-- 설정아이콘-->
 				<a href="#" id="closeAside"><i class="fa fa-times" aria-hidden="true"></i></a>
 			</div>
-			<?php if($_SESSION[one_member_id] != "") { ?>
+			<?php if($_SESSION['one_member_id'] != "") { ?>
 			<div class="downer">
 				<a href="/iam/mypage.php" class="badge">마이페이지</a>
 			</div>
@@ -39,7 +39,7 @@ $card_url.=$mem_row[mem_code];
 	</div>
 	<nav class="aside-menu">
 		<ul>
-			<?php if($_SESSION[one_member_id] == "") {?>
+			<?php if($_SESSION['one_member_id'] == "") {?>
 			<li class="menu-item">
 				<a href="/m/login.php">아이엠 로그인</a>
 			</li>
@@ -60,7 +60,7 @@ $card_url.=$mem_row[mem_code];
 				<a onclick = "addMainBtn('<?=$card_name?>','?<?=$card_url?>')">폰 홈화면 추가</a>
 			</li>
 			<?
-				$mem_sql = "select site_iam from Gn_Member where mem_id='$_SESSION[one_member_id]'";
+				$mem_sql = "select site_iam from Gn_Member where mem_id='{$_SESSION['one_member_id']}'";
 				$mem_res = mysqli_query($self_con,$mem_sql);
 				$mem_row = mysqli_fetch_array($mem_res);
 				$site = $mem_row[site_iam];
@@ -108,7 +108,7 @@ $card_url.=$mem_row[mem_code];
 			<div class="logo">
 				<img src="/iam/img/common/logo-2.png">
 			</div>
-			<?php if($_SESSION[one_member_id] != "") {?>
+			<?php if($_SESSION['one_member_id'] != "") {?>
 			<div class="util">
 				<a href="#" id="closeSetting"><i class="fa fa-times" aria-hidden="true"></i></a>
 			</div>
@@ -121,7 +121,7 @@ $card_url.=$mem_row[mem_code];
 	</div>
 	<nav class="popup-menu">
 		<ul>
-			<?php if($_SESSION[one_member_id] != "") {?>
+			<?php if($_SESSION['one_member_id'] != "") {?>
 			<li class="menu-item">
 				<span class="menu-name">아이엠 사용하기</span>
 				<div class="menu-toggle">

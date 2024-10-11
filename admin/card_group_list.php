@@ -267,7 +267,7 @@ $(function() {
                                         </td>
                                         <td>
                                             <div style="overflow-x:hidden;width:100px;">
-                                                <a href="<?=($mem_row[site_iam] == 'kiam'?'http://kiam.kr/?': 'http://'.$mem_row[site_iam].'.kiam.kr/?').strip_tags($row['card_short_url'].$mem_row[mem_code]).'&preview=Y'?>" target="_blank"><?=$row['card_short_url']?></a>
+                                                <a href="<?=($mem_row[site_iam] == 'kiam'?'http://kiam.kr/?': 'http://'.$mem_row[site_iam].'.kiam.kr/?').strip_tags($row['card_short_url'].$mem_row['mem_code']).'&preview=Y'?>" target="_blank"><?=$row['card_short_url']?></a>
                                             </div>
                                         </td>
                                         <td>

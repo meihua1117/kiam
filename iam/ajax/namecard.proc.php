@@ -42,7 +42,7 @@ $story_career = htmlspecialchars($_POST['story_career']);
 if($_POST['mem_id'])
     $mem_id = $_POST['mem_id'];
 else
-    $mem_id = $_SESSION[iam_member_id];
+    $mem_id = $_SESSION['iam_member_id'];
 $date_file_name = date('dmYHis').str_replace(" ", "", basename($_FILES["uploadFile"]["name"]));
 $date_file_name1 = date('dmYHis').str_replace(" ", "", basename($_FILES["uploadFile1"]["name"]));
 $date_file_name2 = date('dmYHis').str_replace(" ", "", basename($_FILES["uploadFile2"]["name"]));
@@ -261,9 +261,9 @@ else if($mode == "del") {
     $mem_res = mysqli_query($self_con,$mem_sql);
     $mem_row = mysqli_fetch_array($mem_res);
     if($group_id == "")
-        echo $row["card_short_url"].$mem_row[mem_code];
+        echo $row["card_short_url"].$mem_row['mem_code'];
     else
-        echo $row["card_short_url"].$mem_row[mem_code]."&cur_win=group-con&gkind=".$group_id;
+        echo $row["card_short_url"].$mem_row['mem_code']."&cur_win=group-con&gkind=".$group_id;
     exit;
 } 
 //==========================================================================================================
@@ -302,7 +302,7 @@ else if($mode == "change_cont_order_type"){
             $sql = "update Gn_Iam_Contents set contents_order = '$i' where idx = '$cont_idx'";
             mysqli_query($self_con,$sql);
         }
-        $sql = "select idx from Gn_Iam_Contents use index(westory_card_url) where idx not in (".$_POST[cont_order].") and mem_id = '$_SESSION[iam_member_id]' and westory_card_url ='$card_short_url'";
+        $sql = "select idx from Gn_Iam_Contents use index(westory_card_url) where idx not in (".$_POST[cont_order].") and mem_id = '{$_SESSION['iam_member_id']}' and westory_card_url ='$card_short_url'";
         $res = mysqli_query($self_con,$sql);
         while($row = mysqli_fetch_array($res)) {
             $sql = "delete from Gn_Iam_Contents where idx = '$row[idx]'";

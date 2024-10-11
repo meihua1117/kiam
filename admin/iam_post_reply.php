@@ -259,7 +259,7 @@ $path="./";
                                 ?>
                                     <tr>
                                         <td>
-                                            <input type="checkbox" name="<?='post_'.$row[id]?>" id = "<?='post_'.$row[id]?>" value="<?=$row[id]?>">
+                                            <input type="checkbox" name="<?='post_'.$row['id']?>" id = "<?='post_'.$row['id']?>" value="<?=$row['id']?>">
                                         </td>
                                         <td><?=$row['site_iam']?></td>
                                         <td><?=$row['mem_id']?></td>
@@ -274,7 +274,7 @@ $path="./";
                                         </td>
                                         <td><?=$row['reg_date']?></td>
                                         <td>
-                                            <button class="btn btn-primary" onclick="post_delete('<?=$row[id]?>');return false;"><i class="fa"></i> 삭제</button>
+                                            <button class="btn btn-primary" onclick="post_delete('<?=$row['id']?>');return false;"><i class="fa"></i> 삭제</button>
                                         </td>
                                     </tr>
                                 <?$i++;

@@ -2,7 +2,7 @@
 $path="./";
 include_once "_head.php";
 extract($_REQUEST);
-if(!$_SESSION[one_member_id])
+if(!$_SESSION['one_member_id'])
 {
 
 ?>
@@ -12,7 +12,7 @@ location.replace('/ma.php');
 <?
 exit;
 }
-	$sql="select * from Gn_Member  where mem_id='".$_SESSION[one_member_id]."'";
+	$sql="select * from Gn_Member  where mem_id='".$_SESSION['one_member_id']."'";
 	$sresul_num=mysqli_query($self_con,$sql);
 	$data=mysqli_fetch_array($sresul_num);	
 	
@@ -152,7 +152,7 @@ $(function(){
                 <table class="list_table1" width="100%" border="0" cellspacing="0" cellpadding="0">
                 <tr>
                     <th class="w200">신청자이름</th>
-                    <td><input type="text" name="name" placeholder="" id="name" value="<?=$data[name]?>" style="width:200px"/> </td>
+                    <td><input type="text" name="name" placeholder="" id="name" value="<?=$data['name']?>" style="width:200px"/> </td>
                 </tr>                    
                 <tr>
                     <th class="w200">핸드폰</th>
@@ -167,7 +167,7 @@ $(function(){
                 </tr>                
                 <tr>
                     <th class="w200">이메일</th>
-                    <td><input type="text" name="email" placeholder="" id="email" value="<?=$data[email]?>"/> </td>
+                    <td><input type="text" name="email" placeholder="" id="email" value="<?=$data['email']?>"/> </td>
                 </tr>                
 
                 <tr>

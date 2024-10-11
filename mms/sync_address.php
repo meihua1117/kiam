@@ -94,7 +94,7 @@ $result = 0;
   $addr = explode("}
       ]
     }",$address);
-  if($row_s[cnt] != "0")
+  if($row_s['cnt'] != "0")
   {
     $sql_d = "delete from sm_data where dest = '".$id."'"; //기존 데이터 삭제
     $query_d = mysqli_query($self_con,$sql_d);
@@ -191,7 +191,7 @@ $result = 0;
           fwrite($GLOBALS['fp'], "insert sm_data failed!!>>".$grp.">>".$sql."\n");
         }*/
         
-        $iam[$num][name] = $name;
+        $iam[$num]['name'] = $name;
         $iam[$num][num] = $num;
         /*
         if($mem_id != "") {
@@ -208,10 +208,10 @@ $result = 0;
   }
   foreach($iam as $key=>$value) {
     if($mem_id != "") {
-          //$query = "insert into Gn_MMS_Receive set mem_id='$mem_id', send_num='$id', grp_id='$idx', iam=1, grp='아이엠', grp_2='아이엠', name='$value[name]', recv_num='$value[num]',reg_date=NOW()";
+          //$query = "insert into Gn_MMS_Receive set mem_id='$mem_id', send_num='$id', grp_id='$idx', iam=1, grp='아이엠', grp_2='아이엠', name='$value['name']', recv_num='$value[num]',reg_date=NOW()";
           //mysqli_query($self_con,$query);	
           
-          $query = "insert into Gn_MMS_Receive_Iam set mem_id='$mem_id', send_num='$id', grp_id='$idx', iam=1, grp='아이엠', grp_2='아이엠', name='$value[name]', recv_num='$value[num]',reg_date=NOW()";
+          $query = "insert into Gn_MMS_Receive_Iam set mem_id='$mem_id', send_num='$id', grp_id='$idx', iam=1, grp='아이엠', grp_2='아이엠', name='{$value['name']}', recv_num='{$value['num']}',reg_date=NOW()";
           $res = mysqli_query($self_con,$query);
           /*if($res){
             fwrite($GLOBALS['fp'], "insert Gn_MMS_Receive_Iam success!!\n");

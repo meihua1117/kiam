@@ -214,7 +214,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                                         <input type="hidden" id=<?='desc'.$i?> value="<?=htmlspecialchars($row[descript])?>">
                                     </td>
                                     <?
-                                    $sql1 = "select count(idx) from gn_report_table where repo_id=$row[id]";
+                                    $sql1 = "select count(idx) from gn_report_table where repo_id={$row['id']}";
                                     $res1 = mysqli_query($self_con,$sql1);
                                     $row1 = mysqli_fetch_array($res1);
                                     $count = $row1[0];
@@ -224,7 +224,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                                     <td style="font-size:12px;"><?=$row['visit']?>/<?=$count?></td>
                                     <td class="iam_table">
                                         <?
-                                            $link_pre = "/iam/report_preview.php?repo=$row[id]";
+                                            $link_pre = "/iam/report_preview.php?repo={$row['id']}";
                                             $link = $row['short_url'];
                                         ?>
                                         <input type="button" value="미리보기" class="button" onclick="viewEvent('<?=$link_pre?>')">

@@ -2,7 +2,7 @@
 include_once "../lib/rlatjd_fun.php";
 set_time_limit(0);
 ini_set('memory_limit','4500M');
-if(strlen($_SESSION[one_member_id]) > 0) {
+if(strlen($_SESSION['one_member_id']) > 0) {
 	$excel_sql=base64_decode($_POST['excel_sql']);
 	$excel_sql=str_replace("`","'",$excel_sql);
     $result = mysqli_query($self_con,$excel_sql) or die(mysqli_error($self_con));

@@ -25,9 +25,9 @@ if ($HTTP_HOST != "kiam.kr") {//분양사사이트이면
 	$domainData = mysqli_fetch_array($res);
 	$domainData[sub_domain] = "http://kiam.kr/";
 }
-if ($_SESSION[iam_member_id]) {
+if ($_SESSION['iam_member_id']) {
 	$post_time = date("Y-m-d H:i:s", strtotime("-1 week"));
-	$post_sql = "select count(*) from Gn_Member where mem_id = '$_SESSION[iam_member_id]' and last_regist > '$post_time'";
+	$post_sql = "select count(*) from Gn_Member where mem_id = '{$_SESSION['iam_member_id']}' and last_regist > '$post_time'";
 	$post_result = mysqli_query($self_con,$post_sql);
 	$post_row = mysqli_fetch_array($post_result);
 	$recent_post = $post_row[0];
@@ -146,7 +146,7 @@ $meta_desc = $meta_row[contents_desc];
 	<script src='../plugin/toastr/js/toastr.min.js'></script>
 </head>
 <body>
-	<input type = "hidden" id = "mem_id" value="<?=$_SESSION[iam_member_id]?>">
+	<input type = "hidden" id = "mem_id" value="<?=$_SESSION['iam_member_id']?>">
 	<input type = "hidden" id = "recent_post" value="<?=$recent_post?>">
 	<div id="wrap" class="common-wrap">
 		<main id="star" class="common-wrap"><!-- 컨텐츠 영역 시작 -->
@@ -244,7 +244,7 @@ $meta_desc = $meta_row[contents_desc];
 												// 		$price_show2 = "정상가";
 												// 		$price_style = "text-decoration: line-through;";
 												// 		$add_point = $meta_row['contents_sell_price'];
-												// 		if($_SESSION[iam_member_id] != 'iamstore'){
+												// 		if($_SESSION['iam_member_id'] != 'iamstore'){
 												// 			$buy_btn_con = "visibility: hidden;";
 												// 		}
 												// 		else{
@@ -273,7 +273,7 @@ $meta_desc = $meta_row[contents_desc];
 											<?}
 											//}?>
 											<?if(!$gwc){
-												if($cur_win == 'my_info' && $_SESSION[iam_member_id] == 'iamstore'){
+												if($cur_win == 'my_info' && $_SESSION['iam_member_id'] == 'iamstore'){
 													$buy_btn = "display:none;";
 												}?>
 											<!-- <div class="price_help" style="position: absolute;right: 100px;top: 37%;<?=$buy_btn?><?=$buy_btn_con?>">
@@ -281,7 +281,7 @@ $meta_desc = $meta_row[contents_desc];
 											</div> -->
 											
 											<div class="order" style="<?=$buy_btn?><?=$buy_btn_con?>">
-												<?if($_SESSION[iam_member_id]){
+												<?if($_SESSION['iam_member_id']){
 													$price_service = $meta_row['contents_sell_price'];
 													$meta_row['contents_title'] = str_replace('"', ' ', $meta_row['contents_title']);
 													$meta_row['contents_title'] = str_replace("'", ' ', $meta_row['contents_title']);
@@ -460,8 +460,8 @@ $meta_desc = $meta_row[contents_desc];
 						
 						<div class="second-box">
 							<div class="in-box">
-								<a href="javascript:contents_like('<?=$meta_row['idx']?>','<?=$_SESSION[iam_member_id]?>');" class="hand">
-									<?if(in_array($_SESSION[iam_member_id],explode(",",$meta_row['contents_like']))){?>	
+								<a href="javascript:contents_like('<?=$meta_row['idx']?>','<?=$_SESSION['iam_member_id']?>');" class="hand">
+									<?if(in_array($_SESSION['iam_member_id'],explode(",",$meta_row['contents_like']))){?>	
 									<img src="img/menu/icon_like_active.png" width="24px" alt="" id="like_img_<?=$meta_row['idx']?>">
 									<?}else{?>
 									<img src="img/menu/icon_like.png" width="24px" alt="" id="like_img_<?=$meta_row['idx']?>">
@@ -526,39 +526,39 @@ $meta_desc = $meta_row[contents_desc];
 									</a>
 									<div class="wrap" style="margin:10px 0px;">
 										<span class="date">
-											<?=$post_row[mem_name]." ". $post_row[reg_date]?>
+											<?=$post_row['mem_name']." ". $post_row[reg_date]?>
 										</span>
 										<span class="user-name">
 											<?=$post_row['content']?>
 										</span>
 									</div>
-									<?if($_SESSION[iam_member_id] && $_SESSION[iam_member_id] == $post_row[mem_id]){?>
+									<?if($_SESSION['iam_member_id'] && $_SESSION['iam_member_id'] == $post_row[mem_id]){?>
 										<div class="dropdown" style="top : 10px;position : absolute;right:30px;height:24px">
 											<img class="dropdown-toggle" data-toggle="dropdown" src="/iam/img/menu/icon_dot.png" style="height: 24px;">
 											<ul class="dropdown-menu namecard-dropdown " style="background: white; color : black;top:10px;">
 												<li>
-													<a href="javascript:void(0)" onclick="edit_post('<?=$meta_row[idx]?>','<?=$post_row[id]?>','<?=$post_row['content']?>')" title="댓글 수정">
+													<a href="javascript:void(0)" onclick="edit_post('<?=$meta_row[idx]?>','<?=$post_row['id']?>','<?=$post_row['content']?>')" title="댓글 수정">
 														<p>수정</p>
 													</a>
 												</li>
 												<li>
-													<a href="javascript:void(0)" onclick="delete_post('<?=$meta_row[idx]?>','<?=$post_row[id]?>')" title="댓글 삭제">
+													<a href="javascript:void(0)" onclick="delete_post('<?=$meta_row[idx]?>','<?=$post_row['id']?>')" title="댓글 삭제">
 														<p>삭제</p>
 													</a>
 												</li>
 											</ul>
 										</div>
-									<?}else if($_SESSION[iam_member_id] && $_SESSION[iam_member_id] == $meta_row[mem_id]){?>
+									<?}else if($_SESSION['iam_member_id'] && $_SESSION['iam_member_id'] == $meta_row[mem_id]){?>
 										<div class="dropdown" style="top : 10px;position : absolute;right:30px;height:24px">
 											<img class="dropdown-toggle" data-toggle="dropdown" src="/iam/img/menu/icon_dot.png" style="height: 24px;">
 											<ul class="dropdown-menu namecard-dropdown " style="background: white; color : black;top:10px;">
 												<li>
-													<a href="javascript:void(0)" onclick="delete_post('<?=$meta_row[idx]?>','<?=$post_row[id]?>')" title="댓글 삭제">
+													<a href="javascript:void(0)" onclick="delete_post('<?=$meta_row[idx]?>','<?=$post_row['id']?>')" title="댓글 삭제">
 														<p>삭제</p>
 													</a>
 												</li>
 												<li>
-													<a href="javascript:void(0)" onclick="lock_post('<?=$meta_row[idx]?>','<?=$post_row[id]?>')" title="댓글 차단">
+													<a href="javascript:void(0)" onclick="lock_post('<?=$meta_row[idx]?>','<?=$post_row['id']?>')" title="댓글 차단">
 														<p>차단</p>
 													</a>
 												</li>
@@ -577,7 +577,7 @@ $meta_desc = $meta_row[contents_desc];
 											<textarea id = "<?='post_reply_'.$post_row['id'].'_content'?>" name = "<?='post_reply_'.$post_row['id'].'_content'?>" class  = "post_reply_content" maxlength="300" placeholder="답글은 300자 이내로 작성해주세요" style="font-size:14px;height:35px;width: 100%;border: 1px;"></textarea>
 										</div>
 										<div style="width:35px">
-											<button type="button" class="btn btn-link" style="font-size:14px;position: absolute; right: 1px; padding: 5px 12px;color:#82c836" onclick="add_post_reply('<?=$meta_row[idx]?>','<?=$post_row[id]?>')">작성</button>
+											<button type="button" class="btn btn-link" style="font-size:14px;position: absolute; right: 1px; padding: 5px 12px;color:#82c836" onclick="add_post_reply('<?=$meta_row[idx]?>','<?=$post_row['id']?>')">작성</button>
 										</div>
 									</div>
 									<div style="border-bottom: 0px solid #dddddd;margin-left:60px">
@@ -585,7 +585,7 @@ $meta_desc = $meta_row[contents_desc];
 									</div>
 								</div>
 								<?
-								$reply_sql = "select * from Gn_Iam_Post_Response r inner join Gn_Member m on r.mem_id = m.mem_id where r.post_idx = '$post_row[id]' order by r.reg_date";
+								$reply_sql = "select * from Gn_Iam_Post_Response r inner join Gn_Member m on r.mem_id = m.mem_id where r.post_idx = '{$post_row['id']}' order by r.reg_date";
 								$reply_res = mysqli_query($self_con,$reply_sql);
 								while($reply_row = mysqli_fetch_array($reply_res)){?>
 									<div class="user-item" style="padding-left: 50px">
@@ -600,7 +600,7 @@ $meta_desc = $meta_row[contents_desc];
 										</a>
 										<div class="wrap">
                                             <span class="user-name">
-												<?=$reply_row[mem_name] ?>
+												<?=$reply_row['mem_name'] ?>
                                             </span>
 											<span class="user-name">
                                                 <?=$reply_row['contents']?>
@@ -676,7 +676,7 @@ $meta_desc = $meta_row[contents_desc];
 				※ 아이엠을 보내는 기능은 무료이지만 일반 메시지를 보내는 것은 유료입니다.</h3>
 			</div>
 			<div class="button-wrap">
-				<?if($_SESSION[iam_member_id]) {
+				<?if($_SESSION['iam_member_id']) {
 						$iam_link = $domainData[sub_domain]."/?".$cur_card_short_url;
 					?>
 					<a href="#" id="closePopup" class="buttons is-cancel">다음에보내기</a>
@@ -980,7 +980,7 @@ $meta_desc = $meta_row[contents_desc];
 					data: {
 						content_idx: content_idx,
 						mode: 'read',
-						mem_id: '<?=$_SESSION[iam_member_id]?>'
+						mem_id: '<?=$_SESSION['iam_member_id']?>'
 					},
 					success: function (data) {
 						if (data.result == 'Y') {
@@ -1007,7 +1007,7 @@ $meta_desc = $meta_row[contents_desc];
 			data:{
 				content_idx : content_idx,
 				mode : 'add',
-				mem_id : '<?=$_SESSION[iam_member_id]?>',
+				mem_id : '<?=$_SESSION['iam_member_id']?>',
 				post_content:post_content.val()
 			},
 			success:function(data){
@@ -1055,7 +1055,7 @@ $meta_desc = $meta_row[contents_desc];
 				content_idx : content_idx,
 				post_idx : post_idx,
 				mode : 'del',
-				mem_id : '<?=$_SESSION[iam_member_id]?>'
+				mem_id : '<?=$_SESSION['iam_member_id']?>'
 			},
 			success:function(data){
 				$("#post_count_" + content_idx).html(data.post_count + "개의 댓글  &#x21BA;");
@@ -1100,7 +1100,7 @@ $meta_desc = $meta_row[contents_desc];
 				content_idx : content_idx,
 				post_idx : post_idx,
 				mode : 'edit',
-				mem_id : '<?=$_SESSION[iam_member_id]?>',
+				mem_id : '<?=$_SESSION['iam_member_id']?>',
 				post_content:post_content.val()
 			},
 			success:function(data){
@@ -1140,7 +1140,7 @@ $meta_desc = $meta_row[contents_desc];
 				content_idx : content_idx,
 				post_idx : post_idx,
 				mode : 'add_reply',
-				mem_id : '<?=$_SESSION[iam_member_id]?>',
+				mem_id : '<?=$_SESSION['iam_member_id']?>',
 				post_content:post_content.val()
 			},
 			success:function(data){
@@ -1320,7 +1320,7 @@ $meta_desc = $meta_row[contents_desc];
 			data:{
 				content_idx : content_idx,
 				mode : 'refresh',
-				mem_id : '<?=$_SESSION[iam_member_id]?>'
+				mem_id : '<?=$_SESSION['iam_member_id']?>'
 			},
 			success:function(data){
 				$("#post_count_" + content_idx).html(data.post_count + "개의 댓글  &#x21BA;");
@@ -1357,7 +1357,7 @@ $meta_desc = $meta_row[contents_desc];
 				content_idx : content_idx,
 				post_idx : post_idx,
 				mode : 'lock',
-				mem_id : '<?=$_SESSION[iam_member_id]?>'
+				mem_id : '<?=$_SESSION['iam_member_id']?>'
 			},
 			success:function(data){
 				$("#post_count_" + content_idx).html(data.post_count + "개의 댓글  &#x21BA;");
@@ -1393,7 +1393,7 @@ $meta_desc = $meta_row[contents_desc];
 				data:{
 					content_idx : content_idx,
 					mode : 'read',
-					mem_id : '<?=$_SESSION[iam_member_id]?>'
+					mem_id : '<?=$_SESSION['iam_member_id']?>'
 				},
 				success:function(data){
 					if(data.result == 'Y'){

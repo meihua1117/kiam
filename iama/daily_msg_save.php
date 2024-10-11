@@ -8,7 +8,7 @@ $event_name_eng = "데일리문자 신청".$cur_time1;
 extract($_POST);
 // $msg_title = $_POST['msgtitle_daily'];
 // $msg_desc = $_POST['msgdesc_daily'];
-$mem_id = $_SESSION[iam_member_id];
+$mem_id = $_SESSION['iam_member_id'];
 // $daily_cnt = $_POST['daily_cnt'];
 if($_FILES['upimage']['name']) {
     $img_name=date("dmYHis").str_replace(" ","",basename($_FILES["upimage"]["name"]));	

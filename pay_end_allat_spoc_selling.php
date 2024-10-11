@@ -190,7 +190,7 @@ if($REPLYCD =="0000"){//pay_test
     전표출력 페이지는 저희 올앳 홈페이지의 일부로써, 홈페이지 개편 등의 이유로 인하여 페이지 변경 또는 URL 변경이 있을 수
     있습니다. 홈페이지 개편에 관한 공지가 있을 경우, 전표출력 URL을 확인하시기 바랍니다.
 */
-$member_1[mem_id] = $_SESSION[one_member_id];
+$member_1[mem_id] = $_SESSION['one_member_id'];
 $sql="select * from tjd_pay_result where orderNumber='$ORDER_NO'";
 $resul=mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
 $row=mysqli_fetch_array($resul);

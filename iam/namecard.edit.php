@@ -1,7 +1,7 @@
 <?include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";?>
 <?
 $card_idx = $_GET['card_num'];
-$sql="select * from Gn_Iam_Name_Card where idx = '$card_idx' and mem_id = '$_SESSION[iam_member_id]'";
+$sql="select * from Gn_Iam_Name_Card where idx = '$card_idx' and mem_id = '{$_SESSION['iam_member_id']}'";
 $result=mysqli_query($self_con,$sql);
 $row=mysqli_fetch_array($result);
 $card_link = $row[card_short_url];
@@ -24,13 +24,13 @@ $online1_check = $row[online1_check];
 $story_online2 = $row[story_online2];
 $online2_check = $row[online2_check];
 //$card_phone_ = explode('-',$card_phone);
-$sql="select mem_name, zy, mem_phone, mem_email, mem_add1,mem_code from Gn_Member where mem_id = '$_SESSION[iam_member_id]'";
+$sql="select mem_name, zy, mem_phone, mem_email, mem_add1,mem_code from Gn_Member where mem_id = '{$_SESSION['iam_member_id']}'";
 $result=mysqli_query($self_con,$sql);
 $row=mysqli_fetch_array($result);
 $member = $_GET['member'];
 if($member == 'on') {
 	//$card_idx = $row[idx];
-	$card_name = $row[mem_name];
+	$card_name = $row['mem_name'];
     if($row[zy])
 	    $card_company = $row[zy];
 	// $card_position = $row[card_position];
@@ -89,7 +89,7 @@ $card_email_array = explode('@',$card_email);
                                         <input type="hidden" name="check_rnum" id="check_rnum" value="Y">
                                         <input type="hidden" name="mode" id="mode" value="edit">
                                         <input type="hidden" name="mem_id" id="mem_id"
-                                            value="<?=$_SESSION[iam_member_id]?>">
+                                            value="<?=$_SESSION['iam_member_id']?>">
                                         <input type="hidden" name="card_idx" id="card_idx" value="<?=$card_idx?>">
                                         <div class="attr-row">
                                             <div class="attr-name">카드제목</div>
@@ -246,7 +246,7 @@ $card_email_array = explode('@',$card_email);
 
                             <div class="button-wrap">
                                 <a href="javascript:history.back()" class="button is-grey">다음에수정</a>
-                                <a href="javascript:namecard_check('<?=$card_link.$row[mem_code]?>');" class="button is-pink">아이엠수정</a>
+                                <a href="javascript:namecard_check('<?=$card_link.$row['mem_code']?>');" class="button is-pink">아이엠수정</a>
                             </div>
                         </div>
                     </div>

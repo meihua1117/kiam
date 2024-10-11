@@ -1,6 +1,6 @@
 <?php 
 include "inc/header.inc.php";
-if($_SESSION[iam_member_id] == "") {
+if($_SESSION['iam_member_id'] == "") {
     echo "<script>location='/';</script>";
 }
 extract($_GET);
@@ -87,7 +87,7 @@ extract($_GET);
             $searchStr = '';
         }
 
-        $sql = "select a.* from Gn_Gwc_Order a ".$join_str." where a.mem_id='{$_SESSION[iam_member_id]}' and prod_state!=0 ".$searchStr." order by a.reg_date desc";
+        $sql = "select a.* from Gn_Gwc_Order a ".$join_str." where a.mem_id='{$_SESSION['iam_member_id']}' and prod_state!=0 ".$searchStr." order by a.reg_date desc";
         $result = mysqli_query($self_con,$sql);
         $cart_count = mysqli_num_rows($result);
 		for($i=0; $row=mysqli_fetch_array($result); $i++) {
@@ -162,7 +162,7 @@ extract($_GET);
                                 <p class="padt3 fc_999"><?php echo $req_state ?></p>
                             </td>
                             <td class="vat tal" style="padding: 10px;width:10%;">
-                                <button onclick="show_detail('<?=$row[id]?>')" style="background-color: white;color: #86ca3d;border: 1px solid #86ca3d;border-radius: 5px;">상세정보</button>
+                                <button onclick="show_detail('<?=$row['id']?>')" style="background-color: white;color: #86ca3d;border: 1px solid #86ca3d;border-radius: 5px;">상세정보</button>
                             </td>
                         </tr>
 					</table>

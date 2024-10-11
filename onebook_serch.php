@@ -52,26 +52,26 @@ if(!$fujia_pay)
 					$sql="select count(it_id) as cnt from Gn_Shop_Item where $sql_serch ";
 					$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 					$row=mysqli_fetch_array($result);
-					$intRowCount=$row[cnt];
-					if($_POST[page])
-					  $page=(int)$_POST[page];
+					$intRowCount=$row['cnt'];
+					if($_POST['page'])
+					  $page=(int)$_POST['page'];
 					else
 					  $page=1;
-					if($_POST[page2])
-					  $page2=(int)$_POST[page2];
+					if($_POST['page2'])
+					  $page2=(int)$_POST['page2'];
 					else
 					  $page2=1;
-					if (!$_POST[lno]) 
+					if (!$_POST['lno']) 
 						$intPageSize =5;
 					else 
-					   $intPageSize = $_POST[lno];
+					   $intPageSize = $_POST['lno'];
 					$int=($page-1)*$intPageSize;
-					if($_REQUEST[order_status])
-					  $order_status=$_REQUEST[order_status];
+					if($_REQUEST['order_status'])
+					  $order_status=$_REQUEST['order_status'];
 					else
 					  $order_status="desc"; 
-					if($_REQUEST[order_name])
-					  $order_name=$_REQUEST[order_name];
+					if($_REQUEST['order_name'])
+					  $order_name=$_REQUEST['order_name'];
 					else
 					  $order_name="it_time";
 					$intPageCount=(int)(($intRowCount+$intPageSize-1)/$intPageSize);     
@@ -166,7 +166,7 @@ if(!$fujia_pay)
                             	<div class="a2_1">
                                 	<div class="a2_1_1"><img src="http://onepagebook.net/shop/data/item/<?=$row[it_id]?>_s" width="31" height="45"  /></div>
                                     <div class="a2_1_1">
-                                    	<li class="a2_1_1_1"><?=$row[it_name]?> <input type="button" value="선택" onclick="book_select('<?=$i?>','<?=$member_1[mem_name]?>')" /></li>
+                                    	<li class="a2_1_1_1"><?=$row[it_name]?> <input type="button" value="선택" onclick="book_select('<?=$i?>','<?=$member_1['mem_name']?>')" /></li>
                                         <li class="a2_1_1_2">
 											<?=$row[it_name_ori]?"<br/>원제 : ".$row[it_name_ori]."<br>":""?>
                                             <?=$view2?>                                       

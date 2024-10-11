@@ -111,9 +111,9 @@ function Memo_closeWin(id)
         <div class="pop-conts">
             <!--content //-->
             
-          <?if($_GET[id] && strlen($_GET[id]) < 4)
+          <?if($_GET['id'] && strlen($_GET['id']) < 4)
           {			    
-            $query = "SELECT * FROM tjd_board WHERE no=$_GET[id]";
+            $query = "SELECT * FROM tjd_board WHERE no={$_GET['id']}";
             $res = mysqli_query($self_con,$query);
             $row_no = mysqli_fetch_array($res);
           ?>
@@ -123,7 +123,7 @@ function Memo_closeWin(id)
                 <td style="text-align:right;"><?=substr($row_no[date],0,10)?></td>
             </tr>
             <tr style="word-break: break-all;">
-                <td colspan="2"><?=htmlspecialchars_decode($row_no[content])?></td>
+                <td colspan="2"><?=htmlspecialchars_decode($row_no['content'])?></td>
             </tr>
           </table>
           <?}?>
@@ -131,7 +131,7 @@ function Memo_closeWin(id)
 
             <div class="btn-r">                
                  <span class="close-span">
-     <input  type='checkbox' name='Memo' class="check-close" onclick='javascript:Memo_closeWin(<?=$_GET[id]?>);'>&nbsp;
+     <input  type='checkbox' name='Memo' class="check-close" onclick='javascript:Memo_closeWin(<?=$_GET['id']?>);'>&nbsp;
                오늘은 그만보기 &nbsp;&nbsp;&nbsp;
    <a href= 'javascript:self.close()' class="btn-layerClose">창닫기</a></span>
             </div>

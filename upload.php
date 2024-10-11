@@ -12,7 +12,7 @@ include_once $path."lib/rlatjd_fun.php";
 </head>
 <?
 $up_cnt=10;
-if(!$_SESSION[one_member_id])
+if(!$_SESSION['one_member_id'])
 {
 	?>
     <script language="javascript">
@@ -34,9 +34,9 @@ if($_REQUEST[del])
   window.parent.document.getElementById('<?=$_REQUEST[frm]?>_img_hid_2').value=upload_arry2.join("\n");
   </script>
   <?
-  	//@unlink($_SERVER['DOCUMENT_ROOT']."/".$thum."/".$_REQUEST[up_path]."/".$_REQUEST[name]);
-  	//@unlink($_SERVER['DOCUMENT_ROOT']."/".$thum."1/".$_REQUEST[up_path]."/".$_REQUEST[name]);
-  	//@unlink($_SERVER['DOCUMENT_ROOT']."/".$thum."2/".$_REQUEST[up_path]."/".$_REQUEST[name]);	
+  	//@unlink($_SERVER['DOCUMENT_ROOT']."/".$thum."/".$_REQUEST[up_path]."/".$_REQUEST['name']);
+  	//@unlink($_SERVER['DOCUMENT_ROOT']."/".$thum."1/".$_REQUEST[up_path]."/".$_REQUEST['name']);
+  	//@unlink($_SERVER['DOCUMENT_ROOT']."/".$thum."2/".$_REQUEST[up_path]."/".$_REQUEST['name']);	
 }
 ?>
 <script language="javascript">
@@ -58,7 +58,7 @@ var xz_cnt=parseInt('<?=$up_cnt?>')-hid_cnt;
     <p style="clear:both;"></p>
 </div>
 <?
-if($_FILES[uploadfile1][name])
+if($_FILES[uploadfile1]['name'])
  {
 	if(!is_dir($_SERVER['DOCUMENT_ROOT']."/adjunct/board/thum/".$_REQUEST['up_path']))
 	 {
@@ -67,9 +67,9 @@ if($_FILES[uploadfile1][name])
 		 mkdir($_SERVER['DOCUMENT_ROOT']."/adjunct/board/thum2/".$_REQUEST['up_path']);		 
 	 }
 	$tempFile = $_FILES['uploadfile1']['tmp_name'];
-	$file_arr=explode(".",$_FILES[uploadfile1][name]);
+	$file_arr=explode(".",$_FILES[uploadfile1]['name']);
 	$tmp_file_arr=explode("/",$tempFile);
-	$img_name=$member_1[mem_code]."_".date("Ymds")."_".$tmp_file_arr[count($tmp_file_arr)-1].".".$file_arr[count($file_arr)-1];
+	$img_name=$member_1['mem_code']."_".date("Ymds")."_".$tmp_file_arr[count($tmp_file_arr)-1].".".$file_arr[count($file_arr)-1];
 	$fileParts = pathinfo($img_name);
 	if(in_array($_REQUEST[category_id],$file_yx_arr))
 	{
@@ -83,7 +83,7 @@ if($_FILES[uploadfile1][name])
 		move_uploaded_file($tempFile,$_SERVER['DOCUMENT_ROOT']."/adjunct/board/thum/".$_REQUEST['up_path']."/".$img_name);
 		?>
 		<script language="javascript">
-			var file_name="<?=$_FILES[uploadfile1][name]?>";
+			var file_name="<?=$_FILES[uploadfile1]['name']?>";
 			var file_name_2="<?=$img_name?>";
 			var file_name_arr_1=[];
 			var file_name_arr_2=[];
@@ -113,7 +113,7 @@ if($_FILES[uploadfile1][name])
 			thumbnail($_SERVER['DOCUMENT_ROOT']."/adjunct/board/thum/".$_REQUEST['up_path']."/".$img_name,$_SERVER['DOCUMENT_ROOT']."/adjunct/board/thum2/".$_REQUEST['up_path']."/".$img_name,"",150,150,"");			
 			?>
 			<script language="javascript">
-				var file_name="<?=$_FILES[uploadfile1][name]?>";
+				var file_name="<?=$_FILES[uploadfile1]['name']?>";
 				var file_name_2="<?=$img_name?>";
 				var file_name_arr_1=[];
 				var file_name_arr_2=[];

@@ -94,7 +94,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                 <div class="col-xs-12" style="padding-bottom:20px">
                     <div style="padding:10px">
                         <? if($_SESSION['one_member_admin_id'] != "onlyonemaket"){
-                                if($_SESSION[one_member_subadmin_id] != "" && $_SESSION[one_member_subadmin_domain] == $HTTP_HOST) {} else {?>
+                                if($_SESSION['one_member_subadmin_id'] != "" && $_SESSION['one_member_subadmin_domain'] == $HTTP_HOST) {} else {?>
                                     <button class="btn btn-primary pull-right" style="margin-right: 5px;" onclick="excel_down('/excel_down/excel_member_down_.php');return false;"><i class="fa fa-download"></i> 엑셀다운받기</button>
                                 <? }
                         }?>

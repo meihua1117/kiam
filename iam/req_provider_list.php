@@ -1,6 +1,6 @@
 <?php 
 include "inc/header.inc.php";
-if($_SESSION[iam_member_id] == "") {
+if($_SESSION['iam_member_id'] == "") {
     echo "<script>location='/';</script>";
 }
 extract($_GET);
@@ -124,7 +124,7 @@ extract($_GET);
             $searchStr .= " AND contents_title like '%$search_key%'";
         }
 
-        $sql = "select * from Gn_Iam_Contents_Gwc where mem_id='{$_SESSION[iam_member_id]}' and provider_req_prod='Y' ".$searchStr." order by req_data desc";
+        $sql = "select * from Gn_Iam_Contents_Gwc where mem_id='{$_SESSION['iam_member_id']}' and provider_req_prod='Y' ".$searchStr." order by req_data desc";
         $res_cnt = mysqli_query($self_con,$sql);
         $cart_count = mysqli_num_rows($res_cnt);
 
@@ -220,7 +220,7 @@ extract($_GET);
                         <input type="hidden" name="contents_idx" value="" />
                         <input type="hidden" name="post_type" value="edit" />
                         <input type="hidden" name="contents_type" value="3" />
-                        <input type="hidden" name="mem_id" value="<?=$_SESSION[iam_member_id]?>" />
+                        <input type="hidden" name="mem_id" value="<?=$_SESSION['iam_member_id']?>" />
                         <input type="hidden" name="admin" value="1" />
                         <input type="hidden" name="provider" value="Y" />
                         <input type="hidden" name="provider_iam" value="Y" />
@@ -527,8 +527,8 @@ extract($_GET);
 
         function self_deliver(){
             if($("#same_gonggupsa").prop('checked')){
-                $("#deliver_id").val('<?=$_SESSION[iam_member_id]?>');
-                $("#deliver_name").val('<?=$member_iam[mem_name]?>');
+                $("#deliver_id").val('<?=$_SESSION['iam_member_id']?>');
+                $("#deliver_name").val('<?=$member_iam['mem_name']?>');
                 $("#deliver_phone").val('<?=$member_iam[mem_phone]?>');
                 $("#deliver_addr").val('<?=$member_iam[mem_add1]?>');
                 $("#deliver_email").val('<?=$member_iam[mem_email]?>');
@@ -536,7 +536,7 @@ extract($_GET);
                 $("#deliver_owner").val('<?=$member_iam[bank_owner]?>');
                 $("#deliver_account").val('<?=$member_iam[bank_account]?>');
                 $("#check_deliver_id").hide();
-                $("#deliver_id_code").val('<?=$member_iam[mem_code]?>');
+                $("#deliver_id_code").val('<?=$member_iam['mem_code']?>');
                 if($("#deliver_id").val() != '' && $("#deliver_name").val() != '' && $("#deliver_phone").val() != '' && $("#deliver_addr").val() != '' && $("#deliver_email").val() != '' && $("#deliver_bank").val() != '' && $("#deliver_owner").val() != '' && $("#deliver_account").val() != ''){
                     $("#check_deliver_id_state").val('Y');
                 }

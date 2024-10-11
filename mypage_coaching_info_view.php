@@ -2,7 +2,7 @@
 $path="./";
 include_once "_head.php";
 extract($_REQUEST);
-if(!$_SESSION[one_member_id])
+if(!$_SESSION['one_member_id'])
 {
 ?>
 <script language="javascript">
@@ -84,7 +84,7 @@ $(function(){
                 <table class="list_table1" width="100%" border="0" cellspacing="0" cellpadding="0">
                 <tr>
                     <th>코티이름</th>
-                    <td><?=$coaching_info_data[mem_name]?></td>
+                    <td><?=$coaching_info_data['mem_name']?></td>
                     <th>코티ID</th>
                     <td><?=$coaching_info_data[mem_id]?></td>
                 </tr>       

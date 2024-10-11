@@ -17,7 +17,7 @@ while($row = mysqli_fetch_array($result)) {
 }
 
 $mall_reg_ids = explode(",", get_search_key('mall_reg_menu_ids'));
-if(in_array($_SESSION[iam_member_id], $mall_reg_ids)){
+if(in_array($_SESSION['iam_member_id'], $mall_reg_ids)){
     $mall_reg_state = 1;
 }
 else{
@@ -37,7 +37,7 @@ $new_open_url = get_search_key('cont_modal_new_open');
 $cart_cnt = $Gn_point = 0;
 
 $mid = date("YmdHis").rand(10,99);
-$sql_point = "select mem_point, mem_cash from Gn_Member where mem_id='{$_SESSION[iam_member_id]}'";
+$sql_point = "select mem_point, mem_cash from Gn_Member where mem_id='{$_SESSION['iam_member_id']}'";
 $result_point = mysqli_query($self_con,$sql_point);
 $row_point = mysqli_fetch_array($result_point);
 $Gn_point = $row_point['mem_point'];
@@ -87,18 +87,18 @@ $result = mysqli_query($self_con,$sql);
 $row = mysqli_fetch_array($result);
 $bunyang_site = $row['site_iam'];
 $bunyang_site_manager_code = $row['mem_code'];
-if ($_SESSION[iam_member_id]) {
+if ($_SESSION['iam_member_id']) {
     $Gn_mem_row = $member_iam;
     $user_site = $Gn_mem_row['site_iam'];//아이엠분양사명
     $Gn_point = $Gn_mem_row['mem_point'];
 	$Gn_cash = $Gn_mem_row['mem_cash'];
 
-    $query = "select * from Gn_Iam_Name_Card where group_id is NULL and mem_id = '$_SESSION[iam_member_id]' order by req_data limit 0,1";
+    $query = "select * from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$_SESSION['iam_member_id']}' order by req_data limit 0,1";
     $result = mysqli_query($self_con,$query);
     $row = mysqli_fetch_array($result);
 	$request_short_url = $row['card_short_url'];
 
-	$sql_cart_cnt = "select count(*) from Gn_Gwc_Order where mem_id='{$_SESSION[iam_member_id]}' and page_type=1";
+	$sql_cart_cnt = "select count(*) from Gn_Gwc_Order where mem_id='{$_SESSION['iam_member_id']}' and page_type=1";
     $res_cart_cnt = mysqli_query($self_con,$sql_cart_cnt);
     $row_cart_cnt = mysqli_fetch_array($res_cart_cnt);
     $cart_cnt = $row_cart_cnt[0];
@@ -183,7 +183,7 @@ else{
 				$.ajax({
 					type: "POST",
 					url: "/iam/card_con_send.php",
-					data: {settle_type:'read_all', mem_id:'<?=$_SESSION[iam_member_id]?>'},
+					data: {settle_type:'read_all', mem_id:'<?=$_SESSION['iam_member_id']?>'},
 					dataType: "json",
 					success: function(data) {
 
@@ -333,7 +333,7 @@ else{
 									</a>
 								</li>
 								<?if($is_pay_version){
-									if($_SESSION[iam_member_subadmin_id] && $domainData[pay_link]){//payment ?>
+									if($_SESSION['iam_member_subadmin_id'] && $domainData[pay_link]){//payment ?>
 										<li style="border-bottom:1px solid #ddd;text-align: left;">
 											<a class='top_menu_font' href="<?= $domainData[pay_link] ?>" target="_self">
 												<img src="/iam/img/menu/icon_pay.png" title="<?=$MENU['IAM_CARD_M']['CM1_TITLE'];?>" style="height: 20px"><?="IAM 플랫폼 결제"?>
@@ -350,7 +350,7 @@ else{
 								?>
 								
 								<!-- <li style="text-align: left;">
-								<?if($_SESSION[iam_member_id]){?>
+								<?if($_SESSION['iam_member_id']){?>
 									<a class="top_menu_font" href="javascript:openShop()">
 								<?}else{?>
 									<a class="top_menu_font" href="/iam/login.php">
@@ -359,7 +359,7 @@ else{
 									</a>
 								</li> -->
 								<li style="text-align: left;">
-								<?if($_SESSION[iam_member_id]){?>
+								<?if($_SESSION['iam_member_id']){?>
 									<a class="top_menu_font" href="javascript:iam_mystory('cur_win=group-con');">
 								<?}else{?>
 									<a class="top_menu_font" href="/iam/login.php">
@@ -400,7 +400,7 @@ else{
 						<li onclick="iam_mystory('<?=$request_short_url?>&cur_win=we_story&type=pin&w_page=1#bottom')" title="[위콘텐츠] 모든 아이엠 이용자의 콘텐츠를 한꺼번에 봅니다." class="nav-item top">
 							<img src="/iam/img/menu/icon_westory.png" class="iconperson">
 						</li>
-						<?if($_SESSION[iam_member_id]){?>
+						<?if($_SESSION['iam_member_id']){?>
 						<li onclick="gwc_tab()" class="nav-item top" <?if($_GET[key1] == "4") echo "style='border-bottom:2px solid #99cc00'"?>>
 						<?}else{?>
 						<li onclick="location.href='/iam/login.php'" class="nav-item top" <?if($_GET[key1] == "4") echo "style='border-bottom:2px solid #99cc00'"?>>
@@ -466,7 +466,7 @@ else{
 									<p style="font-size:14px;color:#99cc00">주문목록</p>
 									<label class="label label-sm" style="background: #ff3333;border-radius: 50%;padding: 2px 5px;margin-left: -5px;font-size:10px"></label>
 								</a>
-								<?if($_SESSION[iam_member_subadmin_id] == $_SESSION[iam_member_id]){?>
+								<?if($_SESSION['iam_member_subadmin_id'] == $_SESSION['iam_member_id']){?>
 								<a class="btn  btn-link" title = "<?='공지알림';?>" href="/?cur_win=unread_notice&box=send&modal=Y" style="display:flex;padding:6px 3px">
 									<p style="font-size:14px;color:black">공지전송</p>
 									<label class="label label-sm" id = "notice" style="background: #ff3333;border-radius: 50%;padding: 2px 5px;margin-left: -5px;font-size:10px"></label>
@@ -526,7 +526,7 @@ else{
 							<button type="button" class="close" data-dismiss="modal" aria-hidden="true" ><img src = "/iam/img/main/close.png" style="width:24px;margin-top: -20px;" class="close" data-dismiss="modal" aria-hidden="true"></button>
 						</div>
 						
-						<?if($_SESSION[iam_member_id]) {?>
+						<?if($_SESSION['iam_member_id']) {?>
 						<div style="margin-top:30px;margin-left:15px;display:flex;position:relative">
 						<?  if($user_mem_code == $card_owner_code){
 								if($member_iam[profile]){
@@ -545,7 +545,7 @@ else{
 									</div>
 							<?  }else{?>
 									<div style="margin:0;background:<?=$profile_color?>;padding:5px 0px;width:70px;height:70px;border-radius: 50%;overflow:hidden;text-align:center;">
-										<a class="profile_font" style="color:white;width:100%;height:100%;object-fit: cover;"><?=mb_substr($member_iam[mem_name],0,3,"utf-8")?></a>
+										<a class="profile_font" style="color:white;width:100%;height:100%;object-fit: cover;"><?=mb_substr($member_iam['mem_name'],0,3,"utf-8")?></a>
 									</div>
 							<?  }
 							}else{
@@ -556,7 +556,7 @@ else{
 						<?  }?>
 							<img src="/iam/img/menu/icon_profile_edit.png" style="position:absolute;left: 45px;top: 45px;cursor:pointer" onclick="location.href='/iam/mypage.php'">
 							<div style="margin-left:20px;font-family: 'notokr', sans-serif;">
-								<h4><?=$member_iam[mem_name]?></h4>
+								<h4><?=$member_iam['mem_name']?></h4>
 								<div style="display:flex;margin-top:10px">
 									<h5 style="padding:5px 0px;margin:0px"><?=$member_iam[mem_id]?></h5>
 									<? 
@@ -620,11 +620,11 @@ else{
 								<a class="menu_font" href="/?cur_win=shared_receive" ><h3 class = "mypage_list"><?=$MENU['TOP_MENU']['MYPAGE'];?></h3></a>
 							</div>
 						</div>
-						<?if($_SESSION[iam_member_subadmin_id]) {?>
+						<?if($_SESSION['iam_member_subadmin_id']) {?>
 						<div style="padding-top: 0px;display:flex;">
 							<img src="/iam/img/menu/icon_service_manager.png" style="margin-top:8px;height:24px;">
 							<div style="width:100%">
-								<a class="menu_font" href="/iama/service_Iam_admin.php" data='<?=$_SESSION[iam_member_subadmin_id]?>' title="<?=$MENU['TOP_MENU']['ADMIN_TITLE'];?>">
+								<a class="menu_font" href="/iama/service_Iam_admin.php" data='<?=$_SESSION['iam_member_subadmin_id']?>' title="<?=$MENU['TOP_MENU']['ADMIN_TITLE'];?>">
 									<h3 class = "mypage_list"><?=$MENU['TOP_MENU']['ADMIN'];?></h3>
 								</a>
 							</div>
@@ -665,7 +665,7 @@ else{
 							</div>
 						</div>
 						<?if($mall_reg_state){?>
-						<div style="padding-top: 0px;display:flex;" onclick="open_iam_mall_popup('<?=$_SESSION[iam_member_id]?>',1,'<?=$card_owner_code?>');">
+						<div style="padding-top: 0px;display:flex;" onclick="open_iam_mall_popup('<?=$_SESSION['iam_member_id']?>',1,'<?=$card_owner_code?>');">
 							<img src="/iam/img/menu/icon_shop.png" style="margin-top:8px;height:24px;">
 							<div style="width:100%">
 								<a style="font-size:14px" title="<?=$MENU['IAM_MENU']['M5_TITLE'];?>"><h3 class = "mypage_list">IAM몰에 내 아이엠 등록</h3></a>
@@ -806,7 +806,7 @@ else{
 					</div>
 					<div class="modal-header">
 						<div class="container" style="margin-top: 20px;">
-							<p style="font-size:20px;text-align:center;"><?=$_SESSION[iam_member_id];?>님은 <span id="finish_name"></span> 상품을 구매하여 해당 포인트가 충전되었으므로 아래에서 IAM자동만들기 버튼을 클릭하시면 됩니다. 만들기 전에 먼저 영상을 꼭 보시기 바랍니다.</p>
+							<p style="font-size:20px;text-align:center;"><?=$_SESSION['iam_member_id'];?>님은 <span id="finish_name"></span> 상품을 구매하여 해당 포인트가 충전되었으므로 아래에서 IAM자동만들기 버튼을 클릭하시면 됩니다. 만들기 전에 먼저 영상을 꼭 보시기 바랍니다.</p>
 						</div>
 						<div class="container" style="margin-top: 20px;text-align: center;">
 							<a href="#" style="font-size:22px;">인물검색 IAM 만들기 영상(1분)</a>
@@ -1213,7 +1213,7 @@ else{
 									<tr>
 										<input type="hidden" id="event_idx" value="'.$event_id.'">
 										<th class="iam_table" style="width:20%;">아이디</th>
-										<td class="iam_table"><?=$_SESSION[iam_member_id];?></td>
+										<td class="iam_table"><?=$_SESSION['iam_member_id'];?></td>
 									</tr>
 									<tr>
 										<th class="iam_table" style="width:20%;">이벤트타이틀</th>
@@ -1231,7 +1231,7 @@ else{
 											<input type="text" id="card_short_url" hidden>
 											<div id="cardsel1" onclick="limit_selcard1()" style="margin-top:15px;">
 												<?
-												$sql5="select card_short_url,phone_display, card_title from Gn_Iam_Name_Card where group_id is NULL and mem_id = '$_SESSION[iam_member_id]' order by req_data asc";
+												$sql5="select card_short_url,phone_display, card_title from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$_SESSION['iam_member_id']}' order by req_data asc";
 												$result5=mysqli_query($self_con,$sql5);
 												$i = 0;
 												while($row5=mysqli_fetch_array($result5)) {
@@ -1371,7 +1371,7 @@ else{
 				<img src = "/iam/img/menu/cart_gwc.png" style="height:24px;width:24px">
 				<label class="label label-sm share_count" id = "cart_cnt" style="top:0px;"><?=$cart_cnt?$cart_cnt:''?></label>
 			</div>
-			<?if(!$_SESSION[iam_member_id]){?>
+			<?if(!$_SESSION['iam_member_id']){?>
 			<div id="btn_login" style="margin-top:12px;text-align: center;cursor:pointer" onclick="location.href = '/iam/login.php'">
 				<img src = "/iam/img/menu/icon_bottom_login.png" style="height:24px;width:24px">
 				<!--label style="font-size:12px">로그인</label-->
@@ -1395,7 +1395,7 @@ else{
 						</div>
 				<?  }else{?>
 						<div style="cursor:pointer;margin-top:12px;background:<?=$profile_color?>;padding:5px 0px;width:24px;height:24px;border-radius: 50%;overflow:hidden;text-align:center;" onclick="$('#mypage-modalwindow').modal('show');">
-							<a class="profile_font" style="color:white;width:100%;height:100%;object-fit: cover;"><?=mb_substr($member_iam[mem_name],0,3,"utf-8")?></a>
+							<a class="profile_font" style="color:white;width:100%;height:100%;object-fit: cover;"><?=mb_substr($member_iam['mem_name'],0,3,"utf-8")?></a>
 						</div>
 				<?  }
 				}else{?>        
@@ -1547,7 +1547,7 @@ else{
 										<p style="font-size:18px"><?=$news_row[title]?></p><br>
 									</div>
 									<div style="text-align: left;margin-left: 10px">
-										<?=htmlspecialchars_decode($news_row[content])?>
+										<?=htmlspecialchars_decode($news_row['content'])?>
 									</div>
 								</div>
 							<?  }
@@ -1850,7 +1850,7 @@ else{
 				$.ajax({
 					type:"POST",
 					url:"ajax/apply_service_con_res.php",
-					data:{payMethod:"<?=$_SESSION[iam_member_id]?>", member_type:"씨드포인트충전", allat_amt:seed_point, pay_percent:90, allat_order_no:<?=$mid?>, point_val:1, mode:"cashtoseed", seed_point:seed_point},
+					data:{payMethod:"<?=$_SESSION['iam_member_id']?>", member_type:"씨드포인트충전", allat_amt:seed_point, pay_percent:90, allat_order_no:<?=$mid?>, point_val:1, mode:"cashtoseed", seed_point:seed_point},
 					dataType: 'json',
 					success:function(data){
 						alert("캐시포인트 "+seed_point+"P 가 씨드포인트로 전환되었습니다.");
@@ -1921,7 +1921,7 @@ else{
                     type:"POST",
                     url:"ajax/apply_service_con_res.php",
                     data:{
-                        payMethod : "<?=$_SESSION[iam_member_id]?>",
+                        payMethod : "<?=$_SESSION['iam_member_id']?>",
                         member_type : "씨드포인트충전",
                         allat_amt : seedPoint,
                         pay_percent : 90,
@@ -2092,7 +2092,7 @@ else{
 
 		function settlement(val, frm, auto_up){
 			if(val == 'set'){
-				<?php if($_SESSION[iam_member_id] == ""){ ?>
+				<?php if($_SESSION['iam_member_id'] == ""){ ?>
 				window.location = '/join.php';
 				<?}
 				else{?>
@@ -2180,10 +2180,10 @@ else{
 								$("#ajax-loading").delay(10).hide(1);
 								if(data == 1){
 									if(auto == 1){
-										auto_point_chung('<?=$_SESSION[iam_member_id]?>', 'bank', ele);
+										auto_point_chung('<?=$_SESSION['iam_member_id']?>', 'bank', ele);
 									}
 									else{
-										iam_item('<?=$_SESSION[iam_member_id]?>', 'buy', 'bank');
+										iam_item('<?=$_SESSION['iam_member_id']?>', 'buy', 'bank');
 									}
 								}
 							}
@@ -2195,7 +2195,7 @@ else{
 				}
 			}
 			else if(val == 'make'){
-				<?php if($_SESSION[iam_member_id] == ""){ ?>
+				<?php if($_SESSION['iam_member_id'] == ""){ ?>
 				window.location = '/iam/login.php';
 				<?}
 				else if($Gn_point < $point_ai){?>
@@ -2389,7 +2389,7 @@ else{
 				mem_id_status = new_id;
 				pwd = $("#pwd").val();
 				site = '<?=$user_site?>';
-				recommend_id = '<?=$_SESSION[iam_member_id];?>';
+				recommend_id = '<?=$_SESSION['iam_member_id'];?>';
 				console.log(address, contents_cnt, phone_num, new_id, pwd, site);
 				style = $("#checkdup").attr('style');
 				if(style.indexOf("blue") == -1){
@@ -2412,7 +2412,7 @@ else{
 			}
 			else if(style_mineid == ""){//내아이디로 만들기
 				slt = 0;
-				my_id = '<?=$_SESSION[iam_member_id];?>';
+				my_id = '<?=$_SESSION['iam_member_id'];?>';
 				mem_id_status = my_id;
 				$.ajax({
 					type:"POST",
@@ -2428,7 +2428,7 @@ else{
 			}
 			else if(style_cardsel == ""){//카드에 추가하기
 				slt = 2;
-				my_id = '<?=$_SESSION[iam_member_id];?>';
+				my_id = '<?=$_SESSION['iam_member_id'];?>';
 				mem_id_status = my_id;
 				if(sel_type == null){
 					alert("카드를 선택하세요."); return;
@@ -2463,7 +2463,7 @@ else{
 							if(data.status == 0){
 								$("#startmaking").attr('disabled', false);
 								clearInterval(interval_people);
-								iam_item('<?=$_SESSION[iam_member_id]?>', 'use', '인물', data.keyword, mem_id_status);
+								iam_item('<?=$_SESSION['iam_member_id']?>', 'use', '인물', data.keyword, mem_id_status);
 								$("#people_mem_id").html(data.mem_id);
 								$('#auto_making_modal').modal('hide');
 								if(slt == 1){
@@ -2505,7 +2505,7 @@ else{
 							if(data.status == 0){
 								$("#startmaking").attr('disabled', false);
 								clearInterval(interval_news);
-								iam_item('<?=$_SESSION[iam_member_id]?>', 'use', '뉴스', data.keyword, mem_id_status);
+								iam_item('<?=$_SESSION['iam_member_id']?>', 'use', '뉴스', data.keyword, mem_id_status);
 								$("#news_mem_id").html(data.mem_id);
 								$('#auto_making_modal').modal('hide');
 								if(slt == 1){
@@ -2546,7 +2546,7 @@ else{
 							if(data.status == 0){
 								$("#startmaking").attr('disabled', false);
 								clearInterval(interval_map);
-								iam_item('<?=$_SESSION[iam_member_id]?>', 'use', '지도', 'MAP', mem_id_status);
+								iam_item('<?=$_SESSION['iam_member_id']?>', 'use', '지도', 'MAP', mem_id_status);
 								$("#people_mem_id").html(data.mem_id);
 								$('#auto_making_modal').modal('hide');
 								if(slt == 1){
@@ -2588,7 +2588,7 @@ else{
 							if(data.status == 0){
 								$("#startmaking").attr('disabled', false);
 								clearInterval(interval_gmarket);
-								iam_item('<?=$_SESSION[iam_member_id]?>', 'use', '지마켓', 'GMARKET', mem_id_status);
+								iam_item('<?=$_SESSION['iam_member_id']?>', 'use', '지마켓', 'GMARKET', mem_id_status);
 								$("#people_mem_id").html(data.mem_id);
 								$('#auto_making_modal').modal('hide');
 								if(slt == 1){
@@ -2624,7 +2624,7 @@ else{
 							if(data.status == 0){
 								$("#startmaking").attr('disabled', false);
 								clearInterval(interval_blog);
-								iam_item('<?=$_SESSION[iam_member_id]?>', 'use', '블로그', data.keyword, mem_id_status);
+								iam_item('<?=$_SESSION['iam_member_id']?>', 'use', '블로그', data.keyword, mem_id_status);
 								$("#people_mem_id").html(data.mem_id);
 								$('#auto_making_modal').modal('hide');
 								if(slt == 1){
@@ -2665,7 +2665,7 @@ else{
 							if(data.status == 0){
 								$("#startmaking").attr('disabled', false);
 								clearInterval(interval_youtube);
-								iam_item('<?=$_SESSION[iam_member_id]?>', 'use', '유튜브', 'YOUTUBE', mem_id_status);
+								iam_item('<?=$_SESSION['iam_member_id']?>', 'use', '유튜브', 'YOUTUBE', mem_id_status);
 								$("#people_mem_id").html(data.mem_id);
 								$('#auto_making_modal').modal('hide');
 								if(slt == 1){
@@ -2767,7 +2767,7 @@ else{
 				type:"POST",
 				url:"/ajax/use_contents.php",
 				dataType:"html",
-				data:{start:start, end:end, ID:'<?=$_SESSION[iam_member_id];?>', more:see},
+				data:{start:start, end:end, ID:'<?=$_SESSION['iam_member_id'];?>', more:see},
 				success: function(data){
 					$("#ajax-loading").delay(10).hide(1);
 					// console.log(data);
@@ -2782,7 +2782,7 @@ else{
 					type:"POST",
 					url:"/iam/card_con_send.php",
 					dataType:"json",
-					data:{settle_type:"delete_ai", no:val, ID:'<?=$_SESSION[iam_member_id]?>'},
+					data:{settle_type:"delete_ai", no:val, ID:'<?=$_SESSION['iam_member_id']?>'},
 					success:function(data){
 						$("#ajax-loading").delay(10).hide(1);
 						alert("삭제되었습니다.");
@@ -2798,7 +2798,7 @@ else{
 				type:"POST",
 				url:"/ajax/get_iamlink.php",
 				dataType:"json",
-				data:{get:true, id:'<?=$_SESSION[iam_member_id]?>'},
+				data:{get:true, id:'<?=$_SESSION['iam_member_id']?>'},
 				success: function(data){
 					$("#ajax-loading").delay(10).hide(1);
 					console.log(data.url);
@@ -2934,12 +2934,12 @@ else{
 		var current_point = 0;
 		function start_sharing(){
 			<?php
-				if ($_SESSION[iam_member_id]) {
+				if ($_SESSION['iam_member_id']) {
 			?>
 			current_point = <?=$Gn_point?>;
 			current_cash = <?=$Gn_cash?>;
 			<?}?>
-			send_id = '<?=$_SESSION[iam_member_id];?>';
+			send_id = '<?=$_SESSION['iam_member_id'];?>';
 			receive_id = $("#share_id").val();
 			var share_point = $("#share_point").val();
 			var share_cash = $("#share_cash").val();
@@ -3087,7 +3087,7 @@ else{
 					my_id = $("#newID").val();
 				}
 				else{
-					my_id = '<?=$_SESSION[iam_member_id];?>';
+					my_id = '<?=$_SESSION['iam_member_id'];?>';
 				}
 				web_type = $('input[name=web_type]:checked').attr('id');
 				sel_type = $('input[name=multi_westory_card_url]:checked').attr('value');
@@ -3226,7 +3226,7 @@ else{
 		function edit_auto_update(){
 			if(confirm("변경 하시겠습니까?")){
 				address = $("#people_web_address").val();
-				my_id = '<?=$_SESSION[iam_member_id];?>';
+				my_id = '<?=$_SESSION['iam_member_id'];?>';
 				if($('#contents_key').attr('style').split(';')[1] == ""){
 					contents_keyword = $("#people_contents_key").val();
 				}
@@ -3254,7 +3254,7 @@ else{
 
 		//오토데이트 중지/진행
 		function stop_auto_data(val){
-			my_id = '<?=$_SESSION[iam_member_id];?>';
+			my_id = '<?=$_SESSION['iam_member_id'];?>';
 			$.ajax({
 				type:"POST",
 				url:"/iam/auto_update_contents.php",
@@ -3279,7 +3279,7 @@ else{
 
 		//오토데이트 삭제
 		function remove_auto_data(val){
-			my_id = '<?=$_SESSION[iam_member_id];?>';
+			my_id = '<?=$_SESSION['iam_member_id'];?>';
 			if(confirm("정말 삭제 하겠습니까?")){
 				$.ajax({
 					type:"POST",
@@ -3300,7 +3300,7 @@ else{
 
 		//오토데이터 관리 더보기 기능
 		function search_auto_data(val){
-			my_id = '<?=$_SESSION[iam_member_id];?>';
+			my_id = '<?=$_SESSION['iam_member_id'];?>';
 			$.ajax({
 				type:"POST",
 				url:"/ajax/auto_contents_more.php",
@@ -3347,7 +3347,7 @@ else{
                     search:true,
                     start:start,
                     end:end,
-                    ID:'<?=$_SESSION[iam_member_id];?>'
+                    ID:'<?=$_SESSION['iam_member_id'];?>'
                 },
                 success: function(data){
 					$("#ajax-loading").delay(10).hide(1);
@@ -3368,7 +3368,7 @@ else{
                 type:"POST",
                 url:"/ajax/edit_event.php",
                 dataType:"json",
-                data:{edit_ev:true, start:start, end:end, item_type:item_type, ID:'<?=$_SESSION[iam_member_id];?>', more:see, id:id},
+                data:{edit_ev:true, start:start, end:end, item_type:item_type, ID:'<?=$_SESSION['iam_member_id'];?>', more:see, id:id},
                 success: function(data){
 					$("#ajax-loading").delay(10).hide(1);
                     $("#event_idx").val(data.id);

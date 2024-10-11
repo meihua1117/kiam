@@ -1262,7 +1262,7 @@ function install_cancel(){
                 ※ 아이엠을 보내는 기능은 무료이지만 일반 메시지를 보내는 것은 유료입니다.</h3>
             </div>
             <div class="button-wrap">
-                <?if($_SESSION[iam_member_id]) {?>
+                <?if($_SESSION['iam_member_id']) {?>
                     <a href="#" id="closePopup" class="buttons is-cancel">다음에보내기</a>
                     <a  id="daily_popup_content" href="#" target="_blank" onclick="daily_send_pop_close()" class="buttons is-save">시작하기</a>
                 <?} else {?>
@@ -1582,7 +1582,7 @@ function install_cancel(){
         }
     });
     $(document).ready(function() {
-       <?php if($show_iam_like == "Y" && $_SESSION[iam_member_id] != $card_owner) {?>
+       <?php if($show_iam_like == "Y" && $_SESSION['iam_member_id'] != $card_owner) {?>
            $('.second-box').hide();
        <?php }?>
     });

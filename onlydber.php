@@ -2,7 +2,7 @@
 <?
 include_once $path . "lib/rlatjd_fun.php";
 if ($_SESSION['one_member_id']) {
-  $sql = "select * from tjd_pay_result where buyer_id = '$_SESSION[one_member_id]' and end_date > '$date_today' and end_status in ('Y','A') order by end_date desc limit 1";
+  $sql = "select * from tjd_pay_result where buyer_id = '{$_SESSION['one_member_id']}' and end_date > '$date_today' and end_status in ('Y','A') order by end_date desc limit 1";
   $res_result = mysqli_query($self_con,$sql);
   $pay_data = mysqli_fetch_array($res_result);
 }
@@ -309,7 +309,7 @@ if ($domainData['status'] == "N" || $pay_data['stop_yn'] == "Y") {
 
   function dbFree() {
     <?
-    if ($_SESSION[one_member_id] == "") {
+    if ($_SESSION['one_member_id'] == "") {
     ?>
       alert('로그인 이후에 이용이 가능합니다.');
       return;

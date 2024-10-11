@@ -31,7 +31,7 @@ if($mode == "update_status") {
 	                                   score='$score',
 	                                   content='$content',
 	                                   profile='$profile', 
-	                                   mem_id='$_SESSION[one_member_id]',
+	                                   mem_id='{$_SESSION['one_member_id']}',
 	                                   status='N',
 	                                   regdate=NOW()
 	       ";

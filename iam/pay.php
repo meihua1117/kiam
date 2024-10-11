@@ -645,7 +645,7 @@ if($platform == "mobile"){
                         type:"POST",
                         url:"/ajax/get_mem_address.php",
                         dataType:"json",
-                        data:{mem_id:'<?=$_SESSION[iam_member_id]?>'},
+                        data:{mem_id:'<?=$_SESSION['iam_member_id']?>'},
                         success: function(data){
                             $('#allat_recp_addr').val(data.address);
                             if(product_type != "standard"){
@@ -714,7 +714,7 @@ if($platform == "mobile"){
                         type:"POST",
                         url:"/ajax/get_mem_address.php",
                         dataType:"json",
-                        data:{mem_id:'<?=$_SESSION[iam_member_id]?>'},
+                        data:{mem_id:'<?=$_SESSION['iam_member_id']?>'},
                         success: function(data){
                             $('#allat_recp_addr').val(data.address);
                             $('#allat_shop_id').val('bwelcome12');
@@ -741,7 +741,7 @@ if($platform == "mobile"){
                         type:"POST",
                         url:"/ajax/get_mem_address.php",
                         dataType:"json",
-                        data:{mem_id:'<?=$_SESSION[iam_member_id]?>'},
+                        data:{mem_id:'<?=$_SESSION['iam_member_id']?>'},
                         success: function(data){
                             $('#allat_recp_addr').val(data.address);
                             $('#allat_shop_id').val('welcome101');
@@ -1271,7 +1271,7 @@ if($platform == "mobile"){
                     <!--승인금액-->
                     <input type="hidden" name="allat_amt" id="allat_amt" value="" size="19" maxlength=10>
                     <!--회원ID-->
-                    <input type="hidden" name="allat_pmember_id" value="<?=$_SESSION[one_member_id];?>" size="19" maxlength=20>
+                    <input type="hidden" name="allat_pmember_id" value="<?=$_SESSION['one_member_id'];?>" size="19" maxlength=20>
                     <!--상품코드-->
                     <input type="hidden" name="allat_product_cd" id="allat_product_cd" value="전문가-구축" size="19" maxlength=1000>
                     <!--상품명-->
@@ -2072,7 +2072,7 @@ if($platform == "mobile"){
                         <input type="radio" name="payment_type" id="payment_type_month" value="month"> [통장결제]</input>는 ARS콜수신, 이용승인, 잔고부족시 이용 중지되므로 가능한 [카드결제]를 사용하세요<br />
                     </div>
                     <?
-                    if(!$_SESSION[iam_member_id])
+                    if(!$_SESSION['iam_member_id'])
                     {?>
                     <div class="a8"><a href="javascript:alert('로그인후 이용이 가능합니다.');location.href='login.php'"><img src="/images/sub_02_btn_23.jpg" /></a></div>
                     <?}else {?>

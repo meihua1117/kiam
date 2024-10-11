@@ -1,7 +1,7 @@
 <?
 $path = "./";
 include_once "_head.php";
-if (!$_SESSION[one_member_id]) {
+if (!$_SESSION['one_member_id']) {
 ?>
     <script language="javascript">
         location.replace('/ma.php');
@@ -87,7 +87,7 @@ if (!$_SESSION[one_member_id]) {
                 }
             </style>
             <div style="width:100%;text-align:center;display:none;" class="step3">
-                <h3><?= $_SESSION[one_member_id] ?>님은 아래와 같이 신청하였습니다.</h3>
+                <h3><?= $_SESSION['one_member_id'] ?>님은 아래와 같이 신청하였습니다.</h3>
                 <h3>계약 <?php echo date("Y년 m월 d일") ?></h3>
             </div>
             <form name="join_form" method="post">

@@ -180,7 +180,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                 				$res   = mysqli_query($self_con,$query);
                 				$totalCnt = mysqli_num_rows($res);
 								if($_GET['upd']=='yes') {
-									while ($row_idx = mysqli_fetch_array($res, MYSQL_ASSOC)) {
+									while ($row_idx = mysqli_fetch_array($res)) {
 										$index_no = $row_idx["idx"];
 										$q = "select round(( length(recv_num) - length(replace(recv_num,',',''))) / length(',')) as cnt_rest
 											from ( select recv_num from Gn_MMS where idx = '$index_no' ) A";
@@ -213,19 +213,19 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
 									$row_s=mysqli_fetch_array($resul_s);
 									mysqli_free_result($resul_s);
 									
-									$sql_n="select memo from Gn_MMS_Number where sendnum='$row[send_num]' ";
+									$sql_n="select memo from Gn_MMS_Number where sendnum='{$row['send_num']}' ";
 									$resul_n=mysqli_query($self_con,$sql_n);
 									$row_n=mysqli_fetch_array($resul_n);
 									mysqli_free_result($resul_n);
 									
-									$recv_num = $recv_cnt=explode(",",$row[recv_num]);
+									$recv_num = $recv_cnt=explode(",",$row['recv_num']);
 									$recv_num_in = "'".implode("','", $recv_num)."'";
 									$date = $row['up_date'];
 
-									$sql="select count(seq) as cnt from call_app_log where api_name='receive_sms' and LENGTH(recv_num) >= 10 and  send_num='$row[send_num]' and recv_num in ($recv_num_in) and recv_num like '01%'  and regdate >= '$date' and sms not like '[%'";
+									$sql="select count(seq) as cnt from call_app_log where api_name='receive_sms' and LENGTH(recv_num) >= 10 and  send_num='{$row['send_num']}' and recv_num in ($recv_num_in) and recv_num like '01%'  and regdate >= '$date' and sms not like '[%'";
 									$kresult = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 									$krow=mysqli_fetch_array($kresult);
-									$intRowCount=$krow[cnt];											
+									$intRowCount=$krow['cnt'];											
 									
 									$sql_as="select count(idx) as cnt from Gn_MMS_status where idx='$row[idx]' ";
 									$resul_as=mysqli_query($self_con,$sql_as);
@@ -240,40 +240,40 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
 									// $sql_sn="select * from Gn_MMS where idx='$row[idx]' ";
 									// $resul_sn=mysqli_query($self_con,$sql_sn);
 									// $row_sn=mysqli_fetch_array($resul_sn);											
-									// $recv_cnt=explode(",",$row_sn[recv_num]);										
-									$recv_cnt=explode(",",$row[recv_num]);
+									// $recv_cnt=explode(",",$row_sn['recv_num']);										
+									$recv_cnt=explode(",",$row['recv_num']);
 									$total_cnt = count($recv_cnt);
 									$reg_date_1hour = strtotime("$row[reg_date] +1hours"); 
                   				?>
                       				<tr>
                         				<td><?=$number--?></td>
 										<td><?=$row[mem_id]?></td>	
-										<td><?=$row[mem_name]?></td>											
+										<td><?=$row['mem_name']?></td>											
 										<td><?=$row[site]?></td>											
 										<td><?=$row[site_iam]?></td>											
-										<td><?=$row[send_num]?></td>
-										<td><?=$row_n[memo]?></td>
-										<td style="font-size:12px;"><a onclick="show_recv('show_content','<?=$c?>','문자내용')"><?=str_substr($row[content],0,30,'utf-8')?></a><input type="hidden" name="show_content" value="<?=$row[content]?>"/></td>
+										<td><?=$row['send_num']?></td>
+										<td><?=$row_n['memo']?></td>
+										<td style="font-size:12px;"><a onclick="show_recv('show_content','<?=$c?>','문자내용')"><?=str_substr($row['content'],0,30,'utf-8')?></a><input type="hidden" name="show_content" value="<?=$row['content']?>"/></td>
 										<td style="font-size:12px;"><?=substr($row[reg_date],0,16)?></td>
 										<td style="font-size:12px;">
-											<a onclick="show_recv('show_recv_num','<?=$c?>','수신번호')"><?=str_substr($row[recv_num],0,14,'utf-8')?>
+											<a onclick="show_recv('show_recv_num','<?=$c?>','수신번호')"><?=str_substr($row['recv_num'],0,14,'utf-8')?>
 												<?=$row[reservation]?"<br>".$row[reservation]:""?>
 											</a> 
 											<span style="color:#F00;">(<?=$total_cnt?>)</span>
-											<input type="hidden" name="show_recv_num" value="<?=$row[recv_num]?>"/>
+											<input type="hidden" name="show_recv_num" value="<?=$row['recv_num']?>"/>
 										</td>    					
 										<td>
 											<?if($row[reservation]) {?>
 											예약
 											<?}?>
 											<?if($success_cnt==0){
-												if(time() > $reg_date_1hour && $row[up_date] == "") {
+												if(time() > $reg_date_1hour && $row['up_date'] == "") {
 													if($row[reservation] > date("Y-m-d H:i:s")){
 													}else{?>
 														실패
 													<?}
 												}else{
-													if(time() > $reg_date_1hour && $row_s[up_date] == "") {?>
+													if(time() > $reg_date_1hour && $row_s['up_date'] == "") {?>
 														발송실패
 													<?}else{?>
 														발송중
@@ -284,7 +284,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
 											<?}?>
 										</td>
 										<td style="font-size:12px;">
-											<a href="member_return_detail.php?idx=<?php echo $row['idx']?>&send_num=<?=$row[send_num]?>"><?=$intRowCount;?></a> 
+											<a href="member_return_detail.php?idx=<?php echo $row['idx']?>&send_num=<?=$row['send_num']?>"><?=$intRowCount;?></a> 
 										</td>           
 									</tr>
                     				<?

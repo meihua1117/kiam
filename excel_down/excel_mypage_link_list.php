@@ -35,7 +35,7 @@ while($row=mysqli_fetch_array($result)){
 				->setCellValue("E$h",$row[read_cnt])
 				->setCellValue("F$h",$row[pcode])
 				->setCellValue("G$h",$row[mobile])
-				->setCellValue("H$h",$row[regdate]);
+				->setCellValue("H$h",$row['regdate']);
 	$h++;		
 }
 $objPHPExcel->getActiveSheet()->setTitle("고객신청 리스트 ");

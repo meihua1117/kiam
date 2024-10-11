@@ -9,7 +9,7 @@ $date_month=date("Y-m");
 	$resul_no=mysqli_query($self_con,$sql_no);
 	$row_no=mysqli_fetch_array($resul_no);
 	
-	$sql_no="select * from Gn_Member where mem_id='$row_no[id]'";
+	$sql_no="select * from Gn_Member where mem_id='{$row_no['id']}'";
 	$resul_no=mysqli_query($self_con,$sql_no);
 	$data=mysqli_fetch_array($resul_no);
 		
@@ -282,7 +282,7 @@ td div {
                 <tr>
                 	<td colspan="2" style="background-color:#FFF">
                 	    <H2>질문</H2>
-                	    <?=str_replace("<img src=\"","<img src=\"/", html_entity_decode($row_no[content]))?>
+                	    <?=str_replace("<img src=\"","<img src=\"/", html_entity_decode($row_no['content']))?>
                 	    <H2>답변</H2>
 						<script language="javascript" src="/naver_editor/js/HuskyEZCreator.js" charset="utf-8"></script>
                         <textarea name="ir1" id="ir1" rows="10" cols="100" style="width:100%; height:200px; min-width:645px; display:none;"><?=$row_no[reply]?></textarea>

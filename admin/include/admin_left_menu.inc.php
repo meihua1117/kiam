@@ -94,7 +94,7 @@
                     </ul>
                 </li>
             <?
-            }else if($_SESSION[one_member_admin_id] == "" && $_SESSION[one_member_subadmin_id] != "" && $_SESSION[one_member_subadmin_domain] == $HTTP_HOST ){
+            }else if($_SESSION['one_member_admin_id'] == "" && $_SESSION['one_member_subadmin_id'] != "" && $_SESSION['one_member_subadmin_domain'] == $HTTP_HOST ){
         	    if($_SESSION['one_member_subadmin_id'] == "wbmmaster"){?>
                     <li ><a href="javascript:;;"><i class="fa fa-book"></i> <span>기본정보관리</span></a>
                         <ul class="treeview-menu" style="display: block;">
@@ -117,7 +117,7 @@
                         </li>
                     </ul>
                 </li>
-            <?}else if($_SESSION[one_member_admin_id] == "" && $_SESSION[iam_member_subadmin_id] != "" && $_SESSION[iam_member_subadmin_domain] == $HTTP_HOST){
+            <?}else if($_SESSION['one_member_admin_id'] == "" && $_SESSION['iam_member_subadmin_id'] != "" && $_SESSION['iam_member_subadmin_domain'] == $HTTP_HOST){
                     if($_SESSION['one_member_subadmin_id'] == "wbmmaster"){?>
                         <li ><a href="javascript:;;"><i class="fa fa-book"></i> <span>기본정보관리</span></a>
                             <ul class="treeview-menu" style="display: block;">
@@ -140,7 +140,7 @@
                             </li>
                         </ul>
                     </li>
-            <?}else if($_SESSION[one_member_admin_id] != ""){
+            <?}else if($_SESSION['one_member_admin_id'] != ""){
                 if($_SESSION['one_member_id'] != "lecturem") {
                     if($_SESSION['one_member_admin_id'] == "emi0542" || $_SESSION['one_member_admin_id'] == "gwunki"){?>
                         <li ><a href="javascript:;;"><i class="fa fa-book"></i> <span>회원관리</span></a>
@@ -168,8 +168,8 @@
                                     <a href="/admin/autojoin_msg_list.php"><i class="fa fa-circle-o"></i> <span>오토회원메시지관리</span></a>
                                 </li>
                                 <li <?=$fileName=="report_list.php"||$fileName=="report_edit.php"||$fileName=="report_reply.php"?" class='active'":""?> >
-                                    <a href="/admin/report_list.php"><i class="fa fa-circle-o"></i> <span>리포트관리</span><?if(number_format($report_row[cnt]) != 0)
-                                            echo "( " . number_format($report_row[cnt]) . " )";?></a>
+                                    <a href="/admin/report_list.php"><i class="fa fa-circle-o"></i> <span>리포트관리</span><?if(number_format($report_row['cnt']) != 0)
+                                            echo "( " . number_format($report_row['cnt']) . " )";?></a>
                                 </li>
                                 <li <?=$fileName=="app_manage_list.php"||$fileName=="app_manage_detail.php"?" class='active'":""?> >
                                     <a href="/admin/app_manage_list.php"><i class="fa fa-circle-o"></i> <span>어플버전관리</span></a>
@@ -185,8 +185,8 @@
                                 </li>
                                 <li <?=$fileName=="service_Iam_list.php"||$fileName=="service_Iam_detail.php"||$fileName=="app_home_menu.php"||$fileName=="iam_menu.php"?" class='active'":""?> >
                                     <a href="/admin/service_Iam_list.php"><i class="fa fa-circle-o"></i> <span>아이엠분양관리</span>
-                                    <?if(number_format($iam_service_row[cnt]) != 0)
-                                            echo "( " . number_format($iam_service_row[cnt]) . " )";?>
+                                    <?if(number_format($iam_service_row['cnt']) != 0)
+                                            echo "( " . number_format($iam_service_row['cnt']) . " )";?>
                                     </a>
                                 </li>
                                 <li <?=$fileName=="iam_alert_list.php"||$fileName=="iam_video_list.php"||$fileName=="selling_alert_list.php"||$fileName=="selling_video_list.php"||
@@ -199,8 +199,8 @@
                             <ul class="treeview-menu" style="display: block;">
                                 <li <?=$fileName=="member_list.php"||$fileName=="member_detail.php"?" class='active'":""?>>
                                     <a href="/admin/member_list.php"><i class="fa fa-circle-o"></i> <span>회원정보관리</span>
-                                        <?if(number_format($boardCnt_newMember[cnt]) != 0)
-                                            echo "( " . number_format($boardCnt_newMember[cnt]) . " )";?>
+                                        <?if(number_format($boardCnt_newMember['cnt']) != 0)
+                                            echo "( " . number_format($boardCnt_newMember['cnt']) . " )";?>
                                     </a>
                                 </li>
                                 <!-- <li <?=$fileName=="gwc_member_list.php"||$fileName=="gwc_member_list.php"?" class='active'":""?>>
@@ -241,12 +241,12 @@
                                     <a href="/admin/gwc_payment_balance_list.php"><i class="fa fa-circle-o"></i> <span>판매자정산정보관리</span></a>
                                 </li>
                                 <li <?=$fileName=="gwc_prod_order_change_list.php"||$fileName=="gwc_prod_order_change_list.php"?" class='active'":""?>>
-                                    <a href="/admin/gwc_prod_order_change_list.php"><i class="fa fa-circle-o"></i> <span>취소/교환/환불관리</span><?if(number_format($row_change[cnt]) != 0)
-                                            echo "( " . number_format($row_change[cnt]) . " )";?></a>
+                                    <a href="/admin/gwc_prod_order_change_list.php"><i class="fa fa-circle-o"></i> <span>취소/교환/환불관리</span><?if(number_format($row_change['cnt']) != 0)
+                                            echo "( " . number_format($row_change['cnt']) . " )";?></a>
                                 </li>
                                 <li <?=$fileName=="card_gwc_contents_list_provider.php"||$fileName=="card_gwc_contents_list_provider.php"?" class='active'":""?>>
-                                    <a href="/admin/card_gwc_contents_list_provider.php"><i class="fa fa-circle-o"></i> <span>공급사/상품등록관리</span><?if(number_format($row_provider[cnt]) != 0)
-                                            echo "( " . number_format($row_provider[cnt]) . " )";?></a>
+                                    <a href="/admin/card_gwc_contents_list_provider.php"><i class="fa fa-circle-o"></i> <span>공급사/상품등록관리</span><?if(number_format($row_provider['cnt']) != 0)
+                                            echo "( " . number_format($row_provider['cnt']) . " )";?></a>
                                 </li>
                                 <!-- <li <?=$fileName=="member_login_history.php"||$fileName=="member_login_history.php"?" class='active'":""?>>
                                     <a href="/admin/member_login_history.php"><i class="fa fa-circle-o"></i> <span>로그인이력관리</span></a>
@@ -261,18 +261,18 @@
                                 <li <?=$fileName=="payment_desc.php"?" class='active'":""?>>
                                     <a href="/admin/payment_desc.php"><i class="fa fa-circle-o"></i> <span>플랫폼결제구성</span></a>
                                 </li>
-                            <?if(number_format($boardCnt_settlement[cnt]) != 0){?>
+                            <?if(number_format($boardCnt_settlement['cnt']) != 0){?>
                                 <li <?=$fileName=="payment_list.php"||$fileName=="payment_detail.php"?" class='active'":""?>>
-                                    <a href="/admin/payment_list.php"><i class="fa fa-circle-o"></i> <span>플랫폼결제관리</span> ( <?php echo number_format($boardCnt_settlement[cnt]);?> )</a>
+                                    <a href="/admin/payment_list.php"><i class="fa fa-circle-o"></i> <span>플랫폼결제관리</span> ( <?php echo number_format($boardCnt_settlement['cnt']);?> )</a>
                                 </li>
                             <?}else{?>
                                 <li <?=$fileName=="payment_list.php"||$fileName=="payment_detail.php"?" class='active'":""?>>
                                     <a href="/admin/payment_list.php"><i class="fa fa-circle-o"></i> <span>플랫폼결제관리</span></a>
                                 </li>
                             <?}?>
-                            <?if(number_format($boardCnt_payItem[cnt]) != 0){?>
+                            <?if(number_format($boardCnt_payItem['cnt']) != 0){?>
                                 <li <?=$fileName=="payment_item_list.php"||$fileName=="payment_item_balance_list.php"?" class='active'":""?>>
-                                    <a href="/admin/payment_item_list.php"><i class="fa fa-circle-o"></i> <span>상품결제관리</span> ( <?=number_format($boardCnt_payItem[cnt]);?> )</a>
+                                    <a href="/admin/payment_item_list.php"><i class="fa fa-circle-o"></i> <span>상품결제관리</span> ( <?=number_format($boardCnt_payItem['cnt']);?> )</a>
                                 </li>
                             <?}else{?>
                                 <li <?=$fileName=="payment_item_list.php"||$fileName=="payment_item_balance_list.php"?" class='active'":""?>>
@@ -289,9 +289,9 @@
                                     <a href="/admin/payment_balance_advance_list.php"><i class="fa fa-circle-o"></i> <span>사업자정산관리</span></a>
                                 </li>
                                 <!--<li <?=$fileName=="payment_balance_list2.php"||$fileName=="payment_detail2.php"?" class='active'":""?> ><a href="/admin/payment_balance_list2.php"><i class="fa fa-circle-o"></i> <span>정산상세보기</span></a></li>     -->
-                            <?if(number_format($boardCnt_pay_cancle[cnt]) != 0){?>
+                            <?if(number_format($boardCnt_pay_cancle['cnt']) != 0){?>
                                 <li <?=$fileName=="payment_month_list.php"?" class='active'":""?>>
-                                    <a href="/admin/payment_month_list.php"><i class="fa fa-circle-o"></i> <span>정기결제해지관리</span> ( <?php echo number_format($boardCnt_pay_cancle[cnt]);?> )</a>
+                                    <a href="/admin/payment_month_list.php"><i class="fa fa-circle-o"></i> <span>정기결제해지관리</span> ( <?php echo number_format($boardCnt_pay_cancle['cnt']);?> )</a>
                                 </li>
                             <?}else{?>
                                 <li <?=$fileName=="payment_month_list.php"?" class='active'":""?>>
@@ -302,7 +302,7 @@
                                     <a href="/admin/payment_card_month_list.php"><i class="fa fa-circle-o"></i> <span>카드정기결제내역</span></a>
                                 </li>
                                 <li <?=$fileName=="point_manage_list_cash.php"?" class='active'":""?>>
-                                    <a href="/admin/point_manage_list_cash.php"><i class="fa fa-circle-o"></i> <span>포인트정보/전환관리</span> <?php if (number_format($moneyChange[cnt]) > 0) echo "( ".number_format($moneyChange[cnt])." )";?></a>
+                                    <a href="/admin/point_manage_list_cash.php"><i class="fa fa-circle-o"></i> <span>포인트정보/전환관리</span> <?php if (number_format($moneyChange['cnt']) > 0) echo "( ".number_format($moneyChange['cnt'])." )";?></a>
                                 </li>
                             </ul>
                         </li>
@@ -431,7 +431,7 @@
                                     <a href="/admin/faq_list.php"><i class="fa fa-circle-o"></i> <span>FAQ</span></a>
                                 </li>
                                 <li <?=$fileName=="qna_list.php"||$fileName=="qna_detail.php"?" class='active'":""?>>
-                                    <a href="/admin/qna_list.php"><i class="fa fa-circle-o"></i> <span>1:1 상담 </span> ( <?php echo number_format($boardCnt[cnt]);?> )</a>
+                                    <a href="/admin/qna_list.php"><i class="fa fa-circle-o"></i> <span>1:1 상담 </span> ( <?php echo number_format($boardCnt['cnt']);?> )</a>
                                 </li>
                                 <?}?>
                             </ul>
@@ -449,13 +449,13 @@
                         </li>
                         <li ><a href="javascript:;;"><i class="fa fa-book"></i> <span>코칭관리</span></a>
                             <ul class="treeview-menu" style="display: block;">
-                            <?if(number_format($boardCnt_coaching[cnt]) != 0){?>
-                                <li <?=$fileName=="member_manager_request_coach.php"||$fileName=="member_manager_request_detail.php"?" class='active'":""?> ><a href="/admin/member_manager_request_coach.php"><i class="fa fa-circle-o"></i> <span>코치신청관리</span> ( <?php echo number_format($boardCnt_coaching[cnt]);?> )</a></li>
+                            <?if(number_format($boardCnt_coaching['cnt']) != 0){?>
+                                <li <?=$fileName=="member_manager_request_coach.php"||$fileName=="member_manager_request_detail.php"?" class='active'":""?> ><a href="/admin/member_manager_request_coach.php"><i class="fa fa-circle-o"></i> <span>코치신청관리</span> ( <?php echo number_format($boardCnt_coaching['cnt']);?> )</a></li>
                             <?}else{?>
                                 <li <?=$fileName=="member_manager_request_coach.php"||$fileName=="member_manager_request_detail.php"?" class='active'":""?> ><a href="/admin/member_manager_request_coach.php"><i class="fa fa-circle-o"></i> <span>코치신청관리</span></a></li>
                             <?}?>
-                            <?if(number_format($boardCnt_coty[cnt]) != 0){?>
-                                <li <?=$fileName=="member_manager_request_coty.php"||$fileName=="member_manager_request_coty.pp"?" class='active'":""?> ><a href="/admin/member_manager_request_coty.php"><i class="fa fa-circle-o"></i> <span>수강신청관리</span> ( <?php echo number_format($boardCnt_coty[cnt]);?> )</a></li>
+                            <?if(number_format($boardCnt_coty['cnt']) != 0){?>
+                                <li <?=$fileName=="member_manager_request_coty.php"||$fileName=="member_manager_request_coty.pp"?" class='active'":""?> ><a href="/admin/member_manager_request_coty.php"><i class="fa fa-circle-o"></i> <span>수강신청관리</span> ( <?php echo number_format($boardCnt_coty['cnt']);?> )</a></li>
                             <?}else{?>
                                 <li <?=$fileName=="member_manager_request_coty.php"||$fileName=="member_manager_request_coty.pp"?" class='active'":""?> ><a href="/admin/member_manager_request_coty.php"><i class="fa fa-circle-o"></i> <span>수강신청관리</span></a></li>
                             <?}?>

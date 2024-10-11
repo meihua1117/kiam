@@ -79,7 +79,7 @@ set_gwc_delivery_state();
                     <?if($_SESSION['one_member_admin_id'] != "onlyonemaket"){?>
                         <div style="margin-bottom:40px">
                             <button class="btn btn-primary pull-right" style="margin-right: 5px;" onclick="excel_down('/excel_down/excel_gwc_payment_down.php');return false;"><i class="fa fa-download"></i> 엑셀다운받기</button>
-                            <?if($_SESSION[one_member_id] != 'sungmheo'){?>
+                            <?if($_SESSION['one_member_id'] != 'sungmheo'){?>
                             <button class="btn btn-primary pull-right" style="margin-right: 5px;" onclick="deleteMultiRow();return false;"> 선택삭제</button>
                             <button class="btn btn-primary pull-right" style="margin-right: 5px;" onclick="location='gwc_payment_balance_list.php';return false;"> 굿마켓정산관리</button>
                             <?}?>
@@ -287,7 +287,7 @@ set_gwc_delivery_state();
                                         $sql_gong = "select mem_id, mem_name from Gn_Member where gwc_provider_name='{$row['provider_name']}'";
                                         $res_gong = mysqli_query($self_con,$sql_gong);
                                         $row_gong = mysqli_fetch_array($res_gong);
-                                        $gong_data = $row_gong[mem_name]."<br>".$row_gong[mem_id];
+                                        $gong_data = $row_gong['mem_name']."<br>".$row_gong[mem_id];
 
                                         $yt_name = $row['provider_name']."<br>온리원";
                                     }
@@ -391,7 +391,7 @@ set_gwc_delivery_state();
                                         <td>
                                             <form method="post" name="ssForm<?=$i?>" id="ssForm<?=$i?>" action="ajax/gwc_payment_save.php">
                                                 <input type="hidden" name="no" value="<?=$row['no']?>" >
-                                                <input type="hidden" name="mem_id" value="<?=$_SESSION[one_member_id]?>" >
+                                                <input type="hidden" name="mem_id" value="<?=$_SESSION['one_member_id']?>" >
                                                 <input type="hidden" name="price" id="price_<?=$i?>" value="<?=$row[TotPrice]?>" >
                                                 <input type="hidden" name="type" id="type_<?=$i?>" value="main">
                                                 <select name="end_status"  onchange="payment_save('#ssForm<?=$i?>');return false;">
@@ -405,7 +405,7 @@ set_gwc_delivery_state();
                                         <td>
                                             <form method="post" name="releaseForm<?=$i?>" id="releaseForm<?=$i?>" action="ajax/gwc_payment_save.php">
                                                 <input type="hidden" name="no" value="<?=$row_order['id']?>" >
-                                                <input type="hidden" name="mem_id" value="<?=$_SESSION[one_member_id]?>" >
+                                                <input type="hidden" name="mem_id" value="<?=$_SESSION['one_member_id']?>" >
                                                 <input type="hidden" name="type" id="type_<?=$i?>" value="release">
                                                 <select name="prod_release_state"  onchange="payment_save('#releaseForm<?=$i?>');return false;">
                                                     <option value="0" <?php echo $row_order['prod_release_state'] == 0?"selected":""?>>입금대기</option>
@@ -424,7 +424,7 @@ set_gwc_delivery_state();
                                                 $res_delivery = mysqli_query($self_con,$sql_delivery);
                                                 while($row_delivery = mysqli_fetch_array($res_delivery)){
                                                 ?>
-                                                <option value="<?=$row_delivery[id]?>" title="<?=$row_delivery[delivery_name]?>" <?=$row_delivery[id]==$row_order[delivery]?'selected':''?>><?=cut_str($row_delivery[delivery_name], 5)?></option>
+                                                <option value="<?=$row_delivery['id']?>" title="<?=$row_delivery[delivery_name]?>" <?=$row_delivery['id']==$row_order[delivery]?'selected':''?>><?=cut_str($row_delivery[delivery_name], 5)?></option>
                                                 <?}?>
                                             </select>
                                             <select name="delivery_state_<?=$row_order['id']?>" style="font-size:11px;">

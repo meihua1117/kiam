@@ -64,8 +64,8 @@ if(isset($_POST['memid'])){
         <td class="iam_table">
             <a href="javascript:edit_auto_data('.$row_con['id'].')"><img src="/iam/img/menu/icon_edit.png" width="22"></a>
             <label class="switch">
-            <input type="checkbox" name="status" id="stauts_'.$row_con[id].'" value="'.$row_con[id].'" '.$checked.'>
-            <span class="slider round" name="status_round" id="stauts_round_'.$row_con[id].'"></span>
+            <input type="checkbox" name="status" id="stauts_'.$row_con['id'].'" value="'.$row_con['id'].'" '.$checked.'>
+            <span class="slider round" name="status_round" id="stauts_round_'.$row_con['id'].'"></span>
             </label>
             <a href="javascript:remove_auto_data('.$row_con['id'].')"><img src="/iam/img/menu/icon_card_del.png" width="22"></a>
         </td>

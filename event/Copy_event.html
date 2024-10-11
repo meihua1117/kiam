@@ -399,7 +399,7 @@
 	'Authorization: key=' . GOOGLE_SERVER_KEY,
 	'Content-Type: application/json'
 	);
-	$query = "select * from Gn_MMS_Number where mem_id='$_SESSION[one_member_id]' and sendnum='".$send_num."'";
+	$query = "select * from Gn_MMS_Number where mem_id='{$_SESSION['one_member_id']}' and sendnum='".$send_num."'";
 	$result = mysqli_query($self_con,$query);
 	$info = mysqli_fetch_array($result);
 
@@ -486,7 +486,7 @@
 	if($row['image2'])
 	$jpg2 = "http://www.obmms.net/adjunct/mms/thum/".$row['image2'];
 
-	$row[content] = htmlspecialchars($row[content],ENT_QUOTES );
+	$row['content'] = htmlspecialchars($row['content'],ENT_QUOTES );
 
 
 
@@ -494,7 +494,7 @@
 	send_num='$send_num',
 	recv_num='$recv_num',
 	uni_id='$uni_id',
-	content='$row[content]',
+	content='{$row['content']}',
 	title='$row[title]',
 	type='1',
 	jpg='$jpg',
@@ -518,7 +518,7 @@
 
 
 
-	content='$row[content]',
+	content='{$row['content']}',
 	title='$row[title]',
 	jpg='$jpg',
 	reg_date=NOW(),
@@ -557,7 +557,7 @@
 	mem_add1='$addr',
 	mem_email='$email',
 	mem_sex='$sex',
-	join_ip='$_SERVER[REMOTE_ADDR]'
+	join_ip='{$_SERVER['REMOTE_ADDR']}'
 	";
 	mysqli_query($self_con,$query);
 
@@ -827,16 +827,16 @@
 											$sql="select count(lecture_id) as cnt from Gn_lecture where $sql_serch ";
 											$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 											$row=mysqli_fetch_array($result);
-											$intRowCount=$row[cnt];
+											$intRowCount=$row['cnt'];
 											if($intRowCount)
 											{
-											    if (!$_POST[lno])
+											    if (!$_POST['lno'])
 											        $intPageSize =20;
 											    else
-											    $intPageSize = $_POST[lno];
-											    if($_POST[page])
+											    $intPageSize = $_POST['lno'];
+											    if($_POST['page'])
 											    {
-											        $page=(int)$_POST[page];
+											        $page=(int)$_POST['page'];
 											        $sort_no=$intRowCount-($intPageSize*$page-$intPageSize);
 											    }
 											    else
@@ -844,20 +844,20 @@
 											        $page=1;
 											        $sort_no=$intRowCount;
 											    }
-    											if($_POST[page2])
-    											    $page2=(int)$_POST[page2];
+    											if($_POST['page2'])
+    											    $page2=(int)$_POST['page2'];
     											else
     											    $page2=1;
 
     											$int=($page-1)*$intPageSize;
 
-    											if($_REQUEST[order_status])
-    											    $order_status=$_REQUEST[order_status];
+    											if($_REQUEST['order_status'])
+    											    $order_status=$_REQUEST['order_status'];
     											else
     											    $order_status="asc";
 
-    											if($_REQUEST[order_name])
-    											    $order_name=$_REQUEST[order_name];
+    											if($_REQUEST['order_name'])
+    											    $order_name=$_REQUEST['order_name'];
     											else
     											    $order_name="start_date";
 
@@ -1048,16 +1048,16 @@
 									                                where $sql_serch ";
 									$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 									$row=mysqli_fetch_array($result);
-									$intRowCount=$row[cnt];
+									$intRowCount=$row['cnt'];
 									if($intRowCount)
 									{
-									if (!$_POST[lno])
+									if (!$_POST['lno'])
 									$intPageSize =20;
 									else
-									$intPageSize = $_POST[lno];
-									if($_POST[page])
+									$intPageSize = $_POST['lno'];
+									if($_POST['page'])
 									{
-									$page=(int)$_POST[page];
+									$page=(int)$_POST['page'];
 									$sort_no=$intRowCount-($intPageSize*$page-$intPageSize);
 									}
 									else
@@ -1065,18 +1065,18 @@
 									$page=1;
 									$sort_no=$intRowCount;
 									}
-									if($_POST[page2])
-									$page2=(int)$_POST[page2];
+									if($_POST['page2'])
+									$page2=(int)$_POST['page2'];
 									else
 									$page2=1;
 
 									$int=($page-1)*$intPageSize;
-									if($_REQUEST[order_status])
-									$order_status=$_REQUEST[order_status];
+									if($_REQUEST['order_status'])
+									$order_status=$_REQUEST['order_status'];
 									else
 									$order_status="desc";
-									if($_REQUEST[order_name])
-									$order_name=$_REQUEST[order_name];
+									if($_REQUEST['order_name'])
+									$order_name=$_REQUEST['order_name'];
 									else
 									$order_name="review_id";
 									$intPageCount=(int)(($intRowCount+$intPageSize-1)/$intPageSize);
@@ -1104,15 +1104,15 @@
 									<tr>
 										<td class="content" colspan="3" style="">
 										    <div class="div_content">
-											<?=nl2br($row[content])?>
+											<?=nl2br($row['content'])?>
 											</div>
 											<input type="button" value="+" class="button" id="viewMore" >
 										</td>
 									</tr>
 									<tr>
-										<td style="font-size:12px;text-align:left;"><?=$row[mem_name]?></td>
+										<td style="font-size:12px;text-align:left;"><?=$row['mem_name']?></td>
 										<td class="intro"><?php echo $row['profile'];?></td>
-										<td class="date"><?=$row[regdate]?></td>
+										<td class="date"><?=$row['regdate']?></td>
 									</tr>
 									<?
 									$sort_no--;

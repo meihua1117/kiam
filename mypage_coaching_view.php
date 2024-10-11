@@ -2,7 +2,7 @@
 $path="./";
 include_once "_head.php";
 extract($_REQUEST);
-if(!$_SESSION[one_member_id])
+if(!$_SESSION['one_member_id'])
 {
 
 
@@ -89,7 +89,7 @@ $(function(){
                 </tr>                    
                 <tr>
                     <th class="w200">코티이름</th>
-                    <td><?=$member_1[mem_name]?></td>
+                    <td><?=$member_1['mem_name']?></td>
                 </tr>                    
                 <tr>
                     <th class="w200">코티전화번호</th>

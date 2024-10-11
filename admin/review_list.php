@@ -228,8 +228,8 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                         <td style="font-size:12px;"><?=$row[lecture_info]?></td>
                         <td style="font-size:12px;"><?=$row[instructor]?></td>
                         <td style="font-size:12px;"><?=$row[area]?></td>
-                        <td style="font-size:12px;"><?=$row[content]?></td>
-                        <td style="font-size:12px;"><?=$row[regdate]?></td>
+                        <td style="font-size:12px;"><?=$row['content']?></td>
+                        <td style="font-size:12px;"><?=$row['regdate']?></td>
                         <td style="font-size:12px;"><?=$row['profile'];?></td>
                         <td style="font-size:12px;">
                             <a href="review_write.php?review_id=<?php echo $row['review_id'];?>">수정</a>

@@ -1,7 +1,7 @@
 <?
 $path="./";
 include_once "_head.php";
-if(!$_SESSION[one_member_id])
+if(!$_SESSION['one_member_id'])
 {
 
 ?>
@@ -16,7 +16,7 @@ location.replace('/ma.php');
 exit;
 }
 extract($_REQUEST);
-$sql="select * from Gn_Member  where mem_id='".$_SESSION[one_member_id]."'";
+$sql="select * from Gn_Member  where mem_id='".$_SESSION['one_member_id']."'";
 $sresul_num=mysqli_query($self_con,$sql);
 $data=mysqli_fetch_array($sresul_num);	
 	

@@ -2,7 +2,7 @@
 $path="./";
 header("Content-Type: text/html; charset=UTF-8");
 include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
-if($_SESSION[one_member_id] != 'obmms01')
+if($_SESSION['one_member_id'] != 'obmms01')
 {
 ?>
 <script language="javascript">

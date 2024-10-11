@@ -1572,7 +1572,7 @@ else if ($post_type == "block_user") {
                                                   contents_user_display,contents_type_display,contents_footer_display, 
                                                   contents_temp,contents_share_text,req_data,up_data,
                                                   card_short_url,westory_card_url,card_idx,source_iframe,contents_order, reduce_val)
-                                          values('$_SESSION[iam_member_id]','$row[contents_type]','$row[contents_img]','$row[contents_title]','$row[contents_url]', 
+                                          values('{$_SESSION['iam_member_id']}','$row[contents_type]','$row[contents_img]','$row[contents_title]','$row[contents_url]', 
                                                   '$row[contents_url_title]','$row[contents_iframe]','$row[contents_price]','$row[contents_sell_price]', 
                                                   '$row[contents_desc]','$row[except_keyword]','$row[contents_display]','$row[contents_westory_display]', 
                                                   '$row[contents_user_display]','$row[contents_type_display]','$row[contents_footer_display]', 

@@ -3,13 +3,13 @@ $path="./";
 include_once "_head.php";
 $code = whois_ascc($whois_api_key, $_SERVER['REMOTE_ADDR']);
 $link  = $_GET["link"];
-if(!$_SESSION[one_member_id]){?>
+if(!$_SESSION['one_member_id']){?>
     <script language="javascript">
     location.replace('/ma.php');
     </script>
     <?exit;
 }
-	$sql="select * from Gn_Member  where mem_id='".$_SESSION[one_member_id]."' and site != ''";
+	$sql="select * from Gn_Member  where mem_id='".$_SESSION['one_member_id']."' and site != ''";
 	$sresul_num=mysqli_query($self_con,$sql);
 	$data=mysqli_fetch_array($sresul_num);	
 	if($data['intro_message'] =="") {
@@ -66,7 +66,7 @@ $(function(){
    <div class="m_div" id="m_div_mp">
         <div class="join">
             <form name="edit_form" id="edit_form" method="post"  enctype="multipart/form-data">
-                <input type="hidden" name="join_modify" value="<?php echo $member_1[mem_code];?>" />
+                <input type="hidden" name="join_modify" value="<?php echo $member_1['mem_code'];?>" />
                 <div class="a1">
                     <li style="float:left;">회원정보 수정</li>
                     <li style="float:right;"></li>
@@ -147,7 +147,7 @@ $(function(){
                     </tr>
                     <tr>
                         <td>성명</td>
-                        <td  colspan="3"><input type="text" name="name" itemname='성명' value="<?=$member_1[mem_name]?>" required readonly/></td>
+                        <td  colspan="3"><input type="text" name="name" itemname='성명' value="<?=$member_1['mem_name']?>" required readonly/></td>
                     </tr>
                     <tr>
                         <td>프로필사진</td>
@@ -308,8 +308,8 @@ $(function(){
                     <tr>
                         <td>추천링크</td>
                         <td colspan="3">
-                            <input type="hidden" name="nick" itemname='닉네임' value="<?=$member_1[mem_name]?>" />
-                            <span id="sHtml" style="display:none"><?='https://'.$HTTP_HOST.'/ma.php?mem_code='.$member_1[mem_code]?></span>
+                            <input type="hidden" name="nick" itemname='닉네임' value="<?=$member_1['mem_name']?>" />
+                            <span id="sHtml" style="display:none"><?='https://'.$HTTP_HOST.'/ma.php?mem_code='.$member_1['mem_code']?></span>
                             <input type="button" name="" value="복사하기" onclick="copyHtml()">
                         </td>
                     </tr>
@@ -376,7 +376,7 @@ $(function(){
                     </tr> -->
                     <tr>
                         <td colspan="4" style="text-align:center;padding:30px;">
-                        <a href="javascript:void(0)" onclick="join_check(edit_form,'<?=$member_1[mem_code]?>')"><img src="images/sub_mypage_07.jpg" /></a>
+                        <a href="javascript:void(0)" onclick="join_check(edit_form,'<?=$member_1['mem_code']?>')"><img src="images/sub_mypage_07.jpg" /></a>
                         </td>
                     </tr>
                  </table>
@@ -549,7 +549,7 @@ $("document").ready(function(){
             $.ajax({
                 type:"POST",
                 url:"/ajax/get_mem_address.php",
-                data:{mode:'reseller_state', mem_id:'<?=$_SESSION[one_member_id]?>'},
+                data:{mode:'reseller_state', mem_id:'<?=$_SESSION['one_member_id']?>'},
                 dataType:'json',
                 success:function(data){
                     if(data != "1"){
@@ -564,7 +564,7 @@ $("document").ready(function(){
             $.ajax({
                 type:"POST",
                 url:"/ajax/get_mem_address.php",
-                data:{mode:'cur_gwcleb_state', mem_id:'<?=$_SESSION[one_member_id]?>'},
+                data:{mode:'cur_gwcleb_state', mem_id:'<?=$_SESSION['one_member_id']?>'},
                 dataType:'json',
                 success:function(data){
                     if(data != "1"){

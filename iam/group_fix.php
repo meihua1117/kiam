@@ -170,7 +170,7 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                                     $group_sql = "select main_img1 as group_img,g_mem.group_id,description,name,fix_status from gn_group_member g_mem
                                                 inner join gn_group_info info on g_mem.group_id = info.idx
                                                 inner join Gn_Iam_Name_Card card on card.idx = info.card_idx 
-                                                inner join Gn_Member mem on mem.mem_id = g_mem.mem_id where g_mem.mem_id = '$_SESSION[iam_member_id]'";
+                                                inner join Gn_Member mem on mem.mem_id = g_mem.mem_id where g_mem.mem_id = '{$_SESSION['iam_member_id']}'";
                                     $group_sql .= " order by ".$group_order[$etc_order];
                                     $group_res = mysqli_query($self_con,$group_sql);
                                     $row_num = mysqli_num_rows($group_res);
@@ -214,7 +214,7 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                                                 </div>
                                                 <div class="info">
                                                     <div class="upper">
-                                                        <span class="name"><?=$row[name]?></span>
+                                                        <span class="name"><?=$row['name']?></span>
                                                     </div>
                                                     <div class="downer">
                                                         <span class="name"><?=$row[description]?></span>

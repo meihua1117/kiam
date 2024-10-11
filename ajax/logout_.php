@@ -12,17 +12,17 @@ $self_con=mysql_connect($mysql_host,$mysql_user,$mysql_password) or die(mysqli_e
 mysql_select_db($mysql_db) or die(mysqli_error($self_con));
 mysqli_query($self_con,"set names utf8");
 
-	if($_SESSION[one_member_id])
+	if($_SESSION['one_member_id'])
 	  {
-        $_SESSION[one_member_id] = "";
-	    $_SESSION[iam_member_id] = "";
-	    $_SESSION[one_member_admin_id] = "";
-	    $_SESSION[one_member_subadmin_domain] = "";
-	    $_SESSION[iam_member_subadmin_domain] = "";
-	    $_SESSION[one_member_subadmin_id] = "";
-	    $_SESSION[iam_member_subadmin_id] = "";
-	    $_SESSION[one_mem_leb] = "";
-	    $_SESSION[iam_member_leb] = "";
+        $_SESSION['one_member_id'] = "";
+	    $_SESSION['iam_member_id'] = "";
+	    $_SESSION['one_member_admin_id'] = "";
+	    $_SESSION['one_member_subadmin_domain'] = "";
+	    $_SESSION['iam_member_subadmin_domain'] = "";
+	    $_SESSION['one_member_subadmin_id'] = "";
+	    $_SESSION['iam_member_subadmin_id'] = "";
+	    $_SESSION['one_mem_leb'] = "";
+	    $_SESSION['iam_member_leb'] = "";
 		//setcookie("cookie_id","", time()-3600*24*10,'/');
 		//setcookie("cookie_pwd","", time()-3600*24*10,'/');
 		?>

@@ -29,11 +29,11 @@ extract($_REQUEST);
 	$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 	$row=mysqli_fetch_array($result);
 	mysqli_free_result($result);
-	$intRowCount=$row[cnt];
+	$intRowCount=$row['cnt'];
 	$intPageSize =10;				
-	if($_REQUEST[page])
+	if($_REQUEST['page'])
 	{
-	  $page=(int)$_REQUEST[page];
+	  $page=(int)$_REQUEST['page'];
 	  $sort_no=$intRowCount-($intPageSize*$page-$intPageSize); 
 	}
 	else
@@ -41,17 +41,17 @@ extract($_REQUEST);
 	  $page=1;
 	  $sort_no=$intRowCount;
 	}
-	if($_REQUEST[page2])
-	$page2=(int)$_REQUEST[page2];
+	if($_REQUEST['page2'])
+	$page2=(int)$_REQUEST['page2'];
 	else
 	$page2=1;
 	$int=($page-1)*$intPageSize;
-	if($_REQUEST[order_status])
-	$order_status=$_REQUEST[order_status];
+	if($_REQUEST['order_status'])
+	$order_status=$_REQUEST['order_status'];
 	else
 	$order_status="desc"; 
-	if($_REQUEST[order_name])
-	$order_name=$_REQUEST[order_name];
+	if($_REQUEST['order_name'])
+	$order_name=$_REQUEST['order_name'];
 	else
 	$order_name="reg_date";
 	$intPageCount=(int)(($intRowCount+$intPageSize-1)/$intPageSize);     
@@ -120,7 +120,7 @@ extract($_REQUEST);
                     $row_s=mysqli_fetch_array($resul_s);
                     mysqli_free_result($resul_s);
                                                                 
-                    $sql_n="select memo from Gn_MMS_Number where mem_id='$row[mem_id]' and sendnum='$row[send_num]' ";
+                    $sql_n="select memo from Gn_MMS_Number where mem_id='$row[mem_id]' and sendnum='{$row['send_num']}' ";
                     $resul_n=mysqli_query($self_con,$sql_n);
                     $row_n=mysqli_fetch_array($resul_n);
                     mysqli_free_result($resul_n);
@@ -130,14 +130,14 @@ extract($_REQUEST);
                     $row_m=mysqli_fetch_array($resul_m);
                     mysqli_free_result($row_m);
                     
-                    $recv_num = $recv_cnt=explode(",",$row[recv_num]);
+                    $recv_num = $recv_cnt=explode(",",$row['recv_num']);
                     $recv_num_in = "'".implode("','", $recv_num)."'";
                     $date = $row['up_date'];
 
-                    $sql="select count(seq) as cnt from call_app_log where api_name='receive_sms' and LENGTH(recv_num) >= 10 and  send_num='$row[send_num]' and recv_num in ($recv_num_in) and recv_num like '01%'  and regdate >= '$date' and sms not like '[%'";
+                    $sql="select count(seq) as cnt from call_app_log where api_name='receive_sms' and LENGTH(recv_num) >= 10 and  send_num='{$row['send_num']}' and recv_num in ($recv_num_in) and recv_num like '01%'  and regdate >= '$date' and sms not like '[%'";
                     $kresult = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
                     $krow=mysqli_fetch_array($kresult);
-                    $intRowCount=$krow[cnt];											
+                    $intRowCount=$krow['cnt'];											
                     if($date == "") $intRowCount = "";
                     
                     $sql_as="select count(idx) as cnt from Gn_MMS_status where idx='$row[idx]' ";
@@ -153,7 +153,7 @@ extract($_REQUEST);
                     $sql_sn="select * from Gn_MMS where idx='$row[idx]' ";
                     $resul_sn=mysqli_query($self_con,$sql_sn);
                     $row_sn=mysqli_fetch_array($resul_sn);											
-                    $recv_cnt=explode(",",$row_sn[recv_num]);
+                    $recv_cnt=explode(",",$row_sn['recv_num']);
                     
                     $total_cnt = count($recv_cnt);													
                     $reg_date = strtotime($row[reg_date]);
@@ -165,12 +165,12 @@ extract($_REQUEST);
                 <tr>
                     <td><label><input type="checkbox" name="fs_idx" value="<?=$row[idx]?>" /><?=$sort_no?></label></td>
                     <td><?=$row[mem_id]?></td>	
-                    <td><?=$row_n[memo]?></td>
+                    <td><?=$row_n['memo']?></td>
                     <td><?echo $row_m[site] . " / " . $row_m[site_iam];?></td>										
-                    <td><?=$row[send_num]?></td>
-                    <td style="font-size:12px;"><a href="javascript:void(0)" onclick="show_recv('show_content','<?=$c?>','발신내용')"><?=str_substr($row[content],0,30,'utf-8')?></a><input type="hidden" name="show_content" value="<?=$row[content]?>"/></td>
+                    <td><?=$row['send_num']?></td>
+                    <td style="font-size:12px;"><a href="javascript:void(0)" onclick="show_recv('show_content','<?=$c?>','발신내용')"><?=str_substr($row['content'],0,30,'utf-8')?></a><input type="hidden" name="show_content" value="<?=$row['content']?>"/></td>
                     <td>
-                        <?if ($_REQUEST[status2]==2){ echo substr($row[reservation],0,16); }else{?>
+                        <?if ($_REQUEST['status2']==2){ echo substr($row[reservation],0,16); }else{?>
                         <a href="javascript:void(0)" onclick="show_recv('show_jpg','<?=$c?>','첨부파일')"><?=str_substr($row[jpg],0,20,'utf-8')?></a><input type="hidden" name="show_jpg" value="<?=$row[jpg]?>"/>
                         <a href="javascript:void(0)" onclick="show_recv('show_jpg1','<?=$c?>','첨부파일')"><?=str_substr($row[jpg1],0,20,'utf-8')?></a><input type="hidden" name="show_jpg1" value="<?=$row[jpg1]?>"/>
                         <a href="javascript:void(0)" onclick="show_recv('show_jpg2','<?=$c?>','첨부파일')"><?=str_substr($row[jpg2],0,20,'utf-8')?></a><input type="hidden" name="show_jpg2" value="<?=$row[jpg2]?>"/>                     
@@ -309,7 +309,7 @@ function all_msg_del(type){
 			type:"POST",
 			url:"/admin/ajax/delete_func.php",
 			dataType:"json",
-			data:{admin:0, delete_name:"mms_del", mem_id:'<?=$_SESSION[one_member_id]?>', type:type},
+			data:{admin:0, delete_name:"mms_del", mem_id:'<?=$_SESSION['one_member_id']?>', type:type},
 			success: function(data){
 				console.log(data);
 				if(data == 1){

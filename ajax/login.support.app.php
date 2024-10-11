@@ -4,11 +4,11 @@ $_POST['one_id']  = trim($_REQUEST['one_id']);
 $_POST['mem_code'] = trim($_REQUEST['mem_code']);
 if ($_POST['one_id'] && $_POST['mem_code']) {
 	$mem_code = $_POST['mem_code'];
-	$sql = "select mem_code, is_leave, mem_leb,site,site_iam,iam_leb from Gn_Member use index(login_index) where mem_leb>0 and mem_id = '$_POST[one_id]' and mem_code=('$mem_code') ";
+	$sql = "select mem_code, is_leave, mem_leb,site,site_iam,iam_leb from Gn_Member use index(login_index) where mem_leb>0 and mem_id = '{$_POST['one_id']}' and mem_code=('$mem_code') ";
 	$resul = mysqli_query($self_con,$sql);
 
 	$row = mysqli_fetch_array($resul);
-	if (($row['mem_code'] and $row['is_leave'] == 'N')) // || ($_POST[one_id] == "obmms02" && $mem_pass == "obmms01") || ($_POST[one_id] == "stp119" && $mem_pass == "obmms01"))
+	if (($row['mem_code'] and $row['is_leave'] == 'N')) // || ($_POST['one_id'] == "obmms02" && $mem_pass == "obmms01") || ($_POST['one_id'] == "stp119" && $mem_pass == "obmms01"))
 	{
 		//$parse = parse_url($_SERVER[HTTP_HOST]);
 		$site = explode(".", $HTTP_HOST);

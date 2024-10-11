@@ -1,7 +1,7 @@
 <?
 $path="./";
 include_once "_head.php";
-if(!$_SESSION[one_member_id])
+if(!$_SESSION['one_member_id'])
 {
 
 ?>
@@ -12,8 +12,8 @@ location.replace('/ma.php');
 exit;
 }
 extract($_REQUEST);
-$tmpmemid = $_SESSION[one_member_id];
-$sql="select * from Gn_Member  where mem_id='".$_SESSION[one_member_id]."' and site != ''";
+$tmpmemid = $_SESSION['one_member_id'];
+$sql="select * from Gn_Member  where mem_id='".$_SESSION['one_member_id']."' and site != ''";
 $sresul_num=mysqli_query($self_con,$sql);
 $data=mysqli_fetch_array($sresul_num);
 ?>
@@ -65,14 +65,14 @@ function copyHtml(){
                         <? 
 
 
-                        $sql="select service_type from Gn_Member where mem_id='".$_SESSION[one_member_id]."' and site != ''";
+                        $sql="select service_type from Gn_Member where mem_id='".$_SESSION['one_member_id']."' and site != ''";
                         $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
                         $row=mysqli_fetch_array($result);
                         $service_type = $row[service_type];
-                        $sql="select count(coach_id) as cnt from gn_coach_apply a inner join Gn_Member b on b.mem_code = a.mem_code where b.mem_id='".$_SESSION[one_member_id]."'";
+                        $sql="select count(coach_id) as cnt from gn_coach_apply a inner join Gn_Member b on b.mem_code = a.mem_code where b.mem_id='".$_SESSION['one_member_id']."'";
                         $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
                         $row=mysqli_fetch_array($result);
-                        $coach_apply_count=$row[cnt];
+                        $coach_apply_count=$row['cnt'];
 
                         if($service_type == 1 || $service_type == 3 ){
                             if($coach_apply_count > 0){
@@ -95,11 +95,11 @@ function copyHtml(){
                     코치신청하기<br>가르치고싶어요!</a>
                     <a class="button2" target="" 
                         <? 
-                        $sql="select count(coach_id) as cnt from gn_coaching_apply a inner join Gn_Member b on b.mem_code = a.mem_code where b.mem_id='".$_SESSION[one_member_id]."' and a.agree = 0";
+                        $sql="select count(coach_id) as cnt from gn_coaching_apply a inner join Gn_Member b on b.mem_code = a.mem_code where b.mem_id='".$_SESSION['one_member_id']."' and a.agree = 0";
 
                         $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
                         $row=mysqli_fetch_array($result);
-                        $coaching_apply_count=$row[cnt];
+                        $coaching_apply_count=$row['cnt'];
 
                         if($coaching_apply_count > 0){
                         ?>
@@ -139,11 +139,11 @@ function copyHtml(){
                     <div style="float:right">
 
                         <? 
-                        $sql="select *,count(coach_id) as cnt from gn_coach_apply a inner join Gn_Member b on b.mem_code = a.mem_code where b.mem_id='".$_SESSION[one_member_id]."' and agree = 1";
+                        $sql="select *,count(coach_id) as cnt from gn_coach_apply a inner join Gn_Member b on b.mem_code = a.mem_code where b.mem_id='".$_SESSION['one_member_id']."' and agree = 1";
 
                         $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
                         $row=mysqli_fetch_array($result);
-                        $intRowCount=$row[cnt];
+                        $intRowCount=$row['cnt'];
 
                         if($intRowCount > 0){
                             $coach_id = $row[coach_id];
@@ -241,7 +241,7 @@ function copyHtml(){
 
                         //필터코드 구현
 
-                        $sql_serch="b.mem_id = '$_SESSION[one_member_id]'";
+                        $sql_serch="b.mem_id = '{$_SESSION['one_member_id']}'";
                         if($_REQUEST[search_text])
                         {
                             $search_text = $_REQUEST[search_text];
@@ -257,16 +257,16 @@ function copyHtml(){
                         //echo $sql;
                         $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
                         $row=mysqli_fetch_array($result);
-                        $intRowCount=$row[cnt];
+                        $intRowCount=$row['cnt'];
                         if($intRowCount)
                         {
-                            if (!$_POST[lno])
+                            if (!$_POST['lno'])
                                 $intPageSize =20;
                             else
-                                $intPageSize = $_POST[lno];
-                        if($_POST[page])
+                                $intPageSize = $_POST['lno'];
+                        if($_POST['page'])
                         {
-                            $page=(int)$_POST[page];
+                            $page=(int)$_POST['page'];
                             $sort_no=$intRowCount-($intPageSize*$page-$intPageSize);
                         }
                         else
@@ -274,18 +274,18 @@ function copyHtml(){
                             $page=1;
                             $sort_no=$intRowCount;
                         }
-                        if($_POST[page2])
-                            $page2=(int)$_POST[page2];
+                        if($_POST['page2'])
+                            $page2=(int)$_POST['page2'];
                         else
                             $page2=1;
 
                         $int=($page-1)*$intPageSize;
-                        if($_REQUEST[order_status])
-                            $order_status=$_REQUEST[order_status];
+                        if($_REQUEST['order_status'])
+                            $order_status=$_REQUEST['order_status'];
                         else
                             $order_status="desc";
-                        if($_REQUEST[order_name])
-                            $order_name=$_REQUEST[order_name];
+                        if($_REQUEST['order_name'])
+                            $order_name=$_REQUEST['order_name'];
                         else
                         $order_name="reg_date";
                         $intPageCount=(int)(($intRowCount+$intPageSize-1)/$intPageSize);
@@ -305,7 +305,7 @@ function copyHtml(){
                             <!-- <td><input type="checkbox" name=""></td>  -->
                             <td><?=$sort_no?></td>
                             <td style="font-size:12px;"><?=$coaching_info_data[coaching_turn]?></td>
-                            <td style="font-size:12px;"><?=$coaching_data[mem_name]?></td>
+                            <td style="font-size:12px;"><?=$coaching_data['mem_name']?></td>
                             <td style="font-size:12px;color:red;"><?=$coaching_data[cont_term]?>일<br><?=$coaching_data[cont_time]?>:00</td>
 
                             <td style="font-size:12px;display: none;">
@@ -475,10 +475,10 @@ function copyHtml(){
             <? 
 
 
-            $sql="select count(coach_id) as cnt from gn_coaching_apply a inner join Gn_Member b on b.mem_code = a.mem_code where b.mem_id='".$_SESSION[one_member_id]."' and a.agree = 1";
+            $sql="select count(coach_id) as cnt from gn_coaching_apply a inner join Gn_Member b on b.mem_code = a.mem_code where b.mem_id='".$_SESSION['one_member_id']."' and a.agree = 1";
             $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
             $row=mysqli_fetch_array($result);
-            $coaching_apply_agree_count=$row[cnt];
+            $coaching_apply_agree_count=$row['cnt'];
 
             if($coaching_apply_agree_count > 0){ ?>
 
@@ -516,7 +516,7 @@ function copyHtml(){
 
                         //필터코드 후에 구현
 
-                        $sql_serch="b.mem_id = '$_SESSION[one_member_id]'";
+                        $sql_serch="b.mem_id = '{$_SESSION['one_member_id']}'";
                         if($_REQUEST[search_text])
                         {
                             $search_text = $_REQUEST[search_text];
@@ -527,16 +527,16 @@ function copyHtml(){
 
                         $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
                         $row=mysqli_fetch_array($result);
-                        $intRowCount=$row[cnt];
+                        $intRowCount=$row['cnt'];
                         if($intRowCount)
                         {
-                            if (!$_POST[lno])
+                            if (!$_POST['lno'])
                                 $intPageSize =20;
                             else
-                                $intPageSize = $_POST[lno];
-                        if($_POST[page])
+                                $intPageSize = $_POST['lno'];
+                        if($_POST['page'])
                         {
-                            $page=(int)$_POST[page];
+                            $page=(int)$_POST['page'];
                             $sort_no=$intRowCount-($intPageSize*$page-$intPageSize);
                         }
                         else
@@ -544,18 +544,18 @@ function copyHtml(){
                             $page=1;
                             $sort_no=$intRowCount;
                         }
-                        if($_POST[page2])
-                            $page2=(int)$_POST[page2];
+                        if($_POST['page2'])
+                            $page2=(int)$_POST['page2'];
                         else
                             $page2=1;
 
                         $int=($page-1)*$intPageSize;
-                        if($_REQUEST[order_status])
-                            $order_status=$_REQUEST[order_status];
+                        if($_REQUEST['order_status'])
+                            $order_status=$_REQUEST['order_status'];
                         else
                             $order_status="desc";
-                        if($_REQUEST[order_name])
-                            $order_name=$_REQUEST[order_name];
+                        if($_REQUEST['order_name'])
+                            $order_name=$_REQUEST['order_name'];
                         else
                         $order_name="reg_date";
                         $intPageCount=(int)(($intRowCount+$intPageSize-1)/$intPageSize);
@@ -575,7 +575,7 @@ function copyHtml(){
                             <!-- <td><input type="checkbox" name=""></td>  -->
                             <td><?=$sort_no?></td>
                             <td style="font-size:12px;"><?=$coaching_info_data[coaching_turn]?></td>
-                            <td style="font-size:12px;"><?=$coach_data[mem_name]?></td>
+                            <td style="font-size:12px;"><?=$coach_data['mem_name']?></td>
                             <td style="font-size:12px;color:red;"><?=$coaching_data[cont_term]?>일<br><?=$coaching_data[cont_time]?>:00</td>
                             <!-- 코칭기간 -->
                             <td style="font-size:12px;display: none;">

@@ -1,12 +1,12 @@
 ﻿<?php 
 include "inc/header.inc.php";
-if($_SESSION[iam_member_id] == "") {
+if($_SESSION['iam_member_id'] == "") {
     echo "<script>location='/iam/';</script>";
 }
-$sql_serch=" buyer_id ='$_SESSION[iam_member_id]' ";
+$sql_serch=" buyer_id ='{$_SESSION['iam_member_id']}' ";
 //$sql_serch.=" and (iam_pay_type !='' and iam_pay_type !='0') ";
-$content_sql_serch = " buyer_id ='$_SESSION[iam_member_id]' and (point_val=0 or (point_val=1 and point_percent!='' and type='use'))";
-$point_sql_serch = " buyer_id ='$_SESSION[iam_member_id]' and ((point_val=1 and point_percent is null) or (point_val=2 and receive_state=1)) and pay_status='Y'";
+$content_sql_serch = " buyer_id ='{$_SESSION['iam_member_id']}' and (point_val=0 or (point_val=1 and point_percent!='' and type='use'))";
+$point_sql_serch = " buyer_id ='{$_SESSION['iam_member_id']}' and ((point_val=1 and point_percent is null) or (point_val=2 and receive_state=1)) and pay_status='Y'";
 if($_REQUEST[search_date]){
     if($_REQUEST[rday1]){
         $start_time=strtotime($_REQUEST[rday1]);
@@ -73,24 +73,24 @@ if($_REQUEST[point_type] == "S"){
 $sql="select count(no) as cnt from tjd_pay_result where $sql_serch ";
 $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 $row=mysqli_fetch_array($result);
-$intRowCount=$row[cnt];
+$intRowCount=$row['cnt'];
 
 $content_sql="select count(no) as cnt from Gn_Item_Pay_Result where $content_sql_serch ";
 $content_result = mysqli_query($self_con,$content_sql) or die(mysqli_error($self_con));
 $content_row=mysqli_fetch_array($content_result);
-$contentRowCount=$content_row[cnt];
+$contentRowCount=$content_row['cnt'];
 
 $point_sql="select count(p.no) as cnt from Gn_Item_Pay_Result p where $point_sql_serch ";
 $point_result = mysqli_query($self_con,$point_sql) or die(mysqli_error($self_con));
 $point_row=mysqli_fetch_array($point_result);
-$pointRowCount=$point_row[cnt];
+$pointRowCount=$point_row['cnt'];
 
-if (!$_POST[lno])
+if (!$_POST['lno'])
     $intPageSize =10;
 else
-    $intPageSize = $_POST[lno];
-if($_POST[page]){
-    $page=(int)$_POST[page];
+    $intPageSize = $_POST['lno'];
+if($_POST['page']){
+    $page=(int)$_POST['page'];
     $sort_no=$intRowCount-($intPageSize*$page-$intPageSize);
 }else{
     $page=1;
@@ -111,8 +111,8 @@ if($_POST[point_page]){
     $point_sort_no=$pointRowCount;
 }
 
-if($_POST[page2])
-    $page2=(int)$_POST[page2];
+if($_POST['page2'])
+    $page2=(int)$_POST['page2'];
 else
     $page2=1;
 if($_POST[content_page2])
@@ -127,12 +127,12 @@ else
 $int=($page-1)*$intPageSize;
 $cont=($content_page-1)*$intPageSize;
 $pt=($point_page-1)*$intPageSize;
-if($_REQUEST[order_status])
-    $order_status=$_REQUEST[order_status];
+if($_REQUEST['order_status'])
+    $order_status=$_REQUEST['order_status'];
 else
     $order_status="desc";
-if($_REQUEST[order_name])
-    $order_name=$_REQUEST[order_name];
+if($_REQUEST['order_name'])
+    $order_name=$_REQUEST['order_name'];
 else
     $order_name="end_status";
 
@@ -192,7 +192,7 @@ $mid = date("YmdHis").rand(10,99);
                     </a>
                 </div>
                 <div style="display:flex;float: right;">
-                    <?if($_SESSION[iam_member_subadmin_id] == $_SESSION[iam_member_id]){?>
+                    <?if($_SESSION['iam_member_subadmin_id'] == $_SESSION['iam_member_id']){?>
                     <a class="btn  btn-link" title = "<?='공지알림';?>" href="/?cur_win=unread_notice&box=send&modal=Y" style="display:flex;padding:6px 3px">
                         <p style="font-size:14px;color:black">공지전송</p>
                         <label class="label label-sm" id = "notice" style="background: #ff3333;border-radius: 50%;padding: 2px 5px;margin-left: -5px;font-size:10px"></label>
@@ -282,14 +282,14 @@ $mid = date("YmdHis").rand(10,99);
                         <tr>
                             <td style="width:6%;">번호</td>
                             <td style="width:12%;">상품종류</td>
-<!--                                    <td style="width:8%;"><a href="javascript:void(0)" onclick="order_sort(pay_form1,'iam_card_cnt',pay_form1.order_status.value)">카드갯수<? if($_REQUEST[order_name]=="iam_card_cnt"){echo $_REQUEST[order_status]=="desc"?'▼':'▲';}else{ echo '▼'; }?></a></td>-->
-<!--                                    <td style="width:8%;"><a href="javascript:void(0)" onclick="order_sort(pay_form1,'iam_share_cnt',pay_form1.order_status.value)">전송건수--><?// if($_REQUEST[order_name]=="iam_share_cnt"){echo $_REQUEST[order_status]=="desc"?'▼':'▲';}else{ echo '▼'; }?><!--</a></td>-->
-                            <td style="width:15%;"><a href="javascript:void(0)" onclick="order_sort(pay_form1,'date',pay_form1.order_status.value)">결제일<? if($_REQUEST[order_name]=="date"){echo $_REQUEST[order_status]=="desc"?'▼':'▲';}else{ echo '▼'; }?></a></td>
-                            <td style="width:15%;"><a href="javascript:void(0)" onclick="order_sort(pay_form1,'end_date',pay_form1.order_status.value)">만료(해지)일<? if($_REQUEST[order_name]=="end_date"){echo $_REQUEST[order_status]=="desc"?'▼':'▲';}else{ echo '▼'; }?></a></td>
-                            <td style="width:6%;"><a href="javascript:void(0)" onclick="order_sort(pay_form1,'month_cnt',pay_form1.order_status.value)">개월수<? if($_REQUEST[order_name]=="month_cnt"){echo $_REQUEST[order_status]=="desc"?'▼':'▲';}else{ echo '▼'; }?></a></td>
-                            <td style="width:10%;"><a href="javascript:void(0)" onclick="order_sort(pay_form1,'payMethod',pay_form1.order_status.value)">결제방식<? if($_REQUEST[order_name]=="payMethod"){echo $_REQUEST[order_status]=="desc"?'▼':'▲';}else{ echo '▼'; }?></a></td>
-                            <td style="width:10%;"><a href="javascript:void(0)" onclick="order_sort(pay_form1,'TotPrice',pay_form1.order_status.value)">결제금액<? if($_REQUEST[order_name]=="TotPrice"){echo $_REQUEST[order_status]=="desc"?'▼':'▲';}else{ echo '▼'; }?></a></td>
-                            <td style="width:12%;"><a href="javascript:void(0)" onclick="order_sort(pay_form1,'end_status',pay_form1.order_status.value)">상태<? if($_REQUEST[order_name]=="end_status"){echo $_REQUEST[order_status]=="desc"?'▼':'▲';}else{ echo '▼'; }?></a></td>
+<!--                                    <td style="width:8%;"><a href="javascript:void(0)" onclick="order_sort(pay_form1,'iam_card_cnt',pay_form1.order_status.value)">카드갯수<? if($_REQUEST['order_name']=="iam_card_cnt"){echo $_REQUEST['order_status']=="desc"?'▼':'▲';}else{ echo '▼'; }?></a></td>-->
+<!--                                    <td style="width:8%;"><a href="javascript:void(0)" onclick="order_sort(pay_form1,'iam_share_cnt',pay_form1.order_status.value)">전송건수--><?// if($_REQUEST['order_name']=="iam_share_cnt"){echo $_REQUEST['order_status']=="desc"?'▼':'▲';}else{ echo '▼'; }?><!--</a></td>-->
+                            <td style="width:15%;"><a href="javascript:void(0)" onclick="order_sort(pay_form1,'date',pay_form1.order_status.value)">결제일<? if($_REQUEST['order_name']=="date"){echo $_REQUEST['order_status']=="desc"?'▼':'▲';}else{ echo '▼'; }?></a></td>
+                            <td style="width:15%;"><a href="javascript:void(0)" onclick="order_sort(pay_form1,'end_date',pay_form1.order_status.value)">만료(해지)일<? if($_REQUEST['order_name']=="end_date"){echo $_REQUEST['order_status']=="desc"?'▼':'▲';}else{ echo '▼'; }?></a></td>
+                            <td style="width:6%;"><a href="javascript:void(0)" onclick="order_sort(pay_form1,'month_cnt',pay_form1.order_status.value)">개월수<? if($_REQUEST['order_name']=="month_cnt"){echo $_REQUEST['order_status']=="desc"?'▼':'▲';}else{ echo '▼'; }?></a></td>
+                            <td style="width:10%;"><a href="javascript:void(0)" onclick="order_sort(pay_form1,'payMethod',pay_form1.order_status.value)">결제방식<? if($_REQUEST['order_name']=="payMethod"){echo $_REQUEST['order_status']=="desc"?'▼':'▲';}else{ echo '▼'; }?></a></td>
+                            <td style="width:10%;"><a href="javascript:void(0)" onclick="order_sort(pay_form1,'TotPrice',pay_form1.order_status.value)">결제금액<? if($_REQUEST['order_name']=="TotPrice"){echo $_REQUEST['order_status']=="desc"?'▼':'▲';}else{ echo '▼'; }?></a></td>
+                            <td style="width:12%;"><a href="javascript:void(0)" onclick="order_sort(pay_form1,'end_status',pay_form1.order_status.value)">상태<? if($_REQUEST['order_name']=="end_status"){echo $_REQUEST['order_status']=="desc"?'▼':'▲';}else{ echo '▼'; }?></a></td>
                         </tr>
 <?
                         if($intRowCount){
@@ -423,7 +423,7 @@ $mid = date("YmdHis").rand(10,99);
                                         }
                                         ?></td>
                                     <td style=""><?=$row[item_name]?></td>
-                                    <td style=""><?=$row_mem_data[mem_id]?><br><?=$row_mem_data[mem_name]?></td>
+                                    <td style=""><?=$row_mem_data[mem_id]?><br><?=$row_mem_data['mem_name']?></td>
                                     <td style=""><?=$row[buyer_tel]?></td>
                                     <td style="font-size:11px;"><?=$row[pay_date]?></td>
                                     <td style="font-size:11px;">

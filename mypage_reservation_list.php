@@ -162,7 +162,7 @@ if ($send_ids != "") {
 								</tr>
 								<?
 
-								$sql_serch = " m_id ='$_SESSION[one_member_id]' ";
+								$sql_serch = " m_id ='{$_SESSION['one_member_id']}' ";
 								if ($_REQUEST['search_date']) {
 									if ($_REQUEST['rday1']) {
 										$start_time = strtotime($_REQUEST['rday1']);

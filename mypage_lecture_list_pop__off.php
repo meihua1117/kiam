@@ -2,7 +2,7 @@
 $path="./";
 include_once "_head_open.php";
 /*
-//if(!$_SESSION[one_member_id])
+//if(!$_SESSION['one_member_id'])
 //{
 //
 //?>
@@ -186,7 +186,7 @@ $(function(){
               <tbody id="lecture_list">
               <?
 
-				//$sql_serch=" mem_id ='$_SESSION[one_member_id]' and status='Y' ";
+				//$sql_serch=" mem_id ='{$_SESSION['one_member_id']}' and status='Y' ";
 					if(isset($_REQUEST['end_date'])) {
 					    
 					} else {
@@ -217,16 +217,16 @@ $(function(){
 				$sql="select count(lecture_id) as cnt from Gn_lecture where $sql_serch ";
 				$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 				$row=mysqli_fetch_array($result);
-				$intRowCount=$row[cnt];
+				$intRowCount=$row['cnt'];
               if($intRowCount)
               {
-				if (!$_POST[lno]) 
+				if (!$_POST['lno']) 
 					$intPageSize =20;
 				else 
-				   $intPageSize = $_POST[lno];				
-				if($_POST[page])
+				   $intPageSize = $_POST['lno'];				
+				if($_POST['page'])
 				{
-				  $page=(int)$_POST[page];
+				  $page=(int)$_POST['page'];
 				  $sort_no=$intRowCount-($intPageSize*$page-$intPageSize); 
 				}
 				else
@@ -234,17 +234,17 @@ $(function(){
 				  $page=1;
 				  $sort_no=$intRowCount;
 				}
-				if($_POST[page2])
-				  $page2=(int)$_POST[page2];
+				if($_POST['page2'])
+				  $page2=(int)$_POST['page2'];
 				else
 				  $page2=1;
 				$int=($page-1)*$intPageSize;
-				if($_REQUEST[order_status])
-				  $order_status=$_REQUEST[order_status];
+				if($_REQUEST['order_status'])
+				  $order_status=$_REQUEST['order_status'];
 				else
 				  $order_status="desc"; 
-				if($_REQUEST[order_name])
-				  $order_name=$_REQUEST[order_name];
+				if($_REQUEST['order_name'])
+				  $order_name=$_REQUEST['order_name'];
 				else
 				  $order_name="lecture_id";
 				$intPageCount=(int)(($intRowCount+$intPageSize-1)/$intPageSize);     

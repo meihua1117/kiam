@@ -1,7 +1,7 @@
 <?
 $path="./";
 include_once "_head.php";
-if(!$_SESSION[one_member_id])
+if(!$_SESSION['one_member_id'])
 {
 
 ?>
@@ -11,7 +11,7 @@ location.replace('/ma.php');
 <?
 exit;
 }
-$sql="select * from Gn_Member  where mem_id='".$_SESSION[one_member_id]."' and site != ''";
+$sql="select * from Gn_Member  where mem_id='".$_SESSION['one_member_id']."' and site != ''";
 $sresul_num=mysqli_query($self_con,$sql);
 $data=mysqli_fetch_array($sresul_num);	
 $mem_phone = str_replace("-","",$data['mem_phone']);
@@ -182,7 +182,7 @@ $(function(){
                             <select name="mobile" id="mobile" style="padding: 5px;width: 150px;">
                                 <option value="<?=str_replace("-", "", $data[mem_phone])?>"><?php echo str_replace("-","",$data['mem_phone']);?></option>
                             <?php
-                            $query = "select * from Gn_MMS_Number where mem_id='$_SESSION[one_member_id]' order by sort_no asc, user_cnt desc , idx desc";
+                            $query = "select * from Gn_MMS_Number where mem_id='{$_SESSION['one_member_id']}' order by sort_no asc, user_cnt desc , idx desc";
                             $resul=mysqli_query($self_con,$query);
                             while($korow=mysqli_fetch_array($resul)) {
                                 if($row['mobile']){

@@ -1,7 +1,7 @@
 <?
 $path="./";
 include_once "_head_open.php";
-if(!$_SESSION[one_member_id])
+if(!$_SESSION['one_member_id'])
 {
 
 ?>
@@ -11,7 +11,7 @@ location.replace('/ma.php');
 <?
 exit;
 }
-	$sql="select * from Gn_Member  where mem_id='".$_SESSION[one_member_id]."'";
+	$sql="select * from Gn_Member  where mem_id='".$_SESSION['one_member_id']."'";
 	$sresul_num=mysqli_query($self_con,$sql);
 	$data=mysqli_fetch_array($sresul_num);	
 	
@@ -109,7 +109,7 @@ function copyHtml(url){
               </tr>
               <?
 
-				$sql_serch=" m_id ='$_SESSION[one_member_id]' ";
+				$sql_serch=" m_id ='{$_SESSION['one_member_id']}' ";
 				if($_REQUEST[search_date])
 				{					
 					if($_REQUEST[rday1])
@@ -123,24 +123,24 @@ function copyHtml(url){
 					$sql_serch.=" and unix_timestamp({$_REQUEST[search_date]}) <= $end_time ";
 					}
 				}
-				$sql_serch=" mem_id ='$_SESSION[one_member_id]' ";
+				$sql_serch=" mem_id ='{$_SESSION['one_member_id']}' ";
 				if($_REQUEST[group_name])
 				$sql_serch.=" and grp like '%$_REQUEST[group_name]%' ";
 				$sql="select count(idx) as cnt from Gn_MMS_Group where $sql_serch ";
 				$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 				$row=mysqli_fetch_array($result);
-				$intRowCount=$row[cnt];
+				$intRowCount=$row['cnt'];
 				
               if($intRowCount)
               {				
 
-				if (!$_POST[lno]) 
+				if (!$_POST['lno']) 
 					$intPageSize =15;
 				else 
-				   $intPageSize = $_POST[lno];				
-				if($_POST[page])
+				   $intPageSize = $_POST['lno'];				
+				if($_POST['page'])
 				{
-				  $page=(int)$_POST[page];
+				  $page=(int)$_POST['page'];
 				  $sort_no=$intRowCount-($intPageSize*$page-$intPageSize); 
 				}
 				else
@@ -148,17 +148,17 @@ function copyHtml(url){
 				  $page=1;
 				  $sort_no=$intRowCount;
 				}
-				if($_POST[page2])
-				$page2=(int)$_POST[page2];
+				if($_POST['page2'])
+				$page2=(int)$_POST['page2'];
 				else
 				$page2=1;
 				$int=($page-1)*$intPageSize;
-				if($_REQUEST[order_status])
-				$order_status=$_REQUEST[order_status];
+				if($_REQUEST['order_status'])
+				$order_status=$_REQUEST['order_status'];
 				else
 				$order_status="desc"; 
-				if($_REQUEST[order_name])
-				$order_name=$_REQUEST[order_name];
+				if($_REQUEST['order_name'])
+				$order_name=$_REQUEST['order_name'];
 				else
 				$order_name="idx";
 				$intPageCount=(int)(($intRowCount+$intPageSize-1)/$intPageSize);     
@@ -183,7 +183,7 @@ function copyHtml(url){
 									$count++;
 								}
 							}
-							$srow[cnt] = $srow[cnt] * 1 - $count;
+							$srow['cnt'] = $srow['cnt'] * 1 - $count;
 						}
                   ?>
               <tr>
@@ -191,9 +191,9 @@ function copyHtml(url){
 
                 <td style="font-size:12px;"><?=str_substr($row[grp],0,20,"utf-8")?></td>
                 <td style="font-size:12px;"><?=substr($row[reg_date],2,9)?></td>
-                <td><?=$srow[cnt]?></td>
+                <td><?=$srow['cnt']?></td>
                 <td>
-                    <a href="javascript:;;" onclick="useIt('<?=str_substr($row[grp],0,20,"utf-8");?>','<?=$row[idx]?>','<?=$srow[cnt]?>')">사용하기</a>
+                    <a href="javascript:;;" onclick="useIt('<?=str_substr($row[grp],0,20,"utf-8");?>','<?=$row[idx]?>','<?=$srow['cnt']?>')">사용하기</a>
                 </td>                                                
               </tr>
               <?

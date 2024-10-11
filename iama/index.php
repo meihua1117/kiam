@@ -5,7 +5,7 @@ if($HTTP_HOST != "kiam.kr"){
     $res = mysqli_query($self_con,$query);
     $domainData = mysqli_fetch_array($res);
     
-    if($domainData['mem_id'] != $_SESSION[iam_member_id]) {
+    if($domainData['mem_id'] != $_SESSION['iam_member_id']) {
         echo "<script>location='/';</script>";
         exit;
     }
@@ -17,7 +17,7 @@ else{
     $res = mysqli_query($self_con,$query);
     $domainData = mysqli_fetch_array($res);
     
-    if($domainData['mem_id'] != $_SESSION[iam_member_id]) {
+    if($domainData['mem_id'] != $_SESSION['iam_member_id']) {
         echo "<script>location='/';</script>";
         exit;
     }

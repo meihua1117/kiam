@@ -191,7 +191,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                             <td><input type="checkbox" class="check" id="check_one_member" name="" value="<?=$row['event_idx']?>">&nbsp;&nbsp;<?=$number--?></td>
                             <td style="font-size:12px;"><?=$row[site]?></td>
                             <td style="font-size:12px;"><?=$row[m_id]?></td>
-                            <td style="font-size:12px;"><?=$row[mem_name]?></td>
+                            <td style="font-size:12px;"><?=$row['mem_name']?></td>
                             <td style="font-size:12px;"><?=$row[event_title]?></td>
                             <td style="font-size:12px;"><a href="javascript:show_more('<?=str_replace("\n", "<br>", $row['event_desc'])?>')"><?=cut_str($row['event_desc'], 50)?></a></td>
                             <td style="font-size:12px;"><?if($row['object'] != ""){?><img class="zoom" src="http://www.kiam.kr/<?=$row['object']?>" style="width:90%;"><?}?></td>
@@ -200,7 +200,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                                 <input type="button" value="링크복사" class="button copyLinkBtn" data-link="<?php echo $row['short_url']?>">
                             </td>
                             <td style="font-size:12px;"><a href="javascript:show_req_mem('<?=$row['event_idx']?>')"><?=$row['read_cnt']?>/<?=$row_req_mem['cnt']?></a></td>
-                            <td style="font-size:12px;"><?=$row[regdate]?></td>
+                            <td style="font-size:12px;"><?=$row['regdate']?></td>
                             <td><a href="edit_daily_msg_service.php?event_idx=<?=$row[event_idx]?>">수정</a>/<a href="javascript:delete_event(<?=$row[event_idx]?>)">삭제</a></td>
                       </tr>
                     <?

@@ -25,7 +25,7 @@ if($mode == "daily_update")
     }
     
     $query = "
-    update Gn_daily set mem_id='$_SESSION[one_member_id]', 
+    update Gn_daily set mem_id='{$_SESSION['one_member_id']}', 
                                 send_num='$send_num',
                                 group_idx='$group_idx',
                                 total_count='$total_count',
@@ -77,7 +77,7 @@ if($mode == "daily_update")
     }
     for($i=0;$i <count($date);$i++) {
         $reservation = $date[$i]." ".$htime.":".$mtime.":00";
-        sendmms(6, $_SESSION[one_member_id], $send_num, $recv_num_set[$i], $reservation, $title, $txt, $upimage_str, $upimage_str1, $upimage_str2, 'Y', "", "", "", $gd_id, $deny);
+        sendmms(6, $_SESSION['one_member_id'], $send_num, $recv_num_set[$i], $reservation, $title, $txt, $upimage_str, $upimage_str1, $upimage_str2, 'Y', "", "", "", $gd_id, $deny);
     }
                 
     for($i=0;$i <count($date);$i++) {

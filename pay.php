@@ -10,7 +10,7 @@ extract($_GET);
 include_once "_head.php";
 // include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
 $date = date("Y-m-d H:i:s");
-$sql="select * from Gn_Member where mem_id='$_SESSION[one_member_id]' ";
+$sql="select * from Gn_Member where mem_id='{$_SESSION['one_member_id']}' ";
 $resul=mysqli_query($self_con,$sql);
 $data=mysqli_fetch_array($resul);
 // 이미 진행중인 결제가 있는지 확인
@@ -510,7 +510,7 @@ if($platform == "mobile"){
                 <!--승인금액-->
                 <input type="hidden" name="allat_amt" id="allat_amt" value="33000" size="19" maxlength=10>
                 <!--회원ID-->
-                <input type="hidden" name="allat_pmember_id" value="<?=$_SESSION[one_member_id];?>" size="19" maxlength=20>
+                <input type="hidden" name="allat_pmember_id" value="<?=$_SESSION['one_member_id'];?>" size="19" maxlength=20>
                 <!--상품코드-->
                 <input type="hidden" name="allat_product_cd" id="allat_product_cd" value="Selling-Best" size="19" maxlength=1000>
                 <!--상품명-->
@@ -1308,7 +1308,7 @@ if($platform == "mobile"){
                     </div>
                 </div>
                 <div style="padding-bottom: 10px; display : none" id = "detail2"> 입금안내 : 스탠다드차타드은행 617-20-109431 온리원연구소(구,SC제일은행)<br>연결제는 월결제에 2개월치를 추가로 드립니다.<br></div>
-            <?if(!$_SESSION[one_member_id]){?>
+            <?if(!$_SESSION['one_member_id']){?>
                 <div class="a8"><a href="javascript:alert('로그인후 이용이 가능합니다.');"><img src="images/sub_02_btn_23.jpg" style="max-width: 100%"/></a></div>
             <?}else {?>
                 <div class="a8"><a href="javascript:show_modal();"><img src="images/sub_02_btn_23.jpg" style="max-width: 100%"/></a></div>
@@ -1710,7 +1710,7 @@ if($platform == "mobile"){
                         type:"POST",
                         url:"/ajax/get_mem_address.php",
                         dataType:"json",
-                        data:{mem_id:'<?=$_SESSION[iam_member_id]?>'},
+                        data:{mem_id:'<?=$_SESSION['iam_member_id']?>'},
                         success: function(data){
                             $('#allat_recp_addr').val(data.address);
                             if(product_type != "standard"){
@@ -1779,7 +1779,7 @@ if($platform == "mobile"){
                         type:"POST",
                         url:"/ajax/get_mem_address.php",
                         dataType:"json",
-                        data:{mem_id:'<?=$_SESSION[iam_member_id]?>'},
+                        data:{mem_id:'<?=$_SESSION['iam_member_id']?>'},
                         success: function(data){
                             $('#allat_recp_addr').val(data.address);
                             $('#allat_shop_id').val('bwelcome12');
@@ -1806,7 +1806,7 @@ if($platform == "mobile"){
                         type:"POST",
                         url:"/ajax/get_mem_address.php",
                         dataType:"json",
-                        data:{mem_id:'<?=$_SESSION[iam_member_id]?>'},
+                        data:{mem_id:'<?=$_SESSION['iam_member_id']?>'},
                         success: function(data){
                             $('#allat_recp_addr').val(data.address);
                             $('#allat_shop_id').val('welcome101');

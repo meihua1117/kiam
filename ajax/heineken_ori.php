@@ -38,15 +38,15 @@ if($user_id){
                 $sql_g2 = "select recv_num,grp from Gn_MMS_Receive where grp_id = '$v' order by idx asc";
                 $resul_g2 = mysqli_query($self_con,$sql_g2);
                 while($row_g2=mysqli_fetch_array($resul_g2)) {
-                    array_push($num_arr,$row_g2[recv_num]);
+                    array_push($num_arr,$row_g2['recv_num']);
                     if (array_key_exists($row_g2['recv_num'], $group_recv_info) === false) {
                         $group_recv_info[$row_g2['recv_num']] = $row_g2['grp'];
                     }
                 }
             }
         }
-        if($_POST[send_num]) //합침/유일/정렬 tag name = num 발송 타깃 번호
-            $num_arr=array_merge($num_arr,explode(",",$_POST[send_num]));
+        if($_POST['send_num']) //합침/유일/정렬 tag name = num 발송 타깃 번호
+            $num_arr=array_merge($num_arr,explode(",",$_POST['send_num']));
         $num_arr=array_unique($num_arr);
         sort($num_arr);
 
@@ -376,7 +376,7 @@ if($user_id){
                         if(mysqli_num_rows($resul_ssh)){
                             while($row_ssh=mysqli_fetch_array($resul_ssh)){
                                 $ssh_arr=array();
-                                $ssh_arr=explode(",",$row_ssh[recv_num]);
+                                $ssh_arr=explode(",",$row_ssh['recv_num']);
                                 $ssh_num=array_merge($ssh_num,(array)$ssh_arr);
                             }
                             unset($ssh_arr);
@@ -712,7 +712,7 @@ if($user_id){
                 if(mysqli_num_rows($resul_ssh)){
                     while($row_ssh=mysqli_fetch_array($resul_ssh)){
                         $ssh_arr=array();
-                        $ssh_arr=explode(",",$row_ssh[recv_num]);
+                        $ssh_arr=explode(",",$row_ssh['recv_num']);
                         $ssh_num=array_merge($ssh_num,$ssh_arr);
                     }
                     unset($ssh_arr);
@@ -857,10 +857,10 @@ if($user_id){
                 }
                 if(count($recv_arr)){   //앱에서만 보내기로 합 2016-03-07
                 /*	$mms_start_info[mem_id]=$user_id;
-                    $mms_start_info[send_num]=$sendnum[$j];
-                    $mms_start_info[recv_num]=$sendnum[$j];
+                    $mms_start_info['send_num']=$sendnum[$j];
+                    $mms_start_info['recv_num']=$sendnum[$j];
                     $mms_start_info[uni_id]=$reg."999";
-                    $mms_start_info[content]="온리원문자 문자발송시작";
+                    $mms_start_info['content']="온리원문자 문자발송시작";
                     $mms_start_info[title]="온리원문자";
                     $sql_start="insert into Gn_MMS set ";
                     foreach($mms_start_info as $key=>$v)
@@ -974,10 +974,10 @@ if($user_id){
                     $denv_url_str=implode(",",$deny_url_arr);
 
                     $mms_info[mem_id]=$user_id;
-                    $mms_info[send_num]=$sendnum[$j];
-                    $mms_info[recv_num]=$recv_str;
+                    $mms_info['send_num']=$sendnum[$j];
+                    $mms_info['recv_num']=$recv_str;
                     $mms_info[uni_id]=$req;
-                    $mms_info[content]=addslashes(htmlspecialchars($_POST[send_txt]));
+                    $mms_info['content']=addslashes(htmlspecialchars($_POST[send_txt]));
                     $mms_info[jpg]=$img;
                     $mms_info[type]=$_POST[send_type];
                     $mms_info[title]=htmlspecialchars($_POST[send_title]);
@@ -1011,8 +1011,8 @@ if($user_id){
                         mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
                         $sidx = mysqli_insert_id($self_con);
                         if(!$reservation) {
-                            if($pkey[$mms_info[send_num]] != "") {
-                                $id = $pkey[$mms_info[send_num]];
+                            if($pkey[$mms_info['send_num']] != "") {
+                                $id = $pkey[$mms_info['send_num']];
                                 $title='{"MMS Push"}';
                                 $message='{"Send":"Start","idx":"'.$sidx.'","send_type":"'.$_POST[send_type].'"}';
                                 $fields = array (
@@ -1049,9 +1049,9 @@ if($user_id){
                                 $msg = "";
                                 $msg = $json->results[0]->error;
 
-                                $query = "insert into Gn_MMS_PUSH set send_num='".$mms_info[send_num]."',
+                                $query = "insert into Gn_MMS_PUSH set send_num='".$mms_info['send_num']."',
                                                                       idx='".$sidx."',
-                                                                      token='".$pkey[$mms_info[send_num]]."',
+                                                                      token='".$pkey[$mms_info['send_num']]."',
                                                                       error='$msg'
                                                                       ";
                                 if($debug_mode == false) {

@@ -20,7 +20,7 @@ if($_GET['key2'] == "")//인기검색어
 if($_GET['sort'] == "")//정렬기준
     $_GET['sort'] = 0;
 if($cur_win == ""){
-    if($card_owner == $_SESSION[iam_member_id])
+    if($card_owner == $_SESSION['iam_member_id'])
         $cur_win = "we_story";//curwin이 주소에 없으면 my_info로 설정
     else
         $cur_win = "my_info";//curwin이 주소에 없으면 my_info로 설정
@@ -96,25 +96,25 @@ $bunyang_site = $row['site_iam'];
 $bunyang_site_manager_code = $row['mem_code'];
 
 
-if ($_SESSION[iam_member_id]) {
+if ($_SESSION['iam_member_id']) {
     $price_service = 0;
     $name_service = "";
     $sellerid_service = "";
     $Gn_mem_row = $member_iam;
     $Gn_point = $Gn_mem_row['mem_point'];
     $user_site = $Gn_mem_row['site_iam'];//로긴한 회원의 아이엠분양사명
-    $user_mem_code = $Gn_mem_row[mem_code];
+    $user_mem_code = $Gn_mem_row['mem_code'];
     $send_ids = $Gn_mem_row['send_ids'];//카드, 콘텐츠 전송한 아아디
     if($send_ids != ""){
         $cnt = explode(",", $send_ids);
         $send_ids_cnt = count($cnt);
     }
     $date = date("Y-m-d H:i:s");
-    $pay_query = "select count(*) from tjd_pay_result where (iam_pay_type != '0' and iam_pay_type != '') and buyer_id='$_SESSION[iam_member_id]' and end_status='Y' and `end_date` > '$date'";
+    $pay_query = "select count(*) from tjd_pay_result where (iam_pay_type != '0' and iam_pay_type != '') and buyer_id='{$_SESSION['iam_member_id']}' and end_status='Y' and `end_date` > '$date'";
     $pay_result = mysqli_query($self_con,$pay_query);
     $pay_row = mysqli_fetch_array($pay_result);
     $pay_status = $pay_row[0] + $Gn_mem_row[iam_type];// 유료회원이면 true,무료회원이면 false
-    $show_sql = "select show_iam_card,show_iam_like from Gn_Member where mem_id = '$_SESSION[iam_member_id]'";
+    $show_sql = "select show_iam_card,show_iam_like from Gn_Member where mem_id = '{$_SESSION['iam_member_id']}'";
     $show_result = mysqli_query($self_con,$show_sql);
     $show_row = mysqli_fetch_array($show_result);
     $show_my_iam_card = $show_row['show_iam_card'];
@@ -122,7 +122,7 @@ if ($_SESSION[iam_member_id]) {
 
     //24시간내에 등록한 댓글이 있는지 확인
     $post_time = date("Y-m-d H:i:s", strtotime("-1 week"));
-    $post_sql = "select count(*) from Gn_Member where mem_id = '$_SESSION[iam_member_id]' and last_regist > '$post_time'";
+    $post_sql = "select count(*) from Gn_Member where mem_id = '{$_SESSION['iam_member_id']}' and last_regist > '$post_time'";
     $post_result = mysqli_query($self_con,$post_sql);
     $post_row = mysqli_fetch_array($post_result);
     $recent_post = $post_row[0];
@@ -189,7 +189,7 @@ if($cur_win == "my_info"){
     @setcookie("recommender_code", $card_owner_code, time()+3600);
     $_COOKIE[recommender_code] = $card_owner_code;
 
-    if($G_card[phone_display]=='N' && $card_owner != $_SESSION[iam_member_id] ) {
+    if($G_card[phone_display]=='N' && $card_owner != $_SESSION['iam_member_id'] ) {
         echo "<script>toastr.error('비공개카드입니다.');history.go(-1);</script>";
         exit;
     }
@@ -199,7 +199,7 @@ if($cur_win == "my_info"){
     if($domainData[sub_domain] == "")
         $domainData[sub_domain] = "http://kiam.kr/";
     if(!$card_owner) {
-        $card_owner = trim($_SESSION[iam_member_id]);
+        $card_owner = trim($_SESSION['iam_member_id']);
     }
     $story_title1 = $G_card[story_title1];//내 소개
     $story_title2 = $G_card[story_title2];//현재 소속
@@ -252,11 +252,11 @@ if($cur_win == "my_info"){
         $main_img1 = str_replace("http://www.kiam.kr",$cdn, $group_card['main_img1']);
         $main_img2 = str_replace("http://www.kiam.kr",$cdn, $group_card['main_img2']);
         $main_img3 = str_replace("http://www.kiam.kr",$cdn, $group_card['main_img3']);
-        $visit_sql = "update gn_group_member set visit_date = now() where mem_id = '$_SESSION[iam_member_id]' and group_id=$gkind";
+        $visit_sql = "update gn_group_member set visit_date = now() where mem_id = '{$_SESSION['iam_member_id']}' and group_id=$gkind";
         mysqli_query($self_con,$visit_sql);
     }
-    if($_SESSION[iam_member_id]){
-        $sql = "select * from gn_group_member where mem_id = '$_SESSION[iam_member_id]'";
+    if($_SESSION['iam_member_id']){
+        $sql = "select * from gn_group_member where mem_id = '{$_SESSION['iam_member_id']}'";
         $res = mysqli_query($self_con,$sql);
         $my_group = array();
         while($row = mysqli_fetch_array($res)){
@@ -266,7 +266,7 @@ if($cur_win == "my_info"){
     }
 }else
     $post_display = 1;
-$my_first_card = ($cur_win == "my_info" && $request_short_url == $first_card_url && $_SESSION[iam_member_id] && !$_SESSION[iam_member_subadmin_id]) * 1;
+$my_first_card = ($cur_win == "my_info" && $request_short_url == $first_card_url && $_SESSION['iam_member_id'] && !$_SESSION['iam_member_subadmin_id']) * 1;
 
 $cursor = 0;
 
@@ -292,37 +292,37 @@ if(!$cur_win || $cur_win == "my_info"){
 
     $sql8="select * from Gn_Iam_Contents WHERE card_short_url = '$G_card[card_short_url]' and ".$search_sql." ORDER BY contents_order desc";
     if($search_key)
-        $sql8="select * from Gn_Iam_Contents WHERE group_id is NULL and mem_id = '$_SESSION[iam_member_id]' and ($search_sql) ORDER BY contents_order desc";
+        $sql8="select * from Gn_Iam_Contents WHERE group_id is NULL and mem_id = '{$_SESSION['iam_member_id']}' and ($search_sql) ORDER BY contents_order desc";
     $result8=mysqli_query($self_con,$sql8) or die(mysqli_error($self_con));
     $cont_count = mysqli_num_rows($result8);
     $sql8 .= " limit $contents_count_per_page offset ".$w_offset;
-}else if($cur_win == "my_story"  && $_SESSION[iam_member_id]== ""){
+}else if($cur_win == "my_story"  && $_SESSION['iam_member_id']== ""){
 
     $sql8="select * from Gn_Iam_Contents WHERE card_short_url = '$G_card[card_short_url]' and $search_sql ORDER BY contents_order desc";
     $result8=mysqli_query($self_con,$sql8) or die(mysqli_error($self_con));
     $cont_count = mysqli_num_rows($result8);
     $sql8 .= " limit $contents_count_per_page offset ".$w_offset;
-}else if($cur_win == "my_story" && ( $_SESSION[iam_member_id]!= "")){
+}else if($cur_win == "my_story" && ( $_SESSION['iam_member_id']!= "")){
 
     $sql8="select * from Gn_Iam_Contents WHERE group_id is NULL and (mem_id = '$card_owner' or contents_share_text like '%$card_owner%')  and $search_sql ORDER BY req_data desc, up_data desc";
     $result8=mysqli_query($self_con,$sql8) or die(mysqli_error($self_con));
     $cont_count = mysqli_num_rows($result8);
     $sql8 .= " limit $contents_count_per_page offset ".$w_offset;
-}else if($cur_win == "shared_receive" &&  $_SESSION[iam_member_id]!= ""){
+}else if($cur_win == "shared_receive" &&  $_SESSION['iam_member_id']!= ""){
 
-    $sql8="select * from Gn_Iam_Contents WHERE contents_share_text like '%$_SESSION[iam_member_id]%'  and $search_sql ORDER BY req_data desc, up_data desc";
+    $sql8="select * from Gn_Iam_Contents WHERE contents_share_text like '%{$_SESSION['iam_member_id']}%'  and $search_sql ORDER BY req_data desc, up_data desc";
     $result8=mysqli_query($self_con,$sql8) or die(mysqli_error($self_con));
     $cont_count = mysqli_num_rows($result8);
     $sql8 .= " limit $contents_count_per_page offset ".$w_offset;
-}else if($cur_win == "shared_send" &&  $_SESSION[iam_member_id]!= ""){
+}else if($cur_win == "shared_send" &&  $_SESSION['iam_member_id']!= ""){
 
-    $sql8="select * from Gn_Iam_Contents WHERE mem_id = '$_SESSION[iam_member_id]' and contents_share_text != ''  and $search_sql ORDER BY req_data desc, up_data desc";
+    $sql8="select * from Gn_Iam_Contents WHERE mem_id = '{$_SESSION['iam_member_id']}' and contents_share_text != ''  and $search_sql ORDER BY req_data desc, up_data desc";
     $result8=mysqli_query($self_con,$sql8) or die(mysqli_error($self_con));
     $cont_count = mysqli_num_rows($result8);
     $sql8 .= " limit $contents_count_per_page offset ".$w_offset;
-}else if($cur_win == "unread_post" &&  $_SESSION[iam_member_id]!= ""){
+}else if($cur_win == "unread_post" &&  $_SESSION['iam_member_id']!= ""){
 
-    $sql8="select * from Gn_Iam_Contents c inner join  Gn_Iam_Post p on c.idx = p.content_idx WHERE c.mem_id = '$_SESSION[iam_member_id]' and p.status = 'N'  and $search_sql GROUP BY c.idx ORDER BY req_data desc ";
+    $sql8="select * from Gn_Iam_Contents c inner join  Gn_Iam_Post p on c.idx = p.content_idx WHERE c.mem_id = '{$_SESSION['iam_member_id']}' and p.status = 'N'  and $search_sql GROUP BY c.idx ORDER BY req_data desc ";
     $result8=mysqli_query($self_con,$sql8) or die(mysqli_error($self_con));
     $cont_count = mysqli_num_rows($result8);
     $sql8 .= " limit $contents_count_per_page offset ".$w_offset;
@@ -336,11 +336,11 @@ if(!$cur_win || $cur_win == "my_info"){
         $site_name = $site_info[0];
         $sql8 .= " display_status = 1 and mem.site_iam = '$site_name'";
     }else if($mall_type == "my_mall"){
-        $sql8 .= "mall.mem_id = '$_SESSION[iam_member_id]'";
+        $sql8 .= "mall.mem_id = '{$_SESSION['iam_member_id']}'";
     }else if($mall_type == "best_mall"){
         $sql8 .= "mall.sample_display = 'Y'";
     }else if($mall_type == "my_mall_like"){
-        $sql8 .= "(mall.mall_like ='$_SESSION[iam_member_id]' or mall.mall_like like '$_SESSION[iam_member_id],%' or mall.mall_like like '%,$_SESSION[iam_member_id]' or mall.mall_like like '%,$_SESSION[iam_member_id],%')";
+        $sql8 .= "(mall.mall_like ='{$_SESSION['iam_member_id']}' or mall.mall_like like '{$_SESSION['iam_member_id']},%' or mall.mall_like like '%,{$_SESSION['iam_member_id']}' or mall.mall_like like '%,{$_SESSION['iam_member_id']},%')";
     }
 
     if($mall_type1 == "iam")
@@ -382,7 +382,7 @@ if(!$cur_win || $cur_win == "my_info"){
             $sql8 .= " ORDER BY reg_date desc";
     }
 }else if($cur_win == "we_story"){
-    $sql = "select * from Gn_Iam_Info where mem_id = '$_SESSION[iam_member_id]'";
+    $sql = "select * from Gn_Iam_Info where mem_id = '{$_SESSION['iam_member_id']}'";
     $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
     $row_iam_info=mysqli_fetch_array($result);
 
@@ -476,7 +476,7 @@ if(!$cur_win || $cur_win == "my_info"){
 }else if($cur_win == "recent_sample"){    
 }else if($cur_win == "group-con"){
     if($gkind != "recommend" && $gkind != "mygroup" && $gkind != "search" && $gkind != "search_con"){
-        $g_sql = "select count(*) from gn_group_member where mem_id='$_SESSION[iam_member_id]' and group_id = '$gkind'";
+        $g_sql = "select count(*) from gn_group_member where mem_id='{$_SESSION['iam_member_id']}' and group_id = '$gkind'";
         $g_res = mysqli_query($self_con,$g_sql);
         $g_row = mysqli_fetch_array($g_res);
         if($g_row[0] == 0)
@@ -500,10 +500,10 @@ if(!$cur_win || $cur_win == "my_info"){
         $cont_count = mysqli_num_rows($result8);
         $sql8 .= " limit $contents_count_per_page offset ".$w_offset;
     }
-}else if($cur_win == "unread_notice" &&  $_SESSION[iam_member_id]!= ""){
-    $sql_recv_notice="select * from Gn_Item_Pay_Result WHERE buyer_id = '$_SESSION[iam_member_id]' and type='noticerecv' and point_val=3 ORDER BY pay_date desc";
+}else if($cur_win == "unread_notice" &&  $_SESSION['iam_member_id']!= ""){
+    $sql_recv_notice="select * from Gn_Item_Pay_Result WHERE buyer_id = '{$_SESSION['iam_member_id']}' and type='noticerecv' and point_val=3 ORDER BY pay_date desc";
     if(isset($_GET['box']) && $_GET['box'] == "send"){
-        $sql_recv_notice="select * from Gn_Item_Pay_Result WHERE buyer_id = '$_SESSION[iam_member_id]' and type='noticesend' and point_val=3 ORDER BY pay_date desc";
+        $sql_recv_notice="select * from Gn_Item_Pay_Result WHERE buyer_id = '{$_SESSION['iam_member_id']}' and type='noticesend' and point_val=3 ORDER BY pay_date desc";
     }
     $result_notice=mysqli_query($self_con,$sql_recv_notice) or die(mysqli_error($self_con));
     $notice_count = mysqli_num_rows($result_notice);
@@ -514,23 +514,23 @@ $color = array ("#FA8258",
             "#8000FF",
             "#4B8A08",
             "#B404AE");
-$receive_sql = "select count(idx) as cnt from Gn_Iam_Contents WHERE (contents_share_text like '%$_SESSION[iam_member_id]%') and DATE(up_data) = DATE(now()) and $search_sql ";
+$receive_sql = "select count(idx) as cnt from Gn_Iam_Contents WHERE (contents_share_text like '%{$_SESSION['iam_member_id']}%') and DATE(up_data) = DATE(now()) and $search_sql ";
 $receive_result = mysqli_query($self_con,$receive_sql) or die(mysqli_error($self_con));
 $r_row = mysqli_fetch_array($receive_result);
 
-$send_sql = "select count(idx) as cnt from Gn_Iam_Contents WHERE mem_id = '$_SESSION[iam_member_id]' and contents_share_text != '' and DATE(up_data) = DATE(now()) and $search_sql ";
+$send_sql = "select count(idx) as cnt from Gn_Iam_Contents WHERE mem_id = '{$_SESSION['iam_member_id']}' and contents_share_text != '' and DATE(up_data) = DATE(now()) and $search_sql ";
 $send_result = mysqli_query($self_con,$send_sql) or die(mysqli_error($self_con));
 $s_row = mysqli_fetch_array($send_result);
 
-$post_sql = "select count(id) as cnt from Gn_Iam_Post p inner join Gn_Iam_Contents c on p.content_idx = c.idx WHERE c.mem_id = '$_SESSION[iam_member_id]' and p.status = 'N' and $search_sql ";
+$post_sql = "select count(id) as cnt from Gn_Iam_Post p inner join Gn_Iam_Contents c on p.content_idx = c.idx WHERE c.mem_id = '{$_SESSION['iam_member_id']}' and p.status = 'N' and $search_sql ";
 $post_result = mysqli_query($self_con,$post_sql) or die(mysqli_error($self_con));
 $p_row = mysqli_fetch_array($post_result);
 
-$sql_sell_service_con = "select count(no) as cnt from Gn_Item_Pay_Result where buyer_id='$_SESSION[iam_member_id]' and point_val=1 and site is not null and type='servicebuy' and alarm_state=0";
+$sql_sell_service_con = "select count(no) as cnt from Gn_Item_Pay_Result where buyer_id='{$_SESSION['iam_member_id']}' and point_val=1 and site is not null and type='servicebuy' and alarm_state=0";
 $sell_result = mysqli_query($self_con,$sql_sell_service_con) or die(mysqli_error($self_con));
 $sell_row = mysqli_fetch_array($sell_result);
 
-$sql_notice_unread = "select count(*) as cnt from Gn_Item_Pay_Result where buyer_id='$_SESSION[iam_member_id]' and point_val=3 and alarm_state=0 and type='noticerecv'";
+$sql_notice_unread = "select count(*) as cnt from Gn_Item_Pay_Result where buyer_id='{$_SESSION['iam_member_id']}' and point_val=3 and alarm_state=0 and type='noticerecv'";
 $notice_result = mysqli_query($self_con,$sql_notice_unread) or die(mysqli_error($self_con));
 $notice_row = mysqli_fetch_array($notice_result);
 
@@ -584,7 +584,7 @@ else{
             $sql = "select mem_code from Gn_Member where mem_id = '$westory_card[mem_id]'";
             $result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
             $m_row =mysqli_fetch_array($result);
-            $m_code = $m_row[mem_code];
+            $m_code = $m_row['mem_code'];
             //콘텐츠에 현시할 이름과 아바타
             $contents_user_name = $G_card['card_name'];
             $contents_card_url = $request_short_url;
@@ -621,13 +621,13 @@ else{
                     $except_keywords = explode(",",$except_keywords);
                     for ($index = 0; $index < count($except_keywords); $index++) {
                         $except_keyword = trim($except_keywords[$index]);
-                        $except_sql = "select count(*) from Gn_Iam_Contents where mem_id = '$_SESSION[iam_member_id]'".
+                        $except_sql = "select count(*) from Gn_Iam_Contents where mem_id = '{$_SESSION['iam_member_id']}'".
                             " and (contents_title like '%$except_keyword%' or contents_desc like '%$except_keyword%')";
                         $except_result = mysqli_query($self_con,$except_sql);
                         $except_row = mysqli_fetch_array($except_result);
                         $except_count += $except_row[0] * 1;
 
-                        $except_sql = "select count(*) from Gn_Iam_Name_Card where group_id is NULL and mem_id = '$_SESSION[iam_member_id]'".
+                        $except_sql = "select count(*) from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$_SESSION['iam_member_id']}'".
                             " and card_keyword like '%$except_keyword%'";
                         $except_result = mysqli_query($self_con,$except_sql);
                         $except_row = mysqli_fetch_array($except_result);
@@ -803,7 +803,7 @@ else{
                         </a>
                         <?}?>
                     </div>
-                    <?if( $_SESSION[iam_member_id] != "" && $_SESSION[iam_member_id] != $contents_owner_id  ){?>
+                    <?if( $_SESSION['iam_member_id'] != "" && $_SESSION['iam_member_id'] != $contents_owner_id  ){?>
                         <div class="dropdown" style="position: absolute; right: 10px; top: 8px;">
                             <button class="btn dropdown-toggle westory_dropdown" type="button" data-toggle="dropdown" style="">
                                 <span class="caret"></span>
@@ -818,13 +818,13 @@ else{
                             </ul>
                         </div>
                     <?}?>
-                    <?if( $_SESSION[iam_member_id] =="" ){?>
+                    <?if( $_SESSION['iam_member_id'] =="" ){?>
                         <div class="dropdown " style="position: absolute; right: 10px; top: 8px;">
                             <button class="btn dropdown-toggle westory_dropdown" type="button" data-toggle="dropdown" style="">
                                 <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu comunity">
-                                <li><a onclick="javascript:location.href='join.php">나도 아이엠 만들고 싶어요</a></li>
+                                <li><a onclick="javascript:location.href='join.php'">나도 아이엠 만들고 싶어요</a></li>
                                 <li><a onclick="javascript:location.href='/?<?=strip_tags($contents_card_url.$card_owner_code)?>'">이 콘텐츠 게시자 보기</a></li>
                                 <li><a onclick="iam_mystory('<?=$request_short_url.$card_owner_code?>&cur_win=my_story')" >더 많은 콘텐츠 보러가기</a></li>
                             </ul>
@@ -861,7 +861,7 @@ else{
                                         </div>
                                     <?}?>
                                     <div class="order" >
-                                        <?if($_SESSION[iam_member_id]){
+                                        <?if($_SESSION['iam_member_id']){
                                             $price_service = $contents_row['contents_sell_price'];
                                             $name_service = $contents_row['contents_title'];
                                             $sellerid_service = $contents_row['mem_id'];
@@ -903,14 +903,14 @@ else{
                     $except_keyword = $contents_row['except_keyword'];
                     $except_keyword = str_replace('"', urlencode('"'), $except_keyword);
                     $except_keyword = str_replace("'", urlencode("\'"), $except_keyword);
-                    if($_SESSION[iam_member_id] == $card_owner) {
+                    if($_SESSION['iam_member_id'] == $card_owner) {
                         if( $cur_win == "my_story") { ?>
                             <span class="pull-left " style="position:absolute;left:10px;top:10px;"><?=$contents_row['req_data']?></span>
                         <?}
                     }?>
                     <div class="media-inner" <?if($contents_row['contents_type'] == 1 && count($content_images) == 0) echo "style = 'min-height :30px'";?>>
                         <?php
-                        if(($cur_win == "we_story" || strpos($request_url, "?") === false) && $_SESSION[iam_member_id] != $contents_row['mem_id']){
+                        if(($cur_win == "we_story" || strpos($request_url, "?") === false) && $_SESSION['iam_member_id'] != $contents_row['mem_id']){
                         ?>
                         <a href="javascript:showSNSModal_byContents('<?=$contents_row['idx']?>',
                                             '<?=addslashes(htmlspecialchars($westory_card[card_name],ENT_COMPAT,'UTF-8'))?>',
@@ -926,11 +926,11 @@ else{
                         </a>
                         <div class = "utils-index" id="<?='utils_index_'.$contents_row['idx']?>" style="display:none;right:30px;z-index:10;background:white;border-radius: 5px;">
                             <?
-                            if ($cur_win != "we_story" && $_SESSION[iam_member_id] == $card_owner && $_SESSION[iam_member_id] == $card_master) { ?>
+                            if ($cur_win != "we_story" && $_SESSION['iam_member_id'] == $card_owner && $_SESSION['iam_member_id'] == $card_master) { ?>
                                 <a href="javascript:contents_add('<?= $card_owner ?>','<?= $contents_row[contents_order]?>',<?=$my_first_card?>);" style="margin-left: 10px;">
                                     <i class="fa fa-plus" aria-hidden="true"></i></a>
                             <?  }
-                            if ($_SESSION[iam_member_id] && ($_SESSION[iam_member_id] == $contents_row['mem_id'] || $_SESSION[iam_member_id] == $group_manager)) {
+                            if ($_SESSION['iam_member_id'] && ($_SESSION['iam_member_id'] == $contents_row['mem_id'] || $_SESSION['iam_member_id'] == $group_manager)) {
                                 if (!$cur_win || $cur_win == "my_info") { ?>
                                     <a href="javascript:contents_range_down('<?= $contents_row['idx'] ?>', '<?= $contents_row['contents_order'] ?>','<?= $G_card[card_short_url] ?>');">
                                         <i class="fa fa-arrow-down" aria-hidden="true"></i></a>
@@ -938,16 +938,16 @@ else{
                                         <i class="fa fa-arrow-up" aria-hidden="true"></i></a>
                                 <?  }?>
                                 <a href="javascript:contents_del('<?= $contents_row['idx'] ?>');"><i class="fa fa-minus" aria-hidden="true"></i></a>
-                                <?if($_SESSION[iam_member_id] == $group_manager){?>
+                                <?if($_SESSION['iam_member_id'] == $group_manager){?>
                                     <a href="javascript:contents_fix('<?= $contents_row['idx'] ?>');"><img src="<?=$contents_row[group_fix] > 0?'img/main/icon-pin.png':'img/main/icon-graypin.png'?>" width="24"></a>
                                 <?}?>
-                                <?if($_SESSION[iam_member_id] == $contents_row['mem_id']){
+                                <?if($_SESSION['iam_member_id'] == $contents_row['mem_id']){
                                     $share_ids = explode(",",$contents_row['contents_share_text']);
                                     for ($index = 0; $index < count($share_ids); $index++) {
                                         $share_sql = "select mem_name from Gn_Member where mem_id = '$share_ids[$index]'";
                                         $share_result = mysqli_query($self_con,$share_sql);
                                         $share_row = mysqli_fetch_array($share_result);
-                                        $share_names[$index] = htmlspecialchars($share_row[mem_name]);
+                                        $share_names[$index] = htmlspecialchars($share_row['mem_name']);
                                     }
                                     $share_names = implode(",",$share_names);
                                     ?>
@@ -962,7 +962,7 @@ else{
                                 }?>
                             <?}?>
                             <?  if($cur_win == "shared_receive"){?>
-                                <a href="javascript:remove_shared_content('<?=$contents_row['idx']?>','<?=$_SESSION[iam_member_id]?>');" style="margin-left: -5px">
+                                <a href="javascript:remove_shared_content('<?=$contents_row['idx']?>','<?=$_SESSION['iam_member_id']?>');" style="margin-left: -5px">
                                     <img src="img/main/icon-hide.png"  width="24">
                                 </a>
                             <?  }?>
@@ -1231,39 +1231,39 @@ else{
                                 </a>
                                 <div class="wrap">
                                     <span class="date">
-                                        <?=$post_row[mem_name] ?>&nbsp;&nbsp;&nbsp;<?=$post_row['reg_date']?>
+                                        <?=$post_row['mem_name'] ?>&nbsp;&nbsp;&nbsp;<?=$post_row['reg_date']?>
                                     </span>
                                     <span class="user-name">
                                         <?=$post_row['content']?>
                                     </span>
                                 </div>
-                                <?if($_SESSION[iam_member_id] && $_SESSION[iam_member_id] == $post_row[mem_id]){?>
+                                <?if($_SESSION['iam_member_id'] && $_SESSION['iam_member_id'] == $post_row[mem_id]){?>
                                     <div class="dropdown" style="top : 10px;position : absolute;right:0px">
                                         <img class="dropdown-toggle" data-toggle="dropdown" src="/iam/img/main/custom.png" style="height: 20px;">
                                         <ul class="dropdown-menu namecard-dropdown " style="background: white; color : black;top:10px;">
                                             <li>
-                                                <a href="javascript:void(0)" onclick="edit_post('<?=$contents_row[idx]?>','<?=$post_row[id]?>','<?=$post_row['content']?>')" title="댓글 수정">
+                                                <a href="javascript:void(0)" onclick="edit_post('<?=$contents_row[idx]?>','<?=$post_row['id']?>','<?=$post_row['content']?>')" title="댓글 수정">
                                                     <p>수정</p>
                                                 </a>
                                             </li>
                                             <li>
-                                                <a href="javascript:void(0)" onclick="delete_post('<?=$contents_row[idx]?>','<?=$post_row[id]?>')" title="댓글 삭제">
+                                                <a href="javascript:void(0)" onclick="delete_post('<?=$contents_row[idx]?>','<?=$post_row['id']?>')" title="댓글 삭제">
                                                     <p>삭제</p>
                                                 </a>
                                             </li>
                                         </ul>
                                     </div>
-                                <?}else if($_SESSION[iam_member_id] && $_SESSION[iam_member_id] == $contents_row[mem_id]){?>
+                                <?}else if($_SESSION['iam_member_id'] && $_SESSION['iam_member_id'] == $contents_row[mem_id]){?>
                                     <div class="dropdown" style="top : 10px;position : absolute;right:0px">
                                         <img class="dropdown-toggle" data-toggle="dropdown" src="/iam/img/main/custom.png" style="height: 20px;">
                                         <ul class="dropdown-menu namecard-dropdown " style="background: white; color : black;top:10px;">
                                             <li>
-                                                <a href="javascript:void(0)" onclick="delete_post('<?=$contents_row[idx]?>','<?=$post_row[id]?>')" title="댓글 삭제">
+                                                <a href="javascript:void(0)" onclick="delete_post('<?=$contents_row[idx]?>','<?=$post_row['id']?>')" title="댓글 삭제">
                                                     <p>삭제</p>
                                                 </a>
                                             </li>
                                             <li>
-                                                <a href="javascript:void(0)" onclick="lock_post('<?=$contents_row[idx]?>','<?=$post_row[id]?>')" title="댓글 차단">
+                                                <a href="javascript:void(0)" onclick="lock_post('<?=$contents_row[idx]?>','<?=$post_row['id']?>')" title="댓글 차단">
                                                     <p>차단</p>
                                                 </a>
                                             </li>
@@ -1282,11 +1282,11 @@ else{
                                 </div>
                                 <div style="display: flex;border-bottom: 1px solid #dddddd">
                                     <span id = "post_reply_status" name = "post_reply_status" style="padding: 10px">0/300</span>
-                                    <button type="button" class="btn btn-primary" style="position: absolute; right: 1px; padding: 9px 12px" onclick="add_post_reply('<?=$contents_row[idx]?>','<?=$post_row[id]?>')">등록</button>
+                                    <button type="button" class="btn btn-primary" style="position: absolute; right: 1px; padding: 9px 12px" onclick="add_post_reply('<?=$contents_row[idx]?>','<?=$post_row['id']?>')">등록</button>
                                 </div>
                             </div>
                             <?
-                            $reply_sql = "select * from Gn_Iam_Post_Response r inner join Gn_Member m on r.mem_id = m.mem_id where r.post_idx = '$post_row[id]' order by r.reg_date";
+                            $reply_sql = "select * from Gn_Iam_Post_Response r inner join Gn_Member m on r.mem_id = m.mem_id where r.post_idx = '{$post_row['id']}' order by r.reg_date";
                             $reply_res = mysqli_query($self_con,$reply_sql);
                             while($reply_row = mysqli_fetch_array($reply_res)){
                                 $reply_card_sql = "select card_short_url from Gn_Iam_Name_Card where group_id is NULL and mem_id = '$reply_row[mem_id]' order by req_data asc";
@@ -1305,39 +1305,39 @@ else{
                                     </a>
                                     <div class="wrap">
                                             <span class="date">
-                                                <?=$reply_row[mem_name] ?>&nbsp;&nbsp;&nbsp;<?=$reply_row['reg_date']?>
+                                                <?=$reply_row['mem_name'] ?>&nbsp;&nbsp;&nbsp;<?=$reply_row['reg_date']?>
                                             </span>
                                             <span class="user-name" id = "<?='reply_list_'.$reply_row['id']?>">
                                                 <?=$reply_row['contents']?>
                                             </span>
                                     </div>
-                                    <?if($_SESSION[iam_member_id] && $_SESSION[iam_member_id] == $post_row[mem_id]){?>
+                                    <?if($_SESSION['iam_member_id'] && $_SESSION['iam_member_id'] == $post_row[mem_id]){?>
                                         <div class="dropdown" style="top : 10px;position : absolute;right:0px">
                                             <img class="dropdown-toggle" data-toggle="dropdown" src="/iam/img/main/custom.png" style="height: 20px;">
                                             <ul class="dropdown-menu namecard-dropdown " style="background: white; color : black;top:10px;">
                                                 <li>
-                                                    <a href="javascript:void(0)" onclick="edit_post_reply('<?=$contents_row[idx]?>','<?=$post_row[id]?>','<?=$reply_row[id]?>','<?=$reply_row['contents']?>')" title="답글 수정">
+                                                    <a href="javascript:void(0)" onclick="edit_post_reply('<?=$contents_row[idx]?>','<?=$post_row['id']?>','<?=$reply_row['id']?>','<?=$reply_row['contents']?>')" title="답글 수정">
                                                         <p>수정</p>
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a href="javascript:void(0)" onclick="delete_post_reply('<?=$contents_row[idx]?>','<?=$reply_row[id]?>')" title="답글 삭제">
+                                                    <a href="javascript:void(0)" onclick="delete_post_reply('<?=$contents_row[idx]?>','<?=$reply_row['id']?>')" title="답글 삭제">
                                                         <p>삭제</p>
                                                     </a>
                                                 </li>
                                             </ul>
                                         </div>
-                                    <?}else if($_SESSION[iam_member_id] && $_SESSION[iam_member_id] == $contents_row[mem_id]){?>
+                                    <?}else if($_SESSION['iam_member_id'] && $_SESSION['iam_member_id'] == $contents_row[mem_id]){?>
                                         <div class="dropdown" style="top : 10px;position : absolute;right:0px">
                                             <img class="dropdown-toggle" data-toggle="dropdown" src="/iam/img/main/custom.png" style="height: 20px;">
                                             <ul class="dropdown-menu namecard-dropdown " style="background: white; color : black;top:10px;">
                                                 <li>
-                                                    <a href="javascript:void(0)" onclick="delete_post_reply('<?=$contents_row[idx]?>','<?=$reply_row[id]?>')" title="답글 삭제">
+                                                    <a href="javascript:void(0)" onclick="delete_post_reply('<?=$contents_row[idx]?>','<?=$reply_row['id']?>')" title="답글 삭제">
                                                         <p>삭제</p>
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a href="javascript:void(0)" onclick="lock_post_reply('<?=$contents_row[idx]?>','<?=$reply_row[id]?>')" title="답글 차단">
+                                                    <a href="javascript:void(0)" onclick="lock_post_reply('<?=$contents_row[idx]?>','<?=$reply_row['id']?>')" title="답글 차단">
                                                         <p>차단</p>
                                                     </a>
                                                 </li>

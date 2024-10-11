@@ -1,9 +1,9 @@
 <?
 include_once "lib/rlatjd_fun.php";
-if($_FILES[upimage][name][$_REQUEST[i]])
+if($_FILES[upimage]['name'][$_REQUEST[i]])
 {
 	$tempFile = $_FILES[upimage][tmp_name][$_REQUEST[i]];
-	$file_arr=explode(".",$_FILES[upimage][name][$_REQUEST[i]]);
+	$file_arr=explode(".",$_FILES[upimage]['name'][$_REQUEST[i]]);
 	$tmp_file_arr=explode("/",$tempFile);
 	$img_name=date("Ymds")."_".$tmp_file_arr[count($tmp_file_arr)-1].".".$file_arr[count($file_arr)-1];	
 	if(move_uploaded_file($_FILES['upimage']['tmp_name'][$_REQUEST[i]], "adjunct/mms/thum/".$img_name))

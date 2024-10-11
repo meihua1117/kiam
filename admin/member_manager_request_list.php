@@ -305,7 +305,7 @@ function excel_down_(){
                             (건수/수당)
                         </td>
                         <td>
-                            <?php echo $sInfo[mem_name];?>
+                            <?php echo $sInfo['mem_name'];?>
                         </td>
                         <td>
                             <?php echo $mem_want_level;?>

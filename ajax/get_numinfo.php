@@ -2,7 +2,7 @@
 header("Content-Type: text/html; charset=UTF-8");
 include_once "../lib/rlatjd_fun.php";
 
-if($_SESSION[one_member_id]){
+if($_SESSION['one_member_id']){
 
 	$pno = substr(str_replace(array("-"," ",","),"",$_POST["pno"]),0,11);
 
@@ -10,7 +10,7 @@ if($_SESSION[one_member_id]){
 		exit;
 	}
 
-	$sql_num="SELECT mem_phone  FROM Gn_Member WHERE mem_id ='$_SESSION[one_member_id]'";
+	$sql_num="SELECT mem_phone  FROM Gn_Member WHERE mem_id ='{$_SESSION['one_member_id']}'";
 
 	$result_mem_phone=mysqli_query($self_con,$sql_num);
 
@@ -22,7 +22,7 @@ if($_SESSION[one_member_id]){
 
 
 
-	$sql_num="select memo,memo2,cnt1,cnt2,device,reg_date,donation_rate,daily_limit_cnt from Gn_MMS_Number where mem_id='$_SESSION[one_member_id]' and sendnum='$pno' ";
+	$sql_num="select memo,memo2,cnt1,cnt2,device,reg_date,donation_rate,daily_limit_cnt from Gn_MMS_Number where mem_id='{$_SESSION['one_member_id']}' and sendnum='$pno' ";
 
 	$result=mysqli_query($self_con,$sql_num) or die(mysqli_error($self_con));
 
@@ -35,7 +35,7 @@ if($_SESSION[one_member_id]){
 		$date_today=date("Y-m-d");
 		$date_month=date("Y-m");
 
-		$detail_name = trim($row[memo]);
+		$detail_name = trim($row['memo']);
 		$detail_company = trim($row[memo2]);
 		$detail_device = trim($row[device]);
 		$detail_reg_date = date("Y. m. d.",strtotime($row[reg_date]));
@@ -48,30 +48,30 @@ if($_SESSION[one_member_id]){
 	    $monthly_limit_ssh = $detail_company ? $agency_arr[$detail_company] : 800; //월별 수신처 제한 수 	
 
     	//금일 발송 건수
-		$sql_result2_g = "select recv_num from Gn_MMS where reg_date like '$date_today%' and mem_id = '$_SESSION[one_member_id]' and send_num='$pno' ";
+		$sql_result2_g = "select recv_num from Gn_MMS where reg_date like '$date_today%' and mem_id = '{$_SESSION['one_member_id']}' and send_num='$pno' ";
 		$res_result2_g = mysqli_query($self_con,$sql_result2_g);			
 		while($row_result2_g = mysqli_fetch_array($res_result2_g))
-		$send_donation_cnt+=count(explode(",",$row_result2_g[recv_num]));
+		$send_donation_cnt+=count(explode(",",$row_result2_g['recv_num']));
 
 		mysqli_free_result($res_result2_g);	
 
 		//이번달 총 발송 건 수
 		$month_cnt_1=0;
-		$sql_result_g = "select recv_num from Gn_MMS where reg_date like '$date_month%' and mem_id = '$_SESSION[one_member_id]' and send_num='$pno' ";
+		$sql_result_g = "select recv_num from Gn_MMS where reg_date like '$date_month%' and mem_id = '{$_SESSION['one_member_id']}' and send_num='$pno' ";
 		$res_result_g = mysqli_query($self_con,$sql_result_g);
 		while($row_result_g = mysqli_fetch_array($res_result_g))
-		$month_cnt_1+=count(explode(",",$row_result_g[recv_num]));		
+		$month_cnt_1+=count(explode(",",$row_result_g['recv_num']));		
 
 		mysqli_free_result($res_result_g);
 
 		//이번 달 총 수신처 수
 		$ssh_cnt=0;
 		$ssh_numT =array();
-		$sql_ssh="select recv_num from Gn_MMS where mem_id = '$_SESSION[one_member_id]' and send_num='$pno' and reg_date like '$date_month%' group by(recv_num)";
+		$sql_ssh="select recv_num from Gn_MMS where mem_id = '{$_SESSION['one_member_id']}' and send_num='$pno' and reg_date like '$date_month%' group by(recv_num)";
 		$result_ssh=mysqli_query($self_con,$sql_ssh);
 		while($row_ssh=mysqli_fetch_array($result_ssh))
 		{
-			$ssh_arr=explode(",",$row_ssh[recv_num]);
+			$ssh_arr=explode(",",$row_ssh['recv_num']);
 			$ssh_numT=array_merge($ssh_numT,(array)$ssh_arr);
 			
 		}
@@ -94,7 +94,7 @@ if($_SESSION[one_member_id]){
 		mysqli_free_result($result_phonebook);		
 
 		// 마지막 사용일
-		$sql_result4 = "select reg_date from Gn_MMS where mem_id = '$_SESSION[one_member_id]' and send_num='$pno' order by reg_date desc limit 1";
+		$sql_result4 = "select reg_date from Gn_MMS where mem_id = '{$_SESSION['one_member_id']}' and send_num='$pno' order by reg_date desc limit 1";
 		$res_result4 = mysqli_query($self_con,$sql_result4);
 		$row_result4 = mysqli_fetch_row($res_result4);
 
@@ -120,9 +120,9 @@ if($_SESSION[one_member_id]){
 
 		$personalCnt = $send_person_cnt ."/". $person_cnt;
 
-		$cnt1State = $row[cnt1];
+		$cnt1State = $row['cnt1'];
 
-		$cnt2State = $row[cnt2];
+		$cnt2State = $row['cnt2'];
 
 		$diviceModel = $detail_device ? $detail_device : "-";
 

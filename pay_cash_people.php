@@ -21,7 +21,7 @@ if($member_1[mem_id] == "") {
 $ORDER_NO = $_POST['allat_order_no'];
 $pay_info['idx'] = $_POST['allat_order_no'];
 $pay_info['orderNumber'] = $_POST['allat_order_no'];
-$pay_info['VACT_InputName'] =$member_iam[mem_name];
+$pay_info['VACT_InputName'] =$member_iam['mem_name'];
 $pay_info['TotPrice'] = $_POST['allat_amt']; //금액
 $pay_info['month_cnt'] = $_POST['month_cnt'];
 $pay_info['end_status'] = "N";

@@ -80,18 +80,18 @@ $pay_type = array("Card" => "직접결제", "CARD" => "직접결제", "Auto_Card
 $is_chrome = preg_match('/Chrome/i', $_SERVER['HTTP_USER_AGENT']) ? "disabled" : "";
 $pay_phone_status = array("N" => "결제대기", "Y" => "결제완료", "M" => "본인폰");
 $pay_result_status = array("N" => "결제대기", "Y" => "결제완료", "C" => "해지완료");
-if ($_REQUEST[one_no]) {
-	$cookie_name = "board_" . $_REQUEST[status] . $_REQUEST[one_no];
+if ($_REQUEST['one_no']) {
+	$cookie_name = "board_" . $_REQUEST[status] . $_REQUEST['one_no'];
 	if (!$_COOKIE[$cookie_name]) {
 		setcookie($cookie_name, "ok", time() + 3600 * 24);
-		$sql_view = "update tjd_board set view_cnt=view_cnt+1 where no='$_REQUEST[one_no]'";
+		$sql_view = "update tjd_board set view_cnt=view_cnt+1 where no='{$_REQUEST['one_no']}'";
 		mysqli_query($self_con, $sql_view) or die(mysqli_error($self_con));
 	}
-	$sql_no = "select * from tjd_board where no='$_REQUEST[one_no]'";
+	$sql_no = "select * from tjd_board where no='{$_REQUEST['one_no']}'";
 	$resul_no = mysqli_query($self_con, $sql_no);
 	$row_no = mysqli_fetch_array($resul_no);
-	$phone = explode("-", $row_no[phone]);
-	$email = explode("@", $row_no[email]);
+	$phone = explode("-", $row_no['phone']);
+	$email = explode("@", $row_no['email']);
 }
 /*
     사용방법: IP 국가 조회
@@ -152,7 +152,7 @@ function get_member($id, $column = "")
 	$sql = "select $column from Gn_Member where mem_id='$id' ";
 	$resul = mysqli_query($self_con, $sql);
 	$row = mysqli_fetch_array($resul);
-	if ($row[mem_code])
+	if ($row['mem_code'])
 		return $row;
 }
 $time = time();
@@ -162,9 +162,9 @@ $sql_pay_up = "update tjd_pay_result set  end_status='N' where timestamp(end_dat
 mysqli_query($self_con, $sql_pay_up);
 $sql_num_up = "update Gn_MMS_Number set end_status='N' where unix_timestamp(end_date) < $time and end_status='Y' ";
 mysqli_query($self_con, $sql_num_up);
-if ($_SESSION[one_member_id]) {
-	$member_1 = get_member($_SESSION[one_member_id]);
-	if ($member_1[fujia_date2] != "0000-00-00 00:00:00")
+if ($_SESSION['one_member_id']) {
+	$member_1 = get_member($_SESSION['one_member_id']);
+	if ($member_1['fujia_date2'] != "0000-00-00 00:00:00")
 		$fujia_pay = true;
 
 	$m_email_arr = explode("@", $member_1[mem_email]);
@@ -172,10 +172,10 @@ if ($_SESSION[one_member_id]) {
 	$m_birth_arr = explode("-", $member_1[mem_birth]);
 
 	$format_month = date("Y-m");
-	$sql_format = "select idx,format_date,sendnum from Gn_MMS_Number where mem_id='$_SESSION[one_member_id]' order by idx desc ";
+	$sql_format = "select idx,format_date,sendnum from Gn_MMS_Number where mem_id='{$_SESSION['one_member_id']}' order by idx desc ";
 	$resul_format = mysqli_query($self_con, $sql_format);
 	while ($row_format = mysqli_fetch_array($resul_format)) {
-		if (!preg_match("/" . $format_month . "/i", $row_format[format_date])) {
+		if (!preg_match("/" . $format_month . "/i", $row_format['format_date'])) {
 			$sql_format_u = "update Gn_MMS_Number set format_date=curdate(),cnt1=0,cnt2=0 where idx='$row_format[idx]' ";
 			mysqli_query($self_con, $sql_format_u);
 			$sql_d_result1 = "delete from Gn_MMS where result='1' and send_num='$row_format[sendnum]' ";
@@ -183,18 +183,18 @@ if ($_SESSION[one_member_id]) {
 		}
 	}
 
-	$sql_cnt_s = "select idx,cnt1,cnt2,user_cnt from Gn_MMS_Number where mem_id='$_SESSION[one_member_id]' ";
+	$sql_cnt_s = "select idx,cnt1,cnt2,user_cnt from Gn_MMS_Number where mem_id='{$_SESSION['one_member_id']}' ";
 	$resul_cnt_s = mysqli_query($self_con, $sql_cnt_s);
 	while ($row_cnt_s = mysqli_fetch_array($resul_cnt_s)) {
-		if (($row_cnt_s[cnt1] == 10 && $row_cnt_s[cnt2] == 20) || ($row_cnt_s[cnt1] == 10 && $row_cnt_s[user_cnt] > 200)) {
+		if (($row_cnt_s['cnt1'] == 10 && $row_cnt_s['cnt2'] == 20) || ($row_cnt_s['cnt1'] == 10 && $row_cnt_s['user_cnt'] > 200)) {
 			//$sql_cnt_u=" update Gn_MMS_Number set user_cnt=0 where idx='$row_cnt_s[idx]' ";
 			//mysqli_query($self_con,$sql_cnt_u);
 		}
 	}
 }
-if ($_SESSION[iam_member_id]) {
-	$member_iam = get_member($_SESSION[iam_member_id]);
-	if ($member_iam[fujia_date2] != "0000-00-00 00:00:00")
+if ($_SESSION['iam_member_id']) {
+	$member_iam = get_member($_SESSION['iam_member_id']);
+	if ($member_iam['fujia_date2'] != "0000-00-00 00:00:00")
 		$fujia_pay = true;
 
 	$iam_email_arr = explode("@", $member_iam[mem_email]);
@@ -202,10 +202,10 @@ if ($_SESSION[iam_member_id]) {
 	$iam_birth_arr = explode("-", $member_iam[mem_birth]);
 
 	$format_month = date("Y-m");
-	$sql_format = "select idx,format_date,sendnum from Gn_MMS_Number where mem_id='$_SESSION[iam_member_id]' order by idx desc ";
+	$sql_format = "select idx,format_date,sendnum from Gn_MMS_Number where mem_id='{$_SESSION['iam_member_id']}' order by idx desc ";
 	$resul_format = mysqli_query($self_con, $sql_format);
 	while ($row_format = mysqli_fetch_array($resul_format)) {
-		if (!preg_match("/" . $format_month . "/i", $row_format[format_date])) {
+		if (!preg_match("/" . $format_month . "/i", $row_format['format_date'])) {
 			$sql_format_u = "update Gn_MMS_Number set format_date=curdate(),cnt1=0,cnt2=0 where idx='$row_format[idx]' ";
 			mysqli_query($self_con, $sql_format_u);
 			$sql_d_result1 = "delete from Gn_MMS where result='1' and send_num='$row_format[sendnum]' ";
@@ -213,20 +213,20 @@ if ($_SESSION[iam_member_id]) {
 		}
 	}
 
-	$sql_cnt_s = "select idx,cnt1,cnt2,user_cnt from Gn_MMS_Number where mem_id='$_SESSION[iam_member_id]' ";
+	$sql_cnt_s = "select idx,cnt1,cnt2,user_cnt from Gn_MMS_Number where mem_id='{$_SESSION['iam_member_id']}' ";
 	$resul_cnt_s = mysqli_query($self_con, $sql_cnt_s);
 	while ($row_cnt_s = mysqli_fetch_array($resul_cnt_s)) {
-		if (($row_cnt_s[cnt1] == 10 && $row_cnt_s[cnt2] == 20) || ($row_cnt_s[cnt1] == 10 && $row_cnt_s[user_cnt] > 200)) {
+		if (($row_cnt_s['cnt1'] == 10 && $row_cnt_s['cnt2'] == 20) || ($row_cnt_s['cnt1'] == 10 && $row_cnt_s['user_cnt'] > 200)) {
 			//$sql_cnt_u=" update Gn_MMS_Number set user_cnt=0 where idx='$row_cnt_s[idx]' ";
 			//mysqli_query($self_con,$sql_cnt_u);
 		}
 	}
 }
-if (!$_SESSION[iam_member_id] && !$_SESSION[one_member_id]) {
-	if (!$_SESSION[guest]) {
+if (!$_SESSION['iam_member_id'] && !$_SESSION['one_member_id']) {
+	if (!$_SESSION['guest']) {
 		$guest = str_replace(".", "", $ip);
 		$guest = substr($guest, 3, strlen($guest));
-		$_SESSION[guest] = "손님" . $guest;
+		$_SESSION['guest'] = "손님" . $guest;
 	}
 }
 //타이틀부분
@@ -648,8 +648,8 @@ function cell_change_log($now_num, $old_num)
            
     */
 	if (check_cellno($now_num) === false || check_cellno($old_num) === false) {
-		$return_result[code] = false;
-		$return_result[msg] = "번호 형식에 문제가 있습니다.";
+		$return_result['code'] = false;
+		$return_result['msg'] = "번호 형식에 문제가 있습니다.";
 		return $return_result;
 	}
 
@@ -658,8 +658,8 @@ function cell_change_log($now_num, $old_num)
 	$result = mysqli_query($self_con, $query);
 	$row = mysqli_fetch_array($result);
 	if ($row[0]) {
-		$return_result[code] = false;
-		$return_result[msg] = "신규 번호가 이미 변경된 로그가있습니다.";
+		$return_result['code'] = false;
+		$return_result['msg'] = "신규 번호가 이미 변경된 로그가있습니다.";
 		return $return_result;
 	}
 
@@ -668,8 +668,8 @@ function cell_change_log($now_num, $old_num)
 	$result = mysqli_query($self_con, $query);
 	$row = mysqli_fetch_array($result);
 	if ($row[0]) {
-		$return_result[code] = false;
-		$return_result[msg] = "과거 번호가 이미 변경된 로그가있습니다.";
+		$return_result['code'] = false;
+		$return_result['msg'] = "과거 번호가 이미 변경된 로그가있습니다.";
 		return $return_result;
 	}
 
@@ -680,8 +680,8 @@ function cell_change_log($now_num, $old_num)
 
 	if ($row[0]) {
 		// 변경 로그에 새 번호로 있을 경우 과거 번호로 변경후 
-		$return_result[code] = false;
-		$return_result[msg] = "이미 변경된 로그가있습니다.";
+		$return_result['code'] = false;
+		$return_result['msg'] = "이미 변경된 로그가있습니다.";
 		return $return_result;
 	}
 
@@ -698,7 +698,7 @@ function cell_change_log($now_num, $old_num)
 
 		// 주소록 정보 변경. Gn_MMS_Receive
 		// 주소록 정보 변경. 사용자 로그인 안되어있기때문에 사용자 정보 뺌.
-		//$query = "update Gn_MMS_Receive set recv_num='$now_num' where mem_id='$_SESSION[one_member_id]' and recv_num='$old_num'";
+		//$query = "update Gn_MMS_Receive set recv_num='$now_num' where mem_id='{$_SESSION['one_member_id']}' and recv_num='$old_num'";
 		$query = "update Gn_MMS_Receive set recv_num='$now_num' where 1=1 and recv_num='$old_num'";
 		mysqli_query($self_con, $query);
 
@@ -711,7 +711,7 @@ function cell_change_log($now_num, $old_num)
 		mysqli_query($self_con, $query);
 
 		// 주소록 정보 변경. 사용자 로그인 안되어있기때문에 사용자 정보 뺌.
-		//$query = "update Gn_MMS_Receive set recv_num='$now_num' where mem_id='$_SESSION[one_member_id]' and recv_num='$old_num'";
+		//$query = "update Gn_MMS_Receive set recv_num='$now_num' where mem_id='{$_SESSION['one_member_id']}' and recv_num='$old_num'";
 		$query = "update Gn_MMS_Receive set recv_num='$now_num' where 1=1 and recv_num='$old_num'";
 		mysqli_query($self_con, $query);
 

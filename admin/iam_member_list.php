@@ -189,7 +189,7 @@ function excel_down_p_group(pno,one_member_id){
                     <? // 검색 조건을 적용한다.
                     $searchStr .= $search_key ? " AND (a.mem_id LIKE '%".$search_key."%' or a.card_phon like '%".$search_key."%' or a.card_name like '%".$search_key."%' or a.card_company like  '%" : null;
                     
-                    if($_SESSION[one_member_subadmin_id] != "" && $_SESSION[one_member_subadmin_domain] == $HTTP_HOST) {
+                    if($_SESSION['one_member_subadmin_id'] != "" && $_SESSION['one_member_subadmin_domain'] == $HTTP_HOST) {
                         $do = explode(".", $HTTP_HOST);
                         $searchStr .= " and a.site = '".$do[0]."'";
                     }

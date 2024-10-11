@@ -836,7 +836,7 @@ if ($user_id) {
                     $mms_start_info['send_num']=$sendnum[$j];
                     $mms_start_info['recv_num']=$sendnum[$j];
                     $mms_start_info[uni_id]=$reg."999";
-                    $mms_start_info[content]="온리원문자 문자발송시작";
+                    $mms_start_info['content']="온리원문자 문자발송시작";
                     $mms_start_info[title]="온리원문자";
                     $sql_start="insert into Gn_MMS set ";
                     foreach($mms_start_info as $key=>$v)

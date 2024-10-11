@@ -405,9 +405,9 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                         <td><?=$number--?></td>
                         <td style="font-size:12px;"><?=$coaching_info_data[coaching_turn]?></td>
                         <td style="font-size:12px;"><?=$coach_data[mem_id]?></td>
-                        <td style="font-size:12px;"><?=$coach_data[mem_name]?></td>
+                        <td style="font-size:12px;"><?=$coach_data['mem_name']?></td>
                         <td style="font-size:12px;"><?=$coaching_info_data[coty_id]?></td>
-                        <td style="font-size:12px;"><?=$coaching_data[mem_name]?></td>
+                        <td style="font-size:12px;"><?=$coaching_data['mem_name']?></td>
                         <td style="font-size:12px;"><?=$coaching_data[reg_date]?></td>
                         <td style="font-size:12px;color:red;"><?=$coaching_data[cont_term]?> 일</td>
                         <td style="font-size:12px;color:red;"><?=$coaching_data[cont_time]?> 시간</td>
@@ -659,7 +659,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                                                 <table class="list_table1" width="100%" border="0" cellspacing="0" cellpadding="0">
                                                 <tr>
                                                     <th>코티이름</th>
-                                                    <td><?=$coaching_data[mem_name]?></td>
+                                                    <td><?=$coaching_data['mem_name']?></td>
                                                     <th>코티ID</th>
                                                     <td><?=$coaching_data[mem_id]?></td>
                                                 </tr>       

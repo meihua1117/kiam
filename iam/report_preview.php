@@ -166,7 +166,7 @@ $row = mysqli_fetch_array($res);
                             }?>
                             <div class="report_item_div" style="<?=$style?>">
                             <?
-                            $sql2 = "select * from gn_report_form2 where form_id=$repo_id and item_id = $row1[id] order by id";
+                            $sql2 = "select * from gn_report_form2 where form_id=$repo_id and item_id = {$row1['id']} order by id";
                             $res2 = mysqli_query($self_con,$sql2);
                             while($row2 = mysqli_fetch_array($res2)){
                                 if($row1['item_type'] == 0){

@@ -2193,7 +2193,7 @@ var html_blocks = {};
   'thead',
   'ul',
   'video'
-].forEach(function (name) { html_blocks[name] = true; });
+].forEach(function (name) { html_blocks['name'] = true; });
 
 
 module.exports = html_blocks;
@@ -2524,7 +2524,7 @@ function replaceEntityPattern(match, name) {
   var code = 0;
 
   if (has(entities, name)) {
-    return entities[name];
+    return entities['name'];
   } else if (name.charCodeAt(0) === 0x23/* # */ && DIGITAL_ENTITY_TEST_RE.test(name)) {
     code = name[1].toLowerCase() === 'x' ?
       parseInt(name.slice(2), 16)
@@ -3087,8 +3087,8 @@ Remarkable.prototype.configure = function (presets) {
   if (presets.options) { self.set(presets.options); }
   if (presets.components) {
     Object.keys(presets.components).forEach(function (name) {
-      if (presets.components[name].rules) {
-        self[name].ruler.enable(presets.components[name].rules, true);
+      if (presets.components['name'].rules) {
+        self['name'].ruler.enable(presets.components['name'].rules, true);
       }
     });
   }

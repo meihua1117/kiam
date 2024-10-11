@@ -1,13 +1,13 @@
 <?
 include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
-if($_SESSION[one_member_id] != "")
+if($_SESSION['one_member_id'] != "")
 {
 	if($_POST[mode] == "add")
 	{
 		if(isset($_POST['mail_title']) && isset($_POST['mail_content'])){
 
 			$sql="insert into gn_mail_message set "; 
-			$message_info[mem_id]=$_SESSION[one_member_id];
+			$message_info[mem_id]=$_SESSION['one_member_id'];
 			$message_info[title]=htmlspecialchars(str_replace("{|name|}", "{|REP|}",$_POST[mail_title]));
 			$message_info[message]=htmlspecialchars(str_replace("{|name|}", "{|REP|}",$_POST[mail_content]));
 			$message_info[file]=$_POST[attach_file];
@@ -23,7 +23,7 @@ if($_SESSION[one_member_id] != "")
 	}
 	else if($_POST[mode]=="del")
 	{
-		$sql="delete from gn_mail_message where idx='$_REQUEST[idx]' and mem_id ='$_SESSION[one_member_id]' ";
+		$sql="delete from gn_mail_message where idx='$_REQUEST[idx]' and mem_id ='{$_SESSION['one_member_id']}' ";
 		echo $sql;
 		$resul=mysqli_query($self_con,$sql);
 	}
@@ -50,8 +50,8 @@ if($_SESSION[one_member_id] != "")
 			$sql = "select email from Gn_MMS_Receive where grp_id = '$grp_id' order by idx asc" . $limit_str;
 			$result = mysqli_query($self_con,$sql);
 			while($row=mysqli_fetch_array($result)) {
-				if($row[email] != "" && !in_array($row[email], $email_arr))
-					array_push($email_arr,$row[email]);
+				if($row['email'] != "" && !in_array($row['email'], $email_arr))
+					array_push($email_arr,$row['email']);
 			}
 		}
 

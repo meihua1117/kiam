@@ -2,17 +2,17 @@
 header("Content-Type: text/html; charset=UTF-8");
 include_once "../lib/rlatjd_fun.php";
 
-if($_SESSION[one_member_id]){
+if($_SESSION['one_member_id']){
 
 
-    $sql="SELECT *  FROM Gn_Member WHERE mem_id ='$_SESSION[one_member_id]'";
+    $sql="SELECT *  FROM Gn_Member WHERE mem_id ='{$_SESSION['one_member_id']}'";
 
 	$result=mysqli_query($self_con,$sql);
 	$row = mysqli_fetch_array($result);
 
 	if($row){
 
-    $card_name = $row[mem_name];
+    $card_name = $row['mem_name'];
 	$card_company = $row[zy];
 	$card_phone = $row[mem_phone];
 	$card_email = $row[mem_email];

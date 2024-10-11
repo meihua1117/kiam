@@ -266,14 +266,14 @@ $gpt_an_arr = explode("||", $gpt_an);
             <ul id="answer_side2" hidden>
             </ul>
             <!-- <div class="gpt_act"> -->
-            <a class="history" href="javascript:show_req_history('<?=$_SESSION[iam_member_id]?>');"><img src="/iam/img/gpt_req_list.png" style="height: 30px;"></a>
+            <a class="history" href="javascript:show_req_history('<?=$_SESSION['iam_member_id']?>');"><img src="/iam/img/gpt_req_list.png" style="height: 30px;"></a>
             <a class="newpane" href="javascript:show_new_chat();"><span style="font-size: 4px;">NEW</a>
             <!-- </div> -->
             <div class="search_keyword">
                 <input type="hidden" name="key" id="key" value="<?=$member_iam[gpt_chat_api_key]?>">
-                <!-- <input type="search" class="search_input" autocomplete="off" name="question" id="question" value="" title="질문을 입력하세요" placeholder="알지AI에게 구체적으로 질문해보세요" onclick="check_login('<?=$_SESSION[iam_member_id]?>')"> -->
-                <textarea class="search_input" autocomplete="off" name="question" id="question" value="" title="질문을 입력하세요" placeholder="알지AI에게 구체적으로 질문해보세요" onclick="check_login('<?=$_SESSION[iam_member_id]?>')"></textarea>
-                <button type="button" onclick="send_post('<?=$_SESSION[iam_member_id]?>')" class="send_ask"><img src="/iam/img/send_ask.png" alt="전송"></button>
+                <!-- <input type="search" class="search_input" autocomplete="off" name="question" id="question" value="" title="질문을 입력하세요" placeholder="알지AI에게 구체적으로 질문해보세요" onclick="check_login('<?=$_SESSION['iam_member_id']?>')"> -->
+                <textarea class="search_input" autocomplete="off" name="question" id="question" value="" title="질문을 입력하세요" placeholder="알지AI에게 구체적으로 질문해보세요" onclick="check_login('<?=$_SESSION['iam_member_id']?>')"></textarea>
+                <button type="button" onclick="send_post('<?=$_SESSION['iam_member_id']?>')" class="send_ask"><img src="/iam/img/send_ask.png" alt="전송"></button>
             </div>
         </div>
     </div>
@@ -332,7 +332,7 @@ $gpt_an_arr = explode("||", $gpt_an);
                         event.stopPropagation();
                     }
                     else{
-                        send_post('<?=$_SESSION[iam_member_id]?>');
+                        send_post('<?=$_SESSION['iam_member_id']?>');
                     }
                 }
             });
@@ -395,7 +395,7 @@ $gpt_an_arr = explode("||", $gpt_an);
             $.ajax({
                 type:"POST",
                 url:"/iam/ajax/manage_gpt_chat.php",
-                data:{mem_id:"<?=$_SESSION[iam_member_id]?>", method:'show_req_list'},
+                data:{mem_id:"<?=$_SESSION['iam_member_id']?>", method:'show_req_list'},
                 dataType: 'html',
                 success:function(data){
                     // console.log(data);

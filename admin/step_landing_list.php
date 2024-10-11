@@ -246,16 +246,16 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                             <td><input type="checkbox" name=""></td>
                             <td><?=$number--?></td>
                             <td style="font-size:12px;"><?=$row[m_id]?></td>
-                            <td style="font-size:12px;"><?=$srow[mem_name]?></td>
+                            <td style="font-size:12px;"><?=$srow['mem_name']?></td>
                             <td style="font-size:12px;"><?=$row[title]?></td>
                             <td style="font-size:12px;"><?=$row[description]?></td>
                             <td style="font-size:12px;">
                                 <input type="button" value="미리보기" class="button" onclick="viewEvent('<?php echo $row['short_url']?>')">
                                 <input type="button" value="링크복사" class="button copyLinkBtn" data-link="<?php echo $row['short_url']?>">
                             </td>
-                            <td><?=number_format($row[cnt])?></td>
+                            <td><?=number_format($row['cnt'])?></td>
                             <td><?=number_format($row[read_cnt])?></td>
-                            <td><?=$row[regdate]?></td>
+                            <td><?=$row['regdate']?></td>
 
                             <td>
                                 <label class="switch">

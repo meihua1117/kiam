@@ -357,7 +357,7 @@ $(function() {
                                                     $thumb_img =  $default_img;
                                                 }
                                                 ?>
-                                                <a href="https://kiam.kr?<?=strip_tags($row['card_short_url'].$mem_row[mem_code])?>" target="_blank">
+                                                <a href="https://kiam.kr?<?=strip_tags($row['card_short_url'].$mem_row['mem_code'])?>" target="_blank">
                                                     <img class="zoom" src="<?=$thumb_img?>" style="width:50px;">
                                                 </a>
                                             </div>

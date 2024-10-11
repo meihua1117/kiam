@@ -190,7 +190,7 @@ if(isset($_POST['mem_name']) || isset($_POST['mem_phone']) || isset($_POST['mem_
 			// $query = "insert into Gn_MMS_Agree set mem_id='$service_id',
 			// send_num='$send_num',
 			// recv_num='$recv_num',
-			// content='$row[content]',
+			// content='{$row['content']}',
 			// title='$row[title]',
 			// jpg='$jpg',
 			// reg_date=NOW(),

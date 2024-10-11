@@ -1,7 +1,7 @@
 <?
     include_once $path."lib/rlatjd_fun.php";
 
-    $sql = "select * from tjd_pay_result where buyer_id = '$_SESSION[one_member_id]' and end_date > '$date_today' and end_status in ('Y','A') order by end_date desc limit 1";
+    $sql = "select * from tjd_pay_result where buyer_id = '{$_SESSION['one_member_id']}' and end_date > '$date_today' and end_status in ('Y','A') order by end_date desc limit 1";
     $res_result = mysqli_query($self_con,$sql);
     $pay_data = mysqli_fetch_array($res_result);
     $rights = 0;
@@ -36,7 +36,7 @@
         
     }
     
-    $sql = "select * from tjd_pay_result where buyer_id = '$_SESSION[one_member_id]' and end_date > '$date_today'  and stop_yn='Y'";
+    $sql = "select * from tjd_pay_result where buyer_id = '{$_SESSION['one_member_id']}' and end_date > '$date_today'  and stop_yn='Y'";
     $res_result = mysqli_query($self_con,$sql);
     $stop = mysqli_fetch_array($res_result);    
     if($stop[stop_yn] == "Y") {
@@ -212,7 +212,7 @@
                     <?php } ?>
 
     		
-                    <?if(!$_SESSION[one_member_id]){?><a href="join.php">회원가입</a> |
+                    <?if(!$_SESSION['one_member_id']){?><a href="join.php">회원가입</a> |
                     <a href="id_pw.php">아이디/비밀번호찾기</a>&nbsp;
                     <iframe name="login_iframe" style="display:none;"></iframe>
                 	<input type="text" name="one_id" itemname='아이디' placeholder="아이디" required style="width:100px;"  />
@@ -222,22 +222,22 @@
     				<a href="mypage.php">마이페이지</a>&nbsp;
     				<!--| <a href="mypage_link_list.php">원스텝문자</a>&nbsp;-->
                     <?
-                    if($_SESSION[one_member_id] == "db"){
+                    if($_SESSION['one_member_id'] == "db"){
                     ?>
                       | <a href="/admin/crawler_member_list_v.php">관리자</a>&nbsp;				
                     <?php } ?>
                     <?
-                    if($_SESSION[one_member_subadmin_id] != "" && $_SESSION[one_member_subadmin_domain] == $HTTP_HOST){
+                    if($_SESSION['one_member_subadmin_id'] != "" && $_SESSION['one_member_subadmin_domain'] == $HTTP_HOST){
                     ?>
                       | <a href="/admin/member_list.php">관리자</a>&nbsp;				
                     <?php } ?>                
                     <?
-                    if($_SESSION[one_member_id] == "obmms01"){
+                    if($_SESSION['one_member_id'] == "obmms01"){
                     ?>
                        | <a href="permit_number.php">승인처리</a>&nbsp;
                     <?
                     }
-                    if($_SESSION[one_member_admin_id] != ""){
+                    if($_SESSION['one_member_admin_id'] != ""){
                     ?>
                     <?if($_SESSION['one_member_admin_id'] == "emi0542" || $_SESSION['one_member_admin_id'] == "gwunki"){?>
                     | <a href="/admin/member_list_con.php">관리자</a>&nbsp;   
@@ -248,7 +248,7 @@
                     <?
                     }
                     //if($_SESSION[one_mem_lev] == "50"){
-                    if($_SESSION[one_member_id] == "lecturem") {
+                    if($_SESSION['one_member_id'] == "lecturem") {
                     ?>
                       | <a href="/admin/lecture_list.php">관리자</a>&nbsp;				
                     <?php } ?>
@@ -256,7 +256,7 @@
                     <?
                     //}
                     ?>
-                    <span style="background-color:#43515e;padding:2px 20px 2px 5px;"><?=$member_1[mem_name]?> 님 환영합니다.</span> <a href="javascript:void(0)" onclick="logout()"><img src="images/main_top_button_logout_03.jpg" /></a>
+                    <span style="background-color:#43515e;padding:2px 20px 2px 5px;"><?=$member_1['mem_name']?> 님 환영합니다.</span> <a href="javascript:void(0)" onclick="logout()"><img src="images/main_top_button_logout_03.jpg" /></a>
                     <?}?>
                     </form>                               
                 </div>

@@ -36,27 +36,27 @@ else {
     $status = explode(",", $_POST['status']);
     $end_time = explode(",", $_POST['end_time']);
     
-    $query = "insert into GN_MMS_status_log set idx='$_POST[idx]',
-                                                send_num='$_POST[send_num]',
-                                                recv_num='$_POST[recv_num]',
-                                                status='$_POST[status]',
-                                                end_time='$_POST[end_time]'                                            
+    $query = "insert into GN_MMS_status_log set idx='{$_POST['idx']}',
+                                                send_num='{$_POST['send_num']}',
+                                                recv_num='{$_POST['recv_num']}',
+                                                status='{$_POST['status']}',
+                                                end_time='{$_POST['end_time']}'                                            
     ";
     mysqli_query($self_con,$query) or die(mysqli_error($self_con));
     if($_POST['idx'] == "")  exit;
     if($_POST['send_num'] == "")  exit;
     
     if(count($recv_num) == 1) {
-            $sql="select idx from Gn_MMS_status where idx='{$_POST[idx]}' and send_num='{$_POST[send_num]}' and recv_num='{$_POST[recv_num]}'";
+            $sql="select idx from Gn_MMS_status where idx='{$_POST['idx']}' and send_num='{$_POST['send_num']}' and recv_num='{$_POST['recv_num']}'";
             
             $resul=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
             $row=mysqli_fetch_array($resul);    
             if($row['idx'] == "") {
-                $sql_insert = "insert into Gn_MMS_status set idx='$_POST[idx]',
-                                                             send_num='$_POST[send_num]',
-                                                             recv_num='$_POST[recv_num]',
-                                                             status='$_POST[status]',
-                                                             regdate='$_POST[end_time]'";
+                $sql_insert = "insert into Gn_MMS_status set idx='{$_POST['idx']}',
+                                                             send_num='{$_POST['send_num']}',
+                                                             recv_num='{$_POST['recv_num']}',
+                                                             status='{$_POST['status']}',
+                                                             regdate='{$_POST['end_time']}'";
                  mysqli_query($self_con,$sql_insert);         
             }    
     } else {

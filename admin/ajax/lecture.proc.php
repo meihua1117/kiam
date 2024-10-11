@@ -42,7 +42,7 @@ if($mode == "update_status") {
 	                                   area='$area',
 	                                   max_num='$max_num',
 	                                   fee='$fee',
-	                                   mem_id='$_SESSION[one_member_id]',
+	                                   mem_id='{$_SESSION['one_member_id']}',
 	                                   status='N',
 	                                   regdate=NOW()
 	       ";

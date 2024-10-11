@@ -1,6 +1,6 @@
 <?
 include_once "lib/rlatjd_fun.php";
-if(!$_SESSION[one_member_id])
+if(!$_SESSION['one_member_id'])
 {
 ?>
 <script language="javascript">
@@ -30,7 +30,7 @@ if($_POST[auto_pay_status]==1)
 	$inipay->m_sessionKey = $sessionkey;
 	$inipay->startAction();	
 }
-$orderNumber=$member_1[mem_code]."_".date("ymdhis");
+$orderNumber=$member_1['mem_code']."_".date("ymdhis");
 //$cardquota=$_POST[month_cnt]<10?"0".$_POST[month_cnt]:$_POST[month_cnt];
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -100,7 +100,7 @@ window.onload=function()
 </head>
 <body>
 <form name="auto_frm" action="" method="post">
-    <input type="text" name="buyername" value="<?=$member_1[mem_name]?>">
+    <input type="text" name="buyername" value="<?=$member_1['mem_name']?>">
     <input type="text" name="goodname" value="<?=$_POST[goodname]?>">
     <input type="text" name="mid" value="<?=$_POST[mid]?>">
     <input type="text" name="price" value="<?=$_POST[price]?>">

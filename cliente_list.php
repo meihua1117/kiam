@@ -15,7 +15,7 @@ switch($_REQUEST[status]){
 		$left_str="관리자 매뉴얼";
 	break;
 }
-if($_SESSION[one_member_admin_id] != ""){
+if($_SESSION['one_member_admin_id'] != ""){
     $btn_go = '<a href="/admin/admin_manual.php">관리자 매뉴얼</a>';
 }
 $sql_serch="1=1 ";
@@ -98,14 +98,14 @@ if($_REQUEST[lms_text] && $_REQUEST[lms_select])
 $sql="select count(no) as cnt from tjd_board where $sql_serch ";
 $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 $row=mysqli_fetch_array($result);
-$intRowCount=$row[cnt];
-if (!$_POST[lno]) 
+$intRowCount=$row['cnt'];
+if (!$_POST['lno']) 
 	$intPageSize =20;
 else 
-   $intPageSize = $_POST[lno];
-if($_POST[page])
+   $intPageSize = $_POST['lno'];
+if($_POST['page'])
 {
-  $page=(int)$_POST[page];
+  $page=(int)$_POST['page'];
   $sort_no=$intRowCount-($intPageSize*$page-$intPageSize); 
 }
 else
@@ -113,17 +113,17 @@ else
   $page=1;
   $sort_no=$intRowCount;
 }
-if($_POST[page2])
-  $page2=(int)$_POST[page2];
+if($_POST['page2'])
+  $page2=(int)$_POST['page2'];
 else
   $page2=1;
 $int=($page-1)*$intPageSize;
-if($_REQUEST[order_status])
-  $order_status=$_REQUEST[order_status];
+if($_REQUEST['order_status'])
+  $order_status=$_REQUEST['order_status'];
 else
   $order_status="desc"; 
-if($_REQUEST[order_name])
-  $order_name=$_REQUEST[order_name];
+if($_REQUEST['order_name'])
+  $order_name=$_REQUEST['order_name'];
 else
   $order_name="no";
 $intPageCount=(int)(($intRowCount+$intPageSize-1)/$intPageSize);     
@@ -157,16 +157,16 @@ $result2=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
             <input type="hidden" name="page" value="<?php echo $page;?>">
             <input type="hidden" name="page2" value="<?php echo $page;?>">
         	<?
-			if($_REQUEST[one_no] && strlen($_REQUEST[one_no]) < 4)
+			if($_REQUEST['one_no'] && strlen($_REQUEST['one_no']) < 4)
 			{
-			$sql_no = "select * from tjd_board where no='{$_REQUEST[one_no]}'";
+			$sql_no = "select * from tjd_board where no='{$_REQUEST['one_no']}'";
 			$res_no = mysqli_query($self_con,$sql_no);
 			$row_no = mysqli_fetch_array($res_no);
-                //if(!$_SESSION[one_member_id]){
+                //if(!$_SESSION['one_member_id']){
                 //    echo "<script>alert('로그인후 이용해 주세요.');history.go(-1);</script>";
                 //    exit;
                 //}
-			    if($row_no[id] != $_SESSION[one_member_id] && $row_no['status_1'] == "Y" ) {
+			    if($row_no['id'] != $_SESSION['one_member_id'] && $row_no['status_1'] == "Y" ) {
 			        echo "<script>alert('비밀글입니다. 로그인후 이용해 주세요.');history.go(-1);</script>";
 			        exit;
 			    }
@@ -177,7 +177,7 @@ $result2=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
                         <td style="text-align:right;"><?=substr($row_no[date],0,10)?></td>
                     </tr>
                     <tr>
-                        <td colspan="2"><?=htmlspecialchars_decode($row_no[content])?></td>
+                        <td colspan="2"><?=htmlspecialchars_decode($row_no['content'])?></td>
                     </tr>
                     <?if($row_no['reply']){?>
                         <tr>
@@ -258,7 +258,7 @@ $result2=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
                             <td colspan="2" style="text-align:right;">
                             <a href="cliente_list.php?status=<?=$_REQUEST[status]?>"><img src="images/btn_list.gif" /></a>
                             <?
-                            if($member_1[mem_id]==$row_no[id])
+                            if($member_1[mem_id]==$row_no['id'])
                             {
                             ?>
                             <a href="cliente_write.php?status=<?=$_REQUEST[status]?>&one_no=<?=$row_no[no]?>"><img src="images/btn_crystal.gif" /></a>
@@ -413,7 +413,7 @@ $result2=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 				}
 				else
 				{
-					if($_SESSION[one_member_id])
+					if($_SESSION['one_member_id'])
 					{
 						?>
                     <a href="cliente_write.php?status=<?=$_REQUEST[status]?>"><img src="images/client_1_3.jpg" /></a>    

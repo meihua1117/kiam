@@ -21,14 +21,14 @@ $body .= '            <img src = "/iam/img/menu/icon_close_white.png" style="wid
 $body .= '        </button>';
 $body .= '    </div>';
 $body .= '    <div class="modal-title" style="text-align:center; font-size:25px;font-weight:500;height:45px;background:#82c836;color:white">';
-$body .= '        <label style="font-size:18px;margin-top:10px" id="group_info_title">'.$group_row[name] .'</label>';
+$body .= '        <label style="font-size:18px;margin-top:10px" id="group_info_title">'.$group_row['name'] .'</label>';
 $body .= '    </div>';
 $body .= '    <div class="modal-body" style="background-color: #e5e5e5;border-bottom-left-radius: 5px;border-bottom-right-radius: 5px;">';
 $body .= '        <div style="padding-top: 2px;background:white;padding-bottom:15px">';
 $body .= '            <div style="display:flex;justify-content: space-between;margin-left:10px;">';
 $body .= '                <h4 style="margin-top:10px">정보</h4>';
-if($_SESSION[iam_member_id] == $group_row[manager]){
-    $body .= '                <button type="button" class= "btn btn-link" style= "margin-right:10px" onclick = "edit_group_info(\''. $group_row[idx]. '\',\''. $group_row[name] .'\',\''. $group_row[description] .'\',\''. $group_row[public_status] .'\',\''. $group_row[upload_status].'\')">';
+if($_SESSION['iam_member_id'] == $group_row[manager]){
+    $body .= '                <button type="button" class= "btn btn-link" style= "margin-right:10px" onclick = "edit_group_info(\''. $group_row[idx]. '\',\''. $group_row['name'] .'\',\''. $group_row[description] .'\',\''. $group_row[public_status] .'\',\''. $group_row[upload_status].'\')">';
     $body .= '                    <img src = "/iam/img/main/dots3.png" style="width:15px">';
     $body .= '                </button>';
 }
@@ -60,7 +60,7 @@ $body .= '                <small>';
                     
 $body .= '                </small>';
 $body .= '            </h4>';
-if($_SESSION[iam_member_id] == $group_row[manager]){
+if($_SESSION['iam_member_id'] == $group_row[manager]){
     $body .= '                <div style="display:flex;justify-content: space-between;margin-left:10px;margin-top:15px">';
     $body .= '                    <h4 style="">'. "총 멤버 ".$group_mem_count."명" .'</h4>';
     $body .= '                    <button type="button" class = "btn btn-link" onclick = "open_all_member_1('. $group_row[idx] .')">모두 보기</button>';
@@ -82,8 +82,8 @@ if($f_count > 0){
     $f_index = 0;
     $f_name = "";
     while($f_row = mysqli_fetch_array($f_res)){
-        if($f_name == "" && $f_row[mem_id] != $_SESSION[iam_member_id])
-            $f_name = $f_row[mem_name];
+        if($f_name == "" && $f_row[mem_id] != $_SESSION['iam_member_id'])
+            $f_name = $f_row['mem_name'];
         if($f_index++ < 12){
             $body .= '                        <div style="border:1px solid #ddd;border-radius: 50%;width: 30px;height: 30px;overflow: hidden;margin-left: -10px;">';
             $body .= '                            <img src="'. cross_image($f_row[profile]) .'" style="width: 100%;height:100%;">';

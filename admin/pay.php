@@ -2,12 +2,12 @@
 $path="./";
 include_once "_head.php";
 $date = date("Y-m-d H:i:s");
-$sql="select * from Gn_Member where mem_id='$_SESSION[one_member_id]' ";
+$sql="select * from Gn_Member where mem_id='{$_SESSION['one_member_id']}' ";
 $resul=mysqli_query($self_con,$sql);
 $data=mysqli_fetch_array($resul);
 // 이미 진행중인 결제가 있는지 확인
 $mid = date("YmdHis").rand(10,99);
-//$query = "select * from tjd_pay_result where buyer_id='$_SESSION[one_member_id]' and end_status='Y' and `end_date` > '$date'";
+//$query = "select * from tjd_pay_result where buyer_id='{$_SESSION['one_member_id']}' and end_status='Y' and `end_date` > '$date'";
 //$res = mysqli_query($self_con,$query);
 //$sdata = mysqli_fetch_array($res);
 //if($sdata['no'] != "") {
@@ -169,7 +169,7 @@ $(function(){
     
 function dbFree() {
         <?
-        if($_SESSION[one_member_id] == "")
+        if($_SESSION['one_member_id'] == "")
         {
         ?>    
         alert('로그인 이후에 이용이 가능합니다.');
@@ -503,7 +503,7 @@ var send_cnt = 9000;
             <!--승인금액-->
             <input type="hidden" name="allat_amt" id="allat_amt" value="" size="19" maxlength=10>
             <!--회원ID-->
-            <input type="hidden" name="allat_pmember_id" value="<?php echo $_SESSION[one_member_id];?>" size="19" maxlength=20>
+            <input type="hidden" name="allat_pmember_id" value="<?php echo $_SESSION['one_member_id'];?>" size="19" maxlength=20>
             <!--상품코드-->
             <input type="hidden" name="allat_product_cd" id="allat_product_cd" value="Business-월간결제" size="19" maxlength=1000>
             <!--상품명-->
@@ -1141,7 +1141,7 @@ var send_cnt = 9000;
                 <input type="hidden" name="fujia_status" id="fujia_status" />
                 <input type="hidden" name="mid" value="obmms20151" />
                 <?
-                if(!$_SESSION[one_member_id])
+                if(!$_SESSION['one_member_id'])
                 {
                 ?>
 

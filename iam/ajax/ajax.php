@@ -2,11 +2,11 @@
 include_once "../../lib/rlatjd_fun.php";
 include_once "../../lib/class.image.php";
 //회원가입 1단계	
-if($_POST[id] && $_POST[pwd])
+if($_POST['id'] && $_POST[pwd])
 {
 	if(!$_POST[join_modify])
 	{
-		$member_info[mem_id]=htmlspecialchars($_POST[id]);
+		$member_info[mem_id]=htmlspecialchars($_POST['id']);
 		$member_info[mem_leb]=22;
 		$member_info[id_type]="hp";
 		$member_info[join_ip]=$ip;
@@ -17,7 +17,7 @@ if($_POST[id] && $_POST[pwd])
 	if($_FILES[profile]) {
     	$tempFile = $_FILES[profile][tmp_name];
     	if($tempFile) {
-    	    $file_arr=explode(".",$_FILES[profile][name]);
+    	    $file_arr=explode(".",$_FILES[profile]['name']);
     	    $tmp_file_arr=explode("/",$tempFile);
 			$file_name=date("Ymds")."_".$tmp_file_arr[count($tmp_file_arr)-1].".".$file_arr[count($file_arr)-1];
 			$up_dir = make_folder_month(2);
@@ -39,8 +39,8 @@ if($_POST[id] && $_POST[pwd])
 	}
 	if($_POST[mobile_1])
 	    $member_info[mem_phone]=$_POST[mobile_1]."-".$_POST[mobile_2]."-".$_POST[mobile_3];
-	$member_info[mem_nick]=htmlspecialchars($_POST[name]);
-	$member_info[mem_name]=htmlspecialchars($_POST[name]);
+	$member_info[mem_nick]=htmlspecialchars($_POST['name']);
+	$member_info['mem_name']=htmlspecialchars($_POST['name']);
 	$member_info[mem_email]=$_POST[email_1]."@".$_POST[email_2];
 	$member_info[mem_add1]=$_POST[add1];
 	$member_info[zy]=$_POST[zy];
@@ -141,7 +141,7 @@ if($_POST[id] && $_POST[pwd])
 	    $sql.=" where mem_code='$_POST[join_modify]' ";
 	if(mysqli_query($self_con,$sql) or die(mysqli_error($self_con))){
 		if($_POST[join_modify]){
-			$_SESSION[iam_member_leb] = 0;
+			$_SESSION['iam_member_leb'] = 0;
 ?>
         <script language="javascript">
 		alert('수정완료되었습니다.');
@@ -156,13 +156,13 @@ if($_POST[id] && $_POST[pwd])
 				$query = "insert into Gn_MMS_Group set mem_id='$member_info[mem_id]', grp='아이엠', reg_date=NOW()";
 				mysqli_query($self_con,$query);
 			}
-			$_SESSION[one_member_id]=$_POST[id];
-			$content=$_POST[name]."님 온리원문자 회원이 되신걸 환영합니다.";
+			$_SESSION['one_member_id']=$_POST['id'];
+			$content=$_POST['name']."님 온리원문자 회원이 되신걸 환영합니다.";
 			$subject="온리원문자 회원가입";
             sendemail("", $member_info[mem_email],"admin@kiam.kr",$subject,$content);
 ?>
 			<script language="javascript">
-			alert('<?=$_SESSION[one_member_id]?> 회원가입되었습니다.');
+			alert('<?=$_SESSION['one_member_id']?> 회원가입되었습니다.');
 			 location.href='/';
 			</script>
 			<?
@@ -190,7 +190,7 @@ if($_POST[search_id_pw_mem_name] && $_POST[search_id_pw_type]){
     $sql="select * from Gn_Member where $sql_serch ";
     $resul=mysqli_query($self_con,$sql);
     $row=mysqli_fetch_array($resul);
-    if($row[mem_code])
+    if($row['mem_code'])
     {
         // 수정 시작
         if($row[is_leave] == 'Y'){
@@ -202,7 +202,7 @@ if($_POST[search_id_pw_mem_name] && $_POST[search_id_pw_type]){
 <?
         }else if($_POST[search_id_pw_mem_id]){
             $new_pwd=substr(md5(time()),0,10);
-            $sql_u="update Gn_Member set web_pwd=password('$new_pwd') where mem_code='$row[mem_code]' ";
+            $sql_u="update Gn_Member set web_pwd=password('$new_pwd') where mem_code='{$row['mem_code']}' ";
             mysqli_query($self_con,$sql_u);
 
 			if($row[site_iam] == "kiam" || $row[site_iam] == ""){
@@ -211,8 +211,8 @@ if($_POST[search_id_pw_mem_name] && $_POST[search_id_pw_type]){
 			else{
 				$site_iam = $row[site_iam].".";
 			}
-			$content=$row[mem_name]."님 온리원문자 비밀번호가[ ".$new_pwd." ] 로 변경되었습니다. ".$site_iam."kiam.kr (".$row[mem_id].")";
-			$content1=$row[mem_name]."님 온리원문자 비밀번호가[ ".$new_pwd." ] 로 변경되었습니다.";
+			$content=$row['mem_name']."님 온리원문자 비밀번호가[ ".$new_pwd." ] 로 변경되었습니다. ".$site_iam."kiam.kr (".$row[mem_id].")";
+			$content1=$row['mem_name']."님 온리원문자 비밀번호가[ ".$new_pwd." ] 로 변경되었습니다.";
             $subject="온리원문자 비밀번호찾기";
             if($_POST[search_id_pw_type]=="email") {
                 sendemail("", $row[mem_email], "admin@kiam.kr", $subject, $content);
@@ -259,7 +259,7 @@ if($_POST[search_id_pw_mem_name] && $_POST[search_id_pw_type]){
 				else{
 					$site_iam = $row1[site_iam].".";
 				}
-				$content.= $row1[mem_name]."님 온리원문자 아이디는[ ".$row1[mem_id]." ] 입니다. ".$site_iam."kiam.kr (".$row1[mem_id].")\n";
+				$content.= $row1['mem_name']."님 온리원문자 아이디는[ ".$row1[mem_id]." ] 입니다. ".$site_iam."kiam.kr (".$row1[mem_id].")\n";
 				$subject="온리원문자 아이디찾기";
 			}
 			if($_POST[search_id_pw_type]=="email") {

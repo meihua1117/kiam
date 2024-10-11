@@ -64,14 +64,14 @@ else if($mode == "reg_msg")
     mysqli_query($self_con,$query);	
     $callback_no = mysqli_insert_id($self_con);
 
-    $sql_mem = "select * from Gn_Member where mem_id='{$_SESSION[iam_member_id]}'";
+    $sql_mem = "select * from Gn_Member where mem_id='{$_SESSION['iam_member_id']}'";
     $res_mem = mysqli_query($self_con,$sql_mem);
     $row_mem = mysqli_fetch_array($res_mem);
 
     $event_name_eng = "callback msg reg".$cur_time1;
     $pcode = "callbackmsg".$cur_time1;
 
-    $sql_event = "insert into Gn_event set event_name_kor='콜백메시지관리자설정동의', event_name_eng='$event_name_eng', event_title='{$msgtitle_call}', event_desc='{$msgdesc_call}', event_info='{$call_title}', event_sms_desc='{$call_content}', pcode='{$pcode}', event_type='{$iam_link}', mobile='{$row_mem['mem_phone']}', regdate='{$cur_time}', m_id='{$_SESSION[iam_member_id]}', read_cnt=0, object='{$call_img_path}', callback_no={$callback_no}";
+    $sql_event = "insert into Gn_event set event_name_kor='콜백메시지관리자설정동의', event_name_eng='$event_name_eng', event_title='{$msgtitle_call}', event_desc='{$msgdesc_call}', event_info='{$call_title}', event_sms_desc='{$call_content}', pcode='{$pcode}', event_type='{$iam_link}', mobile='{$row_mem['mem_phone']}', regdate='{$cur_time}', m_id='{$_SESSION['iam_member_id']}', read_cnt=0, object='{$call_img_path}', callback_no={$callback_no}";
     mysqli_query($self_con,$sql_event) or die(mysqli_error($self_con));
     $event_idx = mysqli_insert_id($self_con);
 

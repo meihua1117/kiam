@@ -84,7 +84,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                     <div class="row" id="toolbox">
             <div class="col-xs-12" style="padding-bottom:20px">
               <?php if($_SESSION['one_member_admin_id'] != "onlyonemaket"){?>
-                <?php if($_SESSION[one_member_subadmin_id] == "" || $_SESSION[one_member_subadmin_domain] != $HTTP_HOST) {?>
+                <?php if($_SESSION['one_member_subadmin_id'] == "" || $_SESSION['one_member_subadmin_domain'] != $HTTP_HOST) {?>
                   <button class="btn btn-primary pull-right" style="margin-right: 5px;" onclick="location='biz_notice_write.php'"><i class="fa fa-download"></i>작성하기</button>
                 <?php }}?>
               <form method="get" name="search_form" id="search_form">
@@ -108,7 +108,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                       <col width="600px">
                       <col width="100px">
                       <col width="100px">
-                      <?if($_SESSION[one_member_subadmin_id] == "" || $_SESSION[one_member_subadmin_domain] != $HTTP_HOST) {?>
+                      <?if($_SESSION['one_member_subadmin_id'] == "" || $_SESSION['one_member_subadmin_domain'] != $HTTP_HOST) {?>
                       <col width="50px">
                       <?}?>
                      </colgroup>
@@ -118,7 +118,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                         <th>제목</th>
                         <th>작성일</th>
                         <th>조회수</th>
-                         <?if($_SESSION[one_member_subadmin_id] == "" || $_SESSION[one_member_subadmin_domain] != $HTTP_HOST) {?>
+                         <?if($_SESSION['one_member_subadmin_id'] == "" || $_SESSION['one_member_subadmin_domain'] != $HTTP_HOST) {?>
                         <th>삭제</th>
                          <?}?>
                       </tr>
@@ -147,7 +147,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                       <tr>
                         <td><?=$number--?></td>
                         <td>
-                        <?php if($_SESSION[one_member_subadmin_id] != "" && $_SESSION[one_member_subadmin_domain] == $HTTP_HOST) {?>
+                        <?php if($_SESSION['one_member_subadmin_id'] != "" && $_SESSION['one_member_subadmin_domain'] == $HTTP_HOST) {?>
                             <a onclick="onView('<?=$row[no]; ?>')" ><?php echo $row['title'];?></a>
                             <script type="text/javascript">
                                 function onView(board_no){
@@ -170,9 +170,9 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                                                 <table class="list_table1" width="100%" border="0" cellspacing="0" cellpadding="0">
                                                 <tr>
                                                     <th>연락처</th>
-                                                    <td><?=$row[phone]?></td>
+                                                    <td><?=$row['phone']?></td>
                                                     <th>이메일</th>
-                                                    <td><?=$row[email]?></td>
+                                                    <td><?=$row['email']?></td>
                                                 </tr>       
                                              
                                                 <tr>
@@ -198,7 +198,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                         </td>
                         <td><?=$row['view_cnt']?></td>
 
-                        <?php if($_SESSION[one_member_subadmin_id] != "" && $_SESSION[one_member_subadmin_domain] == $HTTP_HOST) {} else {?>
+                        <?php if($_SESSION['one_member_subadmin_id'] != "" && $_SESSION['one_member_subadmin_domain'] == $HTTP_HOST) {} else {?>
                         <td><a href="javascript:;;" onclick="board_del('<?=$row[no]?>','<?=$_REQUEST[status]?>')">삭제</a></td>
                       <? } ?>
                       </tr>

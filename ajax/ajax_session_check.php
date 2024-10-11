@@ -5,8 +5,8 @@ if($_POST[mode] == "app_check"){
     $check_num_arr = $_POST["phone_num"];
     for( $k = 0; $k < count($check_num_arr); $k++){
         $title = "app_check_process";
-        $content = $_SESSION[one_member_id].", app_check_process";
-        $ret=sendmms(7, $_SESSION[one_member_id], $check_num_arr[$k], $check_num_arr[$k], "", $title, $content, "", "", "", "N");
+        $content = $_SESSION['one_member_id'].", app_check_process";
+        $ret=sendmms(7, $_SESSION['one_member_id'], $check_num_arr[$k], $check_num_arr[$k], "", $title, $content, "", "", "", "N");
         ?>
         <script>console.log('sendmms result=' + '<?=$ret?>');</script>
         <?

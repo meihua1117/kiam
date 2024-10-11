@@ -35,7 +35,7 @@ while($row_sel = mysqli_fetch_array($res_sel)){
         $res_mem = mysqli_query($self_con,$sql_mem);
         $row_mem = mysqli_fetch_array($res_mem);
 
-        send_mms($row_save[mem_id], $row_mem[mem_phone], $uni_id, $row_save[contents_title], $push_url, $push_headers, $row_mem[mem_name], $row_mem[mem_point], $row_mem[mem_cash]);
+        send_mms($row_save[mem_id], $row_mem[mem_phone], $uni_id, $row_save[contents_title], $push_url, $push_headers, $row_mem['mem_name'], $row_mem[mem_point], $row_mem['mem_cash']);
     }
     $sql_del_get = "delete from Gn_Iam_Contents_Gwc where ori_store_prod_idx='{$row_sel[idx]}'";
     mysqli_query($self_con,$sql_del_get);

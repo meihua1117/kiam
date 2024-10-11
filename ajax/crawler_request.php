@@ -7,7 +7,7 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
 extract($_POST);
 $term = date("Y-m-d", strtotime("next Year"));
 
-        $sql="select * from crawler_request where mem_id='$_SESSION[one_member_id]'";
+        $sql="select * from crawler_request where mem_id='{$_SESSION['one_member_id']}'";
         $resul=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
         $row=mysqli_fetch_array($resul);   
         if($row['mem_id'] != "") {
@@ -16,11 +16,11 @@ $term = date("Y-m-d", strtotime("next Year"));
             exit;            
         }
         
-        $sql="insert into crawler_request set mem_id='$_SESSION[one_member_id]', 
+        $sql="insert into crawler_request set mem_id='{$_SESSION['one_member_id']}', 
                                               regdate=NOW()";
         mysqli_query($self_con,$sql);
         
-        $sql="select * from crawler_member where user_id='$_SESSION[one_member_id]'";
+        $sql="select * from crawler_member where user_id='{$_SESSION['one_member_id']}'";
         $resul=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
         $row=mysqli_fetch_array($resul);   
         if($row[user_id] != "") {
@@ -29,7 +29,7 @@ $term = date("Y-m-d", strtotime("next Year"));
             exit;
         }
 
-        $sql="select * from Gn_Member where mem_id='$_SESSION[one_member_id]'";
+        $sql="select * from Gn_Member where mem_id='{$_SESSION['one_member_id']}'";
         $resul=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
         $row=mysqli_fetch_array($resul);   
         if($row['mem_id'] == "") {
@@ -45,8 +45,8 @@ $term = date("Y-m-d", strtotime("next Year"));
     
         
         
-        $sql="insert into crawler_member set user_id='$_SESSION[one_member_id]', 
-                                   user_name='$row[mem_name]',
+        $sql="insert into crawler_member set user_id='{$_SESSION['one_member_id']}', 
+                                   user_name='{$row['mem_name']}',
                                    cell='$row[mem_phone]',
                                    email='$row[mem_email]',
                                    address='$row[mem_add1]',

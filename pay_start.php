@@ -5,7 +5,7 @@ if($member_1[mem_id] == "") {
     exit;
 }
 
-if(!$_SESSION[one_member_id])
+if(!$_SESSION['one_member_id'])
 {
 ?>
 <script language="javascript">
@@ -55,7 +55,7 @@ $_SESSION['INI_ADMIN'] = "1111";   // 키패스워드(키발급시 생성, 상�
 $_SESSION['INI_PRICE'] = $_POST[price];     //가격 
 $_SESSION['INI_RN'] = $inipay->GetResult("rn"); //고정 (절대 수정 불가)
 $_SESSION['INI_ENCTYPE'] = $inipay->GetResult("enctype"); //고정 (절대 수정 불가)
-$orderNumber=$member_1[mem_code]."_".date("ymdhis");
+$orderNumber=$member_1['mem_code']."_".date("ymdhis");
 $_SESSION[form_submit]="ok";
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -89,7 +89,7 @@ window.onload=function()
 <body>
 <form name="send_form" target="_parent" action="/pay_end.php" method="post">
     <input type="hidden" name="goodname"  value="<?=$_POST[goodname]?>">
-    <input type="hidden" name="buyername"  value="<?=$member_1[mem_name]?>">
+    <input type="hidden" name="buyername"  value="<?=$member_1['mem_name']?>">
     <input type="hidden" name="buyeremail"  value="<?=$member_1[mem_email]?>">
     <input type="hidden" name="parentemail"  value="<?=$member_1[mem_email]?>">
     <input type="hidden" name="buyertel"  value="<?=$member_1[mem_phone]?>">

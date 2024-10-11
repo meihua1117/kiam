@@ -234,7 +234,7 @@ $(function() {
                                         </td>
                                         <!-- <td>
                                             <div style="overflow-x:hidden;width:100px;">
-                                                <a href="http://obmms.net/iam/?<?=strip_tags($row['card_short_url'].$mem_row[mem_code])?>" target="_blank"><?=$row['card_short_url']?></a>
+                                                <a href="http://obmms.net/iam/?<?=strip_tags($row['card_short_url'].$mem_row['mem_code'])?>" target="_blank"><?=$row['card_short_url']?></a>
                                             </div>
                                         </td> -->
                                         <td>
@@ -246,7 +246,7 @@ $(function() {
                                                     $thumb_img =  $default_img;
                                                 }
                                                 ?>
-                                                <a href="http://kiam.kr/?<?=strip_tags($row['card_short_url'].$mem_row[mem_code])?>" target="_blank">
+                                                <a href="http://kiam.kr/?<?=strip_tags($row['card_short_url'].$mem_row['mem_code'])?>" target="_blank">
                                                     <img class="zoom" src="<?=$thumb_img?>" style="width:50px;">
                                                 </a>
                                             </div>
@@ -436,7 +436,7 @@ $(function(){
                         $("#card_idx").val(card_idx);
                         $("#check_id").val(mem_id1);
                         $("#mem_id").val(mem_id);
-                        $("#req_id").val('<?=$_SESSION[one_member_id]?>');
+                        $("#req_id").val('<?=$_SESSION['one_member_id']?>');
                     },
                     error: function(){
                         alert('삭제 실패');

@@ -2,7 +2,7 @@
 $path="./";
 include_once "_head.php";
 include_once "lib/rlatjd_fun.php";
-if(!$_SESSION[one_member_id]){
+if(!$_SESSION['one_member_id']){
 ?>
 <script language="javascript">
 location.replace('/ma.php');
@@ -13,18 +13,18 @@ exit;
 	$date_today=date("Y-m-d");
 	$date_month=date("Y-m");
 	//회원가입일 (선거용 3일 무료 사용 관련)
-	$sql = "select first_regist,mem_type,phone_cnt,fujia_date1,fujia_date2 from Gn_Member where mem_id = '$_SESSION[one_member_id]'";
+	$sql = "select first_regist,mem_type,phone_cnt,fujia_date1,fujia_date2 from Gn_Member where mem_id = '{$_SESSION['one_member_id']}'";
 	$res_result = mysqli_query($self_con,$sql);
 	$rsJoinDate = mysqli_fetch_array($res_result);
 	mysqli_free_result($res_result);
 	$trialLimit = date("Y-m-d 23:59:59",strtotime($rsJoinDate[0]."+0 days")); //회원가입일+3일
 	/*
-	$sql = "select add_phone from tjd_pay_result where buyer_id = '$_SESSION[one_member_id]' and end_date > '$date_today'  and end_status in ('Y','A') order by no desc limit 1";
+	$sql = "select add_phone from tjd_pay_result where buyer_id = '{$_SESSION['one_member_id']}' and end_date > '$date_today'  and end_status in ('Y','A') order by no desc limit 1";
 	$res_result = mysqli_query($self_con,$sql);
 	//결제 휴대폰 수
 	$buyPhoneCnt = mysqli_fetch_row($res_result);
 	*/
-	$sql = "select sum(add_phone) add_phone from tjd_pay_result where buyer_id = '$_SESSION[one_member_id]' and end_date > '$date_today'  and end_status in ('Y','A') and gwc_cont_pay=0 order by no desc limit 1";
+	$sql = "select sum(add_phone) add_phone from tjd_pay_result where buyer_id = '{$_SESSION['one_member_id']}' and end_date > '$date_today'  and end_status in ('Y','A') and gwc_cont_pay=0 order by no desc limit 1";
 	$res_result = mysqli_query($self_con,$sql);
 	//결제 휴대폰 수
 	$buyPhoneCnt = mysqli_fetch_row($res_result);	
@@ -52,7 +52,7 @@ exit;
 	// 16-01-20 예약발송 건 전송 제한 30분
 	// 1) reservation ~ 30분까지만 가져간다. 
 	// 2) 시간 지난 것은 실패 처리 : Gn_MMS_ReservationFail로 이동,result = 3
-	$sql_where = "where now() > adddate(reservation,INTERVAL 30 Minute) and result = 1 and mem_id = '$_SESSION[one_member_id]'";
+	$sql_where = "where now() > adddate(reservation,INTERVAL 30 Minute) and result = 1 and mem_id = '{$_SESSION['one_member_id']}'";
 	$sql = "insert into Gn_MMS_ReservationFail select * from Gn_MMS $sql_where";
 	mysqli_query($self_con,$sql);
 	//$sql = "delete from Gn_MMS $sql_where";
@@ -61,7 +61,7 @@ exit;
 	mysqli_query($self_con,$sql);
 
 	//로그인한 가입자 폰 번호
-	$sql_num="SELECT mem_phone  FROM Gn_Member WHERE mem_id ='$_SESSION[one_member_id]'";
+	$sql_num="SELECT mem_phone  FROM Gn_Member WHERE mem_id ='{$_SESSION['one_member_id']}'";
 	$result_mem_phone=mysqli_query($self_con,$sql_num);
 	$row_mem_phone = mysqli_fetch_row($result_mem_phone);
 	mysqli_free_result($result_mem_phone);	
@@ -69,21 +69,21 @@ exit;
 	//수신처수는 당월 차감 / 발송 수는 당일 차감
 	//오늘 예약 건 확인
 	$reserv_cnt_today=0;
-	$sql_result2 = "select SUM(recv_num_cnt) from Gn_MMS where reservation like '$date_today%' and up_date is null and mem_id = '$_SESSION[one_member_id]' ";
+	$sql_result2 = "select SUM(recv_num_cnt) from Gn_MMS where reservation like '$date_today%' and up_date is null and mem_id = '{$_SESSION['one_member_id']}' ";
 	$res_result2 = mysqli_query($self_con,$sql_result2);
 	$row_result2 = mysqli_fetch_array($res_result2);
 	$reserv_cnt_today += $row_result2[0] * 1;
 	mysqli_free_result($res_result2);	
 	//-이번달 예약건 수
 	$reserv_cnt_thismonth=0;
-	$sql_result = "select SUM(recv_num_cnt) from Gn_MMS where reservation like '$date_month%' and up_date is null and mem_id = '$_SESSION[one_member_id]' ";
+	$sql_result = "select SUM(recv_num_cnt) from Gn_MMS where reservation like '$date_month%' and up_date is null and mem_id = '{$_SESSION['one_member_id']}' ";
 	$res_result = mysqli_query($self_con,$sql_result);
 	$row_result = mysqli_fetch_array($res_result);
 	$reserv_cnt_thismonth += $row_result[0] * 1;
 	mysqli_free_result($res_result);
 	//-이번달 발송된 수
 	$recv_num_ex_sum=0;
-	$sql_result = "select SUM(recv_num_cnt) from Gn_MMS where reg_date like '$date_month%' and mem_id = '$_SESSION[one_member_id]' ";
+	$sql_result = "select SUM(recv_num_cnt) from Gn_MMS where reg_date like '$date_month%' and mem_id = '{$_SESSION['one_member_id']}' ";
 	$res_result = mysqli_query($self_con,$sql_result);
 	$row_result = mysqli_fetch_array($res_result);
 	$recv_num_ex_sum += $row_result[0] * 1;
@@ -91,7 +91,7 @@ exit;
 	$recv_num_ex_sum +=$reserv_cnt_thismonth; //이번 달 예약된 수 추가
 	//-오늘발송 건 수
 	$rec_cnt_today=0;
-	$sql_result2 = "select SUM(recv_num_cnt) from Gn_MMS where reg_date like '$date_today%' and reservation is null and mem_id = '$_SESSION[one_member_id]' ";
+	$sql_result2 = "select SUM(recv_num_cnt) from Gn_MMS where reg_date like '$date_today%' and reservation is null and mem_id = '{$_SESSION['one_member_id']}' ";
 	$res_result2 = mysqli_query($self_con,$sql_result2);
 	$row_result2 = mysqli_fetch_array($res_result2);
 	$rec_cnt_today += $row_result2[0] * 1;
@@ -99,19 +99,19 @@ exit;
 	$rec_cnt_today += $reserv_cnt_today; //오늘 예약된 발송 건 추가 Cooper 04-26 제외
 	//-이번발송 $uni_id
 	$rec_cnt_current=0;
-	$sql_result3 = "select uni_id from Gn_MMS where mem_id = '$_SESSION[one_member_id]' order by idx desc limit 1";
+	$sql_result3 = "select uni_id from Gn_MMS where mem_id = '{$_SESSION['one_member_id']}' order by idx desc limit 1";
 	$res_result3 = mysqli_query($self_con,$sql_result3);
 	$row_result3 = mysqli_fetch_array($res_result3);
 	$uni_id=substr($row_result3[uni_id],0,10);
 	mysqli_free_result($res_result3);
 	//마지막 발송 건수
-	$sql_result32 = "select SUM(recv_num_cnt) from Gn_MMS where mem_id = '$_SESSION[one_member_id]' and uni_id like '$uni_id%'";
+	$sql_result32 = "select SUM(recv_num_cnt) from Gn_MMS where mem_id = '{$_SESSION['one_member_id']}' and uni_id like '$uni_id%'";
 	$res_result32 = mysqli_query($self_con,$sql_result32);
 	$row_result32 = mysqli_fetch_array($res_result32);
 	$rec_cnt_current += $row_result32[0] * 1;
 	mysqli_free_result($res_result32);	
 	//-마지막발송일
-	$sql_result4 = "select reg_date from Gn_MMS where mem_id = '$_SESSION[one_member_id]' order by reg_date desc limit 1";
+	$sql_result4 = "select reg_date from Gn_MMS where mem_id = '{$_SESSION['one_member_id']}' order by reg_date desc limit 1";
 	$res_result4 = mysqli_query($self_con,$sql_result4);
 	$row_result4 = mysqli_fetch_row($res_result4);
 
@@ -363,7 +363,7 @@ function excel_down_personal(pno){
 								<tbody>
 									<tr>
 										<th style="width:125px">유료이용기간</th>
-										<td style="width:381px"><?=$rsJoinDate[fujia_date1]?> ~ <?=$rsJoinDate[fujia_date2]?></td>
+										<td style="width:381px"><?=$rsJoinDate[fujia_date1]?> ~ <?=$rsJoinDate['fujia_date2']?></td>
 										<th style="width:125px">이용가능폰수</th>
 										<td style="width:384px"><?=number_format($buyPhoneCnt[0])?></td>
 									</tr>
@@ -473,36 +473,36 @@ function excel_down_personal(pno){
 									</tr>
 									<? 
 									//폰별 설정 가져오기
-									$sql_serch=" (not (cnt1 = 10 and cnt2 = 20)) and mem_id ='$_SESSION[one_member_id]' ";
+									$sql_serch=" (not (cnt1 = 10 and cnt2 = 20)) and mem_id ='{$_SESSION['one_member_id']}' ";
 									if($_REQUEST[lms_text] && $_REQUEST[lms_select])
 										$sql_serch.=" and {$_REQUEST[lms_select]} like '$_REQUEST[lms_text]%' ";
 									$sql="select count(idx) as cnt from Gn_MMS_Number where $sql_serch ";
 									$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 									$row=mysqli_fetch_array($result);
 									mysqli_free_result($result);
-									$intRowCount=$row[cnt];
-									if (!$_POST[lno]) 
+									$intRowCount=$row['cnt'];
+									if (!$_POST['lno']) 
 										$intPageSize =20;
 									else 
-										$intPageSize = $_POST[lno];				
-									if($_POST[page]){
-										$page=(int)$_POST[page];
+										$intPageSize = $_POST['lno'];				
+									if($_POST['page']){
+										$page=(int)$_POST['page'];
 										$sort_no=$intRowCount-($intPageSize*$page-$intPageSize); 
 									}else{
 										$page=1;
 										$sort_no=$intRowCount;
 									}
-									if($_POST[page2])
-										$page2=(int)$_POST[page2];
+									if($_POST['page2'])
+										$page2=(int)$_POST['page2'];
 									else
 										$page2=1;
 									$int=($page-1)*$intPageSize;
-									if($_REQUEST[order_status])
-										$order_status=$_REQUEST[order_status];
+									if($_REQUEST['order_status'])
+										$order_status=$_REQUEST['order_status'];
 									else
 										$order_status="desc"; 
-									if($_REQUEST[order_name])
-										$order_name=$_REQUEST[order_name];
+									if($_REQUEST['order_name'])
+										$order_name=$_REQUEST['order_name'];
 									else
 										$order_name="user_cnt";
 									$intPageCount=(int)(($intRowCount+$intPageSize-1)/$intPageSize);     
@@ -517,10 +517,10 @@ function excel_down_personal(pno){
 										$k=0;							
 										while($row=mysqli_fetch_array($result)){							
 											$idx = $row[idx];
-											$memo = $row[memo];
+											$memo = $row['memo'];
 											$memo2 = $row[memo2];
-											$cnt1 = $row[cnt1];
-											$cnt2 = $row[cnt2];
+											$cnt1 = $row['cnt1'];
+											$cnt2 = $row['cnt2'];
 											$sendnum = $row[sendnum];
 											$total_cnt = $row[daily_limit_cnt]; //기본 일별 총발송 가능량
 											$donation_rate = $row[donation_rate]; //기부 비율
@@ -529,7 +529,7 @@ function excel_down_personal(pno){
 											$send_donation_cnt = 0; //$row[gl_cnt] //기부 받은 수 중 발송 수
 											$send_person_cnt = 0; //개인 할당 분 발송 수
 											$monthly_limit_ssh = $memo2 ? $agency_arr[$memo2] : 800; //월별 수신처 제한 수 
-											$sql_num="update Gn_MMS_Number set max_cnt = $donation_cnt,gl_cnt = $person_cnt where mem_id='$_SESSION[one_member_id]' and sendnum='$sendnum' ";
+											$sql_num="update Gn_MMS_Number set max_cnt = $donation_cnt,gl_cnt = $person_cnt where mem_id='{$_SESSION['one_member_id']}' and sendnum='$sendnum' ";
 											mysqli_query($self_con,$sql_num);
 											//금일 발송 건수
 											$sql_result2_g = "select SUM(recv_num_cnt) from Gn_MMS where send_num='$sendnum' and ((reg_date like '$date_today%' and reservation is null) or up_date like '$date_today%')";
@@ -554,7 +554,7 @@ function excel_down_personal(pno){
 											$sql_ssh="select recv_num from Gn_MMS where send_num='$sendnum' and (reg_date like '$date_month%' or reservation like '$date_month%')  group by(recv_num)";
 											$result_ssh=mysqli_query($self_con,$sql_ssh);
 											while($row_ssh=mysqli_fetch_array($result_ssh)){
-												$ssh_arr=explode(",",$row_ssh[recv_num]);
+												$ssh_arr=explode(",",$row_ssh['recv_num']);
 												$ssh_numT=array_merge($ssh_numT,(array)$ssh_arr);
 											}
 											$ssh_arr=array_unique($ssh_numT);

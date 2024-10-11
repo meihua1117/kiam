@@ -2,29 +2,28 @@
 include_once "../../lib/rlatjd_fun.php";
 
 // 자료가 많을 경우 대비 설정변경
-set_time_limit ( 0 );
+set_time_limit(0);
 ini_set('memory_limit', '50M');
 
-if($_FILES['excelfile']['tmp_name']) {
-    $file = $_FILES['excelfile']['tmp_name'];
-    include_once "../../excel_down/Classes/reader.php";
+if ($_FILES['excelfile']['tmp_name']) {
+	$file = $_FILES['excelfile']['tmp_name'];
+	include_once "../../excel_down/Classes/reader.php";
 
-    $data = new Spreadsheet_Excel_Reader();
+	$data = new Spreadsheet_Excel_Reader();
 
-    // Set output Encoding.
-    $data->setOutputEncoding('UTF-8');
-    
-    $data->read($file);
-    error_reporting(E_ALL ^ E_NOTICE);
-    
-	for($i=2; $i<=$data->sheets[0]['numRows']; $i++)
-	{
-		if(trim($data->sheets[0]['cells'][$i][1]) == '')
+	// Set output Encoding.
+	$data->setOutputEncoding('UTF-8');
+
+	$data->read($file);
+	error_reporting(E_ALL ^ E_NOTICE);
+
+	for ($i = 2; $i <= $data->sheets[0]['numRows']; $i++) {
+		if (trim($data->sheets[0]['cells'][$i][1]) == '')
 			continue;
 
 		$total_count++;
 
-        $j = 1;
+		$j = 1;
 
 		$img_link = addslashes(trim($data->sheets[0]['cells'][$i][$j++])); //이미지
 		$contents_title = addslashes(trim($data->sheets[0]['cells'][$i][$j++])); //상품제목
@@ -42,21 +41,21 @@ if($_FILES['excelfile']['tmp_name']) {
 		$reduce_val = 100 - ($contents_sell_price / $contents_price) * 100;
 
 		$product_code = generateRandomCode();
-		$date = date('Ymd-Hi')."s";
-		$model = $prod_name."+".substr($date, 2, -1);
+		$date = date('Ymd-Hi') . "s";
+		$model = $prod_name . "+" . substr($date, 2, -1);
 
 		$card_no = $card_no * 1 - 1;
-		$sql_card_idx = "select card_short_url,idx from Gn_Iam_Name_Card where mem_id = 'iamstore' and idx not in(934328, 2477701, 1274691, 1268514) order by req_data asc limit ".$card_no.", 1";
-		$res_card_idx = mysqli_query($self_con,$sql_card_idx);
+		$sql_card_idx = "select card_short_url,idx from Gn_Iam_Name_Card where mem_id = 'iamstore' and idx not in(934328, 2477701, 1274691, 1268514) order by req_data asc limit " . $card_no . ", 1";
+		$res_card_idx = mysqli_query($self_con, $sql_card_idx);
 		$row_card_idx = mysqli_fetch_array($res_card_idx);
 
-		$sql = "select max(contents_order) from Gn_Iam_Contents_Gwc where mem_id = '$_SESSION[iam_member_id]' and card_idx = '$row_card_idx[idx]'";
-		$result = mysqli_query($self_con,$sql);
+		$sql = "select max(contents_order) from Gn_Iam_Contents_Gwc where mem_id = '{$_SESSION['iam_member_id']}' and card_idx = '$row_card_idx[idx]'";
+		$result = mysqli_query($self_con, $sql);
 		$comment_row = mysqli_fetch_array($result);
 		$contents_order = (int)$comment_row[0] + 1;
 
 		$sql_deliver_sql = "select mem_code from Gn_Member where mem_id='{$deliver_id}'";
-		$res_deliver = mysqli_query($self_con,$sql_deliver_sql);
+		$res_deliver = mysqli_query($self_con, $sql_deliver_sql);
 		$row_deliver = mysqli_fetch_array($res_deliver);
 
 		$sql2 = "insert into Gn_Iam_Contents_Gwc (
@@ -94,7 +93,7 @@ if($_FILES['excelfile']['tmp_name']) {
 			provider_req_prod,
 			delivery_id_code,
 			group_display) values 
-			(\"$_SESSION[iam_member_id]\",
+			('{$_SESSION['iam_member_id']}',
 			\"3\", 
 			\"$img_link\", 
 			\"$contents_title\", 
@@ -129,11 +128,10 @@ if($_FILES['excelfile']['tmp_name']) {
 			'$row_deliver[0]',
 			'Y'
 			)";
-		$result2 = mysqli_query($self_con,$sql2) or die(mysqli_error($self_con));
+		$result2 = mysqli_query($self_con, $sql2) or die(mysqli_error($self_con));
 		$content_idx = mysqli_insert_id($self_con);
 		$sql2 = "insert into Gn_Iam_Con_Card set cont_idx=$content_idx,card_idx=$row_card_idx[idx],main_card=$row_card_idx[idx]";
-		mysqli_query($self_con,$sql2) or die(mysqli_error($self_con));
+		mysqli_query($self_con, $sql2) or die(mysqli_error($self_con));
 	}
 	echo "<script>alert('등록되었습니다.'); location.href='/iam/req_provider_list.php';</script>";
 }
-?>

@@ -2,7 +2,7 @@
 include_once "../lib/rlatjd_fun.php";
 set_time_limit(0);
 ini_set('memory_limit','4500M');
-if(strlen($_SESSION[one_member_id]) > 0) {
+if(strlen($_SESSION['one_member_id']) > 0) {
       $path="../";
       $date_today=date("Y-m-d");
       $mem_id = $_REQUEST['mem_id'];

@@ -10,7 +10,7 @@
 <?
 $member = $_GET['member'];
 if($member == 'on') {
-	$sql="select mem_name, zy, mem_phone, mem_email, mem_add1 from Gn_Member where mem_id = '$_SESSION[iam_member_id]'";
+	$sql="select mem_name, zy, mem_phone, mem_email, mem_add1 from Gn_Member where mem_id = '{$_SESSION['iam_member_id']}'";
 	$result=mysqli_query($self_con,$sql);
 	$row=mysqli_fetch_array($result);
 	//$card_idx = $row[idx];
@@ -56,7 +56,7 @@ if($member == 'on') {
                   					<form name="namecard_form" method="post" enctype="multipart/form-data">
                     					<input type="hidden" name="check_rnum" id="check_rnum" value="Y">
 										<input type="hidden" name="mode" id="mode" value="creat">
-										<input type="hidden" name="mem_id" id="mem_id" value="<?=$_SESSION[iam_member_id]?>">
+										<input type="hidden" name="mem_id" id="mem_id" value="<?=$_SESSION['iam_member_id']?>">
 										<div class="attr-row">
 											<div class="attr-name"><?php echo $MENU['IAM_PROFILE']['TITLE1'];?></div>
 											<div class="attr-value">

@@ -27,7 +27,7 @@ function check_join_tables($tables, $join_table) {
 
 function sendPush($url, $headers, $pkey, $sidx, $send_type, $send_num)
 {
-
+    global $self_con;
     $title='{"MMS Push"}';
     $message='{"Send":"Start","idx":"'.$sidx.'","send_type":"'.$send_type.'"}';
     $fields = array ( 
@@ -331,7 +331,7 @@ if(count($search) > 0) {
 
 // file_put_contents("query.txt", "condition:".print_r($searchParam, 1), FILE_APPEND);
 // file_put_contents("query.txt", $query."\n", FILE_APPEND);
-$res = mysqli_query($self_con, $query);
+$res = mysqli_query($self_con,$query);
 while($row = mysqli_fetch_array($res)) {
     $memberList[] = $row;
 }
@@ -347,12 +347,9 @@ if($rday != '') {
 }
 
 $ad_msg = "";
-$sql_ad = "select 
-                        `gaid`, `client`, `start_date`, `send_start_date`, `send_end_date`, `send_count`, `title`, `content`, `img_path`, `sort_order` 
-                    from Gn_Ad 
-                where status='C' 
-                order by sort_order asc, regdate desc";
-$res_ad = mysqli_fetch_$sql_ad);
+$sql_ad = "select `gaid`, `client`, `start_date`, `send_start_date`, `send_end_date`, `send_count`, `title`, `content`, `img_path`, `sort_order` 
+                    from Gn_Ad where status='C' order by sort_order asc, regdate desc";
+$res_ad = mysqli_query($self_con,$sql_ad);
 $row_ad = mysqli_fetch_array($res_ad);
 $ad_msg = $row_ad['content'];
 if($row_ad[img_path] == "") {
@@ -379,7 +376,7 @@ foreach($memberList as $member) {
     if(in_array($send_num, $sendedList))
         continue;
  
-    if($step_idx != ''mysqli_fetch_
+    if($step_idx != ''){
         while($lrow = mysqli_fetch_array($step_res)) {
             $mem_id = $member['mem_id'];
             $sms_idx = $lrow['sms_idx'];
@@ -395,7 +392,7 @@ foreach($memberList as $member) {
             $sql="select * from Gn_event_sms_step_info where sms_idx='$sms_idx'";
 
             $result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
-            $k = 0;mysqli_fetch_
+            $k = 0;
             while($row=mysqli_fetch_array($result)) {
                 // 시간 확인
                 $k++;
@@ -429,7 +426,7 @@ foreach($memberList as $member) {
                                                      send_num='$send_num',
                                                      recv_num='$send_num',
                                                      uni_id='$uni_id',
-                                                     content='$row[content]',
+                                                     content='{$row['content']}',
                                                      title='$row[title]',
                                                      type='5',
                                                      jpg='$jpg',
@@ -446,7 +443,7 @@ foreach($memberList as $member) {
                                                      
                     ";
                     mysqli_query($self_con,$query) or die(mysqli_error($self_con));
-                    $last_id = mysqli_insert_id($self_con); 
+                    $last_id = mysql_insert_id(); 
                     
                     if($reservation == "")
                         sendPush($url, $headers, $rown['pkey'], $last_id, 5, $send_num);
@@ -459,7 +456,7 @@ foreach($memberList as $member) {
                     $query = "insert into Gn_MMS_Agree set mem_id='$mem_id',
                                                      send_num='$send_num',
                                                      recv_num='$send_num',
-                                                     content='$row[content]',
+                                                     content='{$row['content']}',
                                                      title='$row[title]',
                                                      jpg='$jpg',
                                                      reg_date=NOW(),
@@ -509,7 +506,7 @@ foreach($memberList as $member) {
                                                          self_memo='$self_memo',
                                                          recv_num_cnt=1";
             mysqli_query($self_con,$query) or die(mysqli_error($self_con));
-            $last_id = mysqli_insert_id($self_con); 
+            $last_id = mysql_insert_id(); 
    
             if($reservation == "")
                 sendPush($url, $headers, $rown['pkey'], $last_id, 5, $send_num);

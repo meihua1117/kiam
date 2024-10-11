@@ -5,7 +5,7 @@ if($HTTP_HOST != "kiam.kr") {
     $res = mysqli_query($self_con,$query);
     $domainData = mysqli_fetch_array($res);
     
-    if($domainData['mem_id'] != $_SESSION[iam_member_id]) {
+    if($domainData['mem_id'] != $_SESSION['iam_member_id']) {
         echo "<script>location='/';</script>";
         exit;
     }
@@ -17,7 +17,7 @@ if($HTTP_HOST != "kiam.kr") {
     $res = mysqli_query($self_con,$query);
     $domainData = mysqli_fetch_array($res);
     
-    if($domainData['mem_id'] != $_SESSION[iam_member_id]) {
+    if($domainData['mem_id'] != $_SESSION['iam_member_id']) {
         echo "<script>location='/';</script>";
         exit;
     }
@@ -146,7 +146,7 @@ $(function() {
             <?php if($mem_id != "") {?>
                 <div class="row text-center">
                     <section class="content-header">
-                        <h1><?=$user[mem_name];?> 회원</h1>
+                        <h1><?=$user['mem_name'];?> 회원</h1>
                     </section>                    
                 </div><!-- row end-->
             <?php }?>

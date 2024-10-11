@@ -70,8 +70,8 @@ function Memo_closeWin(id){
     <div class="pop-container">
         <div class="pop-conts">
             <!--content //-->
-            <?if($_GET[id]){
-                    $query = "SELECT * FROM tjd_sellerboard WHERE no=$_GET[id]";
+            <?if($_GET['id']){
+                    $query = "SELECT * FROM tjd_sellerboard WHERE no={$_GET['id']}";
                     $res = mysqli_query($self_con,$query);
                     $row_no = mysqli_fetch_array($res);
             ?>
@@ -81,13 +81,13 @@ function Memo_closeWin(id){
                     <td style="text-align:right;"><?=substr($row_no[date],0,10)?></td>
                 </tr>
                 <tr>
-                    <td colspan="2"><?=htmlspecialchars_decode($row_no[content])?></td>
+                    <td colspan="2"><?=htmlspecialchars_decode($row_no['content'])?></td>
                 </tr>
             </table>
             <?}?>
             <div class="btn-r">
                  <span style='font-size:15pt;color:#000000;font-weight:bold;'>
-                    <input type='checkbox' name='Memo' onclick='javascript:Memo_closeWin(<?=$_GET[id]?>);'>&nbsp;오늘은 그만보기 &nbsp;&nbsp;&nbsp;
+                    <input type='checkbox' name='Memo' onclick='javascript:Memo_closeWin(<?=$_GET['id']?>);'>&nbsp;오늘은 그만보기 &nbsp;&nbsp;&nbsp;
                     <a href= 'javascript:self.close()' class="btn-layerClose">창닫기</a>
                  </span>
             </div>

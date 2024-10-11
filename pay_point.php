@@ -16,7 +16,7 @@ if($platform == "mobile"){
 include_once "_head.php";
 include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
 $date = date("Y-m-d H:i:s");
-$sql="select * from Gn_Member where mem_id='$_SESSION[one_member_id]' ";
+$sql="select * from Gn_Member where mem_id='{$_SESSION['one_member_id']}' ";
 $resul=mysqli_query($self_con,$sql);
 $data=mysqli_fetch_array($resul);
 $mid = date("YmdHis").rand(10,99);
@@ -126,7 +126,7 @@ if(isset($_GET[url])){
             alert(result_cd + " : " + result_msg);
             location.reload();
         } else {
-            iam_item('<?=$_SESSION[iam_member_id];?>', 'buy', 'card');
+            iam_item('<?=$_SESSION['iam_member_id'];?>', 'buy', 'card');
             pay_form.acceptCharset = 'utf-8';
             document.charset = 'utf-8';
             pay_form.allat_enc_data.value = enc_data;
@@ -188,7 +188,7 @@ if(isset($_GET[url])){
                     type:"POST",
                     url:"/ajax/get_mem_address.php",
                     dataType:"json",
-                    data:{mem_id:'<?=$_SESSION[iam_member_id]?>'},
+                    data:{mem_id:'<?=$_SESSION['iam_member_id']?>'},
                     success: function(data){
                         console.log(data.address);
                         $('#allat_recp_addr').val(data.address);
@@ -349,7 +349,7 @@ if(isset($_GET[url])){
                 <!--승인금액-->
                 <input type="hidden" name="allat_amt" id="allat_amt" value="" size="19" maxlength=10>
                 <!--회원ID-->
-                <input type="hidden" name="allat_pmember_id" value="<?php echo $_SESSION[one_member_id];?>" size="19" maxlength=20>
+                <input type="hidden" name="allat_pmember_id" value="<?php echo $_SESSION['one_member_id'];?>" size="19" maxlength=20>
                 <!--상품코드-->
                 <input type="hidden" name="allat_product_cd" id="allat_product_cd" value="특별단회결제" size="19" maxlength=1000>
                 <!--상품명-->
@@ -384,7 +384,7 @@ if(isset($_GET[url])){
                                             <div><input type="number" name="item_price" id="item_price" style="border-radius: 5px;line-height: 20px;text-align: center;" placeholder="원" readonly value="<?=$item_price?>"></div>
                                         </div>
                                     </div>
-                                    <?if(!$_SESSION[one_member_id]){?>
+                                    <?if(!$_SESSION['one_member_id']){?>
                                         <div class="a8">
                                             <a href="javascript:void(0)" onclick="alert('로그인후 이용이 가능합니다.');">
                                                 <img src="/images/sub_02_btn_23.jpg" style="width: 80%"/>

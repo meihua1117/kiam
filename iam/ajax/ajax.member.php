@@ -5,7 +5,7 @@ include_once "../../lib/class.image.php";
 if($_REQUEST[nick])
 {	
 	$member_info[mem_nick]=htmlspecialchars($_REQUEST[nick]);
-	$member_info[mem_name]=htmlspecialchars($_REQUEST[name]);
+	$member_info['mem_name']=htmlspecialchars($_REQUEST['name']);
 	$member_info[mem_email]=$_REQUEST[email_1]."@".$_REQUEST[email_2];
 	$member_info[mem_add1]=$_REQUEST[add1];
 	$member_info[zy]=$_REQUEST[zy];
@@ -20,7 +20,7 @@ if($_REQUEST[nick])
 	if($_FILES[profile]) {
     	$tempFile = $_FILES[profile][tmp_name];
     	if($tempFile) {
-    	    $file_arr=explode(".",$_FILES[profile][name]);
+    	    $file_arr=explode(".",$_FILES[profile]['name']);
     	    $tmp_file_arr=explode("/",$tempFile);
     	    $file_name=date("Ymds")."_".$tmp_file_arr[count($tmp_file_arr)-1].".".$file_arr[count($file_arr)-1];	
 			$up_dir = make_folder_month(2);

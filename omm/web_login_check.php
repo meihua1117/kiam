@@ -56,7 +56,7 @@ if($row['mem_id']) {
         $sql="select mem_code, mem_id, is_leave, mem_leb, iam_leb,site, site_iam from Gn_Member use index(login_index) where mem_leb>0 and mem_id = '$memID' ";
         $resul=mysqli_query($self_con,$sql);
         $srow=mysqli_fetch_array($resul);
-        if($srow[mem_code] and $srow[is_leave] == 'N')
+        if($srow['mem_code'] and $srow[is_leave] == 'N')
         {
     	    $mem_code = $srow['mem_code'];
     	    $site = $srow['site'];
@@ -66,27 +66,27 @@ if($row['mem_id']) {
         	// 관리자 권한이 있으면 관리자 세션 추가 Add Cooper
 
         	if($srow['site'] != "") {
-        		$_SESSION[one_member_id] = $memID;
+        		$_SESSION['one_member_id'] = $memID;
         		$_SESSION[one_mem_lev] = $srow[mem_leb];
         		$service_sql = "select mem_id,sub_domain from Gn_Service where mem_id= '$memID'";
         		$service_result = mysqli_query($self_con,$service_sql);
         		$service_row = mysqli_fetch_array($service_result);
         		if ($service_row[mem_id] != "") {
         			$url = parse_url($service_row[sub_domain]);
-        			$_SESSION[one_member_subadmin_id] = $memID;
-        			$_SESSION[one_member_subadmin_domain] = $url[host];
+        			$_SESSION['one_member_subadmin_id'] = $memID;
+        			$_SESSION['one_member_subadmin_domain'] = $url[host];
         		}
         	}
         	if($srow['site_iam'] != ""){
-        		$_SESSION[iam_member_id] = $memID;;
-        		$_SESSION[iam_member_leb] = $srow[iam_leb];
+        		$_SESSION['iam_member_id'] = $memID;;
+        		$_SESSION['iam_member_leb'] = $srow[iam_leb];
         		$iam_sql = "select mem_id,sub_domain from Gn_Iam_Service where mem_id= '$memID'";
         		$iam_result = mysqli_query($self_con,$iam_sql);
         		$iam_row = mysqli_fetch_array($iam_result);
         		if ($iam_row[mem_id] != "") {
         			$url = parse_url($iam_row[sub_domain]);
-        			$_SESSION[iam_member_subadmin_id] = $memID;
-        			$_SESSION[iam_member_subadmin_domain] = $url[host];
+        			$_SESSION['iam_member_subadmin_id'] = $memID;
+        			$_SESSION['iam_member_subadmin_domain'] = $url[host];
         		}
         	}
         	// 마지막 접속 시간 기록 Add Cooper

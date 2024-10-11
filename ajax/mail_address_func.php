@@ -7,7 +7,7 @@ if($_SESSION['one_member_id'] != "")
     {
         if($_POST['mail_addr'])
         {
-            $query = "insert into gn_member_emails set mem_id='$_SESSION[one_member_id]',
+            $query = "insert into gn_member_emails set mem_id='{$_SESSION['one_member_id']}',
             email='$_POST[mail_addr]'";
             mysqli_query($self_con,$query);
         }

@@ -162,7 +162,7 @@ $date_today=date("Y-m-d");
                 <div class="col-xs-12" style="padding-bottom:20px">
                     <?
                     if($_SESSION['one_member_admin_id'] != "onlyonemaket"){
-                        //if($_SESSION[one_member_subadmin_id] != "" && $_SESSION[one_member_subadmin_domain] == $HTTP_HOST) {}
+                        //if($_SESSION['one_member_subadmin_id'] != "" && $_SESSION['one_member_subadmin_domain'] == $HTTP_HOST) {}
                         //else
                         {?>
                             <button class="btn btn-primary pull-right" style="margin-right: 5px;" onclick="excel_down('/excel_down/excel_item_payment_down.php');return false;"><i class="fa fa-download"></i> 엑셀다운받기</button>

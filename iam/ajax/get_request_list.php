@@ -2,7 +2,7 @@
 <?
 include_once "../../lib/rlatjd_fun.php";
 
-$mem_id = $_SESSION[iam_member_id];
+$mem_id = $_SESSION['iam_member_id'];
 
 $sql_list_count = "select count(*) from Gn_event_request where req_id ='{$mem_id}' order by request_idx desc";
 $res_list_count = mysqli_query($self_con,$sql_list_count);
@@ -53,11 +53,11 @@ while($row6=mysqli_fetch_array($result6)){
         
     $body .= '<tr>';
     $body .= '    <td class="iam_table">'.$row6[m_id].'</td>';
-    $body .= '    <td class="iam_table">'.$row6[name].'</td>';
+    $body .= '    <td class="iam_table">'.$row6['name'].'</td>';
     $body .= '    <td class="iam_table">'.$row_event_data[event_title].'</td>';
     $body .= '    <td class="iam_table">'.str_replace("-", "", $row6[mobile]).'</td>';
     $body .= '    <td class="iam_table">'.str_replace("-", "", $row_mem[mem_phone]).'</td>';
-    $body .= '    <td class="iam_table">'.$row6[regdate].'</td>';
+    $body .= '    <td class="iam_table">'.$row6['regdate'].'</td>';
     if($row6[req_yn] == "Y"){
         $body .= '    <td class="iam_table" onclick="cancel_req('.$row6[request_idx].')" style="cursor:pointer;">취소</td>';
     }

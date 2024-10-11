@@ -1,7 +1,7 @@
 <?
 $path = "./";
 include_once "_head_open.php";
-if (!$_SESSION[one_member_id]) {
+if (!$_SESSION['one_member_id']) {
 
 ?>
 	<script language="javascript">
@@ -10,7 +10,7 @@ if (!$_SESSION[one_member_id]) {
 <?
 	exit;
 }
-$sql = "select * from Gn_Member  where mem_id='" . $_SESSION[one_member_id] . "'";
+$sql = "select * from Gn_Member  where mem_id='" . $_SESSION['one_member_id'] . "'";
 $sresul_num = mysqli_query($self_con,$sql);
 $data = mysqli_fetch_array($sresul_num);
 ?>
@@ -90,7 +90,7 @@ $data = mysqli_fetch_array($sresul_num);
 						</tr>
 						<?
 
-						$sql_serch = " m_id ='$_SESSION[one_member_id]' and event_name_kor!='단체회원자동가입및아이엠카드생성' AND event_name_kor!='콜백메시지관리자설정동의' AND event_name_kor!='데일리문자세트자동생성' ";
+						$sql_serch = " m_id ='{$_SESSION['one_member_id']}' and event_name_kor!='단체회원자동가입및아이엠카드생성' AND event_name_kor!='콜백메시지관리자설정동의' AND event_name_kor!='데일리문자세트자동생성' ";
 						if ($_REQUEST['search_date']) {
 							if ($_REQUEST['rday1']) {
 								$start_time = strtotime($_REQUEST['rday1']);

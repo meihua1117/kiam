@@ -1,7 +1,7 @@
 <?
 $path="./";
 include_once "_head.php";
-if(!$_SESSION[one_member_id])
+if(!$_SESSION['one_member_id'])
 {
 
 ?>
@@ -12,7 +12,7 @@ location.replace('/ma.php');
 exit;
 }
 extract($_REQUEST);
-$sql="select * from Gn_Member  where mem_id='".$_SESSION[one_member_id]."'";
+$sql="select * from Gn_Member  where mem_id='".$_SESSION['one_member_id']."'";
 $sresul_num=mysqli_query($self_con,$sql);
 $data=mysqli_fetch_array($sresul_num);	
 	
@@ -125,7 +125,7 @@ $(function(){
 
               <?
 
-				$sql_serch=" m_id ='$_SESSION[one_member_id]' ";
+				$sql_serch=" m_id ='{$_SESSION['one_member_id']}' ";
 				if($_REQUEST[search_date])
 				{					
 					if($_REQUEST[rday1])
@@ -149,16 +149,16 @@ $(function(){
 				$sql="select count(mem_code) as cnt from Gn_Member where $sql_serch ";
 				$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 				$row=mysqli_fetch_array($result);
-				$intRowCount=$row[cnt];
+				$intRowCount=$row['cnt'];
               if($intRowCount)
               {
-				if (!$_POST[lno]) 
+				if (!$_POST['lno']) 
 					$intPageSize =20;
 				else 
-				   $intPageSize = $_POST[lno];				
-				if($_POST[page])
+				   $intPageSize = $_POST['lno'];				
+				if($_POST['page'])
 				{
-				  $page=(int)$_POST[page];
+				  $page=(int)$_POST['page'];
 				  $sort_no=$intRowCount-($intPageSize*$page-$intPageSize); 
 				}
 				else
@@ -166,17 +166,17 @@ $(function(){
 				  $page=1;
 				  $sort_no=$intRowCount;
 				}
-				if($_POST[page2])
-				  $page2=(int)$_POST[page2];
+				if($_POST['page2'])
+				  $page2=(int)$_POST['page2'];
 				else
 				  $page2=1;
 				$int=($page-1)*$intPageSize;
-				if($_REQUEST[order_status])
-				  $order_status=$_REQUEST[order_status];
+				if($_REQUEST['order_status'])
+				  $order_status=$_REQUEST['order_status'];
 				else
 				  $order_status="mem_name"; 
-				if($_REQUEST[order_name])
-				  $order_name=$_REQUEST[order_name];
+				if($_REQUEST['order_name'])
+				  $order_name=$_REQUEST['order_name'];
 				else
 				  $order_name="mem_code";
 				$intPageCount=(int)(($intRowCount+$intPageSize-1)/$intPageSize);     
@@ -202,14 +202,14 @@ $(function(){
               <tr>
                 <td><?=$sort_no?></td>
                 <td style="font-size:12px;"><?=$row[mem_id]?></td>
-                <td style="font-size:12px;"><?=$row[mem_name]?></td>
+                <td style="font-size:12px;"><?=$row['mem_name']?></td>
                 <td style="font-size:12px;">
                     <input type="button" value="미리보기" class="button" onclick="viewEvent('<?php echo $row['short_url']?>')">
                     <input type="button" value="링크복사" class="button copyLinkBtn" data-link="<?php echo $row['short_url']?>">
                 </td>
                 <td><?=number_format($row[mem_phone])?></td>
                 <td><?=number_format($row[mem_email])?></td>
-                <td><?=$row[regdate]?></td>
+                <td><?=$row['regdate']?></td>
                 <td>
                     <a href='mypage_landing_write.php?landing_idx=<?php echo $row['landing_idx'];?>'>수정</a>/<a href="javascript:;;" onclick="removeRow('<?php echo $row['landing_idx'];?>')">삭제</a>
                 </td>

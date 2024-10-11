@@ -319,7 +319,7 @@ if($case == 0 )
                             padding:5px">오토회원</a>
                     </div>
                     <? if($_SESSION['one_member_admin_id'] != "onlyonemaket"){
-                            if($_SESSION[one_member_subadmin_id] != "" && $_SESSION[one_member_subadmin_domain] == $HTTP_HOST) {} else {?>
+                            if($_SESSION['one_member_subadmin_id'] != "" && $_SESSION['one_member_subadmin_domain'] == $HTTP_HOST) {} else {?>
                                 <button class="btn btn-primary pull-right" style="margin-right: 5px;" onclick="excel_down('/excel_down/excel_member_down_.php');return false;"><i class="fa fa-download"></i> 엑셀다운받기</button>
                             <? }
                     }?>
@@ -433,7 +433,7 @@ if($case == 0 )
                                 $searchStr .= $s_key ? " AND a.site like '%" .$s_key."%'" : null;
                                 $searchStr .= $i_key ? " AND a.site_iam like  '%" .$i_key."%'" : null;
                                 $searchStr .= $g_key ? " AND a.mem_id in (select mem_id from gn_group_member g_mem left join gn_group_info g_info on g_info.idx = g_mem.group_id where g_info.name like '%".$g_key."%')" : null;
-                                if($_SESSION[one_member_subadmin_id] != "" && $_SESSION[one_member_subadmin_domain] == $HTTP_HOST) {
+                                if($_SESSION['one_member_subadmin_id'] != "" && $_SESSION['one_member_subadmin_domain'] == $HTTP_HOST) {
                                     $do = explode(".", $HTTP_HOST);
                                     $searchStr .= " and a.site = '$do[0]'";
                                 }
@@ -503,7 +503,7 @@ if($case == 0 )
                                     <tr>
                                         <td><input type="checkbox" class="check" id="check_one_member" name="" value="<?=$row['mem_code']?>"><?=$number--?></td>
                                         <td style="text-align:center">
-                                            <? if($_SESSION[one_member_admin_id] != "") {?>
+                                            <? if($_SESSION['one_member_admin_id'] != "") {?>
                                                 <a href="member_detail.php?mem_code=<?=$row['mem_code']?>&sendnum=<?=$row['sendnum']?>">수정</a> /
                                                 <a href="javascript:logout_member_info('<?=$row['mem_code']?>')">탈퇴</a>/
                                                 <a href="javascript:del_member_info('<?=$row['mem_code']?>')">삭제</a>
