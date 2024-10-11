@@ -158,7 +158,7 @@ $(function(){
                                         <?}?>
                                         <td>문자</td>
                                         <td><?=$pay_type[$row[payMethod]]?$pay_type[$row[payMethod]]:"카드"?></td>
-                                        <td><?=$row[add_phone]?></td>
+                                        <td><?=$row['add_phone']?></td>
                                         <td><?=$row[phone_cnt]?></td>
                                         <td><?=number_format($row[TotPrice])?>원</td>
                                         <td>
@@ -245,7 +245,7 @@ $(function(){
                                         <td><?=$row['month_cnt']?>개월</td>
                                         <td>디버</td>
                                         <td><?=$pay_type[$row[payMethod]]?$pay_type[$row[payMethod]]:"카드"?></td>
-                                        <td><?=$row[add_phone]?></td>
+                                        <td><?=$row['add_phone']?></td>
                                         <td><?=$row[phone_cnt]?></td>
                                         <td><?=number_format($row[TotPrice])?>원</td>
                                         <td>
@@ -288,7 +288,7 @@ $(function(){
     <div id="detail_intro_modal" class="modal fade" tabindex="-1" role="dialog" style="overflow-x: auto; overflow-y: auto;">
         <div class="modal-dialog" style="width: 100%;max-width:768px;">
             <!-- Modal content-->
-            <div class="modal-content" style="">
+            <div class="modal-content">
                 <div class="modal-header" style="border:none;background-color: rgb(130,199,54);border-top-right-radius: 5px;border-top-left-radius: 5px;">
                     <div>
                         <button type="button" class="close" data-dismiss="modal" style="opacity: 2">
@@ -328,7 +328,7 @@ $(function(){
     <div id="penalty_modal" class="modal fade" tabindex="-1" role="dialog" style="overflow-x: auto; overflow-y: auto;">
         <div class="modal-dialog" style="width: 100%;max-width:768px;">
             <!-- Modal content-->
-            <div class="modal-content" style="">
+            <div class="modal-content">
                 <div class="modal-header" style="border:none;background-color: rgb(130,199,54);border-top-right-radius: 5px;border-top-left-radius: 5px;">
                     <div>
                         <button type="button" class="close" data-dismiss="modal" style="opacity: 2">

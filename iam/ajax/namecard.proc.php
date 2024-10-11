@@ -138,7 +138,7 @@ if($mode == "creat") {
             $sql = "select mem_phone from Gn_Member where mem_id = '$mem_id'";
             $result = mysqli_query($self_con,$sql);
             $row = mysqli_fetch_array($result);
-            $card_phone = $row[mem_phone];
+            $card_phone = $row['mem_phone'];
         }
         $iam_sql = "select count(*) from Gn_Iam_Info where mem_id = '$mem_id'";
         $iam_result = mysqli_query($self_con,$iam_sql);

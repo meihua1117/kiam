@@ -271,7 +271,7 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                                 </ul>
                             </div>
                             <div class = "button-group" style="display: flex;justify-content: center;">
-                                <button class="btn btn-primary" style="" onclick = "fix_close()">끝내기</button>
+                                <button class="btn btn-primary" onclick = "fix_close()">끝내기</button>
                             </div>
                         </div>
                     </div>

@@ -529,9 +529,9 @@ extract($_GET);
             if($("#same_gonggupsa").prop('checked')){
                 $("#deliver_id").val('<?=$_SESSION['iam_member_id']?>');
                 $("#deliver_name").val('<?=$member_iam['mem_name']?>');
-                $("#deliver_phone").val('<?=$member_iam[mem_phone]?>');
+                $("#deliver_phone").val('<?=$member_iam['mem_phone']?>');
                 $("#deliver_addr").val('<?=$member_iam[mem_add1]?>');
-                $("#deliver_email").val('<?=$member_iam[mem_email]?>');
+                $("#deliver_email").val('<?=$member_iam['mem_email']?>');
                 $("#deliver_bank").val('<?=$member_iam[bank_name]?>');
                 $("#deliver_owner").val('<?=$member_iam[bank_owner]?>');
                 $("#deliver_account").val('<?=$member_iam[bank_account]?>');

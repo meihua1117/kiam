@@ -271,7 +271,7 @@ $(function() {
                                             </div>
                                         </td>
                                         <td>
-                                            <div style="">
+                                            <div>
                                                 <?
                                                 if($row[main_img1]){
                                                     $thumb_img =  $row[main_img1];

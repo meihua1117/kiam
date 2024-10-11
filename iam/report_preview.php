@@ -188,7 +188,7 @@ $row = mysqli_fetch_array($res);
                                 </div>
                             <?  }else if($row1['item_type'] == 3){?>
                                     <div class="report_item_body">
-                                        <div class="report_item_tag2" style="">
+                                        <div class="report_item_tag2">
                                             <?=$row2['tag_name']?>
                                         </div>
                                         <div class="report_item_tag2" style="background-color: transparent;margin-top: 5px;padding: 0px">

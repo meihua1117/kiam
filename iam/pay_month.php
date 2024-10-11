@@ -10,8 +10,8 @@ $pay_info['fujia_status'] = "N";
 $pay_info['month_cnt'] = $_POST['month_cnt']>120?120:$_POST['month_cnt']; //12?12를 120?120수정하여 마감기간을 솔루션결제관리페이지에 120개월로 표시
 $pay_info['max_cnt'] = $pay_info['phone_cnt'] = $_POST['phone_cnt']; // 추가갯수
 $pay_info['end_status'] = "N";
-$pay_info['buyertel'] = $member_iam[mem_phone]; //구매자 전화번호
-$pay_info['buyeremail'] = $member_iam[mem_email]; //구매자 연락처
+$pay_info['buyertel'] = $member_iam['mem_phone']; //구매자 전화번호
+$pay_info['buyeremail'] = $member_iam['mem_email']; //구매자 연락처
 $pay_info['resultCode'] = "00";
 $pay_info['resultMsg'] = "통장정기결제";
 $pay_info['payMethod'] = "MONTH";
@@ -30,8 +30,8 @@ $pay_info['add_phone']=$_POST['phone_cnt'] * 1 / 9000;
 $pay_info['monthly_yn']='Y';
 $pay_info['idx'] = $_POST[allat_order_no];
 $pay_info['orderNumber'] = $_POST[allat_order_no];
-$pay_info['iam_card_cnt']=$_POST[iam_card_cnt];
-$pay_info['iam_share_cnt']=$_POST[iam_share_cnt];
+$pay_info['iam_card_cnt']=$_POST['iam_card_cnt'];
+$pay_info['iam_share_cnt']=$_POST['iam_share_cnt'];
 $pay_info['member_cnt']=$_POST[member_cnt];
 $sql = "insert into tjd_pay_result set ";
 foreach ($pay_info as $key => $v) {
@@ -69,9 +69,9 @@ if($_POST['phone_cnt'] > 0) {
         $email = $srow['mem_email'];
         $address = $srow['mem_add1'];
         $status = "N";
-        $use_cnt = $_POST[db_cnt];
+        $use_cnt = $_POST['db_cnt'];
         $search_email_date = substr($last_time, 0, 10);
-        $search_email_cnt = $_POST[email_cnt];
+        $search_email_cnt = $_POST['email_cnt'];
         $term = substr($last_time, 0, 10);
         $query = "insert into crawler_member_real set user_id='$user_id',
                                             user_name='$user_name',
@@ -174,7 +174,7 @@ if($_POST['phone_cnt'] > 0) {
                 </tr>
                 <tr>
                 	<td colspan="2" style="text-align:center;">
-                        <div style="">
+                        <div>
                             <input type="button" style="height: auto" class="btn btn-primary" value="정기결제 신청하기" onclick="window.open('https://ap.hyosungcmsplus.co.kr/external/shorten/20230317ezgQgt9oPT')">
                             <input type="button" style="height: auto" class="btn btn-primary" value="메인으로" onclick="location.replace('/')">
                         </div>

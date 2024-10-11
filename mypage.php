@@ -139,7 +139,7 @@ $(function(){
 
                     <tr>
                         <td>휴대폰번호</td>
-                        <td  colspan="3"><?=$member_1[mem_phone]?></td>
+                        <td  colspan="3"><?=$member_1['mem_phone']?></td>
                     </tr>
                     <tr>
                         <td>일반폰번호</td>
@@ -317,7 +317,7 @@ $(function(){
                         <td>추천아이디</td>
                         <td colspan="3"><?=$member_1[recommend_id]?></td>
                     </tr>
-                    <? if($member_1[mem_leb] == "50") {?>
+                    <? if($member_1['mem_leb'] == "50") {?>
                     <tr>
                         <td>통장내역</td>
                         <td  colspan="3">

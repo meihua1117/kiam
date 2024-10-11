@@ -322,7 +322,7 @@
 												<button class="people_iam_show" style="font-size: 15px;background-color: #6868ed;width: 200px;" onclick="deny_add_multi()">발송 제외 폰 등록하기</button>
 											</div>
 											<div class="container" style="margin-top: 20px;text-align: center;width: 100%;">
-												<button class="people_iam_show" style="" onclick="makingiam('make')">신청하기</button>
+												<button class="people_iam_show" onclick="makingiam('make')">신청하기</button>
 											</div>
 										</section>
 									</div>

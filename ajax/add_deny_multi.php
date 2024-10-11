@@ -72,9 +72,9 @@ for($c = 0; $c < count($recv_nums_arr); $c++){
         $sql="update Gn_MMS_Deny set ";
     }else{
         $sql="insert into Gn_MMS_Deny set ";
-        $deny_info[title]="수동입력";
+        $deny_info['title']="수동입력";
         $deny_info['content']="수동입력";
-        $deny_info[status]="B";
+        $deny_info['status']="B";
         $deny_info[chanel_type]=$chanel;
         $deny_info['mem_id']=$mem_id;
     }

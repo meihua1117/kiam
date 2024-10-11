@@ -87,13 +87,13 @@ $m_birth_arr = explode("-",$data[mem_birth]);
                                     <div class="attr-name">회원구분</div>
                                     <div class="attr-value">
                                         <div class="input-wrap">
-                                            <?if($member_iam[mem_leb] == "50") {?>
+                                            <?if($member_iam['mem_leb'] == "50") {?>
                                                 사업회원
-                                            <?} else if($member_iam[mem_leb] == "22"){?>
+                                            <?} else if($member_iam['mem_leb'] == "22"){?>
                                                 일반회원
-                                            <?} else if($member_iam[mem_leb] == "21"){?>
+                                            <?} else if($member_iam['mem_leb'] == "21"){?>
                                                 강사회원
-                                            <?} else if($member_iam[mem_leb] == "60"){?>
+                                            <?} else if($member_iam['mem_leb'] == "60"){?>
                                                 홍보회원
                                             <?}
                                             if($member_iam[service_type] == "0") {?>

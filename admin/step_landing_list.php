@@ -247,7 +247,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                             <td><?=$number--?></td>
                             <td style="font-size:12px;"><?=$row[m_id]?></td>
                             <td style="font-size:12px;"><?=$srow['mem_name']?></td>
-                            <td style="font-size:12px;"><?=$row[title]?></td>
+                            <td style="font-size:12px;"><?=$row['title']?></td>
                             <td style="font-size:12px;"><?=$row[description]?></td>
                             <td style="font-size:12px;">
                                 <input type="button" value="미리보기" class="button" onclick="viewEvent('<?php echo $row['short_url']?>')">

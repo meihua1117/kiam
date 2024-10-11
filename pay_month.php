@@ -30,8 +30,8 @@ $pay_info['add_phone']=$_POST['phone_cnt'] * 1 / 9000;
 $pay_info['monthly_yn']='Y';
 $pay_info['idx'] = $_POST[allat_order_no];
 $pay_info['orderNumber'] = $_POST[allat_order_no];
-$pay_info['iam_card_cnt']=$_POST[iam_card_cnt];
-$pay_info['iam_share_cnt']=$_POST[iam_share_cnt];
+$pay_info['iam_card_cnt']=$_POST['iam_card_cnt'];
+$pay_info['iam_share_cnt']=$_POST['iam_share_cnt'];
 $pay_info['member_cnt']=$_POST[member_cnt];
 $sql = "insert into tjd_pay_result set ";
 foreach ($pay_info as $key => $v) {
@@ -59,9 +59,9 @@ if($_POST['phone_cnt'] > 0) {
         $email = $srow['mem_email'];
         $address = $srow['mem_add1'];
         $status = "N";
-        $use_cnt = $_POST[db_cnt];
+        $use_cnt = $_POST['db_cnt'];
         $search_email_date = substr($last_time, 0, 10);
-        $search_email_cnt = $_POST[email_cnt];
+        $search_email_cnt = $_POST['email_cnt'];
         $term = substr($last_time, 0, 10);
         $query = "insert into crawler_member_real set user_id='$user_id',
                                             user_name='$user_name',

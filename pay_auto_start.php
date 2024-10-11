@@ -111,8 +111,8 @@ window.onload=function()
     <input type="text" name="quotainterest" value="0"><!--일반할부 0 무이자 1 안함-->
     <input type="text" name="currency" value="WON">
     <input type="text" name="cardquota" value="00"><!--할부기간 00일시불 02 2개월-->
-    <input type="text" name="buyertel" value="<?=$member_1[mem_phone]?>">
-    <input type="text" name="buyeremail" value="<?=$member_1[mem_email]?>">
+    <input type="text" name="buyertel" value="<?=$member_1['mem_phone']?>">
+    <input type="text" name="buyeremail" value="<?=$member_1['mem_email']?>">
     <input type="text" name="cardpass" value=""><!--비밀번호 2자리-->
     <input type="text" name="regnumber" value=""><!--주민번호-->
     <input type="text" name="oid" value="<?=$orderNumber?>"><!--주문번호-->
@@ -134,7 +134,7 @@ window.onload=function()
     <input type="hidden" name="merchantreserved3"  value="<?=$member_1['mem_id']?>">
     <input type="hidden" name="auto_pay_status">
     
-    <input type="text" name="phone_cnt" value="<?=$_POST[add_phone]?>" />
+    <input type="text" name="phone_cnt" value="<?=$_POST['add_phone']?>" />
     <input type="text" name="month_cnt" value="<?=$_POST['month_cnt']?>" />
     <input type="text" name="fujia_status" value="<?=$_POST[fujia_status]?>" />
     <input type="hidden" name="pay_ex_no" value="<?=$_POST[pay_ex_no]?>" />    

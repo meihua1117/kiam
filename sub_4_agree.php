@@ -10,7 +10,7 @@ location.replace('/ma.php');
 <?
 exit;
 }
-switch($_REQUEST[status])
+switch($_REQUEST['status'])
 {
 	case 1:
 		$left_str="휴대폰등록관리";
@@ -34,7 +34,7 @@ switch($_REQUEST[status])
 		$left_str="휴대폰등록관리";
 	break;
 }
-if($_REQUEST[status]==1 || $_REQUEST[status]==2)
+if($_REQUEST['status']==1 || $_REQUEST['status']==2)
 {
 ///금일발송가능 , 회발송가능 횟수
 	$sql_sum = "select sum(user_cnt) as sumnum, sum(max_cnt) as summax ,sum(gl_cnt) as sumgl from Gn_MMS_Number where mem_id = '{$_SESSION['one_member_id']}'";
@@ -201,14 +201,14 @@ if($_REQUEST[status]==1 || $_REQUEST[status]==2)
 										<td class="g_dt_name_<?=$i?>" style="display:none;"><input type="text" value="<?=$row['send_num']?>" name="agree_send" /> </td>
                                         <td class="g_dt_num_<?=$i?>"><?=$row['recv_num']?></td>
                                         <td class="g_dt_num_<?=$i?>" style="display:none"><input type="text" value="<?=$row['recv_num']?>" name="agree_recv" /></td>                                        
-                                        <td><a href="javascript:void(0)" onclick="show_recv('show_title','<?=$i?>','문자제목')"><?=str_substr($row[title],0,20,'utf-8')?></a><input type="hidden" name="show_title" value="<?=$row[title]?>"/></td>
+                                        <td><a href="javascript:void(0)" onclick="show_recv('show_title','<?=$i?>','문자제목')"><?=str_substr($row['title'],0,20,'utf-8')?></a><input type="hidden" name="show_title" value="<?=$row['title']?>"/></td>
                                         <td><a href="javascript:void(0)" onclick="show_recv('show_content','<?=$i?>','문자내용')"><?=str_substr($row['content'],0,30,'utf-8')?></a><input type="hidden" name="show_content" value="<?=$row['content']?>"/></td>
                                         <td><a href="javascript:void(0)" onclick="show_recv('show_jpg','<?=$c?>','첨부파일')"><?=str_substr($row[jpg],0,20,'utf-8')?></a><input type="hidden" name="show_jpg" value="<?=$row[jpg]?>"/></td>
-                                        <td><?=$deny_type_arr[$row[status]]?></td>
+                                        <td><?=$deny_type_arr[$row['status']]?></td>
                                         <td><?=substr($row[reg_date],0,16)?></td>
                                         
                                         <td>
-                                        <a href="javascript:void(0)" class="modify_btn_<?=$i?> a_btn_2" style="" onclick="g_dt_show_cencle('g_dt_name_','g_dt_num_','modify_btn_','<?=$i?>')">수정</a>
+                                        <a href="javascript:void(0)" class="modify_btn_<?=$i?> a_btn_2" onclick="g_dt_show_cencle('g_dt_name_','g_dt_num_','modify_btn_','<?=$i?>')">수정</a>
                                         <a href="javascript:void(0)" class="modify_btn_<?=$i?> a_btn_2" style="display:none;" onclick="agree_add(sub_4_form,'<?=$i?>','<?=$row['idx']?>')">수정</a>
                                         
                                         <a href="javascript:void(0)" onclick="agree_del('<?=$row['idx']?>')" class="a_btn_2">삭제</a>                                        

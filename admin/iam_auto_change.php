@@ -109,7 +109,7 @@ function form_save(){
                       <!--tr>
                           <th>대표이미지1</th>
                           <td>
-                              <div style="">
+                              <div>
                                   <a href="<?=$data['image1']?>" target="_blank">
                                       <img class="zoom" src="<?=$data['image1']?>" style="width:50px;">
                                   </a>
@@ -117,14 +117,14 @@ function form_save(){
                           </td>
                           <th>대표이미지2</th>
                           <td>
-                              <div style="">
+                              <div>
                                   <a href="<?=$data['image2']?>" target="_blank">
                                       <img class="zoom" src="<?=$data['image2']?>" style="width:50px;">
                                   </a>
                               </div>
                           </td><th>대표이미지3</th>
                           <td>
-                              <div style="">
+                              <div>
                                   <a href="<?=$data['image3']?>" target="_blank">
                                       <img class="zoom" src="<?=$data['image3']?>" style="width:50px;">
                                   </a>

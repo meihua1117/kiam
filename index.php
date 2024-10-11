@@ -1219,7 +1219,7 @@ function encodeKorean($matches)
     <iframe id="app" style="display: none"></iframe>
     <div id="zoomInVideo" style="z-index:1200;position: fixed;background-color: #ffffff;width :100%;max-width: 600px;height: 340px;top:50px;display: none;border-radius: 2%;border: 1px solid #b5b5b5;">
         <div style="position: absolute;top:-10px;right:-10px" id="btnZoomOut" onclick="clickZoomOut();">
-            <img src="/iam/img/icon_close_black.svg" style="">
+            <img src="/iam/img/icon_close_black.svg">
         </div>
     </div>
     <div id='contents_page' style='left:0px; top:0px; width:320px; height:600px; position:absolute;  z-index:1000; display:none; background-color:white;'></div>
@@ -1492,7 +1492,7 @@ function encodeKorean($matches)
                 <? if ($cur_win == "shared_receive" || $cur_win == "shared_send" || $cur_win == "unread_post" || $cur_win == "unread_notice" || $cur_win == "request_list") { ?><!-- 수발신콘텐츠 버튼 -->
                     <div class="panel-group">
                         <div style="margin: 5px;display:flex;justify-content: space-between;">
-                            <div class="mypage_menu" style="">
+                            <div class="mypage_menu">
                                 <!-- <div>
                             <p style="font-size:14px;padding:9px 12px"></p>
                         </div> -->
@@ -1902,7 +1902,7 @@ function encodeKorean($matches)
                             $height = 'height: 0px;';
                             $hide_sort_call = "none";
                         } ?>
-                        <div style="">
+                        <div>
                             <div style="padding:10px;border: 1px solid #ddd;">
                                 <div class="right" style="float:right;margin-top:5px;display:inline-flex;">
                                     <? if ($_GET['key1'] == 4) { ?>
@@ -2052,15 +2052,15 @@ function encodeKorean($matches)
                                 <!--div style = "display:flex;justify-content: space-around;margin-top:15px;font-size: 12px;text-align:center;font-weight:700">
                             <div style = "cursor:pointer;padding:0px 2px;text-align: -webkit-center;" onclick="contents_add_spec(1,<?= $my_first_card ?>)">
                                 <img src = '/iam/img/main/icon-siglconts.png' style="max-width:45px">
-                                <span style="">한개 등록</span>
+                                <span>한개 등록</span>
                             </div>
                             <div style = "cursor:pointer;padding:0px 2px;text-align: -webkit-center;" onclick="contents_add_spec(2,<?= $my_first_card ?>)">
                                 <img src = '/iam/img/main/icon-multfiles.png' style="max-width:45px">
-                                <span style="">다수 등록</span>
+                                <span>다수 등록</span>
                             </div>
                             <div style = "cursor:pointer;padding:0px 2px;text-align: -webkit-center;" onclick="contents_add_spec(3,<?= $my_first_card ?>)">
                                 <img src = '/iam/img/main/icon-autowebs.png' style="max-width:45px">
-                                <span style="">자동 등록</span>
+                                <span>자동 등록</span>
                             </div>
                         </div-->
                             </div>
@@ -2179,7 +2179,7 @@ function encodeKorean($matches)
             if ($cur_win == "my_info") { ?>
                 <section id="main-slider">
                     <!-- 슬라이더 영역 시작 -->
-                    <div id="mainSlider" style="">
+                    <div id="mainSlider">
                         <? if ($cur_card['video_status'] == 'I') {
                             if ($main_img1) { ?>
                                 <div class="slider-item">
@@ -2608,7 +2608,7 @@ function encodeKorean($matches)
                                                         <? if ($business_time != "") {
                                                             $busi_time = explode("\n", $business_time);
                                                         ?>
-                                                            <div class="dropdown" style="">
+                                                            <div class="dropdown">
                                                                 <a class="btn dropdown-toggle" type="button" data-toggle="dropdown" style="padding: 6px 0px;" aria-expanded="false">
                                                                     <span>
                                                                         영업시간 : <?= $busi_time[0] ?>
@@ -3145,7 +3145,7 @@ function encodeKorean($matches)
                 ?>
                     <section id="main-slider">
                         <!-- 슬라이더 영역 시작 -->
-                        <div id="mainSlider" style="">
+                        <div id="mainSlider">
                             <? if ($main_img1) { ?>
                                 <div class="slider-item">
                                     <a data-fancybox="gallery" id="main_img1" href="<?= cross_image($main_img1) ?>">
@@ -3207,7 +3207,7 @@ function encodeKorean($matches)
                                         $group_row = mysqli_fetch_array($group_res);
                                         ?>
                                         <div style="position:absolute;bottom:10px;left:0px;width:100%;text-align:center">
-                                            <span class="label label-info" style="" font-size:90%;width:80%><?= $group_row['name'] ?></span>
+                                            <span class="label label-info" font-size:90%;width:80%><?= $group_row['name'] ?></span>
                                         </div>
                                     </div>
                                 </div>
@@ -3839,7 +3839,7 @@ function encodeKorean($matches)
                                 $group_check_row = mysqli_fetch_array($group_check_res);
                                 ?>
                                 <div style="display:flex;margin-top:5px;margin-left:10px">
-                                    <h5 style=""><?= $group_public . " &bull; 멤버 " . $group_mem_count . "명 &bull;" ?></h5>
+                                    <h5><?= $group_public . " &bull; 멤버 " . $group_mem_count . "명 &bull;" ?></h5>
                                     <h5 style="cursor:pointer" onclick="<? if ($_SESSION['iam_member_id'] == $group_manager) echo 'open_all_member_1(' . $gkind . ')' ?>"><?= " 신규 " . $group_new_mem_count . "명 &bull;" ?></h5>
                                     <h5 style="cursor:pointer" onclick="<? if ($_SESSION['iam_member_id'] == $group_manager /*&& $group_upload == 'N'*/) echo 'open_group_contents(' . $gkind . ')' ?>"><?= " 신규콘텐츠 " . $group_new_cont_count . "개" ?></h5>
                                 </div>
@@ -3851,7 +3851,7 @@ function encodeKorean($matches)
                                     <button type="button" class="btn btn-primary" style="height:24px;padding:0px 12px;margin-right:10px" onclick="join_group('<?= $gkind ?>')">참여</button>
                                 <? } ?>
                                 <div>
-                                    <a href="javascript:showGroupShareModal();" style="">
+                                    <a href="javascript:showGroupShareModal();">
                                         <img src="/iam/img/menu/icon_share_black.png" alt="" title="" style="margin-left:0px;width:24px;height:24px">
                                     </a>
                                 </div>
@@ -3864,7 +3864,7 @@ function encodeKorean($matches)
                                 if ($group_check_row[0] > 0) {
                                     if ($_SESSION['iam_member_id'] && $_SESSION['iam_member_id'] == $group_manager) {
                                 ?>
-                                        <div class="dropdown right" style="">
+                                        <div class="dropdown right">
                                             <img class="dropdown-toggle" data-toggle="dropdown" src="/iam/img/menu/icon_dot.png" style="width:24px;height:24px">
                                             <ul class="dropdown-menu namecard-dropdown " style="background: white; color : black;top:10px;">
                                                 <li>
@@ -3954,7 +3954,7 @@ function encodeKorean($matches)
                                         <img src="/iam/img/main/icon-19.png" style="height:20px;margin-right:10px">
                                     </div>
                                 </div>
-                                <div class="box-body" style="">
+                                <div class="box-body">
                                     <div class="inner" style="padding-top:0px">
                                         <div class="utils clearfix" style="margin-bottom: 0px;">
                                             <div class="left">
@@ -4608,15 +4608,15 @@ function encodeKorean($matches)
                             $href = "/?" . $row_card_info['card_short_url'] . $row_sender_info['mem_code'];
                             $img = $row_card_info['main_img1'];
                         ?>
-                            <div class="user-item" style="">
+                            <div class="user-item">
                                 <a href="<?= $href ?>" class="img-box" target="_blank">
                                     <div class="user-img">
                                         <img src="<?= $img ? cross_image($img) : '/iam/img/common/logo-2.png' ?>" alt="">
                                     </div>
                                 </a>
                                 <div class="wrap image_mode">
-                                    <a href="<?= $href ?>" class="user-name" style=""><?= $row_sender_info['mem_name'] ?></a>
-                                    <a href="<?= $href ?>" class="date" style=""><?= $notice_row['pay_date'] ?></a>
+                                    <a href="<?= $href ?>" class="user-name"><?= $row_sender_info['mem_name'] ?></a>
+                                    <a href="<?= $href ?>" class="date"><?= $notice_row['pay_date'] ?></a>
                                 </div>
                                 <div style="position:absolute; right:0px; padding:7px;">
                                     <a href="javascript:remove_recv_notice('<?= $notice_row['no'] ?>');" style="margin-left: -5px">
@@ -4664,8 +4664,8 @@ function encodeKorean($matches)
                     <? } else {
                     if (($cont_count == 0 && ($cur_win == "shared_send" || $cur_win == "shared_receive" || $cur_win == "unread_post")) || ($notice_count == 0 && $cur_win == "unread_notice")) {
                     ?>
-                        <div class="content-item" id="contents_welcome" style="">
-                            <div class="desc-wrap" style="">
+                        <div class="content-item" id="contents_welcome">
+                            <div class="desc-wrap">
                                 <div class="title" style="display: flex;flex-direction: column;justify-content: center">
                                     <h3 style="text-align: center">환영합니다!</h3>
                                 </div>
@@ -4699,8 +4699,8 @@ function encodeKorean($matches)
                             </div>
                         </div>
                     <?  } else if ($cont_count == 0 && $_GET['iamstore'] == 'C') { ?>
-                        <div class="content-item" id="contents_welcome" style="">
-                            <div class="desc-wrap" style="">
+                        <div class="content-item" id="contents_welcome">
+                            <div class="desc-wrap">
                                 <div class="title" style="display: flex;flex-direction: column;justify-content: center;height:150px;">
                                     <h3 style="text-align: left">현재 IAMSTORE에서 가져온 상품이 없습니다.<br>회원님의 익월 소비금액이 있으면 지금 상품을 가져오시면 됩니다.<br>소비금액이 없으면 프로슈머 굿마켓의 미션달성을 위해 소비활동을 여기서 해주시기바랍니다.</h3>
                                 </div>
@@ -4864,7 +4864,7 @@ function encodeKorean($matches)
                             <? } else { ?>
                                 <input type="hidden" id="<?= 'art_type_' . $contents_row['idx'] ?>" value="0">
                             <? } ?>
-                            <div class="content-item" id="contents_image" style="">
+                            <div class="content-item" id="contents_image">
                                 <?
                                 $pad_top = "";
                                 if ($_GET['key3'] == 1) {
@@ -4881,11 +4881,11 @@ function encodeKorean($matches)
                                         </div>
                                     </a>
                                     <div class="wrap image_mode">
-                                        <a href="/?<?= strip_tags($contents_row['westory_card_url'] . $m_code) ?>" class="user-name" style="">
+                                        <a href="/?<?= strip_tags($contents_row['westory_card_url'] . $m_code) ?>" class="user-name">
                                             <?= $contents_user_name ?>
                                         </a>
                                         <? if ($_GET['iamstore'] != 'N' || $_GET['cate_prod'] == '1268514') { ?>
-                                            <a href="/?<?= strip_tags($contents_row['westory_card_url'] . $m_code) ?>" class="date" style="">
+                                            <a href="/?<?= strip_tags($contents_row['westory_card_url'] . $m_code) ?>" class="date">
                                                 <?= get_date_time($contents_row['req_data']) ?>
                                             </a>
                                         <? } ?>
@@ -4898,13 +4898,13 @@ function encodeKorean($matches)
                                         </a> -->
                                         <? //}else{
                                         ?>
-                                        <a href="/?<?= strip_tags($contents_row['westory_card_url'] . $m_code) ?>" class="user-name" style="">
+                                        <a href="/?<?= strip_tags($contents_row['westory_card_url'] . $m_code) ?>" class="user-name">
                                             <?= $contents_user_name ?>
                                         </a>
                                         <? //}
                                         ?>
                                         <? if ($_GET['iamstore'] != 'N') { ?>
-                                            <a href="/?<?= strip_tags($contents_row['westory_card_url'] . $m_code) ?>" class="date" style="">
+                                            <a href="/?<?= strip_tags($contents_row['westory_card_url'] . $m_code) ?>" class="date">
                                                 <?= get_date_time($contents_row['req_data']) ?>
                                             </a>
                                         <? } ?>
@@ -4940,7 +4940,7 @@ function encodeKorean($matches)
                                     <? } ?>
                                     <? if ($_SESSION['iam_member_id'] != "" && ($_SESSION['iam_member_id'] != $contents_owner_id || ($_SESSION['iam_member_id'] == $contents_owner_id && $_SESSION['iam_member_id'] != 'iamstore' && $contents_row['provider_req_prod'] == "Y"))) { ?>
                                         <div class="dropdown" style="position: absolute; right: 10px; top: 8px;">
-                                            <button class="btn-link dropdown-toggle westory_dropdown" type="button" data-toggle="dropdown" style="">
+                                            <button class="btn-link dropdown-toggle westory_dropdown" type="button" data-toggle="dropdown">
                                                 <img src="/iam/img/menu/icon_dot.png" style="height:24px">
                                             </button>
                                             <ul class="dropdown-menu comunity">
@@ -4960,7 +4960,7 @@ function encodeKorean($matches)
                                     <? } ?>
                                     <? if ($_SESSION['iam_member_id'] != "" && $_SESSION['iam_member_id'] == $contents_owner_id && $_SESSION['iam_member_id'] != 'iamstore' && $contents_row['ai_map_gmarket'] == 3 && $contents_row['provider_req_prod'] == "N") { ?>
                                         <div class="dropdown" style="position: absolute; right: 10px; top: 8px;">
-                                            <button class="btn-link dropdown-toggle westory_dropdown" type="button" data-toggle="dropdown" style="">
+                                            <button class="btn-link dropdown-toggle westory_dropdown" type="button" data-toggle="dropdown">
                                                 <img src="/iam/img/menu/icon_dot.png" style="height:24px">
                                             </button>
                                             <ul class="dropdown-menu comunity">
@@ -4970,7 +4970,7 @@ function encodeKorean($matches)
                                     <? } ?>
                                     <? if ($_SESSION['iam_member_id'] == "") { ?>
                                         <div class="dropdown " style="position: absolute; right: 10px; top: 8px;">
-                                            <button class="btn-link dropdown-toggle westory_dropdown" type="button" data-toggle="dropdown" style="">
+                                            <button class="btn-link dropdown-toggle westory_dropdown" type="button" data-toggle="dropdown">
                                                 <img src="/iam/img/menu/icon_dot.png" style="height:24px">
                                             </button>
                                             <ul class="dropdown-menu comunity">
@@ -4990,7 +4990,7 @@ function encodeKorean($matches)
                                     <div class="desc-wrap" style="border-bottom: 1px solid #dddddd;">
                                         <? if ($contents_row['contents_title'] != "") { ?>
                                             <div class="title service_title" style="display: flex;flex-direction: column;justify-content: center">
-                                                <h3 style=""><?= $contents_row['contents_title'] ?></h3>
+                                                <h3><?= $contents_row['contents_title'] ?></h3>
                                             </div>
                                         <?
                                         }
@@ -5120,7 +5120,7 @@ function encodeKorean($matches)
                                                     <div class="utils-index" id="<?= 'utils_index_' . $contents_row['idx'] ?>" style="display:none;z-index:10;">
                                                         <?
                                                         if ($cur_win != "we_story" && $_SESSION['iam_member_id'] == $card_owner && $_SESSION['iam_member_id'] == $card_master) { ?>
-                                                            <a class="content-utils" onclick="contents_add('<?= $card_owner ?>','<?= $contents_row['contents_order'] ?>',<?= $my_first_card ?>);" style="">
+                                                            <a class="content-utils" onclick="contents_add('<?= $card_owner ?>','<?= $contents_row['contents_order'] ?>',<?= $my_first_card ?>);">
                                                                 <img src="/iam/img/menu/icon_plus.png" style="width:20px;height:20px;">
                                                             </a>
                                                         <?  }
@@ -5156,11 +5156,11 @@ function encodeKorean($matches)
                                                             }
                                                         } ?>
                                                         <? if ($cur_win == "shared_receive") { ?>
-                                                            <a class="content-utils" onclick="remove_shared_content('<?= $contents_row['idx'] ?>','<?= $_SESSION['iam_member_id'] ?>');" style="">
+                                                            <a class="content-utils" onclick="remove_shared_content('<?= $contents_row['idx'] ?>','<?= $_SESSION['iam_member_id'] ?>');">
                                                                 <img src="/iam/img/main/icon-hide.png" style="width:20px;height:20px;">
                                                             </a>
                                                         <? } ?>
-                                                        <a class="content-utils" onclick="showSNSModal_byContents('<?= $contents_row['idx'] ?>', '<?= $contents_row['gwc_con_state'] ?>');" style="">
+                                                        <a class="content-utils" onclick="showSNSModal_byContents('<?= $contents_row['idx'] ?>', '<?= $contents_row['gwc_con_state'] ?>');">
                                                             <img src="/iam/img/menu/icon_share.png" style="width:20px;height:20px">
                                                         </a>
                                                         <? if ($_SESSION['iam_member_id'] && ($_SESSION['iam_member_id'] == $contents_row['mem_id'] || $_SESSION['iam_member_id'] == $group_manager)) { ?>
@@ -5210,7 +5210,7 @@ function encodeKorean($matches)
                                                 <div class="utils-index" id="<?= 'utils_index_' . $contents_row['idx'] ?>" style="display:none;z-index:10;top:5px">
                                                     <?
                                                     if ($cur_win != "we_story" && $_SESSION['iam_member_id'] == $card_owner && $_SESSION['iam_member_id'] == $card_master) { ?>
-                                                        <a class="content-utils" onclick="contents_add('<?= $card_owner ?>','<?= $contents_row['contents_order'] ?>',<?= $my_first_card ?>);" style="">
+                                                        <a class="content-utils" onclick="contents_add('<?= $card_owner ?>','<?= $contents_row['contents_order'] ?>',<?= $my_first_card ?>);">
                                                             <img src="/iam/img/menu/icon_plus.png" style="width:20px;height:20px;">
                                                         </a>
                                                     <?  }
@@ -5246,11 +5246,11 @@ function encodeKorean($matches)
                                                         }
                                                     } ?>
                                                     <? if ($cur_win == "shared_receive") { ?>
-                                                        <a class="content-utils" onclick="remove_shared_content('<?= $contents_row['idx'] ?>','<?= $_SESSION['iam_member_id'] ?>');" style="">
+                                                        <a class="content-utils" onclick="remove_shared_content('<?= $contents_row['idx'] ?>','<?= $_SESSION['iam_member_id'] ?>');">
                                                             <img src="/iam/img/main/icon-hide.png" style="width:20px;height:20px;">
                                                         </a>
                                                     <? } ?>
-                                                    <a class="content-utils" onclick="showSNSModal_byContents('<?= $contents_row['idx'] ?>', '<?= $contents_row['gwc_con_state'] ?>');" style="">
+                                                    <a class="content-utils" onclick="showSNSModal_byContents('<?= $contents_row['idx'] ?>', '<?= $contents_row['gwc_con_state'] ?>');">
                                                         <img src="/iam/img/menu/icon_share.png" style="width:20px;height:20px">
                                                     </a>
                                                     <? if ($_SESSION['iam_member_id'] && ($_SESSION['iam_member_id'] == $contents_row['mem_id'] || $_SESSION['iam_member_id'] == $group_manager)) { ?>
@@ -5418,7 +5418,7 @@ function encodeKorean($matches)
                                                 <div onclick="play<?=$contents_row['idx'];?>();" id="vidwrap<?=$contents_row['idx'];?>" style="position: relative;">
                                                     <img src="<?=cross_image($content_images[0])?>" class="contents_img">
                                                     <?if($contents_movie){?>
-                                                        <img class="movie_play" src="/iam/img/movie_play.png" style="">
+                                                        <img class="movie_play" src="/iam/img/movie_play.png">
                                                     <?}?>
                                                     <?if(count($content_images) > 1){?>
                                                         <?for($c = 1;$c < count($content_images);$c ++){?>
@@ -5430,7 +5430,7 @@ function encodeKorean($matches)
                                                 <a href="<?=$contents_row[contents_url]?>" target="_blank" id="vidwrap<?=$contents_row['idx'];?>" style="position: relative;">
                                                     <img src="<?=cross_image($content_images[0])?>" class="contents_img">
                                                     <?if($contents_movie){?>
-                                                        <img class="movie_play" src="/iam/img/movie_play.png" style="">
+                                                        <img class="movie_play" src="/iam/img/movie_play.png">
                                                     <?}?>
                                                     <?if(count($content_images) > 1){?>
                                                         <?for($c = 1;$c < count($content_images);$c ++){?>
@@ -5623,7 +5623,7 @@ function encodeKorean($matches)
                                                     <div class="utils-index" id="<?= 'utils_index_' . $contents_row['idx'] ?>" style="display:none;z-index:10;">
                                                         <?
                                                         if ($cur_win != "we_story" && $_SESSION['iam_member_id'] == $card_owner && $_SESSION['iam_member_id'] == $card_master) { ?>
-                                                            <a class="content-utils" onclick="contents_add('<?= $card_owner ?>','<?= $contents_row['contents_order'] ?>',<?= $my_first_card ?>);" style="">
+                                                            <a class="content-utils" onclick="contents_add('<?= $card_owner ?>','<?= $contents_row['contents_order'] ?>',<?= $my_first_card ?>);">
                                                                 <img src="/iam/img/menu/icon_plus.png" style="width:20px;height:20px;">
                                                             </a>
                                                         <?  }
@@ -5659,11 +5659,11 @@ function encodeKorean($matches)
                                                             }
                                                         } ?>
                                                         <? if ($cur_win == "shared_receive") { ?>
-                                                            <a class="content-utils" onclick="remove_shared_content('<?= $contents_row['idx'] ?>','<?= $_SESSION['iam_member_id'] ?>');" style="">
+                                                            <a class="content-utils" onclick="remove_shared_content('<?= $contents_row['idx'] ?>','<?= $_SESSION['iam_member_id'] ?>');">
                                                                 <img src="/iam/img/main/icon-hide.png" style="width:20px;height:20px;">
                                                             </a>
                                                         <? } ?>
-                                                        <a class="content-utils" onclick="showSNSModal_byContents('<?= $contents_row['idx'] ?>', '<?= $contents_row['gwc_con_state'] ?>');" style="">
+                                                        <a class="content-utils" onclick="showSNSModal_byContents('<?= $contents_row['idx'] ?>', '<?= $contents_row['gwc_con_state'] ?>');">
                                                             <img src="/iam/img/menu/icon_share.png" style="width:20px;height:20px">
                                                         </a>
                                                         <? if ($_SESSION['iam_member_id'] && ($_SESSION['iam_member_id'] == $contents_row['mem_id'] || $_SESSION['iam_member_id'] == $group_manager)) { ?>
@@ -5758,7 +5758,7 @@ function encodeKorean($matches)
                                         <div style="margin-left:30px;margin-right:15px;width:100%">
                                             <textarea id="post_content<?= $contents_row['idx'] ?>" name="post_content<?= $contents_row['idx'] ?>" class="post_content" maxlength="300" style="font-size:14px;width:100%;height:35px;border: 1px;" placeholder="댓글은 300자 이내로 작성해주세요"></textarea>
                                         </div>
-                                        <div style="">
+                                        <div>
                                             <button type="button" class="btn btn-link" style="font-size:14px;padding: 5px 12px;color:#99cc00" id="send_post" onclick="add_post('<?= $contents_row['idx'] ?>')">작성</button>
                                         </div>
                                     </div>
@@ -5847,7 +5847,7 @@ function encodeKorean($matches)
                                                     <div style="margin-left:60px;margin-right:15px;width:100%">
                                                         <textarea id="<?= 'post_reply_' . $post_row['id'] . '_content' ?>" name="<?= 'post_reply_' . $post_row['id'] . '_content' ?>" class="post_reply_content" maxlength="300" placeholder="답글은 300자 이내로 작성해주세요" style="font-size:14px;height:35px;width: 100%;border: 1px;"></textarea>
                                                     </div>
-                                                    <div style="">
+                                                    <div>
                                                         <button type="button" class="btn btn-link" style="font-size:14px;padding: 5px 12px;color:#99cc00" onclick="add_post_reply('<?= $contents_row['idx'] ?>','<?= $post_row['id'] ?>')">작성</button>
                                                     </div>
                                                 </div>

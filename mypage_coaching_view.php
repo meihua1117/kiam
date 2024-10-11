@@ -93,39 +93,39 @@ $(function(){
                 </tr>                    
                 <tr>
                     <th class="w200">코티전화번호</th>
-                    <td><?=$member_1[mem_phone]?></td>
+                    <td><?=$member_1['mem_phone']?></td>
                 </tr>                    
                  <tr>
                     <th class="w200">코티이메일</th>
-                    <td><?=$member_1[mem_email]?></td>
+                    <td><?=$member_1['mem_email']?></td>
                 </tr>    
                 <tr>
                     <th class="w200">계약기간</th>
-                    <td><?=$member_1[mem_email]?></td>
+                    <td><?=$member_1['mem_email']?></td>
                 </tr>                    
                 <tr>
                     <th class="w200">계약시간</th>
-                    <td><?=$member_1[mem_email]?></td>
+                    <td><?=$member_1['mem_email']?></td>
                 </tr>                    
                 <tr>
                     <th class="w200">코칭비용</th>
-                    <td><?=$member_1[mem_email]?></td>
+                    <td><?=$member_1['mem_email']?></td>
                 </tr>                    
                 <tr>
                     <th class="w200">코칭시작</th>
-                    <td><?=$member_1[mem_email]?></td>
+                    <td><?=$member_1['mem_email']?></td>
                 </tr>                    
                 <tr>
                     <th class="w200">계약종료</th>
-                    <td><?=$member_1[mem_email]?></td>
+                    <td><?=$member_1['mem_email']?></td>
                 </tr>                    
                 <tr>
                     <th class="w200">코치의견</th>
-                    <td><?=$member_1[mem_email]?></td>
+                    <td><?=$member_1['mem_email']?></td>
                 </tr>                    
                 <tr>
                     <th class="w200">코칭상태</th>
-                    <td><?=$member_1[mem_email]?></td>
+                    <td><?=$member_1['mem_email']?></td>
 
                 </tr>                                
                                 
@@ -158,44 +158,44 @@ $(function(){
                 </tr>    
                 <tr>
                     <th class="w200">코칭일시</th>
-                    <td><?=$member_1[mem_email]?></td>
+                    <td><?=$member_1['mem_email']?></td>
                 </tr>                    
                 <tr>
                     <th class="w200">코칭제목</th>
-                    <td><?=$member_1[mem_email]?></td>
+                    <td><?=$member_1['mem_email']?></td>
                 </tr>                    
                 <tr>
                     <th class="w200">코칭내용</th>
-                    <td><?=$member_1[mem_email]?></td>
+                    <td><?=$member_1['mem_email']?></td>
                 </tr>                    
                 <tr>
                     <th class="w200">파일첨부</th>
-                    <td><?=$member_1[mem_email]?></td>
+                    <td><?=$member_1['mem_email']?></td>
                 </tr>                    
                 <tr>
                     <th class="w200">코치평가</th>
-                    <td><?=$member_1[mem_email]?></td>
+                    <td><?=$member_1['mem_email']?></td>
                 </tr>    
                 <tr>
                     <th class="w200">코티평가</th>
-                    <td><?=$member_1[mem_email]?></td>
+                    <td><?=$member_1['mem_email']?></td>
                 </tr>    
                 <tr>
                     <th class="w200">본사평가</th>
-                    <td><?=$member_1[mem_email]?></td>
+                    <td><?=$member_1['mem_email']?></td>
                 </tr>    
 
                 <tr>
                     <th class="w200">과제안내</th>
-                    <td><?=$member_1[mem_email]?></td>
+                    <td><?=$member_1['mem_email']?></td>
                 </tr>                    
                 <tr>
                     <th class="w200">코치의견</th>
-                    <td><?=$member_1[mem_email]?></td>
+                    <td><?=$member_1['mem_email']?></td>
                 </tr>                    
                 <tr>
                     <th class="w200">본부의견</th>
-                    <td><?=$member_1[mem_email]?></td>
+                    <td><?=$member_1['mem_email']?></td>
                 </tr>                    
                                 
                 </table>

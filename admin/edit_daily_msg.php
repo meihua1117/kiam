@@ -118,7 +118,7 @@ else $link = "daily_msg_list_mem.php";
 										</tr>
 										<tr>
 											<th class="w200">[메시지제목]</th>
-											<td><input type="text" name="title" itemname='제목' required placeholder="제목을 입력하세요" style="width:100%;" value="<?=$row[title]?>" /></td>
+											<td><input type="text" name="title" itemname='제목' required placeholder="제목을 입력하세요" style="width:100%;" value="<?=$row['title']?>" /></td>
 										</tr>
 										<tr>
 											<th class="w200">[메시지내용]</th>

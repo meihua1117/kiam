@@ -291,7 +291,7 @@ else{
 					<div class="col-12">
                         <div class="inner-wrap" style = "padding : 0px">
 							<!--상단 좌측 로고이미지부분-->
-							<a href="<?=$domainData[sub_domain].'/?'.$first_card_url.$bunyang_site_manager_code?>" target = "blank" style="float:left;">
+							<a href="<?=$domainData['sub_domain'].'/?'.$first_card_url.$bunyang_site_manager_code?>" target = "blank" style="float:left;">
 								<img src="/iam/img/common/logo-2.png" alt="온리원아이엠 로고 이미지" style="margin-top:15px;height:18px;">
 							</a> 
 							<!--상단 로고이미지 부분-->
@@ -519,7 +519,7 @@ else{
 				<?if(strpos($_SERVER['REQUEST_URI'], 'gwc_order_list.php') !== false || strpos($_SERVER['REQUEST_URI'], 'gwc_order_change_list.php') !== false){?>
 				<div class="panel-group" style="border: 1px solid lightgrey;">
 					<div style="margin: 5px;display:flex;justify-content: space-between;">
-						<div class="mypage_menu" style="">
+						<div class="mypage_menu">
 							<div style="margin-right: 5px;display:flex;float: right;">
 								<button class="btn  btn-link" onclick="iam_mystory('cur_win=shared_receive&modal=Y')" title = "<?=$MENU['IAM_MENU']['M7_TITLE'];?>" style="display:flex;padding:6px 3px">
 									<p style="font-size:14px;color:black">콘수신</p>
@@ -599,7 +599,7 @@ else{
 		</header><!-- // 헤더 끝 -->
 		<!-- // 헤더 끝 -->
 		<div style="position: fixed;justify-content: space-around;width: 100%;height:50px;z-index: 100;bottom: 0px;display: flex;max-width: 768px;background:white;border-top : 1px solid #ddd">
-			<?//$home = $domainData[sub_domain].'/?'.$first_card_url.$bunyang_site_manager_code
+			<?//$home = $domainData['sub_domain'].'/?'.$first_card_url.$bunyang_site_manager_code
 			if($domainData['admin_iam_menu'] == 0){
                 $menu_query = "select * from Gn_Iam_Menu where site_iam='kiam' and menu_type='B' and use_yn = 'y' order by display_order";
             }else{

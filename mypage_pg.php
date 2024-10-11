@@ -393,7 +393,7 @@ jQuery(function($){
                 <td><?=$row['month_cnt']?>개월</td>
                 <td>문자</td>
                 <td><?=$pay_type[$row[payMethod]]?$pay_type[$row[payMethod]]:"무통장"?></td>
-                <td><?=$row[add_phone]?></td>
+                <td><?=$row['add_phone']?></td>
                 <td><?=$row[phone_cnt]?></td>
                 <td><?=number_format($row[TotPrice])?>원</td>
                 <td>
@@ -482,7 +482,7 @@ jQuery(function($){
                 <td><?=$row['month_cnt']?>개월</td>
                 <td>디버</td>                
                 <td><?=$pay_type[$row[payMethod]]?$pay_type[$row[payMethod]]:"카드"?></td>
-                <td><?=$row[add_phone]?></td>
+                <td><?=$row['add_phone']?></td>
                 <td><?=$row[phone_cnt]?></td>
                 <td><?=number_format($row[TotPrice])?>원</td>
                 <td>

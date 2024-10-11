@@ -124,8 +124,8 @@ if(!strcmp($REPLYCD,"0000")){//pay_test
             mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
         }
     }//디버회원가입 완료
-    $iam_card_cnt = $_POST[iam_card_cnt];
-    $iam_share_cnt = $_POST[iam_share_cnt];
+    $iam_card_cnt = $_POST['iam_card_cnt'];
+    $iam_share_cnt = $_POST['iam_share_cnt'];
     $sql_m = "update Gn_Member set fujia_date1=now() ,
                                 fujia_date2=date_add(now(),INTERVAL 120 month),
                                 iam_card_cnt = iam_card_cnt + '$iam_card_cnt',

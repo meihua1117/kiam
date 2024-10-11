@@ -1,8 +1,8 @@
 <?
-$_REQUEST[status] = 4;
+$_REQUEST['status'] = 4;
 $path="./";
 include_once "_head.php";
-switch($_REQUEST[status])
+switch($_REQUEST['status'])
 {
 	case 1:
 		$left_str="공지사항";
@@ -14,7 +14,7 @@ switch($_REQUEST[status])
 		$left_str="사용후기";
 	break;
 }
-$sql_serch=" category='$_REQUEST[status]' ";
+$sql_serch=" category='{$_REQUEST['status']}' ";
 if($_REQUEST[lms_text] && $_REQUEST[lms_select])
 {
 	if($_REQUEST[lms_select]=="title_content")
@@ -64,7 +64,7 @@ $result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
         	<div class="left_sub_menu">
                 <a href="./">홈</a> > 
                 <a href="cliente_list.php?status=1">고객센터</a> > 
-                <a href="cliente_list.php?status=<?=$_REQUEST[status]?>"><?=$left_str?></a>
+                <a href="cliente_list.php?status=<?=$_REQUEST['status']?>"><?=$left_str?></a>
             </div>
             <div class="right_sub_menu">
                 <a href="cliente_list.php?status=1">공지사항</a> &nbsp;|&nbsp; 
@@ -76,7 +76,7 @@ $result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
     	</div>
     </div>
     <div class="m_div" style="padding-bottom:50px;">
-    	<div><img src="images/client_<?=$_REQUEST[status]?>_1.png" /></div>
+    	<div><img src="images/client_<?=$_REQUEST['status']?>_1.png" /></div>
         <div class="client">
         <form name="board_list_form" action="" method="post">
         	<?
@@ -85,7 +85,7 @@ $result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 			?>
             <table class="view_table_1" width="100%" border="0" cellspacing="0" cellpadding="0">
             <tr>
-                <td style="width:90%;"><?=htmlspecialchars_decode($row_no[title])?></td>
+                <td style="width:90%;"><?=htmlspecialchars_decode($row_no['title'])?></td>
                 <td style="text-align:right;"><?=substr($row_no[date],0,10)?></td>
             </tr>
             <tr>
@@ -160,12 +160,12 @@ $result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
                 ?>
                 <tr>
                 	<td colspan="2" style="text-align:right;">
-                    <a href="faq_list.php?status=<?=$_REQUEST[status]?>"><img src="images/btn_list.gif" /></a>
+                    <a href="faq_list.php?status=<?=$_REQUEST['status']?>"><img src="images/btn_list.gif" /></a>
                     <?
 					if($member_1['mem_id']==$row_no['id'])
 					{
 					?>
-                    <a href="javascript:void(0)" onclick="board_del('<?=$row_no['no']?>','<?=$_REQUEST[status]?>')"><img src="images/client_1_5.jpg" /></a>
+                    <a href="javascript:void(0)" onclick="board_del('<?=$row_no['no']?>','<?=$_REQUEST['status']?>')"><img src="images/client_1_5.jpg" /></a>
                     <?
 					}
 					?>
@@ -195,8 +195,8 @@ $result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
             	<table class="list_table" width="100%" border="0" cellspacing="0" cellpadding="0" >
                   <tr>
                     <td style="width:5%;"><label><input type="checkbox" onclick="check_all(this,'no_box')"  />번호</label></td>
-                    <? if($_REQUEST[status]==2){?><td style="width:10%;">분류</td><? }?>
-                    <td style="width:<?=$_REQUEST[status]==2?"60%":"70%"?>;">제목</td>
+                    <? if($_REQUEST['status']==2){?><td style="width:10%;">분류</td><? }?>
+                    <td style="width:<?=$_REQUEST['status']==2?"60%":"70%"?>;">제목</td>
                     <!--<td style="width:15%;">등록일자</td>
                     <td style="width:10%;">조회수</td>-->
                   </tr>
@@ -208,8 +208,8 @@ $result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 						?>
 						<tr>
                             <td><label><input type="checkbox" value="<?=$row['no']?>" name="no_box"  /><?=$sort_no?></label></td>
-                            <? if($_REQUEST[status]==2){?><td><?=$fl_arr[$row[fl]]?></td><? }?>
-                            <td style="text-align:left;padding-left:20px;"><a href="javascript:viewContent('a<?=$row['no']?>')"><?=$row[title]?></a></td>
+                            <? if($_REQUEST['status']==2){?><td><?=$fl_arr[$row['fl']]?></td><? }?>
+                            <td style="text-align:left;padding-left:20px;"><a href="javascript:viewContent('a<?=$row['no']?>')"><?=$row['title']?></a></td>
                             <!--<td><?=substr($row[date],0,10)?></td>
                             <td><?=$row[view_cnt]?></td>-->
 						</tr>

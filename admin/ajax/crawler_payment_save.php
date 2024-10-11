@@ -10,7 +10,7 @@ extract($_POST);
 //			$sql_m="update Gn_Member set fujia_date1=now() , fujia_date2=date_add(now(),INTERVAL {$_POST['month_cnt']} month)  where mem_id='{$member_1['mem_id']}' ";
 //			mysqli_query($self_con,$sql_m)or die(mysqli_error($self_con));
 //			//print_r($_POST);
-//			$sql_m="update Gn_Member set   phone_cnt=phone_cnt+'$_POST[add_phone]' where mem_id='{$member_1['mem_id']}' ";
+//			$sql_m="update Gn_Member set   phone_cnt=phone_cnt+'{$_POST['add_phone']}' where mem_id='{$member_1['mem_id']}' ";
 //			//echo $sql_m;
 //			mysqli_query($self_con,$sql_m)or die(mysqli_error($self_con));		
 $payment_day = $payment_day?$payment_day:0;
@@ -36,7 +36,7 @@ if($row['end_status'] == "Y" && $end_status != "A") {
         mysqli_query($self_con,$sql_m)or die(mysqli_error($self_con));
     }
     //print_r($_POST);
-    $sql_m="update Gn_Member set   phone_cnt=phone_cnt-'$row[add_phone]' where mem_id='{$row['buyer_id']}' ";
+    $sql_m="update Gn_Member set   phone_cnt=phone_cnt-'{$row['add_phone']}' where mem_id='{$row['buyer_id']}' ";
     //echo $sql_m."<BR>";
     //echo $sql_m;
     mysqli_query($self_con,$sql_m)or die(mysqli_error($self_con));		
@@ -62,7 +62,7 @@ if($row['end_status'] == "Y" && $end_status != "A") {
     //echo $sql_m."<BR>";
     mysqli_query($self_con,$sql_m)or die(mysqli_error($self_con));
     
-    $sql_m="update Gn_Member set   phone_cnt=phone_cnt+'$row[add_phone]' where mem_id='{$row['buyer_id']}' ";
+    $sql_m="update Gn_Member set   phone_cnt=phone_cnt+'{$row['add_phone']}' where mem_id='{$row['buyer_id']}' ";
     //echo $sql_m."<BR>";
     mysqli_query($self_con,$sql_m)or die(mysqli_error($self_con));		
     
@@ -82,7 +82,7 @@ if($row['end_status'] == "Y" && $end_status != "A") {
     //echo $sql_m."<BR>";
     mysqli_query($self_con,$sql_m)or die(mysqli_error($self_con));
     
-    $sql_m="update Gn_Member set   phone_cnt=phone_cnt+'$row[add_phone]' where mem_id='{$row['buyer_id']}' ";
+    $sql_m="update Gn_Member set   phone_cnt=phone_cnt+'{$row['add_phone']}' where mem_id='{$row['buyer_id']}' ";
     //echo $sql_m."<BR>";
     mysqli_query($self_con,$sql_m)or die(mysqli_error($self_con));		
     

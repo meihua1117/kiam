@@ -227,7 +227,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                         <td><?php echo $row['title']?></td>
                         <td><?php echo $row['content']?></td>
                         <td>
-                            <div style="">
+                            <div>
                             <?
                               if($row['img']){
                                 $thumb_img =  $row['img'];

@@ -22,7 +22,7 @@ $link  = $_GET["link"];
                     <li style="float:right;"></li>
                     <p style="clear:both"></p>
                 </div>
-            <div id="outLayer" style="">
+            <div id="outLayer">
                 <div style="margin-bottom:5px">회원탈퇴를 신청하시면 즉시 해제되며 다시 로그인 할수 없습니다.회원탈퇴를 신청하시려면 아래 작성후 회원탈퇴를 클릭해주세요.</div>
                 <div style="margin-bottom:5px; color:red;">결제상품이 있으시면 반드시 사이트 상단 마이페이지 >> 결제정보에서 해지신청을 해주세요!!</div></br>
                 <div class="desc-wrap" style="text-align: left;">

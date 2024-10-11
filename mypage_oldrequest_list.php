@@ -476,7 +476,7 @@ background: #ffffff/*{bgColorContent}*/ url(images/ui-bg_flat_75_ffffff_40x100.p
                             <td style="height:35px;text-align:left;" >
                                 <input type="hidden" name="mem_code" placeholder="" id="mem_code" value="<?=$data['mem_code']?>" readonly style="width:200px"/>
                                 <select id="send_num" name="send_num">
-                                    <!--option value="<?=str_replace("-", "", $data[mem_phone])?>"><?php echo str_replace("-","",$data['mem_phone']);?></option-->
+                                    <!--option value="<?=str_replace("-", "", $data['mem_phone'])?>"><?php echo str_replace("-","",$data['mem_phone']);?></option-->
 							        <?php
                                         $query = "select * from Gn_MMS_Number where mem_id='{$_SESSION['one_member_id']}' order by sort_no asc, user_cnt desc , idx desc";
                                         $resul=mysqli_query($self_con,$query);

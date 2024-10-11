@@ -1,10 +1,10 @@
 <?
 include_once "../lib/rlatjd_fun.php";
 $_POST['one_id']  = $_REQUEST['one_id'];
-$_POST[one_pwd]= $_REQUEST[one_pwd];
-if($_POST['one_id'] && $_POST[one_pwd])
+$_POST['one_pwd']= $_REQUEST['one_pwd'];
+if($_POST['one_id'] && $_POST['one_pwd'])
 {
-	$mem_pass=$_POST[one_pwd];
+	$mem_pass=$_POST['one_pwd'];
 	$sql="select mem_code, is_leave, mem_leb,site,site_iam,iam_leb from Gn_Member use index(login_index) where mem_leb>0 and ((mem_id = '{$_POST['one_id']}' and web_pwd=password('$mem_pass')) or (mem_email = '{$_POST['one_id']}' and web_pwd=password('$mem_pass'))) ";
 	$resul=mysqli_query($self_con,$sql);
 
@@ -23,28 +23,28 @@ if($_POST['one_id'] && $_POST[one_pwd])
 		//if($row['site'] == $site[0]) {
 		if($row['site'] != "") {
 			$_SESSION['one_member_id'] = $_POST['one_id'];
-			$_SESSION[one_mem_lev] = $row[mem_leb];
+			$_SESSION['one_mem_lev'] = $row['mem_leb'];
 			$service_sql = "select mem_id,sub_domain from Gn_Service where mem_id = '{$_POST['one_id']}'";
 			$service_result = mysqli_query($self_con,$service_sql);
 			$service_row = mysqli_fetch_array($service_result);
 			if ($service_row['mem_id'] != "") {
-				$url = parse_url($service_row[sub_domain]);
+				$url = parse_url($service_row['sub_domain']);
 				$_SESSION['one_member_subadmin_id'] = $_POST['one_id'];
-				$_SESSION['one_member_subadmin_domain'] = $url[host];
+				$_SESSION['one_member_subadmin_domain'] = $url['host'];
 			}
 		}
 		//if($HTTP_HOST == 'kiam.kr')
 		//if($row['site_iam'] == $site[0]){
 		if($row['site_iam'] != ""){
 			$_SESSION['iam_member_id'] = $_POST['one_id'];;
-			$_SESSION['iam_member_leb'] = $row[iam_leb];
+			$_SESSION['iam_member_leb'] = $row['iam_leb'];
 			$iam_sql = "select mem_id,sub_domain from Gn_Iam_Service where mem_id= '{$_POST['one_id']}'";
 			$iam_result = mysqli_query($self_con,$iam_sql);
 			$iam_row = mysqli_fetch_array($iam_result);
 			if ($iam_row['mem_id'] != "") {
-				$url = parse_url($iam_row[sub_domain]);
+				$url = parse_url($iam_row['sub_domain']);
 				$_SESSION['iam_member_subadmin_id'] = $_POST['one_id'];
-				$_SESSION['iam_member_subadmin_domain'] = $url[host];
+				$_SESSION['iam_member_subadmin_domain'] = $url['host'];
 			}
 		}
 		// 마지막 접속 시간 기록 Add Cooper

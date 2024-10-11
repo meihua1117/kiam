@@ -269,7 +269,7 @@ $('#_popupbox').mouseleave(function() { $(this).hide(); });
                 <td><?=$sort_no?></td>
                 <td style="font-size:12px;"><?=$row[step]?></td>
                 <td style="font-size:12px;"><?=$row[send_day]?>일후</td>
-                <td><?=$row[title]?></td>
+                <td><?=$row['title']?></td>
                 <td><a href="javascript:void(0)" onclick="show_recv('show_content','<?=$c?>','문자내용')"><?=str_substr($row['content'],0,190,'utf-8')?></a><input type="hidden" name="show_content" value="<?=$row['content']?>"/>
                     </td>
                 <td>

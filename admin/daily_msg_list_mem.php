@@ -176,7 +176,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                             <td style="font-size:12px;"><?=$row[site]?></td>
                             <td style="font-size:12px;"><?=$row['mem_id']?></td>
                             <td style="font-size:12px;"><?=$row['mem_name']?></td>
-                            <td style="font-size:12px;"><?=$row[title]?></td>
+                            <td style="font-size:12px;"><?=$row['title']?></td>
                             <td style="font-size:12px;"><?=$row['send_num']?></td>
                             <td><?=$krow[grp]?></td>
                             <td><?=$row[total_count]?></td>

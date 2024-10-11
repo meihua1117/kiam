@@ -90,9 +90,9 @@ $(function(){
                 </tr>       
                 <tr>
                     <th>전화번호</th>
-                    <td><?=$coaching_info_data[mem_phone]?></td>
+                    <td><?=$coaching_info_data['mem_phone']?></td>
                     <th>이메일</th>
-                    <td><?=$coaching_info_data[mem_email]?></td>
+                    <td><?=$coaching_info_data['mem_email']?></td>
                 </tr>        
                 <tr>
                     <th>계약기간</th>

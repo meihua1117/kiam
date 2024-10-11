@@ -184,7 +184,7 @@ $(function(){
                             <a href="iammanual_write.php?no=<?php echo $row['no']?>"><?php echo $row['title'];?></a>
                         </td>
                         <td>
-                                <div style="">
+                                <div>
                                 <?
                                 
                                 
@@ -209,7 +209,7 @@ $(function(){
                             <?=substr($row['date'],0,10)?>
                         </td>
                         <td><?=$row['veiw_cnt']?></td>
-                        <td><a href="javascript:;;" onclick="board_del('<?=$row['no']?>','<?=$_REQUEST[status]?>')">삭제</a></td>
+                        <td><a href="javascript:;;" onclick="board_del('<?=$row['no']?>','<?=$_REQUEST['status']?>')">삭제</a></td>
                        
                       </tr>
                     <?

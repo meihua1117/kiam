@@ -31,7 +31,7 @@ ul li {
             <section class="input-field">
                 <a ><h3 class="title">회원탈퇴</h3></a>
                 <div class="utils clearfix"></div>
-                <div class="contents form-wrap" style="">
+                <div class="contents form-wrap">
                     <div class="attr-row is-account">
                         <div class="attr-name">비밀번호확인</div>
                         <div class="attr-value">

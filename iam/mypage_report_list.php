@@ -61,7 +61,7 @@ $form_res = mysqli_query($self_con,$sql);
 </style>
 <link href='/css/main.css' rel='stylesheet' type='text/css' />
 <link href='/css/responsive.css' rel='stylesheet' type='text/css' />
-<main id="register" class="common-wrap" style=""><!-- 컨텐츠 영역 시작 -->
+<main id="register" class="common-wrap"><!-- 컨텐츠 영역 시작 -->
     <div class="container">
         <div class="row">
             <div class="col-12">

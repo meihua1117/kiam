@@ -87,7 +87,7 @@ $is_chrome = preg_match('/Chrome/i', $_SERVER['HTTP_USER_AGENT']) ? "disabled" :
 $pay_phone_status = array("N" => "결제대기", "Y" => "결제완료", "M" => "본인폰");
 $pay_result_status = array("N" => "결제대기", "Y" => "결제완료", "C" => "해지완료");
 if ($_REQUEST['one_no']) {
-	$cookie_name = "board_" . $_REQUEST[status] . $_REQUEST['one_no'];
+	$cookie_name = "board_" . $_REQUEST['status'] . $_REQUEST['one_no'];
 	if (!$_COOKIE[$cookie_name]) {
 		setcookie($cookie_name, "ok", time() + 3600 * 24);
 		$sql_view = "update tjd_board set view_cnt=view_cnt+1 where no='{$_REQUEST['one_no']}'";
@@ -173,8 +173,8 @@ if ($_SESSION['one_member_id']) {
 	if ($member_1['fujia_date2'] != "0000-00-00 00:00:00")
 		$fujia_pay = true;
 
-	$m_email_arr = explode("@", $member_1[mem_email]);
-	$m_phone_arr = explode("-", $member_1[mem_phone]);
+	$m_email_arr = explode("@", $member_1['mem_email']);
+	$m_phone_arr = explode("-", $member_1['mem_phone']);
 	$m_birth_arr = explode("-", $member_1[mem_birth]);
 
 	$format_month = date("Y-m");
@@ -203,8 +203,8 @@ if ($_SESSION['iam_member_id']) {
 	if ($member_iam['fujia_date2'] != "0000-00-00 00:00:00")
 		$fujia_pay = true;
 
-	$iam_email_arr = explode("@", $member_iam[mem_email]);
-	$iam_phone_arr = explode("-", $member_iam[mem_phone]);
+	$iam_email_arr = explode("@", $member_iam['mem_email']);
+	$iam_phone_arr = explode("-", $member_iam['mem_phone']);
 	$iam_birth_arr = explode("-", $member_iam[mem_birth]);
 
 	$format_month = date("Y-m");

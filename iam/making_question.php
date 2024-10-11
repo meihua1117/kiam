@@ -19,7 +19,7 @@ if(isset($_POST['settle_type'])){
         $member_type = "설문작성";
         $sql_question_make = "insert into Gn_Item_Pay_Result
                     set buyer_id='{$_SESSION['one_member_id']}',
-                        buyer_tel='$data[mem_phone]',
+                        buyer_tel='{$data['mem_phone']}',
                         item_name = '$member_type',
                         item_price=$_POST[allat_amt],
                         pay_date=NOW(),
@@ -75,7 +75,7 @@ if(isset($_POST['settle_type'])){
 
             $sql_contents_send = "insert into Gn_Item_Pay_Result
                         set buyer_id='{$_SESSION['one_member_id']}',
-                            buyer_tel='$data[mem_phone]',
+                            buyer_tel='{$data['mem_phone']}',
                             site='$con_url',
                             pay_method='$arr_id[$i]',
                             item_name = '$item_name',

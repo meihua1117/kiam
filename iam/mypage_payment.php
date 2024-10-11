@@ -164,7 +164,7 @@ $mid = date("YmdHis").rand(10,99);
 <link href='/css/responsive.css' rel='stylesheet' type='text/css'/>
 <link href='./css/mypage_payment.css' rel='stylesheet' type='text/css'/>
 
-<main id="register" class="common-wrap" style=""><!-- 컨텐츠 영역 시작 -->
+<main id="register" class="common-wrap"><!-- 컨텐츠 영역 시작 -->
     <div class="container">
         <div class="inner-wrap">
             <h2 class="title"></h2>
@@ -296,20 +296,20 @@ $mid = date("YmdHis").rand(10,99);
                             while($row=mysqli_fetch_array($result)){
 ?>
                                 <tr >
-                                    <td style=""><?=$sort_no?></td>
-                                    <td style=""><?="IAM-".$row[iam_pay_type]?></td>
-<!--                                            <td style="">--><?//=$row[iam_card_cnt]?><!--</td>-->
-<!--                                            <td style="">--><?//=$row[iam_share_cnt]?><!--</td>-->
+                                    <td><?=$sort_no?></td>
+                                    <td><?="IAM-".$row[iam_pay_type]?></td>
+<!--                                            <td>--><?//=$row['iam_card_cnt']?><!--</td>-->
+<!--                                            <td>--><?//=$row['iam_share_cnt']?><!--</td>-->
                                     <td style="font-size:11px;"><?=$row[date]?></td>
                                     <td style="font-size:11px;"><?=$row['end_date']?></td>
                                     <?if($row['month_cnt'] < 120){?>
-                                        <td style=""><?=$row['month_cnt']?>개월</td>
+                                        <td><?=$row['month_cnt']?>개월</td>
                                     <?}else{?>
-                                        <td style="">정기</td>
+                                        <td>정기</td>
                                     <?}?>
-                                    <td style=""><?=$pay_type[$row[payMethod]]?></td>
-                                    <td style=""><?=number_format($row[TotPrice])?>원</td>
-                                    <td style="">
+                                    <td><?=$pay_type[$row[payMethod]]?></td>
+                                    <td><?=number_format($row[TotPrice])?>원</td>
+                                    <td>
                                         <?=$pay_result_status[$row['end_status']]?>
                                         <?php if($row['monthly_yn'] == "Y") {?>
                                             <div style="border:1px solid #000;padding:3px;background:#D8D8D8; font-size:10px" >
@@ -406,11 +406,11 @@ $mid = date("YmdHis").rand(10,99);
                                 $seller_no = $row['no'] * 1 + 1;
                                 ?>
                                 <tr >
-                                    <td style=""><?=$content_sort_no?></td>
-                                    <!-- <td style=""><?=$method?></td> -->
+                                    <td><?=$content_sort_no?></td>
+                                    <!-- <td><?=$method?></td> -->
                                     <td>
                                         <?
-                                        if ($row[gwc_cont_pay] == '1') {
+                                        if ($row['gwc_cont_pay'] == '1') {
                                             echo '굿마켓';
                                         } else {
                                             if (strpos($row[item_name],'서비스콘텐츠') == 0) {
@@ -422,9 +422,9 @@ $mid = date("YmdHis").rand(10,99);
                                             }
                                         }
                                         ?></td>
-                                    <td style=""><?=$row[item_name]?></td>
-                                    <td style=""><?=$row_mem_data['mem_id']?><br><?=$row_mem_data['mem_name']?></td>
-                                    <td style=""><?=$row[buyer_tel]?></td>
+                                    <td><?=$row[item_name]?></td>
+                                    <td><?=$row_mem_data['mem_id']?><br><?=$row_mem_data['mem_name']?></td>
+                                    <td><?=$row[buyer_tel]?></td>
                                     <td style="font-size:11px;"><?=$row[pay_date]?></td>
                                     <td style="font-size:11px;">
                                         <?php
@@ -581,12 +581,12 @@ $mid = date("YmdHis").rand(10,99);
                                 }
                                 ?>
                                 <tr >
-                                    <td style=""><?=$point_sort_no?></td>
-                                    <td style=""><?=$type?></td>
-                                    <td style=""><?=$row[item_name]?></td>
-                                    <td style=""><?=$row[pay_method]?></td>
+                                    <td><?=$point_sort_no?></td>
+                                    <td><?=$type?></td>
+                                    <td><?=$row[item_name]?></td>
+                                    <td><?=$row[pay_method]?></td>
                                     <td style="font-size:11px;"><?=$row[pay_date]?></td>
-                                    <td style=""><?=number_format($row[item_price])?>P</td>
+                                    <td><?=number_format($row[item_price])?>P</td>
                                     <!-- <td style="font-size:11px;"><?=$row[apply_buyer_date]?></td> -->
                                     <!-- <td style="font-size:11px;"><?=$row[apply_seller_date]?></td> -->
                                 </tr>
@@ -635,7 +635,7 @@ $mid = date("YmdHis").rand(10,99);
 <div id="detail_intro_modal" class="modal fade" tabindex="-1" role="dialog" style="overflow-x: auto; overflow-y: auto;">
     <div class="modal-dialog" style="width: 100%;max-width:768px;">
         <!-- Modal content-->
-        <div class="modal-content" style="">
+        <div class="modal-content">
             <div class="modal-header" style="border:none;background-color: rgb(130,199,54);border-top-right-radius: 5px;border-top-left-radius: 5px;">
                 <div>
                     <button type="button" class="close" data-dismiss="modal" style="opacity: 2">
@@ -675,7 +675,7 @@ $mid = date("YmdHis").rand(10,99);
 <div id="penalty_modal" class="modal fade" tabindex="-1" role="dialog" style="overflow-x: auto; overflow-y: auto;">
     <div class="modal-dialog" style="width: 100%;max-width:768px;">
         <!-- Modal content-->
-        <div class="modal-content" style="">
+        <div class="modal-content">
             <div class="modal-header" style="border:none;background-color: rgb(130,199,54);border-top-right-radius: 5px;border-top-left-radius: 5px;">
                 <div>
                     <button type="button" class="close" data-dismiss="modal" style="opacity: 2">

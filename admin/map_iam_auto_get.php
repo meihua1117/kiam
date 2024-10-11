@@ -260,7 +260,7 @@ while($res = mysqli_fetch_array($result_state)){
                                     <td><?=$row['mem_id']?></td>
                                     <td><?=$row['card_name']?></td>
                                     <td>
-                                        <div style="">
+                                        <div>
                                             <a href="<?=$row['main_img1']?>" target="_blank">
                                                 <img class="zoom" src="<?=$row['main_img1']?>">
                                             </a>

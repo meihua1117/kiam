@@ -15,7 +15,7 @@ if($mode == "send_sms") {
         $sql="select * from Gn_Member where mem_phone='$rphone'";
         $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
         $data = $row=mysqli_fetch_array($result);
-        // if($data[mem_phone] != "") {
+        // if($data['mem_phone'] != "") {
         //     echo '{"result":"fail","msg":"이미 가입된 핸드폰이 있습니다. 관리자에 문의하세요."}';
         //     exit;
         // }

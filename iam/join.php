@@ -20,7 +20,7 @@ include "inc/header.inc.php";
                         <section class="input-field">
                             <?if($domainData[service_type] == 0) {?>
                                 <h3 class="title">1. 회원가입 유형 확인*</h3>
-                                <input type="radio" name="service_type" value="0" class="check" style="" checked>무료회원
+                                <input type="radio" name="service_type" value="0" class="check" checked>무료회원
                                 <div class="utils clearfix">
                                     <span class="notice">
                                         1.본 플랫폼 제공자는 플랫폼 개발 연구소와 협의 하에 회원들에게 베이직상품을 지원합니다.<br>
@@ -29,7 +29,7 @@ include "inc/header.inc.php";
                                 </div>
                             <?} elseif($domainData[service_type] == 1) {?>
                                 <h3 class="title">1. 회원가입 유형 확인*</h3>
-                                <input type="radio" name="service_type" value="4" class="check" style="" checked>유료회원
+                                <input type="radio" name="service_type" value="4" class="check" checked>유료회원
                                 <div class="utils clearfix">
                                     <span class="notice">
                                         1.본 플랫폼 회원은 가입시 다른 아이엠 보기,내 홈피에 저장하기가 가능합니다.<br>
@@ -38,7 +38,7 @@ include "inc/header.inc.php";
                                 </div>
                             <?} elseif($domainData[service_type] == 2) {?>
                                 <h3 class="title">1. 회원가입 유형 확인*</h3>
-                                <input type="radio" name="service_type" value="5" class="check" style="" checked>단체회원
+                                <input type="radio" name="service_type" value="5" class="check" checked>단체회원
                                 <div class="utils clearfix">
                                     <span class="notice">
                                         1.본 플랫폼 제공자는 플랫폼 개발 연구소와 협의 하에 회원들에게 베이직상품을 지원합니다.<br>
@@ -350,8 +350,8 @@ include "inc/header.inc.php";
                             <h3 class="title tabmenu2">4. IAM 카드정보 입력(선택)</h3>
                             <p class="notice" style="margin-left:20px;color:#555">입력하면 1번카드에 적용되어 생성됩니다.</p>
                             <div class="form-wrap"  id="iam_form" style="display:none">
-                            <div style="">
-                                <h4 style="">1. 포토등록 <span class="popbutton1 pop_view" style="color:#000;padding:0px 4px;">?</span></h4>
+                            <div>
+                                <h4>1. 포토등록 <span class="popbutton1 pop_view" style="color:#000;padding:0px 4px;">?</span></h4>
                                 <h5 style="color:#555;margin-top:10px;margin-bottom:10px">*파일과 웹주소 중 하나만 이미지 업로드 가능</h5>
                             </div>
                             <div class="attr-row">
@@ -419,7 +419,7 @@ include "inc/header.inc.php";
                                 </div>
                             </div>
                             <div style="margin-bottom:10px">
-                                <h4 style="">2. 프로필 등록 <span class="popbutton2 pop_view" style="color:#000;padding:0px 4px;">?</span></h4>
+                                <h4>2. 프로필 등록 <span class="popbutton2 pop_view" style="color:#000;padding:0px 4px;">?</span></h4>
                             </div>
                             <div class="attr-row">
                                 <div class="attr-name">명함로고</div>
@@ -575,8 +575,8 @@ include "inc/header.inc.php";
                                     </div>
                                 </div>
                             </div>
-                            <div style="">
-                                <h4 style="">3. 마이스토리등록 <span class="popbutton3 pop_view" style="color:#000;padding:0px 4px;">?</span></h4>
+                            <div>
+                                <h4>3. 마이스토리등록 <span class="popbutton3 pop_view" style="color:#000;padding:0px 4px;">?</span></h4>
                             </div>
                             <div class="attr-row" style="margin-top:10px">
                                 <div class="attr-name" style="text-align:center">마이스토리<br>자기소개</div>
@@ -607,8 +607,8 @@ include "inc/header.inc.php";
                                     </div>
                                 </div>
                             </div>
-                            <div style="">
-                                <h4 style="">4. 콘텐츠 등록 <span class="popbutton4 pop_view" style="color:#000;padding:0px 4px;">?</span></h4>
+                            <div>
+                                <h4>4. 콘텐츠 등록 <span class="popbutton4 pop_view" style="color:#000;padding:0px 4px;">?</span></h4>
                             </div>
                             <div class="attr-row" style="margin-top:10px">
                                 <div class="attr-name" style="text-align:center">콘텐츠1번<br>제목</div>
@@ -1306,7 +1306,7 @@ function install_cancel(){
 	var tid;
     function sns_sendSMS(){
         $("#sns-modalwindow").modal("hide");
-        var iam_link = '<?=$G_card[card_name]?>님의 명함 <?=$G_card[card_company]?> <?=$G_card[card_position]?> <?=$G_card[card_phone]?> <?php echo $domainData[sub_domain];?>/?<?=$G_card[card_short_url]?>';
+        var iam_link = '<?=$G_card[card_name]?>님의 명함 <?=$G_card[card_company]?> <?=$G_card[card_position]?> <?=$G_card[card_phone]?> <?php echo $domainData['sub_domain'];?>/?<?=$G_card[card_short_url]?>';
         iam_sms(iam_link);
     }
     function sns_shareEmail(){
@@ -1324,7 +1324,7 @@ function install_cancel(){
     }
     function sns_shareFaceBook(){
         $("#sns-modalwindow").modal("hide");
-        var iam_link = '<?=$domainData[sub_domain];?>/?<?=$G_card[card_short_url]?>';
+        var iam_link = '<?=$domainData['sub_domain'];?>/?<?=$G_card[card_short_url]?>';
         shareFaceBook('<?=$G_card[card_name]?>님의 명함 <?=$G_card[card_company]?> <?=$G_card[card_position]?>', iam_link);
     }
     function sns_copyContacts(){
@@ -1633,7 +1633,7 @@ function install_cancel(){
 
         $('.daily_popup').css('display', 'block');
         var iam_link = "daily_write_iam.php?msg=" + '<?=$G_card[card_name]?>' + "님의 명함입니다.  " +
-            "<?=$G_card[card_company].'<br>'.$G_card[card_position].'<br>'.$G_card[card_phone].'<br>'.$domainData[sub_domain].'/?'.$G_card[card_short_url]?>" +
+            "<?=$G_card[card_company].'<br>'.$G_card[card_position].'<br>'.$G_card[card_phone].'<br>'.$domainData['sub_domain'].'/?'.$G_card[card_short_url]?>" +
             " 모바일 명함을 새로 만들었습니다. 휴대폰에 저장부탁해요. 혹시 명함 만들면 저에게도 보내주시구요. 감사합니다. ";
         //location = iam_link;
         $("#daily_popup_content").prop("href",iam_link);
@@ -1682,7 +1682,7 @@ function install_cancel(){
         console.log("Kakao 로딩 failed : " + e);
     }
     function shareKakaotalk() {
-        var iam_link = '<?=$domainData[sub_domain];?>/?<?=$G_card[card_short_url]?>';
+        var iam_link = '<?=$domainData['sub_domain'];?>/?<?=$G_card[card_short_url]?>';
         iam_count('iam_kakao');
         try{
             Kakao.Link.sendDefault({
@@ -1711,7 +1711,7 @@ function install_cancel(){
     //텍스트 복사
     function copy() {
         iam_count('iam_share');
-        var iam_link = '<?=$domainData[sub_domain];?>/?<?=$G_card[card_short_url]?>';
+        var iam_link = '<?=$domainData['sub_domain'];?>/?<?=$G_card[card_short_url]?>';
         // 글을 쓸 수 있는 란을 만든다.
         var aux = document.createElement("input");
         // 지정된 요소의 값을 할당 한다.

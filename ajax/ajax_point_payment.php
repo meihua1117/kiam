@@ -23,8 +23,8 @@ if($_POST['pay_type'] == "message_set"){
                 month_cnt='{$_POST['month_cnt']}',
                 end_date=date_add(now(),INTERVAL {$_POST['month_cnt']} month),
                 end_status='Y',
-                buyertel='$mem_data[mem_phone]',
-                buyeremail='$mem_data[mem_email]',
+                buyertel='{$mem_data['mem_phone']}',
+                buyeremail='{$mem_data['mem_email']}',
                 payMethod='POINT',
                 buyer_id='$_POST[buyer]',
                 date=NOW(),
@@ -51,7 +51,7 @@ if($_POST['pay_type'] == "message_set"){
 
     $sql = "insert into Gn_Item_Pay_Result
             set buyer_id='$_POST[buyer]',
-                buyer_tel='$mem_data[mem_phone]',
+                buyer_tel='{$mem_data['mem_phone']}',
                 site='$item_idx',
                 pay_method='POINT',
                 item_name = '$_POST[pay_item]',
@@ -94,7 +94,7 @@ if($_POST['pay_type'] == "message_set"){
                                                     step = '$step_row[step]',
                                                     send_day = '$step_row[send_day]',
                                                     send_time = '$step_row[send_time]',
-                                                    title= '$step_row[title]',
+                                                    title= '{$step_row['title']}',
                                                     content = '{$step_row['content']}',
                                                     image = '$step_row[image]',
                                                     image1 = '$step_row[image1]',

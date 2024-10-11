@@ -34,9 +34,9 @@ if($member == 'on') {
     if($row[zy])
 	    $card_company = $row[zy];
 	// $card_position = $row[card_position];
-	$card_phone = $row[mem_phone];
-    if($row[mem_email])
-	    $card_email = $row[mem_email];
+	$card_phone = $row['mem_phone'];
+    if($row['mem_email'])
+	    $card_email = $row['mem_email'];
     if($row[mem_add1])
 	    $card_addr = $row[mem_add1];
 	// $profile_logo = $row[profile_logo];

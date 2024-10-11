@@ -347,14 +347,14 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                                     <a href="/?<?=strip_tags($contents_card_url.$m_code)?>" class="user-name" style="display: block;margin-top: 0px;font-size: 15px;font-weight: 700;color: #000000;">
                                         <?=$group_row['name'] ?>
                                     </a>
-                                    <a href="/?<?=strip_tags($contents_card_url.$m_code)?>" class="user-name" style="">
+                                    <a href="/?<?=strip_tags($contents_card_url.$m_code)?>" class="user-name">
                                         <?=$group_info?>
                                     </a>
                                 </div>
                                 <button class = "btn btn-link" type="button" style="position: absolute; right: 40px; top: 16px;" onclick = "join_group('<?=$group_row[group_id]?>')">참여</button>
                                 <?if( $_SESSION['iam_member_id'] != "" && $_SESSION['iam_member_id'] != $group_row['mem_id']  ){?>
                                     <div class="dropdown" style="position: absolute; right: 10px; top: 8px;">
-                                        <button class="btn-link dropdown-toggle westory_dropdown" type="button" data-toggle="dropdown" style="">
+                                        <button class="btn-link dropdown-toggle westory_dropdown" type="button" data-toggle="dropdown">
                                             <img src="/iam/img/menu/icon_dot.png" style="height:24px">
                                         </button>
                                         <ul class="dropdown-menu comunity">
@@ -497,7 +497,7 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                                         <div onclick="play<?=$kk;?>();" id="vidwrap<?=$kk;?>" style="position: relative;">
                                             <img src="<?=cross_image($content_images[0])?>" class="contents_img">
                                             <?if($contents_movie){?>
-                                                <img class="movie_play" src="/iam/img/movie_play.png" style="">
+                                                <img class="movie_play" src="/iam/img/movie_play.png">
                                             <?}?>
                                             <?if(count($content_images) > 1){?>
                                                 <?for($c = 1;$c < count($content_images);$c ++){?>
@@ -509,7 +509,7 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                                         <a href="<?=$group_row[contents_url]?>" target="_blank" id="vidwrap<?=$kk;?>" style="position: relative;">
                                             <img src="<?=cross_image($content_images[0])?>" class="contents_img">
                                             <?if($contents_movie){?>
-                                                <img class="movie_play" src="/iam/img/movie_play.png" style="">
+                                                <img class="movie_play" src="/iam/img/movie_play.png">
                                             <?}?>
                                             <?if(count($content_images) > 1){?>
                                                 <?for($c = 1;$c < count($content_images);$c ++){?>

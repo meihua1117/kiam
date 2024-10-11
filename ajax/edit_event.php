@@ -215,7 +215,7 @@ else if(isset($_POST['duplicate_msg'])){
         $pcode = "aimem".$cur_time1.$rand_num;
   
         $sql_dup_event = "INSERT INTO Gn_event(event_name_kor, event_name_eng, event_title, event_desc, event_info, event_sms_desc, pcode, event_type, mobile, regdate, ip_addr, m_id, short_url, read_cnt, cnt, object, callback_no, event_req_link, daily_req_link) 
-        (SELECT event_name_kor, '{$event_name_eng}', event_title, event_desc, '', event_sms_desc, '{$pcode}', event_type, '{$row_mem_data[mem_phone]}', now(), ip_addr, '{$row_servicee_ids['mem_id']}', '', 0, cnt, object, callback_no, event_req_link, daily_req_link FROM Gn_event WHERE event_idx='{$id}')";
+        (SELECT event_name_kor, '{$event_name_eng}', event_title, event_desc, '', event_sms_desc, '{$pcode}', event_type, '{$row_mem_data['mem_phone']}', now(), ip_addr, '{$row_servicee_ids['mem_id']}', '', 0, cnt, object, callback_no, event_req_link, daily_req_link FROM Gn_event WHERE event_idx='{$id}')";
         mysqli_query($self_con,$sql_dup_event) or die(mysqli_error($self_con));
         $event_idx = mysqli_insert_id($self_con);
   

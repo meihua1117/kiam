@@ -563,11 +563,11 @@ function excel_down_personal(pno){
 											$sql_s="select status from Gn_MMS_status where send_num	='$sendnum' and recv_num	='$sendnum' order by regdate desc limit 1 ";
 											$resul_s=mysqli_query($self_con,$sql_s);
 											$row_s=mysqli_fetch_array($resul_s);
-											$row_s[status] = -1;
-											if($row_s[status] == "-1") {
+											$row_s['status'] = -1;
+											if($row_s['status'] == "-1") {
 												$color = "btn_option_red";
 												$msg = "OFF";
-											} else if($row_s[status] == "0") {
+											} else if($row_s['status'] == "0") {
 												$color = "btn_option_blue";
 												$msg = "ON";
 											} else {

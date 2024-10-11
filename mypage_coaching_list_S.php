@@ -207,8 +207,8 @@ $(function(){
                     <input type="button" value="미리보기" class="button" onclick="viewEvent('<?php echo $row['short_url']?>')">
                     <input type="button" value="링크복사" class="button copyLinkBtn" data-link="<?php echo $row['short_url']?>">
                 </td>
-                <td><?=number_format($row[mem_phone])?></td>
-                <td><?=number_format($row[mem_email])?></td>
+                <td><?=number_format($row['mem_phone'])?></td>
+                <td><?=number_format($row['mem_email'])?></td>
                 <td><?=$row['regdate']?></td>
                 <td>
                     <a href='mypage_landing_write.php?landing_idx=<?php echo $row['landing_idx'];?>'>수정</a>/<a href="javascript:;;" onclick="removeRow('<?php echo $row['landing_idx'];?>')">삭제</a>

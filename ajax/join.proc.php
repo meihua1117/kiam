@@ -15,7 +15,7 @@ if($mode == "send_sms") {
         /*$sql="select * from Gn_Member where replace(mem_phone,'-', '')=replace('$rphone','-','')";
         $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
         $data = $row=mysqli_fetch_array($result);
-        if($data[mem_phone] != "") {
+        if($data['mem_phone'] != "") {
             echo '{"result":"fail","msg":"이미 가입된 핸드폰이 있습니다. 관리자에 문의하세요."}';
             exit;
         }*/
@@ -181,7 +181,7 @@ else if($mode == "send_sms2") {
     $sql="select * from Gn_Member where mem_id='$mem_id' and mem_phone='$rphone'";
     $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
     $row=mysqli_fetch_array($result);
-    if($row[mem_phone] == "") {
+    if($row['mem_phone'] == "") {
         echo '{"result":"fail","msg":"등록된 계정이 없습니다."}';
         exit;
     }

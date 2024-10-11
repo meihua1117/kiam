@@ -56,27 +56,27 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                 <div class="box-body">
                     <form name="board_write_form" id="board_write_form" action="" method="post">
                         <input type="hidden" name="return_url" value="notice_list.php">
-                        <?if(!$_REQUEST[status] || $_REQUEST[status] == 1){?>
+                        <?if(!$_REQUEST['status'] || $_REQUEST['status'] == 1){?>
                         <div style="position:relative;left:20px;">
-                            <label><input type="radio" value="전체" name="fl" onclick="oncategorychange(1)" id="c_all" <?=$row_no[fl]=="전체"?'checked':''?>>전체</label> &nbsp;
-                            <label><input type="radio" value="문자" name="fl" onclick="oncategorychange(2)" id="c_text" <?=$row_no[fl]=='문자'?'checked':''?>>문자</label> &nbsp;
-                            <label><input type="radio" value="디버" name="fl" onclick="oncategorychange(3)" id="c_diver" <?=$row_no[fl]=='디버'?'checked':''?>>디버</label> &nbsp;
-                            <label><input type="radio" value="윈스텝" name="fl" onclick="oncategorychange(4)" id="c_winstep" <?=$row_no[fl]=='윈스텝'?'checked':''?>>윈스텝</label> &nbsp;
-                            <label><input type="radio" value="아이엠" name="fl" onclick="oncategorychange(5)" id="c_iam" <?=$row_no[fl]=='아이엠'?'checked':''?>>아이엠</label> &nbsp;
-                            <label><input type="radio" value="쇼핑" name="fl" onclick="oncategorychange(6)" id="c_shopping" <?=$row_no[fl]=='쇼핑'?'checked':''?>>쇼핑</label> &nbsp;
+                            <label><input type="radio" value="전체" name="fl" onclick="oncategorychange(1)" id="c_all" <?=$row_no['fl']=="전체"?'checked':''?>>전체</label> &nbsp;
+                            <label><input type="radio" value="문자" name="fl" onclick="oncategorychange(2)" id="c_text" <?=$row_no['fl']=='문자'?'checked':''?>>문자</label> &nbsp;
+                            <label><input type="radio" value="디버" name="fl" onclick="oncategorychange(3)" id="c_diver" <?=$row_no['fl']=='디버'?'checked':''?>>디버</label> &nbsp;
+                            <label><input type="radio" value="윈스텝" name="fl" onclick="oncategorychange(4)" id="c_winstep" <?=$row_no['fl']=='윈스텝'?'checked':''?>>윈스텝</label> &nbsp;
+                            <label><input type="radio" value="아이엠" name="fl" onclick="oncategorychange(5)" id="c_iam" <?=$row_no['fl']=='아이엠'?'checked':''?>>아이엠</label> &nbsp;
+                            <label><input type="radio" value="쇼핑" name="fl" onclick="oncategorychange(6)" id="c_shopping" <?=$row_no['fl']=='쇼핑'?'checked':''?>>쇼핑</label> &nbsp;
                         </div>
                         <?}?>
                         <table id="example1" class="table table-bordered table-striped">
                             <tr>
                                 <td>제목</td>
-                                <td style="width:90%"><input type="text" style="width:90%;" name="title" value="<?=$row_no[title]?>" required itemname='제목'  class="form-control input-sm"  /></td>
+                                <td style="width:90%"><input type="text" style="width:90%;" name="title" value="<?=$row_no['title']?>" required itemname='제목'  class="form-control input-sm"  /></td>
                             </tr>
-                            <?if($_REQUEST[status]==2){?>
+                            <?if($_REQUEST['status']==2){?>
                             <tr>
                                 <td>분류</td>
                                 <td>
                                 <?foreach($fl_arr as $key=>$v){
-                                    $checked=$row_no[fl]==$key?"checked":"";
+                                    $checked=$row_no['fl']==$key?"checked":"";
                                 ?>
                                 <label><input  type="radio" value="<?=$key?>" name="fl" <?=$checked?> /><?=$v?></label> &nbsp;
                                 <?}?>

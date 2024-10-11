@@ -11,5 +11,5 @@ $mem_id = $_POST["mem_id"];
 $sql = "select * from tjd_pay_result where buyer_id='$mem_id' and end_status='Y' and (member_type like '%professional%' or member_type like '%enterprise%') and `end_date` > '$date'";
 $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 $row = mysqli_fetch_array($result);
-echo "{\"mem_cnt\":\"$row[member_cnt]\",\"my_card_cnt\":\"$row[iam_card_cnt]\",\"iam_card_cnt\":\"1\",\"iam_share_cnt\":\"$row[iam_share_cnt]\"}";
+echo json_encode(array("mem_cnt"=>$row['member_cnt'],"my_card_cnt"=>$row['iam_card_cnt'],"iam_card_cnt"=>1,"iam_share_cnt"=>$row['iam_share_cnt']));
 ?>

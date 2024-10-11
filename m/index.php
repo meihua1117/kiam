@@ -229,7 +229,7 @@ if($_GET['key'] && $_GET['key'] == session_id()) {
 			<?
 			}
 			while($data = mysqli_fetch_array($res)) {
-				if($data[title] == "굿마켓"){
+				if($data['title'] == "굿마켓"){
 					$href = "javascript:go_market_url('".$_SESSION['iam_member_id']."', '".$data[move_url]."')";
 				}
 				else{

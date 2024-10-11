@@ -20,7 +20,7 @@
                //service_type: 0: 이용자, 1: 리셀러, 3: 분양자
 
                ?>
-                <?if($data[mem_leb] == 21 || $data[mem_leb] == 60 || $data['mem_id'] == "obmms02") {?>
+                <?if($data['mem_leb'] == 21 || $data['mem_leb'] == 60 || $data['mem_id'] == "obmms02") {?>
                 <a href="/mypage_lecture_list.php">강연관리</a> | 
                 
                 <?}?>

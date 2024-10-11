@@ -183,7 +183,7 @@ if($_GET['type']){
 														<span class="company"><?=$row6['mem_id']?></span>
 													</div>
 													<div class="downer">
-														<a href="tel:<?=$row6[mem_phone]?>"><?=$row6[mem_phone]?></a>
+														<a href="tel:<?=$row6['mem_phone']?>"><?=$row6['mem_phone']?></a>
 													</div>
 												</div>
 												<div class="check">

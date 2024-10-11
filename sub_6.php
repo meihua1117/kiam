@@ -836,7 +836,7 @@ if (!empty($row_sum_b)) {
 									<div class="b2">개별번호</div>
 									<div class="div_2px"><textarea name="num" id="num" itemname='전화번호' placeholder="전화번호(쉼표로 구분)" onblur="numchk('4')"><?= $_REQUEST[num] ?></textarea></div>
 									<div class="b4">
-										<div class="div_2px" style="">
+										<div class="div_2px">
 											<label><input type="radio" name="type" value="1" checked />묶음발송</label>
 											<label><input type="radio" name="type" value="0" />개별발송</label>
 										</div>
@@ -1019,7 +1019,7 @@ if (!empty($row_sum_b)) {
 									<div class="b2">
 										<div class="div_2px"> </div>
 									</div>
-									<div class="div_2px"><input type="text" name="title" itemname='제목' required placeholder="제목" style="width:100%;" value="<?= $_REQUEST[title] ?>" /></div>
+									<div class="div_2px"><input type="text" name="title" itemname='제목' required placeholder="제목" style="width:100%;" value="<?= $_REQUEST['title'] ?>" /></div>
 									<div class="div_2px">
 										<textarea name="txt" itemname='내용' id='txt' required placeholder="내용" onkeydown="textCounter(sub_4_form.txt,'wenzi_cnt',2000,0);" onkeyup="textCounter(sub_4_form.txt,'wenzi_cnt',2000,0);type_check();" onfocus="textCounter(sub_4_form.txt,'wenzi_cnt',2000,0);type_check();"><?= $_REQUEST[txt] ?></textarea>
 										<input type="hidden" name="onebook_status" value="N" />
@@ -1272,7 +1272,7 @@ if (!empty($row_sum_b)) {
 									$sql = "select * from Gn_MMS_Number where mem_id='{$_SESSION['one_member_id']}' order by sort_no asc, user_cnt desc , idx desc";
 									$resul = mysqli_query($self_con,$sql);
 									?>
-									<div class="button_box" style="">
+									<div class="button_box">
 										<div class="left_box">
 											<span class="popup_holder button_type">
 												<a href="javascript:void(0)" onclick="select_app_check_push('check_num')">앱 상태 체크</a>
@@ -1766,7 +1766,7 @@ if (!empty($row_sum_b)) {
 		if (status != "4" && status != "5") {
 			if (!$("#group_num").val() && !$("#num").val()) {
 				alert('선택된 번호가 없습니다.');
-				document.getElementsByName('deny_wushi[]')[status].checked = false;
+				document.getElementsByName('deny_wushi[]')['status'].checked = false;
 				return false;
 			}
 		}

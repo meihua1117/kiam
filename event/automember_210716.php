@@ -122,7 +122,7 @@
 												</div>
 												
 											</div>
-											<input type="button" id="checkdup" value="아이디중복확인" style="" onclick="id_check1()">
+											<input type="button" id="checkdup" value="아이디중복확인" onclick="id_check1()">
 											<h3 class="title" id = "agreement-field" style="margin-top: 35px;">
 												2. 약관 동의하기<span style="color:red">[필수]</span>
 												<input type="checkbox" class="check" id="checkAll_title" >

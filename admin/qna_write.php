@@ -203,7 +203,7 @@ td div {
                 <table id="example1" class="table table-bordered table-striped">
                 <tr>
                 <td>질문</td>
-                <td style="width:90%"><input type="text" style="width:90%;" name="title" value="<?=$row_no[title]?>" required itemname='제목'  class="form-control input-sm"  /></td>
+                <td style="width:90%"><input type="text" style="width:90%;" name="title" value="<?=$row_no['title']?>" required itemname='제목'  class="form-control input-sm"  /></td>
                 </tr>
                 <tr>
                 <td>분류</td>
@@ -211,7 +211,7 @@ td div {
                 	<?
 					foreach($fl_arr as $key=>$v)
 					{
-						$checked=$row_no[fl]==$key?"checked":"";
+						$checked=$row_no['fl']==$key?"checked":"";
 						?>
                         <label><input  type="radio" value="<?=$key?>" name="fl" <?=$checked?> /><?=$v?></label> &nbsp;
                         <?	

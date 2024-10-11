@@ -247,7 +247,7 @@
                     <!--| <a href="/pc_messenger.php">PC문자메신져</a>&nbsp;-->
                     <?
                     }
-                    //if($_SESSION[one_mem_lev] == "50"){
+                    //if($_SESSION['one_mem_lev'] == "50"){
                     if($_SESSION['one_member_id'] == "lecturem") {
                     ?>
                       | <a href="/admin/lecture_list.php">관리자</a>&nbsp;				
@@ -484,7 +484,7 @@
 			<div class="left_sub_menu">
 				<a href="./">홈</a> >
 				<a href="sub_1.php">온리원문자</a> >
-				<a href="?status=<?=$_REQUEST[status]?>"><?=$left_str?></a>
+				<a href="?status=<?=$_REQUEST['status']?>"><?=$left_str?></a>
 			</div>
 			<div style="position:absolute;left:530px;">
 			   <a href="sub_1.php">폰문자소개</a> ㅣ<a href="sub_5.php">휴대폰등록</a> ㅣ <a href="sub_6.php">문자발송</a> ㅣ <a href="sub_4_return_.php">발신내역</a> ㅣ <a href="sub_4.php?status=5&status2=3">수신내역</a> ㅣ <a href="sub_4.php?status=6">수신여부</a>
@@ -507,7 +507,7 @@
 			<div class="left_sub_menu">
 			  <a href="./">홈</a> >
 			  <a href="sub_2.php">온리원디버</a> >
-			  <a href="?status=<?=$_REQUEST[status]?>"><?=$left_str?></a>
+			  <a href="?status=<?=$_REQUEST['status']?>"><?=$left_str?></a>
 			</div>
 			<div style="position:absolute;left:320px;">     
 			  <a href="sub_2.php">디버알아보기</a> ㅣ <a href="http://kiam.kr/app/201004OnlyOneDB.exe">디버설치하기</a>ㅣ <a href="https://url.kr/IYUGDV">디버수집하기</a> 
@@ -519,7 +519,7 @@
 			<div class="left_sub_menu">
 			  <a href="./">홈</a> >
 			  <a href="sub_11.php">온리원콜백</a> >
-			  <a href="?status=<?=$_REQUEST[status]?>"><?=$left_str?></a>
+			  <a href="?status=<?=$_REQUEST['status']?>"><?=$left_str?></a>
 			</div>
 			<div style="position:absolute;left:430px;">     
 			  <a href="sub_11.php">콜백알아보기</a> ㅣ <a href="https://www.onestore.co.kr/userpoc/apps/view?pid=0000738690">콜백설치하기</a>ㅣ <a href="https://url.kr/IYUGDV">콜백이용하기</a> 
@@ -574,7 +574,7 @@
 			<div class="left_sub_menu">
 			  <a href="./">홈</a> >
 			  <a href="sub_8.php">솔루션소개</a> >
-			  <a href="?status=<?=$_REQUEST[status]?>"><?=$left_str?></a>
+			  <a href="?status=<?=$_REQUEST['status']?>"><?=$left_str?></a>
 			</div>
 			<div style="position:absolute;left:140px;">
 			  <!--

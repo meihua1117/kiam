@@ -43,10 +43,10 @@ if(!strcmp($REPLYCD,"0000")){//pay_test
     $email = $member_iam['mem_email'];
     $address = $member_iam['mem_add1'];
     $status = "Y";
-    $use_cnt = $row[db_cnt];
+    $use_cnt = $row['db_cnt'];
     $last_time = date("Y-m-d H:i:s", strtotime("+{$row['month_cnt']} month"));
     $search_email_date = substr($last_time, 0, 10);
-    $search_email_cnt = $row[email_cnt];
+    $search_email_cnt = $row['email_cnt'];
     $term = substr($last_time, 0, 10);
 
     $sql = "select count(cmid) from crawler_member_real where user_id='{$member_iam['mem_id']}' ";
@@ -123,8 +123,8 @@ if(!strcmp($REPLYCD,"0000")){//pay_test
             mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
         }
     }//디버회원가입 완료
-    $iam_card_cnt = $_POST[iam_card_cnt];
-    $iam_share_cnt = $_POST[iam_share_cnt];
+    $iam_card_cnt = $_POST['iam_card_cnt'];
+    $iam_share_cnt = $_POST['iam_share_cnt'];
     $sql_m = "update Gn_Member set fujia_date1=now() ,
                                 fujia_date2=date_add(now(),INTERVAL 120 month),
                                 iam_card_cnt = iam_card_cnt + '$iam_card_cnt',

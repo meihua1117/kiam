@@ -123,7 +123,7 @@ if($row['mem_id'])
 		}
 		else
 		{
-			if(str_replace("-","",$row[mem_phone]) == $userNum)
+			if(str_replace("-","",$row['mem_phone']) == $userNum)
 			{
 				$sql_in = "insert into Gn_MMS_Number set sendnum = '$userNum', mem_id = '$userId', end_status='M',reg_date = now() $addQuery"; //신규등록
 				mysqli_query($self_con,$sql_in);

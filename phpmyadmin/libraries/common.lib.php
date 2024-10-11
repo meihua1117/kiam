@@ -1809,7 +1809,7 @@ function PMA_generate_html_tabs($tabs, $url_params, $base_dir='', $menu_id='topm
  * @param string  $url        the URL
  * @param string  $message    the link message
  * @param mixed   $tag_params string: js confirmation
- *                            array: additional tag params (f.e. style="")
+ *                            array: additional tag params (f.e.)
  * @param boolean $new_form   we set this to false when we are already in
  *                            a  form, to avoid generating nested forms
  * @param boolean $strip_img  whether to strip the image

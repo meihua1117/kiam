@@ -1,6 +1,6 @@
 <?
 $path="./"; 
-include_once $_REQUEST[status]?"_head_open.php":"_head.php";
+include_once $_REQUEST['status']?"_head_open.php":"_head.php";
 if($_REQUEST['status2']==2)
 {
 	if(!$fujia_pay)
@@ -27,7 +27,7 @@ function deleteRow(idx) {
             </div>
             <div class="right_sub_menu">
             <?
-			if(!$_REQUEST[status])
+			if(!$_REQUEST['status'])
 			{
 				?>            
                 <a href="sub_4.php?status=1">휴대폰등록관리</a> &nbsp;|&nbsp; 
@@ -132,7 +132,7 @@ function deleteRow(idx) {
                                             ?>
                                         <div class="sub_4_3_t2_right_1">
                                             <div class="sub_4_3_t2_right_1_1">
-                                                <div class="msg_title" style="margin-bottom:2px;"><?=str_replace("{|REP|}", "{|name|}", $row[title])?></div>
+                                                <div class="msg_title" style="margin-bottom:2px;"><?=str_replace("{|REP|}", "{|name|}", $row['title'])?></div>
                                                 <div class="msg_content"><?=html_entity_decode( str_replace("{|REP|}", "{|name|}", $row[message]))?></div>
                                             </div>
                                             <div class="sub_4_3_t2_right_1_3"><label><input type="radio" name="ab" onclick="show_msg('<?=$i?>')" />사용시 선택</label>
@@ -249,7 +249,7 @@ function deleteRow(idx) {
                                             ?>
                                         <div class="sub_4_3_t2_right_1">
                                             <div class="sub_4_3_t2_right_1_1" style="height:250px">
-                                                <div class="msg_title"><?=$row[title]?></div>
+                                                <div class="msg_title"><?=$row['title']?></div>
                                                 <div class="img_view_1"><img src="<?=$row[img]?>" /></div>
                                                 <?php if($row['img1'] != "") {?>
                                                 <div class="img_view_1"><img src="<?=$row[img1]?>" /></div>

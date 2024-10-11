@@ -89,12 +89,12 @@
     $email = $srow['mem_email'];
     $address = $srow['mem_add1'];
     $status = "Y";
-    $use_cnt = $row[db_cnt];
+    $use_cnt = $row['db_cnt'];
     $last_time = date("Y-m-d H:i:s", strtotime("+ 120 month"));
     $search_email_date = substr($last_time, 0, 10);
-    $search_email_cnt = $row[email_cnt];
+    $search_email_cnt = $row['email_cnt'];
     $term = substr($last_time, 0, 10);
-    if($row[member_type] == "dber"){
+    if($row['member_type'] == "dber"){
         if ($crow[0] == "") {
             $query = "insert into crawler_member_real set user_id='$user_id',
                                             user_name='$user_name',
@@ -110,14 +110,14 @@
                                             search_email_date='$search_email_date',
                                             search_email_cnt='$search_email_cnt',
                                             shopping_end_date='$search_email_date',
-                                            extra_db_cnt = '$row[db_cnt]',
-                                            extra_email_cnt = '$row[email_cnt]',
+                                            extra_db_cnt = '{$row['db_cnt']}',
+                                            extra_email_cnt = '{$row['email_cnt']}',
                                             extra_shopping_cnt = '$row[shop_cnt]'";
             mysqli_query($self_con,$query);
         } else {
             $query = "update crawler_member_real set
-                                            extra_db_cnt = extra_db_cnt + '$row[db_cnt]',
-                                            extra_email_cnt = extra_email_cnt + '$row[email_cnt]',
+                                            extra_db_cnt = extra_db_cnt + '{$row['db_cnt']}',
+                                            extra_email_cnt = extra_email_cnt + '{$row['email_cnt']}',
                                             extra_shopping_cnt = extra_shopping_cnt + '$row[shop_cnt]'
                                             where user_id='$user_id'
                                             ";

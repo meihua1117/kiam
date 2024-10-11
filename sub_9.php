@@ -75,7 +75,7 @@ function tab(e, num){
         <div class="left_sub_menu">
             <a href="./">홈</a> >
             <a href="sub_9.php">메시지카피</a> >
-            <a href="?status=<?=$_REQUEST[status]?>"><?=$left_str?></a>
+            <a href="?status=<?=$_REQUEST['status']?>"><?=$left_str?></a>
         </div>
         <div class="right_sub_menu">
             <a href="sub_9.php#Introduce">메시지카피소개</a> ㅣ <a href="sub_9.php#education">메시지카피교육</a> ㅣ<a href="sub_9.php#trait">메시지카피특징</a> ㅣ <a href="sub_9.php#effect">메시지카피효과</a> ㅣ <a href="sub_9.php#case">메시지카피사례</a>

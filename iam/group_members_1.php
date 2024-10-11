@@ -279,7 +279,7 @@ $domainData = mysqli_fetch_array($res);
                                         <li class="list-item">
                                             <div class="item-wrap">
                                                 <!--div class="check" style="padding-left: 0px;padding-right: 10px;">
-                                                    <input type="checkbox" style="" data-mem_id = '<?=$row['mem_id']?>'>
+                                                    <input type="checkbox" data-mem_id = '<?=$row['mem_id']?>'>
                                                 </div-->
                                                 <div class="thumb">
                                                     <div class="thumb-inner">
@@ -296,7 +296,7 @@ $domainData = mysqli_fetch_array($res);
                                                         <?}?>
                                                     </div>
                                                     <div class="downer">
-                                                        <a href="tel:<?=$row[mem_phone]?>"><?=$row[mem_phone]?></a>
+                                                        <a href="tel:<?=$row['mem_phone']?>"><?=$row['mem_phone']?></a>
                                                     </div>
                                                 </div>
                                                 <div class="check">
@@ -436,7 +436,7 @@ $domainData = mysqli_fetch_array($res);
         if(navCase.search("android") > -1){
             location.href = "sms:" + sms +
                 "<?echo (preg_match('/iPhone/',$_SERVER['HTTP_USER_AGENT']))?'&':'?';?>body="+
-                "<?=$G_card[card_name]?>님의 명함 <?=$G_card[card_company]?> <?=htmlspecialchars($G_card[card_position])?> <?=$G_card[card_phone]?> <?php echo $domainData[sub_domain];?>/?<?=$G_card[card_short_url].$G_card['mem_code']?>";
+                "<?=$G_card[card_name]?>님의 명함 <?=$G_card[card_company]?> <?=htmlspecialchars($G_card[card_position])?> <?=$G_card[card_phone]?> <?php echo $domainData['sub_domain'];?>/?<?=$G_card[card_short_url].$G_card['mem_code']?>";
         }
         else{
             alert("휴대폰에서 이용해주세요.");

@@ -205,7 +205,7 @@ if (isset($_POST['mem_name']) || isset($_POST['mem_phone']) || isset($_POST['mem
 				// send_num='$send_num',
 				// recv_num='$recv_num',
 				// content='{$row['content']}',
-				// title='$row[title]',
+				// title='{$row['title']}',
 				// jpg='$jpg',
 				// reg_date=NOW(),
 				// reservation='$reservation',

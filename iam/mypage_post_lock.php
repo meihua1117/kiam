@@ -44,7 +44,7 @@ td {
 </style>
 <link href='/css/main.css' rel='stylesheet' type='text/css'/>
 <link href='/css/responsive.css' rel='stylesheet' type='text/css'/>
-<main id="register" class="common-wrap" style=""><!-- 컨텐츠 영역 시작 -->
+<main id="register" class="common-wrap"><!-- 컨텐츠 영역 시작 -->
     <div class="container">
         <div class="inner-wrap">
                     <h2 class="title"></h2>
@@ -145,15 +145,15 @@ td {
                                     {
                                         ?>
                                         <tr >
-                                            <td style=""><?=$row[westory_card_url]?></td>
+                                            <td><?=$row[westory_card_url]?></td>
                                             <td style="text-align: center">
                                                 <div style="margin: 5px;width: 38px;height: 38px;border-radius: 50%;overflow: hidden;">
                                                     <img src='<?=$row[profile]?>'>
                                                 </div>
                                             </td>
-                                            <td style=""><?=$row['mem_name']?></td>
-                                            <td style=""><?=$row['mem_id']?></td>
-                                            <td style=""><?=$row['content']?></td>
+                                            <td><?=$row['mem_name']?></td>
+                                            <td><?=$row['mem_id']?></td>
+                                            <td><?=$row['content']?></td>
                                             <td style="font-size:11px;"><?=$row[reg_date]?></td>
                                             <td style="font-size:11px;">
                                                 <button type="button" class="btn btn-primary" style="position: relative; right: 1px; padding: 9px 12px" onclick="unlock_post('<?=$row['id']?>');">해제</button>

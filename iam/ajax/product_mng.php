@@ -149,9 +149,9 @@ else if($mode == "get_prod_info"){
     if($row_prod['idx']){
         if($mem_id != ''){
             $mem_name = $row_mem_data['mem_name'];
-            $mem_phone = $row_mem_data[mem_phone];
+            $mem_phone = $row_mem_data['mem_phone'];
             $mem_add1 = $row_mem_data[mem_add1];
-            $mem_email = $row_mem_data[mem_email];
+            $mem_email = $row_mem_data['mem_email'];
             $bank_name = $row_mem_data[bank_name];
             $bank_owner = $row_mem_data[bank_owner];
             $bank_account = $row_mem_data[bank_account];

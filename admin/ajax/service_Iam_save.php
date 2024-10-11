@@ -7,8 +7,8 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
 extract($_POST);
 $idx = $_POST["idx"];
 if($_POST['mode'] == "creat") {
-    $head_logo = gcUploadRename($_FILES['head_logo']["name"],$_FILES["head_logo"][tmp_name],$_FILES["head_logo"][size], "data/site");
-    $footer_logo = gcUploadRename($_FILES['footer_logo']["name"],$_FILES["footer_logo"][tmp_name],$_FILES["footer_logo"][size], "data/site");
+    $head_logo = gcUploadRename($_FILES['head_logo']["name"],$_FILES["head_logo"]['tmp_name'],$_FILES["head_logo"]['size'], "data/site");
+    $footer_logo = gcUploadRename($_FILES['footer_logo']["name"],$_FILES["footer_logo"]['tmp_name'],$_FILES["footer_logo"]['size'], "data/site");
     if(count(explode(".",$sub_domain)) == 1)
         $sub_domain = "http://".$sub_domain.".kiam.kr";
     if(count(explode(".",$main_domain)) == 1)
@@ -111,11 +111,11 @@ if($_POST['mode'] == "creat") {
     }
     if($service_type != 2)
         $service_price = "";
-    if(!isset($_POST[status]))
+    if(!isset($_POST['status']))
         $status = 'Y';
-    if(!isset($_POST[contract_start_date]))
+    if(!isset($_POST['contract_start_date']))
         $contract_start_date = date("Y-m-d");
-    if(!isset($_POST[contract_end_date]))
+    if(!isset($_POST['contract_end_date']))
         $contract_end_date = date("Y-m-d",strtotime("+120 month"));
     $query="insert into Gn_Iam_Service set `main_domain`='$main_domain',
                                   `sub_domain` ='$sub_domain',
@@ -178,7 +178,7 @@ if($_POST['mode'] == "creat") {
         $pcode = "callbackmsg".$cur_time1.$rand_num;
     
         $sql_dup_event = "INSERT INTO Gn_event(event_name_kor, event_name_eng, event_title, event_desc, event_info, event_sms_desc, pcode, event_type, mobile, regdate, ip_addr, m_id, short_url, read_cnt, cnt, object, callback_no, event_req_link, daily_req_link) 
-        (SELECT event_name_kor, '{$event_name_eng}', event_title, event_desc, event_info, event_sms_desc, '{$pcode}', event_type, '{$row_mem_data[mem_phone]}', now(), ip_addr, '{$mem_id}', '', 0, cnt, object, {$mms_idx}, event_req_link, daily_req_link FROM Gn_event WHERE event_idx='{$row_event_idx[duplicate_event_idx]}')";
+        (SELECT event_name_kor, '{$event_name_eng}', event_title, event_desc, event_info, event_sms_desc, '{$pcode}', event_type, '{$row_mem_data['mem_phone']}', now(), ip_addr, '{$mem_id}', '', 0, cnt, object, {$mms_idx}, event_req_link, daily_req_link FROM Gn_event WHERE event_idx='{$row_event_idx['duplicate_event_idx']}')";
         mysqli_query($self_con,$sql_dup_event) or die(mysqli_error($self_con));
         $event_idx = mysqli_insert_id($self_con);
     
@@ -197,7 +197,7 @@ if($_POST['mode'] == "creat") {
         $pcode = "aimem".$cur_time1.$rand_num;
     
         $sql_dup_event = "INSERT INTO Gn_event(event_name_kor, event_name_eng, event_title, event_desc, event_info, event_sms_desc, pcode, event_type, mobile, regdate, ip_addr, m_id, short_url, read_cnt, cnt, object, callback_no, event_req_link, daily_req_link) 
-        (SELECT event_name_kor, '{$event_name_eng}', event_title, event_desc, event_info, event_sms_desc, '{$pcode}', event_type, '{$row_mem_data[mem_phone]}', now(), ip_addr, '{$mem_id}', '', 0, cnt, object, callback_no, event_req_link, daily_req_link FROM Gn_event WHERE event_idx='{$row_auto_event[auto_join_event_idx]}')";
+        (SELECT event_name_kor, '{$event_name_eng}', event_title, event_desc, event_info, event_sms_desc, '{$pcode}', event_type, '{$row_mem_data['mem_phone']}', now(), ip_addr, '{$mem_id}', '', 0, cnt, object, callback_no, event_req_link, daily_req_link FROM Gn_event WHERE event_idx='{$row_auto_event['auto_join_event_idx']}')";
         mysqli_query($self_con,$sql_dup_event) or die(mysqli_error($self_con));
         $event_idx = mysqli_insert_id($self_con);
         
@@ -219,7 +219,7 @@ if($_POST['mode'] == "creat") {
         $pcode = "dailymsg".$cur_time1.$rand_num;
     
         $sql_dup_event = "INSERT INTO Gn_event(event_name_kor, event_name_eng, event_title, event_desc, event_info, event_sms_desc, pcode, event_type, mobile, regdate, ip_addr, m_id, short_url, read_cnt, cnt, object, callback_no, event_req_link, daily_req_link) 
-        (SELECT event_name_kor, '{$event_name_eng}', event_title, event_desc, event_info, event_sms_desc, '{$pcode}', event_type, '{$row_mem_data[mem_phone]}', now(), ip_addr, '{$mem_id}', '', 0, cnt, object, callback_no, event_req_link, daily_req_link FROM Gn_event WHERE event_idx='{$row_daily_event[daily_msg_event_idx]}')";
+        (SELECT event_name_kor, '{$event_name_eng}', event_title, event_desc, event_info, event_sms_desc, '{$pcode}', event_type, '{$row_mem_data['mem_phone']}', now(), ip_addr, '{$mem_id}', '', 0, cnt, object, callback_no, event_req_link, daily_req_link FROM Gn_event WHERE event_idx='{$row_daily_event['daily_msg_event_idx']}')";
         mysqli_query($self_con,$sql_dup_event) or die(mysqli_error($self_con));
         $event_idx = mysqli_insert_id($self_con);
     
@@ -232,7 +232,7 @@ if($_POST['mode'] == "creat") {
     $query = "select * from Gn_Iam_Service where idx='$idx'";
     $res = mysqli_query($self_con,$query);
     $data = mysqli_fetch_array($res);    
-    if($data[dup_up_state]){
+    if($data['dup_up_state']){
         $sql_chk_mem = "select mem_id from Gn_Member where mem_id='{$mem_id}'";
         $res_chk_mem = mysqli_query($self_con,$sql_chk_mem);
         $row_chk_mem = mysqli_fetch_array($res_chk_mem);
@@ -269,8 +269,8 @@ if($_POST['mode'] == "creat") {
             mysqli_query($self_con,$sql_mem_insert);
         }
     }
-    $head_logo = gcUploadRename($_FILES['head_logo']["name"],$_FILES["head_logo"][tmp_name],$_FILES["head_logo"][size], "data/site");
-    $footer_logo = gcUploadRename($_FILES['footer_logo']["name"],$_FILES["footer_logo"][tmp_name],$_FILES["footer_logo"][size], "data/site");
+    $head_logo = gcUploadRename($_FILES['head_logo']["name"],$_FILES["head_logo"]['tmp_name'],$_FILES["head_logo"]['size'], "data/site");
+    $footer_logo = gcUploadRename($_FILES['footer_logo']["name"],$_FILES["footer_logo"]['tmp_name'],$_FILES["footer_logo"]['size'], "data/site");
     $domain = $sub_domain;
     if($service_type < 2)
         $service_price = "";
@@ -370,10 +370,10 @@ if($_POST['mode'] == "creat") {
     $result = mysqli_query($self_con,$sql);
     while($row = mysqli_fetch_array($result)) {
         if($row['mem_id'] == $mem_id)
-            $iam_card_cnt = $row[iam_card_cnt] - $my_cnt_off;
+            $iam_card_cnt = $row['iam_card_cnt'] - $my_cnt_off;
         else
-            $iam_card_cnt = $row[iam_card_cnt] - $card_cnt_off;
-        $iam_share_cnt = $row[iam_share_cnt] - $share_cnt_off;
+            $iam_card_cnt = $row['iam_card_cnt'] - $card_cnt_off;
+        $iam_share_cnt = $row['iam_share_cnt'] - $share_cnt_off;
         $query = "update Gn_Member set iam_card_cnt = '$iam_card_cnt',iam_share_cnt = '$iam_share_cnt' where mem_id = '{$row['mem_id']}'";
         mysqli_query($self_con,$query);
     }

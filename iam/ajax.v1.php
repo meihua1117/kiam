@@ -63,15 +63,15 @@ if($site_name == "www")
 if($_POST['id'] && $_POST[pwd]){
 	if(!$_POST[join_modify]){
 		$member_info['mem_id']=htmlspecialchars($_POST['id']);
-		$member_info[mem_leb]=22;
+		$member_info['mem_leb']=22;
 		$member_info[id_type]="hp";
 		$member_info[join_ip]=$ip;
 		$member_info[join_way]="APP";
-        $member_info[mem_pass]=md5($_POST[pwd]);
+        $member_info['mem_pass']=md5($_POST[pwd]);
 	    $member_info[web_pwd]=$_POST[pwd];
 	}
 	if($_FILES[profile]) {
-    	$tempFile = $_FILES[profile][tmp_name];
+    	$tempFile = $_FILES[profile]['tmp_name'];
     	if($tempFile) {
     	    $file_arr=explode(".",$_FILES[profile]['name']);
     	    $tmp_file_arr=explode("/",$tempFile);
@@ -87,11 +87,11 @@ if($_POST['id'] && $_POST[pwd]){
 	}
 
 	if($_POST[mobile])
-	    $member_info[mem_phone]=$_POST[mobile];
+	    $member_info['mem_phone']=$_POST[mobile];
 
 	$member_info[mem_nick]=htmlspecialchars($_POST['name']);
 	$member_info['mem_name']=htmlspecialchars($_POST['name']);
-	$member_info[mem_email]=$_POST[email_1]."@".$_POST[email_2];
+	$member_info['mem_email']=$_POST[email_1]."@".$_POST[email_2];
 	$member_info[mem_add1]=$_POST[add1];
 	$member_info[zy]=$_POST[zy];
 	$member_info[mem_birth]=$_POST[birth_1]."-".$_POST[birth_2]."-".$_POST[birth_3];
@@ -152,16 +152,16 @@ if($_POST['id'] && $_POST[pwd]){
 		$member_info[exp_limit_status]=1;
 		$member_info[exp_limit_date]=date("Y-m-d H:i:s",strtotime("+$domainData[service_price] days"));
 		$member_info[iam_type]=1;
-		$member_info[iam_card_cnt]=5;
-		$member_info[iam_share_cnt]=1000;
+		$member_info['iam_card_cnt']=5;
+		$member_info['iam_share_cnt']=1000;
 	}
     if(!$_POST[join_modify]) {
         if($domainData[service_type] == 3) {
-            $member_info[iam_card_cnt] = 5;
-            $member_info[iam_share_cnt] = 1000;
+            $member_info['iam_card_cnt'] = 5;
+            $member_info['iam_share_cnt'] = 1000;
         }else{
-            $member_info[iam_card_cnt] = $domainData[iamcard_cnt];
-            $member_info[iam_share_cnt] = $domainData[send_content];
+            $member_info['iam_card_cnt'] = $domainData[iamcard_cnt];
+            $member_info['iam_share_cnt'] = $domainData[send_content];
         }
     }
 	if(!$_POST[join_modify]) {
@@ -170,7 +170,7 @@ if($_POST['id'] && $_POST[pwd]){
 			exit;
 	    }
 	    if($_POST['rnum'] != ""  && $_POST['code'] == "KR") {
-            $sql="select * from Gn_Member_Check_Sms where mem_phone='$member_info[mem_phone]' and secret_key='{$_POST['rnum']}' and status='Y' order by idx desc";
+            $sql="select * from Gn_Member_Check_Sms where mem_phone='{$member_info['mem_phone']}' and secret_key='{$_POST['rnum']}' and status='Y' order by idx desc";
             $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
             $data = mysqli_fetch_array($result);
             
@@ -224,26 +224,26 @@ if($_POST['id'] && $_POST[pwd]){
 			}
 			if($row['site'] != "") {
 				$_SESSION['one_member_id'] = $_POST['id'];
-				$_SESSION[one_mem_lev] = $row[mem_leb];
+				$_SESSION['one_mem_lev'] = $row['mem_leb'];
 				$service_sql = "select mem_id,sub_domain from Gn_Service where mem_id= '{$_POST['id']}'";
 				$service_result = mysqli_query($self_con,$service_sql);
 				$service_row = mysqli_fetch_array($service_result);
 				if ($service_row['mem_id'] != "") {
-					$url = parse_url($service_row[sub_domain]);
+					$url = parse_url($service_row['sub_domain']);
 					$_SESSION['one_member_subadmin_id'] = $_POST['id'];
-					$_SESSION['one_member_subadmin_domain'] = $url[host];
+					$_SESSION['one_member_subadmin_domain'] = $url['host'];
 				}
 			}
 			if($row['site_iam'] != ""){
 				$_SESSION['iam_member_id'] = $_POST['id'];
-				$_SESSION['iam_member_leb'] = $row[iam_leb];
+				$_SESSION['iam_member_leb'] = $row['iam_leb'];
 				$iam_sql = "select mem_id,sub_domain from Gn_Iam_Service where mem_id= '{$_POST['id']}'";
 				$iam_result = mysqli_query($self_con,$iam_sql);
 				$iam_row = mysqli_fetch_array($iam_result);
 				if ($iam_row['mem_id'] != "") {
-					$url = parse_url($iam_row[sub_domain]);
+					$url = parse_url($iam_row['sub_domain']);
 					$_SESSION['iam_member_subadmin_id'] = $_POST['id'];
-					$_SESSION['iam_member_subadmin_domain'] = $url[host];
+					$_SESSION['iam_member_subadmin_domain'] = $url['host'];
 				}
 			}
             $query = "select iam_card_cnt from Gn_Member where mem_id='$mem_id'";
@@ -299,7 +299,7 @@ if($_POST['id'] && $_POST[pwd]){
                 $sql="select mem_phone from Gn_Member where mem_id = '$mem_id'";
                 $result = mysqli_query($self_con,$sql);
                 $row = mysqli_fetch_array($result);
-                $card_phone = $row[mem_phone];
+                $card_phone = $row['mem_phone'];
             }
             if($card_title != "") {
                 $iam_sql = "select count(*) from Gn_Iam_Info where mem_id = '$mem_id'";
@@ -391,7 +391,7 @@ if($_POST['id'] && $_POST[pwd]){
 
 			$content = $_POST['name']."님 온리원문자 회원이 되신걸 환영합니다.";
 			$subject = "온리원문자 회원가입";
-            //email_send($member_info[mem_email],"admin@kiam.kr",$subject,$content);
+            //email_send($member_info['mem_email'],"admin@kiam.kr",$subject,$content);
 			echo json_encode(array('result'=>'success'));
 			exit;
 		}

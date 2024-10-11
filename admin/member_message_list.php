@@ -348,7 +348,7 @@ function excel_down_p_group(pno,one_member_id){
     					<td><?=$row['mem_id']?></td>											
                         <td><?=$row['send_num']?></td>
                         <td><?=$row_n['memo']?></td>
-                        <td style="font-size:12px;"><a href="javascript:void(0)" onclick="show_recv('show_title','<?=$c?>','문자제목')"><?=str_substr($row[title],0,30,'utf-8')?></a><input type="hidden" name="show_title" value="<?=$row[title]?>"/></td>
+                        <td style="font-size:12px;"><a href="javascript:void(0)" onclick="show_recv('show_title','<?=$c?>','문자제목')"><?=str_substr($row['title'],0,30,'utf-8')?></a><input type="hidden" name="show_title" value="<?=$row['title']?>"/></td>
                         <td style="font-size:12px;"><a href="javascript:void(0)" onclick="show_recv('show_content','<?=$c?>','문자내용')"><?=str_substr($row['content'],0,30,'utf-8')?></a><input type="hidden" name="show_content" value="<?=$row['content']?>"/></td>
                         <td style="font-size:12px;"><?=substr($row[grp])?></td>
     					<td>

@@ -101,7 +101,7 @@ $(function(){
 		<tr>
 		<td>회원구분</td>
         <td>
-            <?php if($member_1[mem_leb] == "50") {?>
+            <?php if($member_1['mem_leb'] == "50") {?>
                 사업회원
             <?php } else {?>
                 일반회원
@@ -112,7 +112,7 @@ $(function(){
 
         <tr>
         <td>휴대폰번호</td>
-        <td  colspan="3"><?=$member_1[mem_phone]?></td>
+        <td  colspan="3"><?=$member_1['mem_phone']?></td>
         </tr>  
         <tr>
         <td>성명/성별</td>
@@ -207,7 +207,7 @@ $(function(){
         <td colspan="3">
             <input type="hidden" name="nick" itemname='닉네임' value="<?=$member_1['mem_name']?>" />
             <input type="hidden" name="nick_status" itemname='닉네임중복확인' value="ok"  />                
-               <?php if($member_1[mem_leb] == "50") {?>
+               <?php if($member_1['mem_leb'] == "50") {?>
                <?php }?>
                <span id="sHtml" style="display:none">https://www.kiam.kr/?mem_code=<?php echo $member_1['mem_code']?></span>
                <!--<a href="https://www.kiam.kr/?mem_code=<?php echo $member_1['mem_code']?>">온리원문자사이트로 가기</a>-->
@@ -234,7 +234,7 @@ $(function(){
         -->
         <tr>
         
-        <?php if($member_1[mem_leb] == "50") {?>
+        <?php if($member_1['mem_leb'] == "50") {?>
         <tr>
         <td>통장내역</td>
             <td  colspan="3">
@@ -494,7 +494,7 @@ jQuery(function($){
                 <!--<td><?=$row[fujia_status]?></td>-->
                 <td>문자</td>
                 <td><?=$pay_type[$row[payMethod]]?$pay_type[$row[payMethod]]:"무통장"?></td>
-                <td><?=$row[add_phone]?></td>
+                <td><?=$row['add_phone']?></td>
                 <td><?=$row[phone_cnt]?></td>
                 <!--<td><?=count($num_arr)?></td>-->
                 <td><?=number_format($row[TotPrice])?>원</td>
@@ -594,7 +594,7 @@ jQuery(function($){
                 <!--<td><?=$row[fujia_status]?></td>-->
                 <td>디버</td>                
                 <td><?=$pay_type[$row[payMethod]]?$pay_type[$row[payMethod]]:"카드"?></td>
-                <td><?=$row[add_phone]?></td>
+                <td><?=$row['add_phone']?></td>
                 <td><?=$row[phone_cnt]?></td>
                 <!--<td><?=count($num_arr)?></td>-->
                 <td><?=number_format($row[TotPrice])?>원</td>
@@ -639,7 +639,7 @@ jQuery(function($){
             </div>
         </div>
         </form>
-<!--<?php if($_SESSION[one_mem_lev] == "50"){       
+<!--<?php if($_SESSION['one_mem_lev'] == "50"){       
     $query = "";
     $sql_serch = "";
 				if($_REQUEST[krday1] || $_REQUEST[krday2])
@@ -781,7 +781,7 @@ jQuery(function($){
         </div>
         </form>
 <?php }?>          
-<?php if($_SESSION[one_mem_lev] == "50"){       
+<?php if($_SESSION['one_mem_lev'] == "50"){       
     $query = "";
     $sql_serch = "";
 				if($_REQUEST[sday1] || $_REQUEST[sday2])

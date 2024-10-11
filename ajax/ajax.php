@@ -156,12 +156,12 @@ if($_POST[join_nick] && $_POST[join_is_message]){
 	$_POST[join_id] = strtolower(trim($_POST[join_id]));
     if(!$_POST[join_modify]){
         $member_info['mem_id']=htmlspecialchars($_POST[join_id]);
-		$member_info[mem_leb]=22;
+		$member_info['mem_leb']=22;
 		$member_info[id_type]="hp";
 		$member_info[join_ip]=$ip;
-		$member_info[mem_pass]=md5($_POST[join_pwd]);
+		$member_info['mem_pass']=md5($_POST[join_pwd]);
 		$member_info[web_pwd]=$_POST[join_pwd];
-		$member_info[mem_phone]=$_POST[join_phone];
+		$member_info['mem_phone']=$_POST[join_phone];
 	} else {
         // 핸드폰 번호 중복 확인
         $sql="select * from Gn_Member where replace(mem_phone,'-','')=replace('$_POST[join_phone]','-','')";
@@ -182,13 +182,13 @@ if($_POST[join_nick] && $_POST[join_is_message]){
 	}
 	$member_info[mem_nick]=htmlspecialchars($_POST[join_name]);
 	$member_info['mem_name']=htmlspecialchars($_POST[join_name]);
-	$member_info[mem_email]=$_POST[join_email];
+	$member_info['mem_email']=$_POST[join_email];
 	$member_info[mem_add1]=$_POST[join_add1];
 	$member_info[zy]=$_POST[join_zy];
 	$member_info[mem_birth]=$_POST[join_birth];
 	$member_info[is_message]=$_POST[join_is_message];	
 	if($_FILES[profile]) {
-    	$tempFile = $_FILES[profile][tmp_name];
+    	$tempFile = $_FILES[profile]['tmp_name'];
     	if($tempFile) {
     	    $file_arr=explode(".",$_FILES[profile]['name']);
     	    $tmp_file_arr=explode("/",$tempFile);
@@ -258,7 +258,7 @@ if($_POST[join_nick] && $_POST[join_is_message]){
 	        exit;
 	    }
 		if($_POST['rnum'] != "" && $_POST[country_code] == "KR") {
-			$sql="select * from Gn_Member_Check_Sms where mem_phone='$member_info[mem_phone]' and secret_key='$_POST[rnum]' and status='Y' order by idx desc";
+			$sql="select * from Gn_Member_Check_Sms where mem_phone='{$member_info['mem_phone']}' and secret_key='$_POST[rnum]' and status='Y' order by idx desc";
 			$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 			$data = $row=mysqli_fetch_array($result);
 
@@ -277,7 +277,7 @@ if($_POST[join_nick] && $_POST[join_is_message]){
 		}
 	}
 
-	$member_info[mem_pass]=md5($_POST[join_pwd]);
+	$member_info['mem_pass']=md5($_POST[join_pwd]);
 	$member_info[web_pwd]=$_POST[join_pwd];
 			
 	if($_POST[join_modify])
@@ -323,7 +323,7 @@ if($_POST[join_nick] && $_POST[join_is_message]){
 			$_SESSION['one_member_id']=$_POST[join_id];
             $content=$_POST[join_name]."님 온리원문자 회원이 되신걸 환영합니다.";
             $subject="온리원문자 회원가입";
-            sendemail("", $member_info[mem_email],"admin@kiam.kr",$subject,$content);
+            sendemail("", $member_info['mem_email'],"admin@kiam.kr",$subject,$content);
 
 ?>
 			<script language="javascript">
@@ -383,8 +383,8 @@ if($_POST[search_id_pw_mem_name] && $_POST[search_id_pw_type]){
 			$content1=$row['mem_name']."님 온리원문자 비밀번호가[ ".$new_pwd." ] 로 변경되었습니다.";
             $subject="온리원문자 비밀번호찾기";
             if($_POST[search_id_pw_type]=="email") {
-                sendemail("", $row[mem_email], "admin@kiam.kr", $subject, $content);
-                $msg = "회원님의 비밀번호가 변경되었습니다.이메일 ".$row[mem_email]."로 발송되었습니다.";
+                sendemail("", $row['mem_email'], "admin@kiam.kr", $subject, $content);
+                $msg = "회원님의 비밀번호가 변경되었습니다.이메일 ".$row['mem_email']."로 발송되었습니다.";
             }
             else {
 				$s++;
@@ -431,8 +431,8 @@ if($_POST[search_id_pw_mem_name] && $_POST[search_id_pw_type]){
 				$subject="온리원문자 아이디찾기";
 			}
 			if($_POST[search_id_pw_type]=="email") {
-				sendemail("", $row[mem_email], "admin@kiam.kr", $subject, $content);
-				$msg = "회원님의 아이디가 이메일 ".$row[mem_email]."로 발송되었습니다.";
+				sendemail("", $row['mem_email'], "admin@kiam.kr", $subject, $content);
+				$msg = "회원님의 아이디가 이메일 ".$row['mem_email']."로 발송되었습니다.";
 			}
 			else {
 				$s++;

@@ -141,17 +141,17 @@ td div {
                     <td style="width:90%">
                     <select name="fl">
                         <?php foreach($category as $key => $value) {?>
-                            <option value="<?php echo trim($value);?>" <?php echo $row_no[fl]==$value?"selected":""?>><?php echo trim($value);?></option>
+                            <option value="<?php echo trim($value);?>" <?php echo $row_no['fl']==$value?"selected":""?>><?php echo trim($value);?></option>
                         <?php }?>
                     </select>
                     </td>
                 </tr>                    
                 <tr>
                 <td>질문</td>
-                <td style="width:90%"><input type="text" style="width:90%;" name="title" value="<?=$row_no[title]?>" required itemname='제목'  class="form-control input-sm"  /></td>
+                <td style="width:90%"><input type="text" style="width:90%;" name="title" value="<?=$row_no['title']?>" required itemname='제목'  class="form-control input-sm"  /></td>
                 </tr>
                 <?
-				if($_REQUEST[status]==2)
+				if($_REQUEST['status']==2)
 				{
 					?>
                 <tr>
@@ -160,7 +160,7 @@ td div {
                 	<?
 					foreach($fl_arr as $key=>$v)
 					{
-						$checked=$row_no[fl]==$key?"checked":"";
+						$checked=$row_no['fl']==$key?"checked":"";
 						?>
                         <label><input  type="radio" value="<?=$key?>" name="fl" <?=$checked?> /><?=$v?></label> &nbsp;
                         <?	
@@ -170,7 +170,7 @@ td div {
                 </tr>                
                 <?
 				}
-				if($_REQUEST[status]!=1)
+				if($_REQUEST['status']!=1)
 				{
 				?>
 				<!--

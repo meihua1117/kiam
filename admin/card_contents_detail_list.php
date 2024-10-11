@@ -254,13 +254,13 @@ if($idx) {
                               이름:<input type="text" name="deliver_name" id="deliver_name" value="<?=$row_provider_id['mem_name']?>" style="width: 200px;height: 15px;padding: 10px;margin-left: 33px;" readonly>
                           </div>
                           <div style="display:flex;margin-top:10px;">
-                              핸드폰:<input type="text" name="deliver_phone" id="deliver_phone" value="<?=$row_provider_id[mem_phone]?>" style="width: 200px;height: 15px;padding: 10px;margin-left: 20px;" readonly>
+                              핸드폰:<input type="text" name="deliver_phone" id="deliver_phone" value="<?=$row_provider_id['mem_phone']?>" style="width: 200px;height: 15px;padding: 10px;margin-left: 20px;" readonly>
                           </div>
                           <div style="display:flex;margin-top:10px;">
                               주소:<input type="text" name="deliver_addr" id="deliver_addr" value="<?=$row_provider_id[mem_add1]?>" style="width: 200px;height: 15px;padding: 10px;margin-left: 33px;" readonly>
                           </div>
                           <div style="display:flex;margin-top:10px;">
-                              이메일:<input type="text" name="deliver_email" id="deliver_email" value="<?=$row_provider_id[mem_email]?>" style="width: 200px;height: 15px;padding: 10px;margin-left: 20px;" readonly>
+                              이메일:<input type="text" name="deliver_email" id="deliver_email" value="<?=$row_provider_id['mem_email']?>" style="width: 200px;height: 15px;padding: 10px;margin-left: 20px;" readonly>
                           </div>
                           <div style="display:flex;margin-top:10px;">
                               입금계좌:<input type="text" name="deliver_bank" id="deliver_bank" value="<?=$row_provider_id[bank_name]?>" style="width: 70px;height: 15px;padding: 10px;margin-left: 8px;" readonly>
@@ -409,9 +409,9 @@ function self_deliver(){
     if($("#same_gonggupsa").prop('checked')){
         $("#deliver_id").val('<?=$row_mem['mem_id']?>');
         $("#deliver_name").val('<?=$row_mem['mem_name']?>');
-        $("#deliver_phone").val('<?=$row_mem[mem_phone]?>');
+        $("#deliver_phone").val('<?=$row_mem['mem_phone']?>');
         $("#deliver_addr").val('<?=$row_mem[mem_add1]?>');
-        $("#deliver_email").val('<?=$row_mem[mem_email]?>');
+        $("#deliver_email").val('<?=$row_mem['mem_email']?>');
         $("#deliver_bank").val('<?=$row_mem[bank_name]?>');
         $("#deliver_owner").val('<?=$row_mem[bank_owner]?>');
         $("#deliver_account").val('<?=$row_mem[bank_account]?>');

@@ -76,7 +76,7 @@ td {
 </style>
 <link href='/css/main.css' rel='stylesheet' type='text/css'/>
 <link href='/css/responsive.css' rel='stylesheet' type='text/css'/><!-- 2019.11 반응형 CSS -->
-<main id="register" class="common-wrap" style=""><!-- 컨텐츠 영역 시작 -->
+<main id="register" class="common-wrap"><!-- 컨텐츠 영역 시작 -->
     <div class="container">
         <div class="row">
             <div class="col-12">
@@ -298,7 +298,7 @@ td {
                                     <td ><?=$new_val ?></td>
                                     <td ><?=$row['mem_name']?></td>
                                     <td ><?=$row['mem_id']?></td>
-                                    <td><?=$row[mem_phone]?></td>
+                                    <td><?=$row['mem_phone']?></td>
                                     <td><?=$row['first_regist']?></td>
                                     <td><?=$row['date']?></td>
                                     <td><?=$row['cancel_completetime']?></td>

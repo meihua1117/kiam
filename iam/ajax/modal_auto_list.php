@@ -13,9 +13,9 @@ $body .= '            <img src="/iam/img/menu/icon_close_white.png" style="width
 $body .= '        </button>';
 $body .= '    </div>';
 $body .= '    <div class = "modal-title" style="width:100%;font-size:18px;text-align: center;background:#82C836;color:white;">';
-$body .= '        <label style="">회원가입 메시지 리스트</label>';
+$body .= '        <label>회원가입 메시지 리스트</label>';
 $body .= '    </div>';
-$body .= '    <div class="modal-header" style="">';
+$body .= '    <div class="modal-header">';
 $body .= '        <div class="container" style="display:inline-block;margin-top: 20px;">';
 $body .= '            <input type="date" placeholder="시작일" id="search_start_date1" value="'. $start_date .'" style="border: 1px solid black;width:130px;"><span style="margin-left: 3px;">~</span>';
 $body .= '            <input type="date" placeholder="종료일" id="search_end_date1" value="'. $end_date .'" style="border: 1px solid black;width:130px;">';

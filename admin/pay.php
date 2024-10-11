@@ -543,7 +543,7 @@ var send_cnt = 9000;
             <!--현금 영수증 발급 여부-->
             <input type="hidden" name="allat_cash_yn" value="" size="19" maxlength=1>
             <!--결제 정보 수신 E-mail-->
-            <input type="hidden" name="allat_email_addr" id="allat_email_addr"  size="19" maxlength=50  value="<?php echo $data['mem_email']?$data[mem_email]:"turbolight@daum.net";?>">
+            <input type="hidden" name="allat_email_addr" id="allat_email_addr"  size="19" maxlength=50  value="<?php echo $data['mem_email']?$data['mem_email']:"turbolight@daum.net";?>">
             <!--테스트 여부-->
             <input type="hidden" name="allat_test_yn" value="N" size="19" maxlength=1>
             <!--테스트(Y),서비스(N) - Default : N <br>

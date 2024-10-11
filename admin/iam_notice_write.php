@@ -62,7 +62,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                             <table id="example1" class="table table-bordered table-striped">
                                 <tr>
                                     <td>제목</td>
-                                    <td style="width:90%"><input type="text" style="width:90%;" name="title" value="<?=$row_no[title]?>" required itemname='제목'  class="form-control input-sm"  /></td>
+                                    <td style="width:90%"><input type="text" style="width:90%;" name="title" value="<?=$row_no['title']?>" required itemname='제목'  class="form-control input-sm"  /></td>
                                 </tr>
                                 <tr>
                                     <td>분류</td>
@@ -70,7 +70,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                                         <?
                                         foreach($iam_notice_arr as $key=>$v)
                                         {
-                                            $checked=$row_no[fl]==$key?"checked":"";
+                                            $checked=$row_no['fl']==$key?"checked":"";
                                             ?>
                                             <label><input  type="radio" value="<?=$key?>" name="fl" <?=$checked?> /><?=$v?></label> &nbsp;
                                             <?
