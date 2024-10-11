@@ -18,8 +18,8 @@ $mem_id = $_SESSION[iam_member_id];
 if($mode == "check_model_name"){
     $sql_chk = "select idx from Gn_Iam_Contents_Gwc where product_model_name='{$model_name}'";
     // echo $sql_chk;
-    $res_chk = mysql_query($sql_chk);
-    $row_chk = mysql_num_rows($res_chk);
+    $res_chk = mysqli_query($self_con,$sql_chk);
+    $row_chk = mysqli_num_rows($res_chk);
     
     echo json_encode(array('result'=>$row_chk));
 }
@@ -44,8 +44,8 @@ else if($mode == "get_pay_res"){
     $date_pre_month = date("Y-m", $prev_month_ts)."-01 00:00:00";
 
     $sql_this_month_pay = "select SUM(TotPrice) as money from tjd_pay_result where cash_prod_pay=0 and gwc_cont_pay=1 and buyer_id='{$_SESSION[iam_member_id]}' and end_status='Y' and date>'{$date_this_month}'";//당월 구매금액
-    $res_this_month_pay = mysql_query($sql_this_month_pay);
-    $row_this_month_pay = mysql_fetch_array($res_this_month_pay);
+    $res_this_month_pay = mysqli_query($self_con,$sql_this_month_pay);
+    $row_this_month_pay = mysqli_fetch_array($res_this_month_pay);
     
     $this_month_pay = $row_this_month_pay[0]?$row_this_month_pay[0]:0;
     $cnt_all_prod_this = floor($this_month_pay * 1 / 20000);//당월 가져오기 가능 전체건수
@@ -54,12 +54,12 @@ else if($mode == "get_pay_res"){
     }
 
     $sql_get_prod_this = "select count(*) from Gn_Iam_Contents_Gwc where mem_id='{$_SESSION[iam_member_id]}' and ori_store_prod_idx!=0 and req_data>'{$date_this_month}'";
-    $res_get_prod_this = mysql_query($sql_get_prod_this);
-    $row_get_prod_this = mysql_fetch_array($res_get_prod_this);//당월 가져오기한 총 건수
+    $res_get_prod_this = mysqli_query($self_con,$sql_get_prod_this);
+    $row_get_prod_this = mysqli_fetch_array($res_get_prod_this);//당월 가져오기한 총 건수
 
     $sql_pre_month_pay = "select SUM(TotPrice) as money from tjd_pay_result where cash_prod_pay=0 and gwc_cont_pay=1 and buyer_id='{$_SESSION[iam_member_id]}' and end_status='Y' and date>'{$date_pre_month}' and date<'{$date_this_month}'";//전달 구매금액
-    $res_pre_month_pay = mysql_query($sql_pre_month_pay);
-    $row_pre_month_pay = mysql_fetch_array($res_pre_month_pay);
+    $res_pre_month_pay = mysqli_query($self_con,$sql_pre_month_pay);
+    $row_pre_month_pay = mysqli_fetch_array($res_pre_month_pay);
     
     $pre_month_pay = $row_pre_month_pay[0]?$row_pre_month_pay[0]:0;
     $cnt_all_prod_pre = floor($pre_month_pay * 1 / 20000);//전달 가져오기 가능 전체건수
@@ -68,13 +68,13 @@ else if($mode == "get_pay_res"){
     }
 
     $sql_get_prod_pre = "select count(*) from Gn_Iam_Contents_Gwc where mem_id='{$_SESSION[iam_member_id]}' and ori_store_prod_idx!=0 and req_data>'{$date_pre_month}' and req_data<'{$date_this_month}'";
-    $res_get_prod_pre = mysql_query($sql_get_prod_pre);
-    $row_get_prod_pre = mysql_fetch_array($res_get_prod_pre);//전달 가져오기한 총 건수
+    $res_get_prod_pre = mysqli_query($self_con,$sql_get_prod_pre);
+    $row_get_prod_pre = mysqli_fetch_array($res_get_prod_pre);//전달 가져오기한 총 건수
 
 
     $sql_get_prod = "select count(*) from Gn_Iam_Contents_Gwc where mem_id='{$_SESSION[iam_member_id]}' and ori_store_prod_idx!=0";
-    $res_get_prod = mysql_query($sql_get_prod);
-    $row_get_prod = mysql_fetch_array($res_get_prod);//현재까지 가져오기한 총 건수
+    $res_get_prod = mysqli_query($self_con,$sql_get_prod);
+    $row_get_prod = mysqli_fetch_array($res_get_prod);//현재까지 가져오기한 총 건수
 
     echo json_encode(array('this_month_money'=>$this_month_pay,'this_month_cnt'=>$cnt_all_prod_this,'this_get_cnt'=>$row_get_prod_this[0],'pre_month_money'=>$pre_month_pay,'pre_month_cnt'=>$cnt_all_prod_pre,'pre_get_cnt'=>$row_get_prod_pre[0],'all_get_cnt'=>$row_get_prod[0]));
 }
@@ -104,7 +104,7 @@ else if($mode == "req_provider"){
         $mem_id = $_SESSION[iam_member_id];
     }
     $sql_update = "update Gn_Member set gwc_leb=2, gwc_req_leb=2, gwc_provider_name='{$provider_name}', gwc_worker_no='{$worker_no}', gwc_worker_state='{$gwc_worker_state}'".$img_str." where mem_id='{$mem_id}'";
-    mysql_query($sql_update);
+    mysqli_query($self_con,$sql_update);
 
     //location.href='/?cur_win=shared_receive&req_provide=Y';
     // echo "<script>location.href='/?cur_win=unread_notice&req_provide=Y';</script>";
@@ -112,8 +112,8 @@ else if($mode == "req_provider"){
 }
 else if($mode == "check_prod_order_date"){
     $sql_order_data = "select reg_date from Gn_Gwc_Order where id='{$order_id}'";
-    $res_order_data = mysql_query($sql_order_data);
-    $row_order_data = mysql_fetch_array($res_order_data);
+    $res_order_data = mysqli_query($self_con,$sql_order_data);
+    $row_order_data = mysqli_fetch_array($res_order_data);
 
     $cur_time_com_stamp = time() - (86400 * 7);
     $date_pre_month = date("Y-m-d H:i:s", $cur_time_com_stamp);
@@ -128,22 +128,22 @@ else if($mode == "check_prod_order_date"){
 else if($mode == "req_edit_order"){
     $mid = date("YmdHis").rand(10,99);
     $sql_update = "update Gn_Gwc_Order set prod_state='{$edit_type}', state_detail='{$title}', prod_req_no='{$mid}', prod_req_date=now() where id='{$order_id}'";
-    $res = mysql_query($sql_update);
+    $res = mysqli_query($self_con,$sql_update);
 
     echo $res;
 }
 else if($mode == "get_prod_info"){
     $sql_prod = "select * from Gn_Iam_Contents_Gwc where idx='{$id}'";
-    $res_prod = mysql_query($sql_prod);
-    $row_prod = mysql_fetch_array($res_prod);
+    $res_prod = mysqli_query($self_con,$sql_prod);
+    $row_prod = mysqli_fetch_array($res_prod);
 
     $mem_id = "";
     $same = "N";
 
     if($row_prod[delivery_id_code]){
         $sql_mem_data = "select mem_code, mem_id, mem_name, mem_phone, mem_add1, mem_email, bank_name, bank_owner, bank_account from Gn_Member where mem_code='{$row_prod[delivery_id_code]}'";
-        $res_mem_data = mysql_query($sql_mem_data);
-        $row_mem_data = mysql_fetch_array($res_mem_data);
+        $res_mem_data = mysqli_query($self_con,$sql_mem_data);
+        $row_mem_data = mysqli_fetch_array($res_mem_data);
         $mem_id = $row_mem_data[mem_id];
     }
     if($row_prod[idx]){

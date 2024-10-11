@@ -420,15 +420,15 @@ $date_today=date("Y-m-d");
                                 $query = "SELECT SQL_CALC_FOUND_ROWS a.*$sel_str FROM tjd_pay_result a $join_str WHERE a.member_type!='포인트충전' and gwc_cont_pay=0 $searchStr";
                                 $excel_sql=$query;
                                 $excel_sql=str_replace("'","`",$excel_sql);
-                                $res	    = mysql_query($query);
-                                $totalCnt	=  mysql_num_rows($res);
+                                $res	    = mysqli_query($self_con,$query);
+                                $totalCnt	=  mysqli_num_rows($res);
                                 $limitStr       = " LIMIT ".(($startPage-1)*$pageCnt).", ".$pageCnt;
                                 $number			= $totalCnt - ($nowPage - 1) * $pageCnt;
                                 $orderQuery .= " ORDER BY a.no DESC $limitStr ";
                                 $i = 1;
                                 $query .= $orderQuery;
-                                $res = mysql_query($query);
-                                while($row = mysql_fetch_array($res)) {
+                                $res = mysqli_query($self_con,$query);
+                                while($row = mysqli_fetch_array($res)) {
                                     if($rec_id || $site || $site_iam){
                                         $chk_str = 0;
                                         $mem_phone = $row['mem_phone'];
@@ -437,8 +437,8 @@ $date_today=date("Y-m-d");
                                     else{
                                         $chk_str = 1;
                                         $sql_mem = "select site, site_iam, recommend_id, mem_phone, first_regist from Gn_Member where mem_id='{$row['buyer_id']}'";
-                                        $res_mem = mysql_query($sql_mem);
-                                        $row_mem = mysql_fetch_array($res_mem);
+                                        $res_mem = mysqli_query($self_con,$sql_mem);
+                                        $row_mem = mysqli_fetch_array($res_mem);
                                         $mem_phone = $row_mem['mem_phone'];
                                         $first_regist = $row_mem['first_regist'];
                                     }

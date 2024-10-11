@@ -3,8 +3,8 @@ include_once $path."../../lib/rlatjd_fun.php";
 $mid = date("YmdHis");
 
 $sql="select * from Gn_Member where mem_id='$_SESSION[one_member_id]' ";
-$resul=mysql_query($sql);
-$data=mysql_fetch_array($resul);
+$resul=mysqli_query($self_con,$sql);
+$data=mysqli_fetch_array($resul);
 print_r($data);
 print_r($_SERVER);
 //https://www.allatpay.com/servlet/AllatBizV2/support/SupportFaqCL?menu_id=m040202

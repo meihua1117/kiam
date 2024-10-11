@@ -3,8 +3,8 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
 include_once $_SERVER['DOCUMENT_ROOT']."/admin/include/admin_header.inc.php";
 $pay_row = array();
 $sql = "select * from payment_info order by idx";
-$res = mysql_query($sql);
-while($row = mysql_fetch_array($res)){
+$res = mysqli_query($self_con,$sql);
+while($row = mysqli_fetch_array($res)){
     array_push($pay_row,$row);
 }
 ?>

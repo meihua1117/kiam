@@ -15,8 +15,8 @@ if($_SESSION[one_member_id]){
 
 	$sql_num="update Gn_MMS_Number set memo='$name',memo2='$company', donation_rate=$rate,daily_limit_cnt='500' where mem_id='$_SESSION[one_member_id]' and sendnum='$pno' ";
 
-	mysql_query($sql_num);
+	mysqli_query($self_con,$sql_num);
 
 }
-mysql_close($self_con);
+mysqli_close($self_con);
 ?>

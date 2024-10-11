@@ -3,12 +3,12 @@ include $_SERVER['DOCUMENT_ROOT']."/m/include/header.inc.php";
 include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
 if($_COOKIE[mem_code]) {
 	$sql="select * from Gn_Member where mem_code='$_COOKIE[mem_code]' and site != ''";
-	$result=mysql_query($sql);
-	$info=mysql_fetch_array($result);
+	$result=mysqli_query($self_con,$sql);
+	$info=mysqli_fetch_array($result);
 
 	//$sql="select * from Gn_Service where mem_id='$info[mem_id]'";
-	//$result=mysql_query($sql);
-	//$sinfo=mysql_fetch_array($result);
+	//$result=mysqli_query($self_con,$sql);
+	//$sinfo=mysqli_fetch_array($result);
 }
 ?>
 <style>
@@ -208,8 +208,8 @@ if($_COOKIE[mem_code]) {
 													// 광역시도 목록
 													$province_list = array();
 													$query = "SELECT province FROM gn_cities group by province";
-													$res = mysql_query($query);
-													while($row = mysql_fetch_array($res)) {
+													$res = mysqli_query($self_con,$query);
+													while($row = mysqli_fetch_array($res)) {
 														$province_list[] = $row['province'];
 													}
 												?>

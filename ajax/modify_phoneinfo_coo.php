@@ -20,8 +20,8 @@ if($_SESSION[one_member_id]){
 	//$("#monthly_receive_cnt_user").val(data.monthly_receive_cnt_user);	
 	$sql_num="update Gn_MMS_Number set memo='$name',memo2='$company', daily_limit_cnt='500',daily_limit_cnt='$daily_limit_cnt', daily_min_cnt='$daily_min_cnt', monthly_receive_cnt='$monthly_receive_cnt', daily_limit_cnt_user='$daily_limit_cnt_user', daily_min_cnt_user='$daily_min_cnt_user',monthly_receive_cnt_user='$monthly_receive_cnt_user' where mem_id='$_SESSION[one_member_id]' and sendnum='$pno' ";
 
-	mysql_query($sql_num);
+	mysqli_query($self_con,$sql_num);
 
 }
-mysql_close($self_con);
+mysqli_close($self_con);
 ?>

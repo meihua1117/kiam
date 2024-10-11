@@ -104,8 +104,8 @@ set_gwc_delivery_state();
                                         <option value="">공급사</option>
                                         <?
                                         $sql_gongupsa = "select gwc_provider_name from Gn_Member where gwc_provider_name!='' GROUP BY gwc_provider_name";
-                                        $res_gongupsa = mysql_query($sql_gongupsa);
-                                        while($row_gongupsa = mysql_fetch_array($res_gongupsa)){
+                                        $res_gongupsa = mysqli_query($self_con,$sql_gongupsa);
+                                        while($row_gongupsa = mysqli_fetch_array($res_gongupsa)){
                                         ?>
                                         <option value="<?=$row_gongupsa[0]?>" <?if($_REQUEST['provide'] == $row_gongupsa[0]) echo "selected"?>><?=$row_gongupsa[0]?></option>
                                         <?}?>
@@ -249,15 +249,15 @@ set_gwc_delivery_state();
                                 $query = "SELECT SQL_CALC_FOUND_ROWS a.*$sel_str FROM tjd_pay_result a $join_str WHERE a.gwc_cont_pay=1 $searchStr";
                                 $excel_sql=$query;
                                 $excel_sql=str_replace("'","`",$excel_sql);
-                                $res	    = mysql_query($query);
-                                $totalCnt	=  mysql_num_rows($res);
+                                $res	    = mysqli_query($self_con,$query);
+                                $totalCnt	=  mysqli_num_rows($res);
                                 $limitStr       = " LIMIT ".(($startPage-1)*$pageCnt).", ".$pageCnt;
                                 $number			= $totalCnt - ($nowPage - 1) * $pageCnt;
                                 $orderQuery .= " ORDER BY a.date DESC $limitStr ";
                                 $i = 1;
                                 $query .= $orderQuery;
-                                $res = mysql_query($query);
-                                while($row = mysql_fetch_array($res)) {
+                                $res = mysqli_query($self_con,$query);
+                                while($row = mysqli_fetch_array($res)) {
                                     if($rec_id || $site || $site_iam){
                                         $chk_str = 0;
                                         $recommend_id = $row['recommend_id'];
@@ -265,45 +265,45 @@ set_gwc_delivery_state();
                                     else{
                                         $chk_str = 1;
                                         $sql_mem = "select recommend_id from Gn_Member where mem_id='{$row['buyer_id']}'";
-                                        $res_mem = mysql_query($sql_mem);
-                                        $row_mem = mysql_fetch_array($res_mem);
+                                        $res_mem = mysqli_query($self_con,$sql_mem);
+                                        $row_mem = mysqli_fetch_array($res_mem);
                                         $recommend_id = $row_mem['recommend_id'];
                                     }
 
                                     $sql_order = "select * from Gn_Gwc_Order where tjd_idx='{$row[no]}'";
-                                    $res_order = mysql_query($sql_order);
-                                    $row_order = mysql_fetch_array($res_order);
+                                    $res_order = mysqli_query($self_con,$sql_order);
+                                    $row_order = mysqli_fetch_array($res_order);
 
                                     $show_link = "http://kiam.kr/iam/gwc_order_pay.php?contents_idx=".$row_order['contents_idx']."&contents_cnt=".$row_order['contents_cnt']."&contents_price=".$row_order['contents_price']."&contents_salary=".$row_order['salary_price']."&seller_id=".$row['seller_id']."&order_option=".$row_order['order_option']."&admin=Y&mem_id=".$row_order['mem_id']."&use_point_val=".$row_order['use_point']."&pay_method=".$row_order['payMethod'];
 
                                     if($row['yutong_name'] == 1){
                                         $sql_gong = "select mem_name from Gn_Member where mem_id='iamstore'";
-                                        $res_gong = mysql_query($sql_gong);
-                                        $row_gong = mysql_fetch_array($res_gong);
+                                        $res_gong = mysqli_query($self_con,$sql_gong);
+                                        $row_gong = mysqli_fetch_array($res_gong);
                                         $gong_data = $row_gong[0]."<br> iamstore";
                                         $yt_name = "웹빙몰";
                                     }
                                     else{
                                         $sql_gong = "select mem_id, mem_name from Gn_Member where gwc_provider_name='{$row['provider_name']}'";
-                                        $res_gong = mysql_query($sql_gong);
-                                        $row_gong = mysql_fetch_array($res_gong);
+                                        $res_gong = mysqli_query($self_con,$sql_gong);
+                                        $row_gong = mysqli_fetch_array($res_gong);
                                         $gong_data = $row_gong[mem_name]."<br>".$row_gong[mem_id];
 
                                         $yt_name = $row['provider_name']."<br>온리원";
                                     }
                                     $sql_seller = "select mem_name from Gn_Member where mem_id='{$row[seller_id]}'";
-                                    $res_seller = mysql_query($sql_seller);
-                                    $row_seller = mysql_fetch_array($res_seller);
+                                    $res_seller = mysqli_query($self_con,$sql_seller);
+                                    $row_seller = mysqli_fetch_array($res_seller);
                                     $seller_data = $row_seller[0]."<br>".$row[seller_id];
 
                                     $sql_recommend = "select mem_name from Gn_Member where mem_id='{$recommend_id}'";
-                                    $res_recommend = mysql_query($sql_recommend);
-                                    $row_recommend = mysql_fetch_array($res_recommend);
+                                    $res_recommend = mysqli_query($self_con,$sql_recommend);
+                                    $row_recommend = mysqli_fetch_array($res_recommend);
                                     $recommend_data = $row_recommend[0]."<br>".$recommend_id;
 
                                     $sql_cont_data = "select idx, contents_sell_price, send_provide_price, send_salary_price, contents_img, product_code from Gn_Iam_Contents_Gwc where idx='{$row_order[contents_idx]}'";
-                                    $res_cont_data = mysql_query($sql_cont_data);
-                                    $row_cont_data = mysql_fetch_array($res_cont_data);
+                                    $res_cont_data = mysqli_query($self_con,$sql_cont_data);
+                                    $row_cont_data = mysqli_fetch_array($res_cont_data);
                                     $price_data = ($row_order['contents_price'] * 1 / $row_order['contents_cnt'] * 1)."<br>".$row_order[contents_provide_price];
 
                                     $price_data1 = ($row_order['contents_price'])."<br>".$row_order['salary_price'];
@@ -317,8 +317,8 @@ set_gwc_delivery_state();
                                     }
 
                                     $sql_order_point = "select use_point from Gn_Gwc_Order where tjd_idx='{$row[no]}'";
-                                    $res_order_point = mysql_query($sql_order_point);
-                                    $row_order_point = mysql_fetch_array($res_order_point);
+                                    $res_order_point = mysqli_query($self_con,$sql_order_point);
+                                    $row_order_point = mysqli_fetch_array($res_order_point);
 
                                     $price_data2 = $row_order_point[0]."/\n".($row[TotPrice] * 1 - $row_order_point[0] * 1);
 
@@ -332,23 +332,23 @@ set_gwc_delivery_state();
                                     }
 
                                     $sql_item_cnt_month = "select SUM(contents_cnt) as month_cnt from Gn_Gwc_Order where contents_idx='{$row_order[contents_idx]}' and reg_date > '{$date_today}' and page_type=0";
-                                    $res_item_cnt_month = mysql_query($sql_item_cnt_month);
-                                    $row_item_cnt_month = mysql_fetch_array($res_item_cnt_month);
+                                    $res_item_cnt_month = mysqli_query($self_con,$sql_item_cnt_month);
+                                    $row_item_cnt_month = mysqli_fetch_array($res_item_cnt_month);
 
                                     $sql_item_cnt_all = "select SUM(contents_cnt) as all_cnt from Gn_Gwc_Order where contents_idx='{$row_order[contents_idx]}' and page_type=0";
-                                    $res_item_cnt_all = mysql_query($sql_item_cnt_all);
-                                    $row_item_cnt_all = mysql_fetch_array($res_item_cnt_all);
+                                    $res_item_cnt_all = mysqli_query($self_con,$sql_item_cnt_all);
+                                    $row_item_cnt_all = mysqli_fetch_array($res_item_cnt_all);
 
                                     $month_cnt = $row_item_cnt_month[0]?$row_item_cnt_month[0]:"0";
                                     $cnt_data = $month_cnt."/\n".$row_item_cnt_all[0];
 
                                     $sql_price_month = "select SUM(TotPrice) as month_price from tjd_pay_result where gwc_cont_pay=1 and date > '{$date_today}' and buyer_id='{$row['buyer_id']}' and end_status='Y'";
-                                    $res_price_month = mysql_query($sql_price_month);
-                                    $row_price_month = mysql_fetch_array($res_price_month);
+                                    $res_price_month = mysqli_query($self_con,$sql_price_month);
+                                    $row_price_month = mysqli_fetch_array($res_price_month);
 
                                     $sql_price_all = "select SUM(TotPrice) as all_price from tjd_pay_result where gwc_cont_pay=1 and buyer_id='{$row['buyer_id']}' and end_status='Y'";
-                                    $res_price_all = mysql_query($sql_price_all);
-                                    $row_price_all = mysql_fetch_array($res_price_all);
+                                    $res_price_all = mysqli_query($self_con,$sql_price_all);
+                                    $row_price_all = mysqli_fetch_array($res_price_all);
 
                                     $month_money = $row_price_month[0]?$row_price_month[0]:"0";
                                     $money_data = $month_money."<br>".$row_price_all[0];
@@ -421,8 +421,8 @@ set_gwc_delivery_state();
                                                 <option value="">배송회사</option>
                                                 <?
                                                 $sql_delivery = "select * from delivery_list";
-                                                $res_delivery = mysql_query($sql_delivery);
-                                                while($row_delivery = mysql_fetch_array($res_delivery)){
+                                                $res_delivery = mysqli_query($self_con,$sql_delivery);
+                                                while($row_delivery = mysqli_fetch_array($res_delivery)){
                                                 ?>
                                                 <option value="<?=$row_delivery[id]?>" title="<?=$row_delivery[delivery_name]?>" <?=$row_delivery[id]==$row_order[delivery]?'selected':''?>><?=cut_str($row_delivery[delivery_name], 5)?></option>
                                                 <?}?>

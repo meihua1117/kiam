@@ -10,6 +10,6 @@ if($_SESSION[one_member_id] != "")
     if($_POST['exe_6']) $squery  = " exe_6='$_POST[exe_6]'";
     
 	$sql="update Gn_Member set $squery where mem_id='$_SESSION[one_member_id]'";
-	$resul=mysql_query($sql);
+	$resul=mysqli_query($self_con,$sql);
 }
 ?>

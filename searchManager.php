@@ -71,8 +71,8 @@ $left_str="팀장검색";
                                 }
                                 
 								$sql="select count(mem_code) as cnt from Gn_Member where 1=1 $sql_search ";
-								$result = mysql_query($sql) or die(mysql_error());
-								$row=mysql_fetch_array($result);
+								$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+								$row=mysqli_fetch_array($result);
 								$intRowCount=$row[cnt];
 								if (!$_POST[lno]) 
 									$intPageSize =15;
@@ -96,10 +96,10 @@ $left_str="팀장검색";
 								    $page2=1;								
 									                                
     				            $sql="select * from Gn_Member where 1=1 $sql_search ";
-    				            $result = mysql_query($sql) or die(mysql_error());                                
+    				            $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));                                
                                 if($intRowCount)
     							{
-    								while($row=mysql_fetch_array($result))
+    								while($row=mysqli_fetch_array($result))
     								{
     								?>
                                     <tr>
@@ -135,5 +135,5 @@ $left_str="팀장검색";
     </div>
 </div> 
 <?
-mysql_close();
+mysqli_close($self_con);
 ?>

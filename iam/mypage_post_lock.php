@@ -6,8 +6,8 @@ if($_SESSION[iam_member_id] == "") {
 $mem_id = $_SESSION[iam_member_id];
 $sql_serch=" mem_id ='$_SESSION[iam_member_id]' ";
 $sql="select count(*) from Gn_Iam_Contents cont inner join Gn_Iam_Post p on p.content_idx = cont.idx where cont.mem_id  = '$mem_id' and lock_status='Y' order by p.reg_date";
-$result = mysql_query($sql) or die(mysql_error());
-$row = mysql_fetch_array($result);
+$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+$row = mysqli_fetch_array($result);
 $post_count	=  $row[0];
 if (!$_POST[lno])
     $intPageSize =20;
@@ -29,7 +29,7 @@ else
 $startIndex = ($page - 1) * $intPageSize;
 $intPageCount=(int)(($post_count + $intPageSize - 1)/$intPageSize);
 $sql="select p.*,m.mem_name,m.profile,cont.westory_card_url from Gn_Iam_Contents cont inner join Gn_Iam_Post p on p.content_idx = cont.idx inner join Gn_Member m on m.mem_id = p.mem_id where cont.mem_id  = '$mem_id' and lock_status='Y' order by p.reg_date limit $startIndex,$intPageSize";
-$result=mysql_query($sql) or die(mysql_error());
+$result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 ?>
 <style>
 .container {
@@ -141,7 +141,7 @@ td {
                                 <?
                                 if($post_count)
                                 {
-                                    while($row=mysql_fetch_array($result))
+                                    while($row=mysqli_fetch_array($result))
                                     {
                                         ?>
                                         <tr >

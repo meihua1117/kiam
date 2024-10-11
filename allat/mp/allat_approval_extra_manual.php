@@ -14,8 +14,8 @@ include_once "../../_head.php";
     if($ORDER_NO_MONTH == "") exit;
     $ORDER_NO = substr($ORDER_NO_MONTH,0,16);
     $sql="select * from tjd_pay_result where orderNumber='$ORDER_NO' ";
-    $resul=mysql_query($sql) or die(mysql_error());
-    $row=mysql_fetch_array($resul);	
+    $resul=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+    $row=mysqli_fetch_array($resul);	
     if($row[0] == "") exit;
     $mem_id=$row['buyer_id'];
     if(strlen($ORDER_NO_MONTH) == 16)
@@ -89,7 +89,7 @@ include_once "../../_head.php";
     $REPLYCD   =getValue("reply_cd",$at_txt);        //결과코드
     $REPLYMSG  =getValue("reply_msg",$at_txt);       //결과 메세지
     $sql="delete from tjd_pay_result_month where order_number='$ORDER_NO_MONTH' ";
-    mysql_query($sql) or die(mysql_error());
+    mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
     if( !strcmp($REPLYCD,"0000") ){
         // reply_cd "0000" 일때만 성공
         $ORDER_NO         =getValue("order_no",$at_txt);
@@ -111,22 +111,22 @@ include_once "../../_head.php";
                                                      msg='성공_mp_extra_manual',
                                                      amount='$row[TotPrice]',
                                                      buyer_id='$mem_id'";
-        mysql_query($sql)or die(mysql_error());
+        mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
         
         $sql = "update tjd_pay_result set monthly_yn='Y', end_status='Y' where  orderNumber='$ORDER_NO'";
-        $resul=mysql_query($sql)or die(mysql_error());
+        $resul=mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
         
         $sql="select * from Gn_Member where mem_id='$mem_id' ";
-        $sresult=mysql_query($sql)or die(mysql_error());
-        $srow=mysql_fetch_array($sresult);	
+        $sresult=mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
+        $srow=mysqli_fetch_array($sresult);	
         
         //$sql_num_up="update Gn_MMS_Number set end_status='Y' , end_date=date_add(now(),INTERVAL {$ro[month_cnt]} month) where end_date = '$_POST[pay_ex_end_date]' and mem_id='$member_1[mem_id]' ";
-        //mysql_query($sql_num_up) or die(mysql_error());				    
+        //mysqli_query($self_con,$sql_num_up) or die(mysqli_error($self_con));				    
 
     
         $sql="select * from crawler_member_real where user_id='$mem_id'";
-        $sresult=mysql_query($sql)or die(mysql_error());
-        $crow=mysql_fetch_array($sresult);	        
+        $sresult=mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
+        $crow=mysqli_fetch_array($sresult);	        
         $user_id=$srow['mem_id'];
         $user_name=$srow['mem_name'];
         $password=$srow['mem_pass'];
@@ -155,7 +155,7 @@ include_once "../../_head.php";
                                             search_email_date='$search_email_date',
                                             search_email_cnt='$search_email_cnt',
                                             shopping_end_date='$search_email_date'";
-            mysql_query($query);
+            mysqli_query($self_con,$query);
         } else {
             $query = "update crawler_member_real set 
                                             cell='$cell',
@@ -175,22 +175,22 @@ include_once "../../_head.php";
                                             status='Y'
                                             where user_id='$user_id'
                                             ";
-            mysql_query($query);                
+            mysqli_query($self_con,$query);                
         }    
     
         $sql_m="update Gn_Member set fujia_date1=now() , fujia_date2=date_add(now(),INTERVAL 120 month)  where mem_id='$mem_id' ";
-        mysql_query($sql_m)or die(mysql_error());
+        mysqli_query($self_con,$sql_m)or die(mysqli_error($self_con));
 
         $add_phone = $row[phone_cnt] / 9000;
         $sql_m="update Gn_Member set   phone_cnt=phone_cnt+'$add_phone' where mem_id='$mem_id' ";
-        mysql_query($sql_m)or die(mysql_error());		    
+        mysqli_query($self_con,$sql_m)or die(mysqli_error($self_con));		    
 	
         if($srow['recommend_id'] != "") {
             $share_id = $srow['recommend_id'];
             $sql="select * from Gn_Member where mem_id='$srow[recommend_id]' ";
-            $rresult=mysql_query($sql)or die(mysql_error());
-            if(mysql_num_rows($rresult) > 0){
-                $rrow=mysql_fetch_array($rresult);	    	
+            $rresult=mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
+            if(mysqli_num_rows($rresult) > 0){
+                $rrow=mysqli_fetch_array($rresult);	    	
                 $branch_share_id = "";
                 $addQuery = "";
                 $branch_share_per = 0;
@@ -199,8 +199,8 @@ include_once "../../_head.php";
                 if($rrow[service_type] == 2) {
                     // 추천인의 추천인 검색 및 등급 확인
                     $sql="select * from Gn_Member where mem_id='$rrow[recommend_id]'";
-                    $rresult=mysql_query($sql)or die(mysql_error());
-                    $trow=mysql_fetch_array($rresult);
+                    $rresult=mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
+                    $trow=mysqli_fetch_array($rresult);
 
                     $share_per = $recommend_per = $rrow['share_per']?$rrow['share_per']:30;
                     if($trow[0] !="") {
@@ -214,7 +214,7 @@ include_once "../../_head.php";
                 }
                 
                 $sql = "update tjd_pay_result set share_per='$share_per', branch_share_per = '$branch_share_per', share_id='$srow[recommend_id]', branch_share_id='$branch_share_id' where orderNumber='$ORDER_NO'";
-                mysql_query($sql)or die(mysql_error());			
+                mysqli_query($self_con,$sql)or die(mysqli_error($self_con));			
             }
         }        
  //       echo "결과코드              : ".$REPLYCD."<br>";
@@ -243,7 +243,7 @@ include_once "../../_head.php";
                                                                      msg='".iconv("euc-kr","utf-8",$REPLYMSG).'_mp_extra_manual'."',
                                                                      amount='$row[TotPrice]',
                                                                      buyer_id='$mem_id'";
-        mysql_query($sql)or die(mysql_error());   
+        mysqli_query($self_con,$sql)or die(mysqli_error($self_con));   
     }
 
 ?>

@@ -16,7 +16,7 @@ insert into        Gn_Iam_lang set kr ='$kr',
                                         sort_order='9999'
                                         
     ";
-    mysql_query($sql) or die(mysql_error());
+    mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 }
 else if($_POST['mode'] == "updat") {
     $query="update  Gn_Iam_lang set kr ='$kr',
@@ -29,10 +29,10 @@ else if($_POST['mode'] == "updat") {
                                         pos = '$pos'
                          WHERE no='$no'
                                  ";                    
-    mysql_query($query);	
+    mysqli_query($self_con,$query);	
 } else if($_POST['mode'] == "del") {
     $query="delete  from Gn_Iam_lang WHERE no='$no'";
-    mysql_query($query);	
+    mysqli_query($self_con,$query);	
 } else if($_POST['mode'] == "sort_order") {
     print_r($_POST);
     $no = $_POST['no'];
@@ -44,7 +44,7 @@ else if($_POST['mode'] == "updat") {
                                  WHERE no='$no[$i]'
                                          ";
             //echo $query."<BR>";
-            mysql_query($query);	
+            mysqli_query($self_con,$query);	
         }
    }
 }

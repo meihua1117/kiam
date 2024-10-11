@@ -12,8 +12,8 @@ location.replace('/ma.php');
 exit;
 }
 	$sql="select * from Gn_Member  where mem_id='".$_SESSION[one_member_id]."'";
-	$sresul_num=mysql_query($sql);
-	$data=mysql_fetch_array($sresul_num);	
+	$sresul_num=mysqli_query($self_con,$sql);
+	$data=mysqli_fetch_array($sresul_num);	
 	
  
 ?>
@@ -127,8 +127,8 @@ function copyHtml(url){
 				if($_REQUEST[group_name])
 				$sql_serch.=" and grp like '%$_REQUEST[group_name]%' ";
 				$sql="select count(idx) as cnt from Gn_MMS_Group where $sql_serch ";
-				$result = mysql_query($sql) or die(mysql_error());
-				$row=mysql_fetch_array($result);
+				$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+				$row=mysqli_fetch_array($result);
 				$intRowCount=$row[cnt];
 				
               if($intRowCount)
@@ -163,23 +163,23 @@ function copyHtml(url){
 				$order_name="idx";
 				$intPageCount=(int)(($intRowCount+$intPageSize-1)/$intPageSize);     
 				$sql="select * from Gn_MMS_Group where $sql_serch order by $order_name $order_status limit $int,$intPageSize";
-				$result=mysql_query($sql) or die(mysql_error());			
+				$result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));			
 		?>   
               <?
-                  while($row=mysql_fetch_array($result))
+                  while($row=mysqli_fetch_array($result))
                   {
                         $sql="select count(idx) as cnt from Gn_MMS_Receive where grp_id = '$row[idx]' ";
-                        $sresult = mysql_query($sql) or die(mysql_error());
-                        $srow=mysql_fetch_array($sresult);		                    
+                        $sresult = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+                        $srow=mysqli_fetch_array($sresult);		                    
 					  	 
 						if(isset($_REQUEST['send_num_daily'])){
 							$count = 0;
 							$sql1="select recv_num from Gn_MMS_Receive where grp_id = '$row[idx]' ";
-							$sresult1 = mysql_query($sql1) or die(mysql_error());
-							while($srow1=mysql_fetch_array($sresult1)){
+							$sresult1 = mysqli_query($self_con,$sql1) or die(mysqli_error($self_con));
+							while($srow1=mysqli_fetch_array($sresult1)){
 								$sql_chk = "select idx from Gn_MMS_Deny where send_num='{$_REQUEST['send_num_daily']}' and recv_num='{$srow1[0]}' and (chanel_type=9 or chanel_type=4)";
-								$res_chk = mysql_query($sql_chk);
-								if(mysql_num_rows($res_chk)){
+								$res_chk = mysqli_query($self_con,$sql_chk);
+								if(mysqli_num_rows($res_chk)){
 									$count++;
 								}
 							}

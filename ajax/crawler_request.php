@@ -8,8 +8,8 @@ extract($_POST);
 $term = date("Y-m-d", strtotime("next Year"));
 
         $sql="select * from crawler_request where mem_id='$_SESSION[one_member_id]'";
-        $resul=mysql_query($sql) or die(mysql_error());
-        $row=mysql_fetch_array($resul);   
+        $resul=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+        $row=mysqli_fetch_array($resul);   
         if($row['mem_id'] != "") {
             $result = "fail";
             echo "{\"result\":\"$result\",\"msg\":\"이미 무료 체험을 하신 아이디 입니다..\"}";
@@ -18,11 +18,11 @@ $term = date("Y-m-d", strtotime("next Year"));
         
         $sql="insert into crawler_request set mem_id='$_SESSION[one_member_id]', 
                                               regdate=NOW()";
-        mysql_query($sql);
+        mysqli_query($self_con,$sql);
         
         $sql="select * from crawler_member where user_id='$_SESSION[one_member_id]'";
-        $resul=mysql_query($sql) or die(mysql_error());
-        $row=mysql_fetch_array($resul);   
+        $resul=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+        $row=mysqli_fetch_array($resul);   
         if($row[user_id] != "") {
             $result = "fail";
             echo "{\"result\":\"$result\",\"msg\":\"이미 있는 회원 아이디 입니다.\"}";
@@ -30,8 +30,8 @@ $term = date("Y-m-d", strtotime("next Year"));
         }
 
         $sql="select * from Gn_Member where mem_id='$_SESSION[one_member_id]'";
-        $resul=mysql_query($sql) or die(mysql_error());
-        $row=mysql_fetch_array($resul);   
+        $resul=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+        $row=mysqli_fetch_array($resul);   
         if($row['mem_id'] == "") {
             $result = "fail";
             echo "{\"result\":\"$result\":\"msg\":\"없는 회원 아이디 입니다.\"}";
@@ -62,7 +62,7 @@ $term = date("Y-m-d", strtotime("next Year"));
                                    $addSql 
                                  ";
                                  //echo $sql;
-        mysql_query($sql);	 
+        mysqli_query($self_con,$sql);	 
         $result = "success";   
 
 echo "{\"result\":\"$result\"}";

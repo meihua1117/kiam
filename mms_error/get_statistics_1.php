@@ -14,15 +14,15 @@ $reserv_cnt_thisday=0;
 // QUERY
 $sql="select recv_num from Gn_MMS where 1=1 and send_num='$id' and reg_date like '$date_today%' ";
 // $sql="select recv_num from Gn_MMS where 1=1 and send_num='$id' and reg_date like '$date_today%' and result=0 and up_date!='' ";
-$sub_resul=mysql_query($sql);				
-while($row_result = mysql_fetch_array($sub_resul))
+$sub_resul=mysqli_query($self_con,$sql);				
+while($row_result = mysqli_fetch_array($sub_resul))
 $reserv_cnt_thisday += count(explode(",",$row_result[recv_num]));
 
 // QUERY
 $sql="select recv_num from Gn_MMS where 1=1 and send_num='$id' and reg_date like '$date_month%' ";
 // $sql="select recv_num from Gn_MMS where 1=1 and send_num='$id' and reg_date like '$date_month%' and result=0 and up_date!='' ";
-$sub_resul=mysql_query($sql);				
-while($row_result = mysql_fetch_array($sub_resul))
+$sub_resul=mysqli_query($self_con,$sql);				
+while($row_result = mysqli_fetch_array($sub_resul))
 $reserv_cnt_thismonth += count(explode(",",$row_result[recv_num]));
 
 $phone_num = $id;
@@ -30,15 +30,15 @@ if(strlen($phone_num) > 0)
 {
 	$time = date("Y-m-d H:i:s");
 	$sql="select idx from call_api_log where phone_num='$phone_num'";
-	$res=mysql_query($sql) or die(mysql_error());
-	$row=mysql_fetch_array($res);
+	$res=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+	$row=mysqli_fetch_array($res);
 	if($row['idx'] != "") {
 		$sql="update call_api_log set get_statistics='$time' where idx='$row[idx]'";
-		mysql_query($sql);	
+		mysqli_query($self_con,$sql);	
 	}
 	else{
 		$sql ="insert into call_api_log set get_statistics='$time', phone_num='$phone_num'";
-		mysql_query($sql);	
+		mysqli_query($self_con,$sql);	
 	}
 }
 

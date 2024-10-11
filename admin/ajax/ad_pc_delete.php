@@ -10,7 +10,7 @@ $cam_id = $_POST["cam_id"];
 
     $query="delete from crawler_ad_manager WHERE cam_id='$cam_id'
                                  ";
-    mysql_query($query);	
+    mysqli_query($self_con,$query);	
 
 echo "<script>alert('저장되었습니다.');location='/admin/ad_pc_list.php';</script>";
 exit;

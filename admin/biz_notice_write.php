@@ -3,8 +3,8 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
 include_once $_SERVER['DOCUMENT_ROOT']."/admin/include/admin_header.inc.php";
 extract($_GET);
 $sql_no="select * from tjd_sellerboard where no='$_REQUEST[no]'";
-$resul_no=mysql_query($sql_no);
-$row_no=mysql_fetch_array($resul_no);
+$resul_no=mysqli_query($self_con,$sql_no);
+$row_no=mysqli_fetch_array($resul_no);
 ?>
 <script type="text/javascript" src="/jquery.lightbox_me.js"></script>
 <script>

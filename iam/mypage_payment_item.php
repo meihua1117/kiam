@@ -22,8 +22,8 @@ if($_REQUEST[lms_text])
     $sql_serch.=" and {$_REQUEST[lms_select]} = '{$_REQUEST[lms_text]}' ";
 }
 $sql="select count(r.no) as cnt from Gn_Item_Pay_Result r where $sql_serch ";
-$result = mysql_query($sql) or die(mysql_error());
-$row=mysql_fetch_array($result);
+$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+$row=mysqli_fetch_array($result);
 $intRowCount=$row[cnt];
 if (!$_POST[lno])
     $intPageSize =20;
@@ -56,7 +56,7 @@ $intPageCount=(int)(($intRowCount+$intPageSize-1)/$intPageSize);
 $sql="select r.*,p.regdate as jongsan_date,p.balance_yn
       from Gn_Item_Pay_Result r left join Gn_Item_Pay_Result_Balance p on r.no = p.pay_no
       where $sql_serch order by $order_name $order_status limit $int,$intPageSize";
-$result=mysql_query($sql) or die(mysql_error());
+$result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 ?>
 <style>
 .desc li {
@@ -284,19 +284,19 @@ input:checked + .slider:before {
                                 <?
                                 if($intRowCount)
                                 {
-                                    while($row=mysql_fetch_array($result))
+                                    while($row=mysqli_fetch_array($result))
                                     {
                                         if($row[point_val] == 0){
                                             $method = "카드결제";
                                             $sql_mem_data = "select mem_id, mem_name, mem_phone from Gn_Member where mem_id='{$row['buyer_id']}'";
-                                            $res_mem_data = mysql_query($sql_mem_data);
-                                            $row_mem_data = mysql_fetch_array($res_mem_data);
+                                            $res_mem_data = mysqli_query($self_con,$sql_mem_data);
+                                            $row_mem_data = mysqli_fetch_array($res_mem_data);
                                         }
                                         else{
                                             $method = "포인트결제";
                                         $sql_mem_data = "select mem_id, mem_name, mem_phone from Gn_Member where mem_id='{$row['seller_id']}'";
-                                        $res_mem_data = mysql_query($sql_mem_data);
-                                        $row_mem_data = mysql_fetch_array($res_mem_data);
+                                        $res_mem_data = mysqli_query($self_con,$sql_mem_data);
+                                        $row_mem_data = mysqli_fetch_array($res_mem_data);
                                         }
 
                                         $buyer_no = $row['no'] * 1 - 1;
@@ -309,8 +309,8 @@ input:checked + .slider:before {
                                         }
                                         if($row[gwc_cont_pay]){
                                             $sql_total_price = "select sum(item_price) from Gn_Item_Pay_Result where item_name='{$row[item_name]}' and order_number='{$row[order_number]}' and pay_date='{$row[pay_date]}'";
-                                            $res_total_price = mysql_query($sql_total_price);
-                                            $row_total_price = mysql_fetch_array($res_total_price);
+                                            $res_total_price = mysqli_query($self_con,$sql_total_price);
+                                            $row_total_price = mysqli_fetch_array($res_total_price);
                                             $row['item_price'] = $row_total_price[0];
                                         }
                                         ?>

@@ -17,8 +17,8 @@ include_once "_head.php";
 include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
 $date = date("Y-m-d H:i:s");
 $sql="select * from Gn_Member where mem_id='$_SESSION[one_member_id]' ";
-$resul=mysql_query($sql);
-$data=mysql_fetch_array($resul);
+$resul=mysqli_query($self_con,$sql);
+$data=mysqli_fetch_array($resul);
 $mid = date("YmdHis").rand(10,99);
 $item_name = "포인트충전";
 $item_price = 0;
@@ -439,7 +439,7 @@ if(isset($_GET[url])){
     </div>
 </div>
 <?
-mysql_close();
+mysqli_close($self_con);
 include_once "_foot.php";
 ?>
 </body>

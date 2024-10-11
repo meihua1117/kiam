@@ -36,8 +36,8 @@ exit;
 if(isset($_GET['request_idx']))
 {
 	$sql="select * from Gn_event_request where request_idx='$_GET[request_idx]' ";
-	$result = mysql_query($sql) or die(mysql_error());
-	$data=mysql_fetch_array($result);
+	$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+	$data=mysqli_fetch_array($result);
 }
 
 ?>
@@ -179,8 +179,8 @@ function copyHtml(url){
               $sql_serch=" landing_idx=0 and mobile='$data[mobile]'";
 
               $sql="select count(*) as cnt from Gn_event_request where $sql_serch ";
-              $result = mysql_query($sql) or die(mysql_error());
-              $row=mysql_fetch_array($result);
+              $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+              $row=mysqli_fetch_array($result);
               $intRowCount=$row[cnt];				
               if($intRowCount)
               {				
@@ -214,13 +214,13 @@ function copyHtml(url){
                     $order_name="request_idx";
                     $intPageCount=(int)(($intRowCount+$intPageSize-1)/$intPageSize);     
                     $sql="select * from Gn_event_request where $sql_serch order by $order_name $order_status limit $int,$intPageSize";
-                    $result=mysql_query($sql) or die(mysql_error());		 
+                    $result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));		 
                     
-                    while($row=mysql_fetch_array($result))
+                    while($row=mysqli_fetch_array($result))
                     {
                       $sql = "select * from Gn_event where event_idx='$row[event_idx]'";
-                      $eres = mysql_query($sql);
-                      $erow = mysql_fetch_array($eres);
+                      $eres = mysqli_query($self_con,$sql);
+                      $erow = mysqli_fetch_array($eres);
                     ?>
                           <tr>
                             <td><?=$sort_no?></td>
@@ -230,11 +230,11 @@ function copyHtml(url){
                                 if($erow['sms_idx1'] != 0)
                                 {
                                   $sql = "select reservation_title from Gn_event_sms_info where sms_idx='$erow[sms_idx1]'";
-                                  $res = mysql_query($sql);
-                                  $sms_row = mysql_fetch_array($res);
+                                  $res = mysqli_query($self_con,$sql);
+                                  $sms_row = mysqli_fetch_array($res);
                                   $sql = "select count(*) from Gn_event_sms_step_info where sms_idx='$erow[sms_idx1]'";
-                                  $res = mysql_query($sql);
-                                  $step_row = mysql_fetch_array($res);
+                                  $res = mysqli_query($self_con,$sql);
+                                  $step_row = mysqli_fetch_array($res);
                                   echo "$sms_row[0]";
                                 }
                               ?>
@@ -280,8 +280,8 @@ function copyHtml(url){
               $sql_serch=" landing_idx!=0 and mobile='$data[mobile]'";
 
               $sql="select count(*) as cnt from Gn_event_request where $sql_serch ";
-              $result = mysql_query($sql) or die(mysql_error());
-              $row=mysql_fetch_array($result);
+              $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+              $row=mysqli_fetch_array($result);
               $intRowCount=$row[cnt];				
               if($intRowCount)
               {				
@@ -315,17 +315,17 @@ function copyHtml(url){
                     $order_name="request_idx";
                     $intPageCount=(int)(($intRowCount+$intPageSize-1)/$intPageSize);     
                     $sql="select * from Gn_event_request where $sql_serch order by $order_name $order_status limit $int,$intPageSize";
-                    $result=mysql_query($sql) or die(mysql_error());		 
+                    $result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));		 
                     
-                    while($row=mysql_fetch_array($result))
+                    while($row=mysqli_fetch_array($result))
                     {
                       $sql = "select * from Gn_event where event_idx='$row[event_idx]'";
-                      $eres = mysql_query($sql);
-                      $erow = mysql_fetch_array($eres);
+                      $eres = mysqli_query($self_con,$sql);
+                      $erow = mysqli_fetch_array($eres);
 
                       $sql = "select * from Gn_landing where landing_idx='$row[landing_idx]'";
-                      $lres = mysql_query($sql);
-                      $lrow = mysql_fetch_array($lres);
+                      $lres = mysqli_query($self_con,$sql);
+                      $lrow = mysqli_fetch_array($lres);
                     ?>
                           <tr>
                             <td><?=$sort_no?></td>             

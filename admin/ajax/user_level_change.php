@@ -11,8 +11,8 @@ $result=0;
 
 // 정보 확인
 $sql="select * from Gn_Member where mem_code='$mem_code'";
-$resul=mysql_query($sql) or die(mysql_error());
-$row=mysql_fetch_array($resul);    
+$resul=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+$row=mysqli_fetch_array($resul);    
 
 if($_POST['mode'] == "") {
     $result = -1;
@@ -30,7 +30,7 @@ if($_POST['mem_code']) {
     // 탈퇴
     $sql="update Gn_Member set mem_leb='".$_POST['mem_leb']."' 
                              where mem_code='$mem_code'";
-    mysql_query($sql);	
+    mysqli_query($self_con,$sql);	
     
 }
 

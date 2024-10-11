@@ -28,7 +28,7 @@ if($cam_id == "") {
                                   `start_time`      ='$start_time', 
                                   `end_time`      ='$end_time'
                                  ";
-    mysql_query($query);	
+    mysqli_query($self_con,$query);	
 } else {
     if($_FILES['img']['name']) {
         $info = explode(".",$_FILES['img']['name']);
@@ -53,7 +53,7 @@ if($cam_id == "") {
                                   `end_time`      ='$end_time'
                          WHERE cam_id='$cam_id'
                                  ";
-    mysql_query($query);	
+    mysqli_query($self_con,$query);	
 }
 echo "<script>alert('저장되었습니다.');location='/admin/ad_pc_list.php';</script>";
 exit;

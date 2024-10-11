@@ -7,8 +7,8 @@ $date_today=date("Y-m-d");
 $date_month=date("Y-m");
 
 $sql = "SELECT id, round_num, state_flag, iam_count FROM crawler_gm_seller_info ORDER BY id DESC LIMIT 1";
-$result = mysql_query($sql);
-while($res = mysql_fetch_array($result)){
+$result = mysqli_query($self_con,$sql);
+while($res = mysqli_fetch_array($result)){
     $id = $res['id'];
     $round = $res['round_num'];
     $state = $res['state_flag'];
@@ -79,4 +79,4 @@ $round_num = (int)$id + 1;
                     '자!그러면 운영자님의 아이엠을 자동생성해보실래요?'+
                     '운영자님의 네이버샵에 노출된 사업자정보, 샵주소, 상품제목, 상품이미지 등을 크롤링하여 자동으로 생성하는 시스템입니다. ' +
                     '생성후에 생성된 아이엠 링크 정보를 통해 운영자님의 아이엠을 확인하고 수정할수 있습니다. ' +
-                    '확인하고 나서 �
+                    '확인하고 나서 �

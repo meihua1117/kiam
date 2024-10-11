@@ -13,8 +13,8 @@ exit;
 }
 extract($_REQUEST);
 $sql="select * from Gn_Member  where mem_id='".$_SESSION[one_member_id]."'";
-$sresul_num=mysql_query($sql);
-$data=mysql_fetch_array($sresul_num);	
+$sresul_num=mysqli_query($self_con,$sql);
+$data=mysqli_fetch_array($sresul_num);	
 	
 ?>
 
@@ -132,8 +132,8 @@ $(function(){
 					}				
 				
 				$sql="select count(lecture_id) as cnt from Gn_lecture where $sql_serch ";
-				$result = mysql_query($sql) or die(mysql_error());
-				$row=mysql_fetch_array($result);
+				$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+				$row=mysqli_fetch_array($result);
 				$intRowCount=$row[cnt];
               if($intRowCount)
               {
@@ -167,15 +167,15 @@ $(function(){
 				$intPageCount=(int)(($intRowCount+$intPageSize-1)/$intPageSize);     
 				//$sql="select * from Gn_lecture where $sql_serch order by $order_name $order_status limit $int,$intPageSize";
 				$sql="select * from Gn_lecture where $sql_serch order by start_date desc limit $int,$intPageSize";
-				$result=mysql_query($sql) or die(mysql_error());				
+				$result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));				
 		?>   
               <?
-                  while($row=mysql_fetch_array($result))
+                  while($row=mysqli_fetch_array($result))
                   {
 					  	//$num_arr=array();
 						$sql_num="select * from Gn_event where m_id='$row[mem_id]' and event_idx='$row[event_idx]' ";
-						$resul_num=mysql_query($sql_num);
-						$crow=mysql_fetch_array($resul_num);
+						$resul_num=mysqli_query($self_con,$sql_num);
+						$crow=mysqli_fetch_array($resul_num);
 						
  
                   ?>

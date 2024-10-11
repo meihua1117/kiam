@@ -4,25 +4,25 @@ $contents_idx = $_GET['contents_idx'];
 $HTTP_HOST = str_replace("www.", "", $_SERVER['HTTP_HOST']);
 if ($HTTP_HOST != "kiam.kr") { //분양사사이트이면
 	$query = "select * from Gn_Iam_Service where sub_domain like '%http://" . $HTTP_HOST . "'";
-	$res = mysql_query($query);
-	$domainData = mysql_fetch_array($res);
+	$res = mysqli_query($self_con,$query);
+	$domainData = mysqli_fetch_array($res);
 } else {
 	$query = "select * from Gn_Iam_Service where sub_domain like 'http://www.kiam.kr'";
-	$res = mysql_query($query);
-	$domainData = mysql_fetch_array($res);
+	$res = mysqli_query($self_con,$query);
+	$domainData = mysqli_fetch_array($res);
 	$domainData['sub_domain'] = "http://kiam.kr/";
 }
 
 $meta_sql = "update Gn_Iam_Contents set contents_temp=contents_temp+1 where idx = '$contents_idx'";
-mysql_query($meta_sql);
+mysqli_query($self_con,$meta_sql);
 
 $meta_sql = "select * from Gn_Iam_Contents where idx = '$contents_idx'";
-$meta_result = mysql_query($meta_sql);
-$meta_row = mysql_fetch_assoc($meta_result);
+$meta_result = mysqli_query($self_con,$meta_sql);
+$meta_row = mysqli_fetch_assoc($meta_result);
 
 $sql = "select idx,mem_id,main_img1,card_name from Gn_Iam_Name_Card where idx = {$meta_row['card_idx']}";
-$result = mysql_query($sql) or die(mysql_error());
-$name_card = mysql_fetch_array($result);
+$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+$name_card = mysqli_fetch_array($result);
 
 $card_owner = $name_card['mem_id'];
 $_SESSION['recommender_code'] = $card_owner;
@@ -33,8 +33,8 @@ $_COOKIE['recommender_code'] = $card_owner;
 
 $contents_avatar = $name_card['main_img1'];
 $mem_sql = "select profile,mem_name from Gn_Member where mem_id='{$card_owner}'";
-$mem_res = mysql_query($mem_sql);
-$mem_row = mysql_fetch_assoc($mem_res);
+$mem_res = mysqli_query($self_con,$mem_sql);
+$mem_row = mysqli_fetch_assoc($mem_res);
 $contents_user_name = $mem_row['mem_name'];
 if ($contents_avatar == "") {
 	$contents_avatar = $mem_row['profile'];

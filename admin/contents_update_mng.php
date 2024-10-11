@@ -187,8 +187,8 @@ $date_month=date("Y-m");
                                 $searchStr .= " AND a.state='{$settle_type}'";
 
                             $sql = "select a.*, b.card_title, c.mem_name, c.mem_point from contents_update_history a inner join Gn_Iam_Name_Card b on a.card_idx=b.idx inner join Gn_Member c on a.mem_id=c.mem_id where 1=1";
-                            $res = mysql_query($sql);
-                            $totalCnt = mysql_num_rows($res);
+                            $res = mysqli_query($self_con,$sql);
+                            $totalCnt = mysqli_num_rows($res);
 
                             $limitStr = " LIMIT ".(($startPage-1)*$pageCnt).", ".$pageCnt;
                             $number = $totalCnt - ($nowPage - 1) * $pageCnt;
@@ -197,8 +197,8 @@ $date_month=date("Y-m");
                             
                             $query = $sql.$searchStr.$orderQuery;
                             // echo $query; exit;
-                            $result = mysql_query($query);
-                            while($row = mysql_fetch_array($result)){
+                            $result = mysqli_query($self_con,$query);
+                            while($row = mysqli_fetch_array($result)){
                                 $no++;
                                 switch ($row['web_type']){
                                     case 'peopleid':

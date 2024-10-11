@@ -13,13 +13,13 @@ if($type == "delivery_save"){
         $date = '';
     }
     $sql_update = "update Gn_Gwc_Order set delivery='{$delivery}', delivery_no='{$delivery_no}', delivery_state='{$delivery_state}', delivery_set_date='{$date}' where id='{$id}'";
-    $res = mysql_query($sql_update);
+    $res = mysqli_query($self_con,$sql_update);
     echo $res;
 }
 else if($type == "get_delivery_link"){
     $sql = "select delivery_link from delivery_list where id='{$delivery_id}'";
-    $res = mysql_query($sql);
-    $row = mysql_fetch_array($res);
+    $res = mysqli_query($self_con,$sql);
+    $row = mysqli_fetch_array($res);
 
     echo '{"link":"'.$row[0].'"}';
 }
@@ -28,19 +28,19 @@ else if($type == "delete_list"){
     $no_arr = explode(",", $no);
     for($i = 0; $i < count($no_arr); $i++){
         $sql_id = "select orderNumber, buyer_id from tjd_pay_result where no='{$no_arr[$i]}'";
-        $res_id = mysql_query($sql_id);
-        $row_id = mysql_fetch_array($res_id);
+        $res_id = mysqli_query($self_con,$sql_id);
+        $row_id = mysqli_fetch_array($res_id);
         if($row_id)
         {
             $sql_order = "select mem_id, use_point, order_mem_name, order_mem_phone, seller_id, contents_cnt from Gn_Gwc_Order where tjd_idx='{$no_arr[$i]}'";
-            $res_order = mysql_query($sql_order);
-            while($row_order = mysql_fetch_array($res_order)){
+            $res_order = mysqli_query($self_con,$sql_order);
+            while($row_order = mysqli_fetch_array($res_order)){
                 if($row_order[use_point]){
                     $sql_mem_cash = "update Gn_Member set mem_cash=mem_cash+{$row_order[use_point]} where mem_id='$row_order[mem_id]'";
-                    mysql_query($sql_mem_cash);
+                    mysqli_query($self_con,$sql_mem_cash);
                     $sql_mem = "select mem_point, mem_cash from Gn_Member where mem_id='{$row_order[mem_id]}'";
-                    $res_mem = mysql_query($sql_mem);
-                    $row_mem = mysql_fetch_array($res_mem);
+                    $res_mem = mysqli_query($self_con,$sql_mem);
+                    $row_mem = mysqli_fetch_array($res_mem);
                     $sql_buyer = "insert into Gn_Item_Pay_Result
                             set buyer_id='$row_order[mem_id]',
                                 buyer_tel='$row_order[order_mem_phone]',
@@ -60,18 +60,18 @@ else if($type == "delete_list"){
                                 current_cash='$row_mem[mem_cash]',
                                 contents_cnt='$row_order[contents_cnt]',
                                 gwc_cont_pay=1";
-                    $res_result = mysql_query($sql_buyer);
+                    $res_result = mysqli_query($self_con,$sql_buyer);
                 }
             }
 
             $sql_del = "delete from Gn_Gwc_Order where tjd_idx='{$no_arr[$i]}'";
-            mysql_query($sql_del);
+            mysqli_query($self_con,$sql_del);
     
             $sql_del = "delete from Gn_Item_Pay_Result where tjd_idx='{$no_arr[$i]}'";
-            mysql_query($sql_del);
+            mysqli_query($self_con,$sql_del);
     
             $sql_del = "delete from tjd_pay_result where no='{$no_arr[$i]}'";
-            mysql_query($sql_del);
+            mysqli_query($self_con,$sql_del);
 
             // 결제취소시 가져간 상품 내보내기
             $date_today = date("Y-m-d");
@@ -81,25 +81,25 @@ else if($type == "delete_list"){
             $date_pre_month = date("Y-m", $prev_month_ts)."-01 00:00:00";
 
             $sql_get_cnt = "select count(*) from Gn_Iam_Contents_Gwc where mem_id='$row_id[buyer_id]' and ori_store_prod_idx!=0";
-            $res_get_cnt = mysql_query($sql_get_cnt);
-            $row_get_cnt = mysql_fetch_array($res_get_cnt);
+            $res_get_cnt = mysqli_query($self_con,$sql_get_cnt);
+            $row_get_cnt = mysqli_fetch_array($res_get_cnt);
 
             $sql_pay = "select sum(TotPrice) as all_money from tjd_pay_result where cash_prod_pay=0 and gwc_cont_pay=1 and buyer_id='$row_id[buyer_id]' and date>'$date_pre_month' and end_status='Y'";
-            $res_pay = mysql_query($sql_pay);
-            $row_pay = mysql_fetch_array($res_pay);
+            $res_pay = mysqli_query($self_con,$sql_pay);
+            $row_pay = mysqli_fetch_array($res_pay);
 
             $possible_cnt = floor($row_pay[0] * 1 / 20000);
             if($possible_cnt < $row_get_cnt[0]){
                 $unset_cnt = $row_get_cnt[0] * 1 - $possible_cnt;
 
                 $sql_gwc = "select idx, ori_store_prod_idx from Gn_Iam_Contents_Gwc where mem_id='{$row_id[buyer_id]}' and ori_store_prod_idx!=0 order by idx asc limit {$unset_cnt}";
-                $res_gwc = mysql_query($sql_gwc);
-                while($row_gwc = mysql_fetch_array($res_gwc)){
+                $res_gwc = mysqli_query($self_con,$sql_gwc);
+                while($row_gwc = mysqli_fetch_array($res_gwc)){
                     $sql_update = "update Gn_Iam_Contents_Gwc set public_display='Y' where idx = '$row_gwc[ori_store_prod_idx]'";
-                    mysql_query($sql_update) or die(mysql_error());
+                    mysqli_query($self_con,$sql_update) or die(mysqli_error($self_con));
 
                     $sql_del = "delete from Gn_Iam_Contents_Gwc where idx=$row_gwc[idx]";
-                    mysql_query($sql_del) or die(mysql_error());
+                    mysqli_query($self_con,$sql_del) or die(mysqli_error($self_con));
                 }
             }
         }
@@ -108,7 +108,7 @@ else if($type == "delete_list"){
 }
 else if($type == "gwc_sync_state"){
     $sql = "update Gn_Search_Key set key_content='{$sample_click}' where key_id='gwc_prod_sync_status'";
-    mysql_query($sql);
+    mysqli_query($self_con,$sql);
 
     echo 1;
 }
@@ -116,7 +116,7 @@ else if($type == "delete_change_list"){
     $id_arr = explode(",", $no);
     for($i = 0; $i < count($id_arr); $i++){
         $sql_update = "update Gn_Gwc_Order set prod_state=0, state_detail=NULL, prod_req_date=NULL, change_prod_req_date=NULL where id='$id_arr[$i]'";
-        mysql_query($sql_update);
+        mysqli_query($self_con,$sql_update);
     }
     echo 1;
 }

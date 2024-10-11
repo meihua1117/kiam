@@ -51,7 +51,7 @@ for($i = 0; $i < count($id_arr); $i++){
                                         daily_set_point, daily_point_start, daily_point_end, 
                                         point_state, auto_join_event_idx, daily_msg_event_idx, 
                                         '{$id_arr[$i]}', 1 FROM Gn_Iam_Service where idx='{$id_arr[$i]}')";
-        mysql_query($sql_insert) or die(mysql_error());
+        mysqli_query($self_con,$sql_insert) or die(mysqli_error($self_con));
 }
 echo json_encode(array("result"=>"ok"));
 exit;

@@ -11,8 +11,8 @@ if($cam_id) {
     // 가입 회원 상세 정보
     $query = "select *
                 from Gn_Ad_Manager where cam_id='$cam_id'";
-    $res = mysql_query($query);
-    $data = mysql_fetch_array($res);
+    $res = mysqli_query($self_con,$query);
+    $data = mysqli_fetch_array($res);
 }
 
 ?>

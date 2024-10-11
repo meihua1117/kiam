@@ -6,12 +6,12 @@ extract($_GET);
 $date_today=date("Y-m-d");
 $date_month=date("Y-m");
 	$sql_no="select * from tjd_board where no='$_REQUEST[no]'";
-	$resul_no=mysql_query($sql_no);
-	$row_no=mysql_fetch_array($resul_no);
+	$resul_no=mysqli_query($self_con,$sql_no);
+	$row_no=mysqli_fetch_array($resul_no);
 	
 	$sql_no="select * from Gn_Member where mem_id='$row_no[id]'";
-	$resul_no=mysql_query($sql_no);
-	$data=mysql_fetch_array($resul_no);
+	$resul_no=mysqli_query($self_con,$sql_no);
+	$data=mysqli_fetch_array($resul_no);
 		
 	$phone = explode("-", $row_no['phone']);
 	$email = explode("@", $row_no['email']);

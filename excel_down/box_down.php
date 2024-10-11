@@ -7,7 +7,7 @@ ini_set('memory_limit','2500M');
 include_once $path."lib/rlatjd_fun.php";
 $box_s=str_replace("`","'",$_REQUEST[box_text]);
 $sql_db="select seq,dest,callback,msg_flag,msg_text,msg_url,reservation_time,grp from sm_data where dest in ($box_s) ";
-$resul_db=mysql_query($sql_db);
+$resul_db=mysqli_query($self_con,$sql_db);
 
 require_once("Classes/PHPExcel.php");
 $objPHPExcel = new PHPExcel();
@@ -29,7 +29,7 @@ $objPHPExcel->setActiveSheetIndex(0)
 			->setCellValue("G1", "reservation_time")
 			->setCellValue("H1", "grp");
 $h=2;			
-while($row_db=mysql_fetch_array($resul_db))
+while($row_db=mysqli_fetch_array($resul_db))
 {
 $objPHPExcel->setActiveSheetIndex(0)
 			->setCellValue("A$h",$row_db[seq])

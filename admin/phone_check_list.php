@@ -335,32 +335,32 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;text-align:
                                                     "%' or a.manager like '%".$search_key."%')" : null;
                                     $order = $order?$order:"desc";
                                     $query = "SELECT SQL_CALC_FOUND_ROWS * FROM gn_check_phone a WHERE 1=1 $searchStr";
-                                    $res	    = mysql_query($query);
-                                    $totalCnt	=  mysql_num_rows($res);
+                                    $res	    = mysqli_query($self_con,$query);
+                                    $totalCnt	=  mysqli_num_rows($res);
                                     $limitStr   = " LIMIT ".(($startPage-1)*$pageCnt).", ".$pageCnt;
                                     $number		= ($nowPage - 1) * $pageCnt;
                                     $orderField = $orderField?$orderField:"a.idx";
                                     $orderQuery .= " ORDER BY a.reg_date $dir $limitStr";
                                     $i = 1;
                                     $query .= $orderQuery;
-                                    $res = mysql_query($query);
-                                    while($row = mysql_fetch_array($res)) {
+                                    $res = mysqli_query($self_con,$query);
+                                    while($row = mysqli_fetch_array($res)) {
                                         $mem_sql = "select * from Gn_Member use index(mem_id) where mem_id='$row[mem_id]'";
-                                        $mem_res = mysql_query($mem_sql);
-                                        $mem_row = mysql_fetch_array($mem_res);
+                                        $mem_res = mysqli_query($self_con,$mem_sql);
+                                        $mem_row = mysqli_fetch_array($mem_res);
 
                                         $sql = "select count(*) from Gn_MMS_Number where ( not (cnt1 = 10 and cnt2 = 20)) and  mem_id = '$row[mem_id]'";
-                                        $res_result = mysql_query($sql);
-                                        $num_res = mysql_fetch_row($res_result);
+                                        $res_result = mysqli_query($self_con,$sql);
+                                        $num_res = mysqli_fetch_row($res_result);
                                         $row['tcnt'] = $num_res[0];
                                         $row['send_extra'] = 0;
 
                                         $phone_sql="select sendnum from Gn_MMS_Number where ( not (cnt1 = 10 and cnt2 = 20)) and  mem_id = '$row[mem_id]'";
-                                        $phone_res=mysql_query($phone_sql) or die(mysql_error());
-                                        while($phone_row = mysql_fetch_array($phone_res)){
+                                        $phone_res=mysqli_query($self_con,$phone_sql) or die(mysqli_error($self_con));
+                                        while($phone_row = mysqli_fetch_array($phone_res)){
                                             $sql_result_g = "select SUM(recv_num_cnt) from Gn_MMS where send_num='$phone_row[sendnum]' and (reg_date like '$date_month%'  or reservation like '$date_month%') and type=10 and result = 0";
-											$res_result_g = mysql_query($sql_result_g);
-                                            $row_result_g = mysql_fetch_array($res_result_g);
+											$res_result_g = mysqli_query($self_con,$sql_result_g);
+                                            $row_result_g = mysqli_fetch_array($res_result_g);
                                             $row['send_extra'] += $row_result_g[0];
                                         }
                                     ?>

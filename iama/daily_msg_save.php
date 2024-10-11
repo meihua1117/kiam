@@ -42,18 +42,18 @@ if($show_img){
 // }
 
 $sql_mem = "select * from Gn_Member where mem_id='{$mem_id}'";
-$res_mem = mysql_query($sql_mem);
-$row_mem = mysql_fetch_array($res_mem);
+$res_mem = mysqli_query($self_con,$sql_mem);
+$row_mem = mysqli_fetch_array($res_mem);
 
 $sql_event = "insert into Gn_event set event_name_kor='데일리문자세트자동생성', event_name_eng='$event_name_eng', event_title='{$msgtitle_daily_intro}', event_desc='{$msgdesc_daily_intro}', event_info='{$msgtitle_daily}', event_sms_desc='{$htime}', pcode='{$pcode}', object='{$up_img}', mobile='{$row_mem['mem_phone']}', regdate='{$cur_time}', m_id='{$mem_id}', read_cnt=0, event_type='{$mtime}', callback_no='{$daily_cnt}', event_req_link='{$msgdesc_daily}', daily_req_link='{$iam_link_daily}'";
 // echo $sql_event; exit;
-mysql_query($sql_event) or die(mysql_error());
-$event_idx = mysql_insert_id();
+mysqli_query($self_con,$sql_event) or die(mysqli_error($self_con));
+$event_idx = mysqli_insert_id($self_con);
 
 $transUrl = "http://".$HTTP_HOST."/event/dailymsg.php?pcode=".$pcode."&eventidx=".$event_idx;
 $transUrl = get_short_url($transUrl);
 $insert_short_url = "update Gn_event set short_url='{$transUrl}' where event_idx={$event_idx}";
-mysql_query($insert_short_url) or die(mysql_error());
+mysqli_query($self_con,$insert_short_url) or die(mysqli_error($self_con));
 
 echo '{"shorturl":"'.$transUrl.'"}';
 ?>

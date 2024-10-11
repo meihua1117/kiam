@@ -9,13 +9,13 @@ $pageCnt = 20;
 $order = $order?$order:"desc"; 		
 
 $query = "select * from Gn_MMS_Number where 1=1 and ( not (cnt1 = 10 and cnt2 = 20)) and mem_id ='$mem_id' ";
-$res	    = mysql_query($query);
+$res	    = mysqli_query($self_con,$query);
 $query .= "
 	ORDER BY reg_date DESC
 ";            	
 $i = 1;
-$res = mysql_query($query);
-while($row = mysql_fetch_array($res)) {      
+$res = mysqli_query($self_con,$query);
+while($row = mysqli_fetch_array($res)) {      
 ?>
 <tr>
     <td><?=$i?></td>

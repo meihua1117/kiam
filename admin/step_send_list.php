@@ -164,9 +164,9 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                         	WHERE 1=1  and result = 0  and sms_detail_idx is not null
                 	              $searchStr";
                 	              
-                	$res	    = mysql_query($query);
-                  //$totalCnt	=  mysql_num_rows($res);	
-                  $totalRow	=  mysql_fetch_array($res);	                	
+                	$res	    = mysqli_query($self_con,$query);
+                  //$totalCnt	=  mysqli_num_rows($res);	
+                  $totalRow	=  mysqli_fetch_array($res);	                	
                 	$totalCnt = $totalRow[0];
                   
                   $query = "
@@ -187,47 +187,47 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                 	$i = 1;
                 	$c=0;
                 	$query .= "$orderQuery";
-                	$res = mysql_query($query);
-                    while($row = mysql_fetch_array($res)) { 
+                	$res = mysqli_query($self_con,$query);
+                    while($row = mysqli_fetch_array($res)) { 
                       
                       $query = "
                       SELECT mem_name from Gn_Member where mem_id='$row[mem_id]'";
-                      $sres = mysql_query($query);
-                      $urow = mysql_fetch_array($sres);    
+                      $sres = mysqli_query($self_con,$query);
+                      $urow = mysqli_fetch_array($sres);    
     														    
                       $sql_n="select memo from Gn_MMS_Number where sendnum='$row[send_num]' ";
-                      $resul_n=mysql_query($sql_n);
-                      $row_n=mysql_fetch_array($resul_n);
-                      mysql_free_result($resul_n);
+                      $resul_n=mysqli_query($self_con,$sql_n);
+                      $row_n=mysqli_fetch_array($resul_n);
+                      mysqli_free_result($resul_n);
                       
                       $recv_cnt=explode(",",$row[recv_num]);
                       
                       
                       $sql_as="select count(idx) as cnt from Gn_MMS_status where idx='$row[idx]' ";
-                      $resul_as=mysql_query($sql_as);
-                      $row_as=mysql_fetch_array($resul_as);
+                      $resul_as=mysqli_query($self_con,$sql_as);
+                      $row_as=mysqli_fetch_array($resul_as);
                       $status_total_cnt = $row_as[0];											
                       
                       $sql_cs="select count(idx) as cnt from Gn_MMS_status where idx='$row[idx]' and status='0'";
-                      $resul_cs=mysql_query($sql_cs);
-                      $row_cs=mysql_fetch_array($resul_cs);
+                      $resul_cs=mysqli_query($self_con,$sql_cs);
+                      $row_cs=mysqli_fetch_array($resul_cs);
                       $success_cnt = $row_cs[0];
 
                     
                       $total_cnt = count($recv_cnt);											
                       
                       $sql_sn="select name, sp from Gn_event_request where request_idx='$row[request_idx]' ";
-                      $sresul=mysql_query($sql_sn);
-                      $srow=mysql_fetch_array($sresul);											
+                      $sresul=mysqli_query($self_con,$sql_sn);
+                      $srow=mysqli_fetch_array($sresul);											
                       
                       $sql_sn="select count(*) as cnt from Gn_event_sms_step_info where sms_idx='$row[sms_idx]' ";
-                      $sresul=mysql_query($sql_sn);
-                      $crow=mysql_fetch_array($sresul);
+                      $sresul=mysqli_query($self_con,$sql_sn);
+                      $crow=mysqli_fetch_array($sresul);
                       $total_cnt = $crow[cnt];
                       
                       $sql_sn="select step from Gn_event_sms_step_info where sms_detail_idx='$row[sms_detail_idx]' ";
-                      $sresul=mysql_query($sql_sn);
-                      $crow=mysql_fetch_array($sresul);        				
+                      $sresul=mysqli_query($self_con,$sql_sn);
+                      $crow=mysqli_fetch_array($sresul);        				
                   ?>
                       <tr>
                         

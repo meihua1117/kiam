@@ -102,8 +102,8 @@ exit;
 
 
 	$sql="select * from Gn_Member  where mem_id='".$_SESSION[one_member_id]."'";
-	$sresul_num=mysql_query($sql);
-	$member = $data=mysql_fetch_array($sresul_num);	
+	$sresul_num=mysqli_query($self_con,$sql);
+	$member = $data=mysqli_fetch_array($sresul_num);	
 	
 
 ?>
@@ -171,8 +171,8 @@ $(function(){
 				}
 				$sql="select count(no) as cnt from tjd_pay_result where $sql_serch ";
 
-				$result = mysql_query($sql) or die(mysql_error());
-				$row=mysql_fetch_array($result);
+				$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+				$row=mysqli_fetch_array($result);
 				$intRowCount=$row[cnt];
 
 // for debug code
@@ -217,7 +217,7 @@ $(function(){
 				  $order_name="end_status";
 				$intPageCount=(int)(($intRowCount+$intPageSize-1)/$intPageSize);     
 				$sql="select * from tjd_pay_result where $sql_serch order by $order_name $order_status limit $int,$intPageSize";
-				$result=mysql_query($sql) or die(mysql_error());				
+				$result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));				
 		?>
 <link type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.4/themes/base/jquery-ui.css" rel="stylesheet" />
 <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.10.0/jquery-ui.min.js"></script>                
@@ -368,15 +368,15 @@ jQuery(function($){
 
               if($intRowCount) {
 
-                while($row=mysql_fetch_array($result)) {
+                while($row=mysqli_fetch_array($result)) {
 					$num_arr=array();
 					$sql_num="select sendnum from Gn_MMS_Number where mem_id='$row[buyer_id]' and end_date='$row[end_date]' ";
-					$resul_num=mysql_query($sql_num);
+					$resul_num=mysqli_query($self_con,$sql_num);
 					
-					while($row_num=mysql_fetch_array($resul_num)) array_push($num_arr,$row_num[sendnum]);
+					while($row_num=mysqli_fetch_array($resul_num)) array_push($num_arr,$row_num[sendnum]);
 					$sql="select mem_leb from Gn_Member  where mem_id='$row[buyer_id]'";
-					$sresul_num=mysql_query($sql);
-					$srow=mysql_fetch_array($sresul_num);
+					$sresul_num=mysqli_query($self_con,$sql);
+					$srow=mysqli_fetch_array($sresul_num);
 												
 					if($srow['mem_leb'] == "22") $mem_leb = "일반회원";
 					else  if($srow['mem_leb'] == "50") $mem_leb = "사업회원";
@@ -424,8 +424,8 @@ jQuery(function($){
 				} // end if
 
 				$sql="select count(no) as cnt from tjd_pay_result_db where $sql_serch ";
-				$result = mysql_query($sql) or die(mysql_error());
-				$row=mysql_fetch_array($result);
+				$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+				$row=mysqli_fetch_array($result);
 				$intRowCount=$row[cnt];
 
 				if (!$_POST[lno]) $intPageSize =20;
@@ -453,19 +453,19 @@ jQuery(function($){
 				$intPageCount=(int)(($intRowCount+$intPageSize-1)/$intPageSize);     
 				$sql="select * from tjd_pay_result_db where $sql_serch order by $order_name $order_status limit $int,$intPageSize";
 
-				$result=mysql_query($sql) or die(mysql_error());				
+				$result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));				
 
-                while($row=mysql_fetch_array($result)) {
+                while($row=mysqli_fetch_array($result)) {
 										
 					$num_arr=array();
 					$sql_num="select sendnum from Gn_MMS_Number where mem_id='$row[buyer_id]' and end_date='$row[end_date]' ";
-					$resul_num=mysql_query($sql_num);
+					$resul_num=mysqli_query($self_con,$sql_num);
 					
-					while($row_num=mysql_fetch_array($resul_num)) array_push($num_arr,$row_num[sendnum]);
+					while($row_num=mysqli_fetch_array($resul_num)) array_push($num_arr,$row_num[sendnum]);
 						
 					$sql="select mem_leb from Gn_Member  where mem_id='$row[buyer_id]'";
-					$sresul_num=mysql_query($sql);
-					$srow=mysql_fetch_array($sresul_num);
+					$sresul_num=mysqli_query($self_con,$sql);
+					$srow=mysqli_fetch_array($sresul_num);
 												
 					if($srow['mem_leb'] == "22") $mem_leb = "일반회원";
 					else  if($srow['mem_leb'] == "50") $mem_leb = "사업회원";
@@ -531,8 +531,8 @@ jQuery(function($){
 				          left join Gn_Member b
 				                 on b.mem_id=a.buyer_id 
 				              where a.buyer_id='$_SESSION[one_member_id]'  and end_status='Y' order by end_date desc ";
-				$result=mysql_query($sql) or die(mysql_error());				
-				$row=mysql_fetch_array($result);
+				$result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));				
+				$row=mysqli_fetch_array($result);
 				$chk = false;
 				if(strstr($row['member_type'],"Business")==true && $row[0]) {
 				    $chk = 1;    
@@ -559,8 +559,8 @@ jQuery(function($){
 				          left join Gn_Member b
 				                 on b.mem_id=a.buyer_id 				
 				where $sql_serch  and end_status='Y' ";
-				$result = mysql_query($sql) or die(mysql_error());
-				$row=mysql_fetch_array($result);
+				$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+				$row=mysqli_fetch_array($result);
 				$intRowCount=$row[cnt];
 				if (!$_POST[lno]) 
 					$intPageSize =20;
@@ -595,9 +595,9 @@ jQuery(function($){
 				                 on b.mem_id=a.buyer_id 
 				              where $sql_serch  and end_status='Y' order by $order_name $order_status limit $int,$intPageSize";
                 
-				$result=mysql_query($sql) or die(mysql_error());				
+				$result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));				
 				
-				$row=mysql_fetch_array($result);
+				$row=mysqli_fetch_array($result);
 		?>
 
 	<div class="ad_layer_info">
@@ -675,18 +675,18 @@ jQuery(function($){
               <?
               if($intRowCount)
               {
-                  $result=mysql_query($sql) or die(mysql_error());				
-                  while($row=mysql_fetch_array($result))
+                  $result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));				
+                  while($row=mysqli_fetch_array($result))
                   {
                       //echo $row[mem_id]."=".$row[recommend_id];
                       $num_arr=array();
                       $sql = "select * from Gn_Member where recommend_id='$row[recommend_id]' ";
-                      $res_result = mysql_query($sql);
-                      $sInfo = mysql_fetch_array($res_result);
+                      $res_result = mysqli_query($self_con,$sql);
+                      $sInfo = mysqli_fetch_array($res_result);
                       
                       $sql = "select * from Gn_Member where recommend_id='$sInfo[mem_id]'";
-                      $res_result = mysql_query($sql);
-                      $ssInfo = mysql_fetch_array($res_result);                      
+                      $res_result = mysqli_query($self_con,$sql);
+                      $ssInfo = mysqli_fetch_array($res_result);                      
                     	                      
                       //1 : 이용자, 2 : 직원, 3 : 일반대리점, 4:지사대리점, 5:총판 대리점
                       if($row['service_type'] == 0) {
@@ -819,8 +819,8 @@ jQuery(function($){
 				          left join Gn_Member b
 				                 on b.mem_id=a.buyer_id 
 				              where a.buyer_id='$_SESSION[one_member_id]'  and end_status='Y' ";
-				$result=mysql_query($sql) or die(mysql_error());				
-				$row=mysql_fetch_array($result);
+				$result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));				
+				$row=mysqli_fetch_array($result);
 				
 				$chk = false;
 				if(strstr($row['member_type'],"Business")==true && $row[0]) {
@@ -847,8 +847,8 @@ jQuery(function($){
 				          left join Gn_Member b
 				                 on b.mem_id=a.buyer_id 				
 				where $sql_serch  and end_status='Y' ";
-				$result = mysql_query($sql) or die(mysql_error());
-				$row=mysql_fetch_array($result);
+				$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+				$row=mysqli_fetch_array($result);
 				$intRowCount=$row[cnt];
 				if (!$_POST[lno]) 
 					$intPageSize =20;
@@ -883,9 +883,9 @@ jQuery(function($){
 				                 on b.mem_id=a.buyer_id 
 				              where $sql_serch  and end_status='Y' order by $order_name $order_status limit $int,$intPageSize";
                 
-				$result=mysql_query($sql) or die(mysql_error());				
+				$result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));				
 				
-				$row=mysql_fetch_array($result);
+				$row=mysqli_fetch_array($result);
 				
 				$chk = false;
  			
@@ -967,18 +967,18 @@ jQuery(function($){
               <?
               if($intRowCount)
               {
-                  $result=mysql_query($sql) or die(mysql_error());				
-                  while($row=mysql_fetch_array($result))
+                  $result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));				
+                  while($row=mysqli_fetch_array($result))
                   {
                       //echo $row[mem_id]."=".$row[recommend_id];
                       $num_arr=array();
                       $sql = "select * from Gn_Member where recommend_id='$row[recommend_id]' ";
-                      $res_result = mysql_query($sql);
-                      $sInfo = mysql_fetch_array($res_result);
+                      $res_result = mysqli_query($self_con,$sql);
+                      $sInfo = mysqli_fetch_array($res_result);
                       
                       $sql = "select * from Gn_Member where recommend_id='$sInfo[mem_id]'";
-                      $res_result = mysql_query($sql);
-                      $ssInfo = mysql_fetch_array($res_result);                      
+                      $res_result = mysqli_query($self_con,$sql);
+                      $ssInfo = mysqli_fetch_array($res_result);                      
                     	                      
                       //1 : 이용자, 2 : 직원, 3 : 일반대리점, 4:지사대리점, 5:총판 대리점
                       if($row['service_type'] == 0) {
@@ -1129,8 +1129,8 @@ jQuery(function($){
 				          left join Gn_Member b
 				                 on b.mem_id=a.buyer_id 				
 				where $sql_serch   and end_status='Y' ";
-				$result = mysql_query($sql) or die(mysql_error());
-				$row=mysql_fetch_array($result);
+				$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+				$row=mysqli_fetch_array($result);
 				$intRowCount=$row[cnt];
 				if (!$_POST[lno]) 
 					$intPageSize =20;
@@ -1165,8 +1165,8 @@ jQuery(function($){
 				                 on b.mem_id=a.buyer_id 
 				              where $sql_serch and end_status='Y' order by $order_name $order_status limit $int,$intPageSize";
 				
-				$result=mysql_query($sql) or die(mysql_error());				
-				$row=mysql_fetch_array($result);
+				$result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));				
+				$row=mysqli_fetch_array($result);
 				//echo $sql;
 				//print_r($row);
 				$chk = false;
@@ -1231,18 +1231,18 @@ jQuery(function($){
               <?
               if($intRowCount)
               {
-                  $result=mysql_query($sql) or die(mysql_error());				
-                  while($row=mysql_fetch_array($result))
+                  $result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));				
+                  while($row=mysqli_fetch_array($result))
                   {
                       //echo $row[mem_id]."=".$row[recommend_id];
                       $num_arr=array();
                       $sql = "select * from Gn_Member where mem_id='$row[mem_id]' ";
-                      $res_result = mysql_query($sql);
-                      $sInfo = mysql_fetch_array($res_result);
+                      $res_result = mysqli_query($self_con,$sql);
+                      $sInfo = mysqli_fetch_array($res_result);
                       
                       $sql = "select * from Gn_Member where recommend_id='$sInfo[mem_id]'";
-                      $res_result = mysql_query($sql);
-                      $ssInfo = mysql_fetch_array($res_result);                      
+                      $res_result = mysqli_query($self_con,$sql);
+                      $ssInfo = mysqli_fetch_array($res_result);                      
                     	                      
                       //1 : 이용자, 2 : 직원, 3 : 일반대리점, 4:지사대리점, 5:총판 대리점
                       /*
@@ -1404,8 +1404,8 @@ if($member['service_type'] == 2) {
 				          left join Gn_Member b
 				                 on b.mem_id=a.buyer_id 				
 				where $sql_serch  and end_status='Y' ";
-				$result = mysql_query($sql) or die(mysql_error());
-				$row=mysql_fetch_array($result);
+				$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+				$row=mysqli_fetch_array($result);
 				$intRowCount=$row[cnt];
 				if (!$_POST[lno]) 
 					$intPageSize =20;
@@ -1439,8 +1439,8 @@ if($member['service_type'] == 2) {
 				          left join Gn_Member b
 				                 on b.mem_id=a.buyer_id 
 				              where $sql_serch   and end_status='Y'  order by $order_name $order_status limit $int,$intPageSize";
-				$result=mysql_query($sql) or die(mysql_error());				
-				$row=mysql_fetch_array($result);
+				$result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));				
+				$row=mysqli_fetch_array($result);
 				$chk = false;
 				if($row['member_type']=="사업형-일반결제") {
 				    $chk = true;    
@@ -1506,18 +1506,18 @@ if($member['service_type'] == 2) {
               <?
               if($intRowCount)
               {
-                  $result=mysql_query($sql) or die(mysql_error());				
-                  while($row=mysql_fetch_array($result))
+                  $result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));				
+                  while($row=mysqli_fetch_array($result))
                   {
                       //echo $row[mem_id]."=".$row[recommend_id];
                       $num_arr=array();
                       $sql = "select * from Gn_Member where mem_id='$row[mem_id]' ";
-                      $res_result = mysql_query($sql);
-                      $sInfo = mysql_fetch_array($res_result);
+                      $res_result = mysqli_query($self_con,$sql);
+                      $sInfo = mysqli_fetch_array($res_result);
                       
                       $sql = "select * from Gn_Member where recommend_id='$sInfo[mem_id]'";
-                      $res_result = mysql_query($sql);
-                      $ssInfo = mysql_fetch_array($res_result);                      
+                      $res_result = mysqli_query($self_con,$sql);
+                      $ssInfo = mysqli_fetch_array($res_result);                      
                     	                      
                       //1 : 이용자, 2 : 직원, 3 : 일반대리점, 4:지사대리점, 5:총판 대리점
                       /*
@@ -1677,8 +1677,8 @@ if($member['service_type'] > 2) {
 				          left join Gn_Member b
 				                 on b.mem_id=a.buyer_id 				
 				where $sql_serch   and end_status='Y' ";
-				$result = mysql_query($sql) or die(mysql_error());
-				$row=mysql_fetch_array($result);
+				$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+				$row=mysqli_fetch_array($result);
 				$intRowCount=$row[cnt];
 				if (!$_POST[lno]) 
 					$intPageSize =20;
@@ -1712,8 +1712,8 @@ if($member['service_type'] > 2) {
 				          left join Gn_Member b
 				                 on b.mem_id=a.buyer_id 
 				              where $sql_serch  and end_status='Y'  order by $order_name $order_status limit $int,$intPageSize";
-				$result=mysql_query($sql) or die(mysql_error());				
-				$row=mysql_fetch_array($result);
+				$result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));				
+				$row=mysqli_fetch_array($result);
 				$chk = false;
 				if($row['member_type']=="사업형-일반결제") {
 				    $chk = true;    
@@ -1778,18 +1778,18 @@ if($member['service_type'] > 2) {
               <?
               if($intRowCount)
               {
-                  $result=mysql_query($sql) or die(mysql_error());				
-                  while($row=mysql_fetch_array($result))
+                  $result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));				
+                  while($row=mysqli_fetch_array($result))
                   {
                       //echo $row[mem_id]."=".$row[recommend_id];
                       $num_arr=array();
                       $sql = "select * from Gn_Member where mem_id='$row[mem_id]' ";
-                      $res_result = mysql_query($sql);
-                      $sInfo = mysql_fetch_array($res_result);
+                      $res_result = mysqli_query($self_con,$sql);
+                      $sInfo = mysqli_fetch_array($res_result);
                       
                       $sql = "select * from Gn_Member where recommend_id='$sInfo[mem_id]'";
-                      $res_result = mysql_query($sql);
-                      $ssInfo = mysql_fetch_array($res_result);                      
+                      $res_result = mysqli_query($self_con,$sql);
+                      $ssInfo = mysqli_fetch_array($res_result);                      
                     	                      
                       //1 : 이용자, 2 : 직원, 3 : 일반대리점, 4:지사대리점, 5:총판 대리점
                       if($row['service_type'] == 0) {
@@ -1938,8 +1938,8 @@ if($member['service_type']  >3 ) {
 				          left join Gn_Member b
 				                 on b.mem_id=a.buyer_id 				
 				where $sql_serch  and end_status='Y' ";
-				$result = mysql_query($sql) or die(mysql_error());
-				$row=mysql_fetch_array($result);
+				$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+				$row=mysqli_fetch_array($result);
 				$intRowCount=$row[cnt];
 				if (!$_POST[lno]) 
 					$intPageSize =20;
@@ -1973,8 +1973,8 @@ if($member['service_type']  >3 ) {
 				          left join Gn_Member b
 				                 on b.mem_id=a.buyer_id 
 				              where $sql_serch  and end_status='Y'  order by $order_name $order_status limit $int,$intPageSize";
-				$result=mysql_query($sql) or die(mysql_error());				
-				$row=mysql_fetch_array($result);
+				$result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));				
+				$row=mysqli_fetch_array($result);
 				$chk = false;
 				if($row['member_type']=="사업형-일반결제") {
 				    $chk = true;    
@@ -2041,18 +2041,18 @@ if($member['service_type']  >3 ) {
               <?
               if($intRowCount)
               {
-                  $result=mysql_query($sql) or die(mysql_error());				
-                  while($row=mysql_fetch_array($result))
+                  $result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));				
+                  while($row=mysqli_fetch_array($result))
                   {
                       //echo $row[mem_id]."=".$row[recommend_id];
                       $num_arr=array();
                       $sql = "select * from Gn_Member where mem_id='$row[mem_id]' ";
-                      $res_result = mysql_query($sql);
-                      $sInfo = mysql_fetch_array($res_result);
+                      $res_result = mysqli_query($self_con,$sql);
+                      $sInfo = mysqli_fetch_array($res_result);
                       
                       $sql = "select * from Gn_Member where recommend_id='$sInfo[mem_id]'";
-                      $res_result = mysql_query($sql);
-                      $ssInfo = mysql_fetch_array($res_result);                      
+                      $res_result = mysqli_query($self_con,$sql);
+                      $ssInfo = mysqli_fetch_array($res_result);                      
                     	                      
                       //1 : 이용자, 2 : 직원, 3 : 일반대리점, 4:지사대리점, 5:총판 대리점
                       if($row['service_type'] == 0) {
@@ -2204,8 +2204,8 @@ if($member['service_type']  >  4) {
 				          left join Gn_Member b
 				                 on b.mem_id=a.buyer_id 				
 				where $sql_serch   and end_status='Y' ";
-				$result = mysql_query($sql) or die(mysql_error());
-				$row=mysql_fetch_array($result);
+				$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+				$row=mysqli_fetch_array($result);
 				$intRowCount=$row[cnt];
 				if (!$_POST[lno]) 
 					$intPageSize =20;
@@ -2239,8 +2239,8 @@ if($member['service_type']  >  4) {
 				          left join Gn_Member b
 				                 on b.mem_id=a.buyer_id 
 				              where $sql_serch   and end_status='Y'  order by $order_name $order_status limit $int,$intPageSize";
-				$result=mysql_query($sql) or die(mysql_error());				
-				$row=mysql_fetch_array($result);
+				$result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));				
+				$row=mysqli_fetch_array($result);
 				$chk = false;
 				if($row['member_type']=="사업형-일반결제") {
 				    $chk = true;    
@@ -2296,18 +2296,18 @@ if($member['service_type']  >  4) {
               <?
               if($intRowCount)
               {
-                  $result=mysql_query($sql) or die(mysql_error());				
-                  while($row=mysql_fetch_array($result))
+                  $result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));				
+                  while($row=mysqli_fetch_array($result))
                   {
                       //echo $row[mem_id]."=".$row[recommend_id];
                       $num_arr=array();
                       $sql = "select * from Gn_Member where recommend_id='$row[recommend_id]' ";
-                      $res_result = mysql_query($sql);
-                      $sInfo = mysql_fetch_array($res_result);
+                      $res_result = mysqli_query($self_con,$sql);
+                      $sInfo = mysqli_fetch_array($res_result);
                       
                       $sql = "select * from Gn_Member where recommend_id='$sInfo[mem_id]'";
-                      $res_result = mysql_query($sql);
-                      $ssInfo = mysql_fetch_array($res_result);                      
+                      $res_result = mysqli_query($self_con,$sql);
+                      $ssInfo = mysqli_fetch_array($res_result);                      
                     	                      
                       //1 : 이용자, 2 : 직원, 3 : 일반대리점, 4:지사대리점, 5:총판 대리점
                       if($row['service_type'] == 0) {
@@ -2450,8 +2450,8 @@ if($member['service_type'] >= 3) {
         	FROM Gn_Member 
         	WHERE recommend_id='".$_SESSION[one_member_id]."' and branch_yn='N'
 	              $sql_serch";
-	$res	    = mysql_query($query);
-	$totalCnt	=  mysql_num_rows($res);	
+	$res	    = mysqli_query($self_con,$query);
+	$totalCnt	=  mysqli_num_rows($res);	
                 	
 	$intRowCount=$totalCnt;    
 	
@@ -2499,7 +2499,7 @@ if($member['service_type'] >= 3) {
                 if($intRowCount)
                 {
                   $num = 1;
-                    while($row=mysql_fetch_array($res))
+                    while($row=mysqli_fetch_array($res))
                     {
                       
                        $query = "
@@ -2508,8 +2508,8 @@ if($member['service_type'] >= 3) {
                            	    *
                            	FROM Gn_Member 
                            	WHERE 1=1 and mem_id='$row[mem_id]'";
-                       $sres	    = mysql_query($query);                    
-                       $srow = mysql_fetch_array($sres);
+                       $sres	    = mysqli_query($self_con,$query);                    
+                       $srow = mysqli_fetch_array($sres);
                        if($row['service_type'] == 1) {
                            $mem_level = "리셀러";
                        } else if($row['service_type'] == 2) {

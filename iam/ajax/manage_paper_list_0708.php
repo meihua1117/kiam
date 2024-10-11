@@ -5,19 +5,19 @@ extract($_POST);
 $seq = $_POST['seq'];
 if($_POST['del'] == "Y"){
     $sql_del = "delete from Gn_Member_card where seq='{$seq}'";
-    $res = mysql_query($sql_del);
+    $res = mysqli_query($self_con,$sql_del);
 }
 else if($_POST[comment] == "Y"){
     $sql_comment = "select comment from Gn_Member_card where seq='{$seq}'";
-    $res_comment = mysql_query($sql_comment);
-    $row_comment = mysql_fetch_array($res_comment);
+    $res_comment = mysqli_query($self_con,$sql_comment);
+    $row_comment = mysqli_fetch_array($res_comment);
 
     $res = str_replace("\n", "<br>", $row_comment[0]);
 }
 else if($_POST[get_data] == "Y"){
     $sql_data = "select * from Gn_Member_card where seq='{$seq}'";
-    $res_data = mysql_query($sql_data);
-    $row_data = mysql_fetch_array($res_data);
+    $res_data = mysqli_query($self_con,$sql_data);
+    $row_data = mysqli_fetch_array($res_data);
 
     if(!$row_data[name] && !$row_data[job] && !$row_data[org_name] && !$row_data[address] && !$row_data[mobile] && !$row_data[email1] && $row_data[comment]){
         $arr = explode("\n", $row_data[comment]);
@@ -75,27 +75,27 @@ else if($_POST[save_data] == "Y"){
     $paper_phone2 = str_replace('-', '', $paper_phone2);
     $paper_mobile = str_replace('-', '', $paper_mobile);
     $sql_update = "update Gn_Member_card set name='{$paper_name}', job='{$paper_job}', org_name='{$paper_org_name}', address='{$paper_address}', phone1='{$paper_phone1}', phone2='{$paper_phone2}', mobile='{$paper_mobile}', fax='{$paper_fax}', email1='{$paper_email1}', email2='{$paper_email2}', memo='{$paper_memo}' where seq='{$paper_seq}'";
-    $res = mysql_query($sql_update);
+    $res = mysqli_query($self_con,$sql_update);
 
     $mem_phone = str_replace('-', '', $member_iam[mem_phone]);
 
     $sql_chk = "select idx from Gn_MMS_Receive_Iam where paper_yn=1 and paper_seq='{$paper_seq}'";
-    $res_chk = mysql_query($sql_chk);
-    $cnt_chk = mysql_num_rows($res_chk);
+    $res_chk = mysqli_query($self_con,$sql_chk);
+    $cnt_chk = mysqli_num_rows($res_chk);
 
     if($cnt_chk){
-        $row_chk = mysql_fetch_array($res_chk);
+        $row_chk = mysqli_fetch_array($res_chk);
         $sql_update_mms = "update Gn_MMS_Receive_Iam set send_num='{$mem_phone}', recv_num='{$paper_mobile}', name='{$paper_name}', reg_date=now() where idx='{$row_chk[idx]}'";
-        $res = mysql_query($sql_update_mms);
+        $res = mysqli_query($self_con,$sql_update_mms);
     }
     else{
         $sql_grp_id = "select idx from Gn_MMS_Group where mem_id='{$_SESSION[iam_member_id]}' and grp='아이엠'";
-        $res_grp = mysql_query($sql_grp_id);
-        $row_grp = mysql_fetch_array($res_grp);
+        $res_grp = mysqli_query($self_con,$sql_grp_id);
+        $row_grp = mysqli_fetch_array($res_grp);
 
         if($row_grp[idx]){
             $sql_insert = "insert into Gn_MMS_Receive_Iam set grp_id='{$row_grp[idx]}', mem_id='{$_SESSION[iam_member_id]}', grp='아이엠', grp_2='아이엠', send_num='{$mem_phone}', recv_num='{$paper_mobile}', name='{$paper_name}', reg_date=now(), iam=1, paper_yn=1, paper_seq='{$paper_seq}'";
-            $res = mysql_query($sql_insert);
+            $res = mysqli_query($self_con,$sql_insert);
         }
     }
 }

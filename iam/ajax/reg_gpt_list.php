@@ -8,6 +8,6 @@ $qu = htmlspecialchars($_POST[question]);
 $an = htmlspecialchars($_POST[answer]);
 
 $sql_insert = "insert into Gn_Gpt_Req_List set mem_id='{$mem_id}', gpt_question='{$qu}', gpt_answer='{$an}', reg_date=now()";
-$res = mysql_query($sql_insert);
+$res = mysqli_query($self_con,$sql_insert);
 echo $res;
 ?>

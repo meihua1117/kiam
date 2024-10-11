@@ -3,9 +3,9 @@
 	include_once $_SERVER['DOCUMENT_ROOT']."/lib/common_func.php";
 
 	$sql = "select * from Gn_app_version where seq =1";
-	$result = mysql_query($sql);
+	$result = mysqli_query($self_con,$sql);
 
-	$row = mysql_fetch_array($result);
+	$row = mysqli_fetch_array($result);
 
 
 	$result = array();

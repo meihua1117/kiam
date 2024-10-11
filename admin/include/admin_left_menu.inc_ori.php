@@ -1,16 +1,16 @@
 <?
     include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
     $sql="select count(no) as cnt from tjd_board where category=2 and reply is null ";
-    $result = mysql_query($sql) or die(mysql_error());
-    $boardCnt=mysql_fetch_array($result);
+    $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+    $boardCnt=mysqli_fetch_array($result);
 
     $sql_coty="select count(coty_id) as cnt from gn_coaching_apply where agree=0 ";
-    $result_coty = mysql_query($sql_coty) or die(mysql_error());
-    $boardCnt_coty=mysql_fetch_array($result_coty);
+    $result_coty = mysqli_query($self_con,$sql_coty) or die(mysqli_error($self_con));
+    $boardCnt_coty=mysqli_fetch_array($result_coty);
 
     $sql_coaching="select count(coach_id) as cnt from gn_coach_apply where agree=0 ";
-    $result_coaching = mysql_query($sql_coaching) or die(mysql_error());
-    $boardCnt_coaching=mysql_fetch_array($result_coaching);
+    $result_coaching = mysqli_query($self_con,$sql_coaching) or die(mysqli_error($self_con));
+    $boardCnt_coaching=mysqli_fetch_array($result_coaching);
 
     $date_array = getdate();
     $formated_date  = "";
@@ -19,58 +19,58 @@
     $formated_date .= $date_array['mday'];
 
     $sql_settlement="select count(no) as cnt from tjd_pay_result where end_status='N' and date>'$formated_date' ";
-    $result_settlement = mysql_query($sql_settlement) or die(mysql_error());
-    $boardCnt_settlement=mysql_fetch_array($result_settlement);
+    $result_settlement = mysqli_query($self_con,$sql_settlement) or die(mysqli_error($self_con));
+    $boardCnt_settlement=mysqli_fetch_array($result_settlement);
 
     $sql_pay_cancle="select count(no) as cnt from tjd_pay_result where monthly_status='R' ";
-    $result_pay_cancle = mysql_query($sql_pay_cancle) or die(mysql_error());
-    $boardCnt_pay_cancle=mysql_fetch_array($result_pay_cancle);
+    $result_pay_cancle = mysqli_query($self_con,$sql_pay_cancle) or die(mysqli_error($self_con));
+    $boardCnt_pay_cancle=mysqli_fetch_array($result_pay_cancle);
 
     $sql_money_change="select count(no) as cnt from tjd_pay_result where end_status='N' and member_type = '현금전환'";
-    $result_money_change = mysql_query($sql_money_change) or die(mysql_error());
-    $moneyChange=mysql_fetch_array($result_money_change);
+    $result_money_change = mysqli_query($self_con,$sql_money_change) or die(mysqli_error($self_con));
+    $moneyChange=mysqli_fetch_array($result_money_change);
 
     $today = date("Y-m-d");
     $sql_newMember="select count(mem_id) as cnt from Gn_Member where first_regist>'$today' ";
-    $result_newMember = mysql_query($sql_newMember) or die(mysql_error());
-    $boardCnt_newMember=mysql_fetch_array($result_newMember);
+    $result_newMember = mysqli_query($self_con,$sql_newMember) or die(mysqli_error($self_con));
+    $boardCnt_newMember=mysqli_fetch_array($result_newMember);
 
     $sql_pay_item="select count(no) as cnt from Gn_Item_Pay_Result where pay_date >'$today' and pay_status = 'Y' and (point_val=0 or (point_val=1 and site is not null and type='servicebuy'))";
-    $result_pay_item = mysql_query($sql_pay_item) or die(mysql_error());
-    $boardCnt_payItem=mysql_fetch_array($result_pay_item);
+    $result_pay_item = mysqli_query($self_con,$sql_pay_item) or die(mysqli_error($self_con));
+    $boardCnt_payItem=mysqli_fetch_array($result_pay_item);
 
     $card_sql ="select count(idx) as cnt from Gn_Iam_Name_Card use index(req_data) where req_data >'$today'";
     if($global_is_local){
-        $card_res = mysql_query($card_sql) or die(mysql_error());
-        $card_row = mysql_fetch_array($card_res);
+        $card_res = mysqli_query($self_con,$card_sql) or die(mysqli_error($self_con));
+        $card_row = mysqli_fetch_array($card_res);
     }else{
         $redis = new RedisCache();
         $card_row = $redis->get_query_to_data($card_sql);
     }
 
     $cont_sql ="select count(idx) as cnt from Gn_Iam_Contents where req_data >'$today'";
-    $cont_res = mysql_query($cont_sql) or die(mysql_error());
-    $cont_row = mysql_fetch_array($cont_res);
+    $cont_res = mysqli_query($self_con,$cont_sql) or die(mysqli_error($self_con));
+    $cont_row = mysqli_fetch_array($cont_res);
 
     $mall_sql ="select count(idx) as cnt from Gn_Iam_Mall where reg_date >'$today'";
-    $mall_res = mysql_query($mall_sql) or die(mysql_error());
-    $mall_row = mysql_fetch_array($mall_res);
+    $mall_res = mysqli_query($self_con,$mall_sql) or die(mysqli_error($self_con));
+    $mall_row = mysqli_fetch_array($mall_res);
 
     $iam_service_sql ="select count(idx) as cnt from Gn_Iam_Service where regdate >'$today'";
-    $iam_service_res = mysql_query($iam_service_sql) or die(mysql_error());
-    $iam_service_row = mysql_fetch_array($iam_service_res);
+    $iam_service_res = mysqli_query($self_con,$iam_service_sql) or die(mysqli_error($self_con));
+    $iam_service_row = mysqli_fetch_array($iam_service_res);
 
     $provider_req_cnt = "select count(*) as cnt from Gn_Iam_Contents_Gwc where public_display='N' and provider_req_prod='Y'";
-    $res_provider = mysql_query($provider_req_cnt);
-    $row_provider = mysql_fetch_array($res_provider);
+    $res_provider = mysqli_query($self_con,$provider_req_cnt);
+    $row_provider = mysqli_fetch_array($res_provider);
 
     $change_req_cnt = "select count(*) as cnt from Gn_Gwc_Order where prod_state!=0 and prod_req_state=0";
-    $res_change = mysql_query($change_req_cnt);
-    $row_change = mysql_fetch_array($res_change);
+    $res_change = mysqli_query($self_con,$change_req_cnt);
+    $row_change = mysqli_fetch_array($res_change);
 
     $report_sql = "select count(id) as cnt from gn_report_form where reg_date >='$today' and status = 0";
-    $report_res = mysql_query($report_sql);
-    $report_row = mysql_fetch_array($report_res);
+    $report_res = mysqli_query($self_con,$report_sql);
+    $report_row = mysqli_fetch_array($report_res);
 ?>
 <script>
     function hide_left_bar()

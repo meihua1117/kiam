@@ -238,15 +238,15 @@ input:checked + .slider:before {
                                 $query = "SELECT SQL_CALC_FOUND_ROWS *, a.share_per FROM tjd_pay_result a 
                                             INNER JOIN Gn_Member b on b.mem_id =a.buyer_id
                                             WHERE 1=1 $searchStr";
-                                $res	    = mysql_query($query);
-                                $totalCnt	=  mysql_num_rows($res);	
+                                $res	    = mysqli_query($self_con,$query);
+                                $totalCnt	=  mysqli_num_rows($res);	
                                 $limitStr   = " LIMIT ".(($startPage-1)*$pageCnt).", ".$pageCnt;
                                 $number		= $totalCnt - ($nowPage - 1) * $pageCnt;                      
                                 $orderQuery .= " ORDER BY a.no DESC $limitStr ";
                                 $i = 1;
                                 $query .= "$orderQuery";
-                                $res = mysql_query($query);
-                                while($row = mysql_fetch_array($res)) {
+                                $res = mysqli_query($self_con,$query);
+                                while($row = mysqli_fetch_array($res)) {
                             ?>
                                 <tr>
                                     <td><input type="checkbox" class="check_no" id="check_one_member" name="" value="<?=$row['no']?>"><?=$number--?></td>

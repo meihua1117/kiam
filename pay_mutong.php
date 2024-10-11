@@ -6,8 +6,8 @@ if($member_1[mem_id] == "") {
     exit;
 }
 $sql="select * from Gn_Member where mem_id='$member_1[mem_id]' ";
-$res=mysql_query($sql)or die(mysql_error());
-$data=mysql_fetch_array($res);
+$res=mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
+$data=mysqli_fetch_array($res);
 ?>
 <script>
     function cancel(){

@@ -17,10 +17,10 @@ $cmid = $_POST["cmid"];
 if($_POST['mode'] == "reset") {
     $cmid = $_POST['cmid'];
     $query = "update crawler_member_real set total_cnt = total_cnt+monthly_cnt, search_email_total_cnt = search_email_total_cnt+search_email_use_cnt where cmid='$cmid'";
-    mysql_query($query);
+    mysqli_query($self_con,$query);
     
     $query = "update crawler_member_real set monthly_cnt=0,search_email_use_cnt=0 where cmid='$cmid'";
-    mysql_query($query);
+    mysqli_query($self_con,$query);
 } else {
     if($_POST['cmid']) {
         // PC 비밀번호가 있는경우
@@ -49,11 +49,11 @@ if($_POST['mode'] == "reset") {
                                        serial='$serial'
                                        $addSql 
                                      where cmid='$cmid'";
-        mysql_query($sql);	
+        mysqli_query($self_con,$sql);	
     } else {
         $sql="select * from crawler_member_real where user_id='$user_id'";
-        $resul=mysql_query($sql) or die(mysql_error());
-        $row=mysql_fetch_array($resul);   
+        $resul=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+        $row=mysqli_fetch_array($resul);   
         if($row[user_id] != "") {
             echo "{\"result\":\"$result\":\"msg\":\"이미 있는 회원 아이디 입니다.\"}";
             exit;
@@ -83,7 +83,7 @@ if($_POST['mode'] == "reset") {
                                     $addSql 
                                     ";
                                     //echo $sql;
-        mysql_query($sql);	    
+        mysqli_query($self_con,$sql);	    
     }
 }
 echo "{\"result\":\"$result\"}";

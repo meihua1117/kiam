@@ -12,8 +12,8 @@ if($type == "deny"){
     if($_REQUEST[deta_select] && $_REQUEST[deta_text])
         $sql_serch.=" and $_REQUEST[deta_select] like '%$_REQUEST[deta_text]%' ";
     $sql="select count(seq) as cnt from sm_data where $sql_serch ";
-    $result = mysql_query($sql) or die(mysql_error());
-    $row=mysql_fetch_array($result);
+    $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+    $row=mysqli_fetch_array($result);
     $intRowCount=$row[cnt];
     if($_POST[page])
         $page=(int)$_POST[page];
@@ -39,7 +39,7 @@ if($type == "deny"){
 
     $intPageCount=(int)(($intRowCount+$intPageSize-1)/$intPageSize);     
     $sql="select * from sm_data where $sql_serch group by msg_url order by $order_name $order_status limit $int,$intPageSize";
-    $result=mysql_query($sql) or die(mysql_error());
+    $result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 }
 else{
     if(!$_REQUEST[phone]) $sql_serch=" 1=0 ";
@@ -51,8 +51,8 @@ else{
     if($_REQUEST[deta_select] && $_REQUEST[deta_text])
         $sql_serch.=" and a.$_REQUEST[deta_select] like '%$_REQUEST[deta_text]%' ";
     $sql="select count(a.seq) as cnt from sm_data a inner join Gn_MMS_Deny b on a.msg_url=b.recv_num where $sql_serch ";
-    $result = mysql_query($sql) or die(mysql_error());
-    $row=mysql_fetch_array($result);
+    $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+    $row=mysqli_fetch_array($result);
     $intRowCount=$row[cnt];
     if($_POST[page])
         $page=(int)$_POST[page];
@@ -78,7 +78,7 @@ else{
 
     $intPageCount=(int)(($intRowCount+$intPageSize-1)/$intPageSize);     
     $sql="select a.* from sm_data a inner join Gn_MMS_Deny b on a.msg_url=b.recv_num where $sql_serch group by a.msg_url order by $order_name $order_status limit $int,$intPageSize";
-    $result=mysql_query($sql) or die(mysql_error());
+    $result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 }
 
 ?>
@@ -175,7 +175,7 @@ else{
             if($intRowCount)
             {
                 $i=0;
-                while($row=mysql_fetch_array($result))
+                while($row=mysqli_fetch_array($result))
                 {
             ?>
                 <tr>

@@ -5,8 +5,8 @@ include_once "lib/rlatjd_fun.php";
 if($_REQUEST['mode']=="inser")
 {
 	$sql="select * from Gn_MMS where uni_id='$_REQUEST[u]' ";
-	$resul=mysql_query($sql);
-	$row=mysql_fetch_array($resul);
+	$resul=mysqli_query($self_con,$sql);
+	$row=mysqli_fetch_array($resul);
     if($row[send_num] == $_REQUEST[n]){?>
             <script>
             alert('셀프폰 거부 등록입니다.'); 
@@ -32,8 +32,8 @@ if($_REQUEST['mode']=="inser")
     $k = 0;
 	
 	$sql_d="select idx from Gn_MMS_Deny where send_num='$row[send_num]' and recv_num='$_REQUEST[n]'".$search_str;
-	$resul_d=mysql_query($sql_d);
-	$row_d=mysql_fetch_array($resul_d);
+	$resul_d=mysqli_query($self_con,$sql_d);
+	$row_d=mysqli_fetch_array($resul_d);
 	if($row_d[idx] != null)
 	{
 		$deny_info[send_num]=$row[send_num];
@@ -49,7 +49,7 @@ if($_REQUEST['mode']=="inser")
 		foreach($deny_info as $key=>$v)
 			$sql.=" $key='$v' , ";
 		$sql.=" reg_date=now() ";
-        mysql_query($sql);
+        mysqli_query($self_con,$sql);
         $k = 1;
 	}
 	$user_id = $row[mem_id];
@@ -57,14 +57,14 @@ if($_REQUEST['mode']=="inser")
 	$send_num = $row[send_num];
     // [새 번호]가 현재로그에 있는지 확인
     $query = "select now_num, old_nums from Gn_MMS_Receive_Change_Log where now_num = '$now_num'  ";
-    $resultA = mysql_query($query);
-    $rowA = mysql_fetch_array($resultA);
+    $resultA = mysqli_query($self_con,$query);
+    $rowA = mysqli_fetch_array($resultA);
     if($rowA[0]) {
         $msg= substr(htmlspecialchars($row[content]),0,20)."...";
         $now_num = $rowA['now_num'];
         $sql_s="select idx from Gn_MMS_Deny where send_num='$send_num' and recv_num='$now_num'  and chanel_type!=9 ";
-        $resul_s=mysql_query($sql_s);
-        $row_s=mysql_fetch_array($resul_s);
+        $resul_s=mysqli_query($self_con,$sql_s);
+        $row_s=mysqli_fetch_array($resul_s);
         if($row_s[idx] == "") {
             $sql_insert = "insert into Gn_MMS_Deny set send_num='$send_num',
                                                        recv_num='$now_num',
@@ -75,15 +75,15 @@ if($_REQUEST['mode']=="inser")
                                                        status='A',
                                                        chanel_type='$chanel',
                                                        up_date=now() ";
-            mysql_query($sql_insert);
+            mysqli_query($self_con,$sql_insert);
             $k = 1;
         }	
         $info = explode(",", $rowA['old_nums']);
         for($kk =0 ;$kk < count($info); $kk++) {
             $now_num = $info[$kk];
             $sql_s="select idx from Gn_MMS_Deny where send_num='$send_num' and recv_num='$now_num'  and chanel_type!=9 ";
-            $resul_s=mysql_query($sql_s);
-            $row_s=mysql_fetch_array($resul_s);
+            $resul_s=mysqli_query($self_con,$sql_s);
+            $row_s=mysqli_fetch_array($resul_s);
             if($row_s[idx] == "") {
                 $sql_insert = "insert into Gn_MMS_Deny set send_num='$send_num',
                                                            recv_num='$now_num',
@@ -94,7 +94,7 @@ if($_REQUEST['mode']=="inser")
                                                            status='A',
                                                            chanel_type='$chanel',
                                                            up_date=now() ";
-                mysql_query($sql_insert);
+                mysqli_query($self_con,$sql_insert);
                 $k = 1;
             }	            
         }
@@ -104,14 +104,14 @@ if($_REQUEST['mode']=="inser")
 	
     // [새 번호]가 현재로그에 있는지 확인
     $query = "select now_num, old_nums from Gn_MMS_Receive_Change_Log where  old_nums like '$now_num%' ";
-    $resultA = mysql_query($query);
-    $rowA = mysql_fetch_array($resultA);
+    $resultA = mysqli_query($self_con,$query);
+    $rowA = mysqli_fetch_array($resultA);
     if($rowA[0]) {
         $msg= substr(htmlspecialchars($row[content]),0,20)."...";
         $now_num = $rowA['now_num'];
         $sql_s="select idx from Gn_MMS_Deny where send_num='$send_num' and recv_num='$now_num'  and chanel_type!=9 ";
-        $resul_s=mysql_query($sql_s);
-        $row_s=mysql_fetch_array($resul_s);
+        $resul_s=mysqli_query($self_con,$sql_s);
+        $row_s=mysqli_fetch_array($resul_s);
         if($row_s[idx] == "") {
             $sql_insert = "insert into Gn_MMS_Deny set send_num='$send_num',
                                                        recv_num='$now_num',
@@ -122,15 +122,15 @@ if($_REQUEST['mode']=="inser")
                                                        status='A',
                                                        chanel_type='$chanel',
                                                        up_date=now() ";
-            mysql_query($sql_insert);
+            mysqli_query($self_con,$sql_insert);
             $k = 1;
         }	
         $info = explode(",", $rowA['old_nums']);
         for($kk =0 ;$kk < count($info); $kk++) {
             $now_num = $info[$kk];
             $sql_s="select idx from Gn_MMS_Deny where send_num='$send_num' and recv_num='$now_num'  and chanel_type!=9 ";
-            $resul_s=mysql_query($sql_s);
-            $row_s=mysql_fetch_array($resul_s);
+            $resul_s=mysqli_query($self_con,$sql_s);
+            $row_s=mysqli_fetch_array($resul_s);
             if($row_s[idx] == "") {
                 $sql_insert = "insert into Gn_MMS_Deny set send_num='$send_num',
                                                            recv_num='$now_num',
@@ -141,7 +141,7 @@ if($_REQUEST['mode']=="inser")
                                                            status='A',
                                                            chanel_type='$chanel',
                                                            up_date=now() ";
-                 mysql_query($sql_insert);
+                 mysqli_query($self_con,$sql_insert);
                  $k = 1;
             }	            
         }

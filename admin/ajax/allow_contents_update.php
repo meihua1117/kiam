@@ -33,14 +33,14 @@ $show_cnt = $_POST['show_cnt'];
 if(isset($_POST['updat'])){
     $sql = "update get_crawler_bizinfo set info_source='{$info_source}', web_type='{$info_type}', work_name='{$work_name}', reg_date='{$reg_date}', end_date='{$end_date}', org_name='{$org_name}', show_cnt={$show_cnt}, detail_link='{$detail_link}' where id={$_POST['updat']}";
     // echo $sql; exit;
-    mysql_query($sql);
+    mysqli_query($self_con,$sql);
     echo 2;
 }
 else if(isset($_POST['check'])){
     $id = $_POST['id'];
     $sql_recom = "select * from get_crawler_bizinfo where id='{$id}'";
-	$res = mysql_query($sql_recom);
-	$row = mysql_fetch_array($res);
+	$res = mysqli_query($self_con,$sql_recom);
+	$row = mysqli_fetch_array($res);
 	$info_source = $row['info_source'];
 	$web_type = $row['web_type'];
 
@@ -49,8 +49,8 @@ else if(isset($_POST['check'])){
 	}
 	$sql_reg = "select * from reg_biz_contents where info_source='{$info_source}' and info_type='{$web_type}'";
 	// echo $sql_reg;
-	$res_reg = mysql_query($sql_reg);
-    $row_reg = mysql_num_rows($res_reg);
+	$res_reg = mysqli_query($self_con,$sql_reg);
+    $row_reg = mysqli_num_rows($res_reg);
     if($row_reg == 0){
         echo 0;
     }

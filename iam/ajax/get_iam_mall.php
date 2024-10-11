@@ -100,19 +100,19 @@ $sql8 .= " limit $w_offset, $contents_count_per_page ";
 //file_put_contents("../../iamlog.txt", $sql8 . "\n", FILE_APPEND);
 
 if($sql8)
-    $result8=mysql_query($sql8) or die(mysql_error());
+    $result8=mysqli_query($self_con,$sql8) or die(mysqli_error($self_con));
 
 $logs->add_log("mall start $slq8");
     
 $body = '';
-while( $contents_row = mysql_fetch_array($result8)){
+while( $contents_row = mysqli_fetch_array($result8)){
     $card_sql = "select card_short_url from Gn_Iam_Name_Card where mem_id = '$contents_row[mem_id]' order by req_data";
-    $card_res = mysql_query($card_sql);
-    $card_row = mysql_fetch_array($card_res);
+    $card_res = mysqli_query($self_con,$card_sql);
+    $card_row = mysqli_fetch_array($card_res);
 
     $mem_sql = "select site_iam,mem_name from Gn_Member where mem_id = '$contents_row[mem_id]'";
-    $mem_res = mysql_query($mem_sql);
-    $mem_row = mysql_fetch_array($mem_res);
+    $mem_res = mysqli_query($self_con,$mem_sql);
+    $mem_row = mysqli_fetch_array($mem_res);
     
     if($mem_row['site_iam'] == "kiam")
         $card_url = "http://kiam.kr?";
@@ -122,8 +122,8 @@ while( $contents_row = mysql_fetch_array($result8)){
     $card_url .= "&site=".$member_iam;
     if($contents_row['mall_type'] == 1){
         $sql = "select card_short_url,profile from Gn_Iam_Name_Card n inner join Gn_Member m on m.mem_id=n.mem_id where n.group_id is NULL and m.mem_code = {$contents_row['card_idx']} order by n.req_data limit 0,1";
-        $res = mysql_query($sql);
-        $row = mysql_fetch_array($res);
+        $res = mysqli_query($self_con,$sql);
+        $row = mysqli_fetch_array($res);
         //if($mem_row['site_iam'] == "kiam")
         //    $preview_link = "http://www.kiam.kr/?";
         //else
@@ -133,12 +133,12 @@ while( $contents_row = mysql_fetch_array($result8)){
         $avatar = $row['profile']?$row['profile']:"/iam/img/common/logo-2.png";
     }else if($contents_row['mall_type'] == 2){
         $sql = "select card_short_url,mem_id from Gn_Iam_Name_Card where idx = {$contents_row['card_idx']}";
-        $res = mysql_query($sql);
-        $row = mysql_fetch_array($res);
+        $res = mysqli_query($self_con,$sql);
+        $row = mysqli_fetch_array($res);
         $mall_url = $row[0];
         $sql = "select mem_code,site_iam,profile from Gn_Member where mem_id = '$row[1]'";
-        $res = mysql_query($sql);
-        $row = mysql_fetch_array($res);
+        $res = mysqli_query($self_con,$sql);
+        $row = mysqli_fetch_array($res);
         /*if($row['site_iam'] == "kiam")
             $preview_link = "http://www.kiam.kr/?";
         else
@@ -148,12 +148,12 @@ while( $contents_row = mysql_fetch_array($result8)){
         $avatar = $row['profile']?$row['profile']:"/iam/img/common/logo-2.png";
     }else if($contents_row['mall_type'] == 3 || $contents_row['mall_type'] == 4 || $contents_row['mall_type'] > 10){
         $sql = "select mem_id, card_idx from Gn_Iam_Contents where idx = {$contents_row['card_idx']}";
-        $res = mysql_query($sql);
-        $row = mysql_fetch_array($res);
+        $res = mysqli_query($self_con,$sql);
+        $row = mysqli_fetch_array($res);
         $card_idx = $row['card_idx'];
         $sql = "select site_iam,profile from Gn_Member where mem_id = '$row[0]'";
-        $res = mysql_query($sql);
-        $row = mysql_fetch_array($res);
+        $res = mysqli_query($self_con,$sql);
+        $row = mysqli_fetch_array($res);
         /*if($row['site_iam'] == "kiam")
             $preview_link = "http://www.kiam.kr/iam/contents.php?contents_idx=";
         else
@@ -164,8 +164,8 @@ while( $contents_row = mysql_fetch_array($result8)){
             $preview_link = str_replace("contents.php","contents_gallery.php",$preview_link);
         
         $sql_chk_card = "select ai_map_gmarket,main_img1 from Gn_Iam_Name_Card use index(idx) where idx='{$card_idx}'";
-        $res_chk_card = mysql_query($sql_chk_card);
-        $row_chk_card = mysql_fetch_assoc($res_chk_card);
+        $res_chk_card = mysqli_query($self_con,$sql_chk_card);
+        $row_chk_card = mysqli_fetch_assoc($res_chk_card);
 
         if($row_chk_card['main_img1'] != "")
             $avatar = $row_chk_card['main_img1'];
@@ -180,8 +180,8 @@ while( $contents_row = mysql_fetch_array($result8)){
         }
     }else if($contents_row['mall_type'] == 5){
         $sql = "select profile from Gn_Member where mem_id = '$contents_row[mem_id]'";
-        $res = mysql_query($sql);
-        $row = mysql_fetch_array($res);
+        $res = mysqli_query($self_con,$sql);
+        $row = mysqli_fetch_array($res);
         $avatar = $row['profile']?$row['profile']:"/iam/img/common/logo-2.png";
     }
     if($contents_mode == "pin"){

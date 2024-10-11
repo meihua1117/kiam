@@ -17,40 +17,40 @@ else{
 $HTTP_HOST = str_replace("www.","",$_SERVER['HTTP_HOST']);
 if ($HTTP_HOST != "kiam.kr") {//분양사사이트이면
 	$query = "select * from Gn_Iam_Service where sub_domain like '%http://" . $HTTP_HOST . "'";
-	$res = mysql_query($query);
-	$domainData = mysql_fetch_array($res);
+	$res = mysqli_query($self_con,$query);
+	$domainData = mysqli_fetch_array($res);
 } else {
 	$query = "select * from Gn_Iam_Service where sub_domain like 'http://www.kiam.kr'";
-	$res = mysql_query($query);
-	$domainData = mysql_fetch_array($res);
+	$res = mysqli_query($self_con,$query);
+	$domainData = mysqli_fetch_array($res);
 	$domainData[sub_domain] = "http://kiam.kr/";
 }
 if ($_SESSION[iam_member_id]) {
 	$post_time = date("Y-m-d H:i:s", strtotime("-1 week"));
 	$post_sql = "select count(*) from Gn_Member where mem_id = '$_SESSION[iam_member_id]' and last_regist > '$post_time'";
-	$post_result = mysql_query($post_sql);
-	$post_row = mysql_fetch_array($post_result);
+	$post_result = mysqli_query($self_con,$post_sql);
+	$post_row = mysqli_fetch_array($post_result);
 	$recent_post = $post_row[0];
 }
 $mem_sql = "select mem_code from Gn_Member where mem_id = '$domainData[mem_id]'";
-$mem_result=mysql_query($mem_sql);
-$mem_row=mysql_fetch_array($mem_result);
+$mem_result=mysqli_query($self_con,$mem_sql);
+$mem_row=mysqli_fetch_array($mem_result);
 
 $meta_sql="update Gn_Iam_Contents set contents_temp=contents_temp+1 where idx = '$contents_idx'";
-mysql_query($meta_sql);
+mysqli_query($self_con,$meta_sql);
 
 $meta_sql="select * from Gn_Iam_Contents where idx = '$contents_idx'";
-$meta_result=mysql_query($meta_sql);
-$meta_row=mysql_fetch_array($meta_result);
+$meta_result=mysqli_query($self_con,$meta_sql);
+$meta_row=mysqli_fetch_array($meta_result);
 
 $sql = "select main_img1 from Gn_Iam_Info where mem_id = 'obmms02'";
-$result=mysql_query($sql) or die(mysql_error());
-$row=mysql_fetch_array($result);
+$result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+$row=mysqli_fetch_array($result);
 $default_avatar =  $row['main_img1'];
 
 $sql = "select * from Gn_Iam_Name_Card where idx = '$meta_row[card_idx]'";
-$result=mysql_query($sql) or die(mysql_error());
-$name_card=mysql_fetch_array($result);
+$result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+$name_card=mysqli_fetch_array($result);
 
 $card_owner = $name_card[mem_id];
 $_SESSION['recommender_code'] = $card_owner;
@@ -212,8 +212,8 @@ $meta_desc = $meta_row[contents_desc];
 									$price_show2 = "판매가";
 									$price_style = "";
 									$sql_card = "select sale_cnt, sale_cnt_set, add_reduce_val from Gn_Iam_Name_Card where idx='{$meta_row[card_idx]}'";
-									$res_card = mysql_query($sql_card);
-									$row_card = mysql_fetch_array($res_card);?>
+									$res_card = mysqli_query($self_con,$sql_card);
+									$row_card = mysqli_fetch_array($res_card);?>
 									<div class="desc is-product">
 										<div class="desc-inner">
 											<div class="outer <?=$row_card[sale_cnt_set]?>">
@@ -491,12 +491,12 @@ $meta_desc = $meta_row[contents_desc];
 								</a>
 								<?
 									$post_sql = "select SQL_CALC_FOUND_ROWS * from Gn_Iam_Post p inner join Gn_Member m on p.mem_id = m.mem_id where p.content_idx = '$meta_row[idx]' and p.lock_status = 'N' order by p.reg_date";
-									$post_res = mysql_query($post_sql);
-									$post_count	=  mysql_num_rows($post_res);
+									$post_res = mysqli_query($self_con,$post_sql);
+									$post_count	=  mysqli_num_rows($post_res);
 
 									$post_status_sql = "select count(*) from Gn_Iam_Post where content_idx = '$meta_row[idx]' and status = 'N' and lock_status = 'N'";
-									$post_status_res = mysql_query($post_status_sql);
-									$post_status_row =  mysql_fetch_array($post_status_res);
+									$post_status_res = mysqli_query($self_con,$post_status_sql);
+									$post_status_row =  mysqli_fetch_array($post_status_res);
 									$post_status_count = $post_status_row[0];
 									if ($post_status_count  > 0)
 										echo "<script>  $('#post_alarm_".$meta_row[idx]."').html(".$post_status_count."); </script>";
@@ -527,7 +527,7 @@ $meta_desc = $meta_row[contents_desc];
 							<span id = "post_status" name = "post_status" style="padding: 10px;font-size:10px">0/300</span>
 						</div>
 						<div style="border: 0px solid #dddddd;margin-left:30px;" id = "<?='post_list_'.$meta_row[idx]?>" name = "<?='post_list_'.$meta_row[idx]?>">
-							<?while($post_row = mysql_fetch_array($post_res)){?>
+							<?while($post_row = mysqli_fetch_array($post_res)){?>
 								<div class="user-item" id="<?='post_reply'.$post_row['id']?>">
 									<a href="/?<?=strip_tags($meta_row['westory_card_url'])?>" class="img-box">
 										<div class="user-img" style="margin: 5px;width:32px;height:32px;">
@@ -600,8 +600,8 @@ $meta_desc = $meta_row[contents_desc];
 								</div>
 								<?
 								$reply_sql = "select * from Gn_Iam_Post_Response r inner join Gn_Member m on r.mem_id = m.mem_id where r.post_idx = '$post_row[id]' order by r.reg_date";
-								$reply_res = mysql_query($reply_sql);
-								while($reply_row = mysql_fetch_array($reply_res)){?>
+								$reply_res = mysqli_query($self_con,$reply_sql);
+								while($reply_row = mysqli_fetch_array($reply_res)){?>
 									<div class="user-item" style="padding-left: 50px">
 										<a href="/?<?=strip_tags($meta_row['westory_card_url'])?>" class="img-box">
 											<div class="user-img" style="margin: 5px;width:32px;height:32px;">

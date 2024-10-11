@@ -54,9 +54,9 @@ function goPage(pgNum) {
 							<div class="form-group">
 							<?
 								$sql="select idx from Gn_MMS where recv_num_cnt is NULL ";
-								$query = mysql_query($sql);
-								$num_rows = mysql_num_rows($query);
-								mysql_free_result($query);
+								$query = mysqli_query($self_con,$sql);
+								$num_rows = mysqli_num_rows($query);
+								mysqli_free_result($query);
 
 								if($num_rows == 0) {?>
 									<a href='member_return_list_10.php?upd=&case=3&search_id=<?=$_GET['search_id'];?>&search_name=<?=$_GET['search_name'];?>&search_phone=<?=$_GET['search_phone'];?>&search_site=<?=$_GET['search_site'];?>&search_site_iam=<?=$_GET['search_site_iam'];?>' style='<?=get_style($case,3);?>'>10개이상건수</a>
@@ -178,8 +178,8 @@ function goPage(pgNum) {
 								}
 								$order = $order?$order:"desc"; 		
 								$query = "SELECT a.idx FROM Gn_MMS a inner join Gn_Member m on m.mem_id = a.mem_id WHERE 1=1 $searchStr";
-								$res	    =  mysql_query($query);
-								$totalCnt	=  mysql_num_rows($res);	
+								$res	    =  mysqli_query($self_con,$query);
+								$totalCnt	=  mysqli_num_rows($res);	
 								
 								$query = "SELECT a.idx, a.send_num, a.recv_num, a.up_date, a.mem_id, a.reservation, a.reg_date, a.content,m.mem_name,m.site,m.site_iam
                         					FROM Gn_MMS a inner join Gn_Member m on m.mem_id = a.mem_id WHERE 1=1 $searchStr";
@@ -190,40 +190,40 @@ function goPage(pgNum) {
 								$c=0;
 								$excel_sql = $query;
 								$query .= $orderQuery;
-								$res = mysql_query($query);
-								while($row = mysql_fetch_array($res)) {                       	
+								$res = mysqli_query($self_con,$query);
+								while($row = mysqli_fetch_array($res)) {                       	
 									$sql_s="select * from Gn_MMS_status where idx='$row[idx]' ";
-									$resul_s=mysql_query($sql_s);
-									$row_s=mysql_fetch_array($resul_s);
-									mysql_free_result($resul_s);
+									$resul_s=mysqli_query($self_con,$sql_s);
+									$row_s=mysqli_fetch_array($resul_s);
+									mysqli_free_result($resul_s);
 																				
 									$sql_n="select memo from Gn_MMS_Number where sendnum='$row[send_num]' ";
-									$resul_n=mysql_query($sql_n);
-									$row_n=mysql_fetch_array($resul_n);
-									mysql_free_result($resul_n);
+									$resul_n=mysqli_query($self_con,$sql_n);
+									$row_n=mysqli_fetch_array($resul_n);
+									mysqli_free_result($resul_n);
 									
 									$recv_num = $recv_cnt=explode(",",$row[recv_num]);
 									$recv_num_in = "'".implode("','", $recv_num)."'";
 									$date = $row['up_date'];
 
 									$sql="select count(seq) as cnt from call_app_log where api_name='receive_sms' and LENGTH(recv_num) >= 10 and  send_num='$row[send_num]' and recv_num in ($recv_num_in) and recv_num like '01%'  and regdate >= '$date' and sms not like '[%'";
-									$kresult = mysql_query($sql) or die(mysql_error());
-									$krow=mysql_fetch_array($kresult);
+									$kresult = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+									$krow=mysqli_fetch_array($kresult);
 									$intRowCount=$krow[cnt];											
 									
 									$sql_as="select count(idx) as cnt from Gn_MMS_status where idx='$row[idx]' ";
-									$resul_as=mysql_query($sql_as);
-									$row_as=mysql_fetch_array($resul_as);
+									$resul_as=mysqli_query($self_con,$sql_as);
+									$row_as=mysqli_fetch_array($resul_as);
 									$status_total_cnt = $row_as[0];											
 									
 									$sql_cs="select count(idx) as cnt from Gn_MMS_status where idx='$row[idx]' and status='0'";
-									$resul_cs=mysql_query($sql_cs);
-									$row_cs=mysql_fetch_array($resul_cs);
+									$resul_cs=mysqli_query($self_con,$sql_cs);
+									$row_cs=mysqli_fetch_array($resul_cs);
 									$success_cnt = $row_cs[0];
 
 									$sql_sn="select * from Gn_MMS where idx='$row[idx]' ";
-									$resul_sn=mysql_query($sql_sn);
-									$row_sn=mysql_fetch_array($resul_sn);											
+									$resul_sn=mysqli_query($self_con,$sql_sn);
+									$row_sn=mysqli_fetch_array($resul_sn);											
 									$recv_cnt=explode(",",$row_sn[recv_num]);
 									
 									$total_cnt = count($recv_cnt);			 

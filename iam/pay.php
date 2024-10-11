@@ -16,11 +16,11 @@ $show_iam_info_status = "N";
 $query = "select count(no) from tjd_pay_result where buyer_id='$member_iam[mem_id]' and
           ((member_type like '%standard%' or member_type like '%professional%' or member_type like '%enterprise%') or 
           (((iam_pay_type = '' or iam_pay_type = '0' or iam_pay_type = '전문가') and member_type != '포인트충전')) and end_status = 'Y'";
-$res = mysql_query($query);
-$pay_row = mysql_fetch_array($res);
+$res = mysqli_query($self_con,$query);
+$pay_row = mysqli_fetch_array($res);
 $query = "select count(idx) from Gn_Iam_Service where mem_id='$member_iam[mem_id]'";
-$res = mysql_query($query);
-$iam_service_row = mysql_fetch_array($res);
+$res = mysqli_query($self_con,$query);
+$iam_service_row = mysqli_fetch_array($res);
 if($iam_service_row[0] == 0 && $pay_row[0] > 0)
     $show_iam_info_status = "Y";
 ?>
@@ -873,8 +873,8 @@ if($platform == "mobile"){
                 <?
                     $pay_row = array();
                     $sql = "select * from payment_info order by idx";
-                    $res = mysql_query($sql);
-                    while($row = mysql_fetch_array($res)){
+                    $res = mysqli_query($self_con,$sql);
+                    while($row = mysqli_fetch_array($res)){
                         array_push($pay_row,$row);
                     }
                 ?>
@@ -2223,8 +2223,8 @@ if($platform == "mobile"){
                                 <tbody>
                                     <?
                                     $sql_penalty = "select * from gn_penalty_list";
-                                    $res_penalty = mysql_query($sql_penalty);
-                                    while($row_penalty = mysql_fetch_array($res_penalty)){
+                                    $res_penalty = mysqli_query($self_con,$sql_penalty);
+                                    while($row_penalty = mysqli_fetch_array($res_penalty)){
                                     ?>
                                     <tr>
                                         <td><?=$row_penalty[month]?>개월</td>
@@ -2245,7 +2245,7 @@ if($platform == "mobile"){
             </div>
         </div>
 <?
-       mysql_close();
+       mysqli_close($self_con);
        include_once "_foot.php";
 ?>
 <!-- 아이엠 구축 팝업 -->

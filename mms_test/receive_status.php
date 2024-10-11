@@ -36,25 +36,25 @@ else{
     $status = $_POST['status'];
     
     $sql="select idx from Gn_MMS where idx='{$idx}' and send_num='{$send_num}'";
-    $resul=mysql_query($sql) or die(mysql_error());
-    $row=mysql_fetch_array($resul);
+    $resul=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+    $row=mysqli_fetch_array($resul);
     if($row['idx'] != "") {
         $sql="select idx from Gn_MMS_status where idx='{$idx}' and send_num='{$send_num}' and recv_num='{$recv_num}'";
-        $resul=mysql_query($sql) or die(mysql_error());
-        $row=mysql_fetch_array($resul);    
+        $resul=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+        $row=mysqli_fetch_array($resul);    
         if($row['idx'] != "") {
             $sql_insert = "update Gn_MMS_status set status='$status',regdate=now() where idx='$idx' and 
                                                          send_num='$send_num' and 
                                                          recv_num='$recv_num'
                                                          ";
-             mysql_query($sql_insert); 
+             mysqli_query($self_con,$sql_insert); 
         } else {
             $sql_insert = "insert into Gn_MMS_status set idx='$idx',
                                                          send_num='$send_num',
                                                          recv_num='$recv_num',
                                                          status='$status',
                                                          regdate=now()";
-             mysql_query($sql_insert);         
+             mysqli_query($self_con,$sql_insert);         
         }
     
         $phone_num = $send_num;
@@ -62,15 +62,15 @@ else{
         {
             $time = date("Y-m-d H:i:s");
             $sql="select idx from call_api_log where phone_num='$phone_num'";
-            $res=mysql_query($sql) or die(mysql_error());
-            $row=mysql_fetch_array($res);
+            $res=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+            $row=mysqli_fetch_array($res);
             if($row['idx'] != "") {
                 $sql="update call_api_log set receive_status='$time' where idx='$row[idx]'";
-                mysql_query($sql);	
+                mysqli_query($self_con,$sql);	
             }
             else{
                 $sql ="insert into call_api_log set receive_status='$time', phone_num='$phone_num'";
-                mysql_query($sql);	
+                mysqli_query($self_con,$sql);	
             }
         }
         

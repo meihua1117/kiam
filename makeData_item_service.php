@@ -3,8 +3,8 @@ include_once "lib/rlatjd_fun.php";
 if($_SESSION['one_member_id'] == "")
 	exit;
 $sql="select * from Gn_Member where mem_id='$_SESSION[one_member_id]' and site != '' ";
-$resul=mysql_query($sql);
-$data=mysql_fetch_array($resul);
+$resul=mysqli_query($self_con,$sql);
+$data=mysqli_fetch_array($resul);
 $payMethod = 'CARD';
 if($_POST[payMethod] != "") {
     $payMethod = $_POST[payMethod];
@@ -21,16 +21,16 @@ $hour = date('H');
 $minute = date('i');
 
 $sql_def_reduce = "select key_content from Gn_Search_Key where key_id='buyer_point_reduce_percent'";
-$res_def_reduce = mysql_query($sql_def_reduce);
-$row_def_reduce = mysql_fetch_array($res_def_reduce);
+$res_def_reduce = mysqli_query($self_con,$sql_def_reduce);
+$row_def_reduce = mysqli_fetch_array($res_def_reduce);
 $def_reduce = $row_def_reduce['key_content'];
 $def_reduce1 = 100 - $def_reduce * 1;
 
 if(isset($_POST['point_val'])){
     $point = 1;
     $get_point = "select mem_cash from Gn_Member where mem_id='{$_SESSION[one_member_id]}'";
-    $result_point = mysql_query($get_point);
-    $row_point = mysql_fetch_array($result_point);
+    $result_point = mysqli_query($self_con,$get_point);
+    $row_point = mysqli_fetch_array($result_point);
     
     $current_point = $row_point['mem_cash'] * 1;
 
@@ -56,7 +56,7 @@ if(isset($_POST['point_val'])){
                                                 onestep1='ON',
                                                 onestep2='ON',
                                                 iam_pay_type='포인트'";
-    $res_result = mysql_query($sql_tjd);
+    $res_result = mysqli_query($self_con,$sql_tjd);
 
     // $sql = "insert into Gn_Item_Pay_Result
     //             set buyer_id='$_SESSION[one_member_id]',
@@ -72,7 +72,7 @@ if(isset($_POST['point_val'])){
     //                 point_val=$point,
     //                 type='buy',
     //                 current_cash=$current_point";
-    // $res_result = mysql_query($sql);
+    // $res_result = mysqli_query($self_con,$sql);
 }
 else{
     $point = 0;
@@ -83,30 +83,30 @@ else{
             $db_idx_sell = $db_idx_buy * 1 + 1;
     
             $sql_db_data_buyer = "select * from Gn_Item_Pay_Result where no='$db_idx_buy'";
-            $res_db_data_buyer = mysql_query($sql_db_data_buyer);
-            $row_db_data_buyer = mysql_fetch_array($res_db_data_buyer);
+            $res_db_data_buyer = mysqli_query($self_con,$sql_db_data_buyer);
+            $row_db_data_buyer = mysqli_fetch_array($res_db_data_buyer);
     
             $mem_data_buyer = "select mem_phone from Gn_Member where mem_id='{$row_db_data_buyer[buyer_id]}'";
-            $res_mem_data_buyer = mysql_query($mem_data_buyer);
-            $row_mem_data_buyer = mysql_fetch_array($res_mem_data_buyer);
+            $res_mem_data_buyer = mysqli_query($self_con,$mem_data_buyer);
+            $row_mem_data_buyer = mysqli_fetch_array($res_mem_data_buyer);
     
             $sql_db_data_seller = "select * from Gn_Item_Pay_Result where no='$db_idx_sell'";
-            $res_db_data_seller = mysql_query($sql_db_data_seller);
-            $row_db_data_seller = mysql_fetch_array($res_db_data_seller);
+            $res_db_data_seller = mysqli_query($self_con,$sql_db_data_seller);
+            $row_db_data_seller = mysqli_fetch_array($res_db_data_seller);
     
             $mem_data_seller = "select mem_phone from Gn_Member where mem_id='{$row_db_data_seller[seller_id]}'";
-            $res_mem_data_seller = mysql_query($mem_data_seller);
-            $row_mem_data_seller = mysql_fetch_array($res_mem_data_seller);
+            $res_mem_data_seller = mysqli_query($self_con,$mem_data_seller);
+            $row_mem_data_seller = mysqli_fetch_array($res_mem_data_seller);
     
             $cont_idx = explode('contents_idx=', $row_db_data_buyer[site]);
             $contents_idx = trim($cont_idx[1]);
             $sql_card_idx = "select card_idx, contents_price, contents_sell_price from Gn_Iam_Contents where idx='{$contents_idx}'";
-            $res_card_idx = mysql_query($sql_card_idx);
-            $row_card_idx = mysql_fetch_array($res_card_idx);
+            $res_card_idx = mysqli_query($self_con,$sql_card_idx);
+            $row_card_idx = mysqli_fetch_array($res_card_idx);
     
             $sql_card_data = "select sale_cnt, add_fixed_val, card_name, card_company from Gn_Iam_Name_Card where idx='{$row_card_idx[card_idx]}'";
-            $res_card_data = mysql_query($sql_card_data);
-            $row_card_data = mysql_fetch_array($res_card_data);
+            $res_card_data = mysqli_query($self_con,$sql_card_data);
+            $row_card_data = mysqli_fetch_array($res_card_data);
 
             $pay_percent = ($row_card_idx['contents_sell_price'] / $row_card_idx['contents_price']) * 100;
             if(!$row_card_data[sale_cnt]){
@@ -153,7 +153,7 @@ else{
                             receive_state=1,
                             message='$content',
                             alarm_state=0";
-            mysql_query($sql_notice_recv_seller);
+            mysqli_query($self_con,$sql_notice_recv_seller);
     
             $subject1 = "구매확인 문자";
             $content1 = $year."년 ".$month."월 ".$day."일 ".$hour.":".$minute."에  ".$org_name."업체 ".$con_name[1]." 상품 ".$row_db_data_buyer[item_price]."원 구매확인하셨습니다. ".$final_point."포인트가 지급되었습니다.";
@@ -166,30 +166,30 @@ else{
             $db_idx_buy = $db_idx_sell * 1 - 1;
     
             $sql_db_data_seller = "select * from Gn_Item_Pay_Result where no='$db_idx_sell'";
-            $res_db_data_seller = mysql_query($sql_db_data_seller);
-            $row_db_data_seller = mysql_fetch_array($res_db_data_seller);
+            $res_db_data_seller = mysqli_query($self_con,$sql_db_data_seller);
+            $row_db_data_seller = mysqli_fetch_array($res_db_data_seller);
     
             $mem_data_seller = "select mem_name, mem_phone, mem_point, mem_cash from Gn_Member where mem_id='{$row_db_data_seller[buyer_id]}'";
-            $res_mem_data_seller = mysql_query($mem_data_seller);
-            $row_mem_data_seller = mysql_fetch_array($res_mem_data_seller);
+            $res_mem_data_seller = mysqli_query($self_con,$mem_data_seller);
+            $row_mem_data_seller = mysqli_fetch_array($res_mem_data_seller);
     
             $sql_db_data_buyer = "select * from Gn_Item_Pay_Result where no='$db_idx_buy'";
-            $res_db_data_buyer = mysql_query($sql_db_data_buyer);
-            $row_db_data_buyer = mysql_fetch_array($res_db_data_buyer);
+            $res_db_data_buyer = mysqli_query($self_con,$sql_db_data_buyer);
+            $row_db_data_buyer = mysqli_fetch_array($res_db_data_buyer);
     
             $mem_data_buyer = "select mem_name, mem_phone, mem_point, mem_cash from Gn_Member where mem_id='{$row_db_data_buyer[buyer_id]}'";
-            $res_mem_data_buyer = mysql_query($mem_data_buyer);
-            $row_mem_data_buyer = mysql_fetch_array($res_mem_data_buyer);
+            $res_mem_data_buyer = mysqli_query($self_con,$mem_data_buyer);
+            $row_mem_data_buyer = mysqli_fetch_array($res_mem_data_buyer);
     
             $cont_idx = explode('contents_idx=', $row_db_data_seller[site]);
             $contents_idx = trim($cont_idx[1]);
             $sql_card_idx = "select card_idx, contents_price, contents_sell_price from Gn_Iam_Contents where idx='{$contents_idx}'";
-            $res_card_idx = mysql_query($sql_card_idx);
-            $row_card_idx = mysql_fetch_array($res_card_idx);
+            $res_card_idx = mysqli_query($self_con,$sql_card_idx);
+            $row_card_idx = mysqli_fetch_array($res_card_idx);
     
             $sql_card_data = "select sale_cnt, add_fixed_val, card_name, card_company from Gn_Iam_Name_Card where idx='{$row_card_idx[card_idx]}'";
-            $res_card_data = mysql_query($sql_card_data);
-            $row_card_data = mysql_fetch_array($res_card_data);
+            $res_card_data = mysqli_query($self_con,$sql_card_data);
+            $row_card_data = mysqli_fetch_array($res_card_data);
 
             $pay_percent = ($row_card_idx['contents_sell_price'] / $row_card_idx['contents_price']) * 100;
             if(!$row_card_data[sale_cnt]){
@@ -240,7 +240,7 @@ else{
                             receive_state=1,
                             message='$content1',
                             alarm_state=0";
-            mysql_query($sql_notice_recv_buyer);
+            mysqli_query($self_con,$sql_notice_recv_buyer);
             echo 1;
             exit;
         }
@@ -251,22 +251,22 @@ else{
     
         $cont_url = "https://kiam.kr/iam/contents.php?contents_idx=".$cont_idx;
         $sql_card_idx = "select card_idx, contents_price, contents_sell_price from Gn_Iam_Contents where idx='{$cont_idx}'";
-        $res_card_idx = mysql_query($sql_card_idx);
-        $row_card_idx = mysql_fetch_array($res_card_idx);
+        $res_card_idx = mysqli_query($self_con,$sql_card_idx);
+        $row_card_idx = mysqli_fetch_array($res_card_idx);
     
         $sql_card_data = "select sale_cnt, add_fixed_val, card_name, card_company from Gn_Iam_Name_Card where idx='{$row_card_idx[card_idx]}'";
-        $res_card_data = mysql_query($sql_card_data);
-        $row_card_data = mysql_fetch_array($res_card_data);
+        $res_card_data = mysqli_query($self_con,$sql_card_data);
+        $row_card_data = mysqli_fetch_array($res_card_data);
     
         if($row_card_data['sale_cnt']){
             $sale_after_cnt = $row_card_data['sale_cnt'] * 1 - $_POST[item_count] * 1;
             if($sale_after_cnt){
                 $sql_reduce_update = "update Gn_Iam_Name_Card set sale_cnt='{$sale_after_cnt}' where idx='{$row_card_idx[card_idx]}'";
-                mysql_query($sql_reduce_update);
+                mysqli_query($self_con,$sql_reduce_update);
             }
             else{
                 $sql_reduce_update = "update Gn_Iam_Name_Card set sale_cnt='{$sale_after_cnt}' where idx='{$row_card_idx[card_idx]}'";
-                mysql_query($sql_reduce_update);
+                mysqli_query($self_con,$sql_reduce_update);
             }
         }
     
@@ -296,8 +296,8 @@ else{
                         point_val=$point,
                         point_percent='$point_percent',
                         contents_cnt='$_POST[item_count]'";
-        $res_result = mysql_query($sql);
-        $db_idx = mysql_insert_id();
+        $res_result = mysqli_query($self_con,$sql);
+        $db_idx = mysqli_insert_id($self_con);
     
         if(strpos($row_card_data['card_company'], '별점') !== false || strpos($row_card_data['card_company'], '방문자리뷰') !== false || strpos($row_card_data['card_company'], '블로그리뷰') !== false){
             $org_name1 = explode(",", $row_card_data['card_name']);
@@ -318,8 +318,8 @@ else{
     
         $mid = date("YmdHis").rand(10,99);
         $sql_admin_data = "select * from Gn_Member where mem_id='obmms02'";
-        $res_admin_data = mysql_query($sql_admin_data);
-        $row_admin_data = mysql_fetch_array($res_admin_data);
+        $res_admin_data = mysqli_query($self_con,$sql_admin_data);
+        $row_admin_data = mysqli_fetch_array($res_admin_data);
     
         $sql_notice_recv_buyer = "insert into Gn_Item_Pay_Result
                     set buyer_id='$_SESSION[one_member_id]',
@@ -340,11 +340,11 @@ else{
                         receive_state=1,
                         message='$content1',
                         alarm_state=0";
-        mysql_query($sql_notice_recv_buyer);
+        mysqli_query($self_con,$sql_notice_recv_buyer);
     
         $get_seller_data = "select mem_cash, mem_point, mem_phone, mem_name from Gn_Member where mem_id='{$_POST[seller_id]}'";
-        $result_seller_data = mysql_query($get_seller_data);
-        $row_seller_data = mysql_fetch_array($result_seller_data);
+        $result_seller_data = mysqli_query($self_con,$get_seller_data);
+        $row_seller_data = mysqli_fetch_array($result_seller_data);
     
         $sell_link_apply = "http://".$HTTP_HOST."/iam/ajax/apply_service_con_res.php?mode=sell_card&residx=".$db_idx;
         $sell_link_apply = get_short_url($sell_link_apply);
@@ -376,7 +376,7 @@ else{
                         receive_state=1,
                         message='$content1',
                         alarm_state=0";
-        mysql_query($sql_notice_recv_seller);
+        mysqli_query($self_con,$sql_notice_recv_seller);
     
         $subject = "본사 서비스콘 판매 문자";
         $content = $year."년 ".$month."월 ".$day."일 ".$hour.":".$minute."에 ".$_SESSION[one_member_id]."회원님이 ".$_POST[seller_id]."판매자님의 [".$_POST[member_type]."] 상품을 구매하였습니다";
@@ -403,7 +403,7 @@ else{
                         receive_state=1,
                         message='$content',
                         alarm_state=0";
-        $res_result = mysql_query($sql_notice_recv_admin);
+        $res_result = mysqli_query($self_con,$sql_notice_recv_admin);
     }
     exit;
 }
@@ -411,9 +411,9 @@ else{
 function send_mms($mem_id, $phone_num, $subject, $content){
     $sql_app_mem = "select * from Gn_MMS_Number where (sendnum='$phone_num' and sendnum is not null and sendnum != '')";
     // echo $sql_app_mem."pwd"; exit;
-    $res_app_mem = mysql_query($sql_app_mem);
-    if(mysql_num_rows($res_app_mem)){
-        $number_row = mysql_fetch_array($res_app_mem);
+    $res_app_mem = mysqli_query($self_con,$sql_app_mem);
+    if(mysqli_num_rows($res_app_mem)){
+        $number_row = mysqli_fetch_array($res_app_mem);
         sendmms(5, $number_row['mem_id'], $phone_num, $phone_num, "", $subject, $content, "", "", "", "Y");
     }
     else{

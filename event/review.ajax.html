@@ -6,11 +6,11 @@
 	if(!$pcode) $pcode="opb";
 	if($_REQUEST['landing_idx'] != "") {
     	$sql="update Gn_landing set read_cnt = read_cnt+1 where landing_idx='$landing_idx'";
-    	mysql_query($sql) or die(mysql_error());
+    	mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 
     	$sql="select * from Gn_landing where landing_idx='$landing_idx'";
-    	$result = mysql_query($sql) or die(mysql_error());
-    	$data=mysql_fetch_array($result);
+    	$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+    	$data=mysqli_fetch_array($result);
     	
 
     	if($data[status_yn] == "N") {
@@ -23,12 +23,12 @@
     	$pcode = $data['pcode'];
 	} else {
     	$sql="update Gn_event set read_cnt = read_cnt+1 where pcode='$pcode'";
-    	mysql_query($sql) or die(mysql_error());
+    	mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 	}
 	
 	$sql="select * from Gn_event where pcode='$pcode' order by event_idx desc";
-	$result = mysql_query($sql) or die(mysql_error());
-	$event_data = $row=mysql_fetch_array($result);
+	$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+	$event_data = $row=mysqli_fetch_array($result);
 	$m_id = $row['m_id'];
 	$event_idx = $row['event_idx'];
 ?>
@@ -40,8 +40,8 @@ $now = date("Y-m-d");
 //홍보렙인가를 체크한다		
 $member_id = $data['m_id'];								
 $sql="select mem_leb FROM Gn_Member WHERE mem_id='$member_id'";
-$res=mysql_query($sql);
-$memrow = mysql_fetch_array($res);
+$res=mysqli_query($self_con,$sql);
+$memrow = mysqli_fetch_array($res);
  
 if($data['m_id'] != "obmms02" && $memrow['mem_leb'] != "60") {
     $sql_serch.=" and b.mem_id ='".$data['m_id']."'";
@@ -57,8 +57,8 @@ $sql="select count(review_id) as cnt from Gn_review a
                                inner join Gn_lecture b
                                        on  a.lecture_id = b.lecture_id 
                                 where $sql_serch ";
-$result = mysql_query($sql) or die(mysql_error());
-$row=mysql_fetch_array($result);
+$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+$row=mysqli_fetch_array($result);
 $intRowCount=$row[cnt];
 if($intRowCount)
 {
@@ -97,9 +97,9 @@ left join Gn_Member c
 on  a.mem_id = c.mem_id
 where $sql_serch order by $order_name $order_status limit $int,$intPageSize";
 
-$result=mysql_query($sql) or die(mysql_error());
+$result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 
-while($row=mysql_fetch_array($result))
+while($row=mysqli_fetch_array($result))
 {
     $pic = "/images/man.png";
     if($row['pic']) $pic = $row['pic'];

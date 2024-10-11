@@ -12,8 +12,8 @@ location.replace('/ma.php');
 exit;
 }
 	$sql="select * from Gn_Member  where mem_id='".$_SESSION[one_member_id]."' and site != ''";
-	$sresul_num=mysql_query($sql);
-	$data=mysql_fetch_array($sresul_num);	
+	$sresul_num=mysqli_query($self_con,$sql);
+	$data=mysqli_fetch_array($sresul_num);	
 	
  
 ?>

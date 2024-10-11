@@ -1,14 +1,14 @@
 <?
 include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
 $sql = "select card.*,mem.mem_code from Gn_Iam_Name_Card card inner join Gn_Member mem on mem.mem_id=card.mem_id where card.mem_id= '$_SESSION[iam_member_id]' order by card.req_data";
-$res = mysql_query($sql);
-$G_card = mysql_fetch_array($res);
+$res = mysqli_query($self_con,$sql);
+$G_card = mysqli_fetch_array($res);
 if ($HTTP_HOST != "kiam.kr") //분양사사이트이면
     $query = "select * from Gn_Iam_Service where sub_domain like 'http://" . $HTTP_HOST . "'";
 else
     $query = "select * from Gn_Iam_Service where sub_domain like 'http://www.kiam.kr'";
-$res = mysql_query($query);
-$domainData = mysql_fetch_array($res);
+$res = mysqli_query($self_con,$query);
+$domainData = mysqli_fetch_array($res);
 ?>
 <html lang="ko">
 <head>
@@ -160,8 +160,8 @@ $domainData = mysql_fetch_array($res);
                     <div class="box-body">
                         <?
                         $mem_sql = "select site_iam from Gn_Member where mem_id='$_SESSION[iam_member_id]'";
-                        $mem_res = mysql_query($mem_sql);
-                        $mem_row = mysql_fetch_array($mem_res);
+                        $mem_res = mysqli_query($self_con,$mem_sql);
+                        $mem_row = mysqli_fetch_array($mem_res);
                         $site_iam = $mem_row[0];
                         $group = $_GET['group'];
                         $search_range2 = $_GET['search_range2'];
@@ -228,8 +228,8 @@ $domainData = mysql_fetch_array($res);
                                         $sql = "select gmem.*,mem.profile,mem.mem_name,zy,mem_phone,mem_code from gn_group_member gmem inner join Gn_Member mem on mem.mem_id = gmem.mem_id where group_id=$group and gmem.mem_id != '$_SESSION[iam_member_id]' $friends_sql_msg";
                                     else
                                         $sql = "select gmem.*,mem.profile,mem.mem_name,zy,mem_phone,mem_code from gn_group_member gmem inner join Gn_Member mem on mem.mem_id = gmem.mem_id where group_id=$group and gmem.mem_id != '$_SESSION[iam_member_id]' and site_iam='$site_iam' $friends_sql_msg";
-                                    $result = mysql_query($sql);
-                                    $row_num = mysql_num_rows($result);
+                                    $result = mysqli_query($self_con,$sql);
+                                    $row_num = mysqli_num_rows($result);
                                     $list2 = 10; //한 페이지에 보여줄 개수
                                     $block_ct2 = 10; //블록당 보여줄 페이지 개수
 
@@ -262,11 +262,11 @@ $domainData = mysql_fetch_array($res);
                                     $sql .= $friends_sql_msg;
                                     $limit_str = " limit " . $start_num2 . ", " . $list2;
                                     $sql .= $limit_str;
-                                    $result=mysql_query($sql) or die(mysql_error());
-                                    while($row = mysql_fetch_array($result)){
+                                    $result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+                                    while($row = mysqli_fetch_array($result)){
                                         $card_sql="select main_img1 ,card_short_url from Gn_Iam_Name_Card where mem_id = '$_SESSION[iam_member_id]' order by req_data";
-                                        $card_result=mysql_query($card_sql) or die(mysql_error());
-                                        $card_row=mysql_fetch_array($card_result);
+                                        $card_result=mysqli_query($self_con,$card_sql) or die(mysqli_error($self_con));
+                                        $card_row=mysqli_fetch_array($card_result);
                                         $friends_main_img = $row[profile];
                                         $row[friends_url] = $card_row[card_short_url].$row[mem_code];
                                         if(!$friends_main_img) {

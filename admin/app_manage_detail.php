@@ -10,8 +10,8 @@ if($seq) {
     // 가입 회원 상세 정보
     $query = "select *
                 from Gn_app_version where seq='$seq'";
-    $res = mysql_query($query);
-    $data = mysql_fetch_array($res);
+    $res = mysqli_query($self_con,$query);
+    $data = mysqli_fetch_array($res);
 }
 
 ?>

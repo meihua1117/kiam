@@ -2,8 +2,8 @@
 include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
 if($HTTP_HOST != "kiam.kr"){
     $query = "select * from Gn_Iam_Service where sub_domain = 'http://".$HTTP_HOST."'";
-    $res = mysql_query($query);
-    $domainData = mysql_fetch_array($res);
+    $res = mysqli_query($self_con,$query);
+    $domainData = mysqli_fetch_array($res);
     
     if($domainData['mem_id'] != $_SESSION[iam_member_id]) {
         echo "<script>location='/';</script>";
@@ -14,8 +14,8 @@ if($HTTP_HOST != "kiam.kr"){
 }
 else{
     $query = "select * from Gn_Iam_Service where sub_domain = 'http://www.kiam.kr'";
-    $res = mysql_query($query);
-    $domainData = mysql_fetch_array($res);
+    $res = mysqli_query($self_con,$query);
+    $domainData = mysqli_fetch_array($res);
     
     if($domainData['mem_id'] != $_SESSION[iam_member_id]) {
         echo "<script>location='/';</script>";
@@ -25,55 +25,55 @@ else{
 }
 $mem_array = array();
 $mem_query = "select mem_id from Gn_Member use index(mem_id) where site_iam='$site[0]'";
-$mem_res = mysql_query($mem_query);
-while($mem_row = mysql_fetch_array($mem_res)){
+$mem_res = mysqli_query($self_con,$mem_query);
+while($mem_row = mysqli_fetch_array($mem_res)){
     array_push($mem_array, "'".$mem_row['mem_id']."'");
 }
 $mem_str = implode(",",$mem_array);
 
 $query = "select count(mem_id) from Gn_Member use index(mem_id) where site_iam='$site[0]'";
-$res = mysql_query($query);
-$row = mysql_fetch_array($res);    
+$res = mysqli_query($self_con,$query);
+$row = mysqli_fetch_array($res);    
 $mem_cnt = $row[0];
 
 $query = "select count(mem_id) from Gn_Member use index(mem_id) where site_iam='$site[0]' and first_regist >= '".date("Y-m-d 00:00:00")."'";
-$res = mysql_query($query);
-$row = mysql_fetch_array($res);    
+$res = mysqli_query($self_con,$query);
+$row = mysqli_fetch_array($res);    
 $new_cnt = $row[0];    
 
 $query = "select count(mem_id) from Gn_Member use index(mem_id) where site_iam='$site[0]' and ext_recm_id = '{$domainData['mem_id']}'";
-$res = mysql_query($query);
-$row = mysql_fetch_array($res);    
+$res = mysqli_query($self_con,$query);
+$row = mysqli_fetch_array($res);    
 $recommend_cnt = $row[0];        
 
 $query = "select count(idx) from Gn_Iam_Name_Card a use index(idx) where a.group_id is NULL and a.mem_id in ($mem_str)";
-$res = mysql_query($query);
-$row = mysql_fetch_array($res);    
+$res = mysqli_query($self_con,$query);
+$row = mysqli_fetch_array($res);    
 $card_cnt = $row[0];            
 
 $query = "select count(idx) from Gn_Iam_Name_Card a use index(idx) where a.group_id is NULL and a.mem_id in ($mem_str) and a.req_data >= '".date("Y-m-d 00:00:00")."'";
-$res = mysql_query($query);
-$row = mysql_fetch_array($res);    
+$res = mysqli_query($self_con,$query);
+$row = mysqli_fetch_array($res);    
 $card_new_cnt = $row[0];                
 
 $query = "select sum(iam_share) from Gn_Iam_Name_Card a use index(idx) where a.group_id is NULL and a.mem_id in ($mem_str) ";
-$res = mysql_query($query);
-$row = mysql_fetch_array($res);    
+$res = mysqli_query($self_con,$query);
+$row = mysqli_fetch_array($res);    
 $card_share_cnt = $row[0];                    
 
 $query = "select count(idx) from Gn_Iam_Contents a use index(idx) where a.mem_id in ($mem_str)";
-$res = mysql_query($query);
-$row = mysql_fetch_array($res);    
+$res = mysqli_query($self_con,$query);
+$row = mysqli_fetch_array($res);    
 $contents_cnt = $row[0];            
 
 $query = "select count(idx) from Gn_Iam_Contents a use index(idx) where a.mem_id in ($mem_str) and a.req_data >= '".date("Y-m-d 00:00:00")."'";
-$res = mysql_query($query);
-$row = mysql_fetch_array($res);    
+$res = mysqli_query($self_con,$query);
+$row = mysqli_fetch_array($res);    
 $contents_new_cnt = $row[0];                
 
 $query = "select sum(iam_share) from Gn_Iam_Contents a use index(idx) where a.mem_id in ($mem_str) ";
-$res = mysql_query($query);
-$row = mysql_fetch_array($res);    
+$res = mysqli_query($self_con,$query);
+$row = mysqli_fetch_array($res);    
 $contents_share_cnt = $row[0];    
 ?>
 <!DOCTYPE html>
@@ -305,15 +305,15 @@ $contents_share_cnt = $row[0];
                                 $searchStr .= $search_key ? " AND (a.mem_id LIKE '%".$search_key."%' or a.mem_phone like '%".$search_key."%' or a.mem_name like '%".$search_key."%' or b.sendnum like '%".$search_key."%')" : null;
                                 $order = $order?$order:"desc";
                                 $query = "SELECT SQL_CALC_FOUND_ROWS * FROM tjd_sellerboard WHERE 1=1 and category=10 $searchStr";
-                                $res	    =  mysql_query($query);
-                                $totalCnt	=  mysql_num_rows($res);
+                                $res	    =  mysqli_query($self_con,$query);
+                                $totalCnt	=  mysqli_num_rows($res);
                                 $limitStr   =  " LIMIT ".(($startPage-1)*$pageCnt).", ".$pageCnt;
                                 $number		=  $totalCnt - ($nowPage - 1) * $pageCnt;
                                 $orderQuery .= " ORDER BY important_yn DESC, no DESC $limitStr ";
                                 $i = 1;
                                 $query .= $orderQuery;
-                                $res = mysql_query($query);
-                                while($row = mysql_fetch_array($res)) {
+                                $res = mysqli_query($self_con,$query);
+                                while($row = mysqli_fetch_array($res)) {
                                     if($row['important_yn'] == 'Y')
                                         $style = "style='background:#ffd700'";
                                     else

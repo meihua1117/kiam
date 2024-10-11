@@ -3,11 +3,11 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
 $repo_id = $_GET['repo'];
 $idx = $_GET['idx'];
 $sql = "select * from gn_report_form where id=$repo_id";
-$res = mysql_query($sql);
-$row = mysql_fetch_array($res);
+$res = mysqli_query($self_con,$sql);
+$row = mysqli_fetch_array($res);
 $sql = "select * from gn_report_table where userid='$_SESSION[iam_member_id]' and repo_id = $repo_id";
-$repo_res = mysql_query($sql);
-$repo_row = mysql_fetch_array($repo_res);
+$repo_res = mysqli_query($self_con,$sql);
+$repo_row = mysqli_fetch_array($repo_res);
 $conts = json_decode($repo_row['cont'],true);
 ?>
 <style>
@@ -206,8 +206,8 @@ $conts = json_decode($repo_row['cont'],true);
                     </form>
                     <?
                     $sql1 = "select * from gn_report_form1 where form_id=$repo_id order by item_order";
-                    $res1 = mysql_query($sql1);
-                    while($row1 = mysql_fetch_array($res1)){?>
+                    $res1 = mysqli_query($self_con,$sql1);
+                    while($row1 = mysqli_fetch_array($res1)){?>
                         <div class="report_item">
                             <?if($row1['item_title'] != ""){?>
                             <div class="report_item_title">
@@ -223,8 +223,8 @@ $conts = json_decode($repo_row['cont'],true);
                                 </div>
                             <?}
                             $sql2 = "select * from gn_report_form2 where form_id=$repo_id and item_id = $row1[id] order by id";
-                            $res2 = mysql_query($sql2);
-                            while($row2 = mysql_fetch_array($res2)){
+                            $res2 = mysqli_query($self_con,$sql2);
+                            while($row2 = mysqli_fetch_array($res2)){
                                 foreach($conts as $cont){
                                     foreach($cont as $key => $value)
                                     {

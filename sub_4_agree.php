@@ -38,8 +38,8 @@ if($_REQUEST[status]==1 || $_REQUEST[status]==2)
 {
 ///금일발송가능 , 회발송가능 횟수
 	$sql_sum = "select sum(user_cnt) as sumnum, sum(max_cnt) as summax ,sum(gl_cnt) as sumgl from Gn_MMS_Number where mem_id = '$_SESSION[one_member_id]'";
-	$resul_sum=mysql_query($sql_sum);
-	$row_sum_b =mysql_fetch_array($resul_sum);
+	$resul_sum=mysqli_query($self_con,$sql_sum);
+	$row_sum_b =mysqli_fetch_array($resul_sum);
 //월별 총 발송가능 횟수
 	$cu_user_cnt=$row_sum_b[sumnum]?$row_sum_b[sumnum]:0;
 	$cu_today_cnt=$row_sum_b[summax]?$row_sum_b[summax]:0;
@@ -49,25 +49,25 @@ if($_REQUEST[status]==1 || $_REQUEST[status]==2)
 	$date_month=date("Y-m");
 	$recv_num_ex_sum=0;
 	$sql_result = "select SUM(recv_num_cnt) from Gn_MMS where  up_date like '$date_month%' and mem_id = '$_SESSION[one_member_id]' ";
-	$res_result = mysql_query($sql_result);
-	$row_result = mysql_fetch_array($res_result);
+	$res_result = mysqli_query($self_con,$sql_result);
+	$row_result = mysqli_fetch_array($res_result);
 	$recv_num_ex_sum += $row_result[0] * 1;
 //-오늘발송
 	$rec_cnt_today=0;
 	$sql_result2 = "select SUM(recv_num_cnt) from Gn_MMS where up_date like '$date_today%' and mem_id = '$_SESSION[one_member_id]' ";
-	$res_result2 = mysql_query($sql_result2);
-	$row_result2 = mysql_fetch_array($res_result2);
+	$res_result2 = mysqli_query($self_con,$sql_result2);
+	$row_result2 = mysqli_fetch_array($res_result2);
 	$rec_cnt_today += $row_result2[0] * 1;
 //-이번발송
 	$rec_cnt_current=0;
 	$sql_result3 = "select uni_id from Gn_MMS where mem_id = '$_SESSION[one_member_id]' order by idx desc limit 1";
-	$res_result3 = mysql_query($sql_result3);
-	$row_result3 = mysql_fetch_array($res_result3);
+	$res_result3 = mysqli_query($self_con,$sql_result3);
+	$row_result3 = mysqli_fetch_array($res_result3);
 	$uni_id=substr($row_result3[uni_id],0,10);
 	
 	$sql_result32 = "select idx,recv_num from Gn_MMS where mem_id = '$_SESSION[one_member_id]' and uni_id like '$uni_id%'";
-	$res_result32 = mysql_query($sql_result32);
-	while($row_result32 = mysql_fetch_array($res_result32))
+	$res_result32 = mysqli_query($self_con,$sql_result32);
+	while($row_result32 = mysqli_fetch_array($res_result32))
 	$rec_cnt_current += count(explode(",",$row_result32[recv_num]));
 }
 ?>
@@ -100,8 +100,8 @@ if($_REQUEST[status]==1 || $_REQUEST[status]==2)
 						$sql_serch.=" and $_REQUEST[serch_colum] like '$_REQUEST[serch_text]%' ";	
 					}
 					$sql="select count(idx) as cnt from Gn_MMS_Agree where $sql_serch ";
-					$result = mysql_query($sql) or die(mysql_error());
-					$row=mysql_fetch_array($result);
+					$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+					$row=mysqli_fetch_array($result);
 					$intRowCount=$row[cnt];
 					if (!$_POST[lno]) 
 						$intPageSize =20;
@@ -134,12 +134,12 @@ if($_REQUEST[status]==1 || $_REQUEST[status]==2)
 					$sql="select * from Gn_MMS_Agree where $sql_serch order by $order_name $order_status limit $int,$intPageSize";
 					$excel_sql="select * from Gn_MMS_Agree where $sql_serch order by $order_name $order_status";
 					$excel_sql=str_replace("'","`",$excel_sql);
-					$result=mysql_query($sql) or die(mysql_error());
+					$result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 					
 					$today_date=date("Y-m-d");
 					$sql_today="select count(idx) as today_cnt from Gn_MMS_Agree where mem_id='$_SESSION[one_member_id]' and reg_date like '$today_date%' ";
-					$resul_today=mysql_query($sql_today);
-					$row_today=mysql_fetch_array($resul_today);
+					$resul_today=mysqli_query($self_con,$sql_today);
+					$row_today=mysqli_fetch_array($resul_today);
 					?>                    
 					<div class="sub_4_4_t1">
 					    
@@ -188,11 +188,11 @@ if($_REQUEST[status]==1 || $_REQUEST[status]==2)
 									if($intRowCount)
 									{
 										
-                                        while($row=mysql_fetch_array($result))
+                                        while($row=mysqli_fetch_array($result))
 										{
 											$sql_n="select memo from Gn_MMS_Number where sendnum='$row[send_num]' ";
-											$resul_n=mysql_query($sql_n);
-											$row_n=mysql_fetch_array($resul_n);
+											$resul_n=mysqli_query($self_con,$sql_n);
+											$row_n=mysqli_fetch_array($resul_n);
 											?>
                                     <tr>
                                     	<td><label><input type="checkbox" name="idx_box" value="<?=$row[idx]?>" /><?=$sort_no?></label></td>                                        
@@ -319,6 +319,6 @@ function deleteAddress() {
 }
 </script>
 <?
-mysql_close();
+mysqli_close($self_con);
 include_once "_foot.php";
 ?>

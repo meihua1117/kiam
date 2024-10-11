@@ -23,8 +23,8 @@ if($_REQUEST[lms_text] && $_REQUEST[lms_select])
 	$sql_serch.=" and {$_REQUEST[lms_select]} like '$_REQUEST[lms_text]%' ";
 }
 $sql="select count(no) as cnt from tjd_board where $sql_serch ";
-$result = mysql_query($sql) or die(mysql_error());
-$row=mysql_fetch_array($result);
+$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+$row=mysqli_fetch_array($result);
 $intRowCount=$row[cnt];
 if (!$_POST[lno]) 
 	$intPageSize =20;
@@ -55,7 +55,7 @@ else
   $order_name="no";
 $intPageCount=(int)(($intRowCount+$intPageSize-1)/$intPageSize);     
 $sql="select * from tjd_board where $sql_serch order by $order_name $order_status limit $int,$intPageSize";
-$result=mysql_query($sql) or die(mysql_error());
+$result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 ?>
 <div class="big_main">
 	<div class="big_1">
@@ -203,7 +203,7 @@ $result=mysql_query($sql) or die(mysql_error());
                   <?
 				  if($intRowCount)
 				  {
-					  while($row=mysql_fetch_array($result))
+					  while($row=mysqli_fetch_array($result))
 					  {
 						?>
 						<tr>

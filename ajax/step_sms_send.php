@@ -30,7 +30,7 @@ if (isset($_POST['send_ids'])) {
     }
 
     $sql_send_ids = "update Gn_Member set step_send_ids='{$ids}' where mem_id='{$_SESSION['one_member_id']}'";
-    mysql_query($sql_send_ids);
+    mysqli_query($self_con,$sql_send_ids);
 
     echo 1;
   } else if ($_POST['type'] == "reqlink") {
@@ -96,7 +96,7 @@ if (isset($_POST['send_ids'])) {
     $img = "image2";
   }
   $sql_update = "update Gn_event_sms_step_info set " . $img . "='' where sms_detail_idx={$sms_detail_idx}";
-  mysql_query($sql_update);
+  mysqli_query($self_con,$sql_update);
   echo 1;
 }
 
@@ -106,16 +106,16 @@ function insert_db($idx, $mem_id)
   $num = rand(10, 90);
   $event_name_eng = $date . $num;
   $sql_mem_chk = "select count(mem_code) from Gn_Member where mem_id='{$mem_id}'";
-  $res_mem_chk = mysql_query($sql_mem_chk);
-  $row_mem_chk = mysql_fetch_array($res_mem_chk);
+  $res_mem_chk = mysqli_query($self_con,$sql_mem_chk);
+  $row_mem_chk = mysqli_fetch_array($res_mem_chk);
   if ($row_mem_chk[0]) {
     $sql = "INSERT INTO Gn_event_sms_info (event_idx, event_name_eng, mobile, reservation_title, reservation_desc, m_id, regdate)
                       (SELECT event_idx, '{$event_name_eng}', mobile, reservation_title, reservation_desc, '{$mem_id}', now() FROM Gn_event_sms_info where sms_idx={$idx})";
-    mysql_query($sql);
-    $sms_idx = mysql_insert_id();
+    mysqli_query($self_con,$sql);
+    $sms_idx = mysqli_insert_id($self_con);
     $sql_step_info = "INSERT INTO Gn_event_sms_step_info (sms_idx, step, send_day, send_time, title, content, image, image1, image2, regdate, send_deny) 
                                 (SELECT {$sms_idx}, step, send_day, send_time, title, content, image, image1, image2, now(), send_deny FROM Gn_event_sms_step_info WHERE sms_idx={$idx})";
-    mysql_query($sql_step_info);
+    mysqli_query($self_con,$sql_step_info);
     return $sms_idx;
   } else {
     return 0;
@@ -129,15 +129,15 @@ function insert_db_reqlink($idx, $mem_id)
   $pcode = $event_name_eng = $date . $num;
 
   $sql_mem_chk = "select * from Gn_Member where mem_id='{$mem_id}'";
-  $res_mem_chk = mysql_query($sql_mem_chk);
-  $row_mem_chk = mysql_num_rows($res_mem_chk);
+  $res_mem_chk = mysqli_query($self_con,$sql_mem_chk);
+  $row_mem_chk = mysqli_num_rows($res_mem_chk);
   if ($row_mem_chk) {
-    $mem_data = mysql_fetch_array($res_mem_chk);
+    $mem_data = mysqli_fetch_array($res_mem_chk);
     $phone_num = $mem_data['mem_phone'];
 
     $sql = "SELECT event_name_kor, event_title, event_desc, event_info, event_sms_desc, event_type, ip_addr, cnt, object, callback_no, event_req_link, daily_req_link,sms_idx1,sms_idx2,sms_idx3 FROM Gn_event where event_idx={$idx}";
-    $event_res = mysql_query($sql);
-    $event_row = mysql_fetch_assoc($event_res);
+    $event_res = mysqli_query($self_con,$sql);
+    $event_row = mysqli_fetch_assoc($event_res);
     $sms_idx1 = $sms_idx2 = $sms_idx3 = 0;
     if ($event_row['sms_idx1'] != 0)
       $sms_idx1 = insert_db($event_row['sms_idx1'], $mem_id);
@@ -168,13 +168,13 @@ function insert_db_reqlink($idx, $mem_id)
                                 sms_idx1 = '{$sms_idx1}',
                                 sms_idx2 = '{$sms_idx2}',
                                 sms_idx3 = '{$sms_idx3}'";
-    mysql_query($sql);
+    mysqli_query($self_con,$sql);
 
-    $event_idx = mysql_insert_id();
+    $event_idx = mysqli_insert_id($self_con);
     $transUrl = "http://" . $GLOBALS['host'] . "/event/event.html?pcode=" . $pcode . "&sp=" . $event_name_eng;
     $transUrl = get_short_url($transUrl);
     $insert_short_url = "update Gn_event set short_url='{$transUrl}' where event_idx={$event_idx}";
-    mysql_query($insert_short_url) or die(mysql_error());
+    mysqli_query($self_con,$insert_short_url) or die(mysqli_error($self_con));
   }
   return $pcode;
 }
@@ -182,27 +182,27 @@ function insert_db_reqlink($idx, $mem_id)
 function insert_db_landlink($idx, $mem_id)
 {
   $sql_mem_chk = "select * from Gn_Member where mem_id='{$mem_id}'";
-  $res_mem_chk = mysql_query($sql_mem_chk);
-  $row_mem_chk = mysql_num_rows($res_mem_chk);
+  $res_mem_chk = mysqli_query($self_con,$sql_mem_chk);
+  $row_mem_chk = mysqli_num_rows($res_mem_chk);
   if ($row_mem_chk) {
     $sp = "";
-    $mem_data = mysql_fetch_array($res_mem_chk);
+    $mem_data = mysqli_fetch_array($res_mem_chk);
     $phone_num = $mem_data['mem_phone'];
     $sql_land_data = "select * from Gn_landing where landing_idx={$idx}";
-    $res_land_data = mysql_query($sql_land_data);
-    $row_land_data = mysql_fetch_array($res_land_data);
+    $res_land_data = mysqli_query($self_con,$sql_land_data);
+    $row_land_data = mysqli_fetch_array($res_land_data);
 
     if ($row_land_data['pcode']) {
       $sql = "select event_idx from Gn_event where pcode='{$row_land_data['pcode']}'";
-      $result = mysql_query($sql) or die(mysql_error());
-      $event_data = mysql_fetch_array($result);
+      $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+      $event_data = mysqli_fetch_array($result);
       if ($event_data)
         $sp = insert_db_reqlink($event_data['event_idx'], $mem_id);
       //$sp = $event_data['pcode'];
     }
     $sql = "SELECT title, description, content, movie_url, footer_content, file, alarm_sms_yn, reply_yn, request_yn, pcode, status_yn, lecture_yn, cnt, event_idx FROM Gn_landing where landing_idx={$idx}";
-    $result = mysql_query($sql);
-    $land_row = mysql_fetch_assoc($result);
+    $result = mysqli_query($self_con,$sql);
+    $land_row = mysqli_fetch_assoc($result);
 
     $sql = "INSERT INTO Gn_landing set title = '{$land_row['title']}', 
                                       description = '{$land_row['description']}', 
@@ -222,13 +222,13 @@ function insert_db_landlink($idx, $mem_id)
                                       cnt = '{$land_row['cnt']}', 
                                       m_id = '{$mem_id}', 
                                       event_idx = '{$land_row['event_idx']}'";
-    $result = mysql_query($sql);
+    $result = mysqli_query($self_con,$sql);
 
-    $land_idx = mysql_insert_id();
+    $land_idx = mysqli_insert_id($self_con);
     $transUrl = "http://" . $GLOBALS['host'] . "/event/event.html?pcode=" . $row_land_data['pcode'] . "&sp=" . $sp . "&landing_idx=" . $land_idx;
     $transUrl = get_short_url($transUrl);
     $insert_short_url = "update Gn_landing set short_url='{$transUrl}' where landing_idx={$land_idx}";
-    mysql_query($insert_short_url) or die(mysql_error());
+    mysqli_query($self_con,$insert_short_url) or die(mysqli_error($self_con));
   } else {
     return;
   }

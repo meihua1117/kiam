@@ -42,11 +42,11 @@ if ($useType == '1') {
 		if (move_uploaded_file($filePath, $file_path)) {
 			$img_url = 'http://www.kiam.kr' . $up_dir . $idx . '.' . $file[1];
 			$sql = "insert into Gn_Member_card (mem_id , img_url, comment	, create_time) values ('$userId' ,'$img_url' , '$comment' , now())";
-			mysql_query($sql);
+			mysqli_query($self_con,$sql);
 
 			$select_user = "select * from Gn_Member_card where mem_id = '$userId' and type = 0 order by create_time desc limit 1";
-			$resul_p = mysql_query($select_user);
-			$row_p = mysql_fetch_array($resul_p);
+			$resul_p = mysqli_query($self_con,$select_user);
+			$row_p = mysqli_fetch_array($resul_p);
 
 			if((!$row_p[name] || !$row_p[job] || !$row_p[org_name] || !$row_p[address] || !$row_p[mobile] || !$row_p[email1]) && $row_p[comment]){
 
@@ -176,8 +176,8 @@ if ($useType == '1') {
 } else if ($useType == '2') {
 	//get image
 	$select_user = "select * from Gn_Member_card where mem_id = '$userId' and type = 0 order by create_time desc limit 1";
-	$resul_p = mysql_query($select_user);
-	$row_p = mysql_fetch_array($resul_p);
+	$resul_p = mysqli_query($self_con,$select_user);
+	$row_p = mysqli_fetch_array($resul_p);
 
 	if((!$row_p[name] || !$row_p[job] || !$row_p[org_name] || !$row_p[address] || !$row_p[mobile] || !$row_p[email1]) && $row_p[comment]){
 
@@ -301,13 +301,13 @@ if ($useType == '1') {
 } else if ($useType == '3') {
 	//delete img
 	$select_user = "select * from Gn_Member_card where mem_id = '$userId' and type = 1";
-	$resul_p = mysql_query($select_user);
-	$row_p = mysql_fetch_array($resul_p);
+	$resul_p = mysqli_query($self_con,$select_user);
+	$row_p = mysqli_fetch_array($resul_p);
 	if ($row_p['mem_id']) {
 		$update_sql = "update Gn_Member_card set type=2 where mem_id = '$userId'";
-		mysql_query($update_sql);
-		$resul_p = mysql_query($select_user);
-		$row_p = mysql_fetch_array($resul_p);
+		mysqli_query($self_con,$update_sql);
+		$resul_p = mysqli_query($self_con,$select_user);
+		$row_p = mysqli_fetch_array($resul_p);
 		if ($row_p['mem_id']) {
 			$result = array();
 			$result['result'] = true;
@@ -350,11 +350,11 @@ if ($useType == '1') {
 	$card_email2 = trim($_REQUEST["card_email2"]);
 	$card_memo = trim($_REQUEST["card_memo"]);
 	$sql_update = "update Gn_Member_card set name='$card_name', job='$card_job', org_name='$card_org_name', address='$card_address', phone1='$card_phone1', phone2='$card_phone2', mobile='$card_mobile', fax='$card_fax', email1='$card_email1', email2='$card_email2', memo='$card_memo' where seq='$card_seq'";
-	$res = mysql_query($sql_update);
+	$res = mysqli_query($self_con,$sql_update);
 	
 	$select_user = "select * from Gn_Member_card where seq = '$card_seq' and type = 0";
-	$resul_p = mysql_query($select_user);
-	$row_p = mysql_fetch_array($resul_p);
+	$resul_p = mysqli_query($self_con,$select_user);
+	$row_p = mysqli_fetch_array($resul_p);
 
 	if ($row_p['mem_id']) {
 		$result = array();

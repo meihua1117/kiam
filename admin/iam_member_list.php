@@ -212,8 +212,8 @@ function excel_down_p_group(pno,one_member_id){
                         	       on b.mem_id =a.mem_id
                         	WHERE group_id is NULL $searchStr";
                 	              
-                	$res	    = mysql_query($query);
-                	$totalCnt	=  mysql_num_rows($res);	
+                	$res	    = mysqli_query($self_con,$query);
+                	$totalCnt	=  mysqli_num_rows($res);	
                 	
                 	$limitStr       = " LIMIT ".(($startPage-1)*$pageCnt).", ".$pageCnt;
                 	$number			= $totalCnt - ($nowPage - 1) * $pageCnt;                      

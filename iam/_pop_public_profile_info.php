@@ -5,11 +5,11 @@ include_once $_SERVER['DOCUMENT_ROOT'] . "/lib/rlatjd_fun.php";
 <?
 if ($HTTP_HOST != "kiam.kr") {
 	$query = "select * from Gn_Iam_Service where sub_domain like '%" . $HTTP_HOST . "'";
-	$res = mysql_query($query);
-	$domainData = mysql_fetch_array($res);
+	$res = mysqli_query($self_con,$query);
+	$domainData = mysqli_fetch_array($res);
 	$sql = "select orderNumber from tjd_pay_result where buyer_id = '{$domainData['mem_id']}' and stop_yn='Y'";
-	$stop_res = mysql_query($sql);
-	$stop_row = mysql_fetch_assoc($stop_res);
+	$stop_res = mysqli_query($self_con,$sql);
+	$stop_row = mysqli_fetch_assoc($stop_res);
 	if ($stop_row['orderNumber']) {
 		echo "<script>window.open(" . "'/payment_pop.php?index={$stop_row['orderNumber']}'" . ", \"notice_pop\", \"toolbar=yes,scrollbars=yes,resizable=yes,top=200,left=200,width=600,height=350\");</script>";
 	}
@@ -179,8 +179,8 @@ if (isset($_GET['sendtype'])) {
 											$sql5 = "select count(idx) from Gn_Iam_Friends where mem_id = '$mem_id' $friends_sql_msg";
 										}
 
-										$result5 = mysql_query($sql5);
-										$comment_row5 = mysql_fetch_array($result5);
+										$result5 = mysqli_query($self_con,$sql5);
+										$comment_row5 = mysqli_fetch_array($result5);
 										$row_num5 = $comment_row5[0];
 
 										$list2 = 10; //한 페이지에 보여줄 개수
@@ -231,11 +231,11 @@ if (isset($_GET['sendtype'])) {
 											$sql6 = "select f.*, c.mem_id as profile_mem_id from Gn_Iam_Friends f inner join Gn_Iam_Name_Card c on f.friends_card_idx = c.idx where f.mem_id = '$mem_id' $friends_sql_msg " . $limit_str;
 										}
 
-										$result6 = mysql_query($sql6) or die(mysql_error());
-										while ($row6 = mysql_fetch_array($result6)) {
+										$result6 = mysqli_query($self_con,$sql6) or die(mysqli_error($self_con));
+										while ($row6 = mysqli_fetch_array($result6)) {
 											$diplay_sql = "select main_img1 , card_name as friends_name, card_company as friends_company, card_phone as friends_phone, phone_display, mem_id from Gn_Iam_Name_Card where idx = '$row6[friends_card_idx]'";
-											$diplay_result = mysql_query($diplay_sql) or die(mysql_error());
-											$diplay_row = mysql_fetch_array($diplay_result);
+											$diplay_result = mysqli_query($self_con,$diplay_sql) or die(mysqli_error($self_con));
+											$diplay_row = mysqli_fetch_array($diplay_result);
 											$friends_main_img = $diplay_row['main_img1'];
 											if (!$friends_main_img) {
 												$friends_main_img = "img/profile_img.png";
@@ -310,12 +310,12 @@ if (isset($_GET['sendtype'])) {
 													</div>
 													<? if ($_SESSION['iam_member_id'] == $mem_id) {
 														$mem_sql = "select mem_name from Gn_Member where mem_id = '$row6[profile_mem_id]'";
-														$mem_result = mysql_query($mem_sql);
-														$mem_row = mysql_fetch_array($mem_result);
+														$mem_result = mysqli_query($self_con,$mem_sql);
+														$mem_row = mysqli_fetch_array($mem_result);
 														if ((int)$search_type != 1) {
 															$myFriends_sql = "select count(idx) from Gn_Iam_Friends where mem_id = '$mem_id' and friends_card_idx = '$row6[friends_card_idx]'";
-															$myFriends_result = mysql_query($myFriends_sql);
-															$myFriends_row = mysql_fetch_array($myFriends_result);
+															$myFriends_result = mysqli_query($self_con,$myFriends_sql);
+															$myFriends_row = mysqli_fetch_array($myFriends_result);
 															$myFriends_row_num = $myFriends_row[0];
 															if ($myFriends_row_num) { ?>
 																<div class="chat" style="text-align: right;width:20px">

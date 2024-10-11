@@ -7,27 +7,27 @@ if(isset($_POST['ID'])){
     $method = $_POST['method'];
     if($method == "send"){
       $sql = "update Gn_Item_Pay_Result set list_show=0 where buyer_id='{$ID}' and type='contentssend'";
-      $result = mysql_query($sql);
+      $result = mysqli_query($self_con,$sql);
       echo $result;
     }
     else if($method == "recv"){
       $card_url = array();
       $i = 0;
       $sql_con_idx = "select no from Gn_Item_Pay_Result where buyer_id='{$ID}' and type='contentsrecv' and list_show=1";
-      $res_idx = mysql_query($sql_con_idx);
-      while($row_idx = mysql_fetch_array($res_idx)){
+      $res_idx = mysqli_query($self_con,$sql_con_idx);
+      while($row_idx = mysqli_fetch_array($res_idx)){
         $card_url[$i] = $row_idx['no'];
         $i++;
       }
 
       // $sql = "delete from Gn_Item_Pay_Result where pay_method='{$ID}' and type='contentssend'";
-      // mysql_query($sql);
+      // mysqli_query($self_con,$sql);
 
       echo json_encode($card_url);
     }
     else{
       $sql = "update Gn_Item_Pay_Result set list_show=0 where buyer_id='{$ID}' and type='cardsend'";
-      $result = mysql_query($sql);
+      $result = mysqli_query($self_con,$sql);
       echo $result;
     }
   }
@@ -40,8 +40,8 @@ if(isset($_POST['ID'])){
     // $pageCnt = 20;
   
     // $sql = "select * from Gn_Item_Pay_Result where point_val=1 or (point_val=2 and receive_state=1)".$searchStr;
-    // $res = mysql_query($sql);
-    // $totalCnt = mysql_num_rows($res);
+    // $res = mysqli_query($self_con,$sql);
+    // $totalCnt = mysqli_num_rows($res);
   
     // $limitStr = " LIMIT ".(($startPage-1)*$pageCnt).", ".$pageCnt;
     // $number = $totalCnt - ($nowPage - 1) * $pageCnt;
@@ -69,15 +69,15 @@ if(isset($_POST['ID'])){
     }
     $query = $sql.$search_str.$str_search.$orderQuery;
     // echo $query;exit;
-    $result = mysql_query($query);
-    while($row = mysql_fetch_array($result)){
+    $result = mysqli_query($self_con,$query);
+    while($row = mysqli_fetch_array($result)){
       if($row['type'] == "cardsend"){
         $val1 = explode("?", $row['site']);
         $card_url = trim(substr(trim($val1[1]), 0, 10));
   
         $img_sql = "select main_img1 from Gn_Iam_Name_Card where card_short_url='{$card_url}'";
-        $res_img = mysql_query($img_sql);
-        $row_img = mysql_fetch_array($res_img);
+        $res_img = mysqli_query($self_con,$img_sql);
+        $row_img = mysqli_fetch_array($res_img);
         $main_img = $row_img['main_img1'];
 
         $curpoint = '<td class="iam_table">'.$row["item_price"].'/'.$row["current_point"].'</td>';
@@ -87,8 +87,8 @@ if(isset($_POST['ID'])){
         $con_idx = $val1[1];
   
         $con_img = "select contents_img from Gn_Iam_Contents where idx={$con_idx}";
-        $res_con_img = mysql_query($con_img);
-        $row_con_img = mysql_fetch_array($res_con_img);
+        $res_con_img = mysqli_query($self_con,$con_img);
+        $row_con_img = mysqli_fetch_array($res_con_img);
         $main_img = $row_con_img['contents_img'];
 
         $curpoint = "";
@@ -98,8 +98,8 @@ if(isset($_POST['ID'])){
       if($list_type == "contentssend"){
         $state = $row['con_show_cnt'];
         $sql_mem_data = "select * from Gn_Member where mem_id='{$row["pay_method"]}'";
-        $res_mem = mysql_query($sql_mem_data);
-        $row_mem = mysql_fetch_array($res_mem);
+        $res_mem = mysqli_query($self_con,$sql_mem_data);
+        $row_mem = mysqli_fetch_array($res_mem);
 
         $pay_method = '<td class="iam_table">'.$row["pay_method"].'/'.$row_mem['mem_name'].'</td>';
         if($row['message'] != ""){
@@ -122,8 +122,8 @@ if(isset($_POST['ID'])){
       }
       else{
         $sql_mem_data = "select * from Gn_Member where mem_id='{$row["pay_method"]}'";
-        $res_mem = mysql_query($sql_mem_data);
-        $row_mem = mysql_fetch_array($res_mem);
+        $res_mem = mysqli_query($self_con,$sql_mem_data);
+        $row_mem = mysqli_fetch_array($res_mem);
 
         if($list_type == "contentsrecv"){
           $state = $row['pay_method'].'/'.$row_mem['mem_name'];

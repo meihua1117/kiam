@@ -12,33 +12,33 @@ $currentDateTime = date('Ymd');
 $s = 0;
 
 $sql_b = "select count(*) from Gn_Iam_Contents_Gwc where sync_date='{$currentDateTime}' and contents_url like '%https://arkda.kr/shop/view.php?index_no=%'";
-$res_b = mysql_query($sql_b);
-$row_b = mysql_fetch_array($res_b);
+$res_b = mysqli_query($self_con,$sql_b);
+$row_b = mysqli_fetch_array($res_b);
 if(!$row_b[0]){
     exit;
 }
 
 $sql_sel = "select idx, card_idx from Gn_Iam_Contents_Gwc where mem_id='iamstore' and contents_url like '%https://arkda.kr/shop/view.php?index_no=%' and sync_date!='$currentDateTime'";
-$res_sel = mysql_query($sql_sel);
-while($row_sel = mysql_fetch_array($res_sel)){
+$res_sel = mysqli_query($self_con,$sql_sel);
+while($row_sel = mysqli_fetch_array($res_sel)){
     $sql_del = "delete from Gn_Iam_Con_Card where cont_idx='{$row_sel[idx]}' and card_idx='{$row_sel[card_idx]}'";
-    mysql_query($sql_del);
+    mysqli_query($self_con,$sql_del);
 
     $sql_save = "select idx, card_idx, mem_id, contents_title from Gn_Iam_Contents_Gwc where ori_store_prod_idx='{$row_sel[idx]}'";
-    $res_save = mysql_query($sql_save);
-    while($row_save = mysql_fetch_array($res_save)){
+    $res_save = mysqli_query($self_con,$sql_save);
+    while($row_save = mysqli_fetch_array($res_save)){
         $sql_del = "delete from Gn_Iam_Con_Card where cont_idx='{$row_save[idx]}' and card_idx='{$row_save[card_idx]}'";
-        mysql_query($sql_del);
+        mysqli_query($self_con,$sql_del);
         $s++;
         $uni_id=time().sprintf("%02d",$s);
         $sql_mem = "select mem_phone, mem_name, mem_point, mem_cash from Gn_Member where mem_id='{$row_save[mem_id]}'";
-        $res_mem = mysql_query($sql_mem);
-        $row_mem = mysql_fetch_array($res_mem);
+        $res_mem = mysqli_query($self_con,$sql_mem);
+        $row_mem = mysqli_fetch_array($res_mem);
 
         send_mms($row_save[mem_id], $row_mem[mem_phone], $uni_id, $row_save[contents_title], $push_url, $push_headers, $row_mem[mem_name], $row_mem[mem_point], $row_mem[mem_cash]);
     }
     $sql_del_get = "delete from Gn_Iam_Contents_Gwc where ori_store_prod_idx='{$row_sel[idx]}'";
-    mysql_query($sql_del_get);
+    mysqli_query($self_con,$sql_del_get);
 }
 
 function send_mms($mem_id, $mem_phone, $uni_id, $contents_title, $url, $headers, $mem_name, $mem_point, $mem_cash){
@@ -60,8 +60,8 @@ function send_mms($mem_id, $mem_phone, $uni_id, $contents_title, $url, $headers,
 		recv_num_cnt=1
 	";
 
-	mysql_query($query) or die(mysql_error());
-	$sidx = mysql_insert_id();
+	mysqli_query($self_con,$query) or die(mysqli_error($self_con));
+	$sidx = mysqli_insert_id($self_con);
 
     $sql_notice = "insert into Gn_Item_Pay_Result
                 set buyer_id='$mem_id',
@@ -82,11 +82,11 @@ function send_mms($mem_id, $mem_phone, $uni_id, $contents_title, $url, $headers,
                     receive_state=1,
                     message='$txt',
                     alarm_state=0";
-    mysql_query($sql_notice);
+    mysqli_query($self_con,$sql_notice);
 
 	$query = "select * from Gn_MMS_Number where mem_Id='$mem_id' and sendnum='$mem_phone'";
-	$result = mysql_query($query);
-	$info = mysql_fetch_array($result);       
+	$result = mysqli_query($self_con,$query);
+	$info = mysqli_fetch_array($result);       
 	$pkey = $info['pkey'];	
 	if($pkey != "") {
 		$send_type = $info['type'];
@@ -141,32 +141,32 @@ function sendPush($url, $headers, $pkey, $sidx, $send_type, $send_num)
                                           token='".$pkey."',
                 error='$msg'";
 
-    mysql_query($query) or die(mysql_error());        
+    mysqli_query($self_con,$query) or die(mysqli_error($self_con));        
 
 }
 
 $sql_del = "update Gn_Iam_Contents_Gwc set public_display='N' where mem_id='iamstore' and contents_url like '%https://arkda.kr/shop/view.php?index_no=%' and sync_date!='$currentDateTime'";
-$res_sel = mysql_query($sql_del);
+$res_sel = mysqli_query($self_con,$sql_del);
 $sql_del1 = "delete from Gn_Iam_Contents_Gwc where mem_id='iamstore' and contents_url like '%https://arkda.kr/shop/view.php?index_no=%' and sync_date!='$currentDateTime' and card_idx in(2477701, 1274691, 1268514, 934328)";
-$res_sel1 = mysql_query($sql_del1);
+$res_sel1 = mysqli_query($self_con,$sql_del1);
 $sql_del_issue = "delete from Gn_Iam_Contents_Gwc where contents_img='' and contents_title='' and contents_price=0 and contents_sell_price=0 and product_model_name=''";
-$res_sel = mysql_query($sql_del_issue);
+$res_sel = mysqli_query($self_con,$sql_del_issue);
 $sql_del_issue = "delete from Gn_Iam_Contents_Gwc where send_provide_price = '0' or contents_price = '0'";
-$res_sel = mysql_query($sql_del_issue);
+$res_sel = mysqli_query($self_con,$sql_del_issue);
 echo "delete!>>".date("Y-m-d H:i:s")."\n";
 
 $query_update = "select count(*) from Gn_Iam_Contents_Gwc where sync_date='{$currentDateTime}' and req_data!=up_data and contents_url like '%https://arkda.kr/shop/view.php?index_no=%' and public_display='Y'";
-$res_update = mysql_query($query_update);
-$row_update = mysql_fetch_array($res_update);
+$res_update = mysqli_query($self_con,$query_update);
+$row_update = mysqli_fetch_array($res_update);
 
 $query_insert = "select count(*) from Gn_Iam_Contents_Gwc where sync_date='{$currentDateTime}' and req_data=up_data and contents_url like '%https://arkda.kr/shop/view.php?index_no=%' and public_display='Y'";
-$res_insert = mysql_query($query_insert);
-$row_insert = mysql_fetch_array($res_insert);
+$res_insert = mysqli_query($self_con,$query_insert);
+$row_insert = mysqli_fetch_array($res_insert);
 
 $sql_insert_history = "insert into Gn_Gwc_Sync_State set type=2, add_cnt={$row_insert[0]}, update_cnt={$row_update[0]}, reg_date=now()";
-mysql_query($sql_insert_history);
+mysqli_query($self_con,$sql_insert_history);
 
 $sql_update = "update crawler_shop_update set res_crawler=1 where cate_name='arkda' and sync_date='{$currentDateTime}' and type=2 order by id desc limit 1";
 
-mysql_query($sql_update);
+mysqli_query($self_con,$sql_update);
 ?>

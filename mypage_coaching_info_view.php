@@ -14,8 +14,8 @@ exit;
 
 $sql="select * from gn_coaching_info a inner join Gn_Member b on b.mem_code = a.coty_mem_code inner join gn_coaching_apply c on c.coty_id = a.coty_id where a.coaching_id='".$coaching_id."'";
 
-$sresul_num=mysql_query($sql);
-$coaching_info_data=mysql_fetch_array($sresul_num);	
+$sresul_num=mysqli_query($self_con,$sql);
+$coaching_info_data=mysqli_fetch_array($sresul_num);	
 
 $this_coach_id =$coaching_info_data[coach_id];
 
@@ -159,8 +159,8 @@ $(function(){
 
             $sql="select * from gn_coach_apply a inner join Gn_Member b on b.mem_code = a.mem_code where a.coach_id = ".$this_coach_id;
 
-            $sresul_num=mysql_query($sql);
-            $coach_data=mysql_fetch_array($sresul_num);    
+            $sresul_num=mysqli_query($self_con,$sql);
+            $coach_data=mysqli_fetch_array($sresul_num);    
 
 
 

@@ -383,26 +383,26 @@ $search_month = $search_month?sprintf("%02d",$search_month):sprintf("%02d",date(
                                 $query = "select * from Gn_Gwc_Order where (seller_id='{$seller_id}' and page_type=0 and pay_status='Y' ".$searchStr.") or (seller_id in (select mem_id from Gn_Member where recommend_id='{$seller_id}' and mem_id in (select seller_id from Gn_Gwc_Order where page_type=0 and pay_status='Y')) and page_type=0 and pay_status='Y')";
                                 $excel_sql=$query;
                                 $excel_sql=str_replace("'","`",$excel_sql);
-                                $res	    = mysql_query($query);
-                                $totalCnt	=  mysql_num_rows($res);
+                                $res	    = mysqli_query($self_con,$query);
+                                $totalCnt	=  mysqli_num_rows($res);
                                 $limitStr       = " LIMIT ".(($startPage-1)*$pageCnt).", ".$pageCnt;
                                 $number			= $totalCnt - ($nowPage - 1) * $pageCnt;
                                 $orderQuery .= $limitStr;
                                 $i = 1;
                                 $query .= $orderQuery;
                                 // echo $query;
-                                $res = mysql_query($query);
-                                while($row = mysql_fetch_array($res)) {
+                                $res = mysqli_query($self_con,$query);
+                                while($row = mysqli_fetch_array($res)) {
                                     $show_link = "http://kiam.kr/iam/gwc_order_pay.php?contents_idx=".$row['contents_idx']."&contents_cnt=".$row['contents_cnt']."&contents_price=".$row['contents_price']."&contents_salary=".$row['salary_price']."&seller_id=".$row['seller_id']."&order_option=".$row['order_option']."&admin=Y&mem_id=".$row['mem_id']."&use_point_val=".$row['use_point']."&pay_method=".$row['payMethod'];
 
                                     $sql_seller = "select mem_name, mem_id from Gn_Member where mem_id='{$row[seller_id]}'";
-                                    $res_seller = mysql_query($sql_seller);
-                                    $row_seller = mysql_fetch_array($res_seller);
+                                    $res_seller = mysqli_query($self_con,$sql_seller);
+                                    $row_seller = mysqli_fetch_array($res_seller);
                                     $seller_data = $row_seller[0]."/\n".$row_seller[1];
 
                                     $sql_mem = "select site, site_iam, service_type, gwc_leb, gwc_center_per, gwc_service_per, mem_cash, recommend_id from Gn_Member where mem_id='{$row[seller_id]}'";
-                                    $res_mem = mysql_query($sql_mem);
-                                    $row_mem = mysql_fetch_array($res_mem);
+                                    $res_mem = mysqli_query($self_con,$sql_mem);
+                                    $row_mem = mysqli_fetch_array($res_mem);
                                     $site_data = $row_mem[0]."/\n".$row_mem[1];
 
                                     if($row_mem[service_type] == 2 || $row_mem[service_type] == 3){
@@ -427,8 +427,8 @@ $search_month = $search_month?sprintf("%02d",$search_month):sprintf("%02d",date(
                                     else{
                                         $mem_type = 1;
                                         $sql_per = "select gwc_center_per, gwc_service_per from Gn_Member where mem_id='{$row_mem[recommend_id]}'";
-                                        $res_per = mysql_query($sql_per);
-                                        $row_per = mysql_fetch_array($res_per);
+                                        $res_per = mysqli_query($self_con,$sql_per);
+                                        $row_per = mysqli_fetch_array($res_per);
 
                                         if(!$row_per[gwc_service_per]){
                                             $row_mem[gwc_service_per] = 1;
@@ -445,12 +445,12 @@ $search_month = $search_month?sprintf("%02d",$search_month):sprintf("%02d",date(
                                     }
 
                                     $sql_title = "select member_type from tjd_pay_result where no='{$row[tjd_idx]}'";
-                                    $res_title = mysql_query($sql_title);
-                                    $row_title = mysql_fetch_array($res_title);
+                                    $res_title = mysqli_query($self_con,$sql_title);
+                                    $row_title = mysqli_fetch_array($res_title);
 
                                     $sql_cont_data = "select idx, contents_sell_price, send_provide_price, send_salary_price, contents_img, contents_title from Gn_Iam_Contents_Gwc where idx='{$row[contents_idx]}'";
-                                    $res_cont_data = mysql_query($sql_cont_data);
-                                    $row_cont_data = mysql_fetch_array($res_cont_data);
+                                    $res_cont_data = mysqli_query($self_con,$sql_cont_data);
+                                    $row_cont_data = mysqli_fetch_array($res_cont_data);
 
                                     if(strpos($row_cont_data[contents_img], ",") !== false){
                                         $img_link1 = explode(",", $row_cont_data[contents_img]);

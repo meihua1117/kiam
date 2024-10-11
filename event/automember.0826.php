@@ -5,24 +5,24 @@
 	if($_GET['pcode']) $pcode = $_GET['pcode'];
 
 	$sql_recom = "select m_id, event_info, event_type from Gn_event where pcode='{$pcode}'";
-	$res = mysql_query($sql_recom);
-	$row = mysql_fetch_array($res);
+	$res = mysqli_query($self_con,$sql_recom);
+	$row = mysqli_fetch_array($res);
 	$recom_id = $row['m_id'];
 	$button_txt = $row['event_type'];
 	$card_short_url = $row['event_info'];
 
 	$sql_site = "select site, site_iam from Gn_Member where mem_id='{$recom_id}'";
-	$res_site = mysql_query($sql_site);
-	$row_site = mysql_fetch_array($res_site);
+	$res_site = mysqli_query($self_con,$sql_site);
+	$row_site = mysqli_fetch_array($res_site);
 	$site = $row_site['site'];
 	$site_iam = $row_site['site_iam'];
 
 	$sql="update Gn_event set read_cnt = read_cnt+1 where pcode='$pcode'";
-	mysql_query($sql) or die(mysql_error());
+	mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 	
 	$sql="select * from Gn_event where pcode='$pcode'";
-	$result = mysql_query($sql) or die(mysql_error());
-	$event_data = $row=mysql_fetch_array($result);
+	$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+	$event_data = $row=mysqli_fetch_array($result);
 	$m_id = $row['m_id'];
 	$event_idx = $row['event_idx'];		
 	

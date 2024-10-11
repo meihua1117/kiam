@@ -26,9 +26,9 @@ extract($_REQUEST);
 	    $sql_serch .= " and result = 3";
 	}					
 	$sql="select count(*) as cnt from $sql_table where $sql_serch ";
-	$result = mysql_query($sql) or die(mysql_error());
-	$row=mysql_fetch_array($result);
-	mysql_free_result($result);
+	$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+	$row=mysqli_fetch_array($result);
+	mysqli_free_result($result);
 	$intRowCount=$row[cnt];
 	$intPageSize =10;				
 	if($_REQUEST[page])
@@ -58,7 +58,7 @@ extract($_REQUEST);
 	$sql="select * from $sql_table where $sql_serch order by $order_name $order_status limit $int,$intPageSize";
 	$excel_sql="select * from $sql_table where $sql_serch order by $order_name $order_status ";
 	$excel_sql=str_replace("'","`",$excel_sql);					
-	$result=mysql_query($sql) or die(mysql_error());		
+	$result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));		
 	?>
 					
 
@@ -113,46 +113,46 @@ extract($_REQUEST);
             {
                 
                 $c=0;
-                while($row=mysql_fetch_array($result))
+                while($row=mysqli_fetch_array($result))
                 {
                     $sql_s="select * from Gn_MMS_status where idx='$row[idx]' ";
-                    $resul_s=mysql_query($sql_s);
-                    $row_s=mysql_fetch_array($resul_s);
-                    mysql_free_result($resul_s);
+                    $resul_s=mysqli_query($self_con,$sql_s);
+                    $row_s=mysqli_fetch_array($resul_s);
+                    mysqli_free_result($resul_s);
                                                                 
                     $sql_n="select memo from Gn_MMS_Number where mem_id='$row[mem_id]' and sendnum='$row[send_num]' ";
-                    $resul_n=mysql_query($sql_n);
-                    $row_n=mysql_fetch_array($resul_n);
-                    mysql_free_result($resul_n);
+                    $resul_n=mysqli_query($self_con,$sql_n);
+                    $row_n=mysqli_fetch_array($resul_n);
+                    mysqli_free_result($resul_n);
 
                     $sql_m="select site, site_iam from Gn_Member where mem_id='$row[mem_id]'";
-                    $resul_m=mysql_query($sql_m);
-                    $row_m=mysql_fetch_array($resul_m);
-                    mysql_free_result($row_m);
+                    $resul_m=mysqli_query($self_con,$sql_m);
+                    $row_m=mysqli_fetch_array($resul_m);
+                    mysqli_free_result($row_m);
                     
                     $recv_num = $recv_cnt=explode(",",$row[recv_num]);
                     $recv_num_in = "'".implode("','", $recv_num)."'";
                     $date = $row['up_date'];
 
                     $sql="select count(seq) as cnt from call_app_log where api_name='receive_sms' and LENGTH(recv_num) >= 10 and  send_num='$row[send_num]' and recv_num in ($recv_num_in) and recv_num like '01%'  and regdate >= '$date' and sms not like '[%'";
-                    $kresult = mysql_query($sql) or die(mysql_error());
-                    $krow=mysql_fetch_array($kresult);
+                    $kresult = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+                    $krow=mysqli_fetch_array($kresult);
                     $intRowCount=$krow[cnt];											
                     if($date == "") $intRowCount = "";
                     
                     $sql_as="select count(idx) as cnt from Gn_MMS_status where idx='$row[idx]' ";
-                    $resul_as=mysql_query($sql_as);
-                    $row_as=mysql_fetch_array($resul_as);
+                    $resul_as=mysqli_query($self_con,$sql_as);
+                    $row_as=mysqli_fetch_array($resul_as);
                     $status_total_cnt = $row_as[0];											
                     
                     $sql_cs="select count(idx) as cnt from Gn_MMS_status where idx='$row[idx]' and status='0'";
-                    $resul_cs=mysql_query($sql_cs);
-                    $row_cs=mysql_fetch_array($resul_cs);
+                    $resul_cs=mysqli_query($self_con,$sql_cs);
+                    $row_cs=mysqli_fetch_array($resul_cs);
                     $success_cnt = $row_cs[0];
 
                     $sql_sn="select * from Gn_MMS where idx='$row[idx]' ";
-                    $resul_sn=mysql_query($sql_sn);
-                    $row_sn=mysql_fetch_array($resul_sn);											
+                    $resul_sn=mysqli_query($self_con,$sql_sn);
+                    $row_sn=mysqli_fetch_array($resul_sn);											
                     $recv_cnt=explode(",",$row_sn[recv_num]);
                     
                     $total_cnt = count($recv_cnt);													

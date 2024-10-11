@@ -2,11 +2,11 @@
 header("Content-type:text/html;charset=utf-8");
 include_once "lib/db_config.php";
 $sql = "select idx,img,card_idx from Gn_Iam_Mall where mall_type > 10 order by idx";
-$res = mysql_query($sql);
-while ($row = mysql_fetch_assoc($res)) {
+$res = mysqli_query($self_con,$sql);
+while ($row = mysqli_fetch_assoc($res)) {
     if ($_GET["content"] == "Y") {
         $sql = "update Gn_Iam_Contents set contents_img = '{$row['img']}' where idx = {$row['card_idx']}";
-        mysql_query($sql);
+        mysqli_query($self_con,$sql);
         echo $row['idx'] . " changing...";
     } else {
         $srcFile = $row['img'];
@@ -15,9 +15,9 @@ while ($row = mysql_fetch_assoc($res)) {
         $dstFile = addWatermark($srcFile, "iamgallery", "iam/img/common/mark.png");
         if ($dstFile != false) {
             $sql = "update Gn_Iam_Mall set img = '{$dstFile}' where idx={$row['idx']}";
-            mysql_query($sql);
+            mysqli_query($self_con,$sql);
             $sql = "update Gn_Iam_Contents set contents_img = '{$dstFile}' where idx = {$row['card_idx']}";
-            mysql_query($sql);
+            mysqli_query($self_con,$sql);
             echo $row['idx'] . " changing...";
         } else {
             echo $row['idx'] . " have no img";

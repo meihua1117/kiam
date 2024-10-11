@@ -48,7 +48,7 @@ $sql = "insert into tjd_pay_result
     month_cnt='$_pay_info[month_cnt]',
     member_cnt='$_POST[member_cnt]',
     monthly_yn = 'Y'";
-mysql_query($sql) or die(mysql_error());
+mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 ?>
 <link href='/css/main.css' rel='stylesheet' type='text/css'/>
 <link href='/css/responsive.css' rel='stylesheet' type='text/css'/>

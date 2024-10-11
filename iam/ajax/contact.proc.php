@@ -27,7 +27,7 @@ if($mode == "del") {
     $contact_idx = $_POST['contact_idx'][$i];
     // exit;
     $sql="delete from Gn_MMS_Receive_Iam where idx = $contact_idx and mem_id = '$_SESSION[iam_member_id]'";
-    $result = mysql_query($sql) or die(mysql_error());
+    $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
   }
 
   echo '연락처가 삭제 되었습니다.';

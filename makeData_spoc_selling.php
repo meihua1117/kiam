@@ -3,8 +3,8 @@ include_once "lib/rlatjd_fun.php";
 if($_SESSION['one_member_id'] == "")
 	exit;
 $sql="select * from Gn_Member where mem_id='$_SESSION[one_member_id]' and site != '' ";
-$resul=mysql_query($sql);
-$data=mysql_fetch_array($resul);
+$resul=mysqli_query($self_con,$sql);
+$data=mysqli_fetch_array($resul);
 
 $_SESSION['allat_amt'] = $_POST['allat_amt'];
 $_COOKIE['allat_amt'] = $_POST['allat_amt'];
@@ -14,7 +14,7 @@ $_POST[max_cnt] = $_POST[phone_cnt];
  
 if($_POST[allat_order_no] != "") {
     $sql = "delete from tjd_pay_result where  idx='$_POST[allat_order_no]' and  buyer_id='$_SESSION[one_member_id]'";
-    mysql_query($sql);
+    mysqli_query($self_con,$sql);
 }
 if($_POST[payMethod] != "") {
     $payMethod = $_POST[payMethod];
@@ -41,5 +41,5 @@ $sql = "insert into tjd_pay_result
                 email_cnt='$_POST[email_cnt]',
                 onestep1='$_POST[onestep1]',
                 onestep2='$_POST[onestep2]'";
-$res_result = mysql_query($sql);
+$res_result = mysqli_query($self_con,$sql);
 ?>

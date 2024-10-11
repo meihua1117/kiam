@@ -11,7 +11,7 @@ $error = $_POST["error"];
 //$query_err = sql_query($sql_err);
 $sql = "insert Gn_MMS_Result set
 suc_num = '".$snum."', fail_num = '".$error."', uni_id = '".$reqid."' , reg_date = now()";
-$query = mysql_query($sql);
+$query = mysqli_query($self_con,$sql);
 
 
 if($query){

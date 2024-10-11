@@ -44,10 +44,10 @@ exit;
 
 			$sql = "INSERT INTO tjd_pay_result (phone_cnt,fujia_status,month_cnt,end_date,end_status,TotPrice,pc_mobile, date, cancel_status,buyertel,buyer_id) SELECT 300,'Y',6,'".$dateLimit."',end_status,'".$totalAmount."',pc_mobile, '".$date_today."', cancel_status,'".$buyertel."','".$userId."'  FROM tjd_pay_result WHERE no=30";
 
-			mysql_query($sql);
+			mysqli_query($self_con,$sql);
 
 			$sql = "update Gn_Member set fujia_date2 = '".$dateLimit."' WHERE mem_id = '".$userId."';";
-			mysql_query($sql);
+			mysqli_query($self_con,$sql);
 		?>
 
 		<!doctype html>

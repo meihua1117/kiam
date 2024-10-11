@@ -5,8 +5,8 @@ include_once $_SERVER['DOCUMENT_ROOT']."/admin/include/admin_header.inc.php";
 // 오늘날짜
 // $date_today=date('Ymd');
 $sql_last = "select sync_date from Gn_Iam_Contents_Gwc order by sync_date desc limit 1";
-$res_last = mysql_query($sql_last);
-$row_last = mysql_fetch_array($res_last);
+$res_last = mysqli_query($self_con,$sql_last);
+$row_last = mysqli_fetch_array($res_last);
 $date_today=$row_last[0];
 ?>
 <script type="text/javascript" src="/jquery.lightbox_me.js"></script>
@@ -118,15 +118,15 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                                 $pageCnt = 20;
 
                                 $query = "select * from Gn_Gwc_Sync_State";
-                                $res	    = mysql_query($query);
-                                $totalCnt	=  mysql_num_rows($res);
+                                $res	    = mysqli_query($self_con,$query);
+                                $totalCnt	=  mysqli_num_rows($res);
                                 $limitStr       = " LIMIT ".(($startPage-1)*$pageCnt).", ".$pageCnt;
                                 $number			= $totalCnt - ($nowPage - 1) * $pageCnt;
                                 $orderQuery .= " ORDER BY id DESC $limitStr ";
                                 $i = 1;
                                 $query .= $orderQuery;
-                                $res = mysql_query($query);
-                                while($row = mysql_fetch_array($res)) {
+                                $res = mysqli_query($self_con,$query);
+                                while($row = mysqli_fetch_array($res)) {
                                     if($row[type] == 1){
                                         $org = "웹빙몰";
                                     }
@@ -141,8 +141,8 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                                     else{
                                         $date_com = date("Y-m-d")." 00:00:00";
                                         $sql_last = "select * from Gn_Gwc_Sync_State where reg_date<'{$date_com}' and type='{$row[type]}' order by id desc limit 1";
-                                        $res_last = mysql_query($sql_last);
-                                        $row_last = mysql_fetch_array($res_last);
+                                        $res_last = mysqli_query($self_con,$sql_last);
+                                        $row_last = mysqli_fetch_array($res_last);
                                         $cur_last = $row_last[add_cnt] * 1 + $row_last[update_cnt] * 1;
 
                                         $add_min_val = $cur_cnt * 1 - $cur_last * 1;

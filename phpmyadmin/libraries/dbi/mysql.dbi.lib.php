@@ -163,11 +163,11 @@ function PMA_DBI_select_db($dbname, $link = null)
 function PMA_DBI_real_query($query, $link, $options)
 {
     if ($options == ($options | PMA_DBI_QUERY_STORE)) {
-        return mysql_query($query, $link);
+        return mysqli_query($self_con,$query, $link);
     } elseif ($options == ($options | PMA_DBI_QUERY_UNBUFFERED)) {
         return mysql_unbuffered_query($query, $link);
     } else {
-        return mysql_query($query, $link);
+        return mysqli_query($self_con,$query, $link);
     }
 }
 
@@ -179,7 +179,7 @@ function PMA_DBI_real_query($query, $link, $options)
  */
 function PMA_DBI_fetch_array($result)
 {
-    return mysql_fetch_array($result, MYSQL_BOTH);
+    return mysqli_fetch_array($result, MYSQL_BOTH);
 }
 
 /**
@@ -190,7 +190,7 @@ function PMA_DBI_fetch_array($result)
  */
 function PMA_DBI_fetch_assoc($result)
 {
-    return mysql_fetch_array($result, MYSQL_ASSOC);
+    return mysqli_fetch_array($result, MYSQL_ASSOC);
 }
 
 /**
@@ -201,7 +201,7 @@ function PMA_DBI_fetch_assoc($result)
  */
 function PMA_DBI_fetch_row($result)
 {
-    return mysql_fetch_array($result, MYSQL_NUM);
+    return mysqli_fetch_array($result, MYSQL_NUM);
 }
 
 /**
@@ -224,7 +224,7 @@ function PMA_DBI_data_seek($result, $offset)
 function PMA_DBI_free_result($result)
 {
     if (is_resource($result) && get_resource_type($result) === 'mysql result') {
-        mysql_free_result($result);
+        mysqli_free_result($result);
     }
 }
 
@@ -330,8 +330,8 @@ function PMA_DBI_getError($link = null)
         $error_number = mysql_errno($link);
         $error_message = mysql_error($link);
     } else {
-        $error_number = mysql_errno();
-        $error_message = mysql_error();
+        $error_number = mysqli_errno($self_con);
+        $error_message = mysqli_error($self_con);
     }
     if (0 == $error_number) {
         return false;
@@ -352,7 +352,7 @@ function PMA_DBI_getError($link = null)
 function PMA_DBI_num_rows($result)
 {
     if (!is_bool($result)) {
-        return mysql_num_rows($result);
+        return mysqli_num_rows($result);
     } else {
         return 0;
     }
@@ -417,7 +417,7 @@ function PMA_DBI_get_fields_meta($result)
     $fields       = array();
     $num_fields   = mysql_num_fields($result);
     for ($i = 0; $i < $num_fields; $i++) {
-        $field = mysql_fetch_field($result, $i);
+        $field = mysqli_fetch_field($result, $i);
         $field->flags = mysql_field_flags($result, $i);
         $field->orgtable = mysql_field_table($result, $i);
         $field->orgname = mysql_field_name($result, $i);

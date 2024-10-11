@@ -6,20 +6,20 @@ if ($_POST['one_id'] && $_POST['one_pwd']) {
 
 	//5회이상 실패한 경우 아이디/비번찾기 진행
 	$sql = "select count from gn_hist_login where userid='$_POST[one_id]' and ip='$_SERVER[REMOTE_ADDR]' and success='N' order by idx desc limit 0,1";
-	$resul=mysql_query($sql);
-	$hrow=mysql_fetch_array($resul);
+	$resul=mysqli_query($self_con,$sql);
+	$hrow=mysqli_fetch_array($resul);
 	if($hrow[0] != "")
 	{
 		if(intval($hrow[0]) >= 8)
 		{
 			$ip = $_SERVER[REMOTE_ADDR];
 			$query = "select ip from gn_block_ip where ip='$ip'";
-			$res = mysql_query($query);
-			$row = mysql_fetch_array($res);
+			$res = mysqli_query($self_con,$query);
+			$row = mysqli_fetch_array($res);
 			if($row[0] == "")
 			{
 				$query = "insert into gn_block_ip (ip, type) values('$ip', 1)";
-				$res = mysql_query($query);
+				$res = mysqli_query($self_con,$query);
 			}
 			exit;
 		}
@@ -27,14 +27,14 @@ if ($_POST['one_id'] && $_POST['one_pwd']) {
 
 	$mem_pass=$_POST[one_pwd];
 	$sql="select mem_code, mem_id, is_leave, mem_leb, iam_leb, site,site_iam from Gn_Member use index(login_index) where mem_leb>0 and ((mem_id = '$_POST[one_id]' and web_pwd=password('$mem_pass')) or (mem_email = '$_POST[one_id]' and web_pwd=password('$mem_pass'))) ";
-	$resul=mysql_query($sql);
-	$row=mysql_fetch_array($resul);
+	$resul=mysqli_query($self_con,$sql);
+	$row=mysqli_fetch_array($resul);
 	if($row[mem_code] && $row[is_leave] == 'N')
 	{
 		// 관리자 권한이 있으면 관리자 세션 추가 Add Cooper
 		$admin_sql = "select mem_id from Gn_Admin where mem_id= '$_POST[one_id]'";
-		$admin_result = mysql_query($admin_sql);
-		$admin_row = mysql_fetch_array($admin_result);
+		$admin_result = mysqli_query($self_con,$admin_sql);
+		$admin_row = mysqli_fetch_array($admin_result);
 		if ($admin_row[0] != "") {
 			$_SESSION[one_member_admin_id] = $_POST[one_id];
 		}
@@ -42,8 +42,8 @@ if ($_POST['one_id'] && $_POST['one_pwd']) {
 			$_SESSION[one_member_id] = $_POST[one_id];
 			$_SESSION[one_mem_lev] = $row[mem_leb];
 			$service_sql = "select mem_id from Gn_Service where mem_id= '$_POST[one_id]'";
-			$service_result = mysql_query($service_sql);
-			$service_row = mysql_fetch_array($service_result);
+			$service_result = mysqli_query($self_con,$service_sql);
+			$service_row = mysqli_fetch_array($service_result);
 			if ($service_row[0] != "") {
 				$url = parse_url($service_row[sub_domain]);
 				$_SESSION[one_member_subadmin_id] = $_POST[one_id];
@@ -56,8 +56,8 @@ if ($_POST['one_id'] && $_POST['one_pwd']) {
 			$_SESSION[iam_member_id] = $_POST[one_id];
 			$_SESSION[iam_member_leb] = $row[iam_leb];
 			$iam_sql = "select mem_id from Gn_Iam_Service where mem_id= '$_POST[one_id]'";
-			$iam_result = mysql_query($iam_sql);
-			$iam_row = mysql_fetch_array($iam_result);
+			$iam_result = mysqli_query($self_con,$iam_sql);
+			$iam_row = mysqli_fetch_array($iam_result);
 			if ($iam_row[0] != "") {
 				$url = parse_url($iam_row[sub_domain]);
 				$_SESSION[iam_member_subadmin_id] = $_POST[one_id];
@@ -66,23 +66,23 @@ if ($_POST['one_id'] && $_POST['one_pwd']) {
 		}
 		//login이력을 기록한다.
 		$sql = "select idx from gn_hist_login where userid='$_POST[one_id]' and ip='$_SERVER[REMOTE_ADDR]' and success='N' order by idx desc limit 0,1";
-		$resul=mysql_query($sql);
-		$hrow=mysql_fetch_array($resul);
+		$resul=mysqli_query($self_con,$sql);
+		$hrow=mysqli_fetch_array($resul);
 		if($hrow[0] != "")
 		{
 			$sql = "update gn_hist_login set success='Y' where idx='$hrow[0]'";
-			$resul = mysql_query($sql);
+			$resul = mysqli_query($self_con,$sql);
 		}
 		else
 		{
 			$sql = "insert into gn_hist_login (domain,userid,position,ip,success) values('$site[0]', '$_POST[one_id]', 'mobile', '$_SERVER[REMOTE_ADDR]', 'Y')";
-			$resul = mysql_query($sql);
+			$resul = mysqli_query($self_con,$sql);
 		}
 
 		// 마지막 접속 시간 기록 Add Cooper
 		// $memToken = generateRandomString(10);
 		$sql = "update Gn_Member set login_date=now(),ext_recm_id='$site[0]' where mem_id= '$_POST[one_id]'";
-		$resul = mysql_query($sql);
+		$resul = mysqli_query($self_con,$sql);
 
 		if($_POST['refer2']){
 			if($row['site'] == "kiam")
@@ -135,12 +135,12 @@ if ($_POST['one_id'] && $_POST['one_pwd']) {
 			//login이력을 기록한다.
 			$msg = "아이디 혹은 비밀번호가 틀렸습니다.";
 			$sql = "select idx,count from gn_hist_login where userid='$_POST[one_id]' and ip='$_SERVER[REMOTE_ADDR]' and success='N' order by idx desc limit 0,1";
-			$resul=mysql_query($sql);
-			$hrow=mysql_fetch_array($resul);
+			$resul=mysqli_query($self_con,$sql);
+			$hrow=mysqli_fetch_array($resul);
 			if($hrow[0] != "")
 			{
 				$sql = "update gn_hist_login set count=count+1 where idx='$hrow[0]'";
-				$resul = mysql_query($sql);
+				$resul = mysqli_query($self_con,$sql);
 
 				$try_count = intval($hrow[1]) + 1;
 				if( $try_count >= 5)
@@ -164,7 +164,7 @@ if ($_POST['one_id'] && $_POST['one_pwd']) {
 			else
 			{
 				$sql = "insert into gn_hist_login (domain,userid,position,ip,count) values('$site[0]', '$_POST[one_id]', 'mobile', '$_SERVER[REMOTE_ADDR]', count+1)";
-				$resul = mysql_query($sql);
+				$resul = mysqli_query($self_con,$sql);
 			}
 	?>
   		<script language="javascript">alert('<?=$msg?>');history.back(-1);</script>

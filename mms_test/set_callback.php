@@ -32,13 +32,13 @@ else{
     $delete_msg = isset($_POST['delete_msg'])?$_POST['delete_msg']:"N";//개인 콜백메시지 삭제하기
     
     $sql_mem_info = "select * from Gn_Member where mem_id='{$userid}'";
-    $res_mem_info = mysql_query($sql_mem_info);
-    $row_mem_info = mysql_fetch_array($res_mem_info);
+    $res_mem_info = mysqli_query($self_con,$sql_mem_info);
+    $row_mem_info = mysqli_fetch_array($res_mem_info);
     
     if($select_service == "Y"){
         $sql_one_type = "select idx, type from gn_mms_callback where service_state=2 and mb_id='{$userid}' and type={$callback_type}";
-        $res_one_type = mysql_query($sql_one_type);
-        $row_one_type = mysql_fetch_array($res_one_type);
+        $res_one_type = mysqli_query($self_con,$sql_one_type);
+        $row_one_type = mysqli_fetch_array($res_one_type);
     
     
         if($callback_type == 1){
@@ -49,7 +49,7 @@ else{
             else{
                 $sql_update = "update Gn_Member set phone_callback={$callback_idx}, phone_callback_state={$callback_type} where mem_id='{$userid}'";
             }
-            mysql_query($sql_update);
+            mysqli_query($self_con,$sql_update);
         }
         if($callback_type == 2){
             if($row_mem_info['phone_callback'] == $callback_idx){
@@ -59,39 +59,39 @@ else{
             else{
                 $sql_update = "update Gn_Member set mun_callback={$callback_idx}, mun_callback_state={$callback_type} where mem_id='{$userid}'";
             }
-            mysql_query($sql_update);
+            mysqli_query($self_con,$sql_update);
         }
     
         if($service_callback == 2){//개인콜백 선택인 경우
             $sql_mms_update = "update gn_mms_callback set type={$callback_type}, regdate=now() where idx={$callback_idx}";
-            mysql_query($sql_mms_update);
+            mysqli_query($self_con,$sql_mms_update);
             if($row_one_type['type'] != ""){
                 if($row_one_type['type'] == $_POST['callback_type']){
                     $sql_update_one = "update gn_mms_callback set type=0 where idx={$row_one_type['idx']}";
-                    mysql_query($sql_update_one);
+                    mysqli_query($self_con,$sql_update_one);
                 }
             }
         }
         else if($service_callback == 1){//분양사콜백 선택인 경우
             $sql_update = "update Gn_Member set mem_callback={$callback_idx} where mem_id='{$userid}'";
-            mysql_query($sql_update);
+            mysqli_query($self_con,$sql_update);
             $sql_mms_update = "update gn_mms_callback set regdate=now() where idx={$callback_idx}";
-            mysql_query($sql_mms_update);
+            mysqli_query($self_con,$sql_mms_update);
             if($row_one_type['type'] != ""){
                 if($row_one_type['type'] == $_POST['callback_type']){
                     $sql_update_one = "update gn_mms_callback set type=0 where idx={$row_one_type['idx']}";
-                    mysql_query($sql_update_one);
+                    mysqli_query($self_con,$sql_update_one);
                 }
             }
         }
         else{//본사콜백인경우
             $sql_mms_update = "update gn_mms_callback set regdate=now() where idx={$callback_idx}";
-            mysql_query($sql_mms_update);
+            mysqli_query($self_con,$sql_mms_update);
     
             if($row_one_type['type'] != ""){
                 if($row_one_type['type'] == $_POST['callback_type']){
                     $sql_update_one = "update gn_mms_callback set type=0 where idx={$row_one_type['idx']}";
-                    mysql_query($sql_update_one);
+                    mysqli_query($self_con,$sql_update_one);
                 }
             }
         }
@@ -101,11 +101,11 @@ else{
     if($select_check_box == "Y"){
         if($check_box_type == 1){
             $sql_update = "update Gn_Member set mem_callback_phone_state={$check_box_val} where mem_id='{$userid}'";
-            mysql_query($sql_update);
+            mysqli_query($self_con,$sql_update);
         }
         else{
             $sql_update = "update Gn_Member set mem_callback_mun_state={$check_box_val} where mem_id='{$userid}'";
-            mysql_query($sql_update);
+            mysqli_query($self_con,$sql_update);
         }
         echo '{"result":"success","token_res":"1"}';
         exit;
@@ -113,13 +113,13 @@ else{
     
     if($delete_msg == "Y"){
         $sql_del = "delete from gn_mms_callback where idx={$callback_idx}";
-        mysql_query($sql_del);
+        mysqli_query($self_con,$sql_del);
         $sql_mms_update = "update gn_mms_callback set regdate=NOW() order by idx asc limit 1";
-        mysql_query($sql_mms_update);
+        mysqli_query($self_con,$sql_mms_update);
     
         $sql_sel_first_main = "select * from gn_mms_callback where service_state=0 order by idx asc limit 1";
-        $res_main = mysql_query($sql_sel_first_main);
-        $row_main = mysql_fetch_array($res_main);
+        $res_main = mysqli_query($self_con,$sql_sel_first_main);
+        $row_main = mysqli_fetch_array($res_main);
         $main_idx = $row_main['idx'];
     
         if($row_mem_info['phone_callback'] == $callback_idx && $row_mem_info['mun_callback'] == $callback_idx){
@@ -141,7 +141,7 @@ else{
                 $sql_update = "update Gn_Member set mun_callback={$main_idx} where mem_id='{$userid}'";
             }
         }
-        mysql_query($sql_update);
+        mysqli_query($self_con,$sql_update);
         echo '{"result":"success","token_res":"1"}';
         exit;
     }
@@ -199,7 +199,7 @@ else{
                 `regdate`    =NOW() 
                 where mb_id='$userid' and idx=$callback_idx
                     ";
-        mysql_query($query);
+        mysqli_query($self_con,$query);
     }
     else{
         $query="insert into gn_mms_callback set 
@@ -211,13 +211,13 @@ else{
         `service_state` = 2,
         `mb_id`      ='$userid'
             ";
-        mysql_query($query);
+        mysqli_query($self_con,$query);
     }
     
     $query2 = "select SQL_CALC_FOUND_ROWS * from gn_mms_callback where service_state=2 and mb_id='$userid'";
-    $res2	    = mysql_query($query2);
+    $res2	    = mysqli_query($self_con,$query2);
     
-    while($rows_mem = mysql_fetch_array($res2))
+    while($rows_mem = mysqli_fetch_array($res2))
     {
         $item['idx'] = $rows_mem['idx'];
         $item['title'] = $rows_mem['title'];
@@ -230,12 +230,12 @@ else{
             if($userid != "")
             {
                 $query = "select mem_code from Gn_Member where mem_id='$userid'";             
-                $res	    = mysql_query($query);
-                $row = mysql_fetch_array($res);
+                $res	    = mysqli_query($self_con,$query);
+                $row = mysqli_fetch_array($res);
                 $mem_code = $row[0];			
                 $query = "select card_short_url from Gn_Iam_Name_Card where group_id is NULL and mem_id='$userid' order by req_data limit 0,1";             
-                $res	    = mysql_query($query);
-                $row = mysql_fetch_array($res);
+                $res	    = mysqli_query($self_con,$query);
+                $row = mysqli_fetch_array($res);
                 $cardlink = $row[0];        
         
                 $item['content'] = $item['content'] . "\r\nhttp://www.kiam.kr/?" . $cardlink . $mem_code;

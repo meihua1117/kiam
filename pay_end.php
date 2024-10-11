@@ -177,9 +177,9 @@ if($_SESSION[form_submit])
 				
 				
 				$sql_num_up="update Gn_MMS_Number set end_status='Y' , end_date=date_add(now(),INTERVAL {$_POST[month_cnt]} month) where end_date = '$_POST[pay_ex_end_date]' and mem_id='$member_1[mem_id]' ";
-				mysql_query($sql_num_up) or die(mysql_error());				
+				mysqli_query($self_con,$sql_num_up) or die(mysqli_error($self_con));				
 				//$sql_back="insert into tjd_pay_result_back (select * from tjd_pay_result where no='{$_POST[pay_ex_no]}' )";
-				//mysql_query($sql_back) or die(mysql_error());
+				//mysqli_query($self_con,$sql_back) or die(mysqli_error($self_con));
 			}
 			else
 			{
@@ -189,8 +189,8 @@ if($_SESSION[form_submit])
 					$sql.=" $key = '$v' , ";
 				}
 				$sql.=" end_date=date_add(now(),INTERVAL {$_POST[month_cnt]} month) , date=now(),add_phone='$_POST[add_phone]' ";
-				mysql_query($sql) or die(mysql_error());
-				$no = mysql_insert_id();
+				mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+				$no = mysqli_insert_id($self_con);
 			}
 			
 			
@@ -199,12 +199,12 @@ if($_SESSION[form_submit])
 			//{
 						
 			$sql_m="update Gn_Member set fujia_date1=now() , fujia_date2=date_add(now(),INTERVAL {$_POST[month_cnt]} month)  where mem_id='$member_1[mem_id]' ";
-			mysql_query($sql_m)or die(mysql_error());
+			mysqli_query($self_con,$sql_m)or die(mysqli_error($self_con));
 			//print_r($_POST);
 			$sql_m="update Gn_Member set   phone_cnt=phone_cnt+'$_POST[add_phone]' where mem_id='$member_1[mem_id]' ";
 			//echo $sql_m;
 			
-			mysql_query($sql_m)or die(mysql_error());			
+			mysqli_query($self_con,$sql_m)or die(mysqli_error($self_con));			
 			
 
             /*
@@ -220,13 +220,13 @@ if($_SESSION[form_submit])
             */
             // 등급에 따른 recommend_type 설정
             $sql="select * from Gn_Member where mem_id='$member_1[mem_id]' ";
-            $sresult=mysql_query($sql)or die(mysql_error());
-            $srow=mysql_fetch_array($sresult);	
+            $sresult=mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
+            $srow=mysqli_fetch_array($sresult);	
 
             
             $sql="select * from crawler_member_real where user_id='$member_1[mem_id]' ";
-            $sresult=mysql_query($sql)or die(mysql_error());
-            $crow=mysql_fetch_array($sresult);	        
+            $sresult=mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
+            $crow=mysqli_fetch_array($sresult);	        
             $user_id=$srow['mem_id'];
             $user_name=$srow['mem_name'];
             $password=$srow['mem_pass'];
@@ -256,7 +256,7 @@ if($_SESSION[form_submit])
                                                     search_email_date='$search_email_date',
                                                     search_email_cnt='$search_email_cnt',
                                                     shopping_end_date='$search_email_date'";
-                 mysql_query($query);
+                 mysqli_query($self_con,$query);
             } else {
                 $query = "update crawler_member_real set 
                                                     cell='$cell',
@@ -276,14 +276,14 @@ if($_SESSION[form_submit])
                                                     status='Y'
                                                     where user_id='$user_id'
                                                     ";
-                 mysql_query($query);                
+                 mysqli_query($self_con,$query);                
             }
              
             // 등급에 따른 recommend_type 설정
             if($srow['recommend_id'] != "") {
                 $sql="select * from Gn_Member where mem_id='$srow[recommend_id]' and service_type > 0";
-                $rresult=mysql_query($sql)or die(mysql_error());
-                $rrow=mysql_fetch_array($rresult);	    	
+                $rresult=mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
+                $rrow=mysqli_fetch_array($rresult);	    	
                 $branch_share_id = "";
                 if($rrow[service_type] > 0) {
                     $addQuery = "";
@@ -293,13 +293,13 @@ if($_SESSION[form_submit])
                     //               left join tjd_pay_result b
                     //                 on a.mem_id = b.buyer_id
                     //              where recommend_id='$srow[recommend_id]' and end_status='Y' $addQuery";
-                    //$rresult=mysql_query($sql)or die(mysql_error());
-                    //$ttrow=mysql_fetch_array($rresult);
+                    //$rresult=mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
+                    //$ttrow=mysqli_fetch_array($rresult);
                     
                     // 추천인의 추천인 검색 및 등급 확인
                     $sql="select * from Gn_Member where mem_id='$rrow[recommend_id]'";
-                    $rresult=mysql_query($sql)or die(mysql_error());
-                    $trow=mysql_fetch_array($rresult);
+                    $rresult=mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
+                    $trow=mysqli_fetch_array($rresult);
                     
                     // 리셀러 / 분양 회원 확인
                     // 리셀러 회원인경우 분양회원 아이디 확인
@@ -319,25 +319,25 @@ if($_SESSION[form_submit])
                      }
                     
                 	$sql_m="update Gn_Member set   recommend_type='$recommend_type' where mem_id='$member_1[mem_id]' ";
-                	mysql_query($sql_m)or die(mysql_error());			
+                	mysqli_query($self_con,$sql_m)or die(mysqli_error($self_con));			
                 	
                 	//$share_per = $recommend_type;
                 	
                 	$sql = "update tjd_pay_result set share_per='$share_per', branch_share_per = '$branch_share_per', share_id='$srow[recommend_id]', branch_share_id='$branch_share_id' where no='$no'";
-                	mysql_query($sql)or die(mysql_error());			
+                	mysqli_query($self_con,$sql)or die(mysqli_error($self_con));			
                 }
                 
             } else {
                 //if($member_type=="기본문자" || $member_type=="Personal-월간결제" || $member_type=="Personal-년간결제") {
                 //	$sql = "update tjd_pay_result set share_per='50', branch_share_per = '0' where no='$no'";
-                //	mysql_query($sql)or die(mysql_error());			        
+                //	mysqli_query($self_con,$sql)or die(mysqli_error($self_con));			        
                 //}
             }
 	}	
 }
 $sql="select * from tjd_pay_result where orderNumber='{$inipay->GetResult('MOID')}' and buyer_id='$member_1[mem_id]' ";
-$resul=mysql_query($sql)or die(mysql_error());
-$row=mysql_fetch_array($resul);	
+$resul=mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
+$row=mysqli_fetch_array($resul);	
 ?>
 <div class="big_main">
 	<div class="big_1">

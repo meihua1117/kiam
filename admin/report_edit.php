@@ -6,12 +6,12 @@ if(isset($_GET["repo"]))
     $repo  = $_GET["repo"];
 if($repo != 0){
     $sql = "select * from gn_report_form where id = $repo";
-    $res = mysql_query($sql);
-    $row_form = mysql_fetch_array($res);
+    $res = mysqli_query($self_con,$sql);
+    $row_form = mysqli_fetch_array($res);
     if($row_form['request_yn'] == 'Y'){
         $erq_sql = "select * from Gn_event_request where request_idx = $row_form[pcode]";
-        $erq_res = mysql_query($erq_sql);
-        $erq_row = mysql_fetch_array($erq_res);
+        $erq_res = mysqli_query($self_con,$erq_sql);
+        $erq_row = mysqli_fetch_array($erq_res);
     }
 }
 ?>
@@ -237,8 +237,8 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
             <label class="title">리포트 포맷 선택</label>
             <?if($repo != 0){
                 $sql = "select * from gn_report_form1 where form_id = $repo order by item_order";
-                $res = mysql_query($sql);
-                while($row = mysql_fetch_array($res)){
+                $res = mysqli_query($self_con,$sql);
+                while($row = mysqli_fetch_array($res)){
                     ?>
                     <div class="form-wrap" data-index="<?=$row['item_order']?>">
                         <input type="radio" name="item_type_<?=$row['item_order']?>"  value="0" onclick="chk_item_type(this,0);" <?=$row['item_type']==0?"checked":"";?>>
@@ -269,8 +269,8 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                         <div class="jesi-content">
                             <?
                             $repo_sql = "select * from gn_report_form2 where form_id=$repo and item_id=$row[id] order by id";
-                            $repo_res = mysql_query($repo_sql);
-                            while($repo_row = mysql_fetch_array($repo_res)){
+                            $repo_res = mysqli_query($self_con,$repo_sql);
+                            while($repo_row = mysqli_fetch_array($repo_res)){
                                 if($row['item_type'] == 0){?>
                                     <div class="attr-row" style="margin-top: 5px">
                                         <div class="attr-value">

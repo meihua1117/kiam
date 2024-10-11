@@ -6,11 +6,11 @@ if(isset($_POST['edit_ev'])){
   $event_id = $_POST['id'];
 
   $sql = "select * from Gn_event where event_idx={$event_id}";
-  $res = mysql_query($sql);
-  while ($row = mysql_fetch_array($res)){
+  $res = mysqli_query($self_con,$sql);
+  while ($row = mysqli_fetch_array($res)){
     $sql_mem_data = "select site from Gn_Member where mem_id='{$row['m_id']}'";
-    $res_mem_data = mysql_query($sql_mem_data);
-    $row_mem_data = mysql_fetch_array($res_mem_data);
+    $res_mem_data = mysqli_query($self_con,$sql_mem_data);
+    $row_mem_data = mysqli_fetch_array($res_mem_data);
     if($row_mem_data['site'] == "kiam"){
       $domain = "http://kiam.kr";
     }
@@ -33,11 +33,11 @@ if(isset($_POST['edit_ev'])){
     // $reply_content[0] = $arr_replay;
   }
   $sql_step = "select a.idx, a.send_num, a.allow_state, a.reserv_sms_id, c.reservation_title from gn_automem_sms_reserv a inner join Gn_event_sms_info c on a.reserv_sms_id=c.sms_idx where a.auto_event_id={$event_id} order by a.idx desc limit 1";
-  $res_step = mysql_query($sql_step);
-  while ($row_step = mysql_fetch_array($res_step)){
+  $res_step = mysqli_query($self_con,$sql_step);
+  while ($row_step = mysqli_fetch_array($res_step)){
     $sql_step_info = "select MAX(step) as step from Gn_event_sms_step_info where sms_idx={$row_step['reserv_sms_id']}";
-    $res_step_info = mysql_query($sql_step_info);
-    $row_step_info = mysql_fetch_array($res_step_info);
+    $res_step_info = mysqli_query($self_con,$sql_step_info);
+    $row_step_info = mysqli_fetch_array($res_step_info);
     $arr_replay['send_num'] = $row_step['send_num'];
     $arr_replay['step_allow_state'] = $row_step['allow_state'];
     $arr_replay['reserv_sms_id'] = $row_step['reserv_sms_id'];
@@ -77,7 +77,7 @@ else if(isset($_POST['save'])){
   $sql_update = "update Gn_event set event_title='{$event_title}', event_desc='{$event_desc}', event_info='{$card_short_url}', event_type='{$btn_title}', event_sms_desc='{$btn_link}', short_url='{$short_url}', read_cnt={$read_cnt},".$addQuery." regdate=now(), event_req_link='{$event_req_link}' where event_idx={$event_idx}";
 
   // echo $sql_update; exit;
-  mysql_query($sql_update);
+  mysqli_query($self_con,$sql_update);
   if($location_iam){
     echo "<script>alert('수정되었습니다.');location.href='/';</script>";
   }
@@ -98,14 +98,14 @@ else if(isset($_POST['del'])){
 
   for($i = 0; $i < count($id_arr); $i++){
     $sql_del = "delete from Gn_event where event_idx={$id_arr[$i]}";
-    mysql_query($sql_del);
+    mysqli_query($self_con,$sql_del);
   
     $sql_chk = "select count(idx) as cnt from gn_automem_sms_reserv where auto_event_id={$id_arr[$i]}";
-    $res_cnt = mysql_query($sql_chk);
-    $cnt = mysql_fetch_array($res_cnt);
+    $res_cnt = mysqli_query($self_con,$sql_chk);
+    $cnt = mysqli_fetch_array($res_cnt);
     if($cnt['cnt'] != 0){
       $sql_del = "delete from gn_automem_sms_reserv where auto_event_id={$id_arr[$i]}";
-      mysql_query($sql_del);
+      mysqli_query($self_con,$sql_del);
     }
   }
   echo 1;
@@ -126,13 +126,13 @@ else if(isset($_POST['search'])){
 
   $sql = "select * from Gn_event where event_name_kor='단체회원자동가입및아이엠카드생성' and m_id='{$ID}'".$searchstr . " order by regdate desc";
   // echo $sql; exit;
-  $res = mysql_query($sql);
+  $res = mysqli_query($self_con,$sql);
   $i = 0;
-  while($row = mysql_fetch_array($res)){
+  while($row = mysqli_fetch_array($res)){
     $pop_url = '/event/automember.php?pcode='.$row['pcode'].'&eventidx='.$row['event_idx'];
     $id_sql = "select count(event_id) as cnt from Gn_Member where event_id={$row['event_idx']} and mem_type='A'";
-    $res_id = mysql_query($id_sql);
-    $row_id = mysql_fetch_array($res_id);
+    $res_id = mysqli_query($self_con,$id_sql);
+    $row_id = mysqli_fetch_array($res_id);
     if($row_id['cnt'] != null){
         $cnt_join = $row_id['cnt'];
     }
@@ -141,8 +141,8 @@ else if(isset($_POST['search'])){
     }
     $i++;
     $sql_service = "select auto_join_event_idx from Gn_Iam_Service where mem_id='{$row['m_id']}'";
-    $res_service = mysql_query($sql_service);
-    $row_service = mysql_fetch_array($res_service);
+    $res_service = mysqli_query($self_con,$sql_service);
+    $row_service = mysqli_fetch_array($res_service);
     if($row["event_idx"] == $row_service['auto_join_event_idx']){
         $checked_auto = "checked";
     }else{
@@ -177,7 +177,7 @@ else if(isset($_POST['update_state'])){
   $id = $_POST['id'];
   $status = $_POST['status'];
   $sql_update = "update gn_automem_sms_reserv set allow_state={$status} where idx={$id}";
-  mysql_query($sql_update);
+  mysqli_query($self_con,$sql_update);
   echo 1;
 }
 else if(isset($_POST['update_join_state'])){
@@ -190,7 +190,7 @@ else if(isset($_POST['update_join_state'])){
     $id = 0;
   }
   $sql_update = "update Gn_Iam_Service set auto_join_event_idx={$id} where mem_id='{$mem_id}'";
-  mysql_query($sql_update);
+  mysqli_query($self_con,$sql_update);
   echo 1;
 }
 else if(isset($_POST['duplicate_msg'])){
@@ -200,14 +200,14 @@ else if(isset($_POST['duplicate_msg'])){
     $id = $_POST['id'];
 
     $sql_update = "update Gn_Iam_Service set auto_join_event_idx={$id} where mem_id='{$mem_id}'";
-    mysql_query($sql_update);
+    mysqli_query($self_con,$sql_update);
     
     $sql_service_ids = "select mem_id, main_domain from Gn_Iam_Service where mem_id!='iam1' order by idx asc";
-    $res_service_ids = mysql_query($sql_service_ids);
-    while($row_servicee_ids = mysql_fetch_array($res_service_ids)){
+    $res_service_ids = mysqli_query($self_con,$sql_service_ids);
+    while($row_servicee_ids = mysqli_fetch_array($res_service_ids)){
       $sql_mem_data = "select mem_phone from Gn_Member where mem_id='{$row_servicee_ids[mem_id]}'";
-      $res_mem_data = mysql_query($sql_mem_data);
-      $row_mem_data = mysql_fetch_array($res_mem_data);
+      $res_mem_data = mysqli_query($self_con,$sql_mem_data);
+      $row_mem_data = mysqli_fetch_array($res_mem_data);
       if($row_mem_data['mem_phone'] != ""){
         $rand_num = rand(100, 999);
         $cur_time1 = date("YmdHis");
@@ -216,13 +216,13 @@ else if(isset($_POST['duplicate_msg'])){
   
         $sql_dup_event = "INSERT INTO Gn_event(event_name_kor, event_name_eng, event_title, event_desc, event_info, event_sms_desc, pcode, event_type, mobile, regdate, ip_addr, m_id, short_url, read_cnt, cnt, object, callback_no, event_req_link, daily_req_link) 
         (SELECT event_name_kor, '{$event_name_eng}', event_title, event_desc, '', event_sms_desc, '{$pcode}', event_type, '{$row_mem_data[mem_phone]}', now(), ip_addr, '{$row_servicee_ids[mem_id]}', '', 0, cnt, object, callback_no, event_req_link, daily_req_link FROM Gn_event WHERE event_idx='{$id}')";
-        mysql_query($sql_dup_event) or die(mysql_error());
-        $event_idx = mysql_insert_id();
+        mysqli_query($self_con,$sql_dup_event) or die(mysqli_error($self_con));
+        $event_idx = mysqli_insert_id($self_con);
   
         $transUrl = $row_servicee_ids['main_domain']."/event/automember.php?pcode=".$pcode."&eventidx=".$event_idx;
         $transUrl = get_short_url($transUrl);
         $insert_short_url = "update Gn_event set short_url='{$transUrl}' where event_idx={$event_idx}";
-        mysql_query($insert_short_url) or die(mysql_error());
+        mysqli_query($self_con,$insert_short_url) or die(mysqli_error($self_con));
       }
     }
   }
@@ -231,11 +231,11 @@ else if(isset($_POST['duplicate_msg'])){
 else if(isset($_POST['edit_step'])){
   if($type == "updat"){
     $sql_update = "update gn_automem_sms_reserv set reserv_sms_id={$sms_idx}, send_num='{$mobile}', regdate=now() where auto_event_id={$event_idx}";
-    mysql_query($sql_update);
+    mysqli_query($self_con,$sql_update);
   }
   else{
     $sql_insert = "insert into gn_automem_sms_reserv set auto_event_id={$event_idx}, reserv_sms_id={$sms_idx}, send_num='{$mobile}', regdate=now()";
-    mysql_query($sql_insert);
+    mysqli_query($self_con,$sql_insert);
   }
 
   echo 1;

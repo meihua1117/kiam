@@ -145,8 +145,8 @@ $date_today=date("Y-m-d");
                                 $order = $order?$order:"desc";
                                 // $query = "select a.get_cnt, a.web_type, b.*, d.recommend_id, d.site from crawler_iam_info a INNER JOIN Gn_Iam_Name_Card b on a.iam_link=b.card_short_url inner join Gn_Member d on a.mem_id=d.mem_id where 1=1 $searchStr";
                                 $query = "select * from crawler_iam_info where 1=1 $searchStr";
-                                $res	    = mysql_query($query);
-                                $totalCnt	=  mysql_num_rows($res);
+                                $res	    = mysqli_query($self_con,$query);
+                                $totalCnt	=  mysqli_num_rows($res);
                                 $limitStr   = " LIMIT ".(($startPage-1)*$pageCnt).", ".$pageCnt;
                                 $number		= $totalCnt - ($nowPage - 1) * $pageCnt;
                                 $i = 1;
@@ -155,16 +155,16 @@ $date_today=date("Y-m-d");
                                 $excel_sql = $query;
                                 $query .= "$limitStr";
                                 // echo $query; exit;
-                                $res = mysql_query($query);
-                                while($row=mysql_fetch_array($res)){
+                                $res = mysqli_query($self_con,$query);
+                                while($row=mysqli_fetch_array($res)){
                                     $mem_sql = "select mem_code, recommend_id, site from Gn_Member where mem_id='$row[mem_id]'";
-                                    $mem_res = mysql_query($mem_sql);
-                                    $mem_row = mysql_fetch_array($mem_res);
+                                    $mem_res = mysqli_query($self_con,$mem_sql);
+                                    $mem_row = mysqli_fetch_array($mem_res);
                                     $no++;
 
                                     $sql_card = "select card_name, main_img1, card_phone, card_company, card_addr, card_short_url, req_data from Gn_Iam_Name_Card where card_short_url='{$row[iam_link]}'";
-                                    $res_card = mysql_query($sql_card);
-                                    $row_card = mysql_fetch_array($res_card);
+                                    $res_card = mysqli_query($self_con,$sql_card);
+                                    $row_card = mysqli_fetch_array($res_card);
                                 ?>
                                 <tr>
                                     <td><?=$no?></td>

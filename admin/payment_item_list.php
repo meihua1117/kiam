@@ -255,18 +255,18 @@ $date_today=date("Y-m-d");
                                 $query = "SELECT SQL_CALC_FOUND_ROWS * FROM Gn_Item_Pay_Result a WHERE (a.point_val=0 or (a.point_val=1 and a.site is not null and a.type='servicebuy')) and gwc_cont_pay=0 $searchStr";
                                 $excel_sql=$query;
                                 $excel_sql=str_replace("'","`",$excel_sql);
-                                $res	    = mysql_query($query);
-                                $totalCnt	=  mysql_num_rows($res);
+                                $res	    = mysqli_query($self_con,$query);
+                                $totalCnt	=  mysqli_num_rows($res);
                                 $limitStr       = " LIMIT ".(($startPage-1)*$pageCnt).", ".$pageCnt;
                                 $number			= $totalCnt - ($nowPage - 1) * $pageCnt;
                                 $orderQuery .= " ORDER BY a.no DESC $limitStr ";
                                 $i = 1;
                                 $query .= "$orderQuery";
-                                $res = mysql_query($query);
-                                while($row = mysql_fetch_array($res)) {
+                                $res = mysqli_query($self_con,$query);
+                                while($row = mysqli_fetch_array($res)) {
                                     $sql_mem_data = "select mem_id, site, recommend_id, mem_name, mem_phone,site_iam from Gn_Member where mem_id='{$row[buyer_id]}'";
-                                    $res_mem_data = mysql_query($sql_mem_data);
-                                    $row_mem_data = mysql_fetch_array($res_mem_data);
+                                    $res_mem_data = mysqli_query($self_con,$sql_mem_data);
+                                    $row_mem_data = mysqli_fetch_array($res_mem_data);
                                     if($row['pay_method'] == "CARD" || $row['pay_method'] == "BANK"){
                                         $pay_method = $pay_type[$row['pay_method']];
                                     }

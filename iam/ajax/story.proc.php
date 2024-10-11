@@ -40,7 +40,7 @@ if(!$card_idx) {
 }
 $sql2="update Gn_Iam_Name_Card set story_title1 = '$story_title1', story_title2 = '$story_title2', story_title3 = '$story_title3', story_myinfo = '$story_myinfo',".
     " story_company = '$story_company', story_career = '$story_career',up_data=now() where idx = '$card_idx' and mem_id = '$mem_id'";
-$result2 = mysql_query($sql2) or die(mysql_error());
+$result2 = mysqli_query($self_con,$sql2) or die(mysqli_error($self_con));
 echo '스토리 등록이 완료 되었습니다.';
 // echo '{"result":"success","msg":"'.$img_url1.'|'.$img_url2.'|'.$img_url3.'|'.$img_url4.'"}';
 exit;

@@ -9,6 +9,6 @@ if($_POST[recv_num] && $_POST[grp_id])
 	$recv_num = "'".implode("','", $num_a)."'";
 	
 	$sql="delete from Gn_MMS_Receive where  mem_id ='$_SESSION[one_member_id]' and grp_id = '$_POST[grp_id]' and recv_num in ($recv_num) ";
-	mysql_query($sql);
+	mysqli_query($self_con,$sql);
 }
 ?>

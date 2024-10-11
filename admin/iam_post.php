@@ -256,15 +256,15 @@ $path="./";
                                 $query = "SELECT SQL_CALC_FOUND_ROWS p.*,m.mem_name,mem_phone,cont.idx,cont.contents_title ,cont.westory_card_url,site_iam from Gn_Iam_Contents cont inner join Gn_Iam_Post p on p.content_idx = cont.idx inner join Gn_Member m on m.mem_id = p.mem_id where p.type=0 and lock_status='N' $searchStr";
                                 $excel_sql=$query;
                                 $excel_sql=str_replace("'","`",$excel_sql);
-                                $res	    = mysql_query($query);
-                                $totalCnt	=  mysql_num_rows($res);
+                                $res	    = mysqli_query($self_con,$query);
+                                $totalCnt	=  mysqli_num_rows($res);
                                 $limitStr       = " LIMIT ".(($startPage-1)*$pageCnt).", ".$pageCnt;
                                 $number			= $totalCnt - ($nowPage - 1) * $pageCnt;
                                 $orderQuery .= " ORDER BY reg_date DESC $limitStr ";
                                 $i = 0;
                                 $query .= $orderQuery;
-                                $res = mysql_query($query);
-                                while($row = mysql_fetch_array($res)) {
+                                $res = mysqli_query($self_con,$query);
+                                while($row = mysqli_fetch_array($res)) {
                                 ?>
                                     <tr>
                                         <td>
@@ -284,8 +284,8 @@ $path="./";
                                         <td><?=$row['reg_date']?></td>
                                         <?
                                             $reply_sql = "select count(*) from Gn_Iam_Post_Response where post_idx = '$row[id]'";
-                                            $reply_res = mysql_query($reply_sql);
-                                            $reply_row = mysql_fetch_array($reply_res);
+                                            $reply_res = mysqli_query($self_con,$reply_sql);
+                                            $reply_row = mysqli_fetch_array($reply_res);
                                         ?>
                                         <td>
                                             <a href = "<?='iam_post_reply.php?post_idx='.$row[id]?>"><?=$reply_row[0]."건"?></a>

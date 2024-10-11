@@ -5,8 +5,8 @@ ini_set('memory_limit','4500M');
 if(strlen($_SESSION[one_member_id]) > 0) {
 	$excel_sql=$_POST['excel_sql'];
 	$excel_sql=str_replace("`","'",$excel_sql);
-    $result = mysql_query($excel_sql) or die(mysql_error());
-    $totalCnt = mysql_num_rows($result);
+    $result = mysqli_query($self_con,$excel_sql) or die(mysqli_error($self_con));
+    $totalCnt = mysqli_num_rows($result);
     $number			= $totalCnt;
     require_once("Classes/PHPExcel.php");
     $objPHPExcel = new PHPExcel();
@@ -51,15 +51,15 @@ if(strlen($_SESSION[one_member_id]) > 0) {
 		->setCellValue("AA1", "운송장번호")
 		->setCellValue("AB1", "주문변겅");
 	$h=2;
-    while($row=mysql_fetch_array($result)){
+    while($row=mysqli_fetch_array($result)){
 		$sql_mem = "select recommend_id from Gn_Member where mem_id='{$row['buyer_id']}'";
-		$res_mem = mysql_query($sql_mem);
-		$row_mem = mysql_fetch_array($res_mem);
+		$res_mem = mysqli_query($self_con,$sql_mem);
+		$row_mem = mysqli_fetch_array($res_mem);
 		$recommend_id = $row_mem['recommend_id'];
 
 		$sql_order = "select * from Gn_Gwc_Order where tjd_idx='{$row[no]}'";
-		$res_order = mysql_query($sql_order);
-		$row_order = mysql_fetch_array($res_order);
+		$res_order = mysqli_query($self_con,$sql_order);
+		$row_order = mysqli_fetch_array($res_order);
 
 		if($row['yutong_name'] == 1){
 			$gong = "";
@@ -70,18 +70,18 @@ if(strlen($_SESSION[one_member_id]) > 0) {
 			$yt_name = "온리원";
 		}
 		$sql_seller = "select mem_name from Gn_Member where mem_id='{$row[seller_id]}'";
-		$res_seller = mysql_query($sql_seller);
-		$row_seller = mysql_fetch_array($res_seller);
+		$res_seller = mysqli_query($self_con,$sql_seller);
+		$row_seller = mysqli_fetch_array($res_seller);
 		$seller_data = $row_seller[0]."/\n".$row[seller_id];
 
 		$sql_recommend = "select mem_name from Gn_Member where mem_id='{$recommend_id}'";
-		$res_recommend = mysql_query($sql_recommend);
-		$row_recommend = mysql_fetch_array($res_recommend);
+		$res_recommend = mysqli_query($self_con,$sql_recommend);
+		$row_recommend = mysqli_fetch_array($res_recommend);
 		$recommend_data = $row_recommend[0]."/\n".$recommend_id;
 
 		$sql_cont_data = "select idx, contents_sell_price, send_provide_price, send_salary_price, contents_img, product_code from Gn_Iam_Contents_Gwc where idx='{$row_order[contents_idx]}'";
-		$res_cont_data = mysql_query($sql_cont_data);
-		$row_cont_data = mysql_fetch_array($res_cont_data);
+		$res_cont_data = mysqli_query($self_con,$sql_cont_data);
+		$row_cont_data = mysqli_fetch_array($res_cont_data);
 		$price_data = $row_cont_data[contents_sell_price]."/\n".$row_cont_data[send_provide_price];
 
 		$price_data1 = ($row_cont_data[contents_sell_price] * 1) * ($row_order['contents_cnt'] * 1)."/\n".$row_cont_data[send_salary_price];
@@ -95,8 +95,8 @@ if(strlen($_SESSION[one_member_id]) > 0) {
 		}
 
 		$sql_order_point = "select use_point from Gn_Gwc_Order where tjd_idx='{$row[no]}'";
-		$res_order_point = mysql_query($sql_order_point);
-		$row_order_point = mysql_fetch_array($res_order_point);
+		$res_order_point = mysqli_query($self_con,$sql_order_point);
+		$row_order_point = mysqli_fetch_array($res_order_point);
 
 		$price_data2 = $row_order_point[0]."/\n".($row[TotPrice] * 1 - $row_order_point[0] * 1);
 
@@ -110,23 +110,23 @@ if(strlen($_SESSION[one_member_id]) > 0) {
 		}
 
 		$sql_item_cnt_month = "select SUM(contents_cnt) as month_cnt from Gn_Gwc_Order where contents_idx='{$row_cont_data[idx]}' and reg_date > '{$date_today}' and page_type=0";
-		$res_item_cnt_month = mysql_query($sql_item_cnt_month);
-		$row_item_cnt_month = mysql_fetch_array($res_item_cnt_month);
+		$res_item_cnt_month = mysqli_query($self_con,$sql_item_cnt_month);
+		$row_item_cnt_month = mysqli_fetch_array($res_item_cnt_month);
 
 		$sql_item_cnt_all = "select SUM(contents_cnt) as all_cnt from Gn_Gwc_Order where contents_idx='{$row_cont_data[idx]}' and page_type=0";
-		$res_item_cnt_all = mysql_query($sql_item_cnt_all);
-		$row_item_cnt_all = mysql_fetch_array($res_item_cnt_all);
+		$res_item_cnt_all = mysqli_query($self_con,$sql_item_cnt_all);
+		$row_item_cnt_all = mysqli_fetch_array($res_item_cnt_all);
 
 		$month_cnt = $row_item_cnt_month[0]?$row_item_cnt_month[0]:"0";
 		$cnt_data = $month_cnt."/\n".$row_item_cnt_all[0];
 
 		$sql_price_month = "select SUM(TotPrice) as month_price from tjd_pay_result where gwc_cont_pay=1 and date > '{$date_today}' and buyer_id='{$row['buyer_id']}' and end_status='Y'";
-		$res_price_month = mysql_query($sql_price_month);
-		$row_price_month = mysql_fetch_array($res_price_month);
+		$res_price_month = mysqli_query($self_con,$sql_price_month);
+		$row_price_month = mysqli_fetch_array($res_price_month);
 
 		$sql_price_all = "select SUM(TotPrice) as all_price from tjd_pay_result where gwc_cont_pay=1 and buyer_id='{$row['buyer_id']}' and end_status='Y'";
-		$res_price_all = mysql_query($sql_price_all);
-		$row_price_all = mysql_fetch_array($res_price_all);
+		$res_price_all = mysqli_query($self_con,$sql_price_all);
+		$row_price_all = mysqli_fetch_array($res_price_all);
 
 		$month_money = $row_price_month[0]?$row_price_month[0]:"0";
 		$money_data = $month_money."/\n".$row_price_all[0];
@@ -150,8 +150,8 @@ if(strlen($_SESSION[one_member_id]) > 0) {
 
 		if($row_order[delivery]){
 			$sql_delivery = "select * from delivery_list where id='{$row_order[delivery]}'";
-			$res_delivery = mysql_query($sql_delivery);
-			$row_delivery = mysql_fetch_array($res_delivery);
+			$res_delivery = mysqli_query($self_con,$sql_delivery);
+			$row_delivery = mysqli_fetch_array($res_delivery);
 			$del_name = $row_delivery[delivery_name];
 		}
 		else{

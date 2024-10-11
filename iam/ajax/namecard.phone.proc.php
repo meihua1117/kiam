@@ -13,8 +13,8 @@ if($mode == "send_sms") {
         $rphone = $_POST['rphone'];
         // = "010-8825-4394";
         $sql="select * from Gn_Member where mem_phone='$rphone'";
-        $result = mysql_query($sql) or die(mysql_error());
-        $data = $row=mysql_fetch_array($result);
+        $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+        $data = $row=mysqli_fetch_array($result);
         // if($data[mem_phone] != "") {
         //     echo '{"result":"fail","msg":"이미 가입된 핸드폰이 있습니다. 관리자에 문의하세요."}';
         //     exit;
@@ -22,28 +22,28 @@ if($mode == "send_sms") {
         $rand_num = sprintf('%06d',rand(000000,999999));
 
         $sql="select count(*) cnt from Gn_Member_Check_Sms where mem_phone='$rphone' and date_format(regdate, '%Y-%m-%d' )=curdate() ";
-        $result = mysql_query($sql) or die(mysql_error());
-        $data = $row=mysql_fetch_array($result);
+        $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+        $data = $row=mysqli_fetch_array($result);
         if($data[cnt] >=5) {
             echo '{"result":"fail","msg":"1일 5번까지 인증이 가능합니다.."}';
             exit;
         }
 
         $sql="select * from Gn_Member_Check_Sms where mem_phone='$rphone' order by idx desc";
-        $result = mysql_query($sql) or die(mysql_error());
-        $data = $row=mysql_fetch_array($result);
+        $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+        $data = $row=mysqli_fetch_array($result);
 
         $sql="update Gn_Member_Check_Sms set status='N' where mem_phone='$rphone'";
-        $result = mysql_query($sql) or die(mysql_error());
+        $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 
         $sql="insert into Gn_Member_Check_Sms set mem_phone='$rphone', secret_key='$rand_num', regdate= NOW()";
-        $result = mysql_query($sql) or die(mysql_error());
+        $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 
         $data = "";
 
         $conf_sql = "select web_phone from gn_conf";
-        $conf_result = mysql_query($conf_sql);
-        $conf_row = mysql_fetch_array($conf_result);
+        $conf_result = mysqli_query($self_con,$conf_sql);
+        $conf_row = mysqli_fetch_array($conf_result);
         $sphone1 = substr($conf_row[0], 0, 3);
         $sphone2 = substr($conf_row[0], 3, 4);
         $sphone3 = substr($conf_row[0], 7, 4);
@@ -155,8 +155,8 @@ if($mode == "send_sms") {
         exit;
 } else if($mode == "check_sms") {
         $sql="select * from Gn_Member_Check_Sms where mem_phone='$rphone' order by idx desc";
-        $result = mysql_query($sql) or die(mysql_error());
-        $data = $row=mysql_fetch_array($result);
+        $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+        $data = $row=mysqli_fetch_array($result);
 
         if($data[secret_key] == $rnum) {
             echo '{"result":"success","msg":"인증되었습니다."}';

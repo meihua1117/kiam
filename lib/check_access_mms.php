@@ -14,18 +14,18 @@ $pasttime = date("Y-m-d H:i:s", strtotime("-1 second"));
 // $comp_ip_ = trim($comp_ip1[0]).".".trim($comp_ip1[1]).".".trim($comp_ip1[2]);
 
 $query = "select ip from gn_block_ip where ip='$ip'";
-$res = mysql_query($query);
-$row = mysql_fetch_array($res);
+$res = mysqli_query($self_con,$query);
+$row = mysqli_fetch_array($res);
 if($row[0] != "")
     exit;
 //로그인 이력에 없으면 아이피 차단
 /*$sql_chk = "select count(*) as cnt from gn_hist_login where ip='{$ip}' and success='Y'";
-$res_chk = mysql_query($sql_chk);
-$row_chk = mysql_fetch_array($res_chk);
+$res_chk = mysqli_query($self_con,$sql_chk);
+$row_chk = mysqli_fetch_array($res_chk);
 if(!$row_chk[0]){
     // if(!in_array($comp_ip, $ignore_arr) && !in_array($comp_ip_, $ignore_arr1)){
         $query = "insert into gn_block_ip (ip, type) values('$ip', 2)";
-        $res = mysql_query($query);
+        $res = mysqli_query($self_con,$query);
     // }
 }*/
     
@@ -39,7 +39,7 @@ if(strpos($url, "obmms.net") !== false || $url[0] == '/')
                 url='$url',
                 regdate='$curtime'
             ";
-    mysql_query($query);
+    mysqli_query($self_con,$query);
 }
 
 

@@ -36,8 +36,8 @@ $uploadVideo = $uploaddir.basename($date_video_name);
 if($mode == "up") {
   //Julian added
   $sql_1 = "select * from Gn_Iam_Name_Card where idx = '$_POST[name_card_idx]'";
-  $result_1=mysql_query($sql_1);
-  $cardInfo=mysql_fetch_array($result_1);
+  $result_1=mysqli_query($self_con,$sql_1);
+  $cardInfo=mysqli_fetch_array($result_1);
   $img_url1 = $cardInfo['main_img1'];
   $img_url2 = $cardInfo['main_img2'];
   $img_url3 = $cardInfo['main_img3'];
@@ -75,17 +75,17 @@ if($mode == "up") {
   }
   if(!empty($_POST['name_card_idx']) && $_POST['name_card_idx'] != 0){
     $sql_chk = "select idx from Gn_Iam_Name_Card where share_send_card='{$_POST['name_card_idx']}'";
-    $res_chk = mysql_query($sql_chk);
-    $cnt_chk = mysql_num_rows($res_chk);
+    $res_chk = mysqli_query($self_con,$sql_chk);
+    $cnt_chk = mysqli_num_rows($res_chk);
     if($cnt_chk){
-	while($row_chk = mysql_fetch_array($res_chk)){
+	while($row_chk = mysqli_fetch_array($res_chk)){
     	    $sql_new = "update Gn_Iam_Name_Card set main_img1 = '$img_url1', main_img2 = '$img_url2', main_img3 = '$img_url3',video = '$video_link',up_data=now() where idx = '$row_chk[idx]'";
-    	    mysql_query($sql_new) or die(mysql_error());
+    	    mysqli_query($self_con,$sql_new) or die(mysqli_error($self_con));
 	}
     }
   }
   $sql_new = "update Gn_Iam_Name_Card set main_img1 = '$img_url1', main_img2 = '$img_url2', main_img3 = '$img_url3',video = '$video_link',up_data=now() where idx = '$_POST[name_card_idx]'";
-  mysql_query($sql_new) or die(mysql_error());
+  mysqli_query($self_con,$sql_new) or die(mysqli_error($self_con));
   echo "$_POST[name_card_idx]"." - Gn_Iam_Name_Card is changed.";
   exit;
 } else if($mode=="del"){
@@ -101,12 +101,12 @@ if($mode == "up") {
     $sql="update Gn_Iam_Name_Card set video = '', up_data = now() where idx = '$_POST[name_card_idx]'";
     $msg = '영상슬라이드가 삭제 되었습니다.';
   }
-  $result = mysql_query($sql) or die(mysql_error());
+  $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
   echo $msg;
   exit;
 } else if($mode=="slide"){
   $sql = "update Gn_Iam_Name_Card set video_status = '{$_POST['status']}', up_data = now() where idx = '$_POST[name_card_idx]'";
-  $result = mysql_query($sql) or die(mysql_error());
+  $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
   echo "success";
   exit;
 }
