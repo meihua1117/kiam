@@ -1885,7 +1885,7 @@ else if($mode == "create_coaching_info") {
         //시작시간
         $insert_start_date = $row[start_date];
         //끝시간
-        $insert_end_date = $row[end_date];
+        $insert_end_date = $row['end_date'];
     }
     //코칭날자
     if($insert_end_date < $insert_coaching_date){
@@ -2078,13 +2078,13 @@ else if($mode == "read_coaching_apply") {
 
     if($currentTime < $coaching_info_data[start_date]){
         $coaching_status = "대기";
-    }else if($currentTime > $coaching_info_data[start_date] && $currentTime < $coaching_info_data[end_date]){
+    }else if($currentTime > $coaching_info_data[start_date] && $currentTime < $coaching_info_data['end_date']){
         $coaching_status = "진행중";
     }
-    else if($currentTime > $coaching_info_data[end_date]){
+    else if($currentTime > $coaching_info_data['end_date']){
         $coaching_status = "종료";
     }
-    if(!$coaching_info_data[end_date]){
+    if(!$coaching_info_data['end_date']){
         $coaching_status = "대기";
     }
     $sql = "select count(*) as cnt from gn_coaching_info where coty_id='".$coty_id."' and coach_id='".$coach_id."' ";

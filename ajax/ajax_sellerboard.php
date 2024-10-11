@@ -1026,7 +1026,7 @@ if($_POST[num_check_go])
     				$sql_check_s="select no,status from tjd_mms_cnt_check where mem_id='{$_SESSION['one_member_id']}' and sendnum='$sendnum[$j]' and date=curdate() ";
     				$resul_check_s=mysqli_query($self_con,$sql_check_s);
     				$row_check_s=mysqli_fetch_array($resul_check_s);
-    				if($row_check_s[no]) { //tjd_mms_cnt_check에 자료 있으면 : 오늘 보낸 적 있음
+    				if($row_check_s['no']) { //tjd_mms_cnt_check에 자료 있으면 : 오늘 보낸 적 있음
     				    if($row_check_s[status]=="N") { //200미만 건 발송 이력 있음
     					    // Cooper Add  2016-05-08
     					    if($this_time_send >= 200) {
@@ -1045,7 +1045,7 @@ if($_POST[num_check_go])
     				$sql_check_s="select no,status from tjd_mms_cnt_check where mem_id='{$_SESSION['one_member_id']}' and sendnum='$sendnum[$j]' and date=curdate() ";
     				$resul_check_s=mysqli_query($self_con,$sql_check_s);
     				$row_check_s=mysqli_fetch_array($resul_check_s);
-    				if($row_check_s[no]) { //tjd_mms_cnt_check에 자료 있으면 : 오늘 보낸 적 있음
+    				if($row_check_s['no']) { //tjd_mms_cnt_check에 자료 있으면 : 오늘 보낸 적 있음
     				    if($row_check_s[status]=="N") { //200미만 건 발송 이력 있음
     					    // Cooper Add  2016-05-08
     					    if($this_time_send >= 200) {
@@ -1194,7 +1194,7 @@ if($_POST[num_check_go])
 				$sql_check_s="select no,status from tjd_mms_cnt_check where mem_id='{$_SESSION['one_member_id']}' and sendnum='$sendnum[$j]' and date=curdate() ";
 				$resul_check_s=mysqli_query($self_con,$sql_check_s);
 				$row_check_s=mysqli_fetch_array($resul_check_s);
-				if($row_check_s[no]) { //tjd_mms_cnt_check에 자료 있으면 : 오늘 보낸 적 있음
+				if($row_check_s['no']) { //tjd_mms_cnt_check에 자료 있으면 : 오늘 보낸 적 있음
 				    if($row_check_s[status]=="N") { //200미만 건 발송 이력 있음
 					    // Cooper Add  2016-05-08
 							$cntYN_log_arr[$j] = count($send_num_list[$sendnum[$j]]); //2016-05-08 추가
@@ -2331,7 +2331,7 @@ if($_POST[board_save_title] && ($_POST[board_save_content] || $_POST[board_save_
 	$board_info[important_yn]=$_POST[board_save_important_yn];
 	$board_info[display_yn]=$_POST[board_save_display_yn];
 	$board_info[start_date]=$_POST[board_save_start_date];
-	$board_info[end_date]=$_POST[board_save_end_date];
+	$board_info['end_date']=$_POST[board_save_end_date];
 	
 	if($_POST[board_save_no])
 	$sql="update tjd_sellerboard set ";
@@ -2563,7 +2563,7 @@ if($_POST[pay_go_mid] && $_POST[pay_go_goodname])
 	$orderNumber=$member_1['mem_code']."_".date("ymdhis");
 	$_SESSION[total_price]=$price;
 	$_SESSION[phone_cnt]=$_POST[pay_go_add_phone];
-	$_SESSION[month_cnt]=$_POST[pay_go_month_cnt];
+	$_SESSION['month_cnt']=$_POST[pay_go_month_cnt];
 	$_SESSION[fujia_status]=$_POST[pay_go_fujia_status];
 	$_SESSION[orderNumber]=$orderNumber;	
 	$cardNoInterestQuota = "11-2:3:,34-5:12,14-6:12:24,12-12:36,06-9:12,01-3:4";  // 카드 무이자 여부 설정(가맹점에서 직접 설정)
@@ -2633,7 +2633,7 @@ if($_POST[pay_cancel_no] && $_POST[pay_cancel_paymethod])
 					$sql_m="update Gn_Member set fujia_date1='' , fujia_date2='' where mem_id='{$member_1['mem_id']}' ";
 					mysqli_query($self_con,$sql_m)or die(mysqli_error($self_con));	
 				}				
-				$pay_info[end_status]="C";				
+				$pay_info['end_status']="C";				
 				$pay_info[cancel_ResultCode]=$inipay->GetResult('ResultCode');//취소코드
 				$pay_info[cancel_ResultMsg]=iconv("euc-kr","utf-8",$inipay->GetResult('ResultMsg'));//취소메시지
 				$pay_info[cancel_CancelDate]=$inipay->GetResult('CancelDate');//취소일
@@ -2689,7 +2689,7 @@ if($_POST[pay_cancel_no] && $_POST[pay_cancel_paymethod])
 					$sql_m="update Gn_Member set fujia_date1='' , fujia_date2='' where mem_id='{$member_1['mem_id']}' ";
 					mysqli_query($self_con,$sql_m)or die(mysqli_error($self_con));	
 				}				
-				$pay_info[end_status]="C";				
+				$pay_info['end_status']="C";				
 				$pay_info[cancel_ResultCode]=$inipay->m_resultCode;//취소코드
 				$pay_info[cancel_ResultMsg]=iconv("euc-kr","utf-8",$inipay->m_resultMsg);//취소메시지
 				$pay_info[cancel_CancelDate]=$inipay->m_pgCancelDate;//취소일

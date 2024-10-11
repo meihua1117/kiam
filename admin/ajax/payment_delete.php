@@ -11,7 +11,7 @@ for($i = 0 ; $i < count($no_array); $i++){
     $query = "select * from tjd_pay_result where no='$no'";
     $res = mysqli_query($self_con,$query);
     $row = mysqli_fetch_array($res);
-    if ($row[no] == "") exit;
+    if ($row['no'] == "") exit;
     $query = "delete from tjd_pay_result where `no`='$no'";
     mysqli_query($self_con,$query);
 }

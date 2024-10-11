@@ -7,16 +7,16 @@ if($type == "main"){
     $query = "select * from tjd_pay_result where no='$no'";
     $res = mysqli_query($self_con,$query);
     $row = mysqli_fetch_array($res);
-    if($row[no] == "") exit;
-    if($row[end_status] == "Y" && $end_status != "A") {
-        if($row[end_date] == "1970-01-01 09:00:00") {
-            $row[end_date] = date('Y-m-d H:i:s', time()+(86400*365*3));
+    if($row['no'] == "") exit;
+    if($row['end_status'] == "Y" && $end_status != "A") {
+        if($row['end_date'] == "1970-01-01 09:00:00") {
+            $row['end_date'] = date('Y-m-d H:i:s', time()+(86400*365*3));
         }
         $query = "select * from tjd_pay_result where buyer_id='{$row['buyer_id']}' and end_status='Y' and `no` < '$no'";
         $res = mysqli_query($self_con,$query);
         $sdata = mysqli_fetch_array($res);
-        if($sdata[no] != "") {
-            $sql_m="update Gn_Member set fujia_date1='$sdata[date]' , fujia_date2='$sdata[end_date]'  where mem_id='{$row['buyer_id']}' ";
+        if($sdata['no'] != "") {
+            $sql_m="update Gn_Member set fujia_date1='{$sdata['date']}' , fujia_date2='{$sdata['end_date']}'  where mem_id='{$row['buyer_id']}' ";
         } else {
             $sql_m="update Gn_Member set fujia_date1='0000-00-00 00:00:00' , fujia_date2='0000-00-00 00:00:00'  where mem_id='{$row['buyer_id']}' ";
         }
@@ -34,7 +34,7 @@ if($type == "main"){
             mysqli_query($self_con,$query);
         }
 
-        $last_time = date("Y-m-d H:i:s",strtotime( "+{$row[month_cnt]} month" ));
+        $last_time = date("Y-m-d H:i:s",strtotime( "+{$row['month_cnt']} month" ));
         $sql="select * from crawler_member_real where user_id='{$row['buyer_id']}' ";
         $sresult=mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
         $srow = mysqli_fetch_array($sresult);
@@ -81,10 +81,10 @@ if($type == "main"){
     
             mysqli_query($self_con,$sql_res);
         }
-    } else if($row[end_status] == "N" && $end_status != "A") {
+    } else if($row['end_status'] == "N" && $end_status != "A") {
         $date = date("Y-m-d H:i:s");
-        if($row[end_date] == "1970-01-01 09:00:00") {
-            $row[end_date] = date('Y-m-d H:i:s', time()+(86400*365*3));
+        if($row['end_date'] == "1970-01-01 09:00:00") {
+            $row['end_date'] = date('Y-m-d H:i:s', time()+(86400*365*3));
         }
         $query = "update tjd_pay_result set TotPrice = $price, end_status='Y' where `no`='$no'";
         mysqli_query($self_con,$query);
@@ -105,7 +105,7 @@ if($type == "main"){
             $email = $member['mem_email'];
             $address = $member['mem_add1'];
             $use_cnt = $row[db_cnt];
-            $last_time = date("Y-m-d H:i:s", strtotime("+$row[month_cnt] month"));
+            $last_time = date("Y-m-d H:i:s", strtotime("+{$row['month_cnt']} month"));
             $search_email_date = substr($last_time, 0, 10);
             $search_email_cnt = $row[email_cnt];
             $term = substr($last_time, 0, 10);
@@ -187,7 +187,7 @@ if($type == "main"){
             $sql_m .=" where mem_id='{$row['buyer_id']}' ";
             mysqli_query($self_con,$sql_m) or die(mysqli_error($self_con));
             
-            $last_time = date("Y-m-d H:i:s",strtotime( "+{$row[month_cnt]} month" ));
+            $last_time = date("Y-m-d H:i:s",strtotime( "+{$row['month_cnt']} month" ));
             $sql="select * from crawler_member_real where user_id='{$row['buyer_id']}' ";
             $sresult=mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
             $srow = mysqli_fetch_array($sresult);
@@ -226,7 +226,7 @@ if($type == "main"){
             mysqli_query($self_con,$query);
         }
         else if(strstr($row['member_type'],"가맹점")){
-            $last_time = date("Y-m-d H:i:s",strtotime( "+{$row[month_cnt]} month" ));
+            $last_time = date("Y-m-d H:i:s",strtotime( "+{$row['month_cnt']} month" ));
             $sql="select * from crawler_member_real where user_id='{$row['buyer_id']}' ";
             $sresult=mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
             $srow = mysqli_fetch_array($sresult);
@@ -264,20 +264,20 @@ if($type == "main"){
         }
     } else if($end_status == "A") {
         $date = date("Y-m-d H:i:s");
-        if($row[end_date] == "1970-01-01 09:00:00") {
-            $row[end_date] = date('Y-m-d H:i:s', time()+(86400*365*3));
+        if($row['end_date'] == "1970-01-01 09:00:00") {
+            $row['end_date'] = date('Y-m-d H:i:s', time()+(86400*365*3));
         }
-        $sql_m="update Gn_Member set fujia_date1=now() , fujia_date2='$row[end_date]' where mem_id='{$row['buyer_id']}' ";
+        $sql_m="update Gn_Member set fujia_date1=now() , fujia_date2='{$row['end_date']}' where mem_id='{$row['buyer_id']}' ";
         mysqli_query($self_con,$sql_m) or die(mysqli_error($self_con));
         if($row[member_type] != "dber") {//셀링결제인 경우
             $sql_m = "update Gn_Member set   phone_cnt=phone_cnt+'$row[add_phone]' where mem_id='{$row['buyer_id']}' ";
             //echo $sql_m."<BR>";
             mysqli_query($self_con,$sql_m) or die(mysqli_error($self_con));
 
-            $query = "update tjd_pay_result set TotPrice='$price', end_status='A', end_date='$row[end_date]' where `no`='$no'";
+            $query = "update tjd_pay_result set TotPrice='$price', end_status='A', end_date='{$row['end_date']}' where `no`='$no'";
             mysqli_query($self_con,$query);
 
-            $last_time = date("Y-m-d H:i:s", strtotime("+{$row[month_cnt]} month"));
+            $last_time = date("Y-m-d H:i:s", strtotime("+{$row['month_cnt']} month"));
             $sql = "select * from crawler_member_real where user_id='{$row['buyer_id']}' ";
             $sresult = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
             $srow = mysqli_fetch_array($sresult);

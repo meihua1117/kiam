@@ -471,7 +471,7 @@ $date_today=date("Y-m-d");
                                             </select>
                                         </td>
                                         <td>
-                                            <input type="number" value = "<?=number_format($row[month_cnt])?>" class = "month_count" style="width: 50px" data-no = "<?=$row['no']?>">
+                                            <input type="number" value = "<?=number_format($row['month_cnt'])?>" class = "month_count" style="width: 50px" data-no = "<?=$row['no']?>">
                                         </td>
                                         <td>
                                             <label class="switch">

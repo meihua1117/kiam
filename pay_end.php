@@ -118,7 +118,7 @@ if($_SESSION[form_submit])
 	            $_POST[max_cnt] = $_POST[phone_cnt] = $_POST[add_phone] * 9000;
 	        $pay_info[add_opt]=$_POST[add_opt];//기부폰개수
 			$pay_info[phone_cnt]=$_POST[phone_cnt];//기부폰개수
-			$pay_info[month_cnt]=$_POST[month_cnt];//결제개월수
+			$pay_info['month_cnt']=$_POST['month_cnt'];//결제개월수
 			
 			$pay_info[max_cnt]=$_POST[max_cnt];//결제갯수
 			$pay_info[add_service]=$_POST[add_service];//결제개월수
@@ -148,7 +148,7 @@ if($_SESSION[form_submit])
 			$pay_info[VACT_Name]=iconv("euc-kr","utf-8",$inipay->GetResult('VACT_Name'));//	예금주
 			$pay_info[VACT_BankCode]=$inipay->GetResult('VACT_BankCode');//은행코드
 			$pay_info[pc_mobile]="A";
-			$pay_info[end_status]="Y";
+			$pay_info['end_status']="Y";
 			
             $pay_info['db_cnt'] = $_POST['db_cnt'];
             $pay_info['email_cnt'] = $_POST['email_cnt'];
@@ -173,10 +173,10 @@ if($_SESSION[form_submit])
 				{
 					$sql.=" $key = '$v' , ";
 				}
-				$sql.=" end_date=date_add(now(),INTERVAL {$_POST[month_cnt]} month) , date=now() where no='$_POST[pay_ex_no]',add_phone='$_POST[add_phone]' where ";
+				$sql.=" end_date=date_add(now(),INTERVAL {$_POST['month_cnt']} month) , date=now() where no='$_POST[pay_ex_no]',add_phone='$_POST[add_phone]' where ";
 				
 				
-				$sql_num_up="update Gn_MMS_Number set end_status='Y' , end_date=date_add(now(),INTERVAL {$_POST[month_cnt]} month) where end_date = '$_POST[pay_ex_end_date]' and mem_id='{$member_1['mem_id']}' ";
+				$sql_num_up="update Gn_MMS_Number set end_status='Y' , end_date=date_add(now(),INTERVAL {$_POST['month_cnt']} month) where end_date = '$_POST[pay_ex_end_date]' and mem_id='{$member_1['mem_id']}' ";
 				mysqli_query($self_con,$sql_num_up) or die(mysqli_error($self_con));				
 				//$sql_back="insert into tjd_pay_result_back (select * from tjd_pay_result where no='{$_POST[pay_ex_no]}' )";
 				//mysqli_query($self_con,$sql_back) or die(mysqli_error($self_con));
@@ -188,7 +188,7 @@ if($_SESSION[form_submit])
 				{
 					$sql.=" $key = '$v' , ";
 				}
-				$sql.=" end_date=date_add(now(),INTERVAL {$_POST[month_cnt]} month) , date=now(),add_phone='$_POST[add_phone]' ";
+				$sql.=" end_date=date_add(now(),INTERVAL {$_POST['month_cnt']} month) , date=now(),add_phone='$_POST[add_phone]' ";
 				mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 				$no = mysqli_insert_id($self_con);
 			}
@@ -198,7 +198,7 @@ if($_SESSION[form_submit])
 			//if($_POST[fujia_status])
 			//{
 						
-			$sql_m="update Gn_Member set fujia_date1=now() , fujia_date2=date_add(now(),INTERVAL {$_POST[month_cnt]} month)  where mem_id='{$member_1['mem_id']}' ";
+			$sql_m="update Gn_Member set fujia_date1=now() , fujia_date2=date_add(now(),INTERVAL {$_POST['month_cnt']} month)  where mem_id='{$member_1['mem_id']}' ";
 			mysqli_query($self_con,$sql_m)or die(mysqli_error($self_con));
 			//print_r($_POST);
 			$sql_m="update Gn_Member set   phone_cnt=phone_cnt+'$_POST[add_phone]' where mem_id='{$member_1['mem_id']}' ";
@@ -235,7 +235,7 @@ if($_SESSION[form_submit])
             $address=$srow['mem_add1'];
             $status="Y";
             $use_cnt = $_POST[db_cnt];
-            $last_time = date("Y-m-d H:i:s", "+$_POST[month_cnt] month");
+            $last_time = date("Y-m-d H:i:s", "+{$_POST['month_cnt']} month");
             $search_email_date = substr($last_time,0,10);
             $search_email_cnt = $_POST[email_cnt];
             $term = substr($last_time,0,10);

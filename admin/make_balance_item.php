@@ -23,11 +23,11 @@ $i = 1;
 $query .= "$orderQuery";
 $res = mysqli_query($self_con,$query);
 while($row = mysqli_fetch_array($res)) {                       	
-    $query = "select bid from Gn_Item_Pay_Result_Balance where pay_no='$row[no]' AND balance_date='$date_month'";
+    $query = "select bid from Gn_Item_Pay_Result_Balance where pay_no='{$row['no']}' AND balance_date='$date_month'";
     $sres = mysqli_query($self_con,$query);
     $srow = mysqli_fetch_array($sres);
     if($srow[0] == "") {
-        $query = "insert into Gn_Item_Pay_Result_Balance set pay_no='$row[no]',
+        $query = "insert into Gn_Item_Pay_Result_Balance set pay_no='{$row['no']}',
                                                          mem_id='{$row['buyer_id']}',
                                                          seller_id='$row[seller_id]',
                                                          item_name='$row[item_name]',

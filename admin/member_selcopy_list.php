@@ -302,7 +302,7 @@ function excel_down_(){
                        } else {
                             $mem_want_level = "소비자";
                        }              
-                       $remain_date=floor((strtotime($row[end_date])-time())/86400);     	        	                       
+                       $remain_date=floor((strtotime($row['end_date'])-time())/86400);     	        	                       
 
                   ?>
                       <tr>
@@ -331,7 +331,7 @@ function excel_down_(){
                         </td>                          
                         <td><?=number_format($row[TotPrice])?></td>
                         <td><?=number_format($row[TotPrice]*0.01*$row['share_per'])?></td>
-                        <td><?=$pay_result_status[$row[end_status]]?></td>
+                        <td><?=$pay_result_status[$row['end_status']]?></td>
                       </tr>
                     <?
                     $i++;

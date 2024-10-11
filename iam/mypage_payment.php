@@ -301,16 +301,16 @@ $mid = date("YmdHis").rand(10,99);
 <!--                                            <td style="">--><?//=$row[iam_card_cnt]?><!--</td>-->
 <!--                                            <td style="">--><?//=$row[iam_share_cnt]?><!--</td>-->
                                     <td style="font-size:11px;"><?=$row[date]?></td>
-                                    <td style="font-size:11px;"><?=$row[end_date]?></td>
-                                    <?if($row[month_cnt] < 120){?>
-                                        <td style=""><?=$row[month_cnt]?>개월</td>
+                                    <td style="font-size:11px;"><?=$row['end_date']?></td>
+                                    <?if($row['month_cnt'] < 120){?>
+                                        <td style=""><?=$row['month_cnt']?>개월</td>
                                     <?}else{?>
                                         <td style="">정기</td>
                                     <?}?>
                                     <td style=""><?=$pay_type[$row[payMethod]]?></td>
                                     <td style=""><?=number_format($row[TotPrice])?>원</td>
                                     <td style="">
-                                        <?=$pay_result_status[$row[end_status]]?>
+                                        <?=$pay_result_status[$row['end_status']]?>
                                         <?php if($row['monthly_yn'] == "Y") {?>
                                             <div style="border:1px solid #000;padding:3px;background:#D8D8D8; font-size:10px" >
                                                 <?if($row['monthly_status'] == "N"){?>

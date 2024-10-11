@@ -17,11 +17,11 @@ $query .= $orderQuery;
 $res = mysqli_query($self_con,$query);
 $managers = array();
 while($row = mysqli_fetch_array($res)) {                       	
-    $query = "select count(bid) from tjd_pay_result_balance where pay_no='$row[no]' AND balance_date='$date_month'";
+    $query = "select count(bid) from tjd_pay_result_balance where pay_no='{$row['no']}' AND balance_date='$date_month'";
     $sres = mysqli_query($self_con,$query);
     $srow = mysqli_fetch_array($sres);
     if($srow[0] == 0) {
-        $query = "insert into tjd_pay_result_balance set pay_no='$row[no]',
+        $query = "insert into tjd_pay_result_balance set pay_no='{$row['no']}',
                                                             mem_id='{$row['buyer_id']}',
                                                             seller_id='$row[share_id]',
                                                             branch_id='$row[branch_share_id]',

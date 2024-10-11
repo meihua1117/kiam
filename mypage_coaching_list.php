@@ -314,7 +314,7 @@ function copyHtml(){
                                 ?>
                                  ~ 
                                 <? 
-                                echo date('Y-m-d',strtotime($coaching_info_data[end_date]));
+                                echo date('Y-m-d',strtotime($coaching_info_data['end_date']));
                                 ?>
                                     
 
@@ -348,7 +348,7 @@ function copyHtml(){
         
                                 // }
 
-                                $date1 = strtotime($coaching_info_data[end_date]);
+                                $date1 = strtotime($coaching_info_data['end_date']);
                                 $date1 = strtotime(date('Y-m-d', $date1));
                                 //echo $date1."일<br>";
 
@@ -584,7 +584,7 @@ function copyHtml(){
                                 ?>
                                  ~ 
                                 <? 
-                                echo date('Y-m-d',strtotime($coaching_info_data[end_date]));
+                                echo date('Y-m-d',strtotime($coaching_info_data['end_date']));
                                 ?>
                             </td>
                             <td style="font-size:12px;"><?=$coaching_info_data[coaching_date]?></td>
@@ -617,7 +617,7 @@ function copyHtml(){
                                 // }
 
 
-                                 $date1 = strtotime($coaching_info_data[end_date]);
+                                 $date1 = strtotime($coaching_info_data['end_date']);
                                 $date1 = strtotime(date('Y-m-d', $date1));
                                 //echo $date1."일<br>";
 

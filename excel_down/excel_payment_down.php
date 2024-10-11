@@ -56,7 +56,7 @@ if(strlen($_SESSION['one_member_id']) > 0) {
 					->setCellValue("I$h",$cardstr)
 					->setCellValue("J$h",$row[TotPrice])
 					->setCellValue("K$h",number_format($row[add_phone]))
-					->setCellValue("L$h",number_format($row[month_cnt]))
+					->setCellValue("L$h",number_format($row['month_cnt']))
 					->setCellValue("M$h", $row['stop_yn'])
 					->setCellValue("N$h", $payment_status)
 					->setCellValue("O$h", $row['first_regist'])

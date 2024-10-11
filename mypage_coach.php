@@ -469,7 +469,7 @@ jQuery(function($){
                   while($row=mysqli_fetch_array($result))
                   {
 					  	$num_arr=array();
-						$sql_num="select sendnum from Gn_MMS_Number where mem_id='{$row['buyer_id']}' and end_date='$row[end_date]' ";
+						$sql_num="select sendnum from Gn_MMS_Number where mem_id='{$row['buyer_id']}' and end_date='{$row['end_date']}' ";
 						$resul_num=mysqli_query($self_con,$sql_num);
 						while($row_num=mysqli_fetch_array($resul_num))
 						array_push($num_arr,$row_num[sendnum]);
@@ -489,8 +489,8 @@ jQuery(function($){
                     <?=$mem_leb?>
                 </td>
                 <td style="font-size:12px;"><?=$row[date]?></td>
-                <td style="font-size:12px;"><?=$row[end_date]?></td>
-                <td><?=$row[month_cnt]?>개월</td>
+                <td style="font-size:12px;"><?=$row['end_date']?></td>
+                <td><?=$row['month_cnt']?>개월</td>
                 <!--<td><?=$row[fujia_status]?></td>-->
                 <td>문자</td>
                 <td><?=$pay_type[$row[payMethod]]?$pay_type[$row[payMethod]]:"무통장"?></td>
@@ -499,15 +499,15 @@ jQuery(function($){
                 <!--<td><?=count($num_arr)?></td>-->
                 <td><?=number_format($row[TotPrice])?>원</td>
                 <td>
-				<?=$pay_result_status[$row[end_status]]?>
+				<?=$pay_result_status[$row['end_status']]?>
                	<?php if($row['monthly_yn'] == "Y") {?>
                	<div style="border:1px solid #000;padding;3px;background:#B2CCFF" ><A href="javascript:void(monthly_remove('<?php echo $row['no'];?>'))">정기결제해지</a> <span class="popbutton pop_view pop_right">?</span></div>
                 <?php }?>
              
 				<!--
-               	<?=$row[end_status]=="Y" && !count($num_arr) && strtotime("+1 week",strtotime($row[date])) > time() ?"<a href=\"javascript:void(0)\" onclick=\"pay_cancel('{$row[no]}','{$row[payMethod]}','{$row[mid]}','{$row[tid]}','{$row[end_date]}','{$row[fujia_status]}')\" class=\"a_btn_2\">해지</a>":""?>
+               	<?=$row['end_status']=="Y" && !count($num_arr) && strtotime("+1 week",strtotime($row[date])) > time() ?"<a href=\"javascript:void(0)\" onclick=\"pay_cancel('{$row['no']}','{$row[payMethod]}','{$row[mid]}','{$row[tid]}','{$row['end_date']}','{$row[fujia_status]}')\" class=\"a_btn_2\">해지</a>":""?>
                	-->
-               	<? //=$row[end_status]=="N"?"<a href='javascript:void(0)' onclick=\"pay_ex_go('{$row[no]}','{$row[end_date]}','{$is_chrome}')\" class='a_btn_2'>연장</a>":""?>
+               	<? //=$row['end_status']=="N"?"<a href='javascript:void(0)' onclick=\"pay_ex_go('{$row['no']}','{$row['end_date']}','{$is_chrome}')\" class='a_btn_2'>연장</a>":""?>
 
                 </td>
               </tr>
@@ -569,7 +569,7 @@ jQuery(function($){
                   while($row=mysqli_fetch_array($result))
                   {
 					  	$num_arr=array();
-						$sql_num="select sendnum from Gn_MMS_Number where mem_id='{$row['buyer_id']}' and end_date='$row[end_date]' ";
+						$sql_num="select sendnum from Gn_MMS_Number where mem_id='{$row['buyer_id']}' and end_date='{$row['end_date']}' ";
 						$resul_num=mysqli_query($self_con,$sql_num);
 						while($row_num=mysqli_fetch_array($resul_num))
 						array_push($num_arr,$row_num[sendnum]);
@@ -589,8 +589,8 @@ jQuery(function($){
                     <?=$mem_leb?>
                 </td>
                 <td style="font-size:12px;"><?=$row[date]?></td>
-                <td style="font-size:12px;"><?=$row[end_date]?></td>
-                <td><?=$row[month_cnt]?>개월</td>
+                <td style="font-size:12px;"><?=$row['end_date']?></td>
+                <td><?=$row['month_cnt']?>개월</td>
                 <!--<td><?=$row[fujia_status]?></td>-->
                 <td>디버</td>                
                 <td><?=$pay_type[$row[payMethod]]?$pay_type[$row[payMethod]]:"카드"?></td>
@@ -599,15 +599,15 @@ jQuery(function($){
                 <!--<td><?=count($num_arr)?></td>-->
                 <td><?=number_format($row[TotPrice])?>원</td>
                 <td>
-				<?=$pay_result_status[$row[end_status]]?>
+				<?=$pay_result_status[$row['end_status']]?>
                	<?php if($row['monthly_yn'] == "Y") {?>
                	<div style="border:1px solid #000;padding;3px;background:#B2CCFF" ><A href="javascript:void(monthly_remove('<?php echo $row['no'];?>'))">정기결제해지</a> <span class="popbutton pop_view pop_right">?</span></div>
                 <?php }?>
              
 				<!--
-               	<?=$row[end_status]=="Y" && !count($num_arr) && strtotime("+1 week",strtotime($row[date])) > time() ?"<a href=\"javascript:void(0)\" onclick=\"pay_cancel('{$row[no]}','{$row[payMethod]}','{$row[mid]}','{$row[tid]}','{$row[end_date]}','{$row[fujia_status]}')\" class=\"a_btn_2\">해지</a>":""?>
+               	<?=$row['end_status']=="Y" && !count($num_arr) && strtotime("+1 week",strtotime($row[date])) > time() ?"<a href=\"javascript:void(0)\" onclick=\"pay_cancel('{$row['no']}','{$row[payMethod]}','{$row[mid]}','{$row[tid]}','{$row['end_date']}','{$row[fujia_status]}')\" class=\"a_btn_2\">해지</a>":""?>
                	-->
-               	<? //=$row[end_status]=="N"?"<a href='javascript:void(0)' onclick=\"pay_ex_go('{$row[no]}','{$row[end_date]}','{$is_chrome}')\" class='a_btn_2'>연장</a>":""?>
+               	<? //=$row['end_status']=="N"?"<a href='javascript:void(0)' onclick=\"pay_ex_go('{$row['no']}','{$row['end_date']}','{$is_chrome}')\" class='a_btn_2'>연장</a>":""?>
 
                 </td>
               </tr>

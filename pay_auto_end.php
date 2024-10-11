@@ -43,7 +43,7 @@ if($_POST[auto_pay_status]==2 && $_SESSION[form_submit])
 	if($inipay->m_resultCode=="00")
 	{
 			$pay_info[phone_cnt]=$_POST[phone_cnt];//기부폰개수
-			$pay_info[month_cnt]=$_POST[month_cnt];//결제개월수
+			$pay_info['month_cnt']=$_POST['month_cnt'];//결제개월수
 			if($_POST[fujia_status])
 			$pay_info[fujia_status]="Y";//부가서비스			
 			$pay_info[buyertel]=$_POST[buyertel];//전화번호
@@ -68,7 +68,7 @@ if($_POST[auto_pay_status]==2 && $_SESSION[form_submit])
 			$pay_info[ApplNum]=$inipay->m_authCode;//승인번호
 			$pay_info[CARD_Quota]=$_POST[cardquota];//할부개월
 			$pay_info[pc_mobile]="A";
-			$pay_info[end_status]="Y";
+			$pay_info['end_status']="Y";
 			if($_POST[pay_ex_end_date] && $_POST[pay_ex_no])
 			{
 				$pay_info[cancel_ResultCode]="";//취소코드
@@ -82,9 +82,9 @@ if($_POST[auto_pay_status]==2 && $_SESSION[form_submit])
 				{
 					$sql.=" $key = '$v' , ";
 				}
-				$sql.=" end_date=date_add(now(),INTERVAL {$_POST[month_cnt]} month) , date=now() where no='$_POST[pay_ex_no]'";
+				$sql.=" end_date=date_add(now(),INTERVAL {$_POST['month_cnt']} month) , date=now() where no='$_POST[pay_ex_no]'";
 				
-				$sql_num_up="update Gn_MMS_Number set end_status='Y' , end_date=date_add(now(),INTERVAL {$_POST[month_cnt]} month) where end_date = '$_POST[pay_ex_end_date]' and mem_id='{$member_1['mem_id']}' ";
+				$sql_num_up="update Gn_MMS_Number set end_status='Y' , end_date=date_add(now(),INTERVAL {$_POST['month_cnt']} month) where end_date = '$_POST[pay_ex_end_date]' and mem_id='{$member_1['mem_id']}' ";
 				mysqli_query($self_con,$sql_num_up) or die(mysqli_error($self_con));
 				//$sql_back="insert into tjd_pay_result_back (select * from tjd_pay_result where no='{$_POST[pay_ex_no]}' )";
 				//mysqli_query($self_con,$sql_back) or die(mysqli_error($self_con));
@@ -96,14 +96,14 @@ if($_POST[auto_pay_status]==2 && $_SESSION[form_submit])
 				{
 					$sql.=" $key = '$v' , ";
 				}
-				$sql.=" end_date=date_add(now(),INTERVAL {$_POST[month_cnt]} month) , date=now() ";
+				$sql.=" end_date=date_add(now(),INTERVAL {$_POST['month_cnt']} month) , date=now() ";
 				mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 			}
 			
 			
 			if($_POST[fujia_status])
 			{
-			$sql_m="update Gn_Member set fujia_date1=now() , fujia_date2=date_add(now(),INTERVAL {$_POST[month_cnt]} month) where mem_id='{$member_1['mem_id']}' ";
+			$sql_m="update Gn_Member set fujia_date1=now() , fujia_date2=date_add(now(),INTERVAL {$_POST['month_cnt']} month) where mem_id='{$member_1['mem_id']}' ";
 			mysqli_query($self_con,$sql_m)or die(mysqli_error($self_con));
 			}
 	}	

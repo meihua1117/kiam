@@ -8,7 +8,7 @@ extract($_POST);
 $query = "select * from tjd_pay_result where no='$no'";
 $res = mysqli_query($self_con,$query);
 $row = mysqli_fetch_array($res);
-if($row[no] == "") exit;
+if($row['no'] == "") exit;
 if($type == "main") {
     if ($payment_day == "") {
         echo "<script>alert('결제일이 없습니다.');history.go(-1);</script>";

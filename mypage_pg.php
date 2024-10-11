@@ -370,7 +370,7 @@ jQuery(function($){
 
                 while($row=mysqli_fetch_array($result)) {
 					$num_arr=array();
-					$sql_num="select sendnum from Gn_MMS_Number where mem_id='{$row['buyer_id']}' and end_date='$row[end_date]' ";
+					$sql_num="select sendnum from Gn_MMS_Number where mem_id='{$row['buyer_id']}' and end_date='{$row['end_date']}' ";
 					$resul_num=mysqli_query($self_con,$sql_num);
 					
 					while($row_num=mysqli_fetch_array($resul_num)) array_push($num_arr,$row_num[sendnum]);
@@ -389,15 +389,15 @@ jQuery(function($){
                     <?=$mem_leb?>
                 </td>
                 <td style="font-size:12px;"><?=$row[date]?></td>
-                <td style="font-size:12px;"><?=$row[end_date]?></td>
-                <td><?=$row[month_cnt]?>개월</td>
+                <td style="font-size:12px;"><?=$row['end_date']?></td>
+                <td><?=$row['month_cnt']?>개월</td>
                 <td>문자</td>
                 <td><?=$pay_type[$row[payMethod]]?$pay_type[$row[payMethod]]:"무통장"?></td>
                 <td><?=$row[add_phone]?></td>
                 <td><?=$row[phone_cnt]?></td>
                 <td><?=number_format($row[TotPrice])?>원</td>
                 <td>
-				<?=$pay_result_status[$row[end_status]]?>
+				<?=$pay_result_status[$row['end_status']]?>
                	<?php if($row['monthly_yn'] == "Y") {?>
                	<div style="border:1px solid #000;padding:3px;background:#D8D8D8; font-size:10px" ><A href="javascript:void(monthly_remove('<?php echo $row['no'];?>'))">정기결제해지</a> <span class="popbutton pop_view pop_right">?</span></div>                
                 <?php }?>
@@ -458,7 +458,7 @@ jQuery(function($){
                 while($row=mysqli_fetch_array($result)) {
 										
 					$num_arr=array();
-					$sql_num="select sendnum from Gn_MMS_Number where mem_id='{$row['buyer_id']}' and end_date='$row[end_date]' ";
+					$sql_num="select sendnum from Gn_MMS_Number where mem_id='{$row['buyer_id']}' and end_date='{$row['end_date']}' ";
 					$resul_num=mysqli_query($self_con,$sql_num);
 					
 					while($row_num=mysqli_fetch_array($resul_num)) array_push($num_arr,$row_num[sendnum]);
@@ -478,15 +478,15 @@ jQuery(function($){
                     <?=$mem_leb?>
                 </td>
                 <td style="font-size:12px;"><?=$row[date]?></td>
-                <td style="font-size:12px;"><?=$row[end_date]?></td>
-                <td><?=$row[month_cnt]?>개월</td>
+                <td style="font-size:12px;"><?=$row['end_date']?></td>
+                <td><?=$row['month_cnt']?>개월</td>
                 <td>디버</td>                
                 <td><?=$pay_type[$row[payMethod]]?$pay_type[$row[payMethod]]:"카드"?></td>
                 <td><?=$row[add_phone]?></td>
                 <td><?=$row[phone_cnt]?></td>
                 <td><?=number_format($row[TotPrice])?>원</td>
                 <td>
-				<?=$pay_result_status[$row[end_status]]?>
+				<?=$pay_result_status[$row['end_status']]?>
                	<?php if($row['monthly_yn'] == "Y") {?>
                	<div style="border:1px solid #000;padding:3px; background:#D8D8D8; font-size:10px;" ><A href="javascript:void(monthly_remove('<?php echo $row['no'];?>'))">정기결제해지</a> <span class="popbutton pop_view pop_right">?</span></div>
                 <?php }?>
@@ -725,7 +725,7 @@ jQuery(function($){
                            $service_want_level = "이용자";
                       }                            
 
-                      $remain_date=floor((strtotime($row[end_date])-time())/86400);
+                      $remain_date=floor((strtotime($row['end_date'])-time())/86400);
                     //이용자결제정보에서 구매자는 본인
                     //판매자는 추천인 아이디
                     //=====================
@@ -745,13 +745,13 @@ jQuery(function($){
                 <td style="font-size:12px;"><?=$sInfo['mem_name']?></td>
                 <td style="font-size:12px;"><?=$service_type?></td>
                 <td style="font-size:12px;"><?=$row[date]?></td>
-                <td style="font-size:12px;"><?=$row[end_date]?></td>
+                <td style="font-size:12px;"><?=$row['end_date']?></td>
                 
                 <td><?=$remain_date;?></td>
                 <td><?=$pay_type[$row[payMethod]]?$pay_type[$row[payMethod]]:"카드"?></td>
                 <td><?=number_format($row[TotPrice])?></td>
                 <td>
-				<?=$pay_result_status[$row[end_status]]?>
+				<?=$pay_result_status[$row['end_status']]?>
                 </td>
               </tr>
               <?php }else{?>
@@ -765,13 +765,13 @@ jQuery(function($){
                 
                 
                 <td style="font-size:12px;"><?=$row[date]?></td>
-                <td style="font-size:12px;"><?=$row[end_date]?></td>
+                <td style="font-size:12px;"><?=$row['end_date']?></td>
                 
                 <td><?=$remain_date;?></td>
                 <td><?=$pay_type[$row[payMethod]]?$pay_type[$row[payMethod]]:"카드"?></td>
                 <td><?=number_format($row[TotPrice])?></td>
                 <td>
-				<?=$pay_result_status[$row[end_status]]?>
+				<?=$pay_result_status[$row['end_status']]?>
                 </td>
               </tr>              
               <?php }?>
@@ -1017,7 +1017,7 @@ jQuery(function($){
                            $service_want_level = "이용자";
                       }                            
 
-                      $remain_date=floor((strtotime($row[end_date])-time())/86400);
+                      $remain_date=floor((strtotime($row['end_date'])-time())/86400);
                     //이용자결제정보에서 구매자는 본인
                     //판매자는 추천인 아이디
                     //=====================
@@ -1038,13 +1038,13 @@ jQuery(function($){
                 <td style="font-size:12px;"><?=$sInfo['mem_name']?></td>
                 <td style="font-size:12px;"><?=$service_type?></td>
                 <td style="font-size:12px;"><?=$row[date]?></td>
-                <td style="font-size:12px;"><?=$row[end_date]?></td>
+                <td style="font-size:12px;"><?=$row['end_date']?></td>
                 
                 <td><?=$remain_date;?></td>
                 <td><?=$pay_type[$row[payMethod]]?$pay_type[$row[payMethod]]:"카드"?></td>
                 <td><?=number_format($row[TotPrice])?></td>
                 <td>
-				<?=$pay_result_status[$row[end_status]]?>
+				<?=$pay_result_status[$row['end_status']]?>
                 </td>
               </tr>
               <?php }else{?>
@@ -1057,13 +1057,13 @@ jQuery(function($){
                 <td style="font-size:12px;"><?=$member['mem_name']?></td>
                 <td style="font-size:12px;"><?=$my_service_type?></td>
                 <td style="font-size:12px;"><?=$row[date]?></td>
-                <td style="font-size:12px;"><?=$row[end_date]?></td>
+                <td style="font-size:12px;"><?=$row['end_date']?></td>
                 
                 <td><?=$remain_date;?></td>
                 <td><?=$pay_type[$row[payMethod]]?$pay_type[$row[payMethod]]:"카드"?></td>
                 <td><?=number_format($row[TotPrice])?></td>
                 <td>
-				<?=$pay_result_status[$row[end_status]]?>
+				<?=$pay_result_status[$row['end_status']]?>
                 </td>
               </tr>              
               <?php }?>
@@ -1291,7 +1291,7 @@ jQuery(function($){
                            $service_want_level = "이용자";
                       }                       
 
-                      $remain_date=floor((strtotime($row[end_date])-time())/86400);
+                      $remain_date=floor((strtotime($row['end_date'])-time())/86400);
                     //이용자결제정보에서 구매자는 본인
                     //판매자는 추천인 아이디
                     //=====================
@@ -1312,13 +1312,13 @@ jQuery(function($){
                 <td style="font-size:12px;"><?=$sInfo['mem_name']?></td>
                 <td style="font-size:12px;"><?=$service_type?></td>
                 <td style="font-size:12px;"><?=$row[date]?></td>
-                <td style="font-size:12px;"><?=$row[end_date]?></td>
+                <td style="font-size:12px;"><?=$row['end_date']?></td>
                 
                 <td><?=$remain_date;?></td>
                 <td><?=$pay_type[$row[payMethod]]?$pay_type[$row[payMethod]]:"카드"?></td>
                 <td><?=number_format($row[TotPrice])?></td>
                 <td>
-				<?=$pay_result_status[$row[end_status]]?>
+				<?=$pay_result_status[$row['end_status']]?>
                 </td>
               </tr>
               <?php }else{?>
@@ -1331,13 +1331,13 @@ jQuery(function($){
                 <td style="font-size:12px;"><?=$member['mem_name']?></td>
                 <td style="font-size:12px;"><?=$my_service_type?></td>
                 <td style="font-size:12px;"><?=$row[date]?></td>
-                <td style="font-size:12px;"><?=$row[end_date]?></td>
+                <td style="font-size:12px;"><?=$row['end_date']?></td>
                 
                 <td><?=$remain_date;?></td>
                 <td><?=$pay_type[$row[payMethod]]?$pay_type[$row[payMethod]]:"카드"?></td>
                 <td><?=number_format($row[TotPrice])?></td>
                 <td>
-				<?=$pay_result_status[$row[end_status]]?>
+				<?=$pay_result_status[$row['end_status']]?>
                 </td>
               </tr>              
               <?php }?>
@@ -1566,7 +1566,7 @@ if($member['service_type'] == 2) {
                            $service_want_level = "이용자";
                       }                        
 
-                      $remain_date=floor((strtotime($row[end_date])-time())/86400);
+                      $remain_date=floor((strtotime($row['end_date'])-time())/86400);
                     //이용자결제정보에서 구매자는 본인
                     //판매자는 추천인 아이디
                     //=====================
@@ -1587,13 +1587,13 @@ if($member['service_type'] == 2) {
                 <td style="font-size:12px;"><?=$sInfo['mem_name']?></td>
                 <td style="font-size:12px;"><?=$service_type?></td>
                 <td style="font-size:12px;"><?=$row[date]?></td>
-                <td style="font-size:12px;"><?=$row[end_date]?></td>
+                <td style="font-size:12px;"><?=$row['end_date']?></td>
                 
                 <td><?=$remain_date;?></td>
                 <td><?=$pay_type[$row[payMethod]]?$pay_type[$row[payMethod]]:"카드"?></td>
                 <td><?=number_format($row[TotPrice])?></td>
                 <td>
-				<?=$pay_result_status[$row[end_status]]?>
+				<?=$pay_result_status[$row['end_status']]?>
                 </td>
               </tr>
               <?php }else{?>
@@ -1606,13 +1606,13 @@ if($member['service_type'] == 2) {
                 <td style="font-size:12px;"><?=$member['mem_name']?></td>
                 <td style="font-size:12px;"><?=$my_service_type?></td>
                 <td style="font-size:12px;"><?=$row[date]?></td>
-                <td style="font-size:12px;"><?=$row[end_date]?></td>
+                <td style="font-size:12px;"><?=$row['end_date']?></td>
                 
                 <td><?=$remain_date;?></td>
                 <td><?=$pay_type[$row[payMethod]]?$pay_type[$row[payMethod]]:"카드"?></td>
                 <td><?=number_format($row[TotPrice])?></td>
                 <td>
-				<?=$pay_result_status[$row[end_status]]?>
+				<?=$pay_result_status[$row['end_status']]?>
                 </td>
               </tr>              
               <?php }?>
@@ -1827,7 +1827,7 @@ if($member['service_type'] > 2) {
                       } else {
                            $service_want_level = "이용자";
                       }   
-                      $remain_date=floor((strtotime($row[end_date])-time())/86400);
+                      $remain_date=floor((strtotime($row['end_date'])-time())/86400);
                     //이용자결제정보에서 구매자는 본인
                     //판매자는 추천인 아이디
                     //=====================
@@ -1848,13 +1848,13 @@ if($member['service_type'] > 2) {
                 <td style="font-size:12px;"><?=$sInfo['mem_name']?></td>
                 <td style="font-size:12px;"><?=$service_type?></td>
                 <td style="font-size:12px;"><?=$row[date]?></td>
-                <td style="font-size:12px;"><?=$row[end_date]?></td>
+                <td style="font-size:12px;"><?=$row['end_date']?></td>
                 
                 <td><?=$remain_date;?></td>
                 <td><?=$pay_type[$row[payMethod]]?$pay_type[$row[payMethod]]:"카드"?></td>
                 <td><?=number_format($row[TotPrice])?></td>
                 <td>
-				<?=$pay_result_status[$row[end_status]]?>
+				<?=$pay_result_status[$row['end_status']]?>
                 </td>
               </tr>
               <?php }else{?>
@@ -1867,13 +1867,13 @@ if($member['service_type'] > 2) {
                 <td style="font-size:12px;"><?=$member['mem_name']?></td>
                 <td style="font-size:12px;"><?=$my_service_type?></td>
                 <td style="font-size:12px;"><?=$row[date]?></td>
-                <td style="font-size:12px;"><?=$row[end_date]?></td>
+                <td style="font-size:12px;"><?=$row['end_date']?></td>
                 
                 <td><?=$remain_date;?></td>
                 <td><?=$pay_type[$row[payMethod]]?$pay_type[$row[payMethod]]:"카드"?></td>
                 <td><?=number_format($row[TotPrice])?></td>
                 <td>
-				<?=$pay_result_status[$row[end_status]]?>
+				<?=$pay_result_status[$row['end_status']]?>
                 </td>
               </tr>              
               <?php }?>
@@ -2091,7 +2091,7 @@ if($member['service_type']  >3 ) {
                            $service_want_level = "이용자";
                       }                               
 
-                      $remain_date=floor((strtotime($row[end_date])-time())/86400);
+                      $remain_date=floor((strtotime($row['end_date'])-time())/86400);
                     //이용자결제정보에서 구매자는 본인
                     //판매자는 추천인 아이디
                     //=====================
@@ -2112,13 +2112,13 @@ if($member['service_type']  >3 ) {
                 <td style="font-size:12px;"><?=$sInfo['mem_name']?></td>
                 <td style="font-size:12px;"><?=$service_type?></td>
                 <td style="font-size:12px;"><?=$row[date]?></td>
-                <td style="font-size:12px;"><?=$row[end_date]?></td>
+                <td style="font-size:12px;"><?=$row['end_date']?></td>
                 
                 <td><?=$remain_date;?></td>
                 <td><?=$pay_type[$row[payMethod]]?$pay_type[$row[payMethod]]:"카드"?></td>
                 <td><?=number_format($row[TotPrice])?></td>
                 <td>
-				<?=$pay_result_status[$row[end_status]]?>
+				<?=$pay_result_status[$row['end_status']]?>
                 </td>
               </tr>
               <?php }else{?>
@@ -2131,13 +2131,13 @@ if($member['service_type']  >3 ) {
                 <td style="font-size:12px;"><?=$member['mem_name']?></td>
                 <td style="font-size:12px;"><?=$my_service_type?></td>
                 <td style="font-size:12px;"><?=$row[date]?></td>
-                <td style="font-size:12px;"><?=$row[end_date]?></td>
+                <td style="font-size:12px;"><?=$row['end_date']?></td>
                 
                 <td><?=$remain_date;?></td>
                 <td><?=$pay_type[$row[payMethod]]?$pay_type[$row[payMethod]]:"카드"?></td>
                 <td><?=number_format($row[TotPrice])?></td>
                 <td>
-				<?=$pay_result_status[$row[end_status]]?>
+				<?=$pay_result_status[$row['end_status']]?>
                 </td>
               </tr>              
               <?php }?>
@@ -2346,7 +2346,7 @@ if($member['service_type']  >  4) {
                            $service_want_level = "이용자";
                       }                              
 
-                      $remain_date=floor((strtotime($row[end_date])-time())/86400);
+                      $remain_date=floor((strtotime($row['end_date'])-time())/86400);
                     //이용자결제정보에서 구매자는 본인
                     //판매자는 추천인 아이디
                     //=====================
@@ -2367,13 +2367,13 @@ if($member['service_type']  >  4) {
                 <td style="font-size:12px;"><?=$sInfo['mem_name']?></td>
                 <td style="font-size:12px;"><?=$service_type?></td>
                 <td style="font-size:12px;"><?=$row[date]?></td>
-                <td style="font-size:12px;"><?=$row[end_date]?></td>
+                <td style="font-size:12px;"><?=$row['end_date']?></td>
                 
                 <td><?=$remain_date;?></td>
                 <td><?=$pay_type[$row[payMethod]]?$pay_type[$row[payMethod]]:"카드"?></td>
                 <td><?=number_format($row[TotPrice])?></td>
                 <td>
-				<?=$pay_result_status[$row[end_status]]?>
+				<?=$pay_result_status[$row['end_status']]?>
                 </td>
               </tr>
               <?php }else{?>
@@ -2386,13 +2386,13 @@ if($member['service_type']  >  4) {
                 <td style="font-size:12px;"><?=$member['mem_name']?></td>
                 <td style="font-size:12px;"><?=$my_service_type?></td>
                 <td style="font-size:12px;"><?=$row[date]?></td>
-                <td style="font-size:12px;"><?=$row[end_date]?></td>
+                <td style="font-size:12px;"><?=$row['end_date']?></td>
                 
                 <td><?=$remain_date;?></td>
                 <td><?=$pay_type[$row[payMethod]]?$pay_type[$row[payMethod]]:"카드"?></td>
                 <td><?=number_format($row[TotPrice])?></td>
                 <td>
-				<?=$pay_result_status[$row[end_status]]?>
+				<?=$pay_result_status[$row['end_status']]?>
                 </td>
               </tr>              
               <?php }?>

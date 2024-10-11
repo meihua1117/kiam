@@ -7,7 +7,7 @@ if($member_1['mem_id'] == "") {
 }
 $data = $member_iam;
 $orderNumber = $_POST['allat_order_no'];
-$pay_info['month_cnt'] = $_POST['month_cnt']>120?120:$_POST[month_cnt]; //12?12를 120?120수정하여 마감기간을 솔루션결제관리페이지에 120개월로 표시
+$pay_info['month_cnt'] = $_POST['month_cnt']>120?120:$_POST['month_cnt']; //12?12를 120?120수정하여 마감기간을 솔루션결제관리페이지에 120개월로 표시
 $pay_info['fujia_status'] = "N"; 
 $pay_info['max_cnt'] = $pay_info['phone_cnt'] = $_POST['phone_cnt']; // 추가갯수
 $pay_info['end_status'] = "N";
@@ -35,7 +35,7 @@ $sql = "insert into tjd_pay_result
     orderNumber='$orderNumber',
     VACT_InputName='{$data['mem_name']}',
     TotPrice='$pay_info[TotPrice]',
-    end_date=date_add(now(),INTERVAL {$_pay_info[month_cnt]} month),
+    end_date=date_add(now(),INTERVAL {$_pay_info['month_cnt']} month),
     end_status='N',
     buyertel='$data[mem_phone]',
     buyeremail='$data[mem_email]',
@@ -45,7 +45,7 @@ $sql = "insert into tjd_pay_result
     member_type='$_POST[member_type]',
     iam_card_cnt='$_POST[iam_card_cnt]',
     iam_share_cnt='$_POST[iam_share_cnt]',
-    month_cnt='$_pay_info[month_cnt]',
+    month_cnt='{$_pay_info['month_cnt']}',
     member_cnt='$_POST[member_cnt]',
     monthly_yn = 'Y'";
 mysqli_query($self_con,$sql) or die(mysqli_error($self_con));

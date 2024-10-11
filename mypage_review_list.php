@@ -144,11 +144,11 @@ $(function(){
 					    $sql_serch.=" and category ='$category'";
 					}
 					$now = date("Y-m-d");
-					if($_REQUEST[end_date] == "Y")
+					if($_REQUEST['end_date'] == "Y")
 					{
 					    $sql_serch.=" and end_date < '$now'";
 					}					
-                    if($_REQUEST[end_date] == "N")
+                    if($_REQUEST['end_date'] == "N")
 					{
 					    $sql_serch.=" and end_date >= '$now'";
 					}										
@@ -204,7 +204,7 @@ $(function(){
                   {
                   ?>
                   <tr>
-                    <td colspan="3" style="font-size:12px;text-align:left;"><?=$row[lecture_info]?>/<?=$row[instructor]?>/<?=$row[start_date]?>~<?=$row[end_date]?>/<?=$row[area]?></td>
+                    <td colspan="3" style="font-size:12px;text-align:left;"><?=$row[lecture_info]?>/<?=$row[instructor]?>/<?=$row[start_date]?>~<?=$row['end_date']?>/<?=$row[area]?></td>
                   </tr>
                   <tr>
                     <td colspan="3" style="font-size:12px;text-align:left;"><?=$row['content']?></td>

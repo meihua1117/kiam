@@ -291,7 +291,7 @@ function uncomma(str) {
                         <td>
                         	<input type="text" name="price" id="price<?=$i?>" value="<?=$row[TotPrice]?>" onchange="$('#price_<?=$i?>').val(this.value)" style="width:70px;">
                         	원</td>
-                        <td><?=number_format($row[month_cnt])?> 개월 <A href="javascript:deleteRow('<?php echo $row['no']?>');" style="border:1px solid #000;padding:10px;">삭제</A></td>
+                        <td><?=number_format($row['month_cnt'])?> 개월 <A href="javascript:deleteRow('<?php echo $row['no']?>');" style="border:1px solid #000;padding:10px;">삭제</A></td>
                         <td>
                             <form method="post" name="ssForm<?=$i?>" id="ssForm<?=$i?>" action="ajax/crawler_payment_save.php">
                             <input type="hidden" name="no" value="<?php echo $row['no']?>" >

@@ -8,7 +8,7 @@ if($member_1['mem_id'] == "") {
 $data = $member_1;
 $orderNumber = $_POST['allat_order_no'];
 $pay_info['fujia_status'] = "N"; 
-$pay_info['month_cnt'] = $_POST['month_cnt']>120?120:$_POST[month_cnt]; //12?12를 120?120수정하여 마감기간을 솔루션결제관리페이지에 120개월로 표시
+$pay_info['month_cnt'] = $_POST['month_cnt']>120?120:$_POST['month_cnt']; //12?12를 120?120수정하여 마감기간을 솔루션결제관리페이지에 120개월로 표시
 if($_POST['member_type'] == "가맹점"){
     $_POST['phone_cnt'] = 8000;
     $_POST['db_cnt'] = 1000;
@@ -59,7 +59,7 @@ $sql = "insert into tjd_pay_result set
         buyer_id='{$pay_info['buyer_id']}',
         date=NOW(),
         member_type='$pay_info[member_type]',
-        month_cnt='$pay_info[month_cnt]',
+        month_cnt='{$pay_info['month_cnt']}',
         max_cnt='$pay_info[max_cnt]',
         phone_cnt='$pay_info[phone_cnt]',
         add_phone='$pay_info[add_phone]',

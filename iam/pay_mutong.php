@@ -110,7 +110,7 @@ if($member_iam['mem_id'] == "") {
     <input type="hidden" name="payMethod" id="payMethod" value='BANK'>
     <!--아이엠회원승인수-->
     <input type="hidden" name="member_cnt" id="member_cnt" value='<?=$_POST[member_cnt]?>'>
-    <input type="hidden" name="month_cnt" id="month_cnt" value='<?=$_POST[month_cnt]?>'>
+    <input type="hidden" name="month_cnt" id="month_cnt" value='<?=$_POST['month_cnt']?>'>
     <input type="hidden" name="member_type" id="member_type" value = "<?=$_POST[member_type]?>"/>
 
     <div class="big_main pay-wrap" style="height: auto;min-height: 100%;">
