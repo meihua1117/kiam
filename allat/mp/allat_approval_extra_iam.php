@@ -149,7 +149,7 @@ if(!strcmp($REPLYCD,"0000")){//pay_test
                                                     pay_yn='N',
                                                     msg='".iconv("euc-kr","utf-8",$REPLYMSG).'_mp_extra_iam'."',
                                                     amount='$row[TotPrice]',
-                                                    buyer_id='$member_iam[mem_id]'";
+                                                    buyer_id='{$member_iam['mem_id']}'";
     mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
 }
 //       echo "결과코드              : ".$REPLYCD."<br>";

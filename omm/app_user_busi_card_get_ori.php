@@ -46,7 +46,7 @@ if($useType == '1') {
 			$select_user = "select * from Gn_Member_card where mem_id = '$userId' and type = 0";
 			$resul_p = mysqli_query($self_con,$select_user);
 			$row_p = mysqli_fetch_array($resul_p);
-			if($row_p[mem_id]) {
+			if($row_p['mem_id']) {
 				$result = "true";
 				$img_url = $row_p[img_url];
 				echo "{\"result\":\"$result\",\"img_url\":\"$img_url\"}";
@@ -67,7 +67,7 @@ if($useType == '1') {
 	$select_user = "select * from Gn_Member_card where mem_id = '$userId' and type = 0";
 	$resul_p = mysqli_query($self_con,$select_user);
 	$row_p = mysqli_fetch_array($resul_p);
-	if($row_p[mem_id]) {
+	if($row_p['mem_id']) {
 		$result = "true";
 		$img_url = $row_p[img_url];
 		echo "{\"result\":\"$result\",\"img_url\":\"$img_url\"}";
@@ -82,12 +82,12 @@ if($useType == '1') {
 	$select_user = "select * from Gn_Member_card where mem_id = '$userId' and type = 1";
 	$resul_p = mysqli_query($self_con,$select_user);
 	$row_p = mysqli_fetch_array($resul_p);
-	if($row_p[mem_id]) {
+	if($row_p['mem_id']) {
 		$update_sql = "update Gn_Member_card set type=2 where mem_id = '$userId'";
 		mysqli_query($self_con,$update_sql);
 		$resul_p = mysqli_query($self_con,$select_user);
 		$row_p = mysqli_fetch_array($resul_p);
-		if($row_p[mem_id]) {
+		if($row_p['mem_id']) {
 			$result = "true";
 			$img_url = $row_p[img_url];
 			echo "{\"result\":\"$result\",\"img_url\":\"$img_url\"}";

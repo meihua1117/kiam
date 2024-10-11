@@ -252,7 +252,7 @@ if($mem_id != "") {
                                     $query .= $orderQuery;
                                     $res = mysqli_query($self_con,$query);
                                     while($row = mysqli_fetch_array($res)) {
-                                        $mem_query = "select mem_name from Gn_Member use index(mem_id) where mem_id='$row[mem_id]'";
+                                        $mem_query = "select mem_name from Gn_Member use index(mem_id) where mem_id='{$row['mem_id']}'";
                                         $mem_res = mysqli_query($self_con,$mem_query);
                                         $mem_row = mysqli_fetch_array($mem_res);
                                         $row['mem_name'] = $mem_row['mem_name'];

@@ -106,11 +106,11 @@ $logs->add_log("mall start $slq8");
     
 $body = '';
 while( $contents_row = mysqli_fetch_array($result8)){
-    $card_sql = "select card_short_url from Gn_Iam_Name_Card where mem_id = '$contents_row[mem_id]' order by req_data";
+    $card_sql = "select card_short_url from Gn_Iam_Name_Card where mem_id = '{$contents_row['mem_id']}' order by req_data";
     $card_res = mysqli_query($self_con,$card_sql);
     $card_row = mysqli_fetch_array($card_res);
 
-    $mem_sql = "select site_iam,mem_name from Gn_Member where mem_id = '$contents_row[mem_id]'";
+    $mem_sql = "select site_iam,mem_name from Gn_Member where mem_id = '{$contents_row['mem_id']}'";
     $mem_res = mysqli_query($self_con,$mem_sql);
     $mem_row = mysqli_fetch_array($mem_res);
     
@@ -179,7 +179,7 @@ while( $contents_row = mysqli_fetch_array($result8)){
             $map_show .= '</div>';
         }
     }else if($contents_row['mall_type'] == 5){
-        $sql = "select profile from Gn_Member where mem_id = '$contents_row[mem_id]'";
+        $sql = "select profile from Gn_Member where mem_id = '{$contents_row['mem_id']}'";
         $res = mysqli_query($self_con,$sql);
         $row = mysqli_fetch_array($res);
         $avatar = $row['profile']?$row['profile']:"/iam/img/common/logo-2.png";

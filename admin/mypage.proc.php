@@ -567,7 +567,7 @@ if($mode == "land_save") {
           $sql="select mem_id from Gn_Member where mem_id='$mobile'";
           $res=mysqli_query($self_con,$sql);
           $row=mysqli_fetch_array($res);             
-          if($row[mem_id] == "") {
+          if($row['mem_id'] == "") {
               $passwd = substr($mobile,-4);
               $query = "insert into Gn_Member set mem_id='$mobile',
                                                   mem_leb='22',

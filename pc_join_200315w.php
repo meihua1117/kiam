@@ -246,7 +246,7 @@ $(function(){
         <tr>
         <td>추천인ID</td>
             <td>
-                <input type="text" name="recommend_id" id="recommend_id" itemname='추천인ID' style="width:21%;" value="<?php echo $info[mem_id]?>" <?php if($info[mem_id]!="") echo  "readonly";?>/>
+                <input type="text" name="recommend_id" id="recommend_id" itemname='추천인ID' style="width:21%;" value="<?php echo $info['mem_id']?>" <?php if($info['mem_id']!="") echo  "readonly";?>/>
                 <?php if($_COOKIE['mem_code'] == "") {?>
                 <!--<input type="button" name="검색" value="검색" onclick="searchManager()">-->
                 <input type="button" name="추천인 찾기" value="추천인 찾기" onclick="searchManagerInfo()">
@@ -256,7 +256,7 @@ $(function(){
         </tr>        
         <td>대리점ID</td>
             <td>
-                <input type="text" name="recommend_branch" id="recommend_branch" itemname='추천인대리점ID' style="width:21%;" value="<?php echo $info[mem_id]?>" <?php if($info[mem_id]!="") echo  "readonly";?>/>
+                <input type="text" name="recommend_branch" id="recommend_branch" itemname='추천인대리점ID' style="width:21%;" value="<?php echo $info['mem_id']?>" <?php if($info['mem_id']!="") echo  "readonly";?>/>
                 <?php if($_COOKIE['mem_code'] == "") {?>
                 <!--<input type="button" name="검색" value="검색" onclick="searchManager()">-->
                 <input type="button" name="대리점 찾기" value="대리점 찾기" onclick="searchBranchManagerInfo()">

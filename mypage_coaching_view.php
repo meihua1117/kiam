@@ -85,7 +85,7 @@ $(function(){
                 <table class="list_table1" width="100%" border="0" cellspacing="0" cellpadding="0">
                 <tr>
                     <th class="w200">코티아이디</th>
-                    <td><?=$member_1[mem_id]?></td>
+                    <td><?=$member_1['mem_id']?></td>
                 </tr>                    
                 <tr>
                     <th class="w200">코티이름</th>
@@ -154,7 +154,7 @@ $(function(){
                 <table class="list_table1" width="100%" border="0" cellspacing="0" cellpadding="0">
                 <tr>
                     <th class="w200">코치이름</th>
-                    <td><?=$member_1[mem_id]?></td>
+                    <td><?=$member_1['mem_id']?></td>
                 </tr>    
                 <tr>
                     <th class="w200">코칭일시</th>

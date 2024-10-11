@@ -231,7 +231,7 @@ function goPage(pgNum) {
 							?>
                       				<tr>
 										<td><?=$number--?></td>
-										<td><?=$row[mem_id]?></td>											
+										<td><?=$row['mem_id']?></td>											
 										<td><?=$row['mem_name']?></td>											
 										<td><?=$row[site]?></td>											
 										<td><?=$row[site_iam]?></td>											

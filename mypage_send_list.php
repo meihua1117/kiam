@@ -151,7 +151,7 @@ $data=mysqli_fetch_array($sresul_num);
                                         $c=0;
                                         while($row=mysqli_fetch_array($result))
                                         {
-                                            $sql_n="select mem_name from Gn_Member where mem_id='$row[mem_id]' ";
+                                            $sql_n="select mem_name from Gn_Member where mem_id='{$row['mem_id']}' ";
                                             $resul_n=mysqli_query($self_con,$sql_n);
                                             $row_n=mysqli_fetch_array($resul_n);
                                             $memo = $row_n[0];

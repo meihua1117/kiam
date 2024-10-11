@@ -360,7 +360,7 @@ if ($post_type == "creat") {
                                   delivery_id_code,";
                     }
                     $sql2 .= "group_display) values 
-                                              (\"$row_share_new[mem_id]\",
+                                              (\"{$row_share_new['mem_id']}\",
                                               \"$contents_type\", 
                                               \"$contents_img\", 
                                               \"$contents_title\", 
@@ -604,7 +604,7 @@ if ($post_type == "creat") {
                                 provider_req_prod,
                                 delivery_id_code,";
                     }
-                    $sql2 .= "group_display) values (\"$row_share_new[mem_id]\",\"$contents_type\",\"$contents_img\",\"$contents_title\",\"$contents_url\",\"$contents_url_title\", 
+                    $sql2 .= "group_display) values (\"{$row_share_new['mem_id']}\",\"$contents_type\",\"$contents_img\",\"$contents_title\",\"$contents_url\",\"$contents_url_title\", 
                                                         \"$contents_iframe\", \"$contents_price\",\"$contents_sell_price\",\"$contents_desc\",\"$except_keyword\",
                                                         \"$contents_display\",\"$contents_westory_display\",\"$contents_user_display\",\"$contents_type_display\", 
                                                         \"$contents_footer_display\", \"$contents_temp\",\"$contents_share_text\",$contents_share_count,now(),now(),

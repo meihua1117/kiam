@@ -15,7 +15,7 @@ if($row[0]) {
     $sresult=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));					  	 
     $krow = mysqli_fetch_array($sresult);   
     
-    $sql="select * from Gn_Member  where mem_id='".$row[mem_id]."'";
+    $sql="select * from Gn_Member  where mem_id='".$row['mem_id']."'";
     $sresul_num=mysqli_query($self_con,$sql);
     $data=mysqli_fetch_array($sresul_num);
 }

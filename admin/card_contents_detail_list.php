@@ -13,7 +13,7 @@ if($idx) {
     $res = mysqli_query($self_con,$query);
     $data = mysqli_fetch_array($res);
 
-    $sql_mem = "select gwc_provider_name, gwc_worker_no, gwc_worker_img, gwc_worker_state, mem_id, mem_code, mem_name, mem_phone, mem_email, mem_add1, bank_name, bank_owner, bank_account from Gn_Member where mem_id='{$data[mem_id]}'";
+    $sql_mem = "select gwc_provider_name, gwc_worker_no, gwc_worker_img, gwc_worker_state, mem_id, mem_code, mem_name, mem_phone, mem_email, mem_add1, bank_name, bank_owner, bank_account from Gn_Member where mem_id='{$data['mem_id']}'";
     $res_mem = mysqli_query($self_con,$sql_mem);
     $row_mem = mysqli_fetch_array($res_mem);
 
@@ -66,7 +66,7 @@ if($idx) {
                 </div><!-- /.box-header -->                
                 <div style="padding:20px;">
                   <input type="hidden" id="mode" name="mode" value="req_provider">
-                  <input type="hidden" id="gongup_id" name="gongup_id" value="<?=$row_mem[mem_id]?>">
+                  <input type="hidden" id="gongup_id" name="gongup_id" value="<?=$row_mem['mem_id']?>">
                   <input type="hidden" id="gwc_worker_state" name="gwc_worker_state" value="<?=$row_mem[gwc_worker_state]?'1':'0'?>">
                   <div style="display:flex;margin-top:10px;">
                       공급사명:<input type="text" name="provider_name" id="provider_name" value="<?=$row_mem[gwc_provider_name]?>" style="width: 200px;height: 15px;padding: 10px;margin-left: 45px;">
@@ -248,7 +248,7 @@ if($idx) {
                           <input type="hidden" id="deliver_id_code" name="deliver_id_code" value="<?=$row_provider_id['mem_code']?>">
                           <input type="checkbox" id="same_gonggupsa" name="same_gonggupsa" onclick="self_deliver()" style="vertical-align: text-top;margin-right:5px;">공급사와 동일
                           <div style="display:flex;margin-top:10px;">
-                              아이디:<input type="text" name="deliver_id" id="deliver_id" value="<?=$row_provider_id[mem_id]?>" style="width: 200px;height: 15px;padding: 10px;margin-left: 20px;"><a href="javascript:check_deliver_id();" id="check_deliver_id" style="background-color: #82c836;color: white;padding: 2px 5px;margin: -1px 5px;cursor: pointer;">확인</a>
+                              아이디:<input type="text" name="deliver_id" id="deliver_id" value="<?=$row_provider_id['mem_id']?>" style="width: 200px;height: 15px;padding: 10px;margin-left: 20px;"><a href="javascript:check_deliver_id();" id="check_deliver_id" style="background-color: #82c836;color: white;padding: 2px 5px;margin: -1px 5px;cursor: pointer;">확인</a>
                           </div>
                           <div style="display:flex;margin-top:10px;">
                               이름:<input type="text" name="deliver_name" id="deliver_name" value="<?=$row_provider_id['mem_name']?>" style="width: 200px;height: 15px;padding: 10px;margin-left: 33px;" readonly>
@@ -407,7 +407,7 @@ function check_deliver_id(){
 }
 function self_deliver(){
     if($("#same_gonggupsa").prop('checked')){
-        $("#deliver_id").val('<?=$row_mem[mem_id]?>');
+        $("#deliver_id").val('<?=$row_mem['mem_id']?>');
         $("#deliver_name").val('<?=$row_mem['mem_name']?>');
         $("#deliver_phone").val('<?=$row_mem[mem_phone]?>');
         $("#deliver_addr").val('<?=$row_mem[mem_add1]?>');

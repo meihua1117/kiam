@@ -193,7 +193,7 @@ if ($_REQUEST[rday2]) {
                             <td><?= $number-- ?></td>
                             <td><?= $new_val ?></td>
                             <td><?= $row['mem_name'] ?></td>
-                            <td><?= $row[mem_id] ?></td>
+                            <td><?= $row['mem_id'] ?></td>
                             <td><?= $row[mem_phone] ?></td>
 
                             <!-- //Julian 2020-07-04 Problem 19 / 3 -->

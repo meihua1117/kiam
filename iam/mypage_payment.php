@@ -423,7 +423,7 @@ $mid = date("YmdHis").rand(10,99);
                                         }
                                         ?></td>
                                     <td style=""><?=$row[item_name]?></td>
-                                    <td style=""><?=$row_mem_data[mem_id]?><br><?=$row_mem_data['mem_name']?></td>
+                                    <td style=""><?=$row_mem_data['mem_id']?><br><?=$row_mem_data['mem_name']?></td>
                                     <td style=""><?=$row[buyer_tel]?></td>
                                     <td style="font-size:11px;"><?=$row[pay_date]?></td>
                                     <td style="font-size:11px;">

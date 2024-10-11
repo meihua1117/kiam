@@ -142,10 +142,10 @@ if($_GET['type']){
 									$k = 1;
 									while($row_all = mysqli_fetch_array($res_all)){
 										if($k == $row_num5){
-											$all_mem_ids .= $row_all[mem_id];
+											$all_mem_ids .= $row_all['mem_id'];
 										}
 										else{
-											$all_mem_ids .= $row_all[mem_id].",";
+											$all_mem_ids .= $row_all['mem_id'].",";
 										}
 										$k++;
 									}
@@ -153,7 +153,7 @@ if($_GET['type']){
 
 									$result6=mysqli_query($self_con,$sql6) or die(mysqli_error($self_con));
 									while($row6=mysqli_fetch_array($result6)){
-										$diplay_sql="select main_img1, card_phone as friends_phone, card_short_url as friends_url, mem_id from Gn_Iam_Name_Card where mem_id = '$row6[mem_id]' order by idx asc limit 1";
+										$diplay_sql="select main_img1, card_phone as friends_phone, card_short_url as friends_url, mem_id from Gn_Iam_Name_Card where mem_id = '{$row6['mem_id']}' order by idx asc limit 1";
 										$diplay_result=mysqli_query($self_con,$diplay_sql) or die(mysqli_error($self_con));
 										$diplay_row=mysqli_fetch_array($diplay_result);
 										$friends_main_img = $diplay_row[main_img1];
@@ -180,15 +180,15 @@ if($_GET['type']){
 														<span class="name">
 															<?=$row6['mem_name']?>
 														</span>
-														<span class="company"><?=$row6[mem_id]?></span>
+														<span class="company"><?=$row6['mem_id']?></span>
 													</div>
 													<div class="downer">
 														<a href="tel:<?=$row6[mem_phone]?>"><?=$row6[mem_phone]?></a>
 													</div>
 												</div>
 												<div class="check">
-													<input type="checkbox" name="friends_chk" id="inputItem<?=$row6['mem_code']?>" class="friends checkboxes input css-checkbox ####<?=$row6['mem_code']?>" onclick='friends_chk_count() ' value="<?=$row6['mem_code']?>" data-name = "<?=$row6[mem_id]?>">
-													<label for="inputItem<?=$row6['mem_code']?>" class="css-label cb0" data-name = "<?=$row6[mem_id]?>"></label>
+													<input type="checkbox" name="friends_chk" id="inputItem<?=$row6['mem_code']?>" class="friends checkboxes input css-checkbox ####<?=$row6['mem_code']?>" onclick='friends_chk_count() ' value="<?=$row6['mem_code']?>" data-name = "<?=$row6['mem_id']?>">
+													<label for="inputItem<?=$row6['mem_code']?>" class="css-label cb0" data-name = "<?=$row6['mem_id']?>"></label>
 													<input type="hidden" name="friends_idx<?=$row6['mem_code']?>" id="friends_idx<?=$row6['mem_code']?>" value="<?=$row6['mem_phone']?>">
 												</div>
 											</div>

@@ -343,7 +343,7 @@ if (!$_SESSION['one_member_id']) {
                         var web_pwd = "";
                         var phone_str = "";
 
-                        id_str = "<?php echo $member_1[mem_id] ?>";
+                        id_str = "<?php echo $member_1['mem_id'] ?>";
 
                         var bank_name = $('#bank_name').val();
                         var bank_account = $('#bank_account').val();

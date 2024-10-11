@@ -279,7 +279,7 @@ $domainData = mysqli_fetch_array($res);
                                         <li class="list-item">
                                             <div class="item-wrap">
                                                 <!--div class="check" style="padding-left: 0px;padding-right: 10px;">
-                                                    <input type="checkbox" style="" data-mem_id = '<?=$row[mem_id]?>'>
+                                                    <input type="checkbox" style="" data-mem_id = '<?=$row['mem_id']?>'>
                                                 </div-->
                                                 <div class="thumb">
                                                     <div class="thumb-inner">

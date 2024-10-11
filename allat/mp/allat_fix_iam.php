@@ -49,7 +49,7 @@ if(!strcmp($REPLYCD,"0000")){//pay_test
     $search_email_cnt = $row[email_cnt];
     $term = substr($last_time, 0, 10);
 
-    $sql = "select count(cmid) from crawler_member_real where user_id='$member_iam[mem_id]' ";
+    $sql = "select count(cmid) from crawler_member_real where user_id='{$member_iam['mem_id']}' ";
     $sresult = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
     $crow = mysqli_fetch_array($sresult);
     if ($crow[0] == 0) {
@@ -90,7 +90,7 @@ if(!strcmp($REPLYCD,"0000")){//pay_test
     }
     $add_phone = $row[phone_cnt] / 9000;
     $sql_m = "update Gn_Member set fujia_date1=now() , fujia_date2=date_add(now(),INTERVAL 120 month),phone_cnt=phone_cnt+'$add_phone'";
-    $sql_m .= " where mem_id='$member_iam[mem_id]'";
+    $sql_m .= " where mem_id='{$member_iam['mem_id']}'";
     mysqli_query($self_con,$sql_m) or die(mysqli_error($self_con));
 
     if ($member_iam['recommend_id'] != "") {
@@ -133,7 +133,7 @@ if(!strcmp($REPLYCD,"0000")){//pay_test
                                 exp_mid_status = 0,
                                 exp_limit_status = 0,
                                 exp_limit_date = NULL
-                            where mem_id='$member_iam[mem_id]' ";
+                            where mem_id='{$member_iam['mem_id']}' ";
     mysqli_query($self_con,$sql_m) or die(mysqli_error($self_con));
     // 결과값 처리
     // reply_cd "0000" 일때만 성공

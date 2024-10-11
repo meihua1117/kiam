@@ -1,6 +1,6 @@
 <?
 include "inc/header.inc.php";
-if($member_iam[mem_id] == "") {
+if($member_iam['mem_id'] == "") {
     echo "<script>location.history(-1);</script>";
     exit;
 }
@@ -42,7 +42,7 @@ $pay_info['end_status'] = "N";
 $pay_info['buyertel'] = $member_iam[mem_phone]; //구매자 전화번호
 $pay_info['buyeremail'] = $member_iam[mem_email]; //구매자 연락처
 $pay_info['payMethod'] = "BANK";
-$pay_info['buyer_id'] = $member_iam[mem_id];
+$pay_info['buyer_id'] = $member_iam['mem_id'];
 $pay_info['member_type'] = $_POST['member_type'];
 $pay_info['phone_cnt'] = $pay_info['max_cnt'] =$_POST['phone_cnt']; // 추가갯수
 $pay_info['db_cnt'] = $_POST['db_cnt'];
@@ -66,15 +66,15 @@ foreach($pay_info as $key=>$v)
 $sql.=" date=now() ";
 mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 $no = mysqli_insert_id($self_con);
-$sql="select * from tjd_pay_result where orderNumber='{$orderNumber}' and buyer_id='$member_iam[mem_id]' ";
+$sql="select * from tjd_pay_result where orderNumber='{$orderNumber}' and buyer_id='{$member_iam['mem_id']}' ";
 $resul=mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
 $row=mysqli_fetch_array($resul);	
 
-$sql="select * from Gn_Member where mem_id='$member_iam[mem_id]' ";
+$sql="select * from Gn_Member where mem_id='{$member_iam['mem_id']}' ";
 $sresult=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 $srow=mysqli_fetch_array($sresult);	
 
-$sql="select * from crawler_member_real where user_id='$member_iam[mem_id]' ";
+$sql="select * from crawler_member_real where user_id='{$member_iam['mem_id']}' ";
 $sresult=mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
 $crow=mysqli_fetch_array($sresult);	   
 

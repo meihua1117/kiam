@@ -1,6 +1,6 @@
 <?
 include_once "lib/rlatjd_fun.php";
-if($member_1[mem_id] == "") {
+if($member_1['mem_id'] == "") {
     echo "<script>location.history(-1);</script>";
     exit;
 }

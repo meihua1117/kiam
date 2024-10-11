@@ -17,7 +17,7 @@ $res = mysqli_query($self_con,$query);
 $data = mysqli_fetch_array($res);
 
 $group = "";
-$group_sql = "select info.name from gn_group_member mem inner join gn_group_info info on info.idx = mem.group_id where mem_id='$data[mem_id]'";
+$group_sql = "select info.name from gn_group_member mem inner join gn_group_info info on info.idx = mem.group_id where mem_id='{$data['mem_id']}'";
 $group_res = mysqli_query($self_con,$group_sql);
 while($group_row = mysqli_fetch_array($group_res)){
     if($group == "")

@@ -15,14 +15,14 @@ else if($_POST['mode'] == "get_user_info"){
   echo '{"mem_name":"'.$row['mem_name'].'", "site":"'.$row['site'].'", "site_iam":"'.$row['site_iam'].'", "mem_phone":"'.$row['mem_phone'].'", "service_type":"'.$row['service_type'].'"}';
 }
 else if($_POST['mode'] == "reseller_state"){
-  $sql_chk = "select count(a.mem_code) as cnt from Gn_Member a inner join Gn_Iam_Service b on a.mem_id=b.mem_id where a.service_type>=2 and a.mem_id='{$_POST[mem_id]}'";
+  $sql_chk = "select count(a.mem_code) as cnt from Gn_Member a inner join Gn_Iam_Service b on a.mem_id=b.mem_id where a.service_type>=2 and a.mem_id='{$_POST['mem_id']}'";
   $res_chk = mysqli_query($self_con,$sql_chk);
   $row_chk = mysqli_fetch_array($res_chk);
   if($row_chk[0]){
     echo 1;
   }
   else{
-    if($_POST[mem_id] == 'obmms02'){
+    if($_POST['mem_id'] == 'obmms02'){
       echo 1;
     }
     else{
@@ -31,7 +31,7 @@ else if($_POST['mode'] == "reseller_state"){
   }
 }
 else if($_POST['mode'] == "cur_gwcleb_state"){
-  $sql_chk = "select gwc_leb from Gn_Member where mem_id='{$_POST[mem_id]}'";
+  $sql_chk = "select gwc_leb from Gn_Member where mem_id='{$_POST['mem_id']}'";
   $res_chk = mysqli_query($self_con,$sql_chk);
   $row_chk = mysqli_fetch_array($res_chk);
   if($row_chk[0] == "1" || $row_chk[0] == "4"){
@@ -42,7 +42,7 @@ else if($_POST['mode'] == "cur_gwcleb_state"){
   }
 }
 else if($_POST['mode'] == "check_gwc_member"){
-  $sql_chk = "select count(mem_code) as cnt from Gn_Member where gwc_leb!=0 and gwc_state!=0 and mem_id='{$_POST[mem_id]}'";
+  $sql_chk = "select count(mem_code) as cnt from Gn_Member where gwc_leb!=0 and gwc_state!=0 and mem_id='{$_POST['mem_id']}'";
   $res_chk = mysqli_query($self_con,$sql_chk);
   $row_chk = mysqli_fetch_array($res_chk);
 

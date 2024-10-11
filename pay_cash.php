@@ -3,7 +3,7 @@ $path="./";
 include_once "_head.php";
 //print_r($_SESSION);
 //print_R($_POST);
-if($member_1[mem_id] == "") {
+if($member_1['mem_id'] == "") {
     echo "<script>location.history(-1);</script>";
     exit;
 }
@@ -29,7 +29,7 @@ $pay_info['end_status'] = "N";
 $pay_info['buyertel'] = $member_1[mem_phone]; //구매자 전화번호
 $pay_info['buyeremail'] = $member_1[mem_email]; //구매자 연락처
 $pay_info['payMethod'] = "BANK";
-$pay_info['buyer_id'] = $member_1[mem_id];
+$pay_info['buyer_id'] = $member_1['mem_id'];
 $pay_info['member_type'] = $_POST['member_type'];
 $pay_info['phone_cnt'] = $pay_info['max_cnt'] =$_POST['phone_cnt']; // 추가갯수
 $pay_info['db_cnt'] = $_POST['db_cnt'];
@@ -53,7 +53,7 @@ $pay_info['end_date'] = $last_time;
 $sql.=" date=now() ";
 mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 $no = mysqli_insert_id($self_con);
-$sql="select * from tjd_pay_result where orderNumber='{$ORDER_NO}' and buyer_id='$member_1[mem_id]' ";
+$sql="select * from tjd_pay_result where orderNumber='{$ORDER_NO}' and buyer_id='{$member_1['mem_id']}' ";
 $resul=mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
 $row=mysqli_fetch_array($resul);	
 /*
@@ -67,11 +67,11 @@ $row=mysqli_fetch_array($resul);
 지사 소속일경우 (직판 60% , 직원판매시 20%) 105
 총판 소속일경우 (직판 70% , 직원판매시 30%) 1100
 */
-$sql="select * from Gn_Member where mem_id='$member_1[mem_id]' ";
+$sql="select * from Gn_Member where mem_id='{$member_1['mem_id']}' ";
 $sresult=mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
 $srow=mysqli_fetch_array($sresult);	
 
-$sql="select * from crawler_member_real where user_id='$member_1[mem_id]' ";
+$sql="select * from crawler_member_real where user_id='{$member_1['mem_id']}' ";
 $sresult=mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
 $crow=mysqli_fetch_array($sresult);	        
 if($crow[0] == "") {

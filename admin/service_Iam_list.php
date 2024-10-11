@@ -269,7 +269,7 @@ if($_REQUEST['dir'] == "desc"){
                             $query .= "$orderQuery";
                             $res = mysqli_query($self_con,$query);
                             while($row = mysqli_fetch_array($res)) {
-                                $mem_sql = "select web_pwd,mem_code, site_iam from Gn_Member where mem_id = '$row[mem_id]'";
+                                $mem_sql = "select web_pwd,mem_code, site_iam from Gn_Member where mem_id = '{$row['mem_id']}'";
                                 $mem_result = mysqli_query($self_con,$mem_sql);
                                 $mem_row = mysqli_fetch_array($mem_result);
                             ?>

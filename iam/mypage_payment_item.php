@@ -318,7 +318,7 @@ input:checked + .slider:before {
                                             <td style=""><?=$sort_no?></td>
                                             <td style=""><?=$method?></td>
                                             <td style="font-size:11px;"><?=$row[item_name]?></td>
-                                            <td style=""><?=$row_mem_data[mem_id]?>/<?=$row_mem_data['mem_name']?></td>
+                                            <td style=""><?=$row_mem_data['mem_id']?>/<?=$row_mem_data['mem_name']?></td>
                                             <td style=""><?=$row_mem_data[mem_phone]?></td>
                                             <td style="font-size:11px;"><?=$row[pay_date]?></td>
                                             <?php

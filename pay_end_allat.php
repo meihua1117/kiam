@@ -69,18 +69,18 @@ $at_data   = "allat_shop_id=".$at_shop_id.
     $TICKET_NAME      =getValue("ticket_nm",$at_txt);	
     $PARTCANCEL_YN    =getValue("partcancel_yn",$at_txt);	
 
-    $sql="select * from tjd_pay_result where orderNumber='$_POST[allat_order_no]' and buyer_id='$member_1[mem_id]' ";
+    $sql="select * from tjd_pay_result where orderNumber='$_POST[allat_order_no]' and buyer_id='{$member_1['mem_id']}' ";
     $resul=mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
     $row=mysqli_fetch_array($resul);
     $no = $row['no'];
 
-    $sql = "update tjd_pay_result set end_status='Y' where  orderNumber='$_POST[allat_order_no]' and buyer_id='$member_1[mem_id]'";
+    $sql = "update tjd_pay_result set end_status='Y' where  orderNumber='$_POST[allat_order_no]' and buyer_id='{$member_1['mem_id']}'";
     mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
-    $sql = "select * from Gn_Member where mem_id='$member_1[mem_id]' ";
+    $sql = "select * from Gn_Member where mem_id='{$member_1['mem_id']}' ";
     $sresult = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
     $srow = mysqli_fetch_array($sresult);
 
-    $sql = "select * from crawler_member_real where user_id='$member_1[mem_id]' ";
+    $sql = "select * from crawler_member_real where user_id='{$member_1['mem_id']}' ";
     $sresult = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
     $crow = mysqli_fetch_array($sresult);
     $user_id = $srow['mem_id'];
@@ -126,11 +126,11 @@ $at_data   = "allat_shop_id=".$at_shop_id.
         }
     }
 
-    $sql_m = "update Gn_Member set fujia_date1=now() , fujia_date2=date_add(now(),INTERVAL 120 month)  where mem_id='$member_1[mem_id]' ";
+    $sql_m = "update Gn_Member set fujia_date1=now() , fujia_date2=date_add(now(),INTERVAL 120 month)  where mem_id='{$member_1['mem_id']}' ";
     mysqli_query($self_con,$sql_m) or die(mysqli_error($self_con));
 
     $add_phone = $row[phone_cnt] / 9000;
-    $sql_m = "update Gn_Member set   phone_cnt=phone_cnt+'$add_phone' where mem_id='$member_1[mem_id]' ";
+    $sql_m = "update Gn_Member set   phone_cnt=phone_cnt+'$add_phone' where mem_id='{$member_1['mem_id']}' ";
     mysqli_query($self_con,$sql_m) or die(mysqli_error($self_con));
 
     /*if ($srow['recommend_id'] != "") {

@@ -35,10 +35,10 @@ $no = $row['no'];
 if(!strcmp($REPLYCD,"0000")){//pay_test
     $sql = "update tjd_pay_result set end_status='Y',billkey='$FIX_KEY',billdate='$APPLY_YMD' where  orderNumber='$ORDER_NO'";
     mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
-    $sql = "select * from Gn_Member where mem_id='$member_iam[mem_id]' ";
+    $sql = "select * from Gn_Member where mem_id='{$member_iam['mem_id']}' ";
     $sresult = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
     $srow = mysqli_fetch_array($sresult);
-    $sql_m = "update Gn_Member set fujia_date1=now() , fujia_date2=date_add(now(),INTERVAL 120 month)  where mem_id='$member_iam[mem_id]' ";
+    $sql_m = "update Gn_Member set fujia_date1=now() , fujia_date2=date_add(now(),INTERVAL 120 month)  where mem_id='{$member_iam['mem_id']}' ";
     mysqli_query($self_con,$sql_m) or die(mysqli_error($self_con));
 
     if ($srow['recommend_id'] != "") {

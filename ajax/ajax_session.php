@@ -1138,7 +1138,7 @@ if ($_POST[lms_save_title]) {
     if ($_POST[lms_save_status] == "add") {
         $sql = "insert into Gn_MMS_Message set ";
         $message_info[seq_num] = $_POST[lms_save_seq_num];
-        $message_info[mem_id] = $_SESSION['one_member_id'];
+        $message_info['mem_id'] = $_SESSION['one_member_id'];
     } else if ($_POST[lms_save_status] == "modify") {
         $sql = "update Gn_MMS_Message set ";
     }
@@ -1281,7 +1281,7 @@ if ($_POST[deny_add_send] && $_POST[deny_add_recv]) {
         $deny_info['content'] = "수동입력";
         $deny_info[status] = "B";
         $deny_info[chanel_type] = $chanel;
-        $deny_info[mem_id] = $_SESSION['one_member_id'];
+        $deny_info['mem_id'] = $_SESSION['one_member_id'];
     }
     $i = 0;
     foreach ($deny_info as $key => $v) {
@@ -1359,7 +1359,7 @@ if ($_POST[agree_add_send] && $_POST[agree_add_recv]) {
         $deny_info[title] = "수동입력";
         $deny_info['content'] = "수동입력";
         $deny_info[status] = "B";
-        $deny_info[mem_id] = $_SESSION['one_member_id'];
+        $deny_info['mem_id'] = $_SESSION['one_member_id'];
     }
     $i = 0;
     foreach ($deny_info as $key => $v) {
@@ -1410,7 +1410,7 @@ if ($_POST[deny_g_add_recv_num] && $_POST[deny_g_add_send_num]) {
         $deny_info[title] = "수동입력";
         $deny_info['content'] = "수동입력";
         $deny_info[status] = "B";
-        $deny_info[mem_id] = $_SESSION['one_member_id'];
+        $deny_info['mem_id'] = $_SESSION['one_member_id'];
         foreach ($deny_info as $key2 => $v2)
             $sql_i .= " $key2='$v2' , ";
         $sql_i .= " reg_date=now() ";
@@ -1591,7 +1591,7 @@ if ($_POST[fs_del_num_s]) {
         $result = mysqli_query($self_con,$sql);
         $row1 = mysqli_fetch_array($result);
         $uni_id = $row1[uni_id];
-        $mem_id = $row1[mem_id];
+        $mem_id = $row1['mem_id'];
         $sendnum = $row1['send_num'];
         $up_date = $row1['up_date'];
         $reg_date = $row1[reg_date];
@@ -1838,7 +1838,7 @@ if ($_POST[log_add_dest] && $_POST[log_add_ori]) {
     $log_info[ori_num] = $ori_num;
     $log_info[msg_flag] = $_POST[log_add_msg_flag];
     $log_info[msg_text] = "수동입력";
-    $log_info[mem_id] = $_SESSION['one_member_id'];
+    $log_info['mem_id'] = $_SESSION['one_member_id'];
     if ($_POST[log_add_idx])
         $sql = "update sm_log set ";
     else
@@ -2095,7 +2095,7 @@ if ($_POST[pay_cancel_no] && $_POST[pay_cancel_paymethod]) {
             $inipay->startAction();
             if ($inipay->getResult('ResultCode') == "00") {
                 if ($_POST[pay_cancel_fujia] == 'Y') {
-                    $sql_m = "update Gn_Member set fujia_date1='' , fujia_date2='' where mem_id='$member_1[mem_id]' ";
+                    $sql_m = "update Gn_Member set fujia_date1='' , fujia_date2='' where mem_id='{$member_1['mem_id']}' ";
                     mysqli_query($self_con,$sql_m) or die(mysqli_error($self_con));
                 }
                 $pay_info[end_status] = "C";
@@ -2111,7 +2111,7 @@ if ($_POST[pay_cancel_no] && $_POST[pay_cancel_paymethod]) {
                 }
                 $sql .= " end_date=now() where no='$_POST[pay_cancel_no]' ";
                 if (mysqli_query($self_con,$sql) or die(mysqli_error($self_con))) {
-                    $sql_num_up = "update Gn_MMS_Number set end_status='N' ,end_date=now() where end_date='$_POST[pay_cancel_end_date]' and mem_id='$member_1[mem_id]'  ";
+                    $sql_num_up = "update Gn_MMS_Number set end_status='N' ,end_date=now() where end_date='$_POST[pay_cancel_end_date]' and mem_id='{$member_1['mem_id']}'  ";
                     mysqli_query($self_con,$sql_num_up);
     ?>
                     <script language="javascript">
@@ -2143,7 +2143,7 @@ if ($_POST[pay_cancel_no] && $_POST[pay_cancel_paymethod]) {
             $inipay->startAction();
             if ($inipay->m_resultCode == "00") {
                 if ($_POST[pay_cancel_fujia] == 'Y') {
-                    $sql_m = "update Gn_Member set fujia_date1='' , fujia_date2='' where mem_id='$member_1[mem_id]' ";
+                    $sql_m = "update Gn_Member set fujia_date1='' , fujia_date2='' where mem_id='{$member_1['mem_id']}' ";
                     mysqli_query($self_con,$sql_m) or die(mysqli_error($self_con));
                 }
                 $pay_info[end_status] = "C";
@@ -2159,7 +2159,7 @@ if ($_POST[pay_cancel_no] && $_POST[pay_cancel_paymethod]) {
                 }
                 $sql .= " end_date=now() where no='$_POST[pay_cancel_no]' ";
                 if (mysqli_query($self_con,$sql) or die(mysqli_error($self_con))) {
-                    $sql_num_up = "update Gn_MMS_Number set end_status='N' ,end_date=now() where end_date='$_POST[pay_cancel_end_date]' and mem_id='$member_1[mem_id]'  ";
+                    $sql_num_up = "update Gn_MMS_Number set end_status='N' ,end_date=now() where end_date='$_POST[pay_cancel_end_date]' and mem_id='{$member_1['mem_id']}'  ";
                     mysqli_query($self_con,$sql_num_up);
                 ?>
                     <script language="javascript">
@@ -2189,7 +2189,7 @@ if ($_POST[send_save_mms]) { //메시지 저장
             $message_info[msg_type] = "A";
     }
     $sql = "insert into Gn_MMS_Message set "; //발송
-    $message_info[mem_id] = $_SESSION['one_member_id'];
+    $message_info['mem_id'] = $_SESSION['one_member_id'];
     $message_info[title] = htmlspecialchars(str_replace("{|name|}", "{|REP|}", $_POST[send_title]));
     $message_info[message] = htmlspecialchars(str_replace("{|name|}", "{|REP|}", $_POST[send_txt]));
     $message_info[img] = $_POST[send_img];

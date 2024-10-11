@@ -21,7 +21,7 @@ if($_POST[id_che]){
     $sql="select mem_id from Gn_Member where mem_id='$id_che'".$search;
     $resul=mysqli_query($self_con,$sql);
     $row=mysqli_fetch_array($resul);
-    if($row[mem_id]){?>
+    if($row['mem_id']){?>
     <script language="javascript">
 		alert('이미 가입되어있는 아이디입니다.');
 		<?=$_POST[id_che_form]?>.id_status.value=''
@@ -122,7 +122,7 @@ if($_POST[nick_che]){
     $sql="select mem_id from Gn_Member where mem_nick='$nick_che' $add_sql";
     $resul=mysqli_query($self_con,$sql);
     $row=mysqli_fetch_array($resul);
-    if($row[mem_id]){
+    if($row['mem_id']){
 ?>
 	<script language="javascript">
         document.getElementById('nick_html').innerHTML='이미 가입되어있는 닉네임입니다.'
@@ -155,7 +155,7 @@ if($_POST[nick_che]){
 if($_POST[join_nick] && $_POST[join_is_message]){
 	$_POST[join_id] = strtolower(trim($_POST[join_id]));
     if(!$_POST[join_modify]){
-        $member_info[mem_id]=htmlspecialchars($_POST[join_id]);
+        $member_info['mem_id']=htmlspecialchars($_POST[join_id]);
 		$member_info[mem_leb]=22;
 		$member_info[id_type]="hp";
 		$member_info[join_ip]=$ip;
@@ -283,13 +283,13 @@ if($_POST[join_nick] && $_POST[join_is_message]){
 	if($_POST[join_modify])
 	    $sql=" update Gn_Member set ";
 	else {
-		$query = "select count(*) from Gn_Member where mem_id = '$member_info[mem_id]'";
+		$query = "select count(*) from Gn_Member where mem_id = '{$member_info['mem_id']}'";
 		$result = mysqli_query($self_con,$query);
 		$row = mysqli_fetch_array($result);
 		if($row[0] == 0)
 			$sql = " insert into Gn_Member set ";
 		else
-			$sql = "update Gn_Member set ".$_POST[site_type]." = '".$_POST[site_name]."' where mem_id = '".$member_info[mem_id]."'";
+			$sql = "update Gn_Member set ".$_POST[site_type]." = '".$_POST[site_name]."' where mem_id = '".$member_info['mem_id']."'";
 	}
 	if($_POST[join_modify] || $row[0] == 0) {
 		$i = 0;
@@ -313,11 +313,11 @@ if($_POST[join_nick] && $_POST[join_is_message]){
 		</script>
 <?
 		}else if($row[0] == 0){
-			$sql="select * from Gn_MMS_Group where mem_id='$member_info[mem_id]' and grp='아이엠'";
+			$sql="select * from Gn_MMS_Group where mem_id='{$member_info['mem_id']}' and grp='아이엠'";
 			$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 			$data = mysqli_fetch_array($result);
 			if($data[idx] == ""){
-				$query = "insert into Gn_MMS_Group set mem_id='$member_info[mem_id]', grp='아이엠', reg_date=NOW()";
+				$query = "insert into Gn_MMS_Group set mem_id='{$member_info['mem_id']}', grp='아이엠', reg_date=NOW()";
 				mysqli_query($self_con,$query);
 			}
 			$_SESSION['one_member_id']=$_POST[join_id];
@@ -379,7 +379,7 @@ if($_POST[search_id_pw_mem_name] && $_POST[search_id_pw_type]){
 			else{
 				$site_iam = $row[site_iam].".";
 			}
-			$content=$row['mem_name']."님 온리원문자 비밀번호가[ ".$new_pwd." ] 로 변경되었습니다. ".$site_iam."kiam.kr (".$row[mem_id].")";
+			$content=$row['mem_name']."님 온리원문자 비밀번호가[ ".$new_pwd." ] 로 변경되었습니다. ".$site_iam."kiam.kr (".$row['mem_id'].")";
 			$content1=$row['mem_name']."님 온리원문자 비밀번호가[ ".$new_pwd." ] 로 변경되었습니다.";
             $subject="온리원문자 비밀번호찾기";
             if($_POST[search_id_pw_type]=="email") {
@@ -427,7 +427,7 @@ if($_POST[search_id_pw_mem_name] && $_POST[search_id_pw_type]){
 				else{
 					$site_iam = $row1[site_iam].".";
 				}
-				$content.= $row1['mem_name']."님 온리원문자 아이디는[ ".$row1[mem_id]." ] 입니다. ".$site_iam."kiam.kr (".$row1[mem_id].")\n";
+				$content.= $row1['mem_name']."님 온리원문자 아이디는[ ".$row1['mem_id']." ] 입니다. ".$site_iam."kiam.kr (".$row1['mem_id'].")\n";
 				$subject="온리원문자 아이디찾기";
 			}
 			if($_POST[search_id_pw_type]=="email") {

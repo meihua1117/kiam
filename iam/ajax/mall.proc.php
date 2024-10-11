@@ -400,7 +400,7 @@ if($method_type == "pay_mall"){
         $card_sql = "select * from Gn_Iam_Name_Card where idx ='$iam_mall_link'";
         $card_res = mysqli_query($self_con,$card_sql);
         $card_row = mysqli_fetch_assoc($card_res);
-        $seller_id = $card_row[mem_id];
+        $seller_id = $card_row['mem_id'];
         $card_short_url = $card_row['card_short_url'];
         $sql = "insert into Gn_Iam_Name_Card set ";
         foreach($card_row as $key=>$v){

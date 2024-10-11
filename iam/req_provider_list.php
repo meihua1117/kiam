@@ -191,7 +191,7 @@ extract($_GET);
                     <div class="box">       
                         <div style="padding:20px;">
                         <input type="hidden" id="mode" name="mode" value="req_provider">
-                        <input type="hidden" id="gongup_id" name="gongup_id" value="<?=$member_iam[mem_id]?>">
+                        <input type="hidden" id="gongup_id" name="gongup_id" value="<?=$member_iam['mem_id']?>">
                         <input type="hidden" id="gwc_worker_state" name="gwc_worker_state" value="<?=$member_iam[gwc_worker_state]?'1':'0'?>">
                         <div style="display:flex;margin-top:10px;">
                             공급사명:<input type="text" name="provider_name" id="provider_name" value="<?=$member_iam[gwc_provider_name]?>" style="width: 200px;height: 15px;padding: 10px;margin-left: 45px;border: 1px solid;">

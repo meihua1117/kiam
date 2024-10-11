@@ -42,7 +42,7 @@ for($i = 0; $i < count($id_arr); $i++){
                                     footer_image='$row[footer_logo]',
                                     contract_start_date='$row[contract_start_date]',
                                     contract_end_date='$row[contract_end_date]',
-                                    mem_id='$row[mem_id]',
+                                    mem_id='{$row['mem_id']}',
                                     mem_name='{$row['mem_name']}',
                                     site_name='$row[brand_name]',
                                     keywords='$row[keywords]',
@@ -77,7 +77,7 @@ for($i = 0; $i < count($id_arr); $i++){
         $domain_arr = explode(".", $domain);
         $site = $domain_arr[0];
         $site = str_replace("http://","",$site);
-        $query="update Gn_Member set site = '$site' where mem_id = '$row[mem_id]'";
+        $query="update Gn_Member set site = '$site' where mem_id = '{$row['mem_id']}'";
         mysqli_query($self_con,$query) or die(mysqli_error($self_con));
     }
 }

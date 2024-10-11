@@ -110,7 +110,7 @@ if($type == "main"){
             $search_email_cnt = $row[email_cnt];
             $term = substr($last_time, 0, 10);
 
-            $sql = "select count(cmid) from crawler_member_real where user_id='$member_iam[mem_id]' ";
+            $sql = "select count(cmid) from crawler_member_real where user_id='{$member_iam['mem_id']}' ";
             $sresult = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
             $crow = mysqli_fetch_array($sresult);
             if ($crow[0] == 0) {

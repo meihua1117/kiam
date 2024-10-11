@@ -218,7 +218,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                                 $query .= "$orderQuery";
                                 $res = mysqli_query($self_con,$query);
                                 while($row = mysqli_fetch_array($res)) {
-                                    $mem_sql = "SELECT mem_name,site_iam,site FROM Gn_Member use index(mem_id) where mem_id='$row[mem_id]'";
+                                    $mem_sql = "SELECT mem_name,site_iam,site FROM Gn_Member use index(mem_id) where mem_id='{$row['mem_id']}'";
                                     $mem_res = mysqli_query($self_con,$mem_sql);
                                     $mem_row = mysqli_fetch_array($mem_res);
                             ?>

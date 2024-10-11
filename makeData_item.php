@@ -115,7 +115,7 @@ if (isset($_POST['point_val'])) {
                                                     buyertel='$member_iam[mem_phone]',
                                                     buyeremail='$member_iam[mem_email]',
                                                     payMethod='$payMethod1',
-                                                    buyer_id='$member_iam[mem_id]',
+                                                    buyer_id='{$member_iam['mem_id']}',
                                                     date=NOW(),
                                                     member_type='$_POST[member_type]',
                                                     max_cnt='0',
@@ -130,7 +130,7 @@ if (isset($_POST['point_val'])) {
                                                     gwc_cont_pay=$gwc,
                                                     yutong_name=$yutong,
                                                     provider_name='$provider_name',
-                                                    seller_id='$row_cont_info[mem_id]',
+                                                    seller_id='{$row_cont_info['mem_id']}',
                                                     cash_prod_pay=$cash_pay";
 
                 $res_result = mysqli_query($self_con,$sql);
@@ -146,7 +146,7 @@ if (isset($_POST['point_val'])) {
                             pay_method='$payMethod',
                             item_name = '$_POST[member_type]',
                             item_price=$item_price,
-                            seller_id='$row_cont_info[mem_id]',
+                            seller_id='{$row_cont_info['mem_id']}',
                             pay_date=NOW(),
                             pay_percent='$_POST[pay_percent]',
                             order_number = '$_POST[allat_order_no]',
@@ -176,7 +176,7 @@ if (isset($_POST['point_val'])) {
                                                         buyertel='$member_iam[mem_phone]',
                                                         buyeremail='$member_iam[mem_email]',
                                                         payMethod='POINT',
-                                                        buyer_id='$member_iam[mem_id]',
+                                                        buyer_id='{$member_iam['mem_id']}',
                                                         date=NOW(),
                                                         member_type='$_POST[member_type]',
                                                         max_cnt='0',
@@ -191,7 +191,7 @@ if (isset($_POST['point_val'])) {
                                                         gwc_cont_pay=$gwc,
                                                         yutong_name=$yutong,
                                                         provider_name='$provider_name',
-                                                        seller_id='$row_cont_info[mem_id]',
+                                                        seller_id='{$row_cont_info['mem_id']}',
                                                         cash_prod_pay=$cash_pay";
                     $res_result = mysqli_query($self_con,$sql);
                     $pay_idx_tjd = mysqli_insert_id($self_con);
@@ -207,7 +207,7 @@ if (isset($_POST['point_val'])) {
                                                                 pay_method='POINT',
                                                                 item_name = '$_POST[member_type]',
                                                                 item_price=$use_point,
-                                                                seller_id='$row_cont_info[mem_id]',
+                                                                seller_id='{$row_cont_info['mem_id']}',
                                                                 pay_date=NOW(),
                                                                 pay_status='Y',
                                                                 pay_percent='',
@@ -225,7 +225,7 @@ if (isset($_POST['point_val'])) {
                     $pay_idx = mysqli_insert_id($self_con);
                 }
 
-                $sql_del = "delete from Gn_Gwc_Order where pay_order_no='$_POST[allat_order_no]' and mem_id='$member_iam[mem_id]' and page_type=1";
+                $sql_del = "delete from Gn_Gwc_Order where pay_order_no='$_POST[allat_order_no]' and mem_id='{$member_iam['mem_id']}' and page_type=1";
                 mysqli_query($self_con,$sql_del) or die(mysqli_error($self_con));
             }
             $sql_order = "insert into Gn_Gwc_Order
@@ -256,7 +256,7 @@ if (isset($_POST['point_val'])) {
                                 contents_cnt = '$_POST[contents_cnt]',
                                 use_point=$use_point,
                                 payMethod='$payMethod',
-                                seller_id='$row_cont_info[mem_id]',
+                                seller_id='{$row_cont_info['mem_id']}',
                                 cash_prod_pay=$cash_pay";
             if ($_POST['order_option'] == "gallery>>download")
                 $sql_order .= ",delivery_state=3,delivery_set_date=NOW()";
@@ -276,7 +276,7 @@ if (isset($_POST['point_val'])) {
                             pay_method='POINT',
                             item_name = '캐시포인트충전(캐시상품)',
                             item_price=29100,
-                            seller_id='$row_cont_info[mem_id]',
+                            seller_id='{$row_cont_info['mem_id']}',
                             pay_date=NOW(),
                             pay_status='Y',
                             pay_percent='',
@@ -337,7 +337,7 @@ if (isset($_POST['point_val'])) {
                                 buyertel='$member_iam[mem_phone]',
                                 buyeremail='$member_iam[mem_email]',
                                 payMethod='POINT',
-                                buyer_id='$member_iam[mem_id]',
+                                buyer_id='{$member_iam['mem_id']}',
                                 date=NOW(),
                                 member_type='$con_title_arr[$i]',
                                 max_cnt='$_POST[max_cnt]',
@@ -352,7 +352,7 @@ if (isset($_POST['point_val'])) {
                                 gwc_cont_pay=$gwc,
                                 yutong_name=$yutong,
                                 provider_name='$provider_name',
-                                seller_id='$row_cont_info[mem_id]'";
+                                seller_id='{$row_cont_info['mem_id']}'";
                     $res_result = mysqli_query($self_con,$sql);
                     $pay_idx_tjd = mysqli_insert_id($self_con);
 
@@ -367,7 +367,7 @@ if (isset($_POST['point_val'])) {
                                     pay_method='POINT',
                                     item_name = '$con_title_arr[$i]',
                                     item_price=$mi_price,
-                                    seller_id='$row_cont_info[mem_id]',
+                                    seller_id='{$row_cont_info['mem_id']}',
                                     pay_date=NOW(),
                                     pay_status='Y',
                                     pay_percent='',
@@ -411,7 +411,7 @@ if (isset($_POST['point_val'])) {
                                         contents_cnt = '$con_cnt_arr[$i]',
                                         use_point=$mi_price,
                                         payMethod='POINT',
-                                        seller_id='$row_cont_info[mem_id]'";
+                                        seller_id='{$row_cont_info['mem_id']}'";
                     if ($_POST['order_option'] == "gallery>>download")
                         $sql_order .= ",delivery_state=3,delivery_set_date=NOW()";
                     $res_result = mysqli_query($self_con,$sql_order);
@@ -436,7 +436,7 @@ if (isset($_POST['point_val'])) {
                                 buyertel='$member_iam[mem_phone]',
                                 buyeremail='$member_iam[mem_email]',
                                 payMethod='$payMethod2',
-                                buyer_id='$member_iam[mem_id]',
+                                buyer_id='{$member_iam['mem_id']}',
                                 date=NOW(),
                                 member_type='$con_title_arr[$i]',
                                 max_cnt='$_POST[max_cnt]',
@@ -451,7 +451,7 @@ if (isset($_POST['point_val'])) {
                                 gwc_cont_pay=$gwc,
                                 yutong_name=$yutong,
                                 provider_name='$provider_name',
-                                seller_id='$row_cont_info[mem_id]'";
+                                seller_id='{$row_cont_info['mem_id']}'";
                     $res_result = mysqli_query($self_con,$sql);
                     $pay_idx_tjd = mysqli_insert_id($self_con);
 
@@ -461,7 +461,7 @@ if (isset($_POST['point_val'])) {
                                     pay_method='$payMethod',
                                     item_name = '$con_title_arr[$i]',
                                     item_price=$real_price,
-                                    seller_id='$row_cont_info[mem_id]',
+                                    seller_id='{$row_cont_info['mem_id']}',
                                     pay_date=NOW(),
                                     pay_status='$end_state',
                                     pay_percent='$_POST[pay_percent]',
@@ -485,7 +485,7 @@ if (isset($_POST['point_val'])) {
                                     pay_method='POINT',
                                     item_name = '$con_title_arr[$i]',
                                     item_price=$use_point,
-                                    seller_id='$row_cont_info[mem_id]',
+                                    seller_id='{$row_cont_info['mem_id']}',
                                     pay_date=NOW(),
                                     pay_status='Y',
                                     pay_percent='',
@@ -528,7 +528,7 @@ if (isset($_POST['point_val'])) {
                                         contents_cnt = '$con_cnt_arr[$i]',
                                         use_point=$use_point,
                                         payMethod='$payMethod',
-                                        seller_id='$row_cont_info[mem_id]'";
+                                        seller_id='{$row_cont_info['mem_id']}'";
                     if ($_POST['order_option'] == "gallery>>download")
                         $sql_order .= ",delivery_state=3,delivery_set_date=NOW()";
                     $res_result = mysqli_query($self_con,$sql_order);
@@ -548,7 +548,7 @@ if (isset($_POST['point_val'])) {
                             buyertel='$member_iam[mem_phone]',
                             buyeremail='$member_iam[mem_email]',
                             payMethod='$payMethod',
-                            buyer_id='$member_iam[mem_id]',
+                            buyer_id='{$member_iam['mem_id']}',
                             date=NOW(),
                             member_type='$con_title_arr[$i]',
                             max_cnt='$_POST[max_cnt]',
@@ -563,7 +563,7 @@ if (isset($_POST['point_val'])) {
                             gwc_cont_pay=$gwc,
                             yutong_name=$yutong,
                             provider_name='$provider_name',
-                            seller_id='$row_cont_info[mem_id]'";
+                            seller_id='{$row_cont_info['mem_id']}'";
                 $res_result = mysqli_query($self_con,$sql);
                 $pay_idx_tjd = mysqli_insert_id($self_con);
 
@@ -573,7 +573,7 @@ if (isset($_POST['point_val'])) {
                                 pay_method='$payMethod',
                                 item_name = '$con_title_arr[$i]',
                                 item_price=$comp_price,
-                                seller_id='$row_cont_info[mem_id]',
+                                seller_id='{$row_cont_info['mem_id']}',
                                 pay_date=NOW(),
                                 pay_percent='$_POST[pay_percent]',
                                 order_number = '$_POST[allat_order_no]',
@@ -612,14 +612,14 @@ if (isset($_POST['point_val'])) {
                                     contents_cnt = '$con_cnt_arr[$i]',
                                     use_point=$use_point,
                                     payMethod='$payMethod',
-                                    seller_id='$row_cont_info[mem_id]'";
+                                    seller_id='{$row_cont_info['mem_id']}'";
                 if ($_POST['order_option'] == "gallery>>download")
                     $sql_order .= ",delivery_state=3,delivery_set_date=NOW()";
                 $res_result = mysqli_query($self_con,$sql_order);
             }
         }
         if ($use_point) { //포인트 결제인경우 장바구니 내역을 바로 삭제
-            $sql_del = "delete from Gn_Gwc_Order where pay_order_no='$_POST[allat_order_no]' and mem_id='$member_iam[mem_id]' and page_type=1";
+            $sql_del = "delete from Gn_Gwc_Order where pay_order_no='$_POST[allat_order_no]' and mem_id='{$member_iam['mem_id']}' and page_type=1";
             mysqli_query($self_con,$sql_del) or die(mysqli_error($self_con));
         }
     }

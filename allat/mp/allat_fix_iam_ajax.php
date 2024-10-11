@@ -48,7 +48,7 @@ if(!strcmp($REPLYCD,"0000")){//pay_test
     $search_email_cnt = $row[email_cnt];
     $term = substr($last_time, 0, 10);
 
-    $sql = "select count(cmid) from crawler_member_real where user_id='$member_iam[mem_id]' ";
+    $sql = "select count(cmid) from crawler_member_real where user_id='{$member_iam['mem_id']}' ";
     $sresult = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
     $crow = mysqli_fetch_array($sresult);
     if ($crow[0] == 0) {
@@ -95,15 +95,15 @@ if(!strcmp($REPLYCD,"0000")){//pay_test
         $sql_m .=",service_type=1";
     else if($row['member_type'] == "enterprise")
         $sql_m .=",service_type=1";
-    $sql_m .= " where mem_id='$member_iam[mem_id]'";
+    $sql_m .= " where mem_id='{$member_iam['mem_id']}'";
     mysqli_query($self_con,$sql_m) or die(mysqli_error($self_con));
 
     if($row['member_type'] == "year-professional"){
-        $sql_data = "select mem_phone, mem_point, mem_cash, mem_name from Gn_Member where mem_id='{$member_iam[mem_id]}'";
+        $sql_data = "select mem_phone, mem_point, mem_cash, mem_name from Gn_Member where mem_id='{$member_iam['mem_id']}'";
         $res_data = mysqli_query($self_con,$sql_data);
         $row_data = mysqli_fetch_array($res_data);
         
-        $sql_res = "insert into Gn_Item_Pay_Result set buyer_id='{$member_iam[mem_id]}', buyer_tel='{$row_data['mem_phone']}', item_name='씨드포인트충전', item_price=1000000, pay_percent=90, current_point={$row_data['mem_point']}, current_cash={$row_data['mem_cash']}, pay_status='Y', VACT_InputName='{$row_data['mem_name']}', type='buy', seller_id='{$member_iam[mem_id]}', pay_method='결제씨드충전', pay_date=now(), point_val=1";
+        $sql_res = "insert into Gn_Item_Pay_Result set buyer_id='{$member_iam['mem_id']}', buyer_tel='{$row_data['mem_phone']}', item_name='씨드포인트충전', item_price=1000000, pay_percent=90, current_point={$row_data['mem_point']}, current_cash={$row_data['mem_cash']}, pay_status='Y', VACT_InputName='{$row_data['mem_name']}', type='buy', seller_id='{$member_iam['mem_id']}', pay_method='결제씨드충전', pay_date=now(), point_val=1";
     
         mysqli_query($self_con,$sql_res);
     }
@@ -148,7 +148,7 @@ if(!strcmp($REPLYCD,"0000")){//pay_test
                                 exp_mid_status = 0,
                                 exp_limit_status = 0,
                                 exp_limit_date = NULL
-                            where mem_id='$member_iam[mem_id]' ";
+                            where mem_id='{$member_iam['mem_id']}' ";
     mysqli_query($self_con,$sql_m) or die(mysqli_error($self_con));
     
     $at_enc       = "";
@@ -163,7 +163,7 @@ if(!strcmp($REPLYCD,"0000")){//pay_test
     $at_registry_no    = "";   //주민번호(최대 13자리)           : szBusinessType=0 일경우
     $at_biz_no         = "";   //사업자번호(최대 20자리)         : szBusinessType=1 일경우
     $at_shop_id        = "bwelcome12";   //상점ID(최대 20자)
-    $at_shop_member_id = $member_iam[mem_id];   //회원ID(최대 20자)               : 쇼핑몰회원ID
+    $at_shop_member_id = $member_iam['mem_id'];   //회원ID(최대 20자)               : 쇼핑몰회원ID
     $at_order_no       = $ORDER_NO;   //주문번호(최대 80자)             : 쇼핑몰 고유 주문번호
     $at_product_cd     = "";   //상품코드(최대 1000자)           : 여러 상품의 경우 구분자 이용, 구분자('||':파이프 2개)
     $at_product_nm     = iconv("UTF-8","EUC-KR",$row['member_type']);   //상품명(최대 1000자)             : 여러 상품의 경우 구분자 이용, 구분자('||':파이프 2개)
@@ -238,9 +238,9 @@ if(!strcmp($REPLYCD,"0000")){//pay_test
                                                     msg='성공_mp_fix_iam_ajax',
                                                     regdate = NOW(),
                                                     amount='$row[TotPrice]',
-                                                    buyer_id='$member_iam[mem_id]'";
+                                                    buyer_id='{$member_iam['mem_id']}'";
         mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
-        $sql = "update tjd_pay_result set monthly_yn='Y', end_status='Y' where  orderNumber='$ORDER_NO' and buyer_id='$member_iam[mem_id]'";
+        $sql = "update tjd_pay_result set monthly_yn='Y', end_status='Y' where  orderNumber='$ORDER_NO' and buyer_id='{$member_iam['mem_id']}'";
         mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
 
         ?>
@@ -257,7 +257,7 @@ if(!strcmp($REPLYCD,"0000")){//pay_test
                                                         pay_yn='N',
                                                         msg='".iconv("euc-kr","utf-8",$REPLYMSG)."_mp_fix_iam_ajax"."',
                                                         amount='$row[TotPrice]',
-                                                        buyer_id='$member_iam[mem_id]'";
+                                                        buyer_id='{$member_iam['mem_id']}'";
     }
 }else{
     echo "결과코드  : ".$REPLYCD."<br>";
@@ -268,6 +268,6 @@ if(!strcmp($REPLYCD,"0000")){//pay_test
                                                         pay_yn='N',
                                                         msg='".iconv("euc-kr","utf-8",$REPLYMSG)."_mp_fix_iam_ajax"."',
                                                         amount='$row[TotPrice]',
-                                                        buyer_id='$member_iam[mem_id]'";
+                                                        buyer_id='{$member_iam['mem_id']}'";
 }
 ?>

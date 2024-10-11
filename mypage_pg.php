@@ -678,13 +678,13 @@ jQuery(function($){
                   $result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));				
                   while($row=mysqli_fetch_array($result))
                   {
-                      //echo $row[mem_id]."=".$row[recommend_id];
+                      //echo $row['mem_id']."=".$row[recommend_id];
                       $num_arr=array();
                       $sql = "select * from Gn_Member where recommend_id='$row[recommend_id]' ";
                       $res_result = mysqli_query($self_con,$sql);
                       $sInfo = mysqli_fetch_array($res_result);
                       
-                      $sql = "select * from Gn_Member where recommend_id='$sInfo[mem_id]'";
+                      $sql = "select * from Gn_Member where recommend_id='{$sInfo['mem_id']}'";
                       $res_result = mysqli_query($self_con,$sql);
                       $ssInfo = mysqli_fetch_array($res_result);                      
                     	                      
@@ -970,13 +970,13 @@ jQuery(function($){
                   $result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));				
                   while($row=mysqli_fetch_array($result))
                   {
-                      //echo $row[mem_id]."=".$row[recommend_id];
+                      //echo $row['mem_id']."=".$row[recommend_id];
                       $num_arr=array();
                       $sql = "select * from Gn_Member where recommend_id='$row[recommend_id]' ";
                       $res_result = mysqli_query($self_con,$sql);
                       $sInfo = mysqli_fetch_array($res_result);
                       
-                      $sql = "select * from Gn_Member where recommend_id='$sInfo[mem_id]'";
+                      $sql = "select * from Gn_Member where recommend_id='{$sInfo['mem_id']}'";
                       $res_result = mysqli_query($self_con,$sql);
                       $ssInfo = mysqli_fetch_array($res_result);                      
                     	                      
@@ -1234,13 +1234,13 @@ jQuery(function($){
                   $result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));				
                   while($row=mysqli_fetch_array($result))
                   {
-                      //echo $row[mem_id]."=".$row[recommend_id];
+                      //echo $row['mem_id']."=".$row[recommend_id];
                       $num_arr=array();
-                      $sql = "select * from Gn_Member where mem_id='$row[mem_id]' ";
+                      $sql = "select * from Gn_Member where mem_id='{$row['mem_id']}' ";
                       $res_result = mysqli_query($self_con,$sql);
                       $sInfo = mysqli_fetch_array($res_result);
                       
-                      $sql = "select * from Gn_Member where recommend_id='$sInfo[mem_id]'";
+                      $sql = "select * from Gn_Member where recommend_id='{$sInfo['mem_id']}'";
                       $res_result = mysqli_query($self_con,$sql);
                       $ssInfo = mysqli_fetch_array($res_result);                      
                     	                      
@@ -1509,13 +1509,13 @@ if($member['service_type'] == 2) {
                   $result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));				
                   while($row=mysqli_fetch_array($result))
                   {
-                      //echo $row[mem_id]."=".$row[recommend_id];
+                      //echo $row['mem_id']."=".$row[recommend_id];
                       $num_arr=array();
-                      $sql = "select * from Gn_Member where mem_id='$row[mem_id]' ";
+                      $sql = "select * from Gn_Member where mem_id='{$row['mem_id']}' ";
                       $res_result = mysqli_query($self_con,$sql);
                       $sInfo = mysqli_fetch_array($res_result);
                       
-                      $sql = "select * from Gn_Member where recommend_id='$sInfo[mem_id]'";
+                      $sql = "select * from Gn_Member where recommend_id='{$sInfo['mem_id']}'";
                       $res_result = mysqli_query($self_con,$sql);
                       $ssInfo = mysqli_fetch_array($res_result);                      
                     	                      
@@ -1781,13 +1781,13 @@ if($member['service_type'] > 2) {
                   $result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));				
                   while($row=mysqli_fetch_array($result))
                   {
-                      //echo $row[mem_id]."=".$row[recommend_id];
+                      //echo $row['mem_id']."=".$row[recommend_id];
                       $num_arr=array();
-                      $sql = "select * from Gn_Member where mem_id='$row[mem_id]' ";
+                      $sql = "select * from Gn_Member where mem_id='{$row['mem_id']}' ";
                       $res_result = mysqli_query($self_con,$sql);
                       $sInfo = mysqli_fetch_array($res_result);
                       
-                      $sql = "select * from Gn_Member where recommend_id='$sInfo[mem_id]'";
+                      $sql = "select * from Gn_Member where recommend_id='{$sInfo['mem_id']}'";
                       $res_result = mysqli_query($self_con,$sql);
                       $ssInfo = mysqli_fetch_array($res_result);                      
                     	                      
@@ -2044,13 +2044,13 @@ if($member['service_type']  >3 ) {
                   $result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));				
                   while($row=mysqli_fetch_array($result))
                   {
-                      //echo $row[mem_id]."=".$row[recommend_id];
+                      //echo $row['mem_id']."=".$row[recommend_id];
                       $num_arr=array();
-                      $sql = "select * from Gn_Member where mem_id='$row[mem_id]' ";
+                      $sql = "select * from Gn_Member where mem_id='{$row['mem_id']}' ";
                       $res_result = mysqli_query($self_con,$sql);
                       $sInfo = mysqli_fetch_array($res_result);
                       
-                      $sql = "select * from Gn_Member where recommend_id='$sInfo[mem_id]'";
+                      $sql = "select * from Gn_Member where recommend_id='{$sInfo['mem_id']}'";
                       $res_result = mysqli_query($self_con,$sql);
                       $ssInfo = mysqli_fetch_array($res_result);                      
                     	                      
@@ -2299,13 +2299,13 @@ if($member['service_type']  >  4) {
                   $result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));				
                   while($row=mysqli_fetch_array($result))
                   {
-                      //echo $row[mem_id]."=".$row[recommend_id];
+                      //echo $row['mem_id']."=".$row[recommend_id];
                       $num_arr=array();
                       $sql = "select * from Gn_Member where recommend_id='$row[recommend_id]' ";
                       $res_result = mysqli_query($self_con,$sql);
                       $sInfo = mysqli_fetch_array($res_result);
                       
-                      $sql = "select * from Gn_Member where recommend_id='$sInfo[mem_id]'";
+                      $sql = "select * from Gn_Member where recommend_id='{$sInfo['mem_id']}'";
                       $res_result = mysqli_query($self_con,$sql);
                       $ssInfo = mysqli_fetch_array($res_result);                      
                     	                      
@@ -2507,7 +2507,7 @@ if($member['service_type'] >= 3) {
                            	    SQL_CALC_FOUND_ROWS 
                            	    *
                            	FROM Gn_Member 
-                           	WHERE 1=1 and mem_id='$row[mem_id]'";
+                           	WHERE 1=1 and mem_id='{$row['mem_id']}'";
                        $sres	    = mysqli_query($self_con,$query);                    
                        $srow = mysqli_fetch_array($sres);
                        if($row['service_type'] == 1) {

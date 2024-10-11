@@ -25,7 +25,7 @@ if($edit_type == "member_reg_edit" || $edit_type == "member_req_edit" || $edit_t
   $memo = $data['mem_memo']?$data['mem_memo']:'';
   $reg_date = $data['first_regist']?$data['first_regist']:'';
 
-  $query = "select card_short_url from Gn_Iam_Name_Card where group_id is NULL and mem_id = '$data[mem_id]' order by req_data asc";
+  $query = "select card_short_url from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$data['mem_id']}' order by req_data asc";
   $cres = mysqli_query($self_con,$query);
   $crow = mysqli_fetch_array($cres);
   $card_url = $crow[0];

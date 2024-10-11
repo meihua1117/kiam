@@ -173,7 +173,7 @@ $(function(){
                   while($row=mysqli_fetch_array($result))
                   {
 					  	//$num_arr=array();
-						$sql_num="select * from Gn_event where m_id='$row[mem_id]' and event_idx='$row[event_idx]' ";
+						$sql_num="select * from Gn_event where m_id='{$row['mem_id']}' and event_idx='$row[event_idx]' ";
 						$resul_num=mysqli_query($self_con,$sql_num);
 						$crow=mysqli_fetch_array($resul_num);
 						

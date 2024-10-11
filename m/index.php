@@ -361,8 +361,8 @@ if($_GET['key'] && $_GET['key'] == session_id()) {
 					$res_service = mysqli_query($self_con,$sql_service);
 					$row_service = mysqli_fetch_array($res_service);
 
-					if($row_service[mem_id] != $_SESSION['iam_member_id']){
-						$sql_notice = "select seller_id, pay_date, message from Gn_Item_Pay_Result where buyer_id='{$row_service[mem_id]}' and item_name='공지사항전송' order by pay_date desc limit 1";
+					if($row_service['mem_id'] != $_SESSION['iam_member_id']){
+						$sql_notice = "select seller_id, pay_date, message from Gn_Item_Pay_Result where buyer_id='{$row_service['mem_id']}' and item_name='공지사항전송' order by pay_date desc limit 1";
 						$res_notice = mysqli_query($self_con,$sql_notice);
 						$row_notice = mysqli_fetch_array($res_notice);
 
@@ -385,7 +385,7 @@ if($_GET['key'] && $_GET['key'] == session_id()) {
 					$res_service = mysqli_query($self_con,$sql_service);
 					$row_service = mysqli_fetch_array($res_service);
 
-					$sql_notice = "select seller_id, pay_date, message from Gn_Item_Pay_Result where buyer_id='{$row_service[mem_id]}' and item_name='공지사항전송' order by pay_date desc limit 1";
+					$sql_notice = "select seller_id, pay_date, message from Gn_Item_Pay_Result where buyer_id='{$row_service['mem_id']}' and item_name='공지사항전송' order by pay_date desc limit 1";
 					$res_notice = mysqli_query($self_con,$sql_notice);
 					$row_notice = mysqli_fetch_array($res_notice);
 
@@ -406,7 +406,7 @@ if($_GET['key'] && $_GET['key'] == session_id()) {
 					$res_service = mysqli_query($self_con,$sql_service);
 					$row_service = mysqli_fetch_array($res_service);
 
-					$sql_notice = "select seller_id, pay_date, message from Gn_Item_Pay_Result where buyer_id='{$row_service[mem_id]}' and item_name='공지사항전송' order by pay_date desc limit 1";
+					$sql_notice = "select seller_id, pay_date, message from Gn_Item_Pay_Result where buyer_id='{$row_service['mem_id']}' and item_name='공지사항전송' order by pay_date desc limit 1";
 					$res_notice = mysqli_query($self_con,$sql_notice);
 					$row_notice = mysqli_fetch_array($res_notice);
 

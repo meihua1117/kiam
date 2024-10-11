@@ -45,17 +45,17 @@ foreach(array_unique($managers) as $manager){
         $mem_query = "select mem_id,balance_per from Gn_Member where recommend_id='$manager'";
         $mem_res = mysqli_query($self_con,$mem_query);
         while($mem_row = mysqli_fetch_array($mem_res)){
-                $manager_query = "select count(idx) from Gn_Service where mem_id='$mem_row[mem_id]'";
+                $manager_query = "select count(idx) from Gn_Service where mem_id='{$mem_row['mem_id']}'";
                 $manager_res = mysqli_query($self_con,$manager_query);
                 $manager_row = mysqli_fetch_array($manager_res);
                 if($manager_row[0] > 0){
                     $balance_query = "select sum(t.total_price) from 
                                         (SELECT a.pay_no, b.mem_id,(a.price/1.1*0.01*a.share_per) total_price
                                             FROM Gn_Member b INNER JOIN tjd_pay_result_balance a on b.mem_id =a.mem_id
-                                            WHERE balance_date= '$date_month' and seller_id='$mem_row[mem_id]'
+                                            WHERE balance_date= '$date_month' and seller_id='{$mem_row['mem_id']}'
                                         UNION SELECT a.pay_no, b.mem_id,(a.price/1.1*0.01*a.branch_share_per) total_price
                                             FROM Gn_Member b INNER JOIN tjd_pay_result_balance a on b.mem_id =a.mem_id
-                                            WHERE balance_date= '$date_month' and branch_id='$mem_row[mem_id]' ORDER BY mem_id ,pay_no desc) t";
+                                            WHERE balance_date= '$date_month' and branch_id='{$mem_row['mem_id']}' ORDER BY mem_id ,pay_no desc) t";
                     $balance_res	    = mysqli_query($self_con,$balance_query);
                     $balance_row = mysqli_fetch_array($balance_res);
                     $price = $balance_row[0];
@@ -64,7 +64,7 @@ foreach(array_unique($managers) as $manager){
                 	$price = 0;
                     //$price = $price * $balance / 100;
                     $query = "insert into tjd_pay_result_balance set pay_no=0,
-                                                                    mem_id='$mem_row[mem_id]',
+                                                                    mem_id='{$mem_row['mem_id']}',
                                                                     seller_id='$manager',
                                                                     mem_type='분양자정산',
                                                                     share_per='$balance',

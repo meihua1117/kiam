@@ -345,17 +345,17 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;text-align:
                                     $query .= $orderQuery;
                                     $res = mysqli_query($self_con,$query);
                                     while($row = mysqli_fetch_array($res)) {
-                                        $mem_sql = "select * from Gn_Member use index(mem_id) where mem_id='$row[mem_id]'";
+                                        $mem_sql = "select * from Gn_Member use index(mem_id) where mem_id='{$row['mem_id']}'";
                                         $mem_res = mysqli_query($self_con,$mem_sql);
                                         $mem_row = mysqli_fetch_array($mem_res);
 
-                                        $sql = "select count(*) from Gn_MMS_Number where ( not (cnt1 = 10 and cnt2 = 20)) and  mem_id = '$row[mem_id]'";
+                                        $sql = "select count(*) from Gn_MMS_Number where ( not (cnt1 = 10 and cnt2 = 20)) and  mem_id = '{$row['mem_id']}'";
                                         $res_result = mysqli_query($self_con,$sql);
                                         $num_res = mysqli_fetch_row($res_result);
                                         $row['tcnt'] = $num_res[0];
                                         $row['send_extra'] = 0;
 
-                                        $phone_sql="select sendnum from Gn_MMS_Number where ( not (cnt1 = 10 and cnt2 = 20)) and  mem_id = '$row[mem_id]'";
+                                        $phone_sql="select sendnum from Gn_MMS_Number where ( not (cnt1 = 10 and cnt2 = 20)) and  mem_id = '{$row['mem_id']}'";
                                         $phone_res=mysqli_query($self_con,$phone_sql) or die(mysqli_error($self_con));
                                         while($phone_row = mysqli_fetch_array($phone_res)){
                                             $sql_result_g = "select SUM(recv_num_cnt) from Gn_MMS where send_num='$phone_row[sendnum]' and (reg_date like '$date_month%'  or reservation like '$date_month%') and type=10 and result = 0";

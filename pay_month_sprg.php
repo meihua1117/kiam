@@ -1,7 +1,7 @@
 <?
 $path="./";
 include_once "_head.php";
-if($member_1[mem_id] == "") {
+if($member_1['mem_id'] == "") {
     echo "<script>location.history(-1);</script>";
     exit;
 }
@@ -19,7 +19,7 @@ $pay_info['payMethod'] = "MONTH";
 $pay_info['TotPrice'] = $_POST['allat_amt']; //금액
 $pay_info['pc_mobile'] = "A"; //금액
 $pay_info['VACT_InputName'] =$member_1['mem_name'];
-$pay_info['buyer_id'] = $member_1[mem_id];        
+$pay_info['buyer_id'] = $member_1['mem_id'];        
 $member_type = /*$pay_info['iam_pay_type'] =*/ $_POST['member_type'];
 $pay_info['add_opt'] = $_POST['add_opt'];
 $pay_info['db_cnt'] = $_POST['db_cnt'];

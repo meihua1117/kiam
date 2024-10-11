@@ -11,7 +11,7 @@ if ($HTTP_HOST != "kiam.kr") {//분양사사이트이면
 	$domainData = mysqli_fetch_array($res);
 	$domainData[sub_domain] = "http://kiam.kr/";
 }
-$mem_sql = "select mem_code from Gn_Member where mem_id = '$domainData[mem_id]'";
+$mem_sql = "select mem_code from Gn_Member where mem_id = '{$domainData['mem_id']}'";
 $mem_result=mysqli_query($self_con,$mem_sql);
 $mem_row=mysqli_fetch_array($mem_result);
 @setcookie("recommender_code", $mem_row['mem_code'], time()+3600 ,"/");
@@ -368,7 +368,7 @@ $meta_desc = $meta_row[contents_desc];
 		location.href = "/iam/?" + url;
 	}
 		function iam_count(str) {
-			let member_id = '<?=$name_card[mem_id]?>';
+			let member_id = '<?=$name_card['mem_id']?>';
 			let card_idx = '<?=$name_card[idx]?>';
 			var formData = new FormData();
 			formData.append('str', str);

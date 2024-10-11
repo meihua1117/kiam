@@ -18,7 +18,7 @@ $res = mysqli_query($self_con,$query);
 $data = mysqli_fetch_array($res);
 
 $group = "";
-$group_sql = "select info.name from gn_group_member mem inner join gn_group_info info on info.idx = mem.group_id where mem_id='$data[mem_id]'";
+$group_sql = "select info.name from gn_group_member mem inner join gn_group_info info on info.idx = mem.group_id where mem_id='{$data['mem_id']}'";
 $group_res = mysqli_query($self_con,$group_sql);
 while($group_row = mysqli_fetch_array($group_res)){
     if($group == "")
@@ -30,7 +30,7 @@ while($group_row = mysqli_fetch_array($group_res)){
 $query = "select idx, mem_id, sendnum, max_cnt, user_cnt, gl_cnt, month_cnt, today_cnt, over_cnt, memo,
           reg_date, up_date, max_over_cnt, memo2, device, memo3, usechk, cnt1, cnt2, format_date,
           end_status, end_date, donation_rate, daily_limit_cnt, use_order
-          from Gn_MMS_Number where mem_id='$data[mem_id]' and sendnum='$sendnum'";
+          from Gn_MMS_Number where mem_id='{$data['mem_id']}' and sendnum='$sendnum'";
 $res = mysqli_query($self_con,$query);
 $donation_data = mysqli_fetch_array($res);
 

@@ -121,7 +121,7 @@ else if($mode == "change_site"){
         $res_site = mysqli_query($self_con,$sql_site);
         $row_site = mysqli_fetch_array($res_site);
 
-        $mem_site = "select site from Gn_Member where mem_id='{$row_site[mem_id]}'";
+        $mem_site = "select site from Gn_Member where mem_id='{$row_site['mem_id']}'";
         $res_site = mysqli_query($self_con,$mem_site);
         $row_site = mysqli_fetch_array($res_site);
 

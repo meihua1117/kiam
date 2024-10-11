@@ -251,17 +251,17 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                 	$query .= "$orderQuery";
                 	$res = mysqli_query($self_con,$query);
                   while($row = mysqli_fetch_array($res)) {                       	
-                    $sql_num="select short_url from Gn_event where m_id='$row[mem_id]' and event_idx='$row[event_idx]' ";
+                    $sql_num="select short_url from Gn_event where m_id='{$row['mem_id']}' and event_idx='$row[event_idx]' ";
                     $resul_num=mysqli_query($self_con,$sql_num);
                     $crow=mysqli_fetch_array($resul_num); 	 
                     
-                    $sql_num="select mem_name from Gn_Member where mem_id='$row[mem_id]' ";
+                    $sql_num="select mem_name from Gn_Member where mem_id='{$row['mem_id']}' ";
                     $resul_num=mysqli_query($self_con,$sql_num);
                     $mrow=mysqli_fetch_array($resul_num); 
                   ?>
                       <tr>
                         <td><?=$number--?></td>
-                        <td style="font-size:12px;"><?=$row[mem_id]?></td>
+                        <td style="font-size:12px;"><?=$row['mem_id']?></td>
                         <td style="font-size:12px;"><?=$mrow['mem_name']?></td>
                         <td style="font-size:12px;"><?=$row[category]?></td>
                         <td style="font-size:12px;"><?=$row[start_date]?>~<?=$row[end_date]?></td>

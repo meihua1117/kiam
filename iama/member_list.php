@@ -225,7 +225,7 @@ $(function() {
                     $query .= $orderQuery;
                     $res = mysqli_query($self_con,$query);
                     while($row = mysqli_fetch_array($res)) {
-                        $query = "select card_short_url from Gn_Iam_Name_Card where group_id is NULL and mem_id = '$row[mem_id]' order by req_data asc";
+                        $query = "select card_short_url from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$row['mem_id']}' order by req_data asc";
                         $cres = mysqli_query($self_con,$query);
                         $crow = mysqli_fetch_array($cres);
                         $card_url = $crow[0];

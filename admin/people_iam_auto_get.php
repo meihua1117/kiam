@@ -157,7 +157,7 @@ $date_today=date("Y-m-d");
                                 // echo $query; exit;
                                 $res = mysqli_query($self_con,$query);
                                 while($row=mysqli_fetch_array($res)){
-                                    $mem_sql = "select mem_code, recommend_id, site from Gn_Member where mem_id='$row[mem_id]'";
+                                    $mem_sql = "select mem_code, recommend_id, site from Gn_Member where mem_id='{$row['mem_id']}'";
                                     $mem_res = mysqli_query($self_con,$mem_sql);
                                     $mem_row = mysqli_fetch_array($mem_res);
                                     $no++;

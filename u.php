@@ -38,7 +38,7 @@ if($_REQUEST['mode']=="inser")
 	{
 		$deny_info['send_num']=$row['send_num'];
 		$deny_info['recv_num']=$_REQUEST[n];
-		$deny_info[mem_id]=$row[mem_id];
+		$deny_info['mem_id']=$row['mem_id'];
 		$deny_info[title]=$row[title];
 		$deny_info['content']=substr(htmlspecialchars($row['content']),0,20)."...";
 		$deny_info[jpg]=$row[jpg];
@@ -52,7 +52,7 @@ if($_REQUEST['mode']=="inser")
         mysqli_query($self_con,$sql);
         $k = 1;
 	}
-	$user_id = $row[mem_id];
+	$user_id = $row['mem_id'];
 	$now_num = $_REQUEST[n];
 	$send_num = $row['send_num'];
     // [새 번호]가 현재로그에 있는지 확인

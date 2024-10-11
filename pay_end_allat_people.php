@@ -199,19 +199,19 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
     전표출력 페이지는 저희 올앳 홈페이지의 일부로써, 홈페이지 개편 등의 이유로 인하여 페이지 변경 또는 URL 변경이 있을 수
     있습니다. 홈페이지 개편에 관한 공지가 있을 경우, 전표출력 URL을 확인하시기 바랍니다.
 */
-$sql="select * from tjd_pay_result where orderNumber='$ORDER_NO' and buyer_id='$member_1[mem_id]' ";
+$sql="select * from tjd_pay_result where orderNumber='$ORDER_NO' and buyer_id='{$member_1['mem_id']}' ";
 $resul=mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
 $row=mysqli_fetch_array($resul);
 $no = $row['no'];
 if($REPLYCD == "0000"){//pay_test
-    $sql = "update tjd_pay_result set end_status='Y' where  orderNumber='$ORDER_NO' and buyer_id='$member_1[mem_id]'";
+    $sql = "update tjd_pay_result set end_status='Y' where  orderNumber='$ORDER_NO' and buyer_id='{$member_1['mem_id']}'";
     mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 
-    $sql = "select * from Gn_Member where mem_id='$member_1[mem_id]' ";
+    $sql = "select * from Gn_Member where mem_id='{$member_1['mem_id']}' ";
     $sresult = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
     $srow = mysqli_fetch_array($sresult);
 
-    $sql = "select * from crawler_member_real where user_id='$member_1[mem_id]' ";
+    $sql = "select * from crawler_member_real where user_id='{$member_1['mem_id']}' ";
     $sresult = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
     $crow = mysqli_fetch_array($sresult);
     $user_id = $srow['mem_id'];
@@ -265,11 +265,11 @@ if($REPLYCD == "0000"){//pay_test
         mysqli_query($self_con,$query);
     }
 
-    $sql_m = "update Gn_Member set fujia_date1=now() , fujia_date2=date_add(now(),INTERVAL 120 month)  where mem_id='$member_1[mem_id]' ";
+    $sql_m = "update Gn_Member set fujia_date1=now() , fujia_date2=date_add(now(),INTERVAL 120 month)  where mem_id='{$member_1['mem_id']}' ";
     mysqli_query($self_con,$sql_m) or die(mysqli_error($self_con));
 
     $add_phone = $row[phone_cnt] / 9000;
-    $sql_m = "update Gn_Member set   phone_cnt=phone_cnt+'$add_phone' where mem_id='$member_1[mem_id]' ";
+    $sql_m = "update Gn_Member set   phone_cnt=phone_cnt+'$add_phone' where mem_id='{$member_1['mem_id']}' ";
     mysqli_query($self_con,$sql_m) or die(mysqli_error($self_con));
 
     if ($srow['recommend_id'] != "") {

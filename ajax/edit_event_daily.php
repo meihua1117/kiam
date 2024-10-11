@@ -197,7 +197,7 @@ else if(isset($_POST['mode'])){
     // echo $sql_service_ids; exit;
     $res_service_ids = mysqli_query($self_con,$sql_service_ids);
     while($row_servicee_ids = mysqli_fetch_array($res_service_ids)){
-      $sql_mem_data = "select mem_phone from Gn_Member where mem_id='{$row_servicee_ids[mem_id]}'";
+      $sql_mem_data = "select mem_phone from Gn_Member where mem_id='{$row_servicee_ids['mem_id']}'";
       $res_mem_data = mysqli_query($self_con,$sql_mem_data);
       $row_mem_data = mysqli_fetch_array($res_mem_data);
       if($row_mem_data['mem_phone'] != ""){
@@ -207,7 +207,7 @@ else if(isset($_POST['mode'])){
           $pcode = "dailymsg".$cur_time1.$rand_num;
 
           $sql_dup_event = "INSERT INTO Gn_event(event_name_kor, event_name_eng, event_title, event_desc, event_info, event_sms_desc, pcode, event_type, mobile, regdate, ip_addr, m_id, short_url, read_cnt, cnt, object, callback_no, event_req_link, daily_req_link) 
-          (SELECT event_name_kor, '{$event_name_eng}', event_title, event_desc, event_info, event_sms_desc, '{$pcode}', event_type, '{$row_mem_data[mem_phone]}', now(), ip_addr, '{$row_servicee_ids[mem_id]}', '', 0, cnt, object, callback_no, event_req_link, daily_req_link FROM Gn_event WHERE event_idx='{$event_idx}')";
+          (SELECT event_name_kor, '{$event_name_eng}', event_title, event_desc, event_info, event_sms_desc, '{$pcode}', event_type, '{$row_mem_data[mem_phone]}', now(), ip_addr, '{$row_servicee_ids['mem_id']}', '', 0, cnt, object, callback_no, event_req_link, daily_req_link FROM Gn_event WHERE event_idx='{$event_idx}')";
           mysqli_query($self_con,$sql_dup_event) or die(mysqli_error($self_con));
           $event_idx = mysqli_insert_id($self_con);
       

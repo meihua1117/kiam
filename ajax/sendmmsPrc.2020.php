@@ -873,7 +873,7 @@ if($_SESSION['one_member_id']){
                     }
                 }
                 if(count($recv_arr)){   //앱에서만 보내기로 합 2016-03-07
-                /*	$mms_start_info[mem_id]=$_SESSION['one_member_id'];
+                /*	$mms_start_info['mem_id']=$_SESSION['one_member_id'];
                     $mms_start_info['send_num']=$sendnum[$j];
                     $mms_start_info['recv_num']=$sendnum[$j];
                     $mms_start_info[uni_id]=$reg."999";
@@ -989,7 +989,7 @@ if($_SESSION['one_member_id']){
                         $recv_str = substr($recv_str,0,strlen($recv_str)-1);
                     $denv_url_str=implode(",",$deny_url_arr);
 
-                    $mms_info[mem_id]=$_SESSION['one_member_id'];
+                    $mms_info['mem_id']=$_SESSION['one_member_id'];
                     $mms_info['send_num']=$sendnum[$j];
                     $mms_info['recv_num']=$recv_str;
                     $mms_info[uni_id]=$req;
@@ -1113,7 +1113,7 @@ if($_SESSION['one_member_id']){
                 $message_info[msg_type]="A";
             }
             $sql="insert into Gn_MMS_Message set "; //발송
-            $message_info[mem_id]=$_SESSION['one_member_id'];
+            $message_info['mem_id']=$_SESSION['one_member_id'];
             $message_info[title]=htmlspecialchars(str_replace("{|name|}", "{|REP|}",$_POST[send_title]));
             $message_info[message]=htmlspecialchars(str_replace("{|name|}", "{|REP|}",$_POST[send_txt]));
             $message_info[img]=$_POST[send_img];

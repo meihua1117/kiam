@@ -253,7 +253,7 @@ $(function() {
                   $query .= $orderQuery;
                   $res = mysqli_query($self_con,$query);
                   while($row = mysqli_fetch_array($res)) {
-                    $mem_sql = "select site, site_iam, gwc_provider_name, mem_name, gwc_manage_price, mem_code from Gn_Member where mem_id='$row[mem_id]'";
+                    $mem_sql = "select site, site_iam, gwc_provider_name, mem_name, gwc_manage_price, mem_code from Gn_Member where mem_id='{$row['mem_id']}'";
                     $mem_res = mysqli_query($self_con,$mem_sql);
                     $mem_row = mysqli_fetch_array($mem_res);
                     if($mem_row[gwc_manage_price]){
@@ -295,7 +295,7 @@ $(function() {
                         </td>
                         <td>
                             <div style="overflow-x:hidden;width:100px;">
-                              <?=$mem_row['mem_name']?>/<br><?=$row[mem_id]?>
+                              <?=$mem_row['mem_name']?>/<br><?=$row['mem_id']?>
                             </div>
                         </td>
                         <td><?=$row[gwc_con_state] == 1?"well":"공동구매용"?></td>

@@ -43,18 +43,18 @@ $sql = "insert into tjd_pay_result_month set pay_idx='$orderNumber',
                                             msg='셀링통장정기결제',
                                             regdate = NOW(),
                                             amount='$_POST[allat_amt]',
-                                            buyer_id='$member_1[mem_id]'";
+                                            buyer_id='{$member_1['mem_id']}'";
 mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 
 if($_POST['phone_cnt'] > 0) {
-    $sql = "select * from tjd_pay_result where orderNumber='{$orderNumber}' and buyer_id='$member_1[mem_id]' ";
+    $sql = "select * from tjd_pay_result where orderNumber='{$orderNumber}' and buyer_id='{$member_1['mem_id']}' ";
     $resul = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
     $row = mysqli_fetch_array($resul);
 
-    $sql = "select * from Gn_Member where mem_id='$member_1[mem_id]' ";
+    $sql = "select * from Gn_Member where mem_id='{$member_1['mem_id']}' ";
     $sresult = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
     $srow = mysqli_fetch_array($sresult);
-    $sql = "select count(cmid) from crawler_member_real where user_id='$member_1[mem_id]' ";
+    $sql = "select count(cmid) from crawler_member_real where user_id='{$member_1['mem_id']}' ";
     $sresult = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
     $crow = mysqli_fetch_array($sresult);
     if ($crow[0] == 0) {

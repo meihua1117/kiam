@@ -325,7 +325,7 @@ $search_month = $search_month?sprintf("%02d",$search_month):sprintf("%02d",date(
                                     $res_sell_data = mysqli_query($self_con,$sql_sell_data);
 
                                     while($row_sell_data = mysqli_fetch_array($res_sell_data)){
-                                        if(!$row_sell_data[use_point]){
+                                        if(!$row_sell_data['use_point']){
                                             $min_val = ceil(($row_sell_data[contents_price] * 1 / $row_sell_data[contents_cnt] * 1) * 0.03);
                                         }
                                         else{

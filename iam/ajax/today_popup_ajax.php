@@ -20,7 +20,7 @@ if($_POST[type] == 'interval') {
         $res = mysqli_query($self_con,$sql);
         $mem_array = array();
         while($row = mysqli_fetch_array($res)){
-            array_push($mem_array,$row[mem_id]);
+            array_push($mem_array,$row['mem_id']);
         }
         $mem_array = array_unique($mem_array);
         $desc = count($mem_array) . "명 회원분들의 " . $count . "개 콘텐츠가 게시되었습니다.";
@@ -38,7 +38,7 @@ if($_POST[type] == 'interval') {
         $res = mysqli_query($self_con,$sql);
         $f_count = mysqli_num_rows($res);
         while($row = mysqli_fetch_array($res)){
-            $mem_id = $row[mem_id];
+            $mem_id = $row['mem_id'];
             if($mem_id == "" || in_array($mem_id, $arr_Mems))
                 continue;
             $arr_Mems[] = $mem_id;
@@ -94,7 +94,7 @@ if($_POST[type] == 'interval') {
     $res = mysqli_query($self_con,$sql);
     $result = array();
     while($row = mysqli_fetch_array($res)) {
-        $mem_id = $row[mem_id];
+        $mem_id = $row['mem_id'];
         $profile = $row[main_img1];
         if ($mem_id == "")
             continue;
@@ -126,7 +126,7 @@ if($_POST[type] == 'interval') {
     }
     echo json_encode(array("result" => $result));
 }else if($_POST[type] == 'alarm_like'){
-    $mem_id = $_POST[mem_id];
+    $mem_id = $_POST['mem_id'];
     $like_id = $_POST[like_id];
     $sql = "select mem_like from Gn_Member where mem_id = '$mem_id'";
     $res = mysqli_query($self_con,$sql);

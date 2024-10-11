@@ -64,7 +64,7 @@ if(strstr($request_url, '?') == false) {
         $row = mysqli_fetch_array($result);
         $card_url = $row['card_short_url'];
         $main_img1_ins = $row['main_img1'];
-        $query = "select mem_code from Gn_Member where mem_id = '$row[mem_id]'";
+        $query = "select mem_code from Gn_Member where mem_id = '{$row['mem_id']}'";
         $result = mysqli_query($self_con,$query);
         $row = mysqli_fetch_array($result);
         $card_url .= $row['mem_code'];
@@ -74,7 +74,7 @@ if(strstr($request_url, '?') == false) {
         $result = mysqli_query($self_con,$query);
         $row = mysqli_fetch_array($result);
         $card_url = $row['card_short_url'];
-        $query = "select mem_code from Gn_Member where mem_id = '$row[mem_id]'";
+        $query = "select mem_code from Gn_Member where mem_id = '{$row['mem_id']}'";
         $result = mysqli_query($self_con,$query);
         $row = mysqli_fetch_array($result);
         if($cur_win == "my_info"){
@@ -112,15 +112,15 @@ if(strstr($request_url, '?') == false) {
             if (!$mem_row) {
                 echo "<script>alert('잘못된 카드링크입니다." . $request_short_url . "');history.back();</script>";
             }
-            $card_owner = $mem_row[mem_id];//방문하는 아이엠 소유자
+            $card_owner = $mem_row['mem_id'];//방문하는 아이엠 소유자
         }else{
-            $mem_sql = "select mem_code from Gn_Member where mem_id = '$short_row[mem_id]'";
+            $mem_sql = "select mem_code from Gn_Member where mem_id = '{$short_row['mem_id']}'";
             $mem_res = mysqli_query($self_con,$mem_sql);
             $mem_row = mysqli_fetch_array($mem_res);
             $card_owner_code = $mem_row['mem_code'];
-            $card_owner = $short_row[mem_id];//방문하는 아이엠 소유자
+            $card_owner = $short_row['mem_id'];//방문하는 아이엠 소유자
         }
-        $card_master = $short_row[mem_id];//현재 선택된 카드소유자
+        $card_master = $short_row['mem_id'];//현재 선택된 카드소유자
         $cur_win = "my_info";
     }else{
         if($_SESSION['iam_member_id']){
@@ -128,7 +128,7 @@ if(strstr($request_url, '?') == false) {
             $result = mysqli_query($self_con,$query);
             $row = mysqli_fetch_array($result);
             $card_url = $row['card_short_url'];
-            $query = "select mem_code from Gn_Member where mem_id = '$row[mem_id]'";
+            $query = "select mem_code from Gn_Member where mem_id = '{$row['mem_id']}'";
             $result = mysqli_query($self_con,$query);
             $row = mysqli_fetch_array($result);
             $card_owner = $_SESSION['iam_member_id'];
@@ -146,7 +146,7 @@ if(strstr($request_url, '?') == false) {
             $result = mysqli_query($self_con,$query);
             $row = mysqli_fetch_array($result);
             $request_short_url = $row['card_short_url'];
-            $query = "select mem_code from Gn_Member where mem_id = '$row[mem_id]'";
+            $query = "select mem_code from Gn_Member where mem_id = '{$row['mem_id']}'";
             $result = mysqli_query($self_con,$query);
             $row = mysqli_fetch_array($result);
             $card_owner_code = $row['mem_code'];

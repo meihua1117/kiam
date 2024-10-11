@@ -41,17 +41,17 @@ ini_set("session.gc_maxlifetime", 86400);
     $res=mysqli_query($self_con,$query)or die(mysqli_error($self_con));
     while($data=mysqli_fetch_array($res)) {
         $ORDER_NO = $data['idx'];
-        $member_1[mem_id] = $data['buyer_id'];
+        $member_1['mem_id'] = $data['buyer_id'];
             
-        $sql="select * from tjd_pay_result where orderNumber='$ORDER_NO' and buyer_id='$member_1[mem_id]' ";
+        $sql="select * from tjd_pay_result where orderNumber='$ORDER_NO' and buyer_id='{$member_1['mem_id']}' ";
         $resul=mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
         $row=mysqli_fetch_array($resul);	        
 
         $ORDER_NO = $row['ORDER_NO'];
-        $member_1[mem_id] = $row[one_member_id];
+        $member_1['mem_id'] = $row[one_member_id];
         
         if($ORDER_NO == "") exit;
-        if($member_1[mem_id] == "" ) exit;
+        if($member_1['mem_id'] == "" ) exit;
       
 /*        
         // 필수 항목
@@ -63,7 +63,7 @@ ini_set("session.gc_maxlifetime", 86400);
         $at_registry_no    = "";   //주민번호(최대 13자리)           : szBusinessType=0 일경우
         $at_biz_no         = "";   //사업자번호(최대 20자리)         : szBusinessType=1 일경우
         $at_shop_id        = "bwelcome12";   //상점ID(최대 20자)
-        $at_shop_member_id = $member_1[mem_id];   //회원ID(최대 20자)               : 쇼핑몰회원ID
+        $at_shop_member_id = $member_1['mem_id'];   //회원ID(최대 20자)               : 쇼핑몰회원ID
         $at_order_no       = $ORDER_NO;   //주문번호(최대 80자)             : 쇼핑몰 고유 주문번호
         $at_product_cd     = "";   //상품코드(최대 1000자)           : 여러 상품의 경우 구분자 이용, 구분자('||':파이프 2개)
         $at_product_nm     = iconv("UTF-8","EUC-KR",$row['member_type']);   //상품명(최대 1000자)             : 여러 상품의 경우 구분자 이용, 구분자('||':파이프 2개)
@@ -140,23 +140,23 @@ ini_set("session.gc_maxlifetime", 86400);
             $sql = "insert into tjd_pay_result_month set pay_idx='$row[idx]',
                                                          regdate = NOW(),
                                                          amount='$row[TotPrice]',
-                                                         buyer_id='$member_1[mem_id]'
+                                                         buyer_id='{$member_1['mem_id']}'
             ";
             echo $sql."\n";
             mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
             
-        $sql = "update tjd_pay_result set monthly_yn='Y', end_status='Y' where  orderNumber='$ORDER_NO' and buyer_id='$member_1[mem_id]'";
+        $sql = "update tjd_pay_result set monthly_yn='Y', end_status='Y' where  orderNumber='$ORDER_NO' and buyer_id='{$member_1['mem_id']}'";
         $resul=mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
         
-        $sql="select * from Gn_Member where mem_id='$member_1[mem_id]' ";
+        $sql="select * from Gn_Member where mem_id='{$member_1['mem_id']}' ";
         $sresult=mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
         $srow=mysqli_fetch_array($sresult);	
         
-    	//$sql_num_up="update Gn_MMS_Number set end_status='Y' , end_date=date_add(now(),INTERVAL {$ro[month_cnt]} month) where end_date = '$_POST[pay_ex_end_date]' and mem_id='$member_1[mem_id]' ";
+    	//$sql_num_up="update Gn_MMS_Number set end_status='Y' , end_date=date_add(now(),INTERVAL {$ro[month_cnt]} month) where end_date = '$_POST[pay_ex_end_date]' and mem_id='{$member_1['mem_id']}' ";
     	//mysqli_query($self_con,$sql_num_up) or die(mysqli_error($self_con));				    
 
         
-        $sql="select * from crawler_member_real where user_id='$member_1[mem_id]' ";
+        $sql="select * from crawler_member_real where user_id='{$member_1['mem_id']}' ";
         $sresult=mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
         $crow=mysqli_fetch_array($sresult);	        
         $user_id=$srow['mem_id'];

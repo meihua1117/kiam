@@ -62,7 +62,7 @@ if($site_name == "www")
 //회원가입 1단계	
 if($_POST['id'] && $_POST[pwd]){
 	if(!$_POST[join_modify]){
-		$member_info[mem_id]=htmlspecialchars($_POST['id']);
+		$member_info['mem_id']=htmlspecialchars($_POST['id']);
 		$member_info[mem_leb]=22;
 		$member_info[id_type]="hp";
 		$member_info[join_ip]=$ip;
@@ -228,7 +228,7 @@ if($_POST['id'] && $_POST[pwd]){
 				$service_sql = "select mem_id,sub_domain from Gn_Service where mem_id= '{$_POST['id']}'";
 				$service_result = mysqli_query($self_con,$service_sql);
 				$service_row = mysqli_fetch_array($service_result);
-				if ($service_row[mem_id] != "") {
+				if ($service_row['mem_id'] != "") {
 					$url = parse_url($service_row[sub_domain]);
 					$_SESSION['one_member_subadmin_id'] = $_POST['id'];
 					$_SESSION['one_member_subadmin_domain'] = $url[host];
@@ -240,7 +240,7 @@ if($_POST['id'] && $_POST[pwd]){
 				$iam_sql = "select mem_id,sub_domain from Gn_Iam_Service where mem_id= '{$_POST['id']}'";
 				$iam_result = mysqli_query($self_con,$iam_sql);
 				$iam_row = mysqli_fetch_array($iam_result);
-				if ($iam_row[mem_id] != "") {
+				if ($iam_row['mem_id'] != "") {
 					$url = parse_url($iam_row[sub_domain]);
 					$_SESSION['iam_member_subadmin_id'] = $_POST['id'];
 					$_SESSION['iam_member_subadmin_domain'] = $url[host];
@@ -381,11 +381,11 @@ if($_POST['id'] && $_POST[pwd]){
 					}
 				}
 			}
-			$sql="select * from Gn_MMS_Group where mem_id='$member_info[mem_id]' and grp='아이엠'";
+			$sql="select * from Gn_MMS_Group where mem_id='{$member_info['mem_id']}' and grp='아이엠'";
 			$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 			$data = mysqli_fetch_array($result);
 			if($data[idx] == ""){
-				$query = "insert into Gn_MMS_Group set mem_id='$member_info[mem_id]', grp='아이엠', reg_date=NOW()";
+				$query = "insert into Gn_MMS_Group set mem_id='{$member_info['mem_id']}', grp='아이엠', reg_date=NOW()";
 				mysqli_query($self_con,$query);
 			}
 
@@ -458,7 +458,7 @@ if($_POST[type] == "get_block_data"){
         $sql = "select mem_id from Gn_Iam_Contents where idx = '$contents_idx'";
         $res = mysqli_query($self_con,$sql);
         $row = mysqli_fetch_array($res);
-        $user_id = $row[mem_id];
+        $user_id = $row['mem_id'];
 
         $sql = "select profile,mem_name,site_iam from Gn_Member where mem_id = '$user_id'";
         $res = mysqli_query($self_con,$sql);

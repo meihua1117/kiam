@@ -69,8 +69,8 @@ $m_birth_arr = explode("-",$data[mem_birth]);
                     <h2 class="title">회원정보수정</h2>
                     <form name="join_form" id="join_form" method="post" enctype="multipart/form-data">
                         <input type="hidden" name="join_modify" value="<?php echo $data['mem_code']?>">
-                        <input type="hidden" name="id" value="<?php echo $data[mem_id]?>">
-                        <input type="hidden" name="pwd" value="<?php echo $data[mem_id]?>">
+                        <input type="hidden" name="id" value="<?php echo $data['mem_id']?>">
+                        <input type="hidden" name="pwd" value="<?php echo $data['mem_id']?>">
                         <section class="input-field">
                             <h3 class="title">기본정보수정</h3>
                             <div class="utils clearfix"></div>
@@ -224,7 +224,7 @@ $m_birth_arr = explode("-",$data[mem_birth]);
                                     <div class="attr-value">
                                         <div class="input-wrap">
                                             <?
-                                            $query = "select * from Gn_Iam_Name_Card where group_id is NULL and mem_id  = '$member_iam[mem_id]' ORDER BY idx";
+                                            $query = "select * from Gn_Iam_Name_Card where group_id is NULL and mem_id  = '{$member_iam['mem_id']}' ORDER BY idx";
                                             $result = mysqli_query($self_con,$query);
                                             $row = mysqli_fetch_array($result);
                                             $card_url = $row['card_short_url'];

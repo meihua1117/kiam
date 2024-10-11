@@ -7,7 +7,7 @@ $member = mysqli_fetch_array($result);
 $phone = explode("-", $member['mem_phone']);
 $email = explode("@", $member['mem_email']);
 
-if ($_REQUEST[status] == 1 && $member_1[mem_id] != 'obmms02') {
+if ($_REQUEST[status] == 1 && $member_1['mem_id'] != 'obmms02') {
 ?>
     <script language="javascript">
         location.replace('/ma.php');

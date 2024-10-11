@@ -201,7 +201,7 @@ $data = mysqli_fetch_array($sresul_num);
                                     //print_r($redisCache->get_debug_info());
                                     for ($i = 0; $i < count($cache_list); $i++) {
                                         $row = $cache_list[$i];
-                                        $mem_sql = "select mem_code from Gn_Member where mem_id='$row[mem_id]'";
+                                        $mem_sql = "select mem_code from Gn_Member where mem_id='{$row['mem_id']}'";
                                         $mem_res = mysqli_query($self_con,$mem_sql);
                                         $mem_row = mysqli_fetch_array($mem_res);
 
@@ -230,7 +230,7 @@ $data = mysqli_fetch_array($sresul_num);
                                         <tr>
                                             <td><?= $sort_no ?></td>
                                             <!-- <td><?= $row[idx] ?></td> -->
-                                            <td><?= $row[mem_id] ?></td>
+                                            <td><?= $row['mem_id'] ?></td>
                                             <td><?= $chanel ?></td>
                                             <td style="font-size:12px;">
                                                 <?= $row[card_name] ?>
@@ -261,12 +261,12 @@ $data = mysqli_fetch_array($sresul_num);
                                             <!-- <td><?= $row[req_worker_id] ?></td> -->
                                             <td style="font-size:12px;">
                                                 <label class="switch">
-                                                    <input type="checkbox" class="chkclick" name="cardclick" id="card_click_<?= $row['idx']; ?>_<?= $row[mem_id] ?>" <?php echo $row['org_use_state'] == "1" ? "checked" : ""; ?>>
-                                                    <span class="slider round" name="status_round" id="card_click_<?= $row['idx']; ?>_<?= $row[mem_id] ?>"></span>
+                                                    <input type="checkbox" class="chkclick" name="cardclick" id="card_click_<?= $row['idx']; ?>_<?= $row['mem_id'] ?>" <?php echo $row['org_use_state'] == "1" ? "checked" : ""; ?>>
+                                                    <span class="slider round" name="status_round" id="card_click_<?= $row['idx']; ?>_<?= $row['mem_id'] ?>"></span>
                                                 </label>
                                             </td>
                                             <td>
-                                                <a href="javascript:cancelset('<?= $row[idx] ?>', '<?= $row[mem_id] ?>')" style="cursor:pointer;">취소</a>
+                                                <a href="javascript:cancelset('<?= $row[idx] ?>', '<?= $row['mem_id'] ?>')" style="cursor:pointer;">취소</a>
                                             </td>
                                         </tr>
                                     <?

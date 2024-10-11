@@ -236,7 +236,7 @@ if($_POST['mode'] == "creat") {
         $sql_chk_mem = "select mem_id from Gn_Member where mem_id='{$mem_id}'";
         $res_chk_mem = mysqli_query($self_con,$sql_chk_mem);
         $row_chk_mem = mysqli_fetch_array($res_chk_mem);
-        if($row_chk_mem[mem_id]){
+        if($row_chk_mem['mem_id']){
             echo "<script>alert('이미 사용중인 아이디입니다.');location='/admin/service_Iam_list.php';</script>";
             exit;
         } else {
@@ -369,12 +369,12 @@ if($_POST['mode'] == "creat") {
     $sql = "select mem_id,iam_card_cnt, iam_share_cnt from Gn_Member where site_iam='$site' order by mem_code";
     $result = mysqli_query($self_con,$sql);
     while($row = mysqli_fetch_array($result)) {
-        if($row[mem_id] == $mem_id)
+        if($row['mem_id'] == $mem_id)
             $iam_card_cnt = $row[iam_card_cnt] - $my_cnt_off;
         else
             $iam_card_cnt = $row[iam_card_cnt] - $card_cnt_off;
         $iam_share_cnt = $row[iam_share_cnt] - $share_cnt_off;
-        $query = "update Gn_Member set iam_card_cnt = '$iam_card_cnt',iam_share_cnt = '$iam_share_cnt' where mem_id = '$row[mem_id]'";
+        $query = "update Gn_Member set iam_card_cnt = '$iam_card_cnt',iam_share_cnt = '$iam_share_cnt' where mem_id = '{$row['mem_id']}'";
         mysqli_query($self_con,$query);
     }
 } else if($_POST['mode'] == "del") {

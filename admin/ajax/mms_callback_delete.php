@@ -25,22 +25,22 @@ $cam_id = $_POST["idx"];
             $main_idx = $row_main['idx'];
         
             if($row_mem_info['phone_callback'] == $cam_id && $row_mem_info['mun_callback'] == $cam_id){
-                $sql_update = "update Gn_Member set phone_callback={$main_idx}, mun_callback={$main_idx} where mem_id='{$row_mem_info[mem_id]}'";
+                $sql_update = "update Gn_Member set phone_callback={$main_idx}, mun_callback={$main_idx} where mem_id='{$row_mem_info['mem_id']}'";
             }
             else if($row_mem_info['phone_callback'] == $cam_id){
                 if($row_mem_info['mun_callback'] == $main_idx){
                     $sql_update = "update Gn_Member set phone_callback={$main_idx}, phone_callback_state=3, mun_callback_state=3 where mem_id='{$userid}'";
                 }
                 else{
-                    $sql_update = "update Gn_Member set phone_callback={$main_idx} where mem_id='{$row_mem_info[mem_id]}'";
+                    $sql_update = "update Gn_Member set phone_callback={$main_idx} where mem_id='{$row_mem_info['mem_id']}'";
                 }
             }
             else if($row_mem_info['mun_callback'] == $cam_id){
                 if($row_mem_info['phone_callback'] == $main_idx){
-                    $sql_update = "update Gn_Member set mun_callback={$main_idx}, phone_callback_state=3, mun_callback_state=3 where mem_id='{$row_mem_info[mem_id]}'";
+                    $sql_update = "update Gn_Member set mun_callback={$main_idx}, phone_callback_state=3, mun_callback_state=3 where mem_id='{$row_mem_info['mem_id']}'";
                 }
                 else{
-                    $sql_update = "update Gn_Member set mun_callback={$main_idx} where mem_id='{$row_mem_info[mem_id]}'";
+                    $sql_update = "update Gn_Member set mun_callback={$main_idx} where mem_id='{$row_mem_info['mem_id']}'";
                 }
             }
             mysqli_query($self_con,$sql_update);

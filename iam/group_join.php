@@ -352,14 +352,14 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                                     </a>
                                 </div>
                                 <button class = "btn btn-link" type="button" style="position: absolute; right: 40px; top: 16px;" onclick = "join_group('<?=$group_row[group_id]?>')">참여</button>
-                                <?if( $_SESSION['iam_member_id'] != "" && $_SESSION['iam_member_id'] != $group_row[mem_id]  ){?>
+                                <?if( $_SESSION['iam_member_id'] != "" && $_SESSION['iam_member_id'] != $group_row['mem_id']  ){?>
                                     <div class="dropdown" style="position: absolute; right: 10px; top: 8px;">
                                         <button class="btn-link dropdown-toggle westory_dropdown" type="button" data-toggle="dropdown" style="">
                                             <img src="/iam/img/menu/icon_dot.png" style="height:24px">
                                         </button>
                                         <ul class="dropdown-menu comunity">
                                             <li><a onclick="location.href='/?<?=strip_tags($card_row[card_short_url])?>'">이 콘텐츠 게시자 보기</a></li>
-                                            <li><a onclick="set_friend('<?=$card_row[mem_id] ?>','<?=$card_row[card_name] ?>','<?=$card_row[card_short_url] ?>','<?=$card_row[idx] ?>')">이 게시자와 프렌즈 하기</a></li>
+                                            <li><a onclick="set_friend('<?=$card_row['mem_id'] ?>','<?=$card_row[card_name] ?>','<?=$card_row[card_short_url] ?>','<?=$card_row[idx] ?>')">이 게시자와 프렌즈 하기</a></li>
                                             <li><a onclick="set_my_share_contents('<?=$group_row[idx]?>')">이 콘텐츠 나에게 가져오기</a></li>
                                         </ul>
                                     </div>
@@ -626,7 +626,7 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                                 </div>
                                 <div style="border: 0px solid #dddddd;margin-left:30px;" id = "<?='post_list_'.$group_row[idx]?>" name = "<?='post_list_'.$group_row[idx]?>">
                                     <?while($post_row = mysqli_fetch_array($post_res)){
-                                        $post_card_sql = "select card_short_url from Gn_Iam_Name_Card where group_id is NULL and mem_id = '$post_row[mem_id]' order by req_data asc";
+                                        $post_card_sql = "select card_short_url from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$post_row['mem_id']}' order by req_data asc";
                                         $post_card_result = mysqli_query($self_con,$post_card_sql);
                                         $post_card_row = mysqli_fetch_array($post_card_result);
                                         ?>
@@ -648,7 +648,7 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                                                     <?=$post_row['content']?>
                                                 </span>
                                             </div>
-                                            <?if($_SESSION['iam_member_id'] && $_SESSION['iam_member_id'] == $post_row[mem_id]){?>
+                                            <?if($_SESSION['iam_member_id'] && $_SESSION['iam_member_id'] == $post_row['mem_id']){?>
                                                 <div class="dropdown" style="top : 10px;position : absolute;right:30px;height:24px">
                                                     <img class="dropdown-toggle" data-toggle="dropdown" src="/iam/img/menu/icon_dot.png" style="height: 24px;">
                                                     <ul class="dropdown-menu namecard-dropdown " style="background: white; color : black;top:10px;">
@@ -664,7 +664,7 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                                                         </li>
                                                     </ul>
                                                 </div>
-                                            <?}else if($_SESSION['iam_member_id'] && $_SESSION['iam_member_id'] == $group_row[mem_id]){?>
+                                            <?}else if($_SESSION['iam_member_id'] && $_SESSION['iam_member_id'] == $group_row['mem_id']){?>
                                                 <div class="dropdown" style="top : 10px;position : absolute;right:30px;height:24px">
                                                     <img class="dropdown-toggle" data-toggle="dropdown" src="/iam/img/menu/icon_dot.png" style="height: 24px;">
                                                     <ul class="dropdown-menu namecard-dropdown " style="background: white; color : black;top:10px;">
@@ -704,7 +704,7 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                                         $reply_sql = "select * from Gn_Iam_Post_Response r inner join Gn_Member m on r.mem_id = m.mem_id where r.post_idx = '{$post_row['id']}' order by r.reg_date";
                                         $reply_res = mysqli_query($self_con,$reply_sql);
                                         while($reply_row = mysqli_fetch_array($reply_res)){
-                                            $reply_card_sql = "select card_short_url from Gn_Iam_Name_Card where group_id is NULL and mem_id = '$reply_row[mem_id]' order by req_data asc";
+                                            $reply_card_sql = "select card_short_url from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$reply_row['mem_id']}' order by req_data asc";
                                             $reply_card_result = mysqli_query($self_con,$reply_card_sql);
                                             $reply_card_row = mysqli_fetch_array($reply_card_result);
                                             ?>
@@ -726,7 +726,7 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                                                         <?=$reply_row['contents']?>
                                                     </span>
                                                 </div>
-                                                <?if($_SESSION['iam_member_id'] && $_SESSION['iam_member_id'] == $post_row[mem_id]){?>
+                                                <?if($_SESSION['iam_member_id'] && $_SESSION['iam_member_id'] == $post_row['mem_id']){?>
                                                     <div class="dropdown" style="top : 10px;position : absolute;right:30px;height:24px">
                                                         <img class="dropdown-toggle" data-toggle="dropdown" src="/iam/img/menu/icon_dot.png" style="height:24px">
                                                         <ul class="dropdown-menu namecard-dropdown " style="background: white; color : black;top:10px;">
@@ -742,7 +742,7 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                                                             </li>
                                                         </ul>
                                                     </div>
-                                                <?}else if($_SESSION['iam_member_id'] && $_SESSION['iam_member_id'] == $group_row[mem_id]){?>
+                                                <?}else if($_SESSION['iam_member_id'] && $_SESSION['iam_member_id'] == $group_row['mem_id']){?>
                                                     <div class="dropdown" style="top : 10px;position : absolute;right:30px;height:24px">
                                                         <img class="dropdown-toggle" data-toggle="dropdown" src="/iam/img/menu/icon_dot.png" style="height: 24px;">
                                                         <ul class="dropdown-menu namecard-dropdown " style="background: white; color : black;top:10px;">

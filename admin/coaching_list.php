@@ -404,7 +404,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                       ?>">
                         <td><?=$number--?></td>
                         <td style="font-size:12px;"><?=$coaching_info_data[coaching_turn]?></td>
-                        <td style="font-size:12px;"><?=$coach_data[mem_id]?></td>
+                        <td style="font-size:12px;"><?=$coach_data['mem_id']?></td>
                         <td style="font-size:12px;"><?=$coach_data['mem_name']?></td>
                         <td style="font-size:12px;"><?=$coaching_info_data[coty_id]?></td>
                         <td style="font-size:12px;"><?=$coaching_data['mem_name']?></td>
@@ -661,7 +661,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                                                     <th>코티이름</th>
                                                     <td><?=$coaching_data['mem_name']?></td>
                                                     <th>코티ID</th>
-                                                    <td><?=$coaching_data[mem_id]?></td>
+                                                    <td><?=$coaching_data['mem_id']?></td>
                                                 </tr>       
                                                 <tr>
                                                     <th>전화번호</th>

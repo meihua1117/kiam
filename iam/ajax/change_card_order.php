@@ -8,13 +8,13 @@
     $row = mysqli_fetch_array($res);
     $date = $row[req_data];
     $src_idx = $row[idx];
-    $src_mem_id = $row[mem_id];
+    $src_mem_id = $row['mem_id'];
     $query = "select * from Gn_Iam_Name_Card where card_short_url ='$src_card_url'";
     $res = mysqli_query($self_con,$query);
     $row = mysqli_fetch_array($res);
     $new_date = $row[req_data];
     $dst_idx = $row[idx];
-    $dst_mem_id = $row[mem_id];
+    $dst_mem_id = $row['mem_id'];
     if($src_mem_id != $dst_mem_id)
         exit;
     $query="update Gn_Iam_Name_Card set req_data = '$new_date' where card_short_url = '$dst_card_url'";

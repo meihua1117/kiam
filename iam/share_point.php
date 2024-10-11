@@ -27,12 +27,12 @@ if(isset($_POST['send_id']) && isset($_POST['receive_id'])){
     $get_point = "select mem_point, mem_cash from Gn_Member where mem_id='{$send_id}'";
     $result_point = mysqli_query($self_con,$get_point);
     $row_point = mysqli_fetch_array($result_point);
-    $method_send = $data_send[mem_id]."/".$data_send['mem_name'];
+    $method_send = $data_send['mem_id']."/".$data_send['mem_name'];
 
     $sql_recv="select * from Gn_Member where mem_id='{$receive_id}' and site != '' ";
     $resul_recv=mysqli_query($self_con,$sql_recv);
     $data_recv=mysqli_fetch_array($resul_recv);
-    $method_recv = $data_recv[mem_id]."/".$data_recv['mem_name'];
+    $method_recv = $data_recv['mem_id']."/".$data_recv['mem_name'];
 
     if($share_point){
         $sql = "insert into Gn_Item_Pay_Result set buyer_id='{$send_id}', buyer_tel='{$data_send['mem_phone']}', item_name='씨드포인트전송', item_price=$share_point, pay_date=now(), pay_percent=90, pay_status='Y', VACT_InputName='{$data_send['mem_name']}', pay_method='$method_recv', seller_id='{$receive_id}', point_val=1, type='shareuse', current_cash={$data_send['mem_cash']}, current_point={$row_point['mem_point']} - $share_point";

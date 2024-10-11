@@ -70,7 +70,7 @@ $result = mysqli_query($self_con,$sql);
 $main_card_row = mysqli_fetch_array($result);
 $first_card_url = $main_card_row[card_short_url];//분양사이트 1번 네임카드 url
 
-$sql = "select site_iam,mem_code from Gn_Member where mem_id = '$main_card_row[mem_id]'";
+$sql = "select site_iam,mem_code from Gn_Member where mem_id = '{$main_card_row['mem_id']}'";
 $result = mysqli_query($self_con,$sql);
 $row = mysqli_fetch_array($result);
 $bunyang_site = $row['site_iam'];
