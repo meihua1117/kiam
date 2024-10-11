@@ -16,16 +16,16 @@ if($_POST['mode'] == "" || $_POST['service_type'] == "") {
     $field = $_POST['service_type'];
     $value = $_POST['service_value'];
     $sql = "update Gn_Member set $field='{$value}' where mem_code={$mem_code}";
-    $update_result = mysql_query($sql) or die(mysql_error());
+    $update_result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
     if ($field == "callback_times") {
         $mem_id = $member_iam['mem_id'];
         $sql = "select a.callback_no from Gn_event a inner join gn_mms_callback b on a.callback_no=b.idx where b.service_state=1 and a.m_id='{$mem_id}' and a.event_name_kor='콜백메시지관리자설정동의' order by b.regdate desc";
-        $res = mysql_query($sql);
-        while ($row = mysql_fetch_assoc($res)) {
+        $res = mysqli_query($self_con,$sql);
+        while ($row = mysqli_fetch_assoc($res)) {
             $sql_update_mem = "update Gn_Member use index(callback) set $field='{$value}' where mem_callback={$row['callback_no']} 
                                                                     and ((phone_callback={$row['callback_no']} and mem_callback_phone_state=1) or (mun_callback={$row['callback_no']} and mem_callback_mun_state=1))
                                                                     and callback_times like 'a%'";
-            mysql_query($sql_update_mem);
+            mysqli_query($self_con,$sql_update_mem);
         }
     }
     echo json_encode(array("status" => $update_result));

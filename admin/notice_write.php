@@ -5,8 +5,8 @@ extract($_GET);
 // 오늘날짜
 $date_today=date("Y-m-d");
 $sql_no="select * from tjd_board where no='$_REQUEST[no]'";
-$resul_no=mysql_query($sql_no);
-$row_no=mysql_fetch_array($resul_no);
+$resul_no=mysqli_query($self_con,$sql_no);
+$row_no=mysqli_fetch_array($resul_no);
 ?>
 <script type="text/javascript" src="/jquery.lightbox_me.js"></script>
 <script language="javascript" src="/js/rlatjd.js"></script>

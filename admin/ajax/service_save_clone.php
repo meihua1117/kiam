@@ -15,12 +15,12 @@ else{
 
 for($i = 0; $i < count($id_arr); $i++){
     $query = "select * from Gn_Iam_Service where idx={$id_arr[$i]}";
-    $res = mysql_query($query);
-    $row = mysql_fetch_array($res);
+    $res = mysqli_query($self_con,$query);
+    $row = mysqli_fetch_array($res);
 
     $sql = "select count(idx) from Gn_Service where sub_domain = '$row[sub_domain]'";
-    $res = mysql_query($sql);
-    $old_row = mysql_fetch_array($res);
+    $res = mysqli_query($self_con,$sql);
+    $old_row = mysqli_fetch_array($res);
 
     if($old_row[0] == 0){
         $query="insert into Gn_Service set `service_name`          ='$row[web_theme]', 
@@ -49,7 +49,7 @@ for($i = 0; $i < count($id_arr); $i++){
                                     kakao='$row[kakao]',
                                     `status`          ='Y', 
                                     `regdate`         =NOW() ";
-        mysql_query($query) or die(mysql_error());
+        mysqli_query($self_con,$query) or die(mysqli_error($self_con));
         $query="update Gn_Iam_Service set ai_card_point = 0,
                                         auto_member_point = 0,
                                         card_send_point = 0,
@@ -72,13 +72,13 @@ for($i = 0; $i < count($id_arr); $i++){
                                         daily_point_start = NOW(),
                                         daily_point_end  = '$row[contract_end_date]'
                                     where idx = $row[idx]";
-        mysql_query($query) or die(mysql_error());
+        mysqli_query($self_con,$query) or die(mysqli_error($self_con));
         $domain = $row[sub_domain];
         $domain_arr = explode(".", $domain);
         $site = $domain_arr[0];
         $site = str_replace("http://","",$site);
         $query="update Gn_Member set site = '$site' where mem_id = '$row[mem_id]'";
-        mysql_query($query) or die(mysql_error());
+        mysqli_query($self_con,$query) or die(mysqli_error($self_con));
     }
 }
 echo json_encode(array("result"=>"ok"));

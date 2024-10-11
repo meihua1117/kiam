@@ -3,14 +3,14 @@ include_once "../lib/rlatjd_fun.php";
 extract($_REQUEST);
 
     	$sql="select * from Gn_landing where landing_idx='$landing_idx'";
-    	$result = mysql_query($sql) or die(mysql_error());
-		$data=mysql_fetch_array($result);
+    	$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+		$data=mysqli_fetch_array($result);
 		
 		//홍보렙인가를 체크한다		
 		$member_id = $data['m_id'];								
 		$sql="select mem_leb FROM Gn_Member WHERE mem_id='$member_id'";
-		$res=mysql_query($sql);
-		$memrow = mysql_fetch_array($res);
+		$res=mysqli_query($self_con,$sql);
+		$memrow = mysqli_fetch_array($res);
     	
 				$sql_serch=" status='Y'";
 					if($data['m_id'] != "obmms02" && $memrow['mem_leb'] != "60") {
@@ -38,8 +38,8 @@ extract($_REQUEST);
 					}				
 				
 				$sql="select count(lecture_id) as cnt from Gn_lecture where $sql_serch ";
-				$result = mysql_query($sql) or die(mysql_error());
-				$row=mysql_fetch_array($result);
+				$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+				$row=mysqli_fetch_array($result);
 				$intRowCount=$row[cnt];
               if($intRowCount)
               {
@@ -74,15 +74,15 @@ extract($_REQUEST);
 				//$sql="select * from Gn_lecture where $sql_serch order by $order_name $order_status limit $int,$intPageSize";
 				$sql="select * from Gn_lecture where $sql_serch order by start_date desc limit $int,$intPageSize";
 				
-				$result=mysql_query($sql) or die(mysql_error());				
+				$result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));				
 		?>   
               <?
-                  while($row=mysql_fetch_array($result))
+                  while($row=mysqli_fetch_array($result))
                   {
 					  	//$num_arr=array();
 						$sql_num="select * from Gn_event where m_id='$row[mem_id]' and event_idx='$row[event_idx]' ";
-						$resul_num=mysql_query($sql_num);
-						$crow=mysql_fetch_array($resul_num);
+						$resul_num=mysqli_query($self_con,$sql_num);
+						$crow=mysqli_fetch_array($resul_num);
 						
  
                   ?>

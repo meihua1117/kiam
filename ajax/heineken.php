@@ -34,8 +34,8 @@ if ($user_id) {
             //번호들 담기 : $num_arr
             foreach ($send_chk_arr as $key => $v) {
                 $sql_g2 = "select recv_num,grp from Gn_MMS_Receive where grp_id = '$v' order by idx asc";
-                $resul_g2 = mysql_query($sql_g2);
-                while ($row_g2 = mysql_fetch_array($resul_g2)) {
+                $resul_g2 = mysqli_query($self_con,$sql_g2);
+                while ($row_g2 = mysqli_fetch_array($resul_g2)) {
                     array_push($num_arr, $row_g2['recv_num']);
                     if (array_key_exists($row_g2['recv_num'], $group_recv_info) === false) {
                         $group_recv_info[$row_g2['recv_num']] = $row_g2['grp'];
@@ -84,10 +84,10 @@ if ($user_id) {
             $date_month = substr($reservation, 0, 7);
         }
         $sql = "select phone_cnt from tjd_pay_result where buyer_id = '$user_id' and end_date > '$date_today' and end_status in ('Y','A') and gwc_cont_pay=0 order by end_date desc limit 1";
-        $res_result = mysql_query($sql);
+        $res_result = mysqli_query($self_con,$sql);
         //결제 휴대폰 수
-        $buyPhoneCnt = mysql_fetch_row($res_result);
-        mysql_free_result($res_result);
+        $buyPhoneCnt = mysqli_fetch_row($res_result);
+        mysqli_free_result($res_result);
         if ($buyPhoneCnt[0] == 0)    //유료결제건
             $buyMMSCount = 0;
         else
@@ -99,8 +99,8 @@ if ($user_id) {
         if ($_POST['free_use'] == "Y") {
             $sql_ad = "select `gaid`, `client`, `start_date`, `send_start_date`, `send_end_date`, `send_count`, `title`, `content`, `img_path`, `sort_order` 
                              from Gn_Ad where status='C' order by sort_order asc, regdate desc";
-            $res_ad = mysql_query($sql_ad);
-            $row_ad = mysql_fetch_array($res_ad);
+            $res_ad = mysqli_query($self_con,$sql_ad);
+            $row_ad = mysqli_fetch_array($res_ad);
             $ad_msg = $row_ad['content'];
             if ($row_ad['img_path'] == "") {
                 $ad_msg .= $domain_url . $row_ad['img_path'];
@@ -111,18 +111,18 @@ if ($user_id) {
         //-이번달 예약건 수
         $reserv_cnt_thismonth = 0;
         $sql_result = "select SUM(recv_num_cnt) from Gn_MMS where reservation like '$date_month%' and up_date is null and mem_id = '$user_id' ";
-        $res_result = mysql_query($sql_result);
-        $row_result = mysql_fetch_array($res_result);
+        $res_result = mysqli_query($self_con,$sql_result);
+        $row_result = mysqli_fetch_array($res_result);
         $reserv_cnt_thismonth += $row_result[0] * 1;
-        mysql_free_result($res_result);
+        mysqli_free_result($res_result);
 
         //-이번달 발송된 수
         $recv_num_ex_sum = 0;
         $sql_result = "select SUM(recv_num_cnt) from Gn_MMS where reg_date like '$date_month%' and reservation is null and mem_id = '$user_id' ";
-        $res_result = mysql_query($sql_result);
-        $row_result = mysql_fetch_array($res_result);
+        $res_result = mysqli_query($self_con,$sql_result);
+        $row_result = mysqli_fetch_array($res_result);
         $recv_num_ex_sum += $row_result[0] * 1;
-        mysql_free_result($res_result);
+        mysqli_free_result($res_result);
         $recv_num_ex_sum += $reserv_cnt_thismonth; //이번 달 예약된 수 추가        
 
         //이달잔여건
@@ -155,8 +155,8 @@ if ($user_id) {
                 $search_str = " and (chanel_type=1 or chanel_type=4 or chanel_type=9)";
             }
             $sql_deny = "select idx from Gn_MMS_Deny where recv_num = '$num_arr[$i]' and send_num = '$sendnum[0]'" . $search_str; //수신거부
-            $resul_deny = mysql_query($sql_deny) or die(mysql_error());
-            $row_deny = mysql_fetch_array($resul_deny);
+            $resul_deny = mysqli_query($self_con,$sql_deny) or die(mysqli_error($self_con));
+            $row_deny = mysqli_fetch_array($resul_deny);
             if ($row_deny['idx']) { //수신 거부 번호 모으기 : $_POST[send_deny_wushi_3]
                 array_push($deny_num, $num_arr[$i]);
                 //$num_arr[$i] = array_diff($num_arr[$i], $deny_num);//수신거부 번호 제외
@@ -164,8 +164,8 @@ if ($user_id) {
                     continue;
             }
             $sql_etc = "select seq,msg_flag from sm_log where mem_id = '$user_id' and ori_num='$num_arr[$i]' order by seq desc limit 0,1";
-            $resul_etc = mysql_query($sql_etc);
-            $row_etc = mysql_fetch_array($resul_etc);
+            $resul_etc = mysqli_query($self_con,$sql_etc);
+            $row_etc = mysqli_fetch_array($resul_etc);
             if ($row_etc['seq']) {
                 if ($row_etc['msg_flag'] == 1) { //기타 번호 모으기 : $_POST[send_deny_wushi_2]
                     array_push($etc_arr, $num_arr[$i]);
@@ -216,12 +216,12 @@ if ($user_id) {
             */
             $superChk = false;
             $query = "select * from Gn_Member where mem_id='$user_id'";
-            $result = mysql_query($query);
-            $member_info = mysql_fetch_array($result);
+            $result = mysqli_query($self_con,$query);
+            $member_info = mysqli_fetch_array($result);
 
             $query = "select * from Gn_MMS_Number where mem_id='$user_id' and sendnum='" . str_replace("-", "", $sendnum[$j]) . "'";
-            $result = mysql_query($query);
-            $info = mysql_fetch_array($result);
+            $result = mysqli_query($self_con,$query);
+            $info = mysqli_fetch_array($result);
             if ($info['memo2'] != "") {
                 $telecom = $info['memo2'];
             }
@@ -261,9 +261,9 @@ if ($user_id) {
 
             $ssh_num = array(); //$ssh_num <= 중복없는 수신번호들
             $sql_ssh = "select recv_num from Gn_MMS where mem_id = '$user_id' and send_num='$sendnum[$j]' and result = '0' and reg_date like '$date_month%'";
-            $resul_ssh = mysql_query($sql_ssh);
-            if (mysql_num_rows($resul_ssh)) {
-                while ($row_ssh = mysql_fetch_array($resul_ssh)) {
+            $resul_ssh = mysqli_query($self_con,$sql_ssh);
+            if (mysqli_num_rows($resul_ssh)) {
+                while ($row_ssh = mysqli_fetch_array($resul_ssh)) {
                     $ssh_arr = array();
                     $ssh_arr = explode(",", $row_ssh['recv_num']);
                     $ssh_num = array_merge($ssh_num, (array)$ssh_arr);
@@ -358,9 +358,9 @@ if ($user_id) {
                     if ($_POST['send_ssh_check'] ||  $_POST['send_ssh_check3']) {
                         $ssh_num = array(); //$ssh_num <= 중복없는 수신번호들
                         $sql_ssh = "select recv_num from Gn_MMS where mem_id = '$user_id' and send_num='$sendnum[$j]' and result = '0' and reg_date like '$date_month%' group by(recv_num)";
-                        $resul_ssh = mysql_query($sql_ssh);
-                        if (mysql_num_rows($resul_ssh)) {
-                            while ($row_ssh = mysql_fetch_array($resul_ssh)) {
+                        $resul_ssh = mysqli_query($self_con,$sql_ssh);
+                        if (mysqli_num_rows($resul_ssh)) {
+                            while ($row_ssh = mysqli_fetch_array($resul_ssh)) {
                                 $ssh_arr = array();
                                 $ssh_arr = explode(",", $row_ssh['recv_num']);
                                 $ssh_num = array_merge($ssh_num, (array)$ssh_arr);
@@ -436,8 +436,8 @@ if ($user_id) {
                         $allocation_cnt = 0;
                     }
                     $query = "select * from Gn_MMS_Number where mem_id='$user_id' and sendnum='" . $sendnum[$j] . "'";
-                    $result = mysql_query($query);
-                    $info = mysql_fetch_array($result);
+                    $result = mysqli_query($self_con,$query);
+                    $info = mysqli_fetch_array($result);
                     $daily_limit_cnt_user = $info['daily_limit_cnt_user']; // 10건
                     $daily_min_cnt_user = $info['daily_min_cnt_user']; // 20건
                     $monthly_receive_cnt_user = $info['monthly_receive_cnt_user']; // 수신처 제한
@@ -512,19 +512,19 @@ if ($user_id) {
                     // STEP #5 == 금일 발송양에 따른 통계 계산
                     if ($_POST['send_ssh_check']) {
                         $sql_check_s = "select no,status from tjd_mms_cnt_check where mem_id='$user_id' and sendnum='$sendnum[$j]' and date=curdate() ";
-                        $resul_check_s = mysql_query($sql_check_s);
-                        $row_check_s = mysql_fetch_array($resul_check_s);
+                        $resul_check_s = mysqli_query($self_con,$sql_check_s);
+                        $row_check_s = mysqli_fetch_array($resul_check_s);
                         if ($row_check_s['no']) { //tjd_mms_cnt_check에 자료 있으면 : 오늘 보낸 적 있음
                             if ($row_check_s['status'] == "N") { //200미만 건 발송 이력 있음
                                 // Cooper Add  2016-05-08
                                 if ($user_cnt[$sendnum[$j]] + count($send_num_list[$sendnum[$j]]) >= $daily_min_cnt_user  && count($send_num_list[$sendnum[$j]]) > 0) {
                                     $sql_num = "update Gn_MMS_Number set cnt1=cnt1+1, cnt2=cnt2-1 where mem_id='$user_id' and sendnum='$sendnum[$j]' ";
                                     if ($debug_mode == false) {
-                                        mysql_query($sql_num);
+                                        mysqli_query($self_con,$sql_num);
                                     }
                                     $sql_check_u = "update tjd_mms_cnt_check set status='Y' where mem_id='$user_id' and sendnum='$sendnum[$j]' and date=curdate() ";
                                     if ($debug_mode == false) {
-                                        mysql_query($sql_check_u);
+                                        mysqli_query($self_con,$sql_check_u);
                                     }
                                     $cnt1_log_arr[$j] += 1;
                                     $cnt2_log_arr[$j] -= 1;
@@ -536,21 +536,21 @@ if ($user_id) {
                             if ($user_cnt[$sendnum[$j]] + count($send_num_list[$sendnum[$j]]) >= $daily_min_cnt_user && count($send_num_list[$sendnum[$j]]) > 0) {
                                 $sql_num = "update Gn_MMS_Number set cnt1=cnt1+1 where mem_id='$user_id' and sendnum='$sendnum[$j]' ";
                                 if ($debug_mode == false) {
-                                    mysql_query($sql_num);
+                                    mysqli_query($self_con,$sql_num);
                                 }
                                 $sql_check_i = "insert into tjd_mms_cnt_check set mem_id='$user_id' , sendnum='$sendnum[$j]' , status='Y', date=curdate() ";
                                 if ($debug_mode == false) {
-                                    mysql_query($sql_check_i);
+                                    mysqli_query($self_con,$sql_check_i);
                                 }
                                 $cnt1_log_arr[$j] += 1;
                             } else if ($user_cnt[$sendnum[$j]] + count($send_num_list[$sendnum[$j]]) < $daily_min_cnt_user  && count($send_num_list[$sendnum[$j]]) > 0) {
                                 $sql_num = "update Gn_MMS_Number set cnt2=cnt2+1 where mem_id='$user_id' and sendnum='$sendnum[$j]' ";
                                 if ($debug_mode == false) {
-                                    mysql_query($sql_num);
+                                    mysqli_query($self_con,$sql_num);
                                 }
                                 $sql_check_i = "insert into tjd_mms_cnt_check set mem_id='$user_id' , sendnum='$sendnum[$j]' , status='N', date=curdate() ";
                                 if ($debug_mode == false) {
-                                    mysql_query($sql_check_i);
+                                    mysqli_query($self_con,$sql_check_i);
                                 }
                                 $cnt2_log_arr[$j] += 1;
                             }
@@ -558,19 +558,19 @@ if ($user_id) {
                         }
                     } else {
                         $sql_check_s = "select no,status from tjd_mms_cnt_check where mem_id='$user_id' and sendnum='$sendnum[$j]' and date=curdate() ";
-                        $resul_check_s = mysql_query($sql_check_s);
-                        $row_check_s = mysql_fetch_array($resul_check_s);
+                        $resul_check_s = mysqli_query($self_con,$sql_check_s);
+                        $row_check_s = mysqli_fetch_array($resul_check_s);
                         if ($row_check_s['no']) { //tjd_mms_cnt_check에 자료 있으면 : 오늘 보낸 적 있음
                             if ($row_check_s['status'] == "N") { //200미만 건 발송 이력 있음
                                 // Cooper Add  2016-05-08
                                 if ($user_cnt[$sendnum[$j]] + count($send_num_list[$sendnum[$j]]) >= $daily_min_cnt_user  && count($send_num_list[$sendnum[$j]]) > 0) {
                                     $sql_num = "update Gn_MMS_Number set cnt1=cnt1+1, cnt2=cnt2-1 where mem_id='$user_id' and sendnum='$sendnum[$j]' ";
                                     if ($debug_mode == false) {
-                                        mysql_query($sql_num);
+                                        mysqli_query($self_con,$sql_num);
                                     }
                                     $sql_check_u = "update tjd_mms_cnt_check set status='Y' where mem_id='$user_id' and sendnum='$sendnum[$j]' and date=curdate() ";
                                     if ($debug_mode == false) {
-                                        mysql_query($sql_check_u);
+                                        mysqli_query($self_con,$sql_check_u);
                                     }
 
                                     $cnt1_log_arr[$j] += 1;
@@ -583,22 +583,22 @@ if ($user_id) {
                             if ($user_cnt[$sendnum[$j]] + count($send_num_list[$sendnum[$j]]) >= $daily_min_cnt_user  && count($send_num_list[$sendnum[$j]]) > 0) {
                                 $sql_num = "update Gn_MMS_Number set cnt1=cnt1+1 where mem_id='$user_id' and sendnum='$sendnum[$j]' ";
                                 if ($debug_mode == false) {
-                                    mysql_query($sql_num);
+                                    mysqli_query($self_con,$sql_num);
                                 }
                                 $sql_check_i = "insert into tjd_mms_cnt_check set mem_id='$user_id' , sendnum='$sendnum[$j]' , status='Y', date=curdate() ";
                                 if ($debug_mode == false) {
-                                    mysql_query($sql_check_i);
+                                    mysqli_query($self_con,$sql_check_i);
                                 }
                                 $cnt1_log_arr[$j] += 1;
                             } else if ($user_cnt[$sendnum[$j]] + count($send_num_list[$sendnum[$j]]) < $daily_min_cnt_user  && count($send_num_list[$sendnum[$j]]) > 0) {
                                 $sql_num = "update Gn_MMS_Number set cnt2=cnt2+1 where mem_id='$user_id' and sendnum='$sendnum[$j]' ";
                                 if ($debug_mode == false) {
-                                    mysql_query($sql_num);
+                                    mysqli_query($self_con,$sql_num);
                                 }
 
                                 $sql_check_i = "insert into tjd_mms_cnt_check set mem_id='$user_id' , sendnum='$sendnum[$j]' , status='N', date=curdate() ";
                                 if ($debug_mode == false) {
-                                    mysql_query($sql_check_i);
+                                    mysqli_query($self_con,$sql_check_i);
                                 }
                                 $cnt2_log_arr[$j] += 1;
                             }
@@ -662,8 +662,8 @@ if ($user_id) {
                 }
 
                 $query = "select * from Gn_MMS_Number where mem_id='$user_id' and sendnum='" . $sendnum[$j] . "'";
-                $result = mysql_query($query);
-                $info = mysql_fetch_array($result);
+                $result = mysqli_query($self_con,$query);
+                $info = mysqli_fetch_array($result);
 
                 $daily_limit_cnt_user = $info['daily_limit_cnt_user']; // 10건
                 $daily_min_cnt_user = $info['daily_min_cnt_user']; // 20건
@@ -691,10 +691,10 @@ if ($user_id) {
                 }
 
                 $sql_ssh = "select recv_num from Gn_MMS where mem_id = '$user_id' and send_num='$sendnum[$j]' and result = '0' and reg_date like '$date_month%'";
-                $resul_ssh = mysql_query($sql_ssh);
+                $resul_ssh = mysqli_query($self_con,$sql_ssh);
                 $ssh_num = array();
-                if (mysql_num_rows($resul_ssh)) {
-                    while ($row_ssh = mysql_fetch_array($resul_ssh)) {
+                if (mysqli_num_rows($resul_ssh)) {
+                    while ($row_ssh = mysqli_fetch_array($resul_ssh)) {
                         $ssh_arr = array();
                         $ssh_arr = explode(",", $row_ssh['recv_num']);
                         $ssh_num = array_merge($ssh_num, $ssh_arr);
@@ -753,8 +753,8 @@ if ($user_id) {
                 $success_arr = array_merge($success_arr, (array)$send_num_list[$sendnum[$j]]);
                 // STEP #5 == 금일 발송양에 따른 통계 계산
                 $sql_check_s = "select no,status from tjd_mms_cnt_check where mem_id='$user_id' and sendnum='$sendnum[$j]' and date=curdate() ";
-                $resul_check_s = mysql_query($sql_check_s);
-                $row_check_s = mysql_fetch_array($resul_check_s);
+                $resul_check_s = mysqli_query($self_con,$sql_check_s);
+                $row_check_s = mysqli_fetch_array($resul_check_s);
                 if ($row_check_s['no']) { //tjd_mms_cnt_check에 자료 있으면 : 오늘 보낸 적 있음
 
                     if ($row_check_s['status'] == "N") { //200미만 건 발송 이력 있음
@@ -762,12 +762,12 @@ if ($user_id) {
                         if ($user_cnt[$sendnum[$j]] + count($send_num_list[$sendnum[$j]]) >= $daily_min_cnt_user  && count($send_num_list[$sendnum[$j]]) > 0) {
                             $sql_num = "update Gn_MMS_Number set cnt1=cnt1+1, cnt2=cnt2-1 where mem_id='$user_id' and sendnum='$sendnum[$j]' ";
                             if ($debug_mode == false) {
-                                mysql_query($sql_num);
+                                mysqli_query($self_con,$sql_num);
                             }
 
                             $sql_check_u = "update tjd_mms_cnt_check set status='Y' where mem_id='$user_id' and sendnum='$sendnum[$j]' and date=curdate() ";
                             if ($debug_mode == false) {
-                                mysql_query($sql_check_u);
+                                mysqli_query($self_con,$sql_check_u);
                             }
 
                             $cnt1_log_arr[$j] += 1;
@@ -782,21 +782,21 @@ if ($user_id) {
                     if ($user_cnt[$sendnum[$j]] + count($send_num_list[$sendnum[$j]]) >= $daily_min_cnt_user && count($send_num_list[$sendnum[$j]]) > 0) {
                         $sql_num = "update Gn_MMS_Number set cnt1=cnt1+1 where mem_id='$user_id' and sendnum='$sendnum[$j]' ";
                         if ($debug_mode == false) {
-                            mysql_query($sql_num);
+                            mysqli_query($self_con,$sql_num);
                         }
                         $sql_check_i = "insert into tjd_mms_cnt_check set mem_id='$user_id' , sendnum='$sendnum[$j]' , status='Y', date=curdate() ";
                         if ($debug_mode == false) {
-                            mysql_query($sql_check_i);
+                            mysqli_query($self_con,$sql_check_i);
                         }
                         $cnt1_log_arr[$j] += 1;
                     } else if ($user_cnt[$sendnum[$j]] + count($send_num_list[$sendnum[$j]]) < $daily_min_cnt_user && count($send_num_list[$sendnum[$j]]) > 0) {
                         $sql_num = "update Gn_MMS_Number set cnt2=cnt2+1 where mem_id='$user_id' and sendnum='$sendnum[$j]' ";
                         if ($debug_mode == false) {
-                            mysql_query($sql_num);
+                            mysqli_query($self_con,$sql_num);
                         }
                         $sql_check_i = "insert into tjd_mms_cnt_check set mem_id='$user_id' , sendnum='$sendnum[$j]' , status='N', date=curdate() ";
                         if ($debug_mode == false) {
-                            mysql_query($sql_check_i);
+                            mysqli_query($self_con,$sql_check_i);
                         }
                         $cnt2_log_arr[$j] += 1;
                     }
@@ -842,7 +842,7 @@ if ($user_id) {
                     foreach($mms_start_info as $key=>$v)
                     $sql_start.=" $key='$v' ,";
                     $sql_start.=" reg_date = now() ";
-                    mysql_query($sql_start) or die(mysql_error());*/
+                    mysqli_query($self_con,$sql_start) or die(mysqli_error($self_con));*/
 
                     // Cooper Add 치환 대상자 이름 뽑기
                     if (strstr($_POST['send_txt'], "{|name|}")) {
@@ -852,10 +852,10 @@ if ($user_id) {
                             $group_str_sql = "'" . implode("','", $send_chk_arr) . "'";
                         } else {
                             $query = "select idx from Gn_MMS_Group where mem_id ='$user_id' order by reg_date desc";
-                            $res = mysql_query($query);
-                            $cnt = mysql_num_rows($res);
+                            $res = mysqli_query($self_con,$query);
+                            $cnt = mysqli_num_rows($res);
                             if ($cnt > 0) {
-                                $row = mysql_fetch_array($res);
+                                $row = mysqli_fetch_array($res);
                                 $group_str_sql = "'" . $row[0] . "'";
                             }
                         }
@@ -870,8 +870,8 @@ if ($user_id) {
                                             order by recv_num asc, reg_date desc
                                         ) a group by a.recv_num						                
                                     ) res";
-                        $replace_result = mysql_query($query) or die(mysql_error());
-                        $replace_row = mysql_fetch_array($replace_result);
+                        $replace_result = mysqli_query($self_con,$query) or die(mysqli_error($self_con));
+                        $replace_row = mysqli_fetch_array($replace_result);
                         // Cooper add 03-10
                         // 차이있는 전화번호를 수정해준다(주소록에 없는 번호)
                         $recv_arr_temp = explode(",", $replace_row['recv_num']);
@@ -890,7 +890,7 @@ if ($user_id) {
                                 $recv_name_str .= substr($val, -4);
                         }
                         $mms_info['replacement1'] = $recv_name_str;
-                        mysql_free_result($replace_result);
+                        mysqli_free_result($replace_result);
                     } else {
                         $recv_str = implode(",", $recv_arr);
                         $recv_name_str = "";
@@ -903,10 +903,10 @@ if ($user_id) {
                             $group_str_sql = "'" . implode("','", $send_chk_arr) . "'";
                         } else {
                             $query = "select idx from Gn_MMS_Group where mem_id ='$user_id' order by reg_date desc";
-                            $res = mysql_query($query);
-                            $cnt = mysql_num_rows($res);
+                            $res = mysqli_query($self_con,$query);
+                            $cnt = mysqli_num_rows($res);
                             if ($cnt > 0) {
-                                $row = mysql_fetch_array($res);
+                                $row = mysqli_fetch_array($res);
                                 $group_str_sql = "'" . $row[0] . "'";
                             }
                         }
@@ -921,8 +921,8 @@ if ($user_id) {
                                             order by recv_num asc, reg_date desc
                                         ) a group by a.recv_num						                
                                     ) res";
-                        $replace_result = mysql_query($query) or die(mysql_error());
-                        $replace_row = mysql_fetch_array($replace_result);
+                        $replace_result = mysqli_query($self_con,$query) or die(mysqli_error($self_con));
+                        $replace_row = mysqli_fetch_array($replace_result);
                         // Cooper add 03-10
                         // 차이있는 전화번호를 수정해준다(주소록에 없는 번호)
                         $recv_arr_temp = explode(",", $replace_row['recv_num']);
@@ -938,7 +938,7 @@ if ($user_id) {
                             $recv_email_str .= ",";
                         }
                         $mms_info['replacement2'] = $recv_email_str;
-                        mysql_free_result($replace_result);
+                        mysqli_free_result($replace_result);
                     } else {
                         //$recv_str=implode(",",$recv_arr);
                         $recv_email_str = "";
@@ -984,8 +984,8 @@ if ($user_id) {
 
                     $sql .= " reg_date = now() ";
                     if ($debug_mode == false) {
-                        mysql_query($sql) or die(mysql_error());
-                        $sidx = mysql_insert_id();
+                        mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+                        $sidx = mysqli_insert_id($self_con);
                         if (!$reservation) {
                             if ($pkey[$mms_info['send_num']] != "") {
                                 $id = $pkey[$mms_info['send_num']];
@@ -1028,7 +1028,7 @@ if ($user_id) {
 
                                 $query = "insert into Gn_MMS_PUSH set send_num='{$mms_info['send_num']}',idx='{$sidx}',token='{$pkey[$mms_info['send_num']]}',error='{$msg}'";
                                 if ($debug_mode == false) {
-                                    mysql_query($query) or die(mysql_error());
+                                    mysqli_query($self_con,$query) or die(mysqli_error($self_con));
                                 }
                             }
                         }
@@ -1039,13 +1039,13 @@ if ($user_id) {
                     for ($kk = 0; $kk < count($revnum); $kk++) { // 2016-03-07 uni_id 추가
                         $log_query = "insert into Gn_MMS_Send_Log (uni_id,mem_id, send_num, recv_num, grp_name, reg_date) values ('" . $req . "','" . $user_id . "','" . $sendnum[$j] . "','" . $revnum[$kk] . "','" . $group_recv_info[$revnum[$kk]] . "',NOW());";
                         if ($debug_mode == false) {
-                            mysql_query($log_query) or die(mysql_error());
+                            mysqli_query($self_con,$log_query) or die(mysqli_error($self_con));
                         }
                     }
                     if ($_POST['free_use'] == "Y") {
                         $log_query = "insert into Gn_Ad_Static (mem_id, send_num, send_count, reg_date) values ('" . $user_id . "','" . $sendnum[$j] . "','" . count($revnum) . "',NOW());";
                         if ($debug_mode == false) {
-                            mysql_query($log_query) or die(mysql_error());
+                            mysqli_query($self_con,$log_query) or die(mysqli_error($self_con));
                         }
                     }
                     //건수 변경 기록  2016-03-07 추가
@@ -1054,7 +1054,7 @@ if ($user_id) {
                     //echo $log_query."\n";
                     $re_today_cnt += $cntYN_log_arr[$j];
                     if ($debug_mode == false) {
-                        mysql_query($log_query) or die(mysql_error());
+                        mysqli_query($self_con,$log_query) or die(mysqli_error($self_con));
                     }
                 }
             }
@@ -1088,7 +1088,7 @@ if ($user_id) {
             $sql .= " reg_date=now() ";
 
             if ($debug_mode == false) {
-                mysql_query($sql);
+                mysqli_query($self_con,$sql);
             }
         }
         $start_num = array_unique($start_num);   //발송참여 발신폰 번호들
@@ -1110,4 +1110,4 @@ if ($user_id) {
         exit;
     }
 }
-mysql_close($self_con);
+mysqli_close($self_con);

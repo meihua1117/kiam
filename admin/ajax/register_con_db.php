@@ -34,13 +34,13 @@ $status_work = $_POST['status_work'];
 if(isset($_POST['updat'])){
     $sql = "update reg_biz_contents set info_source='{$info_source}', info_type='{$info_type}', web_address='{$web_address}', search_key='{$search_key}', status={$status}, keyword='{$keyword}', get_time='{$get_time}', memo='{$memo}', up_date='{$date_today1}', work_status={$status_work} where id={$_POST['updat']}";
     // echo $sql; exit;
-    mysql_query($sql);
+    mysqli_query($self_con,$sql);
     echo 2;
 }
 else{
     $sql = "insert into reg_biz_contents set info_source='{$info_source}', info_type='{$info_type}', web_address='{$web_address}', search_key='{$search_key}', status={$status}, keyword='{$keyword}', get_time='{$get_time}', memo='{$memo}', reg_date='{$reg_date}', up_date='{$reg_date}', work_status={$status_work}";
     // echo $sql; exit;
-    mysql_query($sql);
+    mysqli_query($self_con,$sql);
     echo 1;
 }
 ?>

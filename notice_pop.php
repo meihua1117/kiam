@@ -114,8 +114,8 @@ function Memo_closeWin(id)
           <?if($_GET[id] && strlen($_GET[id]) < 4)
           {			    
             $query = "SELECT * FROM tjd_board WHERE no=$_GET[id]";
-            $res = mysql_query($query);
-            $row_no = mysql_fetch_array($res);
+            $res = mysqli_query($self_con,$query);
+            $row_no = mysqli_fetch_array($res);
           ?>
             <table class="view_table_1" width="100%" border="0" cellspacing="0" cellpadding="0">
             <tr style="word-break: break-all;">

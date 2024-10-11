@@ -24,8 +24,8 @@ location.replace('/ma.php');
 exit;
 }
 $sql="select * from gn_coaching_info  where coaching_id='".$coaching_id."'";
-$sresul_num=mysql_query($sql);
-$coaching_info_data=mysql_fetch_array($sresul_num);	
+$sresul_num=mysqli_query($self_con,$sql);
+$coaching_info_data=mysqli_fetch_array($sresul_num);	
 
 
 ?>
@@ -83,7 +83,7 @@ $(function(){
        <div class="m_body">
         <? 
           $sql="select * from gn_coach_apply a inner join Gn_Member b on b.mem_code = a.mem_code where b.mem_id = '".$_SESSION['one_member_id']."'";
-          $coach_data =mysql_fetch_array(mysql_query($sql));    
+          $coach_data =mysqli_fetch_array(mysqli_query($self_con,$sql));    
         ?>
         <form name="sform" id="sform" action="mypage.proc.php" method="post" enctype="multipart/form-data">
 
@@ -109,8 +109,8 @@ $(function(){
                        <select name="coty_id" id="coty_id" onchange="cotyIDChanged()"  style="height:35px;width:75%; padding-left:5px;">
                           <? 
                           $sql="select * from gn_coaching_apply a inner join Gn_Member b on b.mem_code = a.mem_code where a.coach_id= ".$coach_data['coach_id']." order by reg_date desc";
-                          $coaching_res = mysql_query($sql);
-                          while($coaching_data = mysql_fetch_array($coaching_res)) { 
+                          $coaching_res = mysqli_query($self_con,$sql);
+                          while($coaching_data = mysqli_fetch_array($coaching_res)) { 
 
 
 
@@ -119,8 +119,8 @@ $(function(){
 
                               $sql="select sum(coaching_time) as sum from gn_coaching_info where coty_id=".$coaching_data[coty_id]." order by coaching_turn desc";
 
-                                $result = mysql_query($sql) or die(mysql_error());
-                                $row=mysql_fetch_array($result);
+                                $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+                                $row=mysqli_fetch_array($result);
                                 $last_time_sum=$row[sum];
 
                                 if( ($coaching_data[cont_time] * 60) != $last_time_sum){
@@ -374,8 +374,8 @@ $( "#start_date" ).datepicker({
 
 // $sql_1 = "Select * FROM `gn_coaching_info` WHERE coaching_turn = (  SELECT MAX( coaching_turn ) AS max_c_turn FROM  `gn_coaching_info`  WHERE `coach_id` = '$coaching_info_data[coach_id]' AND `coty_id` = '$coaching_info_data[coty_id]' )  AND `coach_id` = '$coaching_info_data[coach_id]' AND `coty_id` = '$coaching_info_data[coty_id]';";
 
-// $res_1=mysql_query($sql_1);
-// $coaching=mysql_fetch_array($res_1);
+// $res_1=mysqli_query($self_con,$sql_1);
+// $coaching=mysqli_fetch_array($res_1);
 
 // $max_coaching_date = $coaching[coaching_date];
 

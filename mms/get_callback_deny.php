@@ -17,8 +17,8 @@ $phone_num = $_REQUEST['phone_num'];
 //}
 //else{
     $sql_num="select idx from Gn_MMS_Deny where send_num='$sendNum' and recv_num='$recvNum' and chanel_type=9 ";
-    $resul_num=mysql_query($sql_num);
-    $row_num=mysql_fetch_array($resul_num);
+    $resul_num=mysqli_query($self_con,$sql_num);
+    $row_num=mysqli_fetch_array($resul_num);
     if(!$row_num[0])
     {//거부설정이 없으면
         $res['result'] = 1;

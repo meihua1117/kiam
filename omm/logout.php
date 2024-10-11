@@ -12,10 +12,10 @@ if(!$mem_token || !check_token($phone_num, $mem_token)){
 }
 else{
     $sql = "update Gn_Member set mem_token = '' where mem_id = '$id'";
-    $result = mysql_query($sql);
+    $result = mysqli_query($self_con,$sql);
 
     $sql = "update gn_mms_token set token = '' where phone_num = '$phone_num'";
-    $result = mysql_query($sql);
+    $result = mysqli_query($self_con,$sql);
     
     $ret = array("result"=>"1");
     echo json_encode($ret);

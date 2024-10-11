@@ -62,12 +62,12 @@ if(!$mem_id){
 }
 if($mode == "creat") {
     $query = "select iam_card_cnt from Gn_Member where mem_id='$mem_id'";
-    $res = mysql_query($query);
-    $row = mysql_fetch_array($res);
+    $res = mysqli_query($self_con,$query);
+    $row = mysqli_fetch_array($res);
 
     $query = "select count(*) as cnt from Gn_Iam_Name_Card where group_id is NULL and mem_id='".$mem_id."'";
-    $res = mysql_query($query);
-    $data = mysql_fetch_array($res);
+    $res = mysqli_query($self_con,$query);
+    $data = mysqli_fetch_array($res);
     if($row['iam_card_cnt'] <= $data[0]) {
         $result = "고객님의 아이엠은 {$row['iam_card_cnt']}개의 카드를 사용할수 있습니다. 추가하시려면 관리자에게 문의하세요.";
         echo $result;
@@ -77,8 +77,8 @@ if($mode == "creat") {
         $link_arr = explode("?",$link);
         $card_short_url = substr($link_arr[1],0,10);
         $sql = "select * from Gn_Iam_Name_Card where card_short_url = '$card_short_url'";
-        $res = mysql_query($sql);
-        $row = mysql_fetch_array($res);
+        $res = mysqli_query($self_con,$sql);
+        $row = mysqli_fetch_array($res);
         if(!$row[idx]){
             echo "카드링크가 존재하지 않습니다.다시 확인해주세요";
         }else{
@@ -88,11 +88,11 @@ if($mode == "creat") {
                 "values (\"$mem_id\", \"$card_title\", \"$short_url\", \"$row[card_name]\", \"$row[card_company]\", \"$row[card_position]\", \"$row[card_phone]\", \"$row[card_email]\", \"$row[card_addr]\", \"$row[card_map]\", \"$row[card_keyword]\",".
                 " \"$row[profile_logo]\", 0, \"$row[story_title4]\",\"$row[story_online1_text]\",\"$row[story_online1]\", \"$row[online1_check]\", \"$row[story_online2_text]\", \"$row[story_online2]\", \"$row[online2_check]\", 0, now(),".
                 "\"$row[main_img1]\",\"$row[main_img2]\",\"$row[main_img3]\",\"$row[story_title1]\",\"$row[story_title2]\",\"$row[story_title3]\",\"$row[story_myinfo]\",\"$row[story_company]\",\"$row[story_career]\",\"$link\")";
-            mysql_query($sql) or die(mysql_error());
+            mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 
             $mem_sql = "select mem_code from Gn_Member where mem_id = '$mem_id'";
-            $mem_res = mysql_query($mem_sql);
-            $mem_row = mysql_fetch_array($mem_res);
+            $mem_res = mysqli_query($self_con,$mem_sql);
+            $mem_row = mysqli_fetch_array($mem_res);
             echo $short_url . $mem_row['mem_code'];
         }
     }else {
@@ -136,27 +136,27 @@ if($mode == "creat") {
 
         if ($card_phone == "--") {
             $sql = "select mem_phone from Gn_Member where mem_id = '$mem_id'";
-            $result = mysql_query($sql);
-            $row = mysql_fetch_array($result);
+            $result = mysqli_query($self_con,$sql);
+            $row = mysqli_fetch_array($result);
             $card_phone = $row[mem_phone];
         }
         $iam_sql = "select count(*) from Gn_Iam_Info where mem_id = '$mem_id'";
-        $iam_result = mysql_query($iam_sql);
-        $iam_row = mysql_fetch_array($iam_result);
+        $iam_result = mysqli_query($self_con,$iam_sql);
+        $iam_row = mysqli_fetch_array($iam_result);
         if ($iam_row[0] == 0) {
             $query_info = "insert into Gn_Iam_Info (mem_id,main_img1,main_img2,main_img3, reg_data) values ('$memid','$profile_image[0]','$profile_image[1]','$profile_image[2]', now())";
-            mysql_query($query_info);
+            mysqli_query($self_con,$query_info);
         }
         $sql2 = "insert into Gn_Iam_Name_Card (mem_id, card_title, card_short_url, card_name, card_company, card_position, card_phone, card_email, card_addr, card_map, card_keyword, profile_logo, favorite, story_title4, story_online1_text," .
             "story_online1, online1_check, story_online2_text, story_online2, online2_check,req_data,main_img1,main_img2,main_img3,story_title1,story_title2,story_title3,story_myinfo,story_company,story_career)" .
             "values (\"$mem_id\", \"$card_title\", \"$short_url\", \"$card_name\", \"$card_company\", \"$card_position\", \"$card_phone\", \"$card_email\", \"$card_addr\", \"$card_map\", \"$card_keyword\", \"$img_url\", 0, \"$story_title4\"," .
             "\"$story_online1_text\",\"$story_online1\", \"$online1_check\", \"$story_online2_text\", \"$story_online2\", \"$online2_check\", now(),\"$img_url1\",\"$img_url2\",\"$img_url3\"," .
             "\"$story_title1\",\"$story_title2\",\"$story_title3\",\"$story_myinfo\",\"$story_company\",\"$story_career\")";
-        $result2 = mysql_query($sql2) or die(mysql_error());
+        $result2 = mysqli_query($self_con,$sql2) or die(mysqli_error($self_con));
 
         $mem_sql = "select mem_code from Gn_Member where mem_id = '$mem_id'";
-        $mem_res = mysql_query($mem_sql);
-        $mem_row = mysql_fetch_array($mem_res);
+        $mem_res = mysqli_query($self_con,$mem_sql);
+        $mem_row = mysqli_fetch_array($mem_res);
         echo $short_url . $mem_row['mem_code'];
     }
     exit;
@@ -177,33 +177,33 @@ else if($mode == "edit") {
             $img_url = $_POST['logo_link'];
     }
     $sql_chk_share = "select idx from Gn_Iam_Name_Card where share_send_card='{$card_idx}'";
-    $res_chk_share = mysql_query($sql_chk_share);
-    $cnt_chk = mysql_num_rows($res_chk_share);
+    $res_chk_share = mysqli_query($self_con,$sql_chk_share);
+    $cnt_chk = mysqli_num_rows($res_chk_share);
     if($cnt_chk){
-        while($row_chk = mysql_fetch_array($res_chk_share)){
+        while($row_chk = mysqli_fetch_array($res_chk_share)){
             $sql2="update Gn_Iam_Name_Card set card_title = \"$card_title\", card_name = \"$card_name\", card_company = \"$card_company\", card_position = \"$card_position\",".
             " card_phone = '$card_phone', card_email = '$card_email', card_addr = \"$card_addr\", card_map = '$card_map', card_keyword = '$card_keyword',next_iam_link = '$next_iam_link',".
             " profile_logo = '$img_url', story_title4 = '$story_title4', story_online1_text = '$story_online1_text', story_online1 = '$story_online1', online1_check = '$online1_check',".
             " story_online2_text = '$story_online2_text', story_online2 = '$story_online2', online2_check = '$online2_check', business_time = '$business_time', up_data = now() where idx = '$row_chk[idx]'";
-            $result2 = mysql_query($sql2) or die(mysql_error());
+            $result2 = mysqli_query($self_con,$sql2) or die(mysqli_error($self_con));
         }
     }
     $sql2="update Gn_Iam_Name_Card set card_title = \"$card_title\", card_name = \"$card_name\", card_company = \"$card_company\", card_position = \"$card_position\",".
         " card_phone = '$card_phone', card_email = '$card_email', card_addr = \"$card_addr\", card_map = '$card_map', card_keyword = '$card_keyword',next_iam_link = '$next_iam_link',".
         " profile_logo = '$img_url', story_title4 = '$story_title4', story_online1_text = '$story_online1_text', story_online1 = '$story_online1', online1_check = '$online1_check',".
         " story_online2_text = '$story_online2_text', story_online2 = '$story_online2', online2_check = '$online2_check', business_time = '$business_time', up_data = now() where idx = '$card_idx' and mem_id = '$mem_id'";
-    $result2 = mysql_query($sql2) or die(mysql_error());
+    $result2 = mysqli_query($self_con,$sql2) or die(mysqli_error($self_con));
     $sql = "select busi_time_edit, card_short_url from Gn_Iam_Name_Card where idx = '$card_idx'";
-    $result = mysql_query($sql) or die(mysql_error());
-    $row = mysql_fetch_array($result);
+    $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+    $row = mysqli_fetch_array($result);
 
     $busi_time_edit = $row['busi_time_edit'];
     $sql3 = "update Gn_Iam_Name_Card set business_time = '$business_time' where mem_id='$mem_id' and busi_time_edit='$busi_time_edit' and idx != '$card_idx'";
-    $result3 = mysql_query($sql3) or die(mysql_error());
+    $result3 = mysqli_query($self_con,$sql3) or die(mysqli_error($self_con));
 
     $mem_sql="select mem_code from Gn_Member where mem_id = '$mem_id'";
-    $mem_res = mysql_query($mem_sql);
-    $mem_row = mysql_fetch_array($mem_res);
+    $mem_res = mysqli_query($self_con,$mem_sql);
+    $mem_row = mysqli_fetch_array($mem_res);
     echo $row["card_short_url"].$mem_row['mem_code'];
     exit;
 } 
@@ -211,8 +211,8 @@ else if($mode == "edit") {
 //명함 삭제
 else if($mode == "del") {
     $sql = "select org_use_state,card_short_url,group_id from Gn_Iam_Name_Card use index(idx) where idx={$card_idx} and mem_id='{$mem_id}'";
-    $res = mysql_query($sql);
-    $row_url = mysql_fetch_array($res);
+    $res = mysqli_query($self_con,$sql);
+    $row_url = mysqli_fetch_array($res);
     if($row_url['org_use_state']){
         echo 3;
         exit;
@@ -221,36 +221,36 @@ else if($mode == "del") {
     $group_id = $row_url['group_id'];
 
     $sql_auto_del = "delete from auto_update_contents where card_idx={$card_idx}";
-    mysql_query($sql_auto_del);
+    mysqli_query($self_con,$sql_auto_del);
 
     $sql="delete from Gn_Iam_Name_Card where idx = $card_idx and mem_id = '$mem_id'";
-    $result = mysql_query($sql) or die(mysql_error());
+    $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 
     $sql="delete from Gn_Iam_Mall where card_idx = '$card_idx' and mall_type = 2";
-    mysql_query($sql) or die(mysql_error());
+    mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 
     $sql2="delete from Gn_Iam_Friends where friends_card_idx = $card_idx ";
-    $result2 = mysql_query($sql2) or die(mysql_error());
+    $result2 = mysqli_query($self_con,$sql2) or die(mysqli_error($self_con));
 
     $mall_sql = "select * from Gn_Iam_Contents where card_idx={$card_idx}";
-    $mall_res = mysql_query($mall_sql);
-    while($mall_row = mysql_fetch_array($mall_res)){
+    $mall_res = mysqli_query($self_con,$mall_sql);
+    while($mall_row = mysqli_fetch_array($mall_res)){
         $m_idx = $mall_row[idx];
         $m_sql="delete from Gn_Iam_Mall where card_idx = '$m_idx' and (mall_type = 3 or mall_type = 4)";
-        mysql_query($m_sql) or die(mysql_error());
+        mysqli_query($self_con,$m_sql) or die(mysqli_error($self_con));
     }
 
     $sql_del_contents = "delete from Gn_Iam_Contents where card_idx=$card_idx and mem_id = '$mem_id'";
-    $result3 = mysql_query($sql_del_contents) or die(mysql_error());
+    $result3 = mysqli_query($self_con,$sql_del_contents) or die(mysqli_error($self_con));
     $sql_del_contents = "delete from Gn_Iam_Con_Card where card_idx=$card_idx";
-    $result3 = mysql_query($sql_del_contents) or die(mysql_error());
+    $result3 = mysqli_query($self_con,$sql_del_contents) or die(mysqli_error($self_con));
 
     if($group_id == "")
         $sql="select card_short_url from Gn_Iam_Name_Card where group_id is NULL and mem_id = '$mem_id' order by req_data desc";
     else
         $sql="select card_short_url from Gn_Iam_Name_Card where group_id = '$group_id' and mem_id = '$mem_id' order by req_data desc";
-    $result=mysql_query($sql) or die(mysql_error());
-    $row = mysql_fetch_array($result);
+    $result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+    $row = mysqli_fetch_array($result);
 
     if($row["card_short_url"] == NULL){
         echo 1;
@@ -258,8 +258,8 @@ else if($mode == "del") {
     }
 
     $mem_sql="select mem_code from Gn_Member where mem_id = '$mem_id'";
-    $mem_res = mysql_query($mem_sql);
-    $mem_row = mysql_fetch_array($mem_res);
+    $mem_res = mysqli_query($self_con,$mem_sql);
+    $mem_row = mysqli_fetch_array($mem_res);
     if($group_id == "")
         echo $row["card_short_url"].$mem_row[mem_code];
     else
@@ -274,20 +274,20 @@ else if($mode == "img_del") {
     unlink($uploaddir.$profile_logo[1]);
 
     $sql2="update Gn_Iam_Name_Card set profile_logo = '', up_data = now() where idx = '$card_idx' and mem_id = '$mem_id'";
-    $result2 = mysql_query($sql2) or die(mysql_error());
+    $result2 = mysqli_query($self_con,$sql2) or die(mysqli_error($self_con));
 }
 else if($mode == "select"){
     $card_short_url = $_POST['card_short_url'];
     $sql="select * from Gn_Iam_Name_Card where card_short_url = '$card_short_url'";
-    $result = mysql_query($sql) or die(mysql_error());
-    $data = mysql_fetch_array($result);
+    $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+    $data = mysqli_fetch_array($result);
     echo json_encode($data);
 }
 else if($mode == "post_display"){
     $card_short_url = $_POST['card_short_url'];
     $status = $_POST['status'];
     $sql="update Gn_Iam_Name_Card set post_display = $status where card_short_url = '$card_short_url'";
-    mysql_query($sql) or die(mysql_error());
+    mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
     echo "저장되었습니다.";
 }
 else if($mode == "change_cont_order_type"){
@@ -295,24 +295,24 @@ else if($mode == "change_cont_order_type"){
     $cont_order_type = $_POST['cont_order_type'];
     $cont_order_array = array_reverse(explode(",",$_POST['cont_order']));
     $sql="update Gn_Iam_Name_Card set cont_order_type = $cont_order_type,up_data=now() where card_short_url = '$card_short_url'";
-    mysql_query($sql);
+    mysqli_query($self_con,$sql);
     if($cont_order_type == 1) {
         for ($i = 1; $i <= count($cont_order_array); $i++) {
             $cont_idx = $cont_order_array[$i - 1];
             $sql = "update Gn_Iam_Contents set contents_order = '$i' where idx = '$cont_idx'";
-            mysql_query($sql);
+            mysqli_query($self_con,$sql);
         }
         $sql = "select idx from Gn_Iam_Contents use index(westory_card_url) where idx not in (".$_POST[cont_order].") and mem_id = '$_SESSION[iam_member_id]' and westory_card_url ='$card_short_url'";
-        $res = mysql_query($sql);
-        while($row = mysql_fetch_array($res)) {
+        $res = mysqli_query($self_con,$sql);
+        while($row = mysqli_fetch_array($res)) {
             $sql = "delete from Gn_Iam_Contents where idx = '$row[idx]'";
-            mysql_query($sql);
+            mysqli_query($self_con,$sql);
 
             $sql = "delete from Gn_Iam_Con_Card use index(cont_idx) where cont_idx = '$row[idx]'";
-            mysql_query($sql);
+            mysqli_query($self_con,$sql);
 
             $sql = "delete from Gn_Iam_Mall where card_idx = '$contents_idx' and (mall_type = 3 or mall_type = 4)";
-            mysql_query($sql);
+            mysqli_query($self_con,$sql);
         }
     }
     echo json_encode(array("result"=>"성공적으로 변경되었습니다."));

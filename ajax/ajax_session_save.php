@@ -28,7 +28,7 @@ if($_POST[send_save_mms])
 	$sql.=" reg_date=now() ";
 	
 	if($debug_mode == false) {
-		mysql_query($sql);
+		mysqli_query($self_con,$sql);
 		echo "true";
     }
 }
@@ -66,7 +66,7 @@ if($_POST[send_save_mms])
 //	{
 //		$sql.=" where idx='$_POST[lms_save_idx]' ";		
 //	}
-//	if(mysql_query($sql))
+//	if(mysqli_query($self_con,$sql))
 //	{
 //	}
 //}

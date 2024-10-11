@@ -5,8 +5,8 @@ $date_month=date("Ym");
 
 if(isset($_POST['seed_point'])){
     $sql_mem_data = "select * from Gn_Member where mem_id='{$_SESSION[iam_member_id]}'";
-    $res_mem_data = mysql_query($sql_mem_data);
-    $row_mem_data = mysql_fetch_array($res_mem_data);
+    $res_mem_data = mysqli_query($self_con,$sql_mem_data);
+    $row_mem_data = mysqli_fetch_array($res_mem_data);
 
     $cash = $row_mem_data['mem_cash'];
     $seed = $row_mem_data['mem_point'];
@@ -14,7 +14,7 @@ if(isset($_POST['seed_point'])){
     $seed = $seed * 1 + $_POST['seed_point'] * 1;
 
     $sql_update = "update Gn_Member set mem_point='$seed', mem_cash='$cash' where mem_id='$_SESSION[iam_member_id]'";
-    mysql_query($sql_update);
+    mysqli_query($self_con,$sql_update);
 
     $sql_buyer = "insert into Gn_Item_Pay_Result
             set buyer_id='$_SESSION[one_member_id]',
@@ -33,7 +33,7 @@ if(isset($_POST['seed_point'])){
                 type='buy',
                 current_point='$seed',
                 current_cash='$cash'";
-    $res_result = mysql_query($sql_buyer);
+    $res_result = mysqli_query($self_con,$sql_buyer);
 
     echo $res_result;
     exit;
@@ -52,8 +52,8 @@ else if(isset($_GET['mode'])){
     if($_GET['mode'] == "buy_card"){
         $db_idx = $_GET['residx'];
         $sql_buy_data = "select * from Gn_Item_Pay_Result where no='$db_idx'";
-        $res_buy_data = mysql_query($sql_buy_data);
-        $row_buy_data = mysql_fetch_array($res_buy_data);
+        $res_buy_data = mysqli_query($self_con,$sql_buy_data);
+        $row_buy_data = mysqli_fetch_array($res_buy_data);
 
         $point_percent = $row_buy_data['point_percent'];
         $pay_percent = $row_buy_data['pay_percent'];
@@ -75,19 +75,19 @@ else if(isset($_GET['mode'])){
         $final_point = $row_buy_data['item_price'] * 1 - (int)$add_point;
 
         $sql_mem_data = "select * from Gn_Member where mem_id='$row_buy_data[buyer_id]'";
-        $res_mem_data = mysql_query($sql_mem_data);
-        $row_mem_data = mysql_fetch_array($res_mem_data);
+        $res_mem_data = mysqli_query($self_con,$sql_mem_data);
+        $row_mem_data = mysqli_fetch_array($res_mem_data);
 
         $mem_cash = $row_mem_data['mem_cash'] * 1 - $final_point * 1;
 
         $sql_update_pay_res = "update Gn_Item_Pay_Result set current_cash='$mem_cash', apply_buyer_date='$date_today' where no='$buy_idx'";
-        mysql_query($sql_update_pay_res);
+        mysqli_query($self_con,$sql_update_pay_res);
 
         $sql_update_pay_res1 = "update Gn_Item_Pay_Result set apply_buyer_date='$date_today' where no='$sell_idx'";
-        mysql_query($sql_update_pay_res1);
+        mysqli_query($self_con,$sql_update_pay_res1);
 
         $sql_update_mem = "udpate Gn_Member set mem_cash='$mem_cash' where mem_id='$row_buy_data[buyer_id]'";
-        $res = mysql_query($sql_update_mem);
+        $res = mysqli_query($self_con,$sql_update_mem);
 
         // echo $res;
         echo "<script>alert('구매확인이 되었습니다.'); location.href='/".$location."';</script>";
@@ -96,8 +96,8 @@ else if(isset($_GET['mode'])){
     else if($_GET['mode'] == "sell_card"){
         $db_idx = $_GET['residx'];
         $sql_sell_data = "select * from Gn_Item_Pay_Result where no='$db_idx'";
-        $res_sell_data = mysql_query($sql_sell_data);
-        $row_sell_data = mysql_fetch_array($res_sell_data);
+        $res_sell_data = mysqli_query($self_con,$sql_sell_data);
+        $row_sell_data = mysqli_fetch_array($res_sell_data);
 
         $point_percent = $row_sell_data['point_percent'];
         $pay_percent = $row_sell_data['pay_percent'];
@@ -119,22 +119,22 @@ else if(isset($_GET['mode'])){
         $final_point = $row_sell_data['item_price'] * 1 + (int)$add_point;
 
         $sql_mem_data = "select * from Gn_Member where mem_id='$row_sell_data[seller_id]'";
-        $res_mem_data = mysql_query($sql_mem_data);
-        $row_mem_data = mysql_fetch_array($res_mem_data);
+        $res_mem_data = mysqli_query($self_con,$sql_mem_data);
+        $row_mem_data = mysqli_fetch_array($res_mem_data);
 
         $mem_cash = $row_mem_data['mem_cash'] * 1 + $final_point * 1;
 
         $sql_update_pay_res = "update Gn_Item_Pay_Result set current_cash='$mem_cash', apply_seller_date='$date_today' where no='$sell_idx'";
-        mysql_query($sql_update_pay_res);
+        mysqli_query($self_con,$sql_update_pay_res);
 
         $sql_update_pay_res1 = "update Gn_Item_Pay_Result set apply_seller_date='$date_today' where no='$buy_idx'";
-        mysql_query($sql_update_pay_res1);
+        mysqli_query($self_con,$sql_update_pay_res1);
 
         $sql_update_mem = "udpate Gn_Member set mem_cash='$mem_cash' where mem_id='$row_sell_data[seller_id]'";
-        mysql_query($sql_update_mem);
+        mysqli_query($self_con,$sql_update_mem);
 
         $sql_amount = "insert into Gn_Item_Pay_Result_Balance set pay_no='$sell_idx', mem_id='$row_sell_data[seller_id]', seller_id='$row_sell_data[buyer_id]', item_name='$row_sell_data[item_name]', share_per='$pay_percent', price='$row_sell_data[item_price]', regdate='$date_today', balance_date='$date_month', balance_yn='Y', balance_confirm_date='$date_today', pay_date='$date_today'";
-        $res = mysql_query($sql_amount);
+        $res = mysqli_query($self_con,$sql_amount);
 
         echo "<script>alert('판매확인이 되었습니다.'); location.href='/".$location."';</script>";
         exit;
@@ -144,8 +144,8 @@ else if(isset($_GET['mode'])){
     $sell_idx = $_GET['residx_sell'];
 
     $sql_buy_data = "select * from Gn_Item_Pay_Result where no='$buy_idx'";
-    $res_buy_data = mysql_query($sql_buy_data);
-    $row_buy_data = mysql_fetch_array($res_buy_data);
+    $res_buy_data = mysqli_query($self_con,$sql_buy_data);
+    $row_buy_data = mysqli_fetch_array($res_buy_data);
 
     $point_percent = $row_buy_data['point_percent'];
     $pay_percent = $row_buy_data['pay_percent'];
@@ -168,19 +168,19 @@ else if(isset($_GET['mode'])){
         $final_point = $row_buy_data['item_price'] * 1 - (int)$add_point;
 
         $sql_mem_data = "select * from Gn_Member where mem_id='$row_buy_data[buyer_id]'";
-        $res_mem_data = mysql_query($sql_mem_data);
-        $row_mem_data = mysql_fetch_array($res_mem_data);
+        $res_mem_data = mysqli_query($self_con,$sql_mem_data);
+        $row_mem_data = mysqli_fetch_array($res_mem_data);
 
         $mem_cash = $row_mem_data['mem_cash'] * 1 - $final_point * 1;
 
         $sql_update_pay_res = "update Gn_Item_Pay_Result set current_cash='$mem_cash', apply_buyer_date='$date_today' where no='$buy_idx'";
-        mysql_query($sql_update_pay_res);
+        mysqli_query($self_con,$sql_update_pay_res);
 
         $sql_update_pay_res1 = "update Gn_Item_Pay_Result set apply_buyer_date='$date_today' where no='$sell_idx'";
-        mysql_query($sql_update_pay_res1);
+        mysqli_query($self_con,$sql_update_pay_res1);
 
         $sql_update_mem = "udpate Gn_Member set mem_cash='$mem_cash' where mem_id='$row_buy_data[buyer_id]'";
-        $res = mysql_query($sql_update_mem);
+        $res = mysqli_query($self_con,$sql_update_mem);
 
         // echo $res;
         echo "<script>alert('구매확인이 되었습니다.'); location.href='/';</script>";
@@ -194,22 +194,22 @@ else if(isset($_GET['mode'])){
         $final_point = $row_buy_data['item_price'] * 1 + (int)$add_point;
 
         $sql_mem_data = "select * from Gn_Member where mem_id='$row_buy_data[pay_method]'";
-        $res_mem_data = mysql_query($sql_mem_data);
-        $row_mem_data = mysql_fetch_array($res_mem_data);
+        $res_mem_data = mysqli_query($self_con,$sql_mem_data);
+        $row_mem_data = mysqli_fetch_array($res_mem_data);
 
         $mem_cash = $row_mem_data['mem_cash'] * 1 + $final_point * 1;
 
         $sql_update_pay_res = "update Gn_Item_Pay_Result set current_cash='$mem_cash', apply_seller_date='$date_today' where no='$sell_idx'";
-        mysql_query($sql_update_pay_res);
+        mysqli_query($self_con,$sql_update_pay_res);
 
         $sql_update_pay_res1 = "update Gn_Item_Pay_Result set apply_seller_date='$date_today' where no='$buy_idx'";
-        mysql_query($sql_update_pay_res1);
+        mysqli_query($self_con,$sql_update_pay_res1);
 
         $sql_update_mem = "udpate Gn_Member set mem_cash='$mem_cash' where mem_id='$row_buy_data[pay_method]'";
-        mysql_query($sql_update_mem);
+        mysqli_query($self_con,$sql_update_mem);
 
         $sql_amount = "insert into Gn_Item_Pay_Result_Balance set pay_no='$sell_idx', mem_id='$row_buy_data[pay_method]', seller_id='$row_buy_data[buyer_id]', item_name='$row_buy_data[item_name]', share_per='$pay_percent', price='$row_buy_data[item_price]', regdate='$date_today', balance_date='$date_month', balance_yn='Y', balance_confirm_date='$date_today', pay_date='$date_today'";
-        $res = mysql_query($sql_amount);
+        $res = mysqli_query($self_con,$sql_amount);
 
         echo "<script>alert('판매확인이 되었습니다.'); location.href='/".$location."';</script>";
     }

@@ -214,8 +214,8 @@ $(function() {
                                 <?
                                 //디폴트 아바타
                                 $sql = "select main_img1 from Gn_Iam_Info where mem_id = 'obmms02'";
-                                $result=mysql_query($sql) or die(mysql_error());
-                                $row=mysql_fetch_array($result);
+                                $result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+                                $row=mysqli_fetch_array($result);
                                 $default_img =  $row['main_img1'];
 
 
@@ -226,8 +226,8 @@ $(function() {
                                 $searchStr .= $search_key ? " AND (ca_1.mem_id LIKE '%".$search_key."%' or ca_1.card_name like '%".$search_key."%' or ca_1.card_company like '%".$search_key."%' )" : null;
 
                                 $count_query = "select count(idx) from Gn_Iam_Name_Card ca_1 WHERE group_id is NULL $searchStr";
-                                $count_result = mysql_query($count_query);
-                                $count_row = mysql_fetch_array($count_result);
+                                $count_result = mysqli_query($self_con,$count_query);
+                                $count_row = mysqli_fetch_array($count_result);
                                 $totalCnt	=  $count_row[0];
 
                                 $query = "SELECT * FROM Gn_Iam_Name_Card ca_1";
@@ -240,20 +240,20 @@ $(function() {
                                 $i = 1;
                                 $c=0;
                                 $query .= $orderQuery;
-                                $res = mysql_query($query);
-                                while($row = mysql_fetch_array($res)) {
+                                $res = mysqli_query($self_con,$query);
+                                while($row = mysqli_fetch_array($res)) {
                                     $mem_sql = "select mem_code, site, site_iam from Gn_Member where mem_id='{$row['mem_id']}'";
-                                    $mem_res = mysql_query($mem_sql);
-                                    $mem_row = mysql_fetch_array($mem_res);
+                                    $mem_res = mysqli_query($self_con,$mem_sql);
+                                    $mem_row = mysqli_fetch_array($mem_res);
 
                                     $fquery = "select count(*) from Gn_Iam_Friends where friends_card_idx = ".$row['idx'];
-                                    $fresult = mysql_query($fquery);
-                                    $frow = mysql_fetch_array($fresult);
+                                    $fresult = mysqli_query($self_con,$fquery);
+                                    $frow = mysqli_fetch_array($fresult);
                                     //$friend_count	=  $frow[0];
 
                                     $cquery = "select count(*) from Gn_Iam_Contents where westory_card_url = '{$row['card_short_url']}'";
-                                    $cresult = mysql_query($cquery);
-                                    $crow = mysql_fetch_array($cresult);?>
+                                    $cresult = mysqli_query($self_con,$cquery);
+                                    $crow = mysqli_fetch_array($cresult);?>
                                     <tr>
                                         <td><?=$number--?></td>
                                         <td><?=$row[idx]?></td>

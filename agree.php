@@ -6,8 +6,8 @@ if($_SESSION[one_member_id] == "") {
 }
 
 $query = "select * from Gn_Member where mem_id='$_SESSION[one_member_id]' and site != ''";
-$sresul=mysql_query($query);
-$data=mysql_fetch_array($sresul);	
+$sresul=mysqli_query($self_con,$query);
+$data=mysqli_fetch_array($sresul);	
 if($data[tagby_yn] == "Y") {
     echo "<script>location ='http://obmms.aplat.kr/api.php?id=$_SESSION[one_member_id]';</script>";
 }

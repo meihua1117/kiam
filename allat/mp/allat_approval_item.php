@@ -11,8 +11,8 @@ $ORDER_NO = $_GET['ORDER_NO'];
 $link = $_GET['link'];
 
 $sql="select * from Gn_Item_Pay_Result where order_number='$ORDER_NO'";
-$resul=mysql_query($sql)or die(mysql_error());
-$row=mysql_fetch_array($resul);
+$resul=mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
+$row=mysqli_fetch_array($resul);
 $mem_id = $row['buyer_id'];
 // 필수 항목
 $at_cross_key      = "304f3a821cac298ff8a0ef504e1c2309";   //CrossKey값(최대200자)
@@ -102,7 +102,7 @@ if(!strcmp($REPLYCD,"0000")){//pay_test
                                                     regdate = NOW(),
                                                     amount='$row[item_price]',
                                                     buyer_id='$mem_id'";
-    mysql_query($sql)or die(mysql_error());
+    mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
 }
 ?>
 <div class="big_main">
@@ -137,7 +137,7 @@ if(!strcmp($REPLYCD,"0000")){//pay_test
                                                                                 msg='".iconv("euc-kr","utf-8",$REPLYMSG)."_mp_item"."',
                                                                                 amount='$row[item_price]',
                                                                                 buyer_id='$mem_id'";
-                                mysql_query($sql)or die(mysql_error());
+                                mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
                             }?>
                         </h3>
                     </td>

@@ -10,18 +10,18 @@ $cam_id = $_POST["idx"];
 
     $query="delete from gn_mms_callback WHERE idx='$cam_id'
                                  ";
-    mysql_query($query);	
+    mysqli_query($self_con,$query);	
 
     $sql_mms_update = "update gn_mms_callback set regdate=NOW() order by idx asc limit 1";
-    mysql_query($sql_mms_update);
+    mysqli_query($self_con,$sql_mms_update);
 
     $sql_mem_info = "select * from Gn_Member where (mem_callback_mun_state=1 and mun_callback={$cam_id}) or (mem_callback_phone_state=1 and phone_callback={$cam_id})";
-    $res_mem_info = mysql_query($sql_mem_info);
-    if(mysql_num_rows($res_mem_info)){
-        while($row_mem_info = mysql_fetch_array($res_mem_info)){
+    $res_mem_info = mysqli_query($self_con,$sql_mem_info);
+    if(mysqli_num_rows($res_mem_info)){
+        while($row_mem_info = mysqli_fetch_array($res_mem_info)){
             $sql_sel_first_main = "select * from gn_mms_callback where service_state=0 order by idx asc limit 1";
-            $res_main = mysql_query($sql_sel_first_main);
-            $row_main = mysql_fetch_array($res_main);
+            $res_main = mysqli_query($self_con,$sql_sel_first_main);
+            $row_main = mysqli_fetch_array($res_main);
             $main_idx = $row_main['idx'];
         
             if($row_mem_info['phone_callback'] == $cam_id && $row_mem_info['mun_callback'] == $cam_id){
@@ -43,7 +43,7 @@ $cam_id = $_POST["idx"];
                     $sql_update = "update Gn_Member set mun_callback={$main_idx} where mem_id='{$row_mem_info[mem_id]}'";
                 }
             }
-            mysql_query($sql_update);
+            mysqli_query($self_con,$sql_update);
         }
     }
 

@@ -3,13 +3,13 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
 $repo_id = $_GET['repo'];
 
 $sql = "select * from gn_report_form where id=$repo_id";
-$res = mysql_query($sql);
-$row = mysql_fetch_array($res);
+$res = mysqli_query($self_con,$sql);
+$row = mysqli_fetch_array($res);
 if($row['status'] == 0){
     echo "<script>alert('노출승인되지 않은 리포트입니다.');location='/';</script>";
 }
 $sql = "update gn_report_form set visit = visit + 1 where id=$repo_id";
-mysql_query($sql);
+mysqli_query($self_con,$sql);
 $url_refer = str_replace("&", "###", $_SERVER['REQUEST_URI']);
 ?>
 <style>
@@ -216,8 +216,8 @@ $url_refer = str_replace("&", "###", $_SERVER['REQUEST_URI']);
                     </form>
                     <?
                     $sql1 = "select * from gn_report_form1 where form_id=$repo_id order by item_order";
-                    $res1 = mysql_query($sql1);
-                    while($row1 = mysql_fetch_array($res1)){?>
+                    $res1 = mysqli_query($self_con,$sql1);
+                    while($row1 = mysqli_fetch_array($res1)){?>
                         <div class="report_item">
                             <?if($row1['item_title'] != ""){?>
                             <div class="report_item_title">
@@ -233,8 +233,8 @@ $url_refer = str_replace("&", "###", $_SERVER['REQUEST_URI']);
                                 </div>
                             <?}
                             $sql2 = "select * from gn_report_form2 where form_id=$repo_id and item_id = $row1[id] order by id";
-                            $res2 = mysql_query($sql2);
-                            while($row2 = mysql_fetch_array($res2)){
+                            $res2 = mysqli_query($self_con,$sql2);
+                            while($row2 = mysqli_fetch_array($res2)){
                                 if($row1['item_type'] == 0){
                             ?>
                                 <div class="report_item_body">

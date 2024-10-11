@@ -5,8 +5,8 @@ $date = date("Y-m-d");
 if ($method == 'change_status') {
     // 회원의 캐시정보를 차감한다.
     $memSql = "SELECT * From Gn_Member WHERE mem_id = '".$_POST['mem_id']."'";
-    $mem_res = mysql_query($memSql);
-    $mem_info = mysql_fetch_array($mem_res);
+    $mem_res = mysqli_query($self_con,$memSql);
+    $mem_info = mysqli_fetch_array($mem_res);
     $mem_cash = $mem_info['mem_cash'] * 1;
     $TotPrice = $_POST['TotPrice'] * 1;
 
@@ -22,8 +22,8 @@ if ($method == 'change_status') {
         $sql = "UPDATE tjd_pay_result SET end_status = 'N', applDate = '' WHERE `no` = '".$_POST['index']."'";
     }
     $mem_cash_update_sql = "UPDATE Gn_Member SET mem_cash = '".$changed_cash."' WHERE  mem_id = '".$_POST['mem_id']."'";
-    $res = mysql_query($sql);
-    $mem_cash_update_sql_res = mysql_query($mem_cash_update_sql);
+    $res = mysqli_query($self_con,$sql);
+    $mem_cash_update_sql_res = mysqli_query($self_con,$mem_cash_update_sql);
     echo $res;
     exit;
 }

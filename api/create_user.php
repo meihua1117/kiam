@@ -36,7 +36,7 @@ $query = "insert into Gn_Member set mem_id='$id',
     site_iam = '{$site_iam}',
     recommend_id='iam1',
     join_ip='{$_SERVER['REMOTE_ADDR']}'";
-mysql_query($query);
+mysqli_query($self_con,$query);
 
 
 

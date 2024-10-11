@@ -47,17 +47,17 @@ if($_FILES['excelfile']['tmp_name']) {
 
 		$card_no = $card_no * 1 - 1;
 		$sql_card_idx = "select card_short_url,idx from Gn_Iam_Name_Card where mem_id = 'iamstore' and idx not in(934328, 2477701, 1274691, 1268514) order by req_data asc limit ".$card_no.", 1";
-		$res_card_idx = mysql_query($sql_card_idx);
-		$row_card_idx = mysql_fetch_array($res_card_idx);
+		$res_card_idx = mysqli_query($self_con,$sql_card_idx);
+		$row_card_idx = mysqli_fetch_array($res_card_idx);
 
 		$sql = "select max(contents_order) from Gn_Iam_Contents_Gwc where mem_id = '$_SESSION[iam_member_id]' and card_idx = '$row_card_idx[idx]'";
-		$result = mysql_query($sql);
-		$comment_row = mysql_fetch_array($result);
+		$result = mysqli_query($self_con,$sql);
+		$comment_row = mysqli_fetch_array($result);
 		$contents_order = (int)$comment_row[0] + 1;
 
 		$sql_deliver_sql = "select mem_code from Gn_Member where mem_id='{$deliver_id}'";
-		$res_deliver = mysql_query($sql_deliver_sql);
-		$row_deliver = mysql_fetch_array($res_deliver);
+		$res_deliver = mysqli_query($self_con,$sql_deliver_sql);
+		$row_deliver = mysqli_fetch_array($res_deliver);
 
 		$sql2 = "insert into Gn_Iam_Contents_Gwc (
 			mem_id, 
@@ -129,10 +129,10 @@ if($_FILES['excelfile']['tmp_name']) {
 			'$row_deliver[0]',
 			'Y'
 			)";
-		$result2 = mysql_query($sql2) or die(mysql_error());
-		$content_idx = mysql_insert_id();
+		$result2 = mysqli_query($self_con,$sql2) or die(mysqli_error($self_con));
+		$content_idx = mysqli_insert_id($self_con);
 		$sql2 = "insert into Gn_Iam_Con_Card set cont_idx=$content_idx,card_idx=$row_card_idx[idx],main_card=$row_card_idx[idx]";
-		mysql_query($sql2) or die(mysql_error());
+		mysqli_query($self_con,$sql2) or die(mysqli_error($self_con));
 	}
 	echo "<script>alert('등록되었습니다.'); location.href='/iam/req_provider_list.php';</script>";
 }

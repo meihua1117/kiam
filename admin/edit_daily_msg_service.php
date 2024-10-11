@@ -8,12 +8,12 @@ $date_today=date("Y-m-d");
 $date_month=date("Y-m");
 
 $sql="select * from Gn_event  where event_idx='".$event_idx."'";
-$res=mysql_query($sql);
-$row=mysql_fetch_array($res);	
+$res=mysqli_query($self_con,$sql);
+$row=mysqli_fetch_array($res);	
 if($row[0]) {
     $sql="select * from Gn_Member  where mem_id='".$row[m_id]."'";
-    $sresul_num=mysql_query($sql);
-    $data=mysql_fetch_array($sresul_num);
+    $sresul_num=mysqli_query($self_con,$sql);
+    $data=mysqli_fetch_array($sresul_num);
 }
 
 ?>

@@ -136,9 +136,9 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                         	WHERE 1=1 
                 	              $searchStr";
                 	              
-                	$res	    = mysql_query($query);
-                  //$totalCnt	=  mysql_num_rows($res);	
-                  $totalRow	=  mysql_fetch_array($res);	                	
+                	$res	    = mysqli_query($self_con,$query);
+                  //$totalCnt	=  mysqli_num_rows($res);	
+                  $totalRow	=  mysqli_fetch_array($res);	                	
                 	$totalCnt = $totalRow[0];
                   
 
@@ -161,15 +161,15 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                 	$i = 1;
                 	$c=0;
                 	$query .= "$orderQuery";
-                	$res = mysql_query($query);
-                    while($row = mysql_fetch_array($res)) {      				
+                	$res = mysqli_query($self_con,$query);
+                    while($row = mysqli_fetch_array($res)) {      				
                       $ksql="select * from Gn_MMS_Group where idx='$row[group_idx]'";
-                      $kresult=mysql_query($ksql) or die(mysql_error());
-                      $krow = mysql_fetch_array($kresult);
+                      $kresult=mysqli_query($self_con,$ksql) or die(mysqli_error($self_con));
+                      $krow = mysqli_fetch_array($kresult);
 
                       $sql="select count(*) cnt from Gn_daily_date where gd_id='$row[gd_id]'";
-                      $sresult=mysql_query($sql) or die(mysql_error());
-                      $srow = mysql_fetch_array($sresult);
+                      $sresult=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+                      $srow = mysqli_fetch_array($sresult);
                   ?>
                       <tr>
                             <td><input type="checkbox" class="check" id="check_one_member" name="" value="<?=$row['gd_id']?>">&nbsp;&nbsp;<?=$number--?></td>

@@ -8,6 +8,6 @@ extract($_POST);
 $memid = $_POST['memid'];
 // 정보 확인
 $sql="delete from Gn_Iam_automem where memid='$memid'";
-$result=mysql_query($sql) or die(mysql_error());
+$result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 echo "{\"result\":\"$result\"}";
 ?>

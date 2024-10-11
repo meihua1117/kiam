@@ -11,23 +11,23 @@ extract($_POST);
 
 if($delete){
     $sql_card = "select idx from Gn_Iam_Name_Card where admin_shopping='{$set_idx}'";
-    $res_card = mysql_query($sql_card);
-    $row_card = mysql_fetch_array($res_card);
+    $res_card = mysqli_query($self_con,$sql_card);
+    $row_card = mysqli_fetch_array($res_card);
 
     $del_conts = "delete from Gn_Iam_Contents where card_idx={$row_card[idx]}";
-    mysql_query($del_conts);
+    mysqli_query($self_con,$del_conts);
 
     $sql_contents = "delete from Gn_Iam_Con_Card where main_card={$row_card[idx]}";
-    mysql_query($sql_contents);
+    mysqli_query($self_con,$sql_contents);
 
     $sql_contents = "delete from Gn_Iam_Con_Card where card_idx={$row_card[idx]}";
-    mysql_query($sql_contents);
+    mysqli_query($self_con,$sql_contents);
 
     $del_card = "delete from Gn_Iam_Name_Card where admin_shopping='{$set_idx}'";
-    $res = mysql_query($del_card);
+    $res = mysqli_query($self_con,$del_card);
 
     $del_set = "delete from crawler_shop_admin where id='{$set_idx}'";
-    $res = mysql_query($del_set);
+    $res = mysqli_query($self_con,$del_set);
 
     echo $res;
 }
@@ -44,9 +44,9 @@ else{
             $search_addr =  $search_addrs[$i];
             
             $sql_reg = "insert into crawler_shop_admin set web_type='{$web_type}', reg_title='{$reg_title}', reg_search_busi_type='$reg_search_busi_type', reg_search_busi='{$reg_search_busi}', reg_search_addr='{$search_addr}', reg_search_keyword='{$reg_search_keyword}', reg_cnt='{$reg_cnt}', reg_con_cnt='{$reg_con_cnt}', reg_auto_data={$auto}, reg_auto_day='{$reg_auto_day}', reg_auto_time='{$reg_auto_time}', reg_memo='{$reg_memo}', reg_date='{$reg_date}', iamstore_link='{$iamstore_link}'";
-            $res = mysql_query($sql_reg);
+            $res = mysqli_query($self_con,$sql_reg);
             
-            $set_idx = mysql_insert_id();
+            $set_idx = mysqli_insert_id($self_con);
             array_push($set_idxs, $set_idx);
         }
 
@@ -54,9 +54,9 @@ else{
     }
     else {
         $sql_reg = "insert into crawler_shop_admin set web_type='{$web_type}', reg_title='{$reg_title}', reg_search_busi_type='$reg_search_busi_type', reg_search_busi='{$reg_search_busi}', reg_search_addr='{$reg_search_addr}', reg_search_keyword='{$reg_search_keyword}', reg_cnt='{$reg_cnt}', reg_con_cnt='{$reg_con_cnt}', reg_auto_data={$auto}, reg_auto_day='{$reg_auto_day}', reg_auto_time='{$reg_auto_time}', reg_memo='{$reg_memo}', reg_date='{$reg_date}', iamstore_link='{$iamstore_link}'";
-        $res = mysql_query($sql_reg);
+        $res = mysqli_query($self_con,$sql_reg);
         
-        $set_idx = mysql_insert_id();
+        $set_idx = mysqli_insert_id($self_con);
         
         echo '{"status":'.$res.',"set_id":"'.$set_idx.'", "set_ids":"'.$set_idx.'", "reg_search_addr":"'.$reg_search_addr.'"}';
     }

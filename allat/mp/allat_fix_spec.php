@@ -29,23 +29,23 @@ $FIX_KEY	= getValue("fix_key",$at_txt);
 $APPLY_YMD	= getValue("apply_ymd",$at_txt);
 
 $sql="select * from tjd_pay_result where orderNumber='$ORDER_NO'";
-$resul=mysql_query($sql)or die(mysql_error());
-while($row=mysql_fetch_array($resul)){
+$resul=mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
+while($row=mysqli_fetch_array($resul)){
 $no = $row['no'];
 if(!strcmp($REPLYCD,"0000")){//pay_test
     $sql = "update tjd_pay_result set end_status='Y',billkey='$FIX_KEY',billdate='$APPLY_YMD' where  orderNumber='$ORDER_NO'";
-    mysql_query($sql) or die(mysql_error());
+    mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
     $sql = "select * from Gn_Member where mem_id='$member_iam[mem_id]' ";
-    $sresult = mysql_query($sql) or die(mysql_error());
-    $srow = mysql_fetch_array($sresult);
+    $sresult = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+    $srow = mysqli_fetch_array($sresult);
     $sql_m = "update Gn_Member set fujia_date1=now() , fujia_date2=date_add(now(),INTERVAL 120 month)  where mem_id='$member_iam[mem_id]' ";
-    mysql_query($sql_m) or die(mysql_error());
+    mysqli_query($self_con,$sql_m) or die(mysqli_error($self_con));
 
     if ($srow['recommend_id'] != "") {
         $sql = "select * from Gn_Member where mem_id='$srow[recommend_id]' ";
-        $rresult = mysql_query($sql) or die(mysql_error());
-        if (mysql_num_rows($rresult) > 0) {
-            $rrow = mysql_fetch_array($rresult);
+        $rresult = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+        if (mysqli_num_rows($rresult) > 0) {
+            $rrow = mysqli_fetch_array($rresult);
             $branch_share_id = "";
             $addQuery = "";
             $branch_share_per = 0;
@@ -54,8 +54,8 @@ if(!strcmp($REPLYCD,"0000")){//pay_test
             if ($rrow[service_type] == 2) {
                 // 추천인의 추천인 검색 및 등급 확인
                 $sql = "select * from Gn_Member where mem_id='$rrow[recommend_id]'";
-                $rresult = mysql_query($sql) or die(mysql_error());
-                $trow = mysql_fetch_array($rresult);
+                $rresult = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+                $trow = mysqli_fetch_array($rresult);
                 $share_per = $recommend_per = $rrow['share_per'] ? $rrow['share_per'] : 30;
                 if ($trow[0] != "") {
                     $recommend_per = $trow['share_per'] ? $trow['share_per'] : 50;
@@ -68,7 +68,7 @@ if(!strcmp($REPLYCD,"0000")){//pay_test
             }
 
             $sql = "update tjd_pay_result set share_per='$share_per', branch_share_per = '$branch_share_per', share_id='$srow[recommend_id]', branch_share_id='$branch_share_id' where no='$no'";
-            mysql_query($sql) or die(mysql_error());
+            mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
         }
     }
 }

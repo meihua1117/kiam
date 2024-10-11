@@ -13,8 +13,8 @@ if (!$_SESSION[one_member_id]) {
 //Julian 2020-07-04 Problem 19 / 1 , repair top menu 
 
 $sql = "select * from Gn_Member  where mem_id='" . $_SESSION[one_member_id] . "'";
-$sresul_num = mysql_query($sql);
-$member = $data = mysql_fetch_array($sresul_num);
+$sresul_num = mysqli_query($self_con,$sql);
+$member = $data = mysqli_fetch_array($sresul_num);
 if ($_REQUEST[rday1]) {
     $start_time = strtotime($_REQUEST[rday1]);
     $sql_serch .= " and unix_timestamp(date) >=$start_time ";
@@ -136,8 +136,8 @@ if ($_REQUEST[rday2]) {
 
 
 
-                    $res        = mysql_query($query);
-                    $totalCnt    =  mysql_num_rows($res);
+                    $res        = mysqli_query($self_con,$query);
+                    $totalCnt    =  mysqli_num_rows($res);
 
                     $limitStr       = " LIMIT " . (($startPage - 1) * $pageCnt) . ", " . $pageCnt;
                     $number            = $totalCnt - ($nowPage - 1) * $pageCnt;
@@ -170,8 +170,8 @@ if ($_REQUEST[rday2]) {
 
                     $i = 1;
                     $query .= "$orderQuery";
-                    $res = mysql_query($query);
-                    while ($row = mysql_fetch_array($res)) {
+                    $res = mysqli_query($self_con,$query);
+                    while ($row = mysqli_fetch_array($res)) {
                         if ($row['mem_leb'] == "22")
                             $mem_leb = "일반회원";
                         else if ($row['mem_leb'] == "50")
@@ -242,6 +242,6 @@ if ($_REQUEST[rday2]) {
 <link type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.4/themes/base/jquery-ui.css" rel="stylesheet" />
 <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.10.0/jquery-ui.min.js"></script>
 <?
-mysql_close();
+mysqli_close($self_con);
 include_once "_foot.php";
 ?>

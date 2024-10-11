@@ -9,8 +9,8 @@ $phone_num = $_POST["phone_num"];
 $empty_arr = array();
 $userId = $_REQUEST["id"]; //��ȭ��ȣ(������ ��ȣ ����)
 $sql_chk = "select idx from Gn_MMS_Number where sendnum='{$userId}'";
-$res_chk = mysql_query($sql_chk);
-$row_chk = mysql_num_rows($res_chk);
+$res_chk = mysqli_query($self_con,$sql_chk);
+$row_chk = mysqli_num_rows($res_chk);
 if (!$row_chk || !$userId) {
 	echo json_encode(array(
 		"txt" => "",
@@ -35,31 +35,31 @@ $phone_num = $userId;
 if (strlen($phone_num) > 0) {
 	$time = date("Y-m-d H:i:s");
 	$sql = "select idx from call_api_log where phone_num='$phone_num'";
-	$res = mysql_query($sql) or die(mysql_error());
-	$row = mysql_fetch_array($res);
+	$res = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+	$row = mysqli_fetch_array($res);
 	if ($row['idx'] != "") {
 		$sql = "update call_api_log set get_task='$time' where idx='{$row['idx']}'";
-		mysql_query($sql);
+		mysqli_query($self_con,$sql);
 	} else {
 		$sql = "insert into call_api_log set get_task='$time', phone_num='$phone_num'";
-		mysql_query($sql);
+		mysqli_query($self_con,$sql);
 	}
 }
 $sql_where = "where now() > adddate(reservation,INTERVAL 30 Minute) and result = 1 and send_num = '" . $userId . "' and (reservation is null or reservation <= now())";
 $sql = "insert into Gn_MMS_ReservationFail select `idx`, `mem_id`, `send_num`, `recv_num`, `uni_id`, `content`, `title`, `type`, `delay`, `delay2`, `close`, `jpg`, `result`, `reg_date`, `up_date`, `url`, `reservation` from Gn_MMS $sql_where";
-mysql_query($sql);
+mysqli_query($self_con,$sql);
 //echo $sql."<br>";
 $sql = "update Gn_MMS_ReservationFail set result = 3 $sql_where";
-mysql_query($sql);
+mysqli_query($self_con,$sql);
 
 $addQuery = "";
 $addQuery = " and idx ='$idx'";
 $sql = "select * from Gn_MMS where result > 0 and send_num = '" . $userId . "' and  (reg_date < now() and reg_date >= adddate(reg_date,INTERVAL -40 Minute)) and (reservation is null or reservation <= DATE_ADD(NOW(), INTERVAL 30 MINUTE))  $addQuery order by idx asc limit 1";
-$query = mysql_query($sql);
+$query = mysqli_query($self_con,$sql);
 $fp = fopen("log.txt","w+");
 fwrite($fp,$sql);
-$row = mysql_fetch_array($query);
-//mysql_free_result($query);
+$row = mysqli_fetch_array($query);
+//mysqli_free_result($query);
 //echo $sql."<br>";
 
 $msg = str_replace("{|name|}", "{|REP|}", $row['content']);
@@ -75,7 +75,7 @@ $url = str_replace('"', '', $url);
 $now = date("Y-m-d H:i:s");
 if ($query) {
 	$upt_sql = "update Gn_MMS set result = '0', up_date = now() where idx = '" . $row['idx'] . "'";
-	$upt_query = mysql_query($upt_sql);
+	$upt_query = mysqli_query($self_con,$upt_sql);
 }
 if (strstr($msg, "{|REP|}"))
 	$rep = "{|REP|}";
@@ -138,5 +138,5 @@ if (strpos($row['recv_num'], ",")) {
 }
 if ($row['idx']) {
 	$sql_j = "insert Gn_MMS_Json set mms_idx = '" . $row['idx'] . "', data = '" . $data . "', reg_date = now()";
-	mysql_query($sql_j);
+	mysqli_query($self_con,$sql_j);
 }

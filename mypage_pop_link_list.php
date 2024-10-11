@@ -11,8 +11,8 @@ if (!$_SESSION['one_member_id']) {
   exit;
 }
 $sql = "select * from Gn_Member  where mem_id='" . $_SESSION['one_member_id'] . "'";
-$sresul_num = mysql_query($sql);
-$data = mysql_fetch_array($sresul_num);
+$sresul_num = mysqli_query($self_con,$sql);
+$data = mysqli_fetch_array($sresul_num);
 ?>
 <script>
   function copyHtml() {
@@ -105,8 +105,8 @@ $data = mysql_fetch_array($sresul_num);
               }
             }
             $sql = "select count(event_idx) as cnt from Gn_event where $sql_serch ";
-            $result = mysql_query($sql) or die(mysql_error());
-            $row = mysql_fetch_array($result);
+            $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+            $row = mysqli_fetch_array($result);
             $intRowCount = $row['cnt'];
 
             if ($intRowCount) {
@@ -137,10 +137,10 @@ $data = mysql_fetch_array($sresul_num);
 
               $intPageCount = (int)(($intRowCount + $intPageSize - 1) / $intPageSize);
               $sql = "select * from Gn_event where $sql_serch order by $order_name $order_status limit $int,$intPageSize";
-              $result = mysql_query($sql) or die(mysql_error());
+              $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
             ?>
               <?
-              while ($row = mysql_fetch_array($result)) {
+              while ($row = mysqli_fetch_array($result)) {
 
               ?>
                 <tr>
@@ -151,11 +151,11 @@ $data = mysql_fetch_array($sresul_num);
                   <td>
                     <? if ($row['sms_idx1'] != 0) {
                       $sql = "select reservation_title from Gn_event_sms_info where sms_idx='{$row['sms_idx1']}'";
-                      $res = mysql_query($sql);
-                      $sms_row = mysql_fetch_array($res);
+                      $res = mysqli_query($self_con,$sql);
+                      $sms_row = mysqli_fetch_array($res);
                       $sql = "select count(*) from Gn_event_sms_step_info where sms_idx='{$row['sms_idx1']}'";
-                      $res = mysql_query($sql);
-                      $step_row = mysql_fetch_array($res);
+                      $res = mysqli_query($self_con,$sql);
+                      $step_row = mysqli_fetch_array($res);
                       echo "$sms_row[0]<br><strong>($step_row[0])</strong>";
                     } ?>
                   </td>

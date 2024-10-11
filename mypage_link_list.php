@@ -10,8 +10,8 @@ if(!$_SESSION[one_member_id]){
 	exit;
 }
 $sql="select * from Gn_Member  where mem_id='".$_SESSION[one_member_id]."' and site != ''";
-$sresul_num=mysql_query($sql);
-$data=mysql_fetch_array($sresul_num);
+$sresul_num=mysqli_query($self_con,$sql);
+$data=mysqli_fetch_array($sresul_num);
 extract($_POST);
 ?>
 <script>
@@ -229,8 +229,8 @@ function deleteRow(event_id) {
 									$sql_serch.=" AND $_REQUEST[search_key] LIKE '%".$search_text."%'";
 								}
 								$sql="select count(event_idx) as cnt from Gn_event where $sql_serch ";
-								$result = mysql_query($sql) or die(mysql_error());
-								$row=mysql_fetch_array($result);
+								$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+								$row=mysqli_fetch_array($result);
 								$intRowCount=$row[cnt];
 								if($intRowCount){
 									if (!$_POST[lno])
@@ -261,8 +261,8 @@ function deleteRow(event_id) {
 									$sql="select * from Gn_event where $sql_serch order by $order_name $order_status limit $int,$intPageSize";
                                     $excel_sql = "select * from Gn_event where $sql_serch order by $order_name $order_status";
                                     $excel_sql = str_replace("'","`",$excel_sql);
-									$result=mysql_query($sql) or die(mysql_error());
-									while($row=mysql_fetch_array($result)){?>
+									$result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+									while($row=mysqli_fetch_array($result)){?>
 										<tr>
 											<td><input type="checkbox" class="check" id="check_one_member" name="event_idx" value="<?=$row['event_idx'];?>"></td>
 											<td><?=$sort_no?></td>
@@ -293,11 +293,11 @@ function deleteRow(event_id) {
 													if($row['sms_idx1'] != 0)
 													{
 														$sql = "select reservation_title from Gn_event_sms_info where sms_idx='$row[sms_idx1]'";
-														$res = mysql_query($sql);
-														$sms_row = mysql_fetch_array($res);
+														$res = mysqli_query($self_con,$sql);
+														$sms_row = mysqli_fetch_array($res);
 														$sql = "select count(*) from Gn_event_sms_step_info where sms_idx='$row[sms_idx1]'";
-														$res = mysql_query($sql);
-														$step_row = mysql_fetch_array($res);
+														$res = mysqli_query($self_con,$sql);
+														$step_row = mysqli_fetch_array($res);
 														echo "<a onclick=\"javascript:window.open('/mypage_reservation_create.php?sms_idx=$row[sms_idx1]','','toolbar=yes,scrollbars=yes,resizable=yes,top=200,left=200,width=1000,height=600');\">$sms_row[0]<br><strong>($step_row[0])</strong></a>";
 													}
 												?>
@@ -306,8 +306,8 @@ function deleteRow(event_id) {
 													if($row['stop_event_idx'] != 0)
 													{
 														$sql = "select event_title from Gn_event where event_idx='$row[stop_event_idx]'";
-														$res = mysql_query($sql);
-														$sms_row = mysql_fetch_array($res);
+														$res = mysqli_query($self_con,$sql);
+														$sms_row = mysqli_fetch_array($res);
 														echo "$sms_row[0]";
 													}else
 													{

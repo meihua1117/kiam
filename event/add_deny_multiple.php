@@ -9,8 +9,8 @@
 	}
 	
 	$sql_mem_data = "select mem_phone, mem_id from Gn_Member where mem_id='{$mem_id}'";
-	$res_mem_data = mysql_query($sql_mem_data);
-	$row_mem_data = mysql_fetch_array($res_mem_data);
+	$res_mem_data = mysqli_query($self_con,$sql_mem_data);
+	$row_mem_data = mysqli_fetch_array($res_mem_data);
 	$mem_phone = $row_mem_data['mem_phone'];
 	$mem_id = $row_mem_data['mem_id'];
 

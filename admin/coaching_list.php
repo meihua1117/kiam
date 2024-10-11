@@ -273,7 +273,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
               $convertedTime = date('Y-m-d',strtotime('-3 day',strtotime($date_today)));
 
               $sql1 = "update gn_coaching_info set agree = 1, site_value=3, coty_value=3, coaching_status=2  where reg_date  < '$convertedTime' and agree=0";
-              $sql1_res = mysql_query($sql1) or die(mysql_error());
+              $sql1_res = mysqli_query($self_con,$sql1) or die(mysqli_error($self_con));
               echo $convertedTime."  이전에 등록한 코칭정보가 자동승인이 되었습니다.";
               //echo $sql1;
                 ?>
@@ -361,8 +361,8 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                         	WHERE 1=1 
                 	              $searchStr";
                 	              
-                	$res	    = mysql_query($query);
-                	$totalCnt	=  mysql_num_rows($res);	
+                	$res	    = mysqli_query($self_con,$query);
+                	$totalCnt	=  mysqli_num_rows($res);	
                 	
                 	$limitStr       = " LIMIT ".(($startPage-1)*$pageCnt).", ".$pageCnt;
                 	$number			= $totalCnt - ($nowPage - 1) * $pageCnt;                      
@@ -380,18 +380,18 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
 
                   // echo $query."<br>";
 
-                	$res = mysql_query($query) or die(mysql_error());
+                	$res = mysqli_query($self_con,$query) or die(mysqli_error($self_con));
 
 
 
-                    while($coaching_info_data = mysql_fetch_array($res)) {                       	
+                    while($coaching_info_data = mysqli_fetch_array($res)) {                       	
                         $sql_num="select * from gn_coach_apply a left join Gn_Member b on a.mem_code = b.mem_code where a.coach_id='$coaching_info_data[coach_id]' ";
-                        $resul_num=mysql_query($sql_num);
-                        $coach_data=mysql_fetch_array($resul_num); 
+                        $resul_num=mysqli_query($self_con,$sql_num);
+                        $coach_data=mysqli_fetch_array($resul_num); 
 
                         $sql_num="select * from gn_coaching_apply a left join Gn_Member b on a.mem_code = b.mem_code where a.coty_id='$coaching_info_data[coty_id]' ";
-                        $resul_num=mysql_query($sql_num);
-                        $coaching_data=mysql_fetch_array($resul_num); 
+                        $resul_num=mysqli_query($self_con,$sql_num);
+                        $coaching_data=mysqli_fetch_array($resul_num); 
                   ?>
 
 
@@ -419,8 +419,8 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                             // 잔여일시 계산
 
                             // $sql_startdate="select coaching_date from gn_coaching_info where coty_id='$coaching_info_data[coty_id]' and coach_id='$coaching_info_data[coach_id]' and coaching_turn= 1 ";
-                            // $resul_num=mysql_query($sql_startdate);
-                            // $startdate_data=mysql_fetch_array($resul_num);
+                            // $resul_num=mysqli_query($self_con,$sql_startdate);
+                            // $startdate_data=mysqli_fetch_array($resul_num);
 
 
                             // $enddate = date('Y-m-d H:i:s',strtotime('+'.$coaching_data[cont_term].' day',strtotime($startdate_data[coaching_date])));
@@ -609,8 +609,8 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
 
                                 $sql_1="select SUM(coty_value) as coty_sum,SUM(coach_value) as coach_sum,SUM(site_value) as site_sum from gn_coaching_info where coty_id='$coaching_info_data[coty_id]' and coach_id='$coaching_info_data[coach_id]' and coaching_turn <= '$coaching_info_data[coaching_turn]'";
                                 //echo $sql_1;
-                                $res_1=mysql_query($sql_1);
-                                $sum=mysql_fetch_array($res_1);
+                                $res_1=mysqli_query($self_con,$sql_1);
+                                $sum=mysqli_fetch_array($res_1);
 
 
                                 //누적 합점

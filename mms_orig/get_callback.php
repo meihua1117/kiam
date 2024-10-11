@@ -12,8 +12,8 @@ $index  = 0;
 $totalCnt = 0;
 
 $sql_idx = "select * from Gn_Member where mem_id='{$userid}'";
-$res_idx = mysql_query($sql_idx);
-$row_idx = mysql_fetch_array($res_idx);
+$res_idx = mysqli_query($self_con,$sql_idx);
+$row_idx = mysqli_fetch_array($res_idx);
 $callback_idx = $row_idx['mem_callback'];
 
 $phone_callback = $row_idx['phone_callback'];
@@ -29,10 +29,10 @@ if($callback_idx == 0){
 }
 else{
     $sql = "select SQL_CALC_FOUND_ROWS * from gn_mms_callback where service_state=1 and allow_state=1 and idx={$callback_idx}";
-    $res_call = mysql_query($sql);
-    if(mysql_num_rows($res_call)){
+    $res_call = mysqli_query($self_con,$sql);
+    if(mysqli_num_rows($res_call)){
         $callback_state = 0;
-        $row_call = mysql_fetch_array($res_call);
+        $row_call = mysqli_fetch_array($res_call);
         $item['idx'] = $row_call['idx'];
         $item['title'] = $row_call['title'];
         $item['content'] = $row_call['content'];
@@ -59,12 +59,12 @@ else{
             if($userid != "")
             {
                 $query = "select mem_code from Gn_Member where mem_id='$userid'";             
-                $res	    = mysql_query($query);
-                $row = mysql_fetch_array($res);
+                $res	    = mysqli_query($self_con,$query);
+                $row = mysqli_fetch_array($res);
                 $mem_code = $row[0];			
                 $query = "select card_short_url from Gn_Iam_Name_Card where group_id is NULL and mem_id='$userid' order by req_data limit 0,1";             
-                $res	    = mysql_query($query);
-                $row = mysql_fetch_array($res);
+                $res	    = mysqli_query($self_con,$query);
+                $row = mysqli_fetch_array($res);
                 $cardlink = $row[0];        
         
                 $item['content'] = $item['content'] . "\r\nhttps://www.kiam.kr/?" . $cardlink . $mem_code;
@@ -87,10 +87,10 @@ else{
 
 $query = "select SQL_CALC_FOUND_ROWS * from gn_mms_callback where service_state=0";
                 
-$res1	    = mysql_query($query);
-$totalCnt	+=  mysql_num_rows($res1);
+$res1	    = mysqli_query($self_con,$query);
+$totalCnt	+=  mysqli_num_rows($res1);
 
-while($rows = mysql_fetch_array($res1))
+while($rows = mysqli_fetch_array($res1))
 {
     $item['idx'] = $rows['idx'];
     $item['title'] = $rows['title'];
@@ -119,12 +119,12 @@ while($rows = mysql_fetch_array($res1))
         if($userid != "")
         {
             $query = "select mem_code from Gn_Member where mem_id='$userid'";             
-            $res	    = mysql_query($query);
-            $row = mysql_fetch_array($res);
+            $res	    = mysqli_query($self_con,$query);
+            $row = mysqli_fetch_array($res);
             $mem_code = $row[0];			
             $query = "select card_short_url from Gn_Iam_Name_Card where group_id is NULL and mem_id='$userid' order by req_data limit 0,1";             
-            $res	    = mysql_query($query);
-            $row = mysql_fetch_array($res);
+            $res	    = mysqli_query($self_con,$query);
+            $row = mysqli_fetch_array($res);
             $cardlink = $row[0];        
     
             $item['content'] = $item['content'] . "\r\nhttps://www.kiam.kr/?" . $cardlink . $mem_code;
@@ -138,10 +138,10 @@ while($rows = mysql_fetch_array($res1))
 }
 
 $query2 = "select SQL_CALC_FOUND_ROWS * from gn_mms_callback where service_state=2 and mb_id='{$userid}'";
-$res2	    = mysql_query($query2);
-$totalCnt	+=  mysql_num_rows($res2);
+$res2	    = mysqli_query($self_con,$query2);
+$totalCnt	+=  mysqli_num_rows($res2);
 
-while($rows_mem = mysql_fetch_array($res2))
+while($rows_mem = mysqli_fetch_array($res2))
 {
     $item['idx'] = $rows_mem['idx'];
     $item['title'] = $rows_mem['title'];
@@ -170,12 +170,12 @@ while($rows_mem = mysql_fetch_array($res2))
         if($userid != "")
         {
             $query = "select mem_code from Gn_Member where mem_id='$userid'";             
-            $res	    = mysql_query($query);
-            $row = mysql_fetch_array($res);
+            $res	    = mysqli_query($self_con,$query);
+            $row = mysqli_fetch_array($res);
             $mem_code = $row[0];			
             $query = "select card_short_url from Gn_Iam_Name_Card where group_id is NULL and mem_id='$userid' order by req_data limit 0,1";             
-            $res	    = mysql_query($query);
-            $row = mysql_fetch_array($res);
+            $res	    = mysqli_query($self_con,$query);
+            $row = mysqli_fetch_array($res);
             $cardlink = $row[0];        
     
             $item['content'] = $item['content'] . "\r\nhttps://www.kiam.kr/iam/?" . $cardlink . $mem_code;
@@ -192,20 +192,20 @@ $udate  = NULL;
 if($totalCnt != 0)
 {
     $query = "select regdate from gn_mms_callback order by regdate desc";
-    $res	    = mysql_query($query);
-    $row = mysql_fetch_array($res);
+    $res	    = mysqli_query($self_con,$query);
+    $row = mysqli_fetch_array($res);
     $udate = date("YmdHis", strtotime($row['regdate']));
 
     // if($totalCnt >= 2)
     // {
     //     $query = "select count(*) from gn_mms_callback where service_state=0 and type=1";
-    //     $res	    = mysql_query($query);
-    //     $row = mysql_fetch_array($res);
+    //     $res	    = mysqli_query($self_con,$query);
+    //     $row = mysqli_fetch_array($res);
     //     $pcount = $row[0];
     
     //     $query = "select count(*) from gn_mms_callback where service_state=0 and type=2";
-    //     $res	    = mysql_query($query);
-    //     $row = mysql_fetch_array($res);
+    //     $res	    = mysqli_query($self_con,$query);
+    //     $row = mysqli_fetch_array($res);
     //     $mcount = $row[0];
     
     //     if($mcount == 0)

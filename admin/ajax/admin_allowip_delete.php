@@ -10,7 +10,7 @@ $cam_id = $_POST["idx"];
 
     $query="delete from gn_admin_allowip WHERE idx='$idx'
                                  ";
-    mysql_query($query);	
+    mysqli_query($self_con,$query);	
 
 echo "<script>alert('저장되었습니다.');location='/admin/admin_allowip_list.php';</script>";
 exit;

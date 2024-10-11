@@ -2,15 +2,15 @@
 include_once "rlatjd_fun.php";
 if(!$_REQUEST[sql_serch])exit;
 $sql="select * from ABS_sell where (sell_state='G' or (sell_state in('D', 'Q', 'T', 'W', 'Z') and sell_pack='Y')) order by sell_pack asc, sell_sign_date desc";
-$resul=mysql_query($sql);
-$intRowCount=mysql_num_rows($resul);
+$resul=mysqli_query($self_con,$sql);
+$intRowCount=mysqli_num_rows($resul);
 if(!$intRowCount)exit;
 	$i=0;
-	while($row=mysql_fetch_array($resul))
+	while($row=mysqli_fetch_array($resul))
 		{
 			$sql_s="select * from ABS_sbag where sbag_oto_key='$row[sell_oto_key]'";
-			$resul_s=mysql_query($sql_s) or die(mysql_error());
-			while($row_s=mysql_fetch_array($resul_s))
+			$resul_s=mysqli_query($self_con,$sql_s) or die(mysqli_error($self_con));
+			while($row_s=mysqli_fetch_array($resul_s))
 				{
 					$sell_serial[$i]=$row[sell_serial];
 					$sell_buyer_post[$i]=$row[sell_buyer_post];

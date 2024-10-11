@@ -14,8 +14,8 @@ if(strlen($_SESSION[one_member_id]) > 0) {
                 	              where recommend_id = '".$mem_id."' 
                 	                and end_status='Y' 
                 	           order by end_date desc";
-      $result = mysql_query($excel_sql) or die(mysql_error());
-      $totalCnt = mysql_num_rows($result);
+      $result = mysqli_query($self_con,$excel_sql) or die(mysqli_error($self_con));
+      $totalCnt = mysqli_num_rows($result);
       $number			= $totalCnt;
       require_once("Classes/PHPExcel.php");
       $objPHPExcel = new PHPExcel();
@@ -35,7 +35,7 @@ if(strlen($_SESSION[one_member_id]) > 0) {
 					->setCellValue("E1", "종료일")
 					->setCellValue("F1", "지불수단");
       $h=2;			
-      while($row=mysql_fetch_array($result))
+      while($row=mysqli_fetch_array($result))
 		{
         	// 부가서비스 이용 여부 확인
         	// tjd_pay_result.fujia_status

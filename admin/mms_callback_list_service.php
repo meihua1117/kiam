@@ -235,8 +235,8 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                     $memname = " AND (c.mem_id = '".$mem_id."')";
                   }
                   $sql = "select count(*) from gn_mms_callback a inner join Gn_event b on a.idx=b.callback_no".$memjoin. " where a.service_state=1 ".$searchStr.$memname.$memsite;
-                  $res	    = mysql_query($sql);
-                  $row	=  mysql_fetch_array($res);
+                  $res	    = mysqli_query($self_con,$sql);
+                  $row	=  mysqli_fetch_array($res);
                   $totalCnt = $row[0];
 
                   $sql = "select a.*, b.* ".$mem_select." from gn_mms_callback a inner join Gn_event b on a.idx=b.callback_no".$memjoin. " where a.service_state=1 ".$searchStr.$memname.$memsite;
@@ -251,8 +251,8 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                 	$i = 1;
                 	$c=0;
                 	$sql .= "$orderQuery";
-                	$res = mysql_query($sql);
-                    while($row = mysql_fetch_array($res)) {
+                	$res = mysqli_query($self_con,$sql);
+                    while($row = mysqli_fetch_array($res)) {
                       if($row['allow_state'] == 1){
                           $checked = "checked";
                       }
@@ -261,12 +261,12 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                       }
 
                       $sql_sel_service_mem = "select count(*) from Gn_Member where mem_callback={$row[idx]}";
-                      $res_sel_service = mysql_query($sql_sel_service_mem);
-                      $cnt_sel_service = mysql_fetch_array($res_sel_service);
+                      $res_sel_service = mysqli_query($self_con,$sql_sel_service_mem);
+                      $cnt_sel_service = mysqli_fetch_array($res_sel_service);
 
                       $sql_sel_mem = "select count(*) from Gn_Member where mem_callback={$row[idx]} and ((phone_callback={$row['idx']} and mem_callback_phone_state=1) or (mun_callback={$row[idx]} and mem_callback_mun_state=1))";
-                      $res_sel_mem = mysql_query($sql_sel_mem);
-                      $cnt_sel_mem = mysql_fetch_array($res_sel_mem);
+                      $res_sel_mem = mysqli_query($self_con,$sql_sel_mem);
+                      $cnt_sel_mem = mysqli_fetch_array($res_sel_mem);
 
                       $cnt_unsel_mem = $cnt_sel_service[0] * 1 - $cnt_sel_mem[0] * 1;
                   ?>

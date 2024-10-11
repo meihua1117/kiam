@@ -192,25 +192,25 @@ if($REPLYCD =="0000"){//pay_test
 */
 $member_1[mem_id] = $_SESSION[one_member_id];
 $sql="select * from tjd_pay_result where orderNumber='$ORDER_NO'";
-$resul=mysql_query($sql)or die(mysql_error());
-$row=mysql_fetch_array($resul);
+$resul=mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
+$row=mysqli_fetch_array($resul);
 $no = $row['no'];
 $member_1[mem_id] = $row[buyer_id];
 if($REPLYCD == "0000"){//pay_test
     $sql = "update tjd_pay_result set end_status='Y',monthly_yn='N' where  orderNumber='$ORDER_NO' and buyer_id='$member_1[mem_id]'";
-    mysql_query($sql) or die(mysql_error());
+    mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
     $sql = "select * from Gn_Member where mem_id='$member_1[mem_id]' ";
-    $sresult = mysql_query($sql) or die(mysql_error());
-    $srow = mysql_fetch_array($sresult);
+    $sresult = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+    $srow = mysqli_fetch_array($sresult);
     $sql_m = "update Gn_Member set fujia_date1=now() , fujia_date2=date_add(now(),INTERVAL 120 month)  where mem_id='$member_1[mem_id]' ";
-    mysql_query($sql_m) or die(mysql_error());
+    mysqli_query($self_con,$sql_m) or die(mysqli_error($self_con));
 
     if ($srow['recommend_id'] != "") {
         $sql = "select * from Gn_Member where mem_id='$srow[recommend_id]' ";
-        $rresult = mysql_query($sql) or die(mysql_error());
+        $rresult = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
         
-        if (mysql_num_rows($rresult) > 0) {
-            $rrow = mysql_fetch_array($rresult);
+        if (mysqli_num_rows($rresult) > 0) {
+            $rrow = mysqli_fetch_array($rresult);
             $branch_share_id = "";
             $addQuery = "";
             $branch_share_per = 0;
@@ -219,8 +219,8 @@ if($REPLYCD == "0000"){//pay_test
             if ($rrow[service_type] == 2) {
                 // 추천인의 추천인 검색 및 등급 확인
                 $sql = "select * from Gn_Member where mem_id='$rrow[recommend_id]'";
-                $rresult = mysql_query($sql) or die(mysql_error());
-                $trow = mysql_fetch_array($rresult);
+                $rresult = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+                $trow = mysqli_fetch_array($rresult);
                 $share_per = $recommend_per = $rrow['share_per'] ? $rrow['share_per'] : 30;
                 if ($trow[0] != "") {
                     $recommend_per = $trow['share_per'] ? $trow['share_per'] : 50;
@@ -233,7 +233,7 @@ if($REPLYCD == "0000"){//pay_test
             }
 
             $sql = "update tjd_pay_result set share_per='$share_per', branch_share_per = '$branch_share_per', share_id='$srow[recommend_id]', branch_share_id='$branch_share_id' where no='$no'";
-            mysql_query($sql) or die(mysql_error());
+            mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
         }
     }
 }
@@ -244,18 +244,18 @@ else
     $host = "www.kiam.kr";
 
 $sql_idx = "select profile_idx from Gn_Iam_Service where sub_domain like 'http://" . $host . "'";
-$res_idx = mysql_query($sql_idx);
-$row_idx = mysql_fetch_array($res_idx);
+$res_idx = mysqli_query($self_con,$sql_idx);
+$row_idx = mysqli_fetch_array($res_idx);
 $card_idx = $row_idx['profile_idx'];
 
 $sql_card_short_url = "select card_short_url from Gn_Iam_Name_Card where idx={$card_idx}";
-$res_url = mysql_query($sql_card_short_url);
-$row_url = mysql_fetch_array($res_url);
+$res_url = mysqli_query($self_con,$sql_card_short_url);
+$row_url = mysqli_fetch_array($res_url);
 $card_short_url = $row_url['card_short_url'];
 
 $sql_mem_id = "select mem_code from Gn_Member where mem_id='{$_SESSION['one_member_id']}'";
-$res_id = mysql_query($sql_mem_id);
-$row_id = mysql_fetch_array($res_id);
+$res_id = mysqli_query($self_con,$sql_mem_id);
+$row_id = mysqli_fetch_array($res_id);
 $mem_code = $row_id['mem_code'];
 
 $url = $card_short_url.$mem_code;

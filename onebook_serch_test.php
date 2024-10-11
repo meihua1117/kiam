@@ -50,8 +50,8 @@ exit;
 									   	it_code2 like '%$book_text%' )";
 					$sql_serch.=" and it_use='1' and  it_state2='1' ";
 					$sql="select count(it_id) as cnt from Gn_Shop_Item where $sql_serch ";
-					$result = mysql_query($sql) or die(mysql_error());
-					$row=mysql_fetch_array($result);
+					$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+					$row=mysqli_fetch_array($result);
 					$intRowCount=$row[cnt];
 					if($_POST[page])
 					  $page=(int)$_POST[page];
@@ -76,7 +76,7 @@ exit;
 					  $order_name="it_time";
 					$intPageCount=(int)(($intRowCount+$intPageSize-1)/$intPageSize);     
 					$sql="select * from Gn_Shop_Item where $sql_serch order by $order_name $order_status limit $int,$intPageSize";
-					$result=mysql_query($sql) or die(mysql_error());
+					$result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 				}
 		?>
         <form name="onebook_form" method="post">
@@ -107,7 +107,7 @@ exit;
 					   if($intRowCount)
 					   {
 						   $i=0;
-						 while($row=mysql_fetch_array($result))
+						 while($row=mysqli_fetch_array($result))
 						 {
 							if(strpos($row['propb2_title'],"[|*|]")!==false)
 								$propb2_title=explode("[|*|]",$row['propb2_title']);

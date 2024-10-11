@@ -19,9 +19,9 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
      // 쿼리를 변수에 대입
        $query = "select * from Gn_Iam_Name_Card";
      //쿼리를 DB에 전송한 후 결과값을 result 변수로 가져옴
-      $result = mysql_query($query);
+      $result = mysqli_query($self_con,$query);
        
-    while($data = mysql_fetch_array($result)){
+    while($data = mysqli_fetch_array($result)){
 
 ?>
    <tr>

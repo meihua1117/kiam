@@ -12,7 +12,7 @@ if($_POST['mode'] =="save_sort") {
     for($i=0;$i < count($sendnum);$i++) {
 	    $sql_num="update Gn_MMS_Number set sort_no='".$sort_no[$i]."' where mem_id ='$_SESSION[one_member_id]' and sendnum='".$sendnum[$i]."'";
 	    //echo $sql_num."\n";
-	    mysql_query($sql_num);
+	    mysqli_query($self_con,$sql_num);
 	    
 	}
 	?>
@@ -27,13 +27,13 @@ if($_POST['mode'] =="save_sort") {
     for($i=0;$i < count($org_mem_code);$i++) {
 	    $sql_num="update Gn_Member set business_yn='N' where mem_code ='".$org_mem_code[$i]."'";
 	    //echo $sql_num."\n";
-	    mysql_query($sql_num);
+	    mysqli_query($self_con,$sql_num);
 	    
 	}
     for($i=0;$i < count($mem_code);$i++) {
 	    $sql_num="update Gn_Member set business_yn='Y' where mem_code ='".$mem_code[$i]."'";
 	    echo $sql_num."\n";
-	    mysql_query($sql_num);
+	    mysqli_query($self_con,$sql_num);
 	    
 	}	
 }

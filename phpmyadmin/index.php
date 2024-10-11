@@ -15,13 +15,13 @@ $mysql_host = 'localhost';
 $mysql_user = 'kiam';
 $mysql_password = 'only12!@db';
 $mysql_db = 'kiam';
-$self_con=mysql_connect($mysql_host,$mysql_user,$mysql_password) or die(mysql_error());
-mysql_select_db($mysql_db) or die(mysql_error());
-mysql_query("set names utf8");
+$self_con=mysql_connect($mysql_host,$mysql_user,$mysql_password) or die(mysqli_error($self_con));
+mysql_select_db($mysql_db) or die(mysqli_error($self_con));
+mysqli_query($self_con,"set names utf8");
 
 $allow_sql = "select idx from gn_admin_allowip where ip= '$_SERVER[REMOTE_ADDR]'";
-$res_allow = mysql_query($allow_sql);
-$row_allow = mysql_num_rows($res_allow);
+$res_allow = mysqli_query($self_con,$allow_sql);
+$row_allow = mysqli_num_rows($res_allow);
 
 if(!$row_allow){
     exit;

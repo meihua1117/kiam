@@ -38,8 +38,8 @@ switch($_REQUEST[status])
  
  					
 					$sql="select * from Gn_MMS where idx='$_GET[idx]'";
-					$result = mysql_query($sql) or die(mysql_error());
-					$krow=mysql_fetch_array($result);
+					$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+					$krow=mysqli_fetch_array($result);
 					$date = $krow['up_date'];
 					
 					$recv_num = explode(",", $krow[recv_num]);
@@ -54,8 +54,8 @@ switch($_REQUEST[status])
 					$sql_serch.=" and $_REQUEST[serch_colum] like '%$_REQUEST[serch_text]%' ";	
 				}
 				$sql="select count(seq) as cnt from call_app_log where api_name='receive_sms' and LENGTH(recv_num) >= 10 $sql_serch ";
-				$result = mysql_query($sql) or die(mysql_error());
-				$row=mysql_fetch_array($result);
+				$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+				$row=mysqli_fetch_array($result);
 				$intRowCount=$row[cnt];
 				if (!$_REQUEST[lno]) 
 					$intPageSize =20;
@@ -88,7 +88,7 @@ switch($_REQUEST[status])
 				$sql="select *   from call_app_log where api_name='receive_sms' and LENGTH(recv_num) >= 10 $sql_serch order by $order_name $order_status limit $int,$intPageSize";
 				$excel_sql="select *   from call_app_log where api_name='receive_sms' and LENGTH(recv_num) >= 10 $sql_serch order by $order_name $order_status";
 				$excel_sql=str_replace("'","`",$excel_sql);
-				$result=mysql_query($sql) or die(mysql_error());
+				$result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 
 ?>
 	<div class="ad_layer5">
@@ -186,18 +186,18 @@ switch($_REQUEST[status])
 									{
 									    
 										$c=0;
-										while($row=mysql_fetch_array($result))
+										while($row=mysqli_fetch_array($result))
 										{
 											$sql_n="select memo from Gn_MMS_Number where sendnum='$row[send_num]' ";
-											$resul_n=mysql_query($sql_n);
-											$row_n=mysql_fetch_array($resul_n);										
+											$resul_n=mysqli_query($self_con,$sql_n);
+											$row_n=mysqli_fetch_array($resul_n);										
 											//$recv_num = split(",",$row[recv_num]);
 											$recv_num= $row['recv_num'];
 											
 											//회신자명
 											$sql_n="select name from Gn_MMS_Receive where mem_id='$_SESSION[one_member_id]' and recv_num='$row[recv_num]' ";
-											$resul_s=mysql_query($sql_n);
-											$row_s=mysql_fetch_array($resul_s);
+											$resul_s=mysqli_query($self_con,$sql_n);
+											$row_s=mysqli_fetch_array($resul_s);
 																		
 										?>
 
@@ -308,6 +308,6 @@ function deleteAddress() {
 }
 </script>
 <?
-mysql_close();
+mysqli_close($self_con);
 include_once "_foot.php";
 ?>

@@ -8,9 +8,9 @@ extract($_POST);
 
 $idx = $_POST["idx"]; 
 $query="delete from Gn_Iam_Contents WHERE idx='$idx'";
-mysql_query($query);
+mysqli_query($self_con,$query);
 $sql = "delete from Gn_Iam_Con_Card where cont_idx = $idx";
-mysql_query($sql);
+mysqli_query($self_con,$sql);
 $sql="delete from Gn_Iam_Mall where card_idx = '$idx' and (mall_type = 3 or mall_type = 4)";
-mysql_query($sql) or die(mysql_error());
+mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 ?>

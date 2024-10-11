@@ -227,8 +227,8 @@ $(function() {
                                             WHERE 1=1
                                                   $searchStr";
 
-                                    $res	    = mysql_query($query);
-                                    $totalRow	=  mysql_fetch_array($res);
+                                    $res	    = mysqli_query($self_con,$query);
+                                    $totalRow	=  mysqli_fetch_array($res);
                                     $totalCnt = $totalRow[0];
                                     $query = "SELECT a.buyertel, a.member_type, a.TotPrice, a.buyer_id, a.VACT_InputName,
                                         a.date, a.end_date, a.cancel_Requesttime, a.no,a.payMethod, a.payment_day, a.monthly_status, a.cancel_completetime,a.print_msg
@@ -240,11 +240,11 @@ $(function() {
                                     $orderQuery .= " ORDER BY a.cancel_requesttime DESC $limitStr";
                                     $i = 1;
                                     $query .= $orderQuery;
-                                    $res = mysql_query($query);
-                                    while($row = mysql_fetch_array($res)) {
+                                    $res = mysqli_query($self_con,$query);
+                                    while($row = mysqli_fetch_array($res)) {
                                         $sql_mem = "select recommend_id from Gn_Member where mem_id='{$row[buyer_id]}'";
-                                        $res_mem = mysql_query($sql_mem);
-                                        $row_mem = mysql_fetch_array($res_mem);
+                                        $res_mem = mysqli_query($self_con,$sql_mem);
+                                        $row_mem = mysqli_fetch_array($res_mem);
                                 ?>
                                     <tr>
                                         <td><input type="checkbox" class="check_no" id="check_one_member" name="" value="<?=$row['no']?>"><?=$number--?></td>

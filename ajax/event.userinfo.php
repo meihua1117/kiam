@@ -7,8 +7,8 @@ if($_SESSION[one_member_id]){
 
     $sql="SELECT *  FROM Gn_Member WHERE mem_id ='$_SESSION[one_member_id]'";
 
-	$result=mysql_query($sql);
-	$row = mysql_fetch_array($result);
+	$result=mysqli_query($self_con,$sql);
+	$row = mysqli_fetch_array($result);
 
 	if($row){
 
@@ -40,7 +40,7 @@ if($_SESSION[one_member_id]){
 
 
 }
-mysql_close($self_con);
+mysqli_close($self_con);
 
 echo "{";
 echo "\"result\" : \"fail\"";

@@ -88,12 +88,12 @@ extract($_GET);
         }
 
         $sql = "select a.* from Gn_Gwc_Order a ".$join_str." where a.mem_id='{$_SESSION[iam_member_id]}' and prod_state!=0 ".$searchStr." order by a.reg_date desc";
-        $result = mysql_query($sql);
-        $cart_count = mysql_num_rows($result);
-		for($i=0; $row=mysql_fetch_array($result); $i++) {
+        $result = mysqli_query($self_con,$sql);
+        $cart_count = mysqli_num_rows($result);
+		for($i=0; $row=mysqli_fetch_array($result); $i++) {
 			$sql = " select * from Gn_Iam_Contents_Gwc where idx = '$row[contents_idx]' ";
-			$res = mysql_query($sql);
-			$row_con = mysql_fetch_array($res);
+			$res = mysqli_query($self_con,$sql);
+			$row_con = mysqli_fetch_array($res);
 
             if(strpos($row_con[contents_img], ",") !== false){
                 $img_arr = explode(",", $row_con[contents_img]);
@@ -104,8 +104,8 @@ extract($_GET);
             }
 
             $sql_delivery = "select * from delivery_list where id='{$row[delivery]}'";
-            $res_delivery = mysql_query($sql_delivery);
-            $row_delivery = mysql_fetch_array($res_delivery);
+            $res_delivery = mysqli_query($self_con,$sql_delivery);
+            $row_delivery = mysqli_fetch_array($res_delivery);
 
             $show_link = "http://kiam.kr/iam/gwc_order_pay.php?contents_idx=".$row['contents_idx']."&contents_cnt=".$row['contents_cnt']."&contents_price=".$row['contents_price']."&contents_salary=".$row['salary_price']."&seller_id=".$row['seller_id']."&order_option=".$row['order_option']."&admin=M&order_id=".$row['id']."&mem_id=".$row['mem_id']."&use_point_val=".$row['use_point']."&pay_method=".$row['payMethod'];
 

@@ -24,8 +24,8 @@ if($_REQUEST[nick])
 	$member_info[gpt_chat_api_key]=$_REQUEST[gpt_chat_api_key];
 
 	$sql_chk = "select gwc_state from Gn_Member where mem_code='{$_REQUEST[join_modify]}'";
-	$res_chk = mysql_query($sql_chk);
-	$row_chk = mysql_fetch_array($res_chk);
+	$res_chk = mysqli_query($self_con,$sql_chk);
+	$row_chk = mysqli_fetch_array($res_chk);
 	$member_info[gwc_state] = $row_chk[0];
 
 	if($_REQUEST[is_message])
@@ -79,7 +79,7 @@ if($_REQUEST[nick])
 	}
     $site = explode(".", $_SERVER[SERVER_NAME]);
 	$sql.=" where mem_code='$_REQUEST[join_modify]' ";
-	if(mysql_query($sql) or die(mysql_error()))
+	if(mysqli_query($self_con,$sql) or die(mysqli_error($self_con)))
 	{
 		if($_REQUEST[gwc_req] == "Y"){
 			$msg = "굿마켓 가입을 환영합니다. 이제부터 여러분은 소비, 판매, 공급을 할수 있는 굿마켓의 굿슈머입니다. 자, 이제 먼저 2만원 이상 소비하면 수백만원 상품도 팔수 있는 판매자가 됩니다. 시작해볼까요?";

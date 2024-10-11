@@ -26,7 +26,7 @@ if($gaid == "") {
                                   `status`          ='$status', 
                                   `regdate`         =NOW() 
                                  ";
-    mysql_query($query);	
+    mysqli_query($self_con,$query);	
 } else {
     if($_FILES['img']['name']) {
         $info = explode(".",$_FILES['img']['name']);
@@ -48,7 +48,7 @@ if($gaid == "") {
                                   `moddate`         =NOW()
                          WHERE gaid='$gaid'
                                  ";
-    mysql_query($query);	
+    mysqli_query($self_con,$query);	
 }
 echo "<script>alert('저장되었습니다.');location='/admin/ad_list.php';</script>";
 exit;

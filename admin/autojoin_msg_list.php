@@ -117,8 +117,8 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                   $searchStr .= $search_key ? " AND (a.event_title LIKE '".$search_key."%' or a.event_desc like '".$search_key."%'  )" : null;
                 	$order = $order?$order:"desc";
                 	$query = "SELECT count(a.m_id) FROM Gn_event a WHERE a.event_name_kor='단체회원자동가입및아이엠카드생성' $searchStr";
-                	$res	    = mysql_query($query);
-                  $totalRow	=  mysql_fetch_array($res);
+                	$res	    = mysqli_query($self_con,$query);
+                  $totalRow	=  mysqli_fetch_array($res);
                 	$totalCnt = $totalRow[0];
 
                   $query = "SELECT a.* FROM Gn_event a WHERE a.event_name_kor='단체회원자동가입및아이엠카드생성' $searchStr";
@@ -128,15 +128,15 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                 	$i = 1;
                 	$c=0;
                 	$query .= $orderQuery;
-                	$res = mysql_query($query);
-                    while($row = mysql_fetch_array($res)) {
+                	$res = mysqli_query($self_con,$query);
+                    while($row = mysqli_fetch_array($res)) {
                       $sql_mem = "select site, mem_name from Gn_Member where mem_id='{$row[m_id]}'";
-                      $res_mem = mysql_query($sql_mem);
-                      $row_mem = mysql_fetch_array($res_mem);
+                      $res_mem = mysqli_query($self_con,$sql_mem);
+                      $row_mem = mysqli_fetch_array($res_mem);
                       $pop_url = '/event/automember.php?pcode='.$row['pcode'].'&eventidx='.$row['event_idx'];
                       $id_sql = "select count(event_id) as cnt from Gn_Member where event_id={$row['event_idx']} and mem_type='A'";
-                      $res_id = mysql_query($id_sql);
-                      $row_id = mysql_fetch_array($res_id);
+                      $res_id = mysqli_query($self_con,$id_sql);
+                      $row_id = mysqli_fetch_array($res_id);
                       if($row_id['cnt'] != null){
                           $cnt_join = $row_id['cnt'];
                       }

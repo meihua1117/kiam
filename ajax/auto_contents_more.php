@@ -7,8 +7,8 @@ if(isset($_POST['memid'])){
   $echostr = '';
 
   $sql_res_point = "select mem_point from Gn_Member where mem_id='{$mem_id}'";
-  $res_auto_po = mysql_query($sql_res_point);
-  $row_auto_po = mysql_fetch_array($res_auto_po);
+  $res_auto_po = mysqli_query($self_con,$sql_res_point);
+  $row_auto_po = mysqli_fetch_array($res_auto_po);
   $rest_point = $row_auto_po['mem_point'];
   $sql_auto_con = "select * from auto_update_contents where mem_id='{$mem_id}'";
   $orderQuery = " ORDER BY id DESC limit 10 ";
@@ -16,9 +16,9 @@ if(isset($_POST['memid'])){
     $orderQuery = " ORDER BY id DESC limit 20 ";
   }
   $query = $sql_auto_con.$orderQuery;
-  $res_con = mysql_query($query);
+  $res_con = mysqli_query($self_con,$query);
   $i = 0;
-  while($row_con=mysql_fetch_array($res_con)){
+  while($row_con=mysqli_fetch_array($res_con)){
     $i++;
     switch ($row_con['web_type']){
         case 'peopleid':

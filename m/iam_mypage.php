@@ -5,8 +5,8 @@ if($_SESSION[iam_member_id] == "") {
 }
 include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
 $sql="select * from Gn_Member  where mem_id='".$_SESSION[iam_member_id]."'";
-$sresul_num=mysql_query($sql);
-$data=mysql_fetch_array($sresul_num);	
+$sresul_num=mysqli_query($self_con,$sql);
+$data=mysqli_fetch_array($sresul_num);	
 $m_birth_arr = explode("-",$data[mem_birth]);
 
 ?>
@@ -225,8 +225,8 @@ $m_birth_arr = explode("-",$data[mem_birth]);
                                         <div class="input-wrap">
                                             <?
                                             $query = "select * from Gn_Iam_Name_Card where group_id is NULL and mem_id  = '$member_iam[mem_id]' ORDER BY idx";
-                                            $result = mysql_query($query);
-                                            $row = mysql_fetch_array($result);
+                                            $result = mysqli_query($self_con,$query);
+                                            $row = mysqli_fetch_array($result);
                                             $card_url = $row['card_short_url'];
                                             ?>
                                            <span id="sHtml" style="display:none"><?='http://'.$HTTP_HOST.'/?'.$card_url?></span>

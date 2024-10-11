@@ -12,33 +12,33 @@ location.replace('/ma.php');
 exit;
 }
 $sql="select * from Gn_Member  where mem_id='".$_SESSION[one_member_id]."' and site != ''";
-$sresul_num=mysql_query($sql);
-$data=mysql_fetch_array($sresul_num);	
+$sresul_num=mysqli_query($self_con,$sql);
+$data=mysqli_fetch_array($sresul_num);	
 $mem_phone = str_replace("-","",$data['mem_phone']);
 
 $sql="select * from Gn_event  where event_idx='".$_GET[event_idx]."'";
 
-$sresul_num=mysql_query($sql);
-$row=mysql_fetch_array($sresul_num);	
+$sresul_num=mysqli_query($self_con,$sql);
+$row=mysqli_fetch_array($sresul_num);	
 
 $sql = "select reservation_title from Gn_event_sms_info where sms_idx='$row[sms_idx1]'";
-$sms_res=mysql_query($sql);
-$sms_info=mysql_fetch_array($sms_res);
+$sms_res=mysqli_query($self_con,$sql);
+$sms_info=mysqli_fetch_array($sms_res);
 $reservation_title1 = $sms_info[0];
 
 $sql = "select reservation_title from Gn_event_sms_info where sms_idx='$row[sms_idx2]'";
-$sms_res=mysql_query($sql);
-$sms_info=mysql_fetch_array($sms_res);
+$sms_res=mysqli_query($self_con,$sql);
+$sms_info=mysqli_fetch_array($sms_res);
 $reservation_title2 = $sms_info[0];
 
 $sql = "select reservation_title from Gn_event_sms_info where sms_idx='$row[sms_idx3]'";
-$sms_res=mysql_query($sql);
-$sms_info=mysql_fetch_array($sms_res);
+$sms_res=mysqli_query($self_con,$sql);
+$sms_info=mysqli_fetch_array($sms_res);
 $reservation_title3 = $sms_info[0];
 
 $sql = "select event_title from Gn_event where event_idx='$row[stop_event_idx]'";
-$sms_res=mysql_query($sql);
-$sms_info=mysql_fetch_array($sms_res);
+$sms_res=mysqli_query($self_con,$sql);
+$sms_info=mysqli_fetch_array($sms_res);
 $stop_title = $sms_info[0];
  
 ?>
@@ -183,8 +183,8 @@ $(function(){
                                 <option value="<?=str_replace("-", "", $data[mem_phone])?>"><?php echo str_replace("-","",$data['mem_phone']);?></option>
                             <?php
                             $query = "select * from Gn_MMS_Number where mem_id='$_SESSION[one_member_id]' order by sort_no asc, user_cnt desc , idx desc";
-                            $resul=mysql_query($query);
-                            while($korow=mysql_fetch_array($resul)) {
+                            $resul=mysqli_query($self_con,$query);
+                            while($korow=mysqli_fetch_array($resul)) {
                                 if($row['mobile']){
                                     $send_num = str_replace("-", "", $row['mobile']);
                                 }

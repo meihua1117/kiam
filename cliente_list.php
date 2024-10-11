@@ -96,8 +96,8 @@ if($_REQUEST[lms_text] && $_REQUEST[lms_select])
 	    $sql_serch.=" and {$_REQUEST[lms_select]} like '$_REQUEST[lms_text]%' ";
 }
 $sql="select count(no) as cnt from tjd_board where $sql_serch ";
-$result = mysql_query($sql) or die(mysql_error());
-$row=mysql_fetch_array($result);
+$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+$row=mysqli_fetch_array($result);
 $intRowCount=$row[cnt];
 if (!$_POST[lno]) 
 	$intPageSize =20;
@@ -128,9 +128,9 @@ else
   $order_name="no";
 $intPageCount=(int)(($intRowCount+$intPageSize-1)/$intPageSize);     
 $sql="select * from tjd_board where $sql_serch and important_yn = 'Y' order by $order_name $order_status limit $int,$intPageSize";
-$result=mysql_query($sql) or die(mysql_error());
+$result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 $sql="select * from tjd_board where $sql_serch and important_yn != 'Y' order by $order_name $order_status limit $int,$intPageSize";
-$result2=mysql_query($sql) or die(mysql_error());
+$result2=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 ?>
 <div class="big_main">
 	<div class="big_1 top_menu">
@@ -160,8 +160,8 @@ $result2=mysql_query($sql) or die(mysql_error());
 			if($_REQUEST[one_no] && strlen($_REQUEST[one_no]) < 4)
 			{
 			$sql_no = "select * from tjd_board where no='{$_REQUEST[one_no]}'";
-			$res_no = mysql_query($sql_no);
-			$row_no = mysql_fetch_array($res_no);
+			$res_no = mysqli_query($self_con,$sql_no);
+			$row_no = mysqli_fetch_array($res_no);
                 //if(!$_SESSION[one_member_id]){
                 //    echo "<script>alert('로그인후 이용해 주세요.');history.go(-1);</script>";
                 //    exit;
@@ -335,7 +335,7 @@ $result2=mysql_query($sql) or die(mysql_error());
                   <?
 				  if($intRowCount)
 				  {
-					  while($row=mysql_fetch_array($result))
+					  while($row=mysqli_fetch_array($result))
 					  {
 						?>
 						<tr style="<?=$row[important_yn] == 'Y'?'background-color:gold':''?>">
@@ -357,7 +357,7 @@ $result2=mysql_query($sql) or die(mysql_error());
 						<?
 						$sort_no--;
                       }
-                      while($row=mysql_fetch_array($result2))
+                      while($row=mysqli_fetch_array($result2))
 					  {?>
 						<tr style="<?=$row[important_yn] == 'Y'?'background-color:gold':''?>">
                             <td><label><input type="checkbox" value="<?=$row[no]?>" name="no_box"  /><?=$sort_no?></label></td>

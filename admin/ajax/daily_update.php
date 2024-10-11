@@ -48,23 +48,23 @@ if($mode == "daily_update")
                         where gd_id='$gd_id'
                                 
     ";
-    mysql_query($query);
+    mysqli_query($self_con,$query);
     
     if($gd_id > 0)  {
         $query = "delete from Gn_daily_date where gd_id='$gd_id';";
-        mysql_query($query);
+        mysqli_query($self_con,$query);
         
         $query = "delete from Gn_MMS where gd_id='$gd_id' ";
-        mysql_query($query);
+        mysqli_query($self_con,$query);
 
         $query = "delete from gn_mail where gd_id='$gd_id' ";
-        mysql_query($query);  
+        mysqli_query($self_con,$query);  
     }
     $k = 0;
     $kk = 0;
     $sql="select * from Gn_MMS_Receive where grp_id = '$group_idx' ";
-    $sresult = mysql_query($sql) or die(mysql_error());
-    while($srow=mysql_fetch_array($sresult)) {
+    $sresult = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+    while($srow=mysqli_fetch_array($sresult)) {
         if($kk == $daily_cnt) { 
             $k++;
             $kk = 0;
@@ -82,7 +82,7 @@ if($mode == "daily_update")
                 
     for($i=0;$i <count($date);$i++) {
         $query = "insert into Gn_daily_date set gd_id='$gd_id', send_date='$date[$i]', recv_num='$recv_num_set[$i]'";
-        mysql_query($query);    
+        mysqli_query($self_con,$query);    
     }
     echo "<script>alert('수정되었습니다.');location='daily_msg_list_service.php';</script>";
 }

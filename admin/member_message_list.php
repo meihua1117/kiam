@@ -284,8 +284,8 @@ function excel_down_p_group(pno,one_member_id){
                         	WHERE 1=1 
                 	              $searchStr";
                 	              
-                	$res	    = mysql_query($query);
-                	$totalCnt	=  mysql_num_rows($res);	
+                	$res	    = mysqli_query($self_con,$query);
+                	$totalCnt	=  mysqli_num_rows($res);	
                 	
                 	$limitStr       = " LIMIT ".(($startPage-1)*$pageCnt).", ".$pageCnt;
                 	$number			= $totalCnt - ($nowPage - 1) * $pageCnt;                      
@@ -299,47 +299,47 @@ function excel_down_p_group(pno,one_member_id){
                 	$i = 1;
                 	$c=0;
                 	$query .= "$orderQuery";
-                	$res = mysql_query($query);
-                    while($row = mysql_fetch_array($res)) {                       	
+                	$res = mysqli_query($self_con,$query);
+                    while($row = mysqli_fetch_array($res)) {                       	
                         $sql_s="select * from Gn_MMS_status where idx='$row[idx]' ";
-						$resul_s=mysql_query($sql_s);
-						$row_s=mysql_fetch_array($resul_s);
-						mysql_free_result($resul_s);
+						$resul_s=mysqli_query($self_con,$sql_s);
+						$row_s=mysqli_fetch_array($resul_s);
+						mysqli_free_result($resul_s);
 																    
 						$sql_n="select memo from Gn_MMS_Number where sendnum='$row[send_num]' ";
-						$resul_n=mysql_query($sql_n);
-						$row_n=mysql_fetch_array($resul_n);
-						mysql_free_result($resul_n);
+						$resul_n=mysqli_query($self_con,$sql_n);
+						$row_n=mysqli_fetch_array($resul_n);
+						mysqli_free_result($resul_n);
 						
 						$recv_num = $recv_cnt=explode(",",$row[recv_num]);
 						$recv_num_in = "'".implode("','", $recv_num)."'";
 						$date = $row['up_date'];
 
 						$sql="select count(seq) as cnt from call_app_log where api_name='receive_sms' and LENGTH(recv_num) >= 10 and  send_num='$row[send_num]' and recv_num in ($recv_num_in) and recv_num like '01%'  and regdate >= '$date' and sms not like '[%'";
-						$kresult = mysql_query($sql) or die(mysql_error());
-						$krow=mysql_fetch_array($kresult);
+						$kresult = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+						$krow=mysqli_fetch_array($kresult);
 						$intRowCount=$krow[cnt];											
 						
         				$sql_as="select count(idx) as cnt from Gn_MMS_status where idx='$row[idx]' ";
-        				$resul_as=mysql_query($sql_as);
-        				$row_as=mysql_fetch_array($resul_as);
+        				$resul_as=mysqli_query($self_con,$sql_as);
+        				$row_as=mysqli_fetch_array($resul_as);
         				$status_total_cnt = $row_as[0];											
         				
         				$sql_cs="select count(idx) as cnt from Gn_MMS_status where idx='$row[idx]' and status='0'";
-        				$resul_cs=mysql_query($sql_cs);
-        				$row_cs=mysql_fetch_array($resul_cs);
+        				$resul_cs=mysqli_query($self_con,$sql_cs);
+        				$row_cs=mysqli_fetch_array($resul_cs);
         				$success_cnt = $row_cs[0];
 
         				$sql_sn="select * from Gn_MMS where idx='$row[idx]' ";
-        				$resul_sn=mysql_query($sql_sn);
-        				$row_sn=mysql_fetch_array($resul_sn);									
+        				$resul_sn=mysqli_query($self_con,$sql_sn);
+        				$row_sn=mysqli_fetch_array($resul_sn);									
         				$recv_cnt=explode(",",$row_sn[recv_num]);        				
         				$total_cnt = count($recv_cnt);			 
 
                         $sql_gn="select * from Gn_MMS_group where idx='$row[idx]' ";
-        				$resul_gn=mysql_query($sql_gn);
-                        $row_gn=mysql_fetch_array($resul_gn);	
-						mysql_free_result($resul_gn); 
+        				$resul_gn=mysqli_query($self_con,$sql_gn);
+                        $row_gn=mysqli_fetch_array($resul_gn);	
+						mysqli_free_result($resul_gn); 
 						$reg_date_1hour = strtotime("$row[reg_date] +1hours"); 
 								
                   ?>

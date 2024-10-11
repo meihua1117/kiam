@@ -38,8 +38,8 @@ for($c = 0; $c < count($recv_nums_arr); $c++){
         exit;
     }
     $sql_num="select sendnum from Gn_MMS_Number where mem_id ='$mem_id' and sendnum='$send_num' ";
-    $resul_num=mysql_query($sql_num);
-    $row_num=mysql_fetch_array($resul_num);
+    $resul_num=mysqli_query($self_con,$sql_num);
+    $row_num=mysqli_fetch_array($resul_num);
     if(!$row_num[sendnum]){
     ?>
         <script language="javascript">
@@ -61,8 +61,8 @@ for($c = 0; $c < count($recv_nums_arr); $c++){
     }
     
     $sql_s="select idx from Gn_MMS_Deny where recv_num='$recv_num' and send_num='$send_num'".$sql_search;
-    $resul_s=mysql_query($sql_s);
-    $row_s=mysql_fetch_array($resul_s);
+    $resul_s=mysqli_query($self_con,$sql_s);
+    $row_s=mysqli_fetch_array($resul_s);
     if($row_s[idx]){
         continue;
     }
@@ -88,13 +88,13 @@ for($c = 0; $c < count($recv_nums_arr); $c++){
         $sql.=" where idx='$_POST[deny_add_idx]' ";
     else
         $sql.=" , reg_date=now() ";
-    if(mysql_query($sql) or die(mysql_error())){
+    if(mysqli_query($self_con,$sql) or die(mysqli_error($self_con))){
         $k++;
     }
 }
     else if($type == "unadd_deny"){
         $sql_del = "delete from Gn_MMS_Deny where recv_num='$recv_num' and send_num='$send_num' and chanel_type=9";
-        if(mysql_query($sql_del) or die(mysql_error())){
+        if(mysqli_query($self_con,$sql_del) or die(mysqli_error($self_con))){
             $u++;
         }
     }

@@ -11,16 +11,16 @@ if (!$_SESSION[one_member_id]) {
     exit;
 }
 $sql = "select * from Gn_Member  where mem_id='" . $_SESSION[one_member_id] . "'";
-$sresul_num = mysql_query($sql);
-$data = mysql_fetch_array($sresul_num);
+$sresul_num = mysqli_query($self_con,$sql);
+$data = mysqli_fetch_array($sresul_num);
 $gd_id = $_GET['gd_id'];
 $sql = "select * from Gn_daily  where gd_id='" . $gd_id . "'";
-$sresul_num = mysql_query($sql);
-$row = mysql_fetch_array($sresul_num);
+$sresul_num = mysqli_query($self_con,$sql);
+$row = mysqli_fetch_array($sresul_num);
 if ($row[0]) {
     $sql = "select * from Gn_MMS_Group where idx='$row[group_idx]'";
-    $sresult = mysql_query($sql) or die(mysql_error());
-    $krow = mysql_fetch_array($sresult);
+    $sresult = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+    $krow = mysqli_fetch_array($sresult);
 }
 if ($row[daily_cnt]) {
     $daily_cnt = $row[daily_cnt];
@@ -33,12 +33,12 @@ if ($row[daily_cnt]) {
 }
 
 $sql_daily_msg_title = "select key_content from Gn_Search_Key where key_id='daily_msg_title'";
-$res_title = mysql_query($sql_daily_msg_title);
-$row_title = mysql_fetch_array($res_title);
+$res_title = mysqli_query($self_con,$sql_daily_msg_title);
+$row_title = mysqli_fetch_array($res_title);
 
 $sql_daily_msg_content = "select key_content from Gn_Search_Key where key_id='daily_msg_contents'";
-$res_content = mysql_query($sql_daily_msg_content);
-$row_content = mysql_fetch_array($res_content);
+$res_content = mysqli_query($self_con,$sql_daily_msg_content);
+$row_content = mysqli_fetch_array($res_content);
 ?>
 <script>
     function copyHtml() {
@@ -567,8 +567,8 @@ $row_content = mysql_fetch_array($res_content);
                                         <option value="<?= str_replace("-", "", $data[mem_phone]) ?>"><?php echo str_replace("-", "", $data['mem_phone']); ?></option>
                                         <?php
                                         $query = "select * from Gn_MMS_Number where mem_id='$_SESSION[one_member_id]' order by sort_no asc, user_cnt desc , idx desc";
-                                        $resul = mysql_query($query);
-                                        while ($korow = mysql_fetch_array($resul)) {
+                                        $resul = mysqli_query($self_con,$query);
+                                        while ($korow = mysqli_fetch_array($resul)) {
                                             if ($row['send_num']) {
                                                 $send_num = $row['send_num'];
                                                 if ($_REQUEST['send_num']) {
@@ -659,8 +659,8 @@ $row_content = mysql_fetch_array($res_content);
                                         $check_step0 = "";
                                         $check_step1 = "checked";
                                         $sql_step_title = "select reservation_title, sms_idx from Gn_event_sms_info where sms_idx='{$row[step_sms_idx]}'";
-                                        $res_step_title = mysql_query($sql_step_title);
-                                        $row_step_title = mysql_fetch_array($res_step_title);
+                                        $res_step_title = mysqli_query($self_con,$sql_step_title);
+                                        $row_step_title = mysqli_fetch_array($res_step_title);
                                         $step_title = $row_step_title[0];
 
                                         $step_idx = $row_step_title[sms_idx];
@@ -679,8 +679,8 @@ $row_content = mysql_fetch_array($res_content);
                                         $check_step0 = "";
                                         $check_step1 = "checked";
                                         $sql_step_title = "select reservation_title, sms_idx from Gn_event_sms_info where sms_idx='{$_GET[msg_mode]}'";
-                                        $res_step_title = mysql_query($sql_step_title);
-                                        $row_step_title = mysql_fetch_array($res_step_title);
+                                        $res_step_title = mysqli_query($self_con,$sql_step_title);
+                                        $row_step_title = mysqli_fetch_array($res_step_title);
                                         $step_title = $row_step_title[0];
 
                                         $step_idx = $row_step_title[sms_idx];

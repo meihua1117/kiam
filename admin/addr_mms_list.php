@@ -129,8 +129,8 @@ $date_today=date("Y-m-d");
                                 $order = $order?$order:"desc";
                                 $query = "SELECT count(a.mem_id) FROM Gn_MMS_Receive a ";
                                 $query .= " WHERE 1=1 $searchStr";
-                                $res    = mysql_query($query);
-                                $totalRow	=  mysql_fetch_array($res);
+                                $res    = mysqli_query($self_con,$query);
+                                $totalRow	=  mysqli_fetch_array($res);
                                 $totalCnt = $totalRow[0];
                                 $query = "SELECT a.mem_id, a.grp, a.grp_2, a.name, a.recv_num, a.reg_date FROM Gn_MMS_Receive a";
                                 $query .= " WHERE 1=1 $searchStr";
@@ -142,11 +142,11 @@ $date_today=date("Y-m-d");
                                 $orderQuery .= " ORDER BY a.idx DESC $limitStr ";
                                 $i = 1;
                                 $query .= $orderQuery;
-                                $res = mysql_query($query);
-                                while($row = mysql_fetch_array($res)) {
+                                $res = mysqli_query($self_con,$query);
+                                while($row = mysqli_fetch_array($res)) {
                                     $sql="select mem_name, mem_phone from Gn_Member where mem_id='$row[mem_id]'";
-                                    $sresul=mysql_query($sql);
-                                    $srow=mysql_fetch_array($sresul);?>
+                                    $sresul=mysqli_query($self_con,$sql);
+                                    $srow=mysqli_fetch_array($sresul);?>
                                     <tr>
                                         <td><?=$number--?></td>
                                         <td><?=$row['mem_id']?></td>

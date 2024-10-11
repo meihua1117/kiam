@@ -11,8 +11,8 @@ $site = $HTTP_HOST;
 if ($HTTP_HOST == "kiam.kr")
     $site = "www." . $HTTP_HOST;
 $query = "select * from Gn_Iam_Service where sub_domain = 'http://" . $site . "'";
-$res = mysql_query( $query);
-$domainData = mysql_fetch_array($res);
+$res = mysqli_query($self_con, $query);
+$domainData = mysqli_fetch_array($res);
 if ($domainData['mem_id'] != $_SESSION['iam_member_id']) {
     echo "<script>location='/';</script>";
     exit;
@@ -990,7 +990,7 @@ $logs->add_log("start");
                                             <div id="cardsel_self" onclick="limit_selcard_self()" style="margin-top:15px;">
                                                 <?
                                                 $sql5_self = "select card_short_url,phone_display, card_title from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$_SESSION['iam_member_id']}' order by req_data asc";
-                                                $result5_self = mysql_query( $sql5_self);
+                                                $result5_self = mysqli_query($self_con, $sql5_self);
                                                 $i = 0;
 
                                                 $share_card = $domainData['self_share_card'];
@@ -999,7 +999,7 @@ $logs->add_log("start");
                                                 } else {
                                                     $card_arr = "";
                                                 }
-                                                while ($row5_self = mysql_fetch_array($result5_self)) {
+                                                while ($row5_self = mysqli_fetch_array($result5_self)) {
                                                     if ($i == 0) 
                                                         $hidden = "hidden";
                                                     else
@@ -1035,9 +1035,9 @@ $logs->add_log("start");
                                             <div id="cardsel" onclick="limit_selcard()" style="margin-top:15px;">
                                                 <?
                                                 $sql5 = "select card_short_url,phone_display, card_title from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$_SESSION['iam_member_id']}' order by req_data asc";
-                                                $result5 = mysql_query( $sql5);
+                                                $result5 = mysqli_query($self_con, $sql5);
                                                 $i = 0;
-                                                while ($row5 = mysql_fetch_array($result5)) {
+                                                while ($row5 = mysqli_fetch_array($result5)) {
                                                     if ($i == 0) 
                                                         $hidden = "hidden";
                                                     else 
@@ -1528,15 +1528,15 @@ $logs->add_log("start");
                                     <?
 
                                     $mem_sql = "select mem_phone from Gn_Member where mem_id='{$_SESSION['iam_member_id']}'";
-                                    $mem_res = mysql_query( $mem_sql);
-                                    $data = mysql_fetch_array($mem_res);
+                                    $mem_res = mysqli_query($self_con, $mem_sql);
+                                    $data = mysqli_fetch_array($mem_res);
                                     $mem_phone = str_replace("-", "", $data['mem_phone']);
                                     ?>
                                     <option value="<?= $mem_phone ?>"><?php echo $mem_phone; ?></option>
                                     <?
                                     $query = "select * from Gn_MMS_Number where mem_id='{$_SESSION['iam_member_id']}' order by sort_no asc, user_cnt desc , idx desc";
-                                    $resul = mysql_query( $query);
-                                    while ($korow = mysql_fetch_array($resul)) {
+                                    $resul = mysqli_query($self_con, $query);
+                                    while ($korow = mysqli_fetch_array($resul)) {
                                         $send_phone = str_replace("-", "", $korow['sendnum']);
                                         if ($send_phone != $mem_phone) {
                                     ?>
@@ -1746,13 +1746,13 @@ $logs->add_log("start");
                             <tbody id="contents_side1">
                                 <?php
                                 $sql = "select * from Gn_event where m_id='{$_SESSION['iam_member_id']}' and event_name_kor='단체회원자동가입및아이엠카드생성' order by regdate desc";
-                                $res = mysql_query( $sql);
+                                $res = mysqli_query($self_con, $sql);
                                 $i = 0;
-                                while ($row = mysql_fetch_array($res)) {
+                                while ($row = mysqli_fetch_array($res)) {
                                     $pop_url = '/event/automember.php?pcode=' . $row['pcode'] . '&eventidx=' . $row['event_idx'];
                                     $id_sql = "select count(event_id) as cnt from Gn_Member where event_id={$row['event_idx']} and mem_type='A'";
-                                    $res_id = mysql_query( $id_sql);
-                                    $row_id = mysql_fetch_array($res_id);
+                                    $res_id = mysqli_query($self_con, $id_sql);
+                                    $row_id = mysqli_fetch_array($res_id);
                                     if ($row_id['cnt'] != null) {
                                         $cnt_join = $row_id['cnt'];
                                     } else {
@@ -1760,8 +1760,8 @@ $logs->add_log("start");
                                     }
                                     $i++;
                                     $sql_service = "select auto_join_event_idx from Gn_Iam_Service where mem_id='{$row['m_id']}'";
-                                    $res_service = mysql_query( $sql_service);
-                                    $row_service = mysql_fetch_array($res_service);
+                                    $res_service = mysqli_query($self_con, $sql_service);
+                                    $row_service = mysqli_fetch_array($res_service);
                                     if ($row["event_idx"] == $row_service['auto_join_event_idx']) {
                                         $checked_auto = "checked";
                                     } else {
@@ -1846,9 +1846,9 @@ $logs->add_log("start");
                                             <div id="cardsel1" onclick="limit_selcard1()" style="margin-top:15px;">
                                                 <?
                                                 $sql5 = "select card_short_url,phone_display, card_title from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$_SESSION['iam_member_id']}' order by req_data asc";
-                                                $result5 = mysql_query( $sql5);
+                                                $result5 = mysqli_query($self_con, $sql5);
                                                 $i = 0;
-                                                while ($row5 = mysql_fetch_array($result5)) {
+                                                while ($row5 = mysqli_fetch_array($result5)) {
                                                     if ($i == 0) {
                                                         $hidden = "hidden";
                                                     } else {
@@ -2111,19 +2111,19 @@ $logs->add_log("start");
                             <tbody id="contents_side1">
                                 <?php
                                 $sql = "select * from Gn_event where m_id='{$_SESSION['iam_member_id']}' and event_name_kor='데일리문자세트자동생성' order by regdate desc";
-                                $res = mysql_query( $sql);
+                                $res = mysqli_query($self_con, $sql);
                                 $i = 0;
 
                                 $sql_service_set_idx = "select daily_msg_event_idx from Gn_Iam_Service where mem_id='iam1'";
-                                $res_set_idx = mysql_query( $sql_service_set_idx);
-                                $row_set_idx = mysql_fetch_array($res_set_idx);
+                                $res_set_idx = mysqli_query($self_con, $sql_service_set_idx);
+                                $row_set_idx = mysqli_fetch_array($res_set_idx);
 
-                                while ($row = mysql_fetch_array($res)) {
+                                while ($row = mysqli_fetch_array($res)) {
                                     $pop_url = '/event/dailymsg.php?pcode=' . $row['pcode'] . '&eventidx=' . $row['event_idx'];
                                     $i++;
                                     $sql_req_mem = "select count(*) as cnt from Gn_daily where event_idx={$row['event_idx']}";
-                                    $res_req_mem = mysql_query( $sql_req_mem);
-                                    $row_req_mem = mysql_fetch_array($res_req_mem);
+                                    $res_req_mem = mysqli_query($self_con, $sql_req_mem);
+                                    $row_req_mem = mysqli_fetch_array($res_req_mem);
 
                                     if ($row_set_idx['daily_msg_event_idx'] == $row['event_idx']) {
                                         $checked_dup = "checked";

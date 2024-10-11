@@ -11,8 +11,8 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/db_config.php";
 $token = $_POST["token"];
 
 $sql = "SELECT user_id FROM crawler_member_real WHERE token = '$token'";
-$result = mysql_query($sql);
-$row=mysql_fetch_array($result);
+$result = mysqli_query($self_con,$sql);
+$row=mysqli_fetch_array($result);
 if($row['user_id'] == "") {
     echo json_encode(array('result' => 1));
     exit;
@@ -35,7 +35,7 @@ $exword = $_POST["exword"];
 
 $sql = "INSERT INTO crawler_data_2022 (user_id, keyword, page_title, data_type, cell, email, ceo, company_name, company_type, address, url, tag, info, incword, exword, regdate) 
 VALUES ('$user_id','$keyword','$title','$type','$cell','$email','$ceo','$company_name','$company_type','$address','$currentLink','$tag','$info','$incword','$exword',NOW())";
-mysql_query($sql);
+mysqli_query($self_con,$sql);
 
     
 

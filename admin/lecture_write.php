@@ -5,8 +5,8 @@ extract($_GET);
 // 오늘날짜
 $date_today=date("Y-m-d");
 $sql="select * from Gn_lecture  where lecture_id='".$lecture_id."'";
-$sresul_num=mysql_query($sql);
-$row=mysql_fetch_array($sresul_num);	
+$sresul_num=mysqli_query($self_con,$sql);
+$row=mysqli_fetch_array($sresul_num);	
 ?>
 <script type="text/javascript" src="/jquery.lightbox_me.js"></script>
 <script>

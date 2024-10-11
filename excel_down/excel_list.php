@@ -16,8 +16,8 @@ if(strlen($_SESSION[one_member_id]) > 0) {
                         	       on b.mem_id =a.mem_id
                         	WHERE 1=1 
                         	ORDER BY a.mem_code DESC";
-      $result = mysql_query($excel_sql) or die(mysql_error());
-      $totalCnt = mysql_num_rows($result);
+      $result = mysqli_query($self_con,$excel_sql) or die(mysqli_error($self_con));
+      $totalCnt = mysqli_num_rows($result);
       $number			= $totalCnt;
       require_once("Classes/PHPExcel.php");
       $objPHPExcel = new PHPExcel();
@@ -47,14 +47,14 @@ if(strlen($_SESSION[one_member_id]) > 0) {
 					->setCellValue("O1", "보훈")
 					->setCellValue("P1", "접수일");
       $h=2;			
-      while($row=mysql_fetch_array($result))
+      while($row=mysqli_fetch_array($result))
 		{
 		    
             // =====================  유료결제건 시작 ===================== 
         	$sql = "select phone_cnt from tjd_pay_result where buyer_id = '".$row['mem_id']."' and end_date > '$date_today' order by end_date desc limit 1";
-        	$res_result = mysql_query($sql);
-        	$buyPhoneCnt = mysql_fetch_row($res_result);
-        	mysql_free_result($res_result);
+        	$res_result = mysqli_query($self_con,$sql);
+        	$buyPhoneCnt = mysqli_fetch_row($res_result);
+        	mysqli_free_result($res_result);
         	
         	if($buyPhoneCnt == 0){	
         		$buyMMSCount = 0;
@@ -65,9 +65,9 @@ if(strlen($_SESSION[one_member_id]) > 0) {
         	
             // =====================  총결제금액 시작 ===================== 
         	$sql = "select sum(TotPrice) totPrice from tjd_pay_result where buyer_id = '".$row['mem_id']."'";
-        	$res_result = mysql_query($sql);
-        	$totPriceRow = mysql_fetch_row($res_result);
-        	mysql_free_result($res_result);
+        	$res_result = mysqli_query($self_con,$sql);
+        	$totPriceRow = mysqli_fetch_row($res_result);
+        	mysqli_free_result($res_result);
         	
         	$totPrice = $totPriceRow[0];
         	// ===================== 총결제금액 끝 =====================                     	

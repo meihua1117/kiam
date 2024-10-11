@@ -213,8 +213,8 @@ $(function() {
                   $startPage = $nowPage?$nowPage:1;
                   $pageCnt = 20;
                   $count_query = "select count(idx) from Gn_Iam_Contents";
-                  $count_result = mysql_query($count_query);
-                  $count_row = mysql_fetch_array($count_result);
+                  $count_result = mysqli_query($self_con,$count_query);
+                  $count_row = mysqli_fetch_array($count_result);
                     $totalCnt	=  $count_row[0];
                 // 검색 조건을 적용한다.
                   // $searchStr .= $search_name ? " AND (card_name like '%".$search_name."%' )" : null;
@@ -245,11 +245,11 @@ $(function() {
                   $i = 1;
                   $c=0;
                   $query .= $orderQuery;
-                  $res = mysql_query($query);
-                  while($row = mysql_fetch_array($res)) {
+                  $res = mysqli_query($self_con,$query);
+                  while($row = mysqli_fetch_array($res)) {
                     $mem_sql = "select site, site_iam from Gn_Member where mem_id='$row[mem_id]'";
-                    $mem_res = mysql_query($mem_sql);
-                    $mem_row = mysql_fetch_array($mem_res);
+                    $mem_res = mysqli_query($self_con,$mem_sql);
+                    $mem_row = mysqli_fetch_array($mem_res);
                     if(strpos($row[contents_img], ",") !== false){
                       $img_link_arr = explode(",", $row[contents_img]);
                       $img_link = trim($img_link_arr[0]);
@@ -258,13 +258,13 @@ $(function() {
                       $img_link = $row[contents_img];
                     }
                     $card_sql = "select card_name from Gn_Iam_Name_Card where idx='$row[card_idx]'";
-                    $res_card = mysql_query($card_sql);
-                    $row_card = mysql_fetch_array($res_card);
+                    $res_card = mysqli_query($self_con,$card_sql);
+                    $row_card = mysqli_fetch_array($res_card);
 
                     if(!$search_group){
                       $sql_group = "select name as group_name from gn_group_info where idx='{$row[group_id]}'";
-                      $res_group = mysql_query($sql_group);
-                      $row_group = mysql_fetch_array($res_group);
+                      $res_group = mysqli_query($self_con,$sql_group);
+                      $row_group = mysqli_fetch_array($res_group);
                       $g_name = $row_group[group_name];
                     }
                     else{

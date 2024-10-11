@@ -14,5 +14,5 @@ if($_POST['exe_5'])
 if($_POST['exe_6'])
     $sql.=" exe_6 = '".$_POST['exe_6']."' ";
 $sql.=" where mem_id='$_SESSION[one_member_id]' ";
-$result = mysql_query($sql) or die(mysql_error());
+$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 ?>

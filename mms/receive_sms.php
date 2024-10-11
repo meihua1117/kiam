@@ -28,7 +28,7 @@ $phone_num = $_POST['phone_num'];
 	// Cooper Add 앱 콜 일어나는지 확인로그
 	if($sms != "") {
 		$sql = "insert into call_app_log (api_name, mem_id, send_num, recv_num, sms, regdate) values ('receive_sms', '$userId', '$send_num', '$recv_num_info', '$sms', now())";
-		mysql_query($sql);
+		mysqli_query($self_con,$sql);
 	}
 	
 	
@@ -36,7 +36,7 @@ $phone_num = $_POST['phone_num'];
 	if($userId)
 	{
 	$sql="insert into tjd_receive set id='$userId', app_num='', num='$num' , enc='$enc' , sms='$sms' , date=now()";
-	mysql_query($sql);
+	mysqli_query($self_con,$sql);
 	}
 	if($enc == "UTF-8")
 	{
@@ -65,28 +65,28 @@ $phone_num = $_POST['phone_num'];
 		$chg_num=$recv_num[1][0];
 		//$sql_g="select grp_id from Gn_MMS_Receive where recv_num='{$ori_num}' limit 0,1 ";
 		$sql_g="select grp_id from Gn_MMS_Receive where recv_num='{$ori_num}' order by reg_date desc limit 0,1 ";
-		$resul_g=mysql_query($sql_g) or die(mysql_error());
-		$row_g=mysql_fetch_array($resul_g);
+		$resul_g=mysqli_query($self_con,$sql_g) or die(mysqli_error($self_con));
+		$row_g=mysqli_fetch_array($resul_g);
 		if($row_g[grp_id])
 		{
 		$sql_g2="select grp from Gn_MMS_Group where idx='$row_g[grp_id]' ";
-		$resul_g2=mysql_query($sql_g2) or die(mysql_error());
-		$row_g2=mysql_fetch_array($resul_g2);
+		$resul_g2=mysqli_query($self_con,$sql_g2) or die(mysqli_error($self_con));
+		$row_g2=mysqli_fetch_array($resul_g2);
 		}
 		
 		$ori_num = $ori_num==""?$recv_num_info:$ori_num;
 		
 		// 그룹명 찾기 추가 Cooper Add
 		$sql_sg = "select mem_id, send_num, recv_num, grp_name, reg_date from Gn_MMS_Send_Log where recv_num='{$ori_num}' order by reg_date desc limit 0,1";
-		$resul_sg=mysql_query($sql_sg) or die(mysql_error());
-		$row_sg=mysql_fetch_array($resul_sg);	
+		$resul_sg=mysqli_query($self_con,$sql_sg) or die(mysqli_error($self_con));
+		$row_sg=mysqli_fetch_array($resul_sg);	
 		if($row_sg[0] != "") {
 			$row_g2[grp] = $row_sg['grp_name'];
 		}	
 		
 		$sql_s="select seq from sm_log where {$sql_flag} and ori_num='{$ori_num}' and mem_id='{$userId}' ";
-		$resul_s=mysql_query($sql_s) or die(mysql_error());
-		$row_s=mysql_fetch_array($resul_s);
+		$resul_s=mysqli_query($self_con,$sql_s) or die(mysqli_error($self_con));
+		$row_s=mysqli_fetch_array($resul_s);
 		
 		// 추후 발신자 전화번호 추가
 		if($send_num) $num = $send_num;
@@ -105,8 +105,8 @@ $phone_num = $_POST['phone_num'];
 			
 			/* 2016-03-25 추가 cooper add*/
 			$sql_s="select idx from Gn_MMS_Deny where mem_id='$userId' and recv_num='$ori_num' and send_num='$num' ";
-			$resul_s=mysql_query($sql_s);
-			$row_s=mysql_fetch_array($resul_s);
+			$resul_s=mysqli_query($self_con,$sql_s);
+			$row_s=mysqli_fetch_array($resul_s);
 			if($row_s[idx] == "" && $num != $ori_num) {
 				$sql_insert = "insert into Gn_MMS_Deny set send_num='$num',
 														   recv_num='$ori_num',
@@ -116,7 +116,7 @@ $phone_num = $_POST['phone_num'];
 														   content='$msg',
 														   status='A',
 														   up_date=now() ";
-				 //mysql_query($sql_insert);
+				 //mysqli_query($self_con,$sql_insert);
 			}
 			
 		} else {
@@ -132,8 +132,8 @@ $phone_num = $_POST['phone_num'];
 			
 			/* 2016-03-25 추가 cooper add*/
 			$sql_s="select idx from Gn_MMS_Deny where mem_id='$userId' and recv_num='$ori_num' and send_num='$num' ";
-			$resul_s=mysql_query($sql_s);
-			$row_s=mysql_fetch_array($resul_s);
+			$resul_s=mysqli_query($self_con,$sql_s);
+			$row_s=mysqli_fetch_array($resul_s);
 			if($row_s[idx] == "" && $num != $ori_num) {
 				$sql_insert = "insert into Gn_MMS_Deny set send_num='$num',
 														   recv_num='$ori_num',
@@ -143,19 +143,19 @@ $phone_num = $_POST['phone_num'];
 														   content='$msg',
 														   status='A',
 														   up_date=now() ";
-				 //mysql_query($sql_insert);
+				 //mysqli_query($self_con,$sql_insert);
 			}        
 		}
 			
-		mysql_query($sql) or die(mysql_error());
+		mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 	}
 	
 	$sql="select * from tjd_filter_rslt where SEND_NUMBER='$recv_num_info' and RECEIVE_NUMBER='$send_num'  and SUCCESS_YN='N' order by REG_DATE DESC";
-	$result_=mysql_query($sql);
-	$row=mysql_fetch_array($result_);
+	$result_=mysqli_query($self_con,$sql);
+	$row=mysqli_fetch_array($result_);
 	if($row[0] != "") {
 		$sql="update tjd_filter_rslt set SUCCESS_YN='Y',UPD_DATE=NOW() where RECEIVE_NUMBER='$send_num' and GROUP_SPAM='$row[GROUP_SPAM]' and SUCCESS_YN='N' ";
-		$result_=mysql_query($sql);
+		$result_=mysqli_query($self_con,$sql);
 			
 	
 		$mysql_host = 'localhost';
@@ -183,15 +183,15 @@ $phone_num = $_POST['phone_num'];
 	{
 		$time = date("Y-m-d H:i:s");
 		$sql="select idx from call_api_log where phone_num='$phone_num'";
-		$res=mysql_query($sql) or die(mysql_error());
-		$row=mysql_fetch_array($res);
+		$res=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+		$row=mysqli_fetch_array($res);
 		if($row['idx'] != "") {
 			$sql="update call_api_log set receive_sms='$time' where idx='$row[idx]'";
-			mysql_query($sql);	
+			mysqli_query($self_con,$sql);	
 		}
 		else{
 			$sql ="insert into call_api_log set receive_sms='$time', phone_num='$phone_num'";
-			mysql_query($sql);	
+			mysqli_query($self_con,$sql);	
 		}
 	}	
 	$token_res = 1;

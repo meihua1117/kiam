@@ -125,14 +125,14 @@ extract($_GET);
         }
 
         $sql = "select * from Gn_Iam_Contents_Gwc where mem_id='{$_SESSION[iam_member_id]}' and provider_req_prod='Y' ".$searchStr." order by req_data desc";
-        $res_cnt = mysql_query($sql);
-        $cart_count = mysql_num_rows($res_cnt);
+        $res_cnt = mysqli_query($self_con,$sql);
+        $cart_count = mysqli_num_rows($res_cnt);
 
         $limitStr = " LIMIT ".(($startPage-1)*$pageCnt).", ".$pageCnt;
         $number = $cart_count - ($nowPage - 1) * $pageCnt;
         $sql .= $limitStr;
-        $result = mysql_query($sql);
-		for($i=0; $row=mysql_fetch_array($result); $i++) {
+        $result = mysqli_query($self_con,$sql);
+		for($i=0; $row=mysqli_fetch_array($result); $i++) {
 			if(strpos($row[contents_img], ",") !== false){
                 $img_link_arr = explode(",", $row[contents_img]);
                 $img_link = trim($img_link_arr[0]);
@@ -359,9 +359,9 @@ extract($_GET);
                                         <td>
                                         <?
                                         $sql5="select card_short_url,card_title from Gn_Iam_Name_Card where mem_id = 'iamstore' and idx not in(934328, 2477701, 1274691, 1268514) order by req_data asc";
-                                        $result5=mysql_query($sql5);
+                                        $result5=mysqli_query($self_con,$sql5);
                                         $i = 0;
-                                        while($row5=mysql_fetch_array($result5)) {
+                                        while($row5=mysqli_fetch_array($result5)) {
                                             ?>
                                             <input type="radio" name="gwc_card_url"
                                                     class="my_info_check" id="gwc_card_check_<?= $row5[card_short_url] ?>"

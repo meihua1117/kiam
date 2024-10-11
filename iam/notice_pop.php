@@ -72,8 +72,8 @@ function Memo_closeWin(id){
             <!--content //-->
             <?if($_GET[id]){
                     $query = "SELECT * FROM tjd_sellerboard WHERE no=$_GET[id]";
-                    $res = mysql_query($query);
-                    $row_no = mysql_fetch_array($res);
+                    $res = mysqli_query($self_con,$query);
+                    $row_no = mysqli_fetch_array($res);
             ?>
             <table class="view_table_1" width="100%" border="0" cellspacing="0" cellpadding="0">
                 <tr>

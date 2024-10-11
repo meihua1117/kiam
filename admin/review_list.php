@@ -205,8 +205,8 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                 	$order = $order?$order:"desc"; 		
                 	$query = "SELECT count(a.mem_id) FROM  Gn_review a inner join Gn_lecture b on  a.lecture_id = b.lecture_id WHERE 1=1 $searchStr";
                 	              
-                	$res	    = mysql_query($query);
-                  $totalRow	=  mysql_fetch_array($res);	                	
+                	$res	    = mysqli_query($self_con,$query);
+                  $totalRow	=  mysqli_fetch_array($res);	                	
                 	$totalCnt = $totalRow[0];
                   $query = "SELECT SQL_CALC_FOUND_ROWS a.*, b.* FROM  Gn_review a inner join Gn_lecture b on  a.lecture_id = b.lecture_id  WHERE 1=1 $searchStr";
                 	$limitStr       = " LIMIT ".(($startPage-1)*$pageCnt).", ".$pageCnt;
@@ -216,11 +216,11 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                 	$i = 1;
                 	$c=0;
                 	$query .= "$orderQuery";
-                	$res = mysql_query($query);
-                  while($row = mysql_fetch_array($res)) {                       	
+                	$res = mysqli_query($self_con,$query);
+                  while($row = mysqli_fetch_array($res)) {                       	
 						        $sql_num="select * from Gn_event where m_id='$row[mem_id]' and event_idx='$row[event_idx]' ";
-						        $resul_num=mysql_query($sql_num);
-						        $crow=mysql_fetch_array($resul_num); 	 
+						        $resul_num=mysqli_query($self_con,$sql_num);
+						        $crow=mysqli_fetch_array($resul_num); 	 
                   ?>
                       <tr>
                         <td><?=$number--?></td>

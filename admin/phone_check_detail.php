@@ -4,8 +4,8 @@ include_once $_SERVER['DOCUMENT_ROOT']."/admin/include/admin_header.inc.php";
 extract($_GET);
 if($no) {
     $query = "select * from gn_check_phone where no='$no'";
-    $res = mysql_query($query);
-    $data = mysql_fetch_array($res);
+    $res = mysqli_query($self_con,$query);
+    $data = mysqli_fetch_array($res);
 }else{
     $data['api_key'] = generateRandomString(32);
     $data['main_price'] = 30000;

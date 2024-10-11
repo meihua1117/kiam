@@ -84,6 +84,6 @@ curl_close($ch);
 
 function save_req_list($mem_id, $msg, $res){
     $sql_insert = "insert into Gn_Gpt_Req_List set mem_id='{$mem_id}', gpt_question='{$msg}', gpt_answer='{$res}', reg_date=now()";
-    mysql_query($sql_insert);
+    mysqli_query($self_con,$sql_insert);
 }
 ?>

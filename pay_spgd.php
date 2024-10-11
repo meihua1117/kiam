@@ -451,7 +451,7 @@ if($platform == "mobile"){
     </div>
 </div>
 <?
-mysql_close();
+mysqli_close($self_con);
 include_once "_foot.php";
 ?>
 </body>

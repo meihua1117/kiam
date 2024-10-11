@@ -3,8 +3,8 @@
 include_once $path . "lib/rlatjd_fun.php";
 if ($_SESSION['one_member_id']) {
   $sql = "select * from tjd_pay_result where buyer_id = '$_SESSION[one_member_id]' and end_date > '$date_today' and end_status in ('Y','A') order by end_date desc limit 1";
-  $res_result = mysql_query($sql);
-  $pay_data = mysql_fetch_array($res_result);
+  $res_result = mysqli_query($self_con,$sql);
+  $pay_data = mysqli_fetch_array($res_result);
 }
 $rights = 0;
 if ($pay_data['TotPrice'] < "55000") {
@@ -23,8 +23,8 @@ if ($HTTP_HOST == "kiam.kr")
 else
   $host = $HTTP_HOST;
 $query = "select * from Gn_Service where sub_domain like '%{$host}'";
-$res = mysql_query($query);
-$domainData = mysql_fetch_array($res);
+$res = mysqli_query($self_con,$query);
+$domainData = mysqli_fetch_array($res);
 if ($HTTP_HOST != "kiam.kr") {
   if ($domainData['idx'] != "") {
     $sub_domain = true;

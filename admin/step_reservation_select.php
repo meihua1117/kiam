@@ -9,7 +9,7 @@ if($search != '') {
 }else {
     $query = "select * from Gn_event_sms_info a order by sms_idx desc";
 }
-$res = mysql_query($query);
+$res = mysqli_query($self_con,$query);
 ?>
 
 <div class="row">
@@ -41,10 +41,10 @@ $res = mysql_query($query);
                 <td style="width:9%;">등록일</td>
                 <td style="width:9%;">관리</td>
               </tr>
-              <?php $i = 0; while($row = mysql_fetch_array($res)) {
+              <?php $i = 0; while($row = mysqli_fetch_array($res)) {
                   $sql="select count(*) as cnt from Gn_event_sms_step_info where sms_idx='$row[sms_idx]'";
-                  $sresult=mysql_query($sql) or die(mysql_error());				                    
-                  $srow = mysql_fetch_array($sresult);
+                  $sresult=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));				                    
+                  $srow = mysqli_fetch_array($sresult);
               ?>
                 <tr>
                     <td><input type="checkbox" class="check_step" key = "<?=$row[sms_idx]?>" title="<?=$row[reservation_title]?>"></td>

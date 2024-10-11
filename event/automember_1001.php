@@ -5,21 +5,21 @@
 	if($_GET['pcode']) $pcode = $_GET['pcode'];
 
 	$sql_recom = "select m_id, event_info, event_type from Gn_event where pcode='{$pcode}'";
-	$res = mysql_query($sql_recom);
-	$row = mysql_fetch_array($res);
+	$res = mysqli_query($self_con,$sql_recom);
+	$row = mysqli_fetch_array($res);
 	$recom_id = $row['m_id'];
 	$button_txt = $row['event_type'];
 	$card_short_url = $row['event_info'];
 
 	$sql_site = "select site, site_iam from Gn_Member where mem_id='{$recom_id}'";
-	$res_site = mysql_query($sql_site);
-	$row_site = mysql_fetch_array($res_site);
+	$res_site = mysqli_query($self_con,$sql_site);
+	$row_site = mysqli_fetch_array($res_site);
 	$site = $row_site['site'];
 	$site_iam = $row_site['site_iam'];
 	
 	$sql_exp = "select service_type from Gn_Iam_Service where sub_domain='http://".$HTTP_HOST."'";
-	$res_exp = mysql_query($sql_exp);
-	$row_exp = mysql_fetch_array($res_exp);
+	$res_exp = mysqli_query($self_con,$sql_exp);
+	$row_exp = mysqli_fetch_array($res_exp);
 	$exp_mem = $row_exp['service_type'];
 	// echo $exp_mem;
 	if($exp_mem == 3){
@@ -30,11 +30,11 @@
 	}
 
 	$sql="update Gn_event set read_cnt = read_cnt+1 where pcode='$pcode'";
-	mysql_query($sql) or die(mysql_error());
+	mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 	
 	$sql="select * from Gn_event where pcode='$pcode'";
-	$result = mysql_query($sql) or die(mysql_error());
-	$event_data = $row=mysql_fetch_array($result);
+	$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+	$event_data = $row=mysqli_fetch_array($result);
 	$m_id = $row['m_id'];
 	$event_idx = $row['event_idx'];		
 
@@ -44,12 +44,12 @@
 	    $query = "select * from Gn_Iam_Service where sub_domain like 'http://".$HTTP_HOST."'";
 	else
 	    $query = "select * from Gn_Iam_Service where sub_domain like 'http://www.obmms.net'";
-	$res = mysql_query($query);
-	$domainData = mysql_fetch_array($res);
+	$res = mysqli_query($self_con,$query);
+	$domainData = mysqli_fetch_array($res);
 	$first_card_idx = $domainData['profile_idx'];
 	$sql = "select * from Gn_Iam_Name_Card where idx= '$first_card_idx'";
-	$result = mysql_query($sql);
-	$main_card_row = mysql_fetch_array($result);
+	$result = mysqli_query($self_con,$sql);
+	$main_card_row = mysqli_fetch_array($result);
 	$main_img1 = $main_card_row['main_img1'];
 	//echo $main_img1;
 ?>

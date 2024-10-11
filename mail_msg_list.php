@@ -41,8 +41,8 @@ function deleteRow(idx) {
 									$sql_serch.=" and (message like '$_REQUEST[lms_text]%'  or title like '$_REQUEST[lms_text]%') ";
 								}
 								$sql="select count(idx) as cnt from gn_mail_message where $sql_serch ";
-								$result = mysql_query($sql) or die(mysql_error());
-								$row=mysql_fetch_array($result);
+								$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+								$row=mysqli_fetch_array($result);
 								$intRowCount=$row[cnt];
 								if($_POST[page])
 								$page=(int)$_POST[page];
@@ -67,7 +67,7 @@ function deleteRow(idx) {
 								$order_name="idx";
 								$intPageCount=(int)(($intRowCount+$intPageSize-1)/$intPageSize);     
 								$sql="select * from gn_mail_message where $sql_serch order by $order_name $order_status limit $int,$intPageSize";
-								$result=mysql_query($sql) or die(mysql_error());							
+								$result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));							
 							?>
                         <div class="sub_4_3_t2">
                         	<div class="sub_4_4_t3">
@@ -105,7 +105,7 @@ function deleteRow(idx) {
                                     <div>
 										<?
                                         $i=0;
-                                        while($row=mysql_fetch_array($result))
+                                        while($row=mysqli_fetch_array($result))
                                         {
                                             ?>
                                         <div class="sub_4_3_t2_right_1">
@@ -203,6 +203,6 @@ function page_p(e1,e2,e3)
 
 
 <?
-mysql_close();
+mysqli_close($self_con);
 //include_once "_foot.php";
 ?>

@@ -10,8 +10,8 @@ if(!$_SESSION[one_member_id]){?>
     <?exit;
 }
 	$sql="select * from Gn_Member  where mem_id='".$_SESSION[one_member_id]."' and site != ''";
-	$sresul_num=mysql_query($sql);
-	$data=mysql_fetch_array($sresul_num);	
+	$sresul_num=mysqli_query($self_con,$sql);
+	$data=mysqli_fetch_array($sresul_num);	
 	if($data['intro_message'] =="") {
 		$data['intro_message'] = "안녕하세요\n
                                 \n
@@ -226,8 +226,8 @@ $(function(){
                             // 광역시도 목록
                             // $province_list = array();
                             // $query = "SELECT province FROM gn_cities group by province";
-                            // $res = mysql_query($query);
-                            // while($row = mysql_fetch_array($res)) {
+                            // $res = mysqli_query($self_con,$query);
+                            // while($row = mysqli_fetch_array($res)) {
                             //   $province_list[] = $row['province'];
                             // }
                             // $member_address = explode(" ", $member_1['mem_add1']);
@@ -244,8 +244,8 @@ $(function(){
                             // $city_list = array();
                             // if(isset($provice1)) {
                             //     $query = "SELECT city FROM gn_cities WHERE province = '{$provice1}' group by city ";
-                            //     $res = mysql_query($query);
-                            //     while($row = mysql_fetch_array($res)) {
+                            //     $res = mysqli_query($self_con,$query);
+                            //     while($row = mysqli_fetch_array($res)) {
                             //         $city_list[] = $row['city'];
                             //     }
                             // }
@@ -253,8 +253,8 @@ $(function(){
                             // $town_list = array();
                             // if(isset($city1)) {
                             //     $query = "SELECT town FROM gn_cities WHERE city = '{$city1}' and province = '{$provice1}' group by town";
-                            //     $res = mysql_query($query);
-                            //     while($row = mysql_fetch_array($res)) {
+                            //     $res = mysqli_query($self_con,$query);
+                            //     while($row = mysqli_fetch_array($res)) {
                             //         $town_list[] = $row['town'];
                             //     }
                             // }

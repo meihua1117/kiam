@@ -30,8 +30,8 @@ if(isset($_POST['ID'])){
   }
   $query = $sql.$searchstr.$orderQuery;
   // echo $query;exit;
-  $result = mysql_query($query);
-  while($row = mysql_fetch_array($result)){
+  $result = mysqli_query($self_con,$query);
+  while($row = mysqli_fetch_array($result)){
     if(($row['type'] == "buy") || ($row['type'] == "service")){
         $type = "충전";
     }
@@ -65,8 +65,8 @@ if(isset($_POST['ID'])){
     $card_url = trim(substr(trim($val1[1]), 0, 10));
 
     $img_sql = "select main_img1 from Gn_Iam_Name_Card where card_short_url='{$card_url}'";
-    $res_img = mysql_query($img_sql);
-    $row_img = mysql_fetch_array($res_img);
+    $res_img = mysqli_query($self_con,$img_sql);
+    $row_img = mysqli_fetch_array($res_img);
     $main_img = $row_img['main_img1'];
 
     $echostr .= '<tr>

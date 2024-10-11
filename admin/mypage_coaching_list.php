@@ -14,8 +14,8 @@ exit;
 extract($_REQUEST);
 $tmpmemid = $_SESSION[one_member_id];
 $sql="select * from Gn_Member  where mem_id='".$_SESSION[one_member_id]."'";
-$sresul_num=mysql_query($sql);
-$data=mysql_fetch_array($sresul_num);
+$sresul_num=mysqli_query($self_con,$sql);
+$data=mysqli_fetch_array($sresul_num);
 ?>
 <script>
 function copyHtml(){
@@ -68,8 +68,8 @@ function copyHtml(){
 
 
                         $sql="select service_type from Gn_Member where mem_id='".$_SESSION[one_member_id]."'";
-                        $result = mysql_query($sql) or die(mysql_error());
-                        $row=mysql_fetch_array($result);
+                        $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+                        $row=mysqli_fetch_array($result);
                         $service_type = $row[service_type];
 
                         //echo $sql;
@@ -79,8 +79,8 @@ function copyHtml(){
 
                         //echo $sql;
 
-                        $result = mysql_query($sql) or die(mysql_error());
-                        $row=mysql_fetch_array($result);
+                        $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+                        $row=mysqli_fetch_array($result);
                         $coach_apply_count=$row[cnt];
 
                        // echo "service_type=".$service_type;
@@ -111,8 +111,8 @@ function copyHtml(){
                         $sql="select count(coach_id) as cnt from gn_coaching_apply a inner join Gn_Member b on b.mem_code = a.mem_code where b.mem_id='".$_SESSION[one_member_id]."' and a.agree = 0";
 
                         
-                        $result = mysql_query($sql) or die(mysql_error());
-                        $row=mysql_fetch_array($result);
+                        $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+                        $row=mysqli_fetch_array($result);
                         $coaching_apply_count=$row[cnt];
 
 
@@ -156,8 +156,8 @@ function copyHtml(){
                         <? 
                         $sql="select count(coach_id) as cnt from gn_coach_apply a inner join Gn_Member b on b.mem_code = a.mem_code where b.mem_id='".$_SESSION[one_member_id]."' and agree = 1";
 
-                        $result = mysql_query($sql) or die(mysql_error());
-                        $row=mysql_fetch_array($result);
+                        $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+                        $row=mysqli_fetch_array($result);
                         $intRowCount=$row[cnt];
                         ?>
 
@@ -209,7 +209,7 @@ function copyHtml(){
                             // $sql1 = "update gn_coaching_info set agree = 1, site_value=3  where reg_date < '$date_today'";
 
                             // echo $sql1;
-                            // $sql1_res = mysql_query($sql1);
+                            // $sql1_res = mysqli_query($self_con,$sql1);
                             // echo $convertedTime."  이전에 등록한 코칭정보가 자동승인이 되었습니다.<p>";
 
 
@@ -225,8 +225,8 @@ function copyHtml(){
 
                         $sql="select count(coaching_id) as cnt from gn_coaching_info a inner join Gn_Member b on b.mem_code = a.coach_mem_code where $sql_serch";
 
-                        $result = mysql_query($sql) or die(mysql_error());
-                        $row=mysql_fetch_array($result);
+                        $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+                        $row=mysqli_fetch_array($result);
                         $intRowCount=$row[cnt];
                         if($intRowCount)
                         {
@@ -264,12 +264,12 @@ function copyHtml(){
 
                         //echo $sql;
 
-                        $result=mysql_query($sql) or die(mysql_error());
-                        while($coaching_info_data=mysql_fetch_array($result))
+                        $result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+                        while($coaching_info_data=mysqli_fetch_array($result))
                         {
                             $sql_num="select * from gn_coaching_apply a left join Gn_Member b on a.mem_code = b.mem_code where a.coty_id='$coaching_info_data[coty_id]' ";
-                            $resul_num=mysql_query($sql_num);
-                            $coaching_data=mysql_fetch_array($resul_num); 
+                            $resul_num=mysqli_query($self_con,$sql_num);
+                            $coaching_data=mysqli_fetch_array($resul_num); 
                         ?>
                         <tr>
                             <!-- <td><input type="checkbox" name=""></td>  -->
@@ -283,8 +283,8 @@ function copyHtml(){
                             // 잔여일시 계산
 
                             $sql_startdate="select coaching_date from gn_coaching_info where coty_id='$coaching_info_data[coty_id]' and coach_id='$coaching_info_data[coach_id]' and coaching_turn= 1 ";
-                            $resul_num=mysql_query($sql_startdate);
-                            $startdate_data=mysql_fetch_array($resul_num);
+                            $resul_num=mysqli_query($self_con,$sql_startdate);
+                            $startdate_data=mysqli_fetch_array($resul_num);
 
 
                             $enddate = date('Y-m-d H:i:s',strtotime('+'.$coaching_data[cont_term].' day',strtotime($startdate_data[coaching_date])));
@@ -386,8 +386,8 @@ function copyHtml(){
                         $sql="select count(coach_id) as cnt from gn_coaching_apply a inner join Gn_Member b on b.mem_code = a.mem_code where b.mem_id='".$_SESSION[one_member_id]."' and a.agree = 1";
 
                         
-                        $result = mysql_query($sql) or die(mysql_error());
-                        $row=mysql_fetch_array($result);
+                        $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+                        $row=mysqli_fetch_array($result);
                         $coaching_apply_agree_count=$row[cnt];
 
 
@@ -438,8 +438,8 @@ function copyHtml(){
 
                         $sql="select count(coaching_id) as cnt from gn_coaching_info a inner join Gn_Member b on b.mem_code = a.coty_mem_code where $sql_serch";
 
-                        $result = mysql_query($sql) or die(mysql_error());
-                        $row=mysql_fetch_array($result);
+                        $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+                        $row=mysqli_fetch_array($result);
                         $intRowCount=$row[cnt];
                         if($intRowCount)
                         {
@@ -473,16 +473,16 @@ function copyHtml(){
                         $order_name="reg_date";
                         $intPageCount=(int)(($intRowCount+$intPageSize-1)/$intPageSize);
                         $sql="select * from gn_coaching_info a inner join Gn_Member b on b.mem_code = a.coty_mem_code where $sql_serch order by $order_name $order_status limit $int,$intPageSize"; 
-                        $result=mysql_query($sql) or die(mysql_error());
-                        while($coaching_info_data=mysql_fetch_array($result))
+                        $result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+                        while($coaching_info_data=mysqli_fetch_array($result))
                         {
                             $sql_num="select * from gn_coaching_apply a left join Gn_Member b on a.mem_code = b.mem_code where a.coty_id='$coaching_info_data[coty_id]' ";
-                            $resul_num=mysql_query($sql_num);
-                            $coaching_data=mysql_fetch_array($resul_num);
+                            $resul_num=mysqli_query($self_con,$sql_num);
+                            $coaching_data=mysqli_fetch_array($resul_num);
 
                             $sql_num="select * from gn_coach_apply a left join Gn_Member b on a.mem_code = b.mem_code where a.coach_id='$coaching_info_data[coach_id]' ";
-                            $resul_num=mysql_query($sql_num);
-                            $coach_data=mysql_fetch_array($resul_num); 
+                            $resul_num=mysqli_query($self_con,$sql_num);
+                            $coach_data=mysqli_fetch_array($resul_num); 
                         ?>
                         <tr>
                             <!-- <td><input type="checkbox" name=""></td>  -->
@@ -496,8 +496,8 @@ function copyHtml(){
                             // 잔여일시 계산
 
                             $sql_startdate="select coaching_date from gn_coaching_info where coty_id='$coaching_info_data[coty_id]' and coach_id='$coaching_info_data[coach_id]' and coaching_turn= 1 ";
-                            $resul_num=mysql_query($sql_startdate);
-                            $startdate_data=mysql_fetch_array($resul_num);
+                            $resul_num=mysqli_query($self_con,$sql_startdate);
+                            $startdate_data=mysqli_fetch_array($resul_num);
 
 
                             $enddate = date('Y-m-d H:i:s',strtotime('+'.$coaching_data[cont_term].' day',strtotime($startdate_data[coaching_date])));

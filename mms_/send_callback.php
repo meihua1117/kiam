@@ -11,8 +11,8 @@ $reservation = date("Y-m-d H:i:s");
 $status = $_REQUEST['status'];
 
 $sql_num="select sendnum from Gn_MMS_Number where mem_id ='$memID' and sendnum='$sendNum' ";
-$resul_num=mysql_query($sql_num);
-$row_num=mysql_fetch_array($resul_num);
+$resul_num=mysqli_query($self_con,$sql_num);
+$row_num=mysqli_fetch_array($resul_num);
 if(!$row_num[0])
 {
     echo json_encode(array("result"=>"1"));
@@ -35,8 +35,8 @@ $query = "insert into Gn_MMS set mem_id='$memID',
             agreement_yn='Y',
             recv_num_cnt=1
         ";
-mysql_query($query);
-$idx = mysql_insert_id();
+mysqli_query($self_con,$query);
+$idx = mysqli_insert_id($self_con);
 
 if($status){
     $sql_insert = "insert into Gn_MMS_status set idx='$idx',
@@ -44,7 +44,7 @@ if($status){
                                                 recv_num='$recvNum',
                                                 status='0',
                                                 regdate=now()";
-    mysql_query($sql_insert);
+    mysqli_query($self_con,$sql_insert);
 }
 echo json_encode(array("result"=>"0"));
 

@@ -12,14 +12,14 @@ location.replace('/ma.php');
 exit;
 }
 $sql="select * from Gn_Member  where mem_id='".$_SESSION[one_member_id]."'";
-$sresul_num=mysql_query($sql);
-$data=mysql_fetch_array($sresul_num);	
+$sresul_num=mysqli_query($self_con,$sql);
+$data=mysqli_fetch_array($sresul_num);	
 $mem_phone = str_replace("-","",$data['mem_phone']);
 
 $sql="select * from Gn_event  where event_idx='".$_GET[event_idx]."'";
 
-$sresul_num=mysql_query($sql);
-$row=mysql_fetch_array($sresul_num);	
+$sresul_num=mysqli_query($self_con,$sql);
+$row=mysqli_fetch_array($sresul_num);	
 ?>
 <script>
 

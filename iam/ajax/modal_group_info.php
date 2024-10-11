@@ -6,12 +6,12 @@ $gkind = $_GET['gkind'];
 $site_iam = $_GET['site_iam'];
 
 $group_sql = "select * from gn_group_info where idx='$gkind'";
-$group_res = mysql_query($group_sql);
-$group_row = mysql_fetch_array($group_res);
+$group_res = mysqli_query($self_con,$group_sql);
+$group_row = mysqli_fetch_array($group_res);
 
 $group_count_sql = "select * from gn_group_member where group_id='$gkind'";
-$group_count_res = mysql_query($group_count_sql);
-$group_mem_count = mysql_num_rows($group_count_res);
+$group_count_res = mysqli_query($self_con,$group_count_sql);
+$group_mem_count = mysqli_num_rows($group_count_res);
 
 $body = '<div class="modal-dialog modal-sm" role="document" style="margin-top: 10px;width:95%;max-width:768px;margin-left:auto;margin-right:auto;">';
 $body .= '<div class="modal-content">';
@@ -74,14 +74,14 @@ if($_SESSION[iam_member_id] == $group_row[manager]){
 $body .= '            <p style="outline : 1px solid black;margin:1px 10px"/>';
             
 $f_sql = "select mem_id, mem_name, profile from Gn_Member where site_iam = '$site_iam' and mem_id in (select mem_id from gn_group_member where group_id='$group_row[idx]')";
-$f_res = mysql_query($f_sql);
-$f_count = mysql_num_rows($f_res);
+$f_res = mysqli_query($self_con,$f_sql);
+$f_count = mysqli_num_rows($f_res);
 if($f_count > 0){
     $body .= '                <div style = "display:flex;margin-left:20px;margin-top:10px">';
     
     $f_index = 0;
     $f_name = "";
-    while($f_row = mysql_fetch_array($f_res)){
+    while($f_row = mysqli_fetch_array($f_res)){
         if($f_name == "" && $f_row[mem_id] != $_SESSION[iam_member_id])
             $f_name = $f_row[mem_name];
         if($f_index++ < 12){

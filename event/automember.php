@@ -6,11 +6,11 @@
 	if($_GET['pcode']) $pcode = $_GET['pcode'];
 	
 	$sql="update Gn_event set read_cnt = read_cnt+1 where (pcode='$pcode' or event_idx='$event_idx')";
-	mysql_query( $sql) or die(mysql_error());
+	mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
 	
 	$sql_recom = "select * from Gn_event where (pcode='$pcode' or event_idx='$event_idx')";
-	$res = mysql_query( $sql_recom);
-	$event_data = mysql_fetch_array($res);
+	$res = mysqli_query($self_con, $sql_recom);
+	$event_data = mysqli_fetch_array($res);
 	
 	if($_GET['recommend_id']) 
 		$recom_id = $_GET['recommend_id'];
@@ -20,8 +20,8 @@
 	$card_idx = $event_data['event_info'];
 
 	$sql_auto_point = "select * from Gn_Search_Key where key_id='auto_member_join'";
-	$res_auto = mysql_query( $sql_auto_point);
-	$row_auto = mysql_fetch_array($res_auto);
+	$res_auto = mysqli_query($self_con, $sql_auto_point);
+	$row_auto = mysqli_fetch_array($res_auto);
 	$point_auto = $row_auto['key_content'];
 
 	$card_url = "";
@@ -30,8 +30,8 @@
 		for($i = 0; $i < count($card_idx); $i++){
 			$idx = $card_idx[$i] * 1 - 1;
 			$sql_card_url = "select * from Gn_Iam_Name_Card where mem_id='{$recom_id}' order by req_data asc limit ".$idx.", 1;";
-			$res_url = mysql_query( $sql_card_url);
-			$row_url = mysql_fetch_array($res_url);
+			$res_url = mysqli_query($self_con, $sql_card_url);
+			$row_url = mysqli_fetch_array($res_url);
 			if($i == count($card_idx) - 1)
 			$card_url .= $row_url['card_short_url'];
 			else
@@ -41,20 +41,20 @@
 	else{
 		$idx = $card_idx * 1 - 1;
 		$sql_card_url = "select * from Gn_Iam_Name_Card where mem_id='{$recom_id}' order by req_data asc limit ".$idx.", 1;";
-		$res_url = mysql_query( $sql_card_url);
-		$row_url = mysql_fetch_array($res_url);
+		$res_url = mysqli_query($self_con, $sql_card_url);
+		$row_url = mysqli_fetch_array($res_url);
 		$card_url .= $row_url['card_short_url'];
 	}
 
 	$sql_site = "select site, site_iam from Gn_Member where mem_id='{$recom_id}'";
-	$res_site = mysql_query( $sql_site);
-	$row_site = mysql_fetch_array($res_site);
+	$res_site = mysqli_query($self_con, $sql_site);
+	$row_site = mysqli_fetch_array($res_site);
 	$site = $row_site['site'];
 	$site_iam = $row_site['site_iam'];
 
 	$sql_exp = "select service_type from Gn_Iam_Service where sub_domain = 'http://".$HTTP_HOST."'";
-	$res_exp = mysql_query( $sql_exp);
-	$row_exp = mysql_fetch_array($res_exp);
+	$res_exp = mysqli_query($self_con, $sql_exp);
+	$row_exp = mysqli_fetch_array($res_exp);
 	$exp_mem = $row_exp['service_type'];
 	// echo $exp_mem;
 	if($exp_mem == 3){
@@ -73,20 +73,20 @@
 	$cur_point = 0;
 	// $sql_cur_point = "select current_point from Gn_Item_Pay_Result where buyer_id='{$m_id}' order by pay_date desc limit 1";
 	$sql_cur_point = "select mem_point from Gn_Member where mem_id='{$m_id}'";
-	$res_point = mysql_query( $sql_cur_point);
-	$row_point = mysql_fetch_array($res_point);
+	$res_point = mysqli_query($self_con, $sql_cur_point);
+	$row_point = mysqli_fetch_array($res_point);
 	$cur_point = $row_point['mem_point'];
 
 	if ($HTTP_HOST != "kiam.kr") //분양사사이트이면
 		$query = "select * from Gn_Iam_Service where sub_domain like 'http://" . $HTTP_HOST . "'";
 	else
 		$query = "select * from Gn_Iam_Service where sub_domain like 'http://www.kiam.kr'";
-	$res = mysql_query( $query);
-	$domainData = mysql_fetch_array($res);
+	$res = mysqli_query($self_con, $query);
+	$domainData = mysqli_fetch_array($res);
 	$first_card_idx = $domainData['profile_idx'];//분양사의 1번 카드아이디
 	$sql = "select * from Gn_Iam_Name_Card where idx = '$first_card_idx'";
-	$result = mysql_query( $sql);
-	$main_card_row = mysql_fetch_array($result);
+	$result = mysqli_query($self_con, $sql);
+	$main_card_row = mysqli_fetch_array($result);
 
 	if($main_img1 == "")
 		$main_img1 = $main_card_row['main_img1'];
@@ -549,7 +549,8 @@
 				link.href = uri;
 				document.body.appendChild(link);
 				link.click();
-				link.remove();*/
+				link.remove();
+*/
 			}
 
 			function go_eventlink(val){
@@ -576,7 +577,8 @@
 					}
 				});
 				return;
-				<?}?>*/
+				<?}?>
+*/
 				var recom_id = '<?=$recom_id?>';
 				var site = '<?=$site?>';
 				var site_iam = '<?=$site_iam?>';

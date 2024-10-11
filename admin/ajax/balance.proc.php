@@ -59,8 +59,8 @@ $query = "  SELECT
                         	WHERE 1=1 
                 	              $searchStr
                 	              and buyer_id='$mem_id'";
-$resul=mysql_query($query) or die(mysql_error());
-$row=mysql_fetch_array($resul);    
+$resul=mysqli_query($self_con,$query) or die(mysqli_error($self_con));
+$row=mysqli_fetch_array($resul);    
 // 금액 동일한지 확인
 // insert
 $query = "insert into Gn_Balance set buyer_id='',
@@ -80,8 +80,8 @@ exit;
 
 // 정보 확인
 $sql="select * from Gn_Member where mem_code='$mem_code'";
-$resul=mysql_query($sql) or die(mysql_error());
-$row=mysql_fetch_array($resul);    
+$resul=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+$row=mysqli_fetch_array($resul);    
 
 if($_POST['mem_code']) {
     // 기본회원 정보 수정 []
@@ -113,10 +113,10 @@ if($_POST['mem_code']) {
     	$dateLimit = date("Y-m-d 23:59:59",strtotime($date_today."+6 months")); //가입일 +6개월        
         $asql="insert into tjd_pay_result (phone_cnt,fujia_status,month_cnt,end_date,end_status,TotPrice,pc_mobile, date, cancel_status,buyertel,buyer_id) values";
         $asql.="(300,'Y',6,'".$dateLimit."','Y','".$total_pay_money."',pc_mobile, '".$date_today."', cancel_status,'".$mem_phone."','".$row[mem_id]."')";
-	    mysql_query($asql);
+	    mysqli_query($self_con,$asql);
 	    
 	    $sql_num_up="update Gn_MMS_Number set end_status='Y' , end_date=date_add(now(),INTERVAL 6 MONTH) where mem_id='$row[mem_id]' ";
-	    mysql_query($sql_num_up);	    
+	    mysqli_query($self_con,$sql_num_up);	    
 	}
  
     // 앱비밀번호가 있을경우
@@ -138,7 +138,7 @@ if($_POST['mem_code']) {
         
             $sql="update tjd_pay_result set fujia_status='Y' 
                                      where buyer_id='$row[mem_id]'";
-            mysql_query($sql);	        
+            mysqli_query($self_con,$sql);	        
     }
 
     if($mem_type) {
@@ -160,7 +160,7 @@ if($_POST['mem_code']) {
                                        $addSql 
                                  where mem_code='$mem_code'";
         echo $sql;
-        mysql_query($sql);	
+        mysqli_query($self_con,$sql);	
     }
     
     
@@ -175,7 +175,7 @@ if($_POST['mem_code'] && $_POST['sendnum']) {
     // 기부회원 정보 수정 [기부비율]
     if($donation_rate) {
         $sql_num="update Gn_MMS_Number set donation_rate='$donation_rate' where mem_id='$row[mem_id]' and sendnum='$sendnum' ";
-        mysql_query($sql_num);
+        mysqli_query($self_con,$sql_num);
     }
 }
 echo "{\"result\":\"$result\"}";
@@ -183,20 +183,20 @@ echo "{\"result\":\"$result\"}";
 function setPosition($user_id, $position)
 {
     $sql3="select sub_domain FROM Gn_Service WHERE sub_domain like '%kiam.kr' And mem_id='$user_id'";
-    $res=mysql_query($sql3);
-    $row1 = mysql_fetch_array($res);
+    $res=mysqli_query($self_con,$sql3);
+    $row1 = mysqli_fetch_array($res);
     if($row1['sub_domain'])
         return;
         
     $strQuery = "select mem_id from Gn_Member WHERE recommend_id='$user_id'";
-    $res=mysql_query($strQuery);
+    $res=mysqli_query($self_con,$strQuery);
     $bOnce = false;
-    while($arrResult = mysql_fetch_array($res))
+    while($arrResult = mysqli_fetch_array($res))
     {
         if(!$bOnce)
         {
             $strQuery1 = "update Gn_Member set site='$position' where recommend_id='$user_id'";
-            mysql_query($strQuery1);
+            mysqli_query($self_con,$strQuery1);
             $bOnce = true;
         }
 
@@ -208,8 +208,8 @@ function setPosition($user_id, $position)
 function getPosition($recommender)
 {
     $sql3="select sub_domain FROM Gn_Service WHERE sub_domain like '%kiam.kr' And mem_id='$recommender'";
-    $res=mysql_query($sql3);
-    $row1 = mysql_fetch_array($res);
+    $res=mysqli_query($self_con,$sql3);
+    $row1 = mysqli_fetch_array($res);
     if($row1['sub_domain'])
     {
         $parse = parse_url($row1['sub_domain']);
@@ -219,8 +219,8 @@ function getPosition($recommender)
     else
     {
         $sql3 = "select site from Gn_Member WHERE mem_id='$recommender'";
-        $res=mysql_query($sql3);
-        $row1 = mysql_fetch_array($res);
+        $res=mysqli_query($self_con,$sql3);
+        $row1 = mysqli_fetch_array($res);
         $site = $row1['site'];
     }
     return $site;

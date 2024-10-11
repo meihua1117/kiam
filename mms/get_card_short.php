@@ -5,8 +5,8 @@
 	$userid = isset($_REQUEST['userid']) ? $_REQUEST['userid'] : "";
 	
 	$sql = "select card_short_url,card_title from Gn_Iam_Name_Card where group_id is NULL and mem_id ='{$userid}' order by req_data asc";
-	$result = mysql_query($sql);
-	$row = mysql_fetch_array($result);
+	$result = mysqli_query($self_con,$sql);
+	$row = mysqli_fetch_array($result);
 
 	$result = array();
 	$result['card_short_url'] = $row['card_short_url'];

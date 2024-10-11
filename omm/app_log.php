@@ -8,6 +8,6 @@ $fp = fopen("log.txt","w+");
 $sql = "insert into app_debug_log set mem_id='{$mem_id}',phone_number='{$phone}',log='{$log}'";
 fwrite($fp,$sql);
 fclose($fp);
-mysql_query($sql);
+mysqli_query($self_con,$sql);
 echo json_encode(array("result"=>'success'));
 ?>

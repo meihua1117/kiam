@@ -13,8 +13,8 @@ function generateRandomString($length = 10){
 	}
 	else {
 		$name_count_sql = "select count(idx) from Gn_Iam_Name_Card where card_short_url = '$randomString'";
-		$name_count_result = mysql_query($name_count_sql);
-		$name_count_row = mysql_fetch_array($name_count_result);
+		$name_count_result = mysqli_query($self_con,$name_count_sql);
+		$name_count_row = mysqli_fetch_array($name_count_result);
 
 		if ((int)$name_count_row[0]) {
 			generateRandomString();
@@ -26,8 +26,8 @@ function generateRandomString($length = 10){
 
 function check_token($phone_num, $token){
 	$sql_chk = "select token from gn_mms_token where phone_num='{$phone_num}' and token='{$token}'";
-	$res_chk = mysql_query($sql_chk);
-	$row_chk = mysql_fetch_array($res_chk);
+	$res_chk = mysqli_query($self_con,$sql_chk);
+	$row_chk = mysqli_fetch_array($res_chk);
 	if($row_chk[token] != ''){
 		return true;
 	}

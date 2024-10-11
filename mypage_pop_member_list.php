@@ -36,8 +36,8 @@ exit;
 if(isset($_GET['eventid']))
 {
 	$sql="select * from Gn_event where event_idx='$_GET[eventid]' ";
-	$result = mysql_query($sql) or die(mysql_error());
-	$data=mysql_fetch_array($result);
+	$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+	$data=mysqli_fetch_array($result);
 }
 
 ?>
@@ -169,8 +169,8 @@ function copyHtml(url){
 				$sql_serch=" m_id ='$_SESSION[one_member_id]' and event_idx='$data[event_idx]'";
 
 				$sql="select count(*) as cnt from Gn_event_request where $sql_serch ";
-				$result = mysql_query($sql) or die(mysql_error());
-				$row=mysql_fetch_array($result);
+				$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+				$row=mysqli_fetch_array($result);
 				$intRowCount=$row[cnt];
 				
               if($intRowCount)
@@ -205,10 +205,10 @@ function copyHtml(url){
 				$order_name="request_idx";
 				$intPageCount=(int)(($intRowCount+$intPageSize-1)/$intPageSize);     
 				$sql="select * from Gn_event_request where $sql_serch order by $order_name $order_status limit $int,$intPageSize";
-				$result=mysql_query($sql) or die(mysql_error());			
+				$result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));			
 		?>   
               <?
-                  while($row=mysql_fetch_array($result))
+                  while($row=mysqli_fetch_array($result))
                   {
               ?>
               <tr>
@@ -222,8 +222,8 @@ function copyHtml(url){
 						<div class="popupbox" style="position:fixed;display:none; height: 75px;width: 570px;color: black;left: 160px;top: -37px;">아이디 | 성명 | 휴대폰 | 일반폰 | 이메일 | 생년월일 | 업종 | 업체명 | 직책 | 업체주소 | 자택주소 | 등록일시 <br>
 						<?
 							$sql_mem_reg = "select * from Gn_Member where mem_phone='$row[mobile]'";
-							$res_mem_reg = mysql_query($sql_mem_reg);
-							$row_mem_reg = mysql_fetch_array($res_mem_reg);
+							$res_mem_reg = mysqli_query($self_con,$sql_mem_reg);
+							$row_mem_reg = mysqli_fetch_array($res_mem_reg);
 							$mem_name = $row_mem_reg['mem_name']?$row_mem_reg['mem_name']:'성명';
                             $mem_phone = $row_mem_reg['mem_phone']?$row_mem_reg['mem_phone']:'휴대폰';
                             $mem_phone1 = $row_mem_reg['mem_phone1']?$row_mem_reg['mem_phone1']:'일반폰';
@@ -246,8 +246,8 @@ function copyHtml(url){
 					<? 
 					$stop_status = "";
 					$sql = "select count(*) from gn_event_sms_stop_info where event_idx='$data[event_idx]' and mobile='$row[mobile]'";
-					$stop_res = mysql_query($sql);
-					$stop_row = mysql_fetch_array($stop_res);
+					$stop_res = mysqli_query($self_con,$sql);
+					$stop_row = mysqli_fetch_array($stop_res);
 					if($stop_row[0] > 0)
 						$stop_status = "checked";
 					?>

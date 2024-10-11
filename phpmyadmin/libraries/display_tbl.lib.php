@@ -1570,7 +1570,7 @@ function PMA_displayTableBody(&$dt_result, &$is_display, $map, $analyzed_sql)
             //  b l o b
 
             } elseif (stristr($meta->type, 'BLOB')) {
-                // PMA_mysql_fetch_fields returns BLOB in place of
+                // PMA_mysqli_fetch_fields returns BLOB in place of
                 // TEXT fields type so we have to ensure it's really a BLOB
                 $field_flags = PMA_DBI_field_flags($dt_result, $i);
 

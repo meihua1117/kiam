@@ -307,8 +307,8 @@ a.sort-by:after {
                   // }
                 	
                   $sql = "select a.* ".$mem_select." from gn_mms_callback a".$memjoin. " where a.service_state=2 ".$searchStr.$memname.$memsite;
-                  $res	    = mysql_query($sql);
-                  $totalCnt	=  mysql_num_rows($res);
+                  $res	    = mysqli_query($self_con,$sql);
+                  $totalCnt	=  mysqli_num_rows($res);
 
                   $limitStr       = " LIMIT ".(($startPage-1)*$pageCnt).", ".$pageCnt;
                 	$number			= $totalCnt - ($nowPage - 1) * $pageCnt;
@@ -321,11 +321,11 @@ a.sort-by:after {
                 	$i = 1;
                 	$c=0;
                 	$sql .= "$orderQuery";
-                	$res = mysql_query($sql);
-                    while($row = mysql_fetch_array($res)) {
+                	$res = mysqli_query($self_con,$sql);
+                    while($row = mysqli_fetch_array($res)) {
                       // $sql_site = "select site, mem_name from Gn_Member where mem_id='{$row['mb_id']}'";
-                      // $res_site = mysql_query($sql_site);
-                      // $row_site = mysql_fetch_array($res_site);
+                      // $res_site = mysqli_query($self_con,$sql_site);
+                      // $row_site = mysqli_fetch_array($res_site);
                   ?>
                       <tr>
                         <td><?=$number--?></td>

@@ -10,8 +10,8 @@ if(!$_SESSION[one_member_id]){
     exit;
 }
 $sql="select * from Gn_Member  where mem_id='".$_SESSION[one_member_id]."'";
-$sresul_num=mysql_query($sql);
-$data=mysql_fetch_array($sresul_num);
+$sresul_num=mysqli_query($self_con,$sql);
+$data=mysqli_fetch_array($sresul_num);
 ?>
     <script type="text/javascript" src="/js/mms_send.js"></script>
     <div class="big_div">
@@ -100,9 +100,9 @@ $data=mysql_fetch_array($sresul_num);
                                     }
                                     $sql="select count(*) as cnt from Gn_MMS mms left join Gn_event_sms_info sms 
 									on sms.sms_idx=mms.sms_idx where $sql_serch ";
-                                    $result = mysql_query($sql) or die(mysql_error());
-                                    $row=mysql_fetch_array($result);
-                                    mysql_free_result($result);
+                                    $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+                                    $row=mysqli_fetch_array($result);
+                                    mysqli_free_result($result);
                                     $intRowCount=$row[cnt];
                                     if (!$_POST[lno])
                                         $intPageSize =20;
@@ -131,42 +131,42 @@ $data=mysql_fetch_array($sresul_num);
                                     $intPageCount=(int)(($intRowCount+$intPageSize-1)/$intPageSize);
                                     $sql="select mms.*,sms.event_name_eng sp from Gn_MMS mms left join Gn_event_sms_info sms 
 									on sms.sms_idx=mms.sms_idx where $sql_serch  order by $order_name $order_status limit $int,$intPageSize";
-                                    $result=mysql_query($sql) or die(mysql_error());
+                                    $result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
                                     if($intRowCount)
                                     {
                                         $c=0;
-                                        while($row=mysql_fetch_array($result))
+                                        while($row=mysqli_fetch_array($result))
                                         {
                                             $sql_n="select mem_name from Gn_Member where mem_id='$row[mem_id]' ";
-                                            $resul_n=mysql_query($sql_n);
-                                            $row_n=mysql_fetch_array($resul_n);
+                                            $resul_n=mysqli_query($self_con,$sql_n);
+                                            $row_n=mysqli_fetch_array($resul_n);
                                             $memo = $row_n[0];
 
                                             $sql_n="select mem_name from Gn_Member where REPLACE(mem_phone, '-', '')='$row[recv_num]'";
-                                            $resul_n=mysql_query($sql_n);
-                                            $row_n=mysql_fetch_array($resul_n);
+                                            $resul_n=mysqli_query($self_con,$sql_n);
+                                            $row_n=mysqli_fetch_array($resul_n);
                                             $rname = $row_n[0];
 
                                             $recv_cnt=explode(",",$row[recv_num]);
                                             $sql_cs="select count(idx) as cnt from Gn_MMS_status where idx='$row[idx]' and status='0'";
-                                            $resul_cs=mysql_query($sql_cs);
-                                            $row_cs=mysql_fetch_array($resul_cs);
+                                            $resul_cs=mysqli_query($self_con,$sql_cs);
+                                            $row_cs=mysqli_fetch_array($resul_cs);
                                             $success_cnt = $row_cs[0];
 
                                             $sql_sn="select * from Gn_MMS where idx='$row[idx]' ";
-                                            $resul_sn=mysql_query($sql_sn);
-                                            $row_sn=mysql_fetch_array($resul_sn);
+                                            $resul_sn=mysqli_query($self_con,$sql_sn);
+                                            $row_sn=mysqli_fetch_array($resul_sn);
                                             $recv_cnt=explode(",",$row_sn[recv_num]);
 
                                             $total_cnt = count($recv_cnt);
                                             $sql_sn="select count(*) as cnt from Gn_event_sms_step_info where sms_idx='$row[sms_idx]' ";
-                                            $sresul=mysql_query($sql_sn);
-                                            $crow=mysql_fetch_array($sresul);
+                                            $sresul=mysqli_query($self_con,$sql_sn);
+                                            $crow=mysqli_fetch_array($sresul);
                                             $total_cnt_ = $crow[cnt];
 
                                             $sql_sn="select step from Gn_event_sms_step_info where sms_detail_idx='$row[sms_detail_idx]' ";
-                                            $sresul=mysql_query($sql_sn);
-                                            $crow=mysql_fetch_array($sresul);
+                                            $sresul=mysqli_query($self_con,$sql_sn);
+                                            $crow=mysqli_fetch_array($sresul);
                                             if($success_cnt > $total_cnt )
                                                 $success_cnt = $total_cnt;
                                             ?>
@@ -184,8 +184,8 @@ $data=mysql_fetch_array($sresul_num);
                                                     else{
                                                         $group_idx = $row['request_idx'] * -1;
                                                         $sql_group="select * from Gn_MMS_GROUP where idx='$group_idx' ";
-                                                        $gresult=mysql_query($sql_group);
-                                                        $grow=mysql_fetch_array($gresult);
+                                                        $gresult=mysqli_query($self_con,$sql_group);
+                                                        $grow=mysqli_fetch_array($gresult);
                                                         echo $grow['grp'];
                                                     }
                                                     ?></td>

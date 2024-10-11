@@ -13,8 +13,8 @@ if(isset($_GET['id'])){
 }
 $id = $_GET['id'];
 $sql = "select * from get_crawler_bizinfo where id={$id}";
-$res = mysql_query($sql);
-while($row = mysql_fetch_array($res)){
+$res = mysqli_query($self_con,$sql);
+while($row = mysqli_fetch_array($res)){
     $info_source = $row['info_source'];
     $web_type = $row['web_type'];
     $work_name = $row['work_name'];

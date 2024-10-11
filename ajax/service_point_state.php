@@ -5,14 +5,14 @@ if(isset($_POST['point_stop'])){
     $mem_id = $_POST['service_id'];
 
     $sql="update Gn_Iam_Service set point_state=0 where mem_id='{$mem_id}'";
-    mysql_query($sql);
+    mysqli_query($self_con,$sql);
     echo 1;
 }
 else if(isset($_POST['point_use'])){
     $mem_id = $_POST['service_id'];
 
     $sql="update Gn_Iam_Service set point_state=1 where mem_id='{$mem_id}'";
-    mysql_query($sql);
+    mysqli_query($self_con,$sql);
     echo 1;
 }
 ?>

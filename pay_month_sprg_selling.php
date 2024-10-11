@@ -70,20 +70,20 @@ $sql = "insert into tjd_pay_result set
         onestep2='$pay_info[onestep2]',
         member_cnt='$pay_info[member_cnt]',
         monthly_yn = 'Y'";
-mysql_query($sql) or die(mysql_error());
+mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 
 if($_POST['phone_cnt'] > 0) {
     $sql = "select * from tjd_pay_result where orderNumber='{$orderNumber}' and buyer_id='$member_1[mem_id]' ";
-    $resul = mysql_query($sql) or die(mysql_error());
-    $row = mysql_fetch_array($resul);
+    $resul = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+    $row = mysqli_fetch_array($resul);
 
     $sql = "select * from Gn_Member where mem_id='$member_1[mem_id]' ";
-    $sresult = mysql_query($sql) or die(mysql_error());
-    $srow = mysql_fetch_array($sresult);
+    $sresult = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+    $srow = mysqli_fetch_array($sresult);
 
     $sql = "select * from crawler_member_real where user_id='$member_1[mem_id]' ";
-    $sresult = mysql_query($sql) or die(mysql_error());
-    $crow = mysql_fetch_array($sresult);
+    $sresult = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+    $crow = mysqli_fetch_array($sresult);
     $user_id = $srow['mem_id'];
     $user_name = $srow['mem_name'];
     $password = $srow['mem_pass'];
@@ -122,7 +122,7 @@ if($_POST['phone_cnt'] > 0) {
                                             search_email_date='$search_email_date',
                                             search_email_cnt='$search_email_cnt',
                                             shopping_end_date='$search_email_date'";
-        mysql_query($query);
+        mysqli_query($self_con,$query);
     }
     else {
         $query = "update crawler_member_real set
@@ -131,7 +131,7 @@ if($_POST['phone_cnt'] > 0) {
                                         extra_shopping_cnt = extra_shopping_cnt + '$row[shop_cnt]'
                                         where user_id='$user_id'
                                         ";
-        mysql_query($query);
+        mysqli_query($self_con,$query);
     }
 }
 ?>

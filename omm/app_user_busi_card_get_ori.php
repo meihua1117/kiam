@@ -41,11 +41,11 @@ if($useType == '1') {
 		if(move_uploaded_file($filePath, $file_path)) {
 			
 			$sql="insert into Gn_Member_card (mem_id , img_url, comment	, create_time) values ('$userId' ,'".($idx.'.'.$file[1])."' , '$comment' , now())";
-			mysql_query($sql);
+			mysqli_query($self_con,$sql);
 			
 			$select_user = "select * from Gn_Member_card where mem_id = '$userId' and type = 0";
-			$resul_p = mysql_query($select_user);
-			$row_p = mysql_fetch_array($resul_p);
+			$resul_p = mysqli_query($self_con,$select_user);
+			$row_p = mysqli_fetch_array($resul_p);
 			if($row_p[mem_id]) {
 				$result = "true";
 				$img_url = $row_p[img_url];
@@ -65,8 +65,8 @@ if($useType == '1') {
 }else if($useType == '2') {
 	//get image
 	$select_user = "select * from Gn_Member_card where mem_id = '$userId' and type = 0";
-	$resul_p = mysql_query($select_user);
-	$row_p = mysql_fetch_array($resul_p);
+	$resul_p = mysqli_query($self_con,$select_user);
+	$row_p = mysqli_fetch_array($resul_p);
 	if($row_p[mem_id]) {
 		$result = "true";
 		$img_url = $row_p[img_url];
@@ -80,13 +80,13 @@ if($useType == '1') {
 }else if($useType == '3') {
 	//delete img
 	$select_user = "select * from Gn_Member_card where mem_id = '$userId' and type = 1";
-	$resul_p = mysql_query($select_user);
-	$row_p = mysql_fetch_array($resul_p);
+	$resul_p = mysqli_query($self_con,$select_user);
+	$row_p = mysqli_fetch_array($resul_p);
 	if($row_p[mem_id]) {
 		$update_sql = "update Gn_Member_card set type=2 where mem_id = '$userId'";
-		mysql_query($update_sql);
-		$resul_p = mysql_query($select_user);
-		$row_p = mysql_fetch_array($resul_p);
+		mysqli_query($self_con,$update_sql);
+		$resul_p = mysqli_query($self_con,$select_user);
+		$row_p = mysqli_fetch_array($resul_p);
 		if($row_p[mem_id]) {
 			$result = "true";
 			$img_url = $row_p[img_url];

@@ -13,8 +13,8 @@ $result=0;
 
 // 정보 확인
 $sql="select * from Gn_Member_Business_Request where seq='$seq'";
-$resul=mysql_query($sql) or die(mysql_error());
-$row=mysql_fetch_array($resul);    
+$resul=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+$row=mysqli_fetch_array($resul);    
 
 if($_POST['mode'] == "") {
     $result = -1;
@@ -36,6 +36,6 @@ if($_POST['balance_per'] != "") {
 }
     
 $sql="update Gn_Member set service_type='".$_POST['service_type']."' $addQuery where mem_id='$mem_id'";
-mysql_query($sql);	
+mysqli_query($self_con,$sql);	
 echo "{\"result\":\"$result\"}";
 ?>

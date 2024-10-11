@@ -7,12 +7,12 @@ if($language_index == "") {
 	@setcookie("language", $language_index, time()+3600);
 }
 $language_sql = "select * from Gn_Iam_multilang where no = '$language_index'";
-$language_res = mysql_query($language_sql);
-$language_row = mysql_fetch_array($language_res);
+$language_res = mysqli_query($self_con,$language_sql);
+$language_row = mysqli_fetch_array($language_res);
 $lang = $_COOKIE['lang']?$_COOKIE['lang']:"kr";
 $sql = "select * from Gn_Iam_lang ";
-$result = mysql_query($sql);
-while($row = mysql_fetch_array($result)) {
+$result = mysqli_query($self_con,$sql);
+while($row = mysqli_fetch_array($result)) {
 	$MENU[$row[menu]][$row[pos]] = $row[$lang];
 }
 
@@ -38,8 +38,8 @@ $cart_cnt = $Gn_point = 0;
 
 $mid = date("YmdHis").rand(10,99);
 $sql_point = "select mem_point, mem_cash from Gn_Member where mem_id='{$_SESSION[iam_member_id]}'";
-$result_point = mysql_query($sql_point);
-$row_point = mysql_fetch_array($result_point);
+$result_point = mysqli_query($self_con,$sql_point);
+$row_point = mysqli_fetch_array($result_point);
 $Gn_point = $row_point['mem_point'];
 $Gn_cash = $row_point['mem_cash'];
 $Gn_auto_point = 0;
@@ -74,17 +74,17 @@ if ($HTTP_HOST != "kiam.kr") //분양사사이트이면
     $query = "select * from Gn_Iam_Service where sub_domain like 'http://" . $HTTP_HOST . "'";
 else
     $query = "select * from Gn_Iam_Service where sub_domain like 'http://www.kiam.kr'";
-$res = mysql_query($query);
-$domainData = mysql_fetch_array($res);
+$res = mysqli_query($self_con,$query);
+$domainData = mysqli_fetch_array($res);
 $first_card_idx = $domainData['profile_idx'];//분양사의 1번 카드아이디
 $sql = "select * from Gn_Iam_Name_Card where idx = '$first_card_idx'";
-$result = mysql_query($sql);
-$main_card_row = mysql_fetch_array($result);
+$result = mysqli_query($self_con,$sql);
+$main_card_row = mysqli_fetch_array($result);
 $first_card_url = $main_card_row[card_short_url];//분양사이트 1번 네임카드 url
 
 $sql = "select site_iam,mem_code from Gn_Member where mem_id = '$main_card_row[mem_id]'";
-$result = mysql_query($sql);
-$row = mysql_fetch_array($result);
+$result = mysqli_query($self_con,$sql);
+$row = mysqli_fetch_array($result);
 $bunyang_site = $row['site_iam'];
 $bunyang_site_manager_code = $row['mem_code'];
 if ($_SESSION[iam_member_id]) {
@@ -94,13 +94,13 @@ if ($_SESSION[iam_member_id]) {
 	$Gn_cash = $Gn_mem_row['mem_cash'];
 
     $query = "select * from Gn_Iam_Name_Card where group_id is NULL and mem_id = '$_SESSION[iam_member_id]' order by req_data limit 0,1";
-    $result = mysql_query($query);
-    $row = mysql_fetch_array($result);
+    $result = mysqli_query($self_con,$query);
+    $row = mysqli_fetch_array($result);
 	$request_short_url = $row['card_short_url'];
 
 	$sql_cart_cnt = "select count(*) from Gn_Gwc_Order where mem_id='{$_SESSION[iam_member_id]}' and page_type=1";
-    $res_cart_cnt = mysql_query($sql_cart_cnt);
-    $row_cart_cnt = mysql_fetch_array($res_cart_cnt);
+    $res_cart_cnt = mysqli_query($self_con,$sql_cart_cnt);
+    $row_cart_cnt = mysqli_fetch_array($res_cart_cnt);
     $cart_cnt = $row_cart_cnt[0];
 }else{
     $request_short_url = $main_card_row[card_short_url];
@@ -1232,9 +1232,9 @@ else{
 											<div id="cardsel1" onclick="limit_selcard1()" style="margin-top:15px;">
 												<?
 												$sql5="select card_short_url,phone_display, card_title from Gn_Iam_Name_Card where group_id is NULL and mem_id = '$_SESSION[iam_member_id]' order by req_data asc";
-												$result5=mysql_query($sql5);
+												$result5=mysqli_query($self_con,$sql5);
 												$i = 0;
-												while($row5=mysql_fetch_array($result5)) {
+												while($row5=mysqli_fetch_array($result5)) {
 													if($i == 0){
 														$hidden = "hidden";
 													}
@@ -1536,8 +1536,8 @@ else{
 							</div>
 							<?
 							$news_sql = "select * from tjd_sellerboard where category=10 and important_yn='Y' order by date desc";
-							$news_res = mysql_query($news_sql);
-							while($news_row = mysql_fetch_array($news_res)){?>
+							$news_res = mysqli_query($self_con,$news_sql);
+							while($news_row = mysqli_fetch_array($news_res)){?>
 								<div style="padding-top: 1px;background-color: #ffffff;border-radius: 10px;margin-top: 2px" class = "news_content <?='news_kind_'.$news_row[fl]?>">
 									<div style="display: flex">
 										<p style="font-size:14px;margin-top:2px;margin-left: 10px;margin-right: 10px"><?=$iam_notice_arr[$news_row[fl]]?></p>

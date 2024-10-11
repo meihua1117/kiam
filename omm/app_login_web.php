@@ -4,8 +4,8 @@ include_once $_SERVER['DOCUMENT_ROOT'] . "/lib/db_config.php";
 include_once $_SERVER['DOCUMENT_ROOT'] . "/lib/common_func.php";
 $_REQUEST['id'] = strtolower(trim($_REQUEST['id']));
 $sql = "select mem_code, mem_id, is_leave, mem_leb, iam_leb,site, site_iam from Gn_Member use index(login_index) where mem_leb>0 and mem_id = '$_REQUEST[id]' and mem_code='$_REQUEST[mem_code]' ";
-$resul = mysql_query($sql);
-$row = mysql_fetch_array($resul);
+$resul = mysqli_query($self_con,$sql);
+$row = mysqli_fetch_array($resul);
 @ini_set('display_errors', false);
 @ini_set("session.cache_expire", 60);
 @ini_set("session.gc_maxlifetime", 86400);
@@ -31,8 +31,8 @@ if ($row['mem_code'] and $row['is_leave'] == 'N') {
 		$_SESSION['one_member_id'] = $_REQUEST['id'];
 		$_SESSION['one_mem_lev'] = $row['mem_leb'];
 		$service_sql = "select mem_id,sub_domain from Gn_Service where mem_id= '{$_REQUEST['id']}'";
-		$service_result = mysql_query($service_sql);
-		$service_row = mysql_fetch_array($service_result);
+		$service_result = mysqli_query($self_con,$service_sql);
+		$service_row = mysqli_fetch_array($service_result);
 		if ($service_row['mem_id'] != "") {
 			$url = parse_url($service_row['sub_domain']);
 			$_SESSION['one_member_subadmin_id'] = $_REQUEST['id'];
@@ -43,8 +43,8 @@ if ($row['mem_code'] and $row['is_leave'] == 'N') {
 		$_SESSION['iam_member_id'] = $_REQUEST['id'];
 		$_SESSION['iam_member_leb'] = $row['iam_leb'];
 		$iam_sql = "select mem_id,sub_domain from Gn_Iam_Service where mem_id= '{$_REQUEST['id']}'";
-		$iam_result = mysql_query($iam_sql);
-		$iam_row = mysql_fetch_array($iam_result);
+		$iam_result = mysqli_query($self_con,$iam_sql);
+		$iam_row = mysqli_fetch_array($iam_result);
 		if ($iam_row['mem_id'] != "") {
 			$url = parse_url($iam_row['sub_domain']);
 			$_SESSION['iam_member_subadmin_id'] = $_REQUEST['id'];
@@ -54,7 +54,7 @@ if ($row['mem_code'] and $row['is_leave'] == 'N') {
 	// 마지막 접속 시간 기록 Add Cooper
 	// $memToken = generateRandomString(10);
 	$sql = "update Gn_Member set login_date=now(),ext_recm_id='$site' where mem_id= '{$_REQUEST['id']}'";
-	$resul = mysql_query($sql);
+	$resul = mysqli_query($self_con,$sql);
 	if ($row['site_iam'] != "") {
 		$site = $row['site_iam'];
 		$site = "https://" . $site . ".kiam.kr/";
