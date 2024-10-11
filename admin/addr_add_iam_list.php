@@ -157,8 +157,8 @@ $date_today=date("Y-m-d");
                                 $order = $order?$order:"desc";
                                 $query = "SELECT count(a.phone) FROM sm_data_one a ";
                                 $query .= " WHERE 1=1 $searchStr";
-                                $res    = mysql_query($query);
-                                $totalRow	=  mysql_fetch_array($res);
+                                $res    = mysqli_query($self_con,$query);
+                                $totalRow	=  mysqli_fetch_array($res);
                                 $totalCnt = $totalRow[0];
                                 $query = "SELECT a.no, a.source, a.name, a.subname, a.phone, a.email, a.page_title, a.tag, a.info, a.url, a.com_name, a.com_type, a.rank, a.addr, a.gen, a.age, a.school, a.marrige, a.reservation_time FROM sm_data_one a";
                                 $query .= " WHERE 1=1 $searchStr";
@@ -169,11 +169,11 @@ $date_today=date("Y-m-d");
                                 $orderQuery .= " ORDER BY a.no DESC $limitStr ";
                                 $i = 1;
                                 $query .= $orderQuery;
-                                $res = mysql_query($query);
-                                while($row = mysql_fetch_array($res)) {
+                                $res = mysqli_query($self_con,$query);
+                                while($row = mysqli_fetch_array($res)) {
                                     $sql="select mem_name, mem_phone from Gn_Member where mem_id='$row[mem_id]'";
-                                    $sresul=mysql_query($sql);
-                                    $srow=mysql_fetch_array($sresul);?>
+                                    $sresul=mysqli_query($self_con,$sql);
+                                    $srow=mysqli_fetch_array($sresul);?>
                                     <tr>
                                         <td><?=$number--?></td>
                                         <td><?=$row['source']?></td>

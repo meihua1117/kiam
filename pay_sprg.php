@@ -11,13 +11,13 @@ include_once "_head.php";
 include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
 $date = date("Y-m-d H:i:s");
 $sql="select * from Gn_Member where mem_id='$_SESSION[one_member_id]' ";
-$resul=mysql_query($sql);
-$data=mysql_fetch_array($resul);
+$resul=mysqli_query($self_con,$sql);
+$data=mysqli_fetch_array($resul);
 // 이미 진행중인 결제가 있는지 확인
 $mid = date("YmdHis").rand(10,99);
 /*$query = "select * from tjd_pay_result where buyer_id='$_SESSION[one_member_id]' and end_status='Y' and `end_date` > '$date'";
-$res = mysql_query($query);
-$sdata = mysql_fetch_array($res);
+$res = mysqli_query($self_con,$query);
+$sdata = mysqli_fetch_array($res);
 if($sdata['no'] != "") {
 //echo "<Script>alert('이미 진행중인 결제가 있습니다.');history.go(-1);</script>";
 //exit;
@@ -328,7 +328,7 @@ if($platform == "mobile"){
             </div>
         </div>
        <?
-       mysql_close();
+       mysqli_close($self_con);
        include_once "_foot.php";
        ?>
 </body>

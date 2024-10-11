@@ -22,7 +22,7 @@ if(strlen($_SESSION[one_member_id]) > 0) {
 	{
 		$sql_serch=" mem_id ='$_SESSION[one_member_id]' and grp_id = '$_REQUEST[grp_id]'";	
 		$sql="select recv_num,grp_2,name,recv_num,email from Gn_MMS_Receive where $sql_serch order by idx asc";
-		$result = mysql_query($sql) or die(mysql_error());
+		$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 		$objPHPExcel->setActiveSheetIndex(0)
 					->setCellValue("A1", "소그룹명")
 					->setCellValue("B1", "이름")
@@ -30,14 +30,14 @@ if(strlen($_SESSION[one_member_id]) > 0) {
 					->setCellValue("D1", "이메일")
 					->setCellValue("E1", "상태");
 		$h=2;
-		while($row=mysql_fetch_array($result))
+		while($row=mysqli_fetch_array($result))
 		{
 					$is_zelo=substr($row[recv_num],0,1);
 					$v=$is_zelo?"0".$row[recv_num]:$row[recv_num];	
 					$status_arr=array();
 					$sql_deny="select idx,recv_num from Gn_MMS_Deny where recv_num='$v' and mem_id='$_SESSION[one_member_id]' ";
-					$resul_deny=mysql_query($sql_deny);
-					$row_deny=mysql_fetch_array($resul_deny);
+					$resul_deny=mysqli_query($self_con,$sql_deny);
+					$row_deny=mysqli_fetch_array($resul_deny);
 					if($row_deny[idx])
 					array_push($status_arr,"수신거부");
 						
@@ -45,8 +45,8 @@ if(strlen($_SESSION[one_member_id]) > 0) {
 					$sql_etc="select seq,dest,msg_flag from sm_log where ori_num='$v' and mem_id='$_SESSION[one_member_id]' order by seq desc limit 0,1 ";
 					
 					
-					$resul_etc=mysql_query($sql_etc);
-					$row_etc=mysql_fetch_array($resul_etc);
+					$resul_etc=mysqli_query($self_con,$sql_etc);
+					$row_etc=mysqli_fetch_array($resul_etc);
 					if($row_etc[seq])
 					{
 						if($row_etc[msg_flag]==1)
@@ -66,7 +66,7 @@ if(strlen($_SESSION[one_member_id]) > 0) {
 			$h++;		
 		}
 
-		mysql_free_result($result);
+		mysqli_free_result($result);
 		
 		$objPHPExcel->getActiveSheet()->setTitle("원마케팅문자 그룹전화번호");
 		$objPHPExcel->setActiveSheetIndex(0);

@@ -2638,9 +2638,9 @@ setfacl -d -m "g:www-data:rwx" tmp
         as an array.</li>
     <li><b>$meta</b> - Contains an object with information about your column.
         The data is drawn from the output of the
-        <a href="http://www.php.net/mysql_fetch_field">mysql_fetch_field()</a>
+        <a href="http://www.php.net/mysqli_fetch_field">mysqli_fetch_field()</a>
         function. This means, all object properties described on the
-        <a href="http://www.php.net/mysql_fetch_field">manual page</a> are
+        <a href="http://www.php.net/mysqli_fetch_field">manual page</a> are
         available in this variable and can be used to transform a column accordingly
         to unsigned/zerofill/not_null/... properties.<br />
         The $meta-&gt;mimetype variable contains the original MIME-type of the

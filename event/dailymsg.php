@@ -5,8 +5,8 @@
 	if($_GET['pcode']) $pcode = $_GET['pcode'];
 
 	$sql_recom = "select * from Gn_event where pcode='{$pcode}'";
-	$res = mysql_query($sql_recom);
-	$event_data = $row = mysql_fetch_array($res);
+	$res = mysqli_query($self_con,$sql_recom);
+	$event_data = $row = mysqli_fetch_array($res);
 	$recom_id = $row['m_id'];
 	$up_img = $row['object'];
 	$daily_cnt = $row['callback_no'];
@@ -20,24 +20,24 @@
 
 
 	$sql="update Gn_event set read_cnt = read_cnt+1 where pcode='$pcode'";
-	mysql_query($sql) or die(mysql_error());
+	mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 
 	$cur_point = 0;
 	$sql_cur_point = "select mem_point from Gn_Member where mem_id='{$recom_id}'";
-	$res_point = mysql_query($sql_cur_point);
-	$row_point = mysql_fetch_array($res_point);
+	$res_point = mysqli_query($self_con,$sql_cur_point);
+	$row_point = mysqli_fetch_array($res_point);
 	$cur_point = $row_point['mem_point'];
 
 	if ($HTTP_HOST != "obmms.net") //분양사사이트이면
 		$query = "select * from Gn_Iam_Service where sub_domain like 'http://" . $HTTP_HOST . "'";
 	else
 		$query = "select * from Gn_Iam_Service where sub_domain like 'http://www.obmms.net'";
-	$res = mysql_query($query);
-	$domainData = mysql_fetch_array($res);
+	$res = mysqli_query($self_con,$query);
+	$domainData = mysqli_fetch_array($res);
 	$first_card_idx = $domainData['profile_idx'];//분양사의 1번 카드아이디
 	$sql = "select * from Gn_Iam_Name_Card where idx = '$first_card_idx'";
-	$result = mysql_query($sql);
-	$main_card_row = mysql_fetch_array($result);
+	$result = mysqli_query($self_con,$sql);
+	$main_card_row = mysqli_fetch_array($result);
 
 	$main_img1 = $main_card_row['main_img1'];
 
@@ -57,8 +57,8 @@
 	}
 
 	$sql_point = "select key_content from Gn_Search_Key where key_id='dailymsg_set_point'";
-	$res_point = mysql_query($sql_point);
-	$row_point = mysql_fetch_array($res_point);
+	$res_point = mysqli_query($self_con,$sql_point);
+	$row_point = mysqli_fetch_array($res_point);
 	$daily_set_point = $row_point['key_content'];
 ?>
 <!DOCTYPE html>

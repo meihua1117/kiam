@@ -7,12 +7,12 @@ if(isset($_POST['ID'])){
     $method = $_POST['method'];
     if($method == "send"){
       $sql = "delete from Gn_Item_Pay_Result where point_val=3 and buyer_id='{$ID}' and type='noticesend'";
-      $result = mysql_query($sql);
+      $result = mysqli_query($self_con,$sql);
       echo $result;
     }
     else if($method == "recv"){
       $sql = "delete from Gn_Item_Pay_Result where point_val=3 and buyer_id='{$ID}' and type='noticerecv'";
-      $result = mysql_query($sql);
+      $result = mysqli_query($self_con,$sql);
       echo $result;
     }
   }
@@ -41,11 +41,11 @@ if(isset($_POST['ID'])){
     }
     $query = $sql.$search_str.$str_search.$orderQuery;
     // echo $query;exit;
-    $result = mysql_query($query);
-    while($row = mysql_fetch_array($result)){  
+    $result = mysqli_query($self_con,$query);
+    while($row = mysqli_fetch_array($result)){  
       $sql_mem_data = "select * from Gn_Member where mem_id='{$row["pay_method"]}'";
-      $res_mem = mysql_query($sql_mem_data);
-      $row_mem = mysql_fetch_array($res_mem);
+      $res_mem = mysqli_query($self_con,$sql_mem_data);
+      $row_mem = mysqli_fetch_array($res_mem);
 
       $message = str_replace("\n", "<br>", $row["message"]);
       $message = str_replace('"', ' ', $message);

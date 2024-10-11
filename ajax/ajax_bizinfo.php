@@ -36,16 +36,16 @@ $page_num = 1;
 $sql_limit = "";
 
 $sql_share = "select * from share_contents_mng where share_obj='장수군청산림과'";
-$res_share = mysql_query($sql_share);
-$row_share = mysql_fetch_array($res_share);
+$res_share = mysqli_query($self_con,$sql_share);
+$row_share = mysqli_fetch_array($res_share);
 
 if($row_share['end_date'] < $today){
     $sql_update = "update share_contents_mng set share_state=2 where share_obj='장수군청산림과'";
-    mysql_query($sql_update);
+    mysqli_query($self_con,$sql_update);
 }
 else{
     $sql_update = "update share_contents_mng set share_state=1 where share_obj='장수군청산림과'";
-    mysql_query($sql_update);
+    mysqli_query($self_con,$sql_update);
 }
 
 if($row_share['share_state'] == 2){
@@ -104,14 +104,14 @@ if(isset($_POST['biz_jiwon_list'])){//지원사업정보 api
 
     $sql = $sql_jiwon.$sql_search;
     // echo $sql; exit;
-    $res_cnt = mysql_query($sql);
-    $total_cnt = mysql_num_rows($res_cnt);
+    $res_cnt = mysqli_query($self_con,$sql);
+    $total_cnt = mysqli_num_rows($res_cnt);
 
     $sql .= $sql_order.$sql_limit;
-    $res_jiwon = mysql_query($sql);
+    $res_jiwon = mysqli_query($self_con,$sql);
     $number = $total_cnt - ($page_num - 1) * 20;
 
-    while($row_jiwon = mysql_fetch_array($res_jiwon)){
+    while($row_jiwon = mysqli_fetch_array($res_jiwon)){
         $arr_replay['id'] = $row_jiwon['id'];
         $arr_replay['org_name'] = $row_jiwon['org_name'];
         $arr_replay['work_name'] = $row_jiwon['work_name'];
@@ -171,14 +171,14 @@ else if(isset($_POST['biz_edu_list'])){//행사교육정보 api
 
     $sql = $sql_edu.$sql_search;
     
-    $res_cnt = mysql_query($sql);
-    $total_cnt = mysql_num_rows($res_cnt);
+    $res_cnt = mysqli_query($self_con,$sql);
+    $total_cnt = mysqli_num_rows($res_cnt);
 
     $sql .= $sql_order.$sql_limit;
-    $res_edu = mysql_query($sql);
+    $res_edu = mysqli_query($self_con,$sql);
     $number = $total_cnt - ($page_num - 1) * 20;
 
-    while($row_edu = mysql_fetch_array($res_edu)){
+    while($row_edu = mysqli_fetch_array($res_edu)){
         $arr_replay['id'] = $row_edu['id'];
         $arr_replay['org_name'] = $row_edu['org_name'];
         $arr_replay['region_name'] = $row_edu['region_name'];
@@ -248,14 +248,14 @@ else if(isset($_POST['nara_public_list'])){//입찰공고정보 api
 
     $sql = $sql_pub.$sql_search;
     
-    $res_cnt = mysql_query($sql);
-    $total_cnt = mysql_num_rows($res_cnt);
+    $res_cnt = mysqli_query($self_con,$sql);
+    $total_cnt = mysqli_num_rows($res_cnt);
 
     $sql .= $sql_order.$sql_limit;
-    $res_pub = mysql_query($sql);
+    $res_pub = mysqli_query($self_con,$sql);
     $number = $total_cnt - ($page_num - 1) * 20;
 
-    while($row_pub = mysql_fetch_array($res_pub)){
+    while($row_pub = mysqli_fetch_array($res_pub)){
         $arr_replay['id'] = $row_pub['id'];
         $arr_replay['org_name'] = $row_pub['org_name'];
         $arr_replay['work_name'] = $row_pub['work_name'];
@@ -316,14 +316,14 @@ else if(isset($_POST['sanrim_list'])){//기타정보 api
 
     $sql = $sql_sanrim.$sql_search;
     // echo $sql; exit;
-    $res_sanrim = mysql_query($sql);
-    $total_cnt = mysql_num_rows($res_sanrim);
+    $res_sanrim = mysqli_query($self_con,$sql);
+    $total_cnt = mysqli_num_rows($res_sanrim);
     $number = $total_cnt - ($page_num - 1) * 20;
 
     $sql .= $sql_order.$sql_limit;
-    $res_sanrim = mysql_query($sql);
+    $res_sanrim = mysqli_query($self_con,$sql);
 
-    while($row_sanrim = mysql_fetch_array($res_sanrim)){
+    while($row_sanrim = mysqli_fetch_array($res_sanrim)){
         $arr_replay['id'] = $row_sanrim['id'];
         $arr_replay['org_name'] = $row_sanrim['org_name'];
         $arr_replay['work_name'] = $row_sanrim['work_name'];
@@ -397,15 +397,15 @@ else if(isset($_POST['admin_contents'])){
     }
 
     $sql = $sql_admin.$sql_search;
-    $res_admin = mysql_query($sql);
-    $total_cnt = mysql_num_rows($res_admin);
+    $res_admin = mysqli_query($self_con,$sql);
+    $total_cnt = mysqli_num_rows($res_admin);
     $number = $total_cnt - ($page_num - 1) * 20;
 
     $sql .= $sql_order.$sql_limit;
     // echo $sql; exit;
-    $res_admin = mysql_query($sql);
+    $res_admin = mysqli_query($self_con,$sql);
 
-    while($row_admin = mysql_fetch_array($res_admin)){
+    while($row_admin = mysqli_fetch_array($res_admin)){
         $arr_replay['id'] = $row_admin['id'];
         $arr_replay['info_source'] = $row_admin['info_source'];
         $arr_replay['web_type'] = $row_admin['web_type'];
@@ -436,29 +436,29 @@ else if(isset($_POST['change_contents'])){
         $reg_date = $_POST['reg_date'];
 
         $sql_update = "update get_crawler_bizinfo set region_name='{$region_name}', work_name='{$work_name}', detail_link='{$detail_link}', org_name='{$org_name}', req_date='{$req_date}', show_cnt='{$show_cnt}', reg_date='{$reg_date}' where id={$id}";
-        $res = mysql_query($sql_update) or die(mysql_error());
+        $res = mysqli_query($self_con,$sql_update) or die(mysqli_error($self_con));
         echo 1;
         exit;
     }
     if(isset($_POST['del'])){
         $sql_del = "delete from get_crawler_bizinfo where id={$id}";
-        $res = mysql_query($sql_del) or die(mysql_error());
+        $res = mysqli_query($self_con,$sql_del) or die(mysqli_error($self_con));
         echo 1;
         exit;
     }
     if(isset($_POST['change_status'])){
         $sql_state = "select allow_state_biz from get_crawler_bizinfo where id={$id}";
-        $res_state = mysql_query($sql_state);
-        $row_state = mysql_fetch_array($res_state);
+        $res_state = mysqli_query($self_con,$sql_state);
+        $row_state = mysqli_fetch_array($res_state);
         if($row_state['allow_state_biz'] == 1){
             $sql_update = "update get_crawler_bizinfo set allow_state_biz=0 where id={$id}";
-            mysql_query($sql_update);
+            mysqli_query($self_con,$sql_update);
             echo 0;
             exit;
         }
         else{
             $sql_update = "update get_crawler_bizinfo set allow_state_biz=1 where id={$id}";
-            mysql_query($sql_update);
+            mysqli_query($self_con,$sql_update);
             echo 1;
             exit;
         }
@@ -485,8 +485,8 @@ else if(isset($_POST['change_contents'])){
     }
 
     $sql_admin = "select * from get_crawler_bizinfo where id={$id} and allow_state=1 and reg_date>'{$comp_date}'".$sql_key_search;
-    $res_admin = mysql_query($sql_admin);
-    $row_admin = mysql_fetch_array($res_admin);
+    $res_admin = mysqli_query($self_con,$sql_admin);
+    $row_admin = mysqli_fetch_array($res_admin);
     $arr_replay['info_source'] = $row_admin['info_source'];
     $arr_replay['web_type'] = $row_admin['web_type'];
     $arr_replay['org_name'] = $row_admin['org_name'];
@@ -509,8 +509,8 @@ else if(isset($_POST['ready_con'])){
 
     $sql_admin = "select * from get_crawler_bizinfo where allow_state=1 and allow_state_biz=0 and reg_date>'{$comp_date}'".$sql_key_search;
     // echo $sql_admin; exit;
-    $res = mysql_query($sql_admin);
-    $total_cnt = mysql_num_rows($res);
+    $res = mysqli_query($self_con,$sql_admin);
+    $total_cnt = mysqli_num_rows($res);
     echo $total_cnt;
 }
 else if(isset($_POST['show_cnt'])){
@@ -520,12 +520,12 @@ else if(isset($_POST['show_cnt'])){
 			show_date='{$today1}'
 			where id='{$id}'
 		";
-    mysql_query($sql);
+    mysqli_query($self_con,$sql);
     $sql = "UPDATE get_crawler_bizinfo set
         show_cnt_today=show_cnt_today+1,
         show_cnt=show_cnt+1
         where id='{$id}'";
-    mysql_query($sql);
+    mysqli_query($self_con,$sql);
     echo 1;
 }
 else if(isset($_POST['showcnt_list'])){
@@ -627,15 +627,15 @@ else if(isset($_POST['manner'])){
     }
 
     $sql = $sql_manner.$sql_search;
-    $res_manner = mysql_query($sql);
-    $total_cnt = mysql_num_rows($res_manner);
+    $res_manner = mysqli_query($self_con,$sql);
+    $total_cnt = mysqli_num_rows($res_manner);
     $number = $total_cnt - ($page_num - 1) * 20;
 
     $sql .= $sql_order.$sql_limit;
     // echo $sql; exit;
-    $res_manner = mysql_query($sql);
+    $res_manner = mysqli_query($self_con,$sql);
 
-    while($row_manner = mysql_fetch_array($res_manner)){
+    while($row_manner = mysqli_fetch_array($res_manner)){
         $arr_replay['id'] = $row_manner['id'];
         $arr_replay['info_source'] = $row_manner['info_source'];
         $arr_replay['org_name'] = $row_manner['org_name'];
@@ -665,12 +665,12 @@ else if(isset($_POST['searchmain'])){
     $sql_jiwon = "select * from get_crawler_bizinfo where web_type='지원사업' and info_source='기업마당' and allow_state=1 and allow_state_biz=1 and reg_date>'{$comp_date}'".$sql_key_search_work;
 
     $sql = $sql_jiwon.$sql_search;
-    $res_cnt = mysql_query($sql);
-    $total_cnt_jiwon = mysql_num_rows($res_cnt);
+    $res_cnt = mysqli_query($self_con,$sql);
+    $total_cnt_jiwon = mysqli_num_rows($res_cnt);
 
     $sql .= $sql_order;
-    $res_jiwon = mysql_query($sql);
-    while($row_jiwon = mysql_fetch_array($res_jiwon)){
+    $res_jiwon = mysqli_query($self_con,$sql);
+    while($row_jiwon = mysqli_fetch_array($res_jiwon)){
         $arr_replay['id'] = $row_jiwon['id'];
         $arr_replay['org_name'] = $row_jiwon['org_name'];
         $arr_replay['work_name'] = $row_jiwon['work_name'];
@@ -682,14 +682,14 @@ else if(isset($_POST['searchmain'])){
     $sql_edu = "select * from get_crawler_bizinfo where web_type='행사교육' and allow_state=1 and allow_state_biz=1 and reg_date>'{$comp_date}'".$sql_key_search_edu;
 
     $sql = $sql_edu.$sql_search;
-    $res_cnt = mysql_query($sql);
-    $total_cnt_edu = mysql_num_rows($res_cnt);
+    $res_cnt = mysqli_query($self_con,$sql);
+    $total_cnt_edu = mysqli_num_rows($res_cnt);
 
     $sql .= $sql_order;
     // echo $sql;exit;
-    $res_edu = mysql_query($sql);
+    $res_edu = mysqli_query($self_con,$sql);
 
-    while($row_edu = mysql_fetch_array($res_edu)){
+    while($row_edu = mysqli_fetch_array($res_edu)){
         $arr_replay['id'] = $row_edu['id'];
         $arr_replay['org_name'] = $row_edu['org_name'];
         $arr_replay['work_name'] = $row_edu['work_name'];
@@ -701,12 +701,12 @@ else if(isset($_POST['searchmain'])){
     $sql_pub = "select * from get_crawler_bizinfo where web_type='입찰공고' and info_source='나라장터' and allow_state=1 and allow_state_biz=1 and reg_date>'{$comp_date}'".$sql_key_search_public;
 
     $sql = $sql_pub.$sql_search;
-    $res_cnt = mysql_query($sql);
-    $total_cnt_pub = mysql_num_rows($res_cnt);
+    $res_cnt = mysqli_query($self_con,$sql);
+    $total_cnt_pub = mysqli_num_rows($res_cnt);
 
     $sql .= $sql_order;
-    $res_pub = mysql_query($sql);
-    while($row_pub = mysql_fetch_array($res_pub)){
+    $res_pub = mysqli_query($self_con,$sql);
+    while($row_pub = mysqli_fetch_array($res_pub)){
         $arr_replay['id'] = $row_pub['id'];
         $arr_replay['org_name'] = $row_pub['org_name'];
         $arr_replay['work_name'] = $row_pub['work_name'];
@@ -718,12 +718,12 @@ else if(isset($_POST['searchmain'])){
     $sql_sanrim = "select * from get_crawler_bizinfo where web_type='산림정보' and allow_state=1 and allow_state_biz=1 and reg_date>'{$comp_date}'".$sql_key_search_other;
 
     $sql = $sql_sanrim.$sql_search;
-    $res_sanrim = mysql_query($sql);
-    $total_cnt_sanrim = mysql_num_rows($res_sanrim);
+    $res_sanrim = mysqli_query($self_con,$sql);
+    $total_cnt_sanrim = mysqli_num_rows($res_sanrim);
 
     $sql .= $sql_order;
-    $res_sanrim = mysql_query($sql);
-    while($row_sanrim = mysql_fetch_array($res_sanrim)){
+    $res_sanrim = mysqli_query($self_con,$sql);
+    while($row_sanrim = mysqli_fetch_array($res_sanrim)){
         $arr_replay['id'] = $row_sanrim['id'];
         $arr_replay['org_name'] = $row_sanrim['org_name'];
         $arr_replay['work_name'] = $row_sanrim['work_name'];
@@ -756,8 +756,8 @@ else if(isset($_POST['show_history'])){
     for($j = 0; $j < $cnt; $j++){
         $sql = "select * from get_crawler_bizinfo where id={$id[$j]}";
         // echo $sql; exit;
-        $res_hist = mysql_query($sql);
-        while($row_hist = mysql_fetch_array($res_hist)){
+        $res_hist = mysqli_query($self_con,$sql);
+        while($row_hist = mysqli_fetch_array($res_hist)){
             $arr_replay['reg_date'] = $row_hist['reg_date'];
             $arr_replay['work_name'] = $row_hist['work_name'];
             $arr_replay['detail_link'] = $row_hist['detail_link'];
@@ -792,9 +792,10 @@ function get_search_key($key){
 }
 
 function get_cnt($sql){
-    $res_cnt = mysql_query($sql);
+    global $self_con;
+    $res_cnt = mysqli_query($self_con,$sql);
     if($res_cnt != null){
-        $row_cnt = mysql_fetch_array($res_cnt);
+        $row_cnt = mysqli_fetch_array($res_cnt);
         return $row_cnt['cnt'];
     }
     else{

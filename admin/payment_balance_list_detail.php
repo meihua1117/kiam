@@ -218,8 +218,8 @@ function payment_save(fm) {
                 	              and branch_share_id='$mem_id'   
                 	              and end_status='Y'             	              
                                 ";
-                	$res	    = mysql_query($query);
-                	$totalCnt	=  mysql_num_rows($res);	
+                	$res	    = mysqli_query($self_con,$query);
+                	$totalCnt	=  mysqli_num_rows($res);	
                 	
                 	$limitStr       = " LIMIT ".(($startPage-1)*$pageCnt).", ".$pageCnt;
                 	$number			= $totalCnt - ($nowPage - 1) * $pageCnt;                      
@@ -231,12 +231,12 @@ function payment_save(fm) {
               
                 	$i = 1;
                 	$query .= "$orderQuery";
-                	$res = mysql_query($query);
-                    while($row = mysql_fetch_array($res)) {                       	
+                	$res = mysqli_query($self_con,$query);
+                    while($row = mysqli_fetch_array($res)) {                       	
                         if($row[total_price] == 500000) {
                             $query = "Select * from tjd_pay_result_delaer where m_id='$row[mem_id]'";
-                            $sres = mysql_query($query);
-                            $srow = mysql_fetch_array($sres);                            
+                            $sres = mysqli_query($self_con,$query);
+                            $srow = mysqli_fetch_array($sres);                            
                             if(substr($row['date'],0,10) != substr($srow['regtime'], 0,10)) {
                                 $row[total_price] = 0;
                             }

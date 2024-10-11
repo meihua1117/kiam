@@ -227,8 +227,8 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
         <section>
         <?
           $query = "SELECT secure_connect FROM gn_conf";
-          $res	    = mysql_query($query);
-          $row = mysql_fetch_array($res);
+          $res	    = mysqli_query($self_con,$query);
+          $row = mysqli_fetch_array($res);
         ?>
         <div style="padding: 40px 60px"> 
         <span style="font-size: 20px">보안접속 사용: </span>
@@ -288,8 +288,8 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                   $searchStr .= $search_key ? " AND (mem_id LIKE '%".$search_key."%' or ip like '%".$search_key."%' )" : null;
                 	$order = $order?$order:"desc"; 		
                 	$query = "SELECT SQL_CALC_FOUND_ROWS * FROM gn_admin_allowip WHERE 1=1 $searchStr";
-                	$res	    = mysql_query($query);
-                	$totalCnt	=  mysql_num_rows($res);	
+                	$res	    = mysqli_query($self_con,$query);
+                	$totalCnt	=  mysqli_num_rows($res);	
                 	
                 	$limitStr       = " LIMIT ".(($startPage-1)*$pageCnt).", ".$pageCnt;
                 	$number			= $totalCnt - ($nowPage - 1) * $pageCnt;                      
@@ -298,8 +298,8 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                 	$i = 1;
                 	$c=0;
                 	$query .= "$orderQuery";
-                	$res = mysql_query($query);
-                    while($row = mysql_fetch_array($res)) {                       	
+                	$res = mysqli_query($self_con,$query);
+                    while($row = mysqli_fetch_array($res)) {                       	
                   ?>
                       <tr>
                         <td><?=$number--?></td>

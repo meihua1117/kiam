@@ -128,15 +128,15 @@ $(function() {
                                 $searchStr .= $rec_key ? " AND (a.recommend_id LIKE '%".$rec_key."%' or b.mem_name like '%".$rec_key."%')" : null;
                                 $order = $order?$order:"desc";
                                 $query = "SELECT SQL_CALC_FOUND_ROWS a.*,b.mem_name as rec_name FROM Gn_Member a INNER JOIN  Gn_Member b on a.recommend_id = b.mem_id WHERE 1=1 $searchStr";
-                                $res	    = mysql_query($query);
-                                $totalCnt	=  mysql_num_rows($res);
+                                $res	    = mysqli_query($self_con,$query);
+                                $totalCnt	=  mysqli_num_rows($res);
                                 $limitStr   = " LIMIT ".(($startPage-1)*$pageCnt).", ".$pageCnt;
                                 $number		= $totalCnt - ($nowPage - 1) * $pageCnt;
                                 $orderQuery .= " ORDER BY a.mem_code DESC $limitStr";
                                 $i = 1;
                                 $query .= $orderQuery;
-                                $res = mysql_query($query);
-                                while($row = mysql_fetch_array($res)) {
+                                $res = mysqli_query($self_con,$query);
+                                while($row = mysqli_fetch_array($res)) {
                                     if($row['service_type'] == 2) {
                                         $mem_level = $service_type = "리셀러";
                                         $row['share_per'] = $row['share_per']?$row['share_per']:30;

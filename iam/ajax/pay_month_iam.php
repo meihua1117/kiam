@@ -34,8 +34,8 @@ foreach ($pay_info as $key => $v) {
     $sql .= " $key = '$v' , ";
 }
 $sql .= " end_date=date_add(now(),INTERVAL {$_POST[month_cnt]} month) , date=now()";
-mysql_query($sql) or die(mysql_error());
-$no = mysql_insert_id();
+mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+$no = mysqli_insert_id($self_con);
 
 $sql = "insert into tjd_pay_result_month set pay_idx='$orderNumber',
                                             order_number='$orderNumber',
@@ -44,19 +44,19 @@ $sql = "insert into tjd_pay_result_month set pay_idx='$orderNumber',
                                             regdate = NOW(),
                                             amount='$_POST[allat_amt]',
                                             buyer_id='$member_iam[mem_id]'";
-mysql_query($sql) or die(mysql_error());
+mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 // set_service_mem_cnt($member_iam['mem_id'], $_POST['member_cnt']);
 if($_POST['phone_cnt'] > 0) {
     $sql = "select * from tjd_pay_result where orderNumber='{$orderNumber}' and buyer_id='$member_iam[mem_id]' ";
-    $resul = mysql_query($sql) or die(mysql_error());
-    $row = mysql_fetch_array($resul);
+    $resul = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+    $row = mysqli_fetch_array($resul);
 
     $sql = "select * from Gn_Member where mem_id='$member_iam[mem_id]' ";
-    $sresult = mysql_query($sql) or die(mysql_error());
-    $srow = mysql_fetch_array($sresult);
+    $sresult = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+    $srow = mysqli_fetch_array($sresult);
     $sql = "select count(cmid) from crawler_member_real where user_id='$member_iam[mem_id]' ";
-    $sresult = mysql_query($sql) or die(mysql_error());
-    $crow = mysql_fetch_array($sresult);
+    $sresult = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+    $crow = mysqli_fetch_array($sresult);
     if ($crow[0] == 0) {
         $user_id = $srow['mem_id'];
         $user_name = $srow['mem_name'];
@@ -83,14 +83,14 @@ if($_POST['phone_cnt'] > 0) {
                                             search_email_date='$search_email_date',
                                             search_email_cnt='$search_email_cnt',
                                             shopping_end_date='$search_email_date'";
-        mysql_query($query);
+        mysqli_query($self_con,$query);
     } 
 
     if ($srow['recommend_id'] != "") {
         $sql = "select * from Gn_Member where mem_id='$srow[recommend_id]' ";
-        $rresult = mysql_query($sql) or die(mysql_error());
-        if (mysql_num_rows($rresult) > 0) {
-            $rrow = mysql_fetch_array($rresult);
+        $rresult = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+        if (mysqli_num_rows($rresult) > 0) {
+            $rrow = mysqli_fetch_array($rresult);
             $addQuery = "";
             $branch_share_per = 0;
             
@@ -100,8 +100,8 @@ if($_POST['phone_cnt'] > 0) {
             if ($rrow[service_type] == 2) {
                 // 추천인의 추천인 검색 및 등급 확인
                 $sql = "select * from Gn_Member where mem_id='$rrow[recommend_id]'";
-                $rresult = mysql_query($sql) or die(mysql_error());
-                $trow = mysql_fetch_array($rresult);
+                $rresult = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+                $trow = mysqli_fetch_array($rresult);
                 $share_per = $recommend_per = $rrow['share_per'] ? $rrow['share_per'] : 30;
                 if ($trow[0] != "") {
                     $recommend_per = $trow['share_per'] ? $trow['share_per'] : 50;
@@ -115,7 +115,7 @@ if($_POST['phone_cnt'] > 0) {
             }
 
             $sql = "update tjd_pay_result set share_per='$share_per', branch_share_per = '$branch_share_per', share_id='$srow[recommend_id]', branch_share_id='$branch_share_id' where no='$no'";
-            mysql_query($sql) or die(mysql_error());
+            mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
         }
     }
 }

@@ -100,9 +100,9 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                 $title = "친구의 그룹";
             }
             $sql = "select * from gn_group_member where mem_id = '$_SESSION[iam_member_id]'";
-            $res = mysql_query($sql);
+            $res = mysqli_query($self_con,$sql);
             $my_group = array();
-            while($row = mysql_fetch_array($res)){
+            while($row = mysqli_fetch_array($res)){
                 array_push($my_group,$row[group_id]);
             }
             $my_group = implode(",",$my_group);
@@ -183,8 +183,8 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                 $start_num2 = ($page2-1) * $list2; //시작번호 (page-1)에서 $list를 곱한다.
 
                 $mem_sql = "select site_iam from Gn_Member where mem_id='$_SESSION[iam_member_id]'";
-                $mem_res = mysql_query($mem_sql);
-                $mem_row = mysql_fetch_array($mem_res);
+                $mem_res = mysqli_query($self_con,$mem_sql);
+                $mem_row = mysqli_fetch_array($mem_res);
                 if($type == "friend") {
                     $group_sql = "select name,ggm.group_id,count(*) as g_mem_count,card_short_url,main_img1 
                             from gn_group_member ggm 
@@ -243,19 +243,19 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                     }
                 }
                 $gm_index = 0;
-                $group_res = mysql_query($group_sql);
-                while($group_row = mysql_fetch_array($group_res)){
+                $group_res = mysqli_query($self_con,$group_sql);
+                while($group_row = mysqli_fetch_array($group_res)){
                     if($type == "sample" || $type == "friend" || ($type == "general" && $type2 == "group")){
                         $mem_sql = "select count(*) from gn_group_member where group_id='$group_row[group_id]'";
-                        $mem_res = mysql_query($mem_sql);
-                        $mem_row = mysql_fetch_array($mem_res);
+                        $mem_res = mysqli_query($self_con,$mem_sql);
+                        $mem_row = mysqli_fetch_array($mem_res);
                         $weekMondayTime = date("Y-m-d",strtotime('last Monday'));
                         $cont_sql = "select count(*) from Gn_Iam_Contents where group_id='$group_row[group_id]' and req_data >= '$weekMondayTime'";
-                        $cont_res = mysql_query($cont_sql);
-                        $cont_row = mysql_fetch_array($cont_res);
+                        $cont_res = mysqli_query($self_con,$cont_sql);
+                        $cont_row = mysqli_fetch_array($cont_res);
                         $f_sql = "select * from Gn_Member where site_iam = '$Gn_mem_row[site_iam]' and mem_id in (select mem_id from gn_group_member where group_id='$group_row[group_id]')";
-                        $f_res = mysql_query($f_sql);
-                        $f_count = mysql_num_rows($f_res);
+                        $f_res = mysqli_query($self_con,$f_sql);
+                        $f_count = mysqli_num_rows($f_res);
                         ?>
                         <div style="padding-top: 2px;">
                             <div style="border:1px solid #ddd;background-color: #ffffff;border-radius: 10px;padding-bottom: 2px;display:flex;justify-content: space-between;">
@@ -272,7 +272,7 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                                             <div style = "display:flex;margin-left:20px;margin-top:10px">
                                                 <?
                                                 $f_index = 0;
-                                                while($f_row = mysql_fetch_array($f_res)){
+                                                while($f_row = mysqli_fetch_array($f_res)){
                                                     if($f_index == 0)
                                                         $f_name = $f_row[mem_name];
                                                     if($f_index++ < 12){?>
@@ -294,9 +294,9 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                                         <ul class="dropdown-menu comunity" style="border: 1px solid #ccc;padding:0px;">
                                             <?
                                             $card_sql = "select card_name from Gn_Iam_Name_Card where group_id = '$group_row[group_id]' and phone_display = 'Y' order by req_data";
-                                            $card_res = mysql_query($card_sql);
+                                            $card_res = mysqli_query($self_con,$card_sql);
                                             $card_num = 1;
-                                            while($card_row = mysql_fetch_array($card_res)){
+                                            while($card_row = mysqli_fetch_array($card_res)){
                                                 ?>
                                                 <li><a onclick="javascript:;;" style="padding:3px 3px 0px 3px !important;"><?=$card_row[0] == ""?$card_num."번카드":$card_row[0];?></a></li>
                                                 <?
@@ -325,15 +325,15 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                             }
                         }
                         $card_sql = "select card.*,mem.mem_code from Gn_Iam_Name_Card card inner join Gn_Member mem on card.mem_id = mem.mem_id where idx = '$group_row[group_card]'";
-                        $card_res = mysql_query($card_sql);
-                        $card_row = mysql_fetch_array($card_res);
+                        $card_res = mysqli_query($self_con,$card_sql);
+                        $card_row = mysqli_fetch_array($card_res);
                         $contents_card_url = $card_row[card_short_url];
                         $m_code = $card_row[mem_code];
                         $group_info = $group_row[public_status] == "Y"?"공개그룹":"비공개그룹";
                         $group_info .= "&bull;";
                         $mem_sql = "select count(*) from gn_group_member where group_id = '$group_row[group_id]'";
-                        $mem_res = mysql_query($mem_sql);
-                        $mem_row = mysql_fetch_array($mem_res);
+                        $mem_res = mysqli_query($self_con,$mem_sql);
+                        $mem_row = mysqli_fetch_array($mem_res);
                         $group_info .= "멤버 ".$mem_row[0]."명";
                         ?>
                         <div class="content-item" id="contents_image" style="margin-bottom: 20px;box-shadow: 2px 3px 3px 1px #eee;border: 1px solid #ccc;">
@@ -580,7 +580,7 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                                         <div style="display: flex;vertical-align: middle">
                                             <?
                                                 $post_sql = "select SQL_CALC_FOUND_ROWS * from Gn_Iam_Post p inner join Gn_Member m on p.mem_id = m.mem_id where p.content_idx = '$group_row[idx]' and p.lock_status = 'N' order by p.reg_date";
-                                                $post_res = mysql_query($post_sql);
+                                                $post_res = mysqli_query($self_con,$post_sql);
                                             ?>
                                             <a  class = "hand" href="javascript:contents_like('<?=$group_row['idx']?>','<?=$_SESSION[iam_member_id]?>');">
                                                 <?if(in_array($_SESSION[iam_member_id],explode(",",$group_row['contents_like']))){?>	
@@ -604,8 +604,8 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                             </div>
                             <?
                             $post_status_sql = "select count(*) from Gn_Iam_Post where content_idx = '$group_row[idx]' and status = 'N' and lock_status = 'N'";
-                            $post_status_res = mysql_query($post_status_sql);
-                            $post_status_row =  mysql_fetch_array($post_status_res);
+                            $post_status_res = mysqli_query($self_con,$post_status_sql);
+                            $post_status_row =  mysqli_fetch_array($post_status_res);
                             $post_status_count = $post_status_row[0];
                             if ($post_status_count  > 0)
                                 echo "<script>  $('#post_alarm_".$group_row[idx]."').html(".$post_status_count."); </script>";
@@ -625,10 +625,10 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                                     <span id = "post_status" name = "post_status" style="padding: 10px;font-size:10px">0/300</span>
                                 </div>
                                 <div style="border: 0px solid #dddddd;margin-left:30px;" id = "<?='post_list_'.$group_row[idx]?>" name = "<?='post_list_'.$group_row[idx]?>">
-                                    <?while($post_row = mysql_fetch_array($post_res)){
+                                    <?while($post_row = mysqli_fetch_array($post_res)){
                                         $post_card_sql = "select card_short_url from Gn_Iam_Name_Card where group_id is NULL and mem_id = '$post_row[mem_id]' order by req_data asc";
-                                        $post_card_result = mysql_query($post_card_sql);
-                                        $post_card_row = mysql_fetch_array($post_card_result);
+                                        $post_card_result = mysqli_query($self_con,$post_card_sql);
+                                        $post_card_row = mysqli_fetch_array($post_card_result);
                                         ?>
                                         <div class="user-item" id="<?='post_reply'.$post_row['id']?>">
                                             <a href="/?<?=strip_tags($post_card_row['card_short_url'])?>" class="img-box">
@@ -702,11 +702,11 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                                         </div>
                                         <?
                                         $reply_sql = "select * from Gn_Iam_Post_Response r inner join Gn_Member m on r.mem_id = m.mem_id where r.post_idx = '$post_row[id]' order by r.reg_date";
-                                        $reply_res = mysql_query($reply_sql);
-                                        while($reply_row = mysql_fetch_array($reply_res)){
+                                        $reply_res = mysqli_query($self_con,$reply_sql);
+                                        while($reply_row = mysqli_fetch_array($reply_res)){
                                             $reply_card_sql = "select card_short_url from Gn_Iam_Name_Card where group_id is NULL and mem_id = '$reply_row[mem_id]' order by req_data asc";
-                                            $reply_card_result = mysql_query($reply_card_sql);
-                                            $reply_card_row = mysql_fetch_array($reply_card_result);
+                                            $reply_card_result = mysqli_query($self_con,$reply_card_sql);
+                                            $reply_card_row = mysqli_fetch_array($reply_card_result);
                                             ?>
                                             <div class="user-item" style="padding-left: 50px">
                                                 <a href="/?<?=strip_tags($reply_card_row['card_short_url'])?>" class="img-box">
@@ -810,9 +810,9 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                             <div class="attr-value" style="display:flex;flex-wrap: wrap;">
                                 <?
                                 $sql5="select card_short_url,card_title from Gn_Iam_Name_Card where group_id is NULL and mem_id = '$_SESSION[iam_member_id]' order by req_data asc";
-                                $result5=mysql_query($sql5);
+                                $result5=mysqli_query($self_con,$sql5);
                                 $i = 0;
-                                while($row5=mysql_fetch_array($result5)) {
+                                while($row5=mysqli_fetch_array($result5)) {
                                     ?>
                                     <div title="<?=$row5[card_title]?>">
                                         <input type="checkbox" onchange="onChangeCardGetCheck(this)" class="contents_get_check" value="<?= $row5[card_short_url] ?>">

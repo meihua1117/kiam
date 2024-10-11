@@ -17,7 +17,7 @@ if($mode == "save")
                                     `name`      ='$name', 
                                     regdate=NOW()
                                         ";
-        mysql_query($query);	
+        mysqli_query($self_con,$query);	
     } else {
         $query="update gn_admin_allowip set 
                                     `ip`          ='$ip', 
@@ -26,7 +26,7 @@ if($mode == "save")
                                     regdate=NOW()
                                 WHERE idx='$idx'
                                         ";
-        mysql_query($query);		
+        mysqli_query($self_con,$query);		
     }
     echo "<script>alert('저장되었습니다.');location='/admin/admin_allowip_list.php';</script>";
 }
@@ -37,7 +37,7 @@ else if($mode == "type")
                     `secure_connect`          = '$issecure', 
                     regdate=NOW()
                     ";
-    mysql_query($query);
+    mysqli_query($self_con,$query);
 
 }
 exit;

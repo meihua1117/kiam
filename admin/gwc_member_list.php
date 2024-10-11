@@ -639,8 +639,8 @@ $case = -1;
                                             b.memo, b.sendnum, b.memo2, a.service_type, a.mem_iam_type,a.is_leave
                                           FROM Gn_Member a LEFT JOIN Gn_MMS_Number b on (b.mem_id =a.mem_id and REPLACE(a.mem_phone, '-', '')=b.sendnum)
                                           WHERE (gwc_leb!=0 or gwc_req_leb!=0) $searchStr";
-                                $res	    = mysql_query($query);
-                                $totalCnt	=  mysql_num_rows($res);
+                                $res	    = mysqli_query($self_con,$query);
+                                $totalCnt	=  mysqli_num_rows($res);
                                 $limitStr   = " LIMIT ".(($startPage-1)*$pageCnt).", ".$pageCnt;
                                 $number		= $totalCnt - ($nowPage - 1) * $pageCnt;
                                 // rcs s
@@ -654,13 +654,13 @@ $case = -1;
                                 $excel_sql = "";
                                 $excel_sql = $query;
                                 $query .= $limitStr;
-                                $res = mysql_query($query);
-                                while($row = mysql_fetch_array($res)) {
+                                $res = mysqli_query($self_con,$query);
+                                while($row = mysqli_fetch_array($res)) {
                                     // =====================  유료결제건 시작 =====================
                                     $sql = "select phone_cnt,onestep2 from tjd_pay_result where buyer_id = '".$row['mem_id']."' and end_date > '$date_today' and end_status='Y' order by end_date desc limit 1";
-                                    $res_result = mysql_query($sql);
-                                    $pay_result = mysql_fetch_row($res_result);
-                                    mysql_free_result($res_result);
+                                    $res_result = mysqli_query($self_con,$sql);
+                                    $pay_result = mysqli_fetch_row($res_result);
+                                    mysqli_free_result($res_result);
                                     if($pay_result == ""){
                                         $buyMMSCount = "OFF";
                                     }else{
@@ -670,9 +670,9 @@ $case = -1;
                                     // ===================== 유료결제건 끝 =====================
                                     // =====================  총결제금액 시작 =====================
                                     $sql = "select sum(TotPrice) totPrice from tjd_pay_result where buyer_id = '".$row['mem_id']."' and end_status='Y'";
-                                    $res_result = mysql_query($sql);
-                                    $totPriceRow = mysql_fetch_row($res_result);
-                                    mysql_free_result($res_result);
+                                    $res_result = mysqli_query($self_con,$sql);
+                                    $totPriceRow = mysqli_fetch_row($res_result);
+                                    mysqli_free_result($res_result);
                                     $totPrice = $totPriceRow[0];
                                     // ===================== 총결제금액 끝 =====================
                                     // 부가서비스 이용 여부 확인

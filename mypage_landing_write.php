@@ -11,12 +11,12 @@ if (!$_SESSION['one_member_id']) {
     exit;
 }
 $sql = "select * from Gn_landing  where landing_idx='" . $landing_idx . "'";
-$sresul_num = mysql_query($sql);
-$row = mysql_fetch_array($sresul_num);
+$sresul_num = mysqli_query($self_con,$sql);
+$row = mysqli_fetch_array($sresul_num);
 //clean code 22-01-19
 /*$sql = "select * from Gn_Member where mem_id = '$_SESSION[one_member_id]' and site != ''";
-$res_result = mysql_query($sql);
-$member_1 = mysql_fetch_array($res_result);*/
+$res_result = mysqli_query($self_con,$sql);
+$member_1 = mysqli_fetch_array($res_result);*/
 ?>
 <script>
     function copyHtml() {
@@ -623,8 +623,8 @@ $member_1 = mysql_fetch_array($res_result);*/
                                     <td>
                                         <?
                                         $sql = "select event_title from Gn_event where pcode='$row[pcode]'";
-                                        $eres = mysql_query($sql);
-                                        $erow = mysql_fetch_array($eres);
+                                        $eres = mysqli_query($self_con,$sql);
+                                        $erow = mysqli_fetch_array($eres);
                                         ?>
                                         <input type="radio" name="request_yn" id="request_y" value="Y" <?php echo $row['request_yn'] == "Y" ? "checked" : "" ?>>사용
                                         <input type="radio" name="request_yn" id="request_n" value="N" <?php echo $row['request_yn'] == "N" || $row['request_yn'] == "" ? "checked" : "" ?>>사용 안함

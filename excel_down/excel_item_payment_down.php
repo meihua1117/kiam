@@ -8,8 +8,8 @@ if(strlen($_SESSION[one_member_id]) > 0) {
       include_once $path."lib/rlatjd_fun.php";
 	  $excel_sql=$_POST['excel_sql'];
 	  $excel_sql=str_replace("`","'",$excel_sql);
-      $result = mysql_query($excel_sql) or die(mysql_error());
-      $totalCnt = mysql_num_rows($result);
+      $result = mysqli_query($self_con,$excel_sql) or die(mysqli_error($self_con));
+      $totalCnt = mysqli_num_rows($result);
       $number			= $totalCnt;
       require_once("Classes/PHPExcel.php");
       $objPHPExcel = new PHPExcel();
@@ -36,7 +36,7 @@ if(strlen($_SESSION[one_member_id]) > 0) {
 					->setCellValue("L1", "결제일")
 					->setCellValue("M1", "배당");
       $h=2;			
-      while($row=mysql_fetch_array($result))
+      while($row=mysqli_fetch_array($result))
 		{
 			$cardstr = "카드";
 			$cardstr = $pay_type[$row[pay_method]];

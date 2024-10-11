@@ -5,8 +5,8 @@ if($_GET['total_cnt'] != '')
     $totalCnt = $_GET['total_cnt'] * 1;
 if($HTTP_HOST != "kiam.kr") {
     $query = "select * from Gn_Iam_Service where sub_domain = 'http://".$HTTP_HOST."'";
-    $res = mysql_query($query);
-    $domainData = mysql_fetch_array($res);
+    $res = mysqli_query($self_con,$query);
+    $domainData = mysqli_fetch_array($res);
 
     if($domainData['mem_id'] != $_SESSION[iam_member_id]) {
         echo "<script>location='/';</script>";
@@ -17,8 +17,8 @@ if($HTTP_HOST != "kiam.kr") {
 }
 else{
     $query = "select * from Gn_Iam_Service where sub_domain = 'http://www.kiam.kr'";
-    $res = mysql_query($query);
-    $domainData = mysql_fetch_array($res);
+    $res = mysqli_query($self_con,$query);
+    $domainData = mysqli_fetch_array($res);
 
     if($domainData['mem_id'] != $_SESSION[iam_member_id]) {
         echo "<script>location='/';</script>";
@@ -29,22 +29,22 @@ else{
     
 if($mem_id != "") {
     $query = "select * from Gn_Member where mem_id='$mem_id' ";
-    $cres = mysql_query($query);
-    $user = mysql_fetch_array($cres);
+    $cres = mysqli_query($self_con,$query);
+    $user = mysqli_fetch_array($cres);
 
     $query = "select count(*) from Gn_Iam_Name_Card  where group_id is NULL and mem_id='$mem_id' ";
-    $cres = mysql_query($query);
-    $crow = mysql_fetch_array($cres);
+    $cres = mysqli_query($self_con,$query);
+    $crow = mysqli_fetch_array($cres);
     $card_cnt = $crow[0];
 
     $query = "select count(*) from Gn_Iam_Contents where group_id is NULL and mem_id='$mem_id' ";
-    $cres = mysql_query($query);
-    $crow = mysql_fetch_array($cres);
+    $cres = mysqli_query($self_con,$query);
+    $crow = mysqli_fetch_array($cres);
     $contents_cnt = $crow[0];
 
     $query = "select count(*) from Gn_Iam_Friends  where mem_id='$mem_id' ";
-    $cres = mysql_query($query);
-    $crow = mysql_fetch_array($cres);
+    $cres = mysqli_query($self_con,$query);
+    $crow = mysqli_fetch_array($cres);
     $friends_cnt = $crow[0];
 }
 
@@ -221,8 +221,8 @@ if($mem_id != "") {
                                     
                                     $mem_array = array();
                                     $mem_query = "select mem_id from Gn_Member use index(mem_id) where site_iam='$site[0]'";
-                                    $mem_res = mysql_query($mem_query);
-                                    while($mem_row = mysql_fetch_array($mem_res)){
+                                    $mem_res = mysqli_query($self_con,$mem_query);
+                                    while($mem_row = mysqli_fetch_array($mem_res)){
                                         array_push($mem_array, "'".$mem_row['mem_id']."'");
                                     }
                                     
@@ -233,8 +233,8 @@ if($mem_id != "") {
                                     $query = "SELECT  count(contents.idx) as cnt
                                             FROM Gn_Iam_Contents contents use index(idx)
                                             WHERE mem_id in ($mem_str) $searchStr";
-                                    $res	    = mysql_query($query);
-                                    $totalRow	=  mysql_fetch_array($res);
+                                    $res	    = mysqli_query($self_con,$query);
+                                    $totalRow	=  mysqli_fetch_array($res);
                                     $totalCnt	=  $totalRow[0];
                                     
                                     $query = "SELECT  contents.idx, contents.mem_id, contents.contents_title, contents.contents_temp, contents.contents_like,contents.contents_url,contents.req_data,contents.up_data,contents.contents_share_count,contents.contents_img
@@ -250,11 +250,11 @@ if($mem_id != "") {
                                     $i = 1;
                                     $c = 0;
                                     $query .= $orderQuery;
-                                    $res = mysql_query($query);
-                                    while($row = mysql_fetch_array($res)) {
+                                    $res = mysqli_query($self_con,$query);
+                                    while($row = mysqli_fetch_array($res)) {
                                         $mem_query = "select mem_name from Gn_Member use index(mem_id) where mem_id='$row[mem_id]'";
-                                        $mem_res = mysql_query($mem_query);
-                                        $mem_row = mysql_fetch_array($mem_res);
+                                        $mem_res = mysqli_query($self_con,$mem_query);
+                                        $mem_row = mysqli_fetch_array($mem_res);
                                         $row['mem_name'] = $mem_row['mem_name'];
                                 ?>
                                     <tr>

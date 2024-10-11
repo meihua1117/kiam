@@ -16,8 +16,8 @@ $body .= '</div>';
 
 $vid_array = array();
 $vid_sql = "select * from gn_video where type = 'iam' order by no";
-$vid_res = mysql_query($vid_sql);
-$vid_row = mysql_fetch_array($vid_res);
+$vid_res = mysqli_query($self_con,$vid_sql);
+$vid_row = mysqli_fetch_array($vid_res);
 
 $body .= '<div class="modal-body" style="background-color: #e5e5e5;">';
 $body .= '    <div style="position: absolute;top:10px;right:10px" id = "btnZoomIn" onclick = "clickZoomIn();">';
@@ -37,7 +37,7 @@ $body .= '                    <p class = "mypage_list" style="font-size:14px;bac
 $body .= '                </a>';
 $body .= '            </div>';
 $body .= '        </div>';
-        while($vid_row = mysql_fetch_array($vid_res)){
+        while($vid_row = mysqli_fetch_array($vid_res)){
 $body .= '            <div style="padding-top: 1px;">';
 $body .= '                <div>';
 $body .= '                    <a href="javascript:changeVideo(\''. $vid_row[link] .'\');">';

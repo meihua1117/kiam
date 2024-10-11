@@ -183,8 +183,8 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                                 }
 
                                 $query = "SELECT count(r.id) FROM gn_report_form r inner join Gn_Member m on m.mem_id = r.user_id WHERE $searchStr";
-                                $res    = mysql_query($query);
-                                $totalRow	=  mysql_fetch_array($res);
+                                $res    = mysqli_query($self_con,$query);
+                                $totalRow	=  mysqli_fetch_array($res);
                                 $totalCnt = $totalRow[0];
                                 //$query = "SELECT r.*,m.mem_name,m.site_iam FROM gn_report_form r inner join Gn_Member m on m.mem_id = r.user_id WHERE $searchStr ";
                                 $query = "SELECT r.* FROM gn_report_form r use index(user_id) WHERE $searchStr ";
@@ -193,11 +193,11 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                                 $orderQuery .= "ORDER BY r.id desc $limitStr";
                                 $i = 1;
                                 $query .= "$orderQuery";
-                                $res = mysql_query($query);
-                                while($row = mysql_fetch_array($res)) {
+                                $res = mysqli_query($self_con,$query);
+                                while($row = mysqli_fetch_array($res)) {
                                     $mem_sql = "SELECT mem_name,site_iam FROM Gn_Member use index(mem_id) where mem_id='$row[user_id]'";
-                                    $mem_res = mysql_query($mem_sql);
-                                    $mem_row = mysql_fetch_array($mem_res);
+                                    $mem_res = mysqli_query($self_con,$mem_sql);
+                                    $mem_row = mysqli_fetch_array($mem_res);
                             ?>
                                 <tr>
                                     <td><input type="checkbox" class="check" id="check_one" name="" value="<?=$row['id']?>"></td>
@@ -215,8 +215,8 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                                     </td>
                                     <?
                                     $sql1 = "select count(idx) from gn_report_table where repo_id=$row[id]";
-                                    $res1 = mysql_query($sql1);
-                                    $row1 = mysql_fetch_array($res1);
+                                    $res1 = mysqli_query($self_con,$sql1);
+                                    $row1 = mysqli_fetch_array($res1);
                                     $count = $row1[0];
                                     if($count == null)
                                         $count = 0;

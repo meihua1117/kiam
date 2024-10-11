@@ -7,8 +7,8 @@
   <? include_once $SERVER['DOCUMENT_ROOT'] . "lib/db_config.php";
   extract($_GET);
   $sql = "select msg from tjd_pay_result_month where pay_idx='$index' order by idx desc";
-  $result = mysql_query($sql);
-  $row = mysql_fetch_array($result);
+  $result = mysqli_query($self_con,$sql);
+  $row = mysqli_fetch_array($result);
   $msg = $row['msg'];
   ?>
   <style>

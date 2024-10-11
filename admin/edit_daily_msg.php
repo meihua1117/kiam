@@ -8,16 +8,16 @@ $date_today=date("Y-m-d");
 $date_month=date("Y-m");
 
 $sql="select * from Gn_daily  where gd_id='".$gd_id."'";
-$sresul_num=mysql_query($sql);
-$row=mysql_fetch_array($sresul_num);	
+$sresul_num=mysqli_query($self_con,$sql);
+$row=mysqli_fetch_array($sresul_num);	
 if($row[0]) {
     $sql="select * from Gn_MMS_Group where idx='$row[group_idx]'";
-    $sresult=mysql_query($sql) or die(mysql_error());					  	 
-    $krow = mysql_fetch_array($sresult);   
+    $sresult=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));					  	 
+    $krow = mysqli_fetch_array($sresult);   
     
     $sql="select * from Gn_Member  where mem_id='".$row[mem_id]."'";
-    $sresul_num=mysql_query($sql);
-    $data=mysql_fetch_array($sresul_num);
+    $sresul_num=mysqli_query($self_con,$sql);
+    $data=mysqli_fetch_array($sresul_num);
 }
 if(!$_REQUEST[daily_cnt]){
     $daily_cnt = 50;
@@ -91,8 +91,8 @@ else $link = "daily_msg_list_mem.php";
 														<?php echo str_replace("-","",$row['send_num']);?></option>
 													<?php
 													$query = "select * from Gn_MMS_Number where mem_id='$_SESSION[one_member_id]' order by sort_no asc, user_cnt desc , idx desc";
-													$resul=mysql_query($query);
-													while($korow=mysql_fetch_array($resul)) {
+													$resul=mysqli_query($self_con,$query);
+													while($korow=mysqli_fetch_array($resul)) {
 													?>
 													<option value="<?=str_replace("-","",$korow[sendnum])?>"
 														<?php echo $row['send_num']==str_replace("-","",$korow[sendnum])?"selected":""?>>

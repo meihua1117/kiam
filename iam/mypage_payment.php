@@ -71,18 +71,18 @@ if($_REQUEST[point_type] == "S"){
     $point_sql_serch.=" and site is null ";
 }
 $sql="select count(no) as cnt from tjd_pay_result where $sql_serch ";
-$result = mysql_query($sql) or die(mysql_error());
-$row=mysql_fetch_array($result);
+$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+$row=mysqli_fetch_array($result);
 $intRowCount=$row[cnt];
 
 $content_sql="select count(no) as cnt from Gn_Item_Pay_Result where $content_sql_serch ";
-$content_result = mysql_query($content_sql) or die(mysql_error());
-$content_row=mysql_fetch_array($content_result);
+$content_result = mysqli_query($self_con,$content_sql) or die(mysqli_error($self_con));
+$content_row=mysqli_fetch_array($content_result);
 $contentRowCount=$content_row[cnt];
 
 $point_sql="select count(p.no) as cnt from Gn_Item_Pay_Result p where $point_sql_serch ";
-$point_result = mysql_query($point_sql) or die(mysql_error());
-$point_row=mysql_fetch_array($point_result);
+$point_result = mysqli_query($self_con,$point_sql) or die(mysqli_error($self_con));
+$point_row=mysqli_fetch_array($point_result);
 $pointRowCount=$point_row[cnt];
 
 if (!$_POST[lno])
@@ -149,14 +149,14 @@ $intPageCount=(int)(($intRowCount+$intPageSize-1)/$intPageSize);
 $contPageCount=(int)(($contentRowCount+$intPageSize-1)/$intPageSize);
 $pointPageCount=(int)(($pointRowCount+$intPageSize-1)/$intPageSize);
 $sql="select * from tjd_pay_result where $sql_serch order by $order_name $order_status limit $int,$intPageSize";
-$result=mysql_query($sql) or die(mysql_error());
+$result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 
 //$content_sql="select p.*,mem_name from Gn_Item_Pay_Result p inner join Gn_Member m on p.seller_id = m.mem_id  where $content_sql_serch order by $content_order_name $content_order_status limit $cont,$intPageSize";
 $content_sql="select p.* from Gn_Item_Pay_Result p where $content_sql_serch order by $content_order_name $content_order_status limit $cont,$intPageSize";
-$content_result=mysql_query($content_sql) or die(mysql_error());
+$content_result=mysqli_query($self_con,$content_sql) or die(mysqli_error($self_con));
 
 $point_sql="select * from Gn_Item_Pay_Result where $point_sql_serch order by $content_order_name $content_order_status limit $pt,$intPageSize";
-$point_result=mysql_query($point_sql) or die(mysql_error());
+$point_result=mysqli_query($self_con,$point_sql) or die(mysqli_error($self_con));
 
 $mid = date("YmdHis").rand(10,99);
 ?>
@@ -293,7 +293,7 @@ $mid = date("YmdHis").rand(10,99);
                         </tr>
 <?
                         if($intRowCount){
-                            while($row=mysql_fetch_array($result)){
+                            while($row=mysqli_fetch_array($result)){
 ?>
                                 <tr >
                                     <td style=""><?=$sort_no?></td>
@@ -377,7 +377,7 @@ $mid = date("YmdHis").rand(10,99);
                         </tr>
                         <?
                         if($contentRowCount){
-                            while($row=mysql_fetch_array($content_result)){
+                            while($row=mysqli_fetch_array($content_result)){
                                 if($row[point_val] == 0){
                                     if($row[pay_method] == "CARD"){
                                         $method = "카드결제";
@@ -386,14 +386,14 @@ $mid = date("YmdHis").rand(10,99);
                                         $method = "무통장결제";
                                     }
                                     $sql_mem_data = "select mem_id, mem_name, mem_phone from Gn_Member where mem_id='{$row['buyer_id']}'";
-                                    $res_mem_data = mysql_query($sql_mem_data);
-                                    $row_mem_data = mysql_fetch_array($res_mem_data);
+                                    $res_mem_data = mysqli_query($self_con,$sql_mem_data);
+                                    $row_mem_data = mysqli_fetch_array($res_mem_data);
                                 }
                                 else{
                                     $method = "포인트결제";
                                     $sql_mem_data = "select mem_id, mem_name, mem_phone from Gn_Member where mem_id='{$row['seller_id']}'";
-                                    $res_mem_data = mysql_query($sql_mem_data);
-                                    $row_mem_data = mysql_fetch_array($res_mem_data);
+                                    $res_mem_data = mysqli_query($self_con,$sql_mem_data);
+                                    $row_mem_data = mysqli_fetch_array($res_mem_data);
                                 }
 
                                 if($row[pay_method] == "CARD"){
@@ -539,7 +539,7 @@ $mid = date("YmdHis").rand(10,99);
                         </tr>
                         <?
                         if($pointRowCount){
-                            while($row=mysql_fetch_array($point_result)){
+                            while($row=mysqli_fetch_array($point_result)){
                                 if(($row['type'] == "service") || ($row['type'] == "buy")){
                                     $type = "충전";
 
@@ -547,8 +547,8 @@ $mid = date("YmdHis").rand(10,99);
                                     $type = "결제";
                                     if(strpos($row['item_name'], "서비스콘텐츠") !== false || strpos($row['item_name'], "IAM몰") !== false){
                                         $sql_member = "select mem_name,mem_phone from Gn_Member where mem_id='{$row['pay_method']}'";
-                                        $res_member = mysql_query($sql_member);
-                                        $row_member = mysql_fetch_array($res_member);
+                                        $res_member = mysqli_query($self_con,$sql_member);
+                                        $row_member = mysqli_fetch_array($res_member);
                                         $row[pay_method] = $row_member['mem_name'] . "<br>" . $row_member['mem_phone'];
                                     }
                                 } else if($row['type'] == "minus"){
@@ -557,21 +557,21 @@ $mid = date("YmdHis").rand(10,99);
                                     $type = "판매";
                                     if(strpos($row['item_name'], "서비스콘텐츠") !== false || strpos($row['item_name'], "IAM몰") !== false){
                                         $sql_member = "select mem_name, mem_phone from Gn_Member where mem_id='{$row['pay_method']}'";
-                                        $res_member = mysql_query($sql_member);
-                                        $row_member = mysql_fetch_array($res_member);
+                                        $res_member = mysqli_query($self_con,$sql_member);
+                                        $row_member = mysqli_fetch_array($res_member);
                                         $row[pay_method] = $row_member['mem_name'] . "<br>" . $row_member['mem_phone'];
                                     }
                                 } else if($row['type'] == "cardsend" || $row['type'] == "contentssend"){
                                     $type = "전송";
                                     $sql_member = "select mem_name, mem_id from Gn_Member where mem_id='{$row['pay_method']}'";
-                                    $res_member = mysql_query($sql_member);
-                                    $row_member = mysql_fetch_array($res_member);
+                                    $res_member = mysqli_query($self_con,$sql_member);
+                                    $row_member = mysqli_fetch_array($res_member);
                                     $row[pay_method] = $row_member['mem_id'] . "<br>" . $row_member['mem_name'];
                                 } else if($row['type'] == "contentsrecv"){
                                     $type = "수신";
                                     $sql_member = "select mem_name,mem_phone from Gn_Member where mem_id='{$row['pay_method']}'";
-                                    $res_member = mysql_query($sql_member);
-                                    $row_member = mysql_fetch_array($res_member);
+                                    $res_member = mysqli_query($self_con,$sql_member);
+                                    $row_member = mysqli_fetch_array($res_member);
                                     $row[pay_method] = $row_member['mem_name'] . "<br>" . $row_member['mem_phone'];
                                     $row[item_price] = 0;
                                 } else if($row['type'] == "group_card"){
@@ -733,8 +733,8 @@ $mid = date("YmdHis").rand(10,99);
                         <tbody>
                             <?
                             $sql_penalty = "select * from gn_penalty_list";
-                            $res_penalty = mysql_query($sql_penalty);
-                            while($row_penalty = mysql_fetch_array($res_penalty)){
+                            $res_penalty = mysqli_query($self_con,$sql_penalty);
+                            while($row_penalty = mysqli_fetch_array($res_penalty)){
                             ?>
                             <tr>
                                 <td><?=$row_penalty[month]?>개월</td>

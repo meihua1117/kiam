@@ -113,18 +113,18 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                             </colgroup>
                             <?
                             $sql = "select SQL_CALC_FOUND_ROWS * from Gn_Search_Key order by no";
-                            $result = mysql_query($sql);
-                            while($key_row=mysql_fetch_array($result)){?>
+                            $result = mysqli_query($self_con,$sql);
+                            while($key_row=mysqli_fetch_array($result)){?>
                                 <tr>
                                     <th>
                                         <input type="text" name="key_type" id="<?='key_type'.$key_row[no]?>" value="<?=$key_row[key_type]?>" style="width: 100%">
                                     </th>
                                     <td>
-                                    <?if(strlen($key_row[key_content]) > 200){?>
-                                        <textarea name="key_content" id="<?='key_content'.$key_row[no]?>" style="width:100%;height:100px;"><?=htmlspecialchars_decode($key_row[key_content])?></textarea>
+                                    <?if(strlen($key_row['key_content']) > 200){?>
+                                        <textarea name="key_content" id="<?='key_content'.$key_row[no]?>" style="width:100%;height:100px;"><?=htmlspecialchars_decode($key_row['key_content'])?></textarea>
                                     <?}
                                     else{?>
-                                        <input type="text" name="key_content" id="<?='key_content'.$key_row[no]?>" value="<?=$key_row[key_content]?>" style="width: 100%">
+                                        <input type="text" name="key_content" id="<?='key_content'.$key_row[no]?>" value="<?=$key_row['key_content']?>" style="width: 100%">
                                     <?}?>
                                     </td>
                                     <td>

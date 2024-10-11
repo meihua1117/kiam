@@ -192,8 +192,8 @@ include "inc/header.inc.php";
                                             // 광역시도 목록
                                             $province_list = array();
                                             $query = "SELECT province FROM gn_cities group by province";
-                                            $res = mysql_query($query);
-                                            while($row = mysql_fetch_array($res)) {
+                                            $res = mysqli_query($self_con,$query);
+                                            while($row = mysqli_fetch_array($res)) {
                                                 $province_list[] = $row['province'];
                                             }
                                         ?>
@@ -516,8 +516,8 @@ include "inc/header.inc.php";
                                         // 광역시도 목록
                                         /*$province_list = array();
                                         $query = "SELECT province FROM gn_cities group by province";
-                                        $res = mysql_query($query);
-                                        while($row = mysql_fetch_array($res)) {
+                                        $res = mysqli_query($self_con,$query);
+                                        while($row = mysqli_fetch_array($res)) {
                                             $province_list[] = $row['province'];
                                         }
                                         if($code == "KR") {?>

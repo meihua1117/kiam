@@ -28,7 +28,7 @@ if($mode == "save"){
                                         `site_iam`      ='$site_iam',
                                         `display_order` ='$menu_display_order',
                                         `reg_date`      ='$date'";
-        mysql_query($query);
+        mysqli_query($self_con,$query);
         echo json_encode(array("result"=>"success","mode"=>$mode,"idx"=>$idx,"msg"=>"성공적으로 추가되었습니다."));	
     }else{
         if($file_name) {
@@ -49,7 +49,7 @@ if($mode == "save"){
                                             `site_iam` = '$site_iam',
                                             `display_order` ='$menu_display_order',
                                             `reg_date` = '$date'";
-        mysql_query($query) or die(mysql_error());	
+        mysqli_query($self_con,$query) or die(mysqli_error($self_con));	
         echo json_encode(array("result"=>"success","mode"=>$mode,"idx"=>$idx,"msg"=>"성공적으로 추가되었습니다."));
     }
 }else if($mode == "updat"){
@@ -71,28 +71,28 @@ if($mode == "save"){
                                     `site_iam` ='$site_iam',
                                     `up_date` = '$date'
                                     WHERE idx='$idx'";
-    mysql_query($query);
+    mysqli_query($self_con,$query);
     echo json_encode(array("result"=>"success","mode"=>$mode,"idx"=>$idx,"msg"=>"성공적으로 저장되었습니다."));	
 }else if($mode == "del"){
     $query="delete from Gn_Iam_Menu WHERE idx='$idx'";
-    mysql_query($query);
+    mysqli_query($self_con,$query);
     echo json_encode(array("result"=>"success","mode"=>$mode,"idx"=>$idx,"msg"=>"성공적으로 삭제되었습니다."));	
 }else if($mode == "set_show"){
     
     $sql_update = "update Gn_Iam_Service set admin_iam_menu='{$set_type}' where sub_domain like '%".$domain."%'";
-    $res = mysql_query($sql_update);
+    $res = mysqli_query($self_con,$sql_update);
     $domains = explode(".",$domain);
     $site = $domains[0];
     if($site == "www")
         $site = "kiam";
     if($set_type == 1){
         $sql = "select count(idx) from Gn_Iam_Menu where site_iam='{$site}'";
-        $res = mysql_query($sql);
-        $row = mysql_fetch_array($res);
+        $res = mysqli_query($self_con,$sql);
+        $row = mysqli_fetch_array($res);
         if($row[0] == 0){
             $menu_sql = "select * from Gn_Iam_Menu where site_iam='kiam'";
-            $menu_res = mysql_query($menu_sql);
-            while($menu_row = mysql_fetch_assoc($menu_res)){
+            $menu_res = mysqli_query($self_con,$menu_sql);
+            while($menu_row = mysqli_fetch_assoc($menu_res)){
                 $sql = "insert into Gn_Iam_Menu set ";
                 foreach($menu_row as $key=>$v){
                     if($key != "reg_date" && $key != "idx"){
@@ -101,13 +101,13 @@ if($mode == "save"){
                     }
                 }
                 $sql .= "reg_date="."'$date'";
-                mysql_query($sql);
+                mysqli_query($self_con,$sql);
             }
         }
     }
 }else if($mode == "status"){
     $sql_update = "update Gn_Iam_Menu set use_yn='{$status}' where idx='{$id}'";
-    $res = mysql_query($sql_update);
+    $res = mysqli_query($self_con,$sql_update);
 }
 exit;
 ?>

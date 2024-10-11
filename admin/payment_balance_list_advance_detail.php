@@ -140,8 +140,8 @@ function payment_save(fm) {
                     <tbody>
                   <?
                     $query = "Select * from Gn_Member where mem_id='$mem_id'";
-                    $cres = mysql_query($query);
-                    $crow = mysql_fetch_array($cres);                                              
+                    $cres = mysqli_query($self_con,$query);
+                    $crow = mysqli_fetch_array($cres);                                              
                 	  $query = "SELECT 
                                   a.pay_no, 
                                   a.bid,
@@ -190,17 +190,17 @@ function payment_save(fm) {
                               WHERE 1=1 
                                     $searchStr
                                     and branch_id='$mem_id'";
-                    $res	    = mysql_query($query);
-                    $number = $totalCnt	=  mysql_num_rows($res);	
+                    $res	    = mysqli_query($self_con,$query);
+                    $number = $totalCnt	=  mysqli_num_rows($res);	
                     $orderQuery .= " ORDER BY mem_id ,pay_no desc";   
                 	  $i = 1;
                     $query .= $orderQuery;
-                	  $res = mysql_query($query);
-                    while($row = mysql_fetch_array($res)) {                       	
+                	  $res = mysqli_query($self_con,$query);
+                    while($row = mysqli_fetch_array($res)) {                       	
                         if($row[total_price] == 500000) {
                             $query = "Select * from tjd_pay_result_delaer where m_id='$row[mem_id]'";
-                            $sres = mysql_query($query);
-                            $srow = mysql_fetch_array($sres);                            
+                            $sres = mysqli_query($self_con,$query);
+                            $srow = mysqli_fetch_array($sres);                            
                             if(substr($row['date'],0,10) != substr($srow['regtime'], 0,10)) {
                                 $row[total_price] = 0;
                             }
@@ -214,8 +214,8 @@ function payment_save(fm) {
                           $cmem_id = $row[branch_id];
                           $mem_query = "select mem_name,service_type from Gn_Member where mem_id='$row[branch_id]'";  
                         }
-                        $mem_res = mysql_query($mem_query);
-                        $mem_row = mysql_fetch_array($mem_res);
+                        $mem_res = mysqli_query($self_con,$mem_query);
+                        $mem_row = mysqli_fetch_array($mem_res);
                         $cmem_name = $mem_row[mem_name];
                         if($mem_row['service_type'] == 2) {
                           $cmem_level = "리셀러";

@@ -6,12 +6,12 @@ extract($_GET);
 // 오늘날짜
 $date_today=date("Y-m-d");
 $sql="select * from Gn_event  where event_idx='".$event_idx."'";
-$res=mysql_query($sql);
-$row=mysql_fetch_array($res);	
+$res=mysqli_query($self_con,$sql);
+$row=mysqli_fetch_array($res);	
 if($row[0]) {
     $sql="select * from Gn_Member  where mem_id='".$row[m_id]."'";
-    $sresul_num=mysql_query($sql);
-    $data=mysql_fetch_array($sresul_num);
+    $sresul_num=mysqli_query($self_con,$sql);
+    $data=mysqli_fetch_array($sresul_num);
 }
 
 ?>
@@ -109,9 +109,9 @@ if($row[0]) {
 												<div id="cardsel1" onclick="limit_selcard1()" style="margin-top:15px;">
 													<?
 													$sql5="select card_short_url,phone_display, card_title from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$row['m_id']}' order by req_data asc";
-													$result5=mysql_query($sql5);
+													$result5=mysqli_query($self_con,$sql5);
 													$i = 0;
-													while($row5=mysql_fetch_array($result5)) {
+													while($row5=mysqli_fetch_array($result5)) {
 														if($i == 0){
 															$hidden = "hidden";
 														}
@@ -178,8 +178,8 @@ if($row[0]) {
 										<?
 										$sql_step = "select a.idx, a.send_num, a.allow_state, a.reserv_sms_id, b.step, b.title, b.content from gn_automem_sms_reserv a inner join Gn_event_sms_step_info b on a.reserv_sms_id=b.sms_idx where a.auto_event_id={$event_idx}";
 										// echo $sql_step;
-										$res_step = mysql_query($sql_step);
-										$row_step = mysql_fetch_array($res_step);
+										$res_step = mysqli_query($self_con,$sql_step);
+										$row_step = mysqli_fetch_array($res_step);
 										if($row_step[idx]){
 											if($row_step[allow_state]){
 												$checked = "checked";

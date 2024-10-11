@@ -2,8 +2,8 @@
 include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
 if($HTTP_HOST != "kiam.kr") {
     $query = "select * from Gn_Iam_Service where sub_domain = 'http://".$HTTP_HOST."'";
-    $res = mysql_query($query);
-    $domainData = mysql_fetch_array($res);
+    $res = mysqli_query($self_con,$query);
+    $domainData = mysqli_fetch_array($res);
     
     if($domainData['mem_id'] != $_SESSION[iam_member_id]) {
         echo "<script>location='/';</script>";
@@ -14,8 +14,8 @@ if($HTTP_HOST != "kiam.kr") {
     $site = explode(".", $parse['host']);
 }else{
     $query = "select * from Gn_Iam_Service where sub_domain = 'http://www.kiam.kr'";
-    $res = mysql_query($query);
-    $domainData = mysql_fetch_array($res);
+    $res = mysqli_query($self_con,$query);
+    $domainData = mysqli_fetch_array($res);
     
     if($domainData['mem_id'] != $_SESSION[iam_member_id]) {
         echo "<script>location='/';</script>";
@@ -197,8 +197,8 @@ $(function() {
                     <?
                     //디폴트 아바타
                     $sql = "select main_img1 from Gn_Iam_Info where mem_id = 'obmms02'";
-                    $result=mysql_query($sql) or die(mysql_error());
-                    $row=mysql_fetch_array($result);
+                    $result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+                    $row=mysqli_fetch_array($result);
                     $default_img =  $row['main_img1'];
                     
                     $nowPage= $_REQUEST['nowPage']?$_REQUEST['nowPage']:1;
@@ -212,8 +212,8 @@ $(function() {
 
                     $query = "SELECT count(a.mem_code) FROM Gn_Member a WHERE 1=1 and a.site_iam='$site[0]' $searchStr";
 
-                    $res	    = mysql_query($query);
-                    $row = mysql_fetch_array($res);
+                    $res	    = mysqli_query($self_con,$query);
+                    $row = mysqli_fetch_array($res);
                     $totalCnt	=  $row[0];
 
                     $query = "SELECT SQL_CALC_FOUND_ROWS a.* FROM Gn_Member a WHERE 1=1 and a.site_iam='$site[0]' $searchStr";
@@ -223,11 +223,11 @@ $(function() {
                     $orderQuery .= " ORDER BY mem_code DESC $limitStr";
                     $i = 1;
                     $query .= $orderQuery;
-                    $res = mysql_query($query);
-                    while($row = mysql_fetch_array($res)) {
+                    $res = mysqli_query($self_con,$query);
+                    while($row = mysqli_fetch_array($res)) {
                         $query = "select card_short_url from Gn_Iam_Name_Card where group_id is NULL and mem_id = '$row[mem_id]' order by req_data asc";
-                        $cres = mysql_query($query);
-                        $crow = mysql_fetch_array($cres);
+                        $cres = mysqli_query($self_con,$query);
+                        $crow = mysqli_fetch_array($cres);
                         $card_url = $crow[0];
                         if($row['mem_memo'] != ''){
                             $style = "color:#99cc00";

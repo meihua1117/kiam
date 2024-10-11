@@ -193,9 +193,9 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                   $searchStr .= $search_key ? " AND (a.m_id LIKE '".$search_key."%' or a.name like '".$search_key."%'  or a.mobile like '".$search_key."%'  or b.event_title like '".$search_key."%'  )" : null;
                 	$order = $order?$order:"desc"; 		
                 	$query = "SELECT count(a.m_id) FROM Gn_event_request a inner join Gn_event b on b.event_idx=a.event_idx WHERE 1=1 $searchStr";
-                	$res	    = mysql_query($query);
-                  //$totalCnt	=  mysql_num_rows($res);	
-                  $totalRow	=  mysql_fetch_array($res);	                	
+                	$res	    = mysqli_query($self_con,$query);
+                  //$totalCnt	=  mysqli_num_rows($res);	
+                  $totalRow	=  mysqli_fetch_array($res);	                	
                 	$totalCnt = $totalRow[0];
                   
                   $query = "SELECT a.m_id, a.sp, a.name, a.mobile, a.email, a.job, a.event_code, a.event_idx, a.request_idx, a.regdate, a.other,b.event_title,b.event_info
@@ -206,11 +206,11 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                 	$i = 1;
                 	$c=0;
                 	$query .= "$orderQuery";
-                	$res = mysql_query($query);
-                    while($row = mysql_fetch_array($res)) {                       	
+                	$res = mysqli_query($self_con,$query);
+                    while($row = mysqli_fetch_array($res)) {                       	
                       $query = "SELECT mem_name from Gn_Member where mem_id='$row[m_id]'";
-                      $sres = mysql_query($query);
-                      $srow = mysql_fetch_array($sres);             				
+                      $sres = mysqli_query($self_con,$query);
+                      $srow = mysqli_fetch_array($sres);             				
 
                       if(strpos($row['event_info'], "other") !== false){
                           $event_other_txt = $row['other'];

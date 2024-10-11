@@ -6,8 +6,8 @@ if(strlen($_SESSION[one_member_id]) > 0) {
   	$path="../";
 	include_once $path."lib/rlatjd_fun.php";
 	$excel_sql = str_replace("\'", "'", $_POST["excel_sql"]);
-      $result = mysql_query($excel_sql) or die(mysql_error());
-      $totalCnt = mysql_num_rows($result);
+      $result = mysqli_query($self_con,$excel_sql) or die(mysqli_error($self_con));
+      $totalCnt = mysqli_num_rows($result);
       $number			= $totalCnt;
       require_once("Classes/PHPExcel.php");
       $objPHPExcel = new PHPExcel();
@@ -35,7 +35,7 @@ if(strlen($_SESSION[one_member_id]) > 0) {
       $h=2;	
 	  $phonelist = array();	
 	  $maillist = array();	
-      while($row=mysql_fetch_array($result))
+      while($row=mysqli_fetch_array($result))
 		{		 
 			$number--;   
 			if($row['cell'] == "")

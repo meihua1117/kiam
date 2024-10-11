@@ -2,24 +2,24 @@
 @header("Content-type: text/html; charset=utf-8");
 include_once "../../lib/rlatjd_fun.php";
 $alarm_sql = "select * from Gn_Search_Key where key_id = 'content_alarm_time'";
-$alarm_res = mysql_query($alarm_sql);
-$alarm_row = mysql_fetch_array($alarm_res);
-$alarm_time = $alarm_row[key_content];
+$alarm_res = mysqli_query($self_con,$alarm_sql);
+$alarm_row = mysqli_fetch_array($alarm_res);
+$alarm_time = $alarm_row['key_content'];
 $alarm_sql = "select * from Gn_Search_Key where key_id = 'content_notice_count'";
-$alarm_res = mysql_query($alarm_sql);
-$alarm_row = mysql_fetch_array($alarm_res);
-$notice_count = $alarm_row[key_content];
+$alarm_res = mysqli_query($self_con,$alarm_sql);
+$alarm_row = mysqli_fetch_array($alarm_res);
+$notice_count = $alarm_row['key_content'];
 if($_POST[type] == 'interval') {
     $time = date("Y-m-d H:i:s", strtotime("-".$alarm_time." minutes"));
     $sql = "select count(*) from Gn_Iam_Contents where req_data >= '$time'";
-    $res = mysql_query($sql);
-    $row = mysql_fetch_array($res);
+    $res = mysqli_query($self_con,$sql);
+    $row = mysqli_fetch_array($res);
     $count = $row[0];
     if($count > 0){
         $sql = "select mem_id from Gn_Iam_Contents where req_data >= '$time'";
-        $res = mysql_query($sql);
+        $res = mysqli_query($self_con,$sql);
         $mem_array = array();
-        while($row = mysql_fetch_array($res)){
+        while($row = mysqli_fetch_array($res)){
             array_push($mem_array,$row[mem_id]);
         }
         $mem_array = array_unique($mem_array);
@@ -35,21 +35,21 @@ if($_POST[type] == 'interval') {
     while($index < $notice_count)
     {
         $sql = "select mem_id, westory_card_url, req_data from Gn_Iam_Contents order by idx desc limit $sIdx,$limit";
-        $res = mysql_query($sql);
-        $f_count = mysql_num_rows($res);
-        while($row = mysql_fetch_array($res)){
+        $res = mysqli_query($self_con,$sql);
+        $f_count = mysqli_num_rows($res);
+        while($row = mysqli_fetch_array($res)){
             $mem_id = $row[mem_id];
             if($mem_id == "" || in_array($mem_id, $arr_Mems))
                 continue;
             $arr_Mems[] = $mem_id;
             $mem_sql = "select mem_code,mem_name,site_iam,profile from Gn_Member where mem_id='$mem_id'";
-            $mem_res = mysql_query($mem_sql);
-            $mem_row = mysql_fetch_array($mem_res);
+            $mem_res = mysqli_query($self_con,$mem_sql);
+            $mem_row = mysqli_fetch_array($mem_res);
             $profile = $mem_row[profile];
     
             $card_sql = "select main_img1,card_short_url,card_name,card_company from Gn_Iam_Name_Card where card_short_url ='".$row[westory_card_url]."' order by req_data limit 0,1";
-            $card_res = mysql_query($card_sql);
-            $card_row = mysql_fetch_array($card_res);
+            $card_res = mysqli_query($self_con,$card_sql);
+            $card_row = mysqli_fetch_array($card_res);
             if($profile == "" || is_null($profile))
                 $profile = $card_row[main_img1];
             if($profile || is_null($profile))
@@ -58,8 +58,8 @@ if($_POST[type] == 'interval') {
     
             $time = date("Y-m-d H:i:s", strtotime($row[req_data]."-".$alarm_time." minutes"));
             $count_sql = "select count(*) from Gn_Iam_Contents where mem_id = '$mem_id' and req_data >= '$time'";
-            $count_res = mysql_query($count_sql);
-            $count_row = mysql_fetch_array($count_res);
+            $count_res = mysqli_query($self_con,$count_sql);
+            $count_row = mysqli_fetch_array($count_res);
             $count = $count_row[0];
             if($count == 0)
                 $count = 1;
@@ -91,16 +91,16 @@ if($_POST[type] == 'interval') {
     echo json_encode(array("result" => $result));
 }else if($_POST[type] == 'sample_popup') {
     $sql = "select mem_id,main_img1,card_name,card_company,card_short_url from Gn_Iam_Name_Card where group_id is NULL and sample_click = 'Y' order by sample_order desc,req_data";
-    $res = mysql_query($sql);
+    $res = mysqli_query($self_con,$sql);
     $result = array();
-    while($row = mysql_fetch_array($res)) {
+    while($row = mysqli_fetch_array($res)) {
         $mem_id = $row[mem_id];
         $profile = $row[main_img1];
         if ($mem_id == "")
             continue;
         $mem_sql = "select mem_code,mem_name,site_iam,profile from Gn_Member where mem_id='$mem_id'";
-        $mem_res = mysql_query($mem_sql);
-        $mem_row = mysql_fetch_array($mem_res);
+        $mem_res = mysqli_query($self_con,$mem_sql);
+        $mem_row = mysqli_fetch_array($mem_res);
         if ($profile == "" || is_null($profile))
             $profile = $mem_row[profile];
         if($profile || is_null($profile))
@@ -129,8 +129,8 @@ if($_POST[type] == 'interval') {
     $mem_id = $_POST[mem_id];
     $like_id = $_POST[like_id];
     $sql = "select mem_like from Gn_Member where mem_id = '$mem_id'";
-    $res = mysql_query($sql);
-    $row = mysql_fetch_array($res);
+    $res = mysqli_query($self_con,$sql);
+    $row = mysqli_fetch_array($res);
     $mem_like = $row['mem_like'];
     $mem_array = explode(",",$mem_like);
     if($mem_array[0] == "")
@@ -139,6 +139,6 @@ if($_POST[type] == 'interval') {
     $mem_array = array_unique($mem_array);
     $mem_like = implode(",",$mem_array);
     $sql = "update Gn_Member set mem_like = '$mem_like' where mem_id = '$mem_id'";
-    mysql_query($sql);
+    mysqli_query($self_con,$sql);
 }
 ?>

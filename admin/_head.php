@@ -2,8 +2,8 @@
     include_once $path."lib/rlatjd_fun.php";
 
     $sql = "select * from tjd_pay_result where buyer_id = '$_SESSION[one_member_id]' and end_date > '$date_today' and end_status in ('Y','A') order by end_date desc limit 1";
-    $res_result = mysql_query($sql);
-    $pay_data = mysql_fetch_array($res_result);
+    $res_result = mysqli_query($self_con,$sql);
+    $pay_data = mysqli_fetch_array($res_result);
     $rights = 0;
     //echo $pay_data['TotPrice'] ;
     //echo $pay_data['member_type'] ;
@@ -19,8 +19,8 @@
     $sub_domain = false;
     if($HTTP_HOST != "kiam.kr") {
         $query = "select * from Gn_Service where sub_domain like '%".$HTTP_HOST."'";
-        $res = mysql_query($query);
-        $domainData = mysql_fetch_array($res);
+        $res = mysqli_query($self_con,$query);
+        $domainData = mysqli_fetch_array($res);
         
         if($domainData['idx'] != "") {
             $sub_domain = true;
@@ -37,8 +37,8 @@
     }
     
     $sql = "select * from tjd_pay_result where buyer_id = '$_SESSION[one_member_id]' and end_date > '$date_today'  and stop_yn='Y'";
-    $res_result = mysql_query($sql);
-    $stop = mysql_fetch_array($res_result);    
+    $res_result = mysqli_query($self_con,$sql);
+    $stop = mysqli_fetch_array($res_result);    
     if($stop[stop_yn] == "Y") {
         if($_SERVER['PHP_SELF'] == "/sub_5.php" || $_SERVER['PHP_SELF'] == "/sub_6.php" || strstr($_SERVER['PHP_SELF'], "mypage_") == true || strstr($_SERVER['PHP_SELF'], "daily_") == true) {
             if(strstr($_SERVER['PHP_SELF'], "mypage_payment") == true) {} else {
@@ -48,8 +48,8 @@
         }
     }
 	$sql = "select * from Gn_Ad_Manager where ad_position = 'H' and use_yn ='Y'";
-    $res_result = mysql_query($sql);
-    $ad_data = mysql_fetch_array($res_result); 	
+    $res_result = mysqli_query($self_con,$sql);
+    $ad_data = mysqli_fetch_array($res_result); 	
 ?>
 <!DOCTYPE html>
 <html lang="ko">

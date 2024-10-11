@@ -2,8 +2,8 @@
 <?
 $card_idx = $_GET['card_num'];
 $sql="select * from Gn_Iam_Name_Card where idx = '$card_idx' and mem_id = '$_SESSION[iam_member_id]'";
-$result=mysql_query($sql);
-$row=mysql_fetch_array($result);
+$result=mysqli_query($self_con,$sql);
+$row=mysqli_fetch_array($result);
 $card_link = $row[card_short_url];
 $card_title = $row[card_title];
 $card_name = $row[card_name];
@@ -25,8 +25,8 @@ $story_online2 = $row[story_online2];
 $online2_check = $row[online2_check];
 //$card_phone_ = explode('-',$card_phone);
 $sql="select mem_name, zy, mem_phone, mem_email, mem_add1,mem_code from Gn_Member where mem_id = '$_SESSION[iam_member_id]'";
-$result=mysql_query($sql);
-$row=mysql_fetch_array($result);
+$result=mysqli_query($self_con,$sql);
+$row=mysqli_fetch_array($result);
 $member = $_GET['member'];
 if($member == 'on') {
 	//$card_idx = $row[idx];

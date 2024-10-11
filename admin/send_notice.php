@@ -42,7 +42,8 @@ function sendPush($url, $headers, $pkey, $sidx, $send_type, $send_num)
     } else {
         $fields['to'] = $pkey;
     }
-    $fields['token'] = $pkey;
+    $fields['token'] = $pkey;
+
     $fields['priority'] = "high";
 
     //$fields = json_encode ($fields);
@@ -71,7 +72,7 @@ function sendPush($url, $headers, $pkey, $sidx, $send_type, $send_num)
                                           token='".$pkey."',
                 error='$msg'";
 
-    mysql_query($query) or die(mysql_error());        
+    mysqli_query($self_con,$query) or die(mysqli_error($self_con));        
 
 }
 
@@ -94,7 +95,7 @@ $self_memo = $_REQUEST['self_memo'];
 if($step_idx != '') {
     $is_step_reservation = true;
     $step_sql = "select * from Gn_event_sms_info where sms_idx = '{$step_idx}'";
-    $step_res = mysql_query($step_sql);
+    $step_res = mysqli_query($self_con,$step_sql);
     $time = 60 - date("i");
     $interval = IntervalDays(date("Y-m-d", time()), $reservation_date);
 }else {
@@ -255,9 +256,9 @@ foreach($searchParam as $param) {
     /***** =============== select count ============= *******/
     /*if($key == "recommend" && $details[0] == "count" && $from == 0) {
         $query = "SELECT recommend_id FROM Gn_Member GROUP BY recommend_id";
-        $res  = mysql_query($query);
-        $recommends = array();
-        while($row = mysql_fetch_array($res)) {
+        $res  = mysqli_query($self_con,$query);
+        $recommends =mysqli_fetch_
+        while($row = mysqli_fetch_array($res)) {
             $recommends[] = $row['recommend_id'];
         }
         $in = implode("','", $recommends);
@@ -330,8 +331,8 @@ if(count($search) > 0) {
 
 // file_put_contents("query.txt", "condition:".print_r($searchParam, 1), FILE_APPEND);
 // file_put_contents("query.txt", $query."\n", FILE_APPEND);
-$res = mysql_query($query);
-while($row = mysql_fetch_array($res)) {
+$res = mysqli_query($self_con, $query);
+while($row = mysqli_fetch_array($res)) {
     $memberList[] = $row;
 }
 if($rday != '') {
@@ -351,8 +352,8 @@ $sql_ad = "select
                     from Gn_Ad 
                 where status='C' 
                 order by sort_order asc, regdate desc";
-$res_ad = mysql_query($sql_ad);
-$row_ad = mysql_fetch_array($res_ad);
+$res_ad = mysqli_fetch_$sql_ad);
+$row_ad = mysqli_fetch_array($res_ad);
 $ad_msg = $row_ad['content'];
 if($row_ad[img_path] == "") {
     $ad_msg .= $domain_url.$row_ad['img_path'];
@@ -378,8 +379,8 @@ foreach($memberList as $member) {
     if(in_array($send_num, $sendedList))
         continue;
  
-    if($step_idx != '') {
-        while($lrow = mysql_fetch_array($step_res)) {
+    if($step_idx != ''mysqli_fetch_
+        while($lrow = mysqli_fetch_array($step_res)) {
             $mem_id = $member['mem_id'];
             $sms_idx = $lrow['sms_idx'];
             $reservation_title = $lrow['reservation_title'];
@@ -387,15 +388,15 @@ foreach($memberList as $member) {
             //알람등록
             /*$sql="select * from Gn_event_sms_info where sms_idx='$sms_idx'";
             //echo $sql;
-            $result=mysql_query($sql) or die(mysql_error());
-            $row=mysql_fetch_array($result);*/
+            $resumysqli_fetch_ry($sql) or die(mysqli_error($self_con));
+            $row=mysqli_fetch_array($result);*/
 
             $reg = time();
             $sql="select * from Gn_event_sms_step_info where sms_idx='$sms_idx'";
 
-            $result=mysql_query($sql) or die(mysql_error());
-            $k = 0;
-            while($row=mysql_fetch_array($result)) {
+            $result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+            $k = 0;mysqli_fetch_
+            while($row=mysqli_fetch_array($result)) {
                 // 시간 확인
                 $k++;
                 $send_day = $row['send_day'];
@@ -419,8 +420,8 @@ foreach($memberList as $member) {
                 // if($ret != "fail")
                 //      $sendedList[] = $send_num;
                 $queryn = "select * from Gn_MMS_Number where mem_id='$mem_id' and sendnum='$send_num'";
-                $resultn = mysql_query($queryn);
-                $rown = mysql_fetch_array($resultn);
+                $resultnmysqli_fetch_ry($queryn);
+                $rown = mysqli_fetch_array($resultn);
                 if($rown['pkey'] != "")
                 {
                     $uni_id=$reg.sprintf("%02d",$k).sprintf("%02d",0);
@@ -444,8 +445,8 @@ foreach($memberList as $member) {
                                                      recv_num_cnt=1                                      
                                                      
                     ";
-                    mysql_query($query) or die(mysql_error());
-                    $last_id = mysql_insert_id(); 
+                    mysqli_query($self_con,$query) or die(mysqli_error($self_con));
+                    $last_id = mysqli_insert_id($self_con); 
                     
                     if($reservation == "")
                         sendPush($url, $headers, $rown['pkey'], $last_id, 5, $send_num);
@@ -468,7 +469,7 @@ foreach($memberList as $member) {
                                                      request_idx=''
                             ";
                     //echo $query."<BR>";
-                    mysql_query($query) or die(mysql_error());
+                    mysqli_query($self_con,$query) or die(mysqli_error($self_con));
                 }
                     
 
@@ -482,8 +483,8 @@ foreach($memberList as $member) {
         // if($ret != "fail")
         //     $sendedList[] = $send_num;
         $queryn = "select * from Gn_MMS_Number where mem_id='$member[mem_id]' and sendnum='$send_num'";
-        $resultn = mysql_query($queryn);
-        $rown = mysql_fetch_array($resultn);
+        $resultnmysqli_fetch_ry($queryn);
+        $rown = mysqli_fetch_array($resultn);
         if($rown['pkey'] != "")
         {
             $content = addslashes(htmlspecialchars($text));
@@ -507,8 +508,8 @@ foreach($memberList as $member) {
                                                          reservation='$reservation',
                                                          self_memo='$self_memo',
                                                          recv_num_cnt=1";
-            mysql_query($query) or die(mysql_error());
-            $last_id = mysql_insert_id(); 
+            mysqli_query($self_con,$query) or die(mysqli_error($self_con));
+            $last_id = mysqli_insert_id($self_con); 
    
             if($reservation == "")
                 sendPush($url, $headers, $rown['pkey'], $last_id, 5, $send_num);
@@ -536,7 +537,7 @@ foreach($memberList as $member) {
                 }
                 $sql.=" reg_date=now() ";
                 if($debug_mode == false) {
-                    mysql_query($sql);
+                    mysqli_query($self_con,$sql);
                 }
             }
         }

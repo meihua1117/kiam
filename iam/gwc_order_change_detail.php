@@ -53,12 +53,12 @@ extract($_GET);
 <div id="container" class="sub_wrap" style="margin-top: 165px;">
     <?php
     $sql = "select a.* from Gn_Gwc_Order a where a.id= '$id' and prod_state!=0 order by a.reg_date desc";
-    $result = mysql_query($sql);
-    $detail = mysql_fetch_array($result);
+    $result = mysqli_query($self_con,$sql);
+    $detail = mysqli_fetch_array($result);
     $sql = " select * from Gn_Iam_Contents_Gwc where idx = '$detail[contents_idx]' ";
 
-    $res = mysql_query($sql);
-    $row_con = mysql_fetch_array($res);
+    $res = mysqli_query($self_con,$sql);
+    $row_con = mysqli_fetch_array($res);
     $state = $detail['prod_req_state'];
     if ( $state == 1) {
         $state = '취소완료';

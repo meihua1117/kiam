@@ -38,8 +38,8 @@ if($_REQUEST[status]==1 || $_REQUEST[status]==2)
 {
 	///금일발송가능 , 회발송가능 횟수
 	$sql_sum = "select sum(user_cnt) as sumnum, sum(max_cnt) as summax ,sum(gl_cnt) as sumgl from Gn_MMS_Number where mem_id = '$_SESSION[one_member_id]'";
-	$resul_sum=mysql_query($sql_sum);
-	$row_sum_b =mysql_fetch_array($resul_sum);
+	$resul_sum=mysqli_query($self_con,$sql_sum);
+	$row_sum_b =mysqli_fetch_array($resul_sum);
 	//월별 총 발송가능 횟수
 	$cu_user_cnt=$row_sum_b[sumnum]?$row_sum_b[sumnum]:0;
 	$cu_today_cnt=$row_sum_b[summax]?$row_sum_b[summax]:0;
@@ -49,31 +49,31 @@ if($_REQUEST[status]==1 || $_REQUEST[status]==2)
 	$date_month=date("Y-m");
 	$recv_num_ex_sum=0;
 	$sql_result = "select SUM(recv_num_cnt) from Gn_MMS where  up_date like '$date_month%' and mem_id = '$_SESSION[one_member_id]' ";
-	$res_result = mysql_query($sql_result);
-	$row_result = mysql_fetch_array($res_result);
+	$res_result = mysqli_query($self_con,$sql_result);
+	$row_result = mysqli_fetch_array($res_result);
 	$recv_num_ex_sum += $row_result[0] * 1;
 	//-오늘발송
 	$rec_cnt_today=0;
 	$sql_result2 = "select SUM(recv_num_cnt) from Gn_MMS where up_date like '$date_today%' and mem_id = '$_SESSION[one_member_id]' ";
-	$res_result2 = mysql_query($sql_result2);
-	$row_result2 = mysql_fetch_array($res_result2);
+	$res_result2 = mysqli_query($self_con,$sql_result2);
+	$row_result2 = mysqli_fetch_array($res_result2);
 	$rec_cnt_today += $row_result2[0] * 1;
 	//-이번발송
 	$rec_cnt_current=0;
 	$sql_result3 = "select uni_id from Gn_MMS where mem_id = '$_SESSION[one_member_id]' order by idx desc limit 1";
-	$res_result3 = mysql_query($sql_result3);
-	$row_result3 = mysql_fetch_array($res_result3);
+	$res_result3 = mysqli_query($self_con,$sql_result3);
+	$row_result3 = mysqli_fetch_array($res_result3);
 	$uni_id=substr($row_result3[uni_id],0,10);
 	
 	$sql_result32 = "select SUM(recv_num_cnt) from Gn_MMS where mem_id = '$_SESSION[one_member_id]' and uni_id like '$uni_id%'";
-	$res_result32 = mysql_query($sql_result32);
-	$row_result32 = mysql_fetch_array($res_result32);
+	$res_result32 = mysqli_query($self_con,$sql_result32);
+	$row_result32 = mysqli_fetch_array($res_result32);
 	$rec_cnt_current += $row_result32[0] * 1;
 }
 
 $sql_mem_data = "select mem_phone from Gn_Member where mem_id='{$_SESSION[one_member_id]}'";
-$res_mem_data = mysql_query($sql_mem_data);
-$row_mem_data = mysql_fetch_array($res_mem_data);
+$res_mem_data = mysqli_query($self_con,$sql_mem_data);
+$row_mem_data = mysqli_fetch_array($res_mem_data);
 $mem_phone = $row_mem_data['mem_phone'];
 
 $phone = str_replace("-", "", $mem_phone);
@@ -169,8 +169,8 @@ $(function(){
 						if($_REQUEST[lms_text] && $_REQUEST[lms_select])
 							$sql_serch.=" and {$_REQUEST[lms_select]} like '$_REQUEST[lms_text]%' ";
 						$sql="select count(idx) as cnt from Gn_MMS_Number where $sql_serch ";
-						$result = mysql_query($sql) or die(mysql_error());
-						$row=mysql_fetch_array($result);
+						$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+						$row=mysqli_fetch_array($result);
 						$intRowCount=$row[cnt];
 						if (!$_POST[lno]) 
 							$intPageSize =20;
@@ -199,7 +199,7 @@ $(function(){
 							$order_name="user_cnt";
 						$intPageCount=(int)(($intRowCount+$intPageSize-1)/$intPageSize);     
 						$sql="select * from Gn_MMS_Number where $sql_serch order by $order_name $order_status , idx desc limit $int,$intPageSize";
-						$result=mysql_query($sql) or die(mysql_error());	
+						$result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));	
 			?>                
                     	<div class="sub_4_1_t3">
                     		<a href="sub_4.php?status=1&status2=1" style="color:<?=$_REQUEST[status2]==1?"#000":""?>">휴대폰 등록 정보</a> &nbsp;|&nbsp;
@@ -252,28 +252,28 @@ $(function(){
 									</tr>
                                 	<?if($intRowCount){		
 										$i=0;							
-										while($row=mysql_fetch_array($result)){							
+										while($row=mysqli_fetch_array($result)){							
 											$sql_result2_g = "select SUM(recv_num_cnt) from Gn_MMS where up_date like '$date_today%' and send_num='$row[sendnum]' ";
-											$res_result2_g = mysql_query($sql_result2_g);
+											$res_result2_g = mysqli_query($self_con,$sql_result2_g);
 											$today_cnt_1=0;
-											$row_result2_g = mysql_fetch_array($res_result2_g);
+											$row_result2_g = mysqli_fetch_array($res_result2_g);
 											$today_cnt_1+= $row_result2_g[0] * 1;
 												
 											if($today_cnt_1 > $row[max_cnt]){
 												$sql_cnt_u=" update Gn_MMS_Number set user_cnt=0 where idx='$row[idx]' ";
-												mysql_query($sql_cnt_u);										
+												mysqli_query($self_con,$sql_cnt_u);										
 											}
 											
 											$month_cnt_1=0;
 											$sql_result_g = "select SUM(recv_num_cnt) from Gn_MMS where up_date like '$date_month%' and send_num='$row[sendnum]' ";
-											$res_result_g = mysql_query($sql_result_g);
-											$row_result_g = mysql_fetch_array($res_result_g);
+											$res_result_g = mysqli_query($self_con,$sql_result_g);
+											$row_result_g = mysqli_fetch_array($res_result_g);
 											$month_cnt_1+= $row_result_g[0] * 1;
 											
 											$ssh_cnt=0;
 											$sql_ssh="select recv_num from Gn_MMS where send_num='$row[sendnum]' and up_date like '$date_month%' group by(recv_num)";
-											$resul_ssh=mysql_query($sql_ssh);
-											while($row_ssh=mysql_fetch_array($resul_ssh)){
+											$resul_ssh=mysqli_query($self_con,$sql_ssh);
+											while($row_ssh=mysqli_fetch_array($resul_ssh)){
 												$ssh_arr=array_unique(explode(",",$row_ssh[recv_num]));
 												sort($ssh_arr);
 												$ssh_cnt+=count($ssh_arr);	
@@ -345,10 +345,10 @@ $(function(){
 									<td><a href="javascript:void(0)" onclick="order_sort(sub_4_form,'end_date',sub_4_form.order_status.value)">사용완료시간<? if($_REQUEST[order_name]=="end_date"){echo $_REQUEST[order_status]=="desc"?'▼':'▲';}else{ echo '▼'; }?></a>(<a href="javascript:void(0)" onclick="order_sort(sub_4_form,'end_status',sub_4_form.order_status.value)">상태<? if($_REQUEST[order_name]=="end_status"){echo $_REQUEST[order_status]=="desc"?'▼':'▲';}else{ echo '▼'; }?></a>)</td>                                                                        
                                 </tr>
 							<?if($intRowCount){
-								while($row=mysql_fetch_array($result)){
+								while($row=mysqli_fetch_array($result)){
 									$sql_db="select count(seq) as cnt from sm_data where dest='$row[sendnum]' ";
-									$resul_db=mysql_query($sql_db);
-									$row_db=mysql_fetch_array($resul_db);
+									$resul_db=mysqli_query($self_con,$sql_db);
+									$row_db=mysqli_fetch_array($resul_db);
 							?>
                                 <tr>
                                     <td style="width:5%;text-align:left;"><label><input type="checkbox" name="seq[]" value="<?=$row[sendnum]?>" /><?=$sort_no?></label></td>
@@ -603,8 +603,8 @@ $(function(){
 										if($_REQUEST[group_name])
 											$sql_serch.=" and grp like '%$_REQUEST[group_name]%' ";
 										$sql="select count(idx) as cnt from Gn_MMS_Group where $sql_serch ";
-										$result = mysql_query($sql) or die(mysql_error());
-										$row=mysql_fetch_array($result);
+										$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+										$row=mysqli_fetch_array($result);
 										$intRowCount=$row[cnt];
 										if (!$_POST[lno]) 
 											$intPageSize =15;
@@ -632,7 +632,7 @@ $(function(){
 											$order_name="idx";
 										$intPageCount=(int)(($intRowCount+$intPageSize-1)/$intPageSize);     
 										$sql="select * from Gn_MMS_Group where $sql_serch order by $order_name $order_status limit $int,$intPageSize";
-										$result=mysql_query($sql) or die(mysql_error());
+										$result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 									?> 	
 										<table class="list_table" width="100%" border="0" cellspacing="0" cellpadding="0">
 											<tr>
@@ -644,7 +644,7 @@ $(function(){
 											</tr>
 											<?if($intRowCount){
 												$g=0;
-												while($row=mysql_fetch_array($result)){
+												while($row=mysqli_fetch_array($result)){
 											?>
 											<tr>
 												<td><label><input type="checkbox" value="<?=$row[idx]?>" name="chk" id="chk" onclick="group_choice('<?=$g?>')" /><?=$sort_no?></label></td>
@@ -696,8 +696,8 @@ $(function(){
 									<div style="margin:20px 0 20px 0">
 									<?
 									$sql="select * from Gn_MMS_Number where mem_id='$_SESSION[one_member_id]' and user_cnt>0  order by user_cnt desc , idx desc";
-									$resul=mysql_query($sql);
-									$intRowCount=mysql_num_rows($resul);
+									$resul=mysqli_query($self_con,$sql);
+									$intRowCount=mysqli_num_rows($resul);
 									?>
 										<table class="list_table" width="100%" border="0" cellspacing="0" cellpadding="0">
 											<tr>
@@ -708,13 +708,13 @@ $(function(){
 											</tr>
 									<?if($intRowCount){
 											$today_send_total=0;
-											while($row=mysql_fetch_array($resul)){
+											while($row=mysqli_fetch_array($resul)){
 												$is_send=true;
 												$today_reg=date("Y-m-d");								
 												$sql_result2_g = "select SUM(recv_num_cnt) from Gn_MMS where reg_date like '$today_reg%' and send_num='$row[sendnum]' ";
-												$res_result2_g = mysql_query($sql_result2_g) or die(mysql_error());
+												$res_result2_g = mysqli_query($self_con,$sql_result2_g) or die(mysqli_error($self_con));
 												$today_cnt_1=0;
-												$row_result2_g = mysql_fetch_array($res_result2_g);
+												$row_result2_g = mysqli_fetch_array($res_result2_g);
 												$today_cnt_1+= $row_result2_g[0] * 1;
 												
 												if($today_cnt_1 > $row[max_cnt]){
@@ -777,8 +777,8 @@ $(function(){
 										$sql_serch.=" and (message like '$_REQUEST[lms_text]%'  or title like '$_REQUEST[lms_text]%') ";
 								}
 								$sql="select count(idx) as cnt from Gn_MMS_Message where $sql_serch ";
-								$result = mysql_query($sql) or die(mysql_error());
-								$row=mysql_fetch_array($result);
+								$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+								$row=mysqli_fetch_array($result);
 								$intRowCount=$row[cnt];
 								if($_POST[page])
 									$page=(int)$_POST[page];
@@ -803,7 +803,7 @@ $(function(){
 									$order_name="idx";
 								$intPageCount=(int)(($intRowCount+$intPageSize-1)/$intPageSize);     
 								$sql="select * from Gn_MMS_Message where $sql_serch order by $order_name $order_status limit $int,$intPageSize";
-								$result=mysql_query($sql) or die(mysql_error());							
+								$result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));							
 							?>
 							<div class="sub_4_3_t2">
 								<div class="sub_4_4_t3">
@@ -833,7 +833,7 @@ $(function(){
 									<?								
 									if($intRowCount){
 										$i=1;
-										while($row=mysql_fetch_array($result)){
+										while($row=mysqli_fetch_array($result)){
 											?>
 										<div class="sub_4_3_t2_right_1">
 											<div class="sub_4_3_t2_right_1_1">
@@ -887,8 +887,8 @@ $(function(){
 											$sql_serch.=" and (message like '$_REQUEST[lms_text]%'  or title like '$_REQUEST[lms_text]%') ";
 									}									
 									$sql="select count(idx) as cnt from Gn_MMS_Message where $sql_serch ";
-									$result = mysql_query($sql) or die(mysql_error());
-									$row=mysql_fetch_array($result);
+									$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+									$row=mysqli_fetch_array($result);
 									$intRowCount=$row[cnt];
 									if($_POST[page])
 										$page=(int)$_POST[page];
@@ -913,7 +913,7 @@ $(function(){
 										$order_name="idx";
 									$intPageCount=(int)(($intRowCount+$intPageSize-1)/$intPageSize);     
 									$sql="select * from Gn_MMS_Message where $sql_serch order by $order_name $order_status limit $int,$intPageSize";
-									$result=mysql_query($sql) or die(mysql_error());							
+									$result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));							
 							?>
                         <div class="sub_4_3_t2">
                         	<div class="sub_4_4_t3">
@@ -947,7 +947,7 @@ $(function(){
 								if($intRowCount)
 								{
 									$i=1;
-									while($row=mysql_fetch_array($result))
+									while($row=mysqli_fetch_array($result))
 									{
 										?>
 									<div class="sub_4_3_t2_right_1">
@@ -999,8 +999,8 @@ $(function(){
 									$sql_serch.=" and (message like '$_REQUEST[lms_text]%'  or title like '$_REQUEST[lms_text]%') ";
 								}
 								$sql="select count(idx) as cnt from Gn_MMS_Message where $sql_serch ";
-								$result = mysql_query($sql) or die(mysql_error());
-								$row=mysql_fetch_array($result);
+								$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+								$row=mysqli_fetch_array($result);
 								$intRowCount=$row[cnt];
 								if (!$_POST[lno]) 
 									$intPageSize =20;
@@ -1031,7 +1031,7 @@ $(function(){
 								$order_name="idx";
 								$intPageCount=(int)(($intRowCount+$intPageSize-1)/$intPageSize);     
 								$sql="select * from Gn_MMS_Message where $sql_serch order by $order_name $order_status limit $int,$intPageSize";
-								$result=mysql_query($sql) or die(mysql_error());							
+								$result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));							
 							?>
                         <div class="sub_4_3_t2">
                         	<div class="sub_4_4_t3">
@@ -1064,7 +1064,7 @@ $(function(){
 									if($intRowCount)
 									{
 										$c=0;
-										while($row=mysql_fetch_array($result))
+										while($row=mysqli_fetch_array($result))
 										{
 											?>
                                     <tr>
@@ -1136,9 +1136,9 @@ $(function(){
 						$sql_serch .= " and result >= 0";
 					}				
 					$sql="select count(*) as cnt from $sql_table where $sql_serch ";
-					$result = mysql_query($sql) or die(mysql_error());
-					$row=mysql_fetch_array($result);
-					mysql_free_result($result);
+					$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+					$row=mysqli_fetch_array($result);
+					mysqli_free_result($result);
 					$intRowCount=$row[cnt];
 					if (!$_POST[lno]) 
 					$intPageSize =20;
@@ -1175,7 +1175,7 @@ $(function(){
 					
 					$excel_sql="select * from $sql_table where $sql_serch order by $order_name $order_status";
 					$excel_sql=str_replace("'","`",$excel_sql);					
-					$result=mysql_query($sql) or die(mysql_error());		
+					$result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));		
 
 					?>
 	<div class="ad_layer5">
@@ -1278,34 +1278,34 @@ $(function(){
 									if($intRowCount)
 									{
 										$c=0;
-										while($row=mysql_fetch_array($result))
+										while($row=mysqli_fetch_array($result))
 										{
 											$sql_s="select * from Gn_MMS_status where idx='$row[idx]' ";
-											$resul_s=mysql_query($sql_s);
-											$row_s=mysql_fetch_array($resul_s);
-											mysql_free_result($resul_s);
+											$resul_s=mysqli_query($self_con,$sql_s);
+											$row_s=mysqli_fetch_array($resul_s);
+											mysqli_free_result($resul_s);
 																					    
 											$sql_n="select memo from Gn_MMS_Number where sendnum='$row[send_num]' ";
-											$resul_n=mysql_query($sql_n);
-											$row_n=mysql_fetch_array($resul_n);
-											mysql_free_result($resul_n);
+											$resul_n=mysqli_query($self_con,$sql_n);
+											$row_n=mysqli_fetch_array($resul_n);
+											mysqli_free_result($resul_n);
 											
 											$recv_cnt=explode(",",$row[recv_num]);
 											
 											
                             				$sql_as="select count(idx) as cnt from Gn_MMS_status where idx='$row[idx]' ";
-                            				$resul_as=mysql_query($sql_as);
-                            				$row_as=mysql_fetch_array($resul_as);
+                            				$resul_as=mysqli_query($self_con,$sql_as);
+                            				$row_as=mysqli_fetch_array($resul_as);
                             				$status_total_cnt = $row_as[0];											
                             				
                             				$sql_cs="select count(idx) as cnt from Gn_MMS_status where idx='$row[idx]' and status='0'";
-                            				$resul_cs=mysql_query($sql_cs);
-                            				$row_cs=mysql_fetch_array($resul_cs);
+                            				$resul_cs=mysqli_query($self_con,$sql_cs);
+                            				$row_cs=mysqli_fetch_array($resul_cs);
                             				$success_cnt = $row_cs[0];
 
                             				$sql_sn="select * from Gn_MMS where idx='$row[idx]' ";
-                            				$resul_sn=mysql_query($sql_sn);
-                            				$row_sn=mysql_fetch_array($resul_sn);											
+                            				$resul_sn=mysqli_query($self_con,$sql_sn);
+                            				$row_sn=mysqli_fetch_array($resul_sn);											
                             				$recv_cnt=explode(",",$row_sn[recv_num]);
                             				
                             				$total_cnt = count($recv_cnt);											
@@ -1431,8 +1431,8 @@ $(function(){
 					$sql_serch.=" and $_REQUEST[serch_colum] like '%$_REQUEST[serch_text]%' ";	
 				}
 				$sql="select count(seq) as cnt from sm_log where $sql_serch ";
-				$result = mysql_query($sql) or die(mysql_error());
-				$row=mysql_fetch_array($result);
+				$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+				$row=mysqli_fetch_array($result);
 				$intRowCount=$row[cnt];
 				if (!$_POST[lno]) 
 					$intPageSize =20;
@@ -1465,7 +1465,7 @@ $(function(){
 				$sql="select * from sm_log where $sql_serch order by $order_name $order_status limit $int,$intPageSize";
 				$excel_sql="select * from sm_log where $sql_serch order by $order_name $order_status";
 				$excel_sql=str_replace("'","`",$excel_sql);
-				$result=mysql_query($sql) or die(mysql_error());
+				$result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 				?>                    
 				<div class="sub_4_4_t1">
 					<div class="sub_4_4_t2">
@@ -1526,11 +1526,11 @@ $(function(){
 								<?
 								if($intRowCount)
 								{
-									while($row=mysql_fetch_array($result))
+									while($row=mysqli_fetch_array($result))
 									{
 											$sql_n="select memo from Gn_MMS_Number where sendnum='$row[dest]' ";
-											$resul_n=mysql_query($sql_n);
-											$row_n=mysql_fetch_array($resul_n);										
+											$resul_n=mysqli_query($self_con,$sql_n);
+											$row_n=mysqli_fetch_array($resul_n);										
 										?>
 								<tr>
 									<td><label><input type="checkbox" name="idx_box" value="<?=$row[seq]?>" /><?=$sort_no?></label></td>
@@ -1601,8 +1601,8 @@ $(function(){
 						$sql_serch.=" and chanel_type = $_REQUEST[serch_chanel] ";	
 					}
 					$sql="select count(idx) as cnt from Gn_MMS_Deny where $sql_serch ";
-					$result = mysql_query($sql) or die(mysql_error());
-					$row=mysql_fetch_array($result);
+					$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+					$row=mysqli_fetch_array($result);
 					$intRowCount=$row[cnt];
 					if (!$_POST[lno]) 
 						$intPageSize =20;
@@ -1635,12 +1635,12 @@ $(function(){
 					$sql="select * from Gn_MMS_Deny where $sql_serch order by $order_name $order_status limit $int,$intPageSize";
 					$excel_sql="select * from Gn_MMS_Deny where $sql_serch order by $order_name $order_status";
 					$excel_sql=str_replace("'","`",$excel_sql);
-					$result=mysql_query($sql) or die(mysql_error());
+					$result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 					
 					$today_date=date("Y-m-d");
 					$sql_today="select count(idx) as today_cnt from Gn_MMS_Deny where mem_id='$_SESSION[one_member_id]' and reg_date like '$today_date%' ";
-					$resul_today=mysql_query($sql_today);
-					$row_today=mysql_fetch_array($resul_today);
+					$resul_today=mysqli_query($self_con,$sql_today);
+					$row_today=mysqli_fetch_array($resul_today);
 					?>                    
 					<div class="sub_4_4_t1">
                         <div class="sub_4_4_t2">
@@ -1711,11 +1711,11 @@ $(function(){
 									if($intRowCount)
 									{
 										
-                                        while($row=mysql_fetch_array($result))
+                                        while($row=mysqli_fetch_array($result))
 										{
 											$sql_n="select memo from Gn_MMS_Number where sendnum='$row[send_num]' ";
-											$resul_n=mysql_query($sql_n);
-											$row_n=mysql_fetch_array($resul_n);
+											$resul_n=mysqli_query($self_con,$sql_n);
+											$row_n=mysqli_fetch_array($resul_n);
 											?>
                                     <tr>
                                     	<td><label><input type="checkbox" name="idx_box" value="<?=$row[idx]?>" /><?=$sort_no?></label></td>                                        
@@ -1948,6 +1948,6 @@ function get_addr_list(val){
 }
 </script>
 <?
-mysql_close();
+mysqli_close($self_con);
 include_once "_foot.php";
 ?>

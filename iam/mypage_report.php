@@ -14,7 +14,7 @@ if ($_REQUEST['eday']) {
     $sql_serch .= " and reg_date <= '{$_REQUEST['eday']}' ";
 }
 $report_sql = "select * from gn_report_form where $sql_serch order by id desc";
-$report_res = mysql_query($report_sql);
+$report_res = mysqli_query($self_con,$report_sql);
 ?>
 <style>
     input[type=checkbox] {
@@ -221,7 +221,7 @@ $report_res = mysql_query($report_sql);
                                 </tr>
                                 <?
                                 $index = 1;
-                                while ($report_row = mysql_fetch_array($report_res)) { ?>
+                                while ($report_row = mysqli_fetch_array($report_res)) { ?>
                                     <tr>
                                         <td>
                                             <input type="checkbox" class="check" id="check_one" value="<?= $report_row['id'] ?>">
@@ -242,8 +242,8 @@ $report_res = mysql_query($report_sql);
                                         </td>
                                         <?
                                         $sql = "select count(idx) from gn_report_table where repo_id={$report_row['id']}";
-                                        $res = mysql_query($sql);
-                                        $row = mysql_fetch_array($res);
+                                        $res = mysqli_query($self_con,$sql);
+                                        $row = mysqli_fetch_array($res);
                                         $count = $row[0];
                                         if ($count == null)
                                             $count = 0;

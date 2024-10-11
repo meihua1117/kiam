@@ -3,7 +3,7 @@ include_once "../lib/rlatjd_fun.php";
 if($_POST['mode'] == "intro_message") {
    	$intro_message=htmlspecialchars($_POST[intro_message]);
     $sql="update Gn_Member set intro_message='$intro_message' where mem_id='".$_SESSION[one_member_id]."'";
-    mysql_query($sql);   
+    mysqli_query($self_con,$sql);   
     echo "success"; 
     exit;	
 }
@@ -19,8 +19,8 @@ if($_POST[id_che]){
 		$search = "";
 	}
     $sql="select mem_id from Gn_Member where mem_id='$id_che'".$search;
-    $resul=mysql_query($sql);
-    $row=mysql_fetch_array($resul);
+    $resul=mysqli_query($self_con,$sql);
+    $row=mysqli_fetch_array($resul);
     if($row[mem_id]){?>
     <script language="javascript">
 		alert('이미 가입되어있는 아이디입니다.');
@@ -42,8 +42,8 @@ if($_POST[id_che]){
                 </script>
     <?  }else{
 			$sql="select count(mem_id) from Gn_Member where mem_id='$id_che' and ".$solution_type." = ''";
-			$result=mysql_query($sql);
-			$row=mysql_fetch_array($result);
+			$result=mysqli_query($self_con,$sql);
+			$row=mysqli_fetch_array($result);
 			if($row[0] * 1 > 0 ) {
     ?>
 				<script>
@@ -61,8 +61,8 @@ if($_POST[id_che]){
 				</script>
     <?      }else {
 				$sql = "select count(mem_id) from Gn_Member where mem_id='$id_che' and " . $solution_type . " != '$solution_name'";
-				$result = mysql_query($sql);
-				$row = mysql_fetch_array($result);
+				$result = mysqli_query($self_con,$sql);
+				$row = mysqli_fetch_array($result);
 				if ($row[0] == 0) {
     ?>
 					<script language="javascript">
@@ -85,8 +85,8 @@ if($_POST[id_che]){
 						</script>
 						<?exit;
 					}
-					$result = mysql_query($sql);
-					$row = mysql_fetch_array($result);
+					$result = mysqli_query($self_con,$sql);
+					$row = mysqli_fetch_array($result);
 					if ($row[0] == 0) {
     ?>
 						<script>
@@ -120,8 +120,8 @@ if($_POST[nick_che]){
     $add_sql=$_SESSION[one_member_id]?" and mem_id<>'$_SESSION[one_member_id]' ":"";
     $nick_che=trim($_POST[nick_che]);
     $sql="select mem_id from Gn_Member where mem_nick='$nick_che' $add_sql";
-    $resul=mysql_query($sql);
-    $row=mysql_fetch_array($resul);
+    $resul=mysqli_query($self_con,$sql);
+    $row=mysqli_fetch_array($resul);
     if($row[mem_id]){
 ?>
 	<script language="javascript">
@@ -165,8 +165,8 @@ if($_POST[join_nick] && $_POST[join_is_message]){
 	} else {
         // 핸드폰 번호 중복 확인
         $sql="select * from Gn_Member where replace(mem_phone,'-','')=replace('$_POST[join_phone]','-','')";
-        $resul=mysql_query($sql);
-        $row=mysql_fetch_array($resul);	
+        $resul=mysqli_query($self_con,$sql);
+        $row=mysqli_fetch_array($resul);	
         if($row[0] != "") {
 ?>
 			<script language="javascript">
@@ -209,8 +209,8 @@ if($_POST[join_nick] && $_POST[join_is_message]){
 	if($_POST[solution_type]) {
 		$member_info[site] = $_POST[solution_name];
 		$sql_iam="select count(*) FROM Gn_Iam_Service WHERE sub_domain like '%http://".$HTTP_HOST."'";
-		$res_iam=mysql_query($sql_iam);
-		$row_iam = mysql_fetch_array($res_iam);
+		$res_iam=mysqli_query($self_con,$sql_iam);
+		$row_iam = mysqli_fetch_array($res_iam);
 		if($row_iam[0] != 0)
 			$member_info[site_iam] = $_POST[solution_name];
 		else
@@ -228,8 +228,8 @@ if($_POST[join_nick] && $_POST[join_is_message]){
 			$member_info[recommend_id] = 'onlyone';
 		else{
 			$sql = "select mem_id from Gn_Service where sub_domain like '%http://".$HTTP_HOST."%'";
-			$res = mysql_query($sql);
-			$row = mysql_fetch_array($res);
+			$res = mysqli_query($self_con,$sql);
+			$row = mysqli_fetch_array($res);
 			$member_info[recommend_id] = $row['mem_id'];
 		}
 	}
@@ -237,8 +237,8 @@ if($_POST[join_nick] && $_POST[join_is_message]){
 	    $member_info[recommend_branch]=$_POST[recommend_branch];	    
 	    
 	$sql="select * from Gn_Service where mem_id='$_POST[recommend_id]'";
-	$result=mysql_query($sql);
-	$sinfo=mysql_fetch_array($result);	
+	$result=mysqli_query($self_con,$sql);
+	$sinfo=mysqli_fetch_array($result);	
 	if($sinfo[0] != "") {
 		$parse = parse_url($sinfo['sub_domain']);
 		$sites = explode(".", $parse['host']);
@@ -259,12 +259,12 @@ if($_POST[join_nick] && $_POST[join_is_message]){
 	    }
 		if($_POST['rnum'] != "" && $_POST[country_code] == "KR") {
 			$sql="select * from Gn_Member_Check_Sms where mem_phone='$member_info[mem_phone]' and secret_key='$_POST[rnum]' and status='Y' order by idx desc";
-			$result = mysql_query($sql) or die(mysql_error());
-			$data = $row=mysql_fetch_array($result);
+			$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+			$data = $row=mysqli_fetch_array($result);
 
 			$query = "select count(idx) from Gn_MMS where content like '%{$_POST['rnum']}%' and type='10' order by idx desc";
-            $res = mysql_query($query);
-			$row = mysql_fetch_array($res);
+            $res = mysqli_query($self_con,$query);
+			$row = mysqli_fetch_array($res);
 			
 			if($data[idx] == "" && $row[0] == 0) {
 				?>
@@ -284,8 +284,8 @@ if($_POST[join_nick] && $_POST[join_is_message]){
 	    $sql=" update Gn_Member set ";
 	else {
 		$query = "select count(*) from Gn_Member where mem_id = '$member_info[mem_id]'";
-		$result = mysql_query($query);
-		$row = mysql_fetch_array($result);
+		$result = mysqli_query($self_con,$query);
+		$row = mysqli_fetch_array($result);
 		if($row[0] == 0)
 			$sql = " insert into Gn_Member set ";
 		else
@@ -304,7 +304,7 @@ if($_POST[join_nick] && $_POST[join_is_message]){
 		$sql.=" where mem_code='$_POST[join_modify]' ";
 	else if($row[0] == 0)
 		$sql.=" ,first_regist=now() , mem_check=now() ";
-	if(mysql_query($sql) or die(mysql_error())){
+	if(mysqli_query($self_con,$sql) or die(mysqli_error($self_con))){
 		if($_POST[join_modify]){
 ?>
         <script language="javascript">
@@ -314,11 +314,11 @@ if($_POST[join_nick] && $_POST[join_is_message]){
 <?
 		}else if($row[0] == 0){
 			$sql="select * from Gn_MMS_Group where mem_id='$member_info[mem_id]' and grp='아이엠'";
-			$result = mysql_query($sql) or die(mysql_error());
-			$data = mysql_fetch_array($result);
+			$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+			$data = mysqli_fetch_array($result);
 			if($data[idx] == ""){
 				$query = "insert into Gn_MMS_Group set mem_id='$member_info[mem_id]', grp='아이엠', reg_date=NOW()";
-				mysql_query($query);
+				mysqli_query($self_con,$query);
 			}
 			$_SESSION[one_member_id]=$_POST[join_id];
             $content=$_POST[join_name]."님 온리원문자 회원이 되신걸 환영합니다.";
@@ -341,8 +341,8 @@ if($_POST[join_nick] && $_POST[join_is_message]){
 if($_POST[search_id_pw_mem_name] && $_POST[search_id_pw_type]){	
 	$s = 0;
 	$conf_sql = "select * from gn_conf";
-	$conf_result = mysql_query($conf_sql);
-	$conf_row = mysql_fetch_array($conf_result);
+	$conf_result = mysqli_query($self_con,$conf_sql);
+	$conf_row = mysqli_fetch_array($conf_result);
 	$mem_id = $conf_row['phone_id'];
 	$send_num = $conf_row['phone_num'];
 	if($_POST[search_id_pw_type]=="phone") {
@@ -356,8 +356,8 @@ if($_POST[search_id_pw_mem_name] && $_POST[search_id_pw_type]){
 	else
 		$sql_serch.=" and mem_name=trim('$_POST[search_id_pw_mem_name]') ";
     $sql="select * from Gn_Member where $sql_serch ";
-    $resul=mysql_query($sql);
-    $row=mysql_fetch_array($resul);
+    $resul=mysqli_query($self_con,$sql);
+    $row=mysqli_fetch_array($resul);
     if($row[mem_code])
     {
         // 수정 시작
@@ -371,7 +371,7 @@ if($_POST[search_id_pw_mem_name] && $_POST[search_id_pw_type]){
         }else if($_POST[search_id_pw_mem_id]){
             $new_pwd=substr(md5(time()),0,10);
             $sql_u="update Gn_Member set web_pwd=password('$new_pwd') where mem_code='$row[mem_code]' ";
-            mysql_query($sql_u);
+            mysqli_query($self_con,$sql_u);
 
 			if($row[site_iam] == "kiam" || $row[site_iam] == ""){
 				$site_iam = "";
@@ -390,9 +390,9 @@ if($_POST[search_id_pw_mem_name] && $_POST[search_id_pw_type]){
 				$s++;
 				$sql_app_mem = "select * from Gn_MMS_Number where (sendnum='$phone_num' and sendnum is not null and sendnum != '')";
 				// echo $sql_app_mem."pwd"; exit;
-				$res_app_mem = mysql_query($sql_app_mem);
-				if(mysql_num_rows($res_app_mem)){					
-					$number_row = mysql_fetch_array($res_app_mem);
+				$res_app_mem = mysqli_query($self_con,$sql_app_mem);
+				if(mysqli_num_rows($res_app_mem)){					
+					$number_row = mysqli_fetch_array($res_app_mem);
 					sendmms(5, $number_row['mem_id'], $phone_num, $phone_num, "", $subject, $content, "", "", "", "Y");
 				}
 				else{
@@ -419,8 +419,8 @@ if($_POST[search_id_pw_mem_name] && $_POST[search_id_pw_type]){
 			else if($_POST[search_id_pw_type]=="email")
 				$sql_serch =" and mem_email='$_POST[search_id_pw_email]' ";
 			$sql_doub_mem = "select * from Gn_Member where mem_name='$_POST[search_id_pw_mem_name]' ".$sql_serch;
-			$res_doub_mem = mysql_query($sql_doub_mem);
-			while($row1 = mysql_fetch_array($res_doub_mem)){
+			$res_doub_mem = mysqli_query($self_con,$sql_doub_mem);
+			while($row1 = mysqli_fetch_array($res_doub_mem)){
 				if($row1[site_iam] == "kiam" || $row1[site_iam] == ""){
 					$site_iam = "";
 				}
@@ -438,9 +438,9 @@ if($_POST[search_id_pw_mem_name] && $_POST[search_id_pw_type]){
 				$s++;
 				$sql_app_mem = "select * from Gn_MMS_Number where (sendnum='$phone_num' and sendnum is not null and sendnum != '')";
 				// echo $sql_app_mem."id"; exit;
-				$res_app_mem = mysql_query($sql_app_mem);
-				if(mysql_num_rows($res_app_mem)){
-					$number_row = mysql_fetch_array($res_app_mem);
+				$res_app_mem = mysqli_query($self_con,$sql_app_mem);
+				if(mysqli_num_rows($res_app_mem)){
+					$number_row = mysqli_fetch_array($res_app_mem);
 					sendmms(5, $number_row['mem_id'], $phone_num, $phone_num, "", $subject, $content, "", "", "", "Y");
 				}
 				else{

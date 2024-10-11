@@ -131,8 +131,8 @@ $date_month=date("Y-m");
                 <div class="col-xs-12" style="padding-bottom:20px">
                     <?
                     $count_query = "select count(*) from Gn_Iam_automem where status=1";
-                    $count_res = mysql_query($count_query);
-                    $count_res = mysql_fetch_array($count_res);
+                    $count_res = mysqli_query($self_con,$count_query);
+                    $count_res = mysqli_fetch_array($count_res);
                     $count = $count_res[0];
                     if($count == 0) {
                         ?>
@@ -224,8 +224,8 @@ $date_month=date("Y-m");
                               $searchStr
                               ";
 
-                            $res	    = mysql_query($query);
-                            $totalCnt	=  mysql_num_rows($res);
+                            $res	    = mysqli_query($self_con,$query);
+                            $totalCnt	=  mysqli_num_rows($res);
 
                             $limitStr       = " LIMIT ".(($startPage-1)*$pageCnt).", ".$pageCnt;
                             $number			= $totalCnt - ($nowPage - 1) * $pageCnt;
@@ -237,28 +237,28 @@ $date_month=date("Y-m");
                             $i = 1;
                             $c=0;
                             $query .= "$orderQuery";
-                            $res = mysql_query($query);
-                            while($row = mysql_fetch_array($res)) {
+                            $res = mysqli_query($self_con,$query);
+                            while($row = mysqli_fetch_array($res)) {
                                 $sql_f="select * from Gn_Iam_friends where mem_id='{$row['mem_id']}' ";
-                                $resul_f=mysql_query($sql_f);
-                                $row_f=mysql_fetch_array($resul_f);
+                                $resul_f=mysqli_query($self_con,$sql_f);
+                                $row_f=mysqli_fetch_array($resul_f);
 
                                 $sql_c="select * from Gn_Iam_contents where mem_id='{$row['mem_id']}' ";
-                                $resul_c=mysql_query($sql_c);
-                                $row_c=mysql_fetch_array($resul_c);
+                                $resul_c=mysqli_query($self_con,$sql_c);
+                                $row_c=mysqli_fetch_array($resul_c);
                                 
                                 $sql_c="select count(*) cnt from Gn_Iam_Contents where mem_id='{$row['memid']}' ";
-                                $resul_c=mysql_query($sql_c);
-                                $row_cn=mysql_fetch_array($resul_c);                                
+                                $resul_c=mysqli_query($self_con,$sql_c);
+                                $row_cn=mysqli_fetch_array($resul_c);                                
 
                                 if($i == 1){
                                     $sql_tmp="update Gn_Iam_Name_Card set sample_click = 'Y' where mem_id='{$_SESSION['one_member_id']}' ";
-                                    $resul_tmp=mysql_query($sql_tmp);
+                                    $resul_tmp=mysqli_query($self_con,$sql_tmp);
                                 }
 
                                 $mem_sql = "select mem_code from Gn_Member where mem_id='{$row['mem_id']}'";
-                                $res_mem = mysql_query($mem_sql);
-                                $row_mem = mysql_fetch_array($res_mem);
+                                $res_mem = mysqli_query($self_con,$mem_sql);
+                                $row_mem = mysqli_fetch_array($res_mem);
                                 ?>
                                 <tr>
                                     <th><?=$number--?></th>

@@ -1,15 +1,15 @@
 <? include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
 if($_COOKIE[recommender_code]) {
     $sql="select * from Gn_Member where mem_code='$_COOKIE[recommender_code]'";
-    $result=mysql_query($sql);
-    $info=mysql_fetch_array($result);
+    $result=mysqli_query($self_con,$sql);
+    $info=mysqli_fetch_array($result);
     $recommmender = $info[mem_id];
 }
 else {
     if ($HTTP_HOST != "kiam.kr") {
         $sql = "select * from Gn_Iam_Service where sub_domain like '%http://" . $HTTP_HOST . "'";
-        $res = mysql_query($sql);
-        $row = mysql_fetch_array($res);
+        $res = mysqli_query($self_con,$sql);
+        $row = mysqli_fetch_array($res);
         $recommmender = $row['mem_id'];
     } else {
         $recommmender = 'onlymain';
@@ -17,8 +17,8 @@ else {
 }
 if($member == 'on' && $_SESSION[iam_member_id]) {
     $sql="select mem_name, zy, mem_phone, mem_email, mem_add1 from Gn_Member where mem_id = '$_SESSION[iam_member_id]'";
-    $result=mysql_query($sql);
-    $row=mysql_fetch_array($result);
+    $result=mysqli_query($self_con,$sql);
+    $row=mysqli_fetch_array($result);
     //$card_idx = $row[idx];
     $card_name = $row['mem_name'];
     $card_company = $row['zy'];
@@ -31,8 +31,8 @@ if($member == 'on' && $_SESSION[iam_member_id]) {
 }
 $lang = $_COOKIE['lang']?$_COOKIE['lang']:"kr";
 $sql = "select * from Gn_Iam_lang where menu='IAM_PROFILE'";
-$result = mysql_query($sql);
-while($row = mysql_fetch_array($result)) {
+$result = mysqli_query($self_con,$sql);
+while($row = mysqli_fetch_array($result)) {
     $MENU[$row[menu]][$row[pos]] = $row[$lang];
 }
 $country_code = whois_ascc($whois_api_key, $_SERVER['REMOTE_ADDR']);
@@ -326,15 +326,15 @@ input[type=button] {
                                                     $member_address = explode(" ", $card_addr);
                                                     $province_list = array();
                                                     $query = "SELECT province FROM gn_cities group by province";
-                                                    $res = mysql_query($query);
-                                                    while($row = mysql_fetch_array($res)) {
+                                                    $res = mysqli_query($self_con,$query);
+                                                    while($row = mysqli_fetch_array($res)) {
                                                         $province_list[] = $row['province'];
                                                     }
                                                     $city_list = array();
                                                     if(isset($member_address[0])) {
                                                         $query = "SELECT city FROM gn_cities WHERE province = '{$member_address[0]}' group by city ";
-                                                        $res = mysql_query($query);
-                                                        while($row = mysql_fetch_array($res)) {
+                                                        $res = mysqli_query($self_con,$query);
+                                                        while($row = mysqli_fetch_array($res)) {
                                                             $city_list[] = $row['city'];
                                                         }
                                                     }
@@ -342,8 +342,8 @@ input[type=button] {
                                                     $town_list = array();
                                                     if(isset($member_address[1])) {
                                                         $query = "SELECT town FROM gn_cities WHERE city = '{$member_address[1]}' and province = '{$member_address[0]}' group by town";
-                                                        $res = mysql_query($query);
-                                                        while($row = mysql_fetch_array($res)) {
+                                                        $res = mysqli_query($self_con,$query);
+                                                        while($row = mysqli_fetch_array($res)) {
                                                             $town_list[] = $row['town'];
                                                         }
                                                     }

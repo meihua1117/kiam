@@ -322,30 +322,30 @@ $path="./";
                                 $query = "SELECT SQL_CALC_FOUND_ROWS p.*, c.mem_id as con_mem_id, c.contents_title from Gn_Iam_Post p inner join Gn_Iam_Contents c on p.content_idx=c.idx where p.type=1 and p.lock_status='N' $searchStr";
                                 $excel_sql=$query;
                                 $excel_sql=str_replace("'","`",$excel_sql);
-                                $res	    = mysql_query($query);
-                                $totalCnt	=  mysql_num_rows($res);
+                                $res	    = mysqli_query($self_con,$query);
+                                $totalCnt	=  mysqli_num_rows($res);
                                 $limitStr       = " LIMIT ".(($startPage-1)*$pageCnt).", ".$pageCnt;
                                 $number			= $totalCnt - ($nowPage - 1) * $pageCnt;
                                 $orderQuery .= " ORDER BY reg_date DESC $limitStr ";
                                 $i = 0;
                                 $query .= $orderQuery;
-                                $res = mysql_query($query);
-                                while($row = mysql_fetch_array($res)) {
+                                $res = mysqli_query($self_con,$query);
+                                while($row = mysqli_fetch_array($res)) {
                                     $sql_mem = "select mem_name from Gn_Member where mem_id='{$row[mem_id]}'";
-                                    $res_mem = mysql_query($sql_mem);
-                                    $row_mem = mysql_fetch_array($res_mem);
+                                    $res_mem = mysqli_query($self_con,$sql_mem);
+                                    $row_mem = mysqli_fetch_array($res_mem);
 
                                     $sql_con_mem = "select mem_name, mem_phone from Gn_Member where mem_id='{$row[con_mem_id]}'";
-                                    $res_con_mem = mysql_query($sql_con_mem);
-                                    $row_con_mem = mysql_fetch_array($res_con_mem);
+                                    $res_con_mem = mysqli_query($self_con,$sql_con_mem);
+                                    $row_con_mem = mysqli_fetch_array($res_con_mem);
 
                                     $sql_hide_state = "select count(*) as cnt from Gn_Iam_Info where mem_id='{$row[mem_id]}' and block_contents like '%".$row[content_idx]."%'";
-                                    $res_hide_state = mysql_query($sql_hide_state);
-                                    $row_hide_state = mysql_fetch_array($res_hide_state);
+                                    $res_hide_state = mysqli_query($self_con,$sql_hide_state);
+                                    $row_hide_state = mysqli_fetch_array($res_hide_state);
 
                                     $sql_response = "select * from Gn_Iam_Post_Response where post_idx='{$row[id]}' and type=1";
-                                    $res_response = mysql_query($sql_response);
-                                    $row_response = mysql_fetch_array($res_response);
+                                    $res_response = mysqli_query($self_con,$sql_response);
+                                    $row_response = mysqli_fetch_array($res_response);
 
                                     // $con_link = "https://kiam.kr/iam/contents.php?contents_idx=".$row[content_idx];
                                 ?>

@@ -12,8 +12,8 @@ $result = 0;
 
 // 정보 확인
 $sql = "select * from Gn_Member where mem_code='$mem_code'";
-$resul = mysql_query($sql) or die(mysql_error());
-$row = mysql_fetch_array($resul);
+$resul = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+$row = mysqli_fetch_array($resul);
 
 if ($_POST['mem_code']) {
     // 기본회원 정보 수정 []
@@ -55,7 +55,7 @@ if ($_POST['mem_code']) {
         $changePhone = true;
 
         $sql = "update tjd_pay_result set fujia_status='Y' where buyer_id='$row[mem_id]'";
-        mysql_query($sql);
+        mysqli_query($self_con,$sql);
     }
 
     if ($mem_type) {
@@ -68,7 +68,7 @@ if ($_POST['mem_code']) {
                                        bank_owner='$bank_owner'
                                        $addSql 
                                  where mem_code='$mem_code'";
-        mysql_query($sql);
+        mysqli_query($self_con,$sql);
     }
 
 
@@ -80,7 +80,7 @@ if ($_POST['mem_code'] && $_POST['sendnum']) {
     // 기부회원 정보 수정 [기부비율]
     if ($donation_rate) {
         $sql_num = "update Gn_MMS_Number set donation_rate='$donation_rate' where mem_id='$row[mem_id]' and sendnum='$sendnum' ";
-        mysql_query($sql_num);
+        mysqli_query($self_con,$sql_num);
     }
 }
 echo "{\"result\":\"$result\"}";

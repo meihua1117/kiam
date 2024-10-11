@@ -8,8 +8,8 @@ $date_month=date("Y-m");
 if($idx) {
     // 상세 정보
     $query = "select * from Gn_Iam_multilang where no='$idx'";
-    $res = mysql_query($query);
-    $data = mysql_fetch_array($res);
+    $res = mysqli_query($self_con,$query);
+    $data = mysqli_fetch_array($res);
 }
 ?>
 <style>

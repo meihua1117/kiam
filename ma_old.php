@@ -81,11 +81,11 @@ include_once "_head.php";
 <div class="container">
     <?
     $query = "SELECT NO FROM tjd_board WHERE pop_yn='Y' ORDER BY DATE DESC LIMIT 0, 3";
-    $res = mysql_query($query);
-    $totalCnt    =  mysql_num_rows($res);
+    $res = mysqli_query($self_con,$query);
+    $totalCnt    =  mysqli_num_rows($res);
 
     for ($i = 0; $i < $totalCnt; $i++) {
-        $alert_ids    =  mysql_fetch_array($res); ?>
+        $alert_ids    =  mysqli_fetch_array($res); ?>
         <input type="text" id="alertid<?= $i ?>" value="<?= $alert_ids[0] ?>" hidden>
     <? }
     if ($sub_domain == true && $domainData['main_default_yn'] == "I") { ?>

@@ -156,9 +156,9 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                         	WHERE a.event_name_kor='데일리문자세트자동생성' 
                 	              $searchStr";
                 	              
-                	$res	    = mysql_query($query);
-                  //$totalCnt	=  mysql_num_rows($res);	
-                  $totalRow	=  mysql_fetch_array($res);
+                	$res	    = mysqli_query($self_con,$query);
+                  //$totalCnt	=  mysqli_num_rows($res);	
+                  $totalRow	=  mysqli_fetch_array($res);
                 	$totalCnt = $totalRow[0];
                   
 
@@ -181,11 +181,11 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                 	$i = 1;
                 	$c=0;
                 	$query .= "$orderQuery";
-                	$res = mysql_query($query);
-                  while($row = mysql_fetch_array($res)) {
+                	$res = mysqli_query($self_con,$query);
+                  while($row = mysqli_fetch_array($res)) {
                     $sql_req_mem = "select count(*) as cnt from Gn_daily where event_idx={$row['event_idx']}";
-                    $res_req_mem = mysql_query($sql_req_mem);
-                    $row_req_mem = mysql_fetch_array($res_req_mem);
+                    $res_req_mem = mysqli_query($self_con,$sql_req_mem);
+                    $row_req_mem = mysqli_fetch_array($res_req_mem);
                   ?>
                       <tr>
                             <td><input type="checkbox" class="check" id="check_one_member" name="" value="<?=$row['event_idx']?>">&nbsp;&nbsp;<?=$number--?></td>

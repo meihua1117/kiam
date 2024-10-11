@@ -10,8 +10,8 @@ $at_data      = "";
 $at_txt       = "";
 $ORDER_NO = $_GET['ORDER_NO'];
 $sql="select * from tjd_pay_result where orderNumber='$ORDER_NO'";
-$resul=mysql_query($sql)or die(mysql_error());
-$row=mysql_fetch_array($resul);
+$resul=mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
+$row=mysqli_fetch_array($resul);
 $mem_id = $row['buyer_id'];
 // 필수 항목
 $at_cross_key      = "304f3a821cac298ff8a0ef504e1c2309";   //CrossKey값(최대200자)
@@ -78,7 +78,7 @@ $at_txt = ApprovalReq($at_data,"SSL");
 $REPLYCD   =getValue("reply_cd",$at_txt);        //결과코드
 $REPLYMSG  =getValue("reply_msg",$at_txt);       //결과 메세지
 $sql = "update tjd_pay_result set resultCode='$REPLYCD', resultMsg='$REPLYMSG' where  orderNumber='$ORDER_NO'";
-$resul=mysql_query($sql)or die(mysql_error());
+$resul=mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
 if(!strcmp($REPLYCD,"0000")){//pay_test
     // reply_cd "0000" 일때만 성공
     $ORDER_NO         =getValue("order_no",$at_txt);
@@ -100,18 +100,18 @@ if(!strcmp($REPLYCD,"0000")){//pay_test
                                                     regdate = NOW(),
                                                     amount='{$row['TotPrice']}',
                                                     buyer_id='$mem_id'";
-    mysql_query($sql) or die(mysql_error());
+    mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
     $sql = "update tjd_pay_result set monthly_yn='Y', end_status='Y' where  orderNumber='$ORDER_NO'";
-    mysql_query($sql)or die(mysql_error());
+    mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
     $sql="select * from Gn_Member where mem_id='$mem_id' ";
-    $sresult=mysql_query($sql)or die(mysql_error());
-    $srow=mysql_fetch_array($sresult);
+    $sresult=mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
+    $srow=mysqli_fetch_array($sresult);
 
     if($srow['recommend_id'] != "") {
         $sql="select * from Gn_Member where mem_id='$srow[recommend_id]' ";
-        $rresult=mysql_query($sql)or die(mysql_error());
-        if(mysql_num_rows($rresult) > 0) {
-            $rrow=mysql_fetch_array($rresult);
+        $rresult=mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
+        if(mysqli_num_rows($rresult) > 0) {
+            $rrow=mysqli_fetch_array($rresult);
             $branch_share_id = "";
             $addQuery = "";
             $branch_share_per = 0;
@@ -120,8 +120,8 @@ if(!strcmp($REPLYCD,"0000")){//pay_test
             if($rrow[service_type] == 2) {
                 // 추천인의 추천인 검색 및 등급 확인
                 $sql="select * from Gn_Member where mem_id='$rrow[recommend_id]'";
-                $rresult=mysql_query($sql)or die(mysql_error());
-                $trow=mysql_fetch_array($rresult);
+                $rresult=mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
+                $trow=mysqli_fetch_array($rresult);
             
                 $share_per = $recommend_per = $rrow['share_per']?$rrow['share_per']:30;
                 if($trow[0] !="") {
@@ -134,7 +134,7 @@ if(!strcmp($REPLYCD,"0000")){//pay_test
                 $branch_share_per = 0;
             }
             $sql = "update tjd_pay_result set share_per='$share_per', branch_share_per = '$branch_share_per', share_id='$srow[recommend_id]', branch_share_id='$branch_share_id' where orderNumber='$ORDER_NO'";
-            mysql_query($sql)or die(mysql_error());
+            mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
         }
     }
 }else{
@@ -149,7 +149,7 @@ if(!strcmp($REPLYCD,"0000")){//pay_test
                                                     msg='".iconv("euc-kr","utf-8",$REPLYMSG).'_mp_extra'."',
                                                     amount='$row[TotPrice]',
                                                     buyer_id='$mem_id'";
-    mysql_query($sql)or die(mysql_error());
+    mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
 }
 //       echo "결과코드              : ".$REPLYCD."<br>";
 //       echo "결과메세지            : ".$REPLYMSG."<br>";

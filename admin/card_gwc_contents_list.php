@@ -158,8 +158,8 @@ $(function() {
                     else{
                       $count_query = "select count(*) from Gn_Iam_Contents_Gwc contents where contents.gwc_con_state!=0 $searchStr";
                     }
-                    $count_result = mysql_query($count_query);
-                    $count_row = mysql_fetch_array($count_result);
+                    $count_result = mysqli_query($self_con,$count_query);
+                    $count_row = mysqli_fetch_array($count_result);
                       $totalCnt	=  $count_row[0];
 
                     $query = "SELECT  contents.idx, contents.mem_id,contents.contents_type,contents.contents_img,contents.group_id,".
@@ -175,11 +175,11 @@ $(function() {
                     $i = 1;
                     $c=0;
                     $query .= $orderQuery;
-                    $res = mysql_query($query);
-                    while($row = mysql_fetch_array($res)) {
+                    $res = mysqli_query($self_con,$query);
+                    while($row = mysqli_fetch_array($res)) {
                       $mem_sql = "select site, site_iam, gwc_provider_name, mem_name, gwc_manage_price, mem_code from Gn_Member where mem_id='$row[mem_id]'";
-                      $mem_res = mysql_query($mem_sql);
-                      $mem_row = mysql_fetch_array($mem_res);
+                      $mem_res = mysqli_query($self_con,$mem_sql);
+                      $mem_row = mysqli_fetch_array($mem_res);
                       if($mem_row[gwc_manage_price]){
                         $mng_price = $mem_row[gwc_manage_price];
                       }
@@ -202,8 +202,8 @@ $(function() {
                         $img_link = $row[contents_img];
                       }
                       $sql_card = "select card_title from Gn_Iam_Name_Card where idx='{$row[card_idx]}'";
-                      $res_card = mysql_query($sql_card);
-                      $row_card = mysql_fetch_array($res_card);
+                      $res_card = mysqli_query($self_con,$sql_card);
+                      $row_card = mysqli_fetch_array($res_card);
                     ?>
                         <tr>
                           <td><input type="checkbox" class="check" id="check_one_member" name="" value="<?=$row['idx']?>"><?=$number--?></td>

@@ -13,8 +13,8 @@ $round = $_POST['round'];
 // echo $round; exit;
 
 $query = "select * from crawler_gm_seller_info_ad where round_num={$round}";
-$res = mysql_query($query);
-while($row=mysql_fetch_array($res))
+$res = mysqli_query($self_con,$query);
+while($row=mysqli_fetch_array($res))
 {
     $name = $row['daepyoja'];
     $birthday = "";
@@ -32,8 +32,8 @@ while($row=mysql_fetch_array($res))
     $profile_self_info = $row['intro_own'];
 
     $check_dup = "SELECT mem_id from Gn_Member where mem_id='{$memid}'";
-    $result_chk = mysql_query($check_dup);
-    if(mysql_num_rows($result_chk) != 0){
+    $result_chk = mysqli_query($self_con,$check_dup);
+    if(mysqli_num_rows($result_chk) != 0){
         echo 1;
         exit;
     }
@@ -56,7 +56,7 @@ while($row=mysql_fetch_array($res))
                                                           mem_birth = '$birthday'
                       ";
                     //   echo $query_join; exit;
-            mysql_query($query_join);
+            mysqli_query($self_con,$query_join);
     
 
     $short_url = generateRandomString();
@@ -64,12 +64,12 @@ while($row=mysql_fetch_array($res))
     $apply_link = '/admin/iam_auto_make_check.php?memid='.$row['store_id'];
 
     $iam_query = "UPDATE crawler_gm_seller_info_ad SET iam_link='{$iam_makingURL}' WHERE store_id='{$row['store_id']}'";
-    mysql_query($iam_query);
+    mysqli_query($self_con,$iam_query);
 
     $img_link = array();
     $query_img = "SELECT img_link FROM crawler_gm_contents_info_ad where store_id='{$row['store_id']}' ORDER BY id LIMIT 3";
-    $res_img = mysql_query($query_img);
-    while($row_img = mysql_fetch_array($res_img)){
+    $res_img = mysqli_query($self_con,$query_img);
+    while($row_img = mysqli_fetch_array($res_img)){
         array_push($img_link, $row_img['img_link']);
     }
 
@@ -80,7 +80,7 @@ while($row=mysql_fetch_array($res))
     $query_info="insert into Gn_Iam_Info (mem_id,main_img1,main_img2,main_img3, reg_data) 
                     values ('$memid','$profile_image1','$profile_image2','$profile_image3', now())";
                     // echo $query_info; exit;
-    mysql_query($query_info);
+    mysqli_query($self_con,$query_info);
     $card_title = "상품소개해요.";
     $card_position=$profile_self_info;
     $card_map = '';
@@ -148,8 +148,8 @@ while($row=mysql_fetch_array($res))
                                 'Y',
                                 now(), 
                                 now())";
-    mysql_query($name_card_sql);
-    $card_idx = mysql_insert_id();
+    mysqli_query($self_con,$name_card_sql);
+    $card_idx = mysqli_insert_id($self_con);
     $contents_type = 1;
     $contents_url_title = '';
     $contents_iframe = '';
@@ -166,8 +166,8 @@ while($row=mysql_fetch_array($res))
     $card_short_url = $short_url;
     $westory_card_url = $short_url;
     $query_contents = "select * from crawler_gm_contents_info_ad where store_id='{$row['store_id']}'";
-    $res_contents = mysql_query($query_contents);
-    while($row_contents = mysql_fetch_array($res_contents)){
+    $res_contents = mysqli_query($self_con,$query_contents);
+    while($row_contents = mysqli_fetch_array($res_contents)){
         $profile_image = $row_contents['img_link'];
         $profile_title = $row_contents['product_name'];
         $profile_link = $row_contents['product_link'];
@@ -218,10 +218,10 @@ while($row=mysql_fetch_array($res))
             '$westory_card_url',
             '$card_idx'
             )";
-        $result2 = mysql_query($sql2) or die(mysql_error());
-        $contents_idx = mysql_insert_id();
+        $result2 = mysqli_query($self_con,$sql2) or die(mysqli_error($self_con));
+        $contents_idx = mysqli_insert_id($self_con);
         $sql2 = "insert into Gn_Iam_Con_Card set cont_idx=$contents_idx,card_idx=$card_idx,main_card=$card_idx";
-        mysql_query($sql2) or die(mysql_error());
+        mysqli_query($self_con,$sql2) or die(mysqli_error($self_con));
     }
 }
 echo 1;

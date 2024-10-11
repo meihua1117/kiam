@@ -11,8 +11,8 @@ if($_SESSION[one_member_id]){
 
 	$sql_num="delete from Gn_MMS_Number where mem_id='$_SESSION[one_member_id]' and sendnum='$pno' ";
 
-	mysql_query($sql_num);
+	mysqli_query($self_con,$sql_num);
 
 }
-mysql_close($self_con);
+mysqli_close($self_con);
 ?>

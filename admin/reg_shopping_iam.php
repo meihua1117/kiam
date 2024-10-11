@@ -8,13 +8,13 @@ $date_today=date("Y-m-d");
 if($idx) {
     // 가입 회원 상세 정보
     $query = "select * from crawler_shop_admin where id='$idx'";
-    $res = mysql_query($query);
-    $data = mysql_fetch_array($res);
+    $res = mysqli_query($self_con,$query);
+    $data = mysqli_fetch_array($res);
 }
 $sync_gwc = get_search_key('gwc_prod_sync_status');
 $sql_sync = "select up_data from Gn_Iam_Contents_Gwc where mem_id='iamstore' and card_idx in (934329,934722,935615,935757,936099,937019,937056,937141,937226,937314,937339,937416,937427,937435,937473,974442,1002328,1029774,1034733,1034893,1036309,1036310,1036445,1037573,1037592,1037708,1037798,1047845,1047846,1047943) and sync_date is not null order by up_data desc limit 1";
-$res_sync = mysql_query($sql_sync);
-$row_sync = mysql_fetch_array($res_sync);
+$res_sync = mysqli_query($self_con,$sql_sync);
+$row_sync = mysqli_fetch_array($res_sync);
 ?>
 <style>
     .box-body th {

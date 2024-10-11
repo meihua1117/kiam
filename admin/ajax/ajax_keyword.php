@@ -8,8 +8,8 @@ if($type == 'special') {
 }else {
     $query = "SELECT card_keyword FROM Gn_Iam_Name_Card WHERE group_id is NULL";
 }
-$res = mysql_query($query);
-while($row = mysql_fetch_array($res)) {
+$res = mysqli_query($self_con,$query);
+while($row = mysqli_fetch_array($res)) {
     $card_keywords = $row['card_keyword'];
     $card_keywords = str_replace(" ", ",", $card_keywords);
     $card_keywords = str_replace("#", ",", $card_keywords);

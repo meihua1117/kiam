@@ -1883,7 +1883,7 @@ A transform function always gets passed three variables:
  2. $options - Contains any user-passed options to a transform function as an
     array.
  3. $meta - Contains an object with information about your column. The data is
-    drawn from the output of the mysql_fetch_field() function. This means, all
+    drawn from the output of the mysqli_fetch_field() function. This means, all
     object properties described on the manual page are available in this
     variable and can be used to transform a column accordingly to unsigned/
     zerofill/not_null/... properties.

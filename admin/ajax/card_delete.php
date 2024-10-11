@@ -10,7 +10,7 @@ $idx = $_POST["idx"];
 
     $query="delete from Gn_Iam_Name_Card WHERE idx='$idx'
                                  ";
-    mysql_query($query);	
+    mysqli_query($self_con,$query);	
 
 //echo "<script>alert('저장되었습니다.');location='/admin/card_click_list.php';</script>";
 //exit;

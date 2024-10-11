@@ -634,7 +634,7 @@ if (isset($GLOBALS['show_as_php']) || ! empty($GLOBALS['validatequery'])) {
             // run the count query
 
             PMA_DBI_try_query($count_query);
-            // if (mysql_error()) {
+            // if (mysqli_error($self_con)) {
             // void.
             // I tried the case
             // (SELECT `User`, `Host`, `Db`, `Select_priv` FROM `db`)

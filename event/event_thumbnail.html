@@ -7,11 +7,11 @@
 	if($_GET['landing_idx'] != "") {
     	$landing_idx=$_GET['landing_idx'];
     	$sql="update Gn_landing set read_cnt = read_cnt+1 where landing_idx='$landing_idx'";
-    	mysql_query($sql) or die(mysql_error());
+    	mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 
     	$sql="select * from Gn_landing where landing_idx='$landing_idx'";
-    	$result = mysql_query($sql) or die(mysql_error());
-    	$data=mysql_fetch_array($result);
+    	$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+    	$data=mysqli_fetch_array($result);
 
 
     	if($data[status_yn] == "N") {
@@ -25,13 +25,13 @@
 		$page_title = $data['title'];
 	} else {
     	$sql="update Gn_event set read_cnt = read_cnt+1 where pcode='$pcode'";
-    	mysql_query($sql) or die(mysql_error());
+    	mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 		$page_title = "";
 	}
 
 	$sql="select * from Gn_event where pcode='$pcode' order by event_idx desc";
-	$result = mysql_query($sql) or die(mysql_error());
-	$event_data = $row=mysql_fetch_array($result);
+	$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+	$event_data = $row=mysqli_fetch_array($result);
 	$m_id = $row['m_id'];
 	$event_idx = $row['event_idx'];
 	if($page_title == "") $page_title = $row['event_title'];
@@ -312,8 +312,8 @@
 	if($_POST['mobile'] != "")
 	{
 		$sql="select mem_phone from Gn_Member where mem_phone='$_POST[mobile]'";
-		$res=mysql_query($sql);
-		$row333=mysql_fetch_array($res);	
+		$res=mysqli_query($self_con,$sql);
+		$row333=mysqli_fetch_array($res);	
 	}
 
 
@@ -341,16 +341,16 @@
 			extract($_POST);
 
 			$sql="select * from Gn_event where pcode='$pcode'";
-			$result = mysql_query($sql) or die(mysql_error());
-			$event_data = $row=mysql_fetch_array($result);
+			$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+			$event_data = $row=mysqli_fetch_array($result);
 			$mem_id = $event_data['m_id'];
 			$send_num = $event_data['mobile'];
 
 
 			if(strstr($event_data['event_info'],"sms") && $join_yn =='Y') {
 				$sql="select * from Gn_Event_Check_Sms where mem_phone='$mobile' order by idx desc";
-				$result = mysql_query($sql) or die(mysql_error());
-				$check_data = $row=mysql_fetch_array($result);
+				$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+				$check_data = $row=mysqli_fetch_array($result);
 				if($check_data['secret_key'] != $rnum) {
 					echo "<script>alert('인증번호를 확인해주세요.');history.go(-1);</script>";
 					exit;
@@ -380,15 +380,15 @@
 			";
 
 			
-			$res1=mysql_query($sql);
-			$request_idx = mysql_insert_id();
+			$res1=mysqli_query($self_con,$sql);
+			$request_idx = mysqli_insert_id($self_con);
 			$recv_num = $mobile;
 			$recv_num = str_replace("-","", $recv_num);
 
 			/*$sql_recv_mem = "select a.* from Gn_Member a left join Gn_MMS_Number b on a.mem_id=b.mem_id where REPLACE(a.mem_phone,'-','')='{$recv_num}' and (REPLACE(a.mem_phone,'-','')=REPLACE(b.sendnum, '-','') and b.sendnum is not null and b.sendnum != '')";
-			$res_recv_mem = mysql_query($sql_recv_mem);
-			if(mysql_num_rows($res_recv_mem)){
-				$row_recv_mem = mysql_fetch_array($res_recv_mem);
+			$res_recv_mem = mysqli_query($self_con,$sql_recv_mem);
+			if(mysqli_num_rows($res_recv_mem)){
+				$row_recv_mem = mysqli_fetch_array($res_recv_mem);
 				$mem_id = $row_recv_mem[mem_id];
 				$send_num = $recv_num;
 			}*/
@@ -410,8 +410,8 @@
 				sendmms(1, $mem_id, $send_num, $recv_num, "", $stitle, $scontent, "", "", "", "Y");	
 	
 				$sql="select * from Gn_event_sms_info where event_idx='$event_idx'";
-				$lresult=mysql_query($sql) or die(mysql_error());
-				while($lrow=mysql_fetch_array($lresult)) {
+				$lresult=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+				while($lrow=mysqli_fetch_array($lresult)) {
 	
 					$sms_idx = $lrow['sms_idx'];
 	
@@ -419,15 +419,15 @@
 	
 					//알람등록
 					$sql="select * from Gn_event_sms_info where sms_idx='$sms_idx'";
-					$result=mysql_query($sql) or die(mysql_error());
-					$row=mysql_fetch_array($result);
+					$result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+					$row=mysqli_fetch_array($result);
 	
 	
 					$sql="select * from Gn_event_sms_step_info where sms_idx='$sms_idx'";
-					$result=mysql_query($sql) or die(mysql_error());
+					$result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 					
 					$k = 0;
-					while($row=mysql_fetch_array($result)) {
+					while($row=mysqli_fetch_array($result)) {
 						// 시간 확인
 						$k++;
 	
@@ -471,7 +471,7 @@
 						request_idx='$request_idx'
 						";
 						//echo $query."<BR>";
-						mysql_query($query) or die(mysql_error());
+						mysqli_query($self_con,$query) or die(mysqli_error($self_con));
 	
 					}
 	
@@ -482,8 +482,8 @@
 				
 					//회원가입
 					$sql3="select sub_domain FROM Gn_Service WHERE sub_domain like '%obmms.net' And mem_id='$m_id'";
-					$res=mysql_query($sql3);
-					$row1 = mysql_fetch_array($res);
+					$res=mysqli_query($self_con,$sql3);
+					$row1 = mysqli_fetch_array($res);
 					if($row1['sub_domain'])
 					{
 						$parse = parse_url($row1['sub_domain']);
@@ -493,8 +493,8 @@
 					else
 					{
 						$sql3 = "select site from Gn_Member WHERE mem_id='$m_id'";
-						$res=mysql_query($sql3);
-						$row1 = mysql_fetch_array($res);
+						$res=mysqli_query($self_con,$sql3);
+						$row1 = mysqli_fetch_array($res);
 						$site = $row1['site'];
 					}
 	
@@ -517,7 +517,7 @@
 					mem_sex='$sex',
 					join_ip='$_SERVER[REMOTE_ADDR]'
 					";
-					mysql_query($query);
+					mysqli_query($self_con,$query);
 	
 	
 				}
@@ -808,8 +808,8 @@
 								//홍보렙인가를 체크한다		
 								$member_id = $data['m_id'];								
 								$sql="select mem_leb FROM Gn_Member WHERE mem_id='$member_id'";
-								$res=mysql_query($sql);
-								$memrow = mysql_fetch_array($res);
+								$res=mysqli_query($self_con,$sql);
+								$memrow = mysqli_fetch_array($res);
 								?>
 							<div class="table-wrap">
 								<table class="list_table" border="0" cellspacing="0" cellpadding="0">
@@ -875,8 +875,8 @@
 											}
 
 											$sql="select count(lecture_id) as cnt from Gn_lecture where $sql_serch ";
-											$result = mysql_query($sql) or die(mysql_error());
-											$row=mysql_fetch_array($result);
+											$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+											$row=mysqli_fetch_array($result);
 											$intRowCount=$row[cnt];
 											if($intRowCount)
 											{
@@ -918,17 +918,17 @@
 												echo "<!-- [ $sql ] -->";
 
 
-    											$result=mysql_query($sql) or die(mysql_error());
+    											$result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 											?>
 
 
 										<?
-											while($row=mysql_fetch_array($result))
+											while($row=mysqli_fetch_array($result))
 											{
 											//$num_arr=array();
 											    $sql_num="select * from Gn_event where m_id='$row[mem_id]' and event_idx='$row[event_idx]' ";
-											    $resul_num=mysql_query($sql_num);
-											    $crow=mysql_fetch_array($resul_num);
+											    $resul_num=mysqli_query($self_con,$sql_num);
+											    $crow=mysqli_fetch_array($resul_num);
 
 
 											?>
@@ -1117,9 +1117,9 @@
 							<div id="reviewSlider">
 								<? 
 									$sql="select * from Gn_lecture where $photo_sql order by start_date desc";
-									$result=mysql_query($sql) or die(mysql_error());
+									$result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 									$count = 0;
-									while($row=mysql_fetch_array($result))
+									while($row=mysqli_fetch_array($result))
 									{
 										if($row[review_img1])
 										{
@@ -1205,8 +1205,8 @@
 									                               inner join Gn_lecture b
 									                                       on  a.lecture_id = b.lecture_id
 									                                where $sql_serch ";
-									$result = mysql_query($sql) or die(mysql_error());
-									$row=mysql_fetch_array($result);
+									$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+									$row=mysqli_fetch_array($result);
 									$intRowCount=$row[cnt];
 									if($intRowCount)
 									{
@@ -1243,10 +1243,10 @@
 									inner join Gn_lecture b
 									on  a.lecture_id = b.lecture_id
 									where $sql_serch order by start_date desc limit $int,$intPageSize";
-									$result=mysql_query($sql) or die(mysql_error());
+									$result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 									?>
 								<?
-									while($row=mysql_fetch_array($result))
+									while($row=mysqli_fetch_array($result))
 									{
 									?>
 

@@ -5,8 +5,8 @@ if($_SESSION[one_member_id] == "")
    exit;
 $sql_serch=" mem_id ='$_SESSION[one_member_id]' ";
 $sql="select count(idx) as cnt from gn_member_emails where $sql_serch ";
-$result = mysql_query($sql) or die(mysql_error());
-$row=mysql_fetch_array($result);
+$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+$row=mysqli_fetch_array($result);
 $intRowCount=$row[cnt];
 if($_POST[page])
     $page=(int)$_POST[page];
@@ -31,7 +31,7 @@ else
     $order_name="idx";
 $intPageCount=(int)(($intRowCount+$intPageSize-1)/$intPageSize);     
 $sql="select * from gn_member_emails where $sql_serch order by $order_name $order_status limit $int,$intPageSize";
-$result=mysql_query($sql) or die(mysql_error());
+$result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -112,7 +112,7 @@ function mail_func(status,idx)
             if($intRowCount)
             {
                 $i=0;
-                while($row=mysql_fetch_array($result))
+                while($row=mysqli_fetch_array($result))
                 {
             ?>
                 <tr>

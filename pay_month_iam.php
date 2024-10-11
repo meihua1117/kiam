@@ -22,4 +22,4 @@ $sql = "insert into tjd_pay_result
         member_cnt='$_POST[member_cnt]',
         monthly_yn = 'Y'
         ";
-mysql_query($sql) or die(mysql_error());
+mysqli_query($self_con,$sql) or die(mysqli_error($self_con));

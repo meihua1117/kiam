@@ -13,17 +13,17 @@ $token = trim($_POST["token"]);
 
 
 $sql = "SELECT user_id FROM crawler_member_real WHERE token = '$token'";
-$result = mysql_query($sql);
-$row=mysql_fetch_array($result);
+$result = mysqli_query($self_con,$sql);
+$row=mysqli_fetch_array($result);
 if($row['user_id'] == "") {
     echo json_encode(array('result' => 1));
     exit;
 }
 
 $sql = "SELECT * FROM gn_cities";
-$result = mysql_query($sql);
+$result = mysqli_query($self_con,$sql);
 $regions = array();
-while($row=mysql_fetch_array($result))
+while($row=mysqli_fetch_array($result))
 {
     $regions[] = $row;
 }

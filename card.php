@@ -42,18 +42,18 @@ if($cur_day != $last_day){
             AND date < '" . $date . "' AND (date like '%-31%' or date like '%-30%' or date like '%-29%' or date like '%-28%') ORDER BY no asc";
     }
 }
-$pay_res = mysql_query($query) or die(mysql_error());
-while($data=mysql_fetch_array($pay_res)) {
+$pay_res = mysqli_query($self_con,$query) or die(mysqli_error($self_con));
+while($data=mysqli_fetch_array($pay_res)) {
     //$ORDER_NO = $data['idx'];
     $buyer_id = $data['buyer_id'];
     if($data[member_type]=="전문가" || $data[member_type]=="단체용" || $data[member_type]=="베스트상품"){
         $sql = "select site_iam from Gn_Member where mem_id = '$buyer_id'";
-        $res = mysql_query($sql);
-        $row = mysql_fetch_array($res);
+        $res = mysqli_query($self_con,$sql);
+        $row = mysqli_fetch_array($res);
         $site = $row[0];
         $sql = "select count(mem_id) from Gn_Member where site_iam = '$site' and is_leave = 'N'";
-        $res = mysql_query($sql);
-        $row = mysql_fetch_array($res);
+        $res = mysqli_query($self_con,$sql);
+        $row = mysqli_fetch_array($res);
         $mem_count = $row[0];
         if($mem_count < 2100)
             $price = 33000;
@@ -86,7 +86,7 @@ while($data=mysql_fetch_array($pay_res)) {
                                                     regdate = NOW(),
                                                     amount='$price',
                                                     buyer_id='$buyer_id'";
-        mysql_query($sql) or die(mysql_error());
+        mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
     }else{
         $order_no = $data['orderNumber'].date("Ym");
         // 필수 항목
@@ -173,9 +173,9 @@ while($data=mysql_fetch_array($pay_res)) {
                                                         regdate = NOW(),
                                                         amount='$price',
                                                         buyer_id='$buyer_id'";
-            mysql_query($sql) or die(mysql_error());
+            mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
             $sql = "update tjd_pay_result set monthly_yn='Y', end_status='Y',stop_yn='N' where  orderNumber='$data[orderNumber]' and buyer_id='$buyer_id'";
-            mysql_query($sql) or die(mysql_error());
+            mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
         } else {
             $sql = "insert into tjd_pay_result_month set pay_idx='$data[idx]',
                                                         order_number='$order_no',
@@ -184,9 +184,9 @@ while($data=mysql_fetch_array($pay_res)) {
                                                         msg='".iconv("euc-kr","utf-8",$REPLYMSG)."_scheduler',
                                                         amount='$price',
                                                         buyer_id='$buyer_id'";
-            mysql_query($sql) or die(mysql_error());                        
+            mysqli_query($self_con,$sql) or die(mysqli_error($self_con));                        
             $sql = "update tjd_pay_result set stop_yn='Y' where  orderNumber='$data[orderNumber]' and buyer_id='$buyer_id'";
-            mysql_query($sql) or die(mysql_error());
+            mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 
             $date_today=date("Y-m-d");
             $end_date = $data['end_date'];
@@ -195,12 +195,12 @@ while($data=mysql_fetch_array($pay_res)) {
             $buyer_id = $data['buyer_id'];
             /*if($end_date > $date_today && ($end_status =='Y' || $end_status =='A')){
                 $sql = "update Gn_Service set status = 'N' where mem_id = '$buyer_id'";            
-                mysql_query($sql)or die(mysql_error());
+                mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
                 $sql = "update Gn_Iam_Service set status = 'N' where mem_id = '$buyer_id'";            
-                mysql_query($sql)or die(mysql_error());
+                mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
             }*/
             $sql="update crawler_member_real set status='N', search_email_yn='N', search_email_date='{$data['end_date']}', term='{$data['end_date']}' where user_id='$data[buyer_id]' ";
-            mysql_query($sql)or die(mysql_error());
+            mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
         }
     }
 }

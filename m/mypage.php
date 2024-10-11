@@ -5,8 +5,8 @@ if($_SESSION[one_member_id] == "") {
 }
 include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
 //$sql="select * from Gn_Member  where mem_id='".$_SESSION[one_member_id]."'";
-//$sresul_num=mysql_query($sql);
-//$data=mysql_fetch_array($sresul_num);
+//$sresul_num=mysqli_query($self_con,$sql);
+//$data=mysqli_fetch_array($sresul_num);
 //$m_birth_arr = explode("-",$data[mem_birth]);
 
 ?>
@@ -189,16 +189,16 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                                             // 광역시도 목록
                                             $province_list = array();
                                             $query = "SELECT province FROM gn_cities group by province";
-                                            $res = mysql_query($query);
-                                            while($row = mysql_fetch_array($res)) {
+                                            $res = mysqli_query($self_con,$query);
+                                            while($row = mysqli_fetch_array($res)) {
                                                 $province_list[] = $row['province'];
                                             }
                                             $member_address = explode(" ", $member_1['mem_add1']);
                                             $city_list = array();
                                             if(isset($member_address[0])) {
                                                 $query = "SELECT city FROM gn_cities WHERE province = '{$member_address[0]}' group by city ";
-                                                $res = mysql_query($query);
-                                                while($row = mysql_fetch_array($res)) {
+                                                $res = mysqli_query($self_con,$query);
+                                                while($row = mysqli_fetch_array($res)) {
                                                     $city_list[] = $row['city'];
                                                 }
                                             }
@@ -206,8 +206,8 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                                             $town_list = array();
                                             if(isset($member_address[1])) {
                                                 $query = "SELECT town FROM gn_cities WHERE city = '{$member_address[1]}' and province = '{$member_address[0]}' group by town";
-                                                $res = mysql_query($query);
-                                                while($row = mysql_fetch_array($res)) {
+                                                $res = mysqli_query($self_con,$query);
+                                                while($row = mysqli_fetch_array($res)) {
                                                     $town_list[] = $row['town'];
                                                 }
                                             }
@@ -271,8 +271,8 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                                         <div class="input-wrap">
                                             <?
                                             $query = "select * from Gn_Iam_Name_Card where group_id is NULL and mem_id  = '$member_1[mem_id]' ORDER BY idx";
-                                            $result = mysql_query($query);
-                                            $row = mysql_fetch_array($result);
+                                            $result = mysqli_query($self_con,$query);
+                                            $row = mysqli_fetch_array($result);
                                             $card_url = $row['card_short_url'];
                                             ?>
                                             <span id="sHtml" style="display:none"><?='http://'.$HTTP_HOST.'/?mem_code='.$member_1[mem_code]?></span>

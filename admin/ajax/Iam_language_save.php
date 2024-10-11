@@ -6,7 +6,7 @@ $idx = $_POST["idx"];
 if($_POST['mode'] == "creat") {
     $sql="insert into Gn_Iam_multilang (korean,english,china,japan,india,france,profile_menu,story_menu,contact_menu,friends_menu,manager)".
                     "values ('$korean','$english','$china','$japan','$india','$france','$profile_menu','$story_menu','$contact_menu','$friends_menu','$manager')";
-    mysql_query($sql) or die(mysql_error());
+    mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 }
 else if($_POST['mode'] == "updat") {
     $query="update  Gn_Iam_multilang set korean ='$korean',
@@ -24,10 +24,10 @@ else if($_POST['mode'] == "updat") {
                                         
                          WHERE no='$idx'
                                  ";                    
-    mysql_query($query);	
+    mysqli_query($self_con,$query);	
 } else if($_POST['mode'] == "del") {
     $query="delete  from Gn_Iam_multilang WHERE no='$idx'";
-    mysql_query($query);	
+    mysqli_query($self_con,$query);	
 }
 echo "<script>alert('저장되었습니다.');location='/admin/iam_auto_multilang.php';</script>";
 exit;

@@ -5,8 +5,8 @@ ini_set('memory_limit','4500M');
 if(strlen($_SESSION[one_member_id]) > 0) {
 	$excel_sql=base64_decode($_POST['excel_sql']);
 	$excel_sql=str_replace("`","'",$excel_sql);
-    $result = mysql_query($excel_sql) or die(mysql_error());
-    $totalCnt = mysql_num_rows($result);
+    $result = mysqli_query($self_con,$excel_sql) or die(mysqli_error($self_con));
+    $totalCnt = mysqli_num_rows($result);
     $number			= $totalCnt;
     require_once("Classes/PHPExcel.php");
     $objPHPExcel = new PHPExcel();
@@ -36,7 +36,7 @@ if(strlen($_SESSION[one_member_id]) > 0) {
 		->setCellValue("O1", "가입일")
 		->setCellValue("P1", "결제일/종료일");
 	$h=2;
-    while($row=mysql_fetch_array($result)){
+    while($row=mysqli_fetch_array($result)){
 		$cardstr =$pay_type[$row[payMethod]];
 		$payment_status = "";
 		if($row['end_status'] == "N") $payment_status = "결제대기";

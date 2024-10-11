@@ -36,15 +36,15 @@ if($cur_win == "iam_mall"){
 //추천키워드
 if($cur_win == "we_story"){
     $rec_sql = "select * from Gn_Search_Key where key_id = 'wecon_recom_keyword'";
-    $rec_result = mysql_query($rec_sql);
-    $rec_row = mysql_fetch_array($rec_result);
-    $rec_array = explode(",",$rec_row[key_content]);
+    $rec_result = mysqli_query($self_con,$rec_sql);
+    $rec_row = mysqli_fetch_array($rec_result);
+    $rec_array = explode(",",$rec_row['key_content']);
     $rec_count = count($rec_array) > 6 ? 6:count($rec_array);
     //인기검색어
     $rec_sql = "select * from  Gn_Search_Key where key_id = 'wecon_search_keyword'";
-    $rec_result = mysql_query($rec_sql);
-    $rec_row = mysql_fetch_array($rec_result);
-    $interest_array = explode(",",$rec_row[key_content]);
+    $rec_result = mysqli_query($self_con,$rec_sql);
+    $rec_row = mysqli_fetch_array($rec_result);
+    $interest_array = explode(",",$rec_row['key_content']);
     $interest_count = count($interest_array) > 5 ? 5:count($interest_array);
     $post_display = 1;//댓글박스 보이기 1:보이기 0:감추기
 }
@@ -61,8 +61,8 @@ if($cur_win == "my_info"){
         $request_short_url = substr($request_short_url,0,10);
     }
     $card_mem_sql = "select * from Gn_Member where mem_code = '$card_owner_code'";
-    $card_mem_result = mysql_query($card_mem_sql);
-    $card_mem_row = mysql_fetch_array($card_mem_result);
+    $card_mem_result = mysqli_query($self_con,$card_mem_sql);
+    $card_mem_row = mysqli_fetch_array($card_mem_result);
     $card_owner_site = $card_mem_row['site_iam'];//카드를 방문한 회원의 아이엠분양사명
     $card_owner = $card_mem_row[mem_id];
 }else if($cur_win == "group-con"){
@@ -81,17 +81,17 @@ if ($HTTP_HOST != "kiam.kr") //분양사사이트이면
     $query = "select * from Gn_Iam_Service where sub_domain like 'http://" . $HTTP_HOST . "'";
 else
     $query = "select * from Gn_Iam_Service where sub_domain like 'http://www.kiam.kr'";
-$res = mysql_query($query);
-$domainData = mysql_fetch_array($res);
+$res = mysqli_query($self_con,$query);
+$domainData = mysqli_fetch_array($res);
 $first_card_idx = $domainData['profile_idx'];//분양사의 1번 카드아이디
 $sql = "select * from Gn_Iam_Name_Card where idx = '$first_card_idx'";
-$result = mysql_query($sql);
-$main_card_row = mysql_fetch_array($result);
+$result = mysqli_query($self_con,$sql);
+$main_card_row = mysqli_fetch_array($result);
 $first_card_url = $main_card_row[card_short_url];//분양사이트 1번 네임카드 url
 
 $sql = "select site_iam,mem_code from Gn_Member where mem_id = '$main_card_row[mem_id]'";
-$result = mysql_query($sql);
-$row = mysql_fetch_array($result);
+$result = mysqli_query($self_con,$sql);
+$row = mysqli_fetch_array($result);
 $bunyang_site = $row['site_iam'];
 $bunyang_site_manager_code = $row['mem_code'];
 
@@ -111,20 +111,20 @@ if ($_SESSION[iam_member_id]) {
     }
     $date = date("Y-m-d H:i:s");
     $pay_query = "select count(*) from tjd_pay_result where (iam_pay_type != '0' and iam_pay_type != '') and buyer_id='$_SESSION[iam_member_id]' and end_status='Y' and `end_date` > '$date'";
-    $pay_result = mysql_query($pay_query);
-    $pay_row = mysql_fetch_array($pay_result);
+    $pay_result = mysqli_query($self_con,$pay_query);
+    $pay_row = mysqli_fetch_array($pay_result);
     $pay_status = $pay_row[0] + $Gn_mem_row[iam_type];// 유료회원이면 true,무료회원이면 false
     $show_sql = "select show_iam_card,show_iam_like from Gn_Member where mem_id = '$_SESSION[iam_member_id]'";
-    $show_result = mysql_query($show_sql);
-    $show_row = mysql_fetch_array($show_result);
+    $show_result = mysqli_query($self_con,$show_sql);
+    $show_row = mysqli_fetch_array($show_result);
     $show_my_iam_card = $show_row['show_iam_card'];
 
 
     //24시간내에 등록한 댓글이 있는지 확인
     $post_time = date("Y-m-d H:i:s", strtotime("-1 week"));
     $post_sql = "select count(*) from Gn_Member where mem_id = '$_SESSION[iam_member_id]' and last_regist > '$post_time'";
-    $post_result = mysql_query($post_sql);
-    $post_row = mysql_fetch_array($post_result);
+    $post_result = mysqli_query($self_con,$post_sql);
+    $post_row = mysqli_fetch_array($post_result);
     $recent_post = $post_row[0];
     $exp_status = 0;
     if($domainData[service_type] == 3 && !is_null($Gn_mem_row[exp_limit_date])){
@@ -153,11 +153,11 @@ else
     $pay_status = false;
 if($cur_win == "my_info"){
     $card_sql="select * from Gn_Iam_Name_Card where card_short_url = '$request_short_url'";
-    $card_result=mysql_query($card_sql);
-    $G_card=mysql_fetch_array($card_result);
+    $card_result=mysqli_query($self_con,$card_sql);
+    $G_card=mysqli_fetch_array($card_result);
     $mem_sql = "select * from Gn_Member where mem_id = '$G_card[mem_id]'";
-    $mem_res = mysql_query($mem_sql);
-    $mem_row = mysql_fetch_array($mem_res);
+    $mem_res = mysqli_query($self_con,$mem_sql);
+    $mem_row = mysqli_fetch_array($mem_res);
     $mem_site = $mem_row[site_iam];
     $mem_site .= $mem_site == "kiam"?".kr":".kiam.kr";
     if($mem_site != $HTTP_HOST) {
@@ -165,21 +165,21 @@ if($cur_win == "my_info"){
     }
     if($card_owner_code != $user_mem_code){//로긴자가 다른 회원의 아이엠을 보기
         $share_sql = "select mem_id,iam_type from Gn_Member where mem_code = '$card_owner_code'";
-        $share_res = mysql_query($share_sql);
-        $share_row = mysql_fetch_array($share_res);
+        $share_res = mysqli_query($self_con,$share_sql);
+        $share_row = mysqli_fetch_array($share_res);
         $share_member_id = $share_row[mem_id];//로긴자가 방문하는 다른 회원
         $date = date("Y-m-d H:i:s");
         $pay_query = "select count(*) from tjd_pay_result where (iam_pay_type != '0' and iam_pay_type != '') and buyer_id='$share_member_id' and end_status='Y' and `end_date` > '$date'";
-        $pay_result = mysql_query($pay_query);
-        $pay_row = mysql_fetch_array($pay_result);
+        $pay_result = mysqli_query($self_con,$pay_query);
+        $pay_row = mysqli_fetch_array($pay_result);
         $share_pay_status = $pay_row[0] + $share_row[iam_type];//본사 유료회원이면 true,무료회원이면 false
         $share_admin_sql = "select count(*) from Gn_Iam_Service where mem_id = '$share_member_id'";
-        $share_admin_res = mysql_query($share_admin_sql);
-        $share_admin_row = mysql_fetch_array($share_admin_res);
+        $share_admin_res = mysqli_query($self_con,$share_admin_sql);
+        $share_admin_row = mysqli_fetch_array($share_admin_res);
         $share_sub_admin = $share_admin_row[0];
         $show_sql = "select show_iam_card from Gn_Member where mem_id = '$share_member_id'";
-        $show_result = mysql_query($show_sql);
-        $show_row = mysql_fetch_array($show_result);
+        $show_result = mysqli_query($self_con,$show_sql);
+        $show_row = mysqli_fetch_array($show_result);
         $show_share_iam_card = $show_row['show_iam_card'];
     }else{
         $share_pay_status = false;
@@ -194,7 +194,7 @@ if($cur_win == "my_info"){
         exit;
     }
     $myiam_count_sql="update Gn_Iam_Name_Card set iam_click = iam_click + 1 where idx = '$G_card[idx]'";
-    mysql_query($myiam_count_sql) or die(mysql_error());
+    mysqli_query($self_con,$myiam_count_sql) or die(mysqli_error($self_con));
 
     if($domainData[sub_domain] == "")
         $domainData[sub_domain] = "http://kiam.kr/";
@@ -246,20 +246,20 @@ if($cur_win == "my_info"){
         $gkind = "search_con";
     if($gkind != "recommend" && $gkind != "mygroup" && $gkind != "search" && $gkind != "search_con"){
         $g_card_sql = "select * from Gn_Iam_Name_Card where card_short_url = '$group_card_url'";
-        $g_card_res = mysql_query($g_card_sql);
-        $group_card = mysql_fetch_array($g_card_res);
+        $g_card_res = mysqli_query($self_con,$g_card_sql);
+        $group_card = mysqli_fetch_array($g_card_res);
         $post_display = $group_card[post_display];//댓글박스 보이기 1:보이기 0:감추기
         $main_img1 = str_replace("http://www.kiam.kr",$cdn, $group_card['main_img1']);
         $main_img2 = str_replace("http://www.kiam.kr",$cdn, $group_card['main_img2']);
         $main_img3 = str_replace("http://www.kiam.kr",$cdn, $group_card['main_img3']);
         $visit_sql = "update gn_group_member set visit_date = now() where mem_id = '$_SESSION[iam_member_id]' and group_id=$gkind";
-        mysql_query($visit_sql);
+        mysqli_query($self_con,$visit_sql);
     }
     if($_SESSION[iam_member_id]){
         $sql = "select * from gn_group_member where mem_id = '$_SESSION[iam_member_id]'";
-        $res = mysql_query($sql);
+        $res = mysqli_query($self_con,$sql);
         $my_group = array();
-        while($row = mysql_fetch_array($res)){
+        while($row = mysqli_fetch_array($res)){
             array_push($my_group,$row[group_id]);
         }
         $my_group = implode(",",$my_group);
@@ -278,8 +278,8 @@ $search_key = $_GET['search_key'];
 if($search_key){
     $search_sql = "(contents_title like '%$search_key%' or contents_desc like '%$search_key%' ";
     $sql = "select card_short_url from Gn_Iam_Name_Card where group_id is NULL and card_name like '%$search_key%' ";
-    $result=mysql_query($sql) or die(mysql_error());
-    while( $row_card = mysql_fetch_array($result)){
+    $result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+    while( $row_card = mysqli_fetch_array($result)){
         $search_sql.=" or westory_card_url like '%$row_card[card_short_url]%'";
     }
     $search_sql.= ") ";
@@ -293,38 +293,38 @@ if(!$cur_win || $cur_win == "my_info"){
     $sql8="select * from Gn_Iam_Contents WHERE card_short_url = '$G_card[card_short_url]' and ".$search_sql." ORDER BY contents_order desc";
     if($search_key)
         $sql8="select * from Gn_Iam_Contents WHERE group_id is NULL and mem_id = '$_SESSION[iam_member_id]' and ($search_sql) ORDER BY contents_order desc";
-    $result8=mysql_query($sql8) or die(mysql_error());
-    $cont_count = mysql_num_rows($result8);
+    $result8=mysqli_query($self_con,$sql8) or die(mysqli_error($self_con));
+    $cont_count = mysqli_num_rows($result8);
     $sql8 .= " limit $contents_count_per_page offset ".$w_offset;
 }else if($cur_win == "my_story"  && $_SESSION[iam_member_id]== ""){
 
     $sql8="select * from Gn_Iam_Contents WHERE card_short_url = '$G_card[card_short_url]' and $search_sql ORDER BY contents_order desc";
-    $result8=mysql_query($sql8) or die(mysql_error());
-    $cont_count = mysql_num_rows($result8);
+    $result8=mysqli_query($self_con,$sql8) or die(mysqli_error($self_con));
+    $cont_count = mysqli_num_rows($result8);
     $sql8 .= " limit $contents_count_per_page offset ".$w_offset;
 }else if($cur_win == "my_story" && ( $_SESSION[iam_member_id]!= "")){
 
     $sql8="select * from Gn_Iam_Contents WHERE group_id is NULL and (mem_id = '$card_owner' or contents_share_text like '%$card_owner%')  and $search_sql ORDER BY req_data desc, up_data desc";
-    $result8=mysql_query($sql8) or die(mysql_error());
-    $cont_count = mysql_num_rows($result8);
+    $result8=mysqli_query($self_con,$sql8) or die(mysqli_error($self_con));
+    $cont_count = mysqli_num_rows($result8);
     $sql8 .= " limit $contents_count_per_page offset ".$w_offset;
 }else if($cur_win == "shared_receive" &&  $_SESSION[iam_member_id]!= ""){
 
     $sql8="select * from Gn_Iam_Contents WHERE contents_share_text like '%$_SESSION[iam_member_id]%'  and $search_sql ORDER BY req_data desc, up_data desc";
-    $result8=mysql_query($sql8) or die(mysql_error());
-    $cont_count = mysql_num_rows($result8);
+    $result8=mysqli_query($self_con,$sql8) or die(mysqli_error($self_con));
+    $cont_count = mysqli_num_rows($result8);
     $sql8 .= " limit $contents_count_per_page offset ".$w_offset;
 }else if($cur_win == "shared_send" &&  $_SESSION[iam_member_id]!= ""){
 
     $sql8="select * from Gn_Iam_Contents WHERE mem_id = '$_SESSION[iam_member_id]' and contents_share_text != ''  and $search_sql ORDER BY req_data desc, up_data desc";
-    $result8=mysql_query($sql8) or die(mysql_error());
-    $cont_count = mysql_num_rows($result8);
+    $result8=mysqli_query($self_con,$sql8) or die(mysqli_error($self_con));
+    $cont_count = mysqli_num_rows($result8);
     $sql8 .= " limit $contents_count_per_page offset ".$w_offset;
 }else if($cur_win == "unread_post" &&  $_SESSION[iam_member_id]!= ""){
 
     $sql8="select * from Gn_Iam_Contents c inner join  Gn_Iam_Post p on c.idx = p.content_idx WHERE c.mem_id = '$_SESSION[iam_member_id]' and p.status = 'N'  and $search_sql GROUP BY c.idx ORDER BY req_data desc ";
-    $result8=mysql_query($sql8) or die(mysql_error());
-    $cont_count = mysql_num_rows($result8);
+    $result8=mysqli_query($self_con,$sql8) or die(mysqli_error($self_con));
+    $cont_count = mysqli_num_rows($result8);
     $sql8 .= " limit $contents_count_per_page offset ".$w_offset;
 }else if($cur_win == "iam_mall"){
 
@@ -383,8 +383,8 @@ if(!$cur_win || $cur_win == "my_info"){
     }
 }else if($cur_win == "we_story"){
     $sql = "select * from Gn_Iam_Info where mem_id = '$_SESSION[iam_member_id]'";
-    $result = mysql_query($sql) or die(mysql_error());
-    $row_iam_info=mysql_fetch_array($result);
+    $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+    $row_iam_info=mysqli_fetch_array($result);
 
     if($row_iam_info[block_contents]){
         $block_contents_sql = " and c.idx not in ($row_iam_info[block_contents]) ";
@@ -440,8 +440,8 @@ if(!$cur_win || $cur_win == "my_info"){
     }else{
         $sql8 .= " ORDER BY req_data desc, up_data desc,contents_like desc,contents_temp desc";
     }
-    $result8=mysql_query($sql8) or die(mysql_error());
-    $total_cont_count = mysql_num_rows($result8);
+    $result8=mysqli_query($self_con,$sql8) or die(mysqli_error($self_con));
+    $total_cont_count = mysqli_num_rows($result8);
 
     if($_GET[key1] == 1){                
         $sql8="select c.* from Gn_Iam_Contents c INNER  JOIN  Gn_Member m on c.mem_id=m.mem_id where m.site_iam =  '$bunyang_site' and contents_westory_display = 'Y' and public_display = 'Y' and $search_sql $block_contents_sql $block_user_sql";
@@ -468,8 +468,8 @@ if(!$cur_win || $cur_win == "my_info"){
     }else{
         $sql8 .= " ORDER BY req_data desc, up_data desc,contents_like desc,contents_temp desc";
     }
-    $result8=mysql_query($sql8) or die(mysql_error());
-    $cont_count = mysql_num_rows($result8);
+    $result8=mysqli_query($self_con,$sql8) or die(mysqli_error($self_con));
+    $cont_count = mysqli_num_rows($result8);
     $sql8 .= " limit $contents_count_per_page offset ".$w_offset;
 }else if($cur_win == "best_sample"){  
 }else if($cur_win == "sample"){
@@ -477,27 +477,27 @@ if(!$cur_win || $cur_win == "my_info"){
 }else if($cur_win == "group-con"){
     if($gkind != "recommend" && $gkind != "mygroup" && $gkind != "search" && $gkind != "search_con"){
         $g_sql = "select count(*) from gn_group_member where mem_id='$_SESSION[iam_member_id]' and group_id = '$gkind'";
-        $g_res = mysql_query($g_sql);
-        $g_row = mysql_fetch_array($g_res);
+        $g_res = mysqli_query($self_con,$g_sql);
+        $g_row = mysqli_fetch_array($g_res);
         if($g_row[0] == 0)
             $sql8="select * from Gn_Iam_Contents WHERE card_short_url = '$group_card_url' and group_display = 'Y' and ".$search_sql." ORDER BY group_fix desc,contents_order desc";
         else
             $sql8="select * from Gn_Iam_Contents WHERE card_short_url ='$group_card_url' and ".$search_sql." ORDER BY group_fix desc,contents_order desc";
-        $result8=mysql_query($sql8) or die(mysql_error());
-        $cont_count = mysql_num_rows($result8);
+        $result8=mysqli_query($self_con,$sql8) or die(mysqli_error($self_con));
+        $cont_count = mysqli_num_rows($result8);
         $sql8 .= " limit $contents_count_per_page offset ".$w_offset;
     }else if($gkind == "recommend"){
         if($other_group != "")
             $sql8="select * from Gn_Iam_Contents WHERE group_id is not NULL and group_id not in (".$other_group.") and group_display = 'Y' and public_display = 'Y' and ".$search_sql." ORDER BY contents_order desc";
         else
             $sql8="select * from Gn_Iam_Contents WHERE group_id is not NULL and group_display = 'Y' and public_display = 'Y' and ".$search_sql." ORDER BY contents_order desc";
-        $result8 = mysql_query($sql8) or die(mysql_error());
-        $cont_count = mysql_num_rows($result8);
+        $result8 = mysqli_query($self_con,$sql8) or die(mysqli_error($self_con));
+        $cont_count = mysqli_num_rows($result8);
         $sql8 .= " limit $contents_count_per_page offset ".$w_offset;
     }else if($gkind == "search_con"){
         $sql8="select * from Gn_Iam_Contents WHERE group_id is not NULL and group_display = 'Y' and public_display = 'Y' and ".$search_sql." ORDER BY contents_order desc";
-        $result8 = mysql_query($sql8) or die(mysql_error());
-        $cont_count = mysql_num_rows($result8);
+        $result8 = mysqli_query($self_con,$sql8) or die(mysqli_error($self_con));
+        $cont_count = mysqli_num_rows($result8);
         $sql8 .= " limit $contents_count_per_page offset ".$w_offset;
     }
 }else if($cur_win == "unread_notice" &&  $_SESSION[iam_member_id]!= ""){
@@ -505,8 +505,8 @@ if(!$cur_win || $cur_win == "my_info"){
     if(isset($_GET['box']) && $_GET['box'] == "send"){
         $sql_recv_notice="select * from Gn_Item_Pay_Result WHERE buyer_id = '$_SESSION[iam_member_id]' and type='noticesend' and point_val=3 ORDER BY pay_date desc";
     }
-    $result_notice=mysql_query($sql_recv_notice) or die(mysql_error());
-    $notice_count = mysql_num_rows($result_notice);
+    $result_notice=mysqli_query($self_con,$sql_recv_notice) or die(mysqli_error($self_con));
+    $notice_count = mysqli_num_rows($result_notice);
     $sql_recv_notice .= " limit $contents_count_per_page offset ".$w_offset;
 }
 
@@ -515,24 +515,24 @@ $color = array ("#FA8258",
             "#4B8A08",
             "#B404AE");
 $receive_sql = "select count(idx) as cnt from Gn_Iam_Contents WHERE (contents_share_text like '%$_SESSION[iam_member_id]%') and DATE(up_data) = DATE(now()) and $search_sql ";
-$receive_result = mysql_query($receive_sql) or die(mysql_error());
-$r_row = mysql_fetch_array($receive_result);
+$receive_result = mysqli_query($self_con,$receive_sql) or die(mysqli_error($self_con));
+$r_row = mysqli_fetch_array($receive_result);
 
 $send_sql = "select count(idx) as cnt from Gn_Iam_Contents WHERE mem_id = '$_SESSION[iam_member_id]' and contents_share_text != '' and DATE(up_data) = DATE(now()) and $search_sql ";
-$send_result = mysql_query($send_sql) or die(mysql_error());
-$s_row = mysql_fetch_array($send_result);
+$send_result = mysqli_query($self_con,$send_sql) or die(mysqli_error($self_con));
+$s_row = mysqli_fetch_array($send_result);
 
 $post_sql = "select count(id) as cnt from Gn_Iam_Post p inner join Gn_Iam_Contents c on p.content_idx = c.idx WHERE c.mem_id = '$_SESSION[iam_member_id]' and p.status = 'N' and $search_sql ";
-$post_result = mysql_query($post_sql) or die(mysql_error());
-$p_row = mysql_fetch_array($post_result);
+$post_result = mysqli_query($self_con,$post_sql) or die(mysqli_error($self_con));
+$p_row = mysqli_fetch_array($post_result);
 
 $sql_sell_service_con = "select count(no) as cnt from Gn_Item_Pay_Result where buyer_id='$_SESSION[iam_member_id]' and point_val=1 and site is not null and type='servicebuy' and alarm_state=0";
-$sell_result = mysql_query($sql_sell_service_con) or die(mysql_error());
-$sell_row = mysql_fetch_array($sell_result);
+$sell_result = mysqli_query($self_con,$sql_sell_service_con) or die(mysqli_error($self_con));
+$sell_row = mysqli_fetch_array($sell_result);
 
 $sql_notice_unread = "select count(*) as cnt from Gn_Item_Pay_Result where buyer_id='$_SESSION[iam_member_id]' and point_val=3 and alarm_state=0 and type='noticerecv'";
-$notice_result = mysql_query($sql_notice_unread) or die(mysql_error());
-$notice_row = mysql_fetch_array($notice_result);
+$notice_result = mysqli_query($self_con,$sql_notice_unread) or die(mysqli_error($self_con));
+$notice_row = mysqli_fetch_array($notice_result);
 
 $share_recv_count = $r_row['cnt'];
 $share_send_count = $s_row['cnt'];
@@ -545,13 +545,13 @@ $share_count = $r_row['cnt'] + $s_row['cnt'] + $p_row['cnt'] + $sell_row['cnt'] 
 // echo $sql8;
 // exit;
 if($sql8)
-    $result8=mysql_query($sql8) or die(mysql_error());
+    $result8=mysqli_query($self_con,$sql8) or die(mysqli_error($self_con));
     
 if(strstr($cur_win,"sample")){}
 else if($cur_win == "iam_mall"){}
 else{
 
-        while( $contents_row = mysql_fetch_array($result8)){
+        while( $contents_row = mysqli_fetch_array($result8)){
             if(!$contents_row['contents_img'])
                 $content_images = null;
             else
@@ -573,17 +573,17 @@ else{
             else
                 $sub_domain = "http://www.kiam.kr";
             $sql = "select n.main_img1 from Gn_Iam_Service s inner join Gn_Iam_Name_Card n on s.profile_idx = n.idx where sub_domain like '%$sub_domain%'";
-            $result=mysql_query($sql) or die(mysql_error());
-            $row=mysql_fetch_array($result);
+            $result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+            $row=mysqli_fetch_array($result);
             $default_avatar =  $row['main_img1'];
 
             //westory 카드
             $sql = "select * from Gn_Iam_Name_Card where idx = '$contents_row[card_idx]'";
-            $result=mysql_query($sql) or die(mysql_error());
-            $westory_card=mysql_fetch_array($result);
+            $result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+            $westory_card=mysqli_fetch_array($result);
             $sql = "select mem_code from Gn_Member where mem_id = '$westory_card[mem_id]'";
-            $result=mysql_query($sql) or die(mysql_error());
-            $m_row =mysql_fetch_array($result);
+            $result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+            $m_row =mysqli_fetch_array($result);
             $m_code = $m_row[mem_code];
             //콘텐츠에 현시할 이름과 아바타
             $contents_user_name = $G_card['card_name'];
@@ -623,14 +623,14 @@ else{
                         $except_keyword = trim($except_keywords[$index]);
                         $except_sql = "select count(*) from Gn_Iam_Contents where mem_id = '$_SESSION[iam_member_id]'".
                             " and (contents_title like '%$except_keyword%' or contents_desc like '%$except_keyword%')";
-                        $except_result = mysql_query($except_sql);
-                        $except_row = mysql_fetch_array($except_result);
+                        $except_result = mysqli_query($self_con,$except_sql);
+                        $except_row = mysqli_fetch_array($except_result);
                         $except_count += $except_row[0] * 1;
 
                         $except_sql = "select count(*) from Gn_Iam_Name_Card where group_id is NULL and mem_id = '$_SESSION[iam_member_id]'".
                             " and card_keyword like '%$except_keyword%'";
-                        $except_result = mysql_query($except_sql);
-                        $except_row = mysql_fetch_array($except_result);
+                        $except_result = mysqli_query($self_con,$except_sql);
+                        $except_row = mysqli_fetch_array($except_result);
                         $except_count += $except_row[0] * 1;
                     }
                     if($except_count > 0){
@@ -663,8 +663,8 @@ else{
             }
 
             $post_sql = "select SQL_CALC_FOUND_ROWS * from Gn_Iam_Post p inner join Gn_Member m on p.mem_id = m.mem_id where p.content_idx = '$contents_row[idx]' and p.lock_status = 'N' order by p.reg_date";
-            $post_res = mysql_query($post_sql);
-            $post_count	=  mysql_num_rows($post_res);
+            $post_res = mysqli_query($self_con,$post_sql);
+            $post_count	=  mysqli_num_rows($post_res);
         ?>
         <div>
             <input type="hidden" id = "<?='contents_display_'.$contents_row[idx]?>" value="<?= $contents_row['contents_display'] ?>">
@@ -945,8 +945,8 @@ else{
                                     $share_ids = explode(",",$contents_row['contents_share_text']);
                                     for ($index = 0; $index < count($share_ids); $index++) {
                                         $share_sql = "select mem_name from Gn_Member where mem_id = '$share_ids[$index]'";
-                                        $share_result = mysql_query($share_sql);
-                                        $share_row = mysql_fetch_array($share_result);
+                                        $share_result = mysqli_query($self_con,$share_sql);
+                                        $share_row = mysqli_fetch_array($share_result);
                                         $share_names[$index] = htmlspecialchars($share_row[mem_name]);
                                     }
                                     $share_names = implode(",",$share_names);
@@ -1197,8 +1197,8 @@ else{
                 </div>
                 <?
                 $post_status_sql = "select count(*) from Gn_Iam_Post where content_idx = '$contents_row[idx]' and status = 'N' and lock_status = 'N'";
-                $post_status_res = mysql_query($post_status_sql);
-                $post_status_row =  mysql_fetch_array($post_status_res);
+                $post_status_res = mysqli_query($self_con,$post_status_sql);
+                $post_status_row =  mysqli_fetch_array($post_status_res);
                 $post_status_count = $post_status_row[0];
                 if ($post_status_count  > 0)
                     echo "<script>  $('#post_alarm_".$contents_row[idx]."').html(".$post_status_count."); </script>";
@@ -1214,10 +1214,10 @@ else{
                         <button type="button" class="btn btn-primary" style="position: absolute; right: 1px; padding: 9px 12px" id="send_post" onclick="add_post('<?=$contents_row[idx]?>')">등록</button>
                     </div>
                     <div style="border: 1px solid #dddddd" id = "<?='post_list_'.$contents_row[idx]?>" name = "<?='post_list_'.$contents_row[idx]?>">
-                        <?while($post_row = mysql_fetch_array($post_res)){
+                        <?while($post_row = mysqli_fetch_array($post_res)){
                             $post_card_sql = "select card_short_url from Gn_Iam_Name_Card where group_id is NULL and mem_id = '$post_row[mem_id]' order by req_data asc";
-                            $post_card_result = mysql_query($post_card_sql);
-                            $post_card_row = mysql_fetch_array($post_card_result);
+                            $post_card_result = mysqli_query($self_con,$post_card_sql);
+                            $post_card_row = mysqli_fetch_array($post_card_result);
                             ?>
                             <div class="user-item" id="<?='post_reply'.$post_row['id']?>">
                                 <a href="/?<?=strip_tags($post_card_row['card_short_url'])?>" class="img-box">
@@ -1287,11 +1287,11 @@ else{
                             </div>
                             <?
                             $reply_sql = "select * from Gn_Iam_Post_Response r inner join Gn_Member m on r.mem_id = m.mem_id where r.post_idx = '$post_row[id]' order by r.reg_date";
-                            $reply_res = mysql_query($reply_sql);
-                            while($reply_row = mysql_fetch_array($reply_res)){
+                            $reply_res = mysqli_query($self_con,$reply_sql);
+                            while($reply_row = mysqli_fetch_array($reply_res)){
                                 $reply_card_sql = "select card_short_url from Gn_Iam_Name_Card where group_id is NULL and mem_id = '$reply_row[mem_id]' order by req_data asc";
-                                $reply_card_result = mysql_query($reply_card_sql);
-                                $reply_card_row = mysql_fetch_array($reply_card_result);
+                                $reply_card_result = mysqli_query($self_con,$reply_card_sql);
+                                $reply_card_row = mysqli_fetch_array($reply_card_result);
                                 ?>
                                 <div class="user-item" style="padding-left: 30px">
                                     <a href="/?<?=strip_tags($reply_card_row['card_short_url'])?>" class="img-box">

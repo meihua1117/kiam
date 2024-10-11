@@ -4,8 +4,8 @@
 	if($_GET['id']) $id = $_GET['id'];
 
 	$sql_recom = "select * from get_crawler_bizinfo where id='{$id}'";
-	$res = mysql_query($sql_recom);
-	$row = mysql_fetch_array($res);
+	$res = mysqli_query($self_con,$sql_recom);
+	$row = mysqli_fetch_array($res);
 	$info_source = $row['info_source'];
 	$web_type = $row['web_type'];
 
@@ -14,8 +14,8 @@
 	}
 	$sql_reg = "select * from reg_biz_contents where info_source='{$info_source}' and info_type='{$web_type}'";
 	// echo $sql_reg;
-	$res_reg = mysql_query($sql_reg);
-	$row_reg = mysql_fetch_array($res_reg);
+	$res_reg = mysqli_query($self_con,$sql_reg);
+	$row_reg = mysqli_fetch_array($res_reg);
 ?>
 <!DOCTYPE html>
 <html lang="ko">

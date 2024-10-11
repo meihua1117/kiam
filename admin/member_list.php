@@ -616,8 +616,8 @@ input:checked + .slider:before {
                                             a.mem_leb
                                           FROM Gn_Member a $joinQuery
                                           WHERE 1=1 $searchStr";
-                                $res	    = mysql_query($query);
-                                $totalCnt	=  mysql_num_rows($res);
+                                $res	    = mysqli_query($self_con,$query);
+                                $totalCnt	=  mysqli_num_rows($res);
                                 $limitStr   = " LIMIT ".(($startPage-1)*$pageCnt).", ".$pageCnt;
                                 $number		= $totalCnt - ($nowPage - 1) * $pageCnt;
                                 // rcs s
@@ -632,13 +632,13 @@ input:checked + .slider:before {
                                 $excel_sql = "";
                                 $excel_sql = $query;
                                 $query .= $limitStr;
-                                $res = mysql_query($query);
-                                while($row = mysql_fetch_array($res)) {
+                                $res = mysqli_query($self_con,$query);
+                                while($row = mysqli_fetch_array($res)) {
                                     // =====================  유료결제건 시작 =====================
                                     $sql = "select phone_cnt,onestep2 from tjd_pay_result where buyer_id = '{$row['mem_id']}' and end_date > '$date_today' and end_status='Y' and gwc_cont_pay=0 order by end_date desc limit 1";
-                                    $res_result = mysql_query($sql);
-                                    $pay_result = mysql_fetch_row($res_result);
-                                    //mysql_free_result($res_result);
+                                    $res_result = mysqli_query($self_con,$sql);
+                                    $pay_result = mysqli_fetch_row($res_result);
+                                    //mysqli_free_result($res_result);
                                     if($pay_result == ""){
                                         $buyMMSCount = "OFF";
                                     }else{
@@ -648,22 +648,22 @@ input:checked + .slider:before {
                                     // ===================== 유료결제건 끝 =====================
                                     // =====================  총결제금액 시작 =====================
                                     $sql = "select sum(TotPrice) totPrice from tjd_pay_result where buyer_id = '".$row['mem_id']."' and end_status='Y' and gwc_cont_pay=0";
-                                    $res_result = mysql_query($sql);
-                                    $totPriceRow = mysql_fetch_row($res_result);
-                                    //mysql_free_result($res_result);
+                                    $res_result = mysqli_query($self_con,$sql);
+                                    $totPriceRow = mysqli_fetch_row($res_result);
+                                    //mysqli_free_result($res_result);
                                     $totPrice = $totPriceRow[0];
                                     // ===================== 총결제금액 끝 =====================
                                     $sql = "select b.memo, b.sendnum, b.memo2 from Gn_MMS_Number where mem_id = '".$row['mem_id']."'";
-                                    $res_result = mysql_query($sql);
-                                    $num_res = mysql_fetch_row($res_result);
-                                    //mysql_free_result($res_result);
+                                    $res_result = mysqli_query($self_con,$sql);
+                                    $num_res = mysqli_fetch_row($res_result);
+                                    //mysqli_free_result($res_result);
                                     $row['sendnum'] = $num_res['sendnum'];
                                     $row['memo'] = $num_res['memo'];
                                     $row['memo2'] = $num_res['memo2'];
                                     $sql = "select count(*) from Gn_MMS_Number where 1=1 and ( not (cnt1 = 10 and cnt2 = 20)) and  mem_id = '".$row['mem_id']."'";
-                                    $res_result = mysql_query($sql);
-                                    $num_res = mysql_fetch_row($res_result);
-                                    //mysql_free_result($res_result);
+                                    $res_result = mysqli_query($self_con,$sql);
+                                    $num_res = mysqli_fetch_row($res_result);
+                                    //mysqli_free_result($res_result);
                                     $row['tcnt'] = $num_res[0];
                                 ?>
                                     <tr>

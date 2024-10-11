@@ -207,12 +207,12 @@ if($where_query != '')
 {
     try{
         $query = $query.' WHERE '.$where_query;
-        $result = mysql_query($query);
+        $result = mysqli_query($self_con,$query);
 
         if($only_count == '0')
         {
             $i=0;
-            while($row = mysql_fetch_array($result)) {
+            while($row = mysqli_fetch_array($result)) {
                 $phone_no = str_replace(' ', '',$row['phone']);
                 if($phone_no == '')
                 {
@@ -227,7 +227,7 @@ if($where_query != '')
             echo json_encode(array('status'=>'1','phones'=>$phones, 'cost'=>$cost));
         }
         else {
-            while($row = mysql_fetch_array($result)) {
+            while($row = mysqli_fetch_array($result)) {
                 $count = $row['total_count'];
                 echo json_encode(array('status'=>'1','count'=>$count));
             }

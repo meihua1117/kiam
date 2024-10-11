@@ -15,7 +15,7 @@ $query="delete from Gn_Ad_Manager WHERE cam_id='$cam_id'";
 
 $query="update coach_apply set agreement='1' where no='$coach_no' ";
 
-    mysql_query($query);  
+    mysqli_query($self_con,$query);  
 
 //echo "<script>alert('저장되었습니다."+$coach_no+"');location='/admin/member_manager_request_coach.php';</script>";
 exit;

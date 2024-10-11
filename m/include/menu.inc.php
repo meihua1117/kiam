@@ -6,18 +6,18 @@ if($member_1){
 		$query = "select * from Gn_Iam_Service where sub_domain like 'http://" . $HTTP_HOST . "'";
 	else
 		$query = "select * from Gn_Iam_Service where sub_domain like 'http://www.kiam.kr'";
-	$res = mysql_query($query);
-	$domainData = mysql_fetch_array($res);
+	$res = mysqli_query($self_con,$query);
+	$domainData = mysqli_fetch_array($res);
 	$first_card_idx = $domainData['profile_idx'];//분양사의 1번 카드아이디
 	$card_sql = "select * from Gn_Iam_Name_Card where idx = '$first_card_idx'";
 }
-$result = mysql_query($card_sql);
-$card_row = mysql_fetch_array($result);
+$result = mysqli_query($self_con,$card_sql);
+$card_row = mysqli_fetch_array($result);
 $card_url = $card_row[card_short_url];//분양사이트 1번 네임카드 url
 $card_name = str_replace("'","",$card_row['card_name']);
 $mem_sql = "select mem_code from Gn_Member where mem_id='$card_row[mem_id]'";
-$mem_res = mysql_query($mem_sql);
-$mem_row = mysql_fetch_array($mem_res);
+$mem_res = mysqli_query($self_con,$mem_sql);
+$mem_row = mysqli_fetch_array($mem_res);
 $card_url.=$mem_row[mem_code];
 ?>
 <aside id="aside" style="overflow:scroll;"><!-- 사이브 메뉴 시작 -->
@@ -61,8 +61,8 @@ $card_url.=$mem_row[mem_code];
 			</li>
 			<?
 				$mem_sql = "select site_iam from Gn_Member where mem_id='$_SESSION[one_member_id]'";
-				$mem_res = mysql_query($mem_sql);
-				$mem_row = mysql_fetch_array($mem_res);
+				$mem_res = mysqli_query($self_con,$mem_sql);
+				$mem_row = mysqli_fetch_array($mem_res);
 				$site = $mem_row[site_iam];
 				if($site){
 					if($site == "kiam")

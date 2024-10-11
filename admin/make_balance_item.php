@@ -12,8 +12,8 @@ $date = date("Y-m-d", strtotime( $_REQUEST['search_year']."-".$_REQUEST['search_
 $end_date = date("Y-m-d", strtotime( $_REQUEST['search_year']."-".$_REQUEST['search_month'].""));
                 	
 $query = "SELECT * FROM Gn_Item_Pay_Result where pay_date < '$date' and pay_status = 'Y' and point_val=0 and gwc_cont_pay=0";
-$res	    = mysql_query($query);
-$totalCnt	=  mysql_num_rows($res);
+$res	    = mysqli_query($self_con,$query);
+$totalCnt	=  mysqli_num_rows($res);
 $limitStr       = " LIMIT ".(($startPage-1)*$pageCnt).", ".$pageCnt;
 $number			= $totalCnt - ($nowPage - 1) * $pageCnt;
 $orderQuery .= "
@@ -21,11 +21,11 @@ $orderQuery .= "
 ";            	
 $i = 1;
 $query .= "$orderQuery";
-$res = mysql_query($query);
-while($row = mysql_fetch_array($res)) {                       	
+$res = mysqli_query($self_con,$query);
+while($row = mysqli_fetch_array($res)) {                       	
     $query = "select bid from Gn_Item_Pay_Result_Balance where pay_no='$row[no]' AND balance_date='$date_month'";
-    $sres = mysql_query($query);
-    $srow = mysql_fetch_array($sres);
+    $sres = mysqli_query($self_con,$query);
+    $srow = mysqli_fetch_array($sres);
     if($srow[0] == "") {
         $query = "insert into Gn_Item_Pay_Result_Balance set pay_no='$row[no]',
                                                          mem_id='$row[buyer_id]',
@@ -37,7 +37,7 @@ while($row = mysql_fetch_array($res)) {
                                                          pay_date='$row[pay_date]',
                                                          regdate=NOW()
                                                          ";
-        mysql_query($query);
+        mysqli_query($self_con,$query);
     }
     $i++;
 }

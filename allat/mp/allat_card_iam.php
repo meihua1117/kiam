@@ -34,11 +34,11 @@ $FIX_KEY	= getValue("fix_key",$at_txt);
 $APPLY_YMD	= getValue("apply_ymd",$at_txt);
 
 $sql="select * from tjd_pay_result where orderNumber='$ORDER_NO'";
-$resul=mysql_query($sql)or die(mysql_error());
-$row=mysql_fetch_array($resul);
+$resul=mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
+$row=mysqli_fetch_array($resul);
 if(!strcmp($REPLYCD,"0000")){//pay_test
     $sql = "update tjd_pay_result set end_status='Y',billkey='$FIX_KEY',billdate='$APPLY_YMD' where  orderNumber='$ORDER_NO' and buyer_id='$member_iam[mem_id]'";
-    mysql_query($sql) or die(mysql_error());
+    mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
     $iam_pay_type=$_POST[iam_pay_type];
     if($iam_pay_type == 'FREE')
         $iam_type = 0;
@@ -65,8 +65,8 @@ if(!strcmp($REPLYCD,"0000")){//pay_test
         $term = substr($last_time, 0, 10);
 
         $sql = "select count(cmid) from crawler_member_real where user_id='$member_iam[mem_id]' ";
-        $sresult = mysql_query($sql) or die(mysql_error());
-        $crow = mysql_fetch_array($sresult);
+        $sresult = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+        $crow = mysqli_fetch_array($sresult);
         if ($crow[0] == 0) {
             $query = "insert into crawler_member_real set user_id='$user_id',
                                         user_name='$user_name',
@@ -82,7 +82,7 @@ if(!strcmp($REPLYCD,"0000")){//pay_test
                                         search_email_date='$search_email_date',
                                         search_email_cnt='$search_email_cnt',
                                         shopping_end_date='$search_email_date'";
-            mysql_query($query);
+            mysqli_query($self_con,$query);
         } else {
             $query = "update crawler_member_real set
                                         cell='$cell',
@@ -101,25 +101,25 @@ if(!strcmp($REPLYCD,"0000")){//pay_test
                                         shopping_end_date='$search_email_date',
                                         status='Y'
                                         where user_id='$user_id'";
-            mysql_query($query);
+            mysqli_query($self_con,$query);
         }
         $add_phone = $row[phone_cnt] / 9000;
         $sql_m = "update Gn_Member set fujia_date1=now() , fujia_date2=date_add(now(),INTERVAL 120 month),phone_cnt=phone_cnt+'$add_phone'";
         $sql_m .= " where mem_id='$member_iam[mem_id]'";
-        mysql_query($sql_m) or die(mysql_error());
+        mysqli_query($self_con,$sql_m) or die(mysqli_error($self_con));
         // 등급에 따른 recommend_type 설정
         if ($member_iam['recommend_id'] != "") {
             $sql = "select * from Gn_Member where mem_id='$member_iam[recommend_id]' and service_type > 0";
-            $rresult = mysql_query($sql) or die(mysql_error());
-            $rrow = mysql_fetch_array($rresult);
+            $rresult = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+            $rrow = mysqli_fetch_array($rresult);
             $branch_share_id = "";
             if ($rrow[service_type] > 0) {
                 $addQuery = "";
                 $branch_share_per = 0;
                 // 추천인의 추천인 검색 및 등급 확인
                 $sql = "select * from Gn_Member where mem_id='$rrow[recommend_id]'";
-                $rresult = mysql_query($sql) or die(mysql_error());
-                $trow = mysql_fetch_array($rresult);
+                $rresult = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+                $trow = mysqli_fetch_array($rresult);
 
                 // 리셀러 / 분양 회원 확인
                 // 리셀러 회원인경우 분양회원 아이디 확인
@@ -136,9 +136,9 @@ if(!strcmp($REPLYCD,"0000")){//pay_test
                     //$recommend_type = 50;
                 }
                 $sql_m = "update Gn_Member set   recommend_type='$recommend_type' where mem_id='$member_iam[mem_id]' ";
-                mysql_query($sql_m) or die(mysql_error());
+                mysqli_query($self_con,$sql_m) or die(mysqli_error($self_con));
                 $sql = "update tjd_pay_result set share_per='$share_per', branch_share_per = '$branch_share_per', share_id='$member_iam[recommend_id]', branch_share_id='$branch_share_id' where no='$no'";
-                mysql_query($sql) or die(mysql_error());
+                mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
             }
         }
     }
@@ -155,7 +155,7 @@ if(!strcmp($REPLYCD,"0000")){//pay_test
                                     exp_limit_status = 0,
                                     exp_limit_date = NULL
                                 where mem_id='$member_iam[mem_id]' ";
-        mysql_query($sql_m) or die(mysql_error());
+        mysqli_query($self_con,$sql_m) or die(mysqli_error($self_con));
     }
     $at_enc       = "";
     $at_data      = "";
@@ -245,9 +245,9 @@ if(!strcmp($REPLYCD,"0000")){//pay_test
                                                     regdate = NOW(),
                                                     amount='$row[TotPrice]',
                                                     buyer_id='$member_iam[mem_id]'";
-        mysql_query($sql)or die(mysql_error());
+        mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
         $sql = "update tjd_pay_result set monthly_yn='Y', end_status='Y' where  orderNumber='$ORDER_NO' and buyer_id='$member_iam[mem_id]'";
-        mysql_query($sql)or die(mysql_error());
+        mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
 
         ?>
         <script language="javascript">

@@ -232,8 +232,8 @@ $(function() {
                                 <?
                                 //디폴트 아바타
                                 $sql = "select main_img1 from Gn_Iam_Info where mem_id = 'obmms02'";
-                                $result=mysql_query($sql) or die(mysql_error());
-                                $row=mysql_fetch_array($result);
+                                $result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+                                $row=mysqli_fetch_array($result);
                                 $default_img =  $row['main_img1'];
 
 
@@ -268,8 +268,8 @@ $(function() {
                                 }
 
                                 $count_query = "select count(DISTINCT(mem_id)) from Gn_Iam_Name_Card ca_1 WHERE group_id is NULL AND admin_shopping!=0 $searchStr";
-                                $count_result = mysql_query($count_query);
-                                $count_row = mysql_fetch_array($count_result);
+                                $count_result = mysqli_query($self_con,$count_query);
+                                $count_row = mysqli_fetch_array($count_result);
                                 $totalCnt	=  $count_row[0];
 
                                 $query = "SELECT *, count(ca_1.mem_id) as cnt FROM Gn_Iam_Name_Card ca_1";
@@ -282,33 +282,33 @@ $(function() {
                                 $i = 1;
                                 $c=0;
                                 $query .= $orderQuery;
-                                $res = mysql_query($query);
-                                while($row = mysql_fetch_array($res)) {
+                                $res = mysqli_query($self_con,$query);
+                                while($row = mysqli_fetch_array($res)) {
                                     $mem_sql = "select mem_code from Gn_Member where mem_id='$row[mem_id]'";
-                                    $mem_res = mysql_query($mem_sql);
-                                    $mem_row = mysql_fetch_array($mem_res);
+                                    $mem_res = mysqli_query($self_con,$mem_sql);
+                                    $mem_row = mysqli_fetch_array($mem_res);
 
                                     $fquery = "select count(*) from Gn_Iam_Friends where friends_card_idx = ".$row['idx'];
-                                    $fresult = mysql_query($fquery);
-                                    $frow = mysql_fetch_array($fresult);
+                                    $fresult = mysqli_query($self_con,$fquery);
+                                    $frow = mysqli_fetch_array($fresult);
                                     //$friend_count	=  $frow[0];
 
                                     $sql_pay = "select sum(TotPrice) totPrice, date from tjd_pay_result where buyer_id = '".$row[mem_id]."' and end_status='Y'";
-                                    $res_result = mysql_query($sql_pay);
-                                    $totPriceRow = mysql_fetch_row($res_result);
+                                    $res_result = mysqli_query($self_con,$sql_pay);
+                                    $totPriceRow = mysqli_fetch_row($res_result);
                                     $totPrice = $totPriceRow[0];
 
                                     $cquery = "select count(*) from Gn_Iam_Contents where westory_card_url = "."'$row[card_short_url]'";
-                                    $cresult = mysql_query($cquery);
-                                    $crow = mysql_fetch_array($cresult);
+                                    $cresult = mysqli_query($self_con,$cquery);
+                                    $crow = mysqli_fetch_array($cresult);
                                     
                                     if($row['ai_map_gmarket'] == 1){
                                         $chanel = "지도";
                                         $card_arr = array();
                                         $index_card = 0;
                                         $sql_card = "select card_title from Gn_Iam_Name_Card where mem_id='{$row[mem_id]}' order by idx asc";
-                                        $res_card = mysql_query($sql_card);
-                                        while($row_card = mysql_fetch_array($res_card)){
+                                        $res_card = mysqli_query($self_con,$sql_card);
+                                        while($row_card = mysqli_fetch_array($res_card)){
                                             if($row_card[card_title] == "업체보기"){
                                                 $card_arr[$index_card] = 1;
                                             }

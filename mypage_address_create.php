@@ -13,8 +13,8 @@ location.replace('/ma.php');
 exit;
 }
 	$sql="select * from Gn_Member  where mem_id='".$_SESSION[one_member_id]."'";
-	$sresul_num=mysql_query($sql);
-	$data=mysql_fetch_array($sresul_num);	
+	$sresul_num=mysqli_query($self_con,$sql);
+	$data=mysqli_fetch_array($sresul_num);	
 	
 	if($data['intro_message'] =="") {
 		$data['intro_message'] = "안녕하세요\n
@@ -31,12 +31,12 @@ $mem_phone = str_replace("-","",$data['mem_phone']);
 
 
 $sql="select * from Gn_event_request  where request_idx='".$request_idx."'";
-$sresul_num=mysql_query($sql);
-$data = $row=mysql_fetch_array($sresul_num);	
+$sresul_num=mysqli_query($self_con,$sql);
+$data = $row=mysqli_fetch_array($sresul_num);	
 
 $sql="select * from Gn_event where event_idx='$row[event_idx]' order by event_idx desc";
-$result = mysql_query($sql) or die(mysql_error());
-$event_data = $row=mysql_fetch_array($result);
+$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+$event_data = $row=mysqli_fetch_array($result);
 ?>
 <script>
 function copyHtml(){

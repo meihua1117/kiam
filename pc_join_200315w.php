@@ -3,8 +3,8 @@ $path="./";
 include_once "_head.php";
 if($_COOKIE[mem_code]) {
 	$sql="select * from Gn_Member where mem_code='$_COOKIE[mem_code]'";
-	$result=mysql_query($sql);
-	$info=mysql_fetch_array($result);
+	$result=mysqli_query($self_con,$sql);
+	$info=mysqli_fetch_array($result);
 }
 
 ?>

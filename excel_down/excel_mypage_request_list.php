@@ -4,7 +4,7 @@ set_time_limit(0);
 ini_set('memory_limit','2500M');
 $excel_sql=$_POST['excel_sql'];
 $excel_sql=str_replace("`","'",$excel_sql);
-$result = mysql_query($excel_sql) or die(mysql_error());
+$result = mysqli_query($self_con,$excel_sql) or die(mysqli_error($self_con));
 require_once("Classes/PHPExcel.php");
 $objPHPExcel = new PHPExcel();
 $objPHPExcel->getProperties()
@@ -31,7 +31,7 @@ $objPHPExcel->setActiveSheetIndex(0)
 			->setCellValue("M1", "등록일");
 $h=2;
 $No = 1;
-while($row=mysql_fetch_array($result)){
+while($row=mysqli_fetch_array($result)){
 	$objPHPExcel->setActiveSheetIndex(0)
 				->setCellValue("A$h",$No++)
 				->setCellValue("B$h",$row[sp])

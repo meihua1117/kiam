@@ -12,13 +12,13 @@ var idx = "";
 exit;
 }
 $sql="select * from Gn_Member  where mem_id='".$_SESSION[one_member_id]."' and site != ''";
-$sresul_num=mysql_query($sql);
-$data=mysql_fetch_array($sresul_num);	
+$sresul_num=mysqli_query($self_con,$sql);
+$data=mysqli_fetch_array($sresul_num);	
 
 // if($data[0]) {
 // 	$sql="select * from Gn_MMS_Group where idx='$row[group_idx]'";
-// 	$sresult=mysql_query($sql) or die(mysql_error());					  	 
-// 	$krow = mysql_fetch_array($sresult);    
+// 	$sresult=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));					  	 
+// 	$krow = mysqli_fetch_array($sresult);    
 // }
 $mem_phone = str_replace("-","",$data['mem_phone']);	
 ?>
@@ -114,8 +114,8 @@ $(function(){
 					$search_text1 = $_REQUEST[search_text];
 
 					$sql="select * from Gn_MMS_group where $sql_serch and grp = '$search_text1' ";
-					$result = mysql_query($sql) or die(mysql_error());
-					$address_idx = mysql_fetch_array($result);
+					$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+					$address_idx = mysqli_fetch_array($result);
 
 					
 					if($address_idx[idx] != ""){
@@ -131,8 +131,8 @@ $(function(){
 			
 
 				$sql="select count(*) as cnt from Gn_event_oldrequest where $sql_serch ";
-				$result = mysql_query($sql) or die(mysql_error());
-				$row=mysql_fetch_array($result);
+				$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+				$row=mysqli_fetch_array($result);
 				$intRowCount=$row[cnt];
 				if (!$_POST[lno]) 
 					$intPageSize =20;
@@ -165,28 +165,28 @@ $(function(){
                 if($intRowCount)
                 {
                   $sql="select * from Gn_event_oldrequest where $sql_serch order by $order_name $order_status limit $int,$intPageSize";
-                  $result=mysql_query($sql) or die(mysql_error());				
-                  while($row=mysql_fetch_array($result))
+                  $result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));				
+                  while($row=mysqli_fetch_array($result))
                   {
 
 					$sql="select * from Gn_event_sms_info where sms_idx='$row[sms_idx]'";
-                    $sresult=mysql_query($sql) or die(mysql_error());				                    
-                    $rrow = mysql_fetch_array($sresult);
+                    $sresult=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));				                    
+                    $rrow = mysqli_fetch_array($sresult);
 
                     $sql="select count(*) as cnt from Gn_event_sms_step_info where sms_idx='$rrow[sms_idx]'";
-                    $sresult=mysql_query($sql) or die(mysql_error());				                    
-                    $srow = mysql_fetch_array($sresult);
+                    $sresult=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));				                    
+                    $srow = mysqli_fetch_array($sresult);
 
                     // $sql = "select * from Gn_event_address where event_idx = '$row[reservation_title]'";
-                    // $aresult = mysql_query($sql) or die(mysql_error());
-                    // $arow=mysql_fetch_array($aresult);
+                    // $aresult = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+                    // $arow=mysqli_fetch_array($aresult);
                     $sql = "select * from Gn_MMS_Group where idx = '$row[address_idx]'";
-                    $addrresult = mysql_query($sql) or die(mysql_error());
-                    $addrrow=mysql_fetch_array($addrresult);
+                    $addrresult = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+                    $addrrow=mysqli_fetch_array($addrresult);
 
                     $sql="select count(idx) as cnt from Gn_MMS_Receive where grp_id = '$addrrow[idx]'";
-                    $dresult = mysql_query($sql) or die(mysql_error());
-                    $drow=mysql_fetch_array($dresult);
+                    $dresult = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+                    $drow=mysqli_fetch_array($dresult);
                     $date = $row[regdate];
                   ?>
                   <tr>
@@ -485,8 +485,8 @@ background: #ffffff/*{bgColorContent}*/ url(images/ui-bg_flat_75_ffffff_40x100.p
                                     <!--option value="<?=str_replace("-", "", $data[mem_phone])?>"><?php echo str_replace("-","",$data['mem_phone']);?></option-->
 							        <?php
                                         $query = "select * from Gn_MMS_Number where mem_id='$_SESSION[one_member_id]' order by sort_no asc, user_cnt desc , idx desc";
-                                        $resul=mysql_query($query);
-                                        while($korow=mysql_fetch_array($resul)) {
+                                        $resul=mysqli_query($self_con,$query);
+                                        while($korow=mysqli_fetch_array($resul)) {
                                     ?>
                                     <option value="<?=$korow[sendnum]?>" <?php echo $row['send_num']==$korow['sendnum']?"selected":""?>><?php echo $korow['sendnum'];?></option>
                                     <?php }?>

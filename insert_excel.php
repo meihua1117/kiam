@@ -34,8 +34,8 @@ $error_arr=array();
 		if(!$_FILES[excel_file][tmp_name])
 		exit;
 			$sql="select * from Gn_MMS_Group where idx in($_POST[old_group])";
-			$resul=mysql_query($sql);
-			while($row=mysql_fetch_array($resul))
+			$resul=mysqli_query($self_con,$sql);
+			while($row=mysqli_fetch_array($resul))
 			{				
 				$cnt=0;
 				for ($i = 2; $i <= $excel_rows; $i++) 
@@ -49,8 +49,8 @@ $error_arr=array();
 						continue;
 						}						
 						$sql_c="select idx from Gn_MMS_Receive where mem_id='$_SESSION[one_member_id]' and grp_id='$row[idx]' and recv_num='$v' ";
-						$resul_c=mysql_query($sql_c);
-						$row_c=mysql_fetch_array($resul_c);
+						$resul_c=mysqli_query($self_con,$sql_c);
+						$row_c=mysqli_fetch_array($resul_c);
 						if($row_c[idx])
 						{
 						array_push($error_arr,"{$v} 은/는 중복번호입니다.(업로드실패)");	
@@ -58,19 +58,19 @@ $error_arr=array();
 						}
 						
 						$sql_i = "insert into Gn_MMS_Receive set mem_id = '$_SESSION[one_member_id]',grp_id='$row[idx]', grp = '$row[grp]', grp_2 = '".$data->sheets[0]['cells'][$i][1]."', name = '".$data->sheets[0]['cells'][$i][2]."' , recv_num = '$v', email = '".$data->sheets[0]['cells'][$i][4]."' ,reg_date=now()";
-						mysql_query($sql_i);
+						mysqli_query($self_con,$sql_i);
 						$cnt++;
 					}
 				$sql_u="update Gn_MMS_Group set count=count+$cnt where idx='$row[idx]' ";
-				mysql_query($sql_u);					
+				mysqli_query($self_con,$sql_u);					
 			}
 	}
 	else if($_REQUEST[status]=="new")
 	{
 		$group_name=htmlspecialchars($_POST[new_group]);
 		$sql_s="select idx from Gn_MMS_Group where grp='$group_name' and mem_id='$_SESSION[one_member_id]'";
-		$resul_s=mysql_query($sql_s);
-		$row_s=mysql_fetch_array($resul_s);
+		$resul_s=mysqli_query($self_con,$sql_s);
+		$row_s=mysqli_fetch_array($resul_s);
 		if($row_s[idx])
 		{
 			?>
@@ -82,13 +82,13 @@ $error_arr=array();
 			exit;		
 		}
 		$sql = "insert Gn_MMS_Group set mem_id = '$_SESSION[one_member_id]', grp = '$group_name', reg_date = now()";
-		mysql_query($sql) or die(mysql_error());
+		mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 		
 		if($_FILES[excel_file][tmp_name])
 		{
 			$sql_s="select idx from Gn_MMS_Group where grp='$group_name' and mem_id='$_SESSION[one_member_id]' ";
-			$resul_s=mysql_query($sql_s);
-			$row_s=mysql_fetch_array($resul_s);
+			$resul_s=mysqli_query($self_con,$sql_s);
+			$row_s=mysqli_fetch_array($resul_s);
 			$cnt=0;
 			for ($i = 2; $i <= $excel_rows; $i++) 
 			{
@@ -102,8 +102,8 @@ $error_arr=array();
 				}				
 				
 				$sql_c="select idx from Gn_MMS_Receive where mem_id='$_SESSION[one_member_id]' and grp_id='$row_s[idx]' and recv_num='$v' ";
-				$resul_c=mysql_query($sql_c);
-				$row_c=mysql_fetch_array($resul_c);
+				$resul_c=mysqli_query($self_con,$sql_c);
+				$row_c=mysqli_fetch_array($resul_c);
 				if($row_c[idx])
 				{
 				array_push($error_arr,"{$v} 은/는 중복번호입니다.(업로드실패)");	
@@ -111,11 +111,11 @@ $error_arr=array();
 				}
 					
 				$sql_i = "insert into Gn_MMS_Receive set mem_id = '$_SESSION[one_member_id]',grp_id='$row_s[idx]', grp = '$group_name', grp_2 = '".$data->sheets[0]['cells'][$i][1]."', recv_num = '$v', name = '".$data->sheets[0]['cells'][$i][2]."' ,email = '".$data->sheets[0]['cells'][$i][4]."' ,reg_date=now() ";
-				mysql_query($sql_i);
+				mysqli_query($self_con,$sql_i);
 				$cnt++;
 			}
 			$sql_u="update Gn_MMS_Group set count=$cnt where idx='$row_s[idx]' ";
-			mysql_query($sql_u);			
+			mysqli_query($self_con,$sql_u);			
 		}
 	}
 	else if($_REQUEST[status]=="deny")
@@ -147,8 +147,8 @@ $error_arr=array();
 					
 					
 					$sql_num="select sendnum from Gn_MMS_Number where mem_id ='$_SESSION[one_member_id]' and sendnum='$send_num' ";
-					$resul_num=mysql_query($sql_num);
-					$row_num=mysql_fetch_array($resul_num);
+					$resul_num=mysqli_query($self_con,$sql_num);
+					$row_num=mysqli_fetch_array($resul_num);
 					if(!$row_num[sendnum])
 					{
 					array_push($error_arr,"{$send_num} 은/는 등록된번호가 아닙니다.(업로드실패)");	
@@ -156,8 +156,8 @@ $error_arr=array();
 					}
 		
 					$sql_s="select idx from Gn_MMS_Deny where mem_id='$_SESSION[one_member_id]' and recv_num='$recv_num' and send_num='$send_num' ";
-					$resul_s=mysql_query($sql_s);
-					$row_s=mysql_fetch_array($resul_s);
+					$resul_s=mysqli_query($self_con,$sql_s);
+					$row_s=mysqli_fetch_array($resul_s);
 					if($row_s[idx])
 					{
 					array_push($error_arr,"발신번호{$send_num} 수신번호 {$recv_num} 은/는 이미 등록되었습니다.(업로드실패)");	
@@ -174,7 +174,7 @@ $error_arr=array();
 					foreach($deny_info as $key=>$v)
 					$sql_i.=" $key='$v' , ";
 					$sql_i.=" reg_date=now() ";
-					mysql_query($sql_i) or die(mysql_error());
+					mysqli_query($self_con,$sql_i) or die(mysqli_error($self_con));
 					$cnt++;
 			}
 	}
