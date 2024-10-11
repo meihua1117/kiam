@@ -376,7 +376,7 @@ if($_POST['id'] && $_POST[pwd]){
 			$sql="select * from Gn_MMS_Group where mem_id='{$member_info['mem_id']}' and grp='아이엠'";
 			$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 			$data = mysqli_fetch_array($result);
-			if($data[idx] == ""){
+			if($data['idx'] == ""){
 				$query = "insert into Gn_MMS_Group set mem_id='{$member_info['mem_id']}', grp='아이엠', reg_date=NOW()";
 				mysqli_query($self_con,$query);
 			}

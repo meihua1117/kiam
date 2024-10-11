@@ -210,12 +210,12 @@ if(!$method) {
                         "<td class=\"iam_table\">".$row["mem_name"]."</td>".
                         "<td class=\"iam_table\">".$row["mem_id"]."</td>".
                         "<td class=\"iam_table\">".
-                            "<a href='/iam/contents.php?contents_idx=$row[idx]' target='_blank'>".
+                            "<a href='/iam/contents.php?contents_idx={$row['idx']}' target='_blank'>".
                                 "<img src='$row[contents_img]'>".
                             "</a>".
                         "</td>".
                         "<td class=\"iam_table\">".
-                            "<label class=\"switch\" onchange='change_group_content_display(".$row[idx].")'>".
+                            "<label class=\"switch\" onchange='change_group_content_display(".$row['idx'].")'>".
                                 "<input type='checkbox' name='status' value='".$row['idx']."'". ($row['group_display']=="Y"?"checked":"").">".
                                 "<span class='slider round' name='status_round'></span>".
                             "</label>".

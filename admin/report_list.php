@@ -109,8 +109,8 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <input type="date" style="height: 30px" name="sdate" placeholder="" id="search_start_date" value="<?=$_REQUEST[sdate]?>" multiple/> ~
-                                    <input type="date" style="height: 30px" name="edate" placeholder="" id="search_end_date" value="<?=$_REQUEST[edate]?>"/>
+                                    <input type="date" style="height: 30px" name="sdate" placeholder="" id="search_start_date" value="<?=$_REQUEST['sdate']?>" multiple/> ~
+                                    <input type="date" style="height: 30px" name="edate" placeholder="" id="search_end_date" value="<?=$_REQUEST['edate']?>"/>
                                 </div>
                                 <div class="form-group">
                                     <input type="text" name="search_key" id="search_key" class="form-control input-sm pull-right" style="" placeholder="검색키워드" value="<?=$search_key?>">

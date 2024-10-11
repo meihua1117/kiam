@@ -24,7 +24,7 @@ if($type == "main") {
     if ($month_status == "Y") {
         $sql_m = "update tjd_pay_result set monthly_status='$month_status',payment_day='$payment_day', end_date='$end_date', cancel_completetime =now()  where `no` = '$no' ";
         // if (strstr($row[member_type] ,"professional") || strstr($row[member_type] ,"standard") || strstr($row[member_type] ,"enterprise")) {
-            $dber_sql = "update crawler_member_real set term='$end_date',search_email_date='$end_date',shopping_end_date='$end_date', search_email_yn='N', status='N' where user_id='$row[buyer_id]'";
+            $dber_sql = "update crawler_member_real set term='$end_date',search_email_date='$end_date',shopping_end_date='$end_date', search_email_yn='N', status='N' where user_id='{$row['buyer_id']}'";
             mysqli_query($self_con,$dber_sql);
         // }
         /*else{

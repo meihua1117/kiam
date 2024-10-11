@@ -20,8 +20,8 @@ else if($mode == "menu_desc"){
     $res_chk = mysqli_query($self_con,$sql_chk);
     $row_chk = mysqli_fetch_array($res_chk);
 
-    if($row_chk[idx]){
-        $sql_update = "update Gn_App_Home_Manager set menu_desc='{$txt}', up_date='{$date}' where idx='{$row_chk[idx]}'";
+    if($row_chk['idx']){
+        $sql_update = "update Gn_App_Home_Manager set menu_desc='{$txt}', up_date='{$date}' where idx='{$row_chk['idx']}'";
         $res = mysqli_query($self_con,$sql_update);
     }
     else{
@@ -34,8 +34,8 @@ else if($mode == "market_desc"){
     $res_chk = mysqli_query($self_con,$sql_chk);
     $row_chk = mysqli_fetch_array($res_chk);
 
-    if($row_chk[idx]){
-        $sql_update = "update Gn_App_Home_Manager set market_desc='{$txt}', up_date='{$date}' where idx='{$row_chk[idx]}'";
+    if($row_chk['idx']){
+        $sql_update = "update Gn_App_Home_Manager set market_desc='{$txt}', up_date='{$date}' where idx='{$row_chk['idx']}'";
         $res = mysqli_query($self_con,$sql_update);
     }
     else{
@@ -48,8 +48,8 @@ else if($mode == "card_desc"){
     $res_chk = mysqli_query($self_con,$sql_chk);
     $row_chk = mysqli_fetch_array($res_chk);
 
-    if($row_chk[idx]){
-        $sql_update = "update Gn_App_Home_Manager set card_desc='{$txt}', up_date='{$date}' where idx='{$row_chk[idx]}'";
+    if($row_chk['idx']){
+        $sql_update = "update Gn_App_Home_Manager set card_desc='{$txt}', up_date='{$date}' where idx='{$row_chk['idx']}'";
         $res = mysqli_query($self_con,$sql_update);
     }
     else{
@@ -62,8 +62,8 @@ else if($mode == "market_title"){
     $res_chk = mysqli_query($self_con,$sql_chk);
     $row_chk = mysqli_fetch_array($res_chk);
 
-    if($row_chk[idx]){
-        $sql_update = "update Gn_App_Home_Manager set market_title='{$txt}', up_date='{$date}' where idx='{$row_chk[idx]}'";
+    if($row_chk['idx']){
+        $sql_update = "update Gn_App_Home_Manager set market_title='{$txt}', up_date='{$date}' where idx='{$row_chk['idx']}'";
         $res = mysqli_query($self_con,$sql_update);
     }
     else{
@@ -76,8 +76,8 @@ else if($mode == "card_title"){
     $res_chk = mysqli_query($self_con,$sql_chk);
     $row_chk = mysqli_fetch_array($res_chk);
 
-    if($row_chk[idx]){
-        $sql_update = "update Gn_App_Home_Manager set card_title='{$txt}', up_date='{$date}' where idx='{$row_chk[idx]}'";
+    if($row_chk['idx']){
+        $sql_update = "update Gn_App_Home_Manager set card_title='{$txt}', up_date='{$date}' where idx='{$row_chk['idx']}'";
         $res = mysqli_query($self_con,$sql_update);
     }
     else{
@@ -90,8 +90,8 @@ else if($mode == "notice_title"){
     $res_chk = mysqli_query($self_con,$sql_chk);
     $row_chk = mysqli_fetch_array($res_chk);
 
-    if($row_chk[idx]){
-        $sql_update = "update Gn_App_Home_Manager set notice_title='{$txt}', up_date='{$date}' where idx='{$row_chk[idx]}'";
+    if($row_chk['idx']){
+        $sql_update = "update Gn_App_Home_Manager set notice_title='{$txt}', up_date='{$date}' where idx='{$row_chk['idx']}'";
         $res = mysqli_query($self_con,$sql_update);
     }
     else{
@@ -108,7 +108,7 @@ else if($mode == "change_site"){
     $res_chk_service = mysqli_query($self_con,$sql_chk_service);
     $row_chk_service = mysqli_fetch_array($res_chk_service);
 
-    if($row_chk_service[idx]){
+    if($row_chk_service['idx']){
         $site1 = explode("//", $data[move_url]);
         $site2 = explode(".", trim($site1[1]));
         $site = trim($site2[0]);

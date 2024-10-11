@@ -34,7 +34,7 @@ if($_REQUEST['mode']=="inser")
 	$sql_d="select idx from Gn_MMS_Deny where send_num='{$row['send_num']}' and recv_num='$_REQUEST[n]'".$search_str;
 	$resul_d=mysqli_query($self_con,$sql_d);
 	$row_d=mysqli_fetch_array($resul_d);
-	if($row_d[idx] != null)
+	if($row_d['idx'] != null)
 	{
 		$deny_info['send_num']=$row['send_num'];
 		$deny_info['recv_num']=$_REQUEST[n];
@@ -65,7 +65,7 @@ if($_REQUEST['mode']=="inser")
         $sql_s="select idx from Gn_MMS_Deny where send_num='$send_num' and recv_num='$now_num'  and chanel_type!=9 ";
         $resul_s=mysqli_query($self_con,$sql_s);
         $row_s=mysqli_fetch_array($resul_s);
-        if($row_s[idx] == "") {
+        if($row_s['idx'] == "") {
             $sql_insert = "insert into Gn_MMS_Deny set send_num='$send_num',
                                                        recv_num='$now_num',
                                                        reg_date=now(),
@@ -84,7 +84,7 @@ if($_REQUEST['mode']=="inser")
             $sql_s="select idx from Gn_MMS_Deny where send_num='$send_num' and recv_num='$now_num'  and chanel_type!=9 ";
             $resul_s=mysqli_query($self_con,$sql_s);
             $row_s=mysqli_fetch_array($resul_s);
-            if($row_s[idx] == "") {
+            if($row_s['idx'] == "") {
                 $sql_insert = "insert into Gn_MMS_Deny set send_num='$send_num',
                                                            recv_num='$now_num',
                                                            reg_date=now(),
@@ -112,7 +112,7 @@ if($_REQUEST['mode']=="inser")
         $sql_s="select idx from Gn_MMS_Deny where send_num='$send_num' and recv_num='$now_num'  and chanel_type!=9 ";
         $resul_s=mysqli_query($self_con,$sql_s);
         $row_s=mysqli_fetch_array($resul_s);
-        if($row_s[idx] == "") {
+        if($row_s['idx'] == "") {
             $sql_insert = "insert into Gn_MMS_Deny set send_num='$send_num',
                                                        recv_num='$now_num',
                                                        reg_date=now(),
@@ -131,7 +131,7 @@ if($_REQUEST['mode']=="inser")
             $sql_s="select idx from Gn_MMS_Deny where send_num='$send_num' and recv_num='$now_num'  and chanel_type!=9 ";
             $resul_s=mysqli_query($self_con,$sql_s);
             $row_s=mysqli_fetch_array($resul_s);
-            if($row_s[idx] == "") {
+            if($row_s['idx'] == "") {
                 $sql_insert = "insert into Gn_MMS_Deny set send_num='$send_num',
                                                            recv_num='$now_num',
                                                            reg_date=now(),

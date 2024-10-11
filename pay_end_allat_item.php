@@ -203,7 +203,7 @@ if($REPLYCD =="0000"){//pay_test
 $sql="select *, SUM(item_price) as total_price from Gn_Item_Pay_Result where order_number='$_POST[allat_order_no]'";
 $resul=mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
 $row=mysqli_fetch_array($resul);
-//$member_1['mem_id'] = $row[buyer_id];
+//$member_1['mem_id'] = $row['buyer_id'];
 if(!strcmp($REPLYCD,"0000")){//pay_test
     $sql = "update Gn_Item_Pay_Result set pay_status='Y' where  order_number='$_POST[allat_order_no]' and buyer_id='{$member_iam['mem_id']}'";
     mysqli_query($self_con,$sql) or die(mysqli_error($self_con));

@@ -11,7 +11,7 @@ include "./allatutil.php";
     $sql="select * from tjd_pay_result where orderNumber='$ORDER_NO'";
     $resul=mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
     $row=mysqli_fetch_array($resul);	
-    $mem_id = $row[buyer_id];
+    $mem_id = $row['buyer_id'];
     // 필수 항목
     $at_cross_key      = "304f3a821cac298ff8a0ef504e1c2309";   //CrossKey값(최대200자)
     $at_fix_key        = "";   //카드키(최대 24자)
@@ -94,7 +94,7 @@ include "./allatutil.php";
         $CERT_YN          =getValue("cert_yn",$at_txt);
         $CONTRACT_YN      =getValue("contract_yn",$at_txt);
         
-        $sql = "insert into tjd_pay_result_month set pay_idx='$row[idx]',
+        $sql = "insert into tjd_pay_result_month set pay_idx='{$row['idx']}',
                                                      regdate = NOW(),
                                                      amount=''$row[TotPrice]',
                                                      buyer_id='$mem_id'";

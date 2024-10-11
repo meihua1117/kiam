@@ -162,12 +162,12 @@ $data=mysqli_fetch_array($sresul_num);
                                             $rname = $row_n[0];
 
                                             $recv_cnt=explode(",",$row['recv_num']);
-                                            $sql_cs="select count(idx) as cnt from Gn_MMS_status where idx='$row[idx]' and status='0'";
+                                            $sql_cs="select count(idx) as cnt from Gn_MMS_status where idx='{$row['idx']}' and status='0'";
                                             $resul_cs=mysqli_query($self_con,$sql_cs);
                                             $row_cs=mysqli_fetch_array($resul_cs);
                                             $success_cnt = $row_cs[0];
 
-                                            $sql_sn="select * from Gn_MMS where idx='$row[idx]' ";
+                                            $sql_sn="select * from Gn_MMS where idx='{$row['idx']}' ";
                                             $resul_sn=mysqli_query($self_con,$sql_sn);
                                             $row_sn=mysqli_fetch_array($resul_sn);
                                             $recv_cnt=explode(",",$row_sn['recv_num']);
@@ -185,7 +185,7 @@ $data=mysqli_fetch_array($sresul_num);
                                                 $success_cnt = $total_cnt;
                                             ?>
                                             <tr>
-                                                <td><label><input type="checkbox" name="fs_idx" value="<?=$row[idx]?>" /><?=$sort_no?></label></td>
+                                                <td><label><input type="checkbox" name="fs_idx" value="<?=$row['idx']?>" /><?=$sort_no?></label></td>
                                                 <td><?=$memo?></td>
                                                 <td><?=$row['send_num']?></td>
                                                 <td style="font-size:12px;">
@@ -242,7 +242,7 @@ $data=mysqli_fetch_array($sresul_num);
                                                     }
                                                 ?></td>
 												<td>
-													<a href="javascript:fs_del_num('<?=$row[idx]?>')">삭제</a>
+													<a href="javascript:fs_del_num('<?=$row['idx']?>')">삭제</a>
 												</td>
                                             </tr>
                                             <?

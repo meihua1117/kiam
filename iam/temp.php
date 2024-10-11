@@ -21,7 +21,7 @@ while($row = mysqli_fetch_array($result)) {
 /*$sql = "select idx,card_short_url,phone_display from Gn_Iam_Name_Card where 1=1";
 $result  = mysqli_query($self_con,$sql);
 while($row = mysqli_fetch_array($result)) {
-    $query = "update Gn_Iam_Contents set card_idx = $row[idx],public_display = '$row[phone_display]'  where westory_card_url = '$row[card_short_url]'";
+    $query = "update Gn_Iam_Contents set card_idx = $row['idx'],public_display = '$row[phone_display]'  where westory_card_url = '$row[card_short_url]'";
     echo $query.'<br>';
     mysqli_query($self_con,$query);
 }*/
@@ -43,7 +43,7 @@ while($count >= $i){
             $card_sql = "select idx from Gn_Iam_Name_Card where card_short_url = '$card_link'";
             $card_res = mysqli_query($self_con,$card_sql);
             $card_row = mysqli_fetch_array($card_res);
-            $query = "insert into Gn_Iam_Con_Card set cont_idx=$row[idx],card_idx = $card_row[idx],main_card=$main_card_row[idx]";
+            $query = "insert into Gn_Iam_Con_Card set cont_idx={$row['idx']},card_idx = {$card_row['idx']},main_card={$main_card_row['idx']}";
             echo $i."=>".$query.'<br>';
             mysqli_query($self_con,$query);
         }

@@ -64,7 +64,7 @@ if($_POST[auto_pay_status]==2 && $_SESSION[form_submit])
 			$pay_info[applTime]=$inipay->m_pgAuthTime;//승인시각
 			$pay_info[mid]=$_POST[mid];//상점ID
 			$pay_info[VACT_InputName]=$_POST[buyername];//구매자명
-			$pay_info[buyer_id]=$member_1['mem_id'];
+			$pay_info['buyer_id']=$member_1['mem_id'];
 			$pay_info[ApplNum]=$inipay->m_authCode;//승인번호
 			$pay_info[CARD_Quota]=$_POST[cardquota];//할부개월
 			$pay_info[pc_mobile]="A";

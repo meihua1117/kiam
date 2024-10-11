@@ -4,7 +4,7 @@ include_once "lib/rlatjd_fun.php";
 
 if($_REQUEST['mode']=="del")
 {
-	$sql="select * from Gn_MMS_Message where idx='$_REQUEST[idx]' and mem_id ='{$_SESSION['one_member_id']}' ";
+	$sql="select * from Gn_MMS_Message where idx='{$_REQUEST['idx']}' and mem_id ='{$_SESSION['one_member_id']}' ";
 	$resul=mysqli_query($self_con,$sql);
 ?>
 <script>

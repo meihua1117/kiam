@@ -142,7 +142,7 @@ if(!strcmp($REPLYCD,"0000")){//pay_test
 // reply_msg 는 실패에 대한 메세지
 //echo "결과코드  : ".$REPLYCD."<br>";
 //echo "결과메세지: ".$REPLYMSG."<br>";
-    $sql = "insert into tjd_pay_result_month set pay_idx='$row[idx]',
+    $sql = "insert into tjd_pay_result_month set pay_idx='{$row['idx']}',
                                                     order_number='$ORDER_NO',
                                                     regdate = NOW(),
                                                     pay_yn='N',

@@ -137,7 +137,7 @@ ini_set("session.gc_maxlifetime", 86400);
             $CONTRACT_YN      =getValue("contract_yn",$at_txt);
  
             
-            $sql = "insert into tjd_pay_result_month set pay_idx='$row[idx]',
+            $sql = "insert into tjd_pay_result_month set pay_idx='{$row['idx']}',
                                                          regdate = NOW(),
                                                          amount='$row[TotPrice]',
                                                          buyer_id='{$member_1['mem_id']}'

@@ -353,7 +353,7 @@ if($method_type == "pay_mall"){
             $card_idx = mysqli_insert_id($self_con);
             if($card_link == "")
                 $card_link = $new_card_short_url;
-            $cont_sql = "select * from Gn_Iam_Contents where mem_id='$seller_id' and card_idx = '$card_row[idx]' order by idx";
+            $cont_sql = "select * from Gn_Iam_Contents where mem_id='$seller_id' and card_idx = '{$card_row['idx']}' order by idx";
             $cont_res = mysqli_query($self_con,$cont_sql);
             $cont_index = $card_index;
             while($cont_row = mysqli_fetch_assoc($cont_res)) {
@@ -421,7 +421,7 @@ if($method_type == "pay_mall"){
         $sql = substr($sql,0,strlen($sql)-1);
         mysqli_query($self_con,$sql);
         $card_idx = mysqli_insert_id($self_con);
-        $cont_sql = "select * from Gn_Iam_Contents where mem_id='$seller_id' and card_idx = '$card_row[idx]' order by idx";
+        $cont_sql = "select * from Gn_Iam_Contents where mem_id='$seller_id' and card_idx = '{$card_row['idx']}' order by idx";
         $cont_res = mysqli_query($self_con,$cont_sql);
         $cont_index = 0;
         while($cont_row = mysqli_fetch_assoc($cont_res)) {

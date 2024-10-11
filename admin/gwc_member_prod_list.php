@@ -212,7 +212,7 @@ $(function() {
                         </td>
                         <td><?=$row[gwc_con_state] == 1?"well":"공동구매용"?></td>
                         <td>
-                          <a href="/iam/contents_gwc.php?contents_idx=<?=$row[idx]?>&gwc=Y" target="_blank">
+                          <a href="/iam/contents_gwc.php?contents_idx=<?=$row['idx']?>&gwc=Y" target="_blank">
                             <img class="zoom" src="<?=$img_link?>" style="width:50px;"> 
                             </a>
                         </td>

@@ -258,7 +258,7 @@ $(function() {
                                         <td><?=$row[req_data]?></td>
                                         <td><?=$crow[0]?></td>
                                         <td><?=$row[iam_click]?></td>
-                                        <td><a href="javascript:show_alarm_1('<?=$row[idx]?>')" style="cursor:pointer;">신청</a></td>
+                                        <td><a href="javascript:show_alarm_1('<?=$row['idx']?>')" style="cursor:pointer;">신청</a></td>
                                     </tr>
                                     <?
                                     $c++;

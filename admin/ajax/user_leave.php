@@ -20,7 +20,7 @@ if($type == "logout"){
     $sql_name_card="select * from Gn_Iam_Name_Card where mem_id='{$row_mem_id['mem_id']}'";
     $res_name_card = mysqli_query($self_con,$sql_name_card);
     while($row_name_card = mysqli_fetch_array($res_name_card)){
-        $card_idx = $row_name_card[idx];
+        $card_idx = $row_name_card['idx'];
         $sql_del_mall1="delete from Gn_Iam_Mall where card_idx = '$card_idx' and mall_type = 2";
         mysqli_query($self_con,$sql_del_mall1) or die(mysqli_error($self_con));
     }
@@ -30,21 +30,21 @@ if($type == "logout"){
     $mall_sql = "select * from Gn_Iam_Contents where mem_id='{$row['mem_id']}'";
     $mall_res = mysqli_query($self_con,$mall_sql);
     while($mall_row = mysqli_fetch_array($mall_res)){
-        $m_idx = $mall_row[idx];
+        $m_idx = $mall_row['idx'];
         $m_sql="delete from Gn_Iam_Mall where card_idx = '$m_idx' and (mall_type = 3 or mall_type = 4)";
         mysqli_query($self_con,$m_sql) or die(mysqli_error($self_con));
     }
     $sql_contents="select * from Gn_Iam_Contents where mem_id='{$row_mem_id['mem_id']}'";
     $res_contents = mysqli_query($self_con,$sql_contents);
     while($row_contents = mysqli_fetch_array($res_contents)){
-        $content_idx = $row_contents[idx];
+        $content_idx = $row_contents['idx'];
         $sql_del_mall2="delete from Gn_Iam_Mall where card_idx = '$content_idx' and (mall_type = 3 or mall_type = 4)";
         mysqli_query($self_con,$sql_del_mall2) or die(mysqli_error($self_con));
     }
     $sql="select idx from Gn_Iam_Contents where mem_id='{$row_mem_id['mem_id']}'";
     $res = mysqli_query($self_con,$sql);
     while($row = mysqli_fetch_array($res)){
-        $sql = "delete from Gn_Iam_Con_Card where cont_idx = $row[idx]";
+        $sql = "delete from Gn_Iam_Con_Card where cont_idx = {$row['idx']}";
         mysqli_query($self_con,$sql);
     }
     $sql_del_contents="delete from Gn_Iam_Contents where mem_id='{$row_mem_id['mem_id']}'";

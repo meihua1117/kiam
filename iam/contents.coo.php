@@ -152,12 +152,12 @@ $meta_desc = $meta_row[contents_desc];
 								if($meta_row['contents_img']) {
 									if($meta_row['contents_url']) {
 										if(strpos($contents_row['contents_url'],"<iframe") == 0){?>
-											<div onclick="play_contents<?=$meta_row[idx]?>();" id="<?='vid_cont'.$meta_row[idx]?>">
+											<div onclick="play_contents<?=$meta_row['idx']?>();" id="<?='vid_cont'.$meta_row['idx']?>">
 												<img src="<?=$meta_row['contents_img']?>" class="contents_img">
 											</div>
 											<script type="text/javascript">
-												function play_contents<?=$meta_row[idx]?>() {
-													document.getElementById("<?='vid_cont'.$meta_row[idx]?>").innerHTML = '<?=$meta_row[contents_url]?>';
+												function play_contents<?=$meta_row['idx']?>() {
+													document.getElementById("<?='vid_cont'.$meta_row['idx']?>").innerHTML = '<?=$meta_row[contents_url]?>';
 												}
 											</script>
 										<?}else{?>
@@ -369,7 +369,7 @@ $meta_desc = $meta_row[contents_desc];
 	}
 		function iam_count(str) {
 			let member_id = '<?=$name_card['mem_id']?>';
-			let card_idx = '<?=$name_card[idx]?>';
+			let card_idx = '<?=$name_card['idx']?>';
 			var formData = new FormData();
 			formData.append('str', str);
 			formData.append('mem_id', member_id);

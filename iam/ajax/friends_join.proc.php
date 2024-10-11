@@ -79,7 +79,7 @@ else if($mode == "add_one"){
     // echo $sql5."<br>";
     // printr($rows);
 
-    $my_card_idx = $row5[idx];
+    $my_card_idx = $row5['idx'];
     $my_mem_id = $row5['mem_id'];
     $my_friends_url = 'kiam.kr/?' .$row5[card_short_url];
     $my_friends_name = $row5[card_name];
@@ -171,7 +171,7 @@ else if($mode == "add_multi"){
     // echo $sql5."<br>";
     // printr($rows);
 
-    $my_card_idx = $row5[idx];
+    $my_card_idx = $row5['idx'];
     $my_mem_id = $row5['mem_id'];
     $my_friends_url = 'kiam.kr/?' .$row5[card_short_url];
     $my_friends_name = $row5[card_name];

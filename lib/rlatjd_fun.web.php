@@ -176,7 +176,7 @@ if ($_SESSION['one_member_id']) {
 	$resul_format = mysqli_query($self_con, $sql_format);
 	while ($row_format = mysqli_fetch_array($resul_format)) {
 		if (!preg_match("/" . $format_month . "/i", $row_format['format_date'])) {
-			$sql_format_u = "update Gn_MMS_Number set format_date=curdate(),cnt1=0,cnt2=0 where idx='$row_format[idx]' ";
+			$sql_format_u = "update Gn_MMS_Number set format_date=curdate(),cnt1=0,cnt2=0 where idx='{$row_format['idx']}' ";
 			mysqli_query($self_con, $sql_format_u);
 			$sql_d_result1 = "delete from Gn_MMS where result='1' and send_num='$row_format[sendnum]' ";
 			mysqli_query($self_con, $sql_d_result1);
@@ -187,7 +187,7 @@ if ($_SESSION['one_member_id']) {
 	$resul_cnt_s = mysqli_query($self_con, $sql_cnt_s);
 	while ($row_cnt_s = mysqli_fetch_array($resul_cnt_s)) {
 		if (($row_cnt_s['cnt1'] == 10 && $row_cnt_s['cnt2'] == 20) || ($row_cnt_s['cnt1'] == 10 && $row_cnt_s['user_cnt'] > 200)) {
-			//$sql_cnt_u=" update Gn_MMS_Number set user_cnt=0 where idx='$row_cnt_s[idx]' ";
+			//$sql_cnt_u=" update Gn_MMS_Number set user_cnt=0 where idx='$row_cnt_s['idx']' ";
 			//mysqli_query($self_con,$sql_cnt_u);
 		}
 	}
@@ -206,7 +206,7 @@ if ($_SESSION['iam_member_id']) {
 	$resul_format = mysqli_query($self_con, $sql_format);
 	while ($row_format = mysqli_fetch_array($resul_format)) {
 		if (!preg_match("/" . $format_month . "/i", $row_format['format_date'])) {
-			$sql_format_u = "update Gn_MMS_Number set format_date=curdate(),cnt1=0,cnt2=0 where idx='$row_format[idx]' ";
+			$sql_format_u = "update Gn_MMS_Number set format_date=curdate(),cnt1=0,cnt2=0 where idx='{$row_format['idx']}' ";
 			mysqli_query($self_con, $sql_format_u);
 			$sql_d_result1 = "delete from Gn_MMS where result='1' and send_num='$row_format[sendnum]' ";
 			mysqli_query($self_con, $sql_d_result1);
@@ -217,7 +217,7 @@ if ($_SESSION['iam_member_id']) {
 	$resul_cnt_s = mysqli_query($self_con, $sql_cnt_s);
 	while ($row_cnt_s = mysqli_fetch_array($resul_cnt_s)) {
 		if (($row_cnt_s['cnt1'] == 10 && $row_cnt_s['cnt2'] == 20) || ($row_cnt_s['cnt1'] == 10 && $row_cnt_s['user_cnt'] > 200)) {
-			//$sql_cnt_u=" update Gn_MMS_Number set user_cnt=0 where idx='$row_cnt_s[idx]' ";
+			//$sql_cnt_u=" update Gn_MMS_Number set user_cnt=0 where idx='$row_cnt_s['idx']' ";
 			//mysqli_query($self_con,$sql_cnt_u);
 		}
 	}

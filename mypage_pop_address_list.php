@@ -168,13 +168,13 @@ function copyHtml(url){
               <?
                   while($row=mysqli_fetch_array($result))
                   {
-                        $sql="select count(idx) as cnt from Gn_MMS_Receive where grp_id = '$row[idx]' ";
+                        $sql="select count(idx) as cnt from Gn_MMS_Receive where grp_id = '{$row['idx']}' ";
                         $sresult = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
                         $srow=mysqli_fetch_array($sresult);		                    
 					  	 
 						if(isset($_REQUEST['send_num_daily'])){
 							$count = 0;
-							$sql1="select recv_num from Gn_MMS_Receive where grp_id = '$row[idx]' ";
+							$sql1="select recv_num from Gn_MMS_Receive where grp_id = '{$row['idx']}' ";
 							$sresult1 = mysqli_query($self_con,$sql1) or die(mysqli_error($self_con));
 							while($srow1=mysqli_fetch_array($sresult1)){
 								$sql_chk = "select idx from Gn_MMS_Deny where send_num='{$_REQUEST['send_num_daily']}' and recv_num='{$srow1[0]}' and (chanel_type=9 or chanel_type=4)";
@@ -193,7 +193,7 @@ function copyHtml(url){
                 <td style="font-size:12px;"><?=substr($row[reg_date],2,9)?></td>
                 <td><?=$srow['cnt']?></td>
                 <td>
-                    <a href="javascript:;;" onclick="useIt('<?=str_substr($row[grp],0,20,"utf-8");?>','<?=$row[idx]?>','<?=$srow['cnt']?>')">사용하기</a>
+                    <a href="javascript:;;" onclick="useIt('<?=str_substr($row[grp],0,20,"utf-8");?>','<?=$row['idx']?>','<?=$srow['cnt']?>')">사용하기</a>
                 </td>                                                
               </tr>
               <?

@@ -49,7 +49,7 @@ $phone_num = $_POST["phone_num"];
 		$res=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 		$row=mysqli_fetch_array($res);
 		if($row['idx'] != "") {
-			$sql="update call_api_log set get_statistics='$time' where idx='$row[idx]'";
+			$sql="update call_api_log set get_statistics='$time' where idx='{$row['idx']}'";
 			mysqli_query($self_con,$sql);	
 		}
 		else{

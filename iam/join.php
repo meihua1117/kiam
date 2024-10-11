@@ -1735,7 +1735,7 @@ function install_cancel(){
     }
     function iam_count(str) {
         var member_id = '<?=$card_owner?>';
-        var card_idx = '<?=$G_card[idx]?>';
+        var card_idx = '<?=$G_card['idx']?>';
         var formData = new FormData();
         formData.append('str', str);
         formData.append('mem_id', member_id);

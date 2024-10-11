@@ -6,7 +6,7 @@ if(strlen($_SESSION['one_member_id']) > 0) {
       $path="../";
       include_once $path."lib/rlatjd_fun.php";
       $sql_serch= " 1=1 ";
-    	$sql_serch.=" and idx ='$_REQUEST[idx]' ";
+    	$sql_serch.=" and idx ='{$_REQUEST['idx']}' ";
       if($_REQUEST['serch_fs_text'] != "") {
           $sql_serch.=" and recv_num like '%$_REQUEST[serch_fs_text]%' ";
       }

@@ -115,8 +115,8 @@ $result = 0;
   $sql="select * from Gn_MMS_Group where mem_id='$mem_id' and grp='아이엠'";
   $result_ = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
   $data = mysqli_fetch_array($result_);
-  if($data[idx] != ""){
-    $idx  = $data[idx];
+  if($data['idx'] != ""){
+    $idx  = $data['idx'];
   }else{
     $query = "insert into Gn_MMS_Group set mem_id='$mem_id', grp='아이엠', reg_date=NOW()";
     mysqli_query($self_con,$query);
@@ -243,7 +243,7 @@ $result = 0;
     $res=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
     $row=mysqli_fetch_array($res);
     if($row['idx'] != "") {
-      $sql="update call_api_log set sync_address='$time' where idx='$row[idx]'";
+      $sql="update call_api_log set sync_address='$time' where idx='{$row['idx']}'";
       $res = mysqli_query($self_con,$sql);	
     }
     else{

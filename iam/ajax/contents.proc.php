@@ -233,7 +233,7 @@ if ($post_type == "creat") {
                                       \"$card_short_url\",
                                       \"$westory_card_url\",
                                       \"$public_display\",
-                                      \"$card_row[idx]\",
+                                      \"{$card_row['idx']}\",
                                       \"$source_iframe\",
                                       $cont_order,
                                       '$gwc_con_state',
@@ -283,9 +283,9 @@ if ($post_type == "creat") {
                     $contents_order = (int)$comment_row[0] + 1;
                 } else {
                     if ($group_id == "NULL")
-                        $sql = "update " . $contents_table_name . " set contents_order = contents_order + '$total'  where card_idx = '$row_share_new[idx]' and contents_order >= $_POST[contents_order]";
+                        $sql = "update " . $contents_table_name . " set contents_order = contents_order + '$total'  where card_idx = '{$row_share_new['idx']}' and contents_order >= $_POST[contents_order]";
                     else
-                        $sql = "update " . $contents_table_name . " set contents_order = contents_order + '$total'  where group_id = '$group_id' and card_idx = {$row_share_new['idx']} and contents_order >= $_POST[contents_order]";
+                        $sql = "update " . $contents_table_name . " set contents_order = contents_order + '$total'  where group_id = '$group_id' and card_idx = {$row_share_new['idx']} and contents_order >= {$_POST['contents_order']}";
                     mysqli_query($self_con,$sql);
                 }
 
@@ -533,7 +533,7 @@ if ($post_type == "creat") {
                                                 \"$contents_iframe\", \"$contents_price\",\"$contents_sell_price\",\"$contents_desc\",\"$except_keyword\",
                                                 \"$contents_display\",\"$contents_westory_display\",\"$contents_user_display\",\"$contents_type_display\", 
                                                 \"$contents_footer_display\", \"$contents_temp\",\"$contents_share_text\",$contents_share_count,now(),now(),
-                                                \"$card_short_url\",\"$westory_card_url\",\"$public_display\",\"$card_row[idx]\",\"$source_iframe\",$contents_order,\"$landing_mode\",
+                                                \"$card_short_url\",\"$westory_card_url\",\"$public_display\",\"{$card_row['idx']}\",\"$source_iframe\",$contents_order,\"$landing_mode\",
                                                 '$gwc_con_state','$reduce_val','$media_type',{$open_type},";
             if ($group_id != "NULL") {
                 $sql2 .= "'$group_id',";
@@ -573,7 +573,7 @@ if ($post_type == "creat") {
                 while ($row_share_new = mysqli_fetch_array($res_share_new)) {
                     if ($contents_order == 0) {
                         if ($group_id == "NULL")
-                            $sql = "select max(contents_order) from " . $contents_table_name . " where card_idx = '$row_share_new[idx]'";
+                            $sql = "select max(contents_order) from " . $contents_table_name . " where card_idx = '{$row_share_new['idx']}'";
                         else
                             $sql = "select max(contents_order) from " . $contents_table_name . " where group_id = '$group_id' and card_idx = {$row_share_new['idx']}";
                         $result = mysqli_query($self_con,$sql);
@@ -581,7 +581,7 @@ if ($post_type == "creat") {
                         $contents_order = (int)$comment_row[0] + 1;
                     } else {
                         if ($group_id == "NULL")
-                            $sql = "update " . $contents_table_name . " set contents_order = contents_order + 1  where card_idx = '$row_share_new[idx]' and contents_order >= $contents_order";
+                            $sql = "update " . $contents_table_name . " set contents_order = contents_order + 1  where card_idx = '{$row_share_new['idx']}' and contents_order >= $contents_order";
                         else
                             $sql = "update " . $contents_table_name . " set contents_order = contents_order + 1  where group_id = '$group_id' and card_idx = {$row_share_new['idx']} and contents_order >= $contents_order";
                         mysqli_query($self_con,$sql);

@@ -14,10 +14,10 @@ if($row[stop_yn] == "Y") {
     $sql="update tjd_pay_result set  stop_yn='N' where no='$no' ";
     mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
     
-    $sql="insert into tjd_pay_result_stop_log set   no='$no', user_id='$row[buyer_id]',  content='복구', regdate=NOW() ";
+    $sql="insert into tjd_pay_result_stop_log set   no='$no', user_id='{$row['buyer_id']}',  content='복구', regdate=NOW() ";
     mysqli_query($self_con,$sql)or die(mysqli_error($self_con));		        
     
-    $sql="update crawler_member_real set  status='Y', search_email_yn='Y' where user_id='$row[buyer_id]' ";
+    $sql="update crawler_member_real set  status='Y', search_email_yn='Y' where user_id='{$row['buyer_id']}' ";
     mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
 
     if($row['payMethod'] == "MONTH"){
@@ -29,10 +29,10 @@ if($row[stop_yn] == "Y") {
     $sql="update tjd_pay_result set stop_yn='Y' where no='$no' ";
     mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
     
-    $sql="insert into tjd_pay_result_stop_log set   no='$no', user_id='$row[buyer_id]',  content='정지', regdate=NOW() ";
+    $sql="insert into tjd_pay_result_stop_log set   no='$no', user_id='{$row['buyer_id']}',  content='정지', regdate=NOW() ";
     mysqli_query($self_con,$sql)or die(mysqli_error($self_con));		            
     
-    $sql="update crawler_member_real set status='N', search_email_yn='N', search_email_date='{$row['end_date']}', term='{$row['end_date']}' where user_id='$row[buyer_id]' ";
+    $sql="update crawler_member_real set status='N', search_email_yn='N', search_email_date='{$row['end_date']}', term='{$row['end_date']}' where user_id='{$row['buyer_id']}' ";
     mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
 
     if($row['payMethod'] == "MONTH"){

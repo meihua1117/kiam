@@ -337,7 +337,7 @@ if(isset($_POST['settle_type'])){
         $sql_con = "select idx from Gn_Iam_Contents where card_idx = $card_idx";
         $res_con = mysqli_query($self_con,$sql_con);
         while($row_con = mysqli_fetch_array($res_con)){
-            $sql2 = "insert into Gn_Iam_Con_Card set cont_idx=$row_con[idx],card_idx=$card_idx,main_card=$card_idx";
+            $sql2 = "insert into Gn_Iam_Con_Card set cont_idx={$row_con['idx']},card_idx=$card_idx,main_card=$card_idx";
             mysqli_query($self_con,$sql2) or die(mysqli_error($self_con));
         }
         

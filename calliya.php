@@ -206,7 +206,7 @@ $data = mysqli_fetch_array($sresul_num);
                                             <td style="font-size:12px;"><?= $crow[0] ?></td>
                                             <td><?= $row[iam_click] ?></td>
                                             <td>
-                                                <a href="javascript:show_alarm_1('<?= $row[idx] ?>')" style="cursor:pointer;">신청</a>
+                                                <a href="javascript:show_alarm_1('<?= $row['idx'] ?>')" style="cursor:pointer;">신청</a>
                                             </td>
                                         </tr>
                                     <?

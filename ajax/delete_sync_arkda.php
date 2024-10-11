@@ -21,13 +21,13 @@ if(!$row_b[0]){
 $sql_sel = "select idx, card_idx from Gn_Iam_Contents_Gwc where mem_id='iamstore' and contents_url like '%https://arkda.kr/shop/view.php?index_no=%' and sync_date!='$currentDateTime'";
 $res_sel = mysqli_query($self_con,$sql_sel);
 while($row_sel = mysqli_fetch_array($res_sel)){
-    $sql_del = "delete from Gn_Iam_Con_Card where cont_idx='{$row_sel[idx]}' and card_idx='{$row_sel[card_idx]}'";
+    $sql_del = "delete from Gn_Iam_Con_Card where cont_idx='{$row_sel['idx']}' and card_idx='{$row_sel[card_idx]}'";
     mysqli_query($self_con,$sql_del);
 
-    $sql_save = "select idx, card_idx, mem_id, contents_title from Gn_Iam_Contents_Gwc where ori_store_prod_idx='{$row_sel[idx]}'";
+    $sql_save = "select idx, card_idx, mem_id, contents_title from Gn_Iam_Contents_Gwc where ori_store_prod_idx='{$row_sel['idx']}'";
     $res_save = mysqli_query($self_con,$sql_save);
     while($row_save = mysqli_fetch_array($res_save)){
-        $sql_del = "delete from Gn_Iam_Con_Card where cont_idx='{$row_save[idx]}' and card_idx='{$row_save[card_idx]}'";
+        $sql_del = "delete from Gn_Iam_Con_Card where cont_idx='{$row_save['idx']}' and card_idx='{$row_save[card_idx]}'";
         mysqli_query($self_con,$sql_del);
         $s++;
         $uni_id=time().sprintf("%02d",$s);
@@ -37,7 +37,7 @@ while($row_sel = mysqli_fetch_array($res_sel)){
 
         send_mms($row_save['mem_id'], $row_mem[mem_phone], $uni_id, $row_save[contents_title], $push_url, $push_headers, $row_mem['mem_name'], $row_mem[mem_point], $row_mem['mem_cash']);
     }
-    $sql_del_get = "delete from Gn_Iam_Contents_Gwc where ori_store_prod_idx='{$row_sel[idx]}'";
+    $sql_del_get = "delete from Gn_Iam_Contents_Gwc where ori_store_prod_idx='{$row_sel['idx']}'";
     mysqli_query($self_con,$sql_del_get);
 }
 

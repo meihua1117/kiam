@@ -142,7 +142,7 @@ $sql = "select * from Gn_MMS_Group where  mem_id='" . $_SESSION['one_member_id']
 $sresult = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 $krow = mysqli_fetch_array($sresult);
 
-$sql = "select count(*) cnt from Gn_MMS_Receive where  mem_id='" . $_SESSION['one_member_id'] . "' and grp_id='$krow[idx]'";
+$sql = "select count(*) cnt from Gn_MMS_Receive where  mem_id='" . $_SESSION['one_member_id'] . "' and grp_id='{$krow['idx']}'";
 $sresult = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 $skrow = mysqli_fetch_array($sresult);
 ?>
@@ -254,7 +254,7 @@ $skrow = mysqli_fetch_array($sresult);
                             <tr>
                                 <th class="w200">[주소록선택]</th>
                                 <td>
-                                    <input type="hidden" name="group_idx" placeholder="" id="address_idx" value="<?= $krow[idx] ?>" readonly style="width:100px" />
+                                    <input type="hidden" name="group_idx" placeholder="" id="address_idx" value="<?= $krow['idx'] ?>" readonly style="width:100px" />
                                     <input type="text" name="address_name" placeholder="" id="address_name" value="아이엠" readonly style="width:100px" />
                                     선택건수<span id="address_cnt"><?php echo $skrow['cnt']; ?></span>
                                 </td>

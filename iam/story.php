@@ -8,7 +8,7 @@ $sql="select * from Gn_Iam_Name_Card where idx = '$card_idx' and mem_id = '{$_SE
 $result=mysqli_query($self_con,$sql);
 $row=mysqli_fetch_array($result);
 
-// $card_idx = $row[idx];
+// $card_idx = $row['idx'];
 $story_title1 = $row[story_title1];
 $story_title2 = $row[story_title2];
 $story_title3 = $row[story_title3];

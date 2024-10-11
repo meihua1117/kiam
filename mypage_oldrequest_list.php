@@ -116,20 +116,14 @@ $(function(){
 					$sql="select * from Gn_MMS_group where $sql_serch and grp = '$search_text1' ";
 					$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 					$address_idx = mysqli_fetch_array($result);
-
 					
-					if($address_idx[idx] != ""){
-
-						$sql_serch.=" and address_idx = '$address_idx[idx]'";
-						// echo "<script>alert('$address_idx[idx]');</script>";   
+					if($address_idx['idx'] != ""){
+						$sql_serch.=" and address_idx = '{$address_idx['idx']}'";
+						// echo "<script>alert('$address_idx['idx']');</script>";   
 					}else{
 						$sql_serch.=" and reservation_title like '%$search_text1%'";
 					}
-					
-   
 				}	
-			
-
 				$sql="select count(*) as cnt from Gn_event_oldrequest where $sql_serch ";
 				$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 				$row=mysqli_fetch_array($result);
@@ -184,7 +178,7 @@ $(function(){
                     $addrresult = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
                     $addrrow=mysqli_fetch_array($addrresult);
 
-                    $sql="select count(idx) as cnt from Gn_MMS_Receive where grp_id = '$addrrow[idx]'";
+                    $sql="select count(idx) as cnt from Gn_MMS_Receive where grp_id = '{$addrrow['idx']}'";
                     $dresult = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
                     $drow=mysqli_fetch_array($dresult);
                     $date = $row['regdate'];

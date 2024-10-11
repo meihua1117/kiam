@@ -71,7 +71,7 @@ for($i = 0; $i < count($id_arr); $i++){
                                         callback_point_end = '$row[contract_end_date]',
                                         daily_point_start = NOW(),
                                         daily_point_end  = '$row[contract_end_date]'
-                                    where idx = $row[idx]";
+                                    where idx = {$row['idx']}";
         mysqli_query($self_con,$query) or die(mysqli_error($self_con));
         $domain = $row[sub_domain];
         $domain_arr = explode(".", $domain);

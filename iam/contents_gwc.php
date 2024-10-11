@@ -337,9 +337,9 @@ $meta_desc = $meta_row[contents_desc];
 							if((int)$meta_row['contents_type'] == 1 || (int)$meta_row['contents_type'] == 3 ) {
 								if($meta_row['contents_url']) {?>
 									<?if(count($content_images) > 1){?>
-										<button onclick="show_all_content_images('<?=$meta_row[idx]?>')"  id = "content_all_image<?=$meta_row[idx]?>" <?=$gwc?'hidden':''?>
+										<button onclick="show_all_content_images('<?=$meta_row['idx']?>')"  id = "content_all_image<?=$meta_row['idx']?>" <?=$gwc?'hidden':''?>
 												style="position: absolute;right:0px;bottom:0px;font-size: 14px;opacity: 60%;background: black;color: white;"><?="+".(count($content_images)-1)?></button>
-										<button onclick="hide_all_content_images('<?=$meta_row[idx]?>')"  id = "hide_content_all_image<?=$meta_row[idx]?>"
+										<button onclick="hide_all_content_images('<?=$meta_row['idx']?>')"  id = "hide_content_all_image<?=$meta_row['idx']?>"
 												style="position: absolute;left:0px;top:300px;font-size: 14px;display:none;background: transparent">
 											<img src="img/main/icon-img_fold.png" style="width:30px">
 										</button>
@@ -349,7 +349,7 @@ $meta_desc = $meta_row[contents_desc];
 											<div onclick="showpage('<?=$cross_page.urlencode($meta_row['contents_url'])?>')" id="pagewrap">
 												<img src="<?=cross_image($content_images[0])?>" class="contents_img">
 												<?for($c = 1;$c < count($content_images);$c ++){?>
-													<img src="<?=cross_image($content_images[$c])?>" class="contents_img hidden_image<?=$meta_row[idx]?>" style="<?=$landing?>">
+													<img src="<?=cross_image($content_images[$c])?>" class="contents_img hidden_image<?=$meta_row['idx']?>" style="<?=$landing?>">
 												<?}?>
 											</div>
 										<?}else{?>
@@ -363,7 +363,7 @@ $meta_desc = $meta_row[contents_desc];
 												<a href='<?=$meta_row['contents_url']?>' target="_blank" id="pagewrap">
 													<img src="<?=cross_image($content_images[0])?>" class="contents_img">
 													<?for($c = 1;$c < count($content_images);$c ++){?>
-														<img src="<?=cross_image($content_images[$c])?>" class="contents_img hidden_image<?=$meta_row[idx]?>" style="<?=$landing?>">
+														<img src="<?=cross_image($content_images[$c])?>" class="contents_img hidden_image<?=$meta_row['idx']?>" style="<?=$landing?>">
 													<?}?>
 												</a>		
 											<?}else{?>
@@ -376,21 +376,21 @@ $meta_desc = $meta_row[contents_desc];
 										<img src="<?=$content_images[0]?>" class="contents_img">
 										<?if(count($content_images) > 1){?>
 											<?for($c = 1;$c < count($content_images);$c ++){?>
-												<img src="<?=cross_image($content_images[$c])?>" class="contents_img hidden_image<?=$meta_row[idx]?>" style="display:none">
+												<img src="<?=cross_image($content_images[$c])?>" class="contents_img hidden_image<?=$meta_row['idx']?>" style="display:none">
 											<?}?>
 										<?}?>
 									</a-->
 								<?} else {?>
 									<img src="<?=cross_image($content_images[0])?>" class="contents_img">
 									<?if(count($content_images) > 1){?>
-										<button onclick="show_all_content_images('<?=$meta_row[idx]?>')"  id = "content_all_image<?=$meta_row[idx]?>" <?=$gwc?'hidden':''?>
+										<button onclick="show_all_content_images('<?=$meta_row['idx']?>')"  id = "content_all_image<?=$meta_row['idx']?>" <?=$gwc?'hidden':''?>
 												style="position: absolute;right:0px;bottom:0px;font-size: 14px;opacity: 60%;background: black;color: white;"><?="+".(count($content_images)-1)?></button>
-										<button onclick="hide_all_content_images('<?=$meta_row[idx]?>')"  id = "hide_content_all_image<?=$meta_row[idx]?>"
+										<button onclick="hide_all_content_images('<?=$meta_row['idx']?>')"  id = "hide_content_all_image<?=$meta_row['idx']?>"
 												style="position: absolute;left:0px;top:300px;font-size: 14px;display:none;background: transparent">
 											<img src="img/main/icon-img_fold.png" style="width:30px">
 										</button>
 										<?for($c = 1;$c < count($content_images);$c ++){?>
-											<img src="<?=cross_image($content_images[$c])?>" class="contents_img hidden_image<?=$meta_row[idx]?>" style="">
+											<img src="<?=cross_image($content_images[$c])?>" class="contents_img hidden_image<?=$meta_row['idx']?>" style="">
 										<?}?>
 									<?}?>
 							<?	}
@@ -403,9 +403,9 @@ $meta_desc = $meta_row[contents_desc];
 									echo $meta_row['contents_iframe'];
 								}else{
 									if(count($content_images) > 1){?>
-										<button onclick="show_all_content_images('<?=$meta_row[idx]?>')"  id = "content_all_image<?=$meta_row[idx]?>" <?=$gwc?'hidden':''?>
+										<button onclick="show_all_content_images('<?=$meta_row['idx']?>')"  id = "content_all_image<?=$meta_row['idx']?>" <?=$gwc?'hidden':''?>
 												style="position: absolute;right:0px;bottom:0px;font-size: 14px;opacity: 60%;background: black;color: white;"><?="+".(count($content_images)-1)?></button>
-										<button onclick="hide_all_content_images('<?=$meta_row[idx]?>')"  id = "hide_content_all_image<?=$meta_row[idx]?>"
+										<button onclick="hide_all_content_images('<?=$meta_row['idx']?>')"  id = "hide_content_all_image<?=$meta_row['idx']?>"
 												style="position: absolute;left:0px;top:300px;font-size: 14px;display:none;background: transparent">
 											<img src="img/main/icon-img_fold.png" style="width:30px">
 										</button>
@@ -415,7 +415,7 @@ $meta_desc = $meta_row[contents_desc];
 										<img src="/iam/img/movie_play.png" style="position: absolute; z-index: 50; left: 45%; width: 100px; top: 45%;">
 										<?if(count($content_images) > 1){?>
 											<?for($c = 1;$c < count($content_images);$c ++){?>
-												<img src="<?=cross_image($content_images[$c])?>" class="contents_img hidden_image<?=$meta_row[idx]?>" style="display:none">
+												<img src="<?=cross_image($content_images[$c])?>" class="contents_img hidden_image<?=$meta_row['idx']?>" style="display:none">
 											<?}?>
 										<?}?>
 									</div>
@@ -476,43 +476,43 @@ $meta_desc = $meta_row[contents_desc];
                                         text-align: center;line-height: 1;position: absolute;margin-left: -15px" id = "<?='post_alarm_'.$meta_row['idx']?>"></label>
 								</a>
 								<?
-									$post_sql = "select SQL_CALC_FOUND_ROWS * from Gn_Iam_Post p inner join Gn_Member m on p.mem_id = m.mem_id where p.content_idx = '$meta_row[idx]' and p.lock_status = 'N' order by p.reg_date";
+									$post_sql = "select SQL_CALC_FOUND_ROWS * from Gn_Iam_Post p inner join Gn_Member m on p.mem_id = m.mem_id where p.content_idx = '{$meta_row['idx']}' and p.lock_status = 'N' order by p.reg_date";
 									$post_res = mysqli_query($self_con,$post_sql);
 									$post_count	=  mysqli_num_rows($post_res);
 
-									$post_status_sql = "select count(*) from Gn_Iam_Post where content_idx = '$meta_row[idx]' and status = 'N' and lock_status = 'N'";
+									$post_status_sql = "select count(*) from Gn_Iam_Post where content_idx = '{$meta_row['idx']}' and status = 'N' and lock_status = 'N'";
 									$post_status_res = mysqli_query($self_con,$post_status_sql);
 									$post_status_row =  mysqli_fetch_array($post_status_res);
 									$post_status_count = $post_status_row[0];
 									if ($post_status_count  > 0)
-										echo "<script>  $('#post_alarm_".$meta_row[idx]."').html(".$post_status_count."); </script>";
+										echo "<script>  $('#post_alarm_".$meta_row['idx']."').html(".$post_status_count."); </script>";
 									else
-										echo "<script>  $('#post_alarm_".$meta_row[idx]."').hide(); </script>";
+										echo "<script>  $('#post_alarm_".$meta_row['idx']."').hide(); </script>";
 								?>
-								<p onclick = "refresh_post('<?=$meta_row[idx]?>')" style="font-size:13px;margin: 5px;font-weight: 600;" id = "<?='post_count_'.$meta_row[idx]?>"><?=$post_count?>  &#x21BA;</p>
+								<p onclick = "refresh_post('<?=$meta_row['idx']?>')" style="font-size:13px;margin: 5px;font-weight: 600;" id = "<?='post_count_'.$meta_row['idx']?>"><?=$post_count?>  &#x21BA;</p>
 							</div>
 							<?if($gwc){?>
 							<div class="in-box" style="position: absolute;right: 10px;">
-								<!-- <a href="javascript:show_order_option('<?=$meta_row[idx]?>')" style="margin-top: 5px;font-weight:bold;font-size:15px;">주문옵션</a> -->
-								<a class="gwc_order_btn1" href="javascript:show_order_option('<?=$meta_row[idx]?>', 'cart', '<?=$gwc_mem?>')" style="margin-bottom: 5px;font-size: 18px;border: 1px solid #82c836;margin-right: 10px;padding: 3px 10px;border-radius: 10px;">장바구니</a>
-								<a class="gwc_order_btn2" href="javascript:show_order_option('<?=$meta_row[idx]?>', 'pay', '<?=$gwc_mem?>')" style="margin-bottom: 5px;font-size: 18px;padding: 3px 10px;border-radius: 10px;border: 1px solid;color: white;background-color: #82c836;">바로구매</a>
+								<!-- <a href="javascript:show_order_option('<?=$meta_row['idx']?>')" style="margin-top: 5px;font-weight:bold;font-size:15px;">주문옵션</a> -->
+								<a class="gwc_order_btn1" href="javascript:show_order_option('<?=$meta_row['idx']?>', 'cart', '<?=$gwc_mem?>')" style="margin-bottom: 5px;font-size: 18px;border: 1px solid #82c836;margin-right: 10px;padding: 3px 10px;border-radius: 10px;">장바구니</a>
+								<a class="gwc_order_btn2" href="javascript:show_order_option('<?=$meta_row['idx']?>', 'pay', '<?=$gwc_mem?>')" style="margin-bottom: 5px;font-size: 18px;padding: 3px 10px;border-radius: 10px;border: 1px solid;color: white;background-color: #82c836;">바로구매</a>
 							</div>
 							<?}?>
 						</div>
 					</div>
-					<div class="post-wrap <?='post_wrap'.$meta_row[idx]?>" style="display:none;position: fixed;max-width: 700px;width: 100%;bottom: 80px;" id = "<?='post_wrap'.$meta_row[idx]?>">
+					<div class="post-wrap <?='post_wrap'.$meta_row['idx']?>" style="display:none;position: fixed;max-width: 700px;width: 100%;bottom: 80px;" id = "<?='post_wrap'.$meta_row['idx']?>">
 						<div style="display: flex;justify-content: flex-end;">
 							<div style="margin-left:30px;margin-right:35px;width:100%">
-								<textarea id = "post_content<?=$meta_row[idx]?>" name = "post_content<?=$meta_row[idx]?>" class="post_content" maxlength="300" style="font-size:14px;height:35px;width:100%;border: 1px" placeholder="댓글은 300자 이내로 작성해주세요" ></textarea>
+								<textarea id = "post_content<?=$meta_row['idx']?>" name = "post_content<?=$meta_row['idx']?>" class="post_content" maxlength="300" style="font-size:14px;height:35px;width:100%;border: 1px" placeholder="댓글은 300자 이내로 작성해주세요" ></textarea>
 							</div>
 							<div style="width:35px">
-								<button type="button" class="btn btn-link" style="position: absolute; right: 1px; padding: 9px 12px;color:#82c836" id="send_post" onclick="add_post('<?=$meta_row[idx]?>')">작성</button>
+								<button type="button" class="btn btn-link" style="position: absolute; right: 1px; padding: 9px 12px;color:#82c836" id="send_post" onclick="add_post('<?=$meta_row['idx']?>')">작성</button>
 							</div>
 						</div>
 						<div style="margin-left:30px;">
 							<span id = "post_status" name = "post_status" style="padding: 10px;font-size:10px">0/300</span>
 						</div>
-						<div style="border: 0px solid #dddddd;margin-left:30px;" id = "<?='post_list_'.$meta_row[idx]?>" name = "<?='post_list_'.$meta_row[idx]?>">
+						<div style="border: 0px solid #dddddd;margin-left:30px;" id = "<?='post_list_'.$meta_row['idx']?>" name = "<?='post_list_'.$meta_row['idx']?>">
 							<?while($post_row = mysqli_fetch_array($post_res)){?>
 								<div class="user-item" id="<?='post_reply'.$post_row['id']?>">
 									<a href="/?<?=strip_tags($meta_row['westory_card_url'])?>" class="img-box">
@@ -537,12 +537,12 @@ $meta_desc = $meta_row[contents_desc];
 											<img class="dropdown-toggle" data-toggle="dropdown" src="/iam/img/menu/icon_dot.png" style="height: 24px;">
 											<ul class="dropdown-menu namecard-dropdown " style="background: white; color : black;top:10px;">
 												<li>
-													<a href="javascript:void(0)" onclick="edit_post('<?=$meta_row[idx]?>','<?=$post_row['id']?>','<?=$post_row['content']?>')" title="댓글 수정">
+													<a href="javascript:void(0)" onclick="edit_post('<?=$meta_row['idx']?>','<?=$post_row['id']?>','<?=$post_row['content']?>')" title="댓글 수정">
 														<p>수정</p>
 													</a>
 												</li>
 												<li>
-													<a href="javascript:void(0)" onclick="delete_post('<?=$meta_row[idx]?>','<?=$post_row['id']?>')" title="댓글 삭제">
+													<a href="javascript:void(0)" onclick="delete_post('<?=$meta_row['idx']?>','<?=$post_row['id']?>')" title="댓글 삭제">
 														<p>삭제</p>
 													</a>
 												</li>
@@ -553,12 +553,12 @@ $meta_desc = $meta_row[contents_desc];
 											<img class="dropdown-toggle" data-toggle="dropdown" src="/iam/img/menu/icon_dot.png" style="height: 24px;">
 											<ul class="dropdown-menu namecard-dropdown " style="background: white; color : black;top:10px;">
 												<li>
-													<a href="javascript:void(0)" onclick="delete_post('<?=$meta_row[idx]?>','<?=$post_row['id']?>')" title="댓글 삭제">
+													<a href="javascript:void(0)" onclick="delete_post('<?=$meta_row['idx']?>','<?=$post_row['id']?>')" title="댓글 삭제">
 														<p>삭제</p>
 													</a>
 												</li>
 												<li>
-													<a href="javascript:void(0)" onclick="lock_post('<?=$meta_row[idx]?>','<?=$post_row['id']?>')" title="댓글 차단">
+													<a href="javascript:void(0)" onclick="lock_post('<?=$meta_row['idx']?>','<?=$post_row['id']?>')" title="댓글 차단">
 														<p>차단</p>
 													</a>
 												</li>
@@ -577,7 +577,7 @@ $meta_desc = $meta_row[contents_desc];
 											<textarea id = "<?='post_reply_'.$post_row['id'].'_content'?>" name = "<?='post_reply_'.$post_row['id'].'_content'?>" class  = "post_reply_content" maxlength="300" placeholder="답글은 300자 이내로 작성해주세요" style="font-size:14px;height:35px;width: 100%;border: 1px;"></textarea>
 										</div>
 										<div style="width:35px">
-											<button type="button" class="btn btn-link" style="font-size:14px;position: absolute; right: 1px; padding: 5px 12px;color:#82c836" onclick="add_post_reply('<?=$meta_row[idx]?>','<?=$post_row['id']?>')">작성</button>
+											<button type="button" class="btn btn-link" style="font-size:14px;position: absolute; right: 1px; padding: 5px 12px;color:#82c836" onclick="add_post_reply('<?=$meta_row['idx']?>','<?=$post_row['id']?>')">작성</button>
 										</div>
 									</div>
 									<div style="border-bottom: 0px solid #dddddd;margin-left:60px">
@@ -815,7 +815,7 @@ $meta_desc = $meta_row[contents_desc];
 	}
 		function iam_count(str) {
 			var member_id = '<?=$name_card['mem_id']?>';
-			var card_idx = '<?=$name_card[idx]?>';
+			var card_idx = '<?=$name_card['idx']?>';
 			var formData = new FormData();
 			formData.append('str', str);
 			formData.append('mem_id', member_id);

@@ -195,7 +195,7 @@ if($_REQUEST[status]==1 || $_REQUEST[status]==2)
 											$row_n=mysqli_fetch_array($resul_n);
 											?>
                                     <tr>
-                                    	<td><label><input type="checkbox" name="idx_box" value="<?=$row[idx]?>" /><?=$sort_no?></label></td>                                        
+                                    	<td><label><input type="checkbox" name="idx_box" value="<?=$row['idx']?>" /><?=$sort_no?></label></td>                                        
                                         <td><?=$row_n['memo']?></td>
                                         <td class="g_dt_name_<?=$i?>"><?=$row['send_num']?></td>
 										<td class="g_dt_name_<?=$i?>" style="display:none;"><input type="text" value="<?=$row['send_num']?>" name="agree_send" /> </td>
@@ -209,9 +209,9 @@ if($_REQUEST[status]==1 || $_REQUEST[status]==2)
                                         
                                         <td>
                                         <a href="javascript:void(0)" class="modify_btn_<?=$i?> a_btn_2" style="" onclick="g_dt_show_cencle('g_dt_name_','g_dt_num_','modify_btn_','<?=$i?>')">수정</a>
-                                        <a href="javascript:void(0)" class="modify_btn_<?=$i?> a_btn_2" style="display:none;" onclick="agree_add(sub_4_form,'<?=$i?>','<?=$row[idx]?>')">수정</a>
+                                        <a href="javascript:void(0)" class="modify_btn_<?=$i?> a_btn_2" style="display:none;" onclick="agree_add(sub_4_form,'<?=$i?>','<?=$row['idx']?>')">수정</a>
                                         
-                                        <a href="javascript:void(0)" onclick="agree_del('<?=$row[idx]?>')" class="a_btn_2">삭제</a>                                        
+                                        <a href="javascript:void(0)" onclick="agree_del('<?=$row['idx']?>')" class="a_btn_2">삭제</a>                                        
                                         </td>
                                     </tr>
                                     	<?

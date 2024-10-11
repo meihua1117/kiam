@@ -14,13 +14,13 @@ if($delete){
     $res_card = mysqli_query($self_con,$sql_card);
     $row_card = mysqli_fetch_array($res_card);
 
-    $del_conts = "delete from Gn_Iam_Contents where card_idx={$row_card[idx]}";
+    $del_conts = "delete from Gn_Iam_Contents where card_idx={$row_card['idx']}";
     mysqli_query($self_con,$del_conts);
 
-    $sql_contents = "delete from Gn_Iam_Con_Card where main_card={$row_card[idx]}";
+    $sql_contents = "delete from Gn_Iam_Con_Card where main_card={$row_card['idx']}";
     mysqli_query($self_con,$sql_contents);
 
-    $sql_contents = "delete from Gn_Iam_Con_Card where card_idx={$row_card[idx]}";
+    $sql_contents = "delete from Gn_Iam_Con_Card where card_idx={$row_card['idx']}";
     mysqli_query($self_con,$sql_contents);
 
     $del_card = "delete from Gn_Iam_Name_Card where admin_shopping='{$set_idx}'";

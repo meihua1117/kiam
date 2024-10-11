@@ -779,11 +779,11 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
               if(mysqli_num_rows($res_data)){
                 while($data = mysqli_fetch_array($res_data)){
               ?>
-              <form method="post" id="logo_Form_<?=$data[idx]?>" name="logo_Form_<?=$data[idx]?>" action="/admin/ajax/app_home_save.php" enctype="multipart/form-data">
+              <form method="post" id="logo_Form_<?=$data['idx']?>" name="logo_Form_<?=$data['idx']?>" action="/admin/ajax/app_home_save.php" enctype="multipart/form-data">
                 <input type="hidden" name="position" value="logo" />
                 <input type="hidden" name="mode" value="<?=$mode?>" />
                 <input type="hidden" name="site_iam" value="<?=$site?>" />
-                <input type="hidden" name="idx" value="<?=$data[idx]?>" />
+                <input type="hidden" name="idx" value="<?=$data['idx']?>" />
                 <div class="box" id="logo_box" style="display: inline-flex;padding: 10px;height: 50px;">
                   <p class="menu_title">앱로고입력</p>
                   <input type="file" name="app_logo" class="input_file">
@@ -802,7 +802,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                       <span class="slider round" name="status_round" id="stauts_round_<?php echo $data['idx'];?>"></span>
                   </label>
                   <?}?>
-                  <button class="btn btn-primary" style="margin-right: 5px;padding: 3px 10px;" onclick="logo_form_save('<?=$data[idx]?>');return false;">저장</button>
+                  <button class="btn btn-primary" style="margin-right: 5px;padding: 3px 10px;" onclick="logo_form_save('<?=$data['idx']?>');return false;">저장</button>
                 </div>
               </form>
               <?}
@@ -853,7 +853,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                 <input type="hidden" name="position" value="rolling" />
                 <input type="hidden" name="mode" value="<?=$mode?>" />
                 <input type="hidden" name="site_iam" value="<?=$site?>" />
-                <input type="hidden" name="idx" value="<?=$data[idx]?>" />
+                <input type="hidden" name="idx" value="<?=$data['idx']?>" />
                 <div class="box" id="rolling_box" style="display: inline-flex;padding: 10px;height: 50px;margin-bottom: 0px;">
                   <p class="menu_title">배너<?=$R_no?>번</p>
                   <input type="file" name="app_rolling" class="input_file">
@@ -923,7 +923,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                 <input type="hidden" name="position" value="menu" />
                 <input type="hidden" name="mode" value="<?=$mode?>" />
                 <input type="hidden" name="site_iam" value="<?=$site?>" />
-                <input type="hidden" name="idx" value="<?=$data[idx]?>" />
+                <input type="hidden" name="idx" value="<?=$data['idx']?>" />
                 <div class="box" id="menu_box" style="display: inline-flex;padding: 10px;height: 50px;margin-bottom: 0px;">
                   <p class="menu_title">매뉴<?=$M_no?>번</p>
                   <input type="file" name="app_menu" class="input_file">
@@ -1009,7 +1009,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                 <input type="hidden" name="position" value="market" />
                 <input type="hidden" name="mode" value="<?=$mode?>" />
                 <input type="hidden" name="site_iam" value="<?=$site?>" />
-                <input type="hidden" name="idx" value="<?=$data[idx]?>" />
+                <input type="hidden" name="idx" value="<?=$data['idx']?>" />
                 <div class="box" id="market_box" style="display: inline-flex;padding: 10px;height: 50px;margin-bottom: 0px;">
                   <p class="menu_title">매뉴<?=$I_no?>번</p>
                   <input type="file" name="app_market" class="input_file">
@@ -1099,7 +1099,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                 <input type="hidden" name="position" value="card" />
                 <input type="hidden" name="mode" value="<?=$mode?>" />
                 <input type="hidden" name="site_iam" value="<?=$site?>" />
-                <input type="hidden" name="idx" value="<?=$data[idx]?>" />
+                <input type="hidden" name="idx" value="<?=$data['idx']?>" />
                 <div class="box" id="card_box" style="display: inline-flex;padding: 10px;height: 50px;margin-bottom: 0px;">
                   <p class="menu_title">매뉴<?=$C_no?>번</p>
                   <input type="file" name="app_card" class="input_file">
@@ -1216,7 +1216,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                 <input type="hidden" name="position" value="banner" />
                 <input type="hidden" name="mode" value="<?=$mode?>" />
                 <input type="hidden" name="site_iam" value="<?=$site?>" />
-                <input type="hidden" name="idx" value="<?=$data[idx]?>" />
+                <input type="hidden" name="idx" value="<?=$data['idx']?>" />
                 <div class="box" id="banner_box" style="display: inline-flex;padding: 10px;height: 50px;margin-bottom: 0px;">
                   <p class="menu_title">배너<?=$B_no?>번</p>
                   <input type="file" name="app_banner" class="input_file">
@@ -1292,7 +1292,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
               <form method="post" id="change_Form_0" name="change_Form_0" action="/admin/ajax/app_home_save.php" enctype="multipart/form-data">
                 <input type="hidden" name="position" value="change" />
                 <input type="hidden" name="site_iam" value="<?=$site?>" />
-                <input type="hidden" name="idx" value="<?=$data[idx]?>" />
+                <input type="hidden" name="idx" value="<?=$data['idx']?>" />
                 <div class="box" style="display: inline-flex;padding: 10px;height: 50px;margin-bottom:0px;">
                   <p class="menu_title">배너 1번</p>
                   <input type="file" name="app_change" class="input_file">

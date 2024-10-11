@@ -22,7 +22,7 @@ while($row = mysqli_fetch_array($res)) {
     $srow = mysqli_fetch_array($sres);
     if($srow[0] == 0) {
         $query = "insert into tjd_pay_result_balance set pay_no='$row[no]',
-                                                            mem_id='$row[buyer_id]',
+                                                            mem_id='{$row['buyer_id']}',
                                                             seller_id='$row[share_id]',
                                                             branch_id='$row[branch_share_id]',
                                                             mem_type='$row[member_type]',

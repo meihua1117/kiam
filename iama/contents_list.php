@@ -264,7 +264,7 @@ if($mem_id != "") {
                                         <td><?=$row['mem_name']?></td>
                                         <td><?=$row['contents_title']?></td>
                                         <td><a href="<?=$row['contents_url']?>" target="_blank"><?=$row['contents_url']?></a></td>
-                                        <td><a href="/iam/contents.php?contents_idx=<?=$row[idx]?>" target="_blank">콘링크</a></td>
+                                        <td><a href="/iam/contents.php?contents_idx=<?=$row['idx']?>" target="_blank">콘링크</a></td>
                                         <td><a href="<?=$row[contents_img]?>" target="_blank"><img class="zoom" src="<?=$row[contents_img]?>" style="width:50px;"></a></td>
                                         <td><?=$row['req_data']?></td>
                                         <td><?=$row['contents_share_count']?></td>

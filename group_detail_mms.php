@@ -115,8 +115,8 @@ include_once $path."open_div.php";
             <!--
             <td class="stop-dragging">
             	<a href="javascript:void(0)" class="stop-dragging modify_btn_<?=$i?>" onclick="g_dt_show_cencle('g_dt_name_','g_dt_num_','modify_btn_','<?=$i?>','g_dt_grp_')">수정</a>                
-                <a href="javascript:void(0)" class="stop-dragging modify_btn_<?=$i?>" style="display:none;" onclick="g_dt_fun('modify','<?=$_REQUEST[grp_id]?>','<?=$row[idx]?>','<?=$i?>')">수정</a>               
-                <a href="javascript:void(0)" class="stop-dragging" onclick="g_dt_fun('del','<?=$_REQUEST[grp_id]?>','<?=$row[idx]?>','<?=$i?>')">삭제</a>
+                <a href="javascript:void(0)" class="stop-dragging modify_btn_<?=$i?>" style="display:none;" onclick="g_dt_fun('modify','<?=$_REQUEST[grp_id]?>','<?=$row['idx']?>','<?=$i?>')">수정</a>               
+                <a href="javascript:void(0)" class="stop-dragging" onclick="g_dt_fun('del','<?=$_REQUEST[grp_id]?>','<?=$row['idx']?>','<?=$i?>')">삭제</a>
             </td>
             -->
           </tr>

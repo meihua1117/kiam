@@ -48,20 +48,20 @@ $error_arr=array();
 						array_push($error_arr,"{$v} 은/는 정확한 번호가 아닙니다.(업로드실패)");	
 						continue;
 						}						
-						$sql_c="select idx from Gn_MMS_Receive where mem_id='{$_SESSION['one_member_id']}' and grp_id='$row[idx]' and recv_num='$v' ";
+						$sql_c="select idx from Gn_MMS_Receive where mem_id='{$_SESSION['one_member_id']}' and grp_id='{$row['idx']}' and recv_num='$v' ";
 						$resul_c=mysqli_query($self_con,$sql_c);
 						$row_c=mysqli_fetch_array($resul_c);
-						if($row_c[idx])
+						if($row_c['idx'])
 						{
 						array_push($error_arr,"{$v} 은/는 중복번호입니다.(업로드실패)");	
 						continue;
 						}
 						
-						$sql_i = "insert into Gn_MMS_Receive set mem_id = '{$_SESSION['one_member_id']}',grp_id='$row[idx]', grp = '$row[grp]', grp_2 = '".$data->sheets[0]['cells'][$i][1]."', name = '".$data->sheets[0]['cells'][$i][2]."' , recv_num = '$v', email = '".$data->sheets[0]['cells'][$i][4]."' ,reg_date=now()";
+						$sql_i = "insert into Gn_MMS_Receive set mem_id = '{$_SESSION['one_member_id']}',grp_id='{$row['idx']}', grp = '$row[grp]', grp_2 = '".$data->sheets[0]['cells'][$i][1]."', name = '".$data->sheets[0]['cells'][$i][2]."' , recv_num = '$v', email = '".$data->sheets[0]['cells'][$i][4]."' ,reg_date=now()";
 						mysqli_query($self_con,$sql_i);
 						$cnt++;
 					}
-				$sql_u="update Gn_MMS_Group set count=count+$cnt where idx='$row[idx]' ";
+				$sql_u="update Gn_MMS_Group set count=count+$cnt where idx='{$row['idx']}' ";
 				mysqli_query($self_con,$sql_u);					
 			}
 	}
@@ -71,7 +71,7 @@ $error_arr=array();
 		$sql_s="select idx from Gn_MMS_Group where grp='$group_name' and mem_id='{$_SESSION['one_member_id']}'";
 		$resul_s=mysqli_query($self_con,$sql_s);
 		$row_s=mysqli_fetch_array($resul_s);
-		if($row_s[idx])
+		if($row_s['idx'])
 		{
 			?>
 			<script language="javascript">
@@ -101,20 +101,20 @@ $error_arr=array();
 				continue;
 				}				
 				
-				$sql_c="select idx from Gn_MMS_Receive where mem_id='{$_SESSION['one_member_id']}' and grp_id='$row_s[idx]' and recv_num='$v' ";
+				$sql_c="select idx from Gn_MMS_Receive where mem_id='{$_SESSION['one_member_id']}' and grp_id='{$row_s['idx']}' and recv_num='$v' ";
 				$resul_c=mysqli_query($self_con,$sql_c);
 				$row_c=mysqli_fetch_array($resul_c);
-				if($row_c[idx])
+				if($row_c['idx'])
 				{
 				array_push($error_arr,"{$v} 은/는 중복번호입니다.(업로드실패)");	
 				continue;
 				}
 					
-				$sql_i = "insert into Gn_MMS_Receive set mem_id = '{$_SESSION['one_member_id']}',grp_id='$row_s[idx]', grp = '$group_name', grp_2 = '".$data->sheets[0]['cells'][$i][1]."', recv_num = '$v', name = '".$data->sheets[0]['cells'][$i][2]."' ,email = '".$data->sheets[0]['cells'][$i][4]."' ,reg_date=now() ";
+				$sql_i = "insert into Gn_MMS_Receive set mem_id = '{$_SESSION['one_member_id']}',grp_id='{$row_s['idx']}', grp = '$group_name', grp_2 = '".$data->sheets[0]['cells'][$i][1]."', recv_num = '$v', name = '".$data->sheets[0]['cells'][$i][2]."' ,email = '".$data->sheets[0]['cells'][$i][4]."' ,reg_date=now() ";
 				mysqli_query($self_con,$sql_i);
 				$cnt++;
 			}
-			$sql_u="update Gn_MMS_Group set count=$cnt where idx='$row_s[idx]' ";
+			$sql_u="update Gn_MMS_Group set count=$cnt where idx='{$row_s['idx']}' ";
 			mysqli_query($self_con,$sql_u);			
 		}
 	}
@@ -158,7 +158,7 @@ $error_arr=array();
 					$sql_s="select idx from Gn_MMS_Deny where mem_id='{$_SESSION['one_member_id']}' and recv_num='$recv_num' and send_num='$send_num' ";
 					$resul_s=mysqli_query($self_con,$sql_s);
 					$row_s=mysqli_fetch_array($resul_s);
-					if($row_s[idx])
+					if($row_s['idx'])
 					{
 					array_push($error_arr,"발신번호{$send_num} 수신번호 {$recv_num} 은/는 이미 등록되었습니다.(업로드실패)");	
 					continue;

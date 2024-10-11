@@ -35,7 +35,7 @@ switch ($_REQUEST[status]) {
 }
 
 
-$sql = "select * from Gn_MMS where idx='$_GET[idx]'";
+$sql = "select * from Gn_MMS where idx='{$_GET['idx']}'";
 $result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
 $krow = mysqli_fetch_array($result);
 $date = $krow['up_date'];
@@ -194,7 +194,7 @@ $result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
 
 							<tr>
 
-								<td><label><input type="checkbox" name="idx_box" value="<?= $row[idx] ?>" /></label></td>
+								<td><label><input type="checkbox" name="idx_box" value="<?= $row['idx'] ?>" /></label></td>
 								<td><?= $sort_no ?></td>
 								<td><?= $row['send_num'] ?></td>
 								<td><?= $row_n['memo'] ?></td>
@@ -255,7 +255,7 @@ $result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
 	<form name="sub_4_form" id="sub_4_form">
 		<input type="hidden" name="order_status" value="<?= $order_status ?>" />
 		<input type="hidden" name="page" value="<?= $page ?>" />
-		<input type="hidden" name="idx" value="<?= $_GET[idx] ?>" />
+		<input type="hidden" name="idx" value="<?= $_GET['idx'] ?>" />
 		<input type="hidden" name="send_num" value="<?= $send_num ?>" />
 		<input type="hidden" name="page2" value="<?= $page2 ?>" />
 	</form>

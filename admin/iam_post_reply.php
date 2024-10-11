@@ -266,7 +266,7 @@ $path="./";
                                         <td><?=$row['mem_name']?></td>
                                         <td><?=str_replace("-", "",$row['mem_phone'])?></td>
                                         <td><a href = "<?='/?'.$row['westory_card_url']?>" target = "_blank"><?=$row['westory_card_url']?></a></td>
-                                        <td><a href = "<?='/iam/contents.php?contents_idx='.$row[idx]?>" target = "_blank"><?=$row['contents_title']?></a></td>
+                                        <td><a href = "<?='/iam/contents.php?contents_idx='.$row['idx']?>" target = "_blank"><?=$row['contents_title']?></a></td>
                                         <td><?=$row['content']?></td>
                                         <td>
                                             <a href="javascript:void(0)" onclick="show_recv('show_content','<?=$i?>','답글내용')"><?=str_substr($row['contents'],0,30,'utf-8')?></a>

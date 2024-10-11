@@ -3,7 +3,7 @@ include_once $_SERVER['DOCUMENT_ROOT'] . "/lib/rlatjd_fun.php";
 include_once $_SERVER['DOCUMENT_ROOT'] . "/admin/include/admin_header.inc.php";
 extract($_GET);
 
-$sql = "select * from Gn_MMS where idx='$_GET[idx]'";
+$sql = "select * from Gn_MMS where idx='{$_GET['idx']}'";
 $result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
 $krow = mysqli_fetch_array($result);
 $date = $krow['up_date'];

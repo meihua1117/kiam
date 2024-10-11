@@ -359,8 +359,8 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                                         </button>
                                         <ul class="dropdown-menu comunity">
                                             <li><a onclick="location.href='/?<?=strip_tags($card_row[card_short_url])?>'">이 콘텐츠 게시자 보기</a></li>
-                                            <li><a onclick="set_friend('<?=$card_row['mem_id'] ?>','<?=$card_row[card_name] ?>','<?=$card_row[card_short_url] ?>','<?=$card_row[idx] ?>')">이 게시자와 프렌즈 하기</a></li>
-                                            <li><a onclick="set_my_share_contents('<?=$group_row[idx]?>')">이 콘텐츠 나에게 가져오기</a></li>
+                                            <li><a onclick="set_friend('<?=$card_row['mem_id'] ?>','<?=$card_row[card_name] ?>','<?=$card_row[card_short_url] ?>','<?=$card_row['idx'] ?>')">이 게시자와 프렌즈 하기</a></li>
+                                            <li><a onclick="set_my_share_contents('<?=$group_row['idx']?>')">이 콘텐츠 나에게 가져오기</a></li>
                                         </ul>
                                     </div>
                                 <?}?>
@@ -425,9 +425,9 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                                         if($group_row['contents_url']) {
                                             $kk++;
                                             if(count($content_images) > 1){?>
-                                                <button onclick="show_all_content_images('<?=$group_row[idx]?>')"  id = "content_all_image<?=$group_row[idx]?>"
+                                                <button onclick="show_all_content_images('<?=$group_row['idx']?>')"  id = "content_all_image<?=$group_row['idx']?>"
                                                     style="position: absolute;right:0px;bottom:0px;font-size: 14px;opacity: 60%;background: black;color: white;"><?="+".(count($content_images)-1)?></button>
-                                                <button onclick="hide_all_content_images('<?=$group_row[idx]?>')"  id = "hide_content_all_image<?=$group_row[idx]?>"
+                                                <button onclick="hide_all_content_images('<?=$group_row['idx']?>')"  id = "hide_content_all_image<?=$group_row['idx']?>"
                                                     style="position: absolute;left:0px;top:300px;font-size: 14px;display:none;background: transparent">
                                                     <img src="img/main/icon-img_fold.png" style="width:30px">
                                                 </button>
@@ -438,7 +438,7 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                                                         <img src="<?=cross_image($content_images[0])?>" class="contents_img">
                                                         <?
                                                         for($c = 1;$c < count($content_images);$c ++){?>
-                                                            <img src="<?=cross_image($content_images[$c])?>" class="contents_img hidden_image<?=$group_row[idx]?>" style="display:none">
+                                                            <img src="<?=cross_image($content_images[$c])?>" class="contents_img hidden_image<?=$group_row['idx']?>" style="display:none">
                                                         <?}?>
                                                     </div>
                                                 <?}else{?>
@@ -452,7 +452,7 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                                                     <?
                                                     if(count($content_images) > 1){
                                                         for($c = 1;$c < count($content_images);$c ++){?>
-                                                            <img src="<?=cross_image($content_images[$c])?>" class="contents_img hidden_image<?=$group_row[idx]?>" style="display:none">
+                                                            <img src="<?=cross_image($content_images[$c])?>" class="contents_img hidden_image<?=$group_row['idx']?>" style="display:none">
                                                     <?}
                                                     }?>
                                                 </a>
@@ -465,15 +465,15 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                                         <?} else {?>
                                             <img src="<?=$content_images[0]?>" class="contents_img">
                                             <?if(count($content_images) > 1){?>
-                                                <button onclick="show_all_content_images('<?=$group_row[idx]?>')"  id = "content_all_image<?=$group_row[idx]?>"
+                                                <button onclick="show_all_content_images('<?=$group_row['idx']?>')"  id = "content_all_image<?=$group_row['idx']?>"
                                                     style="position: absolute;right:0px;bottom:0px;font-size: 14px;opacity: 60%;background: black;color: white;"><?="+".(count($content_images)-1)?></button>
-                                                <button onclick="hide_all_content_images('<?=$group_row[idx]?>')"  id = "hide_content_all_image<?=$group_row[idx]?>"
+                                                <button onclick="hide_all_content_images('<?=$group_row['idx']?>')"  id = "hide_content_all_image<?=$group_row['idx']?>"
                                                     style="position: absolute;left:0px;top:300px;font-size: 14px;display:none;background: transparent">
                                                     <img src="img/main/icon-img_fold.png" style="width:30px">
                                                 </button>
                                             <?
                                                 for($c = 1;$c < count($content_images);$c ++){?>
-                                                    <img src="<?=cross_image($content_images[$c])?>" class="contents_img hidden_image<?=$group_row[idx]?>" style="display:none">
+                                                    <img src="<?=cross_image($content_images[$c])?>" class="contents_img hidden_image<?=$group_row['idx']?>" style="display:none">
                                             <?  }
                                             }
                                         }
@@ -486,9 +486,9 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                                     $kk++;
                                     ?>
                                     <?if(count($content_images) > 1){?>
-                                        <button onclick="show_all_content_images('<?=$group_row[idx]?>')"  id = "content_all_image<?=$group_row[idx]?>"
+                                        <button onclick="show_all_content_images('<?=$group_row['idx']?>')"  id = "content_all_image<?=$group_row['idx']?>"
                                                 style="position: absolute;right:0px;bottom:0px;font-size: 14px;opacity: 60%;background: black;color: white;"><?="+".(count($content_images)-1)?></button>
-                                        <button onclick="hide_all_content_images('<?=$group_row[idx]?>')"  id = "hide_content_all_image<?=$group_row[idx]?>"
+                                        <button onclick="hide_all_content_images('<?=$group_row['idx']?>')"  id = "hide_content_all_image<?=$group_row['idx']?>"
                                                 style="position: absolute;left:0px;top:300px;font-size: 14px;display:none;background: transparent">
                                             <img src="img/main/icon-img_fold.png" style="width:30px">
                                         </button>
@@ -501,7 +501,7 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                                             <?}?>
                                             <?if(count($content_images) > 1){?>
                                                 <?for($c = 1;$c < count($content_images);$c ++){?>
-                                                    <img src="<?=cross_image($content_images[$c])?>" class="contents_img hidden_image<?=$group_row[idx]?>" style="display:none">
+                                                    <img src="<?=cross_image($content_images[$c])?>" class="contents_img hidden_image<?=$group_row['idx']?>" style="display:none">
                                                 <?}?>
                                             <?}?>
                                         </div>
@@ -513,7 +513,7 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                                             <?}?>
                                             <?if(count($content_images) > 1){?>
                                                 <?for($c = 1;$c < count($content_images);$c ++){?>
-                                                    <img src="<?=cross_image($content_images[$c])?>" class="contents_img hidden_image<?=$group_row[idx]?>" style="display:none">
+                                                    <img src="<?=cross_image($content_images[$c])?>" class="contents_img hidden_image<?=$group_row['idx']?>" style="display:none">
                                                 <?}?>
                                             <?}?>
                                         </a>
@@ -579,7 +579,7 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                                     <div class="in-box" style="display: flex;border-top: none;">
                                         <div style="display: flex;vertical-align: middle">
                                             <?
-                                                $post_sql = "select SQL_CALC_FOUND_ROWS * from Gn_Iam_Post p inner join Gn_Member m on p.mem_id = m.mem_id where p.content_idx = '$group_row[idx]' and p.lock_status = 'N' order by p.reg_date";
+                                                $post_sql = "select SQL_CALC_FOUND_ROWS * from Gn_Iam_Post p inner join Gn_Member m on p.mem_id = m.mem_id where p.content_idx = '{$group_row['idx']}' and p.lock_status = 'N' order by p.reg_date";
                                                 $post_res = mysqli_query($self_con,$post_sql);
                                             ?>
                                             <a  class = "hand" href="javascript:contents_like('<?=$group_row['idx']?>','<?=$_SESSION['iam_member_id']?>');">
@@ -597,34 +597,34 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                                                 <label style="font-size: 10px;background: #ff3333;border-radius: 50%!important;padding: 3px 5px!important;color: #fff;
                                                                             text-align: center;line-height: 1;position: absolute;margin-left: -15px" id = "<?='post_alarm_'.$group_row['idx']?>"></label>
                                             </a>
-                                            <p onclick = "refresh_post('<?=$group_row[idx]?>')" style="margin-left:5px;font-size: 15px;font-weight: 600;" class = "second-box-like like-count" id = "<?='post_count_'.$group_row[idx]?>"><?=$post_count?>  &#x21BA;</p>
+                                            <p onclick = "refresh_post('<?=$group_row['idx']?>')" style="margin-left:5px;font-size: 15px;font-weight: 600;" class = "second-box-like like-count" id = "<?='post_count_'.$group_row['idx']?>"><?=$post_count?>  &#x21BA;</p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <?
-                            $post_status_sql = "select count(*) from Gn_Iam_Post where content_idx = '$group_row[idx]' and status = 'N' and lock_status = 'N'";
+                            $post_status_sql = "select count(*) from Gn_Iam_Post where content_idx = '{$group_row['idx']}' and status = 'N' and lock_status = 'N'";
                             $post_status_res = mysqli_query($self_con,$post_status_sql);
                             $post_status_row =  mysqli_fetch_array($post_status_res);
                             $post_status_count = $post_status_row[0];
                             if ($post_status_count  > 0)
-                                echo "<script>  $('#post_alarm_".$group_row[idx]."').html(".$post_status_count."); </script>";
+                                echo "<script>  $('#post_alarm_".$group_row['idx']."').html(".$post_status_count."); </script>";
                             else
-                                echo "<script>  $('#post_alarm_".$group_row[idx]."').hide(); </script>";
+                                echo "<script>  $('#post_alarm_".$group_row['idx']."').hide(); </script>";
                             ?>
-                            <div class="post-wrap <?='post_wrap'.$group_row[idx]?>" style="display:none" id = "<?='post_wrap'.$group_row[idx]?>">
+                            <div class="post-wrap <?='post_wrap'.$group_row['idx']?>" style="display:none" id = "<?='post_wrap'.$group_row['idx']?>">
                                 <div style="display: flex;justify-content: flex-end;">
 							        <div style="margin-left:30px;margin-right:35px;width:100%">
-                                        <textarea id = "post_content<?=$group_row[idx]?>" name = "post_content<?=$group_row[idx]?>" class="post_content" maxlength="300" style="font-size:14px;width:100%;height:35px;border: 1px" placeholder="댓글은 300자 이내로 작성해주세요" ></textarea>
+                                        <textarea id = "post_content<?=$group_row['idx']?>" name = "post_content<?=$group_row['idx']?>" class="post_content" maxlength="300" style="font-size:14px;width:100%;height:35px;border: 1px" placeholder="댓글은 300자 이내로 작성해주세요" ></textarea>
                                     </div>
                                     <div style="width:35px">
-                                        <button type="button" class="btn btn-link" style="position: absolute; right: 1px; padding: 9px 12px;color:#82c836" id="send_post" onclick="add_post('<?=$group_row[idx]?>')">작성</button>
+                                        <button type="button" class="btn btn-link" style="position: absolute; right: 1px; padding: 9px 12px;color:#82c836" id="send_post" onclick="add_post('<?=$group_row['idx']?>')">작성</button>
                                     </div>
                                 </div>
                                 <div style="margin-left:30px;">
                                     <span id = "post_status" name = "post_status" style="padding: 10px;font-size:10px">0/300</span>
                                 </div>
-                                <div style="border: 0px solid #dddddd;margin-left:30px;" id = "<?='post_list_'.$group_row[idx]?>" name = "<?='post_list_'.$group_row[idx]?>">
+                                <div style="border: 0px solid #dddddd;margin-left:30px;" id = "<?='post_list_'.$group_row['idx']?>" name = "<?='post_list_'.$group_row['idx']?>">
                                     <?while($post_row = mysqli_fetch_array($post_res)){
                                         $post_card_sql = "select card_short_url from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$post_row['mem_id']}' order by req_data asc";
                                         $post_card_result = mysqli_query($self_con,$post_card_sql);
@@ -653,12 +653,12 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                                                     <img class="dropdown-toggle" data-toggle="dropdown" src="/iam/img/menu/icon_dot.png" style="height: 24px;">
                                                     <ul class="dropdown-menu namecard-dropdown " style="background: white; color : black;top:10px;">
                                                         <li>
-                                                            <a href="javascript:void(0)" onclick="edit_post('<?=$group_row[idx]?>','<?=$post_row['id']?>','<?=$post_row['content']?>')" title="댓글 수정">
+                                                            <a href="javascript:void(0)" onclick="edit_post('<?=$group_row['idx']?>','<?=$post_row['id']?>','<?=$post_row['content']?>')" title="댓글 수정">
                                                                 <p>수정</p>
                                                             </a>
                                                         </li>
                                                         <li>
-                                                            <a href="javascript:void(0)" onclick="delete_post('<?=$group_row[idx]?>','<?=$post_row['id']?>')" title="댓글 삭제">
+                                                            <a href="javascript:void(0)" onclick="delete_post('<?=$group_row['idx']?>','<?=$post_row['id']?>')" title="댓글 삭제">
                                                                 <p>삭제</p>
                                                             </a>
                                                         </li>
@@ -669,12 +669,12 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                                                     <img class="dropdown-toggle" data-toggle="dropdown" src="/iam/img/menu/icon_dot.png" style="height: 24px;">
                                                     <ul class="dropdown-menu namecard-dropdown " style="background: white; color : black;top:10px;">
                                                         <li>
-                                                            <a href="javascript:void(0)" onclick="delete_post('<?=$group_row[idx]?>','<?=$post_row['id']?>')" title="댓글 삭제">
+                                                            <a href="javascript:void(0)" onclick="delete_post('<?=$group_row['idx']?>','<?=$post_row['id']?>')" title="댓글 삭제">
                                                                 <p>삭제</p>
                                                             </a>
                                                         </li>
                                                         <li>
-                                                            <a href="javascript:void(0)" onclick="lock_post('<?=$group_row[idx]?>','<?=$post_row['id']?>')" title="댓글 차단">
+                                                            <a href="javascript:void(0)" onclick="lock_post('<?=$group_row['idx']?>','<?=$post_row['id']?>')" title="댓글 차단">
                                                                 <p>차단</p>
                                                             </a>
                                                         </li>
@@ -693,7 +693,7 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                                                     <textarea id = "<?='post_reply_'.$post_row['id'].'_content'?>" name = "<?='post_reply_'.$post_row['id'].'_content'?>" class  = "post_reply_content" maxlength="300" placeholder="답글은 300자 이내로 작성해주세요" style="font-size:14px;height:35px;width: 100%;border: 1px;"></textarea>
                                                 </div>
                                                 <div style="width:35px">
-                                                    <button type="button" class="btn btn-link" style="position: absolute; right: 1px; padding: 5px 12px;color:#82c836;font-size:18px" onclick="add_post_reply('<?=$group_row[idx]?>','<?=$post_row['id']?>')">작성</button>
+                                                    <button type="button" class="btn btn-link" style="position: absolute; right: 1px; padding: 5px 12px;color:#82c836;font-size:18px" onclick="add_post_reply('<?=$group_row['idx']?>','<?=$post_row['id']?>')">작성</button>
                                                 </div>
                                             </div>
                                             <div style="border-bottom: 0px solid #dddddd;margin-left:60px">
@@ -731,12 +731,12 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                                                         <img class="dropdown-toggle" data-toggle="dropdown" src="/iam/img/menu/icon_dot.png" style="height:24px">
                                                         <ul class="dropdown-menu namecard-dropdown " style="background: white; color : black;top:10px;">
                                                             <li>
-                                                                <a href="javascript:void(0)" onclick="edit_post_reply('<?=$group_row[idx]?>','<?=$post_row['id']?>','<?=$reply_row['id']?>','<?=$reply_row['contents']?>')" title="답글 수정">
+                                                                <a href="javascript:void(0)" onclick="edit_post_reply('<?=$group_row['idx']?>','<?=$post_row['id']?>','<?=$reply_row['id']?>','<?=$reply_row['contents']?>')" title="답글 수정">
                                                                     <p>수정</p>
                                                                 </a>
                                                             </li>
                                                             <li>
-                                                                <a href="javascript:void(0)" onclick="delete_post_reply('<?=$group_row[idx]?>','<?=$reply_row['id']?>')" title="답글 삭제">
+                                                                <a href="javascript:void(0)" onclick="delete_post_reply('<?=$group_row['idx']?>','<?=$reply_row['id']?>')" title="답글 삭제">
                                                                     <p>삭제</p>
                                                                 </a>
                                                             </li>
@@ -747,12 +747,12 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                                                         <img class="dropdown-toggle" data-toggle="dropdown" src="/iam/img/menu/icon_dot.png" style="height: 24px;">
                                                         <ul class="dropdown-menu namecard-dropdown " style="background: white; color : black;top:10px;">
                                                             <li>
-                                                                <a href="javascript:void(0)" onclick="delete_post_reply('<?=$group_row[idx]?>','<?=$reply_row['id']?>')" title="답글 삭제">
+                                                                <a href="javascript:void(0)" onclick="delete_post_reply('<?=$group_row['idx']?>','<?=$reply_row['id']?>')" title="답글 삭제">
                                                                     <p>삭제</p>
                                                                 </a>
                                                             </li>
                                                             <li>
-                                                                <a href="javascript:void(0)" onclick="lock_post_reply('<?=$group_row[idx]?>','<?=$reply_row['id']?>')" title="답글 차단">
+                                                                <a href="javascript:void(0)" onclick="lock_post_reply('<?=$group_row['idx']?>','<?=$reply_row['id']?>')" title="답글 차단">
                                                                     <p>차단</p>
                                                                 </a>
                                                             </li>
