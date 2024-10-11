@@ -147,7 +147,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                             <?=substr($row[date],0,10)?>
                         </td>
                         <td><?=$row['view_cnt']?></td>
-                        <td><a href="javascript:;;" onclick="board_del('<?=$row[no]?>','<?=$_REQUEST[status]?>')">삭제</a></td>
+                        <td><a href="javascript:;;" onclick="board_del('<?=$row['no']?>','<?=$_REQUEST[status]?>')">삭제</a></td>
                        
                       </tr>
                     <?

@@ -114,7 +114,7 @@ window.onload=function()
     
     <input type="hidden" name="add_phone" value="<?=$_POST[add_phone]?>" />
     <input type="hidden" name="phone_cnt" value="<?=$_POST[max_cnt]?>" />
-    <input type="hidden" name="month_cnt" value="<?=$_POST[month_cnt]?>" />
+    <input type="hidden" name="month_cnt" value="<?=$_POST['month_cnt']?>" />
     <input type="hidden" name="max_cnt" value="<?=$_POST[max_cnt]?>" />
     <input type="hidden" name="add_service" value="<?=$_POST[add_service]?>" />
     <input type="hidden" name="fujia_status" value="<?=$_POST[fujia_status]?>" />

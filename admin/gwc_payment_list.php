@@ -270,7 +270,7 @@ set_gwc_delivery_state();
                                         $recommend_id = $row_mem['recommend_id'];
                                     }
 
-                                    $sql_order = "select * from Gn_Gwc_Order where tjd_idx='{$row[no]}'";
+                                    $sql_order = "select * from Gn_Gwc_Order where tjd_idx='{$row['no']}'";
                                     $res_order = mysqli_query($self_con,$sql_order);
                                     $row_order = mysqli_fetch_array($res_order);
 
@@ -316,7 +316,7 @@ set_gwc_delivery_state();
                                         $img_link = $row_cont_data[contents_img];
                                     }
 
-                                    $sql_order_point = "select use_point from Gn_Gwc_Order where tjd_idx='{$row[no]}'";
+                                    $sql_order_point = "select use_point from Gn_Gwc_Order where tjd_idx='{$row['no']}'";
                                     $res_order_point = mysqli_query($self_con,$sql_order_point);
                                     $row_order_point = mysqli_fetch_array($res_order_point);
 

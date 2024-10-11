@@ -14,7 +14,7 @@ while($row=mysqli_fetch_array($result)) {
     $info["data"][$k]['no'] = $row['no'];
     $info["data"][$k]['title'] = $row['title'];
     //$info["data"][$k]['img_url'] = $row['img_url'];
-    $info["data"][$k]['move_url'] = "/cliente_list.php?status=1&one_no=$row[no]";
+    $info["data"][$k]['move_url'] = "/cliente_list.php?status=1&one_no={$row['no']}";
     $k++;
 }
 echo json_encode($info);

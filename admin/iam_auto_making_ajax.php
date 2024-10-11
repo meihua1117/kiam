@@ -89,7 +89,7 @@ while($row=mysqli_fetch_array($res)){
     curl_close($ch);
     if ($cerr) {
         echo('Fail get named:' . $cerr);
-        $query_contents = "update Gn_Iam_automem set status = 3,reg_date=now() where `No`='$row[No]'";
+        $query_contents = "update Gn_Iam_automem set status = 3,reg_date=now() where `No`='{$row['no']}'";
         mysqli_query($self_con,$query_contents);
     }else {
         $category = explode('CategoryProducts', $cr);
@@ -121,7 +121,7 @@ while($row=mysqli_fetch_array($res)){
         $iam_makingURL = '/?' . $short_url;
         $apply_link = '/admin/iam_auto_make_check.php?memid=' . $memid;
         $query_contents = "update Gn_Iam_automem set image1 ='$profile_image[0]',image2 ='$profile_image[1]',image3 ='$profile_image[2]',
-                        iam_making = '$iam_makingURL', apply_link = '$apply_link', status = 0,reg_date=now() where `No`='$row[No]'";
+                        iam_making = '$iam_makingURL', apply_link = '$apply_link', status = 0,reg_date=now() where `No`='{$row['no']}'";
         mysqli_query($self_con,$query_contents);
         $query_info = "insert into Gn_Iam_Info (mem_id,main_img1,main_img2,main_img3, reg_data) 
                     values ('$memid','$profile_image[0]','$profile_image[1]','$profile_image[2]', now())";

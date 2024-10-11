@@ -115,11 +115,11 @@ $(function(){
 					    $sql_serch.=" and category ='$category'";
 					}
 					$now = date("Y-m-d");
-					if($_REQUEST[end_date] == "Y")
+					if($_REQUEST['end_date'] == "Y")
 					{
 					    $sql_serch.=" and end_date < '$now'";
 					}					
-                    if($_REQUEST[end_date] == "N")
+                    if($_REQUEST['end_date'] == "N")
 					{
 					    $sql_serch.=" and end_date >= '$now'";
 					}										
@@ -183,7 +183,7 @@ $(function(){
                 <td><input type="checkbox" name=""></td>
                 <td><?=$sort_no?></td>
                 <td style="font-size:12px;"><?=$row[category]?></td>
-                <td style="font-size:12px;"><?=$row[start_date]?>~<br><?=$row[end_date]?></td>
+                <td style="font-size:12px;"><?=$row[start_date]?>~<br><?=$row['end_date']?></td>
                 <td style="font-size:12px;"><?=$row[lecture_day]?></td>
                 <td style="font-size:12px;"><?=$row[lecture_start_time]?>~<br><?=$row[lecture_end_time]?></td>
                 <td style="font-size:12px;"><?=$row[lecture_info]?></td>

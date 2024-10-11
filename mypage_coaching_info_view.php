@@ -111,7 +111,7 @@ $(function(){
                     <th>코칭시작</th>
                     <td><?=$coaching_info_data[start_date]?></td>
                     <th>코칭종료</th>
-                    <td><?=$coaching_info_data[end_date]?></td>
+                    <td><?=$coaching_info_data['end_date']?></td>
                 </tr>                    
  
                 <tr>
@@ -123,10 +123,10 @@ $(function(){
                          if($currentTime < $coaching_info_data[start_date]){
                             echo "<label class='label label-sm label-warning'>대기</label>";
 
-                         }else if($currentTime > $coaching_info_data[start_date] && $currentTime < $coaching_info_data[end_date]){
+                         }else if($currentTime > $coaching_info_data[start_date] && $currentTime < $coaching_info_data['end_date']){
                             echo "<label class='label label-sm label-primary'>진행중</label>";
                          }
-                         else if($currentTime > $coaching_info_data[end_date]){
+                         else if($currentTime > $coaching_info_data['end_date']){
                             echo "<label class='label label-sm label-danger'>종료</label>";
                          }
 

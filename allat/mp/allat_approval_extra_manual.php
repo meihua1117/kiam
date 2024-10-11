@@ -120,7 +120,7 @@ include_once "../../_head.php";
         $sresult=mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
         $srow=mysqli_fetch_array($sresult);	
         
-        //$sql_num_up="update Gn_MMS_Number set end_status='Y' , end_date=date_add(now(),INTERVAL {$ro[month_cnt]} month) where end_date = '$_POST[pay_ex_end_date]' and mem_id='{$member_1['mem_id']}' ";
+        //$sql_num_up="update Gn_MMS_Number set end_status='Y' , end_date=date_add(now(),INTERVAL {$ro['month_cnt']} month) where end_date = '$_POST[pay_ex_end_date]' and mem_id='{$member_1['mem_id']}' ";
         //mysqli_query($self_con,$sql_num_up) or die(mysqli_error($self_con));				    
 
     

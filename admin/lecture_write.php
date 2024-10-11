@@ -93,7 +93,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                         <th class="w200">일정</th>
                         <td>
                             <input type="text" name="start_date" id="start_date" placeholder=""  value="<?=$row[start_date]?>" style="width:100px" autocomplete="off"/> ~  
-                            <input type="text" name="end_date" id="end_date" placeholder=""  value="<?=$row[end_date]?>" style="width:100px" autocomplete="off"/> 
+                            <input type="text" name="end_date" id="end_date" placeholder=""  value="<?=$row['end_date']?>" style="width:100px" autocomplete="off"/> 
                         </td>
                     </tr>                    
                     <tr>

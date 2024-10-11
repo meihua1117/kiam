@@ -31,7 +31,7 @@ if($_POST[auto_pay_status]==1)
 	$inipay->startAction();	
 }
 $orderNumber=$member_1['mem_code']."_".date("ymdhis");
-//$cardquota=$_POST[month_cnt]<10?"0".$_POST[month_cnt]:$_POST[month_cnt];
+//$cardquota=$_POST['month_cnt']<10?"0".$_POST['month_cnt']:$_POST['month_cnt'];
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -104,7 +104,7 @@ window.onload=function()
     <input type="text" name="goodname" value="<?=$_POST[goodname]?>">
     <input type="text" name="mid" value="<?=$_POST[mid]?>">
     <input type="text" name="price" value="<?=$_POST[price]?>">
-    <input type="text" name="ini_offer_period" value="<?=date("Ymd").date("Ymd",strtotime("+{$_POST[month_cnt]} month"))?>">
+    <input type="text" name="ini_offer_period" value="<?=date("Ymd").date("Ymd",strtotime("+{$_POST['month_cnt']} month"))?>">
     <input type="text" name="print_msg" value="고객님의 매월 결제일은 <?=date("d")?>일 입니다.">
    	       
     <input type="text" name="authentification" value="01"> <!--본인인증 00 함 01 안함-->
@@ -135,7 +135,7 @@ window.onload=function()
     <input type="hidden" name="auto_pay_status">
     
     <input type="text" name="phone_cnt" value="<?=$_POST[add_phone]?>" />
-    <input type="text" name="month_cnt" value="<?=$_POST[month_cnt]?>" />
+    <input type="text" name="month_cnt" value="<?=$_POST['month_cnt']?>" />
     <input type="text" name="fujia_status" value="<?=$_POST[fujia_status]?>" />
     <input type="hidden" name="pay_ex_no" value="<?=$_POST[pay_ex_no]?>" />    
     <input type="hidden" name="pay_ex_end_date" value="<?=$_POST[pay_ex_end_date]?>" />     

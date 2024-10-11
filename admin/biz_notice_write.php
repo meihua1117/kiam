@@ -2,7 +2,7 @@
 include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
 include_once $_SERVER['DOCUMENT_ROOT']."/admin/include/admin_header.inc.php";
 extract($_GET);
-$sql_no="select * from tjd_sellerboard where no='$_REQUEST[no]'";
+$sql_no="select * from tjd_sellerboard where no='{$_REQUEST['no']}'";
 $resul_no=mysqli_query($self_con,$sql_no);
 $row_no=mysqli_fetch_array($resul_no);
 ?>
@@ -275,7 +275,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                 </tr>                                                         
                 <tr>
                     <td colspan="2" style="text-align:right;">
-                    	<a href="javascript:void(0)" onclick="sellerboard_save(board_write_form,'<?=$row_no[no]?>','11')"><img src="/images/client_2_3.jpg" /></a>
+                    	<a href="javascript:void(0)" onclick="sellerboard_save(board_write_form,'<?=$row_no['no']?>','11')"><img src="/images/client_2_3.jpg" /></a>
                     	<a href="notice_list.php"><img src="/images/client_2_4.jpg" /></a>                        
                     </td>
                 </tr>

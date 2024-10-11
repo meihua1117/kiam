@@ -359,7 +359,7 @@ $(function(){
                                     <td style="width:5%;">(<?=$row_db['cnt']?>)</td>                                    
                                     <td style="width:10%;"><input type="text" name="device" value="<?=$row[device]?>" /></td>
                                     <td style="width:23%;"><input type="text" name="memo3" value="<?=$row[memo3]?>" /></td>
-									<td style="width:17%;font-size:12px;"><?=$row[end_status]!="M"?substr($row[end_date],0,10):""?> (<?=$pay_phone_status[$row[end_status]]?>)</td>                                    
+									<td style="width:17%;font-size:12px;"><?=$row['end_status']!="M"?substr($row['end_date'],0,10):""?> (<?=$pay_phone_status[$row['end_status']]?>)</td>                                    
                                 </tr>
 								<?	$sort_no--;
 								}?>

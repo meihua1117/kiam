@@ -108,7 +108,7 @@ $data=mysqli_fetch_array($res);
     <input type="hidden" name="payMethod" id="payMethod" value='BANK'>
     <!--아이엠회원승인수-->
     <input type="hidden" name="member_cnt" id="member_cnt" value='<?=$_POST[member_cnt]?>'>
-    <input type="hidden" name="month_cnt" id="month_cnt" value='<?=$_POST[month_cnt]?>'>
+    <input type="hidden" name="month_cnt" id="month_cnt" value='<?=$_POST['month_cnt']?>'>
     <input type="hidden" name="member_type" id="member_type" value = "<?=$_POST[member_type]?>"/>
 
     <div class="big_main">

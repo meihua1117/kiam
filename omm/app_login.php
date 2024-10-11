@@ -65,7 +65,7 @@ if ($row['mem_id']) {
 			$query = "update Gn_MMS_Number set pkey='$pkey' where sendnum='$userNum'";
 			mysqli_query($self_con,$query);
 		} else {
-			$sql_in = "insert into Gn_MMS_Number set sendnum = '$userNum', pkey='$pkey', mem_id = '$userId', reg_date = now() , end_status='Y' , end_date='$row_pay[end_date]' $addQuery"; //신규등록
+			$sql_in = "insert into Gn_MMS_Number set sendnum = '$userNum', pkey='$pkey', mem_id = '$userId', reg_date = now() , end_status='Y' , end_date='{$row_pay['end_date']}' $addQuery"; //신규등록
 			mysqli_query($self_con,$sql_in);
 		}
 
@@ -86,7 +86,7 @@ if ($row['mem_id']) {
 				$result = "0"; //0이 로그인 성공						
 			} else {
 
-				$sql_in = "insert into Gn_MMS_Number set sendnum = '$userNum', mem_id = '$userId', reg_date = now() , end_status='Y' , end_date='$row_pay[end_date]' $addQuery"; //신규등록
+				$sql_in = "insert into Gn_MMS_Number set sendnum = '$userNum', mem_id = '$userId', reg_date = now() , end_status='Y' , end_date='{$row_pay['end_date']}' $addQuery"; //신규등록
 				mysqli_query($self_con,$sql_in);
 				$result = "0"; //0이 로그인 성공				
 			}

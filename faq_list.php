@@ -165,7 +165,7 @@ $result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 					if($member_1['mem_id']==$row_no['id'])
 					{
 					?>
-                    <a href="javascript:void(0)" onclick="board_del('<?=$row_no[no]?>','<?=$_REQUEST[status]?>')"><img src="images/client_1_5.jpg" /></a>
+                    <a href="javascript:void(0)" onclick="board_del('<?=$row_no['no']?>','<?=$_REQUEST[status]?>')"><img src="images/client_1_5.jpg" /></a>
                     <?
 					}
 					?>
@@ -207,13 +207,13 @@ $result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 					  {
 						?>
 						<tr>
-                            <td><label><input type="checkbox" value="<?=$row[no]?>" name="no_box"  /><?=$sort_no?></label></td>
+                            <td><label><input type="checkbox" value="<?=$row['no']?>" name="no_box"  /><?=$sort_no?></label></td>
                             <? if($_REQUEST[status]==2){?><td><?=$fl_arr[$row[fl]]?></td><? }?>
-                            <td style="text-align:left;padding-left:20px;"><a href="javascript:viewContent('a<?=$row[no]?>')"><?=$row[title]?></a></td>
+                            <td style="text-align:left;padding-left:20px;"><a href="javascript:viewContent('a<?=$row['no']?>')"><?=$row[title]?></a></td>
                             <!--<td><?=substr($row[date],0,10)?></td>
                             <td><?=$row[view_cnt]?></td>-->
 						</tr>
-						<tr id="a<?=$row[no]?>" style="display:none;" >
+						<tr id="a<?=$row['no']?>" style="display:none;" >
                             <td colspan="4"style="text-align:left;padding-left:80px;padding-top:10px; padding-bottom:10px; background-color:#CEECF5;"><?=html_entity_decode($row['content'])?></td>
 						</tr>						
 						<?

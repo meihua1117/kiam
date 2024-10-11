@@ -117,21 +117,21 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                             while($key_row=mysqli_fetch_array($result)){?>
                                 <tr>
                                     <th>
-                                        <input type="text" name="key_type" id="<?='key_type'.$key_row[no]?>" value="<?=$key_row[key_type]?>" style="width: 100%">
+                                        <input type="text" name="key_type" id="<?='key_type'.$key_row['no']?>" value="<?=$key_row[key_type]?>" style="width: 100%">
                                     </th>
                                     <td>
                                     <?if(strlen($key_row['key_content']) > 200){?>
-                                        <textarea name="key_content" id="<?='key_content'.$key_row[no]?>" style="width:100%;height:100px;"><?=htmlspecialchars_decode($key_row['key_content'])?></textarea>
+                                        <textarea name="key_content" id="<?='key_content'.$key_row['no']?>" style="width:100%;height:100px;"><?=htmlspecialchars_decode($key_row['key_content'])?></textarea>
                                     <?}
                                     else{?>
-                                        <input type="text" name="key_content" id="<?='key_content'.$key_row[no]?>" value="<?=$key_row['key_content']?>" style="width: 100%">
+                                        <input type="text" name="key_content" id="<?='key_content'.$key_row['no']?>" value="<?=$key_row['key_content']?>" style="width: 100%">
                                     <?}?>
                                     </td>
                                     <td>
-                                        <input type="text" name="key_content" id="<?='key_id'.$key_row[no]?>" value="<?=$key_row[key_id]?>" style="width: 100%">
+                                        <input type="text" name="key_content" id="<?='key_id'.$key_row['no']?>" value="<?=$key_row[key_id]?>" style="width: 100%">
                                     </td>
                                     <th>
-                                        <input type="button" onclick="save_key('<?=$key_row[no]?>')" name="key_save" id="<?='key_save'.$key_row[no]?>" value="저장" style="width: 100%">
+                                        <input type="button" onclick="save_key('<?=$key_row['no']?>')" name="key_save" id="<?='key_save'.$key_row['no']?>" value="저장" style="width: 100%">
                                     </th>
                                 </tr>
                             <?}?>

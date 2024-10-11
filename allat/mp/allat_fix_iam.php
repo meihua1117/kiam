@@ -44,7 +44,7 @@ if(!strcmp($REPLYCD,"0000")){//pay_test
     $address = $member_iam['mem_add1'];
     $status = "Y";
     $use_cnt = $row[db_cnt];
-    $last_time = date("Y-m-d H:i:s", strtotime("+$row[month_cnt] month"));
+    $last_time = date("Y-m-d H:i:s", strtotime("+{$row['month_cnt']} month"));
     $search_email_date = substr($last_time, 0, 10);
     $search_email_cnt = $row[email_cnt];
     $term = substr($last_time, 0, 10);

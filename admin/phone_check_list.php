@@ -382,7 +382,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;text-align:
                                             <td style="text-align:right"><?=$row["send_extra"]?></td>
                                             <td style="text-align:center"><?=$row['api_key']?></td>
                                             <td style="text-align:center">
-                                                <select onchange="change_type(this,'<?=$row[no]?>')">
+                                                <select onchange="change_type(this,'<?=$row['no']?>')">
                                                     <option value="phone" <?=$row['check_type'] == "phone"?"selected":""?>>폰문자인증</option>
                                                     <option value="web" <?=$row['check_type'] == 'web' ?"selected":""?>>웹문자인증</option>
                                                 </select>

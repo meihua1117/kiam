@@ -151,7 +151,7 @@ else
                         </tr>
                         <tr>
                             <td colspan="2" style="text-align:right;">
-                                <a href="javascript:void(0)" onclick="board_save(board_write_form,'<?= $row_no[no] ?>','<?= $_REQUEST[status] ?>')"><img src="images/client_2_3.jpg" /></a>
+                                <a href="javascript:void(0)" onclick="board_save(board_write_form,'<?= $row_no['no'] ?>','<?= $_REQUEST[status] ?>')"><img src="images/client_2_3.jpg" /></a>
                                 <a href="cliente_list.php?status=<?= $_REQUEST[status] ?>"><img src="images/client_2_4.jpg" /></a>
                             </td>
                         </tr>

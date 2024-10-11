@@ -9,7 +9,7 @@ $query = "select * from tjd_pay_result where no='$no'";
 $res = mysqli_query($self_con,$query);
 $row = mysqli_fetch_array($res);
 
-if($row[no] == "") exit;
+if($row['no'] == "") exit;
 if($row[stop_yn] == "Y") {
     $sql="update tjd_pay_result set  stop_yn='N' where no='$no' ";
     mysqli_query($self_con,$sql)or die(mysqli_error($self_con));

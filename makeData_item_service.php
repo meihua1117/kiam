@@ -34,13 +34,13 @@ if(isset($_POST['point_val'])){
     
     $current_point = $row_point['mem_cash'] * 1;
 
-    $_POST[month_cnt] = 90;
+    $_POST['month_cnt'] = 90;
     $sql_tjd = "insert into tjd_pay_result set idx='$_POST[allat_order_no]',
                                                 orderNumber='$_POST[allat_order_no]',
                                                 VACT_InputName='{$data['mem_name']}',
                                                 TotPrice='$_POST[allat_amt]',
-                                                month_cnt='$_POST[month_cnt]',
-                                                end_date=date_add(now(),INTERVAL {$_POST[month_cnt]} month),
+                                                month_cnt='{$_POST['month_cnt']}',
+                                                end_date=date_add(now(),INTERVAL {$_POST['month_cnt']} month),
                                                 end_status='N',
                                                 buyertel='$data[mem_phone]',
                                                 buyeremail='$data[mem_email]',
