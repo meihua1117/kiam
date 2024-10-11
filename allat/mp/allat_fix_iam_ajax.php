@@ -103,7 +103,7 @@ if(!strcmp($REPLYCD,"0000")){//pay_test
         $res_data = mysqli_query($self_con,$sql_data);
         $row_data = mysqli_fetch_array($res_data);
         
-        $sql_res = "insert into Gn_Item_Pay_Result set buyer_id='{$member_iam[mem_id]}', buyer_tel='{$row_data['mem_phone']}', item_name='씨드포인트충전', item_price=1000000, pay_percent=90, current_point={$row_data['mem_point']}, current_cash={$row_data[mem_cash]}, pay_status='Y', VACT_InputName='{$row_data[mem_name]}', type='buy', seller_id='{$member_iam[mem_id]}', pay_method='결제씨드충전', pay_date=now(), point_val=1";
+        $sql_res = "insert into Gn_Item_Pay_Result set buyer_id='{$member_iam[mem_id]}', buyer_tel='{$row_data['mem_phone']}', item_name='씨드포인트충전', item_price=1000000, pay_percent=90, current_point={$row_data['mem_point']}, current_cash={$row_data['mem_cash']}, pay_status='Y', VACT_InputName='{$row_data['mem_name']}', type='buy', seller_id='{$member_iam[mem_id]}', pay_method='결제씨드충전', pay_date=now(), point_val=1";
     
         mysqli_query($self_con,$sql_res);
     }

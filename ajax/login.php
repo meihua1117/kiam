@@ -62,14 +62,14 @@ if ($_POST['one_id'] && $_POST['one_pwd']) {
 			}
 		}
 		//login이력을 기록한다.
-		$sql = "select idx from gn_hist_login where userid='{$_POST['one_id']}' and ip='$_SERVER[REMOTE_ADDR]' and success='N' order by idx desc limit 0,1";
+		$sql = "select idx from gn_hist_login where userid='{$_POST['one_id']}' and ip='{$_SERVER['REMOTE_ADDR']}' and success='N' order by idx desc limit 0,1";
 		$resul = mysqli_query($self_con,$sql);
 		$hrow = mysqli_fetch_array($resul);
 		if ($hrow[0] != "") {
 			$sql = "update gn_hist_login set success='Y' where idx='$hrow[0]'";
 			$resul = mysqli_query($self_con,$sql);
 		} else {
-			$sql = "insert into gn_hist_login (domain,userid,position,ip,success) values('$site[0]', '{$_POST['one_id']}', 'selling', '$_SERVER[REMOTE_ADDR]', 'Y')";
+			$sql = "insert into gn_hist_login (domain,userid,position,ip,success) values('$site[0]', '{$_POST['one_id']}', 'selling', '{$_SERVER['REMOTE_ADDR']}', 'Y')";
 			$resul = mysqli_query($self_con,$sql);
 		}
 
@@ -108,7 +108,7 @@ if ($_POST['one_id'] && $_POST['one_pwd']) {
 		<?	} else {
 		//login이력을 기록한다.
 		$msg = "아이디 혹은 비밀번호가 틀렸습니다.";
-		$sql = "select idx,count from gn_hist_login where userid='{$_POST['one_id']}' and ip='$_SERVER[REMOTE_ADDR]' and success='N' order by idx desc limit 0,1";
+		$sql = "select idx,count from gn_hist_login where userid='{$_POST['one_id']}' and ip='{$_SERVER['REMOTE_ADDR']}' and success='N' order by idx desc limit 0,1";
 		$resul = mysqli_query($self_con,$sql);
 		$hrow = mysqli_fetch_array($resul);
 		if ($hrow[0] != "") {
@@ -130,7 +130,7 @@ if ($_POST['one_id'] && $_POST['one_pwd']) {
 				$msg = '귀하의 계정 정보가 현재 ' . $try_count . '회 오류입니다.\n5회 오류가 발생할 경우 계정찾기로 전환됩니다.\n다시한번 확인하시고 계정정보입력바랍니다.\n감사합니다.';
 			}
 		} else {
-			$sql = "insert into gn_hist_login (domain,userid,position,ip,count) values('$site[0]', '{$_POST['one_id']}', 'selling', '$_SERVER[REMOTE_ADDR]', count+1)";
+			$sql = "insert into gn_hist_login (domain,userid,position,ip,count) values('$site[0]', '{$_POST['one_id']}', 'selling', '{$_SERVER['REMOTE_ADDR']}', count+1)";
 			$resul = mysqli_query($self_con,$sql);
 		}
 		?>

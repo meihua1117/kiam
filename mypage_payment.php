@@ -1,7 +1,7 @@
 <?
 $path="./";
 include_once "_head.php";
-if(!$_SESSION[one_member_id]){
+if(!$_SESSION['one_member_id']){
     $chk = false;
 ?>
     <link type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.4/themes/base/jquery-ui.css" rel="stylesheet" />
@@ -12,7 +12,7 @@ if(!$_SESSION[one_member_id]){
 <?
     exit;
 }
-// $sql="select * from Gn_Member  where mem_id='".$_SESSION[one_member_id]."'";
+// $sql="select * from Gn_Member  where mem_id='".$_SESSION['one_member_id']."'";
 // $sresul_num=mysqli_query($self_con,$sql);
 // $member = $data=mysqli_fetch_array($sresul_num);
 ?>
@@ -43,7 +43,7 @@ $(function(){
         <div class="join">
         <!--//마이페이지 결제정보-->
         <?
-        $sql_serch=" buyer_id ='$_SESSION[one_member_id]' ";
+        $sql_serch=" buyer_id ='{$_SESSION['one_member_id']}' ";
         if($_REQUEST[search_date]){
             if($_REQUEST[rday1]){
                 $start_time=strtotime($_REQUEST[rday1]);
@@ -57,29 +57,29 @@ $(function(){
         $sql="select count(no) as cnt from tjd_pay_result where $sql_serch ";
         $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
         $row=mysqli_fetch_array($result);
-        $intRowCount=$row[cnt];
-        if (!$_POST[lno])
+        $intRowCount=$row['cnt'];
+        if (!$_POST['lno'])
             $intPageSize =20;
         else
-            $intPageSize = $_POST[lno];
-        if($_POST[page]){
-            $page=(int)$_POST[page];
+            $intPageSize = $_POST['lno'];
+        if($_POST['page']){
+            $page=(int)$_POST['page'];
             $sort_no=$intRowCount-($intPageSize*$page-$intPageSize);
         }else{
             $page=1;
             $sort_no=$intRowCount;
         }
-        if($_POST[page2])
-            $page2=(int)$_POST[page2];
+        if($_POST['page2'])
+            $page2=(int)$_POST['page2'];
         else
             $page2=1;
         $int=($page-1)*$intPageSize;
-        if($_REQUEST[order_status])
-            $order_status=$_REQUEST[order_status];
+        if($_REQUEST['order_status'])
+            $order_status=$_REQUEST['order_status'];
         else
             $order_status="desc";
-        if($_REQUEST[order_name])
-            $order_name=$_REQUEST[order_name];
+        if($_REQUEST['order_name'])
+            $order_name=$_REQUEST['order_name'];
         else
             $order_name="date";
         $intPageCount=(int)(($intRowCount+$intPageSize-1)/$intPageSize);
@@ -126,15 +126,15 @@ $(function(){
                             <tr>
                                 <td style="width:6%;">번호</td>
                                 <td style="width:6%;">회원등급</td>
-                                <td style="width:15%;"><a href="javascript:void(0)" onclick="order_sort(pay_form,'date',pay_form.order_status.value)">결제일<? if($_REQUEST[order_name]=="date"){echo $_REQUEST[order_status]=="desc"?'▼':'▲';}else{ echo '▼'; }?></a></td>
-                                <td style="width:15%;"><a href="javascript:void(0)" onclick="order_sort(pay_form,'end_date',pay_form.order_status.value)">만료(해지)일<? if($_REQUEST[order_name]=="end_date"){echo $_REQUEST[order_status]=="desc"?'▼':'▲';}else{ echo '▼'; }?></a></td>
-                                <td style="width:6%"><a href="javascript:void(0)" onclick="order_sort(pay_form,'month_cnt',pay_form.order_status.value)">개월수<? if($_REQUEST[order_name]=="month_cnt"){echo $_REQUEST[order_status]=="desc"?'▼':'▲';}else{ echo '▼'; }?></a></td>
-                                <td style="width:8%"><a href="javascript:void(0)" onclick="order_sort(pay_form,'fujia_status',pay_form.order_status.value)">결제상품<? if($_REQUEST[order_name]=="fujia_status"){echo $_REQUEST[order_status]=="desc"?'▼':'▲';}else{ echo '▼'; }?></a></td>
-                                <td style="width:10%;"><a href="javascript:void(0)" onclick="order_sort(pay_form,'payMethod',pay_form.order_status.value)">결제방식<? if($_REQUEST[order_name]=="payMethod"){echo $_REQUEST[order_status]=="desc"?'▼':'▲';}else{ echo '▼'; }?></a></td>
+                                <td style="width:15%;"><a href="javascript:void(0)" onclick="order_sort(pay_form,'date',pay_form.order_status.value)">결제일<? if($_REQUEST['order_name']=="date"){echo $_REQUEST['order_status']=="desc"?'▼':'▲';}else{ echo '▼'; }?></a></td>
+                                <td style="width:15%;"><a href="javascript:void(0)" onclick="order_sort(pay_form,'end_date',pay_form.order_status.value)">만료(해지)일<? if($_REQUEST['order_name']=="end_date"){echo $_REQUEST['order_status']=="desc"?'▼':'▲';}else{ echo '▼'; }?></a></td>
+                                <td style="width:6%"><a href="javascript:void(0)" onclick="order_sort(pay_form,'month_cnt',pay_form.order_status.value)">개월수<? if($_REQUEST['order_name']=="month_cnt"){echo $_REQUEST['order_status']=="desc"?'▼':'▲';}else{ echo '▼'; }?></a></td>
+                                <td style="width:8%"><a href="javascript:void(0)" onclick="order_sort(pay_form,'fujia_status',pay_form.order_status.value)">결제상품<? if($_REQUEST['order_name']=="fujia_status"){echo $_REQUEST['order_status']=="desc"?'▼':'▲';}else{ echo '▼'; }?></a></td>
+                                <td style="width:10%;"><a href="javascript:void(0)" onclick="order_sort(pay_form,'payMethod',pay_form.order_status.value)">결제방식<? if($_REQUEST['order_name']=="payMethod"){echo $_REQUEST['order_status']=="desc"?'▼':'▲';}else{ echo '▼'; }?></a></td>
                                 <td style="width:9%;">결제한<br />폰 수</td>
                                 <td style="width:9%;">등록된<br />건 수</td>
-                                <td style="width:10%;"><a href="javascript:void(0)" onclick="order_sort(pay_form,'TotPrice',pay_form.order_status.value)">결제금액<? if($_REQUEST[order_name]=="TotPrice"){echo $_REQUEST[order_status]=="desc"?'▼':'▲';}else{ echo '▼'; }?></a></td>
-                                <td style="width:12%;"><a href="javascript:void(0)" onclick="order_sort(pay_form,'end_status',pay_form.order_status.value)">상태<? if($_REQUEST[order_name]=="end_status"){echo $_REQUEST[order_status]=="desc"?'▼':'▲';}else{ echo '▼'; }?></a></td>
+                                <td style="width:10%;"><a href="javascript:void(0)" onclick="order_sort(pay_form,'TotPrice',pay_form.order_status.value)">결제금액<? if($_REQUEST['order_name']=="TotPrice"){echo $_REQUEST['order_status']=="desc"?'▼':'▲';}else{ echo '▼'; }?></a></td>
+                                <td style="width:12%;"><a href="javascript:void(0)" onclick="order_sort(pay_form,'end_status',pay_form.order_status.value)">상태<? if($_REQUEST['order_name']=="end_status"){echo $_REQUEST['order_status']=="desc"?'▼':'▲';}else{ echo '▼'; }?></a></td>
                             </tr>
                             <?
                             if($intRowCount){
@@ -181,7 +181,7 @@ $(function(){
                                         $sort_no--;
                                 }
 
-                                $sql_serch=" buyer_id ='$_SESSION[one_member_id]' ";
+                                $sql_serch=" buyer_id ='{$_SESSION['one_member_id']}' ";
                                 if($_REQUEST[search_date]){
                                     if($_REQUEST[rday1]){
                                         $start_time=strtotime($_REQUEST[rday1]);
@@ -195,29 +195,29 @@ $(function(){
                                 $sql="select count(no) as cnt from tjd_pay_result_db where $sql_serch ";
                                 $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
                                 $row=mysqli_fetch_array($result);
-                                $intRowCount=$row[cnt];
-                                if (!$_POST[lno])
+                                $intRowCount=$row['cnt'];
+                                if (!$_POST['lno'])
                                     $intPageSize =20;
                                 else
-                                    $intPageSize = $_POST[lno];
-                                if($_POST[page]){
-                                    $page=(int)$_POST[page];
+                                    $intPageSize = $_POST['lno'];
+                                if($_POST['page']){
+                                    $page=(int)$_POST['page'];
                                     $sort_no=$intRowCount-($intPageSize*$page-$intPageSize);
                                 }else{
                                     $page=1;
                                     $sort_no=$intRowCount;
                                 }
-                                if($_POST[page2])
-                                    $page2=(int)$_POST[page2];
+                                if($_POST['page2'])
+                                    $page2=(int)$_POST['page2'];
                                 else
                                     $page2=1;
                                 $int=($page-1)*$intPageSize;
-                                if($_REQUEST[order_status])
-                                    $order_status=$_REQUEST[order_status];
+                                if($_REQUEST['order_status'])
+                                    $order_status=$_REQUEST['order_status'];
                                 else
                                     $order_status="desc";
-                                if($_REQUEST[order_name])
-                                    $order_name=$_REQUEST[order_name];
+                                if($_REQUEST['order_name'])
+                                    $order_name=$_REQUEST['order_name'];
                                 else
                                     $order_name="end_status";
                                 $intPageCount=(int)(($intRowCount+$intPageSize-1)/$intPageSize);

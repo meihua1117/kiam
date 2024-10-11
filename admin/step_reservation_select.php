@@ -53,7 +53,7 @@ $res = mysqli_query($self_con,$query);
                     <td style="font-size:12px;"><?=$row[reservation_title]?></td>
                     <td><?=$row[reservation_desc]?></td>
                     <td><?=$srow['cnt']?></td>
-                    <td><?=$row[regdate]?></td>
+                    <td><?=$row['regdate']?></td>
                     <td>
                         <a href="/mypage_reservation_create.php?sms_idx=<?=$row['sms_idx']?>">수정</a>/<a href="javascript:;;" onclick="deleteRow('<?=$row['sms_idx']?>')">삭제</a>
                     </td>

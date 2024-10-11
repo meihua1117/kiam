@@ -1,7 +1,7 @@
 <?
 $path="./"; 
 include_once $_REQUEST[status]?"_head_open.php":"_head.php";
-if($_REQUEST[status2]==2)
+if($_REQUEST['status2']==2)
 {
 	if(!$fujia_pay)
 	{
@@ -13,7 +13,7 @@ if($_REQUEST[status2]==2)
 <script language="javascript">
 function deleteRow(idx) {
     if(confirm('삭제하시겠습니까?')) {
-        location = "msg_search.proc.php?mode=del&idx="+idx+"&status2=<?php echo $_GET[status2];?>";
+        location = "msg_search.proc.php?mode=del&idx="+idx+"&status2=<?php echo $_GET['status2'];?>";
     }
 }
 </script>
@@ -47,15 +47,15 @@ function deleteRow(idx) {
         <form name="msg_serch_form" method="post">
 					<div class="sub_4_3_t1">
                     	<div class="sub_4_1_t3">
-						<a href="msg_serch.php?status=1&status2=1" <?if($_REQUEST[status2]==1) echo "style='color:#9dff9d'";?>>LMS 문자</a>
+						<a href="msg_serch.php?status=1&status2=1" <?if($_REQUEST['status2']==1) echo "style='color:#9dff9d'";?>>LMS 문자</a>
 						<span style="margin: 20px"></span>
-						<a href="msg_serch.php?status=1&status2=2" <?if($_REQUEST[status2]==2) echo "style='color:#9dff9d'";?>>포토 문자</a>
+						<a href="msg_serch.php?status=1&status2=2" <?if($_REQUEST['status2']==2) echo "style='color:#9dff9d'";?>>포토 문자</a>
                         </div>
                         <?
-						switch($_REQUEST[status2])
+						switch($_REQUEST['status2'])
 						{
 							case 1:
-								$sql_serch=" mem_id ='$_SESSION[one_member_id]' and msg_type='A' ";
+								$sql_serch=" mem_id ='{$_SESSION['one_member_id']}' and msg_type='A' ";
 								if($_REQUEST[lms_text])
 								{
 									if($_REQUEST[lms_select])
@@ -66,26 +66,26 @@ function deleteRow(idx) {
 								$sql="select count(idx) as cnt from Gn_MMS_Message where $sql_serch ";
 								$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 								$row=mysqli_fetch_array($result);
-								$intRowCount=$row[cnt];
-								if($_POST[page])
-								$page=(int)$_POST[page];
+								$intRowCount=$row['cnt'];
+								if($_POST['page'])
+								$page=(int)$_POST['page'];
 								else
 								$page=1;
-								if($_POST[page2])
-								$page2=(int)$_POST[page2];
+								if($_POST['page2'])
+								$page2=(int)$_POST['page2'];
 								else
 								$page2=1;
-								if (!$_POST[lno]) 
+								if (!$_POST['lno']) 
 								$intPageSize =8;
 								else 
-								$intPageSize = $_POST[lno];
+								$intPageSize = $_POST['lno'];
 								$int=($page-1)*$intPageSize;
-								if($_REQUEST[order_status])
-								$order_status=$_REQUEST[order_status];
+								if($_REQUEST['order_status'])
+								$order_status=$_REQUEST['order_status'];
 								else
 								$order_status="desc"; 
-								if($_REQUEST[order_name])
-								$order_name=$_REQUEST[order_name];
+								if($_REQUEST['order_name'])
+								$order_name=$_REQUEST['order_name'];
 								else
 								$order_name="idx";
 								$intPageCount=(int)(($intRowCount+$intPageSize-1)/$intPageSize);     
@@ -166,7 +166,7 @@ function deleteRow(idx) {
 							<?
 							break;
 							case 2:
-								$sql_serch=" mem_id ='$_SESSION[one_member_id]' and msg_type='B' ";
+								$sql_serch=" mem_id ='{$_SESSION['one_member_id']}' and msg_type='B' ";
 									if($_REQUEST[lms_text])
 									{
 										if($_REQUEST[lms_select])
@@ -177,26 +177,26 @@ function deleteRow(idx) {
 									$sql="select count(idx) as cnt from Gn_MMS_Message where $sql_serch ";
 									$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 									$row=mysqli_fetch_array($result);
-									$intRowCount=$row[cnt];
-									if($_POST[page])
-									$page=(int)$_POST[page];
+									$intRowCount=$row['cnt'];
+									if($_POST['page'])
+									$page=(int)$_POST['page'];
 									else
 									$page=1;
-									if($_POST[page2])
-									$page2=(int)$_POST[page2];
+									if($_POST['page2'])
+									$page2=(int)$_POST['page2'];
 									else
 									$page2=1;
-									if (!$_POST[lno]) 
+									if (!$_POST['lno']) 
 									$intPageSize =8;
 									else 
-									$intPageSize = $_POST[lno];
+									$intPageSize = $_POST['lno'];
 									$int=($page-1)*$intPageSize;
-									if($_REQUEST[order_status])
-									$order_status=$_REQUEST[order_status];
+									if($_REQUEST['order_status'])
+									$order_status=$_REQUEST['order_status'];
 									else
 									$order_status="desc"; 
-									if($_REQUEST[order_name])
-									$order_name=$_REQUEST[order_name];
+									if($_REQUEST['order_name'])
+									$order_name=$_REQUEST['order_name'];
 									else
 									$order_name="idx";
 									$intPageCount=(int)(($intRowCount+$intPageSize-1)/$intPageSize);     

@@ -66,10 +66,10 @@ $domain_url = "http://www.kiam.kr";
 $HTTP_HOST = str_replace("www.","",$_SERVER['HTTP_HOST']);
 $REQUEST_URI = $_SERVER['REQUEST_URI'];
 if($_COOKIE[cookie_id])
-	$_SESSION[one_member_id]=$_COOKIE[cookie_id];
-if($_SESSION[iam_member_id])
+	$_SESSION['one_member_id']=$_COOKIE[cookie_id];
+if($_SESSION['iam_member_id'])
 {
-	$query = "select card_mode from Gn_Member where mem_id = '$_SESSION[iam_member_id]'";
+	$query = "select card_mode from Gn_Member where mem_id = '{$_SESSION['iam_member_id']}'";
 	$result = mysqli_query($self_con,$query);
 	$row = mysqli_fetch_array($result);
 	$card_mode = $row['card_mode'];
@@ -117,74 +117,74 @@ if($profile_color == "") {
     $profile_color = $profile_colors[rand(0, count($profile_colors) - 1)];
     $_SESSION["profile_color"] = $profile_color;
 }
-if($_REQUEST[one_no] && strlen($_REQUEST[one_no]) < 4)
+if($_REQUEST['one_no'] && strlen($_REQUEST['one_no']) < 4)
 {
-	$cookie_name="board_".$_REQUEST[status].$_REQUEST[one_no];
+	$cookie_name="board_".$_REQUEST[status].$_REQUEST['one_no'];
 	if(!$_COOKIE[$cookie_name]){
 		setcookie($cookie_name,"ok",time()+3600*24);
-		$sql_view="update tjd_board set view_cnt=view_cnt+1 where no='$_REQUEST[one_no]'";
+		$sql_view="update tjd_board set view_cnt=view_cnt+1 where no='{$_REQUEST['one_no']}'";
 		mysqli_query($self_con,$sql_view) or die(mysqli_error($self_con));
 	 }
-	$sql_no="select phone, email from tjd_board where no='$_REQUEST[one_no]'";
+	$sql_no="select phone, email from tjd_board where no='{$_REQUEST['one_no']}'";
 	$resul_no=mysqli_query($self_con,$sql_no);
 	$row_no=mysqli_fetch_array($resul_no);
-	$phone=explode("-",$row_no[phone]);
-	$email=explode("@",$row_no[email]); 
+	$phone=explode("-",$row_no['phone']);
+	$email=explode("@",$row_no['email']); 
 }
 
 /* 
 보안접속부분 추가
 */
-$admin_sql = "select mem_id from Gn_Admin where mem_id= '$_SESSION[one_member_id]'";
+$admin_sql = "select mem_id from Gn_Admin where mem_id= '{$_SESSION['one_member_id']}'";
 $admin_result = mysqli_query($self_con,$admin_sql);
 $admin_row = mysqli_fetch_array($admin_result);
 if ($admin_row[0] != "") {
-	$_SESSION[one_member_admin_id] = "";
+	$_SESSION['one_member_admin_id'] = "";
 	$secure_sql = "select secure_connect from gn_conf";
 	$secure_result = mysqli_query($self_con,$secure_sql);
 	$secure_row = mysqli_fetch_array($secure_result);
 	if ($secure_row[0] == 'Y') {
-		$secure_sql = "select idx from gn_admin_allowip where mem_id='$_SESSION[one_member_id]' and ip='$ip'";
+		$secure_sql = "select idx from gn_admin_allowip where mem_id='{$_SESSION['one_member_id']}' and ip='$ip'";
 		$secure_result = mysqli_query($self_con,$secure_sql);
 		$secure_row = mysqli_fetch_array($secure_result);	
 		if($secure_row[0] != "")	
-			$_SESSION[one_member_admin_id] = $_SESSION[one_member_id];
+			$_SESSION['one_member_admin_id'] = $_SESSION['one_member_id'];
 	}else{	
-		$_SESSION[one_member_admin_id] = $_SESSION[one_member_id];
+		$_SESSION['one_member_admin_id'] = $_SESSION['one_member_id'];
 	}
 }
 else
 {
-	$_SESSION[one_member_admin_id] = "";
+	$_SESSION['one_member_admin_id'] = "";
 }
 
-if ($_SESSION[one_member_subadmin_id] != "" && $_SESSION[one_member_subadmin_domain] == "test.kiam.kr") {
+if ($_SESSION['one_member_subadmin_id'] != "" && $_SESSION['one_member_subadmin_domain'] == "test.kiam.kr") {
 	$secure_sql = "select secure_connect from gn_conf";
 	$secure_result = mysqli_query($self_con,$secure_sql);
 	$secure_row = mysqli_fetch_array($secure_result);
     if ($secure_row[0] == 'Y') {
-		$secure_sql = "select idx from gn_admin_allowip where mem_id='$_SESSION[one_member_id]' and ip='$ip'";
+		$secure_sql = "select idx from gn_admin_allowip where mem_id='{$_SESSION['one_member_id']}' and ip='$ip'";
 		$secure_result = mysqli_query($self_con,$secure_sql);
 		$secure_row = mysqli_fetch_array($secure_result);	
 		if($secure_row[0] == "")	
-			$_SESSION[one_member_subadmin_id] = "";
+			$_SESSION['one_member_subadmin_id'] = "";
 	}
 }
 
 // 아이피 차단기능 추가
-$admin_sql = "select idx from gn_block_ip where ip= '$_SERVER[REMOTE_ADDR]'";
+$admin_sql = "select idx from gn_block_ip where ip= '{$_SERVER['REMOTE_ADDR']}'";
 $admin_result = mysqli_query($self_con,$admin_sql);
 $admin_row = mysqli_fetch_array($admin_result);
 if ($admin_row[0] != "") {
-	$_SESSION[one_member_id] = "";
-	$_SESSION[iam_member_id] = "";
-	$_SESSION[one_member_admin_id] = "";
-	$_SESSION[one_member_subadmin_domain] = "";
-	$_SESSION[iam_member_subadmin_domain] = "";
-	$_SESSION[one_member_subadmin_id] = "";
-	$_SESSION[iam_member_subadmin_id] = "";
-	$_SESSION[one_mem_leb] = "";
-	$_SESSION[iam_member_leb] = "";
+	$_SESSION['one_member_id'] = "";
+	$_SESSION['iam_member_id'] = "";
+	$_SESSION['one_member_admin_id'] = "";
+	$_SESSION['one_member_subadmin_domain'] = "";
+	$_SESSION['iam_member_subadmin_domain'] = "";
+	$_SESSION['one_member_subadmin_id'] = "";
+	$_SESSION['iam_member_subadmin_id'] = "";
+	$_SESSION['one_mem_leb'] = "";
+	$_SESSION['iam_member_leb'] = "";
 	exit;
 }
 function cross_image($url){
@@ -360,7 +360,7 @@ function get_member($id,$column="")
   $sql="select $column from Gn_Member where mem_id='$id' ";
   $resul=mysqli_query($self_con,$sql);
   $row=mysqli_fetch_array($resul);
-  if($row[mem_code])
+  if($row['mem_code'])
   return $row;		
 }
 $time=time();
@@ -372,9 +372,9 @@ $sql_pay_up="update tjd_pay_result p left join Gn_Service s on p.buyer_id = s.me
 mysqli_query($self_con,$sql_pay_up);
 $sql_num_up="update Gn_MMS_Number set end_status='N' where unix_timestamp(end_date) < $time and end_status='Y' ";
 mysqli_query($self_con,$sql_num_up);
-if($_SESSION[one_member_id]){
-	$member_1=get_member($_SESSION[one_member_id]);
-	if($member_1[fujia_date2]!="0000-00-00 00:00:00")	
+if($_SESSION['one_member_id']){
+	$member_1=get_member($_SESSION['one_member_id']);
+	if($member_1['fujia_date2']!="0000-00-00 00:00:00")	
 	$fujia_pay=true;
 	
 	$m_email_arr=explode("@",$member_1[mem_email]);
@@ -382,10 +382,10 @@ if($_SESSION[one_member_id]){
 	$m_birth_arr=explode("-",$member_1[mem_birth]);
 	
 	$format_month=date("Y-m");
-	$sql_format="select idx,format_date,sendnum from Gn_MMS_Number where mem_id='$_SESSION[one_member_id]' order by idx desc ";
+	$sql_format="select idx,format_date,sendnum from Gn_MMS_Number where mem_id='{$_SESSION['one_member_id']}' order by idx desc ";
 	$resul_format=mysqli_query($self_con,$sql_format);
 	while($row_format=mysqli_fetch_array($resul_format)){
-		if(!preg_match("/".$format_month."/i",$row_format[format_date])){
+		if(!preg_match("/".$format_month."/i",$row_format['format_date'])){
 			$sql_format_u="update Gn_MMS_Number set format_date=curdate(),cnt1=0,cnt2=0 where idx='$row_format[idx]' ";
 			mysqli_query($self_con,$sql_format_u);
 			$sql_d_result1 = "delete from Gn_MMS where result='1' and send_num='$row_format[sendnum]' and reservation < '$format_month'";
@@ -393,21 +393,21 @@ if($_SESSION[one_member_id]){
 		}
 	}
 
-	$sql_cnt_s="select idx,cnt1,cnt2,user_cnt from Gn_MMS_Number where mem_id='$_SESSION[one_member_id]' ";
+	$sql_cnt_s="select idx,cnt1,cnt2,user_cnt from Gn_MMS_Number where mem_id='{$_SESSION['one_member_id']}' ";
 	$resul_cnt_s=mysqli_query($self_con,$sql_cnt_s);
 	while($row_cnt_s=mysqli_fetch_array($resul_cnt_s))
 	{
-		if(($row_cnt_s[cnt1]==10 && $row_cnt_s[cnt2]==20) || ($row_cnt_s[cnt1]==10 && $row_cnt_s[user_cnt]>200))
+		if(($row_cnt_s['cnt1']==10 && $row_cnt_s['cnt2']==20) || ($row_cnt_s['cnt1']==10 && $row_cnt_s['user_cnt']>200))
 		{
 			//$sql_cnt_u=" update Gn_MMS_Number set user_cnt=0 where idx='$row_cnt_s[idx]' ";
 			//mysqli_query($self_con,$sql_cnt_u);
 		}		
 	}
 }
-if($_SESSION[iam_member_id])
+if($_SESSION['iam_member_id'])
 {
-	$member_iam=get_member($_SESSION[iam_member_id]);
-	if($member_iam[fujia_date2]!="0000-00-00 00:00:00")
+	$member_iam=get_member($_SESSION['iam_member_id']);
+	if($member_iam['fujia_date2']!="0000-00-00 00:00:00")
 		$fujia_pay=true;
 
 	$iam_email_arr=explode("@",$member_iam[mem_email]);
@@ -415,11 +415,11 @@ if($_SESSION[iam_member_id])
 	$iam_birth_arr=explode("-",$member_iam[mem_birth]);
 
 	$format_month=date("Y-m");
-	$sql_format="select idx,format_date,sendnum from Gn_MMS_Number where mem_id='$_SESSION[iam_member_id]' order by idx desc ";
+	$sql_format="select idx,format_date,sendnum from Gn_MMS_Number where mem_id='{$_SESSION['iam_member_id']}' order by idx desc ";
 	$resul_format=mysqli_query($self_con,$sql_format);
 	while($row_format=mysqli_fetch_array($resul_format))
 	{
-		if(!preg_match("/".$format_month."/i",$row_format[format_date]))
+		if(!preg_match("/".$format_month."/i",$row_format['format_date']))
 		{
 			$sql_format_u="update Gn_MMS_Number set format_date=curdate(),cnt1=0,cnt2=0 where idx='$row_format[idx]' ";
 			mysqli_query($self_con,$sql_format_u);
@@ -428,24 +428,24 @@ if($_SESSION[iam_member_id])
 		}
 	}
 
-	$sql_cnt_s="select idx,cnt1,cnt2,user_cnt from Gn_MMS_Number where mem_id='$_SESSION[iam_member_id]' ";
+	$sql_cnt_s="select idx,cnt1,cnt2,user_cnt from Gn_MMS_Number where mem_id='{$_SESSION['iam_member_id']}' ";
 	$resul_cnt_s=mysqli_query($self_con,$sql_cnt_s);
 	while($row_cnt_s=mysqli_fetch_array($resul_cnt_s))
 	{
-		if(($row_cnt_s[cnt1]==10 && $row_cnt_s[cnt2]==20) || ($row_cnt_s[cnt1]==10 && $row_cnt_s[user_cnt]>200))
+		if(($row_cnt_s['cnt1']==10 && $row_cnt_s['cnt2']==20) || ($row_cnt_s['cnt1']==10 && $row_cnt_s['user_cnt']>200))
 		{
 			//$sql_cnt_u=" update Gn_MMS_Number set user_cnt=0 where idx='$row_cnt_s[idx]' ";
 			//mysqli_query($self_con,$sql_cnt_u);
 		}
 	}
 }
-if(!$_SESSION[iam_member_id] && !$_SESSION[one_member_id])
+if(!$_SESSION['iam_member_id'] && !$_SESSION['one_member_id'])
 {
-	if(!$_SESSION[guest])
+	if(!$_SESSION['guest'])
 	{
 		$guest=str_replace(".","",$ip);
 		$guest=substr($guest,3,strlen($guest));
-		$_SESSION[guest]="손님".$guest;
+		$_SESSION['guest']="손님".$guest;
 	}
 }
 //타이틀부분
@@ -963,8 +963,8 @@ function cell_change_log ($now_num, $old_num) {
            
     */
     if(check_cellno($now_num) === false || check_cellno($old_num) === false) {
-        $return_result[code] = false;
-        $return_result[msg] = "번호 형식에 문제가 있습니다.";        
+        $return_result['code'] = false;
+        $return_result['msg'] = "번호 형식에 문제가 있습니다.";        
         return $return_result;
     }
         
@@ -973,8 +973,8 @@ function cell_change_log ($now_num, $old_num) {
     $result = mysqli_query($self_con,$query);
     $row = mysqli_fetch_array($result);
     if($row[0]) {
-        $return_result[code] = false;
-        $return_result[msg] = "신규 번호가 이미 변경된 로그가있습니다.";
+        $return_result['code'] = false;
+        $return_result['msg'] = "신규 번호가 이미 변경된 로그가있습니다.";
         return $return_result;
     }
     
@@ -983,8 +983,8 @@ function cell_change_log ($now_num, $old_num) {
     $result = mysqli_query($self_con,$query);
     $row = mysqli_fetch_array($result);
     if($row[0]) {
-        $return_result[code] = false;
-        $return_result[msg] = "과거 번호가 이미 변경된 로그가있습니다.";
+        $return_result['code'] = false;
+        $return_result['msg'] = "과거 번호가 이미 변경된 로그가있습니다.";
         return $return_result;
     }    
     
@@ -995,8 +995,8 @@ function cell_change_log ($now_num, $old_num) {
     
     if($row[0]) {
         // 변경 로그에 새 번호로 있을 경우 과거 번호로 변경후 
-        $return_result[code] = false;
-        $return_result[msg] = "이미 변경된 로그가있습니다.";
+        $return_result['code'] = false;
+        $return_result['msg'] = "이미 변경된 로그가있습니다.";
         return $return_result;        
     }
     
@@ -1243,7 +1243,7 @@ function sendmms($type, $userid, $sendnum, $recvnum, $rserv_time, $title, $conte
 
 function sendemail($time, $to, $from, $subject, $body, $file="", $gd_id="", $cc_mail=false, $bcc_mail=false)
 {
-	if($_SESSION[one_member_id] == "")
+	if($_SESSION['one_member_id'] == "")
 		return;
 
 	if($time != "")
@@ -1251,7 +1251,7 @@ function sendemail($time, $to, $from, $subject, $body, $file="", $gd_id="", $cc_
 		$now_date = date("Y-m-d H:i:s");
 		if($now_date < $time)
 		{
-			$query = "insert into gn_mail set mem_id='$_SESSION[one_member_id]',
+			$query = "insert into gn_mail set mem_id='{$_SESSION['one_member_id']}',
 												sender='$from',
 												receiver='$to',
 												title='$subject',
@@ -1409,7 +1409,7 @@ function set_service_mem_cnt($mem_id, $mem_cnt){
 	$res_data = mysqli_query($self_con,$sql_data);
 	$row_data = mysqli_fetch_array($res_data);
 
-	$sql_res = "insert into Gn_Item_Pay_Result set buyer_id='{$mem_id}', buyer_tel='{$row_data['mem_phone']}', item_name='씨드포인트충전', item_price=1000000, pay_percent=90, current_point={$row_data['mem_point']}, current_cash={$row_data[mem_cash]}, pay_status='Y', VACT_InputName='{$row_data[mem_name]}', type='buy', seller_id='{$mem_id}', pay_method='결제씨드충전', pay_date=now(), point_val=1";
+	$sql_res = "insert into Gn_Item_Pay_Result set buyer_id='{$mem_id}', buyer_tel='{$row_data['mem_phone']}', item_name='씨드포인트충전', item_price=1000000, pay_percent=90, current_point={$row_data['mem_point']}, current_cash={$row_data['mem_cash']}, pay_status='Y', VACT_InputName='{$row_data['mem_name']}', type='buy', seller_id='{$mem_id}', pay_method='결제씨드충전', pay_date=now(), point_val=1";
 
 	mysqli_query($self_con,$sql_res);
 }
@@ -1418,7 +1418,7 @@ function check_token($mem_id, $token){
 	$sql_chk = "select mem_token from Gn_Member where mem_id='{$mem_id}' and mem_token='{$token}'";
 	$res_chk = mysqli_query($self_con,$sql_chk);
 	$row_chk = mysqli_fetch_array($res_chk);
-	if($row_chk[mem_token] != ''){
+	if($row_chk['mem_token'] != ''){
 		return true;
 	}
 	else{
@@ -1578,12 +1578,12 @@ function set_gwc_delivery_state(){
 	$sql_state = "select id, delivery, delivery_no, delivery_state, delivery_set_date from Gn_Gwc_Order where delivery_no!='' and delivery_set_date!=''";
 	$res_state = mysqli_query($self_con,$sql_state);
 	while($row_state = mysqli_fetch_array($res_state)){
-		if($row_state[delivery_set_date] < $oneHourAgo && $row_state[delivery_set_date] > $fourHourAgo){
-			$sql_update = "update Gn_Gwc_Order set delivery_state=2 where id='{$row_state[id]}'";
+		if($row_state['delivery_set_date'] < $oneHourAgo && $row_state['delivery_set_date'] > $fourHourAgo){
+			$sql_update = "update Gn_Gwc_Order set delivery_state=2 where id='{$row_state['id']}'";
 			mysqli_query($self_con,$sql_update);
 		}
-		else if($row_state[delivery_set_date] < $fourHourAgo){
-			$sql_update = "update Gn_Gwc_Order set delivery_state=3 where id='{$row_state[id]}'";
+		else if($row_state['delivery_set_date'] < $fourHourAgo){
+			$sql_update = "update Gn_Gwc_Order set delivery_state=3 where id='{$row_state['id']}'";
 			mysqli_query($self_con,$sql_update);
 		}
 	}

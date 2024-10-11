@@ -1,7 +1,7 @@
 <?
 $path = "./";
 include_once "_head.php";
-if (!$_SESSION[one_member_id]) {
+if (!$_SESSION['one_member_id']) {
 ?>
     <script language="javascript">
         location.replace('/ma.php');
@@ -12,7 +12,7 @@ if (!$_SESSION[one_member_id]) {
 
 //Julian 2020-07-04 Problem 19 / 1 , repair top menu 
 
-$sql = "select * from Gn_Member  where mem_id='" . $_SESSION[one_member_id] . "'";
+$sql = "select * from Gn_Member  where mem_id='" . $_SESSION['one_member_id'] . "'";
 $sresul_num = mysqli_query($self_con,$sql);
 $member = $data = mysqli_fetch_array($sresul_num);
 if ($_REQUEST[rday1]) {
@@ -90,7 +90,7 @@ if ($_REQUEST[rday2]) {
                     </tr>
                     <?
                     $nowPage = $_REQUEST['page'] ? $_REQUEST['page'] : 1;
-                    $startPage = $_REQUEST[page] ? $_REQUEST[page] : 1;
+                    $startPage = $_REQUEST['page'] ? $_REQUEST['page'] : 1;
                     $pageCnt = 20;
 
 
@@ -132,7 +132,7 @@ if ($_REQUEST[rday2]) {
                     $order = $order ? $order : "desc";
 
                     $query = "select * from Gn_Member gm left join tjd_pay_result p on p.buyer_id = gm.mem_id 
-                	                        where recommend_id = '" . $_SESSION[one_member_id] . "' $searchStr";
+                	                        where recommend_id = '" . $_SESSION['one_member_id'] . "' $searchStr";
 
 
 
@@ -146,15 +146,15 @@ if ($_REQUEST[rday2]) {
 
                     $intPageSize = 20;
 
-                    if ($_REQUEST[page]) {
-                        $page = (int)$_REQUEST[page];
+                    if ($_REQUEST['page']) {
+                        $page = (int)$_REQUEST['page'];
                         $sort_no = $intRowCount - ($intPageSize * $page - $intPageSize);
                     } else {
                         $page = 1;
                         $sort_no = $intRowCount;
                     }
-                    if ($_REQUEST[page2])
-                        $page2 = (int)$_REQUEST[page2];
+                    if ($_REQUEST['page2'])
+                        $page2 = (int)$_REQUEST['page2'];
                     else
                         $page2 = 1;
                     $int = ($page - 1) * $intPageSize;
@@ -192,7 +192,7 @@ if ($_REQUEST[rday2]) {
                         <tr>
                             <td><?= $number-- ?></td>
                             <td><?= $new_val ?></td>
-                            <td><?= $row[mem_name] ?></td>
+                            <td><?= $row['mem_name'] ?></td>
                             <td><?= $row[mem_id] ?></td>
                             <td><?= $row[mem_phone] ?></td>
 

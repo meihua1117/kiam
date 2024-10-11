@@ -15,7 +15,7 @@ if($HTTP_HOST != "kiam.kr") {
 }
 
 if(!$mem_id) {
-	$mem_id = trim($_SESSION[iam_member_id]);
+	$mem_id = trim($_SESSION['iam_member_id']);
 }
 if($_GET['type']){
 	$type = $_GET['type'];
@@ -77,7 +77,7 @@ if($_GET['type']){
 							}
 						?>
 						<div class="search-box clearfix J2" id="friends_search">
-							<?if($_SESSION[iam_member_id] == $mem_id) {?>
+							<?if($_SESSION['iam_member_id'] == $mem_id) {?>
 							<div class="row" style='margin-left: 8px;margin-bottom: 0px;margin-top: 7px; '>
 								<div class="left">
 									<div id="friends_chk_count" class="selects">0개 선택됨</div>
@@ -99,7 +99,7 @@ if($_GET['type']){
 							<div class="contact-list">
 								<ul>
 									<?
-									if($_SESSION[iam_member_subadmin_id] != "" && $_SESSION[iam_member_subadmin_domain] == $HTTP_HOST) {
+									if($_SESSION['iam_member_subadmin_id'] != "" && $_SESSION['iam_member_subadmin_domain'] == $HTTP_HOST) {
 										$do = explode(".", $HTTP_HOST);
 										$searchStr .= " and a.site_iam = '$do[0]'";
 									}
@@ -164,7 +164,7 @@ if($_GET['type']){
 											$href = "";
 										}
 										else{
-											$href = "/?".$diplay_row[friends_url].$row6[mem_code];
+											$href = "/?".$diplay_row[friends_url].$row6['mem_code'];
 										}?>
 										<li class="list-item">
 											<div class="item-wrap">
@@ -178,7 +178,7 @@ if($_GET['type']){
 												<div class="info">
 													<div class="upper">
 														<span class="name">
-															<?=$row6[mem_name]?>
+															<?=$row6['mem_name']?>
 														</span>
 														<span class="company"><?=$row6[mem_id]?></span>
 													</div>
@@ -187,8 +187,8 @@ if($_GET['type']){
 													</div>
 												</div>
 												<div class="check">
-													<input type="checkbox" name="friends_chk" id="inputItem<?=$row6[mem_code]?>" class="friends checkboxes input css-checkbox ####<?=$row6[mem_code]?>" onclick='friends_chk_count() ' value="<?=$row6[mem_code]?>" data-name = "<?=$row6[mem_id]?>">
-													<label for="inputItem<?=$row6[mem_code]?>" class="css-label cb0" data-name = "<?=$row6[mem_id]?>"></label>
+													<input type="checkbox" name="friends_chk" id="inputItem<?=$row6['mem_code']?>" class="friends checkboxes input css-checkbox ####<?=$row6['mem_code']?>" onclick='friends_chk_count() ' value="<?=$row6['mem_code']?>" data-name = "<?=$row6[mem_id]?>">
+													<label for="inputItem<?=$row6['mem_code']?>" class="css-label cb0" data-name = "<?=$row6[mem_id]?>"></label>
 													<input type="hidden" name="friends_idx<?=$row6['mem_code']?>" id="friends_idx<?=$row6['mem_code']?>" value="<?=$row6['mem_phone']?>">
 												</div>
 											</div>
@@ -272,7 +272,7 @@ if($_GET['type']){
 			console.log(str);
 			var isExist = false;
 			for(var j = 0 ; j < id_array.length ;j++){
-				if(id_array[j] == str || str == '<?=$_SESSION[iam_member_id]?>'){
+				if(id_array[j] == str || str == '<?=$_SESSION['iam_member_id']?>'){
 					isExist = true;
 					break;
 				}
@@ -357,7 +357,7 @@ if($_GET['type']){
 			var name = $("input[name=friends_chk]:checked").eq(i).data("name");
 			var isExist = false;
 			for(var j = 0 ; j < id_array.length ;j++){
-				if(id_array[j] == str || str == '<?=$_SESSION[iam_member_id]?>'){
+				if(id_array[j] == str || str == '<?=$_SESSION['iam_member_id']?>'){
 					isExist = true;
 					break;
 				}

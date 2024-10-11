@@ -1,10 +1,10 @@
 <?php 
 include_once $_SERVER['DOCUMENT_ROOT']."/m/include_once/iam.header.inc.php";
-if($_SESSION[iam_member_id] == "") {
+if($_SESSION['iam_member_id'] == "") {
     echo "<script>location='/m/';</script>";
 }
 include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
-$sql="select * from Gn_Member  where mem_id='".$_SESSION[iam_member_id]."'";
+$sql="select * from Gn_Member  where mem_id='".$_SESSION['iam_member_id']."'";
 $sresul_num=mysqli_query($self_con,$sql);
 $data=mysqli_fetch_array($sresul_num);	
 $m_birth_arr = explode("-",$data[mem_birth]);
@@ -68,7 +68,7 @@ $m_birth_arr = explode("-",$data[mem_birth]);
                     </div>
                     <h2 class="title">회원정보수정</h2>
                     <form name="join_form" id="join_form" method="post" enctype="multipart/form-data">
-                        <input type="hidden" name="join_modify" value="<?php echo $data[mem_code]?>">
+                        <input type="hidden" name="join_modify" value="<?php echo $data['mem_code']?>">
                         <input type="hidden" name="id" value="<?php echo $data[mem_id]?>">
                         <input type="hidden" name="pwd" value="<?php echo $data[mem_id]?>">
                         <section class="input-field">

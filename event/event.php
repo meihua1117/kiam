@@ -16,7 +16,7 @@
 
 
     	if($data['status_yn'] == "N") {
-    	    echo '<meta http-equiv="content-type" content="text/html; charset=euc-kr"/><Script>alert("?¬ìš©ì?ì¢…ë£Œ?œ ?œ?©ì…?ˆ??");</script>';
+    	    echo '<meta http-equiv="content-type" content="text/html; charset=euc-kr"/><Script>alert("?ï¿½ìš©ï¿½?ì¢…ë£Œ?ï¿½ ?ï¿½?ï¿½ì…?ï¿½??");</script>';
     	    exit;
     	}
 
@@ -43,25 +43,25 @@
 	if($page_title == "") $page_title = $row['event_title'];
 
 
-// ?¨ë¦¬? ?˜ë¹„?œ ?¤ì´ë????ë³???™ë§??
+// ?ï¿½ë¦¬?ï¿½ ?ï¿½ë¹„?ï¿½ ?ï¿½ì´ï¿½????ï¿½ï¿½??ï¿½?ï¿½ë§??
 	if($landing_idx == "783") {
 		$direct_url = "https://smartstore.naver.com/misohealth/products/4899608486";
 		echo("<script>location.href = '$direct_url';</script>");
 	}			
 
-//?„?´ì—  ?„ë¡œ?„ ???ì°©í•œê¸°ì—…?Œê°œ 	??™ë§??
+//?ï¿½?ï¿½ì—  ?ï¿½ë¡œ?ï¿½ ?ï¿½??ì°©í•œê¸°ì—…?ï¿½ê°œ 	?ï¿½?ï¿½ë§??
 	if($landing_idx == "787") {
 		$direct_url = "https://smartstore.naver.com/misohealth/products/2878753669";
 		echo("<script>location.href = '$direct_url';</script>");
 	}
 	
-//	ê¹€?¸ê? ?€?œ ?„?´ì—  ??™ ë§??
+//	ê¹€?ï¿½ï¿½? ?ï¿½?ï¿½ ?ï¿½?ï¿½ì—  ?ï¿½?ï¿½ ë§??
 	if($landing_idx == "790") {
 		$direct_url = "https://kiam.kr/?EtYTwm9OZn";
 		echo("<script>location.href = '$direct_url';</script>");
 	}	
 	
-//?„?´ì—  ê³µìœ ?•ë³´ë”ë³´ê¸° ??™ë§??
+//?ï¿½?ï¿½ì—  ê³µìœ ?ï¿½ë³´ë”ë³´ê¸° ?ï¿½?ï¿½ë§??
 	if($landing_idx == "788") {
 		$direct_url = "https://oog.kiam.kr/pages/page_3302.php";
 		echo("<script>location.href = '$direct_url';</script>");
@@ -150,7 +150,7 @@
 					location.href = "/?cur_win=request_list";
 				},
 				error: function(){
-					alert('ì´ˆê¸°í™” ?¤íŒ?);
+					alert('ì´ˆê¸°í™” ?ï¿½ï¿½?);
 				}
 			});
 			return false;
@@ -178,49 +178,49 @@
 				success: function (response) {
 					if (response == "id=dup") {
 						document.getElementById('id_reg').value = 0;
-						document.getElementById('id_text').innerHTML = '<span class="jftxt_r">ì¤‘ë³µëœ  ?„?´ë”” ?…?ˆ??</span>';
+						document.getElementById('id_text').innerHTML = '<span class="jftxt_r">ì¤‘ë³µëœ  ?ï¿½?ï¿½ë”” ?ï¿½?ï¿½??</span>';
 					} else if (response == "id=nouse") {
 						document.getElementById('id_reg').value = 0;
-						document.getElementById('id_text').innerHTML = '<span class="jftxt_r">?¬ìš©í•  ?˜ ?†?” ?„?´ë”” ?…?ˆ??</span>';
+						document.getElementById('id_text').innerHTML = '<span class="jftxt_r">?ï¿½ìš©í•  ?ï¿½ ?ï¿½?ï¿½ ?ï¿½?ï¿½ë”” ?ï¿½?ï¿½??</span>';
 					} else if (response == "id=use") {
 						document.getElementById('id_reg').value = 1;
-						document.getElementById('id_text').innerHTML = '<span class="jftxt_b">?¬ìš©ê??¥í•©ë‹ˆ??</span>';
+						document.getElementById('id_text').innerHTML = '<span class="jftxt_b">?ï¿½ìš©ï¿½??ï¿½í•©ë‹ˆ??</span>';
 					} else if (response == "email=dup") {
 						document.getElementById('email_reg').value = 0;
-						document.getElementById('email_text').innerHTML = '<span class="jftxt_r">ì¤‘ë³µëœ ?´ë????…?ˆ??</span>';
+						document.getElementById('email_text').innerHTML = '<span class="jftxt_r">ì¤‘ë³µëœ ?ï¿½ï¿½????ï¿½?ï¿½??</span>';
 					} else if (response == "email=reuse") {
 						document.getElementById('email_reg').value = 0;
-						document.getElementById('email_text').innerHTML = '<span class="mftxt_r">?¬ìš©ì????´ë????…?ˆ??</span>';
+						document.getElementById('email_text').innerHTML = '<span class="mftxt_r">?ï¿½ìš©ï¿½????ï¿½ï¿½????ï¿½?ï¿½??</span>';
 					} else if (response == "email=nouse") {
 						document.getElementById('email_reg').value = 0;
-						document.getElementById('email_text').innerHTML = '<span class="mftxt_r">?¬ìš©í•  ?˜ ?†?” ?´ë????…?ˆ??</span>';
+						document.getElementById('email_text').innerHTML = '<span class="mftxt_r">?ï¿½ìš©í•  ?ï¿½ ?ï¿½?ï¿½ ?ï¿½ï¿½????ï¿½?ï¿½??</span>';
 					} else if (response == "email=use") {
 						document.getElementById('email_reg').value = 1;
-						document.getElementById('email_text').innerHTML = '<span class="mftxt_b">?¬ìš©ê??¥í•©ë‹ˆ??</span>';
+						document.getElementById('email_text').innerHTML = '<span class="mftxt_b">?ï¿½ìš©ï¿½??ï¿½í•©ë‹ˆ??</span>';
 					} else if (response == "nick=dup") {
 						document.getElementById('nick_reg').value = 0;
-						document.getElementById('nick_text').innerHTML = '<span class="jftxt_r">ì¤‘ë³µëœ ?‰?¤ì„ ?…?ˆ??</span>';
+						document.getElementById('nick_text').innerHTML = '<span class="jftxt_r">ì¤‘ë³µëœ ?ï¿½?ï¿½ì„ ?ï¿½?ï¿½??</span>';
 					} else if (response == "nick=nouse") {
 						document.getElementById('nick_reg').value = 0;
-						document.getElementById('nick_text').innerHTML = '<span class="jftxt_r">?¬ìš©í•  ?˜ ?†?” ?‰?¤ì„ ?…?ˆ??</span>';
+						document.getElementById('nick_text').innerHTML = '<span class="jftxt_r">?ï¿½ìš©í•  ?ï¿½ ?ï¿½?ï¿½ ?ï¿½?ï¿½ì„ ?ï¿½?ï¿½??</span>';
 					} else if (response == "nick=use") {
 						document.getElementById('nick_reg').value = 1;
-						document.getElementById('nick_text').innerHTML = '<span class="jftxt_b">?¬ìš©ê??¥í•©ë‹ˆ??</span>';
+						document.getElementById('nick_text').innerHTML = '<span class="jftxt_b">?ï¿½ìš©ï¿½??ï¿½í•©ë‹ˆ??</span>';
 					} else if (response == "id2=dup") {
 						document.getElementById('id_reg').value = 0;
-						document.getElementById('id2_text').innerHTML = '<span class="jftxt_r">ì¤‘ë³µëœ ?„?´ë”” ?…?ˆ??</span>';
+						document.getElementById('id2_text').innerHTML = '<span class="jftxt_r">ì¤‘ë³µëœ ?ï¿½?ï¿½ë”” ?ï¿½?ï¿½??</span>';
 					} else if (response == "id2=nouse") {
 						document.getElementById('id_reg').value = 0;
-						document.getElementById('id2_text').innerHTML = '<span class="jftxt_r">?¬ìš©í•  ?˜ ?†?” ?„?´ë”” ?…?ˆ??</span>';
+						document.getElementById('id2_text').innerHTML = '<span class="jftxt_r">?ï¿½ìš©í•  ?ï¿½ ?ï¿½?ï¿½ ?ï¿½?ï¿½ë”” ?ï¿½?ï¿½??</span>';
 					} else if (response == "id2=use") {
 						document.getElementById('id_reg').value = 1;
-						document.getElementById('id2_text').innerHTML = '<span class="jftxt_b">?¬ìš©ê??¥í•©ë‹ˆ??</span>';
+						document.getElementById('id2_text').innerHTML = '<span class="jftxt_b">?ï¿½ìš©ï¿½??ï¿½í•©ë‹ˆ??</span>';
 					} else {
 						document.getElementById('id_reg').value = 0;
-						document.getElementById('id_text').innerHTML = '<span class="jftxt_r">?¬ìš©í•  ?˜ ?†?” ?„?´ë”” ?…?ˆ??</span>';
+						document.getElementById('id_text').innerHTML = '<span class="jftxt_r">?ï¿½ìš©í•  ?ï¿½ ?ï¿½?ï¿½ ?ï¿½?ï¿½ë”” ?ï¿½?ï¿½??</span>';
 						document.getElementById('id_text').innerHTML = response;
 						document.getElementById('email_reg').value = 0;
-						document.getElementById('email_text').innerHTML = '<span class="mftxt_r">?¬ìš©í•  ?˜ ?†?” ?´ë????…?ˆ??</span>';
+						document.getElementById('email_text').innerHTML = '<span class="mftxt_r">?ï¿½ìš©í•  ?ï¿½ ?ï¿½?ï¿½ ?ï¿½ï¿½????ï¿½?ï¿½??</span>';
 					}
 				}
 			});
@@ -231,12 +231,12 @@
 			var reg_id = document.getElementById('id_reg').value;
 
 			if (reg_id != 1) {
-				alert("ê°€?…?  ?˜ ?ˆ?” ?´ëŒ€??ë²ˆ?¸ë? ?…?¥í•´ì£¼?¸ìš”.");
+				alert("ê°€?ï¿½?ï¿½ ?ï¿½ ?ï¿½?ï¿½ ?ï¿½ëŒ€??ë²ˆ?ï¿½ï¿½? ?ï¿½?ï¿½í•´ì£¼?ï¿½ìš”.");
 				document.getElementById('id1').focus();
 				return false;
 			}
 			if (!pattern.test(hp)) {
-				alert("?´ëŒ€??ë²ˆ?¸ë? ?•?? ë§ê²Œ ?…?¥í•?ì£¼ì„¸ìš”. '-' ë¥??£ì—ˆ?”ì§€ ?•?¸í•˜?¸ìš”.");
+				alert("?ï¿½ëŒ€??ë²ˆ?ï¿½ï¿½? ?ï¿½?ï¿½?ï¿½ ë§ê²Œ ?ï¿½?ï¿½ï¿½?ì£¼ì„¸ìš”. '-' ï¿½??ï¿½ì—ˆ?ï¿½ì§€ ?ï¿½?ï¿½í•˜?ï¿½ìš”.");
 				document.getElementById('id1').focus();
 				return false;
 			}
@@ -246,10 +246,10 @@
 				data: 'hp=' + hp + '&val=0',
 				success: function (response) {
 					if (response == "000 " || response == "000") {
-						document.getElementById('approval_text').innerHTML = '<span class="jftxt_b">?¸ì?ë²ˆ?¸ë? ?„?¡í•˜?€?µë‹ˆ??</span>';
+						document.getElementById('approval_text').innerHTML = '<span class="jftxt_b">?ï¿½ï¿½?ë²ˆ?ï¿½ï¿½? ?ï¿½?ï¿½í•˜?ï¿½?ï¿½ë‹ˆ??</span>';
 
 					} else {
-						document.getElementById('approval_text').innerHTML = '<span class="jftxt_b">?¸ì?ë²ˆ??ë°œ?¡ì— ?¤íŒ¨í–ˆ?µë‹ˆ?? [' + response + ']</span>';
+						document.getElementById('approval_text').innerHTML = '<span class="jftxt_b">?ï¿½ï¿½?ë²ˆ??ë°œ?ï¿½ì— ?ï¿½íŒ¨í–ˆ?ï¿½ë‹ˆ?? [' + response + ']</span>';
 					}
 				}
 			});
@@ -261,10 +261,10 @@
 			var reg_id = document.getElementById('id_reg').value;
 
 			if (sms_approval.length != 6) {
-				document.getElementById('approval_text').innerHTML = '<span class="jftxt_b">?¸ì?ë²ˆ?¸ë? ?…?¥í•´ì£¼?¸ìš”.</span>';
+				document.getElementById('approval_text').innerHTML = '<span class="jftxt_b">?ï¿½ï¿½?ë²ˆ?ï¿½ï¿½? ?ï¿½?ï¿½í•´ì£¼?ï¿½ìš”.</span>';
 			}
 			//if(!pattern.test(hp)) {
-			//	alert("?´ëŒ€??ë²ˆ?¸ë? ?•?? ë§ê²Œ ?…?¥í•?ì£¼ì„¸ìš”. '-' ë¥??£ì—ˆ?”ì§€ ?•?¸í•˜?¸ìš”.");
+			//	alert("?ï¿½ëŒ€??ë²ˆ?ï¿½ï¿½? ?ï¿½?ï¿½?ï¿½ ë§ê²Œ ?ï¿½?ï¿½ï¿½?ì£¼ì„¸ìš”. '-' ï¿½??ï¿½ì—ˆ?ï¿½ì§€ ?ï¿½?ï¿½í•˜?ï¿½ìš”.");
 			//	document.getElementById('id1').focus();
 			//	return false;
 			//}
@@ -276,9 +276,9 @@
 				success: function (response) {
 					if (response == "1") {
 						document.getElementById('approval_reg').value = 1;
-						document.getElementById('approval_text').innerHTML = '<span class="jftxt_b">?¸ì?ë²ˆ?¸ê? ë§?µë‹ˆ??</span>';
+						document.getElementById('approval_text').innerHTML = '<span class="jftxt_b">?ï¿½ï¿½?ë²ˆ?ï¿½ï¿½? ë§?ï¿½ë‹ˆ??</span>';
 					} else {
-						document.getElementById('approval_text').innerHTML = '<span class="jftxt_b">?¸ì?ë²ˆ?¸ê? ë§ì§€ ?Š?µë‹ˆ??</span>';
+						document.getElementById('approval_text').innerHTML = '<span class="jftxt_b">?ï¿½ï¿½?ë²ˆ?ï¿½ï¿½? ë§ì§€ ?ï¿½?ï¿½ë‹ˆ??</span>';
 					}
 				}
 			});
@@ -286,9 +286,9 @@
 		function hp_certify_focus() {
 			var reg_id = document.getElementById('id_reg').value;
 			if (reg_id != 1) {
-				document.getElementById('approval_text').innerHTML = '<span class="jftxt_b">?¬ìš©í•  ?˜ ?ˆ?” ?´ëŒ€?°ì„ ?…?¥í•´ì£¼?¸ìš”.</span>';
+				document.getElementById('approval_text').innerHTML = '<span class="jftxt_b">?ï¿½ìš©í•  ?ï¿½ ?ï¿½?ï¿½ ?ï¿½ëŒ€?ï¿½ì„ ?ï¿½?ï¿½í•´ì£¼?ï¿½ìš”.</span>';
 			} else {
-				document.getElementById('approval_text').innerHTML = '<span class="jftxt_b">?¸ì?ë²ˆ?¸ë?ê¸°ë? ?Œ?¬ì£¼?¸ìš”.</span>';
+				document.getElementById('approval_text').innerHTML = '<span class="jftxt_b">?ï¿½ï¿½?ë²ˆ?ï¿½ï¿½?ê¸°ï¿½? ?ï¿½?ï¿½ì£¼?ï¿½ìš”.</span>';
 			}
 		}
 
@@ -332,7 +332,7 @@
 	}
 	if($mode && $chk && $over=="yes") {
 	//referer_check();
-	if($chk!=$_SESSION['join']) alert('ì¤‘ë³µê??…??ë°©ì? ?˜?ˆ?µë‹ˆ??');
+	if($chk!=$_SESSION['join']) alert('ì¤‘ë³µï¿½??ï¿½??ë°©ï¿½? ?ï¿½?ï¿½?ï¿½ë‹ˆ??');
 	$ipcheck=$_SERVER['REMOTE_ADDR'];
 	$sql="insert into Gn_event_request set landing_idx='$landing_idx',
 	event_idx='$event_idx',
@@ -349,7 +349,7 @@
 
 	";
 	sql_query($sql);
-	alert("?‘?˜ ?˜?ˆ?µë‹ˆ?? ê°?¬í•©ë‹ˆ??","/opb/index.php");
+	alert("?ï¿½?ï¿½ ?ï¿½?ï¿½?ï¿½ë‹ˆ?? ê°?ï¿½í•©ë‹ˆ??","/opb/index.php");
 	} elseif($mode && $chk) {
 	}
 	if(!$mode) $mode="JOIN";
@@ -371,20 +371,20 @@
 
 	if($_POST['mode']=="speech") {
 		if($_POST['name']=="") {
-			alerting('? ì²­?ëª…?„ ?…?¥í•´ì£¼?¸ìš”');
+			alerting('?ï¿½ì²­?ï¿½ëª…?ï¿½ ?ï¿½?ï¿½í•´ì£¼?ï¿½ìš”');
 			//} else if($_POST['email']=="") {
-			//	alerting('? ì²­? ?´ë??¼ì„ ?…?¥í•´ì£¼?¸ìš”.');
+			//	alerting('?ï¿½ì²­?ï¿½ ?ï¿½ï¿½??ï¿½ì„ ?ï¿½?ï¿½í•´ì£¼?ï¿½ìš”.');
 			//} else if(strpos($_POST['email'],"@")<=0) {
-			//alerting('?´ë????•?? ë§ê²Œ ?…?¥í•´ì£¼?¸ìš”.');
+			//alerting('?ï¿½ï¿½????ï¿½?ï¿½?ï¿½ ë§ê²Œ ?ï¿½?ï¿½í•´ì£¼?ï¿½ìš”.');
 			} else if($_POST['mobile']=="") {
-			alerting('?„?”ë²ˆ?¸ë? ?…?¥í•´ì£¼?¸ìš”. ');
+			alerting('?ï¿½?ï¿½ë²ˆ?ï¿½ï¿½? ?ï¿½?ï¿½í•´ì£¼?ï¿½ìš”. ');
 			//} else if($_POST['job']=="") {
-			//	alerting('ì§?…?„ ?…?¥í•´ì£¼?¸ìš”.');
+			//	alerting('ì§?ï¿½?ï¿½ ?ï¿½?ï¿½í•´ì£¼?ï¿½ìš”.');
 			} else if($_POST['sp']=="") {
-			alerting('? ì²­ê°•ì¢Œë¥??…?¥í•´ì£¼?¸ìš”.');
+			alerting('?ï¿½ì²­ê°•ì¢Œï¿½??ï¿½?ï¿½í•´ì£¼?ï¿½ìš”.');
 			} 
 		// 	else if($join_yn =='Y' && $row333){
-		// 		alerting('ê·??„?”ë²ˆ?¸ëŠ” ?´ë¯??±ë??˜?ˆ?µë‹ˆ??');
+		// 		alerting('ï¿½??ï¿½?ï¿½ë²ˆ?ï¿½ëŠ” ?ï¿½ï¿½??ï¿½ï¿½??ï¿½?ï¿½?ï¿½ë‹ˆ??');
 		// }
 		else {
 			$ipcheck=$_SERVER['REMOTE_ADDR'];
@@ -402,7 +402,7 @@
 				$result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
 				$check_data = $row=mysqli_fetch_array($result);
 				if($check_data['secret_key'] != $rnum) {
-					echo "<script>alert('?¸ì?ë²ˆ?¸ë? ?•?¸í•´ì£¼?¸ìš”.');history.go(-1);</script>";
+					echo "<script>alert('?ï¿½ï¿½?ë²ˆ?ï¿½ï¿½? ?ï¿½?ï¿½í•´ì£¼?ï¿½ìš”.');history.go(-1);</script>";
 					exit;
 				}
 			}
@@ -456,14 +456,14 @@
 			{
 				$reg = time();
 
-				// ?‘?˜?´ìš??‘?˜??ê²Œ ?„??
-				$stitle = "?´ë²¤??? ì²­ ?´ì—­";
+				// ?ï¿½?ï¿½?ï¿½ï¿½??ï¿½?ï¿½?ï¿½?ï¿½ê²Œ ?ï¿½??
+				$stitle = "?ï¿½ë²¤???ï¿½ì²­ ?ï¿½ì—­";
 				$scontent = "
-				? ì²­?´ì£¼?”?œ ê°?¬í•©ë‹ˆ??\n\n
-				$name ?˜!\n
-				? ì²­?˜?  ?´ìš©ì??˜ ?‘?˜?˜?ˆ?µë‹ˆ??\n
-				?´í›„ ?„?”?œ ?ˆ?´ë‚˜ ?•ë³´ë? ?°ë½ë“œë¦¬ê??µë‹ˆ??\n
-				?˜ ?‰ë³µí•˜?¸ìš”!! \n";
+				?ï¿½ì²­?ï¿½ì£¼?ï¿½?ï¿½ ê°?ï¿½í•©ë‹ˆ??\n\n
+				$name ?ï¿½!\n
+				?ï¿½ì²­?ï¿½?ï¿½ ?ï¿½ìš©ï¿½??ï¿½ ?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½ë‹ˆ??\n
+				?ï¿½í›„ ?ï¿½?ï¿½?ï¿½ ?ï¿½?ï¿½ë‚˜ ?ï¿½ë³´ï¿½? ?ï¿½ë½ë“œë¦¬ï¿½??ï¿½ë‹ˆ??\n
+				?ï¿½ ?ï¿½ë³µí•˜?ï¿½ìš”!! \n";
 				
 				sendmms(1, $mem_id, $send_num, $recv_num, "", $stitle, $scontent, "", "", "", "Y");	
 	
@@ -475,7 +475,7 @@
 	
 					//$send_num = $lrow['mobile'];
 	
-					//?Œ?Œ?±ë?
+					//?ï¿½?ï¿½?ï¿½ï¿½?
 					$sql="select * from Gn_event_sms_info where sms_idx='$sms_idx'";
 					$result=mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
 					$row=mysqli_fetch_array($result);
@@ -486,7 +486,7 @@
 					
 					$k = 0;
 					while($row=mysqli_fetch_array($result)) {
-						// ?œê°„ ?•??
+						// ?ï¿½ê°„ ?ï¿½??
 						$k++;
 	
 						$send_day = $row['send_day'];
@@ -538,7 +538,7 @@
 	
 				if($join_yn=='Y') {
 				
-					//?Œ?ê°€?…
+					//?ï¿½?ï¿½ê°€?ï¿½
 					$sql3="select sub_domain FROM Gn_Service WHERE sub_domain like '%kiam.kr' And mem_id='$m_id'";
 					$res=mysqli_query($self_con, $sql3);
 					$row1 = mysqli_fetch_array($res);
@@ -591,7 +591,7 @@
 					mem_add1='$addr',
 					mem_email='$email',
 					mem_sex='$sex',
-					join_ip='$_SERVER[REMOTE_ADDR]'
+					join_ip='{$_SERVER['REMOTE_ADDR']}'
 					";
 					mysqli_query($self_con, $query);
 					$mem_code = mysqli_insert_id($self_con);
@@ -600,26 +600,26 @@
 	
 			}
 			if(!$res1) {
-				alerting('? ì²­?‘?˜? ?¤íŒ¨í–ˆ?µë‹ˆ??');
+				alerting('?ï¿½ì²­?ï¿½?ï¿½?ï¿½ ?ï¿½íŒ¨í–ˆ?ï¿½ë‹ˆ??');
 			} else {
 				echo "<script>var msg = ''; ";
-				echo "msg+='? ì²­?´ì£¼?”?œ ê°?¬í•©ë‹ˆ??\\n\\n';";
-				echo "msg+='$name ?˜!\\n';";
-				echo "msg+='? ì²­?˜?  ?´ìš©ì??˜ ?‘?˜?˜?ˆ?µë‹ˆ??\\n';";
-				echo "msg+='?´í›„ ?„?”?œ ?ˆ?´ë‚˜ ?•ë³´ë? ?°ë½ë“œë¦¬ê??µë‹ˆ??\\n';";
+				echo "msg+='?ï¿½ì²­?ï¿½ì£¼?ï¿½?ï¿½ ê°?ï¿½í•©ë‹ˆ??\\n\\n';";
+				echo "msg+='$name ?ï¿½!\\n';";
+				echo "msg+='?ï¿½ì²­?ï¿½?ï¿½ ?ï¿½ìš©ï¿½??ï¿½ ?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½ë‹ˆ??\\n';";
+				echo "msg+='?ï¿½í›„ ?ï¿½?ï¿½?ï¿½ ?ï¿½?ï¿½ë‚˜ ?ï¿½ë³´ï¿½? ?ï¿½ë½ë“œë¦¬ï¿½??ï¿½ë‹ˆ??\\n';";
 				echo "msg+='\\n';";
-				echo "msg+='?˜ ?‰ë³µí•˜?¸ìš”!!\\n';";
+				echo "msg+='?ï¿½ ?ï¿½ë³µí•˜?ï¿½ìš”!!\\n';";
 
 				/*
-				echo "msg+='? ì²­?´ì£¼?”?œ ê°?¬í•©ë‹ˆ??\\n';";
-				echo "msg+='ê³ ê°?˜?˜ ? ì²­?•ë³´ëŠ” ?¤ìŒê³?ê°™?µë‹ˆ?? \\n';";
-				echo "msg+='1)? ì²­? : $name \\n';";
-				echo "msg+='2)?´ë???: $email \\n';";
-				echo "msg+='3)ì§?… : $job \\n';";
-				echo "msg+='4)? ì²­?‰??: $pcode \\n';";
-				echo "msg+='5)? ì²­ê²½ë? : $sp \\n\\n';";
-				echo "msg+='?„?˜ ?•ë³´ë? ê³ ê°?˜?ê²Œ ?•ê¸°ì ?¼ë? ê³„??˜?” ?´ë²¤?¸ì •ë³´ì™€ ?ˆ?´ì •ë³´ë? ë³´ë‚´ë“œë¦¬ê??µë‹ˆ?? \\n\\n';";
-				echo "msg+='ê°?¬í•©ë‹ˆ??';";
+				echo "msg+='?ï¿½ì²­?ï¿½ì£¼?ï¿½?ï¿½ ê°?ï¿½í•©ë‹ˆ??\\n';";
+				echo "msg+='ê³ ê°?ï¿½?ï¿½ ?ï¿½ì²­?ï¿½ë³´ëŠ” ?ï¿½ìŒï¿½?ê°™?ï¿½ë‹ˆ?? \\n';";
+				echo "msg+='1)?ï¿½ì²­?ï¿½ : $name \\n';";
+				echo "msg+='2)?ï¿½ï¿½???: $email \\n';";
+				echo "msg+='3)ì§?ï¿½ : $job \\n';";
+				echo "msg+='4)?ï¿½ì²­?ï¿½??: $pcode \\n';";
+				echo "msg+='5)?ï¿½ì²­ê²½ï¿½? : $sp \\n\\n';";
+				echo "msg+='?ï¿½?ï¿½ ?ï¿½ë³´ï¿½? ê³ ê°?ï¿½?ï¿½ê²Œ ?ï¿½ê¸°ì ?ï¿½ï¿½? ê³„?ï¿½?ï¿½?ï¿½ ?ï¿½ë²¤?ï¿½ì •ë³´ì™€ ?ï¿½?ï¿½ì •ë³´ï¿½? ë³´ë‚´ë“œë¦¬ï¿½??ï¿½ë‹ˆ?? \\n\\n';";
+				echo "msg+='ê°?ï¿½í•©ë‹ˆ??';";
 				*/
 				if($join_yn=='Y') {
 					echo "alert(msg);gotoLogin('$userid','$passwd','$mem_code');</script>";
@@ -655,11 +655,11 @@
 	<script>
 		function checkForm() {
 			if ($('#agree').is(":checked") == false) {
-				alert('ê°œ?¸ì •ë³´ì´ìš©ë™?˜ ?´ì£¼?¸ìš”.')
+				alert('ê°œ?ï¿½ì •ë³´ì´ìš©ë™?ï¿½ ?ï¿½ì£¼?ï¿½ìš”.')
 				return false;
 			}
 			if($("#no_mem").prop('checked') && $("#id_html").text() == ''){
-				alert('?„?´ë”” ì¤‘ë³µí™•?¸ì„ ?´ì£¼?¸ìš”.')
+				alert('?ï¿½?ï¿½ë”” ì¤‘ë³µí™•?ï¿½ì„ ?ï¿½ì£¼?ï¿½ìš”.')
 				return false;
 			}
 		}
@@ -714,21 +714,21 @@
 			});
 		});
 
-		//?„?´ë”” ì¤‘ë³µí™•??
+		//?ï¿½?ï¿½ë”” ì¤‘ë³µí™•??
 		function id_check(frm, frm_str) {
 			if (!frm.id.value) {
 				frm.id.focus();
 				return;
 			}
 			if (frm.id.value.length < 4) {
-				alert('?„?´ë””?” 4? ?´ìƒ ?¬ìš©ì?ê°€?¥í•©ë‹ˆ??')
+				alert('?ï¿½?ï¿½ë””?ï¿½ 4?ï¿½ ?ï¿½ìƒ ?ï¿½ìš©ï¿½?ê°€?ï¿½í•©ë‹ˆ??')
 				frm.id.focus();
 				return;
 
 			}
 			var pattern = /(^([a-z0-9]+)([a-z0-9_]+$))/;
 			if (!pattern.test(frm.id.value)) {
-				document.getElementById('id_html').innerHTML = '?¬ë?ë¥??Œ??„?´ë”” ?•????„?™?ˆ??';
+				document.getElementById('id_html').innerHTML = '?ï¿½ï¿½?ï¿½??ï¿½?ï¿½?ï¿½?ï¿½ë”” ?ï¿½?ï¿½???ï¿½?ï¿½?ï¿½??';
 				frm.id_status.value = ''
 				frm.id.value = ''
 				frm.id.focus();
@@ -747,12 +747,12 @@
 			})
 		}
 
-		//ë¹„ë°€ë²ˆ???¬í™•??
+		//ë¹„ë°€ë²ˆ???ï¿½í™•??
 		function pwd_cfm_check(i) {
 			if ($('#join_yn').prop("checked")) {
 				if (!document.getElementsByName('pwd_cfm')[i].value) return;
 				if (document.getElementsByName('pwd_cfm')[i].value != document.getElementsByName('pwd')[i].value) {
-					$($(".pwd_cfm_html")[i]).html("?ë²ˆ ?…?¥í•œ ë¹„ë°€ë²ˆ?¸ê? ?€ë¦½ë‹ˆ??");
+					$($(".pwd_cfm_html")[i]).html("?ï¿½ë²ˆ ?ï¿½?ï¿½í•œ ë¹„ë°€ë²ˆ?ï¿½ï¿½? ?ï¿½ë¦½ë‹ˆ??");
 					document.getElementsByName('pwd_status')[i].value = '';
 					document.getElementsByName('pwd_cfm')[i].focus();
 					return
@@ -769,7 +769,7 @@
 	<div id="table" class="form-body">
 		<?if($data['file']){?>
 		<div style="text-align:center">
-			<a href="/upload/<?php echo $data['file'];?>" style="font-weight:bold;font-size:16px" target="_blank">ì²¨ë??Œ???¤ìš´ë??œ</a>
+			<a href="/upload/<?php echo $data['file'];?>" style="font-weight:bold;font-size:16px" target="_blank">ì²¨ï¿½??ï¿½???ï¿½ìš´ï¿½??ï¿½</a>
 		</div>
 		<?}?>
 		<?php
@@ -779,8 +779,8 @@
 				<?php include "mypage_left_menu.php";?>
 				<div class="m_body">
 					<div style="text-align:center;background:#4b657c">
-						<p style="font-size:2.125rem;font-weight:bold;font-family:KoPubDotum; color: #FFFFFF;">?¨ë¦¬??Œ?«í??„êµ­ ?¤ë??Œ ë° êµ???¼ì •</p>
-						<a href="https://blog.naver.com/onlyonemj18/222646448643" style="font-weight:bold;font-size:25px;color:yellow" target="_blank">[?„êµ­ì§€?­?¼í„°ì™€ ?¬ì—…??ë³´ê¸°]   </a>
+						<p style="font-size:2.125rem;font-weight:bold;font-family:KoPubDotum; color: #FFFFFF;">?ï¿½ë¦¬?ï¿½?ï¿½?ï¿½ï¿½??ï¿½êµ­ ?ï¿½ï¿½??ï¿½ ë° êµ???ï¿½ì •</p>
+						<a href="https://blog.naver.com/onlyonemj18/222646448643" style="font-weight:bold;font-size:25px;color:yellow" target="_blank">[?ï¿½êµ­ì§€?ï¿½?ï¿½í„°ì™€ ?ï¿½ì—…??ë³´ê¸°]   </a>
 					</div>
 					<form name="pay_form" action="" method="post" class="my_pay">
 						<input type="hidden" name="lecture_id" value="<?php echo $row['lecture_id'];?>" />
@@ -791,7 +791,7 @@
 						<input type="hidden" name="page" value="<?=$page?>" />
 						<input type="hidden" name="page2" value="<?=$page2?>" />
 						<div class="a1" style="margin-top:15px; margin-bottom:15px;color: #FFFFFF">
-							<li style="float:left;">ê°•??êµ?¡ê³¼?• ?…?¥ê²°ê³¼ë³´ê¸?/li>
+							<li style="float:left;">ê°•??êµ?ï¿½ê³¼?ï¿½ ?ï¿½?ï¿½ê²°ê³¼ë³´ï¿½?/li>
 							<li style="float:right;"></li>
 							<p style="clear:both"></p>
 						</div>
@@ -800,7 +800,7 @@
 								<div class="left">
 									<label class="check-item">
 										<input type="radio" name="category" value="" checked>
-										?„ì²?
+										?ï¿½ï¿½?
 									</label>
 									<label class="check-item">
 										<input type="radio" name="category" value="ê°•?? <?php echo $_REQUEST['category']=="ê°•?? ?"checked":""?>>
@@ -811,8 +811,8 @@
 										êµ??
 									</label>
 									<label class="check-item">
-										<input type="radio" name="category" value="??" <?php echo $_REQUEST['category']=="??" ?"checked":""?>>
-										??
+										<input type="radio" name="category" value="?ï¿½?ï¿½" <?php echo $_REQUEST['category']=="?ï¿½?ï¿½" ?"checked":""?>>
+										?ï¿½?ï¿½
 									</label>
 									<input type="text" name="search_text" placeholder="" id="search_text" value="<?=$_REQUEST['search_text']?>" />
 									<a href="javascript:void(0)" id="searchC" onclick="$('#pay_form').submit()"><img src="/images/sub_mypage_11.jpg" /></a>
@@ -820,14 +820,14 @@
 
 
 								<div class="right">
-									<label class="check-item"><input type="radio" name="end_date" value="">?„ì²?/label>
-									<label class="check-item"><input type="radio" name="end_date" value="Y" <?php echo ($_REQUEST['end_date']=="Y"||$_REQUEST['end_date']=="")?"checked":""?>>ì§„?‰?„ë£Œ</label>
-									<label class="check-item"><input type="radio" name="end_date" value="N" <?php echo $_REQUEST['end_date']=="N"?"checked":""?>>ì§„?‰ì¤‘</label>
+									<label class="check-item"><input type="radio" name="end_date" value="">?ï¿½ï¿½?/label>
+									<label class="check-item"><input type="radio" name="end_date" value="Y" <?php echo ($_REQUEST['end_date']=="Y"||$_REQUEST['end_date']=="")?"checked":""?>>ì§„?ï¿½?ï¿½ë£Œ</label>
+									<label class="check-item"><input type="radio" name="end_date" value="N" <?php echo $_REQUEST['end_date']=="N"?"checked":""?>>ì§„?ï¿½ì¤‘</label>
 								</div>
 							</div>
 
-							<div style="text-align:center; color:#0075FF;font-size:15px;"> <b>?»ê??˜? ì²­ë°©ë? : ì°¸ì—¬í•˜ê³  ?¶ì€ ê°•?˜?œëª©ì„ ?•?¸í•œ ?„? ì°¸ì—¬ì‹ ì²­?˜ê¸?ë²„?¼ì„ ?´ë¦­?˜?”?œ
-									? ì²­?©ë‹ˆ??/b></style>
+							<div style="text-align:center; color:#0075FF;font-size:15px;"> <b>?ï¿½ï¿½??ï¿½?ï¿½ì²­ë°©ï¿½? : ì°¸ì—¬í•˜ê³  ?ï¿½ì€ ê°•?ï¿½?ï¿½ëª©ì„ ?ï¿½?ï¿½í•œ ?ï¿½?ï¿½ ì°¸ì—¬ì‹ ì²­?ï¿½ï¿½?ë²„?ï¿½ì„ ?ï¿½ë¦­?ï¿½?ï¿½?ï¿½
+									?ï¿½ì²­?ï¿½ë‹ˆ??/b></style>
 							</div>
 
 							<script>
@@ -913,7 +913,7 @@
 								}
 							</script>
 							<?
-								//?ë³´ë ™?¸ê?ë¥?ì²´í¬í•œ??	
+								//?ï¿½ë³´ë ™?ï¿½ï¿½?ï¿½?ì²´í¬í•œ??	
 								$member_id = $data['m_id'];								
 								$sql="select mem_leb FROM Gn_Member WHERE mem_id='$member_id'";
 								$res=mysqli_query($self_con, $sql);
@@ -925,20 +925,20 @@
 										<tr>
 											<th class="no">No</th>
 											<th class="category">ë¶„??/th>
-											<th class="date">?¼ì •/ê¸°ê?</th>
-											<th class="day">?”??/th>
-											<th class="time">ê°•?˜<br>?œê°„</th>
-											<th class="title">ê°•?˜?œëª?/a></th>
-											<th class="teacher">ê°•?¬ì´ë?</th>
-											<th class="place">ì§€?­/?¥ì†Œ<br>(?´ë¦­)</th>
-											<th class="object">ì°¸ì—¬ëŒ€?</th>
-											<th class="limit">?•?</th>
+											<th class="date">?ï¿½ì •/ê¸°ï¿½?</th>
+											<th class="day">?ï¿½??/th>
+											<th class="time">ê°•?ï¿½<br>?ï¿½ê°„</th>
+											<th class="title">ê°•?ï¿½?ï¿½ï¿½?/a></th>
+											<th class="teacher">ê°•?ï¿½ì´ï¿½?</th>
+											<th class="place">ì§€?ï¿½/?ï¿½ì†Œ<br>(?ï¿½ë¦­)</th>
+											<th class="object">ì°¸ì—¬ëŒ€?ï¿½</th>
+											<th class="limit">?ï¿½?ï¿½</th>
 											<th class="price">ë¹„??/th>
 											<?if($memrow['mem_leb'] != "60"){?>
-											<th class="request">? ì²­</th>
+											<th class="request">?ï¿½ì²­</th>
 											<?}?>
 											<!--
-												<th>?˜?•/?­?œ</th>
+												<th>?ï¿½?ï¿½/?ï¿½?ï¿½</th>
 												-->
 										</tr>
 									</thead>
@@ -1089,17 +1089,17 @@
 											<td>
 												<?=$row['max_num']?>ëª…</td>
 											<td>
-												<?=$row['fee']==0?"ë¬´ë?":$row['fee']."?"?>
+												<?=$row['fee']==0?"ë¬´ï¿½?":$row['fee']."?ï¿½"?>
 											</td>
 											<?if($memrow['mem_leb'] != "60"){?>
 											<td>
-												<input type="button" value="? ì²­?˜ê¸? class="button" onclick="viewEvent('<?php echo $crow['short_url']?>')">
+												<input type="button" value="?ï¿½ì²­?ï¿½ï¿½? class="button" onclick="viewEvent('<?php echo $crow['short_url']?>')">
 											</td>
 											<?}?>
 
 											<!--
 												<td>
-													<a href='mypage_lecture_write.php?lecture_id=<?php echo $row['lecture_id'];?>'>?˜?•</a>/<a href="javascript:;;" onclick="removeRow('<?php echo $row['lecture_id'];?>')">?­?œ</a>
+													<a href='mypage_lecture_write.php?lecture_id=<?php echo $row['lecture_id'];?>'>?ï¿½?ï¿½</a>/<a href="javascript:;;" onclick="removeRow('<?php echo $row['lecture_id'];?>')">?ï¿½?ï¿½</a>
 												</td>
 												-->
 										</tr>
@@ -1121,7 +1121,7 @@
 											?>
 										<tr>
 											<td colspan="14">
-												ê²€?‰?œ ?´ìš©ì??†?µë‹ˆ??
+												ê²€?ï¿½?ï¿½ ?ï¿½ìš©ï¿½??ï¿½?ï¿½ë‹ˆ??
 											</td>
 										</tr>
 										<?
@@ -1130,7 +1130,7 @@
 									</tbody>
 								</table>
 								<!--
-									<input type="button" value="?œ???˜?´ì? ?­?œ" class="button">
+									<input type="button" value="?ï¿½???ï¿½?ï¿½ï¿½? ?ï¿½?ï¿½" class="button">
 									-->
 							</div>
 						</div>
@@ -1141,7 +1141,7 @@
 	</div>
 
 	<div class="review-button clearfix">
-		<input type="button" value="ê°•?˜? ì²­?˜ê¸? onClick="gotoApply()" style="height:60px; border:1px ;padding:15px 30px ;font-weight:bold;background-color:#0075FF;color:white;font-size: 20px;">>
+		<input type="button" value="ê°•?ï¿½?ï¿½ì²­?ï¿½ï¿½? onClick="gotoApply()" style="height:60px; border:1px ;padding:15px 30px ;font-weight:bold;background-color:#0075FF;color:white;font-size: 20px;">>
 
 	</div>
 
@@ -1158,13 +1158,13 @@
 			<div class="m_div">
 				<div class="m_body">
 					<div style="text-align:center;background:#4b657c">
-						<p style="font-size:25px;font-weight:bold; font-family:KoPubDotum; color: #FFFFFF;">?¤ì‹œê°„ ë¦¬ë·°ë³´ê¸°</p>
-						<p style="font-size:15px;font-weight:bold; font-family:KoPubDotum; color: #FFFFFF;">**ë¦¬ë·°ë¥??°ê? ?? ê³??? ?˜ ??°ì„
-							?ë³´í•´ë³´?¸ìš”. ë¦¬ë·°?†???ë³´ë? ?˜ë©?ì§€?Œì§‘?ˆ??*</p>
+						<p style="font-size:25px;font-weight:bold; font-family:KoPubDotum; color: #FFFFFF;">?ï¿½ì‹œê°„ ë¦¬ë·°ë³´ê¸°</p>
+						<p style="font-size:15px;font-weight:bold; font-family:KoPubDotum; color: #FFFFFF;">**ë¦¬ë·°ï¿½??ï¿½ï¿½? ?ï¿½?ï¿½ï¿½??ï¿½?ï¿½?ï¿½ ?ï¿½?ï¿½ì„
+							?ï¿½ë³´í•´ë³´?ï¿½ìš”. ë¦¬ë·°?ï¿½???ï¿½ë³´ï¿½? ?ï¿½ï¿½?ì§€?ï¿½ì§‘?ï¿½??*</p>
 					</div>
 					<div>
 						<div class="review-button clearfix">
-							<input type="button" value="ë¦¬ë·° ?…?¥í•˜ê¸? class="button" id="writeBtn">
+							<input type="button" value="ë¦¬ë·° ?ï¿½?ï¿½í•˜ï¿½? class="button" id="writeBtn">
 						</div>
 						<form name="sform" id="sform" action="mypage.proc.php" method="post" enctype="multipart/form-data">
 							<input type="hidden" name="mode" value="<?=$lecture_id?" lecture_updat":"lecture_save_event";?>" />
@@ -1176,37 +1176,37 @@
 							<div id="writeForm" style="display:none">
 								<table class="list_table" width="100%" border="0" cellspacing="0" cellpadding="0">
 									<tr>
-										<th>?‰ê°€</th>
+										<th>?ï¿½ê°€</th>
 										<td>
-											<input type="radio" name="score" value="5" checked><span style="color:#FFCE0B">?…?…?…?…?…</span>
-											<input type="radio" name="score" value="4"><span style="color:#FFCE0B">?…?…?…?…</span>
-											<input type="radio" name="score" value="3"><span style="color:#FFCE0B">?…?…?…</span>
-											<input type="radio" name="score" value="2"><span style="color:#FFCE0B">?…?…</span>
-											<input type="radio" name="score" value="1"><span style="color:#FFCE0B">?…</span>
+											<input type="radio" name="score" value="5" checked><span style="color:#FFCE0B">?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½</span>
+											<input type="radio" name="score" value="4"><span style="color:#FFCE0B">?ï¿½?ï¿½?ï¿½?ï¿½</span>
+											<input type="radio" name="score" value="3"><span style="color:#FFCE0B">?ï¿½?ï¿½?ï¿½</span>
+											<input type="radio" name="score" value="2"><span style="color:#FFCE0B">?ï¿½?ï¿½</span>
+											<input type="radio" name="score" value="1"><span style="color:#FFCE0B">?ï¿½</span>
 										</td>
 									</tr>
 									<tr>
-										<th>ê°•?˜? ?</th>
+										<th>ê°•?ï¿½?ï¿½?ï¿½</th>
 										<td>
 											<input type="hidden" name="lecture_id" id="lecture_id">
-											<input type="text" name="lecture_info" id="lecture_info" readonly placeholder="?°ì¸¡?˜ ê°•?˜? ? ë²„?¼ì„ ?´ë¦­?˜??ì°¸ì—¬í•œ ê°•?˜ë¥?? ??´ì£¼?¸ìš”.">
-											<input type="button" value="ê°•?˜? ?" class="button searchBtn">
+											<input type="text" name="lecture_info" id="lecture_info" readonly placeholder="?ï¿½ì¸¡?ï¿½ ê°•?ï¿½?ï¿½?ï¿½ ë²„?ï¿½ì„ ?ï¿½ë¦­?ï¿½??ì°¸ì—¬í•œ ê°•?ï¿½ï¿½??ï¿½?ï¿½?ï¿½ì£¼?ï¿½ìš”.">
+											<input type="button" value="ê°•?ï¿½?ï¿½?ï¿½" class="button searchBtn">
 										</td>
 									</tr>
 									<tr>
-										<th>ë¦¬ë·°?´ìš?/th>
+										<th>ë¦¬ë·°?ï¿½ï¿½?/th>
 										<td>
 											<textarea name="content" id="content"></textarea>
 										</td>
 									</tr>
 									<tr>
-										<th>?ê¸°ì†Œê°œ</th>
-										<td><input type="text" name="profile" maxlength="50" id="profile" placeholder="50? ?´ë‚´ë? ?˜?€ ???œë¹„??ê·¸ë¦¬ê³  ?°ë½ì?ë¥??¨ê²¨?œ ?œë¡œ ?Œ?µí•˜?¸ìš”."></td>
+										<th>?ï¿½ê¸°ì†Œê°œ</th>
+										<td><input type="text" name="profile" maxlength="50" id="profile" placeholder="50?ï¿½ ?ï¿½ë‚´ï¿½? ?ï¿½?ï¿½ ???ï¿½ë¹„??ê·¸ë¦¬ê³  ?ï¿½ë½ï¿½?ï¿½??ï¿½ê²¨?ï¿½ ?ï¿½ë¡œ ?ï¿½?ï¿½í•˜?ï¿½ìš”."></td>
 									</tr>
 									<tr>
 										<td colspan="2" style="text-align:right;">
 											<input type="button" value="ì·¨ì†Œ" class="button" id="cancleBtn">
-											<input type="button" value="ê¸€?¬ë¦¬ê¸? class="button" id="saveBtn">
+											<input type="button" value="ê¸€?ï¿½ë¦¬ï¿½? class="button" id="saveBtn">
 										</td>
 									</tr>
 								</table>
@@ -1290,7 +1290,7 @@
 									//{
 									//    $sql_serch.=" and end_date >= '$now'";
 									//}
-									//?ë³´ë ™?¸ê?ë¥?ì²´í¬í•œ??
+									//?ï¿½ë³´ë ™?ï¿½ï¿½?ï¿½?ì²´í¬í•œ??
 									if($data['m_id'] != "obmms02" && $memrow['mem_leb'] != "60") {
 									    $sql_serch.=" and b.mem_id ='".$data['m_id']."'";
 									}
@@ -1358,15 +1358,15 @@
 										<?=$row['start_date']?>~
 										<?=$row['end_date']?> /
 										<?=$row['area']?>
-										<?php if($row['score']=="5"){?>?…?…?…?…?…
+										<?php if($row['score']=="5"){?>?ï¿½?ï¿½?ï¿½?ï¿½?ï¿½
 										<?php }?>
-										<?php if($row['score']=="4"){?>?…?…?…?…
+										<?php if($row['score']=="4"){?>?ï¿½?ï¿½?ï¿½?ï¿½
 										<?php }?>
-										<?php if($row['score']=="3"){?>?…?…?…
+										<?php if($row['score']=="3"){?>?ï¿½?ï¿½?ï¿½
 										<?php }?>
-										<?php if($row['score']=="2"){?>?…?…
+										<?php if($row['score']=="2"){?>?ï¿½?ï¿½
 										<?php }?>
-										<?php if($row['score']=="1"){?>?…
+										<?php if($row['score']=="1"){?>?ï¿½
 										<?php }?>
 									</td>
 								</tr>
@@ -1381,8 +1381,8 @@
 												<img src="/iam/img/menu/icon_dot.png" style="height:24px">
 											</button>
 											<ul class="dropdown-menu comunity" style="left: revert;right: 0;">
-												<li><a onclick="set_block_contents('2972093')">??ì½˜?ì¸  ì°¨ë‹¨í•˜ê¸?/a></li>
-												<li><a onclick="set_report_contents('2972093')">??ì½˜?ì¸  ? ê³ ?˜ê¸?/a></li>
+												<li><a onclick="set_block_contents('2972093')">??ì½˜?ï¿½ì¸  ì°¨ë‹¨í•˜ï¿½?/a></li>
+												<li><a onclick="set_report_contents('2972093')">??ì½˜?ï¿½ì¸  ?ï¿½ê³ ?ï¿½ï¿½?/a></li>
 											</ul>
 										</div>
 									</td>
@@ -1416,7 +1416,7 @@
 									?>
 								<tr>
 									<td colspan="14">
-										ê²€?‰?œ ?´ìš©ì??†?µë‹ˆ??
+										ê²€?ï¿½?ï¿½ ?ï¿½ìš©ï¿½??ï¿½?ï¿½ë‹ˆ??
 									</td>
 								</tr>
 								<?
@@ -1424,7 +1424,7 @@
 									?>
 							</table>
 							<!--
-								<input type="button" value="?œ???˜?´ì? ?­?œ" class="button">
+								<input type="button" value="?ï¿½???ï¿½?ï¿½ï¿½? ?ï¿½?ï¿½" class="button">
 								-->
 						</div>
 					</div>
@@ -1448,7 +1448,7 @@
 				<input type="hidden" id="nick_reg" name="nick_reg" value="0">
 				<input type="hidden" id="landing_idx" name="landing_idx" value="<?php echo $landing_idx;?>">
 				<div id="apply" class="common-wrap" style="text-align:center;margin-top: 20px;max-width:600px;">
-					<!-- ? ì²­?˜ê¸?-->
+					<!-- ?ï¿½ì²­?ï¿½ï¿½?-->
 					<div class="container" style="width: 100%;">
 						<div class="row" style="margin: 0px;">
 							<div class="col-12">
@@ -1458,38 +1458,38 @@
 										<?php if($event_data['event_title'] != ""){?>
 										<?php echo $event_data['event_title'];?>
 										<?php } else {?>
-										? ì²­?˜ê¸?
+										?ï¿½ì²­?ï¿½ï¿½?
 										<?php } ?>
 										<!--</em>-->
 									</h2>
 
 									<section class="input-field">
-										<h3 class="title">ê¸°ë³¸?•ë³??…??/h3>
+										<h3 class="title">ê¸°ë³¸?ï¿½ï¿½??ï¿½??/h3>
 										<?if(strstr($event_data['event_info'],"join")){?>
 										<div class="utils clearfix">
 											<input type="radio" name="mem_type" id="no_mem" checked>
-											<label for="no_mem" value="none_mem" style="font-size:17px;">ë¹„?Œ?</label>
+											<label for="no_mem" value="none_mem" style="font-size:17px;">ë¹„?ï¿½?ï¿½</label>
 											<input type="radio" name="mem_type" id="iam_mem" style="margin-left:10px;">
-											<label for="iam_mem" value="iam_mem_ori" style="font-size:17px;">IAMê¸°ì¡´?Œ?</label>
+											<label for="iam_mem" value="iam_mem_ori" style="font-size:17px;">IAMê¸°ì¡´?ï¿½?ï¿½</label>
 											<br>
-											<span class="main_info" id="no_txt">ë¹„?Œ? ? ì²­?œ ?„?´ë””?€ ?´ëŒ€????4?ë¦¬ë? ë¹„ë²ˆ?¼ë? ? ì²­?•ë³´ë? ?˜?• ë° ì·¨ì†Œ?  ?˜ ?ˆ?µë‹ˆ??</span>
-											<!-- <span class="main_info" id="iam_txt" hidden>ê³„?•?„ ?…?¥í•˜?œë©???™?¼ë? ?…?¥ë©ë‹ˆ??</span> -->
+											<span class="main_info" id="no_txt">ë¹„?ï¿½?ï¿½ ?ï¿½ì²­?ï¿½ ?ï¿½?ï¿½ë””?ï¿½ ?ï¿½ëŒ€????4?ï¿½ë¦¬ï¿½? ë¹„ë²ˆ?ï¿½ï¿½? ?ï¿½ì²­?ï¿½ë³´ï¿½? ?ï¿½?ï¿½ ë° ì·¨ì†Œ?ï¿½ ?ï¿½ ?ï¿½?ï¿½ë‹ˆ??</span>
+											<!-- <span class="main_info" id="iam_txt" hidden>ê³„?ï¿½?ï¿½ ?ï¿½?ï¿½í•˜?ï¿½ï¿½??ï¿½?ï¿½?ï¿½ï¿½? ?ï¿½?ï¿½ë©ë‹ˆ??</span> -->
 										</div>
 										<?}?>
 										<!-- <div class="utils clearfix">
-											<span class="notice">?Œ?ê°€?…ê³??™?œ? e?„ë¡œ?„????±ë©ë‹ˆ??</span>
-											<a href="javascript:;" onclick="load_userinfo()" class="button">?Œ??•ë³?ê°€?¸ì˜¤ê¸°(ê¸°ì¡´?Œ?)</a> 
+											<span class="notice">?ï¿½?ï¿½ê°€?ï¿½ï¿½??ï¿½?ï¿½?ï¿½ e?ï¿½ë¡œ?ï¿½???ï¿½?ï¿½ë©ë‹ˆ??</span>
+											<a href="javascript:;" onclick="load_userinfo()" class="button">?ï¿½?ï¿½?ï¿½ï¿½?ê°€?ï¿½ì˜¤ê¸°(ê¸°ì¡´?ï¿½?ï¿½)</a> 
 										</div> -->
 										<?php if(strstr($event_data['event_info'],"join")) {?>
 										<input type="hidden" name="join_yn" value="Y">
 										<!-- <div class="form-wrap" style="background-color: lemonchiffon">
 											<div class="attr-row">
-												<div class="attr-name"><b>?Œ?ê°€?…</b></div>
+												<div class="attr-name"><b>?ï¿½?ï¿½ê°€?ï¿½</b></div>
 												<div class="attr-value">
 													<div class="input-wrap" style="font-size:14px;">
 														<input type="checkbox" id="join_yn" name="join_yn" value="Y" <? if($join_yn=='Y' ) echo checked ?> >
-														<label><span style="color:#DF0101"><b>??ì²´í¬ë???ê¼­ ?´ë¦­?´ì•¼í•´ìš”!!</b><br> ?Œ?ê°€?… ì²´í¬ë??¤ë? ?´ë¦­?´ì•?? ì²­???„ë£Œ?˜ë©? ì¶”?„ ?•ë³´ì œê³µì´ë‚˜ ?„?´ì— 
-																?¬ìš? ë¬´ë?ë¬¸ì, ?”ë²„?¬ìš??±ì?ê°€?¥í•©ë‹ˆ?? ?´ë¯?ê°€?…?œë¶„?€ ?„?˜ ?Œ??•ë³´ê??¸ì˜¤ê¸°ë¥??´ë¦­?˜?¸ìš”.</span></label>
+														<label><span style="color:#DF0101"><b>??ì²´í¬ï¿½???ê¼­ ?ï¿½ë¦­?ï¿½ì•¼í•´ìš”!!</b><br> ?ï¿½?ï¿½ê°€?ï¿½ ì²´í¬ï¿½??ï¿½ï¿½? ?ï¿½ë¦­?ï¿½ï¿½??ï¿½ì²­???ï¿½ë£Œ?ï¿½ï¿½? ì¶”?ï¿½ ?ï¿½ë³´ì œê³µì´ë‚˜ ?ï¿½?ï¿½ì— 
+																?ï¿½ï¿½? ë¬´ï¿½?ë¬¸ì, ?ï¿½ë²„?ï¿½ï¿½??ï¿½ï¿½?ê°€?ï¿½í•©ë‹ˆ?? ?ï¿½ï¿½?ê°€?ï¿½?ï¿½ë¶„?ï¿½ ?ï¿½?ï¿½ ?ï¿½?ï¿½?ï¿½ë³´ï¿½??ï¿½ì˜¤ê¸°ï¿½??ï¿½ë¦­?ï¿½?ï¿½ìš”.</span></label>
 													</div>
 												</div>
 											</div>
@@ -1503,14 +1503,14 @@
 											<div id="div_account" style="display:block;">
 												<?if(strstr($event_data['event_info'],"join")){?>
 												<div class="attr-row ">
-													<div class="attr-name">?„?´ë””</div>
+													<div class="attr-name">?ï¿½?ï¿½ë””</div>
 													<div class="attr-value">
 														<div class="input-wrap">
-															<input type="text" id="id" name="id" value="<?=$_POST['id']?>" placeholder="6-15?ë¡œ ?…?¥í•˜?¸ìš”." style="width:90%; height:40px; border:1px #cacaca solid;font-size: 14px;" />
+															<input type="text" id="id" name="id" value="<?=$_POST['id']?>" placeholder="6-15?ï¿½ë¡œ ?ï¿½?ï¿½í•˜?ï¿½ìš”." style="width:90%; height:40px; border:1px #cacaca solid;font-size: 14px;" />
 															<input type="button" style="margin: 5px;" value="ì¤‘ë³µí™•?? class="button is-grey" onClick="id_check(dform1,'dform1')" />
 															<span id='id_html' style="width: 60px;"></span>
-															<input type="hidden" name="id_status" value="<?=$_POST['id_status']?>" itemname='?„?´ë””ì¤‘ë³µí™•?? required />
-															&nbsp;&nbsp; <p id="id_chk_str" style="display: inline-block;">???„?´ë”” ì¤‘ë³µí™•?¸ì„ ?´ë¦­?´ì£¼?¸ìš”.</p>
+															<input type="hidden" name="id_status" value="<?=$_POST['id_status']?>" itemname='?ï¿½?ï¿½ë””ì¤‘ë³µí™•?? required />
+															&nbsp;&nbsp; <p id="id_chk_str" style="display: inline-block;">???ï¿½?ï¿½ë”” ì¤‘ë³µí™•?ï¿½ì„ ?ï¿½ë¦­?ï¿½ì£¼?ï¿½ìš”.</p>
 
 														</div>
 													</div>
@@ -1526,7 +1526,7 @@
 													</div>
 												</div>
 												<div class="attr-row ">
-													<div class="attr-name">ë¹„ë²ˆ?•??/div>
+													<div class="attr-name">ë¹„ë²ˆ?ï¿½??/div>
 													<div class="attr-value">
 														<div class="input-wrap">
 															<input type="password" onblur="pwd_cfm_check('0')" name="pwd_cfm" value="<?=$_POST[pwd_cfm]?>" style="width:90%; height:40px; border:1px #cacaca solid;font-size: 14px;" />
@@ -1539,7 +1539,7 @@
 
 											</div>
 											<div class="attr-row is-account">
-												<div class="attr-name">?´ë?</div>
+												<div class="attr-name">?ï¿½ï¿½?</div>
 												<div class="attr-value">
 													<div class="input-wrap">
 														<input type="text" name="name" style="width:90%; height:40px; border:1px #cacaca solid;font-size: 14px;"
@@ -1549,7 +1549,7 @@
 												</div>
 											</div>
 											<div class="attr-row is-phone">
-												<div class="attr-name">?´ëŒ€??/div>
+												<div class="attr-name">?ï¿½ëŒ€??/div>
 												<div class="attr-value">
 													<div class="input-wrap">
 														<?php if(strstr($event_data['event_info'],"sms")) {
@@ -1559,9 +1559,9 @@
 															$width = "90%";
 														}?>
 														<input type="tel" name="mobile" style="width:<?=$width?>; height:40px; border:1px #cacaca solid;font-size: 14px;"
-														 id="tel" onblur="checkPhon()" value="<?=$_POST['mobile']?>" placeholder="'-'ë¥?ë¹¼ê? ?…???ˆ : 01012345678)" />
+														 id="tel" onblur="checkPhon()" value="<?=$_POST['mobile']?>" placeholder="'-'ï¿½?ë¹¼ï¿½? ?ï¿½???ï¿½ : 01012345678)" />
 														 <?php if(strstr($event_data['event_info'],"sms")) {?>
-														 <input type="button" value="?¸ì?ë²ˆ??ë°›ê¸? class="button" onclick="chk_sms()" style=" height:42px; border:1px #cacaca solid;font-size: 14px;">
+														 <input type="button" value="?ï¿½ï¿½?ë²ˆ??ë°›ï¿½? class="button" onclick="chk_sms()" style=" height:42px; border:1px #cacaca solid;font-size: 14px;">
 														 <?}?>
 													</div>
 												</div>
@@ -1569,11 +1569,11 @@
 											<?php if(strstr($event_data['event_info'],"sms")) {?>
 											<div id="phone_verify" style="display: block;">
 												<div class="attr-row is-phone">
-													<div class="attr-name">?¸ì?ë²ˆ??/div>
+													<div class="attr-name">?ï¿½ï¿½?ë²ˆ??/div>
 													<div class="attr-value">
 														<div class="input-wrap">
-															<input type="text" name="rnum" id="rnum" itemname='?¸ì?ë²ˆ?? maxlength="10" style="width:50%; height:40px; border:1px #cacaca solid;font-size: 14px;" />
-															<input type="button" value="?¸ì?ë²ˆ???•?? class="button" onclick="chk_sms1()" style=" height:42px; border:1px #cacaca solid;font-size: 14px;">
+															<input type="text" name="rnum" id="rnum" itemname='?ï¿½ï¿½?ë²ˆ?? maxlength="10" style="width:50%; height:40px; border:1px #cacaca solid;font-size: 14px;" />
+															<input type="button" value="?ï¿½ï¿½?ë²ˆ???ï¿½?? class="button" onclick="chk_sms1()" style=" height:42px; border:1px #cacaca solid;font-size: 14px;">
 															<span id="check_sms"></span>
 														</div>
 													</div>
@@ -1584,7 +1584,7 @@
 
 											<?php if(strstr($event_data['event_info'],"sex")) {?>
 											<div class="attr-row">
-												<div class="attr-name">?±ë?</div>
+												<div class="attr-name">?ï¿½ï¿½?</div>
 												<div class="attr-value">
 													<div class="input-wrap" style="font-size: 14px;">
 														<input type="radio" name="sex" value="m" checked> ??
@@ -1596,7 +1596,7 @@
 											<?php }?>
 											<?php if(strstr($event_data['event_info'],"email")) {?>
 											<div class="attr-row is-mail">
-												<div class="attr-name">?´ë???/div>
+												<div class="attr-name">?ï¿½ï¿½???/div>
 												<div class="attr-value">
 													<div class="input-wrap">
 														<input type="text" onblur="email_check()" name="email" style="width:90%; height:40px; border:1px #cacaca solid;font-size: 14px;"
@@ -1608,11 +1608,11 @@
 											<?php }?>
 											<?php if(strstr($event_data['event_info'],"job")) {?>
 											<div class="attr-row">
-												<div class="attr-name">?Œ?/ì§?…</div>
+												<div class="attr-name">?ï¿½?ï¿½/ì§?ï¿½</div>
 												<div class="attr-value">
 													<div class="input-wrap">
 														<input type="text" name="job" style="width:90%; height:40px; border:1px #cacaca solid;font-size: 14px;"
-														 id="job" value="<?=$_POST['job']?>" placeholder="/ë¡œ ?Œ?ê³?ì§?… ë¶„ë¦??…?¥í•´ìš”" />
+														 id="job" value="<?=$_POST['job']?>" placeholder="/ë¡œ ?ï¿½?ï¿½ï¿½?ì§?ï¿½ ë¶„ï¿½??ï¿½?ï¿½í•´ìš”" />
 													</div>
 												</div>
 											</div>
@@ -1624,7 +1624,7 @@
 												<div class="attr-value">
 													<div class="input-wrap">
 														<input type="text" name="addr" style="width:90%; height:40px; border:1px #cacaca solid;font-size: 14px;"
-														 id="addr" value="" placeholder="?´ë²¤?¸ì— ?„?”?˜?ˆ ?•?•?ˆ ?…?¥í•´ìš”" />
+														 id="addr" value="" placeholder="?ï¿½ë²¤?ï¿½ì— ?ï¿½?ï¿½?ï¿½?ï¿½ ?ï¿½?ï¿½?ï¿½ ?ï¿½?ï¿½í•´ìš”" />
 													</div>
 												</div>
 											</div>
@@ -1632,11 +1632,11 @@
 											<?php if(strstr($event_data['event_info'],"birth")) {?>
 
 											<div class="attr-row">
-												<div class="attr-name">ì¶œ??„?„</div>
+												<div class="attr-name">ì¶œ?ï¿½?ï¿½?ï¿½</div>
 												<div class="attr-value">
 													<div class="input-wrap">
 														<input type="text" name="birthday" style="width:90%; height:40px; border:1px #cacaca solid;font-size: 14px;"
-														 id="birthday" value="" placeholder="ì¶œ??„?„ë§Œ ?…?¥í•˜?¸ìš”" />
+														 id="birthday" value="" placeholder="ì¶œ?ï¿½?ï¿½?ï¿½ë§Œ ?ï¿½?ï¿½í•˜?ï¿½ìš”" />
 													</div>
 												</div>
 											</div>
@@ -1647,15 +1647,15 @@
 											<?if($memrow['mem_leb'] == "60"){?>
 
 											<div class="attr-row">
-												<div class="attr-name">? ì²­ê°•ì¢Œëª…</div>
+												<div class="attr-name">?ï¿½ì²­ê°•ì¢Œëª…</div>
 												<div class="attr-value">
 													<div class="input-wrap">
-														<!-- <input type="text" name="consult_date" style="width:90%; height:40px; border:1px #cacaca solid;font-size: 14px;" id="consult_date" value="" placeholder="ì°¸ì—¬ë? ??˜?” ê°•ì¢Œëª…?„ ?…?¥í•˜?¸ìš”"/> -->
+														<!-- <input type="text" name="consult_date" style="width:90%; height:40px; border:1px #cacaca solid;font-size: 14px;" id="consult_date" value="" placeholder="ì°¸ì—¬ï¿½? ?ï¿½?ï¿½?ï¿½ ê°•ì¢Œëª…?ï¿½ ?ï¿½?ï¿½í•˜?ï¿½ìš”"/> -->
 
 														<input type="hidden" name="consult_date" id="lecture_id_2">
-														<input type="text" name="consult_date" id="lecture_info_2" readonly placeholder="ì°¸ì—¬ë? ??˜?” ê°•ì¢Œëª…?„ ?…?¥í•˜?¸ìš”"
+														<input type="text" name="consult_date" id="lecture_info_2" readonly placeholder="ì°¸ì—¬ï¿½? ?ï¿½?ï¿½?ï¿½ ê°•ì¢Œëª…?ï¿½ ?ï¿½?ï¿½í•˜?ï¿½ìš”"
 														 style="width:70%; height:40px; border:1px #cacaca solid;font-size: 14px;">
-														<input type="button" value="ê°•?˜? ?" class="button searchBtn" style="height: 42px;border: 1px #cacaca solid;font-size: 14px;">
+														<input type="button" value="ê°•?ï¿½?ï¿½?ï¿½" class="button searchBtn" style="height: 42px;border: 1px #cacaca solid;font-size: 14px;">
 													</div>
 												</div>
 											</div>
@@ -1677,7 +1677,7 @@
 
 											<div class="attr-row is-account">
 
-												<div class="attr-name">? ì²­?‰??/div>
+												<div class="attr-name">?ï¿½ì²­?ï¿½??/div>
 												<div class="attr-value">
 													<div class="input-wrap" style="font-size: 14px;">
 														<?php echo $event_data['event_name_kor'];?>
@@ -1692,16 +1692,16 @@
 													<div class="agreement-item">
 														<div class="check-wrap">
 															<input type="checkbox" name="agree" id="agree" value="Y">
-															<label for="agree" style="font-size: 14px;">ê°œ?¸ì •ë³´ì´ìš©ë™?˜</label>
+															<label for="agree" style="font-size: 14px;">ê°œ?ï¿½ì •ë³´ì´ìš©ë™?ï¿½</label>
 														</div>
-														<a href="#" onclick="newpop_('terms.php')">?„ë¬¸ë³´ê¸?/a>
+														<a href="#" onclick="newpop_('terms.php')">?ï¿½ë¬¸ë³´ï¿½?/a>
 													</div>
 												</div>
 											</div>
 
 											<!--        <div class="button-wrap">
 
-	                                <input align="middle" src="pop_btn_regist3.png" type="image" class="button is-grey" value="? ì²­?˜ê¸? />
+	                                <input align="middle" src="pop_btn_regist3.png" type="image" class="button is-grey" value="?ï¿½ì²­?ï¿½ï¿½? />
 								</div>  -->
 
 											<div class="agreement-field">
@@ -1719,7 +1719,7 @@
 											<?php } ?>
 
 											<div class="button-wrap">
-												<input align="middle" src="pop_btn_regist3.png" type="image" class="button is-grey" value="? ì²­?˜ê¸? />
+												<input align="middle" src="pop_btn_regist3.png" type="image" class="button is-grey" value="?ï¿½ì²­?ï¿½ï¿½? />
 											</div>
 
 									</section>
@@ -1727,7 +1727,7 @@
 							</div>
 						</div>
 					</div>
-				</div><!-- // ? ì²­?˜ê¸?? -->
+				</div><!-- // ?ï¿½ì²­?ï¿½ï¿½??ï¿½ -->
 				<div id="ajax_div" style="display:none"></div>
 			</form>
 			<Script>
@@ -1768,13 +1768,13 @@
 					$('#saveBtn').on("click", function () {
 
 						if ($('#lecture_id').val() == "") {
-							alert('ê°•?˜ë¥?? ???ì£¼ì„¸ìš”.');
+							alert('ê°•?ï¿½ï¿½??ï¿½?ï¿½??ì£¼ì„¸ìš”.');
 							$('#lecture_id').focus();
 							return;
 						}
 
 						if ($('#content').val() == "") {
-							alert('ë¦¬ë·°?´ìš©ì„ ? ???ì£¼ì„¸ìš”.');
+							alert('ë¦¬ë·°?ï¿½ìš©ì„ ?ï¿½?ï¿½??ì£¼ì„¸ìš”.');
 							$('#content').focus();
 							return;
 						}
@@ -1792,7 +1792,7 @@
 								},
 								success: function (data) {
 
-									alert('ë¦¬ë·°ê°€ ?±ë??˜?ˆ?µë‹ˆ??');
+									alert('ë¦¬ë·°ê°€ ?ï¿½ï¿½??ï¿½?ï¿½?ï¿½ë‹ˆ??');
 									saveChk = false;
 									location.reload();
 								}
@@ -1804,11 +1804,11 @@
 					var trb = $(this).data("link");
 					var IE=(document.all)?true:false;
 					if (IE) {
-					if(confirm("??ë§?¬ë? ë³µì‚¬í•˜?œê² ?µë‹ˆê¹Œ?")) {
+					if(confirm("??ë§?ï¿½ï¿½? ë³µì‚¬í•˜?ï¿½ê² ?ï¿½ë‹ˆê¹Œ?")) {
 					window.clipboardData.setData("Text", trb);
 					}
 					} else {
-					temp = prompt("Ctrl+Cë¥??Œ???´ë¦½ë³´ë“œë¡œ ë³µì‚¬í•˜?¸ìš”", trb);
+					temp = prompt("Ctrl+Cï¿½??ï¿½???ï¿½ë¦½ë³´ë“œë¡œ ë³µì‚¬í•˜?ï¿½ìš”", trb);
 					}
 					});
 					$('.switch').on("change", function() {
@@ -1823,7 +1823,7 @@
 									status:status,
 									},
 								success:function(data){
-								//alert('? ì²­?˜?ˆ?µë‹ˆ??');location.reload();
+								//alert('?ï¿½ì²­?ï¿½?ï¿½?ï¿½ë‹ˆ??');location.reload();
 								}
 								})
 		
@@ -1837,9 +1837,9 @@
 		<div id="floating-menu">
 			<ul>
 				<?php if($data['lecture_yn'] == "Y") {?>
-				<li class="menu"><a href="#" data-scroll="table"><img src="images/side_01.png" alt="ê°•?°ì¼ì • ë°”ë¡œê°€ê¸? width="200px"></a></li>
-				<li class="menu"><a href="#" data-scroll="review"><img src="images/side_02.png" alt="?¤ì‹œê°„ë¦¬ë·° ë°”ë¡œê°€ê¸? width="200px"></a></li>
-				<li class="menu"><a href="#" data-scroll="apply"><img src="images/side_03.png" alt="ê°•?°ê??¡ì‹ ì²­?˜ê¸? width="200px"></a></li>
+				<li class="menu"><a href="#" data-scroll="table"><img src="images/side_01.png" alt="ê°•?ï¿½ì¼ì • ë°”ë¡œê°€ï¿½? width="200px"></a></li>
+				<li class="menu"><a href="#" data-scroll="review"><img src="images/side_02.png" alt="?ï¿½ì‹œê°„ë¦¬ë·° ë°”ë¡œê°€ï¿½? width="200px"></a></li>
+				<li class="menu"><a href="#" data-scroll="apply"><img src="images/side_03.png" alt="ê°•?ï¿½ï¿½??ï¿½ì‹ ì²­?ï¿½ï¿½? width="200px"></a></li>
 				<?php } ?>
 			</ul>
 		</div>
@@ -1852,51 +1852,51 @@
 						</button>
 					</div>
 					<div class="modal-title" style="width:100%;font-size:18px;text-align: center;color:black;border-bottom: 1px solid #c8c9c8;">
-						<label style="padding:15px 0px">? ê³  ?­ëª?? ??˜ê¸?/label>
+						<label style="padding:15px 0px">?ï¿½ê³  ?ï¿½ï¿½??ï¿½?ï¿½?ï¿½ï¿½?/label>
 					</div>
 					<div class="modal-header" style="text-align:left;">
-						<span style="font-size:15px;margin-bottom:15px;">?„?˜ ?­ëª©ì„ ? ??˜ê±°ë‚˜ ?˜?¨ì— ì§?‘ ?…?¥í•˜ê¸°ì— ? ê³ ?´ìš©ì„ ?…?¥í•´ì£¼?¸ìš”.</span>
+						<span style="font-size:15px;margin-bottom:15px;">?ï¿½?ï¿½ ?ï¿½ëª©ì„ ?ï¿½?ï¿½?ï¿½ê±°ë‚˜ ?ï¿½?ï¿½ì— ì§?ï¿½ ?ï¿½?ï¿½í•˜ê¸°ì— ?ï¿½ê³ ?ï¿½ìš©ì„ ?ï¿½?ï¿½í•´ì£¼?ï¿½ìš”.</span>
 						<div>
 							<input type="checkbox" name="report_title" value="1" id="sex">
-							<label for="sex">?±ê????•ë³?/label>
+							<label for="sex">?ï¿½ï¿½????ï¿½ï¿½?/label>
 						</div>
 						<div>
 							<input type="checkbox" name="report_title" value="2" id="force">
-							<label for="force">?­?¥ë¬¼ ?•ë³?/label>
+							<label for="force">?ï¿½?ï¿½ë¬¼ ?ï¿½ï¿½?/label>
 						</div>
 						<div>
 							<input type="checkbox" name="report_title" value="3" id="worry">
-							<label for="worry">ê´´ë¡­?˜ ?•ë³?/label>
+							<label for="worry">ê´´ë¡­?ï¿½ ?ï¿½ï¿½?/label>
 						</div>
 						<div>
 							<input type="checkbox" name="report_title" value="4" id="ownkill">
-							<label for="ownkill">???????•ë³?/label>
+							<label for="ownkill">?ï¿½???ï¿½???ï¿½ï¿½?/label>
 						</div>
 						<div>
 							<input type="checkbox" name="report_title" value="3" id="wrong">
-							<label for="wrong">?œê³?ê±°ì? ?•ë³?/label>
+							<label for="wrong">?ï¿½ï¿½?ê±°ï¿½? ?ï¿½ï¿½?/label>
 						</div>
 						<div>
 							<input type="checkbox" name="report_title" value="3" id="spam">
-							<label for="spam">ë¶ˆë²• ?¤íŒ¸ì„??•ë³?/label>
+							<label for="spam">ë¶ˆë²• ?ï¿½íŒ¸ï¿½??ï¿½ï¿½?/label>
 						</div>
 						<div>
 							<input type="checkbox" name="report_title" value="3" id="unaccept">
-							<label for="unaccept">ë¬´í—ˆê°€ ?ë§??•ë³?/label>
+							<label for="unaccept">ë¬´í—ˆê°€ ?ï¿½ï¿½??ï¿½ï¿½?/label>
 						</div>
 						<div>
 							<input type="checkbox" name="report_title" value="3" id="dislike">
-							<label for="dislike">???ë°œ???•ë³?/label>
+							<label for="dislike">?ï¿½??ë°œ???ï¿½ï¿½?/label>
 						</div>
 						<input type="hidden" name="content_idx_report" id="content_idx_report" value="2972093">
 					</div>
 					<div class="modal-body" style="text-align:center;">
-						<span style="font-size:15px;">? ê³ ?´ìš??¤ë??˜ê¸?/span>
-						<textarea id="report_desc_msg" style="width: 100%;border: 1px solid #b5b5b5;height: 100px;margin-bottom: 14px;" placeholder="? ê³ ?´ìš©ì„ ?…?¥í•´ì£¼?¸ìš”. ?¹ì • ê²Œ?œ?ë¥?ê´´ë¡­?ˆ?” ë¬´ì‘?„ ? ê³ ë¥??œ?œ?˜ê¸??„???°ë½ì?ë¥?ê¸°ì¬í•˜?” ê²½ìš??µë??„ ?„?¡í•´ë“œë¦½ë‹ˆ??"></textarea>
-						<textarea id="reporter_phone_num" style="width: 100%;border: 1px solid #b5b5b5;height: 30px;margin-bottom: 14px;" placeholder="?°ë½ì?(?´ëŒ€???„ ?…?¥í•´ì£¼?œë©??µë? ê²°ê³¼ë¥?ë¬¸ìë¡œ ë³´ë‚´ë“œë¦½ë‹ˆ??"></textarea>
+						<span style="font-size:15px;">?ï¿½ê³ ?ï¿½ï¿½??ï¿½ï¿½??ï¿½ï¿½?/span>
+						<textarea id="report_desc_msg" style="width: 100%;border: 1px solid #b5b5b5;height: 100px;margin-bottom: 14px;" placeholder="?ï¿½ê³ ?ï¿½ìš©ì„ ?ï¿½?ï¿½í•´ì£¼?ï¿½ìš”. ?ï¿½ì • ê²Œ?ï¿½?ï¿½ï¿½?ê´´ë¡­?ï¿½?ï¿½ ë¬´ì‘?ï¿½ ?ï¿½ê³ ï¿½??ï¿½?ï¿½?ï¿½ï¿½??ï¿½???ï¿½ë½ï¿½?ï¿½?ê¸°ì¬í•˜?ï¿½ ê²½ï¿½??ï¿½ï¿½??ï¿½ ?ï¿½?ï¿½í•´ë“œë¦½ë‹ˆ??"></textarea>
+						<textarea id="reporter_phone_num" style="width: 100%;border: 1px solid #b5b5b5;height: 30px;margin-bottom: 14px;" placeholder="?ï¿½ë½ï¿½?(?ï¿½ëŒ€???ï¿½ ?ï¿½?ï¿½í•´ì£¼?ï¿½ï¿½??ï¿½ï¿½? ê²°ê³¼ï¿½?ë¬¸ìë¡œ ë³´ë‚´ë“œë¦½ë‹ˆ??"></textarea>
 					</div>
 					<div class="modal-footer" style="text-align: center;padding:0px;">
-						<button type="button" class="btn-link" style="width: 50%;background: #c8c9c8;color: #6e6a6a;padding: 10px 0px;text-align: center;" onclick="set_report()">? ê³ ?´ìš??„?¡í•˜ê¸?/button>
+						<button type="button" class="btn-link" style="width: 50%;background: #c8c9c8;color: #6e6a6a;padding: 10px 0px;text-align: center;" onclick="set_report()">?ï¿½ê³ ?ï¿½ï¿½??ï¿½?ï¿½í•˜ï¿½?/button>
 					</div>
 				</div>
 			</div>
@@ -1919,8 +1919,8 @@
 			}
 
 			function set_block_contents(){
-				if(confirm("??ì½˜?ì¸ ë¥?ì°¨ë‹¨í•˜?œê² ?µë‹ˆê¹Œ?")){
-					alert('ì°¨ë‹??˜?ˆ?µë‹ˆ??');
+				if(confirm("??ì½˜?ï¿½ì¸ ï¿½?ì°¨ë‹¨í•˜?ï¿½ê² ?ï¿½ë‹ˆê¹Œ?")){
+					alert('ì°¨ï¿½??ï¿½?ï¿½?ï¿½ë‹ˆ??');
 				}
 			}
 
@@ -1951,14 +1951,14 @@
 
 			function email_check() {
 				if (!documentgetElementById("email").value.includes('@')) {
-					alert('?´ë????•?? ë§ê²Œ ?…?¥í•´ì£¼?¸ìš”.');
+					alert('?ï¿½ï¿½????ï¿½?ï¿½?ï¿½ ë§ê²Œ ?ï¿½?ï¿½í•´ì£¼?ï¿½ìš”.');
 					document.getElementById("email").value = "";
 				}
 			}
 
 			function checkPhon() {
 				if (document.getElementById("tel").value.substring(0, 3) != '010' && ($('#tel').val()).substring(0, 3) != '011' && ($('#tel').val()).substring(0, 3) != '016' && ($('#tel').val()).substring(0, 3) != '017' && ($('#tel').val()).substring(0, 3) != '018' && ($('#tel').val()).substring(0, 3) != '019') {
-					alert('?„?”ë²ˆ??ì²«ë?ì§??ë¦¬ëŠ” 010, 011, 016, 017, 018, 019ë§Œ ê°€?¥í•©ë‹ˆ??');
+					alert('?ï¿½?ï¿½ë²ˆ??ì²«ï¿½?ï¿½??ï¿½ë¦¬ëŠ” 010, 011, 016, 017, 018, 019ë§Œ ê°€?ï¿½í•©ë‹ˆ??');
 					document.getElementById("tel").value = "";
 					return;
 				}
@@ -1988,15 +1988,15 @@
 			function chk_sms() {
 				console.log($('#tel').val().substring(0, 3));
 				if ($('#tel').val() == "") {
-					alert('?¸ì?ë°›?¼ì‹??„?”ë²ˆ?¸ë? ?…?¥í•´ì£¼?¸ìš”.')
+					alert('?ï¿½ï¿½?ë°›?ï¿½ï¿½??ï¿½?ï¿½ë²ˆ?ï¿½ï¿½? ?ï¿½?ï¿½í•´ì£¼?ï¿½ìš”.')
 					return;
 				}
 				if (($('#tel').val()).substring(0, 3) != '010' && ($('#tel').val()).substring(0, 3) != '011' && ($('#tel').val()).substring(0, 3) != '016' && ($('#tel').val()).substring(0, 3) != '017' && ($('#tel').val()).substring(0, 3) != '018' && ($('#tel').val()).substring(0, 3) != '019') {
-					alert('?„?”ë²ˆ??ì²«ë?ì§??ë¦¬ëŠ” 010, 011, 016, 017, 018, 019ë§Œ ê°€?¥í•©ë‹ˆ??')
+					alert('?ï¿½?ï¿½ë²ˆ??ì²«ï¿½?ï¿½??ï¿½ë¦¬ëŠ” 010, 011, 016, 017, 018, 019ë§Œ ê°€?ï¿½í•©ë‹ˆ??')
 					return;
 				}
 				if (($('#tel').val()).length < 11 || ($('#tel').val()).length > 12) {
-					alert('?¸ì?ë°›?¼ì‹??„?”ë²ˆ?¸ë? ?•?¸í•´ì£¼?¸ìš”.')
+					alert('?ï¿½ï¿½?ë°›?ï¿½ï¿½??ï¿½?ï¿½ë²ˆ?ï¿½ï¿½? ?ï¿½?ï¿½í•´ì£¼?ï¿½ìš”.')
 					return;
 				}
 
@@ -2022,7 +2022,7 @@
 
 			function chk_sms1()   {
 				if(!$('#rnum').val()){
-					alert('?¸ì?ë²ˆ?¸ë? ë°›?„ì£¼ì„¸ìš”.');
+					alert('?ï¿½ï¿½?ë²ˆ?ï¿½ï¿½? ë°›?ï¿½ì£¼ì„¸ìš”.');
 					return;
 				}
 				$.ajax({
@@ -2038,7 +2038,7 @@
 					success:function(data){
 						if(data.result == "success") {
 							$('#check_rnum').val("Y");
-							$('#check_sms').html('<img src="/images/check.gif"> ?¸ì??˜?ˆ?µë‹ˆ??</p>');
+							$('#check_sms').html('<img src="/images/check.gif"> ?ï¿½ï¿½??ï¿½?ï¿½?ï¿½ë‹ˆ??</p>');
 						} else {
 							$('#check_rnum').val("");
 							$('#check_sms').html('');
@@ -2051,7 +2051,7 @@
  <script language="javascript">
     function checkUrl() {
         if($('#store_address').val() == "") {
-            alert('?µê??•?„ ?…?¥í•´ì£¼?¸ìš”');
+            alert('?ï¿½ï¿½??ï¿½?ï¿½ ?ï¿½?ï¿½í•´ì£¼?ï¿½ìš”');
             return;
         }        
         $('#viewFrame').html('<iframe id="sample_frame"  name="sample_frame" src="/admin/iam_auto_make_check_.php?memid='+$('#store_address').val()+'" style="width: 400px; height: 1200px; border-width: 1px; border-style: solid; border-color: gray;"></iframe>');
@@ -2063,11 +2063,11 @@
     
     function sendId() {
         if($('#mem_id').val() == "") {
-            alert('?µê??•?„ ?…?¥í•´ì£¼?¸ìš”');
+            alert('?ï¿½ï¿½??ï¿½?ï¿½ ?ï¿½?ï¿½í•´ì£¼?ï¿½ìš”');
             return;
         }
         if($('#rphone').val() == "") {
-            alert('?´ëŒ€?°ì„ ?…?¥í•´ì£¼?¸ìš”');
+            alert('?ï¿½ëŒ€?ï¿½ì„ ?ï¿½?ï¿½í•´ì£¼?ï¿½ìš”');
             return;            
         }        
         $.ajax({

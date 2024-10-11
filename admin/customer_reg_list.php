@@ -329,10 +329,10 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                 	$query .= "$orderQuery";
                 	$res = mysqli_query($self_con,$query);
                     while($row = mysqli_fetch_array($res)) {                       	
-                      $sql_mem_reg = "select mem_code, mem_id, mem_name, mem_phone, mem_phone1, mem_email, mem_birth, com_type, zy, mem_job, com_add1, mem_add1, mem_memo, first_regist from Gn_Member where mem_name='{$row[name]}' and mem_phone='{$row[phone1]}' and is_leave='N' limit 1";
+                      $sql_mem_reg = "select mem_code, mem_id, mem_name, mem_phone, mem_phone1, mem_email, mem_birth, com_type, zy, mem_job, com_add1, mem_add1, mem_memo, first_regist from Gn_Member where mem_name='{$row['name']}' and mem_phone='{$row[phone1]}' and is_leave='N' limit 1";
                       $res_mem_reg = mysqli_query($self_con,$sql_mem_reg);
                       $row_mem_reg = mysqli_fetch_array($res_mem_reg);
-                      if($row_mem_reg[mem_code] != ''){
+                      if($row_mem_reg['mem_code'] != ''){
                         $edit_type = "member_reg_edit";
                         $mem_code = $row_mem_reg['mem_code'];
                         $user_id = $row_mem_reg['mem_id']?$row_mem_reg['mem_id']:'';

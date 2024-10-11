@@ -42,11 +42,11 @@ if($mall_type == "main_mall"){
     $site_name = $site_info[0];
     $sql8 .= " mall.display_status = 1 and mem.site_iam = '$site_name'";
 }else if($mall_type == "my_mall"){
-    $sql8 .= "mall.mem_id = '$_SESSION[iam_member_id]'";
+    $sql8 .= "mall.mem_id = '{$_SESSION['iam_member_id']}'";
 }else if($mall_type == "best_mall"){
     $sql8 .= "mall.sample_display = 'Y'";
 }else if($mall_type == "my_mall_like"){
-    $sql8 .= "(mall.mall_like ='$_SESSION[iam_member_id]' or mall.mall_like like '$_SESSION[iam_member_id],%' or mall.mall_like like '%,$_SESSION[iam_member_id]' or mall.mall_like like '%,$_SESSION[iam_member_id],%')";
+    $sql8 .= "(mall.mall_like ='{$_SESSION['iam_member_id']}' or mall.mall_like like '{$_SESSION['iam_member_id']},%' or mall.mall_like like '%,{$_SESSION['iam_member_id']}' or mall.mall_like like '%,{$_SESSION['iam_member_id']},%')";
 }
 
 if($mall_type1 == "iam")

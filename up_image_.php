@@ -1,6 +1,6 @@
 <?
 include_once "lib/rlatjd_fun.php";
-if($_FILES["upimage".$_REQUEST['k']][name]){
+if($_FILES["upimage".$_REQUEST['k']]['name']){
     $img_name=date("dmYHis").str_replace(" ","",basename($_FILES["upimage".$_REQUEST['k']]["name"]));	
     $img_name=str_replace("'","",$img_name);	
     $img_name=str_replace('"',"",$img_name);	

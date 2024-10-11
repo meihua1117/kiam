@@ -1,7 +1,7 @@
 <?php
 include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
 
-$sql_iam = "select site_iam from Gn_Member where mem_id='{$_SESSION[iam_member_id]}'";
+$sql_iam = "select site_iam from Gn_Member where mem_id='{$_SESSION['iam_member_id']}'";
 $res_iam = mysqli_query($self_con,$sql_iam);
 $row_iam = mysqli_fetch_array($res_iam);
 
@@ -25,7 +25,7 @@ else{
 	$site_iam = "kiam";
 }
 
-if(!$_SESSION[iam_member_id]){
+if(!$_SESSION['iam_member_id']){
 	$site_iam = "kiam";
 }
 ?>
@@ -51,12 +51,12 @@ if(!$_SESSION[iam_member_id]){
 			var navCase = navigator.userAgent.toLocaleLowerCase();
 			if(navCase.search("android") > -1){
 				try {
-					AppScript.goOnlyOneApp('<?php echo $_SESSION[one_member_id];?>');
+					AppScript.goOnlyOneApp('<?php echo $_SESSION['one_member_id'];?>');
 				} catch(e) {
 					openAndroid();
 				}
 			}else{
-				// var iam_mem_id = "<?=$_SESSION[one_member_id];?>";
+				// var iam_mem_id = "<?=$_SESSION['one_member_id'];?>";
 				// if(iam_mem_id == "")
 					alert("휴대폰에서 이용해주세요.");
 			}
@@ -66,12 +66,12 @@ if(!$_SESSION[iam_member_id]){
 			var navCase = navigator.userAgent.toLocaleLowerCase();
 			if(navCase.search("android") > -1){
 				try {
-					AppScript.goCallbackCamerapApp('<?php echo $_SESSION[one_member_id];?>');
+					AppScript.goCallbackCamerapApp('<?php echo $_SESSION['one_member_id'];?>');
 				} catch(e) {
 					openAndroid();
 				}
 			}else{
-				// var iam_mem_id = "<?=$_SESSION[one_member_id];?>";
+				// var iam_mem_id = "<?=$_SESSION['one_member_id'];?>";
 				// if(iam_mem_id == "")
 					alert("휴대폰에서 이용해주세요.");
 			}

@@ -1,15 +1,15 @@
 <?php
 include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
-if($_SESSION[one_member_id] == "") {
+if($_SESSION['one_member_id'] == "") {
     echo "<script>location ='/m/login.php';</script>";
     exit;
 }
 
-$query = "select * from Gn_Member where mem_id='$_SESSION[one_member_id]' and site != ''";
+$query = "select * from Gn_Member where mem_id='{$_SESSION['one_member_id']}' and site != ''";
 $sresul=mysqli_query($self_con,$query);
 $data=mysqli_fetch_array($sresul);	
-if($data[tagby_yn] == "Y") {
-    echo "<script>location ='http://obmms.aplat.kr/api.php?id=$_SESSION[one_member_id]';</script>";
+if($data['tagby_yn'] == "Y") {
+    echo "<script>location ='http://obmms.aplat.kr/api.php?id={$_SESSION['one_member_id']}';</script>";
 }
 ?>
 <!DOCTYPE html>
@@ -78,7 +78,7 @@ if($data[tagby_yn] == "Y") {
 								</div>
                                 <div class="button-wrap">
     								<a href="/" class="button is-grey">취소</a>
-    								<a href="http://obmms.aplat.kr/api.php?id=<?php echo $_SESSION[one_member_id]?>" class="button is-pink">이용하기</a>
+    								<a href="http://obmms.aplat.kr/api.php?id=<?php echo $_SESSION['one_member_id']?>" class="button is-pink">이용하기</a>
     							</div>
 							
                             

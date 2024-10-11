@@ -56,7 +56,7 @@ if($_POST['mode'] == "munja_send"){
             $sql="select count(*) cnt from Gn_Member_Check_Sms where mem_phone='$recv_phone' and date_format(regdate, '%Y-%m-%d' )=curdate() ";
             $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
             $data = $row=mysqli_fetch_array($result);
-            if($data[cnt] >=5) {
+            if($data['cnt'] >=5) {
                 echo json_encode(array("result"=>"1일 5번까지 인증이 가능합니다.","code"=>0));
                 exit;
             }

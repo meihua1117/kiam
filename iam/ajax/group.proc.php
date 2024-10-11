@@ -7,11 +7,11 @@ if(!$method) {
 }else if($method == "check_group"){
     $group_sql = "select card_short_url,group_id,mem_code from gn_group_info info 
                         inner join Gn_Iam_Name_Card card on card.idx = info.card_idx 
-                        inner join Gn_Member mem on mem.mem_id = info.manager where manager = '$_SESSION[iam_member_id]'";
+                        inner join Gn_Member mem on mem.mem_id = info.manager where manager = '{$_SESSION['iam_member_id']}'";
     $group_res = mysqli_query($self_con,$group_sql);
     $group_count = mysqli_num_rows($group_res);
     $group_row = mysqli_fetch_array($group_res);
-    $group = "location.href = '?".$group_row[card_short_url].$group_row[mem_code]."&cur_win=group-con&gkind=".$group_row[group_id]."'";
+    $group = "location.href = '?".$group_row[card_short_url].$group_row['mem_code']."&cur_win=group-con&gkind=".$group_row[group_id]."'";
     if($group_count > 0){
         echo json_encode(array("group"=>$group));
     }else{
@@ -19,20 +19,20 @@ if(!$method) {
     }
 }else if($method == "create_group"){
     $sql = "insert into gn_group_info set name = '$name',
-                                            manager = '$_SESSION[iam_member_id]',
+                                            manager = '{$_SESSION['iam_member_id']}',
                                             public_status = '$public',
                                             upload_status = '$upload',
                                             description = '$desc',
                                             req_date = now()";
     mysqli_query($self_con,$sql);
     $g_idx = mysqli_insert_id($self_con);
-    $sql = "select * from Gn_Iam_Name_Card where mem_id='$_SESSION[iam_member_id]' and group_id is NULL order by req_data";//이미지 꺼내기
+    $sql = "select * from Gn_Iam_Name_Card where mem_id='{$_SESSION['iam_member_id']}' and group_id is NULL order by req_data";//이미지 꺼내기
     $res = mysqli_query($self_con,$sql);
     $row = mysqli_fetch_array($res);
     $gTitle = $name."소개";
     $short_url = generateRandomString();
     $sql = "insert into Gn_Iam_Name_Card set group_id = '$g_idx',
-                                            mem_id = '$_SESSION[iam_member_id]',
+                                            mem_id = '{$_SESSION['iam_member_id']}',
                                             req_data = now(),
                                             up_Data=now(),
                                             card_title = '$gTitle',
@@ -46,21 +46,21 @@ if(!$method) {
     $card_idx = mysqli_insert_id($self_con);
     $sql = "update gn_group_info set card_idx = '$card_idx' where idx='$g_idx'";
     mysqli_query($self_con,$sql);
-    $sql = "select count(*) from gn_group_member where mem_id='$_SESSION[iam_member_id]' and group_id='$g_idx'";
+    $sql = "select count(*) from gn_group_member where mem_id='{$_SESSION['iam_member_id']}' and group_id='$g_idx'";
     $res = mysqli_query($self_con,$sql);
     $row = mysqli_fetch_array($res);
     if($row[0] == 0){
-        $sql = "insert into gn_group_member set mem_id='$_SESSION[iam_member_id]',group_id='$g_idx',req_date=now(),visit_date=now()";
+        $sql = "insert into gn_group_member set mem_id='{$_SESSION['iam_member_id']}',group_id='$g_idx',req_date=now(),visit_date=now()";
         mysqli_query($self_con,$sql);
     }
-    $sql = "select mem_code from Gn_Member where mem_id='$_SESSION[iam_member_id]'";
+    $sql = "select mem_code from Gn_Member where mem_id='{$_SESSION['iam_member_id']}'";
     $res = mysqli_query($self_con,$sql);
     $row = mysqli_fetch_array($res);
-    $link = "/?".$short_url.$row[mem_code]."&cur_win=group-con&gkind=".$g_idx;
+    $link = "/?".$short_url.$row['mem_code']."&cur_win=group-con&gkind=".$g_idx;
     echo json_encode(array("result"=>$link));
 }else if($method == "edit_group"){
     $sql = "update gn_group_info set name = '$name',
-                                      manager = '$_SESSION[iam_member_id]',
+                                      manager = '{$_SESSION['iam_member_id']}',
                                       public_status = '$public',
                                       upload_status = '$upload',
                                       description = '$desc',
@@ -71,11 +71,11 @@ if(!$method) {
     echo json_encode(array("result"=>"success"));
 }else if($method == "get_group_info"){
     $result = array();
-    $sql = "select mem_code from Gn_Member where mem_id='$_SESSION[iam_member_id]'";
+    $sql = "select mem_code from Gn_Member where mem_id='{$_SESSION['iam_member_id']}'";
     $res = mysqli_query($self_con,$sql);
     $row = mysqli_fetch_array($res);
-    $mem_code = $row[mem_code];
-    $sql = "select group_id from gn_group_member where mem_id='$_SESSION[iam_member_id]'";
+    $mem_code = $row['mem_code'];
+    $sql = "select group_id from gn_group_member where mem_id='{$_SESSION['iam_member_id']}'";
     $res = mysqli_query($self_con,$sql);
     while($row = mysqli_fetch_array($res)){
         $group_id = $row[group_id];
@@ -84,7 +84,7 @@ if(!$method) {
         $g_card_row = mysqli_fetch_array($g_card_res);
         $main_link = $g_card_row[card_short_url].$mem_code;
         $img = $g_card_row[main_img1];
-        $title = $g_card_row[name];
+        $title = $g_card_row['name'];
         $card_array = array();
         $g_card_sql = "select card_short_url,mem_code,card_title from Gn_Iam_Name_Card c inner join Gn_Member m on c.mem_id=m.mem_id where c.group_id='$group_id' and c.phone_display = 'Y'";
         $g_card_res = mysqli_query($self_con,$g_card_sql);
@@ -93,7 +93,7 @@ if(!$method) {
             $card_title = $g_card_row[card_title];
             if($card_title == "")
                $card_title = $i."번 카드";
-            $card = array("card_title"=>$card_title,"card_link"=>$g_card_row[card_short_url].$g_card_row[mem_code]);
+            $card = array("card_title"=>$card_title,"card_link"=>$g_card_row[card_short_url].$g_card_row['mem_code']);
             array_push($card_array,$card);
             $i++;
         }
@@ -103,7 +103,7 @@ if(!$method) {
     echo json_encode(array("result"=>$result));
 }else if($method == "create_group_card"){
     $new_card_short_url = generateRandomString();
-    $sql = "insert into Gn_Iam_Name_Card set mem_id = '$_SESSION[iam_member_id]',
+    $sql = "insert into Gn_Iam_Name_Card set mem_id = '{$_SESSION['iam_member_id']}',
                                                 group_id='$group_id',
                                                 card_title='$card_title',
                                                 card_name='$card_title',
@@ -111,7 +111,7 @@ if(!$method) {
                                                 req_data=now(),
                                                 up_data=now()";
     mysqli_query($self_con,$sql);
-    $mem_sql="select * from Gn_Member where mem_id='$_SESSION[iam_member_id]'";
+    $mem_sql="select * from Gn_Member where mem_id='{$_SESSION['iam_member_id']}'";
     $mem_res=mysqli_query($self_con,$mem_sql);
     $mem_row=mysqli_fetch_array($mem_res);
     $site_iam = $mem_row['site_iam'];
@@ -121,13 +121,13 @@ if(!$method) {
     else
         $service = "http://".$site_iam.".kiam.kr";
     $buyer_name = $mem_row['mem_name'];
-    $pay_method = $_SESSION[iam_member_id]."/".$buyer_name;
+    $pay_method = $_SESSION['iam_member_id']."/".$buyer_name;
     $buyer_phone = $mem_row['mem_phone'];
     $cur_point = $mem_row['mem_point'] * 1 - $price * 1;
-    $service = $service."?".$new_card_short_url.$mem_row[mem_code]."&cur_win=group-con&gkind=".$group_id;
+    $service = $service."?".$new_card_short_url.$mem_row['mem_code']."&cur_win=group-con&gkind=".$group_id;
     $item_name = "그룹 카드/".$new_card_short_url;
     $point = 1;
-    $sql_buyer = "insert into Gn_Item_Pay_Result set buyer_id='$_SESSION[iam_member_id]',
+    $sql_buyer = "insert into Gn_Item_Pay_Result set buyer_id='{$_SESSION['iam_member_id']}',
                                                     buyer_tel='$buyer_phone',
                                                     site='$service',
                                                     pay_method='$pay_method',
@@ -142,47 +142,47 @@ if(!$method) {
                                                     point_val=$point,
                                                     type='group_card',
                                                     current_point=$cur_point,
-                                                    current_cash=$mem_row[mem_cash]";
+                                                    current_cash={$mem_row['mem_cash']}";
     mysqli_query($self_con,$sql_buyer);
 
-    $sql_update = "update Gn_Member set mem_point={$cur_point} where mem_id='{$_SESSION[iam_member_id]}'";
+    $sql_update = "update Gn_Member set mem_point={$cur_point} where mem_id='{$_SESSION['iam_member_id']}'";
     mysqli_query($self_con,$sql_update);
     echo json_encode(array("result"=>"success"));
 }else if($method == "send_invite"){
     $mem_array = explode(",",$members);
     for($i = 0; $i < count($mem_array);$i++){
         $invite_mem = $mem_array[$i];
-        $sql = "insert into gn_group_invite set mem_id = '$_SESSION[iam_member_id]',group_id = '$group_id',invite_id='$invite_mem'";
+        $sql = "insert into gn_group_invite set mem_id = '{$_SESSION['iam_member_id']}',group_id = '$group_id',invite_id='$invite_mem'";
         mysqli_query($self_con,$sql);
     }
     echo json_encode(array("result"=>"success"));
 }else if($method == "del_invite"){
-    $sql = "delete from gn_group_invite where invite_id = '$_SESSION[iam_member_id]' and group_id = '$group_id'";
+    $sql = "delete from gn_group_invite where invite_id = '{$_SESSION['iam_member_id']}' and group_id = '$group_id'";
     mysqli_query($self_con,$sql);
     echo json_encode(array("result"=>"success"));
 }else if($method == "accept_invite"){
-    $sql = "delete from gn_group_invite where invite_id = '$_SESSION[iam_member_id]' and group_id = '$group_id'";
+    $sql = "delete from gn_group_invite where invite_id = '{$_SESSION['iam_member_id']}' and group_id = '$group_id'";
     mysqli_query($self_con,$sql);
-    $sql = "select count(*) from gn_group_member where mem_id='$_SESSION[iam_member_id]' and group_id='$group_id'";
+    $sql = "select count(*) from gn_group_member where mem_id='{$_SESSION['iam_member_id']}' and group_id='$group_id'";
     $res = mysqli_query($self_con,$sql);
     $row = mysqli_fetch_array($res);
     if($row[0] == 0){
-        $sql = "insert into gn_group_member set mem_id='$_SESSION[iam_member_id]',group_id='$group_id',req_date=now(),visit_date=now()";
+        $sql = "insert into gn_group_member set mem_id='{$_SESSION['iam_member_id']}',group_id='$group_id',req_date=now(),visit_date=now()";
         mysqli_query($self_con,$sql);
         echo json_encode(array("result"=>"success"));
     }else{
         echo json_encode(array("result"=>"이미 가입되어있는 그룹입니다."));
     }
 }else if($method == "pin"){
-    $sql = "select * from gn_group_member where mem_id='$_SESSION[iam_member_id]' and group_id='$group_id'";
+    $sql = "select * from gn_group_member where mem_id='{$_SESSION['iam_member_id']}' and group_id='$group_id'";
     $res = mysqli_query($self_con,$sql);
     $row = mysqli_fetch_array($res);
     if($row[fix_status] == "Y"){
-        $sql = "update gn_group_member set fix_status = 'N' where mem_id='$_SESSION[iam_member_id]' and group_id='$group_id'";
+        $sql = "update gn_group_member set fix_status = 'N' where mem_id='{$_SESSION['iam_member_id']}' and group_id='$group_id'";
         mysqli_query($self_con,$sql);
         echo json_encode(array("result"=>"N"));
     }else{
-        $sql = "update gn_group_member set fix_status = 'Y' where mem_id='$_SESSION[iam_member_id]' and group_id='$group_id'";
+        $sql = "update gn_group_member set fix_status = 'Y' where mem_id='{$_SESSION['iam_member_id']}' and group_id='$group_id'";
         mysqli_query($self_con,$sql);
         echo json_encode(array("result"=>"Y"));
     }

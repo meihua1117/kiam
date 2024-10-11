@@ -2,7 +2,7 @@
 $path="./";
 include_once "_head.php";
 extract($_REQUEST);
-if(!$_SESSION[one_member_id])
+if(!$_SESSION['one_member_id'])
 {
 
 ?>
@@ -12,7 +12,7 @@ location.replace('/ma.php');
 <?
 exit;
 }
-	$sql="select * from Gn_Member  where mem_id='".$_SESSION[one_member_id]."'";
+	$sql="select * from Gn_Member  where mem_id='".$_SESSION['one_member_id']."'";
 	$sresul_num=mysqli_query($self_con,$sql);
 	$data=mysqli_fetch_array($sresul_num);	
 	
@@ -118,7 +118,7 @@ $(function(){
                 <table class="list_table1" width="100%" border="0" cellspacing="0" cellpadding="0">
                 <tr>
                     <th class="w200">주소록명</th>
-                    <td><input type="text" name="address_name" placeholder="" id="address_name" value="<?=$data[name]?>" style="width:200px"/> <input type="button" value="주소록 조회" class="button " id="searchAddressBtn"></td>
+                    <td><input type="text" name="address_name" placeholder="" id="address_name" value="<?=$data['name']?>" style="width:200px"/> <input type="button" value="주소록 조회" class="button " id="searchAddressBtn"></td>
                 </tr>   										
                 <tr>
                     <th class="w200">이벤트</th>

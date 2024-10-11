@@ -87,7 +87,7 @@ while($res = mysqli_fetch_array($result_state)){
                 send_deny_wushi_0:'ok',
                 send_deny_wushi_1:'ok',
                 send_deny_wushi_2:'ok',
-                send_go_user_cnt:[user_cnt],
+                send_go_user_cnt:['user_cnt'],
                 send_go_max_cnt:[go_max_cnt],
                 send_go_memo2:[go_memo2],
                 send_go_cnt1:[go_cnt1],

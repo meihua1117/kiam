@@ -186,7 +186,7 @@ function excel_down_p_group(pno,one_member_id){
                </div>
                                
               <?php if($_SESSION['one_member_admin_id'] != "onlyonemaket"){
-                  if($_SESSION[one_member_subadmin_id] != "" && $_SESSION[one_member_subadmin_domain] == $HTTP_HOST) {} else {?>
+                  if($_SESSION['one_member_subadmin_id'] != "" && $_SESSION['one_member_subadmin_domain'] == $HTTP_HOST) {} else {?>
                     <button class="btn btn-primary pull-right" style="margin-right: 5px;" onclick="excel_down('/excel_down/excel_member_down_.php');return false;"><i class="fa fa-download"></i> 엑셀다운받기</button>
                 <?}
               }?>
@@ -276,7 +276,7 @@ function excel_down_p_group(pno,one_member_id){
                 	$pageCnt = 20;
                     // 검색 조건을 적용한다.
                     $searchStr .= $search_key ? " AND (a.mem_id LIKE '%".$search_key."%' or a.mem_phone like '%".$search_key."%' or a.mem_name like '%".$search_key."%' or a.site like  '%" .$search_key."%' or a.recommend_id like  '%".$search_key. "%' or b.sendnum like '%".$search_key. "%' or a.zy like '%".$search_key."%')" : null;
-                    if($_SESSION[one_member_subadmin_id] != "" && $_SESSION[one_member_subadmin_domain] == $HTTP_HOST) {
+                    if($_SESSION['one_member_subadmin_id'] != "" && $_SESSION['one_member_subadmin_domain'] == $HTTP_HOST) {
                         $do = explode(".", $HTTP_HOST);
                         $searchStr .= " and a.site = '".$do[0]."'";
                     }

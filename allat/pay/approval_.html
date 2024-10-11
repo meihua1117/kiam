@@ -2,7 +2,7 @@
 include_once $path."../../lib/rlatjd_fun.php";
 $mid = date("YmdHis");
 
-$sql="select * from Gn_Member where mem_id='$_SESSION[one_member_id]' ";
+$sql="select * from Gn_Member where mem_id='{$_SESSION['one_member_id']}' ";
 $resul=mysqli_query($self_con,$sql);
 $data=mysqli_fetch_array($resul);
 ?>
@@ -72,7 +72,7 @@ td   { font-family:굴림체; font-size:12px; }
     <!--승인금액-->
     <input type="hidden" name="allat_amt" id="allat_amt" value="1000" size="19" maxlength=10>
     <!--회원ID-->
-    <input type="hidden" name="allat_pmember_id" value="<?php echo $_SESSION[one_member_id];?>" size="19" maxlength=20>
+    <input type="hidden" name="allat_pmember_id" value="<?php echo $_SESSION['one_member_id'];?>" size="19" maxlength=20>
     <!--상품코드-->
     <input type="hidden" name="allat_product_cd" value="Business-월간결제" size="19" maxlength=1000>
     <!--상품명-->

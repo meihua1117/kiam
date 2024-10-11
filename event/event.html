@@ -30,13 +30,13 @@
 		}
 		else{
 			// 기존에디터로 편집된 랜딩페이지를 위해서 추가됨
-			if(strpos($data[content], '<img src="upload/') !== false){
-				$meta_img1 = explode('<img src="upload/', $data[content]);
+			if(strpos($data['content'], '<img src="upload/') !== false){
+				$meta_img1 = explode('<img src="upload/', $data['content']);
 				$meta_img2 = explode('"', trim($meta_img1[1]));
 				$meta_img = "/upload/".trim($meta_img2[0]);
 			}
-			else if(strpos($data[content], '<img src="/naver_editor/upload_editor/') !== false){
-				$meta_img1 = explode('<img src="/naver_editor/upload_editor/', $data[content]);
+			else if(strpos($data['content'], '<img src="/naver_editor/upload_editor/') !== false){
+				$meta_img1 = explode('<img src="/naver_editor/upload_editor/', $data['content']);
 				$meta_img2 = explode('"', trim($meta_img1[1]));
 				$meta_img = "/naver_editor/upload_editor/".trim($meta_img2[0]);
 			}
@@ -430,7 +430,7 @@
 				$m_id1 = $id;
 			}
 			else{
-				$m_id1 = $_SESSION[one_member_id];
+				$m_id1 = $_SESSION['one_member_id'];
 			}
 
 			$sql="insert into Gn_event_request set landing_idx='$landing_idx',
@@ -531,14 +531,14 @@
 						if($row['image2'])
 							$jpg2 = "https://kiam.kr/adjunct/mms/thum/".$row['image2'];
 	
-						//$row[content] = htmlspecialchars($row[content],ENT_QUOTES );
+						//$row['content'] = htmlspecialchars($row['content'],ENT_QUOTES );
 	
-						sendmms(4, $mem_id, $send_num, $recv_num, $reservation, $row[title], $row[content], $jpg, $jpg1, $jpg2, "Y", $row[sms_idx], $row[sms_detail_idx], $request_idx, "", $row[send_deny]);	
+						sendmms(4, $mem_id, $send_num, $recv_num, $reservation, $row[title], $row['content'], $jpg, $jpg1, $jpg2, "Y", $row[sms_idx], $row[sms_detail_idx], $request_idx, "", $row[send_deny]);	
 	
 						$query = "insert into Gn_MMS_Agree set mem_id='$mem_id',
 						send_num='$send_num',
 						recv_num='$recv_num',
-						content='$row[content]',
+						content='{$row['content']}',
 						title='$row[title]',
 						jpg='$jpg',
 						reg_date=NOW(),
@@ -632,7 +632,7 @@
 					mem_add1='$addr',
 					mem_email='$email',
 					mem_sex='$sex',
-					join_ip='$_SERVER[REMOTE_ADDR]'
+					join_ip='{$_SERVER['REMOTE_ADDR']}'
 					";
 					mysqli_query($self_con,$query);
 					$mem_code = mysqli_insert_id($self_con);
@@ -1026,16 +1026,16 @@
 											$sql="select count(lecture_id) as cnt from Gn_lecture where $sql_serch ";
 											$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 											$row=mysqli_fetch_array($result);
-											$intRowCount=$row[cnt];
+											$intRowCount=$row['cnt'];
 											if($intRowCount)
 											{
-											    if (!$_POST[lno])
+											    if (!$_POST['lno'])
 											        $intPageSize =30;
 											    else
-											    $intPageSize = $_POST[lno];
-											    if($_POST[page])
+											    $intPageSize = $_POST['lno'];
+											    if($_POST['page'])
 											    {
-											        $page=(int)$_POST[page];
+											        $page=(int)$_POST['page'];
 											        $sort_no=$intRowCount-($intPageSize*$page-$intPageSize);
 											    }
 											    else
@@ -1043,20 +1043,20 @@
 											        $page=1;
 											        $sort_no=$intRowCount;
 											    }
-    											if($_POST[page2])
-    											    $page2=(int)$_POST[page2];
+    											if($_POST['page2'])
+    											    $page2=(int)$_POST['page2'];
     											else
     											    $page2=1;
 
     											$int=($page-1)*$intPageSize;
 
-    											if($_REQUEST[order_status])
-    											    $order_status=$_REQUEST[order_status];
+    											if($_REQUEST['order_status'])
+    											    $order_status=$_REQUEST['order_status'];
     											else
     											    $order_status="asc";
 
-    											if($_REQUEST[order_name])
-    											    $order_name=$_REQUEST[order_name];
+    											if($_REQUEST['order_name'])
+    											    $order_name=$_REQUEST['order_name'];
     											else
     											    $order_name="start_date";
 
@@ -1348,16 +1348,16 @@
 									                                where $sql_serch ";
 									$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 									$row=mysqli_fetch_array($result);
-									$intRowCount=$row[cnt];
+									$intRowCount=$row['cnt'];
 									if($intRowCount)
 									{
-									if (!$_POST[lno])
+									if (!$_POST['lno'])
 									$intPageSize =30;
 									else
-									$intPageSize = $_POST[lno];
-									if($_POST[page])
+									$intPageSize = $_POST['lno'];
+									if($_POST['page'])
 									{
-									$page=(int)$_POST[page];
+									$page=(int)$_POST['page'];
 									$sort_no=$intRowCount-($intPageSize*$page-$intPageSize);
 									}
 									else
@@ -1365,18 +1365,18 @@
 									$page=1;
 									$sort_no=$intRowCount;
 									}
-									if($_POST[page2])
-									$page2=(int)$_POST[page2];
+									if($_POST['page2'])
+									$page2=(int)$_POST['page2'];
 									else
 									$page2=1;
 
 									$int=($page-1)*$intPageSize;
-									if($_REQUEST[order_status])
-									$order_status=$_REQUEST[order_status];
+									if($_REQUEST['order_status'])
+									$order_status=$_REQUEST['order_status'];
 									else
 									$order_status="desc";
-									if($_REQUEST[order_name])
-									$order_name=$_REQUEST[order_name];
+									if($_REQUEST['order_name'])
+									$order_name=$_REQUEST['order_name'];
 									else
 									$order_name="review_id";
 									$intPageCount=(int)(($intRowCount+$intPageSize-1)/$intPageSize);
@@ -1414,7 +1414,7 @@
 								<tr>
 									<td class="content" colspan="3" style="">
 										<div class="div_content">
-											<?=nl2br($row[content])?>
+											<?=nl2br($row['content'])?>
 										</div>
 										<input type="button" value="+" class="button" id="viewMore" style="line-height: revert;font-size: 20px;right: 40px;">
 										<div class="dropdown" style="position: absolute; right: 3px; bottom: 0px;">
@@ -1430,13 +1430,13 @@
 								</tr>
 								<tr>
 									<td style="font-size:12px;color:#7F7F7F;">
-										<?=$row[mem_name]?>
+										<?=$row['mem_name']?>
 									</td>
 									<td style="font-size:12px;font-weight:bold;color:#2F5597;" class="intro">
 										<?php echo $row['profile'];?>
 									</td>
 									<td class="date">
-										<?=$row[regdate]?>
+										<?=$row['regdate']?>
 									</td>
 								</tr>
 								<?

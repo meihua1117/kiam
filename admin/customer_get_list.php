@@ -333,7 +333,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                       $res_mem_reg = mysqli_query($self_con,$sql_mem_reg);
                       $row_mem_reg = mysqli_fetch_array($res_mem_reg);
                       $mem_code = '';
-                      if($row_mem_reg[mem_code] != ''){
+                      if($row_mem_reg['mem_code'] != ''){
                         $edit_type = "member_get_edit";
                         $mem_code = $row_mem_reg['mem_code'];
                         $user_id = $row_mem_reg['mem_id']?$row_mem_reg['mem_id']:'';

@@ -1,7 +1,7 @@
 <?
 $path = "./";
 include_once "_head.php";
-$sql = "select * from Gn_Member where mem_id='$_SESSION[one_member_id]' and site != ''";
+$sql = "select * from Gn_Member where mem_id='{$_SESSION['one_member_id']}' and site != ''";
 $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 $member = mysqli_fetch_array($result);
 $phone = explode("-", $member['mem_phone']);
@@ -15,7 +15,7 @@ if ($_REQUEST[status] == 1 && $member_1[mem_id] != 'obmms02') {
 <?
     exit;
 }
-if (!$_SESSION[one_member_id]) {
+if (!$_SESSION['one_member_id']) {
 ?>
     <script language="javascript">
         location.replace('/ma.php');
@@ -37,7 +37,7 @@ switch ($_REQUEST[status]) {
         $left_str = "관리자 매뉴얼";
         break;
 }
-if ($_REQUEST[one_no])
+if ($_REQUEST['one_no'])
     $up_path = $row_no[up_path];
 else
     $up_path = "one_" . $_REQUEST[status];
@@ -93,13 +93,13 @@ else
                             <tr>
                                 <td>아이디</td>
                                 <td>
-                                    <?php echo $_SESSION[one_member_id]; ?>
+                                    <?php echo $_SESSION['one_member_id']; ?>
                                 </td>
                             </tr>
                             <tr>
                                 <td>이름</td>
                                 <td>
-                                    <?php echo $member[mem_name]; ?>
+                                    <?php echo $member['mem_name']; ?>
                                 </td>
                             </tr>
                             <tr>
@@ -136,7 +136,7 @@ else
                         <tr>
                             <td colspan="2" style="background-color:#FFF">
                                 <script language="javascript" src="naver_editor/js/HuskyEZCreator.js" charset="utf-8"></script>
-                                <textarea name="ir1" id="ir1" rows="10" cols="100" style="width:100%; height:200px; min-width:645px; display:none;"><?= $row_no[content] ?></textarea>
+                                <textarea name="ir1" id="ir1" rows="10" cols="100" style="width:100%; height:200px; min-width:645px; display:none;"><?= $row_no['content'] ?></textarea>
                                 <script language="javascript" src="naver_editor/js/naver_editor.js" charset="utf-8"></script>
                             </td>
                         </tr>

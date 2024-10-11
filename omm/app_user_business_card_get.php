@@ -48,7 +48,7 @@ if ($useType == '1') {
 			$resul_p = mysqli_query($self_con,$select_user);
 			$row_p = mysqli_fetch_array($resul_p);
 
-			if((!$row_p[name] || !$row_p[job] || !$row_p[org_name] || !$row_p[address] || !$row_p[mobile] || !$row_p[email1]) && $row_p[comment]){
+			if((!$row_p['name'] || !$row_p[job] || !$row_p[org_name] || !$row_p[address] || !$row_p[mobile] || !$row_p[email1]) && $row_p[comment]){
 
 				$cur_url = "http://175.126.176.97/get_profile_info.php";
 				$postvars = 'box_text='. $row_p[comment];
@@ -132,7 +132,7 @@ if ($useType == '1') {
 
 						$name = str_replace(" ", "", trim($arr[$i]));
 						if(mb_strlen($name, 'utf-8') == 3){
-							$row_p[name] = trim($arr[$i]);
+							$row_p['name'] = trim($arr[$i]);
 							// echo $name;
 						}
 
@@ -179,7 +179,7 @@ if ($useType == '1') {
 	$resul_p = mysqli_query($self_con,$select_user);
 	$row_p = mysqli_fetch_array($resul_p);
 
-	if((!$row_p[name] || !$row_p[job] || !$row_p[org_name] || !$row_p[address] || !$row_p[mobile] || !$row_p[email1]) && $row_p[comment]){
+	if((!$row_p['name'] || !$row_p[job] || !$row_p[org_name] || !$row_p[address] || !$row_p[mobile] || !$row_p[email1]) && $row_p[comment]){
 
 		$cur_url = "http://175.126.176.97/get_profile_info.php";
         $postvars = 'box_text='. $row_p[comment];
@@ -263,7 +263,7 @@ if ($useType == '1') {
 
 				$name = str_replace(" ", "", trim($arr[$i]));
 				if(mb_strlen($name, 'utf-8') == 3){
-					$row_p[name] = trim($arr[$i]);
+					$row_p['name'] = trim($arr[$i]);
 					// echo $name;
 				}
 

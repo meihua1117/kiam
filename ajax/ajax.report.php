@@ -420,7 +420,7 @@ if ($_POST['method'] == "create_format") {
                         mem_add1='',
                         mem_email='',
                         mem_sex='',
-                        join_ip='$_SERVER[REMOTE_ADDR]'
+                        join_ip='{$_SERVER['REMOTE_ADDR']}'
                         ";
         mysqli_query($self_con,$query);
         $mem_code = mysqli_insert_id($self_con);

@@ -3,8 +3,8 @@ $path="./";
 include_once $path."lib/rlatjd_fun.php";
 $type = $_REQUEST['type'];
 if($type == "deny"){
-    if(!$_REQUEST[phone]) $sql_serch=" 1=0 ";
-    else $sql_serch=" dest='$_REQUEST[phone]' ";
+    if(!$_REQUEST['phone']) $sql_serch=" 1=0 ";
+    else $sql_serch=" dest='{$_REQUEST['phone']}' ";
     if($_REQUEST[grp_id])
         $sql_serch.=" and grp_id = '$_REQUEST[grp_id]' ";
     if($_REQUEST[grp_2])
@@ -14,13 +14,13 @@ if($type == "deny"){
     $sql="select count(seq) as cnt from sm_data where $sql_serch ";
     $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
     $row=mysqli_fetch_array($result);
-    $intRowCount=$row[cnt];
-    if($_POST[page])
-        $page=(int)$_POST[page];
+    $intRowCount=$row['cnt'];
+    if($_POST['page'])
+        $page=(int)$_POST['page'];
     else
         $page=1;
-    if($_POST[page2])
-        $page2=(int)$_POST[page2];
+    if($_POST['page2'])
+        $page2=(int)$_POST['page2'];
     else
         $page2=1;
     if (!$_REQUEST[contact_count]) 
@@ -28,12 +28,12 @@ if($type == "deny"){
     else 
         $intPageSize = $_REQUEST[contact_count];
     $int=($page-1)*$intPageSize;
-    if($_REQUEST[order_status])
-        $order_status=$_REQUEST[order_status];
+    if($_REQUEST['order_status'])
+        $order_status=$_REQUEST['order_status'];
     else
         $order_status="asc";
-    if($_REQUEST[order_name])
-        $order_name=$_REQUEST[order_name];
+    if($_REQUEST['order_name'])
+        $order_name=$_REQUEST['order_name'];
     else
         $order_name="seq";
 
@@ -42,8 +42,8 @@ if($type == "deny"){
     $result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 }
 else{
-    if(!$_REQUEST[phone]) $sql_serch=" 1=0 ";
-    else $sql_serch=" b.mem_id='$_REQUEST[mem_id]' and b.chanel_type=9 and a.dest='$_REQUEST[phone]'";
+    if(!$_REQUEST['phone']) $sql_serch=" 1=0 ";
+    else $sql_serch=" b.mem_id='$_REQUEST[mem_id]' and b.chanel_type=9 and a.dest='{$_REQUEST['phone']}'";
     if($_REQUEST[grp_id])
         $sql_serch.=" and grp_id = '$_REQUEST[grp_id]' ";
     if($_REQUEST[grp_2])
@@ -53,13 +53,13 @@ else{
     $sql="select count(a.seq) as cnt from sm_data a inner join Gn_MMS_Deny b on a.msg_url=b.recv_num where $sql_serch ";
     $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
     $row=mysqli_fetch_array($result);
-    $intRowCount=$row[cnt];
-    if($_POST[page])
-        $page=(int)$_POST[page];
+    $intRowCount=$row['cnt'];
+    if($_POST['page'])
+        $page=(int)$_POST['page'];
     else
         $page=1;
-    if($_POST[page2])
-        $page2=(int)$_POST[page2];
+    if($_POST['page2'])
+        $page2=(int)$_POST['page2'];
     else
         $page2=1;
     if (!$_REQUEST[contact_count]) 
@@ -67,12 +67,12 @@ else{
     else 
         $intPageSize = $_REQUEST[contact_count];
     $int=($page-1)*$intPageSize;
-    if($_REQUEST[order_status])
-        $order_status=$_REQUEST[order_status];
+    if($_REQUEST['order_status'])
+        $order_status=$_REQUEST['order_status'];
     else
         $order_status="asc";
-    if($_REQUEST[order_name])
-        $order_name=$_REQUEST[order_name];
+    if($_REQUEST['order_name'])
+        $order_name=$_REQUEST['order_name'];
     else
         $order_name="a.seq";
 
@@ -137,7 +137,7 @@ else{
             <input type="hidden" name="order_status" value="<?=$order_status?>"/>
             <input type="hidden" name="page" value="<?=$page?>" />
             <input type="hidden" name="page2" value="<?=$page2?>" />
-            <input type="hidden" name="phone" value="<?=$_REQUEST[phone]?>" />
+            <input type="hidden" name="phone" value="<?=$_REQUEST['phone']?>" />
             <input type="hidden" name="grp_2" value="<?=$_REQUEST[grp_2]?>" />
             <div class="grp_detail">
                 <select name="deta_select">
@@ -165,7 +165,7 @@ else{
                         <li><input type="checkbox" id="all_id" onclick="check_all(this,'name_box');box_ed_deny(-1,'<?=$_REQUEST[grp_id]?>')" /></li>
                         <li style="font-size:13px;font-family:Nanum Gothic;">
                             <label for="all_id">선택</label>
-                            <a href="javascript:order_sort(group_detail_form,'name',group_detail_form.order_status.value)">이름<? if($_REQUEST[order_name]=="name"){echo $_REQUEST[order_status]=="desc"?'▼':'▲';}else{ echo '▼'; }?></a>
+                            <a href="javascript:order_sort(group_detail_form,'name',group_detail_form.order_status.value)">이름<? if($_REQUEST['order_name']=="name"){echo $_REQUEST['order_status']=="desc"?'▼':'▲';}else{ echo '▼'; }?></a>
                         </li>
                     </td>
                     <td style="width:25%;">전화번호</td>

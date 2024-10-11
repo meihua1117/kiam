@@ -219,10 +219,10 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                       <td><input type="checkbox" name=""></td>
                       <td><?=$number--?></td>
                       <td style="font-size:12px;"><?=$row[m_id]?></td>
-                      <td style="font-size:12px;"><?=$srow[mem_name]?></td>
+                      <td style="font-size:12px;"><?=$srow['mem_name']?></td>
                       <td style="font-size:12px;"><?=$row[reservation_title]?></td>
                       <td><?=$row[reservation_desc]?></td>
-                      <td><a href="/mypage_reservation_create.php?sms_idx=<?=$row[sms_idx]?>" target="_blank"><?=number_format($strow[cnt])?></a></td>
+                      <td><a href="/mypage_reservation_create.php?sms_idx=<?=$row[sms_idx]?>" target="_blank"><?=number_format($strow['cnt'])?></a></td>
                       <td><?=number_format($cnt)?>/<?=number_format($cnt)?></td>
                       <td>
                           <label class="switch">
@@ -231,7 +231,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                           </label>
                       </td>
                       </td>
-                      <td><?=$row[regdate]?></td>
+                      <td><?=$row['regdate']?></td>
                     </tr>
                     <?
                     $c++;

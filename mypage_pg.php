@@ -11,7 +11,7 @@ by rturbo
 $path="./";
 include_once "_head.php";
 
-if(!$_SESSION[one_member_id])
+if(!$_SESSION['one_member_id'])
 {
     $chk = false;
 
@@ -101,7 +101,7 @@ exit;
 }
 
 
-	$sql="select * from Gn_Member  where mem_id='".$_SESSION[one_member_id]."'";
+	$sql="select * from Gn_Member  where mem_id='".$_SESSION['one_member_id']."'";
 	$sresul_num=mysqli_query($self_con,$sql);
 	$member = $data=mysqli_fetch_array($sresul_num);	
 	
@@ -155,7 +155,7 @@ $(function(){
         <div class="join">   
         <!--//마이페이지 결제정보--> 
                 <?
-				$sql_serch=" buyer_id ='$_SESSION[one_member_id]' ";
+				$sql_serch=" buyer_id ='{$_SESSION['one_member_id']}' ";
 				if($_REQUEST[search_date])
 				{					
 					if($_REQUEST[rday1])
@@ -173,7 +173,7 @@ $(function(){
 
 				$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 				$row=mysqli_fetch_array($result);
-				$intRowCount=$row[cnt];
+				$intRowCount=$row['cnt'];
 
 // for debug code
 
@@ -188,13 +188,13 @@ $(function(){
 					exit();
 
 
-				if (!$_POST[lno]) 
+				if (!$_POST['lno']) 
 					$intPageSize =20;
 				else 
-				   $intPageSize = $_POST[lno];				
-				if($_POST[page])
+				   $intPageSize = $_POST['lno'];				
+				if($_POST['page'])
 				{
-				  $page=(int)$_POST[page];
+				  $page=(int)$_POST['page'];
 				  $sort_no=$intRowCount-($intPageSize*$page-$intPageSize); 
 				}
 				else
@@ -202,17 +202,17 @@ $(function(){
 				  $page=1;
 				  $sort_no=$intRowCount;
 				}
-				if($_POST[page2])
-				  $page2=(int)$_POST[page2];
+				if($_POST['page2'])
+				  $page2=(int)$_POST['page2'];
 				else
 				  $page2=1;
 				$int=($page-1)*$intPageSize;
-				if($_REQUEST[order_status])
-				  $order_status=$_REQUEST[order_status];
+				if($_REQUEST['order_status'])
+				  $order_status=$_REQUEST['order_status'];
 				else
 				  $order_status="desc"; 
-				if($_REQUEST[order_name])
-				  $order_name=$_REQUEST[order_name];
+				if($_REQUEST['order_name'])
+				  $order_name=$_REQUEST['order_name'];
 				else
 				  $order_name="end_status";
 				$intPageCount=(int)(($intRowCount+$intPageSize-1)/$intPageSize);     
@@ -341,16 +341,16 @@ jQuery(function($){
               <tr>
                 <td style="width:6%;">번호</td>
                 <td style="width:6%;">회원구분</td>
-                <td style="width:15%;"><a href="javascript:void(0)" onclick="order_sort(pay_form,'date',pay_form.order_status.value)">결제일<? if($_REQUEST[order_name]=="date"){echo $_REQUEST[order_status]=="desc"?'▼':'▲';}else{ echo '▼'; }?></a></td>
-                <td style="width:15%;"><a href="javascript:void(0)" onclick="order_sort(pay_form,'end_date',pay_form.order_status.value)">만료(해지)일<? if($_REQUEST[order_name]=="end_date"){echo $_REQUEST[order_status]=="desc"?'▼':'▲';}else{ echo '▼'; }?></a></td>
-                <td style="width:6%"><a href="javascript:void(0)" onclick="order_sort(pay_form,'month_cnt',pay_form.order_status.value)">개월수<? if($_REQUEST[order_name]=="month_cnt"){echo $_REQUEST[order_status]=="desc"?'▼':'▲';}else{ echo '▼'; }?></a></td>
-                <td style="width:8%"><a href="javascript:void(0)" onclick="order_sort(pay_form,'fujia_status',pay_form.order_status.value)">결제상품<? if($_REQUEST[order_name]=="fujia_status"){echo $_REQUEST[order_status]=="desc"?'▼':'▲';}else{ echo '▼'; }?></a></td>
-                <td style="width:10%;"><a href="javascript:void(0)" onclick="order_sort(pay_form,'payMethod',pay_form.order_status.value)">결제방식<? if($_REQUEST[order_name]=="payMethod"){echo $_REQUEST[order_status]=="desc"?'▼':'▲';}else{ echo '▼'; }?></a></td>            
+                <td style="width:15%;"><a href="javascript:void(0)" onclick="order_sort(pay_form,'date',pay_form.order_status.value)">결제일<? if($_REQUEST['order_name']=="date"){echo $_REQUEST['order_status']=="desc"?'▼':'▲';}else{ echo '▼'; }?></a></td>
+                <td style="width:15%;"><a href="javascript:void(0)" onclick="order_sort(pay_form,'end_date',pay_form.order_status.value)">만료(해지)일<? if($_REQUEST['order_name']=="end_date"){echo $_REQUEST['order_status']=="desc"?'▼':'▲';}else{ echo '▼'; }?></a></td>
+                <td style="width:6%"><a href="javascript:void(0)" onclick="order_sort(pay_form,'month_cnt',pay_form.order_status.value)">개월수<? if($_REQUEST['order_name']=="month_cnt"){echo $_REQUEST['order_status']=="desc"?'▼':'▲';}else{ echo '▼'; }?></a></td>
+                <td style="width:8%"><a href="javascript:void(0)" onclick="order_sort(pay_form,'fujia_status',pay_form.order_status.value)">결제상품<? if($_REQUEST['order_name']=="fujia_status"){echo $_REQUEST['order_status']=="desc"?'▼':'▲';}else{ echo '▼'; }?></a></td>
+                <td style="width:10%;"><a href="javascript:void(0)" onclick="order_sort(pay_form,'payMethod',pay_form.order_status.value)">결제방식<? if($_REQUEST['order_name']=="payMethod"){echo $_REQUEST['order_status']=="desc"?'▼':'▲';}else{ echo '▼'; }?></a></td>            
                 
                 <td style="width:9%;">결제한<br />폰 수</td>
                 <td style="width:9%;">등록된<br />건 수</td>
-                <td style="width:10%;"><a href="javascript:void(0)" onclick="order_sort(pay_form,'TotPrice',pay_form.order_status.value)">결제금액<? if($_REQUEST[order_name]=="TotPrice"){echo $_REQUEST[order_status]=="desc"?'▼':'▲';}else{ echo '▼'; }?></a></td>
-                <td style="width:12%;"><a href="javascript:void(0)" onclick="order_sort(pay_form,'end_status',pay_form.order_status.value)">상태<? if($_REQUEST[order_name]=="end_status"){echo $_REQUEST[order_status]=="desc"?'▼':'▲';}else{ echo '▼'; }?></a></td>
+                <td style="width:10%;"><a href="javascript:void(0)" onclick="order_sort(pay_form,'TotPrice',pay_form.order_status.value)">결제금액<? if($_REQUEST['order_name']=="TotPrice"){echo $_REQUEST['order_status']=="desc"?'▼':'▲';}else{ echo '▼'; }?></a></td>
+                <td style="width:12%;"><a href="javascript:void(0)" onclick="order_sort(pay_form,'end_status',pay_form.order_status.value)">상태<? if($_REQUEST['order_name']=="end_status"){echo $_REQUEST['order_status']=="desc"?'▼':'▲';}else{ echo '▼'; }?></a></td>
               </tr>
 <?
 // for debug code
@@ -409,7 +409,7 @@ jQuery(function($){
 
                 } // end while
 
-				$sql_serch=" buyer_id ='$_SESSION[one_member_id]' ";
+				$sql_serch=" buyer_id ='{$_SESSION['one_member_id']}' ";
 
 				if($_REQUEST[search_date]) {					
 					if($_REQUEST[rday1]) {
@@ -426,28 +426,28 @@ jQuery(function($){
 				$sql="select count(no) as cnt from tjd_pay_result_db where $sql_serch ";
 				$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 				$row=mysqli_fetch_array($result);
-				$intRowCount=$row[cnt];
+				$intRowCount=$row['cnt'];
 
-				if (!$_POST[lno]) $intPageSize =20;
-				else $intPageSize = $_POST[lno];				
+				if (!$_POST['lno']) $intPageSize =20;
+				else $intPageSize = $_POST['lno'];				
 
-				if($_POST[page]) {
-				  $page=(int)$_POST[page];
+				if($_POST['page']) {
+				  $page=(int)$_POST['page'];
 				  $sort_no=$intRowCount-($intPageSize*$page-$intPageSize); 
 				} else {
 				  $page=1;
 				  $sort_no=$intRowCount;
 				} // end if else
 
-				if($_POST[page2]) $page2=(int)$_POST[page2];
+				if($_POST['page2']) $page2=(int)$_POST['page2'];
 				else $page2=1;
 				
 				$int=($page-1)*$intPageSize;
 
-				if($_REQUEST[order_status]) $order_status=$_REQUEST[order_status];
+				if($_REQUEST['order_status']) $order_status=$_REQUEST['order_status'];
 				else $order_status="desc"; 
 
-				if($_REQUEST[order_name]) $order_name=$_REQUEST[order_name];
+				if($_REQUEST['order_name']) $order_name=$_REQUEST['order_name'];
 				else $order_name="end_status";
 
 				$intPageCount=(int)(($intRowCount+$intPageSize-1)/$intPageSize);     
@@ -530,7 +530,7 @@ jQuery(function($){
 				$sql="select a.* from tjd_pay_result a 
 				          left join Gn_Member b
 				                 on b.mem_id=a.buyer_id 
-				              where a.buyer_id='$_SESSION[one_member_id]'  and end_status='Y' order by end_date desc ";
+				              where a.buyer_id='{$_SESSION['one_member_id']}'  and end_status='Y' order by end_date desc ";
 				$result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));				
 				$row=mysqli_fetch_array($result);
 				$chk = false;
@@ -541,7 +541,7 @@ jQuery(function($){
 				    $chk = 2;    
 				}	        
         
-				    $sql_serch=" buyer_id ='$_SESSION[one_member_id]' ";
+				    $sql_serch=" buyer_id ='{$_SESSION['one_member_id']}' ";
 				if($_REQUEST[search_date])
 				{					
 					if($_REQUEST[rday1])
@@ -561,14 +561,14 @@ jQuery(function($){
 				where $sql_serch  and end_status='Y' ";
 				$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 				$row=mysqli_fetch_array($result);
-				$intRowCount=$row[cnt];
-				if (!$_POST[lno]) 
+				$intRowCount=$row['cnt'];
+				if (!$_POST['lno']) 
 					$intPageSize =20;
 				else 
-				   $intPageSize = $_POST[lno];				
-				if($_POST[page])
+				   $intPageSize = $_POST['lno'];				
+				if($_POST['page'])
 				{
-				  $page=(int)$_POST[page];
+				  $page=(int)$_POST['page'];
 				  $sort_no=$intRowCount-($intPageSize*$page-$intPageSize); 
 				}
 				else
@@ -576,17 +576,17 @@ jQuery(function($){
 				  $page=1;
 				  $sort_no=$intRowCount;
 				}
-				if($_POST[page2])
-				  $page2=(int)$_POST[page2];
+				if($_POST['page2'])
+				  $page2=(int)$_POST['page2'];
 				else
 				  $page2=1;
 				$int=($page-1)*$intPageSize;
-				if($_REQUEST[order_status])
-				  $order_status=$_REQUEST[order_status];
+				if($_REQUEST['order_status'])
+				  $order_status=$_REQUEST['order_status'];
 				else
 				  $order_status="desc"; 
-				if($_REQUEST[order_name])
-				  $order_name=$_REQUEST[order_name];
+				if($_REQUEST['order_name'])
+				  $order_name=$_REQUEST['order_name'];
 				else
 				  $order_name="no";
 				$intPageCount=(int)(($intRowCount+$intPageSize-1)/$intPageSize);     
@@ -740,9 +740,9 @@ jQuery(function($){
                     <?=$member['mem_name']?>
                 </td>
                 <td style="font-size:12px;"><?=$my_service_type?></td>
-                <td style="font-size:12px;"><?=$member[mem_name]?></td>
+                <td style="font-size:12px;"><?=$member['mem_name']?></td>
                 
-                <td style="font-size:12px;"><?=$sInfo[mem_name]?></td>
+                <td style="font-size:12px;"><?=$sInfo['mem_name']?></td>
                 <td style="font-size:12px;"><?=$service_type?></td>
                 <td style="font-size:12px;"><?=$row[date]?></td>
                 <td style="font-size:12px;"><?=$row[end_date]?></td>
@@ -759,8 +759,8 @@ jQuery(function($){
                 <td><?=$sort_no?></td>
                 <td style="font-size:12px;"><?=$member['mem_name']?></td>
                 <td style="font-size:12px;"><?=$my_service_type?></td>
-                <td style="font-size:12px;"><?=$sInfo[mem_name]?></td>
-                <td style="font-size:12px;"><?=$sInfo[mem_name]?></td>
+                <td style="font-size:12px;"><?=$sInfo['mem_name']?></td>
+                <td style="font-size:12px;"><?=$sInfo['mem_name']?></td>
                 <td style="font-size:12px;"><?=$service_type?></td>              
                 
                 
@@ -811,14 +811,14 @@ jQuery(function($){
         
         
                 if($member[service_type] > 1)
-				    $sql_serch=" buyer_id ='$_SESSION[one_member_id]' ";
+				    $sql_serch=" buyer_id ='{$_SESSION['one_member_id']}' ";
 				else
-				    $sql_serch=" recommend_id ='$_SESSION[one_member_id]' "; 
+				    $sql_serch=" recommend_id ='{$_SESSION['one_member_id']}' "; 
 				    
 				$sql="select * from tjd_pay_result a 
 				          left join Gn_Member b
 				                 on b.mem_id=a.buyer_id 
-				              where a.buyer_id='$_SESSION[one_member_id]'  and end_status='Y' ";
+				              where a.buyer_id='{$_SESSION['one_member_id']}'  and end_status='Y' ";
 				$result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));				
 				$row=mysqli_fetch_array($result);
 				
@@ -849,14 +849,14 @@ jQuery(function($){
 				where $sql_serch  and end_status='Y' ";
 				$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 				$row=mysqli_fetch_array($result);
-				$intRowCount=$row[cnt];
-				if (!$_POST[lno]) 
+				$intRowCount=$row['cnt'];
+				if (!$_POST['lno']) 
 					$intPageSize =20;
 				else 
-				   $intPageSize = $_POST[lno];				
-				if($_POST[page])
+				   $intPageSize = $_POST['lno'];				
+				if($_POST['page'])
 				{
-				  $page=(int)$_POST[page];
+				  $page=(int)$_POST['page'];
 				  $sort_no=$intRowCount-($intPageSize*$page-$intPageSize); 
 				}
 				else
@@ -864,17 +864,17 @@ jQuery(function($){
 				  $page=1;
 				  $sort_no=$intRowCount;
 				}
-				if($_POST[page2])
-				  $page2=(int)$_POST[page2];
+				if($_POST['page2'])
+				  $page2=(int)$_POST['page2'];
 				else
 				  $page2=1;
 				$int=($page-1)*$intPageSize;
-				if($_REQUEST[order_status])
-				  $order_status=$_REQUEST[order_status];
+				if($_REQUEST['order_status'])
+				  $order_status=$_REQUEST['order_status'];
 				else
 				  $order_status="desc"; 
-				if($_REQUEST[order_name])
-				  $order_name=$_REQUEST[order_name];
+				if($_REQUEST['order_name'])
+				  $order_name=$_REQUEST['order_name'];
 				else
 				  $order_name="no";
 				$intPageCount=(int)(($intRowCount+$intPageSize-1)/$intPageSize);     
@@ -1033,9 +1033,9 @@ jQuery(function($){
                     <?=$member['mem_name']?>
                 </td>
                 <td style="font-size:12px;"><?=$my_service_type?></td>
-                <td style="font-size:12px;"><?=$member[mem_name]?></td>
+                <td style="font-size:12px;"><?=$member['mem_name']?></td>
                 
-                <td style="font-size:12px;"><?=$sInfo[mem_name]?></td>
+                <td style="font-size:12px;"><?=$sInfo['mem_name']?></td>
                 <td style="font-size:12px;"><?=$service_type?></td>
                 <td style="font-size:12px;"><?=$row[date]?></td>
                 <td style="font-size:12px;"><?=$row[end_date]?></td>
@@ -1050,9 +1050,9 @@ jQuery(function($){
               <?php }else{?>
               <tr>
                 <td><?=$sort_no?></td>
-                <td style="font-size:12px;"><?=$sInfo[mem_name]?></td>
+                <td style="font-size:12px;"><?=$sInfo['mem_name']?></td>
                 <td style="font-size:12px;"><?=$service_type?></td>
-                <td style="font-size:12px;"><?=$sInfo[mem_name]?></td>
+                <td style="font-size:12px;"><?=$sInfo['mem_name']?></td>
                 
                 <td style="font-size:12px;"><?=$member['mem_name']?></td>
                 <td style="font-size:12px;"><?=$my_service_type?></td>
@@ -1109,9 +1109,9 @@ jQuery(function($){
         <li style="float:left;">
 <?php
 
-                //$sql_serch =" recommend_id  ='$_SESSION[one_member_id]' and a.member_type in ('스텝문자','사업문자-정기','사업문자1년','기본형','사업형-일반결제','일반결제-연간타입')"; 
-                $sql_serch =" recommend_id  ='$_SESSION[one_member_id]' "; 
-				//$sql_serch=" recommend_id ='$_SESSION[one_member_id]' and a.member_type='기본문자'"; 
+                //$sql_serch =" recommend_id  ='{$_SESSION['one_member_id']}' and a.member_type in ('스텝문자','사업문자-정기','사업문자1년','기본형','사업형-일반결제','일반결제-연간타입')"; 
+                $sql_serch =" recommend_id  ='{$_SESSION['one_member_id']}' "; 
+				//$sql_serch=" recommend_id ='{$_SESSION['one_member_id']}' and a.member_type='기본문자'"; 
 				if($_REQUEST[search_date])
 				{					
 					if($_REQUEST[rday1])
@@ -1131,14 +1131,14 @@ jQuery(function($){
 				where $sql_serch   and end_status='Y' ";
 				$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 				$row=mysqli_fetch_array($result);
-				$intRowCount=$row[cnt];
-				if (!$_POST[lno]) 
+				$intRowCount=$row['cnt'];
+				if (!$_POST['lno']) 
 					$intPageSize =20;
 				else 
-				   $intPageSize = $_POST[lno];				
-				if($_POST[page])
+				   $intPageSize = $_POST['lno'];				
+				if($_POST['page'])
 				{
-				  $page=(int)$_POST[page];
+				  $page=(int)$_POST['page'];
 				  $sort_no=$intRowCount-($intPageSize*$page-$intPageSize); 
 				}
 				else
@@ -1146,17 +1146,17 @@ jQuery(function($){
 				  $page=1;
 				  $sort_no=$intRowCount;
 				}
-				if($_POST[page2])
-				  $page2=(int)$_POST[page2];
+				if($_POST['page2'])
+				  $page2=(int)$_POST['page2'];
 				else
 				  $page2=1;
 				$int=($page-1)*$intPageSize;
-				if($_REQUEST[order_status])
-				  $order_status=$_REQUEST[order_status];
+				if($_REQUEST['order_status'])
+				  $order_status=$_REQUEST['order_status'];
 				else
 				  $order_status="desc"; 
-				if($_REQUEST[order_name])
-				  $order_name=$_REQUEST[order_name];
+				if($_REQUEST['order_name'])
+				  $order_name=$_REQUEST['order_name'];
 				else
 				  $order_name="no";
 				$intPageCount=(int)(($intRowCount+$intPageSize-1)/$intPageSize);     
@@ -1307,9 +1307,9 @@ jQuery(function($){
                     <?=$member['mem_name']?>
                 </td>
                 <td style="font-size:12px;"><?=$my_service_type?></td>
-                <td style="font-size:12px;"><?=$member[mem_name]?></td>
+                <td style="font-size:12px;"><?=$member['mem_name']?></td>
                 
-                <td style="font-size:12px;"><?=$sInfo[mem_name]?></td>
+                <td style="font-size:12px;"><?=$sInfo['mem_name']?></td>
                 <td style="font-size:12px;"><?=$service_type?></td>
                 <td style="font-size:12px;"><?=$row[date]?></td>
                 <td style="font-size:12px;"><?=$row[end_date]?></td>
@@ -1324,9 +1324,9 @@ jQuery(function($){
               <?php }else{?>
               <tr>
                 <td><?=$sort_no?></td>
-                <td style="font-size:12px;"><?=$sInfo[mem_name]?></td>
+                <td style="font-size:12px;"><?=$sInfo['mem_name']?></td>
                 <td style="font-size:12px;"><?=$service_type?></td>
-                <td style="font-size:12px;"><?=$sInfo[mem_name]?></td>
+                <td style="font-size:12px;"><?=$sInfo['mem_name']?></td>
                 
                 <td style="font-size:12px;"><?=$member['mem_name']?></td>
                 <td style="font-size:12px;"><?=$my_service_type?></td>
@@ -1386,7 +1386,7 @@ if($member['service_type'] == 2) {
         <li style="float:left;">
 <?php
 
-				$sql_serch=" recommend_id ='$_SESSION[one_member_id]' "; 
+				$sql_serch=" recommend_id ='{$_SESSION['one_member_id']}' "; 
 				if($_REQUEST[search_date])
 				{					
 					if($_REQUEST[rday1])
@@ -1406,14 +1406,14 @@ if($member['service_type'] == 2) {
 				where $sql_serch  and end_status='Y' ";
 				$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 				$row=mysqli_fetch_array($result);
-				$intRowCount=$row[cnt];
-				if (!$_POST[lno]) 
+				$intRowCount=$row['cnt'];
+				if (!$_POST['lno']) 
 					$intPageSize =20;
 				else 
-				   $intPageSize = $_POST[lno];				
-				if($_POST[page])
+				   $intPageSize = $_POST['lno'];				
+				if($_POST['page'])
 				{
-				  $page=(int)$_POST[page];
+				  $page=(int)$_POST['page'];
 				  $sort_no=$intRowCount-($intPageSize*$page-$intPageSize); 
 				}
 				else
@@ -1421,17 +1421,17 @@ if($member['service_type'] == 2) {
 				  $page=1;
 				  $sort_no=$intRowCount;
 				}
-				if($_POST[page2])
-				  $page2=(int)$_POST[page2];
+				if($_POST['page2'])
+				  $page2=(int)$_POST['page2'];
 				else
 				  $page2=1;
 				$int=($page-1)*$intPageSize;
-				if($_REQUEST[order_status])
-				  $order_status=$_REQUEST[order_status];
+				if($_REQUEST['order_status'])
+				  $order_status=$_REQUEST['order_status'];
 				else
 				  $order_status="desc"; 
-				if($_REQUEST[order_name])
-				  $order_name=$_REQUEST[order_name];
+				if($_REQUEST['order_name'])
+				  $order_name=$_REQUEST['order_name'];
 				else
 				  $order_name="no";
 				$intPageCount=(int)(($intRowCount+$intPageSize-1)/$intPageSize);     
@@ -1582,9 +1582,9 @@ if($member['service_type'] == 2) {
                     <?=$sInfo['mem_name']?>
                 </td>
                 <td style="font-size:12px;"><?=$my_service_type?></td>
-                <td style="font-size:12px;"><?=$member[mem_name]?></td>
+                <td style="font-size:12px;"><?=$member['mem_name']?></td>
                 
-                <td style="font-size:12px;"><?=$sInfo[mem_name]?></td>
+                <td style="font-size:12px;"><?=$sInfo['mem_name']?></td>
                 <td style="font-size:12px;"><?=$service_type?></td>
                 <td style="font-size:12px;"><?=$row[date]?></td>
                 <td style="font-size:12px;"><?=$row[end_date]?></td>
@@ -1599,9 +1599,9 @@ if($member['service_type'] == 2) {
               <?php }else{?>
               <tr>
                 <td><?=$sort_no?></td>
-                <td style="font-size:12px;"><?=$sInfo[mem_name]?></td>
+                <td style="font-size:12px;"><?=$sInfo['mem_name']?></td>
                 <td style="font-size:12px;"><?=$service_type?></td>
-                <td style="font-size:12px;"><?=$sInfo[mem_name]?></td>
+                <td style="font-size:12px;"><?=$sInfo['mem_name']?></td>
                 
                 <td style="font-size:12px;"><?=$member['mem_name']?></td>
                 <td style="font-size:12px;"><?=$my_service_type?></td>
@@ -1659,7 +1659,7 @@ if($member['service_type'] > 2) {
         <div class="a1">
         <li style="float:left;">
 <?php
-				$sql_serch =" recommend_id  ='$_SESSION[one_member_id]' "; 
+				$sql_serch =" recommend_id  ='{$_SESSION['one_member_id']}' "; 
 				if($_REQUEST[search_date])
 				{					
 					if($_REQUEST[rday1])
@@ -1679,14 +1679,14 @@ if($member['service_type'] > 2) {
 				where $sql_serch   and end_status='Y' ";
 				$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 				$row=mysqli_fetch_array($result);
-				$intRowCount=$row[cnt];
-				if (!$_POST[lno]) 
+				$intRowCount=$row['cnt'];
+				if (!$_POST['lno']) 
 					$intPageSize =20;
 				else 
-				   $intPageSize = $_POST[lno];				
-				if($_POST[page])
+				   $intPageSize = $_POST['lno'];				
+				if($_POST['page'])
 				{
-				  $page=(int)$_POST[page];
+				  $page=(int)$_POST['page'];
 				  $sort_no=$intRowCount-($intPageSize*$page-$intPageSize); 
 				}
 				else
@@ -1694,17 +1694,17 @@ if($member['service_type'] > 2) {
 				  $page=1;
 				  $sort_no=$intRowCount;
 				}
-				if($_POST[page2])
-				  $page2=(int)$_POST[page2];
+				if($_POST['page2'])
+				  $page2=(int)$_POST['page2'];
 				else
 				  $page2=1;
 				$int=($page-1)*$intPageSize;
-				if($_REQUEST[order_status])
-				  $order_status=$_REQUEST[order_status];
+				if($_REQUEST['order_status'])
+				  $order_status=$_REQUEST['order_status'];
 				else
 				  $order_status="desc"; 
-				if($_REQUEST[order_name])
-				  $order_name=$_REQUEST[order_name];
+				if($_REQUEST['order_name'])
+				  $order_name=$_REQUEST['order_name'];
 				else
 				  $order_name="no";
 				$intPageCount=(int)(($intRowCount+$intPageSize-1)/$intPageSize);     
@@ -1843,9 +1843,9 @@ if($member['service_type'] > 2) {
                     <?=$member['mem_name']?>
                 </td>
                 <td style="font-size:12px;"><?=$my_service_type?></td>
-                <td style="font-size:12px;"><?=$member[mem_name]?></td>
+                <td style="font-size:12px;"><?=$member['mem_name']?></td>
                 
-                <td style="font-size:12px;"><?=$sInfo[mem_name]?></td>
+                <td style="font-size:12px;"><?=$sInfo['mem_name']?></td>
                 <td style="font-size:12px;"><?=$service_type?></td>
                 <td style="font-size:12px;"><?=$row[date]?></td>
                 <td style="font-size:12px;"><?=$row[end_date]?></td>
@@ -1860,9 +1860,9 @@ if($member['service_type'] > 2) {
               <?php }else{?>
               <tr>
                 <td><?=$sort_no?></td>
-                <td style="font-size:12px;"><?=$sInfo[mem_name]?></td>
+                <td style="font-size:12px;"><?=$sInfo['mem_name']?></td>
                 <td style="font-size:12px;"><?=$service_type?></td>
-                <td style="font-size:12px;"><?=$sInfo[mem_name]?></td>
+                <td style="font-size:12px;"><?=$sInfo['mem_name']?></td>
                 
                 <td style="font-size:12px;"><?=$member['mem_name']?></td>
                 <td style="font-size:12px;"><?=$my_service_type?></td>
@@ -1920,7 +1920,7 @@ if($member['service_type']  >3 ) {
         <div class="a1">
         <li style="float:left;">
 <?php
-				$sql_serch=" recommend_id ='$_SESSION[one_member_id]' and recommend_type='60'"; 
+				$sql_serch=" recommend_id ='{$_SESSION['one_member_id']}' and recommend_type='60'"; 
 				if($_REQUEST[search_date])
 				{					
 					if($_REQUEST[rday1])
@@ -1940,14 +1940,14 @@ if($member['service_type']  >3 ) {
 				where $sql_serch  and end_status='Y' ";
 				$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 				$row=mysqli_fetch_array($result);
-				$intRowCount=$row[cnt];
-				if (!$_POST[lno]) 
+				$intRowCount=$row['cnt'];
+				if (!$_POST['lno']) 
 					$intPageSize =20;
 				else 
-				   $intPageSize = $_POST[lno];				
-				if($_POST[page])
+				   $intPageSize = $_POST['lno'];				
+				if($_POST['page'])
 				{
-				  $page=(int)$_POST[page];
+				  $page=(int)$_POST['page'];
 				  $sort_no=$intRowCount-($intPageSize*$page-$intPageSize); 
 				}
 				else
@@ -1955,17 +1955,17 @@ if($member['service_type']  >3 ) {
 				  $page=1;
 				  $sort_no=$intRowCount;
 				}
-				if($_POST[page2])
-				  $page2=(int)$_POST[page2];
+				if($_POST['page2'])
+				  $page2=(int)$_POST['page2'];
 				else
 				  $page2=1;
 				$int=($page-1)*$intPageSize;
-				if($_REQUEST[order_status])
-				  $order_status=$_REQUEST[order_status];
+				if($_REQUEST['order_status'])
+				  $order_status=$_REQUEST['order_status'];
 				else
 				  $order_status="desc"; 
-				if($_REQUEST[order_name])
-				  $order_name=$_REQUEST[order_name];
+				if($_REQUEST['order_name'])
+				  $order_name=$_REQUEST['order_name'];
 				else
 				  $order_name="no";
 				$intPageCount=(int)(($intRowCount+$intPageSize-1)/$intPageSize);     
@@ -2107,9 +2107,9 @@ if($member['service_type']  >3 ) {
                     <?=$member['mem_name']?>
                 </td>
                 <td style="font-size:12px;"><?=$my_service_type?></td>
-                <td style="font-size:12px;"><?=$member[mem_name]?></td>
+                <td style="font-size:12px;"><?=$member['mem_name']?></td>
                 
-                <td style="font-size:12px;"><?=$sInfo[mem_name]?></td>
+                <td style="font-size:12px;"><?=$sInfo['mem_name']?></td>
                 <td style="font-size:12px;"><?=$service_type?></td>
                 <td style="font-size:12px;"><?=$row[date]?></td>
                 <td style="font-size:12px;"><?=$row[end_date]?></td>
@@ -2124,9 +2124,9 @@ if($member['service_type']  >3 ) {
               <?php }else{?>
               <tr>
                 <td><?=$sort_no?></td>
-                <td style="font-size:12px;"><?=$sInfo[mem_name]?></td>
+                <td style="font-size:12px;"><?=$sInfo['mem_name']?></td>
                 <td style="font-size:12px;"><?=$service_type?></td>
-                <td style="font-size:12px;"><?=$sInfo[mem_name]?></td>
+                <td style="font-size:12px;"><?=$sInfo['mem_name']?></td>
                 
                 <td style="font-size:12px;"><?=$member['mem_name']?></td>
                 <td style="font-size:12px;"><?=$my_service_type?></td>
@@ -2186,7 +2186,7 @@ if($member['service_type']  >  4) {
         <div class="a1">
         <li style="float:left;">
 <?php
-				$sql_serch=" recommend_id ='$_SESSION[one_member_id]' and recommend_type='70'"; 
+				$sql_serch=" recommend_id ='{$_SESSION['one_member_id']}' and recommend_type='70'"; 
 				if($_REQUEST[search_date])
 				{					
 					if($_REQUEST[rday1])
@@ -2206,14 +2206,14 @@ if($member['service_type']  >  4) {
 				where $sql_serch   and end_status='Y' ";
 				$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 				$row=mysqli_fetch_array($result);
-				$intRowCount=$row[cnt];
-				if (!$_POST[lno]) 
+				$intRowCount=$row['cnt'];
+				if (!$_POST['lno']) 
 					$intPageSize =20;
 				else 
-				   $intPageSize = $_POST[lno];				
-				if($_POST[page])
+				   $intPageSize = $_POST['lno'];				
+				if($_POST['page'])
 				{
-				  $page=(int)$_POST[page];
+				  $page=(int)$_POST['page'];
 				  $sort_no=$intRowCount-($intPageSize*$page-$intPageSize); 
 				}
 				else
@@ -2221,17 +2221,17 @@ if($member['service_type']  >  4) {
 				  $page=1;
 				  $sort_no=$intRowCount;
 				}
-				if($_POST[page2])
-				  $page2=(int)$_POST[page2];
+				if($_POST['page2'])
+				  $page2=(int)$_POST['page2'];
 				else
 				  $page2=1;
 				$int=($page-1)*$intPageSize;
-				if($_REQUEST[order_status])
-				  $order_status=$_REQUEST[order_status];
+				if($_REQUEST['order_status'])
+				  $order_status=$_REQUEST['order_status'];
 				else
 				  $order_status="desc"; 
-				if($_REQUEST[order_name])
-				  $order_name=$_REQUEST[order_name];
+				if($_REQUEST['order_name'])
+				  $order_name=$_REQUEST['order_name'];
 				else
 				  $order_name="no";
 				$intPageCount=(int)(($intRowCount+$intPageSize-1)/$intPageSize);     
@@ -2362,9 +2362,9 @@ if($member['service_type']  >  4) {
                     <?=$member['mem_name']?>
                 </td>
                 <td style="font-size:12px;"><?=$my_service_type?></td>
-                <td style="font-size:12px;"><?=$member[mem_name]?></td>
+                <td style="font-size:12px;"><?=$member['mem_name']?></td>
                 
-                <td style="font-size:12px;"><?=$sInfo[mem_name]?></td>
+                <td style="font-size:12px;"><?=$sInfo['mem_name']?></td>
                 <td style="font-size:12px;"><?=$service_type?></td>
                 <td style="font-size:12px;"><?=$row[date]?></td>
                 <td style="font-size:12px;"><?=$row[end_date]?></td>
@@ -2379,9 +2379,9 @@ if($member['service_type']  >  4) {
               <?php }else{?>
               <tr>
                 <td><?=$sort_no?></td>
-                <td style="font-size:12px;"><?=$sInfo[mem_name]?></td>
+                <td style="font-size:12px;"><?=$sInfo['mem_name']?></td>
                 <td style="font-size:12px;"><?=$service_type?></td>
-                <td style="font-size:12px;"><?=$sInfo[mem_name]?></td>
+                <td style="font-size:12px;"><?=$sInfo['mem_name']?></td>
                 
                 <td style="font-size:12px;"><?=$member['mem_name']?></td>
                 <td style="font-size:12px;"><?=$my_service_type?></td>
@@ -2448,7 +2448,7 @@ if($member['service_type'] >= 3) {
         	    SQL_CALC_FOUND_ROWS 
         	   *
         	FROM Gn_Member 
-        	WHERE recommend_id='".$_SESSION[one_member_id]."' and branch_yn='N'
+        	WHERE recommend_id='".$_SESSION['one_member_id']."' and branch_yn='N'
 	              $sql_serch";
 	$res	    = mysqli_query($self_con,$query);
 	$totalCnt	=  mysqli_num_rows($res);	

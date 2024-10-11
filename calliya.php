@@ -1,7 +1,7 @@
 <?
 $path = "./";
 include_once "_head.php";
-if (!$_SESSION[one_member_id]) {
+if (!$_SESSION['one_member_id']) {
 ?>
     <script language="javascript">
         location.replace('/ma.php');
@@ -9,7 +9,7 @@ if (!$_SESSION[one_member_id]) {
 <?
     exit;
 }
-$sql = "select * from Gn_Member  where mem_id='" . $_SESSION[one_member_id] . "'";
+$sql = "select * from Gn_Member  where mem_id='" . $_SESSION['one_member_id'] . "'";
 $sresul_num = mysqli_query($self_con,$sql);
 $data = mysqli_fetch_array($sresul_num);
 ?>
@@ -118,15 +118,15 @@ $data = mysqli_fetch_array($sresul_num);
                                         $intPageSize = 20;
                                     else
                                         $intPageSize = $_REQUEST[cnt_per_page];
-                                    if ($_POST[page]) {
-                                        $page = (int)$_POST[page];
+                                    if ($_POST['page']) {
+                                        $page = (int)$_POST['page'];
                                         $sort_no = $intRowCount - ($intPageSize * $page - $intPageSize);
                                     } else {
                                         $page = 1;
                                         $sort_no = $intRowCount;
                                     }
-                                    if ($_POST[page2])
-                                        $page2 = (int)$_POST[page2];
+                                    if ($_POST['page2'])
+                                        $page2 = (int)$_POST['page2'];
                                     else
                                         $page2 = 1;
                                     $int = ($page - 1) * $intPageSize;
@@ -182,7 +182,7 @@ $data = mysqli_fetch_array($sresul_num);
                                             <td style="font-size:12px;">
                                                 <?= $row[card_name] ?>
                                             </td>
-                                            <!-- <td><a href="http://obmms.net/iam/?<?= strip_tags($row['card_short_url'] . $mem_row[mem_code]) ?>" target="_blank"><?= $row['card_short_url'] ?></a></td> -->
+                                            <!-- <td><a href="http://obmms.net/iam/?<?= strip_tags($row['card_short_url'] . $mem_row['mem_code']) ?>" target="_blank"><?= $row['card_short_url'] ?></a></td> -->
                                             <td>
                                                 <div style="">
                                                     <?
@@ -192,7 +192,7 @@ $data = mysqli_fetch_array($sresul_num);
                                                         $thumb_img =  $default_img;
                                                     }
                                                     ?>
-                                                    <a href="http://kiam.kr/?<?= strip_tags($row['card_short_url'] . $mem_row[mem_code]) ?>" target="_blank">
+                                                    <a href="http://kiam.kr/?<?= strip_tags($row['card_short_url'] . $mem_row['mem_code']) ?>" target="_blank">
                                                         <img class="zoom" src="<?= $thumb_img ?>" style="width:50px;">
                                                     </a>
                                                 </div>
@@ -250,7 +250,7 @@ $data = mysqli_fetch_array($sresul_num);
     }
 
     function save_req_id(idx) {
-        var req_id = '<?= $_SESSION[one_member_id] ?>';
+        var req_id = '<?= $_SESSION['one_member_id'] ?>';
 
         $.ajax({
             type: "POST",

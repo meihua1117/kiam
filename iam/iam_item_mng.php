@@ -5,7 +5,7 @@ extract($_POST);
 $date_today=date("Y-m-d");
 $date_month=date("Y-m");
 
-$sql="select * from Gn_Member where mem_id='$_SESSION[one_member_id]' and site != '' ";
+$sql="select * from Gn_Member where mem_id='{$_SESSION['one_member_id']}' and site != '' ";
 $resul=mysqli_query($self_con,$sql);
 $data=mysqli_fetch_array($resul);
 
@@ -29,7 +29,7 @@ if(isset($_POST['buy'])){
         echo 1;
     }
     else{
-        $sql = "insert into Gn_Item_Pay_Result set buyer_id='{$mem_id}', buyer_tel='{$data['mem_phone']}', item_name='{$row['member_type']}', item_price={$row['TotPrice']}, pay_percent=90, current_point={$row_point['mem_point']}, current_cash={$row_point['mem_cash']}+{$row['TotPrice']}, pay_status='Y', VACT_InputName='{$data[mem_name]}', type='buy', pay_method='{$row['payMethod']}', pay_date=now(), point_val=1";
+        $sql = "insert into Gn_Item_Pay_Result set buyer_id='{$mem_id}', buyer_tel='{$data['mem_phone']}', item_name='{$row['member_type']}', item_price={$row['TotPrice']}, pay_percent=90, current_point={$row_point['mem_point']}, current_cash={$row_point['mem_cash']}+{$row['TotPrice']}, pay_status='Y', VACT_InputName='{$data['mem_name']}', type='buy', pay_method='{$row['payMethod']}', pay_date=now(), point_val=1";
         mysqli_query($self_con,$sql);
 
         $sql_update = "update Gn_Member set mem_cash=mem_cash+{$row['TotPrice']} where mem_id='{$mem_id}'";
@@ -114,7 +114,7 @@ if(isset($_POST['memid']) && isset($_POST['use'])){
 
     $iam_url = "http://" . $HTTP_HOST . "/?" . $iam_link . $mem_code;
 
-    $sql = "insert into Gn_Item_Pay_Result set buyer_id='{$mem_id}', buyer_tel='{$data['mem_phone']}', site='{$iam_url}', item_name='{$mem_type}', item_price={$min_point}, pay_percent=90, current_cash={$row_point['mem_cash']}, current_point={$row_point['mem_point']}-{$min_point}, pay_status='Y', VACT_InputName='{$data[mem_name]}', type='use', pay_method='{$method}', pay_date=now(), point_val=1, seller_id='{$id_status}'";
+    $sql = "insert into Gn_Item_Pay_Result set buyer_id='{$mem_id}', buyer_tel='{$data['mem_phone']}', site='{$iam_url}', item_name='{$mem_type}', item_price={$min_point}, pay_percent=90, current_cash={$row_point['mem_cash']}, current_point={$row_point['mem_point']}-{$min_point}, pay_status='Y', VACT_InputName='{$data['mem_name']}', type='use', pay_method='{$method}', pay_date=now(), point_val=1, seller_id='{$id_status}'";
     mysqli_query($self_con,$sql);
 
     $sql_update = "update Gn_Member set mem_point=mem_point-{$min_point} where mem_id='{$mem_id}'";

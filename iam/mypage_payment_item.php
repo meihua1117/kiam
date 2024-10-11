@@ -1,9 +1,9 @@
 ﻿<?php 
 include "inc/header.inc.php";
-if($_SESSION[iam_member_id] == "") {
+if($_SESSION['iam_member_id'] == "") {
     echo "<script>location='/iam/';</script>";
 }
-$sql_serch=" (r.seller_id ='$_SESSION[iam_member_id]' and r.point_val=0) or (r.point_val=1 and r.buyer_id ='$_SESSION[iam_member_id]' and r.site is not null and r.type='servicebuy') ";
+$sql_serch=" (r.seller_id ='{$_SESSION['iam_member_id']}' and r.point_val=0) or (r.point_val=1 and r.buyer_id ='{$_SESSION['iam_member_id']}' and r.site is not null and r.type='servicebuy') ";
 if($_REQUEST[search_date])
 {
     if($_REQUEST[rday1])
@@ -24,14 +24,14 @@ if($_REQUEST[lms_text])
 $sql="select count(r.no) as cnt from Gn_Item_Pay_Result r where $sql_serch ";
 $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 $row=mysqli_fetch_array($result);
-$intRowCount=$row[cnt];
-if (!$_POST[lno])
+$intRowCount=$row['cnt'];
+if (!$_POST['lno'])
     $intPageSize =20;
 else
-    $intPageSize = $_POST[lno];
-if($_POST[page])
+    $intPageSize = $_POST['lno'];
+if($_POST['page'])
 {
-    $page=(int)$_POST[page];
+    $page=(int)$_POST['page'];
     $sort_no=$intRowCount-($intPageSize*$page-$intPageSize);
 }
 else
@@ -39,17 +39,17 @@ else
     $page=1;
     $sort_no=$intRowCount;
 }
-if($_POST[page2])
-    $page2=(int)$_POST[page2];
+if($_POST['page2'])
+    $page2=(int)$_POST['page2'];
 else
     $page2=1;
 $int=($page-1)*$intPageSize;
-if($_REQUEST[order_status])
-    $order_status=$_REQUEST[order_status];
+if($_REQUEST['order_status'])
+    $order_status=$_REQUEST['order_status'];
 else
     $order_status="desc";
-if($_REQUEST[order_name])
-    $order_name=$_REQUEST[order_name];
+if($_REQUEST['order_name'])
+    $order_name=$_REQUEST['order_name'];
 else
     $order_name="no";
 $intPageCount=(int)(($intRowCount+$intPageSize-1)/$intPageSize);
@@ -184,7 +184,7 @@ input:checked + .slider:before {
                             </a>
                         </div>
                         <div style="display:flex;float: right;">
-                            <?if($_SESSION[iam_member_subadmin_id] == $_SESSION[iam_member_id]){?>
+                            <?if($_SESSION['iam_member_subadmin_id'] == $_SESSION['iam_member_id']){?>
                             <a class="btn  btn-link" title = "<?='공지알림';?>" href="/?cur_win=unread_notice&box=send&modal=Y" style="display:flex;padding:6px 3px">
                                 <p style="font-size:14px;color:black">공지전송</p>
                                 <label class="label label-sm" id = "notice" style="background: #ff3333;border-radius: 50%;padding: 2px 5px;margin-left: -5px;font-size:10px"></label>
@@ -318,7 +318,7 @@ input:checked + .slider:before {
                                             <td style=""><?=$sort_no?></td>
                                             <td style=""><?=$method?></td>
                                             <td style="font-size:11px;"><?=$row[item_name]?></td>
-                                            <td style=""><?=$row_mem_data[mem_id]?>/<?=$row_mem_data[mem_name]?></td>
+                                            <td style=""><?=$row_mem_data[mem_id]?>/<?=$row_mem_data['mem_name']?></td>
                                             <td style=""><?=$row_mem_data[mem_phone]?></td>
                                             <td style="font-size:11px;"><?=$row[pay_date]?></td>
                                             <?php

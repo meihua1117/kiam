@@ -45,7 +45,7 @@ if($mode == "join") {
     $sql2="insert into Gn_Member (mem_leb, mem_id, mem_pass, web_pwd, mem_phone, first_regist, join_ip, iam_leb) values ('22', '$id_che', '$mem_pass', password('$mem_id'), '$simple_phone', now(), '$ip', 1)";
     $result2 = mysqli_query($self_con,$sql2) or die(mysqli_error($self_con));
 
-    $_SESSION[one_member_id]=$mem_id;
+    $_SESSION['one_member_id']=$mem_id;
     $_SESSION[one_member_iam_leb]=1;
 
     echo '회원가입 되었습니다.';

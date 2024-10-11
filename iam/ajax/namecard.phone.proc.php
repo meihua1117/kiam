@@ -24,7 +24,7 @@ if($mode == "send_sms") {
         $sql="select count(*) cnt from Gn_Member_Check_Sms where mem_phone='$rphone' and date_format(regdate, '%Y-%m-%d' )=curdate() ";
         $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
         $data = $row=mysqli_fetch_array($result);
-        if($data[cnt] >=5) {
+        if($data['cnt'] >=5) {
             echo '{"result":"fail","msg":"1일 5번까지 인증이 가능합니다.."}';
             exit;
         }

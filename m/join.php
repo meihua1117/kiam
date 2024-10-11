@@ -1,8 +1,8 @@
 <?php 
 include $_SERVER['DOCUMENT_ROOT']."/m/include/header.inc.php";
 include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
-if($_COOKIE[mem_code]) {
-	$sql="select * from Gn_Member where mem_code='$_COOKIE[mem_code]' and site != ''";
+if($_COOKIE['mem_code']) {
+	$sql="select * from Gn_Member where mem_code='{$_COOKIE['mem_code']}' and site != ''";
 	$result=mysqli_query($self_con,$sql);
 	$info=mysqli_fetch_array($result);
 

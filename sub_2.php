@@ -73,7 +73,7 @@ con.eq(i).show();
 }
 function dbFree() {
 <?
-if($_SESSION[one_member_id] == "")
+if($_SESSION['one_member_id'] == "")
 {
 ?>
 alert('로그인 이후에 이용이 가능합니다.');

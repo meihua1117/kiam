@@ -5,7 +5,7 @@ $idx = $_GET['idx'];
 $sql = "select * from gn_report_form where id=$repo_id";
 $res = mysqli_query($self_con,$sql);
 $row = mysqli_fetch_array($res);
-$sql = "select * from gn_report_table where userid='$_SESSION[iam_member_id]' and repo_id = $repo_id";
+$sql = "select * from gn_report_table where userid='{$_SESSION['iam_member_id']}' and repo_id = $repo_id";
 $repo_res = mysqli_query($self_con,$sql);
 $repo_row = mysqli_fetch_array($repo_res);
 $conts = json_decode($repo_row['cont'],true);
@@ -193,7 +193,7 @@ $conts = json_decode($repo_row['cont'],true);
                             }?>
                             <div class="report_item_div" style="<?=$style?>">
                             <?
-                            $sql2 = "select * from gn_report_form2 where form_id=$repo_id and item_id = $row1[id] order by id";
+                            $sql2 = "select * from gn_report_form2 where form_id=$repo_id and item_id = {$row1['id']} order by id";
                             $res2 = mysqli_query($self_con,$sql2);
                             while($row2 = mysqli_fetch_array($res2)){
                                 foreach($conts as $cont){

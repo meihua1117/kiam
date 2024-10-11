@@ -64,7 +64,7 @@ if ($_POST['one_id'] && $_POST['one_pwd']) {
 			$sql = "update gn_hist_login set success='Y' where idx='$hrow[0]'";
 			$resul = mysqli_query($self_con,$sql);
 		} else {
-			$sql = "insert into gn_hist_login (domain,userid,position,ip,success) values('$site[0]', '{$_POST['one_id']}', 'iam', '$_SERVER[REMOTE_ADDR]', 'Y')";
+			$sql = "insert into gn_hist_login (domain,userid,position,ip,success) values('$site[0]', '{$_POST['one_id']}', 'iam', '{$_SERVER['REMOTE_ADDR']}', 'Y')";
 			$resul = mysqli_query($self_con,$sql);
 		}
 

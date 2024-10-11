@@ -192,9 +192,9 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                     <table class="list_table1" width="100%" border="0" cellspacing="0" cellpadding="0">
                         <tr>
                             <th>연락처</th>
-                            <td id="phone"><?=$row[phone]?></td>
+                            <td id="phone"><?=$row['phone']?></td>
                             <th>이메일</th>
-                            <td id="email"><?=$row[email]?></td>
+                            <td id="email"><?=$row['email']?></td>
                         </tr>
                         <tr>
                             <th>답변</th>

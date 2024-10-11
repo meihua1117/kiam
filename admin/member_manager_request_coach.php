@@ -348,7 +348,7 @@ function changeType(coach_id) {
                                 <option value="1" <?php echo $row['coach_type'] == "1"?"selected":""?>>선임코치</option>
                                 <option value="2" <?php echo $row['coach_type'] == "2"?"selected":""?>>강사코치</option>
                             </select>
-                             <?php if($_SESSION['one_member_admin_id'] == "onlyonemaket" || $_SESSION[one_member_subadmin_id]!=""){?>
+                             <?php if($_SESSION['one_member_admin_id'] == "onlyonemaket" || $_SESSION['one_member_subadmin_id']!=""){?>
                             <?php }else{?>
                             <input type="button" name="변경" value=" 변경 " onclick="changeType('<?=$row['coach_id'];?>')">
                             <?php }?>

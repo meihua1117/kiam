@@ -56,7 +56,7 @@ if(isset($_POST['auto'])){
 
                 $resul_g2 = mysqli_query($self_con,$sql_g2);
                 while($row_g2=mysqli_fetch_array($resul_g2)) {
-                    array_push($num_arr,$row_g2[recv_num]);
+                    array_push($num_arr,$row_g2['recv_num']);
 
                     /* Cooper Add 그룹 구분 추가 */
                     if (array_key_exists($row_g2['recv_num'], $group_recv_info) === false) {
@@ -67,8 +67,8 @@ if(isset($_POST['auto'])){
 
         }
 
-        if($_POST[send_num]) //합침/유일/정렬 tag name = num 발송 타깃 번호
-            $num_arr=array_merge($num_arr,explode(",",$_POST[send_num]));
+        if($_POST['send_num']) //합침/유일/정렬 tag name = num 발송 타깃 번호
+            $num_arr=array_merge($num_arr,explode(",",$_POST['send_num']));
         $num_arr=array_unique($num_arr);
         sort($num_arr);
 
@@ -149,7 +149,7 @@ if(isset($_POST['auto'])){
 
         $res_result = mysqli_query($self_con,$sql_result);
         while($row_result = mysqli_fetch_array($res_result))
-        $reserv_cnt_thismonth += count(explode(",",$row_result[recv_num]));
+        $reserv_cnt_thismonth += count(explode(",",$row_result['recv_num']));
 
         mysqli_free_result($res_result);
 
@@ -158,7 +158,7 @@ if(isset($_POST['auto'])){
         $sql_result = "select recv_num from Gn_MMS where reg_date like '$date_month%' and mem_id = '$mem_id_mms' ";
         $res_result = mysqli_query($self_con,$sql_result);
         while($row_result = mysqli_fetch_array($res_result))
-        $recv_num_ex_sum += count(explode(",",$row_result[recv_num]));
+        $recv_num_ex_sum += count(explode(",",$row_result['recv_num']));
 
         mysqli_free_result($res_result);
 
@@ -410,7 +410,7 @@ if(isset($_POST['auto'])){
                             while($row_ssh=mysqli_fetch_array($resul_ssh))
                             {
                                 $ssh_arr=array();
-                                $ssh_arr=explode(",",$row_ssh[recv_num]);
+                                $ssh_arr=explode(",",$row_ssh['recv_num']);
                                 $ssh_num=array_merge($ssh_num,(array)$ssh_arr);
                             }
                             unset($ssh_arr);
@@ -852,7 +852,7 @@ if(isset($_POST['auto'])){
                     while($row_ssh=mysqli_fetch_array($resul_ssh))
                     {
                         $ssh_arr=array();
-                        $ssh_arr=explode(",",$row_ssh[recv_num]);
+                        $ssh_arr=explode(",",$row_ssh['recv_num']);
                         //echo count($ssh_arr)."\n";
                         $ssh_num=array_merge($ssh_num,$ssh_arr);
                     }
@@ -1027,10 +1027,10 @@ if(isset($_POST['auto'])){
                 if(count($recv_arr))
                 {   //앱에서만 보내기로 합 2016-03-07
 /*						$mms_start_info[mem_id]=$mem_id_mms;
-                    $mms_start_info[send_num]=$sendnum[$j];
-                    $mms_start_info[recv_num]=$sendnum[$j];
+                    $mms_start_info['send_num']=$sendnum[$j];
+                    $mms_start_info['recv_num']=$sendnum[$j];
                     $mms_start_info[uni_id]=$reg."999";
-                    $mms_start_info[content]="온리원문자 문자발송시작";
+                    $mms_start_info['content']="온리원문자 문자발송시작";
                     $mms_start_info[title]="온리원문자";
                     $sql_start="insert into Gn_MMS set ";
                     foreach($mms_start_info as $key=>$v)
@@ -1063,7 +1063,7 @@ if(isset($_POST['auto'])){
                         $diff_str = implode(",", $diff_result);
 
                         $recv_str=$replace_row['recv_num'];
-                        $recv_name_str=$replace_row[name];
+                        $recv_name_str=$replace_row['name'];
 
                         if($recv_str)
                             $recv_str .= ",".$diff_str;
@@ -1087,10 +1087,10 @@ if(isset($_POST['auto'])){
                     $denv_url_str=implode(",",$deny_url_arr);
 
                     $mms_info[mem_id]=$mem_id_mms;
-                    $mms_info[send_num]=$sendnum[$j];
-                    $mms_info[recv_num]=$recv_str;
+                    $mms_info['send_num']=$sendnum[$j];
+                    $mms_info['recv_num']=$recv_str;
                     $mms_info[uni_id]=$req;
-                    $mms_info[content]=addslashes(htmlspecialchars($_POST[send_txt]));
+                    $mms_info['content']=addslashes(htmlspecialchars($_POST[send_txt]));
                     $mms_info[jpg]=$img;
                     $mms_info[type]=$_POST[send_type];
                     $mms_info[title]=htmlspecialchars($_POST[send_title]);
@@ -1113,8 +1113,8 @@ if(isset($_POST['auto'])){
                         mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
                         $sidx = mysqli_insert_id($self_con);
                         if($_POST[send_rday] == "") {
-                            if($pkey[$mms_info[send_num]] != "") {
-                                $id = $pkey[$mms_info[send_num]];
+                            if($pkey[$mms_info['send_num']] != "") {
+                                $id = $pkey[$mms_info['send_num']];
                                 $title='{"MMS Push"}';
                                 $message='{"Send":"Start","idx":"'.$sidx.'","send_type":"'.$_POST[send_type].'"}';
                                 $fields = array (
@@ -1147,9 +1147,9 @@ if(isset($_POST['auto'])){
                                 $msg = "";
                                 $msg = $json->results[0]->error;
 
-                                $query = "insert into Gn_MMS_PUSH set send_num='".$mms_info[send_num]."',
+                                $query = "insert into Gn_MMS_PUSH set send_num='".$mms_info['send_num']."',
                                                                       idx='".$sidx."',
-                                                                      token='".$pkey[$mms_info[send_num]]."',
+                                                                      token='".$pkey[$mms_info['send_num']]."',
                                                                       error='$msg'
                                                                       ";
                                 if($debug_mode == false) {

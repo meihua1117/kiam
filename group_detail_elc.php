@@ -1,7 +1,7 @@
 ﻿<?
 $path="./";
 include_once $path."lib/rlatjd_fun.php";
-$sql_serch=" mem_id ='$_SESSION[one_member_id]' ";
+$sql_serch=" mem_id ='{$_SESSION['one_member_id']}' ";
 if($_REQUEST[grp_id])
 $sql_serch.=" and grp_id = '$_REQUEST[grp_id]' ";
 if($_REQUEST[grp_2])
@@ -11,26 +11,26 @@ $sql_serch.=" and $_REQUEST[deta_select] like '$_REQUEST[deta_text]%' ";
 $sql="select count(idx) as cnt from Gn_MMS_Receive where $sql_serch ";
 $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 $row=mysqli_fetch_array($result);
-$intRowCount=$row[cnt];
-if($_POST[page])
-$page=(int)$_POST[page];
+$intRowCount=$row['cnt'];
+if($_POST['page'])
+$page=(int)$_POST['page'];
 else
 $page=1;
-if($_POST[page2])
-$page2=(int)$_POST[page2];
+if($_POST['page2'])
+$page2=(int)$_POST['page2'];
 else
 $page2=1;
-if (!$_POST[lno]) 
+if (!$_POST['lno']) 
 $intPageSize =20;
 else 
-$intPageSize = $_POST[lno];
+$intPageSize = $_POST['lno'];
 $int=($page-1)*$intPageSize;
-if($_REQUEST[order_status])
-$order_status=$_REQUEST[order_status];
+if($_REQUEST['order_status'])
+$order_status=$_REQUEST['order_status'];
 else
 $order_status="asc"; 
-if($_REQUEST[order_name])
-$order_name=$_REQUEST[order_name];
+if($_REQUEST['order_name'])
+$order_name=$_REQUEST['order_name'];
 else
 $order_name="idx";
 $intPageCount=(int)(($intRowCount+$intPageSize-1)/$intPageSize);     
@@ -87,10 +87,10 @@ include_once $path."open_div.php";
 </div>
 <table class="list_table_detail" id="detail_table" width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr>
-    <td style="width:25%;"><a href="javascript:void(0)" onclick="order_sort(group_detail_form,'grp_2',group_detail_form.order_status.value)">소그룹명<? if($_REQUEST[order_name]=="grp_2"){echo $_REQUEST[order_status]=="desc"?'▼':'▲';}else{ echo '▼'; }?></a></td>
+    <td style="width:25%;"><a href="javascript:void(0)" onclick="order_sort(group_detail_form,'grp_2',group_detail_form.order_status.value)">소그룹명<? if($_REQUEST['order_name']=="grp_2"){echo $_REQUEST['order_status']=="desc"?'▼':'▲';}else{ echo '▼'; }?></a></td>
     <td style="width:25%;">
     <!-- <li><input type="checkbox" id="all_id" onclick="check_all(this,'name_box');box_ed()" /></li> -->
-    <a href="javascript:void(0)" onclick="order_sort(group_detail_form,'name',group_detail_form.order_status.value)">이름<? if($_REQUEST[order_name]=="name"){echo $_REQUEST[order_status]=="desc"?'▼':'▲';}else{ echo '▼'; }?></a></td>
+    <a href="javascript:void(0)" onclick="order_sort(group_detail_form,'name',group_detail_form.order_status.value)">이름<? if($_REQUEST['order_name']=="name"){echo $_REQUEST['order_status']=="desc"?'▼':'▲';}else{ echo '▼'; }?></a></td>
     <td style="width:25%;">전화번호</td>
     <td style="width:25%;">편집</td>
   </tr>
@@ -105,10 +105,10 @@ include_once $path."open_div.php";
           <tr class="contact_nums">
             <td class="g_dt_grp_<?=$i?>"><a href="javascript:void(0)" onclick="group_detail_form.grp_2.value='<?=$row[grp_2]?>';group_detail_form.submit();"><?=$row[grp_2]?></a></td>
             <td class="g_dt_grp_<?=$i?>" style="display:none;"><input type="text" name="xiao_grp" value="<?=$row[grp_2]?>"/></td>            
-            <td class="g_dt_name_<?=$i?>" ><li><label id="lbox_<?=$i?>"><?=$row[name]?></label></li></td>
-            <td class="g_dt_name_<?=$i?>" style="display:none;"><input type="text" name="num_name" value="<?=$row[name]?>" /></td>
-            <td class="g_dt_num_<?=$i?>" value="<?=$row[recv_num]?>"><?=$row[recv_num]?></td>
-            <td class="g_dt_num_<?=$i?>" style="display:none;"><input type="text" name="recv_num" value="<?=$row[recv_num]?>" /></td>
+            <td class="g_dt_name_<?=$i?>" ><li><label id="lbox_<?=$i?>"><?=$row['name']?></label></li></td>
+            <td class="g_dt_name_<?=$i?>" style="display:none;"><input type="text" name="num_name" value="<?=$row['name']?>" /></td>
+            <td class="g_dt_num_<?=$i?>" value="<?=$row['recv_num']?>"><?=$row['recv_num']?></td>
+            <td class="g_dt_num_<?=$i?>" style="display:none;"><input type="text" name="recv_num" value="<?=$row['recv_num']?>" /></td>
             <td>
             	<a href="javascript:void(0)" class="modify_btn_<?=$i?>" onclick="g_dt_show_cencle('g_dt_name_','g_dt_num_','modify_btn_','<?=$i?>','g_dt_grp_')">수정</a>                
                 <a href="javascript:void(0)" class="modify_btn_<?=$i?>" style="display:none;" onclick="g_dt_fun('modify','<?=$_REQUEST[grp_id]?>','<?=$row[idx]?>','<?=$i?>')">수정</a>               

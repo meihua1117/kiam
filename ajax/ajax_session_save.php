@@ -17,7 +17,7 @@ if($_POST[send_save_mms])
 		$message_info[msg_type]="A";
 	}
 	$sql="insert into Gn_MMS_Message set "; //발송
-	$message_info[mem_id]=$_SESSION[one_member_id];
+	$message_info[mem_id]=$_SESSION['one_member_id'];
 	$message_info[title]=htmlspecialchars(str_replace("{|name|}", "{|REP|}",$_POST[send_title]));
 	$message_info[message]=htmlspecialchars(str_replace("{|name|}", "{|REP|}",$_POST[send_txt]));
 	$message_info[img]=$_POST[send_img];			
@@ -38,7 +38,7 @@ if($_POST[send_save_mms])
 //	{
 //	$sql="insert into Gn_MMS_Message set ";
 //	$message_info[seq_num]=$_POST[lms_save_seq_num];
-//	$message_info[mem_id]=$_SESSION[one_member_id];	
+//	$message_info[mem_id]=$_SESSION['one_member_id'];	
 //	}
 //	else if($_POST[lms_save_status]=="modify")
 //	{

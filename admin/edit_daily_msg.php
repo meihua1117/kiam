@@ -87,10 +87,10 @@ else $link = "daily_msg_list_mem.php";
 											<th class="w200">[발송폰선택]</th>
 											<td>
 												<select name="send_num">
-													<option value="<?=str_replace("-", "", $row[send_num])?>">
+													<option value="<?=str_replace("-", "", $row['send_num'])?>">
 														<?php echo str_replace("-","",$row['send_num']);?></option>
 													<?php
-													$query = "select * from Gn_MMS_Number where mem_id='$_SESSION[one_member_id]' order by sort_no asc, user_cnt desc , idx desc";
+													$query = "select * from Gn_MMS_Number where mem_id='{$_SESSION['one_member_id']}' order by sort_no asc, user_cnt desc , idx desc";
 													$resul=mysqli_query($self_con,$query);
 													while($korow=mysqli_fetch_array($resul)) {
 													?>
@@ -123,7 +123,7 @@ else $link = "daily_msg_list_mem.php";
 										<tr>
 											<th class="w200">[메시지내용]</th>
 											<td>
-												<textarea style="width:200px; height:200px;" id="txt" name="txt" itemname='내용' id='txt' required placeholder="보내고 싶은 메시지를 입력하세요" onkeydown="textCounter(sub_4_form.txt,'wenzi_cnt',2000,0);" onkeyup="textCounter(sub_4_form.txt,'wenzi_cnt',2000,0);type_check();" onfocus="textCounter(sub_4_form.txt,'wenzi_cnt',2000,0);type_check();"><?=$row[content]?></textarea>
+												<textarea style="width:200px; height:200px;" id="txt" name="txt" itemname='내용' id='txt' required placeholder="보내고 싶은 메시지를 입력하세요" onkeydown="textCounter(sub_4_form.txt,'wenzi_cnt',2000,0);" onkeyup="textCounter(sub_4_form.txt,'wenzi_cnt',2000,0);type_check();" onfocus="textCounter(sub_4_form.txt,'wenzi_cnt',2000,0);type_check();"><?=$row['content']?></textarea>
 											</td>
 										</tr>
 										<tr>

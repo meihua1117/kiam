@@ -1,7 +1,7 @@
 <?
 include_once $_SERVER['DOCUMENT_ROOT'] . "/lib/rlatjd_fun.php";
 if ($_SESSION['iam_member_id']) {
-    $sql = "select * from tjd_pay_result where buyer_id = '$_SESSION[iam_member_id]' and end_date > '$date_today' and end_status in ('Y','A') order by end_date desc limit 1";
+    $sql = "select * from tjd_pay_result where buyer_id = '{$_SESSION['iam_member_id']}' and end_date > '$date_today' and end_status in ('Y','A') order by end_date desc limit 1";
     $res_result = mysqli_query($self_con,$sql);
     $pay_data = mysqli_fetch_array($res_result);
 }
@@ -99,36 +99,36 @@ if ($_REQUEST[prelink]) {
 $cur_time = time() + 86400;
 $cur_date = date("Y-m-d", $cur_time);
 
-if (!$_SESSION[iam_member_id]) { ?>
+if (!$_SESSION['iam_member_id']) { ?>
     <script language="javascript">
         location.replace('/');
     </script>
 <?
     exit;
 }
-$sql = "select * from Gn_Member  where mem_id='" . $_SESSION[iam_member_id] . "'";
+$sql = "select * from Gn_Member  where mem_id='" . $_SESSION['iam_member_id'] . "'";
 $sresul_num = mysqli_query($self_con,$sql);
 $data = mysqli_fetch_array($sresul_num);
 
-$sql = "select * from Gn_MMS_Group where  mem_id='" . $_SESSION[iam_member_id] . "' and grp='아이엠'";
+$sql = "select * from Gn_MMS_Group where  mem_id='" . $_SESSION['iam_member_id'] . "' and grp='아이엠'";
 $sresult = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 $krow = mysqli_fetch_array($sresult);
 
-$sql = "select count(*) cnt from Gn_MMS_Receive_Iam where  mem_id='" . $_SESSION[iam_member_id] . "' and grp_id='$krow[idx]'";
+$sql = "select count(*) cnt from Gn_MMS_Receive_Iam where  mem_id='" . $_SESSION['iam_member_id'] . "' and grp_id='$krow[idx]'";
 $sresult = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 $skrow = mysqli_fetch_array($sresult);
 
 $count = 0;
-$sql1 = "select recv_num from Gn_MMS_Receive_Iam where  mem_id='" . $_SESSION[iam_member_id] . "' and grp_id='$krow[idx]'";
+$sql1 = "select recv_num from Gn_MMS_Receive_Iam where  mem_id='" . $_SESSION['iam_member_id'] . "' and grp_id='$krow[idx]'";
 $sresult1 = mysqli_query($self_con,$sql1) or die(mysqli_error($self_con));
 while ($srow1 = mysqli_fetch_array($sresult1)) {
-    $sql_chk = "select idx from Gn_MMS_Deny where send_num='{$_REQUEST[send_num]}' and recv_num='{$srow1[0]}' and (chanel_type=9 or chanel_type=4)";
+    $sql_chk = "select idx from Gn_MMS_Deny where send_num='{$_REQUEST['send_num']}' and recv_num='{$srow1[0]}' and (chanel_type=9 or chanel_type=4)";
     $res_chk = mysqli_query($self_con,$sql_chk);
     if (mysqli_num_rows($res_chk)) {
         $count++;
     }
 }
-$skrow[cnt] = $skrow[cnt] * 1 - $count;
+$skrow['cnt'] = $skrow['cnt'] * 1 - $count;
 
 ?>
 <script>
@@ -331,7 +331,7 @@ $skrow[cnt] = $skrow[cnt] * 1 - $count;
     function add_deny_multi() {
         var recv_nums = $("#deny_num_multi").val();
         var send_num = $("#send_num").val();
-        var mem_id = '<?= $_SESSION[iam_member_id] ?>';
+        var mem_id = '<?= $_SESSION['iam_member_id'] ?>';
 
         var type = $("#btn_type").val();
         $.ajax({
@@ -403,9 +403,9 @@ $skrow[cnt] = $skrow[cnt] * 1 - $count;
         }
 
         if (window_width < 850) {
-            window.open('/group_detail_for_adddeny_app.php?phone=' + send_num + '&mem_id=<?= $_SESSION[iam_member_id] ?>&type=' + val + '&pre_link=' + pre_link, "_self", "toolbar=yes,scrollbars=yes,resizable=yes,top=200,left=200,width=500,height=600");
+            window.open('/group_detail_for_adddeny_app.php?phone=' + send_num + '&mem_id=<?= $_SESSION['iam_member_id'] ?>&type=' + val + '&pre_link=' + pre_link, "_self", "toolbar=yes,scrollbars=yes,resizable=yes,top=200,left=200,width=500,height=600");
         } else {
-            window.open('/group_detail_for_adddeny.php?phone=' + send_num + '&mem_id=<?= $_SESSION[iam_member_id] ?>&type=' + val, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=200,left=200,width=500,height=600");
+            window.open('/group_detail_for_adddeny.php?phone=' + send_num + '&mem_id=<?= $_SESSION['iam_member_id'] ?>&type=' + val, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=200,left=200,width=500,height=600");
         }
     }
 
@@ -544,7 +544,7 @@ $skrow[cnt] = $skrow[cnt] * 1 - $count;
                 <input type="hidden" name="gd_id" value="<?php echo $gd_id; ?>" />
                 <input type="hidden" name="total_count" id="total_count" value="<?php echo $row[total_count]; ?>" />
                 <input type="hidden" name="iam" value="1" />
-                <input type="hidden" name="mem_id" value="<?= $_SESSION[iam_member_id] ?>" />
+                <input type="hidden" name="mem_id" value="<?= $_SESSION['iam_member_id'] ?>" />
                 <div class="a1" style="margin-top:15px; margin-bottom:15px;font-size: 20px;font-weight: 900;margin-left: 15px;">
                     <li>데일리메시지 세트 만들기</li>
                     <li style="float:right;"></li>
@@ -561,7 +561,7 @@ $skrow[cnt] = $skrow[cnt] * 1 - $count;
                                         <option value="<?= str_replace("-", "", $data[mem_phone]) ?>">
                                             <?php echo str_replace("-", "", $data['mem_phone']); ?></option>
                                         <?
-                                        $query = "select * from Gn_MMS_Number where mem_id='$_SESSION[iam_member_id]' order by sort_no asc, user_cnt desc , idx desc";
+                                        $query = "select * from Gn_MMS_Number where mem_id='{$_SESSION['iam_member_id']}' order by sort_no asc, user_cnt desc , idx desc";
                                         $resul = mysqli_query($self_con,$query);
                                         while ($korow = mysqli_fetch_array($resul)) {
                                             if ($row['send_num']) {
@@ -716,9 +716,9 @@ $skrow[cnt] = $skrow[cnt] * 1 - $count;
                                 <ul id="date_list">
                                     <?php
                                     if (isset($_REQUEST['daily_cnt'])) {
-                                        $day = ceil($skrow[cnt] / $_REQUEST['daily_cnt']);
+                                        $day = ceil($skrow['cnt'] / $_REQUEST['daily_cnt']);
                                     } else {
-                                        $day = ceil($skrow[cnt] / 50);
+                                        $day = ceil($skrow['cnt'] / 50);
                                     }
                                     for ($i = 1; $i <= $day; $i++) {
                                         $start_day = strtotime($_GET['start_send']) + (86400 * $i);
@@ -810,9 +810,9 @@ $skrow[cnt] = $skrow[cnt] * 1 - $count;
                         <ul id="date_list" style="margin-left:10px;padding:0px;">
                             <?php
                             if (isset($_REQUEST['daily_cnt'])) {
-                                $day = ceil($skrow[cnt] / $_REQUEST['daily_cnt']);
+                                $day = ceil($skrow['cnt'] / $_REQUEST['daily_cnt']);
                             } else {
-                                $day = ceil($skrow[cnt] / 50);
+                                $day = ceil($skrow['cnt'] / 50);
                             }
                             for ($i = 1; $i <= $day; $i++) {
                                 $start_day = strtotime($_GET['start_send']) + (86400 * $i);

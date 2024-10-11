@@ -401,7 +401,7 @@ $date_today=date("Y-m")."-01 00:00:00";
                                                 $res_delivery = mysqli_query($self_con,$sql_delivery);
                                                 while($row_delivery = mysqli_fetch_array($res_delivery)){
                                                 ?>
-                                                <option value="<?=$row_delivery[id]?>" title="<?=$row_delivery[delivery_name]?>" <?=$row_delivery[id]==$row[delivery]?'selected':''?>><?=cut_str($row_delivery[delivery_name], 5)?></option>
+                                                <option value="<?=$row_delivery['id']?>" title="<?=$row_delivery[delivery_name]?>" <?=$row_delivery['id']==$row[delivery]?'selected':''?>><?=cut_str($row_delivery[delivery_name], 5)?></option>
                                                 <?}?>
                                             </select>
                                         </td>

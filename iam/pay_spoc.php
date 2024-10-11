@@ -177,7 +177,7 @@ if($platform == "mobile"){
             pay_form.submit();
             auto_mem = '<?=$auto_mem?>';
             if(auto_mem == 'true'){
-                iam_item('<?=$_SESSION[iam_member_id];?>', 'buy', 'card');
+                iam_item('<?=$_SESSION['iam_member_id'];?>', 'buy', 'card');
             }
         }
     }
@@ -236,7 +236,7 @@ if($platform == "mobile"){
                     type:"POST",
                     url:"/ajax/get_mem_address.php",
                     dataType:"json",
-                    data:{mem_id:'<?=$_SESSION[iam_member_id]?>'},
+                    data:{mem_id:'<?=$_SESSION['iam_member_id']?>'},
                     success: function(data){
                         console.log(data.address);
                         $('#allat_recp_addr').val(data.address);
@@ -290,7 +290,7 @@ if($platform == "mobile"){
                             type:"POST",
                             url:"get_item_status.php",
                             dataType:"json",
-                            data:{get:true, memid:'<?=$_SESSION[iam_member_id];?>', mem_type:'<?=$item_type?>'},
+                            data:{get:true, memid:'<?=$_SESSION['iam_member_id'];?>', mem_type:'<?=$item_type?>'},
                             success:function(data1){
                                 if(data1.payMethod == "CARD"){
                                     point = data1.point + '/' + data1.count + '건';
@@ -370,7 +370,7 @@ if($platform == "mobile"){
             <!--승인금액-->
             <input type="hidden" name="allat_amt" id="allat_amt" value="" size="19" maxlength=10>
             <!--회원ID-->
-            <input type="hidden" name="allat_pmember_id" value="<?php echo $_SESSION[one_member_id];?>" size="19" maxlength=20>
+            <input type="hidden" name="allat_pmember_id" value="<?php echo $_SESSION['one_member_id'];?>" size="19" maxlength=20>
             <!--상품코드-->
             <input type="hidden" name="allat_product_cd" id="allat_product_cd" value="특별단회결제" size="19" maxlength=1000>
             <!--상품명-->
@@ -404,7 +404,7 @@ if($platform == "mobile"){
                                         <div><input type="number" name="item_price" id="item_price" value="<?=$totprice?>" style="border-radius: 5px;line-height: 20px;text-align: right;" placeholder="원" readonly></div>
                                     </div>
                                 </div>
-                                <?if(!$_SESSION[iam_member_id]){?>
+                                <?if(!$_SESSION['iam_member_id']){?>
                                     <div class="a8">
                                         <a href="javascript:void(0)" onclick="alert('로그인후 이용이 가능합니다.');">
                                             <img src="/images/sub_02_btn_23.jpg" style="width: 80%"/>

@@ -207,7 +207,7 @@ $(function() {
                         </td>
                         <td>
                             <div style="overflow-x:hidden;width:100px;">
-                              <?=$mem_row[mem_name]?>/<br><?=$row[mem_id]?>
+                              <?=$mem_row['mem_name']?>/<br><?=$row[mem_id]?>
                             </div>
                         </td>
                         <td><?=$row[gwc_con_state] == 1?"well":"공동구매용"?></td>

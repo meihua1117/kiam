@@ -5,7 +5,7 @@ extract($_REQUEST);
 if($_REQUEST[nick])
 {	
 	$member_info[mem_nick]=htmlspecialchars($_REQUEST[nick]);
-	$member_info[mem_name]=htmlspecialchars($_REQUEST[name]);
+	$member_info['mem_name']=htmlspecialchars($_REQUEST['name']);
 	$member_info[mem_email]=$_REQUEST[email_1]."@".$_REQUEST[email_2];
 	$member_info[mem_add1]=$_REQUEST[add1];
 	if(isset($_REQUEST[zip])){

@@ -4,7 +4,7 @@ $date_today=date("Y-m-d H:i:s");
 $date_month=date("Ym");
 
 if(isset($_POST['seed_point'])){
-    $sql_mem_data = "select * from Gn_Member where mem_id='{$_SESSION[iam_member_id]}'";
+    $sql_mem_data = "select * from Gn_Member where mem_id='{$_SESSION['iam_member_id']}'";
     $res_mem_data = mysqli_query($self_con,$sql_mem_data);
     $row_mem_data = mysqli_fetch_array($res_mem_data);
 
@@ -13,11 +13,11 @@ if(isset($_POST['seed_point'])){
     $cash = $cash * 1 - $_POST['seed_point'] * 1;
     $seed = $seed * 1 + $_POST['seed_point'] * 1;
 
-    $sql_update = "update Gn_Member set mem_point='$seed', mem_cash='$cash' where mem_id='$_SESSION[iam_member_id]'";
+    $sql_update = "update Gn_Member set mem_point='$seed', mem_cash='$cash' where mem_id='{$_SESSION['iam_member_id']}'";
     mysqli_query($self_con,$sql_update);
 
     $sql_buyer = "insert into Gn_Item_Pay_Result
-            set buyer_id='$_SESSION[one_member_id]',
+            set buyer_id='{$_SESSION['one_member_id']}',
                 buyer_tel='$row_mem_data[mem_phone]',
                 site='',
                 pay_method='$_POST[payMethod]',
@@ -28,7 +28,7 @@ if(isset($_POST['seed_point'])){
                 pay_status='Y',
                 pay_percent='$_POST[pay_percent]',
                 order_number = '$_POST[allat_order_no]',
-                VACT_InputName='$row_mem_data[mem_name]',
+                VACT_InputName='{$row_mem_data['mem_name']}',
                 point_val=1,
                 type='buy',
                 current_point='$seed',

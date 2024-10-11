@@ -57,7 +57,7 @@ else if($type == "delete_list"){
                                 point_val=1,
                                 type='buy',
                                 current_point='$row_mem[mem_point]',
-                                current_cash='$row_mem[mem_cash]',
+                                current_cash='{$row_mem['mem_cash']}',
                                 contents_cnt='$row_order[contents_cnt]',
                                 gwc_cont_pay=1";
                     $res_result = mysqli_query($self_con,$sql_buyer);

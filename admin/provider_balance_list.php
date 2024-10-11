@@ -334,9 +334,9 @@ $search_month = $search_month?sprintf("%02d",$search_month):sprintf("%02d",date(
                                         <td><?=number_format(ceil($recom_money))?></td>
                                         <td><?=number_format(ceil($center_money))?></td>
                                         <td><?=number_format($all_money)?></td>
-                                        <td><?=number_format($row_mem_data[mem_cash])?></td>
+                                        <td><?=number_format($row_mem_data['mem_cash'])?></td>
                                         <td>0</td>
-                                        <td><?=number_format($row_mem_data[mem_cash])?></td>
+                                        <td><?=number_format($row_mem_data['mem_cash'])?></td>
                                     </tr>
                                     <?
                                     $i++;

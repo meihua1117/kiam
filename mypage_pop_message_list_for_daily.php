@@ -2,7 +2,7 @@
 <?
 $path="./";
 include_once "_head_open.php";
-if(!$_SESSION[one_member_id])
+if(!$_SESSION['one_member_id'])
 {
 
 ?>
@@ -106,7 +106,7 @@ function copyHtml(url){
               </tr>
               <?
 
-				$sql_serch=" m_id ='$_SESSION[one_member_id]' ";
+				$sql_serch=" m_id ='{$_SESSION['one_member_id']}' ";
 				if($_REQUEST[search_date])
 				{					
 					if($_REQUEST[rday1])
@@ -130,14 +130,14 @@ function copyHtml(url){
 				$sql="select count(sms_idx) as cnt from Gn_event_sms_info where $sql_serch ";
 				$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 				$row=mysqli_fetch_array($result);
-				$intRowCount=$row[cnt];
-				if (!$_POST[lno]) 
+				$intRowCount=$row['cnt'];
+				if (!$_POST['lno']) 
 					$intPageSize =20;
 				else 
-				   $intPageSize = $_POST[lno];				
-				if($_POST[page])
+				   $intPageSize = $_POST['lno'];				
+				if($_POST['page'])
 				{
-				  $page=(int)$_POST[page];
+				  $page=(int)$_POST['page'];
 				  $sort_no=$intRowCount-($intPageSize*$page-$intPageSize); 
 				}
 				else
@@ -145,17 +145,17 @@ function copyHtml(url){
 				  $page=1;
 				  $sort_no=$intRowCount;
 				}
-				if($_POST[page2])
-				  $page2=(int)$_POST[page2];
+				if($_POST['page2'])
+				  $page2=(int)$_POST['page2'];
 				else
 				  $page2=1;
 				$int=($page-1)*$intPageSize;
-				if($_REQUEST[order_status])
-				  $order_status=$_REQUEST[order_status];
+				if($_REQUEST['order_status'])
+				  $order_status=$_REQUEST['order_status'];
 				else
 				  $order_status="desc"; 
-				if($_REQUEST[order_name])
-				  $order_name=$_REQUEST[order_name];
+				if($_REQUEST['order_name'])
+				  $order_name=$_REQUEST['order_name'];
 				else
 				  $order_name="sms_idx";
 				$intPageCount=(int)(($intRowCount+$intPageSize-1)/$intPageSize);     
@@ -180,7 +180,7 @@ function copyHtml(url){
                 <td style="font-size:12px;"><?=$row[reservation_title]?></td>
                 <td><?=$row[reservation_desc]?></td>
                 <td><?=$row[mobile]?></td>
-                <td><?=number_format($srow[cnt])?></td>
+                <td><?=number_format($srow['cnt'])?></td>
                 <td>
                     <a href="javascript:;;" onclick="useIt('<?=$row[reservation_title];?>','<?=$row[sms_idx]?>')">사용하기</a>
                 </td>                               

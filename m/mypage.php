@@ -1,10 +1,10 @@
 <?php 
 include $_SERVER['DOCUMENT_ROOT']."/m/include/header.inc.php";
-if($_SESSION[one_member_id] == "") {
+if($_SESSION['one_member_id'] == "") {
     echo "<script>location='/m/';</script>";
 }
 include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
-//$sql="select * from Gn_Member  where mem_id='".$_SESSION[one_member_id]."'";
+//$sql="select * from Gn_Member  where mem_id='".$_SESSION['one_member_id']."'";
 //$sresul_num=mysqli_query($self_con,$sql);
 //$data=mysqli_fetch_array($sresul_num);
 //$m_birth_arr = explode("-",$data[mem_birth]);
@@ -70,7 +70,7 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                     <br>
                     <h2 class="title">회원정보수정</h2>
                     <form name="edit_form" id="edit_form" method="post" enctype="multipart/form-data">
-                        <input type="hidden" name="join_modify" value="<?php echo $member_1[mem_code]?>">
+                        <input type="hidden" name="join_modify" value="<?php echo $member_1['mem_code']?>">
                         <section class="input-field">
                             <h3 class="title">기본정보수정</h3>
                             <div class="utils clearfix"></div>
@@ -275,7 +275,7 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                                             $row = mysqli_fetch_array($result);
                                             $card_url = $row['card_short_url'];
                                             ?>
-                                            <span id="sHtml" style="display:none"><?='http://'.$HTTP_HOST.'/?mem_code='.$member_1[mem_code]?></span>
+                                            <span id="sHtml" style="display:none"><?='http://'.$HTTP_HOST.'/?mem_code='.$member_1['mem_code']?></span>
                                            <input type="button" name="" value="복사하기" onclick="copyHtml()">
                                         </div>
                                     </div>
@@ -284,7 +284,7 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                                     <div class="attr-name">추천아이디</div>
                                     <div class="attr-value">
                                         <div class="input-wrap">
-                                            <input type="hidden" name="nick" itemname='닉네임' value="<?=$member_1[mem_name]?>" />
+                                            <input type="hidden" name="nick" itemname='닉네임' value="<?=$member_1['mem_name']?>" />
                                             <?=$member_1[recommend_id]?>
                                         </div>
                                     </div>
@@ -316,7 +316,7 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                         </section>
                         <div class="button-wrap">
                             <a href="javascript:history.back(-1);" class="button is-grey">취소</a>
-                            <a href="javascript:save_form(edit_form,'<?=$member_1[mem_code]?>')" class="button is-pink">정보수정</a>
+                            <a href="javascript:save_form(edit_form,'<?=$member_1['mem_code']?>')" class="button is-pink">정보수정</a>
                         </div>
                     </form>
                 </div>

@@ -167,7 +167,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                         <td><input type="checkbox" name="event_idx" value="<?php echo $row['event_idx'];?>"></td>
                         <td><?=$number--?></td>
                             <td style="font-size:12px;"><?=$row[m_id]?></td>
-                            <td style="font-size:12px;"><?=$srow[mem_name]?></td>
+                            <td style="font-size:12px;"><?=$srow['mem_name']?></td>
                         <td style="font-size:12px;"><?=$row[event_name_eng]?></td>
                         <td style="font-size:12px;"><?=$row[event_name_kor]?></td>
                         <td>
@@ -189,7 +189,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                         <td><?=$row[pcode]?></td>
                         <td><?=$row[mobile]?></td>
                             
-                        <td><?=$row[regdate]?></td>
+                        <td><?=$row['regdate']?></td>
                       </tr>
                     <?
                     $c++;

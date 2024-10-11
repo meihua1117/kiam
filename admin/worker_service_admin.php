@@ -226,7 +226,7 @@ $(function() {
                                         </td>
                                         <!-- <td>
                                             <div style="overflow-x:hidden;width:100px;">
-                                                <a href="http://kiam.kr/?<?=strip_tags($row['card_short_url'].$mem_row[mem_code])?>" target="_blank"><?=$row['card_short_url']?></a>
+                                                <a href="http://kiam.kr/?<?=strip_tags($row['card_short_url'].$mem_row['mem_code'])?>" target="_blank"><?=$row['card_short_url']?></a>
                                             </div>
                                         </td> -->
                                         <td>
@@ -238,7 +238,7 @@ $(function() {
                                                     $thumb_img =  $default_img;
                                                 }
                                                 ?>
-                                                <a href="http://kiam.kr/?<?=strip_tags($row['card_short_url'].$mem_row[mem_code])?>" target="_blank">
+                                                <a href="http://kiam.kr/?<?=strip_tags($row['card_short_url'].$mem_row['mem_code'])?>" target="_blank">
                                                     <img class="zoom" src="<?=$thumb_img?>" style="width:50px;">
                                                 </a>
                                             </div>

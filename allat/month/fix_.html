@@ -2,7 +2,7 @@
 include_once $path."../../lib/rlatjd_fun.php";
 $mid = date("YmdHis");
 
-$sql="select * from Gn_Member where mem_id='$_SESSION[one_member_id]' ";
+$sql="select * from Gn_Member where mem_id='{$_SESSION['one_member_id']}' ";
 $resul=mysqli_query($self_con,$sql);
 $data=mysqli_fetch_array($resul);
 //print_r($data);
@@ -85,7 +85,7 @@ html { overflow-y:scroll;}
     <font color=blue><b>◆ 옵션정보</b>( 값이나 필드가 없을 경우 상점 속성이나 Default값이 반영됨 )</font>
 	<tr bgcolor=d3d3d3>
         <td width=135>회원ID<br>(allat_pmember_id)</td>
-        <td><input type=text name="allat_pmember_id" value="<?php echo $_SESSION[one_member_id]?$_SESSION[one_member_id]:"kiam";?>" size="19" maxlength=20></td>
+        <td><input type=text name="allat_pmember_id" value="<?php echo $_SESSION['one_member_id']?$_SESSION['one_member_id']:"kiam";?>" size="19" maxlength=20></td>
     </tr>
     <tr bgcolor=d3d3d3>
         <td>승인금액<br>(allat_amt)</td>
@@ -97,7 +97,7 @@ html { overflow-y:scroll;}
    </tr>
     <tr bgcolor=d3d3d3>
         <td>결제 정보 수신 E-mai<br>(allat_email_addr)</td>
-        <td ><input type=text name="allat_email_addr" value="<?php echo $data['mem_email']?$_SESSION[one_member_id]:"turbolight@daum.net";?>" size="19" maxlength=50></td>
+        <td ><input type=text name="allat_email_addr" value="<?php echo $data['mem_email']?$_SESSION['one_member_id']:"turbolight@daum.net";?>" size="19" maxlength=50></td>
   </tr>
     <tr bgcolor=d3d3d3>
         <td>생년월일<br>(allat_registry_no)</td>

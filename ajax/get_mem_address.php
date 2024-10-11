@@ -46,7 +46,7 @@ else if($_POST['mode'] == "check_gwc_member"){
   $res_chk = mysqli_query($self_con,$sql_chk);
   $row_chk = mysqli_fetch_array($res_chk);
 
-  $sql_cont_cnt = "select count(*) from Gn_Iam_Contents_Gwc where mem_id='{$_SESSION[iam_member_id]}' and ori_store_prod_idx!=0";
+  $sql_cont_cnt = "select count(*) from Gn_Iam_Contents_Gwc where mem_id='{$_SESSION['iam_member_id']}' and ori_store_prod_idx!=0";
   $res_cnt = mysqli_query($self_con,$sql_cont_cnt);
   $row_cnt = mysqli_fetch_array($res_cnt);
   if($row_chk[0]){

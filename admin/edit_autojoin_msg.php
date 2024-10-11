@@ -192,7 +192,7 @@ if($row[0]) {
 											<th class="w200">스텝문자정보</th>
 											<td>
 												<input type="text" style="width:45%;" name="step_title" id="step_title" value="<?=$row_step[title]?>" disabled>
-												<input type="text" style="width:100px;" name="step_phone" id="step_phone" value="<?=$row_step[send_num]?>" disabled>
+												<input type="text" style="width:100px;" name="step_phone" id="step_phone" value="<?=$row_step['send_num']?>" disabled>
 												<input type="text" style="width:50px;" name="step_cnt" id="step_cnt" value="<?=$row_step[step]?>" disabled><br><br>
 												적용상황
 												<label class="step_switch">
@@ -208,7 +208,7 @@ if($row[0]) {
 										<?}?>
 										<tr>
 											<th class="w200">등록일시</th>
-											<td><input type="text" name="regdate" id="regdate" value="<?=$row[regdate]?>"></td>
+											<td><input type="text" name="regdate" id="regdate" value="<?=$row['regdate']?>"></td>
 										</tr>
 									</table>
 								</div>

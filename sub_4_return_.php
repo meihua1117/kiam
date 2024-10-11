@@ -1,7 +1,7 @@
 <?
 $path="./";
 include_once "_head.php";
-if(!$_SESSION[one_member_id])
+if(!$_SESSION['one_member_id'])
 {
 ?>
 <script language="javascript">
@@ -13,7 +13,7 @@ exit;
 extract($_REQUEST);
 
     $sql_serch= " 1=1 ";
-	$sql_serch .= "AND mem_id='$_SESSION[one_member_id]'";
+	$sql_serch .= "AND mem_id='{$_SESSION['one_member_id']}'";
 	if ($search_category != '') {
         if($startdate)
             $sql_serch .= " AND ".$search_category." >= '$startdate 00:00:00'";
@@ -22,7 +22,7 @@ extract($_REQUEST);
     }
 
 	/*
-	if($_REQUEST[status2]==2){ //예약내역
+	if($_REQUEST['status2']==2){ //예약내역
 		$sql_serch .= "and ifnull(reservation,'') <> '' ";
 		$sql_table = " ((SELECT `idx`, `mem_id`, `send_num`, `recv_num`, `uni_id`, `content`, `title`, `type`, `delay`, `delay2`, `close`, `jpg`, `jpg1`, `jpg2`, `result`, `reg_date`, `up_date`, `url`, `reservation` FROM Gn_MMS_ReservationFail ) ";
 		$sql_table .= "UNION (SELECT `idx`, `mem_id`, `send_num`, `recv_num`, `uni_id`, `content`, `title`, `type`, `delay`, `delay2`, `close`, `jpg`, `jpg1`, `jpg2`, `result`, `reg_date`, `up_date`, `url`, `reservation` FROM Gn_MMS WHERE IFNULL(reservation, '') <> '')) as R ";
@@ -32,10 +32,10 @@ extract($_REQUEST);
 	}
 	*/
 	$sql_table = " Gn_MMS ";
-	if($_REQUEST[status2]==1){ //예약내역
+	if($_REQUEST['status2']==1){ //예약내역
 	    $sql_serch .= " and title = 'app_check_process'";
 	    $sql_table = " Gn_MMS ";
-	} else if($_REQUEST[status2]==2){ //예약내역
+	} else if($_REQUEST['status2']==2){ //예약내역
 	    $sql_serch .= " and title != 'app_check_process'";
 	    $sql_table = " Gn_MMS ";
 	}else if($_REQUEST[chanel]==2){
@@ -65,9 +65,9 @@ extract($_REQUEST);
 	{
 		$sql_serch.=" and $_REQUEST[serch_fs_select] like '$_REQUEST[serch_fs_text]%' ";	
 	}				
-	// $sql_serch .= " and content != '".$_SESSION[one_member_id].", app_check_process'";
+	// $sql_serch .= " and content != '".$_SESSION['one_member_id'].", app_check_process'";
 	// 상태 검색 추가
-	// if($row[up_date]!=''&&$row[result]==0){echo"완료";}elseif($row[up_date]==''&&$row[result]==1){echo "대기";}elseif($row[result]==3){echo "실패";}
+	// if($row['up_date']!=''&&$row[result]==0){echo"완료";}elseif($row['up_date']==''&&$row[result]==1){echo "대기";}elseif($row[result]==3){echo "실패";}
 	if($_REQUEST['result'] == 1) {
 	    $sql_serch .= " and result = 0 and up_date is not null ";
 	} elseif($_REQUEST['result'] == 2) {
@@ -81,14 +81,14 @@ extract($_REQUEST);
 	$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 	$row=mysqli_fetch_array($result);
 	mysqli_free_result($result);
-	$intRowCount=$row[cnt];
-	if (!$_POST[lno]) 
+	$intRowCount=$row['cnt'];
+	if (!$_POST['lno']) 
 	$intPageSize =20;
 	else 
-	$intPageSize = $_POST[lno];					
-	if($_REQUEST[page])
+	$intPageSize = $_POST['lno'];					
+	if($_REQUEST['page'])
 	{
-	  $page=(int)$_REQUEST[page];
+	  $page=(int)$_REQUEST['page'];
 	  $sort_no=$intRowCount-($intPageSize*$page-$intPageSize); 
 	}
 	else
@@ -96,17 +96,17 @@ extract($_REQUEST);
 	  $page=1;
 	  $sort_no=$intRowCount;
 	}
-	if($_REQUEST[page2])
-	$page2=(int)$_REQUEST[page2];
+	if($_REQUEST['page2'])
+	$page2=(int)$_REQUEST['page2'];
 	else
 	$page2=1;
 	$int=($page-1)*$intPageSize;
-	if($_REQUEST[order_status])
-	$order_status=$_REQUEST[order_status];
+	if($_REQUEST['order_status'])
+	$order_status=$_REQUEST['order_status'];
 	else
 	$order_status="desc"; 
-	if($_REQUEST[order_name])
-	$order_name=$_REQUEST[order_name];
+	if($_REQUEST['order_name'])
+	$order_name=$_REQUEST['order_name'];
 	else
 	$order_name="reg_date";
 	$intPageCount=(int)(($intRowCount+$intPageSize-1)/$intPageSize);     
@@ -210,17 +210,17 @@ extract($_REQUEST);
 					<div class="m_div sub_4c">
 					<div class="sub_4_4_t1">
                     <div class="sub_4_4_t2">
-	                	<!--div class="sub_4_1_t3"><a href="sub_4.php?status=4" style="color:<?=$_REQUEST[status2]==''?"#000":""?>">발신내역 확인</a> 
-	                	    <&nbsp;|&nbsp; <a href="sub_4.php?status=4&status2=2" style="color:<?=$_REQUEST[status2]==2?"#000":""?>">예약내역 확인</a></div>-->
+	                	<!--div class="sub_4_1_t3"><a href="sub_4.php?status=4" style="color:<?=$_REQUEST['status2']==''?"#000":""?>">발신내역 확인</a> 
+	                	    <&nbsp;|&nbsp; <a href="sub_4.php?status=4&status2=2" style="color:<?=$_REQUEST['status2']==2?"#000":""?>">예약내역 확인</a></div>-->
 	                	    
                     	<div class="sub_4_1_t3">
                             <a href="sub_4.php?status=4" style="color:">전체내역</a> &nbsp;|&nbsp; 
-                            <a href="sub_4.php?status=4&status2=1" style="color:<?=$_REQUEST[status2]==1?"#000":""?>">앱체크내역</a> &nbsp;|&nbsp; 
+                            <a href="sub_4.php?status=4&status2=1" style="color:<?=$_REQUEST['status2']==1?"#000":""?>">앱체크내역</a> &nbsp;|&nbsp; 
                             <a href="sub_4_return_.php" style="color:<?=!$_REQUEST[chanel]?"#000":""?>">발신/회신문자</a>&nbsp;|&nbsp;
 							<a href="sub_4_return_.php?chanel=2" style="color:<?=$_REQUEST[chanel]==2?"#000":""?>">스텝문자</a>&nbsp;|&nbsp;
 							<a href="sub_4_return_.php?chanel=4" style="color:<?=$_REQUEST[chanel]==4?"#000":""?>">데일리문자</a>&nbsp;|&nbsp;
 							<a href="sub_4_return_.php?chanel=9" style="color:<?=$_REQUEST[chanel]==9?"#000":""?>">콜백문자</a>&nbsp;|&nbsp; 
-							<a href="sub_4.php?status=4&status2=10" style="color:<?=$_REQUEST[status2]==10?"#000":""?>">폰문자인증내역</a>
+							<a href="sub_4.php?status=4&status2=10" style="color:<?=$_REQUEST['status2']==10?"#000":""?>">폰문자인증내역</a>
                         </div>
 
 	                    <div class="sub_4_4_t2">
@@ -301,13 +301,13 @@ extract($_REQUEST);
 	                                    <td style="width:10%;">수신번호</td>
 	                                    <td style="width:8%;">문자제목</td>
 	                                    <td style="width:16%;">문자내용</td>
-	                                    <?if($_REQUEST[status2]=='2'){?>
+	                                    <?if($_REQUEST['status2']=='2'){?>
 	                                    <td style="width:3%;">상태</td>
 	                                    <?}?>
-	                                    <td style="width:5%;"><?=$_REQUEST[status2]=='2'?"예약일시":"첨부파일"?></td>
+	                                    <td style="width:5%;"><?=$_REQUEST['status2']=='2'?"예약일시":"첨부파일"?></td>
 	                                    <td style="width:8%;">PC전송시간</td>
 	                                    <!--<td style="width:8%;">앱수신시간</td>-->
-										<?=$_REQUEST[status2]==''?'<td style="width:8%;">발송예정시간</td>':""?>
+										<?=$_REQUEST['status2']==''?'<td style="width:8%;">발송예정시간</td>':""?>
                                         <td style="width:8%;">발송완료시간</td>
 	                                    <td style="width:8%;">성공/실패</td>
 	                                    <td style="width:5%;">회신수</td>
@@ -323,19 +323,19 @@ extract($_REQUEST);
 											$row_s=mysqli_fetch_array($resul_s);
 											mysqli_free_result($resul_s);
 																					    
-											$sql_n="select memo from Gn_MMS_Number where mem_id='$_SESSION[one_member_id]' and sendnum='$row[send_num]' ";
+											$sql_n="select memo from Gn_MMS_Number where mem_id='{$_SESSION['one_member_id']}' and sendnum='{$row['send_num']}' ";
 											$resul_n=mysqli_query($self_con,$sql_n);
 											$row_n=mysqli_fetch_array($resul_n);
 											mysqli_free_result($resul_n);
 											
-											$recv_num = explode(",",$row[recv_num]);
+											$recv_num = explode(",",$row['recv_num']);
 											$recv_num_in = "'".implode("','", $recv_num)."'";
 											$date = $row['up_date'];
 
-											$sql="select count(seq) as cnt from call_app_log where api_name='receive_sms' and LENGTH(recv_num) >= 10 and  send_num='$row[send_num]' and recv_num in ($recv_num_in) and recv_num like '01%'  and regdate >= '$date' and sms not like '[%'";
+											$sql="select count(seq) as cnt from call_app_log where api_name='receive_sms' and LENGTH(recv_num) >= 10 and  send_num='{$row['send_num']}' and recv_num in ($recv_num_in) and recv_num like '01%'  and regdate >= '$date' and sms not like '[%'";
 											$kresult = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 											$krow=mysqli_fetch_array($kresult);
-											$intRowCount=$krow[cnt];											
+											$intRowCount=$krow['cnt'];											
 											if($date == "") $intRowCount = "";
 											
                             				$sql_as="select count(idx) as cnt from Gn_MMS_status where idx='$row[idx]' ";
@@ -360,9 +360,9 @@ extract($_REQUEST);
 										?>
 										<tr>
 											<td><label><input type="checkbox" name="fs_idx" value="<?=$row[idx]?>" /><?=$sort_no?></label></td>
-											<td><?=$row_n[memo]?></td>											
+											<td><?=$row_n['memo']?></td>											
 	                                        <td>
-												<?=$row[send_num]?>
+												<?=$row['send_num']?>
 												<?if(!$_REQUEST[chanel]){
 												if(!$row[type]){?>
 												<span style="color:#3f50cd;">(개별발송)</span>
@@ -372,26 +372,26 @@ extract($_REQUEST);
 												<?}}?>
 											</td>
 											<td style="font-size:12px;">
-												<a href="javascript:void(0)" onclick="show_recv('show_recv_num','<?=$c?>','수신번호')"><?=str_substr($row[recv_num],0,14,'utf-8')?></a>
+												<a href="javascript:void(0)" onclick="show_recv('show_recv_num','<?=$c?>','수신번호')"><?=str_substr($row['recv_num'],0,14,'utf-8')?></a>
 												<span style="color:#F00;">(<?=$total_cnt?>)</span>
 												<?if($row[grp_idx] && !$_REQUEST[chanel]){?>
 												<span style="color:#3f50cd;" onclick="show_grp_detail('<?=$row[grp_idx]?>', '<?=$row[count_start]?>', '<?=$row[count_end]?>')">[보기]</span>
 												<?}?>
-												<input type="hidden" name="show_recv_num" value="<?=$row[recv_num]?>"/>
+												<input type="hidden" name="show_recv_num" value="<?=$row['recv_num']?>"/>
 											</td>
 											<td>
 												<a href="javascript:void(0)" onclick="show_recv('show_title','<?=$c?>','문자제목')"><?=str_substr($row[title],0,14,'utf-8')?></a>
 												<input type="hidden" name="show_title" value="<?=$row[title]?>"/>
 											</td>
 											<td style="font-size:12px;">
-												<a href="javascript:void(0)" onclick="show_recv('show_content','<?=$c?>','문자내용')"><?=str_substr($row[content],0,30,'utf-8')?></a>
-												<input type="hidden" name="show_content" value="<?=$row[content]?>"/>
+												<a href="javascript:void(0)" onclick="show_recv('show_content','<?=$c?>','문자내용')"><?=str_substr($row['content'],0,30,'utf-8')?></a>
+												<input type="hidden" name="show_content" value="<?=$row['content']?>"/>
 											</td>
-											<?if($_REQUEST[status2]=='2'){?>
-		                                    <td style="width:5%;"><?if($row[up_date]!=''&&$row[result]==0){?>완료<?}elseif($row[up_date]==''&&$row[result]==1){?>대기<?}elseif($row[result]==3){?>실패<?}?></td>
+											<?if($_REQUEST['status2']=='2'){?>
+		                                    <td style="width:5%;"><?if($row['up_date']!=''&&$row[result]==0){?>완료<?}elseif($row['up_date']==''&&$row[result]==1){?>대기<?}elseif($row[result]==3){?>실패<?}?></td>
 		                                    <?}?>
 											<td>
-											    <?if ($_REQUEST[status2]==2){ 
+											    <?if ($_REQUEST['status2']==2){ 
 													echo substr($row[reservation],0,16); 
 												}else{?>
 													<a href="javascript:void(0)" onclick="show_recv('show_jpg','<?=$c?>','첨부파일')"><?=str_substr($row[jpg],0,20,'utf-8')?></a>
@@ -403,7 +403,7 @@ extract($_REQUEST);
 											    <?}?>
 											</td>
                                             <td style="font-size:12px;"><?=substr($row[reg_date],0,16)?></td>
-											<!--<td style="font-size:12px;"><?=substr($row[up_date],0,16)?></td>-->
+											<!--<td style="font-size:12px;"><?=substr($row['up_date'],0,16)?></td>-->
 											<td>
 												<?=$row[reservation]?$row[reservation]:""?>
 											</td>
@@ -411,9 +411,9 @@ extract($_REQUEST);
 											    <?if($row_s['status']=="-1") {?>
 											    기본앱아님
 											    <?}else{?>
-											        <?=substr($row_s[regdate],0,16)?>
+											        <?=substr($row_s['regdate'],0,16)?>
 											        <?php 
-											        if(time() > $reg_date_1hour && $row_s[regdate] == "" ) {
+											        if(time() > $reg_date_1hour && $row_s['regdate'] == "" ) {
 											            if($row[reservation] != "" && $row[reservation] > date("Y-m-d H:i:s")) {?>
     											            <a href="javascript:fs_del_num('<?=$row[idx]?>')">취소가능</a>
 											            <?}else{?>
@@ -429,16 +429,16 @@ extract($_REQUEST);
 											<td style="font-size:12px;">
 												<?
 												if($success_cnt == 0 ){
-                        					        if(time() > $reg_date_1hour && $row[up_date] == "") {
+                        					        if(time() > $reg_date_1hour && $row['up_date'] == "") {
 														if($row[reservation] > date("Y-m-d H:i:s")){}
 														else{?>
-                            					            <?="실패=".$row[up_date];?>
+                            					            <?="실패=".$row['up_date'];?>
                             					        <?}
                         					        }else{
-                            					        if(time() > $reg_date_1hour && $row[up_date] != "") {?>
+                            					        if(time() > $reg_date_1hour && $row['up_date'] != "") {?>
                             					            발송실패
                             					        <?}else{
-                            					            if($row[up_date] == "" && $row[reservation] < date("Y-m-d H:i:s")) {?>
+                            					            if($row['up_date'] == "" && $row[reservation] < date("Y-m-d H:i:s")) {?>
                             					                <a href="sub_4_detail.php?idx=<?php echo $row['idx'];?>">발송중</a>
                             					            <?}
                             					        }
@@ -449,7 +449,7 @@ extract($_REQUEST);
 											    <?php if($row[reservation]) {?>예약<?php }?>
 											</td>
 											<td style="font-size:12px;">
-												<a href="sub_4_return_detail.php?idx=<?php echo $row['idx']?>&send_num=<?=$row[send_num]?>"><?=$intRowCount;?></a> 
+												<a href="sub_4_return_detail.php?idx=<?php echo $row['idx']?>&send_num=<?=$row['send_num']?>"><?=$intRowCount;?></a> 
 											</td>
 										</tr>
 										<?
@@ -480,7 +480,7 @@ extract($_REQUEST);
 	                        <div class="sub_4_4_t5">
 	                        	<div class="div_float_left">&nbsp;</div>
 	                            <div class="div_float_right">
-	                                <?if ($_REQUEST[status2]==''){?><a href="javascript:void(0)" onclick="excel_down('excel_down/fs_down.php?status=1')"><img src="images/sub_button_107.jpg" /></a><?}?>
+	                                <?if ($_REQUEST['status2']==''){?><a href="javascript:void(0)" onclick="excel_down('excel_down/fs_down.php?status=1')"><img src="images/sub_button_107.jpg" /></a><?}?>
 	                                <!--<a href="javascript:void(0)" onclick="fs_del()"><img src="images/sub_button_109.jpg" /></a>-->
 	                            </div>
 	                            <p style="clear:both;"></p>                                
@@ -580,7 +580,7 @@ function all_msg_del(type){
 			type:"POST",
 			url:"/admin/ajax/delete_func.php",
 			dataType:"json",
-			data:{admin:0, delete_name:"mms_del", mem_id:'<?=$_SESSION[one_member_id]?>', type:type},
+			data:{admin:0, delete_name:"mms_del", mem_id:'<?=$_SESSION['one_member_id']?>', type:type},
 			success: function(data){
 				console.log(data);
 				if(data == 1){

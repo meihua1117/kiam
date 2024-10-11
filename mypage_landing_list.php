@@ -1,7 +1,7 @@
 <?
 $path="./";
 include_once "_head.php";
-if(!$_SESSION[one_member_id])
+if(!$_SESSION['one_member_id'])
 {
 
 ?>
@@ -11,7 +11,7 @@ location.replace('/ma.php');
 <?
 exit;
 }
-	$sql="select * from Gn_Member  where mem_id='".$_SESSION[one_member_id]."' and site != ''";
+	$sql="select * from Gn_Member  where mem_id='".$_SESSION['one_member_id']."' and site != ''";
 	$sresul_num=mysqli_query($self_con,$sql);
 	$data=mysqli_fetch_array($sresul_num);	
 	
@@ -185,7 +185,7 @@ a.sort-by:after {
               </tr>
               <?
 
-				$sql_serch=" m_id ='$_SESSION[one_member_id]' ";
+				$sql_serch=" m_id ='{$_SESSION['one_member_id']}' ";
 				if($_REQUEST[search_date])
 				{					
 					if($_REQUEST[rday1])
@@ -209,16 +209,16 @@ a.sort-by:after {
 				$sql="select count(landing_idx) as cnt from Gn_landing where $sql_serch ";
 				$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 				$row=mysqli_fetch_array($result);
-				$intRowCount=$row[cnt];
+				$intRowCount=$row['cnt'];
               if($intRowCount)
               {
-				if (!$_POST[lno]) 
+				if (!$_POST['lno']) 
 					$intPageSize =20;
 				else 
-				   $intPageSize = $_POST[lno];				
-				if($_POST[page])
+				   $intPageSize = $_POST['lno'];				
+				if($_POST['page'])
 				{
-				  $page=(int)$_POST[page];
+				  $page=(int)$_POST['page'];
 				  $sort_no=$intRowCount-($intPageSize*$page-$intPageSize); 
 				}
 				else
@@ -226,17 +226,17 @@ a.sort-by:after {
 				  $page=1;
 				  $sort_no=$intRowCount;
 				}
-				if($_POST[page2])
-				  $page2=(int)$_POST[page2];
+				if($_POST['page2'])
+				  $page2=(int)$_POST['page2'];
 				else
 				  $page2=1;
 				$int=($page-1)*$intPageSize;
-				if($_REQUEST[order_status])
-				  $order_status=$_REQUEST[order_status];
+				if($_REQUEST['order_status'])
+				  $order_status=$_REQUEST['order_status'];
 				else
 				  $order_status="desc"; 
-				if($_REQUEST[order_name])
-				  $order_name=$_REQUEST[order_name];
+				if($_REQUEST['order_name'])
+				  $order_name=$_REQUEST['order_name'];
 				else
 				  $order_name="regdate";
 				$intPageCount=(int)(($intRowCount+$intPageSize-1)/$intPageSize);     
@@ -267,9 +267,9 @@ a.sort-by:after {
 				<td style="font-size:12px;">
                     <input type="button" value="소스보기" class="button" onclick="viewIframeSourceWindow('<?php echo $row['landing_idx']?>')">
                 </td>
-                <td><?=number_format($row[cnt])?></td>
+                <td><?=number_format($row['cnt'])?></td>
                 <td><?=number_format($row[read_cnt])?></td>
-                <td><?=$row[regdate]?></td>
+                <td><?=$row['regdate']?></td>
                 <td>
                     <a href='mypage_landing_write.php?landing_idx=<?php echo $row['landing_idx'];?>'>수정</a>/<a href="javascript:;;" onclick="removeRow('<?php echo $row['landing_idx'];?>')">삭제</a>
                 </td>
@@ -560,7 +560,7 @@ function removeAll() {
 		$.ajax({
 			 type:"POST",
 			url:"/admin/ajax/delete_func.php",
-			data:{admin:0, delete_name:"mypage_landing_list", mem_id:'<?=$_SESSION[one_member_id]?>'},
+			data:{admin:0, delete_name:"mypage_landing_list", mem_id:'<?=$_SESSION['one_member_id']?>'},
 			success:function(){
 			    alert('삭제되었습니다.');
 			    location.reload();

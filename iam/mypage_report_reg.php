@@ -1,6 +1,6 @@
 <?php 
 include "inc/header.inc.php";
-if($_SESSION[iam_member_id] == "") {
+if($_SESSION['iam_member_id'] == "") {
     echo "<script>location='/';</script>";
 }
 if($member_iam[service_type] < 2){
@@ -126,7 +126,7 @@ input:checked + .slider:before {
                             </a>
                         </div>
                         <div style="display:flex;margin: 0px 35px;float: right;">
-                            <?if($_SESSION[iam_member_subadmin_id] == $_SESSION[iam_member_id]){?>
+                            <?if($_SESSION['iam_member_subadmin_id'] == $_SESSION['iam_member_id']){?>
                                 <a class="btn  btn-link" title = "<?='공지알림';?>" href="/?cur_win=unread_notice&box=send&modal=Y" style="display:flex;padding:6px 3px">
                                     <p style="font-size:14px;color:black">공지전송</p>
                                     <label class="label label-sm" id = "notice" style="background: #ff3333;border-radius: 50%;padding: 2px 5px;margin-left: -5px;font-size:10px"></label>
@@ -248,7 +248,7 @@ input:checked + .slider:before {
 
                                         <div class="jesi-content">
                                             <?
-                                            $repo_sql = "select * from gn_report_form2 where form_id=$index and item_id=$row[id] order by id";
+                                            $repo_sql = "select * from gn_report_form2 where form_id=$index and item_id={$row['id']} order by id";
                                             $repo_res = mysqli_query($self_con,$repo_sql);
                                             while($repo_row = mysqli_fetch_array($repo_res)){
                                                 if($row['item_type'] == 0){?>

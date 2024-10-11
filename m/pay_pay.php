@@ -4,7 +4,7 @@ include_once "_head.php";
 $date = date("Y-m-d H:i:s");
 // 이미 진행중인 결제가 있는지 확인
 $query = "select *
-from tjd_pay_result where buyer_id='$_SESSION[one_member_id]' and end_status='Y' and `end_date` > '$date'";
+from tjd_pay_result where buyer_id='{$_SESSION['one_member_id']}' and end_status='Y' and `end_date` > '$date'";
 $res = mysqli_query($self_con,$query);
 $sdata = mysqli_fetch_array($res);
 if($sdata['no'] != "") {
@@ -48,7 +48,7 @@ $(function(){
     
 function dbFree() {
         <?
-        if($_SESSION[one_member_id] == "")
+        if($_SESSION['one_member_id'] == "")
         {
         ?>    
         alert('로그인 이후에 이용이 가능합니다.');
@@ -943,7 +943,7 @@ var send_cnt = 9000;
                 <input type="hidden" name="fujia_status" id="fujia_status" />
                 <input type="hidden" name="mid" value="obmms20151" />
                 <?
-                if(!$_SESSION[one_member_id])
+                if(!$_SESSION['one_member_id'])
                 {
                 ?>
 
@@ -1387,7 +1387,7 @@ var send_cnt = 9000;
                                 </tr>
                                 <!--<tr style="display:none">
                                     <td>부가서비스</td>
-                                    <td><input type="hidden" name="show_fujia" value="이미결제됨 <br><br> 사용만료시간 :<?=$member_1[fujia_date2]?>"/>
+                                    <td><input type="hidden" name="show_fujia" value="이미결제됨 <br><br> 사용만료시간 :<?=$member_1['fujia_date2']?>"/>
                                     <label <?=$fujia_pay?"onmouseover=\"show_recv('show_fujia','0','부가서비스')\"":""?>><input type="checkbox" name="add_service" onclick="pay_total_v('add_service')" <?=$fujia_pay?"disabled":""?> />사용시 선택</label>
                                 </td>
                                 <td>
@@ -1489,7 +1489,7 @@ var send_cnt = 9000;
                     <input type="hidden" name="fujia_status" id="fujia_status" />
                     <input type="hidden" name="mid" value="obmms20151" />
                     <?
-                    if(!$_SESSION[one_member_id])
+                    if(!$_SESSION['one_member_id'])
                     {
                     ?>
                     <div class="a8"><a href="javascript:void(0)" onclick="alert('로그인후 이용이 가능합니다.');"><img src="images/sub_02_btn_23.jpg" /></a></div>

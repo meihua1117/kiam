@@ -1,7 +1,7 @@
 <?
 $path="./";
 include_once "_head.php";
-if(!$_SESSION[one_member_id])
+if(!$_SESSION['one_member_id'])
 {
 ?>
 <script language="javascript">
@@ -10,7 +10,7 @@ location.replace('/ma.php');
 <?
 exit;
 }
-$sql="select * from Gn_Member  where mem_id='".$_SESSION[one_member_id]."'";
+$sql="select * from Gn_Member  where mem_id='".$_SESSION['one_member_id']."'";
 $sresul_num=mysqli_query($self_con,$sql);
 $data=mysqli_fetch_array($sresul_num);	
 $mem_phone = str_replace("-","",$data['mem_phone']);	
@@ -143,7 +143,7 @@ $(function(){
                                     <td style="width:7%;">수정/삭제</td>
                                 </tr>
                             <?
-                            $sql_serch=" m_id ='$_SESSION[one_member_id]' ";
+                            $sql_serch=" m_id ='{$_SESSION['one_member_id']}' ";
                             if($_REQUEST[search_date])
                             {
                                 if($_REQUEST[rday1])
@@ -171,14 +171,14 @@ $(function(){
                             $sql="select count(request_idx) as cnt from Gn_event_request where $sql_serch ";
                             $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
                             $row=mysqli_fetch_array($result);
-                            $intRowCount=$row[cnt];
-                            if (!$_POST[lno])
+                            $intRowCount=$row['cnt'];
+                            if (!$_POST['lno'])
                                 $intPageSize =20;
                             else
-                                $intPageSize = $_POST[lno];
-                            if($_POST[page])
+                                $intPageSize = $_POST['lno'];
+                            if($_POST['page'])
                             {
-                                $page=(int)$_POST[page];
+                                $page=(int)$_POST['page'];
                                 $sort_no=$intRowCount-($intPageSize*$page-$intPageSize);
                             }
                             else
@@ -186,17 +186,17 @@ $(function(){
                                 $page=1;
                                 $sort_no=$intRowCount;
                             }
-                            if($_POST[page2])
-                                $page2=(int)$_POST[page2];
+                            if($_POST['page2'])
+                                $page2=(int)$_POST['page2'];
                             else
                                 $page2=1;
                             $int=($page-1)*$intPageSize;
-                            if($_REQUEST[order_status])
-                                $order_status=$_REQUEST[order_status];
+                            if($_REQUEST['order_status'])
+                                $order_status=$_REQUEST['order_status'];
                             else
                                 $order_status="desc";
-                            if($_REQUEST[order_name])
-                                $order_name=$_REQUEST[order_name];
+                            if($_REQUEST['order_name'])
+                                $order_name=$_REQUEST['order_name'];
                             else
                                 $order_name="request_idx";
                             $intPageCount=(int)(($intRowCount+$intPageSize-1)/$intPageSize);
@@ -220,9 +220,9 @@ $(function(){
                                     }
                             ?>
                                 <tr>
-                                    <td><input type="checkbox" class="check" name="event_idx" value="<?php echo $row['request_idx'];?>" data-name="<?=$row[name]?>" data-mobile="<?=$row[mobile]?>"  data-email="<?=$row[email]?>" data-job="<?=$row[job]?>"  data-event_code="<?=$row[event_code]?>"  data-counsult_date="<?=$row[counsult_date]?>" data-sp="<?=$row[sp]?>" data-request_idx="<?php echo $row['request_idx'];?>"></td>
+                                    <td><input type="checkbox" class="check" name="event_idx" value="<?php echo $row['request_idx'];?>" data-name="<?=$row['name']?>" data-mobile="<?=$row[mobile]?>"  data-email="<?=$row['email']?>" data-job="<?=$row[job]?>"  data-event_code="<?=$row[event_code]?>"  data-counsult_date="<?=$row[counsult_date]?>" data-sp="<?=$row[sp]?>" data-request_idx="<?php echo $row['request_idx'];?>"></td>
                                     <td><?=$sort_no?></td>
-                                    <td style="font-size:12px;"><?=$row[name]?><br>
+                                    <td style="font-size:12px;"><?=$row['name']?><br>
                                         <a onclick="window.open('mypage_pop_activity_list.php?request_idx='+'<?=$row[request_idx]?>','','top=300,left=300,width=800,height=500,toolbar=no,menubar=no,scrollbars=yes, resizable=yes,location=no, status=no')" >[보기]</a>
                                     </td>
                                     <td><?=$row[mobile]?></td>
@@ -258,18 +258,18 @@ $(function(){
                                         ?>
                                     </td>
                                     <td><?=$row_event_data[mobile]?></td>
-                                    <td><?=$row[regdate]?></td>
+                                    <td><?=$row['regdate']?></td>
                                     <td>
                                         <div class="popup_holder popup_text">신청정보
                                             <div class="popupbox" style="height: 120px;width: 170px;left: 63px;top: -100px;display:none;">
                                             [신청정보보기]<br>
                                                 &nbsp;>성별:<? if($row[sex] == "m") echo " 남자"; else if($row[sex] == "f") echo " 여자"; else echo " "; ?><br>
-                                                &nbsp;>출생년도:<? echo " $row[birthday]";?><br>
-                                                &nbsp;>소속/직업:<? echo " $row[job]";?><br>
-                                                &nbsp;>이메일:<? echo " $row[email]";?><br>
-                                                &nbsp;>거주주소:<? echo " $row[addr]";?><br>
-                                                &nbsp;>가입여부:<? echo " $row[join_yn]";?><br>
-                                                &nbsp;>기타정보:<? echo " $row[consult_date]";?><br>
+                                                &nbsp;>출생년도:<?=$row[birthday];?><br>
+                                                &nbsp;>소속/직업:<?=$row[job];?><br>
+                                                &nbsp;>이메일:<?=$row['email'];?><br>
+                                                &nbsp;>거주주소:<?=$row[addr];?><br>
+                                                &nbsp;>가입여부:<?=$row[join_yn];?><br>
+                                                &nbsp;>기타정보:<?=$row[consult_date];?><br>
                                             </div>
                                         </div>
                                     </td>
@@ -515,7 +515,7 @@ $(function(){
             $.ajax({
                 type:"POST",
                 url:"/admin/ajax/delete_func.php",
-                data:{admin:0, delete_name:"mypage_request_list", mem_id:'<?=$_SESSION[one_member_id]?>'},
+                data:{admin:0, delete_name:"mypage_request_list", mem_id:'<?=$_SESSION['one_member_id']?>'},
                 success:function(){
                     alert('삭제되었습니다.');
                     location.reload();
@@ -605,7 +605,7 @@ $(function(){
                 <span class="layer_close close" ><img src="/images/close_button_05.jpg"></span>
                 <form method="post" name="addFormEvent" id="addFormEvent"  action="mypage.proc.php" enctype="multipart/form-data">
                     <input type="hidden" name="mode" value="request_event_add">
-                    <input type="hidden" name="m_id" value="<?php echo $_SESSION[one_member_id];?>">
+                    <input type="hidden" name="m_id" value="<?php echo $_SESSION['one_member_id'];?>">
                     <div class="pop_title">
                         신규 신청창 수동추가
                     </div>

@@ -32,8 +32,8 @@ if(strlen($_REQUEST[one_member_id]) > 0) {
 		$h=2;
 		while($row=mysqli_fetch_array($result))
 		{
-					$is_zelo=substr($row[recv_num],0,1);
-					$v=$is_zelo?"0".$row[recv_num]:$row[recv_num];	
+					$is_zelo=substr($row['recv_num'],0,1);
+					$v=$is_zelo?"0".$row['recv_num']:$row['recv_num'];	
 					$status_arr=array();
 					$sql_deny="select idx,recv_num from Gn_MMS_Deny where recv_num='$v' and mem_id='$_REQUEST[one_member_id]' ";
 					$resul_deny=mysqli_query($self_con,$sql_deny);
@@ -59,8 +59,8 @@ if(strlen($_REQUEST[one_member_id]) > 0) {
 					$status_s=implode(",",$status_arr);
 		$objPHPExcel->setActiveSheetIndex(0)
 					->setCellValue("A$h",$row[grp_2])
-					->setCellValue("B$h",$row[name])
-					->setCellValue("C$h",$row[recv_num])
+					->setCellValue("B$h",$row['name'])
+					->setCellValue("C$h",$row['recv_num'])
 					->setCellValue("D$h",$status_s);			
 			$h++;		
 		}

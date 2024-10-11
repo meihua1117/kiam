@@ -2,7 +2,7 @@
 include_once "../lib/rlatjd_fun.php";
 set_time_limit(0);
 ini_set('memory_limit','4500M');
-if(strlen($_SESSION[one_member_id]) > 0) {
+if(strlen($_SESSION['one_member_id']) > 0) {
       if(!$_REQUEST[excel_sql])
       exit;
       $path="../";
@@ -34,12 +34,12 @@ if(strlen($_SESSION[one_member_id]) > 0) {
       {
       $objPHPExcel->setActiveSheetIndex(0)
                   ->setCellValue("A$h",$sort_no)
-                  ->setCellValue("B$h",$row[send_num])
-                  ->setCellValue("C$h",$row[recv_num])
+                  ->setCellValue("B$h",$row['send_num'])
+                  ->setCellValue("C$h",$row['recv_num'])
                   ->setCellValue("D$h",str_replace("=","-",$row[title]))
-                  ->setCellValue("E$h",str_replace("=","-",$row[content]))
+                  ->setCellValue("E$h",str_replace("=","-",$row['content']))
                   ->setCellValue("F$h",$row[jpg])
-                  ->setCellValue("G$h",$row[up_date])
+                  ->setCellValue("G$h",$row['up_date'])
                   ->setCellValue("H$h",$row[reg_date]);
       	$h++;
       	$sort_no--;

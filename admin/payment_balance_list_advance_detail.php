@@ -216,7 +216,7 @@ function payment_save(fm) {
                         }
                         $mem_res = mysqli_query($self_con,$mem_query);
                         $mem_row = mysqli_fetch_array($mem_res);
-                        $cmem_name = $mem_row[mem_name];
+                        $cmem_name = $mem_row['mem_name'];
                         if($mem_row['service_type'] == 2) {
                           $cmem_level = "리셀러";
                         } else if($mem_row['service_type'] == 3) {

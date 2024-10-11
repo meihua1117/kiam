@@ -245,13 +245,13 @@ if($idx) {
                         <th>배송정보</th>
                         <td>
                           <input type="hidden" id="check_deliver_id_state" name="check_deliver_id_state" value="N">
-                          <input type="hidden" id="deliver_id_code" name="deliver_id_code" value="<?=$row_provider_id[mem_code]?>">
+                          <input type="hidden" id="deliver_id_code" name="deliver_id_code" value="<?=$row_provider_id['mem_code']?>">
                           <input type="checkbox" id="same_gonggupsa" name="same_gonggupsa" onclick="self_deliver()" style="vertical-align: text-top;margin-right:5px;">공급사와 동일
                           <div style="display:flex;margin-top:10px;">
                               아이디:<input type="text" name="deliver_id" id="deliver_id" value="<?=$row_provider_id[mem_id]?>" style="width: 200px;height: 15px;padding: 10px;margin-left: 20px;"><a href="javascript:check_deliver_id();" id="check_deliver_id" style="background-color: #82c836;color: white;padding: 2px 5px;margin: -1px 5px;cursor: pointer;">확인</a>
                           </div>
                           <div style="display:flex;margin-top:10px;">
-                              이름:<input type="text" name="deliver_name" id="deliver_name" value="<?=$row_provider_id[mem_name]?>" style="width: 200px;height: 15px;padding: 10px;margin-left: 33px;" readonly>
+                              이름:<input type="text" name="deliver_name" id="deliver_name" value="<?=$row_provider_id['mem_name']?>" style="width: 200px;height: 15px;padding: 10px;margin-left: 33px;" readonly>
                           </div>
                           <div style="display:flex;margin-top:10px;">
                               핸드폰:<input type="text" name="deliver_phone" id="deliver_phone" value="<?=$row_provider_id[mem_phone]?>" style="width: 200px;height: 15px;padding: 10px;margin-left: 20px;" readonly>
@@ -408,7 +408,7 @@ function check_deliver_id(){
 function self_deliver(){
     if($("#same_gonggupsa").prop('checked')){
         $("#deliver_id").val('<?=$row_mem[mem_id]?>');
-        $("#deliver_name").val('<?=$row_mem[mem_name]?>');
+        $("#deliver_name").val('<?=$row_mem['mem_name']?>');
         $("#deliver_phone").val('<?=$row_mem[mem_phone]?>');
         $("#deliver_addr").val('<?=$row_mem[mem_add1]?>');
         $("#deliver_email").val('<?=$row_mem[mem_email]?>');
@@ -416,7 +416,7 @@ function self_deliver(){
         $("#deliver_owner").val('<?=$row_mem[bank_owner]?>');
         $("#deliver_account").val('<?=$row_mem[bank_account]?>');
         $("#check_deliver_id").hide();
-        $("#deliver_id_code").val('<?=$row_mem[mem_code]?>');
+        $("#deliver_id_code").val('<?=$row_mem['mem_code']?>');
         if($("#deliver_id").val() != '' && $("#deliver_name").val() != '' && $("#deliver_phone").val() != '' && $("#deliver_addr").val() != '' && $("#deliver_email").val() != '' && $("#deliver_bank").val() != '' && $("#deliver_owner").val() != '' && $("#deliver_account").val() != ''){
             $("#check_deliver_id_state").val('Y');
         }

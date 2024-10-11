@@ -177,7 +177,7 @@ $form_res = mysqli_query($self_con,$sql);
                                             <td><?= $mem_name ?>/<?= $form_row['user_id'] ?></td>
                                             <td><a href="javascript:show_more('<?= str_replace("\n", "<br>", $form_row['title']) ?>')"><?= cut_str($form_row['title'], 10) ?></a></td>
                                             <?
-                                            $pre_link = "report_preview.php?repo=$form_row[id]";
+                                            $pre_link = "report_preview.php?repo={$form_row['id']}";
                                             $link = $form_row['short_url'];
                                             ?>
                                             <td>

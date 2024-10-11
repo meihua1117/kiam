@@ -212,7 +212,7 @@ function excel_down_p_group(pno,one_member_id){
                </div>
                                
               <?php if($_SESSION['one_member_admin_id'] != "onlyonemaket"){?>
-              <?php if($_SESSION[one_member_subadmin_id] != "" && $_SESSION[one_member_subadmin_domain] == $HTTP_HOST) {} else {?>
+              <?php if($_SESSION['one_member_subadmin_id'] != "" && $_SESSION['one_member_subadmin_domain'] == $HTTP_HOST) {} else {?>
               <button class="btn btn-primary pull-right" style="margin-right: 5px;" onclick="excel_down('/excel_down/excel_member_down_.php');return false;"><i class="fa fa-download"></i> 엑셀다운받기</button>
                 <?php }?>
               <?php }?>
@@ -318,7 +318,7 @@ function excel_down_p_group(pno,one_member_id){
                     $searchStr .= $identifier ? " AND (a.mem_id LIKE '%".$identifier."%')" : null;
                     $searchStr .= $rec_id ? " AND (a.recommend_id like '%".$rec_id."%') " : null;
                     $searchStr .= $search_key ? "AND ( a.mem_phone like '%".$search_key."%' or a.mem_name like '%".$search_key."%' or a.site like  '%" .$search_key."%' or b.sendnum like '%".$search_key. "%' or a.zy like '%".$search_key."%')" : null;                    
-                    if($_SESSION[one_member_subadmin_id] != "" && $_SESSION[one_member_subadmin_domain] == $HTTP_HOST) {
+                    if($_SESSION['one_member_subadmin_id'] != "" && $_SESSION['one_member_subadmin_domain'] == $HTTP_HOST) {
                         $do = explode(".", $HTTP_HOST);
                         $searchStr .= " and a.site = '".$do[0]."'";
                     }
@@ -408,13 +408,13 @@ function excel_down_p_group(pno,one_member_id){
                       <tr>
                         <td><?=$number--?></td>
                         <td>
-                            <?php if($_SESSION[one_member_subadmin_id]=="") {?>
+                            <?php if($_SESSION['one_member_subadmin_id']=="") {?>
                             <a href="member_detail.php?mem_code=<?=$row['mem_code']?>&sendnum=<?=$row['sendnum']?>">수정</a> / 
                             <a href="javascript:del_member_info('<?=$row['mem_code']?>')">탈퇴</a></td>
                             <?}?>
                         <td><?=$row['site']?></td>
                         <td>
-                            <?php if($_SESSION['one_member_admin_id'] == "onlyonemaket" || $_SESSION[one_member_subadmin_id]!=""){?>
+                            <?php if($_SESSION['one_member_admin_id'] == "onlyonemaket" || $_SESSION['one_member_subadmin_id']!=""){?>
                             <?=$row['mem_id']?>
                             <?php }else{?>
                             <a href="javascript:loginGo('<?=$row['mem_id']?>', '<?=$row['web_pwd']?>', '<?=$row['mem_code']?>');"><?=$row['mem_id']?></a>
@@ -440,7 +440,7 @@ function excel_down_p_group(pno,one_member_id){
                         <td><?=$row['first_regist']?>/<?=$row['login_date']?></td>
                         <?php if($_SESSION['one_member_admin_id'] != "onlyonemaket"){?>
                         <td>
-                         <?php if($_SESSION['one_member_admin_id'] == "onlyonemaket" || $_SESSION[one_member_subadmin_id]!=""){?>
+                         <?php if($_SESSION['one_member_admin_id'] == "onlyonemaket" || $_SESSION['one_member_subadmin_id']!=""){?>
                          <?php }else{?>
                          <a href="javascript:void(0);" onclick="excel_down_p_group('<?=str_replace("-", "",$row['mem_phone'])==$row['sendnum']||$row['sendnum']==""?str_replace("-", "",$row['mem_phone']):$row['sendnum']?>','<?=$row['mem_id']?>')"><img src="/images/ico_xls.gif" border="0"></a>
                          <?php }?>
@@ -454,7 +454,7 @@ function excel_down_p_group(pno,one_member_id){
                                 <option value="21" <?php echo $row['mem_leb'] == "21"?"selected":""?>>강사</option>
                                 <option value="60" <?php echo $row['mem_leb'] == "60"?"selected":""?>>홍보</option>
                             </select>
-                            <?php if($_SESSION['one_member_admin_id'] == "onlyonemaket" || $_SESSION[one_member_subadmin_id]!=""){?>
+                            <?php if($_SESSION['one_member_admin_id'] == "onlyonemaket" || $_SESSION['one_member_subadmin_id']!=""){?>
                             <?php }else{?>
                             <input type="button" name="변경" value=" 변경 " onclick="changeLevel('<?=$row['mem_code']?>')">
                             <?php }?>
@@ -468,7 +468,7 @@ function excel_down_p_group(pno,one_member_id){
                                 <option value="2" <?php echo $row['service_type'] == "2"?"selected":""?>>리셀러</option>
                                 <option value="3" <?php echo $row['service_type'] == "3"?"selected":""?>>분양자</option>
                             </select>
-                            <?php if($_SESSION['one_member_admin_id'] == "onlyonemaket" || $_SESSION[one_member_subadmin_id]!=""){?>
+                            <?php if($_SESSION['one_member_admin_id'] == "onlyonemaket" || $_SESSION['one_member_subadmin_id']!=""){?>
                             <?php }else{?>                            
                             <input type="button" name="변경" value=" 변경 " onclick="changeServiceType('<?=$row['mem_code']?>')">
                             <?php }?>
@@ -484,7 +484,7 @@ function excel_down_p_group(pno,one_member_id){
                                 <option value="4" <?php echo $row['mem_iam_type'] == "4"?"selected":""?>>단체용</option>
                                 <option value="5" <?php echo $row['mem_iam_type'] == "5"?"selected":""?>>특판용</option>
                             </select>
-                            <?php if($_SESSION['one_member_admin_id'] == "onlyonemaket" || $_SESSION[one_member_subadmin_id]!=""){?>
+                            <?php if($_SESSION['one_member_admin_id'] == "onlyonemaket" || $_SESSION['one_member_subadmin_id']!=""){?>
                             <?php }else{?>                            
                             <input type="button" name="변경" value=" 변경 " onclick="changeIamType('<?=$row['mem_code']?>')">
                             <?php }?>

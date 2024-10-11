@@ -1,10 +1,10 @@
 ﻿<?php 
 include_once "inc/header.inc.php";
-if($_SESSION[iam_member_id] == "") {
+if($_SESSION['iam_member_id'] == "") {
     echo "<script>location='/iam/';</script>";
 }
 include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
-//$sql="select * from Gn_Member  where mem_id='".$_SESSION[iam_member_id]."'";
+//$sql="select * from Gn_Member  where mem_id='".$_SESSION['iam_member_id']."'";
 //$sresul_num=mysqli_query($self_con,$sql);
 //$data=mysqli_fetch_array($sresul_num);
 //$iam_birth_arr = explode("-",$data[mem_birth]);
@@ -105,7 +105,7 @@ td {
                             </a>
                         </div>
                         <div style="display:flex;float: right;">
-                            <?if($_SESSION[iam_member_subadmin_id] == $_SESSION[iam_member_id]){?>
+                            <?if($_SESSION['iam_member_subadmin_id'] == $_SESSION['iam_member_id']){?>
                             <a class="btn  btn-link" title = "<?='공지알림';?>" href="/?cur_win=unread_notice&box=send&modal=Y" style="display:flex;padding:6px 3px">
                                 <p style="font-size:14px;color:black">공지전송</p>
                                 <label class="label label-sm" id = "notice" style="background: #ff3333;border-radius: 50%;padding: 2px 5px;margin-left: -5px;font-size:10px"></label>
@@ -200,7 +200,7 @@ td {
                             </tr>
                             <?
                             $nowPage= $_REQUEST['page']?$_REQUEST['page']:1;
-                            $startPage = $_REQUEST[page]?$_REQUEST[page]:1;
+                            $startPage = $_REQUEST['page']?$_REQUEST['page']:1;
                             $pageCnt = 20;
                             $search_type =  $_REQUEST['search_type'];
                             $rday1 =  $_REQUEST['rday1'];
@@ -227,16 +227,16 @@ td {
                             }
                             $order = $order?$order:"desc";
                             $query = "select * from Gn_Member gm left join tjd_pay_result p on p.buyer_id = gm.mem_id
-                	                        where recommend_id = '".$_SESSION[iam_member_id]."' $searchStr";
+                	                        where recommend_id = '".$_SESSION['iam_member_id']."' $searchStr";
                             $res	    = mysqli_query($self_con,$query);
                             $totalCnt	=  mysqli_num_rows($res);
                             $limitStr       = " LIMIT ".(($startPage-1)*$pageCnt).", ".$pageCnt;
                             $number			= $totalCnt - ($nowPage - 1) * $pageCnt;
                             $intRowCount=$totalCnt;
                             $intPageSize =20;
-                            if($_REQUEST[page])
+                            if($_REQUEST['page'])
                             {
-                                $page=(int)$_REQUEST[page];
+                                $page=(int)$_REQUEST['page'];
                                 $sort_no=$intRowCount-($intPageSize*$page-$intPageSize);
                             }
                             else
@@ -244,8 +244,8 @@ td {
                                 $page=1;
                                 $sort_no=$intRowCount;
                             }
-                            if($_REQUEST[page2])
-                                $page2=(int)$_REQUEST[page2];
+                            if($_REQUEST['page2'])
+                                $page2=(int)$_REQUEST['page2'];
                             else
                                 $page2=1;
                             $int=($page-1)*$intPageSize;
@@ -291,7 +291,7 @@ td {
                                 <tr>
                                     <td><?=$number--?></td>
                                     <td ><?=$new_val ?></td>
-                                    <td ><?=$row[mem_name]?></td>
+                                    <td ><?=$row['mem_name']?></td>
                                     <td ><?=$row[mem_id]?></td>
                                     <td><?=$row[mem_phone]?></td>
                                     <td><?=$row['first_regist']?></td>

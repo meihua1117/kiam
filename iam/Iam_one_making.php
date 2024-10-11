@@ -15,8 +15,8 @@ else {
         $recommmender = 'onlymain';
     }
 }
-if($member == 'on' && $_SESSION[iam_member_id]) {
-    $sql="select mem_name, zy, mem_phone, mem_email, mem_add1 from Gn_Member where mem_id = '$_SESSION[iam_member_id]'";
+if($member == 'on' && $_SESSION['iam_member_id']) {
+    $sql="select mem_name, zy, mem_phone, mem_email, mem_add1 from Gn_Member where mem_id = '{$_SESSION['iam_member_id']}'";
     $result=mysqli_query($self_con,$sql);
     $row=mysqli_fetch_array($result);
     //$card_idx = $row[idx];
@@ -79,11 +79,11 @@ input[type=button] {
                                 <form name="iam_form" id ="iam_form" method="post" enctype="multipart/form-data" onsubmit="javascript:return false;">
                                     <input type="hidden" name="check_rnum" id="check_rnum" value="">
                                     <input type="hidden" name="mode" id="mode" value="creat"/>
-                                    <input type="hidden" name="memid" id="memid" value = <?=$_SESSION[iam_member_id]?>>
+                                    <input type="hidden" name="memid" id="memid" value = <?=$_SESSION['iam_member_id']?>>
                                     <input type="hidden" name="site" id="site" value="site_iam">
                                     <?$site = explode(".",$HTTP_HOST);$site_name = $site[0];?>
                                     <input type="hidden" name="site_name" id="site_name" value='<?=$site_name?>'>
-                                <?if(!$_SESSION[iam_member_id]) {?>
+                                <?if(!$_SESSION['iam_member_id']) {?>
                                     <h3 class="title">아이엠 회원정보 입력</h3>
                                     <br>
                                     <div class="attr-row" >
@@ -284,7 +284,7 @@ input[type=button] {
                                             </div>
                                         </div>
                                     </div>
-                                    <?if(!$_SESSION[iam_member_id]){?>
+                                    <?if(!$_SESSION['iam_member_id']){?>
                                     <div class="attr-row is-phone">
                                         <div class="attr-name">인증번호</div>
                                         <div class="attr-value">

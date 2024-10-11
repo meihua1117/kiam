@@ -1,7 +1,7 @@
 <?
 $path="./";
 include_once "_head.php";
-if(!$_SESSION[one_member_id])
+if(!$_SESSION['one_member_id'])
 {
 ?>
 <script language="javascript">
@@ -75,7 +75,7 @@ function chk() {
             .pricing_table th {height:30px;line-height:30px;border:1px solid #3371BC;background:#efefef}
         </style>
         <div style="width:100%;text-align:center;display:none;" class="step3">
-            <h3><?=$_SESSION[one_member_id]?>님은 아래와 같이 신청하였습니다.</h3>
+            <h3><?=$_SESSION['one_member_id']?>님은 아래와 같이 신청하였습니다.</h3>
             <h3>계약 <?php echo date("Y년 m월 d일")?></h3>
         </div>
        <form name="join_form" method="post">
@@ -646,7 +646,7 @@ function chk() {
                                                   
             <tr>
             <td colspan="4" style="text-align:center;padding:30px;">
-            <a href="javascript:void(0)" onclick="join_check(join_form,'<?=$member_1[mem_code]?>')"><img src="images/sub_mypage_07.jpg" /></a>
+            <a href="javascript:void(0)" onclick="join_check(join_form,'<?=$member_1['mem_code']?>')"><img src="images/sub_mypage_07.jpg" /></a>
             </td>
             </tr>
             </table>

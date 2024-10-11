@@ -31,7 +31,7 @@ if(isset($_POST['mem_id']) && isset($_POST['share_point']) && $_POST['share_poin
             }
             else{
                 $current_point = $data['mem_point'] * 1 - $point;
-                $sql = "insert into Gn_Item_Pay_Result set buyer_id='{$mem_id}', buyer_tel='{$data['mem_phone']}', item_name='씨드포인트차감', item_price={$point}, pay_percent=90, current_point={$current_point}, current_cash={$data[mem_cash]}, pay_status='Y', VACT_InputName='{$data[mem_name]}', type='minus', seller_id='{$_SESSION[one_member_id]}', pay_method='관리자씨드차감', pay_date=now(), point_val=1";
+                $sql = "insert into Gn_Item_Pay_Result set buyer_id='{$mem_id}', buyer_tel='{$data['mem_phone']}', item_name='씨드포인트차감', item_price={$point}, pay_percent=90, current_point={$current_point}, current_cash={$data['mem_cash']}, pay_status='Y', VACT_InputName='{$data['mem_name']}', type='minus', seller_id='{$_SESSION['one_member_id']}', pay_method='관리자씨드차감', pay_date=now(), point_val=1";
                 // echo $sql; exit;
                 mysqli_query($self_con,$sql);
                 $sql_update = "update Gn_Member set mem_point={$current_point} where mem_id='{$mem_id}'";
@@ -45,7 +45,7 @@ if(isset($_POST['mem_id']) && isset($_POST['share_point']) && $_POST['share_poin
         // $res_chk = mysqli_query($self_con,$sql_chk);
         // if(mysqli_num_rows($res_chk) == 0){
         $current_point = $data['mem_point'] * 1 + $point;
-        $sql = "insert into Gn_Item_Pay_Result set buyer_id='{$mem_id}', buyer_tel='{$data['mem_phone']}', item_name='씨드포인트충전', item_price={$point}, pay_percent=90, current_point={$current_point}, current_cash={$data[mem_cash]}, pay_status='Y', VACT_InputName='{$data[mem_name]}', type='buy', seller_id='{$_SESSION[one_member_id]}', pay_method='관리자씨드충전', pay_date=now(), point_val=1";
+        $sql = "insert into Gn_Item_Pay_Result set buyer_id='{$mem_id}', buyer_tel='{$data['mem_phone']}', item_name='씨드포인트충전', item_price={$point}, pay_percent=90, current_point={$current_point}, current_cash={$data['mem_cash']}, pay_status='Y', VACT_InputName='{$data['mem_name']}', type='buy', seller_id='{$_SESSION['one_member_id']}', pay_method='관리자씨드충전', pay_date=now(), point_val=1";
         // echo $sql; exit;
         mysqli_query($self_con,$sql);
         $sql_update = "update Gn_Member set mem_point={$current_point} where mem_id='{$mem_id}'";
@@ -59,7 +59,7 @@ if(isset($_POST['mem_id']) && isset($_POST['share_point']) && $_POST['share_poin
         //     $row_point = mysqli_fetch_array($result_point);
     
         //     $current_point = $row_point['current_point'] * 1 + $point;
-        //     $sql = "insert into Gn_Item_Pay_Result set buyer_id='{$mem_id}', buyer_tel='{$data['mem_phone']}', item_name='포인트충전', item_price={$point}, pay_percent=90, current_point={$current_point}, pay_status='Y', VACT_InputName='{$data[mem_name]}', type='buy', seller_id='{$_SESSION[one_member_id]}', pay_method='관리자충전', pay_date=now(), point_val=1";
+        //     $sql = "insert into Gn_Item_Pay_Result set buyer_id='{$mem_id}', buyer_tel='{$data['mem_phone']}', item_name='포인트충전', item_price={$point}, pay_percent=90, current_point={$current_point}, pay_status='Y', VACT_InputName='{$data['mem_name']}', type='buy', seller_id='{$_SESSION['one_member_id']}', pay_method='관리자충전', pay_date=now(), point_val=1";
         //     // echo $sql; exit;
         //     mysqli_query($self_con,$sql);
         //     echo 1; exit;
@@ -95,7 +95,7 @@ if(isset($_POST['mem_id']) && isset($_POST['share_cash']) && $_POST['share_cash'
             }
             else{
                 $current_cash = $data['mem_cash'] * 1 - $cash;
-                $sql = "insert into Gn_Item_Pay_Result set buyer_id='{$mem_id}', buyer_tel='{$data['mem_phone']}', item_name='캐시포인트차감', item_price={$cash}, pay_percent=90, current_point={$data[mem_point]}, current_cash={$current_cash}, pay_status='Y', VACT_InputName='{$data[mem_name]}', type='minus', seller_id='{$_SESSION[one_member_id]}', pay_method='관리자캐시차감', pay_date=now(), point_val=1";
+                $sql = "insert into Gn_Item_Pay_Result set buyer_id='{$mem_id}', buyer_tel='{$data['mem_phone']}', item_name='캐시포인트차감', item_price={$cash}, pay_percent=90, current_point={$data[mem_point]}, current_cash={$current_cash}, pay_status='Y', VACT_InputName='{$data['mem_name']}', type='minus', seller_id='{$_SESSION['one_member_id']}', pay_method='관리자캐시차감', pay_date=now(), point_val=1";
                 // echo $sql; exit;
                 mysqli_query($self_con,$sql);
                 $sql_update = "update Gn_Member set mem_cash={$current_cash} where mem_id='{$mem_id}'";
@@ -109,7 +109,7 @@ if(isset($_POST['mem_id']) && isset($_POST['share_cash']) && $_POST['share_cash'
         // $res_chk = mysqli_query($self_con,$sql_chk);
         // if(mysqli_num_rows($res_chk) == 0){
         $current_cash = $data['mem_cash'] * 1 + $cash;
-        $sql = "insert into Gn_Item_Pay_Result set buyer_id='{$mem_id}', buyer_tel='{$data['mem_phone']}', item_name='캐시포인트충전', item_price={$cash}, pay_percent=90, current_point={$data[mem_point]}, current_cash={$current_cash}, pay_status='Y', VACT_InputName='{$data[mem_name]}', type='buy', seller_id='{$_SESSION[one_member_id]}', pay_method='관리자캐시충전', pay_date=now(), point_val=1";
+        $sql = "insert into Gn_Item_Pay_Result set buyer_id='{$mem_id}', buyer_tel='{$data['mem_phone']}', item_name='캐시포인트충전', item_price={$cash}, pay_percent=90, current_point={$data[mem_point]}, current_cash={$current_cash}, pay_status='Y', VACT_InputName='{$data['mem_name']}', type='buy', seller_id='{$_SESSION['one_member_id']}', pay_method='관리자캐시충전', pay_date=now(), point_val=1";
         // echo $sql; exit;
         mysqli_query($self_con,$sql);
         $sql_update = "update Gn_Member set mem_cash={$current_cash} where mem_id='{$mem_id}'";
@@ -123,7 +123,7 @@ if(isset($_POST['mem_id']) && isset($_POST['share_cash']) && $_POST['share_cash'
         //     $row_point = mysqli_fetch_array($result_point);
     
         //     $current_point = $row_point['current_point'] * 1 + $point;
-        //     $sql = "insert into Gn_Item_Pay_Result set buyer_id='{$mem_id}', buyer_tel='{$data['mem_phone']}', item_name='포인트충전', item_price={$point}, pay_percent=90, current_point={$current_point}, pay_status='Y', VACT_InputName='{$data[mem_name]}', type='buy', seller_id='{$_SESSION[one_member_id]}', pay_method='관리자충전', pay_date=now(), point_val=1";
+        //     $sql = "insert into Gn_Item_Pay_Result set buyer_id='{$mem_id}', buyer_tel='{$data['mem_phone']}', item_name='포인트충전', item_price={$point}, pay_percent=90, current_point={$current_point}, pay_status='Y', VACT_InputName='{$data['mem_name']}', type='buy', seller_id='{$_SESSION['one_member_id']}', pay_method='관리자충전', pay_date=now(), point_val=1";
         //     // echo $sql; exit;
         //     mysqli_query($self_con,$sql);
         //     echo 1; exit;

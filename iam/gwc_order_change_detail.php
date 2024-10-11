@@ -1,6 +1,6 @@
 <?php 
 include "inc/header.inc.php";
-if($_SESSION[iam_member_id] == "") {
+if($_SESSION['iam_member_id'] == "") {
     echo "<script>location='/';</script>";
 }
 extract($_GET);

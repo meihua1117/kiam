@@ -1,10 +1,10 @@
 <?
 include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
-if($_FILES["upimage".$_REQUEST['k']][name])
+if($_FILES["upimage".$_REQUEST['k']]['name'])
 {
     // echo "upimage".$_REQUEST['k'];
 	$tempFile = $_FILES["upimage".$_REQUEST['k']][tmp_name];
-	$file_arr=explode(".",$_FILES["upimage".$_REQUEST['k']][name]);
+	$file_arr=explode(".",$_FILES["upimage".$_REQUEST['k']]['name']);
 	$tmp_file_arr=explode("/",$tempFile);
 	$img_name=date("Ymds")."_".$tmp_file_arr[count($tmp_file_arr)-1].".".$file_arr[count($file_arr)-1];
 	if(move_uploaded_file($_FILES['upimage'.$_REQUEST['k']]['tmp_name'],     "../adjunct/mms/thum/".$img_name))

@@ -4,10 +4,10 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/db_config.php";
 // include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
 include_once $_SERVER['DOCUMENT_ROOT']."/lib/common_func.php";
 
-$_POST[id] =$_REQUEST[id];
+$_POST['id'] =$_REQUEST['id'];
 $_POST[num] =$_REQUEST[num];
-$_POST[send_num] =$_REQUEST[send_num];
-$_POST[sms] =$_REQUEST[sms];
+$_POST['send_num'] =$_REQUEST['send_num'];
+$_POST['sms'] =$_REQUEST['sms'];
 $result=0;
 
 $userId = $_POST["id"]; 

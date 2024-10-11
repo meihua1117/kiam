@@ -2,7 +2,7 @@
 $path="./";
 include_once "_head.php";
 extract($_REQUEST);
-if(!$_SESSION[one_member_id]){
+if(!$_SESSION['one_member_id']){
 ?>
 <script language="javascript">
     location.replace('/ma.php');
@@ -12,7 +12,7 @@ exit;
 }
 if(!isset($_REQUEST['sms_idx'])){ $sms_idx = 0; }
 if(!isset($_REQUEST['get_idx'])){ $get_idx = 0; }
-$sql="select * from Gn_Member  where mem_id='".$_SESSION[one_member_id]."'";
+$sql="select * from Gn_Member  where mem_id='".$_SESSION['one_member_id']."'";
 $sresul_num=mysqli_query($self_con,$sql);
 $data=mysqli_fetch_array($sresul_num);
 
@@ -146,8 +146,8 @@ if($get_idx){
                                 <th class="w200">스텝문자세트 가져오기</th>
                                 <td>
                                     <input type="hidden" id="event_idx_event" name="event_idx_event" value="<?=$row[event_idx]?>" style="width:250px;">
-                                    <input type="hidden" id="mb_id_copy" name="mb_id_copy" value="<?=$_SESSION[one_member_id]?>" style="width:250px;">
-                                    <input type="text" name="mb_id" id="mb_id" value="<?=$_SESSION[one_member_id]?>" style="width:250px; height: 27px;">
+                                    <input type="hidden" id="mb_id_copy" name="mb_id_copy" value="<?=$_SESSION['one_member_id']?>" style="width:250px;">
+                                    <input type="text" name="mb_id" id="mb_id" value="<?=$_SESSION['one_member_id']?>" style="width:250px; height: 27px;">
                                     <input type="hidden" id="ori_sms_idx" name="ori_sms_idx" value="<?=$get_idx?>" style="width:95px;">
                                     <input type="button" value="스텝문자세트 조회" class="button " id="searchEventBtn" onclick="newMessageEvent()">
                                 </td>
@@ -166,7 +166,7 @@ if($get_idx){
                     $sql_cnt="select count(step) as cnt from Gn_event_sms_step_info where sms_idx ='$sms_idx'";
                     $result_cnt = mysqli_query($self_con,$sql_cnt) or die(mysqli_error($self_con));
                     $row_cnt=mysqli_fetch_array($result_cnt);
-                    $intstepCount=$row_cnt[cnt];
+                    $intstepCount=$row_cnt['cnt'];
                     if($intstepCount){
                         $show = "hidden";
                     }
@@ -214,29 +214,29 @@ if($get_idx){
                                     $sql="select count(step) as cnt from Gn_event_sms_step_info where $sql_serch ";
                                     $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
                                     $row=mysqli_fetch_array($result);
-                                    $intRowCount=$row[cnt];
-                                    if (!$_POST[lno])
+                                    $intRowCount=$row['cnt'];
+                                    if (!$_POST['lno'])
                                         $intPageSize =20;
                                     else
-                                       $intPageSize = $_POST[lno];
-                                    if($_POST[page]){
-                                        $page=(int)$_POST[page];
+                                       $intPageSize = $_POST['lno'];
+                                    if($_POST['page']){
+                                        $page=(int)$_POST['page'];
                                         $sort_no=$intRowCount-($intPageSize*$page-$intPageSize);
                                     }else{
                                         $page=1;
                                         $sort_no=$intRowCount;
                                     }
-                                    if($_POST[page2])
-                                        $page2=(int)$_POST[page2];
+                                    if($_POST['page2'])
+                                        $page2=(int)$_POST['page2'];
                                     else
                                         $page2=1;
                                     $int=($page-1)*$intPageSize;
-                                    if($_REQUEST[order_status])
-                                        $order_status=$_REQUEST[order_status];
+                                    if($_REQUEST['order_status'])
+                                        $order_status=$_REQUEST['order_status'];
                                     else
                                         $order_status="asc";
-                                    if($_REQUEST[order_name])
-                                        $order_name=$_REQUEST[order_name];
+                                    if($_REQUEST['order_name'])
+                                        $order_name=$_REQUEST['order_name'];
                                     else
                                         $order_name="step";
                                     $intPageCount=(int)(($intRowCount+$intPageSize-1)/$intPageSize);
@@ -252,7 +252,7 @@ if($get_idx){
                                             <td style="font-size:12px;"><?=$row[send_day]?>일후</td>
                                             <td><?=$row[title]?></td>
                                             <td>
-                                                <a href="javascript:void(0)" onclick="show_recv('show_content','<?=$c?>','문자내용')"><?=str_substr($row[content],0,190,'utf-8')?></a><input type="hidden" name="show_content" value="<?=$row[content]?>"/>
+                                                <a href="javascript:void(0)" onclick="show_recv('show_content','<?=$c?>','문자내용')"><?=str_substr($row['content'],0,190,'utf-8')?></a><input type="hidden" name="show_content" value="<?=$row['content']?>"/>
                                             </td>
                                             <td>
                                                 <?if($row[image]) {?>
@@ -662,7 +662,7 @@ $(document).ready(function () {
                 event.stopPropagation();
             }
             else{
-                send_post('<?=$_SESSION[iam_member_id]?>');
+                send_post('<?=$_SESSION['iam_member_id']?>');
             }
         }
     });
@@ -700,7 +700,7 @@ function show_req_history(){
     $.ajax({
         type:"POST",
         url:"/iam/ajax/manage_gpt_chat.php",
-        data:{mem_id:"<?=$_SESSION[iam_member_id]?>", method:'show_req_list'},
+        data:{mem_id:"<?=$_SESSION['iam_member_id']?>", method:'show_req_list'},
         dataType: 'html',
         success:function(data){
             // console.log(data);
@@ -1214,8 +1214,8 @@ function send_chat(){
                         </div>
                         <div class="search_keyword">
                             <input type="hidden" name="key" id="key" value="<?=$member_1[gpt_chat_api_key]?>">
-                            <textarea class="search_input" autocomplete="off" name="question" id="question" value="" title="질문을 입력하세요" placeholder="알지AI에게 질문해보세요" onclick="check_login('<?=$_SESSION[iam_member_id]?>')"></textarea>
-                            <button type="button" onclick="send_post('<?=$_SESSION[iam_member_id]?>')" class="send_ask"><img src="/iam/img/send_ask.png" alt="전송"></button>
+                            <textarea class="search_input" autocomplete="off" name="question" id="question" value="" title="질문을 입력하세요" placeholder="알지AI에게 질문해보세요" onclick="check_login('<?=$_SESSION['iam_member_id']?>')"></textarea>
+                            <button type="button" onclick="send_post('<?=$_SESSION['iam_member_id']?>')" class="send_ask"><img src="/iam/img/send_ask.png" alt="전송"></button>
                         </div>
                     </div>
                 </div>

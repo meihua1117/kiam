@@ -22,9 +22,9 @@ $group_sql = "select info.name from gn_group_member mem inner join gn_group_info
 $group_res = mysqli_query($self_con,$group_sql);
 while($group_row = mysqli_fetch_array($group_res)){
     if($group == "")
-        $group = $group_row[name];
+        $group = $group_row['name'];
     else
-        $group .= ",".$group_row[name];
+        $group .= ",".$group_row['name'];
 }
 // 기부회원 상세 정보
 $query = "select idx, mem_id, sendnum, max_cnt, user_cnt, gl_cnt, month_cnt, today_cnt, over_cnt, memo,

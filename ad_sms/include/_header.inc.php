@@ -1,7 +1,7 @@
 <?
 include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
 /*
-if($_SESSION[one_member_id] === "" && $_SESSION[iam_member_id] === "") {
+if($_SESSION['one_member_id'] === "" && $_SESSION['iam_member_id'] === "") {
     header('Location: /');
     exit;
 }*/

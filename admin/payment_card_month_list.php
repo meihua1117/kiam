@@ -83,7 +83,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                 <div class="col-xs-12" style="padding-bottom:20px">
                 <?
                 if($_SESSION['one_member_admin_id'] != "onlyonemaket"){
-                    if($_SESSION[one_member_subadmin_id] != "" && $_SESSION[one_member_subadmin_domain] == $HTTP_HOST) {}
+                    if($_SESSION['one_member_subadmin_id'] != "" && $_SESSION['one_member_subadmin_domain'] == $HTTP_HOST) {}
                     else {}
                 }?>
                     <form method="get" name="search_form" id="search_form " class="form-inline">

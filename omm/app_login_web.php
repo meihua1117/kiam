@@ -3,7 +3,7 @@ include_once $_SERVER['DOCUMENT_ROOT'] . "/lib/db_config.php";
 //include_once $_SERVER['DOCUMENT_ROOT'] . "/lib/rlatjd_fun.php";
 include_once $_SERVER['DOCUMENT_ROOT'] . "/lib/common_func.php";
 $_REQUEST['id'] = strtolower(trim($_REQUEST['id']));
-$sql = "select mem_code, mem_id, is_leave, mem_leb, iam_leb,site, site_iam from Gn_Member use index(login_index) where mem_leb>0 and mem_id = '$_REQUEST[id]' and mem_code='$_REQUEST[mem_code]' ";
+$sql = "select mem_code, mem_id, is_leave, mem_leb, iam_leb,site, site_iam from Gn_Member use index(login_index) where mem_leb>0 and mem_id = '{$_REQUEST['id']}' and mem_code='{$_REQUEST['mem_code']}' ";
 $resul = mysqli_query($self_con,$sql);
 $row = mysqli_fetch_array($resul);
 @ini_set('display_errors', false);

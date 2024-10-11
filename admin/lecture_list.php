@@ -262,7 +262,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                       <tr>
                         <td><?=$number--?></td>
                         <td style="font-size:12px;"><?=$row[mem_id]?></td>
-                        <td style="font-size:12px;"><?=$mrow[mem_name]?></td>
+                        <td style="font-size:12px;"><?=$mrow['mem_name']?></td>
                         <td style="font-size:12px;"><?=$row[category]?></td>
                         <td style="font-size:12px;"><?=$row[start_date]?>~<?=$row[end_date]?></td>
                         <td style="font-size:12px;"><?=$row[lecture_day]?></td>

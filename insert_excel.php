@@ -48,7 +48,7 @@ $error_arr=array();
 						array_push($error_arr,"{$v} 은/는 정확한 번호가 아닙니다.(업로드실패)");	
 						continue;
 						}						
-						$sql_c="select idx from Gn_MMS_Receive where mem_id='$_SESSION[one_member_id]' and grp_id='$row[idx]' and recv_num='$v' ";
+						$sql_c="select idx from Gn_MMS_Receive where mem_id='{$_SESSION['one_member_id']}' and grp_id='$row[idx]' and recv_num='$v' ";
 						$resul_c=mysqli_query($self_con,$sql_c);
 						$row_c=mysqli_fetch_array($resul_c);
 						if($row_c[idx])
@@ -57,7 +57,7 @@ $error_arr=array();
 						continue;
 						}
 						
-						$sql_i = "insert into Gn_MMS_Receive set mem_id = '$_SESSION[one_member_id]',grp_id='$row[idx]', grp = '$row[grp]', grp_2 = '".$data->sheets[0]['cells'][$i][1]."', name = '".$data->sheets[0]['cells'][$i][2]."' , recv_num = '$v', email = '".$data->sheets[0]['cells'][$i][4]."' ,reg_date=now()";
+						$sql_i = "insert into Gn_MMS_Receive set mem_id = '{$_SESSION['one_member_id']}',grp_id='$row[idx]', grp = '$row[grp]', grp_2 = '".$data->sheets[0]['cells'][$i][1]."', name = '".$data->sheets[0]['cells'][$i][2]."' , recv_num = '$v', email = '".$data->sheets[0]['cells'][$i][4]."' ,reg_date=now()";
 						mysqli_query($self_con,$sql_i);
 						$cnt++;
 					}
@@ -68,7 +68,7 @@ $error_arr=array();
 	else if($_REQUEST[status]=="new")
 	{
 		$group_name=htmlspecialchars($_POST[new_group]);
-		$sql_s="select idx from Gn_MMS_Group where grp='$group_name' and mem_id='$_SESSION[one_member_id]'";
+		$sql_s="select idx from Gn_MMS_Group where grp='$group_name' and mem_id='{$_SESSION['one_member_id']}'";
 		$resul_s=mysqli_query($self_con,$sql_s);
 		$row_s=mysqli_fetch_array($resul_s);
 		if($row_s[idx])
@@ -81,12 +81,12 @@ $error_arr=array();
 			<?
 			exit;		
 		}
-		$sql = "insert Gn_MMS_Group set mem_id = '$_SESSION[one_member_id]', grp = '$group_name', reg_date = now()";
+		$sql = "insert Gn_MMS_Group set mem_id = '{$_SESSION['one_member_id']}', grp = '$group_name', reg_date = now()";
 		mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 		
 		if($_FILES[excel_file][tmp_name])
 		{
-			$sql_s="select idx from Gn_MMS_Group where grp='$group_name' and mem_id='$_SESSION[one_member_id]' ";
+			$sql_s="select idx from Gn_MMS_Group where grp='$group_name' and mem_id='{$_SESSION['one_member_id']}' ";
 			$resul_s=mysqli_query($self_con,$sql_s);
 			$row_s=mysqli_fetch_array($resul_s);
 			$cnt=0;
@@ -101,7 +101,7 @@ $error_arr=array();
 				continue;
 				}				
 				
-				$sql_c="select idx from Gn_MMS_Receive where mem_id='$_SESSION[one_member_id]' and grp_id='$row_s[idx]' and recv_num='$v' ";
+				$sql_c="select idx from Gn_MMS_Receive where mem_id='{$_SESSION['one_member_id']}' and grp_id='$row_s[idx]' and recv_num='$v' ";
 				$resul_c=mysqli_query($self_con,$sql_c);
 				$row_c=mysqli_fetch_array($resul_c);
 				if($row_c[idx])
@@ -110,7 +110,7 @@ $error_arr=array();
 				continue;
 				}
 					
-				$sql_i = "insert into Gn_MMS_Receive set mem_id = '$_SESSION[one_member_id]',grp_id='$row_s[idx]', grp = '$group_name', grp_2 = '".$data->sheets[0]['cells'][$i][1]."', recv_num = '$v', name = '".$data->sheets[0]['cells'][$i][2]."' ,email = '".$data->sheets[0]['cells'][$i][4]."' ,reg_date=now() ";
+				$sql_i = "insert into Gn_MMS_Receive set mem_id = '{$_SESSION['one_member_id']}',grp_id='$row_s[idx]', grp = '$group_name', grp_2 = '".$data->sheets[0]['cells'][$i][1]."', recv_num = '$v', name = '".$data->sheets[0]['cells'][$i][2]."' ,email = '".$data->sheets[0]['cells'][$i][4]."' ,reg_date=now() ";
 				mysqli_query($self_con,$sql_i);
 				$cnt++;
 			}
@@ -146,7 +146,7 @@ $error_arr=array();
 					}			
 					
 					
-					$sql_num="select sendnum from Gn_MMS_Number where mem_id ='$_SESSION[one_member_id]' and sendnum='$send_num' ";
+					$sql_num="select sendnum from Gn_MMS_Number where mem_id ='{$_SESSION['one_member_id']}' and sendnum='$send_num' ";
 					$resul_num=mysqli_query($self_con,$sql_num);
 					$row_num=mysqli_fetch_array($resul_num);
 					if(!$row_num[sendnum])
@@ -155,7 +155,7 @@ $error_arr=array();
 					continue;
 					}
 		
-					$sql_s="select idx from Gn_MMS_Deny where mem_id='$_SESSION[one_member_id]' and recv_num='$recv_num' and send_num='$send_num' ";
+					$sql_s="select idx from Gn_MMS_Deny where mem_id='{$_SESSION['one_member_id']}' and recv_num='$recv_num' and send_num='$send_num' ";
 					$resul_s=mysqli_query($self_con,$sql_s);
 					$row_s=mysqli_fetch_array($resul_s);
 					if($row_s[idx])
@@ -165,11 +165,11 @@ $error_arr=array();
 					}	
 					
 					$sql_i="insert into Gn_MMS_Deny set ";
-					$deny_info[mem_id]=$_SESSION[one_member_id];
-					$deny_info[send_num]=$send_num;	
-					$deny_info[recv_num]=$recv_num;			
+					$deny_info[mem_id]=$_SESSION['one_member_id'];
+					$deny_info['send_num']=$send_num;	
+					$deny_info['recv_num']=$recv_num;			
 					$deny_info[title]=$data->sheets[0]['cells'][$i][3];
-					$deny_info[content]=$data->sheets[0]['cells'][$i][4];
+					$deny_info['content']=$data->sheets[0]['cells'][$i][4];
 					$deny_info[status]="B";
 					foreach($deny_info as $key=>$v)
 					$sql_i.=" $key='$v' , ";

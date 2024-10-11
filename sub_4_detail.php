@@ -1,7 +1,7 @@
 <?
 $path="./";
 include_once "_head.php";
-if(!$_SESSION[one_member_id])
+if(!$_SESSION['one_member_id'])
 {
 ?>
 <script language="javascript">
@@ -37,7 +37,7 @@ switch($_REQUEST[status])
 if($_REQUEST[status]==1 || $_REQUEST[status]==2)
 {
 ///금일발송가능 , 회발송가능 횟수
-	$sql_sum = "select sum(user_cnt) as sumnum, sum(max_cnt) as summax ,sum(gl_cnt) as sumgl from Gn_MMS_Number where mem_id = '$_SESSION[one_member_id]'";
+	$sql_sum = "select sum(user_cnt) as sumnum, sum(max_cnt) as summax ,sum(gl_cnt) as sumgl from Gn_MMS_Number where mem_id = '{$_SESSION['one_member_id']}'";
 	$resul_sum=mysqli_query($self_con,$sql_sum);
 	$row_sum_b =mysqli_fetch_array($resul_sum);
 //월별 총 발송가능 횟수
@@ -48,27 +48,27 @@ if($_REQUEST[status]==1 || $_REQUEST[status]==2)
 	$date_today=date("Y-m-d");
 	$date_month=date("Y-m");
 	$recv_num_ex_sum=0;
-	$sql_result = "select SUM(recv_num_cnt) from Gn_MMS where  up_date like '$date_month%' and mem_id = '$_SESSION[one_member_id]' ";
+	$sql_result = "select SUM(recv_num_cnt) from Gn_MMS where  up_date like '$date_month%' and mem_id = '{$_SESSION['one_member_id']}' ";
 	$res_result = mysqli_query($self_con,$sql_result);
 	$row_result = mysqli_fetch_array($res_result);
 	$recv_num_ex_sum += $row_result[0] * 1;
 //-오늘발송
 	$rec_cnt_today=0;
-	$sql_result2 = "select SUM(recv_num_cnt) from Gn_MMS where up_date like '$date_today%' and mem_id = '$_SESSION[one_member_id]' ";
+	$sql_result2 = "select SUM(recv_num_cnt) from Gn_MMS where up_date like '$date_today%' and mem_id = '{$_SESSION['one_member_id']}' ";
 	$res_result2 = mysqli_query($self_con,$sql_result2);
 	$row_result2 = mysqli_fetch_array($res_result2);
 	$rec_cnt_today += $row_result2[0] * 1;
 //-이번발송
 	$rec_cnt_current=0;
-	$sql_result3 = "select uni_id from Gn_MMS where mem_id = '$_SESSION[one_member_id]' order by idx desc limit 1";
+	$sql_result3 = "select uni_id from Gn_MMS where mem_id = '{$_SESSION['one_member_id']}' order by idx desc limit 1";
 	$res_result3 = mysqli_query($self_con,$sql_result3);
 	$row_result3 = mysqli_fetch_array($res_result3);
 	$uni_id=substr($row_result3[uni_id],0,10);
 	
-	$sql_result32 = "select idx,recv_num from Gn_MMS where mem_id = '$_SESSION[one_member_id]' and uni_id like '$uni_id%'";
+	$sql_result32 = "select idx,recv_num from Gn_MMS where mem_id = '{$_SESSION['one_member_id']}' and uni_id like '$uni_id%'";
 	$res_result32 = mysqli_query($self_con,$sql_result32);
 	while($row_result32 = mysqli_fetch_array($res_result32))
-	$rec_cnt_current += count(explode(",",$row_result32[recv_num]));
+	$rec_cnt_current += count(explode(",",$row_result32['recv_num']));
 }
 
 function arr_del($list_arr, $del_value) // 배열, 삭제할 값
@@ -109,14 +109,14 @@ function arr_del($list_arr, $del_value) // 배열, 삭제할 값
 					$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 					$row=mysqli_fetch_array($result);
 					mysqli_free_result($result);
-					$intRowCount=$row[cnt];
-					if (!$_POST[lno]) 
+					$intRowCount=$row['cnt'];
+					if (!$_POST['lno']) 
 					$intPageSize =20;
 					else 
-					$intPageSize = $_POST[lno];					
-					if($_POST[page])
+					$intPageSize = $_POST['lno'];					
+					if($_POST['page'])
 					{
-					  $page=(int)$_POST[page];
+					  $page=(int)$_POST['page'];
 					  $sort_no=$intRowCount-($intPageSize*$page-$intPageSize); 
 					}
 					else
@@ -124,17 +124,17 @@ function arr_del($list_arr, $del_value) // 배열, 삭제할 값
 					  $page=1;
 					  $sort_no=$intRowCount;
 					}
-					if($_POST[page2])
-					$page2=(int)$_POST[page2];
+					if($_POST['page2'])
+					$page2=(int)$_POST['page2'];
 					else
 					$page2=1;
 					$int=($page-1)*$intPageSize;
-					if($_REQUEST[order_status])
-					$order_status=$_REQUEST[order_status];
+					if($_REQUEST['order_status'])
+					$order_status=$_REQUEST['order_status'];
 					else
 					$order_status="desc"; 
-					if($_REQUEST[order_name])
-					$order_name=$_REQUEST[order_name];
+					if($_REQUEST['order_name'])
+					$order_name=$_REQUEST['order_name'];
 					else
 					$order_name="regdate";
 					$intPageCount=(int)(($intRowCount+$intPageSize-1)/$intPageSize);     
@@ -164,7 +164,7 @@ function arr_del($list_arr, $del_value) // 배열, 삭제할 값
     				
     				mysqli_free_result($resul_n);
     				
-    				$recv_cnt=explode(",",$row_n[recv_num]);
+    				$recv_cnt=explode(",",$row_n['recv_num']);
     				$total_cnt = count($recv_cnt);
     				
     				$sql_s="select * from Gn_MMS_status where idx='$_GET[idx]' ";
@@ -182,7 +182,7 @@ function arr_del($list_arr, $del_value) // 배열, 삭제할 값
 					?>
 					<div class="sub_4_4_t1">
 	                	<div class="sub_4_1_t3">
-	                	    <a href="sub_4.php?status=4" style="color:<?=$_REQUEST[status2]==''?"#000":""?>">발신내역 상세보기</a> <!--&nbsp;|&nbsp; <a href="sub_4.php?status=4&status2=2" style="color:<?=$_REQUEST[status2]==2?"#000":""?>">예약내역 확인</a>--></div>
+	                	    <a href="sub_4.php?status=4" style="color:<?=$_REQUEST['status2']==''?"#000":""?>">발신내역 상세보기</a> <!--&nbsp;|&nbsp; <a href="sub_4.php?status=4&status2=2" style="color:<?=$_REQUEST['status2']==2?"#000":""?>">예약내역 확인</a>--></div>
 	                    <div class="sub_4_4_t2">
 	                        <div class="in_info">
             					<table class="info_box_table" cellpadding="0" cellspacing="0">
@@ -227,9 +227,9 @@ function arr_del($list_arr, $del_value) // 배열, 삭제할 값
 										?>
 										<tr>
 											<td><label><?=$sort_no?></label></td>
-	                                        <td><?=$row[send_num]?></td>
-	                                        <td><?=$row[recv_num]?></td>
-	                                        <td><?=$row[regdate]?></td>
+	                                        <td><?=$row['send_num']?></td>
+	                                        <td><?=$row['recv_num']?></td>
+	                                        <td><?=$row['regdate']?></td>
 	                                        <td><?=$row[status]=="0"?"성공":"실패"?></td>
  
 										</tr>

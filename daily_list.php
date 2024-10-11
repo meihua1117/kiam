@@ -1,7 +1,7 @@
 <?
 $path = "./";
 include_once "_head.php";
-if (!$_SESSION[one_member_id]) {
+if (!$_SESSION['one_member_id']) {
 
 ?>
 	<script language="javascript">
@@ -10,7 +10,7 @@ if (!$_SESSION[one_member_id]) {
 <?
 	exit;
 }
-$sql = "select * from Gn_Member  where mem_id='" . $_SESSION[one_member_id] . "' and site != ''";
+$sql = "select * from Gn_Member  where mem_id='" . $_SESSION['one_member_id'] . "' and site != ''";
 $sresul_num = mysqli_query($self_con,$sql);
 $data = mysqli_fetch_array($sresul_num);
 ?>
@@ -139,7 +139,7 @@ $data = mysqli_fetch_array($sresul_num);
 								</tr>
 								<?
 
-								$sql_serch = " mem_id ='$_SESSION[one_member_id]' ";
+								$sql_serch = " mem_id ='{$_SESSION['one_member_id']}' ";
 								if ($_REQUEST[search_text]) {
 
 									$search_text = $_REQUEST[search_text];
@@ -153,31 +153,31 @@ $data = mysqli_fetch_array($sresul_num);
 								$sql = "select count(gd_id) as cnt from Gn_daily where $sql_serch ";
 								$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 								$row = mysqli_fetch_array($result);
-								$intRowCount = $row[cnt];
+								$intRowCount = $row['cnt'];
 
 								if ($intRowCount) {
-									if (!$_POST[lno])
+									if (!$_POST['lno'])
 										$intPageSize = 20;
 									else
-										$intPageSize = $_POST[lno];
-									if ($_POST[page]) {
-										$page = (int)$_POST[page];
+										$intPageSize = $_POST['lno'];
+									if ($_POST['page']) {
+										$page = (int)$_POST['page'];
 										$sort_no = $intRowCount - ($intPageSize * $page - $intPageSize);
 									} else {
 										$page = 1;
 										$sort_no = $intRowCount;
 									}
-									if ($_POST[page2])
-										$page2 = (int)$_POST[page2];
+									if ($_POST['page2'])
+										$page2 = (int)$_POST['page2'];
 									else
 										$page2 = 1;
 									$int = ($page - 1) * $intPageSize;
-									if ($_REQUEST[order_status])
-										$order_status = $_REQUEST[order_status];
+									if ($_REQUEST['order_status'])
+										$order_status = $_REQUEST['order_status'];
 									else
 										$order_status = "desc";
-									if ($_REQUEST[order_name])
-										$order_name = $_REQUEST[order_name];
+									if ($_REQUEST['order_name'])
+										$order_name = $_REQUEST['order_name'];
 									else
 										$order_name = "gd_id";
 
@@ -202,10 +202,10 @@ $data = mysqli_fetch_array($sresul_num);
 											<td><?= $sort_no ?></td>
 
 											<td style="font-size:12px;"><?= $row[title] ?></td>
-											<td style="font-size:12px;"><?= $row[send_num] ?></td>
+											<td style="font-size:12px;"><?= $row['send_num'] ?></td>
 											<td style="font-size:12px;"><?= $krow[grp] ?></td>
 											<td style="font-size:12px;"><?= $row[total_count] ?></td>
-											<td style="font-size:12px;"><?= $srow[cnt] ?></td>
+											<td style="font-size:12px;"><?= $srow['cnt'] ?></td>
 											<td style="font-size:12px;"><?= $row[daily_cnt] ?></td>
 											<td style="font-size:12px;"><?= $row[start_date] ?></td>
 											<td style="font-size:12px;"><?= $row[end_date] ?></td>
@@ -425,7 +425,7 @@ $data = mysqli_fetch_array($sresul_num);
 				data: {
 					admin: 0,
 					delete_name: "daily_list",
-					mem_id: '<?= $_SESSION[one_member_id] ?>'
+					mem_id: '<?= $_SESSION['one_member_id'] ?>'
 				},
 				success: function() {
 					alert('삭제되었습니다.');

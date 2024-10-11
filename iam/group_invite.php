@@ -149,7 +149,7 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                 <div style="padding: 10px 15px;background-color: #ffffff;">
                     <div class="box-body">
                         <?
-                        $mem_sql = "select site_iam from Gn_Member where mem_id='$_SESSION[iam_member_id]'";
+                        $mem_sql = "select site_iam from Gn_Member where mem_id='{$_SESSION['iam_member_id']}'";
                         $mem_res = mysqli_query($self_con,$mem_sql);
                         $mem_row = mysqli_fetch_array($mem_res);
                         $site_iam = $mem_row[0];
@@ -268,11 +268,11 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                                     }
                                     $result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
                                     while($row = mysqli_fetch_array($result)){
-                                        $card_sql="select main_img1 ,card_short_url from Gn_Iam_Name_Card where mem_id = '$_SESSION[iam_member_id]' order by req_data";
+                                        $card_sql="select main_img1 ,card_short_url from Gn_Iam_Name_Card where mem_id = '{$_SESSION['iam_member_id']}' order by req_data";
                                         $card_result=mysqli_query($self_con,$card_sql) or die(mysqli_error($self_con));
                                         $card_row=mysqli_fetch_array($card_result);
                                         $friends_main_img = $row[profile];
-                                        $row[friends_url] = $card_row[card_short_url].$row[mem_code];
+                                        $row[friends_url] = $card_row[card_short_url].$row['mem_code'];
                                         if(!$friends_main_img) {
                                             $friends_main_img = $card_row[main_img1];
                                             if(!$friends_main_img) {
@@ -290,7 +290,7 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                                                 </div>
                                                 <div class="info">
                                                     <div class="upper">
-                                                        <span class="name"><?=$row[mem_name]?></span>
+                                                        <span class="name"><?=$row['mem_name']?></span>
                                                         <span class="company"><?=$row[zy]?></span>
                                                     </div>
                                                     <div class="downer">
@@ -299,9 +299,9 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                                                 </div>
                                                 <div class="check">
                                                     <div style="display: flex;margin-right: 20px;">
-                                                        <input type="checkbox" name="friends_chk" id="inputItem<?=$row[mem_code]?>" class="friends checkboxes input css-checkbox" onclick='friends_chk_count() ' value="<?=$row[mem_code]?>">
-                                                        <label for="inputItem<?=$row[mem_code]?>" class="css-label cb0"></label>
-                                                        <input type="hidden" name="friends_idx<?=$row[mem_code]?>" id="friends_idx<?=$row[mem_code]?>" value="<?=$row['mem_id']?>">
+                                                        <input type="checkbox" name="friends_chk" id="inputItem<?=$row['mem_code']?>" class="friends checkboxes input css-checkbox" onclick='friends_chk_count() ' value="<?=$row['mem_code']?>">
+                                                        <label for="inputItem<?=$row['mem_code']?>" class="css-label cb0"></label>
+                                                        <input type="hidden" name="friends_idx<?=$row['mem_code']?>" id="friends_idx<?=$row['mem_code']?>" value="<?=$row['mem_id']?>">
                                                     </div>
                                                 </div>
                                             </div>

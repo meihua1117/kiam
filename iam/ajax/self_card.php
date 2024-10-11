@@ -2,7 +2,7 @@
 include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
 if($_POST[join])
 {
-	$sql_auto = "select * from Gn_Member where mem_id='{$_SESSION[iam_member_id]}'";
+	$sql_auto = "select * from Gn_Member where mem_id='{$_SESSION['iam_member_id']}'";
 	$res_auto = mysqli_query($self_con,$sql_auto);
 	$row_auto = mysqli_fetch_array($res_auto);
 	$e_id = $row_auto['site_iam'];
@@ -62,7 +62,7 @@ if($_POST[join])
 										card_keyword, profile_logo, favorite, story_title1, story_myinfo, story_title2, story_company, story_title3, story_career, story_title4, story_online1_text, 
 										story_online1, online1_check, story_online2_text, story_online2, online2_check, iam_click, iam_story, iam_friends, iam_iamicon, iam_msms, iam_sms, iam_facebook, 
 										iam_kakao, iam_share, iam_mystory, req_data, up_data, sample_click, sample_order, main_img1, main_img2, main_img3, next_iam_link, card_show, reduce_val) 
-										(SELECT '{$_SESSION[iam_member_id]}', '{$short_url_db}', card_title, card_name, card_company, card_position, '{$mem_phone}', phone_display, card_email, card_addr, card_map, 
+										(SELECT '{$_SESSION['iam_member_id']}', '{$short_url_db}', card_title, card_name, card_company, card_position, '{$mem_phone}', phone_display, card_email, card_addr, card_map, 
 										card_keyword, profile_logo, favorite, story_title1, story_myinfo, story_title2, story_company, story_title3, story_career, story_title4, story_online1_text, 
 										story_online1, online1_check, story_online2_text, story_online2, online2_check, iam_click, iam_story, iam_friends, iam_iamicon, iam_msms, iam_sms, iam_facebook, 
 										iam_kakao, iam_share, iam_mystory, now(), now(), sample_click, sample_order, main_img1, main_img2, main_img3, next_iam_link, card_show, reduce_val FROM Gn_Iam_Name_Card WHERE card_short_url='{$short_url[$i]}')";
@@ -72,7 +72,7 @@ if($_POST[join])
 			$sql_con = "INSERT INTO Gn_Iam_Contents (mem_id, contents_type, contents_img, contents_title, contents_url, contents_url_title, contents_iframe, source_iframe, contents_price, 
 										contents_sell_price, contents_desc, contents_display, contents_user_display, contents_type_display, contents_footer_display, contents_temp, contents_like, 
 										contents_share_text, contents_share_count, req_data, up_data, card_short_url, contents_westory_display, westory_card_url, public_display, card_idx, except_keyword) 
-										(SELECT '{$_SESSION[iam_member_id]}', contents_type, contents_img, contents_title, contents_url, contents_url_title, contents_iframe, source_iframe, contents_price, 
+										(SELECT '{$_SESSION['iam_member_id']}', contents_type, contents_img, contents_title, contents_url, contents_url_title, contents_iframe, source_iframe, contents_price, 
 										contents_sell_price, contents_desc, contents_display, contents_user_display, contents_type_display, contents_footer_display, contents_temp, contents_like, 
 										'', contents_share_count, now(), now(), '{$short_url_db}', contents_westory_display, '{$short_url_db}', public_display, {$card_idx}, except_keyword FROM Gn_Iam_Contents WHERE card_short_url='{$short_url[$i]}')";
 			mysqli_query($self_con,$sql_con) or die(mysqli_error($self_con));

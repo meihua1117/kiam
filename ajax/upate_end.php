@@ -10,7 +10,7 @@ while($row_card = mysqli_fetch_array($res_card)){
     $res_provide = mysqli_query($self_con,$sql_provide);
     $row_provide = mysqli_fetch_array($res_provide);
 
-    $sql_update = "update Gn_Gwc_Order set contents_provide_price='{$row_provide[0]}' where id='{$row_card[id]}'";
+    $sql_update = "update Gn_Gwc_Order set contents_provide_price='{$row_provide[0]}' where id='{$row_card['id']}'";
     mysqli_query($self_con,$sql_update);
 }
 ?>

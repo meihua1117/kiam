@@ -1,32 +1,32 @@
 <?
 $path="./";
 include_once $path."lib/rlatjd_fun.php";
-if($_SESSION[one_member_id] == "")
+if($_SESSION['one_member_id'] == "")
    exit;
-$sql_serch=" mem_id ='$_SESSION[one_member_id]' ";
+$sql_serch=" mem_id ='{$_SESSION['one_member_id']}' ";
 $sql="select count(idx) as cnt from gn_member_emails where $sql_serch ";
 $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 $row=mysqli_fetch_array($result);
-$intRowCount=$row[cnt];
-if($_POST[page])
-    $page=(int)$_POST[page];
+$intRowCount=$row['cnt'];
+if($_POST['page'])
+    $page=(int)$_POST['page'];
 else
     $page=1;
-if($_POST[page2])
-    $page2=(int)$_POST[page2];
+if($_POST['page2'])
+    $page2=(int)$_POST['page2'];
 else
     $page2=1;
-if (!$_POST[lno]) 
+if (!$_POST['lno']) 
     $intPageSize =10;
 else 
-    $intPageSize = $_POST[lno];
+    $intPageSize = $_POST['lno'];
 $int=($page-1)*$intPageSize;
-if($_REQUEST[order_status])
-    $order_status=$_REQUEST[order_status];
+if($_REQUEST['order_status'])
+    $order_status=$_REQUEST['order_status'];
 else
     $order_status="asc";
-if($_REQUEST[order_name])
-    $order_name=$_REQUEST[order_name];
+if($_REQUEST['order_name'])
+    $order_name=$_REQUEST['order_name'];
 else
     $order_name="idx";
 $intPageCount=(int)(($intRowCount+$intPageSize-1)/$intPageSize);     
@@ -117,7 +117,7 @@ function mail_func(status,idx)
             ?>
                 <tr>
                     <td class="g_dt_num_<?=$i?>">
-                        <?=$row[email]?>
+                        <?=$row['email']?>
                     </td>
                     <td>
                         <a href="javascript:mail_func('del','<?=$row[idx]?>')">삭제</a>

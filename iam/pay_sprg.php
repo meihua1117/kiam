@@ -199,7 +199,7 @@ if($platform == "mobile"){
                         type:"POST",
                         url:"/ajax/get_mem_address.php",
                         dataType:"json",
-                        data:{mem_id:'<?=$_SESSION[iam_member_id]?>'},
+                        data:{mem_id:'<?=$_SESSION['iam_member_id']?>'},
                         success: function(data){
                             console.log(data.address);
                             $('#allat_recp_addr').val(data.address);
@@ -267,7 +267,7 @@ if($platform == "mobile"){
         if(share_kind == 0)
             iam_link = '<?=$G_card[card_name]?>님의 명함 <?=$G_card[card_company]?> <?=$G_card[card_position]?> <?=$G_card[card_phone]?> <?php echo $domainData[sub_domain];?>/?<?=$G_card[card_short_url]?>';
         else
-            iam_link = '<?=$G_card[card_name]?>님의 명함 <?=$G_card[card_company]?> <?=$G_card[card_position]?> <?=$G_card[card_phone]?> <?=$domainData[sub_domain]."/?mem_code=".$all_card_row[mem_code]?>';
+            iam_link = '<?=$G_card[card_name]?>님의 명함 <?=$G_card[card_company]?> <?=$G_card[card_position]?> <?=$G_card[card_phone]?> <?=$domainData[sub_domain]."/?mem_code=".$all_card_row['mem_code']?>';
         iam_sms(iam_link);
     }
     function iam_sms(url) {
@@ -301,7 +301,7 @@ if($platform == "mobile"){
         if(share_kind == 0)
             iam_link = '<?=$domainData[sub_domain];?>/?<?=$G_card[card_short_url]?>';
         else
-            iam_link = '<?=$domainData[sub_domain]."/?mem_code=".$all_card_row[mem_code]?>';
+            iam_link = '<?=$domainData[sub_domain]."/?mem_code=".$all_card_row['mem_code']?>';
         iam_count('iam_kakao');
         try{
             Kakao.Link.sendDefault({
@@ -336,7 +336,7 @@ if($platform == "mobile"){
         if(share_kind == 0)
             iam_link = '<?=$domainData[sub_domain];?>/?<?=$G_card[card_short_url]?>';
         else
-            iam_link = '<?=$domainData[sub_domain]."/?mem_code=".$all_card_row[mem_code]?>';
+            iam_link = '<?=$domainData[sub_domain]."/?mem_code=".$all_card_row['mem_code']?>';
         shareFaceBook('<?=$G_card[card_name]?>님의 명함 <?=$G_card[card_company]?> <?=$G_card[card_position]?>', iam_link);
     }
     function shareFaceBook(desc, url) {
@@ -382,7 +382,7 @@ if($platform == "mobile"){
         if(share_kind == 0)
             iam_link = '<?=$domainData[sub_domain];?>/?<?=$G_card[card_short_url]?>';
         else
-            iam_link = '<?=$domainData[sub_domain]."/?mem_code=".$all_card_row[mem_code]?>';
+            iam_link = '<?=$domainData[sub_domain]."/?mem_code=".$all_card_row['mem_code']?>';
         // 글을 쓸 수 있는 란을 만든다.
         var aux = document.createElement("input");
         // 지정된 요소의 값을 할당 한다.
@@ -437,7 +437,7 @@ if($platform == "mobile"){
                     <!--승인금액-->
                     <input type="hidden" name="allat_amt" id="allat_amt" value="" size="19" maxlength=10>
                     <!--회원ID-->
-                    <input type="hidden" name="allat_pmember_id" value="<?php echo $_SESSION[one_member_id];?>" size="19" maxlength=20>
+                    <input type="hidden" name="allat_pmember_id" value="<?php echo $_SESSION['one_member_id'];?>" size="19" maxlength=20>
                     <!--상품코드-->
                     <input type="hidden" name="allat_product_cd" id="allat_product_cd" value="특별정기결제" size="19" maxlength=1000>
                     <!--상품명-->
@@ -502,7 +502,7 @@ if($platform == "mobile"){
                     <input type="hidden" name="member_type" id="member_type" />
                     <input type="hidden" name="fujia_status" id="fujia_status" />
                     <input type="hidden" name="mid" value="obmms20151" />
-                    <?if(!$_SESSION[iam_member_id]){?>
+                    <?if(!$_SESSION['iam_member_id']){?>
                         <div class="a8"><a href="javascript:void(0)" onclick="alert('로그인후 이용이 가능합니다.');"><img src="/images/sub_02_btn_23.jpg" /></a></div>
                     <?}else {?>
                         <div class="a8"><a href="javascript:void(0)" onclick="pay_go(document.pay_form)"><img src="/images/sub_02_btn_23.jpg" /></a></div>
@@ -561,7 +561,7 @@ if($platform == "mobile"){
                     ※ 아이엠을 보내는 기능은 무료이지만 일반 메시지를 보내는 것은 유료입니다.</h3>
                 </div>
                 <div class="button-wrap">
-                    <?if($_SESSION[iam_member_id]) {?>
+                    <?if($_SESSION['iam_member_id']) {?>
                         <a href="#" id="closePopup" class="buttons is-cancel">다음에보내기</a>
                         <a  id="daily_popup_content" href="#" target="_blank" class="buttons is-save">시작하기</a>
                     <?} else {?>

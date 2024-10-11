@@ -14,7 +14,7 @@ $sql = "select * from Gn_landing  where landing_idx='" . $landing_idx . "'";
 $sresul_num = mysqli_query($self_con,$sql);
 $row = mysqli_fetch_array($sresul_num);
 //clean code 22-01-19
-/*$sql = "select * from Gn_Member where mem_id = '$_SESSION[one_member_id]' and site != ''";
+/*$sql = "select * from Gn_Member where mem_id = '{$_SESSION['one_member_id']}' and site != ''";
 $res_result = mysqli_query($self_con,$sql);
 $member_1 = mysqli_fetch_array($res_result);*/
 ?>

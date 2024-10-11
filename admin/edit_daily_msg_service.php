@@ -200,7 +200,7 @@ if($row[0]) {
 										</tr>
 										<tr>
 											<th class="w200">등록일시</th>
-											<td><input type="text" name="daily_regdate1" id="daily_regdate1" value="<?=$row[regdate]?>"></td>
+											<td><input type="text" name="daily_regdate1" id="daily_regdate1" value="<?=$row['regdate']?>"></td>
 										</tr>
 									</table>
 								</div>

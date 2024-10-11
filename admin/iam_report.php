@@ -343,14 +343,14 @@ $path="./";
                                     $res_hide_state = mysqli_query($self_con,$sql_hide_state);
                                     $row_hide_state = mysqli_fetch_array($res_hide_state);
 
-                                    $sql_response = "select * from Gn_Iam_Post_Response where post_idx='{$row[id]}' and type=1";
+                                    $sql_response = "select * from Gn_Iam_Post_Response where post_idx='{$row['id']}' and type=1";
                                     $res_response = mysqli_query($self_con,$sql_response);
                                     $row_response = mysqli_fetch_array($res_response);
 
                                     // $con_link = "https://kiam.kr/iam/contents.php?contents_idx=".$row[content_idx];
                                 ?>
                                     <tr>
-                                        <td><input type="checkbox" name="<?='post_'.$row[id]?>" id = "<?='post_'.$row[id]?>" value="<?=$row[id]?>"><?=$number--?></td>
+                                        <td><input type="checkbox" name="<?='post_'.$row['id']?>" id = "<?='post_'.$row['id']?>" value="<?=$row['id']?>"><?=$number--?></td>
                                         <td><?=$row['mem_id']?></td>    
                                         <td><?=$row_mem['mem_name']?></td>
                                         <td><?=str_replace("-", "",$row['reporter_phone'])?></td>

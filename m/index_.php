@@ -185,7 +185,7 @@ setInterval(function(){
 function goOnlyOneApp() {
     //goOnlyOneCallback('사용자아이디'); 
     try {
-        AppScript.goOnlyOneApp('<?php echo $_SESSION[one_member_id];?>');
+        AppScript.goOnlyOneApp('<?php echo $_SESSION['one_member_id'];?>');
     } catch(e) {
         openAndroid();
     }
@@ -208,7 +208,7 @@ function openAndroid(){
 function goCallbackApp() {
     //goOnlyOneCallback('사용자아이디'); 
     try {
-        AppScript.goCallbackApp('<?php echo $_SESSION[one_member_id];?>');
+        AppScript.goCallbackApp('<?php echo $_SESSION['one_member_id'];?>');
     } catch(e) {
         openAndroid();
     }
@@ -217,7 +217,7 @@ function goCallbackApp() {
 function goCallbackCamerapApp() {
     //goOnlyOneCallback('사용자아이디'); 
     try {
-        AppScript.goCallbackCamerapApp('<?php echo $_SESSION[one_member_id];?>');
+        AppScript.goCallbackCamerapApp('<?php echo $_SESSION['one_member_id'];?>');
     } catch(e) {
         openAndroid();
     }

@@ -1,7 +1,7 @@
 <?
 $path="./";
 include_once "_head_open.php";
-if(!$_SESSION[one_member_id])
+if(!$_SESSION['one_member_id'])
 {
 
 ?>
@@ -11,7 +11,7 @@ location.replace('/ma.php');
 <?
 exit;
 }
-	$sql="select * from Gn_Member  where mem_id='".$_SESSION[one_member_id]."'";
+	$sql="select * from Gn_Member  where mem_id='".$_SESSION['one_member_id']."'";
 	$sresul_num=mysqli_query($self_con,$sql);
 	$data=mysqli_fetch_array($sresul_num);	
 	
@@ -104,7 +104,7 @@ $(function(){
               </tr>
               <?
 
-				$sql_serch=" m_id ='$_SESSION[one_member_id]' ";
+				$sql_serch=" m_id ='{$_SESSION['one_member_id']}' ";
 				if($_REQUEST[search_date])
 				{					
 					if($_REQUEST[rday1])
@@ -128,14 +128,14 @@ $(function(){
 				$sql="select count(sms_idx) as cnt from Gn_event_sms_info where $sql_serch ";
 				$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 				$row=mysqli_fetch_array($result);
-				$intRowCount=$row[cnt];
-				if (!$_POST[lno]) 
+				$intRowCount=$row['cnt'];
+				if (!$_POST['lno']) 
 					$intPageSize =20;
 				else 
-				   $intPageSize = $_POST[lno];				
-				if($_POST[page])
+				   $intPageSize = $_POST['lno'];				
+				if($_POST['page'])
 				{
-				  $page=(int)$_POST[page];
+				  $page=(int)$_POST['page'];
 				  $sort_no=$intRowCount-($intPageSize*$page-$intPageSize); 
 				}
 				else
@@ -143,17 +143,17 @@ $(function(){
 				  $page=1;
 				  $sort_no=$intRowCount;
 				}
-				if($_POST[page2])
-				  $page2=(int)$_POST[page2];
+				if($_POST['page2'])
+				  $page2=(int)$_POST['page2'];
 				else
 				  $page2=1;
 				$int=($page-1)*$intPageSize;
-				if($_REQUEST[order_status])
-				  $order_status=$_REQUEST[order_status];
+				if($_REQUEST['order_status'])
+				  $order_status=$_REQUEST['order_status'];
 				else
 				  $order_status="desc"; 
-				if($_REQUEST[order_name])
-				  $order_name=$_REQUEST[order_name];
+				if($_REQUEST['order_name'])
+				  $order_name=$_REQUEST['order_name'];
 				else
 				  $order_name="sms_idx";
 				$intPageCount=(int)(($intRowCount+$intPageSize-1)/$intPageSize);     
@@ -180,11 +180,11 @@ $(function(){
                 <td><?=$sort_no?></td>
                 <td style="font-size:12px;"><?=$row[reservation_title]?></td>
                 <td><?=$row[reservation_desc]?></td>
-                <td><?=number_format($srow[cnt])?></td>
+                <td><?=number_format($srow['cnt'])?></td>
                 <td><?=number_format($cnt)?>/<?=number_format($cnt)?></td>
-                <td><?=$row[regdate]?></td>
+                <td><?=$row['regdate']?></td>
                 <td>
-                    <a href="javascript:;;" onclick="useIt('<?=$row[sms_idx];?>','<?=$erow[event_idx]?>','<?=$row[event_name_eng]?>','<?=$row[event_name_kor]?>','<?=$row[reservation_title]?>','<?=$srow[cnt]?>','<?=$erow[pcode]?>')">사용하기</a>
+                    <a href="javascript:;;" onclick="useIt('<?=$row[sms_idx];?>','<?=$erow[event_idx]?>','<?=$row[event_name_eng]?>','<?=$row[event_name_kor]?>','<?=$row[reservation_title]?>','<?=$srow['cnt']?>','<?=$erow[pcode]?>')">사용하기</a>
                 </td>                                
               </tr>
               <?

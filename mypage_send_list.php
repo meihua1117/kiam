@@ -2,7 +2,7 @@
 $path="./";
 include_once "_head.php";
 $logs = new Logs("iamlog.txt", false);
-if(!$_SESSION[one_member_id]){
+if(!$_SESSION['one_member_id']){
 ?>
     <script language="javascript">
         location.replace('/ma.php');
@@ -10,7 +10,7 @@ if(!$_SESSION[one_member_id]){
     <?
     exit;
 }
-$sql="select * from Gn_Member  where mem_id='".$_SESSION[one_member_id]."'";
+$sql="select * from Gn_Member  where mem_id='".$_SESSION['one_member_id']."'";
 $sresul_num=mysqli_query($self_con,$sql);
 $data=mysqli_fetch_array($sresul_num);
 ?>
@@ -74,7 +74,7 @@ $data=mysqli_fetch_array($sresul_num);
                                         <td style="width:5%;">회차</td>
                                         <td style="width:8%;">문자제목</td>
                                         <td style="width:8%;">문자내용</td>
-                                        <td style="width:3%;"><?=$_REQUEST[status2]=='2'?"예약일시":"첨부파일"?></td>
+                                        <td style="width:3%;"><?=$_REQUEST['status2']=='2'?"예약일시":"첨부파일"?></td>
                                         <td style="width:6%;">신청키워드</td>
                                         <td style="width:10%;">신청일시</td>
                                         <td style="width:7%;">발송일시</td>
@@ -86,7 +86,7 @@ $data=mysqli_fetch_array($sresul_num);
                                     <?
                                     $logs->add_log("start");
                                     $sql_serch= " 1=1 ";
-                                    $sql_serch.=" and mms.mem_id ='$_SESSION[one_member_id]' and sms_detail_idx is not null";
+                                    $sql_serch.=" and mms.mem_id ='{$_SESSION['one_member_id']}' and sms_detail_idx is not null";
                                     $sql_serch .=" and (mms.result = 0 or (mms.result=1 and reservation < now())) ";
                                     $startdate = $_REQUEST['startdate'];
                                     $enddate = $_REQUEST['enddate'];
@@ -116,29 +116,29 @@ $data=mysqli_fetch_array($sresul_num);
                                     $row=mysqli_fetch_array($result);
                                     mysqli_free_result($result);
                                     $logs->add_log("middle");
-                                    $intRowCount=$row[cnt];
-                                    if (!$_POST[lno])
+                                    $intRowCount=$row['cnt'];
+                                    if (!$_POST['lno'])
                                         $intPageSize =20;
                                     else
-                                        $intPageSize = $_POST[lno];
-                                    if($_POST[page]){
-                                        $page=(int)$_POST[page];
+                                        $intPageSize = $_POST['lno'];
+                                    if($_POST['page']){
+                                        $page=(int)$_POST['page'];
                                         $sort_no=$intRowCount-($intPageSize*$page-$intPageSize);
                                     }else{
                                         $page=1;
                                         $sort_no=$intRowCount;
                                     }
-                                    if($_POST[page2])
-                                        $page2=(int)$_POST[page2];
+                                    if($_POST['page2'])
+                                        $page2=(int)$_POST['page2'];
                                     else
                                         $page2=1;
                                     $int=($page-1)*$intPageSize;
-                                    if($_REQUEST[order_status])
-                                        $order_status=$_REQUEST[order_status];
+                                    if($_REQUEST['order_status'])
+                                        $order_status=$_REQUEST['order_status'];
                                     else
                                         $order_status="desc";
-                                    if($_REQUEST[order_name])
-                                        $order_name=$_REQUEST[order_name];
+                                    if($_REQUEST['order_name'])
+                                        $order_name=$_REQUEST['order_name'];
                                     else
                                         $order_name="reg_date";
                                     $intPageCount=(int)(($intRowCount+$intPageSize-1)/$intPageSize);
@@ -156,12 +156,12 @@ $data=mysqli_fetch_array($sresul_num);
                                             $row_n=mysqli_fetch_array($resul_n);
                                             $memo = $row_n[0];
 
-                                            $sql_n="select mem_name from Gn_Member where mem_phone='$row[recv_num]'";
+                                            $sql_n="select mem_name from Gn_Member where mem_phone='{$row['recv_num']}'";
                                             $resul_n=mysqli_query($self_con,$sql_n);
                                             $row_n=mysqli_fetch_array($resul_n);
                                             $rname = $row_n[0];
 
-                                            $recv_cnt=explode(",",$row[recv_num]);
+                                            $recv_cnt=explode(",",$row['recv_num']);
                                             $sql_cs="select count(idx) as cnt from Gn_MMS_status where idx='$row[idx]' and status='0'";
                                             $resul_cs=mysqli_query($self_con,$sql_cs);
                                             $row_cs=mysqli_fetch_array($resul_cs);
@@ -170,13 +170,13 @@ $data=mysqli_fetch_array($sresul_num);
                                             $sql_sn="select * from Gn_MMS where idx='$row[idx]' ";
                                             $resul_sn=mysqli_query($self_con,$sql_sn);
                                             $row_sn=mysqli_fetch_array($resul_sn);
-                                            $recv_cnt=explode(",",$row_sn[recv_num]);
+                                            $recv_cnt=explode(",",$row_sn['recv_num']);
 
                                             $total_cnt = count($recv_cnt);
                                             $sql_sn="select count(*) as cnt from Gn_event_sms_step_info where sms_idx='$row[sms_idx]' ";
                                             $sresul=mysqli_query($self_con,$sql_sn);
                                             $crow=mysqli_fetch_array($sresul);
-                                            $total_cnt_ = $crow[cnt];
+                                            $total_cnt_ = $crow['cnt'];
 
                                             $sql_sn="select step from Gn_event_sms_step_info where sms_detail_idx='$row[sms_detail_idx]' ";
                                             $sresul=mysqli_query($self_con,$sql_sn);
@@ -187,10 +187,10 @@ $data=mysqli_fetch_array($sresul_num);
                                             <tr>
                                                 <td><label><input type="checkbox" name="fs_idx" value="<?=$row[idx]?>" /><?=$sort_no?></label></td>
                                                 <td><?=$memo?></td>
-                                                <td><?=$row[send_num]?></td>
+                                                <td><?=$row['send_num']?></td>
                                                 <td style="font-size:12px;">
-                                                    <a href="javascript:show_recv('show_recv_num','<?=$c?>','수신번호')"><?=str_substr($row[recv_num],0,14,'utf-8')?> <?=$row[reservation]?"<br>".$row[reservation]:""?></a>
-                                                    <!--span style="color:#F00;">(<?=count($recv_cnt)?>)</span--><input type="hidden" name="show_recv_num" value="<?=$row[recv_num]?>"/>
+                                                    <a href="javascript:show_recv('show_recv_num','<?=$c?>','수신번호')"><?=str_substr($row['recv_num'],0,14,'utf-8')?> <?=$row[reservation]?"<br>".$row[reservation]:""?></a>
+                                                    <!--span style="color:#F00;">(<?=count($recv_cnt)?>)</span--><input type="hidden" name="show_recv_num" value="<?=$row['recv_num']?>"/>
                                                 </td>
                                                 <td><?
                                                     if($rname != '')
@@ -210,13 +210,13 @@ $data=mysqli_fetch_array($sresul_num);
                                                     <input type="hidden" name="show_title" value="<?=$row[title]?>"/>
                                                 </td>
                                                 <td style="font-size:12px;">
-                                                    <a href="javascript:void(0)" onclick="show_recv('show_content','<?=$c?>','문자내용')"><?=str_substr($row[content],0,30,'utf-8')?></a><input type="hidden" name="show_content" value="<?=$row[content]?>"/>
+                                                    <a href="javascript:void(0)" onclick="show_recv('show_content','<?=$c?>','문자내용')"><?=str_substr($row['content'],0,30,'utf-8')?></a><input type="hidden" name="show_content" value="<?=$row['content']?>"/>
                                                 </td>
-                                                <?if($_REQUEST[status2]=='2'){?>
-                                                    <td style="width:5%;"><?if($row[up_date]!=''&&$row[result]==0){?>완료<?}elseif($row[up_date]==''&&$row[result]==1){?>발송실패<?}else{?>실패<?}?></td>
+                                                <?if($_REQUEST['status2']=='2'){?>
+                                                    <td style="width:5%;"><?if($row['up_date']!=''&&$row[result]==0){?>완료<?}elseif($row['up_date']==''&&$row[result]==1){?>발송실패<?}else{?>실패<?}?></td>
                                                 <?}?>
                                                 <td>
-                                                    <?if ($_REQUEST[status2]==2){ echo substr($row[reservation],0,16); }else{?>
+                                                    <?if ($_REQUEST['status2']==2){ echo substr($row[reservation],0,16); }else{?>
                                                         <a href="javascript:void(0)" onclick="show_recv('show_jpg','<?=$c?>','첨부파일')"><?=str_substr($row[jpg],0,20,'utf-8')?></a><input type="hidden" name="show_jpg" value="<?=$row[jpg]?>"/>
                                                         <a href="javascript:void(0)" onclick="show_recv('show_jpg1','<?=$c?>','첨부파일')"><?=str_substr($row[jpg1],0,20,'utf-8')?></a><input type="hidden" name="show_jpg1" value="<?=$row[jpg1]?>"/>
                                                         <a href="javascript:void(0)" onclick="show_recv('show_jpg2','<?=$c?>','첨부파일')"><?=str_substr($row[jpg2],0,20,'utf-8')?></a><input type="hidden" name="show_jpg2" value="<?=$row[jpg2]?>"/>
@@ -225,15 +225,15 @@ $data=mysqli_fetch_array($sresul_num);
                                                 <td><?=$row['sp']?></td>
                                                 <td style="font-size:12px;"><?=substr($row[reg_date],0,16)?></td>
                                                 <td style="font-size:12px;"><?
-                                                    if($row[up_date] == ""){
+                                                    if($row['up_date'] == ""){
                                                         echo "미수신";
                                                     }
                                                     else{
-                                                        echo substr($row[up_date],0,16);
+                                                        echo substr($row['up_date'],0,16);
                                                     }
                                                 ?></td>
                                                 <td><?
-                                                    if($row[up_date] == ""){
+                                                    if($row['up_date'] == ""){
                                                         echo "실패";
                                                     }
                                                     else{

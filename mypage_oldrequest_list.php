@@ -1,7 +1,7 @@
 <?
 $path="./";
 include_once "_head.php";
-if(!$_SESSION[one_member_id])
+if(!$_SESSION['one_member_id'])
 {
 ?>
 <script language="javascript">
@@ -11,7 +11,7 @@ var idx = "";
 <?
 exit;
 }
-$sql="select * from Gn_Member  where mem_id='".$_SESSION[one_member_id]."' and site != ''";
+$sql="select * from Gn_Member  where mem_id='".$_SESSION['one_member_id']."' and site != ''";
 $sresul_num=mysqli_query($self_con,$sql);
 $data=mysqli_fetch_array($sresul_num);	
 
@@ -107,7 +107,7 @@ $(function(){
               </tr>
               <?
 
-				$sql_serch=" mem_id ='$_SESSION[one_member_id]' ";
+				$sql_serch=" mem_id ='{$_SESSION['one_member_id']}' ";
 				
 				if($_REQUEST[search_text])
 				{
@@ -133,14 +133,14 @@ $(function(){
 				$sql="select count(*) as cnt from Gn_event_oldrequest where $sql_serch ";
 				$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 				$row=mysqli_fetch_array($result);
-				$intRowCount=$row[cnt];
-				if (!$_POST[lno]) 
+				$intRowCount=$row['cnt'];
+				if (!$_POST['lno']) 
 					$intPageSize =20;
 				else 
-				   $intPageSize = $_POST[lno];				
-				if($_POST[page])
+				   $intPageSize = $_POST['lno'];				
+				if($_POST['page'])
 				{
-				  $page=(int)$_POST[page];
+				  $page=(int)$_POST['page'];
 				  $sort_no=$intRowCount-($intPageSize*$page-$intPageSize); 
 				}
 				else
@@ -148,17 +148,17 @@ $(function(){
 				  $page=1;
 				  $sort_no=$intRowCount;
 				}
-				if($_POST[page2])
-				  $page2=(int)$_POST[page2];
+				if($_POST['page2'])
+				  $page2=(int)$_POST['page2'];
 				else
 				  $page2=1;
 				$int=($page-1)*$intPageSize;
-				if($_REQUEST[order_status])
-				  $order_status=$_REQUEST[order_status];
+				if($_REQUEST['order_status'])
+				  $order_status=$_REQUEST['order_status'];
 				else
 				  $order_status="desc"; 
-				if($_REQUEST[order_name])
-				  $order_name=$_REQUEST[order_name];
+				if($_REQUEST['order_name'])
+				  $order_name=$_REQUEST['order_name'];
 				else
 				  $order_name="reg_date";
 				$intPageCount=(int)(($intRowCount+$intPageSize-1)/$intPageSize);     
@@ -187,10 +187,10 @@ $(function(){
                     $sql="select count(idx) as cnt from Gn_MMS_Receive where grp_id = '$addrrow[idx]'";
                     $dresult = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
                     $drow=mysqli_fetch_array($dresult);
-                    $date = $row[regdate];
+                    $date = $row['regdate'];
                   ?>
                   <tr>
-                    <td><input type="checkbox" name="event_idx" value="<?php echo $row['idx'];?>" data-reservation_title="<?=$row['reservation_title']?>" data-idx="<?=$row['idx']?>" data-name="<?=$row[name]?>" data-mobile="<?=$row[mobile]?>"  data-email="<?=$row[email]?>" data-job="<?=$row[job]?>"  data-event_code="<?=$row[event_code]?>"  data-counsult_date="<?=$row[counsult_date]?>" data-sp="<?=$row[sp]?>" data-request_idx="<?php echo $row['request_idx'];?>"></td>
+                    <td><input type="checkbox" name="event_idx" value="<?php echo $row['idx'];?>" data-reservation_title="<?=$row['reservation_title']?>" data-idx="<?=$row['idx']?>" data-name="<?=$row['name']?>" data-mobile="<?=$row[mobile]?>"  data-email="<?=$row['email']?>" data-job="<?=$row[job]?>"  data-event_code="<?=$row[event_code]?>"  data-counsult_date="<?=$row[counsult_date]?>" data-sp="<?=$row[sp]?>" data-request_idx="<?php echo $row['request_idx'];?>"></td>
                     <td><?=$sort_no?></td>
                     <td ><?=$row['send_num']?></td>
                     <td ><?=$addrrow['grp']?></td>
@@ -469,7 +469,7 @@ background: #ffffff/*{bgColorContent}*/ url(images/ui-bg_flat_75_ffffff_40x100.p
 			<span class="layer_close close" ><img src="/images/close_button_05.jpg"></span>	
 		    <form method="post" name="addFormEvent" id="addFormEvent"  action="mypage.proc.php" enctype="multipart/form-data">
 			<input type="hidden" name="mode" value="old_customer_reservation">
-		    <input type="hidden" name="m_id" id="m_id" value="<?php echo $_SESSION[one_member_id];?>"> 			
+		    <input type="hidden" name="m_id" id="m_id" value="<?php echo $_SESSION['one_member_id'];?>"> 			
             <div class="pop_title">
 				새디비 예약하기
 			</div>
@@ -480,11 +480,11 @@ background: #ffffff/*{bgColorContent}*/ url(images/ui-bg_flat_75_ffffff_40x100.p
                         <tr>
                             <th class="w200">[발송폰선택]</th>
                             <td style="height:35px;text-align:left;" >
-                                <input type="hidden" name="mem_code" placeholder="" id="mem_code" value="<?=$data[mem_code]?>" readonly style="width:200px"/>
+                                <input type="hidden" name="mem_code" placeholder="" id="mem_code" value="<?=$data['mem_code']?>" readonly style="width:200px"/>
                                 <select id="send_num" name="send_num">
                                     <!--option value="<?=str_replace("-", "", $data[mem_phone])?>"><?php echo str_replace("-","",$data['mem_phone']);?></option-->
 							        <?php
-                                        $query = "select * from Gn_MMS_Number where mem_id='$_SESSION[one_member_id]' order by sort_no asc, user_cnt desc , idx desc";
+                                        $query = "select * from Gn_MMS_Number where mem_id='{$_SESSION['one_member_id']}' order by sort_no asc, user_cnt desc , idx desc";
                                         $resul=mysqli_query($self_con,$query);
                                         while($korow=mysqli_fetch_array($resul)) {
                                     ?>

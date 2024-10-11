@@ -132,7 +132,7 @@ $meta_desc = $meta_row[contents_desc];
 					</div>
 					<div class="media-wrap">
 						<?
-						if($_SESSION[iam_member_id] == $card_owner) {
+						if($_SESSION['iam_member_id'] == $card_owner) {
 							$footer_contents_title = $meta_row['contents_title'];
 							$footer_contents_title = str_replace('"', urlencode('"'), $footer_contents_title);
 							$footer_contents_title = str_replace("'", urlencode("\'"), $footer_contents_title);
@@ -302,7 +302,7 @@ $meta_desc = $meta_row[contents_desc];
 				※ 아이엠을 보내는 기능은 무료이지만 일반 메시지를 보내는 것은 유료입니다.</h3>
 			</div>
 			<div class="button-wrap">
-				<?if($_SESSION[iam_member_id]) {
+				<?if($_SESSION['iam_member_id']) {
 						$iam_link = $domainData[sub_domain]."/iam/?".$cur_card_short_url;
 					?>
 					<a href="#" id="closePopup" class="buttons is-cancel">다음에보내기</a>

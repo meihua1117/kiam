@@ -1,7 +1,7 @@
 <?
 $path="./";
 include_once "_head.php";
-if(!$_SESSION[one_member_id])
+if(!$_SESSION['one_member_id'])
 {
     $chk = false;
 
@@ -89,7 +89,7 @@ location.replace('/ma.php');
 <?
 exit;
 }
-	$sql="select * from Gn_Member  where mem_id='".$_SESSION[one_member_id]."'";
+	$sql="select * from Gn_Member  where mem_id='".$_SESSION['one_member_id']."'";
 	$sresul_num=mysqli_query($self_con,$sql);
 	$member = $data=mysqli_fetch_array($sresul_num);	
 	
@@ -330,7 +330,7 @@ $total_balance = 0;
                         	       on b.mem_id =a.mem_id
                         	WHERE 1=1 
                 	              $searchStr
-                	              and seller_id='$_SESSION[one_member_id]'
+                	              and seller_id='{$_SESSION['one_member_id']}'
                         	UNION SELECT 
                         	    a.pay_no, 
                         	    b.mem_id,
@@ -349,7 +349,7 @@ $total_balance = 0;
                         	       on b.mem_id =a.mem_id
                         	WHERE 1=1 
                 	              $searchStr
-                	              and branch_id='$_SESSION[one_member_id]'   
+                	              and branch_id='{$_SESSION['one_member_id']}'   
                 	              ";
                 	$res	    = mysqli_query($self_con,$query);
                 	$totalCnt	=  mysqli_num_rows($res);	

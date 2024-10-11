@@ -66,7 +66,7 @@ $sresult=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 $skrow = mysqli_fetch_array($sresult);
 
 $send_day = "";
-$day = ceil($skrow[cnt] / (int)$row_data['callback_no']);
+$day = ceil($skrow['cnt'] / (int)$row_data['callback_no']);
 for($i = 1; $i <= $day;$i++) {
     if($i == $day) $comma = "";
     else $comma = ",";
@@ -103,7 +103,7 @@ else{
     $txt = $row_data['event_req_link'];
 }
 
-$total_count = $skrow[cnt];
+$total_count = $skrow['cnt'];
 $iam = 1;
 $title = $row_data['event_info'];
 $send_num = $mem_phone;
@@ -183,7 +183,7 @@ for($i=0;$i <count($date);$i++) {
 // $ch_daily = curl_init();
 
 // $fields['mode'] = "daily_save";
-// $fields['total_count'] = $skrow[cnt];
+// $fields['total_count'] = $skrow['cnt'];
 // $fields['iam'] = 1;
 // $fields['title'] = $row_data['event_info'];
 // $fields['txt'] = $row_data['event_req_link'];
@@ -238,7 +238,7 @@ else{
     $min_point = $daily_set_point * 1;
 }
 
-$sql_insert = "insert into Gn_Item_Pay_Result set buyer_id='{$mem_id1}', buyer_tel='{$row_memdata['mem_phone']}', item_name='데일리메시지', item_price={$min_point}, pay_percent=90, current_point={$point}-{$min_point}, current_cash='{$cash}', pay_status='Y', VACT_InputName='{$row_memdata[mem_name]}', type='use', pay_method='{$method}', pay_date=now(), point_val=1";
+$sql_insert = "insert into Gn_Item_Pay_Result set buyer_id='{$mem_id1}', buyer_tel='{$row_memdata['mem_phone']}', item_name='데일리메시지', item_price={$min_point}, pay_percent=90, current_point={$point}-{$min_point}, current_cash='{$cash}', pay_status='Y', VACT_InputName='{$row_memdata['mem_name']}', type='use', pay_method='{$method}', pay_date=now(), point_val=1";
 mysqli_query($self_con,$sql_insert);
 
 $sql_point_update = "update Gn_Member set mem_point=mem_point-{$min_point} where mem_id='{$mem_id1}'";

@@ -1,7 +1,7 @@
 <?
 $path="./";
 include_once "_head.php";
-if(!$_SESSION[one_member_id])
+if(!$_SESSION['one_member_id'])
 {
 ?>
 <script language="javascript">
@@ -37,7 +37,7 @@ switch($_REQUEST[status])
 if($_REQUEST[status]==1 || $_REQUEST[status]==2)
 {
 	///금일발송가능 , 회발송가능 횟수
-	$sql_sum = "select sum(user_cnt) as sumnum, sum(max_cnt) as summax ,sum(gl_cnt) as sumgl from Gn_MMS_Number where mem_id = '$_SESSION[one_member_id]'";
+	$sql_sum = "select sum(user_cnt) as sumnum, sum(max_cnt) as summax ,sum(gl_cnt) as sumgl from Gn_MMS_Number where mem_id = '{$_SESSION['one_member_id']}'";
 	$resul_sum=mysqli_query($self_con,$sql_sum);
 	$row_sum_b =mysqli_fetch_array($resul_sum);
 	//월별 총 발송가능 횟수
@@ -48,30 +48,30 @@ if($_REQUEST[status]==1 || $_REQUEST[status]==2)
 	$date_today=date("Y-m-d");
 	$date_month=date("Y-m");
 	$recv_num_ex_sum=0;
-	$sql_result = "select SUM(recv_num_cnt) from Gn_MMS where  up_date like '$date_month%' and mem_id = '$_SESSION[one_member_id]' ";
+	$sql_result = "select SUM(recv_num_cnt) from Gn_MMS where  up_date like '$date_month%' and mem_id = '{$_SESSION['one_member_id']}' ";
 	$res_result = mysqli_query($self_con,$sql_result);
 	$row_result = mysqli_fetch_array($res_result);
 	$recv_num_ex_sum += $row_result[0] * 1;
 	//-오늘발송
 	$rec_cnt_today=0;
-	$sql_result2 = "select SUM(recv_num_cnt) from Gn_MMS where up_date like '$date_today%' and mem_id = '$_SESSION[one_member_id]' ";
+	$sql_result2 = "select SUM(recv_num_cnt) from Gn_MMS where up_date like '$date_today%' and mem_id = '{$_SESSION['one_member_id']}' ";
 	$res_result2 = mysqli_query($self_con,$sql_result2);
 	$row_result2 = mysqli_fetch_array($res_result2);
 	$rec_cnt_today += $row_result2[0] * 1;
 	//-이번발송
 	$rec_cnt_current=0;
-	$sql_result3 = "select uni_id from Gn_MMS where mem_id = '$_SESSION[one_member_id]' order by idx desc limit 1";
+	$sql_result3 = "select uni_id from Gn_MMS where mem_id = '{$_SESSION['one_member_id']}' order by idx desc limit 1";
 	$res_result3 = mysqli_query($self_con,$sql_result3);
 	$row_result3 = mysqli_fetch_array($res_result3);
 	$uni_id=substr($row_result3[uni_id],0,10);
 	
-	$sql_result32 = "select SUM(recv_num_cnt) from Gn_MMS where mem_id = '$_SESSION[one_member_id]' and uni_id like '$uni_id%'";
+	$sql_result32 = "select SUM(recv_num_cnt) from Gn_MMS where mem_id = '{$_SESSION['one_member_id']}' and uni_id like '$uni_id%'";
 	$res_result32 = mysqli_query($self_con,$sql_result32);
 	$row_result32 = mysqli_fetch_array($res_result32);
 	$rec_cnt_current += $row_result32[0] * 1;
 }
 
-$sql_mem_data = "select mem_phone from Gn_Member where mem_id='{$_SESSION[one_member_id]}'";
+$sql_mem_data = "select mem_phone from Gn_Member where mem_id='{$_SESSION['one_member_id']}'";
 $res_mem_data = mysqli_query($self_con,$sql_mem_data);
 $row_mem_data = mysqli_fetch_array($res_mem_data);
 $mem_phone = $row_mem_data['mem_phone'];
@@ -165,36 +165,36 @@ $(function(){
 				switch($_REQUEST[status])
 				{
 					case 1:
-						$sql_serch=" mem_id ='$_SESSION[one_member_id]' ";
+						$sql_serch=" mem_id ='{$_SESSION['one_member_id']}' ";
 						if($_REQUEST[lms_text] && $_REQUEST[lms_select])
 							$sql_serch.=" and {$_REQUEST[lms_select]} like '$_REQUEST[lms_text]%' ";
 						$sql="select count(idx) as cnt from Gn_MMS_Number where $sql_serch ";
 						$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 						$row=mysqli_fetch_array($result);
-						$intRowCount=$row[cnt];
-						if (!$_POST[lno]) 
+						$intRowCount=$row['cnt'];
+						if (!$_POST['lno']) 
 							$intPageSize =20;
 						else 
-							$intPageSize = $_POST[lno];				
-						if($_POST[page])
+							$intPageSize = $_POST['lno'];				
+						if($_POST['page'])
 						{
-							$page=(int)$_POST[page];
+							$page=(int)$_POST['page'];
 							$sort_no=$intRowCount-($intPageSize*$page-$intPageSize); 
 						}else{
 							$page=1;
 							$sort_no=$intRowCount;
 						}
-						if($_POST[page2])
-							$page2=(int)$_POST[page2];
+						if($_POST['page2'])
+							$page2=(int)$_POST['page2'];
 						else
 							$page2=1;
 						$int=($page-1)*$intPageSize;
-						if($_REQUEST[order_status])
-							$order_status=$_REQUEST[order_status];
+						if($_REQUEST['order_status'])
+							$order_status=$_REQUEST['order_status'];
 						else
 							$order_status="desc"; 
-						if($_REQUEST[order_name])
-							$order_name=$_REQUEST[order_name];
+						if($_REQUEST['order_name'])
+							$order_name=$_REQUEST['order_name'];
 						else
 							$order_name="user_cnt";
 						$intPageCount=(int)(($intRowCount+$intPageSize-1)/$intPageSize);     
@@ -202,8 +202,8 @@ $(function(){
 						$result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));	
 			?>                
                     	<div class="sub_4_1_t3">
-                    		<a href="sub_4.php?status=1&status2=1" style="color:<?=$_REQUEST[status2]==1?"#000":""?>">휴대폰 등록 정보</a> &nbsp;|&nbsp;
-                    		<a href="sub_4.php?status=1&status2=2" style="color:<?=$_REQUEST[status2]==2?"#000":""?>">휴대폰 상세 정보</a>
+                    		<a href="sub_4.php?status=1&status2=1" style="color:<?=$_REQUEST['status2']==1?"#000":""?>">휴대폰 등록 정보</a> &nbsp;|&nbsp;
+                    		<a href="sub_4.php?status=1&status2=2" style="color:<?=$_REQUEST['status2']==2?"#000":""?>">휴대폰 상세 정보</a>
 						</div>
 						<div style="background-color:#FFF;padding:20px;">
                     		<div class="sub_4_1_t2">
@@ -232,20 +232,20 @@ $(function(){
 								</div>
 								<p style="clear:both;"></p>
                         	</div>
-                        <?if($_REQUEST[status2]==1){?>                         
+                        <?if($_REQUEST['status2']==1){?>                         
                         	<div class="sub_4_1_t5">                       
 								<table class="list_table" width="100%" border="0" cellspacing="0" cellpadding="0">
 									<tr>
 										<td class="d_font" style="width:6%;text-align:left"><label><input type="checkbox" onclick="check_all(this,'seq[]')"  />번호</label></td>
 										<td class="d_font" style="width:6%;">앱상태</td>
-										<td class="x_font" style="width:13%;background-color:#CCC"><a href="javascript:void(0)" onclick="order_sort(sub_4_form,'sendnum',sub_4_form.order_status.value)">휴대폰번호<? if($_REQUEST[order_name]=="sendnum"){echo $_REQUEST[order_status]=="desc"?'▼':'▲';}else{ echo '▼'; }?></a><div class="xt_font" style="margin-left:110px;">폰별 등록정보</div></td>
-										<td class="x_font" style="width:10%;background-color:#CCC"><a href="javascript:void(0)" onclick="order_sort(sub_4_form,'memo',sub_4_form.order_status.value)">소유자명<? if($_REQUEST[order_name]=="memo"){echo $_REQUEST[order_status]=="desc"?'▼':'▲';}else{ echo '▼'; }?></a></td>
-										<td class="x_font" style="width:7%;background-color:#CCC"><a href="javascript:void(0)" onclick="order_sort(sub_4_form,'memo2',sub_4_form.order_status.value)">통신사<? if($_REQUEST[order_name]=="memo2"){echo $_REQUEST[order_status]=="desc"?'▼':'▲';}else{ echo '▼'; }?></a></td>
+										<td class="x_font" style="width:13%;background-color:#CCC"><a href="javascript:void(0)" onclick="order_sort(sub_4_form,'sendnum',sub_4_form.order_status.value)">휴대폰번호<? if($_REQUEST['order_name']=="sendnum"){echo $_REQUEST['order_status']=="desc"?'▼':'▲';}else{ echo '▼'; }?></a><div class="xt_font" style="margin-left:110px;">폰별 등록정보</div></td>
+										<td class="x_font" style="width:10%;background-color:#CCC"><a href="javascript:void(0)" onclick="order_sort(sub_4_form,'memo',sub_4_form.order_status.value)">소유자명<? if($_REQUEST['order_name']=="memo"){echo $_REQUEST['order_status']=="desc"?'▼':'▲';}else{ echo '▼'; }?></a></td>
+										<td class="x_font" style="width:7%;background-color:#CCC"><a href="javascript:void(0)" onclick="order_sort(sub_4_form,'memo2',sub_4_form.order_status.value)">통신사<? if($_REQUEST['order_name']=="memo2"){echo $_REQUEST['order_status']=="desc"?'▼':'▲';}else{ echo '▼'; }?></a></td>
 										<td class="x_font" style="width:7%;background-color:#CFF;">최대발송건<div class="xt_font" style="margin-left:60px;">폰별 문자발송 설정</div></td>
-										<td class="x_font" style="width:7%;background-color:#CFF;"><a href="javascript:void(0)" onclick="order_sort(sub_4_form,'gl_cnt',sub_4_form.order_status.value)">개인문자<? if($_REQUEST[order_name]=="gl_cnt"){echo $_REQUEST[order_status]=="desc"?'▼':'▲';}else{ echo '▼'; }?></a></td>                                    
-										<td class="x_font" style="width:6%;background-color:#CFF;"><a href="javascript:void(0)" onclick="order_sort(sub_4_form,'cnt1',sub_4_form.order_status.value)">횟수1<? if($_REQUEST[order_name]=="cnt1"){echo $_REQUEST[order_status]=="desc"?'▼':'▲';}else{ echo '▼'; }?></a></td>
-										<td class="x_font" style="width:6%;background-color:#CFF;"><a href="javascript:void(0)" onclick="order_sort(sub_4_form,'cnt2',sub_4_form.order_status.value)">횟수2<? if($_REQUEST[order_name]=="cnt2"){echo $_REQUEST[order_status]=="desc"?'▼':'▲';}else{ echo '▼'; }?></a></td>
-										<td class="d_font" style="width:6%;background-color:#FF9;"><a href="javascript:void(0)" onclick="order_sort(sub_4_form,'user_cnt',sub_4_form.order_status.value)">이번<br />발송<? if($_REQUEST[order_name]=="user_cnt"){echo $_REQUEST[order_status]=="desc"?'▼':'▲';}else{ echo '▼'; }?></a></td>
+										<td class="x_font" style="width:7%;background-color:#CFF;"><a href="javascript:void(0)" onclick="order_sort(sub_4_form,'gl_cnt',sub_4_form.order_status.value)">개인문자<? if($_REQUEST['order_name']=="gl_cnt"){echo $_REQUEST['order_status']=="desc"?'▼':'▲';}else{ echo '▼'; }?></a></td>                                    
+										<td class="x_font" style="width:6%;background-color:#CFF;"><a href="javascript:void(0)" onclick="order_sort(sub_4_form,'cnt1',sub_4_form.order_status.value)">횟수1<? if($_REQUEST['order_name']=="cnt1"){echo $_REQUEST['order_status']=="desc"?'▼':'▲';}else{ echo '▼'; }?></a></td>
+										<td class="x_font" style="width:6%;background-color:#CFF;"><a href="javascript:void(0)" onclick="order_sort(sub_4_form,'cnt2',sub_4_form.order_status.value)">횟수2<? if($_REQUEST['order_name']=="cnt2"){echo $_REQUEST['order_status']=="desc"?'▼':'▲';}else{ echo '▼'; }?></a></td>
+										<td class="d_font" style="width:6%;background-color:#FF9;"><a href="javascript:void(0)" onclick="order_sort(sub_4_form,'user_cnt',sub_4_form.order_status.value)">이번<br />발송<? if($_REQUEST['order_name']=="user_cnt"){echo $_REQUEST['order_status']=="desc"?'▼':'▲';}else{ echo '▼'; }?></a></td>
 										<td class="x_font" style="width:7%;">오늘발송<div class="xt_font" style="margin-left:30px;">폰별 문자발송 결과</div></td>
 										<td class="x_font" style="width:7%;">이달발송</td>
 										<td class="x_font" style="width:7%;">수신처</td>
@@ -274,7 +274,7 @@ $(function(){
 											$sql_ssh="select recv_num from Gn_MMS where send_num='$row[sendnum]' and up_date like '$date_month%' group by(recv_num)";
 											$resul_ssh=mysqli_query($self_con,$sql_ssh);
 											while($row_ssh=mysqli_fetch_array($resul_ssh)){
-												$ssh_arr=array_unique(explode(",",$row_ssh[recv_num]));
+												$ssh_arr=array_unique(explode(",",$row_ssh['recv_num']));
 												sort($ssh_arr);
 												$ssh_cnt+=count($ssh_arr);	
 											}
@@ -285,7 +285,7 @@ $(function(){
 										</td>
 										<td><span id='btn_<?=$row[sendnum]?>' class="btn_option_red">체크전</span></td>
 										<td><?=$row[sendnum]?></td>
-										<td><input type="text" name="memo" value="<?=$row[memo]?>" /></td>
+										<td><input type="text" name="memo" value="<?=$row['memo']?>" /></td>
 										<td>
 											<select name="memo2" onchange="ssc_show('<?=$i?>',this.value)">
 												<option value="">선택하세요</option>
@@ -298,9 +298,9 @@ $(function(){
 										</td>
 										<td><span class="max_cnt_c"><?=$row[max_cnt]?></span><input type="hidden" name="max_cnt" value="<?=$row[max_cnt]?>" /></td>
 										<td><input type="text" name="gl_cnt" value="<?=$row[gl_cnt]?>" onkeyup="jiajian_oo('<?=$i?>')" /></td>                                    
-										<td><?=$row[cnt1]?>/10 <input type="hidden" name="cnt1" value="<?=$row[cnt1]?>" /></td>
-										<td><?=$row[cnt2]?>/20 <input type="hidden" name="cnt2" value="<?=$row[cnt2]?>" /></td>
-										<td><input type="text" name="user_cnt" <?=$row[cnt1]==10 && $row[cnt2]==20?"disabled":""?> value="<?=$row[user_cnt]?>" onkeyup="jiajian_oo_1('<?=$i?>','<?=$today_cnt_1?>')" /></td>
+										<td><?=$row['cnt1']?>/10 <input type="hidden" name="cnt1" value="<?=$row['cnt1']?>" /></td>
+										<td><?=$row['cnt2']?>/20 <input type="hidden" name="cnt2" value="<?=$row['cnt2']?>" /></td>
+										<td><input type="text" name="user_cnt" <?=$row['cnt1']==10 && $row['cnt2']==20?"disabled":""?> value="<?=$row['user_cnt']?>" onkeyup="jiajian_oo_1('<?=$i?>','<?=$today_cnt_1?>')" /></td>
 										<td><?=$today_cnt_1?></td>
 										<td><?=$month_cnt_1?></td>
 										<td><?=$ssh_cnt?>/<span class="agency_c"><?=$agency_arr[$row[memo2]]?></span></td>
@@ -335,14 +335,14 @@ $(function(){
                             <table class="list_table" width="100%" border="0" cellspacing="0" cellpadding="0">
                                 <tr>
                                     <td style="text-align:left"><label><input type="checkbox" onclick="check_all(this,'seq[]')"  />번호</label></td>
-                                    <td><a href="javascript:void(0)" onclick="order_sort(sub_4_form,'memo',sub_4_form.order_status.value)">소유자명<? if($_REQUEST[order_name]=="memo"){echo $_REQUEST[order_status]=="desc"?'▼':'▲';}else{ echo '▼'; }?></a></td>
-                                    <td><a href="javascript:void(0)" onclick="order_sort(sub_4_form,'sendnum',sub_4_form.order_status.value)">휴대폰 번호<? if($_REQUEST[order_name]=="sendnum"){echo $_REQUEST[order_status]=="desc"?'▼':'▲';}else{ echo '▼'; }?></a></td>
-                                    <td><a href="javascript:void(0)" onclick="order_sort(sub_4_form,'reg_date',sub_4_form.order_status.value)">등록일시<? if($_REQUEST[order_name]=="reg_date"){echo $_REQUEST[order_status]=="desc"?'▼':'▲';}else{ echo '▼'; }?></a></td>
-                                    <td><a href="javascript:void(0)" onclick="order_sort(sub_4_form,'memo2',sub_4_form.order_status.value)">통신사<? if($_REQUEST[order_name]=="memo2"){echo $_REQUEST[order_status]=="desc"?'▼':'▲';}else{ echo '▼'; }?></a></td>
+                                    <td><a href="javascript:void(0)" onclick="order_sort(sub_4_form,'memo',sub_4_form.order_status.value)">소유자명<? if($_REQUEST['order_name']=="memo"){echo $_REQUEST['order_status']=="desc"?'▼':'▲';}else{ echo '▼'; }?></a></td>
+                                    <td><a href="javascript:void(0)" onclick="order_sort(sub_4_form,'sendnum',sub_4_form.order_status.value)">휴대폰 번호<? if($_REQUEST['order_name']=="sendnum"){echo $_REQUEST['order_status']=="desc"?'▼':'▲';}else{ echo '▼'; }?></a></td>
+                                    <td><a href="javascript:void(0)" onclick="order_sort(sub_4_form,'reg_date',sub_4_form.order_status.value)">등록일시<? if($_REQUEST['order_name']=="reg_date"){echo $_REQUEST['order_status']=="desc"?'▼':'▲';}else{ echo '▼'; }?></a></td>
+                                    <td><a href="javascript:void(0)" onclick="order_sort(sub_4_form,'memo2',sub_4_form.order_status.value)">통신사<? if($_REQUEST['order_name']=="memo2"){echo $_REQUEST['order_status']=="desc"?'▼':'▲';}else{ echo '▼'; }?></a></td>
                                     <td>DB유무</td>                                    
                                     <td>기종</td>
                                     <td>메모사항</td>
-									<td><a href="javascript:void(0)" onclick="order_sort(sub_4_form,'end_date',sub_4_form.order_status.value)">사용완료시간<? if($_REQUEST[order_name]=="end_date"){echo $_REQUEST[order_status]=="desc"?'▼':'▲';}else{ echo '▼'; }?></a>(<a href="javascript:void(0)" onclick="order_sort(sub_4_form,'end_status',sub_4_form.order_status.value)">상태<? if($_REQUEST[order_name]=="end_status"){echo $_REQUEST[order_status]=="desc"?'▼':'▲';}else{ echo '▼'; }?></a>)</td>                                                                        
+									<td><a href="javascript:void(0)" onclick="order_sort(sub_4_form,'end_date',sub_4_form.order_status.value)">사용완료시간<? if($_REQUEST['order_name']=="end_date"){echo $_REQUEST['order_status']=="desc"?'▼':'▲';}else{ echo '▼'; }?></a>(<a href="javascript:void(0)" onclick="order_sort(sub_4_form,'end_status',sub_4_form.order_status.value)">상태<? if($_REQUEST['order_name']=="end_status"){echo $_REQUEST['order_status']=="desc"?'▼':'▲';}else{ echo '▼'; }?></a>)</td>                                                                        
                                 </tr>
 							<?if($intRowCount){
 								while($row=mysqli_fetch_array($result)){
@@ -352,11 +352,11 @@ $(function(){
 							?>
                                 <tr>
                                     <td style="width:5%;text-align:left;"><label><input type="checkbox" name="seq[]" value="<?=$row[sendnum]?>" /><?=$sort_no?></label></td>
-                                    <td style="width:10%;"><?=$row[memo]?></td>
+                                    <td style="width:10%;"><?=$row['memo']?></td>
                                     <td style="width:10%;"><?=$row[sendnum]?></td>
                                     <td style="width:10%;"><?=substr($row[reg_date],0,10)?></td>
                                     <td style="width:10%;"><?=$row[memo2]?></td>
-                                    <td style="width:5%;">(<?=$row_db[cnt]?>)</td>                                    
+                                    <td style="width:5%;">(<?=$row_db['cnt']?>)</td>                                    
                                     <td style="width:10%;"><input type="text" name="device" value="<?=$row[device]?>" /></td>
                                     <td style="width:23%;"><input type="text" name="memo3" value="<?=$row[memo3]?>" /></td>
 									<td style="width:17%;font-size:12px;"><?=$row[end_status]!="M"?substr($row[end_date],0,10):""?> (<?=$pay_phone_status[$row[end_status]]?>)</td>                                    
@@ -599,35 +599,35 @@ $(function(){
 									</div>
 									<div style="margin-bottom:5px;margin-top:5px;">
 									<?
-										$sql_serch=" mem_id ='$_SESSION[one_member_id]' ";
+										$sql_serch=" mem_id ='{$_SESSION['one_member_id']}' ";
 										if($_REQUEST[group_name])
 											$sql_serch.=" and grp like '%$_REQUEST[group_name]%' ";
 										$sql="select count(idx) as cnt from Gn_MMS_Group where $sql_serch ";
 										$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 										$row=mysqli_fetch_array($result);
-										$intRowCount=$row[cnt];
-										if (!$_POST[lno]) 
+										$intRowCount=$row['cnt'];
+										if (!$_POST['lno']) 
 											$intPageSize =15;
 										else 
-											$intPageSize = $_POST[lno];				
-										if($_POST[page]){
-											$page=(int)$_POST[page];
+											$intPageSize = $_POST['lno'];				
+										if($_POST['page']){
+											$page=(int)$_POST['page'];
 											$sort_no=$intRowCount-($intPageSize*$page-$intPageSize); 
 										}else{
 											$page=1;
 											$sort_no=$intRowCount;
 										}
-										if($_POST[page2])
-											$page2=(int)$_POST[page2];
+										if($_POST['page2'])
+											$page2=(int)$_POST['page2'];
 										else
 											$page2=1;
 										$int=($page-1)*$intPageSize;
-										if($_REQUEST[order_status])
-											$order_status=$_REQUEST[order_status];
+										if($_REQUEST['order_status'])
+											$order_status=$_REQUEST['order_status'];
 										else
 											$order_status="desc"; 
-										if($_REQUEST[order_name])
-											$order_name=$_REQUEST[order_name];
+										if($_REQUEST['order_name'])
+											$order_name=$_REQUEST['order_name'];
 										else
 											$order_name="idx";
 										$intPageCount=(int)(($intRowCount+$intPageSize-1)/$intPageSize);     
@@ -637,9 +637,9 @@ $(function(){
 										<table class="list_table" width="100%" border="0" cellspacing="0" cellpadding="0">
 											<tr>
 												<td style="width:15%;"><label><input type="checkbox" onclick="check_all(this,'chk');group_choice()" />선택</label></td>
-												<td style="width:40%;"><a href="javascript:void(0)" onclick="order_sort(sub_4_form,'grp',sub_4_form.order_status.value)">그룹명<? if($_REQUEST[order_name]=="grp"){echo $_REQUEST[order_status]=="desc"?'▼':'▲';}else{ echo '▼'; }?></a></td>
-												<td style="width:20%;"><a href="javascript:void(0)" onclick="order_sort(sub_4_form,'reg_date',sub_4_form.order_status.value)">날짜<? if($_REQUEST[order_name]=="reg_date"){echo $_REQUEST[order_status]=="desc"?'▼':'▲';}else{ echo '▼'; }?></a></td>
-												<td style="width:15%;"><a href="javascript:void(0)" onclick="order_sort(sub_4_form,'count',sub_4_form.order_status.value)">인원</a><? if($_REQUEST[order_name]=="count"){echo $_REQUEST[order_status]=="desc"?'▼':'▲';}else{ echo '▼'; }?></td>
+												<td style="width:40%;"><a href="javascript:void(0)" onclick="order_sort(sub_4_form,'grp',sub_4_form.order_status.value)">그룹명<? if($_REQUEST['order_name']=="grp"){echo $_REQUEST['order_status']=="desc"?'▼':'▲';}else{ echo '▼'; }?></a></td>
+												<td style="width:20%;"><a href="javascript:void(0)" onclick="order_sort(sub_4_form,'reg_date',sub_4_form.order_status.value)">날짜<? if($_REQUEST['order_name']=="reg_date"){echo $_REQUEST['order_status']=="desc"?'▼':'▲';}else{ echo '▼'; }?></a></td>
+												<td style="width:15%;"><a href="javascript:void(0)" onclick="order_sort(sub_4_form,'count',sub_4_form.order_status.value)">인원</a><? if($_REQUEST['order_name']=="count"){echo $_REQUEST['order_status']=="desc"?'▼':'▲';}else{ echo '▼'; }?></td>
 												<td style="width:10%;">엑셀</td>
 											</tr>
 											<?if($intRowCount){
@@ -695,7 +695,7 @@ $(function(){
 								<div class="div_280">
 									<div style="margin:20px 0 20px 0">
 									<?
-									$sql="select * from Gn_MMS_Number where mem_id='$_SESSION[one_member_id]' and user_cnt>0  order by user_cnt desc , idx desc";
+									$sql="select * from Gn_MMS_Number where mem_id='{$_SESSION['one_member_id']}' and user_cnt>0  order by user_cnt desc , idx desc";
 									$resul=mysqli_query($self_con,$sql);
 									$intRowCount=mysqli_num_rows($resul);
 									?>
@@ -722,21 +722,21 @@ $(function(){
 													$send_status="<span style='color:red'>불가</span>";
 												}else{
 													$is_send=true;	
-													$today_send_total+=$row[user_cnt];
+													$today_send_total+=$row['user_cnt'];
 													$send_status="가능";
 												}
 									?>
 											<tr>
 												<td style="text-align:left;">
 													<label><input type="checkbox" name="go_num" value="<?=$row[sendnum]?>" <?=!$is_send?"disabled":""?> onclick="send_sj_fun()" /><?=$row[sendnum]?></label>
-													<input type="hidden" name="go_user_cnt" value="<?=$row[user_cnt]?>" />
+													<input type="hidden" name="go_user_cnt" value="<?=$row['user_cnt']?>" />
 													<input type="hidden" name="go_max_cnt" value="<?=$row[max_cnt]?>" />
 													<input type="hidden" name="go_memo2" value="<?=$row[memo2]?>" />
-													<input type="hidden" name="go_cnt1" value="<?=$row[cnt1]?>" />
-													<input type="hidden" name="go_cnt2" value="<?=$row[cnt2]?>" />                                                                                        
+													<input type="hidden" name="go_cnt1" value="<?=$row['cnt1']?>" />
+													<input type="hidden" name="go_cnt2" value="<?=$row['cnt2']?>" />                                                                                        
 												</td>
-												<td><?=$row[memo]?></td>
-												<td><?=$row[user_cnt]?></td>
+												<td><?=$row['memo']?></td>
+												<td><?=$row['user_cnt']?></td>
 												<td><?=$send_status?></td>
 											</tr>
 											<?}?>
@@ -762,14 +762,14 @@ $(function(){
 					?>
 						<div class="sub_4_3_t1">
 							<div class="sub_4_1_t3">
-								<a href="sub_4.php?status=3&status2=1" style="color:<?=$_REQUEST[status2]==1?"#000":""?>">LMS 문자저장</a> &nbsp;|&nbsp; 
-								<a href="sub_4.php?status=3&status2=2" style="color:<?=$_REQUEST[status2]==2?"#000":""?>">포토 문자 저장</a> &nbsp;|&nbsp; 
-								<a href="sub_4.php?status=3&status2=3" style="color:<?=$_REQUEST[status2]==3?"#000":""?>">원북 문자 저장</a>
+								<a href="sub_4.php?status=3&status2=1" style="color:<?=$_REQUEST['status2']==1?"#000":""?>">LMS 문자저장</a> &nbsp;|&nbsp; 
+								<a href="sub_4.php?status=3&status2=2" style="color:<?=$_REQUEST['status2']==2?"#000":""?>">포토 문자 저장</a> &nbsp;|&nbsp; 
+								<a href="sub_4.php?status=3&status2=3" style="color:<?=$_REQUEST['status2']==3?"#000":""?>">원북 문자 저장</a>
 							</div>
                         <?
-						switch($_REQUEST[status2]){
+						switch($_REQUEST['status2']){
 							case 1:
-								$sql_serch=" mem_id ='$_SESSION[one_member_id]' and msg_type='A' ";
+								$sql_serch=" mem_id ='{$_SESSION['one_member_id']}' and msg_type='A' ";
 								if($_REQUEST[lms_text]){
 									if($_REQUEST[lms_select])
 										$sql_serch.=" and {$_REQUEST[lms_select]} like '$_REQUEST[lms_text]%' ";
@@ -779,26 +779,26 @@ $(function(){
 								$sql="select count(idx) as cnt from Gn_MMS_Message where $sql_serch ";
 								$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 								$row=mysqli_fetch_array($result);
-								$intRowCount=$row[cnt];
-								if($_POST[page])
-									$page=(int)$_POST[page];
+								$intRowCount=$row['cnt'];
+								if($_POST['page'])
+									$page=(int)$_POST['page'];
 								else
 									$page=1;
-								if($_POST[page2])
-									$page2=(int)$_POST[page2];
+								if($_POST['page2'])
+									$page2=(int)$_POST['page2'];
 								else
 									$page2=1;
-								if (!$_POST[lno]) 
+								if (!$_POST['lno']) 
 									$intPageSize =8;
 								else 
-									$intPageSize = $_POST[lno];
+									$intPageSize = $_POST['lno'];
 								$int=($page-1)*$intPageSize;
-								if($_REQUEST[order_status])
-									$order_status=$_REQUEST[order_status];
+								if($_REQUEST['order_status'])
+									$order_status=$_REQUEST['order_status'];
 								else
 									$order_status="desc"; 
-								if($_REQUEST[order_name])
-									$order_name=$_REQUEST[order_name];
+								if($_REQUEST['order_name'])
+									$order_name=$_REQUEST['order_name'];
 								else
 									$order_name="idx";
 								$intPageCount=(int)(($intRowCount+$intPageSize-1)/$intPageSize);     
@@ -879,7 +879,7 @@ $(function(){
                         	<?
 								break;
 							case 2:
-									$sql_serch=" mem_id ='$_SESSION[one_member_id]' and msg_type='B' ";
+									$sql_serch=" mem_id ='{$_SESSION['one_member_id']}' and msg_type='B' ";
 									if($_REQUEST[lms_text]){
 										if($_REQUEST[lms_select])
 											$sql_serch.=" and {$_REQUEST[lms_select]} like '$_REQUEST[lms_text]%' ";
@@ -889,26 +889,26 @@ $(function(){
 									$sql="select count(idx) as cnt from Gn_MMS_Message where $sql_serch ";
 									$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 									$row=mysqli_fetch_array($result);
-									$intRowCount=$row[cnt];
-									if($_POST[page])
-										$page=(int)$_POST[page];
+									$intRowCount=$row['cnt'];
+									if($_POST['page'])
+										$page=(int)$_POST['page'];
 									else
 										$page=1;
-									if($_POST[page2])
-										$page2=(int)$_POST[page2];
+									if($_POST['page2'])
+										$page2=(int)$_POST['page2'];
 									else
 										$page2=1;
-									if (!$_POST[lno]) 
+									if (!$_POST['lno']) 
 										$intPageSize =8;
 									else 
-										$intPageSize = $_POST[lno];
+										$intPageSize = $_POST['lno'];
 									$int=($page-1)*$intPageSize;
-									if($_REQUEST[order_status])
-										$order_status=$_REQUEST[order_status];
+									if($_REQUEST['order_status'])
+										$order_status=$_REQUEST['order_status'];
 									else
 										$order_status="desc"; 
-									if($_REQUEST[order_name])
-										$order_name=$_REQUEST[order_name];
+									if($_REQUEST['order_name'])
+										$order_name=$_REQUEST['order_name'];
 									else
 										$order_name="idx";
 									$intPageCount=(int)(($intRowCount+$intPageSize-1)/$intPageSize);     
@@ -990,7 +990,7 @@ $(function(){
                         	<?
 							break;
 							case 3:
-								$sql_serch=" mem_id ='$_SESSION[one_member_id]' and msg_type='C' ";
+								$sql_serch=" mem_id ='{$_SESSION['one_member_id']}' and msg_type='C' ";
 								if($_REQUEST[lms_text])
 								{
 									if($_REQUEST[lms_select])
@@ -1001,14 +1001,14 @@ $(function(){
 								$sql="select count(idx) as cnt from Gn_MMS_Message where $sql_serch ";
 								$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 								$row=mysqli_fetch_array($result);
-								$intRowCount=$row[cnt];
-								if (!$_POST[lno]) 
+								$intRowCount=$row['cnt'];
+								if (!$_POST['lno']) 
 									$intPageSize =20;
 								else 
-								   $intPageSize = $_POST[lno];				
-								if($_POST[page])
+								   $intPageSize = $_POST['lno'];				
+								if($_POST['page'])
 								{
-								  $page=(int)$_POST[page];
+								  $page=(int)$_POST['page'];
 								  $sort_no=$intRowCount-($intPageSize*$page-$intPageSize); 
 								}
 								else
@@ -1016,17 +1016,17 @@ $(function(){
 								  $page=1;
 								  $sort_no=$intRowCount;
 								}
-								if($_POST[page2])
-								$page2=(int)$_POST[page2];
+								if($_POST['page2'])
+								$page2=(int)$_POST['page2'];
 								else
 								$page2=1;
 								$int=($page-1)*$intPageSize;
-								if($_REQUEST[order_status])
-								$order_status=$_REQUEST[order_status];
+								if($_REQUEST['order_status'])
+								$order_status=$_REQUEST['order_status'];
 								else
 								$order_status="desc"; 
-								if($_REQUEST[order_name])
-								$order_name=$_REQUEST[order_name];
+								if($_REQUEST['order_name'])
+								$order_name=$_REQUEST['order_name'];
 								else
 								$order_name="idx";
 								$intPageCount=(int)(($intRowCount+$intPageSize-1)/$intPageSize);     
@@ -1109,14 +1109,14 @@ $(function(){
                     <?
 				break;
 				case 4:
-				    $sql_serch= " mem_id ='$_SESSION[one_member_id]' ";
-					if($_REQUEST[status2]==1){ //예약내역
+				    $sql_serch= " mem_id ='{$_SESSION['one_member_id']}' ";
+					if($_REQUEST['status2']==1){ //예약내역
 					    $sql_serch .= " and title = 'app_check_process'";
 					    $sql_table = " Gn_MMS ";
-					} else if($_REQUEST[status2]==2){ //예약내역
+					} else if($_REQUEST['status2']==2){ //예약내역
 					    $sql_serch .= " and title != 'app_check_process' and title != '폰문자인증'";
 					    $sql_table = " Gn_MMS ";
-					}else if($_REQUEST[status2]==10){
+					}else if($_REQUEST['status2']==10){
 						$sql_serch .= " and type = 10";
 						$sql_table = " Gn_MMS ";
 					}else{
@@ -1139,14 +1139,14 @@ $(function(){
 					$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 					$row=mysqli_fetch_array($result);
 					mysqli_free_result($result);
-					$intRowCount=$row[cnt];
-					if (!$_POST[lno]) 
+					$intRowCount=$row['cnt'];
+					if (!$_POST['lno']) 
 					$intPageSize =20;
 					else 
-					$intPageSize = $_POST[lno];					
-					if($_POST[page])
+					$intPageSize = $_POST['lno'];					
+					if($_POST['page'])
 					{
-					  $page=(int)$_POST[page];
+					  $page=(int)$_POST['page'];
 					  $sort_no=$intRowCount-($intPageSize*$page-$intPageSize); 
 					}
 					else
@@ -1154,17 +1154,17 @@ $(function(){
 					  $page=1;
 					  $sort_no=$intRowCount;
 					}
-					if($_POST[page2])
-					$page2=(int)$_POST[page2];
+					if($_POST['page2'])
+					$page2=(int)$_POST['page2'];
 					else
 					$page2=1;
 					$int=($page-1)*$intPageSize;
-					if($_REQUEST[order_status])
-					$order_status=$_REQUEST[order_status];
+					if($_REQUEST['order_status'])
+					$order_status=$_REQUEST['order_status'];
 					else
 					$order_status="desc"; 
-					if($_REQUEST[order_name])
-					$order_name=$_REQUEST[order_name];
+					if($_REQUEST['order_name'])
+					$order_name=$_REQUEST['order_name'];
 					else
 					$order_name="reg_date";
 					$intPageCount=(int)(($intRowCount+$intPageSize-1)/$intPageSize);     
@@ -1214,17 +1214,17 @@ $(function(){
 					
 					<div class="sub_4_4_t1">
                     <div class="sub_4_4_t2">
-	                	<!--div class="sub_4_1_t3"><a href="sub_4.php?status=4" style="color:<?=$_REQUEST[status2]==''?"#000":""?>">발신내역 확인</a> 
-	                	    <&nbsp;|&nbsp; <a href="sub_4.php?status=4&status2=2" style="color:<?=$_REQUEST[status2]==2?"#000":""?>">예약내역 확인</a></div>-->
+	                	<!--div class="sub_4_1_t3"><a href="sub_4.php?status=4" style="color:<?=$_REQUEST['status2']==''?"#000":""?>">발신내역 확인</a> 
+	                	    <&nbsp;|&nbsp; <a href="sub_4.php?status=4&status2=2" style="color:<?=$_REQUEST['status2']==2?"#000":""?>">예약내역 확인</a></div>-->
 	                	    
                     	<div class="sub_4_1_t3">
-                            <a href="sub_4.php?status=4" style="color:<?=$_REQUEST[status2]==""?"#000":""?>">전체내역</a> &nbsp;|&nbsp; 
-                            <a href="sub_4.php?status=4&status2=1" style="color:<?=$_REQUEST[status2]==1?"#000":""?>">앱체크내역</a> &nbsp;|&nbsp; 
-							<a href="sub_4_return_.php" style="color:<?=$_REQUEST[status2]==2?"#000":""?>">발신/회신문자</a>&nbsp;|&nbsp;
+                            <a href="sub_4.php?status=4" style="color:<?=$_REQUEST['status2']==""?"#000":""?>">전체내역</a> &nbsp;|&nbsp; 
+                            <a href="sub_4.php?status=4&status2=1" style="color:<?=$_REQUEST['status2']==1?"#000":""?>">앱체크내역</a> &nbsp;|&nbsp; 
+							<a href="sub_4_return_.php" style="color:<?=$_REQUEST['status2']==2?"#000":""?>">발신/회신문자</a>&nbsp;|&nbsp;
 							<a href="sub_4_return_.php?chanel=2" style="color:<?=$_REQUEST[chanel]==2?"#000":""?>">스텝문자</a>&nbsp;|&nbsp;
 							<a href="sub_4_return_.php?chanel=4" style="color:<?=$_REQUEST[chanel]==4?"#000":""?>">데일리문자</a>&nbsp;|&nbsp;
 							<a href="sub_4_return_.php?chanel=9" style="color:<?=$_REQUEST[chanel]==9?"#000":""?>">콜백문자</a>&nbsp;|&nbsp; 
-							<a href="sub_4.php?status=4&status2=10" style="color:<?=$_REQUEST[status2]==10?"#000":""?>">폰문자인증내역</a>
+							<a href="sub_4.php?status=4&status2=10" style="color:<?=$_REQUEST['status2']==10?"#000":""?>">폰문자인증내역</a>
                         </div>
 
 	                    <div class="sub_4_4_t2">
@@ -1263,13 +1263,13 @@ $(function(){
 	                                    <td style="width:7%;"><label><input type="checkbox" onclick="check_all(this,'fs_idx');" />번호</label></td>
 	                                    <td style="width:7%;">소유자명</td>
 	                                    <td style="width:10%;">발신번호</td>
-	                                    <td style="width:15%;">수신번호<?=$_REQUEST[status2]==''?"<br />(수신예약시간)":""?></td>
+	                                    <td style="width:15%;">수신번호<?=$_REQUEST['status2']==''?"<br />(수신예약시간)":""?></td>
 	                                    <td style="width:8%;">문자제목</td>
 	                                    <td style="width:12%;">문자내용</td>
-	                                    <?if($_REQUEST[status2]=='2'){?>
+	                                    <?if($_REQUEST['status2']=='2'){?>
 	                                    <td style="width:5%;">상태</td>
 	                                    <?}?>
-	                                    <td style="width:5%;"><?=$_REQUEST[status2]=='2'?"예약일시":"첨부파일"?></td>
+	                                    <td style="width:5%;"><?=$_REQUEST['status2']=='2'?"예약일시":"첨부파일"?></td>
 	                                    <td style="width:8%;">PC전송시간</td>
                                         <td style="width:8%;">발송완료시간</td>
 	                                    <td style="width:8%;">성공/실패</td>
@@ -1285,12 +1285,12 @@ $(function(){
 											$row_s=mysqli_fetch_array($resul_s);
 											mysqli_free_result($resul_s);
 																					    
-											$sql_n="select memo from Gn_MMS_Number where sendnum='$row[send_num]' ";
+											$sql_n="select memo from Gn_MMS_Number where sendnum='{$row['send_num']}' ";
 											$resul_n=mysqli_query($self_con,$sql_n);
 											$row_n=mysqli_fetch_array($resul_n);
 											mysqli_free_result($resul_n);
 											
-											$recv_cnt=explode(",",$row[recv_num]);
+											$recv_cnt=explode(",",$row['recv_num']);
 											
 											
                             				$sql_as="select count(idx) as cnt from Gn_MMS_status where idx='$row[idx]' ";
@@ -1306,7 +1306,7 @@ $(function(){
                             				$sql_sn="select * from Gn_MMS where idx='$row[idx]' ";
                             				$resul_sn=mysqli_query($self_con,$sql_sn);
                             				$row_sn=mysqli_fetch_array($resul_sn);											
-                            				$recv_cnt=explode(",",$row_sn[recv_num]);
+                            				$recv_cnt=explode(",",$row_sn['recv_num']);
                             				
                             				$total_cnt = count($recv_cnt);											
                             				
@@ -1315,17 +1315,17 @@ $(function(){
 
 										<tr>
 											<td><label><input type="checkbox" name="fs_idx" value="<?=$row[idx]?>" /><?=$sort_no?></label></td>
-											<td><?=$row_n[memo]?></td>											
-	                                        <td><?=$row[send_num]?></td>
-											<td style="font-size:12px;"><a href="javascript:void(0)" onclick="show_recv('show_recv_num','<?=$c?>','수신번호')"><?=str_substr($row[recv_num],0,14,'utf-8')?>
-												<?=$row[reservation]?"<br>".$row[reservation]:""?></a> <span style="color:#F00;">(<?=count($recv_cnt)?>)</span><input type="hidden" name="show_recv_num" value="<?=$row[recv_num]?>"/></td>
+											<td><?=$row_n['memo']?></td>											
+	                                        <td><?=$row['send_num']?></td>
+											<td style="font-size:12px;"><a href="javascript:void(0)" onclick="show_recv('show_recv_num','<?=$c?>','수신번호')"><?=str_substr($row['recv_num'],0,14,'utf-8')?>
+												<?=$row[reservation]?"<br>".$row[reservation]:""?></a> <span style="color:#F00;">(<?=count($recv_cnt)?>)</span><input type="hidden" name="show_recv_num" value="<?=$row['recv_num']?>"/></td>
 											<td><a href="javascript:void(0)" onclick="show_recv('show_title','<?=$c?>','문자제목')"><?=str_substr($row[title],0,14,'utf-8')?></a><input type="hidden" name="show_title" value="<?=$row[title]?>"/></td>
-											<td style="font-size:12px;"><a href="javascript:void(0)" onclick="show_recv('show_content','<?=$c?>','문자내용')"><?=str_substr($row[content],0,30,'utf-8')?></a><input type="hidden" name="show_content" value="<?=$row[content]?>"/></td>
-											<?if($_REQUEST[status2]=='2'){?>
-		                                    <td style="width:5%;"><?if($row[up_date]!=''&&$row[result]==0){?>완료<?}elseif($row[up_date]==''&&$row[result]==1){?>대기<?}elseif($row[result]==3){?>실패<?}?></td>
+											<td style="font-size:12px;"><a href="javascript:void(0)" onclick="show_recv('show_content','<?=$c?>','문자내용')"><?=str_substr($row['content'],0,30,'utf-8')?></a><input type="hidden" name="show_content" value="<?=$row['content']?>"/></td>
+											<?if($_REQUEST['status2']=='2'){?>
+		                                    <td style="width:5%;"><?if($row['up_date']!=''&&$row[result]==0){?>완료<?}elseif($row['up_date']==''&&$row[result]==1){?>대기<?}elseif($row[result]==3){?>실패<?}?></td>
 		                                    <?}?>
 											<td>
-											    <?if ($_REQUEST[status2]==2){ echo substr($row[reservation],0,16); }else{?>
+											    <?if ($_REQUEST['status2']==2){ echo substr($row[reservation],0,16); }else{?>
 											    <a href="javascript:void(0)" onclick="show_recv('show_jpg','<?=$c?>','첨부파일')"><?=str_substr($row[jpg],0,20,'utf-8')?></a><input type="hidden" name="show_jpg" value="<?=$row[jpg]?>"/>
 											    <a href="javascript:void(0)" onclick="show_recv('show_jpg1','<?=$c?>','첨부파일')"><?=str_substr($row[jpg1],0,20,'utf-8')?></a><input type="hidden" name="show_jpg1" value="<?=$row[jpg1]?>"/>
 											    <a href="javascript:void(0)" onclick="show_recv('show_jpg2','<?=$c?>','첨부파일')"><?=str_substr($row[jpg2],0,20,'utf-8')?></a><input type="hidden" name="show_jpg2" value="<?=$row[jpg2]?>"/>
@@ -1336,16 +1336,16 @@ $(function(){
 											</td>
 											
 											<td style="font-size:12px;"><?=substr($row[reg_date],0,16)?></td>
-                                            <!--<td style="font-size:12px;"><?=substr($row[up_date],0,16)?></td>-->
+                                            <!--<td style="font-size:12px;"><?=substr($row['up_date'],0,16)?></td>-->
 											<td style="font-size:12px;">
 											    <?if($row_s['status']=="-1") {?>
 											    기본앱아님
 											    <?}else{?>
-											        <?=substr($row_s[regdate],0,16)?>
+											        <?=substr($row_s['regdate'],0,16)?>
 											        <?php 
 											        $reg_date = strtotime($row[reg_date]);
 											        $reg_date_1hour = strtotime("$row[reg_date] +1hours");
-											        if(time() > $reg_date_1hour && $row_s[regdate] == "") {
+											        if(time() > $reg_date_1hour && $row_s['regdate'] == "") {
 											        ?>
 											            <?if($row[reservation]) {?>
     											            <a href="javascript:fs_del_num('<?=$row[idx]?>')">취소가능</a>
@@ -1361,13 +1361,13 @@ $(function(){
 											</td>
                                             <td style="font-size:12px;">
                         					    <?if($success_cnt==0 ){?>
-                        					        <?if(time() > $reg_date_1hour && $row[up_date] == "") {?>
+                        					        <?if(time() > $reg_date_1hour && $row['up_date'] == "") {?>
                             					        <?php if($row[reservation] > date("Y-m-d H:i:s")){?>
                             					        <?}else{?>
                             					            실패
                             					        <?}?>
                         					        <?}else{?>
-                            					        <?if(time() > $reg_date_1hour && $row_s[up_date] == "") {?>
+                            					        <?if(time() > $reg_date_1hour && $row_s['up_date'] == "") {?>
                             					            발송실패
                             					        <?}else{?>
                             					            <?if($row[reservation] < date("Y-m-d H:i:s")) {?>
@@ -1412,7 +1412,7 @@ $(function(){
 	                        <div class="sub_4_4_t5">
 	                        	<div class="div_float_left">&nbsp;</div>
 	                            <div class="div_float_right">
-	                                <?if ($_REQUEST[status2]==''){?><a href="javascript:void(0)" onclick="excel_down('excel_down/fs_down.php?status=1')"><img src="images/sub_button_107.jpg" /></a><?}?>
+	                                <?if ($_REQUEST['status2']==''){?><a href="javascript:void(0)" onclick="excel_down('excel_down/fs_down.php?status=1')"><img src="images/sub_button_107.jpg" /></a><?}?>
 	                                <a href="javascript:void(0)" onclick="fs_del()"><img src="images/sub_button_109.jpg" /></a>
 	                            </div>
 	                            <p style="clear:both;"></p>                                
@@ -1423,24 +1423,24 @@ $(function(){
 					break;
 				case 5:
 				$sql_serch=" 1 ";
-				$sql_serch.=" and mem_id='$_SESSION[one_member_id]' ";
-				if($_REQUEST[status2])
-				$sql_serch.=" and msg_flag='$_REQUEST[status2]' ";							
-				if($_REQUEST[serch_colum] && $_REQUEST[serch_text])
+				$sql_serch.=" and mem_id='{$_SESSION['one_member_id']}' ";
+				if($_REQUEST['status2'])
+				$sql_serch.=" and msg_flag='{$_REQUEST['status2']}' ";							
+				if($_REQUEST['serch_colum'] && $_REQUEST['serch_text'])
 				{
-					$sql_serch.=" and $_REQUEST[serch_colum] like '%$_REQUEST[serch_text]%' ";	
+					$sql_serch.=" and {$_REQUEST['serch_colum']} like '%{$_REQUEST['serch_text']}%' ";	
 				}
 				$sql="select count(seq) as cnt from sm_log where $sql_serch ";
 				$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 				$row=mysqli_fetch_array($result);
-				$intRowCount=$row[cnt];
-				if (!$_POST[lno]) 
+				$intRowCount=$row['cnt'];
+				if (!$_POST['lno']) 
 					$intPageSize =20;
 				else 
-				   $intPageSize = $_POST[lno];				
-				if($_POST[page])
+				   $intPageSize = $_POST['lno'];				
+				if($_POST['page'])
 				{
-				  $page=(int)$_POST[page];
+				  $page=(int)$_POST['page'];
 				  $sort_no=$intRowCount-($intPageSize*$page-$intPageSize); 
 				}
 				else
@@ -1448,17 +1448,17 @@ $(function(){
 				  $page=1;
 				  $sort_no=$intRowCount;
 				}
-				if($_POST[page2])
-				$page2=(int)$_POST[page2];
+				if($_POST['page2'])
+				$page2=(int)$_POST['page2'];
 				else
 				$page2=1;
 				$int=($page-1)*$intPageSize;
-				if($_REQUEST[order_status])
-				$order_status=$_REQUEST[order_status];
+				if($_REQUEST['order_status'])
+				$order_status=$_REQUEST['order_status'];
 				else
 				$order_status="desc"; 
-				if($_REQUEST[order_name])
-				$order_name=$_REQUEST[order_name];
+				if($_REQUEST['order_name'])
+				$order_name=$_REQUEST['order_name'];
 				else
 				$order_name="seq";
 				$intPageCount=(int)(($intRowCount+$intPageSize-1)/$intPageSize);     
@@ -1470,9 +1470,9 @@ $(function(){
 				<div class="sub_4_4_t1">
 					<div class="sub_4_4_t2">
                     <div class="sub_4_1_t3">
-                    <a href="sub_4.php?status=5&status2=3" style="color:<?=$_REQUEST[status2]==3?"#000":""?>">수신불가</a> &nbsp;|&nbsp; 
-                    <a href="sub_4.php?status=5&status2=2" style="color:<?=$_REQUEST[status2]==2?"#000":""?>">없는번호</a> &nbsp;|&nbsp;
-                    <a href="sub_4.php?status=5&status2=1" style="color:<?=$_REQUEST[status2]==1?"#000":""?>">번호변경</a> &nbsp;|&nbsp;
+                    <a href="sub_4.php?status=5&status2=3" style="color:<?=$_REQUEST['status2']==3?"#000":""?>">수신불가</a> &nbsp;|&nbsp; 
+                    <a href="sub_4.php?status=5&status2=2" style="color:<?=$_REQUEST['status2']==2?"#000":""?>">없는번호</a> &nbsp;|&nbsp;
+                    <a href="sub_4.php?status=5&status2=1" style="color:<?=$_REQUEST['status2']==1?"#000":""?>">번호변경</a> &nbsp;|&nbsp;
                     
                     
                     
@@ -1483,17 +1483,17 @@ $(function(){
 									$select_arr=array("ori_num"=>"수신번호","dest"=>"발신번호","msg_text"=>"문자내용");
 									foreach($select_arr as $key=>$v)
 									{
-										$selected=$_REQUEST[serch_colum]==$key?"selected":"";
+										$selected=$_REQUEST['serch_colum']==$key?"selected":"";
 										?>
 										<option value="<?=$key?>" <?=$selected?> ><?=$v?></option>
 										<?	
 									}
 								?>
 							</select>
-							<input type="text" name="serch_text" value="<?=$_REQUEST[serch_text]?>" />
+							<input type="text" name="serch_text" value="<?=$_REQUEST['serch_text']?>" />
 							<a href="javascript:void(0)" onclick="sub_4_form.submit();"><img src="images/sub_button_103.jpg" /></a>
                                         <?
-										if($_REQUEST[status2]==1)
+										if($_REQUEST['status2']==1)
 										{
 										?>                                    
                                     <!--<a href="javascript:void(0)" onclick="fugai_num('','cho')" class="a_btn_2">선택 덮기</a>-->
@@ -1502,7 +1502,7 @@ $(function(){
 										}
 										?>
                                         <?
-										if($_REQUEST[status2]==2)
+										if($_REQUEST['status2']==2)
 										{
 										?>                                    
 										<a href="javascript:void(0)" onclick="deleteAddress()" class="a_btn_2">주소록에서 삭제</a>
@@ -1517,11 +1517,11 @@ $(function(){
                                     <td style="width:10%;">발신번호</td>
 									<td style="width:8%;">소유자명</td>
                                     <td style="width:12%">수신일시</td>                                                                        
-									<td style="width:<?= $_REQUEST[status2]==1?"29%":"46%"?>;">문자내용</td>                                                                        
+									<td style="width:<?= $_REQUEST['status2']==1?"29%":"46%"?>;">문자내용</td>                                                                        
 									<td style="width:10%">수신번호</td>
-                                        <? if($_REQUEST[status2]==1){?><td style="width:10%">변경된번호</td><? }?>                                     
+                                        <? if($_REQUEST['status2']==1){?><td style="width:10%">변경된번호</td><? }?>                                     
                                      <td style="width:7%;">그룹명</td>
-                                        <? if($_REQUEST[status2]==1){?><td style="width:8%"></td><? }?>
+                                        <? if($_REQUEST['status2']==1){?><td style="width:8%"></td><? }?>
 								</tr>
 								<?
 								if($intRowCount)
@@ -1535,13 +1535,13 @@ $(function(){
 								<tr>
 									<td><label><input type="checkbox" name="idx_box" value="<?=$row[seq]?>" /><?=$sort_no?></label></td>
                                         <td><?=$row[dest]?></td>                                    
-                                        <td><?=$row_n[memo]?></td>
+                                        <td><?=$row_n['memo']?></td>
                                        	<td style="font-size:12px;"><?=substr($row[reservation_time],0,16)?></td>                                      
                                         <td><?=$row[msg_text]?></td>
                                         <td><?=$row[ori_num]?></td>
-                                        <? if($_REQUEST[status2]==1){?><td><?=$row[chg_num]?></td><? }?>
+                                        <? if($_REQUEST['status2']==1){?><td><?=$row[chg_num]?></td><? }?>
                                         <td><?=$row[grp_name]?></td>
-                                        <? if($_REQUEST[status2]==1){?>                                           
+                                        <? if($_REQUEST['status2']==1){?>                                           
 										<td><? if($row[chg_num]){?><a href="javascript:void(0)" onclick="fugai_num('<?=$row[seq]?>','cho')" class="a_btn_2">덮어쓰기</a><? }?></td>
                                         <? }?>                                    
 								</tr>
@@ -1573,7 +1573,7 @@ $(function(){
 										새로 추가:
 										<input type="text" name="log_dest" style="width:auto" placeholder="보낸번호" itemname='보낸번호' required />
  										<input type="text" name="log_ori" style="width:auto" placeholder="수신번호" itemname='수신번호' required />                                       
-										<input type="button" value="저장" onclick="log_add(sub_4_form,'0','<?=$_REQUEST[status2]?>')"  />
+										<input type="button" value="저장" onclick="log_add(sub_4_form,'0','<?=$_REQUEST['status2']?>')"  />
                                         </div>
 									</td>            
 								  </tr>
@@ -1592,10 +1592,10 @@ $(function(){
 				<?
 				break;
 				case 6:
-					$sql_serch=" mem_id ='$_SESSION[one_member_id]' ";
-					if($_REQUEST[serch_colum] && $_REQUEST[serch_text])
+					$sql_serch=" mem_id ='{$_SESSION['one_member_id']}' ";
+					if($_REQUEST['serch_colum'] && $_REQUEST['serch_text'])
 					{
-						$sql_serch.=" and $_REQUEST[serch_colum] like '$_REQUEST[serch_text]%' ";	
+						$sql_serch.=" and {$_REQUEST['serch_colum']} like '{$_REQUEST['serch_text']}%' ";	
 					}
 					if($_REQUEST[serch_chanel]){
 						$sql_serch.=" and chanel_type = $_REQUEST[serch_chanel] ";	
@@ -1603,14 +1603,14 @@ $(function(){
 					$sql="select count(idx) as cnt from Gn_MMS_Deny where $sql_serch ";
 					$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 					$row=mysqli_fetch_array($result);
-					$intRowCount=$row[cnt];
-					if (!$_POST[lno]) 
+					$intRowCount=$row['cnt'];
+					if (!$_POST['lno']) 
 						$intPageSize =20;
 					else 
-					   $intPageSize = $_POST[lno];				
-					if($_POST[page])
+					   $intPageSize = $_POST['lno'];				
+					if($_POST['page'])
 					{
-					  $page=(int)$_POST[page];
+					  $page=(int)$_POST['page'];
 					  $sort_no=$intRowCount-($intPageSize*$page-$intPageSize); 
 					}
 					else
@@ -1618,17 +1618,17 @@ $(function(){
 					  $page=1;
 					  $sort_no=$intRowCount;
 					}
-					if($_POST[page2])
-					$page2=(int)$_POST[page2];
+					if($_POST['page2'])
+					$page2=(int)$_POST['page2'];
 					else
 					$page2=1;
 					$int=($page-1)*$intPageSize;
-					if($_REQUEST[order_status])
-					$order_status=$_REQUEST[order_status];
+					if($_REQUEST['order_status'])
+					$order_status=$_REQUEST['order_status'];
 					else
 					$order_status="desc"; 
-					if($_REQUEST[order_name])
-					$order_name=$_REQUEST[order_name];
+					if($_REQUEST['order_name'])
+					$order_name=$_REQUEST['order_name'];
 					else
 					$order_name="idx";
 					$intPageCount=(int)(($intRowCount+$intPageSize-1)/$intPageSize);     
@@ -1638,7 +1638,7 @@ $(function(){
 					$result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 					
 					$today_date=date("Y-m-d");
-					$sql_today="select count(idx) as today_cnt from Gn_MMS_Deny where mem_id='$_SESSION[one_member_id]' and reg_date like '$today_date%' ";
+					$sql_today="select count(idx) as today_cnt from Gn_MMS_Deny where mem_id='{$_SESSION['one_member_id']}' and reg_date like '$today_date%' ";
 					$resul_today=mysqli_query($self_con,$sql_today);
 					$row_today=mysqli_fetch_array($resul_today);
 					?>                    
@@ -1667,7 +1667,7 @@ $(function(){
 										$select_arr=array("send_num"=>"발신번호","recv_num"=>"수신번호");
 										foreach($select_arr as $key=>$v)
 										{
-											$selected=$_REQUEST[serch_colum]==$key?"selected":"";
+											$selected=$_REQUEST['serch_colum']==$key?"selected":"";
 											?>
                                             <option value="<?=$key?>" <?=$selected?> ><?=$v?></option>
                                             <?	
@@ -1687,7 +1687,7 @@ $(function(){
 										}
 									?>
 								</select>
-                                <input type="text" name="serch_text" value="<?=$_REQUEST[serch_text]?>" />
+                                <input type="text" name="serch_text" value="<?=$_REQUEST['serch_text']?>" />
                                 <a href="javascript:void(0)" onclick="sub_4_form.submit();"><img src="images/sub_button_103.jpg" /></a>
 								<a href="javascript:void(0)" onclick="deny_add_multi()" style="color:white;background-color:rgb(130,199,54);padding:8px;float:right;">메시지 발송 제외번호등록</a>
                             </div>
@@ -1713,19 +1713,19 @@ $(function(){
 										
                                         while($row=mysqli_fetch_array($result))
 										{
-											$sql_n="select memo from Gn_MMS_Number where sendnum='$row[send_num]' ";
+											$sql_n="select memo from Gn_MMS_Number where sendnum='{$row['send_num']}' ";
 											$resul_n=mysqli_query($self_con,$sql_n);
 											$row_n=mysqli_fetch_array($resul_n);
 											?>
                                     <tr>
                                     	<td><label><input type="checkbox" name="idx_box" value="<?=$row[idx]?>" /><?=$sort_no?></label></td>                                        
-                                        <td><?=$row_n[memo]?></td>
-                                        <td class="g_dt_name_<?=$i?>"><?=$row[send_num]?></td>
-										<td class="g_dt_name_<?=$i?>" style="display:none;"><input type="text" value="<?=$row[send_num]?>" name="deny_send" /> </td>
-                                        <td class="g_dt_num_<?=$i?>"><?=$row[recv_num]?></td>
-                                        <td class="g_dt_num_<?=$i?>" style="display:none"><input type="text" value="<?=$row[recv_num]?>" name="deny_recv" /></td>                                        
+                                        <td><?=$row_n['memo']?></td>
+                                        <td class="g_dt_name_<?=$i?>"><?=$row['send_num']?></td>
+										<td class="g_dt_name_<?=$i?>" style="display:none;"><input type="text" value="<?=$row['send_num']?>" name="deny_send" /> </td>
+                                        <td class="g_dt_num_<?=$i?>"><?=$row['recv_num']?></td>
+                                        <td class="g_dt_num_<?=$i?>" style="display:none"><input type="text" value="<?=$row['recv_num']?>" name="deny_recv" /></td>                                        
                                         <td><a href="javascript:void(0)" onclick="show_recv('show_title','<?=$i?>','문자제목')"><?=str_substr($row[title],0,20,'utf-8')?></a><input type="hidden" name="show_title" value="<?=$row[title]?>"/></td>
-                                        <td><a href="javascript:void(0)" onclick="show_recv('show_content','<?=$i?>','문자내용')"><?=str_substr($row[content],0,30,'utf-8')?></a><input type="hidden" name="show_content" value="<?=$row[content]?>"/></td>
+                                        <td><a href="javascript:void(0)" onclick="show_recv('show_content','<?=$i?>','문자내용')"><?=str_substr($row['content'],0,30,'utf-8')?></a><input type="hidden" name="show_content" value="<?=$row['content']?>"/></td>
                                         <td><a href="javascript:void(0)" onclick="show_recv('show_jpg','<?=$c?>','첨부파일')"><?=str_substr($row[jpg],0,20,'utf-8')?></a><input type="hidden" name="show_jpg" value="<?=$row[jpg]?>"/></td>
 
 										<td>
@@ -1790,7 +1790,7 @@ $(function(){
 													$select_arr=array("1"=>"폰문자","2"=>"스텝문자","9"=>"콜백문자","4"=>"데일리문자");
 													foreach($select_arr as $key=>$v)
 													{
-														$selected=$_REQUEST[serch_colum]==$key?"selected":"";
+														$selected=$_REQUEST['serch_colum']==$key?"selected":"";
 														?>
 														<option value="<?=$key?>" <?=$selected?> ><?=$v?></option>
 														<?	
@@ -1913,7 +1913,7 @@ function cancel_set(){
 function add_deny_multi(){
 	var recv_nums = $("#deny_num_multi").val();
 	var send_num = '<?=$mem_phone?>';
-	var mem_id = '<?=$_SESSION[one_member_id]?>';
+	var mem_id = '<?=$_SESSION['one_member_id']?>';
 
 	var type = $("#btn_type").val();
 	$($(".loading_div")[0]).show();
@@ -1944,7 +1944,7 @@ function get_addr_list(val){
 		$("#btn_type").val("unadd_deny");
 	}
 
-	window.open('/group_detail_for_adddeny.php?phone=<?=$phone?>&mem_id=<?=$_SESSION[one_member_id]?>&type='+val, "event_pop", "toolbar=yes,scrollbars=yes,resizable=yes,top=200,left=200,width=500,height=600");
+	window.open('/group_detail_for_adddeny.php?phone=<?=$phone?>&mem_id=<?=$_SESSION['one_member_id']?>&type='+val, "event_pop", "toolbar=yes,scrollbars=yes,resizable=yes,top=200,left=200,width=500,height=600");
 }
 </script>
 <?

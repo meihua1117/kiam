@@ -113,7 +113,7 @@ thead tr:nth-child(2) th { position: sticky; top: 57px; }
                                 $res1 = mysqli_query($self_con,$sql1);
                                 while($row1 = mysqli_fetch_array($res1)){
                                     array_push($form_arr,$row1);
-                                    $sql2 = "select count(id) from gn_report_form2 where form_id=$repo_id and item_id = $row1[id]";
+                                    $sql2 = "select count(id) from gn_report_form2 where form_id=$repo_id and item_id = {$row1['id']}";
                                     $res2 = mysqli_query($self_con,$sql2);
                                     $row2 = mysqli_fetch_array($res2);
                                     ?>
@@ -127,7 +127,7 @@ thead tr:nth-child(2) th { position: sticky; top: 57px; }
                                 <tr>
                                     <?
                                     foreach($form_arr as $form){
-                                        $sql2 = "select * from gn_report_form2 where form_id=$repo_id and item_id = $form[id] order by id";
+                                        $sql2 = "select * from gn_report_form2 where form_id=$repo_id and item_id = {$form['id']} order by id";
                                         $res2 = mysqli_query($self_con,$sql2);
                                         while($row2 = mysqli_fetch_array($res2)){
                                             $row2['item_type'] = $form[item_type];

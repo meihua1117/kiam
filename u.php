@@ -7,7 +7,7 @@ if($_REQUEST['mode']=="inser")
 	$sql="select * from Gn_MMS where uni_id='$_REQUEST[u]' ";
 	$resul=mysqli_query($self_con,$sql);
 	$row=mysqli_fetch_array($resul);
-    if($row[send_num] == $_REQUEST[n]){?>
+    if($row['send_num'] == $_REQUEST[n]){?>
             <script>
             alert('셀프폰 거부 등록입니다.'); 
             location.href='http://kiam.kr'; 
@@ -31,18 +31,18 @@ if($_REQUEST['mode']=="inser")
     }
     $k = 0;
 	
-	$sql_d="select idx from Gn_MMS_Deny where send_num='$row[send_num]' and recv_num='$_REQUEST[n]'".$search_str;
+	$sql_d="select idx from Gn_MMS_Deny where send_num='{$row['send_num']}' and recv_num='$_REQUEST[n]'".$search_str;
 	$resul_d=mysqli_query($self_con,$sql_d);
 	$row_d=mysqli_fetch_array($resul_d);
 	if($row_d[idx] != null)
 	{
-		$deny_info[send_num]=$row[send_num];
-		$deny_info[recv_num]=$_REQUEST[n];
+		$deny_info['send_num']=$row['send_num'];
+		$deny_info['recv_num']=$_REQUEST[n];
 		$deny_info[mem_id]=$row[mem_id];
 		$deny_info[title]=$row[title];
-		$deny_info[content]=substr(htmlspecialchars($row[content]),0,20)."...";
+		$deny_info['content']=substr(htmlspecialchars($row['content']),0,20)."...";
 		$deny_info[jpg]=$row[jpg];
-		$deny_info[up_date]=$row[up_date];		
+		$deny_info['up_date']=$row['up_date'];		
 		$deny_info[status]='A';	
         $deny_info[chanel_type]=$chanel;		
 		$sql="insert into Gn_MMS_Deny set ";
@@ -54,13 +54,13 @@ if($_REQUEST['mode']=="inser")
 	}
 	$user_id = $row[mem_id];
 	$now_num = $_REQUEST[n];
-	$send_num = $row[send_num];
+	$send_num = $row['send_num'];
     // [새 번호]가 현재로그에 있는지 확인
     $query = "select now_num, old_nums from Gn_MMS_Receive_Change_Log where now_num = '$now_num'  ";
     $resultA = mysqli_query($self_con,$query);
     $rowA = mysqli_fetch_array($resultA);
     if($rowA[0]) {
-        $msg= substr(htmlspecialchars($row[content]),0,20)."...";
+        $msg= substr(htmlspecialchars($row['content']),0,20)."...";
         $now_num = $rowA['now_num'];
         $sql_s="select idx from Gn_MMS_Deny where send_num='$send_num' and recv_num='$now_num'  and chanel_type!=9 ";
         $resul_s=mysqli_query($self_con,$sql_s);
@@ -107,7 +107,7 @@ if($_REQUEST['mode']=="inser")
     $resultA = mysqli_query($self_con,$query);
     $rowA = mysqli_fetch_array($resultA);
     if($rowA[0]) {
-        $msg= substr(htmlspecialchars($row[content]),0,20)."...";
+        $msg= substr(htmlspecialchars($row['content']),0,20)."...";
         $now_num = $rowA['now_num'];
         $sql_s="select idx from Gn_MMS_Deny where send_num='$send_num' and recv_num='$now_num'  and chanel_type!=9 ";
         $resul_s=mysqli_query($self_con,$sql_s);

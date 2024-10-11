@@ -268,7 +268,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                         </div>
                         <div class="jesi-content">
                             <?
-                            $repo_sql = "select * from gn_report_form2 where form_id=$repo and item_id=$row[id] order by id";
+                            $repo_sql = "select * from gn_report_form2 where form_id=$repo and item_id={$row['id']} order by id";
                             $repo_res = mysqli_query($self_con,$repo_sql);
                             while($repo_row = mysqli_fetch_array($repo_res)){
                                 if($row['item_type'] == 0){?>

@@ -1,7 +1,7 @@
 <?
 $path="./";
 include_once "_head.php";
-if(!$_SESSION[one_member_id] || !$_SESSION[form_submit])
+if(!$_SESSION['one_member_id'] || !$_SESSION[form_submit])
 {
 ?>
 <script language="javascript">
@@ -135,7 +135,7 @@ if($_SESSION[form_submit])
 			$pay_info[applDate]=$inipay->GetResult('ApplDate');//승인일
 			$pay_info[applTime]=$inipay->GetResult('ApplTime');//승인시각
 			$pay_info[mid]=$inipay->GetResult('MID');//상점ID
-			$pay_info[VACT_InputName]=$member_1[mem_name];//구매자명
+			$pay_info[VACT_InputName]=$member_1['mem_name'];//구매자명
 			$pay_info[buyer_id]=$member_1[mem_id];
 			$pay_info[ApplNum]=$inipay->GetResult('ApplNum');//승인번호
 			$pay_info[CARD_Quota]=$inipay->GetResult('CARD_Quota');//할부개월

@@ -2,7 +2,7 @@
 include_once $path."../../lib/rlatjd_fun.php";
 $mid = date("YmdHis");
 
-$sql="select * from Gn_Member where mem_id='$_SESSION[one_member_id]' ";
+$sql="select * from Gn_Member where mem_id='{$_SESSION['one_member_id']}' ";
 $resul=mysqli_query($self_con,$sql);
 $data=mysqli_fetch_array($resul);
 print_r($data);
@@ -96,7 +96,7 @@ function result_submit(result_cd,result_msg,enc_data) {
     <font color=blue><b>◆ 옵션정보</b>( 값이나 필드가 없을 경우 상점 속성이나 Default값이 반영됨 )</font>
 	<tr>
         <td width=140 class="head">회원ID</td>
-        <td width=160 class="body"><input type=text name="allat_pmember_id"  value="<?php echo $_SESSION[one_member_id]?$_SESSION[one_member_id]:"kiam";?>" size="19" maxlength=20></td>
+        <td width=160 class="body"><input type=text name="allat_pmember_id"  value="<?php echo $_SESSION['one_member_id']?$_SESSION['one_member_id']:"kiam";?>" size="19" maxlength=20></td>
         <td width=70  class="body">20</td>
         <td width=120 class="body">allat_pmember_id</td>
         <td class="body">쇼핑몰의 회원ID : 공백,작은따옴표('),큰따옴표(") 사용 불가</td>

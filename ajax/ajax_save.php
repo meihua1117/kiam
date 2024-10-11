@@ -10,7 +10,7 @@ if($_POST['mode'] =="save_sort") {
     $sort_no = explode(",", $sort_no);
     
     for($i=0;$i < count($sendnum);$i++) {
-	    $sql_num="update Gn_MMS_Number set sort_no='".$sort_no[$i]."' where mem_id ='$_SESSION[one_member_id]' and sendnum='".$sendnum[$i]."'";
+	    $sql_num="update Gn_MMS_Number set sort_no='".$sort_no[$i]."' where mem_id ='{$_SESSION['one_member_id']}' and sendnum='".$sendnum[$i]."'";
 	    //echo $sql_num."\n";
 	    mysqli_query($self_con,$sql_num);
 	    

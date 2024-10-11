@@ -2,7 +2,7 @@
 include_once "lib/rlatjd_fun.php";
 if($_SESSION['one_member_id'] == "")
 	exit;
-$sql="select * from Gn_Member where mem_id='$_SESSION[one_member_id]' and site != '' ";
+$sql="select * from Gn_Member where mem_id='{$_SESSION['one_member_id']}' and site != '' ";
 $resul=mysqli_query($self_con,$sql);
 $data=mysqli_fetch_array($resul);
 $payMethod = 'CARD';
@@ -28,7 +28,7 @@ $def_reduce1 = 100 - $def_reduce * 1;
 
 if(isset($_POST['point_val'])){
     $point = 1;
-    $get_point = "select mem_cash from Gn_Member where mem_id='{$_SESSION[one_member_id]}'";
+    $get_point = "select mem_cash from Gn_Member where mem_id='{$_SESSION['one_member_id']}'";
     $result_point = mysqli_query($self_con,$get_point);
     $row_point = mysqli_fetch_array($result_point);
     
@@ -37,7 +37,7 @@ if(isset($_POST['point_val'])){
     $_POST[month_cnt] = 90;
     $sql_tjd = "insert into tjd_pay_result set idx='$_POST[allat_order_no]',
                                                 orderNumber='$_POST[allat_order_no]',
-                                                VACT_InputName='$data[mem_name]',
+                                                VACT_InputName='{$data['mem_name']}',
                                                 TotPrice='$_POST[allat_amt]',
                                                 month_cnt='$_POST[month_cnt]',
                                                 end_date=date_add(now(),INTERVAL {$_POST[month_cnt]} month),
@@ -45,7 +45,7 @@ if(isset($_POST['point_val'])){
                                                 buyertel='$data[mem_phone]',
                                                 buyeremail='$data[mem_email]',
                                                 payMethod='BANK',
-                                                buyer_id='$_SESSION[one_member_id]',
+                                                buyer_id='{$_SESSION['one_member_id']}',
                                                 date=NOW(),
                                                 member_type='$_POST[member_type]',
                                                 max_cnt='0',
@@ -59,7 +59,7 @@ if(isset($_POST['point_val'])){
     $res_result = mysqli_query($self_con,$sql_tjd);
 
     // $sql = "insert into Gn_Item_Pay_Result
-    //             set buyer_id='$_SESSION[one_member_id]',
+    //             set buyer_id='{$_SESSION['one_member_id']}',
     //                 buyer_tel='$data[mem_phone]',
     //                 pay_method='BANK',
     //                 item_name = '$_POST[member_type]',
@@ -68,7 +68,7 @@ if(isset($_POST['point_val'])){
     //                 pay_date=NOW(),
     //                 pay_percent='$_POST[pay_percent]',
     //                 order_number = '$_POST[allat_order_no]',
-    //                 VACT_InputName='$data[mem_name]',
+    //                 VACT_InputName='{$data['mem_name']}',
     //                 point_val=$point,
     //                 type='buy',
     //                 current_cash=$current_point";
@@ -144,7 +144,7 @@ else{
                             pay_status='Y',
                             pay_percent='90',
                             order_number = '$mid',
-                            VACT_InputName='$row_mem_data_seller[mem_name]',
+                            VACT_InputName='{$row_mem_data_seller['mem_name']}',
                             seller_id='{$subject}',
                             point_val=3,
                             type='noticerecv',
@@ -231,7 +231,7 @@ else{
                             pay_status='Y',
                             pay_percent='90',
                             order_number = '$mid',
-                            VACT_InputName='$row_mem_data_buyer[mem_name]',
+                            VACT_InputName='{$row_mem_data_buyer['mem_name']}',
                             seller_id='{$subject1}',
                             point_val=3,
                             type='noticerecv',
@@ -280,7 +280,7 @@ else{
         $point_percent = $cont_percent . "/" . $def_reduce;    
     
         $sql = "insert into Gn_Item_Pay_Result
-                    set buyer_id='$_SESSION[one_member_id]',
+                    set buyer_id='{$_SESSION['one_member_id']}',
                         buyer_tel='$data[mem_phone]',
                         site='$cont_url',
                         pay_method='$payMethod',
@@ -290,9 +290,9 @@ else{
                         pay_date=NOW(),
                         pay_percent='$pay_percent',
                         order_number = '$_POST[allat_order_no]',
-                        VACT_InputName='$data[mem_name]',
+                        VACT_InputName='{$data['mem_name']}',
                         current_point='$data[mem_point]',
-                        current_cash='$data[mem_cash]',
+                        current_cash='{$data['mem_cash']}',
                         point_val=$point,
                         point_percent='$point_percent',
                         contents_cnt='$_POST[item_count]'";
@@ -310,11 +310,11 @@ else{
         $buy_link_apply = "http://".$HTTP_HOST."/iam/ajax/apply_service_con_res.php?mode=buy_card&residx=".$db_idx;
         $buy_link_apply = get_short_url($buy_link_apply);
         $subject = "구매확인 문자";
-        $content = "회원님은 ".$year."년 ".$month."월 ".$day."일 ".$hour.":".$minute."에 ".$_SESSION[one_member_id]."아이디로 ".$org_name."업체에서 ".$_POST[member_type]." 상품을 ".$row_card_idx[contents_price]."원에 구매하셨습니다. 회원님이 ".$org_name."업체에서 해당 상품을 구매확인하면 아래 구매확인링크를 클릭해주시면 해당 상품 포인트중 ".$def_reduce."%를 회원님의 캐시포인트로 지급합니다. 캐시포인트 ".$def_reduce1."%는 해당 업무에 지원되는 운영비로서 추후 조정될 수 있습니다.  * 구매확인링크 : ".$buy_link_apply." *해당 링크는 마이페이지>결제확인에서 확인할수 있습니다. 해당페이지로 가려면 여기를 클릭하세요.";
+        $content = "회원님은 ".$year."년 ".$month."월 ".$day."일 ".$hour.":".$minute."에 ".$_SESSION['one_member_id']."아이디로 ".$org_name."업체에서 ".$_POST[member_type]." 상품을 ".$row_card_idx[contents_price]."원에 구매하셨습니다. 회원님이 ".$org_name."업체에서 해당 상품을 구매확인하면 아래 구매확인링크를 클릭해주시면 해당 상품 포인트중 ".$def_reduce."%를 회원님의 캐시포인트로 지급합니다. 캐시포인트 ".$def_reduce1."%는 해당 업무에 지원되는 운영비로서 추후 조정될 수 있습니다.  * 구매확인링크 : ".$buy_link_apply." *해당 링크는 마이페이지>결제확인에서 확인할수 있습니다. 해당페이지로 가려면 여기를 클릭하세요.";
 
-        $content1 = "회원님은 ".$year."년 ".$month."월 ".$day."일 ".$hour.":".$minute."에 ".$_SESSION[one_member_id]."아이디로 ".$org_name."업체에서 ".$_POST[member_type]." 상품을 ".$row_card_idx[contents_price]."원에 구매하셨습니다. 회원님이 ".$org_name."업체에서 해당 상품을 구매확인하면 아래 구매확인링크를 클릭해주시면 해당 상품 포인트중 ".$def_reduce."%를 회원님의 캐시포인트로 지급합니다. 캐시포인트 ".$def_reduce1."%는 해당 업무에 지원되는 운영비로서 추후 조정될 수 있습니다. *해당 링크는 마이페이지>결제확인에서 확인할수 있습니다. 해당페이지로 가려면 여기를 클릭하세요.";
+        $content1 = "회원님은 ".$year."년 ".$month."월 ".$day."일 ".$hour.":".$minute."에 ".$_SESSION['one_member_id']."아이디로 ".$org_name."업체에서 ".$_POST[member_type]." 상품을 ".$row_card_idx[contents_price]."원에 구매하셨습니다. 회원님이 ".$org_name."업체에서 해당 상품을 구매확인하면 아래 구매확인링크를 클릭해주시면 해당 상품 포인트중 ".$def_reduce."%를 회원님의 캐시포인트로 지급합니다. 캐시포인트 ".$def_reduce1."%는 해당 업무에 지원되는 운영비로서 추후 조정될 수 있습니다. *해당 링크는 마이페이지>결제확인에서 확인할수 있습니다. 해당페이지로 가려면 여기를 클릭하세요.";
     
-        send_mms($_SESSION[one_member_id], $data[mem_phone], $subject, $content);
+        send_mms($_SESSION['one_member_id'], $data[mem_phone], $subject, $content);
     
         $mid = date("YmdHis").rand(10,99);
         $sql_admin_data = "select * from Gn_Member where mem_id='obmms02'";
@@ -322,7 +322,7 @@ else{
         $row_admin_data = mysqli_fetch_array($res_admin_data);
     
         $sql_notice_recv_buyer = "insert into Gn_Item_Pay_Result
-                    set buyer_id='$_SESSION[one_member_id]',
+                    set buyer_id='{$_SESSION['one_member_id']}',
                         buyer_tel='$data[mem_phone]',
                         site='$buy_link_apply',
                         pay_method='obmms02',
@@ -331,7 +331,7 @@ else{
                         pay_status='Y',
                         pay_percent='90',
                         order_number = '$mid',
-                        VACT_InputName='$data[mem_name]',
+                        VACT_InputName='{$data['mem_name']}',
                         seller_id='{$subject}',
                         point_val=3,
                         type='noticerecv',
@@ -349,10 +349,10 @@ else{
         $sell_link_apply = "http://".$HTTP_HOST."/iam/ajax/apply_service_con_res.php?mode=sell_card&residx=".$db_idx;
         $sell_link_apply = get_short_url($sell_link_apply);
         $subject = "판매확인 문자";
-        $content = "IAM플랫폼입니다. ".$_SESSION[one_member_id]."회원님이 ".$_POST[seller_id]."판매자님의 상품을 ".$row_card_idx[contents_price]."원에(할인 ".$cont_percent."%)에 구매하였습니다. 회원님의 문자로 구매 안내와 ".$org_name." 업체 정보를 전송하였습니다. ".$_SESSION[one_member_id]."회원님이 업체에서 상품을 구매하면 아래 판매확인링크를 클릭해주세요.*  판매확인링크 : ".$sell_link_apply."
-        그리고 아래 회원님의 정보를 안내하오니 필요한 경우 구매회원님과 상품구매까지 잘 안내 바랍니다.  구매일시 :".date('Y-m-d H:i:s')."     구매회원아이디 :".$_SESSION[one_member_id]."     구매회원휴대폰 :".$data[mem_phone]."    구매상품 :".$_POST[member_type]."    구매가격 :".$row_card_idx[contents_price]."      할인비율 : ".$cont_percent;
+        $content = "IAM플랫폼입니다. ".$_SESSION['one_member_id']."회원님이 ".$_POST[seller_id]."판매자님의 상품을 ".$row_card_idx[contents_price]."원에(할인 ".$cont_percent."%)에 구매하였습니다. 회원님의 문자로 구매 안내와 ".$org_name." 업체 정보를 전송하였습니다. ".$_SESSION['one_member_id']."회원님이 업체에서 상품을 구매하면 아래 판매확인링크를 클릭해주세요.*  판매확인링크 : ".$sell_link_apply."
+        그리고 아래 회원님의 정보를 안내하오니 필요한 경우 구매회원님과 상품구매까지 잘 안내 바랍니다.  구매일시 :".date('Y-m-d H:i:s')."     구매회원아이디 :".$_SESSION['one_member_id']."     구매회원휴대폰 :".$data[mem_phone]."    구매상품 :".$_POST[member_type]."    구매가격 :".$row_card_idx[contents_price]."      할인비율 : ".$cont_percent;
 
-        $content1 = "IAM플랫폼입니다. ".$_SESSION[one_member_id]."회원님이 ".$_POST[seller_id]."판매자님의 상품을 ".$row_card_idx[contents_price]."원에(할인 ".$cont_percent."%)에 구매하였습니다. 회원님의 문자로 구매 안내와 ".$org_name." 업체 정보를 전송하였습니다. ".$_SESSION[one_member_id]."회원님이 업체에서 상품을 구매하면 아래 판매확인링크를 클릭해주세요. 그리고 아래 회원님의 정보를 안내하오니 필요한 경우 구매회원님과 상품구매까지 잘 안내 바랍니다.  구매일시 :".date('Y-m-d H:i:s')."     구매회원아이디 :".$_SESSION[one_member_id]."     구매회원휴대폰 :".$data[mem_phone]."    구매상품 :".$_POST[member_type]."    구매가격 :".$row_card_idx[contents_price]."      할인비율 : ".$cont_percent;
+        $content1 = "IAM플랫폼입니다. ".$_SESSION['one_member_id']."회원님이 ".$_POST[seller_id]."판매자님의 상품을 ".$row_card_idx[contents_price]."원에(할인 ".$cont_percent."%)에 구매하였습니다. 회원님의 문자로 구매 안내와 ".$org_name." 업체 정보를 전송하였습니다. ".$_SESSION['one_member_id']."회원님이 업체에서 상품을 구매하면 아래 판매확인링크를 클릭해주세요. 그리고 아래 회원님의 정보를 안내하오니 필요한 경우 구매회원님과 상품구매까지 잘 안내 바랍니다.  구매일시 :".date('Y-m-d H:i:s')."     구매회원아이디 :".$_SESSION['one_member_id']."     구매회원휴대폰 :".$data[mem_phone]."    구매상품 :".$_POST[member_type]."    구매가격 :".$row_card_idx[contents_price]."      할인비율 : ".$cont_percent;
         
         send_mms($_POST[seller_id], $row_seller_data[mem_phone], $subject, $content);
     
@@ -367,7 +367,7 @@ else{
                         pay_status='Y',
                         pay_percent='90',
                         order_number = '$mid',
-                        VACT_InputName='$row_seller_data[mem_name]',
+                        VACT_InputName='{$row_seller_data['mem_name']}',
                         seller_id='{$subject}',
                         point_val=3,
                         type='noticerecv',
@@ -379,7 +379,7 @@ else{
         mysqli_query($self_con,$sql_notice_recv_seller);
     
         $subject = "본사 서비스콘 판매 문자";
-        $content = $year."년 ".$month."월 ".$day."일 ".$hour.":".$minute."에 ".$_SESSION[one_member_id]."회원님이 ".$_POST[seller_id]."판매자님의 [".$_POST[member_type]."] 상품을 구매하였습니다";
+        $content = $year."년 ".$month."월 ".$day."일 ".$hour.":".$minute."에 ".$_SESSION['one_member_id']."회원님이 ".$_POST[seller_id]."판매자님의 [".$_POST[member_type]."] 상품을 구매하였습니다";
         $send_num = "01083904260";
         sendmms(5, "obmms02", $send_num, $send_num, "", $subject, $content, "", "", "", "Y");
     
@@ -394,11 +394,11 @@ else{
                         pay_status='Y',
                         pay_percent='90',
                         order_number = '$mid',
-                        VACT_InputName='$row_admin_data[mem_name]',
+                        VACT_InputName='{$row_admin_data['mem_name']}',
                         seller_id='{$subject}',
                         point_val=3,
                         type='noticerecv',
-                        current_point={$row_admin_data[mem_point]},
+                        current_point={$row_admin_data['mem_point']},
                         current_cash={$row_admin_data['mem_cash']},
                         receive_state=1,
                         message='$content',

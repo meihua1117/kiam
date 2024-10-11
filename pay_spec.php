@@ -68,7 +68,7 @@ $data=mysqli_fetch_array($res);
     <!--승인금액-->
     <input type="hidden" name="allat_amt" id="allat_amt" value="<?=$_POST[price]?>" size="19" maxlength=10>
     <!--회원ID-->
-    <input type="hidden" name="allat_pmember_id" value="<?php echo $_SESSION[one_member_id];?>" size="19" maxlength=20>
+    <input type="hidden" name="allat_pmember_id" value="<?php echo $_SESSION['one_member_id'];?>" size="19" maxlength=20>
     <!--상품코드-->
     <input type="hidden" name="allat_product_cd" id="allat_product_cd" value="전문가-구축" size="19" maxlength=1000>
     <!--상품명-->
@@ -133,7 +133,7 @@ $data=mysqli_fetch_array($res);
                     </tr>
                     <tr>
                         <td>구매자명</td>
-                        <td><?=$member_1[mem_name]?></td>
+                        <td><?=$member_1['mem_name']?></td>
                     </tr>
                     <tr class="price">
                         <td >입금금액</td>

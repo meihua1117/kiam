@@ -2,7 +2,7 @@
 $path = "./";
 include_once "_head.php";
 extract($_REQUEST);
-if (!$_SESSION[one_member_id]) {
+if (!$_SESSION['one_member_id']) {
 ?>
     <script language="javascript">
         location.replace('/ma.php');
@@ -10,7 +10,7 @@ if (!$_SESSION[one_member_id]) {
 <?
     exit;
 }
-$sql = "select * from Gn_Member  where mem_id='" . $_SESSION[one_member_id] . "'";
+$sql = "select * from Gn_Member  where mem_id='" . $_SESSION['one_member_id'] . "'";
 $sresul_num = mysqli_query($self_con,$sql);
 $data = mysqli_fetch_array($sresul_num);
 $gd_id = $_GET['gd_id'];
@@ -354,7 +354,7 @@ $row_content = mysqli_fetch_array($res_content);
     function add_deny_multi() {
         var recv_nums = $("#deny_num_multi").val();
         var send_num = $("#send_num").val();
-        var mem_id = '<?= $_SESSION[one_member_id] ?>';
+        var mem_id = '<?= $_SESSION['one_member_id'] ?>';
 
         var type = $("#btn_type").val();
         $.ajax({
@@ -386,7 +386,7 @@ $row_content = mysqli_fetch_array($res_content);
             $("#btn_type").val("unadd_deny");
         }
 
-        window.open('/group_detail_for_adddeny.php?phone=' + send_num + '&mem_id=<?= $_SESSION[one_member_id] ?>&type=' + val, "event_pop", "toolbar=yes,scrollbars=yes,resizable=yes,top=200,left=200,width=500,height=600");
+        window.open('/group_detail_for_adddeny.php?phone=' + send_num + '&mem_id=<?= $_SESSION['one_member_id'] ?>&type=' + val, "event_pop", "toolbar=yes,scrollbars=yes,resizable=yes,top=200,left=200,width=500,height=600");
     }
 
     function cancel_set1() {
@@ -545,7 +545,7 @@ $row_content = mysqli_fetch_array($res_content);
                 <input type="hidden" id="mail_title" name="mail_title">
                 <input type="hidden" id="mail_content" name="mail_content">
                 <input type="hidden" id="mail_file" name="mail_file">
-                <input type="hidden" id="mem_id" name="mem_id" value="<?php echo $_SESSION[one_member_id]; ?>">
+                <input type="hidden" id="mem_id" name="mem_id" value="<?php echo $_SESSION['one_member_id']; ?>">
                 <div class="a1" style="margin-top:50px; margin-bottom:15px">
                     <li style="float:left;">
                         <div class="popup_holder popup_text"> 데일리발송 세트만들기
@@ -566,7 +566,7 @@ $row_content = mysqli_fetch_array($res_content);
                                     <select name="send_num" id="send_num">
                                         <option value="<?= str_replace("-", "", $data[mem_phone]) ?>"><?php echo str_replace("-", "", $data['mem_phone']); ?></option>
                                         <?php
-                                        $query = "select * from Gn_MMS_Number where mem_id='$_SESSION[one_member_id]' order by sort_no asc, user_cnt desc , idx desc";
+                                        $query = "select * from Gn_MMS_Number where mem_id='{$_SESSION['one_member_id']}' order by sort_no asc, user_cnt desc , idx desc";
                                         $resul = mysqli_query($self_con,$query);
                                         while ($korow = mysqli_fetch_array($resul)) {
                                             if ($row['send_num']) {
@@ -735,7 +735,7 @@ $row_content = mysqli_fetch_array($res_content);
                             <tr class="msg_info" <?= $hide_msg ?>>
                                 <th class="w200">[메시지내용]</th>
                                 <td>
-                                    <textarea style="width:40%; height:200px;" id="txt" name="txt" itemname='내용' id='txt' required placeholder="보내고 싶은 메시지를 입력하세요" onkeydown="textCounter(sub_4_form.txt,'wenzi_cnt',2000,0);" onkeyup="textCounter(sub_4_form.txt,'wenzi_cnt',2000,0);type_check();" onfocus="textCounter(sub_4_form.txt,'wenzi_cnt',2000,0);type_check();"><?= $row[content] ? $row[content] : $row_content[0] ?></textarea>
+                                    <textarea style="width:40%; height:200px;" id="txt" name="txt" itemname='내용' id='txt' required placeholder="보내고 싶은 메시지를 입력하세요" onkeydown="textCounter(sub_4_form.txt,'wenzi_cnt',2000,0);" onkeyup="textCounter(sub_4_form.txt,'wenzi_cnt',2000,0);type_check();" onfocus="textCounter(sub_4_form.txt,'wenzi_cnt',2000,0);type_check();"><?= $row['content'] ? $row['content'] : $row_content[0] ?></textarea>
                                     <input type="button" id="btn_mail" name="btn_mail" value="메일입력" title="선택한 그룹에 메일 등록이 된 디비에만 이메일도 발송됩니다" style="vertical-align:top;margin-bottom:3px;height:28px;" onclick="show_mail_box()" />
                                 </td>
                             </tr>

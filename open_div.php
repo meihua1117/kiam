@@ -39,7 +39,7 @@ if(preg_match("/mypage/i",$_SERVER['PHP_SELF']))
                                 </tr>
                                 <tr>
                                     <td>부가서비스</td>
-                                    <td><input type="hidden" name="show_fujia" value="이미결제됨 <br><br> 사용만료시간 :<?=$member_1[fujia_date2]?>"/>
+                                    <td><input type="hidden" name="show_fujia" value="이미결제됨 <br><br> 사용만료시간 :<?=$member_1['fujia_date2']?>"/>
 										<label <?=$fujia_pay?"onmouseover=\"show_recv('show_fujia','0','부가서비스',true)\"":""?>><input type="checkbox" name="add_service" onclick="pay_total('add_service')" <?=$fujia_pay?"disabled":""?> />사용시 선택</label>
                                     </td>
                                     <td>

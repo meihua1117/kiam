@@ -81,7 +81,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                                 <tr>
                                     <td colspan="2" style="background-color:#FFF">
                                         <script language="javascript" src="/naver_editor/js/HuskyEZCreator.js" charset="utf-8"></script>
-                                        <textarea name="ir1" id="ir1" rows="10" cols="100" style="width:100%; height:200px; display:none;min-width: 100px"><?=$row_no[content]?></textarea>
+                                        <textarea name="ir1" id="ir1" rows="10" cols="100" style="width:100%; height:200px; display:none;min-width: 100px"><?=$row_no['content']?></textarea>
                                         <script language="javascript" src="/naver_editor/js/naver_editor.js" charset="utf-8"></script>
                                     </td>
                                 </tr>

@@ -25,14 +25,14 @@ if($_REQUEST[lms_text] && $_REQUEST[lms_select])
 $sql="select count(no) as cnt from tjd_board where $sql_serch ";
 $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 $row=mysqli_fetch_array($result);
-$intRowCount=$row[cnt];
-if (!$_POST[lno]) 
+$intRowCount=$row['cnt'];
+if (!$_POST['lno']) 
 	$intPageSize =20;
 else 
-   $intPageSize = $_POST[lno];
-if($_POST[page])
+   $intPageSize = $_POST['lno'];
+if($_POST['page'])
 {
-  $page=(int)$_POST[page];
+  $page=(int)$_POST['page'];
   $sort_no=$intRowCount-($intPageSize*$page-$intPageSize); 
 }
 else
@@ -40,17 +40,17 @@ else
   $page=1;
   $sort_no=$intRowCount;
 }
-if($_POST[page2])
-  $page2=(int)$_POST[page2];
+if($_POST['page2'])
+  $page2=(int)$_POST['page2'];
 else
   $page2=1;
 $int=($page-1)*$intPageSize;
-if($_REQUEST[order_status])
-  $order_status=$_REQUEST[order_status];
+if($_REQUEST['order_status'])
+  $order_status=$_REQUEST['order_status'];
 else
   $order_status="desc"; 
-if($_REQUEST[order_name])
-  $order_name=$_REQUEST[order_name];
+if($_REQUEST['order_name'])
+  $order_name=$_REQUEST['order_name'];
 else
   $order_name="no";
 $intPageCount=(int)(($intRowCount+$intPageSize-1)/$intPageSize);     
@@ -80,7 +80,7 @@ $result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
         <div class="client">
         <form name="board_list_form" action="" method="post">
         	<?
-			if($_REQUEST[one_no])
+			if($_REQUEST['one_no'])
 			{
 			?>
             <table class="view_table_1" width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -89,7 +89,7 @@ $result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
                 <td style="text-align:right;"><?=substr($row_no[date],0,10)?></td>
             </tr>
             <tr>
-                <td colspan="2"><?=htmlspecialchars_decode($row_no[content])?></td>
+                <td colspan="2"><?=htmlspecialchars_decode($row_no['content'])?></td>
             </tr>
             <?if($row_no['reply']){?>
             <tr>
@@ -162,7 +162,7 @@ $result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
                 	<td colspan="2" style="text-align:right;">
                     <a href="faq_list.php?status=<?=$_REQUEST[status]?>"><img src="images/btn_list.gif" /></a>
                     <?
-					if($member_1[mem_id]==$row_no[id])
+					if($member_1[mem_id]==$row_no['id'])
 					{
 					?>
                     <a href="javascript:void(0)" onclick="board_del('<?=$row_no[no]?>','<?=$_REQUEST[status]?>')"><img src="images/client_1_5.jpg" /></a>
@@ -214,7 +214,7 @@ $result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
                             <td><?=$row[view_cnt]?></td>-->
 						</tr>
 						<tr id="a<?=$row[no]?>" style="display:none;" >
-                            <td colspan="4"style="text-align:left;padding-left:80px;padding-top:10px; padding-bottom:10px; background-color:#CEECF5;"><?=html_entity_decode($row[content])?></td>
+                            <td colspan="4"style="text-align:left;padding-left:80px;padding-top:10px; padding-bottom:10px; background-color:#CEECF5;"><?=html_entity_decode($row['content'])?></td>
 						</tr>						
 						<?
 						$sort_no--;

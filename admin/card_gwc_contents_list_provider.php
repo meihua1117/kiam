@@ -295,7 +295,7 @@ $(function() {
                         </td>
                         <td>
                             <div style="overflow-x:hidden;width:100px;">
-                              <?=$mem_row[mem_name]?>/<br><?=$row[mem_id]?>
+                              <?=$mem_row['mem_name']?>/<br><?=$row[mem_id]?>
                             </div>
                         </td>
                         <td><?=$row[gwc_con_state] == 1?"well":"공동구매용"?></td>
@@ -312,7 +312,7 @@ $(function() {
                         <td><input type="number" name="sehu_price_<?=$row[idx]?>" value="<?=$sehu_price?>" style="width:65px;font-size: 11px;"><button onclick="save_sehu_price('<?=$row[idx]?>');return false;" style="font-size: 11px;color: white;background-color: black;padding: 0px 5px;">저장</button></td>
                         <td><?=$row[send_provide_price]?></td>
                         <td><?=$row[prod_manufact_price]?></td>
-                        <td><input type="number" name="manage_price_<?=$mem_row[mem_code]?>" value="<?=$mng_price?>" style="width:65px;font-size: 11px;"><button onclick="save_manage_price('<?=$mem_row[mem_code]?>');return false;" style="font-size: 11px;color: white;background-color: black;padding: 0px 5px;">저장</button></td>
+                        <td><input type="number" name="manage_price_<?=$mem_row['mem_code']?>" value="<?=$mng_price?>" style="width:65px;font-size: 11px;"><button onclick="save_manage_price('<?=$mem_row['mem_code']?>');return false;" style="font-size: 11px;color: white;background-color: black;padding: 0px 5px;">저장</button></td>
                         <td><?=$row[up_data]?></td>
                         <td><a href="card_contents_detail_list.php?idx=<?=$row['idx']?>&provider=Y">수정</a></td>
                       </tr>

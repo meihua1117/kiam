@@ -268,7 +268,7 @@ $path="./";
                                 ?>
                                     <tr>
                                         <td>
-                                            <input type="checkbox" name="<?='post_'.$row[id]?>" id = "<?='post_'.$row[id]?>" value="<?=$row[id]?>">
+                                            <input type="checkbox" name="<?='post_'.$row['id']?>" id = "<?='post_'.$row['id']?>" value="<?=$row['id']?>">
                                         </td>
                                         <td><?=$number--?></td>
                                         <td><?=$row['site_iam']?></td>
@@ -283,15 +283,15 @@ $path="./";
                                         </td>
                                         <td><?=$row['reg_date']?></td>
                                         <?
-                                            $reply_sql = "select count(*) from Gn_Iam_Post_Response where post_idx = '$row[id]'";
+                                            $reply_sql = "select count(*) from Gn_Iam_Post_Response where post_idx = '{$row['id']}'";
                                             $reply_res = mysqli_query($self_con,$reply_sql);
                                             $reply_row = mysqli_fetch_array($reply_res);
                                         ?>
                                         <td>
-                                            <a href = "<?='iam_post_reply.php?post_idx='.$row[id]?>"><?=$reply_row[0]."건"?></a>
+                                            <a href = "<?='iam_post_reply.php?post_idx='.$row['id']?>"><?=$reply_row[0]."건"?></a>
                                         </td>
                                         <td>
-                                            <button class="btn btn-primary" onclick="post_delete('<?=$row[id]?>');return false;"><i class="fa"></i> 삭제</button>
+                                            <button class="btn btn-primary" onclick="post_delete('<?=$row['id']?>');return false;"><i class="fa"></i> 삭제</button>
                                         </td>
                                     </tr>
                                 <?$i++;

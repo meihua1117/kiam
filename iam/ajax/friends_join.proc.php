@@ -7,7 +7,7 @@ $card_idx = $_POST['card_idx'];
 $friends_url = $_POST['card_url'];
 
 if($mode == "del") {
-  if($_SESSION[iam_member_id] == "") {
+  if($_SESSION['iam_member_id'] == "") {
     echo '로그아웃 되었습니다. 다시 로그인을 해주세요.';
     exit;
   }
@@ -18,14 +18,14 @@ if($mode == "del") {
   for($i=0; $i<count($_POST['friends_idx']); $i++) {
     $friends_idx = $_POST['friends_idx'][$i];
     // exit;
-    $sql="delete from Gn_Iam_Friends where idx = $friends_idx and mem_id = '$_SESSION[iam_member_id]'";
+    $sql="delete from Gn_Iam_Friends where idx = $friends_idx and mem_id = '{$_SESSION['iam_member_id']}'";
     $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
   }
   echo '프렌즈가 삭제 되었습니다.';
   exit;
 } 
 else if($mode == "add_one"){
-  if($_SESSION[iam_member_id] == "" ) {
+  if($_SESSION['iam_member_id'] == "" ) {
     echo '로그아웃 되었습니다. 다시 로그인을 해주세요.';
     exit;
   }
@@ -33,7 +33,7 @@ else if($mode == "add_one"){
     echo '잘못된 접근입니다. 다시시도 해주세요';
     exit;
   }
-  $sql5="select count(idx) from Gn_Iam_Friends where mem_id = '$_SESSION[iam_member_id]' and friends_card_idx = '$card_idx'";
+  $sql5="select count(idx) from Gn_Iam_Friends where mem_id = '{$_SESSION['iam_member_id']}' and friends_card_idx = '$card_idx'";
   $result5=mysqli_query($self_con,$sql5);
   $comment_row5=mysqli_fetch_array($result5);
 
@@ -41,7 +41,7 @@ else if($mode == "add_one"){
     echo '추가했던 프렌즈입니다.';
     exit;
   }
-  $sql3="select count(idx) from Gn_Iam_Friends where mem_id = '$_SESSION[iam_member_id]'";
+  $sql3="select count(idx) from Gn_Iam_Friends where mem_id = '{$_SESSION['iam_member_id']}'";
   $result3=mysqli_query($self_con,$sql3);
   $comment_row=mysqli_fetch_array($result3);
 
@@ -64,13 +64,13 @@ else if($mode == "add_one"){
 
   //프렌즈 카드 저장
   $sql4="insert into Gn_Iam_Friends (mem_id, friends_card_idx, friends_name, friends_company, friends_position, friends_phone, friends_img, friends_url, req_data) 
-  values ('$_SESSION[iam_member_id]', '$card_idx', '$friends_name', '$friends_company', '$friends_position', '$friends_phone', '$friends_img', '$friends_url', now())";
+  values ('{$_SESSION['iam_member_id']}', '$card_idx', '$friends_name', '$friends_company', '$friends_position', '$friends_phone', '$friends_img', '$friends_url', now())";
   $result4 = mysqli_query($self_con,$sql4) or die(mysqli_error($self_con));
 
 
 
   //내정보 얻기
-    $sql5="select idx, mem_id, main_img1, card_short_url, card_name, card_company, card_position, card_phone from Gn_Iam_Name_Card where group_id is NULL and mem_id = '$_SESSION[iam_member_id]' LIMIT 1";
+    $sql5="select idx, mem_id, main_img1, card_short_url, card_name, card_company, card_position, card_phone from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$_SESSION['iam_member_id']}' LIMIT 1";
     $result5=mysqli_query($self_con,$sql5);
 
     $row5 = mysqli_fetch_array($result5);
@@ -108,7 +108,7 @@ else if($mode == "add_one"){
     
 }
 else if($mode == "add_multi"){
-  if($_SESSION[iam_member_id] == "") {
+  if($_SESSION['iam_member_id'] == "") {
     echo '로그아웃 되었습니다. 다시 로그인을 해주세요.';
     exit;
   }
@@ -122,7 +122,7 @@ else if($mode == "add_multi"){
     $card_idx = $_POST['friends_idx'][$i];
 
     
-    $sql5="select count(idx) from Gn_Iam_Friends where mem_id = '$_SESSION[iam_member_id]' and friends_card_idx = '$card_idx'";
+    $sql5="select count(idx) from Gn_Iam_Friends where mem_id = '{$_SESSION['iam_member_id']}' and friends_card_idx = '$card_idx'";
     $result5=mysqli_query($self_con,$sql5);
     $comment_row5=mysqli_fetch_array($result5);
 
@@ -147,7 +147,7 @@ else if($mode == "add_multi"){
     $friends_phone = $row[card_phone];
     $friends_img = $row[main_img1];
 
-    if($mem_id == $_SESSION[iam_member_id]){
+    if($mem_id == $_SESSION['iam_member_id']){
       // echo "me<br>";
       continue;
     }
@@ -155,14 +155,14 @@ else if($mode == "add_multi"){
 
     //프렌즈 카드 저장
     $sql4="insert into Gn_Iam_Friends (mem_id, friends_card_idx, friends_name, friends_company, friends_position, friends_phone, friends_img, friends_url, req_data) 
-    values ('$_SESSION[iam_member_id]', '$card_idx', '$friends_name', '$friends_company', '$friends_position', '$friends_phone', '$friends_img', '$friends_url', now())";
+    values ('{$_SESSION['iam_member_id']}', '$card_idx', '$friends_name', '$friends_company', '$friends_position', '$friends_phone', '$friends_img', '$friends_url', now())";
     $result4 = mysqli_query($self_con,$sql4) or die(mysqli_error($self_con));
 
 
   
 
     //내정보 얻기
-    $sql5="select idx, mem_id, main_img1, card_short_url, card_name, card_company, card_position, card_phone from Gn_Iam_Name_Card where group_id is NULL and mem_id = '$_SESSION[iam_member_id]' LIMIT 1";
+    $sql5="select idx, mem_id, main_img1, card_short_url, card_name, card_company, card_position, card_phone from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$_SESSION['iam_member_id']}' LIMIT 1";
     $result5=mysqli_query($self_con,$sql5);
 
     $row5 = mysqli_fetch_array($result5);

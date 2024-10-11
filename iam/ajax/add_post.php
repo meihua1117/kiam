@@ -178,22 +178,22 @@ while($post_row = mysqli_fetch_array($post_res)) {
 	$res_mem = mysqli_query($self_con,$sql_mem);
 	$row_mem = mysqli_fetch_array($res_mem);
 
-	$arr_res['post_idx'] =$post_row[id];
+	$arr_res['post_idx'] =$post_row['id'];
 	$card_sql = "select card_short_url from Gn_Iam_Name_Card where group_id is NULL and mem_id = '$post_row[mem_id]' order by req_data limit 0,1";
 	$card_res = mysqli_query($self_con,$card_sql);
 	$card_row = mysqli_fetch_array($card_res);
 	$arr_res['namecard'] =$card_row[card_short_url];
 	$arr_res['profile'] =$row_mem[profile];
-	$arr_res['mem_name'] =$row_mem[mem_name];
+	$arr_res['mem_name'] =$row_mem['mem_name'];
 	$arr_res['reg_date'] =$post_row[reg_date];
-	$arr_res['post_content'] =$post_row[content];
+	$arr_res['post_content'] =$post_row['content'];
 	$arr_res['post_mem_id'] = $post_row[mem_id];
 	$arr_res['mem_id'] = $mem_id;
 	$content_sql = "select mem_id from Gn_Iam_Contents where idx = '$idx'";
 	$content_res = mysqli_query($self_con,$content_sql);
 	$content_row = mysqli_fetch_array($content_res);
 	$arr_res['card_mem_id'] = $content_row[mem_id];
-	$reply_sql = "select * from Gn_Iam_Post_Response r where r.post_idx = '$post_row[id]' and r.lock_status = 'N' order by r.reg_date";
+	$reply_sql = "select * from Gn_Iam_Post_Response r where r.post_idx = '{$post_row['id']}' and r.lock_status = 'N' order by r.reg_date";
 	$reply_res = mysqli_query($self_con,$reply_sql);
 	$reply_index = 0;
 
@@ -202,10 +202,10 @@ while($post_row = mysqli_fetch_array($post_res)) {
 		$res_mem_r = mysqli_query($self_con,$sql_mem_r);
 		$row_mem_r = mysqli_fetch_array($res_mem_r);
 
-        $arr_reply['idx'] =$reply_row[id];
+        $arr_reply['idx'] =$reply_row['id'];
         $arr_reply['mem_id'] =$reply_row[mem_id];
 		$arr_reply['profile'] =$row_mem_r[profile];
-		$arr_reply['mem_name'] =$row_mem_r[mem_name];
+		$arr_reply['mem_name'] =$row_mem_r['mem_name'];
 		$arr_reply['reg_date'] =$reply_row[reg_date];
 		$arr_reply['post_content'] =$reply_row[contents];
 		$reply_card_sql = "select card_short_url from Gn_Iam_Name_Card where group_id is NULL and mem_id = '$reply_row[mem_id]' order by req_data limit 0,1";

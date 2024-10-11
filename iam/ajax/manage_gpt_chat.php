@@ -15,8 +15,8 @@ if($method == "show_req_list"){
         while($row_sel = mysqli_fetch_array($res_sel)){
             $qu = htmlspecialchars_decode($row_sel['gpt_question']);
             $aw = htmlspecialchars_decode($row_sel['gpt_answer']);
-            $str .= '<li class="article-title" id="q'.$row_sel[id].'"><img src="/iam/img/chat_Q.png" onclick="show(`'.$row_sel[id].'`)" style="width:30px;margin-right: 10px;"><span class="chat_title" onclick="show(`'.$row_sel[id].'`)">'.$qu.'</span><span onclick="del_list(`'.$row_sel[id].'`)" style="margin-left:20px;">[삭제]</span></li>
-            <li class="article-content hided" id="a'.$row_sel[id].'"><img src="/iam/img/chat_A.png" style="width:30px;"><span class="chat_answer" style="margin-left: 35px;">'.$aw.'</span></li>';
+            $str .= '<li class="article-title" id="q'.$row_sel['id'].'"><img src="/iam/img/chat_Q.png" onclick="show(`'.$row_sel['id'].'`)" style="width:30px;margin-right: 10px;"><span class="chat_title" onclick="show(`'.$row_sel['id'].'`)">'.$qu.'</span><span onclick="del_list(`'.$row_sel['id'].'`)" style="margin-left:20px;">[삭제]</span></li>
+            <li class="article-content hided" id="a'.$row_sel['id'].'"><img src="/iam/img/chat_A.png" style="width:30px;"><span class="chat_answer" style="margin-left: 35px;">'.$aw.'</span></li>';
         }
     }   
     echo $str;

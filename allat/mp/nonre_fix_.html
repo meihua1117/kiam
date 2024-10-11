@@ -1,7 +1,7 @@
 <?php
 $mid = date("YmdHis");
 
-//$sql="select * from Gn_Member where mem_id='$_SESSION[one_member_id]' ";
+//$sql="select * from Gn_Member where mem_id='{$_SESSION['one_member_id']}' ";
 //$resul=mysqli_query($self_con,$sql);
 //$data=mysqli_fetch_array($resul);
 print_r($data);
@@ -96,7 +96,7 @@ function result_submit(result_cd,result_msg,enc_data) {
     <font color=blue><b>�� �ɼ�����</b>( ���̳� �ʵ尡 ���� ��� ���� �Ӽ��̳� Default���� �ݿ��� )</font>
 	<tr>
         <td width=140 class="head">ȸ��ID</td>
-        <td width=160 class="body"><input type=text name="allat_pmember_id"  value="<?php echo $_SESSION[one_member_id]?$_SESSION[one_member_id]:"kiam";?>" size="19" maxlength=20></td>
+        <td width=160 class="body"><input type=text name="allat_pmember_id"  value="<?php echo $_SESSION['one_member_id']?$_SESSION['one_member_id']:"kiam";?>" size="19" maxlength=20></td>
         <td width=70  class="body">20</td>
         <td width=120 class="body">allat_pmember_id</td>
         <td class="body">���θ��� ȸ��ID : ����,��������ǥ('),ū����ǥ(") ��� �Ұ�</td>
