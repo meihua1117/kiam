@@ -258,7 +258,7 @@ $result2=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
                             <td colspan="2" style="text-align:right;">
                             <a href="cliente_list.php?status=<?=$_REQUEST[status]?>"><img src="images/btn_list.gif" /></a>
                             <?
-                            if($member_1[mem_id]==$row_no['id'])
+                            if($member_1['mem_id']==$row_no['id'])
                             {
                             ?>
                             <a href="cliente_write.php?status=<?=$_REQUEST[status]?>&one_no=<?=$row_no[no]?>"><img src="images/btn_crystal.gif" /></a>

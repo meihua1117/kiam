@@ -479,7 +479,7 @@ foreach($memberList as $member) {
         // $ret = sendmms(5, $member['mem_id'], $send_num, $send_num, $reservation, htmlspecialchars($title), addslashes(htmlspecialchars($text)), $send_img, $send_img1, $send_img2, "N");
         // if($ret != "fail")
         //     $sendedList[] = $send_num;
-        $queryn = "select * from Gn_MMS_Number where mem_id='$member[mem_id]' and sendnum='$send_num'";
+        $queryn = "select * from Gn_MMS_Number where mem_id='{$member['mem_id']}' and sendnum='$send_num'";
         $resultnmysqli_fetch_ry($queryn);
         $rown = mysqli_fetch_array($resultn);
         if($rown['pkey'] != "")
@@ -487,7 +487,7 @@ foreach($memberList as $member) {
             $content = addslashes(htmlspecialchars($text));
             $title = htmlspecialchars($title);
             //file_put_contents("query.txt", $send_img."\n", FILE_APPEND);
-            $query = "insert into Gn_MMS set mem_id='$member[mem_id]',
+            $query = "insert into Gn_MMS set mem_id='{$member['mem_id']}',
                                                          send_num='$send_num',
                                                          recv_num='$send_num',
                                                          uni_id='$req',
@@ -522,7 +522,7 @@ foreach($memberList as $member) {
                 else
                     $message_info[msg_type]="A";
                 $sql="insert into Gn_MMS_Message set "; //발송
-                $message_info[mem_id]=$member['mem_id'];
+                $message_info['mem_id']=$member['mem_id'];
                 $message_info[title]=htmlspecialchars(str_replace("{|name|}", "{|REP|}",$title));
                 $message_info[message]=htmlspecialchars(str_replace("{|name|}", "{|REP|}",$text));
                 $message_info[img]=$send_img;

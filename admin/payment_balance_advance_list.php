@@ -238,7 +238,7 @@ $order = $order?$order:"desc";
                                                   balance_yn,
                                                   balance_confirm_date
                                                 from tjd_pay_result_balance 
-                                                where seller_id='$row[mem_id]' and balance_date='$search_year$search_month' ";
+                                                where seller_id='{$row['mem_id']}' and balance_date='$search_year$search_month' ";
                                     $pres = mysqli_query($self_con,$pquery);
                                     $prow = mysqli_fetch_array($pres);
 
@@ -252,7 +252,7 @@ $order = $order?$order:"desc";
                                                          branch_balance_yn,
                                                          branch_balance_confirm_date
                                                     from tjd_pay_result_balance 
-                                                    where branch_id='$row[mem_id]' and balance_date='$search_year$search_month' ";
+                                                    where branch_id='{$row['mem_id']}' and balance_date='$search_year$search_month' ";
                                         $sres = mysqli_query($self_con,$squery);
                                         $srow = mysqli_fetch_array($sres);
                                         $branch_share_fee = $srow[price];
@@ -292,7 +292,7 @@ $order = $order?$order:"desc";
                                                   balance_yn,
                                                   balance_confirm_date
                                                 from tjd_pay_result_balance 
-                                                where seller_id='$row[mem_id]' and balance_date='$search_year$search_month' ";
+                                                where seller_id='{$row['mem_id']}' and balance_date='$search_year$search_month' ";
                                     $pres = mysqli_query($self_con,$pquery);
                                     $prow = mysqli_fetch_array($pres);
 
@@ -306,7 +306,7 @@ $order = $order?$order:"desc";
                                                          branch_balance_yn,
                                                          branch_balance_confirm_date
                                                     from tjd_pay_result_balance 
-                                                    where branch_id='$row[mem_id]' and balance_date='$search_year$search_month' ";
+                                                    where branch_id='{$row['mem_id']}' and balance_date='$search_year$search_month' ";
                                         $sres = mysqli_query($self_con,$squery);
                                         $srow = mysqli_fetch_array($sres);
                                         $branch_share_fee = $srow[price];

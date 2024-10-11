@@ -2,7 +2,7 @@
 include_once "../lib/rlatjd_fun.php";
 
 $recv_nums = $_POST[deny_add_recv];
-$mem_id = $_POST[mem_id];
+$mem_id = $_POST['mem_id'];
 $chanel = $_POST[reg_chanel];
 $type = $_POST[type];
 $k = $u = 0;
@@ -69,7 +69,7 @@ for($c = 0; $c < count($recv_nums_arr); $c++){
             $deny_info['content']="수동입력";
             $deny_info[status]="B";
             $deny_info[chanel_type]=$chanel;
-            $deny_info[mem_id]=$mem_id;
+            $deny_info['mem_id']=$mem_id;
         }
         $i=0;
         foreach($deny_info as $key=>$v){

@@ -144,7 +144,7 @@ else if($mode == "get_prod_info"){
         $sql_mem_data = "select mem_code, mem_id, mem_name, mem_phone, mem_add1, mem_email, bank_name, bank_owner, bank_account from Gn_Member where mem_code='{$row_prod[delivery_id_code]}'";
         $res_mem_data = mysqli_query($self_con,$sql_mem_data);
         $row_mem_data = mysqli_fetch_array($res_mem_data);
-        $mem_id = $row_mem_data[mem_id];
+        $mem_id = $row_mem_data['mem_id'];
     }
     if($row_prod[idx]){
         if($mem_id != ''){

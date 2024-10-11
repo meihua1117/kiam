@@ -3,7 +3,7 @@ if($_COOKIE[recommender_code]) {
     $sql="select * from Gn_Member where mem_code='$_COOKIE[recommender_code]'";
     $result=mysqli_query($self_con,$sql);
     $info=mysqli_fetch_array($result);
-    $recommmender = $info[mem_id];
+    $recommmender = $info['mem_id'];
 }
 else {
     if ($HTTP_HOST != "kiam.kr") {

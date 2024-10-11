@@ -54,7 +54,7 @@ if ($_POST['mem_code']) {
         $addSql .= " ,mem_phone='$mem_phone'";
         $changePhone = true;
 
-        $sql = "update tjd_pay_result set fujia_status='Y' where buyer_id='$row[mem_id]'";
+        $sql = "update tjd_pay_result set fujia_status='Y' where buyer_id='{$row['mem_id']}'";
         mysqli_query($self_con,$sql);
     }
 
@@ -79,7 +79,7 @@ if ($_POST['mem_code']) {
 if ($_POST['mem_code'] && $_POST['sendnum']) {
     // 기부회원 정보 수정 [기부비율]
     if ($donation_rate) {
-        $sql_num = "update Gn_MMS_Number set donation_rate='$donation_rate' where mem_id='$row[mem_id]' and sendnum='$sendnum' ";
+        $sql_num = "update Gn_MMS_Number set donation_rate='$donation_rate' where mem_id='{$row['mem_id']}' and sendnum='$sendnum' ";
         mysqli_query($self_con,$sql_num);
     }
 }

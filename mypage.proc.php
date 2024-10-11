@@ -662,7 +662,7 @@ if($mode == "land_save") {
         $sql="select mem_id from Gn_Member where mem_id='$mobile' and site != ''";
         $res=mysqli_query($self_con,$sql);
         $row=mysqli_fetch_array($res);
-        if($row[mem_id] == "") {
+        if($row['mem_id'] == "") {
             $passwd = substr($mobile,-4);
             $query = "insert into Gn_Member set mem_id='$mobile',
                                                   mem_leb='22',
@@ -1561,11 +1561,11 @@ else if($mode == "old_customer_reservation") {
             // $event_idx = $_POST['event_idx'];
         }
         if(!$daily_link){
-            $sql_card = "select card_short_url from Gn_Iam_Name_Card where mem_id='{$_POST[mem_id]}' order by idx asc limit 1";
+            $sql_card = "select card_short_url from Gn_Iam_Name_Card where mem_id='{$_POST['mem_id']}' order by idx asc limit 1";
             $res_card = mysqli_query($self_con,$sql_card);
             $row_card = mysqli_fetch_array($res_card);
 
-            $sql_mem = "select mem_code from Gn_Member where mem_id='{$_POST[mem_id]}'";
+            $sql_mem = "select mem_code from Gn_Member where mem_id='{$_POST['mem_id']}'";
             $res_mem = mysqli_query($self_con,$sql_mem);
             $row_mem = mysqli_fetch_array($res_mem);
 

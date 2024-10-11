@@ -102,7 +102,7 @@
         $row_cont_data = mysqli_fetch_array($res_cont_data);
         $short_url = $row_cont_data['card_short_url'];
 
-        $sql_mem_code = "select mem_code from Gn_Member where mem_id='{$row_cont_data[mem_id]}'";
+        $sql_mem_code = "select mem_code from Gn_Member where mem_id='{$row_cont_data['mem_id']}'";
         $res_mem_code = mysqli_query($self_con,$sql_mem_code);
         $row_mem_code = mysqli_fetch_array($res_mem_code);
         $mem_code = $row_mem_code[0];

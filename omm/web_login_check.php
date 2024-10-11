@@ -71,7 +71,7 @@ if($row['mem_id']) {
         		$service_sql = "select mem_id,sub_domain from Gn_Service where mem_id= '$memID'";
         		$service_result = mysqli_query($self_con,$service_sql);
         		$service_row = mysqli_fetch_array($service_result);
-        		if ($service_row[mem_id] != "") {
+        		if ($service_row['mem_id'] != "") {
         			$url = parse_url($service_row[sub_domain]);
         			$_SESSION['one_member_subadmin_id'] = $memID;
         			$_SESSION['one_member_subadmin_domain'] = $url[host];
@@ -83,7 +83,7 @@ if($row['mem_id']) {
         		$iam_sql = "select mem_id,sub_domain from Gn_Iam_Service where mem_id= '$memID'";
         		$iam_result = mysqli_query($self_con,$iam_sql);
         		$iam_row = mysqli_fetch_array($iam_result);
-        		if ($iam_row[mem_id] != "") {
+        		if ($iam_row['mem_id'] != "") {
         			$url = parse_url($iam_row[sub_domain]);
         			$_SESSION['iam_member_subadmin_id'] = $memID;
         			$_SESSION['iam_member_subadmin_domain'] = $url[host];

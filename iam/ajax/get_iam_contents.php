@@ -64,7 +64,7 @@ if($cur_win == "my_info"){
     $card_mem_result = mysqli_query($self_con,$card_mem_sql);
     $card_mem_row = mysqli_fetch_array($card_mem_result);
     $card_owner_site = $card_mem_row['site_iam'];//카드를 방문한 회원의 아이엠분양사명
-    $card_owner = $card_mem_row[mem_id];
+    $card_owner = $card_mem_row['mem_id'];
 }else if($cur_win == "group-con"){
     if(strstr($request_url, '?')) {//카드링크가 있으면
         $group_card_url = explode('?',$request_url);
@@ -89,7 +89,7 @@ $result = mysqli_query($self_con,$sql);
 $main_card_row = mysqli_fetch_array($result);
 $first_card_url = $main_card_row[card_short_url];//분양사이트 1번 네임카드 url
 
-$sql = "select site_iam,mem_code from Gn_Member where mem_id = '$main_card_row[mem_id]'";
+$sql = "select site_iam,mem_code from Gn_Member where mem_id = '{$main_card_row['mem_id']}'";
 $result = mysqli_query($self_con,$sql);
 $row = mysqli_fetch_array($result);
 $bunyang_site = $row['site_iam'];
@@ -155,7 +155,7 @@ if($cur_win == "my_info"){
     $card_sql="select * from Gn_Iam_Name_Card where card_short_url = '$request_short_url'";
     $card_result=mysqli_query($self_con,$card_sql);
     $G_card=mysqli_fetch_array($card_result);
-    $mem_sql = "select * from Gn_Member where mem_id = '$G_card[mem_id]'";
+    $mem_sql = "select * from Gn_Member where mem_id = '{$G_card['mem_id']}'";
     $mem_res = mysqli_query($self_con,$mem_sql);
     $mem_row = mysqli_fetch_array($mem_res);
     $mem_site = $mem_row[site_iam];
@@ -167,7 +167,7 @@ if($cur_win == "my_info"){
         $share_sql = "select mem_id,iam_type from Gn_Member where mem_code = '$card_owner_code'";
         $share_res = mysqli_query($self_con,$share_sql);
         $share_row = mysqli_fetch_array($share_res);
-        $share_member_id = $share_row[mem_id];//로긴자가 방문하는 다른 회원
+        $share_member_id = $share_row['mem_id'];//로긴자가 방문하는 다른 회원
         $date = date("Y-m-d H:i:s");
         $pay_query = "select count(*) from tjd_pay_result where (iam_pay_type != '0' and iam_pay_type != '') and buyer_id='$share_member_id' and end_status='Y' and `end_date` > '$date'";
         $pay_result = mysqli_query($self_con,$pay_query);
@@ -581,7 +581,7 @@ else{
             $sql = "select * from Gn_Iam_Name_Card where idx = '$contents_row[card_idx]'";
             $result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
             $westory_card=mysqli_fetch_array($result);
-            $sql = "select mem_code from Gn_Member where mem_id = '$westory_card[mem_id]'";
+            $sql = "select mem_code from Gn_Member where mem_id = '{$westory_card['mem_id']}'";
             $result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
             $m_row =mysqli_fetch_array($result);
             $m_code = $m_row['mem_code'];
@@ -810,9 +810,9 @@ else{
                             </button>
                             <ul class="dropdown-menu comunity">
                                 <li><a onclick="location.href='/?<?=strip_tags($contents_card_url)?>'">이 콘텐츠 게시자 보기</a></li>
-                                <li><a onclick="set_friend('<?=$westory_card[mem_id] ?>','<?=$westory_card[card_name] ?>','<?=$westory_card[card_short_url] ?>','<?=$westory_card[idx] ?>')">이 게시자와 프렌즈 하기</a></li>
+                                <li><a onclick="set_friend('<?=$westory_card['mem_id'] ?>','<?=$westory_card[card_name] ?>','<?=$westory_card[card_short_url] ?>','<?=$westory_card[idx] ?>')">이 게시자와 프렌즈 하기</a></li>
                                 <li><a onclick="set_block_contents('<?=$contents_row[idx]?>')">이 콘텐츠 하나만 감추기</a></li>
-                                <li><a onclick="set_block_user('<?=$westory_card[mem_id]?>','<?=$westory_card[card_short_url] ?>')">이 게시자의 정보 감추기</a></li>
+                                <li><a onclick="set_block_user('<?=$westory_card['mem_id']?>','<?=$westory_card[card_short_url] ?>')">이 게시자의 정보 감추기</a></li>
                                 <li><a onclick="set_my_share_contents('<?=$contents_row[idx]?>')">이 콘텐츠 나에게 가져오기</a></li>
                                 <li><a onclick="show_block_list('<?=$contents_row[idx]?>')">감추기 리스트 보기</a></li>
                             </ul>
@@ -1215,7 +1215,7 @@ else{
                     </div>
                     <div style="border: 1px solid #dddddd" id = "<?='post_list_'.$contents_row[idx]?>" name = "<?='post_list_'.$contents_row[idx]?>">
                         <?while($post_row = mysqli_fetch_array($post_res)){
-                            $post_card_sql = "select card_short_url from Gn_Iam_Name_Card where group_id is NULL and mem_id = '$post_row[mem_id]' order by req_data asc";
+                            $post_card_sql = "select card_short_url from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$post_row['mem_id']}' order by req_data asc";
                             $post_card_result = mysqli_query($self_con,$post_card_sql);
                             $post_card_row = mysqli_fetch_array($post_card_result);
                             ?>
@@ -1237,7 +1237,7 @@ else{
                                         <?=$post_row['content']?>
                                     </span>
                                 </div>
-                                <?if($_SESSION['iam_member_id'] && $_SESSION['iam_member_id'] == $post_row[mem_id]){?>
+                                <?if($_SESSION['iam_member_id'] && $_SESSION['iam_member_id'] == $post_row['mem_id']){?>
                                     <div class="dropdown" style="top : 10px;position : absolute;right:0px">
                                         <img class="dropdown-toggle" data-toggle="dropdown" src="/iam/img/main/custom.png" style="height: 20px;">
                                         <ul class="dropdown-menu namecard-dropdown " style="background: white; color : black;top:10px;">
@@ -1253,7 +1253,7 @@ else{
                                             </li>
                                         </ul>
                                     </div>
-                                <?}else if($_SESSION['iam_member_id'] && $_SESSION['iam_member_id'] == $contents_row[mem_id]){?>
+                                <?}else if($_SESSION['iam_member_id'] && $_SESSION['iam_member_id'] == $contents_row['mem_id']){?>
                                     <div class="dropdown" style="top : 10px;position : absolute;right:0px">
                                         <img class="dropdown-toggle" data-toggle="dropdown" src="/iam/img/main/custom.png" style="height: 20px;">
                                         <ul class="dropdown-menu namecard-dropdown " style="background: white; color : black;top:10px;">
@@ -1289,7 +1289,7 @@ else{
                             $reply_sql = "select * from Gn_Iam_Post_Response r inner join Gn_Member m on r.mem_id = m.mem_id where r.post_idx = '{$post_row['id']}' order by r.reg_date";
                             $reply_res = mysqli_query($self_con,$reply_sql);
                             while($reply_row = mysqli_fetch_array($reply_res)){
-                                $reply_card_sql = "select card_short_url from Gn_Iam_Name_Card where group_id is NULL and mem_id = '$reply_row[mem_id]' order by req_data asc";
+                                $reply_card_sql = "select card_short_url from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$reply_row['mem_id']}' order by req_data asc";
                                 $reply_card_result = mysqli_query($self_con,$reply_card_sql);
                                 $reply_card_row = mysqli_fetch_array($reply_card_result);
                                 ?>
@@ -1311,7 +1311,7 @@ else{
                                                 <?=$reply_row['contents']?>
                                             </span>
                                     </div>
-                                    <?if($_SESSION['iam_member_id'] && $_SESSION['iam_member_id'] == $post_row[mem_id]){?>
+                                    <?if($_SESSION['iam_member_id'] && $_SESSION['iam_member_id'] == $post_row['mem_id']){?>
                                         <div class="dropdown" style="top : 10px;position : absolute;right:0px">
                                             <img class="dropdown-toggle" data-toggle="dropdown" src="/iam/img/main/custom.png" style="height: 20px;">
                                             <ul class="dropdown-menu namecard-dropdown " style="background: white; color : black;top:10px;">
@@ -1327,7 +1327,7 @@ else{
                                                 </li>
                                             </ul>
                                         </div>
-                                    <?}else if($_SESSION['iam_member_id'] && $_SESSION['iam_member_id'] == $contents_row[mem_id]){?>
+                                    <?}else if($_SESSION['iam_member_id'] && $_SESSION['iam_member_id'] == $contents_row['mem_id']){?>
                                         <div class="dropdown" style="top : 10px;position : absolute;right:0px">
                                             <img class="dropdown-toggle" data-toggle="dropdown" src="/iam/img/main/custom.png" style="height: 20px;">
                                             <ul class="dropdown-menu namecard-dropdown " style="background: white; color : black;top:10px;">

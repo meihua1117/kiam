@@ -331,7 +331,7 @@ $path="./";
                                 $query .= $orderQuery;
                                 $res = mysqli_query($self_con,$query);
                                 while($row = mysqli_fetch_array($res)) {
-                                    $sql_mem = "select mem_name from Gn_Member where mem_id='{$row[mem_id]}'";
+                                    $sql_mem = "select mem_name from Gn_Member where mem_id='{$row['mem_id']}'";
                                     $res_mem = mysqli_query($self_con,$sql_mem);
                                     $row_mem = mysqli_fetch_array($res_mem);
 
@@ -339,7 +339,7 @@ $path="./";
                                     $res_con_mem = mysqli_query($self_con,$sql_con_mem);
                                     $row_con_mem = mysqli_fetch_array($res_con_mem);
 
-                                    $sql_hide_state = "select count(*) as cnt from Gn_Iam_Info where mem_id='{$row[mem_id]}' and block_contents like '%".$row[content_idx]."%'";
+                                    $sql_hide_state = "select count(*) as cnt from Gn_Iam_Info where mem_id='{$row['mem_id']}' and block_contents like '%".$row[content_idx]."%'";
                                     $res_hide_state = mysqli_query($self_con,$sql_hide_state);
                                     $row_hide_state = mysqli_fetch_array($res_hide_state);
 

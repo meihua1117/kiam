@@ -32,7 +32,7 @@ if ($_SESSION['iam_member_id']) {
 	$post_row = mysqli_fetch_array($post_result);
 	$recent_post = $post_row[0];
 }
-$mem_sql = "select mem_code from Gn_Member where mem_id = '$domainData[mem_id]'";
+$mem_sql = "select mem_code from Gn_Member where mem_id = '{$domainData['mem_id']}'";
 $mem_result=mysqli_query($self_con,$mem_sql);
 $mem_row=mysqli_fetch_array($mem_result);
 
@@ -52,7 +52,7 @@ $sql = "select * from Gn_Iam_Name_Card where idx = '$meta_row[card_idx]'";
 $result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 $name_card=mysqli_fetch_array($result);
 
-$card_owner = $name_card[mem_id];
+$card_owner = $name_card['mem_id'];
 $_SESSION['recommender_code'] = $card_owner;
 @setcookie("recommender_code", $card_owner, time()+3600);
 $_COOKIE[recommender_code] = $card_owner;
@@ -532,7 +532,7 @@ $meta_desc = $meta_row[contents_desc];
 											<?=$post_row['content']?>
 										</span>
 									</div>
-									<?if($_SESSION['iam_member_id'] && $_SESSION['iam_member_id'] == $post_row[mem_id]){?>
+									<?if($_SESSION['iam_member_id'] && $_SESSION['iam_member_id'] == $post_row['mem_id']){?>
 										<div class="dropdown" style="top : 10px;position : absolute;right:30px;height:24px">
 											<img class="dropdown-toggle" data-toggle="dropdown" src="/iam/img/menu/icon_dot.png" style="height: 24px;">
 											<ul class="dropdown-menu namecard-dropdown " style="background: white; color : black;top:10px;">
@@ -548,7 +548,7 @@ $meta_desc = $meta_row[contents_desc];
 												</li>
 											</ul>
 										</div>
-									<?}else if($_SESSION['iam_member_id'] && $_SESSION['iam_member_id'] == $meta_row[mem_id]){?>
+									<?}else if($_SESSION['iam_member_id'] && $_SESSION['iam_member_id'] == $meta_row['mem_id']){?>
 										<div class="dropdown" style="top : 10px;position : absolute;right:30px;height:24px">
 											<img class="dropdown-toggle" data-toggle="dropdown" src="/iam/img/menu/icon_dot.png" style="height: 24px;">
 											<ul class="dropdown-menu namecard-dropdown " style="background: white; color : black;top:10px;">
@@ -814,7 +814,7 @@ $meta_desc = $meta_row[contents_desc];
 		location.href = "/?" + url;
 	}
 		function iam_count(str) {
-			var member_id = '<?=$name_card[mem_id]?>';
+			var member_id = '<?=$name_card['mem_id']?>';
 			var card_idx = '<?=$name_card[idx]?>';
 			var formData = new FormData();
 			formData.append('str', str);

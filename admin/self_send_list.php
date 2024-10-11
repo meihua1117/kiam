@@ -120,12 +120,12 @@ extract($_REQUEST);
                     $row_s=mysqli_fetch_array($resul_s);
                     mysqli_free_result($resul_s);
                                                                 
-                    $sql_n="select memo from Gn_MMS_Number where mem_id='$row[mem_id]' and sendnum='{$row['send_num']}' ";
+                    $sql_n="select memo from Gn_MMS_Number where mem_id='{$row['mem_id']}' and sendnum='{$row['send_num']}' ";
                     $resul_n=mysqli_query($self_con,$sql_n);
                     $row_n=mysqli_fetch_array($resul_n);
                     mysqli_free_result($resul_n);
 
-                    $sql_m="select site, site_iam from Gn_Member where mem_id='$row[mem_id]'";
+                    $sql_m="select site, site_iam from Gn_Member where mem_id='{$row['mem_id']}'";
                     $resul_m=mysqli_query($self_con,$sql_m);
                     $row_m=mysqli_fetch_array($resul_m);
                     mysqli_free_result($row_m);
@@ -164,7 +164,7 @@ extract($_REQUEST);
 
                 <tr>
                     <td><label><input type="checkbox" name="fs_idx" value="<?=$row[idx]?>" /><?=$sort_no?></label></td>
-                    <td><?=$row[mem_id]?></td>	
+                    <td><?=$row['mem_id']?></td>	
                     <td><?=$row_n['memo']?></td>
                     <td><?echo $row_m[site] . " / " . $row_m[site_iam];?></td>										
                     <td><?=$row['send_num']?></td>

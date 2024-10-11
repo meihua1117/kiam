@@ -1,6 +1,6 @@
 <?
 if($member_1){
-	$card_sql = "select * from Gn_Iam_Name_Card where group_id is NULL and mem_id = '$member_1[mem_id]' order by req_data asc";
+	$card_sql = "select * from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$member_1['mem_id']}' order by req_data asc";
 }else{
 	if ($HTTP_HOST != "kiam.kr") //분양사사이트이면
 		$query = "select * from Gn_Iam_Service where sub_domain like 'http://" . $HTTP_HOST . "'";
@@ -15,7 +15,7 @@ $result = mysqli_query($self_con,$card_sql);
 $card_row = mysqli_fetch_array($result);
 $card_url = $card_row[card_short_url];//분양사이트 1번 네임카드 url
 $card_name = str_replace("'","",$card_row['card_name']);
-$mem_sql = "select mem_code from Gn_Member where mem_id='$card_row[mem_id]'";
+$mem_sql = "select mem_code from Gn_Member where mem_id='{$card_row['mem_id']}'";
 $mem_res = mysqli_query($self_con,$mem_sql);
 $mem_row = mysqli_fetch_array($mem_res);
 $card_url.=$mem_row['mem_code'];

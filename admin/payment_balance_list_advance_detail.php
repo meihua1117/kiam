@@ -198,7 +198,7 @@ function payment_save(fm) {
                 	  $res = mysqli_query($self_con,$query);
                     while($row = mysqli_fetch_array($res)) {                       	
                         if($row[total_price] == 500000) {
-                            $query = "Select * from tjd_pay_result_delaer where m_id='$row[mem_id]'";
+                            $query = "Select * from tjd_pay_result_delaer where m_id='{$row['mem_id']}'";
                             $sres = mysqli_query($self_con,$query);
                             $srow = mysqli_fetch_array($sres);                            
                             if(substr($row['date'],0,10) != substr($srow['regtime'], 0,10)) {

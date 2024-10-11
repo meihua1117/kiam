@@ -241,7 +241,7 @@ function goPage(pgNum) {
                                 $query .= $orderQuery;
                                 $res = mysqli_query($self_con,$query);
                                 while($row = mysqli_fetch_array($res)) {
-                                    $mem_sql = "select mem_code from Gn_Member where mem_id='$row[mem_id]'";
+                                    $mem_sql = "select mem_code from Gn_Member where mem_id='{$row['mem_id']}'";
                                     $mem_res = mysqli_query($self_con,$mem_sql);
                                     $mem_row = mysqli_fetch_array($mem_res);
 
@@ -250,7 +250,7 @@ function goPage(pgNum) {
                                     $frow = mysqli_fetch_array($fresult);
                                     //$friend_count	=  $frow[0];
 
-                                    $sql_pay = "select sum(TotPrice) totPrice, date from tjd_pay_result where buyer_id = '".$row[mem_id]."' and end_status='Y'";
+                                    $sql_pay = "select sum(TotPrice) totPrice, date from tjd_pay_result where buyer_id = '".$row['mem_id']."' and end_status='Y'";
                                     $res_result = mysqli_query($self_con,$sql_pay);
                                     $totPriceRow = mysqli_fetch_row($res_result);
                                     $totPrice = $totPriceRow[0];
@@ -263,7 +263,7 @@ function goPage(pgNum) {
                                         $chanel = "지도";
                                         $card_arr = array();
                                         $index_card = 0;
-                                        $sql_card = "select card_title from Gn_Iam_Name_Card where mem_id='{$row[mem_id]}' order by idx asc";
+                                        $sql_card = "select card_title from Gn_Iam_Name_Card where mem_id='{$row['mem_id']}' order by idx asc";
                                         $res_card = mysqli_query($self_con,$sql_card);
                                         while($row_card = mysqli_fetch_array($res_card)){
                                             if($row_card[card_title] == "업체보기"){
@@ -293,7 +293,7 @@ function goPage(pgNum) {
                                         <td><?=$row[idx]?></td>
                                         <td>
                                             <div style="overflow-x:hidden;width:100px;">
-                                                <?=$row[mem_id]?>
+                                                <?=$row['mem_id']?>
                                             </div>
                                         </td>
                                         <td>

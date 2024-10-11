@@ -247,7 +247,7 @@ $(function() {
                   $query .= $orderQuery;
                   $res = mysqli_query($self_con,$query);
                   while($row = mysqli_fetch_array($res)) {
-                    $mem_sql = "select site, site_iam from Gn_Member where mem_id='$row[mem_id]'";
+                    $mem_sql = "select site, site_iam from Gn_Member where mem_id='{$row['mem_id']}'";
                     $mem_res = mysqli_query($self_con,$mem_sql);
                     $mem_row = mysqli_fetch_array($mem_res);
                     if(strpos($row[contents_img], ",") !== false){
@@ -276,7 +276,7 @@ $(function() {
                         <td><?=$row[idx]?></td>
                         <td>
                             <div style="overflow-x:hidden;width:100px;">
-                              <?=$mem_row[0]?>/<br><?=$mem_row[1]?>/<br><?=$row[mem_id]?>
+                              <?=$mem_row[0]?>/<br><?=$mem_row[1]?>/<br><?=$row['mem_id']?>
                             </div>
                         </td>
                         <td><a href="/iam/contents.php?contents_idx=<?=$row[idx]?>" target="_blank"><?=$row_card[card_name]?></a></td>

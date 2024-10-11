@@ -54,7 +54,7 @@ else if($mode == "add_one"){
   $result=mysqli_query($self_con,$sql);
   $row=mysqli_fetch_array($result);
 
-  $mem_id = $row[mem_id];
+  $mem_id = $row['mem_id'];
   $friends_url = 'kiam.kr/?' .$row[card_short_url];
   $friends_name = $row[card_name];
   $friends_company = $row[card_company];
@@ -80,7 +80,7 @@ else if($mode == "add_one"){
     // printr($rows);
 
     $my_card_idx = $row5[idx];
-    $my_mem_id = $row5[mem_id];
+    $my_mem_id = $row5['mem_id'];
     $my_friends_url = 'kiam.kr/?' .$row5[card_short_url];
     $my_friends_name = $row5[card_name];
     $my_friends_company = $row5[card_company];
@@ -139,7 +139,7 @@ else if($mode == "add_multi"){
     $result=mysqli_query($self_con,$sql);
     $row=mysqli_fetch_array($result);
 
-    $mem_id = $row[mem_id];
+    $mem_id = $row['mem_id'];
     $friends_url = 'kiam.kr/?' .$row[card_short_url];
     $friends_name = $row[card_name];
     $friends_company = $row[card_company];
@@ -172,7 +172,7 @@ else if($mode == "add_multi"){
     // printr($rows);
 
     $my_card_idx = $row5[idx];
-    $my_mem_id = $row5[mem_id];
+    $my_mem_id = $row5['mem_id'];
     $my_friends_url = 'kiam.kr/?' .$row5[card_short_url];
     $my_friends_name = $row5[card_name];
     $my_friends_company = $row5[card_company];

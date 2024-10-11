@@ -149,7 +149,7 @@ $data = mysqli_fetch_array($sresul_num);
                                     for ($i = 0; $i < count($cache_list); $i++) {
                                         $row = $cache_list[$i];
 
-                                        $mem_sql = "select mem_code from Gn_Member where mem_id='$row[mem_id]'";
+                                        $mem_sql = "select mem_code from Gn_Member where mem_id='{$row['mem_id']}'";
                                         $mem_res = mysqli_query($self_con,$mem_sql);
                                         $mem_row = mysqli_fetch_array($mem_res);
 
@@ -177,7 +177,7 @@ $data = mysqli_fetch_array($sresul_num);
                                 ?>
                                         <tr>
                                             <td><?= $sort_no ?></td>
-                                            <td><?= $row[mem_id] ?></td>
+                                            <td><?= $row['mem_id'] ?></td>
                                             <td><?= $chanel ?></td>
                                             <td style="font-size:12px;">
                                                 <?= $row[card_name] ?>

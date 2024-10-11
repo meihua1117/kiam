@@ -33,7 +33,7 @@ if($mode == "join") {
   $resul=mysqli_query($self_con,$sql);
   $row=mysqli_fetch_array($resul);
 
-  if($row[mem_id]) {
+  if($row['mem_id']) {
     echo '이미 가입되어있는 회원입니다.';
     exit;
   } else {
@@ -55,7 +55,7 @@ if($mode == "join") {
   $sql="select mem_id from Gn_Member where mem_id='$id_che'";
   $resul=mysqli_query($self_con,$sql);
   $row=mysqli_fetch_array($resul);
-  if($row[mem_id]) {
+  if($row['mem_id']) {
     echo '0';
     exit;
   } else {

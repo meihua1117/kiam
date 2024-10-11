@@ -86,7 +86,7 @@ $(function(){
                     <th>코티이름</th>
                     <td><?=$coaching_info_data['mem_name']?></td>
                     <th>코티ID</th>
-                    <td><?=$coaching_info_data[mem_id]?></td>
+                    <td><?=$coaching_info_data['mem_id']?></td>
                 </tr>       
                 <tr>
                     <th>전화번호</th>

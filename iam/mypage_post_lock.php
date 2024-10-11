@@ -152,7 +152,7 @@ td {
                                                 </div>
                                             </td>
                                             <td style=""><?=$row['mem_name']?></td>
-                                            <td style=""><?=$row[mem_id]?></td>
+                                            <td style=""><?=$row['mem_id']?></td>
                                             <td style=""><?=$row['content']?></td>
                                             <td style="font-size:11px;"><?=$row[reg_date]?></td>
                                             <td style="font-size:11px;">

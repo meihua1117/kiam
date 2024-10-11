@@ -1,7 +1,7 @@
 <?
 //아이엠통장정기결제
 include "inc/header.inc.php";
-if($member_iam[mem_id] == "") {
+if($member_iam['mem_id'] == "") {
     echo "<script>location.history(-1);</script>";
     exit;
 }
@@ -18,7 +18,7 @@ $pay_info['payMethod'] = "MONTH";
 $pay_info['TotPrice'] = $_POST['allat_amt']; //금액
 $pay_info['pc_mobile'] = "A"; //금액
 $pay_info['VACT_InputName'] =$member_iam['mem_name'];
-$pay_info['buyer_id'] = $member_iam[mem_id];
+$pay_info['buyer_id'] = $member_iam['mem_id'];
 $pay_info['member_type'] = $_POST['member_type'];
 $pay_info['add_opt'] = $_POST['add_opt'];
 $pay_info['db_cnt'] = $_POST['db_cnt'];
@@ -47,18 +47,18 @@ $sql = "insert into tjd_pay_result_month set pay_idx='$orderNumber',
                                             msg='아이엠통장정기결제',
                                             regdate = NOW(),
                                             amount='$_POST[allat_amt]',
-                                            buyer_id='$member_iam[mem_id]'";
+                                            buyer_id='{$member_iam['mem_id']}'";
 mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 // set_service_mem_cnt($member_iam['mem_id'], $_POST['member_cnt']);
 if($_POST['phone_cnt'] > 0) {
-    $sql = "select * from tjd_pay_result where orderNumber='{$orderNumber}' and buyer_id='$member_iam[mem_id]' ";
+    $sql = "select * from tjd_pay_result where orderNumber='{$orderNumber}' and buyer_id='{$member_iam['mem_id']}' ";
     $resul = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
     $row = mysqli_fetch_array($resul);
 
-    $sql = "select * from Gn_Member where mem_id='$member_iam[mem_id]' ";
+    $sql = "select * from Gn_Member where mem_id='{$member_iam['mem_id']}' ";
     $sresult = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
     $srow = mysqli_fetch_array($sresult);
-    $sql = "select count(cmid) from crawler_member_real where user_id='$member_iam[mem_id]' ";
+    $sql = "select count(cmid) from crawler_member_real where user_id='{$member_iam['mem_id']}' ";
     $sresult = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
     $crow = mysqli_fetch_array($sresult);
     if ($crow[0] == 0) {

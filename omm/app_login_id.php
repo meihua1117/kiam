@@ -20,13 +20,13 @@ $check1 = sql_password($userPW);
 $sql = "select mem_id,mem_phone from Gn_Member where mem_id ='$userId' and mem_leb in (21, 22, 50) ";
 $resul = mysqli_query($self_con,$sql);
 $row=mysqli_fetch_array($resul);
-if($row[mem_id])
+if($row['mem_id'])
 {
 	$sql_p = "select mem_code, mem_id, is_leave, mem_leb, iam_leb,site, site_iam  from Gn_Member where mem_id = '$userId'";
 	//echo $sql_p;
 	$resul_p = mysqli_query($self_con,$sql_p);
 	$row_p = mysqli_fetch_array($resul_p);
-	if($row_p[mem_id])
+	if($row_p['mem_id'])
 	{
 	    
 	    $mem_code = $row_p['mem_code'];
@@ -70,7 +70,7 @@ if($row[mem_id])
 		$row_n_c=mysqli_fetch_array($resul_n_c);
 		if($row_n_c[idx])
 		{
-			//if(trim($row_n_c[mem_id])==$userId)
+			//if(trim($row_n_c['mem_id'])==$userId)
 //				{
 				    /* 값 변경으로 삭제
 					if($row_n_c[end_status] =="N")

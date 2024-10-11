@@ -273,7 +273,7 @@ function payment_save(fm) {
                 	$res = mysqli_query($self_con,$query);
                     while($row = mysqli_fetch_array($res)) {                       	
                         //if($row[total_price] == 500000) {
-                        //    $query = "Select * from tjd_pay_result_delaer where m_id='$row[mem_id]'";
+                        //    $query = "Select * from tjd_pay_result_delaer where m_id='{$row['mem_id']}'";
                         //    $sres = mysqli_query($self_con,$query);
                         //    $srow = mysqli_fetch_array($sres);                            
                         //    if(substr($row['date'],0,10) != substr($srow['regtime'], 0,10)) {
@@ -302,7 +302,7 @@ function payment_save(fm) {
                                        on bb.mem_id = aa.buyer_id 
                                     where 1=1 
                                     and end_status='Y' 
-                                    AND aa.share_id='$row[mem_id]'
+                                    AND aa.share_id='{$row['mem_id']}'
                                     ";
                                     //echo $query."<BR>";
                        $sres = mysqli_query($self_con,$query);
@@ -325,7 +325,7 @@ function payment_save(fm) {
                                         where 1=1 
                                         $searchStr
                                         and end_status='Y' 
-                                        AND aa.branch_share_id='$row[mem_id]'
+                                        AND aa.branch_share_id='{$row['mem_id']}'
                                         ";
                            $sres = mysqli_query($self_con,$query);
                            $srow = mysqli_fetch_array($sres);

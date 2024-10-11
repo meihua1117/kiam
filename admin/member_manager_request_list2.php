@@ -208,7 +208,7 @@ function excel_down_(){
                     	$sInfo = mysqli_fetch_array($res_result);
                     	mysqli_free_result($res_result);                        
                         
-                    	$sql = "select * from Gn_Member where mem_id='$row[mem_id]'";
+                    	$sql = "select * from Gn_Member where mem_id='{$row['mem_id']}'";
                     	$res_result = mysqli_query($self_con,$sql);
                     	$sData = mysqli_fetch_array($res_result);
                     	mysqli_free_result($res_result);

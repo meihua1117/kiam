@@ -201,7 +201,7 @@ $(function(){
 
               <tr>
                 <td><?=$sort_no?></td>
-                <td style="font-size:12px;"><?=$row[mem_id]?></td>
+                <td style="font-size:12px;"><?=$row['mem_id']?></td>
                 <td style="font-size:12px;"><?=$row['mem_name']?></td>
                 <td style="font-size:12px;">
                     <input type="button" value="미리보기" class="button" onclick="viewEvent('<?php echo $row['short_url']?>')">

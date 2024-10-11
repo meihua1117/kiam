@@ -96,7 +96,7 @@ $(function(){
         </colgroup>
         <tr>
         <td>아이디</td>
-        <td><?=$member_1[mem_id]?></td>
+        <td><?=$member_1['mem_id']?></td>
         </tr>
 		<tr>
 		<td>회원구분</td>
@@ -717,7 +717,7 @@ jQuery(function($){
                             	LEFT JOIN Gn_Member b
                             	       on b.mem_id =a.buyer_id
                             	WHERE 1=1 
-                    	              and a.buyer_id='$row[mem_id]'";
+                    	              and a.buyer_id='{$row['mem_id']}'";
                     	              
                     	$sres	    = mysqli_query($self_con,$query);                    
                         $srow = mysqli_fetch_array($sres);

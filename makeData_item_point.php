@@ -48,7 +48,7 @@ if ($_POST[payMethod] == "order_change") {
         $res_order_data = mysqli_query($self_con,$sql_order_data);
         $row_order_data = mysqli_fetch_array($res_order_data);
     
-        $sql_mem_name = "select mem_name, mem_phone from Gn_Member where mem_id='{$row_order_data[mem_id]}'";
+        $sql_mem_name = "select mem_name, mem_phone from Gn_Member where mem_id='{$row_order_data['mem_id']}'";
         $res_mem_name = mysqli_query($self_con,$sql_mem_name);
         $row_mem_name = mysqli_fetch_array($res_mem_name);
     
@@ -69,18 +69,18 @@ if ($_POST[payMethod] == "order_change") {
         if($method_type){
             $subject = "취소/교환/반품 접수안내 문자";
             $type = $_POST['type'];
-            $content = $year."년 ".$month."월 ".$day."일 ".$hour.":".$minute." ".$row_order_data[mem_id]."/".$row_mem_name['mem_name']."님의 (".$type.") 접수안내. ";
+            $content = $year."년 ".$month."월 ".$day."일 ".$hour.":".$minute." ".$row_order_data['mem_id']."/".$row_mem_name['mem_name']."님의 (".$type.") 접수안내. ";
             $content .= "주문변경사유 : " . $row_order_data[state_detail];
         }
         else{
             $subject = "굿마켓 상품구매안내 문자";
-            $content = $year."년 ".$month."월 ".$day."일 ".$hour.":".$minute." ".$row_order_data[mem_id]."/".$row_mem_name['mem_name']."님이 [".$row_deliver_code[contents_title]."] 상품을 구매하셨습니다. ";
+            $content = $year."년 ".$month."월 ".$day."일 ".$hour.":".$minute." ".$row_order_data['mem_id']."/".$row_mem_name['mem_name']."님이 [".$row_deliver_code[contents_title]."] 상품을 구매하셨습니다. ";
 
-            send_mms($row_order_data[mem_id], $row_mem_name[mem_phone], $subject, $content);//구매자문자발송
+            send_mms($row_order_data['mem_id'], $row_mem_name[mem_phone], $subject, $content);//구매자문자발송
         }
     
         if($row_deliver_code[delivery_id_code]){//공급사문자발송
-            send_mms($row_deliver[mem_id], $row_deliver[mem_phone], $subject, $content);
+            send_mms($row_deliver['mem_id'], $row_deliver[mem_phone], $subject, $content);
         }
         send_mms($row_order_data[seller_id], $row_seller_data[mem_phone], $subject, $content);//배송자문자발송
     }

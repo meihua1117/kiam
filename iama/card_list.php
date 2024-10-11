@@ -281,7 +281,7 @@ else{
                                         $friends_res =mysqli_query($self_con,$friends_sql);
                                         $friends_row = mysqli_fetch_array($friends_res);
                                         
-                                        $mem_query = "select mem_name,site_iam from Gn_Member use index(mem_id) where mem_id='$row[mem_id]'";
+                                        $mem_query = "select mem_name,site_iam from Gn_Member use index(mem_id) where mem_id='{$row['mem_id']}'";
                                         $mem_res = mysqli_query($self_con,$mem_query);
                                         $mem_row = mysqli_fetch_array($mem_res);
                                         $row['mem_name'] = $mem_row['mem_name'];

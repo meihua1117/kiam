@@ -107,7 +107,7 @@ else{
   $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
   $member_info = $row=mysqli_fetch_array($result); 
   if($mem_id == "")
-      $mem_id = $member_info[mem_id];
+      $mem_id = $member_info['mem_id'];
   
   $sql = "SET NAMES utf8;";
   mysqli_query($self_con,$sql) or die(mysqli_error($self_con));

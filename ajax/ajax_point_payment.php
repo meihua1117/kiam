@@ -40,7 +40,7 @@ if($_POST['pay_type'] == "message_set"){
                 member_cnt='0',
                 gwc_cont_pay=0,
                 yutong_name=0,
-                seller_id='$mall_data[mem_id]',
+                seller_id='{$mall_data['mem_id']}',
                 cash_prod_pay=0";
     mysqli_query($self_con,$sql);
     $pay_idx_tjd = mysqli_insert_id($self_con);
@@ -56,7 +56,7 @@ if($_POST['pay_type'] == "message_set"){
                 pay_method='POINT',
                 item_name = '$_POST[pay_item]',
                 item_price=$use_point,
-                seller_id='$row_cont_info[mem_id]',
+                seller_id='{$row_cont_info['mem_id']}',
                 pay_date=NOW(),
                 pay_status='Y',
                 pay_percent='',

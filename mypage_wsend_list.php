@@ -184,7 +184,7 @@ $(function(){
 											$row_s=mysqli_fetch_array($resul_s);
 											mysqli_free_result($resul_s);
 
-											$sql_n="select mem_name from Gn_Member where mem_id='$row[mem_id]' ";
+											$sql_n="select mem_name from Gn_Member where mem_id='{$row['mem_id']}' ";
 											$resul_n=mysqli_query($self_con,$sql_n);
 											$row_n=mysqli_fetch_array($resul_n);
 											mysqli_free_result($resul_n);

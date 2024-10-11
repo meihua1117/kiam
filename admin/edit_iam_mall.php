@@ -119,7 +119,7 @@ $row=mysqli_fetch_array($res);
 									<table class="list_table1" width="100%" border="0" cellspacing="0" cellpadding="0">
 										<tr>
 											<th class="w200">아아디</th>
-											<td><input type="text" name="m_id" id="m_id" value="<?=$row[mem_id]?>"></td>
+											<td><input type="text" name="m_id" id="m_id" value="<?=$row['mem_id']?>"></td>
 										</tr>
 										<tr>
 											<th class="w200">상품제목</th>

@@ -43,7 +43,7 @@ if($type == "deny"){
 }
 else{
     if(!$_REQUEST['phone']) $sql_serch=" 1=0 ";
-    else $sql_serch=" b.mem_id='$_REQUEST[mem_id]' and b.chanel_type=9 and a.dest='{$_REQUEST['phone']}'";
+    else $sql_serch=" b.mem_id='{$_REQUEST['mem_id']}' and b.chanel_type=9 and a.dest='{$_REQUEST['phone']}'";
     if($_REQUEST[grp_id])
         $sql_serch.=" and grp_id = '$_REQUEST[grp_id]' ";
     if($_REQUEST[grp_2])

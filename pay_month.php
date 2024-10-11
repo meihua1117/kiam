@@ -1,7 +1,7 @@
 <?
 $path="./";
 include_once "_head.php";
-if($member_1[mem_id] == "") {
+if($member_1['mem_id'] == "") {
     echo "<script>location.history(-1);</script>";
     exit;
 }
@@ -41,14 +41,14 @@ $sql .= " end_date=date_add(now(),INTERVAL {$_POST[month_cnt]} month) , date=now
 mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 $no = mysqli_insert_id($self_con);
 if($_POST['phone_cnt'] > 0) {
-    $sql = "select * from tjd_pay_result where orderNumber='{$orderNumber}' and buyer_id='$member_1[mem_id]' ";
+    $sql = "select * from tjd_pay_result where orderNumber='{$orderNumber}' and buyer_id='{$member_1['mem_id']}' ";
     $resul = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
     $row = mysqli_fetch_array($resul);
 
-    $sql = "select * from Gn_Member where mem_id='$member_1[mem_id]' ";
+    $sql = "select * from Gn_Member where mem_id='{$member_1['mem_id']}' ";
     $sresult = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
     $srow = mysqli_fetch_array($sresult);
-    $sql = "select count(cmid) from crawler_member_real where user_id='$member_1[mem_id]' ";
+    $sql = "select count(cmid) from crawler_member_real where user_id='{$member_1['mem_id']}' ";
     $sresult = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
     $crow = mysqli_fetch_array($sresult);
     if ($crow[0] == 0) {

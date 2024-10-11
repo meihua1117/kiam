@@ -165,7 +165,7 @@ $error_arr=array();
 					}	
 					
 					$sql_i="insert into Gn_MMS_Deny set ";
-					$deny_info[mem_id]=$_SESSION['one_member_id'];
+					$deny_info['mem_id']=$_SESSION['one_member_id'];
 					$deny_info['send_num']=$send_num;	
 					$deny_info['recv_num']=$recv_num;			
 					$deny_info[title]=$data->sheets[0]['cells'][$i][3];

@@ -19,7 +19,7 @@ if($_POST['mode'] =="save") {
     	$sql="select * from Gn_Member_Business_Request  where mem_id='".$_SESSION['one_member_id']."' and service_want_type='$service_want_type'";
     	$result=mysqli_query($self_con,$sql);
     	$sdata=mysqli_fetch_array($result);	    
-    	if($sdata[mem_id]) {
+    	if($sdata['mem_id']) {
     	    echo '{"result":"fail","msg":"이미 신청 정보가 있습니다."}';
     	    exit;
     	}

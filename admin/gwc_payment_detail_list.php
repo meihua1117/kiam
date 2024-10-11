@@ -460,11 +460,11 @@ $search_month = $search_month?sprintf("%02d",$search_month):sprintf("%02d",date(
                                         $img_link = $row_cont_data[contents_img];
                                     }
 
-                                    $price_data2 = number_format($row[use_point])."/\n".number_format($row[contents_price] * 1 + $row[salary_price] * 1 - $row[use_point] * 1);
+                                    $price_data2 = number_format($row['use_point'])."/\n".number_format($row[contents_price] * 1 + $row[salary_price] * 1 - $row['use_point'] * 1);
 
                                     $price_data1 = number_format($row[contents_price] * 1 + $row[salary_price] * 1)."/\n0";
 
-                                    if(!$row[use_point]){
+                                    if(!$row['use_point']){
                                         $min_val = ceil(($row[contents_price] * 1 / $row[contents_cnt] * 1) * 0.03);
                                     }
                                     else{

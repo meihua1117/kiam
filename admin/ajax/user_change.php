@@ -42,10 +42,10 @@ if($_POST['mem_code']) {
 	    $date_today=date("Y-m-d g:i:s");
     	$dateLimit = date("Y-m-d 23:59:59",strtotime($date_today."+6 months")); //가입일 +6개월        
         $asql="insert into tjd_pay_result (phone_cnt,fujia_status,month_cnt,end_date,end_status,TotPrice,pc_mobile, date, cancel_status,buyertel,buyer_id) values";
-        $asql.="(300,'Y',6,'".$dateLimit."','Y','".$total_pay_money."',pc_mobile, '".$date_today."', cancel_status,'".$mem_phone."','".$row[mem_id]."')";
+        $asql.="(300,'Y',6,'".$dateLimit."','Y','".$total_pay_money."',pc_mobile, '".$date_today."', cancel_status,'".$mem_phone."','".$row['mem_id']."')";
 	    mysqli_query($self_con,$asql);
 	    
-	    $sql_num_up="update Gn_MMS_Number set end_status='Y' , end_date=date_add(now(),INTERVAL 6 MONTH) where mem_id='$row[mem_id]' ";
+	    $sql_num_up="update Gn_MMS_Number set end_status='Y' , end_date=date_add(now(),INTERVAL 6 MONTH) where mem_id='{$row['mem_id']}' ";
 	    mysqli_query($self_con,$sql_num_up);	    
 	}
     // 앱비밀번호가 있을경우
@@ -57,14 +57,14 @@ if($_POST['mem_code']) {
     if($web_passwd) {
         $addSql .= " ,web_pwd=password('$web_passwd')";
         $web_pwd = md5($web_passwd);
-        $dber_sql="update crawler_member_real set `password` = '$web_pwd' where user_id='$row[mem_id]'";
+        $dber_sql="update crawler_member_real set `password` = '$web_pwd' where user_id='{$row['mem_id']}'";
         mysqli_query($self_con,$dber_sql);
     }
     // 스마트폰 번호가 있을경우
     if($row['mem_phone'] != $mem_phone) {
         $addSql .= " ,mem_phone='$mem_phone'";
         $changePhone = true;
-        $sql="update tjd_pay_result set fujia_status='Y' where buyer_id='$row[mem_id]'";
+        $sql="update tjd_pay_result set fujia_status='Y' where buyer_id='{$row['mem_id']}'";
         mysqli_query($self_con,$sql);	        
     }
     if($row['mem_phone1'] != $mem_phone1) {
@@ -132,7 +132,7 @@ if($_POST['mem_code']) {
 if($_POST['mem_code'] && $_POST['sendnum']) {
     // 기부회원 정보 수정 [기부비율]
     if($donation_rate) {
-        $sql_num="update Gn_MMS_Number set donation_rate='$donation_rate' where mem_id='$row[mem_id]' and sendnum='$sendnum' ";
+        $sql_num="update Gn_MMS_Number set donation_rate='$donation_rate' where mem_id='{$row['mem_id']}' and sendnum='$sendnum' ";
         mysqli_query($self_con,$sql_num);
     }
 }
@@ -164,7 +164,7 @@ function setPosition($user_id, $position)
             mysqli_query($self_con,$strQuery1);
             $bOnce = true;
         }
-        setPosition($arrResult[mem_id], $position);
+        setPosition($arrResult['mem_id'], $position);
     }
 }
 

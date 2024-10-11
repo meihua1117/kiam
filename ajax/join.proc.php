@@ -157,7 +157,7 @@ else if($mode == "check_recommender") {
     $sql="select mem_id from Gn_Member where mem_id='$rphone'";
     $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
     $row=mysqli_fetch_array($result);
-    if($row[mem_id]) {
+    if($row['mem_id']) {
         echo '{"result":"success"}';
         exit;
     } else {

@@ -82,7 +82,7 @@ if($f_count > 0){
     $f_index = 0;
     $f_name = "";
     while($f_row = mysqli_fetch_array($f_res)){
-        if($f_name == "" && $f_row[mem_id] != $_SESSION['iam_member_id'])
+        if($f_name == "" && $f_row['mem_id'] != $_SESSION['iam_member_id'])
             $f_name = $f_row['mem_name'];
         if($f_index++ < 12){
             $body .= '                        <div style="border:1px solid #ddd;border-radius: 50%;width: 30px;height: 30px;overflow: hidden;margin-left: -10px;">';

@@ -228,7 +228,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                     while($row = mysqli_fetch_array($res)) {  
                       
                       $query = "
-                      SELECT mem_name from Gn_Member where mem_id='$row[mem_id]'";
+                      SELECT mem_name from Gn_Member where mem_id='{$row['mem_id']}'";
                       $sres = mysqli_query($self_con,$query);
                       $urow = mysqli_fetch_array($sres);    
 
@@ -270,7 +270,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                         
 											<td><label><input type="checkbox" name="fs_idx" value="<?=$row[idx]?>" /></label></td>
 											<td><?=$number--?></td>
-                                            <td style="font-size:12px;"><?=$row[mem_id]?></td>
+                                            <td style="font-size:12px;"><?=$row['mem_id']?></td>
                                             <td style="font-size:12px;"><?=$urow['mem_name']?></td>											
 											<td><?=$row_n['memo']?></td>											
 	                                        <td><?=$row['send_num']?></td>

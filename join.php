@@ -396,10 +396,10 @@ $(function(){
                                             <tr>
                                             <td>추천인ID</td>
                                                 <td>
-                                                    <input type="text" name="recommend_id" id="recommend_id" onblur="check_recommender()" itemname='추천인ID' style="width:21%;" value="<?php echo $info[mem_id]?>" <?php if($info[mem_id]!="") echo  "readonly";?>/>
+                                                    <input type="text" name="recommend_id" id="recommend_id" onblur="check_recommender()" itemname='추천인ID' style="width:21%;" value="<?php echo $info['mem_id']?>" <?php if($info['mem_id']!="") echo  "readonly";?>/>
                                                     <input type="hidden" id="is_exist_recommender" name="is_exist_recommender" >
                                                     <label>※추천인 아이디를 입력하되 추천자가 없을 경우 패스합니다. </label>
-                                                    <input type="hidden" name="recommend_branch" id="recommend_branch" itemname='추천인대리점ID' style="width:21%;" value="<?php echo $info[mem_id]?>" <?php if($info[mem_id]!="") echo  "readonly";?>/>
+                                                    <input type="hidden" name="recommend_branch" id="recommend_branch" itemname='추천인대리점ID' style="width:21%;" value="<?php echo $info['mem_id']?>" <?php if($info['mem_id']!="") echo  "readonly";?>/>
                                                 </td>
                                             </tr-->
                                             <?if($_REQUEST[recom_id]){?>

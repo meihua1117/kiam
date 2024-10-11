@@ -298,7 +298,7 @@ $date_today=date("Y-m")."-01 00:00:00";
                                         $yt_name = $row_tjd['provider_name']."/\n온리원";
                                     }
 
-                                    $sql_buyer = "select mem_cash from Gn_Member where mem_id='{$row[mem_id]}'";
+                                    $sql_buyer = "select mem_cash from Gn_Member where mem_id='{$row['mem_id']}'";
                                     $res_buyer = mysqli_query($self_con,$sql_buyer);
                                     $row_buyer = mysqli_fetch_array($res_buyer);
 
@@ -321,7 +321,7 @@ $date_today=date("Y-m")."-01 00:00:00";
                                         $img_link = $row_cont_data[contents_img];
                                     }
 
-                                    $price_data2 = $row[use_point]."/\n".($row_tjd[TotPrice] * 1 - $row[use_point] * 1);
+                                    $price_data2 = $row['use_point']."/\n".($row_tjd[TotPrice] * 1 - $row['use_point'] * 1);
 
                                     $sql_price_all = "select SUM(TotPrice) as all_price from tjd_pay_result where gwc_cont_pay=1 and buyer_id='{$row['buyer_id']}'";
                                     $res_price_all = mysqli_query($self_con,$sql_price_all);
@@ -362,7 +362,7 @@ $date_today=date("Y-m")."-01 00:00:00";
                                         <td>
                                             <form method="post" name="changeForm<?=$i?>" id="changeForm<?=$i?>" action="ajax/gwc_payment_save.php">
                                                 <input type="hidden" name="no" value="<?=$row['id']?>" >
-                                                <input type="hidden" name="use_point" id="use_point_<?=$i?>" value="<?=$row[use_point]?>" >
+                                                <input type="hidden" name="use_point" id="use_point_<?=$i?>" value="<?=$row['use_point']?>" >
                                                 <input type="hidden" name="type" id="type_<?=$i?>" value="prod_state_change">
                                                 <select name="prod_req_state"  onchange="payment_save('#changeForm<?=$i?>');return false;" style="font-size:11px;">
                                                     <option value="0" <?php echo $row['prod_req_state'] == "0"?"selected":""?> title="진행상태">진행상태</option>

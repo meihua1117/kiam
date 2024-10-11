@@ -513,7 +513,7 @@ input, select, textarea {
                             $com_add1 = $row_mem_reg['com_add1']?$row_mem_reg['com_add1']:'업체주소';
                             $mem_add1 = $row_mem_reg['mem_add1']?$row_mem_reg['mem_add1']:'자택주소';
 
-                            $query = "select card_short_url from Gn_Iam_Name_Card where group_id is NULL and mem_id = '$row_mem_reg[mem_id]' order by req_data asc";
+                            $query = "select card_short_url from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$row_mem_reg['mem_id']}' order by req_data asc";
                             $cres = mysqli_query($self_con,$query);
                             $crow = mysqli_fetch_array($cres);
                             $card_url = $crow[0];?>
@@ -695,7 +695,7 @@ input, select, textarea {
                             $com_add1 = $row_mem_reg['com_add1']?$row_mem_reg['com_add1']:'업체주소';
                             $mem_add1 = $row_mem_reg['mem_add1']?$row_mem_reg['mem_add1']:'자택주소';
 
-                            $query = "select card_short_url from Gn_Iam_Name_Card where group_id is NULL and mem_id = '$row_mem_reg[mem_id]' order by req_data asc";
+                            $query = "select card_short_url from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$row_mem_reg['mem_id']}' order by req_data asc";
                             $cres = mysqli_query($self_con,$query);
                             $crow = mysqli_fetch_array($cres);
                             $card_url = $crow[0];
@@ -883,7 +883,7 @@ input, select, textarea {
                             $mem_add1 = $row_mem_reg['mem_add1']?$row_mem_reg['mem_add1']:'자택주소';
                             // $mem_memo = $row_mem_reg['mem_memo']?$row_mem_reg['mem_memo']:'메모';
 
-                            $query = "select card_short_url from Gn_Iam_Name_Card where group_id is NULL and mem_id = '$row_mem_reg[mem_id]' order by req_data asc";
+                            $query = "select card_short_url from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$row_mem_reg['mem_id']}' order by req_data asc";
                             $cres = mysqli_query($self_con,$query);
                             $crow = mysqli_fetch_array($cres);
                             $card_url = $crow[0];

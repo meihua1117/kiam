@@ -247,7 +247,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                   				?>
                       				<tr>
                         				<td><?=$number--?></td>
-										<td><?=$row[mem_id]?></td>	
+										<td><?=$row['mem_id']?></td>	
 										<td><?=$row['mem_name']?></td>											
 										<td><?=$row[site]?></td>											
 										<td><?=$row[site_iam]?></td>											

@@ -34,7 +34,7 @@ exit;
         <table class="write_table" width="100%" border="0" cellspacing="0" cellpadding="0">
         <tr>
         <td>아이디</td>
-        <td><?=$member_1[mem_id]?></td>
+        <td><?=$member_1['mem_id']?></td>
         </tr>
         <tr>
         <td>닉네임</td>

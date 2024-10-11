@@ -15,7 +15,7 @@ if($_REQUEST['mode']=="inser")
 	{
 		$deny_info['send_num']=$row['send_num'];
 		$deny_info['recv_num']=$_REQUEST[n];
-		$deny_info[mem_id]=$row[mem_id];
+		$deny_info['mem_id']=$row['mem_id'];
 		$deny_info[title]=$row[title];
 		$deny_info['content']=substr(htmlspecialchars($row['content']),0,20)."...";
 		$deny_info[jpg]=$row[jpg];
@@ -29,7 +29,7 @@ if($_REQUEST['mode']=="inser")
 		$sql.=" reg_date=now() ";
 		mysqli_query($self_con,$sql);
 	}
-	$user_id = $row[mem_id];
+	$user_id = $row['mem_id'];
 	if($_REQUEST[u])
 	{
 	?>

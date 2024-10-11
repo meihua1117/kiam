@@ -162,7 +162,7 @@ $result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
                 	<td colspan="2" style="text-align:right;">
                     <a href="faq_list.php?status=<?=$_REQUEST[status]?>"><img src="images/btn_list.gif" /></a>
                     <?
-					if($member_1[mem_id]==$row_no['id'])
+					if($member_1['mem_id']==$row_no['id'])
 					{
 					?>
                     <a href="javascript:void(0)" onclick="board_del('<?=$row_no[no]?>','<?=$_REQUEST[status]?>')"><img src="images/client_1_5.jpg" /></a>

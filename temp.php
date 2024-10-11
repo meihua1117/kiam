@@ -5,7 +5,7 @@ include_once "lib/db_config.php";
 $res = mysqli_query($self_con,$query);
 while($row = mysqli_fetch_array($res)){
     $site = $row['site_iam'];
-    $mem_id = $row[mem_id];
+    $mem_id = $row['mem_id'];
     
     if($site == "kiam"){
         $sub_domain = "www.kiam.kr";
@@ -15,7 +15,7 @@ while($row = mysqli_fetch_array($res)){
     $query = "select iamcard_cnt,my_card_cnt,send_content,mem_id from Gn_Iam_Service where sub_domain like '%$sub_domain%'";
     $res1 = mysqli_query($self_con,$query);
     $data = mysqli_fetch_array($res1);
-    if($mem_id == $data[mem_id])
+    if($mem_id == $data['mem_id'])
         $card_cnt = $data[my_card_cnt];
     else
         $card_cnt = $data[iamcard_cnt];

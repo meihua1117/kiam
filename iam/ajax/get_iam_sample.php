@@ -72,7 +72,7 @@ $body = '';
 for($i=0 ; $i < count($sample_list); $i++)
 {
     $contents_row = $sample_list[$i];
-    $sample_sql = "select mem_code from Gn_Member where mem_id='$contents_row[mem_id]'";
+    $sample_sql = "select mem_code from Gn_Member where mem_id='{$contents_row['mem_id']}'";
     $sample_res = mysqli_query($self_con,$sample_sql);
     $sample_row = mysqli_fetch_array($sample_res);
     $desc = $contents_row[card_name] . '/'. $contents_row[card_company]. '/'. $contents_row[card_position];

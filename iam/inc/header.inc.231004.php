@@ -82,7 +82,7 @@ $result = mysqli_query($self_con,$sql);
 $main_card_row = mysqli_fetch_array($result);
 $first_card_url = $main_card_row[card_short_url];//분양사이트 1번 네임카드 url
 
-$sql = "select site_iam,mem_code from Gn_Member where mem_id = '$main_card_row[mem_id]'";
+$sql = "select site_iam,mem_code from Gn_Member where mem_id = '{$main_card_row['mem_id']}'";
 $result = mysqli_query($self_con,$sql);
 $row = mysqli_fetch_array($result);
 $bunyang_site = $row['site_iam'];
@@ -558,7 +558,7 @@ else{
 							<div style="margin-left:20px;font-family: 'notokr', sans-serif;">
 								<h4><?=$member_iam['mem_name']?></h4>
 								<div style="display:flex;margin-top:10px">
-									<h5 style="padding:5px 0px;margin:0px"><?=$member_iam[mem_id]?></h5>
+									<h5 style="padding:5px 0px;margin:0px"><?=$member_iam['mem_id']?></h5>
 									<? 
 										$mem_leb = "일반";
 										if($member_iam['mem_leb'] == "22")

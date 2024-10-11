@@ -64,7 +64,7 @@ if($_POST[auto_pay_status]==2 && $_SESSION[form_submit])
 			$pay_info[applTime]=$inipay->m_pgAuthTime;//승인시각
 			$pay_info[mid]=$_POST[mid];//상점ID
 			$pay_info[VACT_InputName]=$_POST[buyername];//구매자명
-			$pay_info[buyer_id]=$member_1[mem_id];
+			$pay_info[buyer_id]=$member_1['mem_id'];
 			$pay_info[ApplNum]=$inipay->m_authCode;//승인번호
 			$pay_info[CARD_Quota]=$_POST[cardquota];//할부개월
 			$pay_info[pc_mobile]="A";
@@ -84,7 +84,7 @@ if($_POST[auto_pay_status]==2 && $_SESSION[form_submit])
 				}
 				$sql.=" end_date=date_add(now(),INTERVAL {$_POST[month_cnt]} month) , date=now() where no='$_POST[pay_ex_no]'";
 				
-				$sql_num_up="update Gn_MMS_Number set end_status='Y' , end_date=date_add(now(),INTERVAL {$_POST[month_cnt]} month) where end_date = '$_POST[pay_ex_end_date]' and mem_id='$member_1[mem_id]' ";
+				$sql_num_up="update Gn_MMS_Number set end_status='Y' , end_date=date_add(now(),INTERVAL {$_POST[month_cnt]} month) where end_date = '$_POST[pay_ex_end_date]' and mem_id='{$member_1['mem_id']}' ";
 				mysqli_query($self_con,$sql_num_up) or die(mysqli_error($self_con));
 				//$sql_back="insert into tjd_pay_result_back (select * from tjd_pay_result where no='{$_POST[pay_ex_no]}' )";
 				//mysqli_query($self_con,$sql_back) or die(mysqli_error($self_con));
@@ -103,12 +103,12 @@ if($_POST[auto_pay_status]==2 && $_SESSION[form_submit])
 			
 			if($_POST[fujia_status])
 			{
-			$sql_m="update Gn_Member set fujia_date1=now() , fujia_date2=date_add(now(),INTERVAL {$_POST[month_cnt]} month) where mem_id='$member_1[mem_id]' ";
+			$sql_m="update Gn_Member set fujia_date1=now() , fujia_date2=date_add(now(),INTERVAL {$_POST[month_cnt]} month) where mem_id='{$member_1['mem_id']}' ";
 			mysqli_query($self_con,$sql_m)or die(mysqli_error($self_con));
 			}
 	}	
 }
-$sql="select * from tjd_pay_result where orderNumber='{$_POST[oid]}' and buyer_id='$member_1[mem_id]' ";
+$sql="select * from tjd_pay_result where orderNumber='{$_POST[oid]}' and buyer_id='{$member_1['mem_id']}' ";
 $resul=mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
 $row=mysqli_fetch_array($resul);	
 ?>

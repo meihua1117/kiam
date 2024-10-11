@@ -35,19 +35,19 @@ else if($type == "delete_list"){
             $sql_order = "select mem_id, use_point, order_mem_name, order_mem_phone, seller_id, contents_cnt from Gn_Gwc_Order where tjd_idx='{$no_arr[$i]}'";
             $res_order = mysqli_query($self_con,$sql_order);
             while($row_order = mysqli_fetch_array($res_order)){
-                if($row_order[use_point]){
-                    $sql_mem_cash = "update Gn_Member set mem_cash=mem_cash+{$row_order[use_point]} where mem_id='$row_order[mem_id]'";
+                if($row_order['use_point']){
+                    $sql_mem_cash = "update Gn_Member set mem_cash=mem_cash+{$row_order['use_point']} where mem_id='{$row_order['mem_id']}'";
                     mysqli_query($self_con,$sql_mem_cash);
-                    $sql_mem = "select mem_point, mem_cash from Gn_Member where mem_id='{$row_order[mem_id]}'";
+                    $sql_mem = "select mem_point, mem_cash from Gn_Member where mem_id='{$row_order['mem_id']}'";
                     $res_mem = mysqli_query($self_con,$sql_mem);
                     $row_mem = mysqli_fetch_array($res_mem);
                     $sql_buyer = "insert into Gn_Item_Pay_Result
-                            set buyer_id='$row_order[mem_id]',
+                            set buyer_id='{$row_order['mem_id']}',
                                 buyer_tel='$row_order[order_mem_phone]',
                                 site='',
                                 pay_method='POINT',
                                 item_name = '캐시포인트충전(결제취소)',
-                                item_price=$row_order[use_point],
+                                item_price={$row_order['use_point']},
                                 seller_id='$row_order[seller_id]',
                                 pay_date=NOW(),
                                 pay_status='Y',

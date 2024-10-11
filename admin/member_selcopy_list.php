@@ -239,12 +239,12 @@ function excel_down_(){
                 	$query .= "$orderQuery";
                 	$res = mysqli_query($self_con,$query);
                     while($row = mysqli_fetch_array($res)) {                       	
-                    	$sql = "select * from Gn_Member where recommend_id='$row[mem_id]'";
+                    	$sql = "select * from Gn_Member where recommend_id='{$row['mem_id']}'";
                     	$res_result = mysqli_query($self_con,$sql);
                     	$sInfo = mysqli_fetch_array($res_result);
                     	mysqli_free_result($res_result);                        
                         
-                    	$sql = "select count(mem_id) cnt from Gn_Member where recommend_id='$row[mem_id]'";
+                    	$sql = "select count(mem_id) cnt from Gn_Member where recommend_id='{$row['mem_id']}'";
                     	$res_result = mysqli_query($self_con,$sql);
                     	$sCnt = mysqli_fetch_array($res_result);
                     	mysqli_free_result($res_result);

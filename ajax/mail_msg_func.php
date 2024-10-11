@@ -7,7 +7,7 @@ if($_SESSION['one_member_id'] != "")
 		if(isset($_POST['mail_title']) && isset($_POST['mail_content'])){
 
 			$sql="insert into gn_mail_message set "; 
-			$message_info[mem_id]=$_SESSION['one_member_id'];
+			$message_info['mem_id']=$_SESSION['one_member_id'];
 			$message_info[title]=htmlspecialchars(str_replace("{|name|}", "{|REP|}",$_POST[mail_title]));
 			$message_info[message]=htmlspecialchars(str_replace("{|name|}", "{|REP|}",$_POST[mail_content]));
 			$message_info[file]=$_POST[attach_file];

@@ -31,7 +31,7 @@ if(strlen($_SESSION['one_member_id']) > 0) {
 				->setCellValue("H1", "등록일");
 	$h=2;
 	while($row=mysqli_fetch_array($result)){
-		$sql="select mem_name, mem_phone from Gn_Member where mem_id='$row[mem_id]'";
+		$sql="select mem_name, mem_phone from Gn_Member where mem_id='{$row['mem_id']}'";
 		$sresul=mysqli_query($self_con,$sql);
 		$srow=mysqli_fetch_array($sresul);
 

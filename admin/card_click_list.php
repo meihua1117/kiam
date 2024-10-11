@@ -259,7 +259,7 @@ $(function() {
                                         <td><?=$row[idx]?></td>
                                         <td>
                                             <div style="overflow-x:hidden;width:100px;">
-                                                <?=$mem_row[site]?>/<br><?=$mem_row[site_iam]?>/<br><?=$row[mem_id]?>
+                                                <?=$mem_row[site]?>/<br><?=$mem_row[site_iam]?>/<br><?=$row['mem_id']?>
                                             </div>
                                         </td>
                                         <td>

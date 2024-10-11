@@ -131,7 +131,7 @@ window.onload=function()
     <input type="hidden" name="uid" value="">
     <input type="hidden" name="version" value="4000">
     <input type="hidden" name="clickcontrol" value="">
-    <input type="hidden" name="merchantreserved3"  value="<?=$member_1[mem_id]?>">
+    <input type="hidden" name="merchantreserved3"  value="<?=$member_1['mem_id']?>">
     <input type="hidden" name="auto_pay_status">
     
     <input type="text" name="phone_cnt" value="<?=$_POST[add_phone]?>" />

@@ -1,11 +1,11 @@
 <?
 $path="./";
 include_once "_head.php";
-if($member_1[mem_id] == "") {
+if($member_1['mem_id'] == "") {
     echo "<script>location.history(-1);</script>";
     exit;
 }
-$sql="select * from Gn_Member where mem_id='$member_1[mem_id]' ";
+$sql="select * from Gn_Member where mem_id='{$member_1['mem_id']}' ";
 $res=mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
 $data=mysqli_fetch_array($res);
 ?>

@@ -139,7 +139,7 @@ foreach($cont_array as $row6){
     $diplay_result=mysqli_query($self_con,$diplay_sql);
     $diplay_row=mysqli_fetch_array($diplay_result);
 
-    $friend_sql="select profile from Gn_Member where mem_id = '$diplay_row[mem_id]'";
+    $friend_sql="select profile from Gn_Member where mem_id = '{$diplay_row['mem_id']}'";
     $friend_result=mysqli_query($self_con,$friend_sql);
     $friend_row=mysqli_fetch_array($friend_result);
     $friends_main_img = $friend_row[profile];

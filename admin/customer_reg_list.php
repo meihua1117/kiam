@@ -349,7 +349,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                         $memo = $row_mem_reg['mem_memo']?$row_mem_reg['mem_memo']:'';
                         $reg_date = $row_mem_reg['first_regist']?$row_mem_reg['first_regist']:'';
 
-                        $query = "select card_short_url from Gn_Iam_Name_Card where group_id is NULL and mem_id = '$row_mem_reg[mem_id]' order by req_data asc";
+                        $query = "select card_short_url from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$row_mem_reg['mem_id']}' order by req_data asc";
                         $cres = mysqli_query($self_con,$query);
                         $crow = mysqli_fetch_array($cres);
                         $card_url = $crow[0];

@@ -136,7 +136,7 @@ if($_SESSION[form_submit])
 			$pay_info[applTime]=$inipay->GetResult('ApplTime');//승인시각
 			$pay_info[mid]=$inipay->GetResult('MID');//상점ID
 			$pay_info[VACT_InputName]=$member_1['mem_name'];//구매자명
-			$pay_info[buyer_id]=$member_1[mem_id];
+			$pay_info[buyer_id]=$member_1['mem_id'];
 			$pay_info[ApplNum]=$inipay->GetResult('ApplNum');//승인번호
 			$pay_info[CARD_Quota]=$inipay->GetResult('CARD_Quota');//할부개월
 			$pay_info[CARD_Code]=$inipay->GetResult('CARD_Code');//카드코드
@@ -176,7 +176,7 @@ if($_SESSION[form_submit])
 				$sql.=" end_date=date_add(now(),INTERVAL {$_POST[month_cnt]} month) , date=now() where no='$_POST[pay_ex_no]',add_phone='$_POST[add_phone]' where ";
 				
 				
-				$sql_num_up="update Gn_MMS_Number set end_status='Y' , end_date=date_add(now(),INTERVAL {$_POST[month_cnt]} month) where end_date = '$_POST[pay_ex_end_date]' and mem_id='$member_1[mem_id]' ";
+				$sql_num_up="update Gn_MMS_Number set end_status='Y' , end_date=date_add(now(),INTERVAL {$_POST[month_cnt]} month) where end_date = '$_POST[pay_ex_end_date]' and mem_id='{$member_1['mem_id']}' ";
 				mysqli_query($self_con,$sql_num_up) or die(mysqli_error($self_con));				
 				//$sql_back="insert into tjd_pay_result_back (select * from tjd_pay_result where no='{$_POST[pay_ex_no]}' )";
 				//mysqli_query($self_con,$sql_back) or die(mysqli_error($self_con));
@@ -198,10 +198,10 @@ if($_SESSION[form_submit])
 			//if($_POST[fujia_status])
 			//{
 						
-			$sql_m="update Gn_Member set fujia_date1=now() , fujia_date2=date_add(now(),INTERVAL {$_POST[month_cnt]} month)  where mem_id='$member_1[mem_id]' ";
+			$sql_m="update Gn_Member set fujia_date1=now() , fujia_date2=date_add(now(),INTERVAL {$_POST[month_cnt]} month)  where mem_id='{$member_1['mem_id']}' ";
 			mysqli_query($self_con,$sql_m)or die(mysqli_error($self_con));
 			//print_r($_POST);
-			$sql_m="update Gn_Member set   phone_cnt=phone_cnt+'$_POST[add_phone]' where mem_id='$member_1[mem_id]' ";
+			$sql_m="update Gn_Member set   phone_cnt=phone_cnt+'$_POST[add_phone]' where mem_id='{$member_1['mem_id']}' ";
 			//echo $sql_m;
 			
 			mysqli_query($self_con,$sql_m)or die(mysqli_error($self_con));			
@@ -219,12 +219,12 @@ if($_SESSION[form_submit])
             총판 소속일경우 (직판 70% , 직원판매시 30%) 1100
             */
             // 등급에 따른 recommend_type 설정
-            $sql="select * from Gn_Member where mem_id='$member_1[mem_id]' ";
+            $sql="select * from Gn_Member where mem_id='{$member_1['mem_id']}' ";
             $sresult=mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
             $srow=mysqli_fetch_array($sresult);	
 
             
-            $sql="select * from crawler_member_real where user_id='$member_1[mem_id]' ";
+            $sql="select * from crawler_member_real where user_id='{$member_1['mem_id']}' ";
             $sresult=mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
             $crow=mysqli_fetch_array($sresult);	        
             $user_id=$srow['mem_id'];
@@ -318,7 +318,7 @@ if($_SESSION[form_submit])
                         //$recommend_type = 50;
                      }
                     
-                	$sql_m="update Gn_Member set   recommend_type='$recommend_type' where mem_id='$member_1[mem_id]' ";
+                	$sql_m="update Gn_Member set   recommend_type='$recommend_type' where mem_id='{$member_1['mem_id']}' ";
                 	mysqli_query($self_con,$sql_m)or die(mysqli_error($self_con));			
                 	
                 	//$share_per = $recommend_type;
@@ -335,7 +335,7 @@ if($_SESSION[form_submit])
             }
 	}	
 }
-$sql="select * from tjd_pay_result where orderNumber='{$inipay->GetResult('MOID')}' and buyer_id='$member_1[mem_id]' ";
+$sql="select * from tjd_pay_result where orderNumber='{$inipay->GetResult('MOID')}' and buyer_id='{$member_1['mem_id']}' ";
 $resul=mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
 $row=mysqli_fetch_array($resul);	
 ?>

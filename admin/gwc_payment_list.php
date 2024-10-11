@@ -287,7 +287,7 @@ set_gwc_delivery_state();
                                         $sql_gong = "select mem_id, mem_name from Gn_Member where gwc_provider_name='{$row['provider_name']}'";
                                         $res_gong = mysqli_query($self_con,$sql_gong);
                                         $row_gong = mysqli_fetch_array($res_gong);
-                                        $gong_data = $row_gong['mem_name']."<br>".$row_gong[mem_id];
+                                        $gong_data = $row_gong['mem_name']."<br>".$row_gong['mem_id'];
 
                                         $yt_name = $row['provider_name']."<br>온리원";
                                     }

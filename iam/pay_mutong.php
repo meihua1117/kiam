@@ -1,6 +1,6 @@
 <?
 include "inc/header.inc.php";
-if($member_iam[mem_id] == "") {
+if($member_iam['mem_id'] == "") {
     echo "<script>location.history(-1);</script>";
     exit;
 }

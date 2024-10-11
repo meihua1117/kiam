@@ -185,7 +185,7 @@ if($_POST['mode'] == "munja_send"){
         echo json_encode(array("result"=>"등록되지 않은 api입니다."));
     }else{
         if($row['check_type'] == "phone"){
-            $query = "select count(idx) from Gn_MMS where mem_id='$row[mem_id]' and content like '%$check_str%' and type='10' and recv_num = '$recv_phone' order by idx desc";
+            $query = "select count(idx) from Gn_MMS where mem_id='{$row['mem_id']}' and content like '%$check_str%' and type='10' and recv_num = '$recv_phone' order by idx desc";
             $res = mysqli_query($self_con,$query);
             $row = mysqli_fetch_array($res);
             if($row[0] > 0){

@@ -6,7 +6,7 @@ if($_COOKIE['mem_code']) {
 	$result=mysqli_query($self_con,$sql);
 	$info=mysqli_fetch_array($result);
 
-	//$sql="select * from Gn_Service where mem_id='$info[mem_id]'";
+	//$sql="select * from Gn_Service where mem_id='$info['mem_id']'";
 	//$result=mysqli_query($self_con,$sql);
 	//$sinfo=mysqli_fetch_array($result);
 }
@@ -253,7 +253,7 @@ if($_COOKIE['mem_code']) {
 											<div class="attr-name">추천인 ID</div>
 											<div class="attr-value">
 												<div class="input-wrap">
-													<input type="text"  class="input" name="recommend_id" id="recommend_id" onblur="check_recommender()" itemname='추천인ID' value="<?echo $info[mem_id]?>" <?if($info[mem_id]!="") echo  "readonly";?>/>
+													<input type="text"  class="input" name="recommend_id" id="recommend_id" onblur="check_recommender()" itemname='추천인ID' value="<?echo $info['mem_id']?>" <?if($info['mem_id']!="") echo  "readonly";?>/>
 													<input type="hidden" id="is_exist_recommender" name="is_exist_recommender">
 												</div>
 											   	<div class="desc">
