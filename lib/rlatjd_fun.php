@@ -31,7 +31,6 @@ include_once "common_env.php";
 define('G5_ESCAPE_PATTERN',  '/(and|or).*(union|select|insert|update|delete|from|where|limit|create|drop).*/i');
 define('G5_ESCAPE_REPLACE',  '');
 define('G5_ESCAPE_FUNCTION', 'sql_escape_string');
-
 function sql_escape_string($str)
 {
 	if (defined('G5_ESCAPE_PATTERN') && defined('G5_ESCAPE_REPLACE')) {
