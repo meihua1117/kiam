@@ -38,7 +38,7 @@ if(strlen($_REQUEST[one_member_id]) > 0) {
 					$sql_deny="select idx,recv_num from Gn_MMS_Deny where recv_num='$v' and mem_id='$_REQUEST[one_member_id]' ";
 					$resul_deny=mysqli_query($self_con,$sql_deny);
 					$row_deny=mysqli_fetch_array($resul_deny);
-					if($row_deny[idx])
+					if($row_deny['idx'])
 					array_push($status_arr,"수신거부");
 						
 					//$sql_etc="select seq,dest,msg_flag from sm_log where ori_num='$v' order by seq desc limit 0,1 ";

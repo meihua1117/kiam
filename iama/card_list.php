@@ -277,7 +277,7 @@ else{
                                     // echo $query;
                                     $res = mysqli_query($self_con,$query);
                                     while($row = mysqli_fetch_array($res)) {
-                                        $friends_sql = "select count(idx) from Gn_Iam_Friends where friends_card_idx = $row[idx]";
+                                        $friends_sql = "select count(idx) from Gn_Iam_Friends where friends_card_idx = {$row['idx']}";
                                         $friends_res =mysqli_query($self_con,$friends_sql);
                                         $friends_row = mysqli_fetch_array($friends_res);
                                         

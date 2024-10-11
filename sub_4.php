@@ -260,7 +260,7 @@ $(function(){
 											$today_cnt_1+= $row_result2_g[0] * 1;
 												
 											if($today_cnt_1 > $row[max_cnt]){
-												$sql_cnt_u=" update Gn_MMS_Number set user_cnt=0 where idx='$row[idx]' ";
+												$sql_cnt_u=" update Gn_MMS_Number set user_cnt=0 where idx='{$row['idx']}' ";
 												mysqli_query($self_con,$sql_cnt_u);										
 											}
 											
@@ -647,20 +647,20 @@ $(function(){
 												while($row=mysqli_fetch_array($result)){
 											?>
 											<tr>
-												<td><label><input type="checkbox" value="<?=$row[idx]?>" name="chk" id="chk" onclick="group_choice('<?=$g?>')" /><?=$sort_no?></label></td>
+												<td><label><input type="checkbox" value="<?=$row['idx']?>" name="chk" id="chk" onclick="group_choice('<?=$g?>')" /><?=$sort_no?></label></td>
 												<td class="group_title_<?=$g?>">
-												<a href="javascript:void(0)" onclick="show_detail('group_detail.php?grp_id=<?=$row[idx]?>','<?=$g?>')"><?=str_substr($row[grp],0,20,"utf-8")?></a>
+												<a href="javascript:void(0)" onclick="show_detail('group_detail.php?grp_id=<?=$row['idx']?>','<?=$g?>')"><?=str_substr($row[grp],0,20,"utf-8")?></a>
 												<a href="javascript:void(0)" onclick="g_dt_show_cencle('group_title_','','','<?=$g?>')" class="a_btn" style="background-color:#4f81bd;color:#FFF;float:right;">Re</a>
 												</td>
 												<td class="group_title_<?=$g?>" style="display:none;">
 													<input type="text" name="group_title" value="<?=$row[grp]?>" style="width:65%;" />
-													<a href="javascript:void(0)" onclick="group_title_modify('<?=$row[idx]?>','<?=$g?>')" class="a_btn">저장</a>
+													<a href="javascript:void(0)" onclick="group_title_modify('<?=$row['idx']?>','<?=$g?>')" class="a_btn">저장</a>
 													<a href="javascript:void(0)" onclick="g_dt_cencle('group_title_','','','<?=$g?>')">x</a>
 												</td>                                            
 												<td><?=substr($row[reg_date],2,9)?></td>
 												<td><?=$row[count]?></td>
 												<td>
-													<a href="javascript:void(0)" onclick="excel_down('excel_down/excel_down.php?down_type=1','<?=$row[idx]?>')"><img src="images/ico_xls.gif"></a>
+													<a href="javascript:void(0)" onclick="excel_down('excel_down/excel_down.php?down_type=1','<?=$row['idx']?>')"><img src="images/ico_xls.gif"></a>
 													<a href="#" class="btn_option_white" onclick="frm_update(document.getElementById('group<?=$i?>').value,document.getElementById('group_name<?=$i?>').value)" id="upt<?=$i?>" style="display:none;">수정</a>&nbsp;<a href="#" class="btn_option_red" onclick="frm_del(document.getElementById('group_name<?=$i?>').value)" id="del<?=$i?>" style="display:none;">삭제</a>                                            
 												</td>
 											</tr>
@@ -846,8 +846,8 @@ $(function(){
 											</div>
 											<div style="margin-bottom:14px;"><span class="wenzi_cnt"></span> Byte</div>
 											<div class="sub_4_3_t2_right_1_3">
-												<a href="javascript:void(0)" onclick="lms_save(sub_4_form,'<?=$i?>','modify','','<?=$row[idx]?>')"><img src="images/sub_button_711.jpg" /></a>
-												<a href="javascript:void(0)" onclick="lms_del('<?=$row[idx]?>')"><img src="images/sub_button_713.jpg" /></a>
+												<a href="javascript:void(0)" onclick="lms_save(sub_4_form,'<?=$i?>','modify','','<?=$row['idx']?>')"><img src="images/sub_button_711.jpg" /></a>
+												<a href="javascript:void(0)" onclick="lms_del('<?=$row['idx']?>')"><img src="images/sub_button_713.jpg" /></a>
 																																								
 											</div>
 										</div>
@@ -960,8 +960,8 @@ $(function(){
                                             <div><input type="hidden" name="upimage_str" value="<?=$row[img]?>" /></div>                                            
 										</div>
 										<div class="sub_4_3_t2_right_1_3">
-											<a href="javascript:void(0)" onclick="lms_save(sub_4_form,'<?=$i?>','modify','','<?=$row[idx]?>')"><img src="images/sub_button_711.jpg" /></a>
-											<a href="javascript:void(0)" onclick="lms_del('<?=$row[idx]?>')"><img src="images/sub_button_713.jpg" /></a>
+											<a href="javascript:void(0)" onclick="lms_save(sub_4_form,'<?=$i?>','modify','','<?=$row['idx']?>')"><img src="images/sub_button_711.jpg" /></a>
+											<a href="javascript:void(0)" onclick="lms_del('<?=$row['idx']?>')"><img src="images/sub_button_713.jpg" /></a>
                                                                                                                                                               
 										</div>
 									</div>
@@ -1068,7 +1068,7 @@ $(function(){
 										{
 											?>
                                     <tr>
-                                        <td><input type="checkbox" value="<?=$row[idx]?>" name="one_idx" /></td>
+                                        <td><input type="checkbox" value="<?=$row['idx']?>" name="one_idx" /></td>
                                         <td><?=$sort_no?></td>
                                         <td><a href="javascript:void(0)" onclick="show_recv('show_title','<?=$c?>','원북저장-제목')"><?=$row[title]?></a><input type="hidden" name="show_title" value="<?=$row[title]?>" /></td>
                                         <td style="text-align:left;"><a href="javascript:void(0)" onclick="show_recv('show_message','<?=$c?>','원북저장-내용')"><?=str_substr($row[message],0,50,"utf-8")?></a><input type="hidden" name="show_message" value="<?=$row[message]?>" /></td>
@@ -1280,7 +1280,7 @@ $(function(){
 										$c=0;
 										while($row=mysqli_fetch_array($result))
 										{
-											$sql_s="select * from Gn_MMS_status where idx='$row[idx]' ";
+											$sql_s="select * from Gn_MMS_status where idx='{$row['idx']}' ";
 											$resul_s=mysqli_query($self_con,$sql_s);
 											$row_s=mysqli_fetch_array($resul_s);
 											mysqli_free_result($resul_s);
@@ -1293,17 +1293,17 @@ $(function(){
 											$recv_cnt=explode(",",$row['recv_num']);
 											
 											
-                            				$sql_as="select count(idx) as cnt from Gn_MMS_status where idx='$row[idx]' ";
+                            				$sql_as="select count(idx) as cnt from Gn_MMS_status where idx='{$row['idx']}' ";
                             				$resul_as=mysqli_query($self_con,$sql_as);
                             				$row_as=mysqli_fetch_array($resul_as);
                             				$status_total_cnt = $row_as[0];											
                             				
-                            				$sql_cs="select count(idx) as cnt from Gn_MMS_status where idx='$row[idx]' and status='0'";
+                            				$sql_cs="select count(idx) as cnt from Gn_MMS_status where idx='{$row['idx']}' and status='0'";
                             				$resul_cs=mysqli_query($self_con,$sql_cs);
                             				$row_cs=mysqli_fetch_array($resul_cs);
                             				$success_cnt = $row_cs[0];
 
-                            				$sql_sn="select * from Gn_MMS where idx='$row[idx]' ";
+                            				$sql_sn="select * from Gn_MMS where idx='{$row['idx']}' ";
                             				$resul_sn=mysqli_query($self_con,$sql_sn);
                             				$row_sn=mysqli_fetch_array($resul_sn);											
                             				$recv_cnt=explode(",",$row_sn['recv_num']);
@@ -1314,7 +1314,7 @@ $(function(){
 										?>
 
 										<tr>
-											<td><label><input type="checkbox" name="fs_idx" value="<?=$row[idx]?>" /><?=$sort_no?></label></td>
+											<td><label><input type="checkbox" name="fs_idx" value="<?=$row['idx']?>" /><?=$sort_no?></label></td>
 											<td><?=$row_n['memo']?></td>											
 	                                        <td><?=$row['send_num']?></td>
 											<td style="font-size:12px;"><a href="javascript:void(0)" onclick="show_recv('show_recv_num','<?=$c?>','수신번호')"><?=str_substr($row['recv_num'],0,14,'utf-8')?>
@@ -1348,9 +1348,9 @@ $(function(){
 											        if(time() > $reg_date_1hour && $row_s['regdate'] == "") {
 											        ?>
 											            <?if($row[reservation]) {?>
-    											            <a href="javascript:fs_del_num('<?=$row[idx]?>')">취소가능</a>
+    											            <a href="javascript:fs_del_num('<?=$row['idx']?>')">취소가능</a>
 											            <?}else{?>
-											                <a href="javascript:fs_del_num('<?=$row[idx]?>')">미수신</a>
+											                <a href="javascript:fs_del_num('<?=$row['idx']?>')">미수신</a>
 											            <?}?>
 											        <?
 											        }
@@ -1718,7 +1718,7 @@ $(function(){
 											$row_n=mysqli_fetch_array($resul_n);
 											?>
                                     <tr>
-                                    	<td><label><input type="checkbox" name="idx_box" value="<?=$row[idx]?>" /><?=$sort_no?></label></td>                                        
+                                    	<td><label><input type="checkbox" name="idx_box" value="<?=$row['idx']?>" /><?=$sort_no?></label></td>                                        
                                         <td><?=$row_n['memo']?></td>
                                         <td class="g_dt_name_<?=$i?>"><?=$row['send_num']?></td>
 										<td class="g_dt_name_<?=$i?>" style="display:none;"><input type="text" value="<?=$row['send_num']?>" name="deny_send" /> </td>
@@ -1750,8 +1750,8 @@ $(function(){
                                         <td><?=substr($row[reg_date],0,16)?></td>
                                         <td>
                                         <a href="javascript:void(0)" class="modify_btn_<?=$i?> a_btn_2" style="" onclick="g_dt_show_cencle('g_dt_name_','g_dt_num_','modify_btn_','<?=$i?>')">수정</a>
-                                        <a href="javascript:void(0)" class="modify_btn_<?=$i?> a_btn_2" style="display:none;" onclick="deny_add(sub_4_form,'<?=$i?>','<?=$row[idx]?>', <?=$row[chanel_type]?>)">수정</a>
-                                        <a href="javascript:void(0)" onclick="deny_del('<?=$row[idx]?>')" class="a_btn_2">삭제</a>                                        
+                                        <a href="javascript:void(0)" class="modify_btn_<?=$i?> a_btn_2" style="display:none;" onclick="deny_add(sub_4_form,'<?=$i?>','<?=$row['idx']?>', <?=$row[chanel_type]?>)">수정</a>
+                                        <a href="javascript:void(0)" onclick="deny_del('<?=$row['idx']?>')" class="a_btn_2">삭제</a>                                        
                                         </td>
                                     </tr>
                                     	<?

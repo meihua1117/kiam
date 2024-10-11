@@ -86,7 +86,7 @@ else{
             $res_db_data_buyer = mysqli_query($self_con,$sql_db_data_buyer);
             $row_db_data_buyer = mysqli_fetch_array($res_db_data_buyer);
     
-            $mem_data_buyer = "select mem_phone from Gn_Member where mem_id='{$row_db_data_buyer[buyer_id]}'";
+            $mem_data_buyer = "select mem_phone from Gn_Member where mem_id='{$row_db_data_buyer['buyer_id']}'";
             $res_mem_data_buyer = mysqli_query($self_con,$mem_data_buyer);
             $row_mem_data_buyer = mysqli_fetch_array($res_mem_data_buyer);
     
@@ -130,12 +130,12 @@ else{
             $final_point = $row_db_data_buyer['item_price'] * 1 + (int)$add_point;
     
             $subject = "판매확인 문자";
-            $content = $year."년 ".$month."월 ".$day."일 ".$hour.":".$minute."에 ".$row_db_data_buyer[buyer_id]."님이 ".$org_name."업체 ".$con_name[1]."상품 ".$row_db_data_buyer[item_price]."원 구매확인하셨습니다.";
-            send_mms($row_db_data_buyer[buyer_id], $row_mem_data_seller[mem_phone], $subject, $content);
+            $content = $year."년 ".$month."월 ".$day."일 ".$hour.":".$minute."에 ".$row_db_data_buyer['buyer_id']."님이 ".$org_name."업체 ".$con_name[1]."상품 ".$row_db_data_buyer[item_price]."원 구매확인하셨습니다.";
+            send_mms($row_db_data_buyer['buyer_id'], $row_mem_data_seller[mem_phone], $subject, $content);
 
             $mid = date("YmdHis").rand(10,99);        
             $sql_notice_recv_seller = "insert into Gn_Item_Pay_Result
-                        set buyer_id='$row_db_data_seller[buyer_id]',
+                        set buyer_id='{$row_db_data_seller['buyer_id']}',
                             buyer_tel='$row_mem_data_seller[mem_phone]',
                             site='',
                             pay_method='obmms02',
@@ -157,7 +157,7 @@ else{
     
             $subject1 = "구매확인 문자";
             $content1 = $year."년 ".$month."월 ".$day."일 ".$hour.":".$minute."에  ".$org_name."업체 ".$con_name[1]." 상품 ".$row_db_data_buyer[item_price]."원 구매확인하셨습니다. ".$final_point."포인트가 지급되었습니다.";
-            send_mms($row_db_data_buyer[buyer_id], $row_mem_data_buyer[mem_phone], $subject1, $content1);
+            send_mms($row_db_data_buyer['buyer_id'], $row_mem_data_buyer[mem_phone], $subject1, $content1);
             echo 1;
             exit;
         }
@@ -169,7 +169,7 @@ else{
             $res_db_data_seller = mysqli_query($self_con,$sql_db_data_seller);
             $row_db_data_seller = mysqli_fetch_array($res_db_data_seller);
     
-            $mem_data_seller = "select mem_name, mem_phone, mem_point, mem_cash from Gn_Member where mem_id='{$row_db_data_seller[buyer_id]}'";
+            $mem_data_seller = "select mem_name, mem_phone, mem_point, mem_cash from Gn_Member where mem_id='{$row_db_data_seller['buyer_id']}'";
             $res_mem_data_seller = mysqli_query($self_con,$mem_data_seller);
             $row_mem_data_seller = mysqli_fetch_array($res_mem_data_seller);
     
@@ -177,7 +177,7 @@ else{
             $res_db_data_buyer = mysqli_query($self_con,$sql_db_data_buyer);
             $row_db_data_buyer = mysqli_fetch_array($res_db_data_buyer);
     
-            $mem_data_buyer = "select mem_name, mem_phone, mem_point, mem_cash from Gn_Member where mem_id='{$row_db_data_buyer[buyer_id]}'";
+            $mem_data_buyer = "select mem_name, mem_phone, mem_point, mem_cash from Gn_Member where mem_id='{$row_db_data_buyer['buyer_id']}'";
             $res_mem_data_buyer = mysqli_query($self_con,$mem_data_buyer);
             $row_mem_data_buyer = mysqli_fetch_array($res_mem_data_buyer);
     
@@ -214,15 +214,15 @@ else{
     
             $subject = "판매확인 문자";
             $content = $year."년 ".$month."월 ".$day."일 ".$hour.":".$minute."에 ".$org_name."업체 ".$con_name[1]."상품 ".$row_db_data_seller[item_price]."원 판매확인하셨습니다. ".$final_point."포인트가 지급되었습니다.";
-            send_mms($row_db_data_seller[buyer_id], $row_mem_data_seller[mem_phone], $subject, $content);
+            send_mms($row_db_data_seller['buyer_id'], $row_mem_data_seller[mem_phone], $subject, $content);
     
             $subject1 = "구매확인 문자";
             $content1 = "판매자분이 ".$year."년 ".$month."월 ".$day."일 ".$hour.":".$minute."에  ".$org_name."업체 ".$con_name[1]." 상품 ".$row_db_data_seller[item_price]."원 판매확인하셨습니다.";
-            send_mms($row_db_data_buyer[buyer_id], $row_mem_data_buyer[mem_phone], $subject1, $content1);
+            send_mms($row_db_data_buyer['buyer_id'], $row_mem_data_buyer[mem_phone], $subject1, $content1);
 
             $mid = date("YmdHis").rand(10,99);        
             $sql_notice_recv_buyer = "insert into Gn_Item_Pay_Result
-                        set buyer_id='$row_db_data_buyer[buyer_id]',
+                        set buyer_id='{$row_db_data_buyer['buyer_id']}',
                             buyer_tel='$row_mem_data_buyer[mem_phone]',
                             site='',
                             pay_method='obmms02',

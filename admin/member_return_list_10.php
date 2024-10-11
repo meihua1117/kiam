@@ -208,7 +208,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
 								$query .= $orderQuery;
 								$res = mysqli_query($self_con,$query);
                     			while($row = mysqli_fetch_array($res)) {                       	
-                        			$sql_s="select up_date from Gn_MMS_status where idx='$row[idx]' ";
+                        			$sql_s="select up_date from Gn_MMS_status where idx='{$row['idx']}' ";
 									$resul_s=mysqli_query($self_con,$sql_s);
 									$row_s=mysqli_fetch_array($resul_s);
 									mysqli_free_result($resul_s);
@@ -227,17 +227,17 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
 									$krow=mysqli_fetch_array($kresult);
 									$intRowCount=$krow['cnt'];											
 									
-									$sql_as="select count(idx) as cnt from Gn_MMS_status where idx='$row[idx]' ";
+									$sql_as="select count(idx) as cnt from Gn_MMS_status where idx='{$row['idx']}' ";
 									$resul_as=mysqli_query($self_con,$sql_as);
 									$row_as=mysqli_fetch_array($resul_as);
 									$status_total_cnt = $row_as[0];											
 									
-									$sql_cs="select count(idx) as cnt from Gn_MMS_status where idx='$row[idx]' and status='0'";
+									$sql_cs="select count(idx) as cnt from Gn_MMS_status where idx='{$row['idx']}' and status='0'";
 									$resul_cs=mysqli_query($self_con,$sql_cs);
 									$row_cs=mysqli_fetch_array($resul_cs);
 									$success_cnt = $row_cs[0];
 
-									// $sql_sn="select * from Gn_MMS where idx='$row[idx]' ";
+									// $sql_sn="select * from Gn_MMS where idx='{$row['idx']}' ";
 									// $resul_sn=mysqli_query($self_con,$sql_sn);
 									// $row_sn=mysqli_fetch_array($resul_sn);											
 									// $recv_cnt=explode(",",$row_sn['recv_num']);										

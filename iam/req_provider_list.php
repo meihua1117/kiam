@@ -142,7 +142,7 @@ extract($_GET);
             }
 
             if($row[public_display] == "N"){
-                $mng = '<a href="javascript:edit_prod('.$row[idx].')">수정</a>';
+                $mng = '<a href="javascript:edit_prod('.$row['idx'].')">수정</a>';
                 $allow = "대기";
             }
             else{

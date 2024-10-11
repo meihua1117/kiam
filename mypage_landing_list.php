@@ -247,7 +247,7 @@ a.sort-by:after {
                   while($row=mysqli_fetch_array($result))
                   {
 					  	//$num_arr=array();
-						//$sql_num="select sendnum from Gn_landing where mem_id='$row[buyer_id]' and end_date='$row[end_date]' ";
+						//$sql_num="select sendnum from Gn_landing where mem_id='{$row['buyer_id']}' and end_date='$row[end_date]' ";
 						//$resul_num=mysqli_query($self_con,$sql_num);
 						//while($row_num=mysqli_fetch_array($resul_num))
 						//array_push($num_arr,$row_num[sendnum]);

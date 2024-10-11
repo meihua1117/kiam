@@ -109,11 +109,11 @@ if(strlen($_SESSION['one_member_id']) > 0) {
 			$card_price = $row[TotPrice] * 1 - $row_order_point[0] * 1;
 		}
 
-		$sql_item_cnt_month = "select SUM(contents_cnt) as month_cnt from Gn_Gwc_Order where contents_idx='{$row_cont_data[idx]}' and reg_date > '{$date_today}' and page_type=0";
+		$sql_item_cnt_month = "select SUM(contents_cnt) as month_cnt from Gn_Gwc_Order where contents_idx='{$row_cont_data['idx']}' and reg_date > '{$date_today}' and page_type=0";
 		$res_item_cnt_month = mysqli_query($self_con,$sql_item_cnt_month);
 		$row_item_cnt_month = mysqli_fetch_array($res_item_cnt_month);
 
-		$sql_item_cnt_all = "select SUM(contents_cnt) as all_cnt from Gn_Gwc_Order where contents_idx='{$row_cont_data[idx]}' and page_type=0";
+		$sql_item_cnt_all = "select SUM(contents_cnt) as all_cnt from Gn_Gwc_Order where contents_idx='{$row_cont_data['idx']}' and page_type=0";
 		$res_item_cnt_all = mysqli_query($self_con,$sql_item_cnt_all);
 		$row_item_cnt_all = mysqli_fetch_array($res_item_cnt_all);
 

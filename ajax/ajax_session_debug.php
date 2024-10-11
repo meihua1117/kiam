@@ -69,7 +69,7 @@ if($_POST[select_app_check_num]){
 		$sql="select status from Gn_MMS_status where send_num='{$row['send_num']}' and  recv_num='{$row['recv_num']}' order by regdate desc limit 1 ";
 		$sresul=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 		$srow=mysqli_fetch_array($sresul);		
-		if($row[idx] && $srow[0]==0){
+		if($row['idx'] && $srow[0]==0){
 			$check_status_arr[$key]="on";
 			$check_status=true;
 		}else{

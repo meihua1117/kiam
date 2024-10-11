@@ -296,7 +296,7 @@ function excel_down_p_group(pno,one_member_id){
                           $checked = "";
                       }
 
-                      $sql_sel_service_mem = "select * from Gn_Member where mem_callback={$row[idx]}";
+                      $sql_sel_service_mem = "select * from Gn_Member where mem_callback={$row['idx']}";
                       $res_sel_service = mysqli_query($self_con,$sql_sel_service_mem);
                       $cnt_sel_service = mysqli_num_rows($res_sel_service);
 
@@ -310,7 +310,7 @@ function excel_down_p_group(pno,one_member_id){
                           $cnt_join = 0;
                       }
 
-                      $sql_sel_mem = "select mem_id, mem_name, phone_callback, mun_callback from Gn_Member where mem_callback={$row[idx]} and (phone_callback={$row['idx']} or mun_callback={$row[idx]})";
+                      $sql_sel_mem = "select mem_id, mem_name, phone_callback, mun_callback from Gn_Member where mem_callback={$row['idx']} and (phone_callback={$row['idx']} or mun_callback={$row['idx']})";
                       $res_sel_mem = mysqli_query($self_con,$sql_sel_mem);
                       $cnt_sel_mem = mysqli_num_rows($res_sel_mem);
 

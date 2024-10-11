@@ -17,11 +17,11 @@ $limitStr = " LIMIT ".(($startPage-1)*$pageCnt).", ".$pageCnt;
 $number	= $totalCnt - ($nowPage - 1) * $pageCnt;
 $orderQuery .= "ORDER BY idx desc $limitStr";
 $sql = "select * from gn_report_table where repo_id=$repo ";
-if($_REQUEST[sdate]){
-    $sql.=" and reg_date >= '{$_REQUEST[sdate]}' ";
+if($_REQUEST['sdate']){
+    $sql.=" and reg_date >= '{$_REQUEST['sdate']}' ";
 }
-if($_REQUEST[edate]){
-    $sql.=" and reg_date <= '{$_REQUEST[edate]}' ";
+if($_REQUEST['edate']){
+    $sql.=" and reg_date <= '{$_REQUEST['edate']}' ";
 }
 $excel_sql=str_replace("'","`",$sql);
 $sql .= $orderQuery;
@@ -130,8 +130,8 @@ thead tr:nth-child(2) th { position: sticky; top: 57px; }
                         <div class="box-tools">
                             <div class="input-group">
                                 <div class="form-group">
-                                    <input type="date" style="height: 30px" name="sdate" placeholder="" id="search_start_date" value="<?=$_REQUEST[sdate]?>" multiple/> ~
-                                    <input type="date" style="height: 30px" name="edate" placeholder="" id="search_end_date" value="<?=$_REQUEST[edate]?>"/>
+                                    <input type="date" style="height: 30px" name="sdate" placeholder="" id="search_start_date" value="<?=$_REQUEST['sdate']?>" multiple/> ~
+                                    <input type="date" style="height: 30px" name="edate" placeholder="" id="search_end_date" value="<?=$_REQUEST['edate']?>"/>
                                 </div>
                                 <div class="input-group-btn">
                                     <button class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>

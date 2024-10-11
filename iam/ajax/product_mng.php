@@ -146,7 +146,7 @@ else if($mode == "get_prod_info"){
         $row_mem_data = mysqli_fetch_array($res_mem_data);
         $mem_id = $row_mem_data['mem_id'];
     }
-    if($row_prod[idx]){
+    if($row_prod['idx']){
         if($mem_id != ''){
             $mem_name = $row_mem_data['mem_name'];
             $mem_phone = $row_mem_data[mem_phone];

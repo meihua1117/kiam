@@ -79,7 +79,7 @@ while($data=mysqli_fetch_array($pay_res)) {
         $price = $data[TotPrice];
     }
     if($data['payMethod'] == "MONTH"){
-        $sql = "insert into tjd_pay_result_month set pay_idx='$data[idx]',
+        $sql = "insert into tjd_pay_result_month set pay_idx='{$data['idx']}',
                                                     order_number='$order_no',
                                                     pay_yn='Y',
                                                     msg='셀링통장정기결제',
@@ -166,7 +166,7 @@ while($data=mysqli_fetch_array($pay_res)) {
             $ZEROFEE_YN       =getValue("zerofee_yn",$at_txt);
             $CERT_YN          =getValue("cert_yn",$at_txt);
             $CONTRACT_YN      =getValue("contract_yn",$at_txt);
-            $sql = "insert into tjd_pay_result_month set pay_idx='$data[idx]',
+            $sql = "insert into tjd_pay_result_month set pay_idx='{$data['idx']}',
                                                         order_number='$order_no',
                                                         pay_yn='Y',
                                                         msg='성공_scheduler',
@@ -177,7 +177,7 @@ while($data=mysqli_fetch_array($pay_res)) {
             $sql = "update tjd_pay_result set monthly_yn='Y', end_status='Y',stop_yn='N' where  orderNumber='$data[orderNumber]' and buyer_id='$buyer_id'";
             mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
         } else {
-            $sql = "insert into tjd_pay_result_month set pay_idx='$data[idx]',
+            $sql = "insert into tjd_pay_result_month set pay_idx='{$data['idx']}',
                                                         order_number='$order_no',
                                                         regdate = NOW(),
                                                         pay_yn='N',
@@ -199,7 +199,7 @@ while($data=mysqli_fetch_array($pay_res)) {
                 $sql = "update Gn_Iam_Service set status = 'N' where mem_id = '$buyer_id'";            
                 mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
             }*/
-            $sql="update crawler_member_real set status='N', search_email_yn='N', search_email_date='{$data['end_date']}', term='{$data['end_date']}' where user_id='$data[buyer_id]' ";
+            $sql="update crawler_member_real set status='N', search_email_yn='N', search_email_date='{$data['end_date']}', term='{$data['end_date']}' where user_id='{$data['buyer_id']}' ";
             mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
         }
     }

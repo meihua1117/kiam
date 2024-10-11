@@ -4,7 +4,7 @@ include_once "lib/rlatjd_fun.php";
 $status2 = $_GET['status2']?$_GET['status2']:1;
 if($_REQUEST['mode']=="del")
 {
-	$sql="delete from Gn_MMS_Message where idx='$_REQUEST[idx]' and mem_id ='{$_SESSION['one_member_id']}' ";
+	$sql="delete from Gn_MMS_Message where idx='{$_REQUEST['idx']}' and mem_id ='{$_SESSION['one_member_id']}' ";
 	$resul=mysqli_query($self_con,$sql);
 ?>
 <script>

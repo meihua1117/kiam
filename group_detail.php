@@ -129,8 +129,8 @@ $result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
                     </td>               
                     <td>
                         <a href="javascript:g_dt_show_cencle('g_dt_name_','g_dt_num_','modify_btn_','<?=$i?>','g_dt_grp_', 'g_dt_mail_')" class="modify_btn_<?=$i?>" >수정</a>
-                        <a href="javascript:g_dt_fun('modify','<?=$_REQUEST[grp_id]?>','<?=$row[idx]?>','<?=$i?>')"class="modify_btn_<?=$i?>" style="display:none;" >수정</a>
-                        <a href="javascript:g_dt_fun('del','<?=$_REQUEST[grp_id]?>','<?=$row[idx]?>','<?=$i?>')">삭제</a>
+                        <a href="javascript:g_dt_fun('modify','<?=$_REQUEST[grp_id]?>','<?=$row['idx']?>','<?=$i?>')"class="modify_btn_<?=$i?>" style="display:none;" >수정</a>
+                        <a href="javascript:g_dt_fun('del','<?=$_REQUEST[grp_id]?>','<?=$row['idx']?>','<?=$i?>')">삭제</a>
                     </td>
                 </tr>
             <?

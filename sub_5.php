@@ -516,7 +516,7 @@ function excel_down_personal(pno){
 										$i=0;
 										$k=0;							
 										while($row=mysqli_fetch_array($result)){							
-											$idx = $row[idx];
+											$idx = $row['idx'];
 											$memo = $row['memo'];
 											$memo2 = $row[memo2];
 											$cnt1 = $row['cnt1'];

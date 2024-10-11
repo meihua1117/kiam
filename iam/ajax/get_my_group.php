@@ -54,12 +54,12 @@ if ($gkind != "recommend" && $gkind != "mygroup" && $gkind != "search" && $gkind
     $result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
     $cur_card = mysqli_fetch_array($result);
 
-    $sql8 = "select count(ct.idx) from Gn_Iam_Contents ct INNER JOIN Gn_Iam_Con_Card cc on cc.cont_idx = ct.idx WHERE cc.card_idx = $cur_card[idx] and group_display = 'Y' and $search_sql";
+    $sql8 = "select count(ct.idx) from Gn_Iam_Contents ct INNER JOIN Gn_Iam_Con_Card cc on cc.cont_idx = ct.idx WHERE cc.card_idx = {$cur_card['idx']} and group_display = 'Y' and $search_sql";
     $result_cnt = mysqli_query($self_con, $sql8) or die(mysqli_error($self_con));
     $total_row = mysqli_fetch_array($result_cnt);
     $cont_count = $total_row[0];
 
-    $sql8 = "select ct.* from Gn_Iam_Contents ct INNER JOIN Gn_Iam_Con_Card cc on cc.cont_idx = ct.idx WHERE cc.card_idx = $cur_card[idx]  and group_display = 'Y' and $search_sql ORDER BY group_fix desc,contents_order desc";
+    $sql8 = "select ct.* from Gn_Iam_Contents ct INNER JOIN Gn_Iam_Con_Card cc on cc.cont_idx = ct.idx WHERE cc.card_idx = {$cur_card['idx']}  and group_display = 'Y' and $search_sql ORDER BY group_fix desc,contents_order desc";
     $sql8 .= " limit $contents_count_per_page offset " . $w_offset;
 } else if ($gkind == "recommend") {
     if ($other_group != "")
@@ -133,7 +133,7 @@ foreach ($cont_array as $contents_row) {
         $share_names = implode(",", $share_names);
     }
     //컨텐츠 조회수 카운팅(contents_temp1)
-    $sql_temp1 = "update $content_table_name set contents_temp1=contents_temp1+1 where idx=$contents_row[idx]";
+    $sql_temp1 = "update $content_table_name set contents_temp1=contents_temp1+1 where idx={$contents_row['idx']}";
     mysqli_query($self_con, $sql_temp1);
 
     if (!$contents_row['contents_img'])
@@ -160,7 +160,7 @@ foreach ($cont_array as $contents_row) {
     $m_row = mysqli_fetch_array($result);
     $m_code = $m_row['mem_code'];
 
-    $post_sql = "select SQL_CALC_FOUND_ROWS * from Gn_Iam_Post p where p.content_idx = '$contents_row[idx]' and p.lock_status = 'N' order by p.reg_date";
+    $post_sql = "select SQL_CALC_FOUND_ROWS * from Gn_Iam_Post p where p.content_idx = '{$contents_row['idx']}' and p.lock_status = 'N' order by p.reg_date";
     $post_res = mysqli_query($self_con, $post_sql);
     $post_count =  mysqli_num_rows($post_res);
 
@@ -606,7 +606,7 @@ foreach ($cont_array as $contents_row) {
     $body .=   "</div>" .
         "</div>";
     
-    $post_status_sql = "select count(*) from Gn_Iam_Post where content_idx = '$contents_row[idx]' and status = 'N' and lock_status = 'N'";
+    $post_status_sql = "select count(*) from Gn_Iam_Post where content_idx = '{$contents_row['idx']}' and status = 'N' and lock_status = 'N'";
     $post_status_res = mysqli_query($self_con, $post_status_sql);
     $post_status_row =  mysqli_fetch_array($post_status_res);
     $post_status_count = $post_status_row[0];

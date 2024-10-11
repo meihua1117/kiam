@@ -264,7 +264,7 @@ $date_today=date("Y-m-d");
                                 $query .= "$orderQuery";
                                 $res = mysqli_query($self_con,$query);
                                 while($row = mysqli_fetch_array($res)) {
-                                    $sql_mem_data = "select mem_id, site, recommend_id, mem_name, mem_phone,site_iam from Gn_Member where mem_id='{$row[buyer_id]}'";
+                                    $sql_mem_data = "select mem_id, site, recommend_id, mem_name, mem_phone,site_iam from Gn_Member where mem_id='{$row['buyer_id']}'";
                                     $res_mem_data = mysqli_query($self_con,$sql_mem_data);
                                     $row_mem_data = mysqli_fetch_array($res_mem_data);
                                     if($row['pay_method'] == "CARD" || $row['pay_method'] == "BANK"){

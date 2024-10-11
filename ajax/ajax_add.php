@@ -20,7 +20,7 @@ if($_POST['mode'] == "monthly") {
     $res_data = mysqli_query($self_con,$sql_res_data);
     $row_data = mysqli_fetch_array($res_data);
 
-    $sql_month_res = "select count(*) as months from tjd_pay_result_month where pay_idx='{$row_data[idx]}' and order_number like '$row_data[orderNumber]%' and regdate >= '{$row_data[date]}'";
+    $sql_month_res = "select count(*) as months from tjd_pay_result_month where pay_idx='{$row_data['idx']}' and order_number like '$row_data[orderNumber]%' and regdate >= '{$row_data[date]}'";
     $res_month = mysqli_query($self_con,$sql_month_res);
     $row_month = mysqli_fetch_array($res_month);
     $rest_month = 36 - $row_month['months'] * 1;

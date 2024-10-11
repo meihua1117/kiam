@@ -130,7 +130,7 @@ else if($_POST['save_data'] == "Y"){
 
     if($cnt_chk){
         $row_chk = mysqli_fetch_array($res_chk);
-        $sql_update_mms = "update Gn_MMS_Receive_Iam set send_num='{$mem_phone}', recv_num='{$paper_mobile}', name='{$paper_name}', reg_date=now() where idx='{$row_chk[idx]}'";
+        $sql_update_mms = "update Gn_MMS_Receive_Iam set send_num='{$mem_phone}', recv_num='{$paper_mobile}', name='{$paper_name}', reg_date=now() where idx='{$row_chk['idx']}'";
         $res = mysqli_query($self_con,$sql_update_mms);
     }
     else{

@@ -621,7 +621,7 @@ foreach($cont_array as $contents_row){
     $body .=    "</div>".
             "</div>";
         
-            $post_status_sql = "select count(*) from Gn_Iam_Post where content_idx = '$contents_row[idx]' and status = 'N' and lock_status = 'N'";
+            $post_status_sql = "select count(*) from Gn_Iam_Post where content_idx = '{$contents_row['idx']}' and status = 'N' and lock_status = 'N'";
             $post_status_res = mysqli_query($self_con, $post_status_sql);
             $post_status_row =  mysqli_fetch_array($post_status_res);
             $post_status_count = $post_status_row[0];

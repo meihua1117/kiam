@@ -98,7 +98,7 @@ if ($row['mem_id']) {
 			$res = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 			$row = mysqli_fetch_array($res);
 			if ($row['idx'] != "") {
-				$sql = "update call_api_log set app_login='$time' where idx='$row[idx]'";
+				$sql = "update call_api_log set app_login='$time' where idx='{$row['idx']}'";
 				mysqli_query($self_con,$sql);
 			} else {
 				$sql = "insert into call_api_log set app_login='$time', phone_num='$phone_num'";

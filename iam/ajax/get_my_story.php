@@ -93,7 +93,7 @@ foreach ($cont_array as $contents_row) {
         $share_names = implode(",", $share_names);
     }
     //컨텐츠 조회수 카운팅(contents_temp1)
-    $sql_temp1 = "update $content_table_name set contents_temp1=contents_temp1+1 where idx=$contents_row[idx]";
+    $sql_temp1 = "update $content_table_name set contents_temp1=contents_temp1+1 where idx={$contents_row['idx']}";
     mysqli_query($self_con, $sql_temp1);
 
     if (!$contents_row['contents_img'])
@@ -120,7 +120,7 @@ foreach ($cont_array as $contents_row) {
     $m_row = mysqli_fetch_array($result);
     $m_code = $m_row['mem_code'];
 
-    $post_sql = "select SQL_CALC_FOUND_ROWS * from Gn_Iam_Post p where p.content_idx = '$contents_row[idx]' and p.lock_status = 'N' order by p.reg_date";
+    $post_sql = "select SQL_CALC_FOUND_ROWS * from Gn_Iam_Post p where p.content_idx = '{$contents_row['idx']}' and p.lock_status = 'N' order by p.reg_date";
     $post_res = mysqli_query($self_con, $post_sql);
     $post_count =  mysqli_num_rows($post_res);
 
@@ -549,7 +549,7 @@ foreach ($cont_array as $contents_row) {
     $body .=   "</div>" .
         "</div>";
     
-    $post_status_sql = "select count(*) from Gn_Iam_Post where content_idx = '$contents_row[idx]' and status = 'N' and lock_status = 'N'";
+    $post_status_sql = "select count(*) from Gn_Iam_Post where content_idx = '{$contents_row['idx']}' and status = 'N' and lock_status = 'N'";
     $post_status_res = mysqli_query($self_con, $post_status_sql);
     $post_status_row =  mysqli_fetch_array($post_status_res);
     $post_status_count = $post_status_row[0];

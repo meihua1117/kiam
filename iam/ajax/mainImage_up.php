@@ -79,7 +79,7 @@ if($mode == "up") {
     $cnt_chk = mysqli_num_rows($res_chk);
     if($cnt_chk){
 	while($row_chk = mysqli_fetch_array($res_chk)){
-    	    $sql_new = "update Gn_Iam_Name_Card set main_img1 = '$img_url1', main_img2 = '$img_url2', main_img3 = '$img_url3',video = '$video_link',up_data=now() where idx = '$row_chk[idx]'";
+    	    $sql_new = "update Gn_Iam_Name_Card set main_img1 = '$img_url1', main_img2 = '$img_url2', main_img3 = '$img_url3',video = '$video_link',up_data=now() where idx = '{$row_chk['idx']}'";
     	    mysqli_query($self_con,$sql_new) or die(mysqli_error($self_con));
 	}
     }

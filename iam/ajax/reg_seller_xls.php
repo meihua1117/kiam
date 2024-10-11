@@ -49,7 +49,7 @@ if ($_FILES['excelfile']['tmp_name']) {
 		$res_card_idx = mysqli_query($self_con, $sql_card_idx);
 		$row_card_idx = mysqli_fetch_array($res_card_idx);
 
-		$sql = "select max(contents_order) from Gn_Iam_Contents_Gwc where mem_id = '{$_SESSION['iam_member_id']}' and card_idx = '$row_card_idx[idx]'";
+		$sql = "select max(contents_order) from Gn_Iam_Contents_Gwc where mem_id = '{$_SESSION['iam_member_id']}' and card_idx = '{$row_card_idx['idx']}'";
 		$result = mysqli_query($self_con, $sql);
 		$comment_row = mysqli_fetch_array($result);
 		$contents_order = (int)$comment_row[0] + 1;
@@ -110,7 +110,7 @@ if ($_FILES['excelfile']['tmp_name']) {
 			\"$row_card_idx[card_short_url]\",
 			\"$row_card_idx[card_short_url]\",
 			\"N\",
-			\"$row_card_idx[idx]\",
+			\"{$row_card_idx['idx']}\",
 			$contents_order,
 			'1',
 			'$reduce_val',
@@ -130,7 +130,7 @@ if ($_FILES['excelfile']['tmp_name']) {
 			)";
 		$result2 = mysqli_query($self_con, $sql2) or die(mysqli_error($self_con));
 		$content_idx = mysqli_insert_id($self_con);
-		$sql2 = "insert into Gn_Iam_Con_Card set cont_idx=$content_idx,card_idx=$row_card_idx[idx],main_card=$row_card_idx[idx]";
+		$sql2 = "insert into Gn_Iam_Con_Card set cont_idx=$content_idx,card_idx={$row_card_idx['idx']},main_card={$row_card_idx['idx']}";
 		mysqli_query($self_con, $sql2) or die(mysqli_error($self_con));
 	}
 	echo "<script>alert('등록되었습니다.'); location.href='/iam/req_provider_list.php';</script>";

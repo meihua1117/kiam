@@ -105,8 +105,8 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                         <div class="box-tools">
                             <div class="input-group">
                                 <div class="form-group">
-                                    <input type="date" style="height: 30px" name="sdate" placeholder="" id="search_start_date" value="<?=$_REQUEST[sdate]?>" multiple/> ~
-                                    <input type="date" style="height: 30px" name="edate" placeholder="" id="search_end_date" value="<?=$_REQUEST[edate]?>"/>
+                                    <input type="date" style="height: 30px" name="sdate" placeholder="" id="search_start_date" value="<?=$_REQUEST['sdate']?>" multiple/> ~
+                                    <input type="date" style="height: 30px" name="edate" placeholder="" id="search_end_date" value="<?=$_REQUEST['edate']?>"/>
                                 </div>
                                 <div class="form-group">
                                     <input type="text" name="s_key" id="s_key" value="<?=$s_key?>" class="form-control input-sm pull-right" placeholder="셀링소속">

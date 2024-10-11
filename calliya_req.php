@@ -229,7 +229,7 @@ $data = mysqli_fetch_array($sresul_num);
                                 ?>
                                         <tr>
                                             <td><?= $sort_no ?></td>
-                                            <!-- <td><?= $row[idx] ?></td> -->
+                                            <!-- <td><?= $row['idx'] ?></td> -->
                                             <td><?= $row['mem_id'] ?></td>
                                             <td><?= $chanel ?></td>
                                             <td style="font-size:12px;">
@@ -266,7 +266,7 @@ $data = mysqli_fetch_array($sresul_num);
                                                 </label>
                                             </td>
                                             <td>
-                                                <a href="javascript:cancelset('<?= $row[idx] ?>', '<?= $row['mem_id'] ?>')" style="cursor:pointer;">취소</a>
+                                                <a href="javascript:cancelset('<?= $row['idx'] ?>', '<?= $row['mem_id'] ?>')" style="cursor:pointer;">취소</a>
                                             </td>
                                         </tr>
                                     <?

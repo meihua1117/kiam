@@ -273,13 +273,13 @@ $(function() {
                   ?>
                       <tr>
                         <td><?=$number--?></td>
-                        <td><?=$row[idx]?></td>
+                        <td><?=$row['idx']?></td>
                         <td>
                             <div style="overflow-x:hidden;width:100px;">
                               <?=$mem_row[0]?>/<br><?=$mem_row[1]?>/<br><?=$row['mem_id']?>
                             </div>
                         </td>
-                        <td><a href="/iam/contents.php?contents_idx=<?=$row[idx]?>" target="_blank"><?=$row_card[card_name]?></a></td>
+                        <td><a href="/iam/contents.php?contents_idx=<?=$row['idx']?>" target="_blank"><?=$row_card[card_name]?></a></td>
                         <td><?=$g_name?></td>
                         <td><?=$row[contents_type]?></td>
                         <td>
@@ -293,7 +293,7 @@ $(function() {
                             <a href="<?=$row[contents_url]?>" target="_blank"><?=$row[contents_url]?></a> 
                             </div>
                         </td> -->
-                        <!-- <td><a href="/iam/contents.php?contents_idx=<?=$row[idx]?>" target="_blank"> <?=$row[card_short_url]?></a></td> -->
+                        <!-- <td><a href="/iam/contents.php?contents_idx=<?=$row['idx']?>" target="_blank"> <?=$row[card_short_url]?></a></td> -->
                         <td><?=$row[contents_sell_price]?></td>
                         <td><?=$row[contents_temp]?></td>
                         <td><?=$row[contents_temp1]?></td>

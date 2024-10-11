@@ -242,7 +242,7 @@ $(function() {
                                     $query .= $orderQuery;
                                     $res = mysqli_query($self_con,$query);
                                     while($row = mysqli_fetch_array($res)) {
-                                        $sql_mem = "select recommend_id from Gn_Member where mem_id='{$row[buyer_id]}'";
+                                        $sql_mem = "select recommend_id from Gn_Member where mem_id='{$row['buyer_id']}'";
                                         $res_mem = mysqli_query($self_con,$sql_mem);
                                         $row_mem = mysqli_fetch_array($res_mem);
                                 ?>

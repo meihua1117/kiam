@@ -196,7 +196,7 @@ $sql="select * from tjd_pay_result where orderNumber='$ORDER_NO'";
 $resul=mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
 $row=mysqli_fetch_array($resul);
 $no = $row['no'];
-$member_1['mem_id'] = $row[buyer_id];
+$member_1['mem_id'] = $row['buyer_id'];
 if($REPLYCD == "0000"){//pay_test
     $sql = "update tjd_pay_result set end_status='Y',monthly_yn='N' where  orderNumber='$ORDER_NO' and buyer_id='{$member_1['mem_id']}'";
     mysqli_query($self_con,$sql) or die(mysqli_error($self_con));

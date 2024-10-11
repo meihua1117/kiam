@@ -468,7 +468,7 @@ if($_GET['key'] && $_GET['key'] == session_id()) {
 	<?	$query = "select * from Gn_App_Home_Manager where ad_position='E' and use_yn='Y' and site_iam='{$site_iam}' order by display_order asc";
     	$res = mysqli_query($self_con,$query);
     	while($data = mysqli_fetch_array($res)) {?>
-				<a href="javascript:change_site('<?=$data[idx]?>')">
+				<a href="javascript:change_site('<?=$data['idx']?>')">
 					<img src="<?php echo $data['img_url'];?>">
 				</a>
 		<?}?>

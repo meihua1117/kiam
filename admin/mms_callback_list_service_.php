@@ -338,11 +338,11 @@ a.sort-by:after {
                           $checked = "";
                       }
 
-                      $sql_sel_service_mem = "select count(*) from Gn_Member where mem_callback={$row[idx]}";
+                      $sql_sel_service_mem = "select count(*) from Gn_Member where mem_callback={$row['idx']}";
                       $res_sel_service = mysqli_query($self_con,$sql_sel_service_mem);
                       $cnt_sel_service = mysqli_fetch_array($res_sel_service);
 
-                      $sql_sel_mem = "select count(*) from Gn_Member where mem_callback={$row[idx]} and ((phone_callback={$row['idx']} and mem_callback_phone_state=1) or (mun_callback={$row[idx]} and mem_callback_mun_state=1))";
+                      $sql_sel_mem = "select count(*) from Gn_Member where mem_callback={$row['idx']} and ((phone_callback={$row['idx']} and mem_callback_phone_state=1) or (mun_callback={$row['idx']} and mem_callback_mun_state=1))";
                       $res_sel_mem = mysqli_query($self_con,$sql_sel_mem);
                       $cnt_sel_mem = mysqli_fetch_array($res_sel_mem);
 

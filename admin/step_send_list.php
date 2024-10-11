@@ -203,12 +203,12 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                       $recv_cnt=explode(",",$row['recv_num']);
                       
                       
-                      $sql_as="select count(idx) as cnt from Gn_MMS_status where idx='$row[idx]' ";
+                      $sql_as="select count(idx) as cnt from Gn_MMS_status where idx='{$row['idx']}' ";
                       $resul_as=mysqli_query($self_con,$sql_as);
                       $row_as=mysqli_fetch_array($resul_as);
                       $status_total_cnt = $row_as[0];											
                       
-                      $sql_cs="select count(idx) as cnt from Gn_MMS_status where idx='$row[idx]' and status='0'";
+                      $sql_cs="select count(idx) as cnt from Gn_MMS_status where idx='{$row['idx']}' and status='0'";
                       $resul_cs=mysqli_query($self_con,$sql_cs);
                       $row_cs=mysqli_fetch_array($resul_cs);
                       $success_cnt = $row_cs[0];
@@ -231,7 +231,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                   ?>
                       <tr>
                         
-											<td><label><input type="checkbox" name="fs_idx" value="<?=$row[idx]?>" /></label></td>
+											<td><label><input type="checkbox" name="fs_idx" value="<?=$row['idx']?>" /></label></td>
 											<td><?=$number--?></td>
                                             <td style="font-size:12px;"><?=$row['mem_id']?></td>
                                             <td style="font-size:12px;"><?=$urow['mem_name']?></td>											

@@ -28,7 +28,7 @@ $body .= '        <div style="padding-top: 2px;background:white;padding-bottom:1
 $body .= '            <div style="display:flex;justify-content: space-between;margin-left:10px;">';
 $body .= '                <h4 style="margin-top:10px">정보</h4>';
 if($_SESSION['iam_member_id'] == $group_row[manager]){
-    $body .= '                <button type="button" class= "btn btn-link" style= "margin-right:10px" onclick = "edit_group_info(\''. $group_row[idx]. '\',\''. $group_row['name'] .'\',\''. $group_row[description] .'\',\''. $group_row[public_status] .'\',\''. $group_row[upload_status].'\')">';
+    $body .= '                <button type="button" class= "btn btn-link" style= "margin-right:10px" onclick = "edit_group_info(\''. $group_row['idx']. '\',\''. $group_row['name'] .'\',\''. $group_row[description] .'\',\''. $group_row[public_status] .'\',\''. $group_row[upload_status].'\')">';
     $body .= '                    <img src = "/iam/img/main/dots3.png" style="width:15px">';
     $body .= '                </button>';
 }
@@ -63,17 +63,17 @@ $body .= '            </h4>';
 if($_SESSION['iam_member_id'] == $group_row[manager]){
     $body .= '                <div style="display:flex;justify-content: space-between;margin-left:10px;margin-top:15px">';
     $body .= '                    <h4 style="">'. "총 멤버 ".$group_mem_count."명" .'</h4>';
-    $body .= '                    <button type="button" class = "btn btn-link" onclick = "open_all_member_1('. $group_row[idx] .')">모두 보기</button>';
+    $body .= '                    <button type="button" class = "btn btn-link" onclick = "open_all_member_1('. $group_row['idx'] .')">모두 보기</button>';
     $body .= '               </div>';
 }else{
     $body .= '               <div style="display:flex;justify-content: space-between;margin-left:10px;margin-top:15px">';
     $body .= '    <h4 style="">'. "총 멤버 ".$group_mem_count."명" .'</h4>';
-    $body .= '                    <button type="button" class = "btn btn-link" onclick = "open_all_member_2('. $group_row[idx] .')">모두 보기</button>';
+    $body .= '                    <button type="button" class = "btn btn-link" onclick = "open_all_member_2('. $group_row['idx'] .')">모두 보기</button>';
     $body .= '                </div>';
 }
 $body .= '            <p style="outline : 1px solid black;margin:1px 10px"/>';
             
-$f_sql = "select mem_id, mem_name, profile from Gn_Member where site_iam = '$site_iam' and mem_id in (select mem_id from gn_group_member where group_id='$group_row[idx]')";
+$f_sql = "select mem_id, mem_name, profile from Gn_Member where site_iam = '$site_iam' and mem_id in (select mem_id from gn_group_member where group_id='{$group_row['idx']}')";
 $f_res = mysqli_query($self_con,$f_sql);
 $f_count = mysqli_num_rows($f_res);
 if($f_count > 0){

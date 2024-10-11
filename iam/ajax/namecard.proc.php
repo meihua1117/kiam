@@ -79,7 +79,7 @@ if($mode == "creat") {
         $sql = "select * from Gn_Iam_Name_Card where card_short_url = '$card_short_url'";
         $res = mysqli_query($self_con,$sql);
         $row = mysqli_fetch_array($res);
-        if(!$row[idx]){
+        if(!$row['idx']){
             echo "카드링크가 존재하지 않습니다.다시 확인해주세요";
         }else{
             $short_url = generateRandomString();
@@ -184,7 +184,7 @@ else if($mode == "edit") {
             $sql2="update Gn_Iam_Name_Card set card_title = \"$card_title\", card_name = \"$card_name\", card_company = \"$card_company\", card_position = \"$card_position\",".
             " card_phone = '$card_phone', card_email = '$card_email', card_addr = \"$card_addr\", card_map = '$card_map', card_keyword = '$card_keyword',next_iam_link = '$next_iam_link',".
             " profile_logo = '$img_url', story_title4 = '$story_title4', story_online1_text = '$story_online1_text', story_online1 = '$story_online1', online1_check = '$online1_check',".
-            " story_online2_text = '$story_online2_text', story_online2 = '$story_online2', online2_check = '$online2_check', business_time = '$business_time', up_data = now() where idx = '$row_chk[idx]'";
+            " story_online2_text = '$story_online2_text', story_online2 = '$story_online2', online2_check = '$online2_check', business_time = '$business_time', up_data = now() where idx = '{$row_chk['idx']}'";
             $result2 = mysqli_query($self_con,$sql2) or die(mysqli_error($self_con));
         }
     }
@@ -235,7 +235,7 @@ else if($mode == "del") {
     $mall_sql = "select * from Gn_Iam_Contents where card_idx={$card_idx}";
     $mall_res = mysqli_query($self_con,$mall_sql);
     while($mall_row = mysqli_fetch_array($mall_res)){
-        $m_idx = $mall_row[idx];
+        $m_idx = $mall_row['idx'];
         $m_sql="delete from Gn_Iam_Mall where card_idx = '$m_idx' and (mall_type = 3 or mall_type = 4)";
         mysqli_query($self_con,$m_sql) or die(mysqli_error($self_con));
     }
@@ -305,10 +305,10 @@ else if($mode == "change_cont_order_type"){
         $sql = "select idx from Gn_Iam_Contents use index(westory_card_url) where idx not in (".$_POST[cont_order].") and mem_id = '{$_SESSION['iam_member_id']}' and westory_card_url ='$card_short_url'";
         $res = mysqli_query($self_con,$sql);
         while($row = mysqli_fetch_array($res)) {
-            $sql = "delete from Gn_Iam_Contents where idx = '$row[idx]'";
+            $sql = "delete from Gn_Iam_Contents where idx = '{$row['idx']}'";
             mysqli_query($self_con,$sql);
 
-            $sql = "delete from Gn_Iam_Con_Card use index(cont_idx) where cont_idx = '$row[idx]'";
+            $sql = "delete from Gn_Iam_Con_Card use index(cont_idx) where cont_idx = '{$row['idx']}'";
             mysqli_query($self_con,$sql);
 
             $sql = "delete from Gn_Iam_Mall where card_idx = '$contents_idx' and (mall_type = 3 or mall_type = 4)";

@@ -56,7 +56,7 @@ for($c = 0; $c < count($recv_nums_arr); $c++){
         $sql_s="select idx from Gn_MMS_Deny where recv_num='$recv_num' and send_num='$send_num'".$sql_search;
         $resul_s=mysqli_query($self_con,$sql_s);
         $row_s=mysqli_fetch_array($resul_s);
-        if($row_s[idx]){
+        if($row_s['idx']){
             continue;
         }
         $deny_info['send_num']=$send_num;

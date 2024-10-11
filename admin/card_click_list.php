@@ -256,7 +256,7 @@ $(function() {
                                     $crow = mysqli_fetch_array($cresult);?>
                                     <tr>
                                         <td><?=$number--?></td>
-                                        <td><?=$row[idx]?></td>
+                                        <td><?=$row['idx']?></td>
                                         <td>
                                             <div style="overflow-x:hidden;width:100px;">
                                                 <?=$mem_row[site]?>/<br><?=$mem_row[site_iam]?>/<br><?=$row['mem_id']?>

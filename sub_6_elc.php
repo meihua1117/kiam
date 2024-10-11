@@ -688,25 +688,25 @@ $row_data = mysqli_fetch_array($res_data);
 											$g=0;
 											while($row=mysqli_fetch_array($result))
 											{
-												$sql="select count(idx) as cnt from Gn_MMS_Receive where grp_id = '$row[idx]' ";
+												$sql="select count(idx) as cnt from Gn_MMS_Receive where grp_id = '{$row['idx']}' ";
 												$sresult = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 												$srow=mysqli_fetch_array($sresult);
 												?>
 												<tr>
-													<td><label><input type="checkbox" value="<?=$row[idx]?>" name="chk" id="chk" onclick="group_choice('<?=$g?>')" /><?=$sort_no?></label></td>
+													<td><label><input type="checkbox" value="<?=$row['idx']?>" name="chk" id="chk" onclick="group_choice('<?=$g?>')" /><?=$sort_no?></label></td>
 													<td class="group_title_<?=$g?>">
-														<a href="javascript:void(0)" onclick="show_detail('group_detail_elc.php?grp_id=<?=$row[idx]?>','<?=$g?>')"><?=str_substr($row[grp],0,20,"utf-8")?></a>
+														<a href="javascript:void(0)" onclick="show_detail('group_detail_elc.php?grp_id=<?=$row['idx']?>','<?=$g?>')"><?=str_substr($row[grp],0,20,"utf-8")?></a>
 														<a href="javascript:void(0)" onclick="g_dt_show_cencle('group_title_','','','<?=$g?>')" class="a_btn" style="background-color:#4f81bd;color:#FFF;float:right;">Re</a>
 													</td>
 													<td class="group_title_<?=$g?>" style="display:none;">
 														<input type="text" name="group_title" value="<?=$row[grp]?>" style="width:65%;" />
-														<a href="javascript:void(0)" onclick="group_title_modify('<?=$row[idx]?>','<?=$g?>')" class="a_btn">저장</a>
+														<a href="javascript:void(0)" onclick="group_title_modify('<?=$row['idx']?>','<?=$g?>')" class="a_btn">저장</a>
 														<a href="javascript:void(0)" onclick="g_dt_cencle('group_title_','','','<?=$g?>')">x</a>
 													</td>
 													<td><?=substr($row[reg_date],2,9)?></td>
 													<td><?=$srow['cnt']?></td>
 													<td>
-														<a href="javascript:void(0)" onclick="excel_down('excel_down/excel_down.php?down_type=1','<?=$row[idx]?>')"><img src="images/ico_xls.gif"></a>
+														<a href="javascript:void(0)" onclick="excel_down('excel_down/excel_down.php?down_type=1','<?=$row['idx']?>')"><img src="images/ico_xls.gif"></a>
 														<a href="#" class="btn_option_white" onclick="frm_update(document.getElementById('group<?=$i?>').value,document.getElementById('group_name<?=$i?>').value)" id="upt<?=$i?>" style="display:none;">수정</a>&nbsp;<a href="#" class="btn_option_red" onclick="frm_del(document.getElementById('group_name<?=$i?>').value)" id="del<?=$i?>" style="display:none;">삭제</a>
 													</td>
 												</tr>

@@ -14,7 +14,7 @@ if($_SESSION['one_member_id'] != "")
     
     }else if($_POST['mode'] == "use")
     {
-        $query = "select email from gn_member_emails where idx='$_POST[idx]'";
+        $query = "select email from gn_member_emails where idx='{$_POST['idx']}'";
         $result = mysqli_query($self_con,$query);
         $row = mysqli_fetch_array($result);
         if($row != "")
@@ -24,7 +24,7 @@ if($_SESSION['one_member_id'] != "")
         
     }else if($_POST['mode'] == "del")
     {
-        $query = "delete from gn_member_emails where idx='$_POST[idx]'";
+        $query = "delete from gn_member_emails where idx='{$_POST['idx']}'";
         mysqli_query($self_con,$query);
     }
 

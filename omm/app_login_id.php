@@ -68,7 +68,7 @@ if($row['mem_id'])
 		$sql_n_c="select idx,mem_id,end_status,end_date from Gn_MMS_Number where sendnum='$userNum' limit 0,1 ";
 		$resul_n_c=mysqli_query($self_con,$sql_n_c);
 		$row_n_c=mysqli_fetch_array($resul_n_c);
-		if($row_n_c[idx])
+		if($row_n_c['idx'])
 		{
 			//if(trim($row_n_c['mem_id'])==$userId)
 //				{
@@ -82,7 +82,7 @@ if($row['mem_id'])
 							$i=0;
 							while($row_pay=mysqli_fetch_array($resul_pay))
 							{
-								$sql_num_cnt="select count(idx) as cnt from Gn_MMS_Number where mem_id='$row_pay[buyer_id]' and end_date='$row_pay[end_date]' and end_status='Y' ";
+								$sql_num_cnt="select count(idx) as cnt from Gn_MMS_Number where mem_id='$row_pay['buyer_id']' and end_date='$row_pay[end_date]' and end_status='Y' ";
 								$resul_num_cnt=mysqli_query($self_con,$sql_num_cnt);
 								$row_num_cnt=mysqli_fetch_array($resul_num_cnt);
 								if($row_pay[phone_cnt] && $row_pay[phone_cnt] > $row_num_cnt['cnt'])

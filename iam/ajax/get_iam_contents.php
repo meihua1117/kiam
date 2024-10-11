@@ -193,7 +193,7 @@ if($cur_win == "my_info"){
         echo "<script>toastr.error('비공개카드입니다.');history.go(-1);</script>";
         exit;
     }
-    $myiam_count_sql="update Gn_Iam_Name_Card set iam_click = iam_click + 1 where idx = '$G_card[idx]'";
+    $myiam_count_sql="update Gn_Iam_Name_Card set iam_click = iam_click + 1 where idx = '{$G_card['idx']}'";
     mysqli_query($self_con,$myiam_count_sql) or die(mysqli_error($self_con));
 
     if($domainData[sub_domain] == "")
@@ -662,37 +662,37 @@ else{
                 $content_image_display = "none";
             }
 
-            $post_sql = "select SQL_CALC_FOUND_ROWS * from Gn_Iam_Post p inner join Gn_Member m on p.mem_id = m.mem_id where p.content_idx = '$contents_row[idx]' and p.lock_status = 'N' order by p.reg_date";
+            $post_sql = "select SQL_CALC_FOUND_ROWS * from Gn_Iam_Post p inner join Gn_Member m on p.mem_id = m.mem_id where p.content_idx = '{$contents_row['idx']}' and p.lock_status = 'N' order by p.reg_date";
             $post_res = mysqli_query($self_con,$post_sql);
             $post_count	=  mysqli_num_rows($post_res);
         ?>
         <div>
-            <input type="hidden" id = "<?='contents_display_'.$contents_row[idx]?>" value="<?= $contents_row['contents_display'] ?>">
-            <input type="hidden" id = "<?='contents_user_display_'.$contents_row[idx]?>" value="<?= $contents_row['contents_user_display'] ?>">
-            <input type="hidden" id = "<?='contents_type_display_'.$contents_row[idx]?>" value="<?= $contents_row['contents_type_display'] ?>">
-            <input type="hidden" id = "<?='contents_footer_display_'.$contents_row[idx]?>" value="<?= $contents_row['contents_footer_display'] ?>">
-            <input type="hidden" id = "<?='contents_type_'.$contents_row[idx]?>" value="<?= $contents_row['contents_type'] ?>">
-            <input type="hidden" id = "<?='contents_title_'.$contents_row[idx]?>" value="<?= $contents_row['contents_title'] ?>">
-            <input type="hidden" id = "<?='contents_img_'.$contents_row[idx]?>" value="<?=$contents_row['contents_img']?>">
-            <input type="hidden" id = "<?='contents_url_'.$contents_row[idx]?>" value="<?= $contents_row['contents_url'] ?>">
-            <input type="hidden" id = "<?='contents_iframe_'.$contents_row[idx]?>" value="<?= str_replace('"', "'",$contents_row['contents_iframe']) ?>">
-            <input type="hidden" id = "<?='contents_price_'.$contents_row[idx]?>" value="<?= $contents_row['contents_price'] ?>">
-            <input type="hidden" id = "<?='contents_sell_price_'.$contents_row[idx]?>" value="<?= $contents_row['contents_sell_price'] ?>">
-            <input type="hidden" id = "<?='contents_desc_'.$contents_row[idx]?>" value="<?=$contents_row['contents_desc']?>">
-            <input type="hidden" id = "<?='except_keyword_'.$contents_row[idx]?>" value="<?= $except_keyword?>">
-            <input type="hidden" id = "<?='contents_share_text_'.$contents_row[idx]?>" value="<?= $contents_row['contents_share_text'] ?>">
-            <input type="hidden" id = "<?='share_names_'.$contents_row[idx]?>" value="<?= $share_names?>">
-            <input type="hidden" id = "<?='contents_westory_display_'.$contents_row[idx]?>" value="<?= $contents_row['contents_westory_display'] ?>">
-            <input type="hidden" id = "<?='card_short_url_'.$contents_row[idx]?>" value="<?= $contents_row['card_short_url'] ?>">
-            <input type="hidden" id = "<?='westory_card_url_'.$contents_row[idx]?>" value="<?= $contents_row['westory_card_url'] ?>">
-            <input type="hidden" id = "<?='req_data_'.$contents_row[idx]?>" value="<?= $contents_row['req_data'] ?>">
-            <input type="hidden" id = "<?='card_owner_'.$contents_row[idx]?>" value="<?= $card_owner ?>">
-            <input type="hidden" id = "<?='contents_user_name_'.$contents_row[idx]?>" value="<?= $contents_user_name ?>">
-            <input type="hidden" id = "<?='source_iframe_'.$contents_row[idx]?>" value="<?= $contents_row['source_iframe'];?>">
-            <input type="hidden" id = "<?='post_display_'.$contents_row[idx]?>" value="<?= $westory_card['post_display']?>">
-            <input type="hidden" id = "<?='contents_like_'.$contents_row[idx]?>" value="<?= number_format($contents_row['contents_like'])?>">
-            <input type="hidden" id = "<?='post_count_'.$contents_row[idx]?>" value="<?= $post_count?>">
-            <input type="hidden" id = "<?='open_type_'.$contents_row[idx]?>" value="<?= $contents_row['open_type'];?>">
+            <input type="hidden" id = "<?='contents_display_'.$contents_row['idx']?>" value="<?= $contents_row['contents_display'] ?>">
+            <input type="hidden" id = "<?='contents_user_display_'.$contents_row['idx']?>" value="<?= $contents_row['contents_user_display'] ?>">
+            <input type="hidden" id = "<?='contents_type_display_'.$contents_row['idx']?>" value="<?= $contents_row['contents_type_display'] ?>">
+            <input type="hidden" id = "<?='contents_footer_display_'.$contents_row['idx']?>" value="<?= $contents_row['contents_footer_display'] ?>">
+            <input type="hidden" id = "<?='contents_type_'.$contents_row['idx']?>" value="<?= $contents_row['contents_type'] ?>">
+            <input type="hidden" id = "<?='contents_title_'.$contents_row['idx']?>" value="<?= $contents_row['contents_title'] ?>">
+            <input type="hidden" id = "<?='contents_img_'.$contents_row['idx']?>" value="<?=$contents_row['contents_img']?>">
+            <input type="hidden" id = "<?='contents_url_'.$contents_row['idx']?>" value="<?= $contents_row['contents_url'] ?>">
+            <input type="hidden" id = "<?='contents_iframe_'.$contents_row['idx']?>" value="<?= str_replace('"', "'",$contents_row['contents_iframe']) ?>">
+            <input type="hidden" id = "<?='contents_price_'.$contents_row['idx']?>" value="<?= $contents_row['contents_price'] ?>">
+            <input type="hidden" id = "<?='contents_sell_price_'.$contents_row['idx']?>" value="<?= $contents_row['contents_sell_price'] ?>">
+            <input type="hidden" id = "<?='contents_desc_'.$contents_row['idx']?>" value="<?=$contents_row['contents_desc']?>">
+            <input type="hidden" id = "<?='except_keyword_'.$contents_row['idx']?>" value="<?= $except_keyword?>">
+            <input type="hidden" id = "<?='contents_share_text_'.$contents_row['idx']?>" value="<?= $contents_row['contents_share_text'] ?>">
+            <input type="hidden" id = "<?='share_names_'.$contents_row['idx']?>" value="<?= $share_names?>">
+            <input type="hidden" id = "<?='contents_westory_display_'.$contents_row['idx']?>" value="<?= $contents_row['contents_westory_display'] ?>">
+            <input type="hidden" id = "<?='card_short_url_'.$contents_row['idx']?>" value="<?= $contents_row['card_short_url'] ?>">
+            <input type="hidden" id = "<?='westory_card_url_'.$contents_row['idx']?>" value="<?= $contents_row['westory_card_url'] ?>">
+            <input type="hidden" id = "<?='req_data_'.$contents_row['idx']?>" value="<?= $contents_row['req_data'] ?>">
+            <input type="hidden" id = "<?='card_owner_'.$contents_row['idx']?>" value="<?= $card_owner ?>">
+            <input type="hidden" id = "<?='contents_user_name_'.$contents_row['idx']?>" value="<?= $contents_user_name ?>">
+            <input type="hidden" id = "<?='source_iframe_'.$contents_row['idx']?>" value="<?= $contents_row['source_iframe'];?>">
+            <input type="hidden" id = "<?='post_display_'.$contents_row['idx']?>" value="<?= $westory_card['post_display']?>">
+            <input type="hidden" id = "<?='contents_like_'.$contents_row['idx']?>" value="<?= number_format($contents_row['contents_like'])?>">
+            <input type="hidden" id = "<?='post_count_'.$contents_row['idx']?>" value="<?= $post_count?>">
+            <input type="hidden" id = "<?='open_type_'.$contents_row['idx']?>" value="<?= $contents_row['open_type'];?>">
             <div class="content-item list" id="contents_list" style ="display : <?=$content_list_display?>;">
                 <div class="user-item">
                     <a href="/?<?=strip_tags($contents_card_url.$m_code)?>" class="img-box" target = "_blank">
@@ -810,11 +810,11 @@ else{
                             </button>
                             <ul class="dropdown-menu comunity">
                                 <li><a onclick="location.href='/?<?=strip_tags($contents_card_url)?>'">이 콘텐츠 게시자 보기</a></li>
-                                <li><a onclick="set_friend('<?=$westory_card['mem_id'] ?>','<?=$westory_card[card_name] ?>','<?=$westory_card[card_short_url] ?>','<?=$westory_card[idx] ?>')">이 게시자와 프렌즈 하기</a></li>
-                                <li><a onclick="set_block_contents('<?=$contents_row[idx]?>')">이 콘텐츠 하나만 감추기</a></li>
+                                <li><a onclick="set_friend('<?=$westory_card['mem_id'] ?>','<?=$westory_card[card_name] ?>','<?=$westory_card[card_short_url] ?>','<?=$westory_card['idx'] ?>')">이 게시자와 프렌즈 하기</a></li>
+                                <li><a onclick="set_block_contents('<?=$contents_row['idx']?>')">이 콘텐츠 하나만 감추기</a></li>
                                 <li><a onclick="set_block_user('<?=$westory_card['mem_id']?>','<?=$westory_card[card_short_url] ?>')">이 게시자의 정보 감추기</a></li>
-                                <li><a onclick="set_my_share_contents('<?=$contents_row[idx]?>')">이 콘텐츠 나에게 가져오기</a></li>
-                                <li><a onclick="show_block_list('<?=$contents_row[idx]?>')">감추기 리스트 보기</a></li>
+                                <li><a onclick="set_my_share_contents('<?=$contents_row['idx']?>')">이 콘텐츠 나에게 가져오기</a></li>
+                                <li><a onclick="show_block_list('<?=$contents_row['idx']?>')">감추기 리스트 보기</a></li>
                             </ul>
                         </div>
                     <?}?>
@@ -980,9 +980,9 @@ else{
                                 $kk++;
                             if(count($content_images) > 1){
                         ?>
-                                <button onclick="show_all_content_images('<?=$contents_row[idx]?>')"  id = "content_all_image<?=$contents_row[idx]?>"
+                                <button onclick="show_all_content_images('<?=$contents_row['idx']?>')"  id = "content_all_image<?=$contents_row['idx']?>"
                                         style="position: absolute;right:0px;bottom:0px;font-size: 24px"><?="+".(count($content_images)-1)?></button>
-                                <button onclick="hide_all_content_images('<?=$contents_row[idx]?>')"  id = "hide_content_all_image<?=$contents_row[idx]?>"
+                                <button onclick="hide_all_content_images('<?=$contents_row['idx']?>')"  id = "hide_content_all_image<?=$contents_row['idx']?>"
                                         style="position: absolute;left:0px;top:300px;font-size: 24px;display:none;background: transparent">
                                     <img src="img/main/icon-img_fold.png" style="width:30px">
                                 </button>
@@ -992,7 +992,7 @@ else{
                         <img src="<?=$content_images[0]?>" class="contents_img">
                             <?if(count($content_images) > 1){?>
                                 <?for($c = 1;$c < count($content_images);$c ++){?>
-                                    <img src="<?=$content_images[$c]?>" class="contents_img hidden_image<?=$contents_row[idx]?>" style="display:none">
+                                    <img src="<?=$content_images[$c]?>" class="contents_img hidden_image<?=$contents_row['idx']?>" style="display:none">
                                 <?}?>
                             <?}?>
                         </a>
@@ -1002,7 +1002,7 @@ else{
                             <img src="<?=$content_images[0]?>" class="contents_img">
                                 <?if(count($content_images) > 1){?>
                                     <?for($c = 1;$c < count($content_images);$c ++){?>
-                                        <img src="<?=$content_images[$c]?>" class="contents_img hidden_image<?=$contents_row[idx]?>" style="display:none">
+                                        <img src="<?=$content_images[$c]?>" class="contents_img hidden_image<?=$contents_row['idx']?>" style="display:none">
                                     <?}?>
                                 <?}?>
                             </div>
@@ -1011,7 +1011,7 @@ else{
                             <img src="<?=$content_images[0]?>" class="contents_img">
                                 <?if(count($content_images) > 1){?>
                                     <?for($c = 1;$c < count($content_images);$c ++){?>
-                                        <img src="<?=$content_images[$c]?>" class="contents_img hidden_image<?=$contents_row[idx]?>" style="display:none">
+                                        <img src="<?=$content_images[$c]?>" class="contents_img hidden_image<?=$contents_row['idx']?>" style="display:none">
                                     <?}?>
                                 <?}?>
                             </a>
@@ -1028,7 +1028,7 @@ else{
                                     <img src="<?=$content_images[0]?>" class="contents_img">
                                         <?if(count($content_images) > 1){?>
                                             <?for($c = 1;$c < count($content_images);$c ++){?>
-                                                <img src="<?=$content_images[$c]?>" class="contents_img hidden_image<?=$contents_row[idx]?>" style="display:none">
+                                                <img src="<?=$content_images[$c]?>" class="contents_img hidden_image<?=$contents_row['idx']?>" style="display:none">
                                             <?}?>
                                         <?}?>
                                     </a>    
@@ -1036,14 +1036,14 @@ else{
                             <img src="<?=$content_images[0]?>" class="contents_img">
                         <?}?>
                                 <?if(count($content_images) > 1){?>
-                                    <button onclick="show_all_content_images('<?=$contents_row[idx]?>')"  id = "content_all_image<?=$contents_row[idx]?>"
+                                    <button onclick="show_all_content_images('<?=$contents_row['idx']?>')"  id = "content_all_image<?=$contents_row['idx']?>"
                                             style="position: absolute;right:0px;bottom:0px;font-size: 24px"><?="+".(count($content_images)-1)?></button>
-                                    <button onclick="hide_all_content_images('<?=$contents_row[idx]?>')"  id = "hide_content_all_image<?=$contents_row[idx]?>"
+                                    <button onclick="hide_all_content_images('<?=$contents_row['idx']?>')"  id = "hide_content_all_image<?=$contents_row['idx']?>"
                                             style="position: absolute;left:0px;top:300px;font-size: 24px;display:none;background: transparent">
                                         <img src="img/main/icon-img_fold.png" style="width:30px">
                                     </button>
                                     <?for($c = 1;$c < count($content_images);$c ++){?>
-                                        <img src="<?=$content_images[$c]?>" class="contents_img hidden_image<?=$contents_row[idx]?>" style="display:none">
+                                        <img src="<?=$content_images[$c]?>" class="contents_img hidden_image<?=$contents_row['idx']?>" style="display:none">
                                     <?}
                                 }
                             }
@@ -1056,9 +1056,9 @@ else{
                         $kk++;
                         ?>
                         <?if(count($content_images) > 1){?>
-                            <button onclick="show_all_content_images('<?=$contents_row[idx]?>')"  id = "content_all_image<?=$contents_row[idx]?>"
+                            <button onclick="show_all_content_images('<?=$contents_row['idx']?>')"  id = "content_all_image<?=$contents_row['idx']?>"
                                     style="position: absolute;right:0px;bottom:0px;font-size: 24px"><?="+".(count($content_images)-1)?></button>
-                            <button onclick="hide_all_content_images('<?=$contents_row[idx]?>')"  id = "hide_content_all_image<?=$contents_row[idx]?>"
+                            <button onclick="hide_all_content_images('<?=$contents_row['idx']?>')"  id = "hide_content_all_image<?=$contents_row['idx']?>"
                                     style="position: absolute;left:0px;top:300px;font-size: 24px;display:none;background: transparent">
                                 <img src="img/main/icon-img_fold.png" style="width:30px">
                             </button>
@@ -1069,7 +1069,7 @@ else{
                             <img class="movie_play" src="/iam/img/movie_play.png" style="">
                                 <?if(count($content_images) > 1){?>
                                     <?for($c = 1;$c < count($content_images);$c ++){?>
-                                        <img src="<?=$content_images[$c]?>" class="contents_img hidden_image<?=$contents_row[idx]?>" style="display:none">
+                                        <img src="<?=$content_images[$c]?>" class="contents_img hidden_image<?=$contents_row['idx']?>" style="display:none">
                                     <?}?>
                                 <?}?>
                             </a>
@@ -1083,7 +1083,7 @@ else{
                                 <?}?>
                                 <?if(count($content_images) > 1){?>
                                     <?for($c = 1;$c < count($content_images);$c ++){?>
-                                        <img src="<?=$content_images[$c]?>" class="contents_img hidden_image<?=$contents_row[idx]?>" style="display:none">
+                                        <img src="<?=$content_images[$c]?>" class="contents_img hidden_image<?=$contents_row['idx']?>" style="display:none">
                                     <?}?>
                                 <?}?>
                             </div>
@@ -1095,7 +1095,7 @@ else{
                                 <?}?>
                                 <?if(count($content_images) > 1){?>
                                     <?for($c = 1;$c < count($content_images);$c ++){?>
-                                        <img src="<?=$content_images[$c]?>" class="contents_img hidden_image<?=$contents_row[idx]?>" style="display:none">
+                                        <img src="<?=$content_images[$c]?>" class="contents_img hidden_image<?=$contents_row['idx']?>" style="display:none">
                                     <?}?>
                                 <?}?>
                             </a>
@@ -1114,7 +1114,7 @@ else{
                             <img src="<?=$content_images[0]?>" class="contents_img">
                                 <?if(count($content_images) > 1){?>
                                     <?for($c = 1;$c < count($content_images);$c ++){?>
-                                        <img src="<?=$content_images[$c]?>" class="contents_img hidden_image<?=$contents_row[idx]?>" style="display:none">
+                                        <img src="<?=$content_images[$c]?>" class="contents_img hidden_image<?=$contents_row['idx']?>" style="display:none">
                                     <?}?>
                                 <?}?>
                             </a>
@@ -1190,30 +1190,30 @@ else{
                                     <label style="font-size: 14px;background: #ff3333;border-radius: 50%!important;padding: 3px 7px!important;color: #fff;
                                             text-align: center;line-height: 1;position: absolute;margin-left: -15px" id = "<?='post_alarm_'.$contents_row['idx']?>"></label>
                                 </a>
-                                <p onclick = "refresh_post('<?=$contents_row[idx]?>')" class = "second-box-like like-count" id = "<?='post_count_'.$contents_row[idx]?>"><?=$post_count?>  &#x21BA;</p>
+                                <p onclick = "refresh_post('<?=$contents_row['idx']?>')" class = "second-box-like like-count" id = "<?='post_count_'.$contents_row['idx']?>"><?=$post_count?>  &#x21BA;</p>
                             </div>
                         </div>
                     </div>
                 </div>
                 <?
-                $post_status_sql = "select count(*) from Gn_Iam_Post where content_idx = '$contents_row[idx]' and status = 'N' and lock_status = 'N'";
+                $post_status_sql = "select count(*) from Gn_Iam_Post where content_idx = '{$contents_row['idx']}' and status = 'N' and lock_status = 'N'";
                 $post_status_res = mysqli_query($self_con,$post_status_sql);
                 $post_status_row =  mysqli_fetch_array($post_status_res);
                 $post_status_count = $post_status_row[0];
                 if ($post_status_count  > 0)
-                    echo "<script>  $('#post_alarm_".$contents_row[idx]."').html(".$post_status_count."); </script>";
+                    echo "<script>  $('#post_alarm_".$contents_row['idx']."').html(".$post_status_count."); </script>";
                 else
-                    echo "<script>  $('#post_alarm_".$contents_row[idx]."').hide(); </script>";
+                    echo "<script>  $('#post_alarm_".$contents_row['idx']."').hide(); </script>";
                 ?>
-                <div class="post-wrap <?='post_wrap'.$contents_row[idx]?>" style="display:none" id = "<?='post_wrap'.$contents_row[idx]?>">
+                <div class="post-wrap <?='post_wrap'.$contents_row['idx']?>" style="display:none" id = "<?='post_wrap'.$contents_row['idx']?>">
                     <div style="border: 1px solid #dddddd">
-                        <textarea id = "post_content<?=$contents_row[idx]?>" name = "post_content<?=$contents_row[idx]?>" class  = "post_content" maxlength="300" placeholder="댓글은 300자 이내로 작성해주세요" style="width: 100%;border: 1px"></textarea>
+                        <textarea id = "post_content<?=$contents_row['idx']?>" name = "post_content<?=$contents_row['idx']?>" class  = "post_content" maxlength="300" placeholder="댓글은 300자 이내로 작성해주세요" style="width: 100%;border: 1px"></textarea>
                     </div>
                     <div style="display: flex">
                         <span id = "post_status" name = "post_status" style="padding: 10px">0/300</span>
-                        <button type="button" class="btn btn-primary" style="position: absolute; right: 1px; padding: 9px 12px" id="send_post" onclick="add_post('<?=$contents_row[idx]?>')">등록</button>
+                        <button type="button" class="btn btn-primary" style="position: absolute; right: 1px; padding: 9px 12px" id="send_post" onclick="add_post('<?=$contents_row['idx']?>')">등록</button>
                     </div>
-                    <div style="border: 1px solid #dddddd" id = "<?='post_list_'.$contents_row[idx]?>" name = "<?='post_list_'.$contents_row[idx]?>">
+                    <div style="border: 1px solid #dddddd" id = "<?='post_list_'.$contents_row['idx']?>" name = "<?='post_list_'.$contents_row['idx']?>">
                         <?while($post_row = mysqli_fetch_array($post_res)){
                             $post_card_sql = "select card_short_url from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$post_row['mem_id']}' order by req_data asc";
                             $post_card_result = mysqli_query($self_con,$post_card_sql);
@@ -1242,12 +1242,12 @@ else{
                                         <img class="dropdown-toggle" data-toggle="dropdown" src="/iam/img/main/custom.png" style="height: 20px;">
                                         <ul class="dropdown-menu namecard-dropdown " style="background: white; color : black;top:10px;">
                                             <li>
-                                                <a href="javascript:void(0)" onclick="edit_post('<?=$contents_row[idx]?>','<?=$post_row['id']?>','<?=$post_row['content']?>')" title="댓글 수정">
+                                                <a href="javascript:void(0)" onclick="edit_post('<?=$contents_row['idx']?>','<?=$post_row['id']?>','<?=$post_row['content']?>')" title="댓글 수정">
                                                     <p>수정</p>
                                                 </a>
                                             </li>
                                             <li>
-                                                <a href="javascript:void(0)" onclick="delete_post('<?=$contents_row[idx]?>','<?=$post_row['id']?>')" title="댓글 삭제">
+                                                <a href="javascript:void(0)" onclick="delete_post('<?=$contents_row['idx']?>','<?=$post_row['id']?>')" title="댓글 삭제">
                                                     <p>삭제</p>
                                                 </a>
                                             </li>
@@ -1258,12 +1258,12 @@ else{
                                         <img class="dropdown-toggle" data-toggle="dropdown" src="/iam/img/main/custom.png" style="height: 20px;">
                                         <ul class="dropdown-menu namecard-dropdown " style="background: white; color : black;top:10px;">
                                             <li>
-                                                <a href="javascript:void(0)" onclick="delete_post('<?=$contents_row[idx]?>','<?=$post_row['id']?>')" title="댓글 삭제">
+                                                <a href="javascript:void(0)" onclick="delete_post('<?=$contents_row['idx']?>','<?=$post_row['id']?>')" title="댓글 삭제">
                                                     <p>삭제</p>
                                                 </a>
                                             </li>
                                             <li>
-                                                <a href="javascript:void(0)" onclick="lock_post('<?=$contents_row[idx]?>','<?=$post_row['id']?>')" title="댓글 차단">
+                                                <a href="javascript:void(0)" onclick="lock_post('<?=$contents_row['idx']?>','<?=$post_row['id']?>')" title="댓글 차단">
                                                     <p>차단</p>
                                                 </a>
                                             </li>
@@ -1282,7 +1282,7 @@ else{
                                 </div>
                                 <div style="display: flex;border-bottom: 1px solid #dddddd">
                                     <span id = "post_reply_status" name = "post_reply_status" style="padding: 10px">0/300</span>
-                                    <button type="button" class="btn btn-primary" style="position: absolute; right: 1px; padding: 9px 12px" onclick="add_post_reply('<?=$contents_row[idx]?>','<?=$post_row['id']?>')">등록</button>
+                                    <button type="button" class="btn btn-primary" style="position: absolute; right: 1px; padding: 9px 12px" onclick="add_post_reply('<?=$contents_row['idx']?>','<?=$post_row['id']?>')">등록</button>
                                 </div>
                             </div>
                             <?
@@ -1316,12 +1316,12 @@ else{
                                             <img class="dropdown-toggle" data-toggle="dropdown" src="/iam/img/main/custom.png" style="height: 20px;">
                                             <ul class="dropdown-menu namecard-dropdown " style="background: white; color : black;top:10px;">
                                                 <li>
-                                                    <a href="javascript:void(0)" onclick="edit_post_reply('<?=$contents_row[idx]?>','<?=$post_row['id']?>','<?=$reply_row['id']?>','<?=$reply_row['contents']?>')" title="답글 수정">
+                                                    <a href="javascript:void(0)" onclick="edit_post_reply('<?=$contents_row['idx']?>','<?=$post_row['id']?>','<?=$reply_row['id']?>','<?=$reply_row['contents']?>')" title="답글 수정">
                                                         <p>수정</p>
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a href="javascript:void(0)" onclick="delete_post_reply('<?=$contents_row[idx]?>','<?=$reply_row['id']?>')" title="답글 삭제">
+                                                    <a href="javascript:void(0)" onclick="delete_post_reply('<?=$contents_row['idx']?>','<?=$reply_row['id']?>')" title="답글 삭제">
                                                         <p>삭제</p>
                                                     </a>
                                                 </li>
@@ -1332,12 +1332,12 @@ else{
                                             <img class="dropdown-toggle" data-toggle="dropdown" src="/iam/img/main/custom.png" style="height: 20px;">
                                             <ul class="dropdown-menu namecard-dropdown " style="background: white; color : black;top:10px;">
                                                 <li>
-                                                    <a href="javascript:void(0)" onclick="delete_post_reply('<?=$contents_row[idx]?>','<?=$reply_row['id']?>')" title="답글 삭제">
+                                                    <a href="javascript:void(0)" onclick="delete_post_reply('<?=$contents_row['idx']?>','<?=$reply_row['id']?>')" title="답글 삭제">
                                                         <p>삭제</p>
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a href="javascript:void(0)" onclick="lock_post_reply('<?=$contents_row[idx]?>','<?=$reply_row['id']?>')" title="답글 차단">
+                                                    <a href="javascript:void(0)" onclick="lock_post_reply('<?=$contents_row['idx']?>','<?=$reply_row['id']?>')" title="답글 차단">
                                                         <p>차단</p>
                                                     </a>
                                                 </li>

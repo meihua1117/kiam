@@ -80,11 +80,11 @@ else if($type == "delete_list"){
             $date_this_month = date("Y-m", $cur_time)."-01 00:00:00";
             $date_pre_month = date("Y-m", $prev_month_ts)."-01 00:00:00";
 
-            $sql_get_cnt = "select count(*) from Gn_Iam_Contents_Gwc where mem_id='$row_id[buyer_id]' and ori_store_prod_idx!=0";
+            $sql_get_cnt = "select count(*) from Gn_Iam_Contents_Gwc where mem_id='{$row_id['buyer_id']}' and ori_store_prod_idx!=0";
             $res_get_cnt = mysqli_query($self_con,$sql_get_cnt);
             $row_get_cnt = mysqli_fetch_array($res_get_cnt);
 
-            $sql_pay = "select sum(TotPrice) as all_money from tjd_pay_result where cash_prod_pay=0 and gwc_cont_pay=1 and buyer_id='$row_id[buyer_id]' and date>'$date_pre_month' and end_status='Y'";
+            $sql_pay = "select sum(TotPrice) as all_money from tjd_pay_result where cash_prod_pay=0 and gwc_cont_pay=1 and buyer_id='{$row_id['buyer_id']}' and date>'$date_pre_month' and end_status='Y'";
             $res_pay = mysqli_query($self_con,$sql_pay);
             $row_pay = mysqli_fetch_array($res_pay);
 
@@ -92,13 +92,13 @@ else if($type == "delete_list"){
             if($possible_cnt < $row_get_cnt[0]){
                 $unset_cnt = $row_get_cnt[0] * 1 - $possible_cnt;
 
-                $sql_gwc = "select idx, ori_store_prod_idx from Gn_Iam_Contents_Gwc where mem_id='{$row_id[buyer_id]}' and ori_store_prod_idx!=0 order by idx asc limit {$unset_cnt}";
+                $sql_gwc = "select idx, ori_store_prod_idx from Gn_Iam_Contents_Gwc where mem_id='{$row_id['buyer_id']}' and ori_store_prod_idx!=0 order by idx asc limit {$unset_cnt}";
                 $res_gwc = mysqli_query($self_con,$sql_gwc);
                 while($row_gwc = mysqli_fetch_array($res_gwc)){
                     $sql_update = "update Gn_Iam_Contents_Gwc set public_display='Y' where idx = '$row_gwc[ori_store_prod_idx]'";
                     mysqli_query($self_con,$sql_update) or die(mysqli_error($self_con));
 
-                    $sql_del = "delete from Gn_Iam_Contents_Gwc where idx=$row_gwc[idx]";
+                    $sql_del = "delete from Gn_Iam_Contents_Gwc where idx={$row_gwc['idx']}";
                     mysqli_query($self_con,$sql_del) or die(mysqli_error($self_con));
                 }
             }

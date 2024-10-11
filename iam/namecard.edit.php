@@ -29,7 +29,7 @@ $result=mysqli_query($self_con,$sql);
 $row=mysqli_fetch_array($result);
 $member = $_GET['member'];
 if($member == 'on') {
-	//$card_idx = $row[idx];
+	//$card_idx = $row['idx'];
 	$card_name = $row['mem_name'];
     if($row[zy])
 	    $card_company = $row[zy];

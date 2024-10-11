@@ -107,7 +107,7 @@ while($repo_row = mysqli_fetch_array($repo_res)){
 /*$card_sql = "select * from Gn_Iam_Name_Card order by idx";
 $card_res = mysqli_query($self_con,$card_sql);
 while($card_row = mysqli_fetch_array($card_res)){
-    $cont_sql = "select card_short_url,westory_card_url from Gn_Iam_Contents where card_idx=$card_row[idx]";
+    $cont_sql = "select card_short_url,westory_card_url from Gn_Iam_Contents where card_idx=$card_row['idx']";
     $cont_res = mysqli_query($self_con,$cont_res);
     while($cont_row = mysqli_fetch_array($cont_res)){
 
@@ -122,7 +122,7 @@ while($card_row = mysqli_fetch_array($card_res)){
     if($cont_row[0] == 0){
         
         echo "content ".$card_row['cont_idx']." deleting.<br>";
-        $sql = "delete from Gn_Iam_Con_Card where idx = $card_row[idx]";
+        $sql = "delete from Gn_Iam_Con_Card where idx = {$card_row['idx']}";
         mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
     }
 }
@@ -134,11 +134,11 @@ while($friend_row = mysqli_fetch_array($f_res)){
     $card_row = mysqli_fetch_array($card_res);
     if($card_row['mem_id'] == ""){
         echo $friend_row['idx']." deleting.<br>";
-        $sql = "delete from Gn_Iam_Friends where idx = $friend_row[idx]";
+        $sql = "delete from Gn_Iam_Friends where idx = $friend_row['idx']";
         mysqli_query($self_con,  $sql) or die(mysqli_error($self_con));
     }else{
         echo $friend_row['idx']." changed.<br>";
-        $sql = "update Gn_Iam_Friends set friend_id='{$card_row['mem_id']}' where idx = $friend_row[idx]";
+        $sql = "update Gn_Iam_Friends set friend_id='{$card_row['mem_id']}' where idx = $friend_row['idx']";
         mysqli_query($self_con,  $sql) or die(mysqli_error($self_con));
     }
 }*/

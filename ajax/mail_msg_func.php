@@ -23,7 +23,7 @@ if($_SESSION['one_member_id'] != "")
 	}
 	else if($_POST[mode]=="del")
 	{
-		$sql="delete from gn_mail_message where idx='$_REQUEST[idx]' and mem_id ='{$_SESSION['one_member_id']}' ";
+		$sql="delete from gn_mail_message where idx='{$_REQUEST['idx']}' and mem_id ='{$_SESSION['one_member_id']}' ";
 		echo $sql;
 		$resul=mysqli_query($self_con,$sql);
 	}

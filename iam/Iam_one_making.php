@@ -19,7 +19,7 @@ if($member == 'on' && $_SESSION['iam_member_id']) {
     $sql="select mem_name, zy, mem_phone, mem_email, mem_add1 from Gn_Member where mem_id = '{$_SESSION['iam_member_id']}'";
     $result=mysqli_query($self_con,$sql);
     $row=mysqli_fetch_array($result);
-    //$card_idx = $row[idx];
+    //$card_idx = $row['idx'];
     $card_name = $row['mem_name'];
     $card_company = $row['zy'];
     // $card_position = $row[card_position];

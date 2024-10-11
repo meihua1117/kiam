@@ -107,7 +107,7 @@ $phone_num = $_POST['phone_num'];
 			$sql_s="select idx from Gn_MMS_Deny where mem_id='$userId' and recv_num='$ori_num' and send_num='$num' ";
 			$resul_s=mysqli_query($self_con,$sql_s);
 			$row_s=mysqli_fetch_array($resul_s);
-			if($row_s[idx] == "" && $num != $ori_num) {
+			if($row_s['idx'] == "" && $num != $ori_num) {
 				$sql_insert = "insert into Gn_MMS_Deny set send_num='$num',
 														   recv_num='$ori_num',
 														   reg_date=now(),
@@ -134,7 +134,7 @@ $phone_num = $_POST['phone_num'];
 			$sql_s="select idx from Gn_MMS_Deny where mem_id='$userId' and recv_num='$ori_num' and send_num='$num' ";
 			$resul_s=mysqli_query($self_con,$sql_s);
 			$row_s=mysqli_fetch_array($resul_s);
-			if($row_s[idx] == "" && $num != $ori_num) {
+			if($row_s['idx'] == "" && $num != $ori_num) {
 				$sql_insert = "insert into Gn_MMS_Deny set send_num='$num',
 														   recv_num='$ori_num',
 														   reg_date=now(),
@@ -186,7 +186,7 @@ $phone_num = $_POST['phone_num'];
 		$res=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 		$row=mysqli_fetch_array($res);
 		if($row['idx'] != "") {
-			$sql="update call_api_log set receive_sms='$time' where idx='$row[idx]'";
+			$sql="update call_api_log set receive_sms='$time' where idx='{$row['idx']}'";
 			mysqli_query($self_con,$sql);	
 		}
 		else{

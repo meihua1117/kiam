@@ -86,7 +86,7 @@ function arr_del($list_arr, $del_value) // 배열, 삭제할 값
          <form name="sub_4_form" action="" method="post" enctype="multipart/form-data">            
     	<?
 				    $sql_serch= " 1=1 ";
-					$sql_serch.=" and idx ='$_REQUEST[idx]' ";
+					$sql_serch.=" and idx ='{$_REQUEST['idx']}' ";
                     if($_REQUEST['serch_fs_text'] != "") {
                         $sql_serch.=" and recv_num like '%$_REQUEST[serch_fs_text]%' ";
                     }
@@ -146,19 +146,19 @@ function arr_del($list_arr, $del_value) // 배열, 삭제할 값
 					$excel_sql=str_replace("'","`",$excel_sql);					
 					$result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));		
 					
-    				$sql_s="select count(idx) as cnt from Gn_MMS_status where idx='$_GET[idx]' ";
+    				$sql_s="select count(idx) as cnt from Gn_MMS_status where idx='{$_GET['idx']}' ";
     				$resul_s=mysqli_query($self_con,$sql_s);
     				$row_s=mysqli_fetch_array($resul_s);
     				$status_total_cnt = $row_s[0];
     				
 
     				
-    				$sql_s="select count(idx) as cnt from Gn_MMS_status where idx='$_GET[idx]' and status='0'";
+    				$sql_s="select count(idx) as cnt from Gn_MMS_status where idx='{$_GET['idx']}' and status='0'";
     				$resul_s=mysqli_query($self_con,$sql_s);
     				$row_s=mysqli_fetch_array($resul_s);
     				$success_cnt = $row_s[0];
     				
-    				$sql_n="select * from Gn_MMS where idx='$_GET[idx]' ";
+    				$sql_n="select * from Gn_MMS where idx='{$_GET['idx']}' ";
     				$resul_n=mysqli_query($self_con,$sql_n);
     				$row_n=mysqli_fetch_array($resul_n);
     				
@@ -167,7 +167,7 @@ function arr_del($list_arr, $del_value) // 배열, 삭제할 값
     				$recv_cnt=explode(",",$row_n['recv_num']);
     				$total_cnt = count($recv_cnt);
     				
-    				$sql_s="select * from Gn_MMS_status where idx='$_GET[idx]' ";
+    				$sql_s="select * from Gn_MMS_status where idx='{$_GET['idx']}' ";
     				$resul_s=mysqli_query($self_con,$sql_s);
     				while($srow_s=mysqli_fetch_array($resul_s)) {
         				$recv_cnt = arr_del($recv_cnt, $srow_s['recv_num']);

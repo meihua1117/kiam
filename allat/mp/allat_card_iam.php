@@ -238,8 +238,8 @@ if(!strcmp($REPLYCD,"0000")){//pay_test
         $ZEROFEE_YN       =getValue("zerofee_yn",$at_txt);
         $CERT_YN          =getValue("cert_yn",$at_txt);
         $CONTRACT_YN      =getValue("contract_yn",$at_txt);
-        $sql = "insert into tjd_pay_result_month set pay_idx='$row[idx]',
-                                                    order_number='$row[idx]',
+        $sql = "insert into tjd_pay_result_month set pay_idx='{$row['idx']}',
+                                                    order_number='{$row['idx']}',
                                                     pay_yn='Y',
                                                     msg='성공_mp_card_iam',
                                                     regdate = NOW(),
@@ -257,7 +257,7 @@ if(!strcmp($REPLYCD,"0000")){//pay_test
     }else{
         echo "결과코드  : ".$REPLYCD."<br>";
         echo "결과메세지: ".$REPLYMSG."<br>";
-        $sql = "insert into tjd_pay_result_month set pay_idx='$row[idx]',
+        $sql = "insert into tjd_pay_result_month set pay_idx='{$row['idx']}',
                                                         order_number='$ORDER_NO',
                                                         regdate = NOW(),
                                                         pay_yn='N',
@@ -268,7 +268,7 @@ if(!strcmp($REPLYCD,"0000")){//pay_test
 }else{
     echo "결과코드  : ".$REPLYCD."<br>";
     echo "결과메세지: ".$REPLYMSG."<br>";
-    $sql = "insert into tjd_pay_result_month set pay_idx='$row[idx]',
+    $sql = "insert into tjd_pay_result_month set pay_idx='{$row['idx']}',
                                                         order_number='$ORDER_NO',
                                                         regdate = NOW(),
                                                         pay_yn='N',

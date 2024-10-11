@@ -120,10 +120,10 @@ function mail_func(status,idx)
                         <?=$row['email']?>
                     </td>
                     <td>
-                        <a href="javascript:mail_func('del','<?=$row[idx]?>')">삭제</a>
+                        <a href="javascript:mail_func('del','<?=$row['idx']?>')">삭제</a>
                     </td>
                     <td>
-                        <a href="javascript:mail_func('use','<?=$row[idx]?>')">사용</a>
+                        <a href="javascript:mail_func('use','<?=$row['idx']?>')">사용</a>
                     </td>
                 </tr>
             <?

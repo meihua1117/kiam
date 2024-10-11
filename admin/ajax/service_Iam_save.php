@@ -82,7 +82,7 @@ if($_POST['mode'] == "creat") {
         $name_card_sql = "select idx from Gn_Iam_Name_Card where group_id is NULL and mem_id='iam1' order by req_data limit 0,1";
         $card_result = mysqli_query($self_con,$name_card_sql);
         $card_row = mysqli_fetch_array($card_result);
-        $cont_sql = "select * from Gn_Iam_Contents where card_idx='$card_row[idx]'";
+        $cont_sql = "select * from Gn_Iam_Contents where card_idx='{$card_row['idx']}'";
         $cont_res = mysqli_query($self_con,$cont_sql);
         $cont_row = mysqli_fetch_assoc($cont_res);
         $sql = "insert into Gn_Iam_Contents set ";

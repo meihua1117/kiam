@@ -180,7 +180,7 @@ if($row[0]) {
 										// echo $sql_step;
 										$res_step = mysqli_query($self_con,$sql_step);
 										$row_step = mysqli_fetch_array($res_step);
-										if($row_step[idx]){
+										if($row_step['idx']){
 											if($row_step[allow_state]){
 												$checked = "checked";
 											}
@@ -196,7 +196,7 @@ if($row[0]) {
 												<input type="text" style="width:50px;" name="step_cnt" id="step_cnt" value="<?=$row_step[step]?>" disabled><br><br>
 												적용상황
 												<label class="step_switch">
-													<input type="checkbox" name="step_allow_state" id="step_allow_state" value="<?=$row_step[idx]?>" <?=$checked?>>
+													<input type="checkbox" name="step_allow_state" id="step_allow_state" value="<?=$row_step['idx']?>" <?=$checked?>>
 													<span class="slider round" name="step_status_round" id="step_status_round"></span>
 												</label>
 												수정하기

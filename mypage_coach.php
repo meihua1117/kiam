@@ -469,13 +469,13 @@ jQuery(function($){
                   while($row=mysqli_fetch_array($result))
                   {
 					  	$num_arr=array();
-						$sql_num="select sendnum from Gn_MMS_Number where mem_id='$row[buyer_id]' and end_date='$row[end_date]' ";
+						$sql_num="select sendnum from Gn_MMS_Number where mem_id='{$row['buyer_id']}' and end_date='$row[end_date]' ";
 						$resul_num=mysqli_query($self_con,$sql_num);
 						while($row_num=mysqli_fetch_array($resul_num))
 						array_push($num_arr,$row_num[sendnum]);
 						//$num_str=implode(",",$num_arr);
 						
-						$sql="select mem_leb from Gn_Member  where mem_id='$row[buyer_id]'";
+						$sql="select mem_leb from Gn_Member  where mem_id='{$row['buyer_id']}'";
 						$sresul_num=mysqli_query($self_con,$sql);
 						$srow=mysqli_fetch_array($sresul_num);
 												
@@ -569,13 +569,13 @@ jQuery(function($){
                   while($row=mysqli_fetch_array($result))
                   {
 					  	$num_arr=array();
-						$sql_num="select sendnum from Gn_MMS_Number where mem_id='$row[buyer_id]' and end_date='$row[end_date]' ";
+						$sql_num="select sendnum from Gn_MMS_Number where mem_id='{$row['buyer_id']}' and end_date='$row[end_date]' ";
 						$resul_num=mysqli_query($self_con,$sql_num);
 						while($row_num=mysqli_fetch_array($resul_num))
 						array_push($num_arr,$row_num[sendnum]);
 						//$num_str=implode(",",$num_arr);
 						
-						$sql="select mem_leb from Gn_Member  where mem_id='$row[buyer_id]'";
+						$sql="select mem_leb from Gn_Member  where mem_id='{$row['buyer_id']}'";
 						$sresul_num=mysqli_query($self_con,$sql);
 						$srow=mysqli_fetch_array($sresul_num);
 												

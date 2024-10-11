@@ -202,7 +202,7 @@ if($_SESSION['one_member_id']){
 						$sql_deny = "select idx from Gn_MMS_Deny where recv_num = '$num_arr[$i]' and mem_id = '{$_SESSION['one_member_id']}'";//수신거부
 						$resul_deny=mysqli_query($self_con,$sql_deny)or die(mysqli_error($self_con));
 						$row_deny=mysqli_fetch_array($resul_deny);
-						if($row_deny[idx])
+						if($row_deny['idx'])
 						{//수신 거부 번호 모으기 : $_POST[send_deny_wushi_3]
 							array_push($deny_num,$num_arr[$i]);
 							if($_POST[send_deny_wushi_3])
