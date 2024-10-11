@@ -4,8 +4,8 @@ function add_event_request($event_code, $event_idx, $pcode)
 {
     $m_id = $_SESSION['iam_member_id'];
     $mem_sql = "select mem_name,mem_phone,mem_email,mem_sex,mem_add1,mem_birth,zy from Gn_Member where mem_id='$m_id'";
-    $mem_res = mysql_query($mem_sql);
-    $mem_row = mysql_fetch_array($mem_res);
+    $mem_res = mysqli_query($self_con,$mem_sql);
+    $mem_row = mysqli_fetch_array($mem_res);
     $name = $mem_row['mem_name'];
     $recv_num = $mobile = str_replace("-", "", $mem_row['mem_phone']);
     $email = $mem_row['mem_email'];
@@ -26,25 +26,25 @@ function add_event_request($event_code, $event_idx, $pcode)
                                             pcode='$pcode',
                                             sp='$pcode',
                                             regdate=now()";
-    mysql_query($sql);
-    $request_idx = mysql_insert_id();
+    mysqli_query($self_con,$sql);
+    $request_idx = mysqli_insert_id($self_con);
 
     $event_sql = "select sms_idx1, sms_idx2, sms_idx3, mobile from Gn_event where event_idx='$event_idx'";
-    $event_res = mysql_query($event_sql);
-    $event_row = mysql_fetch_array($event_res);
+    $event_res = mysqli_query($self_con,$event_sql);
+    $event_row = mysqli_fetch_array($event_res);
     $send_num = $event_row['mobile'];
 
     $sms_sql = "select * from Gn_event_sms_info where sms_idx='{$event_row['sms_idx1']}' or sms_idx='{$event_row['sms_idx2']}' or sms_idx='{$event_row['sms_idx3']}'";
-    $sms_res = mysql_query($sms_sql) or die(mysql_error());
-    while ($sms_row = mysql_fetch_array($sms_res)) {
+    $sms_res = mysqli_query($self_con,$sms_sql) or die(mysqli_error($self_con));
+    while ($sms_row = mysqli_fetch_array($sms_res)) {
         $mem_id = $sms_row['m_id'];
         $sms_idx = $sms_row['sms_idx'];
         //알람등록
         $reg = time();
         $sql = "select * from Gn_event_sms_step_info where sms_idx='$sms_idx'";
-        $result = mysql_query($sql) or die(mysql_error());
+        $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
         $k = 0;
-        while ($row = mysql_fetch_array($result)) {
+        while ($row = mysqli_fetch_array($result)) {
             // 시간 확인
             $k++;
             $uni_id = $reg . sprintf("%02d", $k);
@@ -79,7 +79,7 @@ function add_event_request($event_code, $event_idx, $pcode)
                                                 sms_idx='{$row['sms_idx']}',
                                                 sms_detail_idx='{$row['sms_detail_idx']}',
                                                 request_idx='$request_idx'";
-            mysql_query($query) or die(mysql_error());
+            mysqli_query($self_con,$query) or die(mysqli_error($self_con));
         }
     }
     return $request_idx;
@@ -110,12 +110,12 @@ if ($_POST['method'] == "create_format") {
     $pcode = $obj->pcode;
     $event_idx = $obj->event_idx;
     $sql = "insert into gn_report_form set title='$title',descript='$desc',sign_visible=$sign,user_id='{$_SESSION['iam_member_id']}',reg_date=now(),request_yn = '$req_yn',pcode='$event_idx'";
-    mysql_query($sql);
-    $repo_id = mysql_insert_id();
+    mysqli_query($self_con,$sql);
+    $repo_id = mysqli_insert_id($self_con);
     $link = "https://" . $HTTP_HOST . "/iam/report.php?repo=$repo_id";
     $link = get_short_url($link);
     $sql = "update gn_report_form set short_url='$link' where id=$repo_id";
-    mysql_query($sql);
+    mysqli_query($self_con,$sql);
     $items = $obj->item;
     foreach ($items as $item) {
         $repo_type = $item->type;
@@ -131,8 +131,8 @@ if ($_POST['method'] == "create_format") {
         $repo_keys = $item->key;
         $repo_order = $item->order;
         $sql = "insert into gn_report_form1 set form_id=$repo_id,item_type=$repo_type,item_order=$repo_order,item_title='$repo_title',item_req='$repo_req'";
-        mysql_query($sql);
-        $item_id = mysql_insert_id();
+        mysqli_query($self_con,$sql);
+        $item_id = mysqli_insert_id($self_con);
         $i = 0;
         foreach ($repo_keys as $repo_key) {
             $tag_id = $repo_id . "a" . $item_id . "b" . $i;
@@ -145,7 +145,7 @@ if ($_POST['method'] == "create_format") {
                 $link = $repo_key->link;
                 $sql = "insert into gn_report_form2 set form_id=$repo_id,item_id=$item_id,tag_name='$cont',tag_id='$tag_id',tag_link='$link'";
             }
-            mysql_query($sql);
+            mysqli_query($self_con,$sql);
             $i++;
         }
     }
@@ -153,18 +153,18 @@ if ($_POST['method'] == "create_format") {
 } else if ($_POST['method'] == "edit_format") {
     $index = $_POST['index'];
     $sql = "select short_url,request_yn,pcode from gn_report_form where id = $index";
-    $res = mysql_query($sql);
-    $row = mysql_fetch_array($res);
+    $res = mysqli_query($self_con,$sql);
+    $row = mysqli_fetch_array($res);
     $event_idx = $row['pcode'];
     if ($row['short_url'] == "") {
         $link = "https://" . $HTTP_HOST . "/iam/report.php?repo=$index";
         $link = get_short_url($link);
         $sql = "update gn_report_form set short_url='$link' where id=$index";
-        mysql_query($sql);
+        mysqli_query($self_con,$sql);
     }
     $sql = "select count(idx) from gn_report_table where repo_id = $index";
-    $res = mysql_query($sql);
-    $cnt_row = mysql_fetch_array($res);
+    $res = mysqli_query($self_con,$sql);
+    $cnt_row = mysqli_fetch_array($res);
     $count = $cnt_row[0];
     if ($count == 0) {
         $obj = $_POST['data'];
@@ -184,11 +184,11 @@ if ($_POST['method'] == "create_format") {
         $pcode = $obj->pcode;
         $event_idx = $obj->event_idx;
         $sql = "update gn_report_form set title='$title',descript='$desc',sign_visible=$sign,reg_date=now(),request_yn = '$req_yn',pcode='$event_idx' where id = $index";
-        mysql_query($sql);
+        mysqli_query($self_con,$sql);
         $sql = "delete from gn_report_form1 where form_id = $index";
-        mysql_query($sql);
+        mysqli_query($self_con,$sql);
         $sql = "delete from gn_report_form2 where form_id = $index";
-        mysql_query($sql);
+        mysqli_query($self_con,$sql);
         $items = $obj->item;
         foreach ($items as $item) {
             $repo_type = $item->type;
@@ -204,8 +204,8 @@ if ($_POST['method'] == "create_format") {
             $repo_keys = $item->key;
             $repo_order = $item->order;
             $sql = "insert into gn_report_form1 set form_id=$index,item_type=$repo_type,item_order=$repo_order,item_title='$repo_title',item_req='$repo_req'";
-            mysql_query($sql);
-            $item_id = mysql_insert_id();
+            mysqli_query($self_con,$sql);
+            $item_id = mysqli_insert_id($self_con);
             $i = 0;
             foreach ($repo_keys as $repo_key) {
                 $tag_id = $index . "a" . $item_id . "b" . $i;
@@ -218,7 +218,7 @@ if ($_POST['method'] == "create_format") {
                     $link = addslashes($repo_key->link);
                     $sql = "insert into gn_report_form2 set form_id=$index,item_id=$item_id,tag_name='$cont',tag_id='$tag_id',tag_link='$link'";
                 }
-                mysql_query($sql);
+                mysqli_query($self_con,$sql);
                 $i++;
             }
         }
@@ -229,17 +229,17 @@ if ($_POST['method'] == "create_format") {
     $index_array = explode(",", $index);
     foreach ($index_array as $index) {
         $sql = "select pcode from gn_report_form where id=$index and request_yn='Y'";
-        $res = mysql_query($sql);
-        $row = mysql_fetch_array($res);
+        $res = mysqli_query($self_con,$sql);
+        $row = mysqli_fetch_array($res);
         $sql = "delete from gn_report_form where id=$index";
-        mysql_query($sql);
+        mysqli_query($self_con,$sql);
         $sql = "delete from gn_report_form1 where form_id=$index";
-        mysql_query($sql);
+        mysqli_query($self_con,$sql);
         $sql = "delete from gn_report_form2 where form_id=$index";
-        mysql_query($sql);
+        mysqli_query($self_con,$sql);
         //$sql = "drop table gn_report_table{$index}";
         $sql = "delete from gn_report_table where repo_id =$index";
-        mysql_query($sql);
+        mysqli_query($self_con,$sql);
     }
     echo json_encode(array("result" => "success"));
 } else if ($_POST['method'] == "delete_report") {
@@ -248,22 +248,22 @@ if ($_POST['method'] == "create_format") {
     $idx_array = explode(",", $ids);
     foreach ($idx_array as $idx) {
         $sql = "delete from gn_report_table where idx=$idx";
-        mysql_query($sql);
+        mysqli_query($self_con,$sql);
     }
     echo json_encode(array("result" => "success"));
 } else if ($_POST['method'] == "change_status") {
     $index = $_POST['index'];
     $status = $_POST['status'];
     $sql = "update gn_report_form set status = {$status} where id=$index";
-    mysql_query($sql);
+    mysqli_query($self_con,$sql);
     echo json_encode(array("result" => "success"));
 } else if ($_POST['method'] == "clone") {
     $index = $_POST['index'];
     $index_array = explode(",", $index);
     foreach ($index_array as $index) {
         $sql_form = "SELECT * FROM gn_report_form WHERE id=$index";
-        $res_form = mysql_query($sql_form);
-        $row_form = mysql_fetch_array($res_form);
+        $res_form = mysqli_query($self_con,$sql_form);
+        $row_form = mysqli_fetch_array($res_form);
         $title = $row_form['title'];
         $title = addslashes($title);
         $desc = $row_form['descript'];
@@ -281,15 +281,15 @@ if ($_POST['method'] == "create_format") {
                                                     pcode='{$event_idx}',
                                                     detail='{$detail}',
                                                     reg_date = now()";
-        mysql_query($sql_form) or die(mysql_error());
-        $form_id = mysql_insert_id();
+        mysqli_query($self_con,$sql_form) or die(mysqli_error($self_con));
+        $form_id = mysqli_insert_id($self_con);
         $link = "https://" . $HTTP_HOST . "/iam/report.php?repo=$form_id";
         $link = get_short_url($link);
         $sql = "update gn_report_form set short_url='$link' where id=$form_id";
-        mysql_query($sql);
+        mysqli_query($self_con,$sql);
         $sql_form1 = "select * from gn_report_form1 where form_id=$index order by item_order";
-        $res_form1 = mysql_query($sql_form1);
-        while ($row_form1 = mysql_fetch_array($res_form1)) {
+        $res_form1 = mysqli_query($self_con,$sql_form1);
+        while ($row_form1 = mysqli_fetch_array($res_form1)) {
             $item_type = $row_form1['item_type'];
             $item_order = $row_form1['item_order'];
             $item_title = $row_form1['item_title'];
@@ -301,19 +301,19 @@ if ($_POST['method'] == "create_format") {
                                                     item_order=$item_order,
                                                     item_title='$item_title',
                                                     item_req= '$item_req'";
-            mysql_query($sql);
-            $item_id = mysql_insert_id();
+            mysqli_query($self_con,$sql);
+            $item_id = mysqli_insert_id($self_con);
             $sql_form2 = "select * from gn_report_form2 where form_id=$index and item_id={$row_form1['id']} order by id";
-            $res_form2 = mysql_query($sql_form2);
+            $res_form2 = mysqli_query($self_con,$sql_form2);
             $i = 0;
-            while ($row_form2 = mysql_fetch_array($res_form2)) {
+            while ($row_form2 = mysqli_fetch_array($res_form2)) {
                 $tag_id = $form_id . "a" . $item_id . "b" . $i;
                 $tag_name = $row_form2['tag_name'];
                 $tag_name = addslashes($tag_name);
                 $tag_link = $row_form2['tag_link'];
                 $tag_link = addslashes($tag_link);
                 $sql = "INSERT INTO gn_report_form2 set form_id=$form_id,item_id=$item_id,tag_name='{$tag_name}',tag_id='$tag_id',tag_link='$tag_link'";
-                mysql_query($sql);
+                mysqli_query($self_con,$sql);
                 $i++;
             }
         }
@@ -343,15 +343,15 @@ if ($_POST['method'] == "create_format") {
         array_push($cont, $arr);
     }
     $sql .= "cont='" . to_han(json_encode($cont)) . "'";
-    mysql_query($sql);
+    mysqli_query($self_con,$sql);
 
     $sql = "select request_yn,pcode from gn_report_form where id=$index";
-    $res = mysql_query($sql);
-    $row = mysql_fetch_array($res);
+    $res = mysqli_query($self_con,$sql);
+    $row = mysqli_fetch_array($res);
     if ($row['request_yn']) {
         $erq_sql = "select * from Gn_event where event_idx = {$row['pcode']}";
-        $erq_res = mysql_query($erq_sql);
-        $erq_row = mysql_fetch_array($erq_res);
+        $erq_res = mysqli_query($self_con,$erq_sql);
+        $erq_row = mysqli_fetch_array($erq_res);
         add_event_request($erq_row['event_name_eng'], $erq_row['event_idx'], $erq_row['pcode']);
     }
 
@@ -381,7 +381,7 @@ if ($_POST['method'] == "create_format") {
         $sql .= "phone='" . $phone . "',";
         $sql .= "sign='" . $sign . "'";
         $sql .= " where idx=$idx and userid='$memid'";
-        mysql_query($sql);
+        mysqli_query($self_con,$sql);
         echo json_encode(array("result" => "success"));
     } else {
         echo json_encode(array("result" => "failed"));
@@ -393,16 +393,16 @@ if ($_POST['method'] == "create_format") {
     $mobile = $_POST['phone'];
     $passwd = substr($mobile, -4);
     $sql = "select mem_code form Gn_Member where mem_id='$userid'";
-    $res = mysql_query($sql);
-    $row = mysql_fetch_array($res);
+    $res = mysqli_query($self_con,$sql);
+    $row = mysqli_fetch_array($res);
     if (!$row) {
         $repo_id = $_POST['repo'];
         $sql = "select user_id from gn_report_form where id=$repo_id";
-        $res = mysql_query($sql);
-        $row = mysql_fetch_array($res);
+        $res = mysqli_query($self_con,$sql);
+        $row = mysqli_fetch_array($res);
         $sql = "select site,site_iam,mem_id,mem_phone from Gn_Member where mem_id='{$row['user_id']}'";
-        $res = mysql_query($sql);
-        $row = mysql_fetch_array($res);
+        $res = mysqli_query($self_con,$sql);
+        $row = mysqli_fetch_array($res);
         $query = "insert into Gn_Member set mem_id='$userid',
                         mem_leb='22',
                         web_pwd=password('$passwd'),
@@ -422,21 +422,21 @@ if ($_POST['method'] == "create_format") {
                         mem_sex='',
                         join_ip='$_SERVER[REMOTE_ADDR]'
                         ";
-        mysql_query($query);
-        $mem_code = mysql_insert_id();
+        mysqli_query($self_con,$query);
+        $mem_code = mysqli_insert_id($self_con);
 
         $sql = "select count(idx) from Gn_Iam_Info where mem_id = '$userid'";
-        $sql_count = mysql_query($sql);
-        $comment_row = mysql_fetch_array($sql_count);
+        $sql_count = mysqli_query($self_con,$sql);
+        $comment_row = mysqli_fetch_array($sql_count);
 
         if ((int)$comment_row[0] == 0 && $HTTP_HOST == "kiam.kr") {
             $sql2 = "insert into Gn_Iam_Info (mem_id, reg_data) values ('$userid', now())";
-            $result2 = mysql_query($sql2) or die(mysql_error());
+            $result2 = mysqli_query($self_con,$sql2) or die(mysqli_error($self_con));
         }
 
         $check_sql = "select count(idx) from Gn_Iam_Name_Card where group_id is NULL and mem_id = '$userid'";
-        $check_result = mysql_query($check_sql);
-        $check_comment_row = mysql_fetch_array($check_result);
+        $check_result = mysqli_query($self_con,$check_sql);
+        $check_comment_row = mysqli_fetch_array($check_result);
         if (!$check_comment_row[0]) { //네임카드가 하나도 없으면 자동으로 한개 생성한다
             $site_name = $row['site_iam'];
             $card_name = $name;
@@ -459,7 +459,7 @@ if ($_POST['method'] == "create_format") {
             $img_url = "/iam/img/common/logo-2.png";
             $name_card_sql = "insert into Gn_Iam_Name_Card (mem_id, card_short_url, card_title,card_name, card_phone, profile_logo, req_data,up_data) 
                                 values ('$userid', '$short_url', '$card_title','$card_name', '$card_phone', '$img_url', now(), now())";
-            mysql_query($name_card_sql) or die(mysql_error());
+            mysqli_query($self_con,$name_card_sql) or die(mysqli_error($self_con));
         }
         $repo_msg = "성공적으로 제출되었습니다. 확인아이디는 " . $userid . ", 비밀번호는 폰 뒤 4자리이거나, 설정하셨던 비번입니다.  https://" . $row['site_iam'] . ".kiam.kr/";
         $msg = sendmms(5, $row['mem_id'], str_replace("-", "", $row['mem_phone']), str_replace("-", "", $mobile), "", "리포트 제출하기", $repo_msg, "", "", "", "Y");
@@ -475,18 +475,18 @@ if ($_POST['method'] == "create_format") {
     foreach ($mem_arr as $mem_id) {
         if ($mem_id != "") {
             $sql = "select site_iam,service_type from Gn_Member where mem_id='$mem_id'";
-            $res = mysql_query($sql);
-            $row = mysql_fetch_array($res);
+            $res = mysqli_query($self_con,$sql);
+            $row = mysqli_fetch_array($res);
             if ($row['service_type'] >= 2) {
                 foreach ($repo_arr as $repo) {
                     $sql = "select title,descript,sign_visible,pcode,request_yn,detail from gn_report_form where id={$repo}";
-                    $repo_res = mysql_query($sql);
-                    $repo_row = mysql_fetch_assoc($repo_res);
+                    $repo_res = mysqli_query($self_con,$sql);
+                    $repo_row = mysqli_fetch_assoc($repo_res);
                     $event_idx = 0;
                     if ($repo_row['request_yn']) {
                         /*$erq_sql = "select * from Gn_event where event_idx = {$repo_row['pcode']}";
-                        $erq_res = mysql_query($erq_sql);
-                        $erq_row = mysql_fetch_assoc($erq_res);*/
+                        $erq_res = mysqli_query($self_con,$erq_sql);
+                        $erq_row = mysqli_fetch_assoc($erq_res);*/
                         $event_idx = insert_db_reqlink($repo_row['pcode'],$mem_id);
                     }
                     $sql = "insert into gn_report_form set title = '{$repo_row['title']}',
@@ -498,27 +498,27 @@ if ($_POST['method'] == "create_format") {
                                                         detail = '{$repo_row['detail']}',
                                                         pcode= '{$event_idx}',
                                                         request_yn = '{$repo_row['request_yn']}'";
-                    mysql_query($sql);
-                    $form_id = mysql_insert_id();
+                    mysqli_query($self_con,$sql);
+                    $form_id = mysqli_insert_id($self_con);
 
                     $link = "https://" . $row['site_iam'] . ".kiam.kr/iam/report.php?repo=$form_id";
                     $link = get_short_url($link);
                     $sql = "update gn_report_form set short_url='$link' where id=$form_id";
-                    mysql_query($sql);
+                    mysqli_query($self_con,$sql);
 
                     $sql = "select id,item_type from gn_report_form1 where form_id=$repo order by item_order";
-                    $res = mysql_query($sql);
-                    while ($row = mysql_fetch_array($res)) {
+                    $res = mysqli_query($self_con,$sql);
+                    while ($row = mysqli_fetch_array($res)) {
                         $sql = "insert into gn_report_form1 (form_id,item_type,item_order,item_title,item_req) (select $form_id,item_type,item_order,item_title,item_req from gn_report_form1 where id={$row['id']})";
-                        mysql_query($sql);
-                        $item_id = mysql_insert_id();
+                        mysqli_query($self_con,$sql);
+                        $item_id = mysqli_insert_id($self_con);
                         $sql1 = "select id,tag_name from gn_report_form2 where form_id=$repo and item_id = {$row['id']} order by id";
-                        $res1 = mysql_query($sql1);
+                        $res1 = mysqli_query($self_con,$sql1);
                         $index = 0;
-                        while ($row1 = mysql_fetch_array($res1)) {
+                        while ($row1 = mysqli_fetch_array($res1)) {
                             $tag_id = $form_id . "a" . $item_id . "b" . $index;
                             $sql = "insert into gn_report_form2 (form_id,item_id,tag_name,tag_id,tag_link) (select $form_id,$item_id,tag_name,'$tag_id',tag_link from gn_report_form2 where id={$row1['id']})";
-                            mysql_query($sql);
+                            mysqli_query($self_con,$sql);
                             $index++;
                         }
                     }
@@ -550,27 +550,27 @@ if ($_POST['method'] == "create_format") {
     $index = $_POST['id'];
     $detail = $_POST['cont'];
     $sql = "update gn_report_form set detail='$detail' where id = $index";
-    mysql_query($sql);
+    mysqli_query($self_con,$sql);
     echo json_encode(array("result" => "success"));
 } else if ($_POST['method'] == "get_matching_ids") {
     $mem_name = $_POST['name'];
     $mem_phone = str_replace("-", "", trim($_POST['phone']));
     $sql = "select mem_id,mem_name,mem_phone from Gn_Member use index(mem_id) where mem_name = '{$mem_name}' and REPLACE(mem_phone,'-','')='{$mem_phone}' order by first_regist desc";
-    $res = mysql_query($sql);
+    $res = mysqli_query($self_con,$sql);
     $data = array();
-    while ($row = mysql_fetch_assoc($res)) {
+    while ($row = mysqli_fetch_assoc($res)) {
         $data[] = $row;
     }
     echo json_encode($data);
 } else if ($_POST['method'] == "get_statistic") {
     $repo_id = $_POST['index'];
     $report_sql = "select * from gn_report_form where id = {$repo_id}";
-    $report_res = mysql_query($report_sql);
-    $report_row = mysql_fetch_assoc($report_res);
+    $report_res = mysqli_query($self_con,$report_sql);
+    $report_row = mysqli_fetch_assoc($report_res);
 
     $sql = "select count(idx) from gn_report_table where repo_id={$repo_id}";
-    $res = mysql_query($sql);
-    $row = mysql_fetch_array($res);
+    $res = mysqli_query($self_con,$sql);
+    $row = mysqli_fetch_array($res);
     $count = $row[0];
     if ($count == null)
         $count = 0;
@@ -612,7 +612,7 @@ if ($_POST['method'] == "create_format") {
                                             click_count_manual = {$click_count_manual},
                                             reply_count_manual = {$reply_count_manual},
                                             manage_price = {$manage_price} where id = {$repo_id}";
-    mysql_query($report_sql);
+    mysqli_query($self_con,$report_sql);
     echo json_encode(array("result" => 'success', "msg" => $report_sql));
 }
 
@@ -622,16 +622,16 @@ function insert_db($idx, $mem_id)
     $num = rand(10, 90);
     $event_name_eng = $date . $num;
     $sql_mem_chk = "select count(mem_code) from Gn_Member where mem_id='{$mem_id}'";
-    $res_mem_chk = mysql_query($sql_mem_chk);
-    $row_mem_chk = mysql_fetch_array($res_mem_chk);
+    $res_mem_chk = mysqli_query($self_con,$sql_mem_chk);
+    $row_mem_chk = mysqli_fetch_array($res_mem_chk);
     if ($row_mem_chk[0]) {
         $sql = "INSERT INTO Gn_event_sms_info (event_idx, event_name_eng, mobile, reservation_title, reservation_desc, m_id, regdate)
                       (SELECT event_idx, '{$event_name_eng}', mobile, reservation_title, reservation_desc, '{$mem_id}', now() FROM Gn_event_sms_info where sms_idx={$idx})";
-        mysql_query($sql);
-        $sms_idx = mysql_insert_id();
+        mysqli_query($self_con,$sql);
+        $sms_idx = mysqli_insert_id($self_con);
         $sql_step_info = "INSERT INTO Gn_event_sms_step_info (sms_idx, step, send_day, send_time, title, content, image, image1, image2, regdate, send_deny) 
                                 (SELECT {$sms_idx}, step, send_day, send_time, title, content, image, image1, image2, now(), send_deny FROM Gn_event_sms_step_info WHERE sms_idx={$idx})";
-        mysql_query($sql_step_info);
+        mysqli_query($self_con,$sql_step_info);
         return $sms_idx;
     } else {
         return 0;
@@ -644,16 +644,16 @@ function insert_db_reqlink($idx, $mem_id)
     $pcode = $event_name_eng = $date . $num;
 
     $sql_mem_chk = "select * from Gn_Member where mem_id='{$mem_id}'";
-    $res_mem_chk = mysql_query($sql_mem_chk);
-    $row_mem_chk = mysql_num_rows($res_mem_chk);
+    $res_mem_chk = mysqli_query($self_con,$sql_mem_chk);
+    $row_mem_chk = mysqli_num_rows($res_mem_chk);
     $event_idx = 0;
     if ($row_mem_chk) {
-        $mem_data = mysql_fetch_array($res_mem_chk);
+        $mem_data = mysqli_fetch_array($res_mem_chk);
         $phone_num = $mem_data['mem_phone'];
 
         $sql = "SELECT event_name_kor, event_title, event_desc, event_info, event_sms_desc, event_type, ip_addr, cnt, object, callback_no, event_req_link, daily_req_link,sms_idx1,sms_idx2,sms_idx3 FROM Gn_event where event_idx={$idx}";
-        $event_res = mysql_query($sql);
-        $event_row = mysql_fetch_assoc($event_res);
+        $event_res = mysqli_query($self_con,$sql);
+        $event_row = mysqli_fetch_assoc($event_res);
         $sms_idx1 = $sms_idx2 = $sms_idx3 = 0;
         if ($event_row['sms_idx1'] != 0)
             $sms_idx1 = insert_db($event_row['sms_idx1'], $mem_id);
@@ -684,15 +684,15 @@ function insert_db_reqlink($idx, $mem_id)
                                 sms_idx1 = '{$sms_idx1}',
                                 sms_idx2 = '{$sms_idx2}',
                                 sms_idx3 = '{$sms_idx3}'";
-        mysql_query($sql);
+        mysqli_query($self_con,$sql);
 
-        $event_idx = mysql_insert_id();
+        $event_idx = mysqli_insert_id($self_con);
         $host = $mem_data['site_iam'] == "kiam"?"http://kiam.kr":"http://".$mem_data['site_iam'].".kiam.kr";
         $transUrl = $host . "/event/event.html?pcode=" . $pcode . "&sp=" . $event_name_eng;
         //$transUrl = "http://" . $GLOBALS['host'] . "/event/event.html?pcode=" . $pcode . "&sp=" . $event_name_eng;
         $transUrl = get_short_url($transUrl);
         $insert_short_url = "update Gn_event set short_url='{$transUrl}' where event_idx={$event_idx}";
-        mysql_query($insert_short_url) or die(mysql_error());
+        mysqli_query($self_con,$insert_short_url) or die(mysqli_error($self_con));
     }
     return $event_idx;
 }

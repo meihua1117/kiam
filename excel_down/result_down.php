@@ -17,8 +17,8 @@ if(strlen($_SESSION[one_member_id]) > 0) {
       $sql_table = " Gn_MMS_status ";
 					      
       $excel_sql="select * from $sql_table where $sql_serch ";
-      $result = mysql_query($excel_sql) or die(mysql_error());
-      $sort_no=mysql_num_rows($result);
+      $result = mysqli_query($self_con,$excel_sql) or die(mysqli_error($self_con));
+      $sort_no=mysqli_num_rows($result);
       require_once("Classes/PHPExcel.php");
       $objPHPExcel = new PHPExcel();
       $objPHPExcel->getProperties()
@@ -36,7 +36,7 @@ if(strlen($_SESSION[one_member_id]) > 0) {
                   ->setCellValue("D1", "전송일시")
                   ->setCellValue("E1", "발송여부");
       $h=2;			
-      while($row=mysql_fetch_array($result))
+      while($row=mysqli_fetch_array($result))
       {
       $objPHPExcel->setActiveSheetIndex(0)
                   ->setCellValue("A$h",$sort_no)

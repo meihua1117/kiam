@@ -125,8 +125,8 @@ $date_today=date("Y-m-d");
                                 $order = $order?$order:"desc";
                                 $query = "SELECT count(a.dest) FROM sm_data a ";
                                 $query .= " WHERE 1=1 $searchStr";
-                                $res    = mysql_query($query);
-                                $totalRow	=  mysql_fetch_array($res);
+                                $res    = mysqli_query($self_con,$query);
+                                $totalRow	=  mysqli_fetch_array($res);
                                 $totalCnt = $totalRow[0];
                                 $query = "SELECT a.dest, a.grp, a.msg_text, a.msg_url, a.reservation_time FROM sm_data a";
                                 $query .= " WHERE 1=1 $searchStr";
@@ -138,16 +138,16 @@ $date_today=date("Y-m-d");
                                 $orderQuery .= " ORDER BY a.seq DESC $limitStr ";
                                 $i = 1;
                                 $query .= $orderQuery;
-                                $res = mysql_query($query);
-                                while($row = mysql_fetch_array($res)) {
+                                $res = mysqli_query($self_con,$query);
+                                while($row = mysqli_fetch_array($res)) {
                                     $sql="select mem_id, mem_name from Gn_Member where REPLACE(mem_phone, '-', '')='$row[dest]'";
-                                    $sresul=mysql_query($sql);
-                                    $srow=mysql_fetch_array($sresul);
+                                    $sresul=mysqli_query($self_con,$sql);
+                                    $srow=mysqli_fetch_array($sresul);
                                     if($srow['mem_id'] == "")
                                     {
                                         $sql="select m.mem_id, mem_name from Gn_Member m inner join Gn_MMS_Number n on m.mem_id=n.mem_id where n.sendnum='$row[dest]'";
-                                        $sresul=mysql_query($sql);
-                                        $srow=mysql_fetch_array($sresul);
+                                        $sresul=mysqli_query($self_con,$sql);
+                                        $srow=mysqli_fetch_array($sresul);
                                     }?>
                                     <tr>
                                         <td><?=$number--?></td>

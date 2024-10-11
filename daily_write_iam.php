@@ -2,8 +2,8 @@
 include_once $path . "lib/rlatjd_fun.php";
 if ($_SESSION['one_member_id']) {
     $sql = "select * from tjd_pay_result where buyer_id = '$_SESSION[one_member_id]' and end_date > '$date_today' and end_status in ('Y','A') order by end_date desc limit 1";
-    $res_result = mysql_query($sql);
-    $pay_data = mysql_fetch_array($res_result);
+    $res_result = mysqli_query($self_con,$sql);
+    $pay_data = mysqli_fetch_array($res_result);
 }
 $rights = 0;
 //echo $pay_data['TotPrice'] ;
@@ -22,8 +22,8 @@ if ($HTTP_HOST == "kiam.kr")
 else
     $host = $HTTP_HOST;
 $query = "select * from Gn_Service where sub_domain like '%{$host}'";
-$res = mysql_query($query);
-$domainData = mysql_fetch_array($res);
+$res = mysqli_query($self_con,$query);
+$domainData = mysqli_fetch_array($res);
 if ($_SERVER['HTTP_HOST'] != "kiam.kr") {
     if ($domainData['idx'] != "") {
         $sub_domain = true;
@@ -132,19 +132,19 @@ if (!$_SESSION[one_member_id]) {
     exit;
 }
 $sql = "select * from Gn_Member  where mem_id='" . $_SESSION[one_member_id] . "'";
-$sresul_num = mysql_query($sql);
-$data = mysql_fetch_array($sresul_num);
+$sresul_num = mysqli_query($self_con,$sql);
+$data = mysqli_fetch_array($sresul_num);
 //print_r($data);
 
 
 
 $sql = "select * from Gn_MMS_Group where  mem_id='" . $_SESSION[one_member_id] . "' and grp='아이엠'";
-$sresult = mysql_query($sql) or die(mysql_error());
-$krow = mysql_fetch_array($sresult);
+$sresult = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+$krow = mysqli_fetch_array($sresult);
 
 $sql = "select count(*) cnt from Gn_MMS_Receive where  mem_id='" . $_SESSION[one_member_id] . "' and grp_id='$krow[idx]'";
-$sresult = mysql_query($sql) or die(mysql_error());
-$skrow = mysql_fetch_array($sresult);
+$sresult = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+$skrow = mysqli_fetch_array($sresult);
 ?>
 <script>
     function copyHtml() {
@@ -243,8 +243,8 @@ $skrow = mysql_fetch_array($sresult);
                                         <option value="<?= str_replace("-", "", $data[mem_phone]) ?>"><?php echo str_replace("-", "", $data['mem_phone']); ?></option>
                                         <?php
                                         $query = "select * from Gn_MMS_Number where mem_id='$_SESSION[one_member_id]' order by sort_no asc, user_cnt desc , idx desc";
-                                        $resul = mysql_query($query);
-                                        while ($korow = mysql_fetch_array($resul)) {
+                                        $resul = mysqli_query($self_con,$query);
+                                        while ($korow = mysqli_fetch_array($resul)) {
                                         ?>
                                             <option value="<?= str_replace("-", "", $korow[sendnum]) ?>" <?php echo $row['send_num'] == str_replace("-", "", $korow[sendnum]) ? "selected" : "" ?>><?php echo str_replace("-", "", $korow[sendnum]); ?></option>
                                         <?php } ?>

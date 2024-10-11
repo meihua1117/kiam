@@ -146,8 +146,8 @@ $(function() {
                   else{
                     $count_query = "select count(*) from Gn_Iam_Contents_Gwc contents inner join Gn_Iam_Name_Card cards on contents.card_idx = cards.idx where contents.gwc_con_state!=0 and contents.ori_store_prod_idx!=0 $searchStr";
                   }
-                  $count_result = mysql_query($count_query);
-                  $count_row = mysql_fetch_array($count_result);
+                  $count_result = mysqli_query($self_con,$count_query);
+                  $count_row = mysqli_fetch_array($count_result);
                     $totalCnt	=  $count_row[0];
 
                   $query = "SELECT  cards.card_name as card_name , cards.card_title, contents.idx, contents.mem_id,contents.contents_type,contents.contents_img,contents.group_id,".
@@ -163,11 +163,11 @@ $(function() {
                   $i = 1;
                   $c=0;
                   $query .= $orderQuery;
-                  $res = mysql_query($query);
-                  while($row = mysql_fetch_array($res)) {
+                  $res = mysqli_query($self_con,$query);
+                  while($row = mysqli_fetch_array($res)) {
                     $mem_sql = "select site, site_iam, gwc_provider_name, mem_name, gwc_manage_price, mem_code from Gn_Member where mem_id='$row[mem_id]'";
-                    $mem_res = mysql_query($mem_sql);
-                    $mem_row = mysql_fetch_array($mem_res);
+                    $mem_res = mysqli_query($self_con,$mem_sql);
+                    $mem_row = mysqli_fetch_array($mem_res);
                     if($mem_row[gwc_manage_price]){
                       $mng_price = $mem_row[gwc_manage_price];
                     }

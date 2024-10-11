@@ -10,15 +10,15 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/db_config.php";
 $token = trim($_POST["token"]);
 
 $sql = "SELECT user_id FROM crawler_member_real WHERE token='$token'";
-$result = mysql_query($sql);
-$row=mysql_fetch_array($result);
+$result = mysqli_query($self_con,$sql);
+$row=mysqli_fetch_array($result);
 if($row['user_id'] == "") {
     echo json_encode(array('result' => 1));
     exit;
 }
     
 $sql = "update crawler_member_real set token='' WHERE token='$token'";
-$result = mysql_query($sql); 
+$result = mysqli_query($self_con,$sql); 
 echo json_encode(array('result' => 0));
 
 ?>

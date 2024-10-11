@@ -13,8 +13,8 @@ location.replace('/ma.php');
 exit;
 }
 	$sql="select * from Gn_Member  where mem_id='".$_SESSION[iam_member_id]."'";
-	$sresul_num=mysql_query($sql);
-	$data=mysql_fetch_array($sresul_num);	
+	$sresul_num=mysqli_query($self_con,$sql);
+	$data=mysqli_fetch_array($sresul_num);	
 	
  
 ?>
@@ -130,8 +130,8 @@ function copyHtml(url){
 				}	
 									
 				$sql="select count(sms_idx) as cnt from Gn_event_sms_info where $sql_serch ";
-				$result = mysql_query($sql) or die(mysql_error());
-				$row=mysql_fetch_array($result);
+				$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+				$row=mysqli_fetch_array($result);
 				$intRowCount=$row[cnt];
 				if (!$_POST[lno]) 
 					$intPageSize =20;
@@ -164,15 +164,15 @@ function copyHtml(url){
               if($intRowCount)
               {
 				$sql="select * from Gn_event_sms_info where $sql_serch order by $order_name $order_status limit $int,$intPageSize";
-				$result=mysql_query($sql) or die(mysql_error());				
+				$result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));				
 		    ?> 
             <?
-                while($row=mysql_fetch_array($result))
+                while($row=mysqli_fetch_array($result))
                 {
                 
                     $sql="select count(*) as cnt from Gn_event_sms_step_info where sms_idx='$row[sms_idx]'";
-                    $sresult=mysql_query($sql) or die(mysql_error());				                    
-                    $srow = mysql_fetch_array($sresult);
+                    $sresult=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));				                    
+                    $srow = mysqli_fetch_array($sresult);
                     
 
             ?>

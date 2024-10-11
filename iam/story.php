@@ -5,8 +5,8 @@
 $card_idx = $_GET['card_num'];
 
 $sql="select * from Gn_Iam_Name_Card where idx = '$card_idx' and mem_id = '$_SESSION[iam_member_id]'";
-$result=mysql_query($sql);
-$row=mysql_fetch_array($result);
+$result=mysqli_query($self_con,$sql);
+$row=mysqli_fetch_array($result);
 
 // $card_idx = $row[idx];
 $story_title1 = $row[story_title1];

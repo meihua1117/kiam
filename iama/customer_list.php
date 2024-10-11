@@ -2,8 +2,8 @@
 include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
 if($HTTP_HOST != "kiam.kr") {
     $query = "select * from Gn_Iam_Service where sub_domain = 'http://".$HTTP_HOST."'";
-    $res = mysql_query($query);
-    $domainData = mysql_fetch_array($res);
+    $res = mysqli_query($self_con,$query);
+    $domainData = mysqli_fetch_array($res);
     if($domainData['mem_id'] != $_SESSION[iam_member_id]) {
         echo "<script>location='/';</script>";
         exit;
@@ -13,8 +13,8 @@ if($HTTP_HOST != "kiam.kr") {
 }
 else{
     $query = "select * from Gn_Iam_Service where sub_domain = 'http://www.kiam.kr'";
-    $res = mysql_query($query);
-    $domainData = mysql_fetch_array($res);
+    $res = mysqli_query($self_con,$query);
+    $domainData = mysqli_fetch_array($res);
     if($domainData['mem_id'] != $_SESSION[iam_member_id]) {
         echo "<script>location='/';</script>";
         exit;
@@ -478,8 +478,8 @@ input, select, textarea {
                     $searchStr1 .= $search_key ? " AND (a.company_name LIKE '%".$search_key."%' or a.phone1 like '%".$search_key."%' or a.name like '%".$search_key."%' or a.work_type like '%".$search_key."%' or a.company_name like '%".$search_key."%' or a.job like '%".$search_key."%' or a.company_addr like '%".$search_key."%' or a.home_addr like '%".$search_key."%' )" : null;
                     $order1 = $order1?$order1:"desc";
                     $query1 = "SELECT count(a.id) FROM gn_reg_customer a WHERE 1=1 and mem_id='{$_SESSION[iam_member_id]}' $searchStr1";
-                    $res1	    = mysql_query($query1);
-                    $row1	=  mysql_fetch_array($res1);
+                    $res1	    = mysqli_query($self_con,$query1);
+                    $row1	=  mysqli_fetch_array($res1);
                     $totalCnt1 = $row1[0];
 
                     $limitStr1  = " LIMIT ".(($startPage1-1)*$pageCnt1).", ".$pageCnt1;
@@ -489,11 +489,11 @@ input, select, textarea {
 
                     $i = 1;
                     $query1 .= $orderQuery1;
-                    $res = mysql_query($query1);
-                    while($row = mysql_fetch_array($res)) {
+                    $res = mysqli_query($self_con,$query1);
+                    while($row = mysqli_fetch_array($res)) {
                         $sql_mem_reg = "select * from Gn_Member where mem_name='{$row[name]}' and mem_phone='{$row[phone1]}' and is_leave='N' limit 1";
-                        $res_mem_reg = mysql_query($sql_mem_reg);
-                        $row_mem_reg = mysql_fetch_array($res_mem_reg);
+                        $res_mem_reg = mysqli_query($self_con,$sql_mem_reg);
+                        $row_mem_reg = mysqli_fetch_array($res_mem_reg);
                         if($row_mem_reg[mem_code] != ''){
                             if($row_mem_reg['mem_memo'] != ''){
                                 $style1 = "color:#99cc00";
@@ -514,8 +514,8 @@ input, select, textarea {
                             $mem_add1 = $row_mem_reg['mem_add1']?$row_mem_reg['mem_add1']:'자택주소';
 
                             $query = "select card_short_url from Gn_Iam_Name_Card where group_id is NULL and mem_id = '$row_mem_reg[mem_id]' order by req_data asc";
-                            $cres = mysql_query($query);
-                            $crow = mysql_fetch_array($cres);
+                            $cres = mysqli_query($self_con,$query);
+                            $crow = mysqli_fetch_array($cres);
                             $card_url = $crow[0];?>
                             <tr>
                                 <td style="text-align:center;"> <?=$number1--?> <br> <a href="javascript:show_edit_input('<?=$row[id]?>', 'member_reg_edit', '<?=$row_mem_reg['mem_code']?>')"><img src="/iam/img/Picture_iama1.png"></a></td>
@@ -662,8 +662,8 @@ input, select, textarea {
                     $order2 = $order2?$order2:"desc";
 
                     $query2 = "SELECT SQL_CALC_FOUND_ROWS a.*, b.short_url FROM Gn_event_request a inner join Gn_event b on a.event_idx=b.event_idx WHERE 1=1 and a.m_id='{$_SESSION[iam_member_id]}' $searchStr2";
-                    $res2	    = mysql_query($query2);
-                    $totalCnt2	=  mysql_num_rows($res2);
+                    $res2	    = mysqli_query($self_con,$query2);
+                    $totalCnt2	=  mysqli_num_rows($res2);
 
                     $limitStr2       = " LIMIT ".(($startPage2-1)*$pageCnt2).", ".$pageCnt2;
                     $number2			= $totalCnt2 - ($nowPage2 - 1) * $pageCnt2;
@@ -671,11 +671,11 @@ input, select, textarea {
                     $orderQuery2 .= " ORDER BY regdate DESC $limitStr2";
                     $i = 1;
                     $query2 .= "$orderQuery2";
-                    $res = mysql_query($query2);
-                    while($row = mysql_fetch_array($res)) {
+                    $res = mysqli_query($self_con,$query2);
+                    while($row = mysqli_fetch_array($res)) {
                         $sql_mem_reg = "select * from Gn_Member where mem_name='{$row[name]}' and mem_phone='{$row[mobile]}' and is_leave='N' limit 1";
-                        $res_mem_reg = mysql_query($sql_mem_reg);
-                        $row_mem_reg = mysql_fetch_array($res_mem_reg);
+                        $res_mem_reg = mysqli_query($self_con,$sql_mem_reg);
+                        $row_mem_reg = mysqli_fetch_array($res_mem_reg);
                         if($row_mem_reg[mem_code] != ''){
                             if($row_mem_reg['mem_memo'] != ''){
                                 $style2 = "color:#99cc00";
@@ -696,8 +696,8 @@ input, select, textarea {
                             $mem_add1 = $row_mem_reg['mem_add1']?$row_mem_reg['mem_add1']:'자택주소';
 
                             $query = "select card_short_url from Gn_Iam_Name_Card where group_id is NULL and mem_id = '$row_mem_reg[mem_id]' order by req_data asc";
-                            $cres = mysql_query($query);
-                            $crow = mysql_fetch_array($cres);
+                            $cres = mysqli_query($self_con,$query);
+                            $crow = mysqli_fetch_array($cres);
                             $card_url = $crow[0];
                         ?>
                         <tr >
@@ -846,8 +846,8 @@ input, select, textarea {
                     $order3 = $order3?$order3:"desc";
 
                     $query3 = "SELECT count(seq) cnt FROM crawler_data_supply a WHERE 1=1 and user_id='{$_SESSION[iam_member_id]}' $searchStr3";
-                	$res3	    = mysql_query($query3);
-                	$totalRow3	=  mysql_fetch_array($res3);	                	
+                	$res3	    = mysqli_query($self_con,$query3);
+                	$totalRow3	=  mysqli_fetch_array($res3);	                	
                 	$totalCnt3 = $totalRow3[0];
 
                     $query3 = "SELECT SQL_CALC_FOUND_ROWS * FROM crawler_data_supply a WHERE 1=1 and user_id='{$_SESSION[iam_member_id]}' $searchStr3";
@@ -858,11 +858,11 @@ input, select, textarea {
 
                     $i = 1;
                     $query3 .= "$orderQuery3";
-                    $res = mysql_query($query3);
-                    while($row = mysql_fetch_array($res)) {
+                    $res = mysqli_query($self_con,$query3);
+                    while($row = mysqli_fetch_array($res)) {
                         $sql_mem_reg = "select * from Gn_Member where mem_name='{$row[ceo]}' and mem_phone='{$row[cell]}' and is_leave='N' limit 1";
-                        $res_mem_reg = mysql_query($sql_mem_reg);
-                        $row_mem_reg = mysql_fetch_array($res_mem_reg);
+                        $res_mem_reg = mysqli_query($self_con,$sql_mem_reg);
+                        $row_mem_reg = mysqli_fetch_array($res_mem_reg);
                         if($row_mem_reg[mem_code] != ''){
                             if($row_mem_reg['mem_memo'] != ''){
                                 $style3 = "color:#99cc00";
@@ -884,8 +884,8 @@ input, select, textarea {
                             // $mem_memo = $row_mem_reg['mem_memo']?$row_mem_reg['mem_memo']:'메모';
 
                             $query = "select card_short_url from Gn_Iam_Name_Card where group_id is NULL and mem_id = '$row_mem_reg[mem_id]' order by req_data asc";
-                            $cres = mysql_query($query);
-                            $crow = mysql_fetch_array($cres);
+                            $cres = mysqli_query($self_con,$query);
+                            $crow = mysqli_fetch_array($cres);
                             $card_url = $crow[0];
                         ?>
                         <tr >

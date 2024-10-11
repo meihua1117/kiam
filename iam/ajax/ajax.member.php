@@ -60,13 +60,13 @@ if($_REQUEST[nick])
 	}
     $site = explode(".", $_SERVER[SERVER_NAME]);
 	$sql.=" where mem_code='$_REQUEST[join_modify]' ";
-	if(mysql_query($sql) or die(mysql_error()))
+	if(mysqli_query($self_con,$sql) or die(mysqli_error($self_con)))
 	{
                 $sql2 = "update Gn_Iam_Name_Card set card_email='$member_info[mem_email]',
                                                      card_addr='$member_info[mem_add1]',
                                                      card_company='$member_info[zy]'
                 where mem_id='$mem_id'";
-                $result2 = mysql_query($sql2) or die(mysql_error());
+                $result2 = mysqli_query($self_con,$sql2) or die(mysqli_error($self_con));
 	    //메일, 주소, 소속직책
 		?>
         <script language="javascript">

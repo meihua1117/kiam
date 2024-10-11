@@ -21,31 +21,31 @@ if(!$card_idx) {
 if($mode == "display") {
   // Julian mem_id에 달린 카드 모두 비공개로 설정한다.
   $sql = "select count(*) from Gn_Iam_Service where profile_idx = '$card_idx'";
-  $res = mysql_query($sql);
-  $row = mysql_fetch_array($res);
+  $res = mysqli_query($self_con,$sql);
+  $row = mysqli_fetch_array($res);
   $result = $row[0];
   if($result > 0)
     $phone_display = "Y";
   //해당한 카드 비공개로 설정한다.
   $sql="update Gn_Iam_Name_Card set phone_display = '$phone_display' where idx = '$card_idx'";
-  mysql_query($sql) or die(mysql_error());
+  mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
   //해당한 카드안의 콘텐츠들을 비공개로 설정한다.
   $sql = "select card_short_url from Gn_Iam_Name_Card where idx = '$card_idx'";
-  $res = mysql_query($sql);
-  $row = mysql_fetch_array($res);
+  $res = mysqli_query($self_con,$sql);
+  $row = mysqli_fetch_array($res);
   $card_short_url = $row['card_short_url'];
   $update_query = "update Gn_Iam_Contents set public_display = '$phone_display',up_data=now() where westory_card_url = '$card_short_url'";
-  mysql_query($update_query);
+  mysqli_query($self_con,$update_query);
 
   $sql="select * from Gn_Iam_Name_Card where idx = '$card_idx'";
-  $result = mysql_query($sql) or die(mysql_error());
-  $data = mysql_fetch_array($result);
+  $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+  $data = mysqli_fetch_array($result);
   echo json_encode($data);
 } else {
   $sql="update Gn_Iam_Name_Card set favorite = 0 where mem_id = '$mem_id'";
-  $result = mysql_query($sql) or die(mysql_error());
+  $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
   $sql2="update Gn_Iam_Name_Card set favorite = '$favorite' where idx = '$card_idx' and mem_id = '$mem_id'";
-  $result2 = mysql_query($sql2) or die(mysql_error());
+  $result2 = mysqli_query($self_con,$sql2) or die(mysqli_error($self_con));
   echo $favorite;
 }
 ?>

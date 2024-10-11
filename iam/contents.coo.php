@@ -3,32 +3,32 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
 $contents_idx = $_GET['contents_idx'];
 if ($HTTP_HOST != "kiam.kr") {//분양사사이트이면
 	$query = "select * from Gn_Iam_Service where sub_domain like '%http://" . $HTTP_HOST . "'";
-	$res = mysql_query($query);
-	$domainData = mysql_fetch_array($res);
+	$res = mysqli_query($self_con,$query);
+	$domainData = mysqli_fetch_array($res);
 } else {
 	$query = "select * from Gn_Iam_Service where sub_domain like 'http://www.kiam.kr'";
-	$res = mysql_query($query);
-	$domainData = mysql_fetch_array($res);
+	$res = mysqli_query($self_con,$query);
+	$domainData = mysqli_fetch_array($res);
 	$domainData[sub_domain] = "http://kiam.kr/";
 }
 $mem_sql = "select mem_code from Gn_Member where mem_id = '$domainData[mem_id]'";
-$mem_result=mysql_query($mem_sql);
-$mem_row=mysql_fetch_array($mem_result);
+$mem_result=mysqli_query($self_con,$mem_sql);
+$mem_row=mysqli_fetch_array($mem_result);
 @setcookie("recommender_code", $mem_row['mem_code'], time()+3600 ,"/");
 $_COOKIE[recommender_code] = $mem_row['mem_code'];
 
 $meta_sql="select * from Gn_Iam_Contents where idx = '$contents_idx'";
-$meta_result=mysql_query($meta_sql);
-$meta_row=mysql_fetch_array($meta_result);
+$meta_result=mysqli_query($self_con,$meta_sql);
+$meta_row=mysqli_fetch_array($meta_result);
 
 $sql = "select main_img1 from Gn_Iam_Info where mem_id = 'obmms02'";
-$result=mysql_query($sql) or die(mysql_error());
-$row=mysql_fetch_array($result);
+$result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+$row=mysqli_fetch_array($result);
 $default_avatar =  $row['main_img1'];
 
 $sql = "select * from Gn_Iam_Name_Card where idx = '$meta_row[card_idx]'";
-$result=mysql_query($sql) or die(mysql_error());
-$name_card=mysql_fetch_array($result);
+$result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+$name_card=mysqli_fetch_array($result);
 //콘텐츠에 현시할 이름과 아바타
 $contents_user_name = $name_card['card_name'];
 $contents_avatar = "";

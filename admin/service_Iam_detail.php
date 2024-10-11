@@ -8,16 +8,16 @@ $date_today=date("Y-m-d");
 if($idx) {
     // 가입 회원 상세 정보
     $query = "select * from Gn_Iam_Service where idx='$idx'";
-    $res = mysql_query($query);
-    $data = mysql_fetch_array($res);
+    $res = mysqli_query($self_con,$query);
+    $data = mysqli_fetch_array($res);
 
     $query = "select * from Gn_Iam_Name_Card where idx = $data[profile_idx]";
-    $res = mysql_query($query);
-    $card_data = mysql_fetch_array($res);
+    $res = mysqli_query($self_con,$query);
+    $card_data = mysqli_fetch_array($res);
 }else{
     $query = "select * from Gn_Iam_Service where idx='$idx'";
-    $res = mysql_query($query);
-    $data = mysql_fetch_array($res);
+    $res = mysqli_query($self_con,$query);
+    $data = mysqli_fetch_array($res);
 }
 ?>
 <style>

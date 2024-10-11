@@ -5,8 +5,8 @@
 <?
 if($HTTP_HOST != "kiam.kr") {
 	$query = "select * from Gn_Iam_Service where sub_domain like '%".$HTTP_HOST."'";
-    $res = mysql_query($query);
-    $domainData = mysql_fetch_array($res);
+    $res = mysqli_query($self_con,$query);
+    $domainData = mysqli_fetch_array($res);
     if(date("Y-m-d") >= $domainData['contract_end_date']) {
         @header('Content-Type: text/html; charset=UTF-8');
         echo "<script>alert('본 아이엠은 계약기간이 종료되었습니다. 관리자에게 문의해주세요.');hisotory.go(-1);</script>";
@@ -111,8 +111,8 @@ if($_GET['type']){
 
 									$sql5 = "SELECT count(a.mem_code) FROM Gn_Member a LEFT JOIN Gn_MMS_Number b on b.mem_id =a.mem_id WHERE a.is_leave='N'".$searchStr." and (REPLACE(a.mem_phone,'-','')=REPLACE(b.sendnum, '-','') and b.sendnum is not null and b.sendnum != '') ORDER BY a.mem_code desc";
 
-									$result5=mysql_query($sql5);
-									$comment_row5=mysql_fetch_array($result5);
+									$result5=mysqli_query($self_con,$sql5);
+									$comment_row5=mysqli_fetch_array($result5);
 									$row_num5 = $comment_row5[0];
 
 									$list2 = 10; //한 페이지에 보여줄 개수
@@ -138,9 +138,9 @@ if($_GET['type']){
 // echo $sql6;
 									$all_mem_ids = "";
 									$sql6_all = "SELECT SQL_CALC_FOUND_ROWS a.mem_id FROM Gn_Member a LEFT JOIN Gn_MMS_Number b on b.mem_id =a.mem_id WHERE a.is_leave='N'".$searchStr." and (REPLACE(a.mem_phone,'-','')=REPLACE(b.sendnum, '-','') and b.sendnum is not null and b.sendnum != '') ORDER BY a.mem_code desc ";
-									$res_all = mysql_query($sql6_all) or die(mysql_error());
+									$res_all = mysqli_query($self_con,$sql6_all) or die(mysqli_error($self_con));
 									$k = 1;
-									while($row_all = mysql_fetch_array($res_all)){
+									while($row_all = mysqli_fetch_array($res_all)){
 										if($k == $row_num5){
 											$all_mem_ids .= $row_all[mem_id];
 										}
@@ -151,11 +151,11 @@ if($_GET['type']){
 									}
 									// echo $sql6;
 
-									$result6=mysql_query($sql6) or die(mysql_error());
-									while($row6=mysql_fetch_array($result6)){
+									$result6=mysqli_query($self_con,$sql6) or die(mysqli_error($self_con));
+									while($row6=mysqli_fetch_array($result6)){
 										$diplay_sql="select main_img1, card_phone as friends_phone, card_short_url as friends_url, mem_id from Gn_Iam_Name_Card where mem_id = '$row6[mem_id]' order by idx asc limit 1";
-										$diplay_result=mysql_query($diplay_sql) or die(mysql_error());
-										$diplay_row=mysql_fetch_array($diplay_result);
+										$diplay_result=mysqli_query($self_con,$diplay_sql) or die(mysqli_error($self_con));
+										$diplay_row=mysqli_fetch_array($diplay_result);
 										$friends_main_img = $diplay_row[main_img1];
 										if(!$friends_main_img) {
 											$friends_main_img = "img/profile_img.png";

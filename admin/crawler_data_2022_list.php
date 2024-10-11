@@ -220,8 +220,8 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                         	WHERE 1=1 
                 	              $searchStr";
                 	              
-                	$res	    = mysql_query($query);
-                	$totalRow	=  mysql_fetch_array($res);	                	
+                	$res	    = mysqli_query($self_con,$query);
+                	$totalRow	=  mysqli_fetch_array($res);	                	
                 	$totalCnt = $totalRow[0];
                 	
                 	                	
@@ -235,8 +235,8 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                                 $searchStr";
                                 
 
-                	//$res	    = mysql_query($query);
-                	//$totalCnt	=  mysql_num_rows($res);	
+                	//$res	    = mysqli_query($self_con,$query);
+                	//$totalCnt	=  mysqli_num_rows($res);	
                   $excel_sql = $query;
                 	
                 	$limitStr       = " LIMIT ".(($startPage-1)*$pageCnt).", ".$pageCnt;
@@ -251,11 +251,11 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                   $query .= "$orderQuery";
                   //echo $query;              
                 	              
-                	$res = mysql_query($query);
-                    while($row = mysql_fetch_array($res)) {                       	
+                	$res = mysqli_query($self_con,$query);
+                    while($row = mysqli_fetch_array($res)) {                       	
                             $query = "Select * from crawler_member_real where user_id='$row[user_id]'";
-                            $sres = mysql_query($query);
-                            $srow = mysql_fetch_array($sres);                                                    
+                            $sres = mysqli_query($self_con,$query);
+                            $srow = mysqli_fetch_array($sres);                                                    
                        
                   ?>
                       <tr>

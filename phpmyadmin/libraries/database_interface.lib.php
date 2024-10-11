@@ -174,7 +174,7 @@ function PMA_DBI_try_query($query, $link = null, $options = 0, $cache_affected_r
 }
 
 /**
- * converts charset of a mysql message, usually coming from mysql_error(),
+ * converts charset of a mysql message, usually coming from mysqli_error($self_con),
  * into PMA charset, usally UTF-8
  * uses language to charset mapping from mysql/share/errmsg.txt
  * and charset names to ISO charset from information_schema.CHARACTER_SETS
@@ -1791,7 +1791,7 @@ function PMA_DBI_get_triggers($db, $table = '', $delimiter = '//')
 /**
  * Formats database error message in a friendly way.
  * This is needed because some errors messages cannot
- * be obtained by mysql_error().
+ * be obtained by mysqli_error($self_con).
  *
  * @param int    $error_number  Error code
  * @param string $error_message Error message as returned by server

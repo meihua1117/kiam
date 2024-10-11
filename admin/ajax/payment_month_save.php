@@ -6,8 +6,8 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
 */
 extract($_POST);
 $query = "select * from tjd_pay_result where no='$no'";
-$res = mysql_query($query);
-$row = mysql_fetch_array($res);
+$res = mysqli_query($self_con,$query);
+$row = mysqli_fetch_array($res);
 if($row[no] == "") exit;
 if($type == "main") {
     if ($payment_day == "") {
@@ -25,26 +25,26 @@ if($type == "main") {
         $sql_m = "update tjd_pay_result set monthly_status='$month_status',payment_day='$payment_day', end_date='$end_date', cancel_completetime =now()  where `no` = '$no' ";
         // if (strstr($row[member_type] ,"professional") || strstr($row[member_type] ,"standard") || strstr($row[member_type] ,"enterprise")) {
             $dber_sql = "update crawler_member_real set term='$end_date',search_email_date='$end_date',shopping_end_date='$end_date', search_email_yn='N', status='N' where user_id='$row[buyer_id]'";
-            mysql_query($dber_sql);
+            mysqli_query($self_con,$dber_sql);
         // }
         /*else{
             $sql_member = "update Gn_Member m inner join tjd_pay_result p on p.buyer_id=m.mem_id set m.iam_type=0  where p.no = '$no' ";
-            mysql_query($sql_member);
+            mysqli_query($self_con,$sql_member);
         }*/
     } else {
         $sql_m = "update tjd_pay_result set monthly_status='$month_status',payment_day='$payment_day'  where `no` = '$no' ";
     }
-    mysql_query($sql_m) or die(mysql_error());
+    mysqli_query($self_con,$sql_m) or die(mysqli_error($self_con));
     echo "<script>alert('저장되었습니다.');location='/admin/payment_month_list.php';</script>";
     exit;
 }else if($type == "memo"){
     $sql_m = "update tjd_pay_result set print_msg='$memo' where `no` = '$no' ";
-    mysql_query($sql_m) or die(mysql_error());
+    mysqli_query($self_con,$sql_m) or die(mysqli_error($self_con));
     echo "<script>alert('저장되었습니다.');location='/admin/payment_month_list.php';</script>";
     exit;
 }else if($type == "end_date"){
     $sql_m = "update tjd_pay_result set end_date='$end_date'  where `no` = '$no' ";
-    mysql_query($sql_m) or die(mysql_error());
+    mysqli_query($self_con,$sql_m) or die(mysqli_error($self_con));
     echo "<script>alert('저장되었습니다.');location='/admin/payment_month_list.php';</script>";
     exit;
 }

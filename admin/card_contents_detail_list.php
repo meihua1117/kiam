@@ -10,16 +10,16 @@ if($idx) {
     // 가입 회원 상세 정보
     $query = "select *
                 from Gn_Iam_Contents_Gwc where idx='$idx'";
-    $res = mysql_query($query);
-    $data = mysql_fetch_array($res);
+    $res = mysqli_query($self_con,$query);
+    $data = mysqli_fetch_array($res);
 
     $sql_mem = "select gwc_provider_name, gwc_worker_no, gwc_worker_img, gwc_worker_state, mem_id, mem_code, mem_name, mem_phone, mem_email, mem_add1, bank_name, bank_owner, bank_account from Gn_Member where mem_id='{$data[mem_id]}'";
-    $res_mem = mysql_query($sql_mem);
-    $row_mem = mysql_fetch_array($res_mem);
+    $res_mem = mysqli_query($self_con,$sql_mem);
+    $row_mem = mysqli_fetch_array($res_mem);
 
     $sql_provider_id = "select mem_id, mem_code, mem_name, mem_phone, mem_email, mem_add1, bank_name, bank_owner, bank_account from Gn_Member where mem_code='{$data[delivery_id_code]}'";
-    $res_provider_id = mysql_query($sql_provider_id);
-    $row_provider_id = mysql_fetch_array($res_provider_id);
+    $res_provider_id = mysqli_query($self_con,$sql_provider_id);
+    $row_provider_id = mysqli_fetch_array($res_provider_id);
 }
 
 ?>
@@ -225,9 +225,9 @@ if($idx) {
                         <td>
                           <?
                           $sql5="select card_short_url,card_title from Gn_Iam_Name_Card where mem_id = 'iamstore' order by req_data asc";
-                          $result5=mysql_query($sql5);
+                          $result5=mysqli_query($self_con,$sql5);
                           $i = 0;
-                          while($row5=mysql_fetch_array($result5)) {
+                          while($row5=mysqli_fetch_array($result5)) {
                               ?>
                               <input type="radio" name="gwc_card_url"
                                       class="my_info_check"

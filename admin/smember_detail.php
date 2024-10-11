@@ -14,13 +14,13 @@ $query = "select recommend_id, mem_code, mem_id, mem_pass, web_pwd, mem_name,
           last_modify, visited, site, site_iam, fujia_date2, login_date, phone_cnt,
           total_pay_money, mem_type,iam_card_cnt,iam_share_cnt,(select count(*) from Gn_MMS_Number where 1=1 and ( not (cnt1 = 10 and cnt2 = 20)) and mem_id =Gn_Member.mem_id) tcnt
           from Gn_Member where mem_code='$mem_code'";
-$res = mysql_query($query);
-$data = mysql_fetch_array($res);
+$res = mysqli_query($self_con,$query);
+$data = mysqli_fetch_array($res);
 
 $group = "";
 $group_sql = "select info.name from gn_group_member mem inner join gn_group_info info on info.idx = mem.group_id where mem_id='$data[mem_id]'";
-$group_res = mysql_query($group_sql);
-while($group_row = mysql_fetch_array($group_res)){
+$group_res = mysqli_query($self_con,$group_sql);
+while($group_row = mysqli_fetch_array($group_res)){
     if($group == "")
         $group = $group_row[name];
     else
@@ -31,14 +31,14 @@ $query = "select idx, mem_id, sendnum, max_cnt, user_cnt, gl_cnt, month_cnt, tod
           reg_date, up_date, max_over_cnt, memo2, device, memo3, usechk, cnt1, cnt2, format_date,
           end_status, end_date, donation_rate, daily_limit_cnt, use_order
           from Gn_MMS_Number where mem_id='$data[mem_id]' and sendnum='$sendnum'";
-$res = mysql_query($query);
-$donation_data = mysql_fetch_array($res);
+$res = mysqli_query($self_con,$query);
+$donation_data = mysqli_fetch_array($res);
 
 // =====================  유료결제건 시작 ===================== 
 $sql = "select phone_cnt, add_phone from tjd_pay_result where buyer_id = '".$data['mem_id']."' and end_date > '$date_today' and end_status='Y' order by end_date desc limit 1";
-$res_result = mysql_query($sql);
-$buyPhoneCnt = mysql_fetch_row($res_result);
-mysql_free_result($res_result);
+$res_result = mysqli_query($self_con,$sql);
+$buyPhoneCnt = mysqli_fetch_row($res_result);
+mysqli_free_result($res_result);
 
 
 if($buyPhoneCnt == 0){	
@@ -49,8 +49,8 @@ if($buyPhoneCnt == 0){
 // ===================== 유료결제건 끝 ===================== 
 // =====================  총결제금액 시작 =====================
 $sql = "select sum(TotPrice) totPrice, date from tjd_pay_result where buyer_id = '".$data['mem_id']."' and end_status='Y'";
-$res_result = mysql_query($sql);
-$totPriceRow = mysql_fetch_row($res_result);
+$res_result = mysqli_query($self_con,$sql);
+$totPriceRow = mysqli_fetch_row($res_result);
 
 $totPrice = $totPriceRow[0];
 $pay_date = $totPriceRow[1];
@@ -59,9 +59,9 @@ $pay_date = $totPriceRow[1];
 // =====================  마지막 결제정보 시작 ===================== 
 /*
 $sql = "select reg_date  from tjd_pay_result where buyer_id = '".$data['mem_id']."' order by end_date desc limit 1";
-$res_result = mysql_query($sql);
-$totPriceRow = mysql_fetch_row($res_result);
-mysql_free_result($res_result);
+$res_result = mysqli_query($self_con,$sql);
+$totPriceRow = mysqli_fetch_row($res_result);
+mysqli_free_result($res_result);
 
 $totPrice = $totPriceRow[0];
 */
@@ -69,9 +69,9 @@ $totPrice = $totPriceRow[0];
 
 // =====================  마지막 발송정보 시작 ===================== 
 $sql = "select msg_text, reservation_time  from sm_data where dest = '".str_replace("-", "", $data['mem_phone'])."' order by reservation_time desc limit 1";
-$res_result = mysql_query($sql);
-$totPriceRow = mysql_fetch_row($res_result);
-mysql_free_result($res_result);
+$res_result = mysqli_query($self_con,$sql);
+$totPriceRow = mysqli_fetch_row($res_result);
+mysqli_free_result($res_result);
 
 //$totPrice = $totPriceRow[0];
 // ===================== 마지막 발송정보 끝 =====================                     	

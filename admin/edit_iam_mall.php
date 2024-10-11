@@ -6,8 +6,8 @@ extract($_GET);
 // 오늘날짜
 $date_today=date("Y-m-d");
 $sql="select * from Gn_Iam_Mall where idx='".$idx."'";
-$res=mysql_query($sql);
-$row=mysql_fetch_array($res);	
+$res=mysqli_query($self_con,$sql);
+$row=mysqli_fetch_array($res);	
 
 ?>
 <style>

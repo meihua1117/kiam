@@ -44,13 +44,13 @@ if(strlen($_SESSION['one_member_id']) > 0 || strlen($_SESSION['iam_member_id']) 
     $form_arr = array();
     $item_arr = array();
     $sql1 = "select * from gn_report_form1 where form_id=$repo_id and item_type <> 2 order by item_order";
-    $res1 = mysql_query($sql1);
+    $res1 = mysqli_query($self_con,$sql1);
 
-    while($row1 = mysql_fetch_array($res1)){
+    while($row1 = mysqli_fetch_array($res1)){
         array_push($form_arr,$row1);
         $sql2 = "select count(id) from gn_report_form2 where form_id=$repo_id and item_id = $row1[id]";
-        $res2 = mysql_query($sql2);
-        $row2 = mysql_fetch_array($res2);
+        $res2 = mysqli_query($self_con,$sql2);
+        $row2 = mysqli_fetch_array($res2);
         $tag = getExcelTag($w);
         $objPHPExcel->setActiveSheetIndex(0)->mergeCellsByColumnAndRow($w,$h,$w+$row2[0]-1,$h);
         if($row1['item_title']){
@@ -66,8 +66,8 @@ if(strlen($_SESSION['one_member_id']) > 0 || strlen($_SESSION['iam_member_id']) 
     $w=5;
     foreach($form_arr as $form){
         $sql2 = "select * from gn_report_form2 where form_id=$repo_id and item_id = $form[id] order by id";
-        $res2 = mysql_query($sql2);
-        while($row2 = mysql_fetch_array($res2)){
+        $res2 = mysqli_query($self_con,$sql2);
+        while($row2 = mysqli_fetch_array($res2)){
             $row2['item_type'] = $form[item_type];
             array_push($item_arr,$row2);
             $tag = getExcelTag($w);
@@ -76,8 +76,8 @@ if(strlen($_SESSION['one_member_id']) > 0 || strlen($_SESSION['iam_member_id']) 
         }
     }
     $h=3;
-    $result = mysql_query($excel_sql);
-    while($repo_row=mysql_fetch_array($result)){
+    $result = mysqli_query($self_con,$excel_sql);
+    while($repo_row=mysqli_fetch_array($result)){
         $conts = json_decode($repo_row['cont'],true);
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue("A$h",$h-2);
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue("B$h",$repo_row['reg_date']);

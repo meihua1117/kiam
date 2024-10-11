@@ -251,8 +251,8 @@ $(function() {
                                 }
 
                                 $count_query = "select count(idx) from Gn_Iam_Mall mall inner join Gn_Member mem on mem.mem_id = mall.mem_id WHERE 1=1 $searchStr";
-                                $count_result = mysql_query($count_query);
-                                $count_row = mysql_fetch_array($count_result);
+                                $count_result = mysqli_query($self_con,$count_query);
+                                $count_row = mysqli_fetch_array($count_result);
                                 $totalCnt	=  $count_row[0];
 
                                 //소트방향
@@ -264,13 +264,13 @@ $(function() {
                                 $orderQuery .= " ORDER BY t.$orderField $dir $limitStr";
                                 $i = 1;
                                 $query .= "$orderQuery";
-                                $res = mysql_query($query);
-                                while($row = mysql_fetch_array($res)) {
+                                $res = mysqli_query($self_con,$query);
+                                while($row = mysqli_fetch_array($res)) {
                                     $preview_link = "";
                                     if($row['mall_type'] == 1){
                                         $sql = "select card_short_url from Gn_Iam_Name_Card n inner join Gn_Member m on m.mem_id=n.mem_id where m.mem_code = '$row[card_idx]' order by n.req_data limit 0,1";
-                                        $res1 = mysql_query($sql);
-                                        $row1 = mysql_fetch_array($res1);
+                                        $res1 = mysqli_query($self_con,$sql);
+                                        $row1 = mysqli_fetch_array($res1);
                                         if($row['site_iam'] == "kiam")
                                             $preview_link = "http://www.kiam.kr/?";
                                         else
@@ -279,12 +279,12 @@ $(function() {
                                     }
                                     if($row['mall_type'] == 2){
                                         $sql = "select card_short_url,mem_id from Gn_Iam_Name_Card where idx = '$row[card_idx]'";
-                                        $res2 = mysql_query($sql);
-                                        $row2 = mysql_fetch_array($res2);
+                                        $res2 = mysqli_query($self_con,$sql);
+                                        $row2 = mysqli_fetch_array($res2);
                                         $mall_url = $row2[0];
                                         $sql = "select mem_code,site_iam from Gn_Member where mem_id = '$row2[1]'";
-                                        $res3 = mysql_query($sql);
-                                        $row2 = mysql_fetch_array($res3);
+                                        $res3 = mysqli_query($self_con,$sql);
+                                        $row2 = mysqli_fetch_array($res3);
                                         if($row['site_iam'] == "kiam")
                                             $preview_link = "http://www.kiam.kr/?";
                                         else

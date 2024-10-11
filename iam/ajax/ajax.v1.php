@@ -97,8 +97,8 @@ if($_POST[id] && $_POST[pwd]){
 	    $member_info[recommend_id] = 'onlyone';
 	else{
 	    $sql = "select mem_id from Gn_Iam_Service where sub_domain like '%http://".$HTTP_HOST."%'";
-	    $res = mysql_query($sql);
-	    $row = mysql_fetch_array($res);
+	    $res = mysqli_query($self_con,$sql);
+	    $row = mysqli_fetch_array($res);
 	    $member_info[recommend_id] = $row['mem_id'];
 	}
     }
@@ -106,26 +106,26 @@ if($_POST[id] && $_POST[pwd]){
         $query = "select * from Gn_Iam_Service where sub_domain like '%".$HTTP_HOST."'";
     else
 	$query = "select * from Gn_Iam_Service where sub_domain like '%www.kiam.kr%'";
-    $res = mysql_query($query);
-    $domainData = mysql_fetch_array($res);
+    $res = mysqli_query($self_con,$query);
+    $domainData = mysqli_fetch_array($res);
     $parse = parse_url($domainData['sub_domain']);
     $site = explode(".", $parse['host']);
 
     $query = "select count(*) as cnt from Gn_Member where site_iam='".$site[0]."'";
-    $res = mysql_query($query);
-    $data = mysql_fetch_array($res);
+    $res = mysqli_query($self_con,$query);
+    $data = mysqli_fetch_array($res);
     if($domainData['mem_cnt'] <= $data[0] && !$_POST[join_modify]) {
 	$result = '본 사이트에서는 더이상 회원가입이 되지 않습니다.최대회원수는 ' .$domainData['mem_cnt'].'입니다.관리자에게 문의해주세요';
 	echo json_encode(array('result'=>'failed','msg'=>$result));
 	exit;
     }
     $s_sql = "select count(idx) from Gn_Service where sub_domain like '%http://".$HTTP_HOST."%'";
-    $s_res = mysql_query($s_sql);
-    $s_row = mysql_fetch_array($s_res);
+    $s_res = mysqli_query($self_con,$s_sql);
+    $s_row = mysqli_fetch_array($s_res);
     if($s_row[0] == 0){
 	$r_sql = "select mem_code,site from Gn_Member where mem_id = '$member_info[recommend_id]'";
-	$r_res = mysql_query($r_sql);
-	$r_row = mysql_fetch_array($r_res);
+	$r_res = mysqli_query($self_con,$r_sql);
+	$r_row = mysqli_fetch_array($r_res);
 	$member_info[site] = $r_row['site'];
     }else{ 
 	$member_info[site] = $member_info[site_iam];
@@ -164,12 +164,12 @@ if($_POST[id] && $_POST[pwd]){
 	}
 	if($_POST['rnum'] != ""  && $_POST['code'] == "KR") {
             $sql="select idx from Gn_Member_Check_Sms where mem_phone='$member_info[mem_phone]' and secret_key='$_POST[rnum]' and status='Y' order by idx desc";
-            $result = mysql_query($sql) or die(mysql_error());
-            $data = mysql_fetch_array($result);
+            $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+            $data = mysqli_fetch_array($result);
             if($data['idx'] == ""){
         	$sql = "select count(idx) from Gn_MMS where content like '%".$_POST[rnum]."%' and type='10' order by idx desc";
-        	$result = mysql_query($sql) or die(mysql_error());
-        	$data = mysql_fetch_array($result);
+        	$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+        	$data = mysqli_fetch_array($result);
         	if($data[0] == 0) {
 	    	    echo json_encode(array('result'=>'failed','msg'=>'인증번호를 확인해주세요..'));
 		    exit;
@@ -195,7 +195,7 @@ if($_POST[id] && $_POST[pwd]){
 	$sql.=" ,first_regist=now() , mem_check=now() ";
     if(strstr($sql, "update") == true && $_POST[join_modify] == "")
     	$sql.=" where mem_code='$_POST[join_modify]' ";
-    if(mysql_query($sql) or die(mysql_error())){
+    if(mysqli_query($self_con,$sql) or die(mysqli_error($self_con))){
 	if($_POST[join_modify]){
 	    $_SESSION[iam_member_leb] = 0;?>
 	    <script language="javascript">
@@ -205,12 +205,12 @@ if($_POST[id] && $_POST[pwd]){
         <?}else{
             $mem_id = $mem_id?$mem_id:$_POST['id'];
 	    $sql="select mem_leb, iam_leb,site, site_iam from Gn_Member where mem_id= '$_POST[id]'";
-	    $resul=mysql_query($sql);
-	    $row=mysql_fetch_array($resul);
+	    $resul=mysqli_query($self_con,$sql);
+	    $row=mysqli_fetch_array($resul);
 	    // 관리자 권한이 있으면 관리자 세션 추가 Add Cooper
 	    $admin_sql = "select mem_id from Gn_Admin where mem_id= '$_POST[id]'";
-	    $admin_result = mysql_query($admin_sql);
-	    $admin_row = mysql_fetch_array($admin_result);
+	    $admin_result = mysqli_query($self_con,$admin_sql);
+	    $admin_row = mysqli_fetch_array($admin_result);
 	    if ($admin_row[0] != "") {
 		$_SESSION[one_member_admin_id] = $_POST[id];
 	    }
@@ -218,8 +218,8 @@ if($_POST[id] && $_POST[pwd]){
 		$_SESSION[one_member_id] = $_POST[id];
 		$_SESSION[one_mem_lev] = $row[mem_leb];
 		$service_sql = "select mem_id,sub_domain from Gn_Service where mem_id= '$_POST[id]'";
-		$service_result = mysql_query($service_sql);
-		$service_row = mysql_fetch_array($service_result);
+		$service_result = mysqli_query($self_con,$service_sql);
+		$service_row = mysqli_fetch_array($service_result);
 		if ($service_row[mem_id] != "") {
 		    $url = parse_url($service_row[sub_domain]);
 		    $_SESSION[one_member_subadmin_id] = $_POST[id];
@@ -230,8 +230,8 @@ if($_POST[id] && $_POST[pwd]){
 				$_SESSION[iam_member_id] = $_POST[id];
 				$_SESSION[iam_member_leb] = $row[iam_leb];
 				$iam_sql = "select mem_id,sub_domain from Gn_Iam_Service where mem_id= '$_POST[id]'";
-				$iam_result = mysql_query($iam_sql);
-				$iam_row = mysql_fetch_array($iam_result);
+				$iam_result = mysqli_query($self_con,$iam_sql);
+				$iam_row = mysqli_fetch_array($iam_result);
 				if ($iam_row[mem_id] != "") {
 					$url = parse_url($iam_row[sub_domain]);
 					$_SESSION[iam_member_subadmin_id] = $_POST[id];
@@ -239,12 +239,12 @@ if($_POST[id] && $_POST[pwd]){
 				}
 			}
             $query = "select iam_card_cnt from Gn_Member where mem_id='$mem_id'";
-            $res = mysql_query($query);
-            $row = mysql_fetch_array($res);
+            $res = mysqli_query($self_con,$query);
+            $row = mysqli_fetch_array($res);
 
             $query = "select count(*) as cnt from Gn_Iam_Name_Card where group_id is NULL and mem_id='".$mem_id."'";
-            $res = mysql_query($query);
-            $data = mysql_fetch_array($res);
+            $res = mysqli_query($self_con,$query);
+            $data = mysqli_fetch_array($res);
             if($row['iam_card_cnt'] <= $data[0]) {
                 $result = "고객님의 아이엠은 {$row['iam_card_cnt']}개의 카드를 사용할수 있습니다. 추가하시려면 관리자에게 문의하세요.";
                 echo json_encode(array('result'=>$result));
@@ -289,31 +289,31 @@ if($_POST[id] && $_POST[pwd]){
 
             if($card_phone == "--") {
                 $sql="select mem_phone from Gn_Member where mem_id = '$mem_id'";
-                $result = mysql_query($sql);
-                $row = mysql_fetch_array($result);
+                $result = mysqli_query($self_con,$sql);
+                $row = mysqli_fetch_array($result);
                 $card_phone = $row[mem_phone];
             }
             if($card_title != "") {
                 $iam_sql = "select count(*) from Gn_Iam_Info where mem_id = '$mem_id'";
-                $iam_result = mysql_query($iam_sql);
-                $iam_row = mysql_fetch_array($iam_result);
+                $iam_result = mysqli_query($self_con,$iam_sql);
+                $iam_row = mysqli_fetch_array($iam_result);
                 if($iam_row[0] == 0) {
                     $query_info = "insert into Gn_Iam_Info (mem_id,main_img1,main_img2,main_img3, reg_data) values ('$memid','$profile_image[0]','$profile_image[1]','$profile_image[2]', now())";
-                    mysql_query($query_info);
+                    mysqli_query($self_con,$query_info);
                 }
                 $sql2 = "insert into Gn_Iam_Name_Card (mem_id, card_title, card_short_url, card_name, card_company, card_position, card_phone, card_email, card_addr, card_map, card_keyword, profile_logo, favorite, story_title4, story_online1_text,".
                             "story_online1, online1_check, story_online2_text, story_online2, online2_check,req_data,main_img1,main_img2,main_img3,story_title1,story_title2,story_title3,story_myinfo,story_company,story_career)".
                         "values ('$mem_id', '$card_title', '$short_url', '$card_name', '$card_company', '$card_position', '$card_phone', '$card_email', '$card_addr', '$card_map', '$card_keyword', '$img_url', 0, '$story_title4',".
                             "'$story_online1_text','$story_online1', '$online1_check', '$story_online2_text', '$story_online2', '$online2_check', now(),'$img_url1','$img_url2','$img_url3',".
                             "'$story_title1','$story_title2','$story_title3','$story_myinfo','$story_company','$story_career')";
-                $result2 = mysql_query($sql2) or die(mysql_error());
+                $result2 = mysqli_query($self_con,$sql2) or die(mysqli_error($self_con));
 				$mem_sql = "select profile from Gn_Member where mem_id = '$mem_id'";
-				$mem_res = mysql_query($mem_sql);
-				$mem_row = mysql_fetch_array($mem_res);
+				$mem_res = mysqli_query($self_con,$mem_sql);
+				$mem_row = mysqli_fetch_array($mem_res);
 				if($mem_row[profile] == ""){
-					mysql_query("update Gn_Member set profile = '$img_url' where mem_id = '$mem_id'");
+					mysqli_query($self_con,"update Gn_Member set profile = '$img_url' where mem_id = '$mem_id'");
 				}
-				$card_idx = mysql_insert_id();
+				$card_idx = mysqli_insert_id($self_con);
 				for($cont_count = 1;$cont_count <= $contents_count;$cont_count++){
 					$content_file_name = date('dmYHis').str_replace(" ", "", basename($_FILES["contents_img".$cont_count]["name"]));
 					$content_uploadfile = $uploaddir.basename($content_file_name);
@@ -364,21 +364,21 @@ if($_POST[id] && $_POST[pwd]){
 													  '$short_url',
 													  '$card_idx'
 													  )";
-						mysql_query($sql) or die(mysql_error());
-                        $contents_idx = mysql_insert_id();
+						mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+                        $contents_idx = mysqli_insert_id($self_con);
                         $sql2 = "insert into Gn_Iam_Con_Card set cont_idx=$contents_idx,card_idx=$card_idx,main_card=$card_idx";
-                        mysql_query($sql2) or die(mysql_error());
+                        mysqli_query($self_con,$sql2) or die(mysqli_error($self_con));
                         $sql2 = "update Gn_Iam_Name_Card set up_data = now() where idx={$card_idx}";
-               			mysql_query($sql2) or die(mysql_error());
+               			mysqli_query($self_con,$sql2) or die(mysqli_error($self_con));
 					}
 				}
 			}
 			$sql="select * from Gn_MMS_Group where mem_id='$member_info[mem_id]' and grp='아이엠'";
-			$result = mysql_query($sql) or die(mysql_error());
-			$data = mysql_fetch_array($result);
+			$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+			$data = mysqli_fetch_array($result);
 			if($data[idx] == ""){
 				$query = "insert into Gn_MMS_Group set mem_id='$member_info[mem_id]', grp='아이엠', reg_date=NOW()";
-				mysql_query($query);
+				mysqli_query($self_con,$query);
 			}
 
 			$content = $_POST[name]."님 온리원문자 회원이 되신걸 환영합니다.";
@@ -391,7 +391,7 @@ if($_POST[id] && $_POST[pwd]){
 }
 if($_POST[post_alert]){
 	$sql = "update Gn_Member set last_regist = now() where mem_id = '$mem_id'";
-	mysql_query($sql);
+	mysqli_query($self_con,$sql);
 	echo json_encode(array("result"=>"success"));
 	exit;
 }
@@ -405,14 +405,14 @@ if($_POST[type] == "show_exp_popup"){
 		$sql = "update Gn_Member set exp_limit_status = 0 where mem_id = '$mem_id'";
 	else if($popup_type == 4)
 		$sql = "update Gn_Member set exp_limit_date = NULL,iam_type=0,iam_card_cnt=1,iam_share_cnt=0 where mem_id = '$mem_id'";
-	mysql_query($sql) or die(mysql_error());
+	mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 	echo json_encode(array('result'=>"success"));
 	exit;
 }
 if($_POST[type] == "get_block_data"){
     $sql = "select block_user,block_contents from Gn_Iam_Info where mem_id='$mem_id'";
-    $res = mysql_query($sql);
-    $row = mysql_fetch_array($res);
+    $res = mysqli_query($self_con,$sql);
+    $row = mysqli_fetch_array($res);
     if($row[block_user] == "")
         $block_users = null;
     else
@@ -424,16 +424,16 @@ if($_POST[type] == "get_block_data"){
     $block_users_array = array();
     foreach ($block_users as $user_id){
         $sql = "select profile,mem_name,site_iam,mem_code from Gn_Member where mem_id = '$user_id'";
-        $res = mysql_query($sql);
-        $row = mysql_fetch_array($res);
+        $res = mysqli_query($self_con,$sql);
+        $row = mysqli_fetch_array($res);
         $profile = $row[profile];
         $name = $row[mem_name];
         $site = $row[site_iam];
         $mem_code = $row[mem_code];
 
         $sql = "select card_short_url,main_img1 from Gn_Iam_Name_Card where group_id is NULL and mem_id = '$user_id' order by req_data limit 0,1";
-        $res = mysql_query($sql);
-        $row = mysql_fetch_array($res);
+        $res = mysqli_query($self_con,$sql);
+        $row = mysqli_fetch_array($res);
         $card_short_url = $row[card_short_url];
         if(!$profile)
             $profile = $row[main_img1];
@@ -448,20 +448,20 @@ if($_POST[type] == "get_block_data"){
     $block_contents_array = array();
     foreach ($block_contents as $contents_idx){
         $sql = "select mem_id from Gn_Iam_Contents where idx = '$contents_idx'";
-        $res = mysql_query($sql);
-        $row = mysql_fetch_array($res);
+        $res = mysqli_query($self_con,$sql);
+        $row = mysqli_fetch_array($res);
         $user_id = $row[mem_id];
 
         $sql = "select profile,mem_name,site_iam from Gn_Member where mem_id = '$user_id'";
-        $res = mysql_query($sql);
-        $row = mysql_fetch_array($res);
+        $res = mysqli_query($self_con,$sql);
+        $row = mysqli_fetch_array($res);
         $profile = $row[profile];
         $name = $row[mem_name];
         $site = $row[site_iam];
 
         $sql = "select main_img1 from Gn_Iam_Name_Card where card_idx = '$contents_idx'";
-        $res = mysql_query($sql);
-        $row = mysql_fetch_array($res);
+        $res = mysqli_query($self_con,$sql);
+        $row = mysqli_fetch_array($res);
         if(!$profile)
             $profile = $row[main_img1];
         if($site == "kiam")
@@ -477,7 +477,7 @@ if($_POST[type] == "get_block_data"){
 }
 if($_POST[type] == "remove_all_block_data") {
     $sql = "update Gn_Iam_Info set block_user=NULL,block_contents = NULL where mem_id='$mem_id'";
-    mysql_query($sql);
+    mysqli_query($self_con,$sql);
     echo json_encode(array('result'=>"success"));
     exit;
 }
@@ -489,8 +489,8 @@ if($_POST[type] == "remove_one_block_data") {
     }else{
         $sql = "select block_contents from Gn_Iam_Info where mem_id='$mem_id'";
     }
-    $res = mysql_query($sql);
-    $row = mysql_fetch_array($res);
+    $res = mysqli_query($self_con,$sql);
+    $row = mysqli_fetch_array($res);
     $block_array = explode(",",$row[0]);
     $del_ids = array($block_idx);
     $block_ids = array_diff($block_array,$del_ids);
@@ -500,7 +500,7 @@ if($_POST[type] == "remove_one_block_data") {
     }else{
         $sql = "update Gn_Iam_Info set block_contents  = '$block_data' where mem_id='$mem_id'";
     }
-    mysql_query($sql);
+    mysqli_query($self_con,$sql);
     echo json_encode(array('result'=>"success"));
     exit;
 }

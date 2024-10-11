@@ -5,8 +5,8 @@ include_once "../../lib/rlatjd_fun.php";
 $mem_id = $_SESSION[iam_member_id];
 
 $sql_list_count = "select count(*) from Gn_event_request where req_id ='{$mem_id}' order by request_idx desc";
-$res_list_count = mysql_query($sql_list_count);
-$row_list_count = mysql_fetch_array($res_list_count);
+$res_list_count = mysqli_query($self_con,$sql_list_count);
+$row_list_count = mysqli_fetch_array($res_list_count);
 
 $row_num5 = $row_list_count[0];
 
@@ -41,15 +41,15 @@ $start_num2 = ($page2-1) * $list2; //시작번호 (page-1)에서 $list를 곱한
 
 $limit_str = "limit " . $start_num2 . ", " . $list2;
 $sql6 = $sql_list.$limit_str;
-$result6=mysql_query($sql_list);
-while($row6=mysql_fetch_array($result6)){
+$result6=mysqli_query($self_con,$sql_list);
+while($row6=mysqli_fetch_array($result6)){
     $sql_event_data = "select event_title, m_id from Gn_event where event_idx={$row6['event_idx']}";
-    $res_event_data = mysql_query($sql_event_data);
-    $row_event_data = mysql_fetch_array($res_event_data);
+    $res_event_data = mysqli_query($self_con,$sql_event_data);
+    $row_event_data = mysqli_fetch_array($res_event_data);
 
     $sql_mem = "select mem_phone from Gn_Member where mem_id='{$row_event_data[m_id]}'";
-    $res_mem = mysql_query($sql_mem);
-    $row_mem = mysql_fetch_array($res_mem);
+    $res_mem = mysqli_query($self_con,$sql_mem);
+    $row_mem = mysqli_fetch_array($res_mem);
         
     $body .= '<tr>';
     $body .= '    <td class="iam_table">'.$row6[m_id].'</td>';

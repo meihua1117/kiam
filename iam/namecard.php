@@ -2,8 +2,8 @@
 <?php
     $lang = $_COOKIE['lang']?$_COOKIE['lang']:"kr";
     $sql = "select * from Gn_Iam_lang where menu='IAM_PROFILE'";
-    $result = mysql_query($sql);
-    while($row = mysql_fetch_array($result)) {
+    $result = mysqli_query($self_con,$sql);
+    while($row = mysqli_fetch_array($result)) {
         $MENU[$row[menu]][$row[pos]] = $row[$lang];
     }
 ?>
@@ -11,8 +11,8 @@
 $member = $_GET['member'];
 if($member == 'on') {
 	$sql="select mem_name, zy, mem_phone, mem_email, mem_add1 from Gn_Member where mem_id = '$_SESSION[iam_member_id]'";
-	$result=mysql_query($sql);
-	$row=mysql_fetch_array($result);
+	$result=mysqli_query($self_con,$sql);
+	$row=mysqli_fetch_array($result);
 	//$card_idx = $row[idx];
 	$card_name = $row['mem_name'];
 	$card_company = $row['zy'];

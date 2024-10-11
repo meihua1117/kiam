@@ -206,8 +206,8 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                                 }
 
                                 $query = "SELECT count(s.id) FROM gn_ad_sms_stats s inner join Gn_Member m on m.mem_id = s.mem_id WHERE $searchStr";
-                                $res    = mysql_query($query);
-                                $totalRow	=  mysql_fetch_array($res);
+                                $res    = mysqli_query($self_con,$query);
+                                $totalRow	=  mysqli_fetch_array($res);
                                 $totalCnt = $totalRow[0];
                                 
                                 $query = "SELECT s.* FROM gn_ad_sms_stats s use index(idx_mem_id) WHERE $searchStr ";
@@ -216,11 +216,11 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                                 $orderQuery .= "ORDER BY s.id desc $limitStr";
                                 $i = 1;
                                 $query .= "$orderQuery";
-                                $res = mysql_query($query);
-                                while($row = mysql_fetch_array($res)) {
+                                $res = mysqli_query($self_con,$query);
+                                while($row = mysqli_fetch_array($res)) {
                                     $mem_sql = "SELECT mem_name,site_iam,site FROM Gn_Member use index(mem_id) where mem_id='$row[mem_id]'";
-                                    $mem_res = mysql_query($mem_sql);
-                                    $mem_row = mysql_fetch_array($mem_res);
+                                    $mem_res = mysqli_query($self_con,$mem_sql);
+                                    $mem_row = mysqli_fetch_array($mem_res);
                             ?>
                                 <tr>
                                     <td><input type="checkbox" class="check" id="check_one" name="" value="<?=$row['id']?>"></td>

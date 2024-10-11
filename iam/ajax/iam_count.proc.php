@@ -7,6 +7,6 @@ $mem_id = $_POST['mem_id'];
 $card_idx = $_POST['card_idx'];
 
 $sql="update Gn_Iam_Name_Card set $str = $str + 1 where idx = $card_idx and mem_id = '$mem_id'";
-$result = mysql_query($sql) or die(mysql_error());
+$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 exit;
 ?>

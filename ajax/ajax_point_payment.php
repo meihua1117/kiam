@@ -9,12 +9,12 @@ if($_POST['pay_type'] == "message_set"){
 
     $item_idx = $_POST['item_idx'];
     $sql = "select mem_name,mem_phone,mem_email,mem_cash,mem_point from Gn_Member where mem_id='$_POST[buyer]'";
-    $res = mysql_query($sql);
-    $mem_data = mysql_fetch_array($res);
+    $res = mysqli_query($self_con,$sql);
+    $mem_data = mysqli_fetch_array($res);
 
     $sql = "select * from Gn_Iam_Mall where idx=$item_idx";
-    $res = mysql_query($sql);
-    $mall_data = mysql_fetch_array($res);
+    $res = mysqli_query($self_con,$sql);
+    $mall_data = mysqli_fetch_array($res);
     $sql = "insert into tjd_pay_result set 
                 idx='$allat_order_no',
                 orderNumber='$allat_order_no',
@@ -42,11 +42,11 @@ if($_POST['pay_type'] == "message_set"){
                 yutong_name=0,
                 seller_id='$mall_data[mem_id]',
                 cash_prod_pay=0";
-    mysql_query($sql);
-    $pay_idx_tjd = mysql_insert_id();
+    mysqli_query($self_con,$sql);
+    $pay_idx_tjd = mysqli_insert_id($self_con);
     
     $sql = "update Gn_Member set mem_cash=mem_cash-{$_POST[allat_amt]} where mem_id='{$_POST[buyer]}'";
-    mysql_query($sql);
+    mysqli_query($self_con,$sql);
     $current_cash = $mem_data['mem_cash'] * 1 - $_POST['allat_amt'] * 1;
 
     $sql = "insert into Gn_Item_Pay_Result
@@ -69,12 +69,12 @@ if($_POST['pay_type'] == "message_set"){
                 contents_cnt=1,
                 gwc_cont_pay=0,
                 tjd_idx=$pay_idx_tjd";
-    mysql_query($sql);
-    $pay_idx = mysql_insert_id();
+    mysqli_query($self_con,$sql);
+    $pay_idx = mysqli_insert_id($self_con);
 
     $sql="select * from Gn_event_sms_info where sms_idx='$mall_data[card_idx]'";
-    $res = mysql_query($sql);
-    $sms_data = mysql_fetch_array($res);
+    $res = mysqli_query($self_con,$sql);
+    $sms_data = mysqli_fetch_array($res);
 
     $sql = "insert into Gn_event_sms_info set event_idx = '$sms_data[event_idx]',
                                             event_name_eng = '$sms_data[event_name_eng]',
@@ -84,12 +84,12 @@ if($_POST['pay_type'] == "message_set"){
                                             m_id = '$_POST[buyer]',
                                             sendable = 0,
                                             regdate=NOW()";
-    mysql_query($sql);
-    $sms_idx = mysql_insert_id();
+    mysqli_query($self_con,$sql);
+    $sms_idx = mysqli_insert_id($self_con);
     
     $sql="select * from Gn_event_sms_step_info where sms_idx='$mall_data[card_idx]'";
-    $res = mysql_query($sql);
-    while($step_row = mysql_fetch_array($res)){
+    $res = mysqli_query($self_con,$sql);
+    while($step_row = mysqli_fetch_array($res)){
         $sql = "insert into Gn_event_sms_step_info set sms_idx = $sms_idx,
                                                     step = '$step_row[step]',
                                                     send_day = '$step_row[send_day]',
@@ -101,14 +101,14 @@ if($_POST['pay_type'] == "message_set"){
                                                     image2 = '$step_row[image2]',
                                                     send_deny = '$step_row[send_deny]',
                                                     regdate=NOW()";
-        mysql_query($sql);
+        mysqli_query($self_con,$sql);
     }
     echo json_encode(array("result"=>1));
 }else if($_POST['pay_type'] == "modify_sendable"){
     $sms_idx = $_POST['idx'];
     $sendable = $_POST['sendable'];
     $sql = "update Gn_event_sms_info set sendable=$sendable where sms_idx=$sms_idx";
-    mysql_query($sql);
+    mysqli_query($self_con,$sql);
     echo json_encode(array("result"=>1));
 }
 ?>

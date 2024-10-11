@@ -10,8 +10,8 @@ $ua = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like
 $header =array('Accept: application/json, text/plain, */*','Cache-Control: no-cache');
 //$query = "select * from Gn_Iam_automem where image1=''";
 $query = "select * from Gn_Iam_automem where no=1";
-$res = mysql_query($query);
-while($row=mysql_fetch_array($res))
+$res = mysqli_query($self_con,$query);
+while($row=mysqli_fetch_array($res))
 {
     $name = $row['mem_name'];
     $pos = strpos($name,'(') ;
@@ -42,8 +42,8 @@ function generateRandomString($length = 10) {
     }
 
     $name_count_sql="select count(idx) from Gn_Iam_Name_Card where card_short_url = '$randomString'";
-    $name_count_result=mysql_query($name_count_sql);
-    $name_count_row=mysql_fetch_array($name_count_result);
+    $name_count_result=mysqli_query($self_con,$name_count_sql);
+    $name_count_row=mysqli_fetch_array($name_count_result);
 
     if((int)$name_count_row[0]) {
         generateRandomString();

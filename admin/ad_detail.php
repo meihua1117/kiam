@@ -11,8 +11,8 @@ if($gaid) {
     // 가입 회원 상세 정보
     $query = "select `gaid`, `client`, `start_date`, `send_start_date`, `send_end_date`, `send_count`, `title`, `content`, `img_path`, `sort_order`, `status`, `regdate`, `moddate` 
                 from Gn_Ad where gaid='$gaid'";
-    $res = mysql_query($query);
-    $data = mysql_fetch_array($res);
+    $res = mysqli_query($self_con,$query);
+    $data = mysqli_fetch_array($res);
 }
 
 ?>

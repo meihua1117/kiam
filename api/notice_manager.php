@@ -7,10 +7,10 @@ $ad_position = trim($_REQUEST["ad_position"]);
 
 
 $sql = "select * from tjd_board where category='1' and diber='Y' order by no desc";
-$result = mysql_query($sql);
+$result = mysqli_query($self_con,$sql);
 $info["result"] = "1";
 $k = 0;
-while($row=mysql_fetch_array($result)) {
+while($row=mysqli_fetch_array($result)) {
     $info["data"][$k]['no'] = $row['no'];
     $info["data"][$k]['title'] = $row['title'];
     //$info["data"][$k]['img_url'] = $row['img_url'];

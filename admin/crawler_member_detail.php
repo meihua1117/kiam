@@ -7,8 +7,8 @@ $date_today=date("Y-m-d");
 $date_month=date("Y-m");
 // 가입 회원 상세 정보
 $query = "select * from crawler_member_real where cmid='$cmid'";
-$res = mysql_query($query);
-$data = mysql_fetch_array($res);
+$res = mysqli_query($self_con,$query);
+$data = mysqli_fetch_array($res);
 ?>
 <style>
     .box-body th {background:#ddd;}

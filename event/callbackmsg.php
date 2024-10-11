@@ -5,8 +5,8 @@ $event_idx = $_GET['eventidx'];
 $pcode = $_GET['pcode'];
 
 $sql_recom = "select * from Gn_event where pcode='{$pcode}'";
-$res = mysql_query($sql_recom);
-$row = mysql_fetch_array($res);
+$res = mysqli_query($self_con,$sql_recom);
+$row = mysqli_fetch_array($res);
 $recom_id = $row['m_id'];
 $iam_link = $row['event_type'];
 $event_desc = $row['event_info'];
@@ -15,8 +15,8 @@ $event_sms = str_replace("\n", "<br>", $row['event_sms_desc']);
 $callback_no = $row['callback_no'];
 
 $sql_exp = "select service_type from Gn_Iam_Service where sub_domain = 'http://" . $HTTP_HOST . "'";
-$res_exp = mysql_query($sql_exp);
-$row_exp = mysql_fetch_array($res_exp);
+$res_exp = mysqli_query($self_con,$sql_exp);
+$row_exp = mysqli_fetch_array($res_exp);
 $exp_mem = $row_exp['service_type'];
 if ($exp_mem == 3) {
 	$exp_mem = 'true';
@@ -25,11 +25,11 @@ if ($exp_mem == 3) {
 }
 
 $sql = "update Gn_event set read_cnt = read_cnt+1 where pcode='$pcode'";
-mysql_query($sql) or die(mysql_error());
+mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 
 $sql = "select * from Gn_event where pcode='$pcode'";
-$result = mysql_query($sql) or die(mysql_error());
-$event_data = $row = mysql_fetch_array($result);
+$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+$event_data = $row = mysqli_fetch_array($result);
 $m_id = $row['m_id'];
 $event_idx = $row['event_idx'];
 $page_title = $row['event_title'];
@@ -38,21 +38,21 @@ $desc = str_replace("\n", "<br>", $event_data['event_desc']);
 
 $cur_point = 0;
 $sql_cur_point = "select mem_point from Gn_Member where mem_id='{$m_id}'";
-$res_point = mysql_query($sql_cur_point);
-$row_point = mysql_fetch_array($res_point);
+$res_point = mysqli_query($self_con,$sql_cur_point);
+$row_point = mysqli_fetch_array($res_point);
 $cur_point = $row_point['mem_point'];
 
 if ($HTTP_HOST != "kiam.kr") //분양사사이트이면
 	$query = "select mem_id,profile_idx from Gn_Iam_Service where sub_domain like 'http://" . $HTTP_HOST . "'";
 else
 	$query = "select mem_id,profile_idx from Gn_Iam_Service where sub_domain like 'http://www.kiam.kr'";
-$res = mysql_query($query);
-$domainData = mysql_fetch_assoc($res);
+$res = mysqli_query($self_con,$query);
+$domainData = mysqli_fetch_assoc($res);
 $manager = $domainData['mem_id'];
 //분양사 콜백횟수 가져오기
 $callback_sql = "select callback_times from Gn_Member where mem_id='{$manager}'";
-$callback_res = mysql_query($callback_sql);
-$callback_row = mysql_fetch_assoc($callback_res);
+$callback_res = mysqli_query($self_con,$callback_sql);
+$callback_row = mysqli_fetch_assoc($callback_res);
 $callback_times = substr($callback_row['callback_times'],1);
 //분양사 콜백횟수 가져오기 끝
 if ($event_data['object'] != "") {
@@ -60,14 +60,14 @@ if ($event_data['object'] != "") {
 }else{
 	$first_card_idx = $domainData['profile_idx']; //분양사의 1번 카드아이디
 	$sql = "select * from Gn_Iam_Name_Card where idx = '$first_card_idx'";
-	$result = mysql_query($sql);
-	$main_card_row = mysql_fetch_array($result);
+	$result = mysqli_query($self_con,$sql);
+	$main_card_row = mysqli_fetch_array($result);
 	$main_img1 = $main_card_row['main_img1'];
 }
 
 $sql_point = "select key_content from Gn_Search_Key where key_id='callback_set_point'";
-$res_point = mysql_query($sql_point);
-$row_point = mysql_fetch_array($res_point);
+$res_point = mysqli_query($self_con,$sql_point);
+$row_point = mysqli_fetch_array($res_point);
 $callback_set_point = $row_point['key_content'];
 ?>
 <!DOCTYPE html>

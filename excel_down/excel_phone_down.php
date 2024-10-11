@@ -7,8 +7,8 @@ if(strlen($_SESSION[one_member_id]) > 0) {
 	include_once $path."lib/rlatjd_fun.php";
 	$excel_sql=$_POST['excel_sql'];
 	$excel_sql=str_replace("`","'",$excel_sql);
-	$result = mysql_query($excel_sql) or die(mysql_error());
-	$totalCnt = mysql_num_rows($result);
+	$result = mysqli_query($self_con,$excel_sql) or die(mysqli_error($self_con));
+	$totalCnt = mysqli_num_rows($result);
 	$number			= $totalCnt;
 	require_once("Classes/PHPExcel.php");
 	$objPHPExcel = new PHPExcel();
@@ -30,15 +30,15 @@ if(strlen($_SESSION[one_member_id]) > 0) {
 				->setCellValue("G1", "전화번호")
 				->setCellValue("H1", "등록일");
 	$h=2;
-	while($row=mysql_fetch_array($result)){
+	while($row=mysqli_fetch_array($result)){
 		$sql="select mem_id, mem_name from Gn_Member where mem_id='$row[mem_id]'";
-		$sresul=mysql_query($sql);
-		$srow=mysql_fetch_array($sresul);
+		$sresul=mysqli_query($self_con,$sql);
+		$srow=mysqli_fetch_array($sresul);
 		if($srow['mem_id'] == "")
 		{
 			$sql="select m.mem_id, mem_name from Gn_Member m inner join Gn_MMS_Number n on m.mem_id=n.mem_id where n.sendnum='$row[dest]'";
-			$sresul=mysql_query($sql);
-			$srow=mysql_fetch_array($sresul);
+			$sresul=mysqli_query($self_con,$sql);
+			$srow=mysqli_fetch_array($sresul);
 		}
 
 		$objPHPExcel->setActiveSheetIndex(0)

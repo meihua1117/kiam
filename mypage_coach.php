@@ -12,8 +12,8 @@ location.replace('/ma.php');
 exit;
 }
 	$sql="select * from Gn_Member  where mem_id='".$_SESSION[one_member_id]."'";
-	$sresul_num=mysql_query($sql);
-	$data=mysql_fetch_array($sresul_num);	
+	$sresul_num=mysqli_query($self_con,$sql);
+	$data=mysqli_fetch_array($sresul_num);	
 	
 	if($data['intro_message'] =="") {
 		$data['intro_message'] = "안녕하세요\n
@@ -296,8 +296,8 @@ $(function(){
 					}
 				}
 				$sql="select count(no) as cnt from tjd_pay_result where $sql_serch ";
-				$result = mysql_query($sql) or die(mysql_error());
-				$row=mysql_fetch_array($result);
+				$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+				$row=mysqli_fetch_array($result);
 				$intRowCount=$row[cnt];
 				if (!$_POST[lno]) 
 					$intPageSize =20;
@@ -328,7 +328,7 @@ $(function(){
 				  $order_name="end_status";
 				$intPageCount=(int)(($intRowCount+$intPageSize-1)/$intPageSize);     
 				$sql="select * from tjd_pay_result where $sql_serch order by $order_name $order_status limit $int,$intPageSize";
-				$result=mysql_query($sql) or die(mysql_error());				
+				$result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));				
 		?>
 <link type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.4/themes/base/jquery-ui.css" rel="stylesheet" />
 <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.10.0/jquery-ui.min.js"></script>                
@@ -466,18 +466,18 @@ jQuery(function($){
               <?
               if($intRowCount)
               {
-                  while($row=mysql_fetch_array($result))
+                  while($row=mysqli_fetch_array($result))
                   {
 					  	$num_arr=array();
 						$sql_num="select sendnum from Gn_MMS_Number where mem_id='$row[buyer_id]' and end_date='$row[end_date]' ";
-						$resul_num=mysql_query($sql_num);
-						while($row_num=mysql_fetch_array($resul_num))
+						$resul_num=mysqli_query($self_con,$sql_num);
+						while($row_num=mysqli_fetch_array($resul_num))
 						array_push($num_arr,$row_num[sendnum]);
 						//$num_str=implode(",",$num_arr);
 						
 						$sql="select mem_leb from Gn_Member  where mem_id='$row[buyer_id]'";
-						$sresul_num=mysql_query($sql);
-						$srow=mysql_fetch_array($sresul_num);
+						$sresul_num=mysqli_query($self_con,$sql);
+						$srow=mysqli_fetch_array($sresul_num);
 												
 						if($srow['mem_leb'] == "22") $mem_leb = "일반회원";
 						else  if($srow['mem_leb'] == "50") $mem_leb = "사업회원";
@@ -531,8 +531,8 @@ jQuery(function($){
 					}
 				}
 				$sql="select count(no) as cnt from tjd_pay_result_db where $sql_serch ";
-				$result = mysql_query($sql) or die(mysql_error());
-				$row=mysql_fetch_array($result);
+				$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+				$row=mysqli_fetch_array($result);
 				$intRowCount=$row[cnt];
 				if (!$_POST[lno]) 
 					$intPageSize =20;
@@ -563,21 +563,21 @@ jQuery(function($){
 				  $order_name="end_status";
 				$intPageCount=(int)(($intRowCount+$intPageSize-1)/$intPageSize);     
 				$sql="select * from tjd_pay_result_db where $sql_serch order by $order_name $order_status limit $int,$intPageSize";
-				$result=mysql_query($sql) or die(mysql_error());				
+				$result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));				
 		?>   
               <?
-                  while($row=mysql_fetch_array($result))
+                  while($row=mysqli_fetch_array($result))
                   {
 					  	$num_arr=array();
 						$sql_num="select sendnum from Gn_MMS_Number where mem_id='$row[buyer_id]' and end_date='$row[end_date]' ";
-						$resul_num=mysql_query($sql_num);
-						while($row_num=mysql_fetch_array($resul_num))
+						$resul_num=mysqli_query($self_con,$sql_num);
+						while($row_num=mysqli_fetch_array($resul_num))
 						array_push($num_arr,$row_num[sendnum]);
 						//$num_str=implode(",",$num_arr);
 						
 						$sql="select mem_leb from Gn_Member  where mem_id='$row[buyer_id]'";
-						$sresul_num=mysql_query($sql);
-						$srow=mysql_fetch_array($sresul_num);
+						$sresul_num=mysqli_query($self_con,$sql);
+						$srow=mysqli_fetch_array($sresul_num);
 												
 						if($srow['mem_leb'] == "22") $mem_leb = "일반회원";
 						else  if($srow['mem_leb'] == "50") $mem_leb = "사업회원";
@@ -662,8 +662,8 @@ jQuery(function($){
         	FROM Gn_Member 
         	WHERE recommend_id='".$_SESSION[one_member_id]."'
 	              $sql_serch";
-	$res	    = mysql_query($query);
-	$totalCnt	=  mysql_num_rows($res);	
+	$res	    = mysqli_query($self_con,$query);
+	$totalCnt	=  mysqli_num_rows($res);	
                 	
 	$intRowCount=$totalCnt;    
 	
@@ -706,7 +706,7 @@ jQuery(function($){
               if($intRowCount)
               {
                 $num = 1;
-                  while($row=mysql_fetch_array($res))
+                  while($row=mysqli_fetch_array($res))
                   {
                     
                     	$query = "
@@ -719,8 +719,8 @@ jQuery(function($){
                             	WHERE 1=1 
                     	              and a.buyer_id='$row[mem_id]'";
                     	              
-                    	$sres	    = mysql_query($query);                    
-                        $srow = mysql_fetch_array($sres);
+                    	$sres	    = mysqli_query($self_con,$query);                    
+                        $srow = mysqli_fetch_array($sres);
                         if($row[business_type] == "U") {
                             if($srow[0] != "")
                                 $member_type = "일반회원";
@@ -833,8 +833,8 @@ jQuery(function($){
         	  AND b.mem_leb='50'
         	  and b.mem_id='".$_SESSION[one_member_id]."'
 	              $sql_serch";
-	$res	    = mysql_query($query);
-	$totalCnt	=  mysql_num_rows($res);	
+	$res	    = mysqli_query($self_con,$query);
+	$totalCnt	=  mysqli_num_rows($res);	
                 	
 	$intRowCount=$totalCnt;    
 	
@@ -877,7 +877,7 @@ jQuery(function($){
               <?
               if($intRowCount)
               {
-                  while($row=mysql_fetch_array($res))
+                  while($row=mysqli_fetch_array($res))
                   {
                   ?>
               <tr>

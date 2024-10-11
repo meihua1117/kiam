@@ -8,8 +8,8 @@ if(strlen($_SESSION[one_member_id]) > 0) {
       $path="../";
       include_once $path."lib/rlatjd_fun.php";
       $excel_sql=str_replace("`","'",$_REQUEST[excel_sql]);
-      $result = mysql_query($excel_sql) or die(mysql_error());
-      $sort_no=mysql_num_rows($result);
+      $result = mysqli_query($self_con,$excel_sql) or die(mysqli_error($self_con));
+      $sort_no=mysqli_num_rows($result);
       require_once("Classes/PHPExcel.php");
       $objPHPExcel = new PHPExcel();
       $objPHPExcel->getProperties()
@@ -30,7 +30,7 @@ if(strlen($_SESSION[one_member_id]) > 0) {
                   ->setCellValue("G1", "완료일시")
                   ->setCellValue("H1", "등록일");
       $h=2;			
-      while($row=mysql_fetch_array($result))
+      while($row=mysqli_fetch_array($result))
       {
       $objPHPExcel->setActiveSheetIndex(0)
                   ->setCellValue("A$h",$sort_no)

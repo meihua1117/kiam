@@ -5,8 +5,8 @@ if ($_SESSION['iam_member_id'] == "") {
 }
 extract($_GET);
 $sql = "select * from Gn_Gwc_Order where mem_id='{$_SESSION['iam_member_id']}' and page_type=1 order by reg_date desc";
-$result = mysql_query($sql);
-$cart_count = mysql_num_rows($result);
+$result = mysqli_query($self_con,$sql);
+$cart_count = mysqli_num_rows($result);
 ?>
 <script src="js/shop.js"></script>
 <link rel="stylesheet" href="/iam/css/button.css">
@@ -42,13 +42,13 @@ $cart_count = mysql_num_rows($result);
                 $tot_sell_price = 0;
                 $tot_opt_price    = 0;
 
-                for ($i = 0; $row = mysql_fetch_array($result); $i++) {
+                for ($i = 0; $row = mysqli_fetch_array($result); $i++) {
                     if (strpos($row['order_option'], "gallery>>") == 0)
                         $sql_contents = "select contents_title, contents_img from Gn_Iam_Contents where idx={$row['contents_idx']}";
                     else
                         $sql_contents = "select contents_title, contents_img from Gn_Iam_Contents_Gwc where idx={$row['contents_idx']}";
-                    $res_contents = mysql_query($sql_contents);
-                    $row_contents = mysql_fetch_array($res_contents);
+                    $res_contents = mysqli_query($self_con,$sql_contents);
+                    $row_contents = mysqli_fetch_array($res_contents);
                     if (strpos($row_contents['contents_img'], ",") !== false) {
                         $img_arr = explode(",", $row_contents['contents_img']);
                         $img_link = $img_arr[0];

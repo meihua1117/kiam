@@ -165,8 +165,8 @@ $date_today=date("Y-m-d");
                             if($search_start_date && $search_end_date)
                                 $searchStr .= " AND date >= '$search_start_date' and date <= '$search_end_date'";
                             $sql = "select * from tjd_pay_result where member_type = '현금전환'".$searchStr;
-                            $res = mysql_query($sql);
-                            $totalCnt = mysql_num_rows($res);
+                            $res = mysqli_query($self_con,$sql);
+                            $totalCnt = mysqli_num_rows($res);
 
                             $limitStr = " LIMIT ".(($startPage-1)*$pageCnt).", ".$pageCnt;
                             $number = $totalCnt - ($nowPage - 1) * $pageCnt;
@@ -174,11 +174,11 @@ $date_today=date("Y-m-d");
                             // $no = 0;
 
                             $query = $sql.$searchStr.$orderQuery;
-                            $result = mysql_query($query);
-                            while($row = mysql_fetch_array($result)){
+                            $result = mysqli_query($self_con,$query);
+                            while($row = mysqli_fetch_array($result)){
                                 $mem_sql = "select site_iam, recommend_id, mem_point, mem_cash,bank_name,bank_account from Gn_Member where mem_id= '".$row['buyer_id']."'";
-                                $mem_sql_res = mysql_query($mem_sql);
-                                $member = mysql_fetch_array($mem_sql_res);
+                                $mem_sql_res = mysqli_query($self_con,$mem_sql);
+                                $member = mysqli_fetch_array($mem_sql_res);
                                 ?>
                                 <tr>
                                     <td align="center">

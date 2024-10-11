@@ -11,8 +11,8 @@ if($idx) {
     // 가입 회원 상세 정보
     $query = "select *
                 from gn_mms_callback where idx='$idx'";
-    $res = mysql_query($query);
-    $data = mysql_fetch_array($res);
+    $res = mysqli_query($self_con,$query);
+    $data = mysqli_fetch_array($res);
 }
 
 ?>

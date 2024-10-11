@@ -9,18 +9,18 @@ if(isset($_POST['mem_name']) || isset($_POST['mem_phone']) || isset($_POST['mem_
 	$mem_id = strtolower(trim($mem_id));
 	$pwd = $_POST['mem_pwd'];
 	$sql_exp = "select service_type from Gn_Iam_Service where sub_domain = 'http://".$HTTP_HOST."'";
-	$res_exp = mysql_query($sql_exp);
-	$row_exp = mysql_fetch_array($res_exp);
+	$res_exp = mysqli_query($self_con,$sql_exp);
+	$row_exp = mysqli_fetch_array($res_exp);
 	$exp_mem = $row_exp['service_type'];
 
 	$card_sql = "select mem_id from Gn_Iam_Name_Card use index(idx) where idx = $_POST[send_link]";
-	$card_res = mysql_query($card_sql);
-	$card_row = mysql_fetch_array($card_res);
+	$card_res = mysqli_query($self_con,$card_sql);
+	$card_row = mysqli_fetch_array($card_res);
 	$recom_id = $card_row['mem_id'];
 
 	$mem_sql = "select site,site_iam from Gn_Member where mem_id='$recom_id'";
-	$mem_res = mysql_query($mem_sql);
-	$mem_row = mysql_fetch_array($mem_res);
+	$mem_res = mysqli_query($self_con,$mem_sql);
+	$mem_row = mysqli_fetch_array($mem_res);
 	$site = $mem_row['site'];
 	$site_iam = $mem_row['site_iam'];
 
@@ -28,8 +28,8 @@ if(isset($_POST['mem_name']) || isset($_POST['mem_phone']) || isset($_POST['mem_
 		$query = "select * from Gn_Iam_Service where sub_domain like '%".$HTTP_HOST."'";
 	else
 		$query = "select * from Gn_Iam_Service where sub_domain like '%www.kiam.kr%'";
-	$res = mysql_query($query);
-	$domainData = mysql_fetch_array($res);
+	$res = mysqli_query($self_con,$query);
+	$domainData = mysqli_fetch_array($res);
 
 	$exp_date = date("Y-m-d H:i:s",strtotime("+$domainData[service_price] days"));
 
@@ -81,8 +81,8 @@ if(isset($_POST['mem_name']) || isset($_POST['mem_phone']) || isset($_POST['mem_
 										iam_card_cnt={$card_cnt},
 										iam_share_cnt={$share_cnt}";
 	}
-	mysql_query($sql) or die(mysql_error());
-	$mem_code = mysql_insert_id();
+	mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+	$mem_code = mysqli_insert_id($self_con);
 	$short_url = generateRandomString();
 
 	$share_send_card = $_POST['send_link'];
@@ -105,8 +105,8 @@ if(isset($_POST['mem_name']) || isset($_POST['mem_phone']) || isset($_POST['mem_
 											iam_mystory, now(), now(), sample_click, sample_order, main_img1, main_img2, main_img3, 
 											next_iam_link, card_show, $share_send_card FROM Gn_Iam_Name_Card use index(idx) WHERE idx='{$_POST[send_link]}')";
 	// echo $sql_name; exit;
-	mysql_query($sql_card) or die(mysql_error());
-	$card_idx = mysql_insert_id();
+	mysqli_query($self_con,$sql_card) or die(mysqli_error($self_con));
+	$card_idx = mysqli_insert_id($self_con);
 	
 	$sql_con = "INSERT INTO Gn_Iam_Contents(mem_id, contents_type, contents_img, contents_title, contents_url, contents_url_title, 
 										contents_iframe, source_iframe, contents_price,contents_order, contents_sell_price, contents_desc, contents_display, 
@@ -118,13 +118,13 @@ if(isset($_POST['mem_name']) || isset($_POST['mem_phone']) || isset($_POST['mem_
 										contents_user_display, contents_type_display, contents_footer_display, contents_temp, contents_like, 
 										'', contents_share_count, now(), now(), '{$short_url}', contents_westory_display, 
 										'{$short_url}', public_display, {$card_idx}, except_keyword, idx, reduce_val FROM Gn_Iam_Contents use index(card_idx) WHERE card_idx='{$_POST[send_link]}')";
-	mysql_query($sql_con) or die(mysql_error());
+	mysqli_query($self_con,$sql_con) or die(mysqli_error($self_con));
 
 	$sql_con = "select idx from Gn_Iam_Contents where card_idx = $card_idx";
-	$res_con = mysql_query($sql_con);
-	while($row_con = mysql_fetch_array($res_con)){
+	$res_con = mysqli_query($self_con,$sql_con);
+	while($row_con = mysqli_fetch_array($res_con)){
 		$sql2 = "insert into Gn_Iam_Con_Card set cont_idx=$row_con[idx],card_idx=$card_idx,main_card=$card_idx";
-		mysql_query($sql2) or die(mysql_error());
+		mysqli_query($self_con,$sql2) or die(mysqli_error($self_con));
 	}
 	echo json_encode(array("result"=>"success","short_url"=>$short_url,"mem_code"=>$mem_code));
 }

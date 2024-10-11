@@ -25,13 +25,13 @@ $manager = $_POST['manager'];
 if(isset($_POST['updat'])){
     $sql = "update share_contents_mng set share_obj='{$share_obj}', share_domain='{$share_domain}', server_position='{$server_position}', work_key='{$work_key}', public_key='{$public_key}', edu_key='{$edu_key}', other_key='{$other_key}', contents_cnt={$contents_cnt}, reg_date='{$reg_date}', end_date='{$end_date}', manager='{$manager}' where id={$_POST['updat']}";
     // echo $sql; exit;
-    mysql_query($sql);
+    mysqli_query($self_con,$sql);
     echo 2;
 }
 else{
     $sql = "insert into share_contents_mng set share_obj='{$share_obj}', share_domain='{$share_domain}', server_position='{$server_position}', work_key='{$work_key}', public_key='{$public_key}', edu_key='{$edu_key}', other_key='{$other_key}', contents_cnt={$contents_cnt}, reg_date='{$reg_date}', manager='{$manager}', share_state=1";
     // echo $sql; exit;
-    mysql_query($sql);
+    mysqli_query($self_con,$sql);
     echo 1;
 }
 ?>

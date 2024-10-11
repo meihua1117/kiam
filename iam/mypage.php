@@ -248,8 +248,8 @@ $link  = $_GET["link"];
                                             // 광역시도 목록
                                             // $province_list = array();
                                             // $query = "SELECT province FROM gn_cities group by province";
-                                            // $res = mysql_query($query);
-                                            // while($row = mysql_fetch_array($res)) {
+                                            // $res = mysqli_query($self_con,$query);
+                                            // while($row = mysqli_fetch_array($res)) {
                                             //     $province_list[] = $row['province'];
                                             // }
                                             // $member_address = explode(" ", $member_iam['mem_add1']);
@@ -266,16 +266,16 @@ $link  = $_GET["link"];
                                             // $city_list = array();
                                             // if(isset($provice1)) {
                                             //     $query = "SELECT city FROM gn_cities WHERE province = '{$provice1}' group by city ";
-                                            //     $res = mysql_query($query);
-                                            //     while($row = mysql_fetch_array($res))
+                                            //     $res = mysqli_query($self_con,$query);
+                                            //     while($row = mysqli_fetch_array($res))
                                             //         $city_list[] = $row['city'];
                                             // }
 
                                             // $town_list = array();
                                             // if(isset($city1)) {
                                             //     $query = "SELECT town FROM gn_cities WHERE city = '{$city1}' and province = '{$provice1}' group by town";
-                                            //     $res = mysql_query($query);
-                                            //     while($row = mysql_fetch_array($res))
+                                            //     $res = mysqli_query($self_con,$query);
+                                            //     while($row = mysqli_fetch_array($res))
                                             //         $town_list[] = $row['town'];
                                             // }
                                             ?>
@@ -372,8 +372,8 @@ $link  = $_GET["link"];
                                             <div class="input-wrap">
                                                 <?
                                                 $query = "select * from Gn_Iam_Name_Card where group_id is NULL and mem_id  = '$member_iam[mem_id]' ORDER BY idx";
-                                                $result = mysql_query($query);
-                                                $row = mysql_fetch_array($result);
+                                                $result = mysqli_query($self_con,$query);
+                                                $row = mysqli_fetch_array($result);
                                                 $card_url = $row['card_short_url'];
                                                 ?>
                                                 <span id="sHtml" style="display:none"><?= 'http://' . $HTTP_HOST . '/?' . $card_url ?></span>

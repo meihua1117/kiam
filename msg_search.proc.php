@@ -5,7 +5,7 @@ $status2 = $_GET['status2']?$_GET['status2']:1;
 if($_REQUEST['mode']=="del")
 {
 	$sql="delete from Gn_MMS_Message where idx='$_REQUEST[idx]' and mem_id ='$_SESSION[one_member_id]' ";
-	$resul=mysql_query($sql);
+	$resul=mysqli_query($self_con,$sql);
 ?>
 <script>
 	location.href='/msg_serch.php?status=1&status2=<?php echo $status2?>';	

@@ -9,8 +9,8 @@ include "./allatutil.php";
     $at_txt       = "";
 
     $sql="select * from tjd_pay_result where orderNumber='$ORDER_NO'";
-    $resul=mysql_query($sql)or die(mysql_error());
-    $row=mysql_fetch_array($resul);	
+    $resul=mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
+    $row=mysqli_fetch_array($resul);	
     $mem_id = $row[buyer_id];
     // 필수 항목
     $at_cross_key      = "304f3a821cac298ff8a0ef504e1c2309";   //CrossKey값(최대200자)
@@ -98,7 +98,7 @@ include "./allatutil.php";
                                                      regdate = NOW(),
                                                      amount=''$row[TotPrice]',
                                                      buyer_id='$mem_id'";
-        mysql_query($sql)or die(mysql_error());        
+        mysqli_query($self_con,$sql)or die(mysqli_error($self_con));        
 
  //       echo "결과코드              : ".$REPLYCD."<br>";
  //       echo "결과메세지            : ".$REPLYMSG."<br>";

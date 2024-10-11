@@ -17,20 +17,20 @@ $mysql_host = 'localhost';
 $mysql_user = 'ilearning3';
 $mysql_password = 'happy2022days';
 $mysql_db = 'ilearning3';
-$self_con=mysql_connect($mysql_host,$mysql_user,$mysql_password) or die(mysql_error());
-mysql_select_db($mysql_db) or die(mysql_error());
-mysql_query("set names utf8");
+$self_con=mysql_connect($mysql_host,$mysql_user,$mysql_password) or die(mysqli_error($self_con));
+mysql_select_db($mysql_db) or die(mysqli_error($self_con));
+mysqli_query($self_con,"set names utf8");
 
 $domain_url = "http://www.obmms.net";
  
- // ÀÔ·ÂÇÏ±â $query = "insert into Gn_Iam_Name_Card(mem_id,mem_name,) value(1,2,)";
- //ºÒ·¯¿À±â $query = "select * from Gn_Iam_Name_Card"; 
-     // Äõ¸®¸¦ º¯¼ö¿¡ ´ëÀÔ
+ // ï¿½Ô·ï¿½ï¿½Ï±ï¿½ $query = "insert into Gn_Iam_Name_Card(mem_id,mem_name,) value(1,2,)";
+ //ï¿½Ò·ï¿½ï¿½ï¿½ï¿½ï¿½ $query = "select * from Gn_Iam_Name_Card"; 
+     // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
        $query = "select * from Gn_Iam_Name_Card";
-     //Äõ¸®¸¦ DB¿¡ Àü¼ÛÇÑ ÈÄ °á°ú°ªÀ» result º¯¼ö·Î °¡Á®¿È
-      $result = mysql_query($query);
+     //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ DBï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ result ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+      $result = mysqli_query($self_con,$query);
        
-    while($data = mysql_fetch_array($result)){
+    while($data = mysqli_fetch_array($result)){
 
 ?>
    <tr>

@@ -114,8 +114,8 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                 	
                 	$order = $order?$order:"desc"; 		
                 	$query = "SELECT SQL_CALC_FOUND_ROWS * FROM tjd_board WHERE 1=1 and category=2 $searchStr";
-                	$res	    = mysql_query($query);
-                	$totalCnt	=  mysql_num_rows($res);	
+                	$res	    = mysqli_query($self_con,$query);
+                	$totalCnt	=  mysqli_num_rows($res);	
                 	
                 	$limitStr       = " LIMIT ".(($startPage-1)*$pageCnt).", ".$pageCnt;
                 	$number			= $totalCnt - ($nowPage - 1) * $pageCnt;                      
@@ -127,8 +127,8 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                 	
                 	$i = 1;
                 	$query .= "$orderQuery";
-                	$res = mysql_query($query);
-                    while($row = mysql_fetch_array($res)) {                       	
+                	$res = mysqli_query($self_con,$query);
+                    while($row = mysqli_fetch_array($res)) {                       	
                         
                   ?>
                       <tr>

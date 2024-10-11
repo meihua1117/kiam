@@ -301,8 +301,8 @@ a.sort-by:after {
                         	WHERE 1=1 
                 	              $searchStr";
                 	              
-                	$res	    = mysql_query($query);
-                	$totalCnt	=  mysql_num_rows($res);	
+                	$res	    = mysqli_query($self_con,$query);
+                	$totalCnt	=  mysqli_num_rows($res);	
                 	
                 	$limitStr       = " LIMIT ".(($startPage-1)*$pageCnt).", ".$pageCnt;
                 	$number			= $totalCnt - ($nowPage - 1) * $pageCnt;                      
@@ -315,8 +315,8 @@ a.sort-by:after {
                 	$i = 1;
                 	$c=0;
                 	$query .= "$orderQuery";
-                	$res = mysql_query($query);
-                    while($row = mysql_fetch_array($res)) {                       	
+                	$res = mysqli_query($self_con,$query);
+                    while($row = mysqli_fetch_array($res)) {                       	
                   ?>
                       <tr>
                         <td><?=$number--?></td>

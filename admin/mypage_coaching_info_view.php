@@ -12,8 +12,8 @@ location.replace('/');
 exit;
 }
 $sql="select * from coaching_info  where info_no='".$info_no."'";
-$sresul_num=mysql_query($sql);
-$row=mysql_fetch_array($sresul_num);	
+$sresul_num=mysqli_query($self_con,$sql);
+$row=mysqli_fetch_array($sresul_num);	
 
 echo $row[coty_name]
 

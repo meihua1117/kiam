@@ -5,8 +5,8 @@ if($_SESSION[iam_member_id] == "") {
 }
 include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
 //$sql="select * from Gn_Member  where mem_id='".$_SESSION[iam_member_id]."'";
-//$sresul_num=mysql_query($sql);
-//$data=mysql_fetch_array($sresul_num);
+//$sresul_num=mysqli_query($self_con,$sql);
+//$data=mysqli_fetch_array($sresul_num);
 //$iam_birth_arr = explode("-",$data[mem_birth]);
 
 ?>
@@ -233,8 +233,8 @@ td {
                             $order = $order?$order:"desc";
                             $query = "select * from Gn_Member gm left join tjd_pay_result p on p.buyer_id = gm.mem_id
                 	                        where recommend_id = '".$_SESSION[iam_member_id]."' $searchStr";
-                            $res	    = mysql_query($query);
-                            $totalCnt	=  mysql_num_rows($res);
+                            $res	    = mysqli_query($self_con,$query);
+                            $totalCnt	=  mysqli_num_rows($res);
                             $limitStr       = " LIMIT ".(($startPage-1)*$pageCnt).", ".$pageCnt;
                             $number			= $totalCnt - ($nowPage - 1) * $pageCnt;
                             $intRowCount=$totalCnt;
@@ -263,8 +263,8 @@ td {
 
                             $i = 1;
                             $query .= "$orderQuery";
-                            $res = mysql_query($query);
-                            while($row = mysql_fetch_array($res)) {
+                            $res = mysqli_query($self_con,$query);
+                            while($row = mysqli_fetch_array($res)) {
                                 if($row['mem_leb'] == "22")
                                     $mem_leb = "일반회원";
                                 else if($row['mem_leb'] == "50")

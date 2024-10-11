@@ -19,12 +19,12 @@ if($_POST[select_app_check_num]){
 	    
 	if($i>1){
         $query = "select * from Gn_MMS_Number where mem_id='$_SESSION[one_member_id]' and sendnum in ('".implode("','",$sendnum)."')";
-        $result = mysql_query($query);
-        while($info = mysql_fetch_array($result)) {
+        $result = mysqli_query($self_con,$query);
+        while($info = mysqli_fetch_array($result)) {
             $pkey[$info['sendnum']] = $info['pkey']; 	
     		$sql="select idx from Gn_MMS where mem_id='$_SESSION[one_member_id]' and send_num='$info[sendnum]' and result=0 and content like '%app_check_process%' order by idx desc limit 0,1";
-    		$resul=mysql_query($sql) or die(mysql_error());
-    		$row=mysql_fetch_array($resul);
+    		$resul=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+    		$row=mysqli_fetch_array($resul);
             $id = $info['pkey'];
             $sidx = $row['idx'];
             $title='{"MMS Push"}';
@@ -64,11 +64,11 @@ if($_POST[select_app_check_num]){
 		if($check_status_arr[$key]=="on")
 		    continue;
 		$sql="select idx,send_num,recv_num from Gn_MMS where mem_id='$_SESSION[one_member_id]' and reg_date>$reg_date and send_num='$v' and result=0 and  content like '%app_check_process%' limit 0,1";
-		$resul=mysql_query($sql) or die(mysql_error());
-		$row=mysql_fetch_array($resul);
+		$resul=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+		$row=mysqli_fetch_array($resul);
 		$sql="select status from Gn_MMS_status where send_num='$row[send_num]' and  recv_num='$row[recv_num]' order by regdate desc limit 1 ";
-		$sresul=mysql_query($sql) or die(mysql_error());
-		$srow=mysql_fetch_array($sresul);		
+		$sresul=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+		$srow=mysqli_fetch_array($sresul);		
 		if($row[idx] && $srow[0]==0){
 			$check_status_arr[$key]="on";
 			$check_status=true;

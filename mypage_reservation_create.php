@@ -13,8 +13,8 @@ exit;
 if(!isset($_REQUEST['sms_idx'])){ $sms_idx = 0; }
 if(!isset($_REQUEST['get_idx'])){ $get_idx = 0; }
 $sql="select * from Gn_Member  where mem_id='".$_SESSION[one_member_id]."'";
-$sresul_num=mysql_query($sql);
-$data=mysql_fetch_array($sresul_num);
+$sresul_num=mysqli_query($self_con,$sql);
+$data=mysqli_fetch_array($sresul_num);
 
 if($data['intro_message'] =="") {
     $data['intro_message'] = "안녕하세요\n
@@ -27,18 +27,18 @@ if($data['intro_message'] =="") {
 }
 $mem_phone = str_replace("-","",$data['mem_phone']);
 $sql="select * from Gn_event_sms_info  where sms_idx='".$sms_idx."'";
-$sresul_num=mysql_query($sql);
-$row=mysql_fetch_array($sresul_num);	
+$sresul_num=mysqli_query($self_con,$sql);
+$row=mysqli_fetch_array($sresul_num);	
 
 if($sms_idx){
     $sql="select * from Gn_event_sms_info  where sms_idx='".$sms_idx."'";
-    $sresul_num=mysql_query($sql);
-    $row=mysql_fetch_array($sresul_num);
+    $sresul_num=mysqli_query($self_con,$sql);
+    $row=mysqli_fetch_array($sresul_num);
 }
 if($get_idx){
     $sql="select * from Gn_event_sms_info  where sms_idx='".$get_idx."'";
-    $sresul_num=mysql_query($sql);
-    $row=mysql_fetch_array($sresul_num);
+    $sresul_num=mysqli_query($self_con,$sql);
+    $row=mysqli_fetch_array($sresul_num);
 }
 ?>
 <link rel="stylesheet" href="/admin/bootstrap/css/bootstrap.min.css">
@@ -164,8 +164,8 @@ if($get_idx){
                 // if($sms_idx != "")  {
                     if($get_idx){ $sms_idx = $get_idx; }
                     $sql_cnt="select count(step) as cnt from Gn_event_sms_step_info where sms_idx ='$sms_idx'";
-                    $result_cnt = mysql_query($sql_cnt) or die(mysql_error());
-                    $row_cnt=mysql_fetch_array($result_cnt);
+                    $result_cnt = mysqli_query($self_con,$sql_cnt) or die(mysqli_error($self_con));
+                    $row_cnt=mysqli_fetch_array($result_cnt);
                     $intstepCount=$row_cnt[cnt];
                     if($intstepCount){
                         $show = "hidden";
@@ -212,8 +212,8 @@ if($get_idx){
                                         }
                                     }
                                     $sql="select count(step) as cnt from Gn_event_sms_step_info where $sql_serch ";
-                                    $result = mysql_query($sql) or die(mysql_error());
-                                    $row=mysql_fetch_array($result);
+                                    $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+                                    $row=mysqli_fetch_array($result);
                                     $intRowCount=$row[cnt];
                                     if (!$_POST[lno])
                                         $intPageSize =20;
@@ -242,9 +242,9 @@ if($get_idx){
                                     $intPageCount=(int)(($intRowCount+$intPageSize-1)/$intPageSize);
                                     if($intRowCount){
                                         $sql="select * from Gn_event_sms_step_info where $sql_serch order by $order_name $order_status limit $int,$intPageSize";
-                                        $result=mysql_query($sql) or die(mysql_error());
+                                        $result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
                                         $c=0;
-                                        while($row=mysql_fetch_array($result)){
+                                        while($row=mysqli_fetch_array($result)){
             ?>
                                         <tr>
                                             <td><?=$sort_no?></td>

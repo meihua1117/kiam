@@ -11,8 +11,8 @@ $time = time()-(86400*365);
 $comp_date = date("Y-m-d", $time);
 
 $sql_share = "select * from share_contents_mng where share_obj='장수군청산림과'";
-$res_share = mysql_query($sql_share);
-$row_share = mysql_fetch_array($res_share);
+$res_share = mysqli_query($self_con,$sql_share);
+$row_share = mysqli_fetch_array($res_share);
 
 $sql_key_search_work = get_search_key($row_share['work_key']);
 $sql_key_search_public = get_search_key($row_share['public_key']);
@@ -26,8 +26,8 @@ if(isset($_GET['id'])){
 }
 $id = $_GET['id'];
 $sql = "select * from share_contents_mng where id={$id}";
-$res = mysql_query($sql);
-while($row = mysql_fetch_array($res)){
+$res = mysqli_query($self_con,$sql);
+while($row = mysqli_fetch_array($res)){
     $share_obj = $row['share_obj'];
     $share_domain = $row['share_domain'];
     $server_position = $row['server_position'];
@@ -43,14 +43,14 @@ while($row = mysql_fetch_array($res)){
 
 $sql_count1 = "select * from get_crawler_bizinfo where allow_state=1 and allow_state_biz=1 and reg_date>'{$comp_date}'".$sql_key_search;
 //echo $sql_count;
-$row_cnt1 = mysql_query($sql_count1);
-$contents_cnt1 = mysql_num_rows($row_cnt1);
+$row_cnt1 = mysqli_query($self_con,$sql_count1);
+$contents_cnt1 = mysqli_num_rows($row_cnt1);
 // $contents_cnt = $res_cnt['cnt'];
 
 $sql_count2 = "select * from get_crawler_bizinfo where allow_state=1 and allow_state_biz=0 and reg_date>'{$comp_date}'".$sql_key_search;
 //echo $sql_count;
-$row_cnt2 = mysql_query($sql_count2);
-$contents_cnt2 = mysql_num_rows($row_cnt2);
+$row_cnt2 = mysqli_query($self_con,$sql_count2);
+$contents_cnt2 = mysqli_num_rows($row_cnt2);
 
 $contents_cnt = $contents_cnt1 * 1 + $contents_cnt2 * 1;
 /*function get_search_key($key){

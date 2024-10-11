@@ -29,8 +29,8 @@ else{
 }
 
 $sql9="select count(idx) from Gn_MMS_Receive_Iam where mem_id = '$card_owner' and grp = '아이엠' $contact_sql_msg";
-$result9=mysql_query($sql9);
-$comment_row9=mysql_fetch_array($result9);
+$result9=mysqli_query($self_con,$sql9);
+$comment_row9=mysqli_fetch_array($result9);
 $row_num9 = $comment_row9[0];
 
 $list = 10; //한 페이지에 보여줄 개수
@@ -65,9 +65,9 @@ $body = '<div class="contact-list">';
 $body .= '<ul>';
 
 $sql10="select idx,name,reg_date,recv_num,paper_yn,paper_seq from Gn_MMS_Receive_Iam where mem_id = '$card_owner' and grp = '아이엠' $contact_sql_msg limit $start_num, $list";
-$result10=mysql_query($sql10) or die(mysql_error());
+$result10=mysqli_query($self_con,$sql10) or die(mysqli_error($self_con));
 //file_put_contents("iamlog.txt", $sql10 . "\n", FILE_APPEND);
-while($row10=mysql_fetch_array($result10)){
+while($row10=mysqli_fetch_array($result10)){
 
     if((int)$row10['recv_num'] > 10) {
         $contact_phone1 = substr($row10['recv_num'], 0, 3);
@@ -92,8 +92,8 @@ while($row10=mysql_fetch_array($result10)){
     $body .=  '         </div>';
     if($row10['paper_yn']){
         $sql_paper_info = "select seq,img_url from Gn_Member_card where seq='{$row10['paper_seq']}'";
-        $res_paper_info = mysql_query($sql_paper_info);
-        $row_paper_info = mysql_fetch_array($res_paper_info);
+        $res_paper_info = mysqli_query($self_con,$sql_paper_info);
+        $row_paper_info = mysqli_fetch_array($res_paper_info);
         $body .=  '         <div class="info" onclick="edit_paper('.$row_paper_info['seq'].')">';
     }
     else{
@@ -127,8 +127,8 @@ while($row10=mysql_fetch_array($result10)){
     $body .=  '                    <div class="downer">';
                     
     $sql7="select count(idx) from Gn_Iam_Name_Card use index(card_phone) where card_phone = '$contact_phone'";
-    $result7=mysql_query($sql7);
-    $card_phone_count=mysql_fetch_array($result7);
+    $result7=mysqli_query($self_con,$sql7);
+    $card_phone_count=mysqli_fetch_array($result7);
     if((int)$card_phone_count[0] == 0) {
         $body .=  '<span style="color:red">OFF</span>';
     }else{

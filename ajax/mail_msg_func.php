@@ -18,14 +18,14 @@ if($_SESSION[one_member_id] != "")
 				$sql.=" $key='$v' , ";
 			}
 			$sql.=" reg_date=now() ";
-			mysql_query($sql); 
+			mysqli_query($self_con,$sql); 
 		}
 	}
 	else if($_POST[mode]=="del")
 	{
 		$sql="delete from gn_mail_message where idx='$_REQUEST[idx]' and mem_id ='$_SESSION[one_member_id]' ";
 		echo $sql;
-		$resul=mysql_query($sql);
+		$resul=mysqli_query($self_con,$sql);
 	}
 	else if($_POST[mode] == "send")
 	{
@@ -48,8 +48,8 @@ if($_SESSION[one_member_id] != "")
 				$limit_str = "";
 			}
 			$sql = "select email from Gn_MMS_Receive where grp_id = '$grp_id' order by idx asc" . $limit_str;
-			$result = mysql_query($sql);
-			while($row=mysql_fetch_array($result)) {
+			$result = mysqli_query($self_con,$sql);
+			while($row=mysqli_fetch_array($result)) {
 				if($row[email] != "" && !in_array($row[email], $email_arr))
 					array_push($email_arr,$row[email]);
 			}

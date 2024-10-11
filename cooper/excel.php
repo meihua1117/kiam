@@ -42,8 +42,8 @@ include_once "../lib/rlatjd_fun.php";
                                               join_ip='$_SERVER[REMOTE_ADDR]'
           ";
           echo $query;
-          //mysql_query($query);
-          //$mem_code = mysql_insert_id();
+          //mysqli_query($self_con,$query);
+          //$mem_code = mysqli_insert_id($self_con);
           if($money == "11000") {
                 $share_per = 50;
                 $member_type="기본문자";
@@ -72,7 +72,7 @@ include_once "../lib/rlatjd_fun.php";
                                                    share_per='$share_per'
           ";      
           echo $query;
-          mysql_query($query);
+          mysqli_query($self_con,$query);
         
     }
     

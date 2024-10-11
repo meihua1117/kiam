@@ -11,8 +11,8 @@ if($_GET['key'] && $_GET['key'] == session_id()) {
 		<div id="mainSlider">
 		<?$query = "select *
                 from Gn_Ad_Manager where ad_position='T' and use_yn='Y' and  CURDATE() between send_start_date and send_end_date";
-    		$res = mysql_query($query);
-    		while($data = mysql_fetch_array($res)) {?>
+    		$res = mysqli_query($self_con,$query);
+    		while($data = mysqli_fetch_array($res)) {?>
 				<a href="<?php echo $data['move_url'];?>" target="_blank" class="slider-item" style="background-image: url(<?php echo $data['img_url'];?>);">
 					<div class="outer-wrap">
 						<div class="inner-wrap">
@@ -161,8 +161,8 @@ if($_GET['key'] && $_GET['key'] == session_id()) {
 	<div class="banner-wrap"><!-- 하단 베너 영역 -->
 	<?	$query = "select *
                 from Gn_Ad_Manager where ad_position='B' and use_yn='Y' and  CURDATE() between send_start_date and send_end_date limit 1";
-    	$res = mysql_query($query);
-    	while($data = mysql_fetch_array($res)) {?>
+    	$res = mysqli_query($self_con,$query);
+    	while($data = mysqli_fetch_array($res)) {?>
 				<a href="<?php echo $data['move_url'];?>" target="_blank">
 					<img src="<?php echo $data['img_url'];?>">
 				</a>

@@ -5,7 +5,7 @@ extract($_GET);
 // 오늘날짜
 $date_today=date("Y-m-d");
 $sql_end_update = "update get_crawler_bizinfo set work_status=2 where end_date<now()";
-mysql_query($sql_end_update);
+mysqli_query($self_con,$sql_end_update);
 ?>
 <script type="text/javascript" src="/jquery.lightbox_me.js"></script>
 <script>
@@ -264,8 +264,8 @@ mysql_query($sql_end_update);
 
                             $sql = "select a.*, b.search_key from get_crawler_bizinfo a inner join reg_biz_contents b on a.reg_id=b.id where 1=1";
                             $query = $sql.$searchStr;
-                            $res = mysql_query($query);
-                            $totalCnt = mysql_num_rows($res);
+                            $res = mysqli_query($self_con,$query);
+                            $totalCnt = mysqli_num_rows($res);
 
                             $limitStr = " LIMIT ".(($startPage-1)*$pageCnt).", ".$pageCnt;
                             $number = $totalCnt - ($nowPage - 1) * $pageCnt;
@@ -274,10 +274,10 @@ mysql_query($sql_end_update);
                                     $orderField = "a.get_date";
                             $orderQuery .= " ORDER BY $orderField $dir $limitStr";
                             $query = $sql.$searchStr.$orderQuery;
-                            $result = mysql_query($query);
+                            $result = mysqli_query($self_con,$query);
 
                             $i = 1;
-                            while($row = mysql_fetch_array($result)){
+                            while($row = mysqli_fetch_array($result)){
                                 if($row['work_status'] == 1){
                                     $work_status = "진행중인사업";
                                 }

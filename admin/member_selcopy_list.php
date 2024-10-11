@@ -224,8 +224,8 @@ function excel_down_(){
                         	and end_status='Y' and recommend_id != ''
                 	              $searchStr";
                 	              
-                	$res	    = mysql_query($query);
-                	$totalCnt	=  mysql_num_rows($res);	
+                	$res	    = mysqli_query($self_con,$query);
+                	$totalCnt	=  mysqli_num_rows($res);	
                 	
                 	$limitStr       = " LIMIT ".(($startPage-1)*$pageCnt).", ".$pageCnt;
                 	$number			= $totalCnt - ($nowPage - 1) * $pageCnt;                      
@@ -237,17 +237,17 @@ function excel_down_(){
                 	
                 	$i = 1;
                 	$query .= "$orderQuery";
-                	$res = mysql_query($query);
-                    while($row = mysql_fetch_array($res)) {                       	
+                	$res = mysqli_query($self_con,$query);
+                    while($row = mysqli_fetch_array($res)) {                       	
                     	$sql = "select * from Gn_Member where recommend_id='$row[mem_id]'";
-                    	$res_result = mysql_query($sql);
-                    	$sInfo = mysql_fetch_array($res_result);
-                    	mysql_free_result($res_result);                        
+                    	$res_result = mysqli_query($self_con,$sql);
+                    	$sInfo = mysqli_fetch_array($res_result);
+                    	mysqli_free_result($res_result);                        
                         
                     	$sql = "select count(mem_id) cnt from Gn_Member where recommend_id='$row[mem_id]'";
-                    	$res_result = mysql_query($sql);
-                    	$sCnt = mysql_fetch_array($res_result);
-                    	mysql_free_result($res_result);
+                    	$res_result = mysqli_query($self_con,$sql);
+                    	$sCnt = mysqli_fetch_array($res_result);
+                    	mysqli_free_result($res_result);
                     	
                     	
                     	
@@ -259,8 +259,8 @@ function excel_down_(){
                 	                and end_date > '$date_today' 
                 	                and end_status='Y' 
                 	           order by end_date desc limit 1";
-                    	$res_result = mysql_query($sql);
-                    	$rCnt = mysql_fetch_array($res_result);            
+                    	$res_result = mysqli_query($self_con,$sql);
+                    	$rCnt = mysqli_fetch_array($res_result);            
                        if($row['service_type'] == 1) {
                            $mem_level = "리셀러";
                        } else if($row['service_type'] == 2) {

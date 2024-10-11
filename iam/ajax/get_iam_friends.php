@@ -67,8 +67,8 @@ if(!$global_is_local){
     $redisCache = new RedisCache();
     $comment_row5 = $redisCache->get_query_to_data($sql5);
 }else{
-    $result5=mysql_query($sql5);
-    $comment_row5=mysql_fetch_array($result5);
+    $result5=mysqli_query($self_con,$sql5);
+    $comment_row5=mysqli_fetch_array($result5);
 }
 
 $row_num5 = $comment_row5[0];
@@ -129,19 +129,19 @@ if(!$global_is_local){
         array_push($cont_array,$cont_list[$i]);
     }
 }else{
-    $result6 = mysql_query($sql6) or die(mysql_error());
-    while( $contents_row = mysql_fetch_array($result6)){
+    $result6 = mysqli_query($self_con,$sql6) or die(mysqli_error($self_con));
+    while( $contents_row = mysqli_fetch_array($result6)){
         array_push($cont_array,$contents_row);
     }
 }
 foreach($cont_array as $row6){
     $diplay_sql="select main_img1 ,card_name as friends_name, card_company as friends_company, card_phone as friends_phone, phone_display, mem_id from Gn_Iam_Name_Card use index(idx) where idx = '$row6[friends_card_idx]'";
-    $diplay_result=mysql_query($diplay_sql);
-    $diplay_row=mysql_fetch_array($diplay_result);
+    $diplay_result=mysqli_query($self_con,$diplay_sql);
+    $diplay_row=mysqli_fetch_array($diplay_result);
 
     $friend_sql="select profile from Gn_Member where mem_id = '$diplay_row[mem_id]'";
-    $friend_result=mysql_query($friend_sql);
-    $friend_row=mysql_fetch_array($friend_result);
+    $friend_result=mysqli_query($self_con,$friend_sql);
+    $friend_row=mysqli_fetch_array($friend_result);
     $friends_main_img = $friend_row[profile];
     if(!$friends_main_img) {
         $friends_main_img = $diplay_row[main_img1];
@@ -215,8 +215,8 @@ foreach($cont_array as $row6){
                 if($_SESSION[iam_member_id] == $card_owner && $_SESSION[iam_member_id] == $card_master) {
                     if((int)$search_type != 1) {
                         $myFriends_sql="select count(idx) from Gn_Iam_Friends where mem_id = '$card_owner' and friends_card_idx = '$row6[friends_card_idx]'";
-                        $myFriends_result=mysql_query($myFriends_sql);
-                        $myFriends_row=mysql_fetch_array($myFriends_result);
+                        $myFriends_result=mysqli_query($self_con,$myFriends_sql);
+                        $myFriends_row=mysqli_fetch_array($myFriends_result);
                         $myFriends_row_num = $myFriends_row[0];
                         if($myFriends_row_num) {
                             $body .= '                         <div class="chat" style="text-align: right;width:20px">';

@@ -16,22 +16,22 @@ $mem_id = $_POST["mem_id"]; // �߰�
 //$date3 = date("H:i:s",$date3);
 
 	// $sql = "insert into chk_log_app (userId, idx, regdate) values ('$userId', '$idx', NOW())";
-	// mysql_query($sql);
+	// mysqli_query($self_con,$sql);
 
 $phone_num = $userId;
 if(strlen($phone_num) > 0)
 {
 	$time = date("Y-m-d H:i:s");
 	$sql="select idx from call_api_log where phone_num='$phone_num'";
-	$res=mysql_query($sql) or die(mysql_error());
-	$row=mysql_fetch_array($res);
+	$res=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+	$row=mysqli_fetch_array($res);
 	if($row['idx'] != "") {
 		$sql="update call_api_log set get_task='$time' where idx='$row[idx]'";
-		mysql_query($sql);	
+		mysqli_query($self_con,$sql);	
 	}
 	else{
 		$sql ="insert into call_api_log set get_task='$time', phone_num='$phone_num'";
-		mysql_query($sql);	
+		mysqli_query($self_con,$sql);	
 	}
 }  
 
@@ -42,11 +42,11 @@ if(strlen($phone_num) > 0)
 // 2) �ð� ���� ���� ���� ó�� : Gn_MMS_ReservationFail�� �̵�,result = 3
 $sql_where = "where now() > adddate(reservation,INTERVAL 30 Minute) and result = 1 and send_num = '".$userId."' and (reservation is null or reservation <= now())";
 $sql = "insert into Gn_MMS_ReservationFail select `idx`, `mem_id`, `send_num`, `recv_num`, `uni_id`, `content`, `title`, `type`, `delay`, `delay2`, `close`, `jpg`, `result`, `reg_date`, `up_date`, `url`, `reservation` from Gn_MMS $sql_where";
-mysql_query($sql);
+mysqli_query($self_con,$sql);
 //$sql = "delete from Gn_MMS $sql_where";
-//mysql_query($sql);
+//mysqli_query($self_con,$sql);
 $sql = "update Gn_MMS_ReservationFail set result = 3 $sql_where";
-mysql_query($sql);
+mysqli_query($self_con,$sql);
 
 //$sql = "select * from Gn_MMS where 1 and result > 0 and send_num = '".$userId."' order by idx limit 1"; 
 //������ ���� ����, �ش� ������ ��ȣ
@@ -57,8 +57,8 @@ $addQuery = "";
 	//$addQuery = " and idx ='$idx' and mem_id='$mem_id'";
 //}
 $sql = "select * from Gn_MMS where 1 and result > 0 and send_num = '".$userId."' and  (reg_date < now() and reg_date >= adddate(reg_date,INTERVAL -40 Minute)) and (reservation is null or reservation <= DATE_ADD(NOW(), INTERVAL 30 MINUTE))  $addQuery order by idx asc limit 1";
-$query = mysql_query($sql);
-$row = mysql_fetch_array($query);
+$query = mysqli_query($self_con,$sql);
+$row = mysqli_fetch_array($query);
 //echo $sql."<BR>";
 if($row[0] == "") {
 	//$sql = "select * from Gn_MMS where 1 and result > 0 and send_num = '".$userId."' and  ((reg_date < now() and reg_date >= CURDATE()) or (reservation is null or reservation <= now()))  order by idx asc limit 1";
@@ -66,16 +66,16 @@ if($row[0] == "") {
 	/*
 	$sql = "select * from Gn_MMS where 1 and result > 0 and send_num = '".$userId."' and  (((reg_date < now() and reg_date >= now()) and reservation is null) or ((reservation <= DATE_ADD(NOW(), INTERVAL 30 MINUTE)) and reservation >= DATE_SUB(NOW(), INTERVAL 5 MINUTE)))  order by idx asc limit 1";
 	
-	$query = mysql_query($sql);
-	$row = mysql_fetch_array($query);    
+	$query = mysqli_query($self_con,$sql);
+	$row = mysqli_fetch_array($query);    
 	*/
 	//echo $sql."<BR>";
 }
-mysql_free_result($query);
+mysqli_free_result($query);
 
 //$sql = "insert into chk_log_app (userId, idx, regdate,q) values ('$userId', '$idx', NOW(),'".addslashes($sql)."')";
 //echo $sql;
-//mysql_query($sql);
+//mysqli_query($self_con,$sql);
 
 $msg = str_replace("{|name|}", "{|REP|}", $row[content]);
 $msg = str_replace("{|email|}", "{|REP1|}", $msg);
@@ -101,7 +101,7 @@ if($row[reservation])
 if($query)
 {
 	$upt_sql = "update Gn_MMS set result = '0', up_date = now() where idx = '".$row[idx]."'";
-	$upt_query = mysql_query($upt_sql);
+	$upt_query = mysqli_query($self_con,$upt_sql);
 }
 //echo "{\"txt\":\"$msg\",\"reqid\":\"$reg\",\"pnum\":[{\"num\":\"$row[recv_num]\"}]}";
 
@@ -139,7 +139,7 @@ if(strpos($row[recv_num],",")){
 
 if($row[idx]) {
 	$sql_j = "insert Gn_MMS_Json set mms_idx = '".$row[idx]."', data = '".$data."', reg_date = now()";
-	//$query_j = mysql_query($sql_j);
+	//$query_j = mysqli_query($self_con,$sql_j);
 }
 //"{\"num\":\"01042322595\"},{\"num\":\"01042322595\"}"
 ?>

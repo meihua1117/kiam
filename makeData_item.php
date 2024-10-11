@@ -3,8 +3,8 @@ include_once "lib/rlatjd_fun.php";
 if($_SESSION['one_member_id'] == "")
 	exit;
 $sql = "select * from Gn_Member where mem_id='$_SESSION[one_member_id]' and site != '' ";
-$resul = mysql_query($sql);
-$data = mysql_fetch_array($resul);
+$resul = mysqli_query($self_con,$sql);
+$data = mysqli_fetch_array($resul);
 $payMethod = 'CARD';
 if ($_POST['payMethod'] != "") {
     $payMethod = $_POST['payMethod'];
@@ -18,8 +18,8 @@ if (isset($_POST['point_val'])) {
     // 포인트 충전
     $point = 1;
     $get_point = "select mem_cash from Gn_Member where mem_id='{$_SESSION['one_member_id']}'";
-    $result_point = mysql_query($get_point);
-    $row_point = mysql_fetch_array($result_point);
+    $result_point = mysqli_query($self_con,$get_point);
+    $row_point = mysqli_fetch_array($result_point);
 
     $current_point = $row_point['mem_cash'] * 1;
 
@@ -44,7 +44,7 @@ if (isset($_POST['point_val'])) {
                     email_cnt='0',
                     onestep1='ON',
                     onestep2='ON'";
-    $res_result = mysql_query($sql_tjd);
+    $res_result = mysqli_query($self_con,$sql_tjd);
     echo 'true';
     exit;
 } else {
@@ -71,16 +71,16 @@ if (isset($_POST['point_val'])) {
     if (strpos($_POST['cont_idx'], ',') === false) {
         //굿마켓상품 한개만 주문하는 경우
         $sql_cont_info = "select * from Gn_Iam_Contents_Gwc where idx='{$_POST['cont_idx']}'";
-        $res_cont_info = mysql_query($sql_cont_info);
-        $row_cont_info = mysql_fetch_array($res_cont_info);
+        $res_cont_info = mysqli_query($self_con,$sql_cont_info);
+        $row_cont_info = mysqli_fetch_array($res_cont_info);
         if ($row_cont_info['mem_id'] == 'iamstore') {
             $yutong = 1;
             $provider_name = '';
         } else {
             $yutong = 2;
             $sql_mem = "select gwc_provider_name from Gn_Member where mem_id='{$row_cont_info['mem_id']}' and (gwc_leb=2 or gwc_leb=3)";
-            $res_mem = mysql_query($sql_mem);
-            $row_mem = mysql_fetch_array($res_mem);
+            $res_mem = mysqli_query($self_con,$sql_mem);
+            $row_mem = mysqli_fetch_array($res_mem);
             $provider_name = $row_mem['gwc_provider_name'];
             if (!$provider_name) {
                 $yutong = 1;
@@ -133,8 +133,8 @@ if (isset($_POST['point_val'])) {
                                                     seller_id='$row_cont_info[mem_id]',
                                                     cash_prod_pay=$cash_pay";
 
-                $res_result = mysql_query($sql);
-                $pay_idx_tjd = mysql_insert_id();
+                $res_result = mysqli_query($self_con,$sql);
+                $pay_idx_tjd = mysqli_insert_id($self_con);
             } else {
                 $pay_idx_tjd = 0;
                 $_POST['contents_cnt'] = 1;
@@ -155,8 +155,8 @@ if (isset($_POST['point_val'])) {
                             point_val=$point,
                             gwc_cont_pay=$gwc,
                             tjd_idx=$pay_idx_tjd";
-            $res_result = mysql_query($sql);
-            $pay_idx = mysql_insert_id();
+            $res_result = mysqli_query($self_con,$sql);
+            $pay_idx = mysqli_insert_id($self_con);
         }
 
         if ($gwc) {
@@ -193,12 +193,12 @@ if (isset($_POST['point_val'])) {
                                                         provider_name='$provider_name',
                                                         seller_id='$row_cont_info[mem_id]',
                                                         cash_prod_pay=$cash_pay";
-                    $res_result = mysql_query($sql);
-                    $pay_idx_tjd = mysql_insert_id();
+                    $res_result = mysqli_query($self_con,$sql);
+                    $pay_idx_tjd = mysqli_insert_id($self_con);
                     $gwc_pay_status = "Y";
                 }
                 $sql_mem = "update Gn_Member set mem_cash=mem_cash-{$use_point} where mem_id='{$_SESSION['one_member_id']}'";
-                mysql_query($sql_mem);
+                mysqli_query($self_con,$sql_mem);
                 $data['mem_cash'] = $data['mem_cash'] * 1 - $use_point * 1;
 
                 $sql_buyer = "insert into Gn_Item_Pay_Result set buyer_id='$_SESSION[one_member_id]',
@@ -220,13 +220,13 @@ if (isset($_POST['point_val'])) {
                                                                 contents_cnt='$_POST[contents_cnt]',
                                                                 gwc_cont_pay=$gwc,
                                                                 tjd_idx=$pay_idx_tjd";
-                $res_result = mysql_query($sql_buyer);
+                $res_result = mysqli_query($self_con,$sql_buyer);
                 if (!$pay_idx) {
-                    $pay_idx = mysql_insert_id();
+                    $pay_idx = mysqli_insert_id($self_con);
                 }
 
                 $sql_del = "delete from Gn_Gwc_Order where pay_order_no='$_POST[allat_order_no]' and mem_id='$member_iam[mem_id]' and page_type=1";
-                mysql_query($sql_del) or die(mysql_error());
+                mysqli_query($self_con,$sql_del) or die(mysqli_error($self_con));
             }
             $sql_order = "insert into Gn_Gwc_Order
                             set mem_id='$_SESSION[one_member_id]',
@@ -261,12 +261,12 @@ if (isset($_POST['point_val'])) {
             if ($_POST['order_option'] == "gallery>>download")
                 $sql_order .= ",delivery_state=3,delivery_set_date=NOW()";
 
-            $res_result = mysql_query($sql_order);
+            $res_result = mysqli_query($self_con,$sql_order);
 
             if ($_POST['cont_idx'] == "54065") {
                 //캐시상품결제인경우 캐시를 바로 추가
                 $sql_mem_cash = "update Gn_Member set mem_cash=mem_cash+29100 where mem_id='{$_SESSION['one_member_id']}'";
-                mysql_query($sql_mem_cash);
+                mysqli_query($self_con,$sql_mem_cash);
                 $data['mem_cash'] = $data['mem_cash'] * 1 + 29100;
 
                 $sql_buyer = "insert into Gn_Item_Pay_Result
@@ -289,7 +289,7 @@ if (isset($_POST['point_val'])) {
                             contents_cnt='$_POST[contents_cnt]',
                             gwc_cont_pay=$gwc,
                             tjd_idx=$pay_idx_tjd";
-                $res_result = mysql_query($sql_buyer);
+                $res_result = mysqli_query($self_con,$sql_buyer);
             }
         }
     } else {
@@ -306,16 +306,16 @@ if (isset($_POST['point_val'])) {
 
         for ($i = 0; $i < count($idx_arr); $i++) {
             $sql_cont_info = "select * from Gn_Iam_Contents_Gwc where idx='{$idx_arr[$i]}'";
-            $res_cont_info = mysql_query($sql_cont_info);
-            $row_cont_info = mysql_fetch_array($res_cont_info);
+            $res_cont_info = mysqli_query($self_con,$sql_cont_info);
+            $row_cont_info = mysqli_fetch_array($res_cont_info);
             if ($row_cont_info['mem_id'] == 'iamstore') {
                 $yutong = 1;
                 $provider_name = '';
             } else {
                 $yutong = 2;
                 $sql_mem = "select gwc_provider_name from Gn_Member where mem_id='{$row_cont_info['mem_id']}'";
-                $res_mem = mysql_query($sql_mem);
-                $row_mem = mysql_fetch_array($res_mem);
+                $res_mem = mysqli_query($self_con,$sql_mem);
+                $row_mem = mysqli_fetch_array($res_mem);
                 $provider_name = $row_mem['gwc_provider_name'];
             }
 
@@ -353,11 +353,11 @@ if (isset($_POST['point_val'])) {
                                 yutong_name=$yutong,
                                 provider_name='$provider_name',
                                 seller_id='$row_cont_info[mem_id]'";
-                    $res_result = mysql_query($sql);
-                    $pay_idx_tjd = mysql_insert_id();
+                    $res_result = mysqli_query($self_con,$sql);
+                    $pay_idx_tjd = mysqli_insert_id($self_con);
 
                     $sql_mem = "update Gn_Member set mem_cash=mem_cash-{$mi_price} where mem_id='{$_SESSION['one_member_id']}'";
-                    mysql_query($sql_mem);
+                    mysqli_query($self_con,$sql_mem);
                     $data['mem_cash'] = $data['mem_cash'] * 1 - $mi_price * 1;
                     //포인트결제내역
                     $sql_buyer = "insert into Gn_Item_Pay_Result
@@ -380,8 +380,8 @@ if (isset($_POST['point_val'])) {
                                     contents_cnt='$con_cnt_arr[$i]',
                                     gwc_cont_pay=$gwc,
                                     tjd_idx=$pay_idx_tjd";
-                    $res_result = mysql_query($sql_buyer);
-                    $pay_idx = mysql_insert_id();
+                    $res_result = mysqli_query($self_con,$sql_buyer);
+                    $pay_idx = mysqli_insert_id($self_con);
                     //주문결과내역
                     $sql_order = "insert into Gn_Gwc_Order
                                     set mem_id='$_SESSION[one_member_id]',
@@ -414,7 +414,7 @@ if (isset($_POST['point_val'])) {
                                         seller_id='$row_cont_info[mem_id]'";
                     if ($_POST['order_option'] == "gallery>>download")
                         $sql_order .= ",delivery_state=3,delivery_set_date=NOW()";
-                    $res_result = mysql_query($sql_order);
+                    $res_result = mysqli_query($self_con,$sql_order);
                     $use_point = $use_point * 1 - $mi_price * 1;
                 } else {
                     if ($payMethod == "BANK") {
@@ -452,8 +452,8 @@ if (isset($_POST['point_val'])) {
                                 yutong_name=$yutong,
                                 provider_name='$provider_name',
                                 seller_id='$row_cont_info[mem_id]'";
-                    $res_result = mysql_query($sql);
-                    $pay_idx_tjd = mysql_insert_id();
+                    $res_result = mysqli_query($self_con,$sql);
+                    $pay_idx_tjd = mysqli_insert_id($self_con);
 
                     $sql = "insert into Gn_Item_Pay_Result
                                 set buyer_id='$_SESSION[one_member_id]',
@@ -471,11 +471,11 @@ if (isset($_POST['point_val'])) {
                                     point_val=$point,
                                     gwc_cont_pay=$gwc,
                                     tjd_idx=$pay_idx_tjd";
-                    $res_result = mysql_query($sql);
-                    $pay_idx = mysql_insert_id();
+                    $res_result = mysqli_query($self_con,$sql);
+                    $pay_idx = mysqli_insert_id($self_con);
 
                     $sql_mem = "update Gn_Member set mem_cash=mem_cash-{$use_point} where mem_id='{$_SESSION['one_member_id']}'";
-                    mysql_query($sql_mem);
+                    mysqli_query($self_con,$sql_mem);
                     $data['mem_cash'] = $data['mem_cash'] * 1 - $use_point * 1;
                     //포인트결제내역
                     $sql_buyer = "insert into Gn_Item_Pay_Result
@@ -498,7 +498,7 @@ if (isset($_POST['point_val'])) {
                                     contents_cnt='$con_cnt_arr[$i]',
                                     gwc_cont_pay=$gwc,
                                     tjd_idx=$pay_idx_tjd";
-                    $res_result = mysql_query($sql_buyer);
+                    $res_result = mysqli_query($self_con,$sql_buyer);
                     //주문결과내역
                     $sql_order = "insert into Gn_Gwc_Order
                                     set mem_id='$_SESSION[one_member_id]',
@@ -531,7 +531,7 @@ if (isset($_POST['point_val'])) {
                                         seller_id='$row_cont_info[mem_id]'";
                     if ($_POST['order_option'] == "gallery>>download")
                         $sql_order .= ",delivery_state=3,delivery_set_date=NOW()";
-                    $res_result = mysql_query($sql_order);
+                    $res_result = mysqli_query($self_con,$sql_order);
                     $use_point = 0;
                 }
             }
@@ -564,8 +564,8 @@ if (isset($_POST['point_val'])) {
                             yutong_name=$yutong,
                             provider_name='$provider_name',
                             seller_id='$row_cont_info[mem_id]'";
-                $res_result = mysql_query($sql);
-                $pay_idx_tjd = mysql_insert_id();
+                $res_result = mysqli_query($self_con,$sql);
+                $pay_idx_tjd = mysqli_insert_id($self_con);
 
                 $sql = "insert into Gn_Item_Pay_Result
                             set buyer_id='$_SESSION[one_member_id]',
@@ -582,8 +582,8 @@ if (isset($_POST['point_val'])) {
                                 point_val=$point,
                                 gwc_cont_pay=$gwc,
                                 tjd_idx=$pay_idx_tjd";
-                $res_result = mysql_query($sql);
-                $pay_idx = mysql_insert_id();
+                $res_result = mysqli_query($self_con,$sql);
+                $pay_idx = mysqli_insert_id($self_con);
 
                 //주문결과내역
                 $sql_order = "insert into Gn_Gwc_Order
@@ -615,12 +615,12 @@ if (isset($_POST['point_val'])) {
                                     seller_id='$row_cont_info[mem_id]'";
                 if ($_POST['order_option'] == "gallery>>download")
                     $sql_order .= ",delivery_state=3,delivery_set_date=NOW()";
-                $res_result = mysql_query($sql_order);
+                $res_result = mysqli_query($self_con,$sql_order);
             }
         }
         if ($use_point) { //포인트 결제인경우 장바구니 내역을 바로 삭제
             $sql_del = "delete from Gn_Gwc_Order where pay_order_no='$_POST[allat_order_no]' and mem_id='$member_iam[mem_id]' and page_type=1";
-            mysql_query($sql_del) or die(mysql_error());
+            mysqli_query($self_con,$sql_del) or die(mysqli_error($self_con));
         }
     }
     if ($gwc && $payMethod == "BANK") {
@@ -632,21 +632,21 @@ if (isset($_POST['point_val'])) {
 
     if ($cont_idx) {
         $sql_card_idx = "select card_idx from Gn_Iam_Contents where idx='{$cont_idx}'";
-        $res_card_idx = mysql_query($sql_card_idx);
-        $row_card_idx = mysql_fetch_array($res_card_idx);
+        $res_card_idx = mysqli_query($self_con,$sql_card_idx);
+        $row_card_idx = mysqli_fetch_array($res_card_idx);
 
         $sql_card_data = "select sale_cnt, add_fixed_val from Gn_Iam_Name_Card where idx='{$row_card_idx['card_idx']}'";
-        $res_card_data = mysql_query($sql_card_data);
-        $row_card_data = mysql_fetch_array($res_card_data);
+        $res_card_data = mysqli_query($self_con,$sql_card_data);
+        $row_card_data = mysqli_fetch_array($res_card_data);
 
         if ($row_card_data['sale_cnt']) {
             $sale_after_cnt = $row_card_data['sale_cnt'] * 1 - 1;
             if ($sale_after_cnt) {
                 $sql_reduce_update = "update Gn_Iam_Name_Card set sale_cnt='{$sale_after_cnt}' where idx='{$row_card_idx['card_idx']}'";
-                mysql_query($sql_reduce_update);
+                mysqli_query($self_con,$sql_reduce_update);
             } else {
                 $sql_reduce_update = "update Gn_Iam_Name_Card set sale_cnt='{$sale_after_cnt}' where idx='{$row_card_idx['card_idx']}'";
-                mysql_query($sql_reduce_update);
+                mysqli_query($self_con,$sql_reduce_update);
             }
         }
     }

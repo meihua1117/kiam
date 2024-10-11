@@ -38,14 +38,14 @@ ini_set("session.gc_maxlifetime", 86400);
 
     }
     echo $query."<BR>";
-    $res=mysql_query($query)or die(mysql_error());
-    while($data=mysql_fetch_array($res)) {
+    $res=mysqli_query($self_con,$query)or die(mysqli_error($self_con));
+    while($data=mysqli_fetch_array($res)) {
         $ORDER_NO = $data['idx'];
         $member_1[mem_id] = $data['buyer_id'];
             
         $sql="select * from tjd_pay_result where orderNumber='$ORDER_NO' and buyer_id='$member_1[mem_id]' ";
-        $resul=mysql_query($sql)or die(mysql_error());
-        $row=mysql_fetch_array($resul);	        
+        $resul=mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
+        $row=mysqli_fetch_array($resul);	        
 
         $ORDER_NO = $row['ORDER_NO'];
         $member_1[mem_id] = $row[one_member_id];
@@ -143,22 +143,22 @@ ini_set("session.gc_maxlifetime", 86400);
                                                          buyer_id='$member_1[mem_id]'
             ";
             echo $sql."\n";
-            mysql_query($sql)or die(mysql_error());
+            mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
             
         $sql = "update tjd_pay_result set monthly_yn='Y', end_status='Y' where  orderNumber='$ORDER_NO' and buyer_id='$member_1[mem_id]'";
-        $resul=mysql_query($sql)or die(mysql_error());
+        $resul=mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
         
         $sql="select * from Gn_Member where mem_id='$member_1[mem_id]' ";
-        $sresult=mysql_query($sql)or die(mysql_error());
-        $srow=mysql_fetch_array($sresult);	
+        $sresult=mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
+        $srow=mysqli_fetch_array($sresult);	
         
     	//$sql_num_up="update Gn_MMS_Number set end_status='Y' , end_date=date_add(now(),INTERVAL {$ro[month_cnt]} month) where end_date = '$_POST[pay_ex_end_date]' and mem_id='$member_1[mem_id]' ";
-    	//mysql_query($sql_num_up) or die(mysql_error());				    
+    	//mysqli_query($self_con,$sql_num_up) or die(mysqli_error($self_con));				    
 
         
         $sql="select * from crawler_member_real where user_id='$member_1[mem_id]' ";
-        $sresult=mysql_query($sql)or die(mysql_error());
-        $crow=mysql_fetch_array($sresult);	        
+        $sresult=mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
+        $crow=mysqli_fetch_array($sresult);	        
         $user_id=$srow['mem_id'];
         $user_name=$srow['mem_name'];
         $password=$srow['mem_pass'];

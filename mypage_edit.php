@@ -149,8 +149,8 @@ exit;
 					}
 				}
 				$sql="select count(no) as cnt from tjd_pay_result where $sql_serch ";
-				$result = mysql_query($sql) or die(mysql_error());
-				$row=mysql_fetch_array($result);
+				$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+				$row=mysqli_fetch_array($result);
 				$intRowCount=$row[cnt];
 				if (!$_POST[lno]) 
 					$intPageSize =20;
@@ -181,7 +181,7 @@ exit;
 				  $order_name="end_status";
 				$intPageCount=(int)(($intRowCount+$intPageSize-1)/$intPageSize);     
 				$sql="select * from tjd_pay_result where $sql_serch order by $order_name $order_status limit $int,$intPageSize";
-				$result=mysql_query($sql) or die(mysql_error());				
+				$result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));				
 		?>
 <link type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.4/themes/base/jquery-ui.css" rel="stylesheet" />
 <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.10.0/jquery-ui.min.js"></script>                
@@ -278,12 +278,12 @@ jQuery(function($){
               <?
               if($intRowCount)
               {
-                  while($row=mysql_fetch_array($result))
+                  while($row=mysqli_fetch_array($result))
                   {
 					  	$num_arr=array();
 						$sql_num="select sendnum from Gn_MMS_Number where mem_id='$row[buyer_id]' and end_date='$row[end_date]' ";
-						$resul_num=mysql_query($sql_num);
-						while($row_num=mysql_fetch_array($resul_num))
+						$resul_num=mysqli_query($self_con,$sql_num);
+						while($row_num=mysqli_fetch_array($resul_num))
 						array_push($num_arr,$row_num[sendnum]);
 						//$num_str=implode(",",$num_arr);
                   ?>

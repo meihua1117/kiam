@@ -8,7 +8,7 @@ $_POST[max_cnt] = $_POST[phone_cnt];
 $_POST[add_phone] = $_POST[phone_cnt] * 1 / 9000;
 if($_POST[allat_order_no] != "") {
     $sql = "delete from tjd_pay_result where  idx='$_POST[allat_order_no]' and  buyer_id='$_SESSION[one_member_id]'";
-    mysql_query($sql);
+    mysqli_query($self_con,$sql);
 }
 if($_POST[payMethod]!= "")
     $payMethod = $_POST[payMethod];
@@ -39,5 +39,5 @@ $sql = "insert into tjd_pay_result set
             iam_card_cnt='$_POST[iam_card_cnt]',
             iam_share_cnt='$_POST[iam_share_cnt]',
             member_cnt='$_POST[member_cnt]'";
-$res_result = mysql_query($sql);
+$res_result = mysqli_query($self_con,$sql);
 ?>

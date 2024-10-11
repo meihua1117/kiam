@@ -14,11 +14,11 @@ $collect_count = trim($_POST['collect_count']);
 
 if($type == 1){
     $sql = "update crawler_member_real set monthly_cnt=monthly_cnt+$collect_count WHERE token='$token'";
-    $result = mysql_query($sql);
+    $result = mysqli_query($self_con,$sql);
 
     $sql = "SELECT user_id, use_cnt, monthly_cnt FROM crawler_member_real WHERE token='$token'";
-    $result = mysql_query($sql);
-    $row=mysql_fetch_array($result);
+    $result = mysqli_query($self_con,$sql);
+    $row=mysqli_fetch_array($result);
     if($row['user_id'] == "") {
         echo json_encode(array('result' => 1));
         exit;
@@ -31,11 +31,11 @@ if($type == 1){
 
 }else if( $type == 2){
     $sql = "update crawler_member_real set search_email_use_cnt=search_email_use_cnt+$collect_count,search_email_total_cnt=search_email_total_cnt+$collect_count WHERE token='$token'";
-    $result = mysql_query($sql);
+    $result = mysqli_query($self_con,$sql);
 
     $sql = "SELECT user_id, search_email_cnt, search_email_use_cnt FROM crawler_member_real WHERE token='$token'";
-    $result = mysql_query($sql);
-    $row=mysql_fetch_array($result);
+    $result = mysqli_query($self_con,$sql);
+    $row=mysqli_fetch_array($result);
     if($row['user_id'] == "") {
         echo json_encode(array('result' => 1));
         exit;
@@ -48,11 +48,11 @@ if($type == 1){
 }
 else if( $type == 3){
     $sql = "update crawler_member_real set shopping_use_cnt=shopping_use_cnt+$collect_count WHERE token='$token'";
-    $result = mysql_query($sql);
+    $result = mysqli_query($self_con,$sql);
 
     $sql = "SELECT user_id, shopping_use_cnt,shopping_cnt FROM crawler_member_real WHERE token='$token'";
-    $result = mysql_query($sql);
-    $row=mysql_fetch_array($result);
+    $result = mysqli_query($self_con,$sql);
+    $row=mysqli_fetch_array($result);
     if($row['user_id'] == "") {
         echo json_encode(array('result' => 1));
         exit;

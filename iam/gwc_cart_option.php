@@ -7,7 +7,7 @@ if($_SESSION[iam_member_id] == "") {
 }
 extract($_POST);
 $sql_order = "select * from Gn_Gwc_Order where id='{$gs_id}'";
-$result = mysql_query($sql_order);
+$result = mysqli_query($self_con,$sql_order);
 
 ?>
 <script src="js/shop.js"></script>
@@ -21,10 +21,10 @@ $result = mysql_query($sql_order);
     <input type="hidden" name="gwc_ori_sup_price" id="gwc_ori_sup_price" val='0'>
     <div class="sp_wrap" style="border-top:0">
         <?php
-        for($i=0; $row=mysql_fetch_array($result); $i++) {
+        for($i=0; $row=mysqli_fetch_array($result); $i++) {
             $sql_contents = "select contents_title, prod_order_option from Gn_Iam_Contents_Gwc where idx='{$row[contents_idx]}'";
-            $res_contents = mysql_query($sql_contents);
-            $row_contents = mysql_fetch_array($res_contents);
+            $res_contents = mysqli_query($self_con,$sql_contents);
+            $row_contents = mysqli_fetch_array($res_contents);
             $order_option = htmlspecialchars_decode(str_replace("disabled", "", $row_contents[prod_order_option]));
             if($row[order_option] != ''){
                 $val_arr = explode('>>', $row[order_option]);

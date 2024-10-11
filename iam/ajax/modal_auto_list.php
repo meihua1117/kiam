@@ -38,13 +38,13 @@ $body .= '            </thead>';
 $body .= '            <tbody id="contents_side1">';
 
                 $sql = "select * from Gn_event where m_id='{$_SESSION['iam_member_id']}' and event_name_kor='단체회원자동가입및아이엠카드생성' order by regdate desc";
-                $res = mysql_query($sql);
+                $res = mysqli_query($self_con,$sql);
                 $i = 0;
-                while($row = mysql_fetch_array($res)){
+                while($row = mysqli_fetch_array($res)){
                     $pop_url = '/event/automember.php?pcode='.$row['pcode'].'&eventidx='.$row['event_idx'];
                     $id_sql = "select count(event_id) as cnt from Gn_Member where event_id={$row['event_idx']} and mem_type='A'";
-                    $res_id = mysql_query($id_sql);
-                    $row_id = mysql_fetch_array($res_id);
+                    $res_id = mysqli_query($self_con,$id_sql);
+                    $row_id = mysqli_fetch_array($res_id);
                     if($row_id['cnt'] != null){
                         $cnt_join = $row_id['cnt'];
                     }else{
@@ -52,8 +52,8 @@ $body .= '            <tbody id="contents_side1">';
                     }
                     $i++;
                     $sql_service = "select auto_join_event_idx from Gn_Iam_Service where mem_id='{$row['m_id']}'";
-                    $res_service = mysql_query($sql_service);
-                    $row_service = mysql_fetch_array($res_service);
+                    $res_service = mysqli_query($self_con,$sql_service);
+                    $row_service = mysqli_fetch_array($res_service);
                     if($row["event_idx"] == $row_service['auto_join_event_idx']){
                         $checked_auto = "checked";
                     }else{

@@ -2,8 +2,8 @@
 $path = "./";
 include_once "_head.php";
 $sql = "select * from Gn_Member where mem_id='$_SESSION[one_member_id]' and site != ''";
-$result = mysql_query($sql) or die(mysql_error());
-$member = mysql_fetch_array($result);
+$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+$member = mysqli_fetch_array($result);
 $phone = explode("-", $member['mem_phone']);
 $email = explode("@", $member['mem_email']);
 

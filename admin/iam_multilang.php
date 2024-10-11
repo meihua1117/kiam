@@ -237,23 +237,23 @@ function goPage(pgNum) {
 
                       //디폴트 아바타
                       $sql = "select * from Gn_Iam_multilang ";
-                      $result=mysql_query($sql) or die(mysql_error());
-                      $row=mysql_fetch_array($result);
+                      $result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+                      $row=mysqli_fetch_array($result);
 
 
                       $nowPage= $_REQUEST['nowPage']?$_REQUEST['nowPage']:1;
                       $startPage = $nowPage?$nowPage:1;
                       $pageCnt = 20;
                         $count_query = "select count(no) from Gn_Iam_multilang";
-                        $count_result = mysql_query($count_query);
-                        $count_row = mysql_fetch_array($count_result);
+                        $count_result = mysqli_query($self_con,$count_query);
+                        $count_row = mysqli_fetch_array($count_result);
                         $totalCnt	=  $count_row[0];
      
                     $query = "SELECT * FROM Gn_Iam_multilang";
 
                       $query = $query." WHERE 1=1 $searchStr";
-                      //$res = mysql_query($query);
-                      //$totalCnt	=  mysql_num_rows($res);
+                      //$res = mysqli_query($self_con,$query);
+                      //$totalCnt	=  mysqli_num_rows($res);
                       $limitStr = " LIMIT ".(($startPage-1)*$pageCnt).", ".$pageCnt;
                       $number	= $totalCnt - ($nowPage - 1) * $pageCnt;             
                       if(!$orderField){
@@ -263,16 +263,16 @@ function goPage(pgNum) {
                       $i = 1;
                       $c=0;
                       $query .= "$orderQuery";
-                      $res = mysql_query($query);
-                      while($row = mysql_fetch_array($res)) {
+                      $res = mysqli_query($self_con,$query);
+                      while($row = mysqli_fetch_array($res)) {
                           $fquery = "select count(*) from Gn_Iam_multilang";
-                          $fresult = mysql_query($fquery);
-                          $frow = mysql_fetch_array($fresult);
+                          $fresult = mysqli_query($self_con,$fquery);
+                          $frow = mysqli_fetch_array($fresult);
                           //$friend_count	=  $frow[0];
 
                           $cquery = "select count(*) from Gn_Iam_multilang" ;
-                          $cresult = mysql_query($cquery);
-                          $crow = mysql_fetch_array($cresult);
+                          $cresult = mysqli_query($self_con,$cquery);
+                          $crow = mysqli_fetch_array($cresult);
                           //$contents_count	=  $crow[0];
                       ?>
                           <tr>

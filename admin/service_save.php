@@ -46,7 +46,7 @@ if($_POST['mode'] == "inser") {
                                   `status`          ='$status', 
                                   `regdate`         =NOW() 
                                  ";
-    mysql_query($query);	
+    mysqli_query($self_con,$query);	
 } else if($_POST['mode'] == "updat") {
     $logo = gcUploadRename($_FILES['logo']["name"],$_FILES["logo"][tmp_name],$_FILES["logo"][size], "data/site");    
     $main_image = gcUploadRename($_FILES['main_image']["name"],$_FILES["main_image"][tmp_name],$_FILES["main_image"][size], "data/site");    
@@ -91,13 +91,13 @@ if($_POST['mode'] == "inser") {
                                   
                          WHERE idx='$idx'
                                  ";
-    mysql_query($query);	
+    mysqli_query($self_con,$query);	
 } else if($_POST['mode'] == "del") {
 
     $query="delete  from    Gn_Service 
                          WHERE idx='$idx'
                                  ";
-    mysql_query($query);	
+    mysqli_query($self_con,$query);	
 }
 echo "<script>alert('저장되었습니다.');location='/admin/service_list.php';</script>";
 exit;

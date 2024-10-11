@@ -13,12 +13,12 @@ if($_POST["mode"] == "update_agreement"){
 	$status = $_POST["status"];
 
 	$query="update gn_coach_apply set agree='$status' where coach_id='$coach_id' ";
-	mysql_query($query);  
+	mysqli_query($self_con,$query);  
 
 	if($status == "1"){
 		$query="update gn_coach_apply set agree_date=now() where coach_id='$coach_id' ";
 
-		mysql_query($query);  
+		mysqli_query($self_con,$query);  
 	} 
 
 }
@@ -29,7 +29,7 @@ if($_POST["mode"] == "update_coach_type"){
 	$coach_type = $_POST["coach_type"]; 
 
 	$query="update gn_coach_apply set coach_type='$coach_type' where coach_id='$coach_id' ";
-	mysql_query($query);  	
+	mysqli_query($self_con,$query);  	
 }
 
 //코티 테이블 코티 승인
@@ -39,12 +39,12 @@ if($_POST["mode"] == "update_coaching_agree"){
 	$status = $_POST["status"];
 
 	$query="update gn_coaching_apply set agree='$status' where coty_id='$coty_id' ";
-	mysql_query($query);  
+	mysqli_query($self_con,$query);  
 
 	if($status == "1"){
 		$query="update gn_coaching_apply set agree_date=now() where coty_id='$coty_id' ";
 
-		mysql_query($query);  
+		mysqli_query($self_con,$query);  
 	} 	
 }
 
@@ -55,12 +55,12 @@ if($_POST["mode"] == "update_coaching_info_agree"){
 	$status = $_POST["status"];
 
 	$query="update gn_coaching_info set agree='$status' where coaching_id='$coaching_id' ";
-	mysql_query($query);  
+	mysqli_query($self_con,$query);  
 
 	if($status == "1"){
 		$query="update gn_coaching_info set agree_date=now() where coaching_id='$coaching_id' ";
 
-		mysql_query($query);  
+		mysqli_query($self_con,$query);  
 	} 	
 }
 
@@ -72,7 +72,7 @@ if($_POST["mode"] == "coty_update_coach_id"){
 	$query="update gn_coaching_apply set coach_id='$coach_id' where coty_id='$coty_id' ";
 
 	echo "<script>console.log('"+$query+"');</script>";
-	mysql_query($query);  
+	mysqli_query($self_con,$query);  
 }
 
 else if($mode == "coaching_info_del"){
@@ -82,7 +82,7 @@ else if($mode == "coaching_info_del"){
     $sql = "delete from gn_coaching_info where coaching_id=$coaching_id";
     
     echo $sql;
-    $result=mysql_query($sql);  
+    $result=mysqli_query($self_con,$sql);  
 
 
 
