@@ -491,7 +491,7 @@ input, select, textarea {
                     $query1 .= $orderQuery1;
                     $res = mysqli_query($self_con,$query1);
                     while($row = mysqli_fetch_array($res)) {
-                        $sql_mem_reg = "select * from Gn_Member where mem_name='{$row['name']}' and mem_phone='{$row[phone1]}' and is_leave='N' limit 1";
+                        $sql_mem_reg = "select * from Gn_Member where mem_name='{$row['name']}' and mem_phone='{$row['phone1']}' and is_leave='N' limit 1";
                         $res_mem_reg = mysqli_query($self_con,$sql_mem_reg);
                         $row_mem_reg = mysqli_fetch_array($res_mem_reg);
                         if($row_mem_reg['mem_code'] != ''){
@@ -673,7 +673,7 @@ input, select, textarea {
                     $query2 .= "$orderQuery2";
                     $res = mysqli_query($self_con,$query2);
                     while($row = mysqli_fetch_array($res)) {
-                        $sql_mem_reg = "select * from Gn_Member where mem_name='{$row['name']}' and mem_phone='{$row[mobile]}' and is_leave='N' limit 1";
+                        $sql_mem_reg = "select * from Gn_Member where mem_name='{$row['name']}' and mem_phone='{$row['mobile']}' and is_leave='N' limit 1";
                         $res_mem_reg = mysqli_query($self_con,$sql_mem_reg);
                         $row_mem_reg = mysqli_fetch_array($res_mem_reg);
                         if($row_mem_reg['mem_code'] != ''){
@@ -860,7 +860,7 @@ input, select, textarea {
                     $query3 .= "$orderQuery3";
                     $res = mysqli_query($self_con,$query3);
                     while($row = mysqli_fetch_array($res)) {
-                        $sql_mem_reg = "select * from Gn_Member where mem_name='{$row[ceo]}' and mem_phone='{$row[cell]}' and is_leave='N' limit 1";
+                        $sql_mem_reg = "select * from Gn_Member where mem_name='{$row['ceo']}' and mem_phone='{$row['cell']}' and is_leave='N' limit 1";
                         $res_mem_reg = mysqli_query($self_con,$sql_mem_reg);
                         $row_mem_reg = mysqli_fetch_array($res_mem_reg);
                         if($row_mem_reg['mem_code'] != ''){

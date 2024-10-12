@@ -158,7 +158,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                             </td>
                             <td><?=$row['regdate']?></td>
                             <td><?=$row['read_cnt']?>/<?=$cnt_join?></td>
-                            <td><a href="edit_autojoin_msg.php?event_idx=<?=$row[event_idx]?>">수정</a>/<a href="javascript:delete_autojoin(<?=$row[event_idx]?>)">삭제</a></td>
+                            <td><a href="edit_autojoin_msg.php?event_idx=<?=$row['event_idx']?>">수정</a>/<a href="javascript:delete_autojoin(<?=$row['event_idx']?>)">삭제</a></td>
                       </tr>
                     <?
                     $c++;

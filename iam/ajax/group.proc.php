@@ -239,7 +239,7 @@ if(!$method) {
     $res = mysqli_query($self_con,$sql);
     $row = mysqli_fetch_array($res);
     if($row[group_fix] == 0) {
-        $sql = "select max(group_fix) from Gn_Iam_Contents where card_idx = '$row[card_idx]'";
+        $sql = "select max(group_fix) from Gn_Iam_Contents where card_idx = '{$row['card_idx']}'";
         $res = mysqli_query($self_con,$sql);
         $max_row = mysqli_fetch_array($res);
         $group_fix = $max_row[0] + 1;
@@ -248,7 +248,7 @@ if(!$method) {
         mysqli_query($self_con,$sql);
         echo json_encode(array("result"=>"성공적으로 고정되었습니다."));
     }else{
-        $sql = "update Gn_Iam_Contents set group_fix = group_fix - 1 where group_id = $row[group_id] and group_fix > $row[group_fix]";
+        $sql = "update Gn_Iam_Contents set group_fix = group_fix - 1 where group_id = $row[group_id] and group_fix > {$row['group_fix']}";
         mysqli_query($self_con,$sql);
 
         $sql = "update Gn_Iam_Contents set group_fix = 0 where idx = $group_id";

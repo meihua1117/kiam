@@ -56,7 +56,7 @@ function excel_down_(){
 	return false;
 }
 function goPage(pgNum) {
-  location.href = '?&nowPage='+pgNum+"&search_userid=<?=$_GET[search_userid]?>&search_comtype=<?=$_GET[search_comtype]?>&search_job=<?=$_GET[search_job]?>&search_addr2=<?=$_GET[search_addr2]?>&search_addr1=<?=$_GET[search_addr1]?>";
+  location.href = '?&nowPage='+pgNum+"&search_userid=<?=$_GET['search_userid']?>&search_comtype=<?=$_GET['search_comtype']?>&search_job=<?=$_GET['search_job']?>&search_addr2=<?=$_GET['search_addr2']?>&search_addr1=<?=$_GET['search_addr1']?>";
 }
 $(function() {
     var contHeaderH = $(".main-header").height();
@@ -329,7 +329,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                 	$query .= "$orderQuery";
                 	$res1 = mysqli_query($self_con,$query);
                     while($row = mysqli_fetch_array($res1)) {
-                      $sql_mem_reg = "select * from Gn_Member where mem_name='{$row[ceo]}' and mem_phone='{$row[cell]}' and is_leave='N' limit 1";
+                      $sql_mem_reg = "select * from Gn_Member where mem_name='{$row['ceo']}' and mem_phone='{$row['cell']}' and is_leave='N' limit 1";
                       $res_mem_reg = mysqli_query($self_con,$sql_mem_reg);
                       $row_mem_reg = mysqli_fetch_array($res_mem_reg);
                       $mem_code = '';

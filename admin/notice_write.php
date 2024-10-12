@@ -93,9 +93,9 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                             <tr>
                                 <td colspan="2" style="background-color:#FFF">
                                     <iframe src="/upload.php?up_path=<?=$up_path?>&frm=board_write_form" name="upload_iframe" frameborder="0" width="100%" scrolling="no" height="100" style="margin:0; padding:0;"></iframe>
-                                    <input type="hidden" name="board_write_form_img_hid" id="board_write_form_img_hid" value="<?=$row_no[adjunct_1]?>" />
-                                    <input type="hidden" name="board_write_form_img_hid_2" id="board_write_form_img_hid_2" value="<?=$row_no[adjunct_2]?>" />
-                                    <input type="hidden" itemname='이미지메모' name="board_write_form_memo_hid" id="board_write_form_memo_hid" value="<?=$row_no[adjunct_memo]?>" />
+                                    <input type="hidden" name="board_write_form_img_hid" id="board_write_form_img_hid" value="<?=$row_no['adjunct_1']?>" />
+                                    <input type="hidden" name="board_write_form_img_hid_2" id="board_write_form_img_hid_2" value="<?=$row_no['adjunct_2']?>" />
+                                    <input type="hidden" itemname='이미지메모' name="board_write_form_memo_hid" id="board_write_form_memo_hid" value="<?=$row_no['adjunct_memo']?>" />
                                     <input type="hidden" name="up_path" value="<?=$up_path?>" />
                                 </td>
                             </tr>

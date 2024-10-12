@@ -16,7 +16,7 @@ $sresul_num=mysqli_query($self_con,$sql);
 $data=mysqli_fetch_array($sresul_num);	
 $mem_phone = str_replace("-","",$data['mem_phone']);
 
-$sql="select * from Gn_event  where event_idx='".$_GET[event_idx]."'";
+$sql="select * from Gn_event  where event_idx='".$_GET['event_idx']."'";
 
 $sresul_num=mysqli_query($self_con,$sql);
 $row=mysqli_fetch_array($sresul_num);	
@@ -82,9 +82,9 @@ $(function(){
 
         <form name="sform" id="sform" action="mypage.proc.php" method="post" enctype="multipart/form-data">
 
-        <input type="hidden" name="mode" value="<?php echo $_GET[event_idx]?"event_update":"event_save";?>" />
-        <input type="hidden" name="event_idx" value="<?php echo $_GET[event_idx];?>" />
-        <input type="hidden" name="dup" id="dup" value="<?php echo $_GET[event_idx]?"ok":"";?>" />
+        <input type="hidden" name="mode" value="<?php echo $_GET['event_idx']?"event_update":"event_save";?>" />
+        <input type="hidden" name="event_idx" value="<?php echo $_GET['event_idx'];?>" />
+        <input type="hidden" name="dup" id="dup" value="<?php echo $_GET['event_idx']?"ok":"";?>" />
         <div class="a1" style="margin-top:50px; margin-bottom:15px">
         <li style="float:left;">		
 			<div class="popup_holder popup_text" style=cursor:pointer;>고객 신청창 만들기
@@ -165,7 +165,7 @@ $(function(){
                 </tr>                               
                 <tr>
                     <th class="w200">신청창키워드(영문)</th>
-                    <td><input type="text" name="event_name_eng" placeholder="" id="event_name_eng" value="<?=$row[event_name_eng]?>" <?php $_GET[event_idx]?"readonly":""?>/> 
+                    <td><input type="text" name="event_name_eng" placeholder="" id="event_name_eng" value="<?=$row['event_name_eng']?>" <?php $_GET['event_idx']?"readonly":""?>/> 
                         <span id="msg"></span><br>이 키워드는 원스텝 문자의 다양한 기능에 사용되므로 중복사용이 안됩니다.<span class="popbutton2 pop_view">?</span>
                         </td>
                 </tr>                          

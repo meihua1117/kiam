@@ -158,7 +158,7 @@ foreach ($cont_array as $contents_row) {
     }
 
     //westory 카드
-    $sql = "select * from Gn_Iam_Name_Card where idx = '$contents_row[card_idx]'";
+    $sql = "select * from Gn_Iam_Name_Card where idx = '{$contents_row['card_idx']}'";
     $result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
     $westory_card = mysqli_fetch_array($result);
 
@@ -227,7 +227,7 @@ $body .="<input type=\"hidden\" id=\"art_type_". $contents_row['idx']."\" value=
         $price_show1 = "적립금";
         $price_show2 = "판매가";
         $price_style = "";
-        $sql_card = "select sale_cnt, sale_cnt_set, add_reduce_val from Gn_Iam_Name_Card where idx=$contents_row[card_idx]";
+        $sql_card = "select sale_cnt, sale_cnt_set, add_reduce_val from Gn_Iam_Name_Card where idx={$contents_row['card_idx']}";
         $res_card = mysqli_query($self_con, $sql_card);
         $row_card = mysqli_fetch_array($res_card);
         $body .=    "<div class=\"desc is-product\">" .

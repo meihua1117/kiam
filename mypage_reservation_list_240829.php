@@ -218,11 +218,11 @@ $(function(){
                 <!-- <td></td> -->
 				<td>
 					<?if($row['sendable'] == 1){?>
-					<input type="checkbox" class="check" name="sms_idx" value="<?php echo $row['sms_idx'];?>" data-event-idx="<?=$row[event_idx]?>" data-name="<?=$row[m_id]?>" data-mobile="<?=$row[mobile]?>"  data-event_name_eng="<?=$row[event_name_eng]?>" data-title="<?=$row[reservation_title]?>"  data-desc="<?=$row[reservation_desc]?>"></td>
+					<input type="checkbox" class="check" name="sms_idx" value="<?php echo $row['sms_idx'];?>" data-event-idx="<?=$row['event_idx']?>" data-name="<?=$row[m_id]?>" data-mobile="<?=$row['mobile']?>"  data-event_name_eng="<?=$row['event_name_eng']?>" data-title="<?=$row['reservation_title']?>"  data-desc="<?=$row['reservation_desc']?>"></td>
 					<?}?>
                 <td><?=$sort_no?></td>
-                <td style="font-size:12px;"><?=$row[reservation_title]?></td>
-                <td><?=$row[reservation_desc]?></td>
+                <td style="font-size:12px;"><?=$row['reservation_title']?></td>
+                <td><?=$row['reservation_desc']?></td>
                 <td><?=number_format($srow['cnt'])?></td>
                 <td><?=number_format($cnt)?>/<?=number_format($cnt)?></td>
                 <td><?=$row['regdate']?></td>

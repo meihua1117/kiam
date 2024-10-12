@@ -37,7 +37,7 @@ while($row=mysqli_fetch_array($result)){
 				->setCellValue("B$h",$row[sp])
 				->setCellValue("C$h",$row['name'])
 				->setCellValue("D$h",$row[sex])
-				->setCellValue("E$h",$row[mobile])
+				->setCellValue("E$h",$row['mobile'])
 				->setCellValue("F$h",$row[addr])
 				->setCellValue("G$h",$row['email'])
 				->setCellValue("H$h",$row[birthday])

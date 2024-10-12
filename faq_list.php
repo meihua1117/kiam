@@ -97,10 +97,10 @@ $result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
             </tr>                   
             <?}?>
 				<?
-                if($row_no[adjunct_2])
+                if($row_no['adjunct_2'])
                 {
-                    $file_1_arr=explode("\n",$row_no[adjunct_1]);							
-                    $file_2_arr=explode("\n",$row_no[adjunct_2]);
+                    $file_1_arr=explode("\n",$row_no['adjunct_1']);							
+                    $file_2_arr=explode("\n",$row_no['adjunct_2']);
                     $img_arr=array();
                     $order_1_arr=array();
                     $order_2_arr=array();

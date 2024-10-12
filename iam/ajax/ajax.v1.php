@@ -79,8 +79,8 @@ if($_POST['id'] && $_POST[pwd]){
     	    }
 	}
     }
-    if($_POST[mobile])
-        $member_info['mem_phone']=$_POST[mobile];
+    if($_POST['mobile'])
+        $member_info['mem_phone']=$_POST['mobile'];
 
     $member_info[mem_nick]=htmlspecialchars($_POST['name']);
     $member_info['mem_name']=htmlspecialchars($_POST['name']);

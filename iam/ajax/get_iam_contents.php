@@ -578,7 +578,7 @@ else{
             $default_avatar =  $row['main_img1'];
 
             //westory 카드
-            $sql = "select * from Gn_Iam_Name_Card where idx = '$contents_row[card_idx]'";
+            $sql = "select * from Gn_Iam_Name_Card where idx = '{$contents_row['card_idx']}'";
             $result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
             $westory_card=mysqli_fetch_array($result);
             $sql = "select mem_code from Gn_Member where mem_id = '{$westory_card['mem_id']}'";

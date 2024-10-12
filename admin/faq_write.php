@@ -222,7 +222,7 @@ td div {
                 </tr>
                 <tr>
                 <td>비밀글</td>
-                <td><input type="checkbox" name="status_1" <?=$row_no[status_1]=="Y"?"checked":""?> /></td>
+                <td><input type="checkbox" name="status_1" <?=$row_no['status_1']=="Y"?"checked":""?> /></td>
                 </tr>
                 -->
                 <?
@@ -239,9 +239,9 @@ td div {
                 <tr>
                 <td colspan="2" style="background-color:#FFF">
                     <iframe src="/upload.php?up_path=<?=$up_path?>&frm=board_write_form" name="upload_iframe" frameborder="0" width="100%" scrolling="no" height="0" style="margin:0; padding:0;display:none;" ></iframe>
-                    <input type="hidden" name="board_write_form_img_hid" id="board_write_form_img_hid" value="<?=$row_no[adjunct_1]?>" />
-                    <input type="hidden" name="board_write_form_img_hid_2" id="board_write_form_img_hid_2" value="<?=$row_no[adjunct_2]?>" />
-                    <input type="hidden" itemname='이미지메모' name="board_write_form_memo_hid" id="board_write_form_memo_hid" value="<?=$row_no[adjunct_memo]?>" />
+                    <input type="hidden" name="board_write_form_img_hid" id="board_write_form_img_hid" value="<?=$row_no['adjunct_1']?>" />
+                    <input type="hidden" name="board_write_form_img_hid_2" id="board_write_form_img_hid_2" value="<?=$row_no['adjunct_2']?>" />
+                    <input type="hidden" itemname='이미지메모' name="board_write_form_memo_hid" id="board_write_form_memo_hid" value="<?=$row_no['adjunct_memo']?>" />
                     <input type="hidden" name="up_path" value="<?=$up_path?>" />                
                 </td>
                 </tr>                

@@ -180,13 +180,13 @@ function copyHtml(url){
             ?>
             <tr>
                 <td><?=$sort_no?></td>
-                <td style="font-size:12px;"><?=$row[event_name_eng]?></td>
-                <td style="font-size:12px;"><?=$row[reservation_title]?></td>
-                <td><?=$row[reservation_desc]?></td>
-                <td><?=$row[mobile]?></td>
+                <td style="font-size:12px;"><?=$row['event_name_eng']?></td>
+                <td style="font-size:12px;"><?=$row['reservation_title']?></td>
+                <td><?=$row['reservation_desc']?></td>
+                <td><?=$row['mobile']?></td>
                 <td><?=number_format($srow['cnt'])?></td>
                 <td>
-                    <a href="javascript:;;" onclick="useIt('<?=$row[sms_idx];?>', '<?=$row[event_name_eng];?>','<?=$row[pcode]?>','<?=$srow['cnt']?>','<?=$row[event_idx]?>','<?=$row[reservation_title]?>','<?=$row[mobile]?>')">사용하기</a>
+                    <a href="javascript:;;" onclick="useIt('<?=$row[sms_idx];?>', '<?=$row['event_name_eng'];?>','<?=$row[pcode]?>','<?=$srow['cnt']?>','<?=$row['event_idx']?>','<?=$row['reservation_title']?>','<?=$row['mobile']?>')">사용하기</a>
                 </td>                               
             </tr>
               <?
@@ -245,7 +245,7 @@ function useIt(ori_sms_idx, event_name_eng, pcode, step, event_idx, title, mobil
       type:"POST",
       url:"/ajax/edit_event.php",
       dataType:"json",
-      data:{edit_step:true, event_idx:'<?=$_REQUEST[event_idx]?>', sms_idx:ori_sms_idx, mobile:mobile, type:'<?=$_REQUEST[type]?>'},
+      data:{edit_step:true, event_idx:'<?=$_REQUEST['event_idx']?>', sms_idx:ori_sms_idx, mobile:mobile, type:'<?=$_REQUEST[type]?>'},
       success:function(data){
         alert("적용되었습니다.");
         opener.$('#edit_step_info').attr("href", "/mypage_reservation_create.php?sms_idx="+ori_sms_idx);

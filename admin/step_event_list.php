@@ -168,7 +168,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                         <td><?=$number--?></td>
                             <td style="font-size:12px;"><?=$row[m_id]?></td>
                             <td style="font-size:12px;"><?=$srow['mem_name']?></td>
-                        <td style="font-size:12px;"><?=$row[event_name_eng]?></td>
+                        <td style="font-size:12px;"><?=$row['event_name_eng']?></td>
                         <td style="font-size:12px;"><?=$row[event_name_kor]?></td>
                         <td>
                           <?php
@@ -187,7 +187,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                         </td>
                         <td><?=$row[read_cnt]?></td>
                         <td><?=$row[pcode]?></td>
-                        <td><?=$row[mobile]?></td>
+                        <td><?=$row['mobile']?></td>
                             
                         <td><?=$row['regdate']?></td>
                       </tr>

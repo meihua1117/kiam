@@ -268,7 +268,7 @@ function deleteRow(event_id) {
 											<td><?=$sort_no?></td>
 											<td style="font-size:12px;"><?=$row[event_title]?></td>
 											<td style="font-size:12px;"><?=$row[event_name_kor]?><br>
-											<a onclick="window.open('mypage_pop_member_list.php?eventid='+'<?=$row[event_idx]?>','','top=300,left=300,width=800,height=500,toolbar=no,menubar=no,scrollbars=yes, resizable=yes,location=no, status=no')" >[보기]</a></td>
+											<a onclick="window.open('mypage_pop_member_list.php?eventid='+'<?=$row['event_idx']?>','','top=300,left=300,width=800,height=500,toolbar=no,menubar=no,scrollbars=yes, resizable=yes,location=no, status=no')" >[보기]</a></td>
 											<td>
 												<?php
 												if($row[event_name_kor] == "단체회원자동가입및아이엠카드생성"){
@@ -287,7 +287,7 @@ function deleteRow(event_id) {
 												<a onclick="newpop('<?=$pop_url?>')">미리보기</a><br>
 												<a onclick="copyHtml('<?=$row['short_url']?>')">&nbsp;링크복사</a>
 											</td>
-											<td><?=$row[mobile]?></td>
+											<td><?=$row['mobile']?></td>
 											<td>
 												<?
 													if($row['sms_idx1'] != 0)

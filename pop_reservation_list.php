@@ -170,7 +170,7 @@ $(function(){
         				$sresult=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));				                    
         				$srow = mysqli_fetch_array($sresult);
         				
-        				$sql="select * from Gn_event where event_name_eng='$row[event_name_eng]'";
+        				$sql="select * from Gn_event where event_name_eng='{$row['event_name_eng']}'";
         				$eresult=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));				                    
         				$erow = mysqli_fetch_array($eresult);        				
  
@@ -178,13 +178,13 @@ $(function(){
               <tr>
                 <td></td>
                 <td><?=$sort_no?></td>
-                <td style="font-size:12px;"><?=$row[reservation_title]?></td>
-                <td><?=$row[reservation_desc]?></td>
+                <td style="font-size:12px;"><?=$row['reservation_title']?></td>
+                <td><?=$row['reservation_desc']?></td>
                 <td><?=number_format($srow['cnt'])?></td>
                 <td><?=number_format($cnt)?>/<?=number_format($cnt)?></td>
                 <td><?=$row['regdate']?></td>
                 <td>
-                    <a href="javascript:;;" onclick="useIt('<?=$row[sms_idx];?>','<?=$erow[event_idx]?>','<?=$row[event_name_eng]?>','<?=$row[event_name_kor]?>','<?=$row[reservation_title]?>','<?=$srow['cnt']?>','<?=$erow[pcode]?>')">사용하기</a>
+                    <a href="javascript:;;" onclick="useIt('<?=$row[sms_idx];?>','<?=$erow['event_idx']?>','<?=$row['event_name_eng']?>','<?=$row[event_name_kor]?>','<?=$row['reservation_title']?>','<?=$srow['cnt']?>','<?=$erow[pcode]?>')">사용하기</a>
                 </td>                                
               </tr>
               <?

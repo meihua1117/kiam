@@ -188,10 +188,10 @@ $(function(){
               <tr>
                 <td></td>
                 <td><?=$sort_no?></td>
-                <td style="font-size:12px;"><?=$row[event_name_eng]?></td>
-                <td style="font-size:12px;"><?=$row[reservation_title]?></td>
-                <td><?=$row[reservation_desc]?></td>
-                <td><?=$row[mobile]?></td>
+                <td style="font-size:12px;"><?=$row['event_name_eng']?></td>
+                <td style="font-size:12px;"><?=$row['reservation_title']?></td>
+                <td><?=$row['reservation_desc']?></td>
+                <td><?=$row['mobile']?></td>
                 <td><?=number_format($srow['cnt'])?></td>
                 <td><?=number_format($cnt)?>/<?=number_format($cnt)?></td>
                 <td><?=$row['regdate']?></td>

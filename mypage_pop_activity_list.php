@@ -176,7 +176,7 @@ function copyHtml(url){
               </tr>
               <?
 
-              $sql_serch=" landing_idx=0 and mobile='$data[mobile]'";
+              $sql_serch=" landing_idx=0 and mobile='{$data['mobile']}'";
 
               $sql="select count(*) as cnt from Gn_event_request where $sql_serch ";
               $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
@@ -218,7 +218,7 @@ function copyHtml(url){
                     
                     while($row=mysqli_fetch_array($result))
                     {
-                      $sql = "select * from Gn_event where event_idx='$row[event_idx]'";
+                      $sql = "select * from Gn_event where event_idx='{$row['event_idx']}'";
                       $eres = mysqli_query($self_con,$sql);
                       $erow = mysqli_fetch_array($eres);
                     ?>
@@ -277,7 +277,7 @@ function copyHtml(url){
               </tr>
               <?
 
-              $sql_serch=" landing_idx!=0 and mobile='$data[mobile]'";
+              $sql_serch=" landing_idx!=0 and mobile='$data['mobile']'";
 
               $sql="select count(*) as cnt from Gn_event_request where $sql_serch ";
               $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
@@ -319,7 +319,7 @@ function copyHtml(url){
                     
                     while($row=mysqli_fetch_array($result))
                     {
-                      $sql = "select * from Gn_event where event_idx='$row[event_idx]'";
+                      $sql = "select * from Gn_event where event_idx='$row['event_idx']'";
                       $eres = mysqli_query($self_con,$sql);
                       $erow = mysqli_fetch_array($eres);
 

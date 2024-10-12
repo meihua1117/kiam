@@ -268,7 +268,7 @@ $(function() {
                                 while($row = mysqli_fetch_array($res)) {
                                     $preview_link = "";
                                     if($row['mall_type'] == 1){
-                                        $sql = "select card_short_url from Gn_Iam_Name_Card n inner join Gn_Member m on m.mem_id=n.mem_id where m.mem_code = '$row[card_idx]' order by n.req_data limit 0,1";
+                                        $sql = "select card_short_url from Gn_Iam_Name_Card n inner join Gn_Member m on m.mem_id=n.mem_id where m.mem_code = '{$row['card_idx']}' order by n.req_data limit 0,1";
                                         $res1 = mysqli_query($self_con,$sql);
                                         $row1 = mysqli_fetch_array($res1);
                                         if($row['site_iam'] == "kiam")
@@ -278,7 +278,7 @@ $(function() {
                                         $preview_link .= $row1[0].$row['card_idx'];
                                     }
                                     if($row['mall_type'] == 2){
-                                        $sql = "select card_short_url,mem_id from Gn_Iam_Name_Card where idx = '$row[card_idx]'";
+                                        $sql = "select card_short_url,mem_id from Gn_Iam_Name_Card where idx = '{$row['card_idx']}'";
                                         $res2 = mysqli_query($self_con,$sql);
                                         $row2 = mysqli_fetch_array($res2);
                                         $mall_url = $row2[0];

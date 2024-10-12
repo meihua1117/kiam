@@ -26,7 +26,7 @@ $result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 $row=mysqli_fetch_array($result);
 $default_avatar =  $row['main_img1'];
 
-$sql = "select * from Gn_Iam_Name_Card where idx = '$meta_row[card_idx]'";
+$sql = "select * from Gn_Iam_Name_Card where idx = '{$meta_row['card_idx']}'";
 $result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 $name_card=mysqli_fetch_array($result);
 //콘텐츠에 현시할 이름과 아바타

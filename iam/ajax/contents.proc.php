@@ -770,7 +770,7 @@ else if ($post_type == "edit") {
                                     contents_type_display = \"$contents_type_display\",
                                     contents_footer_display = \"$contents_footer_display\",
                                     contents_share_text = \"$contents_share_id\",
-                                    card_idx = \"$row_share_con[card_idx]\",
+                                    card_idx = \"{$row_share_con['card_idx']}\",
                                     open_type = '$open_type',
                                     gwc_con_state = '$gwc_con_state',
                                     product_code = '$product_code',
@@ -893,7 +893,7 @@ else if ($post_type == "edit") {
                                         contents_type_display = \"$contents_type_display\",
                                         contents_footer_display = \"$contents_footer_display\",
                                         contents_share_text = \"$contents_share_id\",
-                                        card_idx = \"$row_share_con[card_idx]\",
+                                        card_idx = \"{$row_share_con['card_idx']}\",
                                         open_type = \"$open_type\",
                                         gwc_con_state = '$gwc_con_state',
                                         product_code = '$product_code',
@@ -969,7 +969,7 @@ else if ($post_type == "edit") {
                                         reduce_val = '$reduce_val',
                                         landing_mode = \"$landing_mode\" $contents_iframe_msg where idx = '$contents_idx' and mem_id = '$mem_id' ";
         mysqli_query($self_con,$sql2) or die(mysqli_error($self_con));
-        $sql = "update Gn_Iam_Con_Card set main_card = {$card_row['idx']} where cont_idx = $content_idx and main_card = $old_row[card_idx]";
+        $sql = "update Gn_Iam_Con_Card set main_card = {$card_row['idx']} where cont_idx = $content_idx and main_card = {$old_row['card_idx']}";
         mysqli_query($self_con,$sql);
         $old_card_array = explode(",", $old_row['card_short_url']);
         foreach (array_diff($old_card_array, $card_array) as $card_link) {
@@ -1014,7 +1014,7 @@ else if ($post_type == "edit") {
                                         contents_type_display = \"$contents_type_display\",
                                         contents_footer_display = \"$contents_footer_display\",
                                         contents_share_text = \"$contents_share_id\",
-                                        card_idx = \"$row_share_con[card_idx]\",
+                                        card_idx = \"{$row_share_con['card_idx']}\",
                                         open_type = \"$open_type\",
                                         gwc_con_state = '$gwc_con_state',
                                         product_code = '$product_code',
@@ -1114,7 +1114,7 @@ else if ($post_type == "edit") {
                                     contents_type_display = \"$contents_type_display\",
                                     contents_footer_display = \"$contents_footer_display\",
                                     contents_share_text = \"$contents_share_id\",
-                                    card_idx = \"$row_share_con[card_idx]\",
+                                    card_idx = \"{$row_share_con['card_idx']}\",
                                     open_type = '$open_type',
                                     gwc_con_state = '$gwc_con_state',
                                     product_code = '$product_code',
@@ -1297,13 +1297,13 @@ else if ($post_type == "range_up") {
     $cnt_share = mysqli_num_rows($res_share);
     if ($cnt_share) {
         while ($row_share = mysqli_fetch_array($res_share)) {
-            $sql = "select max(contents_order) from " . $contents_table_name . " where card_idx = '$row_share[card_idx]'";
+            $sql = "select max(contents_order) from " . $contents_table_name . " where card_idx = '{$row_share['card_idx']}'";
             $result = mysqli_query($self_con,$sql);
             $row = mysqli_fetch_array($result);
             $max_order = $row[0];
             if ($contents_order < $max_order) {
                 $change_order = $contents_order + 1;
-                $sql = "select idx from " . $contents_table_name . " where card_idx = '$row_share[card_idx]' and contents_order = '$change_order'";
+                $sql = "select idx from " . $contents_table_name . " where card_idx = '{$row_share['card_idx']}' and contents_order = '$change_order'";
                 $result = mysqli_query($self_con,$sql);
                 $row = mysqli_fetch_array($result);
                 if ($row) {
@@ -1344,16 +1344,16 @@ else if ($post_type == "range_up_max") {
     $cnt_share = mysqli_num_rows($res_share);
     if ($cnt_share) {
         while ($row_share = mysqli_fetch_array($res_share)) {
-            $sql = "select max(contents_order) from " . $contents_table_name . " where card_idx = '$row_share[card_idx]'";
+            $sql = "select max(contents_order) from " . $contents_table_name . " where card_idx = '{$row_share['card_idx']}'";
             $result = mysqli_query($self_con,$sql);
             $row = mysqli_fetch_array($result);
             $max_order = $row[0];
 
-            $sql = "select idx from " . $contents_table_name . " where card_idx = '$row_share[card_idx]' and contents_order = '$max_order'";
+            $sql = "select idx from " . $contents_table_name . " where card_idx = '{$row_share['card_idx']}' and contents_order = '$max_order'";
             $result = mysqli_query($self_con,$sql);
             $row = mysqli_fetch_array($result);
             if ($row) {
-                $sql = "update " . $contents_table_name . " set contents_order = contents_order - 1 where card_idx = '$row_share[card_idx]' and contents_order > '$contents_order'";
+                $sql = "update " . $contents_table_name . " set contents_order = contents_order - 1 where card_idx = '{$row_share['card_idx']}' and contents_order > '$contents_order'";
                 mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 
                 $sql = "update " . $contents_table_name . " set contents_order = '$max_order' where idx = {$row_share['idx']}";
@@ -1391,13 +1391,13 @@ else if ($post_type == "range_down") {
     $cnt_share = mysqli_num_rows($res_share);
     if ($cnt_share) {
         while ($row_share = mysqli_fetch_array($res_share)) {
-            $sql = "select min(contents_order) from " . $contents_table_name . " where card_idx = '$row_share[card_idx]'";
+            $sql = "select min(contents_order) from " . $contents_table_name . " where card_idx = '{$row_share['card_idx']}'";
             $result = mysqli_query($self_con,$sql);
             $row = mysqli_fetch_array($result);
             $min_order = $row[0];
             if ($contents_order > $min_order) {
                 $change_order = $contents_order - 1;
-                $sql = "select idx from " . $contents_table_name . " where card_idx = '$row_share[card_idx]' and contents_order = '$change_order'";
+                $sql = "select idx from " . $contents_table_name . " where card_idx = '{$row_share['card_idx']}' and contents_order = '$change_order'";
                 $result = mysqli_query($self_con,$sql);
                 $row = mysqli_fetch_array($result);
                 if ($row) {
@@ -1438,16 +1438,16 @@ else if ($post_type == "range_down_min") {
     $cnt_share = mysqli_num_rows($res_share);
     if ($cnt_share) {
         while ($row_share = mysqli_fetch_array($res_share)) {
-            $sql = "select min(contents_order) from " . $contents_table_name . " where card_idx = '$row_share[card_idx]'";
+            $sql = "select min(contents_order) from " . $contents_table_name . " where card_idx = '{$row_share['card_idx']}'";
             $result = mysqli_query($self_con,$sql);
             $row = mysqli_fetch_array($result);
             $min_order = $row[0];
 
-            $sql = "select idx from " . $contents_table_name . " where card_idx = '$row_share[card_idx]' and contents_order = '$min_order'";
+            $sql = "select idx from " . $contents_table_name . " where card_idx = '{$row_share['card_idx']}' and contents_order = '$min_order'";
             $result = mysqli_query($self_con,$sql);
             $row = mysqli_fetch_array($result);
             if ($row) {
-                $sql = "update " . $contents_table_name . " set contents_order = contents_order + 1 where card_idx = '$row_share[card_idx]' and contents_order < '$contents_order'";
+                $sql = "update " . $contents_table_name . " set contents_order = contents_order + 1 where card_idx = '{$row_share['card_idx']}' and contents_order < '$contents_order'";
                 mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 
                 $sql = "update " . $contents_table_name . " set contents_order = '$min_order' where idx = {$row_share['idx']}";

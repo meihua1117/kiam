@@ -104,7 +104,7 @@ else{
             $res_card_idx = mysqli_query($self_con,$sql_card_idx);
             $row_card_idx = mysqli_fetch_array($res_card_idx);
     
-            $sql_card_data = "select sale_cnt, add_fixed_val, card_name, card_company from Gn_Iam_Name_Card where idx='{$row_card_idx[card_idx]}'";
+            $sql_card_data = "select sale_cnt, add_fixed_val, card_name, card_company from Gn_Iam_Name_Card where idx='{$row_card_idx['card_idx']}'";
             $res_card_data = mysqli_query($self_con,$sql_card_data);
             $row_card_data = mysqli_fetch_array($res_card_data);
 
@@ -187,7 +187,7 @@ else{
             $res_card_idx = mysqli_query($self_con,$sql_card_idx);
             $row_card_idx = mysqli_fetch_array($res_card_idx);
     
-            $sql_card_data = "select sale_cnt, add_fixed_val, card_name, card_company from Gn_Iam_Name_Card where idx='{$row_card_idx[card_idx]}'";
+            $sql_card_data = "select sale_cnt, add_fixed_val, card_name, card_company from Gn_Iam_Name_Card where idx='{$row_card_idx['card_idx']}'";
             $res_card_data = mysqli_query($self_con,$sql_card_data);
             $row_card_data = mysqli_fetch_array($res_card_data);
 
@@ -254,18 +254,18 @@ else{
         $res_card_idx = mysqli_query($self_con,$sql_card_idx);
         $row_card_idx = mysqli_fetch_array($res_card_idx);
     
-        $sql_card_data = "select sale_cnt, add_fixed_val, card_name, card_company from Gn_Iam_Name_Card where idx='{$row_card_idx[card_idx]}'";
+        $sql_card_data = "select sale_cnt, add_fixed_val, card_name, card_company from Gn_Iam_Name_Card where idx='{$row_card_idx['card_idx']}'";
         $res_card_data = mysqli_query($self_con,$sql_card_data);
         $row_card_data = mysqli_fetch_array($res_card_data);
     
         if($row_card_data['sale_cnt']){
             $sale_after_cnt = $row_card_data['sale_cnt'] * 1 - $_POST[item_count] * 1;
             if($sale_after_cnt){
-                $sql_reduce_update = "update Gn_Iam_Name_Card set sale_cnt='{$sale_after_cnt}' where idx='{$row_card_idx[card_idx]}'";
+                $sql_reduce_update = "update Gn_Iam_Name_Card set sale_cnt='{$sale_after_cnt}' where idx='{$row_card_idx['card_idx']}'";
                 mysqli_query($self_con,$sql_reduce_update);
             }
             else{
-                $sql_reduce_update = "update Gn_Iam_Name_Card set sale_cnt='{$sale_after_cnt}' where idx='{$row_card_idx[card_idx]}'";
+                $sql_reduce_update = "update Gn_Iam_Name_Card set sale_cnt='{$sale_after_cnt}' where idx='{$row_card_idx['card_idx']}'";
                 mysqli_query($self_con,$sql_reduce_update);
             }
         }
