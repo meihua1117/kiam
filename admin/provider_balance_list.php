@@ -192,8 +192,8 @@ $search_month = $search_month?sprintf("%02d",$search_month):sprintf("%02d",date(
                         <div class="box-tools">
                             <div class="input-group"  >
                                 <div class="form-group">
-                                    <input type="date" style="height: 30px" name="search_start_date" placeholder="" id="search_start_date" value="<?=$_REQUEST[search_start_date]?>"/> ~
-                                    <input type="date" style="height: 30px" name="search_end_date" placeholder="" id="search_end_date" value="<?=$_REQUEST[search_end_date]?>"/>
+                                    <input type="date" style="height: 30px" name="search_start_date" placeholder="" id="search_start_date" value="<?=$_REQUEST['search_start_date']?>"/> ~
+                                    <input type="date" style="height: 30px" name="search_end_date" placeholder="" id="search_end_date" value="<?=$_REQUEST['search_end_date']?>"/>
                                 </div>
                                 <div class="form-group">
                                     <input type="text" style="margin-left:5px" name="search_key" id="search_key" class="form-control input-sm pull-right" placeholder="아이디">

@@ -480,6 +480,7 @@ if(isset($_POST['point_val'])){
 }
 
 function send_mms($mem_id, $phone_num, $subject, $content){
+    global $self_con;
     $sql_app_mem = "select * from Gn_MMS_Number where (sendnum='$phone_num' and sendnum is not null and sendnum != '')";
     // echo $sql_app_mem."pwd"; exit;
     $res_app_mem = mysqli_query($self_con,$sql_app_mem);

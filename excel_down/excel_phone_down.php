@@ -36,7 +36,7 @@ if(strlen($_SESSION['one_member_id']) > 0) {
 		$srow=mysqli_fetch_array($sresul);
 		if($srow['mem_id'] == "")
 		{
-			$sql="select m.mem_id, mem_name from Gn_Member m inner join Gn_MMS_Number n on m.mem_id=n.mem_id where n.sendnum='$row[dest]'";
+			$sql="select m.mem_id, mem_name from Gn_Member m inner join Gn_MMS_Number n on m.mem_id=n.mem_id where n.sendnum='{$row['dest']}'";
 			$sresul=mysqli_query($self_con,$sql);
 			$srow=mysqli_fetch_array($sresul);
 		}

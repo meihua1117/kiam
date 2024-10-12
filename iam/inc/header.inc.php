@@ -643,14 +643,14 @@ else{
 			<?}else{
 				if($user_mem_code == $card_owner_code){
 					if($member_iam['profile']){
-						if(strstr($member_iam[profile], "kiam")) {
-							$member_iam[profile] = str_replace("http://kiam.kr", "", $member_iam[profile]);
-							$member_iam[profile] = str_replace("http://www.kiam.kr", "", $member_iam[profile]);
+						if(strstr($member_iam['profile'], "kiam")) {
+							$member_iam['profile'] = str_replace("http://kiam.kr", "", $member_iam['profile']);
+							$member_iam['profile'] = str_replace("http://www.kiam.kr", "", $member_iam['profile']);
 						} 
-						if(!strstr($member_iam[profile], "http") && $member_iam[profile]) {
-							$image_link = $cdn_ssl.$member_iam[profile];
+						if(!strstr($member_iam['profile'], "http") && $member_iam['profile']) {
+							$image_link = $cdn_ssl.$member_iam['profile'];
 						}else{
-							$image_link = $member_iam[profile];
+							$image_link = $member_iam['profile'];
 						}
 						$image_link = cross_image($image_link);
 						?>

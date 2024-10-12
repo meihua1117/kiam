@@ -17,15 +17,15 @@ if($_REQUEST['mode']=="inser")
     }
     $chanel = 1;
     $search_str = " and (chanel_type=1 or chanel_type=4)";
-    if($row[type] == 2 || $row[type] == 3 || $row[type] == 4){
+    if($row['type'] == 2 || $row['type'] == 3 || $row['type'] == 4){
         $chanel = 2;
         $search_str = " and chanel_type=2";
     }
-    if($row[type] == 6 || $row[type] == 8){
+    if($row['type'] == 6 || $row['type'] == 8){
         $chanel = 4;
         $search_str = " and (chanel_type=1 or chanel_type=4)";
     }
-    if($row[type] == 1){
+    if($row['type'] == 1){
         $chanel = 1;
         $search_str = " and (chanel_type=1 or chanel_type=4)";
     }
@@ -44,7 +44,7 @@ if($_REQUEST['mode']=="inser")
 		$deny_info['jpg']=$row['jpg'];
 		$deny_info['up_date']=$row['up_date'];		
 		$deny_info['status']='A';	
-        $deny_info[chanel_type]=$chanel;		
+        $deny_info['chanel_type']=$chanel;		
 		$sql="insert into Gn_MMS_Deny set ";
 		foreach($deny_info as $key=>$v)
 			$sql.=" $key='$v' , ";

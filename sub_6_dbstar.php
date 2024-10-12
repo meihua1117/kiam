@@ -792,7 +792,7 @@ $(function(){
 											while($row=mysqli_fetch_array($resul)){
 												$row['user_cnt'] = $row['daily_limit_cnt_user'];
 												$is_send=true;
-												$sql_result2_g = "select SUM(recv_num_cnt) from Gn_MMS where send_num='$row[sendnum]' and ((reg_date like '$today_reg%' and reservation is null) or reservation like '$today_reg%')";
+												$sql_result2_g = "select SUM(recv_num_cnt) from Gn_MMS where send_num='{$row['sendnum']}' and ((reg_date like '$today_reg%' and reservation is null) or reservation like '$today_reg%')";
 												$res_result2_g = mysqli_query($self_con,$sql_result2_g) or die(mysqli_error($self_con));
 												$today_cnt_1=0;
 												$row_result2_g = mysqli_fetch_array($res_result2_g);
@@ -835,14 +835,14 @@ $(function(){
 												
 												if($row['user_cnt'] <0) $row['user_cnt'] = 0;
 												// =========== Cooper add 폰별 월 발송량 체크  Start =========== 
-												$query = "select * from Gn_MMS_Number where mem_id='{$_SESSION['one_member_id']}' and sendnum='".$row[sendnum]."'";
+												$query = "select * from Gn_MMS_Number where mem_id='{$_SESSION['one_member_id']}' and sendnum='".$row['sendnum']."'";
 												$result = mysqli_query($self_con,$query);
 												
 												$memo2 = $row['memo2'];
 												$monthly_limit_ssh = $memo2 ? $agency_arr[$memo2] : 800; //월별 수신처 제한 수 
 												//이번 달 총 수신처 수
 												$ssh_cnt=0;
-												$sql_ssh="select recv_num from Gn_MMS where send_num='".$row[sendnum]."' and and (reg_date like '$date_month%' or reservation like '$date_month%')  group by(recv_num)";
+												$sql_ssh="select recv_num from Gn_MMS where send_num='".$row['sendnum']."' and and (reg_date like '$date_month%' or reservation like '$date_month%')  group by(recv_num)";
 												$result_ssh=mysqli_query($self_con,$sql_ssh);
 												while($row_ssh=mysqli_fetch_array($result_ssh)){
 													$ssh_arr=explode(",",$row_ssh['recv_num']);
@@ -853,7 +853,7 @@ $(function(){
 												
 												mysqli_free_result($result_ssh);  			
 												// 200~500건 10번 이상 발송 경우 건수 조정 금일 발송 기록이 있는경우 발송 불가
-												//echo "$row[max_cnt] - $ssh_cnt < $row['user_cnt'] == $monthly_limit_ssh<BR>";
+												//echo "$row['max_cnt'] - $ssh_cnt < $row['user_cnt'] == $monthly_limit_ssh<BR>";
 												//if($monthly_limit_ssh - $ssh_cnt < $row['user_cnt']) {
 												//    $row['user_cnt'] = $monthly_limit_ssh - $ssh_cnt;
 												//}  
@@ -903,7 +903,7 @@ $(function(){
 													$send_status="<span style='color:red'>불가</span>";
 												}
 												
-												$sql_s="select * from Gn_MMS_status where send_num='$row[sendnum]' and  regdate like '$today_reg%' order by regdate desc limit 1";
+												$sql_s="select * from Gn_MMS_status where send_num='{$row['sendnum']}' and  regdate like '$today_reg%' order by regdate desc limit 1";
 												$resul_s=mysqli_query($self_con,$sql_s);
 												$row_s=mysqli_fetch_array($resul_s);
 												mysqli_free_result($resul_s);
@@ -912,12 +912,12 @@ $(function(){
 													$send_status="<span style='color:red'>불가</span>";
 												}
 												// =========== Cooper add 폰별 월 발송량 체크  End =========== 				
-												if($ableNum[$row[sendnum]] == "") $is_send = false;
+												if($ableNum[$row['sendnum']] == "") $is_send = false;
 												if($is_send == true) $use_phone_cnt++;
 												?>
 											<tr style="<?php if($row_s['status'] == "-1") {echo"background:#efefef";}?>">
 												<td style="text-align:left;">
-												<label><input type="checkbox" name="go_num" value="<?=$row[sendnum]?>"  <?=!$is_send?"disabled":""?>  <?=$fujia_pay==""&&$row[sendnum]!=$mem_phone?"disabled":""?> onclick="send_sj_fun()" data-user_cnt="<?=$row['user_cnt']?>" data-send-cnt="<?=$ssh_cnt?>" data-max-cnt="<?=$monthly_limit_ssh?>" data-name="<?=$row['memo']?>" /><?=$row[sendnum]?></label>
+												<label><input type="checkbox" name="go_num" value="<?=$row['sendnum']?>"  <?=!$is_send?"disabled":""?>  <?=$fujia_pay==""&&$row['sendnum']!=$mem_phone?"disabled":""?> onclick="send_sj_fun()" data-user_cnt="<?=$row['user_cnt']?>" data-send-cnt="<?=$ssh_cnt?>" data-max-cnt="<?=$monthly_limit_ssh?>" data-name="<?=$row['memo']?>" /><?=$row['sendnum']?></label>
 												<input type="hidden" name="go_user_cnt" value="<?=$row['user_cnt']?>" />
 												<input type="hidden" name="go_max_cnt" value="<?=$row['daily_limit_cnt_user']?>" />
 												<input type="hidden" name="go_memo2" value="<?=$row['memo2']?>" />

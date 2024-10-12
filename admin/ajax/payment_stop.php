@@ -22,7 +22,7 @@ if($row[stop_yn] == "Y") {
 
     if($row['payMethod'] == "MONTH"){
         $date = date("Y-m");
-        $query = "update tjd_pay_result_month set pay_yn='Y' where order_number='$row[orderNumber]' and regdate like '$date%'";
+        $query = "update tjd_pay_result_month set pay_yn='Y' where order_number='{$row['orderNumber']}' and regdate like '$date%'";
         mysqli_query($self_con,$query);
     }
 } else {
@@ -37,7 +37,7 @@ if($row[stop_yn] == "Y") {
 
     if($row['payMethod'] == "MONTH"){
         $date = date("Y-m");
-        $query = "update tjd_pay_result_month set pay_yn='N' where order_number='$row[orderNumber]' and regdate like '$date%'";
+        $query = "update tjd_pay_result_month set pay_yn='N' where order_number='{$row['orderNumber']}' and regdate like '$date%'";
         mysqli_query($self_con,$query);
     }
 

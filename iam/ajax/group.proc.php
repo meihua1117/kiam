@@ -177,7 +177,7 @@ if(!$method) {
     $sql = "select * from gn_group_member where mem_id='{$_SESSION['iam_member_id']}' and group_id='$group_id'";
     $res = mysqli_query($self_con,$sql);
     $row = mysqli_fetch_array($res);
-    if($row[fix_status] == "Y"){
+    if($row['fix_status'] == "Y"){
         $sql = "update gn_group_member set fix_status = 'N' where mem_id='{$_SESSION['iam_member_id']}' and group_id='$group_id'";
         mysqli_query($self_con,$sql);
         echo json_encode(array("result"=>"N"));
@@ -238,7 +238,7 @@ if(!$method) {
     $sql = "select group_id,group_fix,card_idx from Gn_Iam_Contents where idx = '$group_id'";
     $res = mysqli_query($self_con,$sql);
     $row = mysqli_fetch_array($res);
-    if($row[group_fix] == 0) {
+    if($row['group_fix'] == 0) {
         $sql = "select max(group_fix) from Gn_Iam_Contents where card_idx = '{$row['card_idx']}'";
         $res = mysqli_query($self_con,$sql);
         $max_row = mysqli_fetch_array($res);

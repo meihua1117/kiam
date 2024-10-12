@@ -302,7 +302,7 @@ else if($mode == "change_cont_order_type"){
             $sql = "update Gn_Iam_Contents set contents_order = '$i' where idx = '$cont_idx'";
             mysqli_query($self_con,$sql);
         }
-        $sql = "select idx from Gn_Iam_Contents use index(westory_card_url) where idx not in (".$_POST[cont_order].") and mem_id = '{$_SESSION['iam_member_id']}' and westory_card_url ='$card_short_url'";
+        $sql = "select idx from Gn_Iam_Contents use index(westory_card_url) where idx not in (".$_POST['cont_order'].") and mem_id = '{$_SESSION['iam_member_id']}' and westory_card_url ='$card_short_url'";
         $res = mysqli_query($self_con,$sql);
         while($row = mysqli_fetch_array($res)) {
             $sql = "delete from Gn_Iam_Contents where idx = '{$row['idx']}'";

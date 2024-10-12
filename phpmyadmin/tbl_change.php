@@ -363,9 +363,9 @@ foreach ($rows as $row_id => $vrow) {
 
             // Note: (tested in MySQL 4.0.16): when lang is some UTF-8,
             // $field['Default'] is not set if it contains NULL:
-            // Array ([Field] => d [Type] => datetime [Null] => YES [Key] => [Extra] => [True_Type] => datetime)
+            // Array ([Field] => d ['type'] => datetime [Null] => YES [Key] => [Extra] => [True_Type] => datetime)
             // but, look what we get if we switch to iso: (Default is NULL)
-            // Array ([Field] => d [Type] => datetime [Null] => YES [Key] => [Default] => [Extra] => [True_Type] => datetime)
+            // Array ([Field] => d ['type'] => datetime [Null] => YES [Key] => [Default] => [Extra] => [True_Type] => datetime)
             // so I force a NULL into it (I don't think it's possible
             // to have an empty default value for DATETIME)
             // then, the "if" after this one will work

@@ -184,8 +184,8 @@ $path="./";
                                         <option value="mem_phone" <?=$_REQUEST[search_type]=='mem_phone'?"selected":"";?>>휴대폰</option>
                                         <option value="content" <?=$_REQUEST[search_type]=='content'?"selected":"";?>>내용</option>
                                     </select>
-                                    <input type="date" style="height: 30px" name="search_start_date" placeholder="" id="search_start_date" value="<?=$_REQUEST[search_start_date]?>"/> ~
-                                    <input type="date" style="height: 30px" name="search_end_date" placeholder="" id="search_end_date" value="<?=$_REQUEST[search_end_date]?>"/>
+                                    <input type="date" style="height: 30px" name="search_start_date" placeholder="" id="search_start_date" value="<?=$_REQUEST['search_start_date']?>"/> ~
+                                    <input type="date" style="height: 30px" name="search_end_date" placeholder="" id="search_end_date" value="<?=$_REQUEST['search_end_date']?>"/>
                                 </div>
                                 <div class="form-group">
                                     <input type="text" style="margin-left:5px" name="search_key" id="search_key" class="form-control input-sm pull-right" value="<?=$_REQUEST['search_key']?>">

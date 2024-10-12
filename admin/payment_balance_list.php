@@ -128,8 +128,8 @@ function payment_save(fm) {
                   <div class="form-group">
                   </div>
                   <div class="form-group">  
-                      <input type="text" name="search_start_date" placeholder="" id="search_start_date" value="<?=$_REQUEST[search_start_date]?>"/> ~
-                      <input type="text"  name="search_end_date" placeholder="" id="search_end_date" value="<?=$_REQUEST[search_end_date]?>"/>                  
+                      <input type="text" name="search_start_date" placeholder="" id="search_start_date" value="<?=$_REQUEST['search_start_date']?>"/> ~
+                      <input type="text"  name="search_end_date" placeholder="" id="search_end_date" value="<?=$_REQUEST['search_end_date']?>"/>                  
                   </div>
                   <div class="form-group">
                       <input type="text" name="search_key" id="search_key" class="form-control input-sm pull-right" placeholder="이름/아이디/금액">
@@ -272,12 +272,12 @@ function payment_save(fm) {
                 	$query .= "$orderQuery";
                 	$res = mysqli_query($self_con,$query);
                     while($row = mysqli_fetch_array($res)) {                       	
-                        //if($row[total_price] == 500000) {
+                        //if($row['total_price'] == 500000) {
                         //    $query = "Select * from tjd_pay_result_delaer where m_id='{$row['mem_id']}'";
                         //    $sres = mysqli_query($self_con,$query);
                         //    $srow = mysqli_fetch_array($sres);                            
                         //    if(substr($row['date'],0,10) != substr($srow['regtime'], 0,10)) {
-                        //        $row[total_price] = 0;
+                        //        $row['total_price'] = 0;
                         //    }
                         //}
                         

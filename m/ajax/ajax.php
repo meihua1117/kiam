@@ -20,10 +20,10 @@ if($_POST['id'] && $_POST[pwd])
         $member_info['mem_pass']=md5($_POST[pwd]);
 	    $member_info[web_pwd]=$_POST[pwd];
 	}
-	if($_FILES[profile]) {
-    	$tempFile = $_FILES[profile]['tmp_name'];
+	if($_FILES['profile']) {
+    	$tempFile = $_FILES['profile']['tmp_name'];
     	if($tempFile) {
-    	    $file_arr=explode(".",$_FILES[profile]['name']);
+    	    $file_arr=explode(".",$_FILES['profile']['name']);
     	    $tmp_file_arr=explode("/",$tempFile);
     	    $file_name=date("Ymds")."_".$tmp_file_arr[count($tmp_file_arr)-1].".".$file_arr[count($file_arr)-1];
 			$up_dir = make_folder_month(2);
@@ -36,7 +36,7 @@ if($_POST['id'] && $_POST[pwd])
 			}
         	if(move_uploaded_file($_FILES['profile']['tmp_name'], $uploaddir.$file_name))
         	{
-        	    $member_info[profile] = $up_dir.$file_name;
+        	    $member_info['profile'] = $up_dir.$file_name;
         	}
 		}
 	}

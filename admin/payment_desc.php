@@ -327,7 +327,7 @@ while($row = mysqli_fetch_array($res)){
                                 <tr>
                                     <td>폰연결수</td>
                                     <?foreach($pay_row as $row){?>
-                                    <td><input style="text-align:right" type="text" value=<?=$row[phone_cnt] < 0 ?"무제한" : $row[phone_cnt]?> min="0" data-idx="<?=$row['idx']?>" data-name="phone_cnt"></td>
+                                    <td><input style="text-align:right" type="text" value=<?=$row['phone_cnt'] < 0 ?"무제한" : $row['phone_cnt']?> min="0" data-idx="<?=$row['idx']?>" data-name="phone_cnt"></td>
                                     <?}?>
                                 </tr>
                                 <tr>

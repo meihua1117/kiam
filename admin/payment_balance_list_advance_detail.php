@@ -197,12 +197,12 @@ function payment_save(fm) {
                     $query .= $orderQuery;
                 	  $res = mysqli_query($self_con,$query);
                     while($row = mysqli_fetch_array($res)) {                       	
-                        if($row[total_price] == 500000) {
+                        if($row['total_price'] == 500000) {
                             $query = "Select * from tjd_pay_result_delaer where m_id='{$row['mem_id']}'";
                             $sres = mysqli_query($self_con,$query);
                             $srow = mysqli_fetch_array($sres);                            
                             if(substr($row['date'],0,10) != substr($srow['regtime'], 0,10)) {
-                                $row[total_price] = 0;
+                                $row['total_price'] = 0;
                             }
                         }
                         if($row['type'] == 'seller'){
@@ -235,7 +235,7 @@ function payment_save(fm) {
                           $mem_level = "FREE";
                         }                           
                         $balance_fee = 0;
-                        $share_fee = $row[total_price];
+                        $share_fee = $row['total_price'];
                         if($row['balance_yn'] == "Y") 
                            $balance_fee = $share_fee;
                         $total_share += $share_fee;

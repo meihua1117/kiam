@@ -578,7 +578,7 @@ $row_content = mysqli_fetch_array($res_content);
                                                 $send_num = $_REQUEST['send_num'];
                                             }
                                         ?>
-                                            <option value="<?= str_replace("-", "", $korow[sendnum]) ?>" <?php echo $send_num == str_replace("-", "", $korow[sendnum]) ? "selected" : "" ?>><?php echo str_replace("-", "", $korow[sendnum]); ?></option>
+                                            <option value="<?= str_replace("-", "", $korow['sendnum']) ?>" <?php echo $send_num == str_replace("-", "", $korow['sendnum']) ? "selected" : "" ?>><?php echo str_replace("-", "", $korow['sendnum']); ?></option>
                                         <?php } ?>
                                     </select>
                                 </td>

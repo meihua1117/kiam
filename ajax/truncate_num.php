@@ -8,8 +8,8 @@ if($_SESSION['one_member_id']){
 	//echo $sql;
 	$result = mysqli_query($self_con,$sql);
 	while($row=mysqli_fetch_array($result)) {
-	    $query = "delete from Gn_MMS_Receive where mem_id='{$_SESSION['one_member_id']}' and recv_num='$row[dest]'";
-	    //echo $row[dest];
+	    $query = "delete from Gn_MMS_Receive where mem_id='{$_SESSION['one_member_id']}' and recv_num='{$row['dest']}'";
+	    //echo $row['dest'];
 	    //echo $query."<BR>";
 	    mysqli_query($self_con,$query);
 	

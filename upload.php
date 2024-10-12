@@ -34,9 +34,9 @@ if($_REQUEST[del])
   window.parent.document.getElementById('<?=$_REQUEST[frm]?>_img_hid_2').value=upload_arry2.join("\n");
   </script>
   <?
-  	//@unlink($_SERVER['DOCUMENT_ROOT']."/".$thum."/".$_REQUEST[up_path]."/".$_REQUEST['name']);
-  	//@unlink($_SERVER['DOCUMENT_ROOT']."/".$thum."1/".$_REQUEST[up_path]."/".$_REQUEST['name']);
-  	//@unlink($_SERVER['DOCUMENT_ROOT']."/".$thum."2/".$_REQUEST[up_path]."/".$_REQUEST['name']);	
+  	//@unlink($_SERVER['DOCUMENT_ROOT']."/".$thum."/".$_REQUEST['up_path']."/".$_REQUEST['name']);
+  	//@unlink($_SERVER['DOCUMENT_ROOT']."/".$thum."1/".$_REQUEST['up_path']."/".$_REQUEST['name']);
+  	//@unlink($_SERVER['DOCUMENT_ROOT']."/".$thum."2/".$_REQUEST['up_path']."/".$_REQUEST['name']);	
 }
 ?>
 <script language="javascript">
@@ -159,9 +159,9 @@ if(window.parent.document.getElementById('<?=$_REQUEST[frm]?>_img_hid').value)
 		 if(fileTypes.indexOf(arr_img2[arr_img2.length-1].toLocaleLowerCase())==-1)
 		var img_title="/images/file_xk.jpg";
 		 else
-		var img_title="/adjunct/board/thum2/<?=$_REQUEST[up_path]?>/"+arr_img[i];
+		var img_title="/adjunct/board/thum2/<?=$_REQUEST['up_path']?>/"+arr_img[i];
 		var memo=arr_memo[i]?arr_memo[i]:"";
-        img_str+='<div style="float:left;margin-right:2px;"><a href="javascript:void(0)" style="background-color:#FFF;border:1px solid #CCC;position:absolute;" onclick="if(confirm(\'삭제하시겠습니까?\')){location.replace(\'upload.php?arry_no='+i+'&del=sss&up_path=<?=$_REQUEST[up_path]?>&frm=<?=$_REQUEST[frm]?>&category_id=<?=$_REQUEST[category_id]?>&name='+arr_img[i]+'\');}">x</a><img src="'+img_title+'" width="40" height="40" /><div><input type="text" tabindex="'+(i+1)+'" value="'+memo+'" name="adjunct_memo" style="width:40px;height:10px;"/></div></div>';
+        img_str+='<div style="float:left;margin-right:2px;"><a href="javascript:void(0)" style="background-color:#FFF;border:1px solid #CCC;position:absolute;" onclick="if(confirm(\'삭제하시겠습니까?\')){location.replace(\'upload.php?arry_no='+i+'&del=sss&up_path=<?=$_REQUEST['up_path']?>&frm=<?=$_REQUEST[frm]?>&category_id=<?=$_REQUEST[category_id]?>&name='+arr_img[i]+'\');}">x</a><img src="'+img_title+'" width="40" height="40" /><div><input type="text" tabindex="'+(i+1)+'" value="'+memo+'" name="adjunct_memo" style="width:40px;height:10px;"/></div></div>';
 	 }
    document.getElementById('<?=$_REQUEST[frm]?>_img_html').innerHTML=img_str;	 
   }

@@ -364,7 +364,7 @@ extract($_REQUEST);
 	                                        <td>
 												<?=$row['send_num']?>
 												<?if(!$_REQUEST[chanel]){
-												if(!$row[type]){?>
+												if(!$row['type']){?>
 												<span style="color:#3f50cd;">(개별발송)</span>
 												<?}
 												else{?>

@@ -64,10 +64,10 @@ if($_POST['id'] && $_POST[pwd]){
         $member_info['mem_pass']=md5($_POST[pwd]);
         $member_info[web_pwd]=$_POST[pwd];
     }
-    if($_FILES[profile]) {
-    	$tempFile = $_FILES[profile]['tmp_name'];
+    if($_FILES['profile']) {
+    	$tempFile = $_FILES['profile']['tmp_name'];
     	if($tempFile) {
-    	    $file_arr=explode(".",$_FILES[profile]['name']);
+    	    $file_arr=explode(".",$_FILES['profile']['name']);
     	    $tmp_file_arr=explode("/",$tempFile);
 	    $file_name=date("Ymds")."_".$tmp_file_arr[count($tmp_file_arr)-1].".".$file_arr[count($file_arr)-1];
 	    $profile = $uploaddir.$file_name;
@@ -75,7 +75,7 @@ if($_POST['id'] && $_POST[pwd]){
 		$handle = new Image($profile, 800);
 		$handle->resize();
 		uploadFTP($profile);
-    	        $member_info[profile] = $up_dir.$file_name;
+    	        $member_info['profile'] = $up_dir.$file_name;
     	    }
 	}
     }
@@ -310,7 +310,7 @@ if($_POST['id'] && $_POST[pwd]){
 				$mem_sql = "select profile from Gn_Member where mem_id = '$mem_id'";
 				$mem_res = mysqli_query($self_con,$mem_sql);
 				$mem_row = mysqli_fetch_array($mem_res);
-				if($mem_row[profile] == ""){
+				if($mem_row['profile'] == ""){
 					mysqli_query($self_con,"update Gn_Member set profile = '$img_url' where mem_id = '$mem_id'");
 				}
 				$card_idx = mysqli_insert_id($self_con);
@@ -395,7 +395,7 @@ if($_POST[post_alert]){
 	echo json_encode(array("result"=>"success"));
 	exit;
 }
-if($_POST[type] == "show_exp_popup"){
+if($_POST['type'] == "show_exp_popup"){
 	$popup_type = $_POST[popup_type];
 	if($popup_type == 1)
 		$sql = "update Gn_Member set exp_start_status = 0 where mem_id = '$mem_id'";
@@ -409,7 +409,7 @@ if($_POST[type] == "show_exp_popup"){
 	echo json_encode(array('result'=>"success"));
 	exit;
 }
-if($_POST[type] == "get_block_data"){
+if($_POST['type'] == "get_block_data"){
     $sql = "select block_user,block_contents from Gn_Iam_Info where mem_id='$mem_id'";
     $res = mysqli_query($self_con,$sql);
     $row = mysqli_fetch_array($res);
@@ -426,7 +426,7 @@ if($_POST[type] == "get_block_data"){
         $sql = "select profile,mem_name,site_iam,mem_code from Gn_Member where mem_id = '$user_id'";
         $res = mysqli_query($self_con,$sql);
         $row = mysqli_fetch_array($res);
-        $profile = $row[profile];
+        $profile = $row['profile'];
         $name = $row['mem_name'];
         $site = $row['site_iam'];
         $mem_code = $row['mem_code'];
@@ -455,7 +455,7 @@ if($_POST[type] == "get_block_data"){
         $sql = "select profile,mem_name,site_iam from Gn_Member where mem_id = '$user_id'";
         $res = mysqli_query($self_con,$sql);
         $row = mysqli_fetch_array($res);
-        $profile = $row[profile];
+        $profile = $row['profile'];
         $name = $row['mem_name'];
         $site = $row['site_iam'];
 
@@ -475,13 +475,13 @@ if($_POST[type] == "get_block_data"){
     echo json_encode(array('block_users'=>$block_users_array,'block_contents'=>$block_contents_array));
     exit;
 }
-if($_POST[type] == "remove_all_block_data") {
+if($_POST['type'] == "remove_all_block_data") {
     $sql = "update Gn_Iam_Info set block_user=NULL,block_contents = NULL where mem_id='$mem_id'";
     mysqli_query($self_con,$sql);
     echo json_encode(array('result'=>"success"));
     exit;
 }
-if($_POST[type] == "remove_one_block_data") {
+if($_POST['type'] == "remove_one_block_data") {
     $block_type = $_POST[block_type];
     $block_idx = $_POST[block_idx];
     if ($block_type == 1){

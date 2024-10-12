@@ -177,7 +177,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                                              
                                                 <tr>
                                                     <th>답변</th>
-                                                    <td><?=$row[reply]?></td>
+                                                    <td><?=$row['reply']?></td>
                                                     <th></th>
                                                     <td></td>
                                                 </tr>                      
@@ -194,7 +194,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                             <a href="biz_notice_write.php?no=<?php echo $row['no']?>"><?php echo $row['title'];?></a>
                         <? } ?>
                         <td>
-                            <?=substr($row[date],0,10)?>
+                            <?=substr($row['date'],0,10)?>
                         </td>
                         <td><?=$row['view_cnt']?></td>
 

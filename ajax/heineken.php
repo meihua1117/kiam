@@ -1067,18 +1067,18 @@ if ($user_id) {
 
         if ($_POST[send_save_mms]) { //메시지 저장
             if ($_POST[send_onebook_status] == "Y")
-                $message_info[msg_type] = "C";
+                $message_info['msg_type'] = "C";
             else {
                 if ($_POST[send_img]) //메시지 타입
-                    $message_info[msg_type] = "B";
+                    $message_info['msg_type'] = "B";
                 else
-                    $message_info[msg_type] = "A";
+                    $message_info['msg_type'] = "A";
             }
             $sql = "insert into Gn_MMS_Message set "; //발송
             $message_info['mem_id'] = $user_id;
             $message_info['title'] = htmlspecialchars(str_replace("{|name|}", "{|REP|}", $_POST[send_title]));
             $message_info['message'] = htmlspecialchars(str_replace("{|name|}", "{|REP|}", $_POST[send_txt]));
-            $message_info[img] = $_POST[send_img];
+            $message_info['img'] = $_POST[send_img];
             $message_info[img1] = $_POST[send_img1];
             $message_info[img2] = $_POST[send_img2];
 

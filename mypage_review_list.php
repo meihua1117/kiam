@@ -139,7 +139,7 @@ $(function(){
               <?
 
 				$sql_serch=" a.mem_id ='{$_SESSION['one_member_id']}' ";
-					if($_REQUEST[category])
+					if($_REQUEST['category'])
 					{
 					    $sql_serch.=" and category ='$category'";
 					}

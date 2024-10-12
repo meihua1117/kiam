@@ -78,7 +78,7 @@ function Memo_closeWin(id){
             <table class="view_table_1" width="100%" border="0" cellspacing="0" cellpadding="0">
                 <tr>
                     <td style="width:90%;"><?=htmlspecialchars_decode($row_no['title'])?></td>
-                    <td style="text-align:right;"><?=substr($row_no[date],0,10)?></td>
+                    <td style="text-align:right;"><?=substr($row_no['date'],0,10)?></td>
                 </tr>
                 <tr>
                     <td colspan="2"><?=htmlspecialchars_decode($row_no['content'])?></td>

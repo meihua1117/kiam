@@ -187,10 +187,10 @@ if($_POST[join_nick] && $_POST[join_is_message]){
 	$member_info[zy]=$_POST[join_zy];
 	$member_info[mem_birth]=$_POST[join_birth];
 	$member_info[is_message]=$_POST[join_is_message];	
-	if($_FILES[profile]) {
-    	$tempFile = $_FILES[profile]['tmp_name'];
+	if($_FILES['profile']) {
+    	$tempFile = $_FILES['profile']['tmp_name'];
     	if($tempFile) {
-    	    $file_arr=explode(".",$_FILES[profile]['name']);
+    	    $file_arr=explode(".",$_FILES['profile']['name']);
     	    $tmp_file_arr=explode("/",$tempFile);
     	    $file_name=date("Ymds")."_".$tmp_file_arr[count($tmp_file_arr)-1].".".$file_arr[count($file_arr)-1];
 			$up_dir = make_folder_month(1);
@@ -202,7 +202,7 @@ if($_POST[join_nick] && $_POST[join_is_message]){
 				$up_dir = "/upload/";
 			}	
         	if(move_uploaded_file($_FILES['profile']['tmp_name'], $uploaddir.$file_name)){
-        	    $member_info[profile] = $up_dir.$file_name;
+        	    $member_info['profile'] = $up_dir.$file_name;
         	}	    
     	}
 	}

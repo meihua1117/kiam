@@ -27,7 +27,7 @@ if($_POST['mode'] == "munja_send"){
             $sql="select * from Gn_MMS_Number where (not(cnt1 = 10 and cnt2 = 20)) and mem_id='$mem_id' order by sort_no asc, user_cnt desc , idx desc";
             $res=mysqli_query($self_con,$sql);
             while($row = mysqli_fetch_array($res)){
-                $today_send_sql = "select SUM(recv_num_cnt) from Gn_MMS where send_num='$row[sendnum]' and ((reg_date like '$date_today%' and reservation is null) or up_date like '$date_today%')";
+                $today_send_sql = "select SUM(recv_num_cnt) from Gn_MMS where send_num='{$row['sendnum']}' and ((reg_date like '$date_today%' and reservation is null) or up_date like '$date_today%')";
                 $today_send_res = mysqli_query($self_con,$today_send_sql);			
                 $today_send_row = mysqli_fetch_array($today_send_res);
                 $today_send_count = 0;

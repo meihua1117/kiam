@@ -250,7 +250,7 @@ function deleteRow(idx) {
                                         <div class="sub_4_3_t2_right_1">
                                             <div class="sub_4_3_t2_right_1_1" style="height:250px">
                                                 <div class="msg_title"><?=$row['title']?></div>
-                                                <div class="img_view_1"><img src="<?=$row[img]?>" /></div>
+                                                <div class="img_view_1"><img src="<?=$row['img']?>" /></div>
                                                 <?php if($row['img1'] != "") {?>
                                                 <div class="img_view_1"><img src="<?=$row[img1]?>" /></div>
                                                 <?php }?>
@@ -258,7 +258,7 @@ function deleteRow(idx) {
                                                 <div class="img_view_1"><img src="<?=$row[img2]?>" /></div>
                                                 <?php } ?>
                                                 <div>
-                                                    <input type="hidden" name="photo_content" value="<?=$row[img]?>" />
+                                                    <input type="hidden" name="photo_content" value="<?=$row['img']?>" />
                                                     <input type="hidden" name="photo_content1" value="<?=$row[img1]?>" />
                                                     <input type="hidden" name="photo_content2" value="<?=$row[img2]?>" />
                                                     <textarea name="message" style="display:none"><?=$row['message']?></textarea>

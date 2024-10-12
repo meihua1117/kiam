@@ -300,7 +300,7 @@ $mid = date("YmdHis").rand(10,99);
                                     <td><?="IAM-".$row[iam_pay_type]?></td>
 <!--                                            <td>--><?//=$row['iam_card_cnt']?><!--</td>-->
 <!--                                            <td>--><?//=$row['iam_share_cnt']?><!--</td>-->
-                                    <td style="font-size:11px;"><?=$row[date]?></td>
+                                    <td style="font-size:11px;"><?=$row['date']?></td>
                                     <td style="font-size:11px;"><?=$row['end_date']?></td>
                                     <?if($row['month_cnt'] < 120){?>
                                         <td><?=$row['month_cnt']?>개월</td>
@@ -741,7 +741,7 @@ $mid = date("YmdHis").rand(10,99);
                                 <td><?=number_format($row_penalty[reg_money])?></td>
                                 <td><?=number_format($row_penalty[manage_money])?></td>
                                 <td><?=number_format($row_penalty[use_money])?></td>
-                                <td><?=number_format($row_penalty[penalty_money])?></td>
+                                <td><?=number_format($row_penalty['penalty_money'])?></td>
                             </tr>
                             <?}?>
                         </tbody>

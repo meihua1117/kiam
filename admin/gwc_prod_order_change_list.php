@@ -179,8 +179,8 @@ $date_today=date("Y-m")."-01 00:00:00";
                         <div class="box-tools">
                             <div class="input-group"  >
                                 <div class="form-group">
-                                    <input type="date" style="height: 30px" name="search_start_date" placeholder="" id="search_start_date" value="<?=$_REQUEST[search_start_date]?>" multiple/> ~
-                                    <input type="date" style="height: 30px" name="search_end_date" placeholder="" id="search_end_date" value="<?=$_REQUEST[search_end_date]?>"/>
+                                    <input type="date" style="height: 30px" name="search_start_date" placeholder="" id="search_start_date" value="<?=$_REQUEST['search_start_date']?>" multiple/> ~
+                                    <input type="date" style="height: 30px" name="search_end_date" placeholder="" id="search_end_date" value="<?=$_REQUEST['search_end_date']?>"/>
                                 </div>
                                 <div class="form-group">
                                     <select name="search_status" class="form-control input-sm " style="margin-right:5px">

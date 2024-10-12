@@ -277,7 +277,7 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                                                         $f_name = $f_row['mem_name'];
                                                     if($f_index++ < 12){?>
                                                         <div style="border:1px solid #ddd;border-radius: 50%;width: 30px;height: 30px;overflow: hidden;margin-left: -10px;">
-                                                            <img src="<?=$f_row[profile]?>" style="width: 100%;height:100%;">
+                                                            <img src="<?=$f_row['profile']?>" style="width: 100%;height:100%;">
                                                         </div>
                                                     <?  }
                                                 }?>
@@ -633,8 +633,8 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                                         <div class="user-item" id="<?='post_reply'.$post_row['id']?>">
                                             <a href="/?<?=strip_tags($post_card_row['card_short_url'])?>" class="img-box">
                                                 <div class="user-img" style="margin: 5px;width:32px;height:32px;">
-                                                    <?if($post_row[profile]){?>
-                                                        <img src="<?=$post_row[profile] ?>" alt="">
+                                                    <?if($post_row['profile']){?>
+                                                        <img src="<?=$post_row['profile'] ?>" alt="">
                                                     <?}else{?>
                                                         <img src="img/profile_img.png" alt="">
                                                     <?}?>
@@ -711,8 +711,8 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                                             <div class="user-item" style="padding-left: 50px">
                                                 <a href="/?<?=strip_tags($reply_card_row['card_short_url'])?>" class="img-box">
                                                     <div class="user-img" style="margin: 5px;width:32px;height:32px;">
-                                                        <?if($reply_row[profile]){ ?>
-                                                            <img src="<?=$reply_row[profile] ?>" alt="">
+                                                        <?if($reply_row['profile']){ ?>
+                                                            <img src="<?=$reply_row['profile'] ?>" alt="">
                                                         <?}else{?>
                                                             <img src="img/profile_img.png" alt="">
                                                         <?}?>

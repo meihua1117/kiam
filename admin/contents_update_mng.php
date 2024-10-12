@@ -125,8 +125,8 @@ $date_month=date("Y-m");
                             <form method="get" name="search_people" id="search_people">
                                 <div class="box-tools">
                                     <div class="input-group" style="display:inline-flex;">
-                                        <input type="date" placeholder="시작일" name="search_start_date" value="<?=$_REQUEST[search_start_date]?>" style="margin-right:5px;border: 1px solid black;width:125px;">
-                                        <input type="date" placeholder="종료일" name="search_end_date" value="<?=$_REQUEST[search_end_date]?>" style="margin-right:5px;border: 1px solid black;width:125px;">
+                                        <input type="date" placeholder="시작일" name="search_start_date" value="<?=$_REQUEST['search_start_date']?>" style="margin-right:5px;border: 1px solid black;width:125px;">
+                                        <input type="date" placeholder="종료일" name="search_end_date" value="<?=$_REQUEST['search_end_date']?>" style="margin-right:5px;border: 1px solid black;width:125px;">
                                         <select title="" name="settle_type" data-plugin-selectTwo onchange="" style="width:90px;margin-right:5px;">
                                             <option value="">전체</option>
                                             <option value="1" <?if($_REQUEST['settle_type'] == "1") echo "selected"?>>신청</option>

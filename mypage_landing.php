@@ -172,7 +172,7 @@ $(function(){
 						$sql_num="select sendnum from Gn_MMS_Number where mem_id='{$row['buyer_id']}' and end_date='{$row['end_date']}' ";
 						$resul_num=mysqli_query($self_con,$sql_num);
 						while($row_num=mysqli_fetch_array($resul_num))
-						array_push($num_arr,$row_num[sendnum]);
+						array_push($num_arr,$row_num['sendnum']);
 						//$num_str=implode(",",$num_arr);
 						
 						$sql="select mem_leb from Gn_Member  where mem_id='{$row['buyer_id']}' and site != ''";
@@ -188,14 +188,14 @@ $(function(){
                 <td>
                     <?=$mem_leb?>
                 </td>
-                <td style="font-size:12px;"><?=$row[date]?></td>
+                <td style="font-size:12px;"><?=$row['date']?></td>
                 <td style="font-size:12px;"><?=$row['end_date']?></td>
                 <td><?=$row['month_cnt']?>개월</td>
-                <!--<td><?=$row[fujia_status]?></td>-->
+                <!--<td><?=$row['fujia_status']?></td>-->
                 <td>디버</td>                
                 <td><?=$pay_type[$row[payMethod]]?$pay_type[$row[payMethod]]:"카드"?></td>
                 <td><?=$row['add_phone']?></td>
-                <td><?=$row[phone_cnt]?></td>
+                <td><?=$row['phone_cnt']?></td>
                 <!--<td><?=count($num_arr)?></td>-->
                 <td><?=number_format($row[TotPrice])?>원</td>
                 <td>
@@ -205,7 +205,7 @@ $(function(){
                 <?php }?>
              
 				<!--
-               	<?=$row['end_status']=="Y" && !count($num_arr) && strtotime("+1 week",strtotime($row[date])) > time() ?"<a href=\"javascript:void(0)\" onclick=\"pay_cancel('{$row['no']}','{$row[payMethod]}','{$row[mid]}','{$row[tid]}','{$row['end_date']}','{$row[fujia_status]}')\" class=\"a_btn_2\">해지</a>":""?>
+               	<?=$row['end_status']=="Y" && !count($num_arr) && strtotime("+1 week",strtotime($row['date'])) > time() ?"<a href=\"javascript:void(0)\" onclick=\"pay_cancel('{$row['no']}','{$row[payMethod]}','{$row[mid]}','{$row[tid]}','{$row['end_date']}','{$row['fujia_status']}')\" class=\"a_btn_2\">해지</a>":""?>
                	-->
                	<? //=$row['end_status']=="N"?"<a href='javascript:void(0)' onclick=\"pay_ex_go('{$row['no']}','{$row['end_date']}','{$is_chrome}')\" class='a_btn_2'>연장</a>":""?>
 

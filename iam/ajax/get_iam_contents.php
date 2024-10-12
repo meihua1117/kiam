@@ -649,11 +649,11 @@ else{
                 //$footer_display = "display:none";
             }
 
-            if($_COOKIE[contents_mode] == "pin"){
+            if($_COOKIE['contents_mode'] == "pin"){
                 $content_list_display = "none";
                 $content_image_display = "block";
             }
-            else if($_COOKIE[contents_mode] == "image"){
+            else if($_COOKIE['contents_mode'] == "image"){
                 $content_list_display = "none";
                 $content_image_display = "block";
             }
@@ -939,7 +939,7 @@ else{
                                 <?  }?>
                                 <a href="javascript:contents_del('<?= $contents_row['idx'] ?>');"><i class="fa fa-minus" aria-hidden="true"></i></a>
                                 <?if($_SESSION['iam_member_id'] == $group_manager){?>
-                                    <a href="javascript:contents_fix('<?= $contents_row['idx'] ?>');"><img src="<?=$contents_row[group_fix] > 0?'img/main/icon-pin.png':'img/main/icon-graypin.png'?>" width="24"></a>
+                                    <a href="javascript:contents_fix('<?= $contents_row['idx'] ?>');"><img src="<?=$contents_row['group_fix'] > 0?'img/main/icon-pin.png':'img/main/icon-graypin.png'?>" width="24"></a>
                                 <?}?>
                                 <?if($_SESSION['iam_member_id'] == $contents_row['mem_id']){
                                     $share_ids = explode(",",$contents_row['contents_share_text']);
@@ -987,7 +987,7 @@ else{
                                     <img src="img/main/icon-img_fold.png" style="width:30px">
                                 </button>
                         <?  }
-                        if($cur_win == 'we_story' && $_COOKIE[contents_mode] == "pin"){?>
+                        if($cur_win == 'we_story' && $_COOKIE['contents_mode'] == "pin"){?>
                         <a href='/iam/contents.php?contents_idx=<?=$contents_row['idx']?>' target="_blank">
                         <img src="<?=$content_images[0]?>" class="contents_img">
                             <?if(count($content_images) > 1){?>
@@ -1023,7 +1023,7 @@ else{
                                 }
                             </script>
                         <?} else {
-                                if($cur_win == 'we_story' && $_COOKIE[contents_mode] == "pin"){?>
+                                if($cur_win == 'we_story' && $_COOKIE['contents_mode'] == "pin"){?>
                                     <a href='/iam/contents.php?contents_idx=<?=$contents_row['idx']?>' target="_blank">
                                     <img src="<?=$content_images[0]?>" class="contents_img">
                                         <?if(count($content_images) > 1){?>
@@ -1063,7 +1063,7 @@ else{
                                 <img src="img/main/icon-img_fold.png" style="width:30px">
                             </button>
                         <?}
-                        if($cur_win == 'we_story' && $_COOKIE[contents_mode] == "pin"){?>
+                        if($cur_win == 'we_story' && $_COOKIE['contents_mode'] == "pin"){?>
                             <a href='/iam/contents.php?contents_idx=<?=$contents_row['idx']?>' target="_blank">
                             <img src="<?=$content_images[0]?>" class="contents_img">
                             <img class="movie_play" src="/iam/img/movie_play.png">
@@ -1109,7 +1109,7 @@ else{
                         <?
                         }
                     } else if((int)$contents_row['contents_type'] == 4) {
-                        if($cur_win == 'we_story' && $_COOKIE[contents_mode] == "pin"){?>
+                        if($cur_win == 'we_story' && $_COOKIE['contents_mode'] == "pin"){?>
                             <a href='/iam/contents.php?contents_idx=<?=$contents_row['idx']?>' target="_blank">
                             <img src="<?=$content_images[0]?>" class="contents_img">
                                 <?if(count($content_images) > 1){?>
@@ -1222,8 +1222,8 @@ else{
                             <div class="user-item" id="<?='post_reply'.$post_row['id']?>">
                                 <a href="/?<?=strip_tags($post_card_row['card_short_url'])?>" class="img-box">
                                     <div class="user-img" style="margin: 5px">
-                                        <?if($post_row[profile]){?>
-                                            <img src="<?=$post_row[profile] ?>" alt="">
+                                        <?if($post_row['profile']){?>
+                                            <img src="<?=$post_row['profile'] ?>" alt="">
                                         <?}else{?>
                                             <img src="img/profile_img.png" alt="">
                                         <?}?>
@@ -1296,8 +1296,8 @@ else{
                                 <div class="user-item" style="padding-left: 30px">
                                     <a href="/?<?=strip_tags($reply_card_row['card_short_url'])?>" class="img-box">
                                         <div class="user-img" style="margin: 5px">
-                                            <?if($reply_row[profile]){ ?>
-                                                <img src="<?=$reply_row[profile] ?>" alt="">
+                                            <?if($reply_row['profile']){ ?>
+                                                <img src="<?=$reply_row['profile'] ?>" alt="">
                                             <?}else{?>
                                                 <img src="img/profile_img.png" alt="">
                                             <?}?>

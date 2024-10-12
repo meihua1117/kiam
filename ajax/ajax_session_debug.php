@@ -1,10 +1,10 @@
 <?
 include_once "../lib/rlatjd_fun.php";
 //앱체크
-if($_POST[select_app_check_num]){
-	$num_arr=$_POST[select_app_check_num];
+if($_POST['select_app_check_num']){
+	$num_arr=$_POST['select_app_check_num'];
 	$uni_id=time();
-	$i=$_POST[select_app_check_i];
+	$i=$_POST['select_app_check_i'];
 	$url = 'https://fcm.googleapis.com/fcm/send';
     $headers = array (
         'Authorization: key=' . GOOGLE_SERVER_KEY,
@@ -22,7 +22,7 @@ if($_POST[select_app_check_num]){
         $result = mysqli_query($self_con,$query);
         while($info = mysqli_fetch_array($result)) {
             $pkey[$info['sendnum']] = $info['pkey']; 	
-    		$sql="select idx from Gn_MMS where mem_id='{$_SESSION['one_member_id']}' and send_num='$info[sendnum]' and result=0 and content like '%app_check_process%' order by idx desc limit 0,1";
+    		$sql="select idx from Gn_MMS where mem_id='{$_SESSION['one_member_id']}' and send_num='{$info['sendnum']}' and result=0 and content like '%app_check_process%' order by idx desc limit 0,1";
     		$resul=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
     		$row=mysqli_fetch_array($resul);
             $id = $info['pkey'];

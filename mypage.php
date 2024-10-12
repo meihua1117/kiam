@@ -154,15 +154,15 @@ $(function(){
                         <td colspan="3">
                             <input type="file" name="profile" id="profile" itemname='사진' />
                             <?
-                            if($member_1[profile] != ""){
-                                if(strstr($member_1[profile], "kiam")) {
-                                    $member_1[profile] = str_replace("https://kiam.kr", "", $member_1[profile]);
-                                    $member_1[profile] = str_replace("https://www.kiam.kr", "", $member_1[profile]);
-                                    $image_link = $cdn_ssl.$member_1[profile];
-                                } else if(!strstr($member_1[profile], "http") && $member_1[profile]) {
-                                    $image_link = $cdn_ssl.$member_1[profile];
+                            if($member_1['profile'] != ""){
+                                if(strstr($member_1['profile'], "kiam")) {
+                                    $member_1['profile'] = str_replace("https://kiam.kr", "", $member_1['profile']);
+                                    $member_1['profile'] = str_replace("https://www.kiam.kr", "", $member_1['profile']);
+                                    $image_link = $cdn_ssl.$member_1['profile'];
+                                } else if(!strstr($member_1['profile'], "http") && $member_1['profile']) {
+                                    $image_link = $cdn_ssl.$member_1['profile'];
                                 }else{
-                                    $image_link = $member_1[profile];
+                                    $image_link = $member_1['profile'];
                                 }
                                 $image_link = cross_image($image_link);
                             }else{

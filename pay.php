@@ -328,7 +328,7 @@ if($platform == "mobile"){
                             <tr>
                                 <td>폰연결수</td>
                                 <?foreach($pay_row as $row){?>
-                                <td><?=$row[phone_cnt] < 0 ?"무제한" : number_format($row[phone_cnt])?></td>
+                                <td><?=$row['phone_cnt'] < 0 ?"무제한" : number_format($row['phone_cnt'])?></td>
                                 <?}?>
                             </tr>
                             <tr>
@@ -1578,7 +1578,7 @@ if($platform == "mobile"){
                                         <td><?=number_format($row_penalty[reg_money])?></td>
                                         <td><?=number_format($row_penalty[manage_money])?></td>
                                         <td><?=number_format($row_penalty[use_money])?></td>
-                                        <td><?=number_format($row_penalty[penalty_money])?></td>
+                                        <td><?=number_format($row_penalty['penalty_money'])?></td>
                                     </tr>
                                     <?}?>
                                 </tbody>

@@ -127,7 +127,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                                 $query .= $orderQuery;
                                 $res = mysqli_query($self_con,$query);
                                 while($row = mysqli_fetch_array($res)) {
-                                    if($row[type] == 1){
+                                    if($row['type'] == 1){
                                         $org = "웹빙몰";
                                     }
                                     else{
@@ -140,7 +140,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                                     }
                                     else{
                                         $date_com = date("Y-m-d")." 00:00:00";
-                                        $sql_last = "select * from Gn_Gwc_Sync_State where reg_date<'{$date_com}' and type='{$row[type]}' order by id desc limit 1";
+                                        $sql_last = "select * from Gn_Gwc_Sync_State where reg_date<'{$date_com}' and type='{$row['type']}' order by id desc limit 1";
                                         $res_last = mysqli_query($self_con,$sql_last);
                                         $row_last = mysqli_fetch_array($res_last);
                                         $cur_last = $row_last[add_cnt] * 1 + $row_last[update_cnt] * 1;

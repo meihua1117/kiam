@@ -9,8 +9,8 @@ if($_POST['mode'] =="save") {
  
 	
 	    // 사업 타입인지 확인
-	    if($_REQUEST[type]) {
-	        $service_want_type = $_REQUEST[type];
+	    if($_REQUEST['type']) {
+	        $service_want_type = $_REQUEST['type'];
 	    }
 	    else
 	        $service_want_type = $data[service_type] + 1;

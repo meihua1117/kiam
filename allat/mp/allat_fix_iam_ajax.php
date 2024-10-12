@@ -87,7 +87,7 @@ if(!strcmp($REPLYCD,"0000")){//pay_test
                                     where user_id='$user_id'";
         mysqli_query($self_con,$query);
     }
-    $add_phone = $row[phone_cnt] / 9000;
+    $add_phone = $row['phone_cnt'] / 9000;
     $sql_m = "update Gn_Member set fujia_date1=now() , fujia_date2=date_add(now(),INTERVAL 120 month),phone_cnt=phone_cnt+'$add_phone'";
     if($row['member_type'] == "year-professional")
         $sql_m .=",mem_point = mem_point + 1000000,service_type=2";

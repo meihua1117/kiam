@@ -54,8 +54,12 @@ $mysql_user = 'root';
 //$mysql_password = 'only12!@db';
 $mysql_password = 'only12!@db';
 $mysql_db = 'kiam';
-$self_con = mysql_connect($mysql_host, $mysql_user, $mysql_password);
-mysql_select_db($mysql_db) or die(mysqli_error($self_con));
+$self_con = mysqli_connect($mysql_host,$mysql_user,$mysql_password,$mysql_db);
+if (!$self_con) {
+    printf("Connect failed: %s\n", mysqli_connect_error());
+    exit();
+}
+//mysql_select_db($mysql_db) or die(mysqli_error($self_con));
 mysqli_query($self_con, "set names utf8");
 $whois_api_key = "2021030317024746733699";
 $domain_url = "http://www.kiam.kr";
@@ -184,7 +188,7 @@ if ($_SESSION['one_member_id']) {
 		if (!preg_match("/" . $format_month . "/i", $row_format['format_date'])) {
 			$sql_format_u = "update Gn_MMS_Number set format_date=curdate(),cnt1=0,cnt2=0 where idx='{$row_format['idx']}' ";
 			mysqli_query($self_con, $sql_format_u);
-			$sql_d_result1 = "delete from Gn_MMS where result='1' and send_num='$row_format[sendnum]' ";
+			$sql_d_result1 = "delete from Gn_MMS where result='1' and send_num='{$row_format['sendnum']}' ";
 			mysqli_query($self_con, $sql_d_result1);
 		}
 	}
@@ -214,7 +218,7 @@ if ($_SESSION['iam_member_id']) {
 		if (!preg_match("/" . $format_month . "/i", $row_format['format_date'])) {
 			$sql_format_u = "update Gn_MMS_Number set format_date=curdate(),cnt1=0,cnt2=0 where idx='{$row_format['idx']}' ";
 			mysqli_query($self_con, $sql_format_u);
-			$sql_d_result1 = "delete from Gn_MMS where result='1' and send_num='$row_format[sendnum]' ";
+			$sql_d_result1 = "delete from Gn_MMS where result='1' and send_num='{$row_format['sendnum']}' ";
 			mysqli_query($self_con, $sql_d_result1);
 		}
 	}

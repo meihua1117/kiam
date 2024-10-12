@@ -86,14 +86,14 @@ $result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
             <table class="view_table_1" width="100%" border="0" cellspacing="0" cellpadding="0">
             <tr>
                 <td style="width:90%;"><?=htmlspecialchars_decode($row_no['title'])?></td>
-                <td style="text-align:right;"><?=substr($row_no[date],0,10)?></td>
+                <td style="text-align:right;"><?=substr($row_no['date'],0,10)?></td>
             </tr>
             <tr>
                 <td colspan="2"><?=htmlspecialchars_decode($row_no['content'])?></td>
             </tr>
             <?if($row_no['reply']){?>
             <tr>
-                <td colspan="2"><h2>답변입니다</h2><BR><?=htmlspecialchars_decode($row_no[reply])?></td>
+                <td colspan="2"><h2>답변입니다</h2><BR><?=htmlspecialchars_decode($row_no['reply'])?></td>
             </tr>                   
             <?}?>
 				<?
@@ -121,14 +121,14 @@ $result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
                         <tr>
                             <td colspan="2">
                                 <div style="margin:5px 0 0 5px;">
-                                <img id='view_main_img' src="adjunct/board/thum1/<?=$row_no[up_path]?>/<?=$img_arr[0]?>" />
+                                <img id='view_main_img' src="adjunct/board/thum1/<?=$row_no['up_path']?>/<?=$img_arr[0]?>" />
                                 </div>
                                 <div style="margin:5px 0 0 5px;">
                                     <?
                                     for($i=0; $i<count($img_arr); $i++)
                                     {
                                         ?>
-    <a href="javascript:void(0)" onmouseover="$('#view_main_img').attr('src','adjunct/board/thum1/<?=$row_no[up_path]?>/<?=$img_arr[$i]?>')"><img src="adjunct/board/thum2/<?=$row_no[up_path]?>/<?=$img_arr[$i]?>" width="50" height="50" /></a>
+    <a href="javascript:void(0)" onmouseover="$('#view_main_img').attr('src','adjunct/board/thum1/<?=$row_no['up_path']?>/<?=$img_arr[$i]?>')"><img src="adjunct/board/thum2/<?=$row_no['up_path']?>/<?=$img_arr[$i]?>" width="50" height="50" /></a>
                                         <?
                                     }
                                     ?>
@@ -210,7 +210,7 @@ $result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
                             <td><label><input type="checkbox" value="<?=$row['no']?>" name="no_box"  /><?=$sort_no?></label></td>
                             <? if($_REQUEST['status']==2){?><td><?=$fl_arr[$row['fl']]?></td><? }?>
                             <td style="text-align:left;padding-left:20px;"><a href="javascript:viewContent('a<?=$row['no']?>')"><?=$row['title']?></a></td>
-                            <!--<td><?=substr($row[date],0,10)?></td>
+                            <!--<td><?=substr($row['date'],0,10)?></td>
                             <td><?=$row[view_cnt]?></td>-->
 						</tr>
 						<tr id="a<?=$row['no']?>" style="display:none;" >

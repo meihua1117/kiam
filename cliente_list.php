@@ -174,14 +174,14 @@ $result2=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
                 <table class="view_table_1" width="100%" border="0" cellspacing="0" cellpadding="0">
                     <tr>
                         <td style="width:90%;"><?=htmlspecialchars_decode($row_no['title'])?></td>
-                        <td style="text-align:right;"><?=substr($row_no[date],0,10)?></td>
+                        <td style="text-align:right;"><?=substr($row_no['date'],0,10)?></td>
                     </tr>
                     <tr>
                         <td colspan="2"><?=htmlspecialchars_decode($row_no['content'])?></td>
                     </tr>
                     <?if($row_no['reply']){?>
                         <tr>
-                            <td colspan="2"><h2>답변입니다</h2><BR><?=htmlspecialchars_decode($row_no[reply])?></td>
+                            <td colspan="2"><h2>답변입니다</h2><BR><?=htmlspecialchars_decode($row_no['reply'])?></td>
                         </tr>
                     <?}?>
                     <?
@@ -211,7 +211,7 @@ $result2=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
                                 <div style="margin:5px 0 0 5px;">
                                 <?php if(strstr($img_arr[0],'pdf')) {?>
                                 <?php } else {?>
-                                    <img id='view_main_img' src="adjunct/board/thum1/<?=$row_no[up_path]?>/<?=$img_arr[0]?>" />
+                                    <img id='view_main_img' src="adjunct/board/thum1/<?=$row_no['up_path']?>/<?=$img_arr[0]?>" />
                                 <?php }?>
                                 </div>
                                 <div style="margin:5px 0 0 5px;">
@@ -220,11 +220,11 @@ $result2=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
                                     {
                                         if(strstr($img_arr[$i],'pdf')) {
                                         ?>
-                                        <a href="adjunct/board/thum/<?=$row_no[up_path]?>/<?=$img_arr[$i]?>" target="_blank"/><?php echo $file_1_arr[$i];?></a>
+                                        <a href="adjunct/board/thum/<?=$row_no['up_path']?>/<?=$img_arr[$i]?>" target="_blank"/><?php echo $file_1_arr[$i];?></a>
                                         <?php
                                         } else {
                                         ?>
-                                        <a href="javascript:void(0)" onmouseover="$('#view_main_img').attr('src','adjunct/board/thum1/<?=$row_no[up_path]?>/<?=$img_arr[$i]?>')"><img src="adjunct/board/thum2/<?=$row_no[up_path]?>/<?=$img_arr[$i]?>" width="50" height="50" /></a>
+                                        <a href="javascript:void(0)" onmouseover="$('#view_main_img').attr('src','adjunct/board/thum1/<?=$row_no['up_path']?>/<?=$img_arr[$i]?>')"><img src="adjunct/board/thum2/<?=$row_no['up_path']?>/<?=$img_arr[$i]?>" width="50" height="50" /></a>
                                         <?php
                                         }
                                     }
@@ -342,14 +342,14 @@ $result2=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
                             <td><label><input type="checkbox" value="<?=$row['no']?>" name="no_box"  /><?=$sort_no?></label></td>
                             <? if($_REQUEST['status']==2){?>
                             <td><?=$fl_arr[$row['fl']]?></td>
-                            <td><?=$row[reply]?"답변완료":"문의접수"?></td>
+                            <td><?=$row['reply']?"답변완료":"문의접수"?></td>
                             <? } else { ?>                            
                             <td><?=$row['fl']?></td>
                             <? } ?>
                             <td>
                                 <a href="cliente_list.php?status=<?=$_REQUEST['status']?>&one_no=<?=$row['no']?>"><?=$row['title']?></a> <?php echo $row['status_1']=="Y"?"[비밀글]":""?>
                             </td>
-                            <td><?=substr($row[date],0,10)?></td>
+                            <td><?=substr($row['date'],0,10)?></td>
                             <? if($_REQUEST['status']!=2 && $_REQUEST['status']!=4){?>
                             <td><?=$row[view_cnt]?></td>
                             <?}?>
@@ -363,14 +363,14 @@ $result2=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
                             <td><label><input type="checkbox" value="<?=$row['no']?>" name="no_box"  /><?=$sort_no?></label></td>
                             <? if($_REQUEST['status']==2){?>
                             <td><?=$fl_arr[$row['fl']]?></td>
-                            <td><?=$row[reply]?"답변완료":"문의접수"?></td>
+                            <td><?=$row['reply']?"답변완료":"문의접수"?></td>
                             <? } else { ?>                            
                             <td><?=$row['fl']?></td>
                             <? } ?>
                             <td>
                                 <a href="cliente_list.php?status=<?=$_REQUEST['status']?>&one_no=<?=$row['no']?>"><?=$row['title']?></a> <?php echo $row['status_1']=="Y"?"[비밀글]":""?>
                             </td>
-                            <td><?=substr($row[date],0,10)?></td>
+                            <td><?=substr($row['date'],0,10)?></td>
                             <? if($_REQUEST['status']!=2 && $_REQUEST['status']!=4){?>
                             <td><?=$row[view_cnt]?></td>
                             <?}?>

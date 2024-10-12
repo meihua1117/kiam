@@ -57,7 +57,7 @@ if(strlen($_REQUEST[one_member_id]) > 0) {
 					
 		$objPHPExcel->setActiveSheetIndex(0)
 					->setCellValue("A$h",$row['grp'])
-					->setCellValue("B$h",$row[msg_text])
+					->setCellValue("B$h",$row['msg_text'])
 					->setCellValue("C$h",$row['msg_url'])
 					->setCellValue("D$h",$status_s);			
 			$h++;		

@@ -120,7 +120,7 @@ $(function(){
 		</tr>  
         <tr>
 		<td>프로필사진</td>
-        <td ><input type="file" name="profile" id="profile" itemname='사진' /><?php if($member_1[profile] != "") { echo "<img src='$member_1[profile]'>"; }?></td>      
+        <td ><input type="file" name="profile" id="profile" itemname='사진' /><?php if($member_1['profile'] != "") { echo "<img src='{$member_1['profile']}'>"; }?></td>      
         </tr>
         <td>생년월일</td>
         <td colspan="3">
@@ -472,7 +472,7 @@ jQuery(function($){
 						$sql_num="select sendnum from Gn_MMS_Number where mem_id='{$row['buyer_id']}' and end_date='{$row['end_date']}' ";
 						$resul_num=mysqli_query($self_con,$sql_num);
 						while($row_num=mysqli_fetch_array($resul_num))
-						array_push($num_arr,$row_num[sendnum]);
+						array_push($num_arr,$row_num['sendnum']);
 						//$num_str=implode(",",$num_arr);
 						
 						$sql="select mem_leb from Gn_Member  where mem_id='{$row['buyer_id']}'";
@@ -488,14 +488,14 @@ jQuery(function($){
                 <td>
                     <?=$mem_leb?>
                 </td>
-                <td style="font-size:12px;"><?=$row[date]?></td>
+                <td style="font-size:12px;"><?=$row['date']?></td>
                 <td style="font-size:12px;"><?=$row['end_date']?></td>
                 <td><?=$row['month_cnt']?>개월</td>
-                <!--<td><?=$row[fujia_status]?></td>-->
+                <!--<td><?=$row['fujia_status']?></td>-->
                 <td>문자</td>
                 <td><?=$pay_type[$row[payMethod]]?$pay_type[$row[payMethod]]:"무통장"?></td>
                 <td><?=$row['add_phone']?></td>
-                <td><?=$row[phone_cnt]?></td>
+                <td><?=$row['phone_cnt']?></td>
                 <!--<td><?=count($num_arr)?></td>-->
                 <td><?=number_format($row[TotPrice])?>원</td>
                 <td>
@@ -505,7 +505,7 @@ jQuery(function($){
                 <?php }?>
              
 				<!--
-               	<?=$row['end_status']=="Y" && !count($num_arr) && strtotime("+1 week",strtotime($row[date])) > time() ?"<a href=\"javascript:void(0)\" onclick=\"pay_cancel('{$row['no']}','{$row[payMethod]}','{$row[mid]}','{$row[tid]}','{$row['end_date']}','{$row[fujia_status]}')\" class=\"a_btn_2\">해지</a>":""?>
+               	<?=$row['end_status']=="Y" && !count($num_arr) && strtotime("+1 week",strtotime($row['date'])) > time() ?"<a href=\"javascript:void(0)\" onclick=\"pay_cancel('{$row['no']}','{$row[payMethod]}','{$row[mid]}','{$row[tid]}','{$row['end_date']}','{$row['fujia_status']}')\" class=\"a_btn_2\">해지</a>":""?>
                	-->
                	<? //=$row['end_status']=="N"?"<a href='javascript:void(0)' onclick=\"pay_ex_go('{$row['no']}','{$row['end_date']}','{$is_chrome}')\" class='a_btn_2'>연장</a>":""?>
 
@@ -572,7 +572,7 @@ jQuery(function($){
 						$sql_num="select sendnum from Gn_MMS_Number where mem_id='{$row['buyer_id']}' and end_date='{$row['end_date']}' ";
 						$resul_num=mysqli_query($self_con,$sql_num);
 						while($row_num=mysqli_fetch_array($resul_num))
-						array_push($num_arr,$row_num[sendnum]);
+						array_push($num_arr,$row_num['sendnum']);
 						//$num_str=implode(",",$num_arr);
 						
 						$sql="select mem_leb from Gn_Member  where mem_id='{$row['buyer_id']}'";
@@ -588,14 +588,14 @@ jQuery(function($){
                 <td>
                     <?=$mem_leb?>
                 </td>
-                <td style="font-size:12px;"><?=$row[date]?></td>
+                <td style="font-size:12px;"><?=$row['date']?></td>
                 <td style="font-size:12px;"><?=$row['end_date']?></td>
                 <td><?=$row['month_cnt']?>개월</td>
-                <!--<td><?=$row[fujia_status]?></td>-->
+                <!--<td><?=$row['fujia_status']?></td>-->
                 <td>디버</td>                
                 <td><?=$pay_type[$row[payMethod]]?$pay_type[$row[payMethod]]:"카드"?></td>
                 <td><?=$row['add_phone']?></td>
-                <td><?=$row[phone_cnt]?></td>
+                <td><?=$row['phone_cnt']?></td>
                 <!--<td><?=count($num_arr)?></td>-->
                 <td><?=number_format($row[TotPrice])?>원</td>
                 <td>
@@ -605,7 +605,7 @@ jQuery(function($){
                 <?php }?>
              
 				<!--
-               	<?=$row['end_status']=="Y" && !count($num_arr) && strtotime("+1 week",strtotime($row[date])) > time() ?"<a href=\"javascript:void(0)\" onclick=\"pay_cancel('{$row['no']}','{$row[payMethod]}','{$row[mid]}','{$row[tid]}','{$row['end_date']}','{$row[fujia_status]}')\" class=\"a_btn_2\">해지</a>":""?>
+               	<?=$row['end_status']=="Y" && !count($num_arr) && strtotime("+1 week",strtotime($row['date'])) > time() ?"<a href=\"javascript:void(0)\" onclick=\"pay_cancel('{$row['no']}','{$row[payMethod]}','{$row[mid]}','{$row[tid]}','{$row['end_date']}','{$row['fujia_status']}')\" class=\"a_btn_2\">해지</a>":""?>
                	-->
                	<? //=$row['end_status']=="N"?"<a href='javascript:void(0)' onclick=\"pay_ex_go('{$row['no']}','{$row['end_date']}','{$is_chrome}')\" class='a_btn_2'>연장</a>":""?>
 
@@ -885,10 +885,10 @@ jQuery(function($){
                 <td>
                     <?=substr($row['balance_date'],0,10)?>
                 </td>
-                <td style="font-size:12px;"><?=number_format($row[total_price]/1.1*0.5)?> 원</td>
+                <td style="font-size:12px;"><?=number_format($row['total_price']/1.1*0.5)?> 원</td>
                 <td style="font-size:12px;">
                     <?php if($row['balance_yn'] == "Y") {?>
-                    <?=number_format($row[total_price]/1.1*0.5)?>
+                    <?=number_format($row['total_price']/1.1*0.5)?>
                     <?php }else{?>
                     0 
                     <?php }?>
@@ -896,7 +896,7 @@ jQuery(function($){
                 </td>
                 <td>
                     <?php if($row['balance_yn'] == "N") {?>
-                    <?=number_format($row[total_price]/1.1*0.5)?>
+                    <?=number_format($row['total_price']/1.1*0.5)?>
                     <?php }else{?>
                     0 
                     <?php }?>
@@ -905,7 +905,7 @@ jQuery(function($){
                 <td></td>                
                 <td>
                     <?php if($row['balance_yn'] == "Y") {?>
-                    <?=number_format($row[total_price]/1.1*0.5)?>
+                    <?=number_format($row['total_price']/1.1*0.5)?>
                     <?php }else{?>
                     0 
                     <?php }?>

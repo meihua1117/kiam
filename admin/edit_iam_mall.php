@@ -131,7 +131,7 @@ $row=mysqli_fetch_array($res);
 										</tr>
 										<tr>
 											<th class="w200">이미지</th>
-											<td><input type="text" name="img" id="img" value="<?=$row[img]?>"><?if($row['img'] != ""){?><br><img class="zoom" src="<?=$row['img']?>" style="width:200px;"><?}?></td>
+											<td><input type="text" name="img" id="img" value="<?=$row['img']?>"><?if($row['img'] != ""){?><br><img class="zoom" src="<?=$row['img']?>" style="width:200px;"><?}?></td>
 										</tr>
 										<tr>
 											<th class="w200">상세설명</th>

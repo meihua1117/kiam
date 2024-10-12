@@ -16,56 +16,56 @@ if($_SESSION[form_submit])
 
     if($_POST['add_phone'] == "0" && $_SESSION['INI_PRICE'] == "594000")  {
         $_POST['add_phone'] = 10;    
-        $_POST[phone_cnt] = 90000;
-        $_POST[max_cnt] =  90000;
+        $_POST['phone_cnt'] = 90000;
+        $_POST['max_cnt'] =  90000;
         
     }
      if($_POST['db_cnt'] > 0) {
-        $_POST[max_cnt] = $_POST[phone_cnt] * 9000;
+        $_POST['max_cnt'] = $_POST['phone_cnt'] * 9000;
      } else {
         if($_POST[payment_yn] != "") {
 
             if($_POST[payment_yn] == "BA") {
                 $_POST['member_type'] = '예약형';
                 $_POST['add_phone'] = 5;    
-                $_POST[phone_cnt] = 45000;
+                $_POST['phone_cnt'] = 45000;
                 $_POST['db_cnt'] = 2500;
-                $_POST[max_cnt] =  45000;
+                $_POST['max_cnt'] =  45000;
                 $_POST['month_cnt'] = $_POST['money_type'] = 2;    
             } else if($_POST[payment_yn] == "ST") {
                 $_POST['add_phone'] = 3;    
-                $_POST[phone_cnt] = 27000;
-                $_POST[max_cnt] =  27000;
+                $_POST['phone_cnt'] = 27000;
+                $_POST['max_cnt'] =  27000;
                 $_POST['month_cnt'] = $_POST['money_type'] = 1;    
             } else if($_POST[payment_yn] == "BU") {
                 $_POST['add_phone'] = 5;    
-                $_POST[phone_cnt] = 45000;
+                $_POST['phone_cnt'] = 45000;
                 $_POST['db_cnt'] = 2500;
-                $_POST[max_cnt] =  45000;
+                $_POST['max_cnt'] =  45000;
                 $_POST['month_cnt'] = $_POST['money_type'] = 1;    
             } else if($_POST[payment_yn] == "BY") {
                 $_POST['add_phone'] = 5;    
-                $_POST[phone_cnt] = 45000;
+                $_POST['phone_cnt'] = 45000;
                 $_POST['db_cnt'] = 2500;
-                $_POST[max_cnt] =  45000;
+                $_POST['max_cnt'] =  45000;
                 $_POST['month_cnt'] = $_POST['money_type'] = 12;                
             } else if($_POST[payment_yn] == "BS") {
                 $_POST['add_phone'] = 10;    
-                $_POST[phone_cnt] = 90000;
+                $_POST['phone_cnt'] = 90000;
                 $_POST['db_cnt'] = 10000;
-                $_POST[max_cnt] =  90000;
+                $_POST['max_cnt'] =  90000;
                 $_POST['month_cnt'] = $_POST['money_type'] = 36;    
             } else if($_POST[payment_yn] == "BC") {
                 $_POST['add_phone'] = 10;    
-                $_POST[phone_cnt] = 90000;
+                $_POST['phone_cnt'] = 90000;
                 $_POST['db_cnt'] = 10000;
-                $_POST[max_cnt] =  90000;
+                $_POST['max_cnt'] =  90000;
                 $_POST['month_cnt'] = $_POST['money_type'] = 36;    
             } else if($_POST[payment_yn] == "BJ") {
                 $_POST['add_phone'] = 1;    
-                $_POST[phone_cnt] = 9000;
+                $_POST['phone_cnt'] = 9000;
                 $_POST['db_cnt'] = 1500;
-                $_POST[max_cnt] =  9000;
+                $_POST['max_cnt'] =  9000;
                 $_POST['month_cnt'] = $_POST['money_type'] = 1;                
             }
         }
@@ -114,22 +114,22 @@ if($_SESSION[form_submit])
 	
 	if($inipay->GetResult('ResultCode')=="00")
 	{
-	        if($_POST[phone_cnt] == "")
-	            $_POST[max_cnt] = $_POST[phone_cnt] = $_POST['add_phone'] * 9000;
+	        if($_POST['phone_cnt'] == "")
+	            $_POST['max_cnt'] = $_POST['phone_cnt'] = $_POST['add_phone'] * 9000;
 	        $pay_info[add_opt]=$_POST[add_opt];//기부폰개수
-			$pay_info[phone_cnt]=$_POST[phone_cnt];//기부폰개수
+			$pay_info['phone_cnt']=$_POST['phone_cnt'];//기부폰개수
 			$pay_info['month_cnt']=$_POST['month_cnt'];//결제개월수
 			
-			$pay_info[max_cnt]=$_POST[max_cnt];//결제갯수
+			$pay_info['max_cnt']=$_POST['max_cnt'];//결제갯수
 			$pay_info[add_service]=$_POST[add_service];//결제개월수
-			if($_POST[fujia_status])
-			$pay_info[fujia_status]="Y";//부가서비스
+			if($_POST['fujia_status'])
+			$pay_info['fujia_status']="Y";//부가서비스
 			$pay_info[buyertel]=$_POST[buyertel];//전화번호
 			$pay_info[buyeremail]=$_POST[buyeremail];//이메일					
 			$pay_info[resultCode]=$inipay->GetResult('ResultCode');//승인결과코드
 			$pay_info[resultMsg]=iconv("euc-kr","utf-8",$inipay->GetResult('ResultMsg'));//결과메시지
 			$pay_info[payMethod]=$inipay->GetResult('PayMethod');//지불수단					
-			$pay_info[orderNumber]=$inipay->GetResult('MOID');//주문번호
+			$pay_info['orderNumber']=$inipay->GetResult('MOID');//주문번호
 			$pay_info[tid]=$inipay->GetResult('TID');//TID
 			$pay_info[TotPrice]=$inipay->GetResult('TotPrice');//승인금액	
 			$pay_info[applDate]=$inipay->GetResult('ApplDate');//승인일
@@ -162,12 +162,12 @@ if($_SESSION[form_submit])
 			
 			if($_POST[pay_ex_end_date] && $_POST[pay_ex_no])
 			{
-				$pay_info[cancel_ResultCode]="";//취소코드
-				$pay_info[cancel_ResultMsg]="";//취소메시지
-				$pay_info[cancel_CancelDate]="";//취소일
-				$pay_info[cancel_CancelTime]="";//취소시각
-				$pay_info[cancel_CSHR_CancelNum]="";//현금영수증 취소 승인번호(현금영수증 발급 취소시에만 리턴됨)
-				$pay_info[cancel_status]="N";				
+				$pay_info['cancel_ResultCode']="";//취소코드
+				$pay_info['cancel_ResultMsg']="";//취소메시지
+				$pay_info['cancel_CancelDate']="";//취소일
+				$pay_info['cancel_CancelTime']="";//취소시각
+				$pay_info['cancel_CSHR_CancelNum']="";//현금영수증 취소 승인번호(현금영수증 발급 취소시에만 리턴됨)
+				$pay_info['cancel_status']="N";				
 				$sql="update tjd_pay_result set ";
 				foreach($pay_info as $key=>$v)
 				{
@@ -195,7 +195,7 @@ if($_SESSION[form_submit])
 			
 			
 			
-			//if($_POST[fujia_status])
+			//if($_POST['fujia_status'])
 			//{
 						
 			$sql_m="update Gn_Member set fujia_date1=now() , fujia_date2=date_add(now(),INTERVAL {$_POST['month_cnt']} month)  where mem_id='{$member_1['mem_id']}' ";
@@ -390,7 +390,7 @@ $row=mysqli_fetch_array($resul);
                 </tr>
                 <tr>
                 <td>주문번호</td>
-                <td><?=$row[orderNumber]?></td>
+                <td><?=$row['orderNumber']?></td>
                 </tr>                    
                 <tr>
                 <tr>

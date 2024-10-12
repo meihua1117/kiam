@@ -181,7 +181,7 @@ $(function(){
                         <td>
                             <a href="notice_write.php?no=<?php echo $row['no']?>"><?php echo $row['title'];?></a>
                         <td>
-                            <?=substr($row[date],0,10)?>
+                            <?=substr($row['date'],0,10)?>
                         </td>
                         <td><?=$row['view_cnt']?></td>
                         <td><input type="checkbox" name="diber" value="Y" data-no="<?php echo $row['no']?>" <?php echo $row['diber']=="Y"?"checked":""?>></td>

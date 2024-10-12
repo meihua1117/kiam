@@ -42,10 +42,10 @@ if($_POST[auto_pay_status]==2 && $_SESSION[form_submit])
 	$inipay->startAction();
 	if($inipay->m_resultCode=="00")
 	{
-			$pay_info[phone_cnt]=$_POST[phone_cnt];//기부폰개수
+			$pay_info['phone_cnt']=$_POST['phone_cnt'];//기부폰개수
 			$pay_info['month_cnt']=$_POST['month_cnt'];//결제개월수
-			if($_POST[fujia_status])
-			$pay_info[fujia_status]="Y";//부가서비스			
+			if($_POST['fujia_status'])
+			$pay_info['fujia_status']="Y";//부가서비스			
 			$pay_info[buyertel]=$_POST[buyertel];//전화번호
 			$pay_info[buyeremail]=$_POST[buyeremail];//이메일
 			$pay_info[cardpass]=$_POST[cardpass];//비밀번호앞 두자리
@@ -57,7 +57,7 @@ if($_POST[auto_pay_status]==2 && $_SESSION[form_submit])
 			$pay_info[resultCode]=$inipay->m_resultCode;//승인결과코드
 			$pay_info[resultMsg]=iconv("euc-kr","utf-8",$inipay->m_resultMsg);//결과메시지
 			$pay_info[payMethod]="Auto_".$_POST[paymethod];//지불수단					
-			$pay_info[orderNumber]=$_POST[oid];//주문번호
+			$pay_info['orderNumber']=$_POST[oid];//주문번호
 			$pay_info[tid]=$inipay->m_tid;//TID
 			$pay_info[TotPrice]=$_POST[price];//승인금액	
 			$pay_info[applDate]=$inipay->m_pgAuthDate;//승인일
@@ -71,12 +71,12 @@ if($_POST[auto_pay_status]==2 && $_SESSION[form_submit])
 			$pay_info['end_status']="Y";
 			if($_POST[pay_ex_end_date] && $_POST[pay_ex_no])
 			{
-				$pay_info[cancel_ResultCode]="";//취소코드
-				$pay_info[cancel_ResultMsg]="";//취소메시지
-				$pay_info[cancel_CancelDate]="";//취소일
-				$pay_info[cancel_CancelTime]="";//취소시각
-				$pay_info[cancel_CSHR_CancelNum]="";//현금영수증 취소 승인번호(현금영수증 발급 취소시에만 리턴됨)
-				$pay_info[cancel_status]="N";			
+				$pay_info['cancel_ResultCode']="";//취소코드
+				$pay_info['cancel_ResultMsg']="";//취소메시지
+				$pay_info['cancel_CancelDate']="";//취소일
+				$pay_info['cancel_CancelTime']="";//취소시각
+				$pay_info['cancel_CSHR_CancelNum']="";//현금영수증 취소 승인번호(현금영수증 발급 취소시에만 리턴됨)
+				$pay_info['cancel_status']="N";			
 				$sql="update tjd_pay_result set ";
 				foreach($pay_info as $key=>$v)
 				{
@@ -101,7 +101,7 @@ if($_POST[auto_pay_status]==2 && $_SESSION[form_submit])
 			}
 			
 			
-			if($_POST[fujia_status])
+			if($_POST['fujia_status'])
 			{
 			$sql_m="update Gn_Member set fujia_date1=now() , fujia_date2=date_add(now(),INTERVAL {$_POST['month_cnt']} month) where mem_id='{$member_1['mem_id']}' ";
 			mysqli_query($self_con,$sql_m)or die(mysqli_error($self_con));
@@ -163,7 +163,7 @@ $row=mysqli_fetch_array($resul);
                 </tr>
                 <tr>
                 <td>주문번호</td>
-                <td><?=$row[orderNumber]?></td>
+                <td><?=$row['orderNumber']?></td>
                 </tr>                    
                 <tr>
                 <tr>

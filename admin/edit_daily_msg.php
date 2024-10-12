@@ -94,9 +94,9 @@ else $link = "daily_msg_list_mem.php";
 													$resul=mysqli_query($self_con,$query);
 													while($korow=mysqli_fetch_array($resul)) {
 													?>
-													<option value="<?=str_replace("-","",$korow[sendnum])?>"
-														<?php echo $row['send_num']==str_replace("-","",$korow[sendnum])?"selected":""?>>
-														<?php echo str_replace("-","",$korow[sendnum]);?></option>
+													<option value="<?=str_replace("-","",$korow['sendnum'])?>"
+														<?php echo $row['send_num']==str_replace("-","",$korow['sendnum'])?"selected":""?>>
+														<?php echo str_replace("-","",$korow['sendnum']);?></option>
 													<?php }?>
 												</select>
 											</td>

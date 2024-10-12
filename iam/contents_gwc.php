@@ -517,8 +517,8 @@ $meta_desc = $meta_row['contents_desc'];
 								<div class="user-item" id="<?='post_reply'.$post_row['id']?>">
 									<a href="/?<?=strip_tags($meta_row['westory_card_url'])?>" class="img-box">
 										<div class="user-img" style="margin: 5px;width:32px;height:32px;">
-											<?if($post_row[profile]){?>
-												<img src="<?=$post_row[profile] ?>" alt="">
+											<?if($post_row['profile']){?>
+												<img src="<?=$post_row['profile'] ?>" alt="">
 											<?}else{?>
 												<img src="<?=$contents_avatar?>" alt="">
 											<?}?>
@@ -591,8 +591,8 @@ $meta_desc = $meta_row['contents_desc'];
 									<div class="user-item" style="padding-left: 50px">
 										<a href="/?<?=strip_tags($meta_row['westory_card_url'])?>" class="img-box">
 											<div class="user-img" style="margin: 5px;width:32px;height:32px;">
-												<?if($reply_row[profile]){?>
-													<img src="<?=$reply_row[profile] ?>" alt="">
+												<?if($reply_row['profile']){?>
+													<img src="<?=$reply_row['profile'] ?>" alt="">
 												<?}else{?>
 													<img src="<?=$contents_avatar?>" alt="">
 												<?}?>

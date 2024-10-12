@@ -136,7 +136,7 @@ window.onload=function()
     
     <input type="text" name="phone_cnt" value="<?=$_POST['add_phone']?>" />
     <input type="text" name="month_cnt" value="<?=$_POST['month_cnt']?>" />
-    <input type="text" name="fujia_status" value="<?=$_POST[fujia_status]?>" />
+    <input type="text" name="fujia_status" value="<?=$_POST['fujia_status']?>" />
     <input type="hidden" name="pay_ex_no" value="<?=$_POST[pay_ex_no]?>" />    
     <input type="hidden" name="pay_ex_end_date" value="<?=$_POST[pay_ex_end_date]?>" />     
 </form>

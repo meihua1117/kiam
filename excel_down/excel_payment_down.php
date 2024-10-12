@@ -50,7 +50,7 @@ if(strlen($_SESSION['one_member_id']) > 0) {
 					->setCellValue("C$h",$row['recommend_id'])
 					->setCellValue("D$h",$row['buyer_id'])
 					->setCellValue("E$h",$row['member_type'])
-					->setCellValue("F$h",number_format($row[max_cnt]))
+					->setCellValue("F$h",number_format($row['max_cnt']))
 					->setCellValue("G$h",$row['mem_name'])
 					->setCellValue("H$h",str_replace("-", "",$row['mem_phone'])==$row['sendnum']||$row['sendnum']==""?str_replace("-", "",$row['mem_phone']):$row['sendnum'])
 					->setCellValue("I$h",$cardstr)

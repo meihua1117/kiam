@@ -166,7 +166,7 @@ if ($_POST['group_create_go']) {
     }
 }
 //그룹생성 원모어
-if ($_POST[group_create_ok_]) {
+if ($_POST['group_create_ok_']) {
     $in_nums = str_replace("\'", "'", $_POST['group_create_ok_nums']);
     $group_name = htmlspecialchars($_POST['group_create_ok_name']);
     $sql_s = "select idx from Gn_MMS_Group where grp='$group_name' and mem_id = '{$_SESSION['one_member_id']}' ";
@@ -214,7 +214,7 @@ if ($_POST[group_create_ok_]) {
         if ($row_c['idx'])
             continue;
 
-        $sql_i = "insert into Gn_MMS_Receive set grp_id='{$row_s['idx']}', mem_id = '{$_SESSION['one_member_id']}', grp = '$group_name',grp_2='{$row_d['grp']}', recv_num = '$recv_num', name = '$row_d[msg_text]',reg_date=now() ";
+        $sql_i = "insert into Gn_MMS_Receive set grp_id='{$row_s['idx']}', mem_id = '{$_SESSION['one_member_id']}', grp = '$group_name',grp_2='{$row_d['grp']}', recv_num = '$recv_num', name = '{$row_d['msg_text']}',reg_date=now() ";
         mysqli_query($self_con,$sql_i) or die(mysqli_error($self_con));
         $i++;
     }
@@ -271,7 +271,7 @@ if ($_POST['group_create_ok']) {
         $row_c = mysqli_fetch_array($resul_c);
         if ($row_c['idx'])
             continue;
-        $sql_i = "insert into Gn_MMS_Receive set grp_id='{$row_s['idx']}', mem_id = '{$_SESSION['one_member_id']}', grp = '$group_name',grp_2='{$row_d['grp']}', recv_num = '$recv_num', name = '$row_d[msg_text]',reg_date=now() ";
+        $sql_i = "insert into Gn_MMS_Receive set grp_id='{$row_s['idx']}', mem_id = '{$_SESSION['one_member_id']}', grp = '$group_name',grp_2='{$row_d['grp']}', recv_num = '$recv_num', name = '{$row_d['msg_text']}',reg_date=now() ";
         mysqli_query($self_con,$sql_i) or die(mysqli_error($self_con));
         $i++;
     }
@@ -1144,11 +1144,11 @@ if ($_POST['lms_save_title']) {
     }
     $message_info['title'] = htmlspecialchars($_POST['lms_save_title']);
     $message_info['message'] = htmlspecialchars($_POST['lms_save_content']);
-    if ($_POST[lms_save_img])
-        $message_info[msg_type] = "B";
+    if ($_POST['lms_save_img'])
+        $message_info['msg_type'] = "B";
     else
-        $message_info[msg_type] = "A";
-    $message_info[img] = $_POST[lms_save_img];
+        $message_info['msg_type'] = "A";
+    $message_info['img'] = $_POST['lms_save_img'];
     $i = 0;
     foreach ($message_info as $key => $v) {
         $bd = $i == count($message_info) - 1 ? "" : ",";
@@ -1170,8 +1170,8 @@ if ($_POST['lms_save_title']) {
     }
 }
 //문자삭제
-if ($_POST[lms_del_idx]) {
-    $sql = "delete from Gn_MMS_Message where idx='$_POST[lms_del_idx]' ";
+if ($_POST['lms_del_idx']) {
+    $sql = "delete from Gn_MMS_Message where idx='{$_POST['lms_del_idx']}' ";
     if (mysqli_query($self_con,$sql)) {
     ?>
         <script language="javascript">
@@ -1182,18 +1182,18 @@ if ($_POST[lms_del_idx]) {
     }
 }
 //등록관리설정저장
-if ($_POST[set_num]) {
-    $num_arr = $_POST[set_num];
-    $memo_arr = $_POST[set_memo];
-    $memo2_arr = $_POST[set_memo2];
-    $max_cnt_arr = $_POST[set_max_cnt];
-    $gl_cnt_arr = $_POST[set_gl_cnt];
-    $user_cnt_arr = $_POST[set_user_cnt];
+if ($_POST['set_num']) {
+    $num_arr = $_POST['set_num'];
+    $memo_arr = $_POST['set_memo'];
+    $memo2_arr = $_POST['set_memo2'];
+    $max_cnt_arr = $_POST['set_max_cnt'];
+    $gl_cnt_arr = $_POST['set_gl_cnt'];
+    $user_cnt_arr = $_POST['set_user_cnt'];
     foreach ($num_arr as $key => $v) {
         $mms_number_info['memo'] = $memo_arr[$key];
         $mms_number_info['memo2'] = $memo2_arr[$key];
-        $mms_number_info[max_cnt] = $max_cnt_arr[$key];
-        $mms_number_info[gl_cnt] = $gl_cnt_arr[$key];
+        $mms_number_info['max_cnt'] = $max_cnt_arr[$key];
+        $mms_number_info['gl_cnt'] = $gl_cnt_arr[$key];
         $mms_number_info['user_cnt'] = $user_cnt_arr[$key];
         $sql = "update Gn_MMS_Number set ";
         $i = 0;
@@ -1213,9 +1213,9 @@ if ($_POST[set_num]) {
     <?
 }
 //수신거부등록수정
-if ($_POST[deny_add_send] && $_POST[deny_add_recv]) {
-    $recv_num = str_replace(array("-", " ", ","), "", $_POST[deny_add_recv]);
-    $chanel = $_POST[reg_chanel];
+if ($_POST['deny_add_send'] && $_POST['deny_add_recv']) {
+    $recv_num = str_replace(array("-", " ", ","), "", $_POST['deny_add_recv']);
+    $chanel = $_POST['reg_chanel'];
     $is_zero = substr($recv_num, 0, 1);
     $recv_num = $is_zero ? "0" . $recv_num : $recv_num;
     $recv_num = preg_replace("/[^0-9]/i", "", $recv_num);
@@ -1227,7 +1227,7 @@ if ($_POST[deny_add_send] && $_POST[deny_add_recv]) {
     <?
         exit;
     }
-    $send_num = str_replace(array("-", " ", ","), "", $_POST[deny_add_send]);
+    $send_num = str_replace(array("-", " ", ","), "", $_POST['deny_add_send']);
     $is_zero = substr($send_num, 0, 1);
     $send_num = $is_zero ? "0" . $send_num : $send_num;
     $send_num = preg_replace("/[^0-9]/i", "", $send_num);
@@ -1242,7 +1242,7 @@ if ($_POST[deny_add_send] && $_POST[deny_add_recv]) {
     $sql_num = "select sendnum from Gn_MMS_Number where mem_id ='{$_SESSION['one_member_id']}' and sendnum='$send_num' ";
     $resul_num = mysqli_query($self_con,$sql_num);
     $row_num = mysqli_fetch_array($resul_num);
-    if (!$row_num[sendnum]) {
+    if (!$row_num['sendnum']) {
     ?>
         <script language="javascript">
             alert('발신번호는 등록된 번호가 아닙니다.');
@@ -1273,14 +1273,14 @@ if ($_POST[deny_add_send] && $_POST[deny_add_recv]) {
     }
     $deny_info['send_num'] = $send_num;
     $deny_info['recv_num'] = $recv_num;
-    if ($_POST[deny_add_idx]) {
+    if ($_POST['deny_add_idx']) {
         $sql = "update Gn_MMS_Deny set ";
     } else {
         $sql = "insert into Gn_MMS_Deny set ";
         $deny_info['title'] = "수동입력";
         $deny_info['content'] = "수동입력";
         $deny_info['status'] = "B";
-        $deny_info[chanel_type] = $chanel;
+        $deny_info['chanel_type'] = $chanel;
         $deny_info['mem_id'] = $_SESSION['one_member_id'];
     }
     $i = 0;
@@ -1289,8 +1289,8 @@ if ($_POST[deny_add_send] && $_POST[deny_add_recv]) {
         $sql .= " $key='$v' $bd ";
         $i++;
     }
-    if ($_POST[deny_add_idx])
-        $sql .= " where idx='$_POST[deny_add_idx]' ";
+    if ($_POST['deny_add_idx'])
+        $sql .= " where idx='{$_POST['deny_add_idx']}' ";
     else
         $sql .= " , reg_date=now() ";
     if (mysqli_query($self_con,$sql) or die(mysqli_error($self_con))) {
@@ -1303,8 +1303,8 @@ if ($_POST[deny_add_send] && $_POST[deny_add_recv]) {
     }
 }
 //수신동의등록수정
-if ($_POST[agree_add_send] && $_POST[agree_add_recv]) {
-    $recv_num = str_replace(array("-", " ", ","), "", $_POST[agree_add_recv]);
+if ($_POST['agree_add_send'] && $_POST['agree_add_recv']) {
+    $recv_num = str_replace(array("-", " ", ","), "", $_POST['agree_add_recv']);
     $is_zero = substr($recv_num, 0, 1);
     $recv_num = $is_zero ? "0" . $recv_num : $recv_num;
     $recv_num = preg_replace("/[^0-9]/i", "", $recv_num);
@@ -1316,7 +1316,7 @@ if ($_POST[agree_add_send] && $_POST[agree_add_recv]) {
     <?
         exit;
     }
-    $send_num = str_replace(array("-", " ", ","), "", $_POST[agree_add_send]);
+    $send_num = str_replace(array("-", " ", ","), "", $_POST['agree_add_send']);
     $is_zero = substr($send_num, 0, 1);
     $send_num = $is_zero ? "0" . $send_num : $send_num;
     $send_num = preg_replace("/[^0-9]/i", "", $send_num);
@@ -1331,7 +1331,7 @@ if ($_POST[agree_add_send] && $_POST[agree_add_recv]) {
     $sql_num = "select sendnum from Gn_MMS_Number where mem_id ='{$_SESSION['one_member_id']}' and sendnum='$send_num' ";
     $resul_num = mysqli_query($self_con,$sql_num);
     $row_num = mysqli_fetch_array($resul_num);
-    if (!$row_num[sendnum]) {
+    if (!$row_num['sendnum']) {
     ?>
         <script language="javascript">
             alert('발신번호는 등록된 번호가 아닙니다.');
@@ -1352,7 +1352,7 @@ if ($_POST[agree_add_send] && $_POST[agree_add_recv]) {
     }
     $deny_info['send_num'] = $send_num;
     $deny_info['recv_num'] = $recv_num;
-    if ($_POST[deny_add_idx]) {
+    if ($_POST['deny_add_idx']) {
         $sql = "update Gn_MMS_Agree set ";
     } else {
         $sql = "insert into Gn_MMS_Agree set ";
@@ -1367,8 +1367,8 @@ if ($_POST[agree_add_send] && $_POST[agree_add_recv]) {
         $sql .= " $key='$v' $bd ";
         $i++;
     }
-    if ($_POST[deny_add_idx])
-        $sql .= " where idx='$_POST[deny_add_idx]' ";
+    if ($_POST['deny_add_idx'])
+        $sql .= " where idx='{$_POST['deny_add_idx']}' ";
     else
         $sql .= " , reg_date=now() ";
     if (mysqli_query($self_con,$sql) or die(mysqli_error($self_con))) {
@@ -1381,10 +1381,10 @@ if ($_POST[agree_add_send] && $_POST[agree_add_recv]) {
     }
 }
 //수신거부개별등록
-if ($_POST[deny_g_add_recv_num] && $_POST[deny_g_add_send_num]) {
-    $num_arr = $_POST[deny_g_add_send_num];
+if ($_POST['deny_g_add_recv_num'] && $_POST['deny_g_add_send_num']) {
+    $num_arr = $_POST['deny_g_add_send_num'];
     foreach ($num_arr as $key => $v) {
-        $recv_num = str_replace(array("-", " ", ","), "", $_POST[deny_g_add_recv_num]);
+        $recv_num = str_replace(array("-", " ", ","), "", $_POST['deny_g_add_recv_num']);
         $is_zero = substr($recv_num, 0, 1);
         $recv_num = $is_zero ? "0" . $recv_num : $recv_num;
 
@@ -1424,8 +1424,8 @@ if ($_POST[deny_g_add_recv_num] && $_POST[deny_g_add_send_num]) {
     <?
 }
 //수신거부 삭제
-if ($_POST[deny_del_ids]) {
-    $ids = $_POST[deny_del_ids];
+if ($_POST['deny_del_ids']) {
+    $ids = $_POST['deny_del_ids'];
     $sql = "delete from Gn_MMS_Deny where idx in($ids) ";
     if (mysqli_query($self_con,$sql)) {
     ?>
@@ -1437,8 +1437,8 @@ if ($_POST[deny_del_ids]) {
     }
 }
 //동의  삭제
-if ($_POST[agree_del_ids]) {
-    $ids = $_POST[agree_del_ids];
+if ($_POST['agree_del_ids']) {
+    $ids = $_POST['agree_del_ids'];
     $sql = "delete from Gn_MMS_Agree where idx in($ids) ";
     if (mysqli_query($self_con,$sql)) {
     ?>
@@ -1450,10 +1450,10 @@ if ($_POST[agree_del_ids]) {
     }
 }
 //앱체크
-if ($_POST[select_app_check_num]) {
-    $num_arr = $_POST[select_app_check_num];
+if ($_POST['select_app_check_num']) {
+    $num_arr = $_POST['select_app_check_num'];
     $uni_id = time();
-    $i = $_POST[select_app_check_i];
+    $i = $_POST['select_app_check_i'];
     $url = 'https://fcm.googleapis.com/fcm/send';
     $headers = array(
         'Authorization: key=' . GOOGLE_SERVER_KEY,
@@ -1470,7 +1470,7 @@ if ($_POST[select_app_check_num]) {
         while ($info = mysqli_fetch_array($result)) {
             $pkey[$info['sendnum']] = $info['pkey'];
             $id = $info['pkey'];
-            $sql = "select idx from Gn_MMS where mem_id='{$_SESSION['one_member_id']}'  and send_num='$info[sendnum]' and result=0 and content like '%app_check_process%'  order by idx desc limit 0,1";
+            $sql = "select idx from Gn_MMS where mem_id='{$_SESSION['one_member_id']}'  and send_num='{$info['sendnum']}' and result=0 and content like '%app_check_process%'  order by idx desc limit 0,1";
             $resul = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
             $row = mysqli_fetch_array($resul);
             if (is_array($id)) {
@@ -1576,8 +1576,8 @@ if ($_POST[select_app_check_num]) {
     <?
 }
 //발신수신 삭제 (2016-03-08 카운트 복구 추가)
-if ($_POST[fs_del_num_s]) {
-    $num_s = $_POST[fs_del_num_s];
+if ($_POST['fs_del_num_s']) {
+    $num_s = $_POST['fs_del_num_s'];
     if (strpos($num_s, ",") !== false) {
         $nums_arr = explode(",", $num_s);
         arsort($nums_arr); //마지막 것부터 처리
@@ -1668,8 +1668,8 @@ if ($_POST[fs_del_num_s]) {
     }
 }
 //회원탈퇴
-if ($_POST[member_leave_pwd]) {
-    $mem_pass = $_POST[member_leave_pwd];
+if ($_POST['member_leave_pwd']) {
+    $mem_pass = $_POST['member_leave_pwd'];
     $sql = "select mem_code from Gn_Member where mem_id='{$_SESSION['one_member_id']}'  and web_pwd=password('$mem_pass') ";
     $resul = mysqli_query($self_con,$sql);
     $row = mysqli_fetch_array($resul);
@@ -1704,8 +1704,8 @@ if ($_POST[member_leave_pwd]) {
     }
 }
 //원북저장 삭제
-if ($_POST[one_del_num_s]) {
-    $num_s = $_POST[one_del_num_s];
+if ($_POST['one_del_num_s']) {
+    $num_s = $_POST['one_del_num_s'];
     $sql = "delete from Gn_MMS_Message where idx in ($num_s) ";
     if (mysqli_query($self_con,$sql) or die(mysqli_error($self_con))) {
     ?>
@@ -1717,18 +1717,18 @@ if ($_POST[one_del_num_s]) {
     }
 }
 //비밀번호 변경
-if ($_POST[pwd_change_old_pwd] && $_POST[pwd_change_new_pwd]) {
+if ($_POST['pwd_change_old_pwd'] && $_POST['pwd_change_new_pwd']) {
     $msg = "비밀번호";
-    $add_sql_u = " web_pwd=password('$_POST[pwd_change_new_pwd]') ";
-    $add_sql = " web_pwd=password('$_POST[pwd_change_old_pwd]') ";
-    $add_sql_u .= " ,mem_pass='" . md5($_POST[pwd_change_new_pwd]) . "'";
+    $add_sql_u = " web_pwd=password('{$_POST['pwd_change_new_pwd']}') ";
+    $add_sql = " web_pwd=password('{$_POST['pwd_change_old_pwd']}') ";
+    $add_sql_u .= " ,mem_pass='" . md5($_POST['pwd_change_new_pwd']) . "'";
     $sql = "select mem_code from Gn_Member where mem_id='{$_SESSION['one_member_id']}' and $add_sql ";
     $resul = mysqli_query($self_con,$sql);
     $row = mysqli_fetch_array($resul);
     if ($row['mem_code']) {
         $sql_u = "update Gn_Member set $add_sql_u where mem_id='{$_SESSION['one_member_id']}' ";
         if (mysqli_query($self_con,$sql_u)) {
-            $add_sql_u = " password='" . md5($_POST[pwd_change_new_pwd]) . "'";
+            $add_sql_u = " password='" . md5($_POST['pwd_change_new_pwd']) . "'";
             $sql_u = "update crawler_member_real set $add_sql_u where user_id='{$_SESSION['one_member_id']}' ";
             mysqli_query($self_con,$sql_u);
         ?>
@@ -1742,19 +1742,19 @@ if ($_POST[pwd_change_old_pwd] && $_POST[pwd_change_new_pwd]) {
         ?>
         <script language="javascript">
             alert('기존 <?= $msg ?> 가 틀렸습니다.');
-            document.getElementsByName('old_pwd')[<?= $_POST[pwd_change_status] ?>].focus();
+            document.getElementsByName('old_pwd')[<?= $_POST['pwd_change_status'] ?>].focus();
         </script>
     <?
     }
 }
 //휴대폰 상세정보등록
-if ($_POST[set_save_num]) {
-    $num_arr = $_POST[set_save_num];
-    $device_arr = $_POST[set_save_device];
-    $memo3_arr = $_POST[set_save_memo3];
+if ($_POST['set_save_num']) {
+    $num_arr = $_POST['set_save_num'];
+    $device_arr = $_POST['set_save_device'];
+    $memo3_arr = $_POST['set_save_memo3'];
     foreach ($num_arr as $key => $v) {
-        $mms_number_info[device] = $device_arr[$key];
-        $mms_number_info[memo3] = $memo3_arr[$key];
+        $mms_number_info['device'] = $device_arr[$key];
+        $mms_number_info['memo3'] = $memo3_arr[$key];
         $sql = "update Gn_MMS_Number set ";
         $i = 0;
         foreach ($mms_number_info as $key2 => $v2) {
@@ -1773,8 +1773,8 @@ if ($_POST[set_save_num]) {
     <?
 }
 //로그기록 삭제
-if ($_POST[log_del_ids]) {
-    $ids = $_POST[log_del_ids];
+if ($_POST['log_del_ids']) {
+    $ids = $_POST['log_del_ids'];
     $sql = "delete from sm_log where seq in($ids) ";
     if (mysqli_query($self_con,$sql)) {
     ?>
@@ -1786,12 +1786,12 @@ if ($_POST[log_del_ids]) {
     }
 }
 //로그기록등록수정
-if ($_POST[log_add_dest] && $_POST[log_add_ori]) {
-    $dest = preg_replace("/[^0-9]/i", "", $_POST[log_add_dest]);
+if ($_POST['log_add_dest'] && $_POST['log_add_ori']) {
+    $dest = preg_replace("/[^0-9]/i", "", $_POST['log_add_dest']);
     $is_zero = substr($dest, 0, 1);
     $dest = $is_zero ? "0" . $dest : $dest;
 
-    $ori_num = preg_replace("/[^0-9]/i", "", $_POST[log_add_ori]);
+    $ori_num = preg_replace("/[^0-9]/i", "", $_POST['log_add_ori']);
     $is_zero = substr($ori_num, 0, 1);
     $ori_num = $is_zero ? "0" . $ori_num : $ori_num;
 
@@ -1815,7 +1815,7 @@ if ($_POST[log_add_dest] && $_POST[log_add_ori]) {
     $sql_num = "select sendnum from Gn_MMS_Number where mem_id ='{$_SESSION['one_member_id']}' and sendnum='$dest' ";
     $resul_num = mysqli_query($self_con,$sql_num);
     $row_num = mysqli_fetch_array($resul_num);
-    if (!$row_num[sendnum]) {
+    if (!$row_num['sendnum']) {
     ?>
         <script language="javascript">
             alert('발신번호는 등록된 번호가 아닙니다.');
@@ -1823,7 +1823,7 @@ if ($_POST[log_add_dest] && $_POST[log_add_ori]) {
     <?
         exit;
     }
-    $sql_s = "select seq from sm_log where dest='$dest' and ori_num='$ori_num' and msg_flag='$_POST[log_add_msg_flag]' ";
+    $sql_s = "select seq from sm_log where dest='$dest' and ori_num='$ori_num' and msg_flag='{$_POST['log_add_msg_flag']}' ";
     $resul_s = mysqli_query($self_con,$sql_s);
     $row_s = mysqli_fetch_array($resul_s);
     if ($row_s['seq']) {
@@ -1834,12 +1834,12 @@ if ($_POST[log_add_dest] && $_POST[log_add_ori]) {
     <?
         exit;
     }
-    $log_info[dest] = $dest;
-    $log_info[ori_num] = $ori_num;
-    $log_info['msg_flag'] = $_POST[log_add_msg_flag];
-    $log_info[msg_text] = "수동입력";
+    $log_info['dest'] = $dest;
+    $log_info['ori_num'] = $ori_num;
+    $log_info['msg_flag'] = $_POST['log_add_msg_flag'];
+    $log_info['msg_text'] = "수동입력";
     $log_info['mem_id'] = $_SESSION['one_member_id'];
-    if ($_POST[log_add_idx])
+    if ($_POST['log_add_idx'])
         $sql = "update sm_log set ";
     else
         $sql = "insert into sm_log set ";
@@ -1849,8 +1849,8 @@ if ($_POST[log_add_dest] && $_POST[log_add_ori]) {
         $sql .= " $key='$v' $bd ";
         $i++;
     }
-    if ($_POST[log_add_idx])
-        $sql .= " where seq='$_POST[log_add_idx]' ";
+    if ($_POST['log_add_idx'])
+        $sql .= " where seq='{$_POST['log_add_idx']}' ";
     else
         $sql .= " , reservation_time=now() ";
     if (mysqli_query($self_con,$sql) or die(mysqli_error($self_con))) {
@@ -1863,31 +1863,31 @@ if ($_POST[log_add_dest] && $_POST[log_add_ori]) {
     }
 }
 //고객센터 글등록
-if ($_POST[board_save_title] && ($_POST[board_save_content] || $_POST[board_save_reply])) {
-    $board_info['title'] = htmlspecialchars($_POST[board_save_title]);
-    if ($_POST[board_save_content])
-        $board_info['content'] = htmlspecialchars($_POST[board_save_content]);
-    if ($_POST[board_save_reply])
-        $board_info[reply] = htmlspecialchars($_POST[board_save_reply]);
-    $board_info['phone'] = $_POST[board_save_phone];
-    $board_info['fl'] = $_POST[board_save_fl];
-    $board_info['email'] = $_POST[board_save_email];
-    $board_info['adjunct_1'] = $_POST[board_save_adjunct_1];
-    $board_info['adjunct_2'] = $_POST[board_save_adjunct_2];
-    $board_info['adjunct_memo'] = $_POST[board_save_adjunct_memo];
-    $board_info['status_1'] = $_POST[board_save_status_1];
-    $board_info[up_path] = $_POST[board_save_up_path];
+if ($_POST['board_save_title'] && ($_POST['board_save_content'] || $_POST['board_save_reply'])) {
+    $board_info['title'] = htmlspecialchars($_POST['board_save_title']);
+    if ($_POST['board_save_content'])
+        $board_info['content'] = htmlspecialchars($_POST['board_save_content']);
+    if ($_POST['board_save_reply'])
+        $board_info['reply'] = htmlspecialchars($_POST['board_save_reply']);
+    $board_info['phone'] = $_POST['board_save_phone'];
+    $board_info['fl'] = $_POST['board_save_fl'];
+    $board_info['email'] = $_POST['board_save_email'];
+    $board_info['adjunct_1'] = $_POST['board_save_adjunct_1'];
+    $board_info['adjunct_2'] = $_POST['board_save_adjunct_2'];
+    $board_info['adjunct_memo'] = $_POST['board_save_adjunct_memo'];
+    $board_info['status_1'] = $_POST['board_save_status_1'];
+    $board_info['up_path'] = $_POST['board_save_up_path'];
     $board_info[pop_yn] = $_POST[board_save_pop_yn];
     $board_info[important_yn] = $_POST[board_save_important_yn];
     $board_info[display_yn] = $_POST[board_save_display_yn];
     $board_info[start_date] = $_POST[board_save_start_date];
     $board_info['end_date'] = $_POST[board_save_end_date];
 
-    if ($_POST[board_save_no])
+    if ($_POST['board_save_no'])
         $sql = "update tjd_board set ";
     else {
         $board_info['id'] = $_SESSION['one_member_id'];
-        $board_info[category] = $_POST[board_save_category];
+        $board_info['category'] = $_POST['board_save_category'];
         $sql = "insert into tjd_board set";
     }
     $i = 0;
@@ -1896,8 +1896,8 @@ if ($_POST[board_save_title] && ($_POST[board_save_content] || $_POST[board_save
         $sql .= " $key='$v' $bd ";
         $i++;
     }
-    if ($_POST[board_save_no])
-        $sql .= " where no='$_POST[board_save_no]' ";
+    if ($_POST['board_save_no'])
+        $sql .= " where no='{$_POST['board_save_no']}' ";
     else
         $sql .= " , date=now() ";
     if (mysqli_query($self_con,$sql) or die(mysqli_error($self_con))) {
@@ -1915,15 +1915,15 @@ if ($_POST[board_save_title] && ($_POST[board_save_content] || $_POST[board_save
             <? } else if (strstr($_SERVER['HTTP_REFERER'], "manual")) { ?>
                 location.href = 'admin_manual.php';
             <? } else { ?>
-                location.href = 'cliente_list.php?status=<?= $_POST[board_save_category] ?>';
+                location.href = 'cliente_list.php?status=<?= $_POST['board_save_category'] ?>';
             <? } ?>
         </script>
     <?
     }
 }
 //게시판 삭제
-if ($_POST[board_del_ids]) {
-    $nos = $_POST[board_del_ids];
+if ($_POST['board_del_ids']) {
+    $nos = $_POST['board_del_ids'];
     $sql = "delete from tjd_board where no in($nos) ";
     if (mysqli_query($self_con,$sql) or die(mysqli_error($self_con))) {
     ?>
@@ -1935,12 +1935,12 @@ if ($_POST[board_del_ids]) {
     }
 }
 // 번호 삭제
-if ($_POST[delete_num_ids]) {
-    $sql_serch .= " and seq in ($_POST[delete_num_ids])  ";
+if ($_POST['delete_num_ids']) {
+    $sql_serch .= " and seq in ({$_POST['delete_num_ids']})  ";
     $query = "select ori_num, chg_num from sm_log where 1=1 $sql_serch";
     $resul_num = mysqli_query($self_con,$query);
     while ($row_num = mysqli_fetch_array($resul_num)) {
-        $ori_num = $row_num[ori_num];
+        $ori_num = $row_num['ori_num'];
         $sql = "select * from Gn_MMS_Receive where recv_num='$ori_num' and mem_id = '{$_SESSION['one_member_id']}'";
         $result1 = mysqli_query($self_con,$sql);
         $row1 = mysqli_fetch_array($result1);
@@ -1965,14 +1965,14 @@ if ($_POST[delete_num_ids]) {
     exit;
 }
 //번호변경 덮어쓰기
-if ($_POST[fugai_num_status]) {
+if ($_POST['fugai_num_status']) {
     $sql_serch = " where chg_num<>'' ";
-    if ($_POST[fugai_num_status] == "cho") {
+    if ($_POST['fugai_num_status'] == "cho") {
         $sql_serch .= " and seq in ($_POST[fugai_num_ids])  ";
         $query = "select ori_num, chg_num from sm_log $sql_serch";
         $resul_num = mysqli_query($self_con,$query);
         $row_num = mysqli_fetch_array($resul_num);
-        if (cell_change_log($row_num[chg_num], $row_num[ori_num]) === true) {
+        if (cell_change_log($row_num['chg_num'], $row_num['ori_num']) === true) {
     ?>
             <script language="javascript">
                 alert('처리되었습니다.');
@@ -1987,12 +1987,12 @@ if ($_POST[fugai_num_status]) {
             </script>
         <?
         }
-    } else if ($_POST[fugai_num_status] == "all") {
+    } else if ($_POST['fugai_num_status'] == "all") {
         $sql_num = "select sendnum from Gn_MMS_Number where mem_id ='{$_SESSION['one_member_id']}'";
         $resul_num = mysqli_query($self_con,$sql_num);
         $send_num_arr = array();
         while ($row_num = mysqli_fetch_array($resul_num)) {
-            array_push($send_num_arr, "'" . $row_num[sendnum] . "'");
+            array_push($send_num_arr, "'" . $row_num['sendnum'] . "'");
         }
         $send_num_str = implode(",", $send_num_arr);
         $sql_serch .= " and dest in($send_num_str) ";
@@ -2000,7 +2000,7 @@ if ($_POST[fugai_num_status]) {
         $query = "select ori_num, chg_num from sm_log where mem_id ='{$_SESSION['one_member_id']}' and chg_status='N' order by reservation_time asc";
         $resul_num = mysqli_query($self_con,$query);
         while ($row_num = mysqli_fetch_array($result_num)) {
-            if (cell_change_log($row_num[chg_num], $row_num[ori_num]) === true) {
+            if (cell_change_log($row_num['chg_num'], $row_num['ori_num']) === true) {
                 $cnt++;
             }
         }
@@ -2023,19 +2023,19 @@ if ($_POST[fugai_num_status]) {
     exit;
 }
 //결제하기
-if ($_POST[pay_go_mid] && $_POST[pay_go_goodname]) {
+if ($_POST['pay_go_mid'] && $_POST['pay_go_goodname']) {
     require_once('../inipay/libs/INIStdPayUtil.php');
     $SignatureUtil = new INIStdPayUtil();
-    $mid = $_POST[pay_go_mid];
+    $mid = $_POST['pay_go_mid'];
     $signKey = $sign_arr[$mid];
     $timestamp = $SignatureUtil->getTimestamp();
-    $price = $_POST[pay_go_total_price];
+    $price = $_POST['pay_go_total_price'];
     $orderNumber = $member_1['mem_code'] . "_" . date("ymdhis");
-    $_SESSION[total_price] = $price;
-    $_SESSION[phone_cnt] = $_POST[pay_go_add_phone];
-    $_SESSION['month_cnt'] = $_POST[pay_go_month_cnt];
-    $_SESSION[fujia_status] = $_POST[pay_go_fujia_status];
-    $_SESSION[orderNumber] = $orderNumber;
+    $_SESSION['total_price'] = $price;
+    $_SESSION['phone_cnt'] = $_POST['pay_go_add_phone'];
+    $_SESSION['month_cnt'] = $_POST['pay_go_month_cnt'];
+    $_SESSION['fujia_status'] = $_POST['pay_go_fujia_status'];
+    $_SESSION['orderNumber'] = $orderNumber;
     $cardNoInterestQuota = "11-2:3:,34-5:12,14-6:12:24,12-12:36,06-9:12,01-3:4";  // 카드 무이자 여부 설정(가맹점에서 직접 설정)
     $cardQuotaBase = "2:3:4:5:6:11:12:24:36";  // 가맹점에서 사용할 할부 개월수 설정
     $mKey = $SignatureUtil->makeHash($signKey, "sha256");
@@ -2050,7 +2050,7 @@ if ($_POST[pay_go_mid] && $_POST[pay_go_goodname]) {
     <form id="SendPayForm_id" name="" action="" method="post">
         <input type="hidden" name="version" value="1.0" />
         <input type="hidden" name="mid" value="<?= $mid ?>" />
-        <input type="hidden" name="goodsname" value="<?= $_POST[pay_go_goodname] ?>" />
+        <input type="hidden" name="goodsname" value="<?= $_POST['pay_go_goodname'] ?>" />
         <input type="hidden" name="oid" value="<?= $orderNumber ?>" />
         <input type="hidden" name="price" value="<?= $price ?>" />
         <input type="hidden" name="currency" value="WON" />
@@ -2080,36 +2080,36 @@ if ($_POST[pay_go_mid] && $_POST[pay_go_goodname]) {
     <?
 }
 //결제해제
-if ($_POST[pay_cancel_no] && $_POST[pay_cancel_paymethod]) {
-    switch ($_POST[pay_cancel_paymethod]) {
+if ($_POST['pay_cancel_no'] && $_POST['pay_cancel_paymethod']) {
+    switch ($_POST['pay_cancel_paymethod']) {
         case "Card":
             require($_SERVER['DOCUMENT_ROOT'] . "/inipay/libs/INILib.php");
             $inipay = new INIpay50;
             $inipay->SetField("inipayhome", $_SERVER['DOCUMENT_ROOT'] . "/inipay"); // 이니페이 홈디렉터리(상점수정 필요)
             $inipay->SetField("type", "cancel");                            // 고정 (절대 수정 불가)
             $inipay->SetField("debug", "true");                             // 로그모드("true"로 설정하면 상세로그가 생성됨.)
-            $inipay->SetField("mid", $_POST[pay_cancel_mid]);               // 상점아이디
+            $inipay->SetField("mid", $_POST['pay_cancel_mid']);               // 상점아이디
             $inipay->SetField("admin", "1111");
-            $inipay->SetField("tid", $_POST[pay_cancel_tid]);                             // 취소할 거래의 거래아이디
+            $inipay->SetField("tid", $_POST['pay_cancel_tid']);                             // 취소할 거래의 거래아이디
             $inipay->SetField("cancelmsg", "고객직접지원요청");                           // 취소사유
             $inipay->startAction();
             if ($inipay->getResult('ResultCode') == "00") {
-                if ($_POST[pay_cancel_fujia] == 'Y') {
+                if ($_POST['pay_cancel_fujia'] == 'Y') {
                     $sql_m = "update Gn_Member set fujia_date1='' , fujia_date2='' where mem_id='{$member_1['mem_id']}' ";
                     mysqli_query($self_con,$sql_m) or die(mysqli_error($self_con));
                 }
                 $pay_info['end_status'] = "C";
-                $pay_info[cancel_ResultCode] = $inipay->GetResult('ResultCode'); //취소코드
-                $pay_info[cancel_ResultMsg] = iconv("euc-kr", "utf-8", $inipay->GetResult('ResultMsg')); //취소메시지
-                $pay_info[cancel_CancelDate] = $inipay->GetResult('CancelDate'); //취소일
-                $pay_info[cancel_CancelTime] = $inipay->GetResult('CancelTime'); //취소시각
-                $pay_info[cancel_CSHR_CancelNum] = $inipay->GetResult('CSHR_CancelNum'); //현금영수증 취소 승인번호(현금영수증 발급 취소시에만 리턴됨)
-                $pay_info[cancel_status] = "Y";
+                $pay_info['cancel_ResultCode'] = $inipay->GetResult('ResultCode'); //취소코드
+                $pay_info['cancel_ResultMsg'] = iconv("euc-kr", "utf-8", $inipay->GetResult('ResultMsg')); //취소메시지
+                $pay_info['cancel_CancelDate'] = $inipay->GetResult('CancelDate'); //취소일
+                $pay_info['cancel_CancelTime'] = $inipay->GetResult('CancelTime'); //취소시각
+                $pay_info['cancel_CSHR_CancelNum'] = $inipay->GetResult('CSHR_CancelNum'); //현금영수증 취소 승인번호(현금영수증 발급 취소시에만 리턴됨)
+                $pay_info['cancel_status'] = "Y";
                 $sql = "update tjd_pay_result set ";
                 foreach ($pay_info as $key => $v) {
                     $sql .= " $key = '$v' , ";
                 }
-                $sql .= " end_date=now() where no='$_POST[pay_cancel_no]' ";
+                $sql .= " end_date=now() where no='{$_POST['pay_cancel_no']}' ";
                 if (mysqli_query($self_con,$sql) or die(mysqli_error($self_con))) {
                     $sql_num_up = "update Gn_MMS_Number set end_status='N' ,end_date=now() where end_date='$_POST[pay_cancel_end_date]' and mem_id='{$member_1['mem_id']}'  ";
                     mysqli_query($self_con,$sql_num_up);
@@ -2137,27 +2137,27 @@ if ($_POST[pay_cancel_no] && $_POST[pay_cancel_paymethod]) {
             $inipay->m_subPgIp = "203.238.3.10"; // 고정
             $inipay->m_keyPw = "1111"; // 키패스워드(상점아이디에 따라 변경)
             $inipay->m_debug = "true"; // 로그모드("true"로 설정하면 상세로그가 생성됨.)
-            $inipay->m_mid = $_POST[pay_cancel_mid]; // 상점아이디
-            $inipay->m_tid = $_POST[pay_cancel_tid]; // 취소할 거래의 거래아이디
+            $inipay->m_mid = $_POST['pay_cancel_mid']; // 상점아이디
+            $inipay->m_tid = $_POST['pay_cancel_tid']; // 취소할 거래의 거래아이디
             $inipay->m_cancelMsg = "고객직접지원요청"; // 취소사유
             $inipay->startAction();
             if ($inipay->m_resultCode == "00") {
-                if ($_POST[pay_cancel_fujia] == 'Y') {
+                if ($_POST['pay_cancel_fujia'] == 'Y') {
                     $sql_m = "update Gn_Member set fujia_date1='' , fujia_date2='' where mem_id='{$member_1['mem_id']}' ";
                     mysqli_query($self_con,$sql_m) or die(mysqli_error($self_con));
                 }
                 $pay_info['end_status'] = "C";
-                $pay_info[cancel_ResultCode] = $inipay->m_resultCode; //취소코드
-                $pay_info[cancel_ResultMsg] = iconv("euc-kr", "utf-8", $inipay->m_resultMsg); //취소메시지
-                $pay_info[cancel_CancelDate] = $inipay->m_pgCancelDate; //취소일
-                $pay_info[cancel_CancelTime] = $inipay->m_pgCancelTime; //취소시각
-                $pay_info[cancel_CSHR_CancelNum] = $inipay->m_rcash_cancel_noappl; //현금영수증 취소 승인번호(현금영수증 발급 취소시에만 리턴됨)
-                $pay_info[cancel_status] = "Y";
+                $pay_info['cancel_ResultCode'] = $inipay->m_resultCode; //취소코드
+                $pay_info['cancel_ResultMsg'] = iconv("euc-kr", "utf-8", $inipay->m_resultMsg); //취소메시지
+                $pay_info['cancel_CancelDate'] = $inipay->m_pgCancelDate; //취소일
+                $pay_info['cancel_CancelTime'] = $inipay->m_pgCancelTime; //취소시각
+                $pay_info['cancel_CSHR_CancelNum'] = $inipay->m_rcash_cancel_noappl; //현금영수증 취소 승인번호(현금영수증 발급 취소시에만 리턴됨)
+                $pay_info['cancel_status'] = "Y";
                 $sql = "update tjd_pay_result set ";
                 foreach ($pay_info as $key => $v) {
                     $sql .= " $key = '$v' , ";
                 }
-                $sql .= " end_date=now() where no='$_POST[pay_cancel_no]' ";
+                $sql .= " end_date=now() where no='{$_POST['pay_cancel_no']}' ";
                 if (mysqli_query($self_con,$sql) or die(mysqli_error($self_con))) {
                     $sql_num_up = "update Gn_MMS_Number set end_status='N' ,end_date=now() where end_date='$_POST[pay_cancel_end_date]' and mem_id='{$member_1['mem_id']}'  ";
                     mysqli_query($self_con,$sql_num_up);
@@ -2181,18 +2181,18 @@ if ($_POST[pay_cancel_no] && $_POST[pay_cancel_paymethod]) {
 }
 if ($_POST[send_save_mms]) { //메시지 저장
     if (strlen($_POST[send_txt]) <= 0 && $_POST[send_img] == "")
-        $message_info[msg_type] = "C";
+        $message_info['msg_type'] = "C";
     else {
         if ($_POST[send_img]) //메시지 타입
-            $message_info[msg_type] = "B";
+            $message_info['msg_type'] = "B";
         else
-            $message_info[msg_type] = "A";
+            $message_info['msg_type'] = "A";
     }
     $sql = "insert into Gn_MMS_Message set "; //발송
     $message_info['mem_id'] = $_SESSION['one_member_id'];
     $message_info['title'] = htmlspecialchars(str_replace("{|name|}", "{|REP|}", $_POST[send_title]));
     $message_info['message'] = htmlspecialchars(str_replace("{|name|}", "{|REP|}", $_POST[send_txt]));
-    $message_info[img] = $_POST[send_img];
+    $message_info['img'] = $_POST[send_img];
     $message_info[img1] = $_POST[send_img1];
     $message_info[img2] = $_POST[send_img2];
     foreach ($message_info as $key => $v) {

@@ -317,7 +317,7 @@ else{
                                     <tr <?=$style?>>
                                         <td><?=$number--?></td>
                                         <td><?=$row['title'];?></td>
-                                        <td><?=substr($row[date],0,10)?></td>
+                                        <td><?=substr($row['date'],0,10)?></td>
                                     </tr>
                                 <?
                                     $i++;
