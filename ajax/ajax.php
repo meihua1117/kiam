@@ -24,9 +24,9 @@ if($_POST[id_che]){
     if($row['mem_id']){?>
     <script language="javascript">
 		alert('이미 가입되어있는 아이디입니다.');
-		<?=$_POST[id_che_form]?>.id_status.value=''
-		<?=$_POST[id_che_form]?>.id.value='';
-		<?=$_POST[id_che_form]?>.id.focus();
+		<?=$_POST['id_che_form']?>.id_status.value=''
+		<?=$_POST['id_che_form']?>.id.value='';
+		<?=$_POST['id_che_form']?>.id.focus();
 		$("#id_chk_str").hide();
 		$("[id^='id_html']").html("&nbsp;&nbsp; ※ 아이디 중복확인을 클릭해주세요.");
 	</script>
@@ -36,9 +36,9 @@ if($_POST[id_che]){
     ?>
 			<script language="javascript">
                 alert('본 홈페이지 금지단어입니다.');
-                <?=$_POST[id_che_form]?>.id_status.value=''
-                <?=$_POST[id_che_form]?>.id.value='';
-                <?=$_POST[id_che_form]?>.id.focus();
+                <?=$_POST['id_che_form']?>.id_status.value=''
+                <?=$_POST['id_che_form']?>.id.value='';
+                <?=$_POST['id_che_form']?>.id.focus();
                 </script>
     <?  }else{
 			$sql="select count(mem_id) from Gn_Member where mem_id='$id_che' and ".$solution_type." = ''";
@@ -53,9 +53,9 @@ if($_POST[id_che]){
 						window.open('/check_password.php?mem_id=<?=$id_che?>&solution_type=<?=$solution_type?>&solution_name=<?=$solution_name?>', 'popup', 'width=600, height=140, toolbar=no, menubar=no, scrollbars=no, resizable=no,scrolling=no');
 					} else {
 						alert('이미 가입되어있는 아이디입니다.');
-						<?=$_POST[id_che_form]?>.id_status.value = ''
-							<?=$_POST[id_che_form]?>.id.value = '';
-						<?=$_POST[id_che_form]?>.id.focus();
+						<?=$_POST['id_che_form']?>.id_status.value = ''
+							<?=$_POST['id_che_form']?>.id.value = '';
+						<?=$_POST['id_che_form']?>.id.focus();
 						$("[id^='id_html']").html('&nbsp;&nbsp; ※ 아이디 중복확인을 클릭해주세요.');
 					}
 				</script>
@@ -66,7 +66,7 @@ if($_POST[id_che]){
 				if ($row[0] == 0) {
     ?>
 					<script language="javascript">
-						<?=$_POST[id_che_form]?>.id_status.value = 'ok';
+						<?=$_POST['id_che_form']?>.id_status.value = 'ok';
 						$("#id_chk_str").hide();
 						$("[id^='id_html']").html("<img src='/images/check.gif' /> 사용 가능하십니다.");
 					</script>
@@ -79,7 +79,7 @@ if($_POST[id_che]){
 					else {
     ?>
 						<script language="javascript">
-							<?=$_POST[id_che_form]?>.id_status.value = 'ok';
+							<?=$_POST['id_che_form']?>.id_status.value = 'ok';
 							$("#id_chk_str").hide();
 							$("[id^='id_html']").html("<img src='/images/check.gif' /> 사용 가능하십니다.");
 						</script>
@@ -91,9 +91,9 @@ if($_POST[id_che]){
     ?>
 						<script>
                             alert('이미 가입되어있는 아이디입니다.');
-                            <?=$_POST[id_che_form]?>.id_status.value = '';
-                            <?=$_POST[id_che_form]?>.id.value = '';
-                            <?=$_POST[id_che_form]?>.id.focus();
+                            <?=$_POST['id_che_form']?>.id_status.value = '';
+                            <?=$_POST['id_che_form']?>.id.value = '';
+                            <?=$_POST['id_che_form']?>.id.focus();
 							$("#id_chk_str").hide();
                             $("[id^='id_html']").html('&nbsp;&nbsp; ※ 아이디 중복확인을 클릭해주세요.');
 						</script>
@@ -102,9 +102,9 @@ if($_POST[id_che]){
 						?>
 						<script language="javascript">
 							alert('이미 가입되어있는 아이디입니다.');
-							<?=$_POST[id_che_form]?>.id_status.value = ''
-                            <?=$_POST[id_che_form]?>.id.value = '';
-							<?=$_POST[id_che_form]?>.id.focus();
+							<?=$_POST['id_che_form']?>.id_status.value = ''
+                            <?=$_POST['id_che_form']?>.id.value = '';
+							<?=$_POST['id_che_form']?>.id.focus();
 							$("#id_chk_str").hide();
 							$("[id^='id_html']").html("&nbsp;&nbsp; ※ 아이디 중복확인을 클릭해주세요.")
 						</script>

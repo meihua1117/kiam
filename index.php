@@ -3232,7 +3232,7 @@ function encodeKorean($matches)
                             </div>
                             <?
                             $g_cont_row = mysqli_fetch_array($g_cont_res);
-                            $g_card_sql = "select card_short_url, mem_id,main_img1,card_name,group_id from Gn_Iam_Name_Card c where c.idx = '$g_cont_row[card_idx]'";
+                            $g_card_sql = "select card_short_url, mem_id,main_img1,card_name,group_id from Gn_Iam_Name_Card c where c.idx = '{$g_cont_row['card_idx']}'";
                             $g_card_res = mysqli_query($self_con,$g_card_sql);
                             $g_card_row = mysqli_fetch_array($g_card_res);
 
@@ -4746,7 +4746,7 @@ function encodeKorean($matches)
                         $default_avatar =  $row['main_img1'];
 
                         //westory 카드
-                        $sql = "select * from Gn_Iam_Name_Card where idx = '$contents_row[card_idx]'";
+                        $sql = "select * from Gn_Iam_Name_Card where idx = '{$contents_row['card_idx']}'";
                         $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
                         $westory_card = mysqli_fetch_array($result);
                         $sql = "select mem_code from Gn_Member where mem_id = '{$westory_card['mem_id']}'";

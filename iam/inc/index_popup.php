@@ -5025,7 +5025,7 @@
                 $g_cont_res = mysqli_query($self_con,$g_cont_sql);
                 $g_index = 1;
                 while ($g_cont_row = mysqli_fetch_array($g_cont_res)) {
-                    $g_card_sql = "select mem_id,card_short_url,main_img1,card_name,group_id from Gn_Iam_Name_Card c where c.idx = '$g_cont_row[card_idx]'";
+                    $g_card_sql = "select mem_id,card_short_url,main_img1,card_name,group_id from Gn_Iam_Name_Card c where c.idx = '{$g_cont_row['card_idx']}'";
                     $g_card_res = mysqli_query($self_con,$g_card_sql);
                     $g_card_row = mysqli_fetch_array($g_card_res);
 

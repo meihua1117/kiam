@@ -201,7 +201,7 @@ $(function() {
                       else{
                         $img_link = $row[contents_img];
                       }
-                      $sql_card = "select card_title from Gn_Iam_Name_Card where idx='{$row[card_idx]}'";
+                      $sql_card = "select card_title from Gn_Iam_Name_Card where idx='{$row['card_idx']}'";
                       $res_card = mysqli_query($self_con,$sql_card);
                       $row_card = mysqli_fetch_array($res_card);
                     ?>

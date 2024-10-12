@@ -201,7 +201,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                             </td>
                             <td style="font-size:12px;"><a href="javascript:show_req_mem('<?=$row['event_idx']?>')"><?=$row['read_cnt']?>/<?=$row_req_mem['cnt']?></a></td>
                             <td style="font-size:12px;"><?=$row['regdate']?></td>
-                            <td><a href="edit_daily_msg_service.php?event_idx=<?=$row[event_idx]?>">수정</a>/<a href="javascript:delete_event(<?=$row[event_idx]?>)">삭제</a></td>
+                            <td><a href="edit_daily_msg_service.php?event_idx=<?=$row['event_idx']?>">수정</a>/<a href="javascript:delete_event(<?=$row['event_idx']?>)">삭제</a></td>
                       </tr>
                     <?
                     $c++;

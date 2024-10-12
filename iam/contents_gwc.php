@@ -48,7 +48,7 @@ $result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 $row=mysqli_fetch_array($result);
 $default_avatar =  $row['main_img1'];
 
-$sql = "select * from Gn_Iam_Name_Card where idx = '$meta_row[card_idx]'";
+$sql = "select * from Gn_Iam_Name_Card where idx = '{$meta_row['card_idx']}'";
 $result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 $name_card=mysqli_fetch_array($result);
 
@@ -196,7 +196,7 @@ $meta_desc = $meta_row[contents_desc];
 								$price_show1 = "적립금";
 								$price_show2 = "판매가";
 								$price_style = "";
-								$sql_card = "select sale_cnt, sale_cnt_set, add_reduce_val from Gn_Iam_Name_Card where idx='{$meta_row[card_idx]}'";
+								$sql_card = "select sale_cnt, sale_cnt_set, add_reduce_val from Gn_Iam_Name_Card where idx='{$meta_row['card_idx']}'";
 								$res_card = mysqli_query($self_con,$sql_card);
 								$row_card = mysqli_fetch_array($res_card);?>
 								<div class="desc is-product">
@@ -734,7 +734,7 @@ $meta_desc = $meta_row[contents_desc];
 <script>
 	var ft_ht = $(".info-wrap").height();
 	var win_ht = $(window).height();
-	var mobile = '<?=$_GET[mobile]?>';
+	var mobile = '<?=$_GET['mobile']?>';
 	$(document).ready(function(){
 		var media_ht = win_ht * 1 - ft_ht * 1 - 10;
 		$('.media-inner').attr('style', 'max-height:'+media_ht+'px');

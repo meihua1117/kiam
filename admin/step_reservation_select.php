@@ -47,11 +47,11 @@ $res = mysqli_query($self_con,$query);
                   $srow = mysqli_fetch_array($sresult);
               ?>
                 <tr>
-                    <td><input type="checkbox" class="check_step" key = "<?=$row[sms_idx]?>" title="<?=$row[reservation_title]?>"></td>
+                    <td><input type="checkbox" class="check_step" key = "<?=$row[sms_idx]?>" title="<?=$row['reservation_title']?>"></td>
                     <td><?=$i?></td>
                     <td><?=$row['m_id']?></td>
-                    <td style="font-size:12px;"><?=$row[reservation_title]?></td>
-                    <td><?=$row[reservation_desc]?></td>
+                    <td style="font-size:12px;"><?=$row['reservation_title']?></td>
+                    <td><?=$row['reservation_desc']?></td>
                     <td><?=$srow['cnt']?></td>
                     <td><?=$row['regdate']?></td>
                     <td>

@@ -1872,10 +1872,10 @@ if ($_POST[board_save_title] && ($_POST[board_save_content] || $_POST[board_save
     $board_info['phone'] = $_POST[board_save_phone];
     $board_info['fl'] = $_POST[board_save_fl];
     $board_info['email'] = $_POST[board_save_email];
-    $board_info[adjunct_1] = $_POST[board_save_adjunct_1];
-    $board_info[adjunct_2] = $_POST[board_save_adjunct_2];
-    $board_info[adjunct_memo] = $_POST[board_save_adjunct_memo];
-    $board_info[status_1] = $_POST[board_save_status_1];
+    $board_info['adjunct_1'] = $_POST[board_save_adjunct_1];
+    $board_info['adjunct_2'] = $_POST[board_save_adjunct_2];
+    $board_info['adjunct_memo'] = $_POST[board_save_adjunct_memo];
+    $board_info['status_1'] = $_POST[board_save_status_1];
     $board_info[up_path] = $_POST[board_save_up_path];
     $board_info[pop_yn] = $_POST[board_save_pop_yn];
     $board_info[important_yn] = $_POST[board_save_important_yn];

@@ -171,7 +171,7 @@ $(function(){
                     $sresult=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));				                    
                     $srow = mysqli_fetch_array($sresult);
 
-                    // $sql = "select * from Gn_event_address where event_idx = '$row[reservation_title]'";
+                    // $sql = "select * from Gn_event_address where event_idx = '$row['reservation_title']'";
                     // $aresult = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
                     // $arow=mysqli_fetch_array($aresult);
                     $sql = "select * from Gn_MMS_Group where idx = '$row[address_idx]'";
@@ -184,7 +184,7 @@ $(function(){
                     $date = $row['regdate'];
                   ?>
                   <tr>
-                    <td><input type="checkbox" name="event_idx" value="<?php echo $row['idx'];?>" data-reservation_title="<?=$row['reservation_title']?>" data-idx="<?=$row['idx']?>" data-name="<?=$row['name']?>" data-mobile="<?=$row[mobile]?>"  data-email="<?=$row['email']?>" data-job="<?=$row[job]?>"  data-event_code="<?=$row[event_code]?>"  data-counsult_date="<?=$row[counsult_date]?>" data-sp="<?=$row[sp]?>" data-request_idx="<?php echo $row['request_idx'];?>"></td>
+                    <td><input type="checkbox" name="event_idx" value="<?php echo $row['idx'];?>" data-reservation_title="<?=$row['reservation_title']?>" data-idx="<?=$row['idx']?>" data-name="<?=$row['name']?>" data-mobile="<?=$row['mobile']?>"  data-email="<?=$row['email']?>" data-job="<?=$row[job]?>"  data-event_code="<?=$row[event_code]?>"  data-counsult_date="<?=$row[counsult_date]?>" data-sp="<?=$row[sp]?>" data-request_idx="<?php echo $row['request_idx'];?>"></td>
                     <td><?=$sort_no?></td>
                     <td ><?=$row['send_num']?></td>
                     <td ><?=$addrrow['grp']?></td>

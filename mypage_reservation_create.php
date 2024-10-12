@@ -129,23 +129,23 @@ if($get_idx){
                 <form name="sform" id="sform" action="mypage.proc.php" method="post" enctype="multipart/form-data">
                     <input type="hidden" name="mode" value="<?php echo $sms_idx?"sms_update":"sms_save";?>" />
                     <input type="hidden" name="sms_idx" value="<?php echo $sms_idx;?>" />
-                    <input type="hidden" name="event_idx" id="event_idx" value="<?php echo $row[event_idx];?>" />
+                    <input type="hidden" name="event_idx" id="event_idx" value="<?php echo $row['event_idx'];?>" />
                     <div class="p1">
                         <table class="list_table1" width="100%" border="0" cellspacing="0" cellpadding="0">
                             <tr>
                                 <th class="w200">예약메시지 세트제목</th>
-                                <td><input type="text" name="reservation_title" placeholder="" id="reservation_title" value="<?=$row[reservation_title]?>"/> </td>
+                                <td><input type="text" name="reservation_title" placeholder="" id="reservation_title" value="<?=$row['reservation_title']?>"/> </td>
                             </tr>
                             <tr>
                                 <th class="w200">예약메시지 세트설명</th>
                                 <td>
-                                    <input type="text" name="reservation_desc" placeholder="" id="reservation_desc" value="<?=$row[reservation_desc]?>"/> </td>
+                                    <input type="text" name="reservation_desc" placeholder="" id="reservation_desc" value="<?=$row['reservation_desc']?>"/> </td>
                             </tr>
                             <?if($get_idx){?>
                             <tr>
                                 <th class="w200">스텝문자세트 가져오기</th>
                                 <td>
-                                    <input type="hidden" id="event_idx_event" name="event_idx_event" value="<?=$row[event_idx]?>" style="width:250px;">
+                                    <input type="hidden" id="event_idx_event" name="event_idx_event" value="<?=$row['event_idx']?>" style="width:250px;">
                                     <input type="hidden" id="mb_id_copy" name="mb_id_copy" value="<?=$_SESSION['one_member_id']?>" style="width:250px;">
                                     <input type="text" name="mb_id" id="mb_id" value="<?=$_SESSION['one_member_id']?>" style="width:250px; height: 27px;">
                                     <input type="hidden" id="ori_sms_idx" name="ori_sms_idx" value="<?=$get_idx?>" style="width:95px;">

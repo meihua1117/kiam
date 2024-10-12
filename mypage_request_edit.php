@@ -34,7 +34,7 @@ $sql="select * from Gn_event_request  where request_idx='".$request_idx."'";
 $sresul_num=mysqli_query($self_con,$sql);
 $data = $row=mysqli_fetch_array($sresul_num);	
 
-$sql="select * from Gn_event where event_idx='$row[event_idx]' order by event_idx desc";
+$sql="select * from Gn_event where event_idx='$row['event_idx']' order by event_idx desc";
 $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 $event_data = $row=mysqli_fetch_array($result);
 ?>
@@ -156,7 +156,7 @@ $(function(){
                 </tr>                    
                 <tr>
                     <th class="w200">핸드폰</th>
-                    <td><input type="text" name="mobile" placeholder="" id="mobile" value="<?=$data[mobile]?>" style="width:200px"/> </td>
+                    <td><input type="text" name="mobile" placeholder="" id="mobile" value="<?=$data['mobile']?>" style="width:200px"/> </td>
                 </tr>                                    
                 <tr>
                     <th class="w200">성별</th>
@@ -190,7 +190,7 @@ $(function(){
                 <tr>
                     <th class="w200">신청행사</th>
                     <td>
-                        <input type="text" name="sp" readonly placeholder="" id="event_name_eng" value="<?=$event_data[event_name_eng]?>"/> <input type="button" value="신청그룹 조회" class="button " id="searchBtn"></td>
+                        <input type="text" name="sp" readonly placeholder="" id="event_name_eng" value="<?=$event_data['event_name_eng']?>"/> <input type="button" value="신청그룹 조회" class="button " id="searchBtn"></td>
                 </tr>                                           
                 <tr>
                     <th class="w200">등록일</th>

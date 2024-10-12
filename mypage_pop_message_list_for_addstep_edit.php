@@ -180,10 +180,10 @@ function copyHtml(url){
             ?>
             <tr>
                 <td><?=$sort_no?></td>
-                <td style="font-size:12px;"><?=$row[event_name_eng]?></td>
-                <td style="font-size:12px;"><?=$row[reservation_title]?></td>
-                <td><?=$row[reservation_desc]?></td>
-                <td><?=$row[mobile]?></td>
+                <td style="font-size:12px;"><?=$row['event_name_eng']?></td>
+                <td style="font-size:12px;"><?=$row['reservation_title']?></td>
+                <td><?=$row['reservation_desc']?></td>
+                <td><?=$row['mobile']?></td>
                 <td>
                   <select name="step_num_<?=$sort_no?>" id="step_num_<?=$sort_no?>" class="select" style="width:60px;">
                   <?for($i = number_format($srow['cnt']); $i >= 1; $i--){ ?>
@@ -192,7 +192,7 @@ function copyHtml(url){
                   </select>
                 </td>
                 <td>
-                    <a href="javascript:;;" onclick="useIt(<?=$sort_no?>, '<?=$row[sms_idx];?>', '<?=$row[event_name_eng];?>','<?=$row[pcode]?>','<?=$row[event_name_kor]?>','<?=$row[event_idx]?>','<?=$row[reservation_title]?>','<?=$row[reservation_desc]?>')">적용하기</a>
+                    <a href="javascript:;;" onclick="useIt(<?=$sort_no?>, '<?=$row[sms_idx];?>', '<?=$row['event_name_eng'];?>','<?=$row[pcode]?>','<?=$row[event_name_kor]?>','<?=$row['event_idx']?>','<?=$row['reservation_title']?>','<?=$row['reservation_desc']?>')">적용하기</a>
                 </td>                               
             </tr>
               <?

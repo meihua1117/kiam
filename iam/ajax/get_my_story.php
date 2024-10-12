@@ -76,7 +76,7 @@ if (!$global_is_local) {
 
 $body = '';
 foreach ($cont_array as $contents_row) {
-    $card_sql = "select * from Gn_Iam_Name_Card where idx = $contents_row[card_idx]";
+    $card_sql = "select * from Gn_Iam_Name_Card where idx = {$contents_row['card_idx']}";
     $card_res = mysqli_query($self_con, $card_sql) or die(mysqli_error($self_con));
     $cur_card = mysqli_fetch_array($card_res);
     //콘텐츠에 현시할 이름과 아바타
@@ -111,7 +111,7 @@ foreach ($cont_array as $contents_row) {
     }
 
     //westory 카드
-    $sql = "select * from Gn_Iam_Name_Card where idx = '$contents_row[card_idx]'";
+    $sql = "select * from Gn_Iam_Name_Card where idx = '{$contents_row['card_idx']}'";
     $result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
     $westory_card = mysqli_fetch_array($result);
 
@@ -170,7 +170,7 @@ foreach ($cont_array as $contents_row) {
         $price_show1 = "적립금";
         $price_show2 = "판매가";
         $price_style = "";
-        $sql_card = "select sale_cnt, sale_cnt_set, add_reduce_val from Gn_Iam_Name_Card where idx=$contents_row[card_idx]";
+        $sql_card = "select sale_cnt, sale_cnt_set, add_reduce_val from Gn_Iam_Name_Card where idx={$contents_row['card_idx']}";
         $res_card = mysqli_query($self_con, $sql_card);
         $row_card = mysqli_fetch_array($res_card);
         $body .=    "<div class=\"desc is-product\">" .

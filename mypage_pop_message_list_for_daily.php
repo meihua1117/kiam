@@ -176,13 +176,13 @@ function copyHtml(url){
             ?>
             <tr>
                 <td><?=$sort_no?></td>
-                <td style="font-size:12px;"><?=$row[event_name_eng]?></td>
-                <td style="font-size:12px;"><?=$row[reservation_title]?></td>
-                <td><?=$row[reservation_desc]?></td>
-                <td><?=$row[mobile]?></td>
+                <td style="font-size:12px;"><?=$row['event_name_eng']?></td>
+                <td style="font-size:12px;"><?=$row['reservation_title']?></td>
+                <td><?=$row['reservation_desc']?></td>
+                <td><?=$row['mobile']?></td>
                 <td><?=number_format($srow['cnt'])?></td>
                 <td>
-                    <a href="javascript:;;" onclick="useIt('<?=$row[reservation_title];?>','<?=$row[sms_idx]?>')">사용하기</a>
+                    <a href="javascript:;;" onclick="useIt('<?=$row['reservation_title'];?>','<?=$row[sms_idx]?>')">사용하기</a>
                 </td>                               
             </tr>
               <?

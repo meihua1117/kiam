@@ -16,7 +16,7 @@ $sresul_num=mysqli_query($self_con,$sql);
 $data=mysqli_fetch_array($sresul_num);	
 $mem_phone = str_replace("-","",$data['mem_phone']);
 
-$sql="select * from Gn_event  where event_idx='".$_GET[event_idx]."'";
+$sql="select * from Gn_event  where event_idx='".$_GET['event_idx']."'";
 
 $sresul_num=mysqli_query($self_con,$sql);
 $row=mysqli_fetch_array($sresul_num);	
@@ -131,8 +131,8 @@ $(function(){
         <?php include "mypage_left_menu.php";?>
         <div class="m_body">
         <form name="sform" id="sform" action="mypage.proc.php" method="post" enctype="multipart/form-data">
-            <input type="hidden" name="mode" value="<?php echo $_GET[event_idx]?"event_update":"event_save";?>" />
-            <input type="hidden" name="event_idx" value="<?php echo $_GET[event_idx];?>" />
+            <input type="hidden" name="mode" value="<?php echo $_GET['event_idx']?"event_update":"event_save";?>" />
+            <input type="hidden" name="event_idx" value="<?php echo $_GET['event_idx'];?>" />
             <input type="hidden" name="event_req_link" id="event_req_link" value="<?php echo $row[event_req_link]?$row[event_req_link]:'';?>" />
             <input type="hidden" name="pcode" id="pcode" value="<?php echo $row[pcode]?$row[pcode]:'';?>" />
             <div class="a1" style="margin-top:50px; margin-bottom:15px">

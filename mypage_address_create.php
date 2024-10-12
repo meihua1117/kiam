@@ -34,7 +34,7 @@ $sql="select * from Gn_event_request  where request_idx='".$request_idx."'";
 $sresul_num=mysqli_query($self_con,$sql);
 $data = $row=mysqli_fetch_array($sresul_num);	
 
-$sql="select * from Gn_event where event_idx='$row[event_idx]' order by event_idx desc";
+$sql="select * from Gn_event where event_idx='{$row['event_idx']}' order by event_idx desc";
 $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 $event_data = $row=mysqli_fetch_array($result);
 ?>

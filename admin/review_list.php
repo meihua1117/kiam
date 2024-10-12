@@ -218,7 +218,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                 	$query .= "$orderQuery";
                 	$res = mysqli_query($self_con,$query);
                   while($row = mysqli_fetch_array($res)) {                       	
-						        $sql_num="select * from Gn_event where m_id='{$row['mem_id']}' and event_idx='$row[event_idx]' ";
+						        $sql_num="select * from Gn_event where m_id='{$row['mem_id']}' and event_idx='{$row['event_idx']}' ";
 						        $resul_num=mysqli_query($self_con,$sql_num);
 						        $crow=mysqli_fetch_array($resul_num); 	 
                   ?>

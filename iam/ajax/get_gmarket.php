@@ -104,7 +104,7 @@ $default_avatar =  $row['main_img1'];
 $body = '';
 foreach($cont_array as $contents_row){
     //westory 카드
-    $sql = "select * from Gn_Iam_Name_Card where idx = '$contents_row[card_idx]'";
+    $sql = "select * from Gn_Iam_Name_Card where idx = '{$contents_row['card_idx']}'";
     $result=mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
     $cur_card=mysqli_fetch_array($result);
     $sql = "select mem_code from Gn_Member where mem_id = '{$cur_card['mem_id']}'";

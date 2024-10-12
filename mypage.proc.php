@@ -189,7 +189,7 @@ if($mode == "land_save") {
     $result=mysqli_query($self_con,$sql);
     $row=mysqli_fetch_array($result);    
     
-    if($row[event_name_eng] == "") {
+    if($row['event_name_eng'] == "") {
         echo '{"result":"success","msg":"사용 가능합니다."}'; 
     } else {
         echo '{"result":"fail","msg":"중복된 값이 있습니다."}';
@@ -206,14 +206,14 @@ if($mode == "land_save") {
     /*$sql="select * from Gn_event where event_name_eng='$event_name_eng'";
     $eresult=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));                                   
     $erow = mysqli_fetch_array($eresult);               
-    if($erow[event_idx] != "") {
+    if($erow['event_idx'] != "") {
         echo "<script>alert('중복되는 이벤트 코드가 있습니다.');location='mypage_link_list.php';</script>";
         exit;
     }
     $sql="select * from Gn_event where pcode='$pcode'";
     $eresult=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));                                   
     $erow = mysqli_fetch_array($eresult);               
-    if($erow[event_idx] != "") {
+    if($erow['event_idx'] != "") {
         echo "<script>alert('중복되는 신청경로가 있습니다.');location='mypage_link_list.php';</script>";
         exit;
     }*/   
