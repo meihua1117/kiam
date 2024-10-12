@@ -105,7 +105,7 @@ else $link = "daily_msg_list_mem.php";
 											<th class="w200">[주소록선택]</th>
 											<td>
 												<input type="hidden" name="group_idx" placeholder="" id="address_idx" value="<?php echo $_GET[address_idx]?$_GET[address_idx]:$row[group_idx];?>" readonly style="width:100px" />
-												<input type="text" name="address_name" placeholder="" id="address_name" value="<?php echo $_GET[address_name]?$_GET[address_name]:$krow[grp]?>" readonly style="width:100px" />
+												<input type="text" name="address_name" placeholder="" id="address_name" value="<?php echo $_GET[address_name]?$_GET[address_name]:$krow['grp']?>" readonly style="width:100px" />
 												<input type="button" value="주소록 조회" class="button " id="searchBtn">[선택건수]<span id="address_cnt"><?php echo $_GET[address_cnt]?$_GET[address_cnt]:$row['total_count'];?></span>
 											</td>
 										</tr>

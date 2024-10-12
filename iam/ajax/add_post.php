@@ -182,10 +182,10 @@ while($post_row = mysqli_fetch_array($post_res)) {
 	$card_sql = "select card_short_url from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$post_row['mem_id']}' order by req_data limit 0,1";
 	$card_res = mysqli_query($self_con,$card_sql);
 	$card_row = mysqli_fetch_array($card_res);
-	$arr_res['namecard'] =$card_row[card_short_url];
+	$arr_res['namecard'] =$card_row['card_short_url'];
 	$arr_res['profile'] =$row_mem[profile];
 	$arr_res['mem_name'] =$row_mem['mem_name'];
-	$arr_res['reg_date'] =$post_row[reg_date];
+	$arr_res['reg_date'] =$post_row['reg_date'];
 	$arr_res['post_content'] =$post_row['content'];
 	$arr_res['post_mem_id'] = $post_row['mem_id'];
 	$arr_res['mem_id'] = $mem_id;
@@ -206,12 +206,12 @@ while($post_row = mysqli_fetch_array($post_res)) {
         $arr_reply['mem_id'] =$reply_row['mem_id'];
 		$arr_reply['profile'] =$row_mem_r[profile];
 		$arr_reply['mem_name'] =$row_mem_r['mem_name'];
-		$arr_reply['reg_date'] =$reply_row[reg_date];
+		$arr_reply['reg_date'] =$reply_row['reg_date'];
 		$arr_reply['post_content'] =$reply_row[contents];
 		$reply_card_sql = "select card_short_url from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$reply_row['mem_id']}' order by req_data limit 0,1";
 		$reply_card_res = mysqli_query($self_con,$reply_card_sql);
 		$reply_card_row = mysqli_fetch_array($reply_card_res);
-		$arr_reply['namecard'] =$reply_card_row[card_short_url];
+		$arr_reply['namecard'] =$reply_card_row['card_short_url'];
 		$reply_content[$reply_index++] = $arr_reply;
 	}
 	$arr_res['reply_content'] = $reply_content;

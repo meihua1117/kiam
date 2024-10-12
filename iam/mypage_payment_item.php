@@ -4,17 +4,17 @@ if($_SESSION['iam_member_id'] == "") {
     echo "<script>location='/iam/';</script>";
 }
 $sql_serch=" (r.seller_id ='{$_SESSION['iam_member_id']}' and r.point_val=0) or (r.point_val=1 and r.buyer_id ='{$_SESSION['iam_member_id']}' and r.site is not null and r.type='servicebuy') ";
-if($_REQUEST[search_date])
+if($_REQUEST['search_date'])
 {
     if($_REQUEST[rday1])
     {
         $start_time=strtotime($_REQUEST[rday1]);
-        $sql_serch.=" and unix_timestamp({$_REQUEST[search_date]}) >=$start_time ";
+        $sql_serch.=" and unix_timestamp({$_REQUEST['search_date']}) >=$start_time ";
     }
     if($_REQUEST[rday2])
     {
         $end_time=strtotime($_REQUEST[rday2]);
-        $sql_serch.=" and unix_timestamp({$_REQUEST[search_date]}) <= $end_time ";
+        $sql_serch.=" and unix_timestamp({$_REQUEST['search_date']}) <= $end_time ";
     }
 }
 if($_REQUEST[lms_text])
@@ -243,8 +243,8 @@ input:checked + .slider:before {
                             <div style="float:left;">
                                 <select name="search_date">
                                     <option value="">전체</option>
-                                    <option value="r.pay_date" <?=$_REQUEST[search_date]=='pay_date'?"selected":"";?>>결제일</option>
-                                    <option value="p.regdate" <?=$_REQUEST[search_date]=='regdate'?"selected":"";?>>정산일</option>
+                                    <option value="r.pay_date" <?=$_REQUEST['search_date']=='pay_date'?"selected":"";?>>결제일</option>
+                                    <option value="p.regdate" <?=$_REQUEST['search_date']=='regdate'?"selected":"";?>>정산일</option>
                                 </select>
                                 <input type="date" name="rday1" placeholder="" id="rday1" value="<?=$_REQUEST[rday1]?>"/> ~
                                 <input type="date" name="rday2" placeholder="" id="rday2" value="<?=$_REQUEST[rday2]?>"/>

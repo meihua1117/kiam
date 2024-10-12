@@ -1076,7 +1076,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
             $res_title = mysqli_query($self_con,$sql_title);
             $row_title = mysqli_fetch_array($res_title);
             ?>
-            <h4><?=$row_title[card_title]?$row_title[card_title]:'IAM카드';?></h4>
+            <h4><?=$row_title['card_title']?$row_title['card_title']:'IAM카드';?></h4>
             <div class="row" id="card_set" style="text-align:center;">
               <?
               $C_no = 0;
@@ -1154,7 +1154,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
               <button class="btn btn-primary" style="margin-left: 5px;margin-top:3px;padding: 3px 10px;" onclick="save_card_desc();return false;">저장</button>
             </div>
             <div>
-              <input type="text" name="card_t_title" id="card_t_title" value="<?=$row_title[card_title]?$row_title[card_title]:'';?>" placeholder="타이틀입력" style="width:60%;margin-top:5px;">
+              <input type="text" name="card_t_title" id="card_t_title" value="<?=$row_title['card_title']?$row_title['card_title']:'';?>" placeholder="타이틀입력" style="width:60%;margin-top:5px;">
               <button class="btn btn-primary" style="margin-left: 5px;margin-top:3px;padding: 3px 10px;" onclick="save_card_title();return false;">저장</button>
             </div>
             <a class="add_menu_a" href="javascript:add_menu('card')">매뉴추가하기</a>

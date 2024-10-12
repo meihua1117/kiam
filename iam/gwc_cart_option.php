@@ -48,7 +48,7 @@ $result = mysqli_query($self_con,$sql_order);
                 }
             }
         ?>
-        <input type="hidden" id="it_price" name="it_price" value="<?=$row[contents_price] * 1 / $row[contents_cnt] * 1?>">
+        <input type="hidden" id="it_price" name="it_price" value="<?=$row['contents_price'] * 1 / $row[contents_cnt] * 1?>">
         <input type="hidden" class="io_price" name="io_price" value="<?=$row[salary_price]?$row[salary_price]:'0'?>">
 
         <div class="sp_tbox" style="border-top:0">
@@ -61,7 +61,7 @@ $result = mysqli_query($self_con,$sql_order);
                 <li class="sit_opt_list">
                     <div class="sp_opt_set">
                         <ul>
-                            <li class="it_name"><span class="sit_opt_subj"><?=$row_contents[contents_title]?></span></li>
+                            <li class="it_name"><span class="sit_opt_subj"><?=$row_contents['contents_title']?></span></li>
                             <li class="it_qty">
                                 <?
                                 $gwc_order_option_content = json_decode($row['gwc_order_option_content'],true);

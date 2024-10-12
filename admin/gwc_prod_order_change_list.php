@@ -313,12 +313,12 @@ $date_today=date("Y-m")."-01 00:00:00";
 
                                     $price_data1 = ($row['contents_price'])."/\n".$row['salary_price'];
 
-                                    if(strpos($row_cont_data[contents_img], ",") !== false){
-                                        $img_link1 = explode(",", $row_cont_data[contents_img]);
+                                    if(strpos($row_cont_data['contents_img'], ",") !== false){
+                                        $img_link1 = explode(",", $row_cont_data['contents_img']);
                                         $img_link = trim($img_link1[0]);
                                     }
                                     else{
-                                        $img_link = $row_cont_data[contents_img];
+                                        $img_link = $row_cont_data['contents_img'];
                                     }
 
                                     $price_data2 = $row['use_point']."/\n".($row_tjd[TotPrice] * 1 - $row['use_point'] * 1);

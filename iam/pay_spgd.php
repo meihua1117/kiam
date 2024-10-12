@@ -28,7 +28,7 @@ include "inc/header.inc.php";
     <!--오픈그래프 (웹페이지 미리보기 -페이스북, 카카오톡)-->
     <meta property="og:title" content="아이엠으로 나를 브랜딩하기">
     <!--제목-->
-    <meta property="og:description" content="<?=$G_card[card_name]?>님의 명함 <?=$G_card[card_company]?> <?=$G_card[card_position]?>">
+    <meta property="og:description" content="<?=$G_card['card_name']?>님의 명함 <?=$G_card['card_company']?> <?=$G_card['card_position']?>">
     <!--내용-->
     <meta property="og:image" content="<?=$main_img1?>">
     <!--이미지-->

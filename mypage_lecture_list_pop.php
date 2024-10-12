@@ -159,7 +159,7 @@ $(function(){
                 <input type="radio" name="category" value="강연" checked>강연
                 <input type="radio" name="category" value="교육">교육
                 <input type="radio" name="category" value="영상">영상
-                <input type="text" name="search_text" placeholder="" id="search_text" value="<?=$_REQUEST[search_text]?>"/> 
+                <input type="text" name="search_text" placeholder="" id="search_text" value="<?=$_REQUEST['search_text']?>"/> 
                 <a href="javascript:void(0)" onclick="pay_form.submit()"><img src="images/sub_mypage_11.jpg" /></a>                                            
                 <div style="float:right">
                     <input type="radio" name="end_date" value="">전체
@@ -208,9 +208,9 @@ $(function(){
 					    $sql_serch.=" and end_date >= '$now'";
 					}										
 				
-					if($_REQUEST[search_text])
+					if($_REQUEST['search_text'])
 					{
-					    $search_text = $_REQUEST[search_text];
+					    $search_text = $_REQUEST['search_text'];
 					    $sql_serch.=" and (lecture_info like '%$search_text%' or area like '%$search_text%'or instructor like '%$search_text%')";
 					}				
 				

@@ -256,7 +256,7 @@ $path="./";
                                     <input type="date" style="height: 30px" name="search_end_date" placeholder="" id="search_end_date" value="<?=$_REQUEST[search_end_date]?>"/>
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" style="margin-left:5px" name="search_key" id="search_key" class="form-control input-sm pull-right" value="<?=$_REQUEST[search_key]?>">
+                                    <input type="text" style="margin-left:5px" name="search_key" id="search_key" class="form-control input-sm pull-right" value="<?=$_REQUEST['search_key']?>">
                                 </div>
                                 <div class="input-group-btn">
                                     <button style="margin-left:5px" class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>
@@ -379,7 +379,7 @@ $path="./";
                                             <?}?>
                                         </td>
                                         <td>
-                                            <?=$row_response[reg_date]?>
+                                            <?=$row_response['reg_date']?>
                                         </td>
                                     </tr>
                                 <?$i++;

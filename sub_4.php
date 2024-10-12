@@ -63,7 +63,7 @@ if($_REQUEST['status']==1 || $_REQUEST['status']==2)
 	$sql_result3 = "select uni_id from Gn_MMS where mem_id = '{$_SESSION['one_member_id']}' order by idx desc limit 1";
 	$res_result3 = mysqli_query($self_con,$sql_result3);
 	$row_result3 = mysqli_fetch_array($res_result3);
-	$uni_id=substr($row_result3[uni_id],0,10);
+	$uni_id=substr($row_result3['uni_id'],0,10);
 	
 	$sql_result32 = "select SUM(recv_num_cnt) from Gn_MMS where mem_id = '{$_SESSION['one_member_id']}' and uni_id like '$uni_id%'";
 	$res_result32 = mysqli_query($self_con,$sql_result32);
@@ -290,7 +290,7 @@ $(function(){
 											<select name="memo2" onchange="ssc_show('<?=$i?>',this.value)">
 												<option value="">선택하세요</option>
 												<?foreach($agency_arr as $key=>$v){
-													$selected=$row[memo2]==$key?"selected":"";
+													$selected=$row['memo2']==$key?"selected":"";
 													?>
 													<option value="<?=$key?>" <?=$selected?>><?=$key?></option>
 												<?}?>
@@ -303,7 +303,7 @@ $(function(){
 										<td><input type="text" name="user_cnt" <?=$row['cnt1']==10 && $row['cnt2']==20?"disabled":""?> value="<?=$row['user_cnt']?>" onkeyup="jiajian_oo_1('<?=$i?>','<?=$today_cnt_1?>')" /></td>
 										<td><?=$today_cnt_1?></td>
 										<td><?=$month_cnt_1?></td>
-										<td><?=$ssh_cnt?>/<span class="agency_c"><?=$agency_arr[$row[memo2]]?></span></td>
+										<td><?=$ssh_cnt?>/<span class="agency_c"><?=$agency_arr[$row['memo2']]?></span></td>
 									</tr>
 									<?
 											$i++;
@@ -354,8 +354,8 @@ $(function(){
                                     <td style="width:5%;text-align:left;"><label><input type="checkbox" name="seq[]" value="<?=$row[sendnum]?>" /><?=$sort_no?></label></td>
                                     <td style="width:10%;"><?=$row['memo']?></td>
                                     <td style="width:10%;"><?=$row[sendnum]?></td>
-                                    <td style="width:10%;"><?=substr($row[reg_date],0,10)?></td>
-                                    <td style="width:10%;"><?=$row[memo2]?></td>
+                                    <td style="width:10%;"><?=substr($row['reg_date'],0,10)?></td>
+                                    <td style="width:10%;"><?=$row['memo2']?></td>
                                     <td style="width:5%;">(<?=$row_db['cnt']?>)</td>                                    
                                     <td style="width:10%;"><input type="text" name="device" value="<?=$row[device]?>" /></td>
                                     <td style="width:23%;"><input type="text" name="memo3" value="<?=$row[memo3]?>" /></td>
@@ -594,14 +594,14 @@ $(function(){
 										<p style="clear:both;"></p>                                 
 									</div>                            
 									<div>
-										<input type="text" style="width:250px;" placeholder="그룹명" name="group_name" value="<?=$_REQUEST[group_name]?>" />
+										<input type="text" style="width:250px;" placeholder="그룹명" name="group_name" value="<?=$_REQUEST['group_name']?>" />
 										<input type="button" value="검색" style="height:32px;" onclick="sub_4_form.submit()" />
 									</div>
 									<div style="margin-bottom:5px;margin-top:5px;">
 									<?
 										$sql_serch=" mem_id ='{$_SESSION['one_member_id']}' ";
-										if($_REQUEST[group_name])
-											$sql_serch.=" and grp like '%$_REQUEST[group_name]%' ";
+										if($_REQUEST['group_name'])
+											$sql_serch.=" and grp like '%{$_REQUEST['group_name']}%' ";
 										$sql="select count(idx) as cnt from Gn_MMS_Group where $sql_serch ";
 										$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 										$row=mysqli_fetch_array($result);
@@ -649,15 +649,15 @@ $(function(){
 											<tr>
 												<td><label><input type="checkbox" value="<?=$row['idx']?>" name="chk" id="chk" onclick="group_choice('<?=$g?>')" /><?=$sort_no?></label></td>
 												<td class="group_title_<?=$g?>">
-												<a href="javascript:void(0)" onclick="show_detail('group_detail.php?grp_id=<?=$row['idx']?>','<?=$g?>')"><?=str_substr($row[grp],0,20,"utf-8")?></a>
+												<a href="javascript:void(0)" onclick="show_detail('group_detail.php?grp_id=<?=$row['idx']?>','<?=$g?>')"><?=str_substr($row['grp'],0,20,"utf-8")?></a>
 												<a href="javascript:void(0)" onclick="g_dt_show_cencle('group_title_','','','<?=$g?>')" class="a_btn" style="background-color:#4f81bd;color:#FFF;float:right;">Re</a>
 												</td>
 												<td class="group_title_<?=$g?>" style="display:none;">
-													<input type="text" name="group_title" value="<?=$row[grp]?>" style="width:65%;" />
+													<input type="text" name="group_title" value="<?=$row['grp']?>" style="width:65%;" />
 													<a href="javascript:void(0)" onclick="group_title_modify('<?=$row['idx']?>','<?=$g?>')" class="a_btn">저장</a>
 													<a href="javascript:void(0)" onclick="g_dt_cencle('group_title_','','','<?=$g?>')">x</a>
 												</td>                                            
-												<td><?=substr($row[reg_date],2,9)?></td>
+												<td><?=substr($row['reg_date'],2,9)?></td>
 												<td><?=$row[count]?></td>
 												<td>
 													<a href="javascript:void(0)" onclick="excel_down('excel_down/excel_down.php?down_type=1','<?=$row['idx']?>')"><img src="images/ico_xls.gif"></a>
@@ -731,7 +731,7 @@ $(function(){
 													<label><input type="checkbox" name="go_num" value="<?=$row[sendnum]?>" <?=!$is_send?"disabled":""?> onclick="send_sj_fun()" /><?=$row[sendnum]?></label>
 													<input type="hidden" name="go_user_cnt" value="<?=$row['user_cnt']?>" />
 													<input type="hidden" name="go_max_cnt" value="<?=$row[max_cnt]?>" />
-													<input type="hidden" name="go_memo2" value="<?=$row[memo2]?>" />
+													<input type="hidden" name="go_memo2" value="<?=$row['memo2']?>" />
 													<input type="hidden" name="go_cnt1" value="<?=$row['cnt1']?>" />
 													<input type="hidden" name="go_cnt2" value="<?=$row['cnt2']?>" />                                                                                        
 												</td>
@@ -841,7 +841,7 @@ $(function(){
 												<input type="text" name="title" placeholder="제목" value="<?=$row['title']?>" />
 												</div>
 												<div>
-												<textarea name="lms_content" placeholder="내용" onkeydown="textCounter(document.getElementsByName('lms_content')[<?=$i?>],'wenzi_cnt',2000,'<?=$i?>')" onkeyup="textCounter(document.getElementsByName('lms_content')[<?=$i?>],'wenzi_cnt',2000,'<?=$i?>')"><?=$row[message]?></textarea>
+												<textarea name="lms_content" placeholder="내용" onkeydown="textCounter(document.getElementsByName('lms_content')[<?=$i?>],'wenzi_cnt',2000,'<?=$i?>')" onkeyup="textCounter(document.getElementsByName('lms_content')[<?=$i?>],'wenzi_cnt',2000,'<?=$i?>')"><?=$row['message']?></textarea>
 												</div>
 											</div>
 											<div style="margin-bottom:14px;"><span class="wenzi_cnt"></span> Byte</div>
@@ -1071,8 +1071,8 @@ $(function(){
                                         <td><input type="checkbox" value="<?=$row['idx']?>" name="one_idx" /></td>
                                         <td><?=$sort_no?></td>
                                         <td><a href="javascript:void(0)" onclick="show_recv('show_title','<?=$c?>','원북저장-제목')"><?=$row['title']?></a><input type="hidden" name="show_title" value="<?=$row['title']?>" /></td>
-                                        <td style="text-align:left;"><a href="javascript:void(0)" onclick="show_recv('show_message','<?=$c?>','원북저장-내용')"><?=str_substr($row[message],0,50,"utf-8")?></a><input type="hidden" name="show_message" value="<?=$row[message]?>" /></td>
-                                        <td><?=substr($row[reg_date],0,16)?></td>                                        
+                                        <td style="text-align:left;"><a href="javascript:void(0)" onclick="show_recv('show_message','<?=$c?>','원북저장-내용')"><?=str_substr($row['message'],0,50,"utf-8")?></a><input type="hidden" name="show_message" value="<?=$row['message']?>" /></td>
+                                        <td><?=substr($row['reg_date'],0,16)?></td>                                        
                                     </tr>
                                     	<?
 										}
@@ -1318,24 +1318,24 @@ $(function(){
 											<td><?=$row_n['memo']?></td>											
 	                                        <td><?=$row['send_num']?></td>
 											<td style="font-size:12px;"><a href="javascript:void(0)" onclick="show_recv('show_recv_num','<?=$c?>','수신번호')"><?=str_substr($row['recv_num'],0,14,'utf-8')?>
-												<?=$row[reservation]?"<br>".$row[reservation]:""?></a> <span style="color:#F00;">(<?=count($recv_cnt)?>)</span><input type="hidden" name="show_recv_num" value="<?=$row['recv_num']?>"/></td>
+												<?=$row['reservation']?"<br>".$row['reservation']:""?></a> <span style="color:#F00;">(<?=count($recv_cnt)?>)</span><input type="hidden" name="show_recv_num" value="<?=$row['recv_num']?>"/></td>
 											<td><a href="javascript:void(0)" onclick="show_recv('show_title','<?=$c?>','문자제목')"><?=str_substr($row['title'],0,14,'utf-8')?></a><input type="hidden" name="show_title" value="<?=$row['title']?>"/></td>
 											<td style="font-size:12px;"><a href="javascript:void(0)" onclick="show_recv('show_content','<?=$c?>','문자내용')"><?=str_substr($row['content'],0,30,'utf-8')?></a><input type="hidden" name="show_content" value="<?=$row['content']?>"/></td>
 											<?if($_REQUEST['status2']=='2'){?>
 		                                    <td style="width:5%;"><?if($row['up_date']!=''&&$row[result]==0){?>완료<?}elseif($row['up_date']==''&&$row[result]==1){?>대기<?}elseif($row[result]==3){?>실패<?}?></td>
 		                                    <?}?>
 											<td>
-											    <?if ($_REQUEST['status2']==2){ echo substr($row[reservation],0,16); }else{?>
-											    <a href="javascript:void(0)" onclick="show_recv('show_jpg','<?=$c?>','첨부파일')"><?=str_substr($row[jpg],0,20,'utf-8')?></a><input type="hidden" name="show_jpg" value="<?=$row[jpg]?>"/>
-											    <a href="javascript:void(0)" onclick="show_recv('show_jpg1','<?=$c?>','첨부파일')"><?=str_substr($row[jpg1],0,20,'utf-8')?></a><input type="hidden" name="show_jpg1" value="<?=$row[jpg1]?>"/>
-											    <a href="javascript:void(0)" onclick="show_recv('show_jpg2','<?=$c?>','첨부파일')"><?=str_substr($row[jpg2],0,20,'utf-8')?></a><input type="hidden" name="show_jpg2" value="<?=$row[jpg2]?>"/>
+											    <?if ($_REQUEST['status2']==2){ echo substr($row['reservation'],0,16); }else{?>
+											    <a href="javascript:void(0)" onclick="show_recv('show_jpg','<?=$c?>','첨부파일')"><?=str_substr($row['jpg'],0,20,'utf-8')?></a><input type="hidden" name="show_jpg" value="<?=$row['jpg']?>"/>
+											    <a href="javascript:void(0)" onclick="show_recv('show_jpg1','<?=$c?>','첨부파일')"><?=str_substr($row['jpg1'],0,20,'utf-8')?></a><input type="hidden" name="show_jpg1" value="<?=$row['jpg1']?>"/>
+											    <a href="javascript:void(0)" onclick="show_recv('show_jpg2','<?=$c?>','첨부파일')"><?=str_substr($row['jpg2'],0,20,'utf-8')?></a><input type="hidden" name="show_jpg2" value="<?=$row['jpg2']?>"/>
 											    
 											    
 											    <?}?>
 											    
 											</td>
 											
-											<td style="font-size:12px;"><?=substr($row[reg_date],0,16)?></td>
+											<td style="font-size:12px;"><?=substr($row['reg_date'],0,16)?></td>
                                             <!--<td style="font-size:12px;"><?=substr($row['up_date'],0,16)?></td>-->
 											<td style="font-size:12px;">
 											    <?if($row_s['status']=="-1") {?>
@@ -1343,11 +1343,11 @@ $(function(){
 											    <?}else{?>
 											        <?=substr($row_s['regdate'],0,16)?>
 											        <?php 
-											        $reg_date = strtotime($row[reg_date]);
-											        $reg_date_1hour = strtotime("$row[reg_date] +1hours");
+											        $reg_date = strtotime($row['reg_date']);
+											        $reg_date_1hour = strtotime("{$row['reg_date']} +1hours");
 											        if(time() > $reg_date_1hour && $row_s['regdate'] == "") {
 											        ?>
-											            <?if($row[reservation]) {?>
+											            <?if($row['reservation']) {?>
     											            <a href="javascript:fs_del_num('<?=$row['idx']?>')">취소가능</a>
 											            <?}else{?>
 											                <a href="javascript:fs_del_num('<?=$row['idx']?>')">미수신</a>
@@ -1362,7 +1362,7 @@ $(function(){
                                             <td style="font-size:12px;">
                         					    <?if($success_cnt==0 ){?>
                         					        <?if(time() > $reg_date_1hour && $row['up_date'] == "") {?>
-                            					        <?php if($row[reservation] > date("Y-m-d H:i:s")){?>
+                            					        <?php if($row['reservation'] > date("Y-m-d H:i:s")){?>
                             					        <?}else{?>
                             					            실패
                             					        <?}?>
@@ -1370,7 +1370,7 @@ $(function(){
                             					        <?if(time() > $reg_date_1hour && $row_s['up_date'] == "") {?>
                             					            발송실패
                             					        <?}else{?>
-                            					            <?if($row[reservation] < date("Y-m-d H:i:s")) {?>
+                            					            <?if($row['reservation'] < date("Y-m-d H:i:s")) {?>
                             					            발송중
                             					            <?}else{?>
                             					            예약
@@ -1378,7 +1378,7 @@ $(function(){
                             					        <?}?>
                         					        <?}?>
                         					    <?}else{?>											    
-											        <a href="sub_4_detail.php?idx=<?php echo $row['idx'];?>"><?=$success_cnt?>/<?php echo $total_cnt-$success_cnt;?> <?php if($row[reservation]) {?>예약<?php }?>
+											        <a href="sub_4_detail.php?idx=<?php echo $row['idx'];?>"><?=$success_cnt?>/<?php echo $total_cnt-$success_cnt;?> <?php if($row['reservation']) {?>예약<?php }?>
 											    <?}?>
 											</td>
 										</tr>
@@ -1533,7 +1533,7 @@ $(function(){
 											$row_n=mysqli_fetch_array($resul_n);										
 										?>
 								<tr>
-									<td><label><input type="checkbox" name="idx_box" value="<?=$row[seq]?>" /><?=$sort_no?></label></td>
+									<td><label><input type="checkbox" name="idx_box" value="<?=$row['seq']?>" /><?=$sort_no?></label></td>
                                         <td><?=$row[dest]?></td>                                    
                                         <td><?=$row_n['memo']?></td>
                                        	<td style="font-size:12px;"><?=substr($row[reservation_time],0,16)?></td>                                      
@@ -1542,7 +1542,7 @@ $(function(){
                                         <? if($_REQUEST['status2']==1){?><td><?=$row[chg_num]?></td><? }?>
                                         <td><?=$row[grp_name]?></td>
                                         <? if($_REQUEST['status2']==1){?>                                           
-										<td><? if($row[chg_num]){?><a href="javascript:void(0)" onclick="fugai_num('<?=$row[seq]?>','cho')" class="a_btn_2">덮어쓰기</a><? }?></td>
+										<td><? if($row[chg_num]){?><a href="javascript:void(0)" onclick="fugai_num('<?=$row['seq']?>','cho')" class="a_btn_2">덮어쓰기</a><? }?></td>
                                         <? }?>                                    
 								</tr>
 									<?
@@ -1726,7 +1726,7 @@ $(function(){
                                         <td class="g_dt_num_<?=$i?>" style="display:none"><input type="text" value="<?=$row['recv_num']?>" name="deny_recv" /></td>                                        
                                         <td><a href="javascript:void(0)" onclick="show_recv('show_title','<?=$i?>','문자제목')"><?=str_substr($row['title'],0,20,'utf-8')?></a><input type="hidden" name="show_title" value="<?=$row['title']?>"/></td>
                                         <td><a href="javascript:void(0)" onclick="show_recv('show_content','<?=$i?>','문자내용')"><?=str_substr($row['content'],0,30,'utf-8')?></a><input type="hidden" name="show_content" value="<?=$row['content']?>"/></td>
-                                        <td><a href="javascript:void(0)" onclick="show_recv('show_jpg','<?=$c?>','첨부파일')"><?=str_substr($row[jpg],0,20,'utf-8')?></a><input type="hidden" name="show_jpg" value="<?=$row[jpg]?>"/></td>
+                                        <td><a href="javascript:void(0)" onclick="show_recv('show_jpg','<?=$c?>','첨부파일')"><?=str_substr($row['jpg'],0,20,'utf-8')?></a><input type="hidden" name="show_jpg" value="<?=$row['jpg']?>"/></td>
 
 										<td>
 											<?php
@@ -1747,7 +1747,7 @@ $(function(){
 											?>
 										</td>
 										<td><?=$deny_type_arr[$row['status']]?></td>
-                                        <td><?=substr($row[reg_date],0,16)?></td>
+                                        <td><?=substr($row['reg_date'],0,16)?></td>
                                         <td>
                                         <a href="javascript:void(0)" class="modify_btn_<?=$i?> a_btn_2" onclick="g_dt_show_cencle('g_dt_name_','g_dt_num_','modify_btn_','<?=$i?>')">수정</a>
                                         <a href="javascript:void(0)" class="modify_btn_<?=$i?> a_btn_2" style="display:none;" onclick="deny_add(sub_4_form,'<?=$i?>','<?=$row['idx']?>', <?=$row[chanel_type]?>)">수정</a>

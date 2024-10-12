@@ -63,7 +63,7 @@ if($_REQUEST['status']==1 || $_REQUEST['status']==2)
 	$sql_result3 = "select uni_id from Gn_MMS where mem_id = '{$_SESSION['one_member_id']}' order by idx desc limit 1";
 	$res_result3 = mysqli_query($self_con,$sql_result3);
 	$row_result3 = mysqli_fetch_array($res_result3);
-	$uni_id=substr($row_result3[uni_id],0,10);
+	$uni_id=substr($row_result3['uni_id'],0,10);
 	
 	$sql_result32 = "select idx,recv_num from Gn_MMS where mem_id = '{$_SESSION['one_member_id']}' and uni_id like '$uni_id%'";
 	$res_result32 = mysqli_query($self_con,$sql_result32);

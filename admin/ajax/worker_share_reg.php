@@ -68,7 +68,7 @@ if($mode == "update_member_info"){
     $sql_card_update = "update Gn_Iam_Name_Card set org_use_state=1 where idx={$card_idx}";
     mysqli_query($self_con,$sql_card_update);
 
-    $sql_update = "update Gn_Member set mem_phone='{$mem_phone}', mem_email='{$mem_email}', mem_add1='{$mem_add1}', bank_name='{$bank_name}', bank_owner='{$bank_owner}', bank_account='{$bank_account}', site='{$row_req_data[site]}', site_iam='{$row_req_data[site_iam]}', recommend_id='{$req_id}' where mem_id='{$mem_id}'";
+    $sql_update = "update Gn_Member set mem_phone='{$mem_phone}', mem_email='{$mem_email}', mem_add1='{$mem_add1}', bank_name='{$bank_name}', bank_owner='{$bank_owner}', bank_account='{$bank_account}', site='{$row_req_data['site']}', site_iam='{$row_req_data['site_iam']}', recommend_id='{$req_id}' where mem_id='{$mem_id}'";
 
     $res = mysqli_query($self_con,$sql_update);
     echo $res;

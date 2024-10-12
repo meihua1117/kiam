@@ -19,7 +19,7 @@ if($_POST[send_save_mms])
 	$sql="insert into Gn_MMS_Message set "; //발송
 	$message_info['mem_id']=$_SESSION['one_member_id'];
 	$message_info['title']=htmlspecialchars(str_replace("{|name|}", "{|REP|}",$_POST[send_title]));
-	$message_info[message]=htmlspecialchars(str_replace("{|name|}", "{|REP|}",$_POST[send_txt]));
+	$message_info['message']=htmlspecialchars(str_replace("{|name|}", "{|REP|}",$_POST[send_txt]));
 	$message_info[img]=$_POST[send_img];			
 	foreach($message_info as $key=>$v)
 	{
@@ -32,20 +32,20 @@ if($_POST[send_save_mms])
 		echo "true";
     }
 }
-//if($_POST[lms_save_title])
+//if($_POST['lms_save_title'])
 //{
-//	if($_POST[lms_save_status]=="add")
+//	if($_POST['lms_save_status']=="add")
 //	{
 //	$sql="insert into Gn_MMS_Message set ";
-//	$message_info[seq_num]=$_POST[lms_save_seq_num];
+//	$message_info['seq_num']=$_POST['lms_save_seq_num'];
 //	$message_info['mem_id']=$_SESSION['one_member_id'];	
 //	}
-//	else if($_POST[lms_save_status]=="modify")
+//	else if($_POST['lms_save_status']=="modify")
 //	{
 //	$sql="update Gn_MMS_Message set ";		
 //	}
-//	$message_info['title']=htmlspecialchars($_POST[lms_save_title]);	
-//	$message_info[message]=htmlspecialchars($_POST[lms_save_content]);
+//	$message_info['title']=htmlspecialchars($_POST['lms_save_title']);	
+//	$message_info['message']=htmlspecialchars($_POST['lms_save_content']);
 //	if($_POST[lms_save_img])
 //	$message_info[msg_type]="B";
 //	else
@@ -58,11 +58,11 @@ if($_POST[send_save_mms])
 //		$sql.=" $key='$v' $bd ";
 //		$i++;
 //	}
-//	if($_POST[lms_save_status]=="add")
+//	if($_POST['lms_save_status']=="add")
 //	{
 //		$sql.=" , reg_date=now() ";
 //	}
-//	else if($_POST[lms_save_status]=="modify")
+//	else if($_POST['lms_save_status']=="modify")
 //	{
 //		$sql.=" where idx='$_POST[lms_save_idx]' ";		
 //	}

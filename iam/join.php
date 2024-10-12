@@ -1306,7 +1306,7 @@ function install_cancel(){
 	var tid;
     function sns_sendSMS(){
         $("#sns-modalwindow").modal("hide");
-        var iam_link = '<?=$G_card[card_name]?>님의 명함 <?=$G_card[card_company]?> <?=$G_card[card_position]?> <?=$G_card[card_phone]?> <?php echo $domainData['sub_domain'];?>/?<?=$G_card[card_short_url]?>';
+        var iam_link = '<?=$G_card['card_name']?>님의 명함 <?=$G_card['card_company']?> <?=$G_card['card_position']?> <?=$G_card['card_phone']?> <?php echo $domainData['sub_domain'];?>/?<?=$G_card['card_short_url']?>';
         iam_sms(iam_link);
     }
     function sns_shareEmail(){
@@ -1324,8 +1324,8 @@ function install_cancel(){
     }
     function sns_shareFaceBook(){
         $("#sns-modalwindow").modal("hide");
-        var iam_link = '<?=$domainData['sub_domain'];?>/?<?=$G_card[card_short_url]?>';
-        shareFaceBook('<?=$G_card[card_name]?>님의 명함 <?=$G_card[card_company]?> <?=$G_card[card_position]?>', iam_link);
+        var iam_link = '<?=$domainData['sub_domain'];?>/?<?=$G_card['card_short_url']?>';
+        shareFaceBook('<?=$G_card['card_name']?>님의 명함 <?=$G_card['card_company']?> <?=$G_card['card_position']?>', iam_link);
     }
     function sns_copyContacts(){
         $("#sns-modalwindow").modal("hide");
@@ -1632,8 +1632,8 @@ function install_cancel(){
         $(".daily_popup").center();
 
         $('.daily_popup').css('display', 'block');
-        var iam_link = "daily_write_iam.php?msg=" + '<?=$G_card[card_name]?>' + "님의 명함입니다.  " +
-            "<?=$G_card[card_company].'<br>'.$G_card[card_position].'<br>'.$G_card[card_phone].'<br>'.$domainData['sub_domain'].'/?'.$G_card[card_short_url]?>" +
+        var iam_link = "daily_write_iam.php?msg=" + '<?=$G_card['card_name']?>' + "님의 명함입니다.  " +
+            "<?=$G_card['card_company'].'<br>'.$G_card['card_position'].'<br>'.$G_card['card_phone'].'<br>'.$domainData['sub_domain'].'/?'.$G_card['card_short_url']?>" +
             " 모바일 명함을 새로 만들었습니다. 휴대폰에 저장부탁해요. 혹시 명함 만들면 저에게도 보내주시구요. 감사합니다. ";
         //location = iam_link;
         $("#daily_popup_content").prop("href",iam_link);
@@ -1682,14 +1682,14 @@ function install_cancel(){
         console.log("Kakao 로딩 failed : " + e);
     }
     function shareKakaotalk() {
-        var iam_link = '<?=$domainData['sub_domain'];?>/?<?=$G_card[card_short_url]?>';
+        var iam_link = '<?=$domainData['sub_domain'];?>/?<?=$G_card['card_short_url']?>';
         iam_count('iam_kakao');
         try{
             Kakao.Link.sendDefault({
                 objectType: "feed",
                 content: {
                     title: "아이엠으로 나를 브랜딩하기", // 콘텐츠의 타이틀
-                    description: "<?=$G_card[card_name]?>/<?=$G_card[card_company]?>/<?=$G_card[card_position]?>/<?=$G_card[card_phone]?>", // 콘텐츠 상세설명
+                    description: "<?=$G_card['card_name']?>/<?=$G_card['card_company']?>/<?=$G_card['card_position']?>/<?=$G_card['card_phone']?>", // 콘텐츠 상세설명
                     imageUrl: "<?=$main_img1?>", // 썸네일 이미지
                     link: {
                         mobileWebUrl: iam_link, // 모바일 카카오톡에서 사용하는 웹 링크 URL
@@ -1711,12 +1711,12 @@ function install_cancel(){
     //텍스트 복사
     function copy() {
         iam_count('iam_share');
-        var iam_link = '<?=$domainData['sub_domain'];?>/?<?=$G_card[card_short_url]?>';
+        var iam_link = '<?=$domainData['sub_domain'];?>/?<?=$G_card['card_short_url']?>';
         // 글을 쓸 수 있는 란을 만든다.
         var aux = document.createElement("input");
         // 지정된 요소의 값을 할당 한다.
         aux.setAttribute("value",
-            "<?=$G_card[card_name]?>님의 명함 <?=$G_card[card_company]?> <?=$G_card[card_position]?> <?=$G_card[card_phone]?> "+iam_link
+            "<?=$G_card['card_name']?>님의 명함 <?=$G_card['card_company']?> <?=$G_card['card_position']?> <?=$G_card['card_phone']?> "+iam_link
         );
         // bdy에 추가한다.
         document.body.appendChild(aux);

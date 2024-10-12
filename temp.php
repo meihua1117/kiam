@@ -57,7 +57,7 @@ $result = mysqli_query($self_con,$query);
 while($row = mysqli_fetch_array($result)){
     $card_idx = $row[0];
     echo $card_idx."\r\n";
-    $share_ids = explode(",",$row[contents_share_text]);
+    $share_ids = explode(",",$row['contents_share_text']);
     $share_count = count($share_ids);
     $q = "update Gn_Iam_Contents set contents_share_count ='$share_count' where idx = '$row[0]'";
     mysqli_query($self_con,$q);

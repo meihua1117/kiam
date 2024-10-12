@@ -89,7 +89,7 @@ if($_POST['id'] && $_POST[pwd]){
     $member_info[zy]=$_POST[zy];
     $member_info[mem_birth]=$_POST[birth_1]."-".$_POST[birth_2]."-".$_POST[birth_3];
     $member_info[is_message]=$_POST[is_message];
-    $member_info[site_iam] = $site_name;
+    $member_info['site_iam'] = $site_name;
     if($_POST[recommend_id]){
 	$member_info[recommend_id]=$_POST[recommend_id];
     }else{
@@ -126,9 +126,9 @@ if($_POST['id'] && $_POST[pwd]){
 	$r_sql = "select mem_code,site from Gn_Member where mem_id = '$member_info[recommend_id]'";
 	$r_res = mysqli_query($self_con,$r_sql);
 	$r_row = mysqli_fetch_array($r_res);
-	$member_info[site] = $r_row['site'];
+	$member_info['site'] = $r_row['site'];
     }else{ 
-	$member_info[site] = $member_info[site_iam];
+	$member_info['site'] = $member_info['site_iam'];
     }
     if($_POST[recommend_branch])
         $member_info[recommend_branch]=$_POST[recommend_branch];
@@ -428,15 +428,15 @@ if($_POST[type] == "get_block_data"){
         $row = mysqli_fetch_array($res);
         $profile = $row[profile];
         $name = $row['mem_name'];
-        $site = $row[site_iam];
+        $site = $row['site_iam'];
         $mem_code = $row['mem_code'];
 
         $sql = "select card_short_url,main_img1 from Gn_Iam_Name_Card where group_id is NULL and mem_id = '$user_id' order by req_data limit 0,1";
         $res = mysqli_query($self_con,$sql);
         $row = mysqli_fetch_array($res);
-        $card_short_url = $row[card_short_url];
+        $card_short_url = $row['card_short_url'];
         if(!$profile)
-            $profile = $row[main_img1];
+            $profile = $row['main_img1'];
         if($site == "kiam")
             $link = "http://www.kiam.kr";
         else
@@ -457,13 +457,13 @@ if($_POST[type] == "get_block_data"){
         $row = mysqli_fetch_array($res);
         $profile = $row[profile];
         $name = $row['mem_name'];
-        $site = $row[site_iam];
+        $site = $row['site_iam'];
 
         $sql = "select main_img1 from Gn_Iam_Name_Card where card_idx = '$contents_idx'";
         $res = mysqli_query($self_con,$sql);
         $row = mysqli_fetch_array($res);
         if(!$profile)
-            $profile = $row[main_img1];
+            $profile = $row['main_img1'];
         if($site == "kiam")
             $link = "http://www.kiam.kr";
         else

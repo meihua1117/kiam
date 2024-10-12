@@ -203,7 +203,7 @@ if (isset($_POST['point_val'])) {
 
                 $sql_buyer = "insert into Gn_Item_Pay_Result set buyer_id='{$_SESSION['one_member_id']}',
                                                                 buyer_tel='{$data['mem_phone']}',
-                                                                site='$_POST[contents_url]',
+                                                                site='{$_POST['contents_url']}',
                                                                 pay_method='POINT',
                                                                 item_name = '{$_POST['member_type']}',
                                                                 item_price=$use_point,

@@ -88,9 +88,9 @@ for($i = 0; $i < count($content_images); $i++) {
 		$content_images[$i] = $cdn_ssl . $content_images[$i];
 	}
 }
-$meta_title = $meta_row[contents_title];
+$meta_title = $meta_row['contents_title'];
 $cur_card_short_url = $meta_row[westory_card_url];
-$meta_desc = $meta_row[contents_desc];
+$meta_desc = $meta_row['contents_desc'];
 ?>
 <style>
 	.post_content,.post_reply_content{
@@ -395,7 +395,7 @@ $meta_desc = $meta_row[contents_desc];
 									<?}?>
 							<?	}
 							} else if((int)$meta_row['contents_type'] == 2) {
-								$vid_array = explode(" ",$meta_row[contents_iframe]);
+								$vid_array = explode(" ",$meta_row['contents_iframe']);
 								$vid_array[2] = "height=100%";
 								$vid_array[1] = "width=100%";
 								$vid_data = implode(" ",$vid_array);
@@ -421,20 +421,20 @@ $meta_desc = $meta_row[contents_desc];
 									</div>
 									<script type="text/javascript">
 										function play() {
-											document.getElementById('vidwrap').innerHTML = "<?=$meta_row[contents_iframe]?>";
+											document.getElementById('vidwrap').innerHTML = "<?=$meta_row['contents_iframe']?>";
 										}
 									</script>
 								<?
 								}
 							} else if((int)$meta_row['contents_type'] == 4) {
-								$vid_data = $meta_row[source_iframe];
+								$vid_data = $meta_row['source_iframe'];
 							?>
 								<div>
 									<iframe src="<?=$vid_data?>" style="width:100%;height: 600px"></iframe>
 								</div>
 								<script type="text/javascript">
 									function play() {
-										document.getElementById('vidwrap').innerHTML = '<iframe src="<?=$meta_row[source_iframe]?>" width="100%" height="100%"></iframe>';
+										document.getElementById('vidwrap').innerHTML = '<iframe src="<?=$meta_row['source_iframe']?>" width="100%" height="100%"></iframe>';
 									}
 								</script>
 							<?}?>
@@ -526,7 +526,7 @@ $meta_desc = $meta_row[contents_desc];
 									</a>
 									<div class="wrap" style="margin:10px 0px;">
 										<span class="date">
-											<?=$post_row['mem_name']." ". $post_row[reg_date]?>
+											<?=$post_row['mem_name']." ". $post_row['reg_date']?>
 										</span>
 										<span class="user-name">
 											<?=$post_row['content']?>

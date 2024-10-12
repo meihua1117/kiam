@@ -9,10 +9,10 @@ $result=mysqli_query($self_con,$sql);
 $row=mysqli_fetch_array($result);
 
 // $card_idx = $row['idx'];
-$story_title1 = $row[story_title1];
-$story_title2 = $row[story_title2];
-$story_title3 = $row[story_title3];
-$story_title4 = $row[story_title4];
+$story_title1 = $row['story_title1'];
+$story_title2 = $row['story_title2'];
+$story_title3 = $row['story_title3'];
+$story_title4 = $row['story_title4'];
 
 if(!$story_title1) {
 	$story_title1 = "내 소개";
@@ -27,16 +27,16 @@ if(!$story_title4) {
 	$story_title4 = "온라인정보";
 }
 
-$story_online1_text = $row[story_online1_text];
-$story_online2_text = $row[story_online2_text];
+$story_online1_text = $row['story_online1_text'];
+$story_online2_text = $row['story_online2_text'];
 
-$story_myinfo = $row[story_myinfo];
-$story_company = $row[story_company];
-$story_career = $row[story_career];
-$story_online1 = $row[story_online1];
-$online1_check = $row[online1_check];
-$story_online2 = $row[story_online2];
-$online2_check = $row[online2_check];
+$story_myinfo = $row['story_myinfo'];
+$story_company = $row['story_company'];
+$story_career = $row['story_career'];
+$story_online1 = $row['story_online1'];
+$online1_check = $row['online1_check'];
+$story_online2 = $row['story_online2'];
+$online2_check = $row['online2_check'];
 ?>
 <!DOCTYPE html>
 <html lang="ko">

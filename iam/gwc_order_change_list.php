@@ -95,12 +95,12 @@ extract($_GET);
 			$res = mysqli_query($self_con,$sql);
 			$row_con = mysqli_fetch_array($res);
 
-            if(strpos($row_con[contents_img], ",") !== false){
-                $img_arr = explode(",", $row_con[contents_img]);
+            if(strpos($row_con['contents_img'], ",") !== false){
+                $img_arr = explode(",", $row_con['contents_img']);
                 $img = $img_arr[0];
             }
             else{
-                $img = $row_con[contents_img];
+                $img = $row_con['contents_img'];
             }
 
             $sql_delivery = "select * from delivery_list where id='{$row[delivery]}'";
@@ -144,14 +144,14 @@ extract($_GET);
 			<td class="tac" style="border-right: 1px solid #e4e5e7;padding: 0px;">
                 <div style="background-color: #efefef;padding: 7px;text-align: left;">
                     <span><?=$state?>접수일 : <?=substr($row[prod_req_date],0,10)?>&nbsp;&nbsp;&nbsp;&nbsp;|</span>
-                    <span style="margin-left:10px;">주문일 : <?=substr($row[reg_date],0,10)?>&nbsp;&nbsp;&nbsp;&nbsp;|</span>
+                    <span style="margin-left:10px;">주문일 : <?=substr($row['reg_date'],0,10)?>&nbsp;&nbsp;&nbsp;&nbsp;|</span>
                     <span style="margin-left:10px;">주문번호 : <?=$row[pay_order_no]?></span>
                 </div>
                 <div class="ini_wrap" style="padding: 7px;">
 					<table class="wfull">
                         <tr>
                             <td class="vat tal" style="padding: 10px;width:45%;border-right: 1px solid #d5d5d5 !important;">
-                                <?=$row_con[contents_title]?>
+                                <?=$row_con['contents_title']?>
                             </td>
                             <td class="vat tal" style="padding: 10px;width:15%;border-right: 1px solid #d5d5d5 !important;">
                                 <?php echo $row['contents_cnt']; ?>개

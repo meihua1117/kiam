@@ -326,12 +326,12 @@ $search_month = $search_month?sprintf("%02d",$search_month):sprintf("%02d",date(
 
                                     while($row_sell_data = mysqli_fetch_array($res_sell_data)){
                                         if(!$row_sell_data['use_point']){
-                                            $min_val = ceil(($row_sell_data[contents_price] * 1 / $row_sell_data[contents_cnt] * 1) * 0.03);
+                                            $min_val = ceil(($row_sell_data['contents_price'] * 1 / $row_sell_data[contents_cnt] * 1) * 0.03);
                                         }
                                         else{
                                             $min_val = 0;
                                         }
-                                        $sell_money += ceil(((($row_sell_data[contents_price] * 1 / $row_sell_data[contents_cnt] * 1) - $row_sell_data[contents_provide_price] * 1) * 0.9 - $min_val) * $row_sell_data[contents_cnt] * 1);
+                                        $sell_money += ceil(((($row_sell_data['contents_price'] * 1 / $row_sell_data[contents_cnt] * 1) - $row_sell_data[contents_provide_price] * 1) * 0.9 - $min_val) * $row_sell_data[contents_cnt] * 1);
                                     }
 
                                     if($row_mem_data[service_type] == 3 || $row_mem_data[service_type] == 2){
@@ -342,7 +342,7 @@ $search_month = $search_month?sprintf("%02d",$search_month):sprintf("%02d",date(
                                             $res_recom_data = mysqli_query($self_con,$sql_recom_data);
 
                                             while($row_recom_data = mysqli_fetch_array($res_recom_data)){
-                                                $recom_money += ceil((($row_recom_data[contents_price] * 1 / $row_recom_data[contents_cnt] * 1) - $row_recom_data[contents_provide_price] * 1) * 0.9 * $row_recom_data[contents_cnt] * 1);
+                                                $recom_money += ceil((($row_recom_data['contents_price'] * 1 / $row_recom_data[contents_cnt] * 1) - $row_recom_data[contents_provide_price] * 1) * 0.9 * $row_recom_data[contents_cnt] * 1);
                                             }
                                         }
                                         if($row_mem_data[gwc_leb] == 3){

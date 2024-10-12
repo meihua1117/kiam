@@ -259,12 +259,12 @@ $(function() {
                                         <td><?=$row['idx']?></td>
                                         <td>
                                             <div style="overflow-x:hidden;width:100px;">
-                                                <?=$mem_row[site]?>/<br><?=$mem_row[site_iam]?>/<br><?=$row['mem_id']?>
+                                                <?=$mem_row['site']?>/<br><?=$mem_row['site_iam']?>/<br><?=$row['mem_id']?>
                                             </div>
                                         </td>
                                         <td>
                                             <div style="overflow-x:hidden;width:100px;">
-                                                <?=$row[card_name]?>
+                                                <?=$row['card_name']?>
                                             </div>
                                         </td>
                                         <!-- <td>
@@ -275,8 +275,8 @@ $(function() {
                                         <td>
                                             <div >
                                                 <?
-                                                if($row[main_img1]){
-                                                    $thumb_img =  $row[main_img1];
+                                                if($row['main_img1']){
+                                                    $thumb_img =  $row['main_img1'];
                                                 }else{
                                                     $thumb_img =  $default_img;
                                                 }
@@ -295,11 +295,11 @@ $(function() {
                                         </td>
                                         <td>
                                             <div style="overflow-x:hidden;width:100px;">
-                                                <?=$row[card_company]?>
+                                                <?=$row['card_company']?>
                                             </div>
                                         </td>
-                                        <td><?=$row[card_addr]?></td>
-                                        <td><?=$row[card_phone]?></td>
+                                        <td><?=$row['card_addr']?></td>
+                                        <td><?=$row['card_phone']?></td>
                                         <td>
                                             <label class="switch">
                                                 <input type="checkbox" class="chkagree" name="status" id="card_idx_<?php echo $row['idx'];?>"<?php echo $row['phone_display']!="N"?"checked":""?> >
@@ -308,13 +308,13 @@ $(function() {
                                         </td>
                                         <td>
                                             <div style="overflow-x:hidden;width:30px;">
-                                                <?=$row[card_email]?>
+                                                <?=$row['card_email']?>
                                             </div>
                                         </td>
                                         <td><?=$frow[0]?></td>
-                                        <td><?=$row[req_data]?></td>
+                                        <td><?=$row['req_data']?></td>
                                         <td><?=$crow[0]?></td>
-                                        <td><?=$row[iam_click]?></td>
+                                        <td><?=$row['iam_click']?></td>
                                         <td><?=$row[iam_share]?></td>
                                         <td style="font-size:12px;">
                                             <label class="switch">
@@ -322,7 +322,7 @@ $(function() {
                                                 <span class="slider round" name="status_round" id="card_click_<?=$row['idx'];?>"></span>
                                             </label>
                                         </td>
-                                        <td><input type = "number" class = "number" value='<?=$row[sample_order]?>' style="width: 50px;text-align: right" data-no="<?=$row['idx']?>"></td>
+                                        <td><input type = "number" class = "number" value='<?=$row['sample_order']?>' style="width: 50px;text-align: right" data-no="<?=$row['idx']?>"></td>
                                         <td style="font-size:12px;">
                                             <label class="switch">
                                                 <input type="checkbox" class="chkcall" name="cardclick" id="card_call_<?=$row['idx'];?>" <?php echo $row['admin_shopping']=="0"?"":"checked";?> >

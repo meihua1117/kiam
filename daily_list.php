@@ -98,10 +98,10 @@ $data = mysqli_fetch_array($sresul_num);
 					<div>
 						<div class="p1">
 							<select name="search_key" class="select">
-								<option value="all" <?= $_REQUEST[search_key] == "all" ? "selected" : "" ?>>전체</option>
-								<option value="step" <?= $_REQUEST[search_key] == "step" ? "selected" : "" ?>>데일리스텝</option>
+								<option value="all" <?= $_REQUEST['search_key'] == "all" ? "selected" : "" ?>>전체</option>
+								<option value="step" <?= $_REQUEST['search_key'] == "step" ? "selected" : "" ?>>데일리스텝</option>
 							</select>
-							<input type="text" name="search_text" placeholder="" id="search_text" value="<?= $_REQUEST[search_text] ?>" />
+							<input type="text" name="search_text" placeholder="" id="search_text" value="<?= $_REQUEST['search_text'] ?>" />
 							<a href="javascript:void(0)" onclick="pay_form.submit()"><img src="images/sub_mypage_11.jpg" /></a>
 							<div style="float:right;display: flex;">
 								<div class="popup_holder"> <!--Parent-->
@@ -140,13 +140,13 @@ $data = mysqli_fetch_array($sresul_num);
 								<?
 
 								$sql_serch = " mem_id ='{$_SESSION['one_member_id']}' ";
-								if ($_REQUEST[search_text]) {
+								if ($_REQUEST['search_text']) {
 
-									$search_text = $_REQUEST[search_text];
-									$sql_serch .= " and title like '%$_REQUEST[search_text]%' ";
+									$search_text = $_REQUEST['search_text'];
+									$sql_serch .= " and title like '%{$_REQUEST['search_text']}%' ";
 								}
 
-								if ($_REQUEST[search_key] == "step") {
+								if ($_REQUEST['search_key'] == "step") {
 									$sql_serch .= " and step_sms_idx!=0 ";
 								}
 
@@ -203,14 +203,14 @@ $data = mysqli_fetch_array($sresul_num);
 
 											<td style="font-size:12px;"><?= $row['title'] ?></td>
 											<td style="font-size:12px;"><?= $row['send_num'] ?></td>
-											<td style="font-size:12px;"><?= $krow[grp] ?></td>
+											<td style="font-size:12px;"><?= $krow['grp'] ?></td>
 											<td style="font-size:12px;"><?= $row[total_count] ?></td>
 											<td style="font-size:12px;"><?= $srow['cnt'] ?></td>
 											<td style="font-size:12px;"><?= $row[daily_cnt] ?></td>
 											<td style="font-size:12px;"><?= $row[start_date] ?></td>
 											<td style="font-size:12px;"><?= $row['end_date'] ?></td>
 
-											<td><?= $row[reg_date] ?></td>
+											<td><?= $row['reg_date'] ?></td>
 											<!--<td><?= $row['status'] ?></td>-->
 											<td>
 												<a href='daily_write.php?gd_id=<?php echo $row['gd_id']; ?>'>수정</a>/<a href="javascript:;;" onclick="deleteRow('<?php echo $row['gd_id']; ?>')">삭제</a>

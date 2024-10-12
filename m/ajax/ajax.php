@@ -51,17 +51,17 @@ if($_POST['id'] && $_POST[pwd])
 	$member_info[zy]=$_POST[zy];
 	$member_info[mem_birth]=$_POST[birth_1]."-".$_POST[birth_2]."-".$_POST[birth_3];
 	$member_info[is_message]=$_POST[is_message];
-	/*if($_POST[site]) {
-		$member_info[site] = $_POST[site_name];
+	/*if($_POST['site']) {
+		$member_info['site'] = $_POST[site_name];
 		$sql_iam="select count(*) FROM Gn_Iam_Service WHERE sub_domain like '%http://".$HTTP_HOST."'";
 		$res_iam=mysqli_query($self_con,$sql_iam);
 		$row_iam = mysqli_fetch_array($res_iam);
 		if($row_iam[0] != 0)
-			$member_info[site_iam] = $_POST[solution_name];
+			$member_info['site_iam'] = $_POST[solution_name];
 		else
-			$member_info[site_iam] = "kiam";
+			$member_info['site_iam'] = "kiam";
 	}*/
-    $member_info[site_iam] = $member_info[site] = $site_name;
+    $member_info['site_iam'] = $member_info['site'] = $site_name;
 	if($_POST[recommend_id])
 	{
 		$member_info[recommend_id]=$_POST[recommend_id];
@@ -213,11 +213,11 @@ if($_POST[search_id_pw_mem_name] && $_POST[search_id_pw_type]){
             $sql_u="update Gn_Member set web_pwd=password('$new_pwd') where mem_code='{$row['mem_code']}' ";
             mysqli_query($self_con,$sql_u);
 
-			if($row[site_iam] == "kiam" || $row[site_iam] == ""){
+			if($row['site_iam'] == "kiam" || $row['site_iam'] == ""){
 				$site_iam = "";
 			}
 			else{
-				$site_iam = $row[site_iam].".";
+				$site_iam = $row['site_iam'].".";
 			}
 			$content=$row['mem_name']."님 온리원문자 비밀번호가[ ".$new_pwd." ] 로 변경되었습니다. ".$site_iam."kiam.kr (".$row['mem_id'].")";
 			$content1=$row['mem_name']."님 온리원문자 비밀번호가[ ".$new_pwd." ] 로 변경되었습니다.";
@@ -260,11 +260,11 @@ if($_POST[search_id_pw_mem_name] && $_POST[search_id_pw_type]){
 			$sql_doub_mem = "select * from Gn_Member where mem_name='$_POST[search_id_pw_mem_name]' ".$sql_serch;
 			$res_doub_mem = mysqli_query($self_con,$sql_doub_mem);
 			while($row1 = mysqli_fetch_array($res_doub_mem)){
-				if($row1[site_iam] == "kiam" || $row1[site_iam] == ""){
+				if($row1['site_iam'] == "kiam" || $row1['site_iam'] == ""){
 					$site_iam = "";
 				}
 				else{
-					$site_iam = $row1[site_iam].".";
+					$site_iam = $row1['site_iam'].".";
 				}
 				$content.= $row1['mem_name']."님 온리원문자 아이디는[ ".$row1['mem_id']." ] 입니다. ".$site_iam."kiam.kr (".$row1['mem_id'].")\n";
 				$subject="온리원문자 아이디찾기";

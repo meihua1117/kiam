@@ -381,8 +381,8 @@ if ($post_type == "creat") {
                                               \"$contents_share_count\",
                                               now(),
                                               now(),
-                                              \"$row_share_new[card_short_url]\",
-                                              \"$row_share_new[card_short_url]\",
+                                              \"{$row_share_new['card_short_url']}\",
+                                              \"{$row_share_new['card_short_url']}\",
                                               \"$public_display\",
                                               \"{$row_share_new['idx']}\",
                                               \"$source_iframe\",
@@ -608,7 +608,7 @@ if ($post_type == "creat") {
                                                         \"$contents_iframe\", \"$contents_price\",\"$contents_sell_price\",\"$contents_desc\",\"$except_keyword\",
                                                         \"$contents_display\",\"$contents_westory_display\",\"$contents_user_display\",\"$contents_type_display\", 
                                                         \"$contents_footer_display\", \"$contents_temp\",\"$contents_share_text\",$contents_share_count,now(),now(),
-                                                        \"$row_share_new[card_short_url]\",\"{$row_share_new['card_short_url']}\",\"$public_display\",\"{$row_share_new['idx']}\",\"$source_iframe\",$contents_order,\"$landing_mode\",
+                                                        \"{$row_share_new['card_short_url']}\",\"{$row_share_new['card_short_url']}\",\"$public_display\",\"{$row_share_new['idx']}\",\"$source_iframe\",$contents_order,\"$landing_mode\",
                                                         '$gwc_con_state','$contents_idx','$reduce_val','$media_type',";
                     if ($group_id != "NULL") {
                         $sql2 .= "'$group_id',";
@@ -737,7 +737,7 @@ else if ($post_type == "edit") {
                 $row_share_con = mysqli_fetch_array($res_share_con);
                 $sql2 = "update " . $contents_table_name . " set contents_type = '$contents_type',
                                     media_type = '$media_type',
-                                    card_short_url = '$row_share_con[card_short_url]',
+                                    card_short_url = '{$row_share_con['card_short_url']}',
                                     westory_card_url = '$row_share_con[westory_card_url]',
                                     contents_img = \"$contents_img_url\",
                                     contents_title = \"$contents_title\",
@@ -854,7 +854,7 @@ else if ($post_type == "edit") {
                 $row_share_con = mysqli_fetch_array($res_share_con);
                 $sql2 = "update " . $contents_table_name . " set contents_type = \"$contents_type\",
                                         media_type = '$media_type',
-                                        card_short_url = \"$row_share_con[card_short_url]\",
+                                        card_short_url = \"{$row_share_con['card_short_url']}\",
                                         westory_card_url = \"$row_share_con[westory_card_url]\",
                                         contents_img = \"$contents_img\",
                                         contents_title = \"$contents_title\",
@@ -969,7 +969,7 @@ else if ($post_type == "edit") {
                 $row_share_con = mysqli_fetch_array($res_share_con);
                 $sql2 = "update " . $contents_table_name . " set contents_type = \"$contents_type\",
                                         media_type = '$media_type',
-                                        card_short_url = \"$row_share_con[card_short_url]\",
+                                        card_short_url = \"{$row_share_con['card_short_url']}\",
                                         westory_card_url = \"$row_share_con[westory_card_url]\",
                                         contents_img = \"$contents_img\",
                                         contents_title = \"$contents_title\",
@@ -1063,7 +1063,7 @@ else if ($post_type == "edit") {
                 $row_share_con = mysqli_fetch_array($res_share_con);
                 $sql2 = "update " . $contents_table_name . " set contents_type = \"$contents_type\",
                                     media_type = '$media_type',
-                                    card_short_url = \"$row_share_con[card_short_url]\",
+                                    card_short_url = \"{$row_share_con['card_short_url']}\",
                                     contents_img = \"\",
                                     westory_card_url = \"$row_share_con[westory_card_url]\",
                                     contents_title = \"$contents_title\",
@@ -1181,7 +1181,7 @@ else if ($post_type == "del") {
     if ($row['group_id'] == "")
         $sql = "update " . $contents_table_name . " set contents_order = contents_order - 1  where mem_id = '$mem_id' and card_idx = '$card_idx' and contents_order > $contents_order";
     else
-        $sql = "update " . $contents_table_name . " set contents_order = contents_order - 1  where group_id = '$row[group_id]' and card_idx = '$card_idx' and contents_order > $contents_order";
+        $sql = "update " . $contents_table_name . " set contents_order = contents_order - 1  where group_id = '{$row['group_id']}' and card_idx = '$card_idx' and contents_order > $contents_order";
     mysqli_query($self_con,$sql);
     $sql = "delete from " . $contents_table_name . " where idx = '$contents_idx'";
     mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
@@ -1203,7 +1203,7 @@ else if ($post_type == "del") {
             if ($row['group_id'] == "")
                 $sql = "update " . $contents_table_name . " set contents_order = contents_order - 1  where card_idx = '$card_idx' and contents_order > $contents_order";
             else
-                $sql = "update " . $contents_table_name . " set contents_order = contents_order - 1  where group_id = '$row[group_id]' and card_idx = '$card_idx' and contents_order > $contents_order";
+                $sql = "update " . $contents_table_name . " set contents_order = contents_order - 1  where group_id = '{$row['group_id']}' and card_idx = '$card_idx' and contents_order > $contents_order";
             mysqli_query($self_con,$sql);
 
             $sql = "delete from " . $contents_table_name . " where idx = {$row_share['idx']}";
@@ -1572,12 +1572,12 @@ else if ($post_type == "block_user") {
                                                   contents_user_display,contents_type_display,contents_footer_display, 
                                                   contents_temp,contents_share_text,req_data,up_data,
                                                   card_short_url,westory_card_url,card_idx,source_iframe,contents_order, reduce_val)
-                                          values('{$_SESSION['iam_member_id']}','$row[contents_type]','$row[contents_img]','$row[contents_title]','$row[contents_url]', 
-                                                  '$row[contents_url_title]','$row[contents_iframe]','$row[contents_price]','$row[contents_sell_price]', 
-                                                  '$row[contents_desc]','$row[except_keyword]','$row[contents_display]','$row[contents_westory_display]', 
-                                                  '$row[contents_user_display]','$row[contents_type_display]','$row[contents_footer_display]', 
-                                                  0, '$row[contents_share_id]',now(),now(),
-                                                  '$checked_cards[$i]','$checked_cards[$i]',{$card_row['idx']},'$row[source_iframe]',$contents_order, '$reduce_val'
+                                          values('{$_SESSION['iam_member_id']}','{$row['contents_type']}','{$row['contents_img']}','{$row['contents_title']}','{$row['contents_url']}', 
+                                                  '{$row['contents_url_title']}','{$row['contents_iframe']}','{$row['contents_price']}','{$row['contents_sell_price']}', 
+                                                  '{$row['contents_desc']}','{$row['except_keyword']}','{$row['contents_display']}','{$row['contents_westory_display']}', 
+                                                  '{$row['contents_user_display']}','{$row['contents_type_display']}','{$row['contents_footer_display']}', 
+                                                  0, '{$row['contents_share_id']}',now(),now(),
+                                                  '$checked_cards[$i]','$checked_cards[$i]',{$card_row['idx']},'{$row['source_iframe']}',$contents_order, '$reduce_val'
                       )";
             mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
             $cont_idx = mysqli_insert_id($self_con);

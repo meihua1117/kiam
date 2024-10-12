@@ -210,7 +210,7 @@ if($method_type == "get_card_id"){
     $index = 0;
     while($row = mysqli_fetch_array($res)){
         $card['link'] = $row['card_short_url'];
-        $card['title'] = $row[card_title];
+        $card['title'] = $row['card_title'];
         $data[$index++] = $card;
     }
     echo json_encode(array("result"=>$result,"card_data"=>$data));

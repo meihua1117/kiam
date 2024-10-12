@@ -16,11 +16,11 @@ if($member == 'on') {
 	//$card_idx = $row['idx'];
 	$card_name = $row['mem_name'];
 	$card_company = $row['zy'];
-	// $card_position = $row[card_position];
+	// $card_position = $row['card_position'];
 	$card_phone = $row['mem_phone'];
 	$card_email = $row['mem_email'];
 	$card_addr = $row['mem_add1'];
-	// $profile_logo = $row[profile_logo];
+	// $profile_logo = $row['profile_logo'];
 	$email_array = explode('@',$card_email);
 }
 

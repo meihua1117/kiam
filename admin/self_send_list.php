@@ -8,14 +8,14 @@ extract($_REQUEST);
 	$sql_table = " Gn_MMS ";
 	$sql_serch .=" and result >= 0 and send_num=recv_num and type=5 and self_memo != ''";
 	
-	if($_REQUEST[search_key])
+	if($_REQUEST['search_key'])
 	{
-		$sql_serch.=" and (title like '$_REQUEST[search_key]%' or content like '$_REQUEST[search_key]%') ";	
+		$sql_serch.=" and (title like '{$_REQUEST['search_key']}%' or content like '{$_REQUEST['search_key']}%') ";	
 	}
     
-    if($_REQUEST[search_num])
+    if($_REQUEST['search_num'])
 	{
-		$sql_serch.=" and send_num like '$_REQUEST[search_num]%' ";	
+		$sql_serch.=" and send_num like '{$_REQUEST['search_num']}%' ";	
 	}
 	// 상태 검색 추가
 	if($_REQUEST['result'] == 1) {
@@ -128,7 +128,7 @@ extract($_REQUEST);
                     $sql_m="select site, site_iam from Gn_Member where mem_id='{$row['mem_id']}'";
                     $resul_m=mysqli_query($self_con,$sql_m);
                     $row_m=mysqli_fetch_array($resul_m);
-                    mysqli_free_result($row_m);
+                    mysqli_free_result($resul_m);
                     
                     $recv_num = $recv_cnt=explode(",",$row['recv_num']);
                     $recv_num_in = "'".implode("','", $recv_num)."'";
@@ -156,8 +156,8 @@ extract($_REQUEST);
                     $recv_cnt=explode(",",$row_sn['recv_num']);
                     
                     $total_cnt = count($recv_cnt);													
-                    $reg_date = strtotime($row[reg_date]);
-                    $reg_date_1hour = strtotime("$row[reg_date] +1hours"); 								
+                    $reg_date = strtotime($row['reg_date']);
+                    $reg_date_1hour = strtotime("{$row['reg_date']} +1hours"); 								
                     
                     if($success_cnt > $total_cnt) $success_cnt = $total_cnt;
                 ?>
@@ -166,18 +166,18 @@ extract($_REQUEST);
                     <td><label><input type="checkbox" name="fs_idx" value="<?=$row['idx']?>" /><?=$sort_no?></label></td>
                     <td><?=$row['mem_id']?></td>	
                     <td><?=$row_n['memo']?></td>
-                    <td><?echo $row_m[site] . " / " . $row_m[site_iam];?></td>										
+                    <td><?echo $row_m['site'] . " / " . $row_m['site_iam'];?></td>										
                     <td><?=$row['send_num']?></td>
                     <td style="font-size:12px;"><a href="javascript:void(0)" onclick="show_recv('show_content','<?=$c?>','발신내용')"><?=str_substr($row['content'],0,30,'utf-8')?></a><input type="hidden" name="show_content" value="<?=$row['content']?>"/></td>
                     <td>
-                        <?if ($_REQUEST['status2']==2){ echo substr($row[reservation],0,16); }else{?>
-                        <a href="javascript:void(0)" onclick="show_recv('show_jpg','<?=$c?>','첨부파일')"><?=str_substr($row[jpg],0,20,'utf-8')?></a><input type="hidden" name="show_jpg" value="<?=$row[jpg]?>"/>
-                        <a href="javascript:void(0)" onclick="show_recv('show_jpg1','<?=$c?>','첨부파일')"><?=str_substr($row[jpg1],0,20,'utf-8')?></a><input type="hidden" name="show_jpg1" value="<?=$row[jpg1]?>"/>
-                        <a href="javascript:void(0)" onclick="show_recv('show_jpg2','<?=$c?>','첨부파일')"><?=str_substr($row[jpg2],0,20,'utf-8')?></a><input type="hidden" name="show_jpg2" value="<?=$row[jpg2]?>"/>                     
+                        <?if ($_REQUEST['status2']==2){ echo substr($row['reservation'],0,16); }else{?>
+                        <a href="javascript:void(0)" onclick="show_recv('show_jpg','<?=$c?>','첨부파일')"><?=str_substr($row['jpg'],0,20,'utf-8')?></a><input type="hidden" name="show_jpg" value="<?=$row['jpg']?>"/>
+                        <a href="javascript:void(0)" onclick="show_recv('show_jpg1','<?=$c?>','첨부파일')"><?=str_substr($row['jpg1'],0,20,'utf-8')?></a><input type="hidden" name="show_jpg1" value="<?=$row['jpg1']?>"/>
+                        <a href="javascript:void(0)" onclick="show_recv('show_jpg2','<?=$c?>','첨부파일')"><?=str_substr($row['jpg2'],0,20,'utf-8')?></a><input type="hidden" name="show_jpg2" value="<?=$row['jpg2']?>"/>                     
                         <?}?>                        
                     </td>
                     <td style="font-size:12px;">                        
-                       <? if($row[reservation] == "") echo substr($row[reg_date],0,16) ; else echo substr($row[reservation],0,16);?>
+                       <? if($row['reservation'] == "") echo substr($row['reg_date'],0,16) ; else echo substr($row['reservation'],0,16);?>
                       
                     </td>
                     <td><?=$row['self_memo'];?></td>

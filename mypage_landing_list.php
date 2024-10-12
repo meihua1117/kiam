@@ -150,7 +150,7 @@ a.sort-by:after {
                 <select name="search_key" class="select">
                     <option value="">전체</option>
                 </select>
-                <input type="text" name="search_text" placeholder="" id="search_text" value="<?=$_REQUEST[search_text]?>"/> 
+                <input type="text" name="search_text" placeholder="" id="search_text" value="<?=$_REQUEST['search_text']?>"/> 
                 <a href="javascript:void(0)" onclick="pay_form.submit()"><img src="images/sub_mypage_11.jpg" /></a>  
 				<div style="text-align:right;margin-top:0px;float:right;display: flex;">
 					<div class="popup_holder"> <!--Parent-->
@@ -186,23 +186,23 @@ a.sort-by:after {
               <?
 
 				$sql_serch=" m_id ='{$_SESSION['one_member_id']}' ";
-				if($_REQUEST[search_date])
+				if($_REQUEST['search_date'])
 				{					
 					if($_REQUEST[rday1])
 					{
 					$start_time=strtotime($_REQUEST[rday1]);
-					$sql_serch.=" and unix_timestamp({$_REQUEST[search_date]}) >=$start_time ";
+					$sql_serch.=" and unix_timestamp({$_REQUEST['search_date']}) >=$start_time ";
 					}
 					if($_REQUEST[rday2])
 					{
 					$end_time=strtotime($_REQUEST[rday2]);
-					$sql_serch.=" and unix_timestamp({$_REQUEST[search_date]}) <= $end_time ";
+					$sql_serch.=" and unix_timestamp({$_REQUEST['search_date']}) <= $end_time ";
 					}
 				}
 				
-					if($_REQUEST[search_text])
+					if($_REQUEST['search_text'])
 					{
-					    $search_text = $_REQUEST[search_text];
+					    $search_text = $_REQUEST['search_text'];
 					    $sql_serch.=" and (title like '%$search_text%' or description like '%$search_text%')";
 					}				
 				

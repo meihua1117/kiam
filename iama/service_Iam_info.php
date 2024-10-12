@@ -21,23 +21,23 @@ if($HTTP_HOST != "kiam.kr") {
   
       $domainData['content'.$i.'_title'] = $data2['contents_title'];
       $domainData['content'.$i.'_img'] = $data2['contents_img'];
-      $domainData['content'.$i.'_link'] = $data2[contents_url];
-      $domainData['content'.$i.'_exp'] = $data2[contents_desc];
+      $domainData['content'.$i.'_link'] = $data2['contents_url'];
+      $domainData['content'.$i.'_exp'] = $data2['contents_desc'];
     }
 
     $query = "select * from Gn_Iam_Name_Card where idx='$domainData[profile_idx]'";
     $res2 = mysqli_query($self_con, $query);
     $data2 = mysqli_fetch_array($res2);
     
-    $domainData['namecard_logo'] = $data2[profile_logo];
+    $domainData['namecard_logo'] = $data2['profile_logo'];
     $domainData['profile_name'] = $data2['card_name'];
     $domainData['profile_phone'] = $data2['card_phone'];
     $domainData['profile_add'] = $data2['card_addr'];
-    $domainData['profile_email'] = $data2[card_email];
+    $domainData['profile_email'] = $data2['card_email'];
     $domainData['profile_rank'] = $data2['card_position'];
-    $domainData['profile_info'] = $data2[story_myinfo];
-    $domainData['profile_site1'] = $data2[story_online1];
-    $domainData['profile_site2'] = $data2[story_online2];
+    $domainData['profile_info'] = $data2['story_myinfo'];
+    $domainData['profile_site1'] = $data2['story_online1'];
+    $domainData['profile_site2'] = $data2['story_online2'];
     
     $site = explode(".", $domainData['sub_domain']);
     $site[0] = str_replace("http://","", $site[0]);

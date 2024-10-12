@@ -82,16 +82,16 @@ if(strlen($_SESSION['one_member_id']) > 0) {
 		$sql_cont_data = "select idx, contents_sell_price, send_provide_price, send_salary_price, contents_img, product_code from Gn_Iam_Contents_Gwc where idx='{$row_order[contents_idx]}'";
 		$res_cont_data = mysqli_query($self_con,$sql_cont_data);
 		$row_cont_data = mysqli_fetch_array($res_cont_data);
-		$price_data = $row_cont_data[contents_sell_price]."/\n".$row_cont_data[send_provide_price];
+		$price_data = $row_cont_data['contents_sell_price']."/\n".$row_cont_data[send_provide_price];
 
-		$price_data1 = ($row_cont_data[contents_sell_price] * 1) * ($row_order['contents_cnt'] * 1)."/\n".$row_cont_data[send_salary_price];
+		$price_data1 = ($row_cont_data['contents_sell_price'] * 1) * ($row_order['contents_cnt'] * 1)."/\n".$row_cont_data[send_salary_price];
 
-		if(strpos($row_cont_data[contents_img], ",") !== false){
-			$img_link1 = explode(",", $row_cont_data[contents_img]);
+		if(strpos($row_cont_data['contents_img'], ",") !== false){
+			$img_link1 = explode(",", $row_cont_data['contents_img']);
 			$img_link = trim($img_link1[0]);
 		}
 		else{
-			$img_link = $row_cont_data[contents_img];
+			$img_link = $row_cont_data['contents_img'];
 		}
 
 		$sql_order_point = "select use_point from Gn_Gwc_Order where tjd_idx='{$row['no']}'";
@@ -175,10 +175,10 @@ if(strlen($_SESSION['one_member_id']) > 0) {
 					->setCellValue("J$h",$recommend_id)
 					->setCellValue("L$h",$row['VACT_InputName'])
 					->setCellValue("K$h",$row['buyer_id'])
-					->setCellValue("M$h",$row_cont_data[contents_sell_price])
+					->setCellValue("M$h",$row_cont_data['contents_sell_price'])
 					->setCellValue("N$h",$row_cont_data[send_provide_price])
 					->setCellValue("O$h",$row_order['contents_cnt'])
-					->setCellValue("P$h",($row_cont_data[contents_sell_price] * 1) * ($row_order['contents_cnt'] * 1))
+					->setCellValue("P$h",($row_cont_data['contents_sell_price'] * 1) * ($row_order['contents_cnt'] * 1))
 					->setCellValue("Q$h",$row_cont_data[send_salary_price])
 					->setCellValue("R$h",$row_order_point[0])
 					->setCellValue("S$h",$bank_price)

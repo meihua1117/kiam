@@ -226,7 +226,7 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                                                     </button>
                                                     <ul class="dropdown-menu comunity" style="border: 1px solid #ccc;padding:0px;">
                                                         <?
-                                                        $card_sql = "select card_name from Gn_Iam_Name_Card where group_id = '$row[group_id]' order by req_data";
+                                                        $card_sql = "select card_name from Gn_Iam_Name_Card where group_id = '{$row['group_id']}' order by req_data";
                                                         $card_res = mysqli_query($self_con,$card_sql);
                                                         $card_num = 1;
                                                         while($card_row = mysqli_fetch_array($card_res)){
@@ -239,8 +239,8 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                                                     </ul>
                                                 </div>
                                                 <div style="width:20px">
-                                                    <a onclick="click_pin('<?=$row[group_id]?>')">
-                                                        <img src="<?=$pin?>" id="<?='pin'.$row[group_id]?>" class="friends_logo" style="width:20px;height:20px;object-fit:cover;">
+                                                    <a onclick="click_pin('<?=$row['group_id']?>')">
+                                                        <img src="<?=$pin?>" id="<?='pin'.$row['group_id']?>" class="friends_logo" style="width:20px;height:20px;object-fit:cover;">
                                                     </a>
                                                 </div>
                                             </div>

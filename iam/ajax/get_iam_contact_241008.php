@@ -94,7 +94,7 @@ while($row10=mysqli_fetch_array($result10)){
         $sql_paper_info = "select seq,img_url from Gn_Member_card where seq='{$row10[paper_seq]}'";
         $res_paper_info = mysqli_query($self_con,$sql_paper_info);
         $row_paper_info = mysqli_fetch_array($res_paper_info);
-        $body .=  '         <div class="info" onclick="edit_paper('.$row_paper_info[seq].')">';
+        $body .=  '         <div class="info" onclick="edit_paper('.$row_paper_info['seq'].')">';
     }
     else{
         $body .=  '         <div class="info">';

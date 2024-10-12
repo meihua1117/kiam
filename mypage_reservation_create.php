@@ -201,14 +201,14 @@ if($get_idx){
             <?
 
                                     $sql_serch=" sms_idx ='$sms_idx' ";
-                                    if($_REQUEST[search_date]){
+                                    if($_REQUEST['search_date']){
                                         if($_REQUEST[rday1]){
                                             $start_time=strtotime($_REQUEST[rday1]);
-                                            $sql_serch.=" and unix_timestamp({$_REQUEST[search_date]}) >=$start_time ";
+                                            $sql_serch.=" and unix_timestamp({$_REQUEST['search_date']}) >=$start_time ";
                                         }
                                         if($_REQUEST[rday2]){
                                             $end_time=strtotime($_REQUEST[rday2]);
-                                            $sql_serch.=" and unix_timestamp({$_REQUEST[search_date]}) <= $end_time ";
+                                            $sql_serch.=" and unix_timestamp({$_REQUEST['search_date']}) <= $end_time ";
                                         }
                                     }
                                     $sql="select count(step) as cnt from Gn_event_sms_step_info where $sql_serch ";

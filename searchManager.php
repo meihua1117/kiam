@@ -40,14 +40,14 @@ $left_str="팀장검색";
                                 $select_lms_arr=array("mem_name"=>"이름","mem_id"=>"아이디");
                                 foreach($select_lms_arr as $key=>$v)
                                 {
-                                $selected=$_REQUEST[search_key]==$key?"selected":"";
+                                $selected=$_REQUEST['search_key']==$key?"selected":"";
                                 ?>
                                 <option value="<?=$key?>" <?=$selected?>><?=$v?></option>                                        
                                 <?
                                 }
                                 ?>
                             </select>
-                            <input type="text" name="search_text" value="<?=$_REQUEST[search_text]?>" />
+                            <input type="text" name="search_text" value="<?=$_REQUEST['search_text']?>" />
                             <a href="javascript:void(0)" onclick="sub_4_form.submit();"><img src="images/sub_button_703.jpg" /></a>
                             </div>
                             <p style="clear:both;"></p>

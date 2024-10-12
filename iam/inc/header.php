@@ -68,7 +68,7 @@ $first_card_idx = $domainData['profile_idx'];//분양사의 1번 카드아이디
 $sql = "select * from Gn_Iam_Name_Card where idx = '$first_card_idx'";
 $result = mysqli_query($self_con,$sql);
 $main_card_row = mysqli_fetch_array($result);
-$first_card_url = $main_card_row[card_short_url];//분양사이트 1번 네임카드 url
+$first_card_url = $main_card_row['card_short_url'];//분양사이트 1번 네임카드 url
 
 $sql = "select site_iam,mem_code from Gn_Member where mem_id = '{$main_card_row['mem_id']}'";
 $result = mysqli_query($self_con,$sql);
@@ -91,7 +91,7 @@ if ($_SESSION['iam_member_id']) {
     $row_cart_cnt = mysqli_fetch_array($res_cart_cnt);
     $cart_cnt = $row_cart_cnt[0];
 }else{
-    $request_short_url = $main_card_row[card_short_url];
+    $request_short_url = $main_card_row['card_short_url'];
 }
 $date = date("Y-m-d H:i:s");
 if(strpos($_SERVER['REQUEST_URI'], 'mypage_payment_item.php') === false && strpos($_SERVER['REQUEST_URI'], 'mypage_payment.php') === false && strpos($_SERVER['REQUEST_URI'], 'mypage_refer.php') === false && strpos($_SERVER['REQUEST_URI'], 'mypage_post_lock.php') === false){
@@ -842,9 +842,9 @@ else{
 		}
 		function goIamHome(){
 			if(checkMobile())
-				AppScript.goIamHome('<?=$member_iam[site_iam]?>');
+				AppScript.goIamHome('<?=$member_iam['site_iam']?>');
 			else{
-				var site = '<?=$member_iam[site_iam]?>';
+				var site = '<?=$member_iam['site_iam']?>';
 				var homeURL = "http://"+site+".kiam.kr/m";
 				if(site == "kiam")
 					homeURL = "http://kiam.kr/m";
@@ -2598,12 +2598,12 @@ else{
 			else{
 				var str = "";
 			}
-			location.href = "/?"+"<?=$request_short_url.$card_owner_code?>&cur_win=we_story&type="+type+"&search_key=" +"<?=$_GET[search_key]?>" + "&key1=4&key2=" + "<?=$_GET[key2]?>"+"&key3=0&sort_key3="+sort_key3+"&key4=1&iamstore=N"+str+"&wide=Y";
+			location.href = "/?"+"<?=$request_short_url.$card_owner_code?>&cur_win=we_story&type="+type+"&search_key=" +"<?=$_GET['search_key']?>" + "&key1=4&key2=" + "<?=$_GET[key2]?>"+"&key3=0&sort_key3="+sort_key3+"&key4=1&iamstore=N"+str+"&wide=Y";
 		}
 		function callya_tab(){
 			var type = getCookie('contents_mode');
 			sort_key3 = 1;
-			location.href = "/?"+"<?=$request_short_url.$card_owner_code?>&cur_win=we_story&type="+type+"&search_key=" +"<?=$_GET[search_key]?>" + "&key1=3&key2=" + "<?=$_GET[key2]?>"+"&key3=0&sort_key3="+sort_key3;
+			location.href = "/?"+"<?=$request_short_url.$card_owner_code?>&cur_win=we_story&type="+type+"&search_key=" +"<?=$_GET['search_key']?>" + "&key1=3&key2=" + "<?=$_GET[key2]?>"+"&key3=0&sort_key3="+sort_key3;
 		}
 		function openNoticeModal(){
             $("#sample-modalwindow").modal("hide");

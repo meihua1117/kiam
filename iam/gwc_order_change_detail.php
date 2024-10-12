@@ -90,7 +90,7 @@ extract($_GET);
                     <td style="display: flex;align-items: center">
                         <img src="<?=$row_con['contents_img']?>" alt="" style="width: 70px;height: 70px;margin-right: 10px">
                         <div>
-                            <p class="fc_999"><?=$row_con[contents_title]?></p>
+                            <p class="fc_999"><?=$row_con['contents_title']?></p>
                             <p class="fc_999"><?=$row_con[product_model_name]?></p>
                         </div>
                     </td>

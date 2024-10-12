@@ -36,9 +36,9 @@ if($_SESSION['one_member_id']){
 		$date_month=date("Y-m");
 
 		$detail_name = trim($row['memo']);
-		$detail_company = trim($row[memo2]);
+		$detail_company = trim($row['memo2']);
 		$detail_device = trim($row[device]);
-		$detail_reg_date = date("Y. m. d.",strtotime($row[reg_date]));
+		$detail_reg_date = date("Y. m. d.",strtotime($row['reg_date']));
 	    $total_cnt = $row[daily_limit_cnt]; //기본 일별 총발송 가능량
 	    $donation_rate = $row[donation_rate]; 
 	    $donation_cnt = ceil($total_cnt * $donation_rate / 100); //기부 받은 수

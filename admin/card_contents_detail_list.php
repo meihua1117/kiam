@@ -231,10 +231,10 @@ if($idx) {
                               ?>
                               <input type="radio" name="gwc_card_url"
                                       class="my_info_check"
-                                      value="<?= $row5[card_short_url] ?>" <?=$row5[card_short_url]==$data[westory_card_url]?'checked':''?>>
+                                      value="<?= $row5['card_short_url'] ?>" <?=$row5['card_short_url']==$data[westory_card_url]?'checked':''?>>
                               <?
                                   echo($i+1);
-                              echo "(".$row5[card_title].")";?>
+                              echo "(".$row5['card_title'].")";?>
                               <?$i++;
                           }
                           ?>

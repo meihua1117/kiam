@@ -87,7 +87,7 @@ $first_card_idx = $domainData['profile_idx'];//분양사의 1번 카드아이디
 $sql = "select * from Gn_Iam_Name_Card where idx = '$first_card_idx'";
 $result = mysqli_query($self_con,$sql);
 $main_card_row = mysqli_fetch_array($result);
-$first_card_url = $main_card_row[card_short_url];//분양사이트 1번 네임카드 url
+$first_card_url = $main_card_row['card_short_url'];//분양사이트 1번 네임카드 url
 
 $sql = "select site_iam,mem_code from Gn_Member where mem_id = '{$main_card_row['mem_id']}'";
 $result = mysqli_query($self_con,$sql);
@@ -158,7 +158,7 @@ if($cur_win == "my_info"){
     $mem_sql = "select * from Gn_Member where mem_id = '{$G_card['mem_id']}'";
     $mem_res = mysqli_query($self_con,$mem_sql);
     $mem_row = mysqli_fetch_array($mem_res);
-    $mem_site = $mem_row[site_iam];
+    $mem_site = $mem_row['site_iam'];
     $mem_site .= $mem_site == "kiam"?".kr":".kiam.kr";
     if($mem_site != $HTTP_HOST) {
         echo "<script>location.href='http://".$mem_site."/?".$request_short_url.$card_owner_code."';</script>";
@@ -201,20 +201,20 @@ if($cur_win == "my_info"){
     if(!$card_owner) {
         $card_owner = trim($_SESSION['iam_member_id']);
     }
-    $story_title1 = $G_card[story_title1];//내 소개
-    $story_title2 = $G_card[story_title2];//현재 소속
-    $story_title3 = $G_card[story_title3];//경력소개
-    //$story_title4 = $G_card[story_title4];
-    $story_myinfo = $G_card[story_myinfo];//나의 스토리 내소개
-    $story_company = $G_card[story_company];//나의 스토리 소속
-    $story_career = $G_card[story_career];//나의 스토리 경력
-    $online1_check = $G_card[online1_check];//홈피1 체크
-    $story_online1_text = $G_card[story_online1_text];//홈피1텍스트
-    $story_online1 = $G_card[story_online1];//홈피1링크
+    $story_title1 = $G_card['story_title1'];//내 소개
+    $story_title2 = $G_card['story_title2'];//현재 소속
+    $story_title3 = $G_card['story_title3'];//경력소개
+    //$story_title4 = $G_card['story_title4'];
+    $story_myinfo = $G_card['story_myinfo'];//나의 스토리 내소개
+    $story_company = $G_card['story_company'];//나의 스토리 소속
+    $story_career = $G_card['story_career'];//나의 스토리 경력
+    $online1_check = $G_card['online1_check'];//홈피1 체크
+    $story_online1_text = $G_card['story_online1_text'];//홈피1텍스트
+    $story_online1 = $G_card['story_online1'];//홈피1링크
 
-    $online2_check = $G_card[online2_check];//홈피2 체크
-    $story_online2_text = $G_card[story_online2_text];//홈피2텍스트
-    $story_online2 = $G_card[story_online2];//홈피2링크
+    $online2_check = $G_card['online2_check'];//홈피2 체크
+    $story_online2_text = $G_card['story_online2_text'];//홈피2텍스트
+    $story_online2 = $G_card['story_online2'];//홈피2링크
     $post_display = $G_card[post_display];//댓글박스 보이기 1:보이기 0:감추기
     
     //메인이미지
@@ -236,8 +236,8 @@ if($cur_win == "my_info"){
         $main_img3 = str_replace("http://www.kiam.kr",$cdn, $main_card_row['main_img3']);
     }
     //로고
-    if(is_null($G_card[profile_logo])) {
-        $G_card[profile_logo] = "/iam/img/common/logo-2.png";
+    if(is_null($G_card['profile_logo'])) {
+        $G_card['profile_logo'] = "/iam/img/common/logo-2.png";
     }
 }else if($cur_win == "group-con"){
     if($gkind == "" && $search_key == "")
@@ -260,7 +260,7 @@ if($cur_win == "my_info"){
         $res = mysqli_query($self_con,$sql);
         $my_group = array();
         while($row = mysqli_fetch_array($res)){
-            array_push($my_group,$row[group_id]);
+            array_push($my_group,$row['group_id']);
         }
         $my_group = implode(",",$my_group);
     }
@@ -280,7 +280,7 @@ if($search_key){
     $sql = "select card_short_url from Gn_Iam_Name_Card where group_id is NULL and card_name like '%$search_key%' ";
     $result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
     while( $row_card = mysqli_fetch_array($result)){
-        $search_sql.=" or westory_card_url like '%$row_card[card_short_url]%'";
+        $search_sql.=" or westory_card_url like '%{$row_card['card_short_url']}%'";
     }
     $search_sql.= ") ";
 }else{
@@ -290,7 +290,7 @@ if($search_key){
 if(!$cur_win || $cur_win == "my_info"){
     //공유받은 명함은 공유한 사람의 프로필 콘텐츠가 보여야 해요// comment
 
-    $sql8="select * from Gn_Iam_Contents WHERE card_short_url = '$G_card[card_short_url]' and ".$search_sql." ORDER BY contents_order desc";
+    $sql8="select * from Gn_Iam_Contents WHERE card_short_url = '{$G_card['card_short_url']}' and ".$search_sql." ORDER BY contents_order desc";
     if($search_key)
         $sql8="select * from Gn_Iam_Contents WHERE group_id is NULL and mem_id = '{$_SESSION['iam_member_id']}' and ($search_sql) ORDER BY contents_order desc";
     $result8=mysqli_query($self_con,$sql8) or die(mysqli_error($self_con));
@@ -298,7 +298,7 @@ if(!$cur_win || $cur_win == "my_info"){
     $sql8 .= " limit $contents_count_per_page offset ".$w_offset;
 }else if($cur_win == "my_story"  && $_SESSION['iam_member_id']== ""){
 
-    $sql8="select * from Gn_Iam_Contents WHERE card_short_url = '$G_card[card_short_url]' and $search_sql ORDER BY contents_order desc";
+    $sql8="select * from Gn_Iam_Contents WHERE card_short_url = '{$G_card['card_short_url']}' and $search_sql ORDER BY contents_order desc";
     $result8=mysqli_query($self_con,$sql8) or die(mysqli_error($self_con));
     $cont_count = mysqli_num_rows($result8);
     $sql8 .= " limit $contents_count_per_page offset ".$w_offset;
@@ -615,7 +615,7 @@ else{
                     echo "<!-- -----------------------------    -->";
                     continue;
                 }
-                $except_keywords = trim($contents_row[except_keyword]);
+                $except_keywords = trim($contents_row['except_keyword']);
                 if($except_keywords != "") {
                     $except_count = 0;
                     $except_keywords = explode(",",$except_keywords);
@@ -736,7 +736,7 @@ else{
                         } else if((int)$contents_row['contents_type'] == 2) {
                             $img_cnt = count($content_images);
                             // $img_cnt = 0;
-                            $vid_array = explode(" ",$contents_row[contents_iframe]);
+                            $vid_array = explode(" ",$contents_row['contents_iframe']);
                             $vid_array[2] = "height=100%";
                             $vid_array[1] = "width=100%";
                             $vid_data = implode(" ",$vid_array);
@@ -762,7 +762,7 @@ else{
                             <?
                             }
                         } else if((int)$contents_row['contents_type'] == 4) {
-                            $vid_data = $contents_row[source_iframe];
+                            $vid_data = $contents_row['source_iframe'];
                             $kk++;
                             ?>
                             <div >
@@ -810,9 +810,9 @@ else{
                             </button>
                             <ul class="dropdown-menu comunity">
                                 <li><a onclick="location.href='/?<?=strip_tags($contents_card_url)?>'">이 콘텐츠 게시자 보기</a></li>
-                                <li><a onclick="set_friend('<?=$westory_card['mem_id'] ?>','<?=$westory_card[card_name] ?>','<?=$westory_card[card_short_url] ?>','<?=$westory_card['idx'] ?>')">이 게시자와 프렌즈 하기</a></li>
+                                <li><a onclick="set_friend('<?=$westory_card['mem_id'] ?>','<?=$westory_card['card_name'] ?>','<?=$westory_card['card_short_url'] ?>','<?=$westory_card['idx'] ?>')">이 게시자와 프렌즈 하기</a></li>
                                 <li><a onclick="set_block_contents('<?=$contents_row['idx']?>')">이 콘텐츠 하나만 감추기</a></li>
-                                <li><a onclick="set_block_user('<?=$westory_card['mem_id']?>','<?=$westory_card[card_short_url] ?>')">이 게시자의 정보 감추기</a></li>
+                                <li><a onclick="set_block_user('<?=$westory_card['mem_id']?>','<?=$westory_card['card_short_url'] ?>')">이 게시자의 정보 감추기</a></li>
                                 <li><a onclick="set_my_share_contents('<?=$contents_row['idx']?>')">이 콘텐츠 나에게 가져오기</a></li>
                                 <li><a onclick="show_block_list('<?=$contents_row['idx']?>')">감추기 리스트 보기</a></li>
                             </ul>
@@ -913,10 +913,10 @@ else{
                         if(($cur_win == "we_story" || strpos($request_url, "?") === false) && $_SESSION['iam_member_id'] != $contents_row['mem_id']){
                         ?>
                         <a href="javascript:showSNSModal_byContents('<?=$contents_row['idx']?>',
-                                            '<?=addslashes(htmlspecialchars($westory_card[card_name],ENT_COMPAT,'UTF-8'))?>',
-                                            '<?=addslashes(htmlspecialchars($contents_row[contents_title],ENT_COMPAT,'UTF-8'))?>',
-                                            '<?=addslashes(htmlspecialchars($contents_row[contents_desc],ENT_COMPAT,'UTF-8'))?>',
-                                            '<?=$contents_row[contents_img]?>');" style="position: absolute;font-size: 20px;top:5px;right: 10px;border-radius: 5px;line-height: 20px;z-index:10;background:white">
+                                            '<?=addslashes(htmlspecialchars($westory_card['card_name'],ENT_COMPAT,'UTF-8'))?>',
+                                            '<?=addslashes(htmlspecialchars($contents_row['contents_title'],ENT_COMPAT,'UTF-8'))?>',
+                                            '<?=addslashes(htmlspecialchars($contents_row['contents_desc'],ENT_COMPAT,'UTF-8'))?>',
+                                            '<?=$contents_row['contents_img']?>');" style="position: absolute;font-size: 20px;top:5px;right: 10px;border-radius: 5px;line-height: 20px;z-index:10;background:white">
                             <img src="img/icon_share-android_black.png"  width="20px">
                         </a>
                         <?} else{?>
@@ -932,9 +932,9 @@ else{
                             <?  }
                             if ($_SESSION['iam_member_id'] && ($_SESSION['iam_member_id'] == $contents_row['mem_id'] || $_SESSION['iam_member_id'] == $group_manager)) {
                                 if (!$cur_win || $cur_win == "my_info") { ?>
-                                    <a href="javascript:contents_range_down('<?= $contents_row['idx'] ?>', '<?= $contents_row['contents_order'] ?>','<?= $G_card[card_short_url] ?>');">
+                                    <a href="javascript:contents_range_down('<?= $contents_row['idx'] ?>', '<?= $contents_row['contents_order'] ?>','<?= $G_card['card_short_url'] ?>');">
                                         <i class="fa fa-arrow-down" aria-hidden="true"></i></a>
-                                    <a href="javascript:contents_range_up('<?= $contents_row['idx'] ?>', '<?= $contents_row['contents_order'] ?>','<?= $G_card[card_short_url] ?>');">
+                                    <a href="javascript:contents_range_up('<?= $contents_row['idx'] ?>', '<?= $contents_row['contents_order'] ?>','<?= $G_card['card_short_url'] ?>');">
                                         <i class="fa fa-arrow-up" aria-hidden="true"></i></a>
                                 <?  }?>
                                 <a href="javascript:contents_del('<?= $contents_row['idx'] ?>');"><i class="fa fa-minus" aria-hidden="true"></i></a>
@@ -967,10 +967,10 @@ else{
                                 </a>
                             <?  }?>
                             <a href="javascript:showSNSModal_byContents('<?=$contents_row['idx']?>',
-                                                '<?=addslashes(htmlspecialchars($westory_card[card_name],ENT_COMPAT,'UTF-8'))?>',
-                                                '<?=addslashes(htmlspecialchars($contents_row[contents_title],ENT_COMPAT,'UTF-8'))?>',
-                                                '<?=addslashes(htmlspecialchars($contents_row[contents_desc],ENT_COMPAT,'UTF-8'))?>',
-                                                '<?=$contents_row[contents_img]?>');" style="margin-left: -5px">
+                                                '<?=addslashes(htmlspecialchars($westory_card['card_name'],ENT_COMPAT,'UTF-8'))?>',
+                                                '<?=addslashes(htmlspecialchars($contents_row['contents_title'],ENT_COMPAT,'UTF-8'))?>',
+                                                '<?=addslashes(htmlspecialchars($contents_row['contents_desc'],ENT_COMPAT,'UTF-8'))?>',
+                                                '<?=$contents_row['contents_img']?>');" style="margin-left: -5px">
                                 <img src="img/icon_share-android_black.png"  width="20px">
                             </a>
                         </div>
@@ -1088,7 +1088,7 @@ else{
                                 <?}?>
                             </div>
                         <?}else{?>
-                            <a href="<?=$contents_row[contents_url]?>" target="_blank" id="vidwrap<?=$kk;?>" style="position: relative;">
+                            <a href="<?=$contents_row['contents_url']?>" target="_blank" id="vidwrap<?=$kk;?>" style="position: relative;">
                                 <img src="<?=$content_images[0]?>" class="contents_img">
                                 <?if($contents_movie){?>
                                     <img class="movie_play" src="/iam/img/movie_play.png">
@@ -1103,7 +1103,7 @@ else{
                         }?>
                             <script type="text/javascript">
                                 function play<?=$kk;?>() {
-                                    document.getElementById('vidwrap<?=$kk;?>').innerHTML = '<?=$contents_row[contents_iframe]?>';
+                                    document.getElementById('vidwrap<?=$kk;?>').innerHTML = '<?=$contents_row['contents_iframe']?>';
                                 }
                             </script>
                         <?
@@ -1129,7 +1129,7 @@ else{
                             <?}?>
                         </div>
                         <?}else{?>
-                        <a href="<?=$contents_row[contents_url]?>" id="vidwrap<?=$kk;?>">
+                        <a href="<?=$contents_row['contents_url']?>" id="vidwrap<?=$kk;?>">
                             <?if($content_images[0]){?>
                             <img src="<?=$content_images[0]?>" class="contents_img">
                             <iframe src="<?=$vid_data?>" style="width:100%;height: 600px;display:none"></iframe>

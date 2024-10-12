@@ -71,7 +71,7 @@ $data = mysqli_fetch_array($sresul_num);
 					<select name="search_key" class="select">
 						<option value="">전체</option>
 					</select>
-					<input type="text" name="search_text" placeholder="" id="search_text" value="<?= $_REQUEST[search_text] ?>" />
+					<input type="text" name="search_text" placeholder="" id="search_text" value="<?= $_REQUEST['search_text'] ?>" />
 					<a href="javascript:void(0)" onclick="pay_form.submit()"><img src="images/sub_mypage_11.jpg" /></a>
 					<div style="float:right;">
 					</div>

@@ -33,7 +33,7 @@ if($_POST['mode'] == "munja_send"){
                 $today_send_count = 0;
                 $today_send_count += $today_send_row[0] * 1;
                 
-                if($row[daily_limit_cnt_user] > $today_send_count){
+                if($row['daily_limit_cnt_user'] > $today_send_count){
                     $send_num = $row['sendnum'];
                     $pkey = $row['pkey'];
                     break;

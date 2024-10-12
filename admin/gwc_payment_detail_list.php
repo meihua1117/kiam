@@ -452,26 +452,26 @@ $search_month = $search_month?sprintf("%02d",$search_month):sprintf("%02d",date(
                                     $res_cont_data = mysqli_query($self_con,$sql_cont_data);
                                     $row_cont_data = mysqli_fetch_array($res_cont_data);
 
-                                    if(strpos($row_cont_data[contents_img], ",") !== false){
-                                        $img_link1 = explode(",", $row_cont_data[contents_img]);
+                                    if(strpos($row_cont_data['contents_img'], ",") !== false){
+                                        $img_link1 = explode(",", $row_cont_data['contents_img']);
                                         $img_link = trim($img_link1[0]);
                                     }
                                     else{
-                                        $img_link = $row_cont_data[contents_img];
+                                        $img_link = $row_cont_data['contents_img'];
                                     }
 
-                                    $price_data2 = number_format($row['use_point'])."/\n".number_format($row[contents_price] * 1 + $row[salary_price] * 1 - $row['use_point'] * 1);
+                                    $price_data2 = number_format($row['use_point'])."/\n".number_format($row['contents_price'] * 1 + $row[salary_price] * 1 - $row['use_point'] * 1);
 
-                                    $price_data1 = number_format($row[contents_price] * 1 + $row[salary_price] * 1)."/\n0";
+                                    $price_data1 = number_format($row['contents_price'] * 1 + $row[salary_price] * 1)."/\n0";
 
                                     if(!$row['use_point']){
-                                        $min_val = ceil(($row[contents_price] * 1 / $row[contents_cnt] * 1) * 0.03);
+                                        $min_val = ceil(($row['contents_price'] * 1 / $row[contents_cnt] * 1) * 0.03);
                                     }
                                     else{
                                         $min_val = 0;
                                     }
-                                    $sell_money += ceil(((($row[contents_price] * 1 / $row[contents_cnt] * 1) - $row[contents_provide_price] * 1) * 0.9 - $min_val) * $row[contents_cnt] * 1);
-                                    // $sell_money = ceil((($row[contents_price] * 1 / $row[contents_cnt] * 1) - $row[contents_provide_price] * 1) * 0.9 * $row[contents_cnt] * 1);
+                                    $sell_money += ceil(((($row['contents_price'] * 1 / $row[contents_cnt] * 1) - $row[contents_provide_price] * 1) * 0.9 - $min_val) * $row[contents_cnt] * 1);
+                                    // $sell_money = ceil((($row['contents_price'] * 1 / $row[contents_cnt] * 1) - $row[contents_provide_price] * 1) * 0.9 * $row[contents_cnt] * 1);
                                     $recom_money = ceil($sell_money * ($row_mem[gwc_service_per] * 1 / 100));
                                     $center_money = ceil($sell_money * ($row_mem[gwc_center_per] * 1 / 100));
 
@@ -492,9 +492,9 @@ $search_month = $search_month?sprintf("%02d",$search_month):sprintf("%02d",date(
                                         <td><?=$site_data?></td>
                                         <td><?=$seller_data?></td>
                                         <td><?=$row['order_mem_name']?><br><?=$row['mem_id']?></td>
-                                        <td><?=number_format(($row[contents_price] * 1 / $row[contents_cnt] * 1))?><br><?=number_format($row[contents_provide_price])?></td>
+                                        <td><?=number_format(($row['contents_price'] * 1 / $row[contents_cnt] * 1))?><br><?=number_format($row[contents_provide_price])?></td>
                                         <td><?=$row[contents_cnt]?></td>
-                                        <td><?=number_format($row[contents_price])?><br><?=number_format($row[salary_price])?></td>
+                                        <td><?=number_format($row['contents_price'])?><br><?=number_format($row[salary_price])?></td>
                                         <td><?=$price_data2?></td>
                                         <td><?=$price_data1?></td>
                                         <td style="<?=$mem_type==3?'color:blue;':'color:green;'?>"><?=number_format($sell_money)?></td>

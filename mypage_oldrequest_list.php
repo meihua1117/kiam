@@ -82,7 +82,7 @@ $(function(){
                 <select name="search_key" class="select">
                     <option value="">전체</option>
                 </select>
-                <input type="text" name="search_text" placeholder="" id="search_text" value="<?=$_REQUEST[search_text]?>"/> 
+                <input type="text" name="search_text" placeholder="" id="search_text" value="<?=$_REQUEST['search_text']?>"/> 
                 <a href="javascript:void(0)" onclick="pay_form.submit()"><img src="images/sub_mypage_11.jpg" /></a>                                            
                 
                 <div style="float:right;">
@@ -109,9 +109,9 @@ $(function(){
 
 				$sql_serch=" mem_id ='{$_SESSION['one_member_id']}' ";
 				
-				if($_REQUEST[search_text])
+				if($_REQUEST['search_text'])
 				{
-					$search_text1 = $_REQUEST[search_text];
+					$search_text1 = $_REQUEST['search_text'];
 
 					$sql="select * from Gn_MMS_group where $sql_serch and grp = '$search_text1' ";
 					$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));

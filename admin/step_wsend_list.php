@@ -285,17 +285,17 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
 		                                    <td style="width:5%;"><?if($row['up_date']!=''&&$row[result]==0){?>완료<?}elseif($row['up_date']==''&&$row[result]==1){?>대기<?}elseif($row[result]==3){?>실패<?}?></td>
 		                                    <?}?>
 											<td>
-											    <?if ($_REQUEST['status2']==2){ echo substr($row[reservation],0,16); }else{?>
-											    <a href="javascript:void(0)" onclick="show_recv('show_jpg','<?=$c?>','첨부파일')"><?=str_substr($row[jpg],0,20,'utf-8')?></a><input type="hidden" name="show_jpg" value="<?=$row[jpg]?>"/>
-											    <a href="javascript:void(0)" onclick="show_recv('show_jpg1','<?=$c?>','첨부파일')"><?=str_substr($row[jpg1],0,20,'utf-8')?></a><input type="hidden" name="show_jpg1" value="<?=$row[jpg1]?>"/>
-											    <a href="javascript:void(0)" onclick="show_recv('show_jpg2','<?=$c?>','첨부파일')"><?=str_substr($row[jpg2],0,20,'utf-8')?></a><input type="hidden" name="show_jpg2" value="<?=$row[jpg2]?>"/>
+											    <?if ($_REQUEST['status2']==2){ echo substr($row['reservation'],0,16); }else{?>
+											    <a href="javascript:void(0)" onclick="show_recv('show_jpg','<?=$c?>','첨부파일')"><?=str_substr($row['jpg'],0,20,'utf-8')?></a><input type="hidden" name="show_jpg" value="<?=$row['jpg']?>"/>
+											    <a href="javascript:void(0)" onclick="show_recv('show_jpg1','<?=$c?>','첨부파일')"><?=str_substr($row['jpg1'],0,20,'utf-8')?></a><input type="hidden" name="show_jpg1" value="<?=$row['jpg1']?>"/>
+											    <a href="javascript:void(0)" onclick="show_recv('show_jpg2','<?=$c?>','첨부파일')"><?=str_substr($row['jpg2'],0,20,'utf-8')?></a><input type="hidden" name="show_jpg2" value="<?=$row['jpg2']?>"/>
 											    
 											    
 											    <?}?>
 											    
 											</td>
                                             <td><?php echo $srow['sp'];?></td>
-											<td style="font-size:12px;"><?=substr($row[reservation],0,16)?></td>
+											<td style="font-size:12px;"><?=substr($row['reservation'],0,16)?></td>
                       </tr>
                     <?
                     $c++;

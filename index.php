@@ -5427,7 +5427,7 @@ function encodeKorean($matches)
                                                     <?}?>
                                                 </div>
                                             <?}else{?>
-                                                <a href="<?=$contents_row[contents_url]?>" target="_blank" id="vidwrap<?=$contents_row['idx'];?>" style="position: relative;">
+                                                <a href="<?=$contents_row['contents_url']?>" target="_blank" id="vidwrap<?=$contents_row['idx'];?>" style="position: relative;">
                                                     <img src="<?=cross_image($content_images[0])?>" class="contents_img">
                                                     <?if($contents_movie){?>
                                                         <img class="movie_play" src="/iam/img/movie_play.png">
@@ -5441,7 +5441,7 @@ function encodeKorean($matches)
                                             <?}?>
                                             <script type="text/javascript">
                                                 function play<?=$contents_row['idx'];?>() {
-                                                    document.getElementById('vidwrap<?=$contents_row['idx'];?>').innerHTML = "<?=$contents_row[contents_iframe]?>";
+                                                    document.getElementById('vidwrap<?=$contents_row['idx'];?>').innerHTML = "<?=$contents_row['contents_iframe']?>";
                                                     save_load('<?=$_SESSION['iam_member_id']?>','<?=$contents_row['idx']?>',1);
                                                 }
                                             </script>

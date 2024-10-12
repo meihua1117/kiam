@@ -227,35 +227,35 @@ function goPage(pgNum) {
 									$recv_cnt=explode(",",$row_sn['recv_num']);
 									
 									$total_cnt = count($recv_cnt);			 
-									$reg_date_1hour = strtotime("$row[reg_date] +1hours"); 
+									$reg_date_1hour = strtotime("{$row['reg_date']} +1hours"); 
 							?>
                       				<tr>
 										<td><?=$number--?></td>
 										<td><?=$row['mem_id']?></td>											
 										<td><?=$row['mem_name']?></td>											
-										<td><?=$row[site]?></td>											
-										<td><?=$row[site_iam]?></td>											
+										<td><?=$row['site']?></td>											
+										<td><?=$row['site_iam']?></td>											
 										<td><?=$row['send_num']?></td>
 										<td><?=$row_n['memo']?></td>
 										<td style="font-size:12px;">
 											<a onclick="show_recv('show_content','<?=$c?>','문자내용')"><?=str_substr($row['content'],0,30,'utf-8')?></a>
 											<input type="hidden" name="show_content" value="<?=$row['content']?>"/>
 										</td>
-										<td style="font-size:12px;"><?=substr($row[reg_date],0,16)?></td>
+										<td style="font-size:12px;"><?=substr($row['reg_date'],0,16)?></td>
 										<td style="font-size:12px;">
 											<a onclick="show_recv('show_recv_num','<?=$c?>','수신번호')">
-												<?=str_substr($row['recv_num'],0,14,'utf-8')?><?=$row[reservation]?"<br>".$row[reservation]:""?>
+												<?=str_substr($row['recv_num'],0,14,'utf-8')?><?=$row['reservation']?"<br>".$row['reservation']:""?>
 											</a> 
 											<span style="color:#F00;">(<?=count($recv_cnt)?>)</span>
 											<input type="hidden" name="show_recv_num" value="<?=$row['recv_num']?>"/>
 										</td>    					
     									<td>
-    					    				<?if($row[reservation]) {?>
+    					    				<?if($row['reservation']) {?>
     					    				예약
     					    				<?}
     					    				if($success_cnt==0){
                         					    if(time() > $reg_date_1hour && $row['up_date'] == "") {
-                            					    if($row[reservation] > date("Y-m-d H:i:s")){
+                            					    if($row['reservation'] > date("Y-m-d H:i:s")){
                             					    }else{?>
                             					        실패
                             					    <?}

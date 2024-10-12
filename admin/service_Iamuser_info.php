@@ -22,23 +22,23 @@ if($idx) {
 
 		$data['content'.$i.'_title'] = $data2['contents_title'];
 		$data['content'.$i.'_img'] = $data2['contents_img'];
-		$data['content'.$i.'_link'] = $data2[contents_url];
-		$data['content'.$i.'_exp'] = $data2[contents_desc];
+		$data['content'.$i.'_link'] = $data2['contents_url'];
+		$data['content'.$i.'_exp'] = $data2['contents_desc'];
 	}
 	
 	$query = "select * from Gn_Iam_Name_Card where idx='$data[profile_idx]'";
 	$res2 = mysqli_query($self_con, $query);
 	$data2 = mysqli_fetch_array($res2);
 	
-	$data['namecard_logo'] = $data2[profile_logo];
+	$data['namecard_logo'] = $data2['profile_logo'];
 	$data['profile_name'] = $data2['card_name'];
 	$data['profile_phone'] = $data2['card_phone'];
 	$data['profile_add'] = $data2['card_addr'];
-	$data['profile_email'] = $data2[card_email];
+	$data['profile_email'] = $data2['card_email'];
 	$data['profile_rank'] = $data2['card_position'];
-	$data['profile_info'] = $data2[story_myinfo];
-	$data['profile_site1'] = $data2[story_online1];
-	$data['profile_site2'] = $data2[story_online2];
+	$data['profile_info'] = $data2['story_myinfo'];
+	$data['profile_site1'] = $data2['story_online1'];
+	$data['profile_site2'] = $data2['story_online2'];
 }
 
 ?>

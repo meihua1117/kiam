@@ -103,7 +103,7 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
             $res = mysqli_query($self_con,$sql);
             $my_group = array();
             while($row = mysqli_fetch_array($res)){
-                array_push($my_group,$row[group_id]);
+                array_push($my_group,$row['group_id']);
             }
             $my_group = implode(",",$my_group);
             if($type != "general"){
@@ -191,7 +191,7 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                             inner join gn_group_info ggi on ggi.idx=ggm.group_id 
                             inner join Gn_Iam_Name_Card card on card.idx = ggi.card_idx 
                             inner join Gn_Member mem on mem.mem_id = card.mem_id 
-                            where ggm.mem_id in (select mem_id from Gn_Member where site_iam='$mem_row[site_iam]') 
+                            where ggm.mem_id in (select mem_id from Gn_Member where site_iam='{$mem_row['site_iam']}') 
                                 and ggm.group_id not in (select group_id from gn_group_member where mem_id ='{$_SESSION['iam_member_id']}')";
                     if($search_str)
                         $group_sql .= " and ggi.name like '%$search_str%' ";
@@ -246,22 +246,22 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                 $group_res = mysqli_query($self_con,$group_sql);
                 while($group_row = mysqli_fetch_array($group_res)){
                     if($type == "sample" || $type == "friend" || ($type == "general" && $type2 == "group")){
-                        $mem_sql = "select count(*) from gn_group_member where group_id='$group_row[group_id]'";
+                        $mem_sql = "select count(*) from gn_group_member where group_id='{$group_row['group_id']}'";
                         $mem_res = mysqli_query($self_con,$mem_sql);
                         $mem_row = mysqli_fetch_array($mem_res);
                         $weekMondayTime = date("Y-m-d",strtotime('last Monday'));
-                        $cont_sql = "select count(*) from Gn_Iam_Contents where group_id='$group_row[group_id]' and req_data >= '$weekMondayTime'";
+                        $cont_sql = "select count(*) from Gn_Iam_Contents where group_id='{$group_row['group_id']}' and req_data >= '$weekMondayTime'";
                         $cont_res = mysqli_query($self_con,$cont_sql);
                         $cont_row = mysqli_fetch_array($cont_res);
-                        $f_sql = "select * from Gn_Member where site_iam = '$Gn_mem_row[site_iam]' and mem_id in (select mem_id from gn_group_member where group_id='$group_row[group_id]')";
+                        $f_sql = "select * from Gn_Member where site_iam = '{$Gn_mem_row['site_iam']}' and mem_id in (select mem_id from gn_group_member where group_id='{$group_row['group_id']}')";
                         $f_res = mysqli_query($self_con,$f_sql);
                         $f_count = mysqli_num_rows($f_res);
                         ?>
                         <div style="padding-top: 2px;">
                             <div style="border:1px solid #ddd;background-color: #ffffff;border-radius: 10px;padding-bottom: 2px;display:flex;justify-content: space-between;">
-                                <div style="display: flex" onclick = "location.href = '/index.php?' + '<?=$group_row[card_short_url].$group_row['mem_code']?>'+'&cur_win=group-con&gkind=' +'<?=$group_row[group_id]?>'">
+                                <div style="display: flex" onclick = "location.href = '/index.php?' + '<?=$group_row['card_short_url'].$group_row['mem_code']?>'+'&cur_win=group-con&gkind=' +'<?=$group_row['group_id']?>'">
                                     <div style="border-radius: 10%;width: 50px;height: 50px;overflow: hidden;margin: 10px;position:relative">
-                                        <img src="<?=$group_row[main_img1]?>" style="width: 50px;height:50px;">
+                                        <img src="<?=$group_row['main_img1']?>" style="width: 50px;height:50px;">
                                     </div>
                                     <div>
                                         <h4 style="margin-left: 10px;margin-top: 10px"><?=$group_row['name']?></h4>
@@ -293,7 +293,7 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                                         </button>
                                         <ul class="dropdown-menu comunity" style="border: 1px solid #ccc;padding:0px;">
                                             <?
-                                            $card_sql = "select card_name from Gn_Iam_Name_Card where group_id = '$group_row[group_id]' and phone_display = 'Y' order by req_data";
+                                            $card_sql = "select card_name from Gn_Iam_Name_Card where group_id = '{$group_row['group_id']}' and phone_display = 'Y' order by req_data";
                                             $card_res = mysqli_query($self_con,$card_sql);
                                             $card_num = 1;
                                             while($card_row = mysqli_fetch_array($card_res)){
@@ -305,7 +305,7 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                                             ?>
                                         </ul>
                                     </div>
-                                    <button class = "btn btn-link" type="button" onclick = "join_group('<?=$group_row[group_id]?>')">참여</button>
+                                    <button class = "btn btn-link" type="button" onclick = "join_group('<?=$group_row['group_id']?>')">참여</button>
                                 </div>
                             </div>
                         </div>
@@ -327,11 +327,11 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                         $card_sql = "select card.*,mem.mem_code from Gn_Iam_Name_Card card inner join Gn_Member mem on card.mem_id = mem.mem_id where idx = '$group_row[group_card]'";
                         $card_res = mysqli_query($self_con,$card_sql);
                         $card_row = mysqli_fetch_array($card_res);
-                        $contents_card_url = $card_row[card_short_url];
+                        $contents_card_url = $card_row['card_short_url'];
                         $m_code = $card_row['mem_code'];
                         $group_info = $group_row[public_status] == "Y"?"공개그룹":"비공개그룹";
                         $group_info .= "&bull;";
-                        $mem_sql = "select count(*) from gn_group_member where group_id = '$group_row[group_id]'";
+                        $mem_sql = "select count(*) from gn_group_member where group_id = '{$group_row['group_id']}'";
                         $mem_res = mysqli_query($self_con,$mem_sql);
                         $mem_row = mysqli_fetch_array($mem_res);
                         $group_info .= "멤버 ".$mem_row[0]."명";
@@ -340,7 +340,7 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                             <div class="user-item" style="position: relative;display: flex;padding: 4px;border: none;border-bottom: 1px solid #dddddd;padding-top: 12px;padding-bottom: 12px;">
                                 <a href="/?<?=strip_tags($contents_card_url.$m_code)?>" class="img-box">
                                     <div class="user-img" style="width: 38px;height: 38px;border-radius: 50%;overflow: hidden;">
-                                        <img src="<?=$card_row[main_img1] ?>" alt="">
+                                        <img src="<?=$card_row['main_img1'] ?>" alt="">
                                     </div>
                                 </a>
                                 <div class="wrap" style="margin-left: 10px">
@@ -351,15 +351,15 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                                         <?=$group_info?>
                                     </a>
                                 </div>
-                                <button class = "btn btn-link" type="button" style="position: absolute; right: 40px; top: 16px;" onclick = "join_group('<?=$group_row[group_id]?>')">참여</button>
+                                <button class = "btn btn-link" type="button" style="position: absolute; right: 40px; top: 16px;" onclick = "join_group('<?=$group_row['group_id']?>')">참여</button>
                                 <?if( $_SESSION['iam_member_id'] != "" && $_SESSION['iam_member_id'] != $group_row['mem_id']  ){?>
                                     <div class="dropdown" style="position: absolute; right: 10px; top: 8px;">
                                         <button class="btn-link dropdown-toggle westory_dropdown" type="button" data-toggle="dropdown">
                                             <img src="/iam/img/menu/icon_dot.png" style="height:24px">
                                         </button>
                                         <ul class="dropdown-menu comunity">
-                                            <li><a onclick="location.href='/?<?=strip_tags($card_row[card_short_url])?>'">이 콘텐츠 게시자 보기</a></li>
-                                            <li><a onclick="set_friend('<?=$card_row['mem_id'] ?>','<?=$card_row[card_name] ?>','<?=$card_row[card_short_url] ?>','<?=$card_row['idx'] ?>')">이 게시자와 프렌즈 하기</a></li>
+                                            <li><a onclick="location.href='/?<?=strip_tags($card_row['card_short_url'])?>'">이 콘텐츠 게시자 보기</a></li>
+                                            <li><a onclick="set_friend('<?=$card_row['mem_id'] ?>','<?=$card_row['card_name'] ?>','<?=$card_row['card_short_url'] ?>','<?=$card_row['idx'] ?>')">이 게시자와 프렌즈 하기</a></li>
                                             <li><a onclick="set_my_share_contents('<?=$group_row['idx']?>')">이 콘텐츠 나에게 가져오기</a></li>
                                         </ul>
                                     </div>
@@ -419,7 +419,7 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                                 <?}?>
                             </div>
                             <div class="media-wrap" style="position: relative;">
-                                <div class="media-inner" style="max-height: 1000px;overflow-y: auto;border-top: 0px solid #7f7f7f;border-bottom: 0px solid #7f7f7f;padding: 0px 0px 0px;font-size: 10px;text-align: center;<?=($group_row[contents_type] == 1 && count($content_images) == 0)?'min-height :30px':'min-height: 100px;';?>">
+                                <div class="media-inner" style="max-height: 1000px;overflow-y: auto;border-top: 0px solid #7f7f7f;border-bottom: 0px solid #7f7f7f;padding: 0px 0px 0px;font-size: 10px;text-align: center;<?=($group_row['contents_type'] == 1 && count($content_images) == 0)?'min-height :30px':'min-height: 100px;';?>">
                                     <?
                                     if((int)$group_row['contents_type'] == 1 || (int)$group_row['contents_type'] == 3 ) {
                                         if($group_row['contents_url']) {
@@ -506,7 +506,7 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                                             <?}?>
                                         </div>
                                     <?}else{?>
-                                        <a href="<?=$group_row[contents_url]?>" target="_blank" id="vidwrap<?=$kk;?>" style="position: relative;">
+                                        <a href="<?=$group_row['contents_url']?>" target="_blank" id="vidwrap<?=$kk;?>" style="position: relative;">
                                             <img src="<?=cross_image($content_images[0])?>" class="contents_img">
                                             <?if($contents_movie){?>
                                                 <img class="movie_play" src="/iam/img/movie_play.png">
@@ -520,7 +520,7 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                                     <?}?>
                                         <script type="text/javascript">
                                             function play<?=$kk;?>() {
-                                                document.getElementById('vidwrap<?=$kk;?>').innerHTML = "<?=$group_row[contents_iframe]?>";
+                                                document.getElementById('vidwrap<?=$kk;?>').innerHTML = "<?=$group_row['contents_iframe']?>";
                                             }
                                         </script>
                                     <?
@@ -536,7 +536,7 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                                             <?}?>
                                         </div>
                                     <?}else{?>
-                                        <a href="<?=$group_row[contents_url]?>" id="vidwrap<?=$kk;?>">
+                                        <a href="<?=$group_row['contents_url']?>" id="vidwrap<?=$kk;?>">
                                             <?if($content_images[0]){?>
                                                 <img src="<?=cross_image($content_images[0])?>" class="contents_img">
                                                 <iframe src="<?=$vid_data?>" style="width:100%;height: 600px;display:none"></iframe>
@@ -814,9 +814,9 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                                 $i = 0;
                                 while($row5=mysqli_fetch_array($result5)) {
                                     ?>
-                                    <div title="<?=$row5[card_title]?>">
-                                        <input type="checkbox" onchange="onChangeCardGetCheck(this)" class="contents_get_check" value="<?= $row5[card_short_url] ?>">
-                                        <?echo(($i+1).$MENU['IAM_CONTENTS']['CONTS3']."(".$row5[card_title].")");?>
+                                    <div title="<?=$row5['card_title']?>">
+                                        <input type="checkbox" onchange="onChangeCardGetCheck(this)" class="contents_get_check" value="<?= $row5['card_short_url'] ?>">
+                                        <?echo(($i+1).$MENU['IAM_CONTENTS']['CONTS3']."(".$row5['card_title'].")");?>
                                     </div>
                                     <?
                                     $i++;

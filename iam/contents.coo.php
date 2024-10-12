@@ -37,10 +37,10 @@ if($name_card['main_img1']){
 }else{
 	$contents_avatar = $default_avatar;
 }
-$meta_img = $meta_row[contents_img];
-$meta_title = $meta_row[contents_title];
+$meta_img = $meta_row['contents_img'];
+$meta_title = $meta_row['contents_title'];
 $cur_card_short_url = $meta_row[westory_card_url];
-$meta_desc = $meta_row[contents_desc];
+$meta_desc = $meta_row['contents_desc'];
 ?>
 <link rel="stylesheet" href="/admin/bootstrap/css/bootstrap.min.css">
 <!DOCTYPE html>
@@ -157,7 +157,7 @@ $meta_desc = $meta_row[contents_desc];
 											</div>
 											<script type="text/javascript">
 												function play_contents<?=$meta_row['idx']?>() {
-													document.getElementById("<?='vid_cont'.$meta_row['idx']?>").innerHTML = '<?=$meta_row[contents_url]?>';
+													document.getElementById("<?='vid_cont'.$meta_row['idx']?>").innerHTML = '<?=$meta_row['contents_url']?>';
 												}
 											</script>
 										<?}else{?>
@@ -179,7 +179,7 @@ $meta_desc = $meta_row[contents_desc];
 									</div>
 									<script type="text/javascript">
 										function play() {
-											document.getElementById('vidwrap').innerHTML = '<?=$meta_row[contents_iframe]?>';
+											document.getElementById('vidwrap').innerHTML = '<?=$meta_row['contents_iframe']?>';
 										}
 									</script>
 								<?
@@ -196,7 +196,7 @@ $meta_desc = $meta_row[contents_desc];
                                 -->
                                 <script type="text/javascript">
                                     function play<?=$kk;?>() {
-                                        document.getElementById('vidwrap<?=$kk;?>').innerHTML = '<iframe src="<?=$contents_row[source_iframe]?>" width="100%" height="100%"></iframe>';
+                                        document.getElementById('vidwrap<?=$kk;?>').innerHTML = '<iframe src="<?=$contents_row['source_iframe']?>" width="100%" height="100%"></iframe>';
                                     }
                                 </script>
                                 <?
@@ -236,7 +236,7 @@ $meta_desc = $meta_row[contents_desc];
 									<p class="like-count like_<?=$meta_row['idx']?>">0개</p>
 								<? } ?>
 								<div class="sns-icon">
-									<a href="javascript:showSNSModal('<?=$meta_row['idx']?>','<?=$name_card[card_name]?>','<?=$meta_row[contents_title]?>', '<?=htmlspecialchars($meta_row[contents_desc],ENT_COMPAT,'UTF-8')?>', '<?=$meta_row[contents_img]?>');">
+									<a href="javascript:showSNSModal('<?=$meta_row['idx']?>','<?=$name_card['card_name']?>','<?=$meta_row['contents_title']?>', '<?=htmlspecialchars($meta_row['contents_desc'],ENT_COMPAT,'UTF-8')?>', '<?=$meta_row['contents_img']?>');">
 										<img src="img/icon_share-android_black.png"  width="25" height="25">
 									</a>
 								</div>

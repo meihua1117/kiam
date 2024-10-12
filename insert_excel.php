@@ -57,7 +57,7 @@ $error_arr=array();
 						continue;
 						}
 						
-						$sql_i = "insert into Gn_MMS_Receive set mem_id = '{$_SESSION['one_member_id']}',grp_id='{$row['idx']}', grp = '$row[grp]', grp_2 = '".$data->sheets[0]['cells'][$i][1]."', name = '".$data->sheets[0]['cells'][$i][2]."' , recv_num = '$v', email = '".$data->sheets[0]['cells'][$i][4]."' ,reg_date=now()";
+						$sql_i = "insert into Gn_MMS_Receive set mem_id = '{$_SESSION['one_member_id']}',grp_id='{$row['idx']}', grp = '{$row['grp']}', grp_2 = '".$data->sheets[0]['cells'][$i][1]."', name = '".$data->sheets[0]['cells'][$i][2]."' , recv_num = '$v', email = '".$data->sheets[0]['cells'][$i][4]."' ,reg_date=now()";
 						mysqli_query($self_con,$sql_i);
 						$cnt++;
 					}

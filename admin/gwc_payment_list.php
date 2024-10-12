@@ -308,12 +308,12 @@ set_gwc_delivery_state();
 
                                     $price_data1 = ($row_order['contents_price'])."<br>".$row_order['salary_price'];
 
-                                    if(strpos($row_cont_data[contents_img], ",") !== false){
-                                        $img_link1 = explode(",", $row_cont_data[contents_img]);
+                                    if(strpos($row_cont_data['contents_img'], ",") !== false){
+                                        $img_link1 = explode(",", $row_cont_data['contents_img']);
                                         $img_link = trim($img_link1[0]);
                                     }
                                     else{
-                                        $img_link = $row_cont_data[contents_img];
+                                        $img_link = $row_cont_data['contents_img'];
                                     }
 
                                     $sql_order_point = "select use_point from Gn_Gwc_Order where tjd_idx='{$row['no']}'";

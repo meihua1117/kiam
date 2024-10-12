@@ -287,8 +287,8 @@ else{
                                         $row['mem_name'] = $mem_row['mem_name'];
                                         $row['site_iam'] = $mem_row['site_iam'];
 
-                                        if($row[main_img1]){
-                                            $thumb_img =  $row[main_img1];
+                                        if($row['main_img1']){
+                                            $thumb_img =  $row['main_img1'];
                                         }else{
                                             $thumb_img =  $default_img;
                                         }
