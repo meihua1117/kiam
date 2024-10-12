@@ -357,7 +357,7 @@ if($_GET['key'] && $_GET['key'] == session_id()) {
 						$i++;
 					}
 					
-					$sql_service = "select mem_id from Gn_Service where sub_domain like '%".$member_iam[site]."%'";
+					$sql_service = "select mem_id from Gn_Service where sub_domain like '%".$member_iam['site']."%'";
 					$res_service = mysqli_query($self_con,$sql_service);
 					$row_service = mysqli_fetch_array($res_service);
 
@@ -381,7 +381,7 @@ if($_GET['key'] && $_GET['key'] == session_id()) {
 					}
 				}
 				else{//일반회원
-					$sql_service = "select mem_id from Gn_Iam_Service where sub_domain like '%".$member_iam[site_iam]."%'";
+					$sql_service = "select mem_id from Gn_Iam_Service where sub_domain like '%".$member_iam['site_iam']."%'";
 					$res_service = mysqli_query($self_con,$sql_service);
 					$row_service = mysqli_fetch_array($res_service);
 
@@ -402,7 +402,7 @@ if($_GET['key'] && $_GET['key'] == session_id()) {
 						$i++;
 					}
 					
-					$sql_service = "select mem_id from Gn_Service where sub_domain like '%".$member_iam[site_iam]."%'";
+					$sql_service = "select mem_id from Gn_Service where sub_domain like '%".$member_iam['site_iam']."%'";
 					$res_service = mysqli_query($self_con,$sql_service);
 					$row_service = mysqli_fetch_array($res_service);
 

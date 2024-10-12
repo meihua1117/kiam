@@ -408,7 +408,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                         <td style="font-size:12px;"><?=$coach_data['mem_name']?></td>
                         <td style="font-size:12px;"><?=$coaching_info_data[coty_id]?></td>
                         <td style="font-size:12px;"><?=$coaching_data['mem_name']?></td>
-                        <td style="font-size:12px;"><?=$coaching_data[reg_date]?></td>
+                        <td style="font-size:12px;"><?=$coaching_data['reg_date']?></td>
                         <td style="font-size:12px;color:red;"><?=$coaching_data[cont_term]?> 일</td>
                         <td style="font-size:12px;color:red;"><?=$coaching_data[cont_time]?> 시간</td>
                         <td style="font-size:12px;"><?=$coaching_data[coaching_price]/10000?>만원</td>
@@ -482,7 +482,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                                     } ?>
                         </a>
                         </td>
-                        <td style="font-size:12px;"><?=$coaching_info_data[reg_date]?></td>
+                        <td style="font-size:12px;"><?=$coaching_info_data['reg_date']?></td>
                         <td style="font-size:12px;"><?=$coaching_info_data[coach_value]?></td>
                         <td style="font-size:12px;"><?=$coaching_info_data[coty_value]?></td>
                         <td style="font-size:12px; text-align: center;">

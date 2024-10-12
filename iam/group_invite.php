@@ -272,9 +272,9 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                                         $card_result=mysqli_query($self_con,$card_sql) or die(mysqli_error($self_con));
                                         $card_row=mysqli_fetch_array($card_result);
                                         $friends_main_img = $row[profile];
-                                        $row[friends_url] = $card_row[card_short_url].$row['mem_code'];
+                                        $row[friends_url] = $card_row['card_short_url'].$row['mem_code'];
                                         if(!$friends_main_img) {
-                                            $friends_main_img = $card_row[main_img1];
+                                            $friends_main_img = $card_row['main_img1'];
                                             if(!$friends_main_img) {
                                                 $friends_main_img = "img/profile_img.png";
                                             }

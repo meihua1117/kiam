@@ -29,8 +29,8 @@ if(strlen($_REQUEST[one_member_id]) > 0) {
 		while($row=mysqli_fetch_array($result))
 		{
 
-					$is_zelo=substr($row[msg_url],0,1);
-					$v=$is_zelo?"0".$row[msg_url]:$row[msg_url];	
+					$is_zelo=substr($row['msg_url'],0,1);
+					$v=$is_zelo?"0".$row['msg_url']:$row['msg_url'];	
 					$status_arr=array();
 					$sql_deny="select idx,recv_num from Gn_MMS_Deny where recv_num='$v' and mem_id='$_REQUEST[one_member_id]' ";
 					$resul_deny=mysqli_query($self_con,$sql_deny);
@@ -44,21 +44,21 @@ if(strlen($_REQUEST[one_member_id]) > 0) {
 					
 					$resul_etc=mysqli_query($self_con,$sql_etc);
 					$row_etc=mysqli_fetch_array($resul_etc);
-					if($row_etc[seq])
+					if($row_etc['seq'])
 					{
-						if($row_etc[msg_flag]==1)
+						if($row_etc['msg_flag']==1)
 						array_push($status_arr,"번호변경");//번호변경
-						if($row_etc[msg_flag]==2)
+						if($row_etc['msg_flag']==2)
 						array_push($status_arr,"없는번호");//없는번호
-						if($row_etc[msg_flag]==3)
+						if($row_etc['msg_flag']==3)
 						array_push($status_arr,"수신불가");//수신불가			
 					}
 					$status_s=implode(",",$status_arr);
 					
 		$objPHPExcel->setActiveSheetIndex(0)
-					->setCellValue("A$h",$row[grp])
+					->setCellValue("A$h",$row['grp'])
 					->setCellValue("B$h",$row[msg_text])
-					->setCellValue("C$h",$row[msg_url])
+					->setCellValue("C$h",$row['msg_url'])
 					->setCellValue("D$h",$status_s);			
 			$h++;		
 		}

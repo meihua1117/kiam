@@ -135,17 +135,17 @@ exit;
         </form>        
         <?
 				$sql_serch=" buyer_id ='{$_SESSION['one_member_id']}' ";
-				if($_REQUEST[search_date])
+				if($_REQUEST['search_date'])
 				{					
 					if($_REQUEST[rday1])
 					{
 					$start_time=strtotime($_REQUEST[rday1]);
-					$sql_serch.=" and unix_timestamp({$_REQUEST[search_date]}) >=$start_time ";
+					$sql_serch.=" and unix_timestamp({$_REQUEST['search_date']}) >=$start_time ";
 					}
 					if($_REQUEST[rday2])
 					{
 					$end_time=strtotime($_REQUEST[rday2]);
-					$sql_serch.=" and unix_timestamp({$_REQUEST[search_date]}) <= $end_time ";
+					$sql_serch.=" and unix_timestamp({$_REQUEST['search_date']}) <= $end_time ";
 					}
 				}
 				$sql="select count(no) as cnt from tjd_pay_result where $sql_serch ";
@@ -250,7 +250,7 @@ jQuery(function($){
 				$search_date=array("date"=>"결제일","end_date"=>"만료(해지)일");
 				foreach($search_date as $key=>$v)
 				{
-					$checked=$_REQUEST[search_date]==$key?"checked":"";
+					$checked=$_REQUEST['search_date']==$key?"checked":"";
 				?>
                 	<label><input name="search_date" type="radio" value="<?=$key?>" <?=$checked?> /><?=$v?></label>
                 <?	

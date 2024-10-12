@@ -83,7 +83,7 @@ include_once "_head.php";
 	$sql_result3 = "select uni_id from Gn_MMS use index(gn_mms_mem_id) where mem_id = '{$_SESSION['one_member_id']}' order by idx desc";
 	$res_result3 = mysqli_query($self_con,$sql_result3);
 	$row_result3 = mysqli_fetch_array($res_result3);
-	$uni_id = substr($row_result3[uni_id], 0, 10);
+	$uni_id = substr($row_result3['uni_id'], 0, 10);
 	mysqli_free_result($res_result3);
 	//마지막 발송 건수
 	$sql_result32 = "select SUM(recv_num_cnt) as cnt from Gn_MMS where mem_id = '{$_SESSION['one_member_id']}' and uni_id like '$uni_id%'";
@@ -113,7 +113,7 @@ $sql = "(select idx,sendnum,memo,memo2,cnt1,cnt2,donation_rate,daily_limit_cnt f
 $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 $srow = mysqli_fetch_array($result);
 $total_cnt = 0;
-if ($member_1[mem_type] == "V" || $member_1[mem_type] == "") {
+if ($member_1['mem_type'] == "V" || $member_1['mem_type'] == "") {
 	if ($srow['memo2'] == "LG") {
 		$total_cnt = 1000000 * $srow['donation_rate'] * 0.01;
 	} else if ($srow['memo2'] == "KT") {
@@ -1113,14 +1113,14 @@ if (!empty($row_sum_b)) {
 									<p style="clear:both;"></p>
 								</div>
 								<div>
-									<input type="text" style="width:250px;" placeholder="그룹명" name="group_name" value="<?= $_REQUEST[group_name] ?>" />
+									<input type="text" style="width:250px;" placeholder="그룹명" name="group_name" value="<?= $_REQUEST['group_name'] ?>" />
 									<input type="button" value="검색" style="height:32px;" onclick="sub_4_form.submit()" />
 								</div>
 								<div style="margin-bottom:5px;margin-top:5px;">
 									<?
 									$sql_serch = " mem_id ='{$_SESSION['one_member_id']}' ";
-									if ($_REQUEST[group_name])
-										$sql_serch .= " and grp like '%$_REQUEST[group_name]%' ";
+									if ($_REQUEST['group_name'])
+										$sql_serch .= " and grp like '%{$_REQUEST['group_name']}%' ";
 									$sql_serch .= " and grp != '아이엠' ";
 									$sql = "select count(idx) as cnt from Gn_MMS_Group where $sql_serch ";
 									$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
@@ -1198,15 +1198,15 @@ if (!empty($row_sum_b)) {
 														</label>
 													</td>
 													<td class="group_title_<?= $g ?>">
-														<a href="javascript:show_detail('group_detail.php?grp_id=<?= $row['idx'] ?>','<?= $g ?>')"><?= str_substr($row[grp], 0, 20, "utf-8") ?></a>
+														<a href="javascript:show_detail('group_detail.php?grp_id=<?= $row['idx'] ?>','<?= $g ?>')"><?= str_substr($row['grp'], 0, 20, "utf-8") ?></a>
 														<a href="javascript:g_dt_show_cencle('group_title_','','','<?= $g ?>', '')" class="a_btn" style="background-color:#4f81bd;color:#FFF;float:right;">Re</a>
 													</td>
 													<td class="group_title_<?= $g ?>" style="display:none;">
-														<input type="text" name="group_title" value="<?= $row[grp] ?>" style="width:65%;" />
+														<input type="text" name="group_title" value="<?= $row['grp'] ?>" style="width:65%;" />
 														<a href="javascript:group_title_modify('<?= $row['idx'] ?>','<?= $g ?>')" class="a_btn">저장</a>
 														<a href="javascript:g_dt_cencle('group_title_','','','<?= $g ?>')">x</a>
 													</td>
-													<td><?= substr($row[reg_date], 2, 9) ?></td>
+													<td><?= substr($row['reg_date'], 2, 9) ?></td>
 													<td><?= $srow['cnt'] ?></td>
 													<td>
 														<a href="javascript:excel_down('excel_down/excel_down.php?down_type=1','<?= $row['idx'] ?>')"><img src="images/ico_xls.gif"></a>
@@ -1310,7 +1310,7 @@ if (!empty($row_sum_b)) {
 												$use_phone_cnt = 0;
 												$today_reg = date("Y-m-d");
 												while ($row = mysqli_fetch_array($resul)) {
-													$row['user_cnt'] = $row[daily_limit_cnt_user];
+													$row['user_cnt'] = $row['daily_limit_cnt_user'];
 													$is_send = true;
 													$sql_result2_g = "select SUM(recv_num_cnt) from Gn_MMS where send_num='$row[sendnum]' and ((reg_date like '$today_reg%' and reservation is null) or reservation like '$today_reg%')";
 													$res_result2_g = mysqli_query($self_con,$sql_result2_g) or die(mysqli_error($self_con));
@@ -1321,19 +1321,19 @@ if (!empty($row_sum_b)) {
 													$donation_rate = $row[donation_rate]; //기부 비율
 													$donation_cnt = ceil($total_cnt * $donation_rate / 100); //기부 받은 수
 
-													if ($mem_phone == $row['sendnum'] && ($member_1[mem_type] == "V" || $member_1[mem_type] == "")) {
+													if ($mem_phone == $row['sendnum'] && ($member_1['mem_type'] == "V" || $member_1['mem_type'] == "")) {
 														$limitCnt = 1000000; // 무제한
 														$row['user_cnt'] = "무제한";
 													}
 													$row['user_cnt'] = $row['user_cnt'] - $today_cnt_1;
 													if ($row['user_cnt'] < 0) $row['user_cnt'] = 0;
-													if ($row[daily_limit_cnt_user] - $today_cnt_1 > $row['user_cnt']) {
+													if ($row['daily_limit_cnt_user'] - $today_cnt_1 > $row['user_cnt']) {
 														if ($row['cnt1'] >= 10 &&  $today_cnt_1 < $row['daily_min_cnt_user']) {
 															//$row['user_cnt'] = 199;
 															if ($row['user_cnt'] > $row['daily_min_cnt_user'] - $today_cnt_1)
 																$row['user_cnt'] =     $row['daily_min_cnt_user'] - $today_cnt_1;
 														} else {
-															$row['user_cnt'] =     $row[daily_limit_cnt_user] - $today_cnt_1;
+															$row['user_cnt'] =     $row['daily_limit_cnt_user'] - $today_cnt_1;
 														}
 													}
 													if ($row['user_cnt'] < 0) $row['user_cnt'] = 0;
@@ -1341,7 +1341,7 @@ if (!empty($row_sum_b)) {
 													// $query = "select * from Gn_MMS_Number where mem_id='{$_SESSION['one_member_id']}' and sendnum='".$row[sendnum]."'";
 													// $result = mysqli_query($self_con,$query);
 
-													$memo2 = $row[memo2];
+													$memo2 = $row['memo2'];
 													$monthly_limit_ssh = $memo2 ? $agency_arr[$memo2] : 800; //월별 수신처 제한 수
 													//이번 달 총 수신처 수
 													$ssh_cnt = 0;
@@ -1354,7 +1354,7 @@ if (!empty($row_sum_b)) {
 													$ssh_arr = array_unique($ssh_numT);
 													$ssh_cnt = count($ssh_arr);
 													mysqli_free_result($result_ssh);
-													if ($mem_phone == $row['sendnum'] && ($member_1[mem_type] == "V" || $member_1[mem_type] == "")) {
+													if ($mem_phone == $row['sendnum'] && ($member_1['mem_type'] == "V" || $member_1['mem_type'] == "")) {
 														if ($row['memo2'] == "SK") {
 															//        // SKT
 															$limitCnt = 2000;
@@ -1375,12 +1375,12 @@ if (!empty($row_sum_b)) {
 													// if($today_cnt_1 == 1)
 													// 	$row['user_cnt'] = $row['user_cnt'] - $today_cnt_1;
 
-													if ($member_1[mem_type] == "V" && $mem_phone == $row['sendnum']) {
+													if ($member_1['mem_type'] == "V" && $mem_phone == $row['sendnum']) {
 														$is_send = true;
 														//$today_send_total+=$row['user_cnt'];
 														$today_send_total += $row['user_cnt'];
 														$send_status = "가능";
-													} else if ($today_cnt_1 > $row[daily_limit_cnt_user]) {
+													} else if ($today_cnt_1 > $row['daily_limit_cnt_user']) {
 														$row['user_cnt'] = 0;
 														$is_send = false;
 														$send_status = "<span style='color:red'>불가</span>";
@@ -1421,15 +1421,15 @@ if (!empty($row_sum_b)) {
 															    <input type="checkbox" name="go_num" value="<?= $row[sendnum] ?>" <?= !$is_send ? "disabled" : "" ?> <?= $fujia_pay == "" && $row[sendnum] != $mem_phone ? "disabled" : "" ?> onclick="send_sj_fun()" data-user_cnt="<?= $row['user_cnt'] ?>" data-send-cnt="<?= $ssh_cnt ?>" data-max-cnt="<?= $monthly_limit_ssh ?>" data-name="<?= $row['memo'] ?>" /><?= $row[sendnum] ?>
 															</label>
 															<input type="hidden" name="go_user_cnt" value="<?= $row['user_cnt'] ?>" />
-															<input type="hidden" name="go_max_cnt" value="<?= $row[daily_limit_cnt_user] ?>" />
-															<input type="hidden" name="go_memo2" value="<?= $row[memo2] ?>" />
+															<input type="hidden" name="go_max_cnt" value="<?= $row['daily_limit_cnt_user'] ?>" />
+															<input type="hidden" name="go_memo2" value="<?= $row['memo2'] ?>" />
 															<input type="hidden" name="go_cnt1" value="<?= $row['cnt1'] ?>" />
 															<input type="hidden" name="go_cnt2" value="<?= $row['cnt2'] ?>" />
 															<input type="hidden" name="go_remain_cnt" value="<?= $remain_cnt ?>" />
 														</td>
 														<td><?= $row['memo'] ?></td>
 														<td>
-															<? if ($row[daily_limit_cnt_user] >= 10000) { ?>
+															<? if ($row['daily_limit_cnt_user'] >= 10000) { ?>
 																<?= $today_cnt_1; ?> <?= $ssh_cnt; ?>
 															<? } else { ?>
 																<?= $row['user_cnt'] ?>

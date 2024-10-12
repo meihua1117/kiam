@@ -156,7 +156,7 @@ if($_GET['type']){
 										$diplay_sql="select main_img1, card_phone as friends_phone, card_short_url as friends_url, mem_id from Gn_Iam_Name_Card where mem_id = '{$row6['mem_id']}' order by idx asc limit 1";
 										$diplay_result=mysqli_query($self_con,$diplay_sql) or die(mysqli_error($self_con));
 										$diplay_row=mysqli_fetch_array($diplay_result);
-										$friends_main_img = $diplay_row[main_img1];
+										$friends_main_img = $diplay_row['main_img1'];
 										if(!$friends_main_img) {
 											$friends_main_img = "img/profile_img.png";
 										}

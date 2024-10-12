@@ -63,7 +63,7 @@ if($_REQUEST['status']==1 || $_REQUEST['status']==2)
 	$sql_result3 = "select uni_id from Gn_MMS where mem_id = '{$_SESSION['one_member_id']}' order by idx desc limit 1";
 	$res_result3 = mysqli_query($self_con,$sql_result3);
 	$row_result3 = mysqli_fetch_array($res_result3);
-	$uni_id=substr($row_result3[uni_id],0,10);
+	$uni_id=substr($row_result3['uni_id'],0,10);
 	
 	$sql_result32 = "select idx,recv_num from Gn_MMS where mem_id = '{$_SESSION['one_member_id']}' and uni_id like '$uni_id%'";
 	$res_result32 = mysqli_query($self_con,$sql_result32);
@@ -203,9 +203,9 @@ if($_REQUEST['status']==1 || $_REQUEST['status']==2)
                                         <td class="g_dt_num_<?=$i?>" style="display:none"><input type="text" value="<?=$row['recv_num']?>" name="agree_recv" /></td>                                        
                                         <td><a href="javascript:void(0)" onclick="show_recv('show_title','<?=$i?>','문자제목')"><?=str_substr($row['title'],0,20,'utf-8')?></a><input type="hidden" name="show_title" value="<?=$row['title']?>"/></td>
                                         <td><a href="javascript:void(0)" onclick="show_recv('show_content','<?=$i?>','문자내용')"><?=str_substr($row['content'],0,30,'utf-8')?></a><input type="hidden" name="show_content" value="<?=$row['content']?>"/></td>
-                                        <td><a href="javascript:void(0)" onclick="show_recv('show_jpg','<?=$c?>','첨부파일')"><?=str_substr($row[jpg],0,20,'utf-8')?></a><input type="hidden" name="show_jpg" value="<?=$row[jpg]?>"/></td>
+                                        <td><a href="javascript:void(0)" onclick="show_recv('show_jpg','<?=$c?>','첨부파일')"><?=str_substr($row['jpg'],0,20,'utf-8')?></a><input type="hidden" name="show_jpg" value="<?=$row['jpg']?>"/></td>
                                         <td><?=$deny_type_arr[$row['status']]?></td>
-                                        <td><?=substr($row[reg_date],0,16)?></td>
+                                        <td><?=substr($row['reg_date'],0,16)?></td>
                                         
                                         <td>
                                         <a href="javascript:void(0)" class="modify_btn_<?=$i?> a_btn_2" onclick="g_dt_show_cencle('g_dt_name_','g_dt_num_','modify_btn_','<?=$i?>')">수정</a>

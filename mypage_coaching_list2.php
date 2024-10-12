@@ -106,7 +106,7 @@ $data=mysqli_fetch_array($sresul_num);
             <!--    <input type="radio" name="category" value="강연" <?php echo $_REQUEST['category'] =="강연"?"checked":""?>>강연-->
             <!--    <input type="radio" name="category" value="교육" <?php echo $_REQUEST['category'] =="교육"?"checked":""?>>교육-->
             <!--    <input type="radio" name="category" value="영상" <?php echo $_REQUEST['category'] =="영상"?"checked":""?>>영상 -->
-                <input type="text" name="search_text" placeholder="" id="search_text" value="<?=$_REQUEST[search_text]?>"/> 
+                <input type="text" name="search_text" placeholder="" id="search_text" value="<?=$_REQUEST['search_text']?>"/> 
                 <a href="javascript:void(0)" onclick="pay_form.submit()"><img src="/images/sub_mypage_11.jpg" /></a>                                            
               <div style="float:right">
                     <input type="radio" name="end_date" value="">전체

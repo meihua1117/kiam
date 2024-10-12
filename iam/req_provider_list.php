@@ -133,12 +133,12 @@ extract($_GET);
         $sql .= $limitStr;
         $result = mysqli_query($self_con,$sql);
 		for($i=0; $row=mysqli_fetch_array($result); $i++) {
-			if(strpos($row[contents_img], ",") !== false){
-                $img_link_arr = explode(",", $row[contents_img]);
+			if(strpos($row['contents_img'], ",") !== false){
+                $img_link_arr = explode(",", $row['contents_img']);
                 $img_link = trim($img_link_arr[0]);
             }
             else{
-                $img_link = $row[contents_img];
+                $img_link = $row['contents_img'];
             }
 
             if($row[public_display] == "N"){
@@ -152,13 +152,13 @@ extract($_GET);
 		?>
 		<tr class="rows">
 			<td class="tac"><input type="checkbox" class="check" id="check_one_member" name="" value="<?=$row['idx']?>"><?=$number--?></td>
-            <td class="tac"><?=$row[contents_title]?></td>
+            <td class="tac"><?=$row['contents_title']?></td>
             <td class="tac"><img class="zoom" src="<?=$img_link?>" style="width:50px;"></a></td>
-            <td class="tac"><?=$row[contents_price]?></td>
-            <td class="tac"><?=$row[contents_sell_price]?></td>
+            <td class="tac"><?=$row['contents_price']?></td>
+            <td class="tac"><?=$row['contents_sell_price']?></td>
             <td class="tac"><?=$row[send_provide_price]?></td>
             <td class="tac"><?=$row[prod_manufact_price]?></td>
-            <td class="tac"><?=$row[req_data]?></td>
+            <td class="tac"><?=$row['req_data']?></td>
             <td class="tac"><?=$mng?></td>
             <td class="tac"><?=$allow?></td>
 		</tr>
@@ -364,11 +364,11 @@ extract($_GET);
                                         while($row5=mysqli_fetch_array($result5)) {
                                             ?>
                                             <input type="radio" name="gwc_card_url"
-                                                    class="my_info_check" id="gwc_card_check_<?= $row5[card_short_url] ?>"
-                                                    value="<?= $row5[card_short_url] ?>">
+                                                    class="my_info_check" id="gwc_card_check_<?= $row5['card_short_url'] ?>"
+                                                    value="<?= $row5['card_short_url'] ?>">
                                             <?
                                                 echo($i+1);
-                                            echo "(".$row5[card_title].")";?>
+                                            echo "(".$row5['card_title'].")";?>
                                             <?$i++;
                                         }
                                         ?>

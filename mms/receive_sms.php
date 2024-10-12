@@ -81,7 +81,7 @@ $phone_num = $_POST['phone_num'];
 		$resul_sg=mysqli_query($self_con,$sql_sg) or die(mysqli_error($self_con));
 		$row_sg=mysqli_fetch_array($resul_sg);	
 		if($row_sg[0] != "") {
-			$row_g2[grp] = $row_sg['grp_name'];
+			$row_g2['grp'] = $row_sg['grp_name'];
 		}	
 		
 		$sql_s="select seq from sm_log where {$sql_flag} and ori_num='{$ori_num}' and mem_id='{$userId}' ";
@@ -92,8 +92,8 @@ $phone_num = $_POST['phone_num'];
 		if($send_num) $num = $send_num;
 		
 		
-		if($row_s[seq]) {
-			$sql="update sm_log set mem_id='{$userId}', dest='{$num}' , msg_text='{$msg}' , reservation_time=now() , chg_num='{$chg_num}' , grp_name='{$row_g2[grp]}' where seq='{$row_s[seq]}' ";
+		if($row_s['seq']) {
+			$sql="update sm_log set mem_id='{$userId}', dest='{$num}' , msg_text='{$msg}' , reservation_time=now() , chg_num='{$chg_num}' , grp_name='{$row_g2['grp']}' where seq='{$row_s['seq']}' ";
 			
 			// Cooper Add 자동 변경 내역 저장 chg_num이 있을경우
 			if($chg_num != "" ) {
@@ -120,7 +120,7 @@ $phone_num = $_POST['phone_num'];
 			}
 			
 		} else {
-			$sql = "insert into sm_log set mem_id='{$userId}', dest = '{$num}', msg_text = '{$msg}' , {$sql_flag} , reservation_time = now(), ori_num = '{$ori_num}', chg_num = '{$chg_num}' , result='{$result}', grp_name='{$row_g2[grp]}' ";
+			$sql = "insert into sm_log set mem_id='{$userId}', dest = '{$num}', msg_text = '{$msg}' , {$sql_flag} , reservation_time = now(), ori_num = '{$ori_num}', chg_num = '{$chg_num}' , result='{$result}', grp_name='{$row_g2['grp']}' ";
 	
 			// Cooper Add 자동 변경 내역 저장 chg_num이 있을경우
 			if($chg_num != "" ) {

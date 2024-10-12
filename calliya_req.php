@@ -91,7 +91,7 @@ $data = mysqli_fetch_array($sresul_num);
                                 <option value="2" <?= $_REQUEST[chanel] == "2" ? "selected" : "" ?>>G쇼핑</option>
                                 <option value="3" <?= $_REQUEST[chanel] == "3" ? "selected" : "" ?>>N쇼핑</option>
                             </select>
-                            <input type="text" name="search_text" placeholder="카드명/주소" id="search_text" value="<?= $_REQUEST[search_text] ?>" style="height:30px;" />
+                            <input type="text" name="search_text" placeholder="카드명/주소" id="search_text" value="<?= $_REQUEST['search_text'] ?>" style="height:30px;" />
                             <a href="javascript:pay_form.submit()"><img src="images/sub_mypage_11.jpg" /></a>
 
                         </li>
@@ -139,8 +139,8 @@ $data = mysqli_fetch_array($sresul_num);
                                 // $startPage = $nowPage?$nowPage:1;
                                 // $pageCnt = 20;
                                 // 검색 조건을 적용한다.
-                                if ($_REQUEST[search_text]) {
-                                    $searchStr .= " AND (ca_1.card_name LIKE '%" . $_REQUEST[search_text] . "%' or ca_1.card_addr like '%" . $_REQUEST[search_text] . "%' )";
+                                if ($_REQUEST['search_text']) {
+                                    $searchStr .= " AND (ca_1.card_name LIKE '%" . $_REQUEST['search_text'] . "%' or ca_1.card_addr like '%" . $_REQUEST['search_text'] . "%' )";
                                 }
 
                                 switch ($_REQUEST[chanel]) {
@@ -215,7 +215,7 @@ $data = mysqli_fetch_array($sresul_num);
                                         $totPriceRow = mysqli_fetch_row($res_result);
                                         $totPrice = $totPriceRow[0];
 
-                                        $cquery = "select count(*) from Gn_Iam_Contents where westory_card_url = " . "'$row[card_short_url]'";
+                                        $cquery = "select count(*) from Gn_Iam_Contents where westory_card_url = " . "'{$row['card_short_url']}'";
                                         $cresult = mysqli_query($self_con,$cquery);
                                         $crow = mysqli_fetch_array($cresult);
 
@@ -233,14 +233,14 @@ $data = mysqli_fetch_array($sresul_num);
                                             <td><?= $row['mem_id'] ?></td>
                                             <td><?= $chanel ?></td>
                                             <td style="font-size:12px;">
-                                                <?= $row[card_name] ?>
+                                                <?= $row['card_name'] ?>
                                             </td>
                                             <!-- <td><a href="http://obmms.net/iam/?<?= strip_tags($row['card_short_url'] . $mem_row['mem_code']) ?>" target="_blank"><?= $row['card_short_url'] ?></a></td> -->
                                             <td>
                                                 <div>
                                                     <?
-                                                    if ($row[main_img1]) {
-                                                        $thumb_img =  $row[main_img1];
+                                                    if ($row['main_img1']) {
+                                                        $thumb_img =  $row['main_img1'];
                                                     } else {
                                                         $thumb_img =  $default_img;
                                                     }
@@ -250,15 +250,15 @@ $data = mysqli_fetch_array($sresul_num);
                                                     </a>
                                                 </div>
                                             </td>
-                                            <td><?= $row[card_addr] ?></td>
+                                            <td><?= $row['card_addr'] ?></td>
                                             <td>
-                                                <?= $row[card_phone] ?>
+                                                <?= $row['card_phone'] ?>
                                             </td>
                                             <td><?= $totPrice ? $totPrice : "0" ?></td>
-                                            <td style="font-size:12px;"><?= $row[req_data] ?></td>
+                                            <td style="font-size:12px;"><?= $row['req_data'] ?></td>
                                             <td style="font-size:12px;"><?= $crow[0] ?></td>
-                                            <td><?= $row[iam_click] ?></td>
-                                            <!-- <td><?= $row[req_worker_id] ?></td> -->
+                                            <td><?= $row['iam_click'] ?></td>
+                                            <!-- <td><?= $row['req_worker_id'] ?></td> -->
                                             <td style="font-size:12px;">
                                                 <label class="switch">
                                                     <input type="checkbox" class="chkclick" name="cardclick" id="card_click_<?= $row['idx']; ?>_<?= $row['mem_id'] ?>" <?php echo $row['org_use_state'] == "1" ? "checked" : ""; ?>>

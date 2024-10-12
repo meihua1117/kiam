@@ -47,13 +47,13 @@ if(strlen($_SESSION['one_member_id']) > 0) {
 					
 					$resul_etc=mysqli_query($self_con,$sql_etc);
 					$row_etc=mysqli_fetch_array($resul_etc);
-					if($row_etc[seq])
+					if($row_etc['seq'])
 					{
-						if($row_etc[msg_flag]==1)
+						if($row_etc['msg_flag']==1)
 						array_push($status_arr,"번호변경");//번호변경
-						if($row_etc[msg_flag]==2)
+						if($row_etc['msg_flag']==2)
 						array_push($status_arr,"없는번호");//없는번호
-						if($row_etc[msg_flag]==3)
+						if($row_etc['msg_flag']==3)
 						array_push($status_arr,"수신불가");//수신불가			
 					}
 					$status_s=implode(",",$status_arr);

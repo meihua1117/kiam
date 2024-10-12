@@ -340,8 +340,7 @@ function excel_down_p_group(pno,one_member_id){
         				$resul_gn=mysqli_query($self_con,$sql_gn);
                         $row_gn=mysqli_fetch_array($resul_gn);	
 						mysqli_free_result($resul_gn); 
-						$reg_date_1hour = strtotime("$row[reg_date] +1hours"); 
-								
+						$reg_date_1hour = strtotime("{$row['reg_date']} +1hours"); 
                   ?>
                       <tr>
                         <td><?=$number--?></td>
@@ -350,14 +349,14 @@ function excel_down_p_group(pno,one_member_id){
                         <td><?=$row_n['memo']?></td>
                         <td style="font-size:12px;"><a href="javascript:void(0)" onclick="show_recv('show_title','<?=$c?>','문자제목')"><?=str_substr($row['title'],0,30,'utf-8')?></a><input type="hidden" name="show_title" value="<?=$row['title']?>"/></td>
                         <td style="font-size:12px;"><a href="javascript:void(0)" onclick="show_recv('show_content','<?=$c?>','문자내용')"><?=str_substr($row['content'],0,30,'utf-8')?></a><input type="hidden" name="show_content" value="<?=$row['content']?>"/></td>
-                        <td style="font-size:12px;"><?=substr($row[grp])?></td>
+                        <td style="font-size:12px;"><?=$row['grp']?></td>
     					<td>
-    					    <?if($row[reservation]) {?>
+    					    <?if($row['reservation']) {?>
     					    예약
     					    <?}?>
     					    <?if($success_cnt==0){?>
 								<?if(time() > $reg_date_1hour && $row['up_date'] == "") {?>
-									<?php if($row[reservation] > date("Y-m-d H:i:s")){?>
+									<?php if($row['reservation'] > date("Y-m-d H:i:s")){?>
 									<?}else{?>
 										실패
 									<?}?>
@@ -372,7 +371,7 @@ function excel_down_p_group(pno,one_member_id){
     					        <?=$success_cnt?>/<?php echo $total_cnt-$success_cnt;?>
     					    <?}?>
     					    </td>
-                        <td style="font-size:12px;"><?=substr($row[reg_date],0,16)?></td>
+                        <td style="font-size:12px;"><?=substr($row['reg_date'],0,16)?></td>
     					<td style="font-size:12px;"><a href="member_return_detail.php?idx=<?php echo $row['idx']?>&send_num=<?=$row['send_num']?>"><?=$intRowCount;?></a> </td>           
                       </tr>
                     <?

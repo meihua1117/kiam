@@ -75,10 +75,10 @@ for($i=0 ; $i < count($sample_list); $i++)
     $sample_sql = "select mem_code from Gn_Member where mem_id='{$contents_row['mem_id']}'";
     $sample_res = mysqli_query($self_con,$sample_sql);
     $sample_row = mysqli_fetch_array($sample_res);
-    $desc = $contents_row[card_name] . '/'. $contents_row[card_company]. '/'. $contents_row[card_position];
+    $desc = $contents_row['card_name'] . '/'. $contents_row['card_company']. '/'. $contents_row['card_position'];
     //$desc = mb_substr($desc,0,25,"UTF-8");
     $body .= '<div class="col-sm-6 col-xs-6 sample_card">';
-    $body .= '<div class="square" onclick="window.open(\'/?' . $contents_row[card_short_url].$sample_row["mem_code"]. '\')">';
+    $body .= '<div class="square" onclick="window.open(\'/?' . $contents_row['card_short_url'].$sample_row["mem_code"]. '\')">';
     $body .= '<div class="content" style="background-image:url(\'' .  $contents_row['main_img1'] . '\'); background-size: cover;background-position: center;border-top-right-radius:10px;border-top-left-radius:10px;">';
     $body .= '</div>';
     $body .= '<div class="content2">';

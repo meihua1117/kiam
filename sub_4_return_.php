@@ -354,8 +354,8 @@ extract($_REQUEST);
                             				$recv_cnt=explode(",",$row_sn[0]);                          				
                             				$total_cnt = count($recv_cnt);
 
-									        $reg_date = strtotime($row[reg_date]);
-											$reg_date_1hour = strtotime("$row[reg_date] +1hours"); 								
+									        $reg_date = strtotime($row['reg_date']);
+											$reg_date_1hour = strtotime("{$row['reg_date']} +1hours"); 								
 									        if($success_cnt > $total_cnt) $success_cnt = $total_cnt;
 										?>
 										<tr>
@@ -392,20 +392,20 @@ extract($_REQUEST);
 		                                    <?}?>
 											<td>
 											    <?if ($_REQUEST['status2']==2){ 
-													echo substr($row[reservation],0,16); 
+													echo substr($row['reservation'],0,16); 
 												}else{?>
-													<a href="javascript:void(0)" onclick="show_recv('show_jpg','<?=$c?>','첨부파일')"><?=str_substr($row[jpg],0,20,'utf-8')?></a>
-													<input type="hidden" name="show_jpg" value="<?=$row[jpg]?>"/>
-													<a href="javascript:void(0)" onclick="show_recv('show_jpg1','<?=$c?>','첨부파일')"><?=str_substr($row[jpg1],0,20,'utf-8')?></a>
-													<input type="hidden" name="show_jpg1" value="<?=$row[jpg1]?>"/>
-													<a href="javascript:void(0)" onclick="show_recv('show_jpg2','<?=$c?>','첨부파일')"><?=str_substr($row[jpg2],0,20,'utf-8')?></a>
-													<input type="hidden" name="show_jpg2" value="<?=$row[jpg2]?>"/>
+													<a href="javascript:void(0)" onclick="show_recv('show_jpg','<?=$c?>','첨부파일')"><?=str_substr($row['jpg'],0,20,'utf-8')?></a>
+													<input type="hidden" name="show_jpg" value="<?=$row['jpg']?>"/>
+													<a href="javascript:void(0)" onclick="show_recv('show_jpg1','<?=$c?>','첨부파일')"><?=str_substr($row['jpg1'],0,20,'utf-8')?></a>
+													<input type="hidden" name="show_jpg1" value="<?=$row['jpg1']?>"/>
+													<a href="javascript:void(0)" onclick="show_recv('show_jpg2','<?=$c?>','첨부파일')"><?=str_substr($row['jpg2'],0,20,'utf-8')?></a>
+													<input type="hidden" name="show_jpg2" value="<?=$row['jpg2']?>"/>
 											    <?}?>
 											</td>
-                                            <td style="font-size:12px;"><?=substr($row[reg_date],0,16)?></td>
+                                            <td style="font-size:12px;"><?=substr($row['reg_date'],0,16)?></td>
 											<!--<td style="font-size:12px;"><?=substr($row['up_date'],0,16)?></td>-->
 											<td>
-												<?=$row[reservation]?$row[reservation]:""?>
+												<?=$row['reservation']?$row['reservation']:""?>
 											</td>
 											<td style="font-size:12px;">
 											    <?if($row_s['status']=="-1") {?>
@@ -414,10 +414,10 @@ extract($_REQUEST);
 											        <?=substr($row_s['regdate'],0,16)?>
 											        <?php 
 											        if(time() > $reg_date_1hour && $row_s['regdate'] == "" ) {
-											            if($row[reservation] != "" && $row[reservation] > date("Y-m-d H:i:s")) {?>
+											            if($row['reservation'] != "" && $row['reservation'] > date("Y-m-d H:i:s")) {?>
     											            <a href="javascript:fs_del_num('<?=$row['idx']?>')">취소가능</a>
 											            <?}else{?>
-											                <?if($row[reservation]) {?>
+											                <?if($row['reservation']) {?>
 											                예약
 											                <?}else{?>
 											                <a href="javascript:fs_del_num('<?=$row['idx']?>')">미수신</a>
@@ -430,7 +430,7 @@ extract($_REQUEST);
 												<?
 												if($success_cnt == 0 ){
                         					        if(time() > $reg_date_1hour && $row['up_date'] == "") {
-														if($row[reservation] > date("Y-m-d H:i:s")){}
+														if($row['reservation'] > date("Y-m-d H:i:s")){}
 														else{?>
                             					            <?="실패=".$row['up_date'];?>
                             					        <?}
@@ -438,7 +438,7 @@ extract($_REQUEST);
                             					        if(time() > $reg_date_1hour && $row['up_date'] != "") {?>
                             					            발송실패
                             					        <?}else{
-                            					            if($row['up_date'] == "" && $row[reservation] < date("Y-m-d H:i:s")) {?>
+                            					            if($row['up_date'] == "" && $row['reservation'] < date("Y-m-d H:i:s")) {?>
                             					                <a href="sub_4_detail.php?idx=<?php echo $row['idx'];?>">발송중</a>
                             					            <?}
                             					        }
@@ -446,7 +446,7 @@ extract($_REQUEST);
                         					    }else{?>												    
 											    	<a href="sub_4_detail.php?idx=<?php echo $row['idx'];?>"><?=$success_cnt?>/<?php echo $total_cnt-$success_cnt;?> 
 											    <?}?>
-											    <?php if($row[reservation]) {?>예약<?php }?>
+											    <?php if($row['reservation']) {?>예약<?php }?>
 											</td>
 											<td style="font-size:12px;">
 												<a href="sub_4_return_detail.php?idx=<?php echo $row['idx']?>&send_num=<?=$row['send_num']?>"><?=$intRowCount;?></a> 

@@ -159,7 +159,7 @@ function copyHtml(url){
                 <select name="search_key" class="select">
                     <option value="">전체</option>
                 </select>
-                <input type="text" name="search_text" placeholder="" id="search_text" value="<?=$_REQUEST[search_text]?>"/> 
+                <input type="text" name="search_text" placeholder="" id="search_text" value="<?=$_REQUEST['search_text']?>"/> 
                 <a href="javascript:void(0)" onclick="pay_form.submit()"><img src="images/sub_mypage_11.jpg" /></a>                                            
                 <div style="float:right;">
                 </div>                
@@ -277,8 +277,7 @@ function copyHtml(url){
               </tr>
               <?
 
-              $sql_serch=" landing_idx!=0 and mobile='$data['mobile']'";
-
+              $sql_serch=" landing_idx!=0 and mobile='{$data['mobile']}'";
               $sql="select count(*) as cnt from Gn_event_request where $sql_serch ";
               $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
               $row=mysqli_fetch_array($result);
@@ -319,7 +318,7 @@ function copyHtml(url){
                     
                     while($row=mysqli_fetch_array($result))
                     {
-                      $sql = "select * from Gn_event where event_idx='$row['event_idx']'";
+                      $sql = "select * from Gn_event where event_idx='{$row['event_idx']}'";
                       $eres = mysqli_query($self_con,$sql);
                       $erow = mysqli_fetch_array($eres);
 

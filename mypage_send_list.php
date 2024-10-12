@@ -38,11 +38,11 @@ $data=mysqli_fetch_array($sresul_num);
                         </div>
                         <div class="p1">
                             <select name="search_key" class="select">
-                                <option value="send_num" <?if($_REQUEST[search_key] == "send_num") echo "selected";?>>발송번호</option>
-                                <option value="recv_num" <?if($_REQUEST[search_key] == "recv_num") echo "selected";?>>수신번호</option>
-                                <option value="sms.event_name_eng"   <?if($_REQUEST[search_key] == "sms.event_name_eng") echo "selected";?>>수신키워드</option>
+                                <option value="send_num" <?if($_REQUEST['search_key'] == "send_num") echo "selected";?>>발송번호</option>
+                                <option value="recv_num" <?if($_REQUEST['search_key'] == "recv_num") echo "selected";?>>수신번호</option>
+                                <option value="sms.event_name_eng"   <?if($_REQUEST['search_key'] == "sms.event_name_eng") echo "selected";?>>수신키워드</option>
                             </select>
-                            <input type="text" name="search_text" placeholder="" id="search_text" value="<?=$_REQUEST[search_text]?>" style="height:30px;"/>
+                            <input type="text" name="search_text" placeholder="" id="search_text" value="<?=$_REQUEST['search_text']?>" style="height:30px;"/>
                             <input type="date" name="startdate" value="<?=$_REQUEST[startdate]?>" style="padding: 6px">
                             <input type="date" name="enddate" value="<?=$_REQUEST[enddate]?>" style="padding: 6px">
                             <a href="javascript:pay_form.submit()"><img src="images/sub_mypage_11.jpg" /></a>
@@ -96,9 +96,9 @@ $data=mysqli_fetch_array($sresul_num);
                                     if($enddate)
                                         $sql_serch .= " AND mms.up_date <= '$enddate 23:59:59'";
 
-                                    if( $_REQUEST[search_text])
+                                    if( $_REQUEST['search_text'])
                                     {
-                                        $sql_serch.=" and (".$_REQUEST[search_key]." like '%$_REQUEST[search_text]%') ";
+                                        $sql_serch.=" and (".$_REQUEST['search_key']." like '%{$_REQUEST['search_text']}%') ";
                                     }
                                     if($_REQUEST['channel'])
                                         $sql_serch .= " and type='$_REQUEST[channel]' ";
@@ -189,7 +189,7 @@ $data=mysqli_fetch_array($sresul_num);
                                                 <td><?=$memo?></td>
                                                 <td><?=$row['send_num']?></td>
                                                 <td style="font-size:12px;">
-                                                    <a href="javascript:show_recv('show_recv_num','<?=$c?>','수신번호')"><?=str_substr($row['recv_num'],0,14,'utf-8')?> <?=$row[reservation]?"<br>".$row[reservation]:""?></a>
+                                                    <a href="javascript:show_recv('show_recv_num','<?=$c?>','수신번호')"><?=str_substr($row['recv_num'],0,14,'utf-8')?> <?=$row['reservation']?"<br>".$row['reservation']:""?></a>
                                                     <!--span style="color:#F00;">(<?=count($recv_cnt)?>)</span--><input type="hidden" name="show_recv_num" value="<?=$row['recv_num']?>"/>
                                                 </td>
                                                 <td><?
@@ -216,14 +216,14 @@ $data=mysqli_fetch_array($sresul_num);
                                                     <td style="width:5%;"><?if($row['up_date']!=''&&$row[result]==0){?>완료<?}elseif($row['up_date']==''&&$row[result]==1){?>발송실패<?}else{?>실패<?}?></td>
                                                 <?}?>
                                                 <td>
-                                                    <?if ($_REQUEST['status2']==2){ echo substr($row[reservation],0,16); }else{?>
-                                                        <a href="javascript:void(0)" onclick="show_recv('show_jpg','<?=$c?>','첨부파일')"><?=str_substr($row[jpg],0,20,'utf-8')?></a><input type="hidden" name="show_jpg" value="<?=$row[jpg]?>"/>
-                                                        <a href="javascript:void(0)" onclick="show_recv('show_jpg1','<?=$c?>','첨부파일')"><?=str_substr($row[jpg1],0,20,'utf-8')?></a><input type="hidden" name="show_jpg1" value="<?=$row[jpg1]?>"/>
-                                                        <a href="javascript:void(0)" onclick="show_recv('show_jpg2','<?=$c?>','첨부파일')"><?=str_substr($row[jpg2],0,20,'utf-8')?></a><input type="hidden" name="show_jpg2" value="<?=$row[jpg2]?>"/>
+                                                    <?if ($_REQUEST['status2']==2){ echo substr($row['reservation'],0,16); }else{?>
+                                                        <a href="javascript:void(0)" onclick="show_recv('show_jpg','<?=$c?>','첨부파일')"><?=str_substr($row['jpg'],0,20,'utf-8')?></a><input type="hidden" name="show_jpg" value="<?=$row['jpg']?>"/>
+                                                        <a href="javascript:void(0)" onclick="show_recv('show_jpg1','<?=$c?>','첨부파일')"><?=str_substr($row['jpg1'],0,20,'utf-8')?></a><input type="hidden" name="show_jpg1" value="<?=$row['jpg1']?>"/>
+                                                        <a href="javascript:void(0)" onclick="show_recv('show_jpg2','<?=$c?>','첨부파일')"><?=str_substr($row['jpg2'],0,20,'utf-8')?></a><input type="hidden" name="show_jpg2" value="<?=$row['jpg2']?>"/>
                                                     <?}?>
                                                 </td>
                                                 <td><?=$row['sp']?></td>
-                                                <td style="font-size:12px;"><?=substr($row[reg_date],0,16)?></td>
+                                                <td style="font-size:12px;"><?=substr($row['reg_date'],0,16)?></td>
                                                 <td style="font-size:12px;"><?
                                                     if($row['up_date'] == ""){
                                                         echo "미수신";

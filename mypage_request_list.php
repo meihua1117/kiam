@@ -95,11 +95,11 @@ $(function(){
                     <div>
                         <div class="p1">
                             <select name="search_key" class="select">
-                                <option value="" <?if($_REQUEST[search_key] == "") echo "selected"?>>전체</option>
-                                <option value="name" <?if($_REQUEST[search_key] == "name") echo "selected"?>>신청자이름</option>
-                                <option value="mobile" <?if($_REQUEST[search_key] == "mobile") echo "selected"?>>신청폰번호</option>
+                                <option value="" <?if($_REQUEST['search_key'] == "") echo "selected"?>>전체</option>
+                                <option value="name" <?if($_REQUEST['search_key'] == "name") echo "selected"?>>신청자이름</option>
+                                <option value="mobile" <?if($_REQUEST['search_key'] == "mobile") echo "selected"?>>신청폰번호</option>
                             </select>
-                            <input type="text" name="search_text" placeholder="" id="search_text" value="<?=$_REQUEST[search_text]?>"/>
+                            <input type="text" name="search_text" placeholder="" id="search_text" value="<?=$_REQUEST['search_text']?>"/>
                             <input type="text" name="sp" placeholder="" id="event_code" value="<?=$_REQUEST[sp]?>" readonly style="background:#efefef"/>
                             <input type="button" value="신청창 조회" class="button " id="searchBtn">
                             <a href="javascript:void(0)" onclick="pay_form.submit()"><img src="images/sub_mypage_11.jpg" /></a>
@@ -144,23 +144,23 @@ $(function(){
                                 </tr>
                             <?
                             $sql_serch=" m_id ='{$_SESSION['one_member_id']}' ";
-                            if($_REQUEST[search_date])
+                            if($_REQUEST['search_date'])
                             {
                                 if($_REQUEST[rday1])
                                 {
                                     $start_time=strtotime($_REQUEST[rday1]);
-                                    $sql_serch.=" and unix_timestamp({$_REQUEST[search_date]}) >=$start_time ";
+                                    $sql_serch.=" and unix_timestamp({$_REQUEST['search_date']}) >=$start_time ";
                                 }
                                 if($_REQUEST[rday2])
                                 {
                                     $end_time=strtotime($_REQUEST[rday2]);
-                                    $sql_serch.=" and unix_timestamp({$_REQUEST[search_date]}) <= $end_time ";
+                                    $sql_serch.=" and unix_timestamp({$_REQUEST['search_date']}) <= $end_time ";
                                 }
                             }
-                            if($_REQUEST[search_key] && $_REQUEST[search_text])
+                            if($_REQUEST['search_key'] && $_REQUEST['search_text'])
                             {
-                                $search_text = $_REQUEST[search_text];
-                                $sql_serch.=" and ".$_REQUEST[search_key]." like '%$search_text%'";
+                                $search_text = $_REQUEST['search_text'];
+                                $sql_serch.=" and ".$_REQUEST['search_key']." like '%$search_text%'";
                             }
                             if($_REQUEST['sp'])
                             {

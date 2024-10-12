@@ -55,12 +55,12 @@ else if($mode == "add_one"){
   $row=mysqli_fetch_array($result);
 
   $mem_id = $row['mem_id'];
-  $friends_url = 'kiam.kr/?' .$row[card_short_url];
-  $friends_name = $row[card_name];
-  $friends_company = $row[card_company];
-  $friends_position = $row[card_position];
-  $friends_phone = $row[card_phone];
-  $friends_img = $row[main_img1];
+  $friends_url = 'kiam.kr/?' .$row['card_short_url'];
+  $friends_name = $row['card_name'];
+  $friends_company = $row['card_company'];
+  $friends_position = $row['card_position'];
+  $friends_phone = $row['card_phone'];
+  $friends_img = $row['main_img1'];
 
   //프렌즈 카드 저장
   $sql4="insert into Gn_Iam_Friends (mem_id, friends_card_idx, friends_name, friends_company, friends_position, friends_phone, friends_img, friends_url, req_data) 
@@ -81,12 +81,12 @@ else if($mode == "add_one"){
 
     $my_card_idx = $row5['idx'];
     $my_mem_id = $row5['mem_id'];
-    $my_friends_url = 'kiam.kr/?' .$row5[card_short_url];
-    $my_friends_name = $row5[card_name];
-    $my_friends_company = $row5[card_company];
-    $my_friends_position = $row5[card_position];
-    $my_friends_phone = $row5[card_phone];
-    $my_friends_img = $row5[main_img1];
+    $my_friends_url = 'kiam.kr/?' .$row5['card_short_url'];
+    $my_friends_name = $row5['card_name'];
+    $my_friends_company = $row5['card_company'];
+    $my_friends_position = $row5['card_position'];
+    $my_friends_phone = $row5['card_phone'];
+    $my_friends_img = $row5['main_img1'];
 
 
     
@@ -140,12 +140,12 @@ else if($mode == "add_multi"){
     $row=mysqli_fetch_array($result);
 
     $mem_id = $row['mem_id'];
-    $friends_url = 'kiam.kr/?' .$row[card_short_url];
-    $friends_name = $row[card_name];
-    $friends_company = $row[card_company];
-    $friends_position = $row[card_position];
-    $friends_phone = $row[card_phone];
-    $friends_img = $row[main_img1];
+    $friends_url = 'kiam.kr/?' .$row['card_short_url'];
+    $friends_name = $row['card_name'];
+    $friends_company = $row['card_company'];
+    $friends_position = $row['card_position'];
+    $friends_phone = $row['card_phone'];
+    $friends_img = $row['main_img1'];
 
     if($mem_id == $_SESSION['iam_member_id']){
       // echo "me<br>";
@@ -173,12 +173,12 @@ else if($mode == "add_multi"){
 
     $my_card_idx = $row5['idx'];
     $my_mem_id = $row5['mem_id'];
-    $my_friends_url = 'kiam.kr/?' .$row5[card_short_url];
-    $my_friends_name = $row5[card_name];
-    $my_friends_company = $row5[card_company];
-    $my_friends_position = $row5[card_position];
-    $my_friends_phone = $row5[card_phone];
-    $my_friends_img = $row5[main_img1];
+    $my_friends_url = 'kiam.kr/?' .$row5['card_short_url'];
+    $my_friends_name = $row5['card_name'];
+    $my_friends_company = $row5['card_company'];
+    $my_friends_position = $row5['card_position'];
+    $my_friends_phone = $row5['card_phone'];
+    $my_friends_img = $row5['main_img1'];
 
 
     

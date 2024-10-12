@@ -146,7 +146,7 @@
                     <form method="get" name="search_form" id="search_form" class="" style="padding-right: 5px;">
                         <div class="box-tools" style="margin-top: 5px">
                             <div class="input-group" style="width: 200px;margin-left: auto;margin-right: auto;">
-                              <input type="text" name="search_key" id="search_key" value="<?=$_GET[search_key]?$_GET[search_key]:'';?>" class="form-control input-sm pull-right" placeholder="검색어">
+                              <input type="text" name="search_key" id="search_key" value="<?=$_GET['search_key']?$_GET['search_key']:'';?>" class="form-control input-sm pull-right" placeholder="검색어">
                               <div class="input-group-btn">
                                 <button class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>
                               </div>

@@ -148,7 +148,7 @@ function copyHtml(url){
                 <select name="search_key" class="select">
                     <option value="">전체</option>
                 </select>
-                <input type="text" name="search_text" placeholder="" id="search_text" value="<?=$_REQUEST[search_text]?>"/> 
+                <input type="text" name="search_text" placeholder="" id="search_text" value="<?=$_REQUEST['search_text']?>"/> 
                 <a href="javascript:void(0)" onclick="pay_form.submit()"><img src="images/sub_mypage_11.jpg" /></a>                                            
                 <div style="float:right;">
                 </div>                
@@ -166,7 +166,7 @@ function copyHtml(url){
               </tr>
               <?
 
-				$sql_serch=" m_id ='{$_SESSION['one_member_id']}' and event_idx='$data['event_idx']'";
+				$sql_serch=" m_id ='{$_SESSION['one_member_id']}' and event_idx='{$data['event_idx']}'";
 
 				$sql="select count(*) as cnt from Gn_event_request where $sql_serch ";
 				$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
@@ -221,7 +221,7 @@ function copyHtml(url){
 					<div class="popup_holder popup_text"> 보기
 						<div class="popupbox" style="position:fixed;display:none; height: 75px;width: 570px;color: black;left: 160px;top: -37px;">아이디 | 성명 | 휴대폰 | 일반폰 | 이메일 | 생년월일 | 업종 | 업체명 | 직책 | 업체주소 | 자택주소 | 등록일시 <br>
 						<?
-							$sql_mem_reg = "select * from Gn_Member where mem_phone='$row['mobile']'";
+							$sql_mem_reg = "select * from Gn_Member where mem_phone='{$row['mobile']}'";
 							$res_mem_reg = mysqli_query($self_con,$sql_mem_reg);
 							$row_mem_reg = mysqli_fetch_array($res_mem_reg);
 							$mem_name = $row_mem_reg['mem_name']?$row_mem_reg['mem_name']:'성명';
@@ -245,7 +245,7 @@ function copyHtml(url){
 				<td>
 					<? 
 					$stop_status = "";
-					$sql = "select count(*) from gn_event_sms_stop_info where event_idx='$data['event_idx']' and mobile='$row['mobile']'";
+					$sql = "select count(*) from gn_event_sms_stop_info where event_idx='{$data['event_idx']}' and mobile='{$row['mobile']}'";
 					$stop_res = mysqli_query($self_con,$sql);
 					$stop_row = mysqli_fetch_array($stop_res);
 					if($stop_row[0] > 0)

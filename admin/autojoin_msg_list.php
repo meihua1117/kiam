@@ -146,7 +146,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                   ?>
                       <tr>
                             <td><input type="checkbox" class="check" id="check_one_member" name="" value="<?=$row['event_idx']?>">&nbsp;&nbsp;<?=$number--?></td>
-                            <td style="font-size:12px;"><?=$row_mem[site]?></td>
+                            <td style="font-size:12px;"><?=$row_mem['site']?></td>
                             <td style="font-size:12px;"><?=$row[m_id]?></td>
                             <td style="font-size:12px;"><?=$row_mem['mem_name']?></td>
                             <td style="font-size:12px;"><?=$row[event_title]?></td>

@@ -13,7 +13,7 @@ if($member_1){
 }
 $result = mysqli_query($self_con,$card_sql);
 $card_row = mysqli_fetch_array($result);
-$card_url = $card_row[card_short_url];//분양사이트 1번 네임카드 url
+$card_url = $card_row['card_short_url'];//분양사이트 1번 네임카드 url
 $card_name = str_replace("'","",$card_row['card_name']);
 $mem_sql = "select mem_code from Gn_Member where mem_id='{$card_row['mem_id']}'";
 $mem_res = mysqli_query($self_con,$mem_sql);
@@ -63,7 +63,7 @@ $card_url.=$mem_row['mem_code'];
 				$mem_sql = "select site_iam from Gn_Member where mem_id='{$_SESSION['one_member_id']}'";
 				$mem_res = mysqli_query($self_con,$mem_sql);
 				$mem_row = mysqli_fetch_array($mem_res);
-				$site = $mem_row[site_iam];
+				$site = $mem_row['site_iam'];
 				if($site){
 					if($site == "kiam")
 						$href = "http://www.kiam.kr/index.php";

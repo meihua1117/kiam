@@ -139,7 +139,7 @@ if ($user_id) {
             $recv_arr[$i] = $is_zero ? "0" . $num_arr[$i] : $num_arr[$i];
             $recv_arr[$i] = preg_replace("/[^0-9]/i", "", $recv_arr[$i]);
 
-            if (!check_cellno($recv_arr[$i])) { //기타 번호(폰번호아님) 모으기: $_POST[send_deny_wushi_2]
+            if (!check_cellno($recv_arr[$i])) { //기타 번호(폰번호아님) 모으기: $_POST['send_deny_wushi_2']
 
                 array_push($etc_arr, $num_arr[$i]);
                 if ($_POST['send_deny_wushi_2'])
@@ -157,7 +157,7 @@ if ($user_id) {
             $sql_deny = "select idx from Gn_MMS_Deny where recv_num = '$num_arr[$i]' and send_num = '$sendnum[0]'" . $search_str; //수신거부
             $resul_deny = mysqli_query($self_con,$sql_deny) or die(mysqli_error($self_con));
             $row_deny = mysqli_fetch_array($resul_deny);
-            if ($row_deny['idx']) { //수신 거부 번호 모으기 : $_POST[send_deny_wushi_3]
+            if ($row_deny['idx']) { //수신 거부 번호 모으기 : $_POST['send_deny_wushi_3']
                 array_push($deny_num, $num_arr[$i]);
                 //$num_arr[$i] = array_diff($num_arr[$i], $deny_num);//수신거부 번호 제외
                 if ($_POST['send_deny_wushi_3'])
@@ -167,18 +167,18 @@ if ($user_id) {
             $resul_etc = mysqli_query($self_con,$sql_etc);
             $row_etc = mysqli_fetch_array($resul_etc);
             if ($row_etc['seq']) {
-                if ($row_etc['msg_flag'] == 1) { //기타 번호 모으기 : $_POST[send_deny_wushi_2]
+                if ($row_etc['msg_flag'] == 1) { //기타 번호 모으기 : $_POST['send_deny_wushi_2']
                     array_push($etc_arr, $num_arr[$i]);
                     if ($_POST['send_deny_wushi_2'])
                         continue;
                 }
-                //else if($row_etc[msg_flag]==2)
-                //{//없는 번호 모으기 : $_POST[send_deny_wushi_1]
+                //else if($row_etc['msg_flag']==2)
+                //{//없는 번호 모으기 : $_POST['send_deny_wushi_1']
                 //	array_push($wrong_arr,$num_arr[$i]);
-                //	if($_POST[send_deny_wushi_1])
+                //	if($_POST['send_deny_wushi_1'])
                 //	continue;
                 //}
-                else if ($row_etc['msg_flag'] == 3) { //수신불가 번호 모으기 : $_POST[send_deny_wushi_0]
+                else if ($row_etc['msg_flag'] == 3) { //수신불가 번호 모으기 : $_POST['send_deny_wushi_0']
                     array_push($lose_arr, $num_arr[$i]);
                     if ($_POST['send_deny_wushi_0'])
                         continue;
@@ -632,7 +632,7 @@ if ($user_id) {
                 //새로 발송 가능 수신처 , $agency_arr는 rlatjd_fun.php에서 정의
                 $ssh_num_true[$j] = $monthly_receive_cnt_user - $used_ssh_cnt; //2016-03-10 수정
                 // Cooper Add 총 발송건수 체크 (선거 본인용) 수신처 무제한 변경 2016-04-04
-                if ($sendnum[$j] == str_replace("-", "", $member_info['mem_phone']) && ($member_info[mem_type] == "V")) {
+                if ($sendnum[$j] == str_replace("-", "", $member_info['mem_phone']) && ($member_info['mem_type'] == "V")) {
                     if ($telecom == "LG")
                         $ssh_num_true[$j] = 90000;
                     else
@@ -835,7 +835,7 @@ if ($user_id) {
                     /*	$mms_start_info['mem_id']=$user_id;
                     $mms_start_info['send_num']=$sendnum[$j];
                     $mms_start_info['recv_num']=$sendnum[$j];
-                    $mms_start_info[uni_id]=$reg."999";
+                    $mms_start_info['uni_id']=$reg."999";
                     $mms_start_info['content']="온리원문자 문자발송시작";
                     $mms_start_info['title']="온리원문자";
                     $sql_start="insert into Gn_MMS set ";
@@ -1077,7 +1077,7 @@ if ($user_id) {
             $sql = "insert into Gn_MMS_Message set "; //발송
             $message_info['mem_id'] = $user_id;
             $message_info['title'] = htmlspecialchars(str_replace("{|name|}", "{|REP|}", $_POST[send_title]));
-            $message_info[message] = htmlspecialchars(str_replace("{|name|}", "{|REP|}", $_POST[send_txt]));
+            $message_info['message'] = htmlspecialchars(str_replace("{|name|}", "{|REP|}", $_POST[send_txt]));
             $message_info[img] = $_POST[send_img];
             $message_info[img1] = $_POST[send_img1];
             $message_info[img2] = $_POST[send_img2];

@@ -182,7 +182,7 @@ function deleteRow(event_id) {
 								<option value="event_name_kor" <?if($search_key == "event_name_kor") echo "selected"?>>신청대상</option>
 								<option value="mobile" <?if($search_key == "mobile") echo "selected"?>>발송폰번호</option>    
 							</select>
-							<input type="text" name="search_text" placeholder="" id="search_text" value="<?=$_REQUEST[search_text]?>"/>
+							<input type="text" name="search_text" placeholder="" id="search_text" value="<?=$_REQUEST['search_text']?>"/>
 							<a href="javascript:pay_form.submit()"><img src="images/sub_mypage_11.jpg" /></a>
 							<div style="float:right;">
 								<div class="popup_holder"> <!--Parent-->
@@ -215,18 +215,18 @@ function deleteRow(event_id) {
 								</tr>
 								<?
 								$sql_serch=" m_id ='{$_SESSION['one_member_id']}' and event_name_kor!='단체회원자동가입및아이엠카드생성' AND event_name_kor!='콜백메시지관리자설정동의' AND event_name_kor!='데일리문자세트자동생성' ";
-								if($_REQUEST[search_date]){
+								if($_REQUEST['search_date']){
 									if($_REQUEST[rday1]){
 										$start_time=strtotime($_REQUEST[rday1]);
-										$sql_serch.=" and unix_timestamp({$_REQUEST[search_date]}) >=$start_time ";
+										$sql_serch.=" and unix_timestamp({$_REQUEST['search_date']}) >=$start_time ";
 									}
 									if($_REQUEST[rday2]){
 										$end_time=strtotime($_REQUEST[rday2]);
-										$sql_serch.=" and unix_timestamp({$_REQUEST[search_date]}) <= $end_time ";
+										$sql_serch.=" and unix_timestamp({$_REQUEST['search_date']}) <= $end_time ";
 									}
 								}
-								if($_REQUEST[search_key] && $_REQUEST[search_text]){
-									$sql_serch.=" AND $_REQUEST[search_key] LIKE '%".$search_text."%'";
+								if($_REQUEST['search_key'] && $_REQUEST['search_text']){
+									$sql_serch.=" AND {$_REQUEST['search_key']} LIKE '%".$search_text."%'";
 								}
 								$sql="select count(event_idx) as cnt from Gn_event where $sql_serch ";
 								$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));

@@ -111,7 +111,7 @@ function deleteRow(idx) {
                                         <div class="sub_4_3_t2_right_1">
                                             <div class="sub_4_3_t2_right_1_1">
                                                 <div class="msg_title" style="margin-bottom:2px;"><?=str_replace("{|REP|}", "{|name|}", $row['title'])?></div>
-                                                <div class="msg_content"><?=html_entity_decode( str_replace("{|REP|}", "{|name|}", $row[message]))?></div>
+                                                <div class="msg_content"><?=html_entity_decode( str_replace("{|REP|}", "{|name|}", $row['message']))?></div>
                                             </div>
                                             <div class="sub_4_3_t2_right_1_3"><label><input type="radio" name="ab" onclick="show_msg('<?=$i?>')" />사용시 선택</label>
                                                 <div class="sub_4_3_t2_right_1_3" style="float:right"><a href="javascript:deleteRow('<?=$row['idx']?>');">삭제</a></div>

@@ -102,7 +102,7 @@ exit;
 	$sql_result3 = "select uni_id from Gn_MMS where mem_id = '{$_SESSION['one_member_id']}' order by idx desc limit 1";
 	$res_result3 = mysqli_query($self_con,$sql_result3);
 	$row_result3 = mysqli_fetch_array($res_result3);
-	$uni_id=substr($row_result3[uni_id],0,10);
+	$uni_id=substr($row_result3['uni_id'],0,10);
 	mysqli_free_result($res_result3);
 	//마지막 발송 건수
 	$sql_result32 = "select SUM(recv_num_cnt) from Gn_MMS where mem_id = '{$_SESSION['one_member_id']}' and uni_id like '$uni_id%'";
@@ -518,7 +518,7 @@ function excel_down_personal(pno){
 										while($row=mysqli_fetch_array($result)){							
 											$idx = $row['idx'];
 											$memo = $row['memo'];
-											$memo2 = $row[memo2];
+											$memo2 = $row['memo2'];
 											$cnt1 = $row['cnt1'];
 											$cnt2 = $row['cnt2'];
 											$sendnum = $row[sendnum];
@@ -583,7 +583,7 @@ function excel_down_personal(pno){
 												<td class="name_input popbutton4"><input type="text" name="memo" value="<?=$memo?>" ></td>
 												<td class="sendnum"><?=$sendnum?></td>
 												<td class="com_select popbutton4"><span><?=$memo2?></span></td>
-												<td class="sky_td popbutton4"><span><?=$row[daily_min_cnt_user]."/".$row[daily_limit_cnt_user]?></span></td>
+												<td class="sky_td popbutton4"><span><?=$row[daily_min_cnt_user]."/".$row['daily_limit_cnt_user']?></span></td>
 												<!--<td class="sky_td popbutton4"><span><?=$send_person_cnt."/".$person_cnt?></span></td>-->
 												<td class="gre_td"><span><?=($send_donation_cnt + $send_person_cnt)."/".$total_cnt?></span></td>
 												<td class="gre_td"><span><?=$month_cnt_1?></span></td>

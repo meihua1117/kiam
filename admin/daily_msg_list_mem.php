@@ -173,18 +173,18 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                   ?>
                       <tr>
                             <td><input type="checkbox" class="check" id="check_one_member" name="" value="<?=$row['gd_id']?>">&nbsp;&nbsp;<?=$number--?></td>
-                            <td style="font-size:12px;"><?=$row[site]?></td>
+                            <td style="font-size:12px;"><?=$row['site']?></td>
                             <td style="font-size:12px;"><?=$row['mem_id']?></td>
                             <td style="font-size:12px;"><?=$row['mem_name']?></td>
                             <td style="font-size:12px;"><?=$row['title']?></td>
                             <td style="font-size:12px;"><?=$row['send_num']?></td>
-                            <td><?=$krow[grp]?></td>
+                            <td><?=$krow['grp']?></td>
                             <td><?=$row[total_count]?></td>
                             <td><?=$srow['cnt']?></td>
                             <td><?=$row[daily_cnt]?></td>
                             <td><?=$row[start_date]?></td>
                             <td><?=$row['end_date']?></td>
-                            <td><?=$row[reg_date]?></td>
+                            <td><?=$row['reg_date']?></td>
                             <td><a href="edit_daily_msg.php?type=mem&gd_id=<?=$row[gd_id]?>">수정</a>/<a href="javascript:delete_daily(<?=$row[gd_id]?>)">삭제</a></td>
                       </tr>
                     <?

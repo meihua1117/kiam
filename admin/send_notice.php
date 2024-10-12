@@ -524,7 +524,7 @@ foreach($memberList as $member) {
                 $sql="insert into Gn_MMS_Message set "; //발송
                 $message_info['mem_id']=$member['mem_id'];
                 $message_info['title']=htmlspecialchars(str_replace("{|name|}", "{|REP|}",$title));
-                $message_info[message]=htmlspecialchars(str_replace("{|name|}", "{|REP|}",$text));
+                $message_info['message']=htmlspecialchars(str_replace("{|name|}", "{|REP|}",$text));
                 $message_info[img]=$send_img;
                 $message_info[img1]=$send_img1;
                 $message_info[img2]=$send_img2;

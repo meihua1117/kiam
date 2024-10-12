@@ -239,7 +239,7 @@ a.sort-by:after {
               <form method="get" name="search_form" id="search_form">
               <div class="box-tools">
                 <div class="input-group" style="width: 300px;display:flex;">
-                  <input type="text" name="search_key" id="search_key" class="form-control input-sm pull-right" value="<?=$_REQUEST[search_key]?>" placeholder="타이틀/콘텐츠">
+                  <input type="text" name="search_key" id="search_key" class="form-control input-sm pull-right" value="<?=$_REQUEST['search_key']?>" placeholder="타이틀/콘텐츠">
                   <input type="text" name="mem_id" id="mem_id" class="form-control input-sm pull-right" value="<?=$_REQUEST['mem_id']?>" placeholder="아이디">
                   <!-- <input type="text" name="mem_site" id="mem_site" class="form-control input-sm pull-right" value="<?=$_REQUEST[mem_site]?>" placeholder="소속"> -->
                   <div class="input-group-btn">

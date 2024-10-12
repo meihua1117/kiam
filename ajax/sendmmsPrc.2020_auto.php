@@ -86,9 +86,9 @@ if(isset($_POST['auto'])){
         $cntAdj_log_arr=array(); //발송 가능 수 조절 저장
 
         $sendnum=$_POST[send_go_num];
-        $send_cnt=$_POST[send_go_user_cnt];
+        $send_cnt=$_POST['send_go_user_cnt'];
         $max_cnt_arr=$_POST[send_go_max_cnt];
-        $memo2_arr=$_POST[send_go_memo2];
+        $memo2_arr=$_POST['send_go_memo2'];
         $cnt1_arr=$_POST[send_go_cnt1];
         $cnt2_arr=$_POST[send_go_cnt2];
 
@@ -186,10 +186,10 @@ if(isset($_POST['auto'])){
             $recv_arr[$i] = preg_replace("/[^0-9]/i", "", $recv_arr[$i]);
 
             if(!check_cellno($recv_arr[$i]))
-            {//기타 번호(폰번호아님) 모으기: $_POST[send_deny_wushi_2]
+            {//기타 번호(폰번호아님) 모으기: $_POST['send_deny_wushi_2']
 
                 array_push($etc_arr,$num_arr[$i]);
-                if($_POST[send_deny_wushi_2])
+                if($_POST['send_deny_wushi_2'])
                 continue;
             }
             $num_arr[$i]=preg_replace("/[^0-9]/i","",$num_arr[$i]);
@@ -197,9 +197,9 @@ if(isset($_POST['auto'])){
             $resul_deny=mysqli_query($self_con,$sql_deny)or die(mysqli_error($self_con));
             $row_deny=mysqli_fetch_array($resul_deny);
             if($row_deny['idx'])
-            {//수신 거부 번호 모으기 : $_POST[send_deny_wushi_3]
+            {//수신 거부 번호 모으기 : $_POST['send_deny_wushi_3']
                 array_push($deny_num,$num_arr[$i]);
-                if($_POST[send_deny_wushi_3])
+                if($_POST['send_deny_wushi_3'])
                 continue;
             }
             $sql_etc="select seq,msg_flag from sm_log where mem_id = '$mem_id_mms' and ori_num='$num_arr[$i]' order by seq desc limit 0,1";
@@ -208,21 +208,21 @@ if(isset($_POST['auto'])){
             if($row_etc['seq'])
             {
                 if($row_etc['msg_flag']==1)
-                {//기타 번호 모으기 : $_POST[send_deny_wushi_2]
+                {//기타 번호 모으기 : $_POST['send_deny_wushi_2']
                     array_push($etc_arr,$num_arr[$i]);
-                    if($_POST[send_deny_wushi_2])
+                    if($_POST['send_deny_wushi_2'])
                     continue;
                 }
-                //else if($row_etc[msg_flag]==2)
-                //{//없는 번호 모으기 : $_POST[send_deny_wushi_1]
+                //else if($row_etc['msg_flag']==2)
+                //{//없는 번호 모으기 : $_POST['send_deny_wushi_1']
                 //	array_push($wrong_arr,$num_arr[$i]);
-                //	if($_POST[send_deny_wushi_1])
+                //	if($_POST['send_deny_wushi_1'])
                 //	continue;
                 //}
-                else if($row_etc[msg_flag]==3)
-                {//수신불가 번호 모으기 : $_POST[send_deny_wushi_0]
+                else if($row_etc['msg_flag']==3)
+                {//수신불가 번호 모으기 : $_POST['send_deny_wushi_0']
                     array_push($lose_arr,$num_arr[$i]);
-                    if($_POST[send_deny_wushi_0])
+                    if($_POST['send_deny_wushi_0'])
                     continue;
                 }
             }
@@ -258,7 +258,7 @@ if(isset($_POST['auto'])){
             $query = "select * from Gn_MMS_Number where mem_id='$mem_id_mms' and sendnum='".str_replace("-", "", $sendnum[$j])."'";
             $result = mysqli_query($self_con,$query);
             $info = mysqli_fetch_array($result);
-            if($info[memo2] != "") {
+            if($info['memo2'] != "") {
                 $telecom = $info['memo2'];
             }
             $daily_limit_cnt_user = $info['daily_limit_cnt_user'];
@@ -347,7 +347,7 @@ if(isset($_POST['auto'])){
             없으면 $num_arr_3 추가
         */
 
-        if($_POST[send_ssh_check] || $_POST[send_ssh_check2] || $_POST[send_ssh_check3])
+        if($_POST['send_ssh_check'] || $_POST['send_ssh_check2'] || $_POST['send_ssh_check3'])
         {
             foreach($num_arr as $key=>$v)
             {
@@ -363,22 +363,22 @@ if(isset($_POST['auto'])){
 
             unset($ssh_total_num);
 
-            if($_POST[send_ssh_check]){ //수신처 우선
+            if($_POST['send_ssh_check']){ //수신처 우선
                 $num_arr=array_merge($num_arr_2,$num_arr_3);
                 //$num_arr=array_merge($num_arr_3,$num_arr_2);  // Cooper 2016-04-26 순서 변경
                 //$ssh_num_true[$j] = count($num_arr_2);
                 $recv_exp_cnt = count($num_arr_2);
             }
-            if($_POST[send_ssh_check2]){ //수신처 제외
+            if($_POST['send_ssh_check2']){ //수신처 제외
                 $num_arr=$num_arr_3;
             }
-            if($_POST[send_ssh_check3]){ //수신처 전용
+            if($_POST['send_ssh_check3']){ //수신처 전용
                 $num_arr=$num_arr_2;
                 $ssh_num_true[$j] = count($num_arr_2);
                 $recv_exp_cnt = count($num_arr_2);
             }
 
-            if($_POST[send_ssh_check] || $_POST[send_ssh_check2] || $_POST[send_ssh_check3]){ //수신처 우선
+            if($_POST['send_ssh_check'] || $_POST['send_ssh_check2'] || $_POST['send_ssh_check3']){ //수신처 우선
                 $loop_check_num = 0; // 폰별 신규 배정된 번호 합
                 $loop_allocate_num = 0; // 폰별 배정된 번호 합
 
@@ -401,7 +401,7 @@ if(isset($_POST['auto'])){
                     $remain_array = array();
 
                     // 폰별 번호 배정
-                    if($_POST[send_ssh_check] ||  $_POST[send_ssh_check3]) {
+                    if($_POST['send_ssh_check'] ||  $_POST['send_ssh_check3']) {
                         $ssh_num=array(); //$ssh_num <= 중복없는 수신번호들
                         $sql_ssh="select recv_num from Gn_MMS where mem_id = '$mem_id_mms' and send_num='$sendnum[$j]' and result = '0' and reg_date like '$date_month%' group by(recv_num)";
                         $resul_ssh=mysqli_query($self_con,$sql_ssh);
@@ -447,7 +447,7 @@ if(isset($_POST['auto'])){
 
 
                     // Cooper Add 총 발송건수 체크 (선거 본인용) 수신처 무제한 변경 2016-04-04
-                    if($sendnum[$j] == str_replace("-", "", $member_info['mem_phone']) && $member_info[mem_type] == "V") {
+                    if($sendnum[$j] == str_replace("-", "", $member_info['mem_phone']) && $member_info['mem_type'] == "V") {
                         if($telecom == "LG")
                             $ssh_num_true[$j] = 90000;
                         else
@@ -509,7 +509,7 @@ if(isset($_POST['auto'])){
                     //if($info['cnt1'] >= 10) $allocation_cnt = 199;
                     if($info['cnt1'] >= 10) $allocation_cnt = $daily_min_cnt_user-1;
 
-                    if(!$_POST[send_ssh_check]) {
+                    if(!$_POST['send_ssh_check']) {
                         if($ssh_num_true[$j] <= $used_ssh_cnt) {
                             // 수신처 초과시 신규 배정 X
                             $allocation_cnt = 0;
@@ -533,7 +533,7 @@ if(isset($_POST['auto'])){
 
 
                      // STEP #4-1 폰별 신규 폰번호 발송 가능양에 따라 재분배
-                    if($_POST[send_ssh_check]) {
+                    if($_POST['send_ssh_check']) {
 
                         //if($allocation_cnt < ) // 발송건수가 오늘 발송 건수보다 작을 경우 수량을 더함
                         if(count($sendnum) == 1) {
@@ -569,7 +569,7 @@ if(isset($_POST['auto'])){
                             //echo "\n".$sendnum[$j]."====".count($send_num_list[$sendnum[$j]])."====".count($num_arr_3)."\n";
                         }
                     }
-                    if($_POST[send_ssh_check2]) {
+                    if($_POST['send_ssh_check2']) {
                         // 차이 만큼 신규 배정
 
                         if($loop_check_num < $allocation_cnt - count($send_num_list[$sendnum[$j]])) {
@@ -607,7 +607,7 @@ if(isset($_POST['auto'])){
 
                     //echo $sendnum[$j]."====".$user_cnt[$sendnum[$j]]." + ".count($send_num_list[$sendnum[$j]])."\n";
 
-                    if($_POST[send_ssh_check]) {
+                    if($_POST['send_ssh_check']) {
                         $sql_check_s="select no,status from tjd_mms_cnt_check where mem_id='$mem_id_mms' and sendnum='$sendnum[$j]' and date=curdate() ";
 
                         $resul_check_s=mysqli_query($self_con,$sql_check_s);
@@ -782,7 +782,7 @@ if(isset($_POST['auto'])){
                 //echo $ssh_num_true[$j]."\n";
 
                 // Cooper Add 총 발송건수 체크 (선거 본인용) 수신처 무제한 변경 2016-04-04
-                if($sendnum[$j] == str_replace("-", "", $member_info['mem_phone']) && $member_info[mem_type] == "V") {
+                if($sendnum[$j] == str_replace("-", "", $member_info['mem_phone']) && $member_info['mem_type'] == "V") {
                     if($telecom == "LG")
                         $ssh_num_true[$j] = 90000;
                     else
@@ -1029,7 +1029,7 @@ if(isset($_POST['auto'])){
 /*						$mms_start_info['mem_id']=$mem_id_mms;
                     $mms_start_info['send_num']=$sendnum[$j];
                     $mms_start_info['recv_num']=$sendnum[$j];
-                    $mms_start_info[uni_id]=$reg."999";
+                    $mms_start_info['uni_id']=$reg."999";
                     $mms_start_info['content']="온리원문자 문자발송시작";
                     $mms_start_info['title']="온리원문자";
                     $sql_start="insert into Gn_MMS set ";
@@ -1089,21 +1089,21 @@ if(isset($_POST['auto'])){
                     $mms_info['mem_id']=$mem_id_mms;
                     $mms_info['send_num']=$sendnum[$j];
                     $mms_info['recv_num']=$recv_str;
-                    $mms_info[uni_id]=$req;
+                    $mms_info['uni_id']=$req;
                     $mms_info['content']=addslashes(htmlspecialchars($_POST[send_txt]));
-                    $mms_info[jpg]=$img;
+                    $mms_info['jpg']=$img;
                     $mms_info[type]=$_POST[send_type];
                     $mms_info['title']=htmlspecialchars($_POST[send_title]);
                     $mms_info[delay]=$_POST[send_delay];
                     $mms_info[delay2]=$_POST[send_delay2];
                     $mms_info[close]=$_POST[send_close];
                     $mms_info[url]=$denv_url_str;
-                    $mms_info[jpg]=$_POST[send_img].$img;
-                    $mms_info[jpg1]=$_POST[send_img1].$img;
-                    $mms_info[jpg2]=$_POST[send_img2].$img;
+                    $mms_info['jpg']=$_POST[send_img].$img;
+                    $mms_info['jpg1']=$_POST[send_img1].$img;
+                    $mms_info['jpg2']=$_POST[send_img2].$img;
                     $mms_info['agreement_yn'] = $_POST['send_agreement_yn'];
                     if($reservation) //예약문자
-                        $mms_info[reservation]=$reservation;
+                        $mms_info['reservation']=$reservation;
                     $sql="insert into Gn_MMS set ";
                     foreach($mms_info as $key=>$v)
                          $sql.=" $key='$v' ,";
@@ -1213,7 +1213,7 @@ if(isset($_POST['auto'])){
             $sql="insert into Gn_MMS_Message set "; //발송
             $message_info['mem_id']=$mem_id_mms;
             $message_info['title']=htmlspecialchars(str_replace("{|name|}", "{|REP|}",$_POST[send_title]));
-            $message_info[message]=htmlspecialchars(str_replace("{|name|}", "{|REP|}",$_POST[send_txt]));
+            $message_info['message']=htmlspecialchars(str_replace("{|name|}", "{|REP|}",$_POST[send_txt]));
             $message_info[img]=$_POST[send_img];
             $message_info[img1]=$_POST[send_img1];
             $message_info[img2]=$_POST[send_img2];

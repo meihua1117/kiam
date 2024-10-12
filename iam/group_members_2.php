@@ -239,9 +239,9 @@ $now = date("Y-m-d");
                                     $card_result=mysqli_query($self_con,$card_sql) or die(mysqli_error($self_con));
                                     $card_row=mysqli_fetch_array($card_result);
                                     $friends_main_img = $row[profile];
-                                    $row[friends_url] = $card_row[card_short_url].$row['mem_code'];
+                                    $row[friends_url] = $card_row['card_short_url'].$row['mem_code'];
                                     if(!$friends_main_img) {
-                                        $friends_main_img = $card_row[main_img1];
+                                        $friends_main_img = $card_row['main_img1'];
                                         if(!$friends_main_img) {
                                             $friends_main_img = "img/profile_img.png";
                                         }
@@ -317,9 +317,9 @@ $now = date("Y-m-d");
                                     $card_result=mysqli_query($self_con,$card_sql) or die(mysqli_error($self_con));
                                     $card_row=mysqli_fetch_array($card_result);
                                     $friends_main_img = $row[profile];
-                                    $row[friends_url] = $card_row[card_short_url].$row['mem_code'];
+                                    $row[friends_url] = $card_row['card_short_url'].$row['mem_code'];
                                     if(!$friends_main_img) {
-                                        $friends_main_img = $card_row[main_img1];
+                                        $friends_main_img = $card_row['main_img1'];
                                         if(!$friends_main_img) {
                                             $friends_main_img = "img/profile_img.png";
                                         }
@@ -451,7 +451,7 @@ $now = date("Y-m-d");
         if(navCase.search("android") > -1){
             location.href = "sms:" + sms +
                 "<?echo (preg_match('/iPhone/',$_SERVER['HTTP_USER_AGENT']))?'&':'?';?>body="+
-                "<?=$G_card[card_name]?>님의 명함 <?=$G_card[card_company]?> <?=htmlspecialchars($G_card[card_position])?> <?=$G_card[card_phone]?> <?php echo $domainData['sub_domain'];?>/?<?=$G_card[card_short_url].$G_card['mem_code']?>";
+                "<?=$G_card['card_name']?>님의 명함 <?=$G_card['card_company']?> <?=htmlspecialchars($G_card['card_position'])?> <?=$G_card['card_phone']?> <?php echo $domainData['sub_domain'];?>/?<?=$G_card['card_short_url'].$G_card['mem_code']?>";
         }
         else{
             alert("휴대폰에서 이용해주세요.");

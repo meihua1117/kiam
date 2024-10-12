@@ -20,6 +20,6 @@ $sql_cnt = "select count(*) from Gn_MMS_Receive where grp_id='{$grp_id}' and mem
 $res_cnt = mysqli_query($self_con,$sql_cnt);
 $row_cnt = mysqli_fetch_array($res_cnt);
 
-echo json_encode(array("grp"=>$row_detail[grp], "count"=>$row_cnt[0]));
+echo json_encode(array("grp"=>$row_detail['grp'], "count"=>$row_cnt[0]));
 exit;
 ?>

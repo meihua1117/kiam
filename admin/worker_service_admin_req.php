@@ -181,7 +181,7 @@ $(function() {
                                     $totPriceRow = mysqli_fetch_row($res_result);
                                     $totPrice = $totPriceRow[0];
 
-                                    $cquery = "select count(*) from Gn_Iam_Contents where westory_card_url = "."'$row[card_short_url]'";
+                                    $cquery = "select count(*) from Gn_Iam_Contents where westory_card_url = "."'{$row['card_short_url']}'";
                                     $cresult = mysqli_query($self_con,$cquery);
                                     $crow = mysqli_fetch_array($cresult);
                                     
@@ -192,13 +192,13 @@ $(function() {
                                         $sql_card = "select card_title from Gn_Iam_Name_Card where mem_id='{$row['mem_id']}' order by idx asc";
                                         $res_card = mysqli_query($self_con,$sql_card);
                                         while($row_card = mysqli_fetch_array($res_card)){
-                                            if($row_card[card_title] == "업체보기"){
+                                            if($row_card['card_title'] == "업체보기"){
                                                 $card_arr[$index_card] = 1;
                                             }
-                                            if($row_card[card_title] == "메뉴보기"){
+                                            if($row_card['card_title'] == "메뉴보기"){
                                                 $card_arr[$index_card] = 2;
                                             }
-                                            if($row_card[card_title] == "리뷰보기"){
+                                            if($row_card['card_title'] == "리뷰보기"){
                                                 $card_arr[$index_card] = 3;
                                             }
                                             $index_card++;
@@ -216,7 +216,7 @@ $(function() {
                                     ?>
                                     <tr>
                                         <td><?=$number--?></td>
-                                        <td><?=$row[req_worker_id]?></td>
+                                        <td><?=$row['req_worker_id']?></td>
                                         <td>
                                             <div style="overflow-x:hidden;width:100px;">
                                                 <?=$row['mem_id']?>
@@ -229,7 +229,7 @@ $(function() {
                                         </td>
                                         <td>
                                             <div style="overflow-x:hidden;width:100px;">
-                                                <?=$row[card_name]?>
+                                                <?=$row['card_name']?>
                                             </div>
                                         </td>
                                         <!-- <td>
@@ -240,8 +240,8 @@ $(function() {
                                         <td>
                                             <div>
                                                 <?
-                                                if($row[main_img1]){
-                                                    $thumb_img =  $row[main_img1];
+                                                if($row['main_img1']){
+                                                    $thumb_img =  $row['main_img1'];
                                                 }else{
                                                     $thumb_img =  $default_img;
                                                 }
@@ -253,20 +253,20 @@ $(function() {
                                         </td>
                                         <td>
                                             <div style="overflow-x:hidden;width:100px;">
-                                                <?=$row[card_company]?>
+                                                <?=$row['card_company']?>
                                             </div>
                                         </td>
-                                        <td><?=$row[card_phone]?></td>
+                                        <td><?=$row['card_phone']?></td>
                                         <td>
                                             <div style="overflow-x:hidden;">
                                                 <?=$card_cnt?>
                                             </div>
                                         </td>
                                         <td><?=$totPrice?$totPrice:"0"?></td>
-                                        <td><?=$row[req_data]?></td>
+                                        <td><?=$row['req_data']?></td>
                                         <td><?=$crow[0]?></td>
-                                        <td><?=$row[iam_click]?></td>
-                                        <!-- <td><?=$row[req_worker_id]?></td> -->
+                                        <td><?=$row['iam_click']?></td>
+                                        <!-- <td><?=$row['req_worker_id']?></td> -->
                                         <td style="font-size:12px;">
                                             <label class="switch">
                                                 <input type="checkbox" class="chkclick" name="cardclick" id="card_click_<?=$row['idx'];?>_<?=$row['mem_id']?>" <?php echo $row['org_use_state']=="1"?"checked":"";?> >

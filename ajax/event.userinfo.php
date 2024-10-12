@@ -21,7 +21,7 @@ if($_SESSION['one_member_id']){
 
     $card_phone = str_replace("-", "", $card_phone);
 
-	// $profile_logo = $row[profile_logo];
+	// $profile_logo = $row['profile_logo'];
 
 	$card_phone_ = explode('-',$card_phone);
             echo "{";

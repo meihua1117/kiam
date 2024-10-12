@@ -38,9 +38,9 @@ if(strlen($_SESSION['one_member_id']) > 0) {
                   ->setCellValue("C$h",$row['recv_num'])
                   ->setCellValue("D$h",str_replace("=","-",$row['title']))
                   ->setCellValue("E$h",str_replace("=","-",$row['content']))
-                  ->setCellValue("F$h",$row[jpg])
+                  ->setCellValue("F$h",$row['jpg'])
                   ->setCellValue("G$h",$row['up_date'])
-                  ->setCellValue("H$h",$row[reg_date]);
+                  ->setCellValue("H$h",$row['reg_date']);
       	$h++;
       	$sort_no--;
       }

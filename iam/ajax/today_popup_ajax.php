@@ -51,26 +51,26 @@ if($_POST[type] == 'interval') {
             $card_res = mysqli_query($self_con,$card_sql);
             $card_row = mysqli_fetch_array($card_res);
             if($profile == "" || is_null($profile))
-                $profile = $card_row[main_img1];
+                $profile = $card_row['main_img1'];
             if($profile || is_null($profile))
                 $profile = "iam/img/profile_img.png";
-            $link = "http://".($mem_row[site_iam] == "kiam"?"kiam.kr?":$mem_row[site_iam].".kiam.kr?").$card_row[card_short_url].$mem_row['mem_code'];
+            $link = "http://".($mem_row['site_iam'] == "kiam"?"kiam.kr?":$mem_row['site_iam'].".kiam.kr?").$card_row['card_short_url'].$mem_row['mem_code'];
     
-            $time = date("Y-m-d H:i:s", strtotime($row[req_data]."-".$alarm_time." minutes"));
+            $time = date("Y-m-d H:i:s", strtotime($row['req_data']."-".$alarm_time." minutes"));
             $count_sql = "select count(*) from Gn_Iam_Contents where mem_id = '$mem_id' and req_data >= '$time'";
             $count_res = mysqli_query($self_con,$count_sql);
             $count_row = mysqli_fetch_array($count_res);
             $count = $count_row[0];
             if($count == 0)
                 $count = 1;
-            $card_name = mb_substr($card_row[card_name], 0, 4, "utf-8");
-            $card_company = explode("/", $card_row[card_company]);
+            $card_name = mb_substr($card_row['card_name'], 0, 4, "utf-8");
+            $card_company = explode("/", $card_row['card_company']);
             if ($card_company[1] != "")
                 $company = "(" . mb_substr($card_company[0], 0, 6, "utf-8") . "/" . mb_substr($card_company[1], 0, 6, "utf-8") . ")";
             else
                 $company = "(" . mb_substr($card_company[1], 0, 12, "utf-8") . ")";
             $card_name .= $company;
-            $name = $mem_row[site_iam] . "의 " . $card_name . "님의";
+            $name = $mem_row['site_iam'] . "의 " . $card_name . "님의";
             if (mb_strlen($name, "utf-8") > 15) {
                 $desc1 = mb_substr($name, 0, 15, "utf-8");
                 $desc2 = mb_substr($name, 15, 3, "utf-8").(mb_strlen($name, "utf-8") > 18 ? ")":"")." 콘텐츠가 " . $count . "개 올라왔습니다.";
@@ -95,7 +95,7 @@ if($_POST[type] == 'interval') {
     $result = array();
     while($row = mysqli_fetch_array($res)) {
         $mem_id = $row['mem_id'];
-        $profile = $row[main_img1];
+        $profile = $row['main_img1'];
         if ($mem_id == "")
             continue;
         $mem_sql = "select mem_code,mem_name,site_iam,profile from Gn_Member where mem_id='$mem_id'";
@@ -105,15 +105,15 @@ if($_POST[type] == 'interval') {
             $profile = $mem_row[profile];
         if($profile || is_null($profile))
             $profile = "img/profile_img.png";
-        $card_name = mb_substr($row[card_name], 0, 4, "utf-8");
-        $card_company = explode("/", $row[card_company]);
+        $card_name = mb_substr($row['card_name'], 0, 4, "utf-8");
+        $card_company = explode("/", $row['card_company']);
         if ($card_company[1] != "")
             $company = "(" . mb_substr($card_company[0], 0, 6, "utf-8") . "/" . mb_substr($card_company[1], 0, 6, "utf-8") . ")";
         else
             $company = "(" . mb_substr($card_company[0], 0, 12, "utf-8") . ")";
         $card_name .= $company;
-        $link = "http://" . ($mem_row[site_iam] == "kiam" ? "kiam.kr?" : $mem_row[site_iam] . ".kiam.kr?") . $row[card_short_url] . $mem_row['mem_code'];
-        $name = $mem_row[site_iam] . "의 " . $card_name . "님의";
+        $link = "http://" . ($mem_row['site_iam'] == "kiam" ? "kiam.kr?" : $mem_row['site_iam'] . ".kiam.kr?") . $row['card_short_url'] . $mem_row['mem_code'];
+        $name = $mem_row['site_iam'] . "의 " . $card_name . "님의";
         if (mb_strlen($name, "utf-8") > 15) {
             $name1 = mb_substr($name, 0, 15, "utf-8");
             $name2 = mb_substr($name, 15, 9, "utf-8").(mb_strlen($name, "utf-8") > 24 ? ")":"")." 카드보러 가기";

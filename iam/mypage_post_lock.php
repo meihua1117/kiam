@@ -154,7 +154,7 @@ td {
                                             <td><?=$row['mem_name']?></td>
                                             <td><?=$row['mem_id']?></td>
                                             <td><?=$row['content']?></td>
-                                            <td style="font-size:11px;"><?=$row[reg_date]?></td>
+                                            <td style="font-size:11px;"><?=$row['reg_date']?></td>
                                             <td style="font-size:11px;">
                                                 <button type="button" class="btn btn-primary" style="position: relative; right: 1px; padding: 9px 12px" onclick="unlock_post('<?=$row['id']?>');">해제</button>
                                             </td>

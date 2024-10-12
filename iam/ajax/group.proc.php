@@ -11,7 +11,7 @@ if(!$method) {
     $group_res = mysqli_query($self_con,$group_sql);
     $group_count = mysqli_num_rows($group_res);
     $group_row = mysqli_fetch_array($group_res);
-    $group = "location.href = '?".$group_row[card_short_url].$group_row['mem_code']."&cur_win=group-con&gkind=".$group_row[group_id]."'";
+    $group = "location.href = '?".$group_row['card_short_url'].$group_row['mem_code']."&cur_win=group-con&gkind=".$group_row['group_id']."'";
     if($group_count > 0){
         echo json_encode(array("group"=>$group));
     }else{
@@ -37,9 +37,9 @@ if(!$method) {
                                             up_Data=now(),
                                             card_title = '$gTitle',
                                             card_name = '$gTitle',
-                                            main_img1 = '$row[main_img1]',
-                                            main_img2 = '$row[main_img2]',
-                                            main_img3 = '$row[main_img3]',
+                                            main_img1 = '{$row['main_img1']}',
+                                            main_img2 = '{$row['main_img2']}',
+                                            main_img3 = '{$row['main_img3']}',
                                             card_short_url = '$short_url'
                                             ";
     mysqli_query($self_con,$sql);
@@ -78,22 +78,22 @@ if(!$method) {
     $sql = "select group_id from gn_group_member where mem_id='{$_SESSION['iam_member_id']}'";
     $res = mysqli_query($self_con,$sql);
     while($row = mysqli_fetch_array($res)){
-        $group_id = $row[group_id];
+        $group_id = $row['group_id'];
         $g_card_sql = "select main_img1,g.name,card_short_url from Gn_Iam_Name_Card c inner join gn_group_info g on c.idx=g.card_idx where g.idx='$group_id'";
         $g_card_res = mysqli_query($self_con,$g_card_sql);
         $g_card_row = mysqli_fetch_array($g_card_res);
-        $main_link = $g_card_row[card_short_url].$mem_code;
-        $img = $g_card_row[main_img1];
+        $main_link = $g_card_row['card_short_url'].$mem_code;
+        $img = $g_card_row['main_img1'];
         $title = $g_card_row['name'];
         $card_array = array();
         $g_card_sql = "select card_short_url,mem_code,card_title from Gn_Iam_Name_Card c inner join Gn_Member m on c.mem_id=m.mem_id where c.group_id='$group_id' and c.phone_display = 'Y'";
         $g_card_res = mysqli_query($self_con,$g_card_sql);
         $i = 1;
         while($g_card_row = mysqli_fetch_array($g_card_res)){
-            $card_title = $g_card_row[card_title];
+            $card_title = $g_card_row['card_title'];
             if($card_title == "")
                $card_title = $i."번 카드";
-            $card = array("card_title"=>$card_title,"card_link"=>$g_card_row[card_short_url].$g_card_row['mem_code']);
+            $card = array("card_title"=>$card_title,"card_link"=>$g_card_row['card_short_url'].$g_card_row['mem_code']);
             array_push($card_array,$card);
             $i++;
         }
@@ -211,7 +211,7 @@ if(!$method) {
                         "<td class=\"iam_table\">".$row["mem_id"]."</td>".
                         "<td class=\"iam_table\">".
                             "<a href='/iam/contents.php?contents_idx={$row['idx']}' target='_blank'>".
-                                "<img src='$row[contents_img]'>".
+                                "<img src='{$row['contents_img']}'>".
                             "</a>".
                         "</td>".
                         "<td class=\"iam_table\">".
@@ -248,7 +248,7 @@ if(!$method) {
         mysqli_query($self_con,$sql);
         echo json_encode(array("result"=>"성공적으로 고정되었습니다."));
     }else{
-        $sql = "update Gn_Iam_Contents set group_fix = group_fix - 1 where group_id = $row[group_id] and group_fix > {$row['group_fix']}";
+        $sql = "update Gn_Iam_Contents set group_fix = group_fix - 1 where group_id = {$row['group_id']} and group_fix > {$row['group_fix']}";
         mysqli_query($self_con,$sql);
 
         $sql = "update Gn_Iam_Contents set group_fix = 0 where idx = $group_id";

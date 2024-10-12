@@ -14,14 +14,14 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/db_config.php";
 /*$sql = "select card_short_url, phone_display from Gn_Iam_Name_Card where 1=1";
 $result  = mysqli_query($self_con,$sql);
 while($row = mysqli_fetch_array($result)) {
-    echo $row[card_short_url]."|" .$row[phone_display].'<br>';
-    $query = "update Gn_Iam_Contents set public_display = '$row[phone_display]'  where westory_card_url = '$row[card_short_url]'";
+    echo $row['card_short_url']."|" .$row[phone_display].'<br>';
+    $query = "update Gn_Iam_Contents set public_display = '$row[phone_display]'  where westory_card_url = '{$row['card_short_url']}'";
     mysqli_query($self_con,$query);
 }*/
 /*$sql = "select idx,card_short_url,phone_display from Gn_Iam_Name_Card where 1=1";
 $result  = mysqli_query($self_con,$sql);
 while($row = mysqli_fetch_array($result)) {
-    $query = "update Gn_Iam_Contents set card_idx = $row['idx'],public_display = '$row[phone_display]'  where westory_card_url = '$row[card_short_url]'";
+    $query = "update Gn_Iam_Contents set card_idx = $row['idx'],public_display = '$row[phone_display]'  where westory_card_url = '{$row['card_short_url']}'";
     echo $query.'<br>';
     mysqli_query($self_con,$query);
 }*/

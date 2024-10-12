@@ -263,16 +263,16 @@ $(function() {
                       $mng_price = $row[send_provide_price] * 1 - $row[prod_manufact_price] * 1;
                     }
 
-                    if(strpos($row[contents_img], ",") !== false){
-                      $img_link_arr = explode(",", $row[contents_img]);
+                    if(strpos($row['contents_img'], ",") !== false){
+                      $img_link_arr = explode(",", $row['contents_img']);
                       $img_link = trim($img_link_arr[0]);
                     }
                     else{
-                      $img_link = $row[contents_img];
+                      $img_link = $row['contents_img'];
                     }
 
                     if(!$row[prod_sehu_price]){
-                      $sehu_price = $row[contents_sell_price] * 1 - ceil($row[contents_sell_price] * 1 * 0.1) - ceil($row[contents_sell_price] * 1 * 0.03);
+                      $sehu_price = $row['contents_sell_price'] * 1 - ceil($row['contents_sell_price'] * 1 * 0.1) - ceil($row['contents_sell_price'] * 1 * 0.03);
                     }
                     else{
                       $sehu_price = $row[prod_sehu_price];
@@ -304,16 +304,16 @@ $(function() {
                             <img class="zoom" src="<?=$img_link?>" style="width:50px;"> 
                             </a>
                         </td>
-                        <td><?=$row[contents_title]?></td>
-                        <td><?=$row[card_title]?></td>
+                        <td><?=$row['contents_title']?></td>
+                        <td><?=$row['card_title']?></td>
                         <td><?=$row[product_seperate]?></td>
-                        <td><?=$row[contents_price]?></td>
-                        <td><?=$row[contents_sell_price]?></td>
+                        <td><?=$row['contents_price']?></td>
+                        <td><?=$row['contents_sell_price']?></td>
                         <td><input type="number" name="sehu_price_<?=$row['idx']?>" value="<?=$sehu_price?>" style="width:65px;font-size: 11px;"><button onclick="save_sehu_price('<?=$row['idx']?>');return false;" style="font-size: 11px;color: white;background-color: black;padding: 0px 5px;">저장</button></td>
                         <td><?=$row[send_provide_price]?></td>
                         <td><?=$row[prod_manufact_price]?></td>
                         <td><input type="number" name="manage_price_<?=$mem_row['mem_code']?>" value="<?=$mng_price?>" style="width:65px;font-size: 11px;"><button onclick="save_manage_price('<?=$mem_row['mem_code']?>');return false;" style="font-size: 11px;color: white;background-color: black;padding: 0px 5px;">저장</button></td>
-                        <td><?=$row[up_data]?></td>
+                        <td><?=$row['up_data']?></td>
                         <td><a href="card_contents_detail_list.php?idx=<?=$row['idx']?>&provider=Y">수정</a></td>
                       </tr>
                   <?

@@ -27,8 +27,8 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
    <tr>
       <td> <?=$data['idx']?>
       <td> <?=$data['mem_id']?>
-      <td> <?=$data[card_name]?>
-      <td> <?=$data[card_phone]?>
+      <td> <?=$data['card_name']?>
+      <td> <?=$data['card_phone']?>
    </tr>
 <?
 }

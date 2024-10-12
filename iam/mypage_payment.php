@@ -7,14 +7,14 @@ $sql_serch=" buyer_id ='{$_SESSION['iam_member_id']}' ";
 //$sql_serch.=" and (iam_pay_type !='' and iam_pay_type !='0') ";
 $content_sql_serch = " buyer_id ='{$_SESSION['iam_member_id']}' and (point_val=0 or (point_val=1 and point_percent!='' and type='use'))";
 $point_sql_serch = " buyer_id ='{$_SESSION['iam_member_id']}' and ((point_val=1 and point_percent is null) or (point_val=2 and receive_state=1)) and pay_status='Y'";
-if($_REQUEST[search_date]){
+if($_REQUEST['search_date']){
     if($_REQUEST[rday1]){
         $start_time=strtotime($_REQUEST[rday1]);
-        $sql_serch.=" and unix_timestamp({$_REQUEST[search_date]}) >=$start_time ";
+        $sql_serch.=" and unix_timestamp({$_REQUEST['search_date']}) >=$start_time ";
     }
     if($_REQUEST[rday2]){
         $end_time=strtotime($_REQUEST[rday2]);
-        $sql_serch.=" and unix_timestamp({$_REQUEST[search_date]}) <= $end_time ";
+        $sql_serch.=" and unix_timestamp({$_REQUEST['search_date']}) <= $end_time ";
     }
 }
 
@@ -260,14 +260,14 @@ $mid = date("YmdHis").rand(10,99);
                 <div class="p1">
                     <select name="search_date" class="form-sort" id="platform_payment">
                         <option value="all">전체보기</option>
-                        <option value="date" <? if($_REQUEST[search_date] == 'date') { echo ' selected';}?>>결제일</option>
-                        <option value="end_date" <? if($_REQUEST[search_date] == 'end_date') { echo ' selected';}?>>만료일</option>
+                        <option value="date" <? if($_REQUEST['search_date'] == 'date') { echo ' selected';}?>>결제일</option>
+                        <option value="end_date" <? if($_REQUEST['search_date'] == 'end_date') { echo ' selected';}?>>만료일</option>
                     </select>
 <!--                            <a href="mypage_payment.php" class="a_btn_2">전체보기</a>-->
                     <!-- <?
                     $search_date=array("date"=>"결제일","end_date"=>"만료(해지)일");
                     foreach($search_date as $key=>$v){
-                        $checked=$_REQUEST[search_date]==$key?"checked":"";
+                        $checked=$_REQUEST['search_date']==$key?"checked":"";
                         ?>
                         <label><input name="search_date" type="radio" value="<?=$key?>" <?=$checked?> /><?=$v?></label>
                     <?

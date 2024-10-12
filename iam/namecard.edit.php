@@ -4,25 +4,25 @@ $card_idx = $_GET['card_num'];
 $sql="select * from Gn_Iam_Name_Card where idx = '$card_idx' and mem_id = '{$_SESSION['iam_member_id']}'";
 $result=mysqli_query($self_con,$sql);
 $row=mysqli_fetch_array($result);
-$card_link = $row[card_short_url];
-$card_title = $row[card_title];
-$card_name = $row[card_name];
-$card_company = $row[card_company];
-$card_position = $row[card_position];
-$card_phone = $row[card_phone];
-$card_email = $row[card_email];
-$card_addr = $row[card_addr];
-$card_map = $row[card_map];
-$card_keyword = $row[card_keyword];
+$card_link = $row['card_short_url'];
+$card_title = $row['card_title'];
+$card_name = $row['card_name'];
+$card_company = $row['card_company'];
+$card_position = $row['card_position'];
+$card_phone = $row['card_phone'];
+$card_email = $row['card_email'];
+$card_addr = $row['card_addr'];
+$card_map = $row['card_map'];
+$card_keyword = $row['card_keyword'];
 $next_iam_link = $row[next_iam_link];
-$profile_logo = $row[profile_logo];
+$profile_logo = $row['profile_logo'];
 
-$story_online1_text = $row[story_online1_text];
-$story_online2_text = $row[story_online2_text];
-$story_online1 = $row[story_online1];
-$online1_check = $row[online1_check];
-$story_online2 = $row[story_online2];
-$online2_check = $row[online2_check];
+$story_online1_text = $row['story_online1_text'];
+$story_online2_text = $row['story_online2_text'];
+$story_online1 = $row['story_online1'];
+$online1_check = $row['online1_check'];
+$story_online2 = $row['story_online2'];
+$online2_check = $row['online2_check'];
 //$card_phone_ = explode('-',$card_phone);
 $sql="select mem_name, zy, mem_phone, mem_email, mem_add1,mem_code from Gn_Member where mem_id = '{$_SESSION['iam_member_id']}'";
 $result=mysqli_query($self_con,$sql);
@@ -33,13 +33,13 @@ if($member == 'on') {
 	$card_name = $row['mem_name'];
     if($row[zy])
 	    $card_company = $row[zy];
-	// $card_position = $row[card_position];
+	// $card_position = $row['card_position'];
 	$card_phone = $row['mem_phone'];
     if($row['mem_email'])
 	    $card_email = $row['mem_email'];
     if($row[mem_add1])
 	    $card_addr = $row[mem_add1];
-	// $profile_logo = $row[profile_logo];
+	// $profile_logo = $row['profile_logo'];
 	//$card_phone_ = explode('-',$card_phone);
 }
 $card_email_array = explode('@',$card_email);

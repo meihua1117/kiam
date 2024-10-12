@@ -48,7 +48,7 @@ if(strlen($_SESSION['one_member_id']) > 0) {
                   ->setCellValue("E$h",$row[ori_num])
                   ->setCellValue("F$h",$row[chg_num])
                   ->setCellValue("G$h",$row[grp_name])			
-                  ->setCellValue("H$h",$msg_flag_arr[$row[msg_flag]]);
+                  ->setCellValue("H$h",$msg_flag_arr[$row['msg_flag']]);
       	$h++;
       	$sort_no--;
       }

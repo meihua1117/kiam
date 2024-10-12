@@ -19,7 +19,7 @@ include "inc/header.inc.php";
     <!--오픈그래프 (웹페이지 미리보기 -페이스북, 카카오톡)-->
     <meta property="og:title" content="아이엠으로 나를 브랜딩하기">
     <!--제목-->
-    <meta property="og:description" content="<?=$G_card[card_name]?>님의 명함 <?=$G_card[card_company]?> <?=$G_card[card_position]?>">
+    <meta property="og:description" content="<?=$G_card['card_name']?>님의 명함 <?=$G_card['card_company']?> <?=$G_card['card_position']?>">
     <!--내용-->
     <meta property="og:image" content="<?=$main_img1?>">
     <!--이미지-->
@@ -249,13 +249,13 @@ if($platform == "mobile"){
         $('.daily_popup').css('display', 'block');
         var iam_link = "";
         if(share_kind == 0) {
-            iam_link = "daily_write_iam.php?msg=" + '<?=$G_card[card_name]?>' + "님의 명함입니다.  " +
-            "<?=$G_card[card_company].'<br>'.$G_card[card_position].'<br>'.$G_card[card_phone].'<br>'.$domainData['sub_domain'].'/?'.$G_card[card_short_url]?>" +
+            iam_link = "daily_write_iam.php?msg=" + '<?=$G_card['card_name']?>' + "님의 명함입니다.  " +
+            "<?=$G_card['card_company'].'<br>'.$G_card['card_position'].'<br>'.$G_card['card_phone'].'<br>'.$domainData['sub_domain'].'/?'.$G_card['card_short_url']?>" +
             " 모바일 명함을 새로 만들었습니다. 휴대폰에 저장부탁해요. 혹시 명함 만들면 저에게도 보내주시구요. 감사합니다. ";
         }
         else if(share_kind == 1) {
-            iam_link = "daily_write_iam.php?msg=" + '<?=$G_card[card_name]?>' + "님의 명함입니다.  " +
-            '<?=$G_card[card_company]?> ' + ' <?=$G_card[card_position]?> ' + ' <?=$G_card[card_phone]?> ' + '<?=$domainData['sub_domain']."/?mem_code=".$all_card_row['mem_code']?>' +
+            iam_link = "daily_write_iam.php?msg=" + '<?=$G_card['card_name']?>' + "님의 명함입니다.  " +
+            '<?=$G_card['card_company']?> ' + ' <?=$G_card['card_position']?> ' + ' <?=$G_card['card_phone']?> ' + '<?=$domainData['sub_domain']."/?mem_code=".$all_card_row['mem_code']?>' +
             " 모바일 명함을 새로 만들었습니다. 휴대폰에 저장부탁해요. 혹시 명함 만들면 저에게도 보내주시구요. 감사합니다. ";
         }
         //location = iam_link;
@@ -265,9 +265,9 @@ if($platform == "mobile"){
         $("#sns-modalwindow").modal("hide");
         var iam_link = "";
         if(share_kind == 0)
-            iam_link = '<?=$G_card[card_name]?>님의 명함 <?=$G_card[card_company]?> <?=$G_card[card_position]?> <?=$G_card[card_phone]?> <?php echo $domainData['sub_domain'];?>/?<?=$G_card[card_short_url]?>';
+            iam_link = '<?=$G_card['card_name']?>님의 명함 <?=$G_card['card_company']?> <?=$G_card['card_position']?> <?=$G_card['card_phone']?> <?php echo $domainData['sub_domain'];?>/?<?=$G_card['card_short_url']?>';
         else
-            iam_link = '<?=$G_card[card_name]?>님의 명함 <?=$G_card[card_company]?> <?=$G_card[card_position]?> <?=$G_card[card_phone]?> <?=$domainData['sub_domain']."/?mem_code=".$all_card_row['mem_code']?>';
+            iam_link = '<?=$G_card['card_name']?>님의 명함 <?=$G_card['card_company']?> <?=$G_card['card_position']?> <?=$G_card['card_phone']?> <?=$domainData['sub_domain']."/?mem_code=".$all_card_row['mem_code']?>';
         iam_sms(iam_link);
     }
     function iam_sms(url) {
@@ -299,7 +299,7 @@ if($platform == "mobile"){
     function shareKakaotalk() {
         var iam_link = "";
         if(share_kind == 0)
-            iam_link = '<?=$domainData['sub_domain'];?>/?<?=$G_card[card_short_url]?>';
+            iam_link = '<?=$domainData['sub_domain'];?>/?<?=$G_card['card_short_url']?>';
         else
             iam_link = '<?=$domainData['sub_domain']."/?mem_code=".$all_card_row['mem_code']?>';
         iam_count('iam_kakao');
@@ -308,7 +308,7 @@ if($platform == "mobile"){
                 objectType: "feed",
                 content: {
                     title: "아이엠으로 나를 브랜딩하기", // 콘텐츠의 타이틀
-                    description: "<?=$G_card[card_name]?>/<?=$G_card[card_company]?>/<?=$G_card[card_position]?>/<?=$G_card[card_phone]?>", // 콘텐츠 상세설명
+                    description: "<?=$G_card['card_name']?>/<?=$G_card['card_company']?>/<?=$G_card['card_position']?>/<?=$G_card['card_phone']?>", // 콘텐츠 상세설명
                     imageUrl: "<?=$main_img1?>", // 썸네일 이미지
                     link: {
                         mobileWebUrl: iam_link, // 모바일 카카오톡에서 사용하는 웹 링크 URL
@@ -334,10 +334,10 @@ if($platform == "mobile"){
         $("#sns-modalwindow").modal("hide");
         var iam_link = "";
         if(share_kind == 0)
-            iam_link = '<?=$domainData['sub_domain'];?>/?<?=$G_card[card_short_url]?>';
+            iam_link = '<?=$domainData['sub_domain'];?>/?<?=$G_card['card_short_url']?>';
         else
             iam_link = '<?=$domainData['sub_domain']."/?mem_code=".$all_card_row['mem_code']?>';
-        shareFaceBook('<?=$G_card[card_name]?>님의 명함 <?=$G_card[card_company]?> <?=$G_card[card_position]?>', iam_link);
+        shareFaceBook('<?=$G_card['card_name']?>님의 명함 <?=$G_card['card_company']?> <?=$G_card['card_position']?>', iam_link);
     }
     function shareFaceBook(desc, url) {
         var text = encodeURIComponent(desc);
@@ -380,14 +380,14 @@ if($platform == "mobile"){
         iam_count('iam_share');
         var iam_link = "";
         if(share_kind == 0)
-            iam_link = '<?=$domainData['sub_domain'];?>/?<?=$G_card[card_short_url]?>';
+            iam_link = '<?=$domainData['sub_domain'];?>/?<?=$G_card['card_short_url']?>';
         else
             iam_link = '<?=$domainData['sub_domain']."/?mem_code=".$all_card_row['mem_code']?>';
         // 글을 쓸 수 있는 란을 만든다.
         var aux = document.createElement("input");
         // 지정된 요소의 값을 할당 한다.
         aux.setAttribute("value",
-            "<?=$G_card[card_name]?>님의 명함 <?=$G_card[card_company]?> <?=$G_card[card_position]?> <?=$G_card[card_phone]?> "+iam_link
+            "<?=$G_card['card_name']?>님의 명함 <?=$G_card['card_company']?> <?=$G_card['card_position']?> <?=$G_card['card_phone']?> "+iam_link
         );
         // bdy에 추가한다.
         document.body.appendChild(aux);

@@ -144,7 +144,7 @@ foreach($cont_array as $row6){
     $friend_row=mysqli_fetch_array($friend_result);
     $friends_main_img = $friend_row[profile];
     if(!$friends_main_img) {
-        $friends_main_img = $diplay_row[main_img1];
+        $friends_main_img = $diplay_row['main_img1'];
         if(!$friends_main_img) {
             $friends_main_img = "/iam/img/profile_img.png";
         }

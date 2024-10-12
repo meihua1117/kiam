@@ -91,7 +91,7 @@ function copyHtml(url){
                 <select name="search_key" class="select">
                     <option value="">전체</option>
                 </select>
-                <input type="text" name="search_text" placeholder="" id="search_text" value="<?=$_REQUEST[search_text]?>"/> 
+                <input type="text" name="search_text" placeholder="" id="search_text" value="<?=$_REQUEST['search_text']?>"/> 
                 <a href="javascript:void(0)" onclick="pay_form.submit()"><img src="images/sub_mypage_11.jpg" /></a>                                            
                 <div style="float:right;">
                 </div>                
@@ -110,22 +110,22 @@ function copyHtml(url){
               <?
 
 				$sql_serch=" m_id ='{$_SESSION['one_member_id']}' ";
-				if($_REQUEST[search_date])
+				if($_REQUEST['search_date'])
 				{					
 					if($_REQUEST[rday1])
 					{
 					$start_time=strtotime($_REQUEST[rday1]);
-					$sql_serch.=" and unix_timestamp({$_REQUEST[search_date]}) >=$start_time ";
+					$sql_serch.=" and unix_timestamp({$_REQUEST['search_date']}) >=$start_time ";
 					}
 					if($_REQUEST[rday2])
 					{
 					$end_time=strtotime($_REQUEST[rday2]);
-					$sql_serch.=" and unix_timestamp({$_REQUEST[search_date]}) <= $end_time ";
+					$sql_serch.=" and unix_timestamp({$_REQUEST['search_date']}) <= $end_time ";
 					}
 				}
 				$sql_serch=" mem_id ='{$_SESSION['one_member_id']}' ";
-				if($_REQUEST[group_name])
-				$sql_serch.=" and grp like '%$_REQUEST[group_name]%' ";
+				if($_REQUEST['group_name'])
+				$sql_serch.=" and grp like '%{$_REQUEST['group_name']}%' ";
 				$sql="select count(idx) as cnt from Gn_MMS_Group where $sql_serch ";
 				$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 				$row=mysqli_fetch_array($result);
@@ -189,11 +189,11 @@ function copyHtml(url){
               <tr>
                 <td><?=$sort_no?></td>
 
-                <td style="font-size:12px;"><?=str_substr($row[grp],0,20,"utf-8")?></td>
-                <td style="font-size:12px;"><?=substr($row[reg_date],2,9)?></td>
+                <td style="font-size:12px;"><?=str_substr($row['grp'],0,20,"utf-8")?></td>
+                <td style="font-size:12px;"><?=substr($row['reg_date'],2,9)?></td>
                 <td><?=$srow['cnt']?></td>
                 <td>
-                    <a href="javascript:;;" onclick="useIt('<?=str_substr($row[grp],0,20,"utf-8");?>','<?=$row['idx']?>','<?=$srow['cnt']?>')">사용하기</a>
+                    <a href="javascript:;;" onclick="useIt('<?=str_substr($row['grp'],0,20,"utf-8");?>','<?=$row['idx']?>','<?=$srow['cnt']?>')">사용하기</a>
                 </td>                                                
               </tr>
               <?

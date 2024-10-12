@@ -85,9 +85,9 @@ if($mode == "creat") {
             $short_url = generateRandomString();
             $sql = "insert into Gn_Iam_Name_Card (mem_id, card_title, card_short_url, card_name, card_company, card_position, card_phone, card_email, card_addr, card_map, card_keyword, profile_logo, favorite, story_title4, story_online1_text," .
                 "story_online1, online1_check, story_online2_text, story_online2, online2_check,iam_click,req_data,main_img1,main_img2,main_img3,story_title1,story_title2,story_title3,story_myinfo,story_company,story_career,next_iam_link)" .
-                "values (\"$mem_id\", \"$card_title\", \"$short_url\", \"$row[card_name]\", \"$row[card_company]\", \"$row[card_position]\", \"$row[card_phone]\", \"$row[card_email]\", \"$row[card_addr]\", \"$row[card_map]\", \"$row[card_keyword]\",".
-                " \"$row[profile_logo]\", 0, \"$row[story_title4]\",\"$row[story_online1_text]\",\"$row[story_online1]\", \"$row[online1_check]\", \"$row[story_online2_text]\", \"$row[story_online2]\", \"$row[online2_check]\", 0, now(),".
-                "\"$row[main_img1]\",\"$row[main_img2]\",\"$row[main_img3]\",\"$row[story_title1]\",\"$row[story_title2]\",\"$row[story_title3]\",\"$row[story_myinfo]\",\"$row[story_company]\",\"$row[story_career]\",\"$link\")";
+                "values (\"$mem_id\", \"$card_title\", \"$short_url\", \"{$row['card_name']}\", \"{$row['card_company']}\", \"{$row['card_position']}\", \"{$row['card_phone']}\", \"{$row['card_email']}\", \"{$row['card_addr']}\", \"{$row['card_map']}\", \"{$row['card_keyword']}\",".
+                "\"{$row['profile_logo']}\", 0, \"{$row['story_title4']}\",\"{$row['story_online1_text']}\",\"{$row['story_online1']}\", \"{$row['online1_check']}\", \"{$row['story_online2_text']}\", \"{$row['story_online2']}\", \"{$row['online2_check']}\", 0, now(),".
+                "\"{$row['main_img1']}\",\"{$row['main_img2']}\",\"{$row['main_img3']}\",\"{$row['story_title1']}\",\"{$row['story_title2']}\",\"{$row['story_title3']}\",\"{$row['story_myinfo']}\",\"{$row['story_company']}\",\"{$row['story_career']}\",\"$link\")";
             mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 
             $mem_sql = "select mem_code from Gn_Member where mem_id = '$mem_id'";

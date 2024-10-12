@@ -58,15 +58,15 @@ if(strlen($_SESSION['one_member_id']) > 0) {
 		$krow=mysqli_fetch_array($kresult);
 		$intRowCount=$krow['cnt'];	
 		
-		$reg_date_1hour = strtotime("$row[reg_date] +1hours"); 
+		$reg_date_1hour = strtotime("{$row['reg_date']} +1hours"); 
 		
 		$status = "";
-		if($row[reservation]) {
+		if($row['reservation']) {
 			$status = "예약";
 		}
 		if($success_cnt==0){
 			if(time() > $reg_date_1hour && $row['up_date'] == "") {
-				if($row[reservation] > date("Y-m-d H:i:s")){
+				if($row['reservation'] > date("Y-m-d H:i:s")){
 				}else{
 					$status .= "실패";
 				}

@@ -244,7 +244,7 @@ $(function() {
                                     $fresult = mysqli_query($self_con,$fquery);
                                     $frow = mysqli_fetch_array($fresult);
 
-                                    $cquery = "select count(*) from Gn_Iam_Contents where westory_card_url = "."'$row[card_short_url]'";
+                                    $cquery = "select count(*) from Gn_Iam_Contents where westory_card_url = "."'{$row['card_short_url']}'";
                                     $cresult = mysqli_query($self_con,$cquery);
                                     $crow = mysqli_fetch_array($cresult);?>
                                     <tr>
@@ -257,24 +257,24 @@ $(function() {
                                         </td>
                                         <td>
                                             <div style="overflow-x:hidden;width:100px;">
-                                                <?=$row[group_name]?>
+                                                <?=$row['group_name']?>
                                             </div>
                                         </td>
                                         <td>
                                             <div style="overflow-x:hidden;width:100px;">
-                                                <?=$row[card_name]?>
+                                                <?=$row['card_name']?>
                                             </div>
                                         </td>
                                         <td>
                                             <div style="overflow-x:hidden;width:100px;">
-                                                <a href="<?=($mem_row[site_iam] == 'kiam'?'http://kiam.kr/?': 'http://'.$mem_row[site_iam].'.kiam.kr/?').strip_tags($row['card_short_url'].$mem_row['mem_code']).'&preview=Y'?>" target="_blank"><?=$row['card_short_url']?></a>
+                                                <a href="<?=($mem_row['site_iam'] == 'kiam'?'http://kiam.kr/?': 'http://'.$mem_row['site_iam'].'.kiam.kr/?').strip_tags($row['card_short_url'].$mem_row['mem_code']).'&preview=Y'?>" target="_blank"><?=$row['card_short_url']?></a>
                                             </div>
                                         </td>
                                         <td>
                                             <div>
                                                 <?
-                                                if($row[main_img1]){
-                                                    $thumb_img =  $row[main_img1];
+                                                if($row['main_img1']){
+                                                    $thumb_img =  $row['main_img1'];
                                                 }else{
                                                     $thumb_img =  $default_img;
                                                 }
@@ -284,7 +284,7 @@ $(function() {
                                                 </a>
                                             </div>
                                         </td>
-                                        <td><?=$row[card_phone]?></td>
+                                        <td><?=$row['card_phone']?></td>
                                         <td>
                                             <label class="switch">
                                                 <input type="checkbox" class="chkagree" name="status" id="card_idx_<?php echo $row['idx'];?>"<?php echo $row['phone_display']!="N"?"checked":""?> >
@@ -292,9 +292,9 @@ $(function() {
                                             </label>
                                         </td>
                                         <td><?=$frow[0]?></td>
-                                        <td><?=$row[req_data]?></td>
+                                        <td><?=$row['req_data']?></td>
                                         <td><?=$crow[0]?></td>
-                                        <td><?=$row[iam_click]?></td>
+                                        <td><?=$row['iam_click']?></td>
                                         <td><?=$row[iam_share]?></td>
                                         <td style="font-size:12px;">
                                             <label class="switch">
@@ -302,7 +302,7 @@ $(function() {
                                                 <span class="slider round" name="status_round" id="card_click_<?=$row['idx'];?>"></span>
                                             </label>
                                         </td>
-                                        <td><input type = "number" class = "number" value='<?=$row[sample_order]?>' style="width: 50px;text-align: right" data-no="<?=$row['idx']?>"></td>
+                                        <td><input type = "number" class = "number" value='<?=$row['sample_order']?>' style="width: 50px;text-align: right" data-no="<?=$row['idx']?>"></td>
                                         <td><a href="javascript:delNameCard('<?=$row['idx']?>')">삭제</a></td>
                                     </tr>
                                     <?

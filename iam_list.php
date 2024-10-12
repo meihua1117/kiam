@@ -136,7 +136,7 @@ function copyHtml(){
                             padding-left: 10px;
                         }
                     </style>
-                    <input class="search_text" type="text" name="search_text" placeholder="검색값: 코티이름,날짜,제목,내용,파일명" id="search_text" value="<?=$_REQUEST[search_text]?>" />
+                    <input class="search_text" type="text" name="search_text" placeholder="검색값: 코티이름,날짜,제목,내용,파일명" id="search_text" value="<?=$_REQUEST['search_text']?>" />
                     <a href="javascript:void(0)" onclick="pay_form.submit()"><img src="/images/sub_mypage_11.jpg" /></a>
                     <div style="float:right">
 
@@ -244,9 +244,9 @@ function copyHtml(){
                         //필터코드 구현
 
                         $sql_serch="b.mem_id = '{$_SESSION['one_member_id']}'";
-                        if($_REQUEST[search_text])
+                        if($_REQUEST['search_text'])
                         {
-                            $search_text = $_REQUEST[search_text];
+                            $search_text = $_REQUEST['search_text'];
                             $sql_serch.=" and (search_text like '%$search_text%')";
                             $sql_serch.=" or (coaching_date like '%$search_text%')";
                             $sql_serch.=" or (reg_date like '%$search_text%')";
@@ -416,7 +416,7 @@ function copyHtml(){
                                 ?>
 
                             </td>
-                            <td style="font-size:12px;"><?=$coaching_info_data[reg_date]?></td>
+                            <td style="font-size:12px;"><?=$coaching_info_data['reg_date']?></td>
                             <td style="font-size:12px;"><a  style="color:blue;" href='mypage_coaching_info_view.php?coaching_id=<?php echo $coaching_info_data['coaching_id'];?>'>보기</a></td>
                             <td style="font-size:12px;"><?=$coaching_info_data[agree]==0?"<label class='label label-warning label-sm'>대기</label>":"<label class='label label-primary label-sm'>승인</label>"?></td>
                             <td style="font-size:12px;">
@@ -491,7 +491,7 @@ function copyHtml(){
             </div>
             <div>
                 <!--<div class="p1">
-                    <input type="text" name="search_text" placeholder="" id="search_text" value="<?=$_REQUEST[search_text]?>" />
+                    <input type="text" name="search_text" placeholder="" id="search_text" value="<?=$_REQUEST['search_text']?>" />
                     <a href="javascript:void(0)" onclick="pay_form.submit()"><img src="/images/sub_mypage_11.jpg" /></a>
                 </div> -->
                 <div>
@@ -519,9 +519,9 @@ function copyHtml(){
                         //필터코드 후에 구현
 
                         $sql_serch="b.mem_id = '{$_SESSION['one_member_id']}'";
-                        if($_REQUEST[search_text])
+                        if($_REQUEST['search_text'])
                         {
-                            $search_text = $_REQUEST[search_text];
+                            $search_text = $_REQUEST['search_text'];
                             $sql_serch.=" and (search_text like '%$search_text%')";
                         }
 
@@ -739,7 +739,7 @@ function copyHtml(){
                                     </div>
                                 </div> 
                             </td>
-                            <td style="font-size:12px;"><?=$coaching_info_data[reg_date]?></td>
+                            <td style="font-size:12px;"><?=$coaching_info_data['reg_date']?></td>
                             <td style="font-size:12px;"><a class="" style="color:blue;" href='mypage_coaching_info_view.php?coaching_id=<?php echo $coaching_info_data['coaching_id'];?>'>보기</a></td>
                              <td style="font-size:12px;"><?=$coaching_info_data[agree]==0?"<label class='label label-warning label-sm'>대기</label>":"<label class='label label-primary label-sm'>승인</label>"?></td>
                            
