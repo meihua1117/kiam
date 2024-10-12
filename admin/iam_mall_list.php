@@ -240,9 +240,9 @@ $(function() {
                                 $searchStr .= $search_key ? " AND (mem.mem_id LIKE '%".$search_key."%' or mem.mem_name like '%".$search_key."%')" : null;
                                 $searchStr .= $search_key1 ? " AND (mall.title like '%".$search_key1."%' )" : null;
                                 if($_REQUEST['search_start_date'])
-                                    $searchStr .= " AND reg_date >= '$_REQUEST[search_start_date]'";
+                                    $searchStr .= " AND reg_date >= '{$_REQUEST['search_start_date']}'";
                                 if($_REQUEST['search_end_date'])
-                                    $searchStr .= " AND reg_date <= '$_REQUEST[search_end_date]'";
+                                    $searchStr .= " AND reg_date <= '{$_REQUEST['search_end_date']}'";
                                 if($_REQUEST['mall_type']){
                                     if($_REQUEST['mall_type'] != 10)
                                         $searchStr .= " AND mall_type = '$_REQUEST[mall_type]'";

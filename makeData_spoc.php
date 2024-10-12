@@ -10,7 +10,7 @@ $_SESSION['allat_amt'] = $_POST['allat_amt'];
 $_COOKIE['allat_amt'] = $_POST['allat_amt'];
 $_SESSION['allat_amt_'] = $_POST['allat_amt'];
 $_COOKIE['allat_amt_'] = $_POST['allat_amt'];
-$_POST[max_cnt] = $_POST[phone_cnt];
+$_POST['max_cnt'] = $_POST['phone_cnt'];
  
 if($_POST[allat_order_no] != "") {
     $sql = "delete from tjd_pay_result where  idx='$_POST[allat_order_no]' and  buyer_id='{$_SESSION['one_member_id']}'";
@@ -34,12 +34,12 @@ $sql = "insert into tjd_pay_result
                 buyer_id='{$_SESSION['one_member_id']}',
                 date=NOW(),
                 member_type='{$_POST['member_type']}',
-                max_cnt='$_POST[max_cnt]',
-                phone_cnt='$_POST[phone_cnt]',
+                max_cnt='{$_POST['max_cnt']}',
+                phone_cnt='{$_POST['phone_cnt']}',
                 add_phone='{$_POST['add_phone']}',
                 db_cnt='{$_POST['db_cnt']}',
                 email_cnt='{$_POST['email_cnt']}',
-                onestep1='$_POST[onestep1]',
-                onestep2='$_POST[onestep2]'";
+                onestep1='{$_POST['onestep1']}',
+                onestep2='{$_POST['onestep2']}'";
 $res_result = mysqli_query($self_con,$sql);
 ?>

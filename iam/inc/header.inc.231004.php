@@ -529,15 +529,15 @@ else{
 						<?if($_SESSION['iam_member_id']) {?>
 						<div style="margin-top:30px;margin-left:15px;display:flex;position:relative">
 						<?  if($user_mem_code == $card_owner_code){
-								if($member_iam[profile]){
-									if(strstr($member_iam[profile], "kiam")) {
-										$member_iam[profile] = str_replace("http://kiam.kr", "", $member_iam[profile]);
-										$member_iam[profile] = str_replace("http://www.kiam.kr", "", $member_iam[profile]);
+								if($member_iam['profile']){
+									if(strstr($member_iam['profile'], "kiam")) {
+										$member_iam['profile'] = str_replace("http://kiam.kr", "", $member_iam['profile']);
+										$member_iam['profile'] = str_replace("http://www.kiam.kr", "", $member_iam['profile']);
 									} 
-									if(!strstr($member_iam[profile], "http") && $member_iam[profile]) {
-										$image_link = $cdn_ssl.$member_iam[profile];
+									if(!strstr($member_iam['profile'], "http") && $member_iam['profile']) {
+										$image_link = $cdn_ssl.$member_iam['profile'];
 									}else{
-										$image_link = $member_iam[profile];
+										$image_link = $member_iam['profile'];
 									}
 									$image_link = cross_image($image_link);?>
 									<div style="margin:0;width:70px;height:70px;border-radius: 50%;overflow: hidden">
@@ -866,8 +866,8 @@ else{
 					</div>
 					<div class="modal-body">
 						<div class="container" style="display:inline-block;">
-							<input type="date" placeholder="시작일" id="search_start_date" value="<?=$_REQUEST[search_start_date]?>" style="border: 1px solid black;width:130px;"><span style="margin-left: 3px;">~</span>
-							<input type="date" placeholder="종료일" id="search_end_date" value="<?=$_REQUEST[search_end_date]?>" style="border: 1px solid black;width:130px;">
+							<input type="date" placeholder="시작일" id="search_start_date" value="<?=$_REQUEST['search_start_date']?>" style="border: 1px solid black;width:130px;"><span style="margin-left: 3px;">~</span>
+							<input type="date" placeholder="종료일" id="search_end_date" value="<?=$_REQUEST['search_end_date']?>" style="border: 1px solid black;width:130px;">
 							<!-- <select title="" id="use_buy_type" data-plugin-selectTwo onchange="" style="width:90px;margin: 20px 0 0 5px;">
 								<option value="">전체</option>
 								<option value="use">이용</option>
@@ -1378,15 +1378,15 @@ else{
 			</div>
 			<?}else{
 				if($user_mem_code == $card_owner_code){
-					if($member_iam[profile]){
-						if(strstr($member_iam[profile], "kiam")) {
-							$member_iam[profile] = str_replace("http://kiam.kr", "", $member_iam[profile]);
-							$member_iam[profile] = str_replace("http://www.kiam.kr", "", $member_iam[profile]);
+					if($member_iam['profile']){
+						if(strstr($member_iam['profile'], "kiam")) {
+							$member_iam['profile'] = str_replace("http://kiam.kr", "", $member_iam['profile']);
+							$member_iam['profile'] = str_replace("http://www.kiam.kr", "", $member_iam['profile']);
 						} 
-						if(!strstr($member_iam[profile], "http") && $member_iam[profile]) {
-							$image_link = $cdn_ssl.$member_iam[profile];
+						if(!strstr($member_iam['profile'], "http") && $member_iam['profile']) {
+							$image_link = $cdn_ssl.$member_iam['profile'];
 						}else{
-							$image_link = $member_iam[profile];
+							$image_link = $member_iam['profile'];
 						}
 						$image_link = cross_image($image_link);
 						?>
@@ -1541,7 +1541,7 @@ else{
 								<div style="padding-top: 1px;background-color: #ffffff;border-radius: 10px;margin-top: 2px" class = "news_content <?='news_kind_'.$news_row['fl']?>">
 									<div style="display: flex">
 										<p style="font-size:14px;margin-top:2px;margin-left: 10px;margin-right: 10px"><?=$iam_notice_arr[$news_row['fl']]?></p>
-										<p style="font-size:14px"><?=$news_row[date]?></p>
+										<p style="font-size:14px"><?=$news_row['date']?></p>
 									</div>
 									<div style="text-align: center">
 										<p style="font-size:18px"><?=$news_row['title']?></p><br>

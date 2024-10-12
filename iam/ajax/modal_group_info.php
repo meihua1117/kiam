@@ -86,7 +86,7 @@ if($f_count > 0){
             $f_name = $f_row['mem_name'];
         if($f_index++ < 12){
             $body .= '                        <div style="border:1px solid #ddd;border-radius: 50%;width: 30px;height: 30px;overflow: hidden;margin-left: -10px;">';
-            $body .= '                            <img src="'. cross_image($f_row[profile]) .'" style="width: 100%;height:100%;">';
+            $body .= '                            <img src="'. cross_image($f_row['profile']) .'" style="width: 100%;height:100%;">';
             $body .= '                        </div>';
     }
     }

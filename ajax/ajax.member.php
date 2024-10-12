@@ -49,7 +49,7 @@ if($_REQUEST[nick])
         	{
 				$handle = new Image($uploadfile, 800);
 				$handle->resize();				
-        	    $member_info[profile] = $up_dir.$file_name;
+        	    $member_info['profile'] = $up_dir.$file_name;
 				uploadFTP($uploadfile);
         	}	    
     	}

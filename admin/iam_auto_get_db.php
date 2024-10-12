@@ -81,7 +81,7 @@ while($res = mysqli_fetch_array($result_state)){
                 send_mtime:0,
                 send_type:1,
                 send_agree_msg:'N',
-                send_go_num:[sendnum],
+                send_go_num:['sendnum'],
                 send_save_mms:0,
                 send_ssh_check : 0,
                 send_deny_wushi_0:'ok',

@@ -275,7 +275,7 @@ if(!strcmp($REPLYCD,"0000")){//pay_test
                     <td><?=$row[VACT_InputName]?>/<?=$member_iam['mem_id']?></td>
                 </tr>
                     <td>지불금액</td>
-                    <td><?=$row[total_price]?></td>
+                    <td><?=$row['total_price']?></td>
                 </tr>
                 <tr>
                     <td>지불시간</td>

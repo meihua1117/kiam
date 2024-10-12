@@ -149,7 +149,7 @@ $error_arr=array();
 					$sql_num="select sendnum from Gn_MMS_Number where mem_id ='{$_SESSION['one_member_id']}' and sendnum='$send_num' ";
 					$resul_num=mysqli_query($self_con,$sql_num);
 					$row_num=mysqli_fetch_array($resul_num);
-					if(!$row_num[sendnum])
+					if(!$row_num['sendnum'])
 					{
 					array_push($error_arr,"{$send_num} 은/는 등록된번호가 아닙니다.(업로드실패)");	
 					continue;

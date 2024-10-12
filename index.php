@@ -1395,7 +1395,7 @@ function encodeKorean($matches)
                             <a href="javascript:showContentsList('<?= $_GET['key1'] ?>')" style="margin-right:10px;position: absolute;right: 50px;top: 11px;">
                                 <? if (!$_COOKIE['contents_mode'] || $_COOKIE['contents_mode'] == "image") { ?>
                                     <img src="/iam/img/main/icon-pin_list.png" id="show_contents_mode" title="<?= $MENU['TOP_MENU']['ICON_PIN']; ?>" style="height: 18px">
-                                    <? //}else if($_COOKIE[contents_mode] == "pin"){
+                                    <? //}else if($_COOKIE['contents_mode'] == "pin"){
                                     ?>
                                     <!-- <img src="img/icon_list.svg" id = "show_contents_mode" title="<?= $MENU['TOP_MENU']['ICON_LIST']; ?>" style="height: 18px"> -->
                                 <? } else { ?>

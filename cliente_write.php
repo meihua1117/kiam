@@ -38,7 +38,7 @@ switch ($_REQUEST['status']) {
         break;
 }
 if ($_REQUEST['one_no'])
-    $up_path = $row_no[up_path];
+    $up_path = $row_no['up_path'];
 else
     $up_path = "one_" . $_REQUEST['status'];
 ?>

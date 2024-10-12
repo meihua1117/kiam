@@ -9,7 +9,7 @@ $alarm_sql = "select * from Gn_Search_Key where key_id = 'content_notice_count'"
 $alarm_res = mysqli_query($self_con,$alarm_sql);
 $alarm_row = mysqli_fetch_array($alarm_res);
 $notice_count = $alarm_row['key_content'];
-if($_POST[type] == 'interval') {
+if($_POST['type'] == 'interval') {
     $time = date("Y-m-d H:i:s", strtotime("-".$alarm_time." minutes"));
     $sql = "select count(*) from Gn_Iam_Contents where req_data >= '$time'";
     $res = mysqli_query($self_con,$sql);
@@ -26,7 +26,7 @@ if($_POST[type] == 'interval') {
         $desc = count($mem_array) . "명 회원분들의 " . $count . "개 콘텐츠가 게시되었습니다.";
         echo json_encode(array("desc" => $desc));
     }
-}else if($_POST[type] == 'notice_popup') {
+}else if($_POST['type'] == 'notice_popup') {
     $result = array();
     $arr_Mems = array();
     $index = 0;
@@ -45,7 +45,7 @@ if($_POST[type] == 'interval') {
             $mem_sql = "select mem_code,mem_name,site_iam,profile from Gn_Member where mem_id='$mem_id'";
             $mem_res = mysqli_query($self_con,$mem_sql);
             $mem_row = mysqli_fetch_array($mem_res);
-            $profile = $mem_row[profile];
+            $profile = $mem_row['profile'];
     
             $card_sql = "select main_img1,card_short_url,card_name,card_company from Gn_Iam_Name_Card where card_short_url ='".$row[westory_card_url]."' order by req_data limit 0,1";
             $card_res = mysqli_query($self_con,$card_sql);
@@ -89,7 +89,7 @@ if($_POST[type] == 'interval') {
         $sIdx += $limit;     
     }
     echo json_encode(array("result" => $result));
-}else if($_POST[type] == 'sample_popup') {
+}else if($_POST['type'] == 'sample_popup') {
     $sql = "select mem_id,main_img1,card_name,card_company,card_short_url from Gn_Iam_Name_Card where group_id is NULL and sample_click = 'Y' order by sample_order desc,req_data";
     $res = mysqli_query($self_con,$sql);
     $result = array();
@@ -102,7 +102,7 @@ if($_POST[type] == 'interval') {
         $mem_res = mysqli_query($self_con,$mem_sql);
         $mem_row = mysqli_fetch_array($mem_res);
         if ($profile == "" || is_null($profile))
-            $profile = $mem_row[profile];
+            $profile = $mem_row['profile'];
         if($profile || is_null($profile))
             $profile = "img/profile_img.png";
         $card_name = mb_substr($row['card_name'], 0, 4, "utf-8");
@@ -125,7 +125,7 @@ if($_POST[type] == 'interval') {
         array_push($result,$array);
     }
     echo json_encode(array("result" => $result));
-}else if($_POST[type] == 'alarm_like'){
+}else if($_POST['type'] == 'alarm_like'){
     $mem_id = $_POST['mem_id'];
     $like_id = $_POST[like_id];
     $sql = "select mem_like from Gn_Member where mem_id = '$mem_id'";

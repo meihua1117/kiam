@@ -518,14 +518,14 @@ foreach($memberList as $member) {
             if($save_mms_s == 'ok')
             { //메시지 저장
                 if($send_img != '') //메시지 타입
-                    $message_info[msg_type]="B";
+                    $message_info['msg_type']="B";
                 else
-                    $message_info[msg_type]="A";
+                    $message_info['msg_type']="A";
                 $sql="insert into Gn_MMS_Message set "; //발송
                 $message_info['mem_id']=$member['mem_id'];
                 $message_info['title']=htmlspecialchars(str_replace("{|name|}", "{|REP|}",$title));
                 $message_info['message']=htmlspecialchars(str_replace("{|name|}", "{|REP|}",$text));
-                $message_info[img]=$send_img;
+                $message_info['img']=$send_img;
                 $message_info[img1]=$send_img1;
                 $message_info[img2]=$send_img2;
                 foreach($message_info as $key=>$v)

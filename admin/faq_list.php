@@ -155,7 +155,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                             <a href="faq_write.php?no=<?php echo $row['no']?>"><?php echo $row['title'];?></a>
                         </td>
                         <td>
-                            <?=substr($row[date],0,10)?>
+                            <?=substr($row['date'],0,10)?>
                         </td>
                         <td>
                             <input type="hidden" name="no[]" value="<?=$row['no']?>" >

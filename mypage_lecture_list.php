@@ -110,7 +110,7 @@ $(function(){
               <?
 
 				$sql_serch=" mem_id ='{$_SESSION['one_member_id']}' ";
-					if($_REQUEST[category])
+					if($_REQUEST['category'])
 					{
 					    $sql_serch.=" and category ='$category'";
 					}
@@ -182,7 +182,7 @@ $(function(){
               <tr>
                 <td><input type="checkbox" name=""></td>
                 <td><?=$sort_no?></td>
-                <td style="font-size:12px;"><?=$row[category]?></td>
+                <td style="font-size:12px;"><?=$row['category']?></td>
                 <td style="font-size:12px;"><?=$row[start_date]?>~<br><?=$row['end_date']?></td>
                 <td style="font-size:12px;"><?=$row[lecture_day]?></td>
                 <td style="font-size:12px;"><?=$row[lecture_start_time]?>~<br><?=$row[lecture_end_time]?></td>

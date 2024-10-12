@@ -300,8 +300,8 @@ $date_today=date("Y-m-d");
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <input type="date" style="height: 30px" name="search_start_date" placeholder="" id="search_start_date" value="<?=$_REQUEST[search_start_date]?>" multiple/> ~
-                                    <input type="date" style="height: 30px" name="search_end_date" placeholder="" id="search_end_date" value="<?=$_REQUEST[search_end_date]?>"/>
+                                    <input type="date" style="height: 30px" name="search_start_date" placeholder="" id="search_start_date" value="<?=$_REQUEST['search_start_date']?>" multiple/> ~
+                                    <input type="date" style="height: 30px" name="search_end_date" placeholder="" id="search_end_date" value="<?=$_REQUEST['search_end_date']?>"/>
                                 </div>
                                 <div class="form-group">
                                     <input type="text" name="site_iam" id="site_iam" style="width:100px" class="form-control input-sm pull-right" placeholder="아이엠소속" value="<?=$site_iam?>">
@@ -452,7 +452,7 @@ $date_today=date("Y-m-d");
                                         <td>
                                             <?
                                             if($row['member_type'] != "dber")
-                                                echo number_format($row['iam_card_cnt']).'/'.number_format($row['db_cnt']).'/'.number_format($row[max_cnt]);
+                                                echo number_format($row['iam_card_cnt']).'/'.number_format($row['db_cnt']).'/'.number_format($row['max_cnt']);
                                             else
                                                 echo number_format($row['db_cnt']).'/'.number_format($row['email_cnt']).'/'.number_format($row[shop_cnt]);
                                             ?>

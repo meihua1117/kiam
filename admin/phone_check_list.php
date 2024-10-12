@@ -358,7 +358,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;text-align:
                                         $phone_sql="select sendnum from Gn_MMS_Number where ( not (cnt1 = 10 and cnt2 = 20)) and  mem_id = '{$row['mem_id']}'";
                                         $phone_res=mysqli_query($self_con,$phone_sql) or die(mysqli_error($self_con));
                                         while($phone_row = mysqli_fetch_array($phone_res)){
-                                            $sql_result_g = "select SUM(recv_num_cnt) from Gn_MMS where send_num='$phone_row[sendnum]' and (reg_date like '$date_month%'  or reservation like '$date_month%') and type=10 and result = 0";
+                                            $sql_result_g = "select SUM(recv_num_cnt) from Gn_MMS where send_num='{$phone_row['sendnum']}' and (reg_date like '$date_month%'  or reservation like '$date_month%') and type=10 and result = 0";
 											$res_result_g = mysqli_query($self_con,$sql_result_g);
                                             $row_result_g = mysqli_fetch_array($res_result_g);
                                             $row['send_extra'] += $row_result_g[0];

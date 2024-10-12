@@ -174,7 +174,7 @@ while($data=mysqli_fetch_array($pay_res)) {
                                                         amount='$price',
                                                         buyer_id='$buyer_id'";
             mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
-            $sql = "update tjd_pay_result set monthly_yn='Y', end_status='Y',stop_yn='N' where  orderNumber='$data[orderNumber]' and buyer_id='$buyer_id'";
+            $sql = "update tjd_pay_result set monthly_yn='Y', end_status='Y',stop_yn='N' where  orderNumber='{$data['orderNumber']}' and buyer_id='$buyer_id'";
             mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
         } else {
             $sql = "insert into tjd_pay_result_month set pay_idx='{$data['idx']}',
@@ -185,7 +185,7 @@ while($data=mysqli_fetch_array($pay_res)) {
                                                         amount='$price',
                                                         buyer_id='$buyer_id'";
             mysqli_query($self_con,$sql) or die(mysqli_error($self_con));                        
-            $sql = "update tjd_pay_result set stop_yn='Y' where  orderNumber='$data[orderNumber]' and buyer_id='$buyer_id'";
+            $sql = "update tjd_pay_result set stop_yn='Y' where  orderNumber='{$data['orderNumber']}' and buyer_id='$buyer_id'";
             mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 
             $date_today=date("Y-m-d");

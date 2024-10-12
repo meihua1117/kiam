@@ -33,10 +33,10 @@ while($row_db=mysqli_fetch_array($resul_db))
 {
 $objPHPExcel->setActiveSheetIndex(0)
 			->setCellValue("A$h",$row_db['seq'])
-			->setCellValue("B$h",$row_db[dest])
+			->setCellValue("B$h",$row_db['dest'])
 			->setCellValue("C$h",$row_db[callback])
 			->setCellValue("D$h",$row_db['msg_flag'])
-			->setCellValue("E$h",$row_db[msg_text])
+			->setCellValue("E$h",$row_db['msg_text'])
 			->setCellValue("F$h",$row['msg_url'])
 			->setCellValue("G$h",$row[reservation_time])
 			->setCellValue("H$h",$row['grp']);

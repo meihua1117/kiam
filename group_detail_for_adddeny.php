@@ -180,8 +180,8 @@ else{
             ?>
                 <tr>
                     <td class="g_dt_name_<?=$i?>" >
-                        <li><input type="checkbox" name="name_box" value="<?=$row['msg_url']?>" onclick="box_ed_deny('<?=$i?>','<?=$row[msg_text]?>')" /></li>
-                        <li><label name = "lbox_<?=$i?>" id="lbox_<?=$i?>" ><?=$row[msg_text]?></label></li>
+                        <li><input type="checkbox" name="name_box" value="<?=$row['msg_url']?>" onclick="box_ed_deny('<?=$i?>','<?=$row['msg_text']?>')" /></li>
+                        <li><label name = "lbox_<?=$i?>" id="lbox_<?=$i?>" ><?=$row['msg_text']?></label></li>
                     </td>
                     <td class="g_dt_num_<?=$i?>">
                         <?=$row['msg_url']?>

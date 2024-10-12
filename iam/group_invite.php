@@ -271,7 +271,7 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                                         $card_sql="select main_img1 ,card_short_url from Gn_Iam_Name_Card where mem_id = '{$_SESSION['iam_member_id']}' order by req_data";
                                         $card_result=mysqli_query($self_con,$card_sql) or die(mysqli_error($self_con));
                                         $card_row=mysqli_fetch_array($card_result);
-                                        $friends_main_img = $row[profile];
+                                        $friends_main_img = $row['profile'];
                                         $row[friends_url] = $card_row['card_short_url'].$row['mem_code'];
                                         if(!$friends_main_img) {
                                             $friends_main_img = $card_row['main_img1'];

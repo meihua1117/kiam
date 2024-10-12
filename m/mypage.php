@@ -136,7 +136,7 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                                     <div class="attr-name">프로필사진</div>
                                     <div class="attr-value">
                                         <div class="input-wrap">
-                                            <input type="file" name="profile" id="profile" itemname='사진' /><?php if($member_1[profile] != "") { echo "<img src='$member_1[profile]'>"; }?>
+                                            <input type="file" name="profile" id="profile" itemname='사진' /><?php if($member_1['profile'] != "") { echo "<img src='{$member_1['profile']}'>"; }?>
                                         </div>
                                     </div>
                                 </div>

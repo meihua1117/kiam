@@ -253,25 +253,25 @@ $(function(){
                                 	<?if($intRowCount){		
 										$i=0;							
 										while($row=mysqli_fetch_array($result)){							
-											$sql_result2_g = "select SUM(recv_num_cnt) from Gn_MMS where up_date like '$date_today%' and send_num='$row[sendnum]' ";
+											$sql_result2_g = "select SUM(recv_num_cnt) from Gn_MMS where up_date like '$date_today%' and send_num='{$row['sendnum']}' ";
 											$res_result2_g = mysqli_query($self_con,$sql_result2_g);
 											$today_cnt_1=0;
 											$row_result2_g = mysqli_fetch_array($res_result2_g);
 											$today_cnt_1+= $row_result2_g[0] * 1;
 												
-											if($today_cnt_1 > $row[max_cnt]){
+											if($today_cnt_1 > $row['max_cnt']){
 												$sql_cnt_u=" update Gn_MMS_Number set user_cnt=0 where idx='{$row['idx']}' ";
 												mysqli_query($self_con,$sql_cnt_u);										
 											}
 											
 											$month_cnt_1=0;
-											$sql_result_g = "select SUM(recv_num_cnt) from Gn_MMS where up_date like '$date_month%' and send_num='$row[sendnum]' ";
+											$sql_result_g = "select SUM(recv_num_cnt) from Gn_MMS where up_date like '$date_month%' and send_num='{$row['sendnum']}' ";
 											$res_result_g = mysqli_query($self_con,$sql_result_g);
 											$row_result_g = mysqli_fetch_array($res_result_g);
 											$month_cnt_1+= $row_result_g[0] * 1;
 											
 											$ssh_cnt=0;
-											$sql_ssh="select recv_num from Gn_MMS where send_num='$row[sendnum]' and up_date like '$date_month%' group by(recv_num)";
+											$sql_ssh="select recv_num from Gn_MMS where send_num='{$row['sendnum']}' and up_date like '$date_month%' group by(recv_num)";
 											$resul_ssh=mysqli_query($self_con,$sql_ssh);
 											while($row_ssh=mysqli_fetch_array($resul_ssh)){
 												$ssh_arr=array_unique(explode(",",$row_ssh['recv_num']));
@@ -281,10 +281,10 @@ $(function(){
 									?>
 									<tr>
 										<td style="text-align:left;">
-											<label><input type="checkbox" name="seq[]" value="<?=$row[sendnum]?>" /><?=$sort_no?></label>
+											<label><input type="checkbox" name="seq[]" value="<?=$row['sendnum']?>" /><?=$sort_no?></label>
 										</td>
-										<td><span id='btn_<?=$row[sendnum]?>' class="btn_option_red">체크전</span></td>
-										<td><?=$row[sendnum]?></td>
+										<td><span id='btn_<?=$row['sendnum']?>' class="btn_option_red">체크전</span></td>
+										<td><?=$row['sendnum']?></td>
 										<td><input type="text" name="memo" value="<?=$row['memo']?>" /></td>
 										<td>
 											<select name="memo2" onchange="ssc_show('<?=$i?>',this.value)">
@@ -296,8 +296,8 @@ $(function(){
 												<?}?>
 											</select>
 										</td>
-										<td><span class="max_cnt_c"><?=$row[max_cnt]?></span><input type="hidden" name="max_cnt" value="<?=$row[max_cnt]?>" /></td>
-										<td><input type="text" name="gl_cnt" value="<?=$row[gl_cnt]?>" onkeyup="jiajian_oo('<?=$i?>')" /></td>                                    
+										<td><span class="max_cnt_c"><?=$row['max_cnt']?></span><input type="hidden" name="max_cnt" value="<?=$row['max_cnt']?>" /></td>
+										<td><input type="text" name="gl_cnt" value="<?=$row['gl_cnt']?>" onkeyup="jiajian_oo('<?=$i?>')" /></td>                                    
 										<td><?=$row['cnt1']?>/10 <input type="hidden" name="cnt1" value="<?=$row['cnt1']?>" /></td>
 										<td><?=$row['cnt2']?>/20 <input type="hidden" name="cnt2" value="<?=$row['cnt2']?>" /></td>
 										<td><input type="text" name="user_cnt" <?=$row['cnt1']==10 && $row['cnt2']==20?"disabled":""?> value="<?=$row['user_cnt']?>" onkeyup="jiajian_oo_1('<?=$i?>','<?=$today_cnt_1?>')" /></td>
@@ -346,19 +346,19 @@ $(function(){
                                 </tr>
 							<?if($intRowCount){
 								while($row=mysqli_fetch_array($result)){
-									$sql_db="select count(seq) as cnt from sm_data where dest='$row[sendnum]' ";
+									$sql_db="select count(seq) as cnt from sm_data where dest='{$row['sendnum']}' ";
 									$resul_db=mysqli_query($self_con,$sql_db);
 									$row_db=mysqli_fetch_array($resul_db);
 							?>
                                 <tr>
-                                    <td style="width:5%;text-align:left;"><label><input type="checkbox" name="seq[]" value="<?=$row[sendnum]?>" /><?=$sort_no?></label></td>
+                                    <td style="width:5%;text-align:left;"><label><input type="checkbox" name="seq[]" value="<?=$row['sendnum']?>" /><?=$sort_no?></label></td>
                                     <td style="width:10%;"><?=$row['memo']?></td>
-                                    <td style="width:10%;"><?=$row[sendnum]?></td>
+                                    <td style="width:10%;"><?=$row['sendnum']?></td>
                                     <td style="width:10%;"><?=substr($row['reg_date'],0,10)?></td>
                                     <td style="width:10%;"><?=$row['memo2']?></td>
                                     <td style="width:5%;">(<?=$row_db['cnt']?>)</td>                                    
-                                    <td style="width:10%;"><input type="text" name="device" value="<?=$row[device]?>" /></td>
-                                    <td style="width:23%;"><input type="text" name="memo3" value="<?=$row[memo3]?>" /></td>
+                                    <td style="width:10%;"><input type="text" name="device" value="<?=$row['device']?>" /></td>
+                                    <td style="width:23%;"><input type="text" name="memo3" value="<?=$row['memo3']?>" /></td>
 									<td style="width:17%;font-size:12px;"><?=$row['end_status']!="M"?substr($row['end_date'],0,10):""?> (<?=$pay_phone_status[$row['end_status']]?>)</td>                                    
                                 </tr>
 								<?	$sort_no--;
@@ -711,13 +711,13 @@ $(function(){
 											while($row=mysqli_fetch_array($resul)){
 												$is_send=true;
 												$today_reg=date("Y-m-d");								
-												$sql_result2_g = "select SUM(recv_num_cnt) from Gn_MMS where reg_date like '$today_reg%' and send_num='$row[sendnum]' ";
+												$sql_result2_g = "select SUM(recv_num_cnt) from Gn_MMS where reg_date like '$today_reg%' and send_num='{$row['sendnum']}' ";
 												$res_result2_g = mysqli_query($self_con,$sql_result2_g) or die(mysqli_error($self_con));
 												$today_cnt_1=0;
 												$row_result2_g = mysqli_fetch_array($res_result2_g);
 												$today_cnt_1+= $row_result2_g[0] * 1;
 												
-												if($today_cnt_1 > $row[max_cnt]){
+												if($today_cnt_1 > $row['max_cnt']){
 													$is_send=false;	
 													$send_status="<span style='color:red'>불가</span>";
 												}else{
@@ -728,9 +728,9 @@ $(function(){
 									?>
 											<tr>
 												<td style="text-align:left;">
-													<label><input type="checkbox" name="go_num" value="<?=$row[sendnum]?>" <?=!$is_send?"disabled":""?> onclick="send_sj_fun()" /><?=$row[sendnum]?></label>
+													<label><input type="checkbox" name="go_num" value="<?=$row['sendnum']?>" <?=!$is_send?"disabled":""?> onclick="send_sj_fun()" /><?=$row['sendnum']?></label>
 													<input type="hidden" name="go_user_cnt" value="<?=$row['user_cnt']?>" />
-													<input type="hidden" name="go_max_cnt" value="<?=$row[max_cnt]?>" />
+													<input type="hidden" name="go_max_cnt" value="<?=$row['max_cnt']?>" />
 													<input type="hidden" name="go_memo2" value="<?=$row['memo2']?>" />
 													<input type="hidden" name="go_cnt1" value="<?=$row['cnt1']?>" />
 													<input type="hidden" name="go_cnt2" value="<?=$row['cnt2']?>" />                                                                                        
@@ -955,9 +955,9 @@ $(function(){
                                         	<div style="margin-bottom:2px;">
                                         	<input type="text" name="title" placeholder="제목" value="<?=$row['title']?>" />
                                             </div>
-											<div class="img_view_1"><img src="<?=$row[img]?>" /></div>
+											<div class="img_view_1"><img src="<?=$row['img']?>" /></div>
                                             <div><input type="file" name="upimage[]" onChange="sub_4_form.action='up_image2.php?i=<?=$i?>';sub_4_form.target='excel_iframe';sub_4_form.submit();" /></div>
-                                            <div><input type="hidden" name="upimage_str" value="<?=$row[img]?>" /></div>                                            
+                                            <div><input type="hidden" name="upimage_str" value="<?=$row['img']?>" /></div>                                            
 										</div>
 										<div class="sub_4_3_t2_right_1_3">
 											<a href="javascript:void(0)" onclick="lms_save(sub_4_form,'<?=$i?>','modify','','<?=$row['idx']?>')"><img src="images/sub_button_711.jpg" /></a>
@@ -1528,21 +1528,21 @@ $(function(){
 								{
 									while($row=mysqli_fetch_array($result))
 									{
-											$sql_n="select memo from Gn_MMS_Number where sendnum='$row[dest]' ";
+											$sql_n="select memo from Gn_MMS_Number where sendnum='{$row['dest']}' ";
 											$resul_n=mysqli_query($self_con,$sql_n);
 											$row_n=mysqli_fetch_array($resul_n);										
 										?>
 								<tr>
 									<td><label><input type="checkbox" name="idx_box" value="<?=$row['seq']?>" /><?=$sort_no?></label></td>
-                                        <td><?=$row[dest]?></td>                                    
+                                        <td><?=$row['dest']?></td>                                    
                                         <td><?=$row_n['memo']?></td>
                                        	<td style="font-size:12px;"><?=substr($row[reservation_time],0,16)?></td>                                      
-                                        <td><?=$row[msg_text]?></td>
-                                        <td><?=$row[ori_num]?></td>
-                                        <? if($_REQUEST['status2']==1){?><td><?=$row[chg_num]?></td><? }?>
+                                        <td><?=$row['msg_text']?></td>
+                                        <td><?=$row['ori_num']?></td>
+                                        <? if($_REQUEST['status2']==1){?><td><?=$row['chg_num']?></td><? }?>
                                         <td><?=$row[grp_name]?></td>
                                         <? if($_REQUEST['status2']==1){?>                                           
-										<td><? if($row[chg_num]){?><a href="javascript:void(0)" onclick="fugai_num('<?=$row['seq']?>','cho')" class="a_btn_2">덮어쓰기</a><? }?></td>
+										<td><? if($row['chg_num']){?><a href="javascript:void(0)" onclick="fugai_num('<?=$row['seq']?>','cho')" class="a_btn_2">덮어쓰기</a><? }?></td>
                                         <? }?>                                    
 								</tr>
 									<?
@@ -1730,7 +1730,7 @@ $(function(){
 
 										<td>
 											<?php
-											switch($row[chanel_type]){
+											switch($row['chanel_type']){
 												case 1:
 													echo "폰문자";
 												break;
@@ -1750,7 +1750,7 @@ $(function(){
                                         <td><?=substr($row['reg_date'],0,16)?></td>
                                         <td>
                                         <a href="javascript:void(0)" class="modify_btn_<?=$i?> a_btn_2" onclick="g_dt_show_cencle('g_dt_name_','g_dt_num_','modify_btn_','<?=$i?>')">수정</a>
-                                        <a href="javascript:void(0)" class="modify_btn_<?=$i?> a_btn_2" style="display:none;" onclick="deny_add(sub_4_form,'<?=$i?>','<?=$row['idx']?>', <?=$row[chanel_type]?>)">수정</a>
+                                        <a href="javascript:void(0)" class="modify_btn_<?=$i?> a_btn_2" style="display:none;" onclick="deny_add(sub_4_form,'<?=$i?>','<?=$row['idx']?>', <?=$row['chanel_type']?>)">수정</a>
                                         <a href="javascript:void(0)" onclick="deny_del('<?=$row['idx']?>')" class="a_btn_2">삭제</a>                                        
                                         </td>
                                     </tr>

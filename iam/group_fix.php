@@ -199,7 +199,7 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                                         $friends_main_img = $row[group_img];
                                         if(!$friends_main_img)
                                             $friends_main_img = "img/profile_img.png";
-                                        if($row[fix_status] == "Y")
+                                        if($row['fix_status'] == "Y")
                                             $pin = "img/main/icon-redpin.png";
                                         else
                                             $pin = "img/main/icon-pin.png";

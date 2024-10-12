@@ -256,7 +256,7 @@ include_once "_head.php";
                 </tr>
                 <tr>
                 <td>�ֹ���ȣ</td>
-                <td><?=$row[orderNumber]?></td>
+                <td><?=$row['orderNumber']?></td>
                 </tr>                    
                 <tr>
                 <tr>

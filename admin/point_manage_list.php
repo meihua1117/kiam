@@ -196,8 +196,8 @@ $date_today=date("Y-m-d");
                     <form method="get" name="search_people" id="search_people">
                         <div class="box-tools">
                             <div class="input-group" style="display:inline-flex;">
-                                <input type="date" placeholder="시작일" name="search_start_date" value="<?=$_REQUEST[search_start_date]?>" style="margin-right:5px;border: 1px solid black;width:125px;">
-                                <input type="date" placeholder="종료일" name="search_end_date" value="<?=$_REQUEST[search_end_date]?>" style="margin-right:5px;border: 1px solid black;width:125px;">
+                                <input type="date" placeholder="시작일" name="search_start_date" value="<?=$_REQUEST['search_start_date']?>" style="margin-right:5px;border: 1px solid black;width:125px;">
+                                <input type="date" placeholder="종료일" name="search_end_date" value="<?=$_REQUEST['search_end_date']?>" style="margin-right:5px;border: 1px solid black;width:125px;">
                                 <select title="" name="use_buy_type" data-plugin-selectTwo onchange="" style="width:90px;margin-right:5px;">
                                     <option value="">전체</option>
                                     <option value="sell" <?if($_REQUEST['use_buy_type'] == "sell") echo "selected"?>>판매포인트</option>
@@ -348,7 +348,7 @@ $date_today=date("Y-m-d");
                                 if(($row['type'] == "buy") || ($row['type'] == "service")){
                                     $type = "충전";
                                 }
-                                else if($row['type'] == "use" || $row[type] == "group_card"){
+                                else if($row['type'] == "use" || $row['type'] == "group_card"){
                                     $type = "결제";
                                 }
                                 else if($row['type'] == "minus"){

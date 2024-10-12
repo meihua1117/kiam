@@ -1,10 +1,10 @@
 <?
 include_once "../lib/rlatjd_fun.php";
 
-$recv_nums = $_POST[deny_add_recv];
+$recv_nums = $_POST['deny_add_recv'];
 $mem_id = $_POST['mem_id'];
 $chanel = $_POST[reg_chanel];
-$type = $_POST[type];
+$type = $_POST['type'];
 $k = $u = 0;
 if(strpos($recv_nums, ",") !== false){
     $recv_nums_arr = explode(",", $recv_nums);
@@ -25,7 +25,7 @@ for($c = 0; $c < count($recv_nums_arr); $c++){
     if(!check_cellno($recv_num)){
         continue;
     }
-    $send_num=str_replace(array("-"," ",","),"",$_POST[deny_add_send]);
+    $send_num=str_replace(array("-"," ",","),"",$_POST['deny_add_send']);
     $is_zero=substr($send_num,0,1);
     $send_num=$is_zero?"0".$send_num:$send_num;
     $send_num = preg_replace("/[^0-9]/i", "", $send_num);
@@ -40,7 +40,7 @@ for($c = 0; $c < count($recv_nums_arr); $c++){
     $sql_num="select sendnum from Gn_MMS_Number where mem_id ='$mem_id' and sendnum='$send_num' ";
     $resul_num=mysqli_query($self_con,$sql_num);
     $row_num=mysqli_fetch_array($resul_num);
-    if(!$row_num[sendnum]){
+    if(!$row_num['sendnum']){
     ?>
         <script language="javascript">
         alert('발신번호는 등록된 번호가 아닙니다.');
@@ -68,14 +68,14 @@ for($c = 0; $c < count($recv_nums_arr); $c++){
     }
     $deny_info['send_num']=$send_num;
     $deny_info['recv_num']=$recv_num;
-    if($_POST[deny_add_idx]){
+    if($_POST['deny_add_idx']){
         $sql="update Gn_MMS_Deny set ";
     }else{
         $sql="insert into Gn_MMS_Deny set ";
         $deny_info['title']="수동입력";
         $deny_info['content']="수동입력";
         $deny_info['status']="B";
-        $deny_info[chanel_type]=$chanel;
+        $deny_info['chanel_type']=$chanel;
         $deny_info['mem_id']=$mem_id;
     }
     $i=0;
@@ -84,8 +84,8 @@ for($c = 0; $c < count($recv_nums_arr); $c++){
         $sql.=" $key='$v' $bd ";
         $i++;
     }
-    if($_POST[deny_add_idx])
-        $sql.=" where idx='$_POST[deny_add_idx]' ";
+    if($_POST['deny_add_idx'])
+        $sql.=" where idx='{$_POST['deny_add_idx']}' ";
     else
         $sql.=" , reg_date=now() ";
     if(mysqli_query($self_con,$sql) or die(mysqli_error($self_con))){

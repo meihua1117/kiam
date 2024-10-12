@@ -232,8 +232,8 @@ input:checked + .slider:before {
                   </select>
                   </div>
                   <div class="form-group">  
-                      <input type="text" name="search_start_date" placeholder="" id="search_start_date" value="<?=$_REQUEST[search_start_date]?>"/> ~
-                      <input type="text"  name="search_end_date" placeholder="" id="search_end_date" value="<?=$_REQUEST[search_end_date]?>"/>                  
+                      <input type="text" name="search_start_date" placeholder="" id="search_start_date" value="<?=$_REQUEST['search_start_date']?>"/> ~
+                      <input type="text"  name="search_end_date" placeholder="" id="search_end_date" value="<?=$_REQUEST['search_end_date']?>"/>                  
                   </div>
                   <div class="form-group">
                       <input type="text" name="search_key" id="search_key" class="form-control input-sm pull-right" placeholder="이름/아이디/금액">
@@ -358,7 +358,7 @@ input:checked + .slider:before {
                         <td><?=$row['site']?></td>
                         <td><?=$row['mem_id']?></td>
                         <td><?=$row['member_type']?></td>
-                        <td><?=number_format($row[max_cnt])?> 개</td>
+                        <td><?=number_format($row['max_cnt'])?> 개</td>
                         <td><?=$row['mem_name']?></td>
                         <td>
                             <?=str_replace("-", "",$row['mem_phone'])==$row['sendnum']||$row['sendnum']==""?str_replace("-", "",$row['mem_phone']):$row['sendnum']?>

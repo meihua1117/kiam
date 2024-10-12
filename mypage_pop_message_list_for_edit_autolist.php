@@ -245,7 +245,7 @@ function useIt(ori_sms_idx, event_name_eng, pcode, step, event_idx, title, mobil
       type:"POST",
       url:"/ajax/edit_event.php",
       dataType:"json",
-      data:{edit_step:true, event_idx:'<?=$_REQUEST['event_idx']?>', sms_idx:ori_sms_idx, mobile:mobile, type:'<?=$_REQUEST[type]?>'},
+      data:{edit_step:true, event_idx:'<?=$_REQUEST['event_idx']?>', sms_idx:ori_sms_idx, mobile:mobile, type:'<?=$_REQUEST['type']?>'},
       success:function(data){
         alert("적용되었습니다.");
         opener.$('#edit_step_info').attr("href", "/mypage_reservation_create.php?sms_idx="+ori_sms_idx);

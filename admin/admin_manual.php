@@ -123,7 +123,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                                     <tr>
                                         <td><?=$number--?></td>
                                         <td><a href="manual_write.php?no=<?php echo $row['no']?>"><?php echo $row['title'];?></a></td>
-                                        <td><?=substr($row[date],0,10)?></td>
+                                        <td><?=substr($row['date'],0,10)?></td>
                                         <td><?=$row['view_cnt']?></td>
                                         <td><input type="checkbox" disabled="true" name="important_yn" value="Y" data-no="<?php echo $row['no']?>" <?php echo $row['important_yn']=="Y"?"checked":""?>></td>
                                         <td><input type="checkbox" disabled="true" name="pop_yn" value="Y" data-no="<?php echo $row['no']?>" <?php echo $row['pop_yn']=="Y"?"checked":""?>></td>

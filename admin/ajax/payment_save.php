@@ -29,7 +29,7 @@ if($type == "main"){
 
         if($row['payMethod'] == "MONTH"){
             $date = date("Y-m");
-            $query = "update tjd_pay_result_month set pay_yn='N' where order_number='$row[orderNumber]' and regdate like '$date%'";
+            $query = "update tjd_pay_result_month set pay_yn='N' where order_number='{$row['orderNumber']}' and regdate like '$date%'";
             mysqli_query($self_con,$query);
         }
 
@@ -90,7 +90,7 @@ if($type == "main"){
 
         if($row['payMethod'] == "MONTH"){
             $date = date("Y-m");
-            $query = "update tjd_pay_result_month set pay_yn='Y' where order_number='$row[orderNumber]' and regdate like '$date%'";
+            $query = "update tjd_pay_result_month set pay_yn='Y' where order_number='{$row['orderNumber']}' and regdate like '$date%'";
             mysqli_query($self_con,$query);
         }
         if($row['member_type'] == "dber"){
@@ -156,7 +156,7 @@ if($type == "main"){
                             pay_status='Y',
                             pay_date=NOW(),
                             pay_percent='90',
-                            order_number = '$row[orderNumber]',
+                            order_number = '{$row['orderNumber']}',
                             VACT_InputName='{$data['mem_name']}',
                             point_val=1,
                             type='buy',

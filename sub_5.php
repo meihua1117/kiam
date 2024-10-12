@@ -521,12 +521,12 @@ function excel_down_personal(pno){
 											$memo2 = $row['memo2'];
 											$cnt1 = $row['cnt1'];
 											$cnt2 = $row['cnt2'];
-											$sendnum = $row[sendnum];
+											$sendnum = $row['sendnum'];
 											$total_cnt = $row[daily_limit_cnt]; //기본 일별 총발송 가능량
 											$donation_rate = $row[donation_rate]; //기부 비율
 											$donation_cnt = ceil($total_cnt * $donation_rate / 100); //기부 받은 수
 											$person_cnt = $total_cnt - $donation_cnt; //개인 발송 문자 수
-											$send_donation_cnt = 0; //$row[gl_cnt] //기부 받은 수 중 발송 수
+											$send_donation_cnt = 0; //$row['gl_cnt'] //기부 받은 수 중 발송 수
 											$send_person_cnt = 0; //개인 할당 분 발송 수
 											$monthly_limit_ssh = $memo2 ? $agency_arr[$memo2] : 800; //월별 수신처 제한 수 
 											$sql_num="update Gn_MMS_Number set max_cnt = $donation_cnt,gl_cnt = $person_cnt where mem_id='{$_SESSION['one_member_id']}' and sendnum='$sendnum' ";
@@ -578,7 +578,7 @@ function excel_down_personal(pno){
 											?>
 											<tr  id="dnd<?=$k++?>" class="list_tr">
 												<td><input type="checkbox" name="seq[]" value="<?=$sendnum?>" /><?=$sort_no?></td>
-												<td style="display:none"><span id='btn_<?=$row[sendnum]?>' class="<?php echo $color;?>"><?=$msg?></span></td>
+												<td style="display:none"><span id='btn_<?=$row['sendnum']?>' class="<?php echo $color;?>"><?=$msg?></span></td>
 												<td class="vio_td"><input type="text" name="sort_no" value="<?=$row['sort_no']&&$row['sort_no']!=100?$row['sort_no']:$k?>" style="width:30px;" ></td>
 												<td class="name_input popbutton4"><input type="text" name="memo" value="<?=$memo?>" ></td>
 												<td class="sendnum"><?=$sendnum?></td>

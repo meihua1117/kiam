@@ -482,7 +482,7 @@ background: #ffffff/*{bgColorContent}*/ url(images/ui-bg_flat_75_ffffff_40x100.p
                                         $resul=mysqli_query($self_con,$query);
                                         while($korow=mysqli_fetch_array($resul)) {
                                     ?>
-                                    <option value="<?=$korow[sendnum]?>" <?php echo $row['send_num']==$korow['sendnum']?"selected":""?>><?php echo $korow['sendnum'];?></option>
+                                    <option value="<?=$korow['sendnum']?>" <?php echo $row['send_num']==$korow['sendnum']?"selected":""?>><?php echo $korow['sendnum'];?></option>
                                     <?php }?>
                                 </select>
                             </td>

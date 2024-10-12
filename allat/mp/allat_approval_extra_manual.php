@@ -181,7 +181,7 @@ include_once "../../_head.php";
         $sql_m="update Gn_Member set fujia_date1=now() , fujia_date2=date_add(now(),INTERVAL 120 month)  where mem_id='$mem_id' ";
         mysqli_query($self_con,$sql_m)or die(mysqli_error($self_con));
 
-        $add_phone = $row[phone_cnt] / 9000;
+        $add_phone = $row['phone_cnt'] / 9000;
         $sql_m="update Gn_Member set   phone_cnt=phone_cnt+'$add_phone' where mem_id='$mem_id' ";
         mysqli_query($self_con,$sql_m)or die(mysqli_error($self_con));		    
 	

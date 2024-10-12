@@ -17,10 +17,10 @@ if($_REQUEST[nick])
 		$member_info[is_message]="Y";
 	else
 		$member_info[is_message]="N";
-	if($_FILES[profile]) {
-    	$tempFile = $_FILES[profile]['tmp_name'];
+	if($_FILES['profile']) {
+    	$tempFile = $_FILES['profile']['tmp_name'];
     	if($tempFile) {
-    	    $file_arr=explode(".",$_FILES[profile]['name']);
+    	    $file_arr=explode(".",$_FILES['profile']['name']);
     	    $tmp_file_arr=explode("/",$tempFile);
     	    $file_name=date("Ymds")."_".$tmp_file_arr[count($tmp_file_arr)-1].".".$file_arr[count($file_arr)-1];	
 			$up_dir = make_folder_month(2);
@@ -36,7 +36,7 @@ if($_REQUEST[nick])
         	{
 				$handle = new Image($upload_file, 800);
 				$handle->resize();
-        	    $member_info[profile] = $up_dir.$file_name;
+        	    $member_info['profile'] = $up_dir.$file_name;
 				uploadFTP($upload_file);
         	}	    
     	}

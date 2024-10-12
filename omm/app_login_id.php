@@ -85,7 +85,7 @@ if($row['mem_id'])
 								$sql_num_cnt="select count(idx) as cnt from Gn_MMS_Number where mem_id='$row_pay['buyer_id']' and end_date='{$row_pay['end_date']}' and end_status='Y' ";
 								$resul_num_cnt=mysqli_query($self_con,$sql_num_cnt);
 								$row_num_cnt=mysqli_fetch_array($resul_num_cnt);
-								if($row_pay[phone_cnt] && $row_pay[phone_cnt] > $row_num_cnt['cnt'])
+								if($row_pay['phone_cnt'] && $row_pay['phone_cnt'] > $row_num_cnt['cnt'])
 								{	
 									$sql_u="update Gn_MMS_Number set reg_date=now() $addQuery
 									                           where sendnum = '$userNum' and  mem_id = '$userId' , end_status='Y' , end_date='{$row_pay['end_date']}' ";

@@ -189,7 +189,7 @@ $(function(){
                                     $send_num = str_replace("-", "", $row['mobile']);
                                 }
                             ?>
-                                <option value="<?=str_replace("-","",$korow[sendnum])?>" <?php echo $send_num==str_replace("-","",$korow[sendnum])?"selected":""?>><?php echo str_replace("-","",$korow[sendnum]);?></option>
+                                <option value="<?=str_replace("-","",$korow['sendnum'])?>" <?php echo $send_num==str_replace("-","",$korow['sendnum'])?"selected":""?>><?php echo str_replace("-","",$korow['sendnum']);?></option>
                             <?php }?>
                             </select>
                             <!-- <input type="text" name="mobile" placeholder="" id="mobile" value="<?=$mem_phone?>" readonly/>  -->

@@ -157,7 +157,7 @@ $skrow['cnt'] = $skrow['cnt'] * 1 - $count;
     $(function() {
         <? if ($_GET[show_modal] == "Y") { ?>
             $("#deny_num_multi").val('<?= $_GET[deny_nums] ?>');
-            $("#btn_type").val('<?= $_GET[type] ?>');
+            $("#btn_type").val('<?= $_GET['type'] ?>');
             $("#tooltiptext_add_deny_multi").show();
             $("#tutorial-loading").show();
         <? } ?>
@@ -572,9 +572,9 @@ $skrow['cnt'] = $skrow['cnt'] * 1 - $count;
                                             } else {
                                                 $send_num = $_REQUEST['send_num'];
                                             } ?>
-                                        <option value="<?= str_replace("-", "", $korow[sendnum]) ?>"
-                                            <?php echo $send_num == str_replace("-", "", $korow[sendnum]) ? "selected" : "" ?>>
-                                            <?php echo str_replace("-", "", $korow[sendnum]); ?></option>
+                                        <option value="<?= str_replace("-", "", $korow['sendnum']) ?>"
+                                            <?php echo $send_num == str_replace("-", "", $korow['sendnum']) ? "selected" : "" ?>>
+                                            <?php echo str_replace("-", "", $korow['sendnum']); ?></option>
                                         <?  } ?>
                                     </select>
                                 </td>

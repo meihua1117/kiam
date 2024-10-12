@@ -224,7 +224,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                   ?>
                       <tr>
                         <td><?=$number--?></td>
-                        <td style="font-size:12px;"><?=$row[category]?></td>
+                        <td style="font-size:12px;"><?=$row['category']?></td>
                         <td style="font-size:12px;"><?=$row[lecture_info]?></td>
                         <td style="font-size:12px;"><?=$row[instructor]?></td>
                         <td style="font-size:12px;"><?=$row[area]?></td>

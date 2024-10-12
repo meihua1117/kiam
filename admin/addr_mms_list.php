@@ -59,8 +59,8 @@ $date_today=date("Y-m-d");
                             <div class="input-group"  >
                                 <div class="form-group"></div>
                                 <div class="form-group">
-                                    <input type="date" name="search_start_date" placeholder="" id="search_start_date" value="<?=$_REQUEST[search_start_date]?>"/> ~
-                                    <input type="date"  name="search_end_date" placeholder="" id="search_end_date" value="<?=$_REQUEST[search_end_date]?>"/>
+                                    <input type="date" name="search_start_date" placeholder="" id="search_start_date" value="<?=$_REQUEST['search_start_date']?>"/> ~
+                                    <input type="date"  name="search_end_date" placeholder="" id="search_end_date" value="<?=$_REQUEST['search_end_date']?>"/>
                                 </div>
                                 <div class="form-group">
                                     <select name="search_leb" class="form-control" >
@@ -77,7 +77,7 @@ $date_today=date("Y-m-d");
                                 </div>
                                 <div class="form-group"></div>
                                 <div class="form-group">
-                                    <input type="text" name="search_word" id="search_word" class="form-control input-sm pull-right" placeholder="아이디/휴대폰번호" value="<?=$_REQUEST[search_word]?>">
+                                    <input type="text" name="search_word" id="search_word" class="form-control input-sm pull-right" placeholder="아이디/휴대폰번호" value="<?=$_REQUEST['search_word']?>">
                                 </div>
                                 <div class="input-group-btn">
                                     <button class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>

@@ -158,7 +158,7 @@ $(function(){
                         <td>
                             <a href="notice_db_write.php?no=<?php echo $row['no']?>"><?php echo $row['title'];?></a>
                         <td>
-                            <?=substr($row[date],0,10)?>
+                            <?=substr($row['date'],0,10)?>
                         </td>
                         <td><?=$row['view_cnt']?></td>
                         <td><a href="javascript:;;" onclick="board_del('<?=$row['no']?>','<?=$_REQUEST['status']?>')">삭제</a></td>
