@@ -1,7 +1,7 @@
 <?
 include_once $_SERVER['DOCUMENT_ROOT'] . "/lib/rlatjd_fun.php";
 include $_SERVER['DOCUMENT_ROOT'] . "/iam/inc/login_check.php";
-$currentUrl = "https://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+$currentUrl = "https://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
 $_GET['preview'] = getQueryParam('preview', $currentUrl);
 $_GET['smode'] = getQueryParam('smode', $currentUrl);
 $_GET['slink'] = getQueryParam('slink', $currentUrl);
