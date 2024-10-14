@@ -79,8 +79,8 @@ function GetPrompt($url, $key)
     return $jsonData->value;
 }
 
-function getGptResponse($prompt, $model = "o1-preview", $maxTokens = 200) {
-    $apiKey = 'sk-yJ0vn_lQNNkRot8t9I4oZcgNTi0ItPp2qYv9W1YJ5vT3BlbkFJ57W5n62AJ0M43_BJ533TW5OPlsBPR2WWaHQZHW_P0A';
+function getGptResponse($prompt, $model = "gpt-4o", $maxTokens = 200) {
+    $apiKey = 'sk-GPbVZrikRZ63Wt7_vQMLGW8dut5QrBcUHl0baFKv5RT3BlbkFJg46FEiYxDpMbwB3p0K0-1oR8yRAx4LCjAVcieX4N0A';
     $url = 'https://api.openai.com/v1/chat/completions';
     
     // cURL 초기화
@@ -98,8 +98,7 @@ function getGptResponse($prompt, $model = "o1-preview", $maxTokens = 200) {
     'messages' => $messages,
     'max_tokens' => $maxTokens,
     'temperature' => 0,
-    'n' => 1,
-    'stop' => null
+    'n' => 1
     );
     
     // cURL 옵션 설정
