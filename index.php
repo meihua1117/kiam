@@ -92,7 +92,7 @@ if (in_array($_SESSION['iam_member_id'], $exp_id_arr)) {
     $gwc_exp_con_cnt = get_search_key('gwc_exp_reg_contents_cnt');
 }
 
-$sql_service_gwc = "select gwc_name from Gn_Service where sub_domain like '%" . $HTTP_HOST . "'";
+$sql_service_gwc = "select gwc_name, gwc_site_cons from Gn_Service where sub_domain like '%" . $HTTP_HOST . "'";
 $res_service_gwc = mysqli_query($self_con,$sql_service_gwc);
 $row_service_gwc = mysqli_fetch_array($res_service_gwc);
 
