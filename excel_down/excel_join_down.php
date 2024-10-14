@@ -3,7 +3,7 @@ include_once "../lib/rlatjd_fun.php";
 set_time_limit(0);
 ini_set('memory_limit','2500M');
 if(strlen($_SESSION['one_member_id']) > 0) {
-	if(!$_REQUEST[grp_id] && !$_REQUEST[down_type])
+	if(!$_REQUEST['grp_id'] && !$_REQUEST['down_type'])
 	exit;
 	$path="../";
 	include_once $path."lib/rlatjd_fun.php";
@@ -18,12 +18,12 @@ if(strlen($_SESSION['one_member_id']) > 0) {
 	->setKeywords("office 2007 openxml php")
 	->setCategory("excel file");
 
-	    if($_REQUEST[grp_id] == "") exit;
-		if(strpos($_REQUEST[grp_id], '-') !== false){
-			$arr1 = explode("(", $_REQUEST[grp_id]);
-			$_REQUEST[grp_id] = trim($arr1[0]);
+	    if($_REQUEST['grp_id'] == "") exit;
+		if(strpos($_REQUEST['grp_id'], '-') !== false){
+			$arr1 = explode("(", $_REQUEST['grp_id']);
+			$_REQUEST['grp_id'] = trim($arr1[0]);
 		}
-		$sql_serch=" mem_id ='{$_SESSION['one_member_id']}' and grp_id in ($_REQUEST[grp_id])";	
+		$sql_serch=" mem_id ='{$_SESSION['one_member_id']}' and grp_id in ({$_REQUEST['grp_id']})";	
 		$sql="select recv_num,grp,grp_2,name,recv_num from Gn_MMS_Receive where $sql_serch ";
 		$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 		$objPHPExcel->setActiveSheetIndex(0)
@@ -58,7 +58,7 @@ if(strlen($_SESSION['one_member_id']) > 0) {
 					}
 					$status_s=implode(",",$status_arr);
 		$objPHPExcel->setActiveSheetIndex(0)
-					->setCellValue("A$h",$row[grp_2]?$row[grp_2]:$row['grp'])
+					->setCellValue("A$h",$row['grp_2']?$row['grp_2']:$row['grp'])
 					->setCellValue("B$h",$row['name'])
 					->setCellValue("C$h",$row['recv_num'])
 					->setCellValue("D$h",$status_s);			

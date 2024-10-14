@@ -7,7 +7,7 @@ $gpt_an = get_search_key('gpt_answer_example');
 $gpt_qu_arr = explode("||", $gpt_qu);
 $gpt_an_arr = explode("||", $gpt_an);
 
-// if(!$member_iam[gpt_chat_api_key]){
+// if(!$member_iam['gpt_chat_api_key']){
 //     echo '<script>alert("회원정보에서 본인의 API 키를 입력해주세요."); location.href="mypage.php";</script>';
 // }
 ?>
@@ -270,7 +270,7 @@ $gpt_an_arr = explode("||", $gpt_an);
             <a class="newpane" href="javascript:show_new_chat();"><span style="font-size: 4px;">NEW</a>
             <!-- </div> -->
             <div class="search_keyword">
-                <input type="hidden" name="key" id="key" value="<?=$member_iam[gpt_chat_api_key]?>">
+                <input type="hidden" name="key" id="key" value="<?=$member_iam['gpt_chat_api_key']?>">
                 <!-- <input type="search" class="search_input" autocomplete="off" name="question" id="question" value="" title="질문을 입력하세요" placeholder="알지AI에게 구체적으로 질문해보세요" onclick="check_login('<?=$_SESSION['iam_member_id']?>')"> -->
                 <textarea class="search_input" autocomplete="off" name="question" id="question" value="" title="질문을 입력하세요" placeholder="알지AI에게 구체적으로 질문해보세요" onclick="check_login('<?=$_SESSION['iam_member_id']?>')"></textarea>
                 <button type="button" onclick="send_post('<?=$_SESSION['iam_member_id']?>')" class="send_ask"><img src="/iam/img/send_ask.png" alt="전송"></button>
@@ -309,7 +309,7 @@ $gpt_an_arr = explode("||", $gpt_an);
         $(document).ready(function () {
             var win_hg = $(window).height();
             var side_hg = win_hg - 240;
-            var api_state = '<?=$member_iam[gpt_chat_api_key]?>';
+            var api_state = '<?=$member_iam['gpt_chat_api_key']?>';
             $("#answer_side").css('height', side_hg+'px');
             $("#answer_side1").css('height', side_hg+'px');
             $("#answer_side2").css('height', side_hg+'px');

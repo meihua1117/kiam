@@ -291,15 +291,15 @@ $search_month = $search_month?sprintf("%02d",$search_month):sprintf("%02d",date(
                                 $query .= "$orderQuery";
                                 $res = mysqli_query($self_con,$query);
                                 while($row = mysqli_fetch_array($res)) {
-                                    $sql_mem_data = "select mem_name, service_type, site, site_iam, gwc_leb, gwc_center_per, gwc_service_per, mem_cash from Gn_Member where mem_id='{$row[seller_id]}'";
+                                    $sql_mem_data = "select mem_name, service_type, site, site_iam, gwc_leb, gwc_center_per, gwc_service_per, mem_cash from Gn_Member where mem_id='{$row['seller_id']}'";
                                     $res_mem_data = mysqli_query($self_con,$sql_mem_data);
                                     $row_mem_data = mysqli_fetch_array($res_mem_data);
 
                                     if(!$row_mem_data[gwc_service_per]){
-                                        if($row_mem_data[service_type] == 2){
+                                        if($row_mem_data['service_type'] == 2){
                                             $row_mem_data[gwc_service_per] = 4;
                                         }
-                                        else if($row_mem_data[service_type] == 3){
+                                        else if($row_mem_data['service_type'] == 3){
                                             $row_mem_data[gwc_service_per] = 1;
                                         }
                                     }
@@ -308,44 +308,44 @@ $search_month = $search_month?sprintf("%02d",$search_month):sprintf("%02d",date(
                                     }
 
                                     $service = $gwc_leb = "";
-                                    if($row_mem_data[service_type] == 2){
+                                    if($row_mem_data['service_type'] == 2){
                                         $service = "리셀러";
                                     }
-                                    else if($row_mem_data[service_type] == 3){
+                                    else if($row_mem_data['service_type'] == 3){
                                         $service = "분양사";
                                     }
 
-                                    if($row_mem_data[gwc_leb] == 3){
+                                    if($row_mem_data['gwc_leb'] == 3){
                                         $gwc_leb = "센터";
                                     }
 
                                     $sell_money = $recom_money = $center_money = 0;
 
-                                    $sql_sell_data = "select * from Gn_Gwc_Order where cash_prod_pay=0 and seller_id='{$row[seller_id]}' and pay_status='Y' and page_type=0";
+                                    $sql_sell_data = "select * from Gn_Gwc_Order where cash_prod_pay=0 and seller_id='{$row['seller_id']}' and pay_status='Y' and page_type=0";
                                     $res_sell_data = mysqli_query($self_con,$sql_sell_data);
 
                                     while($row_sell_data = mysqli_fetch_array($res_sell_data)){
                                         if(!$row_sell_data['use_point']){
-                                            $min_val = ceil(($row_sell_data['contents_price'] * 1 / $row_sell_data[contents_cnt] * 1) * 0.03);
+                                            $min_val = ceil(($row_sell_data['contents_price'] * 1 / $row_sell_data['contents_cnt'] * 1) * 0.03);
                                         }
                                         else{
                                             $min_val = 0;
                                         }
-                                        $sell_money += ceil(((($row_sell_data['contents_price'] * 1 / $row_sell_data[contents_cnt] * 1) - $row_sell_data[contents_provide_price] * 1) * 0.9 - $min_val) * $row_sell_data[contents_cnt] * 1);
+                                        $sell_money += ceil(((($row_sell_data['contents_price'] * 1 / $row_sell_data['contents_cnt'] * 1) - $row_sell_data[contents_provide_price] * 1) * 0.9 - $min_val) * $row_sell_data['contents_cnt'] * 1);
                                     }
 
-                                    if($row_mem_data[service_type] == 3 || $row_mem_data[service_type] == 2){
-                                        $sql_mem_under = "select mem_id from Gn_Member where recommend_id='{$row[seller_id]}' and mem_id in (select seller_id from Gn_Gwc_Order where cash_prod_pay=0 and page_type=0 and pay_status='Y' and seller_id!='{$row[seller_id]}')";
+                                    if($row_mem_data['service_type'] == 3 || $row_mem_data['service_type'] == 2){
+                                        $sql_mem_under = "select mem_id from Gn_Member where recommend_id='{$row['seller_id']}' and mem_id in (select seller_id from Gn_Gwc_Order where cash_prod_pay=0 and page_type=0 and pay_status='Y' and seller_id!='{$row['seller_id']}')";
                                         $res_mem_under = mysqli_query($self_con,$sql_mem_under);
                                         while($row_mem_under = mysqli_fetch_array($res_mem_under)){
-                                            $sql_recom_data = "select * from Gn_Gwc_Order where cash_prod_pay=0 and seller_id='{$row_mem_under[seller_id]}' and pay_status='Y' and page_type=0";
+                                            $sql_recom_data = "select * from Gn_Gwc_Order where cash_prod_pay=0 and seller_id='{$row_mem_under['seller_id']}' and pay_status='Y' and page_type=0";
                                             $res_recom_data = mysqli_query($self_con,$sql_recom_data);
 
                                             while($row_recom_data = mysqli_fetch_array($res_recom_data)){
-                                                $recom_money += ceil((($row_recom_data['contents_price'] * 1 / $row_recom_data[contents_cnt] * 1) - $row_recom_data[contents_provide_price] * 1) * 0.9 * $row_recom_data[contents_cnt] * 1);
+                                                $recom_money += ceil((($row_recom_data['contents_price'] * 1 / $row_recom_data['contents_cnt'] * 1) - $row_recom_data[contents_provide_price] * 1) * 0.9 * $row_recom_data['contents_cnt'] * 1);
                                             }
                                         }
-                                        if($row_mem_data[gwc_leb] == 3){
+                                        if($row_mem_data['gwc_leb'] == 3){
                                             $center_money = $recom_money * ($row_mem_data[gwc_center_per] * 1 / 100);
                                         }
                                         $recom_money = $recom_money * ($row_mem_data[gwc_service_per] * 1 / 100);

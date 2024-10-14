@@ -61,7 +61,7 @@ function copyHtml(){
                         $sql="select service_type from Gn_Member where mem_id='".$_SESSION['one_member_id']."'";
                         $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
                         $row=mysqli_fetch_array($result);
-                        $service_type = $row[service_type];
+                        $service_type = $row['service_type'];
 
                         
 

@@ -24,7 +24,7 @@ if (isset($_POST['mem_name']) || isset($_POST['mem_phone']) || isset($_POST['mem
 	$res = mysqli_query($self_con, $query);
 	$domainData = mysqli_fetch_array($res);
 
-	$exp_date = date("Y-m-d H:i:s", strtotime("+$domainData[service_price] days"));
+	$exp_date = date("Y-m-d H:i:s", strtotime("+{$domainData['service_price']} days"));
 
 	if (strpos($mem_phone, "-") !== false) {
 		$mem_phone = str_replace("-", "", $mem_phone);
@@ -38,12 +38,12 @@ if (isset($_POST['mem_name']) || isset($_POST['mem_phone']) || isset($_POST['mem
 		$short_url[0] = $card_short_url;
 	}
 
-	if ($domainData[service_type] == 3) {
+	if ($domainData['service_type'] == 3) {
 		$card_cnt = 5;
 		$share_cnt = 1000;
 	} else {
-		$card_cnt = $domainData[iamcard_cnt];
-		$share_cnt = $domainData[send_content];
+		$card_cnt = $domainData['iamcard_cnt'];
+		$share_cnt = $domainData['send_content'];
 	}
 	// echo count($short_url); exit;
 	if ($exp_mem == "true") {

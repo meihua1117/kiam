@@ -140,8 +140,8 @@ else if($mode == "get_prod_info"){
     $mem_id = "";
     $same = "N";
 
-    if($row_prod[delivery_id_code]){
-        $sql_mem_data = "select mem_code, mem_id, mem_name, mem_phone, mem_add1, mem_email, bank_name, bank_owner, bank_account from Gn_Member where mem_code='{$row_prod[delivery_id_code]}'";
+    if($row_prod['delivery_id_code']){
+        $sql_mem_data = "select mem_code, mem_id, mem_name, mem_phone, mem_add1, mem_email, bank_name, bank_owner, bank_account from Gn_Member where mem_code='{$row_prod['delivery_id_code']}'";
         $res_mem_data = mysqli_query($self_con,$sql_mem_data);
         $row_mem_data = mysqli_fetch_array($res_mem_data);
         $mem_id = $row_mem_data['mem_id'];
@@ -150,11 +150,11 @@ else if($mode == "get_prod_info"){
         if($mem_id != ''){
             $mem_name = $row_mem_data['mem_name'];
             $mem_phone = $row_mem_data['mem_phone'];
-            $mem_add1 = $row_mem_data[mem_add1];
+            $mem_add1 = $row_mem_data['mem_add1'];
             $mem_email = $row_mem_data['mem_email'];
-            $bank_name = $row_mem_data[bank_name];
-            $bank_owner = $row_mem_data[bank_owner];
-            $bank_account = $row_mem_data[bank_account];
+            $bank_name = $row_mem_data['bank_name'];
+            $bank_owner = $row_mem_data['bank_owner'];
+            $bank_account = $row_mem_data['bank_account'];
             if($mem_id == $_SESSION['iam_member_id']){
                 $same = "Y";
             }
@@ -168,7 +168,7 @@ else if($mode == "get_prod_info"){
             $bank_owner = '';
             $bank_account = '';
         }
-        echo json_encode(array('result'=>1, 'card_short_url'=>$row_prod['card_short_url'], 'westory_card_url'=>$row_prod[westory_card_url], 'contents_url_title'=>$row_prod['contents_url_title'], 'except_keyword'=>$row_prod['except_keyword'], 'contents_display'=>$row_prod['contents_display'], 'contents_westory_display'=>$row_prod['contents_westory_display'], 'contents_type_display'=>$row_prod['contents_type_display'], 'contents_user_display'=>$row_prod['contents_user_display'], 'contents_footer_display'=>$row_prod['contents_footer_display'], 'contents_share_text'=>$row_prod['contents_share_text'], 'card_idx'=>$row_prod['card_idx'], 'init_reduce_val'=>$row_prod[init_reduce_val], 'reduce_val'=>$row_prod[reduce_val], 'landing_mode'=>$row_prod[landing_mode], 'contents_iframe'=>$row_prod['contents_iframe'], 'source_iframe'=>$row_prod['source_iframe'], 'contents_title'=>$row_prod['contents_title'], 'contents_desc'=>$row_prod['contents_desc'], 'gwc_con_state'=>$row_prod[gwc_con_state], 'contents_img'=>$row_prod['contents_img'], 'contents_url'=>$row_prod['contents_url'], 'open_type'=>$row_prod[open_type], 'product_code'=>$row_prod[product_code], 'product_model_name'=>$row_prod[product_model_name], 'product_seperate'=>$row_prod[product_seperate], 'contents_price'=>$row_prod['contents_price'], 'contents_sell_price'=>$row_prod['contents_sell_price'], 'send_provide_price'=>$row_prod[send_provide_price], 'prod_manufact_price'=>$row_prod[prod_manufact_price], 'send_salary_price'=>$row_prod[send_salary_price], 'delivery_id_code'=>$row_prod[delivery_id_code], 'delivery_mem_id'=>$mem_id, 'delivery_mem_name'=>$mem_name, 'delivery_mem_phone'=>$mem_phone, 'delivery_mem_add1'=>$mem_add1, 'delivery_mem_email'=>$mem_email, 'delivery_bank_name'=>$bank_name, 'delivery_bank_owner'=>$bank_owner, 'delivery_bank_account'=>$bank_account, 'same_id'=>$same));
+        echo json_encode(array('result'=>1, 'card_short_url'=>$row_prod['card_short_url'], 'westory_card_url'=>$row_prod[westory_card_url], 'contents_url_title'=>$row_prod['contents_url_title'], 'except_keyword'=>$row_prod['except_keyword'], 'contents_display'=>$row_prod['contents_display'], 'contents_westory_display'=>$row_prod['contents_westory_display'], 'contents_type_display'=>$row_prod['contents_type_display'], 'contents_user_display'=>$row_prod['contents_user_display'], 'contents_footer_display'=>$row_prod['contents_footer_display'], 'contents_share_text'=>$row_prod['contents_share_text'], 'card_idx'=>$row_prod['card_idx'], 'init_reduce_val'=>$row_prod[init_reduce_val], 'reduce_val'=>$row_prod[reduce_val], 'landing_mode'=>$row_prod[landing_mode], 'contents_iframe'=>$row_prod['contents_iframe'], 'source_iframe'=>$row_prod['source_iframe'], 'contents_title'=>$row_prod['contents_title'], 'contents_desc'=>$row_prod['contents_desc'], 'gwc_con_state'=>$row_prod[gwc_con_state], 'contents_img'=>$row_prod['contents_img'], 'contents_url'=>$row_prod['contents_url'], 'open_type'=>$row_prod[open_type], 'product_code'=>$row_prod[product_code], 'product_model_name'=>$row_prod['product_model_name'], 'product_seperate'=>$row_prod[product_seperate], 'contents_price'=>$row_prod['contents_price'], 'contents_sell_price'=>$row_prod['contents_sell_price'], 'send_provide_price'=>$row_prod[send_provide_price], 'prod_manufact_price'=>$row_prod[prod_manufact_price], 'send_salary_price'=>$row_prod[send_salary_price], 'delivery_id_code'=>$row_prod['delivery_id_code'], 'delivery_mem_id'=>$mem_id, 'delivery_mem_name'=>$mem_name, 'delivery_mem_phone'=>$mem_phone, 'delivery_mem_add1'=>$mem_add1, 'delivery_mem_email'=>$mem_email, 'delivery_bank_name'=>$bank_name, 'delivery_bank_owner'=>$bank_owner, 'delivery_bank_account'=>$bank_account, 'same_id'=>$same));
     }
 }
 exit;

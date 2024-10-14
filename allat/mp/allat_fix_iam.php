@@ -94,7 +94,7 @@ if(!strcmp($REPLYCD,"0000")){//pay_test
     mysqli_query($self_con,$sql_m) or die(mysqli_error($self_con));
 
     if ($member_iam['recommend_id'] != "") {
-        $sql = "select * from Gn_Member where mem_id='$member_iam[recommend_id]' ";
+        $sql = "select * from Gn_Member where mem_id='{$member_iam['recommend_id']}' ";
         $rresult = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
         if (mysqli_num_rows($rresult) > 0) {
             $rrow = mysqli_fetch_array($rresult);
@@ -105,7 +105,7 @@ if(!strcmp($REPLYCD,"0000")){//pay_test
             // 리셀러 회원인경우 분양회원 아이디 확인
             if ($rrow['service_type'] == 2) {
                 // 추천인의 추천인 검색 및 등급 확인
-                $sql = "select * from Gn_Member where mem_id='$rrow[recommend_id]'";
+                $sql = "select * from Gn_Member where mem_id='{$rrow['recommend_id']}'";
                 $rresult = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
                 $trow = mysqli_fetch_array($rresult);
                 $share_per = $recommend_per = $rrow['share_per'] ? $rrow['share_per'] : 30;
@@ -119,7 +119,7 @@ if(!strcmp($REPLYCD,"0000")){//pay_test
                 $branch_share_per = 0;
             }
 
-            $sql = "update tjd_pay_result set share_per='$share_per', branch_share_per = '$branch_share_per', share_id='$member_iam[recommend_id]', branch_share_id='$branch_share_id' where no='$no'";
+            $sql = "update tjd_pay_result set share_per='$share_per', branch_share_per = '$branch_share_per', share_id='{$member_iam['recommend_id']}', branch_share_id='$branch_share_id' where no='$no'";
             mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
         }
     }//디버회원가입 완료

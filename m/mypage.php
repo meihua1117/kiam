@@ -7,7 +7,7 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
 //$sql="select * from Gn_Member  where mem_id='".$_SESSION['one_member_id']."'";
 //$sresul_num=mysqli_query($self_con,$sql);
 //$data=mysqli_fetch_array($sresul_num);
-//$m_birth_arr = explode("-",$data[mem_birth]);
+//$m_birth_arr = explode("-",$data['mem_birth']);
 
 ?>
 <style>
@@ -96,13 +96,13 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                                             <?} else if($member_1['mem_leb'] == "60"){?>
                                                 홍보회원
                                             <?}
-                                            if($member_1[service_type] == "0") {?>
+                                            if($member_1['service_type'] == "0") {?>
                                                 / FREE
-                                            <?}else if($member_1[service_type] == "1") {?>
+                                            <?}else if($member_1['service_type'] == "1") {?>
                                                 / 이용자
-                                            <?}else if($member_1[service_type] == "2") {?>
+                                            <?}else if($member_1['service_type'] == "2") {?>
                                                 / 리셀러
-                                            <?}else if($member_1[service_type] == "3") {?>
+                                            <?}else if($member_1['service_type'] == "3") {?>
                                                 / 분양자
                                             <?}?>
                                         </div>
@@ -285,7 +285,7 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                                     <div class="attr-value">
                                         <div class="input-wrap">
                                             <input type="hidden" name="nick" itemname='닉네임' value="<?=$member_1['mem_name']?>" />
-                                            <?=$member_1[recommend_id]?>
+                                            <?=$member_1['recommend_id']?>
                                         </div>
                                     </div>
                                 </div>
@@ -302,7 +302,7 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                                     <div class="attr-name">소식받기</div>
                                     <div class="attr-value">
                                         <div class="check-wrap">
-                                            <input type="checkbox" class="check" id="is_message" name="is_message" <?=$member_1[is_message]=="Y"?"checked":""?>>
+                                            <input type="checkbox" class="check" id="is_message" name="is_message" <?=$member_1['is_message']=="Y"?"checked":""?>>
                                             <label for="is_message">온리원그룹의 소식 받기</label>
                                         </div>
                                         <div class="desc">

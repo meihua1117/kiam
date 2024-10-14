@@ -1,17 +1,17 @@
 <?
 include_once "../lib/rlatjd_fun.php";
 if($_POST['mode'] == "intro_message") {
-   	$intro_message=htmlspecialchars($_POST[intro_message]);
+   	$intro_message=htmlspecialchars($_POST['intro_message']);
     $sql="update Gn_Member set intro_message='$intro_message' where mem_id='".$_SESSION['one_member_id']."'";
     mysqli_query($self_con,$sql);   
     echo "success"; 
     exit;	
 }
 //아이디 유무 판단
-if($_POST[id_che]){
-    $solution_type = $_POST[solution_type];
-    $solution_name = $_POST[solution_name];
-    $id_che=trim($_POST[id_che]);
+if($_POST['id_che']){
+    $solution_type = $_POST['solution_type'];
+    $solution_name = $_POST['solution_name'];
+    $id_che=trim($_POST['id_che']);
 	if($solution_type && $solution_name){
 		$search = " and ".$solution_type." = '$solution_name'";
 	}
@@ -116,9 +116,9 @@ if($_POST[id_che]){
 	}
 }
 //닉네임 중복확인
-if($_POST[nick_che]){
+if($_POST['nick_che']){
     $add_sql=$_SESSION['one_member_id']?" and mem_id<>'{$_SESSION['one_member_id']}' ":"";
-    $nick_che=trim($_POST[nick_che]);
+    $nick_che=trim($_POST['nick_che']);
     $sql="select mem_id from Gn_Member where mem_nick='$nick_che' $add_sql";
     $resul=mysqli_query($self_con,$sql);
     $row=mysqli_fetch_array($resul);
@@ -126,9 +126,9 @@ if($_POST[nick_che]){
 ?>
 	<script language="javascript">
         document.getElementById('nick_html').innerHTML='이미 가입되어있는 닉네임입니다.'
-        <?=$_POST[nick_che_form]?>.nick_status.value='';
-        <?=$_POST[nick_che_form]?>.nick.value='';
-        <?=$_POST[nick_che_form]?>.nick.focus();
+        <?=$_POST['nick_che_form']?>.nick_status.value='';
+        <?=$_POST['nick_che_form']?>.nick.value='';
+        <?=$_POST['nick_che_form']?>.nick.focus();
 	</script>
 <?
 	}else{
@@ -136,15 +136,15 @@ if($_POST[nick_che]){
 ?>
 			<script language="javascript">
                 alert('본 홈페이지 금지단어입니다.');
-                <?=$_POST[nick_che_form]?>.nick_status.value='';
-                <?=$_POST[nick_che_form]?>.nick.value='';
-                <?=$_POST[nick_che_form]?>.nick.focus();
+                <?=$_POST['nick_che_form']?>.nick_status.value='';
+                <?=$_POST['nick_che_form']?>.nick.value='';
+                <?=$_POST['nick_che_form']?>.nick.focus();
 			</script>
 <?
 		}else{
 ?>
 			<script language="javascript">
-                <?=$_POST[nick_che_form]?>.nick_status.value='ok';
+                <?=$_POST['nick_che_form']?>.nick_status.value='ok';
                 document.getElementById('nick_html').innerHTML="<img src='/images/check.gif' />";
 			</script>
 <?
@@ -152,19 +152,19 @@ if($_POST[nick_che]){
 	}		
 }
 //회원가입 1단계
-if($_POST[join_nick] && $_POST[join_is_message]){
-	$_POST[join_id] = strtolower(trim($_POST[join_id]));
-    if(!$_POST[join_modify]){
-        $member_info['mem_id']=htmlspecialchars($_POST[join_id]);
+if($_POST['join_nick'] && $_POST['join_is_message']){
+	$_POST['join_id'] = strtolower(trim($_POST['join_id']));
+    if(!$_POST['join_modify']){
+        $member_info['mem_id']=htmlspecialchars($_POST['join_id']);
 		$member_info['mem_leb']=22;
-		$member_info[id_type]="hp";
-		$member_info[join_ip]=$ip;
-		$member_info['mem_pass']=md5($_POST[join_pwd]);
-		$member_info[web_pwd]=$_POST[join_pwd];
-		$member_info['mem_phone']=$_POST[join_phone];
+		$member_info['id_type']="hp";
+		$member_info['join_ip']=$ip;
+		$member_info['mem_pass']=md5($_POST['join_pwd']);
+		$member_info['web_pwd']=$_POST['join_pwd'];
+		$member_info['mem_phone']=$_POST['join_phone'];
 	} else {
         // 핸드폰 번호 중복 확인
-        $sql="select * from Gn_Member where replace(mem_phone,'-','')=replace('$_POST[join_phone]','-','')";
+        $sql="select * from Gn_Member where replace(mem_phone,'-','')=replace('{$_POST['join_phone']}','-','')";
         $resul=mysqli_query($self_con,$sql);
         $row=mysqli_fetch_array($resul);	
         if($row[0] != "") {
@@ -180,13 +180,13 @@ if($_POST[join_nick] && $_POST[join_is_message]){
         exit;
         }	    
 	}
-	$member_info[mem_nick]=htmlspecialchars($_POST[join_name]);
-	$member_info['mem_name']=htmlspecialchars($_POST[join_name]);
-	$member_info['mem_email']=$_POST[join_email];
-	$member_info[mem_add1]=$_POST[join_add1];
-	$member_info[zy]=$_POST[join_zy];
-	$member_info[mem_birth]=$_POST[join_birth];
-	$member_info[is_message]=$_POST[join_is_message];	
+	$member_info['mem_nick']=htmlspecialchars($_POST['join_name']);
+	$member_info['mem_name']=htmlspecialchars($_POST['join_name']);
+	$member_info['mem_email']=$_POST['join_email'];
+	$member_info['mem_add1']=$_POST['join_add1'];
+	$member_info['zy']=$_POST['join_zy'];
+	$member_info['mem_birth']=$_POST['join_birth'];
+	$member_info['is_message']=$_POST['join_is_message'];	
 	if($_FILES['profile']) {
     	$tempFile = $_FILES['profile']['tmp_name'];
     	if($tempFile) {
@@ -206,13 +206,13 @@ if($_POST[join_nick] && $_POST[join_is_message]){
         	}	    
     	}
 	}
-	if($_POST[solution_type]) {
-		$member_info['site'] = $_POST[solution_name];
+	if($_POST['solution_type']) {
+		$member_info['site'] = $_POST['solution_name'];
 		$sql_iam="select count(*) FROM Gn_Iam_Service WHERE sub_domain like '%http://".$HTTP_HOST."'";
 		$res_iam=mysqli_query($self_con,$sql_iam);
 		$row_iam = mysqli_fetch_array($res_iam);
 		if($row_iam[0] != 0)
-			$member_info['site_iam'] = $_POST[solution_name];
+			$member_info['site_iam'] = $_POST['solution_name'];
 		else
 			$member_info['site_iam'] = "kiam";
 	}
@@ -221,35 +221,35 @@ if($_POST[join_nick] && $_POST[join_is_message]){
     if($site_name == "www")
         $site_name = "kiam";
     $member_info['site'] = $member_info['site_iam'] = $site_name;
-	if($_POST[recommend_id]){
-		$member_info[recommend_id]=$_POST[recommend_id];
+	if($_POST['recommend_id']){
+		$member_info['recommend_id']=$_POST['recommend_id'];
 	}else{
 		if($HTTP_HOST == 'kiam.kr')
-			$member_info[recommend_id] = 'onlyone';
+			$member_info['recommend_id'] = 'onlyone';
 		else{
 			$sql = "select mem_id from Gn_Service where sub_domain like '%http://".$HTTP_HOST."%'";
 			$res = mysqli_query($self_con,$sql);
 			$row = mysqli_fetch_array($res);
-			$member_info[recommend_id] = $row['mem_id'];
+			$member_info['recommend_id'] = $row['mem_id'];
 		}
 	}
-	if($_POST[recommend_branch])
-	    $member_info[recommend_branch]=$_POST[recommend_branch];	    
+	if($_POST['recommend_branch'])
+	    $member_info['recommend_branch']=$_POST['recommend_branch'];	    
 	    
-	$sql="select * from Gn_Service where mem_id='$_POST[recommend_id]'";
+	$sql="select * from Gn_Service where mem_id='{$_POST['recommend_id']}'";
 	$result=mysqli_query($self_con,$sql);
 	$sinfo=mysqli_fetch_array($result);	
 	if($sinfo[0] != "") {
 		$parse = parse_url($sinfo['sub_domain']);
 		$sites = explode(".", $parse['host']);
-		$member_info[ext_recm_id] = $sites[0];
-		//$member_info[ext_recm_id] = str_replace(".kiam.kr", "", str_replace("http://", "", $sinfo['sub_domain']));
+		$member_info['ext_recm_id'] = $sites[0];
+		//$member_info['ext_recm_id'] = str_replace(".kiam.kr", "", str_replace("http://", "", $sinfo['sub_domain']));
 	}
-	$member_info[bank_name]=$_POST[bank_name];
-	$member_info[bank_account]=$_POST[bank_account];
-	$member_info[bank_owner]=$_POST[bank_owner];
-	if($_POST[join_modify] == "") {
-	    if($_POST[rnum] == "" && $_POST[country_code] == "KR") {
+	$member_info['bank_name']=$_POST['bank_name'];
+	$member_info['bank_account']=$_POST['bank_account'];
+	$member_info['bank_owner']=$_POST['bank_owner'];
+	if($_POST['join_modify'] == "") {
+	    if($_POST['rnum'] == "" && $_POST['country_code'] == "KR") {
 	        ?>
 	        <script language="javascript">
 				alert('인증번호가 없습니다.');
@@ -257,8 +257,8 @@ if($_POST[join_nick] && $_POST[join_is_message]){
 	        <?
 	        exit;
 	    }
-		if($_POST['rnum'] != "" && $_POST[country_code] == "KR") {
-			$sql="select * from Gn_Member_Check_Sms where mem_phone='{$member_info['mem_phone']}' and secret_key='$_POST[rnum]' and status='Y' order by idx desc";
+		if($_POST['rnum'] != "" && $_POST['country_code'] == "KR") {
+			$sql="select * from Gn_Member_Check_Sms where mem_phone='{$member_info['mem_phone']}' and secret_key='{$_POST['rnum']}' and status='Y' order by idx desc";
 			$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 			$data = $row=mysqli_fetch_array($result);
 
@@ -277,10 +277,10 @@ if($_POST[join_nick] && $_POST[join_is_message]){
 		}
 	}
 
-	$member_info['mem_pass']=md5($_POST[join_pwd]);
-	$member_info[web_pwd]=$_POST[join_pwd];
+	$member_info['mem_pass']=md5($_POST['join_pwd']);
+	$member_info['web_pwd']=$_POST['join_pwd'];
 			
-	if($_POST[join_modify])
+	if($_POST['join_modify'])
 	    $sql=" update Gn_Member set ";
 	else {
 		$query = "select count(*) from Gn_Member where mem_id = '{$member_info['mem_id']}'";
@@ -289,9 +289,9 @@ if($_POST[join_nick] && $_POST[join_is_message]){
 		if($row[0] == 0)
 			$sql = " insert into Gn_Member set ";
 		else
-			$sql = "update Gn_Member set ".$_POST[site_type]." = '".$_POST[site_name]."' where mem_id = '".$member_info['mem_id']."'";
+			$sql = "update Gn_Member set ".$_POST['site_type']." = '".$_POST['site_name']."' where mem_id = '".$member_info['mem_id']."'";
 	}
-	if($_POST[join_modify] || $row[0] == 0) {
+	if($_POST['join_modify'] || $row[0] == 0) {
 		$i = 0;
 		foreach ($member_info as $key => $v) {
 			$bd = $i == (count($member_info) - 1) ? "" : ",";
@@ -300,12 +300,12 @@ if($_POST[join_nick] && $_POST[join_is_message]){
 			$i++;
 		}
 	}
-	if($_POST[join_modify])
-		$sql.=" where mem_code='$_POST[join_modify]' ";
+	if($_POST['join_modify'])
+		$sql.=" where mem_code='{$_POST['join_modify']}' ";
 	else if($row[0] == 0)
 		$sql.=" ,first_regist=now() , mem_check=now() ";
 	if(mysqli_query($self_con,$sql) or die(mysqli_error($self_con))){
-		if($_POST[join_modify]){
+		if($_POST['join_modify']){
 ?>
         <script language="javascript">
 		alert('수정완료되었습니다.');
@@ -320,8 +320,8 @@ if($_POST[join_nick] && $_POST[join_is_message]){
 				$query = "insert into Gn_MMS_Group set mem_id='{$member_info['mem_id']}', grp='아이엠', reg_date=NOW()";
 				mysqli_query($self_con,$query);
 			}
-			$_SESSION['one_member_id']=$_POST[join_id];
-            $content=$_POST[join_name]."님 온리원문자 회원이 되신걸 환영합니다.";
+			$_SESSION['one_member_id']=$_POST['join_id'];
+            $content=$_POST['join_name']."님 온리원문자 회원이 되신걸 환영합니다.";
             $subject="온리원문자 회원가입";
             sendemail("", $member_info['mem_email'],"admin@kiam.kr",$subject,$content);
 
@@ -338,37 +338,37 @@ if($_POST[join_nick] && $_POST[join_is_message]){
 	}
 }
 //아이디 패스워드찾기
-if($_POST[search_id_pw_mem_name] && $_POST[search_id_pw_type]){	
+if($_POST['search_id_pw_mem_name'] && $_POST['search_id_pw_type']){	
 	$s = 0;
 	$conf_sql = "select * from gn_conf";
 	$conf_result = mysqli_query($self_con,$conf_sql);
 	$conf_row = mysqli_fetch_array($conf_result);
 	$mem_id = $conf_row['phone_id'];
 	$send_num = $conf_row['phone_num'];
-	if($_POST[search_id_pw_type]=="phone") {
-	    $phone_num = str_replace("-","",$_POST[search_id_pw_phone]);
-        $sql_serch = " (mem_phone='$_POST[search_id_pw_phone]' or mem_phone='$phone_num')";
+	if($_POST['search_id_pw_type']=="phone") {
+	    $phone_num = str_replace("-","",$_POST['search_id_pw_phone']);
+        $sql_serch = " (mem_phone='{$_POST['search_id_pw_phone']}' or mem_phone='$phone_num')";
     }
-	else if($_POST[search_id_pw_type]=="email")
+	else if($_POST['search_id_pw_type']=="email")
 	    $sql_serch =" mem_email='$_POST[search_id_pw_email]' ";
-	if($_POST[search_id_pw_mem_id])
-		$sql_serch.=" and mem_id=trim('$_POST[search_id_pw_mem_id]') and mem_name=trim('$_POST[search_id_pw_mem_name]') ";
+	if($_POST['search_id_pw_mem_id'])
+		$sql_serch.=" and mem_id=trim('{$_POST['search_id_pw_mem_id']}') and mem_name=trim('{$_POST['search_id_pw_mem_name']}') ";
 	else
-		$sql_serch.=" and mem_name=trim('$_POST[search_id_pw_mem_name]') ";
+		$sql_serch.=" and mem_name=trim('{$_POST['search_id_pw_mem_name']}') ";
     $sql="select * from Gn_Member where $sql_serch ";
     $resul=mysqli_query($self_con,$sql);
     $row=mysqli_fetch_array($resul);
     if($row['mem_code'])
     {
         // 수정 시작
-        if($row[is_leave] == 'Y'){
+        if($row['is_leave'] == 'Y'){
 ?>
         <script language="javascript">
               alert('탈퇴한 아이디 입니다.');
               //location.reload();
         </script>
 <?
-        }else if($_POST[search_id_pw_mem_id]){
+        }else if($_POST['search_id_pw_mem_id']){
             $new_pwd=substr(md5(time()),0,10);
             $sql_u="update Gn_Member set web_pwd=password('$new_pwd') where mem_code='{$row['mem_code']}' ";
             mysqli_query($self_con,$sql_u);
@@ -382,7 +382,7 @@ if($_POST[search_id_pw_mem_name] && $_POST[search_id_pw_type]){
 			$content=$row['mem_name']."님 온리원문자 비밀번호가[ ".$new_pwd." ] 로 변경되었습니다. ".$site_iam."kiam.kr (".$row['mem_id'].")";
 			$content1=$row['mem_name']."님 온리원문자 비밀번호가[ ".$new_pwd." ] 로 변경되었습니다.";
             $subject="온리원문자 비밀번호찾기";
-            if($_POST[search_id_pw_type]=="email") {
+            if($_POST['search_id_pw_type']=="email") {
                 sendemail("", $row['mem_email'], "admin@kiam.kr", $subject, $content);
                 $msg = "회원님의 비밀번호가 변경되었습니다.이메일 ".$row['mem_email']."로 발송되었습니다.";
             }
@@ -413,12 +413,12 @@ if($_POST[search_id_pw_mem_name] && $_POST[search_id_pw_type]){
 <?
         }else{
 			$content = "";
-			if($_POST[search_id_pw_type]=="phone") {
+			if($_POST['search_id_pw_type']=="phone") {
 				$sql_serch = " and REPLACE(mem_phone,'-','')='{$phone_num}'";
 			}
-			else if($_POST[search_id_pw_type]=="email")
+			else if($_POST['search_id_pw_type']=="email")
 				$sql_serch =" and mem_email='$_POST[search_id_pw_email]' ";
-			$sql_doub_mem = "select * from Gn_Member where mem_name='$_POST[search_id_pw_mem_name]' ".$sql_serch;
+			$sql_doub_mem = "select * from Gn_Member where mem_name='{$_POST['search_id_pw_mem_name']}' ".$sql_serch;
 			$res_doub_mem = mysqli_query($self_con,$sql_doub_mem);
 			while($row1 = mysqli_fetch_array($res_doub_mem)){
 				if($row1['site_iam'] == "kiam" || $row1['site_iam'] == ""){
@@ -430,7 +430,7 @@ if($_POST[search_id_pw_mem_name] && $_POST[search_id_pw_type]){
 				$content.= $row1['mem_name']."님 온리원문자 아이디는[ ".$row1['mem_id']." ] 입니다. ".$site_iam."kiam.kr (".$row1['mem_id'].")\n";
 				$subject="온리원문자 아이디찾기";
 			}
-			if($_POST[search_id_pw_type]=="email") {
+			if($_POST['search_id_pw_type']=="email") {
 				sendemail("", $row['mem_email'], "admin@kiam.kr", $subject, $content);
 				$msg = "회원님의 아이디가 이메일 ".$row['mem_email']."로 발송되었습니다.";
 			}

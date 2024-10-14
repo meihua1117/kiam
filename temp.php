@@ -18,8 +18,8 @@ while($row = mysqli_fetch_array($res)){
     if($mem_id == $data['mem_id'])
         $card_cnt = $data[my_card_cnt];
     else
-        $card_cnt = $data[iamcard_cnt];
-    $share_cnt = $data[send_content];
+        $card_cnt = $data['iamcard_cnt'];
+    $share_cnt = $data['send_content'];
     $query = "update Gn_Member set iam_card_cnt='$card_cnt' ,iam_share_cnt='$share_cnt' where mem_id = '$mem_id'";
     mysqli_query($self_con,$query);
     echo "update ".$mem_id." complete!"."<br>";

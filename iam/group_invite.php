@@ -291,7 +291,7 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                                                 <div class="info">
                                                     <div class="upper">
                                                         <span class="name"><?=$row['mem_name']?></span>
-                                                        <span class="company"><?=$row[zy]?></span>
+                                                        <span class="company"><?=$row['zy']?></span>
                                                     </div>
                                                     <div class="downer">
                                                         <a href="tel:<?=$row['mem_phone']?>"><?=$row['mem_phone']?></a>

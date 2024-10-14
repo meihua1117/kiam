@@ -9,7 +9,7 @@
 
                 <a href="/mypage_payment.php">결제정보</a> | 
 
-                 <?if($data[service_type] == 3 || $data[service_type] == 2 || $data['mem_id'] == "obmms02") {?>
+                 <?if($data['service_type'] == 3 || $data['service_type'] == 2 || $data['mem_id'] == "obmms02") {?>
                 <a href="/mypage_payment_reseller.php">정산정보</a> |
                 <a href="/sub_7.php">추천정보</a> | 
                 <?}?>

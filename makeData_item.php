@@ -24,8 +24,8 @@ if (isset($_POST['point_val'])) {
     $current_point = $row_point['mem_cash'] * 1;
 
     $_POST['month_cnt'] = 90;
-    $sql_tjd = "insert into tjd_pay_result set idx='$_POST[allat_order_no]',
-                    orderNumber='$_POST[allat_order_no]',
+    $sql_tjd = "insert into tjd_pay_result set idx='{$_POST['allat_order_no']}',
+                    orderNumber='{$_POST['allat_order_no']}',
                     VACT_InputName='{$data['mem_name']}',
                     TotPrice={$_POST['allat_amt']},
                     month_cnt='{$_POST['month_cnt']}',
@@ -105,8 +105,8 @@ if (isset($_POST['point_val'])) {
 
             if (!isset($_POST['spgd'])) {
                 //일반 서비스콘 구매가 아닌경우
-                $sql = "insert into tjd_pay_result set idx='$_POST[allat_order_no]',
-                                                    orderNumber='$_POST[allat_order_no]',
+                $sql = "insert into tjd_pay_result set idx='{$_POST['allat_order_no']}',
+                                                    orderNumber='{$_POST['allat_order_no']}',
                                                     VACT_InputName='{$member_iam['mem_name']}',
                                                     TotPrice='$tot_price',
                                                     month_cnt='{$_POST['month_cnt']}',
@@ -148,10 +148,10 @@ if (isset($_POST['point_val'])) {
                             item_price=$item_price,
                             seller_id='{$row_cont_info['mem_id']}',
                             pay_date=NOW(),
-                            pay_percent='$_POST[pay_percent]',
-                            order_number = '$_POST[allat_order_no]',
+                            pay_percent='{$_POST['pay_percent']}',
+                            order_number = '{$_POST['allat_order_no']}',
                             VACT_InputName='{$data['mem_name']}',
-                            contents_cnt='$_POST[contents_cnt]',
+                            contents_cnt='{$_POST['contents_cnt']}',
                             point_val=$point,
                             gwc_cont_pay=$gwc,
                             tjd_idx=$pay_idx_tjd";
@@ -167,7 +167,7 @@ if (isset($_POST['point_val'])) {
                 // $pay_idx_tjd = 0;
                 if (!$item_price) {
                     $sql = "insert into tjd_pay_result set idx='{$_POST['allat_order_no']}',
-                                                        orderNumber='$_POST[allat_order_no]',
+                                                        orderNumber='{$_POST['allat_order_no']}',
                                                         VACT_InputName='{$member_iam['mem_name']}',
                                                         TotPrice='$use_point',
                                                         month_cnt='{$_POST['month_cnt']}',
@@ -211,13 +211,13 @@ if (isset($_POST['point_val'])) {
                                                                 pay_date=NOW(),
                                                                 pay_status='Y',
                                                                 pay_percent='',
-                                                                order_number = '$_POST[allat_order_no]',
+                                                                order_number = '{$_POST['allat_order_no']}',
                                                                 VACT_InputName='{$data['mem_name']}',
                                                                 point_val=1,
                                                                 type='use',
-                                                                current_point='$data[mem_point]',
+                                                                current_point='{$data['mem_point']}',
                                                                 current_cash='{$data['mem_cash']}',
-                                                                contents_cnt='$_POST[contents_cnt]',
+                                                                contents_cnt='{$_POST['contents_cnt']}',
                                                                 gwc_cont_pay=$gwc,
                                                                 tjd_idx=$pay_idx_tjd";
                 $res_result = mysqli_query($self_con,$sql_buyer);
@@ -225,7 +225,7 @@ if (isset($_POST['point_val'])) {
                     $pay_idx = mysqli_insert_id($self_con);
                 }
 
-                $sql_del = "delete from Gn_Gwc_Order where pay_order_no='$_POST[allat_order_no]' and mem_id='{$member_iam['mem_id']}' and page_type=1";
+                $sql_del = "delete from Gn_Gwc_Order where pay_order_no='{$_POST['allat_order_no']}' and mem_id='{$member_iam['mem_id']}' and page_type=1";
                 mysqli_query($self_con,$sql_del) or die(mysqli_error($self_con));
             }
             $sql_order = "insert into Gn_Gwc_Order
@@ -233,7 +233,7 @@ if (isset($_POST['point_val'])) {
                                 contents_idx='$_POST[cont_idx]',
                                 tjd_idx=$pay_idx_tjd,
                                 pay_idx='$pay_idx',
-                                pay_order_no='$_POST[allat_order_no]',
+                                pay_order_no='{$_POST['allat_order_no']}',
                                 contents_price = '$_POST[org_price]',
                                 salary_price=$_POST[baesong_price2],
                                 contents_provide_price={$_POST['contents_provide_price']},
@@ -253,7 +253,7 @@ if (isset($_POST['point_val'])) {
                                 receive_mem_zip='$_POST[b_zip]',
                                 receive_mem_add='$_POST[allat_recp_addr]',
                                 receive_mem_add2='$_POST[b_addr2]',
-                                contents_cnt = '$_POST[contents_cnt]',
+                                contents_cnt = '{$_POST['contents_cnt']}',
                                 use_point=$use_point,
                                 payMethod='$payMethod',
                                 seller_id='{$row_cont_info['mem_id']}',
@@ -284,9 +284,9 @@ if (isset($_POST['point_val'])) {
                             VACT_InputName='{$data['mem_name']}',
                             point_val=1,
                             type='buy',
-                            current_point='$data[mem_point]',
+                            current_point='{$data['mem_point']}',
                             current_cash='{$data['mem_cash']}',
-                            contents_cnt='$_POST[contents_cnt]',
+                            contents_cnt='{$_POST['contents_cnt']}',
                             gwc_cont_pay=$gwc,
                             tjd_idx=$pay_idx_tjd";
                 $res_result = mysqli_query($self_con,$sql_buyer);
@@ -327,8 +327,8 @@ if (isset($_POST['point_val'])) {
                     $mi_price = $comp_price * 1;
 
                     $sql = "insert into tjd_pay_result set 
-                                idx='$_POST[allat_order_no]',
-                                orderNumber='$_POST[allat_order_no]',
+                                idx='{$_POST['allat_order_no']}',
+                                orderNumber='{$_POST['allat_order_no']}',
                                 VACT_InputName='{$member_iam['mem_name']}',
                                 TotPrice='$mi_price',
                                 month_cnt='{$_POST['month_cnt']}',
@@ -348,7 +348,7 @@ if (isset($_POST['point_val'])) {
                                 shop_cnt='$_POST[shop_cnt]',
                                 onestep1='{$_POST['onestep1']}',
                                 onestep2='{$_POST['onestep2']}',
-                                member_cnt='$_POST[member_cnt]',
+                                member_cnt='{$_POST['member_cnt']}',
                                 gwc_cont_pay=$gwc,
                                 yutong_name=$yutong,
                                 provider_name='$provider_name',
@@ -371,11 +371,11 @@ if (isset($_POST['point_val'])) {
                                     pay_date=NOW(),
                                     pay_status='Y',
                                     pay_percent='',
-                                    order_number = '$_POST[allat_order_no]',
+                                    order_number = '{$_POST['allat_order_no']}',
                                     VACT_InputName='{$data['mem_name']}',
                                     point_val=1,
                                     type='use',
-                                    current_point='$data[mem_point]',
+                                    current_point='{$data['mem_point']}',
                                     current_cash='{$data['mem_cash']}',
                                     contents_cnt='$con_cnt_arr[$i]',
                                     gwc_cont_pay=$gwc,
@@ -388,7 +388,7 @@ if (isset($_POST['point_val'])) {
                                         contents_idx='$idx_arr[$i]',
                                         tjd_idx='$pay_idx_tjd',
                                         pay_idx='$pay_idx',
-                                        pay_order_no='$_POST[allat_order_no]',
+                                        pay_order_no='{$_POST['allat_order_no']}',
                                         contents_price = '$org_price_arr[$i]',
                                         salary_price=$baesong_price_arr[$i],
                                         contents_provide_price=$cont_provide_price_arr[$i],
@@ -426,8 +426,8 @@ if (isset($_POST['point_val'])) {
                     }
                     $real_price = $comp_price * 1 - $use_point * 1;
                     $sql = "insert into tjd_pay_result set 
-                                idx='$_POST[allat_order_no]',
-                                orderNumber='$_POST[allat_order_no]',
+                                idx='{$_POST['allat_order_no']}',
+                                orderNumber='{$_POST['allat_order_no']}',
                                 VACT_InputName='{$member_iam['mem_name']}',
                                 TotPrice='$comp_price',
                                 month_cnt='{$_POST['month_cnt']}',
@@ -447,7 +447,7 @@ if (isset($_POST['point_val'])) {
                                 shop_cnt='$_POST[shop_cnt]',
                                 onestep1='{$_POST['onestep1']}',
                                 onestep2='{$_POST['onestep2']}',
-                                member_cnt='$_POST[member_cnt]',
+                                member_cnt='{$_POST['member_cnt']}',
                                 gwc_cont_pay=$gwc,
                                 yutong_name=$yutong,
                                 provider_name='$provider_name',
@@ -464,8 +464,8 @@ if (isset($_POST['point_val'])) {
                                     seller_id='{$row_cont_info['mem_id']}',
                                     pay_date=NOW(),
                                     pay_status='$end_state',
-                                    pay_percent='$_POST[pay_percent]',
-                                    order_number = '$_POST[allat_order_no]',
+                                    pay_percent='{$_POST['pay_percent']}',
+                                    order_number = '{$_POST['allat_order_no']}',
                                     VACT_InputName='{$data['mem_name']}',
                                     contents_cnt='$con_cnt_arr[$i]',
                                     point_val=$point,
@@ -489,11 +489,11 @@ if (isset($_POST['point_val'])) {
                                     pay_date=NOW(),
                                     pay_status='Y',
                                     pay_percent='',
-                                    order_number = '$_POST[allat_order_no]',
+                                    order_number = '{$_POST['allat_order_no']}',
                                     VACT_InputName='{$data['mem_name']}',
                                     point_val=1,
                                     type='use',
-                                    current_point='$data[mem_point]',
+                                    current_point='{$data['mem_point']}',
                                     current_cash='{$data['mem_cash']}',
                                     contents_cnt='$con_cnt_arr[$i]',
                                     gwc_cont_pay=$gwc,
@@ -505,7 +505,7 @@ if (isset($_POST['point_val'])) {
                                         contents_idx='$idx_arr[$i]',
                                         tjd_idx='$pay_idx_tjd',
                                         pay_idx='$pay_idx',
-                                        pay_order_no='$_POST[allat_order_no]',
+                                        pay_order_no='{$_POST['allat_order_no']}',
                                         contents_price = '$org_price_arr[$i]',
                                         salary_price=$baesong_price_arr[$i],
                                         contents_provide_price=$cont_provide_price_arr[$i],
@@ -538,8 +538,8 @@ if (isset($_POST['point_val'])) {
             //이용포인트 없다면 이전 로직과 같음
             else {
                 $sql = "insert into tjd_pay_result set 
-                            idx='$_POST[allat_order_no]',
-                            orderNumber='$_POST[allat_order_no]',
+                            idx='{$_POST['allat_order_no']}',
+                            orderNumber='{$_POST['allat_order_no']}',
                             VACT_InputName='{$member_iam['mem_name']}',
                             TotPrice='$comp_price',
                             month_cnt='{$_POST['month_cnt']}',
@@ -559,7 +559,7 @@ if (isset($_POST['point_val'])) {
                             shop_cnt='$_POST[shop_cnt]',
                             onestep1='{$_POST['onestep1']}',
                             onestep2='{$_POST['onestep2']}',
-                            member_cnt='$_POST[member_cnt]',
+                            member_cnt='{$_POST['member_cnt']}',
                             gwc_cont_pay=$gwc,
                             yutong_name=$yutong,
                             provider_name='$provider_name',
@@ -575,8 +575,8 @@ if (isset($_POST['point_val'])) {
                                 item_price=$comp_price,
                                 seller_id='{$row_cont_info['mem_id']}',
                                 pay_date=NOW(),
-                                pay_percent='$_POST[pay_percent]',
-                                order_number = '$_POST[allat_order_no]',
+                                pay_percent='{$_POST['pay_percent']}',
+                                order_number = '{$_POST['allat_order_no']}',
                                 VACT_InputName='{$data['mem_name']}',
                                 contents_cnt='$con_cnt_arr[$i]',
                                 point_val=$point,
@@ -591,7 +591,7 @@ if (isset($_POST['point_val'])) {
                                     contents_idx='$idx_arr[$i]',
                                     tjd_idx=$pay_idx_tjd,
                                     pay_idx='$pay_idx',
-                                    pay_order_no='$_POST[allat_order_no]',
+                                    pay_order_no='{$_POST['allat_order_no']}',
                                     contents_price = '$org_price_arr[$i]',
                                     salary_price=$baesong_price_arr[$i],
                                     contents_provide_price=$cont_provide_price_arr[$i],
@@ -619,7 +619,7 @@ if (isset($_POST['point_val'])) {
             }
         }
         if ($use_point) { //포인트 결제인경우 장바구니 내역을 바로 삭제
-            $sql_del = "delete from Gn_Gwc_Order where pay_order_no='$_POST[allat_order_no]' and mem_id='{$member_iam['mem_id']}' and page_type=1";
+            $sql_del = "delete from Gn_Gwc_Order where pay_order_no='{$_POST['allat_order_no']}' and mem_id='{$member_iam['mem_id']}' and page_type=1";
             mysqli_query($self_con,$sql_del) or die(mysqli_error($self_con));
         }
     }

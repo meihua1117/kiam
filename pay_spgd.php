@@ -7,10 +7,10 @@ extract($_GET);
     }
 </script>
 <?
-$item_name = $_GET[item_name];
-$item_price = $_GET[item_price];
+$item_name = $_GET['item_name'];
+$item_price = $_GET['item_price'];
 $seller_id = $_GET[manager];
-$con_sale_cnt = $_GET[sale_cnt];
+$con_sale_cnt = $_GET['sale_cnt'];
 if(isset($_GET[conidx])){
     $conidx = $_GET[conidx];
 }else{

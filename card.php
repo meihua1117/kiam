@@ -76,7 +76,7 @@ while($data=mysqli_fetch_array($pay_res)) {
         else if($mem_count < 11100)
             $price = 231000;
     }else{
-        $price = $data[TotPrice];
+        $price = $data['TotPrice'];
     }
     if($data['payMethod'] == "MONTH"){
         $sql = "insert into tjd_pay_result_month set pay_idx='{$data['idx']}',
@@ -91,9 +91,9 @@ while($data=mysqli_fetch_array($pay_res)) {
         $order_no = $data['orderNumber'].date("Ym");
         // 필수 항목
         $at_cross_key      = "304f3a821cac298ff8a0ef504e1c2309";   //CrossKey값(최대200자)
-        $at_fix_key        = $data[billkey];   //카드키(최대 24자)
+        $at_fix_key        = $data['billkey'];   //카드키(최대 24자)
         $at_sell_mm        = "00";   //할부개월값(최대  2자)
-        //$at_amt            = "$row[TotPrice]";   //금액(최대 10자)
+        //$at_amt            = "$row['TotPrice']";   //금액(최대 10자)
         $at_amt            = $price;   //금액(최대 10자)
         $at_business_type  = "0";   //결제자 카드종류(최대 1자)       : 개인(0),법인(1)
         $at_registry_no    = "";   //주민번호(최대 13자리)           : szBusinessType=0 일경우

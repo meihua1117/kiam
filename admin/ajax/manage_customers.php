@@ -47,7 +47,7 @@ else if($mode == "edit_table"){
 
         $recommend_link = "https://".$HTTP_HOST."/ma.php?mem_code=".$row_mem_data['mem_code'];
 
-        echo '{"'.$prefix.'name":"'.$row_mem_data['mem_name'].'", "'.$prefix.'phone1":"'.$row_mem_data['mem_phone'].'", "'.$prefix.'phone2":"'.$row_mem_data[mem_phone1].'", "'.$prefix.'email":"'.$row_mem_data['mem_email'].'", "'.$prefix.'birthday":"'.$row_mem_data[mem_birth].'", "'.$prefix.'work_type":"'.$row_mem_data[com_type].'", "'.$prefix.'company_name":"'.$row_mem_data[zy].'", "'.$prefix.'job":"'.$row_mem_data[mem_job].'", "'.$prefix.'company_addr":"'.$row_mem_data[com_add1].'", "'.$prefix.'home_addr":"'.$row_mem_data[mem_add1].'", "'.$prefix.'link":"'.$recommend_link.'", "'.$prefix.'memo":"'.$row_mem_data[mem_memo].'"}';
+        echo '{"'.$prefix.'name":"'.$row_mem_data['mem_name'].'", "'.$prefix.'phone1":"'.$row_mem_data['mem_phone'].'", "'.$prefix.'phone2":"'.$row_mem_data[mem_phone1].'", "'.$prefix.'email":"'.$row_mem_data['mem_email'].'", "'.$prefix.'birthday":"'.$row_mem_data['mem_birth'].'", "'.$prefix.'work_type":"'.$row_mem_data[com_type].'", "'.$prefix.'company_name":"'.$row_mem_data['zy'].'", "'.$prefix.'job":"'.$row_mem_data[mem_job].'", "'.$prefix.'company_addr":"'.$row_mem_data['com_add1'].'", "'.$prefix.'home_addr":"'.$row_mem_data['mem_add1'].'", "'.$prefix.'link":"'.$recommend_link.'", "'.$prefix.'memo":"'.$row_mem_data[mem_memo].'"}';
     }
     else if($type == "reg_cust_edit"){
         $sql_mem_data = "select * from gn_reg_customer where id='{$idx}'";
@@ -95,7 +95,7 @@ else if($mode == "move"){
             $cell_arr = explode('<span', $row_mem_data['cell']);
         }
 
-        $sql_move = "insert into gn_reg_customer set mem_id='{$row_crawler_data_supply[user_id]}', name='{$row_crawler_data_supply['ceo']}', phone1='{$cell_arr[0]}', phone2='{$row_crawler_data_supply[cell1]}', email='{$row_crawler_data_supply['email']}', birthday='{$row_crawler_data_supply[birthday]}', work_type='{$row_crawler_data_supply[company_type]}', company_name='{$row_crawler_data_supply['company_name']}', job='{$row_crawler_data_supply[data_type]}', company_addr='{$row_crawler_data_supply[address]}', home_addr='{$row_crawler_data_supply[address1]}', link='{$row_crawler_data_supply[url]}', reg_date='{$cur_time}', memo='{$row_crawler_data_supply['memo']}'";
+        $sql_move = "insert into gn_reg_customer set mem_id='{$row_crawler_data_supply['user_id']}', name='{$row_crawler_data_supply['ceo']}', phone1='{$cell_arr[0]}', phone2='{$row_crawler_data_supply[cell1]}', email='{$row_crawler_data_supply['email']}', birthday='{$row_crawler_data_supply[birthday]}', work_type='{$row_crawler_data_supply[company_type]}', company_name='{$row_crawler_data_supply['company_name']}', job='{$row_crawler_data_supply[data_type]}', company_addr='{$row_crawler_data_supply[address]}', home_addr='{$row_crawler_data_supply[address1]}', link='{$row_crawler_data_supply[url]}', reg_date='{$cur_time}', memo='{$row_crawler_data_supply['memo']}'";
         mysqli_query($self_con,$sql_move);
 
         $sql_del = "delete from crawler_data_supply where seq='{$idx}'";

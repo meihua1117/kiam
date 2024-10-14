@@ -320,13 +320,13 @@ if($_GET['key'] && $_GET['key'] == session_id()) {
 			$i = 0;
 
 			if($_SESSION['iam_member_id']){
-				$mem_type = $member_iam[service_type];
+				$mem_type = $member_iam['service_type'];
 				if($mem_type == 3){//분양자
 					$sql_notice = "select seller_id, pay_date, message from Gn_Item_Pay_Result where buyer_id='{$_SESSION['iam_member_id']}' and item_name='공지사항전송' order by pay_date desc limit 1";
 					$res_notice = mysqli_query($self_con,$sql_notice);
 					$row_notice = mysqli_fetch_array($res_notice);
 
-					if($row_notice[seller_id] != ''){
+					if($row_notice['seller_id'] != ''){
 						$data['title'] = $row_notice['seller_id'];
 						$data['date'] = $row_notice['pay_date'];
 						$data['domain'] = $member_iam['site_iam'];
@@ -344,7 +344,7 @@ if($_GET['key'] && $_GET['key'] == session_id()) {
 					$res_notice = mysqli_query($self_con,$sql_notice);
 					$row_notice = mysqli_fetch_array($res_notice);
 
-					if($row_notice[seller_id] != ''){
+					if($row_notice['seller_id'] != ''){
 						$data['title'] = $row_notice['seller_id'];
 						$data['date'] = $row_notice['pay_date'];
 						$data['domain'] = $member_iam['site_iam'];
@@ -366,7 +366,7 @@ if($_GET['key'] && $_GET['key'] == session_id()) {
 						$res_notice = mysqli_query($self_con,$sql_notice);
 						$row_notice = mysqli_fetch_array($res_notice);
 
-						if($row_notice[seller_id] != ''){
+						if($row_notice['seller_id'] != ''){
 							$data['title'] = $row_notice['seller_id'];
 							$data['date'] = $row_notice['pay_date'];
 							$data['domain'] = $member_iam['site_iam'];
@@ -389,7 +389,7 @@ if($_GET['key'] && $_GET['key'] == session_id()) {
 					$res_notice = mysqli_query($self_con,$sql_notice);
 					$row_notice = mysqli_fetch_array($res_notice);
 
-					if($row_notice[seller_id] != ''){
+					if($row_notice['seller_id'] != ''){
 						$data['title'] = $row_notice['seller_id'];
 						$data['date'] = $row_notice['pay_date'];
 						$data['domain'] = $member_iam['site_iam'];
@@ -410,7 +410,7 @@ if($_GET['key'] && $_GET['key'] == session_id()) {
 					$res_notice = mysqli_query($self_con,$sql_notice);
 					$row_notice = mysqli_fetch_array($res_notice);
 
-					if($row_notice[seller_id] != ''){
+					if($row_notice['seller_id'] != ''){
 						$data['title'] = $row_notice['seller_id'];
 						$data['date'] = $row_notice['pay_date'];
 						$data['domain'] = $member_iam['site_iam'];

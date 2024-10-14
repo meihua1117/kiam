@@ -29,7 +29,7 @@ if ($_POST['one_id'] && $_POST['one_pwd']) {
 	$sql="select mem_code, mem_id, is_leave, mem_leb, iam_leb, site,site_iam from Gn_Member use index(login_index) where mem_leb>0 and ((mem_id = '{$_POST['one_id']}' and web_pwd=password('$mem_pass')) or (mem_email = '{$_POST['one_id']}' and web_pwd=password('$mem_pass'))) ";
 	$resul=mysqli_query($self_con,$sql);
 	$row=mysqli_fetch_array($resul);
-	if($row['mem_code'] && $row[is_leave] == 'N')
+	if($row['mem_code'] && $row['is_leave'] == 'N')
 	{
 		// 관리자 권한이 있으면 관리자 세션 추가 Add Cooper
 		$admin_sql = "select mem_id from Gn_Admin where mem_id= '{$_POST['one_id']}'";
@@ -129,7 +129,7 @@ if ($_POST['one_id'] && $_POST['one_pwd']) {
 				window.parent.location.href=url;
 			</script>
 		<?}
-	}else if($row['mem_code'] and $row[is_leave] == 'Y'){?>
+	}else if($row['mem_code'] and $row['is_leave'] == 'Y'){?>
   		<script language="javascript">alert('탈퇴한 회원 아이디입니다.');window.parent.login_form.one_id.focus();</script>
 <?	}else{
 			//login이력을 기록한다.

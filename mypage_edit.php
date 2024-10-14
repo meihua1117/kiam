@@ -39,7 +39,7 @@ exit;
         <tr>
         <td>닉네임</td>
         <td>
-        <li><input type="text" name="nick" itemname='닉네임' value="<?=$member_1[mem_nick]?>" required /></li>
+        <li><input type="text" name="nick" itemname='닉네임' value="<?=$member_1['mem_nick']?>" required /></li>
         <li><input type="button" value="중복확인" onClick="nick_check(join_form,'join_form')" /></li>
         <li id='nick_html'></li>
         <input type="hidden" name="nick_status" itemname='닉네임중복확인' required  />                
@@ -71,11 +71,11 @@ exit;
         </tr>        
         <tr>
         <td>주소</td>
-        <td><input type="text" name="add1" required itemname='주소' style="width:90%;" value="<?=$member_1[mem_add1]?>" /></td>
+        <td><input type="text" name="add1" required itemname='주소' style="width:90%;" value="<?=$member_1['mem_add1']?>" /></td>
         </tr>
         <tr>
         <td>직업</td>
-        <td><input type="text" name="zy" required itemname='직업' value="<?=$member_1[zy]?>" /></td>
+        <td><input type="text" name="zy" required itemname='직업' value="<?=$member_1['zy']?>" /></td>
         </tr>
         <tr>
         <td>생년월일</td>
@@ -124,7 +124,7 @@ exit;
         </tr>
         <tr>
         <td>소식받기</td>
-        <td><label><input type="checkbox" name="is_message" <?=$member_1[is_message]=="Y"?"checked":""?> />원페이지북,와칭리딩 소식을 받겠습니다.</label></td>
+        <td><label><input type="checkbox" name="is_message" <?=$member_1['is_message']=="Y"?"checked":""?> />원페이지북,와칭리딩 소식을 받겠습니다.</label></td>
         </tr>                                                
         <tr>
         <td colspan="2" style="text-align:center;padding:30px;">
@@ -137,14 +137,14 @@ exit;
 				$sql_serch=" buyer_id ='{$_SESSION['one_member_id']}' ";
 				if($_REQUEST['search_date'])
 				{					
-					if($_REQUEST[rday1])
+					if($_REQUEST['rday1'])
 					{
-					$start_time=strtotime($_REQUEST[rday1]);
+					$start_time=strtotime($_REQUEST['rday1']);
 					$sql_serch.=" and unix_timestamp({$_REQUEST['search_date']}) >=$start_time ";
 					}
-					if($_REQUEST[rday2])
+					if($_REQUEST['rday2'])
 					{
-					$end_time=strtotime($_REQUEST[rday2]);
+					$end_time=strtotime($_REQUEST['rday2']);
 					$sql_serch.=" and unix_timestamp({$_REQUEST['search_date']}) <= $end_time ";
 					}
 				}
@@ -256,8 +256,8 @@ jQuery(function($){
                 <?	
 				}
 				?>
-                <input type="text" name="rday1" placeholder="" id="rday1" value="<?=$_REQUEST[rday1]?>"/> ~
-                <input type="text" name="rday2" placeholder="" id="rday2" value="<?=$_REQUEST[rday2]?>"/>
+                <input type="text" name="rday1" placeholder="" id="rday1" value="<?=$_REQUEST['rday1']?>"/> ~
+                <input type="text" name="rday2" placeholder="" id="rday2" value="<?=$_REQUEST['rday2']?>"/>
                 <a href="javascript:void(0)" onclick="pay_form.submit()"><img src="images/sub_mypage_11.jpg" /></a>                                            
             </div>
             <div>
@@ -294,15 +294,15 @@ jQuery(function($){
                 <td><?=$row['month_cnt']?>개월</td>
                 <!--<td><?=$row['fujia_status']?></td>-->
                 <td>Y</td>                
-                <td><?=$pay_type[$row[payMethod]]?$pay_type[$row[payMethod]]:"카드"?></td>
+                <td><?=$pay_type[$row['payMethod']]?$pay_type[$row['payMethod']]:"카드"?></td>
                 <td><?=$row['add_phone']?></td>
                 <td><?=$row['phone_cnt']?></td>
                 <!--<td><?=count($num_arr)?></td>-->
-                <td><?=number_format($row[TotPrice])?>원</td>
+                <td><?=number_format($row['TotPrice'])?>원</td>
                 <td>
 				<?=$pay_result_status[$row['end_status']]?>
 				<!--
-               	<?=$row['end_status']=="Y" && !count($num_arr) && strtotime("+1 week",strtotime($row['date'])) > time() ?"<a href=\"javascript:void(0)\" onclick=\"pay_cancel('{$row['no']}','{$row[payMethod]}','{$row[mid]}','{$row[tid]}','{$row['end_date']}','{$row['fujia_status']}')\" class=\"a_btn_2\">해지</a>":""?>
+               	<?=$row['end_status']=="Y" && !count($num_arr) && strtotime("+1 week",strtotime($row['date'])) > time() ?"<a href=\"javascript:void(0)\" onclick=\"pay_cancel('{$row['no']}','{$row['payMethod']}','{$row['mid']}','{$row['tid']}','{$row['end_date']}','{$row['fujia_status']}')\" class=\"a_btn_2\">해지</a>":""?>
                	-->
                	<? //=$row['end_status']=="N"?"<a href='javascript:void(0)' onclick=\"pay_ex_go('{$row['no']}','{$row['end_date']}','{$is_chrome}')\" class='a_btn_2'>연장</a>":""?>
                 </td>

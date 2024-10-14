@@ -283,7 +283,7 @@ if ($post_type == "creat") {
                     $contents_order = (int)$comment_row[0] + 1;
                 } else {
                     if ($group_id == "NULL")
-                        $sql = "update " . $contents_table_name . " set contents_order = contents_order + '$total'  where card_idx = '{$row_share_new['idx']}' and contents_order >= $_POST[contents_order]";
+                        $sql = "update " . $contents_table_name . " set contents_order = contents_order + '$total'  where card_idx = '{$row_share_new['idx']}' and contents_order >= {$_POST['contents_order']}";
                     else
                         $sql = "update " . $contents_table_name . " set contents_order = contents_order + '$total'  where group_id = '$group_id' and card_idx = {$row_share_new['idx']} and contents_order >= {$_POST['contents_order']}";
                     mysqli_query($self_con,$sql);

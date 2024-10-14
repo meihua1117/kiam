@@ -217,7 +217,7 @@ $(function(){
                     </tr>
                     <tr>
                         <td>소속/직책</td>
-                        <td colspan="3"><input type="text" name="zy" itemname='소속' style="width:20%;" value="<?=$member_1[zy]?>" /></td>
+                        <td colspan="3"><input type="text" name="zy" itemname='소속' style="width:20%;" value="<?=$member_1['zy']?>" /></td>
                     </tr>
                     <tr>
                         <td>자택주소</td>
@@ -315,7 +315,7 @@ $(function(){
                     </tr>
                     <tr>
                         <td>추천아이디</td>
-                        <td colspan="3"><?=$member_1[recommend_id]?></td>
+                        <td colspan="3"><?=$member_1['recommend_id']?></td>
                     </tr>
                     <? if($member_1['mem_leb'] == "50") {?>
                     <tr>
@@ -323,21 +323,21 @@ $(function(){
                         <td  colspan="3">
                             <table style="width:100%;font-size: 12px" >
                                 <tr>
-                                    <td>은행명</td><td><input type="text" name="bank_name"  itemname='주소' style="width:40%;" value="<?=$member_1[bank_name]?>" /></td>
+                                    <td>은행명</td><td><input type="text" name="bank_name"  itemname='주소' style="width:40%;" value="<?=$member_1['bank_name']?>" /></td>
                                 </tr>
                                 <tr>
-                                    <td>계좌번호</td><td><input type="text" name="bank_account"  itemname='주소' style="width:40%;" value="<?=$member_1[bank_account]?>" /></td>
+                                    <td>계좌번호</td><td><input type="text" name="bank_account"  itemname='주소' style="width:40%;" value="<?=$member_1['bank_account']?>" /></td>
                                 </tr>
                                 <tr>
-                                    <td>이름</td><td><input type="text" name="bank_owner"  itemname='주소' style="width:40%;" value="<?=$member_1[bank_owner]?>" /></td>
+                                    <td>이름</td><td><input type="text" name="bank_owner"  itemname='주소' style="width:40%;" value="<?=$member_1['bank_owner']?>" /></td>
                                 </tr>
                             </table>
                         </td>
                     </tr>
                     <?}else{?>
-                        <input type="hidden" name="bank_name"  itemname='주소' style="width:40%;" value="<?=$member_1[bank_name]?>" />
-                        <input type="hidden" name="bank_account"  itemname='주소' style="width:40%;" value="<?=$member_1[bank_account]?>" />
-                        <input type="hidden" name="bank_owner"  itemname='주소' style="width:40%;" value="<?=$member_1[bank_owner]?>" />
+                        <input type="hidden" name="bank_name"  itemname='주소' style="width:40%;" value="<?=$member_1['bank_name']?>" />
+                        <input type="hidden" name="bank_account"  itemname='주소' style="width:40%;" value="<?=$member_1['bank_account']?>" />
+                        <input type="hidden" name="bank_owner"  itemname='주소' style="width:40%;" value="<?=$member_1['bank_owner']?>" />
                     <?}?>
 
 		            <tr>
@@ -349,7 +349,7 @@ $(function(){
                     </tr>
                     <tr>
                         <td>소식받기</td>
-                        <td colspan="3"><label><input type="checkbox" name="is_message" <?=$member_1[is_message]=="Y"?"checked":""?> checked />※ 아이엠, 셀링솔루션, 셀링대회, 제휴업체, 셀링교육, 마케팅지원과 온리원그룹 활동 및 사업소식을 전달합니다.</label></td>
+                        <td colspan="3"><label><input type="checkbox" name="is_message" <?=$member_1['is_message']=="Y"?"checked":""?> checked />※ 아이엠, 셀링솔루션, 셀링대회, 제휴업체, 셀링교육, 마케팅지원과 온리원그룹 활동 및 사업소식을 전달합니다.</label></td>
                     </tr>
                     <!-- <tr>
                         <td>굿웰스클럽<br>회원 신청</td>
@@ -360,19 +360,19 @@ $(function(){
                             <div class="desc">
                             <ul style="display:flex;margin-top:10px;flex-wrap:wrap">
                                 [신청하기]
-                                <input type="checkbox" class="gwc_chk" id="chk1" style="display:block;" <?=$member_1[gwc_req_leb] == "1"?'checked':'';?>> 가입회원
-                                <input type="checkbox" class="gwc_chk" id="chk2" style="display:block;" <?=$member_1[gwc_req_leb] == "2"?'checked':'';?>> 소비회원
-                                <input type="checkbox" class="gwc_chk" id="chk3" style="display:block;" <?=$member_1[gwc_req_leb] == "3"?'checked':'';?>> 공급회원
-                                <input type="checkbox" class="gwc_chk" id="chk4" style="display:block;" <?=$member_1[gwc_req_leb] == "4"?'checked':'';?>> 판매회원
-                                <input type="checkbox" class="gwc_chk" id="chk5" style="display:block;" <?=$member_1[gwc_req_leb] == "5"?'checked':'';?>> 팀리더
-                                <input type="checkbox" class="gwc_chk" id="chk6" style="display:block;" <?=$member_1[gwc_req_leb] == "6"?'checked':'';?>> 그룹리더
-                                <input type="checkbox" class="gwc_chk" id="chk7" style="display:block;" <?=$member_1[gwc_req_leb] == "7"?'checked':'';?>> 지역리더
-                                <input type="checkbox" class="gwc_chk" id="chk8" style="display:block;" <?=$member_1[gwc_req_leb] == "8"?'checked':'';?>> 국가리더
-                                <input type="checkbox" class="gwc_chk" id="chk9" style="display:block;" <?=$member_1[gwc_req_leb] == "9"?'checked':'';?>> 국제리더
+                                <input type="checkbox" class="gwc_chk" id="chk1" style="display:block;" <?=$member_1['gwc_req_leb'] == "1"?'checked':'';?>> 가입회원
+                                <input type="checkbox" class="gwc_chk" id="chk2" style="display:block;" <?=$member_1['gwc_req_leb'] == "2"?'checked':'';?>> 소비회원
+                                <input type="checkbox" class="gwc_chk" id="chk3" style="display:block;" <?=$member_1['gwc_req_leb'] == "3"?'checked':'';?>> 공급회원
+                                <input type="checkbox" class="gwc_chk" id="chk4" style="display:block;" <?=$member_1['gwc_req_leb'] == "4"?'checked':'';?>> 판매회원
+                                <input type="checkbox" class="gwc_chk" id="chk5" style="display:block;" <?=$member_1['gwc_req_leb'] == "5"?'checked':'';?>> 팀리더
+                                <input type="checkbox" class="gwc_chk" id="chk6" style="display:block;" <?=$member_1['gwc_req_leb'] == "6"?'checked':'';?>> 그룹리더
+                                <input type="checkbox" class="gwc_chk" id="chk7" style="display:block;" <?=$member_1['gwc_req_leb'] == "7"?'checked':'';?>> 지역리더
+                                <input type="checkbox" class="gwc_chk" id="chk8" style="display:block;" <?=$member_1['gwc_req_leb'] == "8"?'checked':'';?>> 국가리더
+                                <input type="checkbox" class="gwc_chk" id="chk9" style="display:block;" <?=$member_1['gwc_req_leb'] == "9"?'checked':'';?>> 국제리더
                             </ul>
                             </div>
                         </td>
-                        <input type="hidden" name="gwc_leb" id="gwc_leb" value="<?=$member_1[gwc_req_leb]?>">
+                        <input type="hidden" name="gwc_leb" id="gwc_leb" value="<?=$member_1['gwc_req_leb']?>">
                     </tr> -->
                     <tr>
                         <td colspan="4" style="text-align:center;padding:30px;">

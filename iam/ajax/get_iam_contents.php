@@ -113,7 +113,7 @@ if ($_SESSION['iam_member_id']) {
     $pay_query = "select count(*) from tjd_pay_result where (iam_pay_type != '0' and iam_pay_type != '') and buyer_id='{$_SESSION['iam_member_id']}' and end_status='Y' and `end_date` > '$date'";
     $pay_result = mysqli_query($self_con,$pay_query);
     $pay_row = mysqli_fetch_array($pay_result);
-    $pay_status = $pay_row[0] + $Gn_mem_row[iam_type];// 유료회원이면 true,무료회원이면 false
+    $pay_status = $pay_row[0] + $Gn_mem_row['iam_type'];// 유료회원이면 true,무료회원이면 false
     $show_sql = "select show_iam_card,show_iam_like from Gn_Member where mem_id = '{$_SESSION['iam_member_id']}'";
     $show_result = mysqli_query($self_con,$show_sql);
     $show_row = mysqli_fetch_array($show_result);
@@ -127,21 +127,21 @@ if ($_SESSION['iam_member_id']) {
     $post_row = mysqli_fetch_array($post_result);
     $recent_post = $post_row[0];
     $exp_status = 0;
-    if($domainData[service_type] == 3 && !is_null($Gn_mem_row[exp_limit_date])){
-        if($Gn_mem_row[exp_start_status]){
+    if($domainData['service_type'] == 3 && !is_null($Gn_mem_row['exp_limit_date'])){
+        if($Gn_mem_row['exp_start_status']){
             $exp_status = 1;
-        }else if($Gn_mem_row[exp_mid_status]){
-            $limit_time = strtotime($Gn_mem_row[exp_limit_date]);
+        }else if($Gn_mem_row['exp_mid_status']){
+            $limit_time = strtotime($Gn_mem_row['exp_limit_date']);
             $cur_time = strtotime(date("Y-m-d H:i:s", strtotime("+1 week")));
             if($limit_time <= $cur_time)
                 $exp_status = 2;
-        }else if($Gn_mem_row[exp_limit_status]){
-            $limit_time = strtotime($Gn_mem_row[exp_limit_date]);
+        }else if($Gn_mem_row['exp_limit_status']){
+            $limit_time = strtotime($Gn_mem_row['exp_limit_date']);
             $cur_time = strtotime(date("Y-m-d H:i:s"));
             if($limit_time <= $cur_time)
                 $exp_status = 3;
         }else{
-            $limit_time = strtotime($Gn_mem_row[exp_limit_date]);
+            $limit_time = strtotime($Gn_mem_row['exp_limit_date']);
             $cur_time = strtotime(date("Y-m-d H:i:s"));
             if($limit_time <= $cur_time){
                 $exp_status = 4;
@@ -172,7 +172,7 @@ if($cur_win == "my_info"){
         $pay_query = "select count(*) from tjd_pay_result where (iam_pay_type != '0' and iam_pay_type != '') and buyer_id='$share_member_id' and end_status='Y' and `end_date` > '$date'";
         $pay_result = mysqli_query($self_con,$pay_query);
         $pay_row = mysqli_fetch_array($pay_result);
-        $share_pay_status = $pay_row[0] + $share_row[iam_type];//본사 유료회원이면 true,무료회원이면 false
+        $share_pay_status = $pay_row[0] + $share_row['iam_type'];//본사 유료회원이면 true,무료회원이면 false
         $share_admin_sql = "select count(*) from Gn_Iam_Service where mem_id = '$share_member_id'";
         $share_admin_res = mysqli_query($self_con,$share_admin_sql);
         $share_admin_row = mysqli_fetch_array($share_admin_res);
@@ -187,9 +187,9 @@ if($cur_win == "my_info"){
     }
     $_SESSION['recommender_code'] = $card_owner_code;
     @setcookie("recommender_code", $card_owner_code, time()+3600);
-    $_COOKIE[recommender_code] = $card_owner_code;
+    $_COOKIE['recommender_code'] = $card_owner_code;
 
-    if($G_card[phone_display]=='N' && $card_owner != $_SESSION['iam_member_id'] ) {
+    if($G_card['phone_display']=='N' && $card_owner != $_SESSION['iam_member_id'] ) {
         echo "<script>toastr.error('비공개카드입니다.');history.go(-1);</script>";
         exit;
     }
@@ -215,7 +215,7 @@ if($cur_win == "my_info"){
     $online2_check = $G_card['online2_check'];//홈피2 체크
     $story_online2_text = $G_card['story_online2_text'];//홈피2텍스트
     $story_online2 = $G_card['story_online2'];//홈피2링크
-    $post_display = $G_card[post_display];//댓글박스 보이기 1:보이기 0:감추기
+    $post_display = $G_card['post_display'];//댓글박스 보이기 1:보이기 0:감추기
     
     //메인이미지
     //디폴트 이미지 꺼내기
@@ -248,7 +248,7 @@ if($cur_win == "my_info"){
         $g_card_sql = "select * from Gn_Iam_Name_Card where card_short_url = '$group_card_url'";
         $g_card_res = mysqli_query($self_con,$g_card_sql);
         $group_card = mysqli_fetch_array($g_card_res);
-        $post_display = $group_card[post_display];//댓글박스 보이기 1:보이기 0:감추기
+        $post_display = $group_card['post_display'];//댓글박스 보이기 1:보이기 0:감추기
         $main_img1 = str_replace("http://www.kiam.kr",$cdn, $group_card['main_img1']);
         $main_img2 = str_replace("http://www.kiam.kr",$cdn, $group_card['main_img2']);
         $main_img3 = str_replace("http://www.kiam.kr",$cdn, $group_card['main_img3']);
@@ -352,28 +352,28 @@ if(!$cur_win || $cur_win == "my_info"){
     elseif($mall_type1 == "service")
         $sql8 .= " and mall.mall_type = 4";
 
-    if($_GET[sort] == 1){
+    if($_GET['sort'] == 1){
         $sql8 .= " and reg_date >= ADDTIME(now(), '-1:0:0') ";
-    }else if($_GET[sort] == 2){
+    }else if($_GET['sort'] == 2){
         $sql8 .= " and reg_date >= DATE(now()) ";
-    }else if($_GET[sort] == 3){
+    }else if($_GET['sort'] == 3){
         $sql8 .= " and WEEKOFYEAR(reg_date) = WEEKOFYEAR(now()) and YEAR(reg_date) = YEAR(now()) ";
-    }else if($_GET[sort] == 4){
+    }else if($_GET['sort'] == 4){
         $sql8 .= " and MONTH(reg_date) = MONTH(now()) and YEAR(reg_date) = YEAR(now()) ";
-    }else if($_GET[sort] == 5){
+    }else if($_GET['sort'] == 5){
         $sql8 .= " and YEAR(reg_date) = YEAR(now()) ";
     }
     if($search_key){
         $sql8 .= " and (keyword like '%$search_key%' or title like '%$search_key%' or sub_title like '%$search_key%' or description like '%$search_key%' or mall.mem_id like '%$search_key%' or mem.mem_name like '%$search_key%' or mem.site_iam like '%$search_key%') ";
     } 
 
-    if($_GET[sort] == 11){//게시일짜
+    if($_GET['sort'] == 11){//게시일짜
         $sql8 .= " ORDER BY reg_date desc";
-    }elseif($_GET[sort] == 12){//조회수
+    }elseif($_GET['sort'] == 12){//조회수
         $sql8 .= " ORDER BY visit_count desc";
-    }elseif($_GET[sort] == 13){//좋아요
+    }elseif($_GET['sort'] == 13){//좋아요
         $sql8 .= " ORDER BY mall_like_count desc";
-    }elseif($_GET[sort] == 14){//가격순
+    }elseif($_GET['sort'] == 14){//가격순
         $sql8 .= " ORDER BY sell_price desc";
     }else{
         if($mall_type == "best_mall")
@@ -386,56 +386,56 @@ if(!$cur_win || $cur_win == "my_info"){
     $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
     $row_iam_info=mysqli_fetch_array($result);
 
-    if($row_iam_info[block_contents]){
-        $block_contents_sql = " and c.idx not in ($row_iam_info[block_contents]) ";
+    if($row_iam_info['block_contents']){
+        $block_contents_sql = " and c.idx not in ({$row_iam_info['block_contents']}) ";
     }else{
         $block_contents_sql = "";
     }
-    if($row_iam_info[block_user]){
-        $b_arr = explode(',', $row_iam_info[block_user]);
+    if($row_iam_info['block_user']){
+        $b_arr = explode(',', $row_iam_info['block_user']);
         $b_str = "('".implode("','",$b_arr)."')";
         $block_user_sql = " and c.mem_id not in $b_str ";
     }else{
         $block_user_sql = "";
     }
 
-    if($_GET[sort] == 1){
+    if($_GET['sort'] == 1){
         $search_sql .= " and req_data >= ADDTIME(now(), '-1:0:0') ";
-    }else if($_GET[sort] == 2){
+    }else if($_GET['sort'] == 2){
         $search_sql .= " and req_data >= DATE(now()) ";
-    }else if($_GET[sort] == 3){
+    }else if($_GET['sort'] == 3){
         $search_sql .= " and WEEKOFYEAR(req_data) = WEEKOFYEAR(now()) and YEAR(req_data) = YEAR(now()) ";
-    }else if($_GET[sort] == 4){
+    }else if($_GET['sort'] == 4){
         $search_sql .= " and MONTH(req_data) = MONTH(now()) and YEAR(req_data) = YEAR(now()) ";
-    }else if($_GET[sort] == 5){
+    }else if($_GET['sort'] == 5){
         $search_sql .= " and YEAR(req_data) = YEAR(now()) ";
     }
 
-    if($_GET[key2] != 0){
-        $k = $interest_array[$_GET[key2]-1];
+    if($_GET['key2'] != 0){
+        $k = $interest_array[$_GET['key2']-1];
         $search_sql .= " and (contents_title like '%$k%' or contents_desc like '%$k%')";
     }
-    if($_GET[key1] == 1){
+    if($_GET['key1'] == 1){
         $sql8="select c.* from Gn_Iam_Contents c INNER  JOIN  Gn_Member m on c.mem_id=m.mem_id where m.site_iam =  '$bunyang_site' and $search_sql $block_contents_sql $block_user_sql";
-    }elseif($_GET[key1] == 2){
+    }elseif($_GET['key1'] == 2){
         $sql8="select * from Gn_Iam_Contents c where contents_type = 2 and $search_sql $block_contents_sql $block_user_sql";
-    }elseif($_GET[key1] == 3){
+    }elseif($_GET['key1'] == 3){
         $sql8="select * from Gn_Iam_Contents c where contents_type = 3 and $search_sql $block_contents_sql $block_user_sql";
-    }elseif($_GET[key1] == 4){
+    }elseif($_GET['key1'] == 4){
         $sql8="select * from Gn_Iam_Contents c where group_id is not NULL and $search_sql $block_contents_sql $block_user_sql";
-    }elseif($_GET[key1] >= 5){
-        $k = $rec_array[$_GET[key1]-5];
+    }elseif($_GET['key1'] >= 5){
+        $k = $rec_array[$_GET['key1']-5];
         $search_sql .= " and (contents_title like '%$k%' or contents_desc like '%$k%')";
         $sql8="select * from Gn_Iam_Contents c where $search_sql $block_contents_sql $block_user_sql";
     }else{
         //공개된 콘텐츠 다 현시
         $sql8="select * from Gn_Iam_Contents c where $search_sql $block_contents_sql $block_user_sql";
     }
-    if($_GET[sort] == 11){//게시일짜
+    if($_GET['sort'] == 11){//게시일짜
         $sql8 .= " ORDER BY req_data desc";
-    }elseif($_GET[sort] == 12){//조회수
+    }elseif($_GET['sort'] == 12){//조회수
         $sql8 .= " ORDER BY contents_temp desc";
-    }elseif($_GET[sort] == 13){//좋아요
+    }elseif($_GET['sort'] == 13){//좋아요
         $sql8 .= " ORDER BY contents_like desc";
     }else{
         $sql8 .= " ORDER BY req_data desc, up_data desc,contents_like desc,contents_temp desc";
@@ -443,27 +443,27 @@ if(!$cur_win || $cur_win == "my_info"){
     $result8=mysqli_query($self_con,$sql8) or die(mysqli_error($self_con));
     $total_cont_count = mysqli_num_rows($result8);
 
-    if($_GET[key1] == 1){                
+    if($_GET['key1'] == 1){                
         $sql8="select c.* from Gn_Iam_Contents c INNER  JOIN  Gn_Member m on c.mem_id=m.mem_id where m.site_iam =  '$bunyang_site' and contents_westory_display = 'Y' and public_display = 'Y' and $search_sql $block_contents_sql $block_user_sql";
-    }elseif($_GET[key1] == 2){
+    }elseif($_GET['key1'] == 2){
         $sql8="select * from Gn_Iam_Contents c where contents_type = 2 and contents_westory_display = 'Y' and public_display = 'Y' and $search_sql $block_contents_sql $block_user_sql";
-    }elseif($_GET[key1] == 3){
+    }elseif($_GET['key1'] == 3){
         $sql8="select * from Gn_Iam_Contents c where contents_type = 3 and contents_westory_display = 'Y' and public_display = 'Y' and $search_sql $block_contents_sql $block_user_sql";
-    }elseif($_GET[key1] == 4){
+    }elseif($_GET['key1'] == 4){
         $sql8="select * from Gn_Iam_Contents c where group_id is not NULL and contents_westory_display = 'Y' and public_display = 'Y' and $search_sql $block_contents_sql $block_user_sql";
-    }elseif($_GET[key1] >= 5){
-        $k = $rec_array[$_GET[key1]-5];
+    }elseif($_GET['key1'] >= 5){
+        $k = $rec_array[$_GET['key1']-5];
         $search_sql .= " and (contents_title like '%$k%' or contents_desc like '%$k%')";
         $sql8="select * from Gn_Iam_Contents c where contents_westory_display = 'Y' and public_display = 'Y' and $search_sql $block_contents_sql $block_user_sql";
     }else{
         //공개된 콘텐츠 다 현시
         $sql8="select * from Gn_Iam_Contents c where contents_westory_display = 'Y' and public_display = 'Y' and $search_sql $block_contents_sql $block_user_sql";
     }
-    if($_GET[sort] == 11){//게시일짜
+    if($_GET['sort'] == 11){//게시일짜
         $sql8 .= " ORDER BY req_data desc";
-    }elseif($_GET[sort] == 12){//조회수
+    }elseif($_GET['sort'] == 12){//조회수
         $sql8 .= " ORDER BY contents_temp desc";
-    }elseif($_GET[sort] == 13){//좋아요
+    }elseif($_GET['sort'] == 13){//좋아요
         $sql8 .= " ORDER BY contents_like desc";
     }else{
         $sql8 .= " ORDER BY req_data desc, up_data desc,contents_like desc,contents_temp desc";
@@ -927,7 +927,7 @@ else{
                         <div class = "utils-index" id="<?='utils_index_'.$contents_row['idx']?>" style="display:none;right:30px;z-index:10;background:white;border-radius: 5px;">
                             <?
                             if ($cur_win != "we_story" && $_SESSION['iam_member_id'] == $card_owner && $_SESSION['iam_member_id'] == $card_master) { ?>
-                                <a href="javascript:contents_add('<?= $card_owner ?>','<?= $contents_row[contents_order]?>',<?=$my_first_card?>);" style="margin-left: 10px;">
+                                <a href="javascript:contents_add('<?= $card_owner ?>','<?= $contents_row['contents_order']?>',<?=$my_first_card?>);" style="margin-left: 10px;">
                                     <i class="fa fa-plus" aria-hidden="true"></i></a>
                             <?  }
                             if ($_SESSION['iam_member_id'] && ($_SESSION['iam_member_id'] == $contents_row['mem_id'] || $_SESSION['iam_member_id'] == $group_manager)) {
@@ -1171,7 +1171,7 @@ else{
                             <br><?=$contents_row['contents_url_title']?>
                         </div>
                     <?}?>
-                    <div class="second-box" style="<?if($westory_card[post_display] == 0) echo('display:none !important');?>">
+                    <div class="second-box" style="<?if($westory_card['post_display'] == 0) echo('display:none !important');?>">
                         <div class="in-box">
                             <div style="display: flex;vertical-align: middle">
                                 <a  class = "hand" href="javascript:contents_like('<?=$contents_row['idx']?>');">

@@ -196,7 +196,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                   $query .= "$orderQuery";
                 	$res = mysqli_query($self_con,$query);
                     while($row = mysqli_fetch_array($res)) {                       	
-                            $query = "Select * from crawler_member_real where user_id='$row[user_id]'";
+                            $query = "Select * from crawler_member_real where user_id='{$row['user_id']}'";
                             $sres = mysqli_query($self_con,$query);
                             $srow = mysqli_fetch_array($sres);                                                    
                        

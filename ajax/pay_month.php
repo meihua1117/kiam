@@ -42,7 +42,7 @@ $sql = "insert into tjd_pay_result_month set pay_idx='$orderNumber',
                                             pay_yn='N',
                                             msg='셀링통장정기결제',
                                             regdate = NOW(),
-                                            amount='$_POST[allat_amt]',
+                                            amount='{$_POST['allat_amt']}',
                                             buyer_id='{$member_1['mem_id']}'";
 mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 
@@ -95,9 +95,9 @@ if($_POST['phone_cnt'] > 0) {
             $branch_share_per = 0;
             // 리셀러 / 분양 회원 확인
             // 리셀러 회원인경우 분양회원 아이디 확인
-            if ($rrow[service_type] == 2) {
+            if ($rrow['service_type'] == 2) {
                 // 추천인의 추천인 검색 및 등급 확인
-                $sql = "select * from Gn_Member where mem_id='$rrow[recommend_id]'";
+                $sql = "select * from Gn_Member where mem_id='{$rrow['recommend_id']}'";
                 $rresult = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
                 $trow = mysqli_fetch_array($rresult);
 
@@ -108,7 +108,7 @@ if($_POST['phone_cnt'] > 0) {
                     if ($share_per == "" || $share_per == 0) $branch_share_per = 0;
                     $branch_share_id = $trow['mem_id'];
                 }
-            } else if ($rrow[service_type] == 3) {
+            } else if ($rrow['service_type'] == 3) {
                 $share_per = $recommend_per = $rrow['share_per'] ? $rrow['share_per'] : 50;
                 $branch_share_per = 0;
             }

@@ -22,7 +22,7 @@ include "./allatutil.php";
     $at_biz_no         = "";   //사업자번호(최대 20자리)         : szBusinessType=1 일경우
     $at_shop_id        = "bwelcome12";   //상점ID(최대 20자)
     $at_shop_member_id = $mem_id;   //회원ID(최대 20자)               : 쇼핑몰회원ID
-    $at_order_no       = $row[billkey];   //주문번호(최대 80자)             : 쇼핑몰 고유 주문번호
+    $at_order_no       = $row['billkey'];   //주문번호(최대 80자)             : 쇼핑몰 고유 주문번호
     $at_product_cd     = "";   //상품코드(최대 1000자)           : 여러 상품의 경우 구분자 이용, 구분자('||':파이프 2개)
     $at_product_nm     = "";   //상품명(최대 1000자)             : 여러 상품의 경우 구분자 이용, 구분자('||':파이프 2개)
     $at_cardcert_yn    = "";   //카드인증여부(최대 1자)          : 인증(Y),인증사용않음(N),인증만사용(X)
@@ -96,7 +96,7 @@ include "./allatutil.php";
         
         $sql = "insert into tjd_pay_result_month set pay_idx='{$row['idx']}',
                                                      regdate = NOW(),
-                                                     amount=''$row[TotPrice]',
+                                                     amount='{$row['TotPrice']}',
                                                      buyer_id='$mem_id'";
         mysqli_query($self_con,$sql)or die(mysqli_error($self_con));        
 

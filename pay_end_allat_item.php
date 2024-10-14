@@ -200,19 +200,19 @@ if($REPLYCD =="0000"){//pay_test
     있습니다. 홈페이지 개편에 관한 공지가 있을 경우, 전표출력 URL을 확인하시기 바랍니다.
 */
 //$member_1['mem_id'] = $_SESSION['iam_member_id'];
-$sql="select *, SUM(item_price) as total_price from Gn_Item_Pay_Result where order_number='$_POST[allat_order_no]'";
+$sql="select *, SUM(item_price) as total_price from Gn_Item_Pay_Result where order_number='{$_POST['allat_order_no']}'";
 $resul=mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
 $row=mysqli_fetch_array($resul);
 //$member_1['mem_id'] = $row['buyer_id'];
 if(!strcmp($REPLYCD,"0000")){//pay_test
-    $sql = "update Gn_Item_Pay_Result set pay_status='Y' where  order_number='$_POST[allat_order_no]' and buyer_id='{$member_iam['mem_id']}'";
+    $sql = "update Gn_Item_Pay_Result set pay_status='Y' where  order_number='{$_POST['allat_order_no']}' and buyer_id='{$member_iam['mem_id']}'";
     mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
     if($row['gwc_cont_pay'] == 1){
-        $sql_tjd = "update tjd_pay_result set end_status='Y' where orderNumber='$_POST[allat_order_no]' and buyer_id='{$member_iam['mem_id']}'";
+        $sql_tjd = "update tjd_pay_result set end_status='Y' where orderNumber='{$_POST['allat_order_no']}' and buyer_id='{$member_iam['mem_id']}'";
         mysqli_query($self_con,$sql_tjd) or die(mysqli_error($self_con));
-        $sql_update = "update Gn_Gwc_Order set pay_status='Y' where pay_order_no='$_POST[allat_order_no]' and mem_id='{$member_iam['mem_id']}'";
+        $sql_update = "update Gn_Gwc_Order set pay_status='Y' where pay_order_no='{$_POST['allat_order_no']}' and mem_id='{$member_iam['mem_id']}'";
         mysqli_query($self_con,$sql_update) or die(mysqli_error($self_con));
-        $sql_del = "delete from Gn_Gwc_Order where pay_order_no='$_POST[allat_order_no]' and mem_id='{$member_iam['mem_id']}' and page_type=1";
+        $sql_del = "delete from Gn_Gwc_Order where pay_order_no='{$_POST['allat_order_no']}' and mem_id='{$member_iam['mem_id']}' and page_type=1";
         mysqli_query($self_con,$sql_del) or die(mysqli_error($self_con));
         echo '<script>alert("결제 완료 되었습니다."); location.href="/iam/gwc_order_list.php";</script>';
         exit;
@@ -259,7 +259,7 @@ if(!strcmp($REPLYCD,"0000")){//pay_test
                 </tr>
                 <tr>
                     <td>TID</td>
-                    <td><?=$_POST[allat_order_no]?></td>
+                    <td><?=$_POST['allat_order_no']?></td>
                 </tr>
                 <tr>
                     <td>지불수단</td>
@@ -272,14 +272,14 @@ if(!strcmp($REPLYCD,"0000")){//pay_test
                 <tr>
                 <tr>
                     <td>구매자명</td>
-                    <td><?=$row[VACT_InputName]?>/<?=$member_iam['mem_id']?></td>
+                    <td><?=$row['VACT_InputName']?>/<?=$member_iam['mem_id']?></td>
                 </tr>
                     <td>지불금액</td>
                     <td><?=$row['total_price']?></td>
                 </tr>
                 <tr>
                     <td>지불시간</td>
-                    <td><?=$row[pay_date]?></td>
+                    <td><?=$row['pay_date']?></td>
                 </tr>
                 <tr>
                     <td colspan="2" style="text-align:center;">

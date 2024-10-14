@@ -69,10 +69,10 @@ set_gwc_delivery_state();
                 for ($i = 0; $row = mysqli_fetch_array($result); $i++) {
 
                     if (strpos($row['order_options'], "gallery>>") == 0) {
-                        $sql = " select * from Gn_Iam_Contents where idx = '$row[contents_idx]' ";
+                        $sql = " select * from Gn_Iam_Contents where idx = '{$row['contents_idx']}' ";
                         $shop = "gallery";
                     } else {
-                        $sql = " select * from Gn_Iam_Contents_Gwc where idx = '$row[contents_idx]' ";
+                        $sql = " select * from Gn_Iam_Contents_Gwc where idx = '{$row['contents_idx']}' ";
                         $shop = "gwc";
                     }
                     $res = mysqli_query($self_con,$sql);

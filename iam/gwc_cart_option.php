@@ -22,7 +22,7 @@ $result = mysqli_query($self_con,$sql_order);
     <div class="sp_wrap" style="border-top:0">
         <?php
         for($i=0; $row=mysqli_fetch_array($result); $i++) {
-            $sql_contents = "select contents_title, prod_order_option from Gn_Iam_Contents_Gwc where idx='{$row[contents_idx]}'";
+            $sql_contents = "select contents_title, prod_order_option from Gn_Iam_Contents_Gwc where idx='{$row['contents_idx']}'";
             $res_contents = mysqli_query($self_con,$sql_contents);
             $row_contents = mysqli_fetch_array($res_contents);
             $order_option = htmlspecialchars_decode(str_replace("disabled", "", $row_contents[prod_order_option]));
@@ -48,7 +48,7 @@ $result = mysqli_query($self_con,$sql_order);
                 }
             }
         ?>
-        <input type="hidden" id="it_price" name="it_price" value="<?=$row['contents_price'] * 1 / $row[contents_cnt] * 1?>">
+        <input type="hidden" id="it_price" name="it_price" value="<?=$row['contents_price'] * 1 / $row['contents_cnt'] * 1?>">
         <input type="hidden" class="io_price" name="io_price" value="<?=$row[salary_price]?$row[salary_price]:'0'?>">
 
         <div class="sp_tbox" style="border-top:0">
@@ -86,7 +86,7 @@ $result = mysqli_query($self_con,$sql_order);
                                 ?>
                                 <dl class="fl" style="display: inline-flex;">
                                     <dt class="fl padr3"><button type="button" class="btn_small grey">감소</button></dt>
-                                    <dt class="fl padr3"><input type="text" name="ct_qty[<?php echo $gs_id;?>][]" value="<?=$row[contents_cnt]?>" style="text-align: center"></dt>
+                                    <dt class="fl padr3"><input type="text" name="ct_qty[<?php echo $gs_id;?>][]" value="<?=$row['contents_cnt']?>" style="text-align: center"></dt>
                                     <dt class="fl padr3"><button type="button" class="btn_small grey">증가</button></dt>
                                 </dl>
                                 <? }?>

@@ -2,12 +2,12 @@
 $path="./";
 include_once $path."lib/rlatjd_fun.php";
 $sql_serch=" mem_id ='{$_SESSION['one_member_id']}' ";
-if($_REQUEST[grp_id])
-    $sql_serch.=" and grp_id = '$_REQUEST[grp_id]' ";
-if($_REQUEST[grp_2])
-    $sql_serch.=" and grp_2 = '$_REQUEST[grp_2]' ";
-if($_REQUEST[deta_select] && $_REQUEST[deta_text])
-    $sql_serch.=" and $_REQUEST[deta_select] like '$_REQUEST[deta_text]%' ";
+if($_REQUEST['grp_id'])
+    $sql_serch.=" and grp_id = '{$_REQUEST['grp_id']}' ";
+if($_REQUEST['grp_2'])
+    $sql_serch.=" and grp_2 = '{$_REQUEST['grp_2']}' ";
+if($_REQUEST['deta_select'] && $_REQUEST['deta_text'])
+    $sql_serch.=" and {$_REQUEST['deta_select']} like '{$_REQUEST['deta_text']}%' ";
 $sql="select count(idx) as cnt from Gn_MMS_Receive where $sql_serch ";
 $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 $row=mysqli_fetch_array($result);
@@ -59,31 +59,31 @@ $result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
             <input type="hidden" name="order_status" value="<?=$order_status?>"/>
             <input type="hidden" name="page" value="<?=$page?>" />
             <input type="hidden" name="page2" value="<?=$page2?>" />
-            <input type="hidden" name="grp_id" value="<?=$_REQUEST[grp_id]?>" />
-            <input type="hidden" name="grp_2" value="<?=$_REQUEST[grp_2]?>" />
+            <input type="hidden" name="grp_id" value="<?=$_REQUEST['grp_id']?>" />
+            <input type="hidden" name="grp_2" value="<?=$_REQUEST['grp_2']?>" />
             <div class="grp_detail">
-                <a href="group_detail.php?grp_id=<?=$_REQUEST[grp_id]?>" class="a_btn_2">전체</a>
+                <a href="group_detail.php?grp_id=<?=$_REQUEST['grp_id']?>" class="a_btn_2">전체</a>
                 <select name="deta_select">
                 <?
                 $select_deta_arr=array("recv_num"=>"전화번호","grp"=>"소그룹명","name"=>"이름", "email"=>"이메일");
                 foreach($select_deta_arr as $key=>$v)
                 {
-                    $selected=$_REQUEST[deta_select]==$key?"selected":"";
+                    $selected=$_REQUEST['deta_select']==$key?"selected":"";
                     ?>
                     <option value="<?=$key?>" <?=$selected?>><?=$v?></option>
                     <?
                 }
                 ?>
                 </select>
-                <input type="text" name="deta_text" value="<?=$_REQUEST[deta_text]?>" />
+                <input type="text" name="deta_text" value="<?=$_REQUEST['deta_text']?>" />
                 <input type="image" src="images/sub_button_703.jpg" />
-                <a href="javascript:deleteGroupMember('<?=$_REQUEST[grp_id]?>')"><img src="/images/sub_button_16.jpg" /></a>
+                <a href="javascript:deleteGroupMember('<?=$_REQUEST['grp_id']?>')"><img src="/images/sub_button_16.jpg" /></a>
             </div>
             <table class="list_table" width="100%" border="0" cellspacing="0" cellpadding="0">
                 <tr>
                     <td style="width:20%;"><a href="javascript:void(0)" onclick="order_sort(group_detail_form,'grp_2',group_detail_form.order_status.value)">소그룹명<? if($_REQUEST['order_name']=="grp_2"){echo $_REQUEST['order_status']=="desc"?'▼':'▲';}else{ echo '▼'; }?></a></td>
                     <td style="width:20%;">
-                        <li><input type="checkbox" id="all_id" onclick="check_all(this,'name_box');box_ed(-1,'<?=$_REQUEST[grp_id]?>')" /></li>
+                        <li><input type="checkbox" id="all_id" onclick="check_all(this,'name_box');box_ed(-1,'<?=$_REQUEST['grp_id']?>')" /></li>
                         <li style="font-size:13px;font-family:Nanum Gothic;">
                             <label for="all_id">선택</label>
                             <a href="javascript:order_sort(group_detail_form,'name',group_detail_form.order_status.value)">이름<? if($_REQUEST['order_name']=="name"){echo $_REQUEST['order_status']=="desc"?'▼':'▲';}else{ echo '▼'; }?></a>
@@ -103,10 +103,10 @@ $result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
             ?>
                 <tr>
                     <td class="g_dt_grp_<?=$i?>">
-                        <a href="javascript:group_detail_form.grp_2.value='<?=$row[grp_2]?>';group_detail_form.submit();"><?=$row[grp_2]?></a>
+                        <a href="javascript:group_detail_form.grp_2.value='<?=$row['grp_2']?>';group_detail_form.submit();"><?=$row['grp_2']?></a>
                     </td>
                     <td class="g_dt_grp_<?=$i?>" style="display:none;">
-                        <input type="text" name="xiao_grp" value="<?=$row[grp_2]?>"/>
+                        <input type="text" name="xiao_grp" value="<?=$row['grp_2']?>"/>
                     </td>
                     <td class="g_dt_name_<?=$i?>" >
                         <li><input type="checkbox" name="name_box" value="<?=$row['recv_num']?>" onclick="box_ed('<?=$i?>','<?=$row['name']?>')" /></li>
@@ -129,8 +129,8 @@ $result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
                     </td>               
                     <td>
                         <a href="javascript:g_dt_show_cencle('g_dt_name_','g_dt_num_','modify_btn_','<?=$i?>','g_dt_grp_', 'g_dt_mail_')" class="modify_btn_<?=$i?>" >수정</a>
-                        <a href="javascript:g_dt_fun('modify','<?=$_REQUEST[grp_id]?>','<?=$row['idx']?>','<?=$i?>')"class="modify_btn_<?=$i?>" style="display:none;" >수정</a>
-                        <a href="javascript:g_dt_fun('del','<?=$_REQUEST[grp_id]?>','<?=$row['idx']?>','<?=$i?>')">삭제</a>
+                        <a href="javascript:g_dt_fun('modify','<?=$_REQUEST['grp_id']?>','<?=$row['idx']?>','<?=$i?>')"class="modify_btn_<?=$i?>" style="display:none;" >수정</a>
+                        <a href="javascript:g_dt_fun('del','<?=$_REQUEST['grp_id']?>','<?=$row['idx']?>','<?=$i?>')">삭제</a>
                     </td>
                 </tr>
             <?
@@ -162,7 +162,7 @@ $result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
                         <input type="text" name="num_name" placeholder="이름" style="width:90px;" />
                         <input type="text" name="recv_num" placeholder="전화번호" style="width:90px;" />
                         <input type="text" name="email" placeholder="이메일" style="width:90px;" />
-                        <input type="button" value="저장" onclick="g_dt_fun('add','<?=$_REQUEST[grp_id]?>','','<?=$i?>')"  />
+                        <input type="button" value="저장" onclick="g_dt_fun('add','<?=$_REQUEST['grp_id']?>','','<?=$i?>')"  />
                     </td>
                 </tr>
             </table>

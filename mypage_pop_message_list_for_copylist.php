@@ -113,14 +113,14 @@ function copyHtml(url){
 				$sql_serch=" m_id ='{$_SESSION['one_member_id']}' ";
 				if($_REQUEST['search_date'])
 				{					
-					if($_REQUEST[rday1])
+					if($_REQUEST['rday1'])
 					{
-					$start_time=strtotime($_REQUEST[rday1]);
+					$start_time=strtotime($_REQUEST['rday1']);
 					$sql_serch.=" and unix_timestamp({$_REQUEST['search_date']}) >=$start_time ";
 					}
-					if($_REQUEST[rday2])
+					if($_REQUEST['rday2'])
 					{
-					$end_time=strtotime($_REQUEST[rday2]);
+					$end_time=strtotime($_REQUEST['rday2']);
 					$sql_serch.=" and unix_timestamp({$_REQUEST['search_date']}) <= $end_time ";
 					}
 				}

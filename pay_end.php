@@ -1,7 +1,7 @@
 <?
 $path="./";
 include_once "_head.php";
-if(!$_SESSION['one_member_id'] || !$_SESSION[form_submit])
+if(!$_SESSION['one_member_id'] || !$_SESSION['form_submit'])
 {
 ?>
 <script language="javascript">
@@ -11,7 +11,7 @@ location.replace('/ma.php');
 exit;
 }
 
-if($_SESSION[form_submit])
+if($_SESSION['form_submit'])
 {
 
     if($_POST['add_phone'] == "0" && $_SESSION['INI_PRICE'] == "594000")  {
@@ -23,45 +23,45 @@ if($_SESSION[form_submit])
      if($_POST['db_cnt'] > 0) {
         $_POST['max_cnt'] = $_POST['phone_cnt'] * 9000;
      } else {
-        if($_POST[payment_yn] != "") {
+        if($_POST['payment_yn'] != "") {
 
-            if($_POST[payment_yn] == "BA") {
+            if($_POST['payment_yn'] == "BA") {
                 $_POST['member_type'] = '예약형';
                 $_POST['add_phone'] = 5;    
                 $_POST['phone_cnt'] = 45000;
                 $_POST['db_cnt'] = 2500;
                 $_POST['max_cnt'] =  45000;
                 $_POST['month_cnt'] = $_POST['money_type'] = 2;    
-            } else if($_POST[payment_yn] == "ST") {
+            } else if($_POST['payment_yn'] == "ST") {
                 $_POST['add_phone'] = 3;    
                 $_POST['phone_cnt'] = 27000;
                 $_POST['max_cnt'] =  27000;
                 $_POST['month_cnt'] = $_POST['money_type'] = 1;    
-            } else if($_POST[payment_yn] == "BU") {
+            } else if($_POST['payment_yn'] == "BU") {
                 $_POST['add_phone'] = 5;    
                 $_POST['phone_cnt'] = 45000;
                 $_POST['db_cnt'] = 2500;
                 $_POST['max_cnt'] =  45000;
                 $_POST['month_cnt'] = $_POST['money_type'] = 1;    
-            } else if($_POST[payment_yn] == "BY") {
+            } else if($_POST['payment_yn'] == "BY") {
                 $_POST['add_phone'] = 5;    
                 $_POST['phone_cnt'] = 45000;
                 $_POST['db_cnt'] = 2500;
                 $_POST['max_cnt'] =  45000;
                 $_POST['month_cnt'] = $_POST['money_type'] = 12;                
-            } else if($_POST[payment_yn] == "BS") {
+            } else if($_POST['payment_yn'] == "BS") {
                 $_POST['add_phone'] = 10;    
                 $_POST['phone_cnt'] = 90000;
                 $_POST['db_cnt'] = 10000;
                 $_POST['max_cnt'] =  90000;
                 $_POST['month_cnt'] = $_POST['money_type'] = 36;    
-            } else if($_POST[payment_yn] == "BC") {
+            } else if($_POST['payment_yn'] == "BC") {
                 $_POST['add_phone'] = 10;    
                 $_POST['phone_cnt'] = 90000;
                 $_POST['db_cnt'] = 10000;
                 $_POST['max_cnt'] =  90000;
                 $_POST['month_cnt'] = $_POST['money_type'] = 36;    
-            } else if($_POST[payment_yn] == "BJ") {
+            } else if($_POST['payment_yn'] == "BJ") {
                 $_POST['add_phone'] = 1;    
                 $_POST['phone_cnt'] = 9000;
                 $_POST['db_cnt'] = 1500;
@@ -116,38 +116,38 @@ if($_SESSION[form_submit])
 	{
 	        if($_POST['phone_cnt'] == "")
 	            $_POST['max_cnt'] = $_POST['phone_cnt'] = $_POST['add_phone'] * 9000;
-	        $pay_info[add_opt]=$_POST[add_opt];//기부폰개수
+	        $pay_info['add_opt']=$_POST['add_opt'];//기부폰개수
 			$pay_info['phone_cnt']=$_POST['phone_cnt'];//기부폰개수
 			$pay_info['month_cnt']=$_POST['month_cnt'];//결제개월수
 			
 			$pay_info['max_cnt']=$_POST['max_cnt'];//결제갯수
-			$pay_info[add_service]=$_POST[add_service];//결제개월수
+			$pay_info['add_service']=$_POST['add_service'];//결제개월수
 			if($_POST['fujia_status'])
 			$pay_info['fujia_status']="Y";//부가서비스
-			$pay_info[buyertel]=$_POST[buyertel];//전화번호
-			$pay_info[buyeremail]=$_POST[buyeremail];//이메일					
-			$pay_info[resultCode]=$inipay->GetResult('ResultCode');//승인결과코드
-			$pay_info[resultMsg]=iconv("euc-kr","utf-8",$inipay->GetResult('ResultMsg'));//결과메시지
-			$pay_info[payMethod]=$inipay->GetResult('PayMethod');//지불수단					
+			$pay_info['buyertel']=$_POST['buyertel'];//전화번호
+			$pay_info['buyeremail']=$_POST['buyeremail'];//이메일					
+			$pay_info['resultCode']=$inipay->GetResult('ResultCode');//승인결과코드
+			$pay_info['resultMsg']=iconv("euc-kr","utf-8",$inipay->GetResult('ResultMsg'));//결과메시지
+			$pay_info['payMethod']=$inipay->GetResult('PayMethod');//지불수단					
 			$pay_info['orderNumber']=$inipay->GetResult('MOID');//주문번호
-			$pay_info[tid]=$inipay->GetResult('TID');//TID
-			$pay_info[TotPrice]=$inipay->GetResult('TotPrice');//승인금액	
-			$pay_info[applDate]=$inipay->GetResult('ApplDate');//승인일
-			$pay_info[applTime]=$inipay->GetResult('ApplTime');//승인시각
-			$pay_info[mid]=$inipay->GetResult('MID');//상점ID
-			$pay_info[VACT_InputName]=$member_1['mem_name'];//구매자명
+			$pay_info['tid']=$inipay->GetResult('TID');//TID
+			$pay_info['TotPrice']=$inipay->GetResult('TotPrice');//승인금액	
+			$pay_info['applDate']=$inipay->GetResult('ApplDate');//승인일
+			$pay_info['applTime']=$inipay->GetResult('ApplTime');//승인시각
+			$pay_info['mid']=$inipay->GetResult('MID');//상점ID
+			$pay_info['VACT_InputName']=$member_1['mem_name'];//구매자명
 			$pay_info['buyer_id']=$member_1['mem_id'];
-			$pay_info[ApplNum]=$inipay->GetResult('ApplNum');//승인번호
-			$pay_info[CARD_Quota]=$inipay->GetResult('CARD_Quota');//할부개월
-			$pay_info[CARD_Code]=$inipay->GetResult('CARD_Code');//카드코드
-			$pay_info[CARD_BankCode]=$inipay->GetResult('CARD_BankCode');//발급사코드
-			$pay_info[OCB_Num]=$inipay->GetResult('OCB_Num');//카드번호
-			$pay_info[VACT_Num]=$inipay->GetResult('VACT_Num');//가상계좌번호
-			$pay_info[VACT_Date]=$inipay->GetResult('VACT_Date');//입금예정일
-			$pay_info[VACT_Time]=$inipay->GetResult('VACT_Time');//입금예정일
-			$pay_info[VACT_Name]=iconv("euc-kr","utf-8",$inipay->GetResult('VACT_Name'));//	예금주
-			$pay_info[VACT_BankCode]=$inipay->GetResult('VACT_BankCode');//은행코드
-			$pay_info[pc_mobile]="A";
+			$pay_info['ApplNum']=$inipay->GetResult('ApplNum');//승인번호
+			$pay_info['CARD_Quota']=$inipay->GetResult('CARD_Quota');//할부개월
+			$pay_info['CARD_Code']=$inipay->GetResult('CARD_Code');//카드코드
+			$pay_info['CARD_BankCode']=$inipay->GetResult('CARD_BankCode');//발급사코드
+			$pay_info['OCB_Num']=$inipay->GetResult('OCB_Num');//카드번호
+			$pay_info['VACT_Num']=$inipay->GetResult('VACT_Num');//가상계좌번호
+			$pay_info['VACT_Date']=$inipay->GetResult('VACT_Date');//입금예정일
+			$pay_info['VACT_Time']=$inipay->GetResult('VACT_Time');//입금예정일
+			$pay_info['VACT_Name']=iconv("euc-kr","utf-8",$inipay->GetResult('VACT_Name'));//	예금주
+			$pay_info['VACT_BankCode']=$inipay->GetResult('VACT_BankCode');//은행코드
+			$pay_info['pc_mobile']="A";
 			$pay_info['end_status']="Y";
 			
             $pay_info['db_cnt'] = $_POST['db_cnt'];
@@ -160,7 +160,7 @@ if($_SESSION[form_submit])
 			else
     			$pay_info['member_type'] = "일반결제-연간타입";
 			
-			if($_POST[pay_ex_end_date] && $_POST[pay_ex_no])
+			if($_POST['pay_ex_end_date'] && $_POST['pay_ex_no'])
 			{
 				$pay_info['cancel_ResultCode']="";//취소코드
 				$pay_info['cancel_ResultMsg']="";//취소메시지
@@ -173,12 +173,12 @@ if($_SESSION[form_submit])
 				{
 					$sql.=" $key = '$v' , ";
 				}
-				$sql.=" end_date=date_add(now(),INTERVAL {$_POST['month_cnt']} month) , date=now() where no='$_POST[pay_ex_no]',add_phone='{$_POST['add_phone']}' where ";
+				$sql.=" end_date=date_add(now(),INTERVAL {$_POST['month_cnt']} month) , date=now() where no='{$_POST['pay_ex_no']}',add_phone='{$_POST['add_phone']}' where ";
 				
 				
-				$sql_num_up="update Gn_MMS_Number set end_status='Y' , end_date=date_add(now(),INTERVAL {$_POST['month_cnt']} month) where end_date = '$_POST[pay_ex_end_date]' and mem_id='{$member_1['mem_id']}' ";
+				$sql_num_up="update Gn_MMS_Number set end_status='Y' , end_date=date_add(now(),INTERVAL {$_POST['month_cnt']} month) where end_date = '{$_POST['pay_ex_end_date']}' and mem_id='{$member_1['mem_id']}' ";
 				mysqli_query($self_con,$sql_num_up) or die(mysqli_error($self_con));				
-				//$sql_back="insert into tjd_pay_result_back (select * from tjd_pay_result where no='{$_POST[pay_ex_no]}' )";
+				//$sql_back="insert into tjd_pay_result_back (select * from tjd_pay_result where no='{$_POST['pay_ex_no']}' )";
 				//mysqli_query($self_con,$sql_back) or die(mysqli_error($self_con));
 			}
 			else
@@ -281,23 +281,23 @@ if($_SESSION[form_submit])
              
             // 등급에 따른 recommend_type 설정
             if($srow['recommend_id'] != "") {
-                $sql="select * from Gn_Member where mem_id='$srow[recommend_id]' and service_type > 0";
+                $sql="select * from Gn_Member where mem_id='{$srow['recommend_id']}' and service_type > 0";
                 $rresult=mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
                 $rrow=mysqli_fetch_array($rresult);	    	
                 $branch_share_id = "";
-                if($rrow[service_type] > 0) {
+                if($rrow['service_type'] > 0) {
                     $addQuery = "";
                     $branch_share_per = 0;
                     // 결제 추천인수 
                     //$sql="select count(*) cnt from Gn_Member a
                     //               left join tjd_pay_result b
                     //                 on a.mem_id = b.buyer_id
-                    //              where recommend_id='$srow[recommend_id]' and end_status='Y' $addQuery";
+                    //              where recommend_id='{$srow['recommend_id']}' and end_status='Y' $addQuery";
                     //$rresult=mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
                     //$ttrow=mysqli_fetch_array($rresult);
                     
                     // 추천인의 추천인 검색 및 등급 확인
-                    $sql="select * from Gn_Member where mem_id='$rrow[recommend_id]'";
+                    $sql="select * from Gn_Member where mem_id='{$rrow['recommend_id']}'";
                     $rresult=mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
                     $trow=mysqli_fetch_array($rresult);
                     
@@ -305,14 +305,14 @@ if($_SESSION[form_submit])
                     // 리셀러 회원인경우 분양회원 아이디 확인
 
                     
-                    if($rrow[service_type] == 1) {
+                    if($rrow['service_type'] == 1) {
                         $share_per = $recommend_per = $rrow['share_per']?$rrow['share_per']:30;
                         if($trow[0] !="") {
                             $recommend_per = $trow['share_per']?$trow['share_per']:50;
                             $branch_share_per = $recommend_per - $share_per;
                             $branch_share_id = $trow['mem_id'];
                         }
-                    } else if($rrow[service_type] == 3) {
+                    } else if($rrow['service_type'] == 3) {
                         $share_per = $recommend_per = $rrow['share_per']?$rrow['share_per']:50;
                         $branch_share_per = 0;
                         //$recommend_type = 50;
@@ -323,7 +323,7 @@ if($_SESSION[form_submit])
                 	
                 	//$share_per = $recommend_type;
                 	
-                	$sql = "update tjd_pay_result set share_per='$share_per', branch_share_per = '$branch_share_per', share_id='$srow[recommend_id]', branch_share_id='$branch_share_id' where no='$no'";
+                	$sql = "update tjd_pay_result set share_per='$share_per', branch_share_per = '$branch_share_per', share_id='{$srow['recommend_id']}', branch_share_id='$branch_share_id' where no='$no'";
                 	mysqli_query($self_con,$sql)or die(mysqli_error($self_con));			
                 }
                 
@@ -361,9 +361,9 @@ $row=mysqli_fetch_array($resul);
                     <tr>
                     <td colspan="2" style="text-align:center;">
                     <h3><?
-                    if($row[resultCode]=="0000")
+                    if($row['resultCode']=="0000")
                     {
-                        if($row[payMethod]=="VBank")
+                        if($row['payMethod']=="VBank")
                         echo "입금예정시간내로 아래 가상계좌로 입금하시면 구매가 완료됩니다.";
                         else
                         echo "결제가 성공적으로 이루어졌습니다.";
@@ -374,7 +374,7 @@ $row=mysqli_fetch_array($resul);
                     </tr>
                 <tr>
                 <td>결과코드</td>
-                <td><?=$row[resultCode]?></td>
+                <td><?=$row['resultCode']?></td>
                 </tr>                    
                 <tr>
                 <td>결과메시지</td>
@@ -382,11 +382,11 @@ $row=mysqli_fetch_array($resul);
                 </tr>
                 <tr>
                 <td>TID</td>
-                <td><?=$row[tid]?></td>
+                <td><?=$row['tid']?></td>
                 </tr>                                                    
                 <tr>
                 <td>지불수단</td>
-                <td><?=$row[payMethod]?></td>
+                <td><?=$row['payMethod']?></td>
                 </tr>
                 <tr>
                 <td>주문번호</td>
@@ -395,34 +395,34 @@ $row=mysqli_fetch_array($resul);
                 <tr>
                 <tr>
                 <td>구매자명</td>
-                <td><?=$row[VACT_InputName]?></td>
+                <td><?=$row['VACT_InputName']?></td>
                 </tr>                                        
                 <td>지불금액</td>
-                <td><?=$row[TotPrice]?></td>
+                <td><?=$row['TotPrice']?></td>
                 </tr>
                 <tr>
                 <td>지불시간</td>
-                <td><?=$row[applDate]?><?=$row[applTime]?></td>
+                <td><?=$row['applDate']?><?=$row['applTime']?></td>
                 </tr>
                 <?
-                if($row[payMethod]=="VBank")
+                if($row['payMethod']=="VBank")
                 {
                     ?>                       
                     <tr>
                     <td>예금주</td>
-                    <td><?=$row[VACT_Name]?></td>
+                    <td><?=$row['VACT_Name']?></td>
                     </tr>
                     <tr>
                     <td>은행코드</td>
-                    <td><?=$row[VACT_BankCode]?></td>
+                    <td><?=$row['VACT_BankCode']?></td>
                     </tr>
                     <tr>
                     <td>가상계좌번호</td>
-                    <td><?=$row[VACT_Num]?></td>
+                    <td><?=$row['VACT_Num']?></td>
                     </tr>
                     <tr>
                     <td>입금예정시간</td>
-                    <td><?=$row[VACT_Date]?></td>
+                    <td><?=$row['VACT_Date']?></td>
                     </tr>
                     <?
                 }

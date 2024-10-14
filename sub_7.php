@@ -15,12 +15,12 @@ if (!$_SESSION['one_member_id']) {
 $sql = "select * from Gn_Member  where mem_id='" . $_SESSION['one_member_id'] . "'";
 $sresul_num = mysqli_query($self_con,$sql);
 $member = $data = mysqli_fetch_array($sresul_num);
-if ($_REQUEST[rday1]) {
-    $start_time = strtotime($_REQUEST[rday1]);
+if ($_REQUEST['rday1']) {
+    $start_time = strtotime($_REQUEST['rday1']);
     $sql_serch .= " and unix_timestamp(date) >=$start_time ";
 }
-if ($_REQUEST[rday2]) {
-    $end_time = strtotime($_REQUEST[rday2]);
+if ($_REQUEST['rday2']) {
+    $end_time = strtotime($_REQUEST['rday2']);
     $sql_serch .= " and unix_timestamp(date) <= $end_time ";
 }
 
@@ -51,8 +51,8 @@ if ($_REQUEST[rday2]) {
                             <option value="22">일반회원</option>
                             <option value="50">사업자회원</option>
                         </select>
-                        <input type="date" name="rday1" placeholder="" id="rday1" value="<?= $_REQUEST[rday1] ?>" /> ~
-                        <input type="date" name="rday2" placeholder="" id="rday2" value="<?= $_REQUEST[rday2] ?>" />
+                        <input type="date" name="rday1" placeholder="" id="rday1" value="<?= $_REQUEST['rday1'] ?>" /> ~
+                        <input type="date" name="rday2" placeholder="" id="rday2" value="<?= $_REQUEST['rday2'] ?>" />
                     </div>
                     <div style="float:right;">
                         <select name="lms_select">

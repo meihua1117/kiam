@@ -56,7 +56,7 @@ if($row['mem_id']) {
         $sql="select mem_code, mem_id, is_leave, mem_leb, iam_leb,site, site_iam from Gn_Member use index(login_index) where mem_leb>0 and mem_id = '$memID' ";
         $resul=mysqli_query($self_con,$sql);
         $srow=mysqli_fetch_array($resul);
-        if($srow['mem_code'] and $srow[is_leave] == 'N')
+        if($srow['mem_code'] and $srow['is_leave'] == 'N')
         {
     	    $mem_code = $srow['mem_code'];
     	    $site = $srow['site'];

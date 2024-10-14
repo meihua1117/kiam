@@ -91,7 +91,7 @@ extract($_GET);
         $result = mysqli_query($self_con,$sql);
         $cart_count = mysqli_num_rows($result);
 		for($i=0; $row=mysqli_fetch_array($result); $i++) {
-			$sql = " select * from Gn_Iam_Contents_Gwc where idx = '$row[contents_idx]' ";
+			$sql = " select * from Gn_Iam_Contents_Gwc where idx = '{$row['contents_idx']}' ";
 			$res = mysqli_query($self_con,$sql);
 			$row_con = mysqli_fetch_array($res);
 
@@ -103,38 +103,38 @@ extract($_GET);
                 $img = $row_con['contents_img'];
             }
 
-            $sql_delivery = "select * from delivery_list where id='{$row[delivery]}'";
+            $sql_delivery = "select * from delivery_list where id='{$row['delivery']}'";
             $res_delivery = mysqli_query($self_con,$sql_delivery);
             $row_delivery = mysqli_fetch_array($res_delivery);
 
             $show_link = "http://kiam.kr/iam/gwc_order_pay.php?contents_idx=".$row['contents_idx']."&contents_cnt=".$row['contents_cnt']."&contents_price=".$row['contents_price']."&contents_salary=".$row['salary_price']."&seller_id=".$row['seller_id']."&order_option=".$row['order_option']."&admin=M&order_id=".$row['id']."&mem_id=".$row['mem_id']."&use_point_val=".$row['use_point']."&pay_method=".$row['payMethod'];
 
-            if($row[prod_state] == "1"){
+            if($row['prod_state'] == "1"){
                 $state = "취소";
             }
-            if($row[prod_state] == "2"){
+            if($row['prod_state'] == "2"){
                 $state = "반품";
             }
-            if($row[prod_state] == "3"){
+            if($row['prod_state'] == "3"){
                 $state = "교환";
             }
 
-            if($row[change_prod_req_date]){
+            if($row['change_prod_req_date']){
                 $process = $state."완료";
             }
             else{
                 $process = "";
             }
 
-            if($row[prod_req_state] == "1"){
+            if($row['prod_req_state'] == "1"){
                 $req_state = "취소완료";
-            } elseif ($row[prod_req_state] == "2"){
+            } elseif ($row['prod_req_state'] == "2"){
                 $req_state = "카드사환불예정";
-            } elseif($row[prod_req_state] == "3"){
+            } elseif($row['prod_req_state'] == "3"){
                 $req_state = "교환예정";
-            } elseif($row[prod_req_state] == "4"){
+            } elseif($row['prod_req_state'] == "4"){
                 $req_state = "교환완료";
-            } elseif($row[prod_req_state] == "5"){
+            } elseif($row['prod_req_state'] == "5"){
                 $req_state = "환불완료";
             } else {
                 $req_state = "없음";
@@ -143,9 +143,9 @@ extract($_GET);
 		<tr class="rows">
 			<td class="tac" style="border-right: 1px solid #e4e5e7;padding: 0px;">
                 <div style="background-color: #efefef;padding: 7px;text-align: left;">
-                    <span><?=$state?>접수일 : <?=substr($row[prod_req_date],0,10)?>&nbsp;&nbsp;&nbsp;&nbsp;|</span>
+                    <span><?=$state?>접수일 : <?=substr($row['prod_req_date'],0,10)?>&nbsp;&nbsp;&nbsp;&nbsp;|</span>
                     <span style="margin-left:10px;">주문일 : <?=substr($row['reg_date'],0,10)?>&nbsp;&nbsp;&nbsp;&nbsp;|</span>
-                    <span style="margin-left:10px;">주문번호 : <?=$row[pay_order_no]?></span>
+                    <span style="margin-left:10px;">주문번호 : <?=$row['pay_order_no']?></span>
                 </div>
                 <div class="ini_wrap" style="padding: 7px;">
 					<table class="wfull">

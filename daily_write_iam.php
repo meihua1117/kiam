@@ -310,7 +310,7 @@ $skrow = mysqli_fetch_array($sresult);
                                 <?
                                 for ($i = 9; $i < 22; $i++) {
                                     $iv = $i < 10 ? "0" . $i : $i;
-                                    $selected = $row[htime] == $iv ? "selected" : "";
+                                    $selected = $row['htime'] == $iv ? "selected" : "";
                                 ?>
                                     <option value="<?= $iv ?>" <?= $selected ?>><?= $iv ?></option>
                                 <?
@@ -321,7 +321,7 @@ $skrow = mysqli_fetch_array($sresult);
                                 <?
                                 for ($i = 0; $i < 31; $i += 30) {
                                     $iv = $i == 0 ? "00" : $i;
-                                    $selected = $row[mtime] == $iv ? "selected" : "";
+                                    $selected = $row['mtime'] == $iv ? "selected" : "";
                                 ?>
                                     <option value="<?= $iv ?>" <?= $selected ?>><?= $iv ?></option>
                                 <?

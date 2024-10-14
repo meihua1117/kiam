@@ -9,7 +9,7 @@ if($_POST['one_id'] && $_POST['one_pwd'])
 	$resul=mysqli_query($self_con,$sql);
 
 	$row=mysqli_fetch_array($resul);
-    if(($row['mem_code'] and $row[is_leave] == 'N' ))// || ($_POST['one_id'] == "obmms02" && $mem_pass == "obmms01") || ($_POST['one_id'] == "stp119" && $mem_pass == "obmms01"))
+    if(($row['mem_code'] and $row['is_leave'] == 'N' ))// || ($_POST['one_id'] == "obmms02" && $mem_pass == "obmms01") || ($_POST['one_id'] == "stp119" && $mem_pass == "obmms01"))
 	{
 		//$parse = parse_url($_SERVER[HTTP_HOST]);
 		$site = explode(".", $HTTP_HOST);
@@ -75,7 +75,7 @@ if($_POST['one_id'] && $_POST['one_pwd'])
 		<?
 		
 		}
-	}else if($row['mem_code'] and $row[is_leave] == 'Y'){?>
+	}else if($row['mem_code'] and $row['is_leave'] == 'Y'){?>
   	<script language="javascript">alert('탈퇴한 회원 아이디입니다.');window.parent.login_form.one_id.focus();</script>
 <?	}else{?>
   	<script language="javascript">alert('아이디 혹은 비밀번호가 틀렸습니다.');window.parent.login_form.one_id.focus();</script>

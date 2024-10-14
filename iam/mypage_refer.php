@@ -7,7 +7,7 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
 //$sql="select * from Gn_Member  where mem_id='".$_SESSION['iam_member_id']."'";
 //$sresul_num=mysqli_query($self_con,$sql);
 //$data=mysqli_fetch_array($sresul_num);
-//$iam_birth_arr = explode("-",$data[mem_birth]);
+//$iam_birth_arr = explode("-",$data['mem_birth']);
 
 ?>
 <style>
@@ -134,7 +134,7 @@ td {
                                 <label class="label label-sm" id = "sell_service_contents" style="background: #ff3333;border-radius: 50%;padding: 2px 5px;margin-left: -5px;font-size:10px"></label>
                             </a>
                             <?}?>
-                            <?if($member_iam[service_type] < 2){
+                            <?if($member_iam['service_type'] < 2){
                                 $report_link = "/iam/mypage_report_list.php";
                             }else{
                                 $report_link = "/iam/mypage_report.php";
@@ -165,8 +165,8 @@ td {
                                     <option value="22">일반회원</option>
                                     <option value="50">사업자회원</option>
                                 </select>
-                                <input type="date" name="rday1" placeholder="" id="rday1" value="<?=$_REQUEST[rday1]?>"/> ~
-                                <input type="date" name="rday2" placeholder="" id="rday2" value="<?=$_REQUEST[rday2]?>"/>
+                                <input type="date" name="rday1" placeholder="" id="rday1" value="<?=$_REQUEST['rday1']?>"/> ~
+                                <input type="date" name="rday2" placeholder="" id="rday2" value="<?=$_REQUEST['rday2']?>"/>
                             </div>
                             <div style="float:right;">
                                 <img src="/images/sub_button_703.jpg" onclick="pay_form.submit();" style="height: 30px" />

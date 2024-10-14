@@ -8,12 +8,12 @@ $sql_serch=" buyer_id ='{$_SESSION['iam_member_id']}' ";
 $content_sql_serch = " buyer_id ='{$_SESSION['iam_member_id']}' and (point_val=0 or (point_val=1 and point_percent!='' and type='use'))";
 $point_sql_serch = " buyer_id ='{$_SESSION['iam_member_id']}' and ((point_val=1 and point_percent is null) or (point_val=2 and receive_state=1)) and pay_status='Y'";
 if($_REQUEST['search_date']){
-    if($_REQUEST[rday1]){
-        $start_time=strtotime($_REQUEST[rday1]);
+    if($_REQUEST['rday1']){
+        $start_time=strtotime($_REQUEST['rday1']);
         $sql_serch.=" and unix_timestamp({$_REQUEST['search_date']}) >=$start_time ";
     }
-    if($_REQUEST[rday2]){
-        $end_time=strtotime($_REQUEST[rday2]);
+    if($_REQUEST['rday2']){
+        $end_time=strtotime($_REQUEST['rday2']);
         $sql_serch.=" and unix_timestamp({$_REQUEST['search_date']}) <= $end_time ";
     }
 }
@@ -224,7 +224,7 @@ $mid = date("YmdHis").rand(10,99);
                         <label class="label label-sm" id = "sell_service_contents" style="background: #ff3333;border-radius: 50%;padding: 2px 5px;margin-left: -5px;font-size:10px"></label>
                     </a>
                     <?}?>
-                    <?if($member_iam[service_type] < 2){
+                    <?if($member_iam['service_type'] < 2){
                         $report_link = "/iam/mypage_report_list.php";
                     }else{
                         $report_link = "/iam/mypage_report.php";
@@ -273,8 +273,8 @@ $mid = date("YmdHis").rand(10,99);
                     <?
                     }
                     ?> -->
-                    <input type="date" name="rday1" placeholder="" id="rday1" value="<?=$_REQUEST[rday1]?>" class="form-sort"/> ~
-                    <input type="date" name="rday2" placeholder="" id="rday2" value="<?=$_REQUEST[rday2]?>" class="form-sort"/>
+                    <input type="date" name="rday1" placeholder="" id="rday1" value="<?=$_REQUEST['rday1']?>" class="form-sort"/> ~
+                    <input type="date" name="rday2" placeholder="" id="rday2" value="<?=$_REQUEST['rday2']?>" class="form-sort"/>
                     <a class="form-search" onclick="pay_form1.submit();"><i class="fa fa-search"></i></a>
                 </div>
                 <div>
@@ -297,7 +297,7 @@ $mid = date("YmdHis").rand(10,99);
 ?>
                                 <tr >
                                     <td><?=$sort_no?></td>
-                                    <td><?="IAM-".$row[iam_pay_type]?></td>
+                                    <td><?="IAM-".$row['iam_pay_type']?></td>
 <!--                                            <td>--><?//=$row['iam_card_cnt']?><!--</td>-->
 <!--                                            <td>--><?//=$row['iam_share_cnt']?><!--</td>-->
                                     <td style="font-size:11px;"><?=$row['date']?></td>
@@ -307,8 +307,8 @@ $mid = date("YmdHis").rand(10,99);
                                     <?}else{?>
                                         <td>정기</td>
                                     <?}?>
-                                    <td><?=$pay_type[$row[payMethod]]?></td>
-                                    <td><?=number_format($row[TotPrice])?>원</td>
+                                    <td><?=$pay_type[$row['payMethod']]?></td>
+                                    <td><?=number_format($row['TotPrice'])?>원</td>
                                     <td>
                                         <?=$pay_result_status[$row['end_status']]?>
                                         <?php if($row['monthly_yn'] == "Y") {?>
@@ -413,19 +413,19 @@ $mid = date("YmdHis").rand(10,99);
                                         if ($row['gwc_cont_pay'] == '1') {
                                             echo '굿마켓';
                                         } else {
-                                            if (strpos($row[item_name],'서비스콘텐츠') == 0) {
+                                            if (strpos($row['item_name'],'서비스콘텐츠') == 0) {
                                                 echo '콜이야';
                                             } else {
-                                                if (strpos($row[item_name],'IAM 몰') == 0) {
+                                                if (strpos($row['item_name'],'IAM 몰') == 0) {
                                                     echo '위드유';
                                                 }
                                             }
                                         }
                                         ?></td>
-                                    <td><?=$row[item_name]?></td>
+                                    <td><?=$row['item_name']?></td>
                                     <td><?=$row_mem_data['mem_id']?><br><?=$row_mem_data['mem_name']?></td>
                                     <td><?=$row[buyer_tel]?></td>
-                                    <td style="font-size:11px;"><?=$row[pay_date]?></td>
+                                    <td style="font-size:11px;"><?=$row['pay_date']?></td>
                                     <td style="font-size:11px;">
                                         <?php
                                         if($row['gwc_cont_pay'] == 0){
@@ -573,7 +573,7 @@ $mid = date("YmdHis").rand(10,99);
                                     $res_member = mysqli_query($self_con,$sql_member);
                                     $row_member = mysqli_fetch_array($res_member);
                                     $row[pay_method] = $row_member['mem_name'] . "<br>" . $row_member['mem_phone'];
-                                    $row[item_price] = 0;
+                                    $row['item_price'] = 0;
                                 } else if($row['type'] == "group_card"){
                                     $type = "결제";
                                 } else {
@@ -583,10 +583,10 @@ $mid = date("YmdHis").rand(10,99);
                                 <tr >
                                     <td><?=$point_sort_no?></td>
                                     <td><?=$type?></td>
-                                    <td><?=$row[item_name]?></td>
+                                    <td><?=$row['item_name']?></td>
                                     <td><?=$row[pay_method]?></td>
-                                    <td style="font-size:11px;"><?=$row[pay_date]?></td>
-                                    <td><?=number_format($row[item_price])?>P</td>
+                                    <td style="font-size:11px;"><?=$row['pay_date']?></td>
+                                    <td><?=number_format($row['item_price'])?>P</td>
                                     <!-- <td style="font-size:11px;"><?=$row[apply_buyer_date]?></td> -->
                                     <!-- <td style="font-size:11px;"><?=$row[apply_seller_date]?></td> -->
                                 </tr>

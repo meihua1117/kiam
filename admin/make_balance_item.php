@@ -29,18 +29,18 @@ while($row = mysqli_fetch_array($res)) {
     if($srow[0] == "") {
         $query = "insert into Gn_Item_Pay_Result_Balance set pay_no='{$row['no']}',
                                                          mem_id='{$row['buyer_id']}',
-                                                         seller_id='$row[seller_id]',
-                                                         item_name='$row[item_name]',
-                                                         share_per='$row[pay_percent]',
-                                                         price='$row[item_price]',
+                                                         seller_id='{$row['seller_id']}',
+                                                         item_name='{$row['item_name']}',
+                                                         share_per='{$row['pay_percent']}',
+                                                         price='{$row['item_price']}',
                                                          balance_date='$date_month',
-                                                         pay_date='$row[pay_date]',
+                                                         pay_date='{$row['pay_date']}',
                                                          regdate=NOW()
                                                          ";
         mysqli_query($self_con,$query);
     }
     $i++;
 }
-echo "<script>alert('생성되었습니다.');location.href='/admin/payment_item_balance_list.php?search_year=$_REQUEST[search_year]&search_month=$_REQUEST[search_month]';</script>";
+echo "<script>alert('생성되었습니다.');location.href='/admin/payment_item_balance_list.php?search_year={$_REQUEST['search_year']}&search_month={$_REQUEST['search_month']}';</script>";
 ?> 
                      

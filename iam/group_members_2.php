@@ -258,7 +258,7 @@ $now = date("Y-m-d");
                                             <div class="info">
                                                 <div class="upper">
                                                     <span class="name" style="font-size: 18px"><?=$row['mem_name']?></span>
-                                                    <span class="company" style="font-size: 14px"><?=$row[zy]?></span>
+                                                    <span class="company" style="font-size: 14px"><?=$row['zy']?></span>
                                                     <span class="name" style="margin-left:10px;color:red;font-size: 18px">(관리자)</span>
                                                 </div>
                                                 <div class="downer" style="font-size: 18px">
@@ -336,7 +336,7 @@ $now = date("Y-m-d");
                                             <div class="info">
                                                 <div class="upper">
                                                     <span class="name"><?=$row['mem_name']?></span>
-                                                    <span class="company"><?=$row[zy]?></span>
+                                                    <span class="company"><?=$row['zy']?></span>
                                                     <?if($row[req_date] >= $now){?>
                                                         <span class="name" style="margin-left:10px;color:red">(신규)</span>
                                                     <?}?>

@@ -287,7 +287,7 @@ $date_today=date("Y-m")."-01 00:00:00";
                                 while($row = mysqli_fetch_array($res)) {
                                     $show_link = "http://kiam.kr/iam/gwc_order_pay.php?contents_idx=".$row['contents_idx']."&contents_cnt=".$row['contents_cnt']."&contents_price=".$row['contents_price']."&contents_salary=".$row['salary_price']."&seller_id=".$row['seller_id']."&order_option=".$row['order_option']."&admin=Y&mem_id=".$row['mem_id']."&use_point_val=".$row['use_point']."&pay_method=".$row['payMethod'];
 
-                                    $sql_tjd = "select * from tjd_pay_result where no='{$row[tjd_idx]}'";
+                                    $sql_tjd = "select * from tjd_pay_result where no='{$row['tjd_idx']}'";
                                     $res_tjd = mysqli_query($self_con,$sql_tjd);
                                     $row_tjd = mysqli_fetch_array($res_tjd);
 
@@ -302,12 +302,12 @@ $date_today=date("Y-m")."-01 00:00:00";
                                     $res_buyer = mysqli_query($self_con,$sql_buyer);
                                     $row_buyer = mysqli_fetch_array($res_buyer);
 
-                                    $sql_seller = "select mem_name, mem_cash from Gn_Member where mem_id='{$row[seller_id]}'";
+                                    $sql_seller = "select mem_name, mem_cash from Gn_Member where mem_id='{$row['seller_id']}'";
                                     $res_seller = mysqli_query($self_con,$sql_seller);
                                     $row_seller = mysqli_fetch_array($res_seller);
-                                    $seller_data = $row_seller[0]."/\n".$row[seller_id];
+                                    $seller_data = $row_seller[0]."/\n".$row['seller_id'];
 
-                                    $sql_cont_data = "select idx, contents_sell_price, send_provide_price, send_salary_price, contents_img, contents_title from Gn_Iam_Contents_Gwc where idx='$row[contents_idx]'";
+                                    $sql_cont_data = "select idx, contents_sell_price, send_provide_price, send_salary_price, contents_img, contents_title from Gn_Iam_Contents_Gwc where idx='{$row['contents_idx']}'";
                                     $res_cont_data = mysqli_query($self_con,$sql_cont_data);
                                     $row_cont_data = mysqli_fetch_array($res_cont_data);
 
@@ -321,7 +321,7 @@ $date_today=date("Y-m")."-01 00:00:00";
                                         $img_link = $row_cont_data['contents_img'];
                                     }
 
-                                    $price_data2 = $row['use_point']."/\n".($row_tjd[TotPrice] * 1 - $row['use_point'] * 1);
+                                    $price_data2 = $row['use_point']."/\n".($row_tjd['TotPrice'] * 1 - $row['use_point'] * 1);
 
                                     $sql_price_all = "select SUM(TotPrice) as all_price from tjd_pay_result where gwc_cont_pay=1 and buyer_id='{$row['buyer_id']}'";
                                     $res_price_all = mysqli_query($self_con,$sql_price_all);
@@ -331,13 +331,13 @@ $date_today=date("Y-m")."-01 00:00:00";
                                     $money_data = $month_money."/\n".$row_price_all[0];
 
                                     $prod_state = '주문';
-                                    if($row[prod_state] == '1'){
+                                    if($row['prod_state'] == '1'){
                                         $prod_state = "취소";
                                     }
-                                    else if($row[prod_state] == '2'){
+                                    else if($row['prod_state'] == '2'){
                                         $prod_state = "환불";
                                     }
-                                    else if($row[prod_state] == '3'){
+                                    else if($row['prod_state'] == '3'){
                                         $prod_state = "교환";
                                     }
                                 ?>
@@ -345,11 +345,11 @@ $date_today=date("Y-m")."-01 00:00:00";
                                         <td><input type="checkbox" class="check" id="check_one_member" value="<?=$row['id']?>"><?=$number--?></td>
                                         <td><?=$prod_state?></td>
                                         <td><?=$row['prod_req_date']?>/<br><?=substr($row['prod_req_no'], -7)?></td>
-                                        <td><a href="javascript:show_detail_prod('<?=$row[state_detail]?>')"><?=cut_str($row[state_detail], 10)?></a></td>
+                                        <td><a href="javascript:show_detail_prod('<?=$row['state_detail']?>')"><?=cut_str($row['state_detail'], 10)?></a></td>
                                         <td>
                                             <form method="post" name="ssForm<?=$i?>" id="ssForm<?=$i?>" action="ajax/gwc_payment_save.php">
                                                 <input type="hidden" name="no" value="<?=$row_tjd['no']?>" >
-                                                <input type="hidden" name="price" id="price_<?=$i?>" value="<?=$row_tjd[TotPrice]?>" >
+                                                <input type="hidden" name="price" id="price_<?=$i?>" value="<?=$row_tjd['TotPrice']?>" >
                                                 <input type="hidden" name="type" id="type_<?=$i?>" value="main">
                                                 <select name="end_status"  onchange="payment_save('#ssForm<?=$i?>');return false;" style="font-size:11px;">
                                                     <option value="N" <?php echo $row_tjd['end_status'] == "N"?"selected":""?>>결제대기</option>
@@ -374,14 +374,14 @@ $date_today=date("Y-m")."-01 00:00:00";
                                                 </select>
                                             </form>
                                         </td>
-                                        <td><?=$row[change_prod_req_date]?></td>
+                                        <td><?=$row['change_prod_req_date']?></td>
                                         <td>
                                             <form method="post" name="receiptForm<?=$i?>" id="receiptForm<?=$i?>" action="ajax/gwc_payment_save.php" enctype="multipart/form-data">
                                                 <input type="hidden" name="no" value="<?=$row['id']?>" >
                                                 <input type="hidden" name="type" id="type_<?=$i?>" value="reciptimg">
                                                 <input type="file" name="receipt_file" id="receipt_file" style="width: 100px;">
-                                                <?if($row[prod_req_img]){?>
-                                                <img class="zoom" src="http://kiam.kr/<?=$row[prod_req_img]?>" style="width:50px;">
+                                                <?if($row['prod_req_img']){?>
+                                                <img class="zoom" src="http://kiam.kr/<?=$row['prod_req_img']?>" style="width:50px;">
                                                 <?}?>
                                                 <button onclick="window.receiptForm<?=$i?>.submit();return false;" style="font-size: 11px;color: white;background-color: black;padding: 0px 5px;">저장</button>
                                             </form>
@@ -392,7 +392,7 @@ $date_today=date("Y-m")."-01 00:00:00";
                                         <td><?=$row['order_mem_name']."/\n".$row['mem_id']?></td>
                                         <td><?=$price_data1?></td>
                                         <td><?=$price_data2?></td>
-                                        <td><?=$row_tjd[TotPrice]?></td>
+                                        <td><?=$row_tjd['TotPrice']?></td>
                                         <td>
                                             <select name="delivery_type_<?=$row['id']?>" style="font-size:11px;">
                                                 <option value="">배송회사</option>
@@ -401,13 +401,13 @@ $date_today=date("Y-m")."-01 00:00:00";
                                                 $res_delivery = mysqli_query($self_con,$sql_delivery);
                                                 while($row_delivery = mysqli_fetch_array($res_delivery)){
                                                 ?>
-                                                <option value="<?=$row_delivery['id']?>" title="<?=$row_delivery[delivery_name]?>" <?=$row_delivery['id']==$row[delivery]?'selected':''?>><?=cut_str($row_delivery[delivery_name], 5)?></option>
+                                                <option value="<?=$row_delivery['id']?>" title="<?=$row_delivery['delivery_name']?>" <?=$row_delivery['id']==$row['delivery']?'selected':''?>><?=cut_str($row_delivery['delivery_name'], 5)?></option>
                                                 <?}?>
                                             </select>
                                         </td>
                                         <td>
-                                            <input type="text" name="delivery_no_<?=$row['id']?>" value="<?=$row[delivery_no]?>" style="width:80px;font-size: 11px;">
-                                            <button onclick="show_delivery_link('<?=$row[delivery]?>');return false;" style="font-size: 11px;color: white;background-color: black;padding: 0px 5px;">배송<br>조회</button>
+                                            <input type="text" name="delivery_no_<?=$row['id']?>" value="<?=$row['delivery_no']?>" style="width:80px;font-size: 11px;">
+                                            <button onclick="show_delivery_link('<?=$row['delivery']?>');return false;" style="font-size: 11px;color: white;background-color: black;padding: 0px 5px;">배송<br>조회</button>
                                             <button onclick="save_delivery('<?=$row['id']?>');return false;" style="font-size: 11px;color: white;background-color: black;padding: 0px 5px;">저장</button>
                                         </td>
                                         <td>
@@ -415,8 +415,8 @@ $date_today=date("Y-m")."-01 00:00:00";
                                                 <input type="hidden" name="no" value="<?=$row['id']?>" >
                                                 <input type="hidden" name="type" id="type_<?=$i?>" value="prod_storage_change">
                                                 <select name="storage_state" onchange="payment_save('#storageForm<?=$i?>');return false;" style="font-size:11px;">
-                                                    <option value="0" <?=!$row[prod_storage]?"selected":""?>>입고대기</option>
-                                                    <option value="1" <?=$row[prod_storage]?"selected":""?>>입고완료</option>
+                                                    <option value="0" <?=!$row['prod_storage']?"selected":""?>>입고대기</option>
+                                                    <option value="1" <?=$row['prod_storage']?"selected":""?>>입고완료</option>
                                                 </select>
                                             </form>
                                         </td>

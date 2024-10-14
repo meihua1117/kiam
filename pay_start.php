@@ -35,7 +35,7 @@ $inipay->SetField("enctype", "asym");    //asym:비대칭, symm:대칭(현재 as
 $inipay->SetField("admin", "1111");     // 키패스워드(키발급시 생성, 상점관리자 패스워드와 상관없음)
 $inipay->SetField("checkopt", "false");   //base64함:false, base64안함:true(현재 false로 고정)
 $inipay->SetField("mid", $mid);            // 상점아이디
-$inipay->SetField("price",$_POST[price]);                // 가격
+$inipay->SetField("price",$_POST['price']);                // 가격
 $inipay->SetField("nointerest", "no");             //무이자여부(no:일반, yes:무이자)
 //$inipay->SetField("quotabase", "선택:일시불:2개월:3개월:6개월"); //할부기간
 if($_POST['month_plan'] == "Y")
@@ -50,13 +50,13 @@ if ($inipay->GetResult("ResultCode") != "00") {
 	echo $inipay->GetResult("ResultMsg");
 	exit(0);
 }
-$_SESSION['INI_MID'] = $_POST[mid]; //상점ID
+$_SESSION['INI_MID'] = $_POST['mid']; //상점ID
 $_SESSION['INI_ADMIN'] = "1111";   // 키패스워드(키발급시 생성, 상점관리자 패스워드와 상관없음)
-$_SESSION['INI_PRICE'] = $_POST[price];     //가격 
+$_SESSION['INI_PRICE'] = $_POST['price'];     //가격 
 $_SESSION['INI_RN'] = $inipay->GetResult("rn"); //고정 (절대 수정 불가)
 $_SESSION['INI_ENCTYPE'] = $inipay->GetResult("enctype"); //고정 (절대 수정 불가)
 $orderNumber=$member_1['mem_code']."_".date("ymdhis");
-$_SESSION[form_submit]="ok";
+$_SESSION['form_submit']="ok";
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -116,11 +116,11 @@ window.onload=function()
     <input type="hidden" name="phone_cnt" value="<?=$_POST['max_cnt']?>" />
     <input type="hidden" name="month_cnt" value="<?=$_POST['month_cnt']?>" />
     <input type="hidden" name="max_cnt" value="<?=$_POST['max_cnt']?>" />
-    <input type="hidden" name="add_service" value="<?=$_POST[add_service]?>" />
+    <input type="hidden" name="add_service" value="<?=$_POST['add_service']?>" />
     <input type="hidden" name="fujia_status" value="<?=$_POST['fujia_status']?>" />
-    <input type="hidden" name="pay_ex_no" value="<?=$_POST[pay_ex_no]?>" />    
-    <input type="hidden" name="pay_ex_end_date" value="<?=$_POST[pay_ex_end_date]?>" />    
-    <input type="hidden" name="add_opt" value="<?=$_POST[add_opt]?>" />
+    <input type="hidden" name="pay_ex_no" value="<?=$_POST['pay_ex_no']?>" />    
+    <input type="hidden" name="pay_ex_end_date" value="<?=$_POST['pay_ex_end_date']?>" />    
+    <input type="hidden" name="add_opt" value="<?=$_POST['add_opt']?>" />
     
     <input type="hidden" name="db_cnt" value="<?=$_POST['db_cnt']?>" />
     <input type="hidden" name="email_cnt" value="<?=$_POST['email_cnt']?>" />

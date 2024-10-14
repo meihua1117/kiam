@@ -25,7 +25,7 @@ for($i = 0;$i <count($mem_id_array);$i++) {
     }
 }
 if(count($mem_id_array) == 1) {
-    echo "<script>alert('저장되었습니다.');location.href='/admin/payment_balance_advance_list.php?search_year=$_POST[search_year]&search_month=$_POST[search_month]';</script>";
+    echo "<script>alert('저장되었습니다.');location.href='/admin/payment_balance_advance_list.php?search_year={$_POST['search_year']}&search_month={$_POST['search_month']}';</script>";
 }else{
     echo json_encode(array("result"=>"success"));
 }

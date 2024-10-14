@@ -48,7 +48,7 @@ else if($type == "delete_list"){
                                 pay_method='POINT',
                                 item_name = '캐시포인트충전(결제취소)',
                                 item_price={$row_order['use_point']},
-                                seller_id='$row_order[seller_id]',
+                                seller_id='{$row_order['seller_id']}',
                                 pay_date=NOW(),
                                 pay_status='Y',
                                 pay_percent='',
@@ -56,9 +56,9 @@ else if($type == "delete_list"){
                                 VACT_InputName='$row_order[order_mem_name]',
                                 point_val=1,
                                 type='buy',
-                                current_point='$row_mem[mem_point]',
+                                current_point='{$row_mem['mem_point']}',
                                 current_cash='{$row_mem['mem_cash']}',
-                                contents_cnt='$row_order[contents_cnt]',
+                                contents_cnt='{$row_order['contents_cnt']}',
                                 gwc_cont_pay=1";
                     $res_result = mysqli_query($self_con,$sql_buyer);
                 }

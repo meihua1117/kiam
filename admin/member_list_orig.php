@@ -569,11 +569,11 @@ if($case == 0 )
                                         <? if(str_replace("-", "",$row['mem_phone'])==$row['sendnum'] || $row['sendnum']=="")
                                         {?>
                                             <select name="iam_pay_type" id="iam_pay_type<?=$row['mem_code']?>">
-                                                <option value="0" <? echo $row[iam_type] == 0?"selected":""?>>FREE</option>
-                                                <option value="1" <? echo $row[iam_type] == 1?"selected":""?>>BASIC</option>
-                                                <option value="2" <? echo $row[iam_type] == 2?"selected":""?>>전문가</option>
-                                                <option value="3" <? echo $row[iam_type] == 3?"selected":""?>>회사용</option>
-                                                <option value="4" <? echo $row[iam_type] == 4?"selected":""?>>단체용</option>
+                                                <option value="0" <? echo $row['iam_type'] == 0?"selected":""?>>FREE</option>
+                                                <option value="1" <? echo $row['iam_type'] == 1?"selected":""?>>BASIC</option>
+                                                <option value="2" <? echo $row['iam_type'] == 2?"selected":""?>>전문가</option>
+                                                <option value="3" <? echo $row['iam_type'] == 3?"selected":""?>>회사용</option>
+                                                <option value="4" <? echo $row['iam_type'] == 4?"selected":""?>>단체용</option>
                                             </select>
                                             <? if($_SESSION['one_member_admin_id'] != "" && $_SESSION['one_member_admin_id'] != "onlyonemaket"){?>
                                                 <input type="button" name="변경" value=" 변경 " onclick="changeIamType('<?=$row['mem_code']?>')">

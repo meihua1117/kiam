@@ -15,7 +15,7 @@ $result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
 $row_iam_info = mysqli_fetch_array($result);
 
 if ($row_iam_info['block_contents']) {
-    $block_contents_sql = " and ct.idx not in ($row_iam_info[block_contents]) ";
+    $block_contents_sql = " and ct.idx not in ({$row_iam_info['block_contents']}) ";
 } else {
     $block_contents_sql = "";
 }

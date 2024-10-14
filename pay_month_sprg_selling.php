@@ -50,7 +50,7 @@ $sql = "insert into tjd_pay_result set
         idx='$orderNumber',
         orderNumber='$orderNumber',
         VACT_InputName='{$data['mem_name']}',
-        TotPrice='$pay_info[TotPrice]',
+        TotPrice='{$pay_info['TotPrice']}',
         end_date=date_add(now(),INTERVAL {$pay_info['month_cnt']} month),
         end_status='N',
         buyertel='{$data['mem_phone']}',
@@ -68,7 +68,7 @@ $sql = "insert into tjd_pay_result set
         iam_card_cnt='{$pay_info['iam_card_cnt']}',
         onestep1='{$pay_info['onestep1']}',
         onestep2='{$pay_info['onestep2']}',
-        member_cnt='$pay_info[member_cnt]',
+        member_cnt='{$pay_info['member_cnt']}',
         monthly_yn = 'Y'";
 mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 

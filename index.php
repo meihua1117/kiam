@@ -1252,12 +1252,12 @@ function encodeKorean($matches)
                         <!--div class="dropdown "  style="float:left; position: absolute; left: 55px; top: 12px; width: 18px;height:18px;">
                         <img class="dropdown-toggle" data-toggle="dropdown" src="img/icon_earth.png" >
                         <ul class="dropdown-menu" style="left:0px !important">
-                            <li><a href="javascript:void(0)" onclick="set_language('kr')"><?= $language_row[korean] ?></a></li>
-                            <li><a href="javascript:void(0)" onclick="set_language('en')"><?= $language_row[english] ?></a></li>
-                            <li><a href="javascript:void(0)" onclick="set_language('cn')"><?= $language_row[china] ?></a></li>
-                            <li><a href="javascript:void(0)" onclick="set_language('jp')"><?= $language_row[japan] ?></a></li>
-                            <li><a href="javascript:void(0)" onclick="set_language('id')"><?= $language_row[india] ?></a></li>
-                            <li><a href="javascript:void(0)" onclick="set_language('fr')"><?= $language_row[france] ?></a></li>
+                            <li><a href="javascript:void(0)" onclick="set_language('kr')"><?= $language_row['korean'] ?></a></li>
+                            <li><a href="javascript:void(0)" onclick="set_language('en')"><?= $language_row['english'] ?></a></li>
+                            <li><a href="javascript:void(0)" onclick="set_language('cn')"><?= $language_row['china'] ?></a></li>
+                            <li><a href="javascript:void(0)" onclick="set_language('jp')"><?= $language_row['japan'] ?></a></li>
+                            <li><a href="javascript:void(0)" onclick="set_language('id')"><?= $language_row['india'] ?></a></li>
+                            <li><a href="javascript:void(0)" onclick="set_language('fr')"><?= $language_row['france'] ?></a></li>
                         </ul>
                     </div-->
                         <!--상단 우측 프로필 부분-->
@@ -4276,7 +4276,7 @@ function encodeKorean($matches)
                     $row_iam_info = mysqli_fetch_array($result);
 
                     if ($row_iam_info['block_contents']) {
-                        $block_contents_sql = " and c.idx not in ($row_iam_info[block_contents]) ";
+                        $block_contents_sql = " and c.idx not in ({$row_iam_info['block_contents']}) ";
                     } else {
                         $block_contents_sql = "";
                     }

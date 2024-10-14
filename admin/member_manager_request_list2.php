@@ -203,7 +203,7 @@ function excel_down_(){
                 	$query .= "$orderQuery";
                 	$res = mysqli_query($self_con,$query);
                     while($row = mysqli_fetch_array($res)) {      
-                    	$sql = "select * from Gn_Member where mem_id='$row[recommend_id]'";
+                    	$sql = "select * from Gn_Member where mem_id='{$row['recommend_id']}'";
                     	$res_result = mysqli_query($self_con,$sql);
                     	$sInfo = mysqli_fetch_array($res_result);
                     	mysqli_free_result($res_result);                        
@@ -249,7 +249,7 @@ function excel_down_(){
                             -->
                         </td>
                         <td>
-                            (<?php echo number_format($row[recommend_cnt]);?>/<?php echo number_format($row[recommend_money]);?>)
+                            (<?php echo number_format($row['recommend_cnt']);?>/<?php echo number_format($row['recommend_money']);?>)
                         </td>
                         <td>
                             <?php echo $sInfo['mem_name'];?>

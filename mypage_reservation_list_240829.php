@@ -151,14 +151,14 @@ $(function(){
 				$sql_serch=" m_id ='{$_SESSION['one_member_id']}' ";
 				if($_REQUEST['search_date'])
 				{					
-					if($_REQUEST[rday1])
+					if($_REQUEST['rday1'])
 					{
-					$start_time=strtotime($_REQUEST[rday1]);
+					$start_time=strtotime($_REQUEST['rday1']);
 					$sql_serch.=" and unix_timestamp({$_REQUEST['search_date']}) >=$start_time ";
 					}
-					if($_REQUEST[rday2])
+					if($_REQUEST['rday2'])
 					{
-					$end_time=strtotime($_REQUEST[rday2]);
+					$end_time=strtotime($_REQUEST['rday2']);
 					$sql_serch.=" and unix_timestamp({$_REQUEST['search_date']}) <= $end_time ";
 					}
 				}
@@ -651,7 +651,7 @@ function create_iam_mall(status){
 		$("#iam_mall_sell_price").focus();
 		return;
 	}
-	if('<?=$data[service_type]?>' == '3' || status == 1) {
+	if('<?=$data['service_type']?>' == '3' || status == 1) {
 		var formData = new FormData();
 		formData.append("step_set", 'Y');
 		formData.append("step_set_ids", $("#send_sms_idx").val());

@@ -473,9 +473,9 @@ foreach($memberList as $member) {
             }
         }
     }else {
-        $mms_info[delay]=$sendDelay;
+        $mms_info['delay']=$sendDelay;
         $mms_info[delay2]=$sendDelay2;
-        $mms_info[close]=$sendClose;
+        $mms_info['close']=$sendClose;
         // $ret = sendmms(5, $member['mem_id'], $send_num, $send_num, $reservation, htmlspecialchars($title), addslashes(htmlspecialchars($text)), $send_img, $send_img1, $send_img2, "N");
         // if($ret != "fail")
         //     $sendedList[] = $send_num;

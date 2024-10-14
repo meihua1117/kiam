@@ -207,12 +207,12 @@ function payment_save(fm) {
                         }
                         if($row['type'] == 'seller'){
                             //$cmem_level = "리셀러";
-                          $cmem_id = $row[seller_id];
-                          $mem_query = "select mem_name,service_type from Gn_Member where mem_id='$row[seller_id]'";  
+                          $cmem_id = $row['seller_id'];
+                          $mem_query = "select mem_name,service_type from Gn_Member where mem_id='{$row['seller_id']}'";  
                         }else {
                             //$cmem_level = "분양자";
-                          $cmem_id = $row[branch_id];
-                          $mem_query = "select mem_name,service_type from Gn_Member where mem_id='$row[branch_id]'";  
+                          $cmem_id = $row['branch_id'];
+                          $mem_query = "select mem_name,service_type from Gn_Member where mem_id='{$row['branch_id']}'";  
                         }
                         $mem_res = mysqli_query($self_con,$mem_query);
                         $mem_row = mysqli_fetch_array($mem_res);
@@ -247,7 +247,7 @@ function payment_save(fm) {
                         <td><?=$mem_level."/".$row['mem_name']."/".$row['mem_id']?></td>
                         <td><?=$row['mem_type']?></td>
                         <td><?=str_replace("-", "",$row['mem_phone'])?></td>
-                        <td><?=substr($row[balance_date],0,10)?></td>
+                        <td><?=substr($row['balance_date'],0,10)?></td>
                         <td><?=number_format($row['price'])?>원</td>
                         <td><?=$row['type'] == 'seller'?$row['share_per']:$row['branch_share_per']?>%</td>
                         <td><?=number_format($share_fee)?> 원</td>
@@ -258,8 +258,8 @@ function payment_save(fm) {
                  <!--       <td>
                             <form method="post" name="ssForm<?=$i?>" id="ssForm<?=$i?>" action="ajax/payment_per_save.php">
                             <input type="hidden" name="no" value="<?php echo $row['no']?>" >
-                            <input type="text" name="share_per" id="share_per<?=$i?>" value="<?=$row[share_per]?>"  style="width:70px;">
-                            <input type="text" name="branch_share_per" id="branch_share_per<?=$i?>" value="<?=$row[branch_share_per]?>"  style="width:70px;">
+                            <input type="text" name="share_per" id="share_per<?=$i?>" value="<?=$row['share_per']?>"  style="width:70px;">
+                            <input type="text" name="branch_share_per" id="branch_share_per<?=$i?>" value="<?=$row['branch_share_per']?>"  style="width:70px;">
                             <button class="btn btn-primary pull-right" style="margin-right: 5px;" onclick="payment_save('#ssForm<?=$i?>');return false;"><i class="fa fa-download"></i> 변경</button>
                             </form>
                         </td> -->

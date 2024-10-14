@@ -9,7 +9,7 @@ window.parent.location.replace('/ma.php');
 <?
 exit;
 }
-if($_POST[auto_pay_status]==1)
+if($_POST['auto_pay_status']==1)
 {
 	require("INIbill41/sample/INIpay41Lib.php");
 	$inipay = new INIpay41;	
@@ -44,11 +44,11 @@ StartSmartUpdate();
 window.onload=function()
 {
 	<?
-	if($_POST[auto_pay_status])
+	if($_POST['auto_pay_status'])
 	{
 		if($inipay->m_resultCode=="00")
 		{
-			$_SESSION[form_submit]="ok";
+			$_SESSION['form_submit']="ok";
 	?>
 		auto_frm.billkey.value='<?=$inipay->m_billKey?>';
 		auto_frm.cardpass.value='<?=$inipay->m_cardPass?>';
@@ -102,8 +102,8 @@ window.onload=function()
 <form name="auto_frm" action="" method="post">
     <input type="text" name="buyername" value="<?=$member_1['mem_name']?>">
     <input type="text" name="goodname" value="<?=$_POST[goodname]?>">
-    <input type="text" name="mid" value="<?=$_POST[mid]?>">
-    <input type="text" name="price" value="<?=$_POST[price]?>">
+    <input type="text" name="mid" value="<?=$_POST['mid']?>">
+    <input type="text" name="price" value="<?=$_POST['price']?>">
     <input type="text" name="ini_offer_period" value="<?=date("Ymd").date("Ymd",strtotime("+{$_POST['month_cnt']} month"))?>">
     <input type="text" name="print_msg" value="고객님의 매월 결제일은 <?=date("d")?>일 입니다.">
    	       
@@ -137,8 +137,8 @@ window.onload=function()
     <input type="text" name="phone_cnt" value="<?=$_POST['add_phone']?>" />
     <input type="text" name="month_cnt" value="<?=$_POST['month_cnt']?>" />
     <input type="text" name="fujia_status" value="<?=$_POST['fujia_status']?>" />
-    <input type="hidden" name="pay_ex_no" value="<?=$_POST[pay_ex_no]?>" />    
-    <input type="hidden" name="pay_ex_end_date" value="<?=$_POST[pay_ex_end_date]?>" />     
+    <input type="hidden" name="pay_ex_no" value="<?=$_POST['pay_ex_no']?>" />    
+    <input type="hidden" name="pay_ex_end_date" value="<?=$_POST['pay_ex_end_date']?>" />     
 </form>
 </body>
 </html>

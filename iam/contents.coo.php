@@ -15,7 +15,7 @@ $mem_sql = "select mem_code from Gn_Member where mem_id = '{$domainData['mem_id'
 $mem_result=mysqli_query($self_con,$mem_sql);
 $mem_row=mysqli_fetch_array($mem_result);
 @setcookie("recommender_code", $mem_row['mem_code'], time()+3600 ,"/");
-$_COOKIE[recommender_code] = $mem_row['mem_code'];
+$_COOKIE['recommender_code'] = $mem_row['mem_code'];
 
 $meta_sql="select * from Gn_Iam_Contents where idx = '$contents_idx'";
 $meta_result=mysqli_query($self_con,$meta_sql);

@@ -3,7 +3,7 @@
 include_once "_head.php";
  
 
-//$sql = "select * from tjd_pay_amount where pay_id = '$_GET[mid]'";
+//$sql = "select * from tjd_pay_amount where pay_id = '$_GET['mid']'";
 //$res_result = mysqli_query($self_con,$sql);
 //$data = mysqli_fetch_array($res_result);  
 //print_r($_SESSION);
@@ -227,9 +227,9 @@ include_once "_head.php";
                     <tr>
                     <td colspan="2" style="text-align:center;">
                     <h3><?
-                    if($row[resultCode]=="0000")
+                    if($row['resultCode']=="0000")
                     {
-                        if($row[payMethod]=="VBank")
+                        if($row['payMethod']=="VBank")
                         echo "�Աݿ����ð����� �Ʒ� ������·� �Ա��Ͻø� ���Ű� �Ϸ�˴ϴ�.";
                         else
                         echo "������ ���������� �̷�������ϴ�.";
@@ -240,7 +240,7 @@ include_once "_head.php";
                     </tr>
                 <tr>
                 <td>����ڵ�</td>
-                <td><?=$row[resultCode]?></td>
+                <td><?=$row['resultCode']?></td>
                 </tr>                    
                 <tr>
                 <td>����޽���</td>
@@ -248,11 +248,11 @@ include_once "_head.php";
                 </tr>
                 <tr>
                 <td>TID</td>
-                <td><?=$row[tid]?></td>
+                <td><?=$row['tid']?></td>
                 </tr>                                                    
                 <tr>
                 <td>���Ҽ���</td>
-                <td><?=$row[payMethod]?></td>
+                <td><?=$row['payMethod']?></td>
                 </tr>
                 <tr>
                 <td>�ֹ���ȣ</td>
@@ -261,34 +261,34 @@ include_once "_head.php";
                 <tr>
                 <tr>
                 <td>�����ڸ�</td>
-                <td><?=$row[VACT_InputName]?></td>
+                <td><?=$row['VACT_InputName']?></td>
                 </tr>                                        
                 <td>���ұݾ�</td>
-                <td><?=$row[TotPrice]?></td>
+                <td><?=$row['TotPrice']?></td>
                 </tr>
                 <tr>
                 <td>���ҽð�</td>
-                <td><?=$row[applDate]?><?=$row[applTime]?></td>
+                <td><?=$row['applDate']?><?=$row['applTime']?></td>
                 </tr>
                 <?
-                if($row[payMethod]=="VBank")
+                if($row['payMethod']=="VBank")
                 {
                     ?>                       
                     <tr>
                     <td>������</td>
-                    <td><?=$row[VACT_Name]?></td>
+                    <td><?=$row['VACT_Name']?></td>
                     </tr>
                     <tr>
                     <td>�����ڵ�</td>
-                    <td><?=$row[VACT_BankCode]?></td>
+                    <td><?=$row['VACT_BankCode']?></td>
                     </tr>
                     <tr>
                     <td>������¹�ȣ</td>
-                    <td><?=$row[VACT_Num]?></td>
+                    <td><?=$row['VACT_Num']?></td>
                     </tr>
                     <tr>
                     <td>�Աݿ����ð�</td>
-                    <td><?=$row[VACT_Date]?></td>
+                    <td><?=$row['VACT_Date']?></td>
                     </tr>
                     <?
                 }

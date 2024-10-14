@@ -255,7 +255,7 @@ $order = $order?$order:"desc";
                                                     where branch_id='{$row['mem_id']}' and balance_date='$search_year$search_month' ";
                                         $sres = mysqli_query($self_con,$squery);
                                         $srow = mysqli_fetch_array($sres);
-                                        $branch_share_fee = $srow[price];
+                                        $branch_share_fee = $srow['price'];
                                     }
                                     if($prow[balance_yn] =="Y") {
                                         $row['balance_yn'] ="Y";
@@ -267,10 +267,10 @@ $order = $order?$order:"desc";
                                     }
                                     $total_balance_fee = 0;
                                     if($row['balance_yn'] == "Y")
-                                        $total_balance_fee = number_format(($prow[price])+$branch_share_fee);
-                                    $total_sum_share_fee += $prow[price];
+                                        $total_balance_fee = number_format(($prow['price'])+$branch_share_fee);
+                                    $total_sum_share_fee += $prow['price'];
                                     if($row['balance_yn'] == "Y")
-                                        $total_sum_balance_fee += $prow[price];
+                                        $total_sum_balance_fee += $prow['price'];
                                 }
                                 
                                 $query .= $limitStr;
@@ -309,7 +309,7 @@ $order = $order?$order:"desc";
                                                     where branch_id='{$row['mem_id']}' and balance_date='$search_year$search_month' ";
                                         $sres = mysqli_query($self_con,$squery);
                                         $srow = mysqli_fetch_array($sres);
-                                        $branch_share_fee = $srow[price];
+                                        $branch_share_fee = $srow['price'];
                                     }
                                     if($prow[balance_yn] =="Y") {
                                         $row['balance_yn'] ="Y";
@@ -320,12 +320,12 @@ $order = $order?$order:"desc";
                                         $row['balance_confirm_date'] = $srow['branch_balance_confirm_date'];
                                     }
                                     $balance_fee = 0;
-                                    $share_fee = number_format(($prow[price])+$branch_share_fee);
+                                    $share_fee = number_format(($prow['price'])+$branch_share_fee);
                                     if($row['balance_yn'] == "Y")
-                                        $balance_fee = number_format(($prow[price])+$branch_share_fee);
-                                    $sum_share_fee += $prow[price];
+                                        $balance_fee = number_format(($prow['price'])+$branch_share_fee);
+                                    $sum_share_fee += $prow['price'];
                                     if($row['balance_yn'] == "Y")
-                                        $sum_balance_fee += $prow[price];
+                                        $sum_balance_fee += $prow['price'];
                                     ?>
                                     <tr>
                                         <td><input type="checkbox" class="check" id="check_one_member" value="<?=$number?>">&nbsp;<?=$number--?></td>

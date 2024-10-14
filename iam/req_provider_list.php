@@ -530,11 +530,11 @@ extract($_GET);
                 $("#deliver_id").val('<?=$_SESSION['iam_member_id']?>');
                 $("#deliver_name").val('<?=$member_iam['mem_name']?>');
                 $("#deliver_phone").val('<?=$member_iam['mem_phone']?>');
-                $("#deliver_addr").val('<?=$member_iam[mem_add1]?>');
+                $("#deliver_addr").val('<?=$member_iam['mem_add1']?>');
                 $("#deliver_email").val('<?=$member_iam['mem_email']?>');
-                $("#deliver_bank").val('<?=$member_iam[bank_name]?>');
-                $("#deliver_owner").val('<?=$member_iam[bank_owner]?>');
-                $("#deliver_account").val('<?=$member_iam[bank_account]?>');
+                $("#deliver_bank").val('<?=$member_iam['bank_name']?>');
+                $("#deliver_owner").val('<?=$member_iam['bank_owner']?>');
+                $("#deliver_account").val('<?=$member_iam['bank_account']?>');
                 $("#check_deliver_id").hide();
                 $("#deliver_id_code").val('<?=$member_iam['mem_code']?>');
                 if($("#deliver_id").val() != '' && $("#deliver_name").val() != '' && $("#deliver_phone").val() != '' && $("#deliver_addr").val() != '' && $("#deliver_email").val() != '' && $("#deliver_bank").val() != '' && $("#deliver_owner").val() != '' && $("#deliver_account").val() != ''){
