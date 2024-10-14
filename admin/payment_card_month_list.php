@@ -90,15 +90,15 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                         <div class="box-tools">
                             <div class="input-group"  >
                                 <select name="search_year" class="form-inline" style="padding: 5px;">
-                                    <option value=""  <?php echo isset($_GET[search_year])?"":"selected"?>>전체</option>
+                                    <option value=""  <?php echo isset($_GET['search_year'])?"":"selected"?>>전체</option>
                                     <?for($i=$search_year-4;$i<=$search_year;$i++){?>
-                                        <option value="<?=$i?>"  <?php echo $i==$_GET[search_year]?"selected":""?>><?=$i?></option>
+                                        <option value="<?=$i?>"  <?php echo $i==$_GET['search_year']?"selected":""?>><?=$i?></option>
                                     <?}?>
                                 </select>
                                 <select name="search_month" class="form-inline" style="padding: 5px;">
-                                    <option value=""  <?php echo isset($_GET[search_month])?"":"selected"?>>전체</option>
+                                    <option value=""  <?php echo isset($_GET['search_month'])?"":"selected"?>>전체</option>
                                     <?for($i=1;$i<13;$i++){?>
-                                        <option value="<?=$i?>" <?php echo sprintf("%02d",$i)==$_GET[search_month]?"selected":""?>><?=$i?></option>
+                                        <option value="<?=$i?>" <?php echo sprintf("%02d",$i)==$_GET['search_month']?"selected":""?>><?=$i?></option>
                                     <?}?>
                                 </select>
                                 <div class="form-group">
@@ -173,7 +173,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                                 $searchStr .= $search_site ? " AND b.branch_share_id = '".$search_site."'" : null;
                                 // $searchStr .= $search_iam ? " AND c.site_iam = '".$search_iam."'" : null;
                                 $searchStr .= $search_price ? " AND b.TotPrice = '".$search_price."'" : null;
-                                if(isset($_GET[search_year]) && $_GET[search_year] && isset($_GET[search_month]) && $_GET[search_month])
+                                if(isset($_GET['search_year']) && $_GET['search_year'] && isset($_GET['search_month']) && $_GET['search_month'])
                                 $searchStr .=" and a.regdate like '%$search_year-$search_month%' ";
                                 if($search_start_date && $search_end_date) {
                                     $searchStr .= " AND date >= '$search_start_date' and date <= '$search_end_date'";

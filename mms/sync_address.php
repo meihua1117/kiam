@@ -192,7 +192,7 @@ $result = 0;
         }*/
         
         $iam[$num]['name'] = $name;
-        $iam[$num][num] = $num;
+        $iam[$num]['num'] = $num;
         /*
         if($mem_id != "") {
                   $query = "insert into Gn_MMS_Receive set mem_id='$mem_id', grp_id='$idx', iam=1, grp='아이엠', grp_2='아이엠', name='$name', recv_num='$num',reg_date=NOW()";
@@ -208,7 +208,7 @@ $result = 0;
   }
   foreach($iam as $key=>$value) {
     if($mem_id != "") {
-          //$query = "insert into Gn_MMS_Receive set mem_id='$mem_id', send_num='$id', grp_id='$idx', iam=1, grp='아이엠', grp_2='아이엠', name='$value['name']', recv_num='$value[num]',reg_date=NOW()";
+          //$query = "insert into Gn_MMS_Receive set mem_id='$mem_id', send_num='$id', grp_id='$idx', iam=1, grp='아이엠', grp_2='아이엠', name='$value['name']', recv_num='$value['num']',reg_date=NOW()";
           //mysqli_query($self_con,$query);	
           
           $query = "insert into Gn_MMS_Receive_Iam set mem_id='$mem_id', send_num='$id', grp_id='$idx', iam=1, grp='아이엠', grp_2='아이엠', name='{$value['name']}', recv_num='{$value['num']}',reg_date=NOW()";

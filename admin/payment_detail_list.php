@@ -363,9 +363,9 @@ input:checked + .slider:before {
                         <td>
                             <?=str_replace("-", "",$row['mem_phone'])==$row['sendnum']||$row['sendnum']==""?str_replace("-", "",$row['mem_phone']):$row['sendnum']?>
                         </td>
-                        <td><?=$pay_type[$row[payMethod]]?></td>
+                        <td><?=$pay_type[$row['payMethod']]?></td>
                         <td>
-                        	<input type="text" name="price" id="price<?=$i?>" value="<?=$row[TotPrice]?>" onchange="$('#price_<?=$i?>').val(this.value)" style="width:70px;">
+                        	<input type="text" name="price" id="price<?=$i?>" value="<?=$row['TotPrice']?>" onchange="$('#price_<?=$i?>').val(this.value)" style="width:70px;">
                         	원</td>
                         <td><?=number_format($row['add_phone'])?> 개</td>
                         <td><?=number_format($row['month_cnt'])?> 개월 <A href="javascript:deleteRow('<?php echo $row['no']?>');" style="border:1px solid #000;padding:5px;">삭제</A></td>
@@ -379,7 +379,7 @@ input:checked + .slider:before {
                         <td>
                             <form method="post" name="ssForm<?=$i?>" id="ssForm<?=$i?>" action="ajax/payment_save.php">
                             <input type="hidden" name="no" value="<?php echo $row['no']?>" >
-                            <input type="hidden" name="price" id="price_<?=$i?>" value="<?=($row[TotPrice])?>" >
+                            <input type="hidden" name="price" id="price_<?=$i?>" value="<?=($row['TotPrice'])?>" >
                             <select name="payment_day">
                                 <option value="" >결제일</option>
                                 <option value="5" <?php echo $row['payment_day'] == "5"?"selected":""?>>5</option>

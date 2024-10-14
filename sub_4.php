@@ -41,9 +41,9 @@ if($_REQUEST['status']==1 || $_REQUEST['status']==2)
 	$resul_sum=mysqli_query($self_con,$sql_sum);
 	$row_sum_b =mysqli_fetch_array($resul_sum);
 	//월별 총 발송가능 횟수
-	$cu_user_cnt=$row_sum_b[sumnum]?$row_sum_b[sumnum]:0;
-	$cu_today_cnt=$row_sum_b[summax]?$row_sum_b[summax]:0;
-	$mon_text_pcount=$row_sum_b[summax]?($row_sum_b[summax] * 10)+((199 * 20)-($row_sum_b[sumgl]*20)):0;	
+	$cu_user_cnt=$row_sum_b['sumnum']?$row_sum_b['sumnum']:0;
+	$cu_today_cnt=$row_sum_b['summax']?$row_sum_b['summax']:0;
+	$mon_text_pcount=$row_sum_b['summax']?($row_sum_b['summax'] * 10)+((199 * 20)-($row_sum_b['sumgl']*20)):0;	
 	//-이번달
 	$date_today=date("Y-m-d");
 	$date_month=date("Y-m");
@@ -392,7 +392,7 @@ $(function(){
 						<script language="javascript">
 							$(function(){
 								if(document.getElementsByName('group_num')[0].value || document.getElementsByName('num')[0].value){
-									<?if($_REQUEST[deny_wushi]){?>
+									<?if($_REQUEST['deny_wushi']){?>
 									numchk('4');
 									<?}?>
 								}
@@ -410,15 +410,15 @@ $(function(){
 									<div class="a1">
 										<div class="b1">기본서비스</div>
 										<div class="b2 select_group_div">그룹번호</div>
-										<div class="div_2px"><textarea name="group_num" itemname='그룹번호' placeholder="그룹번호" onblur="numchk('4')"><?=$_REQUEST[group_num]?></textarea></div>
+										<div class="div_2px"><textarea name="group_num" itemname='그룹번호' placeholder="그룹번호" onblur="numchk('4')"><?=$_REQUEST['group_num']?></textarea></div>
 										<div class="b2">개별번호</div>
-										<div class="div_2px"><textarea name="num" itemname='전화번호' placeholder="전화번호" onblur="numchk('4')"><?=$_REQUEST[num]?></textarea></div>
+										<div class="div_2px"><textarea name="num" itemname='전화번호' placeholder="전화번호" onblur="numchk('4')"><?=$_REQUEST['num']?></textarea></div>
 										<div class="b4">
 											<div class="div_2px"><label><input type="radio" name="type" value="1" />묶음발송</label> <label><input type="radio" name="type" value="0" />개별발송</label></div>
 											<div class="div_2px">
 												<div style="float:left;">
-												<input type="text" name="delay" placeholder="발송간격" value="<?=$_REQUEST[delay]?$_REQUEST[delay]:5?>" onblur="send_delay(sub_4_form,this,1)" onkeyup="send_delay(sub_4_form,this,1)" />~<input type="text" name="delay2" placeholder="발송간격" value="<?=$_REQUEST[delay]?$_REQUEST[delay]:15?>" onblur="send_delay(sub_4_form,this,2)" />초</div> 
-												<div style="float:right;"><input type="text" name="close" placeholder="발송제한" value="<?=$_REQUEST[close]?>" onkeyup="if(isNaN(this.value)){this.value='';}" onblur="if(isNaN(this.value)){this.value='';}" />시(21시)</div>
+												<input type="text" name="delay" placeholder="발송간격" value="<?=$_REQUEST['delay']?$_REQUEST['delay']:5?>" onblur="send_delay(sub_4_form,this,1)" onkeyup="send_delay(sub_4_form,this,1)" />~<input type="text" name="delay2" placeholder="발송간격" value="<?=$_REQUEST['delay']?$_REQUEST['delay']:15?>" onblur="send_delay(sub_4_form,this,2)" />초</div> 
+												<div style="float:right;"><input type="text" name="close" placeholder="발송제한" value="<?=$_REQUEST['close']?>" onkeyup="if(isNaN(this.value)){this.value='';}" onblur="if(isNaN(this.value)){this.value='';}" />시(21시)</div>
 												<p style="clear:both;"></p>
 											</div>
 											<div class="c1">                                        
@@ -432,9 +432,9 @@ $(function(){
 												<div>중복제거(<a href="javascript:void(0)" onclick="show_recv('deny_num','7','중복제거된번호')" class="num_check_c">0</a>)</div>                                             
 											</div>    
 											<div class="c1">
-												<div><label><input type="checkbox" name="deny_wushi[]" <?=$_REQUEST[deny_wushi][0]?"checked":""?> onclick="numchk('0');type_check()" />수신불가</label>(<a href="javascript:void(0)" onclick="show_recv('deny_num','0','수신불가')" class="num_check_c">0</a>)</div>
-												<div><label><input type="checkbox" name="deny_wushi[]" <?=$_REQUEST[deny_wushi][1]?"checked":""?> onclick="numchk('1');type_check()" />없는번호</label>(<a href="javascript:void(0)" onclick="show_recv('deny_num','1','없는번호')" class="num_check_c">0</a>)</div>
-												<div><label><input type="checkbox" name="deny_wushi[]" <?=$_REQUEST[deny_wushi][2]?"checked":""?> onclick="numchk('2');type_check()" />기타</label>(<a href="javascript:void(0)" onclick="show_recv('deny_num','2','기타')" class="num_check_c">0</a>)</div>
+												<div><label><input type="checkbox" name="deny_wushi[]" <?=$_REQUEST['deny_wushi'][0]?"checked":""?> onclick="numchk('0');type_check()" />수신불가</label>(<a href="javascript:void(0)" onclick="show_recv('deny_num','0','수신불가')" class="num_check_c">0</a>)</div>
+												<div><label><input type="checkbox" name="deny_wushi[]" <?=$_REQUEST['deny_wushi'][1]?"checked":""?> onclick="numchk('1');type_check()" />없는번호</label>(<a href="javascript:void(0)" onclick="show_recv('deny_num','1','없는번호')" class="num_check_c">0</a>)</div>
+												<div><label><input type="checkbox" name="deny_wushi[]" <?=$_REQUEST['deny_wushi'][2]?"checked":""?> onclick="numchk('2');type_check()" />기타</label>(<a href="javascript:void(0)" onclick="show_recv('deny_num','2','기타')" class="num_check_c">0</a>)</div>
 												<p style="clear:both;"></p>                                            
 												<input type="hidden" name="deny_num" />
 												<input type="hidden" name="deny_num" />
@@ -451,7 +451,7 @@ $(function(){
 										<div class="b1">부가서비스 <?=$fujia_pay?"":"<a href='pay.php'>(결제후 사용가능합니다.)</a>"?></div>
 										<div class="b2">
 											<div style="float:left;">
-											<label><input type="checkbox" <?=$fujia_pay?"":"disabled"?> name="deny_wushi[]" <?=$_REQUEST[deny_wushi][3]?"checked":""?> onclick="numchk('3');type_check()" />수신거부
+											<label><input type="checkbox" <?=$fujia_pay?"":"disabled"?> name="deny_wushi[]" <?=$_REQUEST['deny_wushi'][3]?"checked":""?> onclick="numchk('3');type_check()" />수신거부
 											(<a href="javascript:void(0)" onclick="show_recv('deny_num','3','수신거부')" class="num_check_c">0</a>)</label>
 											</div>
 											<div style="float:right">
@@ -506,11 +506,11 @@ $(function(){
 									<div class="a3">
 										<div class="b1">예약서비스</div>
 										<div>
-											<input type="text" name="rday" onfocus="type_check();" placeholder="예약발송(일)" id="rday" value="<?=$_REQUEST[rday]?>" style="width:100px;" />                                
+											<input type="text" name="rday" onfocus="type_check();" placeholder="예약발송(일)" id="rday" value="<?=$_REQUEST['rday']?>" style="width:100px;" />                                
 											<select name="htime" style="width:50px;">
 												<?for($i=9; $i<22; $i++){
 													$iv=$i<10?"0".$i:$i;
-													$selected=$_REQUEST[htime]==$iv?"selected":"";
+													$selected=$_REQUEST['htime']==$iv?"selected":"";
 												?>
 													<option value="<?=$iv?>" <?=$selected?>><?=$iv?></option>                                            
 												<?}?>
@@ -519,7 +519,7 @@ $(function(){
 												<option value="">분</option>
 												<?for($i=0; $i<31; $i+=30){
 													$iv=$i==0?"00":$i;
-													$selected=$_REQUEST[mtime]==$iv?"selected":"";
+													$selected=$_REQUEST['mtime']==$iv?"selected":"";
 												?>
 													<option value="<?=$iv?>" <?=$selected?>><?=$iv?></option>                                            
 												<?}?>                                    
@@ -529,7 +529,7 @@ $(function(){
 									<div class="a4">                                
 										<div class="div_2px"><input type="text" name="title" itemname='제목' required placeholder="제목" style="width:100%;" value="<?=$_REQUEST['title']?>" /></div>
 										<div class="div_2px">
-											<textarea name="txt" itemname='내용' id='txt' required placeholder="내용" onkeydown="textCounter(sub_4_form.txt,'wenzi_cnt',2000,0);" onkeyup="textCounter(sub_4_form.txt,'wenzi_cnt',2000,0);type_check();" onfocus="textCounter(sub_4_form.txt,'wenzi_cnt',2000,0);type_check();"><?=$_REQUEST[txt]?></textarea>
+											<textarea name="txt" itemname='내용' id='txt' required placeholder="내용" onkeydown="textCounter(sub_4_form.txt,'wenzi_cnt',2000,0);" onkeyup="textCounter(sub_4_form.txt,'wenzi_cnt',2000,0);type_check();" onfocus="textCounter(sub_4_form.txt,'wenzi_cnt',2000,0);type_check();"><?=$_REQUEST['txt']?></textarea>
 											<input type="hidden" name="onebook_status" value="N" />
 											<input type="hidden" name="onebook_url" value="" />
 										</div>
@@ -553,7 +553,7 @@ $(function(){
 												<a href="javascript:void(0)" onclick="ml_view('txt','0','미리보기')">미리보기</a>
 											</div>
 											<div style="float:right">
-											<label><input type="checkbox" name="save_mms" <?=$_REQUEST[save_mms]?"checked":""?> />문자발송후 저장하기</label>
+											<label><input type="checkbox" name="save_mms" <?=$_REQUEST['save_mms']?"checked":""?> />문자발송후 저장하기</label>
 											</div>
 											<p style="clear:both;"></p>                                    
 										</div>

@@ -163,7 +163,7 @@ foreach($cont_array as $row6){
                                 $body .= '            <img src="'. cross_image($friends_main_img) .'" id="friends_logo" class="friends_logo" style="max-height:40px;height:100%;object-fit:cover;"></a>';
                             }
                         }else{
-                            if($diplay_row[phone_display] == "Y") {
+                            if($diplay_row['phone_display'] == "Y") {
                                 if((int)$search_type != 1) {
                                     $body .= '            <a href="javascript:loginCheckShowModalFriends();"><img src="'. cross_image($friends_main_img) .'" id="friends_logo" class="friends_logo" style="max-height:40px;height:100%;object-fit:cover;"></a>';
                                 }else{
@@ -180,7 +180,7 @@ foreach($cont_array as $row6){
     $body .= '            <div class="info">';
     $body .= '                <div class="upper">';
     $body .= '                        <span class="name">';
-                        if($diplay_row[phone_display] == "Y") {
+                        if($diplay_row['phone_display'] == "Y") {
                             if($_SESSION['iam_member_id'] == $card_owner && $_SESSION['iam_member_id'] == $card_master) {
                                 $body .= $diplay_row[friends_name];
                             }else{
@@ -197,7 +197,7 @@ foreach($cont_array as $row6){
     $body .= '                    <span class="company">'. $diplay_row[friends_company]. '</span>';
     $body .= '                </div>';
     $body .= '                <div class="downer">';
-                        if($diplay_row[phone_display] == "Y") {
+                        if($diplay_row['phone_display'] == "Y") {
                             if($_SESSION['iam_member_id'] == $card_owner && $phone_count > 0 && $_SESSION['iam_member_id'] == $card_master) {
                                 $body .= '                            <a href="tel:'. $diplay_row[friends_phone] .'">'. $diplay_row[friends_phone].'</a>';
                             }else{

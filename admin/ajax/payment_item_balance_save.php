@@ -11,6 +11,6 @@ if($_POST['end_status'] != ""  ) {
         mysqli_query($self_con,$sql);
     }
 }
-echo "<script>alert('저장되었습니다.');location='/admin/payment_item_balance_list.php?search_year=$_POST[search_year]&search_month=$_POST[search_month]';</script>";
+echo "<script>alert('저장되었습니다.');location='/admin/payment_item_balance_list.php?search_year={$_POST['search_year']}&search_month={$_POST['search_month']}';</script>";
 exit; 
 ?>

@@ -397,7 +397,7 @@ $total_balance = 0;
                         </td>
 
                         <!-- //Julian 2020-07-04 Problem 18 , 1 -->
-                        <td><?=number_format($row[price])?> 원</td>
+                        <td><?=number_format($row['price'])?> 원</td>
 
                         <td><?=number_format($share_fee)?> 원</td>
                         <td><?=number_format($balance_fee)?> </td>

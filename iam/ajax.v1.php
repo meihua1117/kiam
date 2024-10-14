@@ -60,15 +60,15 @@ $site_name = $site_info[0];
 if($site_name == "www")
     $site_name = "kiam";
 //회원가입 1단계	
-if($_POST['id'] && $_POST[pwd]){
-	if(!$_POST[join_modify]){
+if($_POST['id'] && $_POST['pwd']){
+	if(!$_POST['join_modify']){
 		$member_info['mem_id']=htmlspecialchars($_POST['id']);
 		$member_info['mem_leb']=22;
-		$member_info[id_type]="hp";
-		$member_info[join_ip]=$ip;
-		$member_info[join_way]="APP";
-        $member_info['mem_pass']=md5($_POST[pwd]);
-	    $member_info[web_pwd]=$_POST[pwd];
+		$member_info['id_type']="hp";
+		$member_info['join_ip']=$ip;
+		$member_info['join_way']="APP";
+        $member_info['mem_pass']=md5($_POST['pwd']);
+	    $member_info['web_pwd']=$_POST['pwd'];
 	}
 	if($_FILES['profile']) {
     	$tempFile = $_FILES['profile']['tmp_name'];
@@ -89,24 +89,24 @@ if($_POST['id'] && $_POST[pwd]){
 	if($_POST['mobile'])
 	    $member_info['mem_phone']=$_POST['mobile'];
 
-	$member_info[mem_nick]=htmlspecialchars($_POST['name']);
+	$member_info['mem_nick']=htmlspecialchars($_POST['name']);
 	$member_info['mem_name']=htmlspecialchars($_POST['name']);
-	$member_info['mem_email']=$_POST[email_1]."@".$_POST[email_2];
-	$member_info[mem_add1]=$_POST[add1];
-	$member_info[zy]=$_POST[zy];
-	$member_info[mem_birth]=$_POST[birth_1]."-".$_POST[birth_2]."-".$_POST[birth_3];
-	$member_info[is_message]=$_POST[is_message];
+	$member_info['mem_email']=$_POST['email_1']."@".$_POST['email_2'];
+	$member_info['mem_add1']=$_POST['add1'];
+	$member_info['zy']=$_POST['zy'];
+	$member_info['mem_birth']=$_POST['birth_1']."-".$_POST['birth_2']."-".$_POST['birth_3'];
+	$member_info['is_message']=$_POST['is_message'];
     $member_info['site_iam'] = $site_name;
-	if($_POST[recommend_id]){
-		$member_info[recommend_id]=$_POST[recommend_id];
+	if($_POST['recommend_id']){
+		$member_info['recommend_id']=$_POST['recommend_id'];
 	}else{
 		if($HTTP_HOST == 'kiam.kr' )
-			$member_info[recommend_id] = 'onlyone';
+			$member_info['recommend_id'] = 'onlyone';
 		else{
 			$sql = "select mem_id from Gn_Iam_Service where sub_domain like '%http://".$HTTP_HOST."%'";
 			$res = mysqli_query($self_con,$sql);
 			$row = mysqli_fetch_array($res);
-			$member_info[recommend_id] = $row['mem_id'];
+			$member_info['recommend_id'] = $row['mem_id'];
 		}
 	}
     if($HTTP_HOST != "kiam.kr")
@@ -121,7 +121,7 @@ if($_POST['id'] && $_POST[pwd]){
 	$query = "select count(*) as cnt from Gn_Member where site_iam='".$site[0]."'";
 	$res = mysqli_query($self_con,$query);
 	$data = mysqli_fetch_array($res);
-	if($domainData['mem_cnt'] <= $data[0] && !$_POST[join_modify]) {
+	if($domainData['mem_cnt'] <= $data[0] && !$_POST['join_modify']) {
 		$result = '본 사이트에서는 더이상 회원가입이 되지 않습니다.최대회원수는 ' .$domainData['mem_cnt'].'입니다.관리자에게 문의해주세요';
 		echo json_encode(array('result'=>'failed','msg'=>$result));
 		exit;
@@ -130,41 +130,41 @@ if($_POST['id'] && $_POST[pwd]){
 	$s_res = mysqli_query($self_con,$s_sql);
 	$s_row = mysqli_fetch_array($s_res);
 	if($s_row[0] == 0){
-		$r_sql = "select mem_code,site from Gn_Member where mem_id = '$member_info[recommend_id]'";
+		$r_sql = "select mem_code,site from Gn_Member where mem_id = '{$member_info['recommend_id']}'";
 		$r_res = mysqli_query($self_con,$r_sql);
 		$r_row = mysqli_fetch_array($r_res);
 		$member_info['site'] = $r_row['site'];
 	}else{ 
 		$member_info['site'] = $member_info['site_iam'];
 	}
-	if($_POST[recommend_branch])
-	    $member_info[recommend_branch]=$_POST[recommend_branch];
-	$member_info[mem_sex]=$_POST[mem_sex];
-	if($_POST[bank_name])
-	    $member_info[bank_name]=$_POST[bank_name];
-	if($_POST[bank_account])
-	    $member_info[bank_account]=$_POST[bank_account];
-	if($_POST[bank_owner])
-	    $member_info[bank_owner]=$_POST[bank_owner];
-	if($domainData[service_type] == 3){
-		$member_info[exp_start_status]=1;
-		$member_info[exp_mid_status]=1;
-		$member_info[exp_limit_status]=1;
-		$member_info[exp_limit_date]=date("Y-m-d H:i:s",strtotime("+$domainData[service_price] days"));
-		$member_info[iam_type]=1;
+	if($_POST['recommend_branch'])
+	    $member_info['recommend_branch']=$_POST['recommend_branch'];
+	$member_info['mem_sex']=$_POST['mem_sex'];
+	if($_POST['bank_name'])
+	    $member_info['bank_name']=$_POST['bank_name'];
+	if($_POST['bank_account'])
+	    $member_info['bank_account']=$_POST['bank_account'];
+	if($_POST['bank_owner'])
+	    $member_info['bank_owner']=$_POST['bank_owner'];
+	if($domainData['service_type'] == 3){
+		$member_info['exp_start_status']=1;
+		$member_info['exp_mid_status']=1;
+		$member_info['exp_limit_status']=1;
+		$member_info['exp_limit_date']=date("Y-m-d H:i:s",strtotime("+{$domainData['service_price']} days"));
+		$member_info['iam_type']=1;
 		$member_info['iam_card_cnt']=5;
 		$member_info['iam_share_cnt']=1000;
 	}
-    if(!$_POST[join_modify]) {
-        if($domainData[service_type] == 3) {
+    if(!$_POST['join_modify']) {
+        if($domainData['service_type'] == 3) {
             $member_info['iam_card_cnt'] = 5;
             $member_info['iam_share_cnt'] = 1000;
         }else{
-            $member_info['iam_card_cnt'] = $domainData[iamcard_cnt];
-            $member_info['iam_share_cnt'] = $domainData[send_content];
+            $member_info['iam_card_cnt'] = $domainData['iamcard_cnt'];
+            $member_info['iam_share_cnt'] = $domainData['send_content'];
         }
     }
-	if(!$_POST[join_modify]) {
+	if(!$_POST['join_modify']) {
 	    if($_POST['rnum'] == "" && $_POST['code'] == "KR") {
 			echo json_encode(array('result'=>'failed','msg'=>'인증번호가 없습니다.'));
 			exit;
@@ -183,7 +183,7 @@ if($_POST['id'] && $_POST[pwd]){
 	        }
 	    }
 	}
-	if($_POST[join_modify])
+	if($_POST['join_modify'])
 		$sql=" update Gn_Member set ";
 	else
 		$sql=" insert into Gn_Member set ";
@@ -195,16 +195,16 @@ if($_POST['id'] && $_POST[pwd]){
 	 	$sql.=" $key=$v $bd ";
 	 	$i++;
 	}
-	if($_POST[join_modify])
-		$sql.=" where mem_code='$_POST[join_modify]' ";
+	if($_POST['join_modify'])
+		$sql.=" where mem_code='{$_POST['join_modify']}' ";
 	else
 		$sql.=" ,first_regist=now() , mem_check=now() ";
-	if(strstr($sql, "update") == true && $_POST[join_modify] == "")
-		$sql.=" where mem_code='$_POST[join_modify]' ";
+	if(strstr($sql, "update") == true && $_POST['join_modify'] == "")
+		$sql.=" where mem_code='{$_POST['join_modify']}' ";
 	//echo json_encode(array('result'=>'failed','msg'=>$sql));
 	//exit;
 	if(mysqli_query($self_con,$sql) or die(mysqli_error($self_con))){
-		if($_POST[join_modify]){
+		if($_POST['join_modify']){
 			$_SESSION['iam_member_leb'] = 0;?>
 			<script language="javascript">
 			alert('수정완료되었습니다.');
@@ -397,14 +397,14 @@ if($_POST['id'] && $_POST[pwd]){
 		}
 	}
 }
-if($_POST[post_alert]){
+if($_POST['post_alert']){
 	$sql = "update Gn_Member set last_regist = now() where mem_id = '$mem_id'";
 	mysqli_query($self_con,$sql);
 	echo json_encode(array("result"=>"success"));
 	exit;
 }
 if($_POST['type'] == "show_exp_popup"){
-	$popup_type = $_POST[popup_type];
+	$popup_type = $_POST['popup_type'];
 	if($popup_type == 1)
 		$sql = "update Gn_Member set exp_start_status = 0 where mem_id = '$mem_id'";
 	else if($popup_type == 2)
@@ -421,14 +421,14 @@ if($_POST['type'] == "get_block_data"){
     $sql = "select block_user,block_contents from Gn_Iam_Info where mem_id='$mem_id'";
     $res = mysqli_query($self_con,$sql);
     $row = mysqli_fetch_array($res);
-    if($row[block_user] == "")
+    if($row['block_user'] == "")
         $block_users = null;
     else
-        $block_users = explode(",",$row[block_user]);
-    if($row[block_contents] == "")
+        $block_users = explode(",",$row['block_user']);
+    if($row['block_contents'] == "")
         $block_contents = null;
     else
-        $block_contents = explode(",",$row[block_contents]);
+        $block_contents = explode(",",$row['block_contents']);
     $block_users_array = array();
     foreach ($block_users as $user_id){
         $sql = "select profile,mem_name,site_iam,mem_code from Gn_Member where mem_id = '$user_id'";
@@ -490,8 +490,8 @@ if($_POST['type'] == "remove_all_block_data") {
     exit;
 }
 if($_POST['type'] == "remove_one_block_data") {
-    $block_type = $_POST[block_type];
-    $block_idx = $_POST[block_idx];
+    $block_type = $_POST['block_type'];
+    $block_idx = $_POST['block_idx'];
     if ($block_type == 1){
         $sql = "select block_user from Gn_Iam_Info where mem_id='$mem_id'";
     }else{

@@ -522,8 +522,8 @@ function excel_down_personal(pno){
 											$cnt1 = $row['cnt1'];
 											$cnt2 = $row['cnt2'];
 											$sendnum = $row['sendnum'];
-											$total_cnt = $row[daily_limit_cnt]; //기본 일별 총발송 가능량
-											$donation_rate = $row[donation_rate]; //기부 비율
+											$total_cnt = $row['daily_limit_cnt']; //기본 일별 총발송 가능량
+											$donation_rate = $row['donation_rate']; //기부 비율
 											$donation_cnt = ceil($total_cnt * $donation_rate / 100); //기부 받은 수
 											$person_cnt = $total_cnt - $donation_cnt; //개인 발송 문자 수
 											$send_donation_cnt = 0; //$row['gl_cnt'] //기부 받은 수 중 발송 수

@@ -13,7 +13,7 @@ $lang = $_COOKIE['lang']?$_COOKIE['lang']:"kr";
 $sql = "select * from Gn_Iam_lang ";
 $result = mysqli_query($self_con,$sql);
 while($row = mysqli_fetch_array($result)) {
-	$MENU[$row[menu]][$row[pos]] = $row[$lang];
+	$MENU[$row['menu']][$row['pos']] = $row[$lang];
 }
 
 $mall_reg_ids = explode(",", get_search_key('mall_reg_menu_ids'));
@@ -434,18 +434,18 @@ else{
 							<img src="/iam/img/menu/icon_westory.png" class="iconperson">
 						</li>
 						<?if($_SESSION['iam_member_id']){?>
-						<li onclick="gwc_tab()" class="nav-item top" <?if($_GET[key1] == "4") echo "style='border-bottom:2px solid #99cc00'"?>>
+						<li onclick="gwc_tab()" class="nav-item top" <?if($_GET['key1'] == "4") echo "style='border-bottom:2px solid #99cc00'"?>>
 						<?}else{?>
-						<li onclick="location.href='/iam/login.php'" class="nav-item top" <?if($_GET[key1] == "4") echo "style='border-bottom:2px solid #99cc00'"?>>
+						<li onclick="location.href='/iam/login.php'" class="nav-item top" <?if($_GET['key1'] == "4") echo "style='border-bottom:2px solid #99cc00'"?>>
 						<?}?>
-							<?if($_GET[key1] == "4") {?>
+							<?if($_GET['key1'] == "4") {?>
 								<img src="/iam/img/menu/icon_mall_active.png" class="iconperson">
 							<?}else{?>
 								<img src="/iam/img/menu/icon_mall.png" class="iconperson">
 							<?}?>
 						</li>
-						<li onclick="callya_tab()" class="nav-item top" <?if($_GET[key1] == "3") echo "style='border-bottom:2px solid #99cc00'"?>>
-							<?if($_GET[key1] == "3") {?>
+						<li onclick="callya_tab()" class="nav-item top" <?if($_GET['key1'] == "3") echo "style='border-bottom:2px solid #99cc00'"?>>
+							<?if($_GET['key1'] == "3") {?>
 								<img src="/iam/img/menu/icon_calliya_active.png" class="iconperson">
 							<?}else{?>
 								<img src="/iam/img/menu/icon_calliya.png" class="iconperson">
@@ -576,7 +576,7 @@ else{
 									<label class="label label-sm" id = "sell_service_contents" style="background: #ff3333;border-radius: 50%;padding: 2px 5px;margin-left: -5px;font-size:10px"></label>
 								</a>
 								<?}?>
-                                <?if($member_iam[service_type] < 2){
+                                <?if($member_iam['service_type'] < 2){
                                     $report_link = "/iam/mypage_report_list.php";
                                 }else{
                                     $report_link = "/iam/mypage_report.php";
@@ -2598,12 +2598,12 @@ else{
 			else{
 				var str = "";
 			}
-			location.href = "/?"+"<?=$request_short_url.$card_owner_code?>&cur_win=we_story&type="+type+"&search_key=" +"<?=$_GET['search_key']?>" + "&key1=4&key2=" + "<?=$_GET[key2]?>"+"&key3=0&sort_key3="+sort_key3+"&key4=1&iamstore=N"+str+"&wide=Y";
+			location.href = "/?"+"<?=$request_short_url.$card_owner_code?>&cur_win=we_story&type="+type+"&search_key=" +"<?=$_GET['search_key']?>" + "&key1=4&key2=" + "<?=$_GET['key2']?>"+"&key3=0&sort_key3="+sort_key3+"&key4=1&iamstore=N"+str+"&wide=Y";
 		}
 		function callya_tab(){
 			var type = getCookie('contents_mode');
 			sort_key3 = 1;
-			location.href = "/?"+"<?=$request_short_url.$card_owner_code?>&cur_win=we_story&type="+type+"&search_key=" +"<?=$_GET['search_key']?>" + "&key1=3&key2=" + "<?=$_GET[key2]?>"+"&key3=0&sort_key3="+sort_key3;
+			location.href = "/?"+"<?=$request_short_url.$card_owner_code?>&cur_win=we_story&type="+type+"&search_key=" +"<?=$_GET['search_key']?>" + "&key1=3&key2=" + "<?=$_GET['key2']?>"+"&key3=0&sort_key3="+sort_key3;
 		}
 		function openNoticeModal(){
             $("#sample-modalwindow").modal("hide");

@@ -5,12 +5,12 @@ $type = $_REQUEST['type'];
 if($type == "deny"){
     if(!$_REQUEST['phone']) $sql_serch=" 1=0 ";
     else $sql_serch=" dest='{$_REQUEST['phone']}' ";
-    if($_REQUEST[grp_id])
-        $sql_serch.=" and grp_id = '$_REQUEST[grp_id]' ";
-    if($_REQUEST[grp_2])
-        $sql_serch.=" and grp_2 = '$_REQUEST[grp_2]' ";
-    if($_REQUEST[deta_select] && $_REQUEST[deta_text])
-        $sql_serch.=" and $_REQUEST[deta_select] like '%$_REQUEST[deta_text]%' ";
+    if($_REQUEST['grp_id'])
+        $sql_serch.=" and grp_id = '{$_REQUEST['grp_id']}' ";
+    if($_REQUEST['grp_2'])
+        $sql_serch.=" and grp_2 = '{$_REQUEST['grp_2']}' ";
+    if($_REQUEST['deta_select'] && $_REQUEST['deta_text'])
+        $sql_serch.=" and {$_REQUEST['deta_select']} like '%{$_REQUEST['deta_text']}%' ";
     $sql="select count(seq) as cnt from sm_data where $sql_serch ";
     $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
     $row=mysqli_fetch_array($result);
@@ -23,10 +23,10 @@ if($type == "deny"){
         $page2=(int)$_POST['page2'];
     else
         $page2=1;
-    if (!$_REQUEST[contact_count]) 
+    if (!$_REQUEST['contact_count']) 
         $intPageSize =50;
     else 
-        $intPageSize = $_REQUEST[contact_count];
+        $intPageSize = $_REQUEST['contact_count'];
     $int=($page-1)*$intPageSize;
     if($_REQUEST['order_status'])
         $order_status=$_REQUEST['order_status'];
@@ -44,12 +44,12 @@ if($type == "deny"){
 else{
     if(!$_REQUEST['phone']) $sql_serch=" 1=0 ";
     else $sql_serch=" b.mem_id='{$_REQUEST['mem_id']}' and b.chanel_type=9 and a.dest='{$_REQUEST['phone']}'";
-    if($_REQUEST[grp_id])
-        $sql_serch.=" and grp_id = '$_REQUEST[grp_id]' ";
-    if($_REQUEST[grp_2])
-        $sql_serch.=" and grp_2 = '$_REQUEST[grp_2]' ";
-    if($_REQUEST[deta_select] && $_REQUEST[deta_text])
-        $sql_serch.=" and a.$_REQUEST[deta_select] like '%$_REQUEST[deta_text]%' ";
+    if($_REQUEST['grp_id'])
+        $sql_serch.=" and grp_id = '{$_REQUEST['grp_id']}' ";
+    if($_REQUEST['grp_2'])
+        $sql_serch.=" and grp_2 = '{$_REQUEST['grp_2']}' ";
+    if($_REQUEST['deta_select'] && $_REQUEST['deta_text'])
+        $sql_serch.=" and a.{$_REQUEST['deta_select']} like '%{$_REQUEST['deta_text']}%' ";
     $sql="select count(a.seq) as cnt from sm_data a inner join Gn_MMS_Deny b on a.msg_url=b.recv_num where $sql_serch ";
     $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
     $row=mysqli_fetch_array($result);
@@ -62,10 +62,10 @@ else{
         $page2=(int)$_POST['page2'];
     else
         $page2=1;
-    if (!$_REQUEST[contact_count]) 
+    if (!$_REQUEST['contact_count']) 
         $intPageSize =50;
     else 
-        $intPageSize = $_REQUEST[contact_count];
+        $intPageSize = $_REQUEST['contact_count'];
     $int=($page-1)*$intPageSize;
     if($_REQUEST['order_status'])
         $order_status=$_REQUEST['order_status'];
@@ -138,31 +138,31 @@ else{
             <input type="hidden" name="page" value="<?=$page?>" />
             <input type="hidden" name="page2" value="<?=$page2?>" />
             <input type="hidden" name="phone" value="<?=$_REQUEST['phone']?>" />
-            <input type="hidden" name="grp_2" value="<?=$_REQUEST[grp_2]?>" />
+            <input type="hidden" name="grp_2" value="<?=$_REQUEST['grp_2']?>" />
             <div class="grp_detail">
                 <select name="deta_select">
                 <?
                 $select_deta_arr=array("msg_text"=>"이름","msg_url"=>"전화번호");
                 foreach($select_deta_arr as $key=>$v)
                 {
-                    $selected=$_REQUEST[deta_select]==$key?"selected":"";
+                    $selected=$_REQUEST['deta_select']==$key?"selected":"";
                     ?>
                     <option value="<?=$key?>" <?=$selected?>><?=$v?></option>
                     <?
                 }
                 ?>
                 </select>
-                <input type="text" name="deta_text" value="<?=$_REQUEST[deta_text]?>" />
+                <input type="text" name="deta_text" value="<?=$_REQUEST['deta_text']?>" />
                 <input type="image" src="images/sub_button_703.jpg" />
                 <select name="contact_count" onchange="group_detail_form.submit()" style="float:right;">
-                    <option value="50" <?=$_REQUEST[contact_count]==50?'selected':''?>>50개씩 보기</option>
-                    <option value="100" <?=$_REQUEST[contact_count]==100?'selected':''?>>100개씩 보기</option>
+                    <option value="50" <?=$_REQUEST['contact_count']==50?'selected':''?>>50개씩 보기</option>
+                    <option value="100" <?=$_REQUEST['contact_count']==100?'selected':''?>>100개씩 보기</option>
                 </select>
             </div>
             <table class="list_table" width="100%" border="0" cellspacing="0" cellpadding="0">
                 <tr>
                     <td style="width:25%;">
-                        <li><input type="checkbox" id="all_id" onclick="check_all(this,'name_box');box_ed_deny(-1,'<?=$_REQUEST[grp_id]?>')" /></li>
+                        <li><input type="checkbox" id="all_id" onclick="check_all(this,'name_box');box_ed_deny(-1,'<?=$_REQUEST['grp_id']?>')" /></li>
                         <li style="font-size:13px;font-family:Nanum Gothic;">
                             <label for="all_id">선택</label>
                             <a href="javascript:order_sort(group_detail_form,'name',group_detail_form.order_status.value)">이름<? if($_REQUEST['order_name']=="name"){echo $_REQUEST['order_status']=="desc"?'▼':'▲';}else{ echo '▼'; }?></a>
@@ -277,7 +277,7 @@ else{
 
             function close_window(){
                 var nums_str = group_arr.join(",");
-                location.href='<?=$_GET[pre_link]?>'+'&show_modal=Y&deny_nums='+nums_str+'&type='+'<?=$type?>';
+                location.href='<?=$_GET['pre_link']?>'+'&show_modal=Y&deny_nums='+nums_str+'&type='+'<?=$type?>';
             }
         </script>
     </body>

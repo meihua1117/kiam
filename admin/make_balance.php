@@ -23,21 +23,21 @@ while($row = mysqli_fetch_array($res)) {
     if($srow[0] == 0) {
         $query = "insert into tjd_pay_result_balance set pay_no='{$row['no']}',
                                                             mem_id='{$row['buyer_id']}',
-                                                            seller_id='$row[share_id]',
-                                                            branch_id='$row[branch_share_id]',
+                                                            seller_id='{$row['share_id']}',
+                                                            branch_id='{$row['branch_share_id']}',
                                                             mem_type='{$row['member_type']}',
-                                                            share_per='$row[share_per]',
-                                                            branch_share_per='$row[branch_share_per]',
-                                                            price='$row[TotPrice]',
+                                                            share_per='{$row['share_per']}',
+                                                            branch_share_per='{$row['branch_share_per']}',
+                                                            price='{$row['TotPrice']}',
                                                             balance_date='$date_month',
                                                             regdate=NOW()";
         mysqli_query($self_con,$query);        
     }
-    $manager_query = "select count(idx) from Gn_Service where mem_id='$row[share_id]'";
+    $manager_query = "select count(idx) from Gn_Service where mem_id='{$row['share_id']}'";
     $manager_res = mysqli_query($self_con,$manager_query);
     $manager_row = mysqli_fetch_array($manager_res);
     if($manager_row[0] > 0)
-        array_push($managers,$row[share_id]);
+        array_push($managers,$row['share_id']);
 }
 
 foreach(array_unique($managers) as $manager){
@@ -76,6 +76,6 @@ foreach(array_unique($managers) as $manager){
         }
     }
 }
-echo "<script>alert('생성되었습니다.');location='/admin/payment_balance_advance_list.php?search_year=$_REQUEST[search_year]&search_month=$_REQUEST[search_month]';</script>";
+echo "<script>alert('생성되었습니다.');location='/admin/payment_balance_advance_list.php?search_year={$_REQUEST['search_year']}&search_month={$_REQUEST['search_month']}';</script>";
 ?> 
                      

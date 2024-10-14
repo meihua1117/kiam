@@ -1,6 +1,6 @@
 <? include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
-if($_COOKIE[recommender_code]) {
-    $sql="select * from Gn_Member where mem_code='$_COOKIE[recommender_code]'";
+if($_COOKIE['recommender_code']) {
+    $sql="select * from Gn_Member where mem_code='{$_COOKIE['recommender_code']}'";
     $result=mysqli_query($self_con,$sql);
     $info=mysqli_fetch_array($result);
     $recommmender = $info['mem_id'];
@@ -33,7 +33,7 @@ $lang = $_COOKIE['lang']?$_COOKIE['lang']:"kr";
 $sql = "select * from Gn_Iam_lang where menu='IAM_PROFILE'";
 $result = mysqli_query($self_con,$sql);
 while($row = mysqli_fetch_array($result)) {
-    $MENU[$row[menu]][$row[pos]] = $row[$lang];
+    $MENU[$row['menu']][$row['pos']] = $row[$lang];
 }
 $country_code = whois_ascc($whois_api_key, $_SERVER['REMOTE_ADDR']);
 ?>

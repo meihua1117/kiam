@@ -274,8 +274,8 @@ function payment_save(fm) {
                  <!--       <td>
                             <form method="post" name="ssForm<?=$i?>" id="ssForm<?=$i?>" action="ajax/payment_per_save.php">
                             <input type="hidden" name="no" value="<?php echo $row['no']?>" >
-                            <input type="text" name="share_per" id="share_per<?=$i?>" value="<?=$row[share_per]?>"  style="width:70px;">
-                            <input type="text" name="branch_share_per" id="branch_share_per<?=$i?>" value="<?=$row[branch_share_per]?>"  style="width:70px;">
+                            <input type="text" name="share_per" id="share_per<?=$i?>" value="<?=$row['share_per']?>"  style="width:70px;">
+                            <input type="text" name="branch_share_per" id="branch_share_per<?=$i?>" value="<?=$row['branch_share_per']?>"  style="width:70px;">
                             <button class="btn btn-primary pull-right" style="margin-right: 5px;" onclick="payment_save('#ssForm<?=$i?>');return false;"><i class="fa fa-download"></i> 변경</button>
                             </form>
                         </td> -->

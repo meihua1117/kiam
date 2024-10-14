@@ -13,7 +13,7 @@ if($_POST['mode'] =="save") {
 	        $service_want_type = $_REQUEST['type'];
 	    }
 	    else
-	        $service_want_type = $data[service_type] + 1;
+	        $service_want_type = $data['service_type'] + 1;
 	    
 
     	$sql="select * from Gn_Member_Business_Request  where mem_id='".$_SESSION['one_member_id']."' and service_want_type='$service_want_type'";
@@ -25,7 +25,7 @@ if($_POST['mode'] =="save") {
     	}
     	
     		    
-    	$sql="select * from Gn_Member  where mem_id='".$data[recommend_id]."'";
+    	$sql="select * from Gn_Member  where mem_id='".$data['recommend_id']."'";
     	$sresul_num=mysqli_query($self_con,$sql);
     	$sdata=mysqli_fetch_array($sresul_num);	    
     	
@@ -37,10 +37,10 @@ if($_POST['mode'] =="save") {
 		    
 	    $query = "insert into Gn_Member_Business_Request set mem_id='".$_SESSION['one_member_id']."',
 	                                                         mem_name='{$data['mem_name']}',
-	                                                         service_type='$data[service_type]',
+	                                                         service_type='{$data['service_type']}',
 	                                                         recommend_cnt='{$total['cnt']}',
-	                                                         recommend_money='$total[TotPrice]',
-	                                                         recommend_id='$data[recommend_id]',
+	                                                         recommend_money='{$total['TotPrice']}',
+	                                                         recommend_id='{$data['recommend_id']}',
 	                                                         recommend_name='{$sdata['mem_name']}',
 	                                                         service_want_type='$service_want_type',
 	                                                         status='Y',

@@ -631,13 +631,13 @@ function chk() {
                 <td  colspan="3">
                     <table style="width:100%">
                         <tr>
-                            <td>은행명</td><td><input type="text" name="bank_name" id="bank_name" required  itemname='은행명' style="width:40%;" value="<?=$member_1[bank_name]?>" /></td>
+                            <td>은행명</td><td><input type="text" name="bank_name" id="bank_name" required  itemname='은행명' style="width:40%;" value="<?=$member_1['bank_name']?>" /></td>
                         </tr>
                         <tr>
-                            <td>계좌번호</td><td><input type="text" name="bank_account" id="bank_account"  required itemname='계좌벊' style="width:40%;" value="<?=$member_1[bank_account]?>" /></td>
+                            <td>계좌번호</td><td><input type="text" name="bank_account" id="bank_account"  required itemname='계좌벊' style="width:40%;" value="<?=$member_1['bank_account']?>" /></td>
                         </tr>
                         <tr>
-                        <td>이름</td><td><input type="text" name="bank_owner" id="bank_owner"  itemname='이름' required style="width:40%;" value="<?=$member_1[bank_owner]?>" /></td>
+                        <td>이름</td><td><input type="text" name="bank_owner" id="bank_owner"  itemname='이름' required style="width:40%;" value="<?=$member_1['bank_owner']?>" /></td>
                         </tr>
                     </table>
                     *사업자와 입금자 이름이 같아야 합니다.

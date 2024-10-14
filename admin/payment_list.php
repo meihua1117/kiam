@@ -459,9 +459,9 @@ $date_today=date("Y-m-d");
                                         </td>
                                         <td><?=$row['VACT_InputName']?></td>
                                         <td><?=str_replace("-", "",$mem_phone)==$row['sendnum']||$row['sendnum']==""?str_replace("-", "",$mem_phone):$row['sendnum']?></td>
-                                        <td><?=$pay_type[$row[payMethod]]?></td>
+                                        <td><?=$pay_type[$row['payMethod']]?></td>
                                         <td>
-                                            <input type="text" name="price" id="price<?=$i?>" value="<?=$row[TotPrice]?>" onchange="$('#price_<?=$i?>').val(this.value)" style="width:70px;">원
+                                            <input type="text" name="price" id="price<?=$i?>" value="<?=$row['TotPrice']?>" onchange="$('#price_<?=$i?>').val(this.value)" style="width:70px;">원
                                         </td>
                                         <!--td><?=number_format($row['add_phone'])?>개</td-->
                                         <td>
@@ -482,7 +482,7 @@ $date_today=date("Y-m-d");
                                         <td>
                                             <form method="post" name="ssForm<?=$i?>" id="ssForm<?=$i?>" action="ajax/payment_save.php">
                                                 <input type="hidden" name="no" value="<?=$row['no']?>" >
-                                                <input type="hidden" name="price" id="price_<?=$i?>" value="<?=$row[TotPrice]?>" >
+                                                <input type="hidden" name="price" id="price_<?=$i?>" value="<?=$row['TotPrice']?>" >
                                                 <input type="hidden" name="type" id="type_<?=$i?>" value="main">
                                                 <select name="end_status"  onchange="payment_save('#ssForm<?=$i?>');return false;">
                                                     <option value="N" <?php echo $row['end_status'] == "N"?"selected":""?>>결제대기</option>

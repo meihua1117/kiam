@@ -56,9 +56,9 @@ ini_set("session.gc_maxlifetime", 86400);
 /*        
         // 필수 항목
         $at_cross_key      = "304f3a821cac298ff8a0ef504e1c2309";   //CrossKey값(최대200자)
-        $at_fix_key        = "$row[billkey]";   //카드키(최대 24자)
+        $at_fix_key        = "$row['billkey']";   //카드키(최대 24자)
         $at_sell_mm        = "00";   //할부개월값(최대  2자)
-        $at_amt            = "$row[TotPrice]";   //금액(최대 10자)
+        $at_amt            = "$row['TotPrice']";   //금액(최대 10자)
         $at_business_type  = "0";   //결제자 카드종류(최대 1자)       : 개인(0),법인(1)
         $at_registry_no    = "";   //주민번호(최대 13자리)           : szBusinessType=0 일경우
         $at_biz_no         = "";   //사업자번호(최대 20자리)         : szBusinessType=1 일경우
@@ -139,7 +139,7 @@ ini_set("session.gc_maxlifetime", 86400);
             
             $sql = "insert into tjd_pay_result_month set pay_idx='{$row['idx']}',
                                                          regdate = NOW(),
-                                                         amount='$row[TotPrice]',
+                                                         amount='{$row['TotPrice']}',
                                                          buyer_id='{$member_1['mem_id']}'
             ";
             echo $sql."\n";
@@ -152,7 +152,7 @@ ini_set("session.gc_maxlifetime", 86400);
         $sresult=mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
         $srow=mysqli_fetch_array($sresult);	
         
-    	//$sql_num_up="update Gn_MMS_Number set end_status='Y' , end_date=date_add(now(),INTERVAL {$ro['month_cnt']} month) where end_date = '$_POST[pay_ex_end_date]' and mem_id='{$member_1['mem_id']}' ";
+    	//$sql_num_up="update Gn_MMS_Number set end_status='Y' , end_date=date_add(now(),INTERVAL {$ro['month_cnt']} month) where end_date = '$_POST['pay_ex_end_date']' and mem_id='{$member_1['mem_id']}' ";
     	//mysqli_query($self_con,$sql_num_up) or die(mysqli_error($self_con));				    
 
         

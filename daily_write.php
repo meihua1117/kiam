@@ -622,14 +622,14 @@ $row_content = mysqli_fetch_array($res_content);
                                         <?
                                         for ($i = 9; $i < 20; $i++) {
                                             $iv = $i < 10 ? "0" . $i : $i;
-                                            if ($row[htime]) {
-                                                $htime = $row[htime];
-                                            } else if ($_GET[htime]) {
-                                                $htime = $_GET[htime];
+                                            if ($row['htime']) {
+                                                $htime = $row['htime'];
+                                            } else if ($_GET['htime']) {
+                                                $htime = $_GET['htime'];
                                             } else {
                                                 $htime = '15';
                                             }
-                                            // $htime = $row[htime]?$row[htime]:$_GET[htime];
+                                            // $htime = $row['htime']?$row['htime']:$_GET['htime'];
                                             $selected = $htime == $iv ? "selected" : "";
                                         ?>
                                             <option value="<?= $iv ?>" <?= $selected ?>><?= $iv ?></option>
@@ -641,7 +641,7 @@ $row_content = mysqli_fetch_array($res_content);
                                         <?
                                         for ($i = 0; $i < 60; $i += 10) {
                                             $iv = $i == 0 ? "00" : $i;
-                                            $mtime = $row[mtime] ? $row[mtime] : $_GET[mtime];
+                                            $mtime = $row['mtime'] ? $row['mtime'] : $_GET['mtime'];
                                             $selected = $mtime == $iv ? "selected" : "";
                                         ?>
                                             <option value="<?= $iv ?>" data="<?= $mtime ?>" <?= $selected ?>><?= $iv ?></option>
@@ -784,7 +784,7 @@ $row_content = mysqli_fetch_array($res_content);
                             <?
                             for ($i = 9; $i < 20; $i++) {
                                 $iv = $i < 10 ? "0" . $i : $i;
-                                $selected = $row[htime] == $iv ? "selected" : "";
+                                $selected = $row['htime'] == $iv ? "selected" : "";
                             ?>
                                 <option value="<?= $iv ?>" <?= $selected ?>><?= $iv ?></option>
                                 <?
@@ -795,7 +795,7 @@ $row_content = mysqli_fetch_array($res_content);
                             <?
                             for ($i = 0; $i < 31; $i += 30) {
                                 $iv = $i == 0 ? "00" : $i;
-                                $selected = $row[mtime] == $iv ? "selected" : "";
+                                $selected = $row['mtime'] == $iv ? "selected" : "";
                             ?>
                                 <option value="<?= $iv ?>" <?= $selected ?>><?= $iv ?></option>
                                 <?

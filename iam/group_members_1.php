@@ -290,7 +290,7 @@ $domainData = mysqli_fetch_array($res);
                                                 <div class="info">
                                                     <div class="upper">
                                                         <span class="name"><?=$row['mem_name']?></span>
-                                                        <span class="company"><?=$row[zy]?></span>
+                                                        <span class="company"><?=$row['zy']?></span>
                                                         <?if($row[req_date] >= $now){?>
                                                             <span class="name" style="margin-left:10px;color:red">(신규)</span>
                                                         <?}?>

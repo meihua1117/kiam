@@ -152,7 +152,7 @@ if($type == "main"){
                             buyer_tel='{$data['mem_phone']}',
                             pay_method='BANK',
                             item_name = '{$row['member_type']}',
-                            item_price=$row[TotPrice],
+                            item_price={$row['TotPrice']},
                             seller_id='',
                             pay_status='Y',
                             pay_date=NOW(),
@@ -162,7 +162,7 @@ if($type == "main"){
                             point_val=1,
                             type='buy',
                             current_cash=$current_point,
-                            current_point='$data[mem_point]'";
+                            current_point='{$data['mem_point']}'";
                             // echo $sql; exit;
             $res_result = mysqli_query($self_con,$sql);
         }else if(strstr($row['member_type'],"professional") || strstr($row['member_type'],"enterprise")){

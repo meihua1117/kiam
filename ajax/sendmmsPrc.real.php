@@ -1203,9 +1203,9 @@ if($_SESSION['one_member_id']){
     						$mms_info['jpg']=$img;	
     						$mms_info['type']=$_POST[send_type];	
     						$mms_info['title']=htmlspecialchars($_POST[send_title]);	
-    						$mms_info[delay]=$_POST[send_delay];
+    						$mms_info['delay']=$_POST[send_delay];
     						$mms_info[delay2]=$_POST[send_delay2];					
-    						$mms_info[close]=$_POST[send_close];
+    						$mms_info['close']=$_POST[send_close];
     						$mms_info[url]=$denv_url_str;
     						$mms_info['jpg']=$_POST[send_img].$img;
     						$mms_info['jpg1']=$_POST[send_img1].$img;

@@ -37,7 +37,7 @@ if(strlen($_SESSION['one_member_id']) > 0) {
 		->setCellValue("P1", "결제일/종료일");
 	$h=2;
     while($row=mysqli_fetch_array($result)){
-		$cardstr =$pay_type[$row[payMethod]];
+		$cardstr =$pay_type[$row['payMethod']];
 		$payment_status = "";
 		if($row['end_status'] == "N") $payment_status = "결제대기";
 		else if($row['end_status'] == "Y") $payment_status = "결제완료";
@@ -54,7 +54,7 @@ if(strlen($_SESSION['one_member_id']) > 0) {
 					->setCellValue("G$h",$row['mem_name'])
 					->setCellValue("H$h",str_replace("-", "",$row['mem_phone'])==$row['sendnum']||$row['sendnum']==""?str_replace("-", "",$row['mem_phone']):$row['sendnum'])
 					->setCellValue("I$h",$cardstr)
-					->setCellValue("J$h",$row[TotPrice])
+					->setCellValue("J$h",$row['TotPrice'])
 					->setCellValue("K$h",number_format($row['add_phone']))
 					->setCellValue("L$h",number_format($row['month_cnt']))
 					->setCellValue("M$h", $row['stop_yn'])

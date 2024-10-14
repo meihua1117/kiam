@@ -54,7 +54,7 @@ if(isset($_POST['send_id']) && isset($_POST['receive_id'])){
     mysqli_query($self_con,$sql_update1);
     }
     if($share_cash){
-        $sql = "insert into Gn_Item_Pay_Result set buyer_id='{$send_id}', buyer_tel='{$data_send['mem_phone']}', item_name='캐시포인트전송', item_price=$share_cash, pay_date=now(), pay_percent=90, pay_status='Y', VACT_InputName='{$data_send['mem_name']}', pay_method='$method_recv', seller_id='{$receive_id}', point_val=1, type='shareuse', current_point={$data_send[mem_point]}, current_cash={$row_point['mem_cash']} - $share_cash";
+        $sql = "insert into Gn_Item_Pay_Result set buyer_id='{$send_id}', buyer_tel='{$data_send['mem_phone']}', item_name='캐시포인트전송', item_price=$share_cash, pay_date=now(), pay_percent=90, pay_status='Y', VACT_InputName='{$data_send['mem_name']}', pay_method='$method_recv', seller_id='{$receive_id}', point_val=1, type='shareuse', current_point={$data_send['mem_point']}, current_cash={$row_point['mem_cash']} - $share_cash";
         mysqli_query($self_con,$sql);
     
         $sql_update = "update Gn_Member set mem_cash=mem_cash-{$share_cash} where mem_id='{$send_id}'";
@@ -66,7 +66,7 @@ if(isset($_POST['send_id']) && isset($_POST['receive_id'])){
         $row_chk = mysqli_fetch_array($res_chk);
         
         // if(mysqli_num_rows($res_chk) == 0){
-        $sql = "insert into Gn_Item_Pay_Result set buyer_id='{$receive_id}', buyer_tel='{$data_recv['mem_phone']}', item_name='캐시포인트수신', item_price=$share_cash, pay_date=now(), pay_percent=90, pay_status='Y', VACT_InputName='{$data_recv['mem_name']}', pay_method='$method_send', seller_id='{$send_id}', point_val=1, type='sharebuy', current_point={$data_recv[mem_point]}, current_cash={$row_chk['mem_cash']}+{$share_cash}";
+        $sql = "insert into Gn_Item_Pay_Result set buyer_id='{$receive_id}', buyer_tel='{$data_recv['mem_phone']}', item_name='캐시포인트수신', item_price=$share_cash, pay_date=now(), pay_percent=90, pay_status='Y', VACT_InputName='{$data_recv['mem_name']}', pay_method='$method_send', seller_id='{$send_id}', point_val=1, type='sharebuy', current_point={$data_recv['mem_point']}, current_cash={$row_chk['mem_cash']}+{$share_cash}";
         mysqli_query($self_con,$sql);
     
         $sql_update1 = "update Gn_Member set mem_cash=mem_cash+{$share_cash} where mem_id='{$receive_id}'";

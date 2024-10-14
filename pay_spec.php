@@ -62,11 +62,11 @@ $data=mysqli_fetch_array($res);
     <!--상점 ID-->
     <input type="hidden" name="allat_shop_id" id="allat_shop_id" value="welcome101" size="19" maxlength=20>
     <!--주문번호-->
-    <input type="hidden" name="allat_order_no" id="allat_order_no" value="<?=$_POST[allat_order_no]?>" size="19" maxlength=70>
+    <input type="hidden" name="allat_order_no" id="allat_order_no" value="<?=$_POST['allat_order_no']?>" size="19" maxlength=70>
     <!--인증정보수신URL-->
     <input type="hidden" name="shop_receive_url" id="shop_receive_url" value="http://<?php echo $_SERVER['SERVER_NAME'];?>/allat/pay/allat_receive.php?mid=<?php echo $mid;?>" size="19">
     <!--승인금액-->
-    <input type="hidden" name="allat_amt" id="allat_amt" value="<?=$_POST[price]?>" size="19" maxlength=10>
+    <input type="hidden" name="allat_amt" id="allat_amt" value="<?=$_POST['price']?>" size="19" maxlength=10>
     <!--회원ID-->
     <input type="hidden" name="allat_pmember_id" value="<?php echo $_SESSION['one_member_id'];?>" size="19" maxlength=20>
     <!--상품코드-->
@@ -80,7 +80,7 @@ $data=mysqli_fetch_array($res);
     <!--수취인주소-->
     <input type="hidden" name="allat_recp_addr" id="allat_recp_addr" value="<?php echo $data['mem_add1'];?>" size="19" maxlength=120>
     <!--아이엠결제타입-->
-    <!--input type=hidden name="iam_pay_type" id="iam_pay_type" value='<?=$_POST[iam_pay_type]?>'-->
+    <!--input type=hidden name="iam_pay_type" id="iam_pay_type" value='<?=$_POST['iam_pay_type']?>'-->
     <!--아이엠카드갯수-->
     <input type=hidden name="iam_card_cnt" id="iam_card_cnt" value='<?=$_POST['iam_card_cnt']?>'>
     <!--아이엠공유갯수-->
@@ -88,7 +88,7 @@ $data=mysqli_fetch_array($res);
     <!--결제타입-->
     <input type=hidden name="payMethod" id="payMethod" value='BANK'>
     <!--아이엠회원승인수-->
-    <input type=hidden name="member_cnt" id="member_cnt" value='<?=$_POST[member_cnt]?>'>
+    <input type=hidden name="member_cnt" id="member_cnt" value='<?=$_POST['member_cnt']?>'>
     <input type=hidden name="month_cnt" id="month_cnt" value='<?=$_POST['month_cnt']?>'>
     <input type="hidden" name="member_type" id="member_type" value = "<?=$_POST['member_type']?>"/>
 
@@ -129,7 +129,7 @@ $data=mysqli_fetch_array($res);
                     </tr>
                     <tr>
                         <td>주문번호</td>
-                        <td><?=$_POST[allat_order_no]?></td>
+                        <td><?=$_POST['allat_order_no']?></td>
                     </tr>
                     <tr>
                         <td>구매자명</td>
@@ -138,7 +138,7 @@ $data=mysqli_fetch_array($res);
                     <tr class="price">
                         <td >입금금액</td>
                         <td class="price">
-                            <?=number_format($_POST[price])?> 원
+                            <?=number_format($_POST['price'])?> 원
                         </td>
                     </tr>
                     <tr>

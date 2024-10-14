@@ -6,14 +6,14 @@ if($_SESSION['iam_member_id'] == "") {
 $sql_serch=" (r.seller_id ='{$_SESSION['iam_member_id']}' and r.point_val=0) or (r.point_val=1 and r.buyer_id ='{$_SESSION['iam_member_id']}' and r.site is not null and r.type='servicebuy') ";
 if($_REQUEST['search_date'])
 {
-    if($_REQUEST[rday1])
+    if($_REQUEST['rday1'])
     {
-        $start_time=strtotime($_REQUEST[rday1]);
+        $start_time=strtotime($_REQUEST['rday1']);
         $sql_serch.=" and unix_timestamp({$_REQUEST['search_date']}) >=$start_time ";
     }
-    if($_REQUEST[rday2])
+    if($_REQUEST['rday2'])
     {
-        $end_time=strtotime($_REQUEST[rday2]);
+        $end_time=strtotime($_REQUEST['rday2']);
         $sql_serch.=" and unix_timestamp({$_REQUEST['search_date']}) <= $end_time ";
     }
 }
@@ -213,7 +213,7 @@ input:checked + .slider:before {
                                 <label class="label label-sm" id = "sell_service_contents" style="background: #ff3333;border-radius: 50%;padding: 2px 5px;margin-left: -5px;font-size:10px"></label>
                             </a>
                             <?}?>
-                            <?if($member_iam[service_type] < 2){
+                            <?if($member_iam['service_type'] < 2){
                                 $report_link = "/iam/mypage_report_list.php";
                             }else{
                                 $report_link = "/iam/mypage_report.php";
@@ -246,8 +246,8 @@ input:checked + .slider:before {
                                     <option value="r.pay_date" <?=$_REQUEST['search_date']=='pay_date'?"selected":"";?>>결제일</option>
                                     <option value="p.regdate" <?=$_REQUEST['search_date']=='regdate'?"selected":"";?>>정산일</option>
                                 </select>
-                                <input type="date" name="rday1" placeholder="" id="rday1" value="<?=$_REQUEST[rday1]?>"/> ~
-                                <input type="date" name="rday2" placeholder="" id="rday2" value="<?=$_REQUEST[rday2]?>"/>
+                                <input type="date" name="rday1" placeholder="" id="rday1" value="<?=$_REQUEST['rday1']?>"/> ~
+                                <input type="date" name="rday2" placeholder="" id="rday2" value="<?=$_REQUEST['rday2']?>"/>
                             </div>
                             <div style="float:right;">
                                 <img src="/images/sub_button_703.jpg" onclick="pay_form.submit();" style="height: 30px" />
@@ -308,7 +308,7 @@ input:checked + .slider:before {
                                             $card = "point";
                                         }
                                         if($row['gwc_cont_pay']){
-                                            $sql_total_price = "select sum(item_price) from Gn_Item_Pay_Result where item_name='{$row[item_name]}' and order_number='{$row[order_number]}' and pay_date='{$row[pay_date]}'";
+                                            $sql_total_price = "select sum(item_price) from Gn_Item_Pay_Result where item_name='{$row['item_name']}' and order_number='{$row['order_number']}' and pay_date='{$row['pay_date']}'";
                                             $res_total_price = mysqli_query($self_con,$sql_total_price);
                                             $row_total_price = mysqli_fetch_array($res_total_price);
                                             $row['item_price'] = $row_total_price[0];
@@ -317,10 +317,10 @@ input:checked + .slider:before {
                                         <tr >
                                             <td><?=$sort_no?></td>
                                             <td><?=$method?></td>
-                                            <td style="font-size:11px;"><?=$row[item_name]?></td>
+                                            <td style="font-size:11px;"><?=$row['item_name']?></td>
                                             <td><?=$row_mem_data['mem_id']?>/<?=$row_mem_data['mem_name']?></td>
                                             <td><?=$row_mem_data['mem_phone']?></td>
-                                            <td style="font-size:11px;"><?=$row[pay_date]?></td>
+                                            <td style="font-size:11px;"><?=$row['pay_date']?></td>
                                             <?php
                                             if($row[point_val] == 0){
                                             ?>

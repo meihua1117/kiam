@@ -17,7 +17,7 @@ include_once "_head.php";
 } else {
 	$date_today = date("Y-m-d");
 	$date_month = date("Y-m");
-	$trialLimit = date("Y-m-d 23:59:59", strtotime($member_1[first_regist] . "-1 days")); //회원가입일+3일
+	$trialLimit = date("Y-m-d 23:59:59", strtotime($member_1['first_regist'] . "-1 days")); //회원가입일+3일
 	$sql = "select phone_cnt from tjd_pay_result where buyer_id = '{$_SESSION['one_member_id']}' and end_date > '$date_today' and end_status in ('Y','A') and gwc_cont_pay=0 order by end_date desc";
 	$res_result = mysqli_query($self_con,$sql);
 	//결제 휴대폰 수
@@ -131,17 +131,17 @@ $cu_user_cnt =  "";
 $cu_today_cnt =  "";
 $mon_text_pcount =  "";
 if (!empty($row_sum_b)) {
-	$cu_user_cnt = $row_sum_b[sumnum] ? $row_sum_b[sumnum] : $freeMMSCount;
-	$cu_today_cnt = $row_sum_b[summax] ? $row_sum_b[summax] : 0;
-	$mon_text_pcount = $row_sum_b[summax] ? ($row_sum_b[summax] * 10) + ((199 * 20) - ($row_sum_b[sumgl] * 20)) : 0;
+	$cu_user_cnt = $row_sum_b['sumnum'] ? $row_sum_b['sumnum'] : $freeMMSCount;
+	$cu_today_cnt = $row_sum_b['summax'] ? $row_sum_b['summax'] : 0;
+	$mon_text_pcount = $row_sum_b['summax'] ? ($row_sum_b['summax'] * 10) + ((199 * 20) - ($row_sum_b['sumgl'] * 20)) : 0;
 	if ($freeChk) {
 		$cu_user_cnt = $freeMMSCount - $recv_num_ex_sum;
 		$cu_today_cnt = $recv_num_ex_sum;
 		$mon_text_pcount = $recv_num_ex_sum;
 	}
 } else {
-	$cu_user_cnt = $row_sum_b[sumnum] ? $row_sum_b[sumnum] : $freeMMSCount;
-	$cu_today_cnt = $row_sum_b[summax] ? $row_sum_b[summax] : 0;
+	$cu_user_cnt = $row_sum_b['sumnum'] ? $row_sum_b['sumnum'] : $freeMMSCount;
+	$cu_today_cnt = $row_sum_b['summax'] ? $row_sum_b['summax'] : 0;
 	$mon_text_pcount = $cu_user_cnt - $cu_today_cnt;
 }
 ?>
@@ -235,7 +235,7 @@ if (!empty($row_sum_b)) {
 	}
 	$(function() {
 		if ($("#group_num").val() || $("#num").val()) {
-			<? if ($_REQUEST[deny_wushi]) { ?>
+			<? if ($_REQUEST['deny_wushi']) { ?>
 				numchk('4');
 			<? } ?>
 		}
@@ -331,7 +331,7 @@ if (!empty($row_sum_b)) {
 	$(document).ready(function() {
 		var textarea = document.getElementById("question");
 		var limit = 100; //height limit
-		var api_state = '<?= $member_1[gpt_chat_api_key] ?>';
+		var api_state = '<?= $member_1['gpt_chat_api_key'] ?>';
 
 		textarea.oninput = function() {
 			textarea.style.height = "";
@@ -832,9 +832,9 @@ if (!empty($row_sum_b)) {
 								<div class="a1">
 									<div class="b1">주소관리</div>
 									<div class="b2 select_group_div">그룹번호</div>
-									<div class="div_2px"><textarea name="group_num" id="group_num" itemname='그룹번호' placeholder="그룹번호" onblur="numchk('4')"><?= $_REQUEST[group_num] ?></textarea></div>
+									<div class="div_2px"><textarea name="group_num" id="group_num" itemname='그룹번호' placeholder="그룹번호" onblur="numchk('4')"><?= $_REQUEST['group_num'] ?></textarea></div>
 									<div class="b2">개별번호</div>
-									<div class="div_2px"><textarea name="num" id="num" itemname='전화번호' placeholder="전화번호(쉼표로 구분)" onblur="numchk('4')"><?= $_REQUEST[num] ?></textarea></div>
+									<div class="div_2px"><textarea name="num" id="num" itemname='전화번호' placeholder="전화번호(쉼표로 구분)" onblur="numchk('4')"><?= $_REQUEST['num'] ?></textarea></div>
 									<div class="b4">
 										<div class="div_2px">
 											<label><input type="radio" name="type" value="1" checked />묶음발송</label>
@@ -842,11 +842,11 @@ if (!empty($row_sum_b)) {
 										</div>
 										<div class="div_2px">
 											<div style="float:left; display:none;" id="delay">
-												<input type="text" name="delay" placeholder="발송간격" value="<?= $_REQUEST[delay] ? $_REQUEST[delay] : 5 ?>" onblur="send_delay(sub_4_form,this,1)" onkeyup="send_delay(sub_4_form,this,1)" />~
-												<input type="text" name="delay2" placeholder="발송간격" value="<?= $_REQUEST[delay] ? $_REQUEST[delay] : 15 ?>" onblur="send_delay(sub_4_form,this,2)" />초
+												<input type="text" name="delay" placeholder="발송간격" value="<?= $_REQUEST['delay'] ? $_REQUEST['delay'] : 5 ?>" onblur="send_delay(sub_4_form,this,1)" onkeyup="send_delay(sub_4_form,this,1)" />~
+												<input type="text" name="delay2" placeholder="발송간격" value="<?= $_REQUEST['delay'] ? $_REQUEST['delay'] : 15 ?>" onblur="send_delay(sub_4_form,this,2)" />초
 											</div>
 											<div style="float:left;clear:both; display:none">
-												<input type="text" id="close" name="close" placeholder="발송제한" value="<?= $_REQUEST[close] ? $_REQUEST[close] : 24 ?>" onblur="limitNight();" />시(20시)
+												<input type="text" id="close" name="close" placeholder="발송제한" value="<?= $_REQUEST['close'] ? $_REQUEST['close'] : 24 ?>" onblur="limitNight();" />시(20시)
 												<input type="checkbox" value="Y" id="time_limit" checked> 제한해제
 											</div>
 											<p style="clear:both;"></p>
@@ -862,9 +862,9 @@ if (!empty($row_sum_b)) {
 											<div>중복제거(<a href="javascript:void(0)" onclick="show_recv('deny_num','7','중복제거된번호')" class="num_check_c">0</a>)</div>
 										</div>
 										<div class="c1">
-											<div><label><input type="checkbox" name="deny_wushi[]" checked <?= $_REQUEST[deny_wushi][0] ? "checked" : "" ?> onclick="numchk('0');type_check()" />수신불가</label>(<a href="javascript:void(0)" onclick="show_recv('deny_num','0','수신불가')" class="num_check_c">0</a>)</div>
-											<div><label><input type="checkbox" name="deny_wushi[]" checked <?= $_REQUEST[deny_wushi][1] ? "checked" : "" ?> onclick="numchk('1');type_check()" />없는번호</label>(<a href="javascript:void(0)" onclick="show_recv('deny_num','1','없는번호')" class="num_check_c">0</a>)</div>
-											<div><label><input type="checkbox" name="deny_wushi[]" <?= $_REQUEST[deny_wushi][2] ? "checked" : "" ?> onclick="numchk('2');type_check()" />기타</label>(<a href="javascript:void(0)" onclick="show_recv('deny_num','2','기타')" class="num_check_c">0</a>)</div>
+											<div><label><input type="checkbox" name="deny_wushi[]" checked <?= $_REQUEST['deny_wushi'][0] ? "checked" : "" ?> onclick="numchk('0');type_check()" />수신불가</label>(<a href="javascript:void(0)" onclick="show_recv('deny_num','0','수신불가')" class="num_check_c">0</a>)</div>
+											<div><label><input type="checkbox" name="deny_wushi[]" checked <?= $_REQUEST['deny_wushi'][1] ? "checked" : "" ?> onclick="numchk('1');type_check()" />없는번호</label>(<a href="javascript:void(0)" onclick="show_recv('deny_num','1','없는번호')" class="num_check_c">0</a>)</div>
+											<div><label><input type="checkbox" name="deny_wushi[]" <?= $_REQUEST['deny_wushi'][2] ? "checked" : "" ?> onclick="numchk('2');type_check()" />기타</label>(<a href="javascript:void(0)" onclick="show_recv('deny_num','2','기타')" class="num_check_c">0</a>)</div>
 											<p style="clear:both;"></p>
 											<input type="hidden" name="deny_num" />
 											<input type="hidden" name="deny_num" />
@@ -984,13 +984,13 @@ if (!empty($row_sum_b)) {
 								<div class="a3">
 									<div class="b1">예약서비스</div>
 									<div>예약발송일:
-										<input type="date" <?= $fujia_pay ? "" : "disabled" ?> name="rday" onfocus="type_check();" onblur="check_date('<?= date("Ymd") ?>')" placeholder="예약발송(일)" id="rday" value="<?= $_REQUEST[rday] ?>" style="width:130px;" />
+										<input type="date" <?= $fujia_pay ? "" : "disabled" ?> name="rday" onfocus="type_check();" onblur="check_date('<?= date("Ymd") ?>')" placeholder="예약발송(일)" id="rday" value="<?= $_REQUEST['rday'] ?>" style="width:130px;" />
 										<br>
 										<select name="htime" style="width:50px;" <?= $fujia_pay ? "" : "disabled" ?>>
 											<?
 											for ($i = 9; $i < 22; $i++) {
 												$iv = $i < 10 ? "0" . $i : $i;
-												$selected = $_REQUEST[htime] == $iv ? "selected" : "";
+												$selected = $_REQUEST['htime'] == $iv ? "selected" : "";
 											?>
 												<option value="<?= $iv ?>" <?= $selected ?>><?= $iv ?></option>
 											<?
@@ -1001,7 +1001,7 @@ if (!empty($row_sum_b)) {
 											<?
 											for ($i = 0; $i < 60; $i += 10) {
 												$iv = $i == 0 ? "00" : $i;
-												$selected = $_REQUEST[mtime] == $iv ? "selected" : "";
+												$selected = $_REQUEST['mtime'] == $iv ? "selected" : "";
 											?>
 												<option value="<?= $iv ?>" <?= $selected ?>><?= $iv ?></option>
 											<?
@@ -1013,7 +1013,7 @@ if (!empty($row_sum_b)) {
 								<div class="a4">
 									<div class="b1">문자입력<span class="popbutton7 pop_view pop_right">?</span>
 										<input type="button" id="btn_mail" name="btn_mail" value="메일입력" title="선택한 그룹에 메일 등록이 된 디비에만 이메일도 발송됩니다" class="pull-right" style="margin-bottom:3px;height:28px;" onclick="show_mail_box()" />
-										<button onclick="show_chat('<?= $member_1[gpt_chat_api_key] ?>')" class="chat_btn">AI와 대화하기</button>
+										<button onclick="show_chat('<?= $member_1['gpt_chat_api_key'] ?>')" class="chat_btn">AI와 대화하기</button>
 									</div>
 
 									<div class="b2">
@@ -1021,7 +1021,7 @@ if (!empty($row_sum_b)) {
 									</div>
 									<div class="div_2px"><input type="text" name="title" itemname='제목' required placeholder="제목" style="width:100%;" value="<?= $_REQUEST['title'] ?>" /></div>
 									<div class="div_2px">
-										<textarea name="txt" itemname='내용' id='txt' required placeholder="내용" onkeydown="textCounter(sub_4_form.txt,'wenzi_cnt',2000,0);" onkeyup="textCounter(sub_4_form.txt,'wenzi_cnt',2000,0);type_check();" onfocus="textCounter(sub_4_form.txt,'wenzi_cnt',2000,0);type_check();"><?= $_REQUEST[txt] ?></textarea>
+										<textarea name="txt" itemname='내용' id='txt' required placeholder="내용" onkeydown="textCounter(sub_4_form.txt,'wenzi_cnt',2000,0);" onkeyup="textCounter(sub_4_form.txt,'wenzi_cnt',2000,0);type_check();" onfocus="textCounter(sub_4_form.txt,'wenzi_cnt',2000,0);type_check();"><?= $_REQUEST['txt'] ?></textarea>
 										<input type="hidden" name="onebook_status" value="N" />
 										<input type="hidden" name="onebook_url" value="" />
 									</div>
@@ -1059,7 +1059,7 @@ if (!empty($row_sum_b)) {
 												<a href="javascript:void(0)" onclick="ml_view('txt','0','미리보기')">문자미리보기</a>
 											</div>
 											<div style="float:left;margin-left:30px;">
-												<label><input type="checkbox" name="save_mms" value="Y" <?= $_REQUEST[save_mms] ? "checked" : "" ?> />문자발송후 저장하기</label>
+												<label><input type="checkbox" name="save_mms" value="Y" <?= $_REQUEST['save_mms'] ? "checked" : "" ?> />문자발송후 저장하기</label>
 											</div>
 											<p style="clear:both;"></p>
 										</div>
@@ -1067,7 +1067,7 @@ if (!empty($row_sum_b)) {
 									</div>
 									<div class="b2">
 										<div style="float:left;">
-											<label><input type="checkbox" name="agreement_yn" id="agreement_yn" value="Y" <?= $_REQUEST[agreement_yn] ? "checked" : "" ?> />수신동의 문자</label>
+											<label><input type="checkbox" name="agreement_yn" id="agreement_yn" value="Y" <?= $_REQUEST['agreement_yn'] ? "checked" : "" ?> />수신동의 문자</label>
 											<div class="deny_msg_span " id="agreement_yn_span">OFF</div>
 											<p style="clear:both"></p>
 										</div>
@@ -1317,8 +1317,8 @@ if (!empty($row_sum_b)) {
 													$today_cnt_1 = 0;
 													$row_result2_g = mysqli_fetch_array($res_result2_g);
 													$today_cnt_1 += $row_result2_g[0] * 1;
-													$total_cnt = $row[daily_limit_cnt]; //기본 일별 총발송 가능량
-													$donation_rate = $row[donation_rate]; //기부 비율
+													$total_cnt = $row['daily_limit_cnt']; //기본 일별 총발송 가능량
+													$donation_rate = $row['donation_rate']; //기부 비율
 													$donation_cnt = ceil($total_cnt * $donation_rate / 100); //기부 받은 수
 
 													if ($mem_phone == $row['sendnum'] && ($member_1['mem_type'] == "V" || $member_1['mem_type'] == "")) {
@@ -1595,7 +1595,7 @@ if (!empty($row_sum_b)) {
 				<a class="newpane" href="javascript:show_new_chat();"><span style="font-size: 5px;">NEW</a>
 			</div>
 			<div class="search_keyword">
-				<input type="hidden" name="key" id="key" value="<?= $member_1[gpt_chat_api_key] ?>">
+				<input type="hidden" name="key" id="key" value="<?= $member_1['gpt_chat_api_key'] ?>">
 				<textarea class="search_input" autocomplete="off" name="question" id="question" value="" title="질문을 입력하세요" placeholder="알지AI에게 질문해보세요" onclick="check_login('<?= $_SESSION['iam_member_id'] ?>')"></textarea>
 				<button type="button" onclick="send_post('<?= $_SESSION['iam_member_id'] ?>')" class="send_ask"><img src="/iam/img/send_ask.png" alt="전송"></button>
 			</div>

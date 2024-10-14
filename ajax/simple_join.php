@@ -13,7 +13,7 @@ if(isset($_POST['mem_name']) || isset($_POST['mem_phone']) || isset($_POST['mem_
 	$row_exp = mysqli_fetch_array($res_exp);
 	$exp_mem = $row_exp['service_type'];
 
-	$card_sql = "select mem_id from Gn_Iam_Name_Card use index(idx) where idx = $_POST[send_link]";
+	$card_sql = "select mem_id from Gn_Iam_Name_Card use index(idx) where idx = {$_POST['send_link']}";
 	$card_res = mysqli_query($self_con,$card_sql);
 	$card_row = mysqli_fetch_array($card_res);
 	$recom_id = $card_row['mem_id'];
@@ -31,7 +31,7 @@ if(isset($_POST['mem_name']) || isset($_POST['mem_phone']) || isset($_POST['mem_
 	$res = mysqli_query($self_con,$query);
 	$domainData = mysqli_fetch_array($res);
 
-	$exp_date = date("Y-m-d H:i:s",strtotime("+$domainData[service_price] days"));
+	$exp_date = date("Y-m-d H:i:s",strtotime("+{$domainData['service_price']} days"));
 
 	if(strpos($mem_phone, "-") !== false){
 		$mem_phone = str_replace("-", "", $mem_phone);
@@ -103,7 +103,7 @@ if(isset($_POST['mem_name']) || isset($_POST['mem_phone']) || isset($_POST['mem_
 											story_online2_text, story_online2, online2_check, iam_click, iam_story, 
 											iam_friends, iam_iamicon, iam_msms, iam_sms, iam_facebook, iam_kakao, iam_share, 
 											iam_mystory, now(), now(), sample_click, sample_order, main_img1, main_img2, main_img3, 
-											next_iam_link, card_show, $share_send_card FROM Gn_Iam_Name_Card use index(idx) WHERE idx='{$_POST[send_link]}')";
+											next_iam_link, card_show, $share_send_card FROM Gn_Iam_Name_Card use index(idx) WHERE idx='{$_POST['send_link']}')";
 	// echo $sql_name; exit;
 	mysqli_query($self_con,$sql_card) or die(mysqli_error($self_con));
 	$card_idx = mysqli_insert_id($self_con);
@@ -117,7 +117,7 @@ if(isset($_POST['mem_name']) || isset($_POST['mem_phone']) || isset($_POST['mem_
 										contents_iframe, source_iframe, contents_price,contents_order, contents_sell_price, contents_desc, contents_display, 
 										contents_user_display, contents_type_display, contents_footer_display, contents_temp, contents_like, 
 										'', contents_share_count, now(), now(), '{$short_url}', contents_westory_display, 
-										'{$short_url}', public_display, {$card_idx}, except_keyword, idx, reduce_val FROM Gn_Iam_Contents use index(card_idx) WHERE card_idx='{$_POST[send_link]}')";
+										'{$short_url}', public_display, {$card_idx}, except_keyword, idx, reduce_val FROM Gn_Iam_Contents use index(card_idx) WHERE card_idx='{$_POST['send_link']}')";
 	mysqli_query($self_con,$sql_con) or die(mysqli_error($self_con));
 
 	$sql_con = "select idx from Gn_Iam_Contents where card_idx = $card_idx";

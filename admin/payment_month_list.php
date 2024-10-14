@@ -254,7 +254,7 @@ $(function() {
                                         <td><?=$row['buyertel']?></td>
                                         <td><?=$row['member_type']?></td>
                                         <td><?=$row['TotPrice']?></td>
-                                        <td><?=$pay_type[$row[payMethod]]?></td>
+                                        <td><?=$pay_type[$row['payMethod']]?></td>
                                         <td><?=$row['date']?></td>
                                         <td>
                                             <!--form method="post" name="ssForm<?=$i?>" id="eeForm<?=$i?>" action="ajax/payment_month_save.php">

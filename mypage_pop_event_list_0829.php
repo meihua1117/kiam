@@ -111,14 +111,14 @@ function copyHtml(url){
         $sql_serch=" m_id ='{$_SESSION['one_member_id']}' and event_name_kor!='단체회원자동가입및아이엠카드생성' AND event_name_kor!='콜백메시지관리자설정동의' AND event_name_kor!='데일리문자세트자동생성' ";
 				if($_REQUEST['search_date'])
 				{					
-					if($_REQUEST[rday1])
+					if($_REQUEST['rday1'])
 					{
-					$start_time=strtotime($_REQUEST[rday1]);
+					$start_time=strtotime($_REQUEST['rday1']);
 					$sql_serch.=" and unix_timestamp({$_REQUEST['search_date']}) >=$start_time ";
 					}
-					if($_REQUEST[rday2])
+					if($_REQUEST['rday2'])
 					{
-					$end_time=strtotime($_REQUEST[rday2]);
+					$end_time=strtotime($_REQUEST['rday2']);
 					$sql_serch.=" and unix_timestamp({$_REQUEST['search_date']}) <= $end_time ";
 					}
 				}

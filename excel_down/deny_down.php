@@ -3,7 +3,7 @@ include_once "../lib/rlatjd_fun.php";
 set_time_limit(0);
 ini_set('memory_limit','2500M');
 if(strlen($_SESSION['one_member_id']) > 0) {
-	if(!$_REQUEST[excel_sql] && !$_REQUEST[down_type])
+	if(!$_REQUEST[excel_sql] && !$_REQUEST['down_type'])
 	exit;
 	$path="../";
 	include_once $path."lib/rlatjd_fun.php";
@@ -17,7 +17,7 @@ if(strlen($_SESSION['one_member_id']) > 0) {
 	->setDescription("Test document for Office 2007 XLSX, generated using PHP classes.")
 	->setKeywords("office 2007 openxml php")
 	->setCategory("excel file");
-	if($_REQUEST[down_type]==1)
+	if($_REQUEST['down_type']==1)
 	{
 	$excel_sql=str_replace("`","'",$_REQUEST[excel_sql]);
 	$result = mysqli_query($self_con,$excel_sql) or die(mysqli_error($self_con));
@@ -50,7 +50,7 @@ if(strlen($_SESSION['one_member_id']) > 0) {
 		$objPHPExcel->setActiveSheetIndex(0);
 		$filename="onemarket_deny.xls";	
 	}
-	else if($_REQUEST[down_type]==2)
+	else if($_REQUEST['down_type']==2)
 	{
 	$objPHPExcel->setActiveSheetIndex(0)
 	            ->setCellValue("A1", "발신번호")

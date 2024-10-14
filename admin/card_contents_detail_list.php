@@ -17,7 +17,7 @@ if($idx) {
     $res_mem = mysqli_query($self_con,$sql_mem);
     $row_mem = mysqli_fetch_array($res_mem);
 
-    $sql_provider_id = "select mem_id, mem_code, mem_name, mem_phone, mem_email, mem_add1, bank_name, bank_owner, bank_account from Gn_Member where mem_code='{$data[delivery_id_code]}'";
+    $sql_provider_id = "select mem_id, mem_code, mem_name, mem_phone, mem_email, mem_add1, bank_name, bank_owner, bank_account from Gn_Member where mem_code='{$data['delivery_id_code']}'";
     $res_provider_id = mysqli_query($self_con,$sql_provider_id);
     $row_provider_id = mysqli_fetch_array($res_provider_id);
 }
@@ -257,15 +257,15 @@ if($idx) {
                               핸드폰:<input type="text" name="deliver_phone" id="deliver_phone" value="<?=$row_provider_id['mem_phone']?>" style="width: 200px;height: 15px;padding: 10px;margin-left: 20px;" readonly>
                           </div>
                           <div style="display:flex;margin-top:10px;">
-                              주소:<input type="text" name="deliver_addr" id="deliver_addr" value="<?=$row_provider_id[mem_add1]?>" style="width: 200px;height: 15px;padding: 10px;margin-left: 33px;" readonly>
+                              주소:<input type="text" name="deliver_addr" id="deliver_addr" value="<?=$row_provider_id['mem_add1']?>" style="width: 200px;height: 15px;padding: 10px;margin-left: 33px;" readonly>
                           </div>
                           <div style="display:flex;margin-top:10px;">
                               이메일:<input type="text" name="deliver_email" id="deliver_email" value="<?=$row_provider_id['mem_email']?>" style="width: 200px;height: 15px;padding: 10px;margin-left: 20px;" readonly>
                           </div>
                           <div style="display:flex;margin-top:10px;">
-                              입금계좌:<input type="text" name="deliver_bank" id="deliver_bank" value="<?=$row_provider_id[bank_name]?>" style="width: 70px;height: 15px;padding: 10px;margin-left: 8px;" readonly>
-                              <input type="text" name="deliver_owner" id="deliver_owner" value="<?=$row_provider_id[bank_owner]?>" style="width: 70px;height: 15px;padding: 10px;" readonly>
-                              <input type="text" name="deliver_account" id="deliver_account" value="<?=$row_provider_id[bank_account]?>" style="width: 70px;height: 15px;padding: 10px;" readonly>
+                              입금계좌:<input type="text" name="deliver_bank" id="deliver_bank" value="<?=$row_provider_id['bank_name']?>" style="width: 70px;height: 15px;padding: 10px;margin-left: 8px;" readonly>
+                              <input type="text" name="deliver_owner" id="deliver_owner" value="<?=$row_provider_id['bank_owner']?>" style="width: 70px;height: 15px;padding: 10px;" readonly>
+                              <input type="text" name="deliver_account" id="deliver_account" value="<?=$row_provider_id['bank_account']?>" style="width: 70px;height: 15px;padding: 10px;" readonly>
                           </div>
                         </td>
                       </tr>
@@ -410,11 +410,11 @@ function self_deliver(){
         $("#deliver_id").val('<?=$row_mem['mem_id']?>');
         $("#deliver_name").val('<?=$row_mem['mem_name']?>');
         $("#deliver_phone").val('<?=$row_mem['mem_phone']?>');
-        $("#deliver_addr").val('<?=$row_mem[mem_add1]?>');
+        $("#deliver_addr").val('<?=$row_mem['mem_add1']?>');
         $("#deliver_email").val('<?=$row_mem['mem_email']?>');
-        $("#deliver_bank").val('<?=$row_mem[bank_name]?>');
-        $("#deliver_owner").val('<?=$row_mem[bank_owner]?>');
-        $("#deliver_account").val('<?=$row_mem[bank_account]?>');
+        $("#deliver_bank").val('<?=$row_mem['bank_name']?>');
+        $("#deliver_owner").val('<?=$row_mem['bank_owner']?>');
+        $("#deliver_account").val('<?=$row_mem['bank_account']?>');
         $("#check_deliver_id").hide();
         $("#deliver_id_code").val('<?=$row_mem['mem_code']?>');
         if($("#deliver_id").val() != '' && $("#deliver_name").val() != '' && $("#deliver_phone").val() != '' && $("#deliver_addr").val() != '' && $("#deliver_email").val() != '' && $("#deliver_bank").val() != '' && $("#deliver_owner").val() != '' && $("#deliver_account").val() != ''){

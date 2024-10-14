@@ -75,7 +75,7 @@ $link  = $_GET["link"];
 </style>
 <main id="register" class="common-wrap" style="margin-top: 86px"><!-- 컨텐츠 영역 시작 -->
     <input type="hidden" name="link" id="link" value="<?= $link ?>">
-    <div class="container" style="<?= $_GET[gwc_req] == "Y" ? "display:none" : "" ?>">
+    <div class="container" style="<?= $_GET['gwc_req'] == "Y" ? "display:none" : "" ?>">
         <div id='order_address' style='left:0px; top:0px; width:320px; height:600px; position:absolute;  z-index:1000; display:none; background-color:white;'></div>
         <div class="row">
             <div class="col-12">
@@ -387,14 +387,14 @@ $link  = $_GET["link"];
                                         <div class="attr-value">
                                             <div class="input-wrap">
                                                 <input type="hidden" name="nick" itemname='닉네임' value="<?= $member_iam['mem_name'] ?>" />
-                                                <?= $member_iam[recommend_id] ?>
+                                                <?= $member_iam['recommend_id'] ?>
                                             </div>
                                         </div>
                                     </div>
                                 <? } else { ?>
                                     <input type="hidden" name="nick" itemname='닉네임' value="<?= $member_iam['mem_name'] ?>" />
                                 <? } ?>
-                                <? echo $member_iam[keywords]; ?>
+                                <? echo $member_iam['keywords']; ?>
                                 <div class="attr-row">
                                     <div class="attr-name">관심키워드</div>
                                     <div class="attr-value">
@@ -407,7 +407,7 @@ $link  = $_GET["link"];
                                     <div class="attr-name">소식받기</div>
                                     <div class="attr-value">
                                         <div class="check-wrap">
-                                            <input type="checkbox" class="check" id="is_message" name="is_message" <?= $member_iam[is_message] == "Y" ? "checked" : "" ?>>
+                                            <input type="checkbox" class="check" id="is_message" name="is_message" <?= $member_iam['is_message'] == "Y" ? "checked" : "" ?>>
                                             <label for="is_message">온리원그룹의 소식 받기</label>
                                         </div>
                                         <div class="desc">
@@ -426,20 +426,20 @@ $link  = $_GET["link"];
                                         <div class="desc">
                                         <ul style="display:flex;margin-top:10px;flex-wrap:wrap">
                                             [신청하기]
-                                            <input type="checkbox" class="gwc_chk" id="chk1" style="display:block;" <?= $member_iam[gwc_req_leb] == "1" ? 'checked' : ''; ?>> 가입회원
-                                            <input type="checkbox" class="gwc_chk" id="chk2" style="display:block;" <?= $member_iam[gwc_req_leb] == "2" ? 'checked' : ''; ?>> 소비회원
-                                            <input type="checkbox" class="gwc_chk" id="chk3" style="display:block;" <?= $member_iam[gwc_req_leb] == "3" ? 'checked' : ''; ?>> 공급회원
-                                            <input type="checkbox" class="gwc_chk" id="chk4" style="display:block;" <?= $member_iam[gwc_req_leb] == "4" ? 'checked' : ''; ?>> 굿슈머
-                                            <input type="checkbox" class="gwc_chk" id="chk5" style="display:block;" <?= $member_iam[gwc_req_leb] == "5" ? 'checked' : ''; ?>> 팀리더
-                                            <input type="checkbox" class="gwc_chk" id="chk6" style="display:block;" <?= $member_iam[gwc_req_leb] == "6" ? 'checked' : ''; ?>> 그룹리더
-                                            <input type="checkbox" class="gwc_chk" id="chk7" style="display:block;" <?= $member_iam[gwc_req_leb] == "7" ? 'checked' : ''; ?>> 지역리더
-                                            <input type="checkbox" class="gwc_chk" id="chk8" style="display:block;" <?= $member_iam[gwc_req_leb] == "8" ? 'checked' : ''; ?>> 국가리더
-                                            <input type="checkbox" class="gwc_chk" id="chk9" style="display:block;" <?= $member_iam[gwc_req_leb] == "9" ? 'checked' : ''; ?>> 국제리더
+                                            <input type="checkbox" class="gwc_chk" id="chk1" style="display:block;" <?= $member_iam['gwc_req_leb'] == "1" ? 'checked' : ''; ?>> 가입회원
+                                            <input type="checkbox" class="gwc_chk" id="chk2" style="display:block;" <?= $member_iam['gwc_req_leb'] == "2" ? 'checked' : ''; ?>> 소비회원
+                                            <input type="checkbox" class="gwc_chk" id="chk3" style="display:block;" <?= $member_iam['gwc_req_leb'] == "3" ? 'checked' : ''; ?>> 공급회원
+                                            <input type="checkbox" class="gwc_chk" id="chk4" style="display:block;" <?= $member_iam['gwc_req_leb'] == "4" ? 'checked' : ''; ?>> 굿슈머
+                                            <input type="checkbox" class="gwc_chk" id="chk5" style="display:block;" <?= $member_iam['gwc_req_leb'] == "5" ? 'checked' : ''; ?>> 팀리더
+                                            <input type="checkbox" class="gwc_chk" id="chk6" style="display:block;" <?= $member_iam['gwc_req_leb'] == "6" ? 'checked' : ''; ?>> 그룹리더
+                                            <input type="checkbox" class="gwc_chk" id="chk7" style="display:block;" <?= $member_iam['gwc_req_leb'] == "7" ? 'checked' : ''; ?>> 지역리더
+                                            <input type="checkbox" class="gwc_chk" id="chk8" style="display:block;" <?= $member_iam['gwc_req_leb'] == "8" ? 'checked' : ''; ?>> 국가리더
+                                            <input type="checkbox" class="gwc_chk" id="chk9" style="display:block;" <?= $member_iam['gwc_req_leb'] == "9" ? 'checked' : ''; ?>> 국제리더
                                         </ul>
                                         </div>
                                     </div>
                                 </div> -->
-                                <input type="hidden" name="gwc_leb" id="gwc_leb" value="<?= $member_iam[gwc_req_leb] ?>">
+                                <input type="hidden" name="gwc_leb" id="gwc_leb" value="<?= $member_iam['gwc_req_leb'] ?>">
                             </div>
                         </section>
                         <div class="button-wrap">
@@ -589,7 +589,7 @@ $link  = $_GET["link"];
 </main><!-- // 컨텐츠 영역 끝 -->
 <div id="ajax_div" style="display:none"></div>
 <script language="javascript">
-    var gwc_req = '<?= $_GET[gwc_req] ?>';
+    var gwc_req = '<?= $_GET['gwc_req'] ?>';
     var show_modal = '<?= $_GET[show_modal] ?>';
     $(document).ready(function() {
         if (show_modal == "Y" && gwc_req == "Y") {

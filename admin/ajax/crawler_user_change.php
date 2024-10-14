@@ -54,7 +54,7 @@ if($_POST['mode'] == "reset") {
         $sql="select * from crawler_member_real where user_id='$user_id'";
         $resul=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
         $row=mysqli_fetch_array($resul);   
-        if($row[user_id] != "") {
+        if($row['user_id'] != "") {
             echo "{\"result\":\"$result\":\"msg\":\"이미 있는 회원 아이디 입니다.\"}";
             exit;
         }

@@ -171,11 +171,11 @@ $(function(){
         </tr>
          <tr>
         <td>소속/직책</td>
-        <td  colspan="3"><input type="text" name="zy" required itemname='소속' style="width:20%;" value="<?=$member_1[zy]?>" /></td>
+        <td  colspan="3"><input type="text" name="zy" required itemname='소속' style="width:20%;" value="<?=$member_1['zy']?>" /></td>
         </tr>
         <tr>
         <td>자택주소</td>
-        <td  colspan="3"><input type="text" name="add1" required itemname='주소' style="width:90%;" value="<?=$member_1[mem_add1]?>" /></td>
+        <td  colspan="3"><input type="text" name="add1" required itemname='주소' style="width:90%;" value="<?=$member_1['mem_add1']?>" /></td>
         </tr>  
         <tr>
         <td>이메일</td>
@@ -217,11 +217,11 @@ $(function(){
         </tr>            
         <!--<tr>
         <td>직책</td>
-        <td  colspan="3"><input type="text" name="mem_sch" required itemname='직책' style="width:20%;" value="<?=$member_1[mem_sch]?>" /></td>
+        <td  colspan="3"><input type="text" name="mem_sch" required itemname='직책' style="width:20%;" value="<?=$member_1['mem_sch']?>" /></td>
         </tr>   
         <tr>
         <td>직무</td>
-        <td  colspan="3"><input type="text" name="keywords" required itemname='직무' style="width:90%;" value="<?=$member_1[keywords]?>" /></td>
+        <td  colspan="3"><input type="text" name="keywords" required itemname='직무' style="width:90%;" value="<?=$member_1['keywords']?>" /></td>
         </tr>-->
               
        
@@ -229,7 +229,7 @@ $(function(){
         <!--
         <tr>
         <td>직업</td>
-        <td colspan="3"><input type="text" name="zy" required itemname='직업' value="<?=$member_1[zy]?>" /></td>
+        <td colspan="3"><input type="text" name="zy" required itemname='직업' value="<?=$member_1['zy']?>" /></td>
         </tr>
         -->
         <tr>
@@ -240,21 +240,21 @@ $(function(){
             <td  colspan="3">
                 <table style="width:100%">
                     <tr>
-                        <td>은행명</td><td><input type="text" name="bank_name"  itemname='주소' style="width:40%;" value="<?=$member_1[bank_name]?>" /></td>
+                        <td>은행명</td><td><input type="text" name="bank_name"  itemname='주소' style="width:40%;" value="<?=$member_1['bank_name']?>" /></td>
                     </tr>
                     <tr>
-                        <td>계좌번호</td><td><input type="text" name="bank_account"  itemname='주소' style="width:40%;" value="<?=$member_1[bank_account]?>" /></td>
+                        <td>계좌번호</td><td><input type="text" name="bank_account"  itemname='주소' style="width:40%;" value="<?=$member_1['bank_account']?>" /></td>
                     </tr>
                     <tr>
-                    <td>이름</td><td><input type="text" name="bank_owner"  itemname='주소' style="width:40%;" value="<?=$member_1[bank_owner]?>" /></td>
+                    <td>이름</td><td><input type="text" name="bank_owner"  itemname='주소' style="width:40%;" value="<?=$member_1['bank_owner']?>" /></td>
                     </tr>
                 </table>
             </td>
         </tr>
         <?}else{?>
-            <input type="hidden" name="bank_name"  itemname='주소' style="width:40%;" value="<?=$member_1[bank_name]?>" />
-            <input type="hidden" name="bank_account"  itemname='주소' style="width:40%;" value="<?=$member_1[bank_account]?>" />
-            <input type="hidden" name="bank_owner"  itemname='주소' style="width:40%;" value="<?=$member_1[bank_owner]?>" />
+            <input type="hidden" name="bank_name"  itemname='주소' style="width:40%;" value="<?=$member_1['bank_name']?>" />
+            <input type="hidden" name="bank_account"  itemname='주소' style="width:40%;" value="<?=$member_1['bank_account']?>" />
+            <input type="hidden" name="bank_owner"  itemname='주소' style="width:40%;" value="<?=$member_1['bank_owner']?>" />
         <?}?>
 
 		        <tr>
@@ -268,7 +268,7 @@ $(function(){
         </tr>
         <tr>
         <td>소식받기</td>
-        <td colspan="3"><label><input type="checkbox" name="is_message" <?=$member_1[is_message]=="Y"?"checked":""?> />※ 아이엠, 셀링솔루션, 셀링대회, 제휴업체, 셀링교육, 마케팅지원과 온리원그룹 활동 및 사업소식을 전달합니다.</label></td>
+        <td colspan="3"><label><input type="checkbox" name="is_message" <?=$member_1['is_message']=="Y"?"checked":""?> />※ 아이엠, 셀링솔루션, 셀링대회, 제휴업체, 셀링교육, 마케팅지원과 온리원그룹 활동 및 사업소식을 전달합니다.</label></td>
         </tr>                                                
         <tr>
         <td colspan="4" style="text-align:center;padding:30px;">
@@ -284,14 +284,14 @@ $(function(){
 				$sql_serch=" buyer_id ='{$_SESSION['one_member_id']}' ";
 				if($_REQUEST['search_date'])
 				{					
-					if($_REQUEST[rday1])
+					if($_REQUEST['rday1'])
 					{
-					$start_time=strtotime($_REQUEST[rday1]);
+					$start_time=strtotime($_REQUEST['rday1']);
 					$sql_serch.=" and unix_timestamp({$_REQUEST['search_date']}) >=$start_time ";
 					}
-					if($_REQUEST[rday2])
+					if($_REQUEST['rday2'])
 					{
-					$end_time=strtotime($_REQUEST[rday2]);
+					$end_time=strtotime($_REQUEST['rday2']);
 					$sql_serch.=" and unix_timestamp({$_REQUEST['search_date']}) <= $end_time ";
 					}
 				}
@@ -443,8 +443,8 @@ jQuery(function($){
                 <?	
 				}
 				?>
-                <input type="text" name="rday1" placeholder="" id="rday1" value="<?=$_REQUEST[rday1]?>"/> ~
-                <input type="text" name="rday2" placeholder="" id="rday2" value="<?=$_REQUEST[rday2]?>"/>
+                <input type="text" name="rday1" placeholder="" id="rday1" value="<?=$_REQUEST['rday1']?>"/> ~
+                <input type="text" name="rday2" placeholder="" id="rday2" value="<?=$_REQUEST['rday2']?>"/>
                 <a href="javascript:void(0)" onclick="pay_form.submit()"><img src="images/sub_mypage_11.jpg" /></a>                                            
             </div>
             <div>
@@ -493,11 +493,11 @@ jQuery(function($){
                 <td><?=$row['month_cnt']?>개월</td>
                 <!--<td><?=$row['fujia_status']?></td>-->
                 <td>문자</td>
-                <td><?=$pay_type[$row[payMethod]]?$pay_type[$row[payMethod]]:"무통장"?></td>
+                <td><?=$pay_type[$row['payMethod']]?$pay_type[$row['payMethod']]:"무통장"?></td>
                 <td><?=$row['add_phone']?></td>
                 <td><?=$row['phone_cnt']?></td>
                 <!--<td><?=count($num_arr)?></td>-->
-                <td><?=number_format($row[TotPrice])?>원</td>
+                <td><?=number_format($row['TotPrice'])?>원</td>
                 <td>
 				<?=$pay_result_status[$row['end_status']]?>
                	<?php if($row['monthly_yn'] == "Y") {?>
@@ -505,7 +505,7 @@ jQuery(function($){
                 <?php }?>
              
 				<!--
-               	<?=$row['end_status']=="Y" && !count($num_arr) && strtotime("+1 week",strtotime($row['date'])) > time() ?"<a href=\"javascript:void(0)\" onclick=\"pay_cancel('{$row['no']}','{$row[payMethod]}','{$row[mid]}','{$row[tid]}','{$row['end_date']}','{$row['fujia_status']}')\" class=\"a_btn_2\">해지</a>":""?>
+               	<?=$row['end_status']=="Y" && !count($num_arr) && strtotime("+1 week",strtotime($row['date'])) > time() ?"<a href=\"javascript:void(0)\" onclick=\"pay_cancel('{$row['no']}','{$row['payMethod']}','{$row['mid']}','{$row['tid']}','{$row['end_date']}','{$row['fujia_status']}')\" class=\"a_btn_2\">해지</a>":""?>
                	-->
                	<? //=$row['end_status']=="N"?"<a href='javascript:void(0)' onclick=\"pay_ex_go('{$row['no']}','{$row['end_date']}','{$is_chrome}')\" class='a_btn_2'>연장</a>":""?>
 
@@ -519,14 +519,14 @@ jQuery(function($){
 				$sql_serch=" buyer_id ='{$_SESSION['one_member_id']}' ";
 				if($_REQUEST['search_date'])
 				{					
-					if($_REQUEST[rday1])
+					if($_REQUEST['rday1'])
 					{
-					$start_time=strtotime($_REQUEST[rday1]);
+					$start_time=strtotime($_REQUEST['rday1']);
 					$sql_serch.=" and unix_timestamp({$_REQUEST['search_date']}) >=$start_time ";
 					}
-					if($_REQUEST[rday2])
+					if($_REQUEST['rday2'])
 					{
-					$end_time=strtotime($_REQUEST[rday2]);
+					$end_time=strtotime($_REQUEST['rday2']);
 					$sql_serch.=" and unix_timestamp({$_REQUEST['search_date']}) <= $end_time ";
 					}
 				}
@@ -593,11 +593,11 @@ jQuery(function($){
                 <td><?=$row['month_cnt']?>개월</td>
                 <!--<td><?=$row['fujia_status']?></td>-->
                 <td>디버</td>                
-                <td><?=$pay_type[$row[payMethod]]?$pay_type[$row[payMethod]]:"카드"?></td>
+                <td><?=$pay_type[$row['payMethod']]?$pay_type[$row['payMethod']]:"카드"?></td>
                 <td><?=$row['add_phone']?></td>
                 <td><?=$row['phone_cnt']?></td>
                 <!--<td><?=count($num_arr)?></td>-->
-                <td><?=number_format($row[TotPrice])?>원</td>
+                <td><?=number_format($row['TotPrice'])?>원</td>
                 <td>
 				<?=$pay_result_status[$row['end_status']]?>
                	<?php if($row['monthly_yn'] == "Y") {?>
@@ -605,7 +605,7 @@ jQuery(function($){
                 <?php }?>
              
 				<!--
-               	<?=$row['end_status']=="Y" && !count($num_arr) && strtotime("+1 week",strtotime($row['date'])) > time() ?"<a href=\"javascript:void(0)\" onclick=\"pay_cancel('{$row['no']}','{$row[payMethod]}','{$row[mid]}','{$row[tid]}','{$row['end_date']}','{$row['fujia_status']}')\" class=\"a_btn_2\">해지</a>":""?>
+               	<?=$row['end_status']=="Y" && !count($num_arr) && strtotime("+1 week",strtotime($row['date'])) > time() ?"<a href=\"javascript:void(0)\" onclick=\"pay_cancel('{$row['no']}','{$row['payMethod']}','{$row['mid']}','{$row['tid']}','{$row['end_date']}','{$row['fujia_status']}')\" class=\"a_btn_2\">해지</a>":""?>
                	-->
                	<? //=$row['end_status']=="N"?"<a href='javascript:void(0)' onclick=\"pay_ex_go('{$row['no']}','{$row['end_date']}','{$is_chrome}')\" class='a_btn_2'>연장</a>":""?>
 
@@ -642,16 +642,16 @@ jQuery(function($){
 <!--<?php if($_SESSION['one_mem_lev'] == "50"){       
     $query = "";
     $sql_serch = "";
-				if($_REQUEST[krday1] || $_REQUEST[krday2])
+				if($_REQUEST['krday1'] || $_REQUEST['krday2'])
 				{					
-					if($_REQUEST[krday1])
+					if($_REQUEST['krday1'])
 					{
-					$start_time=strtotime($_REQUEST[krday1]);
+					$start_time=strtotime($_REQUEST['krday1']);
 					$sql_serch.=" and unix_timestamp(a.date) >=$start_time ";
 					}
-					if($_REQUEST[sday2])
+					if($_REQUEST['sday2'])
 					{
-					$end_time=strtotime($_REQUEST[krday2]);
+					$end_time=strtotime($_REQUEST['krday2']);
 					$sql_serch.=" and unix_timestamp(a.date) <= $end_time ";
 					}
 				}    
@@ -687,8 +687,8 @@ jQuery(function($){
         </div>
         <div>
             <div class="p1">
-                <input type="text" name="krday1" placeholder="" id="krday1" value="<?=$_REQUEST[krday1]?>"/> ~
-                <input type="text" name="krday2" placeholder="" id="krday2" value="<?=$_REQUEST[krday2]?>"/>
+                <input type="text" name="krday1" placeholder="" id="krday1" value="<?=$_REQUEST['krday1']?>"/> ~
+                <input type="text" name="krday2" placeholder="" id="krday2" value="<?=$_REQUEST['krday2']?>"/>
                 <a href="javascript:void(0)" onclick="payment_form.submit()"><img src="images/sub_mypage_11.jpg" /></a>                                            
             </div>
             <div>
@@ -784,16 +784,16 @@ jQuery(function($){
 <?php if($_SESSION['one_mem_lev'] == "50"){       
     $query = "";
     $sql_serch = "";
-				if($_REQUEST[sday1] || $_REQUEST[sday2])
+				if($_REQUEST[sday1] || $_REQUEST['sday2'])
 				{					
 					if($_REQUEST[sday1])
 					{
 					$start_time=strtotime($_REQUEST[sday1]);
 					$sql_serch.=" and unix_timestamp(a.date) >=$start_time ";
 					}
-					if($_REQUEST[sday2])
+					if($_REQUEST['sday2'])
 					{
-					$end_time=strtotime($_REQUEST[sday2]);
+					$end_time=strtotime($_REQUEST['sday2']);
 					$sql_serch.=" and unix_timestamp(a.date) <= $end_time ";
 					}
 				}    
@@ -860,7 +860,7 @@ jQuery(function($){
         <div>
             <div class="p1">
                 <input type="text" name="sday1" placeholder="" id="sday1" value="<?=$_REQUEST[sday1]?>"/> ~
-                <input type="text" name="sday2" placeholder="" id="sday2" value="<?=$_REQUEST[sday2]?>"/>
+                <input type="text" name="sday2" placeholder="" id="sday2" value="<?=$_REQUEST['sday2']?>"/>
                 <a href="javascript:void(0)" onclick="payment_form.submit()"><img src="images/sub_mypage_11.jpg" /></a>                                            
             </div>
             <div>

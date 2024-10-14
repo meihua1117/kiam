@@ -68,7 +68,7 @@ function copyHtml(){
                         $sql="select service_type from Gn_Member where mem_id='".$_SESSION['one_member_id']."' and site != ''";
                         $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
                         $row=mysqli_fetch_array($result);
-                        $service_type = $row[service_type];
+                        $service_type = $row['service_type'];
                         $sql="select count(coach_id) as cnt from gn_coach_apply a inner join Gn_Member b on b.mem_code = a.mem_code where b.mem_id='".$_SESSION['one_member_id']."'";
                         $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
                         $row=mysqli_fetch_array($result);

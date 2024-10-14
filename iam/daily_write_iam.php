@@ -601,7 +601,7 @@ $skrow['cnt'] = $skrow['cnt'] * 1 - $count;
                                         <?
                                         for ($i = 9; $i < 20; $i++) {
                                             $iv = $i < 10 ? "0" . $i : $i;
-                                            $htime = $_GET[htime] ? $_GET[htime] : '15';
+                                            $htime = $_GET['htime'] ? $_GET['htime'] : '15';
                                             $selected = $htime == $iv ? "selected" : "";
                                         ?>
                                             <option value="<?= $iv ?>" <?= $selected ?>><?= $iv ?></option>
@@ -613,7 +613,7 @@ $skrow['cnt'] = $skrow['cnt'] * 1 - $count;
                                         <?
                                         for ($i = 0; $i < 60; $i += 10) {
                                             $iv = $i == 0 ? "00" : $i;
-                                            $mtime = $row[mtime] ? $row[mtime] : $_GET[mtime];
+                                            $mtime = $row['mtime'] ? $row['mtime'] : $_GET['mtime'];
                                             $selected = $mtime == $iv ? "selected" : "";
                                         ?>
                                             <option value="<?= $iv ?>" <?= $selected ?>><?= $iv ?></option>
@@ -688,7 +688,7 @@ $skrow['cnt'] = $skrow['cnt'] * 1 - $count;
                                 <?
                                 for ($i = 9; $i < 22; $i++) {
                                     $iv = $i < 10 ? "0" . $i : $i;
-                                    $selected = $row[htime] == $iv ? "selected" : "";
+                                    $selected = $row['htime'] == $iv ? "selected" : "";
                                 ?>
                                 <option value="<?= $iv ?>" <?= $selected ?>><?= $iv ?></option>
                                 <?
@@ -699,7 +699,7 @@ $skrow['cnt'] = $skrow['cnt'] * 1 - $count;
                                 <?
                                 for ($i = 0; $i < 31; $i += 30) {
                                     $iv = $i == 0 ? "00" : $i;
-                                    $selected = $row[mtime] == $iv ? "selected" : "";
+                                    $selected = $row['mtime'] == $iv ? "selected" : "";
                                 ?>
                                 <option value="<?= $iv ?>" <?= $selected ?>><?= $iv ?></option>
                                 <?

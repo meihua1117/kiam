@@ -13,11 +13,11 @@ if($_SESSION['one_member_id']){
 	if($row){
 
     $card_name = $row['mem_name'];
-	$card_company = $row[zy];
+	$card_company = $row['zy'];
 	$card_phone = $row['mem_phone'];
 	$card_email = $row['mem_email'];
-    $card_addr = $row[mem_add1];
-    $card_birth = $row[mem_birth];
+    $card_addr = $row['mem_add1'];
+    $card_birth = $row['mem_birth'];
 
     $card_phone = str_replace("-", "", $card_phone);
 

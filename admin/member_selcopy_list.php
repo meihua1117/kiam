@@ -327,10 +327,10 @@ function excel_down_(){
                             <?php echo $remain_date;?>
                         </td>                          
                         <td>
-                            <?=$pay_type[$row[payMethod]]?$pay_type[$row[payMethod]]:"카드"?>
+                            <?=$pay_type[$row['payMethod']]?$pay_type[$row['payMethod']]:"카드"?>
                         </td>                          
-                        <td><?=number_format($row[TotPrice])?></td>
-                        <td><?=number_format($row[TotPrice]*0.01*$row['share_per'])?></td>
+                        <td><?=number_format($row['TotPrice'])?></td>
+                        <td><?=number_format($row['TotPrice']*0.01*$row['share_per'])?></td>
                         <td><?=$pay_result_status[$row['end_status']]?></td>
                       </tr>
                     <?

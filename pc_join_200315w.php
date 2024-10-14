@@ -279,7 +279,7 @@ $(function(){
                                         </div>							   
         <tr>
         <td>온리원그룹 소식받기</td>
-        <td colspan="3"><label><input type="checkbox" name="is_message" <?=$member_1[is_message]=="Y"?"checked":"checked"?> />※ 아이엠, 셀링솔루션, 셀링대회, 제휴업체, 셀링교육, 마케팅지원과 온리원그룹 활동 및 사업소식을 전달합니다.</label></td>
+        <td colspan="3"><label><input type="checkbox" name="is_message" <?=$member_1['is_message']=="Y"?"checked":"checked"?> />※ 아이엠, 셀링솔루션, 셀링대회, 제휴업체, 셀링교육, 마케팅지원과 온리원그룹 활동 및 사업소식을 전달합니다.</label></td>
         </td>
         </tr>
         

@@ -45,12 +45,12 @@ $(function(){
         <?
         $sql_serch=" buyer_id ='{$_SESSION['one_member_id']}' ";
         if($_REQUEST['search_date']){
-            if($_REQUEST[rday1]){
-                $start_time=strtotime($_REQUEST[rday1]);
+            if($_REQUEST['rday1']){
+                $start_time=strtotime($_REQUEST['rday1']);
                 $sql_serch.=" and unix_timestamp({$_REQUEST['search_date']}) >=$start_time ";
             }
-            if($_REQUEST[rday2]){
-                $end_time=strtotime($_REQUEST[rday2]);
+            if($_REQUEST['rday2']){
+                $end_time=strtotime($_REQUEST['rday2']);
                 $sql_serch.=" and unix_timestamp({$_REQUEST['search_date']}) <= $end_time ";
             }
         }
@@ -117,8 +117,8 @@ $(function(){
 <?
                         }
 ?>
-                        <input type="date" name="rday1" placeholder="" id="rday1" value="<?=$_REQUEST[rday1]?>"/> ~
-                        <input type="date" name="rday2" placeholder="" id="rday2" value="<?=$_REQUEST[rday2]?>"/>
+                        <input type="date" name="rday1" placeholder="" id="rday1" value="<?=$_REQUEST['rday1']?>"/> ~
+                        <input type="date" name="rday2" placeholder="" id="rday2" value="<?=$_REQUEST['rday2']?>"/>
                         <a href="javascript:void(0)" onclick="pay_form.submit()"><img src="images/sub_mypage_11.jpg" /></a>
                     </div>
                     <div>
@@ -157,10 +157,10 @@ $(function(){
                                             <td>정기</td>
                                         <?}?>
                                         <td>문자</td>
-                                        <td><?=$pay_type[$row[payMethod]]?$pay_type[$row[payMethod]]:"카드"?></td>
+                                        <td><?=$pay_type[$row['payMethod']]?$pay_type[$row['payMethod']]:"카드"?></td>
                                         <td><?=$row['add_phone']?></td>
                                         <td><?=$row['phone_cnt']?></td>
-                                        <td><?=number_format($row[TotPrice])?>원</td>
+                                        <td><?=number_format($row['TotPrice'])?>원</td>
                                         <td>
                                             <?=$pay_result_status[$row['end_status']]?>
                                             <?if($row['monthly_yn'] == "Y") {?>
@@ -183,12 +183,12 @@ $(function(){
 
                                 $sql_serch=" buyer_id ='{$_SESSION['one_member_id']}' ";
                                 if($_REQUEST['search_date']){
-                                    if($_REQUEST[rday1]){
-                                        $start_time=strtotime($_REQUEST[rday1]);
+                                    if($_REQUEST['rday1']){
+                                        $start_time=strtotime($_REQUEST['rday1']);
                                         $sql_serch.=" and unix_timestamp({$_REQUEST['search_date']}) >=$start_time ";
                                     }
-                                    if($_REQUEST[rday2]){
-                                        $end_time=strtotime($_REQUEST[rday2]);
+                                    if($_REQUEST['rday2']){
+                                        $end_time=strtotime($_REQUEST['rday2']);
                                         $sql_serch.=" and unix_timestamp({$_REQUEST['search_date']}) <= $end_time ";
                                     }
                                 }
@@ -244,10 +244,10 @@ $(function(){
                                         <td style="font-size:12px;"><?=$row['end_date']?></td>
                                         <td><?=$row['month_cnt']?>개월</td>
                                         <td>디버</td>
-                                        <td><?=$pay_type[$row[payMethod]]?$pay_type[$row[payMethod]]:"카드"?></td>
+                                        <td><?=$pay_type[$row['payMethod']]?$pay_type[$row['payMethod']]:"카드"?></td>
                                         <td><?=$row['add_phone']?></td>
                                         <td><?=$row['phone_cnt']?></td>
-                                        <td><?=number_format($row[TotPrice])?>원</td>
+                                        <td><?=number_format($row['TotPrice'])?>원</td>
                                         <td>
                                             <?=$pay_result_status[$row['end_status']]?>
                                             <?if($row['monthly_yn'] == "Y" && $row['end_status'] == "Y") {?>

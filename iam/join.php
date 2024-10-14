@@ -18,7 +18,7 @@ include "inc/header.inc.php";
                         <input type="hidden" name="contents_count" id="contents_count" value='1'>
                         <!---->
                         <section class="input-field">
-                            <?if($domainData[service_type] == 0) {?>
+                            <?if($domainData['service_type'] == 0) {?>
                                 <h3 class="title">1. 회원가입 유형 확인*</h3>
                                 <input type="radio" name="service_type" value="0" class="check" checked>무료회원
                                 <div class="utils clearfix">
@@ -27,7 +27,7 @@ include "inc/header.inc.php";
                                         2.본 플랫폼의 1번 카드가 공유되며,홍보용 유용콘텐츠나 알림 수신이 동의 처리 됩니다.
                                     </span>
                                 </div>
-                            <?} elseif($domainData[service_type] == 1) {?>
+                            <?} elseif($domainData['service_type'] == 1) {?>
                                 <h3 class="title">1. 회원가입 유형 확인*</h3>
                                 <input type="radio" name="service_type" value="4" class="check" checked>유료회원
                                 <div class="utils clearfix">
@@ -36,7 +36,7 @@ include "inc/header.inc.php";
                                         2.내 아이엠을 만들 때는 정기결제를 진행해야 합니다.
                                     </span>
                                 </div>
-                            <?} elseif($domainData[service_type] == 2) {?>
+                            <?} elseif($domainData['service_type'] == 2) {?>
                                 <h3 class="title">1. 회원가입 유형 확인*</h3>
                                 <input type="radio" name="service_type" value="5" class="check" checked>단체회원
                                 <div class="utils clearfix">
@@ -238,7 +238,7 @@ include "inc/header.inc.php";
                                     <div class="attr-name">추천인 ID</div>
                                     <div class="attr-value">
                                         <div class="input-wrap">
-                                            <input type="text"  class="input" name="recommend_id" id="recommend_id" onblur="check_recommender()" itemname='추천인ID' value="<?=$_GET[recommend_id];?>"/>
+                                            <input type="text"  class="input" name="recommend_id" id="recommend_id" onblur="check_recommender()" itemname='추천인ID' value="<?=$_GET['recommend_id'];?>"/>
                                             <input type="hidden" id="is_exist_recommender" name="is_exist_recommender">
                                         </div>
                                         <div class="desc">

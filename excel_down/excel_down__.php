@@ -17,7 +17,7 @@ if(strlen($_REQUEST[one_member_id]) > 0) {
 	->setCategory("excel file");
 
  
-		//$sql_serch=" mem_id ='$_REQUEST[one_member_id]' and grp_id = '$_REQUEST[grp_id]'";	
+		//$sql_serch=" mem_id ='$_REQUEST[one_member_id]' and grp_id = '{$_REQUEST['grp_id']}'";	
 		$sql="select * from sm_data where dest='$_REQUEST[pno]'";
 		$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 		$objPHPExcel->setActiveSheetIndex(0)
@@ -67,7 +67,7 @@ if(strlen($_REQUEST[one_member_id]) > 0) {
 		
 		$objPHPExcel->getActiveSheet()->setTitle("원마케팅문자 그룹전화번호");
 		$objPHPExcel->setActiveSheetIndex(0);
-		$filename="onemarket_group_".iconv("utf8","euckr",$_REQUEST[grp_id]).".xls";
+		$filename="onemarket_group_".iconv("utf8","euckr",$_REQUEST['grp_id']).".xls";
  
 
 	header('Content-type: application/vnd.ms-excel; charset=utf-8');

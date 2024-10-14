@@ -19,7 +19,7 @@ if($_POST['pay_type'] == "message_set"){
                 idx='$allat_order_no',
                 orderNumber='$allat_order_no',
                 VACT_InputName='{$mem_data['mem_name']}',
-                TotPrice='$_POST[allat_amt]',
+                TotPrice='{$_POST['allat_amt']}',
                 month_cnt='{$_POST['month_cnt']}',
                 end_date=date_add(now(),INTERVAL {$_POST['month_cnt']} month),
                 end_status='Y',
@@ -45,7 +45,7 @@ if($_POST['pay_type'] == "message_set"){
     mysqli_query($self_con,$sql);
     $pay_idx_tjd = mysqli_insert_id($self_con);
     
-    $sql = "update Gn_Member set mem_cash=mem_cash-{$_POST[allat_amt]} where mem_id='{$_POST['buyer']}'";
+    $sql = "update Gn_Member set mem_cash=mem_cash-{$_POST['allat_amt']} where mem_id='{$_POST['buyer']}'";
     mysqli_query($self_con,$sql);
     $current_cash = $mem_data['mem_cash'] * 1 - $_POST['allat_amt'] * 1;
 
@@ -64,7 +64,7 @@ if($_POST['pay_type'] == "message_set"){
                 VACT_InputName='{$mem_data['mem_name']}',
                 point_val=1,
                 type='use',
-                current_point='$mem_data[mem_point]',
+                current_point='{$mem_data['mem_point']}',
                 current_cash=$current_cash,
                 contents_cnt=1,
                 gwc_cont_pay=0,

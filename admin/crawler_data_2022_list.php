@@ -253,13 +253,13 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                 	              
                 	$res = mysqli_query($self_con,$query);
                     while($row = mysqli_fetch_array($res)) {                       	
-                            $query = "Select * from crawler_member_real where user_id='$row[user_id]'";
+                            $query = "Select * from crawler_member_real where user_id='{$row['user_id']}'";
                             $sres = mysqli_query($self_con,$query);
                             $srow = mysqli_fetch_array($sres);                                                    
                        
                   ?>
                       <tr>
-                        <td><input type="checkbox" name="diber" value="Y" data-no="<?php echo $row['']?>" <?php echo $row['']=="Y"?"checked":""?>></td>
+                        <td><input type="checkbox" name="diber" value="Y" data-no="<?=$row['']?>" <?=$row['']=="Y"?"checked":""?>></td>
                         <td><?=$number--?></td>
                         <td>
                             <?=$row['user_id']?>

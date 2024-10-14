@@ -8,7 +8,7 @@ if(isset($_GET[gwc])){
 else{
 	$gwc = 0;
 }
-if($member_iam[gwc_leb] >= 1 && $member_iam[gwc_state] == "1"){
+if($member_iam['gwc_leb'] >= 1 && $member_iam['gwc_state'] == "1"){
     $gwc_mem = 1;
 }
 else{
@@ -55,7 +55,7 @@ $name_card=mysqli_fetch_array($result);
 $card_owner = $name_card['mem_id'];
 $_SESSION['recommender_code'] = $card_owner;
 @setcookie("recommender_code", $card_owner, time()+3600);
-$_COOKIE[recommender_code] = $card_owner;
+$_COOKIE['recommender_code'] = $card_owner;
 
 //콘텐츠에 현시할 이름과 아바타
 $contents_user_name = $name_card['card_name'];
@@ -215,7 +215,7 @@ $meta_desc = $meta_row['contents_desc'];
 													$add_point = $meta_row['contents_price'] * ((int)$discount / 100);
 												}
 												else{
-													if(!$row_card[sale_cnt]){
+													if(!$row_card['sale_cnt']){
 														$style_decor = "text-decoration: line-through;";
 														$state_end = "마감";
 														$discount = 100 - ($meta_row['contents_sell_price'] / $meta_row['contents_price']) * 100;

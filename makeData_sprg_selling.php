@@ -12,19 +12,19 @@ $_SESSION['allat_amt_'] = $_POST['allat_amt'];
 $_COOKIE['allat_amt_'] = $_POST['allat_amt'];
 $_POST['max_cnt'] = $_POST['phone_cnt'];
  
-if($_POST[allat_order_no] != "") {
-    $sql = "delete from tjd_pay_result where  idx='$_POST[allat_order_no]' and  buyer_id='{$_SESSION['one_member_id']}'";
+if($_POST['allat_order_no'] != "") {
+    $sql = "delete from tjd_pay_result where  idx='{$_POST['allat_order_no']}' and  buyer_id='{$_SESSION['one_member_id']}'";
     mysqli_query($self_con,$sql);
 }
-if($_POST[payMethod] != "") {
-    $payMethod = $_POST[payMethod];
+if($_POST['payMethod'] != "") {
+    $payMethod = $_POST['payMethod'];
 }else
     $payMethod = 'CARD';
 $sql = "insert into tjd_pay_result
-            set idx='$_POST[allat_order_no]',
-                orderNumber='$_POST[allat_order_no]',
+            set idx='{$_POST['allat_order_no']}',
+                orderNumber='{$_POST['allat_order_no']}',
                 VACT_InputName='{$data['mem_name']}',
-                TotPrice='$_POST[allat_amt]',
+                TotPrice='{$_POST['allat_amt']}',
                 month_cnt='{$_POST['month_cnt']}',
                 end_date=date_add(now(),INTERVAL {$_POST['month_cnt']} month),
                 end_status='N',

@@ -109,7 +109,7 @@ if(!strcmp($REPLYCD,"0000")){//pay_test
     }
 
     if ($member_1['recommend_id'] != "") {
-        $sql = "select * from Gn_Member where mem_id='$member_1[recommend_id]' ";
+        $sql = "select * from Gn_Member where mem_id='{$member_1['recommend_id']}' ";
         $rresult = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
         if (mysqli_num_rows($rresult) > 0) {
             $rrow = mysqli_fetch_array($rresult);
@@ -118,9 +118,9 @@ if(!strcmp($REPLYCD,"0000")){//pay_test
             $branch_share_per = 0;
             // 리셀러 / 분양 회원 확인
             // 리셀러 회원인경우 분양회원 아이디 확인
-            if ($rrow[service_type] == 2) {
+            if ($rrow['service_type'] == 2) {
                 // 추천인의 추천인 검색 및 등급 확인
-                $sql = "select * from Gn_Member where mem_id='$rrow[recommend_id]'";
+                $sql = "select * from Gn_Member where mem_id='{$rrow['recommend_id']}'";
                 $rresult = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
                 $trow = mysqli_fetch_array($rresult);
                 $share_per = $recommend_per = $rrow['share_per'] ? $rrow['share_per'] : 30;
@@ -129,12 +129,12 @@ if(!strcmp($REPLYCD,"0000")){//pay_test
                     $branch_share_per = $recommend_per - $share_per;
                     $branch_share_id = $trow['mem_id'];
                 }
-            } else if ($rrow[service_type] == 3) {
+            } else if ($rrow['service_type'] == 3) {
                 $share_per = $recommend_per = $rrow['share_per'] ? $rrow['share_per'] : 50;
                 $branch_share_per = 0;
             }
 
-            $sql = "update tjd_pay_result set share_per='$share_per', branch_share_per = '$branch_share_per', share_id='$member_1[recommend_id]', branch_share_id='$branch_share_id' where no='$no'";
+            $sql = "update tjd_pay_result set share_per='$share_per', branch_share_per = '$branch_share_per', share_id='{$member_1['recommend_id']}', branch_share_id='$branch_share_id' where no='$no'";
             mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
         }
     }//디버회원가입 완료
@@ -158,7 +158,7 @@ if(!strcmp($REPLYCD,"0000")){//pay_test
     $at_cross_key      = "304f3a821cac298ff8a0ef504e1c2309";   //CrossKey값(최대200자)
     $at_fix_key        = $FIX_KEY;   //카드키(최대 24자)
     $at_sell_mm        = "00";   //할부개월값(최대  2자)
-    $at_amt            = $row[TotPrice];   //금액(최대 10자)
+    $at_amt            = $row['TotPrice'];   //금액(최대 10자)
     $at_business_type  = "0";   //결제자 카드종류(최대 1자)       : 개인(0),법인(1)
     $at_registry_no    = "";   //주민번호(최대 13자리)           : szBusinessType=0 일경우
     $at_biz_no         = "";   //사업자번호(최대 20자리)         : szBusinessType=1 일경우
@@ -237,7 +237,7 @@ if(!strcmp($REPLYCD,"0000")){//pay_test
                                                     pay_yn='Y',
                                                     msg='성공_mp_fix_ajax',
                                                     regdate = NOW(),
-                                                    amount='$row[TotPrice]',
+                                                    amount='{$row['TotPrice']}',
                                                     buyer_id='{$member_1['mem_id']}'";
         mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
         $sql = "update tjd_pay_result set monthly_yn='Y', end_status='Y' where  orderNumber='$ORDER_NO' and buyer_id='{$member_1['mem_id']}'";
@@ -256,7 +256,7 @@ if(!strcmp($REPLYCD,"0000")){//pay_test
                                                         regdate = NOW(),
                                                         pay_yn='N',
                                                         msg='".iconv("euc-kr","utf-8",$REPLYMSG)."_mp_fix_ajax"."',
-                                                        amount='$row[TotPrice]',
+                                                        amount='{$row['TotPrice']}',
                                                         buyer_id='{$member_1['mem_id']}'";
     }
 }else{
@@ -267,7 +267,7 @@ if(!strcmp($REPLYCD,"0000")){//pay_test
                                                         regdate = NOW(),
                                                         pay_yn='N',
                                                         msg='".iconv("euc-kr","utf-8",$REPLYMSG)."_mp_fix_ajax"."',
-                                                        amount='$row[TotPrice]',
+                                                        amount='{$row['TotPrice']}',
                                                         buyer_id='{$member_1['mem_id']}'";
 }
 ?>

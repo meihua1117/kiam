@@ -179,7 +179,7 @@ if ($_SESSION['one_member_id']) {
 
 	$m_email_arr = explode("@", $member_1['mem_email']);
 	$m_phone_arr = explode("-", $member_1['mem_phone']);
-	$m_birth_arr = explode("-", $member_1[mem_birth]);
+	$m_birth_arr = explode("-", $member_1['mem_birth']);
 
 	$format_month = date("Y-m");
 	$sql_format = "select idx,format_date,sendnum from Gn_MMS_Number where mem_id='{$_SESSION['one_member_id']}' order by idx desc ";
@@ -209,7 +209,7 @@ if ($_SESSION['iam_member_id']) {
 
 	$iam_email_arr = explode("@", $member_iam['mem_email']);
 	$iam_phone_arr = explode("-", $member_iam['mem_phone']);
-	$iam_birth_arr = explode("-", $member_iam[mem_birth]);
+	$iam_birth_arr = explode("-", $member_iam['mem_birth']);
 
 	$format_month = date("Y-m");
 	$sql_format = "select idx,format_date,sendnum from Gn_MMS_Number where mem_id='{$_SESSION['iam_member_id']}' order by idx desc ";

@@ -101,7 +101,7 @@ td {
                                 <label class="label label-sm" id = "sell_service_contents" style="background: #ff3333;border-radius: 50%;padding: 2px 5px;margin-left: -5px;font-size:10px"></label>
                             </a>
                             <?}?>
-                            <?if($member_iam[service_type] < 2){
+                            <?if($member_iam['service_type'] < 2){
                                 $report_link = "/iam/mypage_report_list.php";
                             }else{
                                 $report_link = "/iam/mypage_report.php";

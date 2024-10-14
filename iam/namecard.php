@@ -4,7 +4,7 @@
     $sql = "select * from Gn_Iam_lang where menu='IAM_PROFILE'";
     $result = mysqli_query($self_con,$sql);
     while($row = mysqli_fetch_array($result)) {
-        $MENU[$row[menu]][$row[pos]] = $row[$lang];
+        $MENU[$row['menu']][$row['pos']] = $row[$lang];
     }
 ?>
 <?

@@ -900,7 +900,7 @@ if($platform == "mobile"){
                                 <tr>
                                     <td>가격</td>
                                     <?foreach($pay_row as $row){?>
-                                        <td><?=number_format($row[price])?></td>
+                                        <td><?=number_format($row['price'])?></td>
                                     <?}?>
                                 </tr>
                                 <tr>
@@ -1524,7 +1524,7 @@ if($platform == "mobile"){
                                             </tr>
                                             <tr>
                                                 <td class="colored fw-bold" colspan="3" style="position:relative">
-                                                    <span id="payment" class="payment" data-num = <?=$pay_row[1][price]?>><?=number_format($pay_row[1][price])?>원</span>
+                                                    <span id="payment" class="payment" data-num = <?=$pay_row[1]['price']?>><?=number_format($pay_row[1]['price'])?>원</span>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -1675,7 +1675,7 @@ if($platform == "mobile"){
                                             </tr>
                                             <tr>
                                                 <td class="colored fw-bold" colspan="3" style="position:relative">
-                                                    <span id="payment" class="payment" data-num = <?=$pay_row[1][price]?>><?=number_format($pay_row[1][price])?>원</span>
+                                                    <span id="payment" class="payment" data-num = <?=$pay_row[1]['price']?>><?=number_format($pay_row[1]['price'])?>원</span>
                                                     <button type="button" id="iam_info_btn" class="btn btn-primary iam_info_btn" style="position:absolute;top:15px;right:10px;padding:2px;font-size:10px;" onclick="$('#iam_info_modal').modal('show');">구축정보입력</button>
                                                 </td>
                                             </tr>
@@ -1827,7 +1827,7 @@ if($platform == "mobile"){
                                             </tr>
                                             <tr>
                                                 <td class="colored fw-bold" colspan="3" style="position:relative">
-                                                    <span id="payment" class="payment" data-num = <?=$pay_row[2][price]?>><?=number_format($pay_row[2][price])?>원</span>
+                                                    <span id="payment" class="payment" data-num = <?=$pay_row[2]['price']?>><?=number_format($pay_row[2]['price'])?>원</span>
                                                     <button type="button" id="iam_info_btn" class="btn btn-primary iam_info_btn" style="position:absolute;top:15px;right:10px;padding:2px;font-size:10px;" onclick="$('#iam_info_modal').modal('show');">구축정보입력</button>
                                                 </td>
                                             </tr>
@@ -1982,7 +1982,7 @@ if($platform == "mobile"){
                                             </tr>
                                             <tr>
                                                 <td class="colored active fw-bold" colspan="3" style="position:relative">
-                                                    <span id="payment" class="payment" data-num = <?=$pay_row[3][price]?>><?=number_format($pay_row[3][price])?>원</span>
+                                                    <span id="payment" class="payment" data-num = <?=$pay_row[3]['price']?>><?=number_format($pay_row[3]['price'])?>원</span>
                                                     <button type="button" id="iam_info_btn" class="btn btn-primary iam_info_btn" style="position:absolute;top:15px;right:10px;padding:2px;font-size:10px;" onclick="$('#iam_info_modal').modal('show');">구축정보입력</button>
                                                 </td>
                                             </tr>

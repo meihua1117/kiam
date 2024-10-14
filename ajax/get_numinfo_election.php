@@ -41,8 +41,8 @@ if($_SESSION['one_member_id']){
 		$detail_company = trim($row['memo2']);
 		$detail_device = trim($row['device']);
 		$detail_reg_date = date("Y. m. d.",strtotime($row['reg_date']));
-	    $total_cnt = $row[daily_limit_cnt]; //기본 일별 총발송 가능량
-	    $donation_rate = $row[donation_rate]; 
+	    $total_cnt = $row['daily_limit_cnt']; //기본 일별 총발송 가능량
+	    $donation_rate = $row['donation_rate']; 
 	    $donation_cnt = ceil($total_cnt * $donation_rate / 100); //기부 받은 수
 	    $person_cnt = $total_cnt - $donation_cnt; //개인 발송 문자 수
 	    $send_donation_cnt = 0; //$row['gl_cnt'] //기부 받은 수 중 발송 수
@@ -128,28 +128,28 @@ if($_SESSION['one_member_id']){
         //		    //$monthly_limit_ssh = "무제한";
         //		} else if($detail_company == "KT") {
         //		    $total_cnt = 2000;			    
-        //		    $donation_rate = $row[donation_rate]; //기부 비율
+        //		    $donation_rate = $row['donation_rate']; //기부 비율
         //		    $donation_cnt = ceil($total_cnt * $donation_rate / 100); //기부 받은 수
         //		    $person_cnt = $total_cnt - $donation_cnt; //개인 발송 문자 수
         //		    $monthly_limit_ssh = "무제한";
         //		} else if($detail_company == "SK") {
         //		    $total_cnt = 3000;
-        //		    $donation_rate = $row[donation_rate]; //기부 비율
+        //		    $donation_rate = $row['donation_rate']; //기부 비율
         //		    $donation_cnt = ceil($total_cnt * $donation_rate / 100); //기부 받은 수
         //		    $person_cnt = $total_cnt - $donation_cnt; //개인 발송 문자 수
         //		    $monthly_limit_ssh = "무제한";
         //		} else {
-        //		    $total_cnt = $row[daily_limit_cnt]; //기본 일별 총발송 가능량
+        //		    $total_cnt = $row['daily_limit_cnt']; //기본 일별 총발송 가능량
         //		    $donation_cnt = ceil($total_cnt * $donation_rate / 100); //기부 받은 수
         //		    $person_cnt = $total_cnt - $donation_cnt; //개인 발송 문자 수
-        //		    $donation_rate = $row[donation_rate]; //기부 비율
+        //		    $donation_rate = $row['donation_rate']; //기부 비율
         //		}		    		    	    
         //	}		
 		//} else {
-		    $total_cnt = $row[daily_limit_cnt]; //기본 일별 총발송 가능량
+		    $total_cnt = $row['daily_limit_cnt']; //기본 일별 총발송 가능량
 		    $donation_cnt = ceil($total_cnt * $donation_rate / 100); //기부 받은 수
 		    $person_cnt = $total_cnt - $donation_cnt; //개인 발송 문자 수
-		    $donation_rate = $row[donation_rate]; //기부 비율
+		    $donation_rate = $row['donation_rate']; //기부 비율
 		//}		    		    	    
 		
 		$sshLimit = $ssh_cnt . "/" .$monthly_limit_ssh;

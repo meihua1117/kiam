@@ -55,7 +55,7 @@ extract($_GET);
     $sql = "select a.* from Gn_Gwc_Order a where a.id= '$id' and prod_state!=0 order by a.reg_date desc";
     $result = mysqli_query($self_con,$sql);
     $detail = mysqli_fetch_array($result);
-    $sql = " select * from Gn_Iam_Contents_Gwc where idx = '$detail[contents_idx]' ";
+    $sql = " select * from Gn_Iam_Contents_Gwc where idx = '{$detail['contents_idx']}' ";
 
     $res = mysqli_query($self_con,$sql);
     $row_con = mysqli_fetch_array($res);
@@ -91,12 +91,12 @@ extract($_GET);
                         <img src="<?=$row_con['contents_img']?>" alt="" style="width: 70px;height: 70px;margin-right: 10px">
                         <div>
                             <p class="fc_999"><?=$row_con['contents_title']?></p>
-                            <p class="fc_999"><?=$row_con[product_model_name]?></p>
+                            <p class="fc_999"><?=$row_con['product_model_name']?></p>
                         </div>
                     </td>
                     <td>
-                        <p class="fc_999"><?php echo $detail['contents_cnt']; ?> 개</p>
-                        <p class="padt3 fc_999"><?php echo number_format($detail['salary_price'] * 1 + $detail['contents_price'] * 1); ?>원</p>
+                        <p class="fc_999"><?=$detail['contents_cnt']; ?> 개</p>
+                        <p class="padt3 fc_999"><?=number_format($detail['salary_price'] * 1 + $detail['contents_price'] * 1); ?>원</p>
                     </td>
                     <td>
                         <p class="fc_999 mb-2"><?=$state?></p>

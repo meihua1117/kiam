@@ -138,7 +138,7 @@ while($row = mysqli_fetch_array($res)){
                                 <tr>
                                     <td>가격</td>
                                     <?foreach($pay_row as $row){?>
-                                        <td><input style="text-align:right" type="number" min=0 value=<?=$row[price]?> data-idx="<?=$row['idx']?>" data-name="price"></td>
+                                        <td><input style="text-align:right" type="number" min=0 value=<?=$row['price']?> data-idx="<?=$row['idx']?>" data-name="price"></td>
                                     <?}?>
                                 </tr>
                                 <tr>

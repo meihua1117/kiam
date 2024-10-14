@@ -21,11 +21,11 @@ if(isset($_POST['settle_type'])){
                     set buyer_id='{$_SESSION['one_member_id']}',
                         buyer_tel='{$data['mem_phone']}',
                         item_name = '$member_type',
-                        item_price=$_POST[allat_amt],
+                        item_price={$_POST['allat_amt']},
                         pay_date=NOW(),
                         pay_status='Y',
-                        pay_percent='$_POST[pay_percent]',
-                        order_number = '$_POST[allat_order_no]',
+                        pay_percent='{$_POST['pay_percent']}',
+                        order_number = '{$_POST['allat_order_no']}',
                         VACT_InputName='{$data['mem_name']}',
                         point_val=$point,
                         type='question',
@@ -41,11 +41,11 @@ if(isset($_POST['settle_type'])){
         if(mysqli_num_rows($res_service)){
             $row = mysqli_fetch_array($res_service);
             if($row['contents_point_end'] < $date_today){
-                $min_point = $_POST[allat_amt] * 1;
+                $min_point = $_POST['allat_amt'] * 1;
             }
             else{
                 if($row['contents_send_point'] == ''){
-                    $min_point = $_POST[allat_amt] * 1;
+                    $min_point = $_POST['allat_amt'] * 1;
                 }
                 else if($row['contents_send_point'] == 0){
                     $min_point = 0;
@@ -56,7 +56,7 @@ if(isset($_POST['settle_type'])){
             }
         }
         else{
-            $min_point = $_POST[allat_amt] * 1;
+            $min_point = $_POST['allat_amt'] * 1;
         }
 
         $sql_con_title = "select contents_title from Gn_Iam_Contents where idx={$member_type}";
@@ -80,11 +80,11 @@ if(isset($_POST['settle_type'])){
                             pay_method='$arr_id[$i]',
                             item_name = '$item_name',
                             item_price=$min_point,
-                            seller_id='$_POST[seller_id]',
+                            seller_id='{$_POST['seller_id']}',
                             pay_date=NOW(),
                             pay_status='Y',
-                            pay_percent='$_POST[pay_percent]',
-                            order_number = '$_POST[allat_order_no]',
+                            pay_percent='{$_POST['pay_percent']}',
+                            order_number = '{$_POST['allat_order_no']}',
                             VACT_InputName='{$data['mem_name']}',
                             point_val=$point,
                             type='contentssend',
@@ -105,7 +105,7 @@ if(isset($_POST['settle_type'])){
 
         $mem_ids = $mem_ori . "," . $payMethod;
         if($mem_ids != "") {
-            $share_array = explode($mem_ids);
+            $share_array = explode(",",$mem_ids);
             $share_count = count($share_array);
         }
         $sql_share_con = "update Gn_Iam_Contents set contents_share_text='{$mem_ids}',contents_share_count = $share_count, up_data=now() where idx={$member_type}";
@@ -133,7 +133,7 @@ if(isset($_POST['settle_type'])){
                     $contents_share_txt = str_replace($row_mem['pay_method'], "", $contents_share_txt);
                     $share_count = 0;
                     if($contents_share_txt != "") {
-                        $share_array = explode($contents_share_txt);
+                        $share_array = explode(",",$contents_share_txt);
                         $share_count = count($share_array);
                     }
                     $sql_update_con = "update Gn_Iam_Contents set contents_share_text='{$contents_share_txt}',contents_share_count=$share_count where idx={$con_id}";
@@ -156,7 +156,7 @@ if(isset($_POST['settle_type'])){
                 $contents_share_txt = str_replace($row_mem['pay_method'], "", $contents_share_txt);
                 $share_count = 0;
                 if($contents_share_txt != "") {
-                    $share_array = explode($contents_share_txt);
+                    $share_array = explode(",",$contents_share_txt);
                     $share_count = count($share_array);
                 }
                 $sql_update_con = "update Gn_Iam_Contents set contents_share_text='{$contents_share_txt}',contents_share_count=$share_count where idx={$con_id}";

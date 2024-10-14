@@ -202,12 +202,12 @@ if($get_idx){
 
                                     $sql_serch=" sms_idx ='$sms_idx' ";
                                     if($_REQUEST['search_date']){
-                                        if($_REQUEST[rday1]){
-                                            $start_time=strtotime($_REQUEST[rday1]);
+                                        if($_REQUEST['rday1']){
+                                            $start_time=strtotime($_REQUEST['rday1']);
                                             $sql_serch.=" and unix_timestamp({$_REQUEST['search_date']}) >=$start_time ";
                                         }
-                                        if($_REQUEST[rday2]){
-                                            $end_time=strtotime($_REQUEST[rday2]);
+                                        if($_REQUEST['rday2']){
+                                            $end_time=strtotime($_REQUEST['rday2']);
                                             $sql_serch.=" and unix_timestamp({$_REQUEST['search_date']}) <= $end_time ";
                                         }
                                     }
@@ -644,7 +644,7 @@ function show_chat(api){
 $(document).ready(function () {
     var textarea = document.getElementById("question");
     var limit = 110; //height limit
-    var api_state = '<?=$member_1[gpt_chat_api_key]?>';
+    var api_state = '<?=$member_1['gpt_chat_api_key']?>';
 
     textarea.oninput = function() {
         textarea.style.height = "";
@@ -1036,7 +1036,7 @@ function send_chat(){
 				예약메시지
 			</div>
 			<div class="info_box">
-                <button onclick="show_chat('<?=$member_1[gpt_chat_api_key]?>')" class="chat_btn">AI와 대화하기</button>
+                <button onclick="show_chat('<?=$member_1['gpt_chat_api_key']?>')" class="chat_btn">AI와 대화하기</button>
 			    <form method="post" name="addForm" id="addForm"  action="mypage.proc.php" enctype="multipart/form-data">
                     <input type="hidden" name="sms_idx" value="<?php echo $sms_idx;?>">
                     <input type="hidden" name="mode" id="mode" value="step_add">
@@ -1213,7 +1213,7 @@ function send_chat(){
                             <a class="newpane" href="javascript:show_new_chat();"><span style="font-size: 5px;">NEW</a>
                         </div>
                         <div class="search_keyword">
-                            <input type="hidden" name="key" id="key" value="<?=$member_1[gpt_chat_api_key]?>">
+                            <input type="hidden" name="key" id="key" value="<?=$member_1['gpt_chat_api_key']?>">
                             <textarea class="search_input" autocomplete="off" name="question" id="question" value="" title="질문을 입력하세요" placeholder="알지AI에게 질문해보세요" onclick="check_login('<?=$_SESSION['iam_member_id']?>')"></textarea>
                             <button type="button" onclick="send_post('<?=$_SESSION['iam_member_id']?>')" class="send_ask"><img src="/iam/img/send_ask.png" alt="전송"></button>
                         </div>

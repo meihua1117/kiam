@@ -575,7 +575,7 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                                         </a>
                                     </div>
                                 <?}?>
-                                <div class="second-box" style="padding: 15px;border-top: 1px solid #dddddd;<?=$card_row[post_display] == 0 ?'display:none !important':'display:flex';?>">
+                                <div class="second-box" style="padding: 15px;border-top: 1px solid #dddddd;<?=$card_row['post_display'] == 0 ?'display:none !important':'display:flex';?>">
                                     <div class="in-box" style="display: flex;border-top: none;">
                                         <div style="display: flex;vertical-align: middle">
                                             <?

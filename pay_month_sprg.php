@@ -29,12 +29,12 @@ $pay_info['onestep2'] = $_POST['onestep2'];
 $pay_info['idx'] = $orderNumber;
 $pay_info['orderNumber'] = $orderNumber;
 //if($_POST['member_type'] != "")
-//    $_POST[iam_pay_type] = $_POST['member_type'];
+//    $_POST['iam_pay_type'] = $_POST['member_type'];
 $sql = "insert into tjd_pay_result
     set idx='$orderNumber',
     orderNumber='$orderNumber',
     VACT_InputName='{$data['mem_name']}',
-    TotPrice='$pay_info[TotPrice]',
+    TotPrice='{$pay_info['TotPrice']}',
     end_date=date_add(now(),INTERVAL {$_pay_info['month_cnt']} month),
     end_status='N',
     buyertel='{$data['mem_phone']}',
@@ -46,7 +46,7 @@ $sql = "insert into tjd_pay_result
     iam_card_cnt='{$_POST['iam_card_cnt']}',
     iam_share_cnt='{$_POST['iam_share_cnt']}',
     month_cnt='{$_pay_info['month_cnt']}',
-    member_cnt='$_POST[member_cnt]',
+    member_cnt='{$_POST['member_cnt']}',
     monthly_yn = 'Y'";
 mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 ?>

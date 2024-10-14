@@ -5,7 +5,7 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/db_config.php";
 include_once $_SERVER['DOCUMENT_ROOT']."/lib/common_func.php";
 
 $_POST['id'] =$_REQUEST['id'];
-$_POST[num] =$_REQUEST[num];
+$_POST['num'] =$_REQUEST['num'];
 $_POST['send_num'] =$_REQUEST['send_num'];
 $_POST['sms'] =$_REQUEST['sms'];
 $result=0;
@@ -67,9 +67,9 @@ $phone_num = $_POST['phone_num'];
 		$sql_g="select grp_id from Gn_MMS_Receive where recv_num='{$ori_num}' order by reg_date desc limit 0,1 ";
 		$resul_g=mysqli_query($self_con,$sql_g) or die(mysqli_error($self_con));
 		$row_g=mysqli_fetch_array($resul_g);
-		if($row_g[grp_id])
+		if($row_g['grp_id'])
 		{
-		$sql_g2="select grp from Gn_MMS_Group where idx='$row_g[grp_id]' ";
+		$sql_g2="select grp from Gn_MMS_Group where idx='{$row_g['grp_id']}' ";
 		$resul_g2=mysqli_query($self_con,$sql_g2) or die(mysqli_error($self_con));
 		$row_g2=mysqli_fetch_array($resul_g2);
 		}

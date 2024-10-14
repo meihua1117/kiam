@@ -143,7 +143,7 @@ $row=mysqli_fetch_array($res);
 										</tr>
 										<tr>
 											<th class="w200">상품정가</th>
-											<td><input type="text" name="price" id="price" value="<?=$row[price]?>"></td>
+											<td><input type="text" name="price" id="price" value="<?=$row['price']?>"></td>
 										</tr>
 										<tr>
 											<th class="w200">판매가격</th>

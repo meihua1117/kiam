@@ -41,9 +41,9 @@ if($_REQUEST['status']==1 || $_REQUEST['status']==2)
 	$resul_sum=mysqli_query($self_con,$sql_sum);
 	$row_sum_b =mysqli_fetch_array($resul_sum);
 //월별 총 발송가능 횟수
-	$cu_user_cnt=$row_sum_b[sumnum]?$row_sum_b[sumnum]:0;
-	$cu_today_cnt=$row_sum_b[summax]?$row_sum_b[summax]:0;
-	$mon_text_pcount=$row_sum_b[summax]?($row_sum_b[summax] * 10)+((199 * 20)-($row_sum_b[sumgl]*20)):0;	
+	$cu_user_cnt=$row_sum_b['sumnum']?$row_sum_b['sumnum']:0;
+	$cu_today_cnt=$row_sum_b['summax']?$row_sum_b['summax']:0;
+	$mon_text_pcount=$row_sum_b['summax']?($row_sum_b['summax'] * 10)+((199 * 20)-($row_sum_b['sumgl']*20)):0;	
 //-이번달
 	$date_today=date("Y-m-d");
 	$date_month=date("Y-m");
