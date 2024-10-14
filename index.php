@@ -1448,9 +1448,9 @@ function encodeKorean($matches)
                         </script>
                         <?
                         if ($domainData['admin_iam_menu'] == 0) {
-                            $menu_query = "select * from Gn_Iam_Menu where site_iam='kiam' and menu_type='T' and use_yn = 'y' order by display_order";
+                            $menu_query = "select * from Gn_Iam_Menu where site_iam='kiam' and menu_type='T' and use_yn = 'Y' order by display_order";
                         } else {
-                            $menu_query = "select * from Gn_Iam_Menu where site_iam='{$menu_host}' and menu_type='T' and use_yn = 'y' order by display_order";
+                            $menu_query = "select * from Gn_Iam_Menu where site_iam='{$menu_host}' and menu_type='T' and use_yn = 'Y' order by display_order";
                         }
                         $menu_res = mysqli_query($self_con,$menu_query);
                         while ($menu_row = mysqli_fetch_array($menu_res)) {
