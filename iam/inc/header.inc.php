@@ -384,10 +384,10 @@ if (strpos($_SERVER['REQUEST_URI'], 'mypage_payment_item.php') === false && strp
 									</a>
 								</li>
 								<? if ($is_pay_version) {
-									if ($_SESSION['iam_member_subadmin_id'] && $domainData[pay_link]) { //payment 
+									if ($_SESSION['iam_member_subadmin_id'] && $domainData['pay_link']) { //payment 
 								?>
 										<li style="border-bottom:1px solid #ddd;text-align: left;">
-											<a class='top_menu_font' href="<?= $domainData[pay_link] ?>" target="_self">
+											<a class='top_menu_font' href="<?= $domainData['pay_link'] ?>" target="_self">
 												<img src="/iam/img/menu/icon_pay.png"  style="height: 20px"><?= "IAM 플랫폼 결제" ?>
 											</a>
 										</li>
