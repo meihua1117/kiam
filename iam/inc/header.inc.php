@@ -1,7 +1,7 @@
 <?php
 include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
 $code = whois_ascc($whois_api_key, $_SERVER['REMOTE_ADDR']);
-$language_index = $_COOKIE[language];
+$language_index = $_COOKIE['language'];
 if($language_index == "") {
 	$language_index = 1;
 	@setcookie("language", $language_index, time()+3600);
