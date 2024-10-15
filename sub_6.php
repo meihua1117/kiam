@@ -43,8 +43,12 @@ include_once "_head.php";
 	// 1) reservation ~ 30분까지만 가져간다. 
 	// 2) 시간 지난 것은 실패 처리 : Gn_MMS_ReservationFail로 이동,result = 3
 	$sql_where = "where now() > adddate(reservation,INTERVAL 30 Minute) and result = 1 and mem_id = '{$_SESSION['one_member_id']}'";
-	$sql = "insert into Gn_MMS_ReservationFail select * from Gn_MMS $sql_where";
-	mysqli_query($self_con,$sql);
+	$sql = "select * from Gn_MMS $sql_where";
+	$res = mysqli_query($self_con,$sql);
+	if(mysqli_num_rows($res) > 0){
+		$sql = "insert into Gn_MMS_ReservationFail select * from Gn_MMS $sql_where";
+		mysqli_query($self_con,$sql);
+	}
 	$sql = "update Gn_MMS_ReservationFail set result = 3 $sql_where";
 	mysqli_query($self_con,$sql);
 
