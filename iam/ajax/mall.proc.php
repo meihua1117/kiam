@@ -294,7 +294,7 @@ if($method_type == "pay_mall"){
     $mall_row = mysqli_fetch_array($mall_res);
     $item_name = $mall_row[0];
     if($iam_mall_pay_type == 1){//아이엠 몰 구매
-        $service_sql = "update Gn_Iam_Service set mem_cnt = mem_cnt + 1 where sub_domain like '%".$service."%'";
+        $service_sql = "update Gn_Iam_Service set mem_cnt = mem_cnt + 1 where sub_domain like '%{$service}%'";
         mysqli_query($self_con,$service_sql);
         $user_id = $data[3];
         $user_pwd = $data[4];

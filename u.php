@@ -4,10 +4,10 @@ include_once "lib/rlatjd_fun.php";
 
 if($_REQUEST['mode']=="inser")
 {
-	$sql="select * from Gn_MMS where uni_id='$_REQUEST[u]' ";
+	$sql="select * from Gn_MMS where uni_id='{$_REQUEST['u']}' ";
 	$resul=mysqli_query($self_con,$sql);
 	$row=mysqli_fetch_array($resul);
-    if($row['send_num'] == $_REQUEST[n]){?>
+    if($row['send_num'] == $_REQUEST['n']){?>
             <script>
             alert('셀프폰 거부 등록입니다.'); 
             location.href='http://kiam.kr'; 
@@ -31,13 +31,13 @@ if($_REQUEST['mode']=="inser")
     }
     $k = 0;
 	
-	$sql_d="select idx from Gn_MMS_Deny where send_num='{$row['send_num']}' and recv_num='$_REQUEST[n]'".$search_str;
+	$sql_d="select idx from Gn_MMS_Deny where send_num='{$row['send_num']}' and recv_num='{$_REQUEST['n']}'".$search_str;
 	$resul_d=mysqli_query($self_con,$sql_d);
 	$row_d=mysqli_fetch_array($resul_d);
 	if($row_d['idx'] != null)
 	{
 		$deny_info['send_num']=$row['send_num'];
-		$deny_info['recv_num']=$_REQUEST[n];
+		$deny_info['recv_num']=$_REQUEST['n'];
 		$deny_info['mem_id']=$row['mem_id'];
 		$deny_info['title']=$row['title'];
 		$deny_info['content']=substr(htmlspecialchars($row['content']),0,20)."...";
@@ -53,7 +53,7 @@ if($_REQUEST['mode']=="inser")
         $k = 1;
 	}
 	$user_id = $row['mem_id'];
-	$now_num = $_REQUEST[n];
+	$now_num = $_REQUEST['n'];
 	$send_num = $row['send_num'];
     // [새 번호]가 현재로그에 있는지 확인
     $query = "select now_num, old_nums from Gn_MMS_Receive_Change_Log where now_num = '$now_num'  ";
@@ -146,7 +146,7 @@ if($_REQUEST['mode']=="inser")
             }	            
         }
     }	
-	if($_REQUEST[u]){
+	if($_REQUEST['u']){
         if(!$k){
 	?>
             <script>
@@ -174,7 +174,7 @@ if($_REQUEST['mode']=="inser")
 ?>
 <script>
 	if(confirm('문자 수신거부를 하실 경우 이벤트 및 정보를 받을 수 없습니다. 무료 문자 수신거부를 등록하시겠습니까?'))
-	    location.href='<?=$PHP_SELF?>?u=<?=$_REQUEST[u]?>&n=<?=$_REQUEST[n]?>&mode=inser';		 
+	    location.href='<?=$PHP_SELF?>?u=<?=$_REQUEST['u']?>&n=<?=$_REQUEST['n']?>&mode=inser';		 
 	else
 	    location.href='http://kiam.kr';	
 </script>

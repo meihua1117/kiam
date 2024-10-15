@@ -20,7 +20,8 @@ if ($_POST['one_id'] && $_POST['one_pwd']) {
 		}
 	}
 	$mem_pass = $_POST['one_pwd'];
-	$sql = "select mem_code, mem_id, is_leave, mem_leb, iam_leb,site, site_iam from Gn_Member use index(login_index) where mem_leb>0 and ((mem_id = '{$_POST['one_id']}' and web_pwd=password('$mem_pass')) or (mem_email = '{$_POST['one_id']}' and web_pwd=password('$mem_pass'))) ";
+	//$sql = "select mem_code, mem_id, is_leave, mem_leb, iam_leb,site, site_iam from Gn_Member use index(login_index) where mem_leb>0 and ((mem_id = '{$_POST['one_id']}' and web_pwd=password('$mem_pass')) or (mem_email = '{$_POST['one_id']}' and web_pwd=password('$mem_pass'))) ";
+	$sql = "select mem_code, mem_id, is_leave, mem_leb, iam_leb,site, site_iam from Gn_Member use index(login_index) where mem_leb>0 and ((mem_id = '{$_POST['one_id']}' or mem_email = '{$_POST['one_id']}') and mem_pass=md5('$mem_pass'))";
 	$resul = mysqli_query($self_con,$sql);
 	$row = mysqli_fetch_array($resul);
 	if ($row['mem_code'] && $row['is_leave'] == 'N') {

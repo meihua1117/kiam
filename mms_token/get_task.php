@@ -45,10 +45,10 @@ if (!$token || !check_token($phone_num, $token)) {
 		));
 		exit;
 	}
-	$now_date = date("Y-m-d"); //���糯¥
-	$now_time = date("H:i:s"); //����ð�
+	$now_date = date("Y-m-d"); 
+	$now_time = date("H:i:s"); 
 	$idx = $_REQUEST['idx'];
-	$mem_id = $_POST["mem_id"]; // �߰�
+	$mem_id = $_POST["mem_id"]; 
 	$phone_num = $userId;
 	if (strlen($phone_num) > 0) {
 		$time = date("Y-m-d H:i:s");

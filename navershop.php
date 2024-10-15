@@ -4,8 +4,12 @@ $client_id = "4YcN5sW997pxrnx0M48x";
 $client_secret = "5I8bLgV1o6";
 
 $url = "https://openapi.naver.com/v1/datalab/shopping/categories";
-$body = "{\"startDate\":\"2017-08-01\",\"endDate\":\"2017-09-30\",\"timeUnit\":\"month\",\"category\":[{\"name\":\"패션의류\",\"param\":[\"50000000\"]},{\"name\":\"화장품/미용\",\"param\":[\"50000002\"]}],\"device\":\"pc\",\"ages\":[\"20\",\"30\"],\"gender\":\"f\"}";
-
+$category_arr = array();
+$category1 = array("name"=>"패션의류","param"=>array("50000000"));
+$category2 = array("name"=>"화장품/미용","param"=>array("50000002"));
+array_push($category_arr,$category1);
+array_push($category_arr,$category2);
+$body = json_encode(array("startDate"=>"2017-08-01","endDate"=>"2017-09-30","timeUnit"=>"month","category"=>$category_arr,"device"=>"pc","ages"=>array("20","30"),"gender"=>"f"));
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL, $url);
 curl_setopt($ch, CURLOPT_POST, true);
