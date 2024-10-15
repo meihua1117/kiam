@@ -2,7 +2,7 @@
 include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
 if($_SESSION['one_member_id'] != "")
 {
-	if($_POST[mode] == "add")
+	if($_POST['mode'] == "add")
 	{
 		if(isset($_POST['mail_title']) && isset($_POST['mail_content'])){
 
@@ -21,13 +21,13 @@ if($_SESSION['one_member_id'] != "")
 			mysqli_query($self_con,$sql); 
 		}
 	}
-	else if($_POST[mode]=="del")
+	else if($_POST['mode']=="del")
 	{
 		$sql="delete from gn_mail_message where idx='{$_REQUEST['idx']}' and mem_id ='{$_SESSION['one_member_id']}' ";
 		echo $sql;
 		$resul=mysqli_query($self_con,$sql);
 	}
-	else if($_POST[mode] == "send")
+	else if($_POST['mode'] == "send")
 	{
 		$recv_groups=explode(",",$_POST[group_nums]);
 		$email_arr = array();

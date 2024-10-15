@@ -41,7 +41,7 @@ if (!$_SESSION['one_member_id']) {
             url: "ajax/mypage_request_save.php",
             data: {
                 mode: "save",
-                type: "<?php echo $_REQUEST[mode]; ?>"
+                type: "<?php echo $_REQUEST['mode']; ?>"
             },
             success: function(data) {
                 $("#ajax_div").html(data);

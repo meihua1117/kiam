@@ -1,7 +1,7 @@
 <?
 include_once "../lib/rlatjd_fun.php";
 //앱체크
-if($_POST[mode] == "app_check"){
+if($_POST['mode'] == "app_check"){
     $check_num_arr = $_POST["phone_num"];
     for( $k = 0; $k < count($check_num_arr); $k++){
         $title = "app_check_process";
