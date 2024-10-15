@@ -1,6 +1,6 @@
 <?
 header("Progma:no-cache");
-$path="./";
+$path = "./";
 include_once "_head.php";
 ?>
 <!-- <script language="javascript">
@@ -19,7 +19,7 @@ include_once "_head.php";
 	$date_month = date("Y-m");
 	$trialLimit = date("Y-m-d 23:59:59", strtotime($member_1['first_regist'] . "-1 days")); //회원가입일+3일
 	$sql = "select phone_cnt from tjd_pay_result where buyer_id = '{$_SESSION['one_member_id']}' and end_date > '$date_today' and end_status in ('Y','A') and gwc_cont_pay=0 order by end_date desc";
-	$res_result = mysqli_query($self_con,$sql);
+	$res_result = mysqli_query($self_con, $sql);
 	//결제 휴대폰 수
 	$buyPhoneCnt = mysqli_fetch_row($res_result);
 	mysqli_free_result($res_result);
@@ -44,33 +44,33 @@ include_once "_head.php";
 	// 2) 시간 지난 것은 실패 처리 : Gn_MMS_ReservationFail로 이동,result = 3
 	$sql_where = "where now() > adddate(reservation,INTERVAL 30 Minute) and result = 1 and mem_id = '{$_SESSION['one_member_id']}'";
 	$sql = "select * from Gn_MMS $sql_where";
-	$res = mysqli_query($self_con,$sql);
-	if(mysqli_num_rows($res) > 0){
+	$res = mysqli_query($self_con, $sql);
+	if (mysqli_num_rows($res) > 0) {
 		$sql = "insert into Gn_MMS_ReservationFail select * from Gn_MMS $sql_where";
-		mysqli_query($self_con,$sql);
+		mysqli_query($self_con, $sql);
 	}
 	$sql = "update Gn_MMS_ReservationFail set result = 3 $sql_where";
-	mysqli_query($self_con,$sql);
+	mysqli_query($self_con, $sql);
 
 	//수신처수는 당월 차감 / 발송 수는 당일 차감
 	//오늘 예약 건 확인
 	$reserv_cnt_today = 0;
 	$sql_result2 = "select SUM(recv_num_cnt) as cnt from Gn_MMS where reservation like '$date_today%' and up_date is null and mem_id = '{$_SESSION['one_member_id']}' ";
-	$res_result2 = mysqli_query($self_con,$sql_result2);
+	$res_result2 = mysqli_query($self_con, $sql_result2);
 	$row_result2 = mysqli_fetch_array($res_result2);
 	$reserv_cnt_today += $row_result2[0] * 1;
 	mysqli_free_result($res_result2);
 	//-이번달 예약건 수
 	$reserv_cnt_thismonth = 0;
 	$sql_result = "select SUM(recv_num_cnt) as cnt from Gn_MMS where reservation like '$date_month%' and up_date is null and mem_id = '{$_SESSION['one_member_id']}' ";
-	$res_result = mysqli_query($self_con,$sql_result);
+	$res_result = mysqli_query($self_con, $sql_result);
 	$row_result = mysqli_fetch_array($res_result);
 	$reserv_cnt_today += $row_result[0] * 1;
 	mysqli_free_result($res_result);
 	//-이번달 발송된 수
 	$recv_num_ex_sum = 0;
 	$sql_result = "select SUM(recv_num_cnt) as cnt from Gn_MMS where reg_date like '$date_month%' and mem_id = '{$_SESSION['one_member_id']}' ";
-	$res_result = mysqli_query($self_con,$sql_result);
+	$res_result = mysqli_query($self_con, $sql_result);
 	$row_result = mysqli_fetch_array($res_result);
 	$recv_num_ex_sum += $row_result[0] * 1;
 	mysqli_free_result($res_result);
@@ -78,26 +78,26 @@ include_once "_head.php";
 	//-오늘발송 건 수
 	$rec_cnt_today = 0;
 	$sql_result2 = "select SUM(recv_num_cnt) as cnt from Gn_MMS where reg_date like '$date_today%' and mem_id = '{$_SESSION['one_member_id']}' ";
-	$res_result2 = mysqli_query($self_con,$sql_result2);
+	$res_result2 = mysqli_query($self_con, $sql_result2);
 	$row_result2 = mysqli_fetch_array($res_result2);
 	$rec_cnt_today += $row_result2[0] * 1;
 	mysqli_free_result($res_result2);
 	//-이번발송 $uni_id
 	$rec_cnt_current = 0;
 	$sql_result3 = "select uni_id from Gn_MMS use index(gn_mms_mem_id) where mem_id = '{$_SESSION['one_member_id']}' order by idx desc";
-	$res_result3 = mysqli_query($self_con,$sql_result3);
+	$res_result3 = mysqli_query($self_con, $sql_result3);
 	$row_result3 = mysqli_fetch_array($res_result3);
 	$uni_id = substr($row_result3['uni_id'], 0, 10);
 	mysqli_free_result($res_result3);
 	//마지막 발송 건수
 	$sql_result32 = "select SUM(recv_num_cnt) as cnt from Gn_MMS where mem_id = '{$_SESSION['one_member_id']}' and uni_id like '$uni_id%'";
-	$res_result32 = mysqli_query($self_con,$sql_result32);
+	$res_result32 = mysqli_query($self_con, $sql_result32);
 	$row_result32 = mysqli_fetch_array($res_result32);
 	$rec_cnt_current += $row_result32[0] * 1;
 	mysqli_free_result($res_result32);
 	//-마지막발송일
 	$sql_result4 = "select reg_date from Gn_MMS use index(gn_mms_mem_id) where mem_id = '{$_SESSION['one_member_id']}' order by reg_date desc";
-	$res_result4 = mysqli_query($self_con,$sql_result4);
+	$res_result4 = mysqli_query($self_con, $sql_result4);
 	$row_result4 = mysqli_fetch_row($res_result4);
 	if ($row_result4 == 0) {
 		$last_reg_date = "-";
@@ -114,7 +114,7 @@ $hour = date("H");
 $mem_phone = str_replace("-", "", $member_1['mem_phone']);
 
 $sql = "(select idx,sendnum,memo,memo2,cnt1,cnt2,donation_rate,daily_limit_cnt from Gn_MMS_Number where  sendnum = '$mem_phone') ";
-$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+$result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
 $srow = mysqli_fetch_array($result);
 $total_cnt = 0;
 if ($member_1['mem_type'] == "V" || $member_1['mem_type'] == "") {
@@ -128,7 +128,7 @@ if ($member_1['mem_type'] == "V" || $member_1['mem_type'] == "") {
 }
 ///금일발송가능 , 회발송가능 횟수
 $sql_sum = "select sum(user_cnt) as sumnum, sum(max_cnt) as summax ,sum(gl_cnt) as sumgl from Gn_MMS_Number where mem_id = '{$_SESSION['one_member_id']}'";
-$resul_sum = mysqli_query($self_con,$sql_sum);
+$resul_sum = mysqli_query($self_con, $sql_sum);
 $row_sum_b = mysqli_fetch_array($resul_sum);
 //월별 총 발송가능 횟수
 $cu_user_cnt =  "";
@@ -1123,7 +1123,7 @@ if (!empty($row_sum_b)) {
 										$sql_serch .= " and grp like '%{$_REQUEST['group_name']}%' ";
 									$sql_serch .= " and grp != '아이엠' ";
 									$sql = "select count(idx) as cnt from Gn_MMS_Group where $sql_serch ";
-									$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+									$result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
 									$row = mysqli_fetch_array($result);
 									$intRowCount = $row['cnt'];
 									if (!$_POST['lno'])
@@ -1152,7 +1152,7 @@ if (!empty($row_sum_b)) {
 										$order_name = "idx";
 									$intPageCount = (int)(($intRowCount + $intPageSize - 1) / $intPageSize);
 									$sql = "select * from Gn_MMS_Group where $sql_serch order by $order_name $order_status limit $int,$intPageSize";
-									$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+									$result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
 									?>
 									<table class="list_table" width="100%" border="0" cellspacing="0" cellpadding="0">
 										<tr>
@@ -1187,7 +1187,7 @@ if (!empty($row_sum_b)) {
 											$g = 0;
 											while ($row = mysqli_fetch_array($result)) {
 												$sql = "select count(idx) as cnt from Gn_MMS_Receive where grp_id = '{$row['idx']}' ";
-												$sresult = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+												$sresult = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
 												$srow = mysqli_fetch_array($sresult);
 										?>
 												<tr>
@@ -1255,23 +1255,22 @@ if (!empty($row_sum_b)) {
 								<div style="margin:0px 0 20px 0;height:1200px;overflow-y:auto;">
 									<?
 									$date = date("Y-m-d");
-									$sql = "select count(idx) from Gn_MMS where mem_id='{$_SESSION['one_member_id']}' and DATE(reg_date)='{$date}' and  content like '%app_check_process%' and result=0 group by send_num order by reg_date desc";
-									echo $sql;
-									$resul = mysqli_query($self_con,$sql);
+									$sql = "select count(idx) from Gn_MMS where mem_id='{$_SESSION['one_member_id']}' and DATE(reg_date)='{$date}' and  content like '%app_check_process%' and result=0 group by send_num,reg_date order by reg_date desc";
+									$resul = mysqli_query($self_con, $sql);
 									$row = mysqli_fetch_array($resul);
 									$ablable = $row[0];
 
-									$sql = "select send_num from Gn_MMS where mem_id='{$_SESSION['one_member_id']}' and DATE(reg_date)='{$date}' and  content like '%app_check_process%' and result=0 group by send_num order by reg_date desc";
-									$resul = mysqli_query($self_con,$sql);
+									$sql = "select send_num from Gn_MMS where mem_id='{$_SESSION['one_member_id']}' and DATE(reg_date)='{$date}' and  content like '%app_check_process%' and result=0 group by send_num,reg_date order by reg_date desc";
+									$resul = mysqli_query($self_con, $sql);
 									while ($row = mysqli_fetch_array($resul)) {
 										$ableNum[$row['send_num']] = $row['send_num'];
 									}
 									$sql = "select count(idx) from Gn_MMS_Number where mem_id='{$_SESSION['one_member_id']}' order by sort_no asc, user_cnt desc , idx desc";
-									$resul = mysqli_query($self_con,$sql);
+									$resul = mysqli_query($self_con, $sql);
 									$row = mysqli_fetch_array($resul);
 									$intRowCount = $row[0];
 									$sql = "select * from Gn_MMS_Number where mem_id='{$_SESSION['one_member_id']}' order by sort_no asc, user_cnt desc , idx desc";
-									$resul = mysqli_query($self_con,$sql);
+									$resul = mysqli_query($self_con, $sql);
 									?>
 									<div class="button_box">
 										<div class="left_box">
@@ -1314,7 +1313,7 @@ if (!empty($row_sum_b)) {
 													$row['user_cnt'] = $row['daily_limit_cnt_user'];
 													$is_send = true;
 													$sql_result2_g = "select SUM(recv_num_cnt) from Gn_MMS where send_num='{$row['sendnum']}' and ((reg_date like '$today_reg%' and reservation is null) or reservation like '$today_reg%')";
-													$res_result2_g = mysqli_query($self_con,$sql_result2_g) or die(mysqli_error($self_con));
+													$res_result2_g = mysqli_query($self_con, $sql_result2_g) or die(mysqli_error($self_con));
 													$today_cnt_1 = 0;
 													$row_result2_g = mysqli_fetch_array($res_result2_g);
 													$today_cnt_1 += $row_result2_g[0] * 1;
@@ -1347,7 +1346,7 @@ if (!empty($row_sum_b)) {
 													//이번 달 총 수신처 수
 													$ssh_cnt = 0;
 													$sql_ssh = "select recv_num from Gn_MMS where send_num='" . $row['sendnum'] . "' and and (reg_date like '$date_month%' or reservation like '$date_month%')  group by(recv_num)";
-													$result_ssh = mysqli_query($self_con,$sql_ssh);
+													$result_ssh = mysqli_query($self_con, $sql_ssh);
 													while ($row_ssh = mysqli_fetch_array($result_ssh)) {
 														$ssh_arr = explode(",", $row_ssh['recv_num']);
 														$ssh_numT = array_merge($ssh_numT, (array)$ssh_arr);
@@ -1398,7 +1397,7 @@ if (!empty($row_sum_b)) {
 														$send_status = "<span style='color:red'>불가</span>";
 													}
 													$sql_s = "select status,regdate from Gn_MMS_status where send_num='{$row['sendnum']}' order by regdate desc";
-													$resul_s = mysqli_query($self_con,$sql_s);
+													$resul_s = mysqli_query($self_con, $sql_s);
 													$row_s = mysqli_fetch_array($resul_s);
 													mysqli_free_result($resul_s);
 													if ($row_s['status'] == "-1") {
@@ -1419,7 +1418,7 @@ if (!empty($row_sum_b)) {
 																} ?>">
 														<td style="text-align:left;">
 															<label>
-															    <input type="checkbox" name="go_num" value="<?= $row['sendnum'] ?>" <?= !$is_send ? "disabled" : "" ?> <?= $fujia_pay == "" && $row['sendnum'] != $mem_phone ? "disabled" : "" ?> onclick="send_sj_fun()" data-user_cnt="<?= $row['user_cnt'] ?>" data-send-cnt="<?= $ssh_cnt ?>" data-max-cnt="<?= $monthly_limit_ssh ?>" data-name="<?= $row['memo'] ?>" /><?= $row['sendnum'] ?>
+																<input type="checkbox" name="go_num" value="<?= $row['sendnum'] ?>" <?= !$is_send ? "disabled" : "" ?> <?= $fujia_pay == "" && $row['sendnum'] != $mem_phone ? "disabled" : "" ?> onclick="send_sj_fun()" data-user_cnt="<?= $row['user_cnt'] ?>" data-send-cnt="<?= $ssh_cnt ?>" data-max-cnt="<?= $monthly_limit_ssh ?>" data-name="<?= $row['memo'] ?>" /><?= $row['sendnum'] ?>
 															</label>
 															<input type="hidden" name="go_user_cnt" value="<?= $row['user_cnt'] ?>" />
 															<input type="hidden" name="go_max_cnt" value="<?= $row['daily_limit_cnt_user'] ?>" />
@@ -1682,7 +1681,7 @@ if (!empty($row_sum_b)) {
 	<input type="hidden" name="excel_sql" value="<?= $excel_sql ?>" />
 </form>
 <iframe name="excel_iframe" style="display:none"></iframe>
-<?include_once "_foot.php";?>
+<? include_once "_foot.php"; ?>
 <script language="javascript" src="js/mms_send.2020.js?<?= date("His") ?>"></script>
 <script language="javascript">
 	$('#use_cnt').html('<?= $use_phone_cnt ?>');
