@@ -7,9 +7,6 @@ $gpt_an = get_search_key('gpt_answer_example');
 $gpt_qu_arr = explode("||", $gpt_qu);
 $gpt_an_arr = explode("||", $gpt_an);
 
-// if(!$member_iam['gpt_chat_api_key']){
-//     echo '<script>alert("회원정보에서 본인의 API 키를 입력해주세요."); location.href="mypage.php";</script>';
-// }
 ?>
 <link rel="stylesheet" href="/iam/css/button.css">
 <link rel="stylesheet" href="/iam/css/style_gwc.css">

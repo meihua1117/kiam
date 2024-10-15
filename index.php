@@ -11403,10 +11403,6 @@ function encodeKorean($matches)
         var contextarray = [];
 
         function show_chat(api) {
-            // if(api == ''){
-            //     alert("회원정보에서 본인의 API 키를 입력해주세요.");
-            //     location.href="mypage.php";
-            // }
             $("#gpt_chat_modal").modal('show');
         }
         $(document).ready(function() {

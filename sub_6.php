@@ -319,10 +319,6 @@ if (!empty($row_sum_b)) {
 	}
 	//gpt chat script
 	function show_chat(api) {
-		// if(api == ''){
-		// 	alert("회원정보에서 본인의 API 키를 입력해주세요.");
-		// 	location.href="mypage.php";
-		// }
 		$("#gpt_chat_modal").show();
 		$("#tutorial-loading").show();
 		$('body,html').animate({
@@ -1259,12 +1255,13 @@ if (!empty($row_sum_b)) {
 								<div style="margin:0px 0 20px 0;height:1200px;overflow-y:auto;">
 									<?
 									$date = date("Y-m-d");
-									$sql = "select count(idx) from Gn_MMS where mem_id='" . $_SESSION['one_member_id'] . "' and DATE(reg_date)='" . $date . "' and  content like '%app_check_process%' and result=0 group by send_num order by reg_date desc";
+									$sql = "select count(idx) from Gn_MMS where mem_id='{$_SESSION['one_member_id']}' and DATE(reg_date)='{$date}' and  content like '%app_check_process%' and result=0 group by send_num order by reg_date desc";
+									echo $sql;
 									$resul = mysqli_query($self_con,$sql);
 									$row = mysqli_fetch_array($resul);
 									$ablable = $row[0];
 
-									$sql = "select send_num from Gn_MMS where mem_id='" . $_SESSION['one_member_id'] . "' and DATE(reg_date)='" . $date . "' and  content like '%app_check_process%' and result=0 group by send_num order by reg_date desc";
+									$sql = "select send_num from Gn_MMS where mem_id='{$_SESSION['one_member_id']}' and DATE(reg_date)='{$date}' and  content like '%app_check_process%' and result=0 group by send_num order by reg_date desc";
 									$resul = mysqli_query($self_con,$sql);
 									while ($row = mysqli_fetch_array($resul)) {
 										$ableNum[$row['send_num']] = $row['send_num'];
