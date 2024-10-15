@@ -55,7 +55,8 @@ if($_POST['mem_code']) {
     }
     // PC 비밀번호가 있는경우
     if($web_passwd) {
-        $addSql .= " ,web_pwd=password('$web_passwd')";
+        //password()
+        $addSql .= " ,web_pwd=md5('$web_passwd')";
         $web_pwd = md5($web_passwd);
         $dber_sql="update crawler_member_real set `password` = '$web_pwd' where user_id='{$row['mem_id']}'";
         mysqli_query($self_con,$dber_sql);

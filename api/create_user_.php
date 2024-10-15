@@ -1,7 +1,7 @@
 <?php
 header('Content-Type: text/html; charset=utf-8');
 header('Access-Control-Allow-Origin: *');
-include_once $_SERVER['DOCUMENT_ROOT']."/lib/db_config.php";
+include_once $_SERVER['DOCUMENT_ROOT'] . "/lib/db_config.php";
 $id = trim($_REQUEST["id"]);
 $passwd = trim($_REQUEST["passwd"]);
 $name = trim($_REQUEST["name"]);
@@ -13,9 +13,10 @@ $addr = trim($_REQUEST["addr"]);
 $zy = trim($_REQUEST["zy"]);
 $homepy = trim($_REQUEST["homepy"]);
 //아이디 유무 판단
+//password()
 $query = "insert into Gn_Member set mem_id='$id',
                                                   mem_leb='22',
-                                                  web_pwd=password('$passwd'),
+                                                  web_pwd=md5('$passwd'),
                                                   mem_pass=md5('$passwd'),
                                                   mem_name='{$name}',
                                                   mem_nick='{$name}',
@@ -33,5 +34,5 @@ $query = "insert into Gn_Member set mem_id='$id',
                                                   site_iam = 'kiam',
                                                   recommend_id='iam1',
                                                   join_ip='{$_SERVER['REMOTE_ADDR']}'";
-mysqli_query($self_con,$query);
+mysqli_query($self_con, $query);
 ?>

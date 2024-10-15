@@ -35,22 +35,23 @@ while($row=mysqli_fetch_array($res)){
     $profile_self_info = $row['profile_self_info'];
     $query_automem = "update Gn_Iam_automem set memid ='$memid' where memid='$old_memid'";
     mysqli_query($self_con,$query_automem);
+    //password()
     $query_join = "insert into Gn_Member set mem_id='$memid',
-                                                  mem_leb=22,
-                                                  web_pwd=password('$passwd'),
-                                                  mem_pass=md5('$passwd'),
-                                                  mem_name='$name',
-                                                  mem_nick='$name',
-                                                  mem_phone='$phone_number',
-                                                  zy='$company',
-                                                  first_regist=now(),
-                                                  mem_check=now(),
-                                                  mem_add1='$address',
-                                                  mem_email='$email',
-                                                  recommend_id='$friend',
-                                                  site='$site',
-                                                  site_iam='$site',
-                                                  mem_birth='$birthday'";
+                                            mem_leb=22,
+                                            web_pwd=md5('$passwd'),
+                                            mem_pass=md5('$passwd'),
+                                            mem_name='$name',
+                                            mem_nick='$name',
+                                            mem_phone='$phone_number',
+                                            zy='$company',
+                                            first_regist=now(),
+                                            mem_check=now(),
+                                            mem_add1='$address',
+                                            mem_email='$email',
+                                            recommend_id='$friend',
+                                            site='$site',
+                                            site_iam='$site',
+                                            mem_birth='$birthday'";
     mysqli_query($self_con,$query_join);
     $homepage = $row['profile_homepage'];
     $homepage = preg_replace('/http/is', 'https', $homepage);

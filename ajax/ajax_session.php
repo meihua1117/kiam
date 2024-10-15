@@ -1670,11 +1670,12 @@ if ($_POST['fs_del_num_s']) {
 //회원탈퇴
 if ($_POST['member_leave_pwd']) {
     $mem_pass = $_POST['member_leave_pwd'];
-    $sql = "select mem_code from Gn_Member where mem_id='{$_SESSION['one_member_id']}'  and web_pwd=password('$mem_pass') ";
+    //password()
+    $sql = "select mem_code from Gn_Member where mem_id='{$_SESSION['one_member_id']}'  and web_pwd=md5('$mem_pass') ";
     $resul = mysqli_query($self_con,$sql);
     $row = mysqli_fetch_array($resul);
     if ($row['mem_code']) {
-        $sql_u = "update Gn_Member set is_leave='Y' , leave_txt='$_POST[member_leave_liyou]' where mem_id='{$_SESSION['one_member_id']}' ";
+        $sql_u = "update Gn_Member set is_leave='Y' , leave_txt='{$_POST['member_leave_liyou']}' where mem_id='{$_SESSION['one_member_id']}' ";
         if (mysqli_query($self_con,$sql_u)) {
             $pay_sql = "update tjd_pay_result set monthly_status='R', cancel_requesttime = now() where buyer_id = '{$_SESSION['one_member_id']}'";
             mysqli_query($self_con,$pay_sql);
@@ -1719,8 +1720,10 @@ if ($_POST['one_del_num_s']) {
 //비밀번호 변경
 if ($_POST['pwd_change_old_pwd'] && $_POST['pwd_change_new_pwd']) {
     $msg = "비밀번호";
-    $add_sql_u = " web_pwd=password('{$_POST['pwd_change_new_pwd']}') ";
-    $add_sql = " web_pwd=password('{$_POST['pwd_change_old_pwd']}') ";
+    //password()
+    $add_sql_u = " web_pwd=md5('{$_POST['pwd_change_new_pwd']}') ";
+    //password()
+    $add_sql = " web_pwd=md5('{$_POST['pwd_change_old_pwd']}') ";
     $add_sql_u .= " ,mem_pass='" . md5($_POST['pwd_change_new_pwd']) . "'";
     $sql = "select mem_code from Gn_Member where mem_id='{$_SESSION['one_member_id']}' and $add_sql ";
     $resul = mysqli_query($self_con,$sql);

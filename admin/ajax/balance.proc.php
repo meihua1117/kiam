@@ -119,11 +119,10 @@ if ($_POST['mem_code']) {
         $passwd = md5($passwd);
         $addSql .= " ,mem_pass='$passwd'";
     }
-
-
     // PC 비밀번호가 있는경우
     if ($web_passwd) {
-        $addSql .= " ,web_pwd=password('$web_passwd')";
+        //password()
+        $addSql .= " ,web_pwd=md5('$web_passwd')";
     }
 
     // 스마트폰 번호가 있을경우
@@ -151,8 +150,6 @@ if ($_POST['mem_code']) {
                                  where mem_code='$mem_code'";
         mysqli_query($self_con, $sql);
     }
-
-
     // 스마트폰 변경시 변경되어야 하는 테이블
     if ($changePhone === true) {
     }

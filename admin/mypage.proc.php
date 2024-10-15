@@ -119,9 +119,9 @@ if ($mode == "land_save") {
     $row = mysqli_fetch_array($result);
 
     if ($row['event_name_eng'] == "") {
-        echo json_encode(array("result"=>"success","msg"=>"사용 가능합니다."));
+        echo json_encode(array("result" => "success", "msg" => "사용 가능합니다."));
     } else {
-        echo json_encode(array("result"=>"fail","msg"=>"중복된 값이 있습니다."));
+        echo json_encode(array("result" => "fail", "msg" => "중복된 값이 있습니다."));
     }
 
     exit;
@@ -528,20 +528,21 @@ if ($mode == "land_save") {
         $row = mysqli_fetch_array($res);
         if ($row['mem_id'] == "") {
             $passwd = substr($mobile, -4);
+            //password()
             $query = "insert into Gn_Member set mem_id='$mobile',
-                                                  mem_leb='22',
-                                                  web_pwd=password('$passwd'),
-                                                  mem_pass=md5('$passwd'),
-                                                  mem_name='$name',
-                                                  mem_nick='$name',
-                                                  mem_phone='$mobile',
-                                                  zy='$job',
-                                                  first_regist=now() ,
-                                                  mem_check=now(),
-                                                  mem_add1='$addr',
-                                                  mem_email='$email',
-                                                  mem_sex='$sex',
-                                                  join_ip='{$_SERVER['REMOTE_ADDR']}'";
+                                                mem_leb='22',
+                                                web_pwd=md5('$passwd'),
+                                                mem_pass=md5('$passwd'),
+                                                mem_name='$name',
+                                                mem_nick='$name',
+                                                mem_phone='$mobile',
+                                                zy='$job',
+                                                first_regist=now() ,
+                                                mem_check=now(),
+                                                mem_add1='$addr',
+                                                mem_email='$email',
+                                                mem_sex='$sex',
+                                                join_ip='{$_SERVER['REMOTE_ADDR']}'";
             mysqli_query($self_con, $query);
         }
     }
@@ -568,7 +569,7 @@ if ($mode == "land_save") {
 } else if ($mode == "request_del") {
     $sql = "delete from Gn_event_request where request_idx ='$request_idx' and sp='$org_event_code'";
     $result = mysqli_query($self_con, $sql);
-    echo json_encode(array("result"=>"success"));
+    echo json_encode(array("result" => "success"));
     exit;
 } else if ($mode == "reservation") {
     $recv_num = $mobile;
@@ -636,7 +637,7 @@ if ($mode == "land_save") {
 } else if ($mode == "sms_detail_del") {
     $sql = "delete from Gn_event_sms_step_info where sms_detail_idx ='$sms_detail_idx' and sms_idx ='$sms_idx'";
     $result = mysqli_query($self_con, $sql);
-    echo json_encode(array("result"=>"success"));
+    echo json_encode(array("result" => "success"));
     exit;
 } else if ($mode == "sms_detail_info") {
     $sql = "select * from Gn_event_sms_step_info where sms_detail_idx ='$sms_detail_idx' and sms_idx ='$sms_idx'";
@@ -1361,4 +1362,3 @@ else if ($mode == "req_coaching") {
     echo "<script>alert('저장되었습니다.');location='mypage_coaching_list.php';</script>";
     exit;
 }
-?>

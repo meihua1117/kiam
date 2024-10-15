@@ -47,31 +47,33 @@ if (isset($_POST['mem_name']) || isset($_POST['mem_phone']) || isset($_POST['mem
 	}
 	// echo count($short_url); exit;
 	if ($exp_mem == "true") {
+		//password()
 		$sql = "insert into Gn_Member set mem_id='{$mem_id}',
                                     mem_leb=22,
-                                    web_pwd=password('{$pwd}'),
+                                    web_pwd=md5('{$pwd}'),
                                     mem_pass=md5('{$pwd}'),
                                     mem_name='{$mem_name}',
                                     mem_nick='{$mem_name}',
                                     mem_phone='{$mem_phone}',
                                     first_regist=now() ,
-				    mem_check=now(),
-				    mem_type='A',
+									mem_check=now(),
+									mem_type='A',
                                     recommend_id = '{$recom_id}',
                                     site = '{$site}',
-				    site_iam = '{$site_iam}',
-				    event_id={$event_id},
-				    exp_start_status=1,
-				    exp_mid_status=1,
-				    exp_limit_status=1,
-				    exp_limit_date='{$exp_date}',
-				    iam_type=1,
-				    iam_card_cnt={$card_cnt},
-				    iam_share_cnt={$share_cnt}";
+									site_iam = '{$site_iam}',
+									event_id={$event_id},
+									exp_start_status=1,
+									exp_mid_status=1,
+									exp_limit_status=1,
+									exp_limit_date='{$exp_date}',
+									iam_type=1,
+									iam_card_cnt={$card_cnt},
+									iam_share_cnt={$share_cnt}";
 	} else {
+		//password()
 		$sql = "insert into Gn_Member set mem_id='{$mem_id}',
 						mem_leb=22,
-						web_pwd=password('{$pwd}'),
+						web_pwd=md5('{$pwd}'),
 						mem_pass=md5('{$pwd}'),
 						mem_name='{$mem_name}',
 						mem_nick='{$mem_name}',
@@ -95,7 +97,6 @@ if (isset($_POST['mem_name']) || isset($_POST['mem_phone']) || isset($_POST['mem
 				$short_url_db = generateRandomString();
 				$sql_name = "INSERT INTO Gn_Iam_Name_Card(mem_id, card_short_url, card_title, card_name, card_company, card_position, card_phone, phone_display, card_email, card_addr, card_map, card_keyword, profile_logo, favorite, story_title1, story_myinfo, story_title2, story_company, story_title3, story_career, story_title4, story_online1_text, story_online1, online1_check, story_online2_text, story_online2, online2_check, iam_click, iam_story, iam_friends, iam_iamicon, iam_msms, iam_sms, iam_facebook, iam_kakao, iam_share, iam_mystory, req_data, up_data, sample_click, sample_order, main_img1, main_img2, main_img3, next_iam_link, card_show) 
 					(SELECT '{$mem_id}', '{$short_url_db}', card_title, card_name, card_company, card_position, card_phone, phone_display, card_email, card_addr, card_map, card_keyword, profile_logo, favorite, story_title1, story_myinfo, story_title2, story_company, story_title3, story_career, story_title4, story_online1_text, story_online1, online1_check, story_online2_text, story_online2, online2_check, iam_click, iam_story, iam_friends, iam_iamicon, iam_msms, iam_sms, iam_facebook, iam_kakao, iam_share, iam_mystory, now(), now(), sample_click, sample_order, main_img1, main_img2, main_img3, next_iam_link, card_show FROM Gn_Iam_Name_Card WHERE card_short_url='{$short_url[$i]}')";
-				// echo $sql_name; exit;
 				mysqli_query($self_con, $sql_name) or die(mysqli_error($self_con));
 				$card_idx = mysqli_insert_id($self_con);
 

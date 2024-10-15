@@ -47,7 +47,8 @@ if ($_POST['mem_code']) {
     $addSql .= " ,mem_pass='$passwd'";
 
     // PC 비밀번호가 있는경우
-    $addSql .= " ,web_pwd=password('$web_passwd')";
+    //password()
+    $addSql .= " ,web_pwd=md5('$web_passwd')";
 
     // 스마트폰 번호가 있을경우
     if ($row['mem_phone'] != $mem_phone) {

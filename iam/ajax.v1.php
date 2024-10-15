@@ -191,7 +191,8 @@ if($_POST['id'] && $_POST['pwd']){
 	$i=0;
 	foreach($member_info as $key=>$v){
 	 	$bd=$i==(count($member_info)-1)?"":",";
-	 	$v=$key=="web_pwd"?"password('$v')":"'$v'";
+		//password('')
+	 	$v=$key=="web_pwd"?"md5('$v')":"'$v'";
 	 	$sql.=" $key=$v $bd ";
 	 	$i++;
 	}

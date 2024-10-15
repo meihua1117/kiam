@@ -127,7 +127,8 @@ if ($_POST['id'] && $_POST['pwd']) {
 	$i = 0;
 	foreach ($member_info as $key => $v) {
 		$bd = $i == (count($member_info) - 1) ? "" : ",";
-		$v = $key == "web_pwd" ? "password('$v')" : "'$v'";
+		//password()
+		$v = $key == "web_pwd" ? "md5('$v')" : "'$v'";
 		$sql .= " $key=$v $bd ";
 		$i++;
 	}
@@ -180,7 +181,7 @@ if ($_POST['search_id_pw_mem_name'] && $_POST['search_id_pw_type']) {
 		$phone_num = str_replace("-", "", $_POST['search_id_pw_phone']);
 		$sql_serch = " (mem_phone='{$_POST['search_id_pw_phone']}' or mem_phone='$phone_num')";
 	} else if ($_POST['search_id_pw_type'] == "email")
-		$sql_serch = " mem_email='$_POST[search_id_pw_email]' ";
+		$sql_serch = " mem_email='{$_POST['search_id_pw_email']}' ";
 	if ($_POST['search_id_pw_mem_id'])
 		$sql_serch .= " and mem_id=trim('{$_POST['search_id_pw_mem_id']}') and mem_name=trim('{$_POST['search_id_pw_mem_name']}') ";
 	else
@@ -199,7 +200,8 @@ if ($_POST['search_id_pw_mem_name'] && $_POST['search_id_pw_type']) {
 		<?
 		} else if ($_POST['search_id_pw_mem_id']) {
 			$new_pwd = substr(md5(time()), 0, 10);
-			$sql_u = "update Gn_Member set web_pwd=password('$new_pwd') where mem_code='{$row['mem_code']}' ";
+			//password()
+			$sql_u = "update Gn_Member set web_pwd=md5('$new_pwd') where mem_code='{$row['mem_code']}' ";
 			mysqli_query($self_con, $sql_u);
 
 			if ($row['site_iam'] == "kiam" || $row['site_iam'] == "") {
@@ -241,7 +243,7 @@ if ($_POST['search_id_pw_mem_name'] && $_POST['search_id_pw_type']) {
 			if ($_POST['search_id_pw_type'] == "phone") {
 				$sql_serch = " and REPLACE(mem_phone,'-','')='{$phone_num}'";
 			} else if ($_POST['search_id_pw_type'] == "email")
-				$sql_serch = " and mem_email='$_POST[search_id_pw_email]' ";
+				$sql_serch = " and mem_email='{$_POST['search_id_pw_email']}' ";
 			$sql_doub_mem = "select * from Gn_Member where mem_name='{$_POST['search_id_pw_mem_name']}' " . $sql_serch;
 			$res_doub_mem = mysqli_query($self_con, $sql_doub_mem);
 			while ($row1 = mysqli_fetch_array($res_doub_mem)) {

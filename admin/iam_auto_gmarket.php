@@ -1,6 +1,6 @@
 <?php
 @header("Content-type: text/html; charset=utf-8");
-include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
+include_once $_SERVER['DOCUMENT_ROOT'] . "/lib/rlatjd_fun.php";
 set_time_limit(0);
 //include_once $_SERVER['DOCUMENT_ROOT']."/admin/include/admin_header.inc.php";
 /*
@@ -12,12 +12,11 @@ $round = $_POST['round'];
 // echo $round; exit;
 
 $query = "select * from crawler_gm_seller_info where round_num={$round}";
-$res = mysqli_query($self_con,$query);
-while($row=mysqli_fetch_array($res))
-{
+$res = mysqli_query($self_con, $query);
+while ($row = mysqli_fetch_array($res)) {
     $name = $row['daepyoja'];
     $birthday = "";
-    $memid = "gmarket_".$row['store_id'];
+    $memid = "gmarket_" . $row['store_id'];
     $passwd = $row['store_id'];
     $phone_number = $row['phonenum'];
     $fax_num = $row['faxnum'];
@@ -31,44 +30,43 @@ while($row=mysqli_fetch_array($res))
     $profile_self_info = $row['intro_own'];
 
     $check_dup = "SELECT mem_id from Gn_Member where mem_id='{$memid}'";
-    $result_chk = mysqli_query($self_con,$check_dup);
-    if(mysqli_num_rows($result_chk) != 0){
-    echo 1;
-    exit;
-    
-}
-        $query_join = "insert into Gn_Member set mem_id='$memid',
-                                                          mem_leb=22,
-                                                          web_pwd=password('$passwd'),
-                                                          mem_pass=md5('$passwd'),
-                                                          mem_name='$name',
-                                                          mem_nick='$name',
-                                                          mem_phone='$phone_number',
-                                                          mem_fax='$fax_num',
-                                                          zy='$company',
-                                                          first_regist=now() ,
-                                                          mem_check=now(),
-                                                          mem_add1='$address',
-                                                          mem_email='$email',
-                                                          recommend_id = '$friend',
-                                                          site = '$site',
-                                                          site_iam = '$site_iam',
-                                                          mem_birth = '$birthday'
-                      ";
-                    //   echo $query_join; exit;
-            mysqli_query($self_con,$query_join);
+    $result_chk = mysqli_query($self_con, $check_dup);
+    if (mysqli_num_rows($result_chk) != 0) {
+        echo 1;
+        exit;
+    }
+    //password()
+    $query_join = "insert into Gn_Member set mem_id='$memid',
+                                            mem_leb=22,
+                                            web_pwd=md5('$passwd'),
+                                            mem_pass=md5('$passwd'),
+                                            mem_name='$name',
+                                            mem_nick='$name',
+                                            mem_phone='$phone_number',
+                                            mem_fax='$fax_num',
+                                            zy='$company',
+                                            first_regist=now() ,
+                                            mem_check=now(),
+                                            mem_add1='$address',
+                                            mem_email='$email',
+                                            recommend_id = '$friend',
+                                            site = '$site',
+                                            site_iam = '$site_iam',
+                                            mem_birth = '$birthday'";
+    //   echo $query_join; exit;
+    mysqli_query($self_con, $query_join);
 
     $short_url = generateRandomString();
-    $iam_makingURL = '/iam/?'.$short_url;
-    $apply_link = '/admin/iam_auto_make_check.php?memid='.$row['store_id'];
+    $iam_makingURL = '/iam/?' . $short_url;
+    $apply_link = '/admin/iam_auto_make_check.php?memid=' . $row['store_id'];
 
     $iam_query = "UPDATE crawler_gm_seller_info SET iam_link='{$iam_makingURL}' WHERE store_id='{$row['store_id']}'";
-    mysqli_query($self_con,$iam_query);
+    mysqli_query($self_con, $iam_query);
 
     $img_link = array();
     $query_img = "SELECT img_link FROM crawler_gm_contents_info where store_id='{$row['store_id']}' ORDER BY id LIMIT 3";
-    $res_img = mysqli_query($self_con,$query_img);
-    while($row_img = mysqli_fetch_array($res_img)){
+    $res_img = mysqli_query($self_con, $query_img);
+    while ($row_img = mysqli_fetch_array($res_img)) {
         array_push($img_link, $row_img['img_link']);
     }
 
@@ -76,25 +74,25 @@ while($row=mysqli_fetch_array($res))
     $profile_image2 = $img_link[1];
     $profile_image3 = $img_link[2];
 
-    $query_info="insert into Gn_Iam_Info (mem_id,main_img1,main_img2,main_img3, reg_data)
+    $query_info = "insert into Gn_Iam_Info (mem_id,main_img1,main_img2,main_img3, reg_data)
                     values ('$memid','$profile_image1','$profile_image2','$profile_image3', now())";
-                    // echo $query_info; exit;
-    mysqli_query($self_con,$query_info);
+    // echo $query_info; exit;
+    mysqli_query($self_con, $query_info);
 
     $card_title = "상품소개해요.";
-    $card_position=$profile_self_info;
+    $card_position = $profile_self_info;
     $card_map = '';
     $card_keyword = '';
     $favorite = 0;
     $story_title4 = '온라인정보';
     $story_online1_text = '';
     $homepage = $row['store_link'];
-    $online1_check= 'Y';
-    $story_online2_text= '';
-    $story_online2= '';
-    $online2_check= 'N';
+    $online1_check = 'Y';
+    $story_online2_text = '';
+    $story_online2 = '';
+    $online2_check = 'N';
 
-    $name_card_sql="insert into Gn_Iam_Name_Card (
+    $name_card_sql = "insert into Gn_Iam_Name_Card (
                                 mem_id,
                                 card_short_url,
                                 card_title,
@@ -149,7 +147,7 @@ while($row=mysqli_fetch_array($res))
                                 'N',
                                 now(),
                                 now())";
-    mysqli_query($self_con,$name_card_sql);
+    mysqli_query($self_con, $name_card_sql);
 
     $card_idx = mysqli_insert_id($self_con);
     $contents_type = 1;
@@ -167,8 +165,8 @@ while($row=mysqli_fetch_array($res))
     $card_short_url = $short_url;
     $westory_card_url = $short_url;
     $query_contents = "select * from crawler_gm_contents_info where store_id='{$row['store_id']}'";
-    $res_contents = mysqli_query($self_con,$query_contents);
-    while($row_contents = mysqli_fetch_array($res_contents)){
+    $res_contents = mysqli_query($self_con, $query_contents);
+    while ($row_contents = mysqli_fetch_array($res_contents)) {
         $profile_image = $row_contents['img_link'];
         $profile_title = $row_contents['product_name'];
         $profile_link = $row_contents['product_link'];
@@ -221,11 +219,10 @@ while($row=mysqli_fetch_array($res))
                 '$westory_card_url',
                 '$card_idx'
                 )";
-        mysqli_query($self_con,$sql2) or die(mysqli_error($self_con));
+        mysqli_query($self_con, $sql2) or die(mysqli_error($self_con));
         $contents_idx = mysqli_insert_id($self_con);
         $sql2 = "insert into Gn_Iam_Con_Card set cont_idx=$contents_idx,card_idx=$card_idx,main_card=$card_idx";
-        mysqli_query($self_con,$sql2) or die(mysqli_error($self_con));
+        mysqli_query($self_con, $sql2) or die(mysqli_error($self_con));
     }
 }
 echo 1;
-?>

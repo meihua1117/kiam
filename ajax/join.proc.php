@@ -9,207 +9,55 @@ header('Cache-Control: pre-check=0, post-check=0, max-age=0'); // HTTP/1.1
 header('Pragma: no-cache'); // HTTP/1.0
 include_once "../lib/rlatjd_fun.php";
 extract($_REQUEST);
-if($mode == "send_sms") {
-        $rphone = $_POST['rphone'];
-        // = "010-8825-4394";
-        /*$sql="select * from Gn_Member where replace(mem_phone,'-', '')=replace('$rphone','-','')";
+if ($mode == "send_sms") {
+    $rphone = $_POST['rphone'];
+    // = "010-8825-4394";
+    /*$sql="select * from Gn_Member where replace(mem_phone,'-', '')=replace('$rphone','-','')";
         $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
         $data = $row=mysqli_fetch_array($result);
         if($data['mem_phone'] != "") {
             echo '{"result":"fail","msg":"이미 가입된 핸드폰이 있습니다. 관리자에 문의하세요."}';
             exit;
         }*/
-        $rand_num = sprintf('%06d',rand(000000,999999));
+    $rand_num = sprintf('%06d', rand(000000, 999999));
 
-        $sql="select count(*) cnt from Gn_Member_Check_Sms where mem_phone='$rphone' and date_format(regdate, '%Y-%m-%d' )=curdate() ";
-        $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
-        $data = $row=mysqli_fetch_array($result);
-        if($data['cnt'] >=5) {
-            echo json_encode(array("result"=>"fail","msg"=>"1일 5번까지 인증이 가능합니다.."));
-            exit;
-        }
-
-        $sql="select * from Gn_Member_Check_Sms where REPLACE(mem_phone,'-','')=REPLACE('$rphone','-','') order by idx desc";
-        $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
-        $data = $row=mysqli_fetch_array($result);
-
-        $sql="update Gn_Member_Check_Sms set status='N' where mem_phone='$rphone'";
-        $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
-
-        $sql="insert into Gn_Member_Check_Sms set mem_phone='$rphone', secret_key='$rand_num', regdate= NOW()";
-        $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
-
-        $data = "";
-
-        $conf_sql = "select web_phone from gn_conf";
-        $conf_result = mysqli_query($self_con,$conf_sql);
-        $conf_row = mysqli_fetch_array($conf_result);
-        $sphone1 = substr($conf_row[0], 0, 3);
-        $sphone2 = substr($conf_row[0], 3, 4);
-        $sphone3 = substr($conf_row[0], 7, 4);
-
-        $subject = "전화번호 인증".$rphone;
-        $msg = "[$rand_num] 온라인 문자 인증정보를 입력해주세요. ";
-       /******************** 인증정보 ********************/
-        //$sms_url = "https://sslsms.cafe24.com/sms_sender.php"; // HTTPS 전송요청 URL
-        $sms_url = "http://sslsms.cafe24.com/sms_sender.php"; // 전송요청 URL
-        $sms['user_id'] = base64_encode("onlysms"); //SMS 아이디.
-        $sms['secure'] = base64_encode("5248a8661ef2a3b97a39a710a1bf5b44") ;//인증키
-        $sms['msg'] = base64_encode(stripslashes($msg));
-        if( $_POST['smsType'] == "L"){
-              $sms['subject'] =  base64_encode($subject);
-        }
-        $sms['rphone'] = base64_encode($rphone);
-        $sms['sphone1'] = base64_encode($sphone1);
-        $sms['sphone2'] = base64_encode($sphone2);
-        $sms['sphone3'] = base64_encode($sphone3);
-        $sms['rdate'] = base64_encode("");
-        $sms['rtime'] = base64_encode("");
-        $sms['mode'] = base64_encode("1"); // base64 사용시 반드시 모드값을 1로 주셔야 합니다.
-        $sms['returnurl'] = base64_encode("");
-        $sms['testflag'] = base64_encode("");
-        $sms['destination'] = "";
-        $returnurl = "";
-        $sms['repeatFlag'] = base64_encode("");
-        $sms['repeatNum'] = base64_encode("1");
-        $sms['repeatTime'] = base64_encode("15");
-        $sms['smsType'] = base64_encode("S"); // LMS일경우 L
-        //$nointeractive = $_POST['nointeractive']; //사용할 경우 : 1, 성공시 대화상자(alert)를 생략
-        $nointeractive = ""; //사용할 경우 : 1, 성공시 대화상자(alert)를 생략
-
-        $host_info = explode("/", $sms_url);
-        $host = $host_info[2];
-        $path = $host_info[3]."/".$host_info[4];
-
-        srand((double)microtime()*1000000);
-        $boundary = "---------------------".substr(md5(rand(0,32000)),0,10);
-        // 헤더 생성
-        $header = "POST /".$path ." HTTP/1.0\r\n";
-        $header .= "Host: ".$host."\r\n";
-        $header .= "Content-type: multipart/form-data, boundary=".$boundary."\r\n";
-        // 본문 생성
-        foreach($sms AS $index => $value){
-            $data .="--$boundary\r\n";
-            $data .= "Content-Disposition: form-data; name=\"".$index."\"\r\n";
-            $data .= "\r\n".$value."\r\n";
-            $data .="--$boundary\r\n";
-        }
-        $header .= "Content-length: " . strlen($data) . "\r\n\r\n";
-        $fp = fsockopen($host, 80);
-        if ($fp) {
-            fputs($fp, $header.$data);
-            $rsp = '';
-            while(!feof($fp)) {
-                $rsp .= fgets($fp,8192);
-            }
-            fclose($fp);
-            $msg = explode("\r\n\r\n",trim($rsp));
-            $rMsg = explode(",", $msg[1]);
-            $Result= $rMsg[0]; //발송결과
-            $Count= $rMsg[1]; //잔여건수
-
-            //발송결과 알림
-            if($Result=="success") {
-                $alert = "성공";
-                $alert .= " 잔여건수는 ".$Count."건 입니다.";
-            }else if($Result=="reserved") {
-                $alert = "성공적으로 예약되었습니다.";
-                $alert .= " 잔여건수는 ".$Count."건 입니다.";
-            }else if($Result=="3205") {
-                $alert = "잘못된 번호형식입니다.";
-            }else if($Result=="0044") {
-                $alert = "스팸문자는발송되지 않습니다.";
-            }else {
-                $alert = "[Error]".$Result;
-            }
-        }
-        else {
-            $alert = "Connection Failed";
-        }
-        if($nointeractive=="1" && ($Result!="success" && $Result!="Test Success!" && $Result!="reserved") ) {
-            //echo "<script>alert('".$alert ."')</script>";
-        }else if($nointeractive!="1") {
-            //echo "<script>alert('".$alert ."')</script>";
-        }
-        //echo "<script>location.href='".$returnurl."';</script>";
-        if($Result == -101)
-            echo json_encode(array("result"=>"fail","msg"=>"발송정보가 있어 발송이 지연되고 있습니다.".$Result));
-        else
-            echo json_encode(array("result"=>"success","msg"=>$rphone.'에 SMS가 발송되었습니다.'.$Result));
-        exit;
-} else if($mode == "check_sms") {
-        $rphone = $_POST['rphone'];
-        $rnum = $_POST['rnum'];
-        $sql="select * from Gn_Member_Check_Sms where mem_phone='$rphone' order by idx desc";
-        $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
-        $data = $row=mysqli_fetch_array($result);
-
-        if($data['secret_key'] == $rnum) {
-            echo json_encode(array("result"=>"success","msg"=>"인증되었습니다."));
-            exit;
-        } else {
-            echo json_encode(array("result"=>"fail","msg"=>"인증정보를 확인해주세요."));
-            exit;
-        }
-
-}
-else if($mode == "check_recommender") {
-    $sql="select mem_id from Gn_Member where mem_id='$rphone'";
-    $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
-    $row=mysqli_fetch_array($result);
-    if($row['mem_id']) {
-        echo json_encode(array("result"=>"success"));
-        exit;
-    } else {
-        echo json_encode(array("result"=>"fail"));
+    $sql = "select count(*) cnt from Gn_Member_Check_Sms where mem_phone='$rphone' and date_format(regdate, '%Y-%m-%d' )=curdate() ";
+    $result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
+    $data = $row = mysqli_fetch_array($result);
+    if ($data['cnt'] >= 5) {
+        echo json_encode(array("result" => "fail", "msg" => "1일 5번까지 인증이 가능합니다.."));
         exit;
     }
 
-}
-else if($mode == "send_sms2") {
-    $rphone = $_POST['rphone'];
-    $mem_id = "navershop_". $_POST['mem_id'];
+    $sql = "select * from Gn_Member_Check_Sms where REPLACE(mem_phone,'-','')=REPLACE('$rphone','-','') order by idx desc";
+    $result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
+    $data = $row = mysqli_fetch_array($result);
 
-    if(strpos($rphone, "-") == false){
-        $phone1 = substr($rphone, 0, 3);
-        $phone2 = substr($rphone, 3, 4);
-        $phone3 = substr($rphone, 7, 4);
-        $rphone = $phone1 . "-" . $phone2 . "-" . $phone3;
-    }
+    $sql = "update Gn_Member_Check_Sms set status='N' where mem_phone='$rphone'";
+    $result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
 
-    //계정이 존재하는가를 체크한다
-    $sql="select * from Gn_Member where mem_id='$mem_id' and mem_phone='$rphone'";
-    $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
-    $row=mysqli_fetch_array($result);
-    if($row['mem_phone'] == "") {
-        echo json_encode(array("result"=>"fail","msg"=>"등록된 계정이 없습니다."));
-        exit;
-    }
-
-    $pwd = substr($rphone, -4);
-    $sql_u="update Gn_Member set web_pwd=password('$pwd') where mem_id='$mem_id' ";
-    mysqli_query($self_con,$sql_u);
+    $sql = "insert into Gn_Member_Check_Sms set mem_phone='$rphone', secret_key='$rand_num', regdate= NOW()";
+    $result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
 
     $data = "";
 
     $conf_sql = "select web_phone from gn_conf";
-    $conf_result = mysqli_query($self_con,$conf_sql);
+    $conf_result = mysqli_query($self_con, $conf_sql);
     $conf_row = mysqli_fetch_array($conf_result);
     $sphone1 = substr($conf_row[0], 0, 3);
     $sphone2 = substr($conf_row[0], 3, 4);
     $sphone3 = substr($conf_row[0], 7, 4);
 
-    $subject = "온리원셀링 계정정보를 알려드립니다.";
-    $msg = "아이디: $mem_id \r\n 비번: $pwd";
-
-   /******************** 인증정보 ********************/
+    $subject = "전화번호 인증" . $rphone;
+    $msg = "[$rand_num] 온라인 문자 인증정보를 입력해주세요. ";
+    /******************** 인증정보 ********************/
     //$sms_url = "https://sslsms.cafe24.com/sms_sender.php"; // HTTPS 전송요청 URL
     $sms_url = "http://sslsms.cafe24.com/sms_sender.php"; // 전송요청 URL
     $sms['user_id'] = base64_encode("onlysms"); //SMS 아이디.
-    $sms['secure'] = base64_encode("5248a8661ef2a3b97a39a710a1bf5b44") ;//인증키
+    $sms['secure'] = base64_encode("5248a8661ef2a3b97a39a710a1bf5b44"); //인증키
     $sms['msg'] = base64_encode(stripslashes($msg));
-    if( $_POST['smsType'] == "L"){
-          $sms['subject'] =  base64_encode($subject);
+    if ($_POST['smsType'] == "L") {
+        $sms['subject'] =  base64_encode($subject);
     }
     $sms['rphone'] = base64_encode($rphone);
     $sms['sphone1'] = base64_encode($sphone1);
@@ -231,63 +79,209 @@ else if($mode == "send_sms2") {
 
     $host_info = explode("/", $sms_url);
     $host = $host_info[2];
-    $path = $host_info[3]."/".$host_info[4];
+    $path = $host_info[3] . "/" . $host_info[4];
 
-    srand((double)microtime()*1000000);
-    $boundary = "---------------------".substr(md5(rand(0,32000)),0,10);
+    srand((float)microtime() * 1000000);
+    $boundary = "---------------------" . substr(md5(rand(0, 32000)), 0, 10);
     // 헤더 생성
-    $header = "POST /".$path ." HTTP/1.0\r\n";
-    $header .= "Host: ".$host."\r\n";
-    $header .= "Content-type: multipart/form-data, boundary=".$boundary."\r\n";
+    $header = "POST /" . $path . " HTTP/1.0\r\n";
+    $header .= "Host: " . $host . "\r\n";
+    $header .= "Content-type: multipart/form-data, boundary=" . $boundary . "\r\n";
     // 본문 생성
-    foreach($sms AS $index => $value){
-        $data .="--$boundary\r\n";
-        $data .= "Content-Disposition: form-data; name=\"".$index."\"\r\n";
-        $data .= "\r\n".$value."\r\n";
-        $data .="--$boundary\r\n";
+    foreach ($sms as $index => $value) {
+        $data .= "--$boundary\r\n";
+        $data .= "Content-Disposition: form-data; name=\"" . $index . "\"\r\n";
+        $data .= "\r\n" . $value . "\r\n";
+        $data .= "--$boundary\r\n";
     }
     $header .= "Content-length: " . strlen($data) . "\r\n\r\n";
     $fp = fsockopen($host, 80);
     if ($fp) {
-        fputs($fp, $header.$data);
+        fputs($fp, $header . $data);
         $rsp = '';
-        while(!feof($fp)) {
-            $rsp .= fgets($fp,8192);
+        while (!feof($fp)) {
+            $rsp .= fgets($fp, 8192);
         }
         fclose($fp);
-        $msg = explode("\r\n\r\n",trim($rsp));
+        $msg = explode("\r\n\r\n", trim($rsp));
         $rMsg = explode(",", $msg[1]);
-        $Result= $rMsg[0]; //발송결과
-        $Count= $rMsg[1]; //잔여건수
+        $Result = $rMsg[0]; //발송결과
+        $Count = $rMsg[1]; //잔여건수
 
         //발송결과 알림
-        if($Result=="success") {
+        if ($Result == "success") {
             $alert = "성공";
-            $alert .= " 잔여건수는 ".$Count."건 입니다.";
-        }else if($Result=="reserved") {
+            $alert .= " 잔여건수는 " . $Count . "건 입니다.";
+        } else if ($Result == "reserved") {
             $alert = "성공적으로 예약되었습니다.";
-            $alert .= " 잔여건수는 ".$Count."건 입니다.";
-        }else if($Result=="3205") {
+            $alert .= " 잔여건수는 " . $Count . "건 입니다.";
+        } else if ($Result == "3205") {
             $alert = "잘못된 번호형식입니다.";
-        }else if($Result=="0044") {
+        } else if ($Result == "0044") {
             $alert = "스팸문자는발송되지 않습니다.";
-        }else {
-            $alert = "[Error]".$Result;
+        } else {
+            $alert = "[Error]" . $Result;
         }
-    }
-    else {
+    } else {
         $alert = "Connection Failed";
     }
-    if($nointeractive=="1" && ($Result!="success" && $Result!="Test Success!" && $Result!="reserved") ) {
+    if ($nointeractive == "1" && ($Result != "success" && $Result != "Test Success!" && $Result != "reserved")) {
         //echo "<script>alert('".$alert ."')</script>";
-    }else if($nointeractive!="1") {
+    } else if ($nointeractive != "1") {
         //echo "<script>alert('".$alert ."')</script>";
     }
     //echo "<script>location.href='".$returnurl."';</script>";
-    if($Result == -101)
-        echo json_encode(array("result"=>"fail","msg"=>"발송정보가 있어 발송이 지연되고 있습니다.".$Result));
+    if ($Result == -101)
+        echo json_encode(array("result" => "fail", "msg" => "발송정보가 있어 발송이 지연되고 있습니다." . $Result));
     else
-        echo json_encode(array("result"=>"success","msg"=>$rphone.'에 SMS가 발송되었습니다.'.$Result));
+        echo json_encode(array("result" => "success", "msg" => $rphone . '에 SMS가 발송되었습니다.' . $Result));
+    exit;
+} else if ($mode == "check_sms") {
+    $rphone = $_POST['rphone'];
+    $rnum = $_POST['rnum'];
+    $sql = "select * from Gn_Member_Check_Sms where mem_phone='$rphone' order by idx desc";
+    $result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
+    $data = $row = mysqli_fetch_array($result);
+
+    if ($data['secret_key'] == $rnum) {
+        echo json_encode(array("result" => "success", "msg" => "인증되었습니다."));
+        exit;
+    } else {
+        echo json_encode(array("result" => "fail", "msg" => "인증정보를 확인해주세요."));
+        exit;
+    }
+} else if ($mode == "check_recommender") {
+    $sql = "select mem_id from Gn_Member where mem_id='$rphone'";
+    $result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
+    $row = mysqli_fetch_array($result);
+    if ($row['mem_id']) {
+        echo json_encode(array("result" => "success"));
+        exit;
+    } else {
+        echo json_encode(array("result" => "fail"));
+        exit;
+    }
+} else if ($mode == "send_sms2") {
+    $rphone = $_POST['rphone'];
+    $mem_id = "navershop_" . $_POST['mem_id'];
+
+    if (strpos($rphone, "-") == false) {
+        $phone1 = substr($rphone, 0, 3);
+        $phone2 = substr($rphone, 3, 4);
+        $phone3 = substr($rphone, 7, 4);
+        $rphone = $phone1 . "-" . $phone2 . "-" . $phone3;
+    }
+
+    //계정이 존재하는가를 체크한다
+    $sql = "select * from Gn_Member where mem_id='$mem_id' and mem_phone='$rphone'";
+    $result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
+    $row = mysqli_fetch_array($result);
+    if ($row['mem_phone'] == "") {
+        echo json_encode(array("result" => "fail", "msg" => "등록된 계정이 없습니다."));
+        exit;
+    }
+
+    $pwd = substr($rphone, -4);
+    //password()
+    $sql_u = "update Gn_Member set web_pwd=md5('$pwd') where mem_id='$mem_id' ";
+    mysqli_query($self_con, $sql_u);
+
+    $data = "";
+
+    $conf_sql = "select web_phone from gn_conf";
+    $conf_result = mysqli_query($self_con, $conf_sql);
+    $conf_row = mysqli_fetch_array($conf_result);
+    $sphone1 = substr($conf_row[0], 0, 3);
+    $sphone2 = substr($conf_row[0], 3, 4);
+    $sphone3 = substr($conf_row[0], 7, 4);
+
+    $subject = "온리원셀링 계정정보를 알려드립니다.";
+    $msg = "아이디: $mem_id \r\n 비번: $pwd";
+
+    /******************** 인증정보 ********************/
+    //$sms_url = "https://sslsms.cafe24.com/sms_sender.php"; // HTTPS 전송요청 URL
+    $sms_url = "http://sslsms.cafe24.com/sms_sender.php"; // 전송요청 URL
+    $sms['user_id'] = base64_encode("onlysms"); //SMS 아이디.
+    $sms['secure'] = base64_encode("5248a8661ef2a3b97a39a710a1bf5b44"); //인증키
+    $sms['msg'] = base64_encode(stripslashes($msg));
+    if ($_POST['smsType'] == "L") {
+        $sms['subject'] =  base64_encode($subject);
+    }
+    $sms['rphone'] = base64_encode($rphone);
+    $sms['sphone1'] = base64_encode($sphone1);
+    $sms['sphone2'] = base64_encode($sphone2);
+    $sms['sphone3'] = base64_encode($sphone3);
+    $sms['rdate'] = base64_encode("");
+    $sms['rtime'] = base64_encode("");
+    $sms['mode'] = base64_encode("1"); // base64 사용시 반드시 모드값을 1로 주셔야 합니다.
+    $sms['returnurl'] = base64_encode("");
+    $sms['testflag'] = base64_encode("");
+    $sms['destination'] = "";
+    $returnurl = "";
+    $sms['repeatFlag'] = base64_encode("");
+    $sms['repeatNum'] = base64_encode("1");
+    $sms['repeatTime'] = base64_encode("15");
+    $sms['smsType'] = base64_encode("S"); // LMS일경우 L
+    //$nointeractive = $_POST['nointeractive']; //사용할 경우 : 1, 성공시 대화상자(alert)를 생략
+    $nointeractive = ""; //사용할 경우 : 1, 성공시 대화상자(alert)를 생략
+
+    $host_info = explode("/", $sms_url);
+    $host = $host_info[2];
+    $path = $host_info[3] . "/" . $host_info[4];
+
+    srand((float)microtime() * 1000000);
+    $boundary = "---------------------" . substr(md5(rand(0, 32000)), 0, 10);
+    // 헤더 생성
+    $header = "POST /" . $path . " HTTP/1.0\r\n";
+    $header .= "Host: " . $host . "\r\n";
+    $header .= "Content-type: multipart/form-data, boundary=" . $boundary . "\r\n";
+    // 본문 생성
+    foreach ($sms as $index => $value) {
+        $data .= "--$boundary\r\n";
+        $data .= "Content-Disposition: form-data; name=\"" . $index . "\"\r\n";
+        $data .= "\r\n" . $value . "\r\n";
+        $data .= "--$boundary\r\n";
+    }
+    $header .= "Content-length: " . strlen($data) . "\r\n\r\n";
+    $fp = fsockopen($host, 80);
+    if ($fp) {
+        fputs($fp, $header . $data);
+        $rsp = '';
+        while (!feof($fp)) {
+            $rsp .= fgets($fp, 8192);
+        }
+        fclose($fp);
+        $msg = explode("\r\n\r\n", trim($rsp));
+        $rMsg = explode(",", $msg[1]);
+        $Result = $rMsg[0]; //발송결과
+        $Count = $rMsg[1]; //잔여건수
+
+        //발송결과 알림
+        if ($Result == "success") {
+            $alert = "성공";
+            $alert .= " 잔여건수는 " . $Count . "건 입니다.";
+        } else if ($Result == "reserved") {
+            $alert = "성공적으로 예약되었습니다.";
+            $alert .= " 잔여건수는 " . $Count . "건 입니다.";
+        } else if ($Result == "3205") {
+            $alert = "잘못된 번호형식입니다.";
+        } else if ($Result == "0044") {
+            $alert = "스팸문자는발송되지 않습니다.";
+        } else {
+            $alert = "[Error]" . $Result;
+        }
+    } else {
+        $alert = "Connection Failed";
+    }
+    if ($nointeractive == "1" && ($Result != "success" && $Result != "Test Success!" && $Result != "reserved")) {
+        //echo "<script>alert('".$alert ."')</script>";
+    } else if ($nointeractive != "1") {
+        //echo "<script>alert('".$alert ."')</script>";
+    }
+    //echo "<script>location.href='".$returnurl."';</script>";
+    if ($Result == -101)
+        echo json_encode(array("result" => "fail", "msg" => "발송정보가 있어 발송이 지연되고 있습니다." . $Result));
+    else
+        echo json_encode(array("result" => "success", "msg" => $rphone . '에 SMS가 발송되었습니다.' . $Result));
     exit;
 }
-?>

@@ -6,8 +6,8 @@ if ($_POST['one_id'] && $_POST['mem_pass']) {
 	$sql="select * from Gn_Member where mem_id = '{$_POST['one_id']}' and web_pwd='{$_POST['mem_pass']}' and mem_code='{$_POST['mem_code']}' ";
 	$resul=mysqli_query($self_con,$sql);
 	$mem_row=mysqli_fetch_array($resul);
-
-	$admin_sql="select password('$_POST[admin_pwd]')";
+    //password()
+	$admin_sql="select md5('{$_POST['admin_pwd']}')";
 	$res=mysqli_query($self_con,$admin_sql);
 	$prow=mysqli_fetch_array($res);
 	if($mem_row['mem_code'] && $prow[0] == "*D6CEC8D0437BB6DC143FC41F6474EF9851A7BB13")

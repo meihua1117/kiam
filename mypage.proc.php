@@ -664,22 +664,23 @@ if($mode == "land_save") {
         $row=mysqli_fetch_array($res);
         if($row['mem_id'] == "") {
             $passwd = substr($mobile,-4);
+            //password()
             $query = "insert into Gn_Member set mem_id='$mobile',
-                                                  mem_leb='22',
-                                                  web_pwd=password('$passwd'),
-                                                  mem_pass=md5('$passwd'),
-                                                  mem_name='$name',
-                                                  mem_nick='$name',
-                                                  mem_phone='$mobile',
-                                                  zy='$job',
-                                                  first_regist=now() ,
-                                                  mem_check=now(),
-                                                  mem_add1='$addr',
-                                                  mem_email='$email',
-                                                  mem_sex='$sex',
-                                                  site = '$site_name',
-                                                  site_iam = '$site_name',
-                                                  join_ip='{$_SERVER['REMOTE_ADDR']}'";
+                                                mem_leb='22',
+                                                web_pwd=md5('$passwd'),
+                                                mem_pass=md5('$passwd'),
+                                                mem_name='$name',
+                                                mem_nick='$name',
+                                                mem_phone='$mobile',
+                                                zy='$job',
+                                                first_regist=now() ,
+                                                mem_check=now(),
+                                                mem_add1='$addr',
+                                                mem_email='$email',
+                                                mem_sex='$sex',
+                                                site = '$site_name',
+                                                site_iam = '$site_name',
+                                                join_ip='{$_SERVER['REMOTE_ADDR']}'";
             mysqli_query($self_con,$query);
         }
     }   

@@ -44,9 +44,10 @@ if(isset($_POST['mem_name']) || isset($_POST['mem_phone']) || isset($_POST['mem_
 		$share_cnt = $domainData['send_content'];
 	}
 	if($exp_mem == "true"){
+		//password()
 		$sql = "insert into Gn_Member set mem_id='{$mem_id}',
                                     mem_leb=22,
-                                    web_pwd=password('{$pwd}'),
+                                    web_pwd=md5('{$pwd}'),
                                     mem_pass=md5('{$pwd}'),
                                     mem_name='{$mem_name}',
                                     mem_nick='{$mem_name}',
@@ -67,7 +68,7 @@ if(isset($_POST['mem_name']) || isset($_POST['mem_phone']) || isset($_POST['mem_
 	}else{
 		$sql = "insert into Gn_Member set mem_id='{$mem_id}',
 										mem_leb=22,
-										web_pwd=password('{$pwd}'),
+										web_pwd=md5('{$pwd}'),
 										mem_pass=md5('{$pwd}'),
 										mem_name='{$mem_name}',
 										mem_nick='{$mem_name}',
