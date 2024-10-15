@@ -1352,10 +1352,11 @@ if (!empty($row_sum_b)) {
 															$ssh_arr = explode(",", $row_ssh['recv_num']);
 															$ssh_numT = array_merge($ssh_numT, (array)$ssh_arr);
 														}
+														$ssh_arr = array_unique($ssh_numT);
+														$ssh_cnt = count($ssh_arr);
+														mysqli_free_result($result_ssh);
 													}
-													$ssh_arr = array_unique($ssh_numT);
-													$ssh_cnt = count($ssh_arr);
-													mysqli_free_result($result_ssh);
+
 													if ($mem_phone == $row['sendnum'] && ($member_1['mem_type'] == "V" || $member_1['mem_type'] == "")) {
 														if ($row['memo2'] == "SK") {
 															//        // SKT
