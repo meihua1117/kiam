@@ -260,5 +260,5 @@ else{
 }
 
 
-echo "{\"result\":\"$result\",\"token_res\":\"$token_res\"}";
+echo json_encode(array("result"=>$result,"token_res"=>$token_res));
 ?>

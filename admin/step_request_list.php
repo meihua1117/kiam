@@ -220,7 +220,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                       }
                   ?>
                       <tr>
-                            <td><input type="checkbox" name="event_idx" value="<?php echo $row['event_idx'];?>" data-name="<?=$row['name']?>" data-mobile="<?=$row['mobile']?>"  data-email="<?=$row['email']?>" data-job="<?=$row[job]?>"  data-event_code="<?=$row[event_code]?>"  data-sp="<?=$row[sp]?>" data-request_idx="<?php echo $row['request_idx'];?>"></td>
+                            <td><input type="checkbox" name="event_idx" value="<?php echo $row['event_idx'];?>" data-name="<?=$row['name']?>" data-mobile="<?=$row['mobile']?>"  data-email="<?=$row['email']?>" data-job="<?=$row['job']?>"  data-event_code="<?=$row['event_code']?>"  data-sp="<?=$row['sp']?>" data-request_idx="<?php echo $row['request_idx'];?>"></td>
                             <td><?=$number--?></td>
                             <td style="font-size:12px;"><?=$row[m_id]?></td>
                             <td style="font-size:12px;"><?=$srow['mem_name']?></td>                            
@@ -228,9 +228,9 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                             <td style="font-size:12px;"><?=$row['name']?></td>
                             <td ><?=$row['mobile']?></td>
                             <td ><?=$row['email']?></td>
-                            <td ><?=$row[job]?></td>
+                            <td ><?=$row['job']?></td>
                             <td><a href="javascript:show_txt_detail('<?=$event_other_txt?>')"><?=cut_str($event_other_txt, 5)?></a></td>
-                            <td style="font-size:12px;"><?=$row[event_code]?></td>
+                            <td style="font-size:12px;"><?=$row['event_code']?></td>
                             <td ><?=$row['regdate']?></td>
                       </tr>
                     <?

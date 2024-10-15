@@ -92,7 +92,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                     <tr>
                         <th class="w200">일정</th>
                         <td>
-                            <input type="text" name="start_date" id="start_date" placeholder=""  value="<?=$row[start_date]?>" style="width:100px" autocomplete="off"/> ~  
+                            <input type="text" name="start_date" id="start_date" placeholder=""  value="<?=$row['start_date']?>" style="width:100px" autocomplete="off"/> ~  
                             <input type="text" name="end_date" id="end_date" placeholder=""  value="<?=$row['end_date']?>" style="width:100px" autocomplete="off"/> 
                         </td>
                     </tr>                    
@@ -149,7 +149,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                     <tr>
                         <th class="w200">신청</th>
                         <td>
-                            <input type="text" name="event_code" placeholder="" id="event_code" value="<?=$row[event_code]?>"  style="width:100px"/> 이벤트영문명
+                            <input type="text" name="event_code" placeholder="" id="event_code" value="<?=$row['event_code']?>"  style="width:100px"/> 이벤트영문명
                              <input type="button" value="이벤트 조회" class="button btn btn-primary " id="searchBtn">
                         </td>
                     </tr>                                  

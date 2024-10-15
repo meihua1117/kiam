@@ -171,7 +171,7 @@ function copyHtml(url){
                 while($row=mysqli_fetch_array($result))
                 {
                 
-                    $sql="select count(*) as cnt from Gn_event_sms_step_info where sms_idx='$row[sms_idx]'";
+                    $sql="select count(*) as cnt from Gn_event_sms_step_info where sms_idx='{$row['sms_idx']}'";
                     $sresult=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));				                    
                     $srow = mysqli_fetch_array($sresult);
                     
@@ -183,7 +183,7 @@ function copyHtml(url){
                 <td><?=$row['reservation_desc']?></td>
                 <td><?=number_format($srow['cnt'])?></td>
                 <td>
-                    <a href="javascript:;;" onclick="useIt('<?=$row[sms_idx];?>','<?=$row['reservation_title']?>')">사용하기</a>
+                    <a href="javascript:;;" onclick="useIt('<?=$row['sms_idx'];?>','<?=$row['reservation_title']?>')">사용하기</a>
                 </td>                               
             </tr>
               <?

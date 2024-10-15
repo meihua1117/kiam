@@ -107,9 +107,9 @@ $(function(){
                 </tr>                      
                 <tr>
                     <th>코칭시작</th>
-                    <td><?=$row[coaching_date]?></td>
+                    <td><?=$row['coaching_date']?></td>
                     <th>코칭종료</th>
-                    <td><?=$row[coaching_date]?>[계산필요]</td>
+                    <td><?=$row['coaching_date']?>[계산필요]</td>
                 </tr>                    
  
                 <tr>

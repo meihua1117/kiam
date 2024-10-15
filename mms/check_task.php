@@ -38,7 +38,7 @@ $result=0;
 			{
 				$sql_u="update Gn_MMS_Number set month_cnt='{$send_mms_count}' where sendnum='{$userId }' ";
 				mysqli_query($self_con,$sql_u);
-				$result=$row[result];	
+				$result=$row['result'];	
 			}		
 		}
 		
@@ -63,5 +63,5 @@ $result=0;
 	$token_res = 1;
 //}
 
-echo "{\"result\":\"$result\",\"token_res\":\"$token_res\"}";
+echo json_encode(array("result"=>$result,"token_res"=>$token_res));
 ?>

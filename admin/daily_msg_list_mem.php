@@ -182,7 +182,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                             <td><?=$row[total_count]?></td>
                             <td><?=$srow['cnt']?></td>
                             <td><?=$row[daily_cnt]?></td>
-                            <td><?=$row[start_date]?></td>
+                            <td><?=$row['start_date']?></td>
                             <td><?=$row['end_date']?></td>
                             <td><?=$row['reg_date']?></td>
                             <td><a href="edit_daily_msg.php?type=mem&gd_id=<?=$row[gd_id]?>">수정</a>/<a href="javascript:delete_daily(<?=$row[gd_id]?>)">삭제</a></td>

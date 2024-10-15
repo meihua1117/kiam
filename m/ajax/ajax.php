@@ -140,7 +140,7 @@ if ($_POST['id'] && $_POST['pwd']) {
 		$sql .= " where mem_code='{$_POST['join_modify']}' ";
 	if (mysqli_query($self_con, $sql) or die(mysqli_error($self_con))) {
 		if ($_POST['join_modify']) {
-			//$_SESSION[one_member_iam_leb] = 0;
+			//$_SESSION['one_member_iam_leb'] = 0;
 			?>
 			<script language="javascript">
 				alert('수정완료되었습니다.');

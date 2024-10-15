@@ -117,7 +117,7 @@ while($row10=mysqli_fetch_array($result10)){
     $body .=  '<div class="downer">'. $row10['reg_date'] . '</div>';
     $body .=  '</div>';
     if($row10['paper_yn']){
-        $body .=  '          <div class="thumb" onclick="show_paper_img(`'.$row_paper_info[img_url].'`)">';
+        $body .=  '          <div class="thumb" onclick="show_paper_img(`'.$row_paper_info['img_url'].'`)">';
         $body .=  '              <div class="thumb-inner">';
         $body .=  '                 <img src="/iam/img/menu/icon_my_stroy.png" style="height: 42px;width: 42px;">';
         $body .=  '             </div>';

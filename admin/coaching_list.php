@@ -409,11 +409,11 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                         <td style="font-size:12px;"><?=$coaching_info_data[coty_id]?></td>
                         <td style="font-size:12px;"><?=$coaching_data['mem_name']?></td>
                         <td style="font-size:12px;"><?=$coaching_data['reg_date']?></td>
-                        <td style="font-size:12px;color:red;"><?=$coaching_data[cont_term]?> 일</td>
-                        <td style="font-size:12px;color:red;"><?=$coaching_data[cont_time]?> 시간</td>
+                        <td style="font-size:12px;color:red;"><?=$coaching_data['cont_term']?> 일</td>
+                        <td style="font-size:12px;color:red;"><?=$coaching_data['cont_time']?> 시간</td>
                         <td style="font-size:12px;"><?=$coaching_data[coaching_price]/10000?>만원</td>
-                        <td style="font-size:12px;"><?=$coaching_info_data[coaching_date]?></td>
-                        <td style="font-size:12px;"><?=$coaching_info_data[coaching_time]?> 분</td>
+                        <td style="font-size:12px;"><?=$coaching_info_data['coaching_date']?></td>
+                        <td style="font-size:12px;"><?=$coaching_info_data['coaching_time']?> 분</td>
                         <td style="font-size:12px;color:red;">
                               <?
                             // 잔여일시 계산
@@ -423,7 +423,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                             // $startdate_data=mysqli_fetch_array($resul_num);
 
 
-                            // $enddate = date('Y-m-d H:i:s',strtotime('+'.$coaching_data[cont_term].' day',strtotime($startdate_data[coaching_date])));
+                            // $enddate = date('Y-m-d H:i:s',strtotime('+'.$coaching_data['cont_term'].' day',strtotime($startdate_data['coaching_date'])));
 
                             // $currentTime = date("Y-m-d H:i:s");
 
@@ -435,7 +435,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                             //     $diff = floor(abs($date2 - $date1)/3600 / 24) + 1;
 
 
-                            //     echo $diff >$coaching_data[cont_term]?$coaching_data[cont_term]:$diff;
+                            //     echo $diff >$coaching_data['cont_term']?$coaching_data['cont_term']:$diff;
     
                             // }
 
@@ -445,7 +445,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                                 $date1 = strtotime(date('Y-m-d', $date1));
                                 //echo $date1."일<br>";
 
-                                $date2 = strtotime($coaching_info_data[coaching_date]);
+                                $date2 = strtotime($coaching_info_data['coaching_date']);
                                 $date2 = strtotime(date('Y-m-d', $date2));
                                 //echo $date2."일<br>";
 
@@ -460,7 +460,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                             // 잔여시간
 
  // 잔여시간
-                                    $remain_tatal_min =  ($coaching_data[cont_time] * 60) - $coaching_info_data[past_time_sum] - $coaching_info_data[coaching_time];
+                                    $remain_tatal_min =  ($coaching_data['cont_time'] * 60) - $coaching_info_data[past_time_sum] - $coaching_info_data['coaching_time'];
                                     $remain_hour = floor($remain_tatal_min / 60);
                                     $remain_min = $remain_tatal_min % 60;
                                     if($remain_min < 10){
@@ -671,9 +671,9 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                                                 </tr>        
                                                 <tr>
                                                     <th>계약기간</th>
-                                                    <td><?=$coaching_data[cont_term]?>일</td>
+                                                    <td><?=$coaching_data['cont_term']?>일</td>
                                                     <th>계약시간</th>
-                                                    <td><?=$coaching_data[cont_time]?>시간</td>
+                                                    <td><?=$coaching_data['cont_time']?>시간</td>
                                                 </tr>                    
                                  
                                                 <tr>
@@ -684,7 +684,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                                                 </tr>                      
                                                 <tr>
                                                     <th>코칭시작</th>
-                                                    <td><?=$coaching_info_data[start_date]?></td>
+                                                    <td><?=$coaching_info_data['start_date']?></td>
                                                     <th>코칭종료</th>
                                                     <td><?=$coaching_info_data['end_date']?></td>
                                                 </tr>                    
@@ -695,10 +695,10 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                                                         <? 
                                                         $currentTime = date("Y-m-d H:i:s");
 
-                                                         if($currentTime < $coaching_info_data[start_date]){
+                                                         if($currentTime < $coaching_info_data['start_date']){
                                                             echo "<label class='label label-sm label-warning'>대기</label>";
 
-                                                         }else if($currentTime > $coaching_info_data[start_date] && $currentTime < $coaching_info_data['end_date']){
+                                                         }else if($currentTime > $coaching_info_data['start_date'] && $currentTime < $coaching_info_data['end_date']){
                                                             echo "<label class='label label-sm label-primary'>진행중</label>";
                                                          }
                                                          else if($currentTime > $coaching_info_data['end_date']){
@@ -726,7 +726,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                                               <tr>
                                                   <th class="w200">코칭일시</th>
                                                   <td>
-                                                      <?=$coaching_info_data[coaching_date]?>
+                                                      <?=$coaching_info_data['coaching_date']?>
                                                    </td>
                                               </tr>                    
                                               <tr>

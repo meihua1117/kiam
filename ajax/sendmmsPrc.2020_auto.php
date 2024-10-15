@@ -13,13 +13,13 @@ if(isset($_POST['auto'])){
         'Content-Type: application/json'
     );
 	//문자발송
-	if($_POST[send_title] && $_POST[send_txt])
+	if($_POST['send_title'] && $_POST['send_txt'])
 	{
-	    if($_POST[send_rday]) //예약발송 확인
-            $reservation = $_POST[send_rday] . " " . $_POST[send_htime] . ":" . $_POST[send_mtime] . ":00";
+	    if($_POST['send_rday']) //예약발송 확인
+            $reservation = $_POST['send_rday'] . " " . $_POST['send_htime'] . ":" . $_POST['send_mtime'] . ":00";
         $now_date = date("Y-m-d H:i:s");
 
-        if($_POST[send_rday])
+        if($_POST['send_rday'])
         {
             if(!$_POST[invite]){
                 if($now_date  > $reservation) // 현재 > 예약 시각
@@ -135,7 +135,7 @@ if(isset($_POST['auto'])){
             $res_ad = mysqli_query($self_con,$sql_ad);
             $row_ad = mysqli_fetch_array($res_ad);
             $ad_msg = $row_ad['content'];
-            if($row_ad[img_path] == "") {
+            if($row_ad['img_path'] == "") {
                 $ad_msg .= $domain_url.$row_ad['img_path'];
             }else {
                 //$ad_msg .= $domain_url;
@@ -1039,7 +1039,7 @@ if(isset($_POST['auto'])){
                     mysqli_query($self_con,$sql_start) or die(mysqli_error($self_con));*/
 
                     // Cooper Add 치환 대상자 이름 뽑기
-                    if(strstr($_POST[send_txt], "{|name|}") ) {
+                    if(strstr($_POST['send_txt'], "{|name|}") ) {
                         $recv_str_sql ="'".implode("','",$recv_arr)."'";
                         $query = "select  GROUP_CONCAT(res.recv_num SEPARATOR ',') as recv_num, GROUP_CONCAT(res.name SEPARATOR ',') as name FROM (
                                         select a.recv_num, a.name from (
@@ -1075,7 +1075,7 @@ if(isset($_POST['auto'])){
                             else
                                 $recv_name_str .= substr($val,-4);
                         }
-                        $mms_info[replacement1] = $recv_name_str."";
+                        $mms_info['replacement1'] = $recv_name_str."";
                         mysqli_free_result($replace_result);
                     } else {
                         $recv_str=implode(",",$recv_arr);
@@ -1090,17 +1090,17 @@ if(isset($_POST['auto'])){
                     $mms_info['send_num']=$sendnum[$j];
                     $mms_info['recv_num']=$recv_str;
                     $mms_info['uni_id']=$req;
-                    $mms_info['content']=addslashes(htmlspecialchars($_POST[send_txt]));
+                    $mms_info['content']=addslashes(htmlspecialchars($_POST['send_txt']));
                     $mms_info['jpg']=$img;
                     $mms_info['type']=$_POST[send_type];
-                    $mms_info['title']=htmlspecialchars($_POST[send_title]);
+                    $mms_info['title']=htmlspecialchars($_POST['send_title']);
                     $mms_info['delay']=$_POST[send_delay];
-                    $mms_info[delay2]=$_POST[send_delay2];
+                    $mms_info['delay2']=$_POST[send_delay2];
                     $mms_info['close']=$_POST[send_close];
-                    $mms_info[url]=$denv_url_str;
-                    $mms_info['jpg']=$_POST[send_img].$img;
-                    $mms_info['jpg1']=$_POST[send_img1].$img;
-                    $mms_info['jpg2']=$_POST[send_img2].$img;
+                    $mms_info['url']=$denv_url_str;
+                    $mms_info['jpg']=$_POST['send_img'].$img;
+                    $mms_info['jpg1']=$_POST['send_img1'].$img;
+                    $mms_info['jpg2']=$_POST['send_img2'].$img;
                     $mms_info['agreement_yn'] = $_POST['send_agreement_yn'];
                     if($reservation) //예약문자
                         $mms_info['reservation']=$reservation;
@@ -1112,7 +1112,7 @@ if(isset($_POST['auto'])){
                     if($debug_mode == false) {
                         mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
                         $sidx = mysqli_insert_id($self_con);
-                        if($_POST[send_rday] == "") {
+                        if($_POST['send_rday'] == "") {
                             if($pkey[$mms_info['send_num']] != "") {
                                 $id = $pkey[$mms_info['send_num']];
                                 $title='{"MMS Push"}';
@@ -1199,24 +1199,24 @@ if(isset($_POST['auto'])){
         unset($cntAdj_log_arr[$j]);
         unset($num_arr);
 
-        if($_POST[send_save_mms])
+        if($_POST['send_save_mms'])
         { //메시지 저장
             if($_POST[send_onebook_status]=="Y")
                 $message_info['msg_type']="C";
             else
             {
-                if($_POST[send_img]) //메시지 타입
+                if($_POST['send_img']) //메시지 타입
                 $message_info['msg_type']="B";
                 else
                 $message_info['msg_type']="A";
             }
             $sql="insert into Gn_MMS_Message set "; //발송
             $message_info['mem_id']=$mem_id_mms;
-            $message_info['title']=htmlspecialchars(str_replace("{|name|}", "{|REP|}",$_POST[send_title]));
-            $message_info['message']=htmlspecialchars(str_replace("{|name|}", "{|REP|}",$_POST[send_txt]));
-            $message_info['img']=$_POST[send_img];
-            $message_info[img1]=$_POST[send_img1];
-            $message_info[img2]=$_POST[send_img2];
+            $message_info['title']=htmlspecialchars(str_replace("{|name|}", "{|REP|}",$_POST['send_title']));
+            $message_info['message']=htmlspecialchars(str_replace("{|name|}", "{|REP|}",$_POST['send_txt']));
+            $message_info['img']=$_POST['send_img'];
+            $message_info['img1']=$_POST['send_img1'];
+            $message_info['img2']=$_POST['send_img2'];
 
             foreach($message_info as $key=>$v)
             {

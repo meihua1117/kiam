@@ -61,5 +61,5 @@ else{
 	$token_res = 1;
 }
 
-echo "{\"today\":\"$reserv_cnt_thisday\",\"month\":\"$reserv_cnt_thismonth\",\"token_res\":\"$token_res\"}";
+echo json_encode(array("today"=>$reserv_cnt_thisday,"month"=>$reserv_cnt_thismonth,"token_res"=>$token_res));
 ?>

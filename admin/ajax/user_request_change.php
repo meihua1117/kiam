@@ -18,13 +18,13 @@ $row=mysqli_fetch_array($resul);
 
 if($_POST['mode'] == "") {
     $result = -1;
-    echo "{\"result\":\"$result\",\"msg\":\"정보가 없습니다.\"}";
+    echo json_encode(array("result"=>$result,"msg"=>"정보가 없습니다."));
     exit;
 }
 
 if($_POST['mem_id'] == "") {
     $result = -1;
-    echo "{\"result\":\"$result\",\"msg\":\"아이디가 없습니다.\"}";
+    echo json_encode(array("result"=>$result,"msg"=>"아이디가 없습니다."));
     exit;
 }
 
@@ -37,5 +37,5 @@ if($_POST['balance_per'] != "") {
     
 $sql="update Gn_Member set service_type='".$_POST['service_type']."' $addQuery where mem_id='$mem_id'";
 mysqli_query($self_con,$sql);	
-echo "{\"result\":\"$result\"}";
+echo json_encode(array("result"=>$result));
 ?>

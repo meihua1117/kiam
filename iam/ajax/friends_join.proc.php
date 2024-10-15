@@ -45,7 +45,7 @@ else if($mode == "add_one"){
   $result3=mysqli_query($self_con,$sql3);
   $comment_row=mysqli_fetch_array($result3);
 
-  if((int)$comment_row[0] >= 5 && (int)$_SESSION[one_member_iam_leb] == 1) {
+  if((int)$comment_row[0] >= 5 && (int)$_SESSION['one_member_iam_leb'] == 1) {
     echo '간편회원은 프렌즈를 5명까지만 등록할수 있습니다. 더 등록하시려면 정회원으로 가입해 주세요.';
     exit;
   }

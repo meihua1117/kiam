@@ -26,7 +26,7 @@ $seller_id = "";
 if(isset($_GET['item_price'])){
     $item_price = $_GET['item_price'] * 1;
 }
-if(isset($_GET[url])){
+if(isset($_GET['url'])){
     $cur_win = $_GET['url'];
 }
 ?>

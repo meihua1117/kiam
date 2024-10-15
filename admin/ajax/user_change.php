@@ -144,9 +144,10 @@ if($_POST['video_upload']){
     $sql_update = "update Gn_Member set video_upload='{$status}' where mem_code='{$index}'";
     $result = mysqli_query($self_con,$sql_update);
 }
-echo "{\"result\":\"$result\"}";
+echo json_encode(array("result"=>$result));
 function setPosition($user_id, $position)
 {
+    global $self_con;
     $sql3="select sub_domain FROM Gn_Service WHERE sub_domain like '%kiam.kr' And mem_id='$user_id'";
     $res=mysqli_query($self_con,$sql3);
     $row1 = mysqli_fetch_array($res);
@@ -170,6 +171,7 @@ function setPosition($user_id, $position)
 
 function getPosition($recommender)
 {
+    global $self_con;
     $sql3="select sub_domain FROM Gn_Service WHERE sub_domain like '%kiam.kr' And mem_id='$recommender'";
     $res=mysqli_query($self_con,$sql3);
     $row1 = mysqli_fetch_array($res);

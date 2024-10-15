@@ -173,7 +173,7 @@ $(function(){
                 <tr>
                     <th class="w200">직업</th>
                     <td>
-                        <input type="text" name="job" placeholder="" id="job" value="<?=$data[job]?>"/> </td>
+                        <input type="text" name="job" placeholder="" id="job" value="<?=$data['job']?>"/> </td>
                 </tr>
                 <tr>
                     <th class="w200">주소</th>

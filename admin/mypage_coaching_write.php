@@ -95,13 +95,13 @@ $(function(){
                 <tr>
                     <th class="w200">코칭시작일시</th>
                     <td>
-                        <input type="text" name="start_date" id="start_date" placeholder="코칭시작날자와 시작시간을 입력하세요"  value="<?=$row[start_date]?>" /> 
+                        <input type="text" name="start_date" id="start_date" placeholder="코칭시작날자와 시작시간을 입력하세요"  value="<?=$row['start_date']?>" /> 
                     </td>
                 </tr>      
                 <tr>
                     <th class="w200">코칭시간</th>
                     <td>
-                        <input type="text" name="start_date" id="start_date" placeholder="코칭을 수행한 시간을 분단위로 기록하세요"  value="<?=$row[start_date]?>" /> 
+                        <input type="text" name="start_date" id="start_date" placeholder="코칭을 수행한 시간을 분단위로 기록하세요"  value="<?=$row['start_date']?>" /> 
                     </td>
                 </tr>                    
               
@@ -132,7 +132,7 @@ $(function(){
                 <tr>
                     <th class="w200">등록일시</th>
                     <td>
-                        <input type="text" name="start_date" id="start_date" placeholder=""  value="<?=$row[start_date]?>" /> 
+                        <input type="text" name="start_date" id="start_date" placeholder=""  value="<?=$row['start_date']?>" /> 
                     </td>
                 </tr>      
                                

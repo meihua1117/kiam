@@ -100,7 +100,7 @@ $(function(){
                                 <option value="mobile" <?if($_REQUEST['search_key'] == "mobile") echo "selected"?>>신청폰번호</option>
                             </select>
                             <input type="text" name="search_text" placeholder="" id="search_text" value="<?=$_REQUEST['search_text']?>"/>
-                            <input type="text" name="sp" placeholder="" id="event_code" value="<?=$_REQUEST[sp]?>" readonly style="background:#efefef"/>
+                            <input type="text" name="sp" placeholder="" id="event_code" value="<?=$_REQUEST['sp']?>" readonly style="background:#efefef"/>
                             <input type="button" value="신청창 조회" class="button " id="searchBtn">
                             <a href="javascript:void(0)" onclick="pay_form.submit()"><img src="images/sub_mypage_11.jpg" /></a>
                             <div style="float:right;">
@@ -164,7 +164,7 @@ $(function(){
                             }
                             if($_REQUEST['sp'])
                             {
-                                $sp = $_REQUEST[sp];
+                                $sp = $_REQUEST['sp'];
                                 $sql_serch.=" and sp ='$sp'";
                             }
 
@@ -220,7 +220,7 @@ $(function(){
                                     }
                             ?>
                                 <tr>
-                                    <td><input type="checkbox" class="check" name="event_idx" value="<?php echo $row['request_idx'];?>" data-name="<?=$row['name']?>" data-mobile="<?=$row['mobile']?>"  data-email="<?=$row['email']?>" data-job="<?=$row[job]?>"  data-event_code="<?=$row[event_code]?>"  data-counsult_date="<?=$row[counsult_date]?>" data-sp="<?=$row[sp]?>" data-request_idx="<?php echo $row['request_idx'];?>"></td>
+                                    <td><input type="checkbox" class="check" name="event_idx" value="<?php echo $row['request_idx'];?>" data-name="<?=$row['name']?>" data-mobile="<?=$row['mobile']?>"  data-email="<?=$row['email']?>" data-job="<?=$row['job']?>"  data-event_code="<?=$row['event_code']?>"  data-counsult_date="<?=$row['counsult_date']?>" data-sp="<?=$row['sp']?>" data-request_idx="<?php echo $row['request_idx'];?>"></td>
                                     <td><?=$sort_no?></td>
                                     <td style="font-size:12px;"><?=$row['name']?><br>
                                         <a onclick="window.open('mypage_pop_activity_list.php?request_idx='+'<?=$row[request_idx]?>','','top=300,left=300,width=800,height=500,toolbar=no,menubar=no,scrollbars=yes, resizable=yes,location=no, status=no')" >[보기]</a>
@@ -265,7 +265,7 @@ $(function(){
                                             [신청정보보기]<br>
                                                 &nbsp;>성별:<? if($row[sex] == "m") echo " 남자"; else if($row[sex] == "f") echo " 여자"; else echo " "; ?><br>
                                                 &nbsp;>출생년도:<?=$row[birthday];?><br>
-                                                &nbsp;>소속/직업:<?=$row[job];?><br>
+                                                &nbsp;>소속/직업:<?=$row['job'];?><br>
                                                 &nbsp;>이메일:<?=$row['email'];?><br>
                                                 &nbsp;>거주주소:<?=$row[addr];?><br>
                                                 &nbsp;>가입여부:<?=$row[join_yn];?><br>

@@ -55,7 +55,7 @@ if($_POST['mode'] == "reset") {
         $resul=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
         $row=mysqli_fetch_array($resul);   
         if($row['user_id'] != "") {
-            echo "{\"result\":\"$result\":\"msg\":\"이미 있는 회원 아이디 입니다.\"}";
+            echo json_encode(array("result"=>$result,"msg"=>"이미 있는 회원 아이디 입니다."));
             exit;
         }
         $addSql .= " ,`password`=md5('$password')";
@@ -86,5 +86,5 @@ if($_POST['mode'] == "reset") {
         mysqli_query($self_con,$sql);	    
     }
 }
-echo "{\"result\":\"$result\"}";
+echo json_encode(array("result"=>$result));
 ?>

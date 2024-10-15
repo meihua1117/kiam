@@ -204,7 +204,7 @@ $(function(){
                   {
                   ?>
                   <tr>
-                    <td colspan="3" style="font-size:12px;text-align:left;"><?=$row[lecture_info]?>/<?=$row[instructor]?>/<?=$row[start_date]?>~<?=$row['end_date']?>/<?=$row[area]?></td>
+                    <td colspan="3" style="font-size:12px;text-align:left;"><?=$row[lecture_info]?>/<?=$row[instructor]?>/<?=$row['start_date']?>~<?=$row['end_date']?>/<?=$row[area]?></td>
                   </tr>
                   <tr>
                     <td colspan="3" style="font-size:12px;text-align:left;"><?=$row['content']?></td>

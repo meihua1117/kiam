@@ -173,12 +173,12 @@ $data=mysqli_fetch_array($sresul_num);
                                             $recv_cnt=explode(",",$row_sn['recv_num']);
 
                                             $total_cnt = count($recv_cnt);
-                                            $sql_sn="select count(*) as cnt from Gn_event_sms_step_info where sms_idx='$row[sms_idx]' ";
+                                            $sql_sn="select count(*) as cnt from Gn_event_sms_step_info where sms_idx='{$row['sms_idx']}' ";
                                             $sresul=mysqli_query($self_con,$sql_sn);
                                             $crow=mysqli_fetch_array($sresul);
                                             $total_cnt_ = $crow['cnt'];
 
-                                            $sql_sn="select step from Gn_event_sms_step_info where sms_detail_idx='$row[sms_detail_idx]' ";
+                                            $sql_sn="select step from Gn_event_sms_step_info where sms_detail_idx='{$row['sms_detail_idx']}' ";
                                             $sresul=mysqli_query($self_con,$sql_sn);
                                             $crow=mysqli_fetch_array($sresul);
                                             if($success_cnt > $total_cnt )
@@ -204,7 +204,7 @@ $data=mysqli_fetch_array($sresul_num);
                                                     }
                                                     ?></td>
                                                 <td><?=$total_cnt_?></td>
-                                                <td><?=$crow[step]?></td>
+                                                <td><?=$crow['step']?></td>
                                                 <td>
                                                     <a href="javascript:void(0)" onclick="show_recv('show_title','<?=$c?>','문자제목')"><?=str_substr($row['title'],0,14,'utf-8')?></a>
                                                     <input type="hidden" name="show_title" value="<?=$row['title']?>"/>
@@ -213,7 +213,7 @@ $data=mysqli_fetch_array($sresul_num);
                                                     <a href="javascript:void(0)" onclick="show_recv('show_content','<?=$c?>','문자내용')"><?=str_substr($row['content'],0,30,'utf-8')?></a><input type="hidden" name="show_content" value="<?=$row['content']?>"/>
                                                 </td>
                                                 <?if($_REQUEST['status2']=='2'){?>
-                                                    <td style="width:5%;"><?if($row['up_date']!=''&&$row[result]==0){?>완료<?}elseif($row['up_date']==''&&$row[result]==1){?>발송실패<?}else{?>실패<?}?></td>
+                                                    <td style="width:5%;"><?if($row['up_date']!=''&&$row['result']==0){?>완료<?}elseif($row['up_date']==''&&$row['result']==1){?>발송실패<?}else{?>실패<?}?></td>
                                                 <?}?>
                                                 <td>
                                                     <?if ($_REQUEST['status2']==2){ echo substr($row['reservation'],0,16); }else{?>

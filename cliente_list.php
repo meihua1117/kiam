@@ -338,7 +338,7 @@ $result2=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 					  while($row=mysqli_fetch_array($result))
 					  {
 						?>
-						<tr style="<?=$row[important_yn] == 'Y'?'background-color:gold':''?>">
+						<tr style="<?=$row['important_yn'] == 'Y'?'background-color:gold':''?>">
                             <td><label><input type="checkbox" value="<?=$row['no']?>" name="no_box"  /><?=$sort_no?></label></td>
                             <? if($_REQUEST['status']==2){?>
                             <td><?=$fl_arr[$row['fl']]?></td>
@@ -359,7 +359,7 @@ $result2=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
                       }
                       while($row=mysqli_fetch_array($result2))
 					  {?>
-						<tr style="<?=$row[important_yn] == 'Y'?'background-color:gold':''?>">
+						<tr style="<?=$row['important_yn'] == 'Y'?'background-color:gold':''?>">
                             <td><label><input type="checkbox" value="<?=$row['no']?>" name="no_box"  /><?=$sort_no?></label></td>
                             <? if($_REQUEST['status']==2){?>
                             <td><?=$fl_arr[$row['fl']]?></td>

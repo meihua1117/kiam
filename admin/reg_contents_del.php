@@ -19,5 +19,5 @@ else if(isset($_POST['share_contents'])){
     $result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 }
 // 정보 확인
-echo "{\"result\":\"$result\"}";
+echo json_encode(array("result"=>$result));
 ?>

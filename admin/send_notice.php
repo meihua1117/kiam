@@ -352,7 +352,7 @@ $sql_ad = "select `gaid`, `client`, `start_date`, `send_start_date`, `send_end_d
 $res_ad = mysqli_query($self_con,$sql_ad);
 $row_ad = mysqli_fetch_array($res_ad);
 $ad_msg = $row_ad['content'];
-if($row_ad[img_path] == "") {
+if($row_ad['img_path'] == "") {
     $ad_msg .= $domain_url.$row_ad['img_path'];
 }else {
     //$ad_msg .= $domain_url;
@@ -435,15 +435,15 @@ foreach($memberList as $member) {
                                                      agreement_yn='Y',
                                                      reg_date=NOW(),
                                                      reservation='$reservation',
-                                                     sms_idx='$row[sms_idx]',
-                                                     sms_detail_idx='$row[sms_detail_idx]',
+                                                     sms_idx='{$row['sms_idx']}',
+                                                     sms_detail_idx='{$row['sms_detail_idx']}',
                                                      request_idx='',
                                                      self_memo='$self_memo',
                                                      recv_num_cnt=1                                      
                                                      
                     ";
                     mysqli_query($self_con,$query) or die(mysqli_error($self_con));
-                    $last_id = mysql_insert_id(); 
+                    $last_id = mysqli_insert_id($self_con); 
                     
                     if($reservation == "")
                         sendPush($url, $headers, $rown['pkey'], $last_id, 5, $send_num);
@@ -461,8 +461,8 @@ foreach($memberList as $member) {
                                                      jpg='$jpg',
                                                      reg_date=NOW(),
                                                      reservation='$reservation',
-                                                     sms_idx='$row[sms_idx]',
-                                                     sms_detail_idx='$row[sms_detail_idx]',
+                                                     sms_idx='{$row['sms_idx']}',
+                                                     sms_detail_idx='{$row['sms_detail_idx']}',
                                                      request_idx=''
                             ";
                     //echo $query."<BR>";
@@ -474,7 +474,7 @@ foreach($memberList as $member) {
         }
     }else {
         $mms_info['delay']=$sendDelay;
-        $mms_info[delay2]=$sendDelay2;
+        $mms_info['delay2']=$sendDelay2;
         $mms_info['close']=$sendClose;
         // $ret = sendmms(5, $member['mem_id'], $send_num, $send_num, $reservation, htmlspecialchars($title), addslashes(htmlspecialchars($text)), $send_img, $send_img1, $send_img2, "N");
         // if($ret != "fail")
@@ -506,7 +506,7 @@ foreach($memberList as $member) {
                                                          self_memo='$self_memo',
                                                          recv_num_cnt=1";
             mysqli_query($self_con,$query) or die(mysqli_error($self_con));
-            $last_id = mysql_insert_id(); 
+            $last_id = mysqli_insert_id($self_con); 
    
             if($reservation == "")
                 sendPush($url, $headers, $rown['pkey'], $last_id, 5, $send_num);
@@ -526,8 +526,8 @@ foreach($memberList as $member) {
                 $message_info['title']=htmlspecialchars(str_replace("{|name|}", "{|REP|}",$title));
                 $message_info['message']=htmlspecialchars(str_replace("{|name|}", "{|REP|}",$text));
                 $message_info['img']=$send_img;
-                $message_info[img1]=$send_img1;
-                $message_info[img2]=$send_img2;
+                $message_info['img1']=$send_img1;
+                $message_info['img2']=$send_img2;
                 foreach($message_info as $key=>$v)
                 {
                     $sql.=" $key='$v' , ";

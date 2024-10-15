@@ -83,7 +83,7 @@ if (!$token || !check_token($phone_num, $token)) {
 	$title = str_replace("{|name|}", "{|REP|}", $row['title']);
 	$title = str_replace("{|email|}", "{|REP1|}", $title);
 	//$title = json_encode($title);
-	$url = $row[url];
+	$url = $row['url'];
 	//$url = json_encode($url);
 	$url = str_replace('"', '', $url);
 	//$url = str_replace(',','',$url);
@@ -115,8 +115,8 @@ if (!$token || !check_token($phone_num, $token)) {
 	);
 	if (strpos($row['recv_num'], ",")) {
 		$receive = explode(",", $row['recv_num']);
-		$replacement1 = explode(",", $row[replacement1]);
-		$replacement2 = explode(",", $row[replacement2]);
+		$replacement1 = explode(",", $row['replacement1']);
+		$replacement2 = explode(",", $row['replacement2']);
 		$url_ex = explode(",", $url);
 		$string = array();
 		for ($i = 0; $i < count($receive); $i++) {
@@ -133,8 +133,8 @@ if (!$token || !check_token($phone_num, $token)) {
 		$data = json_encode($data);
 		$data = preg_replace('/null(?=([^,{}]*[},])|($))/', '""', $data);
 		echo $data;
-		//echo "{\"txt\":$msg,\"reqid\":\"$row['uni_id']\",\"delay\":\"$row['delay']\",\"delay2\":\"$row[delay2]\",\"close\":\"24\",\"idx\":\"$row['idx']\",\"type\":\"$row['type']\",\"title\":$title,\"jpg\":\"$row['jpg']\",\"jpg1\":\"$row['jpg1']\",\"jpg2\":\"$row['jpg2']\",\"pnum\":[$string]}";
-		//$data = "{\"txt\":$msg,\"reqid\":\"$row['uni_id']\",\"delay\":\"$row['delay']\",\"delay2\":\"$row[delay2]\",\"close\":\"24\",\"idx\":\"$row['idx']\",\"type\":\"$row['type']\",\"title\":$title,\"jpg\":\"$row['jpg']\",\"jpg1\":\"$row['jpg1']\",\"jpg2\":\"$row['jpg2']\",\"pnum\":[$string]}";
+		//echo "{\"txt\":$msg,\"reqid\":\"$row['uni_id']\",\"delay\":\"$row['delay']\",\"delay2\":\"$row['delay2']\",\"close\":\"24\",\"idx\":\"$row['idx']\",\"type\":\"$row['type']\",\"title\":$title,\"jpg\":\"$row['jpg']\",\"jpg1\":\"$row['jpg1']\",\"jpg2\":\"$row['jpg2']\",\"pnum\":[$string]}";
+		//$data = "{\"txt\":$msg,\"reqid\":\"$row['uni_id']\",\"delay\":\"$row['delay']\",\"delay2\":\"$row['delay2']\",\"close\":\"24\",\"idx\":\"$row['idx']\",\"type\":\"$row['type']\",\"title\":$title,\"jpg\":\"$row['jpg']\",\"jpg1\":\"$row['jpg1']\",\"jpg2\":\"$row['jpg2']\",\"pnum\":[$string]}";
 	} else {
 		$url = str_replace("null", "", $url);
 		$string = array();
@@ -149,8 +149,8 @@ if (!$token || !check_token($phone_num, $token)) {
 		$data = json_encode($data);
 		$data = preg_replace('/null(?=([^,{}]*[},])|($))/', '""', $data);
 		echo $data;
-		//echo "{\"txt\":$msg,\"reqid\":\"$row['uni_id']\",\"type\":\"$row['type']\",\"idx\":\"$row['idx']\",\"delay\":\"$row['delay']\",\"delay2\":\"$row[delay2]\",\"close\":\"24\",\"title\":$title,\"jpg\":\"$row['jpg']\",\"jpg1\":\"$row['jpg1']\",\"jpg2\":\"$row['jpg2']\",\"pnum\":[{\"bnc\":\"$url\",\"num\":\"$row['recv_num']\",\"rep\":\"$row[replacement1]\",\"rep1\":\"$row[replacement2]\"}]}";
-		//$data = "{\"txt\":$msg,\"reqid\":\"$row['uni_id']\",\"type\":\"$row['type']\",\"idx\":\"$row['idx']\",\"delay\":\"$row['delay']\",\"delay2\":\"$row[delay2]\",\"close\":\"24\",\"title\":$title,\"jpg\":\"$row['jpg']\",\"jpg1\":\"$row['jpg1']\",\"jpg2\":\"$row['jpg2']\",\"pnum\":[{\"bnc\":\"$url\",\"num\":\"$row['recv_num']\",\"rep\":\"$row[replacement1]\",\"rep1\":\"$row[replacement2]\"}]}";
+		//echo "{\"txt\":$msg,\"reqid\":\"$row['uni_id']\",\"type\":\"$row['type']\",\"idx\":\"$row['idx']\",\"delay\":\"$row['delay']\",\"delay2\":\"$row['delay2']\",\"close\":\"24\",\"title\":$title,\"jpg\":\"$row['jpg']\",\"jpg1\":\"$row['jpg1']\",\"jpg2\":\"$row['jpg2']\",\"pnum\":[{\"bnc\":\"$url\",\"num\":\"$row['recv_num']\",\"rep\":\"$row['replacement1']\",\"rep1\":\"$row['replacement2']\"}]}";
+		//$data = "{\"txt\":$msg,\"reqid\":\"$row['uni_id']\",\"type\":\"$row['type']\",\"idx\":\"$row['idx']\",\"delay\":\"$row['delay']\",\"delay2\":\"$row['delay2']\",\"close\":\"24\",\"title\":$title,\"jpg\":\"$row['jpg']\",\"jpg1\":\"$row['jpg1']\",\"jpg2\":\"$row['jpg2']\",\"pnum\":[{\"bnc\":\"$url\",\"num\":\"$row['recv_num']\",\"rep\":\"$row['replacement1']\",\"rep1\":\"$row['replacement2']\"}]}";
 	}
 	if ($row['idx']) {
 		$sql_j = "insert Gn_MMS_Json set mms_idx = '" . $row['idx'] . "', data = '" . $data . "', reg_date = now()";

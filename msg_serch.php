@@ -252,15 +252,15 @@ function deleteRow(idx) {
                                                 <div class="msg_title"><?=$row['title']?></div>
                                                 <div class="img_view_1"><img src="<?=$row['img']?>" /></div>
                                                 <?php if($row['img1'] != "") {?>
-                                                <div class="img_view_1"><img src="<?=$row[img1]?>" /></div>
+                                                <div class="img_view_1"><img src="<?=$row['img1']?>" /></div>
                                                 <?php }?>
                                                 <?php if($row['img2'] != "") {?>
-                                                <div class="img_view_1"><img src="<?=$row[img2]?>" /></div>
+                                                <div class="img_view_1"><img src="<?=$row['img2']?>" /></div>
                                                 <?php } ?>
                                                 <div>
                                                     <input type="hidden" name="photo_content" value="<?=$row['img']?>" />
-                                                    <input type="hidden" name="photo_content1" value="<?=$row[img1]?>" />
-                                                    <input type="hidden" name="photo_content2" value="<?=$row[img2]?>" />
+                                                    <input type="hidden" name="photo_content1" value="<?=$row['img1']?>" />
+                                                    <input type="hidden" name="photo_content2" value="<?=$row['img2']?>" />
                                                     <textarea name="message" style="display:none"><?=$row['message']?></textarea>
                                                 </div>                                            
                                             </div>

@@ -154,6 +154,5 @@ if ($result == "0"){ //로그인 성공
 	$query2 = mysqli_query($self_con,$sql);
 
 }
-echo "{\"result\":\"$result\",\"mem_code\":\"$mem_code\",\"site\":\"$site\",\"site_iam\":\"$site_iam\"}";
-//echo "{\"result\":\"$result\"}";
+echo json_encode(array("result"=>$result,"mem_code"=>$mem_code,"site"=>$site,"site_iam"=>$site_iam));
 ?>

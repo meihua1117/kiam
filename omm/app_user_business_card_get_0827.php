@@ -48,7 +48,7 @@ if ($useType == '1') {
 			$resul_p = mysqli_query($self_con,$select_user);
 			$row_p = mysqli_fetch_array($resul_p);
 
-			if(!$row_p['name'] && !$row_p[job] && !$row_p[org_name] && !$row_p[address] && !$row_p['mobile'] && !$row_p[email1] && $row_p[comment]){
+			if(!$row_p['name'] && !$row_p['job'] && !$row_p[org_name] && !$row_p[address] && !$row_p['mobile'] && !$row_p[email1] && $row_p[comment]){
 			$arr = explode("\n", $row_p[comment]);
 			for($i = 0; $i < count($arr); $i++){
 				$pattern = '/[a-z0-9_\-\+\.]+@[a-z0-9\-]+\.([a-z]{2,4})(?:\.[a-z]{2})?/i';
@@ -131,7 +131,7 @@ if ($useType == '1') {
 	$resul_p = mysqli_query($self_con,$select_user);
 	$row_p = mysqli_fetch_array($resul_p);
 
-	if(!$row_p['name'] && !$row_p[job] && !$row_p[org_name] && !$row_p[address] && !$row_p['mobile'] && !$row_p[email1] && $row_p[comment]){
+	if(!$row_p['name'] && !$row_p['job'] && !$row_p[org_name] && !$row_p[address] && !$row_p['mobile'] && !$row_p[email1] && $row_p[comment]){
         $arr = explode("\n", $row_p[comment]);
         for($i = 0; $i < count($arr); $i++){
             $pattern = '/[a-z0-9_\-\+\.]+@[a-z0-9\-]+\.([a-z]{2,4})(?:\.[a-z]{2})?/i';

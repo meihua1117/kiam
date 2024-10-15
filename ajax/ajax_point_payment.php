@@ -91,15 +91,15 @@ if($_POST['pay_type'] == "message_set"){
     $res = mysqli_query($self_con,$sql);
     while($step_row = mysqli_fetch_array($res)){
         $sql = "insert into Gn_event_sms_step_info set sms_idx = $sms_idx,
-                                                    step = '$step_row[step]',
-                                                    send_day = '$step_row[send_day]',
-                                                    send_time = '$step_row[send_time]',
+                                                    step = '{$step_row['step']}',
+                                                    send_day = '{$step_row['send_day']}',
+                                                    send_time = '{$step_row['send_time']}',
                                                     title= '{$step_row['title']}',
                                                     content = '{$step_row['content']}',
-                                                    image = '$step_row[image]',
-                                                    image1 = '$step_row[image1]',
-                                                    image2 = '$step_row[image2]',
-                                                    send_deny = '$step_row[send_deny]',
+                                                    image = '{$step_row['image']}',
+                                                    image1 = '{$step_row['image1']}',
+                                                    image2 = '{$step_row['image2']}',
+                                                    send_deny = '{$step_row['send_deny']}',
                                                     regdate=NOW()";
         mysqli_query($self_con,$sql);
     }

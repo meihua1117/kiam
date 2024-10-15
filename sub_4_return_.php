@@ -67,7 +67,7 @@ extract($_REQUEST);
 	}				
 	// $sql_serch .= " and content != '".$_SESSION['one_member_id'].", app_check_process'";
 	// 상태 검색 추가
-	// if($row['up_date']!=''&&$row[result]==0){echo"완료";}elseif($row['up_date']==''&&$row[result]==1){echo "대기";}elseif($row[result]==3){echo "실패";}
+	// if($row['up_date']!=''&&$row['result']==0){echo"완료";}elseif($row['up_date']==''&&$row['result']==1){echo "대기";}elseif($row['result']==3){echo "실패";}
 	if($_REQUEST['result'] == 1) {
 	    $sql_serch .= " and result = 0 and up_date is not null ";
 	} elseif($_REQUEST['result'] == 2) {
@@ -388,7 +388,7 @@ extract($_REQUEST);
 												<input type="hidden" name="show_content" value="<?=$row['content']?>"/>
 											</td>
 											<?if($_REQUEST['status2']=='2'){?>
-		                                    <td style="width:5%;"><?if($row['up_date']!=''&&$row[result]==0){?>완료<?}elseif($row['up_date']==''&&$row[result]==1){?>대기<?}elseif($row[result]==3){?>실패<?}?></td>
+		                                    <td style="width:5%;"><?if($row['up_date']!=''&&$row['result']==0){?>완료<?}elseif($row['up_date']==''&&$row['result']==1){?>대기<?}elseif($row['result']==3){?>실패<?}?></td>
 		                                    <?}?>
 											<td>
 											    <?if ($_REQUEST['status2']==2){ 
@@ -593,7 +593,7 @@ function all_msg_del(type){
 }
 
 function show_daily(type){
-	location.href="sub_4_return_.php?serch_fs_select="+"<?=$_REQUEST[serch_fs_select]?>"+"&result="+"<?=$_REQUEST[result]?>"+"&serch_fs_text="+"<?=$_REQUEST[serch_fs_text]?>"+"&order_status="+"<?=$order_status?>"+"&page="+"<?=$page?>"+"&chanel="+"<?=$_REQUEST[chanel]?>"+"&daily_type="+type+"&page2="+"<?=$page2?>";
+	location.href="sub_4_return_.php?serch_fs_select="+"<?=$_REQUEST[serch_fs_select]?>"+"&result="+"<?=$_REQUEST['result']?>"+"&serch_fs_text="+"<?=$_REQUEST[serch_fs_text]?>"+"&order_status="+"<?=$order_status?>"+"&page="+"<?=$page?>"+"&chanel="+"<?=$_REQUEST[chanel]?>"+"&daily_type="+type+"&page2="+"<?=$page2?>";
 }
 
 function show_grp_detail(grp_id, start, end){

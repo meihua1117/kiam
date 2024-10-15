@@ -34,16 +34,16 @@ $No = 1;
 while($row=mysqli_fetch_array($result)){
 	$objPHPExcel->setActiveSheetIndex(0)
 				->setCellValue("A$h",$No++)
-				->setCellValue("B$h",$row[sp])
+				->setCellValue("B$h",$row['sp'])
 				->setCellValue("C$h",$row['name'])
 				->setCellValue("D$h",$row[sex])
 				->setCellValue("E$h",$row['mobile'])
 				->setCellValue("F$h",$row[addr])
 				->setCellValue("G$h",$row['email'])
 				->setCellValue("H$h",$row[birthday])
-				->setCellValue("I$h",$row[job])
+				->setCellValue("I$h",$row['job'])
 				->setCellValue("J$h",$row[consult_date])
-				->setCellValue("K$h",$row[event_code])
+				->setCellValue("K$h",$row['event_code'])
 				->setCellValue("L$h",$row[join_yn])
 				->setCellValue("M$h",$row['regdate']);
 	$h++;		

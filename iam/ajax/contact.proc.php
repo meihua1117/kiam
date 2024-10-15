@@ -5,8 +5,8 @@
 $mode = $_POST['mode'];
 $contact_idx = $_POST['contact_idx'];
 
-// echo $_SESSION[one_member_iam_leb];
-// // echo ($_SESSION['one_member_id'] == "" || $_SESSION[one_member_iam_leb] == "");
+// echo $_SESSION['one_member_iam_leb'];
+// // echo ($_SESSION['one_member_id'] == "" || $_SESSION['one_member_iam_leb'] == "");
 // exit;
 if($mode == "del") {
   // echo count($_POST['friends_idx']);

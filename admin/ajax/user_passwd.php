@@ -83,4 +83,4 @@ if ($_POST['mem_code'] && $_POST['sendnum']) {
         mysqli_query($self_con,$sql_num);
     }
 }
-echo "{\"result\":\"$result\"}";
+echo json_encode(array("result"=>$result));

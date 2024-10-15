@@ -102,15 +102,15 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                             <tr>
                                 <td></td>
                                 <td style="width:90%">
-                                <input type="checkbox" name="important_yn" id="important_yn"  value="Y" <?=$row_no[important_yn]=='Y'?'checked':''?>> 중요
-                                    <input type="checkbox" name="popup_yn" id="popup_yn"  value="Y" <?=$row_no[pop_yn] == 'Y'?'checked':''?>> 팝업
+                                <input type="checkbox" name="important_yn" id="important_yn"  value="Y" <?=$row_no['important_yn']=='Y'?'checked':''?>> 중요
+                                    <input type="checkbox" name="popup_yn" id="popup_yn"  value="Y" <?=$row_no['pop_yn'] == 'Y'?'checked':''?>> 팝업
                                 </td>
                             </tr>
                             <tr>
                                 <td>노출 기간</td>
                                 <td style="width:90%">
-                                    <input type="radio" name="display_al" id="display_al"  value="Y" <?=$row_no[display_yn]=='Y'?'checked':''?>> 항상
-                                    <input type="radio" name="display_al" id="display_tr"  value="T" <?=$row_no[display_yn]=='T'?'checked':''?>> 기간
+                                    <input type="radio" name="display_al" id="display_al"  value="Y" <?=$row_no['display_yn']=='Y'?'checked':''?>> 항상
+                                    <input type="radio" name="display_al" id="display_tr"  value="T" <?=$row_no['display_yn']=='T'?'checked':''?>> 기간
                                     <input type="date" name="start_date" id="start_date" value="" style="with:60px">
                                     <input type="date" name="end_date"  id="end_date" value=""  style="with:60px">
                                 </td>

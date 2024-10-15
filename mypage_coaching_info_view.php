@@ -96,9 +96,9 @@ $(function(){
                 </tr>        
                 <tr>
                     <th>계약기간</th>
-                    <td><?=$coaching_info_data[cont_term]?>일</td>
+                    <td><?=$coaching_info_data['cont_term']?>일</td>
                     <th>계약시간</th>
-                    <td><?=$coaching_info_data[cont_time]?>시간</td>
+                    <td><?=$coaching_info_data['cont_time']?>시간</td>
                 </tr>                    
  
                 <tr>
@@ -109,7 +109,7 @@ $(function(){
                 </tr>                      
                 <tr>
                     <th>코칭시작</th>
-                    <td><?=$coaching_info_data[start_date]?></td>
+                    <td><?=$coaching_info_data['start_date']?></td>
                     <th>코칭종료</th>
                     <td><?=$coaching_info_data['end_date']?></td>
                 </tr>                    
@@ -120,10 +120,10 @@ $(function(){
                         <? 
                         $currentTime = date("Y-m-d H:i:s");
 
-                         if($currentTime < $coaching_info_data[start_date]){
+                         if($currentTime < $coaching_info_data['start_date']){
                             echo "<label class='label label-sm label-warning'>대기</label>";
 
-                         }else if($currentTime > $coaching_info_data[start_date] && $currentTime < $coaching_info_data['end_date']){
+                         }else if($currentTime > $coaching_info_data['start_date'] && $currentTime < $coaching_info_data['end_date']){
                             echo "<label class='label label-sm label-primary'>진행중</label>";
                          }
                          else if($currentTime > $coaching_info_data['end_date']){
@@ -177,7 +177,7 @@ $(function(){
                 <tr>
                     <th class="w200">코칭일시</th>
                     <td>
-                        <?=$coaching_info_data[coaching_date]?>
+                        <?=$coaching_info_data['coaching_date']?>
                      </td>
                 </tr>                    
                 <tr>

@@ -33,5 +33,5 @@ $query="update Gn_Iam_automem set memid = '$memid',
         where memid = '$mem_id'";
 mysqli_query($self_con,$query);
 
-echo "{\"result\":\"$result\"}";
+echo json_encode(array("result"=>$result));
 ?>

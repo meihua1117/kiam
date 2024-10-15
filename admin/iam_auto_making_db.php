@@ -272,8 +272,8 @@ $date_month=date("Y-m");
                                     <th>
                                         <div>
                                             <?
-                                            if($row[image1]){
-                                                $thumb_img =  $row[image1];
+                                            if($row['image1']){
+                                                $thumb_img =  $row['image1'];
                                             }else{
                                                 //$thumb_img =  $default_img;
                                             }

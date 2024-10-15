@@ -46,7 +46,7 @@ if($mode == "join") {
     $result2 = mysqli_query($self_con,$sql2) or die(mysqli_error($self_con));
 
     $_SESSION['one_member_id']=$mem_id;
-    $_SESSION[one_member_iam_leb]=1;
+    $_SESSION['one_member_iam_leb']=1;
 
     echo '회원가입 되었습니다.';
     exit;

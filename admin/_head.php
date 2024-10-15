@@ -139,7 +139,7 @@
 <!--	<? //if($_COOKIE['ad'] != 'hide'){?> -->
  <?php   if($HTTP_HOST != "dbstar.kiam.kr") { ?>
 		<div class="ad_header">
-			<a href="<?echo $ad_data[move_url]?>"><div class="ad_banner ad_img_banner" style="background-image: url('<?echo $ad_data[img_url]?>')"></div></a>
+			<a href="<?echo $ad_data[move_url]?>"><div class="ad_banner ad_img_banner" style="background-image: url('<?echo $ad_data['img_url']?>')"></div></a>
 			<div id="b_exit" class="b_exit"><img src="http://kiam.kr/images/bt_close.gif"></div>
 		</div>
 <!--	<?php  //} ?>  --> 

@@ -59,5 +59,5 @@ if($type == "logout"){
     mysqli_query($self_con,$sql_recv_iam);
 
 }
-echo "{\"result\":\"$result\"}";
+echo json_encode(array("result"=>$result));
 ?>

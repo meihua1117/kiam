@@ -362,8 +362,8 @@ if ($_POST['num_check_go']) {
     $check_cnt5 = array_diff_assoc($num_arr, $num_arr2); //중복번호
     $check_cnt5 = array_unique($check_cnt5);
     $ssh_total_num = array();
-    if ($_POST[send_rday]) //예약발송 확인
-        $reservation = $_POST[send_rday] . " " . $_POST[send_htime] . ":" . $_POST[send_mtime] . ":00";
+    if ($_POST['send_rday']) //예약발송 확인
+        $reservation = $_POST['send_rday'] . " " . $_POST['send_htime'] . ":" . $_POST['send_mtime'] . ":00";
     if ($_POST['num_check_send_num']) {
         $no_num = array(); //없는 번호 // === 2016-05-11 추가 ===
         $start_num = array();  // === 2016-05-11 추가 ===
@@ -1877,11 +1877,11 @@ if ($_POST['board_save_title'] && ($_POST['board_save_content'] || $_POST['board
     $board_info['adjunct_memo'] = $_POST['board_save_adjunct_memo'];
     $board_info['status_1'] = $_POST['board_save_status_1'];
     $board_info['up_path'] = $_POST['board_save_up_path'];
-    $board_info[pop_yn] = $_POST[board_save_pop_yn];
-    $board_info[important_yn] = $_POST[board_save_important_yn];
-    $board_info[display_yn] = $_POST[board_save_display_yn];
-    $board_info[start_date] = $_POST[board_save_start_date];
-    $board_info['end_date'] = $_POST[board_save_end_date];
+    $board_info['pop_yn'] = $_POST['board_save_pop_yn'];
+    $board_info['important_yn'] = $_POST['board_save_important_yn'];
+    $board_info['display_yn'] = $_POST['board_save_display_yn'];
+    $board_info['start_date'] = $_POST['board_save_start_date'];
+    $board_info['end_date'] = $_POST['board_save_end_date'];
 
     if ($_POST['board_save_no'])
         $sql = "update tjd_board set ";
@@ -2179,22 +2179,22 @@ if ($_POST['pay_cancel_no'] && $_POST['pay_cancel_paymethod']) {
             break;
     }
 }
-if ($_POST[send_save_mms]) { //메시지 저장
-    if (strlen($_POST[send_txt]) <= 0 && $_POST[send_img] == "")
+if ($_POST['send_save_mms']) { //메시지 저장
+    if (strlen($_POST['send_txt']) <= 0 && $_POST['send_img'] == "")
         $message_info['msg_type'] = "C";
     else {
-        if ($_POST[send_img]) //메시지 타입
+        if ($_POST['send_img']) //메시지 타입
             $message_info['msg_type'] = "B";
         else
             $message_info['msg_type'] = "A";
     }
     $sql = "insert into Gn_MMS_Message set "; //발송
     $message_info['mem_id'] = $_SESSION['one_member_id'];
-    $message_info['title'] = htmlspecialchars(str_replace("{|name|}", "{|REP|}", $_POST[send_title]));
-    $message_info['message'] = htmlspecialchars(str_replace("{|name|}", "{|REP|}", $_POST[send_txt]));
-    $message_info['img'] = $_POST[send_img];
-    $message_info[img1] = $_POST[send_img1];
-    $message_info[img2] = $_POST[send_img2];
+    $message_info['title'] = htmlspecialchars(str_replace("{|name|}", "{|REP|}", $_POST['send_title']));
+    $message_info['message'] = htmlspecialchars(str_replace("{|name|}", "{|REP|}", $_POST['send_txt']));
+    $message_info['img'] = $_POST['send_img'];
+    $message_info['img1'] = $_POST['send_img1'];
+    $message_info['img2'] = $_POST['send_img2'];
     foreach ($message_info as $key => $v) {
         $sql .= " $key='$v' , ";
     }
@@ -2205,13 +2205,13 @@ if ($_POST[send_save_mms]) { //메시지 저장
         echo "true";
     }
 }
-if ($_POST[stop_westory_guide] == "get") {
+if ($_POST['stop_westory_guide'] == "get") {
     $sql = "select we_con_guide from Gn_Member where mem_id = '{$_SESSION['iam_member_id']}'";
     $res = mysqli_query($self_con,$sql);
     $row = mysqli_fetch_array($res);
     echo $row[0];
 } else {
-    $sql = "update Gn_Member set we_con_guide =  '$_POST[stop_westory_guide]' where mem_id = '{$_SESSION['iam_member_id']}'";
+    $sql = "update Gn_Member set we_con_guide =  '{$_POST['stop_westory_guide']}' where mem_id = '{$_SESSION['iam_member_id']}'";
     mysqli_query($self_con,$sql);
     echo "success";
 }

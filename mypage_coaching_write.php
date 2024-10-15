@@ -123,7 +123,7 @@ $(function(){
                                 $row=mysqli_fetch_array($result);
                                 $last_time_sum=$row[sum];
 
-                                if( ($coaching_data[cont_time] * 60) != $last_time_sum){
+                                if( ($coaching_data['cont_time'] * 60) != $last_time_sum){
 
                                
 
@@ -377,7 +377,7 @@ $( "#start_date" ).datepicker({
 // $res_1=mysqli_query($self_con,$sql_1);
 // $coaching=mysqli_fetch_array($res_1);
 
-// $max_coaching_date = $coaching[coaching_date];
+// $max_coaching_date = $coaching['coaching_date'];
 
 //   $start_date = date('Y-m-d',strtotime($max_coaching_date)); 
 // echo $start_date;

@@ -19,7 +19,7 @@ $phone_num = $_POST["phone_num"];
 $result = "fail";
 
 if(!$token || !check_token($phone_num, $token)){
-    echo "{\"result\":\"$result\",\"token_res\":\"0\"}";
+    echo json_encode(array("result"=>$result,"token_res"=>0));
 }
 else{
     $_POST['idx'] =$_REQUEST['idx'];
@@ -75,10 +75,10 @@ else{
         }
         
         $result = "success";
-        echo "{\"result\":\"$result\",\"token_res\":\"1\"}";        
+        echo json_encode(array("result"=>$result,"token_res"=>1));        
     } else {
         $result = "fail";
-        echo "{\"result\":\"$result\",\"token_res\":\"1\"}";    
+        echo json_encode(array("result"=>$result,"token_res"=>1));    
     }
 }
 

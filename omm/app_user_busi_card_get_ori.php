@@ -48,19 +48,18 @@ if($useType == '1') {
 			$row_p = mysqli_fetch_array($resul_p);
 			if($row_p['mem_id']) {
 				$result = "true";
-				$img_url = $row_p[img_url];
-				echo "{\"result\":\"$result\",\"img_url\":\"$img_url\"}";
+				$img_url = $row_p['img_url'];
+				echo json_encode(array("result"=>$result,"img_url"=>$img_url));
 			} else {
 				$result = "error";
 				$img_url = "none";
-				echo "{\"result\":\"$result\",\"img_url\":\"$img_url\"}";
+				echo json_encode(array("result"=>$result,"img_url"=>$img_url));
 			}
 		} else{
-			echo "{\"result\":\"error}";
+			echo json_encode(array("result"=>"error"));
 		}
-
 	}else {
-		echo "{\"result\":\"error}";
+		echo json_encode(array("result"=>"error"));
 	}
 }else if($useType == '2') {
 	//get image
@@ -69,12 +68,12 @@ if($useType == '1') {
 	$row_p = mysqli_fetch_array($resul_p);
 	if($row_p['mem_id']) {
 		$result = "true";
-		$img_url = $row_p[img_url];
-		echo "{\"result\":\"$result\",\"img_url\":\"$img_url\"}";
+		$img_url = $row_p['img_url'];
+		echo json_encode(array("result"=>$result,"img_url"=>$img_url));
 	} else {
 		$result = "error";
 		$img_url = "none";
-		echo "{\"result\":\"$result\",\"img_url\":\"$img_url\"}";
+		echo json_encode(array("result"=>$result,"img_url"=>$img_url));
 	}
 
 }else if($useType == '3') {
@@ -89,17 +88,17 @@ if($useType == '1') {
 		$row_p = mysqli_fetch_array($resul_p);
 		if($row_p['mem_id']) {
 			$result = "true";
-			$img_url = $row_p[img_url];
-			echo "{\"result\":\"$result\",\"img_url\":\"$img_url\"}";
+			$img_url = $row_p['img_url'];
+			echo json_encode(array("result"=>$result,"img_url"=>$img_url));
 		} else {
 			$result = "error";
 			$img_url = "none";
-			echo "{\"result\":\"$result\",\"img_url\":\"$img_url\"}";
+			echo json_encode(array("result"=>$result,"img_url"=>$img_url));
 		}
 	} else {
 		$result = "error";
 		$img_url = "none";
-		echo "{\"result\":\"$result\",\"img_url\":\"$img_url\"}";
+		echo json_encode(array("result"=>$result,"img_url"=>$img_url));
 	}
 }
 

@@ -114,9 +114,9 @@ td div {
         <input type="hidden" name="one_id"   id="one_id"   value="<?=$data['mem_id']?>" />        
         <input type="hidden" name="mem_pass" id="mem_pass" value="<?=$data['web_pwd']?>" />        
         <input type="hidden" name="mem_code" id="mem_code" value="<?=$data['mem_code']?>" />
-        <input type="hidden" name="pop_yn" id="pop_yn" value="<?$row_no[pop_yn]?$row_no[pop_yn]:"N"?>" />
-        <input type="hidden" name="important_yn" id="important_yn" value="<?$row_no[important_yn]?$row_no[important_yn]:"N"?>" />
-        <input type="hidden" name="display_yn" id="display_yn" value="<?$row_no[display_yn]?$row_no[display_yn]:"N"?>" />        
+        <input type="hidden" name="pop_yn" id="pop_yn" value="<?$row_no['pop_yn']?$row_no['pop_yn']:"N"?>" />
+        <input type="hidden" name="important_yn" id="important_yn" value="<?$row_no['important_yn']?$row_no['important_yn']:"N"?>" />
+        <input type="hidden" name="display_yn" id="display_yn" value="<?$row_no['display_yn']?$row_no['display_yn']:"N"?>" />        
         </form>                
 
         <!-- Main content -->

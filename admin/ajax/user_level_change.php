@@ -16,13 +16,13 @@ $row=mysqli_fetch_array($resul);
 
 if($_POST['mode'] == "") {
     $result = -1;
-    echo "{\"result\":\"$result\"}";
+    echo json_encode(array("result"=>$result));
     exit;
 }
 
 if($_POST['mem_leb'] == "") {
     $result = -1;
-    echo "{\"result\":\"$result\"}";
+    echo json_encode(array("result"=>$result));
     exit;
 }
 
@@ -34,5 +34,5 @@ if($_POST['mem_code']) {
     
 }
 
-echo "{\"result\":\"$result\"}";
+echo json_encode(array("result"=>$result));
 ?>

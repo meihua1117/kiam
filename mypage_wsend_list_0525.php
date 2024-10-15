@@ -196,12 +196,12 @@ $(function(){
 											// $sresul=mysqli_query($self_con,$sql_sn);
 											// $srow=mysqli_fetch_array($sresul);
 
-											$sql_sn="select count(*) as cnt from Gn_event_sms_step_info where sms_idx='$row[sms_idx]' ";
+											$sql_sn="select count(*) as cnt from Gn_event_sms_step_info where sms_idx='{$row['sms_idx']}' ";
 											$sresul=mysqli_query($self_con,$sql_sn);
 											$crow=mysqli_fetch_array($sresul);
 											$total_cnt = $crow['cnt'];
 
-											$sql_sn="select step from Gn_event_sms_step_info where sms_detail_idx='$row[sms_detail_idx]' ";
+											$sql_sn="select step from Gn_event_sms_step_info where sms_detail_idx='{$row['sms_detail_idx']}' ";
 											$sresul=mysqli_query($self_con,$sql_sn);
 											$crow=mysqli_fetch_array($sresul);
 
@@ -245,7 +245,7 @@ $(function(){
 												</td>
 												<?if($_REQUEST['status2']=='2'){?>
 													<td style="width:5%;">
-														<?if($row['up_date']!=''&&$row[result]==0){?>완료<?}elseif($row['up_date']==''&&$row[result]==1){?>대기<?}elseif($row[result]==3){?>실패<?}?>
+														<?if($row['up_date']!=''&&$row['result']==0){?>완료<?}elseif($row['up_date']==''&&$row['result']==1){?>대기<?}elseif($row['result']==3){?>실패<?}?>
 													</td>
 												<?}?>
 												<td>

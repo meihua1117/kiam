@@ -267,20 +267,20 @@ $('#_popupbox').mouseleave(function() { $(this).hide(); });
               <tr>
                 
                 <td><?=$sort_no?></td>
-                <td style="font-size:12px;"><?=$row[step]?></td>
-                <td style="font-size:12px;"><?=$row[send_day]?>일후</td>
+                <td style="font-size:12px;"><?=$row['step']?></td>
+                <td style="font-size:12px;"><?=$row['send_day']?>일후</td>
                 <td><?=$row['title']?></td>
                 <td><a href="javascript:void(0)" onclick="show_recv('show_content','<?=$c?>','문자내용')"><?=str_substr($row['content'],0,190,'utf-8')?></a><input type="hidden" name="show_content" value="<?=$row['content']?>"/>
                     </td>
                 <td>
-                    <?php if($row[image]) {?>
-                    <img src="/upload/<?=$row[image]?>" style="max-height:50px">
+                    <?php if($row['image']) {?>
+                    <img src="/upload/<?=$row['image']?>" style="max-height:50px">
                     <?php }?>
-                    <?php if($row[image1]) {?>
-                    <img src="/upload/<?=$row[image1]?>" style="max-height:50px">
+                    <?php if($row['image1']) {?>
+                    <img src="/upload/<?=$row['image1']?>" style="max-height:50px">
                     <?php }?>
-                    <?php if($row[image2]) {?>
-                    <img src="/upload/<?=$row[image2]?>" style="max-height:50px">
+                    <?php if($row['image2']) {?>
+                    <img src="/upload/<?=$row['image2']?>" style="max-height:50px">
                     <?php }?>                    
                 </td>
                 <td>

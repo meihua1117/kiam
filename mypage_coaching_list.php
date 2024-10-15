@@ -169,7 +169,7 @@ function copyHtml(){
                                 $row=mysqli_fetch_array($result);
                                 $last_time_sum=$row[sum];
 
-                                if( ($coaching_data[cont_time] * 60) != $last_time_sum){
+                                if( ($coaching_data['cont_time'] * 60) != $last_time_sum){
 
                                
 
@@ -306,11 +306,11 @@ function copyHtml(){
                             <td><?=$sort_no?></td>
                             <td style="font-size:12px;"><?=$coaching_info_data[coaching_turn]?></td>
                             <td style="font-size:12px;"><?=$coaching_data['mem_name']?></td>
-                            <td style="font-size:12px;color:red;"><?=$coaching_data[cont_term]?>일<br><?=$coaching_data[cont_time]?>:00</td>
+                            <td style="font-size:12px;color:red;"><?=$coaching_data['cont_term']?>일<br><?=$coaching_data['cont_time']?>:00</td>
 
                             <td style="font-size:12px;display: none;">
                                 <?
-                                echo date('Y-m-d',strtotime($coaching_info_data[start_date]));
+                                echo date('Y-m-d',strtotime($coaching_info_data['start_date']));
                                 ?>
                                  ~ 
                                 <? 
@@ -319,8 +319,8 @@ function copyHtml(){
                                     
 
                                 </td>
-                            <td style="font-size:12px;"><?=$coaching_info_data[coaching_date]?></td>
-                            <td style="font-size:12px;"><?=$coaching_info_data[coaching_time]?>분</td>
+                            <td style="font-size:12px;"><?=$coaching_info_data['coaching_date']?></td>
+                            <td style="font-size:12px;"><?=$coaching_info_data['coaching_time']?>분</td>
 
                             <td style="font-size:12px;color:red;">
 
@@ -332,7 +332,7 @@ function copyHtml(){
                                 // $startdate_data=mysqli_fetch_array($resul_num);
 
 
-                                // $enddate = date('Y-m-d H:i:s',strtotime('+'.$coaching_data[cont_term].' day',strtotime($startdate_data[coaching_date])));
+                                // $enddate = date('Y-m-d H:i:s',strtotime('+'.$coaching_data['cont_term'].' day',strtotime($startdate_data['coaching_date'])));
 
                                 // $currentTime = date("Y-m-d H:i:s");
 
@@ -344,7 +344,7 @@ function copyHtml(){
                                 //     $diff = floor(abs($date2 - $date1)/3600 / 24) + 1;
 
 
-                                //     //echo $diff >$coaching_data[cont_term]?$coaching_data[cont_term]:$diff;
+                                //     //echo $diff >$coaching_data['cont_term']?$coaching_data['cont_term']:$diff;
         
                                 // }
 
@@ -352,7 +352,7 @@ function copyHtml(){
                                 $date1 = strtotime(date('Y-m-d', $date1));
                                 //echo $date1."일<br>";
 
-                                $date2 = strtotime($coaching_info_data[coaching_date]);
+                                $date2 = strtotime($coaching_info_data['coaching_date']);
                                 $date2 = strtotime(date('Y-m-d', $date2));
                                 //echo $date2."일<br>";
 
@@ -363,7 +363,7 @@ function copyHtml(){
 
                                     echo "일<br>";
                                     // 잔여시간
-                                    $remain_tatal_min =  ($coaching_data[cont_time] * 60) - $coaching_info_data[past_time_sum] - $coaching_info_data[coaching_time];
+                                    $remain_tatal_min =  ($coaching_data['cont_time'] * 60) - $coaching_info_data[past_time_sum] - $coaching_info_data['coaching_time'];
                                     $remain_hour = floor($remain_tatal_min / 60);
                                     $remain_min = $remain_tatal_min % 60;
                                     if($remain_min < 10){
@@ -576,19 +576,19 @@ function copyHtml(){
                             <td><?=$sort_no?></td>
                             <td style="font-size:12px;"><?=$coaching_info_data[coaching_turn]?></td>
                             <td style="font-size:12px;"><?=$coach_data['mem_name']?></td>
-                            <td style="font-size:12px;color:red;"><?=$coaching_data[cont_term]?>일<br><?=$coaching_data[cont_time]?>:00</td>
+                            <td style="font-size:12px;color:red;"><?=$coaching_data['cont_term']?>일<br><?=$coaching_data['cont_time']?>:00</td>
                             <!-- 코칭기간 -->
                             <td style="font-size:12px;display: none;">
                                 <?
-                                echo date('Y-m-d',strtotime($coaching_info_data[start_date]));
+                                echo date('Y-m-d',strtotime($coaching_info_data['start_date']));
                                 ?>
                                  ~ 
                                 <? 
                                 echo date('Y-m-d',strtotime($coaching_info_data['end_date']));
                                 ?>
                             </td>
-                            <td style="font-size:12px;"><?=$coaching_info_data[coaching_date]?></td>
-                            <td style="font-size:12px;"><?=$coaching_info_data[coaching_time]?>분</td>
+                            <td style="font-size:12px;"><?=$coaching_info_data['coaching_date']?></td>
+                            <td style="font-size:12px;"><?=$coaching_info_data['coaching_time']?>분</td>
 
                             <td style="font-size:12px;color:red;">
 
@@ -600,7 +600,7 @@ function copyHtml(){
                                 // $startdate_data=mysqli_fetch_array($resul_num);
 
 
-                                // $enddate = date('Y-m-d H:i:s',strtotime('+'.$coaching_data[cont_term].' day',strtotime($startdate_data[coaching_date])));
+                                // $enddate = date('Y-m-d H:i:s',strtotime('+'.$coaching_data['cont_term'].' day',strtotime($startdate_data['coaching_date'])));
 
                                 // $currentTime = date("Y-m-d H:i:s");
 
@@ -612,7 +612,7 @@ function copyHtml(){
                                 //     $diff = floor(abs($date2 - $date1)/3600 / 24) + 1;
 
 
-                                //     echo $diff >$coaching_data[cont_term]?$coaching_data[cont_term]:$diff;
+                                //     echo $diff >$coaching_data['cont_term']?$coaching_data['cont_term']:$diff;
         
                                 // }
 
@@ -621,7 +621,7 @@ function copyHtml(){
                                 $date1 = strtotime(date('Y-m-d', $date1));
                                 //echo $date1."일<br>";
 
-                                $date2 = strtotime($coaching_info_data[coaching_date]);
+                                $date2 = strtotime($coaching_info_data['coaching_date']);
                                 $date2 = strtotime(date('Y-m-d', $date2));
                                 //echo $date2."일<br>";
 
@@ -631,7 +631,7 @@ function copyHtml(){
 
                                     echo "일<br>";
                                 // 잔여시간
-                                    $remain_tatal_min =  ($coaching_data[cont_time] * 60) - $coaching_info_data[past_time_sum] - $coaching_info_data[coaching_time];
+                                    $remain_tatal_min =  ($coaching_data['cont_time'] * 60) - $coaching_info_data[past_time_sum] - $coaching_info_data['coaching_time'];
                                     $remain_hour = floor($remain_tatal_min / 60);
                                     $remain_min = $remain_tatal_min % 60;
                                     if($remain_min < 10){

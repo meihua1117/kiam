@@ -186,7 +186,7 @@ while($row = mysqli_fetch_array($res)){
                                 <tr>
                                     <td>전체회원스텝문자기능</td>
                                     <?foreach($pay_row as $row){?>
-                                    <td><input type="checkbox" <?=$row[step] == "Y"?"checked":""?> data-idx="<?=$row['idx']?>" data-name="step"></td>
+                                    <td><input type="checkbox" <?=$row['step'] == "Y"?"checked":""?> data-idx="<?=$row['idx']?>" data-name="step"></td>
                                     <?}?>
                                 </tr>
                                 <tr>

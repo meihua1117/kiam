@@ -2,6 +2,7 @@
 include_once "../lib/rlatjd_fun.php";
 function add_event_request($event_code, $event_idx, $pcode)
 {
+    global $self_con;
     $m_id = $_SESSION['iam_member_id'];
     $mem_sql = "select mem_name,mem_phone,mem_email,mem_sex,mem_add1,mem_birth,zy from Gn_Member where mem_id='$m_id'";
     $mem_res = mysqli_query($self_con,$mem_sql);
@@ -618,6 +619,7 @@ if ($_POST['method'] == "create_format") {
 
 function insert_db($idx, $mem_id)
 {
+    global $self_con;
     $date = time();
     $num = rand(10, 90);
     $event_name_eng = $date . $num;
@@ -639,6 +641,7 @@ function insert_db($idx, $mem_id)
 }
 function insert_db_reqlink($idx, $mem_id)
 {
+    global $self_con;
     $date = time();
     $num = rand(10, 90);
     $pcode = $event_name_eng = $date . $num;

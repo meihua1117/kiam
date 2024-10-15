@@ -31,8 +31,5 @@ else{
 		$result = 1;
 	}
 }
-
-
-
-echo "{\"result\":\"$result\",\"token_res\":\"$token_res\"}";
+echo json_encode(array("result"=>$result,"token_res"=>$token_res));
 ?>

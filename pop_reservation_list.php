@@ -166,7 +166,7 @@ $(function(){
                   while($row=mysqli_fetch_array($result))
                   {
                     
-        				$sql="select count(*) as cnt from Gn_event_sms_step_info where sms_idx='$row[sms_idx]'";
+        				$sql="select count(*) as cnt from Gn_event_sms_step_info where sms_idx='{$row['sms_idx']}'";
         				$sresult=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));				                    
         				$srow = mysqli_fetch_array($sresult);
         				
@@ -184,7 +184,7 @@ $(function(){
                 <td><?=number_format($cnt)?>/<?=number_format($cnt)?></td>
                 <td><?=$row['regdate']?></td>
                 <td>
-                    <a href="javascript:;;" onclick="useIt('<?=$row[sms_idx];?>','<?=$erow['event_idx']?>','<?=$row['event_name_eng']?>','<?=$row[event_name_kor]?>','<?=$row['reservation_title']?>','<?=$srow['cnt']?>','<?=$erow[pcode]?>')">사용하기</a>
+                    <a href="javascript:;;" onclick="useIt('<?=$row['sms_idx'];?>','<?=$erow['event_idx']?>','<?=$row['event_name_eng']?>','<?=$row[event_name_kor]?>','<?=$row['reservation_title']?>','<?=$srow['cnt']?>','<?=$erow[pcode]?>')">사용하기</a>
                 </td>                                
               </tr>
               <?

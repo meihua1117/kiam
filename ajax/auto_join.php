@@ -209,8 +209,8 @@ if (isset($_POST['mem_name']) || isset($_POST['mem_phone']) || isset($_POST['mem
 				// jpg='$jpg',
 				// reg_date=NOW(),
 				// reservation='$reservation',
-				// sms_idx='$row[sms_idx]',
-				// sms_detail_idx='$row[sms_detail_idx]',
+				// sms_idx='{$row['sms_idx']}',
+				// sms_detail_idx='{$row['sms_detail_idx']}',
 				// request_idx='$request_idx'
 				// ";
 				// //echo $query."<BR>";

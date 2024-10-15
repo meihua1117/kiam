@@ -163,11 +163,11 @@ $(function(){
                   while($row=mysqli_fetch_array($result))
                   {
 
-					$sql="select * from Gn_event_sms_info where sms_idx='$row[sms_idx]'";
+					$sql="select * from Gn_event_sms_info where sms_idx='{$row['sms_idx']}'";
                     $sresult=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));				                    
                     $rrow = mysqli_fetch_array($sresult);
 
-                    $sql="select count(*) as cnt from Gn_event_sms_step_info where sms_idx='$rrow[sms_idx]'";
+                    $sql="select count(*) as cnt from Gn_event_sms_step_info where sms_idx='{$rrow['sms_idx']}'";
                     $sresult=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));				                    
                     $srow = mysqli_fetch_array($sresult);
 
@@ -184,7 +184,7 @@ $(function(){
                     $date = $row['regdate'];
                   ?>
                   <tr>
-                    <td><input type="checkbox" name="event_idx" value="<?php echo $row['idx'];?>" data-reservation_title="<?=$row['reservation_title']?>" data-idx="<?=$row['idx']?>" data-name="<?=$row['name']?>" data-mobile="<?=$row['mobile']?>"  data-email="<?=$row['email']?>" data-job="<?=$row[job]?>"  data-event_code="<?=$row[event_code]?>"  data-counsult_date="<?=$row[counsult_date]?>" data-sp="<?=$row[sp]?>" data-request_idx="<?php echo $row['request_idx'];?>"></td>
+                    <td><input type="checkbox" name="event_idx" value="<?php echo $row['idx'];?>" data-reservation_title="<?=$row['reservation_title']?>" data-idx="<?=$row['idx']?>" data-name="<?=$row['name']?>" data-mobile="<?=$row['mobile']?>"  data-email="<?=$row['email']?>" data-job="<?=$row['job']?>"  data-event_code="<?=$row['event_code']?>"  data-counsult_date="<?=$row['counsult_date']?>" data-sp="<?=$row['sp']?>" data-request_idx="<?php echo $row['request_idx'];?>"></td>
                     <td><?=$sort_no?></td>
                     <td ><?=$row['send_num']?></td>
                     <td ><?=$addrrow['grp']?></td>

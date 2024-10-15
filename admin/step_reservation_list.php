@@ -211,7 +211,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                     $sres = mysqli_query($self_con,$query);
                     $srow = mysqli_fetch_array($sres);                        	
 
-                    $sql = "select count(*) as cnt from Gn_event_sms_step_info where sms_idx='$row[sms_idx]'";
+                    $sql = "select count(*) as cnt from Gn_event_sms_step_info where sms_idx='{$row['sms_idx']}'";
                     $sresult = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));				                    
                     $strow = mysqli_fetch_array($sresult);
                   ?>
@@ -222,7 +222,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                       <td style="font-size:12px;"><?=$srow['mem_name']?></td>
                       <td style="font-size:12px;"><?=$row['reservation_title']?></td>
                       <td><?=$row['reservation_desc']?></td>
-                      <td><a href="/mypage_reservation_create.php?sms_idx=<?=$row[sms_idx]?>" target="_blank"><?=number_format($strow['cnt'])?></a></td>
+                      <td><a href="/mypage_reservation_create.php?sms_idx=<?=$row['sms_idx']?>" target="_blank"><?=number_format($strow['cnt'])?></a></td>
                       <td><?=number_format($cnt)?>/<?=number_format($cnt)?></td>
                       <td>
                           <label class="switch">

@@ -948,7 +948,7 @@ if($platform == "mobile"){
                                 <tr>
                                     <td>전체회원스텝문자기능</td>
                                     <?foreach($pay_row as $row){?>
-                                    <td><?=$row[step] == "Y"?"&#x2705;":""?></td>
+                                    <td><?=$row['step'] == "Y"?"&#x2705;":""?></td>
                                     <?}?>
                                 </tr>
                                 <tr>

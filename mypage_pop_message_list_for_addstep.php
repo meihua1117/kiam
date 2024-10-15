@@ -172,7 +172,7 @@ function copyHtml(url){
                 while($row=mysqli_fetch_array($result))
                 {
                 
-                    $sql="select count(*) as cnt from Gn_event_sms_step_info where sms_idx='$row[sms_idx]'";
+                    $sql="select count(*) as cnt from Gn_event_sms_step_info where sms_idx='{$row['sms_idx']}'";
                     $sresult=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));				                    
                     $srow = mysqli_fetch_array($sresult);
                     
@@ -192,7 +192,7 @@ function copyHtml(url){
                   </select>
                 </td>
                 <td>
-                    <a href="javascript:;;" onclick="useIt(<?=$sort_no?>, '<?=$row[sms_idx];?>', '<?=$row['event_name_eng'];?>','<?=$row[pcode]?>','<?=$row[event_name_kor]?>','<?=$row['event_idx']?>','<?=$row['reservation_title']?>','<?=$row['reservation_desc']?>')">적용하기</a>
+                    <a href="javascript:;;" onclick="useIt(<?=$sort_no?>, '<?=$row['sms_idx'];?>', '<?=$row['event_name_eng'];?>','<?=$row[pcode]?>','<?=$row[event_name_kor]?>','<?=$row['event_idx']?>','<?=$row['reservation_title']?>','<?=$row['reservation_desc']?>')">적용하기</a>
                 </td>                               
             </tr>
               <?

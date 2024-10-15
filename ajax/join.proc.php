@@ -25,7 +25,7 @@ if($mode == "send_sms") {
         $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
         $data = $row=mysqli_fetch_array($result);
         if($data['cnt'] >=5) {
-            echo '{"result":"fail","msg":"1일 5번까지 인증이 가능합니다.."}';
+            echo json_encode(array("result"=>"fail","msg"=>"1일 5번까지 인증이 가능합니다.."));
             exit;
         }
 
@@ -133,9 +133,9 @@ if($mode == "send_sms") {
         }
         //echo "<script>location.href='".$returnurl."';</script>";
         if($Result == -101)
-            echo '{"result":"fail","msg":"발송정보가 있어 발송이 지연되고 있습니다.'.$Result.'"}';
+            echo json_encode(array("result"=>"fail","msg"=>"발송정보가 있어 발송이 지연되고 있습니다.".$Result));
         else
-            echo '{"result":"success","msg":"'.$rphone.'에 SMS가 발송되었습니다.'.$Result.'"}';
+            echo json_encode(array("result"=>"success","msg"=>$rphone.'에 SMS가 발송되었습니다.'.$Result));
         exit;
 } else if($mode == "check_sms") {
         $rphone = $_POST['rphone'];
@@ -144,11 +144,11 @@ if($mode == "send_sms") {
         $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
         $data = $row=mysqli_fetch_array($result);
 
-        if($data[secret_key] == $rnum) {
-            echo '{"result":"success","msg":"인증되었습니다."}';
+        if($data['secret_key'] == $rnum) {
+            echo json_encode(array("result"=>"success","msg"=>"인증되었습니다."));
             exit;
         } else {
-            echo '{"result":"fail","msg":"인증정보를 확인해주세요."}';
+            echo json_encode(array("result"=>"fail","msg"=>"인증정보를 확인해주세요."));
             exit;
         }
 
@@ -158,10 +158,10 @@ else if($mode == "check_recommender") {
     $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
     $row=mysqli_fetch_array($result);
     if($row['mem_id']) {
-        echo '{"result":"success"}';
+        echo json_encode(array("result"=>"success"));
         exit;
     } else {
-        echo '{"result":"fail"}';
+        echo json_encode(array("result"=>"fail"));
         exit;
     }
 
@@ -182,7 +182,7 @@ else if($mode == "send_sms2") {
     $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
     $row=mysqli_fetch_array($result);
     if($row['mem_phone'] == "") {
-        echo '{"result":"fail","msg":"등록된 계정이 없습니다."}';
+        echo json_encode(array("result"=>"fail","msg"=>"등록된 계정이 없습니다."));
         exit;
     }
 
@@ -285,9 +285,9 @@ else if($mode == "send_sms2") {
     }
     //echo "<script>location.href='".$returnurl."';</script>";
     if($Result == -101)
-        echo '{"result":"fail","msg":"발송정보가 있어 발송이 지연되고 있습니다.'.$Result.'"}';
+        echo json_encode(array("result"=>"fail","msg"=>"발송정보가 있어 발송이 지연되고 있습니다.".$Result));
     else
-        echo '{"result":"success","msg":"'.$rphone.'에 SMS가 발송되었습니다.'.$Result.'"}';
+        echo json_encode(array("result"=>"success","msg"=>$rphone.'에 SMS가 발송되었습니다.'.$Result));
     exit;
 }
 ?>

@@ -42,12 +42,12 @@ $res = mysqli_query($self_con,$query);
                 <td style="width:9%;">관리</td>
               </tr>
               <?php $i = 0; while($row = mysqli_fetch_array($res)) {
-                  $sql="select count(*) as cnt from Gn_event_sms_step_info where sms_idx='$row[sms_idx]'";
+                  $sql="select count(*) as cnt from Gn_event_sms_step_info where sms_idx='{$row['sms_idx']}'";
                   $sresult=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));				                    
                   $srow = mysqli_fetch_array($sresult);
               ?>
                 <tr>
-                    <td><input type="checkbox" class="check_step" key = "<?=$row[sms_idx]?>" title="<?=$row['reservation_title']?>"></td>
+                    <td><input type="checkbox" class="check_step" key = "<?=$row['sms_idx']?>" title="<?=$row['reservation_title']?>"></td>
                     <td><?=$i?></td>
                     <td><?=$row['m_id']?></td>
                     <td style="font-size:12px;"><?=$row['reservation_title']?></td>

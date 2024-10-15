@@ -608,8 +608,8 @@ $row_content = mysqli_fetch_array($res_content);
                                 <th class="w200">[발송시작일]</th>
                                 <td>
                                     <?
-                                    if ($row[start_date]) {
-                                        $date = $row[start_date];
+                                    if ($row['start_date']) {
+                                        $date = $row['start_date'];
                                     } else if ($_GET[start_send]) {
                                         $date = $_GET[start_send];
                                     } else {
@@ -663,7 +663,7 @@ $row_content = mysqli_fetch_array($res_content);
                                         $row_step_title = mysqli_fetch_array($res_step_title);
                                         $step_title = $row_step_title[0];
 
-                                        $step_idx = $row_step_title[sms_idx];
+                                        $step_idx = $row_step_title['sms_idx'];
 
                                         $hide_msg = "hidden";
                                     } else {
@@ -683,7 +683,7 @@ $row_content = mysqli_fetch_array($res_content);
                                         $row_step_title = mysqli_fetch_array($res_step_title);
                                         $step_title = $row_step_title[0];
 
-                                        $step_idx = $row_step_title[sms_idx];
+                                        $step_idx = $row_step_title['sms_idx'];
                                         $hide_msg = "hidden";
                                     }
                                     ?>

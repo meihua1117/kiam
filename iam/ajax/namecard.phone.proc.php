@@ -158,7 +158,7 @@ if($mode == "send_sms") {
         $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
         $data = $row=mysqli_fetch_array($result);
 
-        if($data[secret_key] == $rnum) {
+        if($data['secret_key'] == $rnum) {
             echo '{"result":"success","msg":"인증되었습니다."}';
             exit;
         } else {

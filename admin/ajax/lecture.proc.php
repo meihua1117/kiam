@@ -82,5 +82,5 @@ if($mode == "update_status") {
     exit;
 }
 
-echo "{\"result\":\"$result\"}";
+echo json_encode(array("result"=>$result));
 ?>

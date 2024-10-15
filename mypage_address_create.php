@@ -123,7 +123,7 @@ $(function(){
                 <tr>
                     <th class="w200">이벤트</th>
                     <td>
-                        <input type="text" name="sp" placeholder="" id="event_name_eng" value="<?=$data[sp]?>"  style="width:200px"/> <input type="button" value="이벤트 조회" class="button " id="searchBtn"></td>
+                        <input type="text" name="sp" placeholder="" id="event_name_eng" value="<?=$data['sp']?>"  style="width:200px"/> <input type="button" value="이벤트 조회" class="button " id="searchBtn"></td>
                 </tr>   
                 </table>
             </div>

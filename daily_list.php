@@ -207,7 +207,7 @@ $data = mysqli_fetch_array($sresul_num);
 											<td style="font-size:12px;"><?= $row[total_count] ?></td>
 											<td style="font-size:12px;"><?= $srow['cnt'] ?></td>
 											<td style="font-size:12px;"><?= $row[daily_cnt] ?></td>
-											<td style="font-size:12px;"><?= $row[start_date] ?></td>
+											<td style="font-size:12px;"><?= $row['start_date'] ?></td>
 											<td style="font-size:12px;"><?= $row['end_date'] ?></td>
 
 											<td><?= $row['reg_date'] ?></td>

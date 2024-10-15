@@ -19,7 +19,7 @@ $sql="select * from Gn_event_oldrequest  where idx='".$idx."'";
 $sresul_num=mysqli_query($self_con,$sql);
 $row=mysqli_fetch_array($sresul_num);
 
-$sql="select * from Gn_event_sms_info where sms_idx='$row[sms_idx]'";
+$sql="select * from Gn_event_sms_info where sms_idx='{$row['sms_idx']}'";
 $result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 $event_row=mysqli_fetch_array($result);
 

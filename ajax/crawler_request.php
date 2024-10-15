@@ -12,7 +12,7 @@ $term = date("Y-m-d", strtotime("next Year"));
         $row=mysqli_fetch_array($resul);   
         if($row['mem_id'] != "") {
             $result = "fail";
-            echo "{\"result\":\"$result\",\"msg\":\"이미 무료 체험을 하신 아이디 입니다..\"}";
+            echo json_encode(array("result"=>$result,"msg"=>"이미 무료 체험을 하신 아이디 입니다.."));
             exit;            
         }
         

@@ -245,43 +245,43 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                         <td style="font-size:12px;"><?=$row['mem_id']?></td>
                         <td style="font-size:12px;"><?=$mrow[0]?></td>
                         <td style="font-size:12px;"><?=$row['category']?></td>
-                        <td style="font-size:12px;"><?=$row[start_date]?>~<?=$row['end_date']?></td>
+                        <td style="font-size:12px;"><?=$row['start_date']?>~<?=$row['end_date']?></td>
                         <td style="font-size:12px;"><?=$row[lecture_start_time]?>~<?=$row[lecture_end_time]?></td>
                         <td style="font-size:12px;"><?=$row[lecture_info]?></td>
                         <td style="font-size:12px;"><?=$row[instructor]?></td>
                         <td style="font-size:12px;"><?=$row[area]?></td>
                         <td style="font-size:12px;">
-                        <?if($row[review_img1]){?>
-                            <a href="http://kiam.kr/upload/lecture/<?=$row[review_img1]?>" target="_blank">
-                            <img class="zoom" src="http://kiam.kr/upload/lecture/<?=$row[review_img1]?>" style="width:50px;"> 
+                        <?if($row['review_img1']){?>
+                            <a href="http://kiam.kr/upload/lecture/<?=$row['review_img1']?>" target="_blank">
+                            <img class="zoom" src="http://kiam.kr/upload/lecture/<?=$row['review_img1']?>" style="width:50px;"> 
                             </a>
                             <?}?>
                         </td>
                         <td style="font-size:12px;">
-                        <?if($row[review_img2]){?>
-                            <a href="http://kiam.kr/upload/lecture/<?=$row[review_img2]?>" target="_blank">
-                            <img class="zoom" src="http://kiam.kr/upload/lecture/<?=$row[review_img2]?>" style="width:50px;"> 
+                        <?if($row['review_img2']){?>
+                            <a href="http://kiam.kr/upload/lecture/<?=$row['review_img2']?>" target="_blank">
+                            <img class="zoom" src="http://kiam.kr/upload/lecture/<?=$row['review_img2']?>" style="width:50px;"> 
                             </a>
                             <?}?>
                         </td>
                         <td style="font-size:12px;">
-                        <?if($row[review_img3]){?>
-                            <a href="http://kiam.kr/upload/lecture/<?=$row[review_img3]?>" target="_blank">
-                            <img class="zoom" src="http://kiam.kr/upload/lecture/<?=$row[review_img3]?>" style="width:50px;"> 
+                        <?if($row['review_img3']){?>
+                            <a href="http://kiam.kr/upload/lecture/<?=$row['review_img3']?>" target="_blank">
+                            <img class="zoom" src="http://kiam.kr/upload/lecture/<?=$row['review_img3']?>" style="width:50px;"> 
                             </a>
                             <?}?>
                         </td>
                         <td style="font-size:12px;">
-                        <?if($row[review_img4]){?>
-                            <a href="http://kiam.kr/upload/lecture/<?=$row[review_img4]?>" target="_blank">
-                            <img class="zoom" src="http://kiam.kr/upload/lecture/<?=$row[review_img4]?>" style="width:50px;"> 
+                        <?if($row['review_img4']){?>
+                            <a href="http://kiam.kr/upload/lecture/<?=$row['review_img4']?>" target="_blank">
+                            <img class="zoom" src="http://kiam.kr/upload/lecture/<?=$row['review_img4']?>" style="width:50px;"> 
                             </a>
                             <?}?>
                         </td>
                         <td style="font-size:12px;">
-                        <?if($row[review_img5]){?>
-                            <a href="http://kiam.kr/upload/lecture/<?=$row[review_img5]?>" target="_blank">
-                            <img class="zoom" src="http://kiam.kr/upload/lecture/<?=$row[review_img5]?>" style="width:50px;"> 
+                        <?if($row['review_img5']){?>
+                            <a href="http://kiam.kr/upload/lecture/<?=$row['review_img5']?>" target="_blank">
+                            <img class="zoom" src="http://kiam.kr/upload/lecture/<?=$row['review_img5']?>" style="width:50px;"> 
                             </a>
                             <?}?>
                         </td>

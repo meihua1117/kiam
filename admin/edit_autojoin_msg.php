@@ -193,7 +193,7 @@ if($row[0]) {
 											<td>
 												<input type="text" style="width:45%;" name="step_title" id="step_title" value="<?=$row_step['title']?>" disabled>
 												<input type="text" style="width:100px;" name="step_phone" id="step_phone" value="<?=$row_step['send_num']?>" disabled>
-												<input type="text" style="width:50px;" name="step_cnt" id="step_cnt" value="<?=$row_step[step]?>" disabled><br><br>
+												<input type="text" style="width:50px;" name="step_cnt" id="step_cnt" value="<?=$row_step['step']?>" disabled><br><br>
 												적용상황
 												<label class="step_switch">
 													<input type="checkbox" name="step_allow_state" id="step_allow_state" value="<?=$row_step['idx']?>" <?=$checked?>>
