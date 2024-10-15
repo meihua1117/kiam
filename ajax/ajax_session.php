@@ -4,17 +4,7 @@ include_once "../lib/rlatjd_fun.php";
 //로그아웃
 if ($_POST['logout_go']) {
     if ($_SESSION['one_member_id'] || $_SESSION['iam_member_id']) {
-	session_destroy();
-        /*$_SESSION['one_member_id'] = "";
-        $_SESSION['iam_member_id'] = "";
-        $_SESSION['one_member_admin_id'] = "";
-        $_SESSION['one_member_subadmin_domain'] = "";
-        $_SESSION['iam_member_subadmin_domain'] = "";
-        $_SESSION['one_member_subadmin_id'] = "";
-        $_SESSION['iam_member_subadmin_id'] = "";
-        $_SESSION['one_mem_leb'] = "";
-        $_SESSION['iam_member_leb'] = "";
-*/
+        session_destroy();
         if ($_POST['logout_go'] == "selling") {
 ?>
             <script language="javascript">
@@ -49,7 +39,7 @@ if ($_POST['num_del_num_a']) {
     }
 ?>
     <script language="javascript">
-        alert('47 임시비활성: 처리되었습니다.');
+        alert('임시비활성: 처리되었습니다.');
         location.reload();
     </script>
     <?
@@ -57,12 +47,12 @@ if ($_POST['num_del_num_a']) {
 //전송안된문자 삭제 //2016-03-08 삭제시 발송제한 카운트 복구 추가
 if ($_POST['no_msg_del_ok']) {
     $sql0 = "select idx from Gn_MMS where result='1' and mem_id='{$_SESSION['one_member_id']}' order by idx desc";
-    $result0 = mysqli_query($self_con,$sql0);
+    $result0 = mysqli_query($self_con, $sql0);
     while ($row0 = mysqli_fetch_array($result0)) {
         $num = $row0['idx'];
         //발송완료여부 확인(up_date)
         $sql = "select uni_id,mem_id,send_num,up_date,reg_date from Gn_MMS where idx = $num;";
-        $result = mysqli_query($self_con,$sql);
+        $result = mysqli_query($self_con, $sql);
         $row1 = mysqli_fetch_array($result);
 
         $uni_id = $row1['uni_id'];
@@ -74,7 +64,7 @@ if ($_POST['no_msg_del_ok']) {
         //이번 달 것인지 확인
         if (substr($reg_date, 0, 7) == date("Y-m") && !$up_date) { //이번 달
             $sqlRinfo = "select cnt1,cnt2,cntYN,cntAdj,reg_date from Gn_MMS_Send_Cnt_Log where mem_id='{$_SESSION['one_member_id']}' and uni_id='$uni_id';";
-            $resultRinfo = mysqli_query($self_con,$sqlRinfo);
+            $resultRinfo = mysqli_query($self_con, $sqlRinfo);
             $rowRinfo = mysqli_fetch_array($resultRinfo);
 
             $Rinfo_cnt1 = $rowRinfo['cnt1'] * -1;
@@ -84,19 +74,19 @@ if ($_POST['no_msg_del_ok']) {
 
             //최후의 것인지 확인
             $sql = "select uni_id,mem_id from Gn_MMS where mem_id='{$_SESSION['one_member_id']}' and send_num='$sendnum' AND substr(reg_date, 1, 10) = CURDATE() limit 1;";
-            $result1 = mysqli_query($self_con,$sql);
+            $result1 = mysqli_query($self_con, $sql);
             $row1 = mysqli_fetch_array($result1);
 
             if ($row1['uni_id']) { //최후 건 아님: cnt1,cnt2 복구
                 $sql_num = "update Gn_MMS_Number set cnt1=cnt1+($Rinfo_cnt1), cnt2=cnt2+($Rinfo_cnt2) where mem_id='{$_SESSION['one_member_id']}' and sendnum='$sendnum' ";
-                mysqli_query($self_con,$sql_num);
+                mysqli_query($self_con, $sql_num);
                 //이후 오늘 발송 건 유무 확인
                 $sql = "SELECT uni_id FROM Gn_MMS WHERE mem_id='{$_SESSION['one_member_id']}' and send_num='$sendnum' AND substr(reg_date, 1, 10) = CURDATE( ) and idx != '$num' limit 1;";
-                $result = mysqli_query($self_con,$sql);
+                $result = mysqli_query($self_con, $sql);
                 $row = mysqli_fetch_array($result);
                 if ($row['uni_id']) { //이후 오늘 발송 건 존재
                     $sql = "select recv_num from Gn_MMS where mem_id='{$_SESSION['one_member_id']}' and send_num='$sendnum' AND substr(reg_date, 1, 10) = CURDATE() and idx != '$num' ;";
-                    $result2 = mysqli_query($self_con,$sql);
+                    $result2 = mysqli_query($self_con, $sql);
                     $check_flag = 0;
                     while ($row2 = mysqli_fetch_array($result2)) {
                         $matches = count(explode(",", $row2['recv_num']));
@@ -105,36 +95,36 @@ if ($_POST['no_msg_del_ok']) {
                     }
                     if ($check_flag == 0) {
                         $sql_num = "update tjd_mms_cnt_check set status='N' where mem_id='{$_SESSION['one_member_id']}' and sendnum='$sendnum' and date=curdate(); ";
-                        mysqli_query($self_con,$sql_num);
+                        mysqli_query($self_con, $sql_num);
                     }
                 } else { //이후 오늘 발송 건 없음
                     $sql_num = "delete from tjd_mms_cnt_check where mem_id='{$_SESSION['one_member_id']}' and sendnum='$sendnum' and date=curdate();";
-                    mysqli_query($self_con,$sql_num);
+                    mysqli_query($self_con, $sql_num);
                 }
                 $sql = "delete from Gn_MMS where idx = $num";
-                $result = mysqli_query($self_con,$sql);
+                $result = mysqli_query($self_con, $sql);
             } else { //최후 건 : cnt1,cnt2,cntYN,cntAdj 모두 복구
                 if ($row1['mem_id'] == "") {
                     $sql_num = "update Gn_MMS_Number set cnt1=cnt1+($Rinfo_cnt1), cnt2=cnt2+($Rinfo_cnt2) where mem_id='{$_SESSION['one_member_id']}' and sendnum='$sendnum' ";
-                    mysqli_query($self_con,$sql_num);
+                    mysqli_query($self_con, $sql_num);
 
                     $sql_num = "delete from tjd_mms_cnt_check where mem_id='{$_SESSION['one_member_id']}' and sendnum='$sendnum' and date=curdate();";
-                    mysqli_query($self_con,$sql_num);
+                    mysqli_query($self_con, $sql_num);
 
                     $sql = "select cnt1, cnt2 from Gn_MMS_Number where mem_id='{$_SESSION['one_member_id']}' and sendnum='$sendnum';";
-                    $result = mysqli_query($self_con,$sql);
+                    $result = mysqli_query($self_con, $sql);
                     $row = mysqli_fetch_array($result);
                     $chk_cnt1 = $row['cnt1'];
                     if ($chk_cnt1 < 10) { //발송 가능 수 복구
                         $sql_num = "update Gn_MMS_Number set daily_limit_cnt=500, max_cnt = ceil(500 * 100 / donation_rate),gl_cnt = 500 - ceil(500 * 100 / donation_rate)  where mem_id='{$_SESSION['one_member_id']}' and sendnum='$sendnum' ";
-                        mysqli_query($self_con,$sql_num);
+                        mysqli_query($self_con, $sql_num);
                     }
                 }
             }
         }
     }
     $sql = "delete from Gn_MMS where  mem_id='{$_SESSION['one_member_id']}' and result='1' and reservation is null";
-    $result = mysqli_query($self_con,$sql);
+    $result = mysqli_query($self_con, $sql);
     if ($result) {
     ?>
         <script language="javascript">
@@ -148,7 +138,7 @@ if ($_POST['no_msg_del_ok']) {
 if ($_POST['group_create_go']) {
     $in_sendnum = str_replace("\'", "'", $_POST['group_create_nums']);
     $sql = "select msg_text, msg_url from sm_data where dest in ($in_sendnum) ";
-    $resul = mysqli_query($self_con,$sql);
+    $resul = mysqli_query($self_con, $sql);
     if (mysqli_num_rows($resul)) {
     ?>
         <script language="javascript">
@@ -170,7 +160,7 @@ if ($_POST['group_create_ok_']) {
     $in_nums = str_replace("\'", "'", $_POST['group_create_ok_nums']);
     $group_name = htmlspecialchars($_POST['group_create_ok_name']);
     $sql_s = "select idx from Gn_MMS_Group where grp='$group_name' and mem_id = '{$_SESSION['one_member_id']}' ";
-    $resul_s = mysqli_query($self_con,$sql_s);
+    $resul_s = mysqli_query($self_con, $sql_s);
     $row_s = mysqli_fetch_array($resul_s);
     if ($row_s['idx'] && substr($group_name, -4) != date("md")) {
     ?>
@@ -181,23 +171,23 @@ if ($_POST['group_create_ok_']) {
         exit;
     } else if ($row_s['idx'] && substr($group_name, -4) == date("md")) {
         $sql = "delete from Gn_MMS_Group where grp='$group_name' and mem_id = '{$_SESSION['one_member_id']}'";
-        mysqli_query($self_con,$sql);
+        mysqli_query($self_con, $sql);
 
         $sql = "delete from Gn_MMS_Receive where grp='$group_name' and mem_id = '{$_SESSION['one_member_id']}'";
-        mysqli_query($self_con,$sql);
+        mysqli_query($self_con, $sql);
     }
     $sql = "insert into Gn_MMS_Group set mem_id = '{$_SESSION['one_member_id']}', grp = '$group_name' , reg_date = now()";
-    mysqli_query($self_con,$sql);
+    mysqli_query($self_con, $sql);
 
     $sql_s = "select idx from Gn_MMS_Group where grp='$group_name' and mem_id = '{$_SESSION['one_member_id']}'";
-    $resul_s = mysqli_query($self_con,$sql_s);
+    $resul_s = mysqli_query($self_con, $sql_s);
     $row_s = mysqli_fetch_array($resul_s);
 
     $sql = "delete from Gn_MMS_Receive where mem_id='{$_SESSION['one_member_id']}' and grp_id='{$row_s['idx']}'";
-    mysqli_query($self_con,$sql);
+    mysqli_query($self_con, $sql);
 
     $sql_d = "select msg_text,msg_url,grp from sm_data where dest in ($in_nums) ";
-    $resul_d = mysqli_query($self_con,$sql_d) or die(mysqli_error($self_con));
+    $resul_d = mysqli_query($self_con, $sql_d) or die(mysqli_error($self_con));
     $i = 0;
     while ($row_d = mysqli_fetch_array($resul_d)) {
         $recv_num = str_replace(array("-", " ", ","), "", $row_d['msg_url']);
@@ -209,17 +199,17 @@ if ($_POST['group_create_ok_']) {
             continue;
 
         $sql_c = "select idx from Gn_MMS_Receive where mem_id='{$_SESSION['one_member_id']}' and grp_id='{$row_s['idx']}' and recv_num='$recv_num' ";
-        $resul_c = mysqli_query($self_con,$sql_c);
+        $resul_c = mysqli_query($self_con, $sql_c);
         $row_c = mysqli_fetch_array($resul_c);
         if ($row_c['idx'])
             continue;
 
         $sql_i = "insert into Gn_MMS_Receive set grp_id='{$row_s['idx']}', mem_id = '{$_SESSION['one_member_id']}', grp = '$group_name',grp_2='{$row_d['grp']}', recv_num = '$recv_num', name = '{$row_d['msg_text']}',reg_date=now() ";
-        mysqli_query($self_con,$sql_i) or die(mysqli_error($self_con));
+        mysqli_query($self_con, $sql_i) or die(mysqli_error($self_con));
         $i++;
     }
     $sql_u = "update Gn_MMS_Group set count='$i' where idx='{$row_s['idx']}' ";
-    mysqli_query($self_con,$sql_u);
+    mysqli_query($self_con, $sql_u);
     ?>
     <script language="javascript">
         alert('그룹 생성완료되었습니다.')
@@ -232,7 +222,7 @@ if ($_POST['group_create_ok']) {
     $in_nums = str_replace("\'", "'", $_POST['group_create_ok_nums']);
     $group_name = htmlspecialchars($_POST['group_create_ok_name']);
     $sql_s = "select idx from Gn_MMS_Group where grp='$group_name' and mem_id = '{$_SESSION['one_member_id']}' ";
-    $resul_s = mysqli_query($self_con,$sql_s);
+    $resul_s = mysqli_query($self_con, $sql_s);
     $row_s = mysqli_fetch_array($resul_s);
     if ($row_s['idx'] && substr($group_name, -4) != date("md")) {
     ?>
@@ -243,21 +233,21 @@ if ($_POST['group_create_ok']) {
         exit;
     } elseif ($row_s['idx'] && substr($group_name, -4) == date("md")) {
         $sql = "delete from Gn_MMS_Group where grp='$group_name' and mem_id = '{$_SESSION['one_member_id']}'";
-        mysqli_query($self_con,$sql);
+        mysqli_query($self_con, $sql);
 
         $sql = "delete from Gn_MMS_Receive where grp='$group_name' and mem_id = '{$_SESSION['one_member_id']}'";
-        mysqli_query($self_con,$sql);
+        mysqli_query($self_con, $sql);
     }
     $sql = "insert into Gn_MMS_Group set mem_id = '{$_SESSION['one_member_id']}', grp = '$group_name' , reg_date = now()";
-    mysqli_query($self_con,$sql);
+    mysqli_query($self_con, $sql);
     $sql_s = "select idx from Gn_MMS_Group where grp='$group_name' and mem_id = '{$_SESSION['one_member_id']}'";
-    $resul_s = mysqli_query($self_con,$sql_s);
+    $resul_s = mysqli_query($self_con, $sql_s);
     $row_s = mysqli_fetch_array($resul_s);
     $sql = "delete from Gn_MMS_Receive where mem_id='{$_SESSION['one_member_id']}' and grp_id='{$row_s['idx']}'";
-    mysqli_query($self_con,$sql);
+    mysqli_query($self_con, $sql);
 
     $sql_d = "select msg_text,msg_url,grp from sm_data where dest in ($in_nums) ";
-    $resul_d = mysqli_query($self_con,$sql_d) or die(mysqli_error($self_con));
+    $resul_d = mysqli_query($self_con, $sql_d) or die(mysqli_error($self_con));
     $i = 0;
     while ($row_d = mysqli_fetch_array($resul_d)) {
         $recv_num = str_replace(array("-", " ", ","), "", $row_d['msg_url']);
@@ -267,16 +257,16 @@ if ($_POST['group_create_ok']) {
         if (!check_cellno($recv_num))
             continue;
         $sql_c = "select idx from Gn_MMS_Receive where mem_id='{$_SESSION['one_member_id']}' and grp_id='{$row_s['idx']}' and recv_num='$recv_num' ";
-        $resul_c = mysqli_query($self_con,$sql_c);
+        $resul_c = mysqli_query($self_con, $sql_c);
         $row_c = mysqli_fetch_array($resul_c);
         if ($row_c['idx'])
             continue;
         $sql_i = "insert into Gn_MMS_Receive set grp_id='{$row_s['idx']}', mem_id = '{$_SESSION['one_member_id']}', grp = '$group_name',grp_2='{$row_d['grp']}', recv_num = '$recv_num', name = '{$row_d['msg_text']}',reg_date=now() ";
-        mysqli_query($self_con,$sql_i) or die(mysqli_error($self_con));
+        mysqli_query($self_con, $sql_i) or die(mysqli_error($self_con));
         $i++;
     }
     $sql_u = "update Gn_MMS_Group set count='$i' where idx='{$row_s['idx']}' ";
-    mysqli_query($self_con,$sql_u);
+    mysqli_query($self_con, $sql_u);
 
     if ($group_name == substr($in_nums, -8) . "_" . date("md")) { //번호 DB동기화 출력
         echo '{"idx":' . $row_s['idx'] . '}';
@@ -293,7 +283,7 @@ if ($_POST['group_create_ok']) {
 if ($_POST['group_modify_title'] && $_POST['group_modify_idx']) {
     $group_name = htmlspecialchars($_POST['group_modify_title']);
     $sql_s = "select idx from Gn_MMS_Group where grp='$group_name' ";
-    $resul_s = mysqli_query($self_con,$sql_s);
+    $resul_s = mysqli_query($self_con, $sql_s);
     $row_s = mysqli_fetch_array($resul_s);
     if ($row_s['idx']) {
     ?>
@@ -304,14 +294,14 @@ if ($_POST['group_modify_title'] && $_POST['group_modify_idx']) {
         exit;
     }
     $sql = "update Gn_MMS_Group set grp='$group_name' where idx='{$_POST['group_modify_idx']}' ";
-    if (mysqli_query($self_con,$sql)) {
+    if (mysqli_query($self_con, $sql)) {
         $sql_u1 = "update Gn_MMS_Receive set grp='$group_name' where grp_id='{$_POST['group_modify_idx']}' ";
-        mysqli_query($self_con,$sql_u1) or die(mysqli_error($self_con));
+        mysqli_query($self_con, $sql_u1) or die(mysqli_error($self_con));
         $sql_s1 = " select recv_num,grp from Gn_MMS_Receive where grp_id='{$_POST['group_modify_idx']}' ";
-        $resul_s1 = mysqli_query($self_con,$sql_s1) or die(mysqli_error($self_con));
+        $resul_s1 = mysqli_query($self_con, $sql_s1) or die(mysqli_error($self_con));
         while ($row_s1 = mysqli_fetch_array($resul_s1)) {
             $sql_u2 = "update sm_log set grp_name='{$row_s1['grp']}' where ori_num='{$row_s1['recv_num']}' ";
-            mysqli_query($self_con,$sql_u2) or die(mysqli_error($self_con));
+            mysqli_query($self_con, $sql_u2) or die(mysqli_error($self_con));
         }
     ?>
         <script language="javascript">
@@ -352,7 +342,7 @@ if ($_POST['num_check_go']) {
                 $limit_str = "";
             }
             $sql_rece = "select recv_num from Gn_MMS_Receive where grp_id='$grp_id'  order by idx asc" . $limit_str;
-            $resul_rece = mysqli_query($self_con,$sql_rece);
+            $resul_rece = mysqli_query($self_con, $sql_rece);
             while ($row_rece = mysqli_fetch_array($resul_rece))
                 array_push($num_arr, $row_rece['recv_num']);
         }
@@ -383,7 +373,7 @@ if ($_POST['num_check_go']) {
         }
         //로그인한 가입자 폰 번호 Cooper Add 2016-04-19
         $sql_num = "SELECT mem_phone  FROM Gn_Member WHERE mem_id ='{$_SESSION['one_member_id']}'";
-        $result_mem_phone = mysqli_query($self_con,$sql_num);
+        $result_mem_phone = mysqli_query($self_con, $sql_num);
         $row_mem_phone = mysqli_fetch_row($result_mem_phone);
         mysqli_free_result($result_mem_phone);
         $mem_phone = substr(str_replace(array("-", " ", ","), "", $row_mem_phone[0]), 0, 11);
@@ -392,7 +382,7 @@ if ($_POST['num_check_go']) {
         $sendnum = explode(",", $sendnum_seperate); // === 2016-05-11 추가 ===
         $recv_over = ""; // cooper 2016-04-19 수신처 오버 번호 체크
         $sql_ssh = "select send_num, idx, recv_num from Gn_MMS where mem_id = '{$_SESSION['one_member_id']}' and send_num in({$num_check_send_num_s})  and result = '0' and reg_date like '$date_month%'";
-        $resul_ssh = mysqli_query($self_con,$sql_ssh);
+        $resul_ssh = mysqli_query($self_con, $sql_ssh);
         if (mysqli_num_rows($resul_ssh)) {
             while ($row_ssh = mysqli_fetch_array($resul_ssh)) {
                 $ssh_arr = array();
@@ -409,7 +399,7 @@ if ($_POST['num_check_go']) {
                     $send_iphone[$row_ssh['send_num']] = $row_ssh['recv_num'];
                 // Cooper Add 수신처 갯수 확인 2016-04-19
                 $query = "select * from Gn_MMS_Number where mem_id='{$_SESSION['one_member_id']}' and sendnum='" . $row_ssh['send_num'] . "'";
-                $result = mysqli_query($self_con,$query);
+                $result = mysqli_query($self_con, $query);
                 $info = mysqli_fetch_array($result);
                 if ($info['memo2'] != "")
                     $memo2 = $telecom = $info['memo2'];
@@ -447,7 +437,7 @@ if ($_POST['num_check_go']) {
         }
         $num_arr2[$i] = preg_replace("/[^0-9]/i", "", $num_arr2[$i]);
         $sql_deny = "select idx from Gn_MMS_Deny where recv_num = '$num_arr2[$i]' and mem_id = '{$_SESSION['one_member_id']}'"; //수신거부
-        $resul_deny = mysqli_query($self_con,$sql_deny) or die(mysqli_error($self_con));
+        $resul_deny = mysqli_query($self_con, $sql_deny) or die(mysqli_error($self_con));
         $row_deny = mysqli_fetch_array($resul_deny);
         if ($row_deny['idx']) {
             //수신 거부 번호 모으기 : $_POST['send_deny_wushi_3']
@@ -456,7 +446,7 @@ if ($_POST['num_check_go']) {
                 continue;
         }
         $sql_etc = "select seq,dest,msg_flag from sm_log where ori_num='$num_arr2[$i]' and mem_id='{$_SESSION['one_member_id']}' order by seq desc limit 0,1 ";
-        $resul_etc = mysqli_query($self_con,$sql_etc);
+        $resul_etc = mysqli_query($self_con, $sql_etc);
         $row_etc = mysqli_fetch_array($resul_etc);
         if ($row_etc['seq']) {
             if ($row_etc['msg_flag'] == 1) {
@@ -485,10 +475,10 @@ if ($_POST['num_check_go']) {
         $v = $is_zero ? "0" . $v : $v;
         $v = preg_replace("/[^0-9]/i", "", $v);
         $sql_deny = "select idx,recv_num from Gn_MMS_Deny where recv_num='$v' and mem_id='{$_SESSION['one_member_id']}' ";
-        $resul_deny = mysqli_query($self_con,$sql_deny);
+        $resul_deny = mysqli_query($self_con, $sql_deny);
         $row_deny = mysqli_fetch_array($resul_deny);
         $sql_etc = "select seq,dest,msg_flag from sm_log where ori_num='$v' and mem_id='{$_SESSION['one_member_id']}' order by seq desc limit 0,1 ";
-        $resul_etc = mysqli_query($self_con,$sql_etc);
+        $resul_etc = mysqli_query($self_con, $sql_etc);
         $row_etc = mysqli_fetch_array($resul_etc);
         if ($row_etc['seq']) {
             //if($row_etc['msg_flag']==1)
@@ -521,7 +511,7 @@ if ($_POST['num_check_go']) {
         }
         $num_arr[$i] = preg_replace("/[^0-9]/i", "", $num_arr[$i]);
         $sql_deny = "select idx from Gn_MMS_Deny where recv_num = '$num_arr[$i]' and mem_id = '{$_SESSION['one_member_id']}'"; //수신거부
-        $resul_deny = mysqli_query($self_con,$sql_deny) or die(mysqli_error($self_con));
+        $resul_deny = mysqli_query($self_con, $sql_deny) or die(mysqli_error($self_con));
         $row_deny = mysqli_fetch_array($resul_deny);
         if ($row_deny['idx']) {
             //수신 거부 번호 모으기 : $_POST['send_deny_wushi_3']
@@ -530,7 +520,7 @@ if ($_POST['num_check_go']) {
                 continue;
         }
         $sql_etc = "select seq,msg_flag from sm_log where  mem_id = '{$_SESSION['one_member_id']}' and ori_num='$num_arr[$i]' order by seq desc limit 0,1";
-        $resul_etc = mysqli_query($self_con,$sql_etc);
+        $resul_etc = mysqli_query($self_con, $sql_etc);
         $row_etc = mysqli_fetch_array($resul_etc);
         if ($row_etc['seq']) {
             if ($row_etc['msg_flag'] == 1) {
@@ -564,11 +554,11 @@ if ($_POST['num_check_go']) {
         //발송가능 폰번호별
         $superChk = false;
         $query = "select * from Gn_Member where mem_id='{$_SESSION['one_member_id']}'";
-        $result = mysqli_query($self_con,$query);
+        $result = mysqli_query($self_con, $query);
         $member_info = mysqli_fetch_array($result);
 
         $query = "select * from Gn_MMS_Number where mem_id='{$_SESSION['one_member_id']}' and sendnum='" . str_replace("-", "", $member_info['mem_phone']) . "'";
-        $result = mysqli_query($self_con,$query);
+        $result = mysqli_query($self_con, $query);
         $info = mysqli_fetch_array($result);
         if ($info['memo2'] != "")
             $telecom = $info['memo2'];
@@ -599,7 +589,7 @@ if ($_POST['num_check_go']) {
         }
         $ssh_num = array(); //$ssh_num <= 중복없는 수신번호들
         $sql_ssh = "select recv_num from Gn_MMS where mem_id = '{$_SESSION['one_member_id']}' and send_num='$sendnum[$j]' and result = '0' and reg_date like '$date_month%'";
-        $resul_ssh = mysqli_query($self_con,$sql_ssh);
+        $resul_ssh = mysqli_query($self_con, $sql_ssh);
         if (mysqli_num_rows($resul_ssh)) {
             while ($row_ssh = mysqli_fetch_array($resul_ssh)) {
                 $ssh_arr = array();
@@ -675,7 +665,7 @@ if ($_POST['num_check_go']) {
                 if ($_POST['send_ssh_check'] ||  $_POST['send_ssh_check3']) {
                     $ssh_num = array(); //$ssh_num <= 중복없는 수신번호들
                     $sql_ssh = "select recv_num from Gn_MMS where mem_id = '{$_SESSION['one_member_id']}' and send_num='$sendnum[$j]' and result = '0' and reg_date like '$date_month%' group by(recv_num)";
-                    $resul_ssh = mysqli_query($self_con,$sql_ssh);
+                    $resul_ssh = mysqli_query($self_con, $sql_ssh);
                     if (mysqli_num_rows($resul_ssh)) {
                         while ($row_ssh = mysqli_fetch_array($resul_ssh)) {
                             $ssh_arr = array();
@@ -723,7 +713,7 @@ if ($_POST['num_check_go']) {
                     //echo "T2";
                 }
                 $query = "select * from Gn_MMS_Number where mem_id='{$_SESSION['one_member_id']}' and sendnum='" . $sendnum[$j] . "'";
-                $result = mysqli_query($self_con,$query);
+                $result = mysqli_query($self_con, $query);
                 $info = mysqli_fetch_array($result);
                 // 이번달 발송건이 10건 이상시
                 if ($info['cnt1'] >= 10)
@@ -802,7 +792,7 @@ if ($_POST['num_check_go']) {
                 //echo $sendnum[$j]."===".count($send_num_list[$sendnum[$j]])."===".$this_time_send."\n";
                 if ($_POST['send_ssh_check']) {
                     $sql_check_s = "select no,status from tjd_mms_cnt_check where mem_id='{$_SESSION['one_member_id']}' and sendnum='$sendnum[$j]' and date=curdate() ";
-                    $resul_check_s = mysqli_query($self_con,$sql_check_s);
+                    $resul_check_s = mysqli_query($self_con, $sql_check_s);
                     $row_check_s = mysqli_fetch_array($resul_check_s);
                     if ($row_check_s['no']) { //tjd_mms_cnt_check에 자료 있으면 : 오늘 보낸 적 있음
                         if ($row_check_s['status'] == "N") { //200미만 건 발송 이력 있음
@@ -816,7 +806,7 @@ if ($_POST['num_check_go']) {
                     }
                 } else {
                     $sql_check_s = "select no,status from tjd_mms_cnt_check where mem_id='{$_SESSION['one_member_id']}' and sendnum='$sendnum[$j]' and date=curdate() ";
-                    $resul_check_s = mysqli_query($self_con,$sql_check_s);
+                    $resul_check_s = mysqli_query($self_con, $sql_check_s);
                     $row_check_s = mysqli_fetch_array($resul_check_s);
                     if ($row_check_s['no']) { //tjd_mms_cnt_check에 자료 있으면 : 오늘 보낸 적 있음
                         if ($row_check_s['status'] == "N") { //200미만 건 발송 이력 있음
@@ -870,7 +860,7 @@ if ($_POST['num_check_go']) {
                 //echo "T2";
             }
             $query = "select * from Gn_MMS_Number where mem_id='{$_SESSION['one_member_id']}' and sendnum='" . $sendnum[$j] . "'";
-            $result = mysqli_query($self_con,$query);
+            $result = mysqli_query($self_con, $query);
             $info = mysqli_fetch_array($result);
             // 이번달 발송건이 10건 이상시
             if ($info['cnt1'] >= 10)
@@ -928,7 +918,7 @@ if ($_POST['num_check_go']) {
             // STEP #5 == 금일 발송양에 따른 통계 계산
             //echo $sendnum[$j]."===".count($send_num_list[$sendnum[$j]])."===".$this_time_send."\n";
             $sql_check_s = "select no,status from tjd_mms_cnt_check where mem_id='{$_SESSION['one_member_id']}' and sendnum='$sendnum[$j]' and date=curdate() ";
-            $resul_check_s = mysqli_query($self_con,$sql_check_s);
+            $resul_check_s = mysqli_query($self_con, $sql_check_s);
             $row_check_s = mysqli_fetch_array($resul_check_s);
             if ($row_check_s['no']) { //tjd_mms_cnt_check에 자료 있으면 : 오늘 보낸 적 있음
                 if ($row_check_s['status'] == "N") { //200미만 건 발송 이력 있음
@@ -1077,7 +1067,7 @@ if ($_POST['g_dt_status']) {
     if ($_POST['g_dt_status'] != "del") {
         if ($_POST['g_dt_status'] != "modify") {
             $sql_c = "select idx from Gn_MMS_Receive where mem_id='{$_SESSION['one_member_id']}' and grp_id='$_POST[g_dt_g_id]' and recv_num='$recv_num' ";
-            $resul_c = mysqli_query($self_con,$sql_c);
+            $resul_c = mysqli_query($self_con, $sql_c);
             $row_c = mysqli_fetch_array($resul_c);
             if ($row_c['idx']) {
         ?>
@@ -1096,15 +1086,15 @@ if ($_POST['g_dt_status']) {
         case "del":
             $sql = "delete from Gn_MMS_Receive where idx = '$_POST[g_dt_idx]'";
             $sql_g = "update Gn_MMS_Group set count=count-1 where idx='$_POST[g_dt_g_id]' ";
-            mysqli_query($self_con,$sql_g);
+            mysqli_query($self_con, $sql_g);
             break;
         case "add":
             $sql = "insert into Gn_MMS_Receive set mem_id = '{$_SESSION['one_member_id']}',grp_2='$_POST[g_dt_grp_2]', recv_num = '$recv_num', email = '$_POST[g_dt_email]', name = '$_POST[g_dt_name]', grp_id = '$_POST[g_dt_g_id]', reg_date = now()";
             $sql_g = "update Gn_MMS_Group set count=count+1 where idx='$_POST[g_dt_g_id]' ";
-            mysqli_query($self_con,$sql_g);
+            mysqli_query($self_con, $sql_g);
             break;
     }
-    if (mysqli_query($self_con,$sql)) {
+    if (mysqli_query($self_con, $sql)) {
         ?>
         <script language="javascript">
             alert('처리되었습니다.')
@@ -1118,13 +1108,13 @@ if ($_POST['all_group_chk']) {
     $chk = $_POST['all_group_chk'];
     for ($i = 0; $i < count($chk); $i++) {
         $sql1 = "select * from Gn_MMS_Group where mem_id = '{$_SESSION['one_member_id']}' and idx = '$chk[$i]'";
-        $res1 = mysqli_query($self_con,$sql1);
+        $res1 = mysqli_query($self_con, $sql1);
         while ($row1 = mysqli_fetch_array($res1)) {
             $sql2 = "delete from Gn_MMS_Receive where mem_id = '{$_SESSION['one_member_id']}' and grp_id = '{$row1['idx']}'";
-            mysqli_query($self_con,$sql2);
+            mysqli_query($self_con, $sql2);
         }
         $sql0 = "delete from Gn_MMS_Group where mem_id = '{$_SESSION['one_member_id']}' and idx = '$chk[$i]'";
-        $res0 = mysqli_query($self_con,$sql0);
+        $res0 = mysqli_query($self_con, $sql0);
     }
     ?>
     <script language="javascript">
@@ -1160,7 +1150,7 @@ if ($_POST['lms_save_title']) {
     } else if ($_POST['lms_save_status'] == "modify") {
         $sql .= " where idx='$_POST[lms_save_idx]' ";
     }
-    if (mysqli_query($self_con,$sql)) {
+    if (mysqli_query($self_con, $sql)) {
     ?>
         <script language="javascript">
             alert('처리되었습니다.')
@@ -1172,7 +1162,7 @@ if ($_POST['lms_save_title']) {
 //문자삭제
 if ($_POST['lms_del_idx']) {
     $sql = "delete from Gn_MMS_Message where idx='{$_POST['lms_del_idx']}' ";
-    if (mysqli_query($self_con,$sql)) {
+    if (mysqli_query($self_con, $sql)) {
     ?>
         <script language="javascript">
             alert('삭제되었습니다.')
@@ -1203,7 +1193,7 @@ if ($_POST['set_num']) {
             $i++;
         }
         $sql .= " where sendnum='$v' and mem_id='{$_SESSION['one_member_id']}' ";
-        mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+        mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
     }
     ?>
     <script language="javascript">
@@ -1240,7 +1230,7 @@ if ($_POST['deny_add_send'] && $_POST['deny_add_recv']) {
         exit;
     }
     $sql_num = "select sendnum from Gn_MMS_Number where mem_id ='{$_SESSION['one_member_id']}' and sendnum='$send_num' ";
-    $resul_num = mysqli_query($self_con,$sql_num);
+    $resul_num = mysqli_query($self_con, $sql_num);
     $row_num = mysqli_fetch_array($resul_num);
     if (!$row_num['sendnum']) {
     ?>
@@ -1261,7 +1251,7 @@ if ($_POST['deny_add_send'] && $_POST['deny_add_recv']) {
         $sql_search = " and chanel_type=2";
     }
     $sql_s = "select idx from Gn_MMS_Deny where recv_num='$recv_num' and send_num='$send_num'" . $sql_search;
-    $resul_s = mysqli_query($self_con,$sql_s);
+    $resul_s = mysqli_query($self_con, $sql_s);
     $row_s = mysqli_fetch_array($resul_s);
     if ($row_s['idx']) {
     ?>
@@ -1293,7 +1283,7 @@ if ($_POST['deny_add_send'] && $_POST['deny_add_recv']) {
         $sql .= " where idx='{$_POST['deny_add_idx']}' ";
     else
         $sql .= " , reg_date=now() ";
-    if (mysqli_query($self_con,$sql) or die(mysqli_error($self_con))) {
+    if (mysqli_query($self_con, $sql) or die(mysqli_error($self_con))) {
     ?>
         <script language="javascript">
             alert('처리되었습니다.');
@@ -1329,7 +1319,7 @@ if ($_POST['agree_add_send'] && $_POST['agree_add_recv']) {
         exit;
     }
     $sql_num = "select sendnum from Gn_MMS_Number where mem_id ='{$_SESSION['one_member_id']}' and sendnum='$send_num' ";
-    $resul_num = mysqli_query($self_con,$sql_num);
+    $resul_num = mysqli_query($self_con, $sql_num);
     $row_num = mysqli_fetch_array($resul_num);
     if (!$row_num['sendnum']) {
     ?>
@@ -1340,7 +1330,7 @@ if ($_POST['agree_add_send'] && $_POST['agree_add_recv']) {
         exit;
     }
     $sql_s = "select idx from Gn_MMS_Agree where mem_id='{$_SESSION['one_member_id']}' and recv_num='$recv_num' and send_num='$send_num' ";
-    $resul_s = mysqli_query($self_con,$sql_s);
+    $resul_s = mysqli_query($self_con, $sql_s);
     $row_s = mysqli_fetch_array($resul_s);
     if ($row_s['idx']) {
     ?>
@@ -1371,7 +1361,7 @@ if ($_POST['agree_add_send'] && $_POST['agree_add_recv']) {
         $sql .= " where idx='{$_POST['deny_add_idx']}' ";
     else
         $sql .= " , reg_date=now() ";
-    if (mysqli_query($self_con,$sql) or die(mysqli_error($self_con))) {
+    if (mysqli_query($self_con, $sql) or die(mysqli_error($self_con))) {
     ?>
         <script language="javascript">
             alert('처리되었습니다.');
@@ -1400,7 +1390,7 @@ if ($_POST['deny_g_add_recv_num'] && $_POST['deny_g_add_send_num']) {
             exit;
         }
         $sql = "select idx from Gn_MMS_Deny where mem_id='{$_SESSION['one_member_id']}' and recv_num='$recv_num' and send_num='$v' ";
-        $resul = mysqli_query($self_con,$sql);
+        $resul = mysqli_query($self_con, $sql);
         $row = mysqli_fetch_array($resul);
         if ($row['idx'])
             continue;
@@ -1414,7 +1404,7 @@ if ($_POST['deny_g_add_recv_num'] && $_POST['deny_g_add_send_num']) {
         foreach ($deny_info as $key2 => $v2)
             $sql_i .= " $key2='$v2' , ";
         $sql_i .= " reg_date=now() ";
-        mysqli_query($self_con,$sql_i);
+        mysqli_query($self_con, $sql_i);
     }
     ?>
     <script language="javascript">
@@ -1427,7 +1417,7 @@ if ($_POST['deny_g_add_recv_num'] && $_POST['deny_g_add_send_num']) {
 if ($_POST['deny_del_ids']) {
     $ids = $_POST['deny_del_ids'];
     $sql = "delete from Gn_MMS_Deny where idx in($ids) ";
-    if (mysqli_query($self_con,$sql)) {
+    if (mysqli_query($self_con, $sql)) {
     ?>
         <script language="javascript">
             alert('처리되었습니다.');
@@ -1440,7 +1430,7 @@ if ($_POST['deny_del_ids']) {
 if ($_POST['agree_del_ids']) {
     $ids = $_POST['agree_del_ids'];
     $sql = "delete from Gn_MMS_Agree where idx in($ids) ";
-    if (mysqli_query($self_con,$sql)) {
+    if (mysqli_query($self_con, $sql)) {
     ?>
         <script language="javascript">
             alert('처리되었습니다.');
@@ -1466,12 +1456,12 @@ if ($_POST['select_app_check_num']) {
     $reg_date = "DATE_ADD(now(), INTERVAL -{$d} second)";
     if ($i > 1) {
         $query = "select * from Gn_MMS_Number where mem_id='{$_SESSION['one_member_id']}' and sendnum in ('" . implode("','", $sendnum) . "')";
-        $result = mysqli_query($self_con,$query);
+        $result = mysqli_query($self_con, $query);
         while ($info = mysqli_fetch_array($result)) {
             $pkey[$info['sendnum']] = $info['pkey'];
             $id = $info['pkey'];
             $sql = "select idx from Gn_MMS where mem_id='{$_SESSION['one_member_id']}'  and send_num='{$info['sendnum']}' and result=0 and content like '%app_check_process%'  order by idx desc limit 0,1";
-            $resul = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+            $resul = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
             $row = mysqli_fetch_array($resul);
             if (is_array($id)) {
                 $fields['registration_ids'] = $id;
@@ -1521,10 +1511,10 @@ if ($_POST['select_app_check_num']) {
         if ($check_status_arr[$key] == "on")
             continue;
         $sql = "select idx,send_num,recv_num from Gn_MMS where mem_id='{$_SESSION['one_member_id']}' and reg_date>$reg_date and send_num='$v' and result=0 and content like '%app_check_process%' limit 0,1";
-        $resul = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+        $resul = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
         $row = mysqli_fetch_array($resul);
         $sql = "select status from Gn_MMS_status where send_num='{$row['send_num']}' and  recv_num='{$row['recv_num']}' order by regdate desc limit 1 ";
-        $sresul = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+        $sresul = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
         $srow = mysqli_fetch_array($sresul);
         if ($row['idx'] && $srow[0] == 0) {
             $check_status_arr[$key] = "on";
@@ -1588,7 +1578,7 @@ if ($_POST['fs_del_num_s']) {
         $num = $nums_arr[$i];
         //발송완료여부 확인(up_date)
         $sql = "select uni_id,mem_id,send_num,up_date,reg_date from Gn_MMS where idx = $num;";
-        $result = mysqli_query($self_con,$sql);
+        $result = mysqli_query($self_con, $sql);
         $row1 = mysqli_fetch_array($result);
         $uni_id = $row1['uni_id'];
         $mem_id = $row1['mem_id'];
@@ -1598,7 +1588,7 @@ if ($_POST['fs_del_num_s']) {
         //이번 달 것인지 확인
         if (substr($reg_date, 0, 7) == date("Y-m") && !$up_date) { //이번 달
             $sqlRinfo = "select cnt1,cnt2,cntYN,cntAdj,reg_date from Gn_MMS_Send_Cnt_Log where mem_id='{$_SESSION['one_member_id']}' and uni_id='$uni_id';";
-            $resultRinfo = mysqli_query($self_con,$sqlRinfo);
+            $resultRinfo = mysqli_query($self_con, $sqlRinfo);
             $rowRinfo = mysqli_fetch_array($resultRinfo);
 
             $Rinfo_cnt1 = $rowRinfo['cnt1'] * -1;
@@ -1608,19 +1598,19 @@ if ($_POST['fs_del_num_s']) {
 
             //최후의 것인지 확인
             $sql = "select uni_id from Gn_MMS where mem_id='{$_SESSION['one_member_id']}' and send_num='$sendnum' AND substr(reg_date, 1, 10) = CURDATE() limit 1;";
-            $result1 = mysqli_query($self_con,$sql);
+            $result1 = mysqli_query($self_con, $sql);
             $row1 = mysqli_fetch_array($result1);
             if ($row1['uni_id']) { //최후 건 아님: cnt1,cnt2 복구
                 $sql_num = "update Gn_MMS_Number set cnt1=cnt1+($Rinfo_cnt1), cnt2=cnt2+($Rinfo_cnt2) where mem_id='{$_SESSION['one_member_id']}' and sendnum='$sendnum' ";
-                mysqli_query($self_con,$sql_num);
+                mysqli_query($self_con, $sql_num);
 
                 //이후 오늘 발송 건 유무 확인
                 $sql = "SELECT uni_id FROM Gn_MMS WHERE mem_id='{$_SESSION['one_member_id']}' and send_num='$sendnum' AND substr(reg_date, 1, 10) = CURDATE( ) and idx != '$num' limit 1;";
-                $result = mysqli_query($self_con,$sql);
+                $result = mysqli_query($self_con, $sql);
                 $row = mysqli_fetch_array($result);
                 if ($row['uni_id']) { //이후 오늘 발송 건 존재
                     $sql = "select recv_num from Gn_MMS where mem_id='{$_SESSION['one_member_id']}' and send_num='$sendnum' AND substr(reg_date, 1, 10) = CURDATE() and idx != '$num' ;";
-                    $result2 = mysqli_query($self_con,$sql);
+                    $result2 = mysqli_query($self_con, $sql);
                     $check_flag = 0;
                     while ($row2 = mysqli_fetch_array($result2)) {
                         $matches = count(explode(",", $row2['recv_num']));
@@ -1630,35 +1620,35 @@ if ($_POST['fs_del_num_s']) {
                     }
                     if ($check_flag == 0) {
                         $sql_num = "update tjd_mms_cnt_check set status='N' where mem_id='{$_SESSION['one_member_id']}' and sendnum='$sendnum' and date=curdate(); ";
-                        mysqli_query($self_con,$sql_num);
+                        mysqli_query($self_con, $sql_num);
                     }
                 } else { //이후 오늘 발송 건 없음
                     $sql_num = "delete from tjd_mms_cnt_check where mem_id='{$_SESSION['one_member_id']}' and sendnum='$sendnum' and date=curdate();";
-                    mysqli_query($self_con,$sql_num);
+                    mysqli_query($self_con, $sql_num);
                 }
             } else { //최후 건 : cnt1,cnt2,cntYN,cntAdj 모두 복구
                 $sql_num = "update Gn_MMS_Number set cnt1=cnt1+($Rinfo_cnt1), cnt2=cnt2+($Rinfo_cnt2) where mem_id='{$_SESSION['one_member_id']}' and sendnum='$sendnum' ";
                 echo $sql_num . "\n";
-                mysqli_query($self_con,$sql_num);
+                mysqli_query($self_con, $sql_num);
 
                 $sql_num = "delete from tjd_mms_cnt_check where mem_id='{$_SESSION['one_member_id']}' and sendnum='$sendnum' and date=curdate();";
-                mysqli_query($self_con,$sql_num);
+                mysqli_query($self_con, $sql_num);
 
                 $sql = "select cnt1, cnt2 from Gn_MMS_Number where mem_id='{$_SESSION['one_member_id']}' and sendnum='$sendnum';";
-                $result = mysqli_query($self_con,$sql);
+                $result = mysqli_query($self_con, $sql);
                 $row = mysqli_fetch_array($result);
                 $chk_cnt1 = $row['cnt1'];
                 if ($chk_cnt1 < 10) { //발송 가능 수 복구
                     $sql_num = "update Gn_MMS_Number set daily_limit_cnt=500, max_cnt = ceil(500 * 100 / donation_rate),gl_cnt = 500 - ceil(500 * 100 / donation_rate)  where mem_id='{$_SESSION['one_member_id']}' and sendnum='$sendnum' ";
-                    mysqli_query($self_con,$sql_num);
+                    mysqli_query($self_con, $sql_num);
                 }
             }
         }
     }
     $sql = "delete from Gn_MMS where idx in ($num_s);";
-    if (mysqli_query($self_con,$sql) or die(mysqli_error($self_con)))
+    if (mysqli_query($self_con, $sql) or die(mysqli_error($self_con)))
         $sql = "delete from Gn_MMS_ReservationFail where idx in ($num_s);";
-    if (mysqli_query($self_con,$sql) or die(mysqli_error($self_con))) {
+    if (mysqli_query($self_con, $sql) or die(mysqli_error($self_con))) {
     ?>
         <script language="javascript">
             alert('처리되었습니다.');
@@ -1672,13 +1662,13 @@ if ($_POST['member_leave_pwd']) {
     $mem_pass = $_POST['member_leave_pwd'];
     //password()
     $sql = "select mem_code from Gn_Member where mem_id='{$_SESSION['one_member_id']}'  and web_pwd=md5('$mem_pass') ";
-    $resul = mysqli_query($self_con,$sql);
+    $resul = mysqli_query($self_con, $sql);
     $row = mysqli_fetch_array($resul);
     if ($row['mem_code']) {
         $sql_u = "update Gn_Member set is_leave='Y' , leave_txt='{$_POST['member_leave_liyou']}' where mem_id='{$_SESSION['one_member_id']}' ";
-        if (mysqli_query($self_con,$sql_u)) {
+        if (mysqli_query($self_con, $sql_u)) {
             $pay_sql = "update tjd_pay_result set monthly_status='R', cancel_requesttime = now() where buyer_id = '{$_SESSION['one_member_id']}'";
-            mysqli_query($self_con,$pay_sql);
+            mysqli_query($self_con, $pay_sql);
             $_SESSION['one_member_id'] = "";
             $_SESSION['iam_member_id'] = "";
             $_SESSION['one_member_admin_id'] = "";
@@ -1708,7 +1698,7 @@ if ($_POST['member_leave_pwd']) {
 if ($_POST['one_del_num_s']) {
     $num_s = $_POST['one_del_num_s'];
     $sql = "delete from Gn_MMS_Message where idx in ($num_s) ";
-    if (mysqli_query($self_con,$sql) or die(mysqli_error($self_con))) {
+    if (mysqli_query($self_con, $sql) or die(mysqli_error($self_con))) {
     ?>
         <script language="javascript">
             alert('처리되었습니다.')
@@ -1726,14 +1716,14 @@ if ($_POST['pwd_change_old_pwd'] && $_POST['pwd_change_new_pwd']) {
     $add_sql = " web_pwd=md5('{$_POST['pwd_change_old_pwd']}') ";
     $add_sql_u .= " ,mem_pass='" . md5($_POST['pwd_change_new_pwd']) . "'";
     $sql = "select mem_code from Gn_Member where mem_id='{$_SESSION['one_member_id']}' and $add_sql ";
-    $resul = mysqli_query($self_con,$sql);
+    $resul = mysqli_query($self_con, $sql);
     $row = mysqli_fetch_array($resul);
     if ($row['mem_code']) {
         $sql_u = "update Gn_Member set $add_sql_u where mem_id='{$_SESSION['one_member_id']}' ";
-        if (mysqli_query($self_con,$sql_u)) {
+        if (mysqli_query($self_con, $sql_u)) {
             $add_sql_u = " password='" . md5($_POST['pwd_change_new_pwd']) . "'";
             $sql_u = "update crawler_member_real set $add_sql_u where user_id='{$_SESSION['one_member_id']}' ";
-            mysqli_query($self_con,$sql_u);
+            mysqli_query($self_con, $sql_u);
         ?>
             <script language="javascript">
                 alert('변경되었습니다.');
@@ -1766,7 +1756,7 @@ if ($_POST['set_save_num']) {
             $i++;
         }
         $sql .= " where sendnum='$v' and mem_id='{$_SESSION['one_member_id']}' ";
-        mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+        mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
     }
     ?>
     <script language="javascript">
@@ -1779,7 +1769,7 @@ if ($_POST['set_save_num']) {
 if ($_POST['log_del_ids']) {
     $ids = $_POST['log_del_ids'];
     $sql = "delete from sm_log where seq in($ids) ";
-    if (mysqli_query($self_con,$sql)) {
+    if (mysqli_query($self_con, $sql)) {
     ?>
         <script language="javascript">
             alert('처리되었습니다.');
@@ -1816,7 +1806,7 @@ if ($_POST['log_add_dest'] && $_POST['log_add_ori']) {
     }
 
     $sql_num = "select sendnum from Gn_MMS_Number where mem_id ='{$_SESSION['one_member_id']}' and sendnum='$dest' ";
-    $resul_num = mysqli_query($self_con,$sql_num);
+    $resul_num = mysqli_query($self_con, $sql_num);
     $row_num = mysqli_fetch_array($resul_num);
     if (!$row_num['sendnum']) {
     ?>
@@ -1827,7 +1817,7 @@ if ($_POST['log_add_dest'] && $_POST['log_add_ori']) {
         exit;
     }
     $sql_s = "select seq from sm_log where dest='$dest' and ori_num='$ori_num' and msg_flag='{$_POST['log_add_msg_flag']}' ";
-    $resul_s = mysqli_query($self_con,$sql_s);
+    $resul_s = mysqli_query($self_con, $sql_s);
     $row_s = mysqli_fetch_array($resul_s);
     if ($row_s['seq']) {
     ?>
@@ -1856,7 +1846,7 @@ if ($_POST['log_add_dest'] && $_POST['log_add_ori']) {
         $sql .= " where seq='{$_POST['log_add_idx']}' ";
     else
         $sql .= " , reservation_time=now() ";
-    if (mysqli_query($self_con,$sql) or die(mysqli_error($self_con))) {
+    if (mysqli_query($self_con, $sql) or die(mysqli_error($self_con))) {
     ?>
         <script language="javascript">
             alert('처리되었습니다.');
@@ -1903,7 +1893,7 @@ if ($_POST['board_save_title'] && ($_POST['board_save_content'] || $_POST['board
         $sql .= " where no='{$_POST['board_save_no']}' ";
     else
         $sql .= " , date=now() ";
-    if (mysqli_query($self_con,$sql) or die(mysqli_error($self_con))) {
+    if (mysqli_query($self_con, $sql) or die(mysqli_error($self_con))) {
     ?>
         <script language="javascript">
             alert('처리되었습니다.');
@@ -1928,7 +1918,7 @@ if ($_POST['board_save_title'] && ($_POST['board_save_content'] || $_POST['board
 if ($_POST['board_del_ids']) {
     $nos = $_POST['board_del_ids'];
     $sql = "delete from tjd_board where no in($nos) ";
-    if (mysqli_query($self_con,$sql) or die(mysqli_error($self_con))) {
+    if (mysqli_query($self_con, $sql) or die(mysqli_error($self_con))) {
     ?>
         <script language="javascript">
             alert('처리되었습니다.');
@@ -1941,22 +1931,22 @@ if ($_POST['board_del_ids']) {
 if ($_POST['delete_num_ids']) {
     $sql_serch .= " and seq in ({$_POST['delete_num_ids']})  ";
     $query = "select ori_num, chg_num from sm_log where 1=1 $sql_serch";
-    $resul_num = mysqli_query($self_con,$query);
+    $resul_num = mysqli_query($self_con, $query);
     while ($row_num = mysqli_fetch_array($resul_num)) {
         $ori_num = $row_num['ori_num'];
         $sql = "select * from Gn_MMS_Receive where recv_num='$ori_num' and mem_id = '{$_SESSION['one_member_id']}'";
-        $result1 = mysqli_query($self_con,$sql);
+        $result1 = mysqli_query($self_con, $sql);
         $row1 = mysqli_fetch_array($result1);
         //삭제
         $sql = "delete from Gn_MMS_Receive where recv_num='$ori_num' and mem_id = '{$_SESSION['one_member_id']}'";
-        $results = mysqli_query($self_con,$sql);
+        $results = mysqli_query($self_con, $sql);
         //// 갯수 업데이트
         if ($row1[0] != "") {
             $sql = "update Gn_MMS_Group set count=count-1 where grp='{$row1['grp']}' and  mem_id = '{$_SESSION['one_member_id']}'";
-            mysqli_query($self_con,$sql);
+            mysqli_query($self_con, $sql);
         }
         $sql = "delete from sm_log where $sql_serch";
-        mysqli_query($self_con,$sql);
+        mysqli_query($self_con, $sql);
     }
     exit;
     ?>
@@ -1973,7 +1963,7 @@ if ($_POST['fugai_num_status']) {
     if ($_POST['fugai_num_status'] == "cho") {
         $sql_serch .= " and seq in ($_POST[fugai_num_ids])  ";
         $query = "select ori_num, chg_num from sm_log $sql_serch";
-        $resul_num = mysqli_query($self_con,$query);
+        $resul_num = mysqli_query($self_con, $query);
         $row_num = mysqli_fetch_array($resul_num);
         if (cell_change_log($row_num['chg_num'], $row_num['ori_num']) === true) {
     ?>
@@ -1992,7 +1982,7 @@ if ($_POST['fugai_num_status']) {
         }
     } else if ($_POST['fugai_num_status'] == "all") {
         $sql_num = "select sendnum from Gn_MMS_Number where mem_id ='{$_SESSION['one_member_id']}'";
-        $resul_num = mysqli_query($self_con,$sql_num);
+        $resul_num = mysqli_query($self_con, $sql_num);
         $send_num_arr = array();
         while ($row_num = mysqli_fetch_array($resul_num)) {
             array_push($send_num_arr, "'" . $row_num['sendnum'] . "'");
@@ -2001,7 +1991,7 @@ if ($_POST['fugai_num_status']) {
         $sql_serch .= " and dest in($send_num_str) ";
         $cnt = 0;
         $query = "select ori_num, chg_num from sm_log where mem_id ='{$_SESSION['one_member_id']}' and chg_status='N' order by reservation_time asc";
-        $resul_num = mysqli_query($self_con,$query);
+        $resul_num = mysqli_query($self_con, $query);
         while ($row_num = mysqli_fetch_array($result_num)) {
             if (cell_change_log($row_num['chg_num'], $row_num['ori_num']) === true) {
                 $cnt++;
@@ -2099,7 +2089,7 @@ if ($_POST['pay_cancel_no'] && $_POST['pay_cancel_paymethod']) {
             if ($inipay->getResult('ResultCode') == "00") {
                 if ($_POST['pay_cancel_fujia'] == 'Y') {
                     $sql_m = "update Gn_Member set fujia_date1='' , fujia_date2='' where mem_id='{$member_1['mem_id']}' ";
-                    mysqli_query($self_con,$sql_m) or die(mysqli_error($self_con));
+                    mysqli_query($self_con, $sql_m) or die(mysqli_error($self_con));
                 }
                 $pay_info['end_status'] = "C";
                 $pay_info['cancel_ResultCode'] = $inipay->GetResult('ResultCode'); //취소코드
@@ -2113,9 +2103,9 @@ if ($_POST['pay_cancel_no'] && $_POST['pay_cancel_paymethod']) {
                     $sql .= " $key = '$v' , ";
                 }
                 $sql .= " end_date=now() where no='{$_POST['pay_cancel_no']}' ";
-                if (mysqli_query($self_con,$sql) or die(mysqli_error($self_con))) {
+                if (mysqli_query($self_con, $sql) or die(mysqli_error($self_con))) {
                     $sql_num_up = "update Gn_MMS_Number set end_status='N' ,end_date=now() where end_date='$_POST[pay_cancel_end_date]' and mem_id='{$member_1['mem_id']}'  ";
-                    mysqli_query($self_con,$sql_num_up);
+                    mysqli_query($self_con, $sql_num_up);
     ?>
                     <script language="javascript">
                         alert('<?= iconv("euc-kr", "utf-8", $inipay->GetResult('ResultMsg')) ?>');
@@ -2147,7 +2137,7 @@ if ($_POST['pay_cancel_no'] && $_POST['pay_cancel_paymethod']) {
             if ($inipay->m_resultCode == "00") {
                 if ($_POST['pay_cancel_fujia'] == 'Y') {
                     $sql_m = "update Gn_Member set fujia_date1='' , fujia_date2='' where mem_id='{$member_1['mem_id']}' ";
-                    mysqli_query($self_con,$sql_m) or die(mysqli_error($self_con));
+                    mysqli_query($self_con, $sql_m) or die(mysqli_error($self_con));
                 }
                 $pay_info['end_status'] = "C";
                 $pay_info['cancel_ResultCode'] = $inipay->m_resultCode; //취소코드
@@ -2161,9 +2151,9 @@ if ($_POST['pay_cancel_no'] && $_POST['pay_cancel_paymethod']) {
                     $sql .= " $key = '$v' , ";
                 }
                 $sql .= " end_date=now() where no='{$_POST['pay_cancel_no']}' ";
-                if (mysqli_query($self_con,$sql) or die(mysqli_error($self_con))) {
+                if (mysqli_query($self_con, $sql) or die(mysqli_error($self_con))) {
                     $sql_num_up = "update Gn_MMS_Number set end_status='N' ,end_date=now() where end_date='$_POST[pay_cancel_end_date]' and mem_id='{$member_1['mem_id']}'  ";
-                    mysqli_query($self_con,$sql_num_up);
+                    mysqli_query($self_con, $sql_num_up);
                 ?>
                     <script language="javascript">
                         alert('<?= iconv("euc-kr", "utf-8", $inipay->m_resultMsg) ?>');
@@ -2204,18 +2194,18 @@ if ($_POST['send_save_mms']) { //메시지 저장
     $sql .= " reg_date=now() ";
 
     if ($debug_mode == false) {
-        mysqli_query($self_con,$sql);
+        mysqli_query($self_con, $sql);
         echo "true";
     }
 }
 if ($_POST['stop_westory_guide'] == "get") {
     $sql = "select we_con_guide from Gn_Member where mem_id = '{$_SESSION['iam_member_id']}'";
-    $res = mysqli_query($self_con,$sql);
+    $res = mysqli_query($self_con, $sql);
     $row = mysqli_fetch_array($res);
     echo $row[0];
 } else {
     $sql = "update Gn_Member set we_con_guide =  '{$_POST['stop_westory_guide']}' where mem_id = '{$_SESSION['iam_member_id']}'";
-    mysqli_query($self_con,$sql);
+    mysqli_query($self_con, $sql);
     echo "success";
 }
 ?>
