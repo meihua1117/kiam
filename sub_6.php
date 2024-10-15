@@ -1347,9 +1347,11 @@ if (!empty($row_sum_b)) {
 													$ssh_cnt = 0;
 													$sql_ssh = "select recv_num from Gn_MMS where send_num='{$row['sendnum']}' and (reg_date like '$date_month%' or reservation like '$date_month%')  group by recv_num";
 													$result_ssh = mysqli_query($self_con, $sql_ssh);
-													while ($row_ssh = mysqli_fetch_array($result_ssh)) {
-														$ssh_arr = explode(",", $row_ssh['recv_num']);
-														$ssh_numT = array_merge($ssh_numT, (array)$ssh_arr);
+													if (mysqli_num_rows($result_ssh)) {
+														while ($row_ssh = mysqli_fetch_array($result_ssh)) {
+															$ssh_arr = explode(",", $row_ssh['recv_num']);
+															$ssh_numT = array_merge($ssh_numT, (array)$ssh_arr);
+														}
 													}
 													$ssh_arr = array_unique($ssh_numT);
 													$ssh_cnt = count($ssh_arr);
