@@ -195,7 +195,7 @@
                         } else {
                             $menu_query = "select * from Gn_Iam_Menu where site_iam='{$menu_host}' and menu_type='TR' and use_yn = 'y' order by display_order";
                         }
-                        $menu_res = mysqli_query($self_con,$menu_query);
+                        $menu_res = mysqli_query($self_con, $menu_query);
                         $odd = 0;
                         while ($menu_row = mysqli_fetch_array($menu_res)) {
                             $func = str_replace("card_link", $request_short_url . $card_owner_code, $menu_row['move_url']);
@@ -722,7 +722,7 @@
                     <div id="cardsel" style="margin-top:15px; display:none;">
                         <?
                         $sql5 = "select card_short_url,phone_display, card_title from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$_SESSION['iam_member_id']}' order by req_data asc";
-                        $result5 = mysqli_query($self_con,$sql5);
+                        $result5 = mysqli_query($self_con, $sql5);
                         $i = 0;
                         while ($row5 = mysqli_fetch_array($result5)) {
                         ?>
@@ -2101,7 +2101,7 @@
                                         <div id="cardsel1" onclick="limit_selcard1()" style="margin-top:15px;">
                                             <?
                                             $sql5 = "select card_short_url,phone_display, card_title from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$_SESSION['iam_member_id']}' order by req_data asc";
-                                            $result5 = mysqli_query($self_con,$sql5);
+                                            $result5 = mysqli_query($self_con, $sql5);
                                             $i = 0;
                                             while ($row5 = mysqli_fetch_array($result5)) {
                                                 if ($i == 0) {
@@ -2909,7 +2909,7 @@
                     </div>
                     <?
                     $news_sql = "select * from tjd_sellerboard where category=10 and important_yn='Y' order by date desc";
-                    $news_res = mysqli_query($self_con,$news_sql);
+                    $news_res = mysqli_query($self_con, $news_sql);
                     while ($news_row = mysqli_fetch_array($news_res)) { ?>
                         <div style="padding-top: 1px;background-color: #ffffff;border-radius: 10px;margin-top: 2px" class="news_content <?= 'news_kind_' . $news_row['fl'] ?>">
                             <div style="display: flex">
@@ -3028,7 +3028,7 @@
                                 <a class="profile_font" style="color:white;width:100%;height:100%;object-fit: cover;"><?= mb_substr($member_iam['mem_name'], 0, 3, "utf-8") ?></a>
                             </div>
                         <?  } ?>
-                        <img src="/iam/img/menu/icon_profile_edit.png" style="position:absolute;left: 45px;top: 45px;cursor:pointer" onclick="<?='location.href=\'https://'.$_SESSION['site_iam'].'.kiam.kr/iam/mypage.php\''?>">
+                        <img src="/iam/img/menu/icon_profile_edit.png" style="position:absolute;left: 45px;top: 45px;cursor:pointer" onclick="<?= 'location.href=\'https://' . $_SESSION['site_iam'] . '.kiam.kr/iam/mypage.php\'' ?>">
                         <div style="margin-left:20px;">
                             <h4><?= $member_iam['mem_name'] ?></h4>
                             <div style="display:flex;margin-top:10px">
@@ -3050,7 +3050,7 @@
                                 } else if ($member_iam['service_type'] == "2") {
                                     $mem_leb = "리셀러";
                                 } else if ($member_iam['service_type'] == "3") {
-                            	    $mem_leb = "분양자";
+                                    $mem_leb = "분양자";
                                 }
                                 ?>
                                 <p style="font-size:10px;margin-left:20px;background:#99cc00;border-radius:20px;color:white;padding:5px 10px"><?= $mem_leb ?></p>
@@ -3099,10 +3099,10 @@
                 } else {
                     $menu_query = "select * from Gn_Iam_Menu where site_iam='{$menu_host}' and menu_type='BR' and use_yn = 'y' order by display_order";
                 }
-                $menu_res = mysqli_query($self_con,$menu_query);
+                $menu_res = mysqli_query($self_con, $menu_query);
                 $menu_idx = 0;
                 while ($menu_row = mysqli_fetch_array($menu_res)) {
-            	    $func = str_replace("HOST", "https://" . ($_SESSION['site_iam'] == "kiam" ? "www" : $_SESSION['site_iam']) . ".kiam.kr", $menu_row['move_url']);
+                    $func = str_replace("HOST", "https://" . ($_SESSION['site_iam'] == "kiam" ? "www" : $_SESSION['site_iam']) . ".kiam.kr", $menu_row['move_url']);
                     $func = str_replace("card_link", $request_short_url . $card_owner_code, $func);
                     $func = str_replace("prewin", $cur_win, $func);
                     $func = str_replace("card_name", $cur_card['card_name'], $func);
@@ -3965,7 +3965,7 @@
                                         $sql5 = "select card_short_url,card_title from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$_SESSION['iam_member_id']}' order by req_data asc";
                                     else
                                         $sql5 = "select card_short_url,card_title from Gn_Iam_Name_Card where group_id = '$gkind' order by req_data asc";
-                                    $result5 = mysqli_query($self_con,$sql5);
+                                    $result5 = mysqli_query($self_con, $sql5);
                                     $i = 0;
                                     while ($row5 = mysqli_fetch_array($result5)) {
                                     ?>
@@ -4007,7 +4007,7 @@
                                         $sql5 = "select card_short_url,phone_display from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$_SESSION['iam_member_id']}' order by req_data asc";
                                     else
                                         $sql5 = "select card_short_url,phone_display from Gn_Iam_Name_Card where group_id = '$gkind' order by req_data asc";
-                                    $result5 = mysqli_query($self_con,$sql5);
+                                    $result5 = mysqli_query($self_con, $sql5);
                                     $i = 0;
                                     while ($row5 = mysqli_fetch_array($result5)) {
                                     ?>
@@ -4098,7 +4098,7 @@
                                 <div class="attr-value" style="display:flex;flex-wrap: wrap;">
                                     <?
                                     $sql5 = "select card_short_url,card_title from Gn_Iam_Name_Card where mem_id = 'iamstore' and idx not in(934328, 2477701, 1274691, 1268514) order by req_data asc";
-                                    $result5 = mysqli_query($self_con,$sql5);
+                                    $result5 = mysqli_query($self_con, $sql5);
                                     $i = 0;
                                     while ($row5 = mysqli_fetch_array($result5)) {
                                     ?>
@@ -4256,7 +4256,7 @@
                             <div class="attr-value" style="display:flex;flex-wrap: wrap;">
                                 <?
                                 $sql5 = "select card_short_url,card_title from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$_SESSION['iam_member_id']}' order by req_data asc";
-                                $result5 = mysqli_query($self_con,$sql5);
+                                $result5 = mysqli_query($self_con, $sql5);
                                 $i = 0;
                                 while ($row5 = mysqli_fetch_array($result5)) {
                                 ?>
@@ -4647,7 +4647,7 @@
                         <div class="attr-value" id="create_card_list">
                             <?
                             $create_card_sql = "select card_short_url,card_title from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$_SESSION['iam_member_id']}' order by req_data asc";
-                            $create_card_res = mysqli_query($self_con,$create_card_sql);
+                            $create_card_res = mysqli_query($self_con, $create_card_sql);
                             $i = 0;
                             while ($create_card_row = mysqli_fetch_array($create_card_res)) {
                                 $i++;
@@ -5021,30 +5021,32 @@
             </div>
             <div class="modal-body" style="border-bottom-left-radius: 5px;border-bottom-right-radius: 5px;">
                 <?
-                $g_cont_sql = "select * from Gn_Iam_Contents where group_id in (" . $other_group . ") and sample_display='Y' order by sample_order desc";
-                $g_cont_res = mysqli_query($self_con,$g_cont_sql);
-                $g_index = 1;
-                while ($g_cont_row = mysqli_fetch_array($g_cont_res)) {
-                    $g_card_sql = "select mem_id,card_short_url,main_img1,card_name,group_id from Gn_Iam_Name_Card c where c.idx = '{$g_cont_row['card_idx']}'";
-                    $g_card_res = mysqli_query($self_con,$g_card_sql);
-                    $g_card_row = mysqli_fetch_array($g_card_res);
+                if ($other_group != "") {
+                    $g_cont_sql = "select * from Gn_Iam_Contents where group_id in (" . $other_group . ") and sample_display='Y' order by sample_order desc";
+                    $g_cont_res = mysqli_query($self_con, $g_cont_sql);
+                    $g_index = 1;
+                    while ($g_cont_row = mysqli_fetch_array($g_cont_res)) {
+                        $g_card_sql = "select mem_id,card_short_url,main_img1,card_name,group_id from Gn_Iam_Name_Card c where c.idx = '{$g_cont_row['card_idx']}'";
+                        $g_card_res = mysqli_query($self_con, $g_card_sql);
+                        $g_card_row = mysqli_fetch_array($g_card_res);
 
-                    $sql_mem_g = "select mem_code from Gn_Member where mem_id='{$g_card_row['mem_id']}'";
-                    $res_mem_g = mysqli_query($self_con,$sql_mem_g);
-                    $row_mem_g = mysqli_fetch_array($res_mem_g);
+                        $sql_mem_g = "select mem_code from Gn_Member where mem_id='{$g_card_row['mem_id']}'";
+                        $res_mem_g = mysqli_query($self_con, $sql_mem_g);
+                        $row_mem_g = mysqli_fetch_array($res_mem_g);
 
-                    if (!$g_cont_row['contents_img'])
-                        $g_cont_images = null;
-                    else
-                        $g_cont_images = explode(",", $g_cont_row['contents_img']);
-                    for ($i = 0; $i < count($g_cont_images); $i++) {
-                        if (strstr($g_cont_images[$i], "kiam")) {
-                            $g_cont_images[$i] = str_replace("http://kiam.kr", "", $g_cont_images[$i]);
-                            $g_cont_images[$i] = str_replace("http://www.kiam.kr", "", $g_cont_images[$i]);
-                            //$g_cont_images[$i] = $cdn_ssl . $g_cont_images[$i];
-                        }
-                        if (!strstr($g_cont_images[$i], "http") && $g_cont_images[$i]) {
-                            $g_cont_images[$i] = $cdn_ssl . $g_cont_images[$i];
+                        if (!$g_cont_row['contents_img'])
+                            $g_cont_images = null;
+                        else
+                            $g_cont_images = explode(",", $g_cont_row['contents_img']);
+                        for ($i = 0; $i < count($g_cont_images); $i++) {
+                            if (strstr($g_cont_images[$i], "kiam")) {
+                                $g_cont_images[$i] = str_replace("http://kiam.kr", "", $g_cont_images[$i]);
+                                $g_cont_images[$i] = str_replace("http://www.kiam.kr", "", $g_cont_images[$i]);
+                                //$g_cont_images[$i] = $cdn_ssl . $g_cont_images[$i];
+                            }
+                            if (!strstr($g_cont_images[$i], "http") && $g_cont_images[$i]) {
+                                $g_cont_images[$i] = $cdn_ssl . $g_cont_images[$i];
+                            }
                         }
                     }
                 ?>
