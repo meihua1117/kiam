@@ -110,10 +110,10 @@ if ($_REQUEST['status'] == "old") {
 		$row_s = mysqli_fetch_array($resul_s);
 		$cnt = 0;
 		for ($i = 1; $i <= $excel_rows; $i++) {
-			fwrite($fp,$spreadData[$i][2]."\r\n");
-			$is_zero = substr($spreadData[$i][2], 0, 1);
+			fwrite($fp,$spreadData[$i]['C']."\r\n");
+			$is_zero = substr($spreadData[$i]['C'], 0, 1);
 			fwrite($fp,$is_zero."\r\n");
-			$v = $is_zero ? "0" . $spreadData[$i][2] : $spreadData[$i][2];
+			$v = $is_zero ? "0" . $spreadData[$i]['C'] : $spreadData[$i]['C'];
 			fwrite($fp,$v."\r\n");
 			$v = preg_replace("/[^0-9]/", "", $v);
 			if (!check_cellno($v)) {
@@ -129,7 +129,7 @@ if ($_REQUEST['status'] == "old") {
 				continue;
 			}
 
-			$sql_i = "insert into Gn_MMS_Receive set mem_id = '{$_SESSION['one_member_id']}',grp_id='{$row_s['idx']}', grp = '$group_name', grp_2 = '" . $spreadData[$i][0] . "', recv_num = '$v', name = '" . $spreadData[$i][1] . "' ,email = '" . $spreadData[$i][3] . "' ,reg_date=now() ";
+			$sql_i = "insert into Gn_MMS_Receive set mem_id = '{$_SESSION['one_member_id']}',grp_id='{$row_s['idx']}', grp = '$group_name', grp_2 = '" . $spreadData[$i]['A'] . "', recv_num = '$v', name = '" . $spreadData[$i]['B'] . "' ,email = '" . $spreadData[$i]['D'] . "' ,reg_date=now() ";
 			mysqli_query($self_con, $sql_i);
 			$cnt++;
 		}
