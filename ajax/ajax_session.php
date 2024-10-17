@@ -46,6 +46,7 @@ if ($_POST['num_del_num_a']) {
         location.reload();
     </script>
     <?
+    exit;
 }
 //전송안된문자 삭제 //2016-03-08 삭제시 발송제한 카운트 복구 추가
 if ($_POST['no_msg_del_ok']) {
@@ -136,6 +137,7 @@ if ($_POST['no_msg_del_ok']) {
         </script>
     <?
     }
+    exit;
 }
 //그룹생성 고
 if ($_POST['group_create_go']) {
