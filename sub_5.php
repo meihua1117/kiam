@@ -514,7 +514,7 @@ function excel_down_personal(pno){
 								</thead>
 								<tbody>
 								<?
-									$sql="(select idx,sendnum,memo,memo2,cnt1,cnt2,donation_rate,daily_limit_cnt,sort_no,daily_limit_cnt_user,daily_min_cnt_user,monthly_receive_cnt_user from Gn_MMS_Number where $sql_serch  order by sort_no asc limit $int,$intPageSize)";
+									$sql="select idx,sendnum,memo,memo2,cnt1,cnt2,donation_rate,daily_limit_cnt,sort_no,daily_limit_cnt_user,daily_min_cnt_user,monthly_receive_cnt_user from Gn_MMS_Number where $sql_serch  order by sort_no asc limit $int,$intPageSize";
 									$result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 									if($intRowCount){		
 										$i=0;
