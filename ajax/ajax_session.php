@@ -6,23 +6,26 @@ if ($_POST['logout_go']) {
     if ($_SESSION['one_member_id'] || $_SESSION['iam_member_id']) {
         session_destroy();
         if ($_POST['logout_go'] == "selling") {
-?>
+        ?>
             <script language="javascript">
                 location.replace('/ma.php')
             </script>
-        <? } else { ?>
+        <? } else { 
+        ?>
             <script language="javascript">
                 location.replace('/')
             </script>
-    <? }
+        <? 
+        }
         exit;
     }
 }
-if (!$_SESSION['one_member_id']) { ?>
+if (!$_SESSION['one_member_id']) { 
+    ?>
     <script language="javascript">
         location.replace("/ma.php")
     </script>
-<?
+    <?
     exit;
 }
 //번호체크삭제
@@ -37,7 +40,7 @@ if ($_POST['num_del_num_a']) {
         $sql_da = "delete from sm_data where dest='$v' ";
         //mysqli_query($self_con,$sql_da);
     }
-?>
+    ?>
     <script language="javascript">
         alert('임시비활성: 처리되었습니다.');
         location.reload();
@@ -1105,6 +1108,11 @@ if ($_POST['g_dt_status']) {
 }
 //그룹삭제
 if ($_POST['all_group_chk']) {
+    ?>
+        <script language="javascript">
+            console.log('<?=$_POST['all_group_chk'];?>');
+        </script>
+    <?
     $chk = $_POST['all_group_chk'];
     for ($i = 0; $i < count($chk); $i++) {
         $sql1 = "select * from Gn_MMS_Group where mem_id = '{$_SESSION['one_member_id']}' and idx = '$chk[$i]'";
