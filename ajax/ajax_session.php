@@ -1110,19 +1110,16 @@ if ($_POST['g_dt_status']) {
 }
 //그룹삭제
 if ($_POST['all_group_chk']) {
-    $fp = fopen("test.log","w+");
     $chk = $_POST['all_group_chk'];
     for ($i = 0; $i < count($chk); $i++) {
         $sql1 = "select * from Gn_MMS_Group where mem_id = '{$_SESSION['one_member_id']}' and idx = '$chk[$i]'";
-        fwrite($fp,$sql1."\r\n");
-        exit;
         $res1 = mysqli_query($self_con, $sql1);
         while ($row1 = mysqli_fetch_array($res1)) {
             $sql2 = "delete from Gn_MMS_Receive where mem_id = '{$_SESSION['one_member_id']}' and grp_id = '{$row1['idx']}'";
             mysqli_query($self_con, $sql2);
         }
         $sql0 = "delete from Gn_MMS_Group where mem_id = '{$_SESSION['one_member_id']}' and idx = '$chk[$i]'";
-        $res0 = mysqli_query($self_con, $sql0);
+        mysqli_query($self_con, $sql0);
     }
     ?>
     <script language="javascript">
@@ -1130,6 +1127,7 @@ if ($_POST['all_group_chk']) {
         location.reload();
     </script>
     <?
+    exit;
 }
 //문자 저장
 if ($_POST['lms_save_title']) {
