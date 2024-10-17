@@ -63,7 +63,7 @@ if ($_REQUEST['status'] == "old") {
 	$resul = mysqli_query($self_con, $sql);
 	while ($row = mysqli_fetch_array($resul)) {
 		$cnt = 0;
-		for ($i = 2; $i <= $excel_rows; $i++) {
+		for ($i = 1; $i <= $excel_rows; $i++) {
 			$is_zero = substr($spreadData[$i][2], 0, 1);
 			$v = $is_zero ? "0" . $spreadData[$i][2] : $spreadData[$i][2];
 			$v = preg_replace("/[^0-9]/", "", $v);
@@ -109,7 +109,7 @@ if ($_REQUEST['status'] == "old") {
 		$resul_s = mysqli_query($self_con, $sql_s);
 		$row_s = mysqli_fetch_array($resul_s);
 		$cnt = 0;
-		for ($i = 2; $i <= $excel_rows; $i++) {
+		for ($i = 1; $i <= $excel_rows; $i++) {
 			fwrite($fp,$spreadData[$i][2]."\r\n");
 			$is_zero = substr($spreadData[$i][2], 0, 1);
 			fwrite($fp,$is_zero."\r\n");
@@ -140,7 +140,7 @@ if ($_REQUEST['status'] == "old") {
 	if (!$_FILES['excel_file']['tmp_name'])
 		exit;
 	$cnt = 0;
-	for ($i = 2; $i <= $excel_rows; $i++) {
+	for ($i = 1; $i <= $excel_rows; $i++) {
 		$send_num = preg_replace("/[^0-9]/", "", $spreadData[$i][0]);
 		$is_zero = substr($send_num, 0, 1);
 		$send_num = $is_zero ? "0" . $send_num : $send_num;
