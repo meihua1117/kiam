@@ -1115,6 +1115,7 @@ if ($_POST['all_group_chk']) {
     for ($i = 0; $i < count($chk); $i++) {
         $sql1 = "select * from Gn_MMS_Group where mem_id = '{$_SESSION['one_member_id']}' and idx = '$chk[$i]'";
         fwrite($fp,$sql1."\r\n");
+        exit;
         $res1 = mysqli_query($self_con, $sql1);
         while ($row1 = mysqli_fetch_array($res1)) {
             $sql2 = "delete from Gn_MMS_Receive where mem_id = '{$_SESSION['one_member_id']}' and grp_id = '{$row1['idx']}'";
