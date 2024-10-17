@@ -1,6 +1,5 @@
 <?
 include_once "lib/rlatjd_fun.php";
-require_once "lib/excel_read.php";
 if (!$_SESSION['one_member_id']) { ?>
 	<script language="javascript">
 		location.replace("<?= $_SERVER['HTTP_REFERER'] ?>")
@@ -24,8 +23,15 @@ if ($_FILES['excel_file']['tmp_name']) {
 	<?
 		exit;
 	}
-} else
+} else{
+	?>
+		<script language="javascript">
+			alert('선택한 파일이 없습니다.');
+			window.parent.location.reload();
+		</script>
+	<?
 	exit;
+}
 $error_arr = array();
 if ($_REQUEST['status'] == "old") {
 	if (!$_FILES['excel_file']['tmp_name'])
