@@ -69,8 +69,8 @@ if (strlen($_SESSION['one_member_id']) > 0) {
 		$spreadsheet->setActiveSheetIndex(0);
 		$filename = "onemarket_group_sample.xls";
 	}
-	$spreadsheet->getProperties()->setCreator("{$_SESSION['one_member_id']}")
-		->setLastModifiedBy("{$_SESSION['one_member_id']}")
+	$spreadsheet->getProperties()->setCreator('onlyone')
+		->setLastModifiedBy('onlyone')
 		->setTitle('Office 2007 XLSX Onlyone Document')
 		->setSubject('Office 2007 XLSX Onlyone Document')
 		->setDescription('Onlyone document for Office 2007 XLSX.')
