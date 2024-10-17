@@ -172,7 +172,7 @@ $(function() {
                       $mng_price = $mem_row[gwc_manage_price];
                     }
                     else{
-                      $mng_price = $row[send_provide_price] * 1 - $row[prod_manufact_price] * 1;
+                      $mng_price = $row['send_provide_price'] * 1 - $row['prod_manufact_price'] * 1;
                     }
 
                     if(strpos($row['contents_img'], ",") !== false){
@@ -199,7 +199,7 @@ $(function() {
                           </label>
                         </td> -->
                         <td>온리원</td>
-                        <td><?=$mem_row[gwc_provider_name]?></td>
+                        <td><?=$mem_row['gwc_provider_name']?></td>
                         <td>
                             <div style="overflow-x:hidden;width:100px;">
                               <?=$mem_row[0]?>/<br><?=$mem_row[1]?>
@@ -222,8 +222,8 @@ $(function() {
                         <td><?=$row['contents_price']?></td>
                         <td><?=$row['contents_sell_price']?></td>
                         <td><?=$sehu_price?></td>
-                        <td><?=$row[send_provide_price]?></td>
-                        <td><?=$row[prod_manufact_price]?></td>
+                        <td><?=$row['send_provide_price']?></td>
+                        <td><?=$row['prod_manufact_price']?></td>
                         <td><?=$mng_price?></td>
                         <td><?=$row['up_data']?></td>
                         <td><a href="card_contents_detail_list.php?idx=<?=$row['idx']?>&provider=Y&member=Y">수정</a></td>

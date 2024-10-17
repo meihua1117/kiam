@@ -67,21 +67,21 @@ if($idx) {
                 <div style="padding:20px;">
                   <input type="hidden" id="mode" name="mode" value="req_provider">
                   <input type="hidden" id="gongup_id" name="gongup_id" value="<?=$row_mem['mem_id']?>">
-                  <input type="hidden" id="gwc_worker_state" name="gwc_worker_state" value="<?=$row_mem[gwc_worker_state]?'1':'0'?>">
+                  <input type="hidden" id="gwc_worker_state" name="gwc_worker_state" value="<?=$row_mem['gwc_worker_state']?'1':'0'?>">
                   <div style="display:flex;margin-top:10px;">
-                      공급사명:<input type="text" name="provider_name" id="provider_name" value="<?=$row_mem[gwc_provider_name]?>" style="width: 200px;height: 15px;padding: 10px;margin-left: 45px;">
+                      공급사명:<input type="text" name="provider_name" id="provider_name" value="<?=$row_mem['gwc_provider_name']?>" style="width: 200px;height: 15px;padding: 10px;margin-left: 45px;">
                   </div>
-                  <div style="display:<?=$row_mem[gwc_worker_state]?'flex':'none'?>;margin-top:10px;" id="worker_no_side">
-                      사업자등록번호:<input type="text" name="worker_no" id="worker_no" value="<?=$row_mem[gwc_worker_no]?>" style="width: 200px;height: 15px;padding: 10px;margin-left: 6px;">
+                  <div style="display:<?=$row_mem['gwc_worker_state']?'flex':'none'?>;margin-top:10px;" id="worker_no_side">
+                      사업자등록번호:<input type="text" name="worker_no" id="worker_no" value="<?=$row_mem['gwc_worker_no']?>" style="width: 200px;height: 15px;padding: 10px;margin-left: 6px;">
                   </div>
-                  <div style="display:<?=$row_mem[gwc_worker_state]?'flex':'none'?>;margin-top:10px;" id="worker_img_side">
-                      사업자등록증:<input type="file" name="worker_img" id="worker_img" value="<?=$row_mem[gwc_worker_img]?>" style="width: 200px;margin-left: 20px;">
+                  <div style="display:<?=$row_mem['gwc_worker_state']?'flex':'none'?>;margin-top:10px;" id="worker_img_side">
+                      사업자등록증:<input type="file" name="worker_img" id="worker_img" value="<?=$row_mem['gwc_worker_img']?>" style="width: 200px;margin-left: 20px;">
                   </div>
-                  <?if($row_mem[gwc_worker_img]){?>
-                  <img src="<?=$row_mem[gwc_worker_img]?>" style="width:80px;margin-left:100px;">
+                  <?if($row_mem['gwc_worker_img']){?>
+                  <img src="<?=$row_mem['gwc_worker_img']?>" style="width:80px;margin-left:100px;">
                   <?}?>
                   <div style="margin-top: 10px;width: 300px;text-align: left;height: 25px;">
-                      <input type="checkbox" name="gwc_worker_state_" id="gwc_worker_state_" <?=$row_mem[gwc_worker_state]?'checked':''?> style="vertical-align: text-top;margin-left:100px;" onclick="gwc_worker()"><span style="margin-left:7px;">사업자</span>
+                      <input type="checkbox" name="gwc_worker_state_" id="gwc_worker_state_" <?=$row_mem['gwc_worker_state']?'checked':''?> style="vertical-align: text-top;margin-left:100px;" onclick="gwc_worker()"><span style="margin-left:7px;">사업자</span>
                       <a href="javascript:save_req_provider();" id="save_req_provider_side" style="background-color: black;color: white;padding: 5px;border-radius: 7px;margin: 5px;cursor: pointer;float:right;">저장</a>
                   </div>
                 </div>

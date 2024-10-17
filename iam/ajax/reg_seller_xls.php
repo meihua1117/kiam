@@ -1,43 +1,58 @@
 <?php
 include_once "../../lib/rlatjd_fun.php";
+require $_SERVER['DOCUMENT_ROOT'] . '/excel_down/vendor/autoload.php';
 
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
+use PhpOffice\PhpSpreadsheet\Reader\Xls;
 // 자료가 많을 경우 대비 설정변경
 set_time_limit(0);
 ini_set('memory_limit', '50M');
 
 if ($_FILES['excelfile']['tmp_name']) {
 	$file = $_FILES['excelfile']['tmp_name'];
-	include_once "../../excel_down/Classes/reader.php";
+	$file_type = pathinfo($_FILES['excelfile']['name'], PATHINFO_EXTENSION);
+	if ($file_type == 'xls') {
+		$reader = new \PhpOffice\PhpSpreadsheet\Reader\Xls();
+	} elseif ($file_type == 'xlsx') {
+		$reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+	} else {
+?>
+		<script language="javascript">
+			alert('처리할 수 있는 엑셀 파일이 아닙니다.');
+		</script>
+<?
+		exit;
+	}
 
+	$spreadsheet = $reader->load($file);
+	$spreadData = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
+	$excel_rows = count($spreadData);
+	/*include_once "../../excel_down/Classes/reader.php";
 	$data = new Spreadsheet_Excel_Reader();
-
 	// Set output Encoding.
 	$data->setOutputEncoding('UTF-8');
-
 	$data->read($file);
-	error_reporting(E_ALL ^ E_NOTICE);
+	error_reporting(E_ALL ^ E_NOTICE);*/
 
-	for ($i = 2; $i <= $data->sheets[0]['numRows']; $i++) {
-		if (trim($data->sheets[0]['cells'][$i][1]) == '')
+	for ($i = 2; $i <= $excel_rows; $i++) {
+		if (trim($spreadData[$i][1]) == '')
 			continue;
 
 		$total_count++;
-
-		$j = 1;
-
-		$img_link = addslashes(trim($data->sheets[0]['cells'][$i][$j++])); //이미지
-		$contents_title = addslashes(trim($data->sheets[0]['cells'][$i][$j++])); //상품제목
-		$contents_desc = addslashes(trim($data->sheets[0]['cells'][$i][$j++])); //상품설명
-		$contents_url = addslashes(trim($data->sheets[0]['cells'][$i][$j++])); //상품링크
-		$contents_price = addslashes(trim($data->sheets[0]['cells'][$i][$j++])); //시중가
-		$contents_sell_price = addslashes(trim($data->sheets[0]['cells'][$i][$j++])); //할인가
-		$send_provide_price = addslashes(trim($data->sheets[0]['cells'][$i][$j++])); //공급가
-		$prod_manufact_price = addslashes(trim($data->sheets[0]['cells'][$i][$j++])); //생산가
-		$send_salary_price = addslashes(trim($data->sheets[0]['cells'][$i][$j++])); //배송요
-		$deliver_id = addslashes(trim($data->sheets[0]['cells'][$i][$j++])); //배송아이디
-		$card_no = addslashes(trim($data->sheets[0]['cells'][$i][$j++])); //카드번호
-		$product_seperate = addslashes(trim($data->sheets[0]['cells'][$i][$j++])); //상품분류
-
+		//$j = 1;
+		$img_link = addslashes(trim($spreadData[$i]['A'])); //이미지
+		$contents_title = addslashes(trim($spreadData[$i]['B'])); //상품제목
+		$contents_desc = addslashes(trim($spreadData[$i]['C'])); //상품설명
+		$contents_url = addslashes(trim($spreadData[$i]['D'])); //상품링크
+		$contents_price = addslashes(trim($spreadData[$i]['E'])); //시중가
+		$contents_sell_price = addslashes(trim($spreadData[$i]['F'])); //할인가
+		$send_provide_price = addslashes(trim($spreadData[$i]['G'])); //공급가
+		$prod_manufact_price = addslashes(trim($spreadData[$i]['H'])); //생산가
+		$send_salary_price = addslashes(trim($spreadData[$i]['I'])); //배송요
+		$deliver_id = addslashes(trim($spreadData[$i]['J'])); //배송아이디
+		$card_no = addslashes(trim($spreadData[$i]['K'])); //카드번호
+		$product_seperate = addslashes(trim($spreadData[$i]['L'])); //상품분류
 		$reduce_val = 100 - ($contents_sell_price / $contents_price) * 100;
 
 		$product_code = generateRandomCode();

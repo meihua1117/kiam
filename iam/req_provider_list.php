@@ -141,7 +141,7 @@ extract($_GET);
                 $img_link = $row['contents_img'];
             }
 
-            if($row[public_display] == "N"){
+            if($row['public_display'] == "N"){
                 $mng = '<a href="javascript:edit_prod('.$row['idx'].')">수정</a>';
                 $allow = "대기";
             }
@@ -156,8 +156,8 @@ extract($_GET);
             <td class="tac"><img class="zoom" src="<?=$img_link?>" style="width:50px;"></a></td>
             <td class="tac"><?=$row['contents_price']?></td>
             <td class="tac"><?=$row['contents_sell_price']?></td>
-            <td class="tac"><?=$row[send_provide_price]?></td>
-            <td class="tac"><?=$row[prod_manufact_price]?></td>
+            <td class="tac"><?=$row['send_provide_price']?></td>
+            <td class="tac"><?=$row['prod_manufact_price']?></td>
             <td class="tac"><?=$row['req_data']?></td>
             <td class="tac"><?=$mng?></td>
             <td class="tac"><?=$allow?></td>
@@ -192,22 +192,22 @@ extract($_GET);
                         <div style="padding:20px;">
                         <input type="hidden" id="mode" name="mode" value="req_provider">
                         <input type="hidden" id="gongup_id" name="gongup_id" value="<?=$member_iam['mem_id']?>">
-                        <input type="hidden" id="gwc_worker_state" name="gwc_worker_state" value="<?=$member_iam[gwc_worker_state]?'1':'0'?>">
+                        <input type="hidden" id="gwc_worker_state" name="gwc_worker_state" value="<?=$member_iam['gwc_worker_state']?'1':'0'?>">
                         <div style="display:flex;margin-top:10px;">
-                            공급사명:<input type="text" name="provider_name" id="provider_name" value="<?=$member_iam[gwc_provider_name]?>" style="width: 200px;height: 15px;padding: 10px;margin-left: 45px;border: 1px solid;">
+                            공급사명:<input type="text" name="provider_name" id="provider_name" value="<?=$member_iam['gwc_provider_name']?>" style="width: 200px;height: 15px;padding: 10px;margin-left: 45px;border: 1px solid;">
                         </div>
-                        <div style="display:<?=$member_iam[gwc_worker_state]?'flex':'none'?>;margin-top:10px;" id="worker_no_side">
-                            사업자등록번호:<input type="text" name="worker_no" id="worker_no" value="<?=$member_iam[gwc_worker_no]?>" style="width: 200px;height: 15px;padding: 10px;margin-left: 6px;border: 1px solid;">
+                        <div style="display:<?=$member_iam['gwc_worker_state']?'flex':'none'?>;margin-top:10px;" id="worker_no_side">
+                            사업자등록번호:<input type="text" name="worker_no" id="worker_no" value="<?=$member_iam['gwc_worker_no']?>" style="width: 200px;height: 15px;padding: 10px;margin-left: 6px;border: 1px solid;">
                         </div>
-                        <div style="display:<?=$member_iam[gwc_worker_state]?'flex':'none'?>;margin-top:10px;" id="worker_img_side">
-                            사업자등록증:<input type="file" name="worker_img" id="worker_img" value="<?=$member_iam[gwc_worker_img]?>" style="width: 200px;margin-left: 20px;border: 1px solid;">
+                        <div style="display:<?=$member_iam['gwc_worker_state']?'flex':'none'?>;margin-top:10px;" id="worker_img_side">
+                            사업자등록증:<input type="file" name="worker_img" id="worker_img" value="<?=$member_iam['gwc_worker_img']?>" style="width: 200px;margin-left: 20px;border: 1px solid;">
                         </div>
-                        <?if($member_iam[gwc_worker_img]){?>
-                        <img src="<?="https://www.kiam.kr".$member_iam[gwc_worker_img]?>" style="width:80px;margin-left:100px;">
+                        <?if($member_iam['gwc_worker_img']){?>
+                        <img src="<?="https://www.kiam.kr".$member_iam['gwc_worker_img']?>" style="width:80px;margin-left:100px;">
                         <?}?>
                         <div style="margin-top: 10px;width: 300px;text-align: left;height: 25px;">
-                            <input type="checkbox" name="gwc_worker_state_" id="gwc_worker_state_" <?=$member_iam[gwc_worker_state]?'checked':''?> style="vertical-align: text-top;margin-left:100px;" onclick="gwc_worker()"><span style="margin-left:7px;">사업자</span>
-                            <a href="javascript:save_req_provider();" id="save_req_provider_side" style="background-color: black;color: white;padding: 5px;border-radius: 7px;margin: 5px;cursor: pointer;float:right;" <?=$member_iam[gwc_worker_state]?'':'hidden'?>>저장</a>
+                            <input type="checkbox" name="gwc_worker_state_" id="gwc_worker_state_" <?=$member_iam['gwc_worker_state']?'checked':''?> style="vertical-align: text-top;margin-left:100px;" onclick="gwc_worker()"><span style="margin-left:7px;">사업자</span>
+                            <a href="javascript:save_req_provider();" id="save_req_provider_side" style="background-color: black;color: white;padding: 5px;border-radius: 7px;margin: 5px;cursor: pointer;float:right;" <?=$member_iam['gwc_worker_state']?'':'hidden'?>>저장</a>
                         </div>
                         </div>
                     </div>
@@ -630,7 +630,7 @@ extract($_GET);
 
         function fsellerexcel_submit(f)
         {
-            var provider_state = '<?=$member_iam[gwc_provider_name]?>';
+            var provider_state = '<?=$member_iam['gwc_provider_name']?>';
             if(provider_state == ''){
                 alert('공급사신청을 먼저 해주세요.');
                 return false;

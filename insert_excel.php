@@ -4,6 +4,7 @@ require $_SERVER['DOCUMENT_ROOT'] . '/excel_down/vendor/autoload.php';
 
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
+use PhpOffice\PhpSpreadsheet\Reader\Xls;
 
 if (!$_SESSION['one_member_id']) { ?>
 	<script language="javascript">
