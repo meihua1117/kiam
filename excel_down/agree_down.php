@@ -40,7 +40,7 @@ if (strlen($_SESSION['one_member_id']) > 0) {
 		}
 		$activeWorksheet->setTitle("원마케팅문자 수신동의전화번호");
 		$spreadsheet->setActiveSheetIndex(0);
-		$filename = "onemarket_agree.xls";
+		$filename = "onemarket_agree.xlsx";
 	} else if ($_REQUEST['down_type'] == 2) {
 		$activeWorksheet->setCellValue("A1", "발신번호")
 			->setCellValue("B1", "수신번호")
@@ -48,7 +48,7 @@ if (strlen($_SESSION['one_member_id']) > 0) {
 			->setCellValue("D1", "문자내용");
 		$activeWorksheet->setTitle("원마케팅문자 수신동의등록 샘플");
 		$spreadsheet->setActiveSheetIndex(0);
-		$filename = "onemarket_deny_sample.xls";
+		$filename = "onemarket_deny_sample.xlsx";
 	}
 	$spreadsheet->getProperties()->setCreator('onlyone')
 		->setLastModifiedBy('onlyone')

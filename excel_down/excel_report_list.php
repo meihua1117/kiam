@@ -110,7 +110,7 @@ if (strlen($_SESSION['one_member_id']) > 0 || strlen($_SESSION['iam_member_id'])
     }
     $activeWorksheet->setTitle("리포트내역" . $repo_id);
     $spreadsheet->setActiveSheetIndex(0);
-    $filename = "report_" . $repo_id . ".xls";
+    $filename = "report_" . $repo_id . ".xlsx";
     $spreadsheet->getProperties()->setCreator('onlyone')
 		->setLastModifiedBy('onlyone')
 		->setTitle('Office 2007 XLSX Onlyone Document')

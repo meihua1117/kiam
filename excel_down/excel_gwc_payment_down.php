@@ -191,7 +191,7 @@ if (strlen($_SESSION['one_member_id']) > 0) {
 	$activeWorksheet->setTitle("굿마켓결제내역");
 	$spreadsheet->setActiveSheetIndex(0);
 
-	$filename = "gwcpayment.xls";
+	$filename = "gwcpayment.xlsx";
 	$spreadsheet->getProperties()->setCreator('onlyone')
 		->setLastModifiedBy('onlyone')
 		->setTitle('Office 2007 XLSX Onlyone Document')

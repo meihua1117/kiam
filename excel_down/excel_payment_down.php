@@ -65,7 +65,7 @@ if (strlen($_SESSION['one_member_id']) > 0) {
 	$activeWorksheet->setTitle("솔루션결제내역");
 	$spreadsheet->setActiveSheetIndex(0);
 
-	$filename = "paymnet.xls";
+	$filename = "paymnet.xlsx";
 	$spreadsheet->getProperties()->setCreator('onlyone')
 		->setLastModifiedBy('onlyone')
 		->setTitle('Office 2007 XLSX Onlyone Document')

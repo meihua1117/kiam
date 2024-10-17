@@ -62,7 +62,7 @@ if (strlen($_SESSION['one_member_id']) > 0) {
 	$activeWorksheet->setTitle("상품결제내역");
 	$spreadsheet->setActiveSheetIndex(0);
 
-	$filename = "item_payment.xls";
+	$filename = "item_payment.xlsx";
 	$spreadsheet->getProperties()->setCreator('onlyone')
 		->setLastModifiedBy('onlyone')
 		->setTitle('Office 2007 XLSX Onlyone Document')

@@ -45,7 +45,7 @@ if (strlen($_SESSION['one_member_id']) > 0) {
 	$activeWorksheet->setTitle("통합주소록");
 	$spreadsheet->setActiveSheetIndex(0);
 
-	$filename = "통합주소록.xls";
+	$filename = "통합주소록.xlsx";
 	$spreadsheet->getProperties()->setCreator('onlyone')
 		->setLastModifiedBy('onlyone')
 		->setTitle('Office 2007 XLSX Onlyone Document')

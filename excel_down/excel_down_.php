@@ -61,7 +61,7 @@ if (strlen($_REQUEST['one_member_id']) > 0) {
 
 		$activeWorksheet->setTitle("원마케팅문자 그룹전화번호");
 		$spreadsheet->setActiveSheetIndex(0);
-		$filename = "onemarket_group_" . iconv("utf8", "euckr", $_REQUEST['grp_id']) . ".xls";
+		$filename = "onemarket_group_" . iconv("utf8", "euckr", $_REQUEST['grp_id']) . ".xlsx";
 	} else if ($_REQUEST['down_type'] == 2) {
 		$activeWorksheet
 			->setCellValue("A1", "소그룹명")
@@ -69,7 +69,7 @@ if (strlen($_REQUEST['one_member_id']) > 0) {
 			->setCellValue("C1", "전화번호");
 		$activeWorksheet->setTitle("원마케팅문자 그룹전화번호 등록샘플");
 		$spreadsheet->setActiveSheetIndex(0);
-		$filename = "onemarket_group_sample.xls";
+		$filename = "onemarket_group_sample.xlsx";
 	}
 
 	$spreadsheet->getProperties()->setCreator('onlyone')

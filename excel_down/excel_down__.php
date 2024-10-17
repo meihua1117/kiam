@@ -59,7 +59,7 @@ if (strlen($_REQUEST['one_member_id']) > 0) {
 
 	$activeWorksheet->setTitle("원마케팅문자 그룹전화번호");
 	$spreadsheet->setActiveSheetIndex(0);
-	$filename = "onemarket_group_" . iconv("utf8", "euckr", $_REQUEST['grp_id']) . ".xls";
+	$filename = "onemarket_group_" . iconv("utf8", "euckr", $_REQUEST['grp_id']) . ".xlsx";
 	$spreadsheet->getProperties()->setCreator('onlyone')
 		->setLastModifiedBy('onlyone')
 		->setTitle('Office 2007 XLSX Onlyone Document')

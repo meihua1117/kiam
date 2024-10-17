@@ -94,7 +94,7 @@ if (strlen($_SESSION['one_member_id']) > 0) {
 	$activeWorksheet->setTitle("원마케팅문자 " . $msg);
 	$spreadsheet->setActiveSheetIndex(0);
 
-	$filename = "onemarket_" . $msg2 . ".xls";
+	$filename = "onemarket_" . $msg2 . ".xlsx";
 	$spreadsheet->getProperties()->setCreator('onlyone')
 		->setLastModifiedBy('onlyone')
 		->setTitle('Office 2007 XLSX Onlyone Document')

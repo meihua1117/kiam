@@ -77,7 +77,7 @@ if (strlen($_SESSION['one_member_id']) > 0) {
 	$activeWorksheet->setTitle("디비수집리스트");
 	$spreadsheet->setActiveSheetIndex(0);
 
-	$filename = "crawler_data_list.xls";
+	$filename = "crawler_data_list.xlsx";
 	$spreadsheet->getProperties()->setCreator('onlyone')
 		->setLastModifiedBy('onlyone')
 		->setTitle('Office 2007 XLSX Onlyone Document')

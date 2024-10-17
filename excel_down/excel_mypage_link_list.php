@@ -39,7 +39,7 @@ while ($row = mysqli_fetch_array($result)) {
 $activeWorksheet->setTitle("고객신청 리스트 ");
 $spreadsheet->setActiveSheetIndex(0);
 
-$filename = "mypage_link_list.xls";
+$filename = "mypage_link_list.xlsx";
 $spreadsheet->getProperties()->setCreator('onlyone')
 	->setLastModifiedBy('onlyone')
 	->setTitle('Office 2007 XLSX Onlyone Document')

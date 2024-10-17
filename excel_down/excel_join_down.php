@@ -62,7 +62,7 @@ if (strlen($_SESSION['one_member_id']) > 0) {
 
 	$activeWorksheet->setTitle("원마케팅문자 그룹전화번호");
 	$spreadsheet->setActiveSheetIndex(0);
-	$filename = "onemarket_group_" . date("YmdHis") . ".xls";
+	$filename = "onemarket_group_" . date("YmdHis") . ".xlsx";
 
 	$spreadsheet->getProperties()->setCreator('onlyone')
 		->setLastModifiedBy('onlyone')
