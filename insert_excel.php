@@ -36,7 +36,7 @@ if ($_FILES['excel_file']['tmp_name']) {
 	$data->setOutputEncoding('utf-8');
 	$data->read($_FILES['excel_file']['tmp_name']);
 	error_reporting(E_ALL ^ E_NOTICE);
-	$excel_rows = $data->sheets[0]['numRows'];
+	$excel_rows = $data->sheets['A']['numRows'];
 	*/
 	if ($excel_rows > 10001) {
 	?>
@@ -64,8 +64,8 @@ if ($_REQUEST['status'] == "old") {
 	while ($row = mysqli_fetch_array($resul)) {
 		$cnt = 0;
 		for ($i = 1; $i <= $excel_rows; $i++) {
-			$is_zero = substr($spreadData[$i][2], 0, 1);
-			$v = $is_zero ? "0" . $spreadData[$i][2] : $spreadData[$i][2];
+			$is_zero = substr($spreadData[$i]['C'], 0, 1);
+			$v = $is_zero ? "0" . $spreadData[$i]['C'] : $spreadData[$i]['C'];
 			$v = preg_replace("/[^0-9]/", "", $v);
 			if (!check_cellno($v)) {
 				array_push($error_arr, "{$v} 은/는 정확한 번호가 아닙니다.(업로드실패)");
@@ -79,7 +79,7 @@ if ($_REQUEST['status'] == "old") {
 				continue;
 			}
 
-			$sql_i = "insert into Gn_MMS_Receive set mem_id = '{$_SESSION['one_member_id']}',grp_id='{$row['idx']}', grp = '{$row['grp']}', grp_2 = '" . $spreadData[$i][0] . "', name = '" . $spreadData[$i][1] . "' , recv_num = '$v', email = '" . $spreadData[$i][3] . "' ,reg_date=now()";
+			$sql_i = "insert into Gn_MMS_Receive set mem_id = '{$_SESSION['one_member_id']}',grp_id='{$row['idx']}', grp = '{$row['grp']}', grp_2 = '{$spreadData[$i]['A']}', name = '{$spreadData[$i]['B']}' , recv_num = '$v', email = '{$spreadData[$i]['D']}' ,reg_date=now()";
 			mysqli_query($self_con, $sql_i);
 			$cnt++;
 		}
@@ -129,7 +129,7 @@ if ($_REQUEST['status'] == "old") {
 				continue;
 			}
 
-			$sql_i = "insert into Gn_MMS_Receive set mem_id = '{$_SESSION['one_member_id']}',grp_id='{$row_s['idx']}', grp = '$group_name', grp_2 = '" . $spreadData[$i]['A'] . "', recv_num = '$v', name = '" . $spreadData[$i]['B'] . "' ,email = '" . $spreadData[$i]['D'] . "' ,reg_date=now() ";
+			$sql_i = "insert into Gn_MMS_Receive set mem_id = '{$_SESSION['one_member_id']}',grp_id='{$row_s['idx']}', grp = '$group_name', grp_2 = '{$spreadData[$i]['A']}', recv_num = '$v', name = '{$spreadData[$i]['B']}' ,email = '{$spreadData[$i]['D']}' ,reg_date=now() ";
 			mysqli_query($self_con, $sql_i);
 			$cnt++;
 		}
@@ -141,7 +141,7 @@ if ($_REQUEST['status'] == "old") {
 		exit;
 	$cnt = 0;
 	for ($i = 1; $i <= $excel_rows; $i++) {
-		$send_num = preg_replace("/[^0-9]/", "", $spreadData[$i][0]);
+		$send_num = preg_replace("/[^0-9]/", "", $spreadData[$i]['A']);
 		$is_zero = substr($send_num, 0, 1);
 		$send_num = $is_zero ? "0" . $send_num : $send_num;
 
@@ -150,7 +150,7 @@ if ($_REQUEST['status'] == "old") {
 			continue;
 		}
 
-		$recv_num = preg_replace("/[^0-9]/", "", $spreadData[$i][1]);
+		$recv_num = preg_replace("/[^0-9]/", "", $spreadData[$i]['B']);
 		$is_zero = substr($recv_num, 0, 1);
 		$recv_num = $is_zero ? "0" . $recv_num : $recv_num;
 
@@ -180,8 +180,8 @@ if ($_REQUEST['status'] == "old") {
 		$deny_info['mem_id'] = $_SESSION['one_member_id'];
 		$deny_info['send_num'] = $send_num;
 		$deny_info['recv_num'] = $recv_num;
-		$deny_info['title'] = $spreadData[$i][2];
-		$deny_info['content'] = $spreadData[$i][3];
+		$deny_info['title'] = $spreadData[$i]['C'];
+		$deny_info['content'] = $spreadData[$i]['D'];
 		$deny_info['status'] = "B";
 		foreach ($deny_info as $key => $v)
 			$sql_i .= " $key='$v' , ";
