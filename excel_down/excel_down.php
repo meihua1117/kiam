@@ -3,32 +3,15 @@ include_once "../lib/rlatjd_fun.php";
 set_time_limit(0);
 ini_set('memory_limit', '4500M');
 require 'vendor/autoload.php';
-
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\IOFactory;
-//use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 $spreadsheet = new Spreadsheet();
 $activeWorksheet = $spreadsheet->getActiveSheet();
-//$writer = new Xlsx($spreadsheet);
-//$writer->save('hello world.xlsx');
-//exit;
 if (strlen($_SESSION['one_member_id']) > 0) {
 	if (!$_REQUEST['grp_id'] && !$_REQUEST['down_type'])
 		exit;
 	$path = "../";
-	//include_once $path . "lib/rlatjd_fun.php";
-	//require_once("Classes/PHPExcel.php");
-	/*$objPHPExcel = new PHPExcel();
-	$objPHPExcel->getProperties()
-		->setCreator("excel")
-		->setLastModifiedBy("excel")
-		->setTitle("Office 2007 XLSX Test Document")
-		->setSubject("Office 2007 XLSX Test Document")
-		->setDescription("Test document for Office 2007 XLSX, generated using PHP classes.")
-		->setKeywords("office 2007 openxml php")
-		->setCategory("excel file");
-	*/
 	if ($_REQUEST['down_type'] == 1) {
 		$sql_serch = " mem_id ='{$_SESSION['one_member_id']}' and grp_id = '{$_REQUEST['grp_id']}'";
 		$sql = "select recv_num,grp_2,name,recv_num,email from Gn_MMS_Receive where $sql_serch order by idx asc";
@@ -86,25 +69,16 @@ if (strlen($_SESSION['one_member_id']) > 0) {
 		$spreadsheet->setActiveSheetIndex(0);
 		$filename = "onemarket_group_sample.xls";
 	}
-	$spreadsheet->getProperties()->setCreator('Maarten Balliauw')
-		->setLastModifiedBy('Maarten Balliauw')
-		->setTitle('Office 2007 XLSX Test Document')
-		->setSubject('Office 2007 XLSX Test Document')
-		->setDescription('Test document for Office 2007 XLSX, generated using PHP classes.')
+	$spreadsheet->getProperties()->setCreator("{$_SESSION['one_member_id']}")
+		->setLastModifiedBy("{$_SESSION['one_member_id']}")
+		->setTitle('Office 2007 XLSX Onlyone Document')
+		->setSubject('Office 2007 XLSX Onlyone Document')
+		->setDescription('Onlyone document for Office 2007 XLSX.')
 		->setKeywords('office 2007 openxml php')
-		->setCategory('Test result file');
-	/*header('Content-type: application/vnd.ms-excel; charset=utf-8');
-	header("Content-Disposition: attachment; filename=$filename");
-	header('Cache-Control: max-age=0');
-	header('Cache-Control: max-age=1');
-	header('Content-Description: PHP4 Generated Data');
-	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
-	header('Pragma: public');
-
-	$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
-	$objWriter->save('php://output');*/
+		->setCategory('Onlyone contact file');
+	
 	header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-	header('Content-Disposition: attachment;filename="01simple.xlsx"');
+	header('Content-Disposition: attachment;filename='.$filename);
 	header('Cache-Control: max-age=0');
 	// If you're serving to IE 9, then the following may be needed
 	header('Cache-Control: max-age=1');
