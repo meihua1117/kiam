@@ -87,7 +87,6 @@ if ($_REQUEST['status'] == "old") {
 		mysqli_query($self_con, $sql_u);
 	}
 } else if ($_REQUEST['status'] == "new") {
-	$fp = fopen("insert.log","w+");
 	$group_name = htmlspecialchars($_POST['new_group']);
 	$sql_s = "select idx from Gn_MMS_Group where grp='$group_name' and mem_id='{$_SESSION['one_member_id']}'";
 	$resul_s = mysqli_query($self_con, $sql_s);
@@ -110,11 +109,8 @@ if ($_REQUEST['status'] == "old") {
 		$row_s = mysqli_fetch_array($resul_s);
 		$cnt = 0;
 		for ($i = 2; $i <= $excel_rows; $i++) {
-			fwrite($fp,$spreadData[$i]['C']."\r\n");
 			$is_zero = substr($spreadData[$i]['C'], 0, 1);
-			fwrite($fp,$is_zero."\r\n");
 			$v = $is_zero ? "0" . $spreadData[$i]['C'] : $spreadData[$i]['C'];
-			fwrite($fp,$v."\r\n");
 			$v = preg_replace("/[^0-9]/", "", $v);
 			if (!check_cellno($v)) {
 				array_push($error_arr, "{$v} 은/는 정확한 번호가 아닙니다.(업로드실패)");
