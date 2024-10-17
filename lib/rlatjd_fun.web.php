@@ -477,7 +477,7 @@ function sql_query($sql, $error = TRUE)
 {
 	global $self_con;
 	if ($error)
-		$result = @mysqli_query($self_con, $sql) or die("<p>$sql<p>" . mysqli_errno($self_con) . " : " .  mysqli_error($self_con) . "<p>error file : $_SERVER[PHP_SELF]");
+		$result = @mysqli_query($self_con, $sql) or die("<p>$sql<p>" . mysqli_errno($self_con) . " : " .  mysqli_error($self_con) . "<p>error file : {$_SERVER['PHP_SELF']}");
 	else
 		$result = @mysqli_query($self_con, $sql);
 	return $result;
@@ -518,7 +518,7 @@ function opb_text($db_value1, $db_value2, $db_value)
 		$db_value = str_replace("<br/><br/>", "<br/>", $db_value);
 		$db_value = str_replace("<br /><br />", "<br/>", $db_value);
 		$db_value = str_replace("<br/><br/>", "<br/>", $db_value);
-		$return_value .= "<br>";
+		$return_value = "<br>";
 		if ($db_value1) $return_value .= "{$db_value1}<br>";
 		if ($db_value2) $return_value .= "{$db_value2}<br>";
 		$return_value .= "{$db_value}";
@@ -610,12 +610,16 @@ function drawPagingAdminNavi($totalCnt, $nowPage, $pageCnt = "20", $naviSize = "
 	//이전 페이지 block 보기
 	if ($totalPage > 1) {
 
-		if ($block > 1) $prev_b .= "<li class='paginate_button previous disabled' id='list_previous'><a href=\"javascript:" . $scriptName . "('" . $prevPG . "')\" >Prev</a></li>";
-		else $prev_b .= "<li class='paginate_button previous disabled' id='list_previous'><a href=\"javascript:void(0)\">Prev</a></li>";
+		if ($block > 1) 
+			$prev_b = "<li class='paginate_button previous disabled' id='list_previous'><a href=\"javascript:" . $scriptName . "('" . $prevPG . "')\" >Prev</a></li>";
+		else 
+			$prev_b = "<li class='paginate_button previous disabled' id='list_previous'><a href=\"javascript:void(0)\">Prev</a></li>";
 
 		//다음 페이지 block 보기
-		if ($block < $total_block) $next_b .= "<li class='paginate_button next' id='list_next'><a href=\"javascript:" . $scriptName . "('" . $nextPG . "')\" >Next</a></li>";
-		else $next_b .= "<li class='paginate_button next' id='list_next'><a href=\"javascript:void(0)\">Next</a></li>";
+		if ($block < $total_block) 
+			$next_b = "<li class='paginate_button next' id='list_next'><a href=\"javascript:" . $scriptName . "('" . $nextPG . "')\" >Next</a></li>";
+		else 
+			$next_b = "<li class='paginate_button next' id='list_next'><a href=\"javascript:void(0)\">Next</a></li>";
 
 		$pageStr .= $prev_b;
 
@@ -623,19 +627,12 @@ function drawPagingAdminNavi($totalCnt, $nowPage, $pageCnt = "20", $naviSize = "
 			if ($nowPage == $go_page) $pageStr .= "<li class='paginate_button active'><a href='#'>" . $go_page . "</a></li>";
 			else  $pageStr .= "<li class='paginate_button'><a href=\"javascript:" . $scriptName . "('" . $go_page . "')\">" . $go_page . "</a></li>";
 		}
-
 		$pageStr .= $next_b;
 	}
-
 	$pageStr .= '                        </ul>
                    </div>';
-
-
 	return $pageStr;
 }
-
-
-
 // add Cooper 로그 추가
 function cell_change_log($now_num, $old_num)
 {
@@ -774,7 +771,6 @@ function gcUploadRename($file_name, $file_tmp_name, $file_size, $folder)
 		return "";
 	}
 }
-define("GOOGLE_SERVER_KEY", "AAAAmvl-uQA:APA91bHP4S4L8-nMvfOJ9vcjYlTmiRjEfOcLbAm6ITDFo9Ky-ziKAowlZi0rWhO3c7jsZ50unqWabQCBAmtr9bOxUIbwyAMgRsxO1jeLKlJ9l_Gir_wc1sZ66VBtHVBSjeAZcRfffVwo7M2fBvrrt1d5vz5clf7PVQ");
 function uploadFTP($file)
 {
 	$ftp_user_name = "obmms";

@@ -822,7 +822,7 @@ function sql_query($sql, $error = TRUE)
 {
 	global $self_con;
 	if ($error)
-		$result = @mysqli_query($self_con, $sql) or die("<p>$sql<p>" . mysqli_errno($self_con) . " : " .  mysqli_error($self_con) . "<p>error file : $_SERVER[PHP_SELF]");
+		$result = @mysqli_query($self_con, $sql) or die("<p>$sql<p>" . mysqli_errno($self_con) . " : " .  mysqli_error($self_con) . "<p>error file : {$_SERVER['PHP_SELF']}");
 	else
 		$result = @mysqli_query($self_con, $sql);
 	return $result;

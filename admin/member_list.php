@@ -10,7 +10,6 @@ if($case == 0 )
 <script type="text/javascript" src="/jquery.lightbox_me.js"></script>
 <script>
     var mem_id="";
-
     function page_view(mem_id) {
         $('.ad_layer1').lightbox_me({
             centered: true,
