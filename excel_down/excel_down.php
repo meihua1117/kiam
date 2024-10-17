@@ -3,22 +3,23 @@ include_once "../lib/rlatjd_fun.php";
 set_time_limit(0);
 ini_set('memory_limit', '4500M');
 require 'vendor/autoload.php';
+
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+//use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+
 $spreadsheet = new Spreadsheet();
 $activeWorksheet = $spreadsheet->getActiveSheet();
-$activeWorksheet->setCellValue('A1', 'Hello World !');
-
-$writer = new Xlsx($spreadsheet);
-$writer->save('hello world.xlsx');
-exit;
+//$writer = new Xlsx($spreadsheet);
+//$writer->save('hello world.xlsx');
+//exit;
 if (strlen($_SESSION['one_member_id']) > 0) {
 	if (!$_REQUEST['grp_id'] && !$_REQUEST['down_type'])
 		exit;
 	$path = "../";
-	include_once $path . "lib/rlatjd_fun.php";
-	require_once("Classes/PHPExcel.php");
-	$objPHPExcel = new PHPExcel();
+	//include_once $path . "lib/rlatjd_fun.php";
+	//require_once("Classes/PHPExcel.php");
+	/*$objPHPExcel = new PHPExcel();
 	$objPHPExcel->getProperties()
 		->setCreator("excel")
 		->setLastModifiedBy("excel")
@@ -27,13 +28,12 @@ if (strlen($_SESSION['one_member_id']) > 0) {
 		->setDescription("Test document for Office 2007 XLSX, generated using PHP classes.")
 		->setKeywords("office 2007 openxml php")
 		->setCategory("excel file");
-
+	*/
 	if ($_REQUEST['down_type'] == 1) {
 		$sql_serch = " mem_id ='{$_SESSION['one_member_id']}' and grp_id = '{$_REQUEST['grp_id']}'";
 		$sql = "select recv_num,grp_2,name,recv_num,email from Gn_MMS_Receive where $sql_serch order by idx asc";
 		$result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-		$objPHPExcel->setActiveSheetIndex(0)
-			->setCellValue("A1", "소그룹명")
+		$activeWorksheet->setCellValue("A1", "소그룹명")
 			->setCellValue("B1", "이름")
 			->setCellValue("C1", "전화번호")
 			->setCellValue("D1", "이메일")
@@ -64,8 +64,7 @@ if (strlen($_SESSION['one_member_id']) > 0) {
 					array_push($status_arr, "수신불가"); //수신불가			
 			}
 			$status_s = implode(",", $status_arr);
-			$objPHPExcel->setActiveSheetIndex(0)
-				->setCellValue("A$h", $row['grp_2'])
+			$activeWorksheet->setCellValue("A$h", $row['grp_2'])
 				->setCellValue("B$h", $row['name'])
 				->setCellValue("C$h", $row['recv_num'])
 				->setCellValue("D$h", $row['email'])
@@ -75,21 +74,26 @@ if (strlen($_SESSION['one_member_id']) > 0) {
 
 		mysqli_free_result($result);
 
-		$objPHPExcel->getActiveSheet()->setTitle("원마케팅문자 그룹전화번호");
-		$objPHPExcel->setActiveSheetIndex(0);
+		$activeWorksheet->setTitle("원마케팅문자 그룹전화번호");
+		$spreadsheet->setActiveSheetIndex(0);
 		$filename = "onemarket_group_" . iconv("utf8", "euckr", $_REQUEST['grp_id']) . ".xls";
 	} else if ($_REQUEST['down_type'] == 2) {
-		$objPHPExcel->setActiveSheetIndex(0)
-			->setCellValue("A1", "소그룹명")
+		$activeWorksheet->setCellValue("A1", "소그룹명")
 			->setCellValue("B1", "이름")
 			->setCellValue("C1", "전화번호")
 			->setCellValue("D1", "이메일");
-		$objPHPExcel->getActiveSheet()->setTitle("원마케팅문자 그룹전화번호 등록샘플");
-		$objPHPExcel->setActiveSheetIndex(0);
+		$activeWorksheet->setTitle("원마케팅문자 그룹전화번호 등록샘플");
+		$spreadsheet->setActiveSheetIndex(0);
 		$filename = "onemarket_group_sample.xls";
 	}
-
-	header('Content-type: application/vnd.ms-excel; charset=utf-8');
+	$spreadsheet->getProperties()->setCreator('Maarten Balliauw')
+		->setLastModifiedBy('Maarten Balliauw')
+		->setTitle('Office 2007 XLSX Test Document')
+		->setSubject('Office 2007 XLSX Test Document')
+		->setDescription('Test document for Office 2007 XLSX, generated using PHP classes.')
+		->setKeywords('office 2007 openxml php')
+		->setCategory('Test result file');
+	/*header('Content-type: application/vnd.ms-excel; charset=utf-8');
 	header("Content-Disposition: attachment; filename=$filename");
 	header('Cache-Control: max-age=0');
 	header('Cache-Control: max-age=1');
@@ -98,6 +102,20 @@ if (strlen($_SESSION['one_member_id']) > 0) {
 	header('Pragma: public');
 
 	$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
-	$objWriter->save('php://output');
+	$objWriter->save('php://output');*/
+	header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+	header('Content-Disposition: attachment;filename="01simple.xlsx"');
+	header('Cache-Control: max-age=0');
+	// If you're serving to IE 9, then the following may be needed
+	header('Cache-Control: max-age=1');
+
+	// If you're serving to IE over SSL, then the following may be needed
+	header('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+	header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT'); // always modified
+	header('Cache-Control: cache, must-revalidate'); // HTTP/1.1
+	header('Pragma: public'); // HTTP/1.0
+
+	$writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+	$writer->save('php://output');
 	exit;
 }
