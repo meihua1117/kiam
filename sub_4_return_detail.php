@@ -138,7 +138,7 @@ $result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
 					<?
 					$select_fs_arr = array("send_num" => "발신번호", "recv_num" => "수신번호", "title" => "문자제목", "content" => "문자내용");
 					foreach ($select_fs_arr as $key => $v) {
-						$selected = $_REQUEST[serch_fs_select] == $key ? "selected" : "";
+						$selected = $_REQUEST['serch_fs_select'] == $key ? "selected" : "";
 					?>
 						<option value="<?= $key ?>" <?= $selected ?>><?= $v ?></option>
 					<?
@@ -152,7 +152,7 @@ $result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
 					<option value="3" <?= $_REQUEST['result'] == 3 ? "selected" : "" ?>>실패</option>
 
 				</select>
-				<input type="text" name="serch_fs_text" value="<?= $_REQUEST[serch_fs_text] ?>" />
+				<input type="text" name="serch_fs_text" value="<?= $_REQUEST['serch_fs_text'] ?>" />
 				<a href="javascript:void(0)" onclick="sub_4_form.submit();"><img src="images/sub_button_103.jpg" /></a>
 			</div>
 			<div class="button_box">

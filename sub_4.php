@@ -166,8 +166,8 @@ $(function(){
 				{
 					case 1:
 						$sql_serch=" mem_id ='{$_SESSION['one_member_id']}' ";
-						if($_REQUEST[lms_text] && $_REQUEST[lms_select])
-							$sql_serch.=" and {$_REQUEST[lms_select]} like '$_REQUEST[lms_text]%' ";
+						if($_REQUEST['lms_text'] && $_REQUEST['lms_select'])
+							$sql_serch.=" and {$_REQUEST['lms_select']} like '{$_REQUEST['lms_text']}%' ";
 						$sql="select count(idx) as cnt from Gn_MMS_Number where $sql_serch ";
 						$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 						$row=mysqli_fetch_array($result);
@@ -222,12 +222,12 @@ $(function(){
 										<?
 										$select_lms_arr=array("sendnum"=>"휴대폰번호","memo"=>"소유자명");
 										foreach($select_lms_arr as $key=>$v){
-											$selected=$_REQUEST[lms_select]==$key?"selected":"";
+											$selected=$_REQUEST['lms_select']==$key?"selected":"";
 										?>
 										<option value="<?=$key?>" <?=$selected?>><?=$v?></option>                                        
 										<?}?>
 									</select>
-									<input type="text" name="lms_text" value="<?=$_REQUEST[lms_text]?>" />
+									<input type="text" name="lms_text" value="<?=$_REQUEST['lms_text']?>" />
 									<a href="javascript:void(0)" onclick="sub_4_form.submit();"><img src="images/sub_button_703.jpg" /></a>
 								</div>
 								<p style="clear:both;"></p>
@@ -658,7 +658,7 @@ $(function(){
 													<a href="javascript:void(0)" onclick="g_dt_cencle('group_title_','','','<?=$g?>')">x</a>
 												</td>                                            
 												<td><?=substr($row['reg_date'],2,9)?></td>
-												<td><?=$row[count]?></td>
+												<td><?=$row['count']?></td>
 												<td>
 													<a href="javascript:void(0)" onclick="excel_down('excel_down/excel_down.php?down_type=1','<?=$row['idx']?>')"><img src="images/ico_xls.gif"></a>
 													<a href="#" class="btn_option_white" onclick="frm_update(document.getElementById('group<?=$i?>').value,document.getElementById('group_name<?=$i?>').value)" id="upt<?=$i?>" style="display:none;">수정</a>&nbsp;<a href="#" class="btn_option_red" onclick="frm_del(document.getElementById('group_name<?=$i?>').value)" id="del<?=$i?>" style="display:none;">삭제</a>                                            
@@ -770,11 +770,11 @@ $(function(){
 						switch($_REQUEST['status2']){
 							case 1:
 								$sql_serch=" mem_id ='{$_SESSION['one_member_id']}' and msg_type='A' ";
-								if($_REQUEST[lms_text]){
-									if($_REQUEST[lms_select])
-										$sql_serch.=" and {$_REQUEST[lms_select]} like '$_REQUEST[lms_text]%' ";
+								if($_REQUEST['lms_text']){
+									if($_REQUEST['lms_select'])
+										$sql_serch.=" and {$_REQUEST['lms_select']} like '{$_REQUEST['lms_text']}%' ";
 									else
-										$sql_serch.=" and (message like '$_REQUEST[lms_text]%'  or title like '$_REQUEST[lms_text]%') ";
+										$sql_serch.=" and (message like '{$_REQUEST['lms_text']}%'  or title like '{$_REQUEST['lms_text']}%') ";
 								}
 								$sql="select count(idx) as cnt from Gn_MMS_Message where $sql_serch ";
 								$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
@@ -812,12 +812,12 @@ $(function(){
 									<?
 										$select_lms_arr=array("title"=>"제목","message"=>"내용");
 										foreach($select_lms_arr as $key=>$v){
-											$selected=$_REQUEST[lms_select]==$key?"selected":"";
+											$selected=$_REQUEST['lms_select']==$key?"selected":"";
 											?>
 											<option value="<?=$key?>" <?=$selected?>><?=$v?></option>                                        
 										<?}?>
 									</select>
-									<input type="text" name="lms_text" value="<?=$_REQUEST[lms_text]?>" />
+									<input type="text" name="lms_text" value="<?=$_REQUEST['lms_text']?>" />
 									<input type="image" src="images/sub_button_703.jpg" />
 								</div>
 								<div class="d_div_font">LMS문자저장하기</div>
@@ -880,11 +880,11 @@ $(function(){
 								break;
 							case 2:
 									$sql_serch=" mem_id ='{$_SESSION['one_member_id']}' and msg_type='B' ";
-									if($_REQUEST[lms_text]){
-										if($_REQUEST[lms_select])
-											$sql_serch.=" and {$_REQUEST[lms_select]} like '$_REQUEST[lms_text]%' ";
+									if($_REQUEST['lms_text']){
+										if($_REQUEST['lms_select'])
+											$sql_serch.=" and {$_REQUEST['lms_select']} like '{$_REQUEST['lms_text']}%' ";
 										else
-											$sql_serch.=" and (message like '$_REQUEST[lms_text]%'  or title like '$_REQUEST[lms_text]%') ";
+											$sql_serch.=" and (message like '{$_REQUEST['lms_text']}%'  or title like '{$_REQUEST['lms_text']}%') ";
 									}									
 									$sql="select count(idx) as cnt from Gn_MMS_Message where $sql_serch ";
 									$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
@@ -923,14 +923,14 @@ $(function(){
 									$select_photo_arr=array("title"=>"제목","message"=>"내용");
 									foreach($select_photo_arr as $key=>$v)
 									{
-										$selected=$_REQUEST[photo_select]==$key?"selected":"";
+										$selected=$_REQUEST['photo_select']==$key?"selected":"";
 										?>
 										<option value="<?=$key?>" <?=$selected?>><?=$v?></option>                                        
                                         <?
 									}
 								?>
                                 </select>
-                                <input type="text" name="photo_text" value="<?=$_REQUEST[photo_text]?>" />
+                                <input type="text" name="photo_text" value="<?=$_REQUEST['photo_text']?>" />
                                 <input type="image" src="images/sub_button_703.jpg" />
                             </div>
                             <div class="d_div_font">포토문자저장하기</div>
@@ -991,12 +991,12 @@ $(function(){
 							break;
 							case 3:
 								$sql_serch=" mem_id ='{$_SESSION['one_member_id']}' and msg_type='C' ";
-								if($_REQUEST[lms_text])
+								if($_REQUEST['lms_text'])
 								{
-									if($_REQUEST[lms_select])
-									$sql_serch.=" and {$_REQUEST[lms_select]} like '$_REQUEST[lms_text]%' ";
+									if($_REQUEST['lms_select'])
+									$sql_serch.=" and {$_REQUEST['lms_select']} like '{$_REQUEST['lms_text']}%' ";
 									else
-									$sql_serch.=" and (message like '$_REQUEST[lms_text]%'  or title like '$_REQUEST[lms_text]%') ";
+									$sql_serch.=" and (message like '{$_REQUEST['lms_text']}%'  or title like '{$_REQUEST['lms_text']}%') ";
 								}
 								$sql="select count(idx) as cnt from Gn_MMS_Message where $sql_serch ";
 								$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
@@ -1041,14 +1041,14 @@ $(function(){
 									$select_lms_arr=array("title"=>"제목","message"=>"내용");
 									foreach($select_lms_arr as $key=>$v)
 									{
-										$selected=$_REQUEST[lms_select]==$key?"selected":"";
+										$selected=$_REQUEST['lms_select']==$key?"selected":"";
 										?>
 										<option value="<?=$key?>" <?=$selected?>><?=$v?></option>                                        
                                         <?
 									}
 								?>
                                 </select>
-                                <input type="text" name="lms_text" value="<?=$_REQUEST[lms_text]?>" />
+                                <input type="text" name="lms_text" value="<?=$_REQUEST['lms_text']?>" />
                                 <input type="image" src="images/sub_button_703.jpg" />
                             </div>
                             <div>
@@ -1123,8 +1123,8 @@ $(function(){
 						$sql_table = " Gn_MMS ";
 					}
 					
-					if($_REQUEST[serch_fs_select] && $_REQUEST[serch_fs_text])
-						$sql_serch.=" and $_REQUEST[serch_fs_select] like '$_REQUEST[serch_fs_text]%' ";	
+					if($_REQUEST['serch_fs_select'] && $_REQUEST['serch_fs_text'])
+						$sql_serch.=" and {$_REQUEST['serch_fs_select']} like '{$_REQUEST['serch_fs_text']}%' ";	
 					// 상태 검색 추가
 					if($_REQUEST['result'] == 1) {
 					    $sql_serch .= " and result = 0 and up_date is not null ";
@@ -1221,9 +1221,9 @@ $(function(){
                             <a href="sub_4.php?status=4" style="color:<?=$_REQUEST['status2']==""?"#000":""?>">전체내역</a> &nbsp;|&nbsp; 
                             <a href="sub_4.php?status=4&status2=1" style="color:<?=$_REQUEST['status2']==1?"#000":""?>">앱체크내역</a> &nbsp;|&nbsp; 
 							<a href="sub_4_return_.php" style="color:<?=$_REQUEST['status2']==2?"#000":""?>">발신/회신문자</a>&nbsp;|&nbsp;
-							<a href="sub_4_return_.php?chanel=2" style="color:<?=$_REQUEST[chanel]==2?"#000":""?>">스텝문자</a>&nbsp;|&nbsp;
-							<a href="sub_4_return_.php?chanel=4" style="color:<?=$_REQUEST[chanel]==4?"#000":""?>">데일리문자</a>&nbsp;|&nbsp;
-							<a href="sub_4_return_.php?chanel=9" style="color:<?=$_REQUEST[chanel]==9?"#000":""?>">콜백문자</a>&nbsp;|&nbsp; 
+							<a href="sub_4_return_.php?chanel=2" style="color:<?=$_REQUEST['chanel']==2?"#000":""?>">스텝문자</a>&nbsp;|&nbsp;
+							<a href="sub_4_return_.php?chanel=4" style="color:<?=$_REQUEST['chanel']==4?"#000":""?>">데일리문자</a>&nbsp;|&nbsp;
+							<a href="sub_4_return_.php?chanel=9" style="color:<?=$_REQUEST['chanel']==9?"#000":""?>">콜백문자</a>&nbsp;|&nbsp; 
 							<a href="sub_4.php?status=4&status2=10" style="color:<?=$_REQUEST['status2']==10?"#000":""?>">폰문자인증내역</a>
                         </div>
 
@@ -1235,7 +1235,7 @@ $(function(){
 										$select_fs_arr=array("send_num"=>"발신번호","recv_num"=>"수신번호","title"=>"문자제목","content"=>"문자내용");
 										foreach($select_fs_arr as $key=>$v)
 										{
-											$selected=$_REQUEST[serch_fs_select]==$key?"selected":"";
+											$selected=$_REQUEST['serch_fs_select']==$key?"selected":"";
 											?>
 	                                        <option value="<?=$key?>" <?=$selected?> ><?=$v?></option>
 	                                        <?	
@@ -1249,7 +1249,7 @@ $(function(){
 	                                <option value="3" <?=$_REQUEST['result']==3?"selected":""?>>실패</option>
 	                                
 	                            </select>	                            
-	                            <input type="text" name="serch_fs_text" value="<?=$_REQUEST[serch_fs_text]?>" />
+	                            <input type="text" name="serch_fs_text" value="<?=$_REQUEST['serch_fs_text']?>" />
 	                            <a href="javascript:void(0)" onclick="sub_4_form.submit();"><img src="images/sub_button_103.jpg" /></a>
 	                        </div>
     				<div class="button_box">
@@ -1536,11 +1536,11 @@ $(function(){
 									<td><label><input type="checkbox" name="idx_box" value="<?=$row['seq']?>" /><?=$sort_no?></label></td>
                                         <td><?=$row['dest']?></td>                                    
                                         <td><?=$row_n['memo']?></td>
-                                       	<td style="font-size:12px;"><?=substr($row[reservation_time],0,16)?></td>                                      
+                                       	<td style="font-size:12px;"><?=substr($row['reservation_time'],0,16)?></td>                                      
                                         <td><?=$row['msg_text']?></td>
                                         <td><?=$row['ori_num']?></td>
                                         <? if($_REQUEST['status2']==1){?><td><?=$row['chg_num']?></td><? }?>
-                                        <td><?=$row[grp_name]?></td>
+                                        <td><?=$row['grp_name']?></td>
                                         <? if($_REQUEST['status2']==1){?>                                           
 										<td><? if($row['chg_num']){?><a href="javascript:void(0)" onclick="fugai_num('<?=$row['seq']?>','cho')" class="a_btn_2">덮어쓰기</a><? }?></td>
                                         <? }?>                                    
@@ -1597,8 +1597,8 @@ $(function(){
 					{
 						$sql_serch.=" and {$_REQUEST['serch_colum']} like '{$_REQUEST['serch_text']}%' ";	
 					}
-					if($_REQUEST[serch_chanel]){
-						$sql_serch.=" and chanel_type = $_REQUEST[serch_chanel] ";	
+					if($_REQUEST['serch_chanel']){
+						$sql_serch.=" and chanel_type = {$_REQUEST['serch_chanel']} ";	
 					}
 					$sql="select count(idx) as cnt from Gn_MMS_Deny where $sql_serch ";
 					$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
@@ -1656,7 +1656,7 @@ $(function(){
                             	<div style="float:left;"><img src="images/sub_04_06_03.jpg" /></div>
                                 <div style="float:left;width:780px;text-align:center">
                                 전체<span class="sub_4_1_t2_2">(<?=$intRowCount?>)</span> &nbsp; | &nbsp; 
-                                오늘등록<span class="sub_4_1_t2_2">(<?=$row_today[today_cnt]?>)</span> 
+                                오늘등록<span class="sub_4_1_t2_2">(<?=$row_today['today_cnt']?>)</span> 
                                 </div>
                                 <p style="clear:both"></p>
                             </div>                        
@@ -1680,7 +1680,7 @@ $(function(){
 										$select_arr=array("1"=>"폰문자","2"=>"스텝문자","9"=>"콜백문자","4"=>"데일리문자");
 										foreach($select_arr as $key=>$v)
 										{
-											$selected=$_REQUEST[serch_chanel]==$key?"selected":"";
+											$selected=$_REQUEST['serch_chanel']==$key?"selected":"";
 											?>
 											<option value="<?=$key?>" <?=$selected?> ><?=$v?></option>
 											<?	

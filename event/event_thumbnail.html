@@ -311,7 +311,7 @@
 
 	if($_POST['mobile'] != "")
 	{
-		$sql="select mem_phone from Gn_Member where mem_phone='$_POST[mobile]'";
+		$sql="select mem_phone from Gn_Member where mem_phone='$_POST['mobile']'";
 		$res=mysqli_query($self_con,$sql);
 		$row333=mysqli_fetch_array($res);	
 	}

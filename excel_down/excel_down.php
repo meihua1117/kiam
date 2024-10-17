@@ -93,3 +93,4 @@ if (strlen($_SESSION['one_member_id']) > 0) {
 	$writer->save('php://output');
 	exit;
 }
+?>

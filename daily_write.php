@@ -109,7 +109,7 @@ $row_content = mysqli_fetch_array($res_content);
                     $('#date_list li').each(function() {
                         send_date_list = $(this).text().replace("[삭제]", "");
                         send_month_arr = send_date_list.split("-");
-                        all_set_month[count] = send_month_arr[1];
+                        all_set_month['count'] = send_month_arr[1];
                         if (!count1) {
                             grp_month[count1] = send_month_arr[1];
                             count1++;

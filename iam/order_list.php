@@ -183,12 +183,12 @@ td {
                                     $select_lms_arr=array("mem_name"=>"회원명","mem_id"=>"아이디");
                                     foreach($select_lms_arr as $key=>$v)
                                     {
-                                        $selected=$_REQUEST[lms_select]==$key?"selected":"";
+                                        $selected=$_REQUEST['lms_select']==$key?"selected":"";
                                         ?>
                                         <option value="<?=$key?>" <?=$selected?>><?=$v?></option>
                                     <?}?>
                                 </select>
-                                <input type="text" name="lms_text" value="<?=$_REQUEST[lms_text]?>" />
+                                <input type="text" name="lms_text" value="<?=$_REQUEST['lms_text']?>" />
                             </div>
                             <p style="clear:both;"></p>
                         </div>

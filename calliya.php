@@ -34,10 +34,10 @@ $data = mysqli_fetch_array($sresul_num);
                         </li>
                         <li style="float:right;">
                             <select name="chanel" id="chanel" class="form-control input-sm" onchange="pay_form.submit()" style="width:100px;font-size: 15px;padding: 6.5px;">
-                                <option value="0" <?= $_REQUEST[chanel] == "0" ? "selected" : "" ?>>전체</option>
-                                <option value="1" <?= $_REQUEST[chanel] == "1" ? "selected" : "" ?>>지도</option>
-                                <option value="2" <?= $_REQUEST[chanel] == "2" ? "selected" : "" ?>>G쇼핑</option>
-                                <option value="3" <?= $_REQUEST[chanel] == "3" ? "selected" : "" ?>>N쇼핑</option>
+                                <option value="0" <?= $_REQUEST['chanel'] == "0" ? "selected" : "" ?>>전체</option>
+                                <option value="1" <?= $_REQUEST['chanel'] == "1" ? "selected" : "" ?>>지도</option>
+                                <option value="2" <?= $_REQUEST['chanel'] == "2" ? "selected" : "" ?>>G쇼핑</option>
+                                <option value="3" <?= $_REQUEST['chanel'] == "3" ? "selected" : "" ?>>N쇼핑</option>
                             </select>
                             <input type="text" name="search_text" placeholder="카드명/주소" id="search_text" value="<?= $_REQUEST['search_text'] ?>" style="height:30px;" />
                             <a href="javascript:pay_form.submit()"><img src="images/sub_mypage_11.jpg" /></a>
@@ -90,7 +90,7 @@ $data = mysqli_fetch_array($sresul_num);
                                     $searchStr .= " AND (ca_1.card_name LIKE '%" . $_REQUEST['search_text'] . "%' or ca_1.card_addr like '%" . $_REQUEST['search_text'] . "%' )";
                                 }
 
-                                switch ($_REQUEST[chanel]) {
+                                switch ($_REQUEST['chanel']) {
                                     case 0:
                                         $searchStr .= "";
                                         break;

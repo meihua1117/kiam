@@ -74,8 +74,8 @@ $(function(){
 							<option value="sms.event_name_eng"   <?if($_REQUEST['search_key'] == "sms.event_name_eng") echo "selected";?>>수신키워드</option>
 						</select>
 						<input type="text" name="search_text" placeholder="" id="search_text" value="<?=$_REQUEST['search_text']?>" style="height:30px;"/>
-                        <input type="date" name="startdate" value="<?=$_REQUEST[startdate]?>" style="padding: 6px">
-                        <input type="date" name="enddate" value="<?=$_REQUEST[enddate]?>" style="padding: 6px">
+                        <input type="date" name="startdate" value="<?=$_REQUEST['startdate']?>" style="padding: 6px">
+                        <input type="date" name="enddate" value="<?=$_REQUEST['enddate']?>" style="padding: 6px">
 						<a href="javascript:void(0)" onclick="pay_form.submit()"><img src="images/sub_mypage_11.jpg" /></a>
 						<div style="float:right;">
 							<div class="popup_holder" style="display:inline-block"> <!--Parent-->

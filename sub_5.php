@@ -367,7 +367,7 @@ function excel_down_personal(pno){
 								<tbody>
 									<tr>
 										<th style="width:125px">유료이용기간</th>
-										<td style="width:381px"><?=$rsJoinDate[fujia_date1]?> ~ <?=$rsJoinDate['fujia_date2']?></td>
+										<td style="width:381px"><?=$rsJoinDate['fujia_date1']?> ~ <?=$rsJoinDate['fujia_date2']?></td>
 										<th style="width:125px">이용가능폰수</th>
 										<td style="width:384px"><?=number_format($buyPhoneCnt[0])?></td>
 									</tr>
@@ -411,14 +411,14 @@ function excel_down_personal(pno){
 										$select_lms_arr=array("sendnum"=>"휴대폰번호","memo"=>"소유자명");
 										foreach($select_lms_arr as $key=>$v)
 										{
-										$selected=$_REQUEST[lms_select]==$key?"selected":"";
+										$selected=$_REQUEST['lms_select']==$key?"selected":"";
 										?>
 										<option value="<?=$key?>" <?=$selected?>><?=$v?></option>                                        
 										<?
 										}
 										?>
 								</select>
-								<input type="text" name="lms_text" value="<?=$_REQUEST[lms_text]?>" />
+								<input type="text" name="lms_text" value="<?=$_REQUEST['lms_text']?>" />
 								<span class="search_button"><a href="javascript:void(0)" onclick="sub_4_form.submit();">검색</a></span>
 							</div>
 							<div class="right_box">
@@ -478,8 +478,8 @@ function excel_down_personal(pno){
 									<? 
 									//폰별 설정 가져오기
 									$sql_serch=" (not (cnt1 = 10 and cnt2 = 20)) and mem_id ='{$_SESSION['one_member_id']}' ";
-									if($_REQUEST[lms_text] && $_REQUEST[lms_select])
-										$sql_serch.=" and {$_REQUEST[lms_select]} like '$_REQUEST[lms_text]%' ";
+									if($_REQUEST['lms_text'] && $_REQUEST['lms_select'])
+										$sql_serch.=" and {$_REQUEST['lms_select']} like '{$_REQUEST['lms_text']}%' ";
 									$sql="select count(idx) as cnt from Gn_MMS_Number where $sql_serch ";
 									$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 									$row=mysqli_fetch_array($result);
@@ -587,7 +587,7 @@ function excel_down_personal(pno){
 												<td class="name_input popbutton4"><input type="text" name="memo" value="<?=$memo?>" ></td>
 												<td class="sendnum"><?=$sendnum?></td>
 												<td class="com_select popbutton4"><span><?=$memo2?></span></td>
-												<td class="sky_td popbutton4"><span><?=$row[daily_min_cnt_user]."/".$row['daily_limit_cnt_user']?></span></td>
+												<td class="sky_td popbutton4"><span><?=$row['daily_min_cnt_user']."/".$row['daily_limit_cnt_user']?></span></td>
 												<!--<td class="sky_td popbutton4"><span><?=$send_person_cnt."/".$person_cnt?></span></td>-->
 												<td class="gre_td"><span><?=($send_donation_cnt + $send_person_cnt)."/".$total_cnt?></span></td>
 												<td class="gre_td"><span><?=$month_cnt_1?></span></td>

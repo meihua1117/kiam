@@ -130,7 +130,7 @@ thead tr:nth-child(2) th { position: sticky; top: 57px; }
                                         $sql2 = "select * from gn_report_form2 where form_id=$repo_id and item_id = {$form['id']} order by id";
                                         $res2 = mysqli_query($self_con,$sql2);
                                         while($row2 = mysqli_fetch_array($res2)){
-                                            $row2['item_type'] = $form[item_type];
+                                            $row2['item_type'] = $form['item_type'];
                                             array_push($item_arr,$row2);
                                     ?>
                                             <th style="border: 1px solid #ddd">
@@ -166,7 +166,7 @@ thead tr:nth-child(2) th { position: sticky; top: 57px; }
                                         }
                                     ?>
                                     <td style="border: 1px solid #ddd">
-                                        <?if($item[item_type] == 0 || $item[item_type] == 3){
+                                        <?if($item['item_type'] == 0 || $item['item_type'] == 3){
                                             if(mb_strlen($repo_value,"UTF-8") < 10){
                                                 echo $repo_value;
                                             }else{?>

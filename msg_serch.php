@@ -56,12 +56,12 @@ function deleteRow(idx) {
 						{
 							case 1:
 								$sql_serch=" mem_id ='{$_SESSION['one_member_id']}' and msg_type='A' ";
-								if($_REQUEST[lms_text])
+								if($_REQUEST['lms_text'])
 								{
-									if($_REQUEST[lms_select])
-									$sql_serch.=" and {$_REQUEST[lms_select]} like '$_REQUEST[lms_text]%' ";
+									if($_REQUEST['lms_select'])
+									$sql_serch.=" and {$_REQUEST['lms_select']} like '{$_REQUEST['lms_text']}%' ";
 									else
-									$sql_serch.=" and (message like '$_REQUEST[lms_text]%'  or title like '$_REQUEST[lms_text]%') ";
+									$sql_serch.=" and (message like '{$_REQUEST['lms_text']}%'  or title like '{$_REQUEST['lms_text']}%') ";
 								}
 								$sql="select count(idx) as cnt from Gn_MMS_Message where $sql_serch ";
 								$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
@@ -100,14 +100,14 @@ function deleteRow(idx) {
 									$select_lms_arr=array("title"=>"제목","message"=>"내용");
 									foreach($select_lms_arr as $key=>$v)
 									{
-										$selected=$_REQUEST[lms_select]==$key?"selected":"";
+										$selected=$_REQUEST['lms_select']==$key?"selected":"";
 										?>
 										<option value="<?=$key?>" <?=$selected?>><?=$v?></option>                                        
                                         <?
 									}
 								?>
                                 </select>
-                                <input type="text" name="lms_text" value="<?=$_REQUEST[lms_text]?>" />
+                                <input type="text" name="lms_text" value="<?=$_REQUEST['lms_text']?>" />
                                 <input type="image" src="images/sub_button_703.jpg" />
                             </div>
                             <div class="d_div_font">LMS</div>
@@ -167,12 +167,12 @@ function deleteRow(idx) {
 							break;
 							case 2:
 								$sql_serch=" mem_id ='{$_SESSION['one_member_id']}' and msg_type='B' ";
-									if($_REQUEST[lms_text])
+									if($_REQUEST['lms_text'])
 									{
-										if($_REQUEST[lms_select])
-										$sql_serch.=" and {$_REQUEST[lms_select]} like '$_REQUEST[lms_text]%' ";
+										if($_REQUEST['lms_select'])
+										$sql_serch.=" and {$_REQUEST['lms_select']} like '{$_REQUEST['lms_text']}%' ";
 										else
-										$sql_serch.=" and (message like '$_REQUEST[lms_text]%'  or title like '$_REQUEST[lms_text]%') ";
+										$sql_serch.=" and (message like '{$_REQUEST['lms_text']}%'  or title like '{$_REQUEST['lms_text']}%') ";
 									}									
 									$sql="select count(idx) as cnt from Gn_MMS_Message where $sql_serch ";
 									$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
@@ -211,14 +211,14 @@ function deleteRow(idx) {
 									$select_photo_arr=array("title"=>"제목","message"=>"내용");
 									foreach($select_photo_arr as $key=>$v)
 									{
-										$selected=$_REQUEST[photo_select]==$key?"selected":"";
+										$selected=$_REQUEST['photo_select']==$key?"selected":"";
 										?>
 										<option value="<?=$key?>" <?=$selected?>><?=$v?></option>                                        
                                         <?
 									}
 								?>
                                 </select>
-                                <input type="text" name="photo_text" value="<?=$_REQUEST[photo_text]?>" />
+                                <input type="text" name="photo_text" value="<?=$_REQUEST['photo_text']?>" />
                                 <input type="image" src="images/sub_button_703.jpg" />
                             </div>
                             <div class="d_div_font">포토문자</div>

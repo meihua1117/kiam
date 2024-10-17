@@ -60,7 +60,7 @@ if ($_REQUEST['rday2']) {
                             <?
                             $select_lms_arr = array("mem_name" => "회원명", "mem_id" => "아이디");
                             foreach ($select_lms_arr as $key => $v) {
-                                $selected = $_REQUEST[lms_select] == $key ? "selected" : "";
+                                $selected = $_REQUEST['lms_select'] == $key ? "selected" : "";
                             ?>
                                 <option value="<?= $key ?>" <?= $selected ?>><?= $v ?></option>
                             <?
@@ -68,7 +68,7 @@ if ($_REQUEST['rday2']) {
                             ?>
 
                         </select>
-                        <input type="text" name="lms_text" value="<?= $_REQUEST[lms_text] ?>" />
+                        <input type="text" name="lms_text" value="<?= $_REQUEST['lms_text'] ?>" />
 
                         <a href="javascript:void(0)" onclick="pay_form.submit();"><img src="images/sub_button_703.jpg" /></a>
                     </div>

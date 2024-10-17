@@ -1005,9 +1005,9 @@ if($_SESSION['one_member_id']){
                     $mms_info['jpg1']=$_POST['send_img1'].$img;
                     $mms_info['jpg2']=$_POST['send_img2'].$img;
                     $mms_info[recv_num_cnt] =  count(explode(",", $recv_str));
-                    $mms_info[count_start]=$start;
-                    $mms_info[count_end]=$end;
-                    $mms_info[grp_idx]=$grp_id;
+                    $mms_info['count_start']=$start;
+                    $mms_info['count_end']=$end;
+                    $mms_info['grp_idx']=$grp_id;
                     $mms_info['agreement_yn'] = $_POST['send_agreement_yn'];
                     if($reservation) //예약문자
                         $mms_info['reservation']=$reservation;

@@ -177,15 +177,15 @@ $(function(){
                 </tr>
                 <tr>
                     <th class="w200">주소</th>
-                    <td><input type="text" name="addr" placeholder="" id="addr" value="<?=$data[addr]?>"/> </td>
+                    <td><input type="text" name="addr" placeholder="" id="addr" value="<?=$data['addr']?>"/> </td>
                 </tr>                
                 <tr>
                     <th class="w200">생년월일</th>
-                    <td><input type="text" name="birthday" placeholder="" id="birthday" value="<?=$data[birthday]?>"/> </td>
+                    <td><input type="text" name="birthday" placeholder="" id="birthday" value="<?=$data['birthday']?>"/> </td>
                 </tr>                                
                 <tr>
                     <th class="w200">기타</th>
-                    <td><input type="text" name="consult_date" placeholder="" id="consult_date" value="<?=$data[consult_date]?>"/> </td>
+                    <td><input type="text" name="consult_date" placeholder="" id="consult_date" value="<?=$data['consult_date']?>"/> </td>
                 </tr>                                
                 <tr>
                     <th class="w200">신청행사</th>

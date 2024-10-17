@@ -263,13 +263,13 @@ $(function(){
                                         <div class="popup_holder popup_text">신청정보
                                             <div class="popupbox" style="height: 120px;width: 170px;left: 63px;top: -100px;display:none;">
                                             [신청정보보기]<br>
-                                                &nbsp;>성별:<? if($row[sex] == "m") echo " 남자"; else if($row[sex] == "f") echo " 여자"; else echo " "; ?><br>
-                                                &nbsp;>출생년도:<?=$row[birthday];?><br>
+                                                &nbsp;>성별:<? if($row['sex'] == "m") echo " 남자"; else if($row['sex'] == "f") echo " 여자"; else echo " "; ?><br>
+                                                &nbsp;>출생년도:<?=$row['birthday'];?><br>
                                                 &nbsp;>소속/직업:<?=$row['job'];?><br>
                                                 &nbsp;>이메일:<?=$row['email'];?><br>
-                                                &nbsp;>거주주소:<?=$row[addr];?><br>
-                                                &nbsp;>가입여부:<?=$row[join_yn];?><br>
-                                                &nbsp;>기타정보:<?=$row[consult_date];?><br>
+                                                &nbsp;>거주주소:<?=$row['addr'];?><br>
+                                                &nbsp;>가입여부:<?=$row['join_yn'];?><br>
+                                                &nbsp;>기타정보:<?=$row['consult_date'];?><br>
                                             </div>
                                         </div>
                                     </td>

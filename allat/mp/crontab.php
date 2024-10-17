@@ -48,7 +48,7 @@ ini_set("session.gc_maxlifetime", 86400);
         $row=mysqli_fetch_array($resul);	        
 
         $ORDER_NO = $row['ORDER_NO'];
-        $member_1['mem_id'] = $row[one_member_id];
+        $member_1['mem_id'] = $row['one_member_id'];
         
         if($ORDER_NO == "") exit;
         if($member_1['mem_id'] == "" ) exit;

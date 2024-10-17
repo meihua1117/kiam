@@ -17,9 +17,9 @@ if($_REQUEST['search_date'])
         $sql_serch.=" and unix_timestamp({$_REQUEST['search_date']}) <= $end_time ";
     }
 }
-if($_REQUEST[lms_text])
+if($_REQUEST['lms_text'])
 {
-    $sql_serch.=" and {$_REQUEST[lms_select]} = '{$_REQUEST[lms_text]}' ";
+    $sql_serch.=" and {$_REQUEST['lms_select']} = '{$_REQUEST['lms_text']}' ";
 }
 $sql="select count(r.no) as cnt from Gn_Item_Pay_Result r where $sql_serch ";
 $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
@@ -259,12 +259,12 @@ input:checked + .slider:before {
                                     $select_lms_arr=array("mem_name"=>"회원명","p.mem_id"=>"아이디","item_name"=>"상품명");
                                     foreach($select_lms_arr as $key=>$v)
                                     {
-                                        $selected=$_REQUEST[lms_select]==$key?"selected":"";
+                                        $selected=$_REQUEST['lms_select']==$key?"selected":"";
                                         ?>
                                         <option value="<?=$key?>" <?=$selected?>><?=$v?></option>
                                     <?}?>
                                 </select>
-                                <input type="text" name="lms_text" value="<?=$_REQUEST[lms_text]?>" />
+                                <input type="text" name="lms_text" value="<?=$_REQUEST['lms_text']?>" />
                             </div>
                             <p style="clear:both;"></p>
                         </div>
