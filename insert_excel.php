@@ -190,9 +190,7 @@ if ($_REQUEST['status'] == "old") {
 		$cnt++;
 	}
 }
-$error_str = "";
-if(count($error_arr) > 0)
-	$error_str = implode("\\n", $error_arr);
+$error_str = implode("\\n", $error_arr);
 ?>
 <script language="javascript">
 	alert("<?= $cnt ?> 행 등록완료되었습니다.\n\n<?= $error_str ?>");
