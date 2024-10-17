@@ -64,10 +64,8 @@ if ($_REQUEST['status'] == "old") {
 	while ($row = mysqli_fetch_array($resul)) {
 		$cnt = 0;
 		for ($i = 2; $i <= $excel_rows; $i++) {
-			//$is_zero = substr($data->sheets[0]['cells'][$i][3], 0, 1);
-			//$v = $is_zero ? "0" . $data->sheets[0]['cells'][$i][3] : $data->sheets[0]['cells'][$i][3];
-			$is_zero = substr($spreadData[$i][3], 0, 1);
-			$v = $is_zero ? "0" . $spreadData[$i][3] : $spreadData[$i][3];
+			$is_zero = substr($spreadData[$i][2], 0, 1);
+			$v = $is_zero ? "0" . $spreadData[$i][2] : $spreadData[$i][2];
 			$v = preg_replace("/[^0-9]/", "", $v);
 			if (!check_cellno($v)) {
 				array_push($error_arr, "{$v} 은/는 정확한 번호가 아닙니다.(업로드실패)");
@@ -81,7 +79,7 @@ if ($_REQUEST['status'] == "old") {
 				continue;
 			}
 
-			$sql_i = "insert into Gn_MMS_Receive set mem_id = '{$_SESSION['one_member_id']}',grp_id='{$row['idx']}', grp = '{$row['grp']}', grp_2 = '" . $data->sheets[0]['cells'][$i][1] . "', name = '" . $data->sheets[0]['cells'][$i][2] . "' , recv_num = '$v', email = '" . $data->sheets[0]['cells'][$i][4] . "' ,reg_date=now()";
+			$sql_i = "insert into Gn_MMS_Receive set mem_id = '{$_SESSION['one_member_id']}',grp_id='{$row['idx']}', grp = '{$row['grp']}', grp_2 = '" . $spreadData[$i][0] . "', name = '" . $spreadData[$i][1] . "' , recv_num = '$v', email = '" . $spreadData[$i][3] . "' ,reg_date=now()";
 			mysqli_query($self_con, $sql_i);
 			$cnt++;
 		}
@@ -112,10 +110,10 @@ if ($_REQUEST['status'] == "old") {
 		$row_s = mysqli_fetch_array($resul_s);
 		$cnt = 0;
 		for ($i = 2; $i <= $excel_rows; $i++) {
-			fwrite($fp,$spreadData[$i][3]."\r\n");
-			$is_zero = substr($spreadData[$i][3], 0, 1);
+			fwrite($fp,$spreadData[$i][2]."\r\n");
+			$is_zero = substr($spreadData[$i][2], 0, 1);
 			fwrite($fp,$is_zero."\r\n");
-			$v = $is_zero ? "0" . $spreadData[$i][3] : $spreadData[$i][3];
+			$v = $is_zero ? "0" . $spreadData[$i][2] : $spreadData[$i][2];
 			fwrite($fp,$v."\r\n");
 			$v = preg_replace("/[^0-9]/", "", $v);
 			if (!check_cellno($v)) {
@@ -131,7 +129,7 @@ if ($_REQUEST['status'] == "old") {
 				continue;
 			}
 
-			$sql_i = "insert into Gn_MMS_Receive set mem_id = '{$_SESSION['one_member_id']}',grp_id='{$row_s['idx']}', grp = '$group_name', grp_2 = '" . $data->sheets[0]['cells'][$i][1] . "', recv_num = '$v', name = '" . $data->sheets[0]['cells'][$i][2] . "' ,email = '" . $data->sheets[0]['cells'][$i][4] . "' ,reg_date=now() ";
+			$sql_i = "insert into Gn_MMS_Receive set mem_id = '{$_SESSION['one_member_id']}',grp_id='{$row_s['idx']}', grp = '$group_name', grp_2 = '" . $spreadData[$i][0] . "', recv_num = '$v', name = '" . $spreadData[$i][1] . "' ,email = '" . $spreadData[$i][3] . "' ,reg_date=now() ";
 			mysqli_query($self_con, $sql_i);
 			$cnt++;
 		}
@@ -143,7 +141,7 @@ if ($_REQUEST['status'] == "old") {
 		exit;
 	$cnt = 0;
 	for ($i = 2; $i <= $excel_rows; $i++) {
-		$send_num = preg_replace("/[^0-9]/", "", $spreadData[$i][1]);
+		$send_num = preg_replace("/[^0-9]/", "", $spreadData[$i][0]);
 		$is_zero = substr($send_num, 0, 1);
 		$send_num = $is_zero ? "0" . $send_num : $send_num;
 
@@ -152,7 +150,7 @@ if ($_REQUEST['status'] == "old") {
 			continue;
 		}
 
-		$recv_num = preg_replace("/[^0-9]/", "", $spreadData[$i][2]);
+		$recv_num = preg_replace("/[^0-9]/", "", $spreadData[$i][1]);
 		$is_zero = substr($recv_num, 0, 1);
 		$recv_num = $is_zero ? "0" . $recv_num : $recv_num;
 
@@ -182,8 +180,8 @@ if ($_REQUEST['status'] == "old") {
 		$deny_info['mem_id'] = $_SESSION['one_member_id'];
 		$deny_info['send_num'] = $send_num;
 		$deny_info['recv_num'] = $recv_num;
-		$deny_info['title'] = $data->sheets[0]['cells'][$i][3];
-		$deny_info['content'] = $data->sheets[0]['cells'][$i][4];
+		$deny_info['title'] = $spreadData[$i][2];
+		$deny_info['content'] = $spreadData[$i][3];
 		$deny_info['status'] = "B";
 		foreach ($deny_info as $key => $v)
 			$sql_i .= " $key='$v' , ";
