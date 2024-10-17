@@ -1,5 +1,10 @@
 <?
 include_once "lib/rlatjd_fun.php";
+require $_SERVER['DOCUMENT_ROOT'] . '/excel_down/vendor/autoload.php';
+
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
+
 if (!$_SESSION['one_member_id']) { ?>
 	<script language="javascript">
 		location.replace("<?= $_SERVER['HTTP_REFERER'] ?>")
@@ -8,12 +13,36 @@ if (!$_SESSION['one_member_id']) { ?>
 	exit;
 }
 if ($_FILES['excel_file']['tmp_name']) {
-	$data = new Spreadsheet_Excel_Reader();
+	$file_type= pathinfo($_FILES['excel_file']['name'], PATHINFO_EXTENSION);
+	if ($file_type =='xls') {
+		$reader = new \PhpOffice\PhpSpreadsheet\Reader\Xls();	
+	}
+	elseif ($file_type =='xlsx') {
+		$reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+	}
+	else {
+		?>
+		<script language="javascript">
+			alert('처리할 수 있는 엑셀 파일이 아닙니다.');
+		</script>
+		<?
+		exit;
+	}
+	
+	$spreadsheet = $reader->load($_FILES['excel_file']['tmp_name']);	
+	$spreadData = $spreadsheet-> getActiveSheet()->toArray();
+	$excel_rows = count($spreadData);
+	/*$data = new Spreadsheet_Excel_Reader();
 	$data->setOutputEncoding('utf-8');
 	$data->read($_FILES['excel_file']['tmp_name']);
 	error_reporting(E_ALL ^ E_NOTICE);
 	$excel_rows = $data->sheets[0]['numRows'];
-
+	*/
+	?>
+		<script language="javascript">
+			alert('<?=$excel_rows?>라인');
+		</script>
+		<?
 	if ($excel_rows > 10001) {
 	?>
 		<script language="javascript">
@@ -23,12 +52,11 @@ if ($_FILES['excel_file']['tmp_name']) {
 	<?
 		exit;
 	}
-} else{
+} else {
 	?>
-		<script language="javascript">
-			alert('선택한 파일이 없습니다.');
-			window.parent.location.reload();
-		</script>
+	<script language="javascript">
+		alert('선택한 파일이 없습니다.');
+	</script>
 	<?
 	exit;
 }
@@ -36,7 +64,7 @@ $error_arr = array();
 if ($_REQUEST['status'] == "old") {
 	if (!$_FILES['excel_file']['tmp_name'])
 		exit;
-	$sql = "select * from Gn_MMS_Group where idx in($_POST[old_group])";
+	$sql = "select * from Gn_MMS_Group where idx in({$_POST['old_group']})";
 	$resul = mysqli_query($self_con, $sql);
 	while ($row = mysqli_fetch_array($resul)) {
 		$cnt = 0;
@@ -64,7 +92,7 @@ if ($_REQUEST['status'] == "old") {
 		mysqli_query($self_con, $sql_u);
 	}
 } else if ($_REQUEST['status'] == "new") {
-	$group_name = htmlspecialchars($_POST[new_group]);
+	$group_name = htmlspecialchars($_POST['new_group']);
 	$sql_s = "select idx from Gn_MMS_Group where grp='$group_name' and mem_id='{$_SESSION['one_member_id']}'";
 	$resul_s = mysqli_query($self_con, $sql_s);
 	$row_s = mysqli_fetch_array($resul_s);
