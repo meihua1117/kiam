@@ -109,7 +109,7 @@ if ($_REQUEST['status'] == "old") {
 		$resul_s = mysqli_query($self_con, $sql_s);
 		$row_s = mysqli_fetch_array($resul_s);
 		$cnt = 0;
-		for ($i = 1; $i <= $excel_rows; $i++) {
+		for ($i = 2; $i <= $excel_rows; $i++) {
 			fwrite($fp,$spreadData[$i]['C']."\r\n");
 			$is_zero = substr($spreadData[$i]['C'], 0, 1);
 			fwrite($fp,$is_zero."\r\n");
