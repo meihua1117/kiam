@@ -1,0 +1,4 @@
+01067226400
+0
+01067226400
+insert into Gn_MMS_Receive set mem_id = 'obmms03',grp_id='196443', grp = 'ㅂㅈㄷㄱㅂㅂㅈㄷㅈㄷㄱ', grp_2 = 'nm', recv_num = '01067226400', name = '테스트' ,email = 'test@onlyone.com' ,reg_date=now() 
