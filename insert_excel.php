@@ -30,7 +30,7 @@ if ($_FILES['excel_file']['tmp_name']) {
 	}
 	
 	$spreadsheet = $reader->load($_FILES['excel_file']['tmp_name']);	
-	$spreadData = $spreadsheet-> getActiveSheet()->toArray();
+	$spreadData = $spreadsheet-> getActiveSheet()->toArray(null,true,true,true);
 	$excel_rows = count($spreadData);
 	/*$data = new Spreadsheet_Excel_Reader();
 	$data->setOutputEncoding('utf-8');
@@ -38,11 +38,6 @@ if ($_FILES['excel_file']['tmp_name']) {
 	error_reporting(E_ALL ^ E_NOTICE);
 	$excel_rows = $data->sheets[0]['numRows'];
 	*/
-	?>
-		<script language="javascript">
-			alert('<?=$excel_rows?>라인');
-		</script>
-		<?
 	if ($excel_rows > 10001) {
 	?>
 		<script language="javascript">
@@ -69,8 +64,10 @@ if ($_REQUEST['status'] == "old") {
 	while ($row = mysqli_fetch_array($resul)) {
 		$cnt = 0;
 		for ($i = 2; $i <= $excel_rows; $i++) {
-			$is_zero = substr($data->sheets[0]['cells'][$i][3], 0, 1);
-			$v = $is_zero ? "0" . $data->sheets[0]['cells'][$i][3] : $data->sheets[0]['cells'][$i][3];
+			//$is_zero = substr($data->sheets[0]['cells'][$i][3], 0, 1);
+			//$v = $is_zero ? "0" . $data->sheets[0]['cells'][$i][3] : $data->sheets[0]['cells'][$i][3];
+			$is_zero = substr($spreadData[$i][3], 0, 1);
+			$v = $is_zero ? "0" . $spreadData[$i][3] : $spreadData[$i][3];
 			$v = preg_replace("/[^0-9]/", "", $v);
 			if (!check_cellno($v)) {
 				array_push($error_arr, "{$v} 은/는 정확한 번호가 아닙니다.(업로드실패)");
@@ -114,8 +111,8 @@ if ($_REQUEST['status'] == "old") {
 		$row_s = mysqli_fetch_array($resul_s);
 		$cnt = 0;
 		for ($i = 2; $i <= $excel_rows; $i++) {
-			$is_zero = substr($data->sheets[0]['cells'][$i][3], 0, 1);
-			$v = $is_zero ? "0" . $data->sheets[0]['cells'][$i][3] : $data->sheets[0]['cells'][$i][3];
+			$is_zero = substr($spreadData[$i][3], 0, 1);
+			$v = $is_zero ? "0" . $spreadData[$i][3] : $spreadData[$i][3];
 			$v = preg_replace("/[^0-9]/", "", $v);
 			if (!check_cellno($v)) {
 				array_push($error_arr, "{$v} 은/는 정확한 번호가 아닙니다.(업로드실패)");
@@ -142,7 +139,7 @@ if ($_REQUEST['status'] == "old") {
 		exit;
 	$cnt = 0;
 	for ($i = 2; $i <= $excel_rows; $i++) {
-		$send_num = preg_replace("/[^0-9]/", "", $data->sheets[0]['cells'][$i][1]);
+		$send_num = preg_replace("/[^0-9]/", "", $spreadData[$i][1]);
 		$is_zero = substr($send_num, 0, 1);
 		$send_num = $is_zero ? "0" . $send_num : $send_num;
 
@@ -151,7 +148,7 @@ if ($_REQUEST['status'] == "old") {
 			continue;
 		}
 
-		$recv_num = preg_replace("/[^0-9]/", "", $data->sheets[0]['cells'][$i][2]);
+		$recv_num = preg_replace("/[^0-9]/", "", $spreadData[$i][2]);
 		$is_zero = substr($recv_num, 0, 1);
 		$recv_num = $is_zero ? "0" . $recv_num : $recv_num;
 
