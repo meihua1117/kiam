@@ -376,7 +376,7 @@ if ($HTTP_HOST == "kookmin.kiam.kr") { ?>
                     try {
                         $res_chk = mysqli_query($self_con, $sql_chk);
                     } catch (Exception $e) {
-                        echo json_encode($e);
+                        echo json_encode($e)."<br>";
                     }
                     echo json_encode($res_chk) . "<br>";
                     $row_chk = mysqli_fetch_array($res_chk);
