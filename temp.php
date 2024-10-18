@@ -1,8 +1,6 @@
 <?
 header("Content-type:text/html;charset=utf-8");
 include_once "lib/db_config.php";
-include_once "lib/rlatjd_fun.php";
-sendemail("","jungjungjae0909@naver.com","admin@kiam.kr","hello","hello");
 /*$query = "select site_iam,mem_id from Gn_Member order by mem_code";
 $res = mysqli_query($self_con,$query);
 while($row = mysqli_fetch_array($res)){
@@ -115,7 +113,7 @@ while($card_row = mysqli_fetch_array($card_res)){
 
     }
 }*/
-/*$card_sql = "select * from Gn_Iam_Con_Card order by idx";
+$card_sql = "select * from Gn_Iam_Con_Card order by idx";
 $card_res = mysqli_query($self_con,$card_sql);
 while($card_row = mysqli_fetch_array($card_res)){
     $cont_sql = "select count(idx) from Gn_Iam_Contents where idx={$card_row['cont_idx']}";
@@ -127,7 +125,7 @@ while($card_row = mysqli_fetch_array($card_res)){
         $sql = "delete from Gn_Iam_Con_Card where idx = {$card_row['idx']}";
         mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
     }
-}*/
+}
 /*$f_sql = "select * from Gn_Iam_Friends order by idx";
 $f_res = mysqli_query($self_con, $f_sql);
 while($friend_row = mysqli_fetch_array($f_res)){

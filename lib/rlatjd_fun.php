@@ -1350,8 +1350,6 @@ function sendemail($time, $to, $from, $subject, $body, $file = "", $gd_id = "", 
 		'ctype' => 'text/plain'
 	);
 	$sendmail = new Sendmail($config);
-
-	echo json_encode($sendmail);
 	if ($file != "") {
 		$realpath = $_SERVER['DOCUMENT_ROOT'] . "/" . $file;
 		$name_arr = explode("__", $realpath);
