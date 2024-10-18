@@ -592,6 +592,8 @@ if ($case == 0)
                                 $searchStr .= $s_key ? " AND a.site like '%" . $s_key . "%'" : null;
                                 $searchStr .= $i_key ? " AND a.site_iam like  '%" . $i_key . "%'" : null;
                                 $searchStr .= $g_key ? " AND a.mem_id in (select mem_id from gn_group_member g_mem left join gn_group_info g_info on g_info.idx = g_mem.group_id where g_info.name like '%" . $g_key . "%')" : null;
+                                echo "1";
+
                                 if ($iam_type != '')
                                     $searchStr .= $iam_type != 'a' ? " AND a.iam_type = " . $iam_type : null;
                                 if ($_SESSION['one_member_subadmin_id'] != "" && $_SESSION['one_member_subadmin_domain'] == $HTTP_HOST) {
@@ -617,6 +619,7 @@ if ($case == 0)
                                             a.mem_leb
                                           FROM Gn_Member a $joinQuery
                                           WHERE 1=1 $searchStr";
+                                echo "2";
                                 $res        = mysqli_query($self_con, $query);
                                 $totalCnt    =  mysqli_num_rows($res);
                                 $limitStr   = " LIMIT " . (($startPage - 1) * $pageCnt) . ", " . $pageCnt;
@@ -634,6 +637,7 @@ if ($case == 0)
                                 $excel_sql = $query;
                                 $query .= $limitStr;
                                 $res = mysqli_query($self_con, $query);
+                                echo "3";
                                 while ($row = mysqli_fetch_array($res)) {
                                     // =====================  유료결제건 시작 =====================
                                     $sql = "select phone_cnt,onestep2 from tjd_pay_result where buyer_id = '{$row['mem_id']}' and end_date > '$date_today' and end_status='Y' and gwc_cont_pay=0 order by end_date desc limit 1";
