@@ -1289,15 +1289,9 @@ function copyHtml(){
         </div>
     </div>
 </div>
-
-
-
-
 <link rel="stylesheet" href="/admin/bootstrap/css/bootstrap.min.css">
 <script src="admin/plugins/jQuery/jQuery-2.1.4.min.js"></script>
 <script src="/admin/bootstrap/js/bootstrap.min.js"></script>
-
-
 <?
 mysqli_close($self_con);
 include_once "_foot.php";

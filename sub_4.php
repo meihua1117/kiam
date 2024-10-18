@@ -1990,6 +1990,5 @@ $phone = str_replace("-", "", $mem_phone);
 	}
 </script>
 <?
-mysqli_close($self_con);
 include_once "_foot.php";
 ?>

@@ -242,6 +242,5 @@ if ($_REQUEST['rday2']) {
 <link type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.4/themes/base/jquery-ui.css" rel="stylesheet" />
 <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.10.0/jquery-ui.min.js"></script>
 <?
-mysqli_close($self_con);
 include_once "_foot.php";
 ?>

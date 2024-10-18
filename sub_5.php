@@ -608,7 +608,7 @@ function excel_down_personal(pno){
 									}
 										//연결 해제
 										mysqli_free_result($result);
-										mysqli_close($self_con);?>
+									?>
 								</tbody>
 							</table>
 							<div class="button_box">

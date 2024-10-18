@@ -373,11 +373,7 @@ if ($HTTP_HOST == "kookmin.kiam.kr") { ?>
                     <?
                     $sql_chk = "select count(a.mem_code) as cnt from Gn_Member a inner join Gn_Iam_Service b on a.mem_id=b.mem_id where a.service_type>=2 and a.mem_id='{$_SESSION['one_member_id']}'";
                     echo $sql_chk . "<br>";
-                    try {
-                        $res_chk = mysqli_query($self_con, $sql_chk);
-                    } catch (Exception $e) {
-                        echo json_encode($e)."<br>";
-                    }
+                    $res_chk = mysqli_query($self_con, $sql_chk);
                     echo json_encode($res_chk) . "<br>";
                     $row_chk = mysqli_fetch_array($res_chk);
                     echo json_encode($row_chk) . "<br>";
