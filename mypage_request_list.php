@@ -224,7 +224,7 @@ $mem_phone = str_replace("-", "", $data['mem_phone']);
                                             <td><input type="checkbox" class="check" name="event_idx" value="<?php echo $row['request_idx']; ?>" data-name="<?= $row['name'] ?>" data-mobile="<?= $row['mobile'] ?>" data-email="<?= $row['email'] ?>" data-job="<?= $row['job'] ?>" data-event_code="<?= $row['event_code'] ?>" data-counsult_date="<?= $row['counsult_date'] ?>" data-sp="<?= $row['sp'] ?>" data-request_idx="<?php echo $row['request_idx']; ?>"></td>
                                             <td><?= $sort_no ?></td>
                                             <td style="font-size:12px;"><?= $row['name'] ?><br>
-                                                <a onclick="window.open('mypage_pop_activity_list.php?request_idx='+'<?= $row[request_idx] ?>','','top=300,left=300,width=800,height=500,toolbar=no,menubar=no,scrollbars=yes, resizable=yes,location=no, status=no')">[보기]</a>
+                                                <a onclick="window.open('mypage_pop_activity_list.php?request_idx='+'<?= $row['request_idx'] ?>','','top=300,left=300,width=800,height=500,toolbar=no,menubar=no,scrollbars=yes, resizable=yes,location=no, status=no')">[보기]</a>
                                             </td>
                                             <td><?= $row['mobile'] ?></td>
                                             <td><a onclick="window.open('/event/event.html?pcode=<?= $row_event_data['pcode'] ?>&sp=<?= $row_event_data['event_name_eng'] ?>','','toolbar=yes,scrollbars=yes,resizable=yes,top=200,left=200,width=1000,height=600');"> <?= $row_event_data['event_title'] ?></a><br><a onclick="window.open('mypage_pop_member_list.php?eventid='+'<?= $row['event_idx'] ?>','','top=300,left=300,width=800,height=500,toolbar=no,menubar=no,scrollbars=yes, resizable=yes,location=no, status=no')">[신청자보기]</a></td>
@@ -232,22 +232,22 @@ $mem_phone = str_replace("-", "", $data['mem_phone']);
                                             <td>
                                                 <?
                                                 if ($row_event_data['sms_idx1'] != 0) {
-                                                    $sql = "select reservation_title from Gn_event_sms_info where sms_idx='$row_event_data[sms_idx1]'";
+                                                    $sql = "select reservation_title from Gn_event_sms_info where sms_idx='{$row_event_data['sms_idx1']}'";
                                                     $res = mysqli_query($self_con, $sql);
                                                     $sms_row = mysqli_fetch_array($res);
-                                                    $sql = "select count(*) from Gn_event_sms_step_info where sms_idx='$row_event_data[sms_idx1]'";
+                                                    $sql = "select count(*) from Gn_event_sms_step_info where sms_idx='{$row_event_data['sms_idx1']}'";
                                                     $res = mysqli_query($self_con, $sql);
                                                     $step_row = mysqli_fetch_array($res);
-                                                    $sql = "select count(*) from Gn_MMS where sms_idx='$row_event_data[sms_idx1]' and request_idx='$row[request_idx]' and result=0";
+                                                    $sql = "select count(*) from Gn_MMS where sms_idx='{$row_event_data['sms_idx1']}' and request_idx='{$row['request_idx']}' and result=0";
                                                     $res = mysqli_query($self_con, $sql);
                                                     $send_row = mysqli_fetch_array($res);
-                                                    echo "<a onclick=\"javascript:window.open('/mypage_reservation_create.php?sms_idx=$row_event_data[sms_idx1]','','toolbar=yes,scrollbars=yes,resizable=yes,top=200,left=200,width=1000,height=600');\">$sms_row[0]<br><strong>($step_row[0]/$send_row[0])</strong></a>";
+                                                    echo "<a onclick=\"javascript:window.open('/mypage_reservation_create.php?sms_idx={$row_event_data['sms_idx1']}','','toolbar=yes,scrollbars=yes,resizable=yes,top=200,left=200,width=1000,height=600');\">$sms_row[0]<br><strong>($step_row[0]/$send_row[0])</strong></a>";
                                                 }
                                                 ?>
                                             </td>
                                             <td><?
                                                 if ($row_event_data['stop_event_idx'] != 0) {
-                                                    $sql = "select event_title from Gn_event where event_idx='$row_event_data[stop_event_idx]'";
+                                                    $sql = "select event_title from Gn_event where event_idx='{$row_event_data['stop_event_idx']}'";
                                                     $res = mysqli_query($self_con, $sql);
                                                     $sms_row = mysqli_fetch_array($res);
                                                     echo "$sms_row[0]";

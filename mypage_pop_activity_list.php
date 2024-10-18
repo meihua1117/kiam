@@ -35,7 +35,7 @@ exit;
 }
 if(isset($_GET['request_idx']))
 {
-	$sql="select * from Gn_event_request where request_idx='$_GET[request_idx]' ";
+	$sql="select * from Gn_event_request where request_idx='{$_GET['request_idx']}' ";
 	$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 	$data=mysqli_fetch_array($result);
 }
@@ -229,10 +229,10 @@ function copyHtml(url){
                               <?
                                 if($erow['sms_idx1'] != 0)
                                 {
-                                  $sql = "select reservation_title from Gn_event_sms_info where sms_idx='$erow[sms_idx1]'";
+                                  $sql = "select reservation_title from Gn_event_sms_info where sms_idx='{$erow['sms_idx1']}'";
                                   $res = mysqli_query($self_con,$sql);
                                   $sms_row = mysqli_fetch_array($res);
-                                  $sql = "select count(*) from Gn_event_sms_step_info where sms_idx='$erow[sms_idx1]'";
+                                  $sql = "select count(*) from Gn_event_sms_step_info where sms_idx='{$erow['sms_idx1']}'";
                                   $res = mysqli_query($self_con,$sql);
                                   $step_row = mysqli_fetch_array($res);
                                   echo "$sms_row[0]";

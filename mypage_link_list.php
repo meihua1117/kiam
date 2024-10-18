@@ -312,19 +312,19 @@ extract($_POST);
 											<td>
 												<?
 												if ($row['sms_idx1'] != 0) {
-													$sql = "select reservation_title from Gn_event_sms_info where sms_idx='$row[sms_idx1]'";
+													$sql = "select reservation_title from Gn_event_sms_info where sms_idx='{$row['sms_idx1']}'";
 													$res = mysqli_query($self_con, $sql);
 													$sms_row = mysqli_fetch_array($res);
-													$sql = "select count(*) from Gn_event_sms_step_info where sms_idx='$row[sms_idx1]'";
+													$sql = "select count(*) from Gn_event_sms_step_info where sms_idx='{$row['sms_idx1']}'";
 													$res = mysqli_query($self_con, $sql);
 													$step_row = mysqli_fetch_array($res);
-													echo "<a onclick=\"javascript:window.open('/mypage_reservation_create.php?sms_idx=$row[sms_idx1]','','toolbar=yes,scrollbars=yes,resizable=yes,top=200,left=200,width=1000,height=600');\">$sms_row[0]<br><strong>($step_row[0])</strong></a>";
+													echo "<a onclick=\"javascript:window.open('/mypage_reservation_create.php?sms_idx={$row['sms_idx1']}','','toolbar=yes,scrollbars=yes,resizable=yes,top=200,left=200,width=1000,height=600');\">$sms_row[0]<br><strong>($step_row[0])</strong></a>";
 												}
 												?>
 											</td>
 											<td><?
 												if ($row['stop_event_idx'] != 0) {
-													$sql = "select event_title from Gn_event where event_idx='$row[stop_event_idx]'";
+													$sql = "select event_title from Gn_event where event_idx='{$row['stop_event_idx']}'";
 													$res = mysqli_query($self_con, $sql);
 													$sms_row = mysqli_fetch_array($res);
 													echo "$sms_row[0]";

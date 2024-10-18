@@ -580,7 +580,7 @@ if($mode == "land_save") {
     $erow = mysqli_fetch_array($eresult);
     $send_num = $erow['mobile'];
 
-    $sql="select * from Gn_event_sms_info where sms_idx='$erow[sms_idx1]' or sms_idx='$erow[sms_idx2]' or sms_idx='$erow[sms_idx3]'";
+    $sql="select * from Gn_event_sms_info where sms_idx='{$erow['sms_idx1']}' or sms_idx='{$erow['sms_idx2']}' or sms_idx='{$erow['sms_idx3']}'";
     $lresult=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));               
     while($lrow=mysqli_fetch_array($lresult)) {
         $mem_id = $lrow['m_id'];    
@@ -914,7 +914,7 @@ else if($mode == "old_customer_reservation") {
     $erow = mysqli_fetch_array($eresult);
     $send_num = $erow['mobile'];
 
-    $sql="select * from Gn_event_sms_info where sms_idx='$erow[sms_idx1]' or sms_idx='$erow[sms_idx2]' or sms_idx='$erow[sms_idx3]'";
+    $sql="select * from Gn_event_sms_info where sms_idx='{$erow['sms_idx1']}' or sms_idx='{$erow['sms_idx2']}' or sms_idx='{$erow['sms_idx3']}'";
     //echo $sql;
     $lresult=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));               
     $time = 60 - date("i");
@@ -1034,7 +1034,7 @@ else if($mode == "old_customer_reservation") {
     $erow = mysqli_fetch_array($eresult);
     $send_num = $erow['mobile'];
     
-    $sql="select * from Gn_event_sms_info where sms_idx='$erow[sms_idx1]' or sms_idx='$erow[sms_idx2]' or sms_idx='$erow[sms_idx3]'";
+    $sql="select * from Gn_event_sms_info where sms_idx='{$erow['sms_idx1']}' or sms_idx='{$erow['sms_idx2']}' or sms_idx='{$erow['sms_idx3']}'";
     //echo $sql;
     $lresult=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));               
     $time = 60 - date("i");

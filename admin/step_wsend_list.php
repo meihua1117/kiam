@@ -253,7 +253,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                      
                       $total_cnt = count($recv_cnt);											
                       
-                      $sql_sn="select name, sp from Gn_event_request where request_idx='$row[request_idx]' ";
+                      $sql_sn="select name, sp from Gn_event_request where request_idx='{$row['request_idx']}' ";
                       $sresul=mysqli_query($self_con,$sql_sn);
                       $srow=mysqli_fetch_array($sresul);											
                       

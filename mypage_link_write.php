@@ -20,22 +20,22 @@ $sql = "select * from Gn_event  where event_idx='" . $_GET['event_idx'] . "'";
 $sresul_num = mysqli_query($self_con, $sql);
 $row = mysqli_fetch_array($sresul_num);
 
-$sql = "select reservation_title from Gn_event_sms_info where sms_idx='$row[sms_idx1]'";
+$sql = "select reservation_title from Gn_event_sms_info where sms_idx='{$row['sms_idx1']}'";
 $sms_res = mysqli_query($self_con, $sql);
 $sms_info = mysqli_fetch_array($sms_res);
 $reservation_title1 = $sms_info[0];
 
-$sql = "select reservation_title from Gn_event_sms_info where sms_idx='$row[sms_idx2]'";
+$sql = "select reservation_title from Gn_event_sms_info where sms_idx='{$row['sms_idx2']}'";
 $sms_res = mysqli_query($self_con, $sql);
 $sms_info = mysqli_fetch_array($sms_res);
 $reservation_title2 = $sms_info[0];
 
-$sql = "select reservation_title from Gn_event_sms_info where sms_idx='$row[sms_idx3]'";
+$sql = "select reservation_title from Gn_event_sms_info where sms_idx='{$row['sms_idx3']}'";
 $sms_res = mysqli_query($self_con, $sql);
 $sms_info = mysqli_fetch_array($sms_res);
 $reservation_title3 = $sms_info[0];
 
-$sql = "select event_title from Gn_event where event_idx='$row[stop_event_idx]'";
+$sql = "select event_title from Gn_event where event_idx='{$row['stop_event_idx']}'";
 $sms_res = mysqli_query($self_con, $sql);
 $sms_info = mysqli_fetch_array($sms_res);
 $stop_title = $sms_info[0];
