@@ -192,7 +192,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                             <td style="font-size:12px;"><?=$row['site']?></td>
                             <td style="font-size:12px;"><?=$row[m_id]?></td>
                             <td style="font-size:12px;"><?=$row['mem_name']?></td>
-                            <td style="font-size:12px;"><?=$row[event_title]?></td>
+                            <td style="font-size:12px;"><?=$row['event_title']?></td>
                             <td style="font-size:12px;"><a href="javascript:show_more('<?=str_replace("\n", "<br>", $row['event_desc'])?>')"><?=cut_str($row['event_desc'], 50)?></a></td>
                             <td style="font-size:12px;"><?if($row['object'] != ""){?><img class="zoom" src="http://www.kiam.kr/<?=$row['object']?>" style="width:90%;"><?}?></td>
                             <td style="font-size:12px;">

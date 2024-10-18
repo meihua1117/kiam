@@ -192,7 +192,7 @@ function copyHtml(url){
                   </select>
                 </td>
                 <td>
-                    <a href="javascript:;;" onclick="useIt(<?=$sort_no?>, '<?=$row['sms_idx'];?>', '<?=$row['event_name_eng'];?>','<?=$row[pcode]?>','<?=$row[event_name_kor]?>','<?=$row['event_idx']?>','<?=$row['reservation_title']?>','<?=$row['reservation_desc']?>')">적용하기</a>
+                    <a href="javascript:;;" onclick="useIt(<?=$sort_no?>, '<?=$row['sms_idx'];?>', '<?=$row['event_name_eng'];?>','<?=$row[pcode]?>','<?=$row['event_name_kor']?>','<?=$row['event_idx']?>','<?=$row['reservation_title']?>','<?=$row['reservation_desc']?>')">적용하기</a>
                 </td>                               
             </tr>
               <?

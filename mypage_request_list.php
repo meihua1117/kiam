@@ -226,7 +226,7 @@ $(function(){
                                         <a onclick="window.open('mypage_pop_activity_list.php?request_idx='+'<?=$row[request_idx]?>','','top=300,left=300,width=800,height=500,toolbar=no,menubar=no,scrollbars=yes, resizable=yes,location=no, status=no')" >[보기]</a>
                                     </td>
                                     <td><?=$row['mobile']?></td>
-                                    <td><a onclick="window.open('/event/event.html?pcode=<?=$row_event_data[pcode]?>&sp=<?=$row_event_data['event_name_eng']?>','','toolbar=yes,scrollbars=yes,resizable=yes,top=200,left=200,width=1000,height=600');"> <?=$row_event_data[event_title]?></a><br><a onclick="window.open('mypage_pop_member_list.php?eventid='+'<?=$row['event_idx']?>','','top=300,left=300,width=800,height=500,toolbar=no,menubar=no,scrollbars=yes, resizable=yes,location=no, status=no')" >[신청자보기]</a></td></td>
+                                    <td><a onclick="window.open('/event/event.html?pcode=<?=$row_event_data[pcode]?>&sp=<?=$row_event_data['event_name_eng']?>','','toolbar=yes,scrollbars=yes,resizable=yes,top=200,left=200,width=1000,height=600');"> <?=$row_event_data['event_title']?></a><br><a onclick="window.open('mypage_pop_member_list.php?eventid='+'<?=$row['event_idx']?>','','top=300,left=300,width=800,height=500,toolbar=no,menubar=no,scrollbars=yes, resizable=yes,location=no, status=no')" >[신청자보기]</a></td></td>
                                     <td>
                                         <?
                                             if($row_event_data['sms_idx1'] != 0)

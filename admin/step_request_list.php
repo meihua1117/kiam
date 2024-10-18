@@ -224,7 +224,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                             <td><?=$number--?></td>
                             <td style="font-size:12px;"><?=$row[m_id]?></td>
                             <td style="font-size:12px;"><?=$srow['mem_name']?></td>                            
-                        <td><?=$row[event_title]?></td>
+                        <td><?=$row['event_title']?></td>
                             <td style="font-size:12px;"><?=$row['name']?></td>
                             <td ><?=$row['mobile']?></td>
                             <td ><?=$row['email']?></td>

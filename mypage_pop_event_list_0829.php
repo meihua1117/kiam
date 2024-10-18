@@ -170,11 +170,11 @@ function copyHtml(url){
                 <td><?=$sort_no?></td>
 
                 <td style="font-size:12px;"><?=$row['event_name_eng']?></td>
-                <td style="font-size:12px;"><?=$row[event_title]?></td>
-                <td style="font-size:12px;"><?=$row[event_name_kor]?></td>
+                <td style="font-size:12px;"><?=$row['event_title']?></td>
+                <td style="font-size:12px;"><?=$row['event_name_kor']?></td>
                 <td><?=$row[pcode]?></td>
                 <td>
-                    <a href="javascript:;;" onclick="useIt('<?=$row[event_title];?>','<?=$row[pcode]?>','<?=$row['event_idx']?>')">사용하기</a>
+                    <a href="javascript:;;" onclick="useIt('<?=$row['event_title'];?>','<?=$row[pcode]?>','<?=$row['event_idx']?>')">사용하기</a>
                 </td>                                                
               </tr>
               <?

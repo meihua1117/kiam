@@ -137,7 +137,7 @@ if($row[0]) {
 										</tr>
 										<tr>
 											<th class="w200">이벤트타이틀</th>
-											<td><input type="text" name="daily_event_title_intro" id="daily_event_title_intro" value="<?=$row[event_title]?>"></td>
+											<td><input type="text" name="daily_event_title_intro" id="daily_event_title_intro" value="<?=$row['event_title']?>"></td>
 										</tr>
 										<tr>
 											<th class="w200">이벤트메시지</th>

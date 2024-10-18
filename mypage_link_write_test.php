@@ -118,7 +118,7 @@ $(function(){
                         <tr>
                             <th class="w200">신청창제목</th>
                             <td>
-                            <input type="text" name="event_title" placeholder="" id="event_title" value="<?=$row[event_title]?>"/>
+                            <input type="text" name="event_title" placeholder="" id="event_title" value="<?=$row['event_title']?>"/>
                             </td>
                         </tr>
                         <tr>
@@ -161,7 +161,7 @@ $(function(){
                 -->
                 <tr>
                     <th class="w200">신청내용(한글)</th>
-                    <td><input type="text" name="event_name_kor" placeholder="" id="event_name_kor" value="<?=$row[event_name_kor]?>"/> </td>
+                    <td><input type="text" name="event_name_kor" placeholder="" id="event_name_kor" value="<?=$row['event_name_kor']?>"/> </td>
                 </tr>                               
                 <tr>
                     <th class="w200">신청창키워드(영문)</th>

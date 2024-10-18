@@ -153,12 +153,12 @@ $(function(){
                     <tr>
                         <th class="w200">신청그룹제목</th>
                         <td>
-                            <input type="text" name="event_title" style="width: 250px;"placeholder="" id="event_title" value="<?=$row[event_title]?>"/> (※ 카테고리 분류)
+                            <input type="text" name="event_title" style="width: 250px;"placeholder="" id="event_title" value="<?=$row['event_title']?>"/> (※ 카테고리 분류)
                         </td>
                     </tr>
                     <tr>
                         <th class="w200">제목추가설명</th>
-                        <td><input type="text" name="event_name_kor" placeholder="" id="event_name_kor" value="<?=$row[event_name_kor]?>"/> </td>
+                        <td><input type="text" name="event_name_kor" placeholder="" id="event_name_kor" value="<?=$row['event_name_kor']?>"/> </td>
                     </tr>  
                     <tr>
                         <th class="w200">신청항목선택</th>

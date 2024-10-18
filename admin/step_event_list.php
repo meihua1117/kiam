@@ -169,14 +169,14 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                             <td style="font-size:12px;"><?=$row[m_id]?></td>
                             <td style="font-size:12px;"><?=$srow['mem_name']?></td>
                         <td style="font-size:12px;"><?=$row['event_name_eng']?></td>
-                        <td style="font-size:12px;"><?=$row[event_name_kor]?></td>
+                        <td style="font-size:12px;"><?=$row['event_name_kor']?></td>
                         <td>
                           <?php
-                          if($row[event_name_kor] == "단체회원자동가입및아이엠카드생성"){
+                          if($row['event_name_kor'] == "단체회원자동가입및아이엠카드생성"){
                             $pop_url = '/event/automember.php?pcode='.$row['pcode'].'&eventidx='.$row['event_idx'];
-                          }else if($row[event_name_kor] == "콜백메시지관리자설정동의"){
+                          }else if($row['event_name_kor'] == "콜백메시지관리자설정동의"){
                             $pop_url = '/event/callbackmsg.php?pcode='.$row['pcode'].'&eventidx='.$row['event_idx'];
-                          }else if($row[event_name_kor] == "데일리문자세트자동생성"){
+                          }else if($row['event_name_kor'] == "데일리문자세트자동생성"){
                             $pop_url = '/event/dailymsg.php?pcode='.$row['pcode'].'&eventidx='.$row['event_idx'];
                           }else{
                             $pop_url = '/event/event.html?pcode='.$row['pcode'].'&sp='.$row['event_name_eng'];
