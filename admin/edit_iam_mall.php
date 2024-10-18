@@ -135,7 +135,7 @@ $row=mysqli_fetch_array($res);
 										</tr>
 										<tr>
 											<th class="w200">상세설명</th>
-											<td><textarea name="description" id="description" style="width: 300px;height: 100px;" value="<?=$row[description]?>"><?=$row[description]?></textarea></td>
+											<td><textarea name="description" id="description" style="width: 300px;height: 100px;" value="<?=$row['description']?>"><?=$row['description']?></textarea></td>
 										</tr>
 										<tr>
 											<th class="w200">검색키워드</th>

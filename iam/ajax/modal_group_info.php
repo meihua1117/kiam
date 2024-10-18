@@ -28,12 +28,12 @@ $body .= '        <div style="padding-top: 2px;background:white;padding-bottom:1
 $body .= '            <div style="display:flex;justify-content: space-between;margin-left:10px;">';
 $body .= '                <h4 style="margin-top:10px">정보</h4>';
 if($_SESSION['iam_member_id'] == $group_row['manager']){
-    $body .= '                <button type="button" class= "btn btn-link" style= "margin-right:10px" onclick = "edit_group_info(\''. $group_row['idx']. '\',\''. $group_row['name'] .'\',\''. $group_row[description] .'\',\''. $group_row[public_status] .'\',\''. $group_row[upload_status].'\')">';
+    $body .= '                <button type="button" class= "btn btn-link" style= "margin-right:10px" onclick = "edit_group_info(\''. $group_row['idx']. '\',\''. $group_row['name'] .'\',\''. $group_row['description'] .'\',\''. $group_row[public_status] .'\',\''. $group_row[upload_status].'\')">';
     $body .= '                    <img src = "/iam/img/main/dots3.png" style="width:15px">';
     $body .= '                </button>';
 }
 $body .= '            </div>';
-$body .= '            <h5 style="margin-left:10px;margin-top:5px">'. $group_row[description] .'</h5>';
+$body .= '            <h5 style="margin-left:10px;margin-top:5px">'. $group_row['description'] .'</h5>';
 $body .= '            <h4 style="margin-left:10px;margin-top:15px">';
 $body .= ($group_row[public_status] == "Y")?'공개그룹':'비공개그룹';
 $body .= '</h4>';

@@ -161,7 +161,7 @@ if($row[0]) {
 										</tr>
 										<tr>
 											<th class="w200">조회수</th>
-											<td><input type="text" name="daily_read_cnt" id="daily_read_cnt" value="<?=$row[read_cnt]?>"></td>
+											<td><input type="text" name="daily_read_cnt" id="daily_read_cnt" value="<?=$row['read_cnt']?>"></td>
 										</tr>
 										<tr>
 											<th class="w200">이미지</th>

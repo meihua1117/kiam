@@ -217,7 +217,7 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                                                         <span class="name"><?=$row['name']?></span>
                                                     </div>
                                                     <div class="downer">
-                                                        <span class="name"><?=$row[description]?></span>
+                                                        <span class="name"><?=$row['description']?></span>
                                                     </div>
                                                 </div>
                                                 <div class="dropdown" style="width:30px">

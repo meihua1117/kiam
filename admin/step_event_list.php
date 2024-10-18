@@ -185,7 +185,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                             <input type="button" value="미리보기" class="button" onclick="newpop('<?=$pop_url?>')"><br>
                             <input type="button" value="링크복사" class="button"  id="copyBtn" onclick="copyHtml('<?php echo $row['short_url']?>')">            
                         </td>
-                        <td><?=$row[read_cnt]?></td>
+                        <td><?=$row['read_cnt']?></td>
                         <td><?=$row[pcode]?></td>
                         <td><?=$row['mobile']?></td>
                             

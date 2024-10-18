@@ -315,7 +315,7 @@ function deleteRow(event_id) {
 													}
 												?>
 											</td>
-											<td><?=$row[read_cnt]?></td>
+											<td><?=$row['read_cnt']?></td>
 											<td><?=$row['regdate']?></td>
 											<td>
 												<a href='mypage_link_write.php?event_idx=<?php echo $row['event_idx'];?>'>수정</a>/
