@@ -2,7 +2,6 @@
 $path = "./";
 include_once "_head.php";
 if (!$_SESSION['one_member_id']) {
-
 ?>
 	<script language="javascript">
 		location.replace('/ma.php');
@@ -11,15 +10,11 @@ if (!$_SESSION['one_member_id']) {
 	exit;
 }
 $sql = "select * from Gn_Member  where mem_id='" . $_SESSION['one_member_id'] . "' and site != ''";
-$sresul_num = mysqli_query($self_con,$sql);
+$sresul_num = mysqli_query($self_con, $sql);
 $data = mysqli_fetch_array($sresul_num);
 ?>
 <script>
 	function copyHtml() {
-		//oViewLink = $( "ViewLink" ).innerHTML;
-		////alert ( oViewLink.value );
-		//window.clipboardData.setData("Text", oViewLink);
-		//alert ( "주소가 복사되었습니다. \'Ctrl+V\'를 눌러 붙여넣기 해주세요." );
 		var trb = $.trim($('#sHtml').html());
 		var IE = (document.all) ? true : false;
 		if (IE) {
@@ -42,10 +37,6 @@ $data = mysqli_fetch_array($sresul_num);
 	});
 
 	function copyHtml(url) {
-		//oViewLink = $( "ViewLink" ).innerHTML;
-		////alert ( oViewLink.value );
-		//window.clipboardData.setData("Text", oViewLink);
-		//alert ( "주소가 복사되었습니다. \'Ctrl+V\'를 눌러 붙여넣기 해주세요." );
 		var IE = (document.all) ? true : false;
 		if (IE) {
 			if (confirm("이 소스코드를 복사하시겠습니까?")) {
@@ -151,7 +142,7 @@ $data = mysqli_fetch_array($sresul_num);
 								}
 
 								$sql = "select count(gd_id) as cnt from Gn_daily where $sql_serch ";
-								$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+								$result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
 								$row = mysqli_fetch_array($result);
 								$intRowCount = $row['cnt'];
 
@@ -183,17 +174,17 @@ $data = mysqli_fetch_array($sresul_num);
 
 									$intPageCount = (int)(($intRowCount + $intPageSize - 1) / $intPageSize);
 									$sql = "select * from Gn_daily where $sql_serch order by $order_name $order_status limit $int,$intPageSize";
-									$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+									$result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
 								?>
 									<?
 									while ($row = mysqli_fetch_array($result)) {
 
 										$sql = "select * from Gn_MMS_Group where idx='$row[group_idx]'";
-										$sresult = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+										$sresult = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
 										$krow = mysqli_fetch_array($sresult);
 
 										$sql = "select count(*) cnt from Gn_daily_date where gd_id='$row[gd_id]'";
-										$sresult = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+										$sresult = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
 										$srow = mysqli_fetch_array($sresult);
 
 									?>
@@ -204,9 +195,9 @@ $data = mysqli_fetch_array($sresul_num);
 											<td style="font-size:12px;"><?= $row['title'] ?></td>
 											<td style="font-size:12px;"><?= $row['send_num'] ?></td>
 											<td style="font-size:12px;"><?= $krow['grp'] ?></td>
-											<td style="font-size:12px;"><?= $row[total_count] ?></td>
+											<td style="font-size:12px;"><?= $row['total_count'] ?></td>
 											<td style="font-size:12px;"><?= $srow['cnt'] ?></td>
-											<td style="font-size:12px;"><?= $row[daily_cnt] ?></td>
+											<td style="font-size:12px;"><?= $row['daily_cnt'] ?></td>
 											<td style="font-size:12px;"><?= $row['start_date'] ?></td>
 											<td style="font-size:12px;"><?= $row['end_date'] ?></td>
 

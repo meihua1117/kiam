@@ -19,11 +19,11 @@ if($row[0]) {
     $sresul_num=mysqli_query($self_con,$sql);
     $data=mysqli_fetch_array($sresul_num);
 }
-if(!$_REQUEST[daily_cnt]){
+if(!$_REQUEST['daily_cnt']){
     $daily_cnt = 50;
 }
 else{
-    $daily_cnt = $_REQUEST[daily_cnt];
+    $daily_cnt = $_REQUEST['daily_cnt'];
 }
 if($type == "service") $link = "daily_msg_list_service.php";
 else $link = "daily_msg_list_mem.php";
@@ -79,7 +79,7 @@ else $link = "daily_msg_list_mem.php";
 						<div class="box-body">
 							<input type="hidden" name="mode" value="daily_update" />
 							<input type="hidden" name="gd_id" value="<?php echo $gd_id;?>" />
-							<input type="hidden" name="total_count" id="total_count" value="<?php echo $_GET[address_cnt]?$_GET[address_cnt]:$row[total_count];?>" />
+							<input type="hidden" name="total_count" id="total_count" value="<?php echo $_GET[address_cnt]?$_GET[address_cnt]:$row['total_count'];?>" />
 							<div>
 								<div class="p1">
 									<table class="list_table1" width="100%" border="0" cellspacing="0" cellpadding="0">

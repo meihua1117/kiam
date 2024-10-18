@@ -179,9 +179,9 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                             <td style="font-size:12px;"><?=$row['title']?></td>
                             <td style="font-size:12px;"><?=$row['send_num']?></td>
                             <td><?=$krow['grp']?></td>
-                            <td><?=$row[total_count]?></td>
+                            <td><?=$row['total_count']?></td>
                             <td><?=$srow['cnt']?></td>
-                            <td><?=$row[daily_cnt]?></td>
+                            <td><?=$row['daily_cnt']?></td>
                             <td><?=$row['start_date']?></td>
                             <td><?=$row['end_date']?></td>
                             <td><?=$row['reg_date']?></td>

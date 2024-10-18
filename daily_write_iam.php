@@ -223,7 +223,7 @@ $skrow = mysqli_fetch_array($sresult);
 
                 <input type="hidden" name="mode" value="<?php echo $gd_id ? "daily_update" : "daily_save"; ?>" />
                 <input type="hidden" name="gd_id" value="<?php echo $gd_id; ?>" />
-                <input type="hidden" name="total_count" id="total_count" value="<?php echo $row[total_count]; ?>" />
+                <input type="hidden" name="total_count" id="total_count" value="<?php echo $row['total_count']; ?>" />
                 <input type="hidden" name="iam" value="1" />
 
 

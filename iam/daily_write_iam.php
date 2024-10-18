@@ -84,10 +84,10 @@ $row_content = mysqli_fetch_array($res_content);
 // else{
 //     $msg_title = $_REQUEST[msg_title];
 // }
-if (!$_REQUEST[daily_cnt]) {
+if (!$_REQUEST['daily_cnt']) {
     $daily_cnt = 50;
 } else {
-    $daily_cnt = $_REQUEST[daily_cnt];
+    $daily_cnt = $_REQUEST['daily_cnt'];
 }
 
 if ($_REQUEST[prelink]) {
@@ -415,14 +415,14 @@ $skrow['cnt'] = $skrow['cnt'] * 1 - $count;
     }
 
     function check_apply() {
-        var daily_cnt = '<?= $_REQUEST[daily_cnt] ?>';
+        var daily_cnt = '<?= $_REQUEST['daily_cnt'] ?>';
         if (!daily_cnt) {
             alert('먼저 [적용]을 클릭하고 하단 발송일을 확인해주세요.');
         }
     }
 
     function show_datelist() {
-        var daily_cnt = '<?= $_REQUEST[daily_cnt] ?>';
+        var daily_cnt = '<?= $_REQUEST['daily_cnt'] ?>';
         if (!daily_cnt) {
             alert('먼저 [적용]을 클릭하고 하단 발송일을 확인해주세요.');
             return;
@@ -542,7 +542,7 @@ $skrow['cnt'] = $skrow['cnt'] * 1 - $count;
             <form name="sub_4_form" id="sub_4_form" action="mypage.proc.php" method="post" enctype="multipart/form-data">
                 <input type="hidden" name="mode" value="daily_save" />
                 <input type="hidden" name="gd_id" value="<?php echo $gd_id; ?>" />
-                <input type="hidden" name="total_count" id="total_count" value="<?php echo $row[total_count]; ?>" />
+                <input type="hidden" name="total_count" id="total_count" value="<?php echo $row['total_count']; ?>" />
                 <input type="hidden" name="iam" value="1" />
                 <input type="hidden" name="mem_id" value="<?= $_SESSION['iam_member_id'] ?>" />
                 <div class="a1" style="margin-top:15px; margin-bottom:15px;font-size: 20px;font-weight: 900;margin-left: 15px;">

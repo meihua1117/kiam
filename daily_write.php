@@ -22,13 +22,13 @@ if ($row[0]) {
     $sresult = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
     $krow = mysqli_fetch_array($sresult);
 }
-if ($row[daily_cnt]) {
-    $daily_cnt = $row[daily_cnt];
+if ($row['daily_cnt']) {
+    $daily_cnt = $row['daily_cnt'];
 } else {
-    if (!$_REQUEST[daily_cnt]) {
+    if (!$_REQUEST['daily_cnt']) {
         $daily_cnt = 50;
     } else {
-        $daily_cnt = $_REQUEST[daily_cnt];
+        $daily_cnt = $_REQUEST['daily_cnt'];
     }
 }
 
@@ -400,7 +400,7 @@ $row_content = mysqli_fetch_array($res_content);
     }
 
     function check_apply() {
-        var daily_cnt = '<?= $_REQUEST[daily_cnt] ?>';
+        var daily_cnt = '<?= $_REQUEST['daily_cnt'] ?>';
         if (!daily_cnt) {
             alert('먼저 [적용]을 클릭하고 하단 발송일을 확인해주세요.');
         }
@@ -417,7 +417,7 @@ $row_content = mysqli_fetch_array($res_content);
     }
 
     function show_datelist() {
-        var daily_cnt = '<?= $_REQUEST[daily_cnt] ?>';
+        var daily_cnt = '<?= $_REQUEST['daily_cnt'] ?>';
         if (!daily_cnt) {
             alert('먼저 [적용]을 클릭하고 하단 발송일을 확인해주세요.');
             return;
@@ -538,7 +538,7 @@ $row_content = mysqli_fetch_array($res_content);
                 <input type="hidden" name="mode" value="<?php echo $gd_id ? "daily_update" : "daily_save"; ?>" />
                 <input type="hidden" name="gd_id" value="<?php echo $gd_id; ?>" />
                 <input type="hidden" name="step_daily" value="Y" />
-                <input type="hidden" name="total_count" id="total_count" value="<?php echo $_GET[address_cnt] ? $_GET[address_cnt] : $row[total_count]; ?>" />
+                <input type="hidden" name="total_count" id="total_count" value="<?php echo $_GET[address_cnt] ? $_GET[address_cnt] : $row['total_count']; ?>" />
 
                 <!-- 메일 발송관련 -->
                 <input type="hidden" id="mail_sender" name="mail_sender">
