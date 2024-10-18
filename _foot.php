@@ -1,5 +1,6 @@
 <?
-include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";;
+include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
+global $self_con;
 $site = $member_1['site_iam'];
 $iam_type = $member_1['iam_type'];
 if ($site) {
