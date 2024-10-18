@@ -314,7 +314,7 @@ function changeType(coach_id) {
                   $res = mysqli_query($self_con,$query);
                     while($row = mysqli_fetch_array($res)) {                         
                   ?>
-                        <tr class="<? if($row[agree]==0){
+                        <tr class="<? if($row['agree']==0){
                         echo "disagree";
                      }else{
                         echo "agree";

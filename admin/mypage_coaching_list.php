@@ -260,21 +260,17 @@ function copyHtml(){
                         $order_name="reg_date";
                         $intPageCount=(int)(($intRowCount+$intPageSize-1)/$intPageSize);
                         $sql="select * from gn_coaching_info a inner join Gn_Member b on b.mem_code = a.coach_mem_code where $sql_serch order by $order_name $order_status limit $int,$intPageSize"; 
-
-
-                        //echo $sql;
-
                         $result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
                         while($coaching_info_data=mysqli_fetch_array($result))
                         {
-                            $sql_num="select * from gn_coaching_apply a left join Gn_Member b on a.mem_code = b.mem_code where a.coty_id='$coaching_info_data[coty_id]' ";
+                            $sql_num="select * from gn_coaching_apply a left join Gn_Member b on a.mem_code = b.mem_code where a.coty_id='{$coaching_info_data['coty_id']}' ";
                             $resul_num=mysqli_query($self_con,$sql_num);
                             $coaching_data=mysqli_fetch_array($resul_num); 
                         ?>
                         <tr>
                             <!-- <td><input type="checkbox" name=""></td>  -->
                             <td><?=$sort_no?></td>
-                            <td style="font-size:12px;"><?=$coaching_info_data[coaching_turn]?></td>
+                            <td style="font-size:12px;"><?=$coaching_info_data['coaching_turn']?></td>
                             <td style="font-size:12px;"><?=$coaching_data['mem_name']?></td>
                             <td style="font-size:12px;color:red;"><?=$coaching_data['cont_term']?>일<br><?=$coaching_data['cont_time']?>:00</td>
                             <td style="font-size:12px;color:red;">
@@ -282,7 +278,7 @@ function copyHtml(){
                             <?
                             // 잔여일시 계산
 
-                            $sql_startdate="select coaching_date from gn_coaching_info where coty_id='$coaching_info_data[coty_id]' and coach_id='$coaching_info_data[coach_id]' and coaching_turn= 1 ";
+                            $sql_startdate="select coaching_date from gn_coaching_info where coty_id='{$coaching_info_data['coty_id']}' and coach_id='{$coaching_info_data['coach_id']}' and coaching_turn= 1 ";
                             $resul_num=mysqli_query($self_con,$sql_startdate);
                             $startdate_data=mysqli_fetch_array($resul_num);
 
@@ -305,7 +301,7 @@ function copyHtml(){
 
                                 echo "일<br>";
                             // 잔여시간
-                                $remain_tatal_min =  ($coaching_data['cont_time'] * 60) - $coaching_info_data[past_time_sum] - $coaching_info_data['coaching_time'];
+                                $remain_tatal_min =  ($coaching_data['cont_time'] * 60) - $coaching_info_data['past_time_sum'] - $coaching_info_data['coaching_time'];
                                 $remain_hour = floor($remain_tatal_min / 60);
                                 $remain_min = $remain_tatal_min % 60;
                                 if($remain_min < 10){
@@ -319,13 +315,13 @@ function copyHtml(){
                             ?></td>
                             <td style="font-size:12px;"><?=$coaching_info_data['coaching_date']?></td>
                             <td style="font-size:12px;"><?=$coaching_info_data['coaching_time']?>분</td>
-                            <td style="font-size:12px;"><?=$coaching_info_data[coaching_title]?></td>
-                            <td style="font-size:12px;"><?=$coaching_info_data[coaching_content]?></td>
+                            <td style="font-size:12px;"><?=$coaching_info_data['coaching_title']?></td>
+                            <td style="font-size:12px;"><?=$coaching_info_data['coaching_content']?></td>
                             <td style="font-size:12px;">
                                 
                            
                                <?
-                                $total_value = $coaching_info_data[coach_value] + $coaching_info_data[coty_value]+$coaching_info_data[site_value];
+                                $total_value = $coaching_info_data['coach_value'] + $coaching_info_data['coty_value']+$coaching_info_data['site_value'];
                                 $aver_value = round(($total_value /3)*10)/10;
 
                                 $percent_value = ($aver_value / $total_value)* 100;
@@ -338,9 +334,9 @@ function copyHtml(){
                             </td>
                             <td style="font-size:12px;"><?=$coaching_info_data['reg_date']?></td>
                             <td style="font-size:12px;"><a  style="color:blue;" href='mypage_coaching_info_view.php?coaching_id=<?php echo $coaching_info_data['coaching_id'];?>'>보기</a></td>
-                            <td style="font-size:12px;"><?=$coaching_info_data[agree]==0?"대기":"승인"?></td>
+                            <td style="font-size:12px;"><?=$coaching_info_data['agree']==0?"대기":"승인"?></td>
                             <td style="font-size:12px;">
-                                <? if($coaching_info_data[agree]==0){ ?>
+                                <? if($coaching_info_data['agree']==0){ ?>
                                 <a class="label label-success label-sm" href='mypage_coaching_write.php?coaching_id=<?php echo $coaching_info_data['coaching_id'];?>' >수정</a><BR>
                                 <a class="label label-danger label-sm" href="javascript:;;" onclick="removeRow('<?php echo $coaching_info_data['coaching_id'];?>')">삭제</a>
                                 <? } ?>
@@ -476,18 +472,18 @@ function copyHtml(){
                         $result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
                         while($coaching_info_data=mysqli_fetch_array($result))
                         {
-                            $sql_num="select * from gn_coaching_apply a left join Gn_Member b on a.mem_code = b.mem_code where a.coty_id='$coaching_info_data[coty_id]' ";
+                            $sql_num="select * from gn_coaching_apply a left join Gn_Member b on a.mem_code = b.mem_code where a.coty_id='{$coaching_info_data['coty_id']}' ";
                             $resul_num=mysqli_query($self_con,$sql_num);
                             $coaching_data=mysqli_fetch_array($resul_num);
 
-                            $sql_num="select * from gn_coach_apply a left join Gn_Member b on a.mem_code = b.mem_code where a.coach_id='$coaching_info_data[coach_id]' ";
+                            $sql_num="select * from gn_coach_apply a left join Gn_Member b on a.mem_code = b.mem_code where a.coach_id='{$coaching_info_data['coach_id']}' ";
                             $resul_num=mysqli_query($self_con,$sql_num);
                             $coach_data=mysqli_fetch_array($resul_num); 
                         ?>
                         <tr>
                             <!-- <td><input type="checkbox" name=""></td>  -->
                             <td><?=$sort_no?></td>
-                            <td style="font-size:12px;"><?=$coaching_info_data[coaching_turn]?></td>
+                            <td style="font-size:12px;"><?=$coaching_info_data['coaching_turn']?></td>
                             <td style="font-size:12px;"><?=$coach_data['mem_name']?></td>
                             <td style="font-size:12px;color:red;"><?=$coaching_data['cont_term']?>일<br><?=$coaching_data['cont_time']?>:00</td>
                             <td style="font-size:12px;color:red;">
@@ -495,7 +491,7 @@ function copyHtml(){
                            <?
                             // 잔여일시 계산
 
-                            $sql_startdate="select coaching_date from gn_coaching_info where coty_id='$coaching_info_data[coty_id]' and coach_id='$coaching_info_data[coach_id]' and coaching_turn= 1 ";
+                            $sql_startdate="select coaching_date from gn_coaching_info where coty_id='{$coaching_info_data['coty_id']}' and coach_id='{$coaching_info_data['coach_id']}' and coaching_turn= 1 ";
                             $resul_num=mysqli_query($self_con,$sql_startdate);
                             $startdate_data=mysqli_fetch_array($resul_num);
 
@@ -518,38 +514,30 @@ function copyHtml(){
 
                                 echo "일<br>";
                             // 잔여시간
-                                $remain_tatal_min =  ($coaching_data['cont_time'] * 60) - $coaching_info_data[past_time_sum] - $coaching_info_data['coaching_time'];
+                                $remain_tatal_min =  ($coaching_data['cont_time'] * 60) - $coaching_info_data['past_time_sum'] - $coaching_info_data['coaching_time'];
                                 $remain_hour = floor($remain_tatal_min / 60);
                                 $remain_min = $remain_tatal_min % 60;
                                 if($remain_min < 10){
                                     $remain_min = "0".$remain_min;
                                 }
-
-
                                 echo $remain_hour.":".$remain_min;
-
-
                             ?></td>
                             <td style="font-size:12px;"><?
-
-                            if($coaching_info_data[coaching_status] == 1){
+                            if($coaching_info_data['coaching_status'] == 1){
                                 echo "<label class='label label-sm label-success'>진행중</label>";
-                            }else if($coaching_info_data[coaching_status] == 2){
+                            }else if($coaching_info_data['coaching_status'] == 2){
                                 echo "<label class='label label-sm label-primary'>종료</label>";
                             }
-
                                 ?>
-                                
-
                             </td>
                             <td style="font-size:12px;"><?=$coaching_info_data['coaching_date']?></td>
                             <td style="font-size:12px;"><?=$coaching_info_data['coaching_time']?>분</td>
-                            <td style="font-size:12px;"><?=$coaching_info_data[coaching_title]?></td>
-                            <td style="font-size:12px;"><?=$coaching_info_data[coaching_content]?></td>
+                            <td style="font-size:12px;"><?=$coaching_info_data['coaching_title']?></td>
+                            <td style="font-size:12px;"><?=$coaching_info_data['coaching_content']?></td>
 
                             <td style="font-size:12px;">
                             <?
-                                $total_value = $coaching_info_data[coach_value] + $coaching_info_data[coty_value]+$coaching_info_data[site_value];
+                                $total_value = $coaching_info_data['coach_value'] + $coaching_info_data['coty_value']+$coaching_info_data['site_value'];
                                 $aver_value = round(($total_value /3)*10)/10;
 
                                 $percent_value = ($aver_value / $total_value)* 100;
@@ -561,41 +549,41 @@ function copyHtml(){
 
                                 <button type="button" class="btn btn-sm  
 
-                                <? if($coaching_info_data[coty_comment] != ""){ echo "btn-primary"; }else{ echo "btn-success";}?>
+                                <? if($coaching_info_data['coty_comment'] != ""){ echo "btn-primary"; }else{ echo "btn-success";}?>
 
-                                " data-toggle="modal" data-target="#myModal_<?=$coaching_info_data[coaching_id]?>" style="width: 50px;height: 20px;padding: 1px;"  
+                                " data-toggle="modal" data-target="#myModal_<?=$coaching_info_data['coaching_id']?>" style="width: 50px;height: 20px;padding: 1px;"  
 
 
                                     >
-                                    <? if($coaching_info_data[coty_comment] != ""){ echo "평가함"; }else{ echo "평가";}?> 
+                                    <? if($coaching_info_data['coty_comment'] != ""){ echo "평가함"; }else{ echo "평가";}?> 
                                </button>
 
 
-                                <div class="modal inmodal" id="myModal_<?=$coaching_info_data[coaching_id]?>" tabindex="-1" role="dialog" aria-hidden="true">
+                                <div class="modal inmodal" id="myModal_<?=$coaching_info_data['coaching_id']?>" tabindex="-1" role="dialog" aria-hidden="true">
                                     <div class="modal-dialog">
                                         <div class="modal-content animated bounceInRight">
                                             <div class="modal-header">
                                                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                                <h3 class="modal-title"><?=$coaching_info_data[coaching_title]?></h3>
-                                                <small class="font-bold"><?=$coaching_info_data[coaching_content]?></small>
+                                                <h3 class="modal-title"><?=$coaching_info_data['coaching_title']?></h3>
+                                                <small class="font-bold"><?=$coaching_info_data['coaching_content']?></small>
                                             </div>
                                             <div class="modal-body">
                                                 <div class="row" ><div class="col-md-3" style="font-size: 16px;">코티평가</div> <div class="col-md-9">
-                                                    <input type="email" class="coty_value_input form-control" placeholder="1=훌륭해요 2=좋았어요 3=괜찮아요 4=보완해요 5=대안필요" value="<?=$coaching_info_data[coty_value]?>"   <? if($coaching_info_data[coty_comment] != ""){ echo disabled; }?> ></div>
+                                                    <input type="email" class="coty_value_input form-control" placeholder="1=훌륭해요 2=좋았어요 3=괜찮아요 4=보완해요 5=대안필요" value="<?=$coaching_info_data['coty_value']?>"   <? if($coaching_info_data['coty_comment'] != ""){ echo "disabled"; }?> ></div>
 
                                                 </div>
 
                                                     <br>
-                                                         <? if($coaching_info_data[coty_comment] == ""){  ?>
+                                                         <? if($coaching_info_data['coty_comment'] == ""){  ?>
                                                           5=훌륭해요, 4=좋았어요, 3=괜찮아요, 2=보완해요, 1=대안필요
                                                           
                                                     <br>
                                                 <br>
                                             <? } ?>
                                                 <div class="row" ><div class="col-md-3" style="font-size: 16px;">코티의견</div> <div class="col-md-9">
-                                                    <input type="email" class="coty_comment_input form-control"  value="<?=$coaching_info_data[coty_comment]?>"  <? if($coaching_info_data[coty_comment] != ""){ echo disabled; }?>></div></div>
+                                                    <input type="email" class="coty_comment_input form-control"  value="<?=$coaching_info_data['coty_comment']?>"  <? if($coaching_info_data['coty_comment'] != ""){ echo "disabled"; }?>></div></div>
                                                 <br>
-                                                 <? if($coaching_info_data[coty_comment] == ""){  ?>
+                                                 <? if($coaching_info_data['coty_comment'] == ""){  ?>
                                                 저장을 누르면 더 이상 수정이 되지 않습니다. 
                                                 <br>
                                                 최종확인했으면 저장하세요.
@@ -603,9 +591,9 @@ function copyHtml(){
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-white" data-dismiss="modal">취소</button>
-                                                <? if($coaching_info_data[coty_comment] == ""){  ?>
+                                                <? if($coaching_info_data['coty_comment'] == ""){  ?>
                                                 
-                                                <button type="button" class="btn btn-primary" onclick="onCotyComment('<?=$coaching_info_data[coaching_id]?>')">저장</button>
+                                                <button type="button" class="btn btn-primary" onclick="onCotyComment('<?=$coaching_info_data['coaching_id']?>')">저장</button>
                                                 <? } ?>
                                             </div>
                                         </div>
@@ -614,7 +602,7 @@ function copyHtml(){
                             </td>
                             <td style="font-size:12px;"><?=$coaching_info_data['reg_date']?></td>
                             <td style="font-size:12px;"><a class="" style="color:blue;" href='mypage_coaching_info_view.php?coaching_id=<?php echo $coaching_info_data['coaching_id'];?>'>보기</a></td>
-                            <td style="font-size:12px;"><?=$coaching_info_data[agree]==0?"대기":"승인"?></td>
+                            <td style="font-size:12px;"><?=$coaching_info_data['agree']==0?"대기":"승인"?></td>
                            
                         </tr>
                         <?

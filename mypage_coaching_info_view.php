@@ -17,7 +17,7 @@ $sql="select * from gn_coaching_info a inner join Gn_Member b on b.mem_code = a.
 $sresul_num=mysqli_query($self_con,$sql);
 $coaching_info_data=mysqli_fetch_array($sresul_num);	
 
-$this_coach_id =$coaching_info_data[coach_id];
+$this_coach_id =$coaching_info_data['coach_id'];
 
 ?>
 
@@ -103,7 +103,7 @@ $(function(){
  
                 <tr>
                     <th>코칭비용</th>
-                    <td><?=$coaching_info_data[coaching_price]/10000?>만원</td>
+                    <td><?=$coaching_info_data['coaching_price']/10000?>만원</td>
                     <th>희망코칭</th>
                     <td><?=$coaching_info_data[want_coaching]?></td>
                 </tr>                      
@@ -130,13 +130,13 @@ $(function(){
                             echo "<label class='label label-sm label-danger'>종료</label>";
                          }
 
-                        // echo $coaching_info_data[coaching_status]==1?"진행중":"완료";
+                        // echo $coaching_info_data['coaching_status']==1?"진행중":"완료";
 
 
                         ?>
                     </td>
                     <th>코칭회차</th>
-                    <td><?=$coaching_info_data[coaching_turn]?>회</td>
+                    <td><?=$coaching_info_data['coaching_turn']?>회</td>
                 </tr>                      
                                 
                 </table>
@@ -182,17 +182,17 @@ $(function(){
                 </tr>                    
                 <tr>
                     <th class="w200">코칭제목</th>
-                    <td><?=$coaching_info_data[coaching_title]?></td>
+                    <td><?=$coaching_info_data['coaching_title']?></td>
                 </tr>                    
                 <tr>
                     <th class="w200">코칭내용</th>
-                    <td><?=$coaching_info_data[coaching_content]?></td>
+                    <td><?=$coaching_info_data['coaching_content']?></td>
                 </tr>                    
                 <tr>
                     <th class="w200">파일첨부</th>
                     <td>
-                        <a href="<?=$coaching_info_data[coaching_file]?>" style="color:blue;">
-                            <? if($coaching_info_data[coaching_file]){
+                        <a href="<?=$coaching_info_data['coaching_file']?>" style="color:blue;">
+                            <? if($coaching_info_data['coaching_file']){
                                         echo "파일";
                                     } ?>
                         </a>
@@ -204,7 +204,7 @@ $(function(){
                     <th class="w200">코치평가</th>
                     <td>
                     <?
-                        $coach_value = $coaching_info_data[coach_value];
+                        $coach_value = $coaching_info_data['coach_value'];
                         echo (($coach_value / 5) * 100 )."점( ".$coach_value." / 5 )";
                     ?>
                     </td>
@@ -214,7 +214,7 @@ $(function(){
                     <td>
                       
                     <?
-                        $coty_value = $coaching_info_data[coty_value];
+                        $coty_value = $coaching_info_data['coty_value'];
                         echo (($coty_value / 5) * 100 )."점( ".$coty_value." / 5 )";
                     ?>  
                     </td>
@@ -224,7 +224,7 @@ $(function(){
                     <td>
                       
                     <?
-                        $site_value = $coaching_info_data[site_value];
+                        $site_value = $coaching_info_data['site_value'];
                         echo (($site_value / 5) * 100 )."점( ".$site_value." / 5 )";
                     ?>  
                     </td>
@@ -232,19 +232,19 @@ $(function(){
 
                 <tr>
                     <th class="w200">과제안내</th>
-                    <td><?=$coaching_info_data[home_work]?></td>
+                    <td><?=$coaching_info_data['site_sum']?></td>
                 </tr>                    
                 <tr>
                     <th class="w200">코치의견</th>
-                    <td><?=$coaching_info_data[coach_comment]?></td>
+                    <td><?=$coaching_info_data['coach_comment']?></td>
                 </tr>                 
                 <tr>
                     <th class="w200">코티의견</th>
-                    <td><?=$coaching_info_data[coty_comment]?></td>
+                    <td><?=$coaching_info_data['coty_comment']?></td>
                 </tr>                    
                 <tr>
                     <th class="w200">본부의견</th>
-                    <td><?=$coaching_info_data[site_comment]?></td>
+                    <td><?=$coaching_info_data['site_comment']?></td>
                 </tr>                    
                                 
                 </table>

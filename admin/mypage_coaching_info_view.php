@@ -84,7 +84,7 @@ $(function(){
                     <th>코티이름</th>
                     <td><?=$row[coty_name]?></td>
                     <th>코티ID</th>
-                    <td><?=$row[coty_id]?></td>
+                    <td><?=$row['coty_id']?></td>
                 </tr>       
                 <tr>
                     <th>전화번호</th>
@@ -149,19 +149,19 @@ $(function(){
                 </tr>                    
                 <tr>
                     <th class="w200">코칭제목</th>
-                    <td><?=$row[coaching_title]?></td>
+                    <td><?=$row['coaching_title']?></td>
                 </tr>                    
                 <tr>
                     <th class="w200">코칭내용</th>
-                    <td><?=$row[coaching_content]?></td>
+                    <td><?=$row['coaching_content']?></td>
                 </tr>                    
                 <tr>
                     <th class="w200">파일첨부</th>
-                    <td><?=$row[coaching_file]?></td>
+                    <td><?=$row['coaching_file']?></td>
                 </tr>                    
                 <tr>
                     <th class="w200">코치평가</th>
-                    <td><?=$row[coach_value]?></td>
+                    <td><?=$row['coach_value']?></td>
                 </tr>    
                 <tr>
                     <th class="w200">코티평가</th>
@@ -174,11 +174,11 @@ $(function(){
 
                 <tr>
                     <th class="w200">과제안내</th>
-                    <td><?=$row[home_work]?></td>
+                    <td><?=$row['site_sum']?></td>
                 </tr>                    
                 <tr>
                     <th class="w200">코치의견</th>
-                    <td><?=$row[coach_comment]?></td>
+                    <td><?=$row['coach_comment']?></td>
                 </tr>                 
                 <tr>
                     <th class="w200">코티의견</th>

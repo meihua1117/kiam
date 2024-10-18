@@ -117,11 +117,11 @@ $(function(){
 
 
 
-                              $sql="select sum(coaching_time) as sum from gn_coaching_info where coty_id=".$coaching_data[coty_id]." order by coaching_turn desc";
+                              $sql="select sum(coaching_time) as sum from gn_coaching_info where coty_id=".$coaching_data['coty_id']." order by coaching_turn desc";
 
                                 $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
                                 $row=mysqli_fetch_array($result);
-                                $last_time_sum=$row[sum];
+                                $last_time_sum=$row['sum'];
 
                                 if( ($coaching_data['cont_time'] * 60) != $last_time_sum){
 
@@ -372,7 +372,7 @@ $( "#start_date" ).datepicker({
 
 
 
-// $sql_1 = "Select * FROM `gn_coaching_info` WHERE coaching_turn = (  SELECT MAX( coaching_turn ) AS max_c_turn FROM  `gn_coaching_info`  WHERE `coach_id` = '$coaching_info_data[coach_id]' AND `coty_id` = '$coaching_info_data[coty_id]' )  AND `coach_id` = '$coaching_info_data[coach_id]' AND `coty_id` = '$coaching_info_data[coty_id]';";
+// $sql_1 = "Select * FROM `gn_coaching_info` WHERE coaching_turn = (  SELECT MAX( coaching_turn ) AS max_c_turn FROM  `gn_coaching_info`  WHERE `coach_id` = '{$coaching_info_data['coach_id']}' AND `coty_id` = '{$coaching_info_data['coty_id']}' )  AND `coach_id` = '{$coaching_info_data['coach_id']}' AND `coty_id` = '{$coaching_info_data['coty_id']}';";
 
 // $res_1=mysqli_query($self_con,$sql_1);
 // $coaching=mysqli_fetch_array($res_1);

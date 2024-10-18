@@ -330,7 +330,7 @@ function excel_down_(){
 
                   ?>
                       
-                     <tr class="<? if($row[agree]==0){
+                     <tr class="<? if($row['agree']==0){
                         echo "disagree";
                      }else{
                         echo "agree";
