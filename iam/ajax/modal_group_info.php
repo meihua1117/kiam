@@ -27,7 +27,7 @@ $body .= '    <div class="modal-body" style="background-color: #e5e5e5;border-bo
 $body .= '        <div style="padding-top: 2px;background:white;padding-bottom:15px">';
 $body .= '            <div style="display:flex;justify-content: space-between;margin-left:10px;">';
 $body .= '                <h4 style="margin-top:10px">정보</h4>';
-if($_SESSION['iam_member_id'] == $group_row[manager]){
+if($_SESSION['iam_member_id'] == $group_row['manager']){
     $body .= '                <button type="button" class= "btn btn-link" style= "margin-right:10px" onclick = "edit_group_info(\''. $group_row['idx']. '\',\''. $group_row['name'] .'\',\''. $group_row[description] .'\',\''. $group_row[public_status] .'\',\''. $group_row[upload_status].'\')">';
     $body .= '                    <img src = "/iam/img/main/dots3.png" style="width:15px">';
     $body .= '                </button>';
@@ -60,7 +60,7 @@ $body .= '                <small>';
                     
 $body .= '                </small>';
 $body .= '            </h4>';
-if($_SESSION['iam_member_id'] == $group_row[manager]){
+if($_SESSION['iam_member_id'] == $group_row['manager']){
     $body .= '                <div style="display:flex;justify-content: space-between;margin-left:10px;margin-top:15px">';
     $body .= '                    <h4>'. "총 멤버 ".$group_mem_count."명" .'</h4>';
     $body .= '                    <button type="button" class = "btn btn-link" onclick = "open_all_member_1('. $group_row['idx'] .')">모두 보기</button>';

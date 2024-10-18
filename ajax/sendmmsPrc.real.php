@@ -1326,7 +1326,7 @@ if($_SESSION['one_member_id']){
 			//if($_POST['send_save_mms'] && $re_today_cnt)
 			if($_POST['send_save_mms'])
 			{ //메시지 저장
-				if($_POST[send_onebook_status]=="Y")
+				if($_POST['send_onebook_status']=="Y")
 				$message_info['msg_type']="C";
 				else
 				{
@@ -1364,7 +1364,7 @@ if($_SESSION['one_member_id']){
 			//$re_today_cnt = count($success_arr); // 재선언 발송성공 2016-05-08
 			//echo $re_today_cnt;
 			//if($_POST['send_ssh_check'] || $_POST['send_ssh_check2'] || $_POST['send_ssh_check3']){
-			    $ssh_total_cnt = $_POST[send_cnt] - $re_today_cnt; // 재선언 발송실패 2016-05-0
+			    $ssh_total_cnt = $_POST['send_cnt'] - $re_today_cnt; // 재선언 발송실패 2016-05-0
 			//} else {
 			    //$ssh_total_cnt = $total_num_cnt - $re_today_cnt; // 재선언 발송실패 2016-05-0
 			//}

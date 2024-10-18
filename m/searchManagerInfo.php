@@ -36,9 +36,9 @@ $left_str="팀장검색";
                             </div>
                             <div style="float:right;">                        
                             이름
-                            <input type="text" name="search_name" id="search_name" value="<?=$_REQUEST[search_name]?>" />
+                            <input type="text" name="search_name" id="search_name" value="<?=$_REQUEST['search_name']?>" />
                             전화번호
-                            <input type="text" name="search_cell" value="<?=$_REQUEST[search_cell]?>" />
+                            <input type="text" name="search_cell" value="<?=$_REQUEST['search_cell']?>" />
                             <a href="javascript:void(0)" onclick="sub_4_form.submit();"><img src="../images/sub_button_703.jpg" /></a>
                             </div>
                             <p style="clear:both;"></p>

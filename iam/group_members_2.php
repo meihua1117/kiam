@@ -13,7 +13,7 @@ $domainData = mysqli_fetch_array($res);
 $sql = "select manager from gn_group_info where idx = '$group'";
 $res = mysqli_query($self_con,$sql);
 $row = mysqli_fetch_array($res);
-$manager = $row[manager];
+$manager = $row['manager'];
 if($_GET['page2']) {
     $page2 = $_GET['page2'];
 } else {

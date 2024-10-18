@@ -1066,7 +1066,7 @@ if ($user_id) {
         unset($num_arr);
 
         if ($_POST['send_save_mms']) { //메시지 저장
-            if ($_POST[send_onebook_status] == "Y")
+            if ($_POST['send_onebook_status'] == "Y")
                 $message_info['msg_type'] = "C";
             else {
                 if ($_POST['send_img']) //메시지 타입
@@ -1097,7 +1097,7 @@ if ($user_id) {
         $etc_arr = array_unique($etc_arr);     // 기타 번호
         $wrong_arr = array_unique($wrong_arr); //없는 번호
         $lose_arr = array_unique($lose_arr);   //수신불가 번호
-        $ssh_total_cnt = $_POST[send_cnt] - $re_today_cnt; // 재선언 발송실패 2016-05-0
+        $ssh_total_cnt = $_POST['send_cnt'] - $re_today_cnt; // 재선언 발송실패 2016-05-0
         if ($ssh_total_cnt < 0) $ssh_total_cnt = 0;
 
         echo json_encode(array("result" => "success", "msg" => count($success_cell_arr) . '|' . count($no_num) . '|' . $re_today_cnt . '|' . $ssh_total_cnt . '|' . count($deny_num) . "|" . count($etc_arr) . "|" . count($wrong_arr) . "|" . count($lose_arr), 'line' => 1132));

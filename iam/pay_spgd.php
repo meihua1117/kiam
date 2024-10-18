@@ -10,9 +10,9 @@ extract($_GET);
 $mid = date("YmdHis").rand(10,99);
 $item_name = $_GET['item_name'];
 $item_price = $_GET['item_price'];
-$seller_id = $_GET[manager];
-if(isset($_GET[conidx])){
-    $conidx = $_GET[conidx];
+$seller_id = $_GET['manager'];
+if(isset($_GET['conidx'])){
+    $conidx = $_GET['conidx'];
 }else{
     $conidx = 0;
 }

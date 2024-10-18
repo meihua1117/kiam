@@ -294,6 +294,5 @@ function arr_del($list_arr, $del_value) // 배열, 삭제할 값
 	<textarea name="num" id="num" style="width:0px;height:0px"><?php echo implode(",", $fail); ?></textarea>
 </form>
 <?
-mysqli_close($self_con);
 include_once "_foot.php";
 ?>

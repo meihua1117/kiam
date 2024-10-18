@@ -287,19 +287,14 @@ $result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
 			url: '/ajax/truncate_num.php',
 			data: values,
 			success: function(dataObj) {
-
-
 				alert('완료되었습니다.');
-
 			},
 			error: function(request, status, error) {
 				console.log('code: ' + request.status + "\n" + 'message: ' + request.responseText + "\n" + 'error: ' + error);
 			}
 		});
-
 	}
 </script>
 <?
-mysqli_close($self_con);
 include_once "_foot.php";
 ?>

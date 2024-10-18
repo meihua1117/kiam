@@ -397,8 +397,6 @@ function page_p(e1,e2,e3)
   e3.submit();
 }
 </script>
-
-
 <?
 mysqli_close($self_con);
 //include_once "_foot.php";
