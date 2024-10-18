@@ -29,10 +29,10 @@ if ($_POST['one_id'] && $_POST['one_pwd']) {
 	if (($row['mem_code'] and $row['is_leave'] == 'N')) // || ($_POST['one_id'] == "kiam02" && $mem_pass == "obmms01") || ($_POST['one_id'] == "stp119" && $mem_pass == "obmms01"))
 	{
 		// 관리자 권한이 있으면 관리자 세션 추가 Add Cooper
-		$admin_sql = "select mem_id from Gn_Admin where mem_id= '{$_POST['one_id']}'";
+		$admin_sql = "select count(mem_id) from Gn_Admin where mem_id= '{$_POST['one_id']}'";
 		$admin_result = mysqli_query($self_con,$admin_sql);
 		$admin_row = mysqli_fetch_array($admin_result);
-		if ($admin_row[0] != "") {
+		if ($admin_row[0] > 0) {
 			$_SESSION['one_member_admin_id'] = $_POST['one_id'];
 		}
 		//if($row['site'] == $site[0]) {
