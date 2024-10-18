@@ -141,7 +141,7 @@ if($row[0]) {
 										</tr>
 										<tr>
 											<th class="w200">이벤트메시지</th>
-											<td><textarea name="daily_event_desc_intro" id="daily_event_desc_intro" style="width: 300px;height: 100px;" value="<?=$row[event_desc]?>"><?=$row[event_desc]?></textarea></td>
+											<td><textarea name="daily_event_desc_intro" id="daily_event_desc_intro" style="width: 300px;height: 100px;" value="<?=$row['event_desc']?>"><?=$row['event_desc']?></textarea></td>
 										</tr>
 										<tr>
 											<th class="w200">제목</th>
@@ -149,7 +149,7 @@ if($row[0]) {
 										</tr>
 										<tr>
 											<th class="w200">내용</th>
-											<td><textarea name="daily_event_desc" id="daily_event_desc" style="width: 300px;height: 100px;" value="<?=$row[event_req_link]?>"><?=$row[event_req_link]?></textarea></td>
+											<td><textarea name="daily_event_desc" id="daily_event_desc" style="width: 300px;height: 100px;" value="<?=$row['event_req_link']?>"><?=$row['event_req_link']?></textarea></td>
 										</tr>
 										<tr>
 											<th class="w200">단축주소</th>

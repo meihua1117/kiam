@@ -165,7 +165,7 @@ thead tr:nth-child(2) th { position: sticky; top: 57px; }
                                     $row2 = mysqli_fetch_array($res2);
                                     ?>
                                     <th colspan="<?=$row2[0]?>" style="border: 1px solid #ddd">
-                                        <a href="javascript:show_more('<?=str_replace("\n", "<br>", $row1[item_title])?>')"><?=cut_str($row1['item_title'], 10)?></a><br>
+                                        <a href="javascript:show_more('<?=str_replace("\n", "<br>", $row1['item_title'])?>')"><?=cut_str($row1['item_title'], 10)?></a><br>
                                         <a href="javascript:show_more('<?=str_replace("\n", "<br>", $row1[item_req])?>')"><?=cut_str($row1['item_req'], 10)?>
                                     </th>
                                 <?}?>

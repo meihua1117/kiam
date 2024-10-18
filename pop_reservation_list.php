@@ -184,7 +184,7 @@ $(function(){
                 <td><?=number_format($cnt)?>/<?=number_format($cnt)?></td>
                 <td><?=$row['regdate']?></td>
                 <td>
-                    <a href="javascript:;;" onclick="useIt('<?=$row['sms_idx'];?>','<?=$erow['event_idx']?>','<?=$row['event_name_eng']?>','<?=$row['event_name_kor']?>','<?=$row['reservation_title']?>','<?=$srow['cnt']?>','<?=$erow[pcode]?>')">사용하기</a>
+                    <a href="javascript:;;" onclick="useIt('<?=$row['sms_idx'];?>','<?=$erow['event_idx']?>','<?=$row['event_name_eng']?>','<?=$row['event_name_kor']?>','<?=$row['reservation_title']?>','<?=$srow['cnt']?>','<?=$erow['pcode']?>')">사용하기</a>
                 </td>                                
               </tr>
               <?

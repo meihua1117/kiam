@@ -618,7 +618,7 @@ $member_1 = mysqli_fetch_array($res_result);*/
                                     <th class="w200">신청창 자동 삽입</th>
                                     <td>
                                         <?
-                                        $sql = "select event_title from Gn_event where pcode='$row[pcode]'";
+                                        $sql = "select event_title from Gn_event where pcode='{$row['pcode']}'";
                                         $eres = mysqli_query($self_con,$sql);
                                         $erow = mysqli_fetch_array($eres);
                                         ?>

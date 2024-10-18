@@ -186,7 +186,7 @@ function copyHtml(url){
                 <td><?=$row['mobile']?></td>
                 <td><?=number_format($srow['cnt'])?></td>
                 <td>
-                    <a href="javascript:;;" onclick="useIt('<?=$row['sms_idx'];?>', '<?=$row['event_name_eng'];?>','<?=$row[pcode]?>','<?=$row['event_name_kor']?>','<?=$row['event_idx']?>','<?=$row['reservation_title']?>','<?=$row['reservation_desc']?>','<?=$row['mobile'];?>','<?=$_REQUEST['mode']?>')">사용하기</a>
+                    <a href="javascript:;;" onclick="useIt('<?=$row['sms_idx'];?>', '<?=$row['event_name_eng'];?>','<?=$row['pcode']?>','<?=$row['event_name_kor']?>','<?=$row['event_idx']?>','<?=$row['reservation_title']?>','<?=$row['reservation_desc']?>','<?=$row['mobile'];?>','<?=$_REQUEST['mode']?>')">사용하기</a>
                 </td>                               
             </tr>
               <?

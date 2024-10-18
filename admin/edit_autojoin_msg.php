@@ -100,7 +100,7 @@ if($row[0]) {
 										</tr>
 										<tr>
 											<th class="w200">이벤트메시지</th>
-											<td><textarea name="event_desc" id="event_desc" style="width: 300px;height: 100px;" value="<?=$row[event_desc]?>"><?=$row[event_desc]?></textarea></td>
+											<td><textarea name="event_desc" id="event_desc" style="width: 300px;height: 100px;" value="<?=$row['event_desc']?>"><?=$row['event_desc']?></textarea></td>
 										</tr>
 										<tr>
 											<th class="w200">카드링크</th>
@@ -165,7 +165,7 @@ if($row[0]) {
 										</tr>
 										<tr>
 											<th class="w200">이벤트신청주소</th>
-											<td><input type="text" name="event_req_link" id="event_req_link" value="<?=$row[event_req_link]?>"></td>
+											<td><input type="text" name="event_req_link" id="event_req_link" value="<?=$row['event_req_link']?>"></td>
 										</tr>
 										<tr>
 											<th class="w200">조회수</th>

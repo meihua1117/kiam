@@ -9,7 +9,7 @@ if($repo != 0){
     $res = mysqli_query($self_con,$sql);
     $row_form = mysqli_fetch_array($res);
     if($row_form['request_yn'] == 'Y'){
-        $erq_sql = "select * from Gn_event_request where request_idx = $row_form[pcode]";
+        $erq_sql = "select * from Gn_event_request where request_idx = {$row_form['pcode']}";
         $erq_res = mysqli_query($self_con,$erq_sql);
         $erq_row = mysqli_fetch_array($erq_res);
     }

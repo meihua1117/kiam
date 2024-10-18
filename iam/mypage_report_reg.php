@@ -14,8 +14,8 @@ if($index != 0){
     $res = mysqli_query($self_con,$sql);
     $row_form = mysqli_fetch_array($res);
     if($row_form['request_yn'] == 'Y'){
-        //$erq_sql = "select * from Gn_event_request where request_idx = $row_form[pcode]";
-        $erq_sql = "select * from Gn_event where event_idx = $row_form[pcode]";
+        //$erq_sql = "select * from Gn_event_request where request_idx = $row_form['pcode']";
+        $erq_sql = "select * from Gn_event where event_idx = {$row_form['pcode']}";
         $erq_res = mysqli_query($self_con,$erq_sql);
         $erq_row = mysqli_fetch_array($erq_res);
     }
@@ -232,7 +232,7 @@ input:checked + .slider:before {
                                             <div class="attr-name">항목명</div>
                                             <div class="attr-value">
                                                 <div class="input-wrap">
-                                                    <input type="text" name="repo_item" class="input" placeholder="항목 입력" value="<?=htmlspecialchars($row[item_title])?>">
+                                                    <input type="text" name="repo_item" class="input" placeholder="항목 입력" value="<?=htmlspecialchars($row['item_title'])?>">
                                                 </div>
                                             </div>
                                         </div>
