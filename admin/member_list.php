@@ -649,14 +649,12 @@ if ($case == 0)
                                     // ===================== 유료결제건 끝 =====================
                                     // =====================  총결제금액 시작 =====================
                                     $sql = "select sum(TotPrice) totPrice from tjd_pay_result where buyer_id = '" . $row['mem_id'] . "' and end_status='Y' and gwc_cont_pay=0";
-                                    echo $sql."\r\n";
                                     $res_result = mysqli_query($self_con, $sql);
                                     $totPriceRow = mysqli_fetch_row($res_result);
                                     //mysqli_free_result($res_result);
                                     $totPrice = $totPriceRow[0];
                                     // ===================== 총결제금액 끝 =====================
                                     $sql = "select memo, sendnum, memo2 from Gn_MMS_Number where mem_id = '" . $row['mem_id'] . "'";
-                                    echo $sql."\r\n";
                                     $res_result = mysqli_query($self_con, $sql);
                                     $num_res = mysqli_fetch_row($res_result);
                                     //mysqli_free_result($res_result);
@@ -664,7 +662,6 @@ if ($case == 0)
                                     $row['memo'] = $num_res['memo'];
                                     $row['memo2'] = $num_res['memo2'];
                                     $sql = "select count(*) from Gn_MMS_Number where ( not (cnt1 = 10 and cnt2 = 20)) and  mem_id = '" . $row['mem_id'] . "'";
-                                    echo $sql."\r\n";
                                     $res_result = mysqli_query($self_con, $sql);
                                     $num_res = mysqli_fetch_row($res_result);
                                     //mysqli_free_result($res_result);
@@ -697,7 +694,6 @@ if ($case == 0)
                                             <?= str_replace("-", "", $row['mem_phone']) == $row['sendnum'] || $row['sendnum'] == "" ? "회원폰" : "추가폰" ?>
                                         </td>
                                         <td onclick="page_view('<?= $row['mem_id'] ?>');"><?= number_format($row['tcnt']) ?> <? echo $row['memo']; ?></td>
-                                        <!--td><?= number_format($buyMMSCount) ?></td-->
                                         <td><?= $buyMMSCount ?></td>
                                         <td><?= number_format($totPrice) ?></td>
                                         <td><?= $row['recommend_id'] ?></td>
