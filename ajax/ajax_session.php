@@ -2177,6 +2177,7 @@ if ($_POST['pay_cancel_no'] && $_POST['pay_cancel_paymethod']) {
             }
             break;
     }
+    exit;
 }
 if ($_POST['send_save_mms']) { //메시지 저장
     if (strlen($_POST['send_txt']) <= 0 && $_POST['send_img'] == "")
@@ -2203,6 +2204,7 @@ if ($_POST['send_save_mms']) { //메시지 저장
         mysqli_query($self_con, $sql);
         echo "true";
     }
+    exit;
 }
 if ($_POST['stop_westory_guide'] == "get") {
     $sql = "select we_con_guide from Gn_Member where mem_id = '{$_SESSION['iam_member_id']}'";

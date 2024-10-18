@@ -1176,10 +1176,8 @@ include_once "_foot.php";
 	function saveMessage() {
 		if (confirm('작성중인 문자를 저장하시겠습니까?')) {
 			frm = document.sub_4_form;
-
 			var save_mms_s = "";
 			save_mms_s = "ok";
-
 			var txt_s = "";
 			if (document.getElementsByName('fs_msg')[0].checked)
 				txt_s = frm.txt.value + document.getElementsByName('onebook_url')[0].value + "\n\n" + document.getElementsByName('fs_txt')[0].value;
