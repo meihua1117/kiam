@@ -26,7 +26,7 @@ if ($_POST['one_id'] && $_POST['one_pwd']) {
 	$sql = "select mem_code, is_leave, mem_leb,site,site_iam,iam_leb from Gn_Member use index(login_index) where mem_leb>0 and ((mem_id = '{$_POST['one_id']}' or mem_email = '{$_POST['one_id']}') and (mem_pass=md5('$mem_pass') or web_pwd=md5('$mem_pass'))) ";
 	$resul = mysqli_query($self_con,$sql);
 	$row = mysqli_fetch_array($resul);
-	if (($row['mem_code'] and $row['is_leave'] == 'N')) // || ($_POST['one_id'] == "kiam02" && $mem_pass == "obmms01") || ($_POST['one_id'] == "stp119" && $mem_pass == "obmms01"))
+	if (($row['mem_code'] and $row['is_leave'] == 'N'))
 	{
 		// 관리자 권한이 있으면 관리자 세션 추가 Add Cooper
 		$admin_sql = "select count(mem_id) from Gn_Admin where mem_id= '{$_POST['one_id']}'";
@@ -35,7 +35,6 @@ if ($_POST['one_id'] && $_POST['one_pwd']) {
 		if ($admin_row[0] > 0) {
 			$_SESSION['one_member_admin_id'] = $_POST['one_id'];
 		}
-		//if($row['site'] == $site[0]) {
 		if ($row['site'] != "") {
 			$_SESSION['one_member_id'] = $_POST['one_id'];
 			$_SESSION['one_mem_lev'] = $row['mem_leb'];
@@ -48,8 +47,6 @@ if ($_POST['one_id'] && $_POST['one_pwd']) {
 				$_SESSION['one_member_subadmin_domain'] = $url['host'];
 			}
 		}
-		//if($HTTP_HOST == 'kiam.kr')
-		//if($row['site_iam'] == $site[0]){
 		if ($row['site_iam'] != "") {
 			$_SESSION['iam_member_id'] = $_POST['one_id'];;
 			$_SESSION['iam_member_leb'] = $row['iam_leb'];
@@ -84,12 +81,6 @@ if ($_POST['one_id'] && $_POST['one_pwd']) {
 				window.parent.location.replace('/sub_6.php');
 			</script>
 		<? } else if ($row['site'] != "") {
-			/*$sess_id = session_id();
-			session_write_close();
-			session_unset();
-			session_destroy();
-			session_id(generateRandomString(32));
-			session_start();*/
 			$site = $row['site'] . ".";
 			if ($row['site'] == "kiam")
 				$site = "";
