@@ -655,7 +655,7 @@ if ($case == 0)
                                     //mysqli_free_result($res_result);
                                     $totPrice = $totPriceRow[0];
                                     // ===================== 총결제금액 끝 =====================
-                                    $sql = "select b.memo, b.sendnum, b.memo2 from Gn_MMS_Number where mem_id = '" . $row['mem_id'] . "'";
+                                    $sql = "select memo, sendnum, memo2 from Gn_MMS_Number where mem_id = '" . $row['mem_id'] . "'";
                                     echo $sql."\r\n";
                                     $res_result = mysqli_query($self_con, $sql);
                                     $num_res = mysqli_fetch_row($res_result);
@@ -663,7 +663,7 @@ if ($case == 0)
                                     $row['sendnum'] = $num_res['sendnum'];
                                     $row['memo'] = $num_res['memo'];
                                     $row['memo2'] = $num_res['memo2'];
-                                    $sql = "select count(*) from Gn_MMS_Number where 1=1 and ( not (cnt1 = 10 and cnt2 = 20)) and  mem_id = '" . $row['mem_id'] . "'";
+                                    $sql = "select count(*) from Gn_MMS_Number where ( not (cnt1 = 10 and cnt2 = 20)) and  mem_id = '" . $row['mem_id'] . "'";
                                     echo $sql."\r\n";
                                     $res_result = mysqli_query($self_con, $sql);
                                     $num_res = mysqli_fetch_row($res_result);
