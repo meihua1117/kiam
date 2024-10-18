@@ -372,11 +372,8 @@ if ($HTTP_HOST == "kookmin.kiam.kr") { ?>
                     <li class="submenu-item"><a href="https://tinyurl.com/xwcvtxy4" target="_blank">아이엠매뉴얼</a></li>
                     <?
                     $sql_chk = "select count(a.mem_code) as cnt from Gn_Member a inner join Gn_Iam_Service b on a.mem_id=b.mem_id where a.service_type>=2 and a.mem_id='{$_SESSION['one_member_id']}'";
-                    echo $sql_chk . "<br>";
                     $res_chk = mysqli_query($self_con, $sql_chk);
-                    echo json_encode($res_chk) . "<br>";
                     $row_chk = mysqli_fetch_array($res_chk);
-                    echo json_encode($row_chk) . "<br>";
                     if ($row_chk[0] || $_SESSION['one_member_id'] == 'obmms02') {
                     ?>
                         <li class="submenu-item"><a href="calliya.php" target="_blank">콜이야</a></li>

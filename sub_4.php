@@ -158,7 +158,7 @@ $phone = str_replace("-", "", $mem_phone);
 		<div class="m_div">
 			<div class="left_sub_menu">
 				<a href="./">홈</a> >
-				<?php echo $left_str; ?>
+				<?= $left_str; ?>
 			</div>
 			<div class="right_sub_menu">
 				<a href="sub_1.php">폰문자소개</a> ㅣ<a href="sub_5.php">휴대폰등록</a> ㅣ <a href="sub_6.php">문자발송</a> ㅣ <a href="sub_4_return_.php">발신내역</a> ㅣ <a href="sub_4.php?status=5&status2=3">수신내역</a> ㅣ <a href="sub_4.php?status=6">수신여부</a>
@@ -402,10 +402,10 @@ $phone = str_replace("-", "", $mem_phone);
 																																							} else {
 																																								echo '▼';
 																																							} ?></a>(<a href="javascript:void(0)" onclick="order_sort(sub_4_form,'end_status',sub_4_form.order_status.value)">상태<? if ($_REQUEST['order_name'] == "end_status") {
-																																																																																															echo $_REQUEST['order_status'] == "desc" ? '▼' : '▲';
-																																																																																														} else {
-																																																																																															echo '▼';
-																																																																																														} ?></a>)</td>
+																																																																					echo $_REQUEST['order_status'] == "desc" ? '▼' : '▲';
+																																																																				} else {
+																																																																					echo '▼';
+																																																																				} ?></a>)</td>
 									</tr>
 									<? if ($intRowCount) {
 										while ($row = mysqli_fetch_array($result)) {
