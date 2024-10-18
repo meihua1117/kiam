@@ -40,6 +40,7 @@ class Sendmail {
 	/* 기본설정대신 초기화 할 값이 있다면 클래스 초기화시 배열로 값을넘겨준다. */
     function Sendmail($data=false) {
 
+		echo "<br>data=".json_encode($data);
 		if($data!=false)
 		{
 			if(is_array($data)){
