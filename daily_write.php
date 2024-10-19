@@ -10,16 +10,16 @@ if (!$_SESSION['one_member_id']) {
 <?
     exit;
 }
-$sql = "select * from Gn_Member  where mem_id='" . $_SESSION['one_member_id'] . "'";
-$sresul_num = mysqli_query($self_con,$sql);
+$sql = "select * from Gn_Member  where mem_id='{$_SESSION['one_member_id']}'";
+$sresul_num = mysqli_query($self_con, $sql);
 $data = mysqli_fetch_array($sresul_num);
 $gd_id = $_GET['gd_id'];
-$sql = "select * from Gn_daily  where gd_id='" . $gd_id . "'";
-$sresul_num = mysqli_query($self_con,$sql);
+$sql = "select * from Gn_daily  where gd_id='{$gd_id}'";
+$sresul_num = mysqli_query($self_con, $sql);
 $row = mysqli_fetch_array($sresul_num);
 if ($row[0]) {
-    $sql = "select * from Gn_MMS_Group where idx='$row[group_idx]'";
-    $sresult = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+    $sql = "select * from Gn_MMS_Group where idx='{$row['group_idx']}'";
+    $sresult = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
     $krow = mysqli_fetch_array($sresult);
 }
 if ($row['daily_cnt']) {
@@ -33,11 +33,11 @@ if ($row['daily_cnt']) {
 }
 
 $sql_daily_msg_title = "select key_content from Gn_Search_Key where key_id='daily_msg_title'";
-$res_title = mysqli_query($self_con,$sql_daily_msg_title);
+$res_title = mysqli_query($self_con, $sql_daily_msg_title);
 $row_title = mysqli_fetch_array($res_title);
 
 $sql_daily_msg_content = "select key_content from Gn_Search_Key where key_id='daily_msg_contents'";
-$res_content = mysqli_query($self_con,$sql_daily_msg_content);
+$res_content = mysqli_query($self_con, $sql_daily_msg_content);
 $row_content = mysqli_fetch_array($res_content);
 ?>
 <script>
@@ -535,17 +535,17 @@ $row_content = mysqli_fetch_array($res_content);
         <?php include "mypage_left_menu.php"; ?>
         <div class="m_body">
             <form name="sub_4_form" id="sub_4_form" action="mypage.proc.php" method="post" enctype="multipart/form-data">
-                <input type="hidden" name="mode" value="<?php echo $gd_id ? "daily_update" : "daily_save"; ?>" />
-                <input type="hidden" name="gd_id" value="<?php echo $gd_id; ?>" />
+                <input type="hidden" name="mode" value="<?= $gd_id ? "daily_update" : "daily_save"; ?>" />
+                <input type="hidden" name="gd_id" value="<?= $gd_id; ?>" />
                 <input type="hidden" name="step_daily" value="Y" />
-                <input type="hidden" name="total_count" id="total_count" value="<?php echo $_GET[address_cnt] ? $_GET[address_cnt] : $row['total_count']; ?>" />
+                <input type="hidden" name="total_count" id="total_count" value="<?= $_GET['address_cnt'] ? $_GET['address_cnt'] : $row['total_count']; ?>" />
 
                 <!-- 메일 발송관련 -->
                 <input type="hidden" id="mail_sender" name="mail_sender">
                 <input type="hidden" id="mail_title" name="mail_title">
                 <input type="hidden" id="mail_content" name="mail_content">
                 <input type="hidden" id="mail_file" name="mail_file">
-                <input type="hidden" id="mem_id" name="mem_id" value="<?php echo $_SESSION['one_member_id']; ?>">
+                <input type="hidden" id="mem_id" name="mem_id" value="<?= $_SESSION['one_member_id']; ?>">
                 <div class="a1" style="margin-top:50px; margin-bottom:15px">
                     <li style="float:left;">
                         <div class="popup_holder popup_text"> 데일리발송 세트만들기
@@ -564,10 +564,10 @@ $row_content = mysqli_fetch_array($res_content);
                                 <th class="w200">[발송폰선택]</th>
                                 <td>
                                     <select name="send_num" id="send_num">
-                                        <option value="<?= str_replace("-", "", $data['mem_phone']) ?>"><?php echo str_replace("-", "", $data['mem_phone']); ?></option>
+                                        <option value="<?= str_replace("-", "", $data['mem_phone']) ?>"><?= str_replace("-", "", $data['mem_phone']); ?></option>
                                         <?php
                                         $query = "select * from Gn_MMS_Number where mem_id='{$_SESSION['one_member_id']}' order by sort_no asc, user_cnt desc , idx desc";
-                                        $resul = mysqli_query($self_con,$query);
+                                        $resul = mysqli_query($self_con, $query);
                                         while ($korow = mysqli_fetch_array($resul)) {
                                             if ($row['send_num']) {
                                                 $send_num = $row['send_num'];
@@ -578,7 +578,7 @@ $row_content = mysqli_fetch_array($res_content);
                                                 $send_num = $_REQUEST['send_num'];
                                             }
                                         ?>
-                                            <option value="<?= str_replace("-", "", $korow['sendnum']) ?>" <?php echo $send_num == str_replace("-", "", $korow['sendnum']) ? "selected" : "" ?>><?php echo str_replace("-", "", $korow['sendnum']); ?></option>
+                                            <option value="<?= str_replace("-", "", $korow['sendnum']) ?>" <?= $send_num == str_replace("-", "", $korow['sendnum']) ? "selected" : "" ?>><?= str_replace("-", "", $korow['sendnum']); ?></option>
                                         <?php } ?>
                                     </select>
                                 </td>
@@ -586,16 +586,16 @@ $row_content = mysqli_fetch_array($res_content);
                             <tr>
                                 <th class="w200">[주소록선택]</th>
                                 <td>
-                                    <input type="hidden" name="group_idx" placeholder="" id="address_idx" value="<?php echo $_GET[address_idx] ? $_GET[address_idx] : $row[group_idx]; ?>" readonly style="width:100px" />
-                                    <input type="text" name="address_name" placeholder="" id="address_name" value="<?php echo $_GET[address_name] ? $_GET[address_name] : $krow['grp'] ?>" readonly style="width:100px" />
+                                    <input type="hidden" name="group_idx" placeholder="" id="address_idx" value="<?= $_GET['address_idx'] ? $_GET['address_idx'] : $row['group_idx']; ?>" readonly style="width:100px" />
+                                    <input type="text" name="address_name" placeholder="" id="address_name" value="<?= $_GET['address_name'] ? $_GET['address_name'] : $krow['grp'] ?>" readonly style="width:100px" />
                                     <input type="button" value="주소록 조회" class="button " id="searchBtn">
-                                    [선택건수]<span id="address_cnt"><?php echo $_GET[address_cnt] ? $_GET[address_cnt] : $row['total_count']; ?></span>
+                                    [선택건수]<span id="address_cnt"><?= $_GET['address_cnt'] ? $_GET['address_cnt'] : $row['total_count']; ?></span>
                                 </td>
                             </tr>
                             <tr>
                                 <th class="w200">[최대발송량]</th>
                                 <td>
-                                    <input type="number" name="max_count" placeholder="" id="max_count" value="<?php echo $_GET[max_count] ? $_GET[max_count] : $row[max_count] ?>" min='0' style="width:100px;height: 25px;" />
+                                    <input type="number" name="max_count" placeholder="" id="max_count" value="<?= $_GET['max_count'] ? $_GET['max_count'] : $row['max_count'] ?>" min='0' style="width:100px;height: 25px;" />
                                 </td>
                             </tr>
                             <tr>
@@ -610,8 +610,8 @@ $row_content = mysqli_fetch_array($res_content);
                                     <?
                                     if ($row['start_date']) {
                                         $date = $row['start_date'];
-                                    } else if ($_GET[start_send]) {
-                                        $date = $_GET[start_send];
+                                    } else if ($_GET['start_send']) {
+                                        $date = $_GET['start_send'];
                                     } else {
                                         $cur_time = time() + 86400;
                                         $date = date("Y-m-d", $cur_time);
@@ -655,11 +655,11 @@ $row_content = mysqli_fetch_array($res_content);
                                 <th class="w200">[메시지유형]</th>
                                 <td>
                                     <?
-                                    if ($row[step_sms_idx]) {
+                                    if ($row['step_sms_idx']) {
                                         $check_step0 = "";
                                         $check_step1 = "checked";
-                                        $sql_step_title = "select reservation_title, sms_idx from Gn_event_sms_info where sms_idx='{$row[step_sms_idx]}'";
-                                        $res_step_title = mysqli_query($self_con,$sql_step_title);
+                                        $sql_step_title = "select reservation_title, sms_idx from Gn_event_sms_info where sms_idx='{$row['step_sms_idx']}'";
+                                        $res_step_title = mysqli_query($self_con, $sql_step_title);
                                         $row_step_title = mysqli_fetch_array($res_step_title);
                                         $step_title = $row_step_title[0];
 
@@ -678,8 +678,8 @@ $row_content = mysqli_fetch_array($res_content);
                                     if (isset($_GET['msg_mode']) && $_GET['msg_mode'] != '0') {
                                         $check_step0 = "";
                                         $check_step1 = "checked";
-                                        $sql_step_title = "select reservation_title, sms_idx from Gn_event_sms_info where sms_idx='{$_GET[msg_mode]}'";
-                                        $res_step_title = mysqli_query($self_con,$sql_step_title);
+                                        $sql_step_title = "select reservation_title, sms_idx from Gn_event_sms_info where sms_idx='{$_GET['msg_mode']}'";
+                                        $res_step_title = mysqli_query($self_con, $sql_step_title);
                                         $row_step_title = mysqli_fetch_array($res_step_title);
                                         $step_title = $row_step_title[0];
 
@@ -701,7 +701,7 @@ $row_content = mysqli_fetch_array($res_content);
                                 <td>
                                     <input type="text" name="daily_cnt" id="daily_cnt" style="width:60px;height:20px;" value="<?= $daily_cnt ?>" />
                                     <?
-                                    if ($row[weekend_status]) {
+                                    if ($row['weekend_status']) {
                                         $check_week0 = "";
                                         $check_week1 = "checked";
                                     } else {
@@ -725,7 +725,7 @@ $row_content = mysqli_fetch_array($res_content);
                             </tr>
                             <?
                             $hide_msg = "";
-                            if ((isset($_GET['msg_mode']) && $_GET['msg_mode'] != '0') || $row[step_sms_idx] != 0) {
+                            if ((isset($_GET['msg_mode']) && $_GET['msg_mode'] != '0') || $row['step_sms_idx'] != 0) {
                                 $hide_msg = "hidden";
                             } ?>
                             <tr class="msg_info" <?= $hide_msg ?>>
@@ -741,7 +741,7 @@ $row_content = mysqli_fetch_array($res_content);
                             </tr>
                             <tr class="msg_info" <?= $hide_msg ?>>
                                 <th class="w200">[링크주소]</th>
-                                <td><input type="text" name="daily_link" onclick="check_apply()" itemname='링크주소' required placeholder="링크주소 입력" style="width:40%;" value="<?= $row[link] ?>" /><br>이 주소가 설정되지 않으면 이용자의 IAM주소를 가져옵니다.</td>
+                                <td><input type="text" name="daily_link" onclick="check_apply()" itemname='링크주소' required placeholder="링크주소 입력" style="width:40%;" value="<?= $row['link'] ?>" /><br>이 주소가 설정되지 않으면 이용자의 IAM주소를 가져옵니다.</td>
                             </tr>
                             <tr class="msg_info" <?= $hide_msg ?>>
                                 <th class="w200">[수신거부]</th>
@@ -754,7 +754,7 @@ $row_content = mysqli_fetch_array($res_content);
                                 <td>
                                     <input type="file" name="upimage" onChange="onUploadImgChange(this);sub_4_form.action='up_image_.php?i=0&k=&target=upimage_str';sub_4_form.target='excel_iframe';sub_4_form.submit();" />
                                     <?php if ($row['jpg'] != "") { ?>
-                                        <img src="<?php echo $row['jpg']; ?>" style="width:200px">
+                                        <img src="<?= $row['jpg']; ?>" style="width:200px">
                                     <?php } ?>
                                 </td>
                             </tr>
@@ -763,7 +763,7 @@ $row_content = mysqli_fetch_array($res_content);
                                 <td>
                                     <input type="file" name="upimage1" onChange="onUploadImgChange(this);sub_4_form.action='up_image_.php?i=0&k=1&target=upimage_str1';sub_4_form.target='excel_iframe';sub_4_form.submit();" />
                                     <?php if ($row['jpg1'] != "") { ?>
-                                        <img src="<?php echo $row['jpg1']; ?>" style="width:200px">
+                                        <img src="<?= $row['jpg1']; ?>" style="width:200px">
                                     <?php } ?>
                                 </td>
                             </tr>
@@ -773,7 +773,7 @@ $row_content = mysqli_fetch_array($res_content);
                                     <input type="file" name="upimage2" onChange="onUploadImgChange(this);sub_4_form.action='up_image_.php?i=0&k=2&target=upimage_str2';sub_4_form.target='excel_iframe';sub_4_form.submit();" />
                     </div>
                     <?php if ($row['jpg2'] != "") { ?>
-                        <img src="<?php echo $row['jpg2']; ?>" style="width:200px">
+                        <img src="<?= $row['jpg2']; ?>" style="width:200px">
                     <?php } ?>
                     </td>
                     </tr>
@@ -819,14 +819,14 @@ $row_content = mysqli_fetch_array($res_content);
                         </div>
                     </div>
                     <img id="preview_size_fake" style="filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=image);visibility:hidden; height:0;" />
-                    <div><input type="hidden" name="upimage_str" value="<?php echo $row['jpg']; ?>" /></div>
-                    <div><input type="hidden" name="upimage_str1" value="<?php echo $row['jpg1']; ?>" /></div>
-                    <div><input type="hidden" name="upimage_str2" value="<?php echo $row['jpg2']; ?>" /></div>
+                    <div><input type="hidden" name="upimage_str" value="<?= $row['jpg']; ?>" /></div>
+                    <div><input type="hidden" name="upimage_str1" value="<?= $row['jpg1']; ?>" /></div>
+                    <div><input type="hidden" name="upimage_str2" value="<?= $row['jpg2']; ?>" /></div>
                 </div>
                 <input type="hidden" name="send_date" id="send_date" value="" />
                 <div class="p1" style="text-align:center;margin-top:20px;">
                     <input type="button" value="취소" class="button" id="cancleBtn">
-                    <? if ($row[iam] != 1) { ?>
+                    <? if ($row['iam'] != 1) { ?>
                         <input type="button" value="저장" class="button" id="saveBtn">
                     <? } ?>
                 </div>
@@ -946,14 +946,14 @@ $row_content = mysqli_fetch_array($res_content);
                         <div>
                             <ul id="date_list" style="margin-left:10px;padding:0px;">
                                 <?php
-                                if (isset($_GET[address_cnt])) {
-                                    if (isset($_GET[max_count]) && $_GET[max_count]) {
-                                        $day = ceil($_GET[max_count] / $_REQUEST['daily_cnt']);
+                                if (isset($_GET['address_cnt'])) {
+                                    if (isset($_GET['max_count']) && $_GET['max_count']) {
+                                        $day = ceil($_GET['max_count'] / $_REQUEST['daily_cnt']);
                                     } else {
-                                        $day = ceil($_GET[address_cnt] / $_REQUEST['daily_cnt']);
+                                        $day = ceil($_GET['address_cnt'] / $_REQUEST['daily_cnt']);
                                     }
                                 } else {
-                                    if ($row[max_count]) {
+                                    if ($row['max_count']) {
                                         $day = ceil($row['max_count'] / $_REQUEST['daily_cnt']);
                                     } else {
                                         $day = ceil($row['total_count'] / $_REQUEST['daily_cnt']);
@@ -962,7 +962,7 @@ $row_content = mysqli_fetch_array($res_content);
                                 for ($i = 0; $i < $day; $i++) {
                                     $start_day = strtotime($_GET['start_send']) + (86400 * $i);
                                     $today = date("Y-m-d", $start_day);
-                                    if (!$_GET[week_end]) {
+                                    if (!$_GET['week_end']) {
                                         $week = date("l", $start_day);
                                         if ($week == "Saturday" || $week == "Sunday") {
                                             $day++;
@@ -970,7 +970,7 @@ $row_content = mysqli_fetch_array($res_content);
                                         }
                                     }
                                 ?>
-                                    <li class="send_datelist" id="<?php echo $today; ?>" week='<?= $week; ?>'><?php echo $today; ?><a href="javascript:removeDate('<?php echo $today; ?>')">[삭제]</a></li>
+                                    <li class="send_datelist" id="<?= $today; ?>" week='<?= $week; ?>'><?= $today; ?><a href="javascript:removeDate('<?= $today; ?>')">[삭제]</a></li>
                                 <?php } ?>
                             </ul>
                         </div>

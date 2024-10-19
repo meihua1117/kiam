@@ -16,7 +16,7 @@ $sresul_num=mysqli_query($self_con,$sql);
 $data=mysqli_fetch_array($sresul_num);	
 
 // if($data[0]) {
-// 	$sql="select * from Gn_MMS_Group where idx='$row[group_idx]'";
+// 	$sql="select * from Gn_MMS_Group where idx='{$row['group_idx']}'";
 // 	$sresult=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));					  	 
 // 	$krow = mysqli_fetch_array($sresult);    
 // }
@@ -174,7 +174,7 @@ $(function(){
                     // $sql = "select * from Gn_event_address where event_idx = '$row['reservation_title']'";
                     // $aresult = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
                     // $arow=mysqli_fetch_array($aresult);
-                    $sql = "select * from Gn_MMS_Group where idx = '$row[address_idx]'";
+                    $sql = "select * from Gn_MMS_Group where idx = '{$row['address_idx']}'";
                     $addrresult = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
                     $addrrow=mysqli_fetch_array($addrresult);
 

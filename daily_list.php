@@ -1,7 +1,6 @@
 <?
 $path = "./";
 include_once "_head.php";
-echo $_SESSION['one_member_id'];
 if (!$_SESSION['one_member_id']) {
 ?>
 	<script language="javascript">
@@ -177,17 +176,17 @@ $data = mysqli_fetch_array($sresul_num);
 									<?
 									while ($row = mysqli_fetch_array($result)) {
 
-										$sql = "select * from Gn_MMS_Group where idx='$row[group_idx]'";
+										$sql = "select * from Gn_MMS_Group where idx='{$row['group_idx']}'";
 										$sresult = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
 										$krow = mysqli_fetch_array($sresult);
 
-										$sql = "select count(*) cnt from Gn_daily_date where gd_id='$row[gd_id]'";
+										$sql = "select count(*) cnt from Gn_daily_date where gd_id='{$row['gd_id']}'";
 										$sresult = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
 										$srow = mysqli_fetch_array($sresult);
 
 									?>
 										<tr>
-											<td><input type="checkbox" class="check" name="gd_id" value="<?php echo $row['gd_id']; ?>"></td>
+											<td><input type="checkbox" class="check" name="gd_id" value="<?=$row['gd_id']; ?>"></td>
 											<td><?= $sort_no ?></td>
 
 											<td style="font-size:12px;"><?= $row['title'] ?></td>

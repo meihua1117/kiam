@@ -54,7 +54,7 @@ else if($mode == "edit_table"){
         $res_mem_data = mysqli_query($self_con,$sql_mem_data);
         $row_mem_data = mysqli_fetch_array($res_mem_data);
 
-        echo '{"reg_name":"'.$row_mem_data['name'].'", "reg_phone1":"'.$row_mem_data['phone1'].'", "reg_phone2":"'.$row_mem_data[phone2].'", "reg_email":"'.$row_mem_data['email'].'", "reg_birthday":"'.$row_mem_data['birthday'].'", "reg_work_type":"'.$row_mem_data[work_type].'", "reg_company_name":"'.$row_mem_data['company_name'].'", "reg_job":"'.$row_mem_data['job'].'", "reg_company_addr":"'.$row_mem_data[company_addr].'", "reg_home_addr":"'.$row_mem_data[home_addr].'", "reg_link":"'.$row_mem_data[link].'", "reg_memo":"'.$row_mem_data['memo'].'"}';
+        echo '{"reg_name":"'.$row_mem_data['name'].'", "reg_phone1":"'.$row_mem_data['phone1'].'", "reg_phone2":"'.$row_mem_data[phone2].'", "reg_email":"'.$row_mem_data['email'].'", "reg_birthday":"'.$row_mem_data['birthday'].'", "reg_work_type":"'.$row_mem_data[work_type].'", "reg_company_name":"'.$row_mem_data['company_name'].'", "reg_job":"'.$row_mem_data['job'].'", "reg_company_addr":"'.$row_mem_data[company_addr].'", "reg_home_addr":"'.$row_mem_data[home_addr].'", "reg_link":"'.$row_mem_data['link'].'", "reg_memo":"'.$row_mem_data['memo'].'"}';
     }
     else if($type == "req_cust_edit"){
         $sql_mem_data = "select a.*, b.short_url from Gn_event_request a inner join Gn_event b on a.event_idx=b.event_idx where a.request_idx='{$idx}'";

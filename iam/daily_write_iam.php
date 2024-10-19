@@ -596,7 +596,7 @@ $skrow['cnt'] = $skrow['cnt'] * 1 - $count;
                             <tr>
                                 <th class="w200">[발송시작일]</th>
                                 <td>
-                                    <input type="date" name="start_send" id="start_send" style="width:20%;" value="<?= $_GET[start_send] ? $_GET[start_send] : $cur_date ?>" />
+                                    <input type="date" name="start_send" id="start_send" style="width:20%;" value="<?= $_GET['start_send'] ? $_GET['start_send'] : $cur_date ?>" />
                                     <select name="htime" id="htime" style="width:50px;">
                                         <?
                                         for ($i = 9; $i < 20; $i++) {

@@ -148,11 +148,11 @@ else if(isset($_POST['show_req_mem_detail'])){
   $i = 0;
   while($row_req_mem = mysqli_fetch_array($res_req_mem)){
     $i++;
-    $ksql="select * from Gn_MMS_Group where idx='$row_req_mem[group_idx]'";
+    $ksql="select * from Gn_MMS_Group where idx='{$row_req_mem['group_idx']}'";
     $kresult=mysqli_query($self_con,$ksql) or die(mysqli_error($self_con));
     $krow = mysqli_fetch_array($kresult);
 
-    $sql="select count(*) cnt from Gn_daily_date where gd_id='$row_req_mem[gd_id]'";
+    $sql="select count(*) cnt from Gn_daily_date where gd_id='{$row_req_mem['gd_id']}'";
     $sresult=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
     $srow = mysqli_fetch_array($sresult);
 

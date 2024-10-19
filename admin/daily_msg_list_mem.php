@@ -163,11 +163,11 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                 	$query .= "$orderQuery";
                 	$res = mysqli_query($self_con,$query);
                     while($row = mysqli_fetch_array($res)) {      				
-                      $ksql="select * from Gn_MMS_Group where idx='$row[group_idx]'";
+                      $ksql="select * from Gn_MMS_Group where idx='{$row['group_idx']}'";
                       $kresult=mysqli_query($self_con,$ksql) or die(mysqli_error($self_con));
                       $krow = mysqli_fetch_array($kresult);
 
-                      $sql="select count(*) cnt from Gn_daily_date where gd_id='$row[gd_id]'";
+                      $sql="select count(*) cnt from Gn_daily_date where gd_id='{$row['gd_id']}'";
                       $sresult=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
                       $srow = mysqli_fetch_array($sresult);
                   ?>
@@ -185,7 +185,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                             <td><?=$row['start_date']?></td>
                             <td><?=$row['end_date']?></td>
                             <td><?=$row['reg_date']?></td>
-                            <td><a href="edit_daily_msg.php?type=mem&gd_id=<?=$row[gd_id]?>">수정</a>/<a href="javascript:delete_daily(<?=$row[gd_id]?>)">삭제</a></td>
+                            <td><a href="edit_daily_msg.php?type=mem&gd_id=<?=$row['gd_id']?>">수정</a>/<a href="javascript:delete_daily(<?=$row['gd_id']?>)">삭제</a></td>
                       </tr>
                     <?
                     $c++;

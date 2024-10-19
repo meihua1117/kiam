@@ -23,11 +23,11 @@ $sql="select * from Gn_event_sms_info where sms_idx='{$row['sms_idx']}'";
 $result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 $event_row=mysqli_fetch_array($result);
 
-$sql="select * from Gn_MMS_Group where idx='$row[address_idx]'";
+$sql="select * from Gn_MMS_Group where idx='{$row['address_idx']}'";
 $result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 $group_row=mysqli_fetch_array($result);
 
-$sql="select count(idx) as cnt from Gn_MMS_Receive where grp_id = '$row[address_idx]'";
+$sql="select count(idx) as cnt from Gn_MMS_Receive where grp_id = '{$row['address_idx']}'";
 $dresult = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 $drow=mysqli_fetch_array($dresult);
 $cnt = $drow[0];

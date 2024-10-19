@@ -11,7 +11,7 @@ $sql="select * from Gn_daily  where gd_id='".$gd_id."'";
 $sresul_num=mysqli_query($self_con,$sql);
 $row=mysqli_fetch_array($sresul_num);	
 if($row[0]) {
-    $sql="select * from Gn_MMS_Group where idx='$row[group_idx]'";
+    $sql="select * from Gn_MMS_Group where idx='{$row['group_idx']}'";
     $sresult=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));					  	 
     $krow = mysqli_fetch_array($sresult);   
     
@@ -79,7 +79,7 @@ else $link = "daily_msg_list_mem.php";
 						<div class="box-body">
 							<input type="hidden" name="mode" value="daily_update" />
 							<input type="hidden" name="gd_id" value="<?php echo $gd_id;?>" />
-							<input type="hidden" name="total_count" id="total_count" value="<?php echo $_GET[address_cnt]?$_GET[address_cnt]:$row['total_count'];?>" />
+							<input type="hidden" name="total_count" id="total_count" value="<?php echo $_GET['address_cnt']?$_GET['address_cnt']:$row['total_count'];?>" />
 							<div>
 								<div class="p1">
 									<table class="list_table1" width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -104,9 +104,9 @@ else $link = "daily_msg_list_mem.php";
 										<tr>
 											<th class="w200">[주소록선택]</th>
 											<td>
-												<input type="hidden" name="group_idx" placeholder="" id="address_idx" value="<?php echo $_GET[address_idx]?$_GET[address_idx]:$row[group_idx];?>" readonly style="width:100px" />
-												<input type="text" name="address_name" placeholder="" id="address_name" value="<?php echo $_GET[address_name]?$_GET[address_name]:$krow['grp']?>" readonly style="width:100px" />
-												<input type="button" value="주소록 조회" class="button " id="searchBtn">[선택건수]<span id="address_cnt"><?php echo $_GET[address_cnt]?$_GET[address_cnt]:$row['total_count'];?></span>
+												<input type="hidden" name="group_idx" placeholder="" id="address_idx" value="<?php echo $_GET['address_idx']?$_GET['address_idx']:$row['group_idx'];?>" readonly style="width:100px" />
+												<input type="text" name="address_name" placeholder="" id="address_name" value="<?php echo $_GET['address_name']?$_GET['address_name']:$krow['grp']?>" readonly style="width:100px" />
+												<input type="button" value="주소록 조회" class="button " id="searchBtn">[선택건수]<span id="address_cnt"><?php echo $_GET['address_cnt']?$_GET['address_cnt']:$row['total_count'];?></span>
 											</td>
 										</tr>
 										<tr>
@@ -198,8 +198,8 @@ else $link = "daily_msg_list_mem.php";
 											<div style="width:30%;text-align:left;margin:0px;">
 												<ul id="date_list">
 													<?php
-														if(isset($_GET[address_cnt])){
-															$day = ceil($_GET[address_cnt] / $_REQUEST['daily_cnt']);
+														if(isset($_GET['address_cnt'])){
+															$day = ceil($_GET['address_cnt'] / $_REQUEST['daily_cnt']);
 														}
 														else{
 															$day = ceil($row['total_count'] / $_REQUEST['daily_cnt']);
