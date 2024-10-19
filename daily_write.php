@@ -15,7 +15,6 @@ $sresul_num = mysqli_query($self_con, $sql);
 $data = mysqli_fetch_array($sresul_num);
 $gd_id = $_GET['gd_id'];
 $sql = "select * from Gn_daily  where gd_id='{$gd_id}'";
-echo $sql;
 $sresul_num = mysqli_query($self_con, $sql);
 $row = mysqli_fetch_array($sresul_num);
 if ($row[0]) {
@@ -369,7 +368,6 @@ $row_content = mysqli_fetch_array($res_content);
                 type: type
             },
             success: function(data) {
-                // $($(".loading_div")[0]).hide();
                 $("#ajax_div").html(data);
             }
         });
@@ -919,7 +917,6 @@ $row_content = mysqli_fetch_array($res_content);
                         <div>
                             <ul id="date_list" style="margin-left:10px;padding:0px;">
                                 <?php
-                                echo "start=" . json_encode($row);
                                 if (isset($_GET['address_cnt'])) {
                                     if (isset($_GET['max_count']) && $_GET['max_count']) {
                                         $day = ceil($_GET['max_count'] / $_REQUEST['daily_cnt']);
@@ -927,13 +924,13 @@ $row_content = mysqli_fetch_array($res_content);
                                         $day = ceil($_GET['address_cnt'] / $_REQUEST['daily_cnt']);
                                     }
                                 } else {
+                                    echo "log=".$row['max_count'];
                                     if ($row['max_count']) {
                                         $day = ceil($row['max_count'] / $_REQUEST['daily_cnt']);
                                     } else {
                                         $day = ceil($row['total_count'] / $_REQUEST['daily_cnt']);
                                     }
                                 }
-                                echo $day;
                                 for ($i = 0; $i < $day; $i++) {
                                     $start_day = strtotime($_GET['start_send']) + (86400 * $i);
                                     $today = date("Y-m-d", $start_day);
