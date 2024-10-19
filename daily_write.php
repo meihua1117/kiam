@@ -924,11 +924,14 @@ $row_content = mysqli_fetch_array($res_content);
                                         $day = ceil($_GET['address_cnt'] / $_REQUEST['daily_cnt']);
                                     }
                                 } else {
-                                    echo "row=".json_encode($row);
-                                    if ($row['max_count']) {
-                                        $day = ceil($row['max_count'] / $_REQUEST['daily_cnt']);
+                                    if ($row) {
+                                        if ($row['max_count']) {
+                                            $day = ceil($row['max_count'] / $_REQUEST['daily_cnt']);
+                                        } else {
+                                            $day = ceil($row['total_count'] / $_REQUEST['daily_cnt']);
+                                        }
                                     } else {
-                                        $day = ceil($row['total_count'] / $_REQUEST['daily_cnt']);
+                                        $day = 0;
                                     }
                                 }
                                 for ($i = 0; $i < $day; $i++) {
