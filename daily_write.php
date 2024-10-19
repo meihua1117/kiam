@@ -946,6 +946,7 @@ $row_content = mysqli_fetch_array($res_content);
                         <div>
                             <ul id="date_list" style="margin-left:10px;padding:0px;">
                                 <?php
+                                echo "start=".json_encode($row);
                                 if (isset($_GET['address_cnt'])) {
                                     if (isset($_GET['max_count']) && $_GET['max_count']) {
                                         $day = ceil($_GET['max_count'] / $_REQUEST['daily_cnt']);
