@@ -143,7 +143,7 @@ $(function(){
                     </tr>
                     <tr>
                         <td>일반폰번호</td>
-                        <td  colspan="3"><?=$member_1[mem_phone1]?></td>
+                        <td  colspan="3"><?=$member_1['mem_phone1']?></td>
                     </tr>
                     <tr>
                         <td>성명</td>
@@ -222,71 +222,12 @@ $(function(){
                     <tr>
                         <td>자택주소</td>
                         <td colspan="3">
-                        <?
-                            // 광역시도 목록
-                            // $province_list = array();
-                            // $query = "SELECT province FROM gn_cities group by province";
-                            // $res = mysqli_query($self_con,$query);
-                            // while($row = mysqli_fetch_array($res)) {
-                            //   $province_list[] = $row['province'];
-                            // }
-                            // $member_address = explode(" ", $member_1['mem_add1']);
-                            // if(count($member_address) == 4){
-                            //     $provice1 = $member_address[0];
-                            //     $city1 = $member_address[1] . " " . $member_address[2];
-                            //     $town1 = $member_address[3];
-                            // }
-                            // else{
-                            //     $provice1 = $member_address[0];
-                            //     $city1 = $member_address[1];
-                            //     $town1 = $member_address[2];
-                            // }
-                            // $city_list = array();
-                            // if(isset($provice1)) {
-                            //     $query = "SELECT city FROM gn_cities WHERE province = '{$provice1}' group by city ";
-                            //     $res = mysqli_query($self_con,$query);
-                            //     while($row = mysqli_fetch_array($res)) {
-                            //         $city_list[] = $row['city'];
-                            //     }
-                            // }
-
-                            // $town_list = array();
-                            // if(isset($city1)) {
-                            //     $query = "SELECT town FROM gn_cities WHERE city = '{$city1}' and province = '{$provice1}' group by town";
-                            //     $res = mysqli_query($self_con,$query);
-                            //     while($row = mysqli_fetch_array($res)) {
-                            //         $town_list[] = $row['town'];
-                            //     }
-                            // }
-                        ?>
-                        <?php //if($code == "KR") {?>
-                            <!-- <select itemname="주소" id = "value_region_province" style="background-color:#c8edfc;">
-                                <option value="">-시/도-</option>
-                                <? foreach($province_list as $province) {?>
-                                    <option value="<?=$province?>" <? if($province == $provice1) { echo 'selected'; }?>><?=$province?></option>
-                                <?}?>
-                            </select>
-                            <select id="value_region_city" style="background-color:#c8edfc;" itemname="주소">
-                                <option value="">-군/구-</option>
-                                <? foreach($city_list as $city) {?>
-                                    <option value="<?=$city?>" <? if($city == $city1) { echo 'selected'; }?>><?=$city?></option>
-                                <?}?>
-                            </select>
-                            <select id="value_region_town" style="background-color:#c8edfc;" itemname="주소">
-                                <option value="">-읍/면/동-</option>
-                                <? foreach($town_list as $town) {?>
-                                    <option value="<?=$town?>" <? if($town1 == $town) { echo 'selected'; }?>><?=$town?></option>
-                                <?}?>
-                            </select>
-                            <input type="text" name="add1" id="add1" class="input" placeholder="지역통계를 위해 읍,면,동까지 입력" style="display: none" value="<?=$member_1['mem_add1']?>"> -->
-                        <?//}else{?>
                             <input type="text" name="zip" id="zip" required  class="input" placeholder="우편번호"  value="<?php echo $member_1['mem_zip'];?>" style="width: 35%;margin-bottom: 5px;">
                             <button type="button" onclick="win_zip('edit_form', 'zip', 'add1', 'add2', 'add3', 'b_addr_jibeon');" class="btn_small grey" style="background: #888;color: white;padding: 3px;border-color: #888;">주소검색</button>
                             <input type="text" name="add1" id="add1" required  class="input" placeholder="도로명"  value="<?php echo $member_1['mem_add1'];?>" style="width: 100%">
                             <input type="text" name="add2" id="add2"  class="input" placeholder="집주소 상세정보를 입력하세요."  value="<?php echo $member_1['mem_add2'];?>" style="width: 100%;background-color: rgb(200, 237, 252);margin-top: 5px;">
                             <input type="text" name="add3" class="frm_input frm_address" readonly="" hidden>
                             <input type="hidden" name="b_addr_jibeon" value="R">
-                        <?//}?>
                       </td>
                     </tr>
                     <tr>
