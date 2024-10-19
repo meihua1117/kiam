@@ -71,6 +71,7 @@ if ($send_ids != "") {
 	.button_app {
 		text-align: center;
 		padding: 10px;
+		cursor:pointer;
 	}
 
 	.table-bordered>tbody>tr>td {
