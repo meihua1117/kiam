@@ -47,7 +47,7 @@ while($row6=mysqli_fetch_array($result6)){
     $res_event_data = mysqli_query($self_con,$sql_event_data);
     $row_event_data = mysqli_fetch_array($res_event_data);
 
-    $sql_mem = "select mem_phone from Gn_Member where mem_id='{$row_event_data[m_id]}'";
+    $sql_mem = "select mem_phone from Gn_Member where mem_id='{$row_event_data['m_id']}'";
     $res_mem = mysqli_query($self_con,$sql_mem);
     $row_mem = mysqli_fetch_array($res_mem);
         

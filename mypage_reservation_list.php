@@ -30,7 +30,7 @@ $row_mem_info = mysqli_fetch_array($res_mem_info);
 $send_ids = $row_mem_info['step_send_ids'];
 if ($send_ids != "") {
 	$cnt = explode(",", $send_ids);
-	$send_ids_cnt = count($cnt);
+	$send_ids_cnt = $cnt = count($cnt);
 }
 ?>
 <script>
@@ -229,7 +229,6 @@ if ($send_ids != "") {
 										<td><?= $row['reservation_desc'] ?></td>
 										<td><?= number_format($srow['cnt']) ?></td>
 										<td><?= number_format($cnt) ?>/<?= number_format($cnt) ?></td>
-										<?="cnt=".$cnt?>
 										<td><?= $row['regdate'] ?></td>
 										<td>
 											<a href='mypage_reservation_create.php?sms_idx=<?=$row['sms_idx']; ?>'>수정</a>/<a href="javascript:;;" onclick="deleteRow('<?=$row['sms_idx']; ?>')">삭제</a>
