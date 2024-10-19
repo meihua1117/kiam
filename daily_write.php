@@ -15,6 +15,7 @@ $sresul_num = mysqli_query($self_con, $sql);
 $data = mysqli_fetch_array($sresul_num);
 $gd_id = $_GET['gd_id'];
 $sql = "select * from Gn_daily  where gd_id='{$gd_id}'";
+echo $sql;
 $sresul_num = mysqli_query($self_con, $sql);
 $row = mysqli_fetch_array($sresul_num);
 if ($row[0]) {
@@ -629,7 +630,6 @@ $row_content = mysqli_fetch_array($res_content);
                                             } else {
                                                 $htime = '15';
                                             }
-                                            // $htime = $row['htime']?$row['htime']:$_GET['htime'];
                                             $selected = $htime == $iv ? "selected" : "";
                                         ?>
                                             <option value="<?= $iv ?>" <?= $selected ?>><?= $iv ?></option>
@@ -777,33 +777,6 @@ $row_content = mysqli_fetch_array($res_content);
                     <?php } ?>
                     </td>
                     </tr>
-                    <!-- <tr>
-                        <th class="w200">[발송시간선택]</th>
-                        <td>
-                        <select name="htime" style="width:50px;"  >
-                            <?
-                            for ($i = 9; $i < 20; $i++) {
-                                $iv = $i < 10 ? "0" . $i : $i;
-                                $selected = $row['htime'] == $iv ? "selected" : "";
-                            ?>
-                                <option value="<?= $iv ?>" <?= $selected ?>><?= $iv ?></option>
-                                <?
-                            }
-                                ?>
-                        </select>
-                        <select name="mtime" style="width:50px;"  >
-                            <?
-                            for ($i = 0; $i < 31; $i += 30) {
-                                $iv = $i == 0 ? "00" : $i;
-                                $selected = $row['mtime'] == $iv ? "selected" : "";
-                            ?>
-                                <option value="<?= $iv ?>" <?= $selected ?>><?= $iv ?></option>
-                                <?
-                            }
-                                ?>
-                        </select>
-                        </td>
-                    </tr> -->
                     </table>
                 </div>
                 <div class="a2" style="display:none">
@@ -946,7 +919,7 @@ $row_content = mysqli_fetch_array($res_content);
                         <div>
                             <ul id="date_list" style="margin-left:10px;padding:0px;">
                                 <?php
-                                echo "start=".json_encode($row);
+                                echo "start=" . json_encode($row);
                                 if (isset($_GET['address_cnt'])) {
                                     if (isset($_GET['max_count']) && $_GET['max_count']) {
                                         $day = ceil($_GET['max_count'] / $_REQUEST['daily_cnt']);
