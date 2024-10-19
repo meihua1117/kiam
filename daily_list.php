@@ -1,6 +1,7 @@
 <?
 $path = "./";
 include_once "_head.php";
+echo $_SESSION['one_member_id'];
 if (!$_SESSION['one_member_id']) {
 ?>
 	<script language="javascript">
@@ -9,7 +10,7 @@ if (!$_SESSION['one_member_id']) {
 <?
 	exit;
 }
-$sql = "select * from Gn_Member  where mem_id='" . $_SESSION['one_member_id'] . "' and site != ''";
+$sql = "select * from Gn_Member  where mem_id='{$_SESSION['one_member_id']}' and site != ''";
 $sresul_num = mysqli_query($self_con, $sql);
 $data = mysqli_fetch_array($sresul_num);
 ?>
@@ -24,7 +25,6 @@ $data = mysqli_fetch_array($sresul_num);
 		} else {
 			temp = prompt("Ctrl+C를 눌러 클립보드로 복사하세요", trb);
 		}
-
 	}
 	$(function() {
 		$(".popbutton").click(function() {
@@ -33,7 +33,6 @@ $data = mysqli_fetch_array($sresul_num);
 				onLoad: function() {}
 			});
 		})
-
 	});
 
 	function copyHtml(url) {
@@ -45,7 +44,6 @@ $data = mysqli_fetch_array($sresul_num);
 		} else {
 			temp = prompt("Ctrl+C를 눌러 클립보드로 복사하세요", url);
 		}
-
 	}
 
 	function go_sendlist() {
