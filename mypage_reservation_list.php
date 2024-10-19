@@ -11,21 +11,21 @@ if (!$_SESSION['one_member_id']) {
 	exit;
 }
 $sql = "select * from Gn_Member  where mem_id='" . $_SESSION['one_member_id'] . "'";
-$sresul_num = mysqli_query($self_con,$sql);
+$sresul_num = mysqli_query($self_con, $sql);
 $data = mysqli_fetch_array($sresul_num);
 
 if ($data['intro_message'] == "") {
 	$data['intro_message'] = "안녕하세요\n
-\n
-귀하의 휴대폰으로\n
-기부문자발송을 시작합니다.\n
-\n
-협조해주셔서 감사합니다^^
-";
+								\n
+								귀하의 휴대폰으로\n
+								기부문자발송을 시작합니다.\n
+								\n
+								협조해주셔서 감사합니다^^
+								";
 }
 
 $sql_mem_info = "select step_send_ids from Gn_Member where mem_id='{$_SESSION['one_member_id']}'";
-$res_mem_info = mysqli_query($self_con,$sql_mem_info);
+$res_mem_info = mysqli_query($self_con, $sql_mem_info);
 $row_mem_info = mysqli_fetch_array($res_mem_info);
 $send_ids = $row_mem_info['step_send_ids'];
 if ($send_ids != "") {
@@ -149,7 +149,7 @@ if ($send_ids != "") {
 						<div>
 							<table class="list_table" style="width:100%;border:none" cellspacing="0" cellpadding="0">
 								<tr>
-									<td style="width:2%;"><input type="checkbox" name="allChk" id="allChk" value="<?php echo $row['event_idx']; ?>"></td>
+									<td style="width:2%;"><input type="checkbox" name="allChk" id="allChk" value="<?=$row['event_idx']; ?>"></td>
 									<!-- <td style="width:2%;"></td> -->
 									<td style="width:6%;">No</td>
 									<td style="width:15%;">메시지세트제목</td>
@@ -161,7 +161,6 @@ if ($send_ids != "") {
 
 								</tr>
 								<?
-
 								$sql_serch = " m_id ='{$_SESSION['one_member_id']}' ";
 								if ($_REQUEST['search_date']) {
 									if ($_REQUEST['rday1']) {
@@ -180,7 +179,7 @@ if ($send_ids != "") {
 								}
 
 								$sql = "select count(sms_idx) as cnt from Gn_event_sms_info where $sql_serch ";
-								$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+								$result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
 								$row = mysqli_fetch_array($result);
 								$intRowCount = $row['cnt'];
 								if (!$_POST['lno'])
@@ -210,20 +209,19 @@ if ($send_ids != "") {
 								$intPageCount = (int)(($intRowCount + $intPageSize - 1) / $intPageSize);
 								if ($intRowCount) {
 									$sql = "select * from Gn_event_sms_info where $sql_serch order by $order_name $order_status limit $int,$intPageSize";
-									$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+									$result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
 
 								?>
 									<?
 									while ($row = mysqli_fetch_array($result)) {
 										$sql = "select count(*) as cnt from Gn_event_sms_step_info where sms_idx='{$row['sms_idx']}'";
-										$sresult = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+										$sresult = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
 										$srow = mysqli_fetch_array($sresult);
 									?>
 										<tr>
-											<!-- <td></td> -->
 											<td>
 												<? if ($row['sendable'] == 1) { ?>
-													<input type="checkbox" class="check" name="sms_idx" value="<?php echo $row['sms_idx']; ?>" data-event-idx="<?= $row['event_idx'] ?>" data-name="<?= $row['m_id'] ?>" data-mobile="<?= $row['mobile'] ?>" data-event_name_eng="<?= $row['event_name_eng'] ?>" data-title="<?= $row['reservation_title'] ?>" data-desc="<?= $row['reservation_desc'] ?>">
+													<input type="checkbox" class="check" name="sms_idx" value="<?=$row['sms_idx']; ?>" data-event-idx="<?= $row['event_idx'] ?>" data-name="<?= $row['m_id'] ?>" data-mobile="<?= $row['mobile'] ?>" data-event_name_eng="<?= $row['event_name_eng'] ?>" data-title="<?= $row['reservation_title'] ?>" data-desc="<?= $row['reservation_desc'] ?>">
 											</td>
 										<? } ?>
 										<td><?= $sort_no ?></td>
@@ -233,7 +231,7 @@ if ($send_ids != "") {
 										<td><?= number_format($cnt) ?>/<?= number_format($cnt) ?></td>
 										<td><?= $row['regdate'] ?></td>
 										<td>
-											<a href='mypage_reservation_create.php?sms_idx=<?php echo $row['sms_idx']; ?>'>수정</a>/<a href="javascript:;;" onclick="deleteRow('<?php echo $row['sms_idx']; ?>')">삭제</a>
+											<a href='mypage_reservation_create.php?sms_idx=<?=$row['sms_idx']; ?>'>수정</a>/<a href="javascript:;;" onclick="deleteRow('<?=$row['sms_idx']; ?>')">삭제</a>
 										</td>
 										</tr>
 									<?
