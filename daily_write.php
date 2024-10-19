@@ -924,7 +924,7 @@ $row_content = mysqli_fetch_array($res_content);
                                         $day = ceil($_GET['address_cnt'] / $_REQUEST['daily_cnt']);
                                     }
                                 } else {
-                                    echo "log=".$row['max_count'];
+                                    echo "row=".$row;
                                     if ($row['max_count']) {
                                         $day = ceil($row['max_count'] / $_REQUEST['daily_cnt']);
                                     } else {
