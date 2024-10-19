@@ -959,6 +959,7 @@ $row_content = mysqli_fetch_array($res_content);
                                         $day = ceil($row['total_count'] / $_REQUEST['daily_cnt']);
                                     }
                                 }
+                                echo $day;
                                 for ($i = 0; $i < $day; $i++) {
                                     $start_day = strtotime($_GET['start_send']) + (86400 * $i);
                                     $today = date("Y-m-d", $start_day);
