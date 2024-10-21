@@ -133,17 +133,17 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                                     else{
                                         $org = "아크팜스";
                                     }
-                                    $cur_cnt = $row[add_cnt] * 1 + $row[update_cnt] * 1;
+                                    $cur_cnt = $row['add_cnt'] * 1 + $row['update_cnt'] * 1;
 
-                                    if($row[add_cnt]){
-                                        $add_min_val = $row[add_cnt];
+                                    if($row['add_cnt']){
+                                        $add_min_val = $row['add_cnt'];
                                     }
                                     else{
                                         $date_com = date("Y-m-d")." 00:00:00";
                                         $sql_last = "select * from Gn_Gwc_Sync_State where reg_date<'{$date_com}' and type='{$row['type']}' order by id desc limit 1";
                                         $res_last = mysqli_query($self_con,$sql_last);
                                         $row_last = mysqli_fetch_array($res_last);
-                                        $cur_last = $row_last[add_cnt] * 1 + $row_last[update_cnt] * 1;
+                                        $cur_last = $row_last['add_cnt'] * 1 + $row_last['update_cnt'] * 1;
 
                                         $add_min_val = $cur_cnt * 1 - $cur_last * 1;
                                     }
@@ -152,7 +152,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                                     <td><?=$number--?></td>
                                     <td><?=$org?></td>
                                     <td><?=$cur_cnt?></td>
-                                    <td><?=$row[update_cnt]?></td>
+                                    <td><?=$row['update_cnt']?></td>
                                     <td><?=$add_min_val?></td>
                                     <td><?=$row['reg_date']?></td>
                                 </tr>

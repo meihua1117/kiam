@@ -15,7 +15,6 @@
     position: absolute;
     top: 370px;
     right: 510px;
-    overflow: ;
     width: 577px;
     height: 200px;
 }

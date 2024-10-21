@@ -80,8 +80,6 @@ if($iam_service_row[0] == 0 && $pay_row[0] > 0)
     input {
          line-height: normal!important; 
     }
-    button, input, optgroup, select, textarea {
-    }
     ul li a
     {
         font-family: 'notokr', sans-serif;

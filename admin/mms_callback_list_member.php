@@ -116,10 +116,6 @@ $date_today = date("Y-m-d");
 
   }
 
-  .agree {
-    /*background: #d5ffd5!important;   */
-  }
-
   .disagree {
     background: #ffd5d5 !important;
   }

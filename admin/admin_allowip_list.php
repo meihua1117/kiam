@@ -153,9 +153,6 @@ input:checked + .slider:before {
     transition: .4s;
 
 }
-.agree{
-     /*background: #d5ffd5!important;   */
-    }
 .disagree{
      background: #ffd5d5!important;   
     }
