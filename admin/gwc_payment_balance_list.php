@@ -268,6 +268,7 @@ $search_month = $search_month?sprintf("%02d",$search_month):sprintf("%02d",date(
                                 $pageCnt = 20;
 
                                 // 검색 조건을 적용한다.
+                                $searchCondition = "";
                                 $searchCondition .= $search_key ? " Where g.seller_id LIKE '%".$search_key."%' " : null;
                                 $searchCondition .= $selling_key ? " Where Gn_Member.site LIKE '%".$selling_key."%' " : null;
                                 $searchCondition .= $iam_key ? " Where Gn_Member.site_iam LIKE '%".$iam_key."%' " : null;
