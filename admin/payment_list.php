@@ -454,7 +454,7 @@ $date_today=date("Y-m-d");
                                             if($row['member_type'] != "dber")
                                                 echo number_format($row['iam_card_cnt']).'/'.number_format($row['db_cnt']).'/'.number_format($row['max_cnt']);
                                             else
-                                                echo number_format($row['db_cnt']).'/'.number_format($row['email_cnt']).'/'.number_format($row[shop_cnt]);
+                                                echo number_format($row['db_cnt']).'/'.number_format($row['email_cnt']).'/'.number_format($row['shop_cnt']);
                                             ?>
                                         </td>
                                         <td><?=$row['VACT_InputName']?></td>

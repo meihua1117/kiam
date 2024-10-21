@@ -128,7 +128,7 @@ if($_POST['phone_cnt'] > 0) {
         $query = "update crawler_member_real set
                                         extra_db_cnt = extra_db_cnt + '{$row['db_cnt']}',
                                         extra_email_cnt = extra_email_cnt + '{$row['email_cnt']}',
-                                        extra_shopping_cnt = extra_shopping_cnt + '$row[shop_cnt]'
+                                        extra_shopping_cnt = extra_shopping_cnt + '{$row['shop_cnt']}'
                                         where user_id='$user_id'
                                         ";
         mysqli_query($self_con,$query);

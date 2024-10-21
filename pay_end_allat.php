@@ -113,13 +113,13 @@ $at_data   = "allat_shop_id=".$at_shop_id.
                                             shopping_end_date='$search_email_date',
                                             extra_db_cnt = '{$row['db_cnt']}',
                                             extra_email_cnt = '{$row['email_cnt']}',
-                                            extra_shopping_cnt = '$row[shop_cnt]'";
+                                            extra_shopping_cnt = '{$row['shop_cnt']}'";
             mysqli_query($self_con,$query);
         } else {
             $query = "update crawler_member_real set
                                             extra_db_cnt = extra_db_cnt + '{$row['db_cnt']}',
                                             extra_email_cnt = extra_email_cnt + '{$row['email_cnt']}',
-                                            extra_shopping_cnt = extra_shopping_cnt + '$row[shop_cnt]'
+                                            extra_shopping_cnt = extra_shopping_cnt + '{$row['shop_cnt']}'
                                             where user_id='$user_id'
                                             ";
             mysqli_query($self_con,$query);
