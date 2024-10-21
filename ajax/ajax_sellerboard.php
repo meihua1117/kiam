@@ -1729,7 +1729,7 @@ if ($_POST['select_app_check_num']) {
 				)
 			);
 
-			$fields['android'] = array("priority"=>"high");
+			$fields['android'] = array("priority" => "high");
 			$fields['token'] = $id;
 			$fields = json_encode(array('message' => $fields));
 			$ch = curl_init();
