@@ -216,7 +216,7 @@
                             }
                             $html = "";
                             if ($func != "") {
-                                $func = str_replace("domainData[kakao]", $domainData['kakao'], $func);
+                                $func = str_replace("domainData['kakao']", $domainData['kakao'], $func);
                                 if (strstr($func, "mypage_report") && $member_iam['service_type'] < 2)
                                     $func = str_replace("mypage_report.php", "mypage_report_list.php", $func);
                                 if ($odd == 0) {

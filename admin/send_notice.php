@@ -49,7 +49,7 @@ function sendPush($url, $headers, $pkey, $sidx, $send_type, $send_num)
     //$fields = json_encode ($fields);
     $fields = http_build_query($fields);
     $ch = curl_init ();
-    curl_setopt ( $ch, CURLOPT_URL, "https://nm.kiam.kr/fcm/send_fcm.php" );
+    curl_setopt ( $ch, CURLOPT_URL, $url );
     curl_setopt ( $ch, CURLOPT_POST, true );
     //curl_setopt ( $ch, CURLOPT_HTTPHEADER, $headers );
     curl_setopt ( $ch, CURLOPT_RETURNTRANSFER, true );
@@ -81,7 +81,7 @@ set_time_limit(0);
 $debug_mode = false;
 $ret = array('status'=>'1', 'msg'=>'');
 
-$url = 'https://fcm.googleapis.com/fcm/send';
+$url = 'https://fcm.googleapis.com/v1/projects/onepagebookmms5/messages:send';
 $headers = array (
     'Authorization: key=' . GOOGLE_SERVER_KEY,
     'Content-Type: application/json'

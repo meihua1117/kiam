@@ -10,7 +10,7 @@ $debug_mode = false;
 
 if($_SESSION['one_member_id']){
     
-    $url = 'https://fcm.googleapis.com/fcm/send';
+    $url = 'https://fcm.googleapis.com/v1/projects/onepagebookmms5/messages:send';
 
     $headers = array (
         'Authorization: key=' . GOOGLE_SERVER_KEY,

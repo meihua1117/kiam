@@ -7,7 +7,7 @@ define("GOOGLE_SERVER_KEY", "AAAAmvl-uQA:APA91bHP4S4L8-nMvfOJ9vcjYlTmiRjEfOcLbAm
 $debug_mode = false;
 if(isset($_POST['auto'])){
     $mem_id_mms = "onlymkmain";
-    $url = 'https://fcm.googleapis.com/fcm/send';
+    $url = 'https://fcm.googleapis.com/v1/projects/onepagebookmms5/messages:send';
     $headers = array (
         'Authorization: key=' . GOOGLE_SERVER_KEY,
         'Content-Type: application/json'

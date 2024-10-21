@@ -5,7 +5,7 @@ if($_POST['select_app_check_num']){
 	$num_arr=$_POST['select_app_check_num'];
 	$uni_id=time();
 	$i=$_POST['select_app_check_i'];
-	$url = 'https://fcm.googleapis.com/fcm/send';
+	$url = 'https://fcm.googleapis.com/v1/projects/onepagebookmms5/messages:send';
     $headers = array (
         'Authorization: key=' . GOOGLE_SERVER_KEY,
         'Content-Type: application/json'

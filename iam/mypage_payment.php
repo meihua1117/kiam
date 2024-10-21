@@ -737,10 +737,10 @@ $mid = date("YmdHis").rand(10,99);
                             while($row_penalty = mysqli_fetch_array($res_penalty)){
                             ?>
                             <tr>
-                                <td><?=$row_penalty[month]?>개월</td>
-                                <td><?=number_format($row_penalty[reg_money])?></td>
-                                <td><?=number_format($row_penalty[manage_money])?></td>
-                                <td><?=number_format($row_penalty[use_money])?></td>
+                                <td><?=$row_penalty['month']?>개월</td>
+                                <td><?=number_format($row_penalty['reg_money'])?></td>
+                                <td><?=number_format($row_penalty['manage_money'])?></td>
+                                <td><?=number_format($row_penalty['use_money'])?></td>
                                 <td><?=number_format($row_penalty['penalty_money'])?></td>
                             </tr>
                             <?}?>

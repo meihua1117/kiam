@@ -2,7 +2,7 @@
 include_once "../lib/rlatjd_fun.php";
 
 define("GOOGLE_SERVER_KEY", "AAAAmvl-uQA:APA91bHP4S4L8-nMvfOJ9vcjYlTmiRjEfOcLbAm6ITDFo9Ky-ziKAowlZi0rWhO3c7jsZ50unqWabQCBAmtr9bOxUIbwyAMgRsxO1jeLKlJ9l_Gir_wc1sZ66VBtHVBSjeAZcRfffVwo7M2fBvrrt1d5vz5clf7PVQ");
-$push_url = 'https://fcm.googleapis.com/fcm/send';
+$push_url = 'https://fcm.googleapis.com/v1/projects/onepagebookmms5/messages:send';
 $push_headers = array (
     'Authorization: key=' . GOOGLE_SERVER_KEY,
     'Content-Type: application/json'
@@ -118,7 +118,8 @@ function sendPush($url, $headers, $pkey, $sidx, $send_type, $send_num)
     //$fields = json_encode ($fields);
     $fields = http_build_query ($fields);
     $ch = curl_init ();
-    curl_setopt ( $ch, CURLOPT_URL, "https://nm.kiam.kr/fcm/send_fcm.php" );
+    //curl_setopt ( $ch, CURLOPT_URL, "https://nm.kiam.kr/fcm/send_fcm.php" );
+    curl_setopt ( $ch, CURLOPT_URL, $url );
     curl_setopt ( $ch, CURLOPT_POST, true );
     //curl_setopt ( $ch, CURLOPT_HTTPHEADER, $headers );
     curl_setopt ( $ch, CURLOPT_RETURNTRANSFER, true );

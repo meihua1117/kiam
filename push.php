@@ -1,9 +1,8 @@
 #!/opt/php/bin/php
 <?php
 define("GOOGLE_SERVER_KEY", "AAAAmvl-uQA:APA91bHP4S4L8-nMvfOJ9vcjYlTmiRjEfOcLbAm6ITDFo9Ky-ziKAowlZi0rWhO3c7jsZ50unqWabQCBAmtr9bOxUIbwyAMgRsxO1jeLKlJ9l_Gir_wc1sZ66VBtHVBSjeAZcRfffVwo7M2fBvrrt1d5vz5clf7PVQ");
-
-    
-$url = 'https://fcm.googleapis.com/fcm/send';
+$url = 'https://fcm.googleapis.com/v1/projects/onepagebookmms5/messages:send';
+require_once($_SERVER['DOCUMENT_ROOT'].'/fcm/vendor/autoload.php');
 
 $headers = array (
     'Authorization: key=' . GOOGLE_SERVER_KEY,
@@ -32,7 +31,8 @@ $fields['priority'] = "high";
 //$fields = json_encode ($fields);
 $fields = http_build_query($fields);
 $ch = curl_init ();
-curl_setopt ( $ch, CURLOPT_URL, "https://nm.kiam.kr/fcm/send_fcm.php" );
+//curl_setopt ( $ch, CURLOPT_URL, "https://nm.kiam.kr/fcm/send_fcm.php" );
+curl_setopt ( $ch, CURLOPT_URL, $url );
 curl_setopt ( $ch, CURLOPT_POST, true );
 //curl_setopt ( $ch, CURLOPT_HTTPHEADER, $headers );
 curl_setopt ( $ch, CURLOPT_RETURNTRANSFER, true );
