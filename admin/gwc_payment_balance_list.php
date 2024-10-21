@@ -277,7 +277,7 @@ $search_month = $search_month?sprintf("%02d",$search_month):sprintf("%02d",date(
                                 if($search_year && $search_month){
                                     $start = $search_year."-".$search_month."-01";
                                     $end = $search_year."-".sprintf("%02d",($search_month * 1 + 1))."-01";
-                                    $searchStr = " AND reg_date >= '$start' and reg_date < '$end'";
+                                    $searchStr .= " AND reg_date >= '$start' and reg_date < '$end'";
                                 }
                                 $order = $order?$order:"desc";
                                 $query = "SELECT ggo.* FROM Gn_Gwc_Order ggo 
