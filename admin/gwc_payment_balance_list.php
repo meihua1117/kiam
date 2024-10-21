@@ -200,12 +200,12 @@ $search_month = $search_month?sprintf("%02d",$search_month):sprintf("%02d",date(
                                     <input type="date" style="height: 30px" name="search_end_date" placeholder="" id="search_end_date" value="<?=$_REQUEST['search_end_date']?>"/> -->
                                     <select name="search_year" class="form-inline" style="height: 30px;">
                                         <?for($i=$search_year-4;$i<=$search_year;$i++){?>
-                                            <option value="<?=$i?>"  <?php echo $i==$search_year?"selected":""?>><?=$i?></option>
+                                            <option value="<?=$i?>"  <?= $i==$search_year?"selected":""?>><?=$i?></option>
                                         <?}?>
                                     </select>
                                     <select name="search_month" class="form-inline" style="height: 30px;">
                                         <?for($i=1;$i<13;$i++){?>
-                                            <option value="<?=$i?>" <?php echo sprintf("%02d",$i)==$search_month?"selected":""?>><?=$i?></option>
+                                            <option value="<?=$i?>" <?= sprintf("%02d",$i)==$search_month?"selected":""?>><?=$i?></option>
                                         <?}?>
                                     </select>
                                 </div>
@@ -277,7 +277,7 @@ $search_month = $search_month?sprintf("%02d",$search_month):sprintf("%02d",date(
                                 if($search_year && $search_month){
                                     $start = $search_year."-".$search_month."-01";
                                     $end = $search_year."-".sprintf("%02d",($search_month * 1 + 1))."-01";
-                                    $searchStr .= " AND reg_date >= '$start' and reg_date < '$end'";
+                                    $searchStr = "";// .= " AND reg_date >= '$start' and reg_date < '$end'";
                                 }
                                 $order = $order?$order:"desc";
                                 $query = "SELECT ggo.* FROM Gn_Gwc_Order ggo 
@@ -292,11 +292,9 @@ $search_month = $search_month?sprintf("%02d",$search_month):sprintf("%02d",date(
                                 $orderQuery = " ORDER BY id DESC $limitStr ";
                                 $i = 1;
                                 $query .= $orderQuery;
-                                echo $query;
                                 $res = mysqli_query($self_con,$query);
                                 while($row = mysqli_fetch_array($res)) {
                                     $sql_mem_data = "select mem_name, service_type, site, site_iam, gwc_leb, gwc_center_per, gwc_service_per, mem_cash from Gn_Member where mem_id='{$row['seller_id']}'";
-                                    echo $sql_mem_data."<br>";
                                     $res_mem_data = mysqli_query($self_con,$sql_mem_data);
                                     $row_mem_data = mysqli_fetch_array($res_mem_data);
 
@@ -338,7 +336,6 @@ $search_month = $search_month?sprintf("%02d",$search_month):sprintf("%02d",date(
                                         }
                                         $sell_money += ceil(((($row_sell_data['contents_price'] * 1 / $row_sell_data['contents_cnt'] * 1) - $row_sell_data['contents_provide_price'] * 1) * 0.9 - $min_val) * $row_sell_data['contents_cnt'] * 1);
                                     }
-                                    echo "sell_money=".$sell_money."<br>";
                                     if($row_mem_data['service_type'] == 3 || $row_mem_data['service_type'] == 2){
                                         $sql_mem_under = "select mem_id from Gn_Member where recommend_id='{$row['seller_id']}' and mem_id in (select seller_id from Gn_Gwc_Order where cash_prod_pay=0 and page_type=0 and pay_status='Y' and seller_id!='{$row['seller_id']}')";
                                         $res_mem_under = mysqli_query($self_con,$sql_mem_under);
@@ -355,7 +352,6 @@ $search_month = $search_month?sprintf("%02d",$search_month):sprintf("%02d",date(
                                         }
                                         $recom_money = $recom_money * ($row_mem_data['gwc_service_per'] * 1 / 100);
                                     }
-                                    echo "recom_money=".$recom_money."<br>";
                                     $all_money = $sell_money + ceil($recom_money) + ceil($center_money);
                                 ?>
                                     <tr>
