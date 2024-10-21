@@ -316,19 +316,13 @@ $search_month = $search_month ? sprintf("%02d", $search_month) : sprintf("%02d",
                                 /*$query = "SELECT g.*,  Gn_Member.mem_name, Gn_Member.service_type, Gn_Member.site, Gn_Member.site_iam, Gn_Member.gwc_leb, Gn_Member.gwc_center_per, Gn_Member.gwc_service_per, Gn_Member.mem_cash 
                                             FROM (SELECT * FROM Gn_Gwc_Order WHERE cash_prod_pay = 0 and seller_id != '' $searchStr group by seller_id ORDER BY id DESC) AS g 
                                             LEFT JOIN Gn_Member ON g.seller_id = Gn_Member.mem_id $searchCondition ";*/
-                                echo $query;
                                 $res        = mysqli_query($self_con, $query);
-                                echo "2";
                                 $totalCnt    =  mysqli_num_rows($res);
-                                echo "3";
                                 $limitStr       = " LIMIT " . (($startPage - 1) * $pageCnt) . ", " . $pageCnt;
-                                echo "4";
                                 $number            = $totalCnt - ($nowPage - 1) * $pageCnt;
-                                echo "5";
                                 $orderQuery = " ORDER BY id DESC $limitStr ";
                                 $i = 1;
                                 $query .= $orderQuery;
-                                echo "6";
                                 $res = mysqli_query($self_con, $query);
                                 while ($row = mysqli_fetch_array($res)) {
                                     $sql_mem_data = "select mem_name, service_type, site, site_iam, gwc_leb, gwc_center_per, gwc_service_per, mem_cash from Gn_Member where mem_id='{$row['seller_id']}'";
