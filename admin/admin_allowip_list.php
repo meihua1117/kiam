@@ -359,10 +359,10 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
             //     e.preventDefault();
             //     return false;
             // }
-            msg = confirm('보안접쇽을  사용하시겠습니까?');
+            msg = confirm('보안접속을  사용하시겠습니까?');
             type = 1;
         }else{
-            msg = confirm('보안접쇽을 해지하시겠습니까?');
+            msg = confirm('보안접속을 해지하시겠습니까?');
         }
         if(msg)
         {
