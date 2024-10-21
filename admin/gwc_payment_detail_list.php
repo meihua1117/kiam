@@ -412,16 +412,16 @@ $search_month = $search_month?sprintf("%02d",$search_month):sprintf("%02d",date(
                                         else{
                                             $mem_type = 2;
                                         }
-                                        if(!$row_mem[gwc_service_per]){
+                                        if(!$row_mem['gwc_service_per']){
                                             if($row_mem['service_type'] == 3){
-                                                $row_mem[gwc_service_per] = 1;
+                                                $row_mem['gwc_service_per'] = 1;
                                             }
                                             else if($row_mem['service_type'] == 2){
-                                                $row_mem[gwc_service_per] = 4;
+                                                $row_mem['gwc_service_per'] = 4;
                                             }
                                         }
-                                        if(!$row_mem[gwc_center_per]){
-                                            $row_mem[gwc_center_per] = 5;
+                                        if(!$row_mem['gwc_center_per']){
+                                            $row_mem['gwc_center_per'] = 5;
                                         }
                                     }
                                     else{
@@ -430,17 +430,17 @@ $search_month = $search_month?sprintf("%02d",$search_month):sprintf("%02d",date(
                                         $res_per = mysqli_query($self_con,$sql_per);
                                         $row_per = mysqli_fetch_array($res_per);
 
-                                        if(!$row_per[gwc_service_per]){
-                                            $row_mem[gwc_service_per] = 1;
+                                        if(!$row_per['gwc_service_per']){
+                                            $row_mem['gwc_service_per'] = 1;
                                         }
                                         else{
-                                            $row_mem[gwc_service_per] = $row_per[gwc_service_per];
+                                            $row_mem['gwc_service_per'] = $row_per['gwc_service_per'];
                                         }
-                                        if(!$row_per[gwc_center_per]){
-                                            $row_mem[gwc_center_per] = 5;
+                                        if(!$row_per['gwc_center_per']){
+                                            $row_mem['gwc_center_per'] = 5;
                                         }
                                         else{
-                                            $row_mem[gwc_center_per] = $row_per[gwc_center_per];
+                                            $row_mem['gwc_center_per'] = $row_per['gwc_center_per'];
                                         }
                                     }
 
@@ -472,8 +472,8 @@ $search_month = $search_month?sprintf("%02d",$search_month):sprintf("%02d",date(
                                     }
                                     $sell_money += ceil(((($row['contents_price'] * 1 / $row['contents_cnt'] * 1) - $row['contents_provide_price'] * 1) * 0.9 - $min_val) * $row['contents_cnt'] * 1);
                                     // $sell_money = ceil((($row['contents_price'] * 1 / $row['contents_cnt'] * 1) - $row['contents_provide_price'] * 1) * 0.9 * $row['contents_cnt'] * 1);
-                                    $recom_money = ceil($sell_money * ($row_mem[gwc_service_per] * 1 / 100));
-                                    $center_money = ceil($sell_money * ($row_mem[gwc_center_per] * 1 / 100));
+                                    $recom_money = ceil($sell_money * ($row_mem['gwc_service_per'] * 1 / 100));
+                                    $center_money = ceil($sell_money * ($row_mem['gwc_center_per'] * 1 / 100));
 
                                     if($mem_type == 3){
                                         $last_money = number_format($sell_money);

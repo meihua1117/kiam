@@ -270,16 +270,16 @@ $search_month = $search_month?sprintf("%02d",$search_month):sprintf("%02d",date(
                                     $res_mem_data = mysqli_query($self_con,$sql_mem_data);
                                     $row_mem_data = mysqli_fetch_array($res_mem_data);
 
-                                    if(!$row_mem_data[gwc_service_per]){
+                                    if(!$row_mem_data['gwc_service_per']){
                                         if($row_mem_data['service_type'] == 2){
-                                            $row_mem_data[gwc_service_per] = 4;
+                                            $row_mem_data['gwc_service_per'] = 4;
                                         }
                                         else if($row_mem_data['service_type'] == 3){
-                                            $row_mem_data[gwc_service_per] = 1;
+                                            $row_mem_data['gwc_service_per'] = 1;
                                         }
                                     }
-                                    if(!$row_mem_data[gwc_center_per]){
-                                        $row_mem_data[gwc_center_per] = 5;
+                                    if(!$row_mem_data['gwc_center_per']){
+                                        $row_mem_data['gwc_center_per'] = 5;
                                     }
 
                                     $service = $gwc_leb = "";
@@ -315,9 +315,9 @@ $search_month = $search_month?sprintf("%02d",$search_month):sprintf("%02d",date(
                                             }
                                         }
                                         if($row_mem_data['gwc_leb'] == 3){
-                                            $center_money = $recom_money * ($row_mem_data[gwc_center_per] * 1 / 100);
+                                            $center_money = $recom_money * ($row_mem_data['gwc_center_per'] * 1 / 100);
                                         }
-                                        $recom_money = $recom_money * ($row_mem_data[gwc_service_per] * 1 / 100);
+                                        $recom_money = $recom_money * ($row_mem_data['gwc_service_per'] * 1 / 100);
                                     }
 
                                     $all_money = $sell_money + ceil($recom_money) + ceil($center_money);
@@ -325,8 +325,8 @@ $search_month = $search_month?sprintf("%02d",$search_month):sprintf("%02d",date(
                                     <tr>
                                         <td><?=$number--?></td>
                                         <td><a href="gwc_payment_detail_list.php?seller_id=<?=$row['seller_id']?>" target="_blank">상세보기</a></td>
-                                        <td><?=$service?><input type="number" name="service_per" id="service_per" min='0' style="width: 50px;margin-left:5px;" value="<?=$row_mem_data[gwc_service_per]?$row_mem_data[gwc_service_per]:'1'?>" <?=$service?'':'hidden'?>><br><a class="per_change" href="javascript:change_per('service', '<?=$row['seller_id']?>')" <?=$service?'':'hidden'?>>변경</a></td>
-                                        <td><?=$gwc_leb?><input type="number" name="center_per" id="center_per" min='0' style="width: 50px;margin-left:5px;" value="<?=$row_mem_data[gwc_center_per]?$row_mem_data[gwc_center_per]:'5'?>" <?=$gwc_leb?'':'hidden'?>><br><a class="per_change" href="javascript:change_per('center', '<?=$row['seller_id']?>')" <?=$gwc_leb?'':'hidden'?>>변경</a></td>
+                                        <td><?=$service?><input type="number" name="service_per" id="service_per" min='0' style="width: 50px;margin-left:5px;" value="<?=$row_mem_data['gwc_service_per']?$row_mem_data['gwc_service_per']:'1'?>" <?=$service?'':'hidden'?>><br><a class="per_change" href="javascript:change_per('service', '<?=$row['seller_id']?>')" <?=$service?'':'hidden'?>>변경</a></td>
+                                        <td><?=$gwc_leb?><input type="number" name="center_per" id="center_per" min='0' style="width: 50px;margin-left:5px;" value="<?=$row_mem_data['gwc_center_per']?$row_mem_data['gwc_center_per']:'5'?>" <?=$gwc_leb?'':'hidden'?>><br><a class="per_change" href="javascript:change_per('center', '<?=$row['seller_id']?>')" <?=$gwc_leb?'':'hidden'?>>변경</a></td>
                                         <td><?=$row_mem_data['site']."/".$row_mem_data['site_iam']?></td>
                                         <td><?=$row_mem_data['mem_name']?></td>
                                         <td><?=$row['seller_id']?></td>
