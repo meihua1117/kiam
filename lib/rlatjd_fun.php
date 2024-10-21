@@ -1643,7 +1643,7 @@ function set_gwc_delivery_state()
 	$oneHourAgo = date('Y-m-d H:i:s', strtotime('-1 hour'));
 	$fourHourAgo = date('Y-m-d H:i:s', strtotime('-4 hour'));
 
-	$sql_state = "select id, delivery, delivery_no, delivery_state, delivery_set_date from Gn_Gwc_Order where delivery_no <> '' and delivery_set_date <> ''";
+	$sql_state = "select id, delivery, delivery_no, delivery_state, delivery_set_date from Gn_Gwc_Order where delivery_no <> '' and !ISNULL(delivery_set_date)";
 	echo $sql_state;
 	$res_state = mysqli_query($self_con, $sql_state);
 	while ($row_state = mysqli_fetch_array($res_state)) {
