@@ -256,6 +256,7 @@ $search_month = $search_month?sprintf("%02d",$search_month):sprintf("%02d",date(
                                 $order = $order?$order:"desc";
                                 $query = "select g.* from Gn_Gwc_Order g
                                           WHERE g.cash_prod_pay=0 and g.seller_id!='' $searchStr group by g.seller_id";
+                                echo $query;
                                 $res	    = mysqli_query($self_con,$query);
                                 $totalCnt	=  mysqli_num_rows($res);
                                 $limitStr       = " LIMIT ".(($startPage-1)*$pageCnt).", ".$pageCnt;
@@ -263,7 +264,6 @@ $search_month = $search_month?sprintf("%02d",$search_month):sprintf("%02d",date(
                                 $orderQuery .= " ORDER BY g.id DESC $limitStr ";
                                 $i = 1;
                                 $query .= $orderQuery;
-                                echo $query;
                                 $res = mysqli_query($self_con,$query);
                                 while($row = mysqli_fetch_array($res)) {
                                     $sql_mem_data = "select mem_name, service_type, site, site_iam, gwc_leb, gwc_center_per, gwc_service_per, mem_cash from Gn_Member where mem_id='{$row['seller_id']}'";
