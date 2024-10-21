@@ -317,8 +317,6 @@ $search_month = $search_month ? sprintf("%02d", $search_month) : sprintf("%02d",
                                             FROM (SELECT * FROM Gn_Gwc_Order WHERE cash_prod_pay = 0 and seller_id != '' $searchStr group by seller_id ORDER BY id DESC) AS g 
                                             LEFT JOIN Gn_Member ON g.seller_id = Gn_Member.mem_id $searchCondition ";*/
                                 echo $query;
-                                if(is_null($self_con))
-                                    echo "conn is null";
                                 $res        = mysqli_query($self_con, $query);
                                 echo "2";
                                 $totalCnt    =  mysqli_num_rows($res);
