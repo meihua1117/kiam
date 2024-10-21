@@ -1,16 +1,23 @@
 <?php
 include_once "../lib/rlatjd_fun.php";
-
+require_once($_SERVER['DOCUMENT_ROOT'].'/fcm/vendor/autoload.php');
+$url = 'https://fcm.googleapis.com/v1/projects/onepagebookmms5/messages:send';
+$scope = 'https://www.googleapis.com/auth/firebase.messaging';
+$client = new Google_Client();
+$client->useApplicationDefaultCredentials();
+$client->setScopes($scope);
+$auth_key = $client->fetchAccessTokenWithAssertion();
+$headers = array(
+    'Authorization: Bearer ' . $auth_key['access_token'],
+    'Content-Type: application/json'
+);
 function IntervalDays($CheckIn,$CheckOut){
     $CheckInX = explode("-", $CheckIn);
     $CheckOutX =  explode("-", $CheckOut);
     $date1 =  mktime(0, 0, 0, $CheckInX[1],$CheckInX[2],$CheckInX[0]);
     $date2 =  mktime(0, 0, 0, $CheckOutX[1],$CheckOutX[2],$CheckOutX[0]);
     $interval =($date2 - $date1)/(3600*24);
-
-    // returns numberofdays
     return  $interval ;
-
 }
 
 function check_join_tables($tables, $join_table) {
@@ -43,15 +50,13 @@ function sendPush($url, $headers, $pkey, $sidx, $send_type, $send_num)
         $fields['to'] = $pkey;
     }
     $fields['token'] = $pkey;
-
-    $fields['priority'] = "high";
-
-    //$fields = json_encode ($fields);
-    $fields = http_build_query($fields);
+    $fields['android'] = array("priority"=>"high");
+    $fields = json_encode ($fields);
+    //$fields = http_build_query($fields);
     $ch = curl_init ();
     curl_setopt ( $ch, CURLOPT_URL, $url );
     curl_setopt ( $ch, CURLOPT_POST, true );
-    //curl_setopt ( $ch, CURLOPT_HTTPHEADER, $headers );
+    curl_setopt ( $ch, CURLOPT_HTTPHEADER, $headers );
     curl_setopt ( $ch, CURLOPT_RETURNTRANSFER, true );
     curl_setopt ( $ch, CURLOPT_POSTFIELDS, $fields );
     curl_setopt ( $ch, CURLOPT_SSL_VERIFYHOST, 0); 
@@ -80,15 +85,6 @@ function sendPush($url, $headers, $pkey, $sidx, $send_type, $send_num)
 set_time_limit(0);
 $debug_mode = false;
 $ret = array('status'=>'1', 'msg'=>'');
-
-$url = 'https://fcm.googleapis.com/v1/projects/onepagebookmms5/messages:send';
-$headers = array (
-    'Authorization: key=' . GOOGLE_SERVER_KEY,
-    'Content-Type: application/json'
-);
-
-
-
 $step_idx = $_REQUEST['step_idx'];
 $totalCount = $_REQUEST['totalCount'];
 $self_memo = $_REQUEST['self_memo'];

@@ -1609,8 +1609,14 @@ if ($_POST['select_app_check_num']) {
 	$uni_id = time();
 	$i = $_POST['select_app_check_i'];
 	$url = 'https://fcm.googleapis.com/v1/projects/onepagebookmms5/messages:send';
+	putenv('GOOGLE_APPLICATION_CREDENTIALS=' . $_SERVER['DOCUMENT_ROOT'] . '/fcm/onepagebookmms5.json');
+	$scope = 'https://www.googleapis.com/auth/firebase.messaging';
+	$client = new Google_Client();
+	$client->useApplicationDefaultCredentials();
+	$client->setScopes($scope);
+	$auth_key = $client->fetchAccessTokenWithAssertion();
 	$headers = array(
-		'Authorization: key=' . GOOGLE_SERVER_KEY,
+		'Authorization: Bearer ' . $auth_key['access_token'],
 		'Content-Type: application/json'
 	);
 	for ($k = 0; $k < count($num_arr); $k++) {
@@ -1647,16 +1653,16 @@ if ($_POST['select_app_check_num']) {
 				)
 			);
 
-			$fields['priority'] = "high";
+			$fields['android'] = array("priority" => "high");
 			$fields['to'] = $id;
 			$fields['token'] = $id;
 
-			//$fields = json_encode ($fields);
-			$fields = http_build_query($fields);
+			$fields = json_encode($fields);
+			//$fields = http_build_query($fields);
 			$ch = curl_init();
 			curl_setopt($ch, CURLOPT_URL, $url);
 			curl_setopt($ch, CURLOPT_POST, true);
-			//curl_setopt ( $ch, CURLOPT_HTTPHEADER, $headers );
+			curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 			curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
 			curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
@@ -1698,7 +1704,8 @@ if ($_POST['select_app_check_num']) {
 			);
 
 			$fields['to'] = $id;
-			$fields['priority'] = "high";
+			$fields['token'] = $id;
+			$fields['android'] = array("priority"=>"high");
 
 			$fields = json_encode($fields);
 			$ch = curl_init();

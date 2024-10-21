@@ -6,26 +6,26 @@ if ($_POST['logout_go']) {
     if ($_SESSION['one_member_id'] || $_SESSION['iam_member_id']) {
         session_destroy();
         if ($_POST['logout_go'] == "selling") {
-        ?>
+?>
             <script language="javascript">
                 location.replace('/ma.php')
             </script>
-        <? } else { 
+        <? } else {
         ?>
             <script language="javascript">
                 location.replace('/')
             </script>
-        <? 
+    <?
         }
         exit;
     }
 }
-if (!$_SESSION['one_member_id']) { 
+if (!$_SESSION['one_member_id']) {
     ?>
     <script language="javascript">
         location.replace("/ma.php")
     </script>
-    <?
+<?
     exit;
 }
 //번호체크삭제
@@ -40,7 +40,7 @@ if ($_POST['num_del_num_a']) {
         $sql_da = "delete from sm_data where dest='$v' ";
         //mysqli_query($self_con,$sql_da);
     }
-    ?>
+?>
     <script language="javascript">
         alert('임시비활성: 처리되었습니다.');
         location.reload();
@@ -1451,8 +1451,15 @@ if ($_POST['select_app_check_num']) {
     $uni_id = time();
     $i = $_POST['select_app_check_i'];
     $url = 'https://fcm.googleapis.com/v1/projects/onepagebookmms5/messages:send';
+    require_once($_SERVER['DOCUMENT_ROOT'] . '/fcm/vendor/autoload.php');
+    putenv('GOOGLE_APPLICATION_CREDENTIALS=' . $_SERVER['DOCUMENT_ROOT'] . '/fcm/onepagebookmms5.json');
+    $scope = 'https://www.googleapis.com/auth/firebase.messaging';
+    $client = new Google_Client();
+    $client->useApplicationDefaultCredentials();
+    $client->setScopes($scope);
+    $auth_key = $client->fetchAccessTokenWithAssertion();
     $headers = array(
-        'Authorization: key=' . GOOGLE_SERVER_KEY,
+        'Authorization: Bearer ' . $auth_key['access_token'],
         'Content-Type: application/json'
     );
     for ($k = 0; $k < count($num_arr); $k++) {
@@ -1483,16 +1490,16 @@ if ($_POST['select_app_check_num']) {
                     "title" => "app_check_process"
                 )
             );
-            $fields['priority'] = "high";
+            $fields['android'] = array("priority"=>"high");
             $fields['to'] = $id;
             $fields['token'] = $id;
-            //$fields = json_encode($fields);
-            $fields = http_build_query($fields);
+            $fields = json_encode(array('message' => $fields));
+            //$fields = http_build_query($fields);
             $ch = curl_init();
             //curl_setopt($ch, CURLOPT_URL, "https://nm.kiam.kr/fcm/send_fcm.php");
             curl_setopt($ch, CURLOPT_URL, $url);
             curl_setopt($ch, CURLOPT_POST, true);
-            //curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
             curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);

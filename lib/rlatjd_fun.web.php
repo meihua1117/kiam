@@ -19,7 +19,6 @@ session_set_cookie_params(array(
 session_start();
 
 @header('Content-Type: text/html; charset=utf-8');
-define("GOOGLE_SERVER_KEY", "AAAAmvl-uQA:APA91bHP4S4L8-nMvfOJ9vcjYlTmiRjEfOcLbAm6ITDFo9Ky-ziKAowlZi0rWhO3c7jsZ50unqWabQCBAmtr9bOxUIbwyAMgRsxO1jeLKlJ9l_Gir_wc1sZ66VBtHVBSjeAZcRfffVwo7M2fBvrrt1d5vz5clf7PVQ");
 $gmnow = gmdate('D, d M Y H:i:s') . ' GMT';
 @header('Expires: 0'); // rfc2616 - Section 14.21
 @header('Last-Modified: ' . $gmnow);
@@ -27,29 +26,6 @@ $gmnow = gmdate('D, d M Y H:i:s') . ' GMT';
 @header('Cache-Control: pre-check=0, post-check=0, max-age=0'); // HTTP/1.1
 @header('Pragma: no-cache'); // HTTP/1.0
 extract($_GET);
-/*if($_GET['key'] && $_GET['key'] != @session_id()) {
-	@session_id($_GET['key']);
-	@session_start();
-	$request_url = $_SERVER['REQUEST_URI'];
-	$pos = strpos($request_url, "?");
-	$param_url = substr($request_url, $pos + 1, strlen($request_url) - $pos - 1);
-	$request_url = substr($request_url, 0, $pos);
-	$param_arr = explode("&",$param_url);
-	$temp_arr = array();
-	for ($i = 0;$i < sizeof($param_arr);$i++){
-	    if(substr($param_arr[$i],0,4) != "key="){
-		array_push($temp_arr, $param_arr[$i]);
-	    }
-	}
-	if(sizeof($temp_arr) > 0){
-	    $request_url .= "?".implode("&",$temp_arr);
-	}
-	echo "<script>location.href='$request_url';</script>";
-	exit;
-}
-else {
-	@session_start();
-}*/
 $whois_api_key = "2021030317024746733699";
 $domain_url = "http://www.kiam.kr";
 

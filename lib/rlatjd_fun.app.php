@@ -16,7 +16,6 @@ session_set_cookie_params(array(
 session_start();
 
 @header('Content-Type: text/html; charset=utf-8');
-define("GOOGLE_SERVER_KEY", "AAAAmvl-uQA:APA91bHP4S4L8-nMvfOJ9vcjYlTmiRjEfOcLbAm6ITDFo9Ky-ziKAowlZi0rWhO3c7jsZ50unqWabQCBAmtr9bOxUIbwyAMgRsxO1jeLKlJ9l_Gir_wc1sZ66VBtHVBSjeAZcRfffVwo7M2fBvrrt1d5vz5clf7PVQ");
 $gmnow = gmdate('D, d M Y H:i:s') . ' GMT';
 @header('Expires: 0'); // rfc2616 - Section 14.21
 @header('Last-Modified: ' . $gmnow);
@@ -24,29 +23,6 @@ $gmnow = gmdate('D, d M Y H:i:s') . ' GMT';
 @header('Cache-Control: pre-check=0, post-check=0, max-age=0'); // HTTP/1.1
 @header('Pragma: no-cache'); // HTTP/1.0
 extract($_GET);
-/*if($_GET['key'] && $_GET['key'] != @session_id()) {
-	@session_id($_GET['key']);
-	@session_start();
-	$request_url = $_SERVER['REQUEST_URI'];
-	$pos = strpos($request_url, "?");
-	$param_url = substr($request_url, $pos + 1, strlen($request_url) - $pos - 1);
-	$request_url = substr($request_url, 0, $pos);
-	$param_arr = explode("&",$param_url);
-	$temp_arr = array();
-	for ($i = 0;$i < sizeof($param_arr);$i++){
-	    if(substr($param_arr[$i],0,4) != "key="){
-		array_push($temp_arr, $param_arr[$i]);
-	    }
-	}
-	if(sizeof($temp_arr) > 0){
-	    $request_url .= "?".implode("&",$temp_arr);
-	}
-	echo "<script>location.href='$request_url';</script>";
-	exit;
-}
-else {
-	@session_start();
-}*/
 //$mysql_host = 'localhost';
 $mysql_host = '222.239.248.226';
 //$mysql_user = 'kiam';
@@ -54,20 +30,16 @@ $mysql_user = 'root';
 //$mysql_password = 'only12!@db';
 $mysql_password = 'only12!@db';
 $mysql_db = 'kiam';
-$self_con = mysqli_connect($mysql_host,$mysql_user,$mysql_password,$mysql_db);
+$self_con = mysqli_connect($mysql_host, $mysql_user, $mysql_password, $mysql_db);
 if (!$self_con) {
-    printf("Connect failed: %s\n", mysqli_connect_error());
-    exit();
+	printf("Connect failed: %s\n", mysqli_connect_error());
+	exit();
 }
 //mysql_select_db($mysql_db) or die(mysqli_error($self_con));
 mysqli_query($self_con, "set names utf8");
 $whois_api_key = "2021030317024746733699";
 $domain_url = "http://www.kiam.kr";
-/*
-if($_REQUEST[work])
-$_SESSION[work]=1;
-if(!$_SESSION[work])
-header("location: /work.php");*/
+
 $HTTP_HOST = str_replace("www.", "", $_SERVER['HTTP_HOST']);
 $REQUEST_URI = $_SERVER['REQUEST_URI'];
 //site_config
@@ -784,7 +756,6 @@ function gcUploadRename($file_name, $file_tmp_name, $file_size, $folder)
 		return "";
 	}
 }
-define("GOOGLE_SERVER_KEY", "AAAAmvl-uQA:APA91bHP4S4L8-nMvfOJ9vcjYlTmiRjEfOcLbAm6ITDFo9Ky-ziKAowlZi0rWhO3c7jsZ50unqWabQCBAmtr9bOxUIbwyAMgRsxO1jeLKlJ9l_Gir_wc1sZ66VBtHVBSjeAZcRfffVwo7M2fBvrrt1d5vz5clf7PVQ");
 function uploadFTP($file)
 {
 	$ftp_user_name = "obmms";

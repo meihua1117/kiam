@@ -1,11 +1,18 @@
 <?php
 include_once "../lib/rlatjd_fun.php";
+require_once($_SERVER['DOCUMENT_ROOT'] . '/fcm/vendor/autoload.php');
 //$debug_mode = true;
 $debug_mode = false;
 if ($_SESSION['one_member_id']) {
 	$url = 'https://fcm.googleapis.com/v1/projects/onepagebookmms5/messages:send';
+	putenv('GOOGLE_APPLICATION_CREDENTIALS=' . $_SERVER['DOCUMENT_ROOT'] . '/fcm/onepagebookmms5.json');
+	$scope = 'https://www.googleapis.com/auth/firebase.messaging';
+	$client = new Google_Client();
+	$client->useApplicationDefaultCredentials();
+	$client->setScopes($scope);
+	$auth_key = $client->fetchAccessTokenWithAssertion();
 	$headers = array(
-		'Authorization: key=' . GOOGLE_SERVER_KEY,
+		'Authorization: Bearer ' . $auth_key['access_token'],
 		'Content-Type: application/json'
 	);
 
@@ -39,9 +46,9 @@ if ($_SESSION['one_member_id']) {
 		$success_arr = array();
 		$group_recv_info = array();
 		$success_cell_arr = array(); //발송배정 핸드폰
-		if ($_POST[send_chk]) //체크된 연락처 그룹 : $_POST[send_chk] : tag name = group_num
+		if ($_POST['send_chk']) //체크된 연락처 그룹 : $_POST['send_chk'] : tag name = group_num
 		{
-			$send_chk_arr = explode(",", $_POST[send_chk]);
+			$send_chk_arr = explode(",", $_POST['send_chk']);
 			//번호들 담기 : $num_arr 
 			foreach ($send_chk_arr as $key => $v) {
 				$sql_g2 = "select recv_num,grp from Gn_MMS_Receive where grp_id = '$v' order by idx asc";
@@ -74,12 +81,12 @@ if ($_SESSION['one_member_id']) {
 		$cntYN_log_arr = array(); //200이상으로 횟수 조절 저장
 		$cntAdj_log_arr = array(); //발송 가능 수 조절 저장
 
-		$sendnum = $_POST[send_go_num];
+		$sendnum = $_POST['send_go_num'];
 		$send_cnt = $_POST['send_go_user_cnt'];
-		$max_cnt_arr = $_POST[send_go_max_cnt];
+		$max_cnt_arr = $_POST['send_go_max_cnt'];
 		$memo2_arr = $_POST['send_go_memo2'];
-		$cnt1_arr = $_POST[send_go_cnt1];
-		$cnt2_arr = $_POST[send_go_cnt2];
+		$cnt1_arr = $_POST['send_go_cnt1'];
+		$cnt2_arr = $_POST['send_go_cnt2'];
 
 		$total_send_thistime = 0; //이번 발송할 총합
 		$total_num_cnt = count($num_arr);
@@ -944,14 +951,14 @@ if ($_SESSION['one_member_id']) {
 				for ($i = 0; $i < $max_cnt; $i++) {
 					//echo $sendnum[$j]."====".$success_arr[$i]."\n";
 					array_push($recv_arr, $send_num_list[$sendnum[$j]][$i]);
-					if ($_POST[send_deny_msg]) //수신거부 링크 삽입
+					if ($_POST['send_deny_msg']) //수신거부 링크 삽입
 					{
 						$longUrl = "kiam.kr/u.php?u=" . $req . "&n=" . $send_num_list[$sendnum[$j]][$i];
 						array_push($deny_url_arr, "수신거부" . $longUrl . "\n" . $ad_msg);
 					} else
 						array_push($deny_url_arr, "" . $ad_msg);
 
-					if ($_POST[send_agree_msg]) //수신동의 링크 삽입
+					if ($_POST['send_agree_msg']) //수신동의 링크 삽입
 					{
 						$longUrl = "kiam.kr/g.php?u=" . $req . "&n=" . $send_num_list[$sendnum[$j]][$i];
 						array_push($deny_url_arr, "수신동의" . $longUrl . "\n" . $ad_msg);
@@ -1025,7 +1032,7 @@ if ($_SESSION['one_member_id']) {
 					if (substr($recv_str, -1) == ",") $recv_str = substr($recv_str, 0, strlen($recv_str) - 1);
 
 
-					//if($_POST[send_deny_msg]) //수신거부 링크 삽입
+					//if($_POST['send_deny_msg']) //수신거부 링크 삽입
 					//{
 					//    $longUrl = "kiam.kr/u.php?u=".$req."&n=".$sendnum[$j];
 					//    $denv_url_str = "문자수신을 원치 않으시는 분은 아래 주소를 클릭하시기 바랍니다. ".$longUrl."\n".$ad_msg;
@@ -1041,16 +1048,16 @@ if ($_SESSION['one_member_id']) {
 					$mms_info['jpg'] = $img;
 					$mms_info['jpg1'] = $img1;
 					$mms_info['jpg2'] = $img2;
-					$mms_info['type'] = $_POST[send_type];
+					$mms_info['type'] = $_POST['send_type'];
 					$mms_info['title'] = htmlspecialchars($_POST['send_title']);
-					$mms_info['delay'] = $_POST[send_delay];
-					$mms_info['delay2'] = $_POST[send_delay2];
-					$mms_info['close'] = $_POST[send_close];
+					$mms_info['delay'] = $_POST['send_delay'];
+					$mms_info['delay2'] = $_POST['send_delay2'];
+					$mms_info['close'] = $_POST['send_close'];
 					$mms_info['url'] = $denv_url_str;
 					$mms_info['jpg'] = $_POST['send_img'] . $img;
 					$mms_info['jpg1'] = $_POST['send_img1'] . $img;
 					$mms_info['jpg2'] = $_POST['send_img2'] . $img;
-					$mms_info[recv_num_cnt] =  count(explode(",", $recv_str));
+					$mms_info['recv_num_cnt'] =  count(explode(",", $recv_str));
 					if ($reservation) //예약문자
 						$mms_info['reservation'] = $reservation;
 					$sql = "insert into Gn_MMS set ";
@@ -1068,7 +1075,7 @@ if ($_SESSION['one_member_id']) {
 							if ($pkey[$mms_info['send_num']] != "") {
 								$id = $pkey[$mms_info['send_num']];
 								$title = '{"MMS Push"}';
-								$message = '{"Send":"Start","idx":"' . $sidx . '","send_type":"' . $_POST[send_type] . '"}';
+								$message = '{"Send":"Start","idx":"' . $sidx . '","send_type":"' . $_POST['send_type'] . '"}';
 								$fields = array(
 									'data' => array(
 										"body" => $message,
@@ -1084,15 +1091,15 @@ if ($_SESSION['one_member_id']) {
 								}
 
 								$fields['token'] = $id;
-								$fields['priority'] = "high";
+								$fields['android'] = array("priority"=>"high");
 
-								//$fields = json_encode ($fields);
-								$fields = http_build_query($fields);
+								$fields = json_encode(array('message' => $fields));
+								//$fields = http_build_query($fields);
 								$ch = curl_init();
-								curl_setopt ( $ch, CURLOPT_URL, $url );
+								curl_setopt($ch, CURLOPT_URL, $url);
 								//curl_setopt($ch, CURLOPT_URL, "https://nm.kiam.kr/fcm/send_fcm.php");
 								curl_setopt($ch, CURLOPT_POST, true);
-								//curl_setopt ( $ch, CURLOPT_HTTPHEADER, $headers );
+								curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 								curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 								curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
 								curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
