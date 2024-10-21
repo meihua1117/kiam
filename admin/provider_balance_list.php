@@ -288,7 +288,6 @@ $search_month = $search_month ? sprintf("%02d", $search_month) : sprintf("%02d",
                                 //$query = "select g.* from Gn_Gwc_Order g WHERE g.cash_prod_pay=0 and g.seller_id!='' $searchStr group by g.seller_id";
                                 $query = "SELECT ggo.* FROM Gn_Gwc_Order ggo 
                                           JOIN (SELECT seller_id, MAX(id) AS max_id FROM Gn_Gwc_Order WHERE cash_prod_pay = 0  AND seller_id <> '' $searchStr GROUP BY seller_id) AS mggo ON ggo.seller_id = mggo.seller_id AND ggo.id = mggo.max_id ";
-                                echo $query;
                                 $res        = mysqli_query($self_con, $query);
                                 $totalCnt    =  mysqli_num_rows($res);
                                 $limitStr       = " LIMIT " . (($startPage - 1) * $pageCnt) . ", " . $pageCnt;
