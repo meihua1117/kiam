@@ -280,9 +280,11 @@ $search_month = $search_month?sprintf("%02d",$search_month):sprintf("%02d",date(
                                     $searchStr .= " AND reg_date >= '$start' and reg_date < '$end'";
                                 }
                                 $order = $order?$order:"desc";
-                                $query = "SELECT g.*,  Gn_Member.mem_name, Gn_Member.service_type, Gn_Member.site, Gn_Member.site_iam, Gn_Member.gwc_leb, Gn_Member.gwc_center_per, Gn_Member.gwc_service_per, Gn_Member.mem_cash 
+                                $query = "SELECT ggo.* FROM Gn_Gwc_Order ggo 
+                                                JOIN (SELECT seller_id, MAX(id) AS max_id FROM Gn_Gwc_Order WHERE cash_prod_pay = 0  AND seller_id != '' $searchStr GROUP BY seller_id) AS max_orders ON o.seller_id = max_orders.seller_id AND o.id = max_orders.max_id ORDER BY id DESC";
+                                /*$query = "SELECT g.*,  Gn_Member.mem_name, Gn_Member.service_type, Gn_Member.site, Gn_Member.site_iam, Gn_Member.gwc_leb, Gn_Member.gwc_center_per, Gn_Member.gwc_service_per, Gn_Member.mem_cash 
                                             FROM (SELECT * FROM Gn_Gwc_Order WHERE cash_prod_pay = 0 and seller_id != '' $searchStr group by seller_id ORDER BY id DESC) AS g 
-                                            LEFT JOIN Gn_Member ON g.seller_id = Gn_Member.mem_id $searchCondition ";
+                                            LEFT JOIN Gn_Member ON g.seller_id = Gn_Member.mem_id $searchCondition ";*/
                                             echo $query."<br>";
                                 $res	    = mysqli_query($self_con,$query);
                                 $totalCnt	=  mysqli_num_rows($res);
