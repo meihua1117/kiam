@@ -473,9 +473,9 @@ $search_month = $search_month ? sprintf("%02d", $search_month) : sprintf("%02d",
                                         $img_link = $row_cont_data['contents_img'];
                                     }
 
-                                    $price_data2 = number_format($row['use_point']) . "/\n" . number_format($row['contents_price'] * 1 + $row[salary_price] * 1 - $row['use_point'] * 1);
+                                    $price_data2 = number_format($row['use_point']) . "/\n" . number_format($row['contents_price'] * 1 + $row['salary_price'] * 1 - $row['use_point'] * 1);
 
-                                    $price_data1 = number_format($row['contents_price'] * 1 + $row[salary_price] * 1) . "/\n0";
+                                    $price_data1 = number_format($row['contents_price'] * 1 + $row['salary_price'] * 1) . "/\n0";
 
                                     if (!$row['use_point']) {
                                         $min_val = ceil(($row['contents_price'] * 1 / $row['contents_cnt'] * 1) * 0.03);
@@ -504,7 +504,7 @@ $search_month = $search_month ? sprintf("%02d", $search_month) : sprintf("%02d",
                                         <td><?= $row['order_mem_name'] ?><br><?= $row['mem_id'] ?></td>
                                         <td><?= number_format(($row['contents_price'] * 1 / $row['contents_cnt'] * 1)) ?><br><?= number_format($row['contents_provide_price']) ?></td>
                                         <td><?= $row['contents_cnt'] ?></td>
-                                        <td><?= number_format($row['contents_price']) ?><br><?= number_format($row[salary_price]) ?></td>
+                                        <td><?= number_format($row['contents_price']) ?><br><?= number_format($row['salary_price']) ?></td>
                                         <td><?= $price_data2 ?></td>
                                         <td><?= $price_data1 ?></td>
                                         <td style="<?= $mem_type == 3 ? 'color:blue;' : 'color:green;' ?>"><?= number_format($sell_money) ?></td>
