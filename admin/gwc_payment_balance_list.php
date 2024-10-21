@@ -333,7 +333,7 @@ $search_month = $search_month?sprintf("%02d",$search_month):sprintf("%02d",date(
                                         }
                                         $sell_money += ceil(((($row_sell_data['contents_price'] * 1 / $row_sell_data['contents_cnt'] * 1) - $row_sell_data['contents_provide_price'] * 1) * 0.9 - $min_val) * $row_sell_data['contents_cnt'] * 1);
                                     }
-
+                                    echo "sell_money=".$sell_money."<br>";
                                     if($row_mem_data['service_type'] == 3 || $row_mem_data['service_type'] == 2){
                                         $sql_mem_under = "select mem_id from Gn_Member where recommend_id='{$row['seller_id']}' and mem_id in (select seller_id from Gn_Gwc_Order where cash_prod_pay=0 and page_type=0 and pay_status='Y' and seller_id!='{$row['seller_id']}')";
                                         $res_mem_under = mysqli_query($self_con,$sql_mem_under);
@@ -350,7 +350,7 @@ $search_month = $search_month?sprintf("%02d",$search_month):sprintf("%02d",date(
                                         }
                                         $recom_money = $recom_money * ($row_mem_data['gwc_service_per'] * 1 / 100);
                                     }
-
+                                    echo "recom_money=".$recom_money."<br>";
                                     $all_money = $sell_money + ceil($recom_money) + ceil($center_money);
                                 ?>
                                     <tr>
