@@ -159,14 +159,14 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                 	$res = mysqli_query($self_con,$query);
                     while($row = mysqli_fetch_array($res)) {                       	
                         $query = "
-                        SELECT mem_name from Gn_Member where mem_id='$row[m_id]'";
+                        SELECT mem_name from Gn_Member where mem_id='{$row['m_id']}'";
                         $sres = mysqli_query($self_con,$query);
                         $srow = mysqli_fetch_array($sres);        				
                   ?>
                       <tr>
                         <td><input type="checkbox" name="event_idx" value="<?php echo $row['event_idx'];?>"></td>
                         <td><?=$number--?></td>
-                            <td style="font-size:12px;"><?=$row[m_id]?></td>
+                            <td style="font-size:12px;"><?=$row['m_id']?></td>
                             <td style="font-size:12px;"><?=$srow['mem_name']?></td>
                         <td style="font-size:12px;"><?=$row['event_name_eng']?></td>
                         <td style="font-size:12px;"><?=$row['event_name_kor']?></td>

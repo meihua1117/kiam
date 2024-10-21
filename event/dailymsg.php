@@ -380,7 +380,7 @@
 					type:"POST",
 					dataType:"json",
 					url:'/ajax/service_point_state.php',
-					data:{point_stop:true, service_id:'<?=$event_data[m_id]?>'},
+					data:{point_stop:true, service_id:'<?=$event_data['m_id']?>'},
 					success:function(data){
 
 					}

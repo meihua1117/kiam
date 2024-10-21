@@ -9,7 +9,7 @@ $sql="select * from Gn_event  where event_idx='".$event_idx."'";
 $res=mysqli_query($self_con,$sql);
 $row=mysqli_fetch_array($res);	
 if($row[0]) {
-    $sql="select * from Gn_Member  where mem_id='".$row[m_id]."'";
+    $sql="select * from Gn_Member  where mem_id='".$row['m_id']."'";
     $sresul_num=mysqli_query($self_con,$sql);
     $data=mysqli_fetch_array($sresul_num);
 }
@@ -92,7 +92,7 @@ if($row[0]) {
 									<table class="list_table1" width="100%" border="0" cellspacing="0" cellpadding="0">
 										<tr>
 											<th class="w200">아아디</th>
-											<td><input type="text" name="m_id" id="m_id" value="<?=$row[m_id]?>"></td>
+											<td><input type="text" name="m_id" id="m_id" value="<?=$row['m_id']?>"></td>
 										</tr>
 										<tr>
 											<th class="w200">이벤트타이틀</th>
@@ -105,7 +105,7 @@ if($row[0]) {
 										<tr>
 											<th class="w200">카드링크</th>
 											<td>
-												<input type="text" id="card_short_url" name="card_short_url" value="<?=$row[event_info]?>" hidden>
+												<input type="text" id="card_short_url" name="card_short_url" value="<?=$row['event_info']?>" hidden>
 												<div id="cardsel1" onclick="limit_selcard1()" style="margin-top:15px;">
 													<?
 													$sql5="select card_short_url,phone_display, card_title from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$row['m_id']}' order by req_data asc";
@@ -120,13 +120,13 @@ if($row[0]) {
 														}
 
 														$checked = "";
-														if($row[event_info] != ""){
+														if($row['event_info'] != ""){
 															$card_idx_arr = array();
-															if(strpos($row[event_info], ",") !== false){
-																$card_idx_arr = explode(",", $row[event_info]);
+															if(strpos($row['event_info'], ",") !== false){
+																$card_idx_arr = explode(",", $row['event_info']);
 															}
 															else{
-																$card_idx_arr[0] = $row[event_info];
+																$card_idx_arr[0] = $row['event_info'];
 															}
 															$num = $i+1;
 															for($c = 0; $c < count($card_idx_arr); $c++){

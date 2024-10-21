@@ -190,7 +190,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                       <tr>
                             <td><input type="checkbox" class="check" id="check_one_member" name="" value="<?=$row['event_idx']?>">&nbsp;&nbsp;<?=$number--?></td>
                             <td style="font-size:12px;"><?=$row['site']?></td>
-                            <td style="font-size:12px;"><?=$row[m_id]?></td>
+                            <td style="font-size:12px;"><?=$row['m_id']?></td>
                             <td style="font-size:12px;"><?=$row['mem_name']?></td>
                             <td style="font-size:12px;"><?=$row['event_title']?></td>
                             <td style="font-size:12px;"><a href="javascript:show_more('<?=str_replace("\n", "<br>", $row['event_desc'])?>')"><?=cut_str($row['event_desc'], 50)?></a></td>

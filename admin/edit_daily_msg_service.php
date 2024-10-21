@@ -11,7 +11,7 @@ $sql="select * from Gn_event  where event_idx='".$event_idx."'";
 $res=mysqli_query($self_con,$sql);
 $row=mysqli_fetch_array($res);	
 if($row[0]) {
-    $sql="select * from Gn_Member  where mem_id='".$row[m_id]."'";
+    $sql="select * from Gn_Member  where mem_id='".$row['m_id']."'";
     $sresul_num=mysqli_query($self_con,$sql);
     $data=mysqli_fetch_array($sresul_num);
 }
@@ -133,7 +133,7 @@ if($row[0]) {
 									<table class="list_table1" width="100%" border="0" cellspacing="0" cellpadding="0">
 										<tr>
 											<th class="w200">아아디</th>
-											<td><input type="text" name="m_id" id="m_id" value="<?=$row[m_id]?>" disabled></td>
+											<td><input type="text" name="m_id" id="m_id" value="<?=$row['m_id']?>" disabled></td>
 										</tr>
 										<tr>
 											<th class="w200">이벤트타이틀</th>
@@ -145,7 +145,7 @@ if($row[0]) {
 										</tr>
 										<tr>
 											<th class="w200">제목</th>
-											<td><input type="text" name="daily_event_title" id="daily_event_title" value="<?=$row[event_info]?>"></td>
+											<td><input type="text" name="daily_event_title" id="daily_event_title" value="<?=$row['event_info']?>"></td>
 										</tr>
 										<tr>
 											<th class="w200">내용</th>

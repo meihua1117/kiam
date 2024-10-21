@@ -130,7 +130,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                 	$query .= $orderQuery;
                 	$res = mysqli_query($self_con,$query);
                     while($row = mysqli_fetch_array($res)) {
-                      $sql_mem = "select site, mem_name from Gn_Member where mem_id='{$row[m_id]}'";
+                      $sql_mem = "select site, mem_name from Gn_Member where mem_id='{$row['m_id']}'";
                       $res_mem = mysqli_query($self_con,$sql_mem);
                       $row_mem = mysqli_fetch_array($res_mem);
                       $pop_url = '/event/automember.php?pcode='.$row['pcode'].'&eventidx='.$row['event_idx'];
@@ -147,7 +147,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                       <tr>
                             <td><input type="checkbox" class="check" id="check_one_member" name="" value="<?=$row['event_idx']?>">&nbsp;&nbsp;<?=$number--?></td>
                             <td style="font-size:12px;"><?=$row_mem['site']?></td>
-                            <td style="font-size:12px;"><?=$row[m_id]?></td>
+                            <td style="font-size:12px;"><?=$row['m_id']?></td>
                             <td style="font-size:12px;"><?=$row_mem['mem_name']?></td>
                             <td style="font-size:12px;"><?=$row['event_title']?></td>
                             <td style="font-size:12px;"><a href="javascript:show_more('<?=str_replace("\n", "<br>", $row['event_desc'])?>')"><?=cut_str($row['event_desc'], 50)?></a></td>

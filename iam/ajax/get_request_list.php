@@ -52,7 +52,7 @@ while($row6=mysqli_fetch_array($result6)){
     $row_mem = mysqli_fetch_array($res_mem);
         
     $body .= '<tr>';
-    $body .= '    <td class="iam_table">'.$row6[m_id].'</td>';
+    $body .= '    <td class="iam_table">'.$row6['m_id'].'</td>';
     $body .= '    <td class="iam_table">'.$row6['name'].'</td>';
     $body .= '    <td class="iam_table">'.$row_event_data['event_title'].'</td>';
     $body .= '    <td class="iam_table">'.str_replace("-", "", $row6['mobile']).'</td>';
