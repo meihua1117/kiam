@@ -470,8 +470,8 @@ $search_month = $search_month?sprintf("%02d",$search_month):sprintf("%02d",date(
                                     else{
                                         $min_val = 0;
                                     }
-                                    $sell_money += ceil(((($row['contents_price'] * 1 / $row['contents_cnt'] * 1) - $row[contents_provide_price] * 1) * 0.9 - $min_val) * $row['contents_cnt'] * 1);
-                                    // $sell_money = ceil((($row['contents_price'] * 1 / $row['contents_cnt'] * 1) - $row[contents_provide_price] * 1) * 0.9 * $row['contents_cnt'] * 1);
+                                    $sell_money += ceil(((($row['contents_price'] * 1 / $row['contents_cnt'] * 1) - $row['contents_provide_price'] * 1) * 0.9 - $min_val) * $row['contents_cnt'] * 1);
+                                    // $sell_money = ceil((($row['contents_price'] * 1 / $row['contents_cnt'] * 1) - $row['contents_provide_price'] * 1) * 0.9 * $row['contents_cnt'] * 1);
                                     $recom_money = ceil($sell_money * ($row_mem[gwc_service_per] * 1 / 100));
                                     $center_money = ceil($sell_money * ($row_mem[gwc_center_per] * 1 / 100));
 
@@ -492,7 +492,7 @@ $search_month = $search_month?sprintf("%02d",$search_month):sprintf("%02d",date(
                                         <td><?=$site_data?></td>
                                         <td><?=$seller_data?></td>
                                         <td><?=$row['order_mem_name']?><br><?=$row['mem_id']?></td>
-                                        <td><?=number_format(($row['contents_price'] * 1 / $row['contents_cnt'] * 1))?><br><?=number_format($row[contents_provide_price])?></td>
+                                        <td><?=number_format(($row['contents_price'] * 1 / $row['contents_cnt'] * 1))?><br><?=number_format($row['contents_provide_price'])?></td>
                                         <td><?=$row['contents_cnt']?></td>
                                         <td><?=number_format($row['contents_price'])?><br><?=number_format($row[salary_price])?></td>
                                         <td><?=$price_data2?></td>
