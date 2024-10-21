@@ -168,8 +168,8 @@ $(function() {
                     $mem_sql = "select site, site_iam, gwc_provider_name, mem_name, gwc_manage_price, mem_code from Gn_Member where mem_id='{$row['mem_id']}'";
                     $mem_res = mysqli_query($self_con,$mem_sql);
                     $mem_row = mysqli_fetch_array($mem_res);
-                    if($mem_row[gwc_manage_price]){
-                      $mng_price = $mem_row[gwc_manage_price];
+                    if($mem_row['gwc_manage_price']){
+                      $mng_price = $mem_row['gwc_manage_price'];
                     }
                     else{
                       $mng_price = $row['send_provide_price'] * 1 - $row['prod_manufact_price'] * 1;
@@ -183,11 +183,11 @@ $(function() {
                       $img_link = $row['contents_img'];
                     }
 
-                    if(!$row[prod_sehu_price]){
+                    if(!$row['prod_sehu_price']){
                       $sehu_price = $row['contents_sell_price'] * 1 - ceil($row['contents_sell_price'] * 1 * 0.1) - ceil($row['contents_sell_price'] * 1 * 0.03);
                     }
                     else{
-                      $sehu_price = $row[prod_sehu_price];
+                      $sehu_price = $row['prod_sehu_price'];
                     }
                   ?>
                       <tr>
@@ -210,7 +210,7 @@ $(function() {
                               <?=$mem_row['mem_name']?>/<br><?=$row['mem_id']?>
                             </div>
                         </td>
-                        <td><?=$row[gwc_con_state] == 1?"well":"공동구매용"?></td>
+                        <td><?=$row['gwc_con_state'] == 1?"well":"공동구매용"?></td>
                         <td>
                           <a href="/iam/contents_gwc.php?contents_idx=<?=$row['idx']?>&gwc=Y" target="_blank">
                             <img class="zoom" src="<?=$img_link?>" style="width:50px;"> 
@@ -218,7 +218,7 @@ $(function() {
                         </td>
                         <td><?=$row['contents_title']?></td>
                         <td><?=$row['card_title']?></td>
-                        <td><?=$row[product_seperate]?></td>
+                        <td><?=$row['product_seperate']?></td>
                         <td><?=$row['contents_price']?></td>
                         <td><?=$row['contents_sell_price']?></td>
                         <td><?=$sehu_price?></td>
