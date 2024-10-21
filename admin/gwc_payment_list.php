@@ -4,7 +4,9 @@ include_once $_SERVER['DOCUMENT_ROOT'] . "/admin/include/admin_header.inc.php";
 extract($_GET);
 // 오늘날짜
 $date_today = date("Y-m") . "-01 00:00:00";
+echo $date_today;
 set_gwc_delivery_state();
+echo "start";
 ?>
 <script type="text/javascript" src="/jquery.lightbox_me.js"></script>
 <script type="text/javascript" src="/js/rlatjd_admin.js"></script>
