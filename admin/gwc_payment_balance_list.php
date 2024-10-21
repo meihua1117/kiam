@@ -283,6 +283,7 @@ $search_month = $search_month?sprintf("%02d",$search_month):sprintf("%02d",date(
                                 $query = "SELECT g.*,  Gn_Member.mem_name, Gn_Member.service_type, Gn_Member.site, Gn_Member.site_iam, Gn_Member.gwc_leb, Gn_Member.gwc_center_per, Gn_Member.gwc_service_per, Gn_Member.mem_cash 
                                             FROM (SELECT * FROM gn_gwc_order WHERE cash_prod_pay = 0 and seller_id != '' $searchStr group by seller_id ORDER BY id DESC) AS g 
                                             LEFT JOIN Gn_Member ON g.seller_id = Gn_Member.mem_id $searchCondition ";
+                                            echo $query."<br>";
                                 $res	    = mysqli_query($self_con,$query);
                                 $totalCnt	=  mysqli_num_rows($res);
                                 $limitStr       = " LIMIT ".(($startPage-1)*$pageCnt).", ".$pageCnt;
