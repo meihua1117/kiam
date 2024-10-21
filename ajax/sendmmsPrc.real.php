@@ -1203,14 +1203,9 @@ if ($_SESSION['one_member_id']) {
 										"title" => $title
 									)
 								);
-								if (is_array($id)) {
-									$fields['registration_ids'] = $id;
-								} else {
-									$fields['to'] = $id;
-								}
 								$fields['token'] = $id;
-								$fields['android'] = array("priority"=>"high");
-								$fields = json_encode($fields);
+								$fields['android'] = array("priority" => "high");
+								$fields = json_encode(array('message' => $fields));
 								$ch = curl_init();
 								curl_setopt($ch, CURLOPT_URL, $url);
 								curl_setopt($ch, CURLOPT_POST, true);

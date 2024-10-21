@@ -45,8 +45,8 @@ if ($_POST['select_app_check_num']) {
 			);
 			$fields['to'] = $id;
 			$fields['token'] = $id;
-			$fields['android'] = array("priority"=>"high");
-			$fields = json_encode(array('message'=>$fields));
+			$fields['android'] = array("priority" => "high");
+			$fields = json_encode(array('message' => $fields));
 			$ch = curl_init();
 			curl_setopt($ch, CURLOPT_URL, $url);
 			curl_setopt($ch, CURLOPT_POST, true);

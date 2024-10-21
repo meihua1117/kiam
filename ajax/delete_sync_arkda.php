@@ -108,18 +108,10 @@ function sendPush($url, $headers, $pkey, $sidx, $send_type, $send_num)
             "title" => $title
         )
     );
-    if (is_array($pkey)) {
-        $fields['registration_ids'] = $pkey;
-    } else {
-        $fields['to'] = $pkey;
-    }
     $fields['token'] = $pkey;
-    $fields['android'] = array("priority"=>"high");
-
+    $fields['android'] = array("priority" => "high");
     $fields = json_encode(array('message' => $fields));
-    //$fields = http_build_query($fields);
     $ch = curl_init();
-    //curl_setopt ( $ch, CURLOPT_URL, "https://nm.kiam.kr/fcm/send_fcm.php" );
     curl_setopt($ch, CURLOPT_URL, $url);
     curl_setopt($ch, CURLOPT_POST, true);
     curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
@@ -132,7 +124,6 @@ function sendPush($url, $headers, $pkey, $sidx, $send_type, $send_num)
     if ($result === FALSE) {
         die('FCM Send Error: ' . curl_error($ch));
     }
-    //print_R($result);
     $json = json_decode($result);
     $msg = "";
     $msg = $json->results[0]->error;

@@ -1628,8 +1628,6 @@ if ($_POST['select_app_check_num']) {
 	$reg_date = "DATE_ADD(now(), INTERVAL -{$d} second)";
 
 	if ($i > 1) {
-
-
 		$query = "select * from Gn_MMS_Number where mem_id='{$_SESSION['one_member_id']}' and sendnum in ('" . implode("','", $sendnum) . "')";
 		$result = mysqli_query($self_con, $query);
 		while ($info = mysqli_fetch_array($result)) {
@@ -1639,14 +1637,7 @@ if ($_POST['select_app_check_num']) {
 			$sql = "select idx from Gn_MMS where mem_id='{$_SESSION['one_member_id']}'  and send_num='{$info['sendnum']}' and result=0 and content='app_check_process'  order by idx desc  ";
 			$resul = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
 			$row = mysqli_fetch_array($resul);
-
-			if (is_array($id)) {
-				$fields['registration_ids'] = $id;
-			} else {
-				$fields['to'] = $id;
-			}
 			$sidx = $row['idx'];
-
 			$title = '{"MMS Push"}';
 			$message = '{"Send":"Start","idx":"' . $sidx . '","send_type":"1"}';
 			$fields = array(
@@ -1656,14 +1647,10 @@ if ($_POST['select_app_check_num']) {
 				)
 			);
 
-			$fields['android'] = array("priority"=>"high");
-			$fields['to'] = $id;
+			$fields['android'] = array("priority" => "high");
 			$fields['token'] = $id;
-
-			$fields = json_encode ($fields);
-			//$fields = http_build_query(array('message' => $fields));
+			$fields = json_encode(array('message' => $fields));
 			$ch = curl_init();
-			//curl_setopt($ch, CURLOPT_URL, "https://nm.kiam.kr/fcm/send_fcm.php");
 			curl_setopt($ch, CURLOPT_URL, $url);
 			curl_setopt($ch, CURLOPT_POST, true);
 			curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
@@ -1673,11 +1660,6 @@ if ($_POST['select_app_check_num']) {
 			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
 
 			$kresult = curl_exec($ch);
-			/*
-                print_r($fields);
-                print_r($url);
-                print_r($kresult);
-                */
 			if ($kresult === FALSE) {
 				die('FCM Send Error: ' . curl_error($ch));
 			}
