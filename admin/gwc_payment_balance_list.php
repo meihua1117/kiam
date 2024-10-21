@@ -292,6 +292,7 @@ $search_month = $search_month?sprintf("%02d",$search_month):sprintf("%02d",date(
                                 $orderQuery = " ORDER BY id DESC $limitStr ";
                                 $i = 1;
                                 $query .= $orderQuery;
+                                echo $query;
                                 $res = mysqli_query($self_con,$query);
                                 while($row = mysqli_fetch_array($res)) {
                                     $sql_mem_data = "select mem_name, service_type, site, site_iam, gwc_leb, gwc_center_per, gwc_service_per, mem_cash from Gn_Member where mem_id='{$row['seller_id']}'";
@@ -377,7 +378,7 @@ $search_month = $search_month?sprintf("%02d",$search_month):sprintf("%02d",date(
                                 $excel_sql=str_replace("'","`",$excel_sql);
                                 if($i == 1) {?>
                                     <tr>
-                                        <td colspan="11" style="text-align:center;background:#fff">등록된 내용이 없습니다.</td>
+                                        <td colspan="14" style="text-align:center;background:#fff">등록된 내용이 없습니다.</td>
                                     </tr>
                                 <?}?>
                             </tbody>
