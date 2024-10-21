@@ -1109,4 +1109,4 @@ if ($user_id) {
         exit;
     }
 }
-mysqli_close($self_con);
+?>
