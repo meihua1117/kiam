@@ -281,22 +281,22 @@ $search_month = $search_month?sprintf("%02d",$search_month):sprintf("%02d",date(
                                 }
                                 $order = $order?$order:"desc";
                                 $query = "SELECT ggo.* FROM Gn_Gwc_Order ggo 
-                                                JOIN (SELECT seller_id, MAX(id) AS max_id FROM Gn_Gwc_Order WHERE cash_prod_pay = 0  AND seller_id != '' $searchStr GROUP BY seller_id) AS mggo ON ggo.seller_id = mggo.seller_id AND ggo.id = mggo.max_id ORDER BY id DESC";
+                                                JOIN (SELECT seller_id, MAX(id) AS max_id FROM Gn_Gwc_Order WHERE cash_prod_pay = 0  AND seller_id != '' $searchStr GROUP BY seller_id) AS mggo ON ggo.seller_id = mggo.seller_id AND ggo.id = mggo.max_id ";
                                 /*$query = "SELECT g.*,  Gn_Member.mem_name, Gn_Member.service_type, Gn_Member.site, Gn_Member.site_iam, Gn_Member.gwc_leb, Gn_Member.gwc_center_per, Gn_Member.gwc_service_per, Gn_Member.mem_cash 
                                             FROM (SELECT * FROM Gn_Gwc_Order WHERE cash_prod_pay = 0 and seller_id != '' $searchStr group by seller_id ORDER BY id DESC) AS g 
                                             LEFT JOIN Gn_Member ON g.seller_id = Gn_Member.mem_id $searchCondition ";*/
-                                            echo $query."<br>";
                                 $res	    = mysqli_query($self_con,$query);
                                 $totalCnt	=  mysqli_num_rows($res);
                                 $limitStr       = " LIMIT ".(($startPage-1)*$pageCnt).", ".$pageCnt;
                                 $number			= $totalCnt - ($nowPage - 1) * $pageCnt;
-                                $orderQuery .= " ORDER BY g.id DESC $limitStr ";
+                                $orderQuery = " ORDER BY id DESC $limitStr ";
                                 $i = 1;
-                                $query .= "$orderQuery";
+                                $query .= $orderQuery;
                                 echo $query;
                                 $res = mysqli_query($self_con,$query);
                                 while($row = mysqli_fetch_array($res)) {
                                     $sql_mem_data = "select mem_name, service_type, site, site_iam, gwc_leb, gwc_center_per, gwc_service_per, mem_cash from Gn_Member where mem_id='{$row['seller_id']}'";
+                                    echo $sql_mem_data."<br>";
                                     $res_mem_data = mysqli_query($self_con,$sql_mem_data);
                                     $row_mem_data = mysqli_fetch_array($res_mem_data);
 
