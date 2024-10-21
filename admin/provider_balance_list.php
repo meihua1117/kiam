@@ -262,8 +262,8 @@ $search_month = $search_month?sprintf("%02d",$search_month):sprintf("%02d",date(
                                 $number			= $totalCnt - ($nowPage - 1) * $pageCnt;
                                 $orderQuery .= " ORDER BY g.id DESC $limitStr ";
                                 $i = 1;
-                                $query .= "$orderQuery";
-                                // echo $query;
+                                $query .= $orderQuery;
+                                echo $query;
                                 $res = mysqli_query($self_con,$query);
                                 while($row = mysqli_fetch_array($res)) {
                                     $sql_mem_data = "select mem_name, service_type, site, site_iam, gwc_leb, gwc_center_per, gwc_service_per, mem_cash from Gn_Member where mem_id='{$row['seller_id']}'";
