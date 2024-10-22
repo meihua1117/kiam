@@ -272,10 +272,12 @@ $order = $order ? $order : "desc";
                                         $srow = mysqli_fetch_array($sres);
                                         $branch_share_fee = $srow['price'];
                                     }
+                                    echo "1";
                                     if ($prow['balance_yn'] == "Y") {
                                         $row['balance_yn'] = "Y";
                                         $row['balance_confirm_date'] = $prow['balance_confirm_date'];
                                     }
+                                    echo "1-1";
                                     if ($srow['branch_balance_yn'] == "Y") {
                                         $row['balance_yn'] = "Y";
                                         $row['balance_confirm_date'] = $srow['branch_balance_confirm_date'];
