@@ -244,6 +244,8 @@ $order = $order ? $order : "desc";
                                 echo $query;
                                 $res = mysqli_query($self_con, $query);
                                 while ($row = mysqli_fetch_array($res)) {
+                                    print_r($row);
+                                    echo "<br>";
                                     if ($row['service_type'] == 2) {
                                         $mem_level = "리셀러";
                                     } else if ($row['service_type'] == 3) {
