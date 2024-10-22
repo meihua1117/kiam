@@ -241,6 +241,7 @@ $order = $order ? $order : "desc";
                                 $orderQuery .= " ORDER BY b.mem_id DESC ";
                                 $i = 1;
                                 $query .= $orderQuery;
+                                echo $query;
                                 $res = mysqli_query($self_con, $query);
                                 while ($row = mysqli_fetch_array($res)) {
                                     if ($row['service_type'] == 2) {
