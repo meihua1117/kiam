@@ -198,7 +198,6 @@ function get_style($case, $active_case)
 								}
 								$order = $order ? $order : "desc";
 								$query = "SELECT a.idx FROM Gn_MMS a inner join Gn_Member m on m.mem_id = a.mem_id WHERE 1=1 $searchStr";
-								echo "test1";
 								$res   = mysqli_query($self_con, $query);
 								$totalCnt = mysqli_num_rows($res);
 								if ($_GET['upd'] == 'yes') {
@@ -219,7 +218,6 @@ function get_style($case, $active_case)
 									echo "<meta http-equiv='refresh' content='1; url=/admin/member_return_list_10.php?upd=&case=3'></meta>";
 									exit();
 								}
-								echo "test2";
 								$query = "SELECT a.idx, a.send_num, a.recv_num, a.up_date, a.mem_id, a.reservation, a.reg_date, a.content,m.mem_name,m.site,m.site_iam
                         					FROM Gn_MMS a inner join Gn_Member m on m.mem_id = a.mem_id WHERE 1=1 $searchStr";
 								$limitStr = " LIMIT " . (($startPage - 1) * $pageCnt) . ", " . $pageCnt;
@@ -230,16 +228,13 @@ function get_style($case, $active_case)
 								$excel_sql = $query;
 								$query .= $orderQuery;
 								$res = mysqli_query($self_con, $query);
-								echo "test3";
 								while ($row = mysqli_fetch_array($res)) {
 									$sql_s = "select regdate from Gn_MMS_status where idx='{$row['idx']}' ";
-									echo "sqls=".$sql_s."<br>";
 									$resul_s = mysqli_query($self_con, $sql_s);
 									$row_s = mysqli_fetch_array($resul_s);
 									mysqli_free_result($resul_s);
 
 									$sql_n = "select memo from Gn_MMS_Number where sendnum='{$row['send_num']}' ";
-									echo "sqln=".$sql_n."<br>";
 									$resul_n = mysqli_query($self_con, $sql_n);
 									$row_n = mysqli_fetch_array($resul_n);
 									mysqli_free_result($resul_n);
@@ -249,19 +244,16 @@ function get_style($case, $active_case)
 									$date = $row['up_date'];
 
 									$sql = "select count(seq) as cnt from call_app_log where api_name='receive_sms' and LENGTH(recv_num) >= 10 and  send_num='{$row['send_num']}' and recv_num in ($recv_num_in) and recv_num like '01%'  and regdate >= '$date' and sms not like '[%'";
-									echo "sql=".$sql."<br>";
 									$kresult = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
 									$krow = mysqli_fetch_array($kresult);
 									$intRowCount = $krow['cnt'];
 
 									$sql_as = "select count(idx) as cnt from Gn_MMS_status where idx='{$row['idx']}' ";
-									echo "sqlas=".$sql_as."<br>";
 									$resul_as = mysqli_query($self_con, $sql_as);
 									$row_as = mysqli_fetch_array($resul_as);
 									$status_total_cnt = $row_as[0];
 
 									$sql_cs = "select count(idx) as cnt from Gn_MMS_status where idx='{$row['idx']}' and status='0'";
-									echo "sqlcs=".$sql_cs."<br>";
 									$resul_cs = mysqli_query($self_con, $sql_cs);
 									$row_cs = mysqli_fetch_array($resul_cs);
 									$success_cnt = $row_cs[0];
@@ -273,7 +265,6 @@ function get_style($case, $active_case)
 									$recv_cnt = explode(",", $row['recv_num']);
 									$total_cnt = count($recv_cnt);
 									$reg_date_1hour = strtotime("{$row['reg_date']} +1hours");
-									echo "test4";
 								?>
 									<tr>
 										<td><?= $number-- ?></td>
