@@ -233,11 +233,13 @@ function get_style($case, $active_case)
 								echo "test3";
 								while ($row = mysqli_fetch_array($res)) {
 									$sql_s = "select up_date from Gn_MMS_status where idx='{$row['idx']}' ";
+									echo "sqls=".$sql_s."<br>";
 									$resul_s = mysqli_query($self_con, $sql_s);
 									$row_s = mysqli_fetch_array($resul_s);
 									mysqli_free_result($resul_s);
 
 									$sql_n = "select memo from Gn_MMS_Number where sendnum='{$row['send_num']}' ";
+									echo "sqln=".$sql_n."<br>";
 									$resul_n = mysqli_query($self_con, $sql_n);
 									$row_n = mysqli_fetch_array($resul_n);
 									mysqli_free_result($resul_n);
@@ -247,16 +249,19 @@ function get_style($case, $active_case)
 									$date = $row['up_date'];
 
 									$sql = "select count(seq) as cnt from call_app_log where api_name='receive_sms' and LENGTH(recv_num) >= 10 and  send_num='{$row['send_num']}' and recv_num in ($recv_num_in) and recv_num like '01%'  and regdate >= '$date' and sms not like '[%'";
+									echo "sql=".$sql."<br>";
 									$kresult = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
 									$krow = mysqli_fetch_array($kresult);
 									$intRowCount = $krow['cnt'];
 
 									$sql_as = "select count(idx) as cnt from Gn_MMS_status where idx='{$row['idx']}' ";
+									echo "sqlas=".$sql_as."<br>";
 									$resul_as = mysqli_query($self_con, $sql_as);
 									$row_as = mysqli_fetch_array($resul_as);
 									$status_total_cnt = $row_as[0];
 
 									$sql_cs = "select count(idx) as cnt from Gn_MMS_status where idx='{$row['idx']}' and status='0'";
+									echo "sqlcs=".$sql_cs."<br>";
 									$resul_cs = mysqli_query($self_con, $sql_cs);
 									$row_cs = mysqli_fetch_array($resul_cs);
 									$success_cnt = $row_cs[0];
