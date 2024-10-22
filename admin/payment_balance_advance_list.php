@@ -229,13 +229,15 @@ $order = $order ? $order : "desc";
                             <tbody>
                                 <?
                                 $query = "SELECT count(b.mem_id) FROM tjd_pay_result_balance c INNER JOIN Gn_Member b on b.mem_id = c.seller_id
-                                            WHERE 1=1 and b.service_type > 1 $searchStr group by b.mem_id";
+                                            WHERE b.service_type > 1 $searchStr group by b.mem_id";
+                                echo $query;
                                 $res        = mysqli_query($self_con, $query);
                                 $totalCnt    =  mysqli_num_rows($res);
-                                // echo $totalCnt."|".$nowPage;
+
                                 $query = "SELECT SQL_CALC_FOUND_ROWS b.mem_id,b.mem_name,b.mem_phone,c.balance_date,b.service_type,c.balance_yn 
                                             FROM tjd_pay_result_balance c INNER JOIN Gn_Member b on b.mem_id = c.seller_id
                                             WHERE 1=1 and b.service_type > 1 $searchStr group by b.mem_id";
+                                echo $query;
                                 $limitStr       = " LIMIT " . (($startPage - 1) * $pageCnt) . ", " . $pageCnt;
                                 $number            = $totalCnt - ($nowPage - 1) * $pageCnt;
                                 $orderQuery .= " ORDER BY b.mem_id DESC ";
