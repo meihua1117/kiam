@@ -267,6 +267,7 @@ $order = $order ? $order : "desc";
                                                          branch_share_per ,branch_balance_yn,branch_balance_confirm_date
                                                     from tjd_pay_result_balance where branch_id='{$row['mem_id']}' and balance_date='$search_year$search_month' 
                                                     GROUP BY branch_share_per, branch_balance_yn, branch_balance_confirm_date";
+                                        echo $squery;
                                         $sres = mysqli_query($self_con, $squery);
                                         $srow = mysqli_fetch_array($sres);
                                         $branch_share_fee = $srow['price'];
