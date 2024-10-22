@@ -257,7 +257,7 @@ $order = $order ? $order : "desc";
                                                 GROUP BY share_per, balance_yn, balance_confirm_date";
                                     $pres = mysqli_query($self_con, $pquery);
                                     $prow = mysqli_fetch_array($pres);
-                                    echo "1";
+                                    echo $mem_level;
                                     //$row['balance_yn']  ="N";
                                     $row['balance_confirm_date'] = $prow['balance_confirm_date'];
                                     $srow = "";
