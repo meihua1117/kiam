@@ -333,14 +333,14 @@ function payment_save(fm) {
                            $branch_share_fee = $srow['price'];
                        }                  
 
-                       //echo $prow[balance_yn]."=".$srow[branch_balance_yn]."<BR>";
+                       //echo $prow['balance_yn']."=".$srow['branch_balance_yn']."<BR>";
 
 
-                       if($prow[balance_yn] =="Y") {
+                       if($prow['balance_yn'] =="Y") {
                           $row['balance_yn'] ="Y";
                           $row['balance_date'] = $prow['balance_date'];
                        }                       
-                       if($srow[branch_balance_yn] =="Y") {
+                       if($srow['branch_balance_yn'] =="Y") {
                          $row['balance_yn'] ="Y";
                          $row['balance_date'] = $srow['branch_balance_date'];
                        }                       
