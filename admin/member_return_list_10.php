@@ -232,7 +232,7 @@ function get_style($case, $active_case)
 								$res = mysqli_query($self_con, $query);
 								echo "test3";
 								while ($row = mysqli_fetch_array($res)) {
-									$sql_s = "select up_date from Gn_MMS_status where idx='{$row['idx']}' ";
+									$sql_s = "select regdate from Gn_MMS_status where idx='{$row['idx']}' ";
 									echo "sqls=".$sql_s."<br>";
 									$resul_s = mysqli_query($self_con, $sql_s);
 									$row_s = mysqli_fetch_array($resul_s);
