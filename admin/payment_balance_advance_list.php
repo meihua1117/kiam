@@ -260,7 +260,6 @@ $order = $order ? $order : "desc";
                                     echo $mem_level;
                                     //$row['balance_yn']  ="N";
                                     $row['balance_confirm_date'] = $prow['balance_confirm_date'];
-                                    $srow = "";
                                     // 분양자일경우 리셀러의 20프로
                                     if ($mem_level == "분양자") {
                                         $squery = "select sum(price/1.1*0.01*branch_share_per) as price,
@@ -278,9 +277,12 @@ $order = $order ? $order : "desc";
                                         $row['balance_confirm_date'] = $prow['balance_confirm_date'];
                                     }
                                     echo "1-1";
-                                    if ($srow['branch_balance_yn'] == "Y") {
-                                        $row['balance_yn'] = "Y";
-                                        $row['balance_confirm_date'] = $srow['branch_balance_confirm_date'];
+                                    // 분양자일경우 리셀러의 20프로
+                                    if ($mem_level == "분양자") {
+                                        if ($srow['branch_balance_yn'] == "Y") {
+                                            $row['balance_yn'] = "Y";
+                                            $row['balance_confirm_date'] = $srow['branch_balance_confirm_date'];
+                                        }
                                     }
                                     echo "2";
                                     $total_balance_fee = 0;
@@ -308,7 +310,7 @@ $order = $order ? $order : "desc";
                                                     share_per,balance_yn,balance_confirm_date
                                                 from tjd_pay_result_balance where seller_id='{$row['mem_id']}' and balance_date='$search_year$search_month' 
                                                 GROUP BY share_per, balance_yn, balance_confirm_date";
-                                                echo "3";
+                                    echo "3";
                                     $pres = mysqli_query($self_con, $pquery);
                                     $prow = mysqli_fetch_array($pres);
 
