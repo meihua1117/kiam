@@ -176,7 +176,7 @@ $date_today = date("Y-m-d");
                                 $res    = mysqli_query($self_con, $query);
                                 $totalRow    =  mysqli_fetch_array($res);
                                 $totalCnt = $totalRow[0];
-                                $query = "SELECT a.no, a.source, a.name, a.subname, a.phone, a.email, a.page_title, a.tag, a.info, a.url, a.com_name, a.com_type, a.rank, a.addr, a.gen, a.age, a.school, a.marrige, a.reservation_time FROM sm_data_one a WHERE 1=1 $searchStr";
+                                $query = "SELECT a.no, a.source, a.name, a.subname, a.phone, a.email, a.tag, a.info, a.url, a.com_name, a.com_type, a.rank, a.addr, a.gen, a.age, a.school, a.marrige, a.reservation_time FROM sm_data_one a WHERE 1=1 $searchStr";
                                 $excel_sql = $query;
                                 $excel_sql = str_replace("'", "`", $excel_sql);
                                 $limitStr   = " LIMIT " . (($startPage - 1) * $pageCnt) . ", " . $pageCnt;
