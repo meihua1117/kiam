@@ -176,7 +176,7 @@ $date_today = date("Y-m-d");
                                 $res    = mysqli_query($self_con, $query);
                                 $totalRow    =  mysqli_fetch_array($res);
                                 $totalCnt = $totalRow[0];
-                                $query = "SELECT a.no, a.source, a.name, a.subname, a.phone, a.email, a.tag, a.info, a.url, a.com_name, a.com_type, a.rank, a.addr, a.gen, a.age, a.school, a.marrige, a.reservation_time FROM sm_data_one a WHERE 1=1 $searchStr";
+                                $query = "SELECT a.no, a.source, a.name, a.subname, a.phone, a.email, a.tag, a.info, a.url, a.rank, a.addr, a.gen, a.age, a.school, a.marrige FROM sm_data_one a WHERE 1=1 $searchStr";
                                 $excel_sql = $query;
                                 $excel_sql = str_replace("'", "`", $excel_sql);
                                 $limitStr   = " LIMIT " . (($startPage - 1) * $pageCnt) . ", " . $pageCnt;
@@ -201,15 +201,15 @@ $date_today = date("Y-m-d");
                                         <td><?= $row['tag'] ?></td>
                                         <td><?= $row['info'] ?></td>
                                         <td><?= $srow['url'] ?></td>
-                                        <td><?= $srow['com_name'] ?></td>
-                                        <td><?= $row['com_type'] ?> </td>
+                                        <td><!--<?= $srow['com_name']?>--></td>
+                                        <td><!--<?= $row['com_type'] ?>--> </td>
                                         <td><?= $row['rank'] ?></td>
                                         <td><?= $row['addr'] ?></td>
                                         <td><?= $srow['gen'] ?></td>
                                         <td><?= $srow['age'] ?></td>
                                         <td><?= $row['school'] ?> </td>
                                         <td><?= $row['marrige'] ?></td>
-                                        <td><?= $row['reservation_time'] ?></td>
+                                        <td><!--<?= $row['reservation_time'] ?>--></td>
                                     </tr>
                                 <?
                                     $i++;
