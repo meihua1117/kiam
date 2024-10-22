@@ -182,13 +182,13 @@ function get_style($case, $active_case = 0)
 								}
 								$order = $order ? $order : "desc";
 								$query = "SELECT a.idx FROM Gn_MMS a inner join Gn_Member m on m.mem_id = a.mem_id WHERE 1=1 $searchStr";
-								echo "test1:".$query."<br>";
+								echo "test1:" . $query . "<br>";
 								$res	    =  mysqli_query($self_con, $query);
 								$totalCnt	=  mysqli_num_rows($res);
 
 								$query = "SELECT a.idx, a.send_num, a.recv_num, a.up_date, a.mem_id, a.reservation, a.reg_date, a.content,m.mem_name,m.site,m.site_iam
                         					FROM Gn_MMS a inner join Gn_Member m on m.mem_id = a.mem_id WHERE 1=1 $searchStr";
-								echo "test2:".$query."<br>";
+								echo "test2:" . $query . "<br>";
 								$limitStr       = " LIMIT " . (($startPage - 1) * $pageCnt) . ", " . $pageCnt;
 								$number			= $totalCnt - ($nowPage - 1) * $pageCnt;
 								$orderQuery .= " ORDER BY a.idx DESC $limitStr";
@@ -199,13 +199,13 @@ function get_style($case, $active_case = 0)
 								$res = mysqli_query($self_con, $query);
 								while ($row = mysqli_fetch_array($res)) {
 									$sql_s = "select * from Gn_MMS_status where idx='{$row['idx']}' ";
-									echo "test3:".$sql_s."<br>";
+									echo "test3:" . $sql_s . "<br>";
 									$resul_s = mysqli_query($self_con, $sql_s);
 									$row_s = mysqli_fetch_array($resul_s);
 									mysqli_free_result($resul_s);
 
 									$sql_n = "select memo from Gn_MMS_Number where sendnum='{$row['send_num']}' ";
-									echo "test4:".$sql_n."<br>";
+									echo "test4:" . $sql_n . "<br>";
 									$resul_n = mysqli_query($self_con, $sql_n);
 									$row_n = mysqli_fetch_array($resul_n);
 									mysqli_free_result($resul_n);
@@ -214,26 +214,29 @@ function get_style($case, $active_case = 0)
 									$recv_num_in = "'" . implode("','", $recv_num) . "'";
 									$date = $row['up_date'];
 
-									$sql = "select count(seq) as cnt from call_app_log where api_name='receive_sms' and LENGTH(recv_num) >= 10 and  send_num='{$row['send_num']}' and recv_num in ($recv_num_in) and recv_num like '01%'  and regdate >= '$date' and sms not like '[%'";
-									echo "test5:".$sql."<br>";
-									$kresult = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-									$krow = mysqli_fetch_array($kresult);
-									$intRowCount = $krow['cnt'];
+									$intRowCount = 0;
+									if ($date != "") {
+										$sql = "select count(seq) as cnt from call_app_log where api_name='receive_sms' and LENGTH(recv_num) >= 10 and  send_num='{$row['send_num']}' and recv_num in ($recv_num_in) and recv_num like '01%'  and regdate >= '$date' and sms not like '[%'";
+										echo "test5:" . $sql . "<br>";
+										$kresult = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
+										$krow = mysqli_fetch_array($kresult);
+										$intRowCount = $krow['cnt'];
+									}
 
 									$sql_as = "select count(idx) as cnt from Gn_MMS_status where idx='{$row['idx']}' ";
-									echo "test6:".$sql_as."<br>";
+									echo "test6:" . $sql_as . "<br>";
 									$resul_as = mysqli_query($self_con, $sql_as);
 									$row_as = mysqli_fetch_array($resul_as);
 									$status_total_cnt = $row_as[0];
 
 									$sql_cs = "select count(idx) as cnt from Gn_MMS_status where idx='{$row['idx']}' and status='0'";
-									echo "test7:".$sql_cs."<br>";
+									echo "test7:" . $sql_cs . "<br>";
 									$resul_cs = mysqli_query($self_con, $sql_cs);
 									$row_cs = mysqli_fetch_array($resul_cs);
 									$success_cnt = $row_cs[0];
 
 									$sql_sn = "select * from Gn_MMS where idx='{$row['idx']}' ";
-									echo "test8:".$sql_sn."<br>";
+									echo "test8:" . $sql_sn . "<br>";
 									$resul_sn = mysqli_query($self_con, $sql_sn);
 									$row_sn = mysqli_fetch_array($resul_sn);
 									$recv_cnt = explode(",", $row_sn['recv_num']);
