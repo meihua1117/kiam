@@ -235,7 +235,7 @@ $order = $order ? $order : "desc";
 
                                 $query = "SELECT SQL_CALC_FOUND_ROWS b.mem_id,b.mem_name,b.mem_phone,c.balance_date,b.service_type,c.balance_yn 
                                             FROM tjd_pay_result_balance c INNER JOIN Gn_Member b on b.mem_id = c.seller_id
-                                            WHERE b.service_type > 1 $searchStr group by b.mem_id";
+                                            WHERE b.service_type > 1 $searchStr group by b.mem_id, b.mem_name, b.mem_phone, c.balance_date, b.service_type ,c.balance_yn";
                                 $limitStr       = " LIMIT " . (($startPage - 1) * $pageCnt) . ", " . $pageCnt;
                                 $number            = $totalCnt - ($nowPage - 1) * $pageCnt;
                                 $orderQuery .= " ORDER BY b.mem_id DESC ";
@@ -257,7 +257,7 @@ $order = $order ? $order : "desc";
                                     $pquery = " select sum(price/1.1*0.01*share_per) price,
                                                     share_per,balance_yn,balance_confirm_date
                                                 from tjd_pay_result_balance where seller_id='{$row['mem_id']}' and balance_date='$search_year$search_month' ";
-                                    echo $pquer."<br>";
+                                    echo $pquer . "<br>";
                                     $pres = mysqli_query($self_con, $pquery);
                                     $prow = mysqli_fetch_array($pres);
 
