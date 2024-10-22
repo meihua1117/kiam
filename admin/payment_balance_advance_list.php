@@ -251,9 +251,10 @@ $order = $order ? $order : "desc";
                                         $mem_level = "이용자";
                                     }
                                     $branch_share_fee = 0;
-                                    $pquery = " select sum(price/1.1*0.01*share_per) price,
+                                    $pquery = " select sum(price/1.1*0.01*share_per) as price,
                                                     share_per,balance_yn,balance_confirm_date
-                                                from tjd_pay_result_balance where seller_id='{$row['mem_id']}' and balance_date='$search_year$search_month' ";
+                                                from tjd_pay_result_balance where seller_id='{$row['mem_id']}' and balance_date='$search_year$search_month' 
+                                                GROUP BY share_per, balance_yn, balance_confirm_date";
                                     echo $pquery . "<br>";
                                     $pres = mysqli_query($self_con, $pquery);
                                     $prow = mysqli_fetch_array($pres);
@@ -263,9 +264,10 @@ $order = $order ? $order : "desc";
                                     $srow = "";
                                     // 분양자일경우 리셀러의 20프로
                                     if ($mem_level == "분양자") {
-                                        $squery = "select sum(price/1.1*0.01*branch_share_per) price,
+                                        $squery = "select sum(price/1.1*0.01*branch_share_per) as price,
                                                          branch_share_per ,branch_balance_yn,branch_balance_confirm_date
-                                                    from tjd_pay_result_balance where branch_id='{$row['mem_id']}' and balance_date='$search_year$search_month' ";
+                                                    from tjd_pay_result_balance where branch_id='{$row['mem_id']}' and balance_date='$search_year$search_month' 
+                                                    GROUP BY branch_share_per, branch_balance_yn, branch_balance_confirm_date";
                                         $sres = mysqli_query($self_con, $squery);
                                         $srow = mysqli_fetch_array($sres);
                                         $branch_share_fee = $srow['price'];
@@ -299,9 +301,10 @@ $order = $order ? $order : "desc";
                                         $mem_level = "FREE";
                                     }
                                     $branch_share_fee = 0;
-                                    $pquery = "select sum(price/1.1*0.01*share_per) price,
+                                    $pquery = "select sum(price/1.1*0.01*share_per) as price,
                                                     share_per,balance_yn,balance_confirm_date
-                                                from tjd_pay_result_balance where seller_id='{$row['mem_id']}' and balance_date='$search_year$search_month' ";
+                                                from tjd_pay_result_balance where seller_id='{$row['mem_id']}' and balance_date='$search_year$search_month' 
+                                                GROUP BY share_per, balance_yn, balance_confirm_date";
                                     $pres = mysqli_query($self_con, $pquery);
                                     $prow = mysqli_fetch_array($pres);
 
@@ -312,7 +315,8 @@ $order = $order ? $order : "desc";
                                     if ($mem_level == "분양자") {
                                         $squery = "select sum(price/1.1*0.01*branch_share_per) price,
                                                          branch_share_per ,branch_balance_yn,branch_balance_confirm_date
-                                                    from tjd_pay_result_balance where branch_id='{$row['mem_id']}' and balance_date='$search_year$search_month' ";
+                                                    from tjd_pay_result_balance where branch_id='{$row['mem_id']}' and balance_date='$search_year$search_month' 
+                                                    GROUP BY branch_share_per, branch_balance_yn, branch_balance_confirm_date";
                                         $sres = mysqli_query($self_con, $squery);
                                         $srow = mysqli_fetch_array($sres);
                                         $branch_share_fee = $srow['price'];
