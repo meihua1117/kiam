@@ -254,7 +254,6 @@ $order = $order ? $order : "desc";
                                     $pquery = " select sum(price/1.1*0.01*share_per) price,
                                                     share_per,balance_yn,balance_confirm_date
                                                 from tjd_pay_result_balance where seller_id='{$row['mem_id']}' and balance_date='$search_year$search_month' ";
-                                    echo $pquer . "<br>";
                                     $pres = mysqli_query($self_con, $pquery);
                                     $prow = mysqli_fetch_array($pres);
 
