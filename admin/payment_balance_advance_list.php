@@ -255,10 +255,9 @@ $order = $order ? $order : "desc";
                                                     share_per,balance_yn,balance_confirm_date
                                                 from tjd_pay_result_balance where seller_id='{$row['mem_id']}' and balance_date='$search_year$search_month' 
                                                 GROUP BY share_per, balance_yn, balance_confirm_date";
-                                    echo $pquery . "<br>";
                                     $pres = mysqli_query($self_con, $pquery);
                                     $prow = mysqli_fetch_array($pres);
-
+                                    echo "1";
                                     //$row['balance_yn']  ="N";
                                     $row['balance_confirm_date'] = $prow['balance_confirm_date'];
                                     $srow = "";
@@ -280,6 +279,7 @@ $order = $order ? $order : "desc";
                                         $row['balance_yn'] = "Y";
                                         $row['balance_confirm_date'] = $srow['branch_balance_confirm_date'];
                                     }
+                                    echo "2";
                                     $total_balance_fee = 0;
                                     if ($row['balance_yn'] == "Y")
                                         $total_balance_fee = number_format(($prow['price']) + $branch_share_fee);
@@ -305,6 +305,7 @@ $order = $order ? $order : "desc";
                                                     share_per,balance_yn,balance_confirm_date
                                                 from tjd_pay_result_balance where seller_id='{$row['mem_id']}' and balance_date='$search_year$search_month' 
                                                 GROUP BY share_per, balance_yn, balance_confirm_date";
+                                                echo "3";
                                     $pres = mysqli_query($self_con, $pquery);
                                     $prow = mysqli_fetch_array($pres);
 
@@ -329,6 +330,7 @@ $order = $order ? $order : "desc";
                                         $row['balance_yn'] = "Y";
                                         $row['balance_confirm_date'] = $srow['branch_balance_confirm_date'];
                                     }
+                                    echo "4";
                                     $balance_fee = 0;
                                     $share_fee = number_format(($prow['price']) + $branch_share_fee);
                                     if ($row['balance_yn'] == "Y")
