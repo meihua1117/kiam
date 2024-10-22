@@ -305,13 +305,11 @@ $order = $order ? $order : "desc";
                                                     share_per,balance_yn,balance_confirm_date
                                                 from tjd_pay_result_balance where seller_id='{$row['mem_id']}' and balance_date='$search_year$search_month' 
                                                 GROUP BY share_per, balance_yn, balance_confirm_date";
-                                    echo "1";
                                     $pres = mysqli_query($self_con, $pquery);
                                     $prow = mysqli_fetch_array($pres);
 
                                     //$row['balance_yn']  ="N";
                                     $row['balance_confirm_date'] = $prow['balance_confirm_date'];
-                                    $srow = "";
                                     // 분양자일경우 리셀러의 20프로
                                     if ($mem_level == "분양자") {
                                         $squery = "select sum(price/1.1*0.01*branch_share_per) price,
@@ -322,17 +320,16 @@ $order = $order ? $order : "desc";
                                         $srow = mysqli_fetch_array($sres);
                                         $branch_share_fee = $srow['price'];
                                     }
-                                    echo "2";
                                     if ($prow['balance_yn'] == "Y") {
                                         $row['balance_yn'] = "Y";
                                         $row['balance_confirm_date'] = $prow['balance_confirm_date'];
                                     }
-                                    echo "3";
-                                    if ($srow['branch_balance_yn'] == "Y") {
-                                        $row['balance_yn'] = "Y";
-                                        $row['balance_confirm_date'] = $srow['branch_balance_confirm_date'];
+                                    if ($mem_level == "분양자") {
+                                        if ($srow['branch_balance_yn'] == "Y") {
+                                            $row['balance_yn'] = "Y";
+                                            $row['balance_confirm_date'] = $srow['branch_balance_confirm_date'];
+                                        }
                                     }
-                                    echo "4";
                                     $balance_fee = 0;
                                     $share_fee = number_format(($prow['price']) + $branch_share_fee);
                                     if ($row['balance_yn'] == "Y")
