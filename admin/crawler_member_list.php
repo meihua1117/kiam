@@ -220,13 +220,13 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                                     <td><?=$row['user_id']?></td>
                                     <td><?=$row['user_name']?></td>
                                     <td><?=$row['use_cnt']?></td>
-                                    <td><?=$row['use_cnt']-$row['monthly_cnt']."/".$row[extra_db_cnt]?></td>
+                                    <td><?=$row['use_cnt']-$row['monthly_cnt']."/".$row['extra_db_cnt']?></td>
                                     <td><?=$row['total_cnt']+$row['monthly_cnt']?></td>
                                     <td><?=$row['search_email_cnt']?></td>
-                                    <td><?=$row['search_email_cnt']-$row['search_email_use_cnt']."/".$row[extra_email_cnt]?></td>
+                                    <td><?=$row['search_email_cnt']-$row['search_email_use_cnt']."/".$row['extra_email_cnt']?></td>
                                     <td><?=$row['search_email_total_cnt']+$row['search_email_use_cnt']?></td>
                                     <td><?=$row['shopping_cnt']?></td>
-                                    <td><?=$row['shopping_cnt']-$row['shopping_use_cnt']."/".$row[extra_shopping_cnt]?></td>
+                                    <td><?=$row['shopping_cnt']-$row['shopping_use_cnt']."/".$row['extra_shopping_cnt']?></td>
                                     <td><?=$row['shopping_total_cnt']+$row['shopping_use_cnt']?></td>
                                     <td><?=$row['status']=="Y"?"사용":"미사용"?></td>
                                     <td><?=$row['term']?></td>
