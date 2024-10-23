@@ -338,7 +338,7 @@ $date_month = date("Y-m");
                                     $frow = mysqli_fetch_array($fresult);
                                     //$friend_count	=  $frow[0];
                                     echo "test6<br>";
-                                    $sql_pay = "select sum(TotPrice) as totPrice, date from tjd_pay_result where buyer_id = '{$row['mem_id']}' and end_status='Y'";
+                                    $sql_pay = "select sum(TotPrice) as totPrice, date from tjd_pay_result where buyer_id = '{$row['mem_id']}' and end_status='Y' group by date";
                                     $res_result = mysqli_query($self_con, $sql_pay);
                                     $totPriceRow = mysqli_fetch_row($res_result);
                                     $totPrice = $totPriceRow[0];
