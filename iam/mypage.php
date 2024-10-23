@@ -590,7 +590,7 @@ $link  = $_GET["link"];
 <div id="ajax_div" style="display:none"></div>
 <script language="javascript">
     var gwc_req = '<?= $_GET['gwc_req'] ?>';
-    var show_modal = '<?= $_GET[show_modal] ?>';
+    var show_modal = '<?= $_GET['show_modal'] ?>';
     $(document).ready(function() {
         if (show_modal == "Y" && gwc_req == "Y") {
             gwc_tab();

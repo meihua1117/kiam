@@ -90,8 +90,8 @@ if (!$_REQUEST['daily_cnt']) {
     $daily_cnt = $_REQUEST['daily_cnt'];
 }
 
-if ($_REQUEST[prelink]) {
-    $prelink = $_REQUEST[prelink];
+if ($_REQUEST['prelink']) {
+    $prelink = $_REQUEST['prelink'];
 } else {
     $prelink = '';
 }
@@ -155,8 +155,8 @@ $skrow['cnt'] = $skrow['cnt'] * 1 - $count;
             "toolbar=yes,scrollbars=yes,resizable=yes,top=200,left=200,width=1000,height=1000");
     }
     $(function() {
-        <? if ($_GET[show_modal] == "Y") { ?>
-            $("#deny_num_multi").val('<?= $_GET[deny_nums] ?>');
+        <? if ($_GET['show_modal'] == "Y") { ?>
+            $("#deny_num_multi").val('<?= $_GET['deny_nums'] ?>');
             $("#btn_type").val('<?= $_GET['type'] ?>');
             $("#tooltiptext_add_deny_multi").show();
             $("#tutorial-loading").show();
