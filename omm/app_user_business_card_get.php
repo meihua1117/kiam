@@ -44,20 +44,7 @@ if ($useType == '1') {
 			$sql = "insert into Gn_Member_card (mem_id , img_url, comment, create_time) values ('$userId' ,'$img_url' , '$comment' , now())";
 			mysqli_query($self_con, $sql);
 			$paper_seq = mysqli_insert_id($self_con);
-			//연락처 추가
-			$mem_sql = "select mem_phone from Gn_Member where mem_id='{$userId}'";
-			$mem_res = mysqli_query($self_con, $mem_sql);
-			$mem_row = mysqli_fetch_assoc($mem_res);
-
-			$mem_phone = str_replace('-', '', $mem_row['mem_phone']);
-			$sql_grp_id = "select idx from Gn_MMS_Group where mem_id='{$userId}' and grp='아이엠'";
-			$res_grp = mysqli_query($self_con, $sql_grp_id);
-			$row_grp = mysqli_fetch_array($res_grp);
-
-			$sql_insert = "insert into Gn_MMS_Receive_Iam set grp_id='{$row_grp['idx']}', mem_id='{$userId}', grp='아이엠', grp_2='아이엠', send_num='{$mem_phone}',reg_date=now(), iam=1, paper_yn=1, paper_seq='{$paper_seq}'";
-			$res = mysqli_query($self_con, $sql_insert);
-			////////////////////////////////////
-
+			
 			$select_user = "select * from Gn_Member_card where mem_id = '$userId' and type = 0 order by create_time desc limit 1";
 			$resul_p = mysqli_query($self_con, $select_user);
 			$row_p = mysqli_fetch_array($resul_p);
@@ -155,6 +142,19 @@ if ($useType == '1') {
 					}
 				}
 			}
+			//연락처 추가
+			$mem_sql = "select mem_phone from Gn_Member where mem_id='{$userId}'";
+			$mem_res = mysqli_query($self_con, $mem_sql);
+			$mem_row = mysqli_fetch_assoc($mem_res);
+
+			$mem_phone = str_replace('-', '', $mem_row['mem_phone']);
+			$sql_grp_id = "select idx from Gn_MMS_Group where mem_id='{$userId}' and grp='아이엠'";
+			$res_grp = mysqli_query($self_con, $sql_grp_id);
+			$row_grp = mysqli_fetch_array($res_grp);
+
+			$sql_insert = "insert into Gn_MMS_Receive_Iam set grp_id='{$row_grp['idx']}', mem_id='{$userId}', grp='아이엠', grp_2='아이엠', send_num='{$mem_phone}',recv_num='{$row_p['mobile']}', name='{$row_p['name']}',reg_date=now(), iam=1, paper_yn=1, paper_seq='{$paper_seq}'";
+			$res = mysqli_query($self_con, $sql_insert);
+			////////////////////////////////////
 			if ($row_p['mem_id']) {
 				$result = array();
 				$result['result'] = true;
