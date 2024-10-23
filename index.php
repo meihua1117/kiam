@@ -4276,7 +4276,7 @@ function encodeKorean($matches)
                     $sql = "select block_user,block_contents from Gn_Iam_Info where mem_id = '{$_SESSION['iam_member_id']}'";
                     $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
                     $row_iam_info = mysqli_fetch_array($result);
-
+                    echo "test4<br>";
                     if ($row_iam_info['block_contents']) {
                         $block_contents_sql = " and c.idx not in ({$row_iam_info['block_contents']}) ";
                     } else {
@@ -4381,6 +4381,7 @@ function encodeKorean($matches)
                     $result_cnt = mysqli_query($self_con,$sql8) or die(mysqli_error($self_con));
                     $total_row = mysqli_fetch_array($result_cnt);
                     $cont_count = $total_row[0];
+                    echo "test5<br>";
                     // middle log
                     $logs->add_log("카운팅 갯수 : $cont_count");
                     //echo $sql8;
@@ -4392,6 +4393,7 @@ function encodeKorean($matches)
                             $f_sql .= " group by c.card_idx $order_sql";
                             $f_sql = "select * from ($f_sql) as tt limit 0,300";
                             $f_res = mysqli_query($self_con,$f_sql);
+                            echo "test6<br>";
                             while ($f_row = mysqli_fetch_array($f_res)) {
                                 array_push($cont_id_array, $f_row[0]);
                             }
@@ -4452,6 +4454,7 @@ function encodeKorean($matches)
                             $sort_sql = "select * from Gn_Iam_Contents where idx = $idx";
                             $sort_res = mysqli_query($self_con,$sort_sql);
                             $sort_row = mysqli_fetch_array($sort_res);
+                            echo "test7<br>";
                             array_push($cont_array, $sort_row);
                         }
                         $w_offset = 0; //페이지 내 첫 콘텐츠 offset
