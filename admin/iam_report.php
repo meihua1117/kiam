@@ -386,7 +386,7 @@ $path="./";
                                 }
                                 if($i == 0) {?>
                                     <tr>
-                                        <td colspan="11" style="text-align:center;background:#fff">등록된 내용이 없습니다.</td>
+                                        <td colspan="12" style="text-align:center;background:#fff">등록된 내용이 없습니다.</td>
                                     </tr>
                                 <?}?>
                             </tbody>
