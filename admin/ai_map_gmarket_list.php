@@ -273,12 +273,10 @@ $date_month = date("Y-m");
                             <tbody>
                                 <?
                                 //디폴트 아바타
-                                echo "test1<br>";
                                 $sql = "select main_img1 from Gn_Iam_Info where mem_id = 'obmms02'";
                                 $result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
                                 $row = mysqli_fetch_array($result);
                                 $default_img =  $row['main_img1'];
-                                echo "test2<br>";
                                 $nowPage = $_REQUEST['nowPage'] ? $_REQUEST['nowPage'] : 1;
                                 $startPage = $nowPage ? $nowPage : 1;
                                 $pageCnt = 20;
@@ -313,7 +311,6 @@ $date_month = date("Y-m");
                                 $count_result = mysqli_query($self_con, $count_query);
                                 $count_row = mysqli_fetch_array($count_result);
                                 $totalCnt    =  $count_row[0];
-                                echo "test3<br>";
                                 //$query = "SELECT * FROM Gn_Iam_Name_Card ca_1 WHERE group_id is NULL AND admin_shopping!=0 $searchStr";
                                 $query = "SELECT * FROM Gn_Iam_Name_Card ca_1 WHERE (mem_id, req_data) IN (SELECT mem_id, MAX(req_data)
                                                                                 FROM Gn_Iam_Name_Card where group_id IS NULL AND admin_shopping != 0 $searchStr GROUP BY mem_id) ";
@@ -327,26 +324,21 @@ $date_month = date("Y-m");
                                 $c = 0;
                                 $query .= $orderQuery;
                                 $res = mysqli_query($self_con, $query);
-                                echo "test4<br>";
                                 while ($row = mysqli_fetch_array($res)) {
                                     $mem_sql = "select mem_code from Gn_Member where mem_id='{$row['mem_id']}'";
                                     $mem_res = mysqli_query($self_con, $mem_sql);
                                     $mem_row = mysqli_fetch_array($mem_res);
-                                    echo "test5<br>";
                                     $fquery = "select count(*) from Gn_Iam_Friends where friends_card_idx = {$row['idx']}";
                                     $fresult = mysqli_query($self_con, $fquery);
                                     $frow = mysqli_fetch_array($fresult);
                                     //$friend_count	=  $frow[0];
-                                    echo "test6<br>";
                                     $sql_pay = "select sum(TotPrice) as totPrice, date from tjd_pay_result where buyer_id = '{$row['mem_id']}' and end_status='Y' group by date";
                                     $res_result = mysqli_query($self_con, $sql_pay);
                                     $totPriceRow = mysqli_fetch_row($res_result);
                                     $totPrice = $totPriceRow[0];
-                                    echo "test7<br>";
                                     $cquery = "select count(*) from Gn_Iam_Contents where westory_card_url = '{$row['card_short_url']}'";
                                     $cresult = mysqli_query($self_con, $cquery);
                                     $crow = mysqli_fetch_array($cresult);
-                                    echo "test8<br>";
                                     if ($row['ai_map_gmarket'] == 1) {
                                         $chanel = "지도";
                                         $card_arr = array();
