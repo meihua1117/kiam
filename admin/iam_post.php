@@ -179,10 +179,10 @@ $path="./";
                                 <div class="form-group">
                                     <select name="search_type" style="height: 30px">
                                         <option value="">전체</option>
-                                        <option value="mem_name" <?=$_REQUEST[search_type]=='mem_name'?"selected":"";?>>이름</option>
-                                        <option value="mem_id" <?=$_REQUEST[search_type]=='mem_id'?"selected":"";?>>아이디</option>
-                                        <option value="mem_phone" <?=$_REQUEST[search_type]=='mem_phone'?"selected":"";?>>휴대폰</option>
-                                        <option value="content" <?=$_REQUEST[search_type]=='content'?"selected":"";?>>내용</option>
+                                        <option value="mem_name" <?=$_REQUEST['search_type']=='mem_name'?"selected":"";?>>이름</option>
+                                        <option value="mem_id" <?=$_REQUEST['search_type']=='mem_id'?"selected":"";?>>아이디</option>
+                                        <option value="mem_phone" <?=$_REQUEST['search_type']=='mem_phone'?"selected":"";?>>휴대폰</option>
+                                        <option value="content" <?=$_REQUEST['search_type']=='content'?"selected":"";?>>내용</option>
                                     </select>
                                     <input type="date" style="height: 30px" name="search_start_date" placeholder="" id="search_start_date" value="<?=$_REQUEST['search_start_date']?>"/> ~
                                     <input type="date" style="height: 30px" name="search_end_date" placeholder="" id="search_end_date" value="<?=$_REQUEST['search_end_date']?>"/>

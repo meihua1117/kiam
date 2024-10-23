@@ -248,9 +248,9 @@ $path="./";
                                 <div class="form-group">
                                     <select name="search_type" style="height: 30px">
                                         <option value="">전체</option>
-                                        <option value="mem_id" <?=$_REQUEST[search_type]=='mem_id'?"selected":"";?>>아이디</option>
-                                        <option value="reporter_phone" <?=$_REQUEST[search_type]=='reporter_phone'?"selected":"";?>>휴대폰</option>
-                                        <option value="content" <?=$_REQUEST[search_type]=='content'?"selected":"";?>>내용</option>
+                                        <option value="mem_id" <?=$_REQUEST['search_type']=='mem_id'?"selected":"";?>>아이디</option>
+                                        <option value="reporter_phone" <?=$_REQUEST['search_type']=='reporter_phone'?"selected":"";?>>휴대폰</option>
+                                        <option value="content" <?=$_REQUEST['search_type']=='content'?"selected":"";?>>내용</option>
                                     </select>
                                     <input type="date" style="height: 30px" name="search_start_date" placeholder="" id="search_start_date" value="<?=$_REQUEST['search_start_date']?>"/> ~
                                     <input type="date" style="height: 30px" name="search_end_date" placeholder="" id="search_end_date" value="<?=$_REQUEST['search_end_date']?>"/>
@@ -335,11 +335,11 @@ $path="./";
                                     $res_mem = mysqli_query($self_con,$sql_mem);
                                     $row_mem = mysqli_fetch_array($res_mem);
 
-                                    $sql_con_mem = "select mem_name, mem_phone from Gn_Member where mem_id='{$row[con_mem_id]}'";
+                                    $sql_con_mem = "select mem_name, mem_phone from Gn_Member where mem_id='{$row['con_mem_id']}'";
                                     $res_con_mem = mysqli_query($self_con,$sql_con_mem);
                                     $row_con_mem = mysqli_fetch_array($res_con_mem);
 
-                                    $sql_hide_state = "select count(*) as cnt from Gn_Iam_Info where mem_id='{$row['mem_id']}' and block_contents like '%".$row[content_idx]."%'";
+                                    $sql_hide_state = "select count(*) as cnt from Gn_Iam_Info where mem_id='{$row['mem_id']}' and block_contents like '%{$row['content_idx']}%'";
                                     $res_hide_state = mysqli_query($self_con,$sql_hide_state);
                                     $row_hide_state = mysqli_fetch_array($res_hide_state);
 
@@ -347,7 +347,7 @@ $path="./";
                                     $res_response = mysqli_query($self_con,$sql_response);
                                     $row_response = mysqli_fetch_array($res_response);
 
-                                    // $con_link = "https://kiam.kr/iam/contents.php?contents_idx=".$row[content_idx];
+                                    // $con_link = "https://kiam.kr/iam/contents.php?contents_idx=".$row['content_idx'];
                                 ?>
                                     <tr>
                                         <td><input type="checkbox" name="<?='post_'.$row['id']?>" id = "<?='post_'.$row['id']?>" value="<?=$row['id']?>"><?=$number--?></td>
@@ -356,7 +356,7 @@ $path="./";
                                         <td><?=str_replace("-", "",$row['reporter_phone'])?></td>
                                         <td><?=$row['con_mem_id']?>/<?=$row_con_mem['mem_name']?></td>
                                         <td><?=str_replace("-", "",$row_con_mem['mem_phone'])?></td>
-                                        <td><a href = "<?='/iam/contents.php?contents_idx='.$row[content_idx]?>" target = "_blank"><?=$row['contents_title']?></a></td>
+                                        <td><a href = "<?='/iam/contents.php?contents_idx='.$row['content_idx']?>" target = "_blank"><?=$row['contents_title']?></a></td>
                                         <td><?=$row['reg_date']?></td>
                                         <td><?=$row['title']?></td>
                                         <td>
@@ -370,7 +370,7 @@ $path="./";
                                             </label>
                                         </td>
                                         <td>
-                                            <?if($row_response[contents] != ''){?>
+                                            <?if($row_response['contents'] != ''){?>
                                             <a href="javascript:void(0)" onclick="show_recv('show_content1','<?=$i?>','댓글내용')"><?=str_substr($row_response['contents'],0,30,'utf-8')?></a>
                                             <input type="hidden" name="show_content1" value="<?=$row_response['contents']?>"/>
                                             <?}

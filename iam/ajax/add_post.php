@@ -207,7 +207,7 @@ while($post_row = mysqli_fetch_array($post_res)) {
 		$arr_reply['profile'] =$row_mem_r['profile'];
 		$arr_reply['mem_name'] =$row_mem_r['mem_name'];
 		$arr_reply['reg_date'] =$reply_row['reg_date'];
-		$arr_reply['post_content'] =$reply_row[contents];
+		$arr_reply['post_content'] =$reply_row['contents'];
 		$reply_card_sql = "select card_short_url from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$reply_row['mem_id']}' order by req_data limit 0,1";
 		$reply_card_res = mysqli_query($self_con,$reply_card_sql);
 		$reply_card_row = mysqli_fetch_array($reply_card_res);
