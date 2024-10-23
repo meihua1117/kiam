@@ -295,7 +295,7 @@ $(function() {
                                         <td><?=$row['req_data']?></td>
                                         <td><?=$crow[0]?></td>
                                         <td><?=$row['iam_click']?></td>
-                                        <td><?=$row[iam_share]?></td>
+                                        <td><?=$row['iam_share']?></td>
                                         <td style="font-size:12px;">
                                             <label class="switch">
                                                 <input type="checkbox" class="chkclick" name="cardclick" id="card_click_<?=$row['idx'];?>" <?php echo $row['sample_click']=="Y"?"checked":"";?> >
