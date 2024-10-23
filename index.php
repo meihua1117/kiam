@@ -4074,6 +4074,7 @@ function encodeKorean($matches)
                 $search_key = $_GET['search_key'];
                 $cont_array = array();
                 //카드명이 검색키와 같은거 꺼내기
+                echo "test1<br>";
                 if ($search_key) {
                     if ($_GET['key1'] == 4) {
                         $search_title = $search_seperate = '';
@@ -4120,6 +4121,7 @@ function encodeKorean($matches)
                 } else {
                     $search_sql = "1=1";
                 }
+                echo "test2<br>";
                 if ($cur_win == "we_story") {
                     $show_counts = get_search_key('wecon_show_count');
                     $counts_arr = explode(",", $show_counts);
@@ -4139,7 +4141,7 @@ function encodeKorean($matches)
                     else
                         $search_sql .= " and c.idx > $recent_idx";
                 }
-
+                echo "test3<br>";
                 $w_page = $_GET['w_page'];
                 if (!$w_page)
                     $w_page = 1;
@@ -4524,6 +4526,7 @@ function encodeKorean($matches)
                     $notice_count = mysqli_num_rows($result_notice);
                     $sql_recv_notice .= " limit $contents_count_per_page offset " . $w_offset;
                 }
+                echo "test4<br>";
                 $share_recv_count = $r_row['cnt'];
                 $share_send_count = $s_row['cnt'];
                 $share_post_count = $p_row['cnt'];
