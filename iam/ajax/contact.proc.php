@@ -26,6 +26,11 @@ if($mode == "del") {
   for($i=0; $i<count($_POST['contact_idx']); $i++) {
     $contact_idx = $_POST['contact_idx'][$i];
     // exit;
+    $sql = "select paper_seq from Gn_MMS_Receive_Iam where idx = $contact_idx and mem_id = '{$_SESSION['iam_member_id']}'";
+    $res = mysqli_query($self_con,$sql);
+    $row = mysqli_fetch_array($res);
+    $sql_del = "delete from Gn_Member_card where seq='{$row['paper_seq']}'";
+    mysqli_query($self_con,$sql_del);
     $sql="delete from Gn_MMS_Receive_Iam where idx = $contact_idx and mem_id = '{$_SESSION['iam_member_id']}'";
     $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
   }

@@ -143,7 +143,7 @@ else if($_POST['save_data'] == "Y"){
             $res = mysqli_query($self_con,$sql_insert);
         }
     }
-    $res = json_encode(array("name"=>$paper_name));
+    $res = json_encode(array("name"=>$paper_name." , ".$paper_job,"org_name"=>$paper_org_name));
 }
 echo $res;
 ?>

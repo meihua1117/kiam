@@ -6553,6 +6553,7 @@ function encodeKorean($matches)
                     alert("저장되었습니다.");
                     $("#paper_list_edit_modal").modal("hide");
                     $("#paper_name_" + paper_seq).html(data.name);
+                    $("#paper_org_" + paper_seq).html(data.org_name);
                     //AppScript.savePaper();
                 }
             });
@@ -10818,8 +10819,9 @@ function encodeKorean($matches)
                 success: function(data) {
                     alert(data);
                     //location.reload();
-                    for (i = 0; i < $("input[name=paper_chk]:checked").length; i++) {
-                        var delItem = $("input[name=paper_chk]:checked").eq(i).parents(".list-item");
+                    var del_count = $("input[name=paper_chk]:checked").length;
+                    for (i = 0; i < del_count; i++) {
+                        var delItem = $("input[name=paper_chk]:checked").eq(0).parents(".list-item");
                         delItem.remove();
                     }
                 }

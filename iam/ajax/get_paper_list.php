@@ -101,13 +101,13 @@ while ($row10 = mysqli_fetch_array($result10)) {
 
     $body .=  '<li class="list-item">';
     $body .=  '     <div class="item-wrap">';
-    $body .=  '          <div class="thumb">';
+    $body .=  '          <div class="thumb" style="width:40px">';
     $body .=  '              <div class="thumb-inner">';
     $body .=  '                 <img src="/iam/img/profile-img.svg" style="margin-top:5px">';
     $body .=  '             </div>';
     $body .=  '         </div>';
     if ($row10['paper_yn']) {
-        $sql_paper_info = "select seq,img_url from Gn_Member_card where seq='{$row10['paper_seq']}'";
+        $sql_paper_info = "select seq,img_url,job,org_name from Gn_Member_card where seq='{$row10['paper_seq']}'";
         $res_paper_info = mysqli_query($self_con, $sql_paper_info);
         $row_paper_info = mysqli_fetch_array($res_paper_info);
         $body .=  '         <div class="info" onclick="edit_paper(' . $row_paper_info['seq'] . ')">';
@@ -115,10 +115,12 @@ while ($row10 = mysqli_fetch_array($result10)) {
         $body .=  '         <div class="info">';
     }
     $body .=  '             <div class="upper">';
-    $body .=  '                     <span class="name" id="paper_name_' . $row_paper_info['seq'] . '">';
+    $body .=  '                     <span class="name" id="paper_org_' . $row_paper_info['seq'] . '">' . $row_paper_info['org_name'] . '</span>';
+    $body .=  '</div>';
+    $body .=  '<div class="downer" id="paper_name_' . $row_paper_info['seq'] . '">';
     if ($_SESSION['iam_member_id'] == $card_owner && $phone_count > 0) {
         if ($row10['name'])
-            $body .= $row10['name'];
+            $body .= $row10['name'] . " , " . $row_paper_info['job'];
         else
             $body .= $contact_phone3;
     } else {
@@ -127,15 +129,21 @@ while ($row10 = mysqli_fetch_array($result10)) {
         else
             $body .= $contact_phone3;
     }
-    $body .=    '</span>';
-    $body .=  '</div>';
-    $body .=  '<div class="downer">' . $row10['reg_date'] . '</div>';
+    $body .= '</div>';
     $body .=  '</div>';
     if ($row10['paper_yn']) {
-        $body .=  '          <div class="thumb" onclick="show_paper_img(`' . $row_paper_info['img_url'] . '`)">';
+        $body .=  '          <div class="thumb" style="width:30px" onclick="show_paper_img(`' . $row_paper_info['img_url'] . '`)">';
         $body .=  '              <div class="thumb-inner">';
-        $body .=  '                 <img src="/iam/img/menu/icon_my_stroy.png" style="height: 42px;width: 42px;">';
+        $body .=  '                 <img src="/iam/img/menu/icon_my_stroy.png" style="height: 24px;width: 24px;">';
         $body .=  '             </div>';
+        $body .=  '         </div>';
+
+        $body .=  '          <div class="thumb" style="width:50px">';
+        $body .=  '              <div class="thumb-inner">';
+        $reg_dates = explode(" ",$row10['reg_date']);
+        $body .=  '                 <span style="font-size:12px;font-weight:bold;display:inline-block;with:max-content;margin-top:1px">' . $reg_dates[0] . "</span>";
+        $body .=  '                 <span style="font-size:12px;font-weight:bold;display:inline-block;with:max-content;margin-top:1px">' . $reg_dates[1] . "</span>";
+        $body .=  '              </div>';
         $body .=  '         </div>';
     }
     $body .=  '               <div class="number">';
