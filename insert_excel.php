@@ -14,24 +14,22 @@ if (!$_SESSION['one_member_id']) { ?>
 	exit;
 }
 if ($_FILES['excel_file']['tmp_name']) {
-	$file_type= pathinfo($_FILES['excel_file']['name'], PATHINFO_EXTENSION);
-	if ($file_type =='xls') {
-		$reader = new \PhpOffice\PhpSpreadsheet\Reader\Xls();	
-	}
-	elseif ($file_type =='xlsx') {
+	$file_type = pathinfo($_FILES['excel_file']['name'], PATHINFO_EXTENSION);
+	if ($file_type == 'xls') {
+		$reader = new \PhpOffice\PhpSpreadsheet\Reader\Xls();
+	} elseif ($file_type == 'xlsx') {
 		$reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
-	}
-	else {
-		?>
+	} else {
+	?>
 		<script language="javascript">
 			alert('처리할 수 있는 엑셀 파일이 아닙니다.');
 		</script>
-		<?
+	<?
 		exit;
 	}
-	
-	$spreadsheet = $reader->load($_FILES['excel_file']['tmp_name']);	
-	$spreadData = $spreadsheet-> getActiveSheet()->toArray(null,true,true,true);
+
+	$spreadsheet = $reader->load($_FILES['excel_file']['tmp_name']);
+	$spreadData = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
 	$excel_rows = count($spreadData);
 	/*$data = new Spreadsheet_Excel_Reader();
 	$data->setOutputEncoding('utf-8');

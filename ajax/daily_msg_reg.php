@@ -57,11 +57,11 @@ if($up_img != ""){
     }
 }
 
-$sql="select * from Gn_MMS_Group where  mem_id='".$member_id."' and grp='아이엠'";
+$sql="select * from Gn_MMS_Group where  mem_id='{$member_id}' and grp='아이엠'";
 $sresult=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 $krow = mysqli_fetch_array($sresult);    
 
-$sql="select count(*) cnt from Gn_MMS_Receive_Iam where  mem_id='".$member_id."' and grp_id='{$krow['idx']}'";
+$sql="select count(*) cnt from Gn_MMS_Receive_Iam where  mem_id='{$member_id}' and grp_id='{$krow['idx']}'";
 $sresult=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 $skrow = mysqli_fetch_array($sresult);
 

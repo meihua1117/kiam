@@ -106,20 +106,20 @@ if (!$_SESSION['iam_member_id']) { ?>
 <?
     exit;
 }
-$sql = "select * from Gn_Member  where mem_id='" . $_SESSION['iam_member_id'] . "'";
+$sql = "select * from Gn_Member  where mem_id='{$_SESSION['iam_member_id']}'";
 $sresul_num = mysqli_query($self_con,$sql);
 $data = mysqli_fetch_array($sresul_num);
 
-$sql = "select * from Gn_MMS_Group where  mem_id='" . $_SESSION['iam_member_id'] . "' and grp='아이엠'";
+$sql = "select * from Gn_MMS_Group where  mem_id='{$_SESSION['iam_member_id']}' and grp='아이엠'";
 $sresult = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 $krow = mysqli_fetch_array($sresult);
 
-$sql = "select count(*) cnt from Gn_MMS_Receive_Iam where  mem_id='" . $_SESSION['iam_member_id'] . "' and grp_id='{$krow['idx']}'";
+$sql = "select count(*) cnt from Gn_MMS_Receive_Iam where  mem_id='{$_SESSION['iam_member_id']}' and grp_id='{$krow['idx']}'";
 $sresult = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 $skrow = mysqli_fetch_array($sresult);
 
 $count = 0;
-$sql1 = "select recv_num from Gn_MMS_Receive_Iam where  mem_id='" . $_SESSION['iam_member_id'] . "' and grp_id='{$krow['idx']}'";
+$sql1 = "select recv_num from Gn_MMS_Receive_Iam where  mem_id='{$_SESSION['iam_member_id']}' and grp_id='{$krow['idx']}'";
 $sresult1 = mysqli_query($self_con,$sql1) or die(mysqli_error($self_con));
 while ($srow1 = mysqli_fetch_array($sresult1)) {
     $sql_chk = "select idx from Gn_MMS_Deny where send_num='{$_REQUEST['send_num']}' and recv_num='{$srow1[0]}' and (chanel_type=9 or chanel_type=4)";

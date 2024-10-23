@@ -314,8 +314,7 @@ $date_month = date("Y-m");
                                 $count_row = mysqli_fetch_array($count_result);
                                 $totalCnt    =  $count_row[0];
                                 echo "test3<br>";
-                                $query = "SELECT *, count(ca_1.mem_id) as cnt FROM Gn_Iam_Name_Card ca_1";
-                                $query .= " WHERE group_id is NULL AND admin_shopping!=0 $searchStr";
+                                $query = "SELECT *, count(ca_1.mem_id) as cnt FROM Gn_Iam_Name_Card ca_1 WHERE group_id is NULL AND admin_shopping!=0 $searchStr";
                                 $limitStr = " LIMIT " . (($startPage - 1) * $pageCnt) . ", " . $pageCnt;
                                 $number    = $totalCnt - ($nowPage - 1) * $pageCnt;
                                 if (!$orderField)
@@ -324,6 +323,7 @@ $date_month = date("Y-m");
                                 $i = 1;
                                 $c = 0;
                                 $query .= $orderQuery;
+                                echo $query;
                                 $res = mysqli_query($self_con, $query);
                                 echo "test4<br>";
                                 while ($row = mysqli_fetch_array($res)) {

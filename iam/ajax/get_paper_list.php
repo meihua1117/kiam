@@ -107,9 +107,10 @@ while ($row10 = mysqli_fetch_array($result10)) {
     $body .=  '             </div>';
     $body .=  '         </div>';
     if ($row10['paper_yn']) {
-        $sql_paper_info = "select seq,img_url,job,org_name from Gn_Member_card where seq='{$row10['paper_seq']}'";
+        $sql_paper_info = "select seq,img_url,job,org_name,mobile from Gn_Member_card where seq='{$row10['paper_seq']}'";
         $res_paper_info = mysqli_query($self_con, $sql_paper_info);
         $row_paper_info = mysqli_fetch_array($res_paper_info);
+        $contact_phone = $row_paper_info['mobile'];
         $body .=  '         <div class="info" onclick="edit_paper(' . $row_paper_info['seq'] . ')">';
     } else {
         $body .=  '         <div class="info">';
@@ -138,7 +139,7 @@ while ($row10 = mysqli_fetch_array($result10)) {
         $body .=  '             </div>';
         $body .=  '         </div>';
 
-        $body .=  '          <div class="thumb" style="width:50px">';
+        $body .=  '          <div class="thumb" style="width:100px">';
         $body .=  '              <div class="thumb-inner">';
         $reg_dates = explode(" ",$row10['reg_date']);
         $body .=  '                 <span style="font-size:12px;font-weight:bold;display:inline-block;with:max-content;margin-top:1px">' . $reg_dates[0] . "</span>";
@@ -159,7 +160,7 @@ while ($row10 = mysqli_fetch_array($result10)) {
     }
 
     $body .=  '                    </div>';
-    $body .=  '                    <div class="upper">';
+    $body .=  '                    <div class="upper" style="margin-top:0px;font-weight:bold">';
     if ($_SESSION['iam_member_id'] == $card_owner && $_SESSION['iam_member_id'] == $card_master)
         $body .=  '<a href="tel:' . $contact_phone . '">' . $contact_phone . '</a>';
     else
