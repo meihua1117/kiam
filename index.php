@@ -4392,6 +4392,7 @@ function encodeKorean($matches)
                             //$f_sql .= " group by c.card_idx $order_sql limit 0,300";
                             $f_sql .= " group by c.card_idx $order_sql";
                             $f_sql = "select * from ($f_sql) as tt limit 0,300";
+                            echo $f_sql;
                             $f_res = mysqli_query($self_con,$f_sql);
                             echo "test6<br>";
                             while ($f_row = mysqli_fetch_array($f_res)) {
