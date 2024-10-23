@@ -4141,7 +4141,7 @@ function encodeKorean($matches)
                     else
                         $search_sql .= " and c.idx > $recent_idx";
                 }
-                echo "test3<br>";
+                echo "test3<br>".$cur_win;
                 $w_page = $_GET['w_page'];
                 if (!$w_page)
                     $w_page = 1;
@@ -4526,7 +4526,7 @@ function encodeKorean($matches)
                     $notice_count = mysqli_num_rows($result_notice);
                     $sql_recv_notice .= " limit $contents_count_per_page offset " . $w_offset;
                 }
-                echo "test4<br>";
+                
                 $share_recv_count = $r_row['cnt'];
                 $share_send_count = $s_row['cnt'];
                 $share_post_count = $p_row['cnt'];
