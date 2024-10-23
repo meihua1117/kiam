@@ -41,109 +41,120 @@ if ($useType == '1') {
 		$file_path = $uploaddir . $idx . '.' . $file[1]; //이미지화일명은 인덱스번호로 지정
 		if (move_uploaded_file($filePath, $file_path)) {
 			$img_url = 'http://www.kiam.kr' . $up_dir . $idx . '.' . $file[1];
-			$sql = "insert into Gn_Member_card (mem_id , img_url, comment	, create_time) values ('$userId' ,'$img_url' , '$comment' , now())";
-			mysqli_query($self_con,$sql);
+			$sql = "insert into Gn_Member_card (mem_id , img_url, comment, create_time) values ('$userId' ,'$img_url' , '$comment' , now())";
+			mysqli_query($self_con, $sql);
+			$paper_seq = mysqli_insert_id($self_con);
+			//연락처 추가
+			$mem_sql = "select mem_phone from Gn_Member where mem_id='{$userId}'";
+			$mem_res = mysqli_query($self_con, $mem_sql);
+			$mem_row = mysqli_fetch_assoc($mem_res);
+
+			$mem_phone = str_replace('-', '', $mem_row['mem_phone']);
+			$sql_grp_id = "select idx from Gn_MMS_Group where mem_id='{$userId}' and grp='아이엠'";
+			$res_grp = mysqli_query($self_con, $sql_grp_id);
+			$row_grp = mysqli_fetch_array($res_grp);
+
+			$sql_insert = "insert into Gn_MMS_Receive_Iam set grp_id='{$row_grp['idx']}', mem_id='{$userId}', grp='아이엠', grp_2='아이엠', send_num='{$mem_phone}',reg_date=now(), iam=1, paper_yn=1, paper_seq='{$paper_seq}'";
+			$res = mysqli_query($self_con, $sql_insert);
+			////////////////////////////////////
 
 			$select_user = "select * from Gn_Member_card where mem_id = '$userId' and type = 0 order by create_time desc limit 1";
-			$resul_p = mysqli_query($self_con,$select_user);
+			$resul_p = mysqli_query($self_con, $select_user);
 			$row_p = mysqli_fetch_array($resul_p);
 
-			if((!$row_p['name'] || !$row_p['job'] || !$row_p[org_name] || !$row_p[address] || !$row_p['mobile'] || !$row_p[email1]) && $row_p[comment]){
+			if ((!$row_p['name'] || !$row_p['job'] || !$row_p['org_name'] || !$row_p['address'] || !$row_p['mobile'] || !$row_p['email1']) && $row_p['comment']) {
 
 				$cur_url = "http://175.126.176.97/get_profile_info.php";
-				$postvars = 'box_text='. $row_p[comment];
-		
+				$postvars = 'box_text=' . $row_p['comment'];
+
 				$ch = curl_init();
 				curl_setopt($ch, CURLOPT_URL, $cur_url);
 				curl_setopt($ch, CURLOPT_POST, true);
 				curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-				curl_setopt($ch,CURLOPT_POSTFIELDS, $postvars);
-		
+				curl_setopt($ch, CURLOPT_POSTFIELDS, $postvars);
+
 				$is_success = false;
 				$cnt = 0;
-		
-				while(!$is_success && $cnt < 3)
-				{
-					$response = curl_exec ($ch);
+
+				while (!$is_success && $cnt < 3) {
+					$response = curl_exec($ch);
 					$status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 					$cnt++;
-					if($status_code == 200) {
-			
+					if ($status_code == 200) {
+
 						$response = str_replace("```", "", $response);
-						$response = str_replace("json", "", $response);    
-						
+						$response = str_replace("json", "", $response);
+
 						$responseArray = json_decode($response, true);
-			
+
 						if (isset($responseArray['choices'][0]['message']['content'])) {
 							$jsonData = json_decode($responseArray['choices'][0]['message']['content'], true);
 							//var_dump($jsonData);
 							if (is_array($jsonData)) {
 								foreach ($jsonData as $key => $value) {
-									if(is_array($value))
-									{
-										$result = implode(", ", $value) ;
+									if (is_array($value)) {
+										$result = implode(", ", $value);
 										$row_p[$key] = $result;
-									}else{
+									} else {
 										$row_p[$key] = $value;
 									}
 								}
 								$is_success = true;
-							} 
+							}
 						}
 					}
 				}
-				curl_close ($ch);
-		
-				if(!$is_success){	 
+				curl_close($ch);
 
-					$arr = explode("\n", $row_p[comment]);
-					for($i = 0; $i < count($arr); $i++){
+				if (!$is_success) {
+
+					$arr = explode("\n", $row_p['comment']);
+					for ($i = 0; $i < count($arr); $i++) {
 						$pattern = '/[a-z0-9_\-\+\.]+@[a-z0-9\-]+\.([a-z]{2,4})(?:\.[a-z]{2})?/i';
 						$phonePattern = '/[0-9]{3}[\-][0-9]{4}[\-][0-9]{4}|[0-9]{3}[\.][0-9]{4}[\.][0-9]{4}|[0-9]{3}[\s][0-9]{4}[\s][0-9]{4}|[0-9]{3}[\-][\s][0-9]{4}[\-][\s][0-9]{4}|[0-9]{3}[\.][\s][0-9]{4}[\.][\s][0-9]{4}/';
 						$faxPatter = '/[0-9]{2}[\-][0-9]{4}[\-][0-9]{4}|[0-9]{3}[\-][0-9]{3}[\-][0-9]{4}|[0-9]{2}[\s][0-9]{4}[\s][0-9]{4}|[0-9]{2}[\.][0-9]{4}[\.][0-9]{4}|[0-9]{3}[\s][0-9]{3}[\s][0-9]{4}|[0-9]{3}[\.][0-9]{3}[\.][0-9]{4}|[0-9]{4}[\-][0-9]{3}[\-][0-9]{4}|[0-9]{2}[\-][0-9]{3}[\-][0-9]{4}/';
 						preg_match_all($phonePattern, $arr[$i], $matches1);
 						// $matches1 = $matches1[0];
-						if($matches1[0] != NULL){
-							if(strstr($matches1[0][0], "010")){
+						if ($matches1[0] != NULL) {
+							if (strstr($matches1[0][0], "010")) {
 								$mobile = $matches1[0][0];
 								$mobile = str_replace(" ", "", $mobile);
 								$mobile = str_replace("-", "", $mobile);
 								$row_p['mobile'] = str_replace(".", "", $mobile);
-							}
-							else{
+							} else {
 								$row_p['phone1'] = $matches1[0][0];
 							}
 							// echo $mobile.">>".$phone;
 						}
 
-						if(strstr($arr[$i], "F")){
+						if (strstr($arr[$i], "F")) {
 							preg_match_all($faxPatter, $arr[$i], $matches_fax);
-							if($matches_fax[0] != NULL){
-								$row_p[fax] = $matches_fax[0][0];
+							if ($matches_fax[0] != NULL) {
+								$row_p['fax'] = $matches_fax[0][0];
 								// echo "fax".$fax;
 							}
 						}
 
 						preg_match_all($pattern, $arr[$i], $matches);
-						if($matches[1] != NULL){
-							$row_p[email1] = $matches[0][0];
+						if ($matches[1] != NULL) {
+							$row_p['email1'] = $matches[0][0];
 							// echo $email;
 						}
 
 						$name = str_replace(" ", "", trim($arr[$i]));
-						if(mb_strlen($name, 'utf-8') == 3){
+						if (mb_strlen($name, 'utf-8') == 3) {
 							$row_p['name'] = trim($arr[$i]);
 							// echo $name;
 						}
 
 						$addr_c = trim($arr[$i]);
-						if((strstr($addr_c, "시") && strstr($addr_c, "구") && strstr($addr_c, "로")) || (strstr($addr_c, "시") && strstr($addr_c, "구")) || (strstr($addr_c, "시") && strstr($addr_c, "로")) || (strstr($addr_c, "구") && strstr($addr_c, "로"))){
-							$row_p[address] = trim($arr[$i]);
+						if ((strstr($addr_c, "시") && strstr($addr_c, "구") && strstr($addr_c, "로")) || (strstr($addr_c, "시") && strstr($addr_c, "구")) || (strstr($addr_c, "시") && strstr($addr_c, "로")) || (strstr($addr_c, "구") && strstr($addr_c, "로"))) {
+							$row_p['address'] = trim($arr[$i]);
 							// echo $address;
 						}
 					}
 				}
-    		}
+			}
 			if ($row_p['mem_id']) {
 				$result = array();
 				$result['result'] = true;
@@ -165,116 +176,113 @@ if ($useType == '1') {
 			} else {
 				$result = "error";
 				$img_url = "none";
-				echo json_encode(array("result"=>$result,"img_url"=>$img_url));
+				echo json_encode(array("result" => $result, "img_url" => $img_url));
 			}
 		} else {
-			echo json_encode(array("result"=>"error"));
+			echo json_encode(array("result" => "error"));
 		}
 	} else {
-		echo json_encode(array("result"=>"error"));
+		echo json_encode(array("result" => "error"));
 	}
 } else if ($useType == '2') {
 	//get image
 	$select_user = "select * from Gn_Member_card where mem_id = '$userId' and type = 0 order by create_time desc limit 1";
-	$resul_p = mysqli_query($self_con,$select_user);
+	$resul_p = mysqli_query($self_con, $select_user);
 	$row_p = mysqli_fetch_array($resul_p);
 
-	if((!$row_p['name'] || !$row_p['job'] || !$row_p[org_name] || !$row_p[address] || !$row_p['mobile'] || !$row_p[email1]) && $row_p[comment]){
+	if ((!$row_p['name'] || !$row_p['job'] || !$row_p['org_name'] || !$row_p['address'] || !$row_p['mobile'] || !$row_p['email1']) && $row_p['comment']) {
 
 		$cur_url = "http://175.126.176.97/get_profile_info.php";
-        $postvars = 'box_text='. $row_p[comment];
+		$postvars = 'box_text=' . $row_p['comment'];
 
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $cur_url);
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch,CURLOPT_POSTFIELDS, $postvars);
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, $cur_url);
+		curl_setopt($ch, CURLOPT_POST, true);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $postvars);
 
 		$is_success = false;
 		$cnt = 0;
 
-		while(!$is_success && $cnt < 3)
-		{
-			$response = curl_exec ($ch);
+		while (!$is_success && $cnt < 3) {
+			$response = curl_exec($ch);
 			$status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 			$cnt++;
-			if($status_code == 200) {
-	
+			if ($status_code == 200) {
+
 				$response = str_replace("```", "", $response);
-				$response = str_replace("json", "", $response);    
-				
+				$response = str_replace("json", "", $response);
+
 				$responseArray = json_decode($response, true);
-	
+
 				if (isset($responseArray['choices'][0]['message']['content'])) {
 					$jsonData = json_decode($responseArray['choices'][0]['message']['content'], true);
 					//var_dump($jsonData);
 					if (is_array($jsonData)) {
 						foreach ($jsonData as $key => $value) {
-							if(is_array($value))
-							{
-								$result = implode(", ", $value) ;
+							if (is_array($value)) {
+								$result = implode(", ", $value);
 								$row_p[$key] = $result;
-							}else{
+							} else {
 								$row_p[$key] = $value;
 							}
 						}
 						$is_success = true;
-					} 
+					}
 				}
 			}
 		}
-		curl_close ($ch);
+		curl_close($ch);
 
-        if(!$is_success){
- 
-			$arr = explode("\n", $row_p[comment]);
-			for($i = 0; $i < count($arr); $i++){
+		if (!$is_success) {
+
+			$arr = explode("\n", $row_p['comment']);
+			for ($i = 0; $i < count($arr); $i++) {
 				$pattern = '/[a-z0-9_\-\+\.]+@[a-z0-9\-]+\.([a-z]{2,4})(?:\.[a-z]{2})?/i';
 				$phonePattern = '/[0-9]{3}[\-][0-9]{4}[\-][0-9]{4}|[0-9]{3}[\.][0-9]{4}[\.][0-9]{4}|[0-9]{3}[\s][0-9]{4}[\s][0-9]{4}|[0-9]{3}[\-][\s][0-9]{4}[\-][\s][0-9]{4}|[0-9]{3}[\.][\s][0-9]{4}[\.][\s][0-9]{4}/';
 				$faxPatter = '/[0-9]{2}[\-][0-9]{4}[\-][0-9]{4}|[0-9]{3}[\-][0-9]{3}[\-][0-9]{4}|[0-9]{2}[\s][0-9]{4}[\s][0-9]{4}|[0-9]{2}[\.][0-9]{4}[\.][0-9]{4}|[0-9]{3}[\s][0-9]{3}[\s][0-9]{4}|[0-9]{3}[\.][0-9]{3}[\.][0-9]{4}|[0-9]{4}[\-][0-9]{3}[\-][0-9]{4}|[0-9]{2}[\-][0-9]{3}[\-][0-9]{4}/';
 				preg_match_all($phonePattern, $arr[$i], $matches1);
 				// $matches1 = $matches1[0];
-				if($matches1[0] != NULL){
-					if(strstr($matches1[0][0], "010")){
+				if ($matches1[0] != NULL) {
+					if (strstr($matches1[0][0], "010")) {
 						$mobile = $matches1[0][0];
 						$mobile = str_replace(" ", "", $mobile);
 						$mobile = str_replace("-", "", $mobile);
 						$row_p['mobile'] = str_replace(".", "", $mobile);
-					}
-					else{
+					} else {
 						$row_p['phone1'] = $matches1[0][0];
 					}
 					// echo $mobile.">>".$phone;
 				}
 
-				if(strstr($arr[$i], "F")){
+				if (strstr($arr[$i], "F")) {
 					preg_match_all($faxPatter, $arr[$i], $matches_fax);
-					if($matches_fax[0] != NULL){
-						$row_p[fax] = $matches_fax[0][0];
+					if ($matches_fax[0] != NULL) {
+						$row_p['fax'] = $matches_fax[0][0];
 						// echo "fax".$fax;
 					}
 				}
 
 				preg_match_all($pattern, $arr[$i], $matches);
-				if($matches[1] != NULL){
-					$row_p[email1] = $matches[0][0];
+				if ($matches[1] != NULL) {
+					$row_p['email1'] = $matches[0][0];
 					// echo $email;
 				}
 
 				$name = str_replace(" ", "", trim($arr[$i]));
-				if(mb_strlen($name, 'utf-8') == 3){
+				if (mb_strlen($name, 'utf-8') == 3) {
 					$row_p['name'] = trim($arr[$i]);
 					// echo $name;
 				}
 
 				$addr_c = trim($arr[$i]);
-				if((strstr($addr_c, "시") && strstr($addr_c, "구") && strstr($addr_c, "로")) || (strstr($addr_c, "시") && strstr($addr_c, "구")) || (strstr($addr_c, "시") && strstr($addr_c, "로")) || (strstr($addr_c, "구") && strstr($addr_c, "로"))){
-					$row_p[address] = trim($arr[$i]);
+				if ((strstr($addr_c, "시") && strstr($addr_c, "구") && strstr($addr_c, "로")) || (strstr($addr_c, "시") && strstr($addr_c, "구")) || (strstr($addr_c, "시") && strstr($addr_c, "로")) || (strstr($addr_c, "구") && strstr($addr_c, "로"))) {
+					$row_p['address'] = trim($arr[$i]);
 					// echo $address;
 				}
 			}
 		}
-    }
+	}
 	if ($row_p['mem_id']) {
 		$result = array();
 		$result['result'] = true;
@@ -296,17 +304,17 @@ if ($useType == '1') {
 	} else {
 		$result = "error";
 		$img_url = "none";
-		echo json_encode(array("result"=>$result,"img_url"=>$img_url));
+		echo json_encode(array("result" => $result, "img_url" => $img_url));
 	}
 } else if ($useType == '3') {
 	//delete img
 	$select_user = "select * from Gn_Member_card where mem_id = '$userId' and type = 1";
-	$resul_p = mysqli_query($self_con,$select_user);
+	$resul_p = mysqli_query($self_con, $select_user);
 	$row_p = mysqli_fetch_array($resul_p);
 	if ($row_p['mem_id']) {
 		$update_sql = "update Gn_Member_card set type=2 where mem_id = '$userId'";
-		mysqli_query($self_con,$update_sql);
-		$resul_p = mysqli_query($self_con,$select_user);
+		mysqli_query($self_con, $update_sql);
+		$resul_p = mysqli_query($self_con, $select_user);
 		$row_p = mysqli_fetch_array($resul_p);
 		if ($row_p['mem_id']) {
 			$result = array();
@@ -329,14 +337,14 @@ if ($useType == '1') {
 		} else {
 			$result = "error";
 			$img_url = "none";
-			echo json_encode(array("result"=>$result,"img_url"=>$img_url));
+			echo json_encode(array("result" => $result, "img_url" => $img_url));
 		}
 	} else {
 		$result = "error";
 		$img_url = "none";
-		echo json_encode(array("result"=>$result,"img_url"=>$img_url));
+		echo json_encode(array("result" => $result, "img_url" => $img_url));
 	}
-}else if($useType == '4') {
+} else if ($useType == '4') {
 	$card_seq = trim($_REQUEST["card_seq"]);
 	$card_name = trim($_REQUEST["card_name"]);
 	$card_job = trim($_REQUEST["card_job"]);
@@ -350,10 +358,10 @@ if ($useType == '1') {
 	$card_email2 = trim($_REQUEST["card_email2"]);
 	$card_memo = trim($_REQUEST["card_memo"]);
 	$sql_update = "update Gn_Member_card set name='$card_name', job='$card_job', org_name='$card_org_name', address='$card_address', phone1='$card_phone1', phone2='$card_phone2', mobile='$card_mobile', fax='$card_fax', email1='$card_email1', email2='$card_email2', memo='$card_memo' where seq='$card_seq'";
-	$res = mysqli_query($self_con,$sql_update);
-	
+	$res = mysqli_query($self_con, $sql_update);
+
 	$select_user = "select * from Gn_Member_card where seq = '$card_seq' and type = 0";
-	$resul_p = mysqli_query($self_con,$select_user);
+	$resul_p = mysqli_query($self_con, $select_user);
 	$row_p = mysqli_fetch_array($resul_p);
 
 	if ($row_p['mem_id']) {
@@ -377,6 +385,6 @@ if ($useType == '1') {
 	} else {
 		$result = "error";
 		$img_url = "none";
-		echo json_encode(array("result"=>$result,"img_url"=>$img_url));
+		echo json_encode(array("result" => $result, "img_url" => $img_url));
 	}
 }

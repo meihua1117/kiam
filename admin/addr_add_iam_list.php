@@ -172,7 +172,6 @@ $date_today = date("Y-m-d");
                                     $searchStr .= " AND end_status='$search_status'";
                                 $order = $order ? $order : "desc";
                                 $query = "SELECT count(a.phone) FROM sm_data_one a WHERE 1=1 $searchSt";
-                                echo "test1:".$query."<br>";
                                 $res    = mysqli_query($self_con, $query);
                                 $totalRow    =  mysqli_fetch_array($res);
                                 $totalCnt = $totalRow[0];
@@ -184,11 +183,9 @@ $date_today = date("Y-m-d");
                                 $orderQuery .= " ORDER BY a.no DESC $limitStr ";
                                 $i = 1;
                                 $query .= $orderQuery;
-                                echo "test2:".$query."<br>";
                                 $res = mysqli_query($self_con, $query);
                                 while ($row = mysqli_fetch_array($res)) {
                                     $sql = "select mem_name, mem_phone from Gn_Member where mem_id='{$row['mem_id']}'";
-                                    echo "test2:".$sql."<br>";
                                     $sresul = mysqli_query($self_con, $sql);
                                     $srow = mysqli_fetch_array($sresul); ?>
                                     <tr>

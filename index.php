@@ -6533,7 +6533,7 @@ function encodeKorean($matches)
             $.ajax({
                 type: "POST",
                 url: "/iam/ajax/manage_paper_list.php",
-                dataType: "html",
+                dataType: "json",
                 data: {
                     save_data: 'Y',
                     paper_seq: paper_seq,
@@ -6552,6 +6552,7 @@ function encodeKorean($matches)
                 success: function(data) {
                     alert("저장되었습니다.");
                     $("#paper_list_edit_modal").modal("hide");
+                    $("#paper_name_" + paper_seq).html(data.name);
                     //AppScript.savePaper();
                 }
             });
