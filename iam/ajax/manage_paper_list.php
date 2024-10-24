@@ -15,6 +15,12 @@ else if($_POST['comment'] == "Y"){
     $res = str_replace("\n", "<br>", $row_comment[0]);
 }
 else if($_POST['get_data'] == "Y"){
+    $sql_data = "select idx,display_top from Gn_MMS_Receive_Iam where paper_seq='{$seq}'";
+    $res_data = mysqli_query($self_con,$sql_data);
+    $row_data = mysqli_fetch_array($res_data);
+    $contact_idx = $row_data['idx'];
+    $display_top = $row_data['display_top'];
+
     $sql_data = "select * from Gn_Member_card where seq='{$seq}'";
     $res_data = mysqli_query($self_con,$sql_data);
     $row_data = mysqli_fetch_array($res_data);
@@ -113,7 +119,7 @@ else if($_POST['get_data'] == "Y"){
 
     }
 
-    $res = json_encode(array("name" => $row_data['name'],"job" => $row_data['job'],"org_name" => $row_data['org_name'],"address" => $row_data['address'],"phone1" => $row_data['phone1'],"phone2" => $row_data['phone2'],"mobile" => $row_data['mobile'],"fax" => $row_data['fax'],"email1" => $row_data['email1'],"email2" => $row_data['email2'],"memo" => $row_data['memo']));
+    $res = json_encode(array("name" => $row_data['name'],"job" => $row_data['job'],"org_name" => $row_data['org_name'],"address" => $row_data['address'],"phone1" => $row_data['phone1'],"phone2" => $row_data['phone2'],"mobile" => $row_data['mobile'],"fax" => $row_data['fax'],"email1" => $row_data['email1'],"email2" => $row_data['email2'],"memo" => $row_data['memo'],"contact_idx"=>$contact_idx,"display_top"=>$display_top));
 }
 else if($_POST['save_data'] == "Y"){
     $paper_phone1 = str_replace('-', '', $paper_phone1);
@@ -128,9 +134,9 @@ else if($_POST['save_data'] == "Y"){
     $res_chk = mysqli_query($self_con,$sql_chk);
     $cnt_chk = mysqli_num_rows($res_chk);
 
-    if($cnt_chk){
+    if($cnt_chk > 0){
         $row_chk = mysqli_fetch_array($res_chk);
-        $sql_update_mms = "update Gn_MMS_Receive_Iam set send_num='{$mem_phone}', recv_num='{$paper_mobile}', name='{$paper_name}', reg_date=now() where idx='{$row_chk['idx']}'";
+        $sql_update_mms = "update Gn_MMS_Receive_Iam set send_num='{$mem_phone}', recv_num='{$paper_mobile}', name='{$paper_name}',display_top={$display_top}, reg_date=now() where idx='{$row_chk['idx']}'";
         $res = mysqli_query($self_con,$sql_update_mms);
     }
     else{
@@ -139,7 +145,7 @@ else if($_POST['save_data'] == "Y"){
         $row_grp = mysqli_fetch_array($res_grp);
 
         if($row_grp['idx']){
-            $sql_insert = "insert into Gn_MMS_Receive_Iam set grp_id='{$row_grp['idx']}', mem_id='{$_SESSION['iam_member_id']}', grp='아이엠', grp_2='아이엠', send_num='{$mem_phone}', recv_num='{$paper_mobile}', name='{$paper_name}', reg_date=now(), iam=1, paper_yn=1, paper_seq='{$paper_seq}'";
+            $sql_insert = "insert into Gn_MMS_Receive_Iam set grp_id='{$row_grp['idx']}', mem_id='{$_SESSION['iam_member_id']}', grp='아이엠', grp_2='아이엠', send_num='{$mem_phone}', recv_num='{$paper_mobile}', name='{$paper_name}',display_top={$display_top}, reg_date=now(), iam=1, paper_yn=1, paper_seq='{$paper_seq}'";
             $res = mysqli_query($self_con,$sql_insert);
         }
     }

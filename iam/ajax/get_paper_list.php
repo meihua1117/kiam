@@ -45,7 +45,7 @@ if ($search_str !== "") {
     $paper_sql_msg = "";
 }
 
-$paper_sql_msg .= " and paper_yn=1";
+$paper_sql_msg .= " and paper_yn=1 order by display_top desc";
 
 $sql9 = "select count(idx) from Gn_MMS_Receive_Iam where mem_id = '$card_owner' and grp = '아이엠' $paper_sql_msg";
 $result9 = mysqli_query($self_con, $sql9);
@@ -70,15 +70,15 @@ $total_block = ceil($total_page / $block_ct); //블럭 총 개수
 $start_num = ($page - 1) * $list; //시작번호 (page-1)에서 $list를 곱한다.
 
 if ((int)$search_range == 1) {
-    $paper_sql_msg = $paper_sql_msg . " order by name";
+    $paper_sql_msg = $paper_sql_msg . " ,name";
 } else if ((int)$search_range == 2) {
-    $paper_sql_msg = $paper_sql_msg . " order by name desc";
+    $paper_sql_msg = $paper_sql_msg . " ,name desc";
 } else if ((int)$search_range == 3) {
-    $paper_sql_msg = $paper_sql_msg . " order by idx desc";
+    $paper_sql_msg = $paper_sql_msg . " ,idx desc";
 } else if ((int)$search_range == 4) {
-    $paper_sql_msg = $paper_sql_msg . " order by idx";
+    $paper_sql_msg = $paper_sql_msg . " ,idx";
 } else {
-    $paper_sql_msg = $paper_sql_msg . " order by idx desc";
+    $paper_sql_msg = $paper_sql_msg . " ,idx desc";
 }
 $body = '<div class="contact-list">';
 $body .= '<ul>';

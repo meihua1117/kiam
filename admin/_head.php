@@ -325,7 +325,7 @@
                             <a href="sub_10.php">아이엠카드</a>
                             <ul class="submenu">
                                 <li class="submenu-item"><a href="/index.php" target="_blank">아이엠접속</a></li>
-                                <li class="submenu-item"><a href="https://url.kr/JX9P7u" target="_biank">아이엠설치</a></li>
+                                <li class="submenu-item"><a href="https://play.google.com/store/apps/details?id=mms.onepagebook.com.onlyonesms&pli=1" target="_biank">아이엠설치</a></li>
                             </ul>
                         </li>
                         
@@ -497,7 +497,7 @@
 			  <a href="sub_10.php">아이엠</a> 
 			</div>
 			<div style="position:absolute;left:200px;">     
-			  <a href="sub_10.php">아이엠소개</a> ㅣ <a href="/?cur_win=best_sample">아이엠샘플</a> ㅣ <a href="https://www.onestore.co.kr/userpoc/apps/view?pid=0000738690">아이엠설치</a> ㅣ<a href="/index.php" target="_blank">아이엠접속</a> ㅣ <a href="https://oog.kiam.kr/pages/page_3221.php">아이엠매뉴얼</a>
+			  <a href="sub_10.php">아이엠소개</a> ㅣ <a href="/?cur_win=best_sample">아이엠샘플</a> ㅣ <a href="https://play.google.com/store/apps/details?id=mms.onepagebook.com.onlyonesms&pli=1">아이엠설치</a> ㅣ<a href="/index.php" target="_blank">아이엠접속</a> ㅣ <a href="https://oog.kiam.kr/pages/page_3221.php">아이엠매뉴얼</a>
 			</div>
 			
 			<p style="clear:both;"></p>

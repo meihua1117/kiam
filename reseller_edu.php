@@ -123,7 +123,7 @@
                                 <li class="submenu-item"><a href="sub_10.php#technic">아이엠기능</a></li>
                                 <li class="submenu-item"><a href="sub_10.php#uses">아이엠활용</a></li>
                                 <li class="submenu-item"><a href="/iam/index.php" target="_blank">아이엠접속</a></li>
-                                <li class="submenu-item"><a href="https://url.kr/JX9P7u" target="_biank">아이엠설치</a></li>
+                                <li class="submenu-item"><a href="https://play.google.com/store/apps/details?id=mms.onepagebook.com.onlyonesms&pli=1" target="_biank">아이엠설치</a></li>
                             </ul>
                         </li>
                         
@@ -451,7 +451,7 @@ button {padding:20px;background:#81BEF7;font-size:20px;}
                                 <li class="submenu-item"><a href="sub_10.php#trait">아이엠특징</a></li>
                                 <li class="submenu-item"><a href="sub_10.php#technic">아이엠기능</a></li>
                                 <li class="submenu-item"><a href="sub_10.php#uses">아이엠활용</a></li>
-                                <li class="submenu-item"><a href="https://url.kr/JX9P7u" target="_biank">아이엠설치</a></li>
+                                <li class="submenu-item"><a href="https://play.google.com/store/apps/details?id=mms.onepagebook.com.onlyonesms&pli=1" target="_biank">아이엠설치</a></li>
                                 <li class="submenu-item"><a href="http://kiam.kr/iam/index.php" target="_blank">아이엠접속</a></li>
 
 <!--                                <li class="submenu-item"><a href="sub_10.php#Introduce">아이엠소개</a></li>

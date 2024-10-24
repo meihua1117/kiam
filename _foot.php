@@ -144,7 +144,7 @@ if ($HTTP_HOST == "kookmin.kiam.kr") { ?>
                 <a href="sub_10.php">아이엠카드</a>
                 <ul class="submenu">
                     <li class="submenu-item"><a href="<?= $href ?>" target="_blank">아이엠접속</a></li>
-                    <li class="submenu-item"><a href="https://tinyurl.com/3ucs2vbt" target="_blank">아이엠설치</a></li>
+                    <li class="submenu-item"><a href="https://play.google.com/store/apps/details?id=mms.onepagebook.com.onlyonesms&pli=1" target="_blank">아이엠설치</a></li>
                 </ul>
             </li>
 
@@ -206,7 +206,7 @@ if ($HTTP_HOST == "kookmin.kiam.kr") { ?>
                 <ul class="submenu">
                     <li class="submenu-item"><a href="sub_10.php#Introduce">아이엠소개</a></li>
                     <li class="submenu-item"><a href="/?cur_win=best_sample" target="_blank">아이엠샘플</a></li>
-                    <li class="submenu-item"><a href="https://tinyurl.com/3ucs2vbt" target="_blank">아이엠설치</a></li>
+                    <li class="submenu-item"><a href="https://play.google.com/store/apps/details?id=mms.onepagebook.com.onlyonesms&pli=1" target="_blank">아이엠설치</a></li>
                     <li class="submenu-item"><a href="<?= $href ?>" target="_blank">아이엠접속</a></li>
                     <li class="submenu-item"><a href="https://tinyurl.com/557nca2b" target="_blank">아이엠매뉴얼</a></li>
                 </ul>
@@ -290,7 +290,7 @@ if ($HTTP_HOST == "kookmin.kiam.kr") { ?>
                 <a href="/?cur_win=best_sample" target="_blank">아이엠샘플</a>
             </li>
             <li class="menu-item">
-                <a href="https://tinyurl.com/3ucs2vbt" target="_blank">아이엠설치</a>
+                <a href="https://play.google.com/store/apps/details?id=mms.onepagebook.com.onlyonesms&pli=1" target="_blank">아이엠설치</a>
             </li>
 
             <li class="menu-item">
@@ -367,7 +367,7 @@ if ($HTTP_HOST == "kookmin.kiam.kr") { ?>
                 <ul class="submenu">
                     <li class="submenu-item"><a href="sub_10.php#Introduce">아이엠소개</a></li>
                     <li class="submenu-item"><a href="/?cur_win=best_sample" target="_blank">아이엠샘플</a></li>
-                    <li class="submenu-item"><a href="https://tinyurl.com/3ucs2vbt" target="_blank">아이엠설치</a></li>
+                    <li class="submenu-item"><a href="https://play.google.com/store/apps/details?id=mms.onepagebook.com.onlyonesms&pli=1" target="_blank">아이엠설치</a></li>
                     <li class="submenu-item"><a href="<?= $href ?>" target="_blank">아이엠접속</a></li>
                     <li class="submenu-item"><a href="https://tinyurl.com/xwcvtxy4" target="_blank">아이엠매뉴얼</a></li>
                     <?

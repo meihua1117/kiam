@@ -4388,7 +4388,6 @@ function encodeKorean($matches)
                     $cont_id_array = array();
                     if (!$search_key && $_GET['key1'] != 4) {
                         if ($cont_count > 0) {
-                            echo $sql8."<br>";
                             $f_sql = str_replace("count(c.idx)", "c.idx", $sql8);
                             //$f_sql .= " group by c.card_idx $order_sql limit 0,300";
                             $f_sql .= " group by c.card_idx $order_sql";
@@ -6467,6 +6466,12 @@ function encodeKorean($matches)
                     $("#paper_email1").val(data.email1);
                     $("#paper_email2").val(data.email2);
                     $("#paper_memo").val(data.memo);
+                    $("#paper_contact_idx").val(data.contact_idx);
+                    if(data.display_top == 0)
+                        $("#paper_display_top").prop("checked",false);
+                    else
+                        $("#paper_display_top").prop("checked",true);
+
                 }
             });
             $("#paper_list_edit_modal").modal("show");
@@ -6538,6 +6543,7 @@ function encodeKorean($matches)
             var paper_email1 = $("#paper_email1").val();
             var paper_email2 = $("#paper_email2").val();
             var paper_memo = $("#paper_memo").val();
+            var display_top = $("#paper_display_top").prop("checked")?1:0;
             $.ajax({
                 type: "POST",
                 url: "/iam/ajax/manage_paper_list.php",
@@ -6555,7 +6561,8 @@ function encodeKorean($matches)
                     paper_fax: paper_fax,
                     paper_email1: paper_email1,
                     paper_email2: paper_email2,
-                    paper_memo: paper_memo
+                    paper_memo: paper_memo,
+                    display_top:display_top
                 },
                 success: function(data) {
                     alert("저장되었습니다.");

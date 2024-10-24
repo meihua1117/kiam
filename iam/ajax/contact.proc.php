@@ -38,21 +38,4 @@ if($mode == "del") {
   echo '연락처가 삭제 되었습니다.';
   exit;
 }
-
-
-
-// print_r($_FILES['uploadFile1']['name']);
-// echo '</pre>';
-// print_r(basename($_FILES['uploadFile1']['name']));
-// echo '</pre>';
-// print_r($uploadfile1);
-// echo '</pre>';
-// print_r($uploadfile2);
-// echo '</pre>';
-// print_r($uploadfile3);
-// echo '</pre>';
-// print_r($uploadfile4);
-// echo '</pre>';
-// print_r($_FILES);
-// echo '</pre>';
 ?>

@@ -2506,8 +2506,13 @@
                     </table>
                 </div>
             </div>
-            <div style="margin: 0px auto 15px auto;">
+            <div style="margin: 0px auto 15px auto;display: flex;justify-content: space-around;">
                 <a href="javascript:show_comment()" style="background-color: grey;color: white;padding: 5px;cursor:pointer;">텍스트보기</a>
+                <div style="display: inline-flex;">
+                    <input type="checkbox" id="paper_display_top">
+                    <input type="hidden" id="paper_contact_idx">
+                    <p>상단노출하기</p>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn-default btn-left" onclick="cancel_paper()">취소</button>
