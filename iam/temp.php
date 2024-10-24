@@ -35,7 +35,7 @@ while($count >= $i){
     $sql = "select idx,card_short_url,westory_card_url,req_data,up_data from Gn_Iam_Contents use index(idx) where idx < 14635646 order by idx limit $i,$step";
     $result  = mysqli_query($self_con,$sql);
     while($row = mysqli_fetch_array($result)) {
-        $main_card_sql = "select idx from Gn_Iam_Name_Card where card_short_url = '$row[westory_card_url]'";
+        $main_card_sql = "select idx from Gn_Iam_Name_Card where card_short_url = '{$row['westory_card_url']}'";
         $main_card_res = mysqli_query($self_con,$main_card_sql);
         $main_card_row = mysqli_fetch_array($main_card_res);
         $card_array = explode(",",$row['card_short_url']);

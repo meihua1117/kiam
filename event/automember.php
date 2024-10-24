@@ -563,22 +563,6 @@
 			}
 
 			function makingiam(join_type){
-				/*<?php
-				if($cur_point < $point_auto){
-				?>
-				alert("현재 기능 정지 중입니다. 관리자에게 문의해주세요.");
-				$.ajax({
-					type:"POST",
-					dataType:"json",
-					url:'/ajax/service_point_state.php',
-					data:{point_stop:true, service_id:'<?=$event_data['m_id']?>'},
-					success:function(data){
-
-					}
-				});
-				return;
-				<?}?>
-*/
 				var recom_id = '<?=$recom_id?>';
 				var site = '<?=$site?>';
 				var site_iam = '<?=$site_iam?>';
@@ -606,7 +590,6 @@
 						alert("아이디 중복확인을 하세요.");
 						return;
 					}
-					// console.log(card_short_url); return;
 					var mem_name = $("#mem_name").val();
 					var mem_phone = $("#mem_phone").val();
 					var mem_id = $("#mem_id").val();

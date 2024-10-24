@@ -51,8 +51,6 @@ if ($_POST['one_id'] && $_POST['one_pwd']) {
 				$_SESSION['one_member_subadmin_domain'] = $url['host'];
 			}
 		}
-		//if($HTTP_HOST == 'kiam.kr')
-		//if($row['site_iam'] == $site[0]){
 		if($row['site_iam'] != ""){
 			$_SESSION['iam_member_id'] = $_POST['one_id'];
 			$_SESSION['iam_member_leb'] = $row['iam_leb'];

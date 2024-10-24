@@ -145,7 +145,7 @@ td {
                                     {
                                         ?>
                                         <tr >
-                                            <td><?=$row[westory_card_url]?></td>
+                                            <td><?=$row['westory_card_url']?></td>
                                             <td style="text-align: center">
                                                 <div style="margin: 5px;width: 38px;height: 38px;border-radius: 50%;overflow: hidden;">
                                                     <img src='<?=$row['profile']?>'>

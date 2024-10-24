@@ -40,8 +40,6 @@ if($_POST['one_id'] && $_POST['mem_pass'])
 	    if($row[0] != "") {
 	        $_SESSION['one_member_admin_id']=$_POST['one_id'];
 	    }else{
-			//if ($HTTP_HOST == "kiam.kr")
-			//	$_SERVER[HTTP_HOST] = "www.kiam.kr";
 			if($sub_domain) {
 				$sql = "select mem_id from Gn_Service where mem_id= '{$_POST['one_id']}' and sub_domain like '%$sub_domain' ";
 				$resul = mysqli_query($self_con,$sql);
@@ -52,8 +50,6 @@ if($_POST['one_id'] && $_POST['mem_pass'])
 				}
 			}
 		}
-		//user_session_check($_POST['one_id']);
-		
 		// 마지막 접속 시간 기록 Add Cooper
 		$sql="update Gn_Member set login_date=now() where mem_id= '{$_POST['one_id']}'";
 	    $resul=mysqli_query($self_con,$sql);

@@ -4,8 +4,8 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/common_func.php";
 $PG_table = "Gn_Member";
 $JO_table = "";
 $URL = ($URL)?$URL:$_SERVER['HTTP_REFERER'];
-$mb_id = $_POST[mb_id];
-$mb_pass = $_POST[mb_pass];
+$mb_id = $_POST['mb_id'];
+$mb_pass = $_POST['mb_pass'];
 $mem_code = $_POST['mem_code'];
 $mb_leb = "22";
 
@@ -52,7 +52,7 @@ if($row['mem_code'] and $row['is_leave'] == 'N')
 	$resul = mysqli_query($self_con,$sql);
 }
 
-if($_POST[mb_id]==FALSE) {
+if($_POST['mb_id']==FALSE) {
 	alert("���������� �α��� �Ͽ� �ּ���", "/omm/app_login.php");
 } else if($check==FALSE) {
 	alert("���̵� Ȥ�� ��й�ȣ�� ��ġ���� �ʽ��ϴ�.\\n(��й�ȣ�� ��ҹ��ڸ� �����մϴ�.)", "/omm/app_login.php?URL={$URL}");

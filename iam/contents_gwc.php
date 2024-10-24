@@ -2,7 +2,7 @@
 include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
 $contents_idx = $_GET['contents_idx'];
 $recent_post = 0;
-if(isset($_GET[gwc])){
+if(isset($_GET['gwc'])){
 	$gwc = 1;
 }
 else{
@@ -89,7 +89,7 @@ for($i = 0; $i < count($content_images); $i++) {
 	}
 }
 $meta_title = $meta_row['contents_title'];
-$cur_card_short_url = $meta_row[westory_card_url];
+$cur_card_short_url = $meta_row['westory_card_url'];
 $meta_desc = $meta_row['contents_desc'];
 ?>
 <style>
@@ -201,14 +201,14 @@ $meta_desc = $meta_row['contents_desc'];
 								$row_card = mysqli_fetch_array($res_card);?>
 								<div class="desc is-product">
 									<div class="desc-inner">
-										<div class="outer <?=$row_card[sale_cnt_set]?>" style="text-align:left;">
+										<div class="outer <?=$row_card['sale_cnt_set']?>" style="text-align:left;">
 											<?//if($gwc && !$gwc_mem){
 												//$buy_btn = "display:none;";?>
 											<!-- <span style="font-size: 15px;">공급/소비 회원에게만 보입니다.</span> -->
 											<?//}else{
 												$buy_btn = "";
 												if($meta_row['contents_price'] > 0){
-												if(!$row_card[sale_cnt_set]){
+												if(!$row_card['sale_cnt_set']){
 													$style_decor = "";
 													$state_end = "";
 													$discount = 100 - ($meta_row['contents_sell_price'] / $meta_row['contents_price']) * 100;
@@ -219,7 +219,7 @@ $meta_desc = $meta_row['contents_desc'];
 														$style_decor = "text-decoration: line-through;";
 														$state_end = "마감";
 														$discount = 100 - ($meta_row['contents_sell_price'] / $meta_row['contents_price']) * 100;
-														$add_point = $meta_row['contents_price'] * (((int)$discount - $row_card[add_reduce_val]) / 100);
+														$add_point = $meta_row['contents_price'] * (((int)$discount - $row_card['add_reduce_val']) / 100);
 													}
 													else{
 														$style_decor = "";
@@ -257,7 +257,7 @@ $meta_desc = $meta_row['contents_desc'];
 													<span style="vertical-align: top;color: red;font-size: 18px;font-weight: bold;margin-right: 3px;"><?=(int)$discount?>% </span>
 													<span class="downer" style="color:black;font-size: 18px;margin-right: 3px;"><?=number_format((int)$add_point)?>원 </span>
 													<span class="downer" style="font-size: 12px;color:darkgrey;"><span style="vertical-align: text-bottom;font-size: 12px;<?=$price_style?>"><?=number_format($meta_row['contents_price'])?></span>원 </span>
-													<?if(($_GET[iamstore] == "Y") || $_GET[iamstore] == "C"){?>
+													<?if(($_GET['iamstore'] == "Y") || $_GET['iamstore'] == "C"){?>
 													<!-- <span class="downer" style="color:blue;"><?=number_format($meta_row['send_provide_price'])?>원</span> -->
 													<?}?>
 												</div>
@@ -622,7 +622,7 @@ $meta_desc = $meta_row['contents_desc'];
 			<?php
 			if($HTTP_HOST != "kiam.kr") {
 				?>
-				<a href="<?php echo $domainData[footer_link];?>"><img src="<?=$domainData[footer_logo]==""?"img/common/logo.png":cross_image($domainData[footer_logo]);?>" alt="아이엠 푸터로고" width="100"></a>
+				<a href="<?php echo $domainData['footer_link'];?>"><img src="<?=$domainData['footer_logo']==""?"img/common/logo.png":cross_image($domainData['footer_logo']);?>" alt="아이엠 푸터로고" width="100"></a>
 			<?php } else {?>
 				<a href="/m/"><img src="img/common/logo.png" alt="아이엠 푸터로고" width="100"></a>
 			<?php }?>

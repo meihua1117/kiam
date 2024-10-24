@@ -591,13 +591,16 @@ function drawPagingAdminNavi($totalCnt, $nowPage, $pageCnt = "20", $naviSize = "
 
 	//이전 페이지 block 보기
 	if ($totalPage > 1) {
-
-		if ($block > 1) $prev_b .= "<li class='paginate_button previous disabled' id='list_previous'><a href=\"javascript:" . $scriptName . "('" . $prevPG . "')\" >Prev</a></li>";
-		else $prev_b .= "<li class='paginate_button previous disabled' id='list_previous'><a href=\"javascript:void(0)\">Prev</a></li>";
+		if ($block > 1) 
+			$prev_b = "<li class='paginate_button previous disabled' id='list_previous'><a href=\"javascript:" . $scriptName . "('" . $prevPG . "')\" >Prev</a></li>";
+		else 
+			$prev_b = "<li class='paginate_button previous disabled' id='list_previous'><a href=\"javascript:void(0)\">Prev</a></li>";
 
 		//다음 페이지 block 보기
-		if ($block < $total_block) $next_b .= "<li class='paginate_button next' id='list_next'><a href=\"javascript:" . $scriptName . "('" . $nextPG . "')\" >Next</a></li>";
-		else $next_b .= "<li class='paginate_button next' id='list_next'><a href=\"javascript:void(0)\">Next</a></li>";
+		if ($block < $total_block) 
+			$next_b = "<li class='paginate_button next' id='list_next'><a href=\"javascript:" . $scriptName . "('" . $nextPG . "')\" >Next</a></li>";
+		else 
+			$next_b = "<li class='paginate_button next' id='list_next'><a href=\"javascript:void(0)\">Next</a></li>";
 
 		$pageStr .= $prev_b;
 

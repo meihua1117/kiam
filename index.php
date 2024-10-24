@@ -226,7 +226,7 @@ if ($domainData['status'] == "N") {
     echo "<script>window.open("."'/payment_pop.php?index={$pay_data['orderNumber']}&type=user'".", \"notice_pop\", \"toolbar=yes,scrollbars=yes,resizable=yes,top=200,left=200,width=600,height=350\");</script>";
 }*/
 
-$auto_query = "select short_url from Gn_event where event_idx = '$domainData[auto_join_event_idx]'";
+$auto_query = "select short_url from Gn_event where event_idx = '{$domainData['auto_join_event_idx']}'";
 $auto_res = mysqli_query($self_con,$auto_query);
 $auto_row = mysqli_fetch_array($auto_res);
 $auto_link = $auto_row[0];
@@ -4388,6 +4388,7 @@ function encodeKorean($matches)
                     $cont_id_array = array();
                     if (!$search_key && $_GET['key1'] != 4) {
                         if ($cont_count > 0) {
+                            echo $sql8."<br>";
                             $f_sql = str_replace("count(c.idx)", "c.idx", $sql8);
                             //$f_sql .= " group by c.card_idx $order_sql limit 0,300";
                             $f_sql .= " group by c.card_idx $order_sql";

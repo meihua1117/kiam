@@ -39,7 +39,7 @@ if($name_card['main_img1']){
 }
 $meta_img = $meta_row['contents_img'];
 $meta_title = $meta_row['contents_title'];
-$cur_card_short_url = $meta_row[westory_card_url];
+$cur_card_short_url = $meta_row['westory_card_url'];
 $meta_desc = $meta_row['contents_desc'];
 ?>
 <link rel="stylesheet" href="/admin/bootstrap/css/bootstrap.min.css">

@@ -47,7 +47,7 @@ if($_POST['type'] == 'interval') {
             $mem_row = mysqli_fetch_array($mem_res);
             $profile = $mem_row['profile'];
     
-            $card_sql = "select main_img1,card_short_url,card_name,card_company from Gn_Iam_Name_Card where card_short_url ='".$row[westory_card_url]."' order by req_data limit 0,1";
+            $card_sql = "select main_img1,card_short_url,card_name,card_company from Gn_Iam_Name_Card where card_short_url ='".$row['westory_card_url']."' order by req_data limit 0,1";
             $card_res = mysqli_query($self_con,$card_sql);
             $card_row = mysqli_fetch_array($card_res);
             if($profile == "" || is_null($profile))

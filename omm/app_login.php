@@ -74,8 +74,7 @@ if ($row['mem_id']) {
 		$row_n_c = mysqli_fetch_array($resul_n_c);
 		if ($row_n_c['idx']) {
 
-			$sql_u = "update Gn_MMS_Number set reg_date=now() $addQuery
-										where sendnum = '$userNum' and  mem_id = '$userId' ";
+			$sql_u = "update Gn_MMS_Number set reg_date=now() $addQuery where sendnum = '$userNum' and  mem_id = '$userId' ";
 			mysqli_query($self_con,$sql_u);
 			$result = "0"; //0이 로그인 성공					
 
