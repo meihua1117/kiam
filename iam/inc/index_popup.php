@@ -2511,7 +2511,7 @@
                 <div style="display: inline-flex;">
                     <input type="checkbox" id="paper_display_top">
                     <input type="hidden" id="paper_contact_idx">
-                    <p>상단노출하기</p>
+                    <p style="margin-top:7px">상단노출하기</p>
                 </div>
             </div>
             <div class="modal-footer">
