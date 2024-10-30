@@ -4074,7 +4074,6 @@ function encodeKorean($matches)
                 $search_key = $_GET['search_key'];
                 $cont_array = array();
                 //카드명이 검색키와 같은거 꺼내기
-                echo "test1<br>";
                 if ($search_key) {
                     if ($_GET['key1'] == 4) {
                         $search_title = $search_seperate = '';
@@ -4121,7 +4120,6 @@ function encodeKorean($matches)
                 } else {
                     $search_sql = "1=1";
                 }
-                echo "test2<br>";
                 if ($cur_win == "we_story") {
                     $show_counts = get_search_key('wecon_show_count');
                     $counts_arr = explode(",", $show_counts);
@@ -4141,7 +4139,6 @@ function encodeKorean($matches)
                     else
                         $search_sql .= " and c.idx > $recent_idx";
                 }
-                echo "test3<br>".$cur_win;
                 $w_page = $_GET['w_page'];
                 if (!$w_page)
                     $w_page = 1;
@@ -4276,7 +4273,6 @@ function encodeKorean($matches)
                     $sql = "select block_user,block_contents from Gn_Iam_Info where mem_id = '{$_SESSION['iam_member_id']}'";
                     $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
                     $row_iam_info = mysqli_fetch_array($result);
-                    echo "test4<br>";
                     if ($row_iam_info['block_contents']) {
                         $block_contents_sql = " and c.idx not in ({$row_iam_info['block_contents']}) ";
                     } else {
@@ -4334,9 +4330,9 @@ function encodeKorean($matches)
                             if (isset($_GET['key3']) && $_GET['key3'] != 0 && (isset($_GET['sort_key3']))) { //배송,방문=>적립,기본
                                 if (isset($_GET['loc_name']) && $_GET['loc_name'] != '') { //방문=>지역
                                     $search_sql_loc = " and d.card_addr like '%{$_GET['loc_name']}%'";
-                                    $sql8 = "select count(c.idx) from Gn_Iam_Contents c use index(idx) inner join Gn_Iam_Name_Card d on c.card_idx=d.idx where c.ai_map_gmarket=" . $_GET['key3'] . " and c.contents_type = 3 and c.contents_westory_display = 'Y' and c.public_display = 'Y' and $search_sql $search_sql_loc $block_contents_sql $block_user_sql";
+                                    $sql8 = "select count(c.idx) from Gn_Iam_Contents c use index(idx) inner join Gn_Iam_Name_Card d on c.card_idx=d.idx where c.ai_map_gmarket='{$_GET['key3']}' and c.contents_type = 3 and c.contents_westory_display = 'Y' and c.public_display = 'Y' and $search_sql $search_sql_loc $block_contents_sql $block_user_sql";
                                 } else {
-                                    $sql8 = "select count(c.idx) from Gn_Iam_Contents c use index(idx) where c.ai_map_gmarket=" . $_GET['key3'] . " and c.contents_type = 3 and c.contents_westory_display = 'Y' and c.public_display = 'Y' and $search_sql $block_contents_sql $block_user_sql";
+                                    $sql8 = "select count(c.idx) from Gn_Iam_Contents c use index(idx) where c.ai_map_gmarket='{$_GET['key3']}' and c.contents_type = 3 and c.contents_westory_display = 'Y' and c.public_display = 'Y' and $search_sql $block_contents_sql $block_user_sql";
                                 }
                             } else {
                                 if ($_GET['sort_key3'] == 1) { //전체=>적립
@@ -4364,11 +4360,11 @@ function encodeKorean($matches)
                         if ($_GET['key4'] == 3) {
                             $sql8 = "select count(c.idx) from " . $content_table_name . " c where card_idx='934328'";
                         } else {
-                            $sql8 = "select count(c.idx) from " . $content_table_name . " c use index(idx) where contents_type = 3 and c.gwc_con_state=" . $_GET['key4'] . " and contents_westory_display = 'Y' and $public_str and $search_sql $block_contents_sql $block_user_sql";
+                            $sql8 = "select count(c.idx) from " . $content_table_name . " c use index(idx) where contents_type = 3 and c.gwc_con_state='{$_GET['key4']}' and contents_westory_display = 'Y' and $public_str and $search_sql $block_contents_sql $block_user_sql";
                         }
                     } elseif ($_GET['key1'] >= 5) { //기타콘
                         $k = $rec_array[$_GET['key1'] - 5];
-                        $search_sql .= " and (contents_title like '%$k%' or contents_desc like '%$k%')";
+                        $search_sql .= " and (contents_title like '%{$k}%' or contents_desc like '%{$k}%')";
                         $sql8 = "select count(c.idx) from Gn_Iam_Contents c use index(idx) where contents_westory_display = 'Y' and public_display = 'Y' and $search_sql $block_contents_sql $block_user_sql";
                     } else { //공개된 콘텐츠 다 현시
                         $search_sql .= " and gwc_con_state=0";
@@ -4381,7 +4377,6 @@ function encodeKorean($matches)
                     $result_cnt = mysqli_query($self_con,$sql8) or die(mysqli_error($self_con));
                     $total_row = mysqli_fetch_array($result_cnt);
                     $cont_count = $total_row[0];
-                    echo "test5<br>";
                     // middle log
                     $logs->add_log("카운팅 갯수 : $cont_count");
                     //echo $sql8;
@@ -4390,9 +4385,9 @@ function encodeKorean($matches)
                         if ($cont_count > 0) {
                             $f_sql = str_replace("count(c.idx)", "c.idx", $sql8);
                             //$f_sql .= " group by c.card_idx $order_sql limit 0,300";
-                            $f_sql .= " group by c.card_idx $order_sql";
-                            $f_sql = "select * from ($f_sql) as tt limit 0,300";
-                            echo $f_sql;
+                            $f_sql .= " group by c.card_idx,c.idx $order_sql";
+                            //$f_sql = "select * from ($f_sql) as tt limit 0,300";
+                            $f_sql .= " limit 0,300";
                             $f_res = mysqli_query($self_con,$f_sql);
                             echo "test6<br>";
                             while ($f_row = mysqli_fetch_array($f_res)) {
@@ -14687,11 +14682,9 @@ function encodeKorean($matches)
                     },
                     success: function(data) {
                         if (data.length > 20) {
-                            alert(data);
                             toastr.error(data);
                             $("#create_card_link").focus();
                         } else {
-                            alert(data);
                             toastr.success("명함등록이 완료 되었습니다.");
                             location.href = "/?" + data;
                         }
