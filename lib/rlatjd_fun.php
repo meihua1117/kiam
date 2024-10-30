@@ -1498,8 +1498,11 @@ function get_search_key($key_id)
 {
 	global $self_con;
 	$sql = "select key_content from Gn_Search_Key where key_id='{$key_id}'";
+	echo $sql."<br>";
 	$res = mysqli_query($self_con, $sql);
+	echo "test1";
 	$row = mysqli_fetch_array($res);
+	echo "test2";
 	return $row['key_content'];
 }
 

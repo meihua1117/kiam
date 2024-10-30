@@ -4428,14 +4428,14 @@ function encodeKorean($matches)
                             $sql8 = "select * from " . $content_table_name . " c where card_idx='934328'";
                         } else {
                             if ($_GET['sort_key3']) {
-                                $sql8 = "select * from " . $content_table_name . " c use index(idx_2) where contents_type = 3 and c.gwc_con_state=" . $_GET['key4'] . " and contents_westory_display = 'Y' and $public_str and $search_sql $block_contents_sql $block_user_sql";
+                                $sql8 = "select * from " . $content_table_name . " c use index(idx_2) where contents_type = 3 and c.gwc_con_state='{$_GET['key4']}' and contents_westory_display = 'Y' and $public_str and $search_sql $block_contents_sql $block_user_sql";
                             } else {
-                                $sql8 = "select c.* from " . $content_table_name . " c use index(idx_2) where contents_type = 3 and c.gwc_con_state=" . $_GET['key4'] . " and contents_westory_display = 'Y' and $public_str and $search_sql $block_contents_sql $block_user_sql";
+                                $sql8 = "select c.* from " . $content_table_name . " c use index(idx_2) where contents_type = 3 and c.gwc_con_state='{$_GET['key4']}' and contents_westory_display = 'Y' and $public_str and $search_sql $block_contents_sql $block_user_sql";
                             }
                         }
                     } elseif ($_GET['key1'] >= 5) {
                         $k = $rec_array[$_GET['key1'] - 5];
-                        $search_sql .= " and (contents_title like '%$k%' or contents_desc like '%$k%')";
+                        $search_sql .= " and (contents_title like '%{$k}%' or contents_desc like '%{$k}%')";
                         $sql8 = "select c.* from Gn_Iam_Contents c use index(idx) where contents_westory_display = 'Y' and public_display = 'Y' and $search_sql $block_contents_sql $block_user_sql";
                     } else { //공개된 콘텐츠 다 현시
                         $sql8 = "select c.* from Gn_Iam_Contents c use index(idx) where contents_westory_display = 'Y' and public_display = 'Y' and contents_title!='방문자리뷰' and $search_sql $block_contents_sql $block_user_sql";
