@@ -4584,6 +4584,7 @@ function encodeKorean($matches)
                 // middle log
                 $logs->add_log("before sql8   $sql8");
                 //echo $sql8;
+                echo $cont_count ."=>". $contents_count_per_page;
                 if ($sql8 && $cont_count > 0 && $contents_count_per_page > 0)
                     $result8 = mysqli_query($self_con, $sql8) or die(mysqli_error($self_con));
                 if (strstr($cur_win, "sample")) { ?>
