@@ -4583,10 +4583,9 @@ function encodeKorean($matches)
                 }
                 // middle log
                 $logs->add_log("before sql8   $sql8");
-                echo $sql8;
+                //echo $sql8;
                 if ($sql8 && $cont_count > 0 && $contents_count_per_page > 0)
                     $result8 = mysqli_query($self_con,$sql8) or die(mysqli_error($self_con));
-                echo "test";
                 if (strstr($cur_win, "sample")) { ?>
                     <div class="sample_main">
                     </div>
@@ -4710,6 +4709,8 @@ function encodeKorean($matches)
                     <?  }
                     // middle log               
                     $logs->add_log("after sql8");
+                    echo "test";
+                    print_r($result8);
                     while ($contents_row = mysqli_fetch_array($result8)) {
                         array_push($cont_array, $contents_row);
                     }
