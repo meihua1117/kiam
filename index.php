@@ -4442,7 +4442,6 @@ function encodeKorean($matches)
                     }
                     $sql8 .= " and group_display = 'Y' ";
                     $sql8 .= $order_sql;
-                    //echo $sql8;
                     if ($contents_count_per_page * ($w_page - 1) < count($cont_id_array)) {
                         $temp_cont_arr = array_slice($cont_id_array, $contents_count_per_page * ($w_page - 1), $contents_count_per_page);
                         foreach ($temp_cont_arr as $idx) {
@@ -4452,6 +4451,7 @@ function encodeKorean($matches)
                             array_push($cont_array, $sort_row);
                         }
                         $w_offset = 0; //페이지 내 첫 콘텐츠 offset
+                        echo "test:".$contents_count_per_page ."*". $w_page."-".count($cont_id_array);
                         $contents_count_per_page = $contents_count_per_page * $w_page - count($cont_id_array);
                         if ($contents_count_per_page < 0)
                             $contents_count_per_page = 0;
@@ -4584,7 +4584,6 @@ function encodeKorean($matches)
                 // middle log
                 $logs->add_log("before sql8   $sql8");
                 //echo $sql8;
-                echo $cont_count ."=>". $contents_count_per_page;
                 if ($sql8 && $cont_count > 0 && $contents_count_per_page > 0)
                     $result8 = mysqli_query($self_con, $sql8) or die(mysqli_error($self_con));
                 if (strstr($cur_win, "sample")) { ?>
