@@ -4122,7 +4122,6 @@ function encodeKorean($matches)
                 }
                 if ($cur_win == "we_story") {
                     $show_counts = get_search_key('wecon_show_count');
-                    echo "show_count=".$show_counts;
                     $counts_arr = explode(",", $show_counts);
                     $limit_count = $counts_arr[0];
                     if ($_GET['key1'] == 3) { //콜이야
@@ -4211,7 +4210,7 @@ function encodeKorean($matches)
                     } else {
                         $w_offset = $contents_count_per_page * ($w_page - 1) - count($cont_id_array_);
                     }
-                    $sql8 .= " limit $contents_count_per_page offset " . $w_offset;
+                    $sql8 .= " limit $contents_count_per_page , " . $w_offset;
                 } else if ($cur_win == "my_story") {
                     if ($_SESSION['iam_member_id'] == "") {
                         $w_offset = $contents_count_per_page * ($w_page - 1); //페이지 내 첫 콘텐츠 offset
@@ -4223,7 +4222,7 @@ function encodeKorean($matches)
                         $total_row = mysqli_fetch_array($result_cnt);
                         $cont_count = $total_row[0];
                         $sql8 = "select * from " . $content_table_name . " use index(card_idx) WHERE card_idx={$cur_card['idx']} and $search_sql ORDER BY contents_order desc";
-                        $sql8 .= " limit $contents_count_per_page offset " . $w_offset;
+                        $sql8 .= " limit $contents_count_per_page , " . $w_offset;
                     } else {
                         $w_offset = $contents_count_per_page * ($w_page - 1); //페이지 내 첫 콘텐츠 offset
                         if ($w_offset < 0) {
@@ -4234,7 +4233,7 @@ function encodeKorean($matches)
                         $total_row = mysqli_fetch_array($result_cnt);
                         $cont_count = $total_row[0];
                         $sql8 = "select * from " . $content_table_name . " WHERE group_id is NULL and (mem_id = '$card_owner' or contents_share_text like '%$card_owner%')  and $search_sql order by idx desc, up_data desc";
-                        $sql8 .= " limit $contents_count_per_page offset " . $w_offset;
+                        $sql8 .= " limit $contents_count_per_page , " . $w_offset;
                     }
                 } else if ($cur_win == "shared_receive" &&  $_SESSION['iam_member_id'] != "") {
                     $w_offset = $contents_count_per_page * ($w_page - 1); //페이지 내 첫 콘텐츠 offset
@@ -4246,7 +4245,7 @@ function encodeKorean($matches)
                     $total_row = mysqli_fetch_array($result_cnt);
                     $cont_count = $total_row[0];
                     $sql8 = "select * from Gn_Iam_Contents WHERE contents_share_text like '%{$_SESSION['iam_member_id']}%'  and $search_sql order by idx desc, up_data desc";
-                    $sql8 .= " limit $contents_count_per_page offset " . $w_offset;
+                    $sql8 .= " limit $contents_count_per_page , " . $w_offset;
                 } else if ($cur_win == "shared_send" &&  $_SESSION['iam_member_id'] != "") {
                     $w_offset = $contents_count_per_page * ($w_page - 1); //페이지 내 첫 콘텐츠 offset
                     if ($w_offset < 0) {
@@ -4257,7 +4256,7 @@ function encodeKorean($matches)
                     $total_row = mysqli_fetch_array($result_cnt);
                     $cont_count = $total_row[0];
                     $sql8 = "select * from Gn_Iam_Contents WHERE mem_id = '{$_SESSION['iam_member_id']}' and contents_share_text != ''  and $search_sql order by idx desc, up_data desc";
-                    $sql8 .= " limit $contents_count_per_page offset " . $w_offset;
+                    $sql8 .= " limit $contents_count_per_page , " . $w_offset;
                 } else if ($cur_win == "unread_post" &&  $_SESSION['iam_member_id'] != "") {
                     $w_offset = $contents_count_per_page * ($w_page - 1);
                     if ($w_offset < 0) {
@@ -4268,7 +4267,7 @@ function encodeKorean($matches)
                     $total_row = mysqli_fetch_array($result_cnt);
                     $cont_count = $total_row[0];
                     $sql8 = "select c.*,p.id,p.content_idx,p.content,p.reg_date,p.status,p.lock_status from Gn_Iam_Contents c inner join  Gn_Iam_Post p on c.idx = p.content_idx WHERE c.mem_id = '{$_SESSION['iam_member_id']}' and p.status = 'N'  and $search_sql GROUP BY c.idx ORDER BY reg_date desc ";
-                    $sql8 .= " limit $contents_count_per_page offset " . $w_offset;
+                    $sql8 .= " limit $contents_count_per_page , " . $w_offset;
                 } else if ($cur_win == "iam_mall") {
                 } else if ($cur_win == "we_story") {
                     $sql = "select block_user,block_contents from Gn_Iam_Info where mem_id = '{$_SESSION['iam_member_id']}'";
@@ -4460,8 +4459,7 @@ function encodeKorean($matches)
                         $w_offset = $contents_count_per_page * ($w_page - 1) - count($cont_id_array);
                     }
 
-                    $sql8 .= " limit $contents_count_per_page offset " . $w_offset;
-                    echo $sql8;
+                    $sql8 .= " limit $contents_count_per_page , " . $w_offset;
                     ///
                     // middle log
                     $logs->add_log("쿼리완료");
@@ -4482,7 +4480,7 @@ function encodeKorean($matches)
                         $cont_count = $total_row[0];
                         //$sql8="select * from Gn_Iam_Contents use index(idx) WHERE card_short_url like '%$group_card_url%' and group_display = 'Y' and ".$search_sql." ORDER BY group_fix desc,contents_order desc";
                         $sql8 = "select ct.* from Gn_Iam_Contents ct INNER JOIN Gn_Iam_Con_Card cc on cc.cont_idx = ct.idx WHERE cc.card_idx = {$cur_card['idx']}  and group_display = 'Y' and $search_sql ORDER BY group_fix desc,contents_order desc";
-                        $sql8 .= " limit $contents_count_per_page offset " . $w_offset;
+                        $sql8 .= " limit $contents_count_per_page , " . $w_offset;
                     } else if ($gkind == "recommend") {
                         $w_offset = $contents_count_per_page * ($w_page - 1); //페이지 내 첫 콘텐츠 offset
                         if ($w_offset < 0) {
@@ -4499,7 +4497,7 @@ function encodeKorean($matches)
                             $sql8 = "select * from Gn_Iam_Contents WHERE group_id is not NULL and group_id > 0 and group_id not in ($other_group) and group_display = 'Y' and public_display = 'Y' and $search_sql order by idx desc";
                         else
                             $sql8 = "select * from Gn_Iam_Contents WHERE group_id is not NULL and group_id > 0 and group_display = 'Y' and public_display = 'Y' and $search_sql order by idx desc";
-                        $sql8 .= " limit $contents_count_per_page offset " . $w_offset;
+                        $sql8 .= " limit $contents_count_per_page , " . $w_offset;
                     } else if ($gkind == "search_con") {
                         $w_offset = $contents_count_per_page * ($w_page - 1); //페이지 내 첫 콘텐츠 offset
                         if ($w_offset < 0) {
@@ -4510,7 +4508,7 @@ function encodeKorean($matches)
                         $total_row = mysqli_fetch_array($result_cnt);
                         $cont_count = $total_row[0];
                         $sql8 = "select * from Gn_Iam_Contents WHERE group_id is not NULL and group_id > 0 and group_display = 'Y' and public_display = 'Y' and $search_sql ORDER BY contents_order desc";
-                        $sql8 .= " limit $contents_count_per_page offset " . $w_offset;
+                        $sql8 .= " limit $contents_count_per_page , " . $w_offset;
                     }
                 } else if ($cur_win == "unread_notice" &&  $_SESSION['iam_member_id'] != "") {
                     $w_offset = $contents_count_per_page * ($w_page - 1); //페이지 내 첫 콘텐츠 offset
@@ -4523,7 +4521,7 @@ function encodeKorean($matches)
                     }
                     $result_notice = mysqli_query($self_con,$sql_recv_notice) or die(mysqli_error($self_con));
                     $notice_count = mysqli_num_rows($result_notice);
-                    $sql_recv_notice .= " limit $contents_count_per_page offset " . $w_offset;
+                    $sql_recv_notice .= " limit $contents_count_per_page , " . $w_offset;
                 }
                 
                 $share_recv_count = $r_row['cnt'];
