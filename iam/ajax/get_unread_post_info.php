@@ -85,7 +85,7 @@ if ($cont_count == 0) {
     }
 } else {
     $sql8 = "select c.*,p.id,p.content_idx,p.content,p.reg_date,p.status,p.lock_status from Gn_Iam_Contents c inner join  Gn_Iam_Post p on c.idx = p.content_idx WHERE c.mem_id = '{$_SESSION['iam_member_id']}' and p.status = 'N'  and $search_sql GROUP BY c.idx ORDER BY reg_date desc ";
-    $sql8 .= " limit $contents_count_per_page offset " . $w_offset;
+    $sql8 .= " limit $contents_count_per_page , " . $w_offset;
     if (!$global_is_local) {
         $redisCache = new RedisCache();
         $cont_list = $redisCache->get_query_to_array($sql8);

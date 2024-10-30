@@ -60,7 +60,7 @@ $total_row = mysqli_fetch_array($result_cnt);
 $cont_count = $total_row[0];
 $sql8 = "select * from " . $content_table_name . " ct WHERE group_id is NULL and (mem_id = '$card_owner' or contents_share_text like '%$card_owner%')  and $search_sql $order_sql";
 
-$sql8 .= " limit $contents_count_per_page offset " . $w_offset;
+$sql8 .= " limit $contents_count_per_page , " . $w_offset;
 if (!$global_is_local) {
     $redisCache = new RedisCache();
     $cont_list = $redisCache->get_query_to_array($sql8);

@@ -108,7 +108,7 @@ if ($w_offset < count($cont_id_array)) {
 } else {
     $w_offset = $w_offset - count($cont_id_array);
 }
-$sql8 .= " limit $contents_count_per_page offset " . $w_offset;
+$sql8 .= " limit $contents_count_per_page , " . $w_offset;
 if (!$global_is_local) {
     $redisCache = new RedisCache();
     $cont_list = $redisCache->get_query_to_array($sql8);

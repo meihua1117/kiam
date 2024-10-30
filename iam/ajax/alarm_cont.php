@@ -19,7 +19,7 @@ if($_GET['type'] == 'contentsrecv'){
   $cont_count = $row[0];
   $body = "<script>$('#total_count').html('총 ".$cont_count."건');$('#total_count').data('count',".$cont_count.");</script>";
   $sql .= " ORDER BY pay_date DESC ";
-  $sql .= " limit $contents_count_per_page offset ".$w_offset;
+  $sql .= " limit $contents_count_per_page , ".$w_offset;
   
   $cont_array = array();
   if(!$global_is_local){
@@ -132,7 +132,7 @@ if($_GET['type'] == 'contentsrecv'){
   $cont_count = $row[0];
   $body = "<script>$('#total_count').html('총 ".$cont_count."건');$('#total_count').data('count',".$cont_count.");</script>";
   $sql .= " ORDER BY pay_date DESC ";
-  $sql .= " limit $contents_count_per_page offset ".$w_offset;
+  $sql .= " limit $contents_count_per_page , ".$w_offset;
   $cont_array = array();
   if(!$global_is_local){
     $redisCache = new RedisCache();

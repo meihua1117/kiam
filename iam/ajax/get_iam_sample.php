@@ -34,7 +34,7 @@ if($_GET['sample_type'] == "best_sample")
     $row9 = mysqli_fetch_array($res9);
     $cont_count = $row9[0];
 */
-    $sql8 .=" order by sample_order desc ,req_data limit $contents_count_per_page offset ".$w_offset;
+    $sql8 .=" order by sample_order desc ,req_data limit $contents_count_per_page , ".$w_offset;
 }
 else if($_GET['sample_type'] == "sample")
 {
@@ -46,7 +46,7 @@ else if($_GET['sample_type'] == "sample")
     $row9 = mysqli_fetch_array($res9);
     $cont_count = $row9[0];
 */
-    $sql8 .=" order by sample_order desc ,req_data limit $contents_count_per_page offset ".$w_offset;
+    $sql8 .=" order by sample_order desc ,req_data limit $contents_count_per_page , ".$w_offset;
 }
 else if($_GET['sample_type'] == "recent_sample")
 {
@@ -60,7 +60,7 @@ else if($_GET['sample_type'] == "recent_sample")
     $row9 = mysqli_fetch_array($res9);
     $cont_count = $row9[0];
 */
-    $sql8 .=" order by sample_order desc ,req_data limit $contents_count_per_page offset ".$w_offset;
+    $sql8 .=" order by sample_order desc ,req_data limit $contents_count_per_page , ".$w_offset;
 }
 
 $redisCache = new RedisCache();

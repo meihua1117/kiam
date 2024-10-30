@@ -85,7 +85,7 @@ if ($cont_count == 0) {
     }
 } else {
     $sql8 = "select * from Gn_Iam_Contents WHERE mem_id = '{$_SESSION['iam_member_id']}' and contents_share_text != ''  and $search_sql order by idx desc, up_data desc";
-    $sql8 .= " limit $contents_count_per_page offset " . $w_offset;
+    $sql8 .= " limit $contents_count_per_page , " . $w_offset;
     if (!$global_is_local) {
         $redisCache = new RedisCache();
         $cont_list = $redisCache->get_query_to_array($sql8);

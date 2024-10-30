@@ -295,37 +295,37 @@ if(!$cur_win || $cur_win == "my_info"){
         $sql8="select * from Gn_Iam_Contents WHERE group_id is NULL and mem_id = '{$_SESSION['iam_member_id']}' and ($search_sql) ORDER BY contents_order desc";
     $result8=mysqli_query($self_con,$sql8) or die(mysqli_error($self_con));
     $cont_count = mysqli_num_rows($result8);
-    $sql8 .= " limit $contents_count_per_page offset ".$w_offset;
+    $sql8 .= " limit $contents_count_per_page , ".$w_offset;
 }else if($cur_win == "my_story"  && $_SESSION['iam_member_id']== ""){
 
     $sql8="select * from Gn_Iam_Contents WHERE card_short_url = '{$G_card['card_short_url']}' and $search_sql ORDER BY contents_order desc";
     $result8=mysqli_query($self_con,$sql8) or die(mysqli_error($self_con));
     $cont_count = mysqli_num_rows($result8);
-    $sql8 .= " limit $contents_count_per_page offset ".$w_offset;
+    $sql8 .= " limit $contents_count_per_page , ".$w_offset;
 }else if($cur_win == "my_story" && ( $_SESSION['iam_member_id']!= "")){
 
     $sql8="select * from Gn_Iam_Contents WHERE group_id is NULL and (mem_id = '$card_owner' or contents_share_text like '%$card_owner%')  and $search_sql ORDER BY req_data desc, up_data desc";
     $result8=mysqli_query($self_con,$sql8) or die(mysqli_error($self_con));
     $cont_count = mysqli_num_rows($result8);
-    $sql8 .= " limit $contents_count_per_page offset ".$w_offset;
+    $sql8 .= " limit $contents_count_per_page , ".$w_offset;
 }else if($cur_win == "shared_receive" &&  $_SESSION['iam_member_id']!= ""){
 
     $sql8="select * from Gn_Iam_Contents WHERE contents_share_text like '%{$_SESSION['iam_member_id']}%'  and $search_sql ORDER BY req_data desc, up_data desc";
     $result8=mysqli_query($self_con,$sql8) or die(mysqli_error($self_con));
     $cont_count = mysqli_num_rows($result8);
-    $sql8 .= " limit $contents_count_per_page offset ".$w_offset;
+    $sql8 .= " limit $contents_count_per_page , ".$w_offset;
 }else if($cur_win == "shared_send" &&  $_SESSION['iam_member_id']!= ""){
 
     $sql8="select * from Gn_Iam_Contents WHERE mem_id = '{$_SESSION['iam_member_id']}' and contents_share_text != ''  and $search_sql ORDER BY req_data desc, up_data desc";
     $result8=mysqli_query($self_con,$sql8) or die(mysqli_error($self_con));
     $cont_count = mysqli_num_rows($result8);
-    $sql8 .= " limit $contents_count_per_page offset ".$w_offset;
+    $sql8 .= " limit $contents_count_per_page , ".$w_offset;
 }else if($cur_win == "unread_post" &&  $_SESSION['iam_member_id']!= ""){
 
     $sql8="select * from Gn_Iam_Contents c inner join  Gn_Iam_Post p on c.idx = p.content_idx WHERE c.mem_id = '{$_SESSION['iam_member_id']}' and p.status = 'N'  and $search_sql GROUP BY c.idx ORDER BY req_data desc ";
     $result8=mysqli_query($self_con,$sql8) or die(mysqli_error($self_con));
     $cont_count = mysqli_num_rows($result8);
-    $sql8 .= " limit $contents_count_per_page offset ".$w_offset;
+    $sql8 .= " limit $contents_count_per_page , ".$w_offset;
 }else if($cur_win == "iam_mall"){
 
     $sql8 = "select mall.*,mem.mem_name,mem.site_iam from Gn_Iam_Mall mall inner join Gn_Member mem on mem.mem_id=mall.mem_id where ";
@@ -470,7 +470,7 @@ if(!$cur_win || $cur_win == "my_info"){
     }
     $result8=mysqli_query($self_con,$sql8) or die(mysqli_error($self_con));
     $cont_count = mysqli_num_rows($result8);
-    $sql8 .= " limit $contents_count_per_page offset ".$w_offset;
+    $sql8 .= " limit $contents_count_per_page , ".$w_offset;
 }else if($cur_win == "best_sample"){  
 }else if($cur_win == "sample"){
 }else if($cur_win == "recent_sample"){    
@@ -485,7 +485,7 @@ if(!$cur_win || $cur_win == "my_info"){
             $sql8="select * from Gn_Iam_Contents WHERE card_short_url ='$group_card_url' and ".$search_sql." ORDER BY group_fix desc,contents_order desc";
         $result8=mysqli_query($self_con,$sql8) or die(mysqli_error($self_con));
         $cont_count = mysqli_num_rows($result8);
-        $sql8 .= " limit $contents_count_per_page offset ".$w_offset;
+        $sql8 .= " limit $contents_count_per_page , ".$w_offset;
     }else if($gkind == "recommend"){
         if($other_group != "")
             $sql8="select * from Gn_Iam_Contents WHERE group_id is not NULL and group_id not in (".$other_group.") and group_display = 'Y' and public_display = 'Y' and ".$search_sql." ORDER BY contents_order desc";
@@ -493,12 +493,12 @@ if(!$cur_win || $cur_win == "my_info"){
             $sql8="select * from Gn_Iam_Contents WHERE group_id is not NULL and group_display = 'Y' and public_display = 'Y' and ".$search_sql." ORDER BY contents_order desc";
         $result8 = mysqli_query($self_con,$sql8) or die(mysqli_error($self_con));
         $cont_count = mysqli_num_rows($result8);
-        $sql8 .= " limit $contents_count_per_page offset ".$w_offset;
+        $sql8 .= " limit $contents_count_per_page , ".$w_offset;
     }else if($gkind == "search_con"){
         $sql8="select * from Gn_Iam_Contents WHERE group_id is not NULL and group_display = 'Y' and public_display = 'Y' and ".$search_sql." ORDER BY contents_order desc";
         $result8 = mysqli_query($self_con,$sql8) or die(mysqli_error($self_con));
         $cont_count = mysqli_num_rows($result8);
-        $sql8 .= " limit $contents_count_per_page offset ".$w_offset;
+        $sql8 .= " limit $contents_count_per_page , ".$w_offset;
     }
 }else if($cur_win == "unread_notice" &&  $_SESSION['iam_member_id']!= ""){
     $sql_recv_notice="select * from Gn_Item_Pay_Result WHERE buyer_id = '{$_SESSION['iam_member_id']}' and type='noticerecv' and point_val=3 ORDER BY pay_date desc";
@@ -507,7 +507,7 @@ if(!$cur_win || $cur_win == "my_info"){
     }
     $result_notice=mysqli_query($self_con,$sql_recv_notice) or die(mysqli_error($self_con));
     $notice_count = mysqli_num_rows($result_notice);
-    $sql_recv_notice .= " limit $contents_count_per_page offset ".$w_offset;
+    $sql_recv_notice .= " limit $contents_count_per_page , ".$w_offset;
 }
 
 $color = array ("#FA8258",

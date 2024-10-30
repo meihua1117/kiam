@@ -36,7 +36,7 @@ else
     $sql8="select * from Gn_Item_Pay_Result WHERE buyer_id = '{$_SESSION['iam_member_id']}' and type='noticerecv' and point_val=3 ORDER BY pay_date desc";
 $result_cnt=mysqli_query($self_con, $sql8) or die(mysqli_error($self_con));
 $cont_count = mysqli_num_rows($result_cnt);
-$sql8 .= " limit $contents_count_per_page offset ".$w_offset; 
+$sql8 .= " limit $contents_count_per_page , ".$w_offset; 
 
 $body = "<script>$('#total_count').html('총 ".$cont_count."건');$('#total_count').data('count',".$cont_count.");</script>";
 if($cont_count == 0){

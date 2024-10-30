@@ -60,7 +60,7 @@ if ($gkind != "recommend" && $gkind != "mygroup" && $gkind != "search" && $gkind
     $cont_count = $total_row[0];
 
     $sql8 = "select ct.* from Gn_Iam_Contents ct INNER JOIN Gn_Iam_Con_Card cc on cc.cont_idx = ct.idx WHERE cc.card_idx = {$cur_card['idx']}  and group_display = 'Y' and $search_sql ORDER BY group_fix desc,contents_order desc";
-    $sql8 .= " limit $contents_count_per_page offset " . $w_offset;
+    $sql8 .= " limit $contents_count_per_page , " . $w_offset;
 } else if ($gkind == "recommend") {
     if ($other_group != "")
         $sql8 = "select count(idx) from Gn_Iam_Contents ct WHERE group_id is not NULL and group_id > 0 and group_id not in ($other_group) and group_display = 'Y' and public_display = 'Y' and $search_sql ORDER BY contents_order desc";
@@ -74,14 +74,14 @@ if ($gkind != "recommend" && $gkind != "mygroup" && $gkind != "search" && $gkind
         $sql8 = "select * from Gn_Iam_Contents ct WHERE group_id is not NULL and group_id > 0 and group_id not in ($other_group) and group_display = 'Y' and public_display = 'Y' and $search_sql order by idx desc";
     else
         $sql8 = "select * from Gn_Iam_Contents ct WHERE group_id is not NULL and group_id > 0 and group_display = 'Y' and public_display = 'Y' and $search_sql order by idx desc";
-    $sql8 .= " limit $contents_count_per_page offset " . $w_offset;
+    $sql8 .= " limit $contents_count_per_page , " . $w_offset;
 } else if ($gkind == "search_con") {
     $sql8 = "select count(idx) from Gn_Iam_Contents ct WHERE group_id is not NULL and group_id > 0 and group_display = 'Y' and public_display = 'Y' and $search_sql ORDER BY contents_order desc";
     $result_cnt = mysqli_query($self_con, $sql8) or die(mysqli_error($self_con));
     $total_row = mysqli_fetch_array($result_cnt);
     $cont_count = $total_row[0];
     $sql8 = "select * from Gn_Iam_Contents ct WHERE group_id is not NULL and group_id > 0 and group_display = 'Y' and public_display = 'Y' and $search_sql ORDER BY contents_order desc";
-    $sql8 .= " limit $contents_count_per_page offset " . $w_offset;
+    $sql8 .= " limit $contents_count_per_page , " . $w_offset;
 } else {
     exit;
 }
