@@ -4583,9 +4583,10 @@ function encodeKorean($matches)
                 }
                 // middle log
                 $logs->add_log("before sql8   $sql8");
+                echo $sql8;
                 if ($sql8 && $cont_count > 0 && $contents_count_per_page > 0)
                     $result8 = mysqli_query($self_con,$sql8) or die(mysqli_error($self_con));
-                //echo $sql8;
+                
                 if (strstr($cur_win, "sample")) { ?>
                     <div class="sample_main">
                     </div>
