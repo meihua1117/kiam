@@ -4710,10 +4710,10 @@ function encodeKorean($matches)
                     // middle log               
                     $logs->add_log("after sql8");
                     echo "test";
-                    print_r($result8);
                     while ($contents_row = mysqli_fetch_array($result8)) {
                         array_push($cont_array, $contents_row);
                     }
+                    echo "1";
                     foreach ($cont_array as $contents_row) {
                         if ($_SESSION['iam_member_id']) {
                             //로딩속도가 느려서 임시로 막아둔 상태
