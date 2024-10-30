@@ -4122,6 +4122,7 @@ function encodeKorean($matches)
                 }
                 if ($cur_win == "we_story") {
                     $show_counts = get_search_key('wecon_show_count');
+                    echo "show_count=".$show_counts;
                     $counts_arr = explode(",", $show_counts);
                     $limit_count = $counts_arr[0];
                     if ($_GET['key1'] == 3) { //콜이야
