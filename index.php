@@ -4713,7 +4713,6 @@ function encodeKorean($matches)
                             array_push($cont_array, $contents_row);
                         }
                     }
-                    echo "test";
                     foreach ($cont_array as $contents_row) {
                         if ($_SESSION['iam_member_id']) {
                             //로딩속도가 느려서 임시로 막아둔 상태
