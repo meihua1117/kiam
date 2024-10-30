@@ -4451,7 +4451,6 @@ function encodeKorean($matches)
                             array_push($cont_array, $sort_row);
                         }
                         $w_offset = 0; //페이지 내 첫 콘텐츠 offset
-                        echo "test:".$contents_count_per_page ."*". $w_page."-".count($cont_id_array);
                         $contents_count_per_page = $contents_count_per_page * $w_page - count($cont_id_array);
                         if ($contents_count_per_page < 0)
                             $contents_count_per_page = 0;
@@ -4709,7 +4708,7 @@ function encodeKorean($matches)
                     <?  }
                     // middle log               
                     $logs->add_log("after sql8");
-                    if (mysqli_num_rows($result8) > 0) {
+                    if ($result8 && mysqli_num_rows($result8) > 0) {
                         while ($contents_row = mysqli_fetch_array($result8)) {
                             array_push($cont_array, $contents_row);
                         }
