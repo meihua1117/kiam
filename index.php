@@ -4460,6 +4460,7 @@ function encodeKorean($matches)
                     }
 
                     $sql8 .= " limit $contents_count_per_page offset " . $w_offset;
+                    echo $sql8;
                     ///
                     // middle log
                     $logs->add_log("쿼리완료");
@@ -4583,7 +4584,7 @@ function encodeKorean($matches)
                 }
                 // middle log
                 $logs->add_log("before sql8   $sql8");
-                echo $sql8;
+                //echo $sql8;
                 if ($sql8 && $cont_count > 0 && $contents_count_per_page > 0)
                     $result8 = mysqli_query($self_con,$sql8) or die(mysqli_error($self_con));
                 if (strstr($cur_win, "sample")) { ?>
