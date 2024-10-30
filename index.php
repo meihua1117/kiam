@@ -4389,7 +4389,6 @@ function encodeKorean($matches)
                             //$f_sql = "select * from ($f_sql) as tt limit 0,300";
                             $f_sql .= " limit 0,300";
                             $f_res = mysqli_query($self_con,$f_sql);
-                            echo "test6<br>";
                             while ($f_row = mysqli_fetch_array($f_res)) {
                                 array_push($cont_id_array, $f_row[0]);
                             }
@@ -4450,7 +4449,6 @@ function encodeKorean($matches)
                             $sort_sql = "select * from Gn_Iam_Contents where idx = $idx";
                             $sort_res = mysqli_query($self_con,$sort_sql);
                             $sort_row = mysqli_fetch_array($sort_res);
-                            echo "test7<br>";
                             array_push($cont_array, $sort_row);
                         }
                         $w_offset = 0; //페이지 내 첫 콘텐츠 offset
@@ -4465,6 +4463,7 @@ function encodeKorean($matches)
                     ///
                     // middle log
                     $logs->add_log("쿼리완료");
+                    echo "test 쿼리완료";
                     ////
                 } else if ($cur_win == "best_sample") {
                 } else if ($cur_win == "sample") {
