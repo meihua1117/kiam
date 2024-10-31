@@ -81,7 +81,7 @@ if ($user_id) {
         $total_send_thistime = 0; //이번 발송할 총합
         $total_num_cnt = count($num_arr);
 
-        if (!count($sendnum)) {
+        if (is_array($sendnum) && !count($sendnum)) {
             echo json_encode(array('result' => 'fail', 'msg' => '발송가능한 휴대폰이 없습니다.', 'line' => '78'));
             exit;
         }
