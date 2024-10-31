@@ -1302,7 +1302,7 @@ function sendmms($type, $userid, $sendnum, $recvnum, $rserv_time, $title, $conte
 	//curl_setopt($ch_mms, CURLOPT_URL, "https://kiam.kr/ajax/heineken.php");
 	curl_setopt($ch_mms, CURLOPT_URL, "https://nm.kiam.kr/ajax/heineken.php");
 	curl_setopt($ch_mms, CURLOPT_POST, true);
-	//curl_setopt($ch_mms, CURLOPT_HTTPHEADER, $headers );
+	curl_setopt($ch_mms, CURLOPT_HTTPHEADER, $headers );
 	curl_setopt($ch_mms, CURLOPT_RETURNTRANSFER, true);
 	curl_setopt($ch_mms, CURLOPT_POSTFIELDS, http_build_query($fields));
 	//curl_setopt($ch_mms, CURLOPT_POSTFIELDS, json_encode($fields));
