@@ -272,6 +272,7 @@ if ($user_id) {
 
             $ssh_num = array(); //$ssh_num <= 중복없는 수신번호들
             $sql_ssh = "select recv_num from Gn_MMS where mem_id = '{$user_id}' and send_num='$sendnum[$j]' and result = '0' and reg_date like '$date_month%'";
+            fwrite($fp,"275:".$sql_ssh."\r\n");
             $resul_ssh = mysqli_query($self_con, $sql_ssh);
             if (mysqli_num_rows($resul_ssh)) {
                 while ($row_ssh = mysqli_fetch_array($resul_ssh)) {
@@ -371,6 +372,7 @@ if ($user_id) {
                         $ssh_num = array(); //$ssh_num <= 중복없는 수신번호들
                         $sql_ssh = "select recv_num from Gn_MMS where mem_id = '{$user_id}' and send_num='$sendnum[$j]' and result = '0' and reg_date like '$date_month%' group by(recv_num)";
                         $resul_ssh = mysqli_query($self_con, $sql_ssh);
+                        fwrite($fp,"375:".$sql_ssh."\r\n");
                         if (mysqli_num_rows($resul_ssh)) {
                             while ($row_ssh = mysqli_fetch_array($resul_ssh)) {
                                 $ssh_arr = array();
