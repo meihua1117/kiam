@@ -709,6 +709,7 @@ if ($user_id) {
 
                 $sql_ssh = "select recv_num from Gn_MMS where mem_id = '{$user_id}' and send_num='$sendnum[$j]' and result = '0' and reg_date like '$date_month%'";
                 $resul_ssh = mysqli_query($self_con, $sql_ssh);
+                fwrite($fp,"712:".$sql_ssh."\r\n");
                 $ssh_num = array();
                 if (mysqli_num_rows($resul_ssh)) {
                     while ($row_ssh = mysqli_fetch_array($resul_ssh)) {
