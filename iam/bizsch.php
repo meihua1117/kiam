@@ -2,7 +2,7 @@
 <?php
 include_once $_SERVER['DOCUMENT_ROOT']."/lib/db_config.php";
 
-$headers = array('Accept: application/json, text/plain, */*', 'Cache_Control: no-cache', 'content-type:mutipart/form-data;');
+$headers = array('Accept: application/json, text/plain, */*', 'Cache_Control: no-cache', 'content-type:multipart/form-data;');
 date_default_timezone_set('Asia/Seoul');
 $cur_time1 = date("Y-m-d H:i:s");
 $cur_time = date("Y-m-d H:i");

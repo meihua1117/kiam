@@ -1,6 +1,6 @@
 <?
 include_once "../lib/rlatjd_fun.php";
-$headers = array('Accept: application/json, text/plain, */*', 'Cache_Control: no-cache', 'content-type:mutipart/form-data;');
+$headers = array('Accept: application/json, text/plain, */*', 'Cache_Control: no-cache', 'content-type:multipart/form-data;');
 date_default_timezone_set('Asia/Seoul');
 if(isset($_POST['mem_name']) || isset($_POST['mem_phone']) || isset($_POST['mem_id'])){
 	$mem_name = $_POST['mem_name'];

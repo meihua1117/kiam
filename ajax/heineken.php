@@ -1,5 +1,5 @@
 <?php
-include_once "../lib/rlatjd_fun.php";
+//include_once "../lib/rlatjd_fun.php";
 require_once($_SERVER['DOCUMENT_ROOT'] . '/fcm/vendor/autoload.php');
 $debug_mode = false;
 $key = md5($_POST['key']);

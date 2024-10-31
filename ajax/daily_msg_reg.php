@@ -200,7 +200,7 @@ for($i=0;$i <count($date);$i++) {
 // $fields['mem_id'] = $member_id;
 // $fields['event_idx'] = $event_idx;
 
-// $headers = array('Accept: application/json, text/plain, */*', 'Cache_Control: no-cache', 'content-type:mutipart/form-data;');
+// $headers = array('Accept: application/json, text/plain, */*', 'Cache_Control: no-cache', 'content-type:multipart/form-data;');
 
 // curl_setopt($ch_daily, CURLOPT_URL, "http://kiam.kr/mypage.proc.php");
 // curl_setopt($ch_daily, CURLOPT_POST, true);
