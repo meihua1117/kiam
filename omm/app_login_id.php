@@ -20,6 +20,7 @@ $check1 = sql_password($userPW);
 $sql = "select mem_id,mem_phone from Gn_Member where mem_id ='$userId' and mem_leb in (21, 22, 50) ";
 $resul = mysqli_query($self_con, $sql);
 $row = mysqli_fetch_array($resul);
+$format_date = date("Y-m-d");
 if ($row['mem_id']) {
 	$sql_pay="select end_date from tjd_pay_result where end_status='Y' and buyer_id='$userId' order by no desc ";
 	$res_pay = mysqli_query($self_con, $sql_pay);

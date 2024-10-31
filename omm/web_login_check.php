@@ -7,7 +7,7 @@ $token = trim($_REQUEST["token"]);
 $telecome = trim($_REQUEST["telecom"]);
 $model = trim($_REQUEST["model"]);
 $ver = trim($_REQUEST['ver']); // ver / 앱버젼
-
+$format_date = date("Y-m-d");
 $number = str_replace("-","",$phoneNumber);
 if($memID != "") {
     $sql = "select mem_id, mem_pass, mem_phone, mem_token from Gn_Member where mem_id='$memID' and mem_token <> ''";
@@ -56,7 +56,7 @@ if($row['mem_id']) {
 		    $query = "update Gn_MMS_Number set pkey='$token' where sendnum='$number'";
 		    mysqli_query($self_con,$query);
 		} else  {
-			$sql_in = "insert into Gn_MMS_Number set sendnum = '$number', pkey='$token', mem_id = '$memID', reg_date = now() , end_status='Y' , end_date='{$row_pay['end_date']}' $addQuery"; //신규등록
+			$sql_in = "insert into Gn_MMS_Number set sendnum = '$number', pkey='$token', mem_id = '$memID', reg_date = now() , end_status='Y' , end_date='{$row_pay['end_date']}',format_date='{$format_date}' $addQuery"; //신규등록
 			mysqli_query($self_con,$sql_in);
         }
         

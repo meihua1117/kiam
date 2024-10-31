@@ -19,6 +19,7 @@ $telecom = strtoupper(trim($_POST['telecom']));  // telecom / 통신사(USIM 정
 $model = trim($_POST['model']); // model / 단말기 모델
 $ver = trim($_POST['ver']); // ver / 앱버젼
 
+$format_date = date("Y-m-d");
 $query = "insert into app_test (mem_id, sendnum, regdate) values('$userId', '$userNum', NOW())";
 mysqli_query($self_con, $query);
 
