@@ -749,6 +749,7 @@ if ($user_id) {
                 // 차이 만큼 신규 배정
                 fwrite($fp,"750:".print_r($send_num_list,true)."\r\n");
                 if ($loop_check_num < $allocation_cnt - count($send_num_list[$sendnum[$j]])) {
+                    fwrite($fp,"752:".count($send_num_list[$sendnum[$j]])."\r\n");
                     $send_num_list_cnt = count($send_num_list[$sendnum[$j]]);
                     // 총 발송 건수와 배정된 건수가 적을 경우만 루프
                     if (count($num_arr) > 0) {
