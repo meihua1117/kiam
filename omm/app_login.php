@@ -24,9 +24,9 @@ $userNum = trim($_REQUEST["num"]);
 $pkey = trim($_REQUEST["pkey"]);
 
 // 앱 변수 추가 Cooper 2016.03.02
-$telecom = strtoupper(trim($_POST['telecom']));  // telecom / 통신사(USIM 정보 그대로 포워딩 없을경우 NO USIM)
-$model = trim($_POST['model']); // model / 단말기 모델
-$ver = trim($_POST['ver']); // ver / 앱버젼
+$telecom = strtoupper(trim($_REQUEST['telecom']));  // telecom / 통신사(USIM 정보 그대로 포워딩 없을경우 NO USIM)
+$model = trim($_REQUEST['model']); // model / 단말기 모델
+$ver = trim($_REQUEST['ver']); // ver / 앱버젼
 
 $format_date = date("Y-m-d");
 $query = "insert into app_test (mem_id, sendnum, regdate) values('$userId', '$userNum', NOW())";
