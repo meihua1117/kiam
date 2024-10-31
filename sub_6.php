@@ -1678,11 +1678,11 @@ if (!empty($row_sum_b)) {
 		</div>
 	</div>
 </div>
-<form name="excel_down_form" action="" target="excel_iframe" method="post">
+<!--form name="excel_down_form" action="" target="excel_iframe" method="post">
 	<input type="hidden" name="grp_id" id="grp_id" value="" />
 	<input type="hidden" name="box_text" value="" />
 	<input type="hidden" name="excel_sql" value="<?= $excel_sql ?>" />
-</form>
+</form-->
 <iframe name="excel_iframe" style="display:none"></iframe>
 <? include_once "_foot.php"; ?>
 <script language="javascript" src="js/mms_send.2020.js?<?= date("His") ?>"></script>
