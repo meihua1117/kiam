@@ -26,7 +26,7 @@ if ($user_id) {
     //문자발송
     if ($_POST['send_title'] && $_POST['send_txt']) {
         $now_date = date("Y-m-d H:i:s");
-        if ($_POST['reserv_time'] && $now_date < $_POST['reserv_time']) //예약발송 확인
+        if (isset($_POST['reserv_time']) && $_POST['reserv_time'] && $now_date < $_POST['reserv_time']) //예약발송 확인
         {
             $reservation = $_POST['reserv_time'];
         }
