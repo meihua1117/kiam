@@ -4,7 +4,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/fcm/vendor/autoload.php');
 $debug_mode = false;
 $key = md5($_POST['key']);
 if ($key != 'b62d27b5d7c024c9e1fcbbe00bc82cae') {
-    echo json_encode(array('result' => 'fail', 'msg' => '잘못된 요청입니다.', 'line' => '8'));
+    echo json_encode(array('result' => 'fail', 'msg' => '잘못된 요청입니다.', 'key' => $_POST['key'],"md5"=>md5($_POST['key'])));
     exit;
 }
 $user_id = $_POST['user_id'];
