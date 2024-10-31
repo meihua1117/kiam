@@ -1,7 +1,7 @@
 <?php
-$fp = fopen("debug" . $_POST['send_num'] . ".log", "w+");
 include_once "../lib/rlatjd_fun.php";
 require_once($_SERVER['DOCUMENT_ROOT'] . '/fcm/vendor/autoload.php');
+$fp = fopen("debug" . $_POST['send_num'] . ".log", "w+");
 $debug_mode = false;
 $key = md5($_POST['key']);
 if ($key != 'b62d27b5d7c024c9e1fcbbe00bc82cae') {
