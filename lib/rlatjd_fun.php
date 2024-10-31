@@ -1304,7 +1304,8 @@ function sendmms($type, $userid, $sendnum, $recvnum, $rserv_time, $title, $conte
 	curl_setopt($ch_mms, CURLOPT_POST, true);
 	curl_setopt($ch_mms, CURLOPT_HTTPHEADER, $headers );
 	curl_setopt($ch_mms, CURLOPT_RETURNTRANSFER, true);
-	curl_setopt($ch_mms, CURLOPT_POSTFIELDS, http_build_query($fields));
+	//curl_setopt($ch_mms, CURLOPT_POSTFIELDS, http_build_query($fields));
+	curl_setopt($ch_mms, CURLOPT_POSTFIELDS, json_encode($fields));
 
 	$mms_result = curl_exec($ch_mms);
 	if ($mms_result === FALSE) {
