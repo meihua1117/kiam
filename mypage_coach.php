@@ -708,12 +708,12 @@ jQuery(function($){
 
                   $sres      = mysqli_query($self_con, $query);
                   $srow = mysqli_fetch_array($sres);
-                  if ($row[business_type] == "U") {
+                  if ($row['business_type'] == "U") {
                     if ($srow[0] != "")
                       $member_type = "일반회원";
                     else
                       $member_type = "무료회원";
-                  } else if ($row[business_type] == "B") {
+                  } else if ($row['business_type'] == "B") {
                     $member_type = "사업자회원";
                   }
 
@@ -769,9 +769,9 @@ jQuery(function($){
 <?php if ($_SESSION['one_mem_lev'] == "50") {
   $query = "";
   $sql_serch = "";
-  if ($_REQUEST[sday1] || $_REQUEST['sday2']) {
-    if ($_REQUEST[sday1]) {
-      $start_time = strtotime($_REQUEST[sday1]);
+  if ($_REQUEST['sday1'] || $_REQUEST['sday2']) {
+    if ($_REQUEST['sday1']) {
+      $start_time = strtotime($_REQUEST['sday1']);
       $sql_serch .= " and unix_timestamp(a.date) >=$start_time ";
     }
     if ($_REQUEST['sday2']) {
@@ -841,7 +841,7 @@ jQuery(function($){
         </div>
         <div>
             <div class="p1">
-                <input type="text" name="sday1" placeholder="" id="sday1" value="<?= $_REQUEST[sday1] ?>"/> ~
+                <input type="text" name="sday1" placeholder="" id="sday1" value="<?= $_REQUEST['sday1'] ?>"/> ~
                 <input type="text" name="sday2" placeholder="" id="sday2" value="<?= $_REQUEST['sday2'] ?>"/>
                 <a href="javascript:void(0)" onclick="payment_form.submit()"><img src="images/sub_mypage_11.jpg" /></a>                                            
             </div>

@@ -27,8 +27,15 @@ $ret = array(
 );
 
 if($row['mem_id']) {
-    if($row['mem_token'] != '') {
+	$sql_pay="select end_date from tjd_pay_result where end_status='Y' and buyer_id='$memID' order by no desc ";
+	$res_pay = mysqli_query($self_con, $sql_pay);
+	if(mysqli_num_rows($res_pay) == 0){
+		$sql_pay="select now() as end_date";
+		$res_pay = mysqli_query($self_con, $sql_pay);
+	}
+	$row_pay = mysqli_fetch_array($res_pay);
 
+    if($row['mem_token'] != '') {
         if($telecom != "") {
 	        if(strstr(strtoupper($telecom),"SK")) {
 	            $telecom = "SK";
@@ -49,7 +56,7 @@ if($row['mem_id']) {
 		    $query = "update Gn_MMS_Number set pkey='$token' where sendnum='$number'";
 		    mysqli_query($self_con,$query);
 		} else  {
-			$sql_in = "insert into Gn_MMS_Number set sendnum = '$number', pkey='$token', mem_id = '$memID', reg_date = now() , end_status='Y' , end_date='' $addQuery"; //신규등록
+			$sql_in = "insert into Gn_MMS_Number set sendnum = '$number', pkey='$token', mem_id = '$memID', reg_date = now() , end_status='Y' , end_date='{$row_pay['end_date']}' $addQuery"; //신규등록
 			mysqli_query($self_con,$sql_in);
         }
         

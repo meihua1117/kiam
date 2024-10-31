@@ -758,7 +758,6 @@ $row_data = mysqli_fetch_array($res_data);
                                 -->
 								<div style="margin:0px 0 20px 0;height:1200px;overflow-y:auto;">
 									<?
-									//$sql="select * from Gn_MMS_Number where mem_id='{$_SESSION['one_member_id']}' order by user_cnt desc , idx desc";
 									$date = date("Y-m-d");
 									$sql = "select send_num from Gn_MMS where mem_id='{$_SESSION['one_member_id']}' and DATE(reg_date)='{$date}' and  content like '%app_check_process%' and result=0 group by send_num,reg_date order by reg_date desc";
 									$resul = mysqli_query($self_con, $sql);
