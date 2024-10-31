@@ -2,16 +2,6 @@
 include_once $_SERVER['DOCUMENT_ROOT'] . "/lib/db_config.php";
 //include_once $_SERVER['DOCUMENT_ROOT'] . "/lib/rlatjd_fun.php";
 include_once $_SERVER['DOCUMENT_ROOT'] . "/lib/common_func.php";
-function generateRandomString($length = 10)
-{
-	$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-	$charactersLength = strlen($characters);
-	$randomString = '';
-	for ($i = 0; $i < $length; $i++) {
-		$randomString .= $characters[rand(0, $charactersLength - 1)];
-	}
-	return $randomString;
-}
 $host = explode(".", $HTTP_HOST);
 $ip = $_SERVER['REMOTE_ADDR'];
 
@@ -137,7 +127,12 @@ if ($result == "0") { //로그인 성공
 	$sql_log = "insert into gn_hist_login (domain,userid,position,ip,success,count) values('$host[0]', '$userId', 'mobile', '$ip', 'Y', count+1)";
 	$res = mysqli_query($self_con, $sql_log);
 
-	$memToken = generateRandomString(10);
+	$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+	$charactersLength = strlen($characters);
+	$memToken = '';
+	for ($i = 0; $i < 10; $i++) {
+		$memToken .= $characters[rand(0, $charactersLength - 1)];
+	}
 	$sql_token_update = "update Gn_Member set mem_token='{$memToken}' where mem_id='{$userId}'";
 	$res_token = mysqli_query($self_con, $sql_token_update);
 	$sql_chk_num = "select token from gn_mms_token where phone_num='{$userNum}'";
@@ -154,3 +149,4 @@ if ($result == "0") { //로그인 성공
 
 
 echo json_encode(array("result" => $result, "mem_code" => $mem_code, "site" => $site, "site_iam" => $site_iam, "mem_token" => $memToken));
+?>
