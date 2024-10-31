@@ -1213,6 +1213,7 @@ function sendmms($type, $userid, $sendnum, $recvnum, $rserv_time, $title, $conte
 		return "fail";
 	}
 	global $self_con;
+	global $HTTP_HOST;
 	$query = "select * from Gn_MMS_Number where mem_id='$userid' and sendnum='$sendnum'";
 	$result = mysqli_query($self_con, $query);
 	$row = mysqli_fetch_array($result);
@@ -1298,10 +1299,10 @@ function sendmms($type, $userid, $sendnum, $recvnum, $rserv_time, $title, $conte
 	$fields['send_close'] = 24;
 
 	$headers = array('Accept: application/json, text/plain, */*', 'Cache_Control: no-cache', 'content-type:mutipart/form-data;');
-
-	curl_setopt($ch_mms, CURLOPT_URL, "https://kiam.kr/ajax/heineken.php");
+	//curl_setopt($ch_mms, CURLOPT_URL, "https://kiam.kr/ajax/heineken.php");
+	curl_setopt($ch_mms, CURLOPT_URL, "https://".$HTTP_HOST."/ajax/heineken.php");
 	curl_setopt($ch_mms, CURLOPT_POST, true);
-	//curl_setopt($ch_mms, CURLOPT_HTTPHEADER, $headers );
+	curl_setopt($ch_mms, CURLOPT_HTTPHEADER, $headers );
 	curl_setopt($ch_mms, CURLOPT_RETURNTRANSFER, true);
 	curl_setopt($ch_mms, CURLOPT_POSTFIELDS, http_build_query($fields));
 
