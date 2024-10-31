@@ -1299,8 +1299,8 @@ function sendmms($type, $userid, $sendnum, $recvnum, $rserv_time, $title, $conte
 	$fields['send_close'] = 24;
 
 	$headers = array('Accept: application/json, text/plain, */*', 'Cache_Control: no-cache', 'content-type:mutipart/form-data;');
-	curl_setopt($ch_mms, CURLOPT_URL, "https://kiam.kr/ajax/heineken.php");
-	//curl_setopt($ch_mms, CURLOPT_URL, "https://".$HTTP_HOST."/ajax/heineken.php");
+	//curl_setopt($ch_mms, CURLOPT_URL, "https://kiam.kr/ajax/heineken.php");
+	curl_setopt($ch_mms, CURLOPT_URL, "https://nm.kiam.kr/ajax/heineken.php");
 	curl_setopt($ch_mms, CURLOPT_POST, true);
 	//curl_setopt($ch_mms, CURLOPT_HTTPHEADER, $headers );
 	curl_setopt($ch_mms, CURLOPT_RETURNTRANSFER, true);
