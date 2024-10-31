@@ -1,4 +1,7 @@
 <?php
+$json = file_get_contents('php://input');
+$_POST = json_decode($json, true);
+
 include_once "../lib/rlatjd_fun.php";
 require_once($_SERVER['DOCUMENT_ROOT'] . '/fcm/vendor/autoload.php');
 $debug_mode = false;
