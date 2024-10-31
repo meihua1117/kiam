@@ -775,6 +775,7 @@ if ($user_id) {
                 $sql_check_s = "select no,status from tjd_mms_cnt_check where mem_id='{$user_id}' and sendnum='$sendnum[$j]' and date=curdate() ";
                 $resul_check_s = mysqli_query($self_con, $sql_check_s);
                 $row_check_s = mysqli_fetch_array($resul_check_s);
+                fwrite($fp,"778:".$sql_check_s."\r\n");
                 if ($row_check_s['no']) { //tjd_mms_cnt_check에 자료 있으면 : 오늘 보낸 적 있음
 
                     if ($row_check_s['status'] == "N") { //200미만 건 발송 이력 있음
