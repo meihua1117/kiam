@@ -1316,7 +1316,8 @@ function sendmms($type, $userid, $sendnum, $recvnum, $rserv_time, $title, $conte
 		$ret = "fail=>".curl_error($ch_mms);
 	} else {
 		$result = json_decode($mms_result);
-		$ret = "success=>".$result->msg;
+		//$ret = "success=>".$result->msg;
+		$ret = "success=>".$mms_result;
 	}
 	curl_close($ch_mms);
 	return $ret;
