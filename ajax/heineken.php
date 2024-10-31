@@ -1,10 +1,10 @@
 <?php
-//include_once "../lib/rlatjd_fun.php";
+include_once "../lib/rlatjd_fun.php";
 require_once($_SERVER['DOCUMENT_ROOT'] . '/fcm/vendor/autoload.php');
 $debug_mode = false;
 $key = md5($_POST['key']);
 if ($key != 'b62d27b5d7c024c9e1fcbbe00bc82cae') {
-    echo json_encode(array('result' => 'fail', 'msg' => '잘못된 요청입니다.', 'key' => $_POST['key'],"md5"=>md5($_POST['key']),"params"=>json_encode($_POST)));
+    echo json_encode(array('result' => 'fail', 'msg' => '잘못된 요청입니다.', 'key' => $_POST['key'],"md5"=>md5($_POST['key']),"params"=>json_encode($_REQUEST)));
     exit;
 }
 $user_id = $_POST['user_id'];
