@@ -1316,7 +1316,7 @@ function sendmms($type, $userid, $sendnum, $recvnum, $rserv_time, $title, $conte
 		$ret = $result->msg;
 	}
 	curl_close($ch_mms);
-	return $ret."=>".$mms_result."=>".http_build_query($fields);
+	return $mms_result;
 }
 
 function sendemail($time, $to, $from, $subject, $body, $file = "", $gd_id = "", $cc_mail = false, $bcc_mail = false)
