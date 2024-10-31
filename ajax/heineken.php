@@ -774,10 +774,8 @@ if ($user_id) {
                 // STEP #5 == 금일 발송양에 따른 통계 계산
                 $sql_check_s = "select no,status from tjd_mms_cnt_check where mem_id='{$user_id}' and sendnum='$sendnum[$j]' and date=curdate() ";
                 $resul_check_s = mysqli_query($self_con, $sql_check_s);
-                $row_check_s = mysqli_fetch_array($resul_check_s);
-                fwrite($fp,"778:".print_r($row_check_s,true)."\r\n");
-                if ($row_check_s['no']) { //tjd_mms_cnt_check에 자료 있으면 : 오늘 보낸 적 있음
-
+                if (mysqli_num_rows($resul_check_s) > 0) { //tjd_mms_cnt_check에 자료 있으면 : 오늘 보낸 적 있음
+                    $row_check_s = mysqli_fetch_array($resul_check_s);
                     if ($row_check_s['status'] == "N") { //200미만 건 발송 이력 있음
                         // Cooper Add  2016-05-08
                         if ($user_cnt[$sendnum[$j]] + count($send_num_list[$sendnum[$j]]) >= $daily_min_cnt_user  && count($send_num_list[$sendnum[$j]]) > 0) {
@@ -826,6 +824,7 @@ if ($user_id) {
             }
             //unset($ssh_num);
         }
+        fwrite($fp,"827:\r\n");
         unset($num_arr_2);
         unset($num_arr_3);
         $today_will_send_count = count($num_arr); //금일 발송해야 되는 총 건 수
