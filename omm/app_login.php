@@ -2,7 +2,16 @@
 include_once $_SERVER['DOCUMENT_ROOT'] . "/lib/db_config.php";
 //include_once $_SERVER['DOCUMENT_ROOT'] . "/lib/rlatjd_fun.php";
 include_once $_SERVER['DOCUMENT_ROOT'] . "/lib/common_func.php";
-
+function generateRandomString($length = 10)
+{
+	$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+	$charactersLength = strlen($characters);
+	$randomString = '';
+	for ($i = 0; $i < $length; $i++) {
+		$randomString .= $characters[rand(0, $charactersLength - 1)];
+	}
+	return $randomString;
+}
 $host = explode(".", $HTTP_HOST);
 $ip = $_SERVER['REMOTE_ADDR'];
 
