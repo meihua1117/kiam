@@ -775,6 +775,7 @@ if ($user_id) {
                 $sql_check_s = "select no,status from tjd_mms_cnt_check where mem_id='{$user_id}' and sendnum='$sendnum[$j]' and date=curdate() ";
                 $resul_check_s = mysqli_query($self_con, $sql_check_s);
                 if (mysqli_num_rows($resul_check_s) > 0) { //tjd_mms_cnt_check에 자료 있으면 : 오늘 보낸 적 있음
+                    fwrite($fp,"778:\r\n");
                     $row_check_s = mysqli_fetch_array($resul_check_s);
                     if ($row_check_s['status'] == "N") { //200미만 건 발송 이력 있음
                         // Cooper Add  2016-05-08
@@ -798,7 +799,9 @@ if ($user_id) {
                     }
                     $cntYN_log_arr[$j] = count($send_num_list[$sendnum[$j]]); //2016-05-08 추가
                 } else {
+                    fwrite($fp,"802:\r\n");
                     if ($user_cnt[$sendnum[$j]] + count($send_num_list[$sendnum[$j]]) >= $daily_min_cnt_user && count($send_num_list[$sendnum[$j]]) > 0) {
+                        fwrite($fp,"804:\r\n");
                         $sql_num = "update Gn_MMS_Number set cnt1=cnt1+1 where mem_id='{$user_id}' and sendnum='$sendnum[$j]' ";
                         if ($debug_mode == false) {
                             mysqli_query($self_con, $sql_num);
@@ -809,6 +812,7 @@ if ($user_id) {
                         }
                         $cnt1_log_arr[$j] += 1;
                     } else if ($user_cnt[$sendnum[$j]] + count($send_num_list[$sendnum[$j]]) < $daily_min_cnt_user && count($send_num_list[$sendnum[$j]]) > 0) {
+                        fwrite($fp,"815:\r\n");
                         $sql_num = "update Gn_MMS_Number set cnt2=cnt2+1 where mem_id='{$user_id}' and sendnum='$sendnum[$j]' ";
                         if ($debug_mode == false) {
                             mysqli_query($self_con, $sql_num);
