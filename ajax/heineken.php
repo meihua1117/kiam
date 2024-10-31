@@ -748,7 +748,7 @@ if ($user_id) {
                 // STEP #4-1 폰별 신규 폰번호 발송 가능양에 따라 재분배
                 // 차이 만큼 신규 배정
                 fwrite($fp,"750:".print_r($send_num_list[$sendnum[$j]],true)."\r\n");
-                if ($loop_check_num < $allocation_cnt - count($send_num_list[$sendnum[$j]])) {
+                if (isset($send_num_list[$sendnum[$j]]) && $loop_check_num < $allocation_cnt - count($send_num_list[$sendnum[$j]])) {
                     fwrite($fp,"752:".count($send_num_list[$sendnum[$j]])."\r\n");
                     $send_num_list_cnt = count($send_num_list[$sendnum[$j]]);
                     // 총 발송 건수와 배정된 건수가 적을 경우만 루프
