@@ -1,5 +1,5 @@
 <?php
-@ini_set('display_errors', true);
+@ini_set('display_errors', false);
 @ini_set("session.cache_expire", 60);
 @ini_set("session.gc_maxlifetime", 86400);
 $sess_path = $_SERVER['DOCUMENT_ROOT'] . "/_session";
