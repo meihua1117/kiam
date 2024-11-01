@@ -1351,6 +1351,7 @@ if (!empty($row_sum_b)) {
 													echo "test".$sql_ssh;
 													$result_ssh = mysqli_query($self_con, $sql_ssh);
 													if (mysqli_num_rows($result_ssh)) {
+														$ssh_numT = array();
 														while ($row_ssh = mysqli_fetch_array($result_ssh)) {
 															echo "test1355";
 															$ssh_arr = explode(",", $row_ssh['recv_num']);
@@ -1361,6 +1362,7 @@ if (!empty($row_sum_b)) {
 														$ssh_cnt = count($ssh_arr);
 														echo "test1362";
 														mysqli_free_result($result_ssh);
+														unset($ssh_numT);
 													}
 													echo "test1361";
 													if ($mem_phone == $row['sendnum'] && ($member_1['mem_type'] == "V" || $member_1['mem_type'] == "")) {
