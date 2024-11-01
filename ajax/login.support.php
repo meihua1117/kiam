@@ -55,11 +55,6 @@ if($_POST['one_id'] && $_POST['one_pwd'])
 				window.parent.location.replace('/sub_6.php');
 			</script>
 		<?}else if($row['site'] != "") {
-			/*$sess_id =session_id();
-			session_write_close();
-			session_id(generateRandomString(32));
-			session_start();*/
-    		//session_start_samesite();
 			$site = $row['site'].".";
 			if($row['site'] == "kiam")
 			  $site = "";

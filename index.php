@@ -987,18 +987,14 @@ function encodeKorean($matches)
         }
 
         function set_language(idx) {
-            //document.cookie = "language" + "=" + idx;
-            //setCookie("language",idx,1);
             setCookie("lang", idx, 1, "iam");
             if ((window.location + "").indexOf("?") >= 0)
                 location.href = window.location + "&lang=" + idx;
             else
                 location.href = window.location + "?<?= $request_short_url . $user_mem_code ? $user_mem_code : $card_owner_code ?>&lang=" + idx;
-            //location.reload();
         }
 
         //added by amigo 
-
         var busy = false;
         var limit = 10; //한개 페이지에 보여지는 샘플 갯수
         var offset = 0; //페이지에 보여지는 시작인덱스        

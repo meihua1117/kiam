@@ -47,12 +47,6 @@ if ($_POST['one_id'] && $_POST['mem_pass']) {
 	    mysqli_query($self_con,$sql);
 
         if ($mem_row['site'] != "") {
-            /*$sess_id =session_id();
-            session_write_close();
-            session_unset();
-            session_destroy();
-            session_id(generateRandomString(32));
-            session_start();*/
             $site = $mem_row['site'].".";
             if($mem_row['site'] == "kiam")
                 $site = "";
@@ -97,12 +91,6 @@ if ($_POST['one_id'] && $_POST['mem_pass']) {
         $sql = "update Gn_Member set login_date=now() where mem_id= '{$_POST['one_id']}'";
         mysqli_query($self_con, $sql);
         if ($mem_row['site_iam'] != "") {
-            /*$sess_id =session_id();
-            session_write_close();
-            session_unset();
-            session_destroy();
-            session_id(generateRandomString(32));
-            session_start();*/
             $site = $mem_row['site_iam'].".";
             if($mem_row['site_iam'] == "kiam")
                 $site = "";

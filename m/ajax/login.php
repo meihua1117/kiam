@@ -88,12 +88,6 @@ if ($_POST['one_id'] && $_POST['one_pwd']) {
 				$site = "";
 			else
 				$site = $row['site'].".";
-			/*$sess_id =session_id();
-			session_write_close();
-			session_unset();
-			session_destroy();
-			session_id(generateRandomString(32));
-			session_start();*/
 			$link = str_replace("###", "&", $_POST['refer2']);
 			$url_refer = "http://" . $site . "kiam.kr" . $link . "&show_ori=Y&key=" . $sess_id;
 			if($_POST['data'] != "")
@@ -109,12 +103,6 @@ if ($_POST['one_id'] && $_POST['one_pwd']) {
 			window.parent.location.replace('/m/index.php');
 		</script>
 		<?}else if($row['site'] != "") {
-			/*$sess_id =session_id();
-			session_write_close();
-			session_unset();
-			session_destroy();
-			session_id(generateRandomString(32));
-			session_start();*/
 			$site = $row['site'].".";
 			if($row['site'] == "kiam")
 				$site = "";

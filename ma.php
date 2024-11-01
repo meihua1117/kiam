@@ -1,7 +1,7 @@
 <?
 header("Pragma:no-cache");
 if (isset($_REQUEST['mem_code']) && $_REQUEST['mem_code']) {
-    @setcookie("mem_code", $_REQUEST['mem_code'], time() + 3600);
+    setcookie("mem_code", $_REQUEST['mem_code'], time() + 3600);
     $_COOKIE['mem_code'] = $_REQUEST['mem_code'];
 }
 include_once $_SERVER['DOCUMENT_ROOT'] . "/lib/rlatjd_fun.php";
