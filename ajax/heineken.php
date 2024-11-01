@@ -904,7 +904,7 @@ if ($user_id) {
                         $recv_str = implode(",", $recv_arr);
                         $recv_name_str = "";
                     }
-
+                    fwrite($fp, "907:" . "\r\n");
                     if (strstr($_POST['send_txt'], "{|email|}")) {
                         $recv_str_sql = "'" . implode("','", $recv_arr) . "'";
                         $group_str_sql = "";
@@ -947,7 +947,7 @@ if ($user_id) {
                         $recv_email_str = "";
                     }
 
-
+                    fwrite($fp, "950:" . "\r\n");
                     if (substr($recv_str, -1) == ",")
                         $recv_str = substr($recv_str, 0, strlen($recv_str) - 1);
                     $denv_url_str = implode(",", $deny_url_arr);
@@ -986,6 +986,7 @@ if ($user_id) {
                         $sql .= " $key='$v' ,";
 
                     $sql .= " reg_date = now() ";
+                    fwrite($fp, "989:" .$sql. "\r\n");
                     if ($debug_mode == false) {
                         mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
                         $sidx = mysqli_insert_id($self_con);
