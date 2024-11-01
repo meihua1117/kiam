@@ -627,10 +627,6 @@ if ($user_id) {
                 }
             }
             //unset($ssh_num);
-            if (isset($send_num_list[$sendnum[$j]]))
-                $send_num_list_cnt = count($send_num_list[$sendnum[$j]]);
-            else
-                $send_num_list_cnt = 0;
         } else {
             $loop_check_num = 0; // 폰별 신규 배정된 번호 합
             for ($j = 0; $j < count($sendnum); $j++) { //발송가능 폰번호별
@@ -832,8 +828,12 @@ if ($user_id) {
         $agree_url_arr = array();
         $re_today_cnt = 0;
         for ($j = 0; $j < count($sendnum); $j++) { //발송가능 폰번호별 발송 가능 수신처 확인
-            fwrite($fp, "835:".$sendnum[$j]."=>".$send_num_list_cnt."\r\n");
             $recv_arr = array();
+            if (isset($send_num_list[$sendnum[$j]]))
+                $send_num_list_cnt = count($send_num_list[$sendnum[$j]]);
+            else
+                $send_num_list_cnt = 0;
+                fwrite($fp, "835:" . $sendnum[$j] . "=>" . $send_num_list_cnt . "\r\n");
             if ($send_num_list_cnt > 0) {
                 for ($i = 0; $i < $send_num_list_cnt; $i++) {
                     $opt_message = "";
@@ -1022,7 +1022,7 @@ if ($user_id) {
                                 $msg = $json->results[0]->error;
 
                                 $query = "insert into Gn_MMS_PUSH set send_num='{$mms_info['send_num']}',idx='{$sidx}',token='{$pkey[$mms_info['send_num']]}',error='{$msg}'";
-                                fwrite($fp,$query);
+                                fwrite($fp, $query);
                                 if ($debug_mode == false) {
                                     mysqli_query($self_con, $query) or die(mysqli_error($self_con));
                                 }
