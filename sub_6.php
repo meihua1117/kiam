@@ -1348,6 +1348,7 @@ if (!empty($row_sum_b)) {
 													//이번 달 총 수신처 수
 													$ssh_cnt = 0;
 													$sql_ssh = "select recv_num from Gn_MMS where send_num='{$row['sendnum']}' and (reg_date like '$date_month%' or reservation like '$date_month%')  group by recv_num";
+													echo "test".$sql_ssh;
 													$result_ssh = mysqli_query($self_con, $sql_ssh);
 													if (mysqli_num_rows($result_ssh)) {
 														while ($row_ssh = mysqli_fetch_array($result_ssh)) {
@@ -1358,7 +1359,7 @@ if (!empty($row_sum_b)) {
 														$ssh_cnt = count($ssh_arr);
 														mysqli_free_result($result_ssh);
 													}
-
+													echo "test1361";
 													if ($mem_phone == $row['sendnum'] && ($member_1['mem_type'] == "V" || $member_1['mem_type'] == "")) {
 														if ($row['memo2'] == "SK") {
 															//        // SKT
