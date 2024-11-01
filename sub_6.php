@@ -1352,11 +1352,14 @@ if (!empty($row_sum_b)) {
 													$result_ssh = mysqli_query($self_con, $sql_ssh);
 													if (mysqli_num_rows($result_ssh)) {
 														while ($row_ssh = mysqli_fetch_array($result_ssh)) {
+															echo "test1355";
 															$ssh_arr = explode(",", $row_ssh['recv_num']);
 															$ssh_numT = array_merge($ssh_numT, (array)$ssh_arr);
 														}
+														echo "test1359";
 														$ssh_arr = array_unique($ssh_numT);
 														$ssh_cnt = count($ssh_arr);
+														echo "test1362";
 														mysqli_free_result($result_ssh);
 													}
 													echo "test1361";
