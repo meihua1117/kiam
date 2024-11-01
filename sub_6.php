@@ -1305,6 +1305,7 @@ if (!empty($row_sum_b)) {
 										</thead>
 										<tbody id="phone_list">
 											<?
+											echo $intRowCount;
 											if ($intRowCount) {
 												$today_send_total = 0;
 												$use_phone_cnt = 0;
