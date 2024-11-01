@@ -833,7 +833,7 @@ if ($user_id) {
                 $send_num_list_cnt = count($send_num_list[$sendnum[$j]]);
             else
                 $send_num_list_cnt = 0;
-                fwrite($fp, "835:" . $sendnum[$j] . "=>" . $send_num_list_cnt . "\r\n");
+            fwrite($fp, "835:" . $sendnum[$j] . "=>" . $send_num_list_cnt . "\r\n");
             if ($send_num_list_cnt > 0) {
                 for ($i = 0; $i < $send_num_list_cnt; $i++) {
                     $opt_message = "";
@@ -851,6 +851,7 @@ if ($user_id) {
                         array_push($deny_url_arr, $opt_message);
                     }
                 }
+                fwrite($fp, "854:" . json_encode($recv_arr) . "\r\n");
                 if (count($recv_arr)) {   //앱에서만 보내기로 합 2016-03-07
                     // Cooper Add 치환 대상자 이름 뽑기
                     if (strstr($_POST['send_txt'], "{|name|}")) {
