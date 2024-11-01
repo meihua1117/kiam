@@ -1310,7 +1310,6 @@ if (!empty($row_sum_b)) {
 												$use_phone_cnt = 0;
 												$today_reg = date("Y-m-d");
 												while ($row = mysqli_fetch_array($resul)) {
-													echo "test1313";
 													$row['user_cnt'] = $row['daily_limit_cnt_user'];
 													$is_send = true;
 													$sql_result2_g = "select SUM(recv_num_cnt) from Gn_MMS where send_num='{$row['sendnum']}' and ((reg_date like '$today_reg%' and reservation is null) or reservation like '$today_reg%')";
@@ -1337,7 +1336,6 @@ if (!empty($row_sum_b)) {
 															$row['user_cnt'] =     $row['daily_limit_cnt_user'] - $today_cnt_1;
 														}
 													}
-													echo "test1339";
 													if ($row['user_cnt'] < 0) $row['user_cnt'] = 0;
 													// =========== Cooper add 폰별 월 발송량 체크  Start ===========
 													// $query = "select * from Gn_MMS_Number where mem_id='{$_SESSION['one_member_id']}' and sendnum='".$row['sendnum']."'";
@@ -1348,23 +1346,18 @@ if (!empty($row_sum_b)) {
 													//이번 달 총 수신처 수
 													$ssh_cnt = 0;
 													$sql_ssh = "select recv_num from Gn_MMS where send_num='{$row['sendnum']}' and (reg_date like '$date_month%' or reservation like '$date_month%')  group by recv_num";
-													echo "test".$sql_ssh;
 													$result_ssh = mysqli_query($self_con, $sql_ssh);
 													if (mysqli_num_rows($result_ssh)) {
 														$ssh_numT = array();
 														while ($row_ssh = mysqli_fetch_array($result_ssh)) {
-															echo "test1355";
 															$ssh_arr = explode(",", $row_ssh['recv_num']);
 															$ssh_numT = array_merge($ssh_numT, (array)$ssh_arr);
 														}
-														echo "test1359";
 														$ssh_arr = array_unique($ssh_numT);
 														$ssh_cnt = count($ssh_arr);
-														echo "test1362";
 														mysqli_free_result($result_ssh);
 														unset($ssh_numT);
 													}
-													echo "test1361";
 													if ($mem_phone == $row['sendnum'] && ($member_1['mem_type'] == "V" || $member_1['mem_type'] == "")) {
 														if ($row['memo2'] == "SK") {
 															//        // SKT
@@ -1385,7 +1378,6 @@ if (!empty($row_sum_b)) {
 													// 당일 발송회수가 1이면 한개를 더 차감으로 커멘트함
 													// if($today_cnt_1 == 1)
 													// 	$row['user_cnt'] = $row['user_cnt'] - $today_cnt_1;
-													echo "test1382";
 													if ($member_1['mem_type'] == "V" && $mem_phone == $row['sendnum']) {
 														$is_send = true;
 														//$today_send_total+=$row['user_cnt'];
@@ -1411,7 +1403,6 @@ if (!empty($row_sum_b)) {
 													$resul_s = mysqli_query($self_con, $sql_s);
 													$row_s = mysqli_fetch_array($resul_s);
 													mysqli_free_result($resul_s);
-													echo "test1407";
 													if ($row_s['status'] == "-1") {
 														$rdate = date("Y-m-d", strtotime($row_s['regdate']));
 														if ($rdate == $today_reg) {
@@ -1424,7 +1415,6 @@ if (!empty($row_sum_b)) {
 													}
 													if ($is_send == true)
 														$use_phone_cnt++;
-														echo "test1420";
 											?>
 													<tr style="<?php if ($row_s['status'] == "-1") {
 																	echo "background:#efefef";
