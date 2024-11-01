@@ -26,7 +26,7 @@ if ($_POST['one_id'] && $_POST['one_pwd']) {
 	$sql = "select mem_code, is_leave, mem_leb,site,site_iam,iam_leb from Gn_Member use index(login_index) where mem_leb>0 and ((mem_id = '{$_POST['one_id']}' or mem_email = '{$_POST['one_id']}') and (mem_pass=md5('$mem_pass') or web_pwd=md5('$mem_pass'))) ";
 	$resul = mysqli_query($self_con,$sql);
 	$row = mysqli_fetch_array($resul);
-	if (($row['mem_code'] and $row['is_leave'] == 'N'))
+	if ($row['mem_code'] && $row['is_leave'] == 'N')
 	{
 		// 관리자 권한이 있으면 관리자 세션 추가 Add Cooper
 		$admin_sql = "select count(mem_id) from Gn_Admin where mem_id= '{$_POST['one_id']}'";
