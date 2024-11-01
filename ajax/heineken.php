@@ -832,11 +832,10 @@ if ($user_id) {
         $agree_url_arr = array();
         $re_today_cnt = 0;
         for ($j = 0; $j < count($sendnum); $j++) { //발송가능 폰번호별 발송 가능 수신처 확인
-            fwrite($fp, "835:".$sendnum[$j]."\r\n");
+            fwrite($fp, "835:".$sendnum[$j]."=>".$send_num_list_cnt."\r\n");
             $recv_arr = array();
-            $max_cnt = $send_num_list_cnt; // 재선언 2016-05-08
-            if ($max_cnt > 0) {
-                for ($i = 0; $i < $max_cnt; $i++) {
+            if ($send_num_list_cnt > 0) {
+                for ($i = 0; $i < $send_num_list_cnt; $i++) {
                     $opt_message = "";
                     // 추가
                     if (strlen($send_num_list[$sendnum[$j]][$i]) >= 10) {
