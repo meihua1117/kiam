@@ -970,6 +970,8 @@ if ($user_id) {
                     $mms_info['recv_num_cnt'] =  count(explode(",", $recv_str));
                     if (isset($_POST['sms_idx']))
                         $mms_info['sms_idx'] = $_POST['sms_idx'];
+                    if (isset($_POST['send_agree_msg']))
+                        $mms_info['send_agree_msg'] = $_POST['send_agree_msg'];
                     if (isset($_POST['sms_detail_idx']))
                         $mms_info['sms_detail_idx'] = $_POST['sms_detail_idx'];
                     if (isset($_POST['request_idx']))
@@ -986,7 +988,7 @@ if ($user_id) {
                         $sql .= " $key='$v' ,";
 
                     $sql .= " reg_date = now() ";
-                    fwrite($fp, "989:" .$sql. "\r\n");
+                    fwrite($fp, "989:" . $sql . "\r\n");
                     if ($debug_mode == false) {
                         mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
                         $sidx = mysqli_insert_id($self_con);
