@@ -1,15 +1,15 @@
 <?php
-@ini_set('display_errors', false);
+@ini_set('display_errors', true);
 @ini_set("session.cache_expire", 60);
 @ini_set("session.gc_maxlifetime", 86400);
 $sess_path = $_SERVER['DOCUMENT_ROOT'] . "/_session";
-@session_save_path($sess_path);
+session_save_path($sess_path);
 $cookieDomain = '.kiam.kr'; // 상위 도메인으로 설정. 도메인 앞에 점(.)이 붙는 것에 주의하세요.
 session_set_cookie_params(array(
 	'lifetime' => 0, // 브라우저 닫힐 때까지 유효
 	'path' => '/',
 	'domain' => $cookieDomain, // 상위 도메인 설정
-	//'secure' => true, // HTTPS 사용 시 true로 설정
+	'secure' => true, // HTTPS 사용 시 true로 설정
 	//'httponly' => true, // JavaScript에서 접근 불가
 	'samesite' => 'None' // 또는 'Lax'나 'Strict'
 ));
