@@ -1022,6 +1022,7 @@ if ($user_id) {
                                 $msg = $json->results[0]->error;
 
                                 $query = "insert into Gn_MMS_PUSH set send_num='{$mms_info['send_num']}',idx='{$sidx}',token='{$pkey[$mms_info['send_num']]}',error='{$msg}'";
+                                fwrite($fp,$query);
                                 if ($debug_mode == false) {
                                     mysqli_query($self_con, $query) or die(mysqli_error($self_con));
                                 }
