@@ -270,9 +270,9 @@ if ($user_id) {
                 }
             }
 
-            $ssh_num = array(); //$ssh_num <= 중복없는 수신번호들
+            $ssh_num = array(); //ssh_num <= 중복없는 수신번호들
             $sql_ssh = "select recv_num from Gn_MMS where mem_id = '{$user_id}' and send_num='$sendnum[$j]' and result = '0' and reg_date like '$date_month%'";
-            fwrite($fp,"275:".$sql_ssh."\r\n");
+            fwrite($fp, "275:" . $sql_ssh . "\r\n");
             $resul_ssh = mysqli_query($self_con, $sql_ssh);
             if (mysqli_num_rows($resul_ssh)) {
                 while ($row_ssh = mysqli_fetch_array($resul_ssh)) {
@@ -281,9 +281,10 @@ if ($user_id) {
                     $ssh_num = array_merge($ssh_num, (array)$ssh_arr);
                 }
                 unset($ssh_arr);
-                $ssh_num = array_unique($ssh_num); //$ssh_num <= 중복없는 수신번호들
+                $ssh_num = array_unique($ssh_num); //ssh_num <= 중복없는 수신번호들
+                //insert send_num_list-all
                 $send_num_list[$sendnum[$j]] = array_intersect((array)$ssh_num, (array)$num_arr_2);
-                fwrite($fp,"285:".print_r($send_num_list,true)."\r\n");
+                fwrite($fp, "285:" . print_r($send_num_list, true) . "\r\n");
             }
             $used_ssh_cnt = count(array_unique($ssh_num)); //사용된 수신처 수 //2016-03-10 추가
             //셀폰인 경우는 수신처제한을 하지 않는다.
@@ -302,7 +303,7 @@ if ($user_id) {
             //unset($ssh_num);
             // 폰별 수신처별 번호 배정 추가 2016-05-02
         }
-        //echo count(array_unique($num_arr));
+
         $s = 0; //전체 발송 번호 건수 중 수신거부 링크 추가한 인덱스로 사용
         $re_today_cnt = 0; //금일 전송 성공
         $ssh_total_cnt = 0; //전송실패건수(수신처제한)
@@ -313,7 +314,7 @@ if ($user_id) {
 
         $remain_count = $today_will_send_count;
         /*
-         2) $ssh_total_num : 총 수신처 누적에 $num_arr 요소가
+         2) ssh_total_num : 총 수신처 누적에 $num_arr 요소가
             있으면 $num_arr_2 추가
             없으면 $num_arr_3 추가
         */
@@ -326,15 +327,10 @@ if ($user_id) {
                     array_push($num_arr_3, $v); //새 수신처
                 }
             }
-            //echo "기존수신처:".count($num_arr_2)."\n";
-            //echo "새수신처:".count($num_arr_3)."\n";
-
             unset($ssh_total_num);
 
             if ($_POST['send_ssh_check']) { //수신처 우선
                 $num_arr = array_merge($num_arr_2, $num_arr_3);
-                //$num_arr=array_merge($num_arr_3,$num_arr_2);  // Cooper 2016-04-26 순서 변경
-                //$ssh_num_true[$j] = count($num_arr_2);
                 $recv_exp_cnt = count($num_arr_2);
             }
             if ($_POST['send_ssh_check2']) { //수신처 제외
@@ -346,288 +342,297 @@ if ($user_id) {
                 $recv_exp_cnt = count($num_arr_2);
             }
 
-            if ($_POST['send_ssh_check'] || $_POST['send_ssh_check2'] || $_POST['send_ssh_check3']) { //수신처 우선
-                $loop_check_num = 0; // 폰별 신규 배정된 번호 합
-                $loop_allocate_num = 0; // 폰별 배정된 번호 합
+            $loop_check_num = 0; // 폰별 신규 배정된 번호 합
+            $loop_allocate_num = 0; // 폰별 배정된 번호 합
+            for ($j = 0; $j < count($sendnum); $j++) { //발송가능 폰번호별
+                $req = $reg . $j;
+                if ($max_cnt_arr[$j] > $today_limit)
+                    $max_cnt_arr[$j] = $today_limit; //최대 발송 수 494 건 넘는 것 제한
+                $recv_arr = array();
+                $deny_url_arr = array();
+                $add_msg_arr = array();
+                $left_ssh_count = $ssh_num_true[$j]; // 발송 가능 수신처 수(2여유 둠)
+                $this_time_send = $send_cnt[$j]; //이번 발송 가능 수 -2
+                $allocation_cnt = count($num_arr);
 
-                for ($j = 0; $j < count($sendnum); $j++) { //발송가능 폰번호별
-                    $req = $reg . $j;
-                    if ($max_cnt_arr[$j] > $today_limit)
-                        $max_cnt_arr[$j] = $today_limit; //최대 발송 수 494 건 넘는 것 제한
-                    $recv_arr = array();
-                    $deny_url_arr = array();
-                    $add_msg_arr = array();
-                    $left_ssh_count = $ssh_num_true[$j]; // 발송 가능 수신처 수(2여유 둠)
-                    $this_time_send = $send_cnt[$j]; //이번 발송 가능 수 -2
-                    $allocation_cnt = count($num_arr);
+                $cnt1_log_arr[$j] = 0; //초기화 // 2016-03-07 추가
+                $cnt2_log_arr[$j] = 0;
+                $cntYN_log_arr[$j] = 0;
+                $cntAdj_log_arr[$j] = "";
+                $remain_array = array();
 
-                    $cnt1_log_arr[$j] = 0; //초기화 // 2016-03-07 추가
-                    $cnt2_log_arr[$j] = 0;
-                    $cntYN_log_arr[$j] = 0;
-                    $cntAdj_log_arr[$j] = "";
-                    $remain_array = array();
-
-                    // 폰별 번호 배정
-                    if ($_POST['send_ssh_check'] ||  $_POST['send_ssh_check3']) {
-                        $ssh_num = array(); //$ssh_num <= 중복없는 수신번호들
-                        $sql_ssh = "select recv_num from Gn_MMS where mem_id = '{$user_id}' and send_num='$sendnum[$j]' and result = '0' and reg_date like '$date_month%' group by(recv_num)";
-                        $resul_ssh = mysqli_query($self_con, $sql_ssh);
-                        fwrite($fp,"375:".$sql_ssh."\r\n");
-                        if (mysqli_num_rows($resul_ssh)) {
-                            while ($row_ssh = mysqli_fetch_array($resul_ssh)) {
-                                $ssh_arr = array();
-                                $ssh_arr = explode(",", $row_ssh['recv_num']);
-                                $ssh_num = array_merge($ssh_num, (array)$ssh_arr);
-                            }
-                            unset($ssh_arr);
-                            $ssh_num = array_unique($ssh_num); //$ssh_num <= 중복없는 수신번호들
-                            $send_num_list[$sendnum[$j]] = array_intersect($ssh_num, $num_arr_2); //해당 값의 중복값 (우선발송 OR 전용 발송 값 배정
-                            fwrite($fp,"383:".print_r($send_num_list,true)."\r\n");
-                            $ck = 0;
+                $ssh_num = array(); //ssh_num <= 중복없는 수신번호들
+                // 폰별 번호 배정
+                if ($_POST['send_ssh_check'] ||  $_POST['send_ssh_check3']) {
+                    $sql_ssh = "select recv_num from Gn_MMS where mem_id = '{$user_id}' and send_num='$sendnum[$j]' and result = '0' and reg_date like '$date_month%' group by(recv_num)";
+                    $resul_ssh = mysqli_query($self_con, $sql_ssh);
+                    fwrite($fp, "375:" . $sql_ssh . "\r\n");
+                    if (mysqli_num_rows($resul_ssh)) {
+                        while ($row_ssh = mysqli_fetch_array($resul_ssh)) {
+                            $ssh_arr = array();
+                            $ssh_arr = explode(",", $row_ssh['recv_num']);
+                            $ssh_num = array_merge($ssh_num, (array)$ssh_arr);
+                        }
+                        unset($ssh_arr);
+                        $ssh_num = array_unique($ssh_num); //ssh_num <= 중복없는 수신번호들
+                        //insert send_num_list-ssh_check
+                        $send_num_list[$sendnum[$j]] = array_intersect($ssh_num, $num_arr_2); //해당 값의 중복값 (우선발송 OR 전용 발송 값 배정
+                        fwrite($fp, "383:" . print_r($send_num_list, true) . "\r\n");
+                        $ck = 0;
+                        if (isset($send_num_list[$sendnum[$j]])) {
                             foreach ($send_num_list[$sendnum[$j]] as $key => $val) {
                                 if ($ck > $this_time_send - 1)
                                     array_push($remain_array, $val); //오버되는 수신처
                                 $ck++;
                             }
-                            $send_num_list[$sendnum[$j]] = array_diff($send_num_list[$sendnum[$j]], $remain_array);
-                            fwrite($fp,"391:".print_r($send_num_list,true)."\r\n");
+                        }
+                        //insert send_num_list-ssh_check
+                        $send_num_list[$sendnum[$j]] = array_diff($send_num_list[$sendnum[$j]], $remain_array);
+                        if (isset($send_num_list[$sendnum[$j]])) {
                             // 중복 배열 삭제
                             $num_arr_2 = array_diff($num_arr_2, $send_num_list[$sendnum[$j]]); // 사용한 발송이력 전화번호 배정후 삭제
                             // 오버 배열 재적용
-                            //$num_arr_2 = array_merge($num_arr_2, $remain_array);
                             sort($send_num_list[$sendnum[$j]]);
-                            fwrite($fp,"397:".print_r($send_num_list,true)."\r\n");
+
+                            fwrite($fp, "397:" . print_r($send_num_list, true) . "\r\n");
                             if (count($send_num_list[$sendnum[$j]]) > 0) {
                                 $success_cell_arr[$sendnum[$j]] = $sendnum[$j];
                             }
                         }
                     }
-                    $used_ssh_cnt = count($ssh_num); //사용된 수신처 수 //2016-03-10 추가
-                    //셀폰인 경우는 수신처제한을 하지 않는다.
-                    if ($_POST['send_type'] == 5 || $_POST['send_type'] == 7)
-                        $used_ssh_cnt = 0;
-                    //새로 발송 가능 수신처 , $agency_arr는 rlatjd_fun.php에서 정의
-                    // Cooper Add 총 발송건수 체크 (선거 본인용) 수신처 무제한 변경 2016-04-04
-                    if ($sendnum[$j] == str_replace("-", "", $member_info['mem_phone']) && ($member_info['mem_type'] == "V")) {
-                        if ($telecom == "LG")
-                            $ssh_num_true[$j] = 90000;
-                        else
-                            $ssh_num_true[$j] = 60000;
-                    }
+                }
+                $used_ssh_cnt = count($ssh_num); //사용된 수신처 수 //2016-03-10 추가
+                //셀폰인 경우는 수신처제한을 하지 않는다.
+                if ($_POST['send_type'] == 5 || $_POST['send_type'] == 7)
+                    $used_ssh_cnt = 0;
+                //새로 발송 가능 수신처 , $agency_arr는 rlatjd_fun.php에서 정의
+                // Cooper Add 총 발송건수 체크 (선거 본인용) 수신처 무제한 변경 2016-04-04
+                if ($sendnum[$j] == str_replace("-", "", $member_info['mem_phone']) && ($member_info['mem_type'] == "V")) {
+                    if ($telecom == "LG")
+                        $ssh_num_true[$j] = 90000;
+                    else
+                        $ssh_num_true[$j] = 60000;
+                }
 
-                    // HERE 코드 확인
-                    // 전화번호별 1일 발송양, 월간 발송양 , 월간 수신처 확인
-                    // 오늘발송량, 이달발송량, 이달수신처량(사용량/전체한도), 이달 200건 초과횟수 10회 미만일경우만 발송(200건이상 발송의 경우 10회 미만일경우 성공 10회 이상일경우 실패)
-                    // ( 오늘 오전에 100건 보내고 오후에 100건 보내면 200미만 +1 카운트에서 200초과 +1로 이동해야 하니까 / 취소하거나 미발송건으로 복원시에도)
-                    // STEP #1 == 1일 발송양 확인 // 폰별
+                // HERE 코드 확인
+                // 전화번호별 1일 발송양, 월간 발송양 , 월간 수신처 확인
+                // 오늘발송량, 이달발송량, 이달수신처량(사용량/전체한도), 이달 200건 초과횟수 10회 미만일경우만 발송(200건이상 발송의 경우 10회 미만일경우 성공 10회 이상일경우 실패)
+                // ( 오늘 오전에 100건 보내고 오후에 100건 보내면 200미만 +1 카운트에서 200초과 +1로 이동해야 하니까 / 취소하거나 미발송건으로 복원시에도)
+                // STEP #1 == 1일 발송양 확인 // 폰별
 
-                    // $total_num_cnt 총발송양
-                    //echo "일발송양:".$send_cnt[$j]."====".$this_time_send."\n";
-                    //echo "\n".$allocation_cnt."===".count($num_arr)."\n";
+                // $total_num_cnt 총발송양
+                //echo "일발송양:".$send_cnt[$j]."====".$this_time_send."\n";
+                //echo "\n".$allocation_cnt."===".count($num_arr)."\n";
 
-                    if ($send_cnt[$j] > 0 && $send_cnt[$j] < count($num_arr)) {
-                        $allocation_cnt = $send_cnt[$j]; // 일발송양보다 작으면 일발송양으로 수정
-                        //echo "T1";
-                    } else {
-                        //$allocation_cnt = count($num_arr);
-                        //echo "T2";
-                    }
-                    // STEP #2 == 월간 발송양 확인 // 아이디별
-                    //echo "월발송양:".$thiMonleftCnt."\n";
-                    if ($thiMonleftCnt < $total_num_cnt) {
-                        $allocation_cnt = $thiMonleftCnt;
-                        //echo "T3";
-                    }
-                    // STEP #3 == 월간 수신처 확인 // 폰별 $limitCnt
-                    //echo "수신처:".$used_ssh_cnt."==".$limitCnt."====".$allocation_cnt."===".$ssh_num_true[$j]."\n";
-                    // 추가 2016-05-20
-                    if ($allocation_cnt > $ssh_num_true[$j]) {
-                        $allocation_cnt = $ssh_num_true[$j];
-                    }
-                    // 월간 수신처 초과 확인 2019-05-31
-                    if ($limitCnt  - $used_ssh_cnt < $allocation_cnt) {
-                        $allocation_cnt = $limitCnt  - $used_ssh_cnt;
-                    }
-                    // 월간 수신처가 마이너스 체크 2019-05-31
-                    if ($limitCnt  - $used_ssh_cnt <= 0) {
+                if ($send_cnt[$j] > 0 && $send_cnt[$j] < count($num_arr)) {
+                    $allocation_cnt = $send_cnt[$j]; // 일발송양보다 작으면 일발송양으로 수정
+                    //echo "T1";
+                } else {
+                    //$allocation_cnt = count($num_arr);
+                    //echo "T2";
+                }
+                // STEP #2 == 월간 발송양 확인 // 아이디별
+                //echo "월발송양:".$thiMonleftCnt."\n";
+                if ($thiMonleftCnt < $total_num_cnt) {
+                    $allocation_cnt = $thiMonleftCnt;
+                    //echo "T3";
+                }
+                // STEP #3 == 월간 수신처 확인 // 폰별 $limitCnt
+                //echo "수신처:".$used_ssh_cnt."==".$limitCnt."====".$allocation_cnt."===".$ssh_num_true[$j]."\n";
+                // 추가 2016-05-20
+                if ($allocation_cnt > $ssh_num_true[$j]) {
+                    $allocation_cnt = $ssh_num_true[$j];
+                }
+                // 월간 수신처 초과 확인 2019-05-31
+                if ($limitCnt  - $used_ssh_cnt < $allocation_cnt) {
+                    $allocation_cnt = $limitCnt  - $used_ssh_cnt;
+                }
+                // 월간 수신처가 마이너스 체크 2019-05-31
+                if ($limitCnt  - $used_ssh_cnt <= 0) {
+                    $allocation_cnt = 0;
+                }
+                $query = "select * from Gn_MMS_Number where mem_id='{$user_id}' and sendnum='{$sendnum[$j]}'";
+                $result = mysqli_query($self_con, $query);
+                $info = mysqli_fetch_array($result);
+                $daily_limit_cnt_user = $info['daily_limit_cnt_user']; // 10건
+                $daily_min_cnt_user = $info['daily_min_cnt_user']; // 20건
+                $monthly_receive_cnt_user = $info['monthly_receive_cnt_user']; // 수신처 제한
+                // 이번달 발송건이 10건 이상시
+                //if($info['cnt1'] >= 10) $allocation_cnt = 199;
+                if ($info['cnt1'] >= 10)
+                    $allocation_cnt = $daily_min_cnt_user - 1;
+                if (!$_POST['send_ssh_check']) {
+                    if ($ssh_num_true[$j] <= $used_ssh_cnt) {
+                        // 수신처 초과시 신규 배정 X
                         $allocation_cnt = 0;
-                    }
-                    $query = "select * from Gn_MMS_Number where mem_id='{$user_id}' and sendnum='{$sendnum[$j]}'";
-                    $result = mysqli_query($self_con, $query);
-                    $info = mysqli_fetch_array($result);
-                    $daily_limit_cnt_user = $info['daily_limit_cnt_user']; // 10건
-                    $daily_min_cnt_user = $info['daily_min_cnt_user']; // 20건
-                    $monthly_receive_cnt_user = $info['monthly_receive_cnt_user']; // 수신처 제한
-                    // 이번달 발송건이 10건 이상시
-                    //if($info['cnt1'] >= 10) $allocation_cnt = 199;
-                    if ($info['cnt1'] >= 10)
-                        $allocation_cnt = $daily_min_cnt_user - 1;
-                    if (!$_POST['send_ssh_check']) {
-                        if ($ssh_num_true[$j] <= $used_ssh_cnt) {
-                            // 수신처 초과시 신규 배정 X
-                            $allocation_cnt = 0;
-                            //echo "T4";
-                        } else {
-                            // 수신처 초과가 아닌경우
-                            //if($allocation_cnt > $limitCnt - $used_ssh_cnt) {
-                            //    $allocation_cnt = $limitCnt - $used_ssh_cnt;
-                            //echo "T5";
-                            //}
-                        }
-                    }
-
-                    // STEP #4 == 이달 200건 초과횟수 10회 미만일경우만 발송(200건이상 발송의 경우 10회 미만일경우 성공 10회 이상일경우 실패)
-                    if ($cnt1_arr[$j] >= 10) { //10회 이상일우
-                        $send_msg[$j] = $sendnum[$j] . "폰의 이달 200건 초과횟수 10회 이상 예외처리 199건까지 발송가능";
-                    }
-                    // STEP #4-1 폰별 신규 폰번호 발송 가능양에 따라 재분배
-                    if ($_POST['send_ssh_check']) {
-                        //if($allocation_cnt < ) // 발송건수가 오늘 발송 건수보다 작을 경우 수량을 더함
-                        if (count($sendnum) == 1) {
-                            $allocation_cnt = $allocation_cnt + count($send_num_list[$sendnum[$j]]);  //2016-05-27 추가
-                            if ($allocation_cnt > $send_cnt[$j]) $allocation_cnt = $send_cnt[$j]; //2016-05-27 추가
-                        }
-                        // 차이 만큼 신규 배정
-                        if ($loop_check_num < $allocation_cnt - count($send_num_list[$sendnum[$j]])) {
-                            $send_num_list_cnt = count($send_num_list[$sendnum[$j]]);
-                            // 총 발송 건수와 배정된 건수가 적을 경우만 루프
-                            if ($loop_allocate_num < count($num_arr)) {
-                                for ($kkk = 0; $kkk < $allocation_cnt - $send_num_list_cnt; $kkk++) { // 1차 배정 분 제외 할지 여부
-                                    if ($num_arr_3[$kkk]) { // 값이 있을경우 배정
-                                        $send_num_list[$sendnum[$j]][$send_num_list_cnt + $kkk] = $num_arr_3[$kkk];
-                                        fwrite($fp,"496:".print_r($send_num_list,true)."\r\n");
-                                        $success_cell_arr[$sendnum[$j]] = $sendnum[$j];
-                                    }
-                                }
-                                $num_arr_3 = array_diff($num_arr_3, $send_num_list[$sendnum[$j]]);
-                                sort($num_arr_3);
-                                $loop_allocate_num = count($send_num_list[$sendnum[$j]]);
-                            }
-                        }
-                    }
-                    if ($_POST['send_ssh_check2']) {
-                        // 차이 만큼 신규 배정
-                        if ($loop_check_num < $allocation_cnt - count($send_num_list[$sendnum[$j]])) {
-                            $send_num_list_cnt = count($send_num_list[$sendnum[$j]]);
-                            // 총 발송 건수와 배정된 건수가 적을 경우만 루프
-                            if (count($num_arr) > 0) {
-                                for ($kkk = 0; $kkk < $allocation_cnt - $send_num_list_cnt; $kkk++) {
-                                    if ($num_arr[$kkk]) { // 값이 있을경우 배정
-                                        $send_num_list[$sendnum[$j]][$send_num_list_cnt + $kkk] = $num_arr[$kkk];
-                                        fwrite($fp,"515:".print_r($send_num_list,true)."\r\n");
-                                        $success_cell_arr[$sendnum[$j]] = $sendnum[$j];
-                                    }
-                                }
-                                $num_arr = array_diff($num_arr, $send_num_list[$sendnum[$j]]);
-                                sort($num_arr);
-                                $loop_allocate_num = count($send_num_list[$sendnum[$j]]);
-                                $loop_check_num = $loop_check_num + $send_num_list_cnt;
-                            }
-                        }
-                    }
-                    $success_arr = array_merge($success_arr, (array)$send_num_list[$sendnum[$j]]);
-                    // STEP #5 == 금일 발송양에 따른 통계 계산
-                    if ($_POST['send_ssh_check']) {
-                        $sql_check_s = "select no,status from tjd_mms_cnt_check where mem_id='{$user_id}' and sendnum='$sendnum[$j]' and date=curdate() ";
-                        $resul_check_s = mysqli_query($self_con, $sql_check_s);
-                        $row_check_s = mysqli_fetch_array($resul_check_s);
-                        if ($row_check_s['no']) { //tjd_mms_cnt_check에 자료 있으면 : 오늘 보낸 적 있음
-                            if ($row_check_s['status'] == "N") { //200미만 건 발송 이력 있음
-                                // Cooper Add  2016-05-08
-                                if ($user_cnt[$sendnum[$j]] + count($send_num_list[$sendnum[$j]]) >= $daily_min_cnt_user  && count($send_num_list[$sendnum[$j]]) > 0) {
-                                    $sql_num = "update Gn_MMS_Number set cnt1=cnt1+1, cnt2=cnt2-1 where mem_id='{$user_id}' and sendnum='$sendnum[$j]' ";
-                                    if ($debug_mode == false) {
-                                        mysqli_query($self_con, $sql_num);
-                                    }
-                                    $sql_check_u = "update tjd_mms_cnt_check set status='Y' where mem_id='{$user_id}' and sendnum='$sendnum[$j]' and date=curdate() ";
-                                    if ($debug_mode == false) {
-                                        mysqli_query($self_con, $sql_check_u);
-                                    }
-                                    $cnt1_log_arr[$j] += 1;
-                                    $cnt2_log_arr[$j] -= 1;
-                                }
-                            } else if ($row_check_s['status'] == "Y") { //200미만 건 발송 이력 있음
-                            }
-                            $cntYN_log_arr[$j] = count($send_num_list[$sendnum[$j]]); //2016-05-08 추가
-                        } else {
-                            if ($user_cnt[$sendnum[$j]] + count($send_num_list[$sendnum[$j]]) >= $daily_min_cnt_user && count($send_num_list[$sendnum[$j]]) > 0) {
-                                $sql_num = "update Gn_MMS_Number set cnt1=cnt1+1 where mem_id='{$user_id}' and sendnum='$sendnum[$j]' ";
-                                if ($debug_mode == false) {
-                                    mysqli_query($self_con, $sql_num);
-                                }
-                                $sql_check_i = "insert into tjd_mms_cnt_check set mem_id='{$user_id}' , sendnum='$sendnum[$j]' , status='Y', date=curdate() ";
-                                if ($debug_mode == false) {
-                                    mysqli_query($self_con, $sql_check_i);
-                                }
-                                $cnt1_log_arr[$j] += 1;
-                            } else if ($user_cnt[$sendnum[$j]] + count($send_num_list[$sendnum[$j]]) < $daily_min_cnt_user  && count($send_num_list[$sendnum[$j]]) > 0) {
-                                $sql_num = "update Gn_MMS_Number set cnt2=cnt2+1 where mem_id='{$user_id}' and sendnum='$sendnum[$j]' ";
-                                if ($debug_mode == false) {
-                                    mysqli_query($self_con, $sql_num);
-                                }
-                                $sql_check_i = "insert into tjd_mms_cnt_check set mem_id='{$user_id}' , sendnum='$sendnum[$j]' , status='N', date=curdate() ";
-                                if ($debug_mode == false) {
-                                    mysqli_query($self_con, $sql_check_i);
-                                }
-                                $cnt2_log_arr[$j] += 1;
-                            }
-                            $cntYN_log_arr[$j] = count($send_num_list[$sendnum[$j]]); //2016-05-08 추가
-                        }
-                    } else {
-                        $sql_check_s = "select no,status from tjd_mms_cnt_check where mem_id='{$user_id}' and sendnum='$sendnum[$j]' and date=curdate() ";
-                        $resul_check_s = mysqli_query($self_con, $sql_check_s);
-                        $row_check_s = mysqli_fetch_array($resul_check_s);
-                        if ($row_check_s['no']) { //tjd_mms_cnt_check에 자료 있으면 : 오늘 보낸 적 있음
-                            if ($row_check_s['status'] == "N") { //200미만 건 발송 이력 있음
-                                // Cooper Add  2016-05-08
-                                if ($user_cnt[$sendnum[$j]] + count($send_num_list[$sendnum[$j]]) >= $daily_min_cnt_user  && count($send_num_list[$sendnum[$j]]) > 0) {
-                                    $sql_num = "update Gn_MMS_Number set cnt1=cnt1+1, cnt2=cnt2-1 where mem_id='{$user_id}' and sendnum='$sendnum[$j]' ";
-                                    if ($debug_mode == false) {
-                                        mysqli_query($self_con, $sql_num);
-                                    }
-                                    $sql_check_u = "update tjd_mms_cnt_check set status='Y' where mem_id='{$user_id}' and sendnum='$sendnum[$j]' and date=curdate() ";
-                                    if ($debug_mode == false) {
-                                        mysqli_query($self_con, $sql_check_u);
-                                    }
-
-                                    $cnt1_log_arr[$j] += 1;
-                                    $cnt2_log_arr[$j] -= 1;
-                                    $cntYN_log_arr[$j] = count($send_num_list[$sendnum[$j]]); //2016-05-08 추가
-                                }
-                            } else if ($row_check_s['status'] == "Y") { //200미만 건 발송 이력 있음
-                            }
-                        } else {
-                            if ($user_cnt[$sendnum[$j]] + count($send_num_list[$sendnum[$j]]) >= $daily_min_cnt_user  && count($send_num_list[$sendnum[$j]]) > 0) {
-                                $sql_num = "update Gn_MMS_Number set cnt1=cnt1+1 where mem_id='{$user_id}' and sendnum='$sendnum[$j]' ";
-                                if ($debug_mode == false) {
-                                    mysqli_query($self_con, $sql_num);
-                                }
-                                $sql_check_i = "insert into tjd_mms_cnt_check set mem_id='{$user_id}' , sendnum='$sendnum[$j]' , status='Y', date=curdate() ";
-                                if ($debug_mode == false) {
-                                    mysqli_query($self_con, $sql_check_i);
-                                }
-                                $cnt1_log_arr[$j] += 1;
-                            } else if ($user_cnt[$sendnum[$j]] + count($send_num_list[$sendnum[$j]]) < $daily_min_cnt_user  && count($send_num_list[$sendnum[$j]]) > 0) {
-                                $sql_num = "update Gn_MMS_Number set cnt2=cnt2+1 where mem_id='{$user_id}' and sendnum='$sendnum[$j]' ";
-                                if ($debug_mode == false) {
-                                    mysqli_query($self_con, $sql_num);
-                                }
-
-                                $sql_check_i = "insert into tjd_mms_cnt_check set mem_id='{$user_id}' , sendnum='$sendnum[$j]' , status='N', date=curdate() ";
-                                if ($debug_mode == false) {
-                                    mysqli_query($self_con, $sql_check_i);
-                                }
-                                $cnt2_log_arr[$j] += 1;
-                            }
-                            $cntYN_log_arr[$j] = count($send_num_list[$sendnum[$j]]); //2016-05-08 추가
-                        }
+                        //echo "T4";
                     }
                 }
-                //unset($ssh_num);
+
+                // STEP #4 == 이달 200건 초과횟수 10회 미만일경우만 발송(200건이상 발송의 경우 10회 미만일경우 성공 10회 이상일경우 실패)
+                if ($cnt1_arr[$j] >= 10) { //10회 이상일우
+                    $send_msg[$j] = $sendnum[$j] . "폰의 이달 200건 초과횟수 10회 이상 예외처리 199건까지 발송가능";
+                }
+                // STEP #4-1 폰별 신규 폰번호 발송 가능양에 따라 재분배
+                if ($_POST['send_ssh_check']) {
+                    //if($allocation_cnt < ) // 발송건수가 오늘 발송 건수보다 작을 경우 수량을 더함
+                    if (isset($send_num_list[$sendnum[$j]]))
+                        $send_num_list_cnt = count($send_num_list[$sendnum[$j]]);
+                    else
+                        $send_num_list_cnt = 0;
+                    if (count($sendnum) == 1) {
+                        $allocation_cnt += $send_num_list_cnt;  //2016-05-27 추가
+                        if ($allocation_cnt > $send_cnt[$j])
+                            $allocation_cnt = $send_cnt[$j]; //2016-05-27 추가
+                    }
+                    // 차이 만큼 신규 배정
+
+                    if ($loop_check_num < $allocation_cnt - $send_num_list_cnt) {
+                        // 총 발송 건수와 배정된 건수가 적을 경우만 루프
+                        if ($loop_allocate_num < count($num_arr)) {
+                            for ($kkk = 0; $kkk < $allocation_cnt - $send_num_list_cnt; $kkk++) { // 1차 배정 분 제외 할지 여부
+                                if ($num_arr_3[$kkk]) { // 값이 있을경우 배정
+                                    //insert send_num_list-ssh_check
+                                    $send_num_list[$sendnum[$j]][$send_num_list_cnt + $kkk] = $num_arr_3[$kkk];
+                                    fwrite($fp, "496:" . print_r($send_num_list, true) . "\r\n");
+                                    $success_cell_arr[$sendnum[$j]] = $sendnum[$j];
+                                }
+                            }
+                            $num_arr_3 = array_diff($num_arr_3, $send_num_list[$sendnum[$j]]);
+                            sort($num_arr_3);
+                            $loop_allocate_num = count($send_num_list[$sendnum[$j]]);
+                        }
+                    }
+                    unset($send_num_list_cnt);
+                }
+                if ($_POST['send_ssh_check2']) {
+                    if (isset($send_num_list[$sendnum[$j]]))
+                        $send_num_list_cnt = count($send_num_list[$sendnum[$j]]);
+                    else
+                        $send_num_list_cnt = 0;
+                    // 차이 만큼 신규 배정
+                    if ($loop_check_num < $allocation_cnt - $send_num_list_cnt) {
+                        // 총 발송 건수와 배정된 건수가 적을 경우만 루프
+                        if (count($num_arr) > 0) {
+                            for ($kkk = 0; $kkk < $allocation_cnt - $send_num_list_cnt; $kkk++) {
+                                if ($num_arr[$kkk]) { // 값이 있을경우 배정
+                                    //insert send_num_list-ssh_check_2
+                                    $send_num_list[$sendnum[$j]][$send_num_list_cnt + $kkk] = $num_arr[$kkk];
+                                    fwrite($fp, "515:" . print_r($send_num_list, true) . "\r\n");
+                                    $success_cell_arr[$sendnum[$j]] = $sendnum[$j];
+                                }
+                            }
+                            $num_arr = array_diff($num_arr, $send_num_list[$sendnum[$j]]);
+                            sort($num_arr);
+                            $loop_allocate_num = count($send_num_list[$sendnum[$j]]);
+                            $loop_check_num += $send_num_list_cnt;
+                        }
+                    }
+                    unset($send_num_list_cnt);
+                }
+                $success_arr = array_merge($success_arr, (array)$send_num_list[$sendnum[$j]]);
+                // STEP #5 == 금일 발송양에 따른 통계 계산
+                if ($_POST['send_ssh_check']) {
+                    $sql_check_s = "select no,status from tjd_mms_cnt_check where mem_id='{$user_id}' and sendnum='$sendnum[$j]' and date=curdate() ";
+                    $resul_check_s = mysqli_query($self_con, $sql_check_s);
+                    $row_check_s = mysqli_fetch_array($resul_check_s);
+                    if ($row_check_s['no']) { //tjd_mms_cnt_check에 자료 있으면 : 오늘 보낸 적 있음
+                        if ($row_check_s['status'] == "N") { //200미만 건 발송 이력 있음
+                            // Cooper Add  2016-05-08
+                            if ($user_cnt[$sendnum[$j]] + count($send_num_list[$sendnum[$j]]) >= $daily_min_cnt_user  && count($send_num_list[$sendnum[$j]]) > 0) {
+                                $sql_num = "update Gn_MMS_Number set cnt1=cnt1+1, cnt2=cnt2-1 where mem_id='{$user_id}' and sendnum='$sendnum[$j]' ";
+                                if ($debug_mode == false) {
+                                    mysqli_query($self_con, $sql_num);
+                                }
+                                $sql_check_u = "update tjd_mms_cnt_check set status='Y' where mem_id='{$user_id}' and sendnum='$sendnum[$j]' and date=curdate() ";
+                                if ($debug_mode == false) {
+                                    mysqli_query($self_con, $sql_check_u);
+                                }
+                                $cnt1_log_arr[$j] += 1;
+                                $cnt2_log_arr[$j] -= 1;
+                            }
+                        }
+                        $cntYN_log_arr[$j] = count($send_num_list[$sendnum[$j]]); //2016-05-08 추가
+                    } else {
+                        if ($user_cnt[$sendnum[$j]] + count($send_num_list[$sendnum[$j]]) >= $daily_min_cnt_user && count($send_num_list[$sendnum[$j]]) > 0) {
+                            $sql_num = "update Gn_MMS_Number set cnt1=cnt1+1 where mem_id='{$user_id}' and sendnum='$sendnum[$j]' ";
+                            if ($debug_mode == false) {
+                                mysqli_query($self_con, $sql_num);
+                            }
+                            $sql_check_i = "insert into tjd_mms_cnt_check set mem_id='{$user_id}' , sendnum='$sendnum[$j]' , status='Y', date=curdate() ";
+                            if ($debug_mode == false) {
+                                mysqli_query($self_con, $sql_check_i);
+                            }
+                            $cnt1_log_arr[$j] += 1;
+                        } else if ($user_cnt[$sendnum[$j]] + count($send_num_list[$sendnum[$j]]) < $daily_min_cnt_user  && count($send_num_list[$sendnum[$j]]) > 0) {
+                            $sql_num = "update Gn_MMS_Number set cnt2=cnt2+1 where mem_id='{$user_id}' and sendnum='$sendnum[$j]' ";
+                            if ($debug_mode == false) {
+                                mysqli_query($self_con, $sql_num);
+                            }
+                            $sql_check_i = "insert into tjd_mms_cnt_check set mem_id='{$user_id}' , sendnum='$sendnum[$j]' , status='N', date=curdate() ";
+                            if ($debug_mode == false) {
+                                mysqli_query($self_con, $sql_check_i);
+                            }
+                            $cnt2_log_arr[$j] += 1;
+                        }
+                        $cntYN_log_arr[$j] = count($send_num_list[$sendnum[$j]]); //2016-05-08 추가
+                    }
+                } else {
+                    $sql_check_s = "select no,status from tjd_mms_cnt_check where mem_id='{$user_id}' and sendnum='$sendnum[$j]' and date=curdate() ";
+                    $resul_check_s = mysqli_query($self_con, $sql_check_s);
+                    $row_check_s = mysqli_fetch_array($resul_check_s);
+                    if ($row_check_s['no']) { //tjd_mms_cnt_check에 자료 있으면 : 오늘 보낸 적 있음
+                        if ($row_check_s['status'] == "N") { //200미만 건 발송 이력 있음
+                            // Cooper Add  2016-05-08
+                            if ($user_cnt[$sendnum[$j]] + count($send_num_list[$sendnum[$j]]) >= $daily_min_cnt_user  && count($send_num_list[$sendnum[$j]]) > 0) {
+                                $sql_num = "update Gn_MMS_Number set cnt1=cnt1+1, cnt2=cnt2-1 where mem_id='{$user_id}' and sendnum='$sendnum[$j]' ";
+                                if ($debug_mode == false) {
+                                    mysqli_query($self_con, $sql_num);
+                                }
+                                $sql_check_u = "update tjd_mms_cnt_check set status='Y' where mem_id='{$user_id}' and sendnum='$sendnum[$j]' and date=curdate() ";
+                                if ($debug_mode == false) {
+                                    mysqli_query($self_con, $sql_check_u);
+                                }
+
+                                $cnt1_log_arr[$j] += 1;
+                                $cnt2_log_arr[$j] -= 1;
+                                $cntYN_log_arr[$j] = count($send_num_list[$sendnum[$j]]); //2016-05-08 추가
+                            }
+                        }
+                    } else {
+                        if ($user_cnt[$sendnum[$j]] + count($send_num_list[$sendnum[$j]]) >= $daily_min_cnt_user  && count($send_num_list[$sendnum[$j]]) > 0) {
+                            $sql_num = "update Gn_MMS_Number set cnt1=cnt1+1 where mem_id='{$user_id}' and sendnum='$sendnum[$j]' ";
+                            if ($debug_mode == false) {
+                                mysqli_query($self_con, $sql_num);
+                            }
+                            $sql_check_i = "insert into tjd_mms_cnt_check set mem_id='{$user_id}' , sendnum='$sendnum[$j]' , status='Y', date=curdate() ";
+                            if ($debug_mode == false) {
+                                mysqli_query($self_con, $sql_check_i);
+                            }
+                            $cnt1_log_arr[$j] += 1;
+                        } else if ($user_cnt[$sendnum[$j]] + count($send_num_list[$sendnum[$j]]) < $daily_min_cnt_user  && count($send_num_list[$sendnum[$j]]) > 0) {
+                            $sql_num = "update Gn_MMS_Number set cnt2=cnt2+1 where mem_id='{$user_id}' and sendnum='$sendnum[$j]' ";
+                            if ($debug_mode == false) {
+                                mysqli_query($self_con, $sql_num);
+                            }
+
+                            $sql_check_i = "insert into tjd_mms_cnt_check set mem_id='{$user_id}' , sendnum='$sendnum[$j]' , status='N', date=curdate() ";
+                            if ($debug_mode == false) {
+                                mysqli_query($self_con, $sql_check_i);
+                            }
+                            $cnt2_log_arr[$j] += 1;
+                        }
+                        $cntYN_log_arr[$j] = count($send_num_list[$sendnum[$j]]); //2016-05-08 추가
+                    }
+                }
             }
+            //unset($ssh_num);
+            if (isset($send_num_list[$sendnum[$j]]))
+                $send_num_list_cnt = count($send_num_list[$sendnum[$j]]);
+            else
+                $send_num_list_cnt = 0;
         } else {
             $loop_check_num = 0; // 폰별 신규 배정된 번호 합
-            $loop_allocate_num = 0; // 폰별 배정된 번호 합
             for ($j = 0; $j < count($sendnum); $j++) { //발송가능 폰번호별
                 $req = $reg . $j;
                 if ($max_cnt_arr[$j] > $today_limit)
@@ -666,13 +671,9 @@ if ($user_id) {
                 if ($send_cnt[$j] > 0 && $send_cnt[$j] < count($num_arr)) {
                     $allocation_cnt = $send_cnt[$j]; // 일발송양보다 작으면 일발송양으로 수정
                     //echo "T1";
-                } else {
-                    //$allocation_cnt = count($num_arr);
-                    //echo "T2";
                 }
 
                 // STEP #2 == 월간 발송양 확인 // 아이디별
-                //echo "월발송양:".$thiMonleftCnt."\n";
                 if ($thiMonleftCnt < $total_num_cnt) {
                     $allocation_cnt = $thiMonleftCnt;
                     //echo "T3";
@@ -688,28 +689,20 @@ if ($user_id) {
 
                 $pkey[$info['sendnum']] = $info['pkey'];
                 // 이번달 발송건이 10건 이상시
-                //if($info['cnt1'] >= 10) $allocation_cnt = 199;
                 if ($info['cnt1'] >= 10) $allocation_cnt = $daily_min_cnt_user - 1;
 
                 // STEP #3 == 월간 수신처 확인 // 폰별 $limitCnt
-                //echo "수신처:".$used_ssh_cnt."==".$limitCnt."====".$ssh_num_true[$j]."===".$ssh_num_true[$j]."\n";
                 if ($ssh_num_true[$j] <= $allocation_cnt) {
                     // 수신처 초과시 신규 배정 X
                     $allocation_cnt = $allocation_cnt;
                 } else if ($ssh_num_true[$j] <= 0) {
                     $allocation_cnt = 0;
                     //echo "T4";
-                } else {
-                    // 수신처 초과가 아닌경우
-                    //if($allocation_cnt > $limitCnt - $used_ssh_cnt) {
-                    //    $allocation_cnt = $limitCnt - $used_ssh_cnt;
-                    //echo "T5";
-                    //}
                 }
 
                 $sql_ssh = "select recv_num from Gn_MMS where mem_id = '{$user_id}' and send_num='$sendnum[$j]' and result = '0' and reg_date like '$date_month%'";
                 $resul_ssh = mysqli_query($self_con, $sql_ssh);
-                fwrite($fp,"712:".$sql_ssh."\r\n");
+                fwrite($fp, "712:" . $sql_ssh . "\r\n");
                 $ssh_num = array();
                 if (mysqli_num_rows($resul_ssh)) {
                     while ($row_ssh = mysqli_fetch_array($resul_ssh)) {
@@ -741,31 +734,35 @@ if ($user_id) {
                 //echo "배정수:$allocation_cnt==$total_num_cnt==$left_ssh_count\n";
 
                 // STEP #4 == 이달 200건 초과횟수 10회 미만일경우만 발송(200건이상 발송의 경우 10회 미만일경우 성공 10회 이상일경우 실패)
-                //echo "횟수:".$cnt1_arr[$j]."\n";
                 if ($cnt1_arr[$j] >= 10) { //10회 이상일우
                     $send_msg[$j] = $sendnum[$j] . "폰의 이달 200건 초과횟수 10회 이상 예외처리 199건까지 발송가능";
                 }
                 // STEP #4-1 폰별 신규 폰번호 발송 가능양에 따라 재분배
                 // 차이 만큼 신규 배정
-                if (isset($send_num_list[$sendnum[$j]]) && $loop_check_num < $allocation_cnt - count($send_num_list[$sendnum[$j]])) {
-                    fwrite($fp,"752:".count($send_num_list[$sendnum[$j]])."\r\n");
+                if (isset($send_num_list[$sendnum[$j]]))
                     $send_num_list_cnt = count($send_num_list[$sendnum[$j]]);
+                else
+                    $send_num_list_cnt = 0;
+                if ($loop_check_num < $allocation_cnt - $send_num_list_cnt) {
+                    fwrite($fp, "752:" . $send_num_list_cnt . "\r\n");
                     // 총 발송 건수와 배정된 건수가 적을 경우만 루프
                     if (count($num_arr) > 0) {
                         //echo "밸쎔:".$allocation_cnt." - ".$send_num_list_cnt."\n";
+                        $tmp_count = 0;
                         for ($kkk = 0; $kkk < $allocation_cnt - $send_num_list_cnt; $kkk++) {
-
                             if ($num_arr[$kkk]) { // 값이 있을경우 배정
+                                //insert send_num_list-app_check
                                 $send_num_list[$sendnum[$j]][$send_num_list_cnt + $kkk] = $num_arr[$kkk];
-                                fwrite($fp,"756:".print_r($send_num_list,true)."\r\n");
+                                fwrite($fp, "756:" . print_r($send_num_list, true) . "\r\n");
                                 $success_cell_arr[$sendnum[$j]] = $sendnum[$j];
+                                $tmp_count++;
                             }
                         }
-
                         $num_arr = array_diff($num_arr, $send_num_list[$sendnum[$j]]);
                         sort($num_arr);
-                        $loop_allocate_num = count($send_num_list[$sendnum[$j]]);
-                        $loop_check_num = $loop_check_num + $send_num_list_cnt;
+                        $loop_check_num += $send_num_list_cnt;
+                        $send_num_list_cnt + $tmp_count;
+                        unset($tmp_count);
                     }
                 }
 
@@ -775,11 +772,11 @@ if ($user_id) {
                 $sql_check_s = "select no,status from tjd_mms_cnt_check where mem_id='{$user_id}' and sendnum='$sendnum[$j]' and date=curdate() ";
                 $resul_check_s = mysqli_query($self_con, $sql_check_s);
                 if (mysqli_num_rows($resul_check_s) > 0) { //tjd_mms_cnt_check에 자료 있으면 : 오늘 보낸 적 있음
-                    fwrite($fp,"778:\r\n");
+                    fwrite($fp, "778:\r\n");
                     $row_check_s = mysqli_fetch_array($resul_check_s);
                     if ($row_check_s['status'] == "N") { //200미만 건 발송 이력 있음
                         // Cooper Add  2016-05-08
-                        if ($user_cnt[$sendnum[$j]] + count($send_num_list[$sendnum[$j]]) >= $daily_min_cnt_user  && count($send_num_list[$sendnum[$j]]) > 0) {
+                        if ($user_cnt[$sendnum[$j]] + $send_num_list_cnt >= $daily_min_cnt_user  && $send_num_list_cnt > 0) {
                             $sql_num = "update Gn_MMS_Number set cnt1=cnt1+1, cnt2=cnt2-1 where mem_id='{$user_id}' and sendnum='$sendnum[$j]' ";
                             if ($debug_mode == false) {
                                 mysqli_query($self_con, $sql_num);
@@ -795,13 +792,12 @@ if ($user_id) {
 
                             //$this_time_send
                         }
-                    } else if ($row_check_s['status'] == "Y") { //200미만 건 발송 이력 있음
                     }
-                    $cntYN_log_arr[$j] = count($send_num_list[$sendnum[$j]]); //2016-05-08 추가
+                    $cntYN_log_arr[$j] = $send_num_list_cnt; //2016-05-08 추가
                 } else {
-                    fwrite($fp,"802:\r\n");
-                    if ($user_cnt[$sendnum[$j]] + count($send_num_list[$sendnum[$j]]) >= $daily_min_cnt_user && count($send_num_list[$sendnum[$j]]) > 0) {
-                        fwrite($fp,"804:\r\n");
+                    fwrite($fp, "802:\r\n");
+                    if ($user_cnt[$sendnum[$j]] + $send_num_list_cnt >= $daily_min_cnt_user && $send_num_list_cnt > 0) {
+                        fwrite($fp, "804:\r\n");
                         $sql_num = "update Gn_MMS_Number set cnt1=cnt1+1 where mem_id='{$user_id}' and sendnum='$sendnum[$j]' ";
                         if ($debug_mode == false) {
                             mysqli_query($self_con, $sql_num);
@@ -811,8 +807,8 @@ if ($user_id) {
                             mysqli_query($self_con, $sql_check_i);
                         }
                         $cnt1_log_arr[$j] += 1;
-                    } else if ($user_cnt[$sendnum[$j]] + count($send_num_list[$sendnum[$j]]) < $daily_min_cnt_user && count($send_num_list[$sendnum[$j]]) > 0) {
-                        fwrite($fp,"815:\r\n");
+                    } else if ($user_cnt[$sendnum[$j]] + $send_num_list_cnt < $daily_min_cnt_user && $send_num_list_cnt > 0) {
+                        fwrite($fp, "815:\r\n");
                         $sql_num = "update Gn_MMS_Number set cnt2=cnt2+1 where mem_id='{$user_id}' and sendnum='$sendnum[$j]' ";
                         if ($debug_mode == false) {
                             mysqli_query($self_con, $sql_num);
@@ -823,12 +819,12 @@ if ($user_id) {
                         }
                         $cnt2_log_arr[$j] += 1;
                     }
-                    $cntYN_log_arr[$j] = count($send_num_list[$sendnum[$j]]); //2016-05-08 추가
+                    $cntYN_log_arr[$j] = $send_num_list_cnt; //2016-05-08 추가
                 }
             }
             //unset($ssh_num);
         }
-        fwrite($fp,"827:\r\n");
+        fwrite($fp, "827:\r\n");
         unset($num_arr_2);
         unset($num_arr_3);
         $today_will_send_count = count($num_arr); //금일 발송해야 되는 총 건 수
@@ -837,7 +833,7 @@ if ($user_id) {
         $re_today_cnt = 0;
         for ($j = 0; $j < count($sendnum); $j++) { //발송가능 폰번호별 발송 가능 수신처 확인
             $recv_arr = array();
-            $max_cnt = count($send_num_list[$sendnum[$j]]); // 재선언 2016-05-08
+            $max_cnt = $send_num_list_cnt; // 재선언 2016-05-08
             if ($max_cnt > 0) {
                 for ($i = 0; $i < $max_cnt; $i++) {
                     $opt_message = "";
@@ -856,18 +852,6 @@ if ($user_id) {
                     }
                 }
                 if (count($recv_arr)) {   //앱에서만 보내기로 합 2016-03-07
-                    /*	$mms_start_info['mem_id']=$user_id;
-                    $mms_start_info['send_num']=$sendnum[$j];
-                    $mms_start_info['recv_num']=$sendnum[$j];
-                    $mms_start_info['uni_id']=$reg."999";
-                    $mms_start_info['content']="온리원문자 문자발송시작";
-                    $mms_start_info['title']="온리원문자";
-                    $sql_start="insert into Gn_MMS set ";
-                    foreach($mms_start_info as $key=>$v)
-                    $sql_start.=" $key='$v' ,";
-                    $sql_start.=" reg_date = now() ";
-                    mysqli_query($self_con,$sql_start) or die(mysqli_error($self_con));*/
-
                     // Cooper Add 치환 대상자 이름 뽑기
                     if (strstr($_POST['send_txt'], "{|name|}")) {
                         $recv_str_sql = "'" . implode("','", $recv_arr) . "'";
@@ -952,19 +936,13 @@ if ($user_id) {
                         $recv_arr_temp = explode(",", $replace_row['recv_num']);
                         $diff_result = array_diff($recv_arr, $recv_arr_temp);
                         $diff_str = implode(",", $diff_result);
-                        //$recv_str = $replace_row['recv_num'];
                         $recv_email_str = $replace_row['email'];
-                        // if($recv_str)
-                        //     $recv_str .= ",".$diff_str;
-                        // else
-                        //     $recv_str .= $diff_str;
                         foreach ($diff_result as $key => $val) {
                             $recv_email_str .= ",";
                         }
                         $mms_info['replacement2'] = $recv_email_str;
                         mysqli_free_result($replace_result);
                     } else {
-                        //$recv_str=implode(",",$recv_arr);
                         $recv_email_str = "";
                     }
 
