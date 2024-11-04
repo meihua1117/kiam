@@ -795,7 +795,6 @@ if ($_POST['num_check_go']) {
                         }
                     }
                 }
-                $success_arr = array_merge($success_arr, (array)$send_num_list[$sendnum[$j]]);
                 // STEP #5 == 금일 발송양에 따른 통계 계산
                 //echo $sendnum[$j]."===".count($send_num_list[$sendnum[$j]])."===".$this_time_send."\n";
                 if ($_POST['send_ssh_check']) {
@@ -913,7 +912,6 @@ if ($_POST['num_check_go']) {
                 }
             }
             fwrite($fp,"test21\r\n");
-            $success_arr = array_merge($success_arr, (array)$send_num_list[$sendnum[$j]]);
             fwrite($fp,"test22\r\n");
             // STEP #5 == 금일 발송양에 따른 통계 계산
             $sql_check_s = "select no,status from tjd_mms_cnt_check where mem_id='{$_SESSION['one_member_id']}' and sendnum='$sendnum[$j]' and date=curdate() ";
@@ -946,7 +944,6 @@ if ($_POST['num_check_go']) {
     unset($lose_arr);
     unset($deny_num);
     unset($revnum);
-    unset($success_arr);
     unset($ssh_num);
     if ($check_cnt4) {
         $diff_info = array_merge(array_diff($diff_info, $check_cnt4));  // 값을 비교하여 중복값 삭제
