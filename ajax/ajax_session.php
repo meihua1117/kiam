@@ -1009,7 +1009,7 @@ if ($_POST['num_check_go']) {
             jy_cnt_str += bd + check_cnt1_str;
         if (check_cnt0_str)
             jy_cnt_str += bd + check_cnt0_str;
-        if (jy_cnt_str) {
+        /*if (jy_cnt_str) {
             jy_cnt2_arr = jy_cnt_str.split(",");
             jy_cnt_arr = uniqueArray2(jy_cnt2_arr, true);
         }
