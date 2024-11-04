@@ -1008,7 +1008,7 @@ if ($_POST['num_check_go']) {
             jy_cnt_str += bd + check_cnt1_str;
         if (check_cnt0_str)
             jy_cnt_str += bd + check_cnt0_str;
-        /*if (jy_cnt_str) {
+        if (jy_cnt_str) {
             jy_cnt2_arr = jy_cnt_str.split(",");
             jy_cnt_arr = uniqueArray2(jy_cnt2_arr, true);
         }
@@ -1018,7 +1018,7 @@ if ($_POST['num_check_go']) {
         var shiji_cnt = total_num - jy_cnt;
         shiji_cnt = (<?= $re_today_cnt ?> * 1);
         jy_cnt = total_num - shiji_cnt;
-        /*if ($('input[name=ssh_check]:eq(2)').is(":checked") == true)
+        if ($('input[name=ssh_check]:eq(2)').is(":checked") == true)
             $($(".num_check_c")[10]).html((<?= count($diff_info) ?> * 1)); //수신처전용발송 누락
         else
             $($(".num_check_c")[10]).html(0); //수신처전용발송 누락
