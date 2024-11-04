@@ -16,6 +16,7 @@ if ($useType == '1') {
 		fwrite($fp,"test03\r\n");
 		$exif = exif_read_data($_FILES['photo']['tmp_name']);
 		fwrite($fp,"test04\r\n");
+		$image = imagecreatefromjpeg($filePath); // provided that the image is jpeg. Use relevant function otherwise
 		if (!empty($exif['Orientation'])) {
 			fwrite($fp,"test05\r\n");
 			$imageResource = imagecreatefromjpeg($filePath); // provided that the image is jpeg. Use relevant function otherwise
