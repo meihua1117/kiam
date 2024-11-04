@@ -59,7 +59,7 @@ if ($useType == '1') {
 
 			if ((!$row_p['name'] || !$row_p['job'] || !$row_p['org_name'] || !$row_p['address'] || !$row_p['mobile'] || !$row_p['email1']) && $row_p['comment']) {
 				fwrite($fp,"test2\r\n");
-				$cur_url = "http://175.126.176.97/get_profile_info.php";
+				$cur_url = "http://aiserver.kiam.kr:8080/get_profile_info.php";
 				$postvars = 'box_text=' . $row_p['comment'];
 
 				$ch = curl_init();
@@ -203,7 +203,7 @@ if ($useType == '1') {
 
 	if ((!$row_p['name'] || !$row_p['job'] || !$row_p['org_name'] || !$row_p['address'] || !$row_p['mobile'] || !$row_p['email1']) && $row_p['comment']) {
 
-		$cur_url = "http://175.126.176.97/get_profile_info.php";
+		$cur_url = "http://aiserver.kiam.kr:8080/get_profile_info.php";
 		$postvars = 'box_text=' . $row_p['comment'];
 
 		$ch = curl_init();
