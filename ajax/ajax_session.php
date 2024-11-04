@@ -979,22 +979,35 @@ if ($_POST['num_check_go']) {
     ?>
     <script language="javascript">
         var total_num = parseInt("<?= $total_send_num ?>");
+        console.log(1);
         var check_cnt6 = parseInt("<?= count($check_cnt6) ?>");
+        console.log(2);
         var check_cnt5 = parseInt("<?= count($check_cnt5) ?>");
+        console.log(3);
         var check_cnt4 = parseInt(document.getElementsByName('ssh_check')[1].checked ? "<?= count($check_cnt4) ?>" : "0");
+        console.log(4);
         var check_cnt3 = parseInt(document.getElementsByName('deny_wushi[]')[3].checked ? "<?= count($check_cnt3) ?>" : "0");
+        console.log(5);
         var check_cnt2 = parseInt(document.getElementsByName('deny_wushi[]')[2].checked ? "<?= count($check_cnt2) ?>" : "0");
+        console.log(6);
         var check_cnt1 = parseInt(document.getElementsByName('deny_wushi[]')[1].checked ? "<?= count($check_cnt1) ?>" : "0");
+        console.log(7);
         var check_cnt0 = parseInt(document.getElementsByName('deny_wushi[]')[0].checked ? "<?= count($check_cnt0) ?>" : "0");
-
+        console.log(8);
         var check_cnt6_str = "<?= $check_cnt6_str ?>";
+        console.log(9);
         var check_cnt5_str = "<?= $check_cnt5_str ?>";
+        console.log(10);
         var check_cnt4_str = document.getElementsByName('ssh_check')[1].checked ? "<?= $check_cnt4_str ?>" : "";
+        console.log(11);
         var check_cnt3_str = document.getElementsByName('deny_wushi[]')[3].checked ? "<?= $check_cnt3_str ?>" : "";
+        console.log(12);
         var check_cnt2_str = document.getElementsByName('deny_wushi[]')[2].checked ? "<?= $check_cnt2_str ?>" : "";
+        console.log(13);
         var check_cnt1_str = document.getElementsByName('deny_wushi[]')[1].checked ? "<?= $check_cnt1_str ?>" : "";
+        console.log(14);
         var check_cnt0_str = document.getElementsByName('deny_wushi[]')[0].checked ? "<?= $check_cnt0_str ?>" : "";
-
+        console.log(15);
         var jy_cnt_str = "";
         var jy_cnt_arr = [];
         var jy_cnt2_arr = [];
@@ -1015,6 +1028,7 @@ if ($_POST['num_check_go']) {
             jy_cnt2_arr = jy_cnt_str.split(",");
             jy_cnt_arr = uniqueArray2(jy_cnt2_arr, true);
         }
+        console.log(16);
         var cf_cnt = jy_cnt_arr.length;
         var jy_cnt = jy_cnt2_arr.length - cf_cnt;
         var cf_cnt = cf_cnt ? "-" + cf_cnt : cf_cnt;
