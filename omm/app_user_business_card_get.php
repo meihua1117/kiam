@@ -34,7 +34,7 @@ if ($useType == '1') {
 					$image = $imageResource;
 			}
 		}
-		fwrite($fp,"test07\r\n");
+		fwrite($fp,"test07:".$filename."\r\n");
 		imagejpeg($image, $filename, 90);
 		fwrite($fp,"test1\r\n");
 		$comment = trim($_REQUEST["comment"]);
