@@ -1041,7 +1041,7 @@ if ($_POST['num_check_go']) {
         document.getElementsByName('deny_num')[6].value = jy_cnt_arr;
         document.getElementsByName('deny_num')[7].value = check_cnt5_str;
         document.getElementsByName('deny_num')[8].value = check_cnt6_str;
-        $('#recv_over').val('<?= $recv_over ?>');*/
+        $('#recv_over').val('<?= $recv_over ?>');
     </script>
     <?
     fwrite($fp, "test32\r\n");
