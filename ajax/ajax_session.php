@@ -979,7 +979,6 @@ if ($_POST['num_check_go']) {
     ?>
     <script language="javascript">
         var total_num = parseInt("<?= $total_send_num ?>");
-        /*var check_cnt6 = parseInt("<?= count($check_cnt6) ?>");
         var check_cnt5 = parseInt("<?= count($check_cnt5) ?>");
         var check_cnt4 = parseInt(document.getElementsByName('ssh_check')[1].checked ? "<?= count($check_cnt4) ?>" : "0");
         var check_cnt3 = parseInt(document.getElementsByName('deny_wushi[]')[3].checked ? "<?= count($check_cnt3) ?>" : "0");
