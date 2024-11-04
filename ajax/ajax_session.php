@@ -1019,7 +1019,7 @@ if ($_POST['num_check_go']) {
         var shiji_cnt = total_num - jy_cnt;
         shiji_cnt = (<?= $re_today_cnt ?> * 1);
         jy_cnt = total_num - shiji_cnt;
-        if ($('input[name=ssh_check]:eq(2)').is(":checked") == true)
+        /*if ($('input[name=ssh_check]:eq(2)').is(":checked") == true)
             $($(".num_check_c")[10]).html((<?= count($diff_info) ?> * 1)); //수신처전용발송 누락
         else
             $($(".num_check_c")[10]).html(0); //수신처전용발송 누락
@@ -1042,7 +1042,7 @@ if ($_POST['num_check_go']) {
         document.getElementsByName('deny_num')[6].value = jy_cnt_arr;
         document.getElementsByName('deny_num')[7].value = check_cnt5_str;
         document.getElementsByName('deny_num')[8].value = check_cnt6_str;
-        $('#recv_over').val('<?= $recv_over ?>');
+        $('#recv_over').val('<?= $recv_over ?>');*/
     </script>
     <?
     fwrite($fp, "test32\r\n");
