@@ -492,7 +492,7 @@ if ($_POST['num_check_go']) {
         $resul_etc = mysqli_query($self_con, $sql_etc);
         $row_etc = mysqli_fetch_array($resul_etc);
         if (in_array_fun($v, $ssh_total_num))
-            @array_push($check_cnt4, $v);
+            array_push($check_cnt4, $v);
     }
     $diff_info = array_diff($num_arr, $ssh_num);
     $num_arr = array_merge($num_arr, explode(",", $_POST['send_num']));
@@ -508,7 +508,7 @@ if ($_POST['num_check_go']) {
         $recv_arr[$i] = preg_replace("/[^0-9]/i", "", $recv_arr[$i]);
         if (!check_cellno($recv_arr[$i])) {
             //기타 번호(폰번호아님) 모으기: $_POST['send_deny_wushi_2']
-            @array_push($etc_arr, $num_arr[$i]);
+            array_push($etc_arr, $num_arr[$i]);
             if ($_POST['send_deny_wushi_2'])
                 continue;
         }
@@ -518,7 +518,7 @@ if ($_POST['num_check_go']) {
         $row_deny = mysqli_fetch_array($resul_deny);
         if ($row_deny['idx']) {
             //수신 거부 번호 모으기 : $_POST['send_deny_wushi_3']
-            @array_push($deny_num, $num_arr[$i]);
+            array_push($deny_num, $num_arr[$i]);
             if ($_POST['send_deny_wushi_3'])
                 continue;
         }
@@ -528,17 +528,17 @@ if ($_POST['num_check_go']) {
         if ($row_etc['seq']) {
             if ($row_etc['msg_flag'] == 1) {
                 //기타 번호 모으기 : $_POST['send_deny_wushi_2']
-                @array_push($etc_arr, $num_arr[$i]);
+                array_push($etc_arr, $num_arr[$i]);
                 if ($_POST['send_deny_wushi_2'])
                     continue;
             } else if ($row_etc['msg_flag'] == 2) {
                 //없는 번호 모으기 : $_POST['send_deny_wushi_1']
-                @array_push($wrong_arr, $num_arr[$i]);
+                array_push($wrong_arr, $num_arr[$i]);
                 if ($_POST['send_deny_wushi_1'])
                     continue;
             } else if ($row_etc['msg_flag'] == 3) {
                 //수신불가 번호 모으기 : $_POST['send_deny_wushi_0']
-                @array_push($lose_arr, $num_arr[$i]);
+                array_push($lose_arr, $num_arr[$i]);
                 if ($_POST['send_deny_wushi_0'])
                     continue;
             }
@@ -861,7 +861,6 @@ if ($_POST['num_check_go']) {
             // ( 오늘 오전에 100건 보내고 오후에 100건 보내면 200미만 +1 카운트에서 200초과 +1로 이동해야 하니까 / 취소하거나 미발송건으로 복원시에도)
             // STEP #1 == 1일 발송양 확인 // 폰별
             // $total_num_cnt 총발송양
-            //echo $send_cnt[$j]." < ".count($num_arr)." < ".$allocation_cnt."\n";
             if ($send_cnt[$j] < count($num_arr)) {
                 $allocation_cnt = $send_cnt[$j]; // 일발송양보다 작으면 일발송양으로 수정
                 //echo "T1";
@@ -875,14 +874,7 @@ if ($_POST['num_check_go']) {
             // 이번달 발송건이 10건 이상시
             if ($info['cnt1'] >= 10)
                 $allocation_cnt = 199;
-            // STEP #2 == 월간 발송양 확인 // 아이디별
-            //echo "월발송양:".$thiMonleftCnt."\n";
-            //if($thiMonleftCnt < $total_num_cnt) {
-            //    $allocation_cnt = $thiMonleftCnt;
-            //    //echo "T3";
-            //}
             // STEP #3 == 월간 수신처 확인 // 폰별 $limitCnt
-            //echo "수신처:".$used_ssh_cnt."==".$limitCnt."====".$ssh_num_true[$j]."===".$ssh_num_true[$j]."\n";
             if ($ssh_num_true[$j] <= $allocation_cnt) {
                 // 수신처 초과시 신규 배정 X
                 $allocation_cnt = $allocation_cnt;
@@ -900,18 +892,14 @@ if ($_POST['num_check_go']) {
             if ($left_ssh_count  <= $allocation_cnt) {
                 $allocation_cnt = $left_ssh_count;
             }
-            //echo "수신처:".$used_ssh_cnt."==".$limitCnt."====".$ssh_num_true[$j]."===".$ssh_num_true[$j]."===".$allocation_cnt."\n";
-            //echo "배정수:$allocation_cnt==$total_num_cnt";
             // STEP #4 == 이달 200건 초과횟수 10회 미만일경우만 발송(200건이상 발송의 경우 10회 미만일경우 성공 10회 이상일경우 실패)
             if ($cnt1_arr[$j] >= 10) { //10회 이상일우
                 $send_msg[$j] = $sendnum[$j] . "폰의 이달 200건 초과횟수 10회 이상 예외처리 199건까지 발송가능";
             }
-            //echo $loop_check_num." < ".$allocation_cnt." - ".count($send_num_list[$sendnum[$j]])."\n";
             if ($loop_check_num < $allocation_cnt - count($send_num_list[$sendnum[$j]])) {
                 $send_num_list_cnt = count($send_num_list[$sendnum[$j]]);
                 // 총 발송 건수와 배정된 건수가 적을 경우만 루프
                 if (count($num_arr) > 0) {
-                    echo "$allocation_cnt - $send_num_list_cnt\n";
                     for ($kkk = 0; $kkk < $allocation_cnt - $send_num_list_cnt; $kkk++) {
                         if ($num_arr[$kkk]) { // 값이 있을경우 배정
                             $send_num_list[$sendnum[$j]][$send_num_list_cnt + $kkk] = $num_arr[$kkk];
@@ -926,11 +914,13 @@ if ($_POST['num_check_go']) {
             }
             fwrite($fp,"test21\r\n");
             $success_arr = array_merge($success_arr, (array)$send_num_list[$sendnum[$j]]);
+            fwrite($fp,"test22\r\n");
             // STEP #5 == 금일 발송양에 따른 통계 계산
-            //echo $sendnum[$j]."===".count($send_num_list[$sendnum[$j]])."===".$this_time_send."\n";
             $sql_check_s = "select no,status from tjd_mms_cnt_check where mem_id='{$_SESSION['one_member_id']}' and sendnum='$sendnum[$j]' and date=curdate() ";
             $resul_check_s = mysqli_query($self_con, $sql_check_s);
+            fwrite($fp,"test23:".$sql_check_s."\r\n");
             $row_check_s = mysqli_fetch_array($resul_check_s);
+            fwrite($fp,"test24\r\n");
             if ($row_check_s['no']) { //tjd_mms_cnt_check에 자료 있으면 : 오늘 보낸 적 있음
                 if ($row_check_s['status'] == "N") { //200미만 건 발송 이력 있음
                     // Cooper Add  2016-05-08
@@ -940,10 +930,9 @@ if ($_POST['num_check_go']) {
             } else {
                 $cntYN_log_arr[$j] = count($send_num_list[$sendnum[$j]]); //2016-05-08 추가
             }
-            fwrite($fp,"test22\r\n");
+            fwrite($fp,"test25\r\n");
         }
     }
-    fwrite($fp,"test23\r\n");
     for ($j = 0; $j < count($sendnum); $j++) { //발송가능 폰번호별 발송 가능 수신처 확인
         $max_cnt = count($send_num_list[$sendnum[$j]]); // 재선언 2016-05-08
         $re_today_cnt +=  $max_cnt;
