@@ -27,7 +27,7 @@ else if($_POST['get_data'] == "Y"){
 
     if((!$row_data['name'] || !$row_data['job'] || !$row_data['org_name'] || !$row_data['address'] || !$row_data['mobile'] || !$row_data['email1'] ) && $row_data['comment']){
 
-        $cur_url = "http://175.126.176.97/get_profile_info.php";
+        $cur_url = "http://aiserver.kiam.kr:8080/get_profile_info.php";
         $postvars = 'box_text='. $row_data['comment'];
 
         $ch = curl_init();

@@ -9,7 +9,7 @@ $cur_data = 'A. 서울특별시 동작구 노량진로 186
         // HAPPINESS';
 
 $cur_url = "http://localhost:8080/get_profile_info.php";
-$cur_url = "http://175.126.176.97/get_profile_info.php";
+$cur_url = "http://aiserver.kiam.kr:8080/get_profile_info.php";
 //$cur_url = "https://www.kiam.kr/api/get_profile_info.php";
 $postvars = 'box_text='. $cur_data;
 
