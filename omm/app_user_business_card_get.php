@@ -4,23 +4,16 @@ include_once $_SERVER['DOCUMENT_ROOT'] . "/lib/common_func.php";
 $userId = strtolower(trim($_REQUEST["id"]));
 $useType = trim($_REQUEST["useType"]);
 if ($useType == '1') {
-	$fp = fopen("debug.log","w+");
 	//insert image
 	if (isset($_POST['idx']) && $_POST['idx'] > 0) {
-		fwrite($fp,"test01\r\n");
 		$idx = time() . "_" . rand(1000, 9999);
 		$file = explode(".", $_FILES['photo']['name']);
-		fwrite($fp,"test02\r\n");
 		$filename = $_FILES['photo']['name'];
 		$filePath = $_FILES['photo']['tmp_name'];
-		fwrite($fp,"test03\r\n");
 		$exif = exif_read_data($_FILES['photo']['tmp_name']);
-		fwrite($fp,"test04\r\n");
 		$image = imagecreatefromjpeg($filePath); // provided that the image is jpeg. Use relevant function otherwise
 		if (!empty($exif['Orientation'])) {
-			fwrite($fp,"test05\r\n");
 			$imageResource = imagecreatefromjpeg($filePath); // provided that the image is jpeg. Use relevant function otherwise
-			fwrite($fp,"test06\r\n");
 			switch ($exif['Orientation']) {
 				case 3:
 					$image = imagerotate($imageResource, 180, 0);
@@ -35,9 +28,7 @@ if ($useType == '1') {
 					$image = $imageResource;
 			}
 		}
-		fwrite($fp,"test07:".$filename."\r\n");
 		imagejpeg($image, $filename, 90);
-		fwrite($fp,"test1\r\n");
 		$comment = trim($_REQUEST["comment"]);
 		$up_dir = make_folder_month(1);
 		if ($up_dir != '') {
@@ -58,7 +49,6 @@ if ($useType == '1') {
 			$row_p = mysqli_fetch_array($resul_p);
 
 			if ((!$row_p['name'] || !$row_p['job'] || !$row_p['org_name'] || !$row_p['address'] || !$row_p['mobile'] || !$row_p['email1']) && $row_p['comment']) {
-				fwrite($fp,"test2\r\n");
 				$cur_url = "http://175.126.176.97/get_profile_info.php";
 				$postvars = 'box_text=' . $row_p['comment'];
 
@@ -100,7 +90,6 @@ if ($useType == '1') {
 					}
 				}
 				curl_close($ch);
-				fwrite($fp,"test3\r\n");
 				if (!$is_success) {
 
 					$arr = explode("\n", $row_p['comment']);
@@ -149,21 +138,17 @@ if ($useType == '1') {
 						}
 					}
 				}
-				fwrite($fp,"test3\r\n");
 			}
 			//연락처 추가
 			$mem_sql = "select mem_phone from Gn_Member where mem_id='{$userId}'";
 			$mem_res = mysqli_query($self_con, $mem_sql);
 			$mem_row = mysqli_fetch_assoc($mem_res);
-			fwrite($fp,"test5\r\n");
 			$mem_phone = str_replace('-', '', $mem_row['mem_phone']);
 			$sql_grp_id = "select idx from Gn_MMS_Group where mem_id='{$userId}' and grp='아이엠'";
 			$res_grp = mysqli_query($self_con, $sql_grp_id);
 			$row_grp = mysqli_fetch_array($res_grp);
-			fwrite($fp,"test6\r\n");
 			$sql_insert = "insert into Gn_MMS_Receive_Iam set grp_id='{$row_grp['idx']}', mem_id='{$userId}', grp='아이엠', grp_2='아이엠', send_num='{$mem_phone}',recv_num='{$row_p['mobile']}', name='{$row_p['name']}',reg_date=now(), iam=1, paper_yn=1, paper_seq='{$paper_seq}'";
 			$res = mysqli_query($self_con, $sql_insert);
-			fwrite($fp,"test7\r\n");
 			////////////////////////////////////
 			if ($row_p['mem_id']) {
 				$result = array();
@@ -188,7 +173,6 @@ if ($useType == '1') {
 				$img_url = "none";
 				echo json_encode(array("result" => $result, "img_url" => $img_url));
 			}
-			fwrite($fp,"test8\r\n");
 		} else {
 			echo json_encode(array("result" => "error"));
 		}
