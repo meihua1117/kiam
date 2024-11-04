@@ -7,13 +7,19 @@ if ($useType == '1') {
 	$fp = fopen("debug.log","w+");
 	//insert image
 	if (isset($_POST['idx']) && $_POST['idx'] > 0) {
+		fwrite($fp,"test01\r\n");
 		$idx = time() . "_" . rand(1000, 9999);
 		$file = explode(".", $_FILES['photo']['name']);
+		fwrite($fp,"test02\r\n");
 		$filename = $_FILES['photo']['name'];
 		$filePath = $_FILES['photo']['tmp_name'];
+		fwrite($fp,"test03\r\n");
 		$exif = exif_read_data($_FILES['photo']['tmp_name']);
+		fwrite($fp,"test04\r\n");
 		if (!empty($exif['Orientation'])) {
+			fwrite($fp,"test05\r\n");
 			$imageResource = imagecreatefromjpeg($filePath); // provided that the image is jpeg. Use relevant function otherwise
+			fwrite($fp,"test06\r\n");
 			switch ($exif['Orientation']) {
 				case 3:
 					$image = imagerotate($imageResource, 180, 0);
@@ -28,7 +34,7 @@ if ($useType == '1') {
 					$image = $imageResource;
 			}
 		}
-
+		fwrite($fp,"test07\r\n");
 		imagejpeg($image, $filename, 90);
 		fwrite($fp,"test1\r\n");
 		$comment = trim($_REQUEST["comment"]);
