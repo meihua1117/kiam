@@ -977,7 +977,7 @@ if ($_POST['num_check_go']) {
     $check_cnt0_str = implode(",", $check_cnt0);
     fwrite($fp,"test31\r\n");
     ?>
-    <script language="javascript">
+    <!--script language="javascript">
         var total_num = parseInt("<?= $total_send_num ?>");
         //var check_cnt6 = parseInt("<?= count($check_cnt6) ?>");
         var check_cnt5 = parseInt("<?= count($check_cnt5) ?>");
@@ -1043,7 +1043,7 @@ if ($_POST['num_check_go']) {
         document.getElementsByName('deny_num')[7].value = check_cnt5_str;
         document.getElementsByName('deny_num')[8].value = check_cnt6_str;
         $('#recv_over').val('<?= $recv_over ?>');
-    </script>
+    </script-->
     <?
     fwrite($fp,"test32\r\n");
 }
