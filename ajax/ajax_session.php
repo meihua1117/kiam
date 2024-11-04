@@ -925,7 +925,7 @@ if ($_POST['num_check_go']) {
                 }
             }
             fwrite($fp,"test21\r\n");
-            $success_arr = @array_merge($success_arr, (array)$send_num_list[$sendnum[$j]]);
+            $success_arr = array_merge($success_arr, (array)$send_num_list[$sendnum[$j]]);
             // STEP #5 == 금일 발송양에 따른 통계 계산
             //echo $sendnum[$j]."===".count($send_num_list[$sendnum[$j]])."===".$this_time_send."\n";
             $sql_check_s = "select no,status from tjd_mms_cnt_check where mem_id='{$_SESSION['one_member_id']}' and sendnum='$sendnum[$j]' and date=curdate() ";
@@ -940,11 +940,10 @@ if ($_POST['num_check_go']) {
             } else {
                 $cntYN_log_arr[$j] = count($send_num_list[$sendnum[$j]]); //2016-05-08 추가
             }
-            //echo count($send_num_list[$sendnum[$j]])."====".$this_time_send."\n";
+            fwrite($fp,"test22\r\n");
         }
-        //echo $sql_num;
-        //print_r($send_num_list);
     }
+    fwrite($fp,"test23\r\n");
     for ($j = 0; $j < count($sendnum); $j++) { //발송가능 폰번호별 발송 가능 수신처 확인
         $max_cnt = count($send_num_list[$sendnum[$j]]); // 재선언 2016-05-08
         $re_today_cnt +=  $max_cnt;
