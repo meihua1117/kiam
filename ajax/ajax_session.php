@@ -976,75 +976,7 @@ if ($_POST['num_check_go']) {
     $check_cnt1_str = implode(",", $check_cnt1);
     $check_cnt0_str = implode(",", $check_cnt0);
     fwrite($fp,"test31\r\n");
-    ?>
-    <!--script language="javascript">
-        var total_num = parseInt("<?= $total_send_num ?>");
-        //var check_cnt6 = parseInt("<?= count($check_cnt6) ?>");
-        var check_cnt5 = parseInt("<?= count($check_cnt5) ?>");
-        var check_cnt4 = parseInt(document.getElementsByName('ssh_check')[1].checked ? "<?= count($check_cnt4) ?>" : "0");
-        var check_cnt3 = parseInt(document.getElementsByName('deny_wushi[]')[3].checked ? "<?= count($check_cnt3) ?>" : "0");
-        var check_cnt2 = parseInt(document.getElementsByName('deny_wushi[]')[2].checked ? "<?= count($check_cnt2) ?>" : "0");
-        var check_cnt1 = parseInt(document.getElementsByName('deny_wushi[]')[1].checked ? "<?= count($check_cnt1) ?>" : "0");
-        var check_cnt0 = parseInt(document.getElementsByName('deny_wushi[]')[0].checked ? "<?= count($check_cnt0) ?>" : "0");
-        var check_cnt6_str = "<?= $check_cnt6_str ?>";
-        var check_cnt5_str = "<?= $check_cnt5_str ?>";
-        var check_cnt4_str = document.getElementsByName('ssh_check')[1].checked ? "<?= $check_cnt4_str ?>" : "";
-        var check_cnt3_str = document.getElementsByName('deny_wushi[]')[3].checked ? "<?= $check_cnt3_str ?>" : "";
-        var check_cnt2_str = document.getElementsByName('deny_wushi[]')[2].checked ? "<?= $check_cnt2_str ?>" : "";
-        var check_cnt1_str = document.getElementsByName('deny_wushi[]')[1].checked ? "<?= $check_cnt1_str ?>" : "";
-        var check_cnt0_str = document.getElementsByName('deny_wushi[]')[0].checked ? "<?= $check_cnt0_str ?>" : "";
-        var jy_cnt_str = "";
-        var jy_cnt_arr = [];
-        var jy_cnt2_arr = [];
-        var bd = jy_cnt_str != "" ? "," : "";
-        if (check_cnt5_str)
-            jy_cnt_str += bd + check_cnt5_str;
-        if (check_cnt4_str) //2016-03-08 수정
-            jy_cnt_str += bd + check_cnt4_str;
-        if (check_cnt3_str)
-            jy_cnt_str += bd + check_cnt3_str;
-        if (check_cnt2_str)
-            jy_cnt_str += bd + check_cnt2_str;
-        if (check_cnt1_str)
-            jy_cnt_str += bd + check_cnt1_str;
-        if (check_cnt0_str)
-            jy_cnt_str += bd + check_cnt0_str;
-        if (jy_cnt_str) {
-            jy_cnt2_arr = jy_cnt_str.split(",");
-            jy_cnt_arr = uniqueArray2(jy_cnt2_arr, true);
-        }
-        var cf_cnt = jy_cnt_arr.length;
-        var jy_cnt = jy_cnt2_arr.length - cf_cnt;
-        var cf_cnt = cf_cnt ? "-" + cf_cnt : cf_cnt;
-        var shiji_cnt = total_num - jy_cnt;
-        shiji_cnt = (<?= $re_today_cnt ?> * 1);
-        jy_cnt = total_num - shiji_cnt;
-        if ($('input[name=ssh_check]:eq(2)').is(":checked") == true)
-            $($(".num_check_c")[10]).html((<?= count($diff_info) ?> * 1)); //수신처전용발송 누락
-        else
-            $($(".num_check_c")[10]).html(0); //수신처전용발송 누락
-        $($(".num_check_c")[0]).html(jy_cnt); //발송제외
-        $($(".num_check_c")[1]).html(shiji_cnt); //실제발송가능건
-        $($(".num_check_c")[2]).html(total_num); //총발송건수
-        $($(".num_check_c")[3]).html(cf_cnt); //처리후중복제거
-        $($(".num_check_c")[4]).html(check_cnt5); //중복제거
-        $($(".num_check_c")[5]).html(check_cnt0); //수신불가
-        $($(".num_check_c")[6]).html(check_cnt1); //없는번호
-        $($(".num_check_c")[7]).html(check_cnt2); //기타
-        $($(".num_check_c")[8]).html(check_cnt3); //수신거부
-        $($(".num_check_c")[9]).html(check_cnt4); //수신처 제외
-        document.getElementsByName('deny_num')[0].value = check_cnt0_str;
-        document.getElementsByName('deny_num')[1].value = check_cnt1_str;
-        document.getElementsByName('deny_num')[2].value = check_cnt2_str;
-        document.getElementsByName('deny_num')[3].value = check_cnt3_str;
-        document.getElementsByName('deny_num')[4].value = jy_cnt_arr;
-        document.getElementsByName('deny_num')[5].value = check_cnt4_str;
-        document.getElementsByName('deny_num')[6].value = jy_cnt_arr;
-        document.getElementsByName('deny_num')[7].value = check_cnt5_str;
-        document.getElementsByName('deny_num')[8].value = check_cnt6_str;
-        $('#recv_over').val('<?= $recv_over ?>');
-    </script-->
-    <?
+    
     fwrite($fp,"test32\r\n");
 }
 //디테일 수정 삭제 추가
