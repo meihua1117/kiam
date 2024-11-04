@@ -318,7 +318,6 @@ if ($_POST['group_modify_title'] && $_POST['group_modify_idx']) {
 }
 //번호체크
 if ($_POST['num_check_go']) {
-    $fp = fopen("debug.log", "w+");
     $check_status = $_POST['num_check_status'];
     $num_arr = array();
     $num_arr2 = array();
@@ -353,17 +352,14 @@ if ($_POST['num_check_go']) {
                 array_push($num_arr, $row_rece['recv_num']);
         }
     }
-    fwrite($fp, "test1\r\n");
     $num_arr2 = array_unique($num_arr);
     $total_send_num = count($num_arr);
     $check_cnt5 = array_diff_assoc($num_arr, $num_arr2); //중복번호
     $check_cnt5 = array_unique($check_cnt5);
-    fwrite($fp, "test2\r\n");
     $ssh_total_num = array();
     if ($_POST['send_rday']) //예약발송 확인
         $reservation = $_POST['send_rday'] . " " . $_POST['send_htime'] . ":" . $_POST['send_mtime'] . ":00";
     if ($_POST['num_check_send_num']) {
-        fwrite($fp, "test3\r\n");
         $no_num = array(); //없는 번호 // === 2016-05-11 추가 ===
         $start_num = array();  // === 2016-05-11 추가 ===
         $deny_num = array(); //수신거부 번호 // === 2016-05-11 추가 ===
@@ -394,7 +390,6 @@ if ($_POST['num_check_go']) {
         $resul_ssh = mysqli_query($self_con, $sql_ssh);
         if (mysqli_num_rows($resul_ssh)) {
             while ($row_ssh = mysqli_fetch_array($resul_ssh)) {
-                fwrite($fp, "test4\r\n");
                 $ssh_arr = array();
                 $ssh_num = array();
                 $row_ssh['recv_num'] = str_replace(",$row_ssh[send_num]", "", $row_ssh['recv_num']);   // 자기자신값 삭제 2016-04-28
@@ -433,7 +428,6 @@ if ($_POST['num_check_go']) {
     }
     sort($num_arr2);
     $num_arr_1 = array();
-    fwrite($fp, "test5\r\n");
     for ($i = 0; $i < count($num_arr2); $i++) {
         $is_zero = substr($num_arr2[$i], 0, 1);
         $recv_arr[$i] = $is_zero ? "0" . $num_arr2[$i] : $num_arr2[$i];
@@ -478,7 +472,6 @@ if ($_POST['num_check_go']) {
         }
         array_push($num_arr_1, $num_arr2[$i]); // 제외 빼고 나머지 번호들
     }
-    fwrite($fp, "test6\r\n");
     $num_arr2 = $num_arr_1; //제외 빼고 나머지 번호들 넣기
     unset($num_arr_1);
     foreach ($num_arr2 as $key => $v) {
@@ -501,7 +494,6 @@ if ($_POST['num_check_go']) {
     $total_num_cnt = count($num_arr);
     $send_cnt = $_POST['send_go_user_cnt'];
     $memo2_arr = $_POST['send_go_memo2'];
-    fwrite($fp, "test7\r\n");
     for ($i = 0; $i < count($num_arr); $i++) {
         $is_zero = substr($num_arr[$i], 0, 1);
         $recv_arr[$i] = $is_zero ? "0" . $num_arr[$i] : $num_arr[$i];
@@ -547,7 +539,6 @@ if ($_POST['num_check_go']) {
     }
     $num_arr = $num_arr_1; //제외 빼고 나머지 번호들 넣기
     unset($num_arr_1);
-    fwrite($fp, "test8\r\n");
     //발송가능 폰번호별 이번 달 발송했던 수신번호 확인
     $send_msg = array(); // 2016-05-08 상태 메세지
     $num_arr_2 = array();
@@ -614,7 +605,6 @@ if ($_POST['num_check_go']) {
         $ssh_total_num = array_merge($ssh_total_num, $ssh_num); //총 수신처 누적
         // 폰별 수신처별 번호 배정 추가 2016-05-02
     }
-    fwrite($fp, "test9\r\n");
     $s = 0; //전체 발송 번호 건수 중 수신거부 링크 추가한 인덱스로 사용
     $re_today_cnt = 0; //금일 전송 성공
     $ssh_total_cnt = 0; //전송실패건수(수신처제한)
@@ -630,7 +620,6 @@ if ($_POST['num_check_go']) {
     없으면 $num_arr_3 추가
     */
     if ($_POST['send_ssh_check'] || $_POST['send_ssh_check2'] || $_POST['send_ssh_check3']) {
-        fwrite($fp, "test10\r\n");
         foreach ($num_arr as $key => $v) {
             if (in_array_fun($v, $ssh_total_num))
                 array_push($num_arr_2, $v); //기존수신처
@@ -651,7 +640,6 @@ if ($_POST['num_check_go']) {
             $recv_exp_cnt = count($num_arr_2);
         }
         if ($_POST['send_ssh_check'] || $_POST['send_ssh_check2'] || $_POST['send_ssh_check3']) { //수신처 우선
-            fwrite($fp, "test11\r\n");
             $loop_check_num = 0; // 폰별 신규 배정된 번호 합
             $loop_allocate_num = 0; // 폰별 배정된 번호 합
             for ($j = 0; $j < count($sendnum); $j++) { //발송가능 폰번호별
@@ -719,7 +707,6 @@ if ($_POST['num_check_go']) {
                     //$allocation_cnt = $send_cnt[$j];
                     //echo "T2";
                 }
-                fwrite($fp, "test12\r\n");
                 $query = "select * from Gn_MMS_Number where mem_id='{$_SESSION['one_member_id']}' and sendnum='" . $sendnum[$j] . "'";
                 $result = mysqli_query($self_con, $query);
                 $info = mysqli_fetch_array($result);
@@ -826,11 +813,9 @@ if ($_POST['num_check_go']) {
                         $cntYN_log_arr[$j] = count($send_num_list[$sendnum[$j]]); //2016-05-08 추가
                     }
                 }
-                fwrite($fp, "test13\r\n");
             }
         }
     } else {
-        fwrite($fp, "test20\r\n");
         $loop_check_num = 0; // 폰별 신규 배정된 번호 합
         $loop_allocate_num = 0; // 폰별 배정된 번호 합
         for ($j = 0; $j < count($sendnum); $j++) { //발송가능 폰번호별
@@ -911,14 +896,10 @@ if ($_POST['num_check_go']) {
                     $loop_check_num = $loop_check_num + $send_num_list_cnt;
                 }
             }
-            fwrite($fp, "test21\r\n");
-            fwrite($fp, "test22\r\n");
             // STEP #5 == 금일 발송양에 따른 통계 계산
             $sql_check_s = "select no,status from tjd_mms_cnt_check where mem_id='{$_SESSION['one_member_id']}' and sendnum='$sendnum[$j]' and date=curdate() ";
             $resul_check_s = mysqli_query($self_con, $sql_check_s);
-            fwrite($fp, "test23:" . $sql_check_s . "\r\n");
             $row_check_s = mysqli_fetch_array($resul_check_s);
-            fwrite($fp, "test24\r\n");
             if ($row_check_s['no']) { //tjd_mms_cnt_check에 자료 있으면 : 오늘 보낸 적 있음
                 if ($row_check_s['status'] == "N") { //200미만 건 발송 이력 있음
                     // Cooper Add  2016-05-08
@@ -928,14 +909,12 @@ if ($_POST['num_check_go']) {
             } else {
                 $cntYN_log_arr[$j] = count($send_num_list[$sendnum[$j]]); //2016-05-08 추가
             }
-            fwrite($fp, "test25\r\n");
         }
     }
     for ($j = 0; $j < count($sendnum); $j++) { //발송가능 폰번호별 발송 가능 수신처 확인
         $max_cnt = count($send_num_list[$sendnum[$j]]); // 재선언 2016-05-08
         $re_today_cnt +=  $max_cnt;
     }
-    fwrite($fp, "test30\r\n");
     $ssh_total_cnt = $total_num_cnt - $re_today_cnt; // 재선언 발송실패 2016-05-08
     unset($num_arr_2);
     unset($num_arr_3);
@@ -975,7 +954,6 @@ if ($_POST['num_check_go']) {
     $check_cnt2_str = implode(",", $check_cnt2);
     $check_cnt1_str = implode(",", $check_cnt1);
     $check_cnt0_str = implode(",", $check_cnt0);
-    fwrite($fp, "test31\r\n");
     ?>
     <script language="javascript">
         var total_num = parseInt("<?= $total_send_num ?>");
@@ -1044,7 +1022,6 @@ if ($_POST['num_check_go']) {
         $('#recv_over').val('<?= $recv_over ?>');
     </script>
     <?
-    fwrite($fp, "test32\r\n");
 }
 //디테일 수정 삭제 추가
 if ($_POST['g_dt_status']) {
