@@ -5,14 +5,6 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
 * Comment : 관리자 회원 정보 수정
 */
 extract($_POST);
-
-
-//			$sql_m="update Gn_Member set fujia_date1=now() , fujia_date2=date_add(now(),INTERVAL {$_POST['month_cnt']} month)  where mem_id='{$member_1['mem_id']}' ";
-//			mysqli_query($self_con,$sql_m)or die(mysqli_error($self_con));
-//			//print_r($_POST);
-//			$sql_m="update Gn_Member set   phone_cnt=phone_cnt+'{$_POST['add_phone']}' where mem_id='{$member_1['mem_id']}' ";
-//			//echo $sql_m;
-//			mysqli_query($self_con,$sql_m)or die(mysqli_error($self_con));		
 $payment_day = $payment_day?$payment_day:0;
 $query = "select * from tjd_pay_result_db where no='$no'";
 $res = mysqli_query($self_con,$query);
@@ -24,8 +16,7 @@ if($row['end_status'] == "Y" && $end_status != "A") {
     if($row['end_date'] == "1970-01-01 09:00:00") {
         $row['end_date'] = date('Y-m-d H:i:s', time()+(86400*365*3));
     }    
-    $query = "select *
-                from tjd_pay_result_db where buyer_id='{$row['buyer_id']}' and end_status='Y' and `no` < '$no'";
+    $query = "select * from tjd_pay_result_db where buyer_id='{$row['buyer_id']}' and end_status='Y' and `no` < '$no'";
     $res = mysqli_query($self_con,$query);
     $sdata = mysqli_fetch_array($res);
     if($sdata['no'] != "") {
@@ -36,7 +27,7 @@ if($row['end_status'] == "Y" && $end_status != "A") {
         mysqli_query($self_con,$sql_m)or die(mysqli_error($self_con));
     }
     //print_r($_POST);
-    $sql_m="update Gn_Member set   phone_cnt=phone_cnt-'{$row['add_phone']}' where mem_id='{$row['buyer_id']}' ";
+    $sql_m="update Gn_Member set   phone_cnt=phone_cnt-{$row['add_phone']} where mem_id='{$row['buyer_id']}' ";
     //echo $sql_m."<BR>";
     //echo $sql_m;
     mysqli_query($self_con,$sql_m)or die(mysqli_error($self_con));		
@@ -46,15 +37,6 @@ if($row['end_status'] == "Y" && $end_status != "A") {
     mysqli_query($self_con,$query);    
 } else if($row['end_status'] == "N" && $end_status != "A") {
     $date = date("Y-m-d H:i:s");
-    // 이미 진행중인 결제가 있는지 확인
-    //$query = "select * from tjd_pay_result_db where buyer_id='{$row['buyer_id']}' and end_status='Y' and `end_date` > '$date' and `no` != '$no'";
-    //$res = mysqli_query($self_con,$query);
-    //$sdata = mysqli_fetch_array($res);
-    //if($sdata['no'] != "") {
-    //    echo "<Script>alert('이미 진행중인 결제가 있습니다.');history.go(-1);</script>";
-    //    exit;
-    //}
-        
     if($row['end_date'] == "1970-01-01 09:00:00") {
         $row['end_date'] = date('Y-m-d H:i:s', time()+(86400*365*3));
     }
@@ -62,7 +44,7 @@ if($row['end_status'] == "Y" && $end_status != "A") {
     //echo $sql_m."<BR>";
     mysqli_query($self_con,$sql_m)or die(mysqli_error($self_con));
     
-    $sql_m="update Gn_Member set   phone_cnt=phone_cnt+'{$row['add_phone']}' where mem_id='{$row['buyer_id']}' ";
+    $sql_m="update Gn_Member set   phone_cnt=phone_cnt+{$row['add_phone']} where mem_id='{$row['buyer_id']}' ";
     //echo $sql_m."<BR>";
     mysqli_query($self_con,$sql_m)or die(mysqli_error($self_con));		
     
@@ -71,10 +53,6 @@ if($row['end_status'] == "Y" && $end_status != "A") {
     mysqli_query($self_con,$query);
 } else if($end_status == "A") {
     $date = date("Y-m-d H:i:s");
-    // 이미 진행중인 결제가 있는지 확인
-    //$query = "select * from tjd_pay_result_db where buyer_id='{$row['buyer_id']}' and end_status='Y' and `end_date` > '$date'";
-    //$res = mysqli_query($self_con,$query);
-    //$sdata = mysqli_fetch_array($res);
     if($row['end_date'] == "1970-01-01 09:00:00") {
         $row['end_date'] = date('Y-m-d H:i:s', time()+(86400*365*3));
     }
@@ -82,7 +60,7 @@ if($row['end_status'] == "Y" && $end_status != "A") {
     //echo $sql_m."<BR>";
     mysqli_query($self_con,$sql_m)or die(mysqli_error($self_con));
     
-    $sql_m="update Gn_Member set   phone_cnt=phone_cnt+'{$row['add_phone']}' where mem_id='{$row['buyer_id']}' ";
+    $sql_m="update Gn_Member set   phone_cnt=phone_cnt+{$row['add_phone']} where mem_id='{$row['buyer_id']}' ";
     //echo $sql_m."<BR>";
     mysqli_query($self_con,$sql_m)or die(mysqli_error($self_con));		
     

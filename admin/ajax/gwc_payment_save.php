@@ -22,7 +22,7 @@ if($type == "main"){
         }
         mysqli_query($self_con,$sql_m)or die(mysqli_error($self_con));
 
-        $sql_m="update Gn_Member set  phone_cnt=phone_cnt-'{$row['add_phone']}' where mem_id='{$row['buyer_id']}' ";
+        $sql_m="update Gn_Member set  phone_cnt=phone_cnt-{$row['add_phone']} where mem_id='{$row['buyer_id']}' ";
         mysqli_query($self_con,$sql_m)or die(mysqli_error($self_con));
 
         $query = "update tjd_pay_result set TotPrice='$price', end_status='E',end_date='$end_date' where `no`='$no'";
@@ -128,13 +128,13 @@ if($type == "main"){
                                             shopping_end_date='$search_email_date',
                                             extra_db_cnt = '{$row['db_cnt']}',
                                             extra_email_cnt = '{$row['email_cnt']}',
-                                            extra_shopping_cnt = '$row[shop_cnt]'";
+                                            extra_shopping_cnt = '{$row['shop_cnt']}'";
                 mysqli_query($self_con,$query);
             } else {
                 $query = "update crawler_member_real set
                                             extra_db_cnt = extra_db_cnt + '{$row['db_cnt']}',
                                             extra_email_cnt = extra_email_cnt + '{$row['email_cnt']}',
-                                            extra_shopping_cnt = extra_shopping_cnt + '$row[shop_cnt]'
+                                            extra_shopping_cnt = extra_shopping_cnt + '{$row['shop_cnt']}'
                                             where user_id='$user_id'";
                 mysqli_query($self_con,$query);
             }

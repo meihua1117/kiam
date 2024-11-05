@@ -12,14 +12,11 @@ $end_date = NULL;
 $info_source = $_POST['info_source'];
 if($_POST['info_type'] == 1){
     $info_type = "지원사업";
-}
-else if($_POST['info_type'] == 2){
+} else if ($_POST['info_type'] == 2) {
     $info_type = "입찰공고";
-}
-else if($_POST['info_type'] == 3){
+} else if ($_POST['info_type'] == 3) {
     $info_type = "행사교육";
-}
-else if($_POST['info_type'] == 4){
+} else if ($_POST['info_type'] == 4) {
     $info_type = "기타정보";
 }
 // $info_type = $_POST['info_type'];
@@ -35,8 +32,7 @@ if(isset($_POST['updat'])){
     // echo $sql; exit;
     mysqli_query($self_con,$sql);
     echo 2;
-}
-else if(isset($_POST['check'])){
+} else if (isset($_POST['check'])) {
     $id = $_POST['id'];
     $sql_recom = "select * from get_crawler_bizinfo where id='{$id}'";
 	$res = mysqli_query($self_con,$sql_recom);

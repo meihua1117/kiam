@@ -123,7 +123,6 @@ if($idx == "") {
     }
     mysqli_query($self_con,$query);	
 }
-//echo "<script>alert('".$query."')</script>";
 echo "<script>location='/admin/app_home_menu.php?site={$site_iam}';</script>";
 exit;
 ?>

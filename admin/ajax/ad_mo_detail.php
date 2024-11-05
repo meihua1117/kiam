@@ -5,7 +5,6 @@ extract($_GET);
 
 // 오늘날짜
 $date_today=date("Y-m-d");
-$date_month=date("Y-m");
 
 if($cam_id) {
     // 가입 회원 상세 정보
@@ -174,7 +173,7 @@ if($cam_id) {
           
         </section><!-- /.content -->
         </form>
-      </div><!-- /.content-wrapper -->
+      </div><!-- /content-wrapper -->
 
 
       <!-- Footer -->

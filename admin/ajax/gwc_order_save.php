@@ -53,7 +53,7 @@ else if($type == "delete_list"){
                                 pay_status='Y',
                                 pay_percent='',
                                 order_number = '',
-                                VACT_InputName='$row_order[order_mem_name]',
+                                VACT_InputName='{$row_order['order_mem_name']}',
                                 point_val=1,
                                 type='buy',
                                 current_point='{$row_mem['mem_point']}',

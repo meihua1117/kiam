@@ -23,14 +23,8 @@ if($type == "main") {
     }
     if ($month_status == "Y") {
         $sql_m = "update tjd_pay_result set monthly_status='$month_status',payment_day='$payment_day', end_date='$end_date', cancel_completetime =now()  where `no` = '$no' ";
-        // if (strstr($row['member_type'] ,"professional") || strstr($row['member_type'] ,"standard") || strstr($row['member_type'] ,"enterprise")) {
             $dber_sql = "update crawler_member_real set term='$end_date',search_email_date='$end_date',shopping_end_date='$end_date', search_email_yn='N', status='N' where user_id='{$row['buyer_id']}'";
             mysqli_query($self_con,$dber_sql);
-        // }
-        /*else{
-            $sql_member = "update Gn_Member m inner join tjd_pay_result p on p.buyer_id=m.mem_id set m.iam_type=0  where p.no = '$no' ";
-            mysqli_query($self_con,$sql_member);
-        }*/
     } else {
         $sql_m = "update tjd_pay_result set monthly_status='$month_status',payment_day='$payment_day'  where `no` = '$no' ";
     }

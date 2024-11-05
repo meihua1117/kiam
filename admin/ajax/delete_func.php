@@ -5,11 +5,8 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
 * Comment : 관리자 회원 정보 수정
 */
 extract($_POST);
-// echo $admin;
-// exit;
 if(!$admin){
     if($delete_name == "mypage_link_list"){
-        // $sql_del = "delete from Gn_event where m_id ='{$mem_id}' and event_name_kor!='단체회원자동가입및아이엠카드생성' AND event_name_kor!='콜백메시지관리자설정동의' AND event_name_kor!='데일리문자세트자동생성'";
         $id_arr = explode(",", $id);
         for($i = 0; $i < count($id_arr); $i++){
             $sql_del = "delete from Gn_event where event_idx='{$id_arr[$i]}' and event_name_kor!='단체회원자동가입및아이엠카드생성' AND event_name_kor!='콜백메시지관리자설정동의' AND event_name_kor!='데일리문자세트자동생성'";

@@ -26,8 +26,7 @@ if($cam_id == "") {
                                   view_time = '$view_time',
                                   `display_order`      ='$display_order', 
                                   `start_time`      ='$start_time', 
-                                  `end_time`      ='$end_time'
-                                 ";
+                                  `end_time`      ='$end_time'";
     mysqli_query($self_con,$query);	
 } else {
     if($_FILES['img']['name']) {

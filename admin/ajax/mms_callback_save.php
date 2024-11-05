@@ -30,14 +30,12 @@ if($mode == "save")
     } else {
         if($img_path)
             $addQuery = " `img`        ='$img_path', ";
-        $query="update gn_mms_callback set 
-                                    `title`          ='$title', 
+        $query="update gn_mms_callback set `title`          ='$title', 
                                     `content`      ='$content', 
                                     `iam_link`   = '$iam_link',
                                     $addQuery
                                     regdate=NOW()
-                             WHERE idx='$idx'
-                                     ";
+                                    WHERE idx=$idx";
         mysqli_query($self_con,$query);		
     }
     echo "<script>alert('저장되었습니다.');location='/admin/mms_callback_list.php';</script>";
@@ -51,7 +49,6 @@ else if($mode == "reg_msg")
         $filename = time().".".$ext;
         $call_img_path = "http://www.kiam.kr".gcUpload($_FILES['call_img']['name'], $_FILES['call_img']['tmp_name'], $_FILES['call_img']['size'], "ad", $filename);
     }
-    // echo $call_img_path; exit;
     $query="insert into gn_mms_callback set 
                                 `title`          ='$call_title', 
                                 `content`      ='$call_content', 
@@ -59,8 +56,7 @@ else if($mode == "reg_msg")
                                 `iam_link`   = '$iam_link',
                                 `type`       = 3,
                                 regdate=NOW(),
-                                service_state=1
-                                    ";
+                                service_state=1";
     mysqli_query($self_con,$query);	
     $callback_no = mysqli_insert_id($self_con);
 
@@ -91,25 +87,21 @@ else if($mode == "servicesave"){
         $img_path = "http://www.kiam.kr".gcUpload($_FILES['img']['name'], $_FILES['img']['tmp_name'], $_FILES['img']['size'], "ad", $filename);
     }
     if($idx == "") {
-        $query="insert into gn_mms_callback set 
-                                    `title`          ='$title', 
+        $query="insert into gn_mms_callback set `title`          ='$title', 
                                     `content`      ='$content', 
                                     `img`        ='$img_path',
                                     `iam_link`   = '$iam_link',
-                                    regdate=NOW()
-                                     ";
+                                                regdate=NOW()";
         mysqli_query($self_con,$query);	
     } else {
         if($img_path)
             $addQuery = " `img`        ='$img_path', ";
-        $query="update gn_mms_callback set 
-                                    `title`          ='$title', 
+        $query="update gn_mms_callback set  `title`          ='$title', 
                                     `content`      ='$content', 
                                     `iam_link`   = '$iam_link',
                                     $addQuery
                                     regdate=NOW()
-                             WHERE idx='$idx'
-                                     ";
+                                    WHERE idx='$idx'";
         mysqli_query($self_con,$query);		
     }
     if(isset($_POST['isservice'])){
@@ -129,22 +121,17 @@ else if($mode == "type")
     {
         $query="update gn_mms_callback set type = 0 where type = '$type'";
         mysqli_query($self_con,$query);
-        $query="update gn_mms_callback set 
-                        `type`          ='$type', 
+        $query="update gn_mms_callback set `type`  ='$type', 
                         regdate=NOW()
-                        WHERE idx='$idx'
-                        ";
+                                            WHERE idx='$idx'";
         mysqli_query($self_con,$query);
     }
     else{
-        $query="update gn_mms_callback set 
-                        `type`          = 0, 
+        $query="update gn_mms_callback set `type`          = 0, 
                         regdate=NOW()
-                        WHERE idx='$idx'
-                        ";
+                                        WHERE idx='$idx'";
         mysqli_query($self_con,$query);
     }
-
 }
 else if($mode == "duplicate_msg"){
     if($status){

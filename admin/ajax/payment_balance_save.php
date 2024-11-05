@@ -24,7 +24,6 @@ if($_POST['end_status'] != "" && $_POST['no'] != "") {
     $row = mysqli_fetch_array($res);
     if($row[0] != "") {
         $query = "insert into tjd_pay_result_delaer set mem_id='$mem_id', regtime=NOW(), balance_date='$balance_date', result_no='$no'";
-        echo $query;
         mysqli_query($self_con,$query);
     }
 }

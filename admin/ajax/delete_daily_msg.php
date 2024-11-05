@@ -4,8 +4,6 @@ extract($_GET);
 
 // 오늘날짜
 $date_today=date("Y-m-d");
-$date_month=date("Y-m");
-
 $id_arr = array();
 if(strpos($gd_id, ",") !== false){
     $id_arr = explode(",", $gd_id);

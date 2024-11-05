@@ -204,3 +204,4 @@ function getPosition($recommender)
     }
     return $site;
 }
+?>
