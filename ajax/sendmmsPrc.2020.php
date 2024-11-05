@@ -1000,7 +1000,9 @@ if ($_SESSION['one_member_id']) {
                     $mms_info['recv_num_cnt'] =  count(explode(",", $recv_str));
                     $mms_info['count_start'] = $start;
                     $mms_info['count_end'] = $end;
-                    $mms_info['grp_idx'] = ($grp_id == '' ? null : $grp_id);
+                    $mms_info['grp_idx'] = $grp_id;
+                    if($mms_info['grp_idx'] == "")
+                        $mms_info['grp_idx'] = NULL;
                     $mms_info['agreement_yn'] = $_POST['send_agreement_yn'];
                     if ($reservation) //예약문자
                         $mms_info['reservation'] = $reservation;
