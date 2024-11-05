@@ -649,6 +649,7 @@ if ($_SESSION['one_member_id']) {
             $loop_check_num = 0; // 폰별 신규 배정된 번호 합
             $loop_allocate_num = 0; // 폰별 배정된 번호 합
             for ($j = 0; $j < count($sendnum); $j++) { //발송가능 폰번호별
+                fwrite($fp,"652\r\n");
                 $req = $reg . $j;
                 if ($max_cnt_arr[$j] > $today_limit)
                     $max_cnt_arr[$j] = $today_limit; //최대 발송 수 494 건 넘는 것 제한
