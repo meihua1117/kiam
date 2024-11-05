@@ -1009,6 +1009,7 @@ if ($_SESSION['one_member_id']) {
                         $sql .= " $key='$v' ,";
 
                     $sql .= " reg_date = now() ";
+                    fwrite($fp,"1012".$sql."\r\n");
                     if ($debug_mode == false) {
                         mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
                         fwrite($fp,"1014\r\n");
