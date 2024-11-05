@@ -3,7 +3,6 @@ include_once "../lib/rlatjd_fun.php";
 require_once($_SERVER['DOCUMENT_ROOT'] . '/fcm/vendor/autoload.php');
 //$debug_mode = true;
 $debug_mode = false;
-$fp = fopen("debug.log", "w+");
 if ($_SESSION['one_member_id']) {
     $url = 'https://fcm.googleapis.com/v1/projects/onepagebookmms5/messages:send';
     putenv('GOOGLE_APPLICATION_CREDENTIALS=' . $_SERVER['DOCUMENT_ROOT'] . '/fcm/onepagebookmms5.json');
@@ -18,11 +17,9 @@ if ($_SESSION['one_member_id']) {
     );
     //문자발송
     if ($_POST['send_title'] && $_POST['send_txt']) {
-        fwrite($fp, "21\r\n");
         if ($_POST['send_rday']) //예약발송 확인
             $reservation = $_POST['send_rday'] . " " . $_POST['send_htime'] . ":" . $_POST['send_mtime'] . ":00";
         $now_date = date("Y-m-d H:i:s");
-        fwrite($fp, "25\r\n");
         if ($_POST['send_rday']) {
             if (!$_POST['invite']) {
                 if ($now_date  > $reservation) { // 현재 > 예약 시각
@@ -39,7 +36,6 @@ if ($_SESSION['one_member_id']) {
                 }
             }
         }
-        fwrite($fp, "42\r\n");
         // [기본서비스] 시작
         $reg = time();
         $num_arr = array();
@@ -76,7 +72,6 @@ if ($_SESSION['one_member_id']) {
                 }
             }
         }
-        fwrite($fp, "79\r\n");
         if ($_POST['send_num']) //합침/유일/정렬 tag name = num 발송 타깃 번호
             $num_arr = array_merge($num_arr, explode(",", $_POST['send_num']));
         $num_arr = array_unique($num_arr);
@@ -120,11 +115,9 @@ if ($_SESSION['one_member_id']) {
             $date_today = substr($reservation, 0, 10);
             $date_month = substr($reservation, 0, 7);
         }
-        fwrite($fp, "123\r\n");
         //$sql = "select phone_cnt from tjd_pay_result where member_type != '포인트충전' and buyer_id = '{$_SESSION['one_member_id']}' and end_date > '$date_today' and end_status in ('Y','A') and gwc_cont_pay=0 order by end_date desc limit 1";
         $sql = "select phone_cnt from tjd_pay_result where phone_cnt <> 0 and buyer_id = '{$_SESSION['one_member_id']}' and end_date > '$date_today' and end_status in ('Y','A') and gwc_cont_pay=0 order by end_date desc limit 1";
         $res_result = mysqli_query($self_con, $sql);
-        fwrite($fp, "127:" . $sql . "\r\n");
         //결제 휴대폰 수
         $buyPhoneCnt = mysqli_fetch_row($res_result);
         mysqli_free_result($res_result);
@@ -149,7 +142,6 @@ if ($_SESSION['one_member_id']) {
                 $img = "http://www.kiam.kr/" . $row_ad['img_path'];
             }
         }
-        fwrite($fp, "152\r\n");
         //-이번달 예약건 수
         $reserv_cnt_thismonth = 0;
         $sql_result = "select SUM(recv_num_cnt) from Gn_MMS where reservation like '$date_month%' and up_date is null and mem_id = '{$_SESSION['one_member_id']}' ";
@@ -168,7 +160,6 @@ if ($_SESSION['one_member_id']) {
         $recv_num_ex_sum += $reserv_cnt_thismonth; //이번 달 예약된 수 추가
         //이달잔여건
         $thiMonleftCnt = $freeMMSCount + $buyMMSCount - $recv_num_ex_sum;
-        fwrite($fp, "171\r\n");
         if (count($num_arr) > $thiMonleftCnt) { ?>
             <script language="javascript">
                 alert('이번 달 발송 가능 건수를 초과하였습니다.');
@@ -176,7 +167,6 @@ if ($_SESSION['one_member_id']) {
 <?
             exit;
         }
-        fwrite($fp, "179\r\n");
         $user_cnt = array(); // 사용자 잔여건수
         $num_arr_1 = array();
         for ($i = 0; $i < count($num_arr); $i++) {
@@ -223,7 +213,6 @@ if ($_SESSION['one_member_id']) {
             }
             array_push($num_arr_1, $num_arr[$i]); // 제외 빼고 나머지 번호들
         }
-        fwrite($fp, "225\r\n");
         $res_arr = array_diff($num_arr_1, $deny_num);
         for ($i = 0; $i < count($num_arr_1); $i++) {
             if ($res_arr[$i]) {
@@ -239,8 +228,6 @@ if ($_SESSION['one_member_id']) {
         $ssh_num_true = array(); //새로 발송 가능 수신처
         $ssh_total_num = array();
         $today_reg = date("Y-m-d");
-        //$re_today_cnt = 0;
-        fwrite($fp, "243\r\n");
         for ($j = 0; $j < count($sendnum); $j++) //발송가능 폰번호별
         {
             // Cooper Add Super User인지 체크
@@ -645,11 +632,9 @@ if ($_SESSION['one_member_id']) {
                 unset($ssh_num);
             }
         } else {
-            fwrite($fp, "648\r\n");
             $loop_check_num = 0; // 폰별 신규 배정된 번호 합
             $loop_allocate_num = 0; // 폰별 배정된 번호 합
             for ($j = 0; $j < count($sendnum); $j++) { //발송가능 폰번호별
-                fwrite($fp, "652\r\n");
                 $req = $reg . $j;
                 if ($max_cnt_arr[$j] > $today_limit)
                     $max_cnt_arr[$j] = $today_limit; //최대 발송 수 494 건 넘는 것 제한
@@ -659,7 +644,6 @@ if ($_SESSION['one_member_id']) {
                 $left_ssh_count = $ssh_num_true[$j]; // 발송 가능 수신처 수(2여유 둠)
                 $this_time_send = $send_cnt[$j]; //이번 발송 가능 수 -2
                 $allocation_cnt = count($num_arr);
-                fwrite($fp, "662\r\n");
                 $cnt1_log_arr[$j] = 0; //초기화 // 2016-03-07 추가
                 $cnt2_log_arr[$j] = 0;
                 $cntYN_log_arr[$j] = 0;
@@ -667,7 +651,6 @@ if ($_SESSION['one_member_id']) {
                 $remain_array = array();
 
                 $used_ssh_cnt = count($ssh_num); //사용된 수신처 수 //2016-03-10 추가
-                fwrite($fp, "670\r\n");
                 //새로 발송 가능 수신처 , $agency_arr는 rlatjd_fun.php에서 정의
                 $ssh_num_true[$j] = $monthly_receive_cnt_user - $used_ssh_cnt; //2016-03-10 수정
                 // Cooper Add 총 발송건수 체크 (선거 본인용) 수신처 무제한 변경 2016-04-04
@@ -683,20 +666,17 @@ if ($_SESSION['one_member_id']) {
                 // 오늘발송량, 이달발송량, 이달수신처량(사용량/전체한도), 이달 200건 초과횟수 10회 미만일경우만 발송(200건이상 발송의 경우 10회 미만일경우 성공 10회 이상일경우 실패)
                 // ( 오늘 오전에 100건 보내고 오후에 100건 보내면 200미만 +1 카운트에서 200초과 +1로 이동해야 하니까 / 취소하거나 미발송건으로 복원시에도)
                 // STEP #1 == 1일 발송양 확인 // 폰별
-                fwrite($fp, "686\r\n");
                 // $total_num_cnt 총발송양
                 if ($send_cnt[$j] < count($num_arr)) {
                     $allocation_cnt = $send_cnt[$j]; // 일발송양보다 작으면 일발송양으로 수정
                     //echo "T1";
                 }
-                fwrite($fp, "695\r\n");
                 // STEP #2 == 월간 발송양 확인 // 아이디별
                 //echo "월발송양:".$thiMonleftCnt."\n";
                 if ($thiMonleftCnt < $total_num_cnt) {
                     $allocation_cnt = $thiMonleftCnt;
                     //echo "T3";
                 }
-                fwrite($fp, "700\r\n");
                 $query = "select * from Gn_MMS_Number where mem_id='{$_SESSION['one_member_id']}' and sendnum='" . $sendnum[$j] . "'";
                 $result = mysqli_query($self_con, $query);
                 $info = mysqli_fetch_array($result);
@@ -875,9 +855,7 @@ if ($_SESSION['one_member_id']) {
                         array_push($deny_url_arr, $opt_message);
                     }
                 }
-                fwrite($fp, "879\r\n");
                 if (count($recv_arr)) {   //앱에서만 보내기로 합 2016-03-07
-                    fwrite($fp, "880\r\n");
                     // Cooper Add 치환 대상자 이름 뽑기
                     if (strstr($_POST['send_txt'], "{|name|}")) {
                         $recv_str_sql = "'" . implode("','", $recv_arr) . "'";
@@ -929,7 +907,6 @@ if ($_SESSION['one_member_id']) {
                         $recv_str = implode(",", $recv_arr);
                         $recv_name_str = "";
                     }
-                    fwrite($fp, "932\r\n");
                     if (strstr($_POST['send_txt'], "{|email|}")) {
                         $recv_str_sql = "'" . implode("','", $recv_arr) . "'";
                         $group_str_sql = "";
@@ -977,7 +954,6 @@ if ($_SESSION['one_member_id']) {
                         //$recv_str=implode(",",$recv_arr);
                         $recv_email_str = "";
                     }
-                    fwrite($fp, "980\r\n");
                     if (substr($recv_str, -1) == ",")
                         $recv_str = substr($recv_str, 0, strlen($recv_str) - 1);
                     $denv_url_str = implode(",", $deny_url_arr);
@@ -1010,10 +986,8 @@ if ($_SESSION['one_member_id']) {
                         $sql .= " $key='{$v}' ,";
 
                     $sql .= " reg_date = now() ";
-                    fwrite($fp, "1012" . $sql . "\r\n");
                     if ($debug_mode == false) {
                         mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-                        fwrite($fp, "1014\r\n");
                         $sidx = mysqli_insert_id($self_con);
                         if ($_POST['send_rday'] == "") {
                             if ($pkey[$mms_info['send_num']] != "") {
@@ -1058,7 +1032,6 @@ if ($_SESSION['one_member_id']) {
                             }
                         }
                     }
-                    fwrite($fp, "1058\r\n");
                     array_push($start_num, $sendnum[$j]);
                     $deny_url_arr = array();
                     $revnum = explode(",", $recv_str);
@@ -1084,7 +1057,6 @@ if ($_SESSION['one_member_id']) {
                         mysqli_query($self_con, $log_query) or die(mysqli_error($self_con));
                     }
                 }
-                fwrite($fp, "1083\r\n");
             }
         }
         unset($cnt1_log_arr[$j]); //2016-03-07 추가
