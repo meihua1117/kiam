@@ -96,7 +96,7 @@ if ($_SESSION['one_member_id']) {
         $cntYN_log_arr = array(); //200이상으로 횟수 조절 저장
         $cntAdj_log_arr = array(); //발송 가능 수 조절 저장
 
-        $sendnum[] = $_POST['send_go_num'];
+        $sendnum = $_POST['send_go_num'];
         $send_cnt = $_POST['send_go_user_cnt'];
         $max_cnt_arr = $_POST['send_go_max_cnt'];
         $memo2_arr = $_POST['send_go_memo2'];
