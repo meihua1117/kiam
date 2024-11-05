@@ -659,7 +659,7 @@ if ($_SESSION['one_member_id']) {
                 $left_ssh_count = $ssh_num_true[$j]; // 발송 가능 수신처 수(2여유 둠)
                 $this_time_send = $send_cnt[$j]; //이번 발송 가능 수 -2
                 $allocation_cnt = count($num_arr);
-
+                fwrite($fp,"662\r\n");
                 $cnt1_log_arr[$j] = 0; //초기화 // 2016-03-07 추가
                 $cnt2_log_arr[$j] = 0;
                 $cntYN_log_arr[$j] = 0;
@@ -667,6 +667,7 @@ if ($_SESSION['one_member_id']) {
                 $remain_array = array();
 
                 $used_ssh_cnt = count($ssh_num); //사용된 수신처 수 //2016-03-10 추가
+                fwrite($fp,"670\r\n");
                 //새로 발송 가능 수신처 , $agency_arr는 rlatjd_fun.php에서 정의
                 $ssh_num_true[$j] = $monthly_receive_cnt_user - $used_ssh_cnt; //2016-03-10 수정
                 // Cooper Add 총 발송건수 체크 (선거 본인용) 수신처 무제한 변경 2016-04-04
@@ -682,16 +683,13 @@ if ($_SESSION['one_member_id']) {
                 // 오늘발송량, 이달발송량, 이달수신처량(사용량/전체한도), 이달 200건 초과횟수 10회 미만일경우만 발송(200건이상 발송의 경우 10회 미만일경우 성공 10회 이상일경우 실패)
                 // ( 오늘 오전에 100건 보내고 오후에 100건 보내면 200미만 +1 카운트에서 200초과 +1로 이동해야 하니까 / 취소하거나 미발송건으로 복원시에도)
                 // STEP #1 == 1일 발송양 확인 // 폰별
-
+                fwrite($fp,"686\r\n");
                 // $total_num_cnt 총발송양
                 if ($send_cnt[$j] < count($num_arr)) {
                     $allocation_cnt = $send_cnt[$j]; // 일발송양보다 작으면 일발송양으로 수정
                     //echo "T1";
-                } else {
-                    //$allocation_cnt = count($num_arr);
-                    //echo "T2";
                 }
-
+                fwrite($fp,"695\r\n");
                 // STEP #2 == 월간 발송양 확인 // 아이디별
                 //echo "월발송양:".$thiMonleftCnt."\n";
                 if ($thiMonleftCnt < $total_num_cnt) {
