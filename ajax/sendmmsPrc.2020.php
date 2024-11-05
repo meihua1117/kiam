@@ -3,6 +3,7 @@ include_once "../lib/rlatjd_fun.php";
 require_once($_SERVER['DOCUMENT_ROOT'] . '/fcm/vendor/autoload.php');
 //$debug_mode = true;
 $debug_mode = false;
+$fp = fopen("debug.log", "w+");
 if ($_SESSION['one_member_id']) {
     $url = 'https://fcm.googleapis.com/v1/projects/onepagebookmms5/messages:send';
     putenv('GOOGLE_APPLICATION_CREDENTIALS=' . $_SERVER['DOCUMENT_ROOT'] . '/fcm/onepagebookmms5.json');
@@ -17,10 +18,11 @@ if ($_SESSION['one_member_id']) {
     );
     //문자발송
     if ($_POST['send_title'] && $_POST['send_txt']) {
+        fwrite($fp,"21\r\n");
         if ($_POST['send_rday']) //예약발송 확인
             $reservation = $_POST['send_rday'] . " " . $_POST['send_htime'] . ":" . $_POST['send_mtime'] . ":00";
         $now_date = date("Y-m-d H:i:s");
-
+        fwrite($fp,"25\r\n");
         if ($_POST['send_rday']) {
             if (!$_POST['invite']) {
                 if ($now_date  > $reservation) { // 현재 > 예약 시각
@@ -37,6 +39,7 @@ if ($_SESSION['one_member_id']) {
                 }
             }
         }
+        fwrite($fp,"42\r\n");
         // [기본서비스] 시작
         $reg = time();
         $num_arr = array();
@@ -73,6 +76,7 @@ if ($_SESSION['one_member_id']) {
                 }
             }
         }
+        fwrite($fp,"79\r\n");
         if ($_POST['send_num']) //합침/유일/정렬 tag name = num 발송 타깃 번호
             $num_arr = array_merge($num_arr, explode(",", $_POST['send_num']));
         $num_arr = array_unique($num_arr);
@@ -116,9 +120,11 @@ if ($_SESSION['one_member_id']) {
             $date_today = substr($reservation, 0, 10);
             $date_month = substr($reservation, 0, 7);
         }
+        fwrite($fp,"123\r\n");
         //$sql = "select phone_cnt from tjd_pay_result where member_type != '포인트충전' and buyer_id = '{$_SESSION['one_member_id']}' and end_date > '$date_today' and end_status in ('Y','A') and gwc_cont_pay=0 order by end_date desc limit 1";
         $sql = "select phone_cnt from tjd_pay_result where phone_cnt <> 0 and buyer_id = '{$_SESSION['one_member_id']}' and end_date > '$date_today' and end_status in ('Y','A') and gwc_cont_pay=0 order by end_date desc limit 1";
         $res_result = mysqli_query($self_con, $sql);
+        fwrite($fp,"127:".$sql."\r\n");
         //결제 휴대폰 수
         $buyPhoneCnt = mysqli_fetch_row($res_result);
         mysqli_free_result($res_result);
@@ -143,6 +149,7 @@ if ($_SESSION['one_member_id']) {
                 $img = "http://www.kiam.kr/" . $row_ad['img_path'];
             }
         }
+        fwrite($fp,"152\r\n");
         //-이번달 예약건 수
         $reserv_cnt_thismonth = 0;
         $sql_result = "select SUM(recv_num_cnt) from Gn_MMS where reservation like '$date_month%' and up_date is null and mem_id = '{$_SESSION['one_member_id']}' ";
