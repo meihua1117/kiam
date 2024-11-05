@@ -168,6 +168,7 @@ if ($_SESSION['one_member_id']) {
         $recv_num_ex_sum += $reserv_cnt_thismonth; //이번 달 예약된 수 추가
         //이달잔여건
         $thiMonleftCnt = $freeMMSCount + $buyMMSCount - $recv_num_ex_sum;
+        fwrite($fp,"171\r\n");
         if (count($num_arr) > $thiMonleftCnt) { ?>
             <script language="javascript">
                 alert('이번 달 발송 가능 건수를 초과하였습니다.');
@@ -175,7 +176,7 @@ if ($_SESSION['one_member_id']) {
 <?
             exit;
         }
-
+        fwrite($fp,"179\r\n");
         $user_cnt = array(); // 사용자 잔여건수
         $num_arr_1 = array();
         for ($i = 0; $i < count($num_arr); $i++) {
@@ -222,6 +223,7 @@ if ($_SESSION['one_member_id']) {
             }
             array_push($num_arr_1, $num_arr[$i]); // 제외 빼고 나머지 번호들
         }
+        fwrite($fp,"225\r\n");
         $res_arr = array_diff($num_arr_1, $deny_num);
         for ($i = 0; $i < count($num_arr_1); $i++) {
             if ($res_arr[$i]) {
@@ -238,7 +240,7 @@ if ($_SESSION['one_member_id']) {
         $ssh_total_num = array();
         $today_reg = date("Y-m-d");
         //$re_today_cnt = 0;
-
+        fwrite($fp,"243\r\n");
         for ($j = 0; $j < count($sendnum); $j++) //발송가능 폰번호별
         {
             // Cooper Add Super User인지 체크
@@ -643,6 +645,7 @@ if ($_SESSION['one_member_id']) {
                 unset($ssh_num);
             }
         } else {
+            fwrite($fp,"648\r\n");
             $loop_check_num = 0; // 폰별 신규 배정된 번호 합
             $loop_allocate_num = 0; // 폰별 배정된 번호 합
             for ($j = 0; $j < count($sendnum); $j++) { //발송가능 폰번호별
@@ -694,7 +697,7 @@ if ($_SESSION['one_member_id']) {
                     $allocation_cnt = $thiMonleftCnt;
                     //echo "T3";
                 }
-
+                fwrite($fp,"700\r\n");
                 $query = "select * from Gn_MMS_Number where mem_id='{$_SESSION['one_member_id']}' and sendnum='" . $sendnum[$j] . "'";
                 $result = mysqli_query($self_con, $query);
                 $info = mysqli_fetch_array($result);
@@ -873,19 +876,8 @@ if ($_SESSION['one_member_id']) {
                         array_push($deny_url_arr, $opt_message);
                     }
                 }
+                fwrite($fp,"879\r\n");
                 if (count($recv_arr)) {   //앱에서만 보내기로 합 2016-03-07
-                    /*	$mms_start_info['mem_id']=$_SESSION['one_member_id'];
-                    $mms_start_info['send_num']=$sendnum[$j];
-                    $mms_start_info['recv_num']=$sendnum[$j];
-                    $mms_start_info['uni_id']=$reg."999";
-                    $mms_start_info['content']="온리원문자 문자발송시작";
-                    $mms_start_info['title']="온리원문자";
-                    $sql_start="insert into Gn_MMS set ";
-                    foreach($mms_start_info as $key=>$v)
-                    $sql_start.=" $key='$v' ,";
-                    $sql_start.=" reg_date = now() ";
-                    mysqli_query($self_con,$sql_start) or die(mysqli_error($self_con));*/
-
                     // Cooper Add 치환 대상자 이름 뽑기
                     if (strstr($_POST['send_txt'], "{|name|}")) {
                         $recv_str_sql = "'" . implode("','", $recv_arr) . "'";
