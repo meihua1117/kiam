@@ -1002,7 +1002,7 @@ if ($_SESSION['one_member_id']) {
                     $mms_info['count_end'] = $end;
                     $mms_info['grp_idx'] = $grp_id;
                     if($mms_info['grp_idx'] == "")
-                        $mms_info['grp_idx'] = null;
+                        $mms_info['grp_idx'] = 'null';
                     $mms_info['agreement_yn'] = $_POST['send_agreement_yn'];
                     if ($reservation) //예약문자
                         $mms_info['reservation'] = $reservation;
