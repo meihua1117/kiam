@@ -321,7 +321,7 @@ if ($_SESSION['one_member_id']) {
             }
             $ssh_total_num = array_merge($ssh_total_num, $ssh_num); //총 수신처 누적
             $user_cnt[$sendnum[$j]] = ($info['max_cnt'] - $info['user_cnt']) * 1 > 2 ? ($info['max_cnt'] - $info['user_cnt']) * 1 : 0; // 금일 발송 건수
-            unset($ssh_num);
+            //unset($ssh_num);
             // 폰별 수신처별 번호 배정 추가 2016-05-02
         }
         //echo count(array_unique($num_arr));
