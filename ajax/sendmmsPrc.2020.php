@@ -877,6 +877,7 @@ if ($_SESSION['one_member_id']) {
                 }
                 fwrite($fp,"879\r\n");
                 if (count($recv_arr)) {   //앱에서만 보내기로 합 2016-03-07
+                    fwrite($fp,"880\r\n");
                     // Cooper Add 치환 대상자 이름 뽑기
                     if (strstr($_POST['send_txt'], "{|name|}")) {
                         $recv_str_sql = "'" . implode("','", $recv_arr) . "'";
@@ -928,7 +929,7 @@ if ($_SESSION['one_member_id']) {
                         $recv_str = implode(",", $recv_arr);
                         $recv_name_str = "";
                     }
-
+                    fwrite($fp,"932\r\n");
                     if (strstr($_POST['send_txt'], "{|email|}")) {
                         $recv_str_sql = "'" . implode("','", $recv_arr) . "'";
                         $group_str_sql = "";
@@ -976,7 +977,7 @@ if ($_SESSION['one_member_id']) {
                         //$recv_str=implode(",",$recv_arr);
                         $recv_email_str = "";
                     }
-
+                    fwrite($fp,"980\r\n");
                     if (substr($recv_str, -1) == ",")
                         $recv_str = substr($recv_str, 0, strlen($recv_str) - 1);
                     $denv_url_str = implode(",", $deny_url_arr);
@@ -1080,6 +1081,7 @@ if ($_SESSION['one_member_id']) {
                         mysqli_query($self_con, $log_query) or die(mysqli_error($self_con));
                     }
                 }
+                fwrite($fp,"1083\r\n");
             }
         }
         unset($cnt1_log_arr[$j]); //2016-03-07 추가
