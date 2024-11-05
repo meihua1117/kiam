@@ -1,3 +1,12 @@
+// 날짜 확인
+function check_date(date) {
+    /*if($('#rday').val() != "") {
+        if($('#rday').val().replace("-", "").replace("-", "") < date) {
+            alert('현재보다 이전시간을 선택하였습니다.\n발송불가하니 재설정하시기 바랍니다');
+            $('#rday').val('');
+        } 
+    } */   
+}
 //로그아웃
 function logout(type = "selling") {
 	if (confirm('로그아웃하시겠습니까?')) {

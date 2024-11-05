@@ -29,10 +29,7 @@ function send_msg_new(frm) {
       }
     });
   }
-  if (
-    !document.getElementsByName("group_num")[0].value &&
-    !document.getElementsByName("num")[0].value
-  ) {
+  if (!document.getElementsByName("group_num")[0].value &&!document.getElementsByName("num")[0].value) {
     alert("발송번호가 없습니다.");
     return false;
   }
