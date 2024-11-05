@@ -20,7 +20,7 @@ if($_FILES["upimage".$_REQUEST['k']]['name']){
 	}				
 	?>
         <script language="javascript">
-	    window.parent.document.getElementsByName('<?php echo $_REQUEST['target']?>')[<?=$_REQUEST[i]?>].value='<?=$show_img?>';
+	    window.parent.document.getElementsByName('<?php echo $_REQUEST['target']?>')[<?=$_REQUEST['i']?>].value='<?=$show_img?>';
 	    window.parent.type_check();
 	</script>
         <?
