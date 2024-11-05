@@ -1008,7 +1008,7 @@ if ($_SESSION['one_member_id']) {
                         $mms_info['reservation'] = $reservation;
                     $sql = "insert into Gn_MMS set ";
                     foreach ($mms_info as $key => $v)
-                        $sql .= " $key={$v} ,";
+                        $sql .= " $key='{$v}' ,";
 
                     $sql .= " reg_date = now() ";
                     fwrite($fp, "1012" . $sql . "\r\n");
