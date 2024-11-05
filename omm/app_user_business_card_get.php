@@ -39,6 +39,7 @@ if ($useType == '1') {
 		}
 		$file_path = $uploaddir . $idx . '.' . $file[1]; //이미지화일명은 인덱스번호로 지정
 		if (move_uploaded_file($filePath, $file_path)) {
+			unlink($filename);
 			$img_url = 'http://www.kiam.kr' . $up_dir . $idx . '.' . $file[1];
 			$sql = "insert into Gn_Member_card (mem_id , img_url, comment, create_time) values ('$userId' ,'$img_url' , '$comment' , now())";
 			mysqli_query($self_con, $sql);
