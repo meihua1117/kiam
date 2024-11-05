@@ -1011,6 +1011,7 @@ if ($_SESSION['one_member_id']) {
                     $sql .= " reg_date = now() ";
                     if ($debug_mode == false) {
                         mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
+                        fwrite($fp,"1014\r\n");
                         $sidx = mysqli_insert_id($self_con);
                         if ($_POST['send_rday'] == "") {
                             if ($pkey[$mms_info['send_num']] != "") {
@@ -1055,11 +1056,11 @@ if ($_SESSION['one_member_id']) {
                             }
                         }
                     }
+                    fwrite($fp,"1058\r\n");
                     array_push($start_num, $sendnum[$j]);
                     $deny_url_arr = array();
                     $revnum = explode(",", $recv_str);
-                    //echo count($revnum)."\n";
-                    //echo "===========".count($revnum)."============";
+                    
                     for ($kk = 0; $kk < count($revnum); $kk++) { // 2016-03-07 uni_id 추가
                         $log_query = "insert into Gn_MMS_Send_Log (uni_id,mem_id, send_num, recv_num, grp_name, reg_date) values ('" . $req . "','" . $_SESSION['one_member_id'] . "','" . $sendnum[$j] . "','" . $revnum[$kk] . "','" . $group_recv_info[$revnum[$kk]] . "',NOW());";
                         if ($debug_mode == false) {
