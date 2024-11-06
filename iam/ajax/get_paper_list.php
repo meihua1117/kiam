@@ -118,7 +118,7 @@ while ($row10 = mysqli_fetch_array($result10)) {
     $body .=  '             <div class="upper">';
     $body .=  '                     <span class="name" style="font-size:12px;font-weight:500" id="paper_org_' . $row_paper_info['seq'] . '">'.$row_paper_info['org_name'].'</span>';
     $body .=  '</div>';
-    $body .=  '<div class="downer" id="paper_name_' . $row_paper_info['seq'] . '" style="font-size:16px;font-weight:bold">';
+    $body .=  '<div class="downer" id="paper_name_' . $row_paper_info['seq'] . '" style="font-size:16px;font-weight:bold;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 3;overflow: hidden;text-overflow: ellipsis;">';
     if ($_SESSION['iam_member_id'] == $card_owner && $phone_count > 0) {
         if ($row10['name'])
             $body .= $row10['name'] . " , " . $row_paper_info['job'];
