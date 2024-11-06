@@ -101,7 +101,7 @@ while ($row10 = mysqli_fetch_array($result10)) {
 
     $body .=  '<li class="list-item">';
     $body .=  '     <div class="item-wrap">';
-    $body .=  '          <div class="thumb" style="width:40px">';
+    $body .=  '          <div class="thumb" style="width:5%">';
     $body .=  '              <div class="thumb-inner">';
     $body .=  '                 <img src="/iam/img/profile-img.svg" style="margin-top:5px">';
     $body .=  '             </div>';
@@ -111,9 +111,9 @@ while ($row10 = mysqli_fetch_array($result10)) {
         $res_paper_info = mysqli_query($self_con, $sql_paper_info);
         $row_paper_info = mysqli_fetch_array($res_paper_info);
         $contact_phone = $row_paper_info['mobile'];
-        $body .=  '         <div class="info" onclick="edit_paper(' . $row_paper_info['seq'] . ')">';
+        $body .=  '         <div class="info" style = "width:60%" onclick="edit_paper(' . $row_paper_info['seq'] . ')">';
     } else {
-        $body .=  '         <div class="info">';
+        $body .=  '         <div class="info" style = "width:60%">';
     }
     $body .=  '             <div class="upper">';
     $body .=  '                     <span class="name" id="paper_org_' . $row_paper_info['seq'] . '">' . $row_paper_info['org_name'] . '</span>';
@@ -133,13 +133,13 @@ while ($row10 = mysqli_fetch_array($result10)) {
     $body .= '</div>';
     $body .=  '</div>';
     if ($row10['paper_yn']) {
-        $body .=  '          <div class="thumb" style="width:30px" onclick="show_paper_img(`' . $row_paper_info['img_url'] . '`)">';
+        $body .=  '          <div class="thumb" style="width:5%" onclick="show_paper_img(`' . $row_paper_info['img_url'] . '`)">';
         $body .=  '              <div class="thumb-inner">';
         $body .=  '                 <img src="/iam/img/menu/icon_my_stroy.png" style="height: 24px;width: 24px;">';
         $body .=  '             </div>';
         $body .=  '         </div>';
 
-        $body .=  '          <div class="thumb" style="width:100px">';
+        $body .=  '          <div class="thumb" style="width:15%">';
         $body .=  '              <div class="thumb-inner">';
         $reg_dates = explode(" ",$row10['reg_date']);
         $body .=  '                 <span style="font-size:12px;font-weight:bold;display:inline-block;with:max-content;margin-top:1px">' . $reg_dates[0] . "</span>";
@@ -147,7 +147,7 @@ while ($row10 = mysqli_fetch_array($result10)) {
         $body .=  '              </div>';
         $body .=  '         </div>';
     }
-    $body .=  '               <div class="number">';
+    $body .=  '               <div class="number" style="width:15%">';
     $body .=  '                    <div class="downer">';
 
     $sql7 = "select count(idx) from Gn_Iam_Name_Card use index(card_phone) where card_phone = '$contact_phone'";
@@ -170,7 +170,7 @@ while ($row10 = mysqli_fetch_array($result10)) {
     $body .=  '                </div>';
 
     if ($_SESSION['iam_member_id'] == $card_owner && $_SESSION['iam_member_id'] == $card_master) {
-        $body .=  '            <div class="check">';
+        $body .=  '            <div class="check" style="width:5%">';
         $body .=  '               <input type="checkbox" name="paper_chk" id="inputItem' . $row10['idx'] . '" class="paper checkboxes input css-checkbox"';
         $body .=  '                    onclick="paper_chk_count()" value="' . $row10['idx'] . '">';
         $body .=  '              <label for="inputItem' . $row10['idx'] . '" class="css-label cb0"></label>';
