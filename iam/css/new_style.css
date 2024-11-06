@@ -4,3 +4,9 @@
 {
     widows: 50px;
 }
+
+@media only screen and (max-width: 450px) {
+    .paper-date {
+        display:none;
+    }
+}

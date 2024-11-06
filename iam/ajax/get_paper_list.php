@@ -116,9 +116,9 @@ while ($row10 = mysqli_fetch_array($result10)) {
         $body .=  '         <div class="info" style = "width:60%">';
     }
     $body .=  '             <div class="upper">';
-    $body .=  '                     <span class="name" id="paper_org_' . $row_paper_info['seq'] . '">' . $row_paper_info['org_name'] . '</span>';
+    $body .=  '                     <span class="name" style="font-size:12px;font-weight:500" id="paper_org_' . $row_paper_info['seq'] . '">'.$row_paper_info['org_name'].'</span>';
     $body .=  '</div>';
-    $body .=  '<div class="downer" id="paper_name_' . $row_paper_info['seq'] . '">';
+    $body .=  '<div class="downer" id="paper_name_' . $row_paper_info['seq'] . '" style="font-size:16px;font-weight:bold">';
     if ($_SESSION['iam_member_id'] == $card_owner && $phone_count > 0) {
         if ($row10['name'])
             $body .= $row10['name'] . " , " . $row_paper_info['job'];
@@ -139,11 +139,11 @@ while ($row10 = mysqli_fetch_array($result10)) {
         $body .=  '             </div>';
         $body .=  '         </div>';
 
-        $body .=  '          <div class="thumb" style="width:15%">';
+        $body .=  '          <div class="thumb paper-date" style="width:15%">';
         $body .=  '              <div class="thumb-inner">';
         $reg_dates = explode(" ",$row10['reg_date']);
-        $body .=  '                 <span style="font-size:12px;font-weight:bold;display:inline-block;with:max-content;margin-top:1px">' . $reg_dates[0] . "</span>";
-        $body .=  '                 <span style="font-size:12px;font-weight:bold;display:inline-block;with:max-content;margin-top:1px">' . $reg_dates[1] . "</span>";
+        $body .=  '			<span style="font-size:12px;font-weight:bold;display:inline-block;width:max-content;margin-top:1px">'.$reg_dates[0].'</span>';
+        $body .=  '			<span style="font-size:12px;font-weight:bold;display:inline-block;width:max-content;margin-top:1px">'.$reg_dates[1].'</span>';
         $body .=  '              </div>';
         $body .=  '         </div>';
     }
