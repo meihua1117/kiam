@@ -347,8 +347,11 @@ if ($useType == '1') {
 	$card_org_name = trim($_REQUEST["card_org_name"]);
 	$card_address = trim($_REQUEST["card_address"]);
 	$card_phone1 = trim($_REQUEST["card_phone1"]);
+	$card_phone1 = preg_replace('/\D/', '', $card_phone1);
 	$card_phone2 = trim($_REQUEST["card_phone2"]);
+	$card_phone2 = preg_replace('/\D/', '', $card_phone2);
 	$card_mobile = trim($_REQUEST["card_mobile"]);
+	$card_mobile = preg_replace('/\D/', '', $card_mobile);
 	$card_fax = trim($_REQUEST["card_fax"]);
 	$card_email1 = trim($_REQUEST["card_email1"]);
 	$card_email2 = trim($_REQUEST["card_email2"]);

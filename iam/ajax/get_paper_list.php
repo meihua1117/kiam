@@ -111,6 +111,7 @@ while ($row10 = mysqli_fetch_array($result10)) {
         $res_paper_info = mysqli_query($self_con, $sql_paper_info);
         $row_paper_info = mysqli_fetch_array($res_paper_info);
         $contact_phone = $row_paper_info['mobile'];
+        $contact_phone = substr($contact_phone, 0, 3) . '-' . substr($contact_phone, 3, 4) . '-' . substr($contact_phone, 7);
         $body .=  '         <div class="info" style = "width:60%" onclick="edit_paper(' . $row_paper_info['seq'] . ')">';
     } else {
         $body .=  '         <div class="info" style = "width:60%">';

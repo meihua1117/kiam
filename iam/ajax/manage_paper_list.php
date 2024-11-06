@@ -118,17 +118,17 @@ else if($_POST['get_data'] == "Y"){
         }
 
     }
-
-    $res = json_encode(array("name" => $row_data['name'],"job" => $row_data['job'],"org_name" => $row_data['org_name'],"address" => $row_data['address'],"phone1" => $row_data['phone1'],"phone2" => $row_data['phone2'],"mobile" => $row_data['mobile'],"fax" => $row_data['fax'],"email1" => $row_data['email1'],"email2" => $row_data['email2'],"memo" => $row_data['memo'],"contact_idx"=>$contact_idx,"display_top"=>$display_top));
+    $mobile = substr($row_data['mobile'],0,3)."-".substr($row_data['mobile'],3,4)."-".substr($row_data['mobile'],7);
+    $res = json_encode(array("name" => $row_data['name'],"job" => $row_data['job'],"org_name" => $row_data['org_name'],"address" => $row_data['address'],"phone1" => $row_data['phone1'],"phone2" => $row_data['phone2'],"mobile" => $mobile,"fax" => $row_data['fax'],"email1" => $row_data['email1'],"email2" => $row_data['email2'],"memo" => $row_data['memo'],"contact_idx"=>$contact_idx,"display_top"=>$display_top));
 }
 else if($_POST['save_data'] == "Y"){
-    $paper_phone1 = str_replace('-', '', $paper_phone1);
-    $paper_phone2 = str_replace('-', '', $paper_phone2);
-    $paper_mobile = str_replace('-', '', $paper_mobile);
+    $paper_phone1 = preg_replace('/\D/', '', $paper_phone1);
+    $paper_phone2 = preg_replace('/\D/', '', $paper_phone2);
+    $paper_mobile = preg_replace('/\D/', '', $paper_mobile);
     $sql_update = "update Gn_Member_card set name='{$paper_name}', job='{$paper_job}', org_name='{$paper_org_name}', address='{$paper_address}', phone1='{$paper_phone1}', phone2='{$paper_phone2}', mobile='{$paper_mobile}', fax='{$paper_fax}', email1='{$paper_email1}', email2='{$paper_email2}', memo='{$paper_memo}' where seq='{$paper_seq}'";
     $res = mysqli_query($self_con,$sql_update);
 
-    $mem_phone = str_replace('-', '', $member_iam['mem_phone']);
+    $mem_phone = preg_replace('/\D/', '', $member_iam['mem_phone']);
 
     $sql_chk = "select idx from Gn_MMS_Receive_Iam use index(paper_seq) where paper_yn=1 and paper_seq='{$paper_seq}'";
     $res_chk = mysqli_query($self_con,$sql_chk);
