@@ -49,9 +49,26 @@ include_once "_head.php";
 	$res = mysqli_query($self_con, $sql);
 	echo "test50<br>";
 	if (mysqli_num_rows($res) > 0) {
-		$sql = "insert into Gn_MMS_ReservationFail select * from Gn_MMS $sql_where";
-		echo $sql;
-		mysqli_query($self_con, $sql);
+		while ($fail_row = mysqli_fetch_assoc($res)) {
+			$sql = "insert into Gn_MMS_ReservationFail set mem_id = {$fail_row['mem_id']},
+															send_num= {$fail_row['send_num']},
+															recv_num= {$fail_row['recv_num']},
+															uni_id= {$fail_row['uni_id']},
+															content= {$fail_row['content']},
+															title= {$fail_row['title']},
+															type= {$fail_row['type']},
+															delay= {$fail_row['delay']},
+															delay2= {$fail_row['delay2']},
+															close= {$fail_row['close']},
+															jpg= {$fail_row['jpg']},
+															result= {$fail_row['result']},
+															reg_date= {$fail_row['reg_date']},
+															up_date= {$fail_row['up_date']},
+															url= {$fail_row['url']},
+															reservation= {$fail_row['reservation']}";
+			echo $sql;
+			mysqli_query($self_con, $sql);
+		}
 	}
 	$sql = "update Gn_MMS_ReservationFail set result = 3 $sql_where";
 	echo $sql;
@@ -855,7 +872,7 @@ echo "test161<br>";
 									<div class="div_2px">
 										<textarea name="num" id="num" itemname='전화번호' placeholder="번호구분은 콤마(,)로 해주세요.입력이 끝나면 확인을 클릭해주세요." onblur="numchk('4')"><?= $_REQUEST['num'] ?></textarea>
 									</div>
-									
+
 									<div class="b4">
 										<div class="c1" style="display: flex;border-bottom:1px solid #ddd">
 											<div style="margin-left:0;">총건수(<span class="num_check_c">0</span>)</div>
@@ -865,38 +882,38 @@ echo "test161<br>";
 										</div>
 
 										<div id="send_address_pad" style="display: none;">
-										<div class="div_2px">
-											<div style="float:left; display:none;" id="delay">
-												<input type="text" name="delay" placeholder="발송간격" value="<?= $_REQUEST['delay'] ? $_REQUEST['delay'] : 5 ?>" onblur="send_delay(sub_4_form,this,1)" onkeyup="send_delay(sub_4_form,this,1)" />~
-												<input type="text" name="delay2" placeholder="발송간격" value="<?= $_REQUEST['delay'] ? $_REQUEST['delay'] : 15 ?>" onblur="send_delay(sub_4_form,this,2)" />초
+											<div class="div_2px">
+												<div style="float:left; display:none;" id="delay">
+													<input type="text" name="delay" placeholder="발송간격" value="<?= $_REQUEST['delay'] ? $_REQUEST['delay'] : 5 ?>" onblur="send_delay(sub_4_form,this,1)" onkeyup="send_delay(sub_4_form,this,1)" />~
+													<input type="text" name="delay2" placeholder="발송간격" value="<?= $_REQUEST['delay'] ? $_REQUEST['delay'] : 15 ?>" onblur="send_delay(sub_4_form,this,2)" />초
+												</div>
+												<div style="float:left;clear:both; display:none">
+													<input type="text" id="close" name="close" placeholder="발송제한" value="<?= $_REQUEST['close'] ? $_REQUEST['close'] : 24 ?>" onblur="limitNight();" />시(20시)
+													<input type="checkbox" value="Y" id="time_limit" checked> 제한해제
+												</div>
+												<p style="clear:both;"></p>
 											</div>
-											<div style="float:left;clear:both; display:none">
-												<input type="text" id="close" name="close" placeholder="발송제한" value="<?= $_REQUEST['close'] ? $_REQUEST['close'] : 24 ?>" onblur="limitNight();" />시(20시)
-												<input type="checkbox" value="Y" id="time_limit" checked> 제한해제
-											</div>
-											<p style="clear:both;"></p>
-										</div>
 
-										<div class="c1">
-											<div style="display:none">처리후중복제거(<a href="javascript:void(0)" onclick="show_recv('deny_num','6','처리후중복제거된번호')" class="num_check_c">0</a>)</div>
-											<div>중복제거(<a href="javascript:void(0)" onclick="show_recv('deny_num','7','중복제거된번호')" class="num_check_c">0</a>)</div>
-										</div>
-										<div class="c1">
-											<div><label><input type="checkbox" name="deny_wushi[]" checked <?= $_REQUEST['deny_wushi'][0] ? "checked" : "" ?> onclick="numchk('0');type_check()" />수신불가</label>(<a href="javascript:void(0)" onclick="show_recv('deny_num','0','수신불가')" class="num_check_c">0</a>)</div>
-											<div><label><input type="checkbox" name="deny_wushi[]" checked <?= $_REQUEST['deny_wushi'][1] ? "checked" : "" ?> onclick="numchk('1');type_check()" />없는번호</label>(<a href="javascript:void(0)" onclick="show_recv('deny_num','1','없는번호')" class="num_check_c">0</a>)</div>
-											<div><label><input type="checkbox" name="deny_wushi[]" <?= $_REQUEST['deny_wushi'][2] ? "checked" : "" ?> onclick="numchk('2');type_check()" />기타</label>(<a href="javascript:void(0)" onclick="show_recv('deny_num','2','기타')" class="num_check_c">0</a>)</div>
-											<p style="clear:both;"></p>
-											<input type="hidden" name="deny_num" />
-											<input type="hidden" name="deny_num" />
-											<input type="hidden" name="deny_num" />
-											<input type="hidden" name="deny_num" />
-											<input type="hidden" name="deny_num" />
-											<input type="hidden" name="deny_num" />
-											<input type="hidden" name="deny_num" />
-											<input type="hidden" name="deny_num" />
-											<input type="hidden" name="deny_num" />
-											<input type="hidden" name="recv_over" id="recv_over" />
-										</div>
+											<div class="c1">
+												<div style="display:none">처리후중복제거(<a href="javascript:void(0)" onclick="show_recv('deny_num','6','처리후중복제거된번호')" class="num_check_c">0</a>)</div>
+												<div>중복제거(<a href="javascript:void(0)" onclick="show_recv('deny_num','7','중복제거된번호')" class="num_check_c">0</a>)</div>
+											</div>
+											<div class="c1">
+												<div><label><input type="checkbox" name="deny_wushi[]" checked <?= $_REQUEST['deny_wushi'][0] ? "checked" : "" ?> onclick="numchk('0');type_check()" />수신불가</label>(<a href="javascript:void(0)" onclick="show_recv('deny_num','0','수신불가')" class="num_check_c">0</a>)</div>
+												<div><label><input type="checkbox" name="deny_wushi[]" checked <?= $_REQUEST['deny_wushi'][1] ? "checked" : "" ?> onclick="numchk('1');type_check()" />없는번호</label>(<a href="javascript:void(0)" onclick="show_recv('deny_num','1','없는번호')" class="num_check_c">0</a>)</div>
+												<div><label><input type="checkbox" name="deny_wushi[]" <?= $_REQUEST['deny_wushi'][2] ? "checked" : "" ?> onclick="numchk('2');type_check()" />기타</label>(<a href="javascript:void(0)" onclick="show_recv('deny_num','2','기타')" class="num_check_c">0</a>)</div>
+												<p style="clear:both;"></p>
+												<input type="hidden" name="deny_num" />
+												<input type="hidden" name="deny_num" />
+												<input type="hidden" name="deny_num" />
+												<input type="hidden" name="deny_num" />
+												<input type="hidden" name="deny_num" />
+												<input type="hidden" name="deny_num" />
+												<input type="hidden" name="deny_num" />
+												<input type="hidden" name="deny_num" />
+												<input type="hidden" name="deny_num" />
+												<input type="hidden" name="recv_over" id="recv_over" />
+											</div>
 											<div class="div_2px" style="">
 												<label><input type="radio" name="type" value="1" checked />묶음발송</label>
 												<label><input type="radio" name="type" value="0" />개별발송</label>
@@ -908,60 +925,60 @@ echo "test161<br>";
 								<div class="a2">
 									<div class="b1" style="display: flex;justify-content: space-between;border-bottom:1px solid #ddd">
 										<div class="popup_holder" style="cursor:pointer;margin:0px;" ;>부가서비스
-										<?= $fujia_pay ? "" : "<a href='pay.php'>(결제후 사용가능합니다.)</a>" ?>
-										<div class="popupbox" style="display:none; height: 85px;width: 214px; left: 87px; top: -10px; line-height:1.5;">
-											국내 유일의 수신처 기능 등 문자 발송시 다양한 서비스를 무료로 사용가능합니다. <br>
-											<a style="color: blue;" href="https://tinyurl.com/5n84rewk" target="_blank">[자세히 보기]</a>
+											<?= $fujia_pay ? "" : "<a href='pay.php'>(결제후 사용가능합니다.)</a>" ?>
+											<div class="popupbox" style="display:none; height: 85px;width: 214px; left: 87px; top: -10px; line-height:1.5;">
+												국내 유일의 수신처 기능 등 문자 발송시 다양한 서비스를 무료로 사용가능합니다. <br>
+												<a style="color: blue;" href="https://tinyurl.com/5n84rewk" target="_blank">[자세히 보기]</a>
+											</div>
 										</div>
-									</div>
 										<label style="float:right;font-size:16px;font-weight: bold;transform: scaleX(2);" id="additional_arrow" onclick="click_additional_arrow();">&#x02C5;</label>
 									</div>
 									<div id="additional_pad" style="display: none;">
-									<div class="b2">
-										<div class="popup_holder">
-											<div style="float:left;font-size:12px;">
-												<label><input type="checkbox" <?= $fujia_pay ? "" : "disabled" ?> name="deny_wushi[]" checked onclick="numchk('3');type_check()" />수신거부제외
-													(<a href="javascript:void(0)" onclick="show_recv('deny_num','3','수신거부옵션으로 발송제외 되는번호')" class="num_check_c">0</a>)</label>
+										<div class="b2">
+											<div class="popup_holder">
+												<div style="float:left;font-size:12px;">
+													<label><input type="checkbox" <?= $fujia_pay ? "" : "disabled" ?> name="deny_wushi[]" checked onclick="numchk('3');type_check()" />수신거부제외
+														(<a href="javascript:void(0)" onclick="show_recv('deny_num','3','수신거부옵션으로 발송제외 되는번호')" class="num_check_c">0</a>)</label>
+												</div>
+												<div class="popupbox" style="left: 50px; top: 20px; height: 18px; width: 200px; background: white; display: none;">
+													수신거부한 디비를 제외하고 발송하는 기능입니다.<br>
+												</div>
 											</div>
-											<div class="popupbox" style="left: 50px; top: 20px; height: 18px; width: 200px; background: white; display: none;">
-												수신거부한 디비를 제외하고 발송하는 기능입니다.<br>
+											<div style="float:right;font-size:12px;">
+												<label><input type="checkbox" <?= $fujia_pay ? "" : "disabled" ?> name="deny_msg" onclick="deny_msg_click(this,0)" />수신거부 문자</label>
+												<div class="deny_msg_span">OFF</div>
+												<p style="clear:both"></p>
 											</div>
-										</div>
-										<div style="float:right;font-size:12px;">
-											<label><input type="checkbox" <?= $fujia_pay ? "" : "disabled" ?> name="deny_msg" onclick="deny_msg_click(this,0)" />수신거부 문자</label>
-											<div class="deny_msg_span">OFF</div>
 											<p style="clear:both"></p>
 										</div>
-										<p style="clear:both"></p>
-									</div>
 
-									<div class="b2 popup_holder">
-										<div style="float:left;">
-											<label><input type="checkbox" <?= $fujia_pay ? "" : "disabled" ?> name="ssh_check" onclick="deny_msg_click(this,1);type_check();numchk('4')" />이달의 수신처 우선발송</label>
-											<div class="popupbox" style="display:none; height: 55px;width: 214px; left: 87px; top: -10px;">
-												국내 유일의 수신처 기능 등 문자 발송시 다양한 서비스를 무료로 사용가능합니다. </div>
-											<div class="deny_msg_span ">OFF</div>
-											<p style="clear:both"></p>
+										<div class="b2 popup_holder">
+											<div style="float:left;">
+												<label><input type="checkbox" <?= $fujia_pay ? "" : "disabled" ?> name="ssh_check" onclick="deny_msg_click(this,1);type_check();numchk('4')" />이달의 수신처 우선발송</label>
+												<div class="popupbox" style="display:none; height: 55px;width: 214px; left: 87px; top: -10px;">
+													국내 유일의 수신처 기능 등 문자 발송시 다양한 서비스를 무료로 사용가능합니다. </div>
+												<div class="deny_msg_span ">OFF</div>
+												<p style="clear:both"></p>
+											</div>
+											<p style="clear:both;"></p>
 										</div>
-										<p style="clear:both;"></p>
-									</div>
-									<div class="b2">
-										<div style="float:left;">
-											<label><input type="checkbox" <?= $fujia_pay ? "" : "disabled" ?> name="ssh_check" onclick="deny_msg_click(this,2);numchk('5');type_check()" />이달의 수신처 제외발송</label>(<a href="javascript:void(0)" onclick="show_recv('deny_num','5','수신처옵션에서  발송제외되는 번호')" class="num_check_c">0</a>)
-											<div class="deny_msg_span">OFF</div>
-											<p style="clear:both"></p>
+										<div class="b2">
+											<div style="float:left;">
+												<label><input type="checkbox" <?= $fujia_pay ? "" : "disabled" ?> name="ssh_check" onclick="deny_msg_click(this,2);numchk('5');type_check()" />이달의 수신처 제외발송</label>(<a href="javascript:void(0)" onclick="show_recv('deny_num','5','수신처옵션에서  발송제외되는 번호')" class="num_check_c">0</a>)
+												<div class="deny_msg_span">OFF</div>
+												<p style="clear:both"></p>
+											</div>
+											<p style="clear:both;"></p>
 										</div>
-										<p style="clear:both;"></p>
-									</div>
-									<div class="b2">
-										<div style="float:left;">
-											<label><input type="checkbox" <?= $fujia_pay ? "" : "disabled" ?> name="ssh_check" onclick="deny_msg_click(this,3);numchk('6');type_check()" />이달의 수신처 전용발송</label>(<a href="javascript:void(0)" onclick="show_recv('deny_num','8','수신처옵션에서  발송제외되는 번호')" class="num_check_c">0</a>)
-											<div class="deny_msg_span">OFF</div>
-											<p style="clear:both"></p>
+										<div class="b2">
+											<div style="float:left;">
+												<label><input type="checkbox" <?= $fujia_pay ? "" : "disabled" ?> name="ssh_check" onclick="deny_msg_click(this,3);numchk('6');type_check()" />이달의 수신처 전용발송</label>(<a href="javascript:void(0)" onclick="show_recv('deny_num','8','수신처옵션에서  발송제외되는 번호')" class="num_check_c">0</a>)
+												<div class="deny_msg_span">OFF</div>
+												<p style="clear:both"></p>
+											</div>
+											<p style="clear:both;"></p>
 										</div>
-										<p style="clear:both;"></p>
 									</div>
-								</div>
 								</div>
 								<div class="a2">
 									<div class="b2" style="float:left">이미지 미리보기</div>
@@ -1069,23 +1086,23 @@ echo "test161<br>";
 									</div>
 									<!--<div class="div_2px" style="display:flex">-->
 									<div class="div_2px" style="display:none">
-											<div class="type_icon"><img src="images/sub_04_02-2_btn_50.jpg" title="문자입력기능 작동중" /></div>
-											<div class="type_icon"><img src="images/sub_04_02-2_btn_52.jpg" title="포토입력기능 작동중" /></div>
-											<div class="type_icon"><img src="images/sub_04_02-2_btn_54.jpg" title="원북입력기능 작동중" /></div>
-											<div class="type_icon"><img src="images/sub_04_02-2_btn_56.jpg" title="수신제외기능 작동중" /></div>
-											<div class="type_icon"><img src="images/sub_04_02-2_btn_58.jpg" title="발송제한기능 작동중" /></div>
-											<div class="type_icon"><img src="images/sub_04_02-2_btn_60.jpg" title="예약발송기능 작동중" /></div>
-											<p style="clear:both;"></p>
-										</div>
+										<div class="type_icon"><img src="images/sub_04_02-2_btn_50.jpg" title="문자입력기능 작동중" /></div>
+										<div class="type_icon"><img src="images/sub_04_02-2_btn_52.jpg" title="포토입력기능 작동중" /></div>
+										<div class="type_icon"><img src="images/sub_04_02-2_btn_54.jpg" title="원북입력기능 작동중" /></div>
+										<div class="type_icon"><img src="images/sub_04_02-2_btn_56.jpg" title="수신제외기능 작동중" /></div>
+										<div class="type_icon"><img src="images/sub_04_02-2_btn_58.jpg" title="발송제한기능 작동중" /></div>
+										<div class="type_icon"><img src="images/sub_04_02-2_btn_60.jpg" title="예약발송기능 작동중" /></div>
+										<p style="clear:both;"></p>
+									</div>
 									<div class="div_2px">
 										<div>
 											<div style="float:left;height:20px">
 												<a href="javascript:saveMessage()">
 													메시지저장</a>
-										</div>
+											</div>
 											<div style="float:right;margin-left:30px;">
 												<label><input type="checkbox" name="fs_msg" id="fs_msg" onclick="deny_msg_click(this,4)" />발신전용 표시</label>
-											<input type="hidden" name="fs_txt" value="이 번호는 문자발신전용 번호이오니 관련문의는 위의 안내전화를 이용해주시기바랍니다." />
+												<input type="hidden" name="fs_txt" value="이 번호는 문자발신전용 번호이오니 관련문의는 위의 안내전화를 이용해주시기바랍니다." />
 												<!--<div class="deny_msg_span">OFF</div>-->
 											</div>
 										</div>
@@ -1093,20 +1110,20 @@ echo "test161<br>";
 											<div style="float:left;height:20px">
 												<a href="javascript:window.open('msg_serch.php?status=1&status2=1','msg_serch','top=0,left=0,toolbar=no,menubar=no,scrollbars=yes, resizable=yes,location=no, status=no')">
 													보관함보기</a>
-										</div>
+											</div>
 											<div style="float:right;margin-left:30px;">
 												<label><input type="checkbox" name="agreement_yn" id="agreement_yn" value="Y" <?= $_REQUEST['agreement_yn'] ? "checked" : "" ?> />수신동의 표시</label>
 												<!--<div class="deny_msg_span " id="agreement_yn_span">OFF</div>-->
 											</div>
-											</div>
+										</div>
 										<div>
 											<div style="float:left;height:20px">
 												<a href="javascript:show_mail_box()" id="btn_mail">
 													이메일입력</a>
-										</div>
+											</div>
 											<div style="float:right;margin-left:30px;">
 												<label><input type="checkbox" name="save_mms" value="Y" <?= $_REQUEST['save_mms'] ? "checked" : "" ?> />발송후에 저장</label>
-									</div>
+											</div>
 										</div>
 									</div>
 								</div>
