@@ -1,10 +1,10 @@
 #!/opt/php/bin/php
 <?php
-
+include_once "/home/kiam/lib/db_config.php";
 set_time_limit(0);
 ini_set('memory_limit', '-1');
 
-$mysql_host = 'localhost';
+/*$mysql_host = 'localhost';
 $mysql_user = 'kiam';
 $mysql_password = 'only12!@db';
 $mysql_db = 'kiam';
@@ -14,7 +14,7 @@ if (!$self_con) {
     printf("Connect failed: %s\n", mysqli_connect_error());
     exit();
 }
-mysqli_query($self_con, "set names utf8");
+mysqli_query($self_con, "set names utf8");*/
 echo "Started working with duplication\n";
 
 $query = "start transaction";
