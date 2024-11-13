@@ -52,7 +52,8 @@ include_once "_head.php";
 		while ($fail_row = mysqli_fetch_assoc($res)) {
 			if($fail_row['up_date'] == '')
 				$fail_row['up_date'] = date("Y-m-d H:i:s");
-			$sql = "insert into Gn_MMS_ReservationFail set mem_id = '{$fail_row['mem_id']}',
+			$sql = "insert into Gn_MMS_ReservationFail set idx = '{$fail_row['idx']}',
+															mem_id = '{$fail_row['mem_id']}',
 															send_num= '{$fail_row['send_num']}',
 															recv_num= '{$fail_row['recv_num']}',
 															uni_id= '{$fail_row['uni_id']}',
