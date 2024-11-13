@@ -15,11 +15,13 @@ include_once "_head.php";
 <?
 	exit;
 } else {
+	echo "test18<br>";
 	$date_today = date("Y-m-d");
 	$date_month = date("Y-m");
 	$trialLimit = date("Y-m-d 23:59:59", strtotime($member_1['first_regist'] . "-1 days")); //회원가입일+3일
 	$sql = "select phone_cnt from tjd_pay_result where buyer_id = '{$_SESSION['one_member_id']}' and end_date > '$date_today' and end_status in ('Y','A') and gwc_cont_pay=0 order by end_date desc";
 	$res_result = mysqli_query($self_con, $sql);
+	echo "test24<br>";
 	//결제 휴대폰 수
 	$buyPhoneCnt = mysqli_fetch_row($res_result);
 	mysqli_free_result($res_result);
@@ -38,12 +40,14 @@ include_once "_head.php";
 		$freeChk = "";
 		$fujia_pay = "Y";
 	}
+	echo "test43<br>";
 	// 16-01-20 예약발송 건 전송 제한 30분
 	// 1) reservation ~ 30분까지만 가져간다. 
 	// 2) 시간 지난 것은 실패 처리 : Gn_MMS_ReservationFail로 이동,result = 3
 	$sql_where = "where now() > adddate(reservation,INTERVAL 30 Minute) and result = 1 and mem_id = '{$_SESSION['one_member_id']}'";
 	$sql = "select * from Gn_MMS $sql_where";
 	$res = mysqli_query($self_con, $sql);
+	echo "test50<br>";
 	if (mysqli_num_rows($res) > 0) {
 		while ($fail_row = mysqli_fetch_assoc($res)) {
 			if($fail_row['up_date'] == '')
@@ -65,11 +69,14 @@ include_once "_head.php";
 															up_date= '{$fail_row['up_date']}',
 															url= '{$fail_row['url']}',
 															reservation= '{$fail_row['reservation']}'";
+			echo $sql;
 			mysqli_query($self_con, $sql);
 		}
 	}
 	$sql = "update Gn_MMS_ReservationFail set result = 3 $sql_where";
+	echo $sql;
 	mysqli_query($self_con, $sql);
+	echo "test57<br>";
 	//수신처수는 당월 차감 / 발송 수는 당일 차감
 	//오늘 예약 건 확인
 	$reserv_cnt_today = 0;
@@ -78,6 +85,7 @@ include_once "_head.php";
 	$row_result2 = mysqli_fetch_array($res_result2);
 	$reserv_cnt_today += $row_result2[0] * 1;
 	mysqli_free_result($res_result2);
+	echo "test66<br>";
 	//-이번달 예약건 수
 	$reserv_cnt_thismonth = 0;
 	$sql_result = "select SUM(recv_num_cnt) as cnt from Gn_MMS where reservation like '$date_month%' and up_date is null and mem_id = '{$_SESSION['one_member_id']}' ";
@@ -85,6 +93,7 @@ include_once "_head.php";
 	$row_result = mysqli_fetch_array($res_result);
 	$reserv_cnt_today += $row_result[0] * 1;
 	mysqli_free_result($res_result);
+	echo "test74<br>";
 	//-이번달 발송된 수
 	$recv_num_ex_sum = 0;
 	$sql_result = "select SUM(recv_num_cnt) as cnt from Gn_MMS where reg_date like '$date_month%' and mem_id = '{$_SESSION['one_member_id']}' ";
@@ -93,6 +102,7 @@ include_once "_head.php";
 	$recv_num_ex_sum += $row_result[0] * 1;
 	mysqli_free_result($res_result);
 	$recv_num_ex_sum += $reserv_cnt_thismonth; //이번 달 예약된 수 추가
+	echo "test82<br>";
 	//-오늘발송 건 수
 	$rec_cnt_today = 0;
 	$sql_result2 = "select SUM(recv_num_cnt) as cnt from Gn_MMS where reg_date like '$date_today%' and mem_id = '{$_SESSION['one_member_id']}' ";
@@ -100,6 +110,7 @@ include_once "_head.php";
 	$row_result2 = mysqli_fetch_array($res_result2);
 	$rec_cnt_today += $row_result2[0] * 1;
 	mysqli_free_result($res_result2);
+	echo "test91<br>";
 	//-이번발송 $uni_id
 	$rec_cnt_current = 0;
 	$sql_result3 = "select uni_id from Gn_MMS use index(gn_mms_mem_id) where mem_id = '{$_SESSION['one_member_id']}' order by idx desc";
@@ -107,12 +118,14 @@ include_once "_head.php";
 	$row_result3 = mysqli_fetch_array($res_result3);
 	$uni_id = substr($row_result3['uni_id'], 0, 10);
 	mysqli_free_result($res_result3);
+	echo "test99<br>";
 	//마지막 발송 건수
 	$sql_result32 = "select SUM(recv_num_cnt) as cnt from Gn_MMS where mem_id = '{$_SESSION['one_member_id']}' and uni_id like '$uni_id%'";
 	$res_result32 = mysqli_query($self_con, $sql_result32);
 	$row_result32 = mysqli_fetch_array($res_result32);
 	$rec_cnt_current += $row_result32[0] * 1;
 	mysqli_free_result($res_result32);
+	echo "test106<br>";
 	//-마지막발송일
 	$sql_result4 = "select reg_date from Gn_MMS use index(gn_mms_mem_id) where mem_id = '{$_SESSION['one_member_id']}' order by reg_date desc";
 	$res_result4 = mysqli_query($self_con, $sql_result4);
@@ -123,6 +136,7 @@ include_once "_head.php";
 		$last_reg_date = date("Y.m.d", strtotime($row_result4[0]));
 	}
 	mysqli_free_result($res_result4);
+	echo "test117<br>";
 	//이달 제공건
 	$thiMonTotCnt = $freeMMSCount + $buyMMSCount;
 	//이달잔여건
@@ -148,6 +162,7 @@ if ($member_1['mem_type'] == "V" || $member_1['mem_type'] == "") {
 $sql_sum = "select sum(user_cnt) as sumnum, sum(max_cnt) as summax ,sum(gl_cnt) as sumgl from Gn_MMS_Number where mem_id = '{$_SESSION['one_member_id']}'";
 $resul_sum = mysqli_query($self_con, $sql_sum);
 $row_sum_b = mysqli_fetch_array($resul_sum);
+echo "test142<br>";
 //월별 총 발송가능 횟수
 $cu_user_cnt =  "";
 $cu_today_cnt =  "";
@@ -166,6 +181,7 @@ if (!empty($row_sum_b)) {
 	$cu_today_cnt = $row_sum_b['summax'] ? $row_sum_b['summax'] : 0;
 	$mon_text_pcount = $cu_user_cnt - $cu_today_cnt;
 }
+echo "test161<br>";
 ?>
 <link href='/css/sub_4_re.css' rel='stylesheet' type='text/css' />
 <script type="text/javascript" src="jquery.lightbox_me.js"></script>
