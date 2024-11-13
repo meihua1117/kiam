@@ -50,22 +50,22 @@ include_once "_head.php";
 	echo "test50<br>";
 	if (mysqli_num_rows($res) > 0) {
 		while ($fail_row = mysqli_fetch_assoc($res)) {
-			$sql = "insert into Gn_MMS_ReservationFail set mem_id = {$fail_row['mem_id']},
-															send_num= {$fail_row['send_num']},
-															recv_num= {$fail_row['recv_num']},
-															uni_id= {$fail_row['uni_id']},
-															content= {$fail_row['content']},
-															title= {$fail_row['title']},
-															type= {$fail_row['type']},
-															delay= {$fail_row['delay']},
-															delay2= {$fail_row['delay2']},
-															close= {$fail_row['close']},
-															jpg= {$fail_row['jpg']},
-															result= {$fail_row['result']},
-															reg_date= {$fail_row['reg_date']},
-															up_date= {$fail_row['up_date']},
-															url= {$fail_row['url']},
-															reservation= {$fail_row['reservation']}";
+			$sql = "insert into Gn_MMS_ReservationFail set mem_id = '{$fail_row['mem_id']}',
+															send_num= '{$fail_row['send_num']}',
+															recv_num= '{$fail_row['recv_num']}',
+															uni_id= '{$fail_row['uni_id']}',
+															content= '{$fail_row['content']}',
+															title= '{$fail_row['title']}',
+															type= '{$fail_row['type']}',
+															delay= '{$fail_row['delay']}',
+															delay2= '{$fail_row['delay2']}',
+															close= '{$fail_row['close']}',
+															jpg= '{$fail_row['jpg']}',
+															result= '{$fail_row['result']}',
+															reg_date= '{$fail_row['reg_date']}',
+															up_date= '{$fail_row['up_date']}',
+															url= '{$fail_row['url']}',
+															reservation= '{$fail_row['reservation']}'";
 			echo $sql;
 			mysqli_query($self_con, $sql);
 		}
