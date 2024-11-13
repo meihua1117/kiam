@@ -6,19 +6,29 @@ ini_set('memory_limit', '-1');
 // $addr = $_REQUEST["addr"];
 // $addr = '충남 천안시 서북구 입장면 입장로 144-1';
 // echo GetAPIResponse($addr);
-$end_idx = 10;
+$end_idx = '300, 10000';
 
-$query = "select address,seq from crawler_data_supply where data_type='지도' and seq < $end_idx order by seq";
+// $query = "start transaction";
+// $result = mysql_query($query) ;
+
+
+$query = "select address,seq from crawler_data_supply where data_type='지도' order by seq limit $end_idx";
 $result = mysqli_query($self_con, $query);
 while ($row = mysqli_fetch_array($result)) {
     if ($row['address'] != "") {
         $region = GetAPIResponse($row['address']);
+        echo $row['seq'] . " ".$row['address']. " => ". $region . "<BR/>";
+        flush(); // 출력 버퍼를 비워서 즉시 출력
         if ($region != "") {
             $query = "update crawler_data_supply set region='{$region}' where seq={$row['seq']}";
             mysqli_query($self_con, $query);
         }
     }
 }
+
+// $query = "commit";
+// $result = mysql_query($query) ;
+
 echo 'Done';
 
 function GetAPIResponse($addr)
