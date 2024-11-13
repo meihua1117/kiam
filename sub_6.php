@@ -265,8 +265,8 @@ if (!empty($row_sum_b)) {
 	function show_mail_box() {
 		var coord = $("#btn_mail").position();
 		$("#modal_mail").css({
-			"top": coord.top,
-			"left": coord.left + 100
+			"top": coord.top - 400,
+			"left": coord.left + 30
 		});
 		$("#modal_mail").show();
 		$("#tutorial-loading").show();
@@ -830,16 +830,27 @@ if (!empty($row_sum_b)) {
 							<div><img src="images/sub_button_03.jpg" /></div>
 							<div class="div_240">
 								<div class="a1">
-									<div class="b1">주소관리</div>
-									<div class="b2 select_group_div">그룹번호</div>
-									<div class="div_2px"><textarea name="group_num" id="group_num" itemname='그룹번호' placeholder="그룹번호" onblur="numchk('4')"><?= $_REQUEST['group_num'] ?></textarea></div>
-									<div class="b2">개별번호</div>
-									<div class="div_2px"><textarea name="num" id="num" itemname='전화번호' placeholder="전화번호(쉼표로 구분)" onblur="numchk('4')"><?= $_REQUEST['num'] ?></textarea></div>
+									<div class="b1">발송번호선택</div>
+									<div class="b2 select_group_div" style="display: none;">그룹번호</div>
+									<div class="div_2px" style="display: none;">
+										<textarea name="group_num" id="group_num" itemname='그룹번호' placeholder="그룹번호" onblur="numchk('4')"><?= $_REQUEST['group_num'] ?></textarea>
+									</div>
+									<div class="b2">개별번호
+										<button style="float:right;font-size:12px;padding-left:10px;padding-right:10px;background:#155e80;color:white;" onclick="numchk('4')">확인</button>
+									</div>
+									<div class="div_2px">
+										<textarea name="num" id="num" itemname='전화번호' placeholder="번호구분은 콤마(,)로 해주세요.입력이 끝나면 확인을 클릭해주세요." onblur="numchk('4')"><?= $_REQUEST['num'] ?></textarea>
+									</div>
+									
 									<div class="b4">
-										<div class="div_2px">
-											<label><input type="radio" name="type" value="1" checked />묶음발송</label>
-											<label><input type="radio" name="type" value="0" />개별발송</label>
+										<div class="c1" style="display: flex;border-bottom:1px solid #ddd">
+											<div style="margin-left:0;">총건수(<span class="num_check_c">0</span>)</div>
+											<div>실제발송(<span class="num_check_c">0</span>)</div>
+											<div>발송제외(<a href="javascript:void(0)" onclick="show_recv('deny_num','4','발송제외')" class="num_check_c">0</a>)</div>
+											<label style="float:right;font-size:16px;font-weight: bold;transform: scaleX(2);" id="address_arrow" onclick="click_address_arrow();">&#x02C5;</label>
 										</div>
+
+										<div id="send_address_pad" style="display: none;">
 										<div class="div_2px">
 											<div style="float:left; display:none;" id="delay">
 												<input type="text" name="delay" placeholder="발송간격" value="<?= $_REQUEST['delay'] ? $_REQUEST['delay'] : 5 ?>" onblur="send_delay(sub_4_form,this,1)" onkeyup="send_delay(sub_4_form,this,1)" />~
@@ -851,12 +862,7 @@ if (!empty($row_sum_b)) {
 											</div>
 											<p style="clear:both;"></p>
 										</div>
-										<div class="c1">
-											<div>발송제외(<a href="javascript:void(0)" onclick="show_recv('deny_num','4','발송제외')" class="num_check_c">0</a>)</div>
-											<div>실제발송(<span class="num_check_c">0</span>)</div>
-											<div style="margin-right:0;">총건수(<span class="num_check_c">0</span>)</div>
-											<p style="clear:both;"></p>
-										</div>
+
 										<div class="c1">
 											<div style="display:none">처리후중복제거(<a href="javascript:void(0)" onclick="show_recv('deny_num','6','처리후중복제거된번호')" class="num_check_c">0</a>)</div>
 											<div>중복제거(<a href="javascript:void(0)" onclick="show_recv('deny_num','7','중복제거된번호')" class="num_check_c">0</a>)</div>
@@ -877,23 +883,31 @@ if (!empty($row_sum_b)) {
 											<input type="hidden" name="deny_num" />
 											<input type="hidden" name="recv_over" id="recv_over" />
 										</div>
+											<div class="div_2px" style="">
+												<label><input type="radio" name="type" value="1" checked />묶음발송</label>
+												<label><input type="radio" name="type" value="0" />개별발송</label>
+
+											</div>
+										</div>
 									</div>
 								</div>
 								<div class="a2">
-									<div class="b1 popup_holder" style="cursor:pointer" ;>부가서비스
+									<div class="b1" style="display: flex;justify-content: space-between;border-bottom:1px solid #ddd">
+										<div class="popup_holder" style="cursor:pointer;margin:0px;" ;>부가서비스
 										<?= $fujia_pay ? "" : "<a href='pay.php'>(결제후 사용가능합니다.)</a>" ?>
 										<div class="popupbox" style="display:none; height: 85px;width: 214px; left: 87px; top: -10px; line-height:1.5;">
 											국내 유일의 수신처 기능 등 문자 발송시 다양한 서비스를 무료로 사용가능합니다. <br>
 											<a style="color: blue;" href="https://tinyurl.com/5n84rewk" target="_blank">[자세히 보기]</a>
 										</div>
 									</div>
-
+										<label style="float:right;font-size:16px;font-weight: bold;transform: scaleX(2);" id="additional_arrow" onclick="click_additional_arrow();">&#x02C5;</label>
+									</div>
+									<div id="additional_pad" style="display: none;">
 									<div class="b2">
 										<div class="popup_holder">
 											<div style="float:left;font-size:12px;">
 												<label><input type="checkbox" <?= $fujia_pay ? "" : "disabled" ?> name="deny_wushi[]" checked onclick="numchk('3');type_check()" />수신거부제외
 													(<a href="javascript:void(0)" onclick="show_recv('deny_num','3','수신거부옵션으로 발송제외 되는번호')" class="num_check_c">0</a>)</label>
-
 											</div>
 											<div class="popupbox" style="left: 50px; top: 20px; height: 18px; width: 200px; background: white; display: none;">
 												수신거부한 디비를 제외하고 발송하는 기능입니다.<br>
@@ -934,6 +948,7 @@ if (!empty($row_sum_b)) {
 										<p style="clear:both;"></p>
 									</div>
 								</div>
+								</div>
 								<div class="a2">
 									<div class="b2" style="float:left">이미지 미리보기</div>
 									<div style="float:right">
@@ -963,9 +978,6 @@ if (!empty($row_sum_b)) {
 										<a href="javascript:void(0)" style="display:none" onclick="window.open('msg_serch.php?status=1&status2=2','msg_serch','top=0,left=0,toolbar=no,menubar=no,scrollbars=yes, resizable=yes,location=no, status=no')">
 											<img src="images/btn_send_help1.gif" />
 										</a>
-										<a href="javascript:void(0)" class="popbutton1">
-											<img src="images/btn_send_help3.gif" />
-										</a>
 									<?
 									} else {
 									?>
@@ -982,13 +994,17 @@ if (!empty($row_sum_b)) {
 								<br />
 
 								<div class="a3">
-									<div class="b1">예약서비스</div>
-									<div>예약발송일:
-										<input type="date" <?= $fujia_pay ? "" : "disabled" ?> name="rday" onfocus="type_check();" onblur="check_date('<?= date("Ymd") ?>')" placeholder="예약발송(일)" id="rday" value="<?= $_REQUEST['rday'] ?>" style="width:130px;" />
+									<div class="b1" style="display: flex;justify-content: space-between;border-bottom:1px solid #ddd">
+										<div style="margin:0px">예약서비스</div>
+										<label style="float:right;font-size:16px;font-weight: bold;transform: scaleX(2);" id="reserve_arrow" onclick="click_reserve_arrow();">&#x02C5;</label>
+									</div>
+									<div id="reserve_pad" style="display: none;">
+										예약발송일:
+										<input type="date" <?= $fujia_pay ? "" : "disabled" ?> name="rday" onfocus="type_check();" onblur="check_date('<?= date('Ymd') ?>')" placeholder="예약발송(일)" id="rday" value="<?= $_REQUEST['rday'] ?>" style="width:130px;" />
 										<br>
 										<select name="htime" style="width:50px;" <?= $fujia_pay ? "" : "disabled" ?>>
 											<?
-											for ($i = 9; $i < 22; $i++) {
+											for ($i = 0; $i < 22; $i++) {
 												$iv = $i < 10 ? "0" . $i : $i;
 												$selected = $_REQUEST['htime'] == $iv ? "selected" : "";
 											?>
@@ -1011,28 +1027,34 @@ if (!empty($row_sum_b)) {
 									</div>
 								</div>
 								<div class="a4">
-									<div class="b1">문자입력<span class="popbutton7 pop_view pop_right">?</span>
-										<input type="button" id="btn_mail" name="btn_mail" value="메일입력" title="선택한 그룹에 메일 등록이 된 디비에만 이메일도 발송됩니다" class="pull-right" style="margin-bottom:3px;height:28px;" onclick="show_mail_box()" />
+									<div class="b1">
+										문자입력<!--<span class="popbutton7 pop_view pop_right">?</span>-->
+										<div class="pull-right">
+											<span onclick="input_replace_char();" style="font-size:12px;cursor:pointer">치환하기</span>
+											<span class="popbutton1" style="font-size:12px;cursor:pointer">(?)</span>
+										</div>
 										<button onclick="show_chat('<?= $member_1['gpt_chat_api_key'] ?>')" class="chat_btn">AI와 대화하기</button>
 									</div>
 
 									<div class="b2">
 										<div class="div_2px"> </div>
 									</div>
-									<div class="div_2px"><input type="text" name="title" itemname='제목' required placeholder="제목" style="width:100%;" value="<?= $_REQUEST['title'] ?>" /></div>
+									<div class="div_2px"><input type="text" class="replace_tab" name="title" id="title" itemname='제목' required placeholder="제목" style="width:100%;" value="<?= $_REQUEST['title'] ?>" /></div>
 									<div class="div_2px">
-										<textarea name="txt" itemname='내용' id='txt' required placeholder="내용" onkeydown="textCounter(sub_4_form.txt,'wenzi_cnt',2000,0);" onkeyup="textCounter(sub_4_form.txt,'wenzi_cnt',2000,0);type_check();" onfocus="textCounter(sub_4_form.txt,'wenzi_cnt',2000,0);type_check();"><?= $_REQUEST['txt'] ?></textarea>
+										<textarea class="replace_tab" name="txt" style="height:150px" itemname='내용' id='txt' required placeholder="내용" onkeydown="textCounter(sub_4_form.txt,'wenzi_cnt',2000,0);" onkeyup="textCounter(sub_4_form.txt,'wenzi_cnt',2000,0);type_check();" onfocus="textCounter(sub_4_form.txt,'wenzi_cnt',2000,0);type_check();"><?= $_REQUEST['txt'] ?></textarea>
 										<input type="hidden" name="onebook_status" value="N" />
 										<input type="hidden" name="onebook_url" value="" />
 									</div>
 									<div class="div_2px" style="height:28px;line-height:28px;">
 										<div style="float:left;">
-											<a href="javascript:saveMessage()">문자저장하기</a>
+											<a href="javascript:ml_view('txt','0','미리보기')">미리보기</a>
 										</div>
 										<div style="float:right;">
 											<span class="wenzi_cnt">0</span> byte
 										</div>
-										<div class="c1" style="float:right;">
+									</div>
+									<!--<div class="div_2px" style="display:flex">-->
+									<div class="div_2px" style="display:none">
 											<div class="type_icon"><img src="images/sub_04_02-2_btn_50.jpg" title="문자입력기능 작동중" /></div>
 											<div class="type_icon"><img src="images/sub_04_02-2_btn_52.jpg" title="포토입력기능 작동중" /></div>
 											<div class="type_icon"><img src="images/sub_04_02-2_btn_54.jpg" title="원북입력기능 작동중" /></div>
@@ -1041,37 +1063,37 @@ if (!empty($row_sum_b)) {
 											<div class="type_icon"><img src="images/sub_04_02-2_btn_60.jpg" title="예약발송기능 작동중" /></div>
 											<p style="clear:both;"></p>
 										</div>
-										<p style="clear:both;"></p>
-									</div>
 									<div class="div_2px">
-										<div style="float:left;">
-											<a href="javascript:void(0)" onclick="window.open('msg_serch.php?status=1&status2=1','msg_serch','top=0,left=0,toolbar=no,menubar=no,scrollbars=yes, resizable=yes,location=no, status=no')">
-												문자불러오기</a>
+										<div>
+											<div style="float:left;height:20px">
+												<a href="javascript:saveMessage()">
+													메시지저장</a>
 										</div>
-										<div style="float:left;margin-left:30px;">
-											<label><input type="checkbox" name="fs_msg" id="fs_msg" onclick="deny_msg_click(this,4)" />발신전용안내</label>
+											<div style="float:right;margin-left:30px;">
+												<label><input type="checkbox" name="fs_msg" id="fs_msg" onclick="deny_msg_click(this,4)" />발신전용 표시</label>
 											<input type="hidden" name="fs_txt" value="이 번호는 문자발신전용 번호이오니 관련문의는 위의 안내전화를 이용해주시기바랍니다." />
-											<div class="deny_msg_span">OFF</div>
-											<p style="clear:both;"></p>
-										</div>
-										<div class="b2">
-											<div style="float:left">
-												<a href="javascript:void(0)" onclick="ml_view('txt','0','미리보기')">문자미리보기</a>
+												<!--<div class="deny_msg_span">OFF</div>-->
 											</div>
-											<div style="float:left;margin-left:30px;">
-												<label><input type="checkbox" name="save_mms" value="Y" <?= $_REQUEST['save_mms'] ? "checked" : "" ?> />문자발송후 저장하기</label>
-											</div>
-											<p style="clear:both;"></p>
 										</div>
-										<p style="clear:both;"></p>
+										<div>
+											<div style="float:left;height:20px">
+												<a href="javascript:window.open('msg_serch.php?status=1&status2=1','msg_serch','top=0,left=0,toolbar=no,menubar=no,scrollbars=yes, resizable=yes,location=no, status=no')">
+													보관함보기</a>
+										</div>
+											<div style="float:right;margin-left:30px;">
+												<label><input type="checkbox" name="agreement_yn" id="agreement_yn" value="Y" <?= $_REQUEST['agreement_yn'] ? "checked" : "" ?> />수신동의 표시</label>
+												<!--<div class="deny_msg_span " id="agreement_yn_span">OFF</div>-->
+											</div>
+											</div>
+										<div>
+											<div style="float:left;height:20px">
+												<a href="javascript:show_mail_box()" id="btn_mail">
+													이메일입력</a>
+										</div>
+											<div style="float:right;margin-left:30px;">
+												<label><input type="checkbox" name="save_mms" value="Y" <?= $_REQUEST['save_mms'] ? "checked" : "" ?> />발송후에 저장</label>
 									</div>
-									<div class="b2">
-										<div style="float:left;">
-											<label><input type="checkbox" name="agreement_yn" id="agreement_yn" value="Y" <?= $_REQUEST['agreement_yn'] ? "checked" : "" ?> />수신동의 문자</label>
-											<div class="deny_msg_span " id="agreement_yn_span">OFF</div>
-											<p style="clear:both"></p>
 										</div>
-										<p style="clear:both;"></p>
 									</div>
 								</div>
 								<div>
@@ -1272,16 +1294,7 @@ if (!empty($row_sum_b)) {
 									$sql = "select * from Gn_MMS_Number where mem_id='{$_SESSION['one_member_id']}' order by sort_no asc, user_cnt desc , idx desc";
 									$resul = mysqli_query($self_con, $sql);
 									?>
-									<div class="button_box">
-										<div class="left_box">
-											<span class="popup_holder button_type">
-												<a href="javascript:void(0)" onclick="select_app_check_push('check_num')">앱 상태 체크</a>
-												<div class="popupbox" style="display:none;left:0px; top:40px; height:114px; 	width:220px;margin-top:0px; line-height:1.5;">•발송 전에 현재 발송 가능한 폰을 확인합니다.<br>
-													•체크횟수 : 하루 처음 발송 전 1회 체크하면 됩니다. 클릭하세요!<br>
-													<a class="detail_view" style="color: blue;" href="https://tinyurl.com/fjdzys6p" target="_blank">[자세히 보기]</a>
-												</div>
-											</span>
-										</div>
+									<div class="button_box" style="">
 										<table class="list_table" width="100%" border="0" cellspacing="0" cellpadding="0" style="background:#fff">
 											<tr>
 												<th style="background:#AED9FD;padding:5px;">발송가능폰</th>
@@ -1292,14 +1305,23 @@ if (!empty($row_sum_b)) {
 												<td><?= number_format($intRowCount); ?></td>
 											</tr>
 										</table>
+										<div class="right_box">
+											<span class="popup_holder button_type">
+												<a href="javascript:void(0)" onclick="select_app_check_push('check_num')">앱 상태 체크</a>
+												<div class="popupbox" style="display:none;left:0px; top:40px; height:114px; 	width:220px;margin-top:0px; line-height:1.5;">•발송 전에 현재 발송 가능한 폰을 확인합니다.<br>
+													•체크횟수 : 하루 처음 발송 전 1회 체크하면 됩니다. 클릭하세요!<br>
+													<a class="detail_view" style="color: blue;" href="https://tinyurl.com/fjdzys6p" target="_blank">[자세히 보기]</a>
+												</div>
+											</span>
+										</div>
 									</div>
 									<table class="list_table" width="100%" border="0" cellspacing="0" cellpadding="0" style="position:relative;top:10px;">
 										<thead>
 											<tr>
-												<td style="width:35%;text-align:left;"><label><input type="checkbox" onclick="check_all(this,'go_num');send_sj_fun()" />휴대폰 번호</label></td>
+												<td style="width:35%;text-align:left;"><label><input type="checkbox" onclick="check_all(this,'go_num');send_sj_fun()" />발송폰선택</label></td>
 												<td style="width:25%;">이름</td>
 												<td style="width:15%;">이번<br>발송</td>
-												<td style="width:15%;text-align:left;"><label><input type="checkbox" onclick="check_all(this,'check_num');" />앱체크</label></td>
+												<td style="width:15%;text-align:left;"><label><input type="checkbox" onclick="check_all(this,'check_num');" />폰선택</label></td>
 												<td style="width:10%;">상태</td>
 											</tr>
 										</thead>
@@ -1873,6 +1895,41 @@ if (!empty($row_sum_b)) {
 				}
 			})
 		}
+	}
+
+	function click_address_arrow() {
+		if ($("#send_address_pad").css('display') == "none") {
+			$("#send_address_pad").show();
+			$("#address_arrow").html('&#x02C4;');
+		} else {
+			$("#send_address_pad").hide();
+			$("#address_arrow").html('&#x02C5;');
+		}
+	}
+
+	function click_additional_arrow() {
+		if ($("#additional_pad").css('display') == "none") {
+			$("#additional_pad").show();
+			$("#additional_arrow").html('&#x02C4;');
+		} else {
+			$("#additional_pad").hide();
+			$("#additional_arrow").html('&#x02C5;');
+		}
+	}
+
+	function click_reserve_arrow() {
+		if ($("#reserve_pad").css('display') == "none") {
+			$("#reserve_pad").show();
+			$("#reserve_arrow").html('&#x02C4;');
+		} else {
+			$("#reserve_pad").hide();
+			$("#reserve_arrow").html('&#x02C5;');
+		}
+	}
+
+	function input_replace_char() {
+		$("#txt").val($("#txt").val() + "{|name|}");
+		$("#title").val($("#title").val() + "{|name|}");
 	}
 	<? if ($total_cnt >= 0) { ?>
 		election_cnt = <?= $total_cnt ?>;

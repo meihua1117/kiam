@@ -1000,9 +1000,9 @@ if ($_POST['num_check_go']) {
             $($(".num_check_c")[10]).html((<?= count($diff_info) ?> * 1)); //수신처전용발송 누락
         else
             $($(".num_check_c")[10]).html(0); //수신처전용발송 누락
-        $($(".num_check_c")[0]).html(jy_cnt); //발송제외
+        $($(".num_check_c")[0]).html(total_num); //총발송건수
         $($(".num_check_c")[1]).html(shiji_cnt); //실제발송가능건
-        $($(".num_check_c")[2]).html(total_num); //총발송건수
+        $($(".num_check_c")[2]).html(jy_cnt); //발송제외
         $($(".num_check_c")[3]).html(cf_cnt); //처리후중복제거
         $($(".num_check_c")[4]).html(check_cnt5); //중복제거
         $($(".num_check_c")[5]).html(check_cnt0); //수신불가

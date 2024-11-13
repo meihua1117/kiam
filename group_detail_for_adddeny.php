@@ -3,7 +3,7 @@ $path="./";
 include_once $path."lib/rlatjd_fun.php";
 $type = $_REQUEST['type'];
 if($type == "deny"){
-    if(!$_REQUEST['phone']) $sql_serch=" 1=0 ";
+    if(!$_REQUEST['phone']) $sql_serch=" 1=1 ";
     else $sql_serch=" dest='{$_REQUEST['phone']}' ";
     if($_REQUEST['grp_id'])
         $sql_serch.=" and grp_id = '{$_REQUEST['grp_id']}' ";
@@ -42,7 +42,7 @@ if($type == "deny"){
     $result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 }
 else{
-    if(!$_REQUEST['phone']) $sql_serch=" 1=0 ";
+    if(!$_REQUEST['phone']) $sql_serch=" 1=1 ";
     else $sql_serch=" b.mem_id='{$_REQUEST['mem_id']}' and b.chanel_type=9 and a.dest='{$_REQUEST['phone']}'";
     if($_REQUEST['grp_id'])
         $sql_serch.=" and grp_id = '{$_REQUEST['grp_id']}' ";
