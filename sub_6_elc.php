@@ -898,7 +898,7 @@ $row_data = mysqli_fetch_array($res_data);
 													$ssh_cnt = 0;
 
 
-													$sql_ssh = "select recv_num from Gn_MMS where send_num='" . $row['sendnum'] . "' and and (reg_date like '$date_month%' or reservation like '$date_month%')  group by(recv_num)";
+													$sql_ssh = "select recv_num from Gn_MMS where send_num='" . $row['sendnum'] . "' and (reg_date like '$date_month%' or reservation like '$date_month%')  group by(recv_num)";
 
 													$result_ssh = mysqli_query($self_con, $sql_ssh);
 													while ($row_ssh = mysqli_fetch_array($result_ssh)) {

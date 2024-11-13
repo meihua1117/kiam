@@ -25,7 +25,7 @@ else if($mode == "menu_desc"){
         $res = mysqli_query($self_con,$sql_update);
     }
     else{
-        $sql_insert = "insert into Gn_App_Home_Manager set menu_desc='{$txt}', site_iam='{$site}', reg_date='{$date}'";
+        $sql_insert = "insert into Gn_App_Home_Manager set menu_desc='{$txt}', site_iam='{$site}', reg_date='{$date}', up_date='{$date}'";
         $res = mysqli_query($self_con,$sql_insert);
     }
 }
@@ -39,7 +39,7 @@ else if($mode == "market_desc"){
         $res = mysqli_query($self_con,$sql_update);
     }
     else{
-        $sql_insert = "insert into Gn_App_Home_Manager set market_desc='{$txt}', site_iam='{$site}', reg_date='{$date}'";
+        $sql_insert = "insert into Gn_App_Home_Manager set market_desc='{$txt}', site_iam='{$site}', reg_date='{$date}', up_date='{$date}'";
         $res = mysqli_query($self_con,$sql_insert);
     }
 }
@@ -53,7 +53,7 @@ else if($mode == "card_desc"){
         $res = mysqli_query($self_con,$sql_update);
     }
     else{
-        $sql_insert = "insert into Gn_App_Home_Manager set card_desc='{$txt}', site_iam='{$site}', reg_date='{$date}'";
+        $sql_insert = "insert into Gn_App_Home_Manager set card_desc='{$txt}', site_iam='{$site}', reg_date='{$date}', up_date='{$date}'";
         $res = mysqli_query($self_con,$sql_insert);
     }
 }
@@ -67,7 +67,7 @@ else if($mode == "market_title"){
         $res = mysqli_query($self_con,$sql_update);
     }
     else{
-        $sql_insert = "insert into Gn_App_Home_Manager set market_title='{$txt}', site_iam='{$site}', reg_date='{$date}'";
+        $sql_insert = "insert into Gn_App_Home_Manager set market_title='{$txt}', site_iam='{$site}', reg_date='{$date}', up_date='{$date}'";
         $res = mysqli_query($self_con,$sql_insert);
     }
 }
@@ -81,7 +81,7 @@ else if($mode == "card_title"){
         $res = mysqli_query($self_con,$sql_update);
     }
     else{
-        $sql_insert = "insert into Gn_App_Home_Manager set card_title='{$txt}', site_iam='{$site}', reg_date='{$date}'";
+        $sql_insert = "insert into Gn_App_Home_Manager set card_title='{$txt}', site_iam='{$site}', reg_date='{$date}', up_date='{$date}'";
         $res = mysqli_query($self_con,$sql_insert);
     }
 }
@@ -95,7 +95,7 @@ else if($mode == "notice_title"){
         $res = mysqli_query($self_con,$sql_update);
     }
     else{
-        $sql_insert = "insert into Gn_App_Home_Manager set notice_title='{$txt}', site_iam='{$site}', reg_date='{$date}'";
+        $sql_insert = "insert into Gn_App_Home_Manager set notice_title='{$txt}', site_iam='{$site}', reg_date='{$date}', up_date='{$date}'";
         $res = mysqli_query($self_con,$sql_insert);
     }
 }
@@ -130,8 +130,32 @@ else if($mode == "change_site"){
     }
 }
 else if($mode == "set_show"){
-    $sql_update = "update Gn_Iam_Service set admin_app_home='{$set_type}' where sub_domain like '%".$domain."%'";
-    $res = mysqli_query($self_con,$sql_update);
+    $sql_update = "update Gn_Iam_Service set admin_app_home='{$set_type}' where sub_domain like '%{$domain}%'";
+    $res = mysqli_query($self_con, $sql_update);
+    $domains = explode(".",$domain);
+    $site = $domains[0];
+    if($site == "www")
+        $site = "kiam";
+    if($set_type == 1){
+        $sql = "select count(idx) from Gn_App_Home_Manager where site_iam='{$site}'";
+        $count_res = mysqli_query($self_con, $sql);
+        $row = mysqli_fetch_array($count_res);
+        if($row[0] == 0){
+            $menu_sql = "select * from Gn_App_Home_Manager where site_iam='kiam'";
+            $menu_res = mysqli_query($self_con, $menu_sql);
+            while($menu_row = mysqli_fetch_assoc($menu_res)){
+                $sql = "insert into Gn_App_Home_Manager set ";
+                foreach($menu_row as $key=>$v){
+                    if($key != "reg_date" && $key != "up_date" && $key != "idx"){
+                        $v=$key=="site_iam"?$site:$v;
+                        $sql.=" $key='".addslashes($v)."',";
+                    }
+                }
+                $sql .= "reg_date='{$date}',up_date='{$date}'";
+                mysqli_query($self_con,$sql);
+            }
+        }
+    }
 }
 
 echo $res;

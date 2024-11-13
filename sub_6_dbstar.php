@@ -848,7 +848,7 @@ if (!empty($row_sum_b)) {
 													$monthly_limit_ssh = $memo2 ? $agency_arr[$memo2] : 800; //월별 수신처 제한 수 
 													//이번 달 총 수신처 수
 													$ssh_cnt = 0;
-													$sql_ssh = "select recv_num from Gn_MMS where send_num='" . $row['sendnum'] . "' and and (reg_date like '$date_month%' or reservation like '$date_month%')  group by(recv_num)";
+													$sql_ssh = "select recv_num from Gn_MMS where send_num='" . $row['sendnum'] . "' and (reg_date like '$date_month%' or reservation like '$date_month%')  group by(recv_num)";
 													$result_ssh = mysqli_query($self_con, $sql_ssh);
 													while ($row_ssh = mysqli_fetch_array($result_ssh)) {
 														$ssh_arr = explode(",", $row_ssh['recv_num']);
