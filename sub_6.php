@@ -50,9 +50,13 @@ include_once "_head.php";
 	echo "test50<br>";
 	if (mysqli_num_rows($res) > 0) {
 		while ($fail_row = mysqli_fetch_assoc($res)) {
-			if($fail_row['up_date'] == '')
+			if ($fail_row['up_date'] == '')
 				$fail_row['up_date'] = date("Y-m-d H:i:s");
-			$sql = "insert into Gn_MMS_ReservationFail set idx = '{$fail_row['idx']}',
+			$tmp_sql = "select count(idx) from Gn_MMS_ReservationFail where idx = '{$fail_row['idx']}'";
+			$tmp_res = mysqli_query($self_con, $tmp_sql);
+			$tmp_row = mysqli_fetch_array($tmp_res);
+			if ($tmp_row[0] == 0) {
+				$sql = "insert into Gn_MMS_ReservationFail set idx = '{$fail_row['idx']}',
 															mem_id = '{$fail_row['mem_id']}',
 															send_num= '{$fail_row['send_num']}',
 															recv_num= '{$fail_row['recv_num']}',
@@ -69,8 +73,9 @@ include_once "_head.php";
 															up_date= '{$fail_row['up_date']}',
 															url= '{$fail_row['url']}',
 															reservation= '{$fail_row['reservation']}'";
-			echo $sql;
-			mysqli_query($self_con, $sql);
+				echo $sql;
+				mysqli_query($self_con, $sql);
+			}
 		}
 	}
 	$sql = "update Gn_MMS_ReservationFail set result = 3 $sql_where";
