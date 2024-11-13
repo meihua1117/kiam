@@ -50,9 +50,11 @@ include_once "_head.php";
 	echo "test50<br>";
 	if (mysqli_num_rows($res) > 0) {
 		$sql = "insert into Gn_MMS_ReservationFail select * from Gn_MMS $sql_where";
+		echo $sql;
 		mysqli_query($self_con, $sql);
 	}
 	$sql = "update Gn_MMS_ReservationFail set result = 3 $sql_where";
+	echo $sql;
 	mysqli_query($self_con, $sql);
 	echo "test57<br>";
 	//수신처수는 당월 차감 / 발송 수는 당일 차감
