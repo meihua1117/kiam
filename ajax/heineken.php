@@ -995,6 +995,7 @@ if ($user_id) {
                                 $fields['token'] = $id;
                                 $fields['android'] = array("priority" => "high");
                                 $fields = json_encode(array('message' => $fields));
+                                fwrite($fp, "998=>".$fields."\r\n");
                                 $ch = curl_init();
                                 curl_setopt($ch, CURLOPT_URL, $url);
                                 curl_setopt($ch, CURLOPT_POST, true);
