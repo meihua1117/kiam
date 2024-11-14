@@ -1077,7 +1077,7 @@ if ($user_id) {
         $ssh_total_cnt = $_POST['send_cnt'] - $re_today_cnt; // 재선언 발송실패 2016-05-0
         if ($ssh_total_cnt < 0) $ssh_total_cnt = 0;
 
-        echo json_encode(array("result" => "success", "msg" =>$auth_key['access_token']."=>". count($success_cell_arr) . '|' . count($no_num) . '|' . $re_today_cnt . '|' . $ssh_total_cnt . '|' . count($deny_num) . "|" . count($etc_arr) . "|" . count($wrong_arr) . "|" . count($lose_arr), 'line' => 1132));
+        echo json_encode(array("result" => "success", "msg" =>"발송참여폰=>". count($success_cell_arr) . ',미발송번호=>' . count($no_num) . ',금일발송성공=>' . $re_today_cnt . ',전송실패=>' . $ssh_total_cnt . ',수신거부,' . count($deny_num) . ",기타번호=>" . count($etc_arr) . ",없는번호=>" . count($wrong_arr) . ",수신불가=>" . count($lose_arr), 'line' => 1132));
         unset($etc_arr); //2016-03-07 위치이동
         unset($wrong_arr);
         unset($lose_arr);
