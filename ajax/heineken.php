@@ -750,8 +750,8 @@ if ($user_id) {
                         }
                         $num_arr = array_diff($num_arr, $send_num_list[$sendnum[$j]]);
                         sort($num_arr);
+                        $send_num_list_cnt += $tmp_count;
                         $loop_check_num += $send_num_list_cnt;
-                        $send_num_list_cnt + $tmp_count;
                         unset($tmp_count);
                     }
                 }
