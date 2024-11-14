@@ -1003,7 +1003,7 @@ if ($user_id) {
                                 curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
                                 curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
                                 curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-                                curl_setopt($ch, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
+                                //curl_setopt($ch, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
 
                                 $result = curl_exec($ch);
                                 if ($result === FALSE) {
