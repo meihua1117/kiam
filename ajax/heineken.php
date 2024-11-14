@@ -1011,10 +1011,11 @@ if ($user_id) {
                                 }
                                 curl_close($ch);
                                 $json = json_decode($result);
+                                fwrite($fp, "1014=>".json_encode($json)."\r\n");
                                 $msg = "";
                                 $msg = $json->results[0]->error;
 
-                                $query = "insert into Gn_MMS_PUSH set send_num='{$mms_info['send_num']}',idx='{$sidx}',token='{$pkey[$mms_info['send_num']]}',error='{$result}'";
+                                $query = "insert into Gn_MMS_PUSH set send_num='{$mms_info['send_num']}',idx='{$sidx}',token='{$pkey[$mms_info['send_num']]}',error='{$msg}'";
                                 if ($debug_mode == false) {
                                     mysqli_query($self_con, $query) or die(mysqli_error($self_con));
                                 }
