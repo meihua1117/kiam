@@ -7,7 +7,7 @@ if ($key != 'b62d27b5d7c024c9e1fcbbe00bc82cae') {
     echo json_encode(array('result' => 'fail', 'msg' => '잘못된 요청입니다.', 'key' => $_POST['key'], "md5" => md5($_POST['key']), "params" => print_r($_POST, true)));
     exit;
 }
-$fp = fopen("heine_log.txt","w+");
+$fp = fopen("heine_log.txt", "w+");
 $user_id = $_POST['user_id'];
 if ($user_id) {
     $url = 'https://fcm.googleapis.com/v1/projects/onepagebookmms5/messages:send';
@@ -355,7 +355,7 @@ if ($user_id) {
                 $cnt1_log_arr[$j] = 0; //초기화 // 2016-03-07 추가
                 $cnt2_log_arr[$j] = 0;
                 $cntYN_log_arr[$j] = 0;
-                fwrite($fp,"358=>".$cntYN_log_arr[$j]."\r\n");
+                fwrite($fp, "358=>" . $cntYN_log_arr[$j] . "\r\n");
                 $cntAdj_log_arr[$j] = "";
                 $remain_array = array();
 
@@ -545,7 +545,7 @@ if ($user_id) {
                             }
                         }
                         $cntYN_log_arr[$j] = count($send_num_list[$sendnum[$j]]); //2016-05-08 추가
-                        fwrite($fp,"547=>".$cntYN_log_arr[$j]."\r\n");
+                        fwrite($fp, "547=>" . $cntYN_log_arr[$j] . "\r\n");
                     } else {
                         if ($user_cnt[$sendnum[$j]] + count($send_num_list[$sendnum[$j]]) >= $daily_min_cnt_user && count($send_num_list[$sendnum[$j]]) > 0) {
                             $sql_num = "update Gn_MMS_Number set cnt1=cnt1+1 where mem_id='{$user_id}' and sendnum='$sendnum[$j]' ";
@@ -569,7 +569,7 @@ if ($user_id) {
                             $cnt2_log_arr[$j] += 1;
                         }
                         $cntYN_log_arr[$j] = count($send_num_list[$sendnum[$j]]); //2016-05-08 추가
-                        fwrite($fp,"571=>".$cntYN_log_arr[$j]."\r\n");
+                        fwrite($fp, "571=>" . $cntYN_log_arr[$j] . "\r\n");
                     }
                 } else {
                     $sql_check_s = "select no,status from tjd_mms_cnt_check where mem_id='{$user_id}' and sendnum='$sendnum[$j]' and date=curdate() ";
@@ -591,7 +591,7 @@ if ($user_id) {
                                 $cnt1_log_arr[$j] += 1;
                                 $cnt2_log_arr[$j] -= 1;
                                 $cntYN_log_arr[$j] = count($send_num_list[$sendnum[$j]]); //2016-05-08 추가
-                                fwrite($fp,"593=>".$cntYN_log_arr[$j]."\r\n");
+                                fwrite($fp, "593=>" . $cntYN_log_arr[$j] . "\r\n");
                             }
                         }
                     } else {
@@ -618,7 +618,7 @@ if ($user_id) {
                             $cnt2_log_arr[$j] += 1;
                         }
                         $cntYN_log_arr[$j] = count($send_num_list[$sendnum[$j]]); //2016-05-08 추가
-                        fwrite($fp,"620=>".$cntYN_log_arr[$j]."\r\n");
+                        fwrite($fp, "620=>" . $cntYN_log_arr[$j] . "\r\n");
                     }
                 }
             }
@@ -639,7 +639,7 @@ if ($user_id) {
                 $cnt1_log_arr[$j] = 0; //초기화 // 2016-03-07 추가
                 $cnt2_log_arr[$j] = 0;
                 $cntYN_log_arr[$j] = 0;
-                fwrite($fp,"641=>".$cntYN_log_arr[$j]."\r\n");
+                fwrite($fp, "641=>" . $cntYN_log_arr[$j] . "\r\n");
                 $cntAdj_log_arr[$j] = "";
                 $remain_array = array();
 
@@ -780,9 +780,9 @@ if ($user_id) {
                         }
                     }
                     $cntYN_log_arr[$j] = $send_num_list_cnt; //2016-05-08 추가
-                    fwrite($fp,"783=>".$cntYN_log_arr[$j]."\r\n");
+                    fwrite($fp, "783=>" . $cntYN_log_arr[$j] . "\r\n");
                 } else {
-                    fwrite($fp,"785=>".$user_cnt[$sendnum[$j]]. "+". $send_num_list_cnt. ">=". $daily_min_cnt_user."\r\n");
+                    fwrite($fp, "785=>" . $user_cnt[$sendnum[$j]] . "+" . $send_num_list_cnt . ">=" . $daily_min_cnt_user . "\r\n");
                     if ($user_cnt[$sendnum[$j]] + $send_num_list_cnt >= $daily_min_cnt_user && $send_num_list_cnt > 0) {
                         $sql_num = "update Gn_MMS_Number set cnt1=cnt1+1 where mem_id='{$user_id}' and sendnum='$sendnum[$j]' ";
                         if ($debug_mode == false) {
@@ -805,7 +805,7 @@ if ($user_id) {
                         $cnt2_log_arr[$j] += 1;
                     }
                     $cntYN_log_arr[$j] = $send_num_list_cnt; //2016-05-08 추가
-                    fwrite($fp,"809=>".$cntYN_log_arr[$j]."\r\n");
+                    fwrite($fp, "809=>" . $cntYN_log_arr[$j] . "\r\n");
                 }
             }
             //unset($ssh_num);
@@ -1082,7 +1082,7 @@ if ($user_id) {
         $ssh_total_cnt = $_POST['send_cnt'] - $re_today_cnt; // 재선언 발송실패 2016-05-0
         if ($ssh_total_cnt < 0) $ssh_total_cnt = 0;
 
-        echo json_encode(array("result" => "success", "msg" =>"발송참여폰=>". count($success_cell_arr) . ',미발송번호=>' . count($no_num) . ',금일발송성공=>' . $re_today_cnt . ',전송실패=>' . $ssh_total_cnt . ',수신거부,' . count($deny_num) . ",기타번호=>" . count($etc_arr) . ",없는번호=>" . count($wrong_arr) . ",수신불가=>" . count($lose_arr), 'line' => 1132));
+        echo json_encode(array("result" => "success", "msg" => "발송참여폰=>" . count($success_cell_arr) . ',미발송번호=>' . count($no_num) . ',금일발송성공=>' . $re_today_cnt . ',전송실패=>' . $ssh_total_cnt . ',수신거부=>' . count($deny_num) . ",기타번호=>" . count($etc_arr) . ",없는번호=>" . count($wrong_arr) . ",수신불가=>" . count($lose_arr), 'line' => 1132));
         unset($etc_arr); //2016-03-07 위치이동
         unset($wrong_arr);
         unset($lose_arr);

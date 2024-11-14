@@ -7,7 +7,7 @@ if ($key != 'b62d27b5d7c024c9e1fcbbe00bc82cae') {
     echo json_encode(array('result' => 'fail', 'msg' => '잘못된 요청입니다.', 'key' => $_POST['key'], "md5" => md5($_POST['key']), "params" => print_r($_POST, true)));
     exit;
 }
-$fp = fopen("heine_log.txt","w+");
+$fp = fopen("heine_log.txt", "w+");
 $user_id = $_POST['user_id'];
 if ($user_id) {
     $url = 'https://fcm.googleapis.com/v1/projects/onepagebookmms5/messages:send';
@@ -24,7 +24,7 @@ if ($user_id) {
     //문자발송
     if ($_POST['send_title'] && $_POST['send_txt']) {
         $now_date = date("Y-m-d H:i:s");
-        if (isset($_POST['reserv_time']) && $_POST['reserv_time'] && $now_date < $_POST['reserv_time']) //예약발송 확인
+        if ($_POST['reserv_time'] && $now_date < $_POST['reserv_time']) //예약발송 확인
         {
             $reservation = $_POST['reserv_time'];
         }
@@ -79,7 +79,7 @@ if ($user_id) {
         $total_send_thistime = 0; //이번 발송할 총합
         $total_num_cnt = count($num_arr);
 
-        if (is_array($sendnum) && !count($sendnum)) {
+        if (!count($sendnum)) {
             echo json_encode(array('result' => 'fail', 'msg' => '발송가능한 휴대폰이 없습니다.', 'line' => '78'));
             exit;
         }
@@ -153,7 +153,7 @@ if ($user_id) {
                 if ($_POST['send_deny_wushi_2'])
                     continue;
             }
-$num_arr[$i] = preg_replace("/[^0-9]/i", "", $num_arr[$i]);
+            $num_arr[$i] = preg_replace("/[^0-9]/i", "", $num_arr[$i]);
             $search_str = " and (chanel_type=1 or chanel_type=4 or chanel_type=9)";
             $send_type = $_POST['send_type'];
             if ($send_type == 2 || $send_type == 3 || $send_type == 4) {
@@ -276,8 +276,7 @@ $num_arr[$i] = preg_replace("/[^0-9]/i", "", $num_arr[$i]);
                     $ssh_num = array_merge($ssh_num, (array)$ssh_arr);
                 }
                 unset($ssh_arr);
-                $ssh_num = array_unique($ssh_num); //ssh_num <= 중복없는 수신번호들
-                //insert send_num_list-all
+                $ssh_num = array_unique($ssh_num); //$ssh_num <= 중복없는 수신번호들
                 $send_num_list[$sendnum[$j]] = array_intersect((array)$ssh_num, (array)$num_arr_2);
             }
             $used_ssh_cnt = count(array_unique($ssh_num)); //사용된 수신처 수 //2016-03-10 추가
@@ -294,7 +293,7 @@ $num_arr[$i] = preg_replace("/[^0-9]/i", "", $num_arr[$i]);
             }
             $ssh_total_num = array_merge($ssh_total_num, $ssh_num); //총 수신처 누적
             $user_cnt[$sendnum[$j]] = ($info['max_cnt'] - $info['user_cnt']) * 1 > 2 ? ($info['max_cnt'] - $info['user_cnt']) * 1 : 0; // 금일 발송 건수
-            //unset($ssh_num);
+            unset($ssh_num);
             // 폰별 수신처별 번호 배정 추가 2016-05-02
         }
 
@@ -336,6 +335,7 @@ $num_arr[$i] = preg_replace("/[^0-9]/i", "", $num_arr[$i]);
                 $recv_exp_cnt = count($num_arr_2);
             }
 
+            if ($_POST['send_ssh_check'] || $_POST['send_ssh_check2'] || $_POST['send_ssh_check3']) { //수신처 우선
             $loop_check_num = 0; // 폰별 신규 배정된 번호 합
             $loop_allocate_num = 0; // 폰별 배정된 번호 합
             for ($j = 0; $j < count($sendnum); $j++) { //발송가능 폰번호별
@@ -352,14 +352,13 @@ $num_arr[$i] = preg_replace("/[^0-9]/i", "", $num_arr[$i]);
                 $cnt1_log_arr[$j] = 0; //초기화 // 2016-03-07 추가
                 $cnt2_log_arr[$j] = 0;
                 $cntYN_log_arr[$j] = 0;
-                fwrite($fp,"358=>".$cntYN_log_arr[$j]."\r\n");
+                fwrite($fp, "358=>" . $cntYN_log_arr[$j] . "\r\n");
                 $cntAdj_log_arr[$j] = "";
                 $remain_array = array();
 
-                $ssh_num = array(); //ssh_num <= 중복없는 수신번호들
                 // 폰별 번호 배정
                 if ($_POST['send_ssh_check'] ||  $_POST['send_ssh_check3']) {
-$ssh_num = array(); //$ssh_num <= 중복없는 수신번호들
+                    $ssh_num = array(); //$ssh_num <= 중복없는 수신번호들
                     $sql_ssh = "select recv_num from Gn_MMS where mem_id = '{$user_id}' and send_num='$sendnum[$j]' and result = '0' and reg_date like '$date_month%' group by(recv_num)";
                     $resul_ssh = mysqli_query($self_con, $sql_ssh);
                     if (mysqli_num_rows($resul_ssh)) {
@@ -369,26 +368,25 @@ $ssh_num = array(); //$ssh_num <= 중복없는 수신번호들
                             $ssh_num = array_merge($ssh_num, (array)$ssh_arr);
                         }
                         unset($ssh_arr);
-                        $ssh_num = array_unique($ssh_num); //ssh_num <= 중복없는 수신번호들
-                        //insert send_num_list-ssh_check
+                            $ssh_num = array_unique($ssh_num); //$ssh_num <= 중복없는 수신번호들
                         $send_num_list[$sendnum[$j]] = array_intersect($ssh_num, $num_arr_2); //해당 값의 중복값 (우선발송 OR 전용 발송 값 배정
                         $ck = 0;
-                            foreach ($send_num_list[$sendnum[$j]] as $key => $val) {
-                                if ($ck > $this_time_send - 1)
-                                    array_push($remain_array, $val); //오버되는 수신처
-                                $ck++;
-                            }
+                        foreach ($send_num_list[$sendnum[$j]] as $key => $val) {
+                            if ($ck > $this_time_send - 1)
+                                array_push($remain_array, $val); //오버되는 수신처
+                            $ck++;
+                        }
                         $send_num_list[$sendnum[$j]] = array_diff($send_num_list[$sendnum[$j]], $remain_array);
-                            // 중복 배열 삭제
-                            $num_arr_2 = array_diff($num_arr_2, $send_num_list[$sendnum[$j]]); // 사용한 발송이력 전화번호 배정후 삭제
-                            // 오버 배열 재적용
-                            //$num_arr_2 = array_merge($num_arr_2, $remain_array);
-                            sort($send_num_list[$sendnum[$j]]);
-                            if (count($send_num_list[$sendnum[$j]]) > 0) {
-                                $success_cell_arr[$sendnum[$j]] = $sendnum[$j];
-                            }
+                        // 중복 배열 삭제
+                        $num_arr_2 = array_diff($num_arr_2, $send_num_list[$sendnum[$j]]); // 사용한 발송이력 전화번호 배정후 삭제
+                        // 오버 배열 재적용
+                        //$num_arr_2 = array_merge($num_arr_2, $remain_array);
+                        sort($send_num_list[$sendnum[$j]]);
+                        if (count($send_num_list[$sendnum[$j]]) > 0) {
+                            $success_cell_arr[$sendnum[$j]] = $sendnum[$j];
                         }
                     }
+                }
                 $used_ssh_cnt = count($ssh_num); //사용된 수신처 수 //2016-03-10 추가
                 //셀폰인 경우는 수신처제한을 하지 않는다.
                 if ($_POST['send_type'] == 5 || $_POST['send_type'] == 7)
@@ -465,12 +463,12 @@ $ssh_num = array(); //$ssh_num <= 중복없는 수신번호들
                 if ($_POST['send_ssh_check']) {
                     //if($allocation_cnt < ) // 발송건수가 오늘 발송 건수보다 작을 경우 수량을 더함
                     if (count($sendnum) == 1) {
-                            $allocation_cnt = $allocation_cnt + count($send_num_list[$sendnum[$j]]);  //2016-05-27 추가
-                            if ($allocation_cnt > $send_cnt[$j]) $allocation_cnt = $send_cnt[$j]; //2016-05-27 추가
+                        $allocation_cnt = $allocation_cnt + count($send_num_list[$sendnum[$j]]);  //2016-05-27 추가
+                        if ($allocation_cnt > $send_cnt[$j]) $allocation_cnt = $send_cnt[$j]; //2016-05-27 추가
                     }
                     // 차이 만큼 신규 배정
-                        if ($loop_check_num < $allocation_cnt - count($send_num_list[$sendnum[$j]])) {
-                            $send_num_list_cnt = count($send_num_list[$sendnum[$j]]);
+                    if ($loop_check_num < $allocation_cnt - count($send_num_list[$sendnum[$j]])) {
+                        $send_num_list_cnt = count($send_num_list[$sendnum[$j]]);
                         // 총 발송 건수와 배정된 건수가 적을 경우만 루프
                         if ($loop_allocate_num < count($num_arr)) {
                             for ($kkk = 0; $kkk < $allocation_cnt - $send_num_list_cnt; $kkk++) { // 1차 배정 분 제외 할지 여부
@@ -486,8 +484,8 @@ $ssh_num = array(); //$ssh_num <= 중복없는 수신번호들
                     }
                 }
                 if ($_POST['send_ssh_check2']) {
-                        // 차이 만큼 신규 배정
-                        if ($loop_check_num < $allocation_cnt - count($send_num_list[$sendnum[$j]])) {
+                    // 차이 만큼 신규 배정
+                    if ($loop_check_num < $allocation_cnt - count($send_num_list[$sendnum[$j]])) {
                         $send_num_list_cnt = count($send_num_list[$sendnum[$j]]);
                         // 총 발송 건수와 배정된 건수가 적을 경우만 루프
                         if (count($num_arr) > 0) {
@@ -500,7 +498,7 @@ $ssh_num = array(); //$ssh_num <= 중복없는 수신번호들
                             $num_arr = array_diff($num_arr, $send_num_list[$sendnum[$j]]);
                             sort($num_arr);
                             $loop_allocate_num = count($send_num_list[$sendnum[$j]]);
-                            $loop_check_num += $send_num_list_cnt;
+                                $loop_check_num = $loop_check_num + $send_num_list_cnt;
                         }
                     }
                 }
@@ -527,7 +525,7 @@ $ssh_num = array(); //$ssh_num <= 중복없는 수신번호들
                             }
                         }
                         $cntYN_log_arr[$j] = count($send_num_list[$sendnum[$j]]); //2016-05-08 추가
-                        fwrite($fp,"547=>".$cntYN_log_arr[$j]."\r\n");
+                        fwrite($fp, "547=>" . $cntYN_log_arr[$j] . "\r\n");
                     } else {
                         if ($user_cnt[$sendnum[$j]] + count($send_num_list[$sendnum[$j]]) >= $daily_min_cnt_user && count($send_num_list[$sendnum[$j]]) > 0) {
                             $sql_num = "update Gn_MMS_Number set cnt1=cnt1+1 where mem_id='{$user_id}' and sendnum='$sendnum[$j]' ";
@@ -551,7 +549,7 @@ $ssh_num = array(); //$ssh_num <= 중복없는 수신번호들
                             $cnt2_log_arr[$j] += 1;
                         }
                         $cntYN_log_arr[$j] = count($send_num_list[$sendnum[$j]]); //2016-05-08 추가
-                        fwrite($fp,"571=>".$cntYN_log_arr[$j]."\r\n");
+                        fwrite($fp, "571=>" . $cntYN_log_arr[$j] . "\r\n");
                     }
                 } else {
                     $sql_check_s = "select no,status from tjd_mms_cnt_check where mem_id='{$user_id}' and sendnum='$sendnum[$j]' and date=curdate() ";
@@ -573,7 +571,7 @@ $ssh_num = array(); //$ssh_num <= 중복없는 수신번호들
                                 $cnt1_log_arr[$j] += 1;
                                 $cnt2_log_arr[$j] -= 1;
                                 $cntYN_log_arr[$j] = count($send_num_list[$sendnum[$j]]); //2016-05-08 추가
-                                fwrite($fp,"593=>".$cntYN_log_arr[$j]."\r\n");
+                                fwrite($fp, "593=>" . $cntYN_log_arr[$j] . "\r\n");
                             }
                         }
                     } else {
@@ -600,11 +598,12 @@ $ssh_num = array(); //$ssh_num <= 중복없는 수신번호들
                             $cnt2_log_arr[$j] += 1;
                         }
                         $cntYN_log_arr[$j] = count($send_num_list[$sendnum[$j]]); //2016-05-08 추가
-                        fwrite($fp,"620=>".$cntYN_log_arr[$j]."\r\n");
+                        fwrite($fp, "620=>" . $cntYN_log_arr[$j] . "\r\n");
                     }
                 }
             }
-            //unset($ssh_num);
+                unset($ssh_num);
+            }
         } else {
             $loop_check_num = 0; // 폰별 신규 배정된 번호 합
             $loop_allocate_num = 0; // 폰별 배정된 번호 합
@@ -622,7 +621,7 @@ $ssh_num = array(); //$ssh_num <= 중복없는 수신번호들
                 $cnt1_log_arr[$j] = 0; //초기화 // 2016-03-07 추가
                 $cnt2_log_arr[$j] = 0;
                 $cntYN_log_arr[$j] = 0;
-                fwrite($fp,"641=>".$cntYN_log_arr[$j]."\r\n");
+                fwrite($fp, "641=>" . $cntYN_log_arr[$j] . "\r\n");
                 $cntAdj_log_arr[$j] = "";
                 $remain_array = array();
 
@@ -758,6 +757,7 @@ $ssh_num = array(); //$ssh_num <= 중복없는 수신번호들
                         }
                     }
                     $cntYN_log_arr[$j] = count($send_num_list[$sendnum[$j]]); //2016-05-08 추가
+                    fwrite($fp, "760=>" . $cntYN_log_arr[$j] . "\r\n");
                 } else {
                     if ($user_cnt[$sendnum[$j]] + count($send_num_list[$sendnum[$j]]) >= $daily_min_cnt_user && count($send_num_list[$sendnum[$j]]) > 0) {
                         $sql_num = "update Gn_MMS_Number set cnt1=cnt1+1 where mem_id='$user_id' and sendnum='$sendnum[$j]' ";
@@ -781,15 +781,17 @@ $ssh_num = array(); //$ssh_num <= 중복없는 수신번호들
                         $cnt2_log_arr[$j] += 1;
                     }
                     $cntYN_log_arr[$j] = count($send_num_list[$sendnum[$j]]); //2016-05-08 추가
+                    fwrite($fp, "784=>" . $cntYN_log_arr[$j] . "\r\n");
                 }
             }
-            //unset($ssh_num);
+            unset($ssh_num);
         }
         unset($num_arr_2);
         unset($num_arr_3);
         $today_will_send_count = count($num_arr); //금일 발송해야 되는 총 건 수
         $deny_url_arr = array();
         $agree_url_arr = array();
+        $re_today_cnt = 0;
         for ($j = 0; $j < count($sendnum); $j++) { //발송가능 폰번호별 발송 가능 수신처 확인
             $recv_arr = array();
             $max_cnt = count($send_num_list[$sendnum[$j]]); // 재선언 2016-05-08
@@ -1054,7 +1056,7 @@ $ssh_num = array(); //$ssh_num <= 중복없는 수신번호들
         $ssh_total_cnt = $_POST['send_cnt'] - $re_today_cnt; // 재선언 발송실패 2016-05-0
         if ($ssh_total_cnt < 0) $ssh_total_cnt = 0;
 
-        echo json_encode(array("result" => "success", "msg" =>"발송참여폰=>". count($success_cell_arr) . ',미발송번호=>' . count($no_num) . ',금일발송성공=>' . $re_today_cnt . ',전송실패=>' . $ssh_total_cnt . ',수신거부,' . count($deny_num) . ",기타번호=>" . count($etc_arr) . ",없는번호=>" . count($wrong_arr) . ",수신불가=>" . count($lose_arr), 'line' => 1132));
+        echo json_encode(array("result" => "success", "msg" => "발송참여폰=>" . count($success_cell_arr) . ',미발송번호=>' . count($no_num) . ',금일발송성공=>' . $re_today_cnt . ',전송실패=>' . $ssh_total_cnt . ',수신거부,' . count($deny_num) . ",기타번호=>" . count($etc_arr) . ",없는번호=>" . count($wrong_arr) . ",수신불가=>" . count($lose_arr), 'line' => 1132));
         unset($etc_arr); //2016-03-07 위치이동
         unset($wrong_arr);
         unset($lose_arr);
