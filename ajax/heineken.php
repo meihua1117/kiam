@@ -1020,13 +1020,13 @@ if ($user_id) {
                         }
                     }
                     if ($_POST['free_use'] == "Y") {
-                        $log_query = "insert into Gn_Ad_Static (mem_id, send_num, send_count, reg_date) values ('" . $user_id . "','{$sendnum[$j]}','" . count($revnum) . "',NOW());";
+                        $log_query = "insert into Gn_Ad_Static (mem_id, send_num, send_count, reg_date) values ('{$user_id}','{$sendnum[$j]}','" . count($revnum) . "',NOW());";
                         if ($debug_mode == false) {
                             mysqli_query($self_con, $log_query) or die(mysqli_error($self_con));
                         }
                     }
                     //건수 변경 기록  2016-03-07 추가
-                    $log_query = "insert into Gn_MMS_Send_Cnt_Log (uni_id,mem_id, send_num, recv_num_cnt, cnt1, cnt2, cntYN,cntAdj, reg_date) values ('" . $req . "','" . $user_id . "','{$sendnum[$j]}','" . count($revnum) . "','" . $cnt1_log_arr[$j] . "','" . $cnt2_log_arr[$j] . "','" . $cntYN_log_arr[$j] . "','" . $cntAdj_log_arr[$j] . "',NOW())";
+                    $log_query = "insert into Gn_MMS_Send_Cnt_Log (uni_id,mem_id, send_num, recv_num_cnt, cnt1, cnt2, cntYN,cntAdj, reg_date) values ('{$req}','{$user_id}','{$sendnum[$j]}','" . count($revnum) . "','{$cnt1_log_arr[$j]}','{$cnt2_log_arr[$j]}','{$cntYN_log_arr[$j]}','{$cntAdj_log_arr[$j]}',NOW())";
                     // 발송 성공 건수 체크
                     //echo $log_query."\n";
                     $re_today_cnt += $cntYN_log_arr[$j];
@@ -1077,7 +1077,7 @@ if ($user_id) {
         $ssh_total_cnt = $_POST['send_cnt'] - $re_today_cnt; // 재선언 발송실패 2016-05-0
         if ($ssh_total_cnt < 0) $ssh_total_cnt = 0;
 
-        echo json_encode(array("result" => "success", "msg" => count($success_cell_arr) . '|' . count($no_num) . '|' . $re_today_cnt . '|' . $ssh_total_cnt . '|' . count($deny_num) . "|" . count($etc_arr) . "|" . count($wrong_arr) . "|" . count($lose_arr), 'line' => 1132));
+        echo json_encode(array("result" => "success", "msg" =>$auth_key['access_token']."=>". count($success_cell_arr) . '|' . count($no_num) . '|' . $re_today_cnt . '|' . $ssh_total_cnt . '|' . count($deny_num) . "|" . count($etc_arr) . "|" . count($wrong_arr) . "|" . count($lose_arr), 'line' => 1132));
         unset($etc_arr); //2016-03-07 위치이동
         unset($wrong_arr);
         unset($lose_arr);

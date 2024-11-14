@@ -188,7 +188,7 @@ class Sendmail
         $one = strtoupper($uniqchr[0]);
         $two = strtoupper(substr($uniqchr, 0, 8));
         $three = strtoupper(substr(strrev($uniqchr), 0, 8));
-        return "----=_NextPart_000_000${one}_${two}.${three}";
+        return "----=_NextPart_000_000{$one}_{$two}.{$three}";
     }
 
     function attach($path, $name = "", $ctype = "application/octet-stream")
