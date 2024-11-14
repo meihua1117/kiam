@@ -19,7 +19,6 @@ $show_iam_info_status = "N";
 $query = "SELECT COUNT(no) FROM tjd_pay_result WHERE buyer_id='{$member_1['mem_id']}' AND
           ((member_type LIKE '%standard%' OR member_type LIKE '%professional%' OR member_type LIKE '%enterprise%') OR 
           ((iam_pay_type = '' OR iam_pay_type = '0' OR iam_pay_type = '전문가') AND member_type != '포인트충전')) AND end_status = 'Y'";
-echo $query;
 $res = mysqli_query($self_con,$query);
 $pay_row = mysqli_fetch_array($res);
 $query = "select count(idx) from Gn_Iam_Service where mem_id='{$member_1['mem_id']}'";
