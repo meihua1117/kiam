@@ -975,11 +975,14 @@ if ($user_id) {
 
                     $sql .= " reg_date = now() ";
                     if ($debug_mode == false) {
-                        fwrite($fp, "977=>\r\n");
+                        fwrite($fp, "977=>".$sql."\r\n");
                         mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
+                        fwrite($fp, "980=>\r\n");
                         $sidx = mysqli_insert_id($self_con);
                         if (!$reservation) {
+                            fwrite($fp, "983=>\r\n");
                             if ($pkey[$mms_info['send_num']] != "") {
+                                fwrite($fp, "985=>\r\n");
                                 $id = $pkey[$mms_info['send_num']];
                                 $title = '{"MMS Push"}';
                                 $message = '{"Send":"Start","idx":"' . $sidx . '","send_type":"' . $_POST['send_type'] . '"}';
