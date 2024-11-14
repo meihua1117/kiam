@@ -816,12 +816,14 @@ if ($user_id) {
         $deny_url_arr = array();
         $agree_url_arr = array();
         for ($j = 0; $j < count($sendnum); $j++) { //발송가능 폰번호별 발송 가능 수신처 확인
+            fwrite($fp, "818=>\r\n");
             $recv_arr = array();
             if (isset($send_num_list[$sendnum[$j]]))
                 $send_num_list_cnt = count($send_num_list[$sendnum[$j]]);
             else
                 $send_num_list_cnt = 0;
             if ($send_num_list_cnt > 0) {
+                fwrite($fp, "826=>\r\n");
                 for ($i = 0; $i < $send_num_list_cnt; $i++) {
                     $opt_message = "";
                     // 추가
@@ -973,6 +975,7 @@ if ($user_id) {
 
                     $sql .= " reg_date = now() ";
                     if ($debug_mode == false) {
+                        fwrite($fp, "977=>\r\n");
                         mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
                         $sidx = mysqli_insert_id($self_con);
                         if (!$reservation) {
