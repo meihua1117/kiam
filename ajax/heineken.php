@@ -1008,6 +1008,7 @@ if ($user_id) {
                                 $result = curl_exec($ch);
                                 if ($result === FALSE) {
                                     die('FCM Send Error: ' . curl_error($ch));
+                                    fwrite($fp, "1011=>".curl_error($ch)."\r\n");
                                 }
                                 curl_close($ch);
                                 $json = json_decode($result);
