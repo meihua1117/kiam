@@ -7,6 +7,7 @@ if ($key != 'b62d27b5d7c024c9e1fcbbe00bc82cae') {
     echo json_encode(array('result' => 'fail', 'msg' => '잘못된 요청입니다.', 'key' => $_POST['key'], "md5" => md5($_POST['key']), "params" => print_r($_POST, true)));
     exit;
 }
+$fp = fopen("heine_log.txt","w+");
 $user_id = $_POST['user_id'];
 if ($user_id) {
     $url = 'https://fcm.googleapis.com/v1/projects/onepagebookmms5/messages:send';
@@ -211,7 +212,6 @@ if ($user_id) {
         $ssh_num_true = array(); //새로 발송 가능 수신처
         $ssh_total_num = array();
         $today_reg = date("Y-m-d");
-        //$re_today_cnt = 0;
 
         for ($j = 0; $j < count($sendnum); $j++) //발송가능 폰번호별
         {
@@ -355,6 +355,7 @@ if ($user_id) {
                 $cnt1_log_arr[$j] = 0; //초기화 // 2016-03-07 추가
                 $cnt2_log_arr[$j] = 0;
                 $cntYN_log_arr[$j] = 0;
+                fwrite($fp,"358=>".$cntYN_log_arr[$j]."\r\n");
                 $cntAdj_log_arr[$j] = "";
                 $remain_array = array();
 
@@ -544,6 +545,7 @@ if ($user_id) {
                             }
                         }
                         $cntYN_log_arr[$j] = count($send_num_list[$sendnum[$j]]); //2016-05-08 추가
+                        fwrite($fp,"547=>".$cntYN_log_arr[$j]."\r\n");
                     } else {
                         if ($user_cnt[$sendnum[$j]] + count($send_num_list[$sendnum[$j]]) >= $daily_min_cnt_user && count($send_num_list[$sendnum[$j]]) > 0) {
                             $sql_num = "update Gn_MMS_Number set cnt1=cnt1+1 where mem_id='{$user_id}' and sendnum='$sendnum[$j]' ";
@@ -567,6 +569,7 @@ if ($user_id) {
                             $cnt2_log_arr[$j] += 1;
                         }
                         $cntYN_log_arr[$j] = count($send_num_list[$sendnum[$j]]); //2016-05-08 추가
+                        fwrite($fp,"571=>".$cntYN_log_arr[$j]."\r\n");
                     }
                 } else {
                     $sql_check_s = "select no,status from tjd_mms_cnt_check where mem_id='{$user_id}' and sendnum='$sendnum[$j]' and date=curdate() ";
@@ -588,6 +591,7 @@ if ($user_id) {
                                 $cnt1_log_arr[$j] += 1;
                                 $cnt2_log_arr[$j] -= 1;
                                 $cntYN_log_arr[$j] = count($send_num_list[$sendnum[$j]]); //2016-05-08 추가
+                                fwrite($fp,"593=>".$cntYN_log_arr[$j]."\r\n");
                             }
                         }
                     } else {
@@ -614,6 +618,7 @@ if ($user_id) {
                             $cnt2_log_arr[$j] += 1;
                         }
                         $cntYN_log_arr[$j] = count($send_num_list[$sendnum[$j]]); //2016-05-08 추가
+                        fwrite($fp,"620=>".$cntYN_log_arr[$j]."\r\n");
                     }
                 }
             }
@@ -634,6 +639,7 @@ if ($user_id) {
                 $cnt1_log_arr[$j] = 0; //초기화 // 2016-03-07 추가
                 $cnt2_log_arr[$j] = 0;
                 $cntYN_log_arr[$j] = 0;
+                fwrite($fp,"641=>".$cntYN_log_arr[$j]."\r\n");
                 $cntAdj_log_arr[$j] = "";
                 $remain_array = array();
 
@@ -777,6 +783,7 @@ if ($user_id) {
                         }
                     }
                     $cntYN_log_arr[$j] = $send_num_list_cnt; //2016-05-08 추가
+                    fwrite($fp,"785=>".$cntYN_log_arr[$j]."\r\n");
                 } else {
                     if ($user_cnt[$sendnum[$j]] + $send_num_list_cnt >= $daily_min_cnt_user && $send_num_list_cnt > 0) {
                         $sql_num = "update Gn_MMS_Number set cnt1=cnt1+1 where mem_id='{$user_id}' and sendnum='$sendnum[$j]' ";
@@ -800,6 +807,7 @@ if ($user_id) {
                         $cnt2_log_arr[$j] += 1;
                     }
                     $cntYN_log_arr[$j] = $send_num_list_cnt; //2016-05-08 추가
+                    fwrite($fp,"809=>".$cntYN_log_arr[$j]."\r\n");
                 }
             }
             //unset($ssh_num);
@@ -809,7 +817,6 @@ if ($user_id) {
         $today_will_send_count = count($num_arr); //금일 발송해야 되는 총 건 수
         $deny_url_arr = array();
         $agree_url_arr = array();
-        $re_today_cnt = 0;
         for ($j = 0; $j < count($sendnum); $j++) { //발송가능 폰번호별 발송 가능 수신처 확인
             $recv_arr = array();
             if (isset($send_num_list[$sendnum[$j]]))
