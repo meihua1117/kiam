@@ -8,8 +8,6 @@ extract($_GET);
 </script>
 <?
 include_once "_head.php";
-// include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
-echo "test12<br>";
 $date = date("Y-m-d H:i:s");
 $sql="select * from Gn_Member where mem_id='{$_SESSION['one_member_id']}' ";
 $resul=mysqli_query($self_con,$sql);
@@ -24,13 +22,11 @@ $query = "SELECT COUNT(no) FROM tjd_pay_result WHERE buyer_id='{$member_1['mem_i
 echo $query;
 $res = mysqli_query($self_con,$query);
 $pay_row = mysqli_fetch_array($res);
-echo "test25<br>";
 $query = "select count(idx) from Gn_Iam_Service where mem_id='{$member_1['mem_id']}'";
 $res = mysqli_query($self_con,$query);
 $iam_service_row = mysqli_fetch_array($res);
 if($iam_service_row[0] == 0 && $pay_row[0] > 0)
     $show_iam_info_status = "Y";
-    echo "test32<br>";
 ?>
 
 <style type="text/css">
