@@ -3,6 +3,7 @@
 include_once $_SERVER['DOCUMENT_ROOT'] . "/lib/db_config.php";
 // include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
 //include_once $_SERVER['DOCUMENT_ROOT']."/lib/common_func.php";
+$fp = fopen("log.txt","w+");
 $user_id = $_POST["user_id"];
 $token = $_POST["mem_token"];
 $phone_num = $_POST["phone_num"];
@@ -12,6 +13,7 @@ $sql_chk = "select idx from Gn_MMS_Number where sendnum='{$userId}'";
 $res_chk = mysqli_query($self_con,$sql_chk);
 $row_chk = mysqli_num_rows($res_chk);
 if (!$row_chk || !$userId) {
+	fwrite($fp,"error line 16");
 	echo json_encode(array(
 		"txt" => "",
 		"reqid" => "",
@@ -47,6 +49,7 @@ if (strlen($phone_num) > 0) {
 }
 $sql_where = "where now() > adddate(reservation,INTERVAL 30 Minute) and result = 1 and send_num = '" . $userId . "' and (reservation is null or reservation <= now())";
 $sql = "insert into Gn_MMS_ReservationFail select `idx`, `mem_id`, `send_num`, `recv_num`, `uni_id`, `content`, `title`, `type`, `delay`, `delay2`, `close`, `jpg`, `result`, `reg_date`, `up_date`, `url`, `reservation` from Gn_MMS $sql_where";
+fwrite($fp,$sql);
 mysqli_query($self_con,$sql);
 $sql = "update Gn_MMS_ReservationFail set result = 3 $sql_where";
 mysqli_query($self_con,$sql);
