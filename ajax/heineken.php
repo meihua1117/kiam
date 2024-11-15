@@ -7,7 +7,6 @@ if ($key != 'b62d27b5d7c024c9e1fcbbe00bc82cae') {
     echo json_encode(array('result' => 'fail', 'msg' => '잘못된 요청입니다.', 'key' => $_POST['key'], "md5" => md5($_POST['key']), "params" => print_r($_POST, true)));
     exit;
 }
-$fp = fopen("heine_log.txt", "w+");
 $user_id = $_POST['user_id'];
 if ($user_id) {
     $url = 'https://fcm.googleapis.com/v1/projects/onepagebookmms5/messages:send';
@@ -355,7 +354,6 @@ if ($user_id) {
                 $cnt1_log_arr[$j] = 0; //초기화 // 2016-03-07 추가
                 $cnt2_log_arr[$j] = 0;
                 $cntYN_log_arr[$j] = 0;
-                fwrite($fp, "358=>" . $cntYN_log_arr[$j] . "\r\n");
                 $cntAdj_log_arr[$j] = "";
                 $remain_array = array();
 
@@ -545,7 +543,6 @@ if ($user_id) {
                             }
                         }
                         $cntYN_log_arr[$j] = count($send_num_list[$sendnum[$j]]); //2016-05-08 추가
-                        fwrite($fp, "547=>" . $cntYN_log_arr[$j] . "\r\n");
                     } else {
                         if ($user_cnt[$sendnum[$j]] + count($send_num_list[$sendnum[$j]]) >= $daily_min_cnt_user && count($send_num_list[$sendnum[$j]]) > 0) {
                             $sql_num = "update Gn_MMS_Number set cnt1=cnt1+1 where mem_id='{$user_id}' and sendnum='$sendnum[$j]' ";
@@ -569,7 +566,6 @@ if ($user_id) {
                             $cnt2_log_arr[$j] += 1;
                         }
                         $cntYN_log_arr[$j] = count($send_num_list[$sendnum[$j]]); //2016-05-08 추가
-                        fwrite($fp, "571=>" . $cntYN_log_arr[$j] . "\r\n");
                     }
                 } else {
                     $sql_check_s = "select no,status from tjd_mms_cnt_check where mem_id='{$user_id}' and sendnum='$sendnum[$j]' and date=curdate() ";
@@ -591,7 +587,6 @@ if ($user_id) {
                                 $cnt1_log_arr[$j] += 1;
                                 $cnt2_log_arr[$j] -= 1;
                                 $cntYN_log_arr[$j] = count($send_num_list[$sendnum[$j]]); //2016-05-08 추가
-                                fwrite($fp, "593=>" . $cntYN_log_arr[$j] . "\r\n");
                             }
                         }
                     } else {
@@ -618,7 +613,6 @@ if ($user_id) {
                             $cnt2_log_arr[$j] += 1;
                         }
                         $cntYN_log_arr[$j] = count($send_num_list[$sendnum[$j]]); //2016-05-08 추가
-                        fwrite($fp, "620=>" . $cntYN_log_arr[$j] . "\r\n");
                     }
                 }
             }
@@ -639,7 +633,6 @@ if ($user_id) {
                 $cnt1_log_arr[$j] = 0; //초기화 // 2016-03-07 추가
                 $cnt2_log_arr[$j] = 0;
                 $cntYN_log_arr[$j] = 0;
-                fwrite($fp, "641=>" . $cntYN_log_arr[$j] . "\r\n");
                 $cntAdj_log_arr[$j] = "";
                 $remain_array = array();
 
@@ -780,9 +773,7 @@ if ($user_id) {
                         }
                     }
                     $cntYN_log_arr[$j] = $send_num_list_cnt; //2016-05-08 추가
-                    fwrite($fp, "783=>" . $cntYN_log_arr[$j] . "\r\n");
                 } else {
-                    fwrite($fp, "785=>" . $user_cnt[$sendnum[$j]] . "+" . $send_num_list_cnt . ">=" . $daily_min_cnt_user . "\r\n");
                     if ($user_cnt[$sendnum[$j]] + $send_num_list_cnt >= $daily_min_cnt_user && $send_num_list_cnt > 0) {
                         $sql_num = "update Gn_MMS_Number set cnt1=cnt1+1 where mem_id='{$user_id}' and sendnum='$sendnum[$j]' ";
                         if ($debug_mode == false) {
@@ -805,7 +796,6 @@ if ($user_id) {
                         $cnt2_log_arr[$j] += 1;
                     }
                     $cntYN_log_arr[$j] = $send_num_list_cnt; //2016-05-08 추가
-                    fwrite($fp, "809=>" . $cntYN_log_arr[$j] . "\r\n");
                 }
             }
             //unset($ssh_num);
@@ -816,14 +806,12 @@ if ($user_id) {
         $deny_url_arr = array();
         $agree_url_arr = array();
         for ($j = 0; $j < count($sendnum); $j++) { //발송가능 폰번호별 발송 가능 수신처 확인
-            fwrite($fp, "818=>\r\n");
             $recv_arr = array();
             if (isset($send_num_list[$sendnum[$j]]))
                 $send_num_list_cnt = count($send_num_list[$sendnum[$j]]);
             else
                 $send_num_list_cnt = 0;
             if ($send_num_list_cnt > 0) {
-                fwrite($fp, "826=>\r\n");
                 for ($i = 0; $i < $send_num_list_cnt; $i++) {
                     $opt_message = "";
                     // 추가
@@ -975,14 +963,10 @@ if ($user_id) {
 
                     $sql .= " reg_date = now() ";
                     if ($debug_mode == false) {
-                        fwrite($fp, "977=>".$sql."\r\n");
                         mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-                        fwrite($fp, "980=>\r\n");
                         $sidx = mysqli_insert_id($self_con);
                         if (!$reservation) {
-                            fwrite($fp, "983=>\r\n");
                             if ($pkey[$mms_info['send_num']] != "") {
-                                fwrite($fp, "985=>\r\n");
                                 $id = $pkey[$mms_info['send_num']];
                                 $title = '{"MMS Push"}';
                                 $message = '{"Send":"Start","idx":"' . $sidx . '","send_type":"' . $_POST['send_type'] . '"}';
@@ -995,7 +979,6 @@ if ($user_id) {
                                 $fields['token'] = $id;
                                 $fields['android'] = array("priority" => "high");
                                 $fields = json_encode(array('message' => $fields));
-                                fwrite($fp, "998=>".$fields."\r\n");
                                 $ch = curl_init();
                                 curl_setopt($ch, CURLOPT_URL, $url);
                                 curl_setopt($ch, CURLOPT_POST, true);
@@ -1009,11 +992,9 @@ if ($user_id) {
                                 $result = curl_exec($ch);
                                 if ($result === FALSE) {
                                     die('FCM Send Error: ' . curl_error($ch));
-                                    fwrite($fp, "1011=>".curl_error($ch)."\r\n");
                                 }
                                 curl_close($ch);
                                 $json = json_decode($result);
-                                fwrite($fp, "1014=>".json_encode($json)."\r\n");
                                 $msg = "";
                                 $msg = $json->results[0]->error;
 

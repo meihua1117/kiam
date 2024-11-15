@@ -3,16 +3,15 @@
 include_once $_SERVER['DOCUMENT_ROOT'] . "/lib/db_config.php";
 // include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
 //include_once $_SERVER['DOCUMENT_ROOT']."/lib/common_func.php";
-$user_id = $_REQUEST["user_id"];
-$token = $_REQUEST["mem_token"];
-$phone_num = $_REQUEST["phone_num"];
+$user_id = $_POST["user_id"];
+$token = $_POST["mem_token"];
+$phone_num = $_POST["phone_num"];
 $empty_arr = array();
-$userId = $_REQUEST["id"]; //��ȭ��ȣ(������ ��ȣ ����)
+$userId = $_POST["id"]; //��ȭ��ȣ(������ ��ȣ ����)
 $sql_chk = "select idx from Gn_MMS_Number where sendnum='{$userId}'";
 $res_chk = mysqli_query($self_con,$sql_chk);
 $row_chk = mysqli_num_rows($res_chk);
 if (!$row_chk || !$userId) {
-	fwrite($fp,"error line 16");
 	echo json_encode(array(
 		"txt" => "",
 		"reqid" => "",
@@ -30,8 +29,8 @@ if (!$row_chk || !$userId) {
 }
 $now_date = date("Y-m-d"); //���糯¥
 $now_time = date("H:i:s"); //����ð�
-$idx = $_REQUEST['idx'];
-$mem_id = $_REQUEST["mem_id"]; // �߰�
+$idx = $_POST['idx'];
+$mem_id = $_POST["mem_id"]; // �߰�
 $phone_num = $userId;
 if (strlen($phone_num) > 0) {
 	$time = date("Y-m-d H:i:s");
@@ -57,12 +56,9 @@ $addQuery = " and idx ='$idx'";
 $sql = "select * from Gn_MMS where result > 0 and send_num = '" . $userId . "' and  (reg_date < now() and reg_date >= adddate(reg_date,INTERVAL -40 Minute)) and (reservation is null or reservation <= DATE_ADD(NOW(), INTERVAL 30 MINUTE))  $addQuery order by idx asc limit 1";
 $query = mysqli_query($self_con,$sql);
 $row = mysqli_fetch_array($query);
-//mysqli_free_result($query);
-//echo $sql."<br>";
 
 $msg = str_replace("{|name|}", "{|REP|}", $row['content']);
 $msg = str_replace("{|email|}", "{|REP1|}", $msg);
-//$msg = json_encode($msg);
 $title = str_replace("{|name|}", "{|REP|}", $row['title']);
 $title = str_replace("{|email|}", "{|REP1|}", $title);
 //$title = json_encode($title);
