@@ -3,7 +3,6 @@
 include_once $_SERVER['DOCUMENT_ROOT'] . "/lib/db_config.php";
 // include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
 //include_once $_SERVER['DOCUMENT_ROOT']."/lib/common_func.php";
-$fp = fopen("log.txt","w+");
 $user_id = $_REQUEST["user_id"];
 $token = $_REQUEST["mem_token"];
 $phone_num = $_REQUEST["phone_num"];
@@ -49,7 +48,6 @@ if (strlen($phone_num) > 0) {
 }
 $sql_where = "where now() > adddate(reservation,INTERVAL 30 Minute) and result = 1 and send_num = '" . $userId . "' and (reservation is null or reservation <= now())";
 $sql = "insert into Gn_MMS_ReservationFail select `idx`, `mem_id`, `send_num`, `recv_num`, `uni_id`, `content`, `title`, `type`, `delay`, `delay2`, `close`, `jpg`, `result`, `reg_date`, `up_date`, `url`, `reservation` from Gn_MMS $sql_where";
-fwrite($fp,$sql);
 mysqli_query($self_con,$sql);
 $sql = "update Gn_MMS_ReservationFail set result = 3 $sql_where";
 mysqli_query($self_con,$sql);
