@@ -4,9 +4,9 @@ include_once $_SERVER['DOCUMENT_ROOT'] . "/lib/db_config.php";
 // include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
 //include_once $_SERVER['DOCUMENT_ROOT']."/lib/common_func.php";
 $fp = fopen("log.txt","w+");
-$user_id = $_POST["user_id"];
-$token = $_POST["mem_token"];
-$phone_num = $_POST["phone_num"];
+$user_id = $_REQUEST["user_id"];
+$token = $_REQUEST["mem_token"];
+$phone_num = $_REQUEST["phone_num"];
 $empty_arr = array();
 $userId = $_REQUEST["id"]; //��ȭ��ȣ(������ ��ȣ ����)
 $sql_chk = "select idx from Gn_MMS_Number where sendnum='{$userId}'";
@@ -32,7 +32,7 @@ if (!$row_chk || !$userId) {
 $now_date = date("Y-m-d"); //���糯¥
 $now_time = date("H:i:s"); //����ð�
 $idx = $_REQUEST['idx'];
-$mem_id = $_POST["mem_id"]; // �߰�
+$mem_id = $_REQUEST["mem_id"]; // �߰�
 $phone_num = $userId;
 if (strlen($phone_num) > 0) {
 	$time = date("Y-m-d H:i:s");
