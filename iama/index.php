@@ -64,6 +64,7 @@ $row = mysqli_fetch_array($res);
 $contents_new_cnt = $row[0];
 echo "test9"."<br>";
 $query = "select sum(iam_share) from Gn_Iam_Contents a inner join  Gn_Member b on a.mem_id = b.mem_id  where b.site_iam='$site[0]' ";
+echo $query;
 $res = mysqli_query($self_con, $query);
 $row = mysqli_fetch_array($res);
 $contents_share_cnt = $row[0];
