@@ -60,9 +60,33 @@ if (!$_SESSION['one_member_id']) {
 	echo $sql;
 	$res = mysqli_query($self_con, $sql);
 	if (mysqli_num_rows($res) > 0) {
-		$sql = "insert into Gn_MMS_ReservationFail select `idx`, `mem_id`, `send_num`, `recv_num`, `uni_id`, `content`, `title`, `type`, `delay`, `delay2`, `close`, `jpg`, `result`, `reg_date`, `up_date`, `url`, `reservation` from Gn_MMS $sql_where";
-		echo $sql;
-		mysqli_query($self_con, $sql);
+		while ($fail_row = mysqli_fetch_assoc($res)) {
+			if ($fail_row['up_date'] == '')
+				$fail_row['up_date'] = date("Y-m-d H:i:s");
+			$tmp_sql = "select count(idx) from Gn_MMS_ReservationFail where idx = '{$fail_row['idx']}'";
+			$tmp_res = mysqli_query($self_con, $tmp_sql);
+			$tmp_row = mysqli_fetch_array($tmp_res);
+			if ($tmp_row[0] == 0) {
+				$sql = "insert into Gn_MMS_ReservationFail set idx = '{$fail_row['idx']}',
+															mem_id = '{$fail_row['mem_id']}',
+															send_num= '{$fail_row['send_num']}',
+															recv_num= '{$fail_row['recv_num']}',
+															uni_id= '{$fail_row['uni_id']}',
+															content= '{$fail_row['content']}',
+															title= '{$fail_row['title']}',
+															type= '{$fail_row['type']}',
+															delay= '{$fail_row['delay']}',
+															delay2= '{$fail_row['delay2']}',
+															close= '{$fail_row['close']}',
+															jpg= '{$fail_row['jpg']}',
+															result= '{$fail_row['result']}',
+															reg_date= '{$fail_row['reg_date']}',
+															up_date= '{$fail_row['up_date']}',
+															url= '{$fail_row['url']}',
+															reservation= '{$fail_row['reservation']}'";
+				mysqli_query($self_con, $sql);
+			}
+		}
 	}
 	echo "test4<br>";
 	//$sql = "delete from Gn_MMS $sql_where";
