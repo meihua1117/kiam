@@ -422,7 +422,7 @@
                             <a href="sub_11.php">콜백문자</a>
                             <ul class="submenu">
                                 <li class="submenu-item"><a href="sub_11.php">콜백알아보기</a></li>
-                                <li class="submenu-item"><a href="https://www.onestore.co.kr/userpoc/apps/view?pid=0000738690" target="_blank">콜백설치하기</a></li>								
+                                <li class="submenu-item"><a href="https://play.google.com/store/apps/details?id=mms.onepagebook.com.onlyonesms&pli=1" target="_blank">콜백설치하기</a></li>								
                                 <li class="submenu-item"><a href="https://url.kr/rCNfjS" target="_blank">콜백이용하기</a></li>
                             </ul>
                         </li>   
@@ -522,7 +522,7 @@
 			  <a href="?status=<?=$_REQUEST['status']?>"><?=$left_str?></a>
 			</div>
 			<div style="position:absolute;left:430px;">     
-			  <a href="sub_11.php">콜백알아보기</a> ㅣ <a href="https://www.onestore.co.kr/userpoc/apps/view?pid=0000738690">콜백설치하기</a>ㅣ <a href="https://url.kr/IYUGDV">콜백이용하기</a> 
+			  <a href="sub_11.php">콜백알아보기</a> ㅣ <a href="https://play.google.com/store/apps/details?id=mms.onepagebook.com.onlyonesms&pli=1">콜백설치하기</a>ㅣ <a href="https://url.kr/IYUGDV">콜백이용하기</a> 
 			</div>
 			
 			<p style="clear:both;"></p>
@@ -565,7 +565,7 @@
 			  <a href="sub_11.php">온리원콜백</a> 
 			</div>
 			<div style="position:absolute;left:430px;">     
-			  <a href="sub_11.php">콜백알아보기</a> ㅣ <a href="https://www.onestore.co.kr/userpoc/apps/view?pid=0000738690">콜백설치하기</a> ㅣ <a href="https://url.kr/rCNfjS">콜백이용하기</a> 
+			  <a href="sub_11.php">콜백알아보기</a> ㅣ <a href="https://play.google.com/store/apps/details?id=mms.onepagebook.com.onlyonesms&pli=1">콜백설치하기</a> ㅣ <a href="https://url.kr/rCNfjS">콜백이용하기</a> 
 			</div>
 			
 			<p style="clear:both;"></p>

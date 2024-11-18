@@ -456,7 +456,7 @@ if ($domainData['status'] == "N") {
                                 <a href="sub_11.php">콜백문자</a>
                                 <ul class="submenu">
                                     <li class="submenu-item"><a href="sub_11.php">콜백알아보기</a></li>
-                                    <li class="submenu-item"><a href="https://tinyurl.com/3ucs2vbt" target="_biank">콜백설치하기</a></li>
+                                    <li class="submenu-item"><a href="https://play.google.com/store/apps/details?id=mms.onepagebook.com.onlyonesms&pli=1" target="_biank">콜백설치하기</a></li>
                                     <li class="submenu-item"><a href="https://tinyurl.com/3teh9ez5" target="_blank">콜백이용하기</a></li>
                                 </ul>
                             </li>
@@ -745,7 +745,7 @@ if ($domainData['status'] == "N") {
                                 <a href="sub_11.php">콜백문자</a>
                                 <ul class="submenu">
                                     <li class="submenu-item"><a href="sub_11.php">콜백알아보기</a></li>
-                                    <li class="submenu-item"><a href="https://tinyurl.com/3ucs2vbt" target="_biank">콜백설치하기</a></li>
+                                    <li class="submenu-item"><a href="https://play.google.com/store/apps/details?id=mms.onepagebook.com.onlyonesms&pli=1" target="_biank">콜백설치하기</a></li>
                                     <li class="submenu-item"><a href="https://tinyurl.com/3teh9ez5" target="_blank">콜백이용하기</a></li>
                                 </ul>
                             </li>
@@ -875,7 +875,7 @@ if ($domainData['status'] == "N") {
                 <a href="?status=<?= $_REQUEST['status'] ?>"><?= $left_str ?></a>
             </div>
             <div style="position:absolute;left:430px;">
-                <a href="sub_11.php">콜백알아보기</a> ㅣ <a href="https://tinyurl.com/3ucs2vbt" target="_biank">콜백설치하기</a>ㅣ <a href="https://tinyurl.com/3teh9ez5" target="_blank">콜백이용하기</a>
+                <a href="sub_11.php">콜백알아보기</a> ㅣ <a href="https://play.google.com/store/apps/details?id=mms.onepagebook.com.onlyonesms&pli=1" target="_biank">콜백설치하기</a>ㅣ <a href="https://tinyurl.com/3teh9ez5" target="_blank">콜백이용하기</a>
             </div>
             <p style="clear:both;"></p>
         </div>

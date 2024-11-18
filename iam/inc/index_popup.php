@@ -152,7 +152,7 @@
             <h3>내 아이엠을 보내는 절차!</h3><br><br>
 
             <a href="/iam/join.php">첫째 회원가입 먼저 해야지요(클릭)</a><br>
-            <a href="https://www.onestore.co.kr/userpoc/apps/view?pid=0000738690">둘째 내 폰의 문자를 보내려면 앱을
+            <a href="https://play.google.com/store/apps/details?id=mms.onepagebook.com.onlyonesms&pli=1">둘째 내 폰의 문자를 보내려면 앱을
                 설치해야지요!(클릭)</a><br>
             셋째 데일리발송을 시작해요!<br>
             ※ 아이엠을 보내는 기능은 무료이지만 일반 메시지를 보내는 것은 유료입니다.</h3>

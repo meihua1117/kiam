@@ -223,7 +223,7 @@ if ($HTTP_HOST == "kookmin.kiam.kr") { ?>
                 <a href="#">콜백문자</a>
                 <ul class="submenu">
                     <li class="submenu-item"><a href="sub_11.php#Introduce">콜백알아보기</a></li>
-                    <li class="submenu-item"><a href="https://www.onestore.co.kr/userpoc/apps/view?pid=0000738690" target="_blank">콜백설치하기</a></li>
+                    <li class="submenu-item"><a href="https://play.google.com/store/apps/details?id=mms.onepagebook.com.onlyonesms&pli=1" target="_blank">콜백설치하기</a></li>
                     <li class="submenu-item"><a href="https://url.kr/rCNfjS">콜백이용하기</a></li>
                 </ul>
             </li>
@@ -392,7 +392,7 @@ if ($HTTP_HOST == "kookmin.kiam.kr") { ?>
                 <a href="#">콜백문자</a>
                 <ul class="submenu">
                     <li class="submenu-item"><a href="sub_11.php#Introduce">콜백알아보기</a></li>
-                    <li class="submenu-item"><a href="https://www.onestore.co.kr/userpoc/apps/view?pid=0000738690" target="_blank">콜백설치하기</a></li>
+                    <li class="submenu-item"><a href="https://play.google.com/store/apps/details?id=mms.onepagebook.com.onlyonesms&pli=1" target="_blank">콜백설치하기</a></li>
                     <li class="submenu-item"><a href="https://tinyurl.com/3teh9ez5">콜백이용하기</a></li>
                 </ul>
             </li>
