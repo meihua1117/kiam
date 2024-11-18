@@ -2342,7 +2342,7 @@ if ($_POST['pay_cancel_no'] && $_POST['pay_cancel_paymethod']) {
 			$inipay->startAction();
 			if ($inipay->getResult('ResultCode') == "00") {
 				if ($_POST['pay_cancel_fujia'] == 'Y') {
-					$sql_m = "update Gn_Member set fujia_date1='' , fujia_date2='' where mem_id='{$member_1['mem_id']}' ";
+					$sql_m = "update Gn_Member set fujia_date2=fujia_date1 where mem_id='{$member_1['mem_id']}' ";
 					mysqli_query($self_con, $sql_m) or die(mysqli_error($self_con));
 				}
 				$pay_info['end_status'] = "C";
@@ -2391,7 +2391,7 @@ if ($_POST['pay_cancel_no'] && $_POST['pay_cancel_paymethod']) {
 			$inipay->startAction();
 			if ($inipay->m_resultCode == "00") {
 				if ($_POST['pay_cancel_fujia'] == 'Y') {
-					$sql_m = "update Gn_Member set fujia_date1='' , fujia_date2='' where mem_id='{$member_1['mem_id']}' ";
+					$sql_m = "update Gn_Member set fujia_date2=fujia_date1 where mem_id='{$member_1['mem_id']}' ";
 					mysqli_query($self_con, $sql_m) or die(mysqli_error($self_con));
 				}
 				$pay_info['end_status'] = "C";

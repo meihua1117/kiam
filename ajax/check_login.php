@@ -11,8 +11,7 @@ if($_REQUEST['id'] && $_REQUEST['pwd'])
     if(($row['mem_code'] and $row['is_leave'] == 'N' ) )
 	{
 		echo $_REQUEST['callback'].'(true)';
-	}
-	else
+	}else
 	{
         echo $_REQUEST['callback'].'(false)';
 	}

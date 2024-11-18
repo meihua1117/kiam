@@ -1,11 +1,9 @@
 <?
 include_once $_SERVER['DOCUMENT_ROOT'] . "/lib/rlatjd_fun.php";
-$fp = fopen("log.txt","w+");
 if ($_POST['one_id'] && $_POST['mem_pass']) {
 	$mem_pass = $_POST['one_pwd'];
 	//password()
 	$sql = "select mem_code,mem_leb from Gn_Member where mem_id = '{$_POST['one_id']}' and web_pwd=md5('{$_POST['mem_pass']}') and mem_code='{$_POST['mem_code']}' ";
-	fwrite($fp,$sql."\r\n");
 	$resul = mysqli_query($self_con, $sql);
 	if (mysqli_num_rows($resul) == 0) {
 	?>
@@ -25,7 +23,6 @@ if ($_POST['one_id'] && $_POST['mem_pass']) {
 		}
 		// 관리자 권한이 있으면 관리자 세션 추가 Add Cooper
 		$sql = "select mem_id from Gn_Admin where mem_id= '{$_POST['one_id']}'";
-		fwrite($fp,$sql."\r\n");
 		$resul = mysqli_query($self_con, $sql);
 		if(mysqli_num_rows($resul) > 0){
 			$_SESSION['one_member_admin_id'] = $_POST['one_id'];
@@ -35,7 +32,6 @@ if ($_POST['one_id'] && $_POST['mem_pass']) {
 			$_SESSION['one_member_admin_id'] = "";
 			if ($sub_domain) {
 				$sql = "select mem_id from Gn_Service where mem_id= '{$_POST['one_id']}' and sub_domain like '%$sub_domain' ";
-				fwrite($fp,$sql."\r\n");
 				$resul = mysqli_query($self_con, $sql);
 				$row = mysqli_fetch_array($resul);
 				if ($row[0] != "") {
@@ -51,7 +47,6 @@ if ($_POST['one_id'] && $_POST['mem_pass']) {
 
 		// 마지막 접속 시간 기록 Add Cooper
 		$sql = "update Gn_Member set login_date=now() where mem_id= '{$_POST['one_id']}'";
-		fwrite($fp,$sql."\r\n");
 		$resul = mysqli_query($self_con, $sql);
 	} else {
 	?>
