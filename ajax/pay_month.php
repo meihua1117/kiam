@@ -1,6 +1,7 @@
 <?
 //셀링통장정기결제
 include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
+$fp = fopen("pay_month.log","w+");
 $orderNumber = $_POST['allat_order_no'];
 $pay_info['fujia_status'] = "N";
 $pay_info['month_cnt'] = $_POST['month_cnt']>120?120:$_POST['month_cnt']; //12?12를 120?120수정하여 마감기간을 솔루션결제관리페이지에 120개월로 표시
@@ -34,6 +35,7 @@ foreach ($pay_info as $key => $v) {
     $sql .= " $key = '$v' , ";
 }
 $sql .= " end_date=date_add(now(),INTERVAL {$_POST['month_cnt']} month) , date=now()";
+fwrite($fp,$sql."\r\n");
 mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 $no = mysqli_insert_id($self_con);
 
@@ -44,17 +46,21 @@ $sql = "insert into tjd_pay_result_month set pay_idx='$orderNumber',
                                             regdate = NOW(),
                                             amount='{$_POST['allat_amt']}',
                                             buyer_id='{$member_1['mem_id']}'";
+                                            fwrite($fp,$sql."\r\n");
 mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 
 if($_POST['phone_cnt'] > 0) {
     $sql = "select * from tjd_pay_result where orderNumber='{$orderNumber}' and buyer_id='{$member_1['mem_id']}' ";
+    fwrite($fp,$sql."\r\n");
     $resul = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
     $row = mysqli_fetch_array($resul);
 
     $sql = "select * from Gn_Member where mem_id='{$member_1['mem_id']}' ";
+    fwrite($fp,$sql."\r\n");
     $sresult = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
     $srow = mysqli_fetch_array($sresult);
     $sql = "select count(cmid) from crawler_member_real where user_id='{$member_1['mem_id']}' ";
+    fwrite($fp,$sql."\r\n");
     $sresult = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
     $crow = mysqli_fetch_array($sresult);
     if ($crow[0] == 0) {
@@ -83,11 +89,13 @@ if($_POST['phone_cnt'] > 0) {
                                             search_email_date='$search_email_date',
                                             search_email_cnt='$search_email_cnt',
                                             shopping_end_date='$search_email_date'";
+                                            fwrite($fp,$query."\r\n");
         mysqli_query($self_con,$query);
     } 
     if ($srow['recommend_id'] != "") {
         $share_id = $srow['recommend_id'];
         $sql = "select * from Gn_Member where mem_id='$share_id'";
+        fwrite($fp,$sql."\r\n");
         $rresult = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
         if(mysqli_num_rows($rresult) > 0){
             $rrow = mysqli_fetch_array($rresult);
@@ -98,6 +106,7 @@ if($_POST['phone_cnt'] > 0) {
             if ($rrow['service_type'] == 2) {
                 // 추천인의 추천인 검색 및 등급 확인
                 $sql = "select * from Gn_Member where mem_id='{$rrow['recommend_id']}'";
+                fwrite($fp,$sql."\r\n");
                 $rresult = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
                 $trow = mysqli_fetch_array($rresult);
 
@@ -115,6 +124,8 @@ if($_POST['phone_cnt'] > 0) {
 
             $sql = "update tjd_pay_result set share_id='$share_id',share_per='$share_per', branch_share_id='$branch_share_id',branch_share_per = '$branch_share_per'  where no='$no'";
             mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
+            fwrite($fp,$sql."\r\n");
         }
     }
 }
+?>
