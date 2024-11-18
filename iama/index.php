@@ -22,55 +22,43 @@ if ($HTTP_HOST != "kiam.kr") {
     }
     $site = explode(".", "kiam.kr");
 }
-echo "test1"."<br>";
 $query = "select count(*) from Gn_Member where site_iam='$site[0]'";
 $res = mysqli_query($self_con, $query);
 $row = mysqli_fetch_array($res);
 $mem_cnt = $row[0];
-echo "test2"."<br>";
 $query = "select count(*) from Gn_Member where site_iam='$site[0]' and first_regist >= '" . date("Y-m-d 00:00:00") . "'";
 $res = mysqli_query($self_con, $query);
 $row = mysqli_fetch_array($res);
 $new_cnt = $row[0];
-echo "test3"."<br>";
 $query = "select count(*) from Gn_Member where site_iam='$site[0]' and ext_recm_id = '{$domainData['mem_id']}'";
 $res = mysqli_query($self_con, $query);
 $row = mysqli_fetch_array($res);
 $recommend_cnt = $row[0];
-echo "test4"."<br>";
 $query = "select count(*) from Gn_Iam_Name_Card a inner join  Gn_Member b on a.mem_id = b.mem_id where a.group_id is NULL and b.site_iam='$site[0]' ";
 $res = mysqli_query($self_con, $query);
 $row = mysqli_fetch_array($res);
 $card_cnt = $row[0];
-echo "test5"."<br>";
 $query = "select count(*) from Gn_Iam_Name_Card a inner join  Gn_Member b on a.mem_id = b.mem_id  where a.group_id is NULL and b.site_iam='$site[0]' and a.req_data >= '" . date("Y-m-d 00:00:00") . "'";
 $res = mysqli_query($self_con, $query);
 $row = mysqli_fetch_array($res);
 $card_new_cnt = $row[0];
-echo "test6"."<br>";
 $query = "select sum(iam_share) from Gn_Iam_Name_Card a inner join  Gn_Member b on a.mem_id = b.mem_id  where a.group_id is NULL and b.site_iam='$site[0]' ";
 $res = mysqli_query($self_con, $query);
 $row = mysqli_fetch_array($res);
 $card_share_cnt = $row[0];
-echo "test7"."<br>";
 $query = "select count(*) from Gn_Iam_Contents a inner join  Gn_Member b on a.mem_id = b.mem_id where b.site_iam='$site[0]' ";
 $res = mysqli_query($self_con, $query);
 $row = mysqli_fetch_array($res);
 $contents_cnt = $row[0];
-echo "test8"."<br>";
 $query = "select count(*) from Gn_Iam_Contents a inner join  Gn_Member b on a.mem_id = b.mem_id  where b.site_iam='$site[0]' and a.req_data >= '" . date("Y-m-d 00:00:00") . "'";
 $res = mysqli_query($self_con, $query);
 $row = mysqli_fetch_array($res);
 $contents_new_cnt = $row[0];
-echo "test9"."<br>";
 /*$query = "select sum(iam_share) from Gn_Iam_Contents a inner join  Gn_Member b on a.mem_id = b.mem_id  where b.site_iam='$site[0]' ";
-echo $query;
 $res = mysqli_query($self_con, $query);
 $row = mysqli_fetch_array($res);
 $contents_share_cnt = $row[0];*/
 $contents_share_cnt = 0;
-echo "test10"."<br>";
-
 ?>
 <!DOCTYPE html>
 <html>
