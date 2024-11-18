@@ -34,7 +34,7 @@ $sql = "insert into tjd_pay_result set ";
 foreach ($pay_info as $key => $v) {
     $sql .= " $key = '$v' , ";
 }
-$sql .= " end_date=date_add(now(),INTERVAL {$_POST['month_cnt']} month) , date=now()";
+$sql .= " end_date=date_add(now(),INTERVAL {$_POST['month_cnt']} month) , date=now(),billkey='',billdate=now()";
 fwrite($fp,$sql."\r\n");
 mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 $no = mysqli_insert_id($self_con);
