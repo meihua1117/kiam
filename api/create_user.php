@@ -15,10 +15,10 @@ $homepy = trim($_REQUEST["homepy"]);
 $site = (!isset($_REQUEST['site']) || $_REQUEST['site'] == '') ?'kiam':$_REQUEST['site'];
 $site_iam = (!isset($_REQUEST['site_iam']) || $_REQUEST['site_iam'] == '') ?'kiam':$_REQUEST['site_iam'];
 
-
+//password()
 $query = "insert into Gn_Member set mem_id='$id',
     mem_leb='22',
-    web_pwd=password('$passwd'),
+    web_pwd=md5('$passwd'),
     mem_pass=md5('$passwd'),
     mem_name='{$name}',
     mem_nick='{$name}',
