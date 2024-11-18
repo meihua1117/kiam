@@ -1,6 +1,5 @@
 <?
 include_once "lib/rlatjd_fun.php";
-$fp = fopen("makeData.log","w+");
 $_SESSION['allat_amt'] = $_POST['allat_amt'];
 $_COOKIE['allat_amt'] = $_POST['allat_amt'];
 $_SESSION['allat_amt_'] = $_POST['allat_amt'];
@@ -9,7 +8,6 @@ $_POST['max_cnt'] = $_POST['phone_cnt'];
 $_POST['add_phone'] = $_POST['phone_cnt'] * 1 / 9000;
 if($_POST['allat_order_no'] != "") {
     $sql = "delete from tjd_pay_result where  idx='{$_POST['allat_order_no']}' and  buyer_id='{$_SESSION['one_member_id']}'";
-    fwrite($fp,$sql."\r\n");
     mysqli_query($self_con,$sql);
 }
 if($_POST['payMethod']!= "")
@@ -41,6 +39,5 @@ $sql = "insert into tjd_pay_result set
             iam_card_cnt='{$_POST['iam_card_cnt']}',
             iam_share_cnt='{$_POST['iam_share_cnt']}',
             member_cnt='{$_POST['member_cnt']}'";
-            fwrite($fp,$sql."\r\n");
 $res_result = mysqli_query($self_con,$sql);
 ?>
