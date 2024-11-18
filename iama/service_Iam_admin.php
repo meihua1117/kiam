@@ -20,8 +20,7 @@ if ($domainData['mem_id'] != $_SESSION['iam_member_id']) {
 }
 $parse = parse_url($domainData['sub_domain']);
 echo print_r($parse,true)."<br>";
-$site = explode(".", $parse);
-echo $site."<br>";
+//$site = explode(".", $parse);
 //added by amigo middle log 로그부분이므로 삭제하지 말것!!!!
 $logs = new Logs("iamalog.txt", false);
 //end
