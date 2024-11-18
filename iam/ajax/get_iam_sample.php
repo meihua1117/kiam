@@ -10,7 +10,7 @@ if($w_offset < 0 ){
     $w_offset = 0;
 }
 
-$logs = new Logs("../../iamlog.txt", true);
+$logs = new Logs("iamlog.txt", true);
 $logs->add_log("sample start");
 
 if($_GET['sample_type'] == "best_sample")
