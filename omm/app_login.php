@@ -60,7 +60,7 @@ if ($row['mem_id']) {
 		}
 		$addQuery .= " ,act_time=NOW() "; // 작동 시간 추가
 		$time = time();
-		$sql_fujia_up = "update Gn_Member set fujia_date1='' , fujia_date2='' where  unix_timestamp(fujia_date2) < $time and unix_timestamp(fujia_date2)<>'0' and mem_id='$user_id'";
+		$sql_fujia_up = "update Gn_Member set fujia_date2=fujia_date1 where  unix_timestamp(fujia_date2) < $time and unix_timestamp(fujia_date2)<>'0' and mem_id='$user_id'";
 		mysqli_query($self_con, $sql_fujia_up);
 
 		$query = "select * from Gn_MMS_Number where mem_id = '$userId' and sendnum='$userNum'";

@@ -18,7 +18,7 @@ if($type == "main"){
         if($sdata['no'] != "") {
             $sql_m="update Gn_Member set fujia_date1='{$sdata['date']}' , fujia_date2='{$sdata['end_date']}'  where mem_id='{$row['buyer_id']}' ";
         } else {
-            $sql_m="update Gn_Member set fujia_date1='0000-00-00 00:00:00' , fujia_date2='0000-00-00 00:00:00'  where mem_id='{$row['buyer_id']}' ";
+            $sql_m="update Gn_Member set fujia_date2=fujia_date1  where mem_id='{$row['buyer_id']}' ";
         }
         mysqli_query($self_con,$sql_m)or die(mysqli_error($self_con));
 

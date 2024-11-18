@@ -488,10 +488,6 @@ function addWatermark($sourceFile, $watermarkText = NULL, $watermarkImage = NULL
 }
 $time = time();
 
-// $sql_fujia_up="update Gn_Member set fujia_date1='' , fujia_date2='' where  unix_timestamp(fujia_date2) < $time and unix_timestamp(fujia_date2)<>'0'";
-// mysqli_query($self_con,$sql_fujia_up);
-/*$sql_pay_up = "update tjd_pay_result p left join Gn_Service s on p.buyer_id = s.mem_id left join Gn_Iam_Service i on p.buyer_id=i.mem_id
-				set  end_status='N',s.status = 'N', i.status = 'N' where unix_timestamp(end_date) < $time and end_status='Y' ";*/
 $sql_pay_up = "update tjd_pay_result set end_status='N',stop_yn='Y' where unix_timestamp(end_date) < $time and end_status='Y' ";
 mysqli_query($self_con, $sql_pay_up);
 $sql_num_up = "update Gn_MMS_Number set end_status='N' where unix_timestamp(end_date) < $time and end_status='Y' ";

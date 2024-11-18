@@ -56,6 +56,10 @@ if (isset($_POST['mem_name']) || isset($_POST['mem_phone']) || isset($_POST['mem
                                     mem_nick='{$mem_name}',
                                     mem_phone='{$mem_phone}',
                                     first_regist=now() ,
+									last_modify=now() ,
+									last_regist=now() ,
+									fujia_date1 = now(),
+									fujia_date2 = now(),
 									mem_check=now(),
 									mem_type='A',
                                     recommend_id = '{$recom_id}',
@@ -79,6 +83,10 @@ if (isset($_POST['mem_name']) || isset($_POST['mem_phone']) || isset($_POST['mem
 						mem_nick='{$mem_name}',
 						mem_phone='{$mem_phone}',
 						first_regist=now() ,
+						last_modify=now() ,
+						last_regist=now() ,
+						fujia_date1 = now(),
+						fujia_date2 = now(),
 						mem_check=now(),
 						mem_type='A',
 						recommend_id = '{$recom_id}',
@@ -144,84 +152,67 @@ if (isset($_POST['mem_name']) || isset($_POST['mem_phone']) || isset($_POST['mem
 		$recv_num = $mem_phone;
 		$sql = "select * from gn_automem_sms_reserv where auto_event_id='$event_id' and allow_state=1";
 		$lresult = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-		$row = mysqli_fetch_array($lresult);
-		if ($row['reserv_sms_id'] != "") {
-			$sms_idx = $row['reserv_sms_id'];
-			$send_num = $row['send_num'];
+		if (mysqli_num_rows($lresult) > 0) {
+			$row = mysqli_fetch_array($lresult);
+			if ($row['reserv_sms_id'] != "") {
+				$sms_idx = $row['reserv_sms_id'];
+				$send_num = $row['send_num'];
 
-			$sql = "select * from Gn_event_sms_step_info where sms_idx='$sms_idx'";
-			$result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-			$k = 0;
-			while ($row = mysqli_fetch_array($result)) {
-				// 시간 확인
-				$k++;
-				//http://www.kiam.kr/adjunct/mms/thum/
-				$uni_id = $reg . sprintf("%02d", $k);
+				$sql = "select * from Gn_event_sms_step_info where sms_idx='$sms_idx'";
+				$result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
+				$k = 0;
+				while ($row = mysqli_fetch_array($result)) {
+					// 시간 확인
+					$k++;
+					//http://www.kiam.kr/adjunct/mms/thum/
+					$uni_id = $reg . sprintf("%02d", $k);
 
 
-				$send_day = $row['send_day'];
-				$send_time = $row['send_time'];
+					$send_day = $row['send_day'];
+					$send_time = $row['send_time'];
 
-				$jpg = $jpg1 = $jpg2 = '';
-				if ($row['image'])
-					$jpg = "http://www.kiam.kr/adjunct/mms/thum/" . $row['image'];
-				if ($row['image1'])
-					$jpg1 = "http://www.kiam.kr/adjunct/mms/thum/" . $row['image1'];
-				if ($row['image2'])
-					$jpg2 = "http://www.kiam.kr/adjunct/mms/thum/" . $row['image2'];
+					$jpg = $jpg1 = $jpg2 = '';
+					if ($row['image'])
+						$jpg = "http://www.kiam.kr/adjunct/mms/thum/" . $row['image'];
+					if ($row['image1'])
+						$jpg1 = "http://www.kiam.kr/adjunct/mms/thum/" . $row['image1'];
+					if ($row['image2'])
+						$jpg2 = "http://www.kiam.kr/adjunct/mms/thum/" . $row['image2'];
 
-				$row['content'] = htmlspecialchars($row['content'], ENT_QUOTES);
+					$row['content'] = htmlspecialchars($row['content'], ENT_QUOTES);
 
-				//echo "====".$send_day;
-				//echo date("Y-m-d $send_time:00",strtotime("+$send_day days")) . "<br>";
-				if ($send_time == "") $send_time = "09:30";
-				if ($send_time == "00:00") $send_time = "09:30";
-				if ($send_day == 0) {
-					//$send_time = date("H:00", strtotime("+1 hours"));				
-					$reservation = "";
-				} else {
-					$reservation = date("Y-m-d $send_time:00", strtotime("+$send_day days"));
+					//echo "====".$send_day;
+					//echo date("Y-m-d $send_time:00",strtotime("+$send_day days")) . "<br>";
+					if ($send_time == "") $send_time = "09:30";
+					if ($send_time == "00:00") $send_time = "09:30";
+					if ($send_day == 0) {
+						//$send_time = date("H:00", strtotime("+1 hours"));				
+						$reservation = "";
+					} else {
+						$reservation = date("Y-m-d $send_time:00", strtotime("+$send_day days"));
+					}
+
+					sendmms(
+						2,
+						$service_id,
+						$send_num,
+						$recv_num,
+						$reservation,
+						$row['title'],
+						$row['content'],
+						$jpg,
+						$jpg1,
+						$jpg2,
+						'Y',
+						$row['sms_idx'],
+						$row['sms_detail_idx'],
+						$request_idx,
+						"",
+						$row['send_deny']
+					);
 				}
-
-				sendmms(
-					2,
-					$service_id,
-					$send_num,
-					$recv_num,
-					$reservation,
-					$row['title'],
-					$row['content'],
-					$jpg,
-					$jpg1,
-					$jpg2,
-					'Y',
-					$row['sms_idx'],
-					$row['sms_detail_idx'],
-					$request_idx,
-					"",
-					$row['send_deny']
-				);
-
-				// $query = "insert into Gn_MMS_Agree set mem_id='$service_id',
-				// send_num='$send_num',
-				// recv_num='$recv_num',
-				// content='{$row['content']}',
-				// title='{$row['title']}',
-				// jpg='$jpg',
-				// reg_date=NOW(),
-				// reservation='$reservation',
-				// sms_idx='{$row['sms_idx']}',
-				// sms_detail_idx='{$row['sms_detail_idx']}',
-				// request_idx='$request_idx'
-				// ";
-				// //echo $query."<BR>";
-				// mysqli_query($self_con,$query) or die(mysqli_error($self_con));
 			}
 		}
-		//end block
-
-		// echo $mms_result; exit;
-		//eQNHEEXdqM,1nd8BVoRM3,Kl2V17fFnF
 	} else {
 		$sql = "select * from Gn_MMS_Group where mem_id='{$mem_id}' and grp='아이엠'";
 		$result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
@@ -233,3 +224,4 @@ if (isset($_POST['mem_name']) || isset($_POST['mem_phone']) || isset($_POST['mem
 	}
 	echo json_encode(array("mem_id" => $mem_id, "mem_pass" => $pwd, "mem_code" => $mem_code, "status" => 1, "short_url" => $short_url_db1));
 }
+?>

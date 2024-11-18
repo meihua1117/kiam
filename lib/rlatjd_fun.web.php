@@ -132,7 +132,7 @@ function get_member($id, $column = "")
 		return $row;
 }
 $time = time();
-$sql_fujia_up = "update Gn_Member set fujia_date1='' , fujia_date2='' where  unix_timestamp(fujia_date2) < $time and unix_timestamp(fujia_date2)<>'0'";
+$sql_fujia_up = "update Gn_Member set fujia_date2=fujia_date1 where  unix_timestamp(fujia_date2) < $time and unix_timestamp(fujia_date2)<>'0'";
 mysqli_query($self_con, $sql_fujia_up);
 $sql_pay_up = "update tjd_pay_result set  end_status='N' where timestamp(end_date) < $time and end_status='Y' ";
 mysqli_query($self_con, $sql_pay_up);
