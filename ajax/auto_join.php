@@ -153,14 +153,14 @@ if (isset($_POST['mem_name']) || isset($_POST['mem_phone']) || isset($_POST['mem
 		fwrite($fp,$sql1."\r\n");
 
 		$sql = "select * from Gn_event where event_idx='$event_id'";
-		$result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-		$event_data = $row = mysqli_fetch_array($result);
+		$result = mysqli_query($self_con, $sql);
+		$event_data = mysqli_fetch_array($result);
 		$service_id = $event_data['m_id'];
 		fwrite($fp,$sql."\r\n");
 
 		$recv_num = $mem_phone;
 		$sql = "select * from gn_automem_sms_reserv where auto_event_id='$event_id' and allow_state=1";
-		$lresult = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
+		$lresult = mysqli_query($self_con, $sql);
 		if (mysqli_num_rows($lresult) > 0) {
 			fwrite($fp,$sql."\r\n");
 			$row = mysqli_fetch_array($lresult);
