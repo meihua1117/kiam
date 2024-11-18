@@ -10,7 +10,8 @@ if ($_SESSION['iam_member_id']) {
 $site = $HTTP_HOST;
 if ($HTTP_HOST == "kiam.kr")
     $site = "www." . $HTTP_HOST;
-$query = "select * from Gn_Iam_Service where sub_domain = 'http://" . $site . "'";
+$query = "select * from Gn_Iam_Service where sub_domain = 'http://{$site}'";
+echo $query."<br>";
 $res = mysqli_query($self_con, $query);
 $domainData = mysqli_fetch_array($res);
 if ($domainData['mem_id'] != $_SESSION['iam_member_id']) {
@@ -990,6 +991,7 @@ $logs->add_log("start");
                                             <div id="cardsel_self" onclick="limit_selcard_self()" style="margin-top:15px;">
                                                 <?
                                                 $sql5_self = "select card_short_url,phone_display, card_title from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$_SESSION['iam_member_id']}' order by req_data asc";
+                                                echo $sql5_self."<br>";
                                                 $result5_self = mysqli_query($self_con, $sql5_self);
                                                 $i = 0;
 
