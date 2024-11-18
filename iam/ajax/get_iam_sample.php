@@ -62,12 +62,13 @@ else if($_GET['sample_type'] == "recent_sample")
 */
     $sql8 .=" order by sample_order desc ,req_data limit $contents_count_per_page , ".$w_offset;
 }
-
+echo $sql8;
+exit;
 $redisCache = new RedisCache();
 //$redisCache->set_debug(true);
 $sample_list = $redisCache -> get_query_to_array($sql8);
 //$logs->add_log( $redisCache ->get_debug_string(), false);
-$body = $sql8;//'';
+$body = '';
 for($i=0 ; $i < count($sample_list); $i++)
 {
     $contents_row = $sample_list[$i];
