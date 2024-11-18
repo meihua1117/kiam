@@ -2,7 +2,6 @@
 include_once "../lib/rlatjd_fun.php";
 $headers = array('Accept: application/json, text/plain, */*', 'Cache_Control: no-cache', 'content-type:multipart/form-data;');
 date_default_timezone_set('Asia/Seoul');
-$fp = fopen("join.log","w+");
 if (isset($_POST['mem_name']) || isset($_POST['mem_phone']) || isset($_POST['mem_id'])) {
 	$mem_name = $_POST['mem_name'];
 	$mem_phone = $_POST['mem_phone'];
@@ -23,7 +22,6 @@ if (isset($_POST['mem_name']) || isset($_POST['mem_phone']) || isset($_POST['mem
 		$query = "select * from Gn_Iam_Service where sub_domain like '%www.kiam.kr%'";
 	$res = mysqli_query($self_con, $query);
 	$domainData = mysqli_fetch_array($res);
-	fwrite($fp,$query."\r\n");
 
 	$exp_date = date("Y-m-d H:i:s", strtotime("+{$domainData['service_price']} days"));
 
@@ -99,7 +97,6 @@ if (isset($_POST['mem_name']) || isset($_POST['mem_phone']) || isset($_POST['mem
 	}
 	mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
 	$mem_code = mysqli_insert_id($self_con);
-	fwrite($fp,$sql."\r\n");
 
 	if ($_POST['join_type'] == "iam") {
 		if ($card_short_url != null) {
@@ -108,22 +105,18 @@ if (isset($_POST['mem_name']) || isset($_POST['mem_phone']) || isset($_POST['mem
 				$sql_name = "INSERT INTO Gn_Iam_Name_Card(mem_id, card_short_url, card_title, card_name, card_company, card_position, card_phone, phone_display, card_email, card_addr, card_map, card_keyword, profile_logo, favorite, story_title1, story_myinfo, story_title2, story_company, story_title3, story_career, story_title4, story_online1_text, story_online1, online1_check, story_online2_text, story_online2, online2_check, iam_click, iam_story, iam_friends, iam_iamicon, iam_msms, iam_sms, iam_facebook, iam_kakao, iam_share, iam_mystory, req_data, up_data, sample_click, sample_order, main_img1, main_img2, main_img3, next_iam_link, card_show) 
 					(SELECT '{$mem_id}', '{$short_url_db}', card_title, card_name, card_company, card_position, card_phone, phone_display, card_email, card_addr, card_map, card_keyword, profile_logo, favorite, story_title1, story_myinfo, story_title2, story_company, story_title3, story_career, story_title4, story_online1_text, story_online1, online1_check, story_online2_text, story_online2, online2_check, iam_click, iam_story, iam_friends, iam_iamicon, iam_msms, iam_sms, iam_facebook, iam_kakao, iam_share, iam_mystory, now(), now(), sample_click, sample_order, main_img1, main_img2, main_img3, next_iam_link, card_show FROM Gn_Iam_Name_Card WHERE card_short_url='{$short_url[$i]}')";
 				mysqli_query($self_con, $sql_name) or die(mysqli_error($self_con));
-				fwrite($fp,$sql_name."\r\n");
 				$card_idx = mysqli_insert_id($self_con);
 
 				$sql_con = "INSERT INTO Gn_Iam_Contents(mem_id, contents_type, contents_img, contents_title, contents_url, contents_url_title, contents_iframe, source_iframe, contents_price, contents_sell_price, contents_desc, contents_display, contents_user_display, contents_type_display, contents_footer_display, contents_temp, contents_like, contents_share_text, contents_share_count, req_data, up_data, card_short_url, contents_westory_display, westory_card_url, public_display, card_idx, except_keyword, reduce_val) 
 					(SELECT '{$mem_id}', contents_type, contents_img, contents_title, contents_url, contents_url_title, contents_iframe, source_iframe, contents_price, contents_sell_price, contents_desc, contents_display, contents_user_display, contents_type_display, contents_footer_display, contents_temp, contents_like, '', contents_share_count, now(), now(), '{$short_url_db}', contents_westory_display, '{$short_url_db}', public_display, {$card_idx}, except_keyword, reduce_val FROM Gn_Iam_Contents WHERE card_short_url='{$short_url[$i]}')";
 				mysqli_query($self_con, $sql_con) or die(mysqli_error($self_con));
-				fwrite($fp,$sql_con."\r\n");
 				$cont_idx = mysqli_insert_id($self_con);
 
 				$sql_con = "select idx from Gn_Iam_Contents where card_idx = $card_idx";
 				$res_con = mysqli_query($self_con, $sql_con);
-				fwrite($fp,$sql_con."\r\n");
 				while ($row_con = mysqli_fetch_array($res_con)) {
 					$sql2 = "insert into Gn_Iam_Con_Card set cont_idx={$row_con['idx']},card_idx=$card_idx,main_card=$card_idx";
 					mysqli_query($self_con, $sql2) or die(mysqli_error($self_con));
-					fwrite($fp,$sql2."\r\n");
 				}
 			}
 		}
@@ -137,7 +130,6 @@ if (isset($_POST['mem_name']) || isset($_POST['mem_phone']) || isset($_POST['mem
 			"story_online1, online1_check, story_online2_text, story_online2, online2_check,req_data,main_img1,main_img2,main_img3,story_title1,story_title2,story_title3,story_myinfo,story_company,story_career)" .
 			"values ('$mem_id', '$card_title', '$short_url_db1', '$mem_name', '', '', '$mem_phone', '@', '', '', '', '$img_url', 0, '온라인정보','','', '', '', '', '', '{$date}','','','','','','','','','')";
 		$result2 = mysqli_query($self_con, $sql2) or die(mysqli_error($self_con));
-		fwrite($fp,$sql2."\r\n");
 
 		//added by amigo
 		$ipcheck = $_SERVER['REMOTE_ADDR'];
@@ -150,19 +142,16 @@ if (isset($_POST['mem_name']) || isset($_POST['mem_phone']) || isset($_POST['mem
 					regdate=now()";
 		$res1 = mysqli_query($self_con, $sql);
 		$request_idx = mysqli_insert_id($self_con);
-		fwrite($fp,$sql1."\r\n");
 
 		$sql = "select * from Gn_event where event_idx='$event_id'";
 		$result = mysqli_query($self_con, $sql);
 		$event_data = mysqli_fetch_array($result);
 		$service_id = $event_data['m_id'];
-		fwrite($fp,$sql."\r\n");
 
 		$recv_num = $mem_phone;
 		$sql = "select * from gn_automem_sms_reserv where auto_event_id='$event_id' and allow_state=1";
 		$lresult = mysqli_query($self_con, $sql);
 		if (mysqli_num_rows($lresult) > 0) {
-			fwrite($fp,$sql."\r\n");
 			$row = mysqli_fetch_array($lresult);
 			if ($row['reserv_sms_id'] != "") {
 				$sms_idx = $row['reserv_sms_id'];
@@ -170,7 +159,6 @@ if (isset($_POST['mem_name']) || isset($_POST['mem_phone']) || isset($_POST['mem
 
 				$sql = "select * from Gn_event_sms_step_info where sms_idx='$sms_idx'";
 				$result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-				fwrite($fp,$sql1."\r\n");
 				$k = 0;
 				while ($row = mysqli_fetch_array($result)) {
 					// 시간 확인
@@ -227,7 +215,6 @@ if (isset($_POST['mem_name']) || isset($_POST['mem_phone']) || isset($_POST['mem
 	} else {
 		$sql = "select * from Gn_MMS_Group where mem_id='{$mem_id}' and grp='아이엠'";
 		$result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-		fwrite($fp,$sql."\r\n");
 		$data = mysqli_fetch_array($result);
 		if ($data['idx'] == "") {
 			$query = "insert into Gn_MMS_Group set mem_id='{$mem_id}', grp='아이엠', reg_date=NOW()";

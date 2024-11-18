@@ -2,10 +2,11 @@
 include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
 extract($_POST);
 // 오늘날짜
+$fp = fopen("log.txt","w+");
 $date_today=date("Y-m-d");
-$date_month=date("Y-m");
 
 $sql="select * from Gn_Member where mem_id='{$_SESSION['one_member_id']}' and site != '' ";
+fwrite($fp, $sql."\r\n");
 $resul=mysqli_query($self_con,$sql);
 $data=mysqli_fetch_array($resul);
 
@@ -17,11 +18,13 @@ $cur_time_mms_com = date("Y-m-d H:i:s", $cur_time_com_mms);
 // $get_point = "select current_point from Gn_Item_Pay_Result where buyer_id='{$mem_id}' and point_val!=0 and pay_status='Y' order by pay_date desc limit 1";
 // echo $get_point; exit;
 $get_point = "select mem_point, mem_cash from Gn_Member where mem_id='{$mem_id}'";
+fwrite($fp, $get_point."\r\n");
 $result_point = mysqli_query($self_con,$get_point);
 $row_point = mysqli_fetch_array($result_point);
 
 if(isset($_POST['buy'])){
     $sql = "select TotPrice, member_type, payMethod from tjd_pay_result where buyer_id='{$mem_id}' order by no desc limit 1";
+    fwrite($fp, $sql."\r\n");
     $result = mysqli_query($self_con,$sql);
     $row = mysqli_fetch_array($result);
     
@@ -30,20 +33,24 @@ if(isset($_POST['buy'])){
     }
     else{
         $sql = "insert into Gn_Item_Pay_Result set buyer_id='{$mem_id}', buyer_tel='{$data['mem_phone']}', item_name='{$row['member_type']}', item_price={$row['TotPrice']}, pay_percent=90, current_point={$row_point['mem_point']}, current_cash={$row_point['mem_cash']}+{$row['TotPrice']}, pay_status='Y', VACT_InputName='{$data['mem_name']}', type='buy', pay_method='{$row['payMethod']}', pay_date=now(), point_val=1";
+        fwrite($fp, $sql."\r\n");
         mysqli_query($self_con,$sql);
 
         $sql_update = "update Gn_Member set mem_cash=mem_cash+{$row['TotPrice']} where mem_id='{$mem_id}'";
+        fwrite($fp, $sql_update."\r\n");
         mysqli_query($self_con,$sql_update);
     }
 }
 
 if(isset($_POST['memid']) && isset($_POST['use'])){
     $sql_ai_point = "select * from Gn_Search_Key where key_id='ai_card_making'";
+    fwrite($fp, $sql_ai_point."\r\n");
     $res_ai = mysqli_query($self_con,$sql_ai_point);
     $row_ai = mysqli_fetch_array($res_ai);
     $point_ai = $row_ai['key_content'];
 
     $sql_auto_point = "select * from Gn_Search_Key where key_id='auto_member_join'";
+    fwrite($fp, $sql_auto_point."\r\n");
     $res_auto = mysqli_query($self_con,$sql_auto_point);
     $row_auto = mysqli_fetch_array($res_auto);
     $point_auto = $row_auto['key_content'];
@@ -56,6 +63,7 @@ if(isset($_POST['memid']) && isset($_POST['use'])){
     $method = $channel."/".$keyword;
 
     $sql_service = "select * from Gn_Iam_Service where mem_id='{$mem_id}'";//분양사아이디이면.
+    fwrite($fp, $sql_service."\r\n");
     $res_service = mysqli_query($self_con,$sql_service);
     if(mysqli_num_rows($res_service)){
         $row = mysqli_fetch_array($res_service);
@@ -102,12 +110,14 @@ if(isset($_POST['memid']) && isset($_POST['use'])){
     }
 
     $sql_card_link = "select * from crawler_iam_info where mem_id='{$id_status}' order by id desc limit 1";
+    fwrite($fp, $sql_card_link."\r\n");
     $res_link = mysqli_query($self_con,$sql_card_link);
     $row_link = mysqli_fetch_array($res_link);
 
     $iam_link = $row_link['iam_link'];
     
     $sql_mem_code = "select mem_code from Gn_Member where mem_id='{$id_status}'";
+    fwrite($fp, $sql_mem_code."\r\n");
     $res_code = mysqli_query($self_con,$sql_mem_code);
     $row_code = mysqli_fetch_array($res_code);
     $mem_code = $row_code['mem_code'];
@@ -115,12 +125,15 @@ if(isset($_POST['memid']) && isset($_POST['use'])){
     $iam_url = "http://" . $HTTP_HOST . "/?" . $iam_link . $mem_code;
 
     $sql = "insert into Gn_Item_Pay_Result set buyer_id='{$mem_id}', buyer_tel='{$data['mem_phone']}', site='{$iam_url}', item_name='{$mem_type}', item_price={$min_point}, pay_percent=90, current_cash={$row_point['mem_cash']}, current_point={$row_point['mem_point']}-{$min_point}, pay_status='Y', VACT_InputName='{$data['mem_name']}', type='use', pay_method='{$method}', pay_date=now(), point_val=1, seller_id='{$id_status}'";
+    fwrite($fp, $sql."\r\n");
     mysqli_query($self_con,$sql);
 
     $sql_update = "update Gn_Member set mem_point=mem_point-{$min_point} where mem_id='{$mem_id}'";
+    fwrite($fp, $sql_update."\r\n");
     mysqli_query($self_con,$sql_update);
 
     $sql_point = "select mem_id, mem_point, mem_phone from Gn_Member where mem_id='{$mem_id}'";
+    fwrite($fp, $sql_point."\r\n");
 	$res_point = mysqli_query($self_con,$sql_point);
 	$row_point = mysqli_fetch_array($res_point);
 
@@ -134,6 +147,7 @@ if(isset($_POST['memid']) && isset($_POST['use'])){
 	$uni_id=time().sprintf("%02d",$s);
 	if($mem_point != 0){
 		$sql_mms_send = "select reg_date, recv_num from Gn_MMS where title='포인트 충전 안내' and content='".$mem_id.", 고객님의 잔여 포인트가 ".$mem_point." 포인트 이하입니다. 포인트가 부족할 경우 현재 이용중이신 기능이 중지되오니 충전해주시길 바랍니다. 감사합니다.' and mem_id='{$mem_id}' order by idx desc limit 1";
+        fwrite($fp, $sql_mms_send."\r\n");
 		$res_mms_send = mysqli_query($self_con,$sql_mms_send);
 		if(mysqli_num_rows($res_mms_send)){
 			while($row_mms_send = mysqli_fetch_array($res_mms_send)){
