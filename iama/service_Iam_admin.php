@@ -11,7 +11,6 @@ $site = $HTTP_HOST;
 if ($HTTP_HOST == "kiam.kr")
     $site = "www." . $HTTP_HOST;
 $query = "select * from Gn_Iam_Service where sub_domain = 'http://{$site}'";
-echo $query."<br>";
 $res = mysqli_query($self_con, $query);
 $domainData = mysqli_fetch_array($res);
 if ($domainData['mem_id'] != $_SESSION['iam_member_id']) {
@@ -19,8 +18,6 @@ if ($domainData['mem_id'] != $_SESSION['iam_member_id']) {
     exit;
 }
 $parse = parse_url($domainData['sub_domain']);
-echo print_r($parse,true)."<br>";
-//$site = explode(".", $parse);
 //added by amigo middle log 로그부분이므로 삭제하지 말것!!!!
 $logs = new Logs("iamalog.txt", false);
 //end
@@ -992,7 +989,6 @@ $logs->add_log("start");
                                             <div id="cardsel_self" onclick="limit_selcard_self()" style="margin-top:15px;">
                                                 <?
                                                 $sql5_self = "select card_short_url,phone_display, card_title from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$_SESSION['iam_member_id']}' order by req_data asc";
-                                                echo $sql5_self."<br>";
                                                 $result5_self = mysqli_query($self_con, $sql5_self);
                                                 $i = 0;
 
@@ -1535,7 +1531,7 @@ $logs->add_log("start");
                                     $data = mysqli_fetch_array($mem_res);
                                     $mem_phone = str_replace("-", "", $data['mem_phone']);
                                     ?>
-                                    <option value="<?= $mem_phone ?>"><?php echo $mem_phone; ?></option>
+                                    <option value="<?= $mem_phone ?>"><?= $mem_phone; ?></option>
                                     <?
                                     $query = "select * from Gn_MMS_Number where mem_id='{$_SESSION['iam_member_id']}' order by sort_no asc, user_cnt desc , idx desc";
                                     $resul = mysqli_query($self_con, $query);
@@ -1543,7 +1539,7 @@ $logs->add_log("start");
                                         $send_phone = str_replace("-", "", $korow['sendnum']);
                                         if ($send_phone != $mem_phone) {
                                     ?>
-                                            <option value="<?= $send_phone ?>"> <?php echo $send_phone ?></option>
+                                            <option value="<?= $send_phone ?>"> <?= $send_phone ?></option>
                                     <?
                                         }
                                     }
@@ -1782,16 +1778,16 @@ $logs->add_log("start");
                                         <? if ($_SESSION['iam_member_id'] == "iam1") { ?>
                                             <td class="iam_table">
                                                 <label class="auto_switch_copy">
-                                                    <input type="checkbox" name="auto_status" id="auto_stauts_<?php echo $row['event_idx']; ?>" value="<?php echo $row['event_idx']; ?>" <?= $checked_auto ?>>
-                                                    <span class="slider round" name="auto_status_round" id="auto_stauts_round_<?php echo $row['event_idx']; ?>"></span>
+                                                    <input type="checkbox" name="auto_status" id="auto_stauts_<?= $row['event_idx']; ?>" value="<?= $row['event_idx']; ?>" <?= $checked_auto ?>>
+                                                    <span class="slider round" name="auto_status_round" id="auto_stauts_round_<?= $row['event_idx']; ?>"></span>
                                                 </label>
                                                 <input type="hidden" name="auto_service_id" id="auto_service_id" value="<?= $row['m_id'] ?>">
                                             </td>
                                         <? } else { ?>
                                             <td class="iam_table">
                                                 <label class="auto_switch">
-                                                    <input type="checkbox" name="auto_status" id="auto_stauts_<?php echo $row['event_idx']; ?>" value="<?php echo $row['event_idx']; ?>" <?= $checked_auto ?>>
-                                                    <span class="slider round" name="auto_status_round" id="auto_stauts_round_<?php echo $row['event_idx']; ?>"></span>
+                                                    <input type="checkbox" name="auto_status" id="auto_stauts_<?= $row['event_idx']; ?>" value="<?= $row['event_idx']; ?>" <?= $checked_auto ?>>
+                                                    <span class="slider round" name="auto_status_round" id="auto_stauts_round_<?= $row['event_idx']; ?>"></span>
                                                 </label>
                                                 <input type="hidden" name="auto_service_id" id="auto_service_id" value="<?= $row['m_id'] ?>">
                                             </td>
@@ -2146,8 +2142,8 @@ $logs->add_log("start");
                                         <? if ($_SESSION['iam_member_id'] == "iam1") { ?>
                                             <td class="iam_table">
                                                 <label class="switch_daily_copy">
-                                                    <input type="checkbox" name="status" id="daily_stauts_<?php echo $row['event_idx']; ?>" value="<?php echo $row['event_idx']; ?>" <?= $checked_dup ?>>
-                                                    <span class="slider round" name="status_round" id="stauts_round_<?php echo $row['event_idx']; ?>"></span>
+                                                    <input type="checkbox" name="status" id="daily_stauts_<?= $row['event_idx']; ?>" value="<?= $row['event_idx']; ?>" <?= $checked_dup ?>>
+                                                    <span class="slider round" name="status_round" id="stauts_round_<?= $row['event_idx']; ?>"></span>
                                                 </label>
                                             </td>
                                         <? } ?>
