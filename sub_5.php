@@ -61,8 +61,8 @@ if (!$_SESSION['one_member_id']) {
 	$res = mysqli_query($self_con, $sql);
 	if (mysqli_num_rows($res) > 0) {
 		$sql = "insert into Gn_MMS_ReservationFail select `idx`, `mem_id`, `send_num`, `recv_num`, `uni_id`, `content`, `title`, `type`, `delay`, `delay2`, `close`, `jpg`, `result`, `reg_date`, `up_date`, `url`, `reservation` from Gn_MMS $sql_where";
-		mysqli_query($self_con, $sql);
 		echo $sql;
+		mysqli_query($self_con, $sql);
 	}
 	echo "test4<br>";
 	//$sql = "delete from Gn_MMS $sql_where";
