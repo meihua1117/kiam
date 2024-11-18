@@ -19,7 +19,7 @@ if ($domainData['mem_id'] != $_SESSION['iam_member_id']) {
     exit;
 }
 $parse = parse_url($domainData['sub_domain']);
-echo json_encode($parse)."<br>";
+echo print_r($parse,true)."<br>";
 $site = explode(".", $parse);
 echo $site."<br>";
 //added by amigo middle log 로그부분이므로 삭제하지 말것!!!!
