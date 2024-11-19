@@ -57,11 +57,14 @@ if ($_GET['sample_type'] == "best_sample") {
 */
     $sql8 .= " order by sample_order desc ,req_data limit {$w_offset},{$contents_count_per_page}";
 }
+$body = ''.$sql8;
+echo $body;
+exit;
 $redisCache = new RedisCache();
 //$redisCache->set_debug(true);
 $sample_list = $redisCache->get_query_to_array($sql8);
 //$logs->add_log( $redisCache ->get_debug_string(), false);
-$body = ''.$sql8;
+
 if ($sample_list != null) {
     for ($i = 0; $i < count($sample_list); $i++) {
         $contents_row = $sample_list[$i];
