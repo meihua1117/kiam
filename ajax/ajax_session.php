@@ -162,11 +162,9 @@ if ($_POST['group_create_go']) {
 }
 //그룹생성 원모어
 if ($_POST['group_create_ok_']) {
-    $fp = fopen("phone.log","w+");
     $in_nums = str_replace("\'", "'", $_POST['group_create_ok_nums']);
     $group_name = htmlspecialchars($_POST['group_create_ok_name']);
     $sql_s = "select idx from Gn_MMS_Group where grp='{$group_name}' and mem_id = '{$_SESSION['one_member_id']}' ";
-    fwrite($fp,$sql_s."\r\n");
     $resul_s = mysqli_query($self_con, $sql_s);
     $row_s = mysqli_fetch_array($resul_s);
     if ($row_s['idx'] && substr($group_name, -4) != date("md")) {
@@ -178,28 +176,22 @@ if ($_POST['group_create_ok_']) {
         exit;
     } else if ($row_s['idx'] && substr($group_name, -4) == date("md")) {
         $sql = "delete from Gn_MMS_Group where grp='{$group_name}' and mem_id = '{$_SESSION['one_member_id']}'";
-        fwrite($fp,$sql."\r\n");
         mysqli_query($self_con, $sql);
 
         $sql = "delete from Gn_MMS_Receive where grp='{$group_name}' and mem_id = '{$_SESSION['one_member_id']}'";
-        fwrite($fp,$sql."\r\n");
         mysqli_query($self_con, $sql);
     }
     $sql = "insert into Gn_MMS_Group set mem_id = '{$_SESSION['one_member_id']}', grp = '{$group_name}' , reg_date = now()";
-    fwrite($fp,$sql."\r\n");
     mysqli_query($self_con, $sql);
 
     $sql_s = "select idx from Gn_MMS_Group where grp='{$group_name}' and mem_id = '{$_SESSION['one_member_id']}'";
-    fwrite($fp,$sql_s."\r\n");
     $resul_s = mysqli_query($self_con, $sql_s);
     $row_s = mysqli_fetch_array($resul_s);
 
     $sql = "delete from Gn_MMS_Receive where mem_id='{$_SESSION['one_member_id']}' and grp_id='{$row_s['idx']}'";
-    fwrite($fp,$sql."\r\n");
     mysqli_query($self_con, $sql);
 
     $sql_d = "select msg_text,msg_url,grp from sm_data where dest in ($in_nums) ";
-    fwrite($fp,$sql_d."\r\n");
     $resul_d = mysqli_query($self_con, $sql_d) or die(mysqli_error($self_con));
     $i = 0;
     while ($row_d = mysqli_fetch_array($resul_d)) {
@@ -212,19 +204,16 @@ if ($_POST['group_create_ok_']) {
             continue;
 
         $sql_c = "select idx from Gn_MMS_Receive where mem_id='{$_SESSION['one_member_id']}' and grp_id='{$row_s['idx']}' and recv_num='$recv_num' ";
-        fwrite($fp,$sql_c."\r\n");
         $resul_c = mysqli_query($self_con, $sql_c);
         $row_c = mysqli_fetch_array($resul_c);
         if ($row_c['idx'])
             continue;
 
         $sql_i = "insert into Gn_MMS_Receive set grp_id='{$row_s['idx']}', mem_id = '{$_SESSION['one_member_id']}', grp = '{$group_name}',grp_2='{$row_d['grp']}', recv_num = '$recv_num', name = '{$row_d['msg_text']}',reg_date=now() ";
-        fwrite($fp,$sql_i."\r\n");
         mysqli_query($self_con, $sql_i) or die(mysqli_error($self_con));
         $i++;
     }
     $sql_u = "update Gn_MMS_Group set count='$i' where idx='{$row_s['idx']}' ";
-    fwrite($fp,$sql_u."\r\n");
     mysqli_query($self_con, $sql_u);
     ?>
     <script language="javascript">
