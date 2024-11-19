@@ -74,7 +74,6 @@ if ($_REQUEST['result'] == 1) {
 	$sql_serch .= " and reservation != '' ";
 }
 $sql = "select count(*) as cnt from $sql_table where $sql_serch ";
-echo $sql . "<br>";
 $result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
 $row = mysqli_fetch_array($result);
 mysqli_free_result($result);
@@ -107,7 +106,6 @@ $intPageCount = (int)(($intRowCount + $intPageSize - 1) / $intPageSize);
 $sql = "select idx,send_num,recv_num,up_date,reg_date,reservation,title,content,result,jpg,jpg1,jpg2,count_start,count_end,grp_idx,type from $sql_table where $sql_serch order by $order_name $order_status limit $int,$intPageSize";
 $excel_sql = "select idx,send_num,recv_num,up_date,reg_date,reservation,title,content,result,jpg,jpg1,jpg2 from $sql_table where $sql_serch order by $order_name $order_status ";
 $excel_sql = str_replace("'", "`", $excel_sql);
-echo $sql . "<br>";
 $result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
 ?>
 
