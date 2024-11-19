@@ -61,7 +61,7 @@ $redisCache = new RedisCache();
 //$redisCache->set_debug(true);
 $sample_list = $redisCache->get_query_to_array($sql8);
 //$logs->add_log( $redisCache ->get_debug_string(), false);
-$body = '';
+$body = ''.$sql8;
 if ($sample_list != null) {
     for ($i = 0; $i < count($sample_list); $i++) {
         $contents_row = $sample_list[$i];
