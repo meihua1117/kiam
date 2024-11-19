@@ -435,6 +435,7 @@ function excel_down_c_group(pno){
     		  },
     	 success:function(data){
     	 	$($(".loading_div")[0]).hide();
+			$("#ajax_div").html(data);
     	 	//parent.excel_down('excel_down/excel_down.php?down_type=1',data.idx);
     	 }
 
