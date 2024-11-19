@@ -64,13 +64,13 @@ else if($_GET['sample_type'] == "recent_sample")
 }
 $redisCache = new RedisCache();
 //$redisCache->set_debug(true);
-$sample_list = $redisCache -> get_query_to_array($sql8);
+$sample_list[] = $redisCache -> get_query_to_array($sql8);
 //$logs->add_log( $redisCache ->get_debug_string(), false);
 $body = '';
+$body .= json_encode($sample_list);
 for($i=0 ; $i < count($sample_list); $i++)
 {
     $contents_row = $sample_list[$i];
-    $body .= json_encode($contents_row);
     $sample_sql = "select mem_code from Gn_Member where mem_id='{$contents_row['mem_id']}'";
     $sample_res = mysqli_query($self_con,$sample_sql);
     $sample_row = mysqli_fetch_array($sample_res);
