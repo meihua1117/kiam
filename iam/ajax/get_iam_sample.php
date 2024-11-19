@@ -33,7 +33,7 @@ if ($_GET['sample_type'] == "best_sample") {
     $row9 = mysqli_fetch_array($res9);
     $cont_count = $row9[0];
 */
-    $sql8 .= " order by sample_order desc ,req_data limit $contents_count_per_page , " . $w_offset;
+    $sql8 .= " order by sample_order desc ,req_data limit {$w_offset},{$contents_count_per_page}";
 } else if ($_GET['sample_type'] == "sample") {
     $sql8 = "SELECT * FROM Gn_Iam_Name_Card WHERE group_id is NULL and sample_click='Y'";
     if ($_GET['search_key'])
@@ -43,7 +43,7 @@ if ($_GET['sample_type'] == "best_sample") {
     $row9 = mysqli_fetch_array($res9);
     $cont_count = $row9[0];
 */
-    $sql8 .= " order by sample_order desc ,req_data limit $contents_count_per_page , " . $w_offset;
+    $sql8 .= " order by sample_order desc ,req_data limit {$w_offset},{$contents_count_per_page}";
 } else if ($_GET['sample_type'] == "recent_sample") {
     $recent_date =  date("Y-m-d", strtotime("-7 days"));
     $sql8 = "SELECT * FROM Gn_Iam_Name_Card WHERE group_id is NULL and sample_click='Y' AND up_data >= '" . $recent_date . "'";
@@ -55,7 +55,7 @@ if ($_GET['sample_type'] == "best_sample") {
     $row9 = mysqli_fetch_array($res9);
     $cont_count = $row9[0];
 */
-    $sql8 .= " order by sample_order desc ,req_data limit $contents_count_per_page , " . $w_offset;
+    $sql8 .= " order by sample_order desc ,req_data limit {$w_offset},{$contents_count_per_page}";
 }
 $redisCache = new RedisCache();
 //$redisCache->set_debug(true);
