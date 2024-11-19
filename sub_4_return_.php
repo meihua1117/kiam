@@ -342,22 +342,26 @@ $result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
 									$date = $row['up_date'];
 
 									$sql = "select count(seq) as cnt from call_app_log where api_name='receive_sms' and LENGTH(recv_num) >= 10 and  send_num='{$row['send_num']}' and recv_num in ($recv_num_in) and recv_num like '01%'  and regdate >= '$date' and sms not like '[%'";
+									echo $sql."<br>";
 									$kresult = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
 									$krow = mysqli_fetch_array($kresult);
 									$intRowCount = $krow['cnt'];
 									if ($date == "") $intRowCount = "";
 
 									$sql_as = "select count(idx) as cnt from Gn_MMS_status where idx='{$row['idx']}' ";
+									echo $sql_as."<br>";
 									$resul_as = mysqli_query($self_con, $sql_as);
 									$row_as = mysqli_fetch_array($resul_as);
 									$status_total_cnt = $row_as[0];
 
 									$sql_cs = "select count(idx) as cnt from Gn_MMS_status where idx='{$row['idx']}' and status='0'";
+									echo $sql_cs."<br>";
 									$resul_cs = mysqli_query($self_con, $sql_cs);
 									$row_cs = mysqli_fetch_array($resul_cs);
 									$success_cnt = $row_cs[0];
 
 									$sql_sn = "select recv_num from Gn_MMS where idx='{$row['idx']}' ";
+									echo $sql_sn."<br>";
 									$resul_sn = mysqli_query($self_con, $sql_sn);
 									$row_sn = mysqli_fetch_array($resul_sn);
 									$recv_cnt = explode(",", $row_sn[0]);
