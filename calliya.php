@@ -49,9 +49,9 @@ $data = mysqli_fetch_array($sresul_num);
                         <a href="calliya.php" style="color:#f00">전체리스트보기</a> &nbsp;|&nbsp;
                         <a href="calliya_req.php">신청리스트보기</a>
                         <select name="cnt_per_page" id="cnt_per_page" class="form-control input-sm pull-right" onchange="pay_form.submit()" style="width:100px;">
-                            <option value="20" <?= $_REQUEST[cnt_per_page] == "20" ? "selected" : "" ?>>20개씩</option>
-                            <option value="50" <?= $_REQUEST[cnt_per_page] == "50" ? "selected" : "" ?>>50개씩</option>
-                            <option value="100" <?= $_REQUEST[cnt_per_page] == "100" ? "selected" : "" ?>>100개씩</option>
+                            <option value="20" <?= $_REQUEST['cnt_per_page'] == "20" ? "selected" : "" ?>>20개씩</option>
+                            <option value="50" <?= $_REQUEST['cnt_per_page'] == "50" ? "selected" : "" ?>>50개씩</option>
+                            <option value="100" <?= $_REQUEST['cnt_per_page'] == "100" ? "selected" : "" ?>>100개씩</option>
                         </select>
                     </div>
                     <div>
@@ -114,10 +114,10 @@ $data = mysqli_fetch_array($sresul_num);
                                 $intRowCount    =  $count_row[0];
 
                                 if ($intRowCount) {
-                                    if (!$_REQUEST[cnt_per_page])
+                                    if (!$_REQUEST['cnt_per_page'])
                                         $intPageSize = 20;
                                     else
-                                        $intPageSize = $_REQUEST[cnt_per_page];
+                                        $intPageSize = $_REQUEST['cnt_per_page'];
                                     if ($_POST['page']) {
                                         $page = (int)$_POST['page'];
                                         $sort_no = $intRowCount - ($intPageSize * $page - $intPageSize);
