@@ -59,7 +59,7 @@ if ($_GET['sample_type'] == "best_sample") {
 }
 $redisCache = new RedisCache();
 //$redisCache->set_debug(true);
-$sample_list[] = $redisCache->get_query_to_array($sql8);
+$sample_list = $redisCache->get_query_to_array($sql8);
 //$logs->add_log( $redisCache ->get_debug_string(), false);
 $body = '';
 if ($sample_list != null) {
