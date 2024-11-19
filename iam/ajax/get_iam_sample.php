@@ -57,9 +57,7 @@ if ($_GET['sample_type'] == "best_sample") {
 */
     $sql8 .= " order by sample_order desc ,req_data limit {$w_offset},{$contents_count_per_page}";
 }
-$body = ''.$sql8;
-echo $body;
-exit;
+$body = '';
 $redisCache = new RedisCache();
 //$redisCache->set_debug(true);
 $sample_list = $redisCache->get_query_to_array($sql8);
