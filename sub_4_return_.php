@@ -326,13 +326,11 @@ $result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
 								$c = 0;
 								while ($row = mysqli_fetch_array($result)) {
 									$sql_s = "select status,regdate from Gn_MMS_status where idx='{$row['idx']}' ";
-									echo $sql_s . "<br>";
 									$resul_s = mysqli_query($self_con, $sql_s);
 									$row_s = mysqli_fetch_array($resul_s);
 									mysqli_free_result($resul_s);
 
 									$sql_n = "select memo from Gn_MMS_Number where mem_id='{$_SESSION['one_member_id']}' and sendnum='{$row['send_num']}' ";
-									echo $sql_n . "<br>";
 									$resul_n = mysqli_query($self_con, $sql_n);
 									$row_n = mysqli_fetch_array($resul_n);
 									mysqli_free_result($resul_n);
@@ -345,26 +343,22 @@ $result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
 										$intRowCount = "";
 									else {
 										$sql = "select count(seq) as cnt from call_app_log where api_name='receive_sms' and LENGTH(recv_num) >= 10 and  send_num='{$row['send_num']}' and recv_num in ($recv_num_in) and recv_num like '01%'  and regdate >= '$date' and sms not like '[%'";
-										echo $sql . "<br>";
 										$kresult = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
 										$krow = mysqli_fetch_array($kresult);
 										$intRowCount = $krow['cnt'];
 									}
 
 									$sql_as = "select count(idx) as cnt from Gn_MMS_status where idx='{$row['idx']}' ";
-									echo $sql_as . "<br>";
 									$resul_as = mysqli_query($self_con, $sql_as);
 									$row_as = mysqli_fetch_array($resul_as);
 									$status_total_cnt = $row_as[0];
 
 									$sql_cs = "select count(idx) as cnt from Gn_MMS_status where idx='{$row['idx']}' and status='0'";
-									echo $sql_cs . "<br>";
 									$resul_cs = mysqli_query($self_con, $sql_cs);
 									$row_cs = mysqli_fetch_array($resul_cs);
 									$success_cnt = $row_cs[0];
 
 									$sql_sn = "select recv_num from Gn_MMS where idx='{$row['idx']}' ";
-									echo $sql_sn . "<br>";
 									$resul_sn = mysqli_query($self_con, $sql_sn);
 									$row_sn = mysqli_fetch_array($resul_sn);
 									$recv_cnt = explode(",", $row_sn[0]);
@@ -455,17 +449,17 @@ $result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
 														발송실패
 														<? } else {
 														if ($row['up_date'] == "" && $row['reservation'] < date("Y-m-d H:i:s")) { ?>
-															<a href="sub_4_detail.php?idx=<?php echo $row['idx']; ?>">발송중</a>
+															<a href="sub_4_detail.php?idx=<?= $row['idx']; ?>">발송중</a>
 												<? }
 													}
 												}
 											} else { ?>
-												<a href="sub_4_detail.php?idx=<?php echo $row['idx']; ?>"><?= $success_cnt ?>/<?php echo $total_cnt - $success_cnt; ?>
+												<a href="sub_4_detail.php?idx=<?= $row['idx']; ?>"><?= $success_cnt ?>/<?= $total_cnt - $success_cnt; ?>
 												<? } ?>
 												<?php if ($row['reservation']) { ?>예약<?php } ?>
 										</td>
 										<td style="font-size:12px;">
-											<a href="sub_4_return_detail.php?idx=<?php echo $row['idx'] ?>&send_num=<?= $row['send_num'] ?>"><?= $intRowCount; ?></a>
+											<a href="sub_4_return_detail.php?idx=<?= $row['idx'] ?>&send_num=<?= $row['send_num'] ?>"><?= $intRowCount; ?></a>
 										</td>
 									</tr>
 								<?
