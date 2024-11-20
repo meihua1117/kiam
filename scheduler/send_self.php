@@ -8,7 +8,7 @@ $self_con=mysql_connect($mysql_host,$mysql_user,$mysql_password) or die(mysql_er
 mysql_select_db($mysql_db) or die(mysql_error());
 mysql_query("set names utf8");*/
 include_once "/home/kiam/lib/db_config.php";
-require_once('../fcm/vendor/autoload.php');
+require_once('/home/kiam/fcm/vendor/autoload.php');
 
 $url = 'https://fcm.googleapis.com/v1/projects/onepagebookmms5/messages:send';
 putenv('GOOGLE_APPLICATION_CREDENTIALS=../fcm/onepagebookmms5.json');

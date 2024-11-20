@@ -1,7 +1,7 @@
 #!/opt/php/bin/php
 <?php
 include_once "/home/kiam/lib/db_config.php";
-require_once('../fcm/vendor/autoload.php');
+require_once('/home/kiam/fcm/vendor/autoload.php');
 /*$mysql_host = 'localhost';
 $mysql_user = 'kiam';
 $mysql_password = 'only12!@db';
