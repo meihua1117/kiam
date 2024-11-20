@@ -11,7 +11,7 @@ include_once "/home/kiam/lib/db_config.php";
 require_once('/home/kiam/fcm/vendor/autoload.php');
 
 $url = 'https://fcm.googleapis.com/v1/projects/onepagebookmms5/messages:send';
-putenv('GOOGLE_APPLICATION_CREDENTIALS=../fcm/onepagebookmms5.json');
+putenv('GOOGLE_APPLICATION_CREDENTIALS=/home/kiam/fcm/onepagebookmms5.json');
 $scope = 'https://www.googleapis.com/auth/firebase.messaging';
 $client = new Google_Client();
 $client->useApplicationDefaultCredentials();
@@ -150,7 +150,7 @@ while($row_all=mysqli_fetch_array($resul_all)) {
             $msg = "";
             $msg = $json->results[0]->error;
             curl_close ( $ch );
-            $query = "insert into Gn_MMS_PUSH set send_num='{$send_num}',idx='{$sidx}',token='{$id}',error='{$msg}'";
+            $query = "insert into Gn_MMS_PUSH set send_num='{$send_num}',idx='{$sidx}',token='{$id}',error='{$msg}',regdate=now()";
 	        if($debug_mode == false) {
 	            echo  $date. " phonenum=" . $send_num . " idx=" . $sidx . "\n";
 	            mysqli_query($self_con, $query) or die(mysqli_error($self_con));        

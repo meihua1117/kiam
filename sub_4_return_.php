@@ -410,8 +410,9 @@ $result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
 												<input type="hidden" name="show_jpg2" value="<?= $row['jpg2'] ?>" />
 											<? } ?>
 										</td>
-										<td style="font-size:12px;"><?= substr($row['reg_date'], 0, 16) ?></td>
-										<!--<td style="font-size:12px;"><?= substr($row['up_date'], 0, 16) ?></td>-->
+										<td style="font-size:12px;">
+											<?= substr($row['reg_date'], 0, 16) ?>
+										</td>
 										<td>
 											<?= $row['reservation'] ? $row['reservation'] : "" ?>
 										</td>

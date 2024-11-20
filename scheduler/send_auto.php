@@ -26,7 +26,7 @@ $cur_time_mms_com = date("Y-m-d H:i:s", $cur_time_com_mms);
 $server = "http://www.goodhow.com:";
 
 $push_url = 'https://fcm.googleapis.com/v1/projects/onepagebookmms5/messages:send';
-putenv('GOOGLE_APPLICATION_CREDENTIALS=../fcm/onepagebookmms5.json');
+putenv('GOOGLE_APPLICATION_CREDENTIALS=/home/kiam/fcm/onepagebookmms5.json');
 $scope = 'https://www.googleapis.com/auth/firebase.messaging';
 $client = new Google_Client();
 $client->useApplicationDefaultCredentials();
@@ -250,10 +250,7 @@ function sendPush($self_con, $url, $headers, $pkey, $sidx, $send_type, $send_num
 	$msg = $json->results[0]->error;
 	curl_close($ch);
 
-	$query = "insert into Gn_MMS_PUSH set send_num='{$send_num}',
-										idx='{$sidx}',
-										token='{$pkey}',
-										error='{$msg}'";
+	$query = "insert into Gn_MMS_PUSH set send_num='{$send_num}',idx='{$sidx}',token='{$pkey}',error='{$msg}',regdate=now()";
 
 	mysqli_query($self_con, $query) or die(mysqli_error($self_con));
 }
