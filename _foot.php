@@ -264,7 +264,7 @@ if ($HTTP_HOST == "kookmin.kiam.kr") { ?>
             <li class="menu-item">
                 <a href="#">웹문자</a>
                 <ul class="submenu">
-                    <li class="submenu-item"><a href="http://mk5.kr" target="_blank">웹문자</a></li>
+                    <li class="submenu-item"><a href="http://rcs.kiam.kr" target="_blank">웹문자</a></li>
                     <!--
                             <li class="submenu-item"><a href="/sub_16.php">웹문자소게</a></li>
                             <li class="submenu-item"><a href="/sub_17.php">웹문자접속</a></li>
@@ -433,7 +433,7 @@ if ($HTTP_HOST == "kookmin.kiam.kr") { ?>
             <li class="menu-item">
                 <a href="#">웹문자</a>
                 <ul class="submenu">
-                    <li class="submenu-item"><a href="http://mk5.kr" target="_blank">웹문자</a></li>
+                    <li class="submenu-item"><a href="http://rcs.kiam.kr" target="_blank">웹문자</a></li>
                     <!--
                             <li class="submenu-item"><a href="/sub_16.php">웹문자소게</a></li>
                             <li class="submenu-item"><a href="/sub_17.php">웹문자접속</a></li>

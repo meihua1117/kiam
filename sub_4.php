@@ -1749,7 +1749,6 @@ $phone = str_replace("-", "", $mem_phone);
 											<?
 											$i = 0;
 											if ($intRowCount) {
-
 												while ($row = mysqli_fetch_array($result)) {
 													$sql_n = "select memo from Gn_MMS_Number where sendnum='{$row['send_num']}' ";
 													$resul_n = mysqli_query($self_con, $sql_n);

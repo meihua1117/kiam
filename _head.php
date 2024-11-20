@@ -386,13 +386,6 @@ if ($domainData['status'] == "N") {
                             <li class="menu-item">
                                 <a href="/sub_6_dbstar.php">포토문자</a>
                             </li>
-                            <!--li class="menu-item" id="msms">
-                                <a href="/sub_16.php">웹문자</a>
-                                <ul class="submenu">
-                                    <li class="submenu-item"><a href="/sub_16.php">웹문자소개</a></li>
-                                    <li class="submenu-item"><a href="/link.php" target="_target">웹문자접속</a></li>
-                                </ul>
-                            </li-->
                             <li class="menu-item">
                                 <a href="http://www.smsallline.com/home/login" target="_balnk">국제문자</a>
                             </li>
@@ -494,20 +487,9 @@ if ($domainData['status'] == "N") {
                                     <?php } ?>
                                 </ul>
                             </li>
-                            <!--li class="menu-item" id="msms">
-                                <a href="/sub_16.php">웹문자</a>
-                                <ul class="submenu">
-                                    <li class="submenu-item"><a href="/sub_16.php">웹문자소개</a></li>
-                                    <li class="submenu-item"><a href="/link.php" target="_blank">웹문자접속</a></li>
-                                </ul>
-                            </li-->
                             <li class="menu-item" id="msms">
-                                <a href="http://mk5.kr" target="_balnk">웹문자</a>
+                                <a href="http://rcs.kiam.kr" target="_balnk">웹문자</a>
                             </li>
-                            <!--li class="menu-item">
-                                <a href="http://www.smsallline.com/home/login" target="_balnk">국제문자</a>
-                            </!--li>
-                            </li-->
                         </ul>
                     </div>
                 </nav><!-- // Menu GNB -->
@@ -783,20 +765,9 @@ if ($domainData['status'] == "N") {
                                     <?php } ?>
                                 </ul>
                             </li>
-                            <!--li class="menu-item" id="msms">
-                                <a href="/sub_16.php">웹문자</a>
-                                <ul class="submenu">
-                                    <li class="submenu-item"><a href="/sub_16.php">웹문자소개</a></li>
-                                    <li class="submenu-item"><a href="/link.php" target="_blank">웹문자접속</a></li>
-                                </ul>
-                            </li-->
                             <li class="menu-item" id="msms">
-                                <a href="http://mk5.kr" target="_balnk">웹문자</a>
+                                <a href="http://rcs.kiam.kr" target="_balnk">웹문자</a>
                             </li>
-                            <!--li class="menu-item">
-                                <a href="http://www.smsallline.com/home/login" target="_balnk">국제문자</a>
-                            </!--li>
-                            </li-->
                             <? if ($is_pay_version) { ?>
                                 <li class="menu-item" id="mpay">
                                     <a href="pay.php">결제안내</a>
@@ -948,7 +919,7 @@ if ($domainData['status'] == "N") {
         <div class="m_head_div" id="sms" style="position:relative;">
             <div class="left_sub_menu">
                 <a href="./">홈</a> >
-                <a href="http://mk5.kr" target="_balnk">웹문자</a> >
+                <a href="http://rcs.kiam.kr" target="_balnk">웹문자</a> >
             </div>
             <!--div style="position:absolute;left:770px;">
                 <a href="/sub_16.php">웹문자소개</a> ㅣ <a href="/link.php" target="_blank">웹문자접속</a>
