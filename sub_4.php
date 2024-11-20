@@ -1688,7 +1688,7 @@ $phone = str_replace("-", "", $mem_phone);
 								<div class="sub_4_4_t2">
 									<div class="sub_4_1_t3">
 										<a href="sub_4.php?status=<?= $_GET['status']; ?>&status1=1" style="color:#000" >수신거부</a> &nbsp; | &nbsp;
-										<a href="sub_4_agree.php?status=<?= $_GET['status']; ?>&status1=2" style="color:#000">수신동의</a></span>
+										<a href="sub_4_agree.php?status=<?= $_GET['status']; ?>&status1=2" >수신동의</a></span>
 									</div>
 									<div class="sub_4_4_t3">
 										<p style="clear:both"></p>
