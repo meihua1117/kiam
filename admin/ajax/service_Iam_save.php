@@ -6,6 +6,8 @@ include_once $_SERVER['DOCUMENT_ROOT'] . "/lib/rlatjd_fun.php";
 */
 extract($_POST);
 $idx = $_POST["idx"];
+if(!isset($_POST['send_content']) || $_POST['send_content'] == "")
+    $send_content = 0;
 if ($_POST['mode'] == "creat") {
     $fp = fopen("iam_save.log","w+");
     $head_logo = gcUploadRename($_FILES['head_logo']["name"], $_FILES["head_logo"]['tmp_name'], $_FILES["head_logo"]['size'], "data/site");
