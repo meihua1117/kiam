@@ -274,22 +274,21 @@ if ($mode == "land_save") {
     echo "<script>location='mypage_link_list.php';</script>";
     exit;
 } else if ($mode == "sms_save") {
-
-
     if ($event_idx == "") {
         $sql = "select * from Gn_event where event_name_eng='$event_name_eng'";
         $eresult = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
         $erow = mysqli_fetch_array($eresult);
         $event_idx = $erow['event_idx'];
     }
+    if($event_idx == "")
+        $event_idx = 0;
     $sql = "insert into Gn_event_sms_info set event_idx='$event_idx',
                                      event_name_eng='$event_name_eng',
                                      reservation_title='$reservation_title',
                                      reservation_desc='$reservation_desc',
                                      mobile='$mobile',
                                      regdate=NOW(),
-                                     m_id='{$_SESSION['one_member_id']}'
-           ";
+                                     m_id='{$_SESSION['one_member_id']}'";
     $result = mysqli_query($self_con, $sql);
 
     $sms_idx = mysqli_insert_id($self_con);
