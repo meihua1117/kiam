@@ -58,6 +58,8 @@ if($_POST['phone_cnt'] > 0) {
     $sql = "select * from Gn_Member where mem_id='{$member_1['mem_id']}' ";
     $sresult = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
     $srow = mysqli_fetch_array($sresult);
+    fwrite($fp,"61=".$sql."\r\n");
+
     $sql = "select count(cmid) from crawler_member_real where user_id='{$member_1['mem_id']}' ";
     $sresult = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
     $crow = mysqli_fetch_array($sresult);
@@ -87,7 +89,7 @@ if($_POST['phone_cnt'] > 0) {
                                             search_email_date='$search_email_date',
                                             search_email_cnt='$search_email_cnt',
                                             shopping_end_date='$search_email_date'";
-        fwrite($fp,"90=".$sql."\r\n");
+        fwrite($fp,"90=".$query."\r\n");
         mysqli_query($self_con,$query);
     } 
     if ($srow['recommend_id'] != "") {
