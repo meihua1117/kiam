@@ -12,8 +12,8 @@ if (!isset($_POST['service_type']) || $_POST['service_type'] == "")
     $service_type = 0;
 if (!isset($_POST['service_price']) || $_POST['service_price'] == "")
     $service_price = 0;
-if (!isset($_POST['service_price_exp']) || $_POST['service_price_exp'] == "")
-    $service_price_exp = 0;
+if (!isset($_POST['service_price1']) || $_POST['service_price1'] == "")
+    $service_price1 = 0;
 if ($_POST['mode'] == "creat") {
     $fp = fopen("iam_save.log", "w+");
     $head_logo = gcUploadRename($_FILES['head_logo']["name"], $_FILES["head_logo"]['tmp_name'], $_FILES["head_logo"]['size'], "data/site");
@@ -133,7 +133,7 @@ if ($_POST['mode'] == "creat") {
         mysqli_query($self_con, $sql2);
     }
     if ($service_type != 2)
-        $service_price = "";
+        $service_price = "0";
     if (!isset($_POST['status']))
         $status = 'Y';
     if (!isset($_POST['contract_start_date']))
