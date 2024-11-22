@@ -798,8 +798,8 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                   <input type="text" name="logo_move_url" value="<?=$data[move_url]?>" placeholder="로고클릭시 이동할 링크입력하세요." style="width:30%;">
                   <?if($mode == "updat"){?>
                   <label class="switch_logo" style="margin:0 25px;">
-                      <input type="checkbox" name="status" id="stauts_logo_<?php echo $data['idx'];?>" value="<?php echo $data['idx'];?>" <?php echo $data['use_yn']=="Y"?"checked":""?>>
-                      <span class="slider round" name="status_round" id="stauts_round_<?php echo $data['idx'];?>"></span>
+                        <input type="checkbox" name="status" id="stauts_logo_<?= $data['idx']; ?>" value="<?= $data['idx']; ?>" <?= $data['use_yn'] == "Y" ? "checked" : "" ?>>
+                        <span class="slider round" name="status_round" id="stauts_round_<?= $data['idx']; ?>"></span>
                   </label>
                   <?}?>
                   <button class="btn btn-primary" style="margin-right: 5px;padding: 3px 10px;" onclick="logo_form_save('<?=$data['idx']?>');return false;">저장</button>
@@ -931,8 +931,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                     <a href="<?=$data['img_url']?>" target="_blank">
                       <img class="zoom" src="<?=$data['img_url']?>" style="height:30px;">
                     </a>
-                  <?php }
-                  else{?>
+                    <?php } else { ?>
                   <img src="" style="width:50px;">
                   <?}?>
                   <input type="text" name="menu_move_url" value="<?=$data[move_url]?>" placeholder="링크입력" style="width:14%;">
@@ -949,8 +948,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                 </div>
               </form>
               <?}
-              }
-              else{?>
+            } else { ?>
               <form method="post" id="menu_Form_0" name="menu_Form_0" action="/admin/ajax/app_home_save.php" enctype="multipart/form-data">
                 <input type="hidden" name="position" value="menu" />
                 <input type="hidden" name="mode" value="save" />
@@ -995,8 +993,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
               if(!mysqli_num_rows($res_menu_data)){
                 $sql_data = "select * from Gn_App_Home_Manager where site_iam='kiam' and ad_position='I'";
                 $mode = "save";
-              }
-              else{
+            } else {
                 $sql_data = "select * from Gn_App_Home_Manager where site_iam='{$site}' and ad_position='I'";
                 $mode = "updat";
               }
@@ -1017,8 +1014,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                     <a href="<?=$data['img_url']?>" target="_blank">
                       <img class="zoom" src="<?=$data['img_url']?>" style="height:30px;">
                     </a>
-                  <?php }
-                  else{?>
+                    <?php } else { ?>
                   <img src="" style="width:50px;">
                   <?}?>
                   <input type="text" name="market_move_url" value="<?=$data[move_url]?>" placeholder="링크입력" style="width:14%;">
@@ -1035,8 +1031,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                 </div>
               </form>
               <?}
-              }
-              else{?>
+            } else { ?>
               <form method="post" id="market_Form_0" name="market_Form_0" action="/admin/ajax/app_home_save.php" enctype="multipart/form-data">
                 <input type="hidden" name="position" value="market" />
                 <input type="hidden" name="mode" value="save" />
@@ -1085,8 +1080,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
               if(!mysqli_num_rows($res_menu_data)){
                 $sql_data = "select * from Gn_App_Home_Manager where site_iam='kiam' and ad_position='C'";
                 $mode = "save";
-              }
-              else{
+            } else {
                 $sql_data = "select * from Gn_App_Home_Manager where site_iam='{$site}' and ad_position='C'";
                 $mode = "updat";
               }
@@ -1107,8 +1101,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                     <a href="<?=$data['img_url']?>" target="_blank">
                       <img class="zoom" src="<?=$data['img_url']?>" style="height:30px;">
                     </a>
-                  <?php }
-                  else{?>
+                    <?php } else { ?>
                   <img src="" style="width:50px;">
                   <?}?>
                   <input type="text" name="card_move_url" value="<?=$data[move_url]?>" placeholder="링크입력" style="width:14%;">
@@ -1125,8 +1118,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                 </div>
               </form>
               <?}
-              }
-              else{?>
+            } else { ?>
               <form method="post" id="card_Form_0" name="card_Form_0" action="/admin/ajax/app_home_save.php" enctype="multipart/form-data">
                 <input type="hidden" name="position" value="card" />
                 <input type="hidden" name="mode" value="save" />
@@ -1202,8 +1194,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
               if(!mysqli_num_rows($res_menu_data)){
                 $sql_data = "select * from Gn_App_Home_Manager where site_iam='kiam' and ad_position='B'";
                 $mode = "save";
-              }
-              else{
+            } else {
                 $sql_data = "select * from Gn_App_Home_Manager where site_iam='{$site}' and ad_position='B'";
                 $mode = "updat";
               }
@@ -1224,8 +1215,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                     <a href="<?=$data['img_url']?>" target="_blank">
                       <img class="zoom" src="<?=$data['img_url']?>" style="height:30px;">
                     </a>
-                  <?php }
-                  else{?>
+                    <?php } else { ?>
                   <img src="" style="width:50px;">
                   <?}?>
                   <input type="text" name="banner_move_url" value="<?=$data[move_url]?>" placeholder="배너클릭시 이동할 링크입력하세요." style="width:30%;">
@@ -1241,8 +1231,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                 </div>
               </form>
               <?}
-              }
-              else{?>
+            } else { ?>
               <form method="post" id="banner_Form_0" name="banner_Form_0" action="/admin/ajax/app_home_save.php" enctype="multipart/form-data">
                 <input type="hidden" name="position" value="banner" />
                 <input type="hidden" name="mode" value="save" />
@@ -1281,8 +1270,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
               if(!mysqli_num_rows($res_change_data)){
                 $sql_data = "select * from Gn_App_Home_Manager where site_iam='kiam' and ad_position='E'";
                 $mode = "save";
-              }
-              else{
+              } else {
                 $sql_data = "select * from Gn_App_Home_Manager where site_iam='{$site}' and ad_position='E'";
                 $mode = "updat";
               }
@@ -1300,8 +1288,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                     <a href="<?=$data['img_url']?>" target="_blank">
                       <img class="zoom" src="<?=$data['img_url']?>" style="height:30px;">
                     </a>
-                  <?php }
-                  else{?>
+                  <?php } else { ?>
                   <img src="" style="width:50px;">
                   <?}?>
                   <input type="text" name="change_move_url" value="<?=$row_ori_site['sub_domain']?>" readonly placeholder="링크입력" style="width:14%;">

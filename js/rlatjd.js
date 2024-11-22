@@ -1021,6 +1021,10 @@ function excel_insert(frm, status) {
 			frm.new_group.focus();
 			return false;
 		}
+		if (!frm.excel_file.value) {
+			alert('업로드할 파일을 선택해주세요.')
+			return false;
+		}
 	}
 	frm.target = 'excel_iframe';
 	frm.action = "insert_excel.php?status=" + status;

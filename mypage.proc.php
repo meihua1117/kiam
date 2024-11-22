@@ -88,7 +88,7 @@ if($mode == "land_save") {
     //업로드링크를 설정한다.
     $uploadLink ="/naver_editor/upload_editor/";
     $uploadDir = ".$uploadLink";
-    if ($_FILES['file']) {
+    if ($_FILES['file']['tmp_name']) {
         //업로드폴더가 없다면 폴더를 만든다.
         $folder = $uploadDir. date("Y-m-d") . "/";
         if(!file_exists($folder))
@@ -108,6 +108,8 @@ if($mode == "land_save") {
             $fileLink = $uploadLink.date("Y-m-d") . "/".$upload_filename;
             $addQuery = " file='$fileLink',";
         }       
+    }else if($file_name == ""){
+        $addQuery = " file='',";
     }
 
     if($_FILES['thumbnail']) {

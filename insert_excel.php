@@ -31,12 +31,6 @@ if ($_FILES['excel_file']['tmp_name']) {
 	$spreadsheet = $reader->load($_FILES['excel_file']['tmp_name']);
 	$spreadData = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
 	$excel_rows = count($spreadData);
-	/*$data = new Spreadsheet_Excel_Reader();
-	$data->setOutputEncoding('utf-8');
-	$data->read($_FILES['excel_file']['tmp_name']);
-	error_reporting(E_ALL ^ E_NOTICE);
-	$excel_rows = $data->sheets['A']['numRows'];
-	*/
 	if ($excel_rows > 10001) {
 	?>
 		<script language="javascript">
@@ -47,11 +41,6 @@ if ($_FILES['excel_file']['tmp_name']) {
 		exit;
 	}
 } else {
-	?>
-	<script language="javascript">
-		alert('선택한 파일이 없습니다.');
-	</script>
-	<?
 	exit;
 }
 $error_arr = array();

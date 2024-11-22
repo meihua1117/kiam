@@ -612,7 +612,11 @@ $member_1 = mysqli_fetch_array($res_result);*/
                                 </tr>
                                 <tr>
                                     <th class="w200">첨부파일</th>
-                                    <td><input type="file" name="file" placeholder="" id="file" /><?= str_replace("\/upload\/", "", $row['file']) ?><a href="javascript:reset('file')" style="margin-left:20px;">X</a></td>
+                                    <td>
+                                        <input type="file" name="file" placeholder="" id="file" />
+                                        <a href="javascript:reset('file')" style="margin-left:20px;">X</a>
+                                        <input type="text" name="file_name" id="file_name" value="<?= str_replace("\/upload\/", "", $row['file']) ?>">
+                                    </td>
                                 </tr>
                                 <tr>
                                     <th class="w200">신청창 자동 삽입</th>

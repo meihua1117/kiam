@@ -38,6 +38,7 @@ include_once "_head.php";
 		$freeChk = "";
 		$fujia_pay = "Y";
 	}
+
 	// 16-01-20 예약발송 건 전송 제한 30분
 	// 1) reservation ~ 30분까지만 가져간다. 
 	// 2) 시간 지난 것은 실패 처리 : Gn_MMS_ReservationFail로 이동,result = 3
@@ -313,7 +314,16 @@ if (!empty($row_sum_b)) {
 		$("#modal_intro_function").show();
 	}
 
-	function group_choice_betw(g) {
+	function group_choice_betw(obj, g) {
+		if ($(obj).is(':checked')) {
+			var go_num_name_arr = document.getElementsByName('go_num');
+			var go_num_arr = [];
+			for (var i = 0; i < go_num_name_arr.length; i++) {
+				if (go_num_name_arr[i].checked) {
+					go_num_arr.push(go_num_name_arr[i].value);
+				}
+			}
+			if (go_num_arr.length) {
 		var name_arr = document.getElementsByName('chk');
 		if (name_arr[g].checked) {
 			$("#grp_no").val(g);
@@ -324,6 +334,12 @@ if (!empty($row_sum_b)) {
 			}, 100);
 		} else {
 			group_choice(g, "N", 0, 0);
+		}
+			} else {
+				if (!$('#new_group').is(':visible')) {
+					$("input[name='excel_file']").click();
+				}
+			}
 		}
 	}
 
@@ -342,6 +358,10 @@ if (!empty($row_sum_b)) {
 	}
 	//gpt chat script
 	function show_chat(api) {
+		// if(api == ''){
+		// 	alert("회원정보에서 본인의 API 키를 입력해주세요.");
+		// 	location.href="mypage.php";
+		// }
 		$("#gpt_chat_modal").show();
 		$("#tutorial-loading").show();
 		$('body,html').animate({
@@ -1129,37 +1149,54 @@ if (!empty($row_sum_b)) {
 						<div class="sub_4_2_t2">
 							<div><img src="images/sub_button_05.jpg" /></div>
 							<div class="div_340">
-								<div class="d_font popup_holder" style="width:150px;float:left;margin-top:0px; cursor:pointer;">
-									엑셀 업로드
+								<div style="border: 1px solid #ddd;padding:2px;">
+									<div style="display: flex;justify-content: space-between;margin-top:5px">
+										<div class="popup_holder" style="margin:0px">
+											<span style="cursor:pointer;color:#5c5c5c;font-size:16px;font-weight:bold;">주소록 등록</span>
 									<div class="popupbox" style="display:none; left:30px; top:30px; height: 84px;width: 214px; line-height:1.5;">
 										보유한 DB파일을 업로드하는 기능입니다.
 										꼭 샘플을 다운받아서 엑셀작업 하세요.<br>
 										<a style="color: blue;" href="https://tinyurl.com/yk6mv66k" target="_blank">[자세히 보기]</a>
 									</div>
-									<a href="javascript:void(0)" onclick="excel_down('excel_down/excel_down.php?down_type=2')" class="a_btn_2">샘플</a>
+											<a href="javascript:void(0)" onclick="excel_down('excel_down/excel_down.php?down_type=2')" class="a_btn_2" style="padding:3px 10px;background:#ddd">샘플</a>
 								</div>
-								<div style="float:right;" class="popup_holder">
-									<a href="javascript:excel_down_c_group('<?= $mem_phone ?>')" style="border:1px solid #000;padding:5px">폰주소 업로드</a>
-									<div class="popupbox" style="display:none; left:30px; top:30px; height: 85px;width: 218px; line-height:1.5;">여기를 클릭하면 자신의 폰 연락처 디비를 가져와서 자동으로 주소록을 만들어줍니다.<br>
+										<div style="margin:0px;display: -webkit-inline-box;">
+											<div>
+												<a href="javascript:excel_down_c_group('<?= $mem_phone ?>')" style="font-weight:bold;font-size:16px;color:#5c5c5c">폰주소 업로드&nbsp;</a>
+												<!--<div class="popupbox" style="display:none; left:30px; top:30px; height: 85px;width: 218px; line-height:1.5;">여기를 클릭하면 자신의 폰 연락처 디비를 가져와서 자동으로 주소록을 만들어줍니다.<br>
 										<a style="color: blue;" href="https://tinyurl.com/5fw7xju6" target="_blank">[자세히 보기]</a>
+											</div>-->
+											</div>
+											<div class="popup_holder">
+												<span onclick="$('#phone_address_upload').show();" style="cursor:pointer;font-weight:bold;font-size:16px;color: red;display: inline-block;width: 16px;height: 16px;text-align: center;line-height: 16px;border-radius: 50%;border:1px solid">?</span>
+												<div id="phone_address_upload" class="popupbox" style="display:none; left:-220px; top:30px; height: 85px;width: 218px; line-height:1.5;">
+													클릭시 자동으로 나의 모바일 주소록이 업로드 됩니다.
+												</div>
+											</div>
+										</div>
 									</div>
+									<div style="margin-top:10px;display: flex;justify-content: space-between;">
+										<div class="div_float" id="to_new_group" style="cursor:pointer;padding:5px 0px;border: 1px solid #a0a0a0;width:49%;background:#a0a0a0;color:white">
+											<a href="javascript:show_phone_address_tab('new');">새 그룹에 추가</a>
+										</div>
+										<div class="div_float" id="to_old_group" style="cursor:pointer;padding:5px 0px;border: 1px solid #a0a0a0;width:49%;">
+											<a href="javascript:show_phone_address_tab('old');">현재 그룹에 추가</a>
+										</div>
+									</div>
+									<div id="phone_address_tab" style="height: 30px;">
+										<input type="hidden" name="old_group" />
+										<div class="div_float" style="width: 49%;">
+											<input type="text" placeholder="주소록 제목을 입력" id="new_group" name="new_group" style="width: 100%;" />
 								</div>
-								<div style="clear:both;padding-top:10px;height:35px;">
-									<input type="file" name='excel_file' style="width:230px" />
+										<div class="div_float" style="width: 49%;">
+											<input type="file" name='excel_file' style="font-size:12px;padding:5px 0px" />
 								</div>
-								<div>
-									<div class="div_float"><input type="hidden" name="old_group" /></div>
-									<div class="div_float"><input type="text" placeholder="그룹명" name="new_group" /></div>
-									<p style="clear:both;"></p>
 								</div>
-								<div style="margin-bottom:20px;">
-									<div class="div_float"><a href="javascript:void(0)" onclick="excel_insert(sub_4_form,'old');"><img src="images/sub_button_54.jpg" /></a></div>
-									<div class="div_float"><a href="javascript:void(0)" onclick="excel_insert(sub_4_form,'new');"><img src="images/sub_button_56.jpg" /></a></div>
-									<p style="clear:both;"></p>
 								</div>
-								<div>
-									<input type="text" style="width:250px;" placeholder="그룹명" name="group_name" value="<?= $_REQUEST['group_name'] ?>" />
+								<div style="margin-top: 10px;">
+									<input type="text" style="width:225px;" placeholder="그룹명" name="group_name" value="<?= $_REQUEST['group_name'] ?>" />
 									<input type="button" value="검색" style="height:32px;" onclick="sub_4_form.submit()" />
+									<a href="javascript:all_group_del()"><img src="images/sub_button_39.jpg" /></a>
 								</div>
 								<div style="margin-bottom:5px;margin-top:5px;">
 									<?
@@ -1238,7 +1275,7 @@ if (!empty($row_sum_b)) {
 												<tr>
 													<td>
 														<label>
-															<input type="checkbox" value="<?= $row['idx'] ?>" data="<?= $srow['cnt'] ?>" name="chk" id="chk" onchange="group_choice_betw('<?= $g ?>')" />
+															<input type="checkbox" value="<?= $row['idx'] ?>" data="<?= $srow['cnt'] ?>" name="chk" id="chk" onchange="group_choice_betw($(this),'<?= $g ?>')" />
 															<?= $sort_no ?>
 														</label>
 													</td>
@@ -1283,10 +1320,9 @@ if (!empty($row_sum_b)) {
 										?>
 									</table>
 								</div>
-								<div style="text-align:right">
+								<!--<div style="text-align:right">
 									<a href="javascript:void(0)" id="down_excel"><img src="images/sub_button_107.jpg"></a>
-									<a href="javascript:all_group_del()"><img src="images/sub_button_39.jpg" /></a>
-								</div>
+								</div>-->
 							</div>
 						</div>
 						<div class="sub_4_2_t3">
@@ -1741,6 +1777,37 @@ if (!empty($row_sum_b)) {
 				$('#agreement_yn_span').html('OFF').css('color', '');
 			}
 		});
+		$('input[name="excel_file"]').on('change', function() {
+			if (confirm("선택된 주소록을 정말로 추가 하시겠습니까?")) {
+				var form = document.forms['sub_4_form'];
+				if ($('#new_group').is(':visible')) {
+					excel_insert(form, 'new');
+				} else {
+					excel_insert(form, 'old');
+				}
+			}
+		});
+		$('input[name="excel_file"]').on('click', function(event) {
+			if ($('#new_group').is(':visible')) {
+				if ($("input[name='new_group']").val() == "") {
+					alert('새로운 그룹명을 입력해주세요');
+					$("input[name='new_group']").focus();
+					event.preventDefault();
+					return false;
+				}
+			}
+			/*else {
+				var checkboxValues = [];
+				$("input[id='chk']:checked").each(function(i) {
+					checkboxValues.push($(this).val());
+				});
+				if (!checkboxValues.length) {
+					alert('그룹명을 선택해주세요.');
+					event.preventDefault();
+					return false;
+				}
+			}*/
+		});
 	});
 
 	function saveMessage() {
@@ -1953,6 +2020,24 @@ if (!empty($row_sum_b)) {
 	function input_replace_char() {
 		$("#txt").val($("#txt").val() + "{|name|}");
 		$("#title").val($("#title").val() + "{|name|}");
+	}
+
+	function show_phone_address_tab(type) {
+		if (type == "old") {
+			$("#phone_address_tab").hide();
+			$("#to_old_group").css("background", "#a0a0a0");
+			$("#to_old_group").css("color", "white");
+			$("#to_new_group").css("background", "white");
+			$("#to_new_group").css("color", "black");
+			alert("추가 하고싶은 주소그룹의 체크박스를 선택하세요.")
+		} else {
+			$("#to_new_group").css("background", "#a0a0a0");
+			$("#to_new_group").css("color", "white");
+			$("#to_old_group").css("background", "white");
+			$("#to_old_group").css("color", "black");
+			$("#phone_address_tab").show();
+		}
+
 	}
 	<? if ($total_cnt >= 0) { ?>
 		election_cnt = <?= $total_cnt ?>;

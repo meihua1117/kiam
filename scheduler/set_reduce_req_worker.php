@@ -1,4 +1,4 @@
-#!/opt/php/bin/php
+#!/usr/bin/php
 <?php
 include_once "/home/kiam/lib/db_config.php";
 /*$mysql_host = 'localhost';

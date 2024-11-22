@@ -47,8 +47,7 @@ $phone_num = $_REQUEST['phone_num'];
                 up_date=NOW(),
                 reg_date=NOW(),
                 agreement_yn='Y',
-                recv_num_cnt=1
-            ";
+                recv_num_cnt=1";
     mysqli_query($self_con,$query);
     $idx = mysqli_insert_id($self_con);
 

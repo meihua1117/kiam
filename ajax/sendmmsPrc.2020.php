@@ -954,7 +954,7 @@ if ($_SESSION['one_member_id']) {
                         //$recv_str=implode(",",$recv_arr);
                         $recv_email_str = "";
                     }
-                    if (substr($recv_str, -1) == ",")
+                        if (substr($recv_str, -1) == ",")
                         $recv_str = substr($recv_str, 0, strlen($recv_str) - 1);
                     $denv_url_str = implode(",", $deny_url_arr);
 

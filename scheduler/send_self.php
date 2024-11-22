@@ -1,4 +1,4 @@
-#!/opt/php/bin/php
+#!/usr/bin/php
 <?php
 /*$mysql_host = 'localhost';
 $mysql_user = 'kiam';

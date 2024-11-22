@@ -364,7 +364,8 @@ $result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
 
 									$reg_date = strtotime($row['reg_date']);
 									$reg_date_1hour = strtotime("{$row['reg_date']} +1hours");
-									if ($success_cnt > $total_cnt) $success_cnt = $total_cnt;
+									if ($success_cnt > $total_cnt) 
+										$success_cnt = $total_cnt;
 							?>
 									<tr>
 										<td><label><input type="checkbox" name="fs_idx" value="<?= $row['idx'] ?>" /><?= $sort_no ?></label></td>
