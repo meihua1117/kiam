@@ -608,14 +608,18 @@ $member_1 = mysqli_fetch_array($res_result);*/
                                 </tr>
                                 <tr>
                                     <th class="w200">썸네일</th>
-                                    <td><input type="file" name="thumbnail" placeholder="" id="thumbnail" /><?= str_replace("\/upload\/", "", $row['img_thumb']) ?><a href="javascript:reset('thumbnail')">X</a></td>
+                                    <td>
+                                        <input type="file" name="thumbnail" placeholder="" id="thumbnail" />
+                                        <a href="javascript:reset('thumbnail')">X</a>
+                                        <input type="text" name="thumb_name" id="thumb_name" value="<?= str_replace("\/upload\/", "", $row['img_thumb']) ?>" placeholder="등록된 파일을 삭제하시려면 파일명을 삭제해주세요.">
+                                    </td>
                                 </tr>
                                 <tr>
                                     <th class="w200">첨부파일</th>
                                     <td>
                                         <input type="file" name="file" placeholder="" id="file" />
                                         <a href="javascript:reset('file')" style="margin-left:20px;">X</a>
-                                        <input type="text" name="file_name" id="file_name" value="<?= str_replace("\/upload\/", "", $row['file']) ?>">
+                                        <input type="text" name="file_name" id="file_name" value="<?= str_replace("\/upload\/", "", $row['file']) ?>" placeholder="등록된 파일을 삭제하시려면 파일명을 삭제해주세요.">
                                     </td>
                                 </tr>
                                 <tr>
