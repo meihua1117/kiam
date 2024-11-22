@@ -54,7 +54,8 @@ if($_POST['phone_cnt'] > 0) {
     fwrite($fp,"53=".$sql."\r\n");
     $resul = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
     $row = mysqli_fetch_array($resul);
-
+    $last_time = date("Y-m-d H:i:s",strtotime( "+{$row['month_cnt']} month" ));
+    
     $sql = "select * from Gn_Member where mem_id='{$member_1['mem_id']}' ";
     $sresult = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
     $srow = mysqli_fetch_array($sresult);
