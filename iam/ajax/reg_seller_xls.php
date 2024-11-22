@@ -60,7 +60,7 @@ if ($_FILES['excelfile']['tmp_name']) {
 		$model = $prod_name . "+" . substr($date, 2, -1);
 
 		$card_no = $card_no * 1 - 1;
-		$sql_card_idx = "select card_short_url,idx from Gn_Iam_Name_Card where mem_id = 'iamstore' and idx not in(934328, 2477701, 1274691, 1268514) order by req_data asc limit " . $card_no . ", 1";
+		$sql_card_idx = "select card_short_url,idx from Gn_Iam_Name_Card where mem_id = 'iamstore' and idx not in (934328, 2477701, 1274691, 1268514) order by req_data asc limit " . $card_no . ", 1";
 		$res_card_idx = mysqli_query($self_con, $sql_card_idx);
 		$row_card_idx = mysqli_fetch_array($res_card_idx);
 

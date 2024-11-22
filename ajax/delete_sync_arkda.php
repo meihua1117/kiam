@@ -139,7 +139,7 @@ function sendPush($url, $headers, $pkey, $sidx, $send_type, $send_num)
 
 $sql_del = "update Gn_Iam_Contents_Gwc set public_display='N' where mem_id='iamstore' and contents_url like '%https://arkda.kr/shop/view.php?index_no=%' and sync_date!='$currentDateTime'";
 $res_sel = mysqli_query($self_con, $sql_del);
-$sql_del1 = "delete from Gn_Iam_Contents_Gwc where mem_id='iamstore' and contents_url like '%https://arkda.kr/shop/view.php?index_no=%' and sync_date!='$currentDateTime' and card_idx in(2477701, 1274691, 1268514, 934328)";
+$sql_del1 = "delete from Gn_Iam_Contents_Gwc where mem_id='iamstore' and contents_url like '%https://arkda.kr/shop/view.php?index_no=%' and sync_date!='$currentDateTime' and card_idx in (2477701, 1274691, 1268514, 934328)";
 $res_sel1 = mysqli_query($self_con, $sql_del1);
 $sql_del_issue = "delete from Gn_Iam_Contents_Gwc where contents_img='' and contents_title='' and contents_price=0 and contents_sell_price=0 and product_model_name=''";
 $res_sel = mysqli_query($self_con, $sql_del_issue);

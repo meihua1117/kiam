@@ -4102,7 +4102,7 @@
                             <td colspan="2" style="font-size:13px;">
                                 <div class="attr-value" style="display:flex;flex-wrap: wrap;">
                                     <?
-                                    $sql5 = "select card_short_url,card_title from Gn_Iam_Name_Card where mem_id = 'iamstore' and idx not in(934328, 2477701, 1274691, 1268514) order by req_data asc";
+                                    $sql5 = "select card_short_url,card_title from Gn_Iam_Name_Card where mem_id = 'iamstore' and idx not in (934328, 2477701, 1274691, 1268514) order by req_data asc";
                                     $result5 = mysqli_query($self_con, $sql5);
                                     $i = 0;
                                     while ($row5 = mysqli_fetch_array($result5)) {

@@ -386,7 +386,7 @@ if ($_POST['num_check_go']) {
         $sendnum_seperate = str_replace("`", "", $_POST['num_check_send_num']);   // === 2016-05-11 추가 ===
         $sendnum = explode(",", $sendnum_seperate); // === 2016-05-11 추가 ===
         $recv_over = ""; // cooper 2016-04-19 수신처 오버 번호 체크
-        $sql_ssh = "select send_num, idx, recv_num from Gn_MMS where mem_id = '{$_SESSION['one_member_id']}' and send_num in({$num_check_send_num_s})  and result = '0' and reg_date like '$date_month%'";
+        $sql_ssh = "select send_num, idx, recv_num from Gn_MMS where mem_id = '{$_SESSION['one_member_id']}' and send_num in ({$num_check_send_num_s})  and result = '0' and reg_date like '$date_month%'";
         $resul_ssh = mysqli_query($self_con, $sql_ssh);
         if (mysqli_num_rows($resul_ssh)) {
             while ($row_ssh = mysqli_fetch_array($resul_ssh)) {
@@ -1391,7 +1391,7 @@ if ($_POST['deny_g_add_recv_num'] && $_POST['deny_g_add_send_num']) {
 //수신거부 삭제
 if ($_POST['deny_del_ids']) {
     $ids = $_POST['deny_del_ids'];
-    $sql = "delete from Gn_MMS_Deny where idx in($ids) ";
+    $sql = "delete from Gn_MMS_Deny where idx in ($ids) ";
     if (mysqli_query($self_con, $sql)) {
     ?>
         <script language="javascript">
@@ -1404,7 +1404,7 @@ if ($_POST['deny_del_ids']) {
 //동의  삭제
 if ($_POST['agree_del_ids']) {
     $ids = $_POST['agree_del_ids'];
-    $sql = "delete from Gn_MMS_Agree where idx in($ids) ";
+    $sql = "delete from Gn_MMS_Agree where idx in ($ids) ";
     if (mysqli_query($self_con, $sql)) {
     ?>
         <script language="javascript">
@@ -1743,7 +1743,7 @@ if ($_POST['set_save_num']) {
 //로그기록 삭제
 if ($_POST['log_del_ids']) {
     $ids = $_POST['log_del_ids'];
-    $sql = "delete from sm_log where seq in($ids) ";
+    $sql = "delete from sm_log where seq in ($ids) ";
     if (mysqli_query($self_con, $sql)) {
     ?>
         <script language="javascript">
@@ -1892,7 +1892,7 @@ if ($_POST['board_save_title'] && ($_POST['board_save_content'] || $_POST['board
 //게시판 삭제
 if ($_POST['board_del_ids']) {
     $nos = $_POST['board_del_ids'];
-    $sql = "delete from tjd_board where no in($nos) ";
+    $sql = "delete from tjd_board where no in ($nos) ";
     if (mysqli_query($self_con, $sql) or die(mysqli_error($self_con))) {
     ?>
         <script language="javascript">
@@ -1963,7 +1963,7 @@ if ($_POST['fugai_num_status']) {
             array_push($send_num_arr, "'" . $row_num['sendnum'] . "'");
         }
         $send_num_str = implode(",", $send_num_arr);
-        $sql_serch .= " and dest in($send_num_str) ";
+        $sql_serch .= " and dest in ($send_num_str) ";
         $cnt = 0;
         $query = "select ori_num, chg_num from sm_log where mem_id ='{$_SESSION['one_member_id']}' and chg_status='N' order by reservation_time asc";
         $resul_num = mysqli_query($self_con, $query);

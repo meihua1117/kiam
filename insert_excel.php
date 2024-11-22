@@ -47,7 +47,7 @@ $error_arr = array();
 if ($_REQUEST['status'] == "old") {
 	if (!$_FILES['excel_file']['tmp_name'])
 		exit;
-	$sql = "select * from Gn_MMS_Group where idx in({$_POST['old_group']})";
+	$sql = "select * from Gn_MMS_Group where idx in ({$_POST['old_group']})";
 	$resul = mysqli_query($self_con, $sql);
 	while ($row = mysqli_fetch_array($resul)) {
 		$cnt = 0;

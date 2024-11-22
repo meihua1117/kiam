@@ -358,7 +358,7 @@ extract($_GET);
                                         <th>카테고리</th>
                                         <td>
                                         <?
-                                        $sql5="select card_short_url,card_title from Gn_Iam_Name_Card where mem_id = 'iamstore' and idx not in(934328, 2477701, 1274691, 1268514) order by req_data asc";
+                                        $sql5="select card_short_url,card_title from Gn_Iam_Name_Card where mem_id = 'iamstore' and idx not in (934328, 2477701, 1274691, 1268514) order by req_data asc";
                                         $result5=mysqli_query($self_con,$sql5);
                                         $i = 0;
                                         while($row5=mysqli_fetch_array($result5)) {

@@ -420,8 +420,8 @@ if ($_POST['num_check_go']) {
 		$recv_over = ""; // cooper 2016-04-19 수신처 오버 번호 체크
 
 
-		//$sql_ssh="select send_num, idx, recv_num from Gn_MMS where mem_id = '{$_SESSION['one_member_id']}' and send_num in({$num_check_send_num_s}) and result = '0' and reg_date like '$date_month%'";
-		$sql_ssh = "select send_num, idx, recv_num from Gn_MMS where mem_id = '{$_SESSION['one_member_id']}' and send_num in({$num_check_send_num_s})  and result = '0' and reg_date like '$date_month%'";
+		//$sql_ssh="select send_num, idx, recv_num from Gn_MMS where mem_id = '{$_SESSION['one_member_id']}' and send_num in ({$num_check_send_num_s}) and result = '0' and reg_date like '$date_month%'";
+		$sql_ssh = "select send_num, idx, recv_num from Gn_MMS where mem_id = '{$_SESSION['one_member_id']}' and send_num in ({$num_check_send_num_s})  and result = '0' and reg_date like '$date_month%'";
 		//echo $sql_ssh;
 		$resul_ssh = mysqli_query($self_con, $sql_ssh);
 		if (mysqli_num_rows($resul_ssh)) {
@@ -1662,7 +1662,7 @@ if ($_POST['deny_g_add_recv_num'] && $_POST['deny_g_add_send_num']) {
 //수신거부 삭제
 if ($_POST['deny_del_ids']) {
 	$ids = $_POST['deny_del_ids'];
-	$sql = "delete from Gn_MMS_Deny where idx in($ids) ";
+	$sql = "delete from Gn_MMS_Deny where idx in ($ids) ";
 	if (mysqli_query($self_con, $sql)) {
 	?>
 		<script language="javascript">
@@ -1675,7 +1675,7 @@ if ($_POST['deny_del_ids']) {
 //동의  삭제
 if ($_POST['agree_del_ids']) {
 	$ids = $_POST['agree_del_ids'];
-	$sql = "delete from Gn_MMS_Agree where idx in($ids) ";
+	$sql = "delete from Gn_MMS_Agree where idx in ($ids) ";
 	if (mysqli_query($self_con, $sql)) {
 	?>
 		<script language="javascript">
@@ -2043,7 +2043,7 @@ if ($_POST['set_save_num']) {
 //로그기록 삭제
 if ($_POST['log_del_ids']) {
 	$ids = $_POST['log_del_ids'];
-	$sql = "delete from sm_log where seq in($ids) ";
+	$sql = "delete from sm_log where seq in ($ids) ";
 	if (mysqli_query($self_con, $sql)) {
 	?>
 		<script language="javascript">
@@ -2228,7 +2228,7 @@ if($_POST['fugai_num_status'])
 				array_push($send_num_arr,"'".$row_num['sendnum']."'");
 		}
 		$send_num_str=implode(",",$send_num_arr);
-		$sql_serch.=" and dest in($send_num_str) ";		
+		$sql_serch.=" and dest in ($send_num_str) ";		
 	}	
 				
 	$sql="update sm_log set ori_num=chg_num ,chg_num='' $sql_serch ";
@@ -2320,7 +2320,7 @@ if ($_POST['fugai_num_status']) {
 			array_push($send_num_arr, "'" . $row_num['sendnum'] . "'");
 		}
 		$send_num_str = implode(",", $send_num_arr);
-		$sql_serch .= " and dest in($send_num_str) ";
+		$sql_serch .= " and dest in ($send_num_str) ";
 
 
 		$cnt = 0;
