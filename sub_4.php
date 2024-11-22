@@ -1526,9 +1526,6 @@ $phone = str_replace("-", "", $mem_phone);
 										<a href="sub_4.php?status=5&status2=3" style="color:<?= $_REQUEST['status2'] == 3 ? "#000" : "" ?>">수신불가</a> &nbsp;|&nbsp;
 										<a href="sub_4.php?status=5&status2=2" style="color:<?= $_REQUEST['status2'] == 2 ? "#000" : "" ?>">없는번호</a> &nbsp;|&nbsp;
 										<a href="sub_4.php?status=5&status2=1" style="color:<?= $_REQUEST['status2'] == 1 ? "#000" : "" ?>">번호변경</a> &nbsp;|&nbsp;
-
-
-
 									</div>
 									<div class="sub_4_4_t3">
 										<select name="serch_colum">
@@ -1551,8 +1548,6 @@ $phone = str_replace("-", "", $mem_phone);
 											<a href="javascript:void(0)" onclick="fugai_num('','all')" class="a_btn_2">일괄 덮기</a>
 										<?
 										}
-										?>
-										<?
 										if ($_REQUEST['status2'] == 2) {
 										?>
 											<a href="javascript:void(0)" onclick="deleteAddress()" class="a_btn_2">주소록에서 삭제</a>
@@ -1687,8 +1682,8 @@ $phone = str_replace("-", "", $mem_phone);
 							<div class="sub_4_4_t1">
 								<div class="sub_4_4_t2">
 									<div class="sub_4_1_t3">
-										<a href="sub_4.php?status=<?= $_GET['status']; ?>&status1=1" style="color:#000" >수신거부</a> &nbsp; | &nbsp;
-										<a href="sub_4_agree.php?status=<?= $_GET['status']; ?>&status1=2" >수신동의</a></span>
+										<a href="sub_4.php?status=<?= $_GET['status']; ?>&status1=1" style="color:#000">수신거부</a> &nbsp; | &nbsp;
+										<a href="sub_4_agree.php?status=<?= $_GET['status']; ?>&status1=2">수신동의</a></span>
 									</div>
 									<div class="sub_4_4_t3">
 										<p style="clear:both"></p>
@@ -1928,10 +1923,7 @@ $phone = str_replace("-", "", $mem_phone);
 			url: '/ajax/truncate_num.php',
 			data: values,
 			success: function(dataObj) {
-
-
 				alert('완료되었습니다.');
-
 			},
 			error: function(request, status, error) {
 				console.log('code: ' + request.status + "\n" + 'message: ' + request.responseText + "\n" + 'error: ' + error);

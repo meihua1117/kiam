@@ -1725,7 +1725,7 @@ if($platform == "mobile"){
                                     },
                                     error: function () {
                                         $("#ajax-loading").delay(10).hide(1);
-                                        alert('로딩 실패');
+                                        alert('로딩 실패.');
                                     }
                                 });
                             }else{
@@ -1758,7 +1758,7 @@ if($platform == "mobile"){
                             },
                             error: function () {
                                 $("#ajax-loading").delay(10).hide(1);
-                                alert('로딩 실패');
+                                alert('로딩 실패..');
                             }
                         });
                     }else{
@@ -2316,7 +2316,7 @@ if($platform == "mobile"){
                                 
                             },
                             error: function(){
-                                alert('로딩 실패');
+                                alert('로딩 실패...');
                             }
                         });
                     }else{
