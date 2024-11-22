@@ -1253,6 +1253,7 @@ if ($_POST['deny_add_send'] && $_POST['deny_add_recv']) {
         $sql .= " $key='$v' $bd ";
         $i++;
     }
+    $sql .= " , up_date=now() ";
     if ($_POST['deny_add_idx'])
         $sql .= " where idx='{$_POST['deny_add_idx']}' ";
     else
