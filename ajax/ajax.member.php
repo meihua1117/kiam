@@ -15,7 +15,8 @@ if ($_REQUEST['nick']) {
 	$member_info['keywords'] = $_REQUEST['keywords'];
 	$member_info['mem_birth'] = $_REQUEST['birth_1'] . "-" . $_REQUEST['birth_2'] . "-" . $_REQUEST['birth_3'];
 	$member_info['mem_sex'] = $_REQUEST['mem_sex'];
-	$member_info['gwc_req_leb'] = $_REQUEST['gwc_leb'];
+	if(isset($_REQUEST['gwc_leb']))
+		$member_info['gwc_req_leb'] = $_REQUEST['gwc_leb'];
 	$member_info['mem_add2'] = $_REQUEST['add2'];
 	$member_info['com_add1'] = $_REQUEST['com_add1'];
 	$member_info['gwc_req_date'] = date("Y-m-d H:i:s");
