@@ -93,6 +93,7 @@ if($_POST['phone_cnt'] > 0) {
     if ($srow['recommend_id'] != "") {
         $share_id = $srow['recommend_id'];
         $sql = "select * from Gn_Member where mem_id='$share_id'";
+        fwrite($fp,"96=".$sql."\r\n");
         $rresult = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
         if(mysqli_num_rows($rresult) > 0){
             $rrow = mysqli_fetch_array($rresult);
@@ -103,6 +104,7 @@ if($_POST['phone_cnt'] > 0) {
             if ($rrow['service_type'] == 2) {
                 // 추천인의 추천인 검색 및 등급 확인
                 $sql = "select * from Gn_Member where mem_id='{$rrow['recommend_id']}'";
+                fwrite($fp,"107=".$sql."\r\n");
                 $rresult = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
                 $trow = mysqli_fetch_array($rresult);
 
