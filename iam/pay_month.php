@@ -51,9 +51,10 @@ $sql = "insert into tjd_pay_result_month set pay_idx='$orderNumber',
 mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 // set_service_mem_cnt($member_iam['mem_id'], $_POST['member_cnt']);
 if($_POST['phone_cnt'] > 0) {
-    $sql = "select * from tjd_pay_result where orderNumber='{$orderNumber}' and buyer_id='{$member_iam['mem_id']}' ";
+    $sql = "select month_cnt from tjd_pay_result where orderNumber='{$orderNumber}' and buyer_id='{$member_iam['mem_id']}' ";
     $resul = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
     $row = mysqli_fetch_array($resul);
+    $last_time = date("Y-m-d H:i:s",strtotime( "+{$row['month_cnt']} month" ));
 
     $sql = "select * from Gn_Member where mem_id='{$member_iam['mem_id']}' ";
     $sresult = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));

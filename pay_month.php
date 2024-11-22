@@ -41,9 +41,10 @@ $sql .= " end_date=date_add(now(),INTERVAL {$_POST['month_cnt']} month) , date=n
 mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 $no = mysqli_insert_id($self_con);
 if($_POST['phone_cnt'] > 0) {
-    $sql = "select * from tjd_pay_result where orderNumber='{$orderNumber}' and buyer_id='{$member_1['mem_id']}' ";
+    $sql = "select month_cnt from tjd_pay_result where orderNumber='{$orderNumber}' and buyer_id='{$member_1['mem_id']}' ";
     $resul = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
     $row = mysqli_fetch_array($resul);
+    $last_time = date("Y-m-d H:i:s",strtotime( "+{$row['month_cnt']} month" ));
 
     $sql = "select * from Gn_Member where mem_id='{$member_1['mem_id']}' ";
     $sresult = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));

@@ -28,7 +28,7 @@ $ORDER_NO = $_POST['allat_order_no'];
 $FIX_KEY	= getValue("fix_key",$at_txt);
 $APPLY_YMD	= getValue("apply_ymd",$at_txt);
 
-$sql="select * from tjd_pay_result where orderNumber='$ORDER_NO'";
+$sql="select no,month_cnt,db_cnt,email_cnt,phone_cnt from tjd_pay_result where orderNumber='$ORDER_NO'";
 $resul=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 $row=mysqli_fetch_array($resul);
 $no = $row['no'];
