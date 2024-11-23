@@ -129,8 +129,8 @@ if ($_POST['mode'] == "creat") {
                 $v = date("Y-m-d H:i:s");
             }
             if(!is_numeric($v)) 
-                $v = "'{".$v."}'";
-                //$v = "'" . str_replace("'", "", $v) . "'";
+                $v = "'" . str_replace("'", "", $v) . "'";
+                //
             if ($key != "idx" && $key != "public_display" && $v != "")
                 $sql .= $key . "=" . $v . ",";
         }
