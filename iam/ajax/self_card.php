@@ -32,7 +32,7 @@ if($_POST[join])
 			$card_idx = explode(",", $card_idx);
 			for($i = 0; $i < count($card_idx); $i++){
 				$idx = $card_idx[$i] * 1 - 1;
-				$sql_card_url = "select * from Gn_Iam_Name_Card where group_id is NULL and mem_id='{$id}' order by req_data asc limit ".$idx.", 1;";
+				$sql_card_url = "select * from Gn_Iam_Name_Card where group_id = 0 and mem_id='{$id}' order by req_data asc limit ".$idx.", 1;";
 				$res_url = mysqli_query($self_con,$sql_card_url);
 				$row_url = mysqli_fetch_array($res_url);
 				if($i == count($card_idx) - 1)
@@ -43,7 +43,7 @@ if($_POST[join])
 		}
 		else{
 			$idx = $card_idx * 1 - 1;
-			$sql_card_url = "select * from Gn_Iam_Name_Card where group_id is NULL and mem_id='{$id}' order by req_data asc limit ".$idx.", 1;";
+			$sql_card_url = "select * from Gn_Iam_Name_Card where group_id = 0 and mem_id='{$id}' order by req_data asc limit ".$idx.", 1;";
 			$res_url = mysqli_query($self_con,$sql_card_url);
 			$row_url = mysqli_fetch_array($res_url);
 			$card_url .= $row_url['card_short_url'];

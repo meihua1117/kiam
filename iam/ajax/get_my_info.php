@@ -46,7 +46,7 @@ $cont_id_array = array();
 $cont_array = array();
 
 if ($search_key)
-    $sql8 = "select count(idx) from " . $content_table_name . " ct WHERE group_id is NULL and mem_id = '{$_SESSION['iam_member_id']}' and $search_sql ORDER BY contents_order desc";
+    $sql8 = "select count(idx) from " . $content_table_name . " ct WHERE group_id = 0 and mem_id = '{$_SESSION['iam_member_id']}' and $search_sql ORDER BY contents_order desc";
 else if ($gwc_table)
     $sql8 = "select count(idx) from Gn_Iam_Contents_Gwc ct WHERE card_idx = $card_idx and public_display='Y' and " . $search_sql;
 else
@@ -87,7 +87,7 @@ else if ($cont_order == 4)
     $order_sql .= ',ct.contents_title';
 
 if ($search_key)
-    $sql8 = "select * from " . $content_table_name . " ct WHERE group_id is NULL and mem_id = '{$_SESSION['iam_member_id']}' and $search_sql $order_sql";
+    $sql8 = "select * from " . $content_table_name . " ct WHERE group_id = 0 and mem_id = '{$_SESSION['iam_member_id']}' and $search_sql $order_sql";
 else if ($gwc_table)
     $sql8 = "select ct.* from Gn_Iam_Contents_Gwc ct WHERE ct.card_idx = $card_idx and public_display='Y' and $search_sql $order_sql";
 else
@@ -676,7 +676,7 @@ $body .="<input type=\"hidden\" id=\"art_type_". $contents_row['idx']."\" value=
                     $res_mem_p = mysqli_query($self_con, $sql_mem_p);
                     $row_mem_p = mysqli_fetch_array($res_mem_p);
 
-                    $post_card_sql = "select card_short_url from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$post_row['mem_id']}' order by req_data asc";
+                    $post_card_sql = "select card_short_url from Gn_Iam_Name_Card where group_id = 0 and mem_id = '{$post_row['mem_id']}' order by req_data asc";
                     $post_card_result = mysqli_query($self_con, $post_card_sql);
                     $post_card_row = mysqli_fetch_array($post_card_result);
                     
@@ -767,7 +767,7 @@ $body .="<input type=\"hidden\" id=\"art_type_". $contents_row['idx']."\" value=
                         $res_mem_pr = mysqli_query($self_con, $sql_mem_pr);
                         $row_mem_pr = mysqli_fetch_array($res_mem_pr);
 
-                        $reply_card_sql = "select card_short_url from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$reply_row['mem_id']}' order by req_data asc";
+                        $reply_card_sql = "select card_short_url from Gn_Iam_Name_Card where group_id = 0 and mem_id = '{$reply_row['mem_id']}' order by req_data asc";
                         $reply_card_result = mysqli_query($self_con, $reply_card_sql);
                         $reply_card_row = mysqli_fetch_array($reply_card_result);
     $body .=            "<div class=\"user-item\" style=\"padding-left: 50px\">".

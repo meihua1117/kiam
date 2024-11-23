@@ -70,7 +70,7 @@ else if($mode == "add_one"){
 
 
   //내정보 얻기
-    $sql5="select idx, mem_id, main_img1, card_short_url, card_name, card_company, card_position, card_phone from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$_SESSION['iam_member_id']}' LIMIT 1";
+    $sql5="select idx, mem_id, main_img1, card_short_url, card_name, card_company, card_position, card_phone from Gn_Iam_Name_Card where group_id = 0 and mem_id = '{$_SESSION['iam_member_id']}' LIMIT 1";
     $result5=mysqli_query($self_con,$sql5);
 
     $row5 = mysqli_fetch_array($result5);
@@ -162,7 +162,7 @@ else if($mode == "add_multi"){
   
 
     //내정보 얻기
-    $sql5="select idx, mem_id, main_img1, card_short_url, card_name, card_company, card_position, card_phone from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$_SESSION['iam_member_id']}' LIMIT 1";
+    $sql5="select idx, mem_id, main_img1, card_short_url, card_name, card_company, card_position, card_phone from Gn_Iam_Name_Card where group_id = 0 and mem_id = '{$_SESSION['iam_member_id']}' LIMIT 1";
     $result5=mysqli_query($self_con,$sql5);
 
     $row5 = mysqli_fetch_array($result5);

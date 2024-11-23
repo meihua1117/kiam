@@ -201,7 +201,7 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                     $group_sql = "select card_short_url,mem_code,main_img1,name,group_id from Gn_Iam_Name_Card card 
                                     inner join gn_group_info info on info.idx = card.group_id 
                                     inner join Gn_Member mem on mem.mem_id = card.mem_id 
-                                    where group_id is not NULL and group_id > 0";
+                                    where group_id > 0";
                     if($my_group != "")
                         $group_sql .= " and group_id not in ($my_group)";
                     $group_sql .= "  and sample_click = 'Y'";
@@ -223,21 +223,21 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                     }else if($type2 == "con"){
                         if ($search_str) {
                             if($my_group != "")
-                                $group_sql = "select cont.*,ggi.name,ggi.card_idx as group_card from Gn_Iam_Contents cont inner join gn_group_info ggi on ggi.idx=cont.group_id where group_id is not NULL and group_id > 0 and group_id not in (" . $my_group . ") and (cont.contents_title like '%$search_str%' or cont.contents_desc like '%$search_str%')";
+                                $group_sql = "select cont.*,ggi.name,ggi.card_idx as group_card from Gn_Iam_Contents cont inner join gn_group_info ggi on ggi.idx=cont.group_id where group_id > 0 and group_id not in (" . $my_group . ") and (cont.contents_title like '%$search_str%' or cont.contents_desc like '%$search_str%')";
                             else
-                                $group_sql = "select cont.*,ggi.name,ggi.card_idx as group_card from Gn_Iam_Contents cont inner join gn_group_info ggi on ggi.idx=cont.group_id where group_id is not NULL and group_id > 0 and (cont.contents_title like '%$search_str%' or cont.contents_desc like '%$search_str%')";
+                                $group_sql = "select cont.*,ggi.name,ggi.card_idx as group_card from Gn_Iam_Contents cont inner join gn_group_info ggi on ggi.idx=cont.group_id where group_id > 0 and (cont.contents_title like '%$search_str%' or cont.contents_desc like '%$search_str%')";
                             $group_sql .= " order by sample_display,idx desc limit " . $start_num2 . ", " . $list2;
                         }else if($type3 == "sample"){
                             if($my_group != "")
-                                $group_sql = "select cont.*,ggi.name,ggi.card_idx as group_card from Gn_Iam_Contents cont inner join gn_group_info ggi on ggi.idx=cont.group_id where group_id is not NULL and group_id > 0 and group_id not in (".$my_group.") ";
+                                $group_sql = "select cont.*,ggi.name,ggi.card_idx as group_card from Gn_Iam_Contents cont inner join gn_group_info ggi on ggi.idx=cont.group_id where group_id > 0 and group_id not in (".$my_group.") ";
                             else
-                                $group_sql = "select cont.*,ggi.name,ggi.card_idx as group_card from Gn_Iam_Contents cont inner join gn_group_info ggi on ggi.idx=cont.group_id where group_id is not NULL and group_id > 0 ";
+                                $group_sql = "select cont.*,ggi.name,ggi.card_idx as group_card from Gn_Iam_Contents cont inner join gn_group_info ggi on ggi.idx=cont.group_id where group_id > 0 ";
                             $group_sql .= " and sample_display='Y' order by sample_order desc limit " . $start_num2 . ", " . $list2;
                         }else if($type3 == "recent"){
                             if($my_group != "")
-                                $group_sql = "select cont.*,ggi.name,ggi.card_idx as group_card from Gn_Iam_Contents cont inner join gn_group_info ggi on ggi.idx=cont.group_id where group_id is not NULL and group_id > 0 and group_id not in (".$my_group.") ";
+                                $group_sql = "select cont.*,ggi.name,ggi.card_idx as group_card from Gn_Iam_Contents cont inner join gn_group_info ggi on ggi.idx=cont.group_id where group_id > 0 and group_id not in (".$my_group.") ";
                             else
-                                $group_sql = "select cont.*,ggi.name,ggi.card_idx as group_card from Gn_Iam_Contents cont inner join gn_group_info ggi on ggi.idx=cont.group_id where group_id is not NULL and group_id > 0 ";
+                                $group_sql = "select cont.*,ggi.name,ggi.card_idx as group_card from Gn_Iam_Contents cont inner join gn_group_info ggi on ggi.idx=cont.group_id where group_id > 0 ";
                             $group_sql .= " order by idx desc limit " . $start_num2 . ", " . $list2;
                         }
                     }
@@ -626,7 +626,7 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                                 </div>
                                 <div style="border: 0px solid #dddddd;margin-left:30px;" id = "<?='post_list_'.$group_row['idx']?>" name = "<?='post_list_'.$group_row['idx']?>">
                                     <?while($post_row = mysqli_fetch_array($post_res)){
-                                        $post_card_sql = "select card_short_url from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$post_row['mem_id']}' order by req_data asc";
+                                        $post_card_sql = "select card_short_url from Gn_Iam_Name_Card where group_id = 0 and mem_id = '{$post_row['mem_id']}' order by req_data asc";
                                         $post_card_result = mysqli_query($self_con,$post_card_sql);
                                         $post_card_row = mysqli_fetch_array($post_card_result);
                                         ?>
@@ -704,7 +704,7 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                                         $reply_sql = "select * from Gn_Iam_Post_Response r inner join Gn_Member m on r.mem_id = m.mem_id where r.post_idx = '{$post_row['id']}' order by r.reg_date";
                                         $reply_res = mysqli_query($self_con,$reply_sql);
                                         while($reply_row = mysqli_fetch_array($reply_res)){
-                                            $reply_card_sql = "select card_short_url from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$reply_row['mem_id']}' order by req_data asc";
+                                            $reply_card_sql = "select card_short_url from Gn_Iam_Name_Card where group_id = 0 and mem_id = '{$reply_row['mem_id']}' order by req_data asc";
                                             $reply_card_result = mysqli_query($self_con,$reply_card_sql);
                                             $reply_card_row = mysqli_fetch_array($reply_card_result);
                                             ?>
@@ -809,7 +809,7 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
                         <td>
                             <div class="attr-value" style="display:flex;flex-wrap: wrap;">
                                 <?
-                                $sql5="select card_short_url,card_title from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$_SESSION['iam_member_id']}' order by req_data asc";
+                                $sql5="select card_short_url,card_title from Gn_Iam_Name_Card where group_id = 0 and mem_id = '{$_SESSION['iam_member_id']}' order by req_data asc";
                                 $result5=mysqli_query($self_con,$sql5);
                                 $i = 0;
                                 while($row5=mysqli_fetch_array($result5)) {

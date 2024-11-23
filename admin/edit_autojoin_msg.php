@@ -108,7 +108,7 @@ if($row[0]) {
 												<input type="text" id="card_short_url" name="card_short_url" value="<?=$row['event_info']?>" hidden>
 												<div id="cardsel1" onclick="limit_selcard1()" style="margin-top:15px;">
 													<?
-													$sql5="select card_short_url,phone_display, card_title from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$row['m_id']}' order by req_data asc";
+													$sql5="select card_short_url,phone_display, card_title from Gn_Iam_Name_Card where group_id = 0 and mem_id = '{$row['m_id']}' order by req_data asc";
 													$result5=mysqli_query($self_con,$sql5);
 													$i = 0;
 													while($row5=mysqli_fetch_array($result5)) {

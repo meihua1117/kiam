@@ -16,7 +16,7 @@ else if(isset($_POST['start_card'])){
     $res = mysqli_query($self_con,$query);
     $row = mysqli_fetch_array($res);
 
-    $query = "select count(*) as cnt from Gn_Iam_Name_Card where group_id is NULL and mem_id='".$mem_id."'";
+    $query = "select count(*) as cnt from Gn_Iam_Name_Card where group_id = 0 and mem_id='".$mem_id."'";
     $res = mysqli_query($self_con,$query);
     $data = mysqli_fetch_array($res);
     if($row['iam_card_cnt'] <= $data[0]) {

@@ -721,7 +721,7 @@
                     </div>
                     <div id="cardsel" style="margin-top:15px; display:none;">
                         <?
-                        $sql5 = "select card_short_url,phone_display, card_title from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$_SESSION['iam_member_id']}' order by req_data asc";
+                        $sql5 = "select card_short_url,phone_display, card_title from Gn_Iam_Name_Card where group_id = 0 and mem_id = '{$_SESSION['iam_member_id']}' order by req_data asc";
                         $result5 = mysqli_query($self_con, $sql5);
                         $i = 0;
                         while ($row5 = mysqli_fetch_array($result5)) {
@@ -2100,7 +2100,7 @@
                                         <input type="text" id="card_short_url" hidden>
                                         <div id="cardsel1" onclick="limit_selcard1()" style="margin-top:15px;">
                                             <?
-                                            $sql5 = "select card_short_url,phone_display, card_title from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$_SESSION['iam_member_id']}' order by req_data asc";
+                                            $sql5 = "select card_short_url,phone_display, card_title from Gn_Iam_Name_Card where group_id = 0 and mem_id = '{$_SESSION['iam_member_id']}' order by req_data asc";
                                             $result5 = mysqli_query($self_con, $sql5);
                                             $i = 0;
                                             while ($row5 = mysqli_fetch_array($result5)) {
@@ -3967,7 +3967,7 @@
                                     </script>
                                     <?
                                     if ($cur_win != "group-con")
-                                        $sql5 = "select card_short_url,card_title from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$_SESSION['iam_member_id']}' order by req_data asc";
+                                        $sql5 = "select card_short_url,card_title from Gn_Iam_Name_Card where group_id = 0 and mem_id = '{$_SESSION['iam_member_id']}' order by req_data asc";
                                     else
                                         $sql5 = "select card_short_url,card_title from Gn_Iam_Name_Card where group_id = '$gkind' order by req_data asc";
                                     $result5 = mysqli_query($self_con, $sql5);
@@ -4009,7 +4009,7 @@
                                 <div class="attr-value" style="display: flex">
                                     <?
                                     if ($cur_win != "group-con")
-                                        $sql5 = "select card_short_url,phone_display from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$_SESSION['iam_member_id']}' order by req_data asc";
+                                        $sql5 = "select card_short_url,phone_display from Gn_Iam_Name_Card where group_id = 0 and mem_id = '{$_SESSION['iam_member_id']}' order by req_data asc";
                                     else
                                         $sql5 = "select card_short_url,phone_display from Gn_Iam_Name_Card where group_id = '$gkind' order by req_data asc";
                                     $result5 = mysqli_query($self_con, $sql5);
@@ -4260,7 +4260,7 @@
                         <td>
                             <div class="attr-value" style="display:flex;flex-wrap: wrap;">
                                 <?
-                                $sql5 = "select card_short_url,card_title from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$_SESSION['iam_member_id']}' order by req_data asc";
+                                $sql5 = "select card_short_url,card_title from Gn_Iam_Name_Card where group_id = 0 and mem_id = '{$_SESSION['iam_member_id']}' order by req_data asc";
                                 $result5 = mysqli_query($self_con, $sql5);
                                 $i = 0;
                                 while ($row5 = mysqli_fetch_array($result5)) {
@@ -4651,7 +4651,7 @@
                         </div>
                         <div class="attr-value" id="create_card_list">
                             <?
-                            $create_card_sql = "select card_short_url,card_title from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$_SESSION['iam_member_id']}' order by req_data asc";
+                            $create_card_sql = "select card_short_url,card_title from Gn_Iam_Name_Card where group_id = 0 and mem_id = '{$_SESSION['iam_member_id']}' order by req_data asc";
                             $create_card_res = mysqli_query($self_con, $create_card_sql);
                             $i = 0;
                             while ($create_card_row = mysqli_fetch_array($create_card_res)) {

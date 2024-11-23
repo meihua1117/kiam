@@ -225,13 +225,13 @@ $(function() {
                                 // 검색 조건을 적용한다.
                                 $searchStr .= $search_key ? " AND (ca_1.mem_id LIKE '%".$search_key."%' or ca_1.card_name like '%".$search_key."%' or ca_1.card_company like '%".$search_key."%' )" : null;
 
-                                $count_query = "select count(idx) from Gn_Iam_Name_Card ca_1 WHERE group_id is NULL $searchStr";
+                                $count_query = "select count(idx) from Gn_Iam_Name_Card ca_1 WHERE group_id = 0 $searchStr";
                                 $count_result = mysqli_query($self_con,$count_query);
                                 $count_row = mysqli_fetch_array($count_result);
                                 $totalCnt	=  $count_row[0];
 
                                 $query = "SELECT * FROM Gn_Iam_Name_Card ca_1";
-                                $query .= " WHERE group_id is NULL $searchStr";
+                                $query .= " WHERE group_id = 0 $searchStr";
                                 $limitStr = " LIMIT ".(($startPage-1)*$pageCnt).", ".$pageCnt;
                                 $number	= $totalCnt - ($nowPage - 1) * $pageCnt;
                                 if(!$orderField)

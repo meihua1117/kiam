@@ -17,7 +17,7 @@ if($_SESSION['iam_member_id']) {
         $result2 = mysqli_query($self_con,$sql2) or die(mysqli_error($self_con));
     }
 
-    $check_sql="select count(idx) from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$_SESSION['iam_member_id']}'";
+    $check_sql="select count(idx) from Gn_Iam_Name_Card where group_id = 0 and mem_id = '{$_SESSION['iam_member_id']}'";
     $check_result=mysqli_query($self_con,$check_sql);
     $check_comment_row=mysqli_fetch_array($check_result);
     if (!$check_comment_row[0]) {//네임카드가 하나도 없으면 자동으로 한개 생성한다
@@ -70,7 +70,7 @@ if(strstr($request_url, '?') == false) {
         $card_url .= $row['mem_code'];
         echo "<script>location.href='/?".$card_url."';</script>";
     }else{
-        $query = "select mem_id, card_short_url from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$_SESSION['iam_member_id']}' order by req_data limit 0,1";
+        $query = "select mem_id, card_short_url from Gn_Iam_Name_Card where group_id = 0 and mem_id = '{$_SESSION['iam_member_id']}' order by req_data limit 0,1";
         $result = mysqli_query($self_con,$query);
         $row = mysqli_fetch_array($result);
         $card_url = $row['card_short_url'];
@@ -124,7 +124,7 @@ if(strstr($request_url, '?') == false) {
         $cur_win = "my_info";
     }else{
         if($_SESSION['iam_member_id']){
-            $query = "select mem_id, card_short_url from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$_SESSION['iam_member_id']}' order by req_data limit 0,1";
+            $query = "select mem_id, card_short_url from Gn_Iam_Name_Card where group_id = 0 and mem_id = '{$_SESSION['iam_member_id']}' order by req_data limit 0,1";
             $result = mysqli_query($self_con,$query);
             $row = mysqli_fetch_array($result);
             $card_url = $row['card_short_url'];

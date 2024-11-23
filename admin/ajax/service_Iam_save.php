@@ -28,7 +28,7 @@ if ($_POST['mode'] == "creat") {
     $query = "update Gn_Member set site_iam = '{$site[0]}' where mem_id = '{$mem_id}'";
     fwrite($fp, "21= " . $query . "\r\n");
     mysqli_query($self_con, $query);
-    $name_card_sql = "select * from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$mem_id}' order by req_data limit 0,1";
+    $name_card_sql = "select * from Gn_Iam_Name_Card where group_id = 0 and mem_id = '{$mem_id}' order by req_data limit 0,1";
     fwrite($fp, "24= " . $name_card_sql . "\r\n");
     $res = mysqli_query($self_con, $name_card_sql);
     $row = mysqli_fetch_array($res);
@@ -55,7 +55,7 @@ if ($_POST['mode'] == "creat") {
         $card_addr = $card_addr1 . " " . $card_addr2;
         $short_url = generateRandomString();
         $img_url = "/iam/img/common/logo-2.png";
-        $name_card_sql = "select main_img1,main_img2,main_img3 from Gn_Iam_Name_Card where group_id is NULL and mem_id='iam1' order by req_data limit 0,1";
+        $name_card_sql = "select main_img1,main_img2,main_img3 from Gn_Iam_Name_Card where group_id = 0 and mem_id='iam1' order by req_data limit 0,1";
         fwrite($fp, "51= " . $name_card_sql . "\r\n");
         $card_result = mysqli_query($self_con, $name_card_sql);
         $card_row = mysqli_fetch_array($card_result);
@@ -85,7 +85,7 @@ if ($_POST['mode'] == "creat") {
         $card_result = mysqli_query($self_con, $name_card_sql);
         $card_row = mysqli_fetch_array($card_result);
         if (!$card_row[0]) {
-            $name_card_sql = "select main_img1,main_img2,main_img3 from Gn_Iam_Name_Card where group_id is NULL and mem_id='iam1' order by req_data limit 0,1";
+            $name_card_sql = "select main_img1,main_img2,main_img3 from Gn_Iam_Name_Card where group_id = 0 and mem_id='iam1' order by req_data limit 0,1";
             fwrite($fp, "70= " . $name_card_sql . "\r\n");
             $card_result = mysqli_query($self_con, $name_card_sql);
             $card_row = mysqli_fetch_array($card_result);
@@ -108,7 +108,7 @@ if ($_POST['mode'] == "creat") {
         $card_row = mysqli_fetch_array($card_result);
         $card_short_url = $card_row['card_short_url'];
 
-        $name_card_sql = "select idx from Gn_Iam_Name_Card where group_id is NULL and mem_id='iam1' order by req_data limit 0,1";
+        $name_card_sql = "select idx from Gn_Iam_Name_Card where group_id = 0 and mem_id='iam1' order by req_data limit 0,1";
         fwrite($fp, "93= " . $name_card_sql . "\r\n");
         $card_result = mysqli_query($self_con, $name_card_sql);
         $card_row = mysqli_fetch_array($card_result);
@@ -118,10 +118,12 @@ if ($_POST['mode'] == "creat") {
         $cont_row = mysqli_fetch_assoc($cont_res);
         $sql = "insert into Gn_Iam_Contents set ";
         foreach ($cont_row as $key => $v) {
+            if($v == "")
+                continue;
             if ($key == "mem_id") {
-                $v = "'" . $mem_id . "'";
+                $v = "'{$mem_id}'";
             } else if ($key == "card_short_url" || $key == "westory_card_url") {
-                $v = "'" . $card_short_url . "'";
+                $v = "'{$card_short_url}'";
             } else if ($key == "card_idx") {
                 $v = $profile_idx;
             } else if ($key == "req_data" || $key == "up_data") {

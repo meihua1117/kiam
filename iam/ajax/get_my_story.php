@@ -54,11 +54,11 @@ $logs->add_log("loading start");
 $cont_id_array = array();
 $cont_array = array();
 $total_count_ = 0;
-$sql8 = "select count(idx) from " . $content_table_name . " ct WHERE group_id is NULL and (mem_id = '$card_owner' or contents_share_text like '%$card_owner%')  and $search_sql $order_sql";
+$sql8 = "select count(idx) from " . $content_table_name . " ct WHERE group_id = 0 and (mem_id = '$card_owner' or contents_share_text like '%$card_owner%')  and $search_sql $order_sql";
 $result_cnt = mysqli_query($self_con, $sql8) or die(mysqli_error($self_con));
 $total_row = mysqli_fetch_array($result_cnt);
 $cont_count = $total_row[0];
-$sql8 = "select * from " . $content_table_name . " ct WHERE group_id is NULL and (mem_id = '$card_owner' or contents_share_text like '%$card_owner%')  and $search_sql $order_sql";
+$sql8 = "select * from " . $content_table_name . " ct WHERE group_id = 0 and (mem_id = '$card_owner' or contents_share_text like '%$card_owner%')  and $search_sql $order_sql";
 
 $sql8 .= " limit $contents_count_per_page , " . $w_offset;
 if (!$global_is_local) {
@@ -576,7 +576,7 @@ foreach ($cont_array as $contents_row) {
         $res_mem_p = mysqli_query($self_con, $sql_mem_p);
         $row_mem_p = mysqli_fetch_array($res_mem_p);
 
-        $post_card_sql = "select card_short_url from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$post_row['mem_id']}' order by req_data asc";
+        $post_card_sql = "select card_short_url from Gn_Iam_Name_Card where group_id = 0 and mem_id = '{$post_row['mem_id']}' order by req_data asc";
         $post_card_result = mysqli_query($self_con, $post_card_sql);
         $post_card_row = mysqli_fetch_array($post_card_result);
 
@@ -667,7 +667,7 @@ foreach ($cont_array as $contents_row) {
             $res_mem_pr = mysqli_query($self_con, $sql_mem_pr);
             $row_mem_pr = mysqli_fetch_array($res_mem_pr);
 
-            $reply_card_sql = "select card_short_url from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$reply_row['mem_id']}' order by req_data asc";
+            $reply_card_sql = "select card_short_url from Gn_Iam_Name_Card where group_id = 0 and mem_id = '{$reply_row['mem_id']}' order by req_data asc";
             $reply_card_result = mysqli_query($self_con, $reply_card_sql);
             $reply_card_row = mysqli_fetch_array($reply_card_result);
             $body .=            "<div class=\"user-item\" style=\"padding-left: 50px\">" .

@@ -26,7 +26,7 @@ if(!$method) {
                                             req_date = now()";
     mysqli_query($self_con,$sql);
     $g_idx = mysqli_insert_id($self_con);
-    $sql = "select * from Gn_Iam_Name_Card where mem_id='{$_SESSION['iam_member_id']}' and group_id is NULL order by req_data";//이미지 꺼내기
+    $sql = "select * from Gn_Iam_Name_Card where mem_id='{$_SESSION['iam_member_id']}' and group_id = 0 order by req_data";//이미지 꺼내기
     $res = mysqli_query($self_con,$sql);
     $row = mysqli_fetch_array($res);
     $gTitle = $name."소개";

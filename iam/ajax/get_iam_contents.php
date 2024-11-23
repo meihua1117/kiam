@@ -277,7 +277,7 @@ $search_key = $_GET['search_key'];
 //카드명이 검색키와 같은거 꺼내기
 if($search_key){
     $search_sql = "(contents_title like '%$search_key%' or contents_desc like '%$search_key%' ";
-    $sql = "select card_short_url from Gn_Iam_Name_Card where group_id is NULL and card_name like '%$search_key%' ";
+    $sql = "select card_short_url from Gn_Iam_Name_Card where group_id = 0 and card_name like '%$search_key%' ";
     $result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
     while( $row_card = mysqli_fetch_array($result)){
         $search_sql.=" or westory_card_url like '%{$row_card['card_short_url']}%'";
@@ -292,7 +292,7 @@ if(!$cur_win || $cur_win == "my_info"){
 
     $sql8="select * from Gn_Iam_Contents WHERE card_short_url = '{$G_card['card_short_url']}' and ".$search_sql." ORDER BY contents_order desc";
     if($search_key)
-        $sql8="select * from Gn_Iam_Contents WHERE group_id is NULL and mem_id = '{$_SESSION['iam_member_id']}' and ($search_sql) ORDER BY contents_order desc";
+        $sql8="select * from Gn_Iam_Contents WHERE group_id = 0 and mem_id = '{$_SESSION['iam_member_id']}' and ($search_sql) ORDER BY contents_order desc";
     $result8=mysqli_query($self_con,$sql8) or die(mysqli_error($self_con));
     $cont_count = mysqli_num_rows($result8);
     $sql8 .= " limit $contents_count_per_page , ".$w_offset;
@@ -304,7 +304,7 @@ if(!$cur_win || $cur_win == "my_info"){
     $sql8 .= " limit $contents_count_per_page , ".$w_offset;
 }else if($cur_win == "my_story" && ( $_SESSION['iam_member_id']!= "")){
 
-    $sql8="select * from Gn_Iam_Contents WHERE group_id is NULL and (mem_id = '$card_owner' or contents_share_text like '%$card_owner%')  and $search_sql ORDER BY req_data desc, up_data desc";
+    $sql8="select * from Gn_Iam_Contents WHERE group_id = 0 and (mem_id = '$card_owner' or contents_share_text like '%$card_owner%')  and $search_sql ORDER BY req_data desc, up_data desc";
     $result8=mysqli_query($self_con,$sql8) or die(mysqli_error($self_con));
     $cont_count = mysqli_num_rows($result8);
     $sql8 .= " limit $contents_count_per_page , ".$w_offset;
@@ -422,7 +422,7 @@ if(!$cur_win || $cur_win == "my_info"){
     }elseif($_GET['key1'] == 3){
         $sql8="select * from Gn_Iam_Contents c where contents_type = 3 and $search_sql $block_contents_sql $block_user_sql";
     }elseif($_GET['key1'] == 4){
-        $sql8="select * from Gn_Iam_Contents c where group_id is not NULL and $search_sql $block_contents_sql $block_user_sql";
+        $sql8="select * from Gn_Iam_Contents c where group_id > 0 and $search_sql $block_contents_sql $block_user_sql";
     }elseif($_GET['key1'] >= 5){
         $k = $rec_array[$_GET['key1']-5];
         $search_sql .= " and (contents_title like '%$k%' or contents_desc like '%$k%')";
@@ -450,7 +450,7 @@ if(!$cur_win || $cur_win == "my_info"){
     }elseif($_GET['key1'] == 3){
         $sql8="select * from Gn_Iam_Contents c where contents_type = 3 and contents_westory_display = 'Y' and public_display = 'Y' and $search_sql $block_contents_sql $block_user_sql";
     }elseif($_GET['key1'] == 4){
-        $sql8="select * from Gn_Iam_Contents c where group_id is not NULL and contents_westory_display = 'Y' and public_display = 'Y' and $search_sql $block_contents_sql $block_user_sql";
+        $sql8="select * from Gn_Iam_Contents c where group_id > 0 and contents_westory_display = 'Y' and public_display = 'Y' and $search_sql $block_contents_sql $block_user_sql";
     }elseif($_GET['key1'] >= 5){
         $k = $rec_array[$_GET['key1']-5];
         $search_sql .= " and (contents_title like '%$k%' or contents_desc like '%$k%')";
@@ -488,14 +488,14 @@ if(!$cur_win || $cur_win == "my_info"){
         $sql8 .= " limit $contents_count_per_page , ".$w_offset;
     }else if($gkind == "recommend"){
         if($other_group != "")
-            $sql8="select * from Gn_Iam_Contents WHERE group_id is not NULL and group_id not in (".$other_group.") and group_display = 'Y' and public_display = 'Y' and ".$search_sql." ORDER BY contents_order desc";
+            $sql8="select * from Gn_Iam_Contents WHERE group_id > 0 and group_id not in (".$other_group.") and group_display = 'Y' and public_display = 'Y' and ".$search_sql." ORDER BY contents_order desc";
         else
-            $sql8="select * from Gn_Iam_Contents WHERE group_id is not NULL and group_display = 'Y' and public_display = 'Y' and ".$search_sql." ORDER BY contents_order desc";
+            $sql8="select * from Gn_Iam_Contents WHERE group_id > 0 and group_display = 'Y' and public_display = 'Y' and ".$search_sql." ORDER BY contents_order desc";
         $result8 = mysqli_query($self_con,$sql8) or die(mysqli_error($self_con));
         $cont_count = mysqli_num_rows($result8);
         $sql8 .= " limit $contents_count_per_page , ".$w_offset;
     }else if($gkind == "search_con"){
-        $sql8="select * from Gn_Iam_Contents WHERE group_id is not NULL and group_display = 'Y' and public_display = 'Y' and ".$search_sql." ORDER BY contents_order desc";
+        $sql8="select * from Gn_Iam_Contents WHERE group_id > 0 and group_display = 'Y' and public_display = 'Y' and ".$search_sql." ORDER BY contents_order desc";
         $result8 = mysqli_query($self_con,$sql8) or die(mysqli_error($self_con));
         $cont_count = mysqli_num_rows($result8);
         $sql8 .= " limit $contents_count_per_page , ".$w_offset;
@@ -627,7 +627,7 @@ else{
                         $except_row = mysqli_fetch_array($except_result);
                         $except_count += $except_row[0] * 1;
 
-                        $except_sql = "select count(*) from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$_SESSION['iam_member_id']}'".
+                        $except_sql = "select count(*) from Gn_Iam_Name_Card where group_id = 0 and mem_id = '{$_SESSION['iam_member_id']}'".
                             " and card_keyword like '%$except_keyword%'";
                         $except_result = mysqli_query($self_con,$except_sql);
                         $except_row = mysqli_fetch_array($except_result);
@@ -1215,7 +1215,7 @@ else{
                     </div>
                     <div style="border: 1px solid #dddddd" id = "<?='post_list_'.$contents_row['idx']?>" name = "<?='post_list_'.$contents_row['idx']?>">
                         <?while($post_row = mysqli_fetch_array($post_res)){
-                            $post_card_sql = "select card_short_url from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$post_row['mem_id']}' order by req_data asc";
+                            $post_card_sql = "select card_short_url from Gn_Iam_Name_Card where group_id = 0 and mem_id = '{$post_row['mem_id']}' order by req_data asc";
                             $post_card_result = mysqli_query($self_con,$post_card_sql);
                             $post_card_row = mysqli_fetch_array($post_card_result);
                             ?>
@@ -1289,7 +1289,7 @@ else{
                             $reply_sql = "select * from Gn_Iam_Post_Response r inner join Gn_Member m on r.mem_id = m.mem_id where r.post_idx = '{$post_row['id']}' order by r.reg_date";
                             $reply_res = mysqli_query($self_con,$reply_sql);
                             while($reply_row = mysqli_fetch_array($reply_res)){
-                                $reply_card_sql = "select card_short_url from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$reply_row['mem_id']}' order by req_data asc";
+                                $reply_card_sql = "select card_short_url from Gn_Iam_Name_Card where group_id = 0 and mem_id = '{$reply_row['mem_id']}' order by req_data asc";
                                 $reply_card_result = mysqli_query($self_con,$reply_card_sql);
                                 $reply_card_row = mysqli_fetch_array($reply_card_result);
                                 ?>

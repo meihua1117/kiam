@@ -65,7 +65,7 @@ if($mode == "creat") {
     $res = mysqli_query($self_con,$query);
     $row = mysqli_fetch_array($res);
 
-    $query = "select count(*) as cnt from Gn_Iam_Name_Card where group_id is NULL and mem_id='".$mem_id."'";
+    $query = "select count(*) as cnt from Gn_Iam_Name_Card where group_id = 0 and mem_id='".$mem_id."'";
     $res = mysqli_query($self_con,$query);
     $data = mysqli_fetch_array($res);
     if($row['iam_card_cnt'] <= $data[0]) {
@@ -246,7 +246,7 @@ else if($mode == "del") {
     $result3 = mysqli_query($self_con,$sql_del_contents) or die(mysqli_error($self_con));
 
     if($group_id == "")
-        $sql="select card_short_url from Gn_Iam_Name_Card where group_id is NULL and mem_id = '$mem_id' order by req_data desc";
+        $sql="select card_short_url from Gn_Iam_Name_Card where group_id = 0 and mem_id = '$mem_id' order by req_data desc";
     else
         $sql="select card_short_url from Gn_Iam_Name_Card where group_id = '$group_id' and mem_id = '$mem_id' order by req_data desc";
     $result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));

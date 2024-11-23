@@ -665,7 +665,7 @@ if ($cont_count == 0) {
             $res_mem_p = mysqli_query($self_con, $sql_mem_p);
             $row_mem_p = mysqli_fetch_array($res_mem_p);
 
-            $post_card_sql = "select card_short_url from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$post_row['mem_id']}' order by req_data asc";
+            $post_card_sql = "select card_short_url from Gn_Iam_Name_Card where group_id = 0 and mem_id = '{$post_row['mem_id']}' order by req_data asc";
             $post_card_result = mysqli_query($self_con, $post_card_sql);
             $post_card_row = mysqli_fetch_array($post_card_result);
 
@@ -756,7 +756,7 @@ if ($cont_count == 0) {
                 $res_mem_pr = mysqli_query($self_con, $sql_mem_pr);
                 $row_mem_pr = mysqli_fetch_array($res_mem_pr);
 
-                $reply_card_sql = "select card_short_url from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$reply_row['mem_id']}' order by req_data asc";
+                $reply_card_sql = "select card_short_url from Gn_Iam_Name_Card where group_id = 0 and mem_id = '{$reply_row['mem_id']}' order by req_data asc";
                 $reply_card_result = mysqli_query($self_con, $reply_card_sql);
                 $reply_card_row = mysqli_fetch_array($reply_card_result);
                 $body .=            "<div class=\"user-item\" style=\"padding-left: 50px\">" .

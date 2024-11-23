@@ -855,7 +855,7 @@ $logs->add_log("start");
                                             <input type="text" id="self_share_card" name="self_share_card" value="<?= $domainData['self_share_card'] ?>" hidden>
                                             <div id="cardsel_self" onclick="limit_selcard_self();" style="line-height: 2em;">
                                                 <?
-                                                $sql5_self = "select card_short_url,phone_display, card_title from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$_SESSION['iam_member_id']}' order by req_data asc";
+                                                $sql5_self = "select card_short_url,phone_display, card_title from Gn_Iam_Name_Card where group_id = 0 and mem_id = '{$_SESSION['iam_member_id']}' order by req_data asc";
                                                 $result5_self = mysqli_query($self_con, $sql5_self);
                                                 $i = 0;
 
@@ -903,7 +903,7 @@ $logs->add_log("start");
                                             <input type="text" id="sel_card" hidden>
                                             <div id="cardsel" onclick="limit_selcard()" style="line-height: 2em;">
                                                 <?
-                                                $sql5 = "select card_short_url,phone_display, card_title from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$_SESSION['iam_member_id']}' order by req_data asc";
+                                                $sql5 = "select card_short_url,phone_display, card_title from Gn_Iam_Name_Card where group_id = 0 and mem_id = '{$_SESSION['iam_member_id']}' order by req_data asc";
                                                 $result5 = mysqli_query($self_con, $sql5);
                                                 $i = 0;
                                                 while ($row5 = mysqli_fetch_array($result5)) {
@@ -1664,7 +1664,7 @@ $logs->add_log("start");
                                             <input type="text" id="card_short_url" name="card_short_url" hidden>
                                             <div id="cardsel1" onclick="limit_selcard1()" style="margin-top:15px;">
                                                 <?
-                                                $sql5 = "select card_short_url,phone_display, card_title from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$_SESSION['iam_member_id']}' order by req_data asc";
+                                                $sql5 = "select card_short_url,phone_display, card_title from Gn_Iam_Name_Card where group_id = 0 and mem_id = '{$_SESSION['iam_member_id']}' order by req_data asc";
                                                 $result5 = mysqli_query($self_con, $sql5);
                                                 $i = 0;
                                                 while ($row5 = mysqli_fetch_array($result5)) {

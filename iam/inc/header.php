@@ -81,7 +81,7 @@ if ($_SESSION['iam_member_id']) {
     $Gn_point = $Gn_mem_row['mem_point'];
 	$Gn_cash = $Gn_mem_row['mem_cash'];
 
-    $query = "select * from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$_SESSION['iam_member_id']}' order by req_data limit 0,1";
+    $query = "select * from Gn_Iam_Name_Card where group_id = 0 and mem_id = '{$_SESSION['iam_member_id']}' order by req_data limit 0,1";
     $result = mysqli_query($self_con,$query);
     $row = mysqli_fetch_array($result);
 	$request_short_url = $row['card_short_url'];

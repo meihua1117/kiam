@@ -1,6 +1,6 @@
 <?
 if($member_1){
-	$card_sql = "select * from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$member_1['mem_id']}' order by req_data asc";
+	$card_sql = "select * from Gn_Iam_Name_Card where group_id = 0 and mem_id = '{$member_1['mem_id']}' order by req_data asc";
 }else{
 	if ($HTTP_HOST != "kiam.kr") //분양사사이트이면
 		$query = "select * from Gn_Iam_Service where sub_domain like 'http://" . $HTTP_HOST . "'";

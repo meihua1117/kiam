@@ -307,13 +307,13 @@ $date_month = date("Y-m");
                                     $searchStr .= " AND ca_1.req_data>'" . $start_req_data . " 00:00:00' AND ca_1.req_data<'" . $end_req_data . " 23:59:59'";
                                 }
 
-                                $count_query = "select count(DISTINCT(mem_id)) from Gn_Iam_Name_Card ca_1 WHERE group_id is NULL AND admin_shopping!=0 $searchStr";
+                                $count_query = "select count(DISTINCT(mem_id)) from Gn_Iam_Name_Card ca_1 WHERE group_id = 0 AND admin_shopping!=0 $searchStr";
                                 $count_result = mysqli_query($self_con, $count_query);
                                 $count_row = mysqli_fetch_array($count_result);
                                 $totalCnt    =  $count_row[0];
-                                //$query = "SELECT * FROM Gn_Iam_Name_Card ca_1 WHERE group_id is NULL AND admin_shopping!=0 $searchStr";
+                                //$query = "SELECT * FROM Gn_Iam_Name_Card ca_1 WHERE group_id = 0 AND admin_shopping!=0 $searchStr";
                                 $query = "SELECT * FROM Gn_Iam_Name_Card ca_1 WHERE (mem_id, req_data) IN (SELECT mem_id, MAX(req_data)
-                                                                                FROM Gn_Iam_Name_Card where group_id IS NULL AND admin_shopping != 0 $searchStr GROUP BY mem_id) ";
+                                                                                FROM Gn_Iam_Name_Card where group_id = 0 AND admin_shopping != 0 $searchStr GROUP BY mem_id) ";
                                 $limitStr = " LIMIT " . (($startPage - 1) * $pageCnt) . ", " . $pageCnt;
                                 $number    = $totalCnt - ($nowPage - 1) * $pageCnt;
                                 if (!$orderField)

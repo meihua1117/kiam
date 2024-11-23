@@ -13,7 +13,7 @@ $query="update Gn_Iam_automem set iam_apply = 1 where memid = '$memid'";
 mysqli_query($self_con,$query);
 $query_card="update Gn_Iam_Name_Card set phone_display = 'Y',up_data=now() where mem_id = '$memid'";
 mysqli_query($self_con,$query_card);
-$query_card="select card_short_url from Gn_Iam_Name_Card where mem_id = '$memid' and group_id is NULL";
+$query_card="select card_short_url from Gn_Iam_Name_Card where mem_id = '$memid' and group_id = 0";
 $result = mysqli_query($self_con,$query_card);
 while($row = mysqli_fetch_array($result)){
     $card_short_url = $row['card_short_url'];

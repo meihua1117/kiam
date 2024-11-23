@@ -46,17 +46,17 @@ $res = mysqli_query($self_con,$query);
 $row = mysqli_fetch_array($res);    
 $recommend_cnt = $row[0];        
 
-$query = "select count(idx) from Gn_Iam_Name_Card a use index(idx) where a.group_id is NULL and a.mem_id in ($mem_str)";
+$query = "select count(idx) from Gn_Iam_Name_Card a use index(idx) where a.group_id = 0 and a.mem_id in ($mem_str)";
 $res = mysqli_query($self_con,$query);
 $row = mysqli_fetch_array($res);    
 $card_cnt = $row[0];            
 
-$query = "select count(idx) from Gn_Iam_Name_Card a use index(idx) where a.group_id is NULL and a.mem_id in ($mem_str) and a.req_data >= '".date("Y-m-d 00:00:00")."'";
+$query = "select count(idx) from Gn_Iam_Name_Card a use index(idx) where a.group_id = 0 and a.mem_id in ($mem_str) and a.req_data >= '".date("Y-m-d 00:00:00")."'";
 $res = mysqli_query($self_con,$query);
 $row = mysqli_fetch_array($res);    
 $card_new_cnt = $row[0];                
 
-$query = "select sum(iam_share) from Gn_Iam_Name_Card a use index(idx) where a.group_id is NULL and a.mem_id in ($mem_str) ";
+$query = "select sum(iam_share) from Gn_Iam_Name_Card a use index(idx) where a.group_id = 0 and a.mem_id in ($mem_str) ";
 $res = mysqli_query($self_con,$query);
 $row = mysqli_fetch_array($res);    
 $card_share_cnt = $row[0];                    

@@ -31,7 +31,7 @@ else{
     $cres = mysqli_query($self_con,$query);
     $user = mysqli_fetch_array($cres);
 
-    $query = "select count(idx) from Gn_Iam_Name_Card where group_id is NULL and mem_id='$mem_id' ";
+    $query = "select count(idx) from Gn_Iam_Name_Card where group_id = 0 and mem_id='$mem_id' ";
     $cres = mysqli_query($self_con,$query);
     $crow = mysqli_fetch_array($cres);
     $card_cnt = $crow[0];
@@ -255,7 +255,7 @@ else{
                                     $query = "SELECT ca.idx,ca.mem_id,ca.card_company,ca.card_title,ca.card_email,ca.card_addr,ca.card_position,ca.card_name,
                                             ca.card_phone,ca.iam_click,ca.iam_share,ca.req_data,ca.main_img1,ca.card_short_url
                                             FROM Gn_Iam_Name_Card as ca ";
-                                    $query = $query." WHERE ca.group_id is NULL and  ca.mem_id in ($mem_str) $searchStr";
+                                    $query = $query." WHERE ca.group_id = 0 and  ca.mem_id in ($mem_str) $searchStr";
                                     /*if($mem_id){
                                         $query .= " d.mem_id='$mem_id'";
                                         $query = $query." and d.site_iam='$site[0]' $searchStr";

@@ -436,7 +436,7 @@ if ($_POST['method'] == "create_format") {
             $result2 = mysqli_query($self_con, $sql2) or die(mysqli_error($self_con));
         }
 
-        $check_sql = "select count(idx) from Gn_Iam_Name_Card where group_id is NULL and mem_id = '$userid'";
+        $check_sql = "select count(idx) from Gn_Iam_Name_Card where group_id = 0 and mem_id = '$userid'";
         $check_result = mysqli_query($self_con, $check_sql);
         $check_comment_row = mysqli_fetch_array($check_result);
         if (!$check_comment_row[0]) { //네임카드가 하나도 없으면 자동으로 한개 생성한다

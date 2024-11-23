@@ -121,7 +121,7 @@ while( $contents_row = mysqli_fetch_array($result8)){
     $card_url .= $card_row['card_short_url'];
     $card_url .= "&site=".$member_iam;
     if($contents_row['mall_type'] == 1){
-        $sql = "select card_short_url,profile from Gn_Iam_Name_Card n inner join Gn_Member m on m.mem_id=n.mem_id where n.group_id is NULL and m.mem_code = {$contents_row['card_idx']} order by n.req_data limit 0,1";
+        $sql = "select card_short_url,profile from Gn_Iam_Name_Card n inner join Gn_Member m on m.mem_id=n.mem_id where n.group_id = 0 and m.mem_code = {$contents_row['card_idx']} order by n.req_data limit 0,1";
         $res = mysqli_query($self_con,$sql);
         $row = mysqli_fetch_array($res);
         //if($mem_row['site_iam'] == "kiam")

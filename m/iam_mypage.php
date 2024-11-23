@@ -224,7 +224,7 @@ $m_birth_arr = explode("-",$data['mem_birth']);
                                     <div class="attr-value">
                                         <div class="input-wrap">
                                             <?
-                                            $query = "select * from Gn_Iam_Name_Card where group_id is NULL and mem_id  = '{$member_iam['mem_id']}' ORDER BY idx";
+                                            $query = "select * from Gn_Iam_Name_Card where group_id = 0 and mem_id  = '{$member_iam['mem_id']}' ORDER BY idx";
                                             $result = mysqli_query($self_con,$query);
                                             $row = mysqli_fetch_array($result);
                                             $card_url = $row['card_short_url'];

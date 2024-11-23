@@ -54,7 +54,7 @@ if ($method_type == "creat") {
             uploadFTP($uploadfile);
         }
     } else {
-        $sql = "select * from Gn_Iam_Name_Card where group_id is NULL and mem_id = '$mem_id' order by req_data limit 0,1";
+        $sql = "select * from Gn_Iam_Name_Card where group_id = 0 and mem_id = '$mem_id' order by req_data limit 0,1";
         $res = mysqli_query($self_con, $sql);
         $row = mysqli_fetch_array($res);
         $img = $row['main_img1'];
@@ -85,7 +85,7 @@ if ($method_type == "edit") {
             uploadFTP($uploadfile);
         }
     } else {
-        $sql = "select * from Gn_Iam_Name_Card where group_id is NULL and mem_id = '$mem_id' order by req_data limit 0,1";
+        $sql = "select * from Gn_Iam_Name_Card where group_id = 0 and mem_id = '$mem_id' order by req_data limit 0,1";
         $res = mysqli_query($self_con, $sql);
         $row = mysqli_fetch_array($res);
         $img = $row['main_img1'];
@@ -203,7 +203,7 @@ if ($method_type == "get_card_id") {
         $result = "false";
     else
         $result = "true";
-    $sql = "select card_short_url,card_title from Gn_Iam_Name_Card where group_id is NULL and mem_id = '$mem_id' order by req_data";
+    $sql = "select card_short_url,card_title from Gn_Iam_Name_Card where group_id = 0 and mem_id = '$mem_id' order by req_data";
     $res = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
     $data = array();
     $index = 0;
@@ -220,7 +220,7 @@ if ($method_type == "get_mall_link") {
     $mall_res = mysqli_query($self_con, $mall_sql);
     $mall_row = mysqli_fetch_array($mall_res);
     if ($mall_row['mall_type'] == 1) {
-        $sql = "select card_short_url,m.site_iam from Gn_Iam_Name_Card n inner join Gn_Member m on m.mem_id=n.mem_id where n.group_id is NULL and m.mem_code = '{$mall_row['card_idx']}' order by n.req_data limit 0,1";
+        $sql = "select card_short_url,m.site_iam from Gn_Iam_Name_Card n inner join Gn_Member m on m.mem_id=n.mem_id where n.group_id = 0 and m.mem_code = '{$mall_row['card_idx']}' order by n.req_data limit 0,1";
         $res = mysqli_query($self_con, $sql);
         $row = mysqli_fetch_array($res);
         if ($row['site_iam'] == "kiam") {
@@ -326,7 +326,7 @@ if ($method_type == "pay_mall") {
         mysqli_query($self_con, $sql);
         $mem_code = mysqli_insert_id($self_con);
         $card_link = "";
-        $card_sql = "select * from Gn_Iam_Name_Card where group_id is NULL and mem_id='$seller_id' order by req_data";
+        $card_sql = "select * from Gn_Iam_Name_Card where group_id = 0 and mem_id='$seller_id' order by req_data";
         $card_res = mysqli_query($self_con, $card_sql);
         $card_index = 0;
         while ($card_row = mysqli_fetch_assoc($card_res)) {
@@ -618,7 +618,7 @@ if ($method_type == "daesa_reg_pay") {
         mysqli_query($self_con, $sql);
         $mem_code = mysqli_insert_id($self_con);
         $card_link = "";
-        $card_sql = "select * from Gn_Iam_Name_Card where group_id is NULL and mem_id='$seller_id' order by req_data";
+        $card_sql = "select * from Gn_Iam_Name_Card where group_id = 0 and mem_id='$seller_id' order by req_data";
         $card_res = mysqli_query($self_con, $card_sql);
         $card_index = 0;
         while ($card_row = mysqli_fetch_assoc($card_res)) {

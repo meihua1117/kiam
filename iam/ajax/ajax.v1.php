@@ -243,7 +243,7 @@ if ($_POST['id'] && $_POST['pwd']) {
             $res = mysqli_query($self_con, $query);
             $row = mysqli_fetch_array($res);
 
-            $query = "select count(*) as cnt from Gn_Iam_Name_Card where group_id is NULL and mem_id='" . $mem_id . "'";
+            $query = "select count(*) as cnt from Gn_Iam_Name_Card where group_id = 0 and mem_id='" . $mem_id . "'";
             $res = mysqli_query($self_con, $query);
             $data = mysqli_fetch_array($res);
             if ($row['iam_card_cnt'] <= $data[0]) {
@@ -432,7 +432,7 @@ if ($_POST['type'] == "get_block_data") {
         $site = $row['site_iam'];
         $mem_code = $row['mem_code'];
 
-        $sql = "select card_short_url,main_img1 from Gn_Iam_Name_Card where group_id is NULL and mem_id = '$user_id' order by req_data limit 0,1";
+        $sql = "select card_short_url,main_img1 from Gn_Iam_Name_Card where group_id = 0 and mem_id = '$user_id' order by req_data limit 0,1";
         $res = mysqli_query($self_con, $sql);
         $row = mysqli_fetch_array($res);
         $card_short_url = $row['card_short_url'];

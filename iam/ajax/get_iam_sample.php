@@ -19,7 +19,7 @@ if ($_GET['sample_type'] == "best_sample") {
     $key_row = mysqli_fetch_array($key_res);
     $key = $key_row['key_content'];
     $keys = explode(",", $key);
-    $sql8 = "SELECT * FROM Gn_Iam_Name_Card WHERE group_id is NULL and sample_click='Y' AND (";
+    $sql8 = "SELECT * FROM Gn_Iam_Name_Card WHERE group_id = 0 and sample_click='Y' AND (";
     if ($_GET['search_key'])
         $sql8 .= "card_name LIKE '%" . $_GET['search_key'] . "%' OR card_company LIKE '%" . $_GET['search_key'] . "%' OR card_position LIKE '%" . $_GET['search_key'] . "%') AND (";
     foreach ($keys as $k) {
@@ -35,7 +35,7 @@ if ($_GET['sample_type'] == "best_sample") {
 */
     $sql8 .= " order by sample_order desc ,req_data limit {$w_offset},{$contents_count_per_page}";
 } else if ($_GET['sample_type'] == "sample") {
-    $sql8 = "SELECT * FROM Gn_Iam_Name_Card WHERE group_id is NULL and sample_click='Y'";
+    $sql8 = "SELECT * FROM Gn_Iam_Name_Card WHERE group_id = 0 and sample_click='Y'";
     if ($_GET['search_key'])
         $sql8 .= " AND (card_name LIKE '%" . $_GET['search_key'] . "%' OR card_company LIKE '%" . $_GET['search_key'] . "%' OR card_position LIKE '%" . $_GET['search_key'] . "%')";
     /*$sql9 = str_ireplace("SELECT * FROM", "SELECT count(*) FROM", $sql8);
@@ -46,7 +46,7 @@ if ($_GET['sample_type'] == "best_sample") {
     $sql8 .= " order by sample_order desc ,req_data limit {$w_offset},{$contents_count_per_page}";
 } else if ($_GET['sample_type'] == "recent_sample") {
     $recent_date =  date("Y-m-d", strtotime("-7 days"));
-    $sql8 = "SELECT * FROM Gn_Iam_Name_Card WHERE group_id is NULL and sample_click='Y' AND up_data >= '" . $recent_date . "'";
+    $sql8 = "SELECT * FROM Gn_Iam_Name_Card WHERE group_id = 0 and sample_click='Y' AND up_data >= '" . $recent_date . "'";
     if ($_GET['search_key'])
         $sql8 .= " AND (card_name LIKE '%" . $_GET['search_key'] . "%' OR card_company LIKE '%" . $_GET['search_key'] .
             "%' OR card_position LIKE '%" . $_GET['search_key'] . "%')";

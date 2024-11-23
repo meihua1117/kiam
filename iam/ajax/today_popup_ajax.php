@@ -90,7 +90,7 @@ if($_POST['type'] == 'interval') {
     }
     echo json_encode(array("result" => $result));
 }else if($_POST['type'] == 'sample_popup') {
-    $sql = "select mem_id,main_img1,card_name,card_company,card_short_url from Gn_Iam_Name_Card where group_id is NULL and sample_click = 'Y' order by sample_order desc,req_data";
+    $sql = "select mem_id,main_img1,card_name,card_company,card_short_url from Gn_Iam_Name_Card where group_id = 0 and sample_click = 'Y' order by sample_order desc,req_data";
     $res = mysqli_query($self_con,$sql);
     $result = array();
     while($row = mysqli_fetch_array($res)) {

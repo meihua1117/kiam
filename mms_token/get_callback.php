@@ -72,7 +72,7 @@ else{
                     $res	    = mysqli_query($self_con,$query);
                     $row = mysqli_fetch_array($res);
                     $mem_code = $row[0];			
-                    $query = "select card_short_url from Gn_Iam_Name_Card where group_id is NULL and mem_id='$userid' order by req_data limit 0,1";             
+                    $query = "select card_short_url from Gn_Iam_Name_Card where group_id = 0 and mem_id='$userid' order by req_data limit 0,1";             
                     $res	    = mysqli_query($self_con,$query);
                     $row = mysqli_fetch_array($res);
                     $cardlink = $row[0];        
@@ -132,7 +132,7 @@ else{
                 $res	    = mysqli_query($self_con,$query);
                 $row = mysqli_fetch_array($res);
                 $mem_code = $row[0];			
-                $query = "select card_short_url from Gn_Iam_Name_Card where group_id is NULL and mem_id='$userid' order by req_data limit 0,1";             
+                $query = "select card_short_url from Gn_Iam_Name_Card where group_id = 0 and mem_id='$userid' order by req_data limit 0,1";             
                 $res	    = mysqli_query($self_con,$query);
                 $row = mysqli_fetch_array($res);
                 $cardlink = $row[0];        
@@ -183,7 +183,7 @@ else{
                 $res	    = mysqli_query($self_con,$query);
                 $row = mysqli_fetch_array($res);
                 $mem_code = $row[0];			
-                $query = "select card_short_url from Gn_Iam_Name_Card where group_id is NULL and mem_id='$userid' order by req_data limit 0,1";             
+                $query = "select card_short_url from Gn_Iam_Name_Card where group_id = 0 and mem_id='$userid' order by req_data limit 0,1";             
                 $res	    = mysqli_query($self_con,$query);
                 $row = mysqli_fetch_array($res);
                 $cardlink = $row[0];        

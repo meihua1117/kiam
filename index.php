@@ -2255,7 +2255,7 @@ function encodeKorean($matches)
                     $friends_count_row = mysqli_fetch_array($friends_count_result_);
 
                     // $card_count_sql="select count(*) from Gn_Member";
-                    $card_count_sql = "select idx from Gn_Iam_Name_Card where group_id is NULL order by idx desc limit 1";
+                    $card_count_sql = "select idx from Gn_Iam_Name_Card where group_id = 0 order by idx desc limit 1";
                     $card_count_result = mysqli_query($self_con, $card_count_sql);
                     $card_count_row = mysqli_fetch_array($card_count_result);
 
@@ -2501,11 +2501,11 @@ function encodeKorean($matches)
                                                         $cont_count += $cont_row[0];
                                                     }
                                                     if ($_SESSION['iam_member_id'] && $user_mem_code == $card_owner_code)
-                                                        $black_circle_sql = "select idx,card_short_url,card_title,phone_display,next_iam_link,mem_id from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$_SESSION['iam_member_id']}' order by req_data asc";
+                                                        $black_circle_sql = "select idx,card_short_url,card_title,phone_display,next_iam_link,mem_id from Gn_Iam_Name_Card where group_id = 0 and mem_id = '{$_SESSION['iam_member_id']}' order by req_data asc";
                                                     else if ($user_mem_code != $card_owner_code)
-                                                        $black_circle_sql = "select idx,card_short_url,card_title,phone_display,next_iam_link,mem_id from Gn_Iam_Name_Card where group_id is NULL and mem_id = '$share_member_id' order by req_data asc";
+                                                        $black_circle_sql = "select idx,card_short_url,card_title,phone_display,next_iam_link,mem_id from Gn_Iam_Name_Card where group_id = 0 and mem_id = '$share_member_id' order by req_data asc";
                                                     else
-                                                        $black_circle_sql = "select idx,card_short_url,card_title,phone_display,next_iam_link,mem_id from Gn_Iam_Name_Card where group_id is NULL and mem_id = '$card_owner' order by req_data asc";
+                                                        $black_circle_sql = "select idx,card_short_url,card_title,phone_display,next_iam_link,mem_id from Gn_Iam_Name_Card where group_id = 0 and mem_id = '$card_owner' order by req_data asc";
                                                     $black_circle_result = mysqli_query($self_con, $black_circle_sql);
                                                     while ($black_circle_row = mysqli_fetch_array($black_circle_result)) {
                                                         if ($card_count > 0 && $first_card_url == $black_circle_row['card_short_url'])
@@ -2654,7 +2654,7 @@ function encodeKorean($matches)
                                                     </a>
                                                     <div class="attr-value" id="edit_card_list" style="display:none;font-size: 12px;font-weight: 900;">
                                                         <?
-                                                        $edit_card_sql = "select card_short_url,card_title from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$_SESSION['iam_member_id']}' order by req_data asc";
+                                                        $edit_card_sql = "select card_short_url,card_title from Gn_Iam_Name_Card where group_id = 0 and mem_id = '{$_SESSION['iam_member_id']}' order by req_data asc";
                                                         $edit_card_res = mysqli_query($self_con, $edit_card_sql);
                                                         $i = 0;
                                                         while ($edit_card_row = mysqli_fetch_array($edit_card_res)) {
@@ -3565,7 +3565,7 @@ function encodeKorean($matches)
                                 <button class="btn btn-link" onclick="show_all_group('sample')">모두 보기</button>
                             </div>
                             <? $group_sql = "select card_short_url,main_img1,group_id,card.mem_id from Gn_Iam_Name_Card card
-                                        where group_id is not NULL and group_id > 0 and group_id not in ($my_group) and sample_click = 'Y' order by sample_order desc limit 0,5";
+                                        where group_id > 0 and group_id not in ($my_group) and sample_click = 'Y' order by sample_order desc limit 0,5";
                             $sample_index = 0;
                             $group_res = mysqli_query($self_con, $group_sql);
                             while ($group_row = mysqli_fetch_array($group_res)) {
@@ -4147,7 +4147,7 @@ function encodeKorean($matches)
                         $w_offset = 0;
                     }
                     if ($search_key)
-                        $sql8 = "select count(idx) from " . $content_table_name . " WHERE group_id is NULL and mem_id = '{$_SESSION['iam_member_id']}' and ($search_sql) ORDER BY contents_order desc";
+                        $sql8 = "select count(idx) from " . $content_table_name . " WHERE group_id = 0 and mem_id = '{$_SESSION['iam_member_id']}' and ($search_sql) ORDER BY contents_order desc";
                     else if ($gwc_table) {
                         $sql8 = "select count(idx) from Gn_Iam_Contents_Gwc WHERE card_idx = {$cur_card['idx']} and public_display='Y' and " . $search_sql;
                     } else {
@@ -4185,7 +4185,7 @@ function encodeKorean($matches)
                     else if ($cur_card['cont_order_type'] == 4)
                         $cont_order_type = 'contents_title';
                     if ($search_key)
-                        $sql8 = "select * from " . $content_table_name . " WHERE group_id is NULL and mem_id = '{$_SESSION['iam_member_id']}' and ($search_sql) ORDER BY " . $cont_order_type;
+                        $sql8 = "select * from " . $content_table_name . " WHERE group_id = 0 and mem_id = '{$_SESSION['iam_member_id']}' and ($search_sql) ORDER BY " . $cont_order_type;
                     else if ($gwc_table) {
                         $sql8 = "select ct.* from Gn_Iam_Contents_Gwc ct WHERE ct.card_idx = {$cur_card['idx']} and public_display='Y' and " . $search_sql . " ORDER BY " . $cont_order_type;
                     } else
@@ -4224,11 +4224,11 @@ function encodeKorean($matches)
                         if ($w_offset < 0) {
                             $w_offset = 0;
                         }
-                        $sql8 = "select count(idx) from " . $content_table_name . " WHERE group_id is NULL and (mem_id = '$card_owner' or contents_share_text like '%$card_owner%')  and $search_sql order by idx desc, up_data desc";
+                        $sql8 = "select count(idx) from " . $content_table_name . " WHERE group_id = 0 and (mem_id = '$card_owner' or contents_share_text like '%$card_owner%')  and $search_sql order by idx desc, up_data desc";
                         $result_cnt = mysqli_query($self_con, $sql8) or die(mysqli_error($self_con));
                         $total_row = mysqli_fetch_array($result_cnt);
                         $cont_count = $total_row[0];
-                        $sql8 = "select * from " . $content_table_name . " WHERE group_id is NULL and (mem_id = '$card_owner' or contents_share_text like '%$card_owner%')  and $search_sql order by idx desc, up_data desc";
+                        $sql8 = "select * from " . $content_table_name . " WHERE group_id = 0 and (mem_id = '$card_owner' or contents_share_text like '%$card_owner%')  and $search_sql order by idx desc, up_data desc";
                         $sql8 .= " limit $contents_count_per_page , " . $w_offset;
                     }
                 } else if ($cur_win == "shared_receive" &&  $_SESSION['iam_member_id'] != "") {
@@ -4482,27 +4482,27 @@ function encodeKorean($matches)
                             $w_offset = 0;
                         }
                         if ($other_group != "")
-                            $sql8 = "select count(idx) from Gn_Iam_Contents WHERE group_id is not NULL and group_id > 0 and group_id not in ($other_group) and group_display = 'Y' and public_display = 'Y' and $search_sql ORDER BY contents_order desc";
+                            $sql8 = "select count(idx) from Gn_Iam_Contents WHERE group_id > 0 and group_id not in ($other_group) and group_display = 'Y' and public_display = 'Y' and $search_sql ORDER BY contents_order desc";
                         else
-                            $sql8 = "select count(idx) from Gn_Iam_Contents WHERE group_id is not NULL and group_id > 0 and group_display = 'Y' and public_display = 'Y' and $search_sql ORDER BY contents_order desc";
+                            $sql8 = "select count(idx) from Gn_Iam_Contents WHERE group_id > 0 and group_display = 'Y' and public_display = 'Y' and $search_sql ORDER BY contents_order desc";
                         $result_cnt = mysqli_query($self_con, $sql8) or die(mysqli_error($self_con));
                         $total_row = mysqli_fetch_array($result_cnt);
                         $cont_count = $total_row[0];
                         if ($other_group != "")
-                            $sql8 = "select * from Gn_Iam_Contents WHERE group_id is not NULL and group_id > 0 and group_id not in ($other_group) and group_display = 'Y' and public_display = 'Y' and $search_sql order by idx desc";
+                            $sql8 = "select * from Gn_Iam_Contents WHERE group_id > 0 and group_id not in ($other_group) and group_display = 'Y' and public_display = 'Y' and $search_sql order by idx desc";
                         else
-                            $sql8 = "select * from Gn_Iam_Contents WHERE group_id is not NULL and group_id > 0 and group_display = 'Y' and public_display = 'Y' and $search_sql order by idx desc";
+                            $sql8 = "select * from Gn_Iam_Contents WHERE group_id > 0 and group_display = 'Y' and public_display = 'Y' and $search_sql order by idx desc";
                         $sql8 .= " limit $contents_count_per_page , " . $w_offset;
                     } else if ($gkind == "search_con") {
                         $w_offset = $contents_count_per_page * ($w_page - 1); //페이지 내 첫 콘텐츠 offset
                         if ($w_offset < 0) {
                             $w_offset = 0;
                         }
-                        $sql8 = "select count(idx) from Gn_Iam_Contents WHERE group_id is not NULL and group_id > 0 and group_display = 'Y' and public_display = 'Y' and $search_sql ORDER BY contents_order desc";
+                        $sql8 = "select count(idx) from Gn_Iam_Contents WHERE group_id > 0 and group_display = 'Y' and public_display = 'Y' and $search_sql ORDER BY contents_order desc";
                         $result_cnt = mysqli_query($self_con, $sql8) or die(mysqli_error($self_con));
                         $total_row = mysqli_fetch_array($result_cnt);
                         $cont_count = $total_row[0];
-                        $sql8 = "select * from Gn_Iam_Contents WHERE group_id is not NULL and group_id > 0 and group_display = 'Y' and public_display = 'Y' and $search_sql ORDER BY contents_order desc";
+                        $sql8 = "select * from Gn_Iam_Contents WHERE group_id > 0 and group_display = 'Y' and public_display = 'Y' and $search_sql ORDER BY contents_order desc";
                         $sql8 .= " limit $contents_count_per_page , " . $w_offset;
                     }
                 } else if ($cur_win == "unread_notice" &&  $_SESSION['iam_member_id'] != "") {
@@ -4793,7 +4793,7 @@ function encodeKorean($matches)
                                     $except_row = mysqli_fetch_array($except_result);
                                     $except_count += $except_row[0] * 1;
 
-                                    $except_sql = "select count(*) from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$_SESSION['iam_member_id']}'" .
+                                    $except_sql = "select count(*) from Gn_Iam_Name_Card where group_id = 0 and mem_id = '{$_SESSION['iam_member_id']}'" .
                                         " and card_keyword like '%$except_keyword%'";
                                     $except_result = mysqli_query($self_con, $except_sql);
                                     $except_row = mysqli_fetch_array($except_result);
@@ -5768,7 +5768,7 @@ function encodeKorean($matches)
                                             $res_mem_p = mysqli_query($self_con, $sql_mem_p);
                                             $row_mem_p = mysqli_fetch_array($res_mem_p);
 
-                                            $post_card_sql = "select card_short_url from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$post_row['mem_id']}' order by req_data asc";
+                                            $post_card_sql = "select card_short_url from Gn_Iam_Name_Card where group_id = 0 and mem_id = '{$post_row['mem_id']}' order by req_data asc";
                                             $post_card_result = mysqli_query($self_con, $post_card_sql);
                                             $post_card_row = mysqli_fetch_array($post_card_result);
                                         ?>
@@ -5860,7 +5860,7 @@ function encodeKorean($matches)
                                                 $res_mem_pr = mysqli_query($self_con, $sql_mem_pr);
                                                 $row_mem_pr = mysqli_fetch_array($res_mem_pr);
 
-                                                $reply_card_sql = "select card_short_url from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$reply_row['mem_id']}' order by req_data asc";
+                                                $reply_card_sql = "select card_short_url from Gn_Iam_Name_Card where group_id = 0 and mem_id = '{$reply_row['mem_id']}' order by req_data asc";
                                                 $reply_card_result = mysqli_query($self_con, $reply_card_sql);
                                                 $reply_card_row = mysqli_fetch_array($reply_card_result);
                                             ?>

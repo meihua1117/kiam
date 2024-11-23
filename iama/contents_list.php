@@ -32,12 +32,12 @@ if($mem_id != "") {
     $cres = mysqli_query($self_con,$query);
     $user = mysqli_fetch_array($cres);
 
-    $query = "select count(*) from Gn_Iam_Name_Card  where group_id is NULL and mem_id='$mem_id' ";
+    $query = "select count(*) from Gn_Iam_Name_Card  where group_id = 0 and mem_id='$mem_id' ";
     $cres = mysqli_query($self_con,$query);
     $crow = mysqli_fetch_array($cres);
     $card_cnt = $crow[0];
 
-    $query = "select count(*) from Gn_Iam_Contents where group_id is NULL and mem_id='$mem_id' ";
+    $query = "select count(*) from Gn_Iam_Contents where group_id = 0 and mem_id='$mem_id' ";
     $cres = mysqli_query($self_con,$query);
     $crow = mysqli_fetch_array($cres);
     $contents_cnt = $crow[0];

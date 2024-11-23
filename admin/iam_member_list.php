@@ -210,7 +210,7 @@ function excel_down_p_group(pno,one_member_id){
                         	FROM Gn_Iam_Name_Card a
                         	INNER JOIN Gn_Member b
                         	       on b.mem_id =a.mem_id
-                        	WHERE group_id is NULL $searchStr";
+                        	WHERE group_id = 0 $searchStr";
                 	              
                 	$res	    = mysqli_query($self_con,$query);
                 	$totalCnt	=  mysqli_num_rows($res);	

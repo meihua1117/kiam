@@ -4,9 +4,9 @@ $keyword_list = array();
 $type = $_POST['type'];
 if($type == 'special') {
     $value = $_POST['value'];
-    $query = "SELECT card_keyword FROM Gn_Iam_Name_Card WHERE group_id is NULL and card_keyword like '%{$value}%'";
+    $query = "SELECT card_keyword FROM Gn_Iam_Name_Card WHERE group_id = 0 and card_keyword like '%{$value}%'";
 }else {
-    $query = "SELECT card_keyword FROM Gn_Iam_Name_Card WHERE group_id is NULL";
+    $query = "SELECT card_keyword FROM Gn_Iam_Name_Card WHERE group_id = 0";
 }
 $res = mysqli_query($self_con,$query);
 while($row = mysqli_fetch_array($res)) {

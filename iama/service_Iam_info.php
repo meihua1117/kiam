@@ -57,17 +57,17 @@ if($HTTP_HOST != "kiam.kr") {
     $recommend_cnt = $row[0];        
     
     
-    $query = "select count(*) from Gn_Iam_Name_Card a inner join  Gn_Member b on a.mem_id = b.mem_id where a.group_id is NULL and b.site='$site[0]' ";
+    $query = "select count(*) from Gn_Iam_Name_Card a inner join  Gn_Member b on a.mem_id = b.mem_id where a.group_id = 0 and b.site='$site[0]' ";
     $res = mysqli_query($self_con, $query);
     $row = mysqli_fetch_array($res);    
     $card_cnt = $row[0];            
     
-    $query = "select count(*) from Gn_Iam_Name_Card a inner join  Gn_Member b on a.mem_id = b.mem_id  where a.group_id is NULL and b.site='$site[0]' and a.req_data >= '".date("Y-m-d 00:00:00")."'";
+    $query = "select count(*) from Gn_Iam_Name_Card a inner join  Gn_Member b on a.mem_id = b.mem_id  where a.group_id = 0 and b.site='$site[0]' and a.req_data >= '".date("Y-m-d 00:00:00")."'";
     $res = mysqli_query($self_con, $query);
     $row = mysqli_fetch_array($res);    
     $card_new_cnt = $row[0];                
     
-    $query = "select sum(iam_share) from Gn_Iam_Name_Card a inner join  Gn_Member b on a.mem_id = b.mem_id  where a.group_id is NULL and b.site='$site[0]' ";
+    $query = "select sum(iam_share) from Gn_Iam_Name_Card a inner join  Gn_Member b on a.mem_id = b.mem_id  where a.group_id = 0 and b.site='$site[0]' ";
     $res = mysqli_query($self_con, $query);
     $row = mysqli_fetch_array($res);    
     $card_share_cnt = $row[0];                    

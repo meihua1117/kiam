@@ -219,13 +219,13 @@ $(function() {
                                 $searchStr .= $search_group ? " AND (name LIKE '%".$search_group."%' )" : null;
                                 $searchStr .= $search_card ? " AND (ca_1.card_name like '%".$search_card."%' )" : null;
 
-                                $count_query = "select count(idx) from Gn_Iam_Name_Card ca_1 WHERE group_id is not NULL and group_id > 0 $searchStr";
+                                $count_query = "select count(idx) from Gn_Iam_Name_Card ca_1 WHERE group_id > 0 $searchStr";
                                 $count_result = mysqli_query($self_con,$count_query);
                                 $count_row = mysqli_fetch_array($count_result);
                                 $totalCnt	=  $count_row[0];
 
                                 $query = "SELECT ca_1.*,gi.name as group_name FROM Gn_Iam_Name_Card ca_1 left join gn_group_info gi on gi.idx=ca_1.group_id";
-                                $query .= " WHERE group_id is not NULL and group_id > 0 $searchStr";
+                                $query .= " WHERE group_id > 0 $searchStr";
                                 $limitStr = " LIMIT ".(($startPage-1)*$pageCnt).", ".$pageCnt;
                                 $number	= $totalCnt - ($nowPage - 1) * $pageCnt;
                                 if(!$orderField)

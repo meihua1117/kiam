@@ -170,11 +170,11 @@ if (isset($_GET['sendtype'])) {
 										}
 
 										if ((int)$search_type == 2) {
-											$sql5 = "select count(idx) from Gn_Iam_Name_Card where group_id is NULL and phone_display = 'Y' $friends_sql_msg";
+											$sql5 = "select count(idx) from Gn_Iam_Name_Card where group_id = 0 and phone_display = 'Y' $friends_sql_msg";
 										} else if ((int)$search_type == 3) {
-											$sql5 = "select count(idx) from Gn_Iam_Name_Card a inner join Gn_Member b on a.mem_id=b.mem_id where a.group_id is NULL and a.phone_display = 'Y' and b.site='$site_name_friends' $friends_sql_msg";
+											$sql5 = "select count(idx) from Gn_Iam_Name_Card a inner join Gn_Member b on a.mem_id=b.mem_id where a.group_id = 0 and a.phone_display = 'Y' and b.site='$site_name_friends' $friends_sql_msg";
 										} else if ((int)$search_type == 4) {
-											$sql5 = "select count(idx) from Gn_Iam_Name_Card a inner join Gn_Member b on a.mem_id=b.mem_id where a.group_id is NULL and a.phone_display = 'Y' and b.recommend_id='{$_SESSION['iam_member_id']}' and $friends_sql_msg";
+											$sql5 = "select count(idx) from Gn_Iam_Name_Card a inner join Gn_Member b on a.mem_id=b.mem_id where a.group_id = 0 and a.phone_display = 'Y' and b.recommend_id='{$_SESSION['iam_member_id']}' and $friends_sql_msg";
 										} else {
 											$sql5 = "select count(idx) from Gn_Iam_Friends where mem_id = '$mem_id' $friends_sql_msg";
 										}
@@ -220,13 +220,13 @@ if (isset($_GET['sendtype'])) {
 
 										if ((int)$search_type == 2) {
 											$sql6 = "select idx as friends_card_idx, card_short_url as friends_url, card_name as friends_name,card_company as friends_company,
-                                            card_phone as friends_phone,mem_id as profile_mem_id from Gn_Iam_Name_Card where group_id is NULL and phone_display = 'Y' $friends_sql_msg " . $limit_str;
+                                            card_phone as friends_phone,mem_id as profile_mem_id from Gn_Iam_Name_Card where group_id = 0 and phone_display = 'Y' $friends_sql_msg " . $limit_str;
 										} else if ((int)$search_type == 3) {
 											$sql6 = "select a.idx as friends_card_idx, a.mem_id as profile_mem_id, a.card_short_url as friends_url, a.card_name as friends_name,
-                                                    a.card_company as friends_company, a.card_phone as friends_phone from Gn_Iam_Name_Card a inner join Gn_Member b on a.mem_id=b.mem_id where a.group_id is NULL and phone_display = 'Y' and b.site='$site_name_friends' $friends_sql_msg " . $limit_str;
+                                                    a.card_company as friends_company, a.card_phone as friends_phone from Gn_Iam_Name_Card a inner join Gn_Member b on a.mem_id=b.mem_id where a.group_id = 0 and phone_display = 'Y' and b.site='$site_name_friends' $friends_sql_msg " . $limit_str;
 										} else if ((int)$search_type == 4) {
 											$sql6 = "select a.idx as friends_card_idx, a.mem_id as profile_mem_id, a.card_short_url as friends_url, a.card_name as friends_name,
-                                                    a.card_company as friends_company, a.card_phone as friends_phone from Gn_Iam_Name_Card a inner join Gn_Member b on a.mem_id=b.mem_id where b.recommend_id='{$_SESSION['iam_member_id']}' and a.group_id is NULL and phone_display = 'Y' $friends_sql_msg " . $limit_str;
+                                                    a.card_company as friends_company, a.card_phone as friends_phone from Gn_Iam_Name_Card a inner join Gn_Member b on a.mem_id=b.mem_id where b.recommend_id='{$_SESSION['iam_member_id']}' and a.group_id = 0 and phone_display = 'Y' $friends_sql_msg " . $limit_str;
 										} else {
 											$sql6 = "select f.*, c.mem_id as profile_mem_id from Gn_Iam_Friends f inner join Gn_Iam_Name_Card c on f.friends_card_idx = c.idx where f.mem_id = '$mem_id' $friends_sql_msg " . $limit_str;
 										}
