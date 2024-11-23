@@ -120,15 +120,17 @@ if ($_POST['mode'] == "creat") {
         foreach ($cont_row as $key => $v) {
             fwrite($fp, "97= " . $v . "\r\n");
             if ($key == "mem_id") {
-                $v = "'{$mem_id}'";
+                $v = $mem_id;
             } else if ($key == "card_short_url" || $key == "westory_card_url") {
-                $v = "'{$card_short_url}'";
+                $v = $card_short_url;
             } else if ($key == "card_idx") {
                 $v = $profile_idx;
             } else if ($key == "req_data" || $key == "up_data") {
-                $v = "'" . date("Y-m-d H:i:s") . "'";
-            } else
-                $v = "'" . str_replace("'", "", $v) . "'";
+                $v = date("Y-m-d H:i:s");
+            }
+            if(!is_numeric($v)) 
+                $v = "'{".$v."}'";
+                //$v = "'" . str_replace("'", "", $v) . "'";
             if ($key != "idx" && $key != "public_display" && $v != "")
                 $sql .= $key . "=" . $v . ",";
         }
