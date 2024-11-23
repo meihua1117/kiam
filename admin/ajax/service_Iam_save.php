@@ -62,8 +62,19 @@ if ($_POST['mode'] == "creat") {
         $main_img1 = $card_row['main_img1'];
         $main_img2 = $card_row['main_img2'];
         $main_img3 = $card_row['main_img3'];
-        $name_card_sql = "insert into Gn_Iam_Name_Card (mem_id, card_short_url, card_name, card_phone, card_email, card_addr, profile_logo, req_data,up_data,main_img1,main_img2,main_img3) 
-                                values ('$mem_id', '$short_url', '$card_name', '$card_phone', '$card_email', '$card_addr', '$img_url', now(), now(),'$main_img1','$main_img2','$main_img3')";
+        $name_card_sql = "insert into Gn_Iam_Name_Card mem_id = '{$mem_id}',
+                                                        card_short_url = '{$short_url}', 
+                                                        card_name = '{$card_name}', 
+                                                        card_phone = '{$card_phone}', 
+                                                        card_email = '{$card_email}', 
+                                                        card_addr = '{$card_addr}',
+                                                        card_keyword = '', 
+                                                        profile_logo = '{$img_url}', 
+                                                        req_data = NOW(),
+                                                        up_data = NOW(),
+                                                        main_img1 = '{$main_img1}',
+                                                        main_img2 = '{$main_img2}',
+                                                        main_img3 = '{$main_img3}'";
         fwrite($fp, "59= " . $name_card_sql . "\r\n");
         mysqli_query($self_con, $name_card_sql) or die(mysqli_error($self_con));
         $profile_idx = mysqli_insert_id($self_con);
