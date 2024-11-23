@@ -62,7 +62,7 @@ if ($_POST['mode'] == "creat") {
         $main_img1 = $card_row['main_img1'];
         $main_img2 = $card_row['main_img2'];
         $main_img3 = $card_row['main_img3'];
-        $name_card_sql = "insert into Gn_Iam_Name_Card mem_id = '{$mem_id}',
+        $name_card_sql = "insert into Gn_Iam_Name_Card set mem_id = '{$mem_id}',
                                                         card_short_url = '{$short_url}', 
                                                         card_name = '{$card_name}', 
                                                         card_phone = '{$card_phone}', 
