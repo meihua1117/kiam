@@ -118,8 +118,6 @@ if ($_POST['mode'] == "creat") {
         $cont_row = mysqli_fetch_assoc($cont_res);
         $sql = "insert into Gn_Iam_Contents set ";
         foreach ($cont_row as $key => $v) {
-            if($v == "")
-                continue;
             if ($key == "mem_id") {
                 $v = "'{$mem_id}'";
             } else if ($key == "card_short_url" || $key == "westory_card_url") {
