@@ -15,7 +15,6 @@ if (!isset($_POST['service_price']) || $_POST['service_price'] == "")
 if (!isset($_POST['service_price1']) || $_POST['service_price1'] == "")
     $service_price1 = 0;
 if ($_POST['mode'] == "creat") {
-    $fp = fopen("iam_save.log", "w+");
     $head_logo = gcUploadRename($_FILES['head_logo']["name"], $_FILES["head_logo"]['tmp_name'], $_FILES["head_logo"]['size'], "data/site");
     $footer_logo = gcUploadRename($_FILES['footer_logo']["name"], $_FILES["footer_logo"]['tmp_name'], $_FILES["footer_logo"]['size'], "data/site");
     if (count(explode(".", $sub_domain)) == 1)
@@ -26,10 +25,8 @@ if ($_POST['mode'] == "creat") {
     $parse = parse_url($sub_domain);
     $site = explode(".", $parse['host']);
     $query = "update Gn_Member set site_iam = '{$site[0]}' where mem_id = '{$mem_id}'";
-    fwrite($fp, "21= " . $query . "\r\n");
     mysqli_query($self_con, $query);
     $name_card_sql = "select * from Gn_Iam_Name_Card where group_id = 0 and mem_id = '{$mem_id}' order by req_data limit 0,1";
-    fwrite($fp, "24= " . $name_card_sql . "\r\n");
     $res = mysqli_query($self_con, $name_card_sql);
     $row = mysqli_fetch_array($res);
     if (!$row) {
@@ -56,7 +53,6 @@ if ($_POST['mode'] == "creat") {
         $short_url = generateRandomString();
         $img_url = "/iam/img/common/logo-2.png";
         $name_card_sql = "select main_img1,main_img2,main_img3 from Gn_Iam_Name_Card where group_id = 0 and mem_id='iam1' order by req_data limit 0,1";
-        fwrite($fp, "51= " . $name_card_sql . "\r\n");
         $card_result = mysqli_query($self_con, $name_card_sql);
         $card_row = mysqli_fetch_array($card_result);
         $main_img1 = $card_row['main_img1'];
@@ -75,50 +71,41 @@ if ($_POST['mode'] == "creat") {
                                                         main_img1 = '{$main_img1}',
                                                         main_img2 = '{$main_img2}',
                                                         main_img3 = '{$main_img3}'";
-        fwrite($fp, "59= " . $name_card_sql . "\r\n");
         mysqli_query($self_con, $name_card_sql) or die(mysqli_error($self_con));
         $profile_idx = mysqli_insert_id($self_con);
     } else {
         $profile_idx = $row['idx'];
         $name_card_sql = "select main_img1 from Gn_Iam_Name_Card where idx='{$profile_idx}'";
-        fwrite($fp, "65= " . $name_card_sql . "\r\n");
         $card_result = mysqli_query($self_con, $name_card_sql);
         $card_row = mysqli_fetch_array($card_result);
         if (!$card_row[0]) {
             $name_card_sql = "select main_img1,main_img2,main_img3 from Gn_Iam_Name_Card where group_id = 0 and mem_id='iam1' order by req_data limit 0,1";
-            fwrite($fp, "70= " . $name_card_sql . "\r\n");
             $card_result = mysqli_query($self_con, $name_card_sql);
             $card_row = mysqli_fetch_array($card_result);
             $main_img1 = $card_row['main_img1'];
             $main_img2 = $card_row['main_img2'];
             $main_img3 = $card_row['main_img3'];
             $name_card_sql = "update Gn_Iam_Name_Card set main_img1 = '$main_img1',main_img2 = '$main_img2',main_img3 = '$main_img3',up_data = now() where idx='$profile_idx'";
-            fwrite($fp, "76= " . $name_card_sql . "\r\n");
             mysqli_query($self_con, $name_card_sql) or die(mysqli_error($self_con));
         }
     }
     $cont_sql = "select count(*) from Gn_Iam_Contents where card_idx ='{$profile_idx}'";
-    fwrite($fp, "81= " . $cont_sql . "\r\n");
     $cont_res = mysqli_query($self_con, $cont_sql);
     $cont_row = mysqli_fetch_array($cont_res);
-    if ($cont_row[0] != 0) {
+    if ($cont_row[0] == 0) {
         $name_card_sql = "select card_short_url from Gn_Iam_Name_Card where idx='{$profile_idx}'";
-        fwrite($fp, "87= " . $name_card_sql . "\r\n");
         $card_result = mysqli_query($self_con, $name_card_sql);
         $card_row = mysqli_fetch_array($card_result);
         $card_short_url = $card_row['card_short_url'];
 
         $name_card_sql = "select idx from Gn_Iam_Name_Card where group_id = 0 and mem_id='iam1' order by req_data limit 0,1";
-        fwrite($fp, "93= " . $name_card_sql . "\r\n");
         $card_result = mysqli_query($self_con, $name_card_sql);
         $card_row = mysqli_fetch_array($card_result);
         $cont_sql = "select * from Gn_Iam_Contents where card_idx='{$card_row['idx']}'";
-        fwrite($fp, "97= " . $cont_sql . "\r\n");
         $cont_res = mysqli_query($self_con, $cont_sql);
         $cont_row = mysqli_fetch_assoc($cont_res);
         $sql = "insert into Gn_Iam_Contents set ";
         foreach ($cont_row as $key => $v) {
-            fwrite($fp, "97= " . $v . "\r\n");
             if ($key == "mem_id") {
                 $v = $mem_id;
             } else if ($key == "card_short_url" || $key == "westory_card_url") {
@@ -142,15 +129,12 @@ if ($_POST['mode'] == "creat") {
                 $sql .= $key . "=" . $v . ",";
         }
         $sql = substr($sql, 0, strlen($sql) - 1);
-        fwrite($fp, "116= " . $sql . "\r\n");
         mysqli_query($self_con, $sql);
         $contents_idx = mysqli_insert_id($self_con);
         $sql2 = "insert into Gn_Iam_Con_Card set cont_idx={$contents_idx},card_idx={$profile_idx},main_card={$profile_idx}";
-        fwrite($fp, "120= " . $sql2 . "\r\n");
         mysqli_query($self_con, $sql2) or die(mysqli_error($self_con));
 
         $sql2 = "update Gn_Iam_Name_Card set up_data = now() where idx={$profile_idx}";
-        fwrite($fp, "124= " . $sql2 . "\r\n");
         mysqli_query($self_con, $sql2);
     }
     if ($service_type != 2)
@@ -199,12 +183,10 @@ if ($_POST['mode'] == "creat") {
                                             service_price = '{$service_price}',
                                             service_price_exp = '{$service_price1}',
                                             regdate=NOW() ";
-    fwrite($fp, "173= " . $query . "\r\n");
     mysqli_query($self_con, $query);
     $service_idx = mysqli_insert_id($self_con);
 
     $sql_mem_data = "select mem_phone from Gn_Member where mem_id='{$mem_id}'";
-    fwrite($fp, "178= " . $sql_mem_data . "\r\n");
     $res_mem_data = mysqli_query($self_con, $sql_mem_data);
     $row_mem_data = mysqli_fetch_array($res_mem_data);
 
@@ -213,13 +195,11 @@ if ($_POST['mode'] == "creat") {
 
     //콜백메시지 디폴트 복제
     $sql_event_idx = "select duplicate_event_idx from gn_mms_callback where duplicate_event_idx <> 0";
-    fwrite($fp, "187= " . $sql_event_idx . "\r\n");
     $res_event_idx = mysqli_query($self_con, $sql_event_idx);
     $row_event_idx = mysqli_fetch_array($res_event_idx);
     if ($row_event_idx['duplicate_event_idx']) {
         $sql_dup_mms = "INSERT INTO gn_mms_callback(title, content, img, iam_link, type, regdate, service_state, allow_state, mem_sel_cnt, mb_id, duplicate_event_idx) 
         (SELECT title, content, img, iam_link, type, now(), service_state, allow_state, 0, NULL, 0 FROM gn_mms_callback WHERE duplicate_event_idx!=0)";
-        fwrite($fp, "193= " . $sql_dup_mms . "\r\n");
         mysqli_query($self_con, $sql_dup_mms) or die(mysqli_error($self_con));
         $mms_idx = mysqli_insert_id($self_con);
         $event_name_eng = "callback msg reg" . $cur_time1 . $rand_num;
@@ -227,14 +207,12 @@ if ($_POST['mode'] == "creat") {
 
         $sql_dup_event = "INSERT INTO Gn_event(event_name_kor, event_name_eng, event_title, event_desc, event_info, event_sms_desc, pcode, event_type, mobile, regdate, ip_addr, m_id, short_url, read_cnt, cnt, object, callback_no, event_req_link, daily_req_link) 
         (SELECT event_name_kor, '{$event_name_eng}', event_title, event_desc, event_info, event_sms_desc, '{$pcode}', event_type, '{$row_mem_data['mem_phone']}', now(), ip_addr, '{$mem_id}', '', 0, cnt, object, {$mms_idx}, event_req_link, daily_req_link FROM Gn_event WHERE event_idx='{$row_event_idx['duplicate_event_idx']}')";
-        fwrite($fp, "201= " . $sql_dup_event . "\r\n");
         mysqli_query($self_con, $sql_dup_event) or die(mysqli_error($self_con));
         $event_idx = mysqli_insert_id($self_con);
 
         $transUrl = $main_domain . "/event/callbackmsg.php?pcode=" . $pcode . "&eventidx=" . $event_idx;
         $transUrl = get_short_url($transUrl);
         $insert_short_url = "update Gn_event set short_url='{$transUrl}' where event_idx={$event_idx}";
-        fwrite($fp, "208= " . $insert_short_url . "\r\n");
         mysqli_query($self_con, $insert_short_url) or die(mysqli_error($self_con));
     }
 
@@ -248,24 +226,20 @@ if ($_POST['mode'] == "creat") {
 
         $sql_dup_event = "INSERT INTO Gn_event(event_name_kor, event_name_eng, event_title, event_desc, event_info, event_sms_desc, pcode, event_type, mobile, regdate, ip_addr, m_id, short_url, read_cnt, cnt, object, callback_no, event_req_link, daily_req_link) 
         (SELECT event_name_kor, '{$event_name_eng}', event_title, event_desc, event_info, event_sms_desc, '{$pcode}', event_type, '{$row_mem_data['mem_phone']}', now(), ip_addr, '{$mem_id}', '', 0, cnt, object, callback_no, event_req_link, daily_req_link FROM Gn_event WHERE event_idx='{$row_auto_event['auto_join_event_idx']}')";
-        fwrite($fp, "222= " . $sql_dup_event . "\r\n");
         mysqli_query($self_con, $sql_dup_event) or die(mysqli_error($self_con));
         $event_idx = mysqli_insert_id($self_con);
 
         $query = "update Gn_Iam_Service set auto_join_event_idx='{$event_idx}' where idx='{$service_idx}'";
-        fwrite($fp, "227= " . $query . "\r\n");
         mysqli_query($self_con, $query);
 
         $transUrl = $main_domain . "/event/automember.php?pcode=" . $pcode . "&eventidx=" . $event_idx;
         $transUrl = get_short_url($transUrl);
         $insert_short_url = "update Gn_event set short_url='{$transUrl}' where event_idx={$event_idx}";
-        fwrite($fp, "233= " . $insert_short_url . "\r\n");
         mysqli_query($self_con, $insert_short_url) or die(mysqli_error($self_con));
     }
 
     //데일리메시지 디폴트 복제
     $sql_daily_event = "select daily_msg_event_idx from Gn_Iam_Service where mem_id='iam1'";
-    fwrite($fp, "239= " . $sql_daily_event . "\r\n");
     $res_daily_event = mysqli_query($self_con, $sql_daily_event);
     $row_daily_event = mysqli_fetch_array($res_daily_event);
     if ($row_daily_event['daily_msg_event_idx']) {
@@ -274,14 +248,12 @@ if ($_POST['mode'] == "creat") {
 
         $sql_dup_event = "INSERT INTO Gn_event(event_name_kor, event_name_eng, event_title, event_desc, event_info, event_sms_desc, pcode, event_type, mobile, regdate, ip_addr, m_id, short_url, read_cnt, cnt, object, callback_no, event_req_link, daily_req_link) 
         (SELECT event_name_kor, '{$event_name_eng}', event_title, event_desc, event_info, event_sms_desc, '{$pcode}', event_type, '{$row_mem_data['mem_phone']}', now(), ip_addr, '{$mem_id}', '', 0, cnt, object, callback_no, event_req_link, daily_req_link FROM Gn_event WHERE event_idx='{$row_daily_event['daily_msg_event_idx']}')";
-        fwrite($fp, "248= " . $sql_dup_event . "\r\n");
         mysqli_query($self_con, $sql_dup_event) or die(mysqli_error($self_con));
         $event_idx = mysqli_insert_id($self_con);
 
         $transUrl = $main_domain . "/event/dailymsg.php?pcode=" . $pcode . "&eventidx=" . $event_idx;
         $transUrl = get_short_url($transUrl);
         $insert_short_url = "update Gn_event set short_url='{$transUrl}' where event_idx={$event_idx}";
-        fwrite($fp, "255= " . $insert_short_url . "\r\n");
         mysqli_query($self_con, $insert_short_url) or die(mysqli_error($self_con));
     }
 } else if ($_POST['mode'] == "updat") {
