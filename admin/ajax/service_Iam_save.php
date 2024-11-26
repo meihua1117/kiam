@@ -136,6 +136,8 @@ if ($_POST['mode'] == "creat") {
                 $v = "now()";
             else if($key == "send_salary_price" && $v == "''")
                 $v = 0;
+            else if($key == "send_provide_price" && $v == "''")
+                $v = 0;
             if ($key != "idx" && $key != "public_display" && $v != "")
                 $sql .= $key . "=" . $v . ",";
         }
