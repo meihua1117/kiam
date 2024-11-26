@@ -101,7 +101,7 @@ if ($_POST['mode'] == "creat") {
     fwrite($fp, "81= " . $cont_sql . "\r\n");
     $cont_res = mysqli_query($self_con, $cont_sql);
     $cont_row = mysqli_fetch_array($cont_res);
-    if ($cont_row[0] == 0) {
+    if ($cont_row[0] != 0) {
         $name_card_sql = "select card_short_url from Gn_Iam_Name_Card where idx='{$profile_idx}'";
         fwrite($fp, "87= " . $name_card_sql . "\r\n");
         $card_result = mysqli_query($self_con, $name_card_sql);
