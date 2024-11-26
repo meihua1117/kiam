@@ -130,7 +130,10 @@ if ($_POST['mode'] == "creat") {
             }
             if(!is_numeric($v)) 
                 $v = "'" . str_replace("'", "", $v) . "'";
-                //
+            if($key == "reduce_val" && $v == "''")
+                $v = '0.0';
+            else if($key == "wm_date" && $v == "''")
+                $v = "now()";
             if ($key != "idx" && $key != "public_display" && $v != "")
                 $sql .= $key . "=" . $v . ",";
         }
