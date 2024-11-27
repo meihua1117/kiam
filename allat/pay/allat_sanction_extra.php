@@ -9,22 +9,22 @@
 
 	// Set CrossKey 
 	// -------------------------------------------------------------------
-	$at_cross_key	= "";	// °¡¸ÍÁ¡ CrossKey°ª
+	$at_cross_key	= "";	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ CrossKeyï¿½ï¿½
 
 	// Set Value
 	// -------------------------------------------------------------------
-	$at_shop_id		= "";	// ShopId°ª(ÃÖ´ë 20Byte)
-	$at_order_no	= "";	// ÁÖ¹®¹øÈ£(ÃÖ´ë 80Byte)
-	$at_seq_no		= "";	// °Å·¡ÀÏ·Ã¹øÈ£(ÃÖ´ë 10Byte) : ¿É¼ÇÇÊµåÀÓ
+	$at_shop_id		= "";	// ShopIdï¿½ï¿½(ï¿½Ö´ï¿½ 20Byte)
+	$at_order_no	= "";	// ï¿½Ö¹ï¿½ï¿½ï¿½È£(ï¿½Ö´ï¿½ 80Byte)
+	$at_seq_no		= "";	// ï¿½Å·ï¿½ï¿½Ï·Ã¹ï¿½È£(ï¿½Ö´ï¿½ 10Byte) : ï¿½É¼ï¿½ï¿½Êµï¿½ï¿½ï¿½
 
 	// set Enc Data
 	// -------------------------------------------------------------------
 	$at_enc=setValue($at_enc,"allat_shop_id",$at_shop_id);
 	$at_enc=setValue($at_enc,"allat_order_no",$at_order_no);
 	$at_enc=setValue($at_enc,"allat_seq_no",$at_seq_no);
-	$at_enc=setValue($at_enc,"allat_test_yn","N");		// Å×½ºÆ® :Y, ¼­ºñ½º :N
-	$at_enc=setValue($at_enc,"allat_opt_pin","NOUSE");	// ¼öÁ¤±ÝÁö(¿Ã¾Ü ÂüÁ¶ ÇÊµå)
-	$at_enc=setValue($at_enc,"allat_opt_mod","APP");	// ¼öÁ¤±ÝÁö(¿Ã¾Ü ÂüÁ¶ ÇÊµå)
+	$at_enc=setValue($at_enc,"allat_test_yn","N");		// ï¿½×½ï¿½Æ® :Y, ï¿½ï¿½ï¿½ï¿½ :N
+	$at_enc=setValue($at_enc,"allat_opt_pin","NOUSE");	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½Ã¾ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Êµï¿½)
+	$at_enc=setValue($at_enc,"allat_opt_mod","APP");	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½Ã¾ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Êµï¿½)
 
 	// Set Request Data
 	//---------------------------------------------------------------------
@@ -32,29 +32,29 @@
 				"&allat_enc_data=".$at_enc.
 				"&allat_cross_key=".$at_cross_key;
 
-	// ¿Ã¾Ü°ú Åë½Å ÈÄ °á°ú°ª ¹Þ±â : CancelReq->Åë½ÅÇÔ¼ö
+	// ï¿½Ã¾Ü°ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ±ï¿½ : CancelReq->ï¿½ï¿½ï¿½ï¿½Ô¼ï¿½
 	//-----------------------------------------------------------------
 	$at_txt=SanctionReq($at_data,"SSL");
 
-	// °á°ú°ª
+	// ï¿½ï¿½ï¿½ï¿½ï¿½
 	//----------------------------------------------------------------
-	$REPLYCD     = getValue("reply_cd",$at_txt);	//°á°úÄÚµå
-	$REPLYMSG    = getValue("reply_msg",$at_txt);	//°á°ú ¸Þ¼¼Áö
+	$REPLYCD     = getValue("reply_cd",$at_txt);	//ï¿½ï¿½ï¿½ï¿½Úµï¿½
+	$REPLYMSG    = getValue("reply_msg",$at_txt);	//ï¿½ï¿½ï¿½ ï¿½Þ¼ï¿½ï¿½ï¿½
 
-	// °á°ú°ª Ã³¸®
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½
 	//------------------------------------------------------------------
-	if( !strcmp($REPLYCD,"0000") ){
-		// reply_cd "0000" ÀÏ¶§¸¸ ¼º°ø
+	if( $REPLYCD == "0000" ){
+		// reply_cd "0000" ï¿½Ï¶ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		$SANCTION_YMDHMS=getValue("sanction_ymdhms",$at_txt);
 
-		echo "°á°úÄÚµå	: ".$REPLYCD."<br>";
-		echo "°á°ú¸Þ¼¼Áö	: ".$REPLYMSG."<br>";
-		echo "¸ÅÀÔ³¯Â¥	: ".$SANCTION_YMDHMS."<br>";
+		echo "ï¿½ï¿½ï¿½ï¿½Úµï¿½	: ".$REPLYCD."<br>";
+		echo "ï¿½ï¿½ï¿½ï¿½Þ¼ï¿½ï¿½ï¿½	: ".$REPLYMSG."<br>";
+		echo "ï¿½ï¿½ï¿½Ô³ï¿½Â¥	: ".$SANCTION_YMDHMS."<br>";
 	} else {
-		// reply_cd °¡ "0000" ¾Æ´Ò¶§´Â ¿¡·¯ (ÀÚ¼¼ÇÑ ³»¿ëÀº ¸Å´º¾óÂüÁ¶)
-		// reply_msg °¡ ½ÇÆÐ¿¡ ´ëÇÑ ¸Þ¼¼Áö
-		echo "°á°úÄÚµå	: ".$REPLYCD."<br>";
-		echo "°á°ú¸Þ¼¼Áö	: ".$REPLYMSG."<br>";
+		// reply_cd ï¿½ï¿½ "0000" ï¿½Æ´Ò¶ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ (ï¿½Ú¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Å´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)
+		// reply_msg ï¿½ï¿½ ï¿½ï¿½ï¿½Ð¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¼ï¿½ï¿½ï¿½
+		echo "ï¿½ï¿½ï¿½ï¿½Úµï¿½	: ".$REPLYCD."<br>";
+		echo "ï¿½ï¿½ï¿½ï¿½Þ¼ï¿½ï¿½ï¿½	: ".$REPLYMSG."<br>";
 	}
 ?>
 </body>

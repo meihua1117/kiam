@@ -1,46 +1,46 @@
 <?php
-  // ¿Ã¾Ü°ü·Ã ÇÔ¼ö Include
+  // ï¿½Ã¾Ü°ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½ Include
   //----------------------
   include_once "./allatutil.php";
 
   //Request Value Define
   //----------------------
-//  $at_cross_key = "°¡¸ÍÁ¡ CrossKey";     //¼³Á¤ÇÊ¿ä [»çÀÌÆ® ÂüÁ¶ - http://www.allatpay.com/servlet/AllatBiz/helpinfo/hi_install_guide.jsp#shop]
-//  $at_shop_id   = "°¡¸ÍÁ¡ ShopId";       //¼³Á¤ÇÊ¿ä
-  $at_cross_key = "304f3a821cac298ff8a0ef504e1c2309";	//¼³Á¤ÇÊ¿ä [»çÀÌÆ® ÂüÁ¶ - http://www.allatpay.com/servlet/AllatBiz/support/sp_install_guide_scriptapi.jsp#shop]
-  $at_shop_id   = "bwelcome12";		//¼³Á¤ÇÊ¿ä
+//  $at_cross_key = "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ CrossKey";     //ï¿½ï¿½ï¿½ï¿½ï¿½Ê¿ï¿½ [ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ - http://www.allatpay.com/servlet/AllatBiz/helpinfo/hi_install_guide.jsp#shop]
+//  $at_shop_id   = "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ShopId";       //ï¿½ï¿½ï¿½ï¿½ï¿½Ê¿ï¿½
+  $at_cross_key = "304f3a821cac298ff8a0ef504e1c2309";	//ï¿½ï¿½ï¿½ï¿½ï¿½Ê¿ï¿½ [ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ - http://www.allatpay.com/servlet/AllatBiz/support/sp_install_guide_scriptapi.jsp#shop]
+  $at_shop_id   = "bwelcome12";		//ï¿½ï¿½ï¿½ï¿½ï¿½Ê¿ï¿½
   
-  // ¿äÃ» µ¥ÀÌÅÍ ¼³Á¤
+  // ï¿½ï¿½Ã» ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
   //----------------------
   $at_data   = "allat_shop_id=".$at_shop_id.
                "&allat_enc_data=".$_POST["allat_enc_data"].
                "&allat_cross_key=".$at_cross_key;
 
 
-  // ¿Ã¾Ü ¼­¹ö¿Í Åë½Å 
+  // ï¿½Ã¾ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ 
   //--------------------------
   $at_txt = CertRegReq($at_data,"SSL");
 
-  // °áÁ¦ °á°ú °ª È®ÀÎ
+  // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ È®ï¿½ï¿½
   //------------------
-  $REPLYCD   =getValue("reply_cd",$at_txt);        //°á°úÄÚµå
-  $REPLYMSG  =getValue("reply_msg",$at_txt);       //°á°ú ¸Þ¼¼Áö
+  $REPLYCD   =getValue("reply_cd",$at_txt);        //ï¿½ï¿½ï¿½ï¿½Úµï¿½
+  $REPLYMSG  =getValue("reply_msg",$at_txt);       //ï¿½ï¿½ï¿½ ï¿½Þ¼ï¿½ï¿½ï¿½
 
-  // °á°ú°ª Ã³¸®
+  // ï¿½ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½
   //--------------------------------------------------------------------------
-  if( !strcmp($REPLYCD,"0000") ){
-    // reply_cd "0000" ÀÏ¶§¸¸ ¼º°ø
+  if( $REPLYCD == "0000" ){
+    // reply_cd "0000" ï¿½Ï¶ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     $FIX_KEY	= getValue("fix_key",$at_txt);
     $APPLY_YMD	= getValue("apply_ymd",$at_txt);
 	
-    echo "°á°úÄÚµå	: ".$REPLYCD."<br>";
-    echo "°á°ú¸Þ¼¼Áö	: ".$REPLYMSG."<br>";
-    echo "ÀÎÁõÅ°	: ".$FIX_KEY."<br>";
-    echo "ÀÎÁõÀÏ	: ".$APPLY_YMD."<br>";
+    echo "ï¿½ï¿½ï¿½ï¿½Úµï¿½	: ".$REPLYCD."<br>";
+    echo "ï¿½ï¿½ï¿½ï¿½Þ¼ï¿½ï¿½ï¿½	: ".$REPLYMSG."<br>";
+    echo "ï¿½ï¿½ï¿½ï¿½Å°	: ".$FIX_KEY."<br>";
+    echo "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	: ".$APPLY_YMD."<br>";
   }else{
-    // reply_cd °¡ "0000" ¾Æ´Ò¶§´Â ¿¡·¯ (ÀÚ¼¼ÇÑ ³»¿ëÀº ¸Å´º¾óÂüÁ¶)
-    // reply_msg ´Â ½ÇÆÐ¿¡ ´ëÇÑ ¸Þ¼¼Áö
-    echo "°á°úÄÚµå  : ".$REPLYCD."<br>";
-    echo "°á°ú¸Þ¼¼Áö: ".$REPLYMSG."<br>";
+    // reply_cd ï¿½ï¿½ "0000" ï¿½Æ´Ò¶ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ (ï¿½Ú¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Å´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)
+    // reply_msg ï¿½ï¿½ ï¿½ï¿½ï¿½Ð¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¼ï¿½ï¿½ï¿½
+    echo "ï¿½ï¿½ï¿½ï¿½Úµï¿½  : ".$REPLYCD."<br>";
+    echo "ï¿½ï¿½ï¿½ï¿½Þ¼ï¿½ï¿½ï¿½: ".$REPLYMSG."<br>";
   }
 ?>

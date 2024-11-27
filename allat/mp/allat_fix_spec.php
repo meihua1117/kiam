@@ -32,7 +32,7 @@ $sql="select * from tjd_pay_result where orderNumber='$ORDER_NO'";
 $resul=mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
 while($row=mysqli_fetch_array($resul)){
 $no = $row['no'];
-if(!strcmp($REPLYCD,"0000")){//pay_test
+if($REPLYCD == "0000"){//pay_test
     $sql = "update tjd_pay_result set end_status='Y',billkey='$FIX_KEY',billdate='$APPLY_YMD' where  orderNumber='$ORDER_NO'";
     mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
     $sql = "select * from Gn_Member where mem_id='{$member_iam['mem_id']}' ";
@@ -76,7 +76,7 @@ if(!strcmp($REPLYCD,"0000")){//pay_test
 
 // 결과값 처리
 //--------------------------------------------------------------------------
-if(!strcmp($REPLYCD,"0000")){//pay_test
+if($REPLYCD == "0000"){//pay_test
     // reply_cd "0000" 일때만 성공
     $FIX_KEY	= getValue("fix_key",$at_txt);
     $APPLY_YMD	= getValue("apply_ymd",$at_txt);

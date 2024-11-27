@@ -146,7 +146,5 @@ if ($result == "0") { //로그인 성공
 		mysqli_query($self_con, $sql_insert);
 	}
 }
-
-
 echo json_encode(array("result" => $result, "mem_code" => $mem_code, "site" => $site, "site_iam" => $site_iam, "mem_token" => $memToken));
 ?>

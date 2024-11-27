@@ -44,7 +44,7 @@ include_once "_head.php";
   // ���� ����   : allat_test_yn=N �� ��� reply_cd=0000 �̸� ����
   // �׽�Ʈ ���� : allat_test_yn=Y �� ��� reply_cd=0001 �̸� ����
   //--------------------------------------------------------------------------
-  if( !strcmp($REPLYCD,"0000") ){
+  if( $REPLYCD == "0000" ){
     // reply_cd "0000" �϶��� ����
     $ORDER_NO         =getValue("order_no",$at_txt);
     $AMT              =getValue("amt",$at_txt);

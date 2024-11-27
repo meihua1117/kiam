@@ -32,7 +32,7 @@ $sql="select no,month_cnt,db_cnt,email_cnt,phone_cnt from tjd_pay_result where o
 $resul=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 $row=mysqli_fetch_array($resul);
 $no = $row['no'];
-if(!strcmp($REPLYCD,"0000")){//pay_test
+if($REPLYCD == "0000"){//pay_test
     $sql = "update tjd_pay_result set end_status='Y',billkey='$FIX_KEY',billdate='$APPLY_YMD' where  orderNumber='$ORDER_NO'";
     mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
     //디버회원가입하기

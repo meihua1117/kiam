@@ -165,11 +165,7 @@ if($platform == "mobile"){
             // 결제창 자동종료 체크 종료
             AllatPay_Closechk_End();
         }
-        if( result_cd != '0000' ){//pay_test
-            //window.setTimeout(function(){alert(result_cd + " : " + result_msg);},1000);
-            alert(result_cd + " : " + result_msg);
-            location.reload();
-        } else {
+        if( result_cd == '0000' ){//pay_test
             pay_form.allat_enc_data.value = enc_data;
             pay_form.action = "/pay_end_allat_spoc.php";
             pay_form.method = "post";
@@ -179,6 +175,10 @@ if($platform == "mobile"){
             if(auto_mem == 'true'){
                 iam_item('<?=$_SESSION['iam_member_id'];?>', 'buy', 'card');
             }
+        } else {
+            //window.setTimeout(function(){alert(result_cd + " : " + result_msg);},1000);
+            alert(result_cd + " : " + result_msg);
+            location.reload();
         }
     }
     function active_pay(){

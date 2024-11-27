@@ -198,12 +198,13 @@ if ($_POST['id'] && $_POST['pwd']) {
         $sql .= " where mem_code='{$_POST['join_modify']}' ";
     if (mysqli_query($self_con, $sql) or die(mysqli_error($self_con))) {
         if ($_POST['join_modify']) {
-            $_SESSION['iam_member_leb'] = 0; ?>
+            $_SESSION['iam_member_leb'] = 0; 
+?>
             <script language="javascript">
                 alert('수정완료되었습니다.');
                 location = 'mypage.php';
             </script>
-<? } else {
+<?       } else {
             $mem_id = $mem_id ? $mem_id : $_POST['id'];
             $sql = "select mem_leb, iam_leb,site, site_iam from Gn_Member where mem_id= '{$_POST['id']}'";
             $resul = mysqli_query($self_con, $sql);

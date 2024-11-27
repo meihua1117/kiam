@@ -1868,17 +1868,17 @@ if($platform == "mobile"){
             // 결제창 자동종료 체크 종료
             AllatPay_Closechk_End();
         }
-        if( result_cd != '0000' ){//pay_test
-            $("#ajax-loading").delay(10).hide(1);
-            window.setTimeout(function(){alert(result_cd + " : " + result_msg);},1000);
-            location.reload();
-        } else {
+        if( result_cd == '0000' ){//pay_test
             $("#ajax-loading").delay(10).hide(1);
             pay_form.allat_enc_data.value = enc_data;
             pay_form.action = "pay_end_allat.php";
             pay_form.method = "post";
             pay_form.target = "_self";
             pay_form.submit();
+        } else {
+            $("#ajax-loading").delay(10).hide(1);
+            window.setTimeout(function(){alert(result_cd + " : " + result_msg);},1000);
+            location.reload();
         }
 	}
     function ftn_fix(dfm) {
@@ -1912,10 +1912,7 @@ if($platform == "mobile"){
             Allat_Mobile_Close();
         else
             Allat_Plus_Close();
-        if(result_cd != '0000') {//pay_test
-            alert(result_cd + " : " + result_msg);
-            location.reload();
-        } else {
+        if(result_cd == '0000') {//pay_test
             pay_form.allat_enc_data.value = enc_data;
             if(pay_form.member_type.value == "standard") {
                 pay_form.allat_enc_data.value = enc_data;
@@ -1941,6 +1938,9 @@ if($platform == "mobile"){
                     }
                 });
             }
+        } else {
+            alert(result_cd + " : " + result_msg);
+            location.reload();
         }
         $("#ajax-loading").delay(10).hide(1);
     }

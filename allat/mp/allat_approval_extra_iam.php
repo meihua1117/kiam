@@ -78,7 +78,7 @@ $REPLYCD   =getValue("reply_cd",$at_txt);        //결과코드
 $REPLYMSG  =getValue("reply_msg",$at_txt);       //결과 메세지
 $sql = "update tjd_pay_result set resultCode='$REPLYCD', resultMsg='$REPLYMSG' where  orderNumber='$ORDER_NO'";
 $resul=mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
-if(!strcmp($REPLYCD,"0000")){//pay_test
+if($REPLYCD == "0000"){//pay_test
     // reply_cd "0000" 일때만 성공
     $ORDER_NO         =getValue("order_no",$at_txt);
     $AMT              =getValue("amt",$at_txt);

@@ -1,5 +1,6 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <?php
+$fp = fopen("allat_fix.log","w+");
 //셀링카드정기결제
 include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
 // 올앳관련 함수 Include
@@ -29,11 +30,13 @@ $FIX_KEY	= getValue("fix_key",$at_txt);
 $APPLY_YMD	= getValue("apply_ymd",$at_txt);
 
 $sql="select no,month_cnt,db_cnt,email_cnt,phone_cnt from tjd_pay_result where orderNumber='$ORDER_NO'";
+fwrite($fp,"33=>".$sql."\r\n");
 $resul=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 $row=mysqli_fetch_array($resul);
 $no = $row['no'];
-if(!strcmp($REPLYCD,"0000")){//pay_test
+if($REPLYCD == "0000"){//pay_test
     $sql = "update tjd_pay_result set end_status='Y',billkey='$FIX_KEY',billdate='$APPLY_YMD' where  orderNumber='$ORDER_NO'";
+    fwrite($fp,"39=>".$sql."\r\n");
     mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 //디버회원가입하기
     $user_id = $member_1['mem_id'];
@@ -53,48 +56,51 @@ if(!strcmp($REPLYCD,"0000")){//pay_test
     $sresult = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
     $crow = mysqli_fetch_array($sresult);
     if ($crow[0] == 0) {
-        $query = "insert into crawler_member_real set user_id='$user_id',
-                                        user_name='$user_name',
-                                        password='$password',
-                                        cell='$cell',
-                                        email='$email',
-                                        address='$address',
-                                        term='$term',
-                                        status='$status',
-                                        use_cnt='$use_cnt',
+        $query = "insert into crawler_member_real set user_id='{$user_id}',
+                                        user_name='{$user_name}',
+                                        password='{$password}',
+                                        cell='{$cell}',
+                                        email='{$email}',
+                                        address='{$address}',
+                                        term='{$term}',
+                                        status='{$status}',
+                                        use_cnt='{$use_cnt}',
                                         regdate=NOW(),
                                         search_email_yn='Y',
-                                        search_email_date='$search_email_date',
-                                        search_email_cnt='$search_email_cnt',
-                                        shopping_end_date='$search_email_date'";
+                                        search_email_date='{$search_email_date}',
+                                        search_email_cnt='{$search_email_cnt}',
+                                        shopping_end_date='{$search_email_date}'";
+                                        fwrite($fp,"73=>".$query."\r\n");
         mysqli_query($self_con,$query);
     } else {
-        $query = "update crawler_member_real set
-                                        cell='$cell',
-                                        email='$email',
-                                        address='$address',
-                                        term='$term',
-                                        status='$status',
-                                        use_cnt='$use_cnt',
+        $query = "update crawler_member_real set cell='{$cell}',
+                                        email='{$email}',
+                                        address='{$address}',
+                                        term='{$term}',
+                                        status='{$status}',
+                                        use_cnt='{$use_cnt}',
                                         monthly_cnt = 0,
                                         total_cnt = 0,
                                         regdate=NOW(),
                                         search_email_yn='Y',
-                                        search_email_date='$search_email_date',
-                                        search_email_cnt='$search_email_cnt',
+                                        search_email_date='{$search_email_date}',
+                                        search_email_cnt='{$search_email_cnt}',
                                         shopping_yn='N',
-                                        shopping_end_date='$search_email_date',
+                                        shopping_end_date='{$search_email_date}',
                                         status='Y'
-                                        where user_id='$user_id'";
+                                        where user_id='{$user_id}'";
+                                        fwrite($fp,"92=>".$query."\r\n");
         mysqli_query($self_con,$query);
     }
     $add_phone = $row['phone_cnt'] / 9000;
-    $sql_m = "update Gn_Member set fujia_date1=now() , fujia_date2=date_add(now(),INTERVAL 120 month),phone_cnt=phone_cnt+'$add_phone'";
+    $sql_m = "update Gn_Member set fujia_date1=now() , fujia_date2=date_add(now(),INTERVAL 120 month),phone_cnt=phone_cnt+'{$add_phone}'";
+    fwrite($fp,"97=>".$sql_m."\r\n");
     $sql_m .= " where mem_id='{$member_1['mem_id']}'";
     mysqli_query($self_con,$sql_m) or die(mysqli_error($self_con));
 
     if ($member_1['recommend_id'] != "") {
         $sql = "select * from Gn_Member where mem_id='{$member_1['recommend_id']}' ";
+        fwrite($fp,"103=>".$sql."\r\n");
         $rresult = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
         if (mysqli_num_rows($rresult) > 0) {
             $rrow = mysqli_fetch_array($rresult);
@@ -121,6 +127,7 @@ if(!strcmp($REPLYCD,"0000")){//pay_test
             }
 
             $sql = "update tjd_pay_result set share_per='$share_per', branch_share_per = '$branch_share_per', share_id='{$member_1['recommend_id']}', branch_share_id='$branch_share_id' where no='$no'";
+            fwrite($fp,"130=>".$sql."\r\n");
             mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
         }
     }//디버회원가입 완료
@@ -128,13 +135,14 @@ if(!strcmp($REPLYCD,"0000")){//pay_test
     $iam_share_cnt = $_POST['iam_share_cnt'];
     $sql_m = "update Gn_Member set fujia_date1=now() ,
                                 fujia_date2=date_add(now(),INTERVAL 120 month),
-                                iam_card_cnt = iam_card_cnt + '$iam_card_cnt',
-                                iam_share_cnt = iam_share_cnt + '$iam_share_cnt',
+                                iam_card_cnt = iam_card_cnt + '{$iam_card_cnt}',
+                                iam_share_cnt = iam_share_cnt + '{$iam_share_cnt}',
                                 exp_start_status = 0,
                                 exp_mid_status = 0,
                                 exp_limit_status = 0,
                                 exp_limit_date = NULL
                             where mem_id='{$member_1['mem_id']}' ";
+                            fwrite($fp,"145=>".$sql_m."\r\n");
     mysqli_query($self_con,$sql_m) or die(mysqli_error($self_con));
     // 결과값 처리
     // reply_cd "0000" 일때만 성공

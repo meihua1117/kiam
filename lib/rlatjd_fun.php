@@ -1676,3 +1676,4 @@ function getQueryParam($param, $url)
 	parse_str($queryString, $params);
 	return isset($params[$param]) ? $params[$param] : null;
 }
+?>

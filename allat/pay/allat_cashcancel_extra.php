@@ -9,15 +9,15 @@
 
 	// Set CrossKey 
 	// -------------------------------------------------------------------
-	$at_cross_key		= "";	// °¡¸ÍÁ¡ CrossKey°ª
+	$at_cross_key		= "";	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ CrossKeyï¿½ï¿½
 
 	// Set Value
 	// -------------------------------------------------------------------
-	$at_shop_id			= "";	// ShopId°ª(ÃÖ´ë 20Byte)
-	$at_cash_bill_no	= "";	// Çö±Ý¿µ¼öÁõÀÏ·Ã¹øÈ£(ÃÖ´ë 10Byte)
-	$at_supply_amt		= "";	// Ãë¼Ò°ø±Þ°¡¾×(ÃÖ´ë 10Byte)
-	$at_vat_amt			= "";	// Ãë¼ÒVAT±Ý¾×(ÃÖ´ë 10Byte)
-	$at_reg_business_no	= "";	// µî·ÏÇÒ»ç¾÷ÀÚ¹øÈ£(ÃÖ´ë 10Byte):»óÁ¡ ID¿Í ´Ù¸¥°æ¿ì
+	$at_shop_id			= "";	// ShopIdï¿½ï¿½(ï¿½Ö´ï¿½ 20Byte)
+	$at_cash_bill_no	= "";	// ï¿½ï¿½ï¿½Ý¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï·Ã¹ï¿½È£(ï¿½Ö´ï¿½ 10Byte)
+	$at_supply_amt		= "";	// ï¿½ï¿½Ò°ï¿½ï¿½Þ°ï¿½ï¿½ï¿½(ï¿½Ö´ï¿½ 10Byte)
+	$at_vat_amt			= "";	// ï¿½ï¿½ï¿½VATï¿½Ý¾ï¿½(ï¿½Ö´ï¿½ 10Byte)
+	$at_reg_business_no	= "";	// ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ú¹ï¿½È£(ï¿½Ö´ï¿½ 10Byte):ï¿½ï¿½ï¿½ï¿½ IDï¿½ï¿½ ï¿½Ù¸ï¿½ï¿½ï¿½ï¿½
 
 	// set Enc Data
 	// -------------------------------------------------------------------
@@ -26,9 +26,9 @@
 	$at_enc=setValue($at_enc,"allat_supply_amt",$at_supply_amt);
 	$at_enc=setValue($at_enc,"allat_vat_amt",$at_vat_amt);
 	$at_enc=setValue($at_enc,"allat_reg_business_no",$at_reg_business_no);
-	$at_enc=setValue($at_enc,"allat_test_yn","N");		// Å×½ºÆ® :Y, ¼­ºñ½º :N
-	$at_enc=setValue($at_enc,"allat_opt_pin","NOUSE");	// ¼öÁ¤±ÝÁö(¿Ã¾Ü ÂüÁ¶ ÇÊµå)
-	$at_enc=setValue($at_enc,"allat_opt_mod","APP");	// ¼öÁ¤±ÝÁö(¿Ã¾Ü ÂüÁ¶ ÇÊµå)
+	$at_enc=setValue($at_enc,"allat_test_yn","N");		// ï¿½×½ï¿½Æ® :Y, ï¿½ï¿½ï¿½ï¿½ :N
+	$at_enc=setValue($at_enc,"allat_opt_pin","NOUSE");	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½Ã¾ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Êµï¿½)
+	$at_enc=setValue($at_enc,"allat_opt_mod","APP");	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½Ã¾ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Êµï¿½)
 
 	// Set Request Data
 	//---------------------------------------------------------------------
@@ -36,37 +36,37 @@
 				"&allat_enc_data=".$at_enc.
 				"&allat_cross_key=".$at_cross_key;
 
-	// ¿Ã¾Ü°ú Åë½Å ÈÄ °á°ú°ª ¹Þ±â : CashCanReq->Åë½ÅÇÔ¼ö
+	// ï¿½Ã¾Ü°ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ±ï¿½ : CashCanReq->ï¿½ï¿½ï¿½ï¿½Ô¼ï¿½
 	//-----------------------------------------------------------------
 	$at_txt = CashCanReq($at_data,"SSL");
 
-	// °á°ú°ª
+	// ï¿½ï¿½ï¿½ï¿½ï¿½
 	//----------------------------------------------------------------
-	$REPLYCD     = getValue("reply_cd",$at_txt);       //°á°úÄÚµå
-	$REPLYMSG    = getValue("reply_msg",$at_txt);      //°á°ú ¸Þ¼¼Áö
+	$REPLYCD     = getValue("reply_cd",$at_txt);       //ï¿½ï¿½ï¿½ï¿½Úµï¿½
+	$REPLYMSG    = getValue("reply_msg",$at_txt);      //ï¿½ï¿½ï¿½ ï¿½Þ¼ï¿½ï¿½ï¿½
 
-	// °á°ú°ª Ã³¸®
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½
 	//--------------------------------------------------------------------------
-	// °á°ú °ªÀÌ '0000'ÀÌ¸é Á¤»óÀÓ. ´Ü, allat_test_yn=Y ÀÏ°æ¿ì '0001'ÀÌ Á¤»óÀÓ.
-	// ½ÇÁ¦ °áÁ¦   : allat_test_yn=N ÀÏ °æ¿ì reply_cd=0000 ÀÌ¸é Á¤»ó
-	// Å×½ºÆ® °áÁ¦ : allat_test_yn=Y ÀÏ °æ¿ì reply_cd=0001 ÀÌ¸é Á¤»ó
+	// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ '0000'ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½. ï¿½ï¿½, allat_test_yn=Y ï¿½Ï°ï¿½ï¿½ '0001'ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½   : allat_test_yn=N ï¿½ï¿½ ï¿½ï¿½ï¿½ reply_cd=0000 ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½
+	// ï¿½×½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ : allat_test_yn=Y ï¿½ï¿½ ï¿½ï¿½ï¿½ reply_cd=0001 ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½
 	//--------------------------------------------------------------------------
-	if( !strcmp($REPLYCD,"0000") ){
-		// reply_cd "0000" ÀÏ¶§¸¸ ¼º°ø
+	if( $REPLYCD == "0000" ){
+		// reply_cd "0000" ï¿½Ï¶ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		$CANCEL_YMDHMS    =getValue("cancel_ymdhms",$at_txt);
 		$PART_CANCEL_FLAG =getValue("part_cancel_flag",$at_txt);
 		$REMAIN_AMT       =getValue("remain_amt",$at_txt);
 
-		echo "°á°úÄÚµå	: ".$REPLYCD."<br>";
-		echo "°á°ú¸Þ¼¼Áö	: ".$REPLYMSG."<br>";
-		echo "Ãë¼ÒÀÏ½Ã	: ".$CANCEL_YMDHMS."<br>";
-		echo "Ãë¼Ò¿©ºÎ	: ".$PART_CANCEL_FLAG."<br>"; //Ãë¼Ò: 0, ºÎºÐÃë¼Ò: 1
-		echo "ÀÜ¾×		: ".$REMAIN_AMT."<br>";
+		echo "ï¿½ï¿½ï¿½ï¿½Úµï¿½	: ".$REPLYCD."<br>";
+		echo "ï¿½ï¿½ï¿½ï¿½Þ¼ï¿½ï¿½ï¿½	: ".$REPLYMSG."<br>";
+		echo "ï¿½ï¿½ï¿½ï¿½Ï½ï¿½	: ".$CANCEL_YMDHMS."<br>";
+		echo "ï¿½ï¿½Ò¿ï¿½ï¿½ï¿½	: ".$PART_CANCEL_FLAG."<br>"; //ï¿½ï¿½ï¿½: 0, ï¿½Îºï¿½ï¿½ï¿½ï¿½: 1
+		echo "ï¿½Ü¾ï¿½		: ".$REMAIN_AMT."<br>";
 	}else{
-		// reply_cd °¡ "0000" ¾Æ´Ò¶§´Â ¿¡·¯ (ÀÚ¼¼ÇÑ ³»¿ëÀº ¸Å´º¾óÂüÁ¶)
-		// reply_msg °¡ ½ÇÆÐ¿¡ ´ëÇÑ ¸Þ¼¼Áö
-		echo "°á°úÄÚµå	: ".$REPLYCD."<br>";
-		echo "°á°ú¸Þ¼¼Áö	: ".$REPLYMSG."<br>";
+		// reply_cd ï¿½ï¿½ "0000" ï¿½Æ´Ò¶ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ (ï¿½Ú¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Å´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)
+		// reply_msg ï¿½ï¿½ ï¿½ï¿½ï¿½Ð¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¼ï¿½ï¿½ï¿½
+		echo "ï¿½ï¿½ï¿½ï¿½Úµï¿½	: ".$REPLYCD."<br>";
+		echo "ï¿½ï¿½ï¿½ï¿½Þ¼ï¿½ï¿½ï¿½	: ".$REPLYMSG."<br>";
 	}
 ?>
 </body>

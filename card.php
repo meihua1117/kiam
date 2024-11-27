@@ -152,7 +152,7 @@ while($data=mysqli_fetch_array($pay_res)) {
         //------------------
         $REPLYCD   =getValue("reply_cd",$at_txt);        //결과코드
         $REPLYMSG  =getValue("reply_msg",$at_txt);       //결과 메세지
-        if( !strcmp($REPLYCD,"0000") ){
+        if( $REPLYCD == "0000" ){
             // reply_cd "0000" 일때만 성공
             $ORDER_NO         =getValue("order_no",$at_txt);
             $AMT              =getValue("amt",$at_txt);

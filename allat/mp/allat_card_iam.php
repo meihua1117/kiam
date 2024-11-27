@@ -36,7 +36,7 @@ $APPLY_YMD	= getValue("apply_ymd",$at_txt);
 $sql="select * from tjd_pay_result where orderNumber='$ORDER_NO'";
 $resul=mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
 $row=mysqli_fetch_array($resul);
-if(!strcmp($REPLYCD,"0000")){//pay_test
+if($REPLYCD == "0000"){//pay_test
     $sql = "update tjd_pay_result set end_status='Y',billkey='$FIX_KEY',billdate='$APPLY_YMD' where  orderNumber='$ORDER_NO' and buyer_id='{$member_iam['mem_id']}'";
     mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
     $iam_pay_type=$_POST['iam_pay_type'];
@@ -225,7 +225,7 @@ if(!strcmp($REPLYCD,"0000")){//pay_test
     $REPLYCD   =getValue("reply_cd",$at_txt);        //결과코드
     $REPLYMSG  =getValue("reply_msg",$at_txt);       //결과 메세지
 
-    if(!strcmp($REPLYCD,"0000")){//pay_test 성공이면
+    if($REPLYCD == "0000"){//pay_test 성공이면
         $ORDER_NO         =getValue("order_no",$at_txt);
         $AMT              =getValue("amt",$at_txt);
         $PAY_TYPE         =getValue("pay_type",$at_txt);

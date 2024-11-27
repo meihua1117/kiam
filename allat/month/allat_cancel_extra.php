@@ -1,5 +1,5 @@
 <?php
-  // ¿Ã¾Ü°ü·Ã ÇÔ¼ö Include
+  // ï¿½Ã¾Ü°ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½ Include
   //----------------------
   include_once "./allatutil.php";
 
@@ -8,55 +8,55 @@
 	$at_txt       = "";
 
 
-	// ÇÊ¼ö Ç×¸ñ
-	$at_cross_key      = "CrossKey";	//»óÁ¡ÀÇ Cross Key
-    $at_shop_id        = "ShopId";		//»óÁ¡ID(ÃÖ´ë 20ÀÚ)
-    $at_amt            = "1000";		//±Ý¾×(ÃÖ´ë 10ÀÚ)
-    $at_order_no       = "test0001";	//ÁÖ¹®¹øÈ£(ÃÖ´ë 80ÀÚ)         : ¼îÇÎ¸ô °íÀ¯ ÁÖ¹®¹øÈ£ 
-	$at_pay_type       = "CARD";		//¿ø°Å·¡°ÇÀÇ °áÁ¦¹æ½Ä[CARD]
-	$at_seq_no         = "";			//°Å·¡ÀÏ·Ã¹øÈ£ (ÃÖ´ë  10ÀÚ¸®) : ¿É¼ÇÇÊµåÀÓ
+	// ï¿½Ê¼ï¿½ ï¿½×¸ï¿½
+	$at_cross_key      = "CrossKey";	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Cross Key
+    $at_shop_id        = "ShopId";		//ï¿½ï¿½ï¿½ï¿½ID(ï¿½Ö´ï¿½ 20ï¿½ï¿½)
+    $at_amt            = "1000";		//ï¿½Ý¾ï¿½(ï¿½Ö´ï¿½ 10ï¿½ï¿½)
+    $at_order_no       = "test0001";	//ï¿½Ö¹ï¿½ï¿½ï¿½È£(ï¿½Ö´ï¿½ 80ï¿½ï¿½)         : ï¿½ï¿½ï¿½Î¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö¹ï¿½ï¿½ï¿½È£ 
+	$at_pay_type       = "CARD";		//ï¿½ï¿½ï¿½Å·ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½[CARD]
+	$at_seq_no         = "";			//ï¿½Å·ï¿½ï¿½Ï·Ã¹ï¿½È£ (ï¿½Ö´ï¿½  10ï¿½Ú¸ï¿½) : ï¿½É¼ï¿½ï¿½Êµï¿½ï¿½ï¿½
 	
     $at_enc = setValue($at_enc,"allat_shop_id"          ,   $at_shop_id        );
 	$at_enc = setValue($at_enc,"allat_amt"              ,   $at_amt            );
 	$at_enc = setValue($at_enc,"allat_order_no"         ,   $at_order_no       );
 	$at_enc = setValue($at_enc,"allat_pay_type"         ,   $at_pay_type       );
 	$at_enc = setValue($at_enc,"allat_seq_no"           ,   $at_seq_no         );
-    $at_enc = setValue($at_enc,"allat_test_yn"          ,   "N"                );  //Å×½ºÆ® :Y, ¼­ºñ½º :N
-    $at_enc = setValue($at_enc,"allat_opt_pin"          ,   "NOUSE"            );  //¼öÁ¤±ÝÁö(¿Ã¾Ü ÂüÁ¶ ÇÊµå)
-    $at_enc = setValue($at_enc,"allat_opt_mod"          ,   "APP"              );  //¼öÁ¤±ÝÁö(¿Ã¾Ü ÂüÁ¶ ÇÊµå)
+    $at_enc = setValue($at_enc,"allat_test_yn"          ,   "N"                );  //ï¿½×½ï¿½Æ® :Y, ï¿½ï¿½ï¿½ï¿½ :N
+    $at_enc = setValue($at_enc,"allat_opt_pin"          ,   "NOUSE"            );  //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½Ã¾ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Êµï¿½)
+    $at_enc = setValue($at_enc,"allat_opt_mod"          ,   "APP"              );  //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½Ã¾ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Êµï¿½)
 
 	$at_data = "allat_shop_id=".$at_shop_id.
 			   "&allat_amt=".$at_amt.
 			   "&allat_enc_data=".$at_enc.
 			   "&allat_cross_key=".$at_cross_key;
 	
-	// ¿Ã¾Ü °áÁ¦ ¼­¹ö¿Í Åë½Å : ApprovalReq->Åë½ÅÇÔ¼ö, $at_txt->°á°ú°ª
+	// ï¿½Ã¾ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ : ApprovalReq->ï¿½ï¿½ï¿½ï¿½Ô¼ï¿½, $at_txt->ï¿½ï¿½ï¿½ï¿½ï¿½
 	//----------------------------------------------------------------
 	$at_txt = CancelReq($at_data,"SSL");
 
-	// °áÁ¦ °á°ú °ª È®ÀÎ
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ È®ï¿½ï¿½
 	//------------------
-	$REPLYCD   =getValue("reply_cd",$at_txt);        //°á°úÄÚµå
-	$REPLYMSG  =getValue("reply_msg",$at_txt);       //°á°ú ¸Þ¼¼Áö
+	$REPLYCD   =getValue("reply_cd",$at_txt);        //ï¿½ï¿½ï¿½ï¿½Úµï¿½
+	$REPLYMSG  =getValue("reply_msg",$at_txt);       //ï¿½ï¿½ï¿½ ï¿½Þ¼ï¿½ï¿½ï¿½
 
-	if( !strcmp($REPLYCD,"0000") ){
-		// reply_cd "0000" ÀÏ¶§¸¸ ¼º°ø
+	if( $REPLYCD == "0000" ){
+		// reply_cd "0000" ï¿½Ï¶ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		$CANCEL_YMDHMS    =getValue("cancel_ymdhms",$at_txt);
 		$PART_CANCEL_FLAG =getValue("part_cancel_flag",$at_txt);
 		$REMAIN_AMT       =getValue("remain_amt",$at_txt);
 		$PAY_TYPE         =getValue("pay_type",$at_txt);
 
-		echo "°á°úÄÚµå              : ".$REPLYCD."<br>";
-		echo "°á°ú¸Þ¼¼Áö            : ".$REPLYMSG."<br>";
-		echo "Ãë¼Ò³¯Â¥              : ".$CANCEL_YMDHMS."<br>";
-		echo "Ãë¼Ò±¸ºÐ              : ".$PART_CANCEL_FLAG."<br>";
-		echo "ÀÜ¾×                  : ".$REMAIN_AMT."<br>";
-		echo "°Å·¡¹æ½Ä±¸ºÐ          : ".$PAY_TYPE."<br>";
+		echo "ï¿½ï¿½ï¿½ï¿½Úµï¿½              : ".$REPLYCD."<br>";
+		echo "ï¿½ï¿½ï¿½ï¿½Þ¼ï¿½ï¿½ï¿½            : ".$REPLYMSG."<br>";
+		echo "ï¿½ï¿½Ò³ï¿½Â¥              : ".$CANCEL_YMDHMS."<br>";
+		echo "ï¿½ï¿½Ò±ï¿½ï¿½ï¿½              : ".$PART_CANCEL_FLAG."<br>";
+		echo "ï¿½Ü¾ï¿½                  : ".$REMAIN_AMT."<br>";
+		echo "ï¿½Å·ï¿½ï¿½ï¿½Ä±ï¿½ï¿½ï¿½          : ".$PAY_TYPE."<br>";
 	}else{
-		// reply_cd °¡ "0000" ¾Æ´Ò¶§´Â ¿¡·¯ (ÀÚ¼¼ÇÑ ³»¿ëÀº ¸Å´º¾óÂüÁ¶)
-		// reply_msg ´Â ½ÇÆÐ¿¡ ´ëÇÑ ¸Þ¼¼Áö
-		echo "°á°úÄÚµå  : ".$REPLYCD."<br>";
-		echo "°á°ú¸Þ¼¼Áö: ".$REPLYMSG."<br>";
+		// reply_cd ï¿½ï¿½ "0000" ï¿½Æ´Ò¶ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ (ï¿½Ú¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Å´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)
+		// reply_msg ï¿½ï¿½ ï¿½ï¿½ï¿½Ð¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¼ï¿½ï¿½ï¿½
+		echo "ï¿½ï¿½ï¿½ï¿½Úµï¿½  : ".$REPLYCD."<br>";
+		echo "ï¿½ï¿½ï¿½ï¿½Þ¼ï¿½ï¿½ï¿½: ".$REPLYMSG."<br>";
 	}
 
 ?>

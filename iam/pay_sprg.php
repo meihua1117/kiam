@@ -131,15 +131,15 @@ if($platform == "mobile"){
             Allat_Mobile_Close();
         else
             Allat_Plus_Close();
-        if(result_cd != '0000') {//pay_test
-            alert(result_cd + " : " + result_msg);
-            location.reload();
-        } else {
+        if(result_cd == '0000') {//pay_test
             pay_form.allat_enc_data.value = enc_data;
             pay_form.action = "/allat/mp/allat_fix_spec.php";
             pay_form.method = "post";
             pay_form.target = "blank";
             pay_form.submit();
+        } else {
+            alert(result_cd + " : " + result_msg);
+            location.reload();
         }
     }
     function activeTab(index){

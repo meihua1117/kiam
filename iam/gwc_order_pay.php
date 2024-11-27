@@ -200,11 +200,7 @@ $row_main_addr = mysqli_fetch_array($res_main_addr);
             // 결제창 자동종료 체크 종료
             AllatPay_Closechk_End();
         }
-        if (result_cd != '0000') { //pay_test
-            //window.setTimeout(function(){alert(result_cd + " : " + result_msg);},1000);
-            alert(result_cd + " : " + result_msg);
-            location.reload();
-        } else {
+        if (result_cd == '0000') { //pay_test
             pay_form.acceptCharset = 'utf-8';
             document.charset = 'utf-8';
             pay_form.allat_enc_data.value = enc_data;
@@ -212,6 +208,10 @@ $row_main_addr = mysqli_fetch_array($res_main_addr);
             pay_form.method = "post";
             pay_form.target = "_self";
             pay_form.submit();
+        } else {
+            //window.setTimeout(function(){alert(result_cd + " : " + result_msg);},1000);
+            alert(result_cd + " : " + result_msg);
+            location.reload();
         }
     }
 

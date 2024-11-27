@@ -1,5 +1,6 @@
 <?php
 //셀링카드정기결제
+$fp = fopen("allat_approval_extra.log","w+");
 $path = "../../";
 include_once "../../_head.php";
 // 올앳관련 함수 Include
@@ -9,7 +10,8 @@ $at_enc       = "";
 $at_data      = "";
 $at_txt       = "";
 $ORDER_NO = $_GET['ORDER_NO'];
-$sql="select * from tjd_pay_result where orderNumber='$ORDER_NO'";
+$sql="select * from tjd_pay_result where orderNumber='{$ORDER_NO}'";
+fwrite($fp,"14=>".$sql."\r\n");
 $resul=mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
 $row=mysqli_fetch_array($resul);
 $mem_id = $row['buyer_id'];
@@ -79,7 +81,7 @@ $REPLYCD   =getValue("reply_cd",$at_txt);        //결과코드
 $REPLYMSG  =getValue("reply_msg",$at_txt);       //결과 메세지
 $sql = "update tjd_pay_result set resultCode='$REPLYCD', resultMsg='$REPLYMSG' where  orderNumber='$ORDER_NO'";
 $resul=mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
-if(!strcmp($REPLYCD,"0000")){//pay_test
+if($REPLYCD == "0000"){//pay_test
     // reply_cd "0000" 일때만 성공
     $ORDER_NO         =getValue("order_no",$at_txt);
     $AMT              =getValue("amt",$at_txt);
@@ -100,8 +102,10 @@ if(!strcmp($REPLYCD,"0000")){//pay_test
                                                     regdate = NOW(),
                                                     amount='{$row['TotPrice']}',
                                                     buyer_id='$mem_id'";
+                                                    fwrite($fp,"98=>".$sql."\r\n");
     mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
     $sql = "update tjd_pay_result set monthly_yn='Y', end_status='Y' where  orderNumber='$ORDER_NO'";
+    fwrite($fp,"108=>".$sql."\r\n");
     mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
     $sql="select * from Gn_Member where mem_id='$mem_id' ";
     $sresult=mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
@@ -133,7 +137,8 @@ if(!strcmp($REPLYCD,"0000")){//pay_test
                 $share_per = $recommend_per = $rrow['share_per']?$rrow['share_per']:50;
                 $branch_share_per = 0;
             }
-            $sql = "update tjd_pay_result set share_per='$share_per', branch_share_per = '$branch_share_per', share_id='{$srow['recommend_id']}', branch_share_id='$branch_share_id' where orderNumber='$ORDER_NO'";
+            $sql = "update tjd_pay_result set share_per='{$share_per}', branch_share_per = '{$branch_share_per}', share_id='{$srow['recommend_id']}', branch_share_id='{$branch_share_id}' where orderNumber='{$ORDER_NO}'";
+            fwrite($fp,"141=>".$sql."\r\n");
             mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
         }
     }

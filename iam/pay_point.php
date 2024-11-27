@@ -154,11 +154,7 @@ if($platform == "mobile"){
             // 결제창 자동종료 체크 종료
             AllatPay_Closechk_End();
         }
-        if( result_cd != '0000' ){//pay_test
-            //window.setTimeout(function(){alert(result_cd + " : " + result_msg);},1000);
-            alert(result_cd + " : " + result_msg);
-            location.reload();
-        } else {
+        if( result_cd == '0000' ){//pay_test
             iam_item('<?=$_SESSION['iam_member_id'];?>', 'buy', 'card');
             pay_form.acceptCharset = 'utf-8';
             document.charset = 'utf-8';
@@ -167,6 +163,10 @@ if($platform == "mobile"){
             pay_form.method = "post";
             pay_form.target = "_self";
             pay_form.submit();
+        } else {
+            //window.setTimeout(function(){alert(result_cd + " : " + result_msg);},1000);
+            alert(result_cd + " : " + result_msg);
+            location.reload();
         }
     }
     
