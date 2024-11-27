@@ -2,9 +2,11 @@
 <?php
 $fp = fopen("allat_fix_ajax.log","w+");
 include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
+fwrite($fp,"05=>pass\r\n");
 // 올앳관련 함수 Include
 //----------------------
 include "./allatutil.php";
+fwrite($fp,"09=>pass\r\n");
 ///Request Value Define
 //----------------------
 $at_cross_key = "가맹점 CrossKey";     //설정필요 [사이트 참조 - http://www.allatpay.com/servlet/AllatBiz/helpinfo/hi_install_guide.jsp#shop]
