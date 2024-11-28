@@ -3,46 +3,46 @@
       File Name         : allatutil.php
       File Description  : Allat Script API Utility Function(Class)
       [ Notice ]
-       ÀÌ ÆÄÀÏÀº NewAllatPay¸¦ »ç¿ëÇÏ±â À§ÇÑ Utility FunctionÀ» ±¸ÇöÇÑ
-      Source CodeÀÔ´Ï´Ù. ÀÌ ÆÄÀÏ¿¡ ³»¿ëÀ» ÀÓÀÇ·Î ¼öÁ¤ÇÏ½Ç °æ¿ì ±â¼úÁö¿øÀ»
-      ¹ÞÀ¸½Ç ¼ö ¾øÀ½À» ¾Ë·Áµå¸³´Ï´Ù. ÀÌ ÆÄÀÏ ³»¿ë¿¡ ¹®Á¦°¡ ÀÖÀ» °æ¿ì,
-      ¾Æ·¡ ¿¬¶ôÃ³·Î ¹®ÀÇ ÁÖ½Ã±â ¹Ù¶ø´Ï´Ù.
+       ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ NewAllatPayï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½ Utility Functionï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+      Source Codeï¿½Ô´Ï´ï¿½. ï¿½ï¿½ ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ç·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+      ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ë·ï¿½ï¿½å¸³ï¿½Ï´ï¿½. ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ë¿¡ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½,
+      ï¿½Æ·ï¿½ ï¿½ï¿½ï¿½ï¿½Ã³ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö½Ã±ï¿½ ï¿½Ù¶ï¿½ï¿½Ï´ï¿½.
 
       TEL       : 02-3783-9990
       EMAIL     : allatpay@allat.co.kr
       Homepage  : www.allatpay.com
      ***********  Copyright Allat Corp. All Right Reserved  **************/
 
-  define(util_lang,"PHP");
-  define(util_ver,"1.0.7.1");
+  define('util_lang',"PHP");
+  define('util_ver',"1.0.7.1");
 
-  define(approval_uri,     "POST /servlet/AllatPay/pay/approval.jsp HTTP/1.0\r\n");
-  define(sanction_uri,     "POST /servlet/AllatPay/pay/sanction.jsp HTTP/1.0\r\n");
-  define(cancel_uri,       "POST /servlet/AllatPay/pay/cancel.jsp HTTP/1.0\r\n");
-  define(cashreg_uri,      "POST /servlet/AllatPay/pay/cash_registry.jsp HTTP/1.0\r\n");
-  define(cashapp_uri,      "POST /servlet/AllatPay/pay/cash_approval.jsp HTTP/1.0\r\n");
-  define(cashcan_uri,      "POST /servlet/AllatPay/pay/cash_cancel.jsp HTTP/1.0\r\n");
-  define(escrowchk_uri,    "POST /servlet/AllatPay/pay/escrow_check.jsp HTTP/1.0\r\n");
-  define(escrowret_uri,    "POST /servlet/AllatPay/pay/escrow_return.jsp HTTP/1.0\r\n");
-  define(escrowconfirm_uri,"POST /servlet/AllatPay/pay/escrow_confirm.jsp HTTP/1.0\r\n");
-  define(certreg_uri,      "POST /servlet/AllatPay/pay/fix.jsp HTTP/1.0\r\n"); 
-  define(certcancel_uri,   "POST /servlet/AllatPay/pay/fix_cancel.jsp HTTP/1.0\r\n");
-  define(cardpointdc_uri,  "POST /servlet/AllatPay/pay/cardpointdc.jsp HTTP/1.0\r\n");
-  define(cardlist_uri,     "POST /servlet/AllatPay/nonactivex/nonre/nonre_cardlist.jsp HTTP/1.0\r\n");
+  define('approval_uri',     "POST /servlet/AllatPay/pay/approval.jsp HTTP/1.0\r\n");
+  define('sanction_uri',     "POST /servlet/AllatPay/pay/sanction.jsp HTTP/1.0\r\n");
+  define('cancel_uri',       "POST /servlet/AllatPay/pay/cancel.jsp HTTP/1.0\r\n");
+  define('cashreg_uri',      "POST /servlet/AllatPay/pay/cash_registry.jsp HTTP/1.0\r\n");
+  define('cashapp_uri',      "POST /servlet/AllatPay/pay/cash_approval.jsp HTTP/1.0\r\n");
+  define('cashcan_uri',      "POST /servlet/AllatPay/pay/cash_cancel.jsp HTTP/1.0\r\n");
+  define('escrowchk_uri',    "POST /servlet/AllatPay/pay/escrow_check.jsp HTTP/1.0\r\n");
+  define('escrowret_uri',    "POST /servlet/AllatPay/pay/escrow_return.jsp HTTP/1.0\r\n");
+  define('escrowconfirm_uri',"POST /servlet/AllatPay/pay/escrow_confirm.jsp HTTP/1.0\r\n");
+  define('certreg_uri',      "POST /servlet/AllatPay/pay/fix.jsp HTTP/1.0\r\n"); 
+  define('certcancel_uri',   "POST /servlet/AllatPay/pay/fix_cancel.jsp HTTP/1.0\r\n");
+  define('cardpointdc_uri',  "POST /servlet/AllatPay/pay/cardpointdc.jsp HTTP/1.0\r\n");
+  define('cardlist_uri',     "POST /servlet/AllatPay/nonactivex/nonre/nonre_cardlist.jsp HTTP/1.0\r\n");
 
-  define(c2c_approval_uri,     "POST /servlet/AllatPay/pay/c2c_approval.jsp HTTP/1.0\r\n");
-  define(c2c_cancel_uri,       "POST /servlet/AllatPay/pay/c2c_cancel.jsp HTTP/1.0\r\n");
-  define(c2c_sellerreg_uri,    "POST /servlet/AllatPay/pay/seller_registry.jsp HTTP/1.0\r\n");
-  define(c2c_productreg_uri,   "POST /servlet/AllatPay/pay/product_registry.jsp HTTP/1.0\r\n");
-  define(c2c_buyerchg_uri,     "POST /servlet/AllatPay/pay/buyer_change.jsp HTTP/1.0\r\n");
-  define(c2c_escrowchk_uri,    "POST /servlet/AllatPay/pay/c2c_escrow_check.jsp HTTP/1.0\r\n");
-  define(c2c_escrowconfirm_uri,"POST /servlet/AllatPay/pay/c2c_escrow_confirm.jsp HTTP/1.0\r\n");
-  define(c2c_esrejectcheck_uri,"POST /servlet/AllatPay/pay/c2c_reject_check.jsp HTTP/1.0\r\n");
-  define(c2c_expressreg_uri,   "POST /servlet/AllatPay/pay/c2c_express_reg.jsp HTTP/1.0\r\n");
+  define('c2c_approval_uri',     "POST /servlet/AllatPay/pay/c2c_approval.jsp HTTP/1.0\r\n");
+  define('c2c_cancel_uri',       "POST /servlet/AllatPay/pay/c2c_cancel.jsp HTTP/1.0\r\n");
+  define('c2c_sellerreg_uri',    "POST /servlet/AllatPay/pay/seller_registry.jsp HTTP/1.0\r\n");
+  define('c2c_productreg_uri',   "POST /servlet/AllatPay/pay/product_registry.jsp HTTP/1.0\r\n");
+  define('c2c_buyerchg_uri',     "POST /servlet/AllatPay/pay/buyer_change.jsp HTTP/1.0\r\n");
+  define('c2c_escrowchk_uri',    "POST /servlet/AllatPay/pay/c2c_escrow_check.jsp HTTP/1.0\r\n");
+  define('c2c_escrowconfirm_uri',"POST /servlet/AllatPay/pay/c2c_escrow_confirm.jsp HTTP/1.0\r\n");
+  define('c2c_esrejectcheck_uri',"POST /servlet/AllatPay/pay/c2c_reject_check.jsp HTTP/1.0\r\n");
+  define('c2c_expressreg_uri',   "POST /servlet/AllatPay/pay/c2c_express_reg.jsp HTTP/1.0\r\n");
 
-  define(allat_addr_ssl,"ssl://tx.allatpay.com" );
-  define(allat_addr,"tx.allatpay.com");
-  define(allat_host,"tx.allatpay.com");
+  define('allat_addr_ssl',"ssl://tx.allatpay.com" );
+  define('allat_addr',"tx.allatpay.com");
+  define('allat_host',"tx.allatpay.com");
 
   function ApprovalReq($at_data,$ssl_flag){
     $ret_txt="reply_cd=0299\n";
@@ -50,10 +50,10 @@
       $ret_txt=SendRepo( $at_data, allat_addr_ssl, approval_uri, allat_host, 443 );
     }else{
       $isEnc=checkEnc( $at_data );
-      if( $isEnc ){ //¾ÏÈ£È­ µÊ
+      if( $isEnc ){ //ï¿½ï¿½È£È­ ï¿½ï¿½
         $ret_txt=SendRepo( $at_data, allat_addr, approval_uri, allat_host, 80 );
       }else{
-        return "reply_cd=0230\nreply_msg=¾ÏÈ£È­ ¿À·ù\n";
+        return "reply_cd=0230\nreply_msg=ï¿½ï¿½È£È­ ï¿½ï¿½ï¿½ï¿½\n";
       }
     }
     return $ret_txt;
@@ -65,10 +65,10 @@
       $ret_txt=SendRepo( $at_data, allat_addr_ssl, sanction_uri, allat_host, 443 );
     }else{
       $isEnc=checkEnc( $at_data );
-      if( $isEnc ){ //¾ÏÈ£È­ µÊ
+      if( $isEnc ){ //ï¿½ï¿½È£È­ ï¿½ï¿½
         $ret_txt=SendRepo( $at_data, allat_addr, sanction_uri, allat_host, 80 );
       }else{
-        return "reply_cd=0230\nreply_msg=¾ÏÈ£È­ ¿À·ù\n";
+        return "reply_cd=0230\nreply_msg=ï¿½ï¿½È£È­ ï¿½ï¿½ï¿½ï¿½\n";
       }
     }
     return $ret_txt;
@@ -80,10 +80,10 @@
       $ret_txt=SendRepo( $at_data, allat_addr_ssl, cancel_uri, allat_host, 443 );
     }else{
       $isEnc=checkEnc( $at_data );
-      if( $isEnc ){ //¾ÏÈ£È­ µÊ
+      if( $isEnc ){ //ï¿½ï¿½È£È­ ï¿½ï¿½
         $ret_txt=SendRepo( $at_data, allat_addr, cancel_uri, allat_host, 80 );
       }else{
-        return "reply_cd=0230\nreply_msg=¾ÏÈ£È­ ¿À·ù\n";
+        return "reply_cd=0230\nreply_msg=ï¿½ï¿½È£È­ ï¿½ï¿½ï¿½ï¿½\n";
       }
     }
     return $ret_txt;
@@ -96,10 +96,10 @@
       $ret_txt=SendRepo($at_data,allat_addr_ssl,cashreg_uri,allat_host,443);
     }else{
       $isEnc=checkEnc($at_data);
-      if( $isEnc ){ //¾ÏÈ£È­ µÊ
+      if( $isEnc ){ //ï¿½ï¿½È£È­ ï¿½ï¿½
         $ret_txt=SendRepo($at_data,allat_addr,cashreg_uri,allat_host,80);
       }else{
-        return "reply_cd=0230\nreply_msg=¾ÏÈ£È­ ¿À·ù\n";
+        return "reply_cd=0230\nreply_msg=ï¿½ï¿½È£È­ ï¿½ï¿½ï¿½ï¿½\n";
       }
     }
     return $ret_txt;
@@ -112,10 +112,10 @@
       $ret_txt=SendRepo($at_data,allat_addr_ssl,cashapp_uri,allat_host,443);
     }else{
       $isEnc=checkEnc($at_data);
-      if( $isEnc ){ //¾ÏÈ£È­ µÊ
+      if( $isEnc ){ //ï¿½ï¿½È£È­ ï¿½ï¿½
         $ret_txt=SendRepo($at_data,allat_addr,cashapp_uri,allat_host,80);
       }else{
-        return "reply_cd=0230\nreply_msg=¾ÏÈ£È­ ¿À·ù\n";
+        return "reply_cd=0230\nreply_msg=ï¿½ï¿½È£È­ ï¿½ï¿½ï¿½ï¿½\n";
       }
     }
     return $ret_txt;
@@ -128,10 +128,10 @@
       $ret_txt=SendRepo($at_data,allat_addr_ssl,cashcan_uri,allat_host,443);
     }else{
       $isEnc=checkEnc($at_data);
-      if( $isEnc ){ //¾ÏÈ£È­ µÊ
+      if( $isEnc ){ //ï¿½ï¿½È£È­ ï¿½ï¿½
         $ret_txt=SendRepo($at_data,allat_addr,cashcan_uri,allat_host,80);
       }else{
-        return "reply_cd=0230\nreply_msg=¾ÏÈ£È­ ¿À·ù\n";
+        return "reply_cd=0230\nreply_msg=ï¿½ï¿½È£È­ ï¿½ï¿½ï¿½ï¿½\n";
       }
     }
     return $ret_txt;
@@ -144,10 +144,10 @@
       $ret_txt=SendRepo($at_data,allat_addr_ssl,escrowchk_uri,allat_host,443);
     }else{
       $isEnc=checkEnc($at_data);
-      if( $isEnc ){ //¾ÏÈ£È­ µÊ
+      if( $isEnc ){ //ï¿½ï¿½È£È­ ï¿½ï¿½
         $ret_txt=SendRepo($at_data,allat_addr,escrowchk_uri,allat_host,80);
       }else{
-        return "reply_cd=0230\nreply_msg=¾ÏÈ£È­ ¿À·ù\n";
+        return "reply_cd=0230\nreply_msg=ï¿½ï¿½È£È­ ï¿½ï¿½ï¿½ï¿½\n";
       }
     }
     return $ret_txt;
@@ -160,10 +160,10 @@
       $ret_txt=SendRepo($at_data,allat_addr_ssl,escrowret_uri,allat_host,443);
     }else{
       $isEnc=checkEnc($at_data);
-      if( $isEnc ){ //¾ÏÈ£È­ µÊ
+      if( $isEnc ){ //ï¿½ï¿½È£È­ ï¿½ï¿½
         $ret_txt=SendRepo($at_data,allat_addr,escrowret_uri,allat_host,80);
       }else{
-        return "reply_cd=0230\nreply_msg=¾ÏÈ£È­ ¿À·ù\n";
+        return "reply_cd=0230\nreply_msg=ï¿½ï¿½È£È­ ï¿½ï¿½ï¿½ï¿½\n";
       }
     }
     return $ret_txt;
@@ -176,10 +176,10 @@
       $ret_txt=SendRepo($at_data,allat_addr_ssl,escrowconfirm_uri,allat_host,443);
     }else{
       $isEnc=checkEnc($at_data);
-      if( $isEnc ){ //¾ÏÈ£È­ µÊ
+      if( $isEnc ){ //ï¿½ï¿½È£È­ ï¿½ï¿½
         $ret_txt=SendRepo($at_data,allat_addr,escrowconfirm_uri,allat_host,80);
       }else{
-        return "reply_cd=0230\nreply_msg=¾ÏÈ£È­ ¿À·ù\n";
+        return "reply_cd=0230\nreply_msg=ï¿½ï¿½È£È­ ï¿½ï¿½ï¿½ï¿½\n";
       }
     }
     return $ret_txt;
@@ -192,10 +192,10 @@
       $ret_txt=SendRepo($at_data,allat_addr_ssl,certreg_uri,allat_host,443);
     }else{
       $isEnc=checkEnc($at_data);
-      if( $isEnc ){ //¾ÏÈ£È­ µÊ
+      if( $isEnc ){ //ï¿½ï¿½È£È­ ï¿½ï¿½
         $ret_txt=SendRepo($at_data,allat_addr,certreg_uri,allat_host,80);
       }else{
-        return "reply_cd=0230\nreply_msg=¾ÏÈ£È­ ¿À·ù\n";
+        return "reply_cd=0230\nreply_msg=ï¿½ï¿½È£È­ ï¿½ï¿½ï¿½ï¿½\n";
       }
     }
     return $ret_txt;
@@ -208,10 +208,10 @@
       $ret_txt=SendRepo($at_data,allat_addr_ssl,certcancel_uri,allat_host,443);
     }else{
       $isEnc=checkEnc($at_data);
-      if( $isEnc ){ //¾ÏÈ£È­ µÊ
+      if( $isEnc ){ //ï¿½ï¿½È£È­ ï¿½ï¿½
         $ret_txt=SendRepo($at_data,allat_addr,certcancel_uri,allat_host,80);
       }else{
-        return "reply_cd=0230\nreply_msg=¾ÏÈ£È­ ¿À·ù\n";
+        return "reply_cd=0230\nreply_msg=ï¿½ï¿½È£È­ ï¿½ï¿½ï¿½ï¿½\n";
       }
     }
     return $ret_txt;
@@ -224,10 +224,10 @@
       $ret_txt=SendRepo($at_data,allat_addr_ssl,cardpointdc_uri,allat_host,443);
     }else{
       $isEnc=checkEnc($at_data);
-      if( $isEnc ){ //¾ÏÈ£È­ µÊ
+      if( $isEnc ){ //ï¿½ï¿½È£È­ ï¿½ï¿½
         $ret_txt=SendRepo($at_data,allat_addr,cardpointdc_uri,allat_host,80);
       }else{
-        return "reply_cd=0230\nreply_msg=¾ÏÈ£È­ ¿À·ù\n";
+        return "reply_cd=0230\nreply_msg=ï¿½ï¿½È£È­ ï¿½ï¿½ï¿½ï¿½\n";
       }
     }
     return $ret_txt;
@@ -240,10 +240,10 @@
 		  $ret_txt=SendRepo($at_data,allat_addr_ssl,cardlist_uri,allat_host,443);
 	  }else{
 		  $isEnc=checkEnc($at_data);
-		  if( $isEnc ){ //¾ÏÈ£È­ µÊ
+		  if( $isEnc ){ //ï¿½ï¿½È£È­ ï¿½ï¿½
 			  $ret_txt=SendRepo($at_data,allat_addr,cardlist_uri,allat_host,80);
 		  }else{
-			  return "reply_cd=0230\nreply_msg=¾ÏÈ£È­ ¿À·ù\n";
+			  return "reply_cd=0230\nreply_msg=ï¿½ï¿½È£È­ ï¿½ï¿½ï¿½ï¿½\n";
 		  }
 	  }
 	  return $ret_txt;
@@ -256,10 +256,10 @@
       $ret_txt=SendRepo($at_data,allat_addr_ssl,c2c_approval_uri,allat_host,443);
     }else{
       $isEnc=checkEnc($at_data);
-      if( $isEnc ){ //¾ÏÈ£È­ µÊ
+      if( $isEnc ){ //ï¿½ï¿½È£È­ ï¿½ï¿½
         $ret_txt=SendRepo($at_data,allat_addr,c2c_approval_uri,allat_host,80);
       }else{
-        return "reply_cd=0230\nreply_msg=¾ÏÈ£È­ ¿À·ù\n";
+        return "reply_cd=0230\nreply_msg=ï¿½ï¿½È£È­ ï¿½ï¿½ï¿½ï¿½\n";
       }
     }
     return $ret_txt;
@@ -272,10 +272,10 @@
       $ret_txt=SendRepo($at_data,allat_addr_ssl,c2c_cancel_uri,allat_host,443);
     }else{
       $isEnc=checkEnc($at_data);
-      if( $isEnc ){ //¾ÏÈ£È­ µÊ
+      if( $isEnc ){ //ï¿½ï¿½È£È­ ï¿½ï¿½
         $ret_txt=SendRepo($at_data,allat_addr,c2c_cancel_uri,allat_host,80);
       }else{
-        return "reply_cd=0230\nreply_msg=¾ÏÈ£È­ ¿À·ù\n";
+        return "reply_cd=0230\nreply_msg=ï¿½ï¿½È£È­ ï¿½ï¿½ï¿½ï¿½\n";
       }
     }
     return $ret_txt;
@@ -288,10 +288,10 @@
       $ret_txt=SendRepo($at_data,allat_addr_ssl,c2c_sellerreg_uri,allat_host,443);
     }else{
       $isEnc=checkEnc($at_data);
-      if( $isEnc ){ //¾ÏÈ£È­ µÊ
+      if( $isEnc ){ //ï¿½ï¿½È£È­ ï¿½ï¿½
         $ret_txt=SendRepo($at_data,allat_addr,c2c_sellerreg_uri,allat_host,80);
       }else{
-        return "reply_cd=0230\nreply_msg=¾ÏÈ£È­ ¿À·ù\n";
+        return "reply_cd=0230\nreply_msg=ï¿½ï¿½È£È­ ï¿½ï¿½ï¿½ï¿½\n";
       }
     }
     return $ret_txt;
@@ -304,10 +304,10 @@
       $ret_txt=SendRepo($at_data,allat_addr_ssl,c2c_productreg_uri,allat_host,443);
     }else{
       $isEnc=checkEnc($at_data);
-      if( $isEnc ){ //¾ÏÈ£È­ µÊ
+      if( $isEnc ){ //ï¿½ï¿½È£È­ ï¿½ï¿½
         $ret_txt=SendRepo($at_data,allat_addr,c2c_productreg_uri,allat_host,80);
       }else{
-        return "reply_cd=0230\nreply_msg=¾ÏÈ£È­ ¿À·ù\n";
+        return "reply_cd=0230\nreply_msg=ï¿½ï¿½È£È­ ï¿½ï¿½ï¿½ï¿½\n";
       }
     }
     return $ret_txt;
@@ -320,10 +320,10 @@
       $ret_txt=SendRepo($at_data,allat_addr_ssl,c2c_buyerchg_uri,allat_host,443);
     }else{
       $isEnc=checkEnc($at_data);
-      if( $isEnc ){ //¾ÏÈ£È­ µÊ
+      if( $isEnc ){ //ï¿½ï¿½È£È­ ï¿½ï¿½
         $ret_txt=SendRepo($at_data,allat_addr,c2c_buyerchg_uri,allat_host,80);
       }else{
-        return "reply_cd=0230\nreply_msg=¾ÏÈ£È­ ¿À·ù\n";
+        return "reply_cd=0230\nreply_msg=ï¿½ï¿½È£È­ ï¿½ï¿½ï¿½ï¿½\n";
       }
     }
     return $ret_txt;
@@ -336,10 +336,10 @@
       $ret_txt=SendRepo($at_data,allat_addr_ssl,c2c_escrowchk_uri,allat_host,443);
     }else{
       $isEnc=checkEnc($at_data);
-      if( $isEnc ){ //¾ÏÈ£È­ µÊ
+      if( $isEnc ){ //ï¿½ï¿½È£È­ ï¿½ï¿½
         $ret_txt=SendRepo($at_data,allat_addr,c2c_escrowchk_uri,allat_host,80);
       }else{
-        return "reply_cd=0230\nreply_msg=¾ÏÈ£È­ ¿À·ù\n";
+        return "reply_cd=0230\nreply_msg=ï¿½ï¿½È£È­ ï¿½ï¿½ï¿½ï¿½\n";
       }
     }
     return $ret_txt;
@@ -352,10 +352,10 @@
       $ret_txt=SendRepo($at_data,allat_addr_ssl,c2c_escrowconfirm_uri,allat_host,443);
     }else{
       $isEnc=checkEnc($at_data);
-      if( $isEnc ){ //¾ÏÈ£È­ µÊ
+      if( $isEnc ){ //ï¿½ï¿½È£È­ ï¿½ï¿½
         $ret_txt=SendRepo($at_data,allat_addr,c2c_escrowconfirm_uri,allat_host,80);
       }else{
-        return "reply_cd=0230\nreply_msg=¾ÏÈ£È­ ¿À·ù\n";
+        return "reply_cd=0230\nreply_msg=ï¿½ï¿½È£È­ ï¿½ï¿½ï¿½ï¿½\n";
       }
     }
     return $ret_txt;
@@ -368,10 +368,10 @@
       $ret_txt=SendRepo($at_data,allat_addr_ssl,c2c_esrejectcheck_uri,allat_host,443);
     }else{
       $isEnc=checkEnc($at_data);
-      if( $isEnc ){ //¾ÏÈ£È­ µÊ
+      if( $isEnc ){ //ï¿½ï¿½È£È­ ï¿½ï¿½
         $ret_txt=SendRepo($at_data,allat_addr,c2c_esrejectcheck_uri,allat_host,80);
       }else{
-        return "reply_cd=0230\nreply_msg=¾ÏÈ£È­ ¿À·ù\n";
+        return "reply_cd=0230\nreply_msg=ï¿½ï¿½È£È­ ï¿½ï¿½ï¿½ï¿½\n";
       }
     }
     return $ret_txt;
@@ -384,10 +384,10 @@
       $ret_txt=SendRepo($at_data,allat_addr_ssl,c2c_expressreg_uri,allat_host,443);
     }else{
       $isEnc=checkEnc($at_data);
-      if( $isEnc ){ //¾ÏÈ£È­ µÊ
+      if( $isEnc ){ //ï¿½ï¿½È£È­ ï¿½ï¿½
         $ret_txt=SendRepo($at_data,allat_addr,c2c_expressreg_uri,allat_host,80);
       }else{
-        return "reply_cd=0230\nreply_msg=¾ÏÈ£È­ ¿À·ù\n";
+        return "reply_cd=0230\nreply_msg=ï¿½ï¿½È£È­ ï¿½ï¿½ï¿½ï¿½\n";
       }
     }
     return $ret_txt;
