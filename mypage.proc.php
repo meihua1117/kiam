@@ -1463,7 +1463,6 @@ if ($mode == "land_save") {
     echo "<script>alert('수정되었습니다.');location='daily_list.php';</script>";
     exit;
 } else if ($mode == "daily_save") {
-    echo "test start<br>";
     $event_idx = 0;
     $query_step_add = "";
     $step_idx = "";
@@ -1497,7 +1496,6 @@ if ($mode == "land_save") {
         $deny = "";
     }
 
-    echo "test step 1<br>";
     if (isset($_POST['set_msg_mode']) && $set_msg_mode == "1") {
         if (isset($_POST['step_count']))
             $step_count = $_POST['step_count'];
@@ -1555,7 +1553,7 @@ if ($mode == "land_save") {
                                         send_deny='{$deny}', 
                                         $query_step_add 
                                         event_idx='{$event_idx}'";
-                echo $query . "<BR>";
+                //echo $query . "<BR>";
                 mysqli_query($self_con, $query);
                 $gd_id = mysqli_insert_id($self_con);
                 $txt .= "\n" . $daily_link;
@@ -1603,44 +1601,43 @@ if ($mode == "land_save") {
                     }
                 }
 
-
                 for ($i = 0; $i < count($date); $i++) {
                     $reservation = $date[$i] . " " . $htime . ":" . $mtime . ":00";
                     sendmms(6, $_SESSION['one_member_id'], $send_num, $recv_num_set[$i], $reservation, $title, $txt, $upimage_str, $upimage_str1, $upimage_str2, 'Y', "", "", "", $gd_id, $deny);
                 }
 
                 for ($i = 0; $i < count($date); $i++) {
-                    $query = "insert into Gn_daily_date set gd_id='$gd_id',
-                                                                send_date='$date[$i]',
-                                                                recv_num='$recv_num_set[$i]'";
+                    $query = "insert into Gn_daily_date set gd_id='{$gd_id}',
+                                                                send_date='{$date[$i]}',
+                                                                recv_num='{$recv_num_set[$i]}'";
                     mysqli_query($self_con, $query);
-                    echo $query . "<BR>";;
+                    //echo $query . "<BR>";;
                 }
             }
         }
     } else {
         $query = "insert into Gn_daily set mem_id='{$_SESSION['one_member_id']}', 
-                                    iam='$iam',
-                                    send_num='$send_num',
-                                    group_idx='$group_idx',
-                                    total_count='$total_count',
-                                    title='$title',
-                                    content='$txt',
-                                    link='$daily_link',
-                                    daily_cnt='$daily_cnt',
-                                    start_date='$start_date',
-                                    end_date='$end_date',
-                                    jpg='$upimage_str',
-                                    jpg1='$upimage_str1',
-                                    jpg2='$upimage_str2',
+                                    iam='{$iam}',
+                                    send_num='{$send_num}',
+                                    group_idx='{$group_idx}',
+                                    total_count='{$total_count}',
+                                    title='{$title}',
+                                    content='{$txt}',
+                                    link='{$daily_link}',
+                                    daily_cnt='{$daily_cnt}',
+                                    start_date='{$start_date}',
+                                    end_date='{$end_date}',
+                                    jpg='{$upimage_str}',
+                                    jpg1='{$upimage_str1}',
+                                    jpg2='{$upimage_str2}',
                                     status='Y',
                                     reg_date=NOW(),
-                                    htime='$htime',
-                                    mtime='$mtime',
-                                    send_deny='$deny',
+                                    htime='{$htime}',
+                                    mtime='{$mtime}',
+                                    send_deny='{$deny}',
                                     $query_step_add
-                                    event_idx='$event_idx'";
-        echo $query . "<BR>";
+                                    event_idx='{$event_idx}'";
+        //echo $query . "<BR>";
         mysqli_query($self_con, $query);
         $gd_id = mysqli_insert_id($self_con);
 
@@ -1690,7 +1687,6 @@ if ($mode == "land_save") {
             }
         }
 
-
         for ($i = 0; $i < count($date); $i++) {
             $reservation = $date[$i] . " " . $htime . ":" . $mtime . ":00";
             sendmms(6, $_SESSION['one_member_id'], $send_num, $recv_num_set[$i], $reservation, $title, $txt, $upimage_str, $upimage_str1, $upimage_str2, 'Y', "", "", "", $gd_id, $deny);
@@ -1723,7 +1719,7 @@ else if ($mode == "create_coaching_info") {
     $coaching = mysqli_fetch_array($res_1);
     $max_coaching_date = $coaching['coaching_date'];
     $min_date = date('Y-m-d H:i:s', strtotime($max_coaching_date));
-    echo "<br>";
+    //echo "<br>";
     //코칭날자
     if (strtotime($min_date) > strtotime($insert_coaching_date)) {
         echo "<script>alert('코칭시간 오류! 마지막으로 진행한 코칭시간 : " . date('Y-m-d H:i:s', strtotime($min_date)) . "');window.history.back(); </script>";
@@ -1737,17 +1733,17 @@ else if ($mode == "create_coaching_info") {
     //업데이트일때 아이디
     $update_coaching_id = $_POST['update_coaching_id'];
     //코티 정보 얻기
-    $sql = "select * from gn_coaching_apply a inner join Gn_Member b on a.mem_code = b.mem_code where coty_id='" . $insert_coty_id . "' and coach_id='" . $insert_coach_id . "'";
+    $sql = "select * from gn_coaching_apply a inner join Gn_Member b on a.mem_code = b.mem_code where coty_id='{$insert_coty_id}' and coach_id='{$insert_coach_id}'";
     $result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
     $g_coty_row = mysqli_fetch_array($result);
 
     //코치 정보 얻기
-    $sql = "select * from gn_coach_apply a inner join Gn_Member b on a.mem_code = b.mem_code where coach_id='" . $insert_coach_id . "'";
+    $sql = "select * from gn_coach_apply a inner join Gn_Member b on a.mem_code = b.mem_code where coach_id='{$insert_coach_id}'";
     $result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
     $g_coach_row = mysqli_fetch_array($result);
     $insert_search_text =  $insert_search_text . " | " . $g_coach_row['mem_name'] . " | " . $g_coty_row['mem_name'];
     //코칭정보테이블에서 이미 등록된 코칭이 있는가 체크
-    $sql = "select *,count(coaching_id) as cnt from gn_coaching_info where coty_id='" . $insert_coty_id . "' and coach_id='" . $insert_coach_id . "'";
+    $sql = "select *,count(coaching_id) as cnt from gn_coaching_info where coty_id='{$insert_coty_id}' and coach_id='{$insert_coach_id}'";
     $result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
     $row = mysqli_fetch_array($result);
     $count = $row['cnt']; //코칭회차 결정
@@ -1762,8 +1758,7 @@ else if ($mode == "create_coaching_info") {
         //코칭회차
         $insert_coaching_turn = $count + 1;
         //코칭회차가 1이 데이터 얻기
-        $sql = "select * from gn_coaching_info where coty_id='" . $insert_coty_id . "' and coach_id='" . $insert_coach_id . "' and coaching_turn = '1'";
-
+        $sql = "select * from gn_coaching_info where coty_id='{$insert_coty_id}' and coach_id='{$insert_coach_id}' and coaching_turn = '1'";
         $result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
         $row = mysqli_fetch_array($result);
 
@@ -1779,7 +1774,7 @@ else if ($mode == "create_coaching_info") {
     }
     //잔여시간 초과 체크 --------
     $coty_cont_time = $g_coty_row['cont_time'] * 60; //계약 분
-    $sql = "select sum(coaching_time) as time_sum from gn_coaching_info where coty_id='" . $insert_coty_id . "' and coach_id='" . $insert_coach_id . "'";
+    $sql = "select sum(coaching_time) as time_sum from gn_coaching_info where coty_id='{$insert_coty_id}' and coach_id='{$insert_coach_id}'";
     $result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
     $row = mysqli_fetch_array($result);
     $insert_coaching_time_sum = $row['time_sum']; //이 계열의 진행한 코칭의 총 시간
