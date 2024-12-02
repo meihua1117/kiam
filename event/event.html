@@ -8,7 +8,6 @@
 	if(!$pcode) 
 		$pcode="opb";
 	$meta_img = "";
-	echo "start";
 	if($_GET['landing_idx'] != "") {
     	$landing_idx=$_GET['landing_idx'];
     	$sql="update Gn_landing set read_cnt = read_cnt+1 where landing_idx='$landing_idx'";
@@ -380,11 +379,10 @@
 	echo "<script>alert('".$msg."');</script>";
 	}
 
-
+	echo "test";
 	if($_POST['mobile'] != "")
 	{
 		$sql="select mem_phone from Gn_Member where mem_phone='$_POST['mobile']'";
-		echo $sql;
 		$res=mysqli_query($self_con,$sql);
 		$row333=mysqli_fetch_array($res);	
 	}
