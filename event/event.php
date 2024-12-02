@@ -832,7 +832,7 @@ if ($_POST['mode'] == "speech") {
 			</div>
 		<? } ?>
 		<?php
-		if (($landing_idx != "" && $data['lecture_yn'] == "Y") || ($landing_idx != "" && $data['lecture_yn'] == "Y")) { ?>
+		if ($landing_idx != "" && $data['lecture_yn'] == "Y") { ?>
 			<div class="big_sub">
 				<div class="m_div">
 					<?php include "mypage_left_menu.php"; ?>
@@ -1111,7 +1111,7 @@ if ($_POST['mode'] == "speech") {
 																	<?= $row['lecture_info'] ?>
 																</div>
 																</a>
-														</td> 
+														</td>
 														<!-- <td>
 														<?php if ($row['lecture_url']) { ?>
 														<a href="<?= $row['lecture_url']; ?>" target="_blank">
@@ -1654,11 +1654,7 @@ if ($_POST['mode'] == "speech") {
 													</div>
 												</div>
 											<?php } ?>
-
-
-
 											<? if ($memrow['mem_leb'] == "60") { ?>
-
 												<div class="attr-row">
 													<div class="attr-name">신청강좌명</div>
 													<div class="attr-value">
@@ -1672,9 +1668,6 @@ if ($_POST['mode'] == "speech") {
 														</div>
 													</div>
 												</div>
-
-
-
 											<?php } ?>
 											<?php if (strstr($event_data['event_info'], "other")) { ?>
 												<div class="attr-row">
@@ -1696,7 +1689,6 @@ if ($_POST['mode'] == "speech") {
 														<?= $event_data['event_name_kor']; ?>
 														<input type="hidden" name="sp" style="width:90%; height:40px; border:1px #cacaca solid;" id="sp" value="<?= $sp ? $sp : $pcode ?>"
 															<?= $readonly ?> />
-
 													</div>
 												</div>
 											</div>
@@ -1711,12 +1703,9 @@ if ($_POST['mode'] == "speech") {
 													</div>
 												</div>
 											</div>
-
 											<!--        <div class="button-wrap">
-
 	                                <input align="middle" src="pop_btn_regist3.png" type="image" class="button is-grey" value="신청하기" />
 								</div>  -->
-
 											<div class="agreement-field">
 												<div class="agreement-wrap">
 													<?php if ($event_data['event_desc']) { ?>
@@ -2094,4 +2083,5 @@ if ($_POST['mode'] == "speech") {
 			}
 		</script>
 </body>
+
 </html>

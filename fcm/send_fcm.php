@@ -59,12 +59,5 @@ if ($result === FALSE) {
         curl_errno($ch),
         htmlspecialchars(curl_error($ch))
     );
-} else {
-    /*$fp = fopen("test.log","a+");
-	fwrite($fp,$result."\r\n");
-	fwrite($fp,"token=".$token."\r\n");
-	fwrite($fp,"title=".$title."\r\n");
-	fwrite($fp,"body=".var_export($message,true)."\r\n");
-	fclose($fp);*/
-}
+} 
 echo json_encode(array("result" => $result));

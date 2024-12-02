@@ -1,6 +1,5 @@
 <?php
 //셀링카드정기결제
-$fp = fopen("allat_approval_extra.log","w+");
 $path = "../../";
 include_once "../../_head.php";
 // 올앳관련 함수 Include
@@ -11,7 +10,6 @@ $at_data      = "";
 $at_txt       = "";
 $ORDER_NO = $_GET['ORDER_NO'];
 $sql="select * from tjd_pay_result where orderNumber='{$ORDER_NO}'";
-fwrite($fp,"14=>".$sql."\r\n");
 $resul=mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
 $row=mysqli_fetch_array($resul);
 $mem_id = $row['buyer_id'];
@@ -102,10 +100,8 @@ if($REPLYCD == "0000"){//pay_test
                                                     regdate = NOW(),
                                                     amount='{$row['TotPrice']}',
                                                     buyer_id='$mem_id'";
-                                                    fwrite($fp,"98=>".$sql."\r\n");
     mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
     $sql = "update tjd_pay_result set monthly_yn='Y', end_status='Y' where  orderNumber='$ORDER_NO'";
-    fwrite($fp,"108=>".$sql."\r\n");
     mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
     $sql="select * from Gn_Member where mem_id='$mem_id' ";
     $sresult=mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
@@ -138,7 +134,6 @@ if($REPLYCD == "0000"){//pay_test
                 $branch_share_per = 0;
             }
             $sql = "update tjd_pay_result set share_per='{$share_per}', branch_share_per = '{$branch_share_per}', share_id='{$srow['recommend_id']}', branch_share_id='{$branch_share_id}' where orderNumber='{$ORDER_NO}'";
-            fwrite($fp,"141=>".$sql."\r\n");
             mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
         }
     }

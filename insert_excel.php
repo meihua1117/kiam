@@ -121,7 +121,6 @@ if ($_REQUEST['status'] == "old") {
 		mysqli_query($self_con, $sql_u);
 	}
 } else if ($_REQUEST['status'] == "deny") {
-	$fp = fopen("insert_excel.log","w+");
 	if (!$_FILES['excel_file']['tmp_name'])
 		exit;
 	$cnt = 0;
@@ -146,7 +145,6 @@ if ($_REQUEST['status'] == "old") {
 
 
 		$sql_num = "select sendnum from Gn_MMS_Number where mem_id ='{$_SESSION['one_member_id']}' and sendnum='$send_num' ";
-		fwrite($fp,$sql_num."\r\n");
 		$resul_num = mysqli_query($self_con, $sql_num);
 		$row_num = mysqli_fetch_array($resul_num);
 		if (!$row_num['sendnum']) {
@@ -155,7 +153,6 @@ if ($_REQUEST['status'] == "old") {
 		}
 
 		$sql_s = "select idx from Gn_MMS_Deny where mem_id='{$_SESSION['one_member_id']}' and recv_num='$recv_num' and send_num='$send_num' ";
-		fwrite($fp,$sql_s."\r\n");
 		$resul_s = mysqli_query($self_con, $sql_s);
 		$row_s = mysqli_fetch_array($resul_s);
 		if ($row_s['idx']) {
@@ -173,7 +170,6 @@ if ($_REQUEST['status'] == "old") {
 		foreach ($deny_info as $key => $v)
 			$sql_i .= " $key='$v' , ";
 		$sql_i .= " reg_date=now(),up_date=now() ";
-		fwrite($fp,$sql_i."\r\n");
 		mysqli_query($self_con, $sql_i) or die(mysqli_error($self_con));
 		$cnt++;
 	}
