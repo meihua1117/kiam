@@ -1490,16 +1490,6 @@ if ($mode == "land_save") {
                 continue;
             $reservation = $date[$i] . " " . $htime . ":" . $mtime . ":00";
             sendemail($reservation, $recv_mail_set[$i], $mail_sender, $mail_title, $mail_content, $mail_file, $gd_id);
-            // $query = "insert into gn_mail set mem_id='{$_SESSION['one_member_id']}',
-            //                                     sender='$mail_sender',
-            //                                     receiver='$recv_mail_set[$i]',
-            //                                     title='$mail_title',
-            //                                     content='$mail_content',
-            //                                     file='$mail_file',
-            //                                     reservation='$reservation',
-            //                                     gd_id='$gd_id',
-            //                                     reg_date=now()";
-            // mysqli_query($self_con,$query);   
         }
     }
 
@@ -1515,12 +1505,12 @@ if ($mode == "land_save") {
     echo "<script>alert('수정되었습니다.');location='daily_list.php';</script>";
     exit;
 } else if ($mode == "daily_save") {
+    echo "test start<br>";
     $event_idx = 0;
     $query_step_add = "";
     $step_idx = "";
     if (isset($_POST['mem_id'])) {
         $_SESSION['one_member_id'] = $_POST['mem_id'];
-        // $event_idx = $_POST['event_idx'];
     }
     if (!$daily_link) {
         $sql_card = "select card_short_url from Gn_Iam_Name_Card where mem_id='{$_POST['mem_id']}' order by idx asc limit 1";
@@ -1545,9 +1535,12 @@ if ($mode == "land_save") {
         $deny = "";
     }
 
+    echo "test step 1<br>";
     if (isset($_POST['set_msg_mode']) && $set_msg_mode == "1") {
-        if (isset($_POST['step_count'])) $step_count = $_POST['step_count'];
-        else $step_count = 0;
+        if (isset($_POST['step_count'])) 
+            $step_count = $_POST['step_count'];
+        else 
+            $step_count = 0;
 
         $sql_cnt = "select min(send_day) as step_count from Gn_event_sms_step_info where sms_idx='{$step_sms_idx}' and send_day >= '{$step_count}'";
         $res_cnt = mysqli_query($self_con, $sql_cnt);
@@ -1574,38 +1567,36 @@ if ($mode == "land_save") {
                 $step_idx = $step_sms_idx;
                 $daily_link = "";
 
-                $query_step_add = "step_sms_idx='$step_sms_idx',
-                                        weekend_status='$set_weekend',
-                                        max_count='$max_count',
-                                        step_count='$step_count',";
+                $query_step_add = "step_sms_idx='{$step_sms_idx}',
+                                        weekend_status='{$set_weekend}',
+                                        max_count='{$max_count}',
+                                        step_count='{$step_count}',";
                 $query = "insert into Gn_daily set 
                                         mem_id='{$_SESSION['one_member_id']}', 
-                                        iam='$iam',
-                                        send_num='$send_num',
-                                        group_idx='$group_idx',
-                                        total_count='$total_count',
-                                        title='$title',
-                                        content='$txt',
-                                        link='$daily_link',
-                                        daily_cnt='$daily_cnt',
-                                        start_date='$start_date',
-                                        end_date='$end_date',
-                                        jpg='$upimage_str',
-                                        jpg1='$upimage_str1',
-                                        jpg2='$upimage_str2',
+                                        iam='{$iam}',
+                                        send_num='{$send_num}',
+                                        group_idx='{$group_idx}',
+                                        total_count='{$total_count}',
+                                        title='{$title}',
+                                        content='{$txt}',
+                                        link='{$daily_link}',
+                                        daily_cnt='{$daily_cnt}',
+                                        start_date='{$start_date}',
+                                        end_date='{$end_date}',
+                                        jpg='{$upimage_str}',
+                                        jpg1='{$upimage_str1}',
+                                        jpg2='{$upimage_str2}',
                                         status='Y',
                                         reg_date=NOW(),
-                                        htime='$htime',
-                                        mtime='$mtime',
-                                        send_deny='$deny',
-                                        " . $query_step_add . "
-                                            event_idx='$event_idx'";
+                                        htime='{$htime}',
+                                        mtime='{$mtime}',
+                                        send_deny='{$deny}'," . 
+                                        $query_step_add . 
+                                        "event_idx='$event_idx'";
                 mysqli_query($self_con, $query);
-                // echo $query."<BR>";exit;
+                 echo $query."<BR>";
                 $gd_id = mysqli_insert_id($self_con);
-
                 $txt .= "\n" . $daily_link;
-
                 if ($iam) {
                     $table = "Gn_MMS_Receive_Iam";
                 } else {
@@ -1647,16 +1638,6 @@ if ($mode == "land_save") {
                             continue;
                         $reservation = $date[$i] . " " . $htime . ":" . $mtime . ":00";
                         sendemail($reservation, $recv_mail_set[$i], $mail_sender, $mail_title, $mail_content, $mail_file, $gd_id);
-                        // $query = "insert into gn_mail set mem_id='{$_SESSION['one_member_id']}',
-                        //                                     sender='$mail_sender',
-                        //                                     receiver='$recv_mail_set[$i]',
-                        //                                     title='$mail_title',
-                        //                                     content='$mail_content',
-                        //                                     file='$mail_file',
-                        //                                     reservation='$reservation',
-                        //                                     gd_id='$gd_id',
-                        //                                     reg_date=now()";
-                        // mysqli_query($self_con,$query);   
                     }
                 }
 
@@ -1671,7 +1652,7 @@ if ($mode == "land_save") {
                                                                 send_date='$date[$i]',
                                                                 recv_num='$recv_num_set[$i]'";
                     mysqli_query($self_con, $query);
-                    //echo $query."<BR>";;
+                    echo $query."<BR>";;
                 }
             }
         }
@@ -1699,7 +1680,7 @@ if ($mode == "land_save") {
                                     " . $query_step_add . "
                                     event_idx='$event_idx'";
         mysqli_query($self_con, $query);
-        // echo $query."<BR>";exit;
+        echo $query."<BR>";
         $gd_id = mysqli_insert_id($self_con);
 
         $txt .= "\n" . $daily_link;
@@ -1745,16 +1726,6 @@ if ($mode == "land_save") {
                     continue;
                 $reservation = $date[$i] . " " . $htime . ":" . $mtime . ":00";
                 sendemail($reservation, $recv_mail_set[$i], $mail_sender, $mail_title, $mail_content, $mail_file, $gd_id);
-                // $query = "insert into gn_mail set mem_id='{$_SESSION['one_member_id']}',
-                //                                     sender='$mail_sender',
-                //                                     receiver='$recv_mail_set[$i]',
-                //                                     title='$mail_title',
-                //                                     content='$mail_content',
-                //                                     file='$mail_file',
-                //                                     reservation='$reservation',
-                //                                     gd_id='$gd_id',
-                //                                     reg_date=now()";
-                // mysqli_query($self_con,$query);   
             }
         }
 
@@ -1769,7 +1740,7 @@ if ($mode == "land_save") {
                                                         send_date='$date[$i]',
                                                         recv_num='$recv_num_set[$i]'";
             mysqli_query($self_con, $query);
-            //echo $query."<BR>";;
+            echo $query."<BR>";;
         }
     }
 
