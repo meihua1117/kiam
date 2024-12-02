@@ -307,7 +307,7 @@ while ($row_contents = mysqli_fetch_array($res_contents)) {
 		$mem_phone = $row_rest_point['mem_phone'];
 		$method = $mem_id . "/" . $mem_name;
 
-		$sql_pay_res = "insert into Gn_Item_Pay_Result set buyer_id='{$mem_id}', buyer_tel='{$mem_phone}', item_name='오토데이트', item_price={$min_point}, pay_percent=90, current_point={$rest_point}, current_cash={$rest_cash}, pay_status='Y', VACT_InputName='{$mem_name}', type='buy', seller_id='', pay_method='{$method}', pay_date=now(), point_val=1";
+		$sql_pay_res = "insert into Gn_Item_Pay_Result set buyer_id='{$mem_id}', buyer_tel='{$mem_phone}', item_name='오토데이트', item_price={$min_point}, pay_percent=90, current_point={$rest_point}, current_cash={$rest_cash}, pay_status='Y', VACT_InputName='{$mem_name}', type='buy', seller_id='', pay_method='{$method}', pay_date=now(), point_val=1,billdate=now()";
 		mysqli_query($self_con, $sql_pay_res);
 
 		$sql_release = "update auto_update_contents set settle_cnt=settle_cnt+1, reg_date='{$cur_time1}' where id={$row_contents['id']}";

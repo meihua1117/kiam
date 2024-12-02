@@ -35,7 +35,7 @@ if ($row['mem_id']) {
 	}
 	$row_pay = mysqli_fetch_array($res_pay);
 
-	$sql_p = "select mem_code, mem_id, site, site_iam from Gn_Member where mem_id = '$userId' and mem_pass = '$check1'";
+	$sql_p = "select mem_code, mem_id, site, site_iam,mem_name,mem_phone,mem_email,mem_add1,mem_add2 from Gn_Member where mem_id = '$userId' and mem_pass = '$check1'";
 	//echo $sql_p;
 	$resul_p = mysqli_query($self_con, $sql_p);
 	$row_p = mysqli_fetch_array($resul_p);
@@ -127,12 +127,7 @@ if ($result == "0") { //로그인 성공
 	$sql_log = "insert into gn_hist_login (domain,userid,position,ip,success,count) values('$host[0]', '$userId', 'mobile', '$ip', 'Y', count+1)";
 	$res = mysqli_query($self_con, $sql_log);
 
-	$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-	$charactersLength = strlen($characters);
-	$memToken = '';
-	for ($i = 0; $i < 10; $i++) {
-		$memToken .= $characters[rand(0, $charactersLength - 1)];
-	}
+	$memToken = generateRandomString(10);
 	$sql_token_update = "update Gn_Member set mem_token='{$memToken}' where mem_id='{$userId}'";
 	$res_token = mysqli_query($self_con, $sql_token_update);
 	$sql_chk_num = "select token from gn_mms_token where phone_num='{$userNum}'";
@@ -145,6 +140,51 @@ if ($result == "0") { //로그인 성공
 		$sql_insert = "insert into gn_mms_token set mem_id='{$userId}', token='{$memToken}', phone_num='{$userNum}', reg_date=NOW()";
 		mysqli_query($self_con, $sql_insert);
 	}
+	$check_sql = "select count(idx) from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$userId}'";
+	$check_result = mysqli_query($self_con, $check_sql);
+	$check_comment_row = mysqli_fetch_array($check_result);
+	if (!$check_comment_row[0]) { //네임카드가 하나도 없으면 자동으로 한개 생성한다
+		$site_name = $row_p['site'];
+		$card_name = $row_p['mem_name'];
+		$card_title = $row_p['mem_name'] . " 소개";
+		$card_phone = $row_p['mem_phone'];
+		$card_email = $row_p['mem_email'];
+		$card_addr1 = $row_p['mem_add1'];
+		$card_addr2 = $row_p['mem_add2'];
+		if (!strpos($card_phone, "-")) {
+			if (strlen($card_phone) > 10) {
+				$card_phone1 = substr($card_phone, 0, 3);
+				$card_phone2 = substr($card_phone, 3, 4);
+				$card_phone3 = substr($card_phone, 7, 4);
+				$card_phone = $card_phone1 . "-" . $card_phone2 . "-" . $card_phone3;
+			} else {
+				$card_phone1 = substr($card_phone, 0, 3);
+				$card_phone2 = substr($card_phone, 3, 3);
+				$card_phone3 = substr($card_phone, 6, 4);
+				$card_phone = $card_phone1 . "-" . $card_phone2 . "-" . $card_phone3;
+			}
+		}
+		$card_addr = $card_addr1 . " " . $card_addr2;
+		$card_url = generateRndString();
+		$img_url = "/iam/img/common/logo-2.png";
+		$name_card_sql = "insert into Gn_Iam_Name_Card set mem_id = '{$userId}', 
+														card_short_url = '{$card_url}', 
+														card_title = '{$card_title}',
+														card_name = '{$card_name}', 
+														card_phone = '{$card_phone}', 
+														card_email = '{$card_email}', 
+														card_addr = '{$card_addr}', 
+														profile_logo = '{$img_url}', 
+														req_data = now(),
+														up_data = now()";
+		mysqli_query($self_con, $name_card_sql) or die(mysqli_error($self_con));
+	} else {
+		$query = "select card_short_url from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$userId}' order by req_data limit 0,1";
+		$res = mysqli_query($self_con, $query);
+		$row = mysqli_fetch_array($res);
+		$card_url = $row['card_short_url'];
+	}
+	$card_url .= $mem_code;
 }
-echo json_encode(array("result" => $result, "mem_code" => $mem_code, "site" => $site, "site_iam" => $site_iam, "mem_token" => $memToken));
+echo json_encode(array("result" => $result, "mem_code" => $mem_code, "site" => $site, "site_iam" => $site_iam, "mem_token" => $memToken, "card_link" => $card_url));
 ?>

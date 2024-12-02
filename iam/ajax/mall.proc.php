@@ -527,7 +527,8 @@ if ($method_type == "pay_mall") {
                                                     point_val=$point,
                                                     type='use',
                                                     current_point=$cur_point,
-                                                    current_cash={$point_row['mem_cash']}";
+                                                    current_cash={$point_row['mem_cash']},
+                                                    billdate=now()";
     mysqli_query($self_con, $sql_buyer);
 
     $sql_update = "update Gn_Member set mem_point={$cur_point} where mem_id='{$_SESSION['iam_member_id']}'";
@@ -554,7 +555,8 @@ if ($method_type == "pay_mall") {
                                                     point_val=$point,
                                                     type='servicebuy',
                                                     current_point=$seller_cur_point,
-                                                    current_cash={$seller_row['mem_cash']}";
+                                                    current_cash={$seller_row['mem_cash']},
+                                                    billdate=now()";
     mysqli_query($self_con, $sql_seller);
 
     $sql_update1 = "update Gn_Member set mem_point={$seller_cur_point} where mem_id='{$seller_id}'";

@@ -140,21 +140,21 @@ if (isset($_POST['point_val'])) {
                 $_POST['contents_cnt'] = 1;
             }
 
-            $sql = "insert into Gn_Item_Pay_Result
-                        set buyer_id='{$_SESSION['one_member_id']}',
-                            buyer_tel='{$data['mem_phone']}',
-                            pay_method='$payMethod',
-                            item_name = '{$_POST['member_type']}',
-                            item_price=$item_price,
-                            seller_id='{$row_cont_info['mem_id']}',
-                            pay_date=NOW(),
-                            pay_percent='{$_POST['pay_percent']}',
-                            order_number = '{$_POST['allat_order_no']}',
-                            VACT_InputName='{$data['mem_name']}',
-                            contents_cnt='{$_POST['contents_cnt']}',
-                            point_val=$point,
-                            gwc_cont_pay=$gwc,
-                            tjd_idx=$pay_idx_tjd";
+            $sql = "insert into Gn_Item_Pay_Result set buyer_id='{$_SESSION['one_member_id']}',
+                                                    buyer_tel='{$data['mem_phone']}',
+                                                    pay_method='$payMethod',
+                                                    item_name = '{$_POST['member_type']}',
+                                                    item_price=$item_price,
+                                                    seller_id='{$row_cont_info['mem_id']}',
+                                                    pay_date=NOW(),
+                                                    pay_percent='{$_POST['pay_percent']}',
+                                                    order_number = '{$_POST['allat_order_no']}',
+                                                    VACT_InputName='{$data['mem_name']}',
+                                                    contents_cnt='{$_POST['contents_cnt']}',
+                                                    point_val=$point,
+                                                    gwc_cont_pay=$gwc,
+                                                    tjd_idx=$pay_idx_tjd,
+                                                    billdate=now()";
             $res_result = mysqli_query($self_con,$sql);
             $pay_idx = mysqli_insert_id($self_con);
         }
@@ -219,7 +219,8 @@ if (isset($_POST['point_val'])) {
                                                                 current_cash='{$data['mem_cash']}',
                                                                 contents_cnt='{$_POST['contents_cnt']}',
                                                                 gwc_cont_pay=$gwc,
-                                                                tjd_idx=$pay_idx_tjd";
+                                                                tjd_idx=$pay_idx_tjd,
+                                                                billdate=now()";
                 $res_result = mysqli_query($self_con,$sql_buyer);
                 if (!$pay_idx) {
                     $pay_idx = mysqli_insert_id($self_con);
@@ -269,26 +270,26 @@ if (isset($_POST['point_val'])) {
                 mysqli_query($self_con,$sql_mem_cash);
                 $data['mem_cash'] = $data['mem_cash'] * 1 + 29100;
 
-                $sql_buyer = "insert into Gn_Item_Pay_Result
-                        set buyer_id='{$_SESSION['one_member_id']}',
-                            buyer_tel='{$data['mem_phone']}',
-                            site='',
-                            pay_method='POINT',
-                            item_name = '캐시포인트충전(캐시상품)',
-                            item_price=29100,
-                            seller_id='{$row_cont_info['mem_id']}',
-                            pay_date=NOW(),
-                            pay_status='Y',
-                            pay_percent='',
-                            order_number = '',
-                            VACT_InputName='{$data['mem_name']}',
-                            point_val=1,
-                            type='buy',
-                            current_point='{$data['mem_point']}',
-                            current_cash='{$data['mem_cash']}',
-                            contents_cnt='{$_POST['contents_cnt']}',
-                            gwc_cont_pay=$gwc,
-                            tjd_idx=$pay_idx_tjd";
+                $sql_buyer = "insert into Gn_Item_Pay_Result set buyer_id='{$_SESSION['one_member_id']}',
+                                                                buyer_tel='{$data['mem_phone']}',
+                                                                site='',
+                                                                pay_method='POINT',
+                                                                item_name = '캐시포인트충전(캐시상품)',
+                                                                item_price=29100,
+                                                                seller_id='{$row_cont_info['mem_id']}',
+                                                                pay_date=NOW(),
+                                                                pay_status='Y',
+                                                                pay_percent='',
+                                                                order_number = '',
+                                                                VACT_InputName='{$data['mem_name']}',
+                                                                point_val=1,
+                                                                type='buy',
+                                                                current_point='{$data['mem_point']}',
+                                                                current_cash='{$data['mem_cash']}',
+                                                                contents_cnt='{$_POST['contents_cnt']}',
+                                                                gwc_cont_pay=$gwc,
+                                                                tjd_idx=$pay_idx_tjd,
+                                                                billdate=now()";
                 $res_result = mysqli_query($self_con,$sql_buyer);
             }
         }
@@ -360,26 +361,26 @@ if (isset($_POST['point_val'])) {
                     mysqli_query($self_con,$sql_mem);
                     $data['mem_cash'] = $data['mem_cash'] * 1 - $mi_price * 1;
                     //포인트결제내역
-                    $sql_buyer = "insert into Gn_Item_Pay_Result
-                                set buyer_id='{$_SESSION['one_member_id']}',
-                                    buyer_tel='{$data['mem_phone']}',
-                                    site='$cont_url_arr[$i]',
-                                    pay_method='POINT',
-                                    item_name = '$con_title_arr[$i]',
-                                    item_price=$mi_price,
-                                    seller_id='{$row_cont_info['mem_id']}',
-                                    pay_date=NOW(),
-                                    pay_status='Y',
-                                    pay_percent='',
-                                    order_number = '{$_POST['allat_order_no']}',
-                                    VACT_InputName='{$data['mem_name']}',
-                                    point_val=1,
-                                    type='use',
-                                    current_point='{$data['mem_point']}',
-                                    current_cash='{$data['mem_cash']}',
-                                    contents_cnt='$con_cnt_arr[$i]',
-                                    gwc_cont_pay=$gwc,
-                                    tjd_idx=$pay_idx_tjd";
+                    $sql_buyer = "insert into Gn_Item_Pay_Result set buyer_id='{$_SESSION['one_member_id']}',
+                                                                    buyer_tel='{$data['mem_phone']}',
+                                                                    site='$cont_url_arr[$i]',
+                                                                    pay_method='POINT',
+                                                                    item_name = '$con_title_arr[$i]',
+                                                                    item_price=$mi_price,
+                                                                    seller_id='{$row_cont_info['mem_id']}',
+                                                                    pay_date=NOW(),
+                                                                    pay_status='Y',
+                                                                    pay_percent='',
+                                                                    order_number = '{$_POST['allat_order_no']}',
+                                                                    VACT_InputName='{$data['mem_name']}',
+                                                                    point_val=1,
+                                                                    type='use',
+                                                                    current_point='{$data['mem_point']}',
+                                                                    current_cash='{$data['mem_cash']}',
+                                                                    contents_cnt='$con_cnt_arr[$i]',
+                                                                    gwc_cont_pay=$gwc,
+                                                                    tjd_idx=$pay_idx_tjd,
+                                                                    billdate=now()";
                     $res_result = mysqli_query($self_con,$sql_buyer);
                     $pay_idx = mysqli_insert_id($self_con);
                     //주문결과내역
@@ -455,22 +456,22 @@ if (isset($_POST['point_val'])) {
                     $res_result = mysqli_query($self_con,$sql);
                     $pay_idx_tjd = mysqli_insert_id($self_con);
 
-                    $sql = "insert into Gn_Item_Pay_Result
-                                set buyer_id='{$_SESSION['one_member_id']}',
-                                    buyer_tel='{$data['mem_phone']}',
-                                    pay_method='$payMethod',
-                                    item_name = '$con_title_arr[$i]',
-                                    item_price=$real_price,
-                                    seller_id='{$row_cont_info['mem_id']}',
-                                    pay_date=NOW(),
-                                    pay_status='$end_state',
-                                    pay_percent='{$_POST['pay_percent']}',
-                                    order_number = '{$_POST['allat_order_no']}',
-                                    VACT_InputName='{$data['mem_name']}',
-                                    contents_cnt='$con_cnt_arr[$i]',
-                                    point_val=$point,
-                                    gwc_cont_pay=$gwc,
-                                    tjd_idx=$pay_idx_tjd";
+                    $sql = "insert into Gn_Item_Pay_Result set buyer_id='{$_SESSION['one_member_id']}',
+                                                                buyer_tel='{$data['mem_phone']}',
+                                                                pay_method='$payMethod',
+                                                                item_name = '$con_title_arr[$i]',
+                                                                item_price=$real_price,
+                                                                seller_id='{$row_cont_info['mem_id']}',
+                                                                pay_date=NOW(),
+                                                                pay_status='$end_state',
+                                                                pay_percent='{$_POST['pay_percent']}',
+                                                                order_number = '{$_POST['allat_order_no']}',
+                                                                VACT_InputName='{$data['mem_name']}',
+                                                                contents_cnt='$con_cnt_arr[$i]',
+                                                                point_val=$point,
+                                                                gwc_cont_pay=$gwc,
+                                                                tjd_idx=$pay_idx_tjd,
+                                                                billdate=now()";
                     $res_result = mysqli_query($self_con,$sql);
                     $pay_idx = mysqli_insert_id($self_con);
 
@@ -478,26 +479,26 @@ if (isset($_POST['point_val'])) {
                     mysqli_query($self_con,$sql_mem);
                     $data['mem_cash'] = $data['mem_cash'] * 1 - $use_point * 1;
                     //포인트결제내역
-                    $sql_buyer = "insert into Gn_Item_Pay_Result
-                                set buyer_id='{$_SESSION['one_member_id']}',
-                                    buyer_tel='{$data['mem_phone']}',
-                                    site='$cont_url_arr[$i]',
-                                    pay_method='POINT',
-                                    item_name = '$con_title_arr[$i]',
-                                    item_price=$use_point,
-                                    seller_id='{$row_cont_info['mem_id']}',
-                                    pay_date=NOW(),
-                                    pay_status='Y',
-                                    pay_percent='',
-                                    order_number = '{$_POST['allat_order_no']}',
-                                    VACT_InputName='{$data['mem_name']}',
-                                    point_val=1,
-                                    type='use',
-                                    current_point='{$data['mem_point']}',
-                                    current_cash='{$data['mem_cash']}',
-                                    contents_cnt='$con_cnt_arr[$i]',
-                                    gwc_cont_pay=$gwc,
-                                    tjd_idx=$pay_idx_tjd";
+                    $sql_buyer = "insert into Gn_Item_Pay_Result set buyer_id='{$_SESSION['one_member_id']}',
+                                                                    buyer_tel='{$data['mem_phone']}',
+                                                                    site='$cont_url_arr[$i]',
+                                                                    pay_method='POINT',
+                                                                    item_name = '$con_title_arr[$i]',
+                                                                    item_price=$use_point,
+                                                                    seller_id='{$row_cont_info['mem_id']}',
+                                                                    pay_date=NOW(),
+                                                                    pay_status='Y',
+                                                                    pay_percent='',
+                                                                    order_number = '{$_POST['allat_order_no']}',
+                                                                    VACT_InputName='{$data['mem_name']}',
+                                                                    point_val=1,
+                                                                    type='use',
+                                                                    current_point='{$data['mem_point']}',
+                                                                    current_cash='{$data['mem_cash']}',
+                                                                    contents_cnt='$con_cnt_arr[$i]',
+                                                                    gwc_cont_pay=$gwc,
+                                                                    tjd_idx=$pay_idx_tjd,
+                                                                    billdate=now()";
                     $res_result = mysqli_query($self_con,$sql_buyer);
                     //주문결과내역
                     $sql_order = "insert into Gn_Gwc_Order
@@ -567,21 +568,21 @@ if (isset($_POST['point_val'])) {
                 $res_result = mysqli_query($self_con,$sql);
                 $pay_idx_tjd = mysqli_insert_id($self_con);
 
-                $sql = "insert into Gn_Item_Pay_Result
-                            set buyer_id='{$_SESSION['one_member_id']}',
-                                buyer_tel='{$data['mem_phone']}',
-                                pay_method='$payMethod',
-                                item_name = '$con_title_arr[$i]',
-                                item_price=$comp_price,
-                                seller_id='{$row_cont_info['mem_id']}',
-                                pay_date=NOW(),
-                                pay_percent='{$_POST['pay_percent']}',
-                                order_number = '{$_POST['allat_order_no']}',
-                                VACT_InputName='{$data['mem_name']}',
-                                contents_cnt='$con_cnt_arr[$i]',
-                                point_val=$point,
-                                gwc_cont_pay=$gwc,
-                                tjd_idx=$pay_idx_tjd";
+                $sql = "insert into Gn_Item_Pay_Result set buyer_id='{$_SESSION['one_member_id']}',
+                                                            buyer_tel='{$data['mem_phone']}',
+                                                            pay_method='$payMethod',
+                                                            item_name = '$con_title_arr[$i]',
+                                                            item_price=$comp_price,
+                                                            seller_id='{$row_cont_info['mem_id']}',
+                                                            pay_date=NOW(),
+                                                            pay_percent='{$_POST['pay_percent']}',
+                                                            order_number = '{$_POST['allat_order_no']}',
+                                                            VACT_InputName='{$data['mem_name']}',
+                                                            contents_cnt='$con_cnt_arr[$i]',
+                                                            point_val=$point,
+                                                            gwc_cont_pay=$gwc,
+                                                            tjd_idx=$pay_idx_tjd,
+                                                            billdate=now()";
                 $res_result = mysqli_query($self_con,$sql);
                 $pay_idx = mysqli_insert_id($self_con);
 

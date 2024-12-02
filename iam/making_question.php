@@ -29,7 +29,8 @@ if(isset($_POST['settle_type'])){
                         VACT_InputName='{$data['mem_name']}',
                         point_val=$point,
                         type='question',
-                        current_point=$current_point";
+                        current_point=$current_point,
+                        billdate=now()";
         $res_result = mysqli_query($self_con,$sql_question_make);
     }
     else if($type == "contents_send"){
@@ -90,7 +91,8 @@ if(isset($_POST['settle_type'])){
                             type='contentssend',
                             current_point=$current_point,
                             receive_state=1,
-                            message='$message'";
+                            message='$message',
+                            billdate=now()";
                             // echo $sql_contents_send; exit;
             $res_result = mysqli_query($self_con,$sql_contents_send);
 

@@ -147,7 +147,7 @@ if(isset($_POST['my_id'])){
             $sql_history = "insert into contents_update_history set mem_id='{$mem_id}', update_id={$auto_id}, card_idx={$card_idx}, web_type='{$web_type}', settle_cnt=1, point={$min_point}, used_point={$min_point}, rest_point={$rest_point}, state=1, reg_date='{$cur_time1}'";
             mysqli_query($self_con,$sql_history);
             
-            $sql_item_pay_res = "insert into Gn_Item_Pay_Result set buyer_id='{$mem_id}', buyer_tel='{$mem_phone}', item_name='오토데이트', item_price={$min_point}, pay_percent=90, current_point={$rest_point}, current_cash='{$rest_cash}', pay_status='Y', VACT_InputName='{$mem_name}', type='buy', seller_id='', pay_method='{$method}', pay_date=now(), point_val=1";
+            $sql_item_pay_res = "insert into Gn_Item_Pay_Result set buyer_id='{$mem_id}', buyer_tel='{$mem_phone}', item_name='오토데이트', item_price={$min_point}, pay_percent=90, current_point={$rest_point}, current_cash='{$rest_cash}', pay_status='Y', VACT_InputName='{$mem_name}', type='buy', seller_id='', pay_method='{$method}', pay_date=now(), point_val=1,billdate=now()";
             mysqli_query($self_con,$sql_item_pay_res);
 
             echo 1;

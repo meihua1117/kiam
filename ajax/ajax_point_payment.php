@@ -49,26 +49,26 @@ if($_POST['pay_type'] == "message_set"){
     mysqli_query($self_con,$sql);
     $current_cash = $mem_data['mem_cash'] * 1 - $_POST['allat_amt'] * 1;
 
-    $sql = "insert into Gn_Item_Pay_Result
-            set buyer_id='{$_POST['buyer']}',
-                buyer_tel='{$mem_data['mem_phone']}',
-                site='$item_idx',
-                pay_method='POINT',
-                item_name = '$_POST[pay_item]',
-                item_price=$use_point,
-                seller_id='{$row_cont_info['mem_id']}',
-                pay_date=NOW(),
-                pay_status='Y',
-                pay_percent='',
-                order_number = '$allat_order_no',
-                VACT_InputName='{$mem_data['mem_name']}',
-                point_val=1,
-                type='use',
-                current_point='{$mem_data['mem_point']}',
-                current_cash=$current_cash,
-                contents_cnt=1,
-                gwc_cont_pay=0,
-                tjd_idx=$pay_idx_tjd";
+    $sql = "insert into Gn_Item_Pay_Result set buyer_id='{$_POST['buyer']}',
+                                            buyer_tel='{$mem_data['mem_phone']}',
+                                            site='$item_idx',
+                                            pay_method='POINT',
+                                            item_name = '$_POST[pay_item]',
+                                            item_price=$use_point,
+                                            seller_id='{$row_cont_info['mem_id']}',
+                                            pay_date=NOW(),
+                                            pay_status='Y',
+                                            pay_percent='',
+                                            order_number = '$allat_order_no',
+                                            VACT_InputName='{$mem_data['mem_name']}',
+                                            point_val=1,
+                                            type='use',
+                                            current_point='{$mem_data['mem_point']}',
+                                            current_cash=$current_cash,
+                                            contents_cnt=1,
+                                            gwc_cont_pay=0,
+                                            tjd_idx=$pay_idx_tjd,
+                                            billdate=now()";
     mysqli_query($self_con,$sql);
     $pay_idx = mysqli_insert_id($self_con);
 

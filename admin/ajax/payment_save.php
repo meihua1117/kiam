@@ -76,7 +76,7 @@ if($type == "main"){
             $res_data = mysqli_query($self_con,$sql_data);
             $row_data = mysqli_fetch_array($res_data);
     
-            $sql_res = "insert into Gn_Item_Pay_Result set buyer_id='{$row['buyer_id']}', buyer_tel='{$row_data['mem_phone']}', item_name='씨드포인트충전', item_price=1000000, pay_percent=90, current_point={$row_data['mem_point']}, current_cash={$row_data['mem_cash']}, pay_status='Y', VACT_InputName='{$row_data['mem_name']}', type='buy', seller_id='{$row['buyer_id']}', pay_method='결제씨드충전', pay_date=now(), point_val=1";
+            $sql_res = "insert into Gn_Item_Pay_Result set buyer_id='{$row['buyer_id']}', buyer_tel='{$row_data['mem_phone']}', item_name='씨드포인트충전', item_price=1000000, pay_percent=90, current_point={$row_data['mem_point']}, current_cash={$row_data['mem_cash']}, pay_status='Y', VACT_InputName='{$row_data['mem_name']}', type='buy', seller_id='{$row['buyer_id']}', pay_method='결제씨드충전', pay_date=now(), point_val=1,billdate=now()";
     
             mysqli_query($self_con,$sql_res);
         }
@@ -146,22 +146,22 @@ if($type == "main"){
             $sql_update = "update Gn_Member set mem_point={$current_point} where mem_id='{$row['buyer_id']}'";
             mysqli_query($self_con,$sql_update);
             
-            $sql = "insert into Gn_Item_Pay_Result
-                        set buyer_id='{$row['buyer_id']}',
-                            buyer_tel='{$data['mem_phone']}',
-                            pay_method='BANK',
-                            item_name = '{$row['member_type']}',
-                            item_price={$row['TotPrice']},
-                            seller_id='',
-                            pay_status='Y',
-                            pay_date=NOW(),
-                            pay_percent='90',
-                            order_number = '{$row['orderNumber']}',
-                            VACT_InputName='{$data['mem_name']}',
-                            point_val=1,
-                            type='buy',
-                            current_cash=$current_point,
-                            current_point='{$data['mem_point']}'";
+            $sql = "insert into Gn_Item_Pay_Result set buyer_id='{$row['buyer_id']}',
+                                                    buyer_tel='{$data['mem_phone']}',
+                                                    pay_method='BANK',
+                                                    item_name = '{$row['member_type']}',
+                                                    item_price={$row['TotPrice']},
+                                                    seller_id='',
+                                                    pay_status='Y',
+                                                    pay_date=NOW(),
+                                                    pay_percent='90',
+                                                    order_number = '{$row['orderNumber']}',
+                                                    VACT_InputName='{$data['mem_name']}',
+                                                    point_val=1,
+                                                    type='buy',
+                                                    current_cash=$current_point,
+                                                    current_point='{$data['mem_point']}',
+                                                    billdate=now()";
                             // echo $sql; exit;
             $res_result = mysqli_query($self_con,$sql);
         }else if(strstr($row['member_type'],"professional") || strstr($row['member_type'],"enterprise")){

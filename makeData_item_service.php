@@ -57,24 +57,7 @@ if(isset($_POST['point_val'])){
                                                 onestep2='ON',
                                                 iam_pay_type='포인트'";
     $res_result = mysqli_query($self_con,$sql_tjd);
-
-    // $sql = "insert into Gn_Item_Pay_Result
-    //             set buyer_id='{$_SESSION['one_member_id']}',
-    //                 buyer_tel='{$data['mem_phone']}',
-    //                 pay_method='BANK',
-    //                 item_name = '{$_POST['member_type']}',
-    //                 item_price=$_POST['allat_amt'],
-    //                 seller_id='$_POST['seller_id']',
-    //                 pay_date=NOW(),
-    //                 pay_percent='$_POST['pay_percent']',
-    //                 order_number = '{$_POST['allat_order_no']}',
-    //                 VACT_InputName='{$data['mem_name']}',
-    //                 point_val=$point,
-    //                 type='buy',
-    //                 current_cash=$current_point";
-    // $res_result = mysqli_query($self_con,$sql);
-}
-else{
+}else{
     $point = 0;
     
     if(isset($_POST['mypage'])){
@@ -134,25 +117,25 @@ else{
             send_mms($row_db_data_buyer['buyer_id'], $row_mem_data_seller['mem_phone'], $subject, $content);
 
             $mid = date("YmdHis").rand(10,99);        
-            $sql_notice_recv_seller = "insert into Gn_Item_Pay_Result
-                        set buyer_id='{$row_db_data_seller['buyer_id']}',
-                            buyer_tel='{$row_mem_data_seller['mem_phone']}',
-                            site='',
-                            pay_method='obmms02',
-                            item_name = '공지사항전송',
-                            pay_date=NOW(),
-                            pay_status='Y',
-                            pay_percent='90',
-                            order_number = '$mid',
-                            VACT_InputName='{$row_mem_data_seller['mem_name']}',
-                            seller_id='{$subject}',
-                            point_val=3,
-                            type='noticerecv',
-                            current_point={$row_mem_data_seller['mem_point']},
-                            current_cash={$row_mem_data_seller['mem_cash']},
-                            receive_state=1,
-                            message='$content',
-                            alarm_state=0";
+            $sql_notice_recv_seller = "insert into Gn_Item_Pay_Result set buyer_id='{$row_db_data_seller['buyer_id']}',
+                                                                        buyer_tel='{$row_mem_data_seller['mem_phone']}',
+                                                                        site='',
+                                                                        pay_method='obmms02',
+                                                                        item_name = '공지사항전송',
+                                                                        pay_date=NOW(),
+                                                                        pay_status='Y',
+                                                                        pay_percent='90',
+                                                                        order_number = '$mid',
+                                                                        VACT_InputName='{$row_mem_data_seller['mem_name']}',
+                                                                        seller_id='{$subject}',
+                                                                        point_val=3,
+                                                                        type='noticerecv',
+                                                                        current_point={$row_mem_data_seller['mem_point']},
+                                                                        current_cash={$row_mem_data_seller['mem_cash']},
+                                                                        receive_state=1,
+                                                                        message='$content',
+                                                                        alarm_state=0,
+                                                                        billdate=now()";
             mysqli_query($self_con,$sql_notice_recv_seller);
     
             $subject1 = "구매확인 문자";
@@ -221,25 +204,25 @@ else{
             send_mms($row_db_data_buyer['buyer_id'], $row_mem_data_buyer['mem_phone'], $subject1, $content1);
 
             $mid = date("YmdHis").rand(10,99);        
-            $sql_notice_recv_buyer = "insert into Gn_Item_Pay_Result
-                        set buyer_id='{$row_db_data_buyer['buyer_id']}',
-                            buyer_tel='{$row_mem_data_buyer['mem_phone']}',
-                            site='',
-                            pay_method='obmms02',
-                            item_name = '공지사항전송',
-                            pay_date=NOW(),
-                            pay_status='Y',
-                            pay_percent='90',
-                            order_number = '$mid',
-                            VACT_InputName='{$row_mem_data_buyer['mem_name']}',
-                            seller_id='{$subject1}',
-                            point_val=3,
-                            type='noticerecv',
-                            current_point={$row_mem_data_buyer['mem_point']},
-                            current_cash={$row_mem_data_buyer['mem_cash']},
-                            receive_state=1,
-                            message='$content1',
-                            alarm_state=0";
+            $sql_notice_recv_buyer = "insert into Gn_Item_Pay_Result set buyer_id='{$row_db_data_buyer['buyer_id']}',
+                                                                        buyer_tel='{$row_mem_data_buyer['mem_phone']}',
+                                                                        site='',
+                                                                        pay_method='obmms02',
+                                                                        item_name = '공지사항전송',
+                                                                        pay_date=NOW(),
+                                                                        pay_status='Y',
+                                                                        pay_percent='90',
+                                                                        order_number = '$mid',
+                                                                        VACT_InputName='{$row_mem_data_buyer['mem_name']}',
+                                                                        seller_id='{$subject1}',
+                                                                        point_val=3,
+                                                                        type='noticerecv',
+                                                                        current_point={$row_mem_data_buyer['mem_point']},
+                                                                        current_cash={$row_mem_data_buyer['mem_cash']},
+                                                                        receive_state=1,
+                                                                        message='$content1',
+                                                                        alarm_state=0,
+                                                                        billdate=now()";
             mysqli_query($self_con,$sql_notice_recv_buyer);
             echo 1;
             exit;
@@ -279,23 +262,23 @@ else{
         }
         $point_percent = $cont_percent . "/" . $def_reduce;    
     
-        $sql = "insert into Gn_Item_Pay_Result
-                    set buyer_id='{$_SESSION['one_member_id']}',
-                        buyer_tel='{$data['mem_phone']}',
-                        site='$cont_url',
-                        pay_method='$payMethod',
-                        item_name = '{$_POST['member_type']}',
-                        item_price=$item_price,
-                        seller_id='{$_POST['seller_id']}',
-                        pay_date=NOW(),
-                        pay_percent='$pay_percent',
-                        order_number = '{$_POST['allat_order_no']}',
-                        VACT_InputName='{$data['mem_name']}',
-                        current_point='{$data['mem_point']}',
-                        current_cash='{$data['mem_cash']}',
-                        point_val=$point,
-                        point_percent='$point_percent',
-                        contents_cnt='{$_POST['item_count']}'";
+        $sql = "insert into Gn_Item_Pay_Result set buyer_id='{$_SESSION['one_member_id']}',
+                                                buyer_tel='{$data['mem_phone']}',
+                                                site='$cont_url',
+                                                pay_method='$payMethod',
+                                                item_name = '{$_POST['member_type']}',
+                                                item_price=$item_price,
+                                                seller_id='{$_POST['seller_id']}',
+                                                pay_date=NOW(),
+                                                pay_percent='$pay_percent',
+                                                order_number = '{$_POST['allat_order_no']}',
+                                                VACT_InputName='{$data['mem_name']}',
+                                                current_point='{$data['mem_point']}',
+                                                current_cash='{$data['mem_cash']}',
+                                                point_val=$point,
+                                                point_percent='$point_percent',
+                                                contents_cnt='{$_POST['item_count']}',
+                                                billdate=now()";
         $res_result = mysqli_query($self_con,$sql);
         $db_idx = mysqli_insert_id($self_con);
     
@@ -321,25 +304,25 @@ else{
         $res_admin_data = mysqli_query($self_con,$sql_admin_data);
         $row_admin_data = mysqli_fetch_array($res_admin_data);
     
-        $sql_notice_recv_buyer = "insert into Gn_Item_Pay_Result
-                    set buyer_id='{$_SESSION['one_member_id']}',
-                        buyer_tel='{$data['mem_phone']}',
-                        site='$buy_link_apply',
-                        pay_method='obmms02',
-                        item_name = '공지사항전송',
-                        pay_date=NOW(),
-                        pay_status='Y',
-                        pay_percent='90',
-                        order_number = '$mid',
-                        VACT_InputName='{$data['mem_name']}',
-                        seller_id='{$subject}',
-                        point_val=3,
-                        type='noticerecv',
-                        current_point={$data['mem_point']},
-                        current_cash={$data['mem_cash']},
-                        receive_state=1,
-                        message='$content1',
-                        alarm_state=0";
+        $sql_notice_recv_buyer = "insert into Gn_Item_Pay_Result set buyer_id='{$_SESSION['one_member_id']}',
+                                                                    buyer_tel='{$data['mem_phone']}',
+                                                                    site='$buy_link_apply',
+                                                                    pay_method='obmms02',
+                                                                    item_name = '공지사항전송',
+                                                                    pay_date=NOW(),
+                                                                    pay_status='Y',
+                                                                    pay_percent='90',
+                                                                    order_number = '$mid',
+                                                                    VACT_InputName='{$data['mem_name']}',
+                                                                    seller_id='{$subject}',
+                                                                    point_val=3,
+                                                                    type='noticerecv',
+                                                                    current_point={$data['mem_point']},
+                                                                    current_cash={$data['mem_cash']},
+                                                                    receive_state=1,
+                                                                    message='$content1',
+                                                                    alarm_state=0,
+                                                                    billdate=now()";
         mysqli_query($self_con,$sql_notice_recv_buyer);
     
         $get_seller_data = "select mem_cash, mem_point, mem_phone, mem_name from Gn_Member where mem_id='{$_POST['seller_id']}'";
@@ -357,25 +340,25 @@ else{
         send_mms($_POST['seller_id'], $row_seller_data['mem_phone'], $subject, $content);
     
         $mid = date("YmdHis").rand(10,99);
-        $sql_notice_recv_seller = "insert into Gn_Item_Pay_Result
-                    set buyer_id='{$_POST['seller_id']}',
-                        buyer_tel='{$row_seller_data['mem_phone']}',
-                        site='$sell_link_apply',
-                        pay_method='obmms02',
-                        item_name = '공지사항전송',
-                        pay_date=NOW(),
-                        pay_status='Y',
-                        pay_percent='90',
-                        order_number = '$mid',
-                        VACT_InputName='{$row_seller_data['mem_name']}',
-                        seller_id='{$subject}',
-                        point_val=3,
-                        type='noticerecv',
-                        current_point={$row_seller_data['mem_point']},
-                        current_cash={$row_seller_data['mem_cash']},
-                        receive_state=1,
-                        message='$content1',
-                        alarm_state=0";
+        $sql_notice_recv_seller = "insert into Gn_Item_Pay_Result set buyer_id='{$_POST['seller_id']}',
+                                                                    buyer_tel='{$row_seller_data['mem_phone']}',
+                                                                    site='$sell_link_apply',
+                                                                    pay_method='obmms02',
+                                                                    item_name = '공지사항전송',
+                                                                    pay_date=NOW(),
+                                                                    pay_status='Y',
+                                                                    pay_percent='90',
+                                                                    order_number = '$mid',
+                                                                    VACT_InputName='{$row_seller_data['mem_name']}',
+                                                                    seller_id='{$subject}',
+                                                                    point_val=3,
+                                                                    type='noticerecv',
+                                                                    current_point={$row_seller_data['mem_point']},
+                                                                    current_cash={$row_seller_data['mem_cash']},
+                                                                    receive_state=1,
+                                                                    message='$content1',
+                                                                    alarm_state=0,
+                                                                    billdate=now()";
         mysqli_query($self_con,$sql_notice_recv_seller);
     
         $subject = "본사 서비스콘 판매 문자";
@@ -384,25 +367,25 @@ else{
         sendmms(5, "obmms02", $send_num, $send_num, "", $subject, $content, "", "", "", "Y");
     
         $mid = date("YmdHis").rand(10,99);
-        $sql_notice_recv_admin = "insert into Gn_Item_Pay_Result
-                    set buyer_id='obmms02',
-                        buyer_tel='{$row_admin_data['mem_phone']}',
-                        site='',
-                        pay_method='obmms02',
-                        item_name = '공지사항전송',
-                        pay_date=NOW(),
-                        pay_status='Y',
-                        pay_percent='90',
-                        order_number = '$mid',
-                        VACT_InputName='{$row_admin_data['mem_name']}',
-                        seller_id='{$subject}',
-                        point_val=3,
-                        type='noticerecv',
-                        current_point={$row_admin_data['mem_point']},
-                        current_cash={$row_admin_data['mem_cash']},
-                        receive_state=1,
-                        message='$content',
-                        alarm_state=0";
+        $sql_notice_recv_admin = "insert into Gn_Item_Pay_Result set buyer_id='obmms02',
+                                                                buyer_tel='{$row_admin_data['mem_phone']}',
+                                                                site='',
+                                                                pay_method='obmms02',
+                                                                item_name = '공지사항전송',
+                                                                pay_date=NOW(),
+                                                                pay_status='Y',
+                                                                pay_percent='90',
+                                                                order_number = '$mid',
+                                                                VACT_InputName='{$row_admin_data['mem_name']}',
+                                                                seller_id='{$subject}',
+                                                                point_val=3,
+                                                                type='noticerecv',
+                                                                current_point={$row_admin_data['mem_point']},
+                                                                current_cash={$row_admin_data['mem_cash']},
+                                                                receive_state=1,
+                                                                message='$content',
+                                                                alarm_state=0,
+                                                                billdate=now()";
         $res_result = mysqli_query($self_con,$sql_notice_recv_admin);
     }
     exit;

@@ -81,7 +81,7 @@ if (mysqli_num_rows($res_service)) {
     $min_point = $callback_set_point * 1;
 }
 
-$sql_insert = "insert into Gn_Item_Pay_Result set buyer_id='{$mem_id}', buyer_tel='{$row_memdata['mem_phone']}', item_name='콜백메시지', item_price={$min_point}, pay_percent=90, current_point={$point}-{$min_point}, current_cash='{$cash}', pay_status='Y', VACT_InputName='{$row_memdata['mem_name']}', type='use', pay_method='{$method}', pay_date=now(), point_val=1";
+$sql_insert = "insert into Gn_Item_Pay_Result set buyer_id='{$mem_id}', buyer_tel='{$row_memdata['mem_phone']}', item_name='콜백메시지', item_price={$min_point}, pay_percent=90, current_point={$point}-{$min_point}, current_cash='{$cash}', pay_status='Y', VACT_InputName='{$row_memdata['mem_name']}', type='use', pay_method='{$method}', pay_date=now(), point_val=1,billdate=now()";
 mysqli_query($self_con, $sql_insert);
 
 $sql_point_update = "update Gn_Member set mem_point=mem_point-{$min_point} where mem_id='{$mem_id}'";

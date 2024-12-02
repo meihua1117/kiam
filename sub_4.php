@@ -1811,7 +1811,7 @@ $phone = str_replace("-", "", $mem_phone);
 												<td colspan="5" style="text-align:left;line-height: 30px;">
 													<input type="file" name="excel_file" /> <input type="button" value="엑셀업로드" onclick="deny_excel_insert(sub_4_form,'deny')" />
 													<br />
-													<a href="javascript:void(0)" onclick="excel_down('excel_down/deny_down.php?down_type=2')" class="a_btn_2">수신거부샘플.xls</a> (97~2003통합문서)
+													<a href="javascript:void(0)" onclick="excel_down('excel_down/deny_down.php?down_type=2')" class="a_btn_2">수신거부샘플.xlsx</a> (97~2003통합문서)
 
 												</td>
 												<td colspan="6" style="text-align:right;">

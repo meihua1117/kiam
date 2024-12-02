@@ -41,25 +41,25 @@ else if($type == "delete_list"){
                     $sql_mem = "select mem_point, mem_cash from Gn_Member where mem_id='{$row_order['mem_id']}'";
                     $res_mem = mysqli_query($self_con,$sql_mem);
                     $row_mem = mysqli_fetch_array($res_mem);
-                    $sql_buyer = "insert into Gn_Item_Pay_Result
-                            set buyer_id='{$row_order['mem_id']}',
-                                buyer_tel='$row_order[order_mem_phone]',
-                                site='',
-                                pay_method='POINT',
-                                item_name = '캐시포인트충전(결제취소)',
-                                item_price={$row_order['use_point']},
-                                seller_id='{$row_order['seller_id']}',
-                                pay_date=NOW(),
-                                pay_status='Y',
-                                pay_percent='',
-                                order_number = '',
-                                VACT_InputName='{$row_order['order_mem_name']}',
-                                point_val=1,
-                                type='buy',
-                                current_point='{$row_mem['mem_point']}',
-                                current_cash='{$row_mem['mem_cash']}',
-                                contents_cnt='{$row_order['contents_cnt']}',
-                                gwc_cont_pay=1";
+                    $sql_buyer = "insert into Gn_Item_Pay_Result set buyer_id='{$row_order['mem_id']}',
+                                                                    buyer_tel='$row_order[order_mem_phone]',
+                                                                    site='',
+                                                                    pay_method='POINT',
+                                                                    item_name = '캐시포인트충전(결제취소)',
+                                                                    item_price={$row_order['use_point']},
+                                                                    seller_id='{$row_order['seller_id']}',
+                                                                    pay_date=NOW(),
+                                                                    pay_status='Y',
+                                                                    pay_percent='',
+                                                                    order_number = '',
+                                                                    VACT_InputName='{$row_order['order_mem_name']}',
+                                                                    point_val=1,
+                                                                    type='buy',
+                                                                    current_point='{$row_mem['mem_point']}',
+                                                                    current_cash='{$row_mem['mem_cash']}',
+                                                                    contents_cnt='{$row_order['contents_cnt']}',
+                                                                    gwc_cont_pay=1,
+                                                                    billdate=now()";
                     $res_result = mysqli_query($self_con,$sql_buyer);
                 }
             }

@@ -57,26 +57,26 @@ if(isset($_POST['settle_type'])){
         $row_title = mysqli_fetch_array($res_title);
         $member_type = "IAM 카드/" . $row_title['card_title'];
         for($i = 0; $i < count($arr_id); $i++){
-            $sql_card_send = "insert into Gn_Item_Pay_Result
-                        set buyer_id='{$_SESSION['iam_member_id']}',
-                            buyer_tel='{$data['mem_phone']}',
-                            site='$card_url',
-                            pay_method='$arr_id[$i]',
-                            item_name = '$member_type',
-                            item_price='{$_POST['allat_amt']}',
-                            seller_id='{$_POST['seller_id']}',
-                            pay_date=NOW(),
-                            pay_status='Y',
-                            pay_percent='{$_POST['pay_percent']}',
-                            order_number = '{$_POST['allat_order_no']}',
-                            VACT_InputName='{$data['mem_name']}',
-                            point_val=$point,
-                            type='cardsend',
-                            current_point=$current_point_buy,
-                            current_cash=$current_cash_buy,
-                            receive_state=0,
-                            message='$message',
-                            payment_day='$card_send_mode'";
+            $sql_card_send = "insert into Gn_Item_Pay_Result set buyer_id='{$_SESSION['iam_member_id']}',
+                                                                buyer_tel='{$data['mem_phone']}',
+                                                                site='$card_url',
+                                                                pay_method='$arr_id[$i]',
+                                                                item_name = '$member_type',
+                                                                item_price='{$_POST['allat_amt']}',
+                                                                seller_id='{$_POST['seller_id']}',
+                                                                pay_date=NOW(),
+                                                                pay_status='Y',
+                                                                pay_percent='{$_POST['pay_percent']}',
+                                                                order_number = '{$_POST['allat_order_no']}',
+                                                                VACT_InputName='{$data['mem_name']}',
+                                                                point_val=$point,
+                                                                type='cardsend',
+                                                                current_point=$current_point_buy,
+                                                                current_cash=$current_cash_buy,
+                                                                receive_state=0,
+                                                                message='$message',
+                                                                payment_day='$card_send_mode',
+                                                                billdate=now()";
                $res_result = mysqli_query($self_con,$sql_card_send);
         }
     }
@@ -122,25 +122,25 @@ if(isset($_POST['settle_type'])){
             $current_cash_buy = $row_point['mem_cash'];
             $current_point = $current_point_buy * 1 - $min_point * 1;
 
-            $sql_contents_send = "insert into Gn_Item_Pay_Result
-                        set buyer_id='{$_SESSION['iam_member_id']}',
-                            buyer_tel='{$data['mem_phone']}',
-                            site='$con_url',
-                            pay_method='$arr_id[$i]',
-                            item_name = '$item_name',
-                            item_price=$min_point,
-                            seller_id='{$_POST['seller_id']}',
-                            pay_date=NOW(),
-                            pay_status='Y',
-                            pay_percent='{$_POST['pay_percent']}',
-                            order_number = '{$_POST['allat_order_no']}',
-                            VACT_InputName='{$data['mem_name']}',
-                            point_val=$point,
-                            type='contentssend',
-                            current_point=$current_point,
-                            current_cash=$current_cash_buy,
-                            receive_state=1,
-                            message='$message'";
+            $sql_contents_send = "insert into Gn_Item_Pay_Result set buyer_id='{$_SESSION['iam_member_id']}',
+                                                                    buyer_tel='{$data['mem_phone']}',
+                                                                    site='$con_url',
+                                                                    pay_method='$arr_id[$i]',
+                                                                    item_name = '$item_name',
+                                                                    item_price=$min_point,
+                                                                    seller_id='{$_POST['seller_id']}',
+                                                                    pay_date=NOW(),
+                                                                    pay_status='Y',
+                                                                    pay_percent='{$_POST['pay_percent']}',
+                                                                    order_number = '{$_POST['allat_order_no']}',
+                                                                    VACT_InputName='{$data['mem_name']}',
+                                                                    point_val=$point,
+                                                                    type='contentssend',
+                                                                    current_point=$current_point,
+                                                                    current_cash=$current_cash_buy,
+                                                                    receive_state=1,
+                                                                    message='$message',
+                                                                    billdate=now()";
                             // echo $sql_contents_send; exit;
             $res_result = mysqli_query($self_con,$sql_contents_send);
 
@@ -166,7 +166,8 @@ if(isset($_POST['settle_type'])){
                             current_cash={$data1['mem_cash']},
                             receive_state=1,
                             message='$message',
-                            alarm_state=0";
+                            alarm_state=0,
+                            billdate=now()";
             $res_result = mysqli_query($self_con,$sql_contents_recv);
 
             $sql_update = "update Gn_Member set mem_point={$current_point} where mem_id='{$_SESSION['iam_member_id']}'";
@@ -414,7 +415,8 @@ if(isset($_POST['settle_type'])){
                             current_point=$current_point_buy,
                             current_cash=$current_cash_buy,
                             receive_state=0,
-                            message='$message'";
+                            message='$message',
+                            billdate=now()";
             $res_result = mysqli_query($self_con,$sql_notice_send);
 
             $sql_mem_recv = "select * from Gn_Member where mem_id='{$arr_id[$i]}'";
@@ -438,7 +440,8 @@ if(isset($_POST['settle_type'])){
                             current_cash={$data1['mem_cash']},
                             receive_state=1,
                             message='$message',
-                            alarm_state=0";
+                            alarm_state=0,
+                            billdate=now()";
             $res_result = mysqli_query($self_con,$sql_notice_recv);
         }
     }

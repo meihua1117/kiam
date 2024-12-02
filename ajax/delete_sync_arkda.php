@@ -65,25 +65,25 @@ function send_mms($mem_id, $mem_phone, $uni_id, $contents_title, $url, $headers,
     mysqli_query($self_con, $query) or die(mysqli_error($self_con));
     $sidx = mysqli_insert_id($self_con);
 
-    $sql_notice = "insert into Gn_Item_Pay_Result
-                set buyer_id='$mem_id',
-                    buyer_tel='$mem_phone',
-                    site='',
-                    pay_method='obmms02',
-                    item_name = '공지사항전송',
-                    pay_date=NOW(),
-                    pay_status='Y',
-                    pay_percent='90',
-                    order_number = '$uni_id',
-                    VACT_InputName='$mem_name',
-                    seller_id='{$title}',
-                    point_val=3,
-                    type='noticerecv',
-                    current_point={$mem_point},
-                    current_cash={$mem_cash},
-                    receive_state=1,
-                    message='$txt',
-                    alarm_state=0";
+    $sql_notice = "insert into Gn_Item_Pay_Result set buyer_id='$mem_id',
+                                                buyer_tel='$mem_phone',
+                                                site='',
+                                                pay_method='obmms02',
+                                                item_name = '공지사항전송',
+                                                pay_date=NOW(),
+                                                pay_status='Y',
+                                                pay_percent='90',
+                                                order_number = '$uni_id',
+                                                VACT_InputName='$mem_name',
+                                                seller_id='{$title}',
+                                                point_val=3,
+                                                type='noticerecv',
+                                                current_point={$mem_point},
+                                                current_cash={$mem_cash},
+                                                receive_state=1,
+                                                message='$txt',
+                                                alarm_state=0,
+                                                billdate=now()";
     mysqli_query($self_con, $sql_notice);
 
     $query = "select * from Gn_MMS_Number where mem_Id='$mem_id' and sendnum='$mem_phone'";

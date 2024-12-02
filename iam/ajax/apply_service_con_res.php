@@ -32,7 +32,8 @@ if(isset($_POST['seed_point'])){
                 point_val=1,
                 type='buy',
                 current_point='$seed',
-                current_cash='$cash'";
+                current_cash='$cash',
+                billdate=now()";
     $res_result = mysqli_query($self_con,$sql_buyer);
 
     echo $res_result;
@@ -133,7 +134,7 @@ else if(isset($_GET['mode'])){
         $sql_update_mem = "udpate Gn_Member set mem_cash='$mem_cash' where mem_id='{$row_sell_data['seller_id']}'";
         mysqli_query($self_con,$sql_update_mem);
 
-        $sql_amount = "insert into Gn_Item_Pay_Result_Balance set pay_no='$sell_idx', mem_id='{$row_sell_data['seller_id']}', seller_id='{$row_sell_data['buyer_id']}', item_name='{$row_sell_data['item_name']}', share_per='$pay_percent', price='{$row_sell_data['item_price']}', regdate='$date_today', balance_date='$date_month', balance_yn='Y', balance_confirm_date='$date_today', pay_date='$date_today'";
+        $sql_amount = "insert into Gn_Item_Pay_Result_Balance set pay_no='$sell_idx', mem_id='{$row_sell_data['seller_id']}', seller_id='{$row_sell_data['buyer_id']}', item_name='{$row_sell_data['item_name']}', share_per='$pay_percent', price='{$row_sell_data['item_price']}', regdate='$date_today', balance_date='$date_month', balance_yn='Y', balance_confirm_date='$date_today', pay_date='$date_today',billdate=now()";
         $res = mysqli_query($self_con,$sql_amount);
 
         echo "<script>alert('판매확인이 되었습니다.'); location.href='/".$location."';</script>";
@@ -208,7 +209,7 @@ else if(isset($_GET['mode'])){
         $sql_update_mem = "udpate Gn_Member set mem_cash='$mem_cash' where mem_id='$row_buy_data[pay_method]'";
         mysqli_query($self_con,$sql_update_mem);
 
-        $sql_amount = "insert into Gn_Item_Pay_Result_Balance set pay_no='$sell_idx', mem_id='$row_buy_data[pay_method]', seller_id='{$row_buy_data['buyer_id']}', item_name='{$row_buy_data['item_name']}', share_per='$pay_percent', price='{$row_buy_data['item_price']}', regdate='$date_today', balance_date='$date_month', balance_yn='Y', balance_confirm_date='$date_today', pay_date='$date_today'";
+        $sql_amount = "insert into Gn_Item_Pay_Result_Balance set pay_no='$sell_idx', mem_id='$row_buy_data[pay_method]', seller_id='{$row_buy_data['buyer_id']}', item_name='{$row_buy_data['item_name']}', share_per='$pay_percent', price='{$row_buy_data['item_price']}', regdate='$date_today', balance_date='$date_month', balance_yn='Y', balance_confirm_date='$date_today', pay_date='$date_today',billdate=now()";
         $res = mysqli_query($self_con,$sql_amount);
 
         echo "<script>alert('판매확인이 되었습니다.'); location.href='/".$location."';</script>";
