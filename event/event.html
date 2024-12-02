@@ -1,10 +1,14 @@
 <?
 	include_once "../lib/rlatjd_fun.php";
 	extract($_REQUEST);
-	if($_GET['sp']) $readonly="readonly";
-	if($_POST['speech']) $sp=$_POST['speech'];
-	if(!$pcode) $pcode="opb";
+	if($_GET['sp']) 
+		$readonly="readonly";
+	if($_POST['speech']) 
+		$sp=$_POST['speech'];
+	if(!$pcode) 
+		$pcode="opb";
 	$meta_img = "";
+	echo "start";
 	if($_GET['landing_idx'] != "") {
     	$landing_idx=$_GET['landing_idx'];
     	$sql="update Gn_landing set read_cnt = read_cnt+1 where landing_idx='$landing_idx'";
@@ -13,7 +17,6 @@
     	$sql="select * from Gn_landing where landing_idx='$landing_idx'";
     	$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
     	$data=mysqli_fetch_array($result);
-
 
     	if($data[status_yn] == "N") {
     	    echo '<meta http-equiv="content-type" content="text/html; charset=euc-kr"/><Script>alert("사용이 종료된 랜딩입니다.");</script>';
@@ -347,7 +350,7 @@
 	$JO_table = $GnTable["memberlevel"];
 	$DOMAIN = str_replace('www.', '', $DOMAIN);
 	function alertOn($msg) {
-	echo "<script>alert('".$msg."');</script>";
+		echo "<script>alert('".$msg."');</script>";
 	}
 	if($mode && $chk && $over=="yes") {
 	referer_check();
