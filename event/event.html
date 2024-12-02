@@ -50,7 +50,7 @@
 
 	$sql="select * from Gn_event where pcode='$pcode' order by event_idx desc";
 	$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
-	$event_data = $row=mysqli_fetch_array($result);
+	$event_data = $row = mysqli_fetch_array($result);
 	$m_id = $row['m_id'];
 	$event_idx = $row['event_idx'];
 	$step_idx1 = $row['sms_idx1'];
@@ -364,9 +364,7 @@
 	pcode='$pcode',
 	sp='$sp',
 	ip_addr='$ipcheck',
-	regdate=now()
-
-	";
+	regdate=now()";
 	sql_query($sql);
 	alert("접수 되었습니다. 감사합니다.","/opb/index.php");
 	} elseif($mode && $chk) {
@@ -383,6 +381,7 @@
 	if($_POST['mobile'] != "")
 	{
 		$sql="select mem_phone from Gn_Member where mem_phone='$_POST['mobile']'";
+		echo $sql;
 		$res=mysqli_query($self_con,$sql);
 		$row333=mysqli_fetch_array($res);	
 	}

@@ -1693,11 +1693,9 @@ if ($mode == "land_save") {
         }
 
         for ($i = 0; $i < count($date); $i++) {
-            $query = "insert into Gn_daily_date set gd_id='$gd_id',
-                                                        send_date='$date[$i]',
-                                                        recv_num='$recv_num_set[$i]'";
+            $query = "insert into Gn_daily_date set gd_id='$gd_id',send_date='$date[$i]',recv_num='$recv_num_set[$i]'";
             mysqli_query($self_con, $query);
-            echo $query . "<BR>";;
+            //echo $query . "<BR>";;
         }
     }
 
