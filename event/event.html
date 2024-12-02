@@ -51,8 +51,6 @@
 	}
 
 	$sql="select * from Gn_event where pcode='{$pcode}' order by event_idx desc";
-	echo $sql;
-	echo "test";
 	$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 	$event_data = $row = mysqli_fetch_array($result);
 	$m_id = $row['m_id'];
@@ -633,13 +631,10 @@
 					mem_add1='$addr',
 					mem_email='$email',
 					mem_sex='$sex',
-					join_ip='{$_SERVER['REMOTE_ADDR']}'
-					";
+					join_ip='{$_SERVER['REMOTE_ADDR']}'";
 					mysqli_query($self_con,$query);
 					$mem_code = mysqli_insert_id($self_con);
-	
 				}
-	
 			}
 			if(!$res1) {
 				alerting('신청접수에 실패했습니다.');
