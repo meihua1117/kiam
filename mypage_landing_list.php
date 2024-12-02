@@ -217,7 +217,7 @@ $dir = $_REQUEST['order_status'] == "desc" ? "asc" : "desc";
 
 								if ($_REQUEST['search_text']) {
 									$search_text = $_REQUEST['search_text'];
-									$sql_serch .= " and (title like '%$search_text%' or description like '%$search_text%')";
+									$sql_serch .= " and (title like '%{$search_text}%' or description like '%{$search_text}%')";
 								}
 
 								$sql = "select count(landing_idx) as cnt from Gn_landing where $sql_serch ";

@@ -131,8 +131,6 @@ if ($mode == "land_save") {
     } else if ($thumb_name == "") {
         $thumbQuery = " img_thumb='',";
     }
-
-
     $add = "";
     if ($pcode) {
         $sql = "select * from Gn_event where event_name_eng='$pcode'";
@@ -164,9 +162,7 @@ if ($mode == "land_save") {
     echo "<script>location='mypage_landing_list.php';</script>";
     exit;
 } else if ($mode == "land_updat_status") {
-    $sql = "update Gn_landing  set status_yn='$status'
-                               where   landing_idx='$landing_idx'
-           ";
+    $sql = "update Gn_landing set status_yn='{$status}' where landing_idx='$landing_idx'";
     $result = mysqli_query($self_con, $sql);
     echo "<script>alert('삭제되었습니다.');location='mypage_landing_list.php';</script>";
     exit;
@@ -176,15 +172,10 @@ if ($mode == "land_save") {
 
         $idx_array = "'" . implode("','", $idx) . "'";
 
-        $sql = "delete   from   Gn_landing 
-                                   where   landing_idx in ($idx_array) and m_id ='{$_SESSION['one_member_id']}'
-               ";
+        $sql = "delete from Gn_landing where landing_idx in ($idx_array) and m_id ='{$_SESSION['one_member_id']}'";
         $result = mysqli_query($self_con, $sql);
     } else {
-        $sql = "delete   from  Gn_landing 
-                                   where   landing_idx='$landing_idx' and m_id ='{$_SESSION['one_member_id']}'
-               ";
-        //echo $sql;
+        $sql = "delete from Gn_landing where landing_idx='$landing_idx' and m_id ='{$_SESSION['one_member_id']}'";
         $result = mysqli_query($self_con, $sql);
     }
     echo "<script>alert('삭제되었습니다.');location='mypage_landing_list.php';</script>";

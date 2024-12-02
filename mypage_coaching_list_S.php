@@ -183,22 +183,7 @@ $(function(){
 				$sql="select * from Gn_Member where $sql_serch order by $order_name $order_status limit $int,$intPageSize";
 				$result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));				
 		?>   
-              <?
-                  while($row=mysqli_fetch_array($result))
-                  {
-					  	//$num_arr=array();
-						//$sql_num="select sendnum from Gn_landing where mem_id='{$row['buyer_id']}' and end_date='{$row['end_date']}' ";
-						//$resul_num=mysqli_query($self_con,$sql_num);
-						//while($row_num=mysqli_fetch_array($resul_num))
-						//array_push($num_arr,$row_num['sendnum']);
-						//$num_str=implode(",",$num_arr);
-						
- 
-                  ?>
-
-
-
-
+              <?while($row=mysqli_fetch_array($result)){?>
               <tr>
                 <td><?=$sort_no?></td>
                 <td style="font-size:12px;"><?=$row['mem_id']?></td>

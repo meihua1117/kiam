@@ -229,9 +229,10 @@ function insert_db_landlink($idx, $mem_id,$fp)
                                       status_yn = '{$land_row['status_yn']}', 
                                       lecture_yn = '{$land_row['lecture_yn']}', 
                                       cnt = '{$land_row['cnt']}', 
-                                      m_id = '{$mem_id}', 
-                                      event_idx = '{$land_row['event_idx']}'";
-                                      fwrite($fp,$sql."\r\n");
+                                      m_id = '{$mem_id}'";
+    if($land_row['event_idx'] != "")
+      $sql .= ",event_idx = '{$land_row['event_idx']}'";
+    fwrite($fp,$sql."\r\n");
     $result = mysqli_query($self_con,$sql);
 
     $land_idx = mysqli_insert_id($self_con);
