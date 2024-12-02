@@ -42,13 +42,12 @@ if($_REQUEST['mode']=="inser")
 		$deny_info['title']=$row['title'];
 		$deny_info['content']=substr(htmlspecialchars($row['content']),0,20)."...";
 		$deny_info['jpg']=$row['jpg'];
-		$deny_info['up_date']=$row['up_date'];		
 		$deny_info['status']='A';	
         $deny_info['chanel_type']=$chanel;		
 		$sql="insert into Gn_MMS_Deny set ";
 		foreach($deny_info as $key=>$v)
 			$sql.=" $key='$v' , ";
-		$sql.=" reg_date=now() ";
+		$sql.=" reg_date=now(),up_date=now() ";
         mysqli_query($self_con,$sql);
         $k = 1;
 	}

@@ -1521,6 +1521,7 @@ if ($_POST['deny_add_send'] && $_POST['deny_add_recv']) {
 		$sql .= " $key='$v' $bd ";
 		$i++;
 	}
+	$sql .= " , up_date=now() ";
 	if ($_POST['deny_add_idx'])
 		$sql .= " where idx='{$_POST['deny_add_idx']}' ";
 	else
@@ -1649,7 +1650,7 @@ if ($_POST['deny_g_add_recv_num'] && $_POST['deny_g_add_send_num']) {
 		$deny_info['mem_id'] = $_SESSION['one_member_id'];
 		foreach ($deny_info as $key2 => $v2)
 			$sql_i .= " $key2='$v2' , ";
-		$sql_i .= " reg_date=now() ";
+		$sql_i .= " reg_date=now(),up_date=now() ";
 		mysqli_query($self_con, $sql_i);
 	}
 	?>

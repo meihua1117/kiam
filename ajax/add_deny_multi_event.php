@@ -77,10 +77,11 @@ for($c = 0; $c < count($recv_nums_arr); $c++){
             $sql.=" $key='$v' $bd ";
             $i++;
         }
+        $sql .= " , up_date=now() ";
         if($_POST['deny_add_idx'])
             $sql.=" where idx='{$_POST['deny_add_idx']}' ";
         else
-            $sql.=" , reg_date=now() ";
+            $sql.=" , reg_date=now()";
         if(mysqli_query($self_con,$sql) or die(mysqli_error($self_con))){
             $k++;
         }

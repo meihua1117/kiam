@@ -1378,7 +1378,7 @@ if ($_POST['deny_g_add_recv_num'] && $_POST['deny_g_add_send_num']) {
         $deny_info['mem_id'] = $_SESSION['one_member_id'];
         foreach ($deny_info as $key2 => $v2)
             $sql_i .= " $key2='$v2' , ";
-        $sql_i .= " reg_date=now() ";
+        $sql_i .= " reg_date=now(),up_date=now() ";
         mysqli_query($self_con, $sql_i);
     }
     ?>

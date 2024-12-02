@@ -172,7 +172,7 @@ if ($_REQUEST['status'] == "old") {
 		$deny_info['status'] = "B";
 		foreach ($deny_info as $key => $v)
 			$sql_i .= " $key='$v' , ";
-		$sql_i .= " reg_date=now() ";
+		$sql_i .= " reg_date=now(),up_date=now() ";
 		fwrite($fp,$sql_i."\r\n");
 		mysqli_query($self_con, $sql_i) or die(mysqli_error($self_con));
 		$cnt++;
