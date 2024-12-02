@@ -102,6 +102,7 @@ if (isset($_POST['send_ids'])) {
 
 function insert_db($idx, $mem_id)
 {
+  global $self_con;
   $date = time();
   $num = rand(10, 90);
   $event_name_eng = $date . $num;
@@ -124,6 +125,7 @@ function insert_db($idx, $mem_id)
 
 function insert_db_reqlink($idx, $mem_id)
 {
+  global $self_con;
   $date = time();
   $num = rand(10, 90);
   $pcode = $event_name_eng = $date . $num;
@@ -181,6 +183,7 @@ function insert_db_reqlink($idx, $mem_id)
 
 function insert_db_landlink($idx, $mem_id)
 {
+  global $self_con;
   $sql_mem_chk = "select * from Gn_Member where mem_id='{$mem_id}'";
   $res_mem_chk = mysqli_query($self_con,$sql_mem_chk);
   $row_mem_chk = mysqli_num_rows($res_mem_chk);

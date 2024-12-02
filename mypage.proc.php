@@ -60,27 +60,27 @@ if ($mode == "land_save") {
     $event_data = $row = mysqli_fetch_array($result);
     $sp = $event_data['pcode'];
     $transUrl = str_replace("http:", "https:", $transUrl);
-    $sql = "insert into Gn_landing set title='$title',
-                                       description='$description',
-                                       content='$content',
+    $sql = "insert into Gn_landing set title='{$title}',
+                                       description='{$description}',
+                                       content='{$content}',
                                        $addQuery
-                                       alarm_sms_yn='$alarm_sms_yn',
-                                       movie_url='$movie_url',
-                                       reply_yn='$reply_yn',
-                                       request_yn='$request_yn',
-                                       lecture_yn='$lecture_yn',
-                                       footer_content='$ir2',
-                                       pcode='$pcode',
+                                       alarm_sms_yn='{$alarm_sms_yn}',
+                                       movie_url='{$movie_url}',
+                                       reply_yn='{$reply_yn}',
+                                       request_yn='{$request_yn}',
+                                       lecture_yn='{$lecture_yn}',
+                                       footer_content='{$ir2}',
+                                       pcode='{$pcode}',
                                        read_cnt='0',
                                        regdate=NOW(),
-                                       short_url='$transUrl',
+                                       short_url='{$transUrl}',
                                        $thumbQuery
                                        m_id='{$_SESSION['one_member_id']}'";
     $result = mysqli_query($self_con, $sql);
     $landing_idx = mysqli_insert_id($self_con);
-    $transUrl = "https://kiam.kr/event/event.html?pcode=$pcode&sp=$sp&landing_idx=$landing_idx";
+    $transUrl = "https://".$HTTP_HOST."/event/event.html?pcode=$pcode&sp=$sp&landing_idx=$landing_idx";
     $transUrl = get_short_url($transUrl);
-    $sql = "update Gn_landing set short_url='$transUrl' where landing_idx='$landing_idx'";
+    $sql = "update Gn_landing set short_url='{$transUrl}' where landing_idx='{$landing_idx}'";
     $result = mysqli_query($self_con, $sql);
     echo "<script>location='mypage_landing_list.php';</script>";
     exit;
@@ -139,7 +139,7 @@ if ($mode == "land_save") {
         $result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
         $event_data = $row = mysqli_fetch_array($result);
         $sp = $event_data['pcode'];
-        $transUrl = "https://kiam.kr/event/event.html?pcode=$pcode&sp=$sp&landing_idx=$landing_idx";
+        $transUrl = "https://".$HTTP_HOST."/event/event.html?pcode=$pcode&sp=$sp&landing_idx=$landing_idx";
         $transUrl = get_short_url($transUrl);
         $add = "short_url='$transUrl',";
     }
@@ -244,7 +244,7 @@ if ($mode == "land_save") {
     $result = mysqli_query($self_con, $sql);
     $event_idx = mysqli_insert_id($self_con);
 
-    $transUrl = "https://kiam.kr/event/event.html?pcode=$pcode&sp=$event_name_eng";
+    $transUrl = "https://".$HTTP_HOST."/event/event.html?pcode=$pcode&sp=$event_name_eng";
     $transUrl = get_short_url($transUrl);
     $sql = "update Gn_event set short_url='$transUrl' where event_idx='$event_idx '";
     $result = mysqli_query($self_con, $sql);
@@ -267,7 +267,7 @@ if ($mode == "land_save") {
                                 stop_event_idx='$stop_event_idx'
                         where event_idx='$event_idx'";
     $result = mysqli_query($self_con, $sql);
-    $transUrl = "https://kiam.kr/event/event.html?pcode=$pcode&sp=$event_name_eng";
+    $transUrl = "https://".$HTTP_HOST."/event/event.html?pcode=$pcode&sp=$event_name_eng";
     $transUrl = get_short_url($transUrl);
     $sql = "update Gn_event set short_url='$transUrl' where event_idx='$event_idx '";
     $result = mysqli_query($self_con, $sql);

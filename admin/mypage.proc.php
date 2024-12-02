@@ -51,7 +51,7 @@ if ($mode == "land_save") {
 
     $landing_idx = mysqli_insert_id($self_con);
 
-    $transUrl = urlencode("http://kiam.kr/event/event.html?pcode=$pcode&sp=$sp&landing_idx=$landing_idx");
+    $transUrl = urlencode("http://".$HTTP_HOST."/event/event.html?pcode=$pcode&sp=$sp&landing_idx=$landing_idx");
     $transUrl = get_short_url($transUrl);
     $sql = "update Gn_landing set short_url='$transUrl' where landing_idx='$landing_idx'";
     $result = mysqli_query($self_con, $sql);
@@ -164,7 +164,7 @@ if ($mode == "land_save") {
 
     $event_idx = mysqli_insert_id($self_con);
 
-    $transUrl = urlencode("http://kiam.kr/event/event.html?pcode=$pcode&sp=$event_name_eng");
+    $transUrl = urlencode("http://".$HTTP_HOST."/event/event.html?pcode=$pcode&sp=$event_name_eng");
     $transUrl = get_short_url($transUrl);
     $sql = "update Gn_event set short_url='$transUrl' where event_idx='$event_idx '";
     $result = mysqli_query($self_con, $sql);
@@ -187,7 +187,7 @@ if ($mode == "land_save") {
                                      mobile='$mobile'
                                 where event_idx='$event_idx'";
     $result = mysqli_query($self_con, $sql);
-    $transUrl = "http://kiam.kr/event/event.html?pcode=$pcode&sp=$event_name_eng";
+    $transUrl = "http://".$HTTP_HOST."/event/event.html?pcode=$pcode&sp=$event_name_eng";
     $transUrl = get_short_url($transUrl);
 
     $sql = "update Gn_event set short_url='$transUrl' where event_idx='$event_idx '";

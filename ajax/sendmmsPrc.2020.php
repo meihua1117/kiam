@@ -842,13 +842,13 @@ if ($_SESSION['one_member_id']) {
                     if (strlen($send_num_list[$sendnum[$j]][$i]) >= 10) {
                         array_push($recv_arr, $send_num_list[$sendnum[$j]][$i]);
                         if ($_POST['send_deny_msg'] == "ok") { //수신거부 링크 삽입
-                            $transUrl = "kiam.kr/u.php?u=" . $req . "&n=" . $send_num_list[$sendnum[$j]][$i];
+                            $transUrl = "https://".$HTTP_HOST."/u.php?u=" . $req . "&n=" . $send_num_list[$sendnum[$j]][$i];
                             $transUrl = get_short_url($transUrl, false);
                             //array_push($deny_url_arr,"문자수신을 원치 않으시는 분은 아래 주소를 클릭하시기 바랍니다. ".$longUrl."\n".$ad_msg);
                             $opt_message = "\n" . "문자수신거부 ▶ " . $transUrl . "\n" . $ad_msg;
                         }
                         if ($_POST['send_agree_msg'] != "N") { //수신동의 링크 삽입
-                            $transUrl = "kiam.kr/g.php?u=" . $req . "&n=" . $send_num_list[$sendnum[$j]][$i];
+                            $transUrl = "https://".$HTTP_HOST."/g.php?u=" . $req . "&n=" . $send_num_list[$sendnum[$j]][$i];
                             $transUrl = get_short_url($transUrl, false);
                             $opt_message .= "\n" . "문자수신동의 ▶ " . $transUrl . "\n";
                         }

@@ -693,7 +693,6 @@ function insert_db_reqlink($idx, $mem_id)
         $event_idx = mysqli_insert_id($self_con);
         $host = $mem_data['site_iam'] == "kiam" ? "http://kiam.kr" : "http://" . $mem_data['site_iam'] . ".kiam.kr";
         $transUrl = $host . "/event/event.html?pcode=" . $pcode . "&sp=" . $event_name_eng;
-        //$transUrl = "http://" . $GLOBALS['host'] . "/event/event.html?pcode=" . $pcode . "&sp=" . $event_name_eng;
         $transUrl = get_short_url($transUrl);
         $insert_short_url = "update Gn_event set short_url='{$transUrl}' where event_idx={$event_idx}";
         mysqli_query($self_con, $insert_short_url) or die(mysqli_error($self_con));
