@@ -2094,5 +2094,4 @@ if ($_POST['mode'] == "speech") {
 			}
 		</script>
 </body>
-
 </html>
