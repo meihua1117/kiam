@@ -78,7 +78,7 @@ if ($mode == "land_save") {
                                        m_id='{$_SESSION['one_member_id']}'";
     $result = mysqli_query($self_con, $sql);
     $landing_idx = mysqli_insert_id($self_con);
-    $transUrl = "https://".$HTTP_HOST."/event/event.html?pcode=$pcode&sp=$sp&landing_idx=$landing_idx";
+    $transUrl = "https://" . $HTTP_HOST . "/event/event.html?pcode=$pcode&sp=$sp&landing_idx=$landing_idx";
     $transUrl = get_short_url($transUrl);
     $sql = "update Gn_landing set short_url='{$transUrl}' where landing_idx='{$landing_idx}'";
     $result = mysqli_query($self_con, $sql);
@@ -139,7 +139,7 @@ if ($mode == "land_save") {
         $result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
         $event_data = $row = mysqli_fetch_array($result);
         $sp = $event_data['pcode'];
-        $transUrl = "https://".$HTTP_HOST."/event/event.html?pcode=$pcode&sp=$sp&landing_idx=$landing_idx";
+        $transUrl = "https://" . $HTTP_HOST . "/event/event.html?pcode=$pcode&sp=$sp&landing_idx=$landing_idx";
         $transUrl = get_short_url($transUrl);
         $add = "short_url='$transUrl',";
     }
@@ -244,7 +244,7 @@ if ($mode == "land_save") {
     $result = mysqli_query($self_con, $sql);
     $event_idx = mysqli_insert_id($self_con);
 
-    $transUrl = "https://".$HTTP_HOST."/event/event.html?pcode=$pcode&sp=$event_name_eng";
+    $transUrl = "https://" . $HTTP_HOST . "/event/event.html?pcode=$pcode&sp=$event_name_eng";
     $transUrl = get_short_url($transUrl);
     $sql = "update Gn_event set short_url='$transUrl' where event_idx='$event_idx '";
     $result = mysqli_query($self_con, $sql);
@@ -267,7 +267,7 @@ if ($mode == "land_save") {
                                 stop_event_idx='$stop_event_idx'
                         where event_idx='$event_idx'";
     $result = mysqli_query($self_con, $sql);
-    $transUrl = "https://".$HTTP_HOST."/event/event.html?pcode=$pcode&sp=$event_name_eng";
+    $transUrl = "https://" . $HTTP_HOST . "/event/event.html?pcode=$pcode&sp=$event_name_eng";
     $transUrl = get_short_url($transUrl);
     $sql = "update Gn_event set short_url='$transUrl' where event_idx='$event_idx '";
     $result = mysqli_query($self_con, $sql);
@@ -280,7 +280,7 @@ if ($mode == "land_save") {
         $erow = mysqli_fetch_array($eresult);
         $event_idx = $erow['event_idx'];
     }
-    if($event_idx == "")
+    if ($event_idx == "")
         $event_idx = 0;
     $sql = "insert into Gn_event_sms_info set event_idx='$event_idx',
                                      event_name_eng='$event_name_eng',
@@ -797,7 +797,7 @@ if ($mode == "land_save") {
 
     $start_index -= 1;
 
-    $sql = "SELECT recv_num FROM Gn_MMS_Receive WHERE grp_id = '{$group_idx}' limit {$start_index}, {$cnt}"; 
+    $sql = "SELECT recv_num FROM Gn_MMS_Receive WHERE grp_id = '{$group_idx}' limit {$start_index}, {$cnt}";
     $gresult = mysqli_query($self_con, $sql);
 
     $num_arr = array();
@@ -850,7 +850,7 @@ if ($mode == "land_save") {
         $query = "update Gn_event_oldrequest set end_date='$reservation' where idx = '$or_id'";
     mysqli_query($self_con, $query) or die(mysqli_error($self_con));
 
-    echo "예약되었습니다."; 
+    echo "예약되었습니다.";
     exit;
 } else if ($mode == "sms_detail_del") {
     $sql = "delete from Gn_event_sms_step_info where sms_detail_idx ='$sms_detail_idx' and sms_idx ='$sms_idx'";
@@ -1340,6 +1340,8 @@ if ($mode == "land_save") {
     $start_date = min($date);
     $query_step_add = "";
     $step_idx = "";
+    if ($total_count == "")
+        $total_count = 0;
 
     if (!$daily_link) {
         $sql_card = "select card_short_url from Gn_Iam_Name_Card where mem_id='{$_SESSION['one_member_id']}' order by idx asc limit 1";
@@ -1401,7 +1403,7 @@ if ($mode == "land_save") {
                                  jpg2='$upimage_str2',
                                  status='Y',
                                  send_deny='$deny',
-                                 " . $query_step_add . "
+                                 $query_step_add
                                  reg_date=NOW()
                             where gd_id='$gd_id'";
     mysqli_query($self_con, $query);
@@ -1465,8 +1467,10 @@ if ($mode == "land_save") {
     $event_idx = 0;
     $query_step_add = "";
     $step_idx = "";
-    if($iam == "")
+    if ($iam == "")
         $iam = 0;
+    if ($total_count == "")
+        $total_count = 0;
     if (isset($_POST['mem_id'])) {
         $_SESSION['one_member_id'] = $_POST['mem_id'];
     }
@@ -1495,9 +1499,9 @@ if ($mode == "land_save") {
 
     echo "test step 1<br>";
     if (isset($_POST['set_msg_mode']) && $set_msg_mode == "1") {
-        if (isset($_POST['step_count'])) 
+        if (isset($_POST['step_count']))
             $step_count = $_POST['step_count'];
-        else 
+        else
             $step_count = 0;
 
         $sql_cnt = "select min(send_day) as step_count from Gn_event_sms_step_info where sms_idx='{$step_sms_idx}' and send_day >= '{$step_count}'";
@@ -1548,10 +1552,10 @@ if ($mode == "land_save") {
                                         reg_date=NOW(),
                                         htime='{$htime}',
                                         mtime='{$mtime}',
-                                        send_deny='{$deny}'," 
-                                        .$query_step_add . 
-                                        "event_idx='{$event_idx}'";
-                echo $query."<BR>";
+                                        send_deny='{$deny}', 
+                                        $query_step_add 
+                                        event_idx='{$event_idx}'";
+                echo $query . "<BR>";
                 mysqli_query($self_con, $query);
                 $gd_id = mysqli_insert_id($self_con);
                 $txt .= "\n" . $daily_link;
@@ -1610,13 +1614,12 @@ if ($mode == "land_save") {
                                                                 send_date='$date[$i]',
                                                                 recv_num='$recv_num_set[$i]'";
                     mysqli_query($self_con, $query);
-                    echo $query."<BR>";;
+                    echo $query . "<BR>";;
                 }
             }
         }
     } else {
-        $query = "insert into Gn_daily set 
-                                    mem_id='{$_SESSION['one_member_id']}', 
+        $query = "insert into Gn_daily set mem_id='{$_SESSION['one_member_id']}', 
                                     iam='$iam',
                                     send_num='$send_num',
                                     group_idx='$group_idx',
@@ -1634,10 +1637,10 @@ if ($mode == "land_save") {
                                     reg_date=NOW(),
                                     htime='$htime',
                                     mtime='$mtime',
-                                    send_deny='$deny',"
-                                    .$query_step_add. 
-                                    "event_idx='$event_idx'";
-        echo $query."<BR>";
+                                    send_deny='$deny',
+                                    $query_step_add
+                                    event_idx='$event_idx'";
+        echo $query . "<BR>";
         mysqli_query($self_con, $query);
         $gd_id = mysqli_insert_id($self_con);
 
@@ -1698,7 +1701,7 @@ if ($mode == "land_save") {
                                                         send_date='$date[$i]',
                                                         recv_num='$recv_num_set[$i]'";
             mysqli_query($self_con, $query);
-            echo $query."<BR>";;
+            echo $query . "<BR>";;
         }
     }
 
@@ -2088,4 +2091,3 @@ else if ($mode == "review_img_del") {
     echo "삭제되었습니다.";
     exit;
 }
-?>
