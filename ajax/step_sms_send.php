@@ -58,29 +58,27 @@ if (isset($_POST['send_ids'])) {
       }
     }
   } else if ($_POST['type'] == "landlink") {
-    $fp = fopen("landlink.log","w+");
     $land_idx = $_POST['land_idx'];
-    fwrite($fp,$land_idx."\r\n");
     if (strpos($ids, ",") !== false) {
       $ids_arr = explode(",", $ids);
       for ($i = 0; $i < count($ids_arr); $i++) {
         if (strpos($land_idx, ",") !== false) {
           $land_idx_arr = explode(",", $land_idx);
           for ($j = 0; $j < count($land_idx_arr); $j++) {
-            insert_db_landlink($land_idx_arr[$j], $ids_arr[$i],$fp);
+            insert_db_landlink($land_idx_arr[$j], $ids_arr[$i]);
           }
         } else {
-          insert_db_landlink($land_idx, $ids_arr[$i],$fp);
+          insert_db_landlink($land_idx, $ids_arr[$i]);
         }
       }
     } else {
       if (strpos($land_idx, ",") !== false) {
         $land_idx_arr = explode(",", $land_idx);
         for ($j = 0; $j < count($land_idx_arr); $j++) {
-          insert_db_landlink($land_idx_arr[$j], $ids,$fp);
+          insert_db_landlink($land_idx_arr[$j], $ids);
         }
       } else {
-        insert_db_landlink($land_idx, $ids,$fp);
+        insert_db_landlink($land_idx, $ids);
       }
     }
   }
@@ -183,11 +181,10 @@ function insert_db_reqlink($idx, $mem_id)
   return $pcode;
 }
 
-function insert_db_landlink($idx, $mem_id,$fp)
+function insert_db_landlink($idx, $mem_id)
 {
   global $self_con;
   $sql_mem_chk = "select * from Gn_Member where mem_id='{$mem_id}'";
-  fwrite($fp,$sql_mem_chk."\r\n");
   $res_mem_chk = mysqli_query($self_con,$sql_mem_chk);
   $row_mem_chk = mysqli_num_rows($res_mem_chk);
   if ($row_mem_chk) {
@@ -195,13 +192,11 @@ function insert_db_landlink($idx, $mem_id,$fp)
     $mem_data = mysqli_fetch_array($res_mem_chk);
     $phone_num = $mem_data['mem_phone'];
     $sql_land_data = "select * from Gn_landing where landing_idx={$idx}";
-    fwrite($fp,$sql_land_data."\r\n");
     $res_land_data = mysqli_query($self_con,$sql_land_data);
     $row_land_data = mysqli_fetch_array($res_land_data);
 
     if ($row_land_data['pcode']) {
       $sql = "select event_idx from Gn_event where pcode='{$row_land_data['pcode']}'";
-      fwrite($fp,$sql."\r\n");
       $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
       $event_data = mysqli_fetch_array($result);
       if ($event_data)
@@ -209,7 +204,6 @@ function insert_db_landlink($idx, $mem_id,$fp)
       //$sp = $event_data['pcode'];
     }
     $sql = "SELECT title, description, content, movie_url, footer_content, file, alarm_sms_yn, reply_yn, request_yn, pcode, status_yn, lecture_yn, cnt, event_idx FROM Gn_landing where landing_idx={$idx}";
-    fwrite($fp,$sql."\r\n");
     $result = mysqli_query($self_con,$sql);
     $land_row = mysqli_fetch_assoc($result);
 
@@ -232,15 +226,12 @@ function insert_db_landlink($idx, $mem_id,$fp)
                                       m_id = '{$mem_id}'";
     if($land_row['event_idx'] != "")
       $sql .= ",event_idx = '{$land_row['event_idx']}'";
-    fwrite($fp,$sql."\r\n");
     $result = mysqli_query($self_con,$sql);
 
     $land_idx = mysqli_insert_id($self_con);
     $transUrl = "http://" . $GLOBALS['host'] . "/event/event.html?pcode=" . $row_land_data['pcode'] . "&sp=" . $sp . "&landing_idx=" . $land_idx;
     $transUrl = get_short_url($transUrl);
-    fwrite($fp,$transUrl."\r\n");
     $insert_short_url = "update Gn_landing set short_url='{$transUrl}' where landing_idx={$land_idx}";
-    fwrite($fp,$insert_short_url."\r\n");
     mysqli_query($self_con,$insert_short_url) or die(mysqli_error($self_con));
   } else {
     return;
