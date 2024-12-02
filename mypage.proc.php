@@ -747,7 +747,6 @@ if ($mode == "land_save") {
     echo '{"result":"success"}';
     exit;
 } else if ($mode == "old_customer_reservation") {
-    // echo "<script>alert('$event_name_eng');</script>"; //testalert
     if ($group_idx == "") {
         echo "주소록을 선택해주세요.";
         exit;
@@ -783,13 +782,13 @@ if ($mode == "land_save") {
     $grpId = $group_idx * -1;
     $event_idx = $event_idx_event;
 
-    $query = "insert into Gn_event_oldrequest set sms_idx = '$step_idx',
+    $query = "insert into Gn_event_oldrequest set sms_idx = '{$step_idx}',
                     mem_id='{$_SESSION['one_member_id']}',
-                    send_num = '$send_num',
-                    reservation_title = '$reservation_title',
-                    address_idx = '$group_idx',
-                    addr_start_index = '$start_index',
-                    addr_end_index = '$end_index',
+                    send_num = '{$send_num}',
+                    reservation_title = '{$reservation_title}',
+                    address_idx = '{$group_idx}',
+                    addr_start_index = '{$start_index}',
+                    addr_end_index = '{$end_index}',
                     start_date=NOW(),
                     status = 'Y',
                     reg_date = NOW()";
@@ -798,7 +797,7 @@ if ($mode == "land_save") {
 
     $start_index -= 1;
 
-    $sql = "SELECT recv_num FROM Gn_MMS_Receive WHERE grp_id = '$group_idx' limit $start_index, $cnt"; //test
+    $sql = "SELECT recv_num FROM Gn_MMS_Receive WHERE grp_id = '{$group_idx}' limit {$start_index}, {$cnt}"; 
     $gresult = mysqli_query($self_con, $sql);
 
     $num_arr = array();
@@ -816,11 +815,7 @@ if ($mode == "land_save") {
     while ($lrow = mysqli_fetch_array($lresult)) {
         $mem_id = $lrow['m_id'];
         $sms_idx = $lrow['sms_idx'];
-        //$send_num = $lrow['mobile'];
         $reservation_title = $lrow['reservation_title'];
-        //$sql="select * from Gn_event_sms_info where sms_idx='$sms_idx'";
-        //$result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
-        //$row=mysqli_fetch_array($result);
         $reg = time();
         $sql = "select * from Gn_event_sms_step_info where sms_idx='$sms_idx'";
         $result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
@@ -855,7 +850,7 @@ if ($mode == "land_save") {
         $query = "update Gn_event_oldrequest set end_date='$reservation' where idx = '$or_id'";
     mysqli_query($self_con, $query) or die(mysqli_error($self_con));
 
-    echo "예약되었습니다."; //test
+    echo "예약되었습니다."; 
     exit;
 } else if ($mode == "sms_detail_del") {
     $sql = "delete from Gn_event_sms_step_info where sms_detail_idx ='$sms_detail_idx' and sms_idx ='$sms_idx'";
@@ -1590,11 +1585,11 @@ if ($mode == "land_save") {
                                         reg_date=NOW(),
                                         htime='{$htime}',
                                         mtime='{$mtime}',
-                                        send_deny='{$deny}'," . 
-                                        $query_step_add . 
-                                        "event_idx='$event_idx'";
+                                        send_deny='{$deny}'," 
+                                        .$query_step_add . 
+                                        "event_idx='{$event_idx}'";
+                echo $query."<BR>";
                 mysqli_query($self_con, $query);
-                 echo $query."<BR>";
                 $gd_id = mysqli_insert_id($self_con);
                 $txt .= "\n" . $daily_link;
                 if ($iam) {
@@ -1676,11 +1671,11 @@ if ($mode == "land_save") {
                                     reg_date=NOW(),
                                     htime='$htime',
                                     mtime='$mtime',
-                                    send_deny='$deny',
-                                    " . $query_step_add . "
-                                    event_idx='$event_idx'";
-        mysqli_query($self_con, $query);
+                                    send_deny='$deny',"
+                                    .$query_step_add. 
+                                    "event_idx='$event_idx'";
         echo $query."<BR>";
+        mysqli_query($self_con, $query);
         $gd_id = mysqli_insert_id($self_con);
 
         $txt .= "\n" . $daily_link;
