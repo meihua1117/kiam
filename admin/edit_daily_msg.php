@@ -7,7 +7,7 @@ extract($_GET);
 $date_today=date("Y-m-d");
 $date_month=date("Y-m");
 
-$sql="select * from Gn_daily  where gd_id='".$gd_id."'";
+$sql="select * from Gn_daily  where gd_id='{$gd_id}'";
 $sresul_num=mysqli_query($self_con,$sql);
 $row=mysqli_fetch_array($sresul_num);	
 if($row[0]) {
@@ -15,7 +15,7 @@ if($row[0]) {
     $sresult=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));					  	 
     $krow = mysqli_fetch_array($sresult);   
     
-    $sql="select * from Gn_Member  where mem_id='".$row['mem_id']."'";
+    $sql="select * from Gn_Member  where mem_id='{$row['mem_id']}'";
     $sresul_num=mysqli_query($self_con,$sql);
     $data=mysqli_fetch_array($sresul_num);
 }
@@ -25,8 +25,10 @@ if(!$_REQUEST['daily_cnt']){
 else{
     $daily_cnt = $_REQUEST['daily_cnt'];
 }
-if($type == "service") $link = "daily_msg_list_service.php";
-else $link = "daily_msg_list_mem.php";
+if($type == "service") 
+	$link = "daily_msg_list_service.php";
+else 
+	$link = "daily_msg_list_mem.php";
 ?>
 <style>
 	.box-body th {

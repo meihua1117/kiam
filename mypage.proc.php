@@ -962,7 +962,7 @@ if ($mode == "land_save") {
                 $jpg2 = "http://www.kiam.kr/adjunct/mms/thum/" . $row['image2'];
 
             for ($m = 0; $m < count($mobile); $m++) {
-                sendmms(3, $mem_id/*$_SESSION['one_member_id']*/, $send_num, $mobile[$m], $reservation, $row['title'], $row['content'], $jpg, $jpg1, $jpg2, 'Y', $row['sms_idx'], $row['sms_detail_idx'], $request_idx[$m], "", $row['send_deny']);
+                sendmms(3, $mem_id, $send_num, $mobile[$m], $reservation, $row['title'], $row['content'], $jpg, $jpg1, $jpg2, 'Y', $row['sms_idx'], $row['sms_detail_idx'], $request_idx[$m], "", $row['send_deny']);
 
                 $query = "insert into Gn_MMS_Agree set mem_id='$mem_id',
                                                  send_num='$send_num',
@@ -974,10 +974,7 @@ if ($mode == "land_save") {
                                                  reservation='$reservation',
                                                  sms_idx='{$row['sms_idx']}',
                                                  sms_detail_idx='{$row['sms_detail_idx']}',
-                                                 request_idx='$request_idx[$m]'
-                                                 
-                                                 
-                ";
+                                                 request_idx='$request_idx[$m]'";
                 //echo $query."<BR>";
                 mysqli_query($self_con, $query) or die(mysqli_error($self_con));
             }
@@ -987,26 +984,16 @@ if ($mode == "land_save") {
     echo "<script>alert('등록되었습니다.');location='mypage_request_list.php';</script>";
     exit;
 } else if ($mode == "address_event_add") {
-
-    $query = "
-        insert into Gn_event_address (mem_id, event_idx, address_idx, regdate) values
-        ('{$_SESSION['one_member_id']}','$event_idx','$address_idx',now())
-        ";
-
+    $query = "insert into Gn_event_address (mem_id, event_idx, address_idx, regdate) values ('{$_SESSION['one_member_id']}','$event_idx','$address_idx',now())";
     print_r($_POST);
     exit;
     for ($i = 0; $i < count($request_idx); $i++) {
         $idx =  $request_idx[$i];
-        $query = "
-        insert into Gn_event_request (m_id, event_idx, event_code, name, mobile, email, job, birthday, sex, addr, consult_date, join_yn, pcode, sp, ip_addr, regdate)
-        select m_id, '$event_idx_', '$sp_', name, mobile, email, job, birthday, sex, addr, consult_date, join_yn, '$sp_', '$event_pcode_', ip_addr, now() from Gn_event_request where request_idx='$idx'
-        ";
+        $query = "insert into Gn_event_request (m_id, event_idx, event_code, name, mobile, email, job, birthday, sex, addr, consult_date, join_yn, pcode, sp, ip_addr, regdate)
+        select m_id, '$event_idx_', '$sp_', name, mobile, email, job, birthday, sex, addr, consult_date, join_yn, '$sp_', '$event_pcode_', ip_addr, now() from Gn_event_request where request_idx='$idx'";
         mysqli_query($self_con, $query);
     }
-
-
     $event_idx = $_POST['event_idx_'];
-
     $recv_num = $mobile;
     $mem_id = $m_id;
 
@@ -1019,8 +1006,6 @@ if ($mode == "land_save") {
     //echo $sql;
     $lresult = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
     $time = 60 - date("i");
-    //echo date("H:i:00", strtotime("+$time min"));
-
     $interval = IntervalDays(date("Y-m-d", time()), $reservation_date);
 
     while ($lrow = mysqli_fetch_array($lresult)) {
@@ -1044,10 +1029,6 @@ if ($mode == "land_save") {
         while ($row = mysqli_fetch_array($result)) {
             // 시간 확인
             $k++;
-            //http://www.kiam.kr/adjunct/mms/thum/
-
-
-
             $send_day = $row['send_day'];
             $send_time = $row['send_time'];
 
@@ -1079,10 +1060,7 @@ if ($mode == "land_save") {
                                                  reservation='$reservation',
                                                  sms_idx='{$row['sms_idx']}',
                                                  sms_detail_idx='{$row['sms_detail_idx']}',
-                                                 request_idx='$request_idx[$m]'
-                                                 
-                                                 
-                ";
+                                                 request_idx='$request_idx[$m]'";
                 //echo $query."<BR>";
                 mysqli_query($self_con, $query) or die(mysqli_error($self_con));
             }
@@ -1175,8 +1153,7 @@ if ($mode == "land_save") {
                                        fee='$fee',
                                        mem_id='{$_SESSION['one_member_id']}',
                                        status='N',
-                                       regdate=NOW()
-           ";
+                                       regdate=NOW()";
     $result = mysqli_query($self_con, $sql);
     echo "<script>alert('등록되었습니다.');location='mypage_lecture_list.php';</script>";
     exit;
@@ -1199,8 +1176,7 @@ if ($mode == "land_save") {
                                        fee='$fee',
                                        mem_id='{$_SESSION['one_member_id']}',
                                        status='N',
-                                       regdate=NOW()
-           ";
+                                       regdate=NOW()";
     $result = mysqli_query($self_con, $sql);
     echo "<script>alert('등록되었습니다.');location='/event/event.html?pcode=$pcode&sp=$sp&landing_idx=$landing_idx';</script>";
     exit;
@@ -1299,17 +1275,12 @@ if ($mode == "land_save") {
                                        review_title4='$review_title4',
                                        review_title5='$review_title5',
                                        fee='$fee'
-                                where  lecture_id='$lecture_id'
-                                       
-           ";
+                                where  lecture_id='$lecture_id'";
     $result = mysqli_query($self_con, $sql);
     echo "<script>alert('수정되었습니다.');location='mypage_lecture_list.php';</script>";
     exit;
 } else if ($mode == "lecture_del") {
-    $sql = "delete from  Gn_lecture 
-                                where  lecture_id='$lecture_id'
-                                       
-           ";
+    $sql = "delete from  Gn_lecture where  lecture_id='$lecture_id'";
     $result = mysqli_query($self_con, $sql);
     echo "<script>alert('삭제되었습니다.');location='mypage_lecture_list.php';</script>";
     exit;
@@ -1327,45 +1298,35 @@ if ($mode == "land_save") {
     }
 
     $lecture_day = implode(",", $lecture_day);
-    $sql = "insert into Gn_review set lecture_id='$lecture_id',
-                                       score='$score',
-                                       content='$content',
-                                       profile='$profile',
+    $sql = "insert into Gn_review set lecture_id='{$lecture_id}',
+                                       score='{$score}',
+                                       content='{$content}',
+                                       profile='{$profile}',
                                        mem_id='{$_SESSION['one_member_id']}',
                                        status='N',
                                        $addQuery
-                                       regdate=NOW()
-           ";
+                                       regdate=NOW()";
     $result = mysqli_query($self_con, $sql);
     echo "<script>alert('등록되었습니다.');location='mypage_review_list.php';</script>";
     exit;
 } else if ($mode == "review_update") {
     $lecture_day = implode(",", $lecture_day);
-    $sql = "update Gn_review set  
-                                       score='$score',
-                                       content='$content',
-                                       profile='$profile' 
-                                where  review_id='$review_id'
-                                       
-           ";
+    $sql = "update Gn_review set score='$score',content='$content',profile='$profile' where  review_id='$review_id'";
     $result = mysqli_query($self_con, $sql);
     echo "<script>alert('수정되었습니다.');location='mypage_review_list.php';</script>";
     exit;
 } else if ($mode == "daily_del") {
     if ($gd_id > 0) {
-        $sql = "delete from  Gn_daily 
-                                    where  gd_id='$gd_id'
-                                           
-               ";
+        $sql = "delete from  Gn_daily where  gd_id='{$gd_id}'";
         $result = mysqli_query($self_con, $sql);
 
-        $query = "delete from Gn_daily_date where gd_id='$gd_id';";
+        $query = "delete from Gn_daily_date where gd_id='{$gd_id}'";
         mysqli_query($self_con, $query);
 
-        $query = "delete from Gn_MMS where gd_id='$gd_id' ";
+        $query = "delete from Gn_MMS where gd_id='{$gd_id}' ";
         mysqli_query($self_con, $query);
 
-        $query = "delete from gn_mail where gd_id='$gd_id' ";
+        $query = "delete from gn_mail where gd_id='{$gd_id}' ";
         mysqli_query($self_con, $query);
     }
 
@@ -1504,6 +1465,8 @@ if ($mode == "land_save") {
     $event_idx = 0;
     $query_step_add = "";
     $step_idx = "";
+    if($iam == "")
+        $iam = 0;
     if (isset($_POST['mem_id'])) {
         $_SESSION['one_member_id'] = $_POST['mem_id'];
     }

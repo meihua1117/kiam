@@ -175,13 +175,13 @@ else if(isset($_POST['del_req_mem'])){
   $res_data = mysqli_query($self_con,$sql_data);
   while($row_data = mysqli_fetch_array($res_data)){
     $gd_id = $row_data['gd_id'];
-    $query = "delete from Gn_daily_date where gd_id='$gd_id'";
+    $query = "delete from Gn_daily_date where gd_id='{$gd_id}'";
     mysqli_query($self_con,$query);
-    $query = "delete from Gn_MMS where gd_id='$gd_id' ";
+    $query = "delete from Gn_MMS where gd_id='{$gd_id}' ";
     mysqli_query($self_con,$query);
-    $sql_del = "delete from Gn_daily where gd_id='$gd_id'";
+    $sql_del = "delete from Gn_daily where gd_id='{$gd_id}'";
     mysqli_query($self_con,$sql_del);
-    $query = "delete from gn_mail where gd_id='$gd_id' ";
+    $query = "delete from gn_mail where gd_id='{$gd_id}' ";
     mysqli_query($self_con,$query);  
   }
   echo 1;

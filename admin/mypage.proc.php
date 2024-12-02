@@ -1044,13 +1044,13 @@ if ($mode == "land_save") {
     exit;
 } else if ($mode == "daily_del") {
     if ($gd_id > 0) {
-        $sql = "delete from  Gn_daily where  gd_id='$gd_id'";
+        $sql = "delete from  Gn_daily where  gd_id='{$gd_id}'";
         $result = mysqli_query($self_con, $sql);
 
-        $query = "delete from Gn_daily_date where gd_id='$gd_id';";
+        $query = "delete from Gn_daily_date where gd_id='{$gd_id}';";
         mysqli_query($self_con, $query);
 
-        $query = "delete from Gn_MMS where gd_id='$gd_id' ";
+        $query = "delete from Gn_MMS where gd_id='{$gd_id}' ";
         mysqli_query($self_con, $query);
     }
     echo "<script>alert('삭제되었습니다.');location='daily_list.php';</script>";
