@@ -142,7 +142,8 @@ if(!$method) {
                                                     point_val=$point,
                                                     type='group_card',
                                                     current_point=$cur_point,
-                                                    current_cash={$mem_row['mem_cash']}";
+                                                    current_cash={$mem_row['mem_cash']},
+                                                    billdate=now()";
     mysqli_query($self_con,$sql_buyer);
 
     $sql_update = "update Gn_Member set mem_point={$cur_point} where mem_id='{$_SESSION['iam_member_id']}'";

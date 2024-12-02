@@ -1,12 +1,9 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <?php
-$fp = fopen("allat_fix_ajax.log","w+");
 include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
-fwrite($fp,"05=>pass\r\n");
 // 올앳관련 함수 Include
 //----------------------
 include "./allatutil.php";
-fwrite($fp,"09=>pass\r\n");
 ///Request Value Define
 //----------------------
 $at_cross_key = "가맹점 CrossKey";     //설정필요 [사이트 참조 - http://www.allatpay.com/servlet/AllatBiz/helpinfo/hi_install_guide.jsp#shop]
@@ -31,13 +28,11 @@ $FIX_KEY   = getValue("fix_key",$at_txt);
 $APPLY_YMD = getValue("apply_ymd",$at_txt);
 
 $sql="select * from tjd_pay_result where orderNumber='$ORDER_NO'";
-fwrite($fp,"32=>".$sql."\r\n");
 $resul=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 $row=mysqli_fetch_array($resul);
 $no = $row['no'];
 if($REPLYCD == "0000"){//pay_test
     $sql = "update tjd_pay_result set end_status='Y',billkey='{$FIX_KEY}',billdate='{$APPLY_YMD}' where  orderNumber='{$ORDER_NO}'";
-    fwrite($fp,"38=>".$sql."\r\n");
     mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
     //디버회원가입하기
     $user_id = $member_1['mem_id'];
@@ -71,7 +66,6 @@ if($REPLYCD == "0000"){//pay_test
                                                     search_email_date='{$search_email_date}',
                                                     search_email_cnt='{$search_email_cnt}',
                                                     shopping_end_date='{$search_email_date}'";
-                                                    fwrite($fp,"72=>".$query."\r\n");
         mysqli_query($self_con,$query);
     } else {
         $query = "update crawler_member_real set cell='{$cell}',
@@ -90,7 +84,6 @@ if($REPLYCD == "0000"){//pay_test
                                                 shopping_end_date='{$search_email_date}',
                                                 status='Y'
                                                 where user_id='{$user_id}'";
-                                                fwrite($fp,"91=>".$query."\r\n");
         mysqli_query($self_con,$query);
     }
     $add_phone = $row['phone_cnt'] / 9000;
@@ -102,7 +95,6 @@ if($REPLYCD == "0000"){//pay_test
     else if($row['member_type'] == "enterprise")
         $sql_m .=",service_type=1";
     $sql_m .= " where mem_id='{$member_1['mem_id']}'";
-    fwrite($fp,"103=>".$sql_m."\r\n");
     mysqli_query($self_con,$sql_m) or die(mysqli_error($self_con));
 
     if($row['member_type'] == "year-professional"){
@@ -111,8 +103,6 @@ if($REPLYCD == "0000"){//pay_test
         $row_data = mysqli_fetch_array($res_data);
         
         $sql_res = "insert into Gn_Item_Pay_Result set buyer_id='{$member_1['mem_id']}', buyer_tel='{$row_data['mem_phone']}', item_name='씨드포인트충전', item_price=1000000, pay_percent=90, current_point={$row_data['mem_point']}, current_cash={$row_data['mem_cash']}, pay_status='Y', VACT_InputName='{$row_data['mem_name']}', type='buy', seller_id='{$member_1['mem_id']}', pay_method='결제씨드충전', pay_date=now(), point_val=1,billdate='{$APPLY_YMD}'";
-        fwrite($fp,"112=>".$sql_res."\r\n");
-    
         mysqli_query($self_con,$sql_res);
     }
 
@@ -143,7 +133,6 @@ if($REPLYCD == "0000"){//pay_test
             }
 
             $sql = "update tjd_pay_result set share_per='$share_per', branch_share_per = '$branch_share_per', share_id='{$member_1['recommend_id']}', branch_share_id='$branch_share_id' where no='$no'";
-            fwrite($fp,"144=>".$sql."\r\n");
             mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
         }
     }//디버회원가입 완료
@@ -158,7 +147,6 @@ if($REPLYCD == "0000"){//pay_test
                                     exp_limit_status = 0,
                                     exp_limit_date = NULL
                                 where mem_id='{$member_1['mem_id']}' ";
-                                fwrite($fp,"159=>".$sql_m."\r\n");
     mysqli_query($self_con,$sql_m) or die(mysqli_error($self_con));
     
     $at_enc       = "";
@@ -249,7 +237,6 @@ if($REPLYCD == "0000"){//pay_test
                                                     regdate = NOW(),
                                                     amount='{$row['TotPrice']}',
                                                     buyer_id='{$member_1['mem_id']}'";
-                                                    fwrite($fp,"243=>".$sql."\r\n");
         mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
         $sql = "update tjd_pay_result set monthly_yn='Y', end_status='Y' where  orderNumber='$ORDER_NO' and buyer_id='{$member_1['mem_id']}'";
         mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
@@ -269,7 +256,6 @@ if($REPLYCD == "0000"){//pay_test
                                                         msg='".iconv("euc-kr","utf-8",$REPLYMSG)."_mp_fix_ajax"."',
                                                         amount='{$row['TotPrice']}',
                                                         buyer_id='{$member_1['mem_id']}'";
-        fwrite($fp,"270=>".$sql."\r\n");
         mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
     }
 }else{
@@ -282,7 +268,6 @@ if($REPLYCD == "0000"){//pay_test
                                                         msg='".iconv("euc-kr","utf-8",$REPLYMSG)."_mp_fix_ajax"."',
                                                         amount='{$row['TotPrice']}',
                                                         buyer_id='{$member_1['mem_id']}'";
-                                                        fwrite($fp,"282=>".$sql."\r\n");
     mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
 }
 ?>

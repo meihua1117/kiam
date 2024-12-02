@@ -1,6 +1,5 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <?php
-$fp = fopen("allat_fix.log","w+");
 //셀링카드정기결제
 include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
 // 올앳관련 함수 Include
@@ -30,13 +29,11 @@ $FIX_KEY	= getValue("fix_key",$at_txt);
 $APPLY_YMD	= getValue("apply_ymd",$at_txt);
 
 $sql="select no,month_cnt,db_cnt,email_cnt,phone_cnt from tjd_pay_result where orderNumber='$ORDER_NO'";
-fwrite($fp,"33=>".$sql."\r\n");
 $resul=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 $row=mysqli_fetch_array($resul);
 $no = $row['no'];
 if($REPLYCD == "0000"){//pay_test
     $sql = "update tjd_pay_result set end_status='Y',billkey='$FIX_KEY',billdate='$APPLY_YMD' where  orderNumber='$ORDER_NO'";
-    fwrite($fp,"39=>".$sql."\r\n");
     mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 //디버회원가입하기
     $user_id = $member_1['mem_id'];
@@ -70,7 +67,6 @@ if($REPLYCD == "0000"){//pay_test
                                         search_email_date='{$search_email_date}',
                                         search_email_cnt='{$search_email_cnt}',
                                         shopping_end_date='{$search_email_date}'";
-                                        fwrite($fp,"73=>".$query."\r\n");
         mysqli_query($self_con,$query);
     } else {
         $query = "update crawler_member_real set cell='{$cell}',
@@ -89,18 +85,14 @@ if($REPLYCD == "0000"){//pay_test
                                         shopping_end_date='{$search_email_date}',
                                         status='Y'
                                         where user_id='{$user_id}'";
-                                        fwrite($fp,"92=>".$query."\r\n");
         mysqli_query($self_con,$query);
     }
     $add_phone = $row['phone_cnt'] / 9000;
-    $sql_m = "update Gn_Member set fujia_date1=now() , fujia_date2=date_add(now(),INTERVAL 120 month),phone_cnt=phone_cnt+'{$add_phone}'";
-    fwrite($fp,"97=>".$sql_m."\r\n");
-    $sql_m .= " where mem_id='{$member_1['mem_id']}'";
+    $sql_m = "update Gn_Member set fujia_date1=now() , fujia_date2=date_add(now(),INTERVAL 120 month),phone_cnt=phone_cnt+'{$add_phone}' where mem_id='{$member_1['mem_id']}'";
     mysqli_query($self_con,$sql_m) or die(mysqli_error($self_con));
 
     if ($member_1['recommend_id'] != "") {
         $sql = "select * from Gn_Member where mem_id='{$member_1['recommend_id']}' ";
-        fwrite($fp,"103=>".$sql."\r\n");
         $rresult = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
         if (mysqli_num_rows($rresult) > 0) {
             $rrow = mysqli_fetch_array($rresult);
@@ -127,7 +119,6 @@ if($REPLYCD == "0000"){//pay_test
             }
 
             $sql = "update tjd_pay_result set share_per='$share_per', branch_share_per = '$branch_share_per', share_id='{$member_1['recommend_id']}', branch_share_id='$branch_share_id' where no='$no'";
-            fwrite($fp,"130=>".$sql."\r\n");
             mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
         }
     }//디버회원가입 완료
@@ -142,7 +133,6 @@ if($REPLYCD == "0000"){//pay_test
                                 exp_limit_status = 0,
                                 exp_limit_date = NULL
                             where mem_id='{$member_1['mem_id']}' ";
-                            fwrite($fp,"145=>".$sql_m."\r\n");
     mysqli_query($self_con,$sql_m) or die(mysqli_error($self_con));
     // 결과값 처리
     // reply_cd "0000" 일때만 성공
