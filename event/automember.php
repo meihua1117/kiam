@@ -688,7 +688,12 @@ if ($main_img1 == "")
 						location.href = "/?" + link + "&tutorial=Y";
 					} else {
 						alert('회원가입 되었습니다.');
-						$("#app_install_modal").show();
+						var userAgent = navigator.userAgent.toLowerCase();
+            			if (userAgent.match(/onlyone/)) {
+							signin($('input[name=one_id]').val(),$('input[name=mem_pass]').val());
+						}else{
+							$("#app_install_modal").show();
+						}
 					}
 				},
 				error: function(request,status,error) {

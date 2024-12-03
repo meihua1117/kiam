@@ -61,13 +61,6 @@ include "inc/header.inc.php";
     <script src='/plugin/toastr/js/toastr.min.js'></script>
 </head>
 <style type="text/css">
-    button, input, select, textarea {
-    }
-    input {
-         /*line-height: normal!important;*/
-    }
-    button, input, optgroup, select, textarea {
-    }
     ul li a
     {
         font-family: 'notokr', sans-serif;

@@ -395,7 +395,7 @@ $dir = $_REQUEST['order_status'] == "desc" ? "asc" : "desc";
 	}
 
 	function viewIframeSourceWindow(str) {
-		var link = "https://kiam.kr/event/event.html?landing_idx=" + str;
+		var link = "https://"+<?=$HTTP_HOST?>+"/event/event.html?landing_idx=" + str;
 		var frameSource = '<iframe src="' + link + '" width="100%" frameborder="0"></iframe>';
 		// var IE=(document.all)?true:false;
 		// if (IE) {

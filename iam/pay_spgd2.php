@@ -69,13 +69,6 @@ include "inc/header.inc.php";
 </script>
 </head>
 <style type="text/css">
-    button, input, select, textarea {
-    }
-    input {
-        /*line-height: normal!important;*/
-    }
-    button, input, optgroup, select, textarea {
-    }
     ul li a{
         font-family: 'notokr', sans-serif;
         font-size: 14px;
