@@ -30,8 +30,7 @@ if($mode == "reg_req_id"){
 
     if(!$row_chk[0]){
         echo 0;
-    }
-    else{
+    }else{
         $sql_chk_cnt = "select count(*) as cnt from Gn_Iam_Name_Card where req_worker_id='{$req_id}' and org_use_state=0 and worker_service_state=1";
         $res_chk_cnt = mysqli_query($self_con,$sql_chk_cnt);
         $row_chk_cnt = mysqli_fetch_array($res_chk_cnt);
@@ -48,7 +47,7 @@ if($mode == "reg_req_id"){
     }
 }
 if($mode == "cancel_req_id"){
-    $sql_cancel = "update Gn_Iam_Name_Card set req_worker_id='', req_worker_date='' where idx={$card_idx}";
+    $sql_cancel = "update Gn_Iam_Name_Card set req_worker_id='' where idx={$card_idx}";
     $res = mysqli_query($self_con,$sql_cancel);
 
     echo $res;

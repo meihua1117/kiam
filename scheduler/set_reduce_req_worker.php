@@ -27,7 +27,7 @@ $res_worker = mysqli_query($self_con, $sql_worker);
 while ($row_worker = mysqli_fetch_array($res_worker)) {
     if ($cur_com_date > $row_worker['req_worker_date'] && !$row_worker['org_use_state']) {
         echo "reset_worker_state::" . $row_worker['req_worker_id'] . "\n";
-        $sql_update1 = "update Gn_Iam_Name_Card set req_worker_id='', req_worker_date='' where idx='{$row_worker['idx']}'";
+        $sql_update1 = "update Gn_Iam_Name_Card set req_worker_id='' where idx='{$row_worker['idx']}'";
         mysqli_query($self_con, $sql_update1);
     }
 }
