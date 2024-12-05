@@ -6,7 +6,8 @@ $fp = fopen("user_change.log","w+");
 * Comment : 관리자 회원 정보 수정
 */
 extract($_POST);
-
+if(!isset($_POST['total_pay_money']) || $_POST['total_pay_money'] == "")
+    $total_pay_money = 0;
 $date_today1 = date("Y-m-d H:i:s");
 $mem_code = $_POST["mem_code"]; 
 $sendnum = $_POST["sendnum"];
