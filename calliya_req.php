@@ -158,11 +158,10 @@ $data = mysqli_fetch_array($sresul_num);
                                         break;
                                 }
 
-                                $count_query = "select count(idx) from Gn_Iam_Name_Card ca_1 WHERE worker_service_state=1 AND req_worker_id <> '' AND req_worker_id='{$_SESSION['one_member_id']}' AND group_id = 0 AND admin_shopping <> 0 $searchStr";
+                                $count_query = "select count(idx) from Gn_Iam_Name_Card ca_1 WHERE worker_service_state=1 AND req_worker_id='{$_SESSION['one_member_id']}' AND group_id = 0 AND admin_shopping <> 0 $searchStr";
                                 //$count_result = mysqli_query($self_con,$count_query);
                                 //$count_row = mysqli_fetch_array($count_result);
                                 $redisCache = new RedisCache();
-                                //$redisCache->set_debug(true);
                                 $count_row = $redisCache->get_query_to_data($count_query);
                                 $intRowCount    =  $count_row[0];
 
@@ -186,7 +185,7 @@ $data = mysqli_fetch_array($sresul_num);
                                     $intPageCount = (int)(($intRowCount + $intPageSize - 1) / $intPageSize);
 
                                     $query = "SELECT * FROM Gn_Iam_Name_Card ca_1";
-                                    $query .= " WHERE worker_service_state=1 AND req_worker_id <> '' AND req_worker_id='{$_SESSION['one_member_id']}' AND group_id = 0 AND admin_shopping <> 0 $searchStr";
+                                    $query .= " WHERE worker_service_state=1 AND req_worker_id='{$_SESSION['one_member_id']}' AND group_id = 0 AND admin_shopping <> 0 $searchStr";
                                     $limitStr = " LIMIT $int,$intPageSize";
                                     $number    = $totalCnt - ($nowPage - 1) * $pageCnt;
                                     if (!$orderField)
@@ -198,7 +197,6 @@ $data = mysqli_fetch_array($sresul_num);
                                     // $res = mysqli_query($self_con,$query);                                    
                                     // while($row = mysqli_fetch_array($res)) {
                                     $cache_list = $redisCache->get_query_to_array($query);
-                                    //print_r($redisCache->get_debug_info());
                                     for ($i = 0; $i < count($cache_list); $i++) {
                                         $row = $cache_list[$i];
                                         $mem_sql = "select mem_code from Gn_Member where mem_id='{$row['mem_id']}'";
