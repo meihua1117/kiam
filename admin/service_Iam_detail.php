@@ -174,7 +174,7 @@ if($idx) {
                                         <td >
                                             <div style="display:flex">
                                                 <input type="file" name="head_logo">
-                                                <input type="button" onclick="clear_logo('<?=$data[profile_idx]?>');" value="삭제">
+                                                <input type="button" onclick="clear_logo('<?=$data['profile_idx']?>');" value="삭제">
                                             </div>
                                             <?php if($card_data['profile_logo'] != "") {?>
                                                 <img src="<?=$card_data['profile_logo']?>" style="width:120px">

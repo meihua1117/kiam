@@ -227,7 +227,7 @@ if($idx) {
                         </td>
                         <!-- <th>소속상품만 보여주기</th>
                         <td>
-                            <input type="checkbox" style="width:100px;" name="gwc_site_cons" id="gwc_site_cons" <?=$data[gwc_site_cons]?"checked":""?> >
+                            <input type="checkbox" style="width:100px;" name="gwc_site_cons" id="gwc_site_cons" <?=$data['gwc_site_cons']?"checked":""?> >
                         </td>   -->
                       </tr>
                       <tr>
