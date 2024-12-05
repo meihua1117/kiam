@@ -131,7 +131,7 @@ $data = mysqli_fetch_array($sresul_num);
                                     $int = ($page - 1) * $intPageSize;
                                     $intPageCount = (int)(($intRowCount + $intPageSize - 1) / $intPageSize);
 
-                                    $query = "SELECT * FROM Gn_Iam_Name_Card ca_1";
+                                    $query = "SELECT idx,mem_id,card_short_url,ai_map_gmarket,card_title,card_name,main_img1,card_addr,card_phone,req_data,iam_click FROM Gn_Iam_Name_Card ca_1";
                                     $query .= " WHERE worker_service_state=1 AND req_worker_id ='' AND group_id = 0 AND admin_shopping <> 0 $searchStr";
                                     $limitStr = " LIMIT $int,$intPageSize";
                                     $number    = $totalCnt - ($nowPage - 1) * $pageCnt;
@@ -151,17 +151,17 @@ $data = mysqli_fetch_array($sresul_num);
                                         $mem_res = mysqli_query($self_con,$mem_sql);
                                         $mem_row = mysqli_fetch_array($mem_res);
 
-                                        $fquery = "select count(*) from Gn_Iam_Friends where friends_card_idx = " . $row['idx'];
+                                        $fquery = "select count(*) from Gn_Iam_Friends where friends_card_idx = {$row['idx']}";
                                         $fresult = mysqli_query($self_con,$fquery);
                                         $frow = mysqli_fetch_array($fresult);
                                         //$friend_count	=  $frow[0];
 
-                                        $sql_pay = "select sum(TotPrice) totPrice, date from tjd_pay_result where buyer_id = '" . $row['mem_id'] . "' and end_status='Y'";
+                                        $sql_pay = "select sum(TotPrice) totPrice, date from tjd_pay_result where buyer_id = '{$row['mem_id']}' and end_status='Y'";
                                         $res_result = mysqli_query($self_con,$sql_pay);
                                         $totPriceRow = mysqli_fetch_row($res_result);
                                         $totPrice = $totPriceRow[0];
 
-                                        $cquery = "select count(*) from Gn_Iam_Contents where westory_card_url = " . "'{$row['card_short_url']}'";
+                                        $cquery = "select count(*) from Gn_Iam_Contents where westory_card_url = '{$row['card_short_url']}'";
                                         $cresult = mysqli_query($self_con,$cquery);
                                         $crow = mysqli_fetch_array($cresult);
 
