@@ -1,7 +1,6 @@
 ﻿<?
 @header("Content-type: text/html; charset=utf-8");
 include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
-$fp = fopen("user_change.log","w+");
 /*
 * Comment : 관리자 회원 정보 수정
 */
@@ -15,7 +14,6 @@ $result=0;
 
 // 정보 확인
 $sql="select * from Gn_Member where mem_code='{$mem_code}'";
-fwrite($fp,"17=>".$sql."\r\n");
 $resul=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 $row=mysqli_fetch_array($resul);    
 
@@ -46,11 +44,9 @@ if($_POST['mem_code']) {
     	$dateLimit = date("Y-m-d 23:59:59",strtotime($date_today."+6 months")); //가입일 +6개월        
         $asql="insert into tjd_pay_result (phone_cnt,fujia_status,month_cnt,end_date,end_status,TotPrice,pc_mobile, date, cancel_status,buyertel,buyer_id) values";
         $asql.="(300,'Y',6,'{$dateLimit}','Y','{$total_pay_money}',pc_mobile, '{$date_today}', cancel_status,'{$mem_phone}','{$row['mem_id']}')";
-	    fwrite($fp,"48=>".$asql."\r\n");
         mysqli_query($self_con,$asql);
 	    
 	    $sql_num_up="update Gn_MMS_Number set end_status='Y' , end_date=date_add(now(),INTERVAL 6 MONTH) where mem_id='{$row['mem_id']}' ";
-	    fwrite($fp,"52=>".$sql_num_up."\r\n");
         mysqli_query($self_con,$sql_num_up);	    
 	}
     // 앱비밀번호가 있을경우
@@ -64,7 +60,6 @@ if($_POST['mem_code']) {
         $addSql .= " ,web_pwd=md5('$web_passwd')";
         $web_pwd = md5($web_passwd);
         $dber_sql="update crawler_member_real set `password` = '{$web_pwd}' where user_id='{$row['mem_id']}'";
-        fwrite($fp,"66=>".$dber_sql."\r\n");
         mysqli_query($self_con,$dber_sql);
     }
     // 스마트폰 번호가 있을경우
@@ -72,7 +67,6 @@ if($_POST['mem_code']) {
         $addSql .= " ,mem_phone='{$mem_phone}'";
         $changePhone = true;
         $sql="update tjd_pay_result set fujia_status='Y' where buyer_id='{$row['mem_id']}'";
-        fwrite($fp,"74=>".$sql."\r\n");
         mysqli_query($self_con,$sql);	        
     }
     if($row['mem_phone1'] != $mem_phone1) {
@@ -97,7 +91,6 @@ if($_POST['mem_code']) {
         $p_cnt = $data1[1];
 
         $sql_update = "update tjd_pay_result set max_cnt={$limit}, add_phone={$p_cnt} where buyer_id='{$row['mem_id']}' order by no desc limit 1";
-        fwrite($fp,"99=>".$sql_update."\r\n");
         mysqli_query($self_con,$sql_update);
     }
 
@@ -127,12 +120,10 @@ if($_POST['mem_code']) {
                                        video_upload = '{$video_upload}'
                                        $addSql
                                  where mem_code='{$mem_code}'";
-                                 fwrite($fp,"129=>".$sql."\r\n");
         mysqli_query($self_con,$sql);
     }
     else{
         $sql="update Gn_Member set mem_code='$mem_code' $addSql where mem_code='{$mem_code}'";
-        fwrite($fp,"134=>".$sql."\r\n");
         mysqli_query($self_con,$sql);    
     }
     // 스마트폰 변경시 변경되어야 하는 테이블
@@ -143,18 +134,15 @@ if($_POST['mem_code'] && $_POST['sendnum']) {
     // 기부회원 정보 수정 [기부비율]
     if($donation_rate) {
         $sql_num="update Gn_MMS_Number set donation_rate='$donation_rate' where mem_id='{$row['mem_id']}' and sendnum='{$sendnum}' ";
-        fwrite($fp,"144=>".$sql_num."\r\n");
         mysqli_query($self_con,$sql_num);
     }
 }
 if($_POST['update_memo']){
     $sql_update = "update Gn_Member set mem_memo='{$memo}' where mem_id='{$mem_id}'";
-    fwrite($fp,"151=>".$sql_update."\r\n");
     $result = mysqli_query($self_con,$sql_update);
 }
 if($_POST['video_upload']){
     $sql_update = "update Gn_Member set video_upload='{$status}' where mem_code='{$index}'";
-    fwrite($fp,"156=>".$sql_update."\r\n");
     $result = mysqli_query($self_con,$sql_update);
 }
 echo json_encode(array("result"=>$result));
