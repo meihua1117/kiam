@@ -172,11 +172,9 @@ else{
                 </tr>
             <?
             $i=0;
-            if($intRowCount)
-            {
+            if($intRowCount){
                 $i=0;
-                while($row=mysqli_fetch_array($result))
-                {
+                while($row=mysqli_fetch_array($result)){
             ?>
                 <tr>
                     <td class="g_dt_name_<?=$i?>" >

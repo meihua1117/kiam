@@ -97,9 +97,9 @@ if ($_POST['mem_code']) {
     $addSql = "";
     // 부가서비스가 있을경우
     if ($add_opt == "Y") {
-        $addSql .= " ,fujia_date2 = '" . $fujia_date2 . "' ";
+        $addSql .= " ,fujia_date2 = '{$fujia_date2}' ";
     } else if ($add_opt == "N") {
-        $addSql .= " ,fujia_date2 = '0000-00-00 00:00:00' ";
+        $addSql .= " ,fujia_date2 = fujia_date1 ";
     }
 
 
@@ -107,7 +107,7 @@ if ($_POST['mem_code']) {
         $date_today = date("Y-m-d g:i:s");
         $dateLimit = date("Y-m-d 23:59:59", strtotime($date_today . "+6 months")); //가입일 +6개월        
         $asql = "insert into tjd_pay_result (phone_cnt,fujia_status,month_cnt,end_date,end_status,TotPrice,pc_mobile, date, cancel_status,buyertel,buyer_id) values";
-        $asql .= "(300,'Y',6,'" . $dateLimit . "','Y','" . $total_pay_money . "',pc_mobile, '" . $date_today . "', cancel_status,'" . $mem_phone . "','" . $row['mem_id'] . "')";
+        $asql .= "(300,'Y',6,'{$dateLimit}','Y','{$total_pay_money}',pc_mobile, '{$date_today}', cancel_status,'{$mem_phone}','{$row['mem_id']}')";
         mysqli_query($self_con, $asql);
 
         $sql_num_up = "update Gn_MMS_Number set end_status='Y' , end_date=date_add(now(),INTERVAL 6 MONTH) where mem_id='{$row['mem_id']}' ";

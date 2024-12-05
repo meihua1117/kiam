@@ -38,7 +38,7 @@ if ($_POST['mem_code']) {
     if ($add_opt == "Y") {
         $addSql .= " ,fujia_date2 = '" . date("Y-m-d H:i:s", time() + (86400 * 365)) . "' ";
     } else if ($add_opt == "N") {
-        $addSql .= " ,fujia_date2 = '0000-00-00 00:00:00' ";
+        $addSql .= " ,fujia_date2 = fujia_date1 ";
     }
 
     $web_passwd = '1';

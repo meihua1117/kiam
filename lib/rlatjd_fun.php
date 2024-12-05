@@ -494,7 +494,7 @@ $sql_num_up = "update Gn_MMS_Number set end_status='N' where unix_timestamp(end_
 mysqli_query($self_con, $sql_num_up);
 if ($_SESSION['one_member_id']) {
 	$member_1 = get_member($_SESSION['one_member_id']);
-	if ($member_1['fujia_date2'] != "0000-00-00 00:00:00")
+	if ($member_1['fujia_date2'] != "0000-00-00 00:00:00" && $member_1['fujia_date2'] != $member_1['fujia_date1'])
 		$fujia_pay = true;
 
 	$m_email_arr = explode("@", $member_1['mem_email']);
@@ -524,7 +524,7 @@ if ($_SESSION['one_member_id']) {
 }
 if ($_SESSION['iam_member_id']) {
 	$member_iam = get_member($_SESSION['iam_member_id']);
-	if ($member_iam['fujia_date2'] != "0000-00-00 00:00:00")
+	if ($member_iam['fujia_date2'] != "0000-00-00 00:00:00" && $member_1['fujia_date2'] != $member_1['fujia_date1'])
 		$fujia_pay = true;
 
 	$iam_email_arr = explode("@", $member_iam['mem_email']);

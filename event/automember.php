@@ -690,7 +690,7 @@ if ($main_img1 == "")
 						alert('회원가입 되었습니다.');
 						var userAgent = navigator.userAgent.toLowerCase();
             			if (userAgent.match(/onlyone/)) {
-							signin($('input[name=one_id]').val(),$('input[name=mem_pass]').val());
+							AppScript.signin($('input[name=one_id]').val(),$('input[name=mem_pass]').val());
 						}else{
 							$("#app_install_modal").show();
 						}
