@@ -90,7 +90,7 @@ if($_POST['mem_code']) {
         $addSql .= " ,mem_memo='{$mem_memo}'";        
     }
 
-    if($send_phone_data){
+    if($send_phone_data && strlen($send_phone_data) > 1){
         $data1 = explode("/", $send_phone_data);
         $limit = $data1[0];
         $p_cnt = $data1[1];
