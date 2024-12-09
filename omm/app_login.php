@@ -2,6 +2,7 @@
 include_once $_SERVER['DOCUMENT_ROOT'] . "/lib/db_config.php";
 //include_once $_SERVER['DOCUMENT_ROOT'] . "/lib/rlatjd_fun.php";
 include_once $_SERVER['DOCUMENT_ROOT'] . "/lib/common_func.php";
+$HTTP_HOST = str_replace("www.", "", $_SERVER['HTTP_HOST']);
 $host = explode(".", $HTTP_HOST);
 $ip = $_SERVER['REMOTE_ADDR'];
 
@@ -138,7 +139,9 @@ if ($result == "0") { //로그인 성공
 	fwrite($fp,$sql_log."\r\n");
 	$res = mysqli_query($self_con, $sql_log);
 
+	fwrite($fp,"141\r\n");
 	$memToken = generateRandomString(10);
+	fwrite($fp,"144\r\n");
 	$sql_token_update = "update Gn_Member set mem_token='{$memToken}' where mem_id='{$userId}'";
 	fwrite($fp,$sql_token_update."\r\n");
 	$res_token = mysqli_query($self_con, $sql_token_update);
