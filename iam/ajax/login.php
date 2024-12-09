@@ -35,6 +35,7 @@ if ($_POST['one_id'] && $_POST['one_pwd']) {
 		if ($row['site'] != "") {
 			$_SESSION['one_member_id'] = $_POST['one_id'];
 			$_SESSION['one_mem_lev'] = $row['mem_leb'];
+			$_SESSION['site'] = $row['site'];
 			$service_sql = "select mem_id,sub_domain from Gn_Service where mem_id= '{$_POST['one_id']}'";
 			$service_result = mysqli_query($self_con,$service_sql);
 			$service_row = mysqli_fetch_array($service_result);

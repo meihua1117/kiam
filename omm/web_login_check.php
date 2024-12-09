@@ -137,7 +137,7 @@ if ($row['mem_id']) {
 				}
 			}
 			$card_addr = $card_addr1 . " " . $card_addr2;
-			$card_url = generateRndString();
+			$card_url = generateRandomString();
 			$img_url = "/iam/img/common/logo-2.png";
 			$name_card_sql = "insert into Gn_Iam_Name_Card set mem_id = '{$memID}', 
 														card_short_url = '{$card_url}', 
