@@ -6,7 +6,7 @@ $host = explode(".", $HTTP_HOST);
 $ip = $_SERVER['REMOTE_ADDR'];
 
 $token = "";
-
+$fp = fopen("app_login.log","w+");
 //로그인 id pw
 $userId = strtolower(trim($_REQUEST["id"]));
 $userPW = trim($_REQUEST["pw"]);
@@ -20,6 +20,7 @@ $ver = trim($_REQUEST['ver']); // ver / 앱버젼
 
 $format_date = date("Y-m-d");
 $query = "insert into app_test (mem_id, sendnum, regdate) values('{$userId}', '{$userNum}', NOW())";
+fwrite($fp,$query."\r\n");
 mysqli_query($self_con, $query);
 
 $check1 = sql_password($userPW);
@@ -61,6 +62,7 @@ if ($row['mem_id']) {
 		$addQuery .= " ,act_time=NOW() "; // 작동 시간 추가
 		$time = time();
 		$sql_fujia_up = "update Gn_Member set fujia_date2=fujia_date1 where  unix_timestamp(fujia_date2) < $time and unix_timestamp(fujia_date2)<>'0' and mem_id='{$userId}'";
+		fwrite($fp,$sql_fujia_up."\r\n");
 		mysqli_query($self_con, $sql_fujia_up);
 
 		$query = "select * from Gn_MMS_Number where mem_id = '{$userId}' and sendnum='{$userNum}'";
@@ -68,9 +70,11 @@ if ($row['mem_id']) {
 		$row_c = mysqli_fetch_array($resul_c);
 		if ($row_c[0] != "") {
 			$query = "update Gn_MMS_Number set pkey='{$pkey}' where sendnum='{$userNum}'";
+			fwrite($fp,$query."\r\n");
 			mysqli_query($self_con, $query);
 		} else {
 			$sql_in = "insert into Gn_MMS_Number set sendnum = '{$userNum}', pkey='{$pkey}', mem_id = '{$userId}', reg_date = now() , end_status='Y' , end_date='{$row_pay['end_date']}',format_date='{$format_date}' $addQuery"; //신규등록
+			fwrite($fp,$sql_in."\r\n");
 			mysqli_query($self_con, $sql_in);
 		}
 
@@ -80,17 +84,20 @@ if ($row['mem_id']) {
 		if ($row_n_c['idx']) {
 
 			$sql_u = "update Gn_MMS_Number set reg_date=now() $addQuery where sendnum = '{$userNum}' and  mem_id = '{$userId}' ";
+			fwrite($fp,$sql_u."\r\n");
 			mysqli_query($self_con, $sql_u);
 			$result = "0"; //0이 로그인 성공					
 
 		} else {
 			if (str_replace("-", "", $row['mem_phone']) == $userNum) {
 				$sql_in = "insert into Gn_MMS_Number set sendnum = '{$userNum}', mem_id = '{$userId}', end_status='M',reg_date = now(),end_date='{$row_pay['end_date']}',format_date='{$format_date}' $addQuery"; //신규등록
+				fwrite($fp,$sql_in."\r\n");
 				mysqli_query($self_con, $sql_in);
 				$result = "0"; //0이 로그인 성공						
 			} else {
 
 				$sql_in = "insert into Gn_MMS_Number set sendnum = '{$userNum}', mem_id = '{$userId}', reg_date = now() , end_status='Y' , end_date='{$row_pay['end_date']}',format_date='{$format_date}' $addQuery"; //신규등록
+				fwrite($fp,$sql_in."\r\n");
 				mysqli_query($self_con, $sql_in);
 				$result = "0"; //0이 로그인 성공				
 			}
@@ -103,9 +110,11 @@ if ($row['mem_id']) {
 			$row = mysqli_fetch_array($res);
 			if ($row['idx'] != "") {
 				$sql = "update call_api_log set app_login='{$time}' where idx='{$row['idx']}'";
+				fwrite($fp,$sql."\r\n");
 				mysqli_query($self_con, $sql);
 			} else {
 				$sql = "insert into call_api_log set app_login='{$time}', phone_num='{$phone_num}'";
+				fwrite($fp,$sql."\r\n");
 				mysqli_query($self_con, $sql);
 			}
 		}
@@ -122,28 +131,33 @@ if ($result == "0") { //로그인 성공
 
 	//로그인(앱설치) 기록용
 	$sql = "insert into sm_app_loginout set mem_id='{$userId}', phone_num='{$userNum}', event_type='L' ,  reg_date=now()";
+	fwrite($fp,$sql."\r\n");
 	$query2 = mysqli_query($self_con, $sql);
 
 	$sql_log = "insert into gn_hist_login (domain,userid,position,ip,success,count) values('{$host[0]}', '{$userId}', 'mobile', '{$ip}', 'Y', count+1)";
+	fwrite($fp,$sql_log."\r\n");
 	$res = mysqli_query($self_con, $sql_log);
 
 	$memToken = generateRandomString(10);
 	$sql_token_update = "update Gn_Member set mem_token='{$memToken}' where mem_id='{$userId}'";
+	fwrite($fp,$sql_token_update."\r\n");
 	$res_token = mysqli_query($self_con, $sql_token_update);
 	$sql_chk_num = "select token from gn_mms_token where phone_num='{$userNum}'";
 	$res_chk_num = mysqli_query($self_con, $sql_chk_num);
 	$cnt_num = mysqli_num_rows($res_chk_num);
 	if ($cnt_num) {
 		$sql_update = "update gn_mms_token set token='{$memToken}', reg_date=NOW() where phone_num='{$userNum}'";
+		fwrite($fp,$sql_update."\r\n");
 		mysqli_query($self_con, $sql_update);
 	} else {
 		$sql_insert = "insert into gn_mms_token set mem_id='{$userId}', token='{$memToken}', phone_num='{$userNum}', reg_date=NOW()";
+		fwrite($fp,$sql_insert."\r\n");
 		mysqli_query($self_con, $sql_insert);
 	}
 	$check_sql = "select count(idx) from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$userId}'";
 	$check_result = mysqli_query($self_con, $check_sql);
 	$check_comment_row = mysqli_fetch_array($check_result);
-	if (!$check_comment_row[0]) { //네임카드가 하나도 없으면 자동으로 한개 생성한다
+	if ($check_comment_row[0] == 0) { //네임카드가 하나도 없으면 자동으로 한개 생성한다
 		$site_name = $row_p['site'];
 		$card_name = $row_p['mem_name'];
 		$card_title = $row_p['mem_name'] . " 소개";
@@ -177,9 +191,11 @@ if ($result == "0") { //로그인 성공
 														profile_logo = '{$img_url}', 
 														req_data = now(),
 														up_data = now()";
+														fwrite($fp,$name_card_sql."\r\n");
 		mysqli_query($self_con, $name_card_sql) or die(mysqli_error($self_con));
 	} else {
 		$query = "select card_short_url from Gn_Iam_Name_Card where group_id is NULL and mem_id = '{$userId}' order by req_data limit 0,1";
+		fwrite($fp,$query."\r\n");
 		$res = mysqli_query($self_con, $query);
 		$row = mysqli_fetch_array($res);
 		$card_url = $row['card_short_url'];
