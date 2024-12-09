@@ -194,7 +194,11 @@ if ($result == "0") { //로그인 성공
 														card_addr = '{$card_addr}', 
 														profile_logo = '{$img_url}', 
 														req_data = now(),
-														up_data = now()";
+														up_data = now(),
+														card_keyword='',
+														main_img1='',
+														main_img2='',
+														main_img3=''";
 														fwrite($fp,$name_card_sql."\r\n");
 		mysqli_query($self_con, $name_card_sql) or die(mysqli_error($self_con));
 	} else {
