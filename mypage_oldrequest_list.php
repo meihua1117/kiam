@@ -122,7 +122,6 @@ $(function(){
                                     }
                                 }
                                 $sql = "select count(*) as cnt from Gn_event_oldrequest where $sql_serch ";
-                                echo $sql;
                                 $result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
                                 $row = mysqli_fetch_array($result);
                                 $intRowCount = $row['cnt'];
@@ -153,7 +152,6 @@ $(function(){
                                 $intPageCount = (int)(($intRowCount + $intPageSize - 1) / $intPageSize);
                                 if ($intRowCount) {
                                     $sql = "select * from Gn_event_oldrequest where $sql_serch order by $order_name $order_status limit $int,$intPageSize";
-                                    echo $sql;
                                     $result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
                                     while ($row = mysqli_fetch_array($result)) {
                                         $sql = "select * from Gn_event_sms_info where sms_idx='{$row['sms_idx']}'";
