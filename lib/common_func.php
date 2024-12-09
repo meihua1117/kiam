@@ -2,6 +2,7 @@
 include_once $_SERVER['DOCUMENT_ROOT']."/lib/db_config.php";
 
 function generateRandomString($length = 10){
+	global $self_con;
 	$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 	$charactersLength = strlen($characters);
 	$randomString = '';
@@ -25,10 +26,11 @@ function generateRandomString($length = 10){
 }
 
 function check_token($phone_num, $token){
+	global $self_con;
 	$sql_chk = "select token from gn_mms_token where phone_num='{$phone_num}' and token='{$token}'";
 	$res_chk = mysqli_query($self_con,$sql_chk);
 	$row_chk = mysqli_fetch_array($res_chk);
-	if($row_chk[token] != ''){
+	if($row_chk['token'] != ''){
 		return true;
 	}
 	else{

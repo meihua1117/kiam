@@ -30,6 +30,7 @@ $resul = mysqli_query($self_con, $sql);
 $row = mysqli_fetch_array($resul);
 if ($row['mem_id']) {
 	$sql_pay = "select end_date from tjd_pay_result where end_status='Y' and buyer_id='{$userId}' order by no desc ";
+	fwrite($fp,$sql_pay."\r\n");
 	$res_pay = mysqli_query($self_con, $sql_pay);
 	if (mysqli_num_rows($res_pay) == 0) {
 		$sql_pay = "select now() as end_date";
