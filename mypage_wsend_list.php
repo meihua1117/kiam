@@ -236,7 +236,7 @@ $(function(){
 												</td>
 												<td>
 													<?
-														if($row_rn['mem_name'] != '')
+														if($row_rn && $row_rn['mem_name'] != '')
 															echo $row_rn['mem_name'];
 														else{
 															$group_idx = $row['request_idx'] * -1;
