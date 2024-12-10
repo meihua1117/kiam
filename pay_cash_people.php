@@ -90,7 +90,7 @@ if($crow[0] == "") {
                                         user_name='{$user_name}',
                                         password='{$password}',
                                         cell='{$cell}',
-                                        email='{$email}'}',
+                                        email='{$email}',
                                         address='{$address}',
                                         term='{$term}',
                                         status='N',

@@ -12,7 +12,7 @@ if ($language_index == "") {
     $language_index = 1;
     @setcookie("language", $language_index, time() + 3600);
 }
-$language_sql = "select * from Gn_Iam_multilang where no = '{$language_index}'}'";
+$language_sql = "select * from Gn_Iam_multilang where no = '{$language_index}'";
 $language_res = mysqli_query($self_con, $language_sql);
 $language_row = mysqli_fetch_array($language_res);
 $lang = $_COOKIE['lang'] ? $_COOKIE['lang'] : "kr";

@@ -89,8 +89,8 @@ if($crow[0] == "") {
     $query = "insert into crawler_member_real set user_id='{$user_id}',
                                         user_name='{$user_name}',
                                         password='{$password}',
-                                        cell='{$cell}'}'}',
-                                        email='{$email}'}'}'}'}'}'}'}'}',
+                                        cell='{$cell}',
+                                        email='{$email}',
                                         address='{$address}',
                                         term='{$term}',
                                         status='N',
@@ -98,7 +98,7 @@ if($crow[0] == "") {
                                         regdate=NOW(),
                                         search_email_yn='N',
                                         search_email_date='{$search_email_date}',
-                                        search_email_cnt='{$search_email_cnt}'}',
+                                        search_email_cnt='{$search_email_cnt}',
                                         shopping_end_date='{$search_email_date}'";
         mysqli_query($self_con,$query);
 } 

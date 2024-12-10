@@ -10,7 +10,7 @@ if(!$_SESSION['one_member_id']){
     <?
     exit;
 }
-$sql="select * from Gn_Member  where mem_id='".$_SESSION['one_member_id']."'";
+$sql="select * from Gn_Member  where mem_id='{$_SESSION['one_member_id']}'";
 $sresul_num=mysqli_query($self_con,$sql);
 $data=mysqli_fetch_array($sresul_num);
 ?>
