@@ -1401,6 +1401,7 @@ if ($mode == "land_save") {
     echo "<script>alert('수정되었습니다.');location='daily_list.php';</script>";
     exit;
 } else if ($mode == "daily_save") {
+    $fp = fopen("mypage.proc.log","w+");
     $event_idx = 0;
     $query_step_add = "";
     $step_idx = "";
@@ -1491,6 +1492,7 @@ if ($mode == "land_save") {
                                         send_deny='{$deny}', 
                                         $query_step_add 
                                         event_idx='{$event_idx}'";
+                fwrite($fp,$query."\r\n");
                 mysqli_query($self_con, $query);
                 $gd_id = mysqli_insert_id($self_con);
                 $txt .= "\n" . $daily_link;
@@ -1545,6 +1547,7 @@ if ($mode == "land_save") {
                     $query = "insert into Gn_daily_date set gd_id='{$gd_id}',
                                                                 send_date='{$date[$i]}',
                                                                 recv_num='{$recv_num_set[$i]}'";
+                                                                fwrite($fp,$query."\r\n");
                     mysqli_query($self_con, $query);
                 }
             }
@@ -1571,6 +1574,7 @@ if ($mode == "land_save") {
                                     send_deny='{$deny}',
                                     $query_step_add
                                     event_idx='{$event_idx}'";
+                                    fwrite($fp,$query."\r\n");
         mysqli_query($self_con, $query);
         $gd_id = mysqli_insert_id($self_con);
 
@@ -1624,6 +1628,7 @@ if ($mode == "land_save") {
 
         for ($i = 0; $i < count($date); $i++) {
             $query = "insert into Gn_daily_date set gd_id='{$gd_id}',send_date='{$date[$i]}',recv_num='{$recv_num_set[$i]}'";
+            fwrite($fp,$query."\r\n");
             mysqli_query($self_con, $query);
         }
     }
