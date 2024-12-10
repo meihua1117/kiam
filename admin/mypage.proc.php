@@ -2,17 +2,6 @@
 include_once "./lib/rlatjd_fun.php";
 include_once "./lib/class.image.php";
 extract($_REQUEST);
-function IntervalDays($CheckIn, $CheckOut)
-{
-    $CheckInX = explode("-", $CheckIn);
-    $CheckOutX =  explode("-", $CheckOut);
-    $date1 =  mktime(0, 0, 0, $CheckInX[1], $CheckInX[2], $CheckInX[0]);
-    $date2 =  mktime(0, 0, 0, $CheckOutX[1], $CheckOutX[2], $CheckOutX[0]);
-    $interval = ($date2 - $date1) / (3600 * 24);
-
-    // returns numberofdays 
-    return  $interval;
-}
 if ($mode == "land_save") {
     $tempFile = $_FILES['file']['tmp_name'];
     if ($tempFile) {
@@ -568,7 +557,6 @@ if ($mode == "land_save") {
     $sql = "select * from Gn_event_sms_info where event_idx='$event_idx'";
     $lresult = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
     $time = 60 - date("i");
-    $interval = IntervalDays(date("Y-m-d", time()), $reservation_date);
 
     while ($lrow = mysqli_fetch_array($lresult)) {
         $mem_id = $lrow['m_id'];
@@ -667,7 +655,6 @@ if ($mode == "land_save") {
     $sql = "select * from Gn_event_sms_info where event_idx='$event_idx'";
     $lresult = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
     $time = 60 - date("i");
-    $interval = IntervalDays(date("Y-m-d", time()), $reservation_date);
 
     while ($lrow = mysqli_fetch_array($lresult)) {
         $mem_id = $lrow['m_id'];
@@ -724,10 +711,7 @@ if ($mode == "land_save") {
     echo "<script>alert('등록되었습니다.');location='mypage_request_list.php';</script>";
     exit;
 } else if ($mode == "address_event_add") {
-
-    $query = "insert into Gn_event_address (mem_id, event_idx, address_idx, regdate) values
-        ('{$_SESSION['one_member_id']}','$event_idx','$address_idx',now())";
-
+    $query = "insert into Gn_event_address (mem_id, event_idx, address_idx, regdate) values ('{$_SESSION['one_member_id']}','$event_idx','$address_idx',now())";
     print_r($_POST);
     exit;
     for ($i = 0; $i < count($request_idx); $i++) {
@@ -743,7 +727,6 @@ if ($mode == "land_save") {
     $sql = "select * from Gn_event_sms_info where event_idx='$event_idx'";
     $lresult = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
     $time = 60 - date("i");
-    $interval = IntervalDays(date("Y-m-d", time()), $reservation_date);
     while ($lrow = mysqli_fetch_array($lresult)) {
         $mem_id = $lrow['m_id'];
         $sms_idx = $lrow['sms_idx'];

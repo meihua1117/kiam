@@ -11,16 +11,6 @@ $headers = array(
     'Authorization: Bearer ' . $auth_key['access_token'],
     'Content-Type: application/json'
 );
-function IntervalDays($CheckIn, $CheckOut)
-{
-    $CheckInX = explode("-", $CheckIn);
-    $CheckOutX =  explode("-", $CheckOut);
-    $date1 =  mktime(0, 0, 0, $CheckInX[1], $CheckInX[2], $CheckInX[0]);
-    $date2 =  mktime(0, 0, 0, $CheckOutX[1], $CheckOutX[2], $CheckOutX[0]);
-    $interval = ($date2 - $date1) / (3600 * 24);
-    return  $interval;
-}
-
 function check_join_tables($tables, $join_table)
 {
     if ($join_table == '') {
@@ -87,7 +77,6 @@ if ($step_idx != '') {
     $step_sql = "select * from Gn_event_sms_info where sms_idx = '{$step_idx}'";
     $step_res = mysqli_query($self_con, $step_sql);
     $time = 60 - date("i");
-    $interval = IntervalDays(date("Y-m-d", time()), $reservation_date);
 } else {
     $title = $_REQUEST['title'];;
     $text = $_REQUEST['text'];
