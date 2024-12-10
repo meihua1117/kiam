@@ -190,7 +190,6 @@ if ($mode == "land_save") {
     echo "<script>alert('삭제되었습니다.');location='mypage_event_list.php';</script>";
     exit;
 } else if ($mode == "event_save") {
-    $fp = fopen("mypage.proc.log","w+");
     /*$sql="select * from Gn_event where event_name_eng='{$event_name_eng}'";
     $eresult=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));                                   
     $erow = mysqli_fetch_array($eresult);               
@@ -228,14 +227,12 @@ if ($mode == "land_save") {
         $sql .= " ,sms_idx3='{$step_idx3}'";
     if($stop_event_idx != "")
         $sql .= " ,stop_event_idx='{$stop_event_idx}'";
-    fwrite($fp,$sql."\r\n");
     $result = mysqli_query($self_con, $sql);
     $event_idx = mysqli_insert_id($self_con);
 
     $transUrl = "https://" . $HTTP_HOST . "/event/event.html?pcode=$pcode&sp=$event_name_eng";
     $transUrl = get_short_url($transUrl);
     $sql = "update Gn_event set short_url='{$transUrl}' where event_idx='{$event_idx}'";
-    fwrite($fp,$sql."\r\n");
     $result = mysqli_query($self_con, $sql);
     echo "<script>location='mypage_link_list.php';</script>";
     exit;
@@ -753,7 +750,6 @@ if ($mode == "land_save") {
     $mms_agree_idx = "";
     $grpId = $group_idx * -1;
     $event_idx = $event_idx_event;
-    $fp = fopen("mypage.proc.log","w+");
     $query = "insert into Gn_event_oldrequest set sms_idx = '{$step_idx}',
                     mem_id='{$_SESSION['one_member_id']}',
                     send_num = '{$send_num}',
@@ -764,30 +760,23 @@ if ($mode == "land_save") {
                     start_date=NOW(),
                     status = 'Y',
                     reg_date = NOW()";
-    fwrite($fp,$query."\r\n");
     mysqli_query($self_con, $query) or die(mysqli_error($self_con));
     $or_id = mysqli_insert_id($self_con);
 
     $start_index -= 1;
 
     $sql = "SELECT recv_num FROM Gn_MMS_Receive WHERE grp_id = '{$group_idx}' limit {$start_index}, {$cnt}";
-    fwrite($fp,$sql."\r\n");
     $gresult = mysqli_query($self_con, $sql);
 
-    fwrite($fp,"779\r\n");
     $num_arr = array();
     while ($mms_receive = mysqli_fetch_array($gresult)) {
         array_push($num_arr, $mms_receive['recv_num']);
     }
-    fwrite($fp,"784\r\n");
     $recv_num = implode(",", $num_arr);
-    fwrite($fp,"786\r\n");
     $mem_id = $event_data['m_id'];
     $time = 60 - date("i");
     $reservation = "";
-    fwrite($fp,"790\r\n");
     $sql = "select * from Gn_event_sms_info where sms_idx='{$step_idx}'";
-    fwrite($fp,$sql."\r\n");
     $lresult = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
     while ($lrow = mysqli_fetch_array($lresult)) {
         $mem_id = $lrow['m_id'];
@@ -795,7 +784,6 @@ if ($mode == "land_save") {
         $reservation_title = $lrow['reservation_title'];
         $reg = time();
         $sql = "select * from Gn_event_sms_step_info where sms_idx='{$sms_idx}'";
-        fwrite($fp,$sql."\r\n");
         $result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
 
         while ($row = mysqli_fetch_array($result)) {
@@ -826,7 +814,6 @@ if ($mode == "land_save") {
         $query = "update Gn_event_oldrequest set end_date=NOW() where idx = '{$or_id}'";
     else
         $query = "update Gn_event_oldrequest set end_date='{$reservation}' where idx = '{$or_id}'";
-        fwrite($fp,$query."\r\n");
     mysqli_query($self_con, $query) or die(mysqli_error($self_con));
 
     echo "예약되었습니다.";

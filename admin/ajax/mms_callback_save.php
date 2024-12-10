@@ -19,23 +19,21 @@ if($mode == "save")
         $img_path = "http://www.kiam.kr".gcUpload($_FILES['img']['name'], $_FILES['img']['tmp_name'], $_FILES['img']['size'], "ad", $filename);
     }
     if($idx == "") {
-        $query="insert into gn_mms_callback set 
-                                    `title`          ='$title', 
-                                    `content`      ='$content', 
-                                    `img`        ='$img_path',
-                                    `iam_link`   = '$iam_link',
-                                    regdate=NOW()
-                                     ";
+        $query="insert into gn_mms_callback set `title`   = '{$title}', 
+                                                `content` = '{$content}', 
+                                                `img`     = '{$img_path}',
+                                                `iam_link`= '{$iam_link}',
+                                                regdate=NOW()";
         mysqli_query($self_con,$query);	
     } else {
         if($img_path)
-            $addQuery = " `img`        ='$img_path', ";
-        $query="update gn_mms_callback set `title`          ='$title', 
-                                    `content`      ='$content', 
-                                    `iam_link`   = '$iam_link',
-                                    $addQuery
-                                    regdate=NOW()
-                                    WHERE idx=$idx";
+            $addQuery = " `img` = '{$img_path}', ";
+        $query="update gn_mms_callback set `title`  = '{$title}', 
+                                            `content`  = '{$content}', 
+                                            `iam_link` = '{$iam_link}',
+                                            $addQuery
+                                            regdate=NOW()
+                                            WHERE idx=$idx";
         mysqli_query($self_con,$query);		
     }
     echo "<script>alert('저장되었습니다.');location='/admin/mms_callback_list.php';</script>";
@@ -49,14 +47,13 @@ else if($mode == "reg_msg")
         $filename = time().".".$ext;
         $call_img_path = "http://www.kiam.kr".gcUpload($_FILES['call_img']['name'], $_FILES['call_img']['tmp_name'], $_FILES['call_img']['size'], "ad", $filename);
     }
-    $query="insert into gn_mms_callback set 
-                                `title`          ='$call_title', 
-                                `content`      ='$call_content', 
-                                `img`        ='$call_img_path',
-                                `iam_link`   = '$iam_link',
-                                `type`       = 3,
-                                regdate=NOW(),
-                                service_state=1";
+    $query="insert into gn_mms_callback set `title`     ='{$call_title}', 
+                                            `content`   ='{$call_content}', 
+                                            `img`       ='{$call_img_path}',
+                                            `iam_link`  ='{$iam_link}',
+                                            `type`      = 3,
+                                            regdate=NOW(),
+                                            service_state=1";
     mysqli_query($self_con,$query);	
     $callback_no = mysqli_insert_id($self_con);
 
@@ -67,7 +64,20 @@ else if($mode == "reg_msg")
     $event_name_eng = "callback msg reg".$cur_time1;
     $pcode = "callbackmsg".$cur_time1;
 
-    $sql_event = "insert into Gn_event set event_name_kor='콜백메시지관리자설정동의', event_name_eng='$event_name_eng', event_title='{$msgtitle_call}', event_desc='{$msgdesc_call}', event_info='{$call_title}', event_sms_desc='{$call_content}', pcode='{$pcode}', event_type='{$iam_link}', mobile='{$row_mem['mem_phone']}', regdate='{$cur_time}', m_id='{$_SESSION['iam_member_id']}', read_cnt=0, object='{$call_img_path}', callback_no={$callback_no}";
+    $sql_event = "insert into Gn_event set event_name_kor='콜백메시지관리자설정동의', 
+                                            event_name_eng='{$event_name_eng}', 
+                                            event_title='{$msgtitle_call}', 
+                                            event_desc='{$msgdesc_call}', 
+                                            event_info='{$call_title}', 
+                                            event_sms_desc='{$call_content}', 
+                                            pcode='{$pcode}', 
+                                            event_type='{$iam_link}', 
+                                            mobile='{$row_mem['mem_phone']}', 
+                                            regdate='{$cur_time}', 
+                                            m_id='{$_SESSION['iam_member_id']}', 
+                                            read_cnt=0, 
+                                            object='{$call_img_path}', 
+                                            callback_no={$callback_no}";
     mysqli_query($self_con,$sql_event) or die(mysqli_error($self_con));
     $event_idx = mysqli_insert_id($self_con);
 
@@ -87,27 +97,32 @@ else if($mode == "servicesave"){
         $img_path = "http://www.kiam.kr".gcUpload($_FILES['img']['name'], $_FILES['img']['tmp_name'], $_FILES['img']['size'], "ad", $filename);
     }
     if($idx == "") {
-        $query="insert into gn_mms_callback set `title`          ='$title', 
-                                    `content`      ='$content', 
-                                    `img`        ='$img_path',
-                                    `iam_link`   = '$iam_link',
+        $query="insert into gn_mms_callback set `title`   ='{$title}', 
+                                                `content` ='{$content}', 
+                                                `img`     ='{$img_path}',
+                                                `iam_link`='{$iam_link}',
                                                 regdate=NOW()";
         mysqli_query($self_con,$query);	
     } else {
         if($img_path)
-            $addQuery = " `img`        ='$img_path', ";
-        $query="update gn_mms_callback set  `title`          ='$title', 
-                                    `content`      ='$content', 
-                                    `iam_link`   = '$iam_link',
-                                    $addQuery
-                                    regdate=NOW()
-                                    WHERE idx='$idx'";
+            $addQuery = " `img` ='{$img_path}', ";
+        $query="update gn_mms_callback set  `title`   = '{$title}', 
+                                            `content` = '{$content}', 
+                                            `iam_link`= '{$iam_link}',
+                                            $addQuery
+                                            regdate=NOW()
+                                            WHERE idx= {$idx}";
         mysqli_query($self_con,$query);		
     }
     if(isset($_POST['isservice'])){
         if($img_path)
-            $addQuery = " `object`        ='$img_path', ";
-        $query = "update Gn_event set event_info='$title', event_sms_desc='$content', event_type='$iam_link', $addQuery regdate=now() where callback_no='$idx'";
+            $addQuery = " `object`        ='{$img_path}', ";
+        $query = "update Gn_event set event_info='{$title}', 
+                                        event_sms_desc='{$content}', 
+                                        event_type='{$iam_link}', 
+                                        $addQuery 
+                                        regdate=now() 
+                                where callback_no='{$idx}'";
         mysqli_query($self_con,$query);
         echo "<script>alert('저장되었습니다.');location='/admin/mms_callback_list_service.php';</script>";
     }
@@ -119,17 +134,13 @@ else if($mode == "type")
 {
     if($type != 0)
     {
-        $query="update gn_mms_callback set type = 0 where type = '$type'";
+        $query="update gn_mms_callback set type = 0 where type = '{$type}'";
         mysqli_query($self_con,$query);
-        $query="update gn_mms_callback set `type`  ='$type', 
-                        regdate=NOW()
-                                            WHERE idx='$idx'";
+        $query="update gn_mms_callback set `type`  ='{$type}', regdate=NOW() WHERE idx='{$idx}'";
         mysqli_query($self_con,$query);
     }
     else{
-        $query="update gn_mms_callback set `type`          = 0, 
-                        regdate=NOW()
-                                        WHERE idx='$idx'";
+        $query="update gn_mms_callback set `type` = 0, regdate=NOW() WHERE idx='{$idx}'";
         mysqli_query($self_con,$query);
     }
 }
