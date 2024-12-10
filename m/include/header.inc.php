@@ -18,7 +18,7 @@ $sql_service = "select admin_app_home from Gn_Iam_Service where sub_domain like 
 $res_service = mysqli_query($self_con,$sql_service);
 $row_service = mysqli_fetch_array($res_service);
 
-if($row_service[admin_app_home]){
+if($row_service['admin_app_home']){
 	$site_iam = $row_iam[0];
 }
 else{
@@ -108,7 +108,7 @@ if(!$_SESSION['iam_member_id']){
 								$res = mysqli_query($self_con,$query);
 								while($data = mysqli_fetch_array($res)) {
 								?>
-								<a href="<?=$data[move_url]?>"><img src="<?=$data['img_url'];?>" alt="<?=$data['title'];?>" style="height:30px"></a>
+								<a href="<?=$data['move_url']?>"><img src="<?=$data['img_url'];?>" alt="<?=$data['title'];?>" style="height:30px"></a>
 								<?}?>
 							</h1>
 							<a href="javascript:goOnlyOneApp()" style="position: absolute;right: 0;top: 13px;">
