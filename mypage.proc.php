@@ -230,8 +230,6 @@ if ($mode == "land_save") {
         $sql .= " ,sms_idx3='{$step_idx3}'";
     if($stop_event_idx != "")
         $sql .= " ,stop_event_idx='{$stop_event_idx}'";
-    echo $sql;
-    exit;
     $result = mysqli_query($self_con, $sql);
     $event_idx = mysqli_insert_id($self_con);
 
