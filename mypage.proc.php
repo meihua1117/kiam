@@ -787,6 +787,7 @@ if ($mode == "land_save") {
     $reservation = "";
     $interval = IntervalDays(date("Y-m-d", time()), $reservation_date);
     $sql = "select * from Gn_event_sms_info where sms_idx='{$step_idx}'";
+    fwrite($fp,$sql."\r\n");
     $lresult = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
     while ($lrow = mysqli_fetch_array($lresult)) {
         $mem_id = $lrow['m_id'];
@@ -794,6 +795,7 @@ if ($mode == "land_save") {
         $reservation_title = $lrow['reservation_title'];
         $reg = time();
         $sql = "select * from Gn_event_sms_step_info where sms_idx='{$sms_idx}'";
+        fwrite($fp,$sql."\r\n");
         $result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
 
         while ($row = mysqli_fetch_array($result)) {
