@@ -239,8 +239,10 @@ $logs->add_log("start");
 													$group_idx = $row['request_idx'] * -1;
 													$sql_group = "select * from Gn_MMS_GROUP where idx='{$group_idx}' ";
 													$gresult = mysqli_query($self_con, $sql_group);
-													$grow = mysqli_fetch_array($gresult);
-													echo $grow['grp'];
+													if (mysqli_num_rows($gresult) > 0) {
+														$grow = mysqli_fetch_array($gresult);
+														echo $grow['grp'];
+													}
 												}
 												?>
 											</td>
