@@ -204,7 +204,10 @@ if ($mode == "land_save") {
         echo "<script>alert('중복되는 신청경로가 있습니다.');location='mypage_link_list.php';</script>";
         exit;
     }*/
-    $event_info = implode(",", $_POST['event_info']);
+    if($_POST['event_info'] != "")
+        $event_info = implode(",", $_POST['event_info']);
+    else
+        $event_info = "";
     $event_name_eng = $pcode = generateRandomString(10);
     $sql = "insert into Gn_event set event_name_kor='{$event_name_kor}',
                                      event_name_eng='{$event_name_eng}',
