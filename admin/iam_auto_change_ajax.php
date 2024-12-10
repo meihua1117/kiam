@@ -18,19 +18,19 @@ $email = $_POST['email'];
 $homepage = $_POST['homepage'];
 $address = $_POST['address'];
 $apply_link = $_POST['apply_link'];
-$query="update Gn_Iam_automem set memid = '$memid',
-                                    mem_name = '$mem_name',
-                                    db_source = '$db_source',
-                                    profile_self_info = '$info',
-                                    profile_company = '$company',
-                                    recommend_id = '$rID',
-                                    profile_telno = '$phone',
-                                    profile_email = '$email',
-                                    profile_homepage = '$homepage',
-                                    profile_address = '$address',
-                                    apply_link = '$apply_link',
+$query="update Gn_Iam_automem set memid = '{$memid}',
+                                    mem_name = '{$mem_name}',
+                                    db_source = '{$db_source}',
+                                    profile_self_info = '{$info}',
+                                    profile_company = '{$company}',
+                                    recommend_id = '{$rID}',
+                                    profile_telno = '{$phone}',
+                                    profile_email = '{$email}',
+                                    profile_homepage = '{$homepage}',
+                                    profile_address = '{$address}',
+                                    apply_link = '{$apply_link}',
                                     reg_date=now()
-        where memid = '$mem_id'";
+        where memid = '{$mem_id}'";
 mysqli_query($self_con,$query);
 
 echo json_encode(array("result"=>$result));

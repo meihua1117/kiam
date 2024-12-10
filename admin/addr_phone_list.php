@@ -119,9 +119,9 @@ $date_today=date("Y-m-d");
                                 // 검색 조건을 적용한다.
                                 $searchStr .= $search_word ? " AND ({$search_key} LIKE '%".$search_word."%') " : null;
                                 if($search_start_date && $search_end_date)
-                                    $searchStr .= " AND a.reservation_time >= '$search_start_date' and a.reservation_time <= '$search_end_date'";
+                                    $searchStr .= " AND a.reservation_time >= '{$search_start_date}' and a.reservation_time <= '{$search_end_date}'";
                                 if($search_status)
-                                    $searchStr .= " AND end_status='$search_status'";
+                                    $searchStr .= " AND end_status='{$search_status}'";
                                 $order = $order?$order:"desc";
                                 $query = "SELECT count(a.dest) FROM sm_data a ";
                                 $query .= " WHERE 1=1 $searchStr";

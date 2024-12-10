@@ -129,11 +129,11 @@ $date_today=date("Y-m-d");
                                     $searchStr .= $search_key ? " AND ({$search_key} LIKE '%".$search_word."%') " : null;
                                 }
                                 if($search_start_date && $search_end_date)
-                                    $searchStr .= " AND a.reg_date >= '$search_start_date' and a.reg_date <= '$search_end_date'";
+                                    $searchStr .= " AND a.reg_date >= '{$search_start_date}' and a.reg_date <= '{$search_end_date}'";
                                 if($search_leb )
-                                    $searchStr .= " AND mem_leb='$search_leb'";
+                                    $searchStr .= " AND mem_leb='{$search_leb}'";
                                 if($search_status)
-                                    $searchStr .= " AND end_status='$search_status'";
+                                    $searchStr .= " AND end_status='{$search_status}'";
                                 $order = $order?$order:"desc";
                                 $query = "SELECT count(a.mem_id) FROM Gn_MMS_Receive_Iam a ";
                                 $query .= " WHERE 1=1 $searchStr";

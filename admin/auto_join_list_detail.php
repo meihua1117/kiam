@@ -10,7 +10,7 @@ $date_month=date("Y-m");
 if($idx) {
     // 가입 회원 상세 정보
     $query = "select *
-                from Gn_event where event_idx='$idx'";
+                from Gn_event where event_idx='{$idx}'";
     $res = mysqli_query($self_con,$query);
     $data = mysqli_fetch_array($res);
 }

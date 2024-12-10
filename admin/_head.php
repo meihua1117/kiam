@@ -1,7 +1,7 @@
 <?
     include_once $path."lib/rlatjd_fun.php";
 
-    $sql = "select * from tjd_pay_result where buyer_id = '{$_SESSION['one_member_id']}' and end_date > '$date_today' and end_status in ('Y','A') order by end_date desc limit 1";
+    $sql = "select * from tjd_pay_result where buyer_id = '{$_SESSION['one_member_id']}' and end_date > '{$date_today}' and end_status in ('Y','A') order by end_date desc limit 1";
     $res_result = mysqli_query($self_con,$sql);
     $pay_data = mysqli_fetch_array($res_result);
     $rights = 0;
@@ -36,7 +36,7 @@
         
     }
     
-    $sql = "select * from tjd_pay_result where buyer_id = '{$_SESSION['one_member_id']}' and end_date > '$date_today'  and stop_yn='Y'";
+    $sql = "select * from tjd_pay_result where buyer_id = '{$_SESSION['one_member_id']}' and end_date > '{$date_today}'  and stop_yn='Y'";
     $res_result = mysqli_query($self_con,$sql);
     $stop = mysqli_fetch_array($res_result);    
     if($stop[stop_yn] == "Y") {

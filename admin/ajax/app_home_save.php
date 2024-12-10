@@ -81,13 +81,13 @@ if($idx == "") {
         $filename = time().".".$ext;
         $img_path = "http://www.kiam.kr".gcUpload($file_name, $temp_name, $file_size, "ad", $filename);
     }
-    $query="insert into Gn_App_Home_Manager set title  ='$title', 
-                                  move_url         ='$move_url', 
-                                  img_url        ='$img_path', 
-                                  ad_position      ='$ad_position', 
-                                  site_iam = '$site_iam',
-                                  display_order      ='$display_order',
-                                  reg_date = '$date', 
+    $query="insert into Gn_App_Home_Manager set title  ='{$title}', 
+                                  move_url         ='{$move_url}', 
+                                  img_url        ='{$img_path}', 
+                                  ad_position      ='{$ad_position}', 
+                                  site_iam = '{$site_iam}',
+                                  display_order      ='{$display_order}',
+                                  reg_date = '{$date}', 
                                   up_date='{$date}'";
     mysqli_query($self_con,$query);	
 } else {
@@ -101,24 +101,24 @@ if($idx == "") {
         $addQuery = " img_url        ='{$img_path}', ";
 
     if($mode == "save"){
-        $query="insert into Gn_App_Home_Manager set title ='$title', 
-                                                    move_url ='$move_url', 
-                                                    img_url ='$img_path', 
-                                                    ad_position ='$ad_position', 
-                                                    site_iam = '$site_iam',
-                                                    display_order ='$display_order',
-                                                    reg_date = '$date', 
+        $query="insert into Gn_App_Home_Manager set title ='{$title}', 
+                                                    move_url ='{$move_url}', 
+                                                    img_url ='{$img_path}', 
+                                                    ad_position ='{$ad_position}', 
+                                                    site_iam = '{$site_iam}',
+                                                    display_order ='{$display_order}',
+                                                    reg_date = '{$date}', 
                                                     up_date='{$date}'";
     }
     else{
-        $query="update  Gn_App_Home_Manager set title  ='$title', 
-                                                move_url ='$move_url', 
-                                                ad_position ='$ad_position', 
-                                                display_order ='$display_order', 
+        $query="update  Gn_App_Home_Manager set title  ='{$title}', 
+                                                move_url ='{$move_url}', 
+                                                ad_position ='{$ad_position}', 
+                                                display_order ='{$display_order}', 
                                                 $addQuery
-                                                site_iam ='$site_iam',
-                                                up_date = '$date'
-                                        WHERE idx='$idx'";
+                                                site_iam ='{$site_iam}',
+                                                up_date = '{$date}'
+                                        WHERE idx='{$idx}'";
     }
     mysqli_query($self_con,$query);	
 }

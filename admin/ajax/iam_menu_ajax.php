@@ -19,15 +19,15 @@ if($mode == "save"){
             $filename = time().".".$ext;
             $img_path = "http://www.kiam.kr".gcUpload($file_name, $temp_name, $file_size, "ad", $filename);
         }
-        $query="insert into Gn_Iam_Menu set `title`     ='$menu_title',
-                                        `menu_desc`     ='$menu_desc', 
-                                        `move_url`      ='$menu_move_url', 
-                                        `img_url`       ='$img_path', 
-                                        `menu_type`     ='$menu_type', 
-                                        `page_type`     ='$page_type', 
-                                        `site_iam`      ='$site_iam',
-                                        `display_order` ='$menu_display_order',
-                                        `reg_date`      ='$date'";
+        $query="insert into Gn_Iam_Menu set `title`     ='{$menu_title}',
+                                        `menu_desc`     ='{$menu_desc}', 
+                                        `move_url`      ='{$menu_move_url}', 
+                                        `img_url`       ='{$img_path}', 
+                                        `menu_type`     ='{$menu_type}', 
+                                        `page_type`     ='{$page_type}', 
+                                        `site_iam`      ='{$site_iam}',
+                                        `display_order` ='{$menu_display_order}',
+                                        `reg_date`      ='{$date}'";
         mysqli_query($self_con,$query);
         echo json_encode(array("result"=>"success","mode"=>$mode,"idx"=>$idx,"msg"=>"성공적으로 추가되었습니다."));	
     }else{
@@ -38,17 +38,17 @@ if($mode == "save"){
             $img_path = "http://www.kiam.kr".gcUpload($file_name, $temp_name, $file_size, "ad", $filename);
         }
         if($img_path)
-            $addQuery = " `img_url`        ='$img_path', ";
+            $addQuery = " `img_url`        ='{$img_path}', ";
     
-        $query="insert into Gn_Iam_Menu set `title` ='$menu_title', 
-                                            `menu_desc`  ='$menu_desc',
-                                            `move_url` ='$menu_move_url', 
-                                            `img_url` ='$img_path', 
-                                            `menu_type` ='$menu_type',
-                                            `page_type`     ='$page_type',  
-                                            `site_iam` = '$site_iam',
-                                            `display_order` ='$menu_display_order',
-                                            `reg_date` = '$date'";
+        $query="insert into Gn_Iam_Menu set `title` ='{$menu_title}', 
+                                            `menu_desc`  ='{$menu_desc}',
+                                            `move_url` ='{$menu_move_url}', 
+                                            `img_url` ='{$img_path}', 
+                                            `menu_type` ='{$menu_type}',
+                                            `page_type`     ='{$page_type}',  
+                                            `site_iam` = '{$site_iam}',
+                                            `display_order` ='{$menu_display_order}',
+                                            `reg_date` = '{$date}'";
         mysqli_query($self_con,$query) or die(mysqli_error($self_con));	
         echo json_encode(array("result"=>"success","mode"=>$mode,"idx"=>$idx,"msg"=>"성공적으로 추가되었습니다."));
     }
@@ -60,21 +60,21 @@ if($mode == "save"){
         $img_path = "http://www.kiam.kr".gcUpload($file_name, $temp_name, $file_size, "ad", $filename);
     }
     if($img_path)
-        $addQuery = " `img_url`        ='$img_path', ";
-    $query="update  Gn_Iam_Menu set `title`  ='$menu_title', 
-                                    `menu_desc`  ='$menu_desc',
-                                    `move_url` ='$menu_move_url', 
-                                    `menu_type` ='$menu_type', 
-                                    `page_type`     ='$page_type', 
-                                    `display_order` ='$menu_display_order', 
+        $addQuery = " `img_url`        ='{$img_path}', ";
+    $query="update  Gn_Iam_Menu set `title`  ='{$menu_title}', 
+                                    `menu_desc`  ='{$menu_desc}',
+                                    `move_url` ='{$menu_move_url}', 
+                                    `menu_type` ='{$menu_type}', 
+                                    `page_type`     ='{$page_type}', 
+                                    `display_order` ='{$menu_display_order}', 
                                     $addQuery
-                                    `site_iam` ='$site_iam',
-                                    `up_date` = '$date'
-                                    WHERE idx='$idx'";
+                                    `site_iam` ='{$site_iam}',
+                                    `up_date` = '{$date}'
+                                    WHERE idx='{$idx}'";
     mysqli_query($self_con,$query);
     echo json_encode(array("result"=>"success","mode"=>$mode,"idx"=>$idx,"msg"=>"성공적으로 저장되었습니다."));	
 }else if($mode == "del"){
-    $query="delete from Gn_Iam_Menu WHERE idx='$idx'";
+    $query="delete from Gn_Iam_Menu WHERE idx='{$idx}'";
     mysqli_query($self_con,$query);
     echo json_encode(array("result"=>"success","mode"=>$mode,"idx"=>$idx,"msg"=>"성공적으로 삭제되었습니다."));	
 }else if($mode == "set_show"){
@@ -100,7 +100,7 @@ if($mode == "save"){
                         $sql.=" $key='".addslashes($v)."',";
                     }
                 }
-                $sql .= "reg_date="."'$date'";
+                $sql .= "reg_date="."'{$date}'";
                 mysqli_query($self_con,$sql);
             }
         }

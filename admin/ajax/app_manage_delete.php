@@ -7,7 +7,7 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
 extract($_POST);
 
 
-    $query="delete from Gn_app_version WHERE seq='$seq'
+    $query="delete from Gn_app_version WHERE seq='{$seq}'
                                  ";
     mysqli_query($self_con,$query);	
 

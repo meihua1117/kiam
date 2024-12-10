@@ -47,11 +47,11 @@ while($data=mysqli_fetch_array($pay_res)) {
     //$ORDER_NO = $data['idx'];
     $buyer_id = $data['buyer_id'];
     if($data['member_type']=="전문가" || $data['member_type']=="단체용" || $data['member_type']=="베스트상품"){
-        $sql = "select site_iam from Gn_Member where mem_id = '$buyer_id'";
+        $sql = "select site_iam from Gn_Member where mem_id = '{$buyer_id}'";
         $res = mysqli_query($self_con,$sql);
         $row = mysqli_fetch_array($res);
         $site = $row[0];
-        $sql = "select count(mem_id) from Gn_Member where site_iam = '$site' and is_leave = 'N'";
+        $sql = "select count(mem_id) from Gn_Member where site_iam = '{$site}' and is_leave = 'N'";
         $res = mysqli_query($self_con,$sql);
         $row = mysqli_fetch_array($res);
         $mem_count = $row[0];
@@ -80,12 +80,12 @@ while($data=mysqli_fetch_array($pay_res)) {
     }
     if($data['payMethod'] == "MONTH"){
         $sql = "insert into tjd_pay_result_month set pay_idx='{$data['idx']}',
-                                                    order_number='$order_no',
+                                                    order_number='{$order_no}',
                                                     pay_yn='Y',
                                                     msg='셀링통장정기결제',
                                                     regdate = NOW(),
-                                                    amount='$price',
-                                                    buyer_id='$buyer_id'";
+                                                    amount='{$price}',
+                                                    buyer_id='{$buyer_id}'";
         mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
     }else{
         $order_no = $data['orderNumber'].date("Ym");
@@ -167,25 +167,25 @@ while($data=mysqli_fetch_array($pay_res)) {
             $CERT_YN          =getValue("cert_yn",$at_txt);
             $CONTRACT_YN      =getValue("contract_yn",$at_txt);
             $sql = "insert into tjd_pay_result_month set pay_idx='{$data['idx']}',
-                                                        order_number='$order_no',
+                                                        order_number='{$order_no}',
                                                         pay_yn='Y',
                                                         msg='성공_scheduler',
                                                         regdate = NOW(),
-                                                        amount='$price',
-                                                        buyer_id='$buyer_id'";
+                                                        amount='{$price}',
+                                                        buyer_id='{$buyer_id}'";
             mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
-            $sql = "update tjd_pay_result set monthly_yn='Y', end_status='Y',stop_yn='N' where  orderNumber='{$data['orderNumber']}' and buyer_id='$buyer_id'";
+            $sql = "update tjd_pay_result set monthly_yn='Y', end_status='Y',stop_yn='N' where  orderNumber='{$data['orderNumber']}' and buyer_id='{$buyer_id}'";
             mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
         } else {
             $sql = "insert into tjd_pay_result_month set pay_idx='{$data['idx']}',
-                                                        order_number='$order_no',
+                                                        order_number='{$order_no}',
                                                         regdate = NOW(),
                                                         pay_yn='N',
                                                         msg='".iconv("euc-kr","utf-8",$REPLYMSG)."_scheduler',
-                                                        amount='$price',
-                                                        buyer_id='$buyer_id'";
+                                                        amount='{$price}',
+                                                        buyer_id='{$buyer_id}'";
             mysqli_query($self_con,$sql) or die(mysqli_error($self_con));                        
-            $sql = "update tjd_pay_result set stop_yn='Y' where  orderNumber='{$data['orderNumber']}' and buyer_id='$buyer_id'";
+            $sql = "update tjd_pay_result set stop_yn='Y' where  orderNumber='{$data['orderNumber']}' and buyer_id='{$buyer_id}'";
             mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 
             $date_today=date("Y-m-d");
@@ -194,9 +194,9 @@ while($data=mysqli_fetch_array($pay_res)) {
             $member_type = $data['member_type'];
             $buyer_id = $data['buyer_id'];
             /*if($end_date > $date_today && ($end_status =='Y' || $end_status =='A')){
-                $sql = "update Gn_Service set status = 'N' where mem_id = '$buyer_id'";            
+                $sql = "update Gn_Service set status = 'N' where mem_id = '{$buyer_id}'";            
                 mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
-                $sql = "update Gn_Iam_Service set status = 'N' where mem_id = '$buyer_id'";            
+                $sql = "update Gn_Iam_Service set status = 'N' where mem_id = '{$buyer_id}'";            
                 mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
             }*/
             $sql="update crawler_member_real set status='N', search_email_yn='N', search_email_date='{$data['end_date']}', term='{$data['end_date']}' where user_id='{$data['buyer_id']}' ";

@@ -8,7 +8,7 @@ $date_today=date("Y-m-d");
 if($cam_id) {
     // 가입 회원 상세 정보
     $query = "select *
-                from Gn_Ad_Manager where cam_id='$cam_id'";
+                from Gn_Ad_Manager where cam_id='{$cam_id}'";
     $res = mysqli_query($self_con,$query);
     $data = mysqli_fetch_array($res);
 }

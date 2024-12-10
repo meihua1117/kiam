@@ -23,7 +23,7 @@ if(isset($_POST['url'])){
     $mall_res = mysqli_query($self_con,$mall_sql);
     while($mall_row = mysqli_fetch_array($mall_res)){
         $m_idx = $mall_row['idx'];
-        $m_sql="delete from Gn_Iam_Mall where card_idx = '$m_idx' and (mall_type = 3 or mall_type = 4)";
+        $m_sql="delete from Gn_Iam_Mall where card_idx = '{$m_idx}' and (mall_type = 3 or mall_type = 4)";
         mysqli_query($self_con,$m_sql) or die(mysqli_error($self_con));
     }
 
@@ -36,7 +36,7 @@ if(isset($_POST['url'])){
     $sql_contents = "delete from Gn_Iam_Con_Card where card_idx={$idx}";
     mysqli_query($self_con,$sql_contents);
 
-    $sql="delete from Gn_Iam_Mall where card_idx = '$idx' and mall_type = 2";
+    $sql="delete from Gn_Iam_Mall where card_idx = '{$idx}' and mall_type = 2";
     mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 
     $sql_info_id = "select id from crawler_iam_info where iam_link='{$_POST['url']}' and web_type='{$type}'";

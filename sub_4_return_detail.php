@@ -44,7 +44,7 @@ $recv_num = explode(",", $krow['recv_num']);
 $recv_num_in = "'" . implode("','", $recv_num) . "'";
 
 
-$sql_serch .= " and  send_num='$send_num' and recv_num in ($recv_num_in) and recv_num like '01%'  and regdate >= '$date' and sms not like '[%'";
+$sql_serch .= " and  send_num='{$send_num}' and recv_num in ($recv_num_in) and recv_num like '01%'  and regdate >= '{$date}' and sms not like '[%'";
 if ($_REQUEST['status2'])
 	$sql_serch .= " and msg_flag='{$_REQUEST['status2']}' ";
 if ($_REQUEST['serch_colum'] && $_REQUEST['serch_text']) {

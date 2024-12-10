@@ -194,9 +194,9 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                                 // 검색 조건을 적용한다.
                                 $searchStr = '1=1';
                                 if($sdate)
-                                    $searchStr .= " AND s.reg_date >= '$sdate'";
+                                    $searchStr .= " AND s.reg_date >= '{$sdate}'";
                                 if($edate)
-                                    $searchStr .= " AND s.reg_date <= '$edate'";
+                                    $searchStr .= " AND s.reg_date <= '{$edate}'";
 
                                 if($search_key){
                                     if($search_type == 'a')

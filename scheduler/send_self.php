@@ -60,10 +60,10 @@ function runSQL($self_con, $sql_all, $mem_id, $send_num, $url, $headers)
         $sidx = $row_all['idx'];
         $send_type = $row_all['type'];
 
-        $query = "UPDATE Gn_MMS SET  mem_id='$mem_id', send_num='$send_num' WHERE idx='$sidx'";
+        $query = "UPDATE Gn_MMS SET  mem_id='{$mem_id}', send_num='{$send_num}' WHERE idx='{$sidx}'";
         $result = mysqli_query($self_con, $query);
 
-        $query = "select * from Gn_MMS_Number where mem_Id='$mem_id' and sendnum='$send_num'";
+        $query = "select * from Gn_MMS_Number where mem_Id='{$mem_id}' and sendnum='{$send_num}'";
         $result = mysqli_query($self_con, $query);
         $info = mysqli_fetch_array($result);
         $pkey = $info['pkey'];

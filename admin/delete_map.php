@@ -15,14 +15,14 @@ if(isset($_POST['url'])){
     $sql_card = "delete from Gn_Iam_Name_Card where card_short_url='{$_POST['url']}'";
     mysqli_query($self_con,$sql_card);
 
-    $sql="delete from Gn_Iam_Mall where card_idx = '$idx' and mall_type = 2";
+    $sql="delete from Gn_Iam_Mall where card_idx = '{$idx}' and mall_type = 2";
     mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 
     $mall_sql = "select * from Gn_Iam_Contents where card_idx={$idx}";
     $mall_res = mysqli_query($self_con,$mall_sql);
     while($mall_row = mysqli_fetch_array($mall_res)){
         $m_idx = $mall_row['idx'];
-        $m_sql="delete from Gn_Iam_Mall where card_idx = '$m_idx' and (mall_type = 3 or mall_type = 4)";
+        $m_sql="delete from Gn_Iam_Mall where card_idx = '{$m_idx}' and (mall_type = 3 or mall_type = 4)";
         mysqli_query($self_con,$m_sql) or die(mysqli_error($self_con));
     }
 

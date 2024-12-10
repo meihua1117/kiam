@@ -17,7 +17,7 @@ if(isset($mb_id) && isset($mb_pass))
 	$check=true;
 }
 
-$sql="select mem_code, mem_id, is_leave, mem_leb, iam_leb,site, site_iam from Gn_Member use index(login_index) where mem_leb>0 and (mem_id = '$mb_id' and mem_code='$mem_code') ";
+$sql="select mem_code, mem_id, is_leave, mem_leb, iam_leb,site, site_iam from Gn_Member use index(login_index) where mem_leb>0 and (mem_id = '{$mb_id}' and mem_code='{$mem_code}') ";
 $resul=mysqli_query($self_con,$sql);
 $row=mysqli_fetch_array($resul);
 if($row['mem_code'] and $row['is_leave'] == 'N')

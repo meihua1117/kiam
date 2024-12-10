@@ -41,7 +41,7 @@ function generateRandomString($length = 10) {
         $randomString .= $characters[rand(0, $charactersLength - 1)];
     }
 
-    $name_count_sql="select count(idx) from Gn_Iam_Name_Card where card_short_url = '$randomString'";
+    $name_count_sql="select count(idx) from Gn_Iam_Name_Card where card_short_url = '{$randomString}'";
     $name_count_result=mysqli_query($self_con,$name_count_sql);
     $name_count_row=mysqli_fetch_array($name_count_result);
 

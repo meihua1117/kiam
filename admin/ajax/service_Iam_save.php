@@ -85,7 +85,7 @@ if ($_POST['mode'] == "creat") {
             $main_img1 = $card_row['main_img1'];
             $main_img2 = $card_row['main_img2'];
             $main_img3 = $card_row['main_img3'];
-            $name_card_sql = "update Gn_Iam_Name_Card set main_img1 = '$main_img1',main_img2 = '$main_img2',main_img3 = '$main_img3',up_data = now() where idx='$profile_idx'";
+            $name_card_sql = "update Gn_Iam_Name_Card set main_img1 = '{$main_img1}',main_img2 = '{$main_img2}',main_img3 = '{$main_img3}',up_data = now() where idx='{$profile_idx}'";
             mysqli_query($self_con, $name_card_sql) or die(mysqli_error($self_con));
         }
     }
@@ -257,7 +257,7 @@ if ($_POST['mode'] == "creat") {
         mysqli_query($self_con, $insert_short_url) or die(mysqli_error($self_con));
     }
 } else if ($_POST['mode'] == "updat") {
-    $query = "select * from Gn_Iam_Service where idx='$idx'";
+    $query = "select * from Gn_Iam_Service where idx='{$idx}'";
     $res = mysqli_query($self_con, $query);
     $data = mysqli_fetch_array($res);
     if ($data['dup_up_state']) {
@@ -315,86 +315,86 @@ if ($_POST['mode'] == "creat") {
     if ($profile_idx == "" || $profile_idx == 0) {
         $short_url = generateRandomString();
         $name_card_sql = "insert into Gn_Iam_Name_Card (mem_id, card_short_url, req_data,up_data, domain)" .
-            "values ('$mem_id', '$short_url',now(), now(),'$domain')";
+            "values ('{$mem_id}', '{$short_url}',now(), now(),'{$domain}')";
         mysqli_query($self_con, $name_card_sql) or die(mysqli_error($self_con));
         $profile_idx = mysqli_insert_id($self_con);
     }
     $addQuery = "";
     if ($head_logo)
-        $addQuery .= "head_logo='$head_logo',";
+        $addQuery .= "head_logo='{$head_logo}',";
     if ($footer_logo)
-        $addQuery .= "footer_logo='$footer_logo',";
+        $addQuery .= "footer_logo='{$footer_logo}',";
 
-    $query = "update  Gn_Iam_Service set `main_domain` ='$main_domain', 
-                                  `sub_domain` ='$sub_domain', 
-                                  mem_cnt ='$mem_cnt',
-                                  iamcard_cnt ='$iamcard_cnt',
-                                  send_content ='$send_content',
-                                  my_card_cnt ='$my_card_cnt',
-								  `communications_vendors` ='$communications_vendors',
-                                  `privacy` ='$privacy',
-                                  `email` ='$email',
-                                  `company_name` ='$company_name', 
-                                  brand_name='$brand_name',
-                                  business_number='$business_number',
-                                  contract_start_date='$contract_start_date',
-                                  contract_end_date='$contract_end_date',
-                                  mem_id='$mem_id',
-                                  mem_name='$mem_name',
-                                  `owner_name`      ='$owner_name',
-                                  `owner_cell`   ='$owner_cell', 
-                                  manager_name= '$manager_name',
-                                  manager_tel= '$manager_tel',
-                                  `fax` ='$fax',
-                                  `status`          ='$status', 
-                                  address ='$address',
-                                  web_theme='$web_theme',
-                                  home_link='$home_link',
-                                  profile_idx='$profile_idx',
-                                  footer_link='$footer_link',
-                                  share_price='$share_price',
-                                  month_price='$month_price',
-								  kakao='$kakao',
-								  kakao_api_key='$kakao_api_key',
-                                  pay_link='$pay_link',
-                                  service_type = '$service_type',
-                                  service_price = '$service_price',
-                                  service_price_exp = '$service_price1',
-                                  ai_card_point = '$ai_point',
-                                  auto_member_point = '$automem_point',
-                                  card_send_point = '$card_point',
-                                  contents_send_point = '$contents_point',
-                                  autodata_point = '$autodata_point',
-                                  ai_point_start = '$ai_start_date',
-                                  ai_point_end = '$ai_end_date',
-                                  automem_point_start = '$automem_start_date',
-                                  automem_point_end = '$automem_end_date',
-                                  card_point_start = '$card_start_date',
-                                  card_point_end = '$card_end_date',
-                                  contents_point_start = '$contents_start_date',
-                                  contents_point_end = '$contents_end_date',
-                                  autodata_point_start = '$autodata_start_date',
-                                  autodata_point_end = '$autodata_end_date',
-                                  self_share_card = '$self_share_card',
-                                  callback_set_point = '$callback_set_point',
-                                  callback_point_start = '$callback_start_date',
-                                  callback_point_end = '$callback_end_date',
-                                  daily_set_point = '$daily_set_point',
-                                  daily_point_start = '$daily_start_date',
-                                  daily_point_end = '$daily_end_date',
+    $query = "update  Gn_Iam_Service set `main_domain` ='{$main_domain}', 
+                                  `sub_domain` ='{$sub_domain}', 
+                                  mem_cnt ='{$mem_cnt}',
+                                  iamcard_cnt ='{$iamcard_cnt}',
+                                  send_content ='{$send_content}',
+                                  my_card_cnt ='{$my_card_cnt}',
+								  `communications_vendors` ='{$communications_vendors}',
+                                  `privacy` ='{$privacy}',
+                                  `email` ='{$email}',
+                                  `company_name` ='{$company_name}', 
+                                  brand_name='{$brand_name}',
+                                  business_number='{$business_number}',
+                                  contract_start_date='{$contract_start_date}',
+                                  contract_end_date='{$contract_end_date}',
+                                  mem_id='{$mem_id}',
+                                  mem_name='{$mem_name}',
+                                  `owner_name`      ='{$owner_name}',
+                                  `owner_cell`   ='{$owner_cell}', 
+                                  manager_name= '{$manager_name}',
+                                  manager_tel= '{$manager_tel}',
+                                  `fax` ='{$fax}',
+                                  `status`          ='{$status}', 
+                                  address ='{$address}',
+                                  web_theme='{$web_theme}',
+                                  home_link='{$home_link}',
+                                  profile_idx='{$profile_idx}',
+                                  footer_link='{$footer_link}',
+                                  share_price='{$share_price}',
+                                  month_price='{$month_price}',
+								  kakao='{$kakao}',
+								  kakao_api_key='{$kakao_api_key}',
+                                  pay_link='{$pay_link}',
+                                  service_type = '{$service_type}',
+                                  service_price = '{$service_price}',
+                                  service_price_exp = '{$service_price1}',
+                                  ai_card_point = '{$ai_point}',
+                                  auto_member_point = '{$automem_point}',
+                                  card_send_point = '{$card_point}',
+                                  contents_send_point = '{$contents_point}',
+                                  autodata_point = '{$autodata_point}',
+                                  ai_point_start = '{$ai_start_date}',
+                                  ai_point_end = '{$ai_end_date}',
+                                  automem_point_start = '{$automem_start_date}',
+                                  automem_point_end = '{$automem_end_date}',
+                                  card_point_start = '{$card_start_date}',
+                                  card_point_end = '{$card_end_date}',
+                                  contents_point_start = '{$contents_start_date}',
+                                  contents_point_end = '{$contents_end_date}',
+                                  autodata_point_start = '{$autodata_start_date}',
+                                  autodata_point_end = '{$autodata_end_date}',
+                                  self_share_card = '{$self_share_card}',
+                                  callback_set_point = '{$callback_set_point}',
+                                  callback_point_start = '{$callback_start_date}',
+                                  callback_point_end = '{$callback_end_date}',
+                                  daily_set_point = '{$daily_set_point}',
+                                  daily_point_start = '{$daily_start_date}',
+                                  daily_point_end = '{$daily_end_date}',
                                   $addQuery
-                                  `status` ='$status',
+                                  `status` ='{$status}',
                                   dup_up_state=0
-                         WHERE idx='$idx'";
+                         WHERE idx='{$idx}'";
     mysqli_query($self_con, $query);
     $card_cnt_off = $old_card_cnt - $iamcard_cnt;
     $share_cnt_off = $old_send_content - $send_content;
     $my_cnt_off = $old_my_card_cnt - $my_card_cnt;
-    $sql = "select site_iam from Gn_Member where mem_id='$mem_id'";
+    $sql = "select site_iam from Gn_Member where mem_id='{$mem_id}'";
     $res = mysqli_query($self_con, $sql);
     $row = mysqli_fetch_array($res);
     $site = $row[0];
-    $sql = "select mem_id,iam_card_cnt, iam_share_cnt from Gn_Member where site_iam='$site' order by mem_code";
+    $sql = "select mem_id,iam_card_cnt, iam_share_cnt from Gn_Member where site_iam='{$site}' order by mem_code";
     $result = mysqli_query($self_con, $sql);
     while ($row = mysqli_fetch_array($result)) {
         if ($row['mem_id'] == $mem_id)
@@ -402,11 +402,11 @@ if ($_POST['mode'] == "creat") {
         else
             $iam_card_cnt = $row['iam_card_cnt'] - $card_cnt_off;
         $iam_share_cnt = $row['iam_share_cnt'] - $share_cnt_off;
-        $query = "update Gn_Member set iam_card_cnt = '$iam_card_cnt',iam_share_cnt = '$iam_share_cnt' where mem_id = '{$row['mem_id']}'";
+        $query = "update Gn_Member set iam_card_cnt = '{$iam_card_cnt}',iam_share_cnt = '{$iam_share_cnt}' where mem_id = '{$row['mem_id']}'";
         mysqli_query($self_con, $query);
     }
 } else if ($_POST['mode'] == "del") {
-    $query = "delete from Gn_Iam_Service WHERE idx='$idx'";
+    $query = "delete from Gn_Iam_Service WHERE idx='{$idx}'";
     mysqli_query($self_con, $query);
 } else if ($_POST['mode'] == "check_service") {
     if (count(explode(".", $sub_domain)) == 1)

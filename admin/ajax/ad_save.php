@@ -14,16 +14,16 @@ if($gaid == "") {
         $filename = time().".".$ext;
         $img_path = gcUpload($_FILES['img']['name'], $_FILES['img']['tmp_name'], $_FILES['img']['size'], "ad", $filename);
     }
-    $query="insert into Gn_Ad set `client`          ='$client', 
-                                  `start_date`      ='$start_date', 
-                                  `send_start_date` ='$send_start_date', 
-                                  `send_end_date`   ='$send_end_date', 
-                                  `send_count`      ='$send_count', 
-                                  `title`           ='$title', 
-                                  `content`         ='$content', 
-                                  `img_path`        ='$img_path', 
-                                  `sort_order`      ='$sort_order', 
-                                  `status`          ='$status', 
+    $query="insert into Gn_Ad set `client`          ='{$client}', 
+                                  `start_date`      ='{$start_date}', 
+                                  `send_start_date` ='{$send_start_date}', 
+                                  `send_end_date`   ='{$send_end_date}', 
+                                  `send_count`      ='{$send_count}', 
+                                  `title`           ='{$title}', 
+                                  `content`         ='{$content}', 
+                                  `img_path`        ='{$img_path}', 
+                                  `sort_order`      ='{$sort_order}', 
+                                  `status`          ='{$status}', 
                                   `regdate`         =NOW() 
                                  ";
     mysqli_query($self_con,$query);	
@@ -35,18 +35,18 @@ if($gaid == "") {
         $img_path = gcUpload($_FILES['img']['name'], $_FILES['img']['tmp_name'], $_FILES['img']['size'], "ad", $filename);
     }
     if($img_path)
-        $addQuery = " `img_path`        ='$img_path', ";
-    $query="update      Gn_Ad set `client`          ='$client', 
-                                  `start_date`      ='$start_date', 
-                                  `send_start_date` ='$send_start_date', 
-                                  `send_end_date`   ='$send_end_date', 
-                                  `send_count`      ='$send_count', 
-                                  `title`           ='$title', 
-                                  `content`         ='$content', 
+        $addQuery = " `img_path`        ='{$img_path}', ";
+    $query="update      Gn_Ad set `client`          ='{$client}', 
+                                  `start_date`      ='{$start_date}', 
+                                  `send_start_date` ='{$send_start_date}', 
+                                  `send_end_date`   ='{$send_end_date}', 
+                                  `send_count`      ='{$send_count}', 
+                                  `title`           ='{$title}', 
+                                  `content`         ='{$content}', 
                                   $addQuery
-                                  `status`          ='$status', 
+                                  `status`          ='{$status}', 
                                   `moddate`         =NOW()
-                         WHERE gaid='$gaid'
+                         WHERE gaid='{$gaid}'
                                  ";
     mysqli_query($self_con,$query);	
 }

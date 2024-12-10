@@ -100,10 +100,10 @@ else{
     $query_d = mysqli_query($self_con,$sql_d);
   }
   
-  $sql = "insert into call_app_log (api_name, mem_id, send_num, recv_num, sms, regdate) values ('sync_address', '$id', '$id', '', '$mem_id', now())";
+  $sql = "insert into call_app_log (api_name, mem_id, send_num, recv_num, sms, regdate) values ('sync_address', '{$id}', '{$id}', '', '{$mem_id}', now())";
   mysqli_query($self_con,$sql);
   
-  $sql="select mem_id from Gn_Member where REPLACE(mem_phone,'-','') ='$id' order by mem_code desc ";
+  $sql="select mem_id from Gn_Member where REPLACE(mem_phone,'-','') ='{$id}' order by mem_code desc ";
   $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
   $member_info = $row=mysqli_fetch_array($result); 
   if($mem_id == "")
@@ -112,13 +112,13 @@ else{
   $sql = "SET NAMES utf8;";
   mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
   
-  $sql="select * from Gn_MMS_Group where mem_id='$mem_id' and grp='아이엠'";
+  $sql="select * from Gn_MMS_Group where mem_id='{$mem_id}' and grp='아이엠'";
   $result_ = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
   $data = mysqli_fetch_array($result_);
   if($data['idx'] != ""){
     $idx  = $data['idx'];
   }else{
-    $query = "insert into Gn_MMS_Group set mem_id='$mem_id', grp='아이엠', reg_date=NOW()";
+    $query = "insert into Gn_MMS_Group set mem_id='{$mem_id}', grp='아이엠', reg_date=NOW()";
     mysqli_query($self_con,$query);
     $idx = mysqli_insert_id($self_con);
   }  
@@ -129,12 +129,12 @@ else{
   // fwrite($GLOBALS['fp'], "grp_idx::".$idx . "\n");
   
   // Cooper Add 앱 콜 일어나는지 확인로그
-  $sql = "insert into call_app_log (api_name, mem_id, send_num, recv_num, sms, regdate) values ('sync_address', '$id', '$id', '$mem_id', '$address', now())";
+  $sql = "insert into call_app_log (api_name, mem_id, send_num, recv_num, sms, regdate) values ('sync_address', '{$id}', '{$id}', '{$mem_id}', '{$address}', now())";
   mysqli_query($self_con,$sql);
   
-  //$query = "delete from Gn_MMS_Receive where mem_id='$mem_id' and grp_id='$idx' and iam=1";
+  //$query = "delete from Gn_MMS_Receive where mem_id='{$mem_id}' and grp_id='{$idx}' and iam=1";
   //mysqli_query($self_con,$query);
-  $query = "delete from Gn_MMS_Receive_Iam where mem_id='$mem_id' and paper_yn=0";
+  $query = "delete from Gn_MMS_Receive_Iam where mem_id='{$mem_id}' and paper_yn=0";
   mysqli_query($self_con,$query);
   $acnt = 0;
   for($i=0;$i<count($addr);$i++)
@@ -195,7 +195,7 @@ else{
         $iam[$num]['num'] = $num;
         /*
         if($mem_id != "") {
-                  $query = "insert into Gn_MMS_Receive set mem_id='$mem_id', grp_id='$idx', iam=1, grp='아이엠', grp_2='아이엠', name='$name', recv_num='$num',reg_date=NOW()";
+                  $query = "insert into Gn_MMS_Receive set mem_id='{$mem_id}', grp_id='{$idx}', iam=1, grp='아이엠', grp_2='아이엠', name='{$name}', recv_num='{$num}',reg_date=NOW()";
                   mysqli_query($self_con,$query);			
                   
                   $acnt++;
@@ -208,10 +208,10 @@ else{
   }
   foreach($iam as $key=>$value) {
     if($mem_id != "") {
-          //$query = "insert into Gn_MMS_Receive set mem_id='$mem_id', send_num='$id', grp_id='$idx', iam=1, grp='아이엠', grp_2='아이엠', name='$value['name']', recv_num='$value['num']',reg_date=NOW()";
+          //$query = "insert into Gn_MMS_Receive set mem_id='{$mem_id}', send_num='{$id}', grp_id='{$idx}', iam=1, grp='아이엠', grp_2='아이엠', name='$value['name']', recv_num='$value['num']',reg_date=NOW()";
           //mysqli_query($self_con,$query);	
           
-          $query = "insert into Gn_MMS_Receive_Iam set mem_id='$mem_id', send_num='$id', grp_id='$idx', iam=1, grp='아이엠', grp_2='아이엠', name='{$value['name']}', recv_num='{$value['num']}',reg_date=NOW()";
+          $query = "insert into Gn_MMS_Receive_Iam set mem_id='{$mem_id}', send_num='{$id}', grp_id='{$idx}', iam=1, grp='아이엠', grp_2='아이엠', name='{$value['name']}', recv_num='{$value['num']}',reg_date=NOW()";
           $res = mysqli_query($self_con,$query);
           /*if($res){
             fwrite($GLOBALS['fp'], "insert Gn_MMS_Receive_Iam success!!\n");
@@ -226,7 +226,7 @@ else{
   // fwrite($GLOBALS['fp'], "final_result>>".$query."\n");
   if($query)
   {
-      $sql="update Gn_MMS_Group set count='$acnt' where idx='$idx' and grp='아이엠'";
+      $sql="update Gn_MMS_Group set count='{$acnt}' where idx='{$idx}' and grp='아이엠'";
       mysqli_query($self_con,$sql) or die(mysqli_error($self_con));    
     $result = 0;
   }
@@ -239,15 +239,15 @@ else{
   if(strlen($phone_num) > 0)
   {
     $time = date("Y-m-d H:i:s");
-    $sql="select idx from call_api_log where phone_num='$phone_num'";
+    $sql="select idx from call_api_log where phone_num='{$phone_num}'";
     $res=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
     $row=mysqli_fetch_array($res);
     if($row['idx'] != "") {
-      $sql="update call_api_log set sync_address='$time' where idx='{$row['idx']}'";
+      $sql="update call_api_log set sync_address='{$time}' where idx='{$row['idx']}'";
       $res = mysqli_query($self_con,$sql);	
     }
     else{
-      $sql ="insert into call_api_log set sync_address='$time', phone_num='$phone_num'";
+      $sql ="insert into call_api_log set sync_address='{$time}', phone_num='{$phone_num}'";
       $res = mysqli_query($self_con,$sql);	
     }
     /*if($res){

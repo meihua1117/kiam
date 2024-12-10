@@ -19,12 +19,12 @@ if (!$_SESSION['one_member_id']) {
 	mysqli_free_result($res_result);
 	$trialLimit = date("Y-m-d 23:59:59", strtotime($rsJoinDate[0] . "+0 days")); //회원가입일+3일
 	/*
-	$sql = "select add_phone from tjd_pay_result where buyer_id = '{$_SESSION['one_member_id']}' and end_date > '$date_today'  and end_status in ('Y','A') order by no desc limit 1";
+	$sql = "select add_phone from tjd_pay_result where buyer_id = '{$_SESSION['one_member_id']}' and end_date > '{$date_today}'  and end_status in ('Y','A') order by no desc limit 1";
 	$res_result = mysqli_query($self_con,$sql);
 	//결제 휴대폰 수
 	$buyPhoneCnt = mysqli_fetch_row($res_result);
 	*/
-	$sql = "select sum(add_phone) add_phone from tjd_pay_result where buyer_id = '{$_SESSION['one_member_id']}' and end_date > '$date_today'  and end_status in ('Y','A') and gwc_cont_pay=0 order by no desc limit 1";
+	$sql = "select sum(add_phone) add_phone from tjd_pay_result where buyer_id = '{$_SESSION['one_member_id']}' and end_date > '{$date_today}'  and end_status in ('Y','A') and gwc_cont_pay=0 order by no desc limit 1";
 	$res_result = mysqli_query($self_con, $sql);
 	//결제 휴대폰 수
 	$buyPhoneCnt = mysqli_fetch_row($res_result);
@@ -553,21 +553,21 @@ if (!$_SESSION['one_member_id']) {
 											$send_donation_cnt = 0; //$row['gl_cnt'] //기부 받은 수 중 발송 수
 											$send_person_cnt = 0; //개인 할당 분 발송 수
 											$monthly_limit_ssh = $memo2 ? $agency_arr[$memo2] : 800; //월별 수신처 제한 수 
-											$sql_num = "update Gn_MMS_Number set max_cnt = $donation_cnt,gl_cnt = $person_cnt where mem_id='{$_SESSION['one_member_id']}' and sendnum='$sendnum' ";
+											$sql_num = "update Gn_MMS_Number set max_cnt = $donation_cnt,gl_cnt = $person_cnt where mem_id='{$_SESSION['one_member_id']}' and sendnum='{$sendnum}' ";
 											mysqli_query($self_con, $sql_num);
 											//금일 발송 건수
-											$sql_result2_g = "select SUM(recv_num_cnt) from Gn_MMS where send_num='$sendnum' and ((reg_date like '$date_today%' and reservation is null) or up_date like '$date_today%')";
+											$sql_result2_g = "select SUM(recv_num_cnt) from Gn_MMS where send_num='{$sendnum}' and ((reg_date like '$date_today%' and reservation is null) or up_date like '$date_today%')";
 											$res_result2_g = mysqli_query($self_con, $sql_result2_g);
 											$row_result2_g = mysqli_fetch_array($res_result2_g);
 											$send_donation_cnt += $row_result2_g[0] * 1;
 											mysqli_free_result($res_result2_g);
 											if (($donation_cnt - $send_donation_cnt) >= 0) {
-												$sql_cnt_u = "update Gn_MMS_Number set user_cnt=$donation_cnt - $send_donation_cnt-2 where idx='$idx' ";
+												$sql_cnt_u = "update Gn_MMS_Number set user_cnt=$donation_cnt - $send_donation_cnt-2 where idx='{$idx}' ";
 												mysqli_query($self_con, $sql_cnt_u);
 											}
 											//이번달 총 발송 건 수
 											$month_cnt_1 = 0;
-											$sql_result_g = "select SUM(recv_num_cnt) from Gn_MMS where send_num='$sendnum' and (reg_date like '$date_month%'  or reservation like '$date_month%') ";
+											$sql_result_g = "select SUM(recv_num_cnt) from Gn_MMS where send_num='{$sendnum}' and (reg_date like '$date_month%'  or reservation like '$date_month%') ";
 											$res_result_g = mysqli_query($self_con, $sql_result_g);
 											$row_result_g = mysqli_fetch_array($res_result_g);
 											$month_cnt_1 += $row_result_g[0] * 1;
@@ -575,7 +575,7 @@ if (!$_SESSION['one_member_id']) {
 											//이번 달 총 수신처 수
 											$ssh_cnt = 0;
 											$ssh_numT = array();
-											$sql_ssh = "select recv_num from Gn_MMS where send_num='$sendnum' and (reg_date like '$date_month%' or reservation like '$date_month%')  group by(recv_num)";
+											$sql_ssh = "select recv_num from Gn_MMS where send_num='{$sendnum}' and (reg_date like '$date_month%' or reservation like '$date_month%')  group by(recv_num)";
 											$result_ssh = mysqli_query($self_con, $sql_ssh);
 											while ($row_ssh = mysqli_fetch_array($result_ssh)) {
 												$ssh_arr = explode(",", $row_ssh['recv_num']);
@@ -584,7 +584,7 @@ if (!$_SESSION['one_member_id']) {
 											$ssh_arr = array_unique($ssh_numT);
 											$ssh_cnt = count($ssh_arr);
 											mysqli_free_result($result_ssh);
-											$sql_s = "select status from Gn_MMS_status where send_num	='$sendnum' and recv_num	='$sendnum' order by regdate desc limit 1 ";
+											$sql_s = "select status from Gn_MMS_status where send_num	='{$sendnum}' and recv_num	='{$sendnum}' order by regdate desc limit 1 ";
 											$resul_s = mysqli_query($self_con, $sql_s);
 											$row_s = mysqli_fetch_array($resul_s);
 											$row_s['status'] = -1;

@@ -12,17 +12,17 @@ if($mode == "save")
     
     if($seq == "") {
         $query="insert into Gn_app_version set 
-                                    `app_code`  ='$app_code', 
-                                    `app_version` ='$app_version', 
+                                    `app_code`  ='{$app_code}', 
+                                    `app_version` ='{$app_version}', 
                                     createAt=NOW()
                                      ";                      
         mysqli_query($self_con,$query);	
     } else {
         $query="update Gn_app_version set 
-                                    `app_code`  ='$app_code', 
-                                    `app_version` ='$app_version', 
+                                    `app_code`  ='{$app_code}', 
+                                    `app_version` ='{$app_version}', 
                                     createAt=NOW()
-                             WHERE seq='$seq'
+                             WHERE seq='{$seq}'
                                      ";
         mysqli_query($self_con,$query);		
     }
@@ -32,12 +32,12 @@ else if($mode == "type")
 {
     if($type != 0)
     {
-        $query="update Gn_app_version set type = 0 where type = '$type'";
+        $query="update Gn_app_version set type = 0 where type = '{$type}'";
         mysqli_query($self_con,$query);
         $query="update Gn_app_version set 
-                        `type`          ='$type', 
+                        `type`          ='{$type}', 
                         createAt=NOW()
-                        WHERE seq='$seq'
+                        WHERE seq='{$seq}'
                         ";
         mysqli_query($self_con,$query);
     }
@@ -45,7 +45,7 @@ else if($mode == "type")
         $query="update Gn_app_version set 
                         `type`          = 0, 
                         createAt=NOW()
-                        WHERE seq='$seq'
+                        WHERE seq='{$seq}'
                         ";
         mysqli_query($self_con,$query);
     }

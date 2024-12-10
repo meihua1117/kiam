@@ -242,39 +242,39 @@ if($_SESSION['form_submit'])
                             
             if($crow[0] == "") {
 
-                $query = "insert into crawler_member_real set user_id='$user_id',
-                                                    user_name='$user_name',
-                                                    password='$password',
-                                                    cell='$cell',
-                                                    email='$email',
-                                                    address='$address',
-                                                    term='$term',
-                                                    status='$status',
-                                                    use_cnt='$use_cnt',
+                $query = "insert into crawler_member_real set user_id='{$user_id}',
+                                                    user_name='{$user_name}',
+                                                    password='{$password}',
+                                                    cell='{$cell}',
+                                                    email='{$email}',
+                                                    address='{$address}',
+                                                    term='{$term}',
+                                                    status='{$status}',
+                                                    use_cnt='{$use_cnt}',
                                                     regdate=NOW(),
                                                     search_email_yn='Y',
-                                                    search_email_date='$search_email_date',
-                                                    search_email_cnt='$search_email_cnt',
-                                                    shopping_end_date='$search_email_date'";
+                                                    search_email_date='{$search_email_date}',
+                                                    search_email_cnt='{$search_email_cnt}',
+                                                    shopping_end_date='{$search_email_date}'";
                  mysqli_query($self_con,$query);
             } else {
                 $query = "update crawler_member_real set 
-                                                    cell='$cell',
-                                                    email='$email',
-                                                    address='$address',
-                                                    term='$term',
-                                                    status='$status',
-                                                    use_cnt='$use_cnt',
+                                                    cell='{$cell}',
+                                                    email='{$email}',
+                                                    address='{$address}',
+                                                    term='{$term}',
+                                                    status='{$status}',
+                                                    use_cnt='{$use_cnt}',
                                                     monthly_cnt = 0,
                                                     total_cnt = 0,                                                    
                                                     regdate=NOW(),
                                                     search_email_yn='Y',
-                                                    search_email_date='$search_email_date',
-                                                    search_email_cnt='$search_email_cnt',
+                                                    search_email_date='{$search_email_date}',
+                                                    search_email_cnt='{$search_email_cnt}',
                                                     shopping_yn='N',
-                                                    shopping_end_date='$search_email_date',
+                                                    shopping_end_date='{$search_email_date}',
                                                     status='Y'
-                                                    where user_id='$user_id'
+                                                    where user_id='{$user_id}'
                                                     ";
                  mysqli_query($self_con,$query);                
             }
@@ -318,18 +318,18 @@ if($_SESSION['form_submit'])
                         //$recommend_type = 50;
                      }
                     
-                	$sql_m="update Gn_Member set   recommend_type='$recommend_type' where mem_id='{$member_1['mem_id']}' ";
+                	$sql_m="update Gn_Member set   recommend_type='{$recommend_type}' where mem_id='{$member_1['mem_id']}' ";
                 	mysqli_query($self_con,$sql_m)or die(mysqli_error($self_con));			
                 	
                 	//$share_per = $recommend_type;
                 	
-                	$sql = "update tjd_pay_result set share_per='$share_per', branch_share_per = '$branch_share_per', share_id='{$srow['recommend_id']}', branch_share_id='$branch_share_id' where no='$no'";
+                	$sql = "update tjd_pay_result set share_per='{$share_per}', branch_share_per = '{$branch_share_per}', share_id='{$srow['recommend_id']}', branch_share_id='{$branch_share_id}' where no='{$no}'";
                 	mysqli_query($self_con,$sql)or die(mysqli_error($self_con));			
                 }
                 
             } else {
                 //if($member_type=="기본문자" || $member_type=="Personal-월간결제" || $member_type=="Personal-년간결제") {
-                //	$sql = "update tjd_pay_result set share_per='50', branch_share_per = '0' where no='$no'";
+                //	$sql = "update tjd_pay_result set share_per='50', branch_share_per = '0' where no='{$no}'";
                 //	mysqli_query($self_con,$sql)or die(mysqli_error($self_con));			        
                 //}
             }

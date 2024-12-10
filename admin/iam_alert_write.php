@@ -3,7 +3,7 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
 include_once $_SERVER['DOCUMENT_ROOT']."/admin/include/admin_header.inc.php";
 extract($_GET);
 if($no) {
-    $query = "select * from gn_alert where no='$no'";
+    $query = "select * from gn_alert where no='{$no}'";
     $res = mysqli_query($self_con,$query);
     $data = mysqli_fetch_array($res);
 }

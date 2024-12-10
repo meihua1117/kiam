@@ -182,7 +182,7 @@ $date_month=date("Y-m");
                             $searchStr .= $search_key ? " AND a.mem_id LIKE '%".$search_key."%'" : null;
 
                             if($search_start_date && $search_end_date)
-                                    $searchStr .= " AND a.reg_date >= '$search_start_date' and a.reg_date <= '$search_end_date'";
+                                    $searchStr .= " AND a.reg_date >= '{$search_start_date}' and a.reg_date <= '{$search_end_date}'";
                             if($settle_type)
                                 $searchStr .= " AND a.state='{$settle_type}'";
 

@@ -33,25 +33,25 @@ while($row=mysqli_fetch_array($res)){
     $site = 'kiam';
     $profile_logo = "/iam/img/common/logo-2.png";
     $profile_self_info = $row['profile_self_info'];
-    $query_automem = "update Gn_Iam_automem set memid ='$memid' where memid='$old_memid'";
+    $query_automem = "update Gn_Iam_automem set memid ='{$memid}' where memid='{$old_memid}'";
     mysqli_query($self_con,$query_automem);
     //password()
-    $query_join = "insert into Gn_Member set mem_id='$memid',
+    $query_join = "insert into Gn_Member set mem_id='{$memid}',
                                             mem_leb=22,
-                                            web_pwd=md5('$passwd'),
-                                            mem_pass=md5('$passwd'),
-                                            mem_name='$name',
-                                            mem_nick='$name',
-                                            mem_phone='$phone_number',
-                                            zy='$company',
+                                            web_pwd=md5('{$passwd}'),
+                                            mem_pass=md5('{$passwd}'),
+                                            mem_name='{$name}',
+                                            mem_nick='{$name}',
+                                            mem_phone='{$phone_number}',
+                                            zy='{$company}',
                                             first_regist=now(),
                                             mem_check=now(),
-                                            mem_add1='$address',
-                                            mem_email='$email',
-                                            recommend_id='$friend',
-                                            site='$site',
-                                            site_iam='$site',
-                                            mem_birth='$birthday'";
+                                            mem_add1='{$address}',
+                                            mem_email='{$email}',
+                                            recommend_id='{$friend}',
+                                            site='{$site}',
+                                            site_iam='{$site}',
+                                            mem_birth='{$birthday}'";
     mysqli_query($self_con,$query_join);
     $homepage = $row['profile_homepage'];
     $homepage = preg_replace('/http/is', 'https', $homepage);
@@ -122,10 +122,10 @@ while($row=mysqli_fetch_array($res)){
         $iam_makingURL = '/?' . $short_url;
         $apply_link = '/admin/iam_auto_make_check.php?memid=' . $memid;
         $query_contents = "update Gn_Iam_automem set image1 ='$profile_image[0]',image2 ='$profile_image[1]',image3 ='$profile_image[2]',
-                        iam_making = '$iam_makingURL', apply_link = '$apply_link', status = 0,reg_date=now() where `No`='{$row['no']}'";
+                        iam_making = '{$iam_makingURL}', apply_link = '{$apply_link}', status = 0,reg_date=now() where `No`='{$row['no']}'";
         mysqli_query($self_con,$query_contents);
         $query_info = "insert into Gn_Iam_Info (mem_id,main_img1,main_img2,main_img3, reg_data) 
-                    values ('$memid','$profile_image[0]','$profile_image[1]','$profile_image[2]', now())";
+                    values ('{$memid}','$profile_image[0]','$profile_image[1]','$profile_image[2]', now())";
         mysqli_query($self_con,$query_info);
         $card_position = $profile_self_info;
         $card_map = '';
@@ -164,29 +164,29 @@ while($row=mysqli_fetch_array($res)){
                                 phone_display, 
                                 req_data,
                                 up_data) 
-                        values ('$memid', 
-                                '$short_url', 
-                                '$name', 
-                                '$phone_number', 
-                                '$email', 
-                                '$address', 
-                                '$profile_logo',
-                                '$profile_self_info',
+                        values ('{$memid}', 
+                                '{$short_url}', 
+                                '{$name}', 
+                                '{$phone_number}', 
+                                '{$email}', 
+                                '{$address}', 
+                                '{$profile_logo}',
+                                '{$profile_self_info}',
                                 '$profile_image[0]',
                                 '$profile_image[1]',
                                 '$profile_image[2]',
-                                '$company',
-                                '$card_position',  
-                                '$card_map', 
-                                '$card_keyword',  
-                                '$favorite', 
-                                '$story_title4', 
-                                '$story_online1_text',
-                                '$homepage', 
-                                '$online1_check', 
-                                '$story_online2_text', 
-                                '$story_online2', 
-                                '$online2_check',
+                                '{$company}',
+                                '{$card_position}',  
+                                '{$card_map}', 
+                                '{$card_keyword}',  
+                                '{$favorite}', 
+                                '{$story_title4}', 
+                                '{$story_online1_text}',
+                                '{$homepage}', 
+                                '{$online1_check}', 
+                                '{$story_online2_text}', 
+                                '{$story_online2}', 
+                                '{$online2_check}',
                                 'N',
                                  now(), 
                                  now())";
@@ -234,27 +234,27 @@ while($row=mysqli_fetch_array($res)){
               card_idx,
               contents_order
               )values 
-              ('$memid', 
-              '$contents_type', 
+              ('{$memid}', 
+              '{$contents_type}', 
               '$profile_image[$i]', 
               '$profile_title[$i]', 
               '$profile_link[$i]', 
-              '$contents_url_title', 
-              '$contents_iframe', 
-              '$contents_price', 
-              '$contents_sell_price', 
-              '$contents_desc', 
-              '$contents_display',
-              '$contents_westory_display', 
-              '$contents_user_display', 
-              '$contents_type_display', 
-              '$contents_footer_display', 
-              '$contents_temp', 
+              '{$contents_url_title}', 
+              '{$contents_iframe}', 
+              '{$contents_price}', 
+              '{$contents_sell_price}', 
+              '{$contents_desc}', 
+              '{$contents_display}',
+              '{$contents_westory_display}', 
+              '{$contents_user_display}', 
+              '{$contents_type_display}', 
+              '{$contents_footer_display}', 
+              '{$contents_temp}', 
               now(),
               now(),
-              '$card_short_url',
-              '$westory_card_url',
-              '$card_idx',
+              '{$card_short_url}',
+              '{$westory_card_url}',
+              '{$card_idx}',
               $contents_order
               )";
             mysqli_query($self_con,$sql2) or die(mysqli_error($self_con));

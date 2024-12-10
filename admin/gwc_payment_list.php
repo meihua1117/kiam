@@ -224,30 +224,30 @@ set_gwc_delivery_state();
                                 $searchStr .= $identifier ? " AND (buyer_id LIKE '%" . $identifier . "%')" : null;
                                 $searchStr .= $rec_id ? " AND (recommend_id like '%" . $rec_id . "%') " : null;
                                 $searchStr .= $search_key ? "AND ( VACT_InputName like '%" . $search_key . "%')" : null;
-                                $searchStr .= $site ? " AND b.site = '$site' " : null;
-                                $searchStr .= $site_iam ? " AND b.site_iam = '$site_iam' " : null;
-                                $searchStr .= $yutong ? " AND a.yutong_name = '$yutong' " : null;
-                                $searchStr .= $provide ? " AND a.provider_name = '$provide' " : null;
-                                $searchStr .= $prod_name ? " AND a.member_type = '$prod_name' " : null;
+                                $searchStr .= $site ? " AND b.site = '{$site}' " : null;
+                                $searchStr .= $site_iam ? " AND b.site_iam = '{$site_iam}' " : null;
+                                $searchStr .= $yutong ? " AND a.yutong_name = '{$yutong}' " : null;
+                                $searchStr .= $provide ? " AND a.provider_name = '{$provide}' " : null;
+                                $searchStr .= $prod_name ? " AND a.member_type = '{$prod_name}' " : null;
                                 if ($order_info) {
                                     switch ($order_info) {
                                         case 'od_no':
-                                            $searchStr .= $order_key ? " AND a.idx = '$order_key' " : null;
+                                            $searchStr .= $order_key ? " AND a.idx = '{$order_key}' " : null;
                                             break;
                                         case 'seller_id':
-                                            $searchStr .= $order_key ? " AND a.seller_id = '$order_key' " : null;
+                                            $searchStr .= $order_key ? " AND a.seller_id = '{$order_key}' " : null;
                                             break;
                                         case 'buyer_id':
-                                            $searchStr .= $order_key ? " AND a.buyer_id = '$order_key' " : null;
+                                            $searchStr .= $order_key ? " AND a.buyer_id = '{$order_key}' " : null;
                                             break;
                                     }
                                 }
                                 if ($search_start_date && $search_end_date)
-                                    $searchStr .= " AND date >= '$search_start_date' and date <= '$search_end_date'";
+                                    $searchStr .= " AND date >= '{$search_start_date}' and date <= '{$search_end_date}'";
                                 if ($search_status)
-                                    $searchStr .= " AND end_status='$search_status'";
+                                    $searchStr .= " AND end_status='{$search_status}'";
                                 if ($stop_yn)
-                                    $searchStr .= " AND stop_yn='$stop_yn'";
+                                    $searchStr .= " AND stop_yn='{$stop_yn}'";
 
                                 /*if($item_type == "S")
                                     $searchStr .= " AND (iam_pay_type ='' or iam_pay_type ='0')";

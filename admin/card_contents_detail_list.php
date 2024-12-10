@@ -9,7 +9,7 @@ $date_today=date("Y-m-d");
 if($idx) {
     // 가입 회원 상세 정보
     $query = "select *
-                from Gn_Iam_Contents_Gwc where idx='$idx'";
+                from Gn_Iam_Contents_Gwc where idx='{$idx}'";
     $res = mysqli_query($self_con,$query);
     $data = mysqli_fetch_array($res);
 

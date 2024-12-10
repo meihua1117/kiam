@@ -55,24 +55,24 @@ if($_REQUEST['mode']=="inser")
 	$now_num = $_REQUEST['n'];
 	$send_num = $row['send_num'];
     // [새 번호]가 현재로그에 있는지 확인
-    $query = "select now_num, old_nums from Gn_MMS_Receive_Change_Log where now_num = '$now_num'  ";
+    $query = "select now_num, old_nums from Gn_MMS_Receive_Change_Log where now_num = '{$now_num}'  ";
     $resultA = mysqli_query($self_con,$query);
     $rowA = mysqli_fetch_array($resultA);
     if($rowA[0]) {
         $msg= substr(htmlspecialchars($row['content']),0,20)."...";
         $now_num = $rowA['now_num'];
-        $sql_s="select idx from Gn_MMS_Deny where send_num='$send_num' and recv_num='$now_num'  and chanel_type!=9 ";
+        $sql_s="select idx from Gn_MMS_Deny where send_num='{$send_num}' and recv_num='{$now_num}'  and chanel_type!=9 ";
         $resul_s=mysqli_query($self_con,$sql_s);
         $row_s=mysqli_fetch_array($resul_s);
         if($row_s['idx'] == "") {
-            $sql_insert = "insert into Gn_MMS_Deny set send_num='$send_num',
-                                                       recv_num='$now_num',
+            $sql_insert = "insert into Gn_MMS_Deny set send_num='{$send_num}',
+                                                       recv_num='{$now_num}',
                                                        reg_date=now(),
-                                                       mem_id='$userId',
+                                                       mem_id='{$userId}',
                                                        title='번호 변경 및 수신 불가',
-                                                       content='$msg',
+                                                       content='{$msg}',
                                                        status='A',
-                                                       chanel_type='$chanel',
+                                                       chanel_type='{$chanel}',
                                                        up_date=now() ";
             mysqli_query($self_con,$sql_insert);
             $k = 1;
@@ -80,18 +80,18 @@ if($_REQUEST['mode']=="inser")
         $info = explode(",", $rowA['old_nums']);
         for($kk =0 ;$kk < count($info); $kk++) {
             $now_num = $info[$kk];
-            $sql_s="select idx from Gn_MMS_Deny where send_num='$send_num' and recv_num='$now_num'  and chanel_type!=9 ";
+            $sql_s="select idx from Gn_MMS_Deny where send_num='{$send_num}' and recv_num='{$now_num}'  and chanel_type!=9 ";
             $resul_s=mysqli_query($self_con,$sql_s);
             $row_s=mysqli_fetch_array($resul_s);
             if($row_s['idx'] == "") {
-                $sql_insert = "insert into Gn_MMS_Deny set send_num='$send_num',
-                                                           recv_num='$now_num',
+                $sql_insert = "insert into Gn_MMS_Deny set send_num='{$send_num}',
+                                                           recv_num='{$now_num}',
                                                            reg_date=now(),
-                                                           mem_id='$userId',
+                                                           mem_id='{$userId}',
                                                            title='번호 변경 및 수신 불가',
-                                                           content='$msg',
+                                                           content='{$msg}',
                                                            status='A',
-                                                           chanel_type='$chanel',
+                                                           chanel_type='{$chanel}',
                                                            up_date=now() ";
                 mysqli_query($self_con,$sql_insert);
                 $k = 1;
@@ -108,18 +108,18 @@ if($_REQUEST['mode']=="inser")
     if($rowA[0]) {
         $msg= substr(htmlspecialchars($row['content']),0,20)."...";
         $now_num = $rowA['now_num'];
-        $sql_s="select idx from Gn_MMS_Deny where send_num='$send_num' and recv_num='$now_num'  and chanel_type!=9 ";
+        $sql_s="select idx from Gn_MMS_Deny where send_num='{$send_num}' and recv_num='{$now_num}'  and chanel_type!=9 ";
         $resul_s=mysqli_query($self_con,$sql_s);
         $row_s=mysqli_fetch_array($resul_s);
         if($row_s['idx'] == "") {
-            $sql_insert = "insert into Gn_MMS_Deny set send_num='$send_num',
-                                                       recv_num='$now_num',
+            $sql_insert = "insert into Gn_MMS_Deny set send_num='{$send_num}',
+                                                       recv_num='{$now_num}',
                                                        reg_date=now(),
-                                                       mem_id='$userId',
+                                                       mem_id='{$userId}',
                                                        title='번호 변경 및 수신 불가',
-                                                       content='$msg',
+                                                       content='{$msg}',
                                                        status='A',
-                                                       chanel_type='$chanel',
+                                                       chanel_type='{$chanel}',
                                                        up_date=now() ";
             mysqli_query($self_con,$sql_insert);
             $k = 1;
@@ -127,18 +127,18 @@ if($_REQUEST['mode']=="inser")
         $info = explode(",", $rowA['old_nums']);
         for($kk =0 ;$kk < count($info); $kk++) {
             $now_num = $info[$kk];
-            $sql_s="select idx from Gn_MMS_Deny where send_num='$send_num' and recv_num='$now_num'  and chanel_type!=9 ";
+            $sql_s="select idx from Gn_MMS_Deny where send_num='{$send_num}' and recv_num='{$now_num}'  and chanel_type!=9 ";
             $resul_s=mysqli_query($self_con,$sql_s);
             $row_s=mysqli_fetch_array($resul_s);
             if($row_s['idx'] == "") {
-                $sql_insert = "insert into Gn_MMS_Deny set send_num='$send_num',
-                                                           recv_num='$now_num',
+                $sql_insert = "insert into Gn_MMS_Deny set send_num='{$send_num}',
+                                                           recv_num='{$now_num}',
                                                            reg_date=now(),
-                                                           mem_id='$userId',
+                                                           mem_id='{$userId}',
                                                            title='번호 변경 및 수신 불가',
-                                                           content='$msg',
+                                                           content='{$msg}',
                                                            status='A',
-                                                           chanel_type='$chanel',
+                                                           chanel_type='{$chanel}',
                                                            up_date=now() ";
                  mysqli_query($self_con,$sql_insert);
                  $k = 1;

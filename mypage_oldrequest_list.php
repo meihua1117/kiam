@@ -110,7 +110,7 @@ $(function(){
                                 if ($_REQUEST['search_text']) {
                                     $search_text1 = $_REQUEST['search_text'];
 
-                                    $sql = "select * from Gn_MMS_group where $sql_serch and grp = '$search_text1' ";
+                                    $sql = "select * from Gn_MMS_group where $sql_serch and grp = '{$search_text1}' ";
                                     $result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
                                     $address_idx = mysqli_fetch_array($result);
 

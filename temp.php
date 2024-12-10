@@ -28,7 +28,7 @@ while($row = mysqli_fetch_array($res)){
     else
         $card_cnt = $data['iamcard_cnt'];
     $share_cnt = $data['send_content'];
-    $query = "update Gn_Member set iam_card_cnt='$card_cnt' ,iam_share_cnt='$share_cnt' where mem_id = '$mem_id'";
+    $query = "update Gn_Member set iam_card_cnt='{$card_cnt}' ,iam_share_cnt='{$share_cnt}' where mem_id = '{$mem_id}'";
     mysqli_query($self_con,$query);
     echo "update ".$mem_id." complete!"."<br>";
 }*/
@@ -36,11 +36,11 @@ while($row = mysqli_fetch_array($res)){
 $res = mysqli_query($self_con,$query);
 while($row = mysqli_fetch_array($res)){
     $card_idx = $row[0];
-    $sql = "select count(*) from Gn_Iam_Name_Card where idx ='$card_idx'";
+    $sql = "select count(*) from Gn_Iam_Name_Card where idx ='{$card_idx}'";
     $r = mysqli_query($self_con,$sql);
     $data = mysqli_fetch_array($r);
     if($data[0] == 0){
-        $sql = "delete from Gn_Iam_Contents where card_idx ='$card_idx'";
+        $sql = "delete from Gn_Iam_Contents where card_idx ='{$card_idx}'";
         mysqli_query($self_con,$sql);
         echo $card_idx." remove!\r\n";
     }
@@ -51,10 +51,10 @@ while($row = mysqli_fetch_array($result)){
     $card_idx = $row[0];
     echo $card_idx."<br>";
     $order = 1;
-    $sql = "select idx from Gn_Iam_Contents where card_idx ='$card_idx' order by req_data";
+    $sql = "select idx from Gn_Iam_Contents where card_idx ='{$card_idx}' order by req_data";
     $res = mysqli_query($self_con,$sql);
     while($data = mysqli_fetch_array($res)){
-        $q = "update Gn_Iam_Contents set contents_order ='$order' where idx = '$data[0]'";
+        $q = "update Gn_Iam_Contents set contents_order ='{$order}' where idx = '$data[0]'";
         mysqli_query($self_con,$q);
         echo "&nbsp; ".$data[0]."=>".$order."<br>";
         $order++;
@@ -67,12 +67,12 @@ while($row = mysqli_fetch_array($result)){
     echo $card_idx."\r\n";
     $share_ids = explode(",",$row['contents_share_text']);
     $share_count = count($share_ids);
-    $q = "update Gn_Iam_Contents set contents_share_count ='$share_count' where idx = '$row[0]'";
+    $q = "update Gn_Iam_Contents set contents_share_count ='{$share_count}' where idx = '$row[0]'";
     mysqli_query($self_con,$q);
 }*/
 /*$mem_id = $_GET["mem"];
 $month = $_GET["month"];
-$query = "select * from tjd_pay_result_month where buyer_id='$mem_id' and pay_yn = 'Y' order by idx desc";
+$query = "select * from tjd_pay_result_month where buyer_id='{$mem_id}' and pay_yn = 'Y' order by idx desc";
 $res = mysqli_query($self_con,$query);
 $row = mysqli_fetch_array($res);
 $order_no = $row[pay_idx].date("Y").sprintf("%02d",$month);
@@ -83,7 +83,7 @@ $pos = strpos($reg_date,"-");
 $reg_date = substr($reg_date,0,$pos+1).sprintf("%02d",$month).substr($reg_date,$pos+3);
 $reg_date = date("Y-m-d H:i:s",strtotime($reg_date));
 $msg = $month."월 미결제";
-$query = "insert into tjd_pay_result_month set pay_idx = '$pay_idx',order_number = '$order_no',pay_yn='N',msg = '$msg',regdate = '$reg_date',amount = '$amount',buyer_id = '$mem_id'";
+$query = "insert into tjd_pay_result_month set pay_idx = '{$pay_idx}',order_number = '{$order_no}',pay_yn='N',msg = '{$msg}',regdate = '{$reg_date}',amount = '{$amount}',buyer_id = '{$mem_id}'";
 mysqli_query($self_con,$query) or die(mysqli_error($self_con));
 echo "kiam complete:".mysqli_insert_id($self_con);*/
 /*$idx = $_GET["idx"];
@@ -194,7 +194,7 @@ while($card_row = mysqli_fetch_assoc($res)){
         $contents_imgs = explode(",",$con_row['contents_img']);
         $mall_img = $contents_imgs[0];
         $sql = "insert into Gn_Iam_Mall (mem_id,mall_type,title,img,description,price,sell_price,display_status,reg_date,card_idx) " .
-                    "values ('arinlee',{$mall_type},'{$con_row['contents_title']}','{$mall_img}','{$con_row['$contents_desc']}',33000,33000,1,now(),{$con_row['idx']})";
+                    "values ('arinlee',{$mall_type},'{$con_row['contents_title']}','{$mall_img}','{$con_row['{$contents_desc}']}',33000,33000,1,now(),{$con_row['idx']})";
         mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
         echo $sql."<br>";
     }

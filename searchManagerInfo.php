@@ -58,7 +58,7 @@ extract($_POST);
 					$search_text = $_REQUEST['search_text'];
 					$search_key = $_REQUEST['search_key'];
 
-					$sql_search .= " AND (mem_name ='$search_name' and REPLACE(mem_phone,'-', '') =REPLACE('$search_cell','-',''))";
+					$sql_search .= " AND (mem_name ='{$search_name}' and REPLACE(mem_phone,'-', '') =REPLACE('{$search_cell}','-',''))";
 
 					$sql = "select count(mem_code) as cnt from Gn_Member where 1=1 $sql_search ";
 					$result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));

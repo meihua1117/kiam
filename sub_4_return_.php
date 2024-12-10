@@ -340,7 +340,7 @@ $result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
 									if ($date == "")
 										$intRowCount = "";
 									else {
-										$sql = "select count(seq) as cnt from call_app_log where api_name='receive_sms' and LENGTH(recv_num) >= 10 and  send_num='{$row['send_num']}' and recv_num in ($recv_num_in) and recv_num like '01%'  and regdate >= '$date' and sms not like '[%'";
+										$sql = "select count(seq) as cnt from call_app_log where api_name='receive_sms' and LENGTH(recv_num) >= 10 and  send_num='{$row['send_num']}' and recv_num in ($recv_num_in) and recv_num like '01%'  and regdate >= '{$date}' and sms not like '[%'";
 										$kresult = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
 										$krow = mysqli_fetch_array($kresult);
 										$intRowCount = $krow['cnt'];

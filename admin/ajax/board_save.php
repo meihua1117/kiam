@@ -15,8 +15,8 @@ if($_POST['mode'] == "sort") {
         mysqli_query($self_con,$query);	
     }
 } else if($_POST['mode'] == "diber") { 
-        $query="update      tjd_board set `diber`          ='$diber'
-                             WHERE no='$no'";
+        $query="update      tjd_board set `diber`          ='{$diber}'
+                             WHERE no='{$no}'";
                                     
         echo $query."<BR>";
         mysqli_query($self_con,$query);	    

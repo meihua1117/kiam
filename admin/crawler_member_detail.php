@@ -6,7 +6,7 @@ extract($_GET);
 $date_today=date("Y-m-d");
 $date_month=date("Y-m");
 // 가입 회원 상세 정보
-$query = "select * from crawler_member_real where cmid='$cmid'";
+$query = "select * from crawler_member_real where cmid='{$cmid}'";
 $res = mysqli_query($self_con,$query);
 $data = mysqli_fetch_array($res);
 ?>

@@ -86,20 +86,20 @@ if($crow[0] == "") {
     $search_email_date = substr($last_time,0,10);
     $search_email_cnt = $_POST['email_cnt'];
     $term = substr($last_time,0,10);
-    $query = "insert into crawler_member_real set user_id='$user_id',
-                                        user_name='$user_name',
-                                        password='$password',
-                                        cell='$cell',
-                                        email='$email',
-                                        address='$address',
-                                        term='$term',
+    $query = "insert into crawler_member_real set user_id='{$user_id}',
+                                        user_name='{$user_name}',
+                                        password='{$password}',
+                                        cell='{$cell}'}'}',
+                                        email='{$email}'}'}'}'}'}'}'}'}',
+                                        address='{$address}',
+                                        term='{$term}',
                                         status='N',
-                                        use_cnt='$use_cnt',
+                                        use_cnt='{$use_cnt}',
                                         regdate=NOW(),
                                         search_email_yn='N',
-                                        search_email_date='$search_email_date',
-                                        search_email_cnt='$search_email_cnt',
-                                        shopping_end_date='$search_email_date'";
+                                        search_email_date='{$search_email_date}',
+                                        search_email_cnt='{$search_email_cnt}'}',
+                                        shopping_end_date='{$search_email_date}'";
         mysqli_query($self_con,$query);
 } 
 /*if($srow['recommend_id'] != "") {
@@ -127,7 +127,7 @@ if($crow[0] == "") {
             $branch_share_per = 0;
         }
         
-        $sql = "update tjd_pay_result set share_per='$share_per', branch_share_per = '$branch_share_per', share_id='{$srow['recommend_id']}', branch_share_id='$branch_share_id' where no='$no'";
+        $sql = "update tjd_pay_result set share_per='{$share_per}', branch_share_per = '{$branch_share_per}', share_id='{$srow['recommend_id']}', branch_share_id='{$branch_share_id}' where no='{$no}'";
         mysqli_query($self_con,$sql)or die(mysqli_error($self_con));			
     }
 }*/

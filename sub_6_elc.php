@@ -26,7 +26,7 @@ if (!$_SESSION['one_member_id']) {
 	mysqli_free_result($res_result);
 	$trialLimit = date("Y-m-d 23:59:59",strtotime($rsJoinDate[0]."-1 days")); //회원가입일-1일*/
 	$trialLimit = date("Y-m-d 23:59:59", strtotime($member_1['first_regist'] . "-1 days")); //회원가입일-1일
-	$sql = "select phone_cnt from tjd_pay_result where buyer_id = '{$_SESSION['one_member_id']}' and end_date > '$date_today' and end_status in ('Y','A') and gwc_cont_pay=0 order by end_date desc limit 1";
+	$sql = "select phone_cnt from tjd_pay_result where buyer_id = '{$_SESSION['one_member_id']}' and end_date > '{$date_today}' and end_status in ('Y','A') and gwc_cont_pay=0 order by end_date desc limit 1";
 	$res_result = mysqli_query($self_con, $sql);
 	//결제 휴대폰 수
 	$buyPhoneCnt = mysqli_fetch_row($res_result);
@@ -133,7 +133,7 @@ $memberInfo=mysqli_fetch_array($result);
 */
 $mem_phone = str_replace("-", "", $member_1['mem_phone']);
 
-$sql = "(select idx,sendnum,memo,memo2,cnt1,cnt2,donation_rate,daily_limit_cnt from Gn_MMS_Number where  sendnum = '$mem_phone') ";
+$sql = "(select idx,sendnum,memo,memo2,cnt1,cnt2,donation_rate,daily_limit_cnt from Gn_MMS_Number where  sendnum = '{$mem_phone}') ";
 $result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
 $srow = mysqli_fetch_array($result);
 $total_cnt = 0;

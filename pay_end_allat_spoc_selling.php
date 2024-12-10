@@ -191,13 +191,13 @@ if($REPLYCD =="0000"){//pay_test
     있습니다. 홈페이지 개편에 관한 공지가 있을 경우, 전표출력 URL을 확인하시기 바랍니다.
 */
 $member_1['mem_id'] = $_SESSION['one_member_id'];
-$sql="select * from tjd_pay_result where orderNumber='$ORDER_NO'";
+$sql="select * from tjd_pay_result where orderNumber='{$ORDER_NO}'";
 $resul=mysqli_query($self_con,$sql)or die(mysqli_error($self_con));
 $row=mysqli_fetch_array($resul);
 $no = $row['no'];
 $member_1['mem_id'] = $row['buyer_id'];
 if($REPLYCD == "0000"){//pay_test
-    $sql = "update tjd_pay_result set end_status='Y',monthly_yn='N' where  orderNumber='$ORDER_NO' and buyer_id='{$member_1['mem_id']}'";
+    $sql = "update tjd_pay_result set end_status='Y',monthly_yn='N' where  orderNumber='{$ORDER_NO}' and buyer_id='{$member_1['mem_id']}'";
     mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
     $sql = "select * from Gn_Member where mem_id='{$member_1['mem_id']}' ";
     $sresult = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
@@ -232,7 +232,7 @@ if($REPLYCD == "0000"){//pay_test
                 $branch_share_per = 0;
             }
 
-            $sql = "update tjd_pay_result set share_per='$share_per', branch_share_per = '$branch_share_per', share_id='{$srow['recommend_id']}', branch_share_id='$branch_share_id' where no='$no'";
+            $sql = "update tjd_pay_result set share_per='{$share_per}', branch_share_per = '{$branch_share_per}', share_id='{$srow['recommend_id']}', branch_share_id='{$branch_share_id}' where no='{$no}'";
             mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
         }
     }

@@ -76,7 +76,7 @@ if ($_REQUEST['status'] == "old") {
 	}
 } else if ($_REQUEST['status'] == "new") {
 	$group_name = htmlspecialchars($_POST['new_group']);
-	$sql_s = "select idx from Gn_MMS_Group where grp='$group_name' and mem_id='{$_SESSION['one_member_id']}'";
+	$sql_s = "select idx from Gn_MMS_Group where grp='{$group_name}' and mem_id='{$_SESSION['one_member_id']}'";
 	$resul_s = mysqli_query($self_con, $sql_s);
 	$row_s = mysqli_fetch_array($resul_s);
 	if ($row_s['idx']) {
@@ -88,11 +88,11 @@ if ($_REQUEST['status'] == "old") {
 <?
 		exit;
 	}
-	$sql = "insert Gn_MMS_Group set mem_id = '{$_SESSION['one_member_id']}', grp = '$group_name', reg_date = now()";
+	$sql = "insert Gn_MMS_Group set mem_id = '{$_SESSION['one_member_id']}', grp = '{$group_name}', reg_date = now()";
 	mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
 
 	if ($_FILES['excel_file']['tmp_name']) {
-		$sql_s = "select idx from Gn_MMS_Group where grp='$group_name' and mem_id='{$_SESSION['one_member_id']}' ";
+		$sql_s = "select idx from Gn_MMS_Group where grp='{$group_name}' and mem_id='{$_SESSION['one_member_id']}' ";
 		$resul_s = mysqli_query($self_con, $sql_s);
 		$row_s = mysqli_fetch_array($resul_s);
 		$cnt = 0;
@@ -113,7 +113,7 @@ if ($_REQUEST['status'] == "old") {
 				continue;
 			}
 
-			$sql_i = "insert into Gn_MMS_Receive set mem_id = '{$_SESSION['one_member_id']}',grp_id='{$row_s['idx']}', grp = '$group_name', grp_2 = '{$spreadData[$i]['A']}', recv_num = '$v', name = '{$spreadData[$i]['B']}' ,email = '{$spreadData[$i]['D']}' ,reg_date=now() ";
+			$sql_i = "insert into Gn_MMS_Receive set mem_id = '{$_SESSION['one_member_id']}',grp_id='{$row_s['idx']}', grp = '{$group_name}', grp_2 = '{$spreadData[$i]['A']}', recv_num = '$v', name = '{$spreadData[$i]['B']}' ,email = '{$spreadData[$i]['D']}' ,reg_date=now() ";
 			mysqli_query($self_con, $sql_i);
 			$cnt++;
 		}
@@ -144,7 +144,7 @@ if ($_REQUEST['status'] == "old") {
 		}
 
 
-		$sql_num = "select sendnum from Gn_MMS_Number where mem_id ='{$_SESSION['one_member_id']}' and sendnum='$send_num' ";
+		$sql_num = "select sendnum from Gn_MMS_Number where mem_id ='{$_SESSION['one_member_id']}' and sendnum='{$send_num}' ";
 		$resul_num = mysqli_query($self_con, $sql_num);
 		$row_num = mysqli_fetch_array($resul_num);
 		if (!$row_num['sendnum']) {
@@ -152,7 +152,7 @@ if ($_REQUEST['status'] == "old") {
 			continue;
 		}
 
-		$sql_s = "select idx from Gn_MMS_Deny where mem_id='{$_SESSION['one_member_id']}' and recv_num='$recv_num' and send_num='$send_num' ";
+		$sql_s = "select idx from Gn_MMS_Deny where mem_id='{$_SESSION['one_member_id']}' and recv_num='{$recv_num}' and send_num='{$send_num}' ";
 		$resul_s = mysqli_query($self_con, $sql_s);
 		$row_s = mysqli_fetch_array($resul_s);
 		if ($row_s['idx']) {

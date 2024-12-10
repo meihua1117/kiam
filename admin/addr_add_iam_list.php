@@ -165,11 +165,11 @@ $date_today = date("Y-m-d");
                                     $searchStr .= $search_key ? " AND ({$search_key} LIKE '%" . $search_word . "%') " : null;
                                 }
                                 if ($search_start_date && $search_end_date)
-                                    $searchStr .= " AND a.reservation_time >= '$search_start_date' and a.reservation_time <= '$search_end_date'";
+                                    $searchStr .= " AND a.reservation_time >= '{$search_start_date}' and a.reservation_time <= '{$search_end_date}'";
                                 if ($search_leb)
-                                    $searchStr .= " AND mem_leb='$search_leb'";
+                                    $searchStr .= " AND mem_leb='{$search_leb}'";
                                 if ($search_status)
-                                    $searchStr .= " AND end_status='$search_status'";
+                                    $searchStr .= " AND end_status='{$search_status}'";
                                 $order = $order ? $order : "desc";
                                 $query = "SELECT count(a.phone) FROM sm_data_one a WHERE 1=1 $searchSt";
                                 $res    = mysqli_query($self_con, $query);

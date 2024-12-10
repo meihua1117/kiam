@@ -21,7 +21,7 @@ if($mode == "delete_name_card") {
     $short_url = $row_url['card_short_url'];
     $mem_id = $row_url['mem_id'];
 
-    $sql_info = "select id, web_type from crawler_iam_info where iam_link='$short_url' and mem_id='{$mem_id}'";
+    $sql_info = "select id, web_type from crawler_iam_info where iam_link='{$short_url}' and mem_id='{$mem_id}'";
     $res_info = mysqli_query($self_con,$sql_info);
     while($row = mysqli_fetch_array($res_info)){
         array_push($result111, $row);
@@ -53,18 +53,18 @@ if($mode == "delete_name_card") {
         $sql_del_con = "delete from ".$sql_del_contents_id." where info_id={$info_id} and mem_id='{$mem_id}'";
         $res_con = mysqli_query($self_con,$sql_del_con) or die(mysqli_error($self_con));
     }
-    $sql = "delete from Gn_Iam_Name_Card where idx ='$card_idx'";
+    $sql = "delete from Gn_Iam_Name_Card where idx ='{$card_idx}'";
     mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 
     $mall_sql = "select * from Gn_Iam_Contents where card_idx={$card_idx}";
     $mall_res = mysqli_query($self_con,$mall_sql);
     while($mall_row = mysqli_fetch_array($mall_res)){
         $m_idx = $mall_row['idx'];
-        $m_sql="delete from Gn_Iam_Mall where card_idx = '$m_idx' and (mall_type = 3 or mall_type = 4)";
+        $m_sql="delete from Gn_Iam_Mall where card_idx = '{$m_idx}' and (mall_type = 3 or mall_type = 4)";
         mysqli_query($self_con,$m_sql) or die(mysqli_error($self_con));
     }
 
-    $sql_del_contents = "delete from Gn_Iam_Contents where card_idx=$card_idx and mem_id = '$mem_id'";
+    $sql_del_contents = "delete from Gn_Iam_Contents where card_idx=$card_idx and mem_id = '{$mem_id}'";
     $result3 = mysqli_query($self_con,$sql_del_contents) or die(mysqli_error($self_con));
 
     $sql = "select cont_idx from Gn_Iam_Con_Card where main_card={$card_idx}";
@@ -76,22 +76,22 @@ if($mode == "delete_name_card") {
     $sql_contents = "delete from Gn_Iam_Con_Card where card_idx={$card_idx}";
     mysqli_query($self_con,$sql_contents);
 
-    $sql="delete from Gn_Iam_Mall where card_idx = '$card_idx' and mall_type = 2";
+    $sql="delete from Gn_Iam_Mall where card_idx = '{$card_idx}' and mall_type = 2";
     mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 
     echo "삭제되었습니다.";
 } 
 
 if($mode == "update_name_card - phone_display") {
-    $sql="update Gn_Iam_Name_Card set phone_display ='$phone_display',updata=now() where idx ='$card_idx'";
+    $sql="update Gn_Iam_Name_Card set phone_display ='{$phone_display}',updata=now() where idx ='{$card_idx}'";
     mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
-    $update_query = "update Gn_Iam_Contents set public_display = '$phone_display', up_data = now() where card_idx ='$card_idx'";
+    $update_query = "update Gn_Iam_Contents set public_display = '{$phone_display}', up_data = now() where card_idx ='{$card_idx}'";
     mysqli_query($self_con,$update_query);
     echo "갱신되었습니다.";
 } 
 
 if($mode == "update_name_card - sample_click") {
-    $sql="update Gn_Iam_Name_Card set sample_click ='$sample_click',up_data=now() where idx ='$card_idx'";
+    $sql="update Gn_Iam_Name_Card set sample_click ='{$sample_click}',up_data=now() where idx ='{$card_idx}'";
     mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
     echo "갱신되었습니다.";
 }
@@ -123,7 +123,7 @@ if($mode == "update_name_card - call_click") {
 }
 
 if($mode == "update_name_card_sample_order") {
-    $sql="update Gn_Iam_Name_Card set sample_order ='$sample_order',up_data=now() where idx ='$card_idx'";
+    $sql="update Gn_Iam_Name_Card set sample_order ='{$sample_order}',up_data=now() where idx ='{$card_idx}'";
     mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
     echo "갱신되었습니다.";
 }
@@ -135,34 +135,34 @@ if($mode == "delete_contents") {
     $sql = "delete from Gn_Iam_Con_Card where cont_idx = $idx";
     mysqli_query($self_con,$sql);
 
-    $sql="delete from Gn_Iam_Mall where card_idx = '$idx' and (mall_type = 3 or mall_type = 4)";
+    $sql="delete from Gn_Iam_Mall where card_idx = '{$idx}' and (mall_type = 3 or mall_type = 4)";
     mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
     echo "삭제되었습니다.";
 }
 if($mode == "update-contents-sample-display") {
-    $sql = "select card_idx from Gn_Iam_Contents where where idx ='$cont_idx'";
+    $sql = "select card_idx from Gn_Iam_Contents where where idx ='{$cont_idx}'";
     $res = mysqli_query($self_con,$sql);
     $cont_row = mysqli_fetch_assoc($res);
     $sql="update Gn_Iam_Name_Card set up_data=now() where idx ={$cont_row['card_idx']}";
     mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 
-    $sql="update Gn_Iam_Contents set sample_display ='$sample_display',up_data=now() where idx ='$cont_idx'";
+    $sql="update Gn_Iam_Contents set sample_display ='{$sample_display}',up_data=now() where idx ='{$cont_idx}'";
     mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
     echo "갱신되었습니다.";
 }
 if($mode == "update_contents_sample_order") {
-    $sql = "select card_idx from Gn_Iam_Contents where where idx ='$cont_idx'";
+    $sql = "select card_idx from Gn_Iam_Contents where where idx ='{$cont_idx}'";
     $res = mysqli_query($self_con,$sql);
     $cont_row = mysqli_fetch_assoc($res);
     $sql="update Gn_Iam_Name_Card set up_data=now() where idx ={$cont_row['card_idx']}";
     mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
     
-    $sql="update Gn_Iam_Contents set sample_order ='$sample_order',up_data=now() where idx ='$cont_idx'";
+    $sql="update Gn_Iam_Contents set sample_order ='{$sample_order}',up_data=now() where idx ='{$cont_idx}'";
     mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
     echo "갱신되었습니다.";
 }
 if($mode == "update-gwc-contents-display"){
-    $sql="update Gn_Iam_Contents_Gwc set public_display ='$sample_display',contents_westory_display='$sample_display',up_data=now() where idx ='$cont_idx'";
+    $sql="update Gn_Iam_Contents_Gwc set public_display ='{$sample_display}',contents_westory_display='{$sample_display}',up_data=now() where idx ='{$cont_idx}'";
     mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
     echo 1;
 }

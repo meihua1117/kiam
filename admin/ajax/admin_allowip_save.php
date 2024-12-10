@@ -12,19 +12,19 @@ if($mode == "save")
 {
     if($idx == "") {
         $query="insert into gn_admin_allowip set 
-                                    `ip`          ='$ip', 
-                                    `mem_id`      ='$mem_id', 
-                                    `name`      ='$name', 
+                                    `ip`          ='{$ip}', 
+                                    `mem_id`      ='{$mem_id}', 
+                                    `name`      ='{$name}', 
                                     regdate=NOW()
                                         ";
         mysqli_query($self_con,$query);	
     } else {
         $query="update gn_admin_allowip set 
-                                    `ip`          ='$ip', 
-                                    `mem_id`      ='$mem_id', 
-                                    `name`      ='$name', 
+                                    `ip`          ='{$ip}', 
+                                    `mem_id`      ='{$mem_id}', 
+                                    `name`      ='{$name}', 
                                     regdate=NOW()
-                                WHERE idx='$idx'
+                                WHERE idx='{$idx}'
                                         ";
         mysqli_query($self_con,$query);		
     }
@@ -34,7 +34,7 @@ else if($mode == "type")
 {
     $issecure = $_POST["use_secure"];
     $query="update gn_conf set 
-                    `secure_connect`          = '$issecure', 
+                    `secure_connect`          = '{$issecure}', 
                     regdate=NOW()
                     ";
     mysqli_query($self_con,$query);

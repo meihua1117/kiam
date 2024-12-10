@@ -23,7 +23,7 @@ if($_POST['mode'] == "creat") {
         $img_url = "http://www.kiam.kr".$up_dir.basename($icon_file_name);
         uploadFTP($uploadfile);
     }
-    $sql="insert into gn_alert (`type`, title, pos, img,`desc`,link) values ('$type', '$title','$pos', '$img_url','$desc','$link')";
+    $sql="insert into gn_alert (`type`, title, pos, img,`desc`,link) values ('{$type}', '{$title}','{$pos}', '{$img_url}','{$desc}','{$link}')";
     mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 }
 else if($_POST['mode'] == "updat") {
@@ -37,19 +37,19 @@ else if($_POST['mode'] == "updat") {
             $img_url = "http://www.kiam.kr".$up_dir . basename($icon_file_name);
             uploadFTP($uploadfile);
         }
-        $sql="update gn_alert set title='$title', pos = '$pos', img = '$img_url',`desc` = '$desc',link = '$link' where no = '$no'";
+        $sql="update gn_alert set title='{$title}', pos = '{$pos}', img = '{$img_url}',`desc` = '{$desc}',link = '{$link}' where no = '{$no}'";
     }else{
-        $sql="update gn_alert set title='$title', pos = '$pos', `desc` = '$desc',link = '$link' where no = '$no'";
+        $sql="update gn_alert set title='{$title}', pos = '{$pos}', `desc` = '{$desc}',link = '{$link}' where no = '{$no}'";
     }
     mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 } else if($_POST['mode'] == "del") {
-    $query="delete  from  gn_alert WHERE no='$no'";
+    $query="delete  from  gn_alert WHERE no='{$no}'";
     mysqli_query($self_con,$query);	
 } else if($_POST['mode'] == "get"){
     $pos = $_POST['pos'];
     if($pos == "")
 	$pos = "my_info";
-    $sql = "select * from gn_alert where pos = '$pos'";
+    $sql = "select * from gn_alert where pos = '{$pos}'";
     $row = mysqli_fetch_array(mysqli_query($self_con,$sql));
     if($row['pos'] != "") {
         echo json_encode(array("title" => $row['title'], "img" => $row['img'], "desc" => $row[desc], "link" => $row['link']));

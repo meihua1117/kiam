@@ -4,7 +4,7 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/db_config.php";
 extract($_POST);
 
 if($type == "main"){
-    $query = "select * from tjd_pay_result where no='$no'";
+    $query = "select * from tjd_pay_result where no='{$no}'";
     $res = mysqli_query($self_con,$query);
     $row = mysqli_fetch_array($res);
     if($row['no'] == "") exit;
@@ -12,7 +12,7 @@ if($type == "main"){
         if($row['end_date'] == "1970-01-01 09:00:00") {
             $row['end_date'] = date('Y-m-d H:i:s', time()+(86400*365*3));
         }
-        $query = "select * from tjd_pay_result where buyer_id='{$row['buyer_id']}' and end_status='Y' and `no` < '$no'";
+        $query = "select * from tjd_pay_result where buyer_id='{$row['buyer_id']}' and end_status='Y' and `no` < '{$no}'";
         $res = mysqli_query($self_con,$query);
         $sdata = mysqli_fetch_array($res);
         if($sdata['no'] != "") {
@@ -25,7 +25,7 @@ if($type == "main"){
         $sql_m="update Gn_Member set  phone_cnt=phone_cnt-{$row['add_phone']} where mem_id='{$row['buyer_id']}' ";
         mysqli_query($self_con,$sql_m)or die(mysqli_error($self_con));
 
-        $query = "update tjd_pay_result set TotPrice='$price', end_status='E',end_date='$end_date' where `no`='$no'";
+        $query = "update tjd_pay_result set TotPrice='{$price}', end_status='E',end_date='{$end_date}' where `no`='{$no}'";
         mysqli_query($self_con,$query);
 
         if($row['payMethod'] == "MONTH"){
@@ -50,20 +50,20 @@ if($type == "main"){
         if($search_email_cnt > 0) $search_email_yn = "Y";
         else $search_email_yn = "N";
         $query = "update crawler_member_real set
-                                            cell='$cell',
-                                            email='$email',
-                                            address='$address',
-                                            term='$term',
-                                            status='$status',
-                                            use_cnt='$use_cnt',
+                                            cell='{$cell}',
+                                            email='{$email}',
+                                            address='{$address}',
+                                            term='{$term}',
+                                            status='{$status}',
+                                            use_cnt='{$use_cnt}',
                                             monthly_cnt = 0,
                                             total_cnt = 0,
                                             regdate=NOW(),
-                                            search_email_yn='$search_email_yn',
-                                            search_email_date='$search_email_date',
-                                            search_email_cnt='$search_email_cnt',
+                                            search_email_yn='{$search_email_yn}',
+                                            search_email_date='{$search_email_date}',
+                                            search_email_cnt='{$search_email_cnt}',
                                             shopping_yn='N',
-                                            shopping_end_date='$search_email_date',
+                                            shopping_end_date='{$search_email_date}',
                                             status='N'
                                             where user_id='{$row['buyer_id']}'
                                             ";
@@ -86,7 +86,7 @@ if($type == "main"){
         if($row['end_date'] == "1970-01-01 09:00:00") {
             $row['end_date'] = date('Y-m-d H:i:s', time()+(86400*365*3));
         }
-        $query = "update tjd_pay_result set TotPrice = $price, end_status='Y' where `no`='$no'";
+        $query = "update tjd_pay_result set TotPrice = $price, end_status='Y' where `no`='{$no}'";
         mysqli_query($self_con,$query);
 
         if($row['payMethod'] == "MONTH"){
@@ -114,18 +114,18 @@ if($type == "main"){
             $sresult = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
             $crow = mysqli_fetch_array($sresult);
             if ($crow[0] == 0) {
-                $query = "insert into crawler_member_real set user_id='$user_id',
-                                            user_name='$user_name',
-                                            password='$password',
-                                            cell='$cell',
-                                            email='$email',
-                                            address='$address',
-                                            term='$term',
-                                            use_cnt='$use_cnt',
+                $query = "insert into crawler_member_real set user_id='{$user_id}',
+                                            user_name='{$user_name}',
+                                            password='{$password}',
+                                            cell='{$cell}',
+                                            email='{$email}',
+                                            address='{$address}',
+                                            term='{$term}',
+                                            use_cnt='{$use_cnt}',
                                             regdate=NOW(),
-                                            search_email_date='$search_email_date',
-                                            search_email_cnt='$search_email_cnt',
-                                            shopping_end_date='$search_email_date',
+                                            search_email_date='{$search_email_date}',
+                                            search_email_cnt='{$search_email_cnt}',
+                                            shopping_end_date='{$search_email_date}',
                                             extra_db_cnt = '{$row['db_cnt']}',
                                             extra_email_cnt = '{$row['email_cnt']}',
                                             extra_shopping_cnt = '{$row['shop_cnt']}'";
@@ -135,7 +135,7 @@ if($type == "main"){
                                             extra_db_cnt = extra_db_cnt + '{$row['db_cnt']}',
                                             extra_email_cnt = extra_email_cnt + '{$row['email_cnt']}',
                                             extra_shopping_cnt = extra_shopping_cnt + '{$row['shop_cnt']}'
-                                            where user_id='$user_id'";
+                                            where user_id='{$user_id}'";
                 mysqli_query($self_con,$query);
             }
         }else if($row['member_type'] == "포인트충전"){
@@ -204,20 +204,20 @@ if($type == "main"){
             else
                 $search_email_yn = "N";
             $query = "update crawler_member_real set
-                                            cell='$cell',
-                                            email='$email',
-                                            address='$address',
-                                            term='$term',
-                                            status='$status',
-                                            use_cnt='$use_cnt',
+                                            cell='{$cell}',
+                                            email='{$email}',
+                                            address='{$address}',
+                                            term='{$term}',
+                                            status='{$status}',
+                                            use_cnt='{$use_cnt}',
                                             monthly_cnt = 0,
                                             total_cnt = 0,
                                             regdate=NOW(),
-                                            search_email_yn='$search_email_yn',
-                                            search_email_date='$search_email_date',
-                                            search_email_cnt='$search_email_cnt',
+                                            search_email_yn='{$search_email_yn}',
+                                            search_email_date='{$search_email_date}',
+                                            search_email_cnt='{$search_email_cnt}',
                                             shopping_yn='N',
-                                            shopping_end_date='$search_email_date',
+                                            shopping_end_date='{$search_email_date}',
                                             status='Y'
                                             where user_id='{$row['buyer_id']}'
                                             ";
@@ -243,20 +243,20 @@ if($type == "main"){
             else
                 $search_email_yn = "N";
             $query = "update crawler_member_real set
-                                            cell='$cell',
-                                            email='$email',
-                                            address='$address',
-                                            term='$term',
-                                            status='$status',
-                                            use_cnt='$use_cnt',
+                                            cell='{$cell}',
+                                            email='{$email}',
+                                            address='{$address}',
+                                            term='{$term}',
+                                            status='{$status}',
+                                            use_cnt='{$use_cnt}',
                                             monthly_cnt = 0,
                                             total_cnt = 0,
                                             regdate=NOW(),
-                                            search_email_yn='$search_email_yn',
-                                            search_email_date='$search_email_date',
-                                            search_email_cnt='$search_email_cnt',
+                                            search_email_yn='{$search_email_yn}',
+                                            search_email_date='{$search_email_date}',
+                                            search_email_cnt='{$search_email_cnt}',
                                             shopping_yn='N',
-                                            shopping_end_date='$search_email_date',
+                                            shopping_end_date='{$search_email_date}',
                                             status='Y'
                                             where user_id='{$row['buyer_id']}'
                                             ";
@@ -274,7 +274,7 @@ if($type == "main"){
             //echo $sql_m."<BR>";
             mysqli_query($self_con,$sql_m) or die(mysqli_error($self_con));
 
-            $query = "update tjd_pay_result set TotPrice='$price', end_status='A', end_date='{$row['end_date']}' where `no`='$no'";
+            $query = "update tjd_pay_result set TotPrice='{$price}', end_status='A', end_date='{$row['end_date']}' where `no`='{$no}'";
             mysqli_query($self_con,$query);
 
             $last_time = date("Y-m-d H:i:s", strtotime("+{$row['month_cnt']} month"));
@@ -295,20 +295,20 @@ if($type == "main"){
             if ($search_email_cnt > 0) $search_email_yn = "Y";
             else $search_email_yn = "N";
             $query = "update crawler_member_real set
-                                            cell='$cell',
-                                            email='$email',
-                                            address='$address',
-                                            term='$term',
-                                            status='$status',
-                                            use_cnt='$use_cnt',
+                                            cell='{$cell}',
+                                            email='{$email}',
+                                            address='{$address}',
+                                            term='{$term}',
+                                            status='{$status}',
+                                            use_cnt='{$use_cnt}',
                                             monthly_cnt = 0,
                                             total_cnt = 0,
                                             regdate=NOW(),
-                                            search_email_yn='$search_email_yn',
-                                            search_email_date='$search_email_date',
-                                            search_email_cnt='$search_email_cnt',
+                                            search_email_yn='{$search_email_yn}',
+                                            search_email_date='{$search_email_date}',
+                                            search_email_cnt='{$search_email_cnt}',
                                             shopping_yn='N',
-                                            shopping_end_date='$search_email_date',
+                                            shopping_end_date='{$search_email_date}',
                                             status='Y'
                                             where user_id='{$row['buyer_id']}'";
             mysqli_query($self_con,$query);
@@ -331,7 +331,7 @@ if($type == "main"){
     $res_get_cnt = mysqli_query($self_con,$sql_get_cnt);
     $row_get_cnt = mysqli_fetch_array($res_get_cnt);
 
-    $sql_pay = "select sum(TotPrice) as all_money from tjd_pay_result where cash_prod_pay=0 and gwc_cont_pay=1 and buyer_id='{$row['buyer_id']}' and date>'$date_pre_month' and end_status='Y'";
+    $sql_pay = "select sum(TotPrice) as all_money from tjd_pay_result where cash_prod_pay=0 and gwc_cont_pay=1 and buyer_id='{$row['buyer_id']}' and date>'{$date_pre_month}' and end_status='Y'";
     $res_pay = mysqli_query($self_con,$sql_pay);
     $row_pay = mysqli_fetch_array($res_pay);
 

@@ -6,7 +6,7 @@
   <title>온리원문자</title>
   <? include_once $SERVER['DOCUMENT_ROOT'] . "lib/db_config.php";
   extract($_GET);
-  $sql = "select msg from tjd_pay_result_month where pay_idx='$index' order by idx desc";
+  $sql = "select msg from tjd_pay_result_month where pay_idx='{$index}' order by idx desc";
   $result = mysqli_query($self_con,$sql);
   $row = mysqli_fetch_array($result);
   $msg = $row['msg'];

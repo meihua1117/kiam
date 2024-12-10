@@ -258,18 +258,18 @@ $member = $data = mysqli_fetch_array($sresul_num);
 
 
                         // 검색 조건을 적용한다.
-                        $searchStr .= $search_key ? " AND (a.buyer_id LIKE '%" . $search_key . "%' or b.mem_phone like '%" . $search_key . "%' or b.mem_name like '%" . $search_key . "%' or a.TotPrice='$search_key' ) " : null;
+                        $searchStr .= $search_key ? " AND (a.buyer_id LIKE '%" . $search_key . "%' or b.mem_phone like '%" . $search_key . "%' or b.mem_name like '%" . $search_key . "%' or a.TotPrice='{$search_key}' ) " : null;
                         if ($search_start_date && $search_end_date) {
                             $searchStr .= " and balance_date= '$search_year$search_month'";
                         }
                         $search_start_date = $search_year . "-" . sprintf("%02d", $search_month) . "-01";
                         $search_end_date = date('Y-m', strtotime('+1 month', strtotime("$search_start_date"))) . "-01";
 
-                        //$searchStr .=" and a.date >= '$search_start_date' and date <= '$search_end_date'";
+                        //$searchStr .=" and a.date >= '{$search_start_date}' and date <= '{$search_end_date}'";
                         //$searchStr .=" and balance_date between '$search_start_date 00:00:00' and '$search_end_date 00:00:00'";
 
                         $searchStr .= " and balance_date ='" . substr(str_replace("-", "", $search_start_date), 0, 6) . "'";
-                        //$searchStr .=" and buyer_id='$mem_id'";
+                        //$searchStr .=" and buyer_id='{$mem_id}'";
                         //$searchStr .=" and DATE_FORMAT(date, '%Y-%m') = '$search_year-$search_month'";
 
                         $order = $order ? $order : "desc";

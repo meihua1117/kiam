@@ -196,16 +196,16 @@ $(function(){
 				$sql_serch=" status='Y' ";
 					if($_REQUEST['category'])
 					{
-					    $sql_serch.=" and category ='$category'";
+					    $sql_serch.=" and category ='{$category}'";
 					}
 					$now = date("Y-m-d");
 					if($_REQUEST['end_date'] == "Y")
 					{
-					    $sql_serch.=" and end_date < '$now'";
+					    $sql_serch.=" and end_date < '{$now}'";
 					}					
                     if($_REQUEST['end_date'] == "N")
 					{
-					    $sql_serch.=" and end_date >= '$now'";
+					    $sql_serch.=" and end_date >= '{$now}'";
 					}										
 				
 					if($_REQUEST['search_text'])

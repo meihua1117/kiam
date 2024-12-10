@@ -15,7 +15,7 @@ $resul = mysqli_query($self_con, $sql);
 $data = mysqli_fetch_array($resul);
 // 이미 진행중인 결제가 있는지 확인
 $mid = date("YmdHis") . rand(10, 99);
-/*$query = "select * from tjd_pay_result where buyer_id='{$_SESSION['one_member_id']}' and end_status='Y' and `end_date` > '$date'";
+/*$query = "select * from tjd_pay_result where buyer_id='{$_SESSION['one_member_id']}' and end_status='Y' and `end_date` > '{$date}'";
 $res = mysqli_query($self_con,$query);
 $sdata = mysqli_fetch_array($res);
 if($sdata['no'] != "") {

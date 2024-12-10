@@ -47,8 +47,8 @@ $pay_info['onestep2'] = $_POST['onestep2'];
 $pay_info['orderNumber'] = $pay_info['idx'] = $orderNumber;
 $pay_info['member_cnt'] = $_POST['member_cnt'];
 $sql = "insert into tjd_pay_result set 
-        idx='$orderNumber',
-        orderNumber='$orderNumber',
+        idx='{$orderNumber}',
+        orderNumber='{$orderNumber}',
         VACT_InputName='{$data['mem_name']}',
         TotPrice='{$pay_info['TotPrice']}',
         end_date=date_add(now(),INTERVAL {$pay_info['month_cnt']} month),
@@ -108,20 +108,20 @@ if($_POST['phone_cnt'] > 0) {
         $search_email_date = substr($last_time, 0, 10);
         $search_email_cnt = $_POST['email_cnt'];
         $term = substr($last_time, 0, 10);
-        $query = "insert into crawler_member_real set user_id='$user_id',
-                                            user_name='$user_name',
-                                            password='$password',
-                                            cell='$cell',
-                                            email='$email',
-                                            address='$address',
-                                            term='$term',
+        $query = "insert into crawler_member_real set user_id='{$user_id}',
+                                            user_name='{$user_name}',
+                                            password='{$password}',
+                                            cell='{$cell}',
+                                            email='{$email}',
+                                            address='{$address}',
+                                            term='{$term}',
                                             status='N',
-                                            use_cnt='$use_cnt',
+                                            use_cnt='{$use_cnt}',
                                             regdate=NOW(),
-                                            search_email_yn='$status',
-                                            search_email_date='$search_email_date',
-                                            search_email_cnt='$search_email_cnt',
-                                            shopping_end_date='$search_email_date'";
+                                            search_email_yn='{$status}',
+                                            search_email_date='{$search_email_date}',
+                                            search_email_cnt='{$search_email_cnt}',
+                                            shopping_end_date='{$search_email_date}'";
         mysqli_query($self_con,$query);
     }
     else {
@@ -129,7 +129,7 @@ if($_POST['phone_cnt'] > 0) {
                                         extra_db_cnt = extra_db_cnt + '{$row['db_cnt']}',
                                         extra_email_cnt = extra_email_cnt + '{$row['email_cnt']}',
                                         extra_shopping_cnt = extra_shopping_cnt + '{$row['shop_cnt']}'
-                                        where user_id='$user_id'
+                                        where user_id='{$user_id}'
                                         ";
         mysqli_query($self_con,$query);
     }

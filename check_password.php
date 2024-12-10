@@ -5,7 +5,7 @@ extract($_GET);
 $mem_id = $_GET["mem_id"];
 $solution_type = $_GET["solution_type"];
 $solution_name = $_GET["solution_name"];
-$sql = "select mem_pass from Gn_Member where mem_id = '$mem_id'";
+$sql = "select mem_pass from Gn_Member where mem_id = '{$mem_id}'";
 $result = mysqli_query($self_con,$sql);
 $row = mysqli_fetch_array($result);
 ?>

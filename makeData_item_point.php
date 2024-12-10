@@ -124,20 +124,20 @@ if(isset($_POST['point_val'])){
         $sql_buyer = "insert into Gn_Item_Pay_Result set buyer_id='{$_SESSION['one_member_id']}',
                                                         buyer_tel='{$data['mem_phone']}',
                                                         site='{$_POST['contents_url']}',
-                                                        pay_method='$payMethod',
+                                                        pay_method='{$payMethod}',
                                                         item_name = '{$_POST['member_type']}',
                                                         item_price={$_POST['allat_amt']},
                                                         seller_id='{$_POST['seller_id']}',
                                                         pay_date=NOW(),
                                                         pay_status='Y',
-                                                        pay_percent='$pay_percent',
+                                                        pay_percent='{$pay_percent}',
                                                         order_number = '{$_POST['allat_order_no']}',
                                                         VACT_InputName='{$data['mem_name']}',
                                                         point_val=$point,
                                                         type='use',
                                                         current_point='{$data['mem_point']}',
                                                         current_cash='{$data['mem_cash']}',
-                                                        point_percent='$point_percent',
+                                                        point_percent='{$point_percent}',
                                                         contents_cnt='{$_POST['item_cnt']}',
                                                         billdate=now()";
         $res_result = mysqli_query($self_con,$sql_buyer);
@@ -161,7 +161,7 @@ if(isset($_POST['point_val'])){
             }
         }
 
-        $sql_seller = "insert into Gn_Item_Pay_Result set buyer_id='$payMethod',
+        $sql_seller = "insert into Gn_Item_Pay_Result set buyer_id='{$payMethod}',
                                                         buyer_tel='{$data['mem_phone']}',
                                                         site='{$_POST['contents_url']}',
                                                         pay_method='{$_SESSION['one_member_id']}',
@@ -170,14 +170,14 @@ if(isset($_POST['point_val'])){
                                                         seller_id='{$_SESSION['one_member_id']}',
                                                         pay_date=NOW(),
                                                         pay_status='Y',
-                                                        pay_percent='$pay_percent',
+                                                        pay_percent='{$pay_percent}',
                                                         order_number = '{$_POST['allat_order_no']}',
                                                         VACT_InputName='{$data['mem_name']}',
                                                         point_val=$point,
                                                         type='servicebuy',
                                                         current_point='{$row_seller_data['mem_point']}',
                                                         current_cash='{$row_seller_data['mem_cash']}',
-                                                        point_percent='$point_percent',
+                                                        point_percent='{$point_percent}',
                                                         contents_cnt='{$_POST['item_cnt']}',
                                                         billdate=now()";
             $res_result = mysqli_query($self_con,$sql_seller);
@@ -201,7 +201,7 @@ if(isset($_POST['point_val'])){
             $db_idx_buy = $_POST['db_idx_buy'];
             $db_idx_sell = $db_idx_buy * 1 + 1;
     
-            $sql_db_data_buyer = "select * from Gn_Item_Pay_Result where no='$db_idx_buy'";
+            $sql_db_data_buyer = "select * from Gn_Item_Pay_Result where no='{$db_idx_buy}'";
             $res_db_data_buyer = mysqli_query($self_con,$sql_db_data_buyer);
             $row_db_data_buyer = mysqli_fetch_array($res_db_data_buyer);
     
@@ -209,7 +209,7 @@ if(isset($_POST['point_val'])){
             $res_mem_data_buyer = mysqli_query($self_con,$mem_data_buyer);
             $row_mem_data_buyer = mysqli_fetch_array($res_mem_data_buyer);
     
-            $sql_db_data_seller = "select * from Gn_Item_Pay_Result where no='$db_idx_sell'";
+            $sql_db_data_seller = "select * from Gn_Item_Pay_Result where no='{$db_idx_sell}'";
             $res_db_data_seller = mysqli_query($self_con,$sql_db_data_seller);
             $row_db_data_seller = mysqli_fetch_array($res_db_data_seller);
     
@@ -261,7 +261,7 @@ if(isset($_POST['point_val'])){
                                                                         pay_date=NOW(),
                                                                         pay_status='Y',
                                                                         pay_percent='90',
-                                                                        order_number = '$mid',
+                                                                        order_number = '{$mid}',
                                                                         VACT_InputName='{$row_mem_data_seller['mem_name']}',
                                                                         seller_id='{$subject}',
                                                                         point_val=3,
@@ -269,7 +269,7 @@ if(isset($_POST['point_val'])){
                                                                         current_point={$row_mem_data_seller['mem_point']},
                                                                         current_cash={$row_mem_data_seller['mem_cash']},
                                                                         receive_state=1,
-                                                                        message='$content',
+                                                                        message='{$content}',
                                                                         alarm_state=0,
                                                                         billdate=now()";
             mysqli_query($self_con,$sql_notice_recv_seller);
@@ -284,7 +284,7 @@ if(isset($_POST['point_val'])){
             $db_idx_sell = $_POST['db_idx_sell'];
             $db_idx_buy = $db_idx_sell * 1 - 1;
     
-            $sql_db_data_seller = "select * from Gn_Item_Pay_Result where no='$db_idx_sell'";
+            $sql_db_data_seller = "select * from Gn_Item_Pay_Result where no='{$db_idx_sell}'";
             $res_db_data_seller = mysqli_query($self_con,$sql_db_data_seller);
             $row_db_data_seller = mysqli_fetch_array($res_db_data_seller);
     
@@ -292,7 +292,7 @@ if(isset($_POST['point_val'])){
             $res_mem_data_seller = mysqli_query($self_con,$mem_data_seller);
             $row_mem_data_seller = mysqli_fetch_array($res_mem_data_seller);
     
-            $sql_db_data_buyer = "select * from Gn_Item_Pay_Result where no='$db_idx_buy'";
+            $sql_db_data_buyer = "select * from Gn_Item_Pay_Result where no='{$db_idx_buy}'";
             $res_db_data_buyer = mysqli_query($self_con,$sql_db_data_buyer);
             $row_db_data_buyer = mysqli_fetch_array($res_db_data_buyer);
     
@@ -348,7 +348,7 @@ if(isset($_POST['point_val'])){
                                                                         pay_date=NOW(),
                                                                         pay_status='Y',
                                                                         pay_percent='90',
-                                                                        order_number = '$mid',
+                                                                        order_number = '{$mid}',
                                                                         VACT_InputName='{$row_mem_data_buyer['mem_name']}',
                                                                         seller_id='{$subject1}',
                                                                         point_val=3,
@@ -356,7 +356,7 @@ if(isset($_POST['point_val'])){
                                                                         current_point={$row_mem_data_buyer['mem_point']},
                                                                         current_cash={$row_mem_data_buyer['mem_cash']},
                                                                         receive_state=1,
-                                                                        message='$content1',
+                                                                        message='{$content1}',
                                                                         alarm_state=0,
                                                                         billdate=now()";
             mysqli_query($self_con,$sql_notice_recv_buyer);
@@ -381,13 +381,13 @@ if(isset($_POST['point_val'])){
     
         $sql_notice_recv_buyer = "insert into Gn_Item_Pay_Result set buyer_id='{$_SESSION['one_member_id']}',
                                                                     buyer_tel='{$data['mem_phone']}',
-                                                                    site='$buy_link_apply',
+                                                                    site='{$buy_link_apply}',
                                                                     pay_method='obmms02',
                                                                     item_name = '공지사항전송',
                                                                     pay_date=NOW(),
                                                                     pay_status='Y',
                                                                     pay_percent='90',
-                                                                    order_number = '$mid',
+                                                                    order_number = '{$mid}',
                                                                     VACT_InputName='{$data['mem_name']}',
                                                                     seller_id='{$subject}',
                                                                     point_val=3,
@@ -395,7 +395,7 @@ if(isset($_POST['point_val'])){
                                                                     current_point={$data['mem_point']},
                                                                     current_cash={$data['mem_cash']},
                                                                     receive_state=1,
-                                                                    message='$content1',
+                                                                    message='{$content1}',
                                                                     alarm_state=0,
                                                                     billdate=now()";
         mysqli_query($self_con,$sql_notice_recv_buyer);
@@ -410,15 +410,15 @@ if(isset($_POST['point_val'])){
         send_mms($payMethod, $row_seller_data['mem_phone'], $subject, $content);
     
         $mid = date("YmdHis").rand(10,99);
-        $sql_notice_recv_seller = "insert into Gn_Item_Pay_Result set buyer_id='$payMethod',
+        $sql_notice_recv_seller = "insert into Gn_Item_Pay_Result set buyer_id='{$payMethod}',
                                                                     buyer_tel='{$row_seller_data['mem_phone']}',
-                                                                    site='$sell_link_apply',
+                                                                    site='{$sell_link_apply}',
                                                                     pay_method='obmms02',
                                                                     item_name = '공지사항전송',
                                                                     pay_date=NOW(),
                                                                     pay_status='Y',
                                                                     pay_percent='90',
-                                                                    order_number = '$mid',
+                                                                    order_number = '{$mid}',
                                                                     VACT_InputName='{$row_seller_data['mem_name']}',
                                                                     seller_id='{$subject}',
                                                                     point_val=3,
@@ -426,7 +426,7 @@ if(isset($_POST['point_val'])){
                                                                     current_point={$row_seller_data['mem_point']},
                                                                     current_cash={$row_seller_data['mem_cash']},
                                                                     receive_state=1,
-                                                                    message='$content1',
+                                                                    message='{$content1}',
                                                                     alarm_state=0,
                                                                     billdate=now()";
         mysqli_query($self_con,$sql_notice_recv_seller);
@@ -445,7 +445,7 @@ if(isset($_POST['point_val'])){
                                                                     pay_date=NOW(),
                                                                     pay_status='Y',
                                                                     pay_percent='90',
-                                                                    order_number = '$mid',
+                                                                    order_number = '{$mid}',
                                                                     VACT_InputName='{$row_admin_data['mem_name']}',
                                                                     seller_id='{$subject}',
                                                                     point_val=3,
@@ -453,7 +453,7 @@ if(isset($_POST['point_val'])){
                                                                     current_point={$row_admin_data['mem_point']},
                                                                     current_cash={$row_admin_data['mem_cash']},
                                                                     receive_state=1,
-                                                                    message='$content',
+                                                                    message='{$content}',
                                                                     alarm_state=0,
                                                                     billdate=now()";
         $res_result = mysqli_query($self_con,$sql_notice_recv_admin);
@@ -466,7 +466,7 @@ if(isset($_POST['point_val'])){
 
     $sql = "insert into Gn_Item_Pay_Result set buyer_id='{$_SESSION['one_member_id']}',
                                                 buyer_tel='{$data['mem_phone']}',
-                                                pay_method='$payMethod',
+                                                pay_method='{$payMethod}',
                                                 item_name = '{$_POST['member_type']}',
                                                 item_price=$item_price,
                                                 seller_id='{$_POST['seller_id']}',
@@ -481,7 +481,7 @@ if(isset($_POST['point_val'])){
 
 function send_mms($mem_id, $phone_num, $subject, $content){
     global $self_con;
-    $sql_app_mem = "select * from Gn_MMS_Number where (sendnum='$phone_num' and sendnum is not null and sendnum != '')";
+    $sql_app_mem = "select * from Gn_MMS_Number where (sendnum='{$phone_num}' and sendnum is not null and sendnum != '')";
     // echo $sql_app_mem."pwd"; exit;
     $res_app_mem = mysqli_query($self_con,$sql_app_mem);
     if(mysqli_num_rows($res_app_mem)){

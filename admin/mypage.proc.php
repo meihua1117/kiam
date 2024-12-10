@@ -15,26 +15,26 @@ if ($mode == "land_save") {
         }
     }
 
-    $sql = "select * from Gn_event where event_name_eng='$pcode'";
+    $sql = "select * from Gn_event where event_name_eng='{$pcode}'";
     $result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
     $event_data = $row = mysqli_fetch_array($result);
     //$pcode = $event_data['event_name_eng'];
     $sp = $event_data['pcode'];
     $transUrl = str_replace("http", "https", $transUrl);
-    $sql = "insert into Gn_landing set title='$title',
-                                       description='$description',
-                                       content='$ir1',
-                                       file='$file_name',
-                                       alarm_sms_yn='$alarm_sms_yn',
-                                       movie_url='$movie_url',
-                                       reply_yn='$reply_yn',
-                                       request_yn='$request_yn',
-                                       lecture_yn='$lecture_yn',
-                                       footer_content='$ir2',
-                                       pcode='$pcode',
+    $sql = "insert into Gn_landing set title='{$title}',
+                                       description='{$description}',
+                                       content='{$ir1}',
+                                       file='{$file_name}',
+                                       alarm_sms_yn='{$alarm_sms_yn}',
+                                       movie_url='{$movie_url}',
+                                       reply_yn='{$reply_yn}',
+                                       request_yn='{$request_yn}',
+                                       lecture_yn='{$lecture_yn}',
+                                       footer_content='{$ir2}',
+                                       pcode='{$pcode}',
                                        read_cnt='0',
                                        regdate=NOW(),
-                                       short_url='$transUrl',
+                                       short_url='{$transUrl}',
                                        m_id='{$_SESSION['one_member_id']}'";
     $result = mysqli_query($self_con, $sql);
 
@@ -45,7 +45,7 @@ if ($mode == "land_save") {
     $sql = "update Gn_landing set short_url='{$transUrl}' where landing_idx='{$landing_idx}'";
     $result = mysqli_query($self_con, $sql);
 
-    //$sql="select uni_id,mem_id from Gn_MMS where mem_id='{$_SESSION['one_member_id']}' and send_num='$sendnum' AND substr(reg_date, 1, 10) = CURDATE() limit 1;";
+    //$sql="select uni_id,mem_id from Gn_MMS where mem_id='{$_SESSION['one_member_id']}' and send_num='{$sendnum}' AND substr(reg_date, 1, 10) = CURDATE() limit 1;";
     //$result=mysqli_query($self_con,$sql);
     //$row=mysqli_fetch_array($result);
     echo "<script>alert('저장되었습니다.');location='mypage_landing_list.php';</script>";
@@ -60,7 +60,7 @@ if ($mode == "land_save") {
         if (move_uploaded_file($_FILES['file']['tmp_name'], "upload/" . $file_name)) {
             $handle = new Image("upload/" . $file_name, 800);
             $handle->resize();
-            $addQuery = " file='$file_name',";
+            $addQuery = " file='{$file_name}',";
         }
     }
 
@@ -143,6 +143,8 @@ if ($mode == "land_save") {
                                      regdate=NOW(), 
                                      ip_addr='{$_SERVER['REMOTE_ADDR']}',
                                      m_id='{$_SESSION['one_member_id']}'";
+    echo $sql;
+    exit;
     $result = mysqli_query($self_con, $sql);
 
     $event_idx = mysqli_insert_id($self_con);
@@ -172,7 +174,7 @@ if ($mode == "land_save") {
 
     $sql = "update Gn_event set short_url='{$transUrl}' where event_idx='{$event_idx}'";
     $result = mysqli_query($self_con, $sql);
-    //$sql="select uni_id,mem_id from Gn_MMS where mem_id='{$_SESSION['one_member_id']}' and send_num='$sendnum' AND substr(reg_date, 1, 10) = CURDATE() limit 1;";
+    //$sql="select uni_id,mem_id from Gn_MMS where mem_id='{$_SESSION['one_member_id']}' and send_num='{$sendnum}' AND substr(reg_date, 1, 10) = CURDATE() limit 1;";
     //$result=mysqli_query($self_con,$sql);
     //$row=mysqli_fetch_array($result);
     echo "<script>alert('저장되었습니다.');location='mypage_link_list.php';</script>";
@@ -195,7 +197,7 @@ if ($mode == "land_save") {
     $result = mysqli_query($self_con, $sql);
 
     $sms_idx = mysqli_insert_id($self_con);
-    //$sql="select uni_id,mem_id from Gn_MMS where mem_id='{$_SESSION['one_member_id']}' and send_num='$sendnum' AND substr(reg_date, 1, 10) = CURDATE() limit 1;";
+    //$sql="select uni_id,mem_id from Gn_MMS where mem_id='{$_SESSION['one_member_id']}' and send_num='{$sendnum}' AND substr(reg_date, 1, 10) = CURDATE() limit 1;";
     //$result=mysqli_query($self_con,$sql);
     //$row=mysqli_fetch_array($result);
     //echo "<script>alert('저장되었습니다.');location='mypage_reservation_list.php';</script>";
@@ -213,7 +215,7 @@ if ($mode == "land_save") {
                                Where sms_idx='{$sms_idx}'";
     $result = mysqli_query($self_con, $sql);
 
-    //$sql="select uni_id,mem_id from Gn_MMS where mem_id='{$_SESSION['one_member_id']}' and send_num='$sendnum' AND substr(reg_date, 1, 10) = CURDATE() limit 1;";
+    //$sql="select uni_id,mem_id from Gn_MMS where mem_id='{$_SESSION['one_member_id']}' and send_num='{$sendnum}' AND substr(reg_date, 1, 10) = CURDATE() limit 1;";
     //$result=mysqli_query($self_con,$sql);
     //$row=mysqli_fetch_array($result);
     echo "<script>alert('저장되었습니다.');location='mypage_link_list.php';</script>";
@@ -231,7 +233,7 @@ if ($mode == "land_save") {
         if (move_uploaded_file($_FILES['image']['tmp_name'], "upload/" . $file_name)) {
             $handle = new Image("upload/" . $file_name, 800);
             $handle->resize();
-            $addQuery .= " image='$file_name',";
+            $addQuery .= " image='{$file_name}',";
 
             $size = getimagesize("upload/" . $file_name);
             if ($size[0] > 640) {
@@ -257,7 +259,7 @@ if ($mode == "land_save") {
         if (move_uploaded_file($_FILES['image1']['tmp_name'], "upload/" . $file_name1)) {
             $handle = new Image("upload/" . $file_name1, 800);
             $handle->resize();
-            $addQuery .= " image1='$file_name1',";
+            $addQuery .= " image1='{$file_name1}',";
 
             $size = getimagesize("upload/" . $file_name1);
             if ($size[0] > 640) {
@@ -283,7 +285,7 @@ if ($mode == "land_save") {
         if (move_uploaded_file($_FILES['image2']['tmp_name'], "upload/" . $file_name2)) {
             $handle = new Image("upload/" . $file_name2, 800);
             $handle->resize();
-            $addQuery .= " image2='$file_name2',";
+            $addQuery .= " image2='{$file_name2}',";
 
             $size = getimagesize("upload/" . $file_name2);
             if ($size[0] > 640) {
@@ -330,7 +332,7 @@ if ($mode == "land_save") {
         if (move_uploaded_file($_FILES['image']['tmp_name'], "upload/" . $file_name)) {
             $handle = new Image("upload/" . $file_name, 800);
             $handle->resize();
-            $addQuery .= " image='$file_name',";
+            $addQuery .= " image='{$file_name}',";
 
             $size = getimagesize("upload/" . $file_name);
             if ($size[0] > 640) {
@@ -356,7 +358,7 @@ if ($mode == "land_save") {
         if (move_uploaded_file($_FILES['image1']['tmp_name'], "upload/" . $file_name1)) {
             $handle = new Image("upload/" . $file_name1, 800);
             $handle->resize();
-            $addQuery .= " image1='$file_name1',";
+            $addQuery .= " image1='{$file_name1}',";
 
             $size = getimagesize("upload/" . $file_name1);
             if ($size[0] > 640) {
@@ -382,7 +384,7 @@ if ($mode == "land_save") {
         if (move_uploaded_file($_FILES['image2']['tmp_name'], "upload/" . $file_name2)) {
             $handle = new Image("upload/" . $file_name2, 800);
             $handle->resize();
-            $addQuery .= " image2='$file_name2',";
+            $addQuery .= " image2='{$file_name2}',";
 
             $size = getimagesize("upload/" . $file_name2);
             if ($size[0] > 640) {
@@ -485,17 +487,17 @@ if ($mode == "land_save") {
 
             sendmms(3, $mem_id, $send_num, $recv_num, $reservation, $row['title'], $row['content'], $jpg, $jpg1, $jpg2, 'Y', $row['sms_idx'], $row['sms_detail_idx'], $request_idx, "", $row['send_deny']);
 
-            $query = "insert into Gn_MMS_Agree set mem_id='$mem_id',
-                                            send_num='$send_num',
-                                            recv_num='$recv_num',
+            $query = "insert into Gn_MMS_Agree set mem_id='{$mem_id}',
+                                            send_num='{$send_num}',
+                                            recv_num='{$recv_num}',
                                             content='{$row['content']}',
                                             title='{$row['title']}',
-                                            jpg='$jpg',
+                                            jpg='{$jpg}',
                                             reg_date=NOW(),
-                                            reservation='$reservation',
+                                            reservation='{$reservation}',
                                             sms_idx='{$row['sms_idx']}',
                                             sms_detail_idx='{$row['sms_detail_idx']}',
-                                            request_idx='$request_idx'";
+                                            request_idx='{$request_idx}'";
             //echo $query."<BR>";
             mysqli_query($self_con, $query) or die(mysqli_error($self_con));
         }
@@ -503,25 +505,25 @@ if ($mode == "land_save") {
 
     if ($join_yn == 'Y') {
         //회원가입
-        $sql = "select mem_id from Gn_Member where mem_id='$mobile'";
+        $sql = "select mem_id from Gn_Member where mem_id='{$mobile}'";
         $res = mysqli_query($self_con, $sql);
         $row = mysqli_fetch_array($res);
         if ($row['mem_id'] == "") {
             $passwd = substr($mobile, -4);
             //password()
-            $query = "insert into Gn_Member set mem_id='$mobile',
+            $query = "insert into Gn_Member set mem_id='{$mobile}',
                                                 mem_leb='22',
-                                                web_pwd=md5('$passwd'),
-                                                mem_pass=md5('$passwd'),
-                                                mem_name='$name',
-                                                mem_nick='$name',
-                                                mem_phone='$mobile',
-                                                zy='$job',
+                                                web_pwd=md5('{$passwd}'),
+                                                mem_pass=md5('{$passwd}'),
+                                                mem_name='{$name}',
+                                                mem_nick='{$name}',
+                                                mem_phone='{$mobile}',
+                                                zy='{$job}',
                                                 first_regist=now() ,
                                                 mem_check=now(),
-                                                mem_add1='$addr',
-                                                mem_email='$email',
-                                                mem_sex='$sex',
+                                                mem_add1='{$addr}',
+                                                mem_email='{$email}',
+                                                mem_sex='{$sex}',
                                                 join_ip='{$_SERVER['REMOTE_ADDR']}'";
             mysqli_query($self_con, $query);
         }
@@ -530,31 +532,31 @@ if ($mode == "land_save") {
     echo "<script>alert('신청되었습니다.');location='mypage_request_list.php';</script>";
     exit;
 } else if ($mode == "request_update") {
-    $sql = "update Gn_event_request set name='$name',
-                                        mobile='$mobile',
-                                        email='$email',
-                                        job='$job',
-                                        sp='$sp',
-                                       sex='$sex',
-                                       addr='$addr',
-                                       birthday='$birthday',
-                                       consult_date='$consult_date',
-                                       join_yn='$join_yn',                                      
+    $sql = "update Gn_event_request set name='{$name}',
+                                        mobile='{$mobile}',
+                                        email='{$email}',
+                                        job='{$job}',
+                                        sp='{$sp}',
+                                       sex='{$sex}',
+                                       addr='{$addr}',
+                                       birthday='{$birthday}',
+                                       consult_date='{$consult_date}',
+                                       join_yn='{$join_yn}',                                      
                                         edit_id='{$_SESSION['one_member_id']}',
                                         edit_date=NOW()
-                                  where request_idx ='$request_idx'";
+                                  where request_idx ='{$request_idx}'";
     $result = mysqli_query($self_con, $sql);
     echo "<script>alert('저장되었습니다.');location='mypage_request_list.php';</script>";
     exit;
 } else if ($mode == "request_del") {
-    $sql = "delete from Gn_event_request where request_idx ='$request_idx' and sp='$org_event_code'";
+    $sql = "delete from Gn_event_request where request_idx ='{$request_idx}' and sp='{$org_event_code}'";
     $result = mysqli_query($self_con, $sql);
     echo json_encode(array("result" => "success"));
     exit;
 } else if ($mode == "reservation") {
     $recv_num = $mobile;
     $mem_id = $event_data['m_id'];
-    $sql = "select * from Gn_event_sms_info where event_idx='$event_idx'";
+    $sql = "select * from Gn_event_sms_info where event_idx='{$event_idx}'";
     $lresult = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
     $time = 60 - date("i");
 
@@ -564,12 +566,12 @@ if ($mode == "land_save") {
         $send_num = $lrow['mobile'];
 
         //알람등록
-        $sql = "select * from Gn_event_sms_info where sms_idx='$sms_idx'";
+        $sql = "select * from Gn_event_sms_info where sms_idx='{$sms_idx}'";
         $result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
         $row = mysqli_fetch_array($result);
 
         $reg = time();
-        $sql = "select * from Gn_event_sms_step_info where sms_idx='$sms_idx'";
+        $sql = "select * from Gn_event_sms_step_info where sms_idx='{$sms_idx}'";
         $result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
         $k = 0;
         while ($row = mysqli_fetch_array($result)) {
@@ -596,14 +598,14 @@ if ($mode == "land_save") {
             for ($m = 0; $m < count($mobile); $m++) {
                 sendmms(3, $mem_id, $send_num, $mobile[$m], $reservation, $row['title'], $row['content'], $jpg, $jpg1, $jpg2, 'Y', $row['sms_idx'], $row['sms_detail_idx'], $request_idx[$m], "", $row['send_deny']);
 
-                $query = "insert into Gn_MMS_Agree set mem_id='$mem_id',
-                                                 send_num='$send_num',
+                $query = "insert into Gn_MMS_Agree set mem_id='{$mem_id}',
+                                                 send_num='{$send_num}',
                                                  recv_num='$mobile[$m]',
                                                  content='{$row['content']}',
                                                  title='{$row['title']}',
-                                                 jpg='$jpg',
+                                                 jpg='{$jpg}',
                                                  reg_date=NOW(),
-                                                 reservation='$reservation',
+                                                 reservation='{$reservation}',
                                                  sms_idx='{$row['sms_idx']}',
                                                  sms_detail_idx='{$row['sms_detail_idx']}',
                                                  request_idx='$request_idx[$m]'";
@@ -614,12 +616,12 @@ if ($mode == "land_save") {
     echo "<script>alert('예약되었습니다.');location='mypage_request_list.php';</script>";
     exit;
 } else if ($mode == "sms_detail_del") {
-    $sql = "delete from Gn_event_sms_step_info where sms_detail_idx ='$sms_detail_idx' and sms_idx ='$sms_idx'";
+    $sql = "delete from Gn_event_sms_step_info where sms_detail_idx ='{$sms_detail_idx}' and sms_idx ='{$sms_idx}'";
     $result = mysqli_query($self_con, $sql);
     echo json_encode(array("result" => "success"));
     exit;
 } else if ($mode == "sms_detail_info") {
-    $sql = "select * from Gn_event_sms_step_info where sms_detail_idx ='$sms_detail_idx' and sms_idx ='$sms_idx'";
+    $sql = "select * from Gn_event_sms_step_info where sms_detail_idx ='{$sms_detail_idx}' and sms_idx ='{$sms_idx}'";
     $result = mysqli_query($self_con, $sql);
     $row = mysqli_fetch_array($result);
     $info['result'] = "success";
@@ -635,7 +637,7 @@ if ($mode == "land_save") {
         $result = mysqli_query($self_con, $sql);
     } else {
         $sql = "delete   from  Gn_event_sms_info 
-                                   where   sms_idx='$sms_idx' and m_id ='{$_SESSION['one_member_id']}'";
+                                   where   sms_idx='{$sms_idx}' and m_id ='{$_SESSION['one_member_id']}'";
         $result = mysqli_query($self_con, $sql);
     }
     echo "<script>alert('삭제되었습니다.');location='mypage_landing_list.php';</script>";
@@ -645,14 +647,14 @@ if ($mode == "land_save") {
         $idx =  $request_idx[$i];
         $query = "
         insert into Gn_event_request (m_id, event_idx, event_code, name, mobile, email, job, birthday, sex, addr, consult_date, join_yn, pcode, sp, ip_addr, regdate)
-        select m_id, '$event_idx_', '$event_pcode_', name, mobile, email, job, birthday, sex, addr, consult_date, join_yn, '$event_pcode_', '$sp_', ip_addr, now() from Gn_event_request where request_idx='$idx'
+        select m_id, '{$event_idx_}', '{$event_pcode_}', name, mobile, email, job, birthday, sex, addr, consult_date, join_yn, '{$event_pcode_}', '{$sp_}', ip_addr, now() from Gn_event_request where request_idx='{$idx}'
         ";
         mysqli_query($self_con, $query);
     }
     $event_idx = $_POST['event_idx_'];
     $recv_num = $mobile;
     $mem_id = $m_id;
-    $sql = "select * from Gn_event_sms_info where event_idx='$event_idx'";
+    $sql = "select * from Gn_event_sms_info where event_idx='{$event_idx}'";
     $lresult = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
     $time = 60 - date("i");
 
@@ -661,12 +663,12 @@ if ($mode == "land_save") {
         $sms_idx = $lrow['sms_idx'];
         $send_num = $lrow['mobile'];
         //알람등록
-        $sql = "select * from Gn_event_sms_info where sms_idx='$sms_idx'";
+        $sql = "select * from Gn_event_sms_info where sms_idx='{$sms_idx}'";
         $result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
         $row = mysqli_fetch_array($result);
 
         $reg = time();
-        $sql = "select * from Gn_event_sms_step_info where sms_idx='$sms_idx'";
+        $sql = "select * from Gn_event_sms_step_info where sms_idx='{$sms_idx}'";
 
         $result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
         $k = 0;
@@ -693,14 +695,14 @@ if ($mode == "land_save") {
             for ($m = 0; $m < count($mobile); $m++) {
                 sendmms(3, $mem_id, $send_num, $mobile[$m], $reservation, $row['title'], $row['content'], $jpg, $jpg1, $jpg2, 'Y', $row['sms_idx'], $row['sms_detail_idx'], $request_idx[$m], "", $row['send_deny']);
 
-                $query = "insert into Gn_MMS_Agree set mem_id='$mem_id',
-                                                 send_num='$send_num',
+                $query = "insert into Gn_MMS_Agree set mem_id='{$mem_id}',
+                                                 send_num='{$send_num}',
                                                  recv_num='$mobile[$m]',
                                                  content='{$row['content']}',
                                                  title='{$row['title']}',
-                                                 jpg='$jpg',
+                                                 jpg='{$jpg}',
                                                  reg_date=NOW(),
-                                                 reservation='$reservation',
+                                                 reservation='{$reservation}',
                                                  sms_idx='{$row['sms_idx']}',
                                                  sms_detail_idx='{$row['sms_detail_idx']}',
                                                  request_idx='$request_idx[$m]'";
@@ -711,20 +713,20 @@ if ($mode == "land_save") {
     echo "<script>alert('등록되었습니다.');location='mypage_request_list.php';</script>";
     exit;
 } else if ($mode == "address_event_add") {
-    $query = "insert into Gn_event_address (mem_id, event_idx, address_idx, regdate) values ('{$_SESSION['one_member_id']}','$event_idx','$address_idx',now())";
+    $query = "insert into Gn_event_address (mem_id, event_idx, address_idx, regdate) values ('{$_SESSION['one_member_id']}','{$event_idx}','{$address_idx}',now())";
     print_r($_POST);
     exit;
     for ($i = 0; $i < count($request_idx); $i++) {
         $idx =  $request_idx[$i];
         $query = "insert into Gn_event_request (m_id, event_idx, event_code, name, mobile, email, job, birthday, sex, addr, consult_date, join_yn, pcode, sp, ip_addr, regdate)
-        select m_id, '$event_idx_', '$sp_', name, mobile, email, job, birthday, sex, addr, consult_date, join_yn, '$sp_', '$event_pcode_', ip_addr, now() from Gn_event_request where request_idx='$idx'";
+        select m_id, '{$event_idx_}', '{$sp_}', name, mobile, email, job, birthday, sex, addr, consult_date, join_yn, '{$sp_}', '{$event_pcode_}', ip_addr, now() from Gn_event_request where request_idx='{$idx}'";
         mysqli_query($self_con, $query);
     }
     $event_idx = $_POST['event_idx_'];
     $recv_num = $mobile;
     $mem_id = $m_id;
 
-    $sql = "select * from Gn_event_sms_info where event_idx='$event_idx'";
+    $sql = "select * from Gn_event_sms_info where event_idx='{$event_idx}'";
     $lresult = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
     $time = 60 - date("i");
     while ($lrow = mysqli_fetch_array($lresult)) {
@@ -733,12 +735,12 @@ if ($mode == "land_save") {
         $send_num = $lrow['mobile'];
 
         //알람등록
-        $sql = "select * from Gn_event_sms_info where sms_idx='$sms_idx'";
+        $sql = "select * from Gn_event_sms_info where sms_idx='{$sms_idx}'";
         $result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
         $row = mysqli_fetch_array($result);
 
         $reg = time();
-        $sql = "select * from Gn_event_sms_step_info where sms_idx='$sms_idx'";
+        $sql = "select * from Gn_event_sms_step_info where sms_idx='{$sms_idx}'";
         $result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
         $k = 0;
         while ($row = mysqli_fetch_array($result)) {
@@ -765,14 +767,14 @@ if ($mode == "land_save") {
             for ($m = 0; $m < count($mobile); $m++) {
                 sendmms(3, $mem_id, $send_num, $mobile[$m], $reservation, $row['title'], $row['content'], $jpg, $jpg1, $jpg2, 'Y', $row['sms_idx'], $row['sms_detail_idx'], $request_idx[$m], "", $row['send_deny']);
 
-                $query = "insert into Gn_MMS_Agree set mem_id='$mem_id',
-                                                 send_num='$send_num',
+                $query = "insert into Gn_MMS_Agree set mem_id='{$mem_id}',
+                                                 send_num='{$send_num}',
                                                  recv_num='$mobile[$m]',
                                                  content='{$row['content']}',
                                                  title='{$row['title']}',
-                                                 jpg='$jpg',
+                                                 jpg='{$jpg}',
                                                  reg_date=NOW(),
-                                                 reservation='$reservation',
+                                                 reservation='{$reservation}',
                                                  sms_idx='{$row['sms_idx']}',
                                                  sms_detail_idx='{$row['sms_detail_idx']}',
                                                  request_idx='$request_idx[$m]'";
@@ -791,7 +793,7 @@ if ($mode == "land_save") {
     if (move_uploaded_file($_FILES['review_img1']['tmp_name'], "upload/lecture/" . $file_name)) {
         $handle = new Image("upload/lecture/" . $file_name, 800);
         $handle->resize();
-        $addQuery .= " review_img1='$file_name',";
+        $addQuery .= " review_img1='{$file_name}',";
     }
 
     $file_arr = explode(".", $_FILES['review_img2']['name']);
@@ -802,7 +804,7 @@ if ($mode == "land_save") {
     if (move_uploaded_file($_FILES['review_img2']['tmp_name'], "upload/lecture/" . $file_name)) {
         $handle = new Image("upload/lecture/" . $file_name, 800);
         $handle->resize();
-        $addQuery .= " review_img2='$file_name',";
+        $addQuery .= " review_img2='{$file_name}',";
     }
 
     $file_arr = explode(".", $_FILES['review_img3']['name']);
@@ -813,7 +815,7 @@ if ($mode == "land_save") {
     if (move_uploaded_file($_FILES['review_img3']['tmp_name'], "upload/lecture/" . $file_name)) {
         $handle = new Image("upload/lecture/" . $file_name, 800);
         $handle->resize();
-        $addQuery .= " review_img3='$file_name',";
+        $addQuery .= " review_img3='{$file_name}',";
     }
 
     $file_arr = explode(".", $_FILES['review_img4']['name']);
@@ -824,7 +826,7 @@ if ($mode == "land_save") {
     if (move_uploaded_file($_FILES['review_img4']['tmp_name'], "upload/lecture/" . $file_name)) {
         $handle = new Image("upload/lecture/" . $file_name, 800);
         $handle->resize();
-        $addQuery .= " review_img4='$file_name',";
+        $addQuery .= " review_img4='{$file_name}',";
     }
 
     $file_arr = explode(".", $_FILES['review_img5']['name']);
@@ -835,31 +837,31 @@ if ($mode == "land_save") {
     if (move_uploaded_file($_FILES['review_img5']['tmp_name'], "upload/lecture/" . $file_name)) {
         $handle = new Image("upload/lecture/" . $file_name, 800);
         $handle->resize();
-        $addQuery .= " review_img5='$file_name',";
+        $addQuery .= " review_img5='{$file_name}',";
     }
 
     $lecture_day = implode(",", $lecture_day);
-    $sql = "insert into Gn_lecture set event_idx='$event_idx',
-                                       event_code='$event_code',
-                                       category='$category',
-                                       start_date='$start_date',
-                                       end_date='$end_date',
-                                       lecture_day='$lecture_day',
-                                       lecture_start_time='$lecture_start_time',
-                                       lecture_end_time='$lecture_end_time',
-                                       lecture_info='$lecture_info',
-                                       lecture_url='$lecture_url',
-                                       instructor='$instructor',
-                                       target='$target',
-                                       area='$area',
-                                       max_num='$max_num',
+    $sql = "insert into Gn_lecture set event_idx='{$event_idx}',
+                                       event_code='{$event_code}',
+                                       category='{$category}',
+                                       start_date='{$start_date}',
+                                       end_date='{$end_date}',
+                                       lecture_day='{$lecture_day}',
+                                       lecture_start_time='{$lecture_start_time}',
+                                       lecture_end_time='{$lecture_end_time}',
+                                       lecture_info='{$lecture_info}',
+                                       lecture_url='{$lecture_url}',
+                                       instructor='{$instructor}',
+                                       target='{$target}',
+                                       area='{$area}',
+                                       max_num='{$max_num}',
                                        $addQuery
-                                       review_title1='$review_title1',
-                                       review_title2='$review_title2',
-                                       review_title3='$review_title3',
-                                       review_title4='$review_title4',
-                                       review_title5='$review_title5',                                     
-                                       fee='$fee',
+                                       review_title1='{$review_title1}',
+                                       review_title2='{$review_title2}',
+                                       review_title3='{$review_title3}',
+                                       review_title4='{$review_title4}',
+                                       review_title5='{$review_title5}',                                     
+                                       fee='{$fee}',
                                        mem_id='{$_SESSION['one_member_id']}',
                                        status='N',
                                        regdate=NOW()";
@@ -868,21 +870,21 @@ if ($mode == "land_save") {
     exit;
 } else if ($mode == "lecture_save_event") {
     $lecture_day = implode(",", $lecture_day);
-    $sql = "insert into Gn_lecture set event_idx='$event_idx',
-                                       event_code='$event_code',
-                                       category='$category',
-                                       start_date='$start_date',
-                                       end_date='$end_date',
-                                       lecture_day='$lecture_day',
-                                       lecture_start_time='$lecture_start_time',
-                                       lecture_end_time='$lecture_end_time',
-                                       lecture_url='$lecture_url',
-                                       lecture_info='$lecture_info',
-                                       instructor='$instructor',
-                                       target='$target',
-                                       area='$area',
-                                       max_num='$max_num',
-                                       fee='$fee',
+    $sql = "insert into Gn_lecture set event_idx='{$event_idx}',
+                                       event_code='{$event_code}',
+                                       category='{$category}',
+                                       start_date='{$start_date}',
+                                       end_date='{$end_date}',
+                                       lecture_day='{$lecture_day}',
+                                       lecture_start_time='{$lecture_start_time}',
+                                       lecture_end_time='{$lecture_end_time}',
+                                       lecture_url='{$lecture_url}',
+                                       lecture_info='{$lecture_info}',
+                                       instructor='{$instructor}',
+                                       target='{$target}',
+                                       area='{$area}',
+                                       max_num='{$max_num}',
+                                       fee='{$fee}',
                                        mem_id='{$_SESSION['one_member_id']}',
                                        status='N',
                                        regdate=NOW()";
@@ -898,7 +900,7 @@ if ($mode == "land_save") {
     if (move_uploaded_file($_FILES['review_img1']['tmp_name'], "upload/lecture/" . $file_name)) {
         $handle = new Image("upload/lecture/" . $file_name, 800);
         $handle->resize();
-        $addQuery .= " review_img1='$file_name',";
+        $addQuery .= " review_img1='{$file_name}',";
     }
 
     $file_arr = explode(".", $_FILES['review_img2']['name']);
@@ -911,7 +913,7 @@ if ($mode == "land_save") {
     if (move_uploaded_file($_FILES['review_img2']['tmp_name'], "upload/lecture/" . $file_name)) {
         $handle = new Image("upload/lecture/" . $file_name, 800);
         $handle->resize();
-        $addQuery .= " review_img2='$file_name',";
+        $addQuery .= " review_img2='{$file_name}',";
     }
 
     $file_arr = explode(".", $_FILES['review_img3']['name']);
@@ -924,7 +926,7 @@ if ($mode == "land_save") {
     if (move_uploaded_file($_FILES['review_img3']['tmp_name'], "upload/lecture/" . $file_name)) {
         $handle = new Image("upload/lecture/" . $file_name, 800);
         $handle->resize();
-        $addQuery .= " review_img3='$file_name',";
+        $addQuery .= " review_img3='{$file_name}',";
     }
 
     $file_arr = explode(".", $_FILES['review_img4']['name']);
@@ -937,7 +939,7 @@ if ($mode == "land_save") {
     if (move_uploaded_file($_FILES['review_img4']['tmp_name'], "upload/lecture/" . $file_name)) {
         $handle = new Image("upload/lecture/" . $file_name, 800);
         $handle->resize();
-        $addQuery .= " review_img4='$file_name',";
+        $addQuery .= " review_img4='{$file_name}',";
     }
 
     $file_arr = explode(".", $_FILES['review_img5']['name']);
@@ -950,36 +952,36 @@ if ($mode == "land_save") {
     if (move_uploaded_file($_FILES['review_img5']['tmp_name'], "upload/lecture/" . $file_name)) {
         $handle = new Image("upload/lecture/" . $file_name, 800);
         $handle->resize();
-        $addQuery .= " review_img5='$file_name',";
+        $addQuery .= " review_img5='{$file_name}',";
     }
     $lecture_day = implode(",", $lecture_day);
-    $sql = "update  Gn_lecture set event_idx='$event_idx',
-                                       event_code='$event_code',
-                                       category='$category',
-                                       start_date='$start_date',
-                                       end_date='$end_date',
-                                       lecture_day='$lecture_day',
-                                       lecture_start_time='$lecture_start_time',
-                                       lecture_end_time='$lecture_end_time',
-                                       lecture_url='$lecture_url',
-                                       lecture_info='$lecture_info',
-                                       instructor='$instructor',
-                                       target='$target',
-                                       area='$area',
-                                       max_num='$max_num',
+    $sql = "update  Gn_lecture set event_idx='{$event_idx}',
+                                       event_code='{$event_code}',
+                                       category='{$category}',
+                                       start_date='{$start_date}',
+                                       end_date='{$end_date}',
+                                       lecture_day='{$lecture_day}',
+                                       lecture_start_time='{$lecture_start_time}',
+                                       lecture_end_time='{$lecture_end_time}',
+                                       lecture_url='{$lecture_url}',
+                                       lecture_info='{$lecture_info}',
+                                       instructor='{$instructor}',
+                                       target='{$target}',
+                                       area='{$area}',
+                                       max_num='{$max_num}',
                                        $addQuery
-                                       review_title1='$review_title1',
-                                       review_title2='$review_title2',
-                                       review_title3='$review_title3',
-                                       review_title4='$review_title4',
-                                       review_title5='$review_title5',
-                                       fee='$fee'
-                                where  lecture_id='$lecture_id'";
+                                       review_title1='{$review_title1}',
+                                       review_title2='{$review_title2}',
+                                       review_title3='{$review_title3}',
+                                       review_title4='{$review_title4}',
+                                       review_title5='{$review_title5}',
+                                       fee='{$fee}'
+                                where  lecture_id='{$lecture_id}'";
     $result = mysqli_query($self_con, $sql);
     echo "<script>alert('수정되었습니다.');location='mypage_lecture_list.php';</script>";
     exit;
 } else if ($mode == "lecture_del") {
-    $sql = "delete from  Gn_lecture where  lecture_id='$lecture_id'";
+    $sql = "delete from  Gn_lecture where  lecture_id='{$lecture_id}'";
     $result = mysqli_query($self_con, $sql);
     echo "<script>alert('삭제되었습니다.');location='mypage_lecture_list.php';</script>";
     exit;
@@ -992,14 +994,14 @@ if ($mode == "land_save") {
     if (move_uploaded_file($_FILES['image']['tmp_name'], "upload/review/" . $file_name)) {
         $handle = new Image("upload/review/" . $file_name, 800);
         $handle->resize();
-        $addQuery .= " image='$file_name',";
+        $addQuery .= " image='{$file_name}',";
     }
 
     $lecture_day = implode(",", $lecture_day);
-    $sql = "insert into Gn_review set lecture_id='$lecture_id',
-                                       score='$score',
-                                       content='$content',
-                                       profile='$profile',
+    $sql = "insert into Gn_review set lecture_id='{$lecture_id}',
+                                       score='{$score}',
+                                       content='{$content}',
+                                       profile='{$profile}',
                                        mem_id='{$_SESSION['one_member_id']}',
                                        status='N',
                                        $addQuery
@@ -1009,10 +1011,10 @@ if ($mode == "land_save") {
     exit;
 } else if ($mode == "review_update") {
     $lecture_day = implode(",", $lecture_day);
-    $sql = "update Gn_review set  score='$score',
-                                  content='$content',
-                                  profile='$profile' 
-                                where  review_id='$review_id'";
+    $sql = "update Gn_review set  score='{$score}',
+                                  content='{$content}',
+                                  profile='{$profile}' 
+                                where  review_id='{$review_id}'";
     $result = mysqli_query($self_con, $sql);
     echo "<script>alert('수정되었습니다.');location='mypage_review_list.php';</script>";
     exit;
@@ -1037,32 +1039,32 @@ if ($mode == "land_save") {
     $start_date = min($date);
 
     $query = "update Gn_daily set mem_id='{$_SESSION['one_member_id']}', 
-                                 send_num='$send_num',
-                                 group_idx='$group_idx',
-                                 total_count='$total_count',
-                                 title='$title',
-                                 content='$txt',
-                                 daily_cnt='$daily_cnt',
-                                 start_date='$start_date',
-                                 end_date='$end_date',
-                                 jpg='$upimage_str',
-                                 jpg1='$upimage_str1',
-                                 jpg2='$upimage_str2',
+                                 send_num='{$send_num}',
+                                 group_idx='{$group_idx}',
+                                 total_count='{$total_count}',
+                                 title='{$title}',
+                                 content='{$txt}',
+                                 daily_cnt='{$daily_cnt}',
+                                 start_date='{$start_date}',
+                                 end_date='{$end_date}',
+                                 jpg='{$upimage_str}',
+                                 jpg1='{$upimage_str1}',
+                                 jpg2='{$upimage_str2}',
                                  status='Y',
                                  reg_date=NOW()
-                            where gd_id='$gd_id'";
+                            where gd_id='{$gd_id}'";
     mysqli_query($self_con, $query);
 
     if ($gd_id > 0) {
-        $query = "delete from Gn_daily_date where gd_id='$gd_id';";
+        $query = "delete from Gn_daily_date where gd_id='{$gd_id}';";
         mysqli_query($self_con, $query);
 
-        $query = "delete from Gn_MMS where gd_id='$gd_id' ";
+        $query = "delete from Gn_MMS where gd_id='{$gd_id}' ";
         mysqli_query($self_con, $query);
     }
     $k = 0;
     $kk = 0;
-    $sql = "select * from Gn_MMS_Receive where grp_id = '$group_idx' ";
+    $sql = "select * from Gn_MMS_Receive where grp_id = '{$group_idx}' ";
     $sresult = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
     while ($srow = mysqli_fetch_array($sresult)) {
         if ($kk == $daily_cnt) {
@@ -1081,7 +1083,7 @@ if ($mode == "land_save") {
     }
 
     for ($i = 0; $i < count($date); $i++) {
-        $query = "insert into Gn_daily_date set gd_id='$gd_id',
+        $query = "insert into Gn_daily_date set gd_id='{$gd_id}',
                                                     send_date='$date[$i]',
                                                     recv_num='$recv_num_set[$i]'";
         mysqli_query($self_con, $query);
@@ -1096,27 +1098,27 @@ if ($mode == "land_save") {
     $start_date = min($date);
 
     $query = "insert into Gn_daily set mem_id='{$_SESSION['one_member_id']}', 
-                                 iam='$iam',
-                                 send_num='$send_num',
-                                 group_idx='$group_idx',
-                                 total_count='$total_count',
-                                 title='$title',
-                                 content='$txt',
-                                 daily_cnt='$daily_cnt',
-                                 start_date='$start_date',
-                                 end_date='$end_date',
-                                 jpg='$upimage_str',
-                                 jpg1='$upimage_str1',
-                                 jpg2='$upimage_str2',
+                                 iam='{$iam}',
+                                 send_num='{$send_num}',
+                                 group_idx='{$group_idx}',
+                                 total_count='{$total_count}',
+                                 title='{$title}',
+                                 content='{$txt}',
+                                 daily_cnt='{$daily_cnt}',
+                                 start_date='{$start_date}',
+                                 end_date='{$end_date}',
+                                 jpg='{$upimage_str}',
+                                 jpg1='{$upimage_str1}',
+                                 jpg2='{$upimage_str2}',
                                  status='Y',
                                  reg_date=NOW(),
-                                 htime='$htime',
-                                 mtime='$mtime'";
+                                 htime='{$htime}',
+                                 mtime='{$mtime}'";
     mysqli_query($self_con, $query);
     $gd_id = mysqli_insert_id($self_con);
     $k = 0;
     $kk = 0;
-    $sql = "select * from Gn_MMS_Receive where grp_id = '$group_idx' ";
+    $sql = "select * from Gn_MMS_Receive where grp_id = '{$group_idx}' ";
     $sresult = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
     while ($srow = mysqli_fetch_array($sresult)) {
         if ($kk == $daily_cnt) {
@@ -1135,7 +1137,7 @@ if ($mode == "land_save") {
     }
 
     for ($i = 0; $i < count($date); $i++) {
-        $query = "insert into Gn_daily_date set gd_id='$gd_id',
+        $query = "insert into Gn_daily_date set gd_id='{$gd_id}',
                                                     send_date='$date[$i]',
                                                     recv_num='$recv_num_set[$i]'";
         mysqli_query($self_con, $query);
@@ -1225,37 +1227,37 @@ else if ($mode == "new_coaching_info") {
         }
     }
     if ($update_coaching_id) {
-        $sql = "update gn_coaching_info set coty_id='$coty_id',
-                                    coty_mem_code='$coty_mem_code',
-                                    coaching_date='$coaching_date',
-                                    coaching_time='$coaching_time',
-                                    coaching_title='$coaching_title',
-                                    coaching_content='$coaching_content',
-                                    coaching_file='$coaching_file',
-                                    coach_value='$coach_value',
-                                    home_work='$home_work',
-                                    coach_comment='$coach_comment',
-                                    search_text='$search_text'
+        $sql = "update gn_coaching_info set coty_id='{$coty_id}',
+                                    coty_mem_code='{$coty_mem_code}',
+                                    coaching_date='{$coaching_date}',
+                                    coaching_time='{$coaching_time}',
+                                    coaching_title='{$coaching_title}',
+                                    coaching_content='{$coaching_content}',
+                                    coaching_file='{$coaching_file}',
+                                    coach_value='{$coach_value}',
+                                    home_work='{$home_work}',
+                                    coach_comment='{$coach_comment}',
+                                    search_text='{$search_text}'
                                      where coaching_id = $update_coaching_id";
     } else {
         //크리트
-        $sql = "insert into gn_coaching_info set coty_id='$coty_id',
-                                    coty_mem_code='$coty_mem_code',
-                                    coach_id='$coach_id',
-                                    coach_mem_code='$coach_mem_code',
-                                    coaching_turn='$coaching_turn',
-                                    coaching_date='$coaching_date',
-                                    coaching_time='$coaching_time',
-                                    coaching_title='$coaching_title',
-                                    coaching_content='$coaching_content',
-                                    coaching_file='$coaching_file',
-                                    coach_value='$coach_value',
-                                    home_work='$home_work',
+        $sql = "insert into gn_coaching_info set coty_id='{$coty_id}',
+                                    coty_mem_code='{$coty_mem_code}',
+                                    coach_id='{$coach_id}',
+                                    coach_mem_code='{$coach_mem_code}',
+                                    coaching_turn='{$coaching_turn}',
+                                    coaching_date='{$coaching_date}',
+                                    coaching_time='{$coaching_time}',
+                                    coaching_title='{$coaching_title}',
+                                    coaching_content='{$coaching_content}',
+                                    coaching_file='{$coaching_file}',
+                                    coach_value='{$coach_value}',
+                                    home_work='{$home_work}',
                                     reg_date=now(),
-                                    coach_comment='$coach_comment',
-                                    search_text='$search_text',
-                                    coaching_status = '$coaching_status',
-                                    past_time_sum='$coaching_time_sum',
+                                    coach_comment='{$coach_comment}',
+                                    search_text='{$search_text}',
+                                    coaching_status = '{$coaching_status}',
+                                    past_time_sum='{$coaching_time_sum}',
                                     agree='0'";
     }
 
@@ -1292,8 +1294,8 @@ else if ($mode == "new_coaching_info") {
     $coty_value = $_POST['coty_value'];
     $coty_comment = $_POST['coty_comment'];
     $coaching_id = $_POST['coaching_id'];
-    $sql = "update gn_coaching_info set coty_value='$coty_value',
-                                    coty_comment='$coty_comment',
+    $sql = "update gn_coaching_info set coty_value='{$coty_value}',
+                                    coty_comment='{$coty_comment}',
                                     agree=1,coaching_status=2 
                                      where coaching_id = $coaching_id";
 
@@ -1303,8 +1305,8 @@ else if ($mode == "new_coaching_info") {
     $site_value = $_POST['site_value'];
     $site_comment = $_POST['site_comment'];
     $coaching_id = $_POST['coaching_id'];
-    $sql = "update gn_coaching_info set site_value='$site_value',
-                                    site_comment='$site_comment'
+    $sql = "update gn_coaching_info set site_value='{$site_value}',
+                                    site_comment='{$site_comment}'
                                      where coaching_id = $coaching_id";
     $result = mysqli_query($self_con, $sql);
     exit;

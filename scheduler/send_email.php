@@ -10,7 +10,7 @@ mysql_select_db($mysql_db) or die(mysql_error());
 mysql_query("set names utf8");*/
 
 $date = date("Y-m-d H:i:00"); //"2019-02-11 10:30:00";
-$sql_all = "select * from gn_mail where reservation ='$date' and up_date is null";
+$sql_all = "select * from gn_mail where reservation ='{$date}' and up_date is null";
 $resul_all = mysqli_query($self_con, $sql_all);
 while ($row_all = mysqli_fetch_array($resul_all)) {
     $from = $row_all['sender'];

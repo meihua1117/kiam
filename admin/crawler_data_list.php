@@ -177,7 +177,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                       $searchStr .= " AND (a.address LIKE '%".$address."%')";
                   }
                   if($data_type) {
-                      $searchStr .= " AND data_type='$data_type'";
+                      $searchStr .= " AND data_type='{$data_type}'";
                   }      	
 
                 	$query = "SELECT count(seq) cnt FROM crawler_data a WHERE 1=1 $searchStr";

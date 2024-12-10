@@ -315,7 +315,7 @@ function excel_down_p_group(pno,one_member_id){
                 	$res = mysqli_query($self_con,$query);
                     while($row = mysqli_fetch_array($res)) {                       	
                         // =====================  유료결제건 시작 ===================== 
-                    	$sql = "select phone_cnt from tjd_pay_result where buyer_id = '".$row['mem_id']."' and end_date > '$date_today' and end_status='Y' order by end_date desc limit 1";
+                    	$sql = "select phone_cnt from tjd_pay_result where buyer_id = '".$row['mem_id']."' and end_date > '{$date_today}' and end_status='Y' order by end_date desc limit 1";
                     	$res_result = mysqli_query($self_con,$sql);
                     	$buyPhoneCnt = mysqli_fetch_row($res_result);
                     	mysqli_free_result($res_result);

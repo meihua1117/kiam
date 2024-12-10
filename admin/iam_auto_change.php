@@ -7,7 +7,7 @@ $date_today=date("Y-m-d");
 $date_month=date("Y-m");
 
 // 아이엠 상세 정보
-$query = "select * from Gn_Iam_automem where memid='$memid'";
+$query = "select * from Gn_Iam_automem where memid='{$memid}'";
 $res = mysqli_query($self_con,$query);
 $data = mysqli_fetch_array($res);
 ?>

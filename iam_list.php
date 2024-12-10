@@ -204,7 +204,7 @@ $data = mysqli_fetch_array($sresul_num);
                                 // $date_today = date("Y-m-d");
                                 // $convertedTime = date('Y-m-d H:i:s',strtotime('-3 day',strtotime($date_today)));
 
-                                // $sql1 = "update gn_coaching_info set agree = 1, site_value=3  where reg_date < '$date_today'";
+                                // $sql1 = "update gn_coaching_info set agree = 1, site_value=3  where reg_date < '{$date_today}'";
 
                                 // echo $sql1;
                                 // $sql1_res = mysqli_query($self_con,$sql1);

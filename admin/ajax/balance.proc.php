@@ -54,7 +54,7 @@ $query = "  SELECT
 
                         	WHERE 1=1 
                 	              $searchStr
-                	              and buyer_id='$mem_id'";
+                	              and buyer_id='{$mem_id}'";
 $resul = mysqli_query($self_con, $query) or die(mysqli_error($self_con));
 $row = mysqli_fetch_array($resul);
 // 금액 동일한지 확인
@@ -74,7 +74,7 @@ print_r($row);
 exit;
 
 // 정보 확인
-$sql = "select * from Gn_Member where mem_code='$mem_code'";
+$sql = "select * from Gn_Member where mem_code='{$mem_code}'";
 $resul = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
 $row = mysqli_fetch_array($resul);
 
@@ -117,17 +117,17 @@ if ($_POST['mem_code']) {
     // 앱비밀번호가 있을경우
     if ($passwd) {
         $passwd = md5($passwd);
-        $addSql .= " ,mem_pass='$passwd'";
+        $addSql .= " ,mem_pass='{$passwd}'";
     }
     // PC 비밀번호가 있는경우
     if ($web_passwd) {
         //password()
-        $addSql .= " ,web_pwd=md5('$web_passwd')";
+        $addSql .= " ,web_pwd=md5('{$web_passwd}')";
     }
 
     // 스마트폰 번호가 있을경우
     if ($row['mem_phone'] != $mem_phone) {
-        $addSql .= " ,mem_phone='$mem_phone'";
+        $addSql .= " ,mem_phone='{$mem_phone}'";
         $changePhone = true;
 
         $sql = "update tjd_pay_result set fujia_status='Y' where buyer_id='{$row['mem_id']}'";
@@ -137,17 +137,17 @@ if ($_POST['mem_code']) {
     if ($mem_type) {
         $site = getPosition($recommend_id);
         setPosition($row['mem_id'], $site);
-        $sql = "update Gn_Member set mem_type='$mem_type', 
-                                       total_pay_money='$total_pay_money',
-                                       phone_cnt='$phone_cnt',
-                                       is_message='$is_message',
-                                       bank_name='$bank_name',
-                                       bank_account='$bank_account',
-                                       bank_owner='$bank_owner',
-                                       site='$site',
-                                       recommend_id='$recommend_id'
+        $sql = "update Gn_Member set mem_type='{$mem_type}', 
+                                       total_pay_money='{$total_pay_money}',
+                                       phone_cnt='{$phone_cnt}',
+                                       is_message='{$is_message}',
+                                       bank_name='{$bank_name}',
+                                       bank_account='{$bank_account}',
+                                       bank_owner='{$bank_owner}',
+                                       site='{$site}',
+                                       recommend_id='{$recommend_id}'
                                        $addSql 
-                                 where mem_code='$mem_code'";
+                                 where mem_code='{$mem_code}'";
         mysqli_query($self_con, $sql);
     }
     // 스마트폰 변경시 변경되어야 하는 테이블
@@ -157,7 +157,7 @@ if ($_POST['mem_code']) {
 if ($_POST['mem_code'] && $_POST['sendnum']) {
     // 기부회원 정보 수정 [기부비율]
     if ($donation_rate) {
-        $sql_num = "update Gn_MMS_Number set donation_rate='$donation_rate' where mem_id='{$row['mem_id']}' and sendnum='$sendnum' ";
+        $sql_num = "update Gn_MMS_Number set donation_rate='{$donation_rate}' where mem_id='{$row['mem_id']}' and sendnum='{$sendnum}' ";
         mysqli_query($self_con, $sql_num);
     }
 }
@@ -166,18 +166,18 @@ echo json_encode(array("result" => $result));
 function setPosition($user_id, $position)
 {
     global $self_con;
-    $sql3 = "select sub_domain FROM Gn_Service WHERE sub_domain like '%kiam.kr' And mem_id='$user_id'";
+    $sql3 = "select sub_domain FROM Gn_Service WHERE sub_domain like '%kiam.kr' And mem_id='{$user_id}'";
     $res = mysqli_query($self_con, $sql3);
     $row1 = mysqli_fetch_array($res);
     if ($row1['sub_domain'])
         return;
 
-    $strQuery = "select mem_id from Gn_Member WHERE recommend_id='$user_id'";
+    $strQuery = "select mem_id from Gn_Member WHERE recommend_id='{$user_id}'";
     $res = mysqli_query($self_con, $strQuery);
     $bOnce = false;
     while ($arrResult = mysqli_fetch_array($res)) {
         if (!$bOnce) {
-            $strQuery1 = "update Gn_Member set site='$position' where recommend_id='$user_id'";
+            $strQuery1 = "update Gn_Member set site='{$position}' where recommend_id='{$user_id}'";
             mysqli_query($self_con, $strQuery1);
             $bOnce = true;
         }
@@ -189,7 +189,7 @@ function setPosition($user_id, $position)
 function getPosition($recommender)
 {
     global $self_con;
-    $sql3 = "select sub_domain FROM Gn_Service WHERE sub_domain like '%kiam.kr' And mem_id='$recommender'";
+    $sql3 = "select sub_domain FROM Gn_Service WHERE sub_domain like '%kiam.kr' And mem_id='{$recommender}'";
     $res = mysqli_query($self_con, $sql3);
     $row1 = mysqli_fetch_array($res);
     if ($row1['sub_domain']) {
@@ -197,7 +197,7 @@ function getPosition($recommender)
         $sites = explode(".", $parse['host']);
         $site = $sites[0];
     } else {
-        $sql3 = "select site from Gn_Member WHERE mem_id='$recommender'";
+        $sql3 = "select site from Gn_Member WHERE mem_id='{$recommender}'";
         $res = mysqli_query($self_con, $sql3);
         $row1 = mysqli_fetch_array($res);
         $site = $row1['site'];

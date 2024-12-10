@@ -8,7 +8,7 @@ extract($_POST);
 
 $idx = $_POST["idx"]; 
 
-    $query="delete from Gn_Iam_Name_Card WHERE idx='$idx'
+    $query="delete from Gn_Iam_Name_Card WHERE idx='{$idx}'
                                  ";
     mysqli_query($self_con,$query);	
 

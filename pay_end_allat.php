@@ -97,20 +97,20 @@ $at_data   = "allat_shop_id=".$at_shop_id.
     $term = substr($last_time, 0, 10);
     if($row['member_type'] == "dber"){
         if ($crow[0] == "") {
-            $query = "insert into crawler_member_real set user_id='$user_id',
-                                            user_name='$user_name',
-                                            password='$password',
-                                            cell='$cell',
-                                            email='$email',
-                                            address='$address',
-                                            term='$term',
-                                            status='$status',
-                                            use_cnt='$use_cnt',
+            $query = "insert into crawler_member_real set user_id='{$user_id}',
+                                            user_name='{$user_name}',
+                                            password='{$password}',
+                                            cell='{$cell}',
+                                            email='{$email}',
+                                            address='{$address}',
+                                            term='{$term}',
+                                            status='{$status}',
+                                            use_cnt='{$use_cnt}',
                                             regdate=NOW(),
                                             search_email_yn='Y',
-                                            search_email_date='$search_email_date',
-                                            search_email_cnt='$search_email_cnt',
-                                            shopping_end_date='$search_email_date',
+                                            search_email_date='{$search_email_date}',
+                                            search_email_cnt='{$search_email_cnt}',
+                                            shopping_end_date='{$search_email_date}',
                                             extra_db_cnt = '{$row['db_cnt']}',
                                             extra_email_cnt = '{$row['email_cnt']}',
                                             extra_shopping_cnt = '{$row['shop_cnt']}'";
@@ -120,7 +120,7 @@ $at_data   = "allat_shop_id=".$at_shop_id.
                                             extra_db_cnt = extra_db_cnt + '{$row['db_cnt']}',
                                             extra_email_cnt = extra_email_cnt + '{$row['email_cnt']}',
                                             extra_shopping_cnt = extra_shopping_cnt + '{$row['shop_cnt']}'
-                                            where user_id='$user_id'
+                                            where user_id='{$user_id}'
                                             ";
             mysqli_query($self_con,$query);
         }
@@ -130,7 +130,7 @@ $at_data   = "allat_shop_id=".$at_shop_id.
     mysqli_query($self_con,$sql_m) or die(mysqli_error($self_con));
 
     $add_phone = $row['phone_cnt'] / 9000;
-    $sql_m = "update Gn_Member set   phone_cnt=phone_cnt+'$add_phone' where mem_id='{$member_1['mem_id']}' ";
+    $sql_m = "update Gn_Member set   phone_cnt=phone_cnt+'{$add_phone}' where mem_id='{$member_1['mem_id']}' ";
     mysqli_query($self_con,$sql_m) or die(mysqli_error($self_con));
 
     /*if ($srow['recommend_id'] != "") {
@@ -160,7 +160,7 @@ $at_data   = "allat_shop_id=".$at_shop_id.
                 $branch_share_per = 0;
             }
 
-            $sql = "update tjd_pay_result set share_per='$share_per', branch_share_per = '$branch_share_per', share_id='{$srow['recommend_id']}', branch_share_id='$branch_share_id' where no='$no'";
+            $sql = "update tjd_pay_result set share_per='{$share_per}', branch_share_per = '{$branch_share_per}', share_id='{$srow['recommend_id']}', branch_share_id='{$branch_share_id}' where no='{$no}'";
             mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
         }
     }*/

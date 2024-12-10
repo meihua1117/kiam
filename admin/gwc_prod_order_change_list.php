@@ -258,12 +258,12 @@ $date_today=date("Y-m")."-01 00:00:00";
                                 // 검색 조건을 적용한다.
                                 $searchStr .= $identifier ? " AND (mem_id LIKE '%".$identifier."%')" : null;
                                 $searchStr .= $search_key ? "AND ( order_mem_name like '%".$search_key."%')" : null;
-                                $searchStr .= $prod_name ? " AND b.contents_title = '$prod_name' " : null;
+                                $searchStr .= $prod_name ? " AND b.contents_title = '{$prod_name}' " : null;
 
                                 if($search_start_date && $search_end_date)
-                                    $searchStr .= " AND date >= '$search_start_date' and date <= '$search_end_date'";
+                                    $searchStr .= " AND date >= '{$search_start_date}' and date <= '{$search_end_date}'";
                                 if($search_status)
-                                    $searchStr .= " AND prod_status='$search_status'";
+                                    $searchStr .= " AND prod_status='{$search_status}'";
 
                                 if($prod_name){
                                     $join_str = "INNER JOIN Gn_Iam_Contents_Gwc b on b.idx =a.contents_idx ";

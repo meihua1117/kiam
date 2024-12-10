@@ -172,7 +172,7 @@ $mem_phone = str_replace("-", "", $data['mem_phone']);
                                 }
                                 if ($_REQUEST['sp']) {
                                     $sp = $_REQUEST['sp'];
-                                    $sql_serch .= " and sp ='$sp'";
+                                    $sql_serch .= " and sp ='{$sp}'";
                                 }
 
                                 $sql = "select count(request_idx) as cnt from Gn_event_request where $sql_serch ";

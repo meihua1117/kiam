@@ -8,7 +8,7 @@ $date_today=date("Y-m-d");
 if($idx) {
     // 가입 회원 상세 정보
     $query = "select *
-                from gn_admin_allowip where idx='$idx'";
+                from gn_admin_allowip where idx='{$idx}'";
     $res = mysqli_query($self_con,$query);
     $data = mysqli_fetch_array($res);
 }

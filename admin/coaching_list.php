@@ -328,7 +328,7 @@ $date_today = date("Y-m-d");
     <?
     $convertedTime = date('Y-m-d', strtotime('-3 day', strtotime($date_today)));
 
-    $sql1 = "update gn_coaching_info set agree = 1, site_value=3, coty_value=3, coaching_status=2  where reg_date  < '$convertedTime' and agree=0";
+    $sql1 = "update gn_coaching_info set agree = 1, site_value=3, coty_value=3, coaching_status=2  where reg_date  < '{$convertedTime}' and agree=0";
     $sql1_res = mysqli_query($self_con, $sql1) or die(mysqli_error($self_con));
     echo $convertedTime . "  이전에 등록한 코칭정보가 자동승인이 되었습니다.";
     //echo $sql1;
@@ -393,7 +393,7 @@ $date_today = date("Y-m-d");
                     // 검색 조건을 적용한다.
                     $searchStr .= $search_key ? " AND (a.search_text LIKE '%" . $search_key . "%' )" : null;
 
-                    if ($category) $searchStr .= " and category='$category'";
+                    if ($category) $searchStr .= " and category='{$category}'";
 
 
                     if ($finish_type == "finish")

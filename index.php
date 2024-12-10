@@ -12,7 +12,7 @@ if ($language_index == "") {
     $language_index = 1;
     @setcookie("language", $language_index, time() + 3600);
 }
-$language_sql = "select * from Gn_Iam_multilang where no = '$language_index'";
+$language_sql = "select * from Gn_Iam_multilang where no = '{$language_index}'}'";
 $language_res = mysqli_query($self_con, $language_sql);
 $language_row = mysqli_fetch_array($language_res);
 $lang = $_COOKIE['lang'] ? $_COOKIE['lang'] : "kr";
@@ -161,7 +161,7 @@ if ($cur_win == "we_story") {
     }
 
     $post_display = 1; //댓글박스 보이기 1:보이기 0:감추기
-    $card_sql = "select * from Gn_Iam_Name_Card where card_short_url = '$request_short_url'";
+    $card_sql = "select * from Gn_Iam_Name_Card where card_short_url = '{$request_short_url}'";
     $card_result = mysqli_query($self_con, $card_sql);
     $cur_card = mysqli_fetch_array($card_result);
 }
@@ -177,11 +177,11 @@ if ($cur_win == "my_info") {
         }
         $request_short_url = substr($request_short_url, 0, 10);
     }
-    $card_sql = "select * from Gn_Iam_Name_Card where card_short_url = '$request_short_url'";
+    $card_sql = "select * from Gn_Iam_Name_Card where card_short_url = '{$request_short_url}'";
     $card_result = mysqli_query($self_con, $card_sql);
     $cur_card = mysqli_fetch_array($card_result);
 
-    $card_mem_sql = "select mem_id, site_iam,mem_name from Gn_Member where mem_code = '$card_owner_code'";
+    $card_mem_sql = "select mem_id, site_iam,mem_name from Gn_Member where mem_code = '{$card_owner_code}'";
     $card_mem_result = mysqli_query($self_con, $card_mem_sql);
     $card_mem_row = mysqli_fetch_array($card_mem_result);
     $card_owner_site = $card_mem_row['site_iam']; //카드를 방문한 회원의 아이엠분양사명
@@ -198,7 +198,7 @@ if ($cur_win == "my_info") {
             $group_card_url = $group_card_url[1]; //링크에 카드링크만 있을 경우
         }
         $group_card_url = substr($group_card_url, 0, 10);
-        $card_sql = "select * from Gn_Iam_Name_Card where card_short_url = '$group_card_url'";
+        $card_sql = "select * from Gn_Iam_Name_Card where card_short_url = '{$group_card_url}'";
         $card_result = mysqli_query($self_con, $card_sql);
         $cur_card = mysqli_fetch_array($card_result);
     }
@@ -237,7 +237,7 @@ if (!$auto_link) {
     $auto_link = $auto_row[0];
 }
 $first_card_idx = $domainData['profile_idx']; //분양사의 1번 카드아이디
-$sql = "select mem_id, main_img1, main_img2, main_img3,video,video_status, card_short_url from Gn_Iam_Name_Card where idx = '$first_card_idx'";
+$sql = "select mem_id, main_img1, main_img2, main_img3,video,video_status, card_short_url from Gn_Iam_Name_Card where idx = '{$first_card_idx}'";
 $result = mysqli_query($self_con, $sql);
 $main_card_row = mysqli_fetch_array($result);
 $first_card_url = $main_card_row['card_short_url']; //분양사이트 1번 네임카드 url
@@ -285,7 +285,7 @@ if ($_SESSION['iam_member_id']) {
         $send_ids_cnt = count($cnt);
     }
     $date = date("Y-m-d H:i:s");
-    $pay_query = "select count(*) from tjd_pay_result where (member_type like '%standard%' || member_type like '%professional%' || member_type like '%enterprise%') and buyer_id='{$_SESSION['iam_member_id']}' and end_status='Y' and `end_date` > '$date'";
+    $pay_query = "select count(*) from tjd_pay_result where (member_type like '%standard%' || member_type like '%professional%' || member_type like '%enterprise%') and buyer_id='{$_SESSION['iam_member_id']}' and end_status='Y' and `end_date` > '{$date}'";
     $pay_result = mysqli_query($self_con, $pay_query);
     $pay_row = mysqli_fetch_array($pay_result);
     $pay_status = $pay_row[0] + $Gn_mem_row['iam_type']; // 유료회원이면 true,무료회원이면 false
@@ -323,7 +323,7 @@ if ($_SESSION['iam_member_id']) {
 } else
     $pay_status = false;
 if ($cur_win == "my_info") {
-    $card_sql = "select * from Gn_Iam_Name_Card where card_short_url = '$request_short_url'";
+    $card_sql = "select * from Gn_Iam_Name_Card where card_short_url = '{$request_short_url}'";
     $card_result = mysqli_query($self_con, $card_sql);
     $cur_card = mysqli_fetch_array($card_result);
     $mem_sql = "select site_iam from Gn_Member where mem_id = '{$cur_card['mem_id']}'";
@@ -335,20 +335,20 @@ if ($cur_win == "my_info") {
         echo "<script>location.href='http://" . $mem_site . $_SERVER['REQUEST_URI'] . "';</script>";
     }
     if ($card_owner_code != $user_mem_code) { //로긴자가 다른 회원의 아이엠을 보기
-        $share_sql = "select mem_id,iam_type from Gn_Member where mem_code = '$card_owner_code'";
+        $share_sql = "select mem_id,iam_type from Gn_Member where mem_code = '{$card_owner_code}'";
         $share_res = mysqli_query($self_con, $share_sql);
         $share_row = mysqli_fetch_array($share_res);
         $share_member_id = $share_row['mem_id']; //로긴자가 방문하는 다른 회원
         $date = date("Y-m-d H:i:s");
-        $pay_query = "select count(*) from tjd_pay_result where ( member_type like '%standard%' || member_type like '%professional%' || member_type like '%enterprise%') and buyer_id='$share_member_id' and end_status='Y' and `end_date` > '$date'";
+        $pay_query = "select count(*) from tjd_pay_result where ( member_type like '%standard%' || member_type like '%professional%' || member_type like '%enterprise%') and buyer_id='{$share_member_id}' and end_status='Y' and `end_date` > '{$date}'";
         $pay_result = mysqli_query($self_con, $pay_query);
         $pay_row = mysqli_fetch_array($pay_result);
         $share_pay_status = $pay_row[0] + $share_row['iam_type']; //본사 유료회원이면 true,무료회원이면 false
-        $share_admin_sql = "select count(*) from Gn_Iam_Service where mem_id = '$share_member_id'";
+        $share_admin_sql = "select count(*) from Gn_Iam_Service where mem_id = '{$share_member_id}'";
         $share_admin_res = mysqli_query($self_con, $share_admin_sql);
         $share_admin_row = mysqli_fetch_array($share_admin_res);
         $share_sub_admin = $share_admin_row[0];
-        $show_sql = "select show_iam_card from Gn_Member where mem_id = '$share_member_id'";
+        $show_sql = "select show_iam_card from Gn_Member where mem_id = '{$share_member_id}'";
         $show_result = mysqli_query($self_con, $show_sql);
         $show_row = mysqli_fetch_array($show_result);
         $show_share_iam_card = $show_row['show_iam_card'];
@@ -417,7 +417,7 @@ if ($cur_win == "my_info") {
     else if ($gkind == "" && $search_key != "")
         $gkind = "search_con";
     if ($gkind != "recommend" && $gkind != "mygroup" && $gkind != "search" && $gkind != "search_con") {
-        $g_card_sql = "select * from Gn_Iam_Name_Card where card_short_url = '$group_card_url'";
+        $g_card_sql = "select * from Gn_Iam_Name_Card where card_short_url = '{$group_card_url}'";
         $g_card_res = mysqli_query($self_con, $g_card_sql);
         $group_card = mysqli_fetch_array($g_card_res);
         $post_display = $group_card['post_display']; //댓글박스 보이기 1:보이기 0:감추기
@@ -2481,21 +2481,21 @@ function encodeKorean($matches)
                                                             ($user_mem_code != $card_owner_code && !$share_sub_admin && (!$share_pay_status || $domainData['service_type'] == 2)))
                                                     ) { //무료회원이거나 단체회원이면 분양사관리자 1번카드를 자신의 1번카드로 한다
                                                         //$share_pay_status = false;
-                                                        $title_sql = "select card_title,phone_display,next_iam_link from Gn_Iam_Name_Card where idx='$first_card_idx'";
+                                                        $title_sql = "select card_title,phone_display,next_iam_link from Gn_Iam_Name_Card where idx='{$first_card_idx}'";
                                                         $title_res = mysqli_query($self_con, $title_sql);
                                                         $title_row = mysqli_fetch_array($title_res);
 
                                                         $private_class = ($title_row['phone_display'] == 'N' ? "private" : "");
                                                         $active_class = ($request_short_url == $first_card_url ? "active" : "");
 
-                                                        $n_cont_sql = "select count(*) from Gn_Iam_Contents where card_idx = '$first_card_idx' and req_data > '$today'";
+                                                        $n_cont_sql = "select count(*) from Gn_Iam_Contents where card_idx = '{$first_card_idx}' and req_data > '{$today}'";
                                                         $n_cont_res = mysqli_query($self_con, $n_cont_sql);
                                                         $n_cont_row = mysqli_fetch_array($n_cont_res);
                                                     ?>
                                                         <a href="?<?= $first_card_url . $card_owner_code ?>" onclick="show_next_iam('<?= $title_row['next_iam_link'] ?>');" class="J_card_num <?= $private_class ?> <?= $active_class ?>" id="card_title" style="display: <?= $title_display ?>;" title=<?= $title_row['card_title'] ?>><?= $title_row['card_title'] ? $title_row['card_title'] : $card_count + 1 ?><?= $title_row['next_iam_link'] == "" ? "" : "+" ?><?= $n_cont_row[0] > 0 ? "(" . $n_cont_row[0] . ")" : "" ?></a>
                                                         <?
                                                         $card_count++;
-                                                        $cont_sql = "select count(*) from Gn_Iam_Contents where card_idx='$first_card_idx'";
+                                                        $cont_sql = "select count(*) from Gn_Iam_Contents where card_idx='{$first_card_idx}'";
                                                         $cont_res = mysqli_query($self_con, $cont_sql);
                                                         $cont_row = mysqli_fetch_array($cont_res);
                                                         $cont_count += $cont_row[0];
@@ -2503,9 +2503,9 @@ function encodeKorean($matches)
                                                     if ($_SESSION['iam_member_id'] && $user_mem_code == $card_owner_code)
                                                         $black_circle_sql = "select idx,card_short_url,card_title,phone_display,next_iam_link,mem_id from Gn_Iam_Name_Card where group_id = 0 and mem_id = '{$_SESSION['iam_member_id']}' order by req_data asc";
                                                     else if ($user_mem_code != $card_owner_code)
-                                                        $black_circle_sql = "select idx,card_short_url,card_title,phone_display,next_iam_link,mem_id from Gn_Iam_Name_Card where group_id = 0 and mem_id = '$share_member_id' order by req_data asc";
+                                                        $black_circle_sql = "select idx,card_short_url,card_title,phone_display,next_iam_link,mem_id from Gn_Iam_Name_Card where group_id = 0 and mem_id = '{$share_member_id}' order by req_data asc";
                                                     else
-                                                        $black_circle_sql = "select idx,card_short_url,card_title,phone_display,next_iam_link,mem_id from Gn_Iam_Name_Card where group_id = 0 and mem_id = '$card_owner' order by req_data asc";
+                                                        $black_circle_sql = "select idx,card_short_url,card_title,phone_display,next_iam_link,mem_id from Gn_Iam_Name_Card where group_id = 0 and mem_id = '{$card_owner}' order by req_data asc";
                                                     $black_circle_result = mysqli_query($self_con, $black_circle_sql);
                                                     while ($black_circle_row = mysqli_fetch_array($black_circle_result)) {
                                                         if ($card_count > 0 && $first_card_url == $black_circle_row['card_short_url'])
@@ -2515,7 +2515,7 @@ function encodeKorean($matches)
                                                         $card_link = $black_circle_row['card_short_url'];
                                                         $card_idx = $black_circle_row['idx'];
                                                         if ($private_class != "private" || $_SESSION['iam_member_id'] == $black_circle_row['mem_id'] || (isset($_GET['smode']) && $card_idx == $_GET['slink'])) {
-                                                            $cont_sql = "select count(*) from Gn_Iam_Contents where card_idx='$card_idx'";
+                                                            $cont_sql = "select count(*) from Gn_Iam_Contents where card_idx='{$card_idx}'";
                                                             $cont_res = mysqli_query($self_con, $cont_sql);
                                                             $cont_row = mysqli_fetch_array($cont_res);
                                                             $cont_count += $cont_row[0];
@@ -3133,7 +3133,7 @@ function encodeKorean($matches)
                 <?
             } else if ($cur_win == "group-con") {
                 if ($gkind != "recommend" && $gkind != "mygroup" && $gkind != "search" && $gkind != "search_con") {
-                    $group_sql = "select * from gn_group_info where idx='$gkind'";
+                    $group_sql = "select * from gn_group_info where idx='{$gkind}'";
                     $group_res = mysqli_query($self_con, $group_sql);
                     $group_row = mysqli_fetch_array($group_res);
                     $group_manager = $group_row['manager'];
@@ -3581,7 +3581,7 @@ function encodeKorean($matches)
                                 $mem_res = mysqli_query($self_con, $mem_sql);
                                 $mem_row = mysqli_fetch_array($mem_res);
                                 $weekMondayTime = date("Y-m-d", strtotime('last Monday'));
-                                $cont_sql = "select count(idx) from Gn_Iam_Contents where group_id='{$group_row['group_id']}' and req_data >= '$weekMondayTime'";
+                                $cont_sql = "select count(idx) from Gn_Iam_Contents where group_id='{$group_row['group_id']}' and req_data >= '{$weekMondayTime}'";
                                 $cont_res = mysqli_query($self_con, $cont_sql);
                                 $cont_row = mysqli_fetch_array($cont_res);
                                 $f_sql = "select mem_name, profile from Gn_Member where site_iam = '{$Gn_mem_row['site_iam']}' and mem_id in (select mem_id from gn_group_member where group_id='{$group_row['group_id']}')";
@@ -3706,7 +3706,7 @@ function encodeKorean($matches)
                                 $mem_res = mysqli_query($self_con, $mem_sql);
                                 $mem_row = mysqli_fetch_array($mem_res);
                                 $weekMondayTime = date("Y-m-d", strtotime('last Monday'));
-                                $cont_sql = "select count(*) from Gn_Iam_Contents where group_id='{$group_row['group_id']}' and group_display = 'Y' and req_data >= '$weekMondayTime'";
+                                $cont_sql = "select count(*) from Gn_Iam_Contents where group_id='{$group_row['group_id']}' and group_display = 'Y' and req_data >= '{$weekMondayTime}'";
                                 $cont_res = mysqli_query($self_con, $cont_sql);
                                 $cont_row = mysqli_fetch_array($cont_res);
                                 $f_sql = "select mem_name, profile from Gn_Member where site_iam = '{$Gn_mem_row['site_iam']}' and mem_id in (select mem_id from gn_group_member where group_id='{$group_row['group_id']}')";
@@ -3809,28 +3809,28 @@ function encodeKorean($matches)
                                 ?>
                                 <h3 style="margin-left:10px" onclick="open_group_info_modal('<?= $gkind ?>', '<?= $Gn_mem_row['site_iam'] ?>')"><?= $group_row['name'] . " >" ?></h3>
                                 <?
-                                $group_sql = "select count(idx) from gn_group_member where group_id='$gkind'";
+                                $group_sql = "select count(idx) from gn_group_member where group_id='{$gkind}'";
                                 $group_res = mysqli_query($self_con, $group_sql);
                                 $group_row = mysqli_fetch_array($group_res);
                                 $group_mem_count = $group_row[0];
                                 $time = date("Y-m-d");
-                                $group_sql = "select count(idx) from gn_group_member where group_id='$gkind' and req_date >= '$time'";
+                                $group_sql = "select count(idx) from gn_group_member where group_id='{$gkind}' and req_date >= '{$time}'";
                                 $group_res = mysqli_query($self_con, $group_sql);
                                 $group_row = mysqli_fetch_array($group_res);
                                 $group_new_mem_count = $group_row[0];
                                 if ($my_group == "")
-                                    $group_sql = "select count(idx) from Gn_Iam_Contents where group_id='$gkind' and group_display = 'Y' and req_data >= '$time'";
+                                    $group_sql = "select count(idx) from Gn_Iam_Contents where group_id='{$gkind}' and group_display = 'Y' and req_data >= '{$time}'";
                                 else
-                                    $group_sql = "select count(idx) from Gn_Iam_Contents where group_id='$gkind' and req_data >= '$time'";
+                                    $group_sql = "select count(idx) from Gn_Iam_Contents where group_id='{$gkind}' and req_data >= '{$time}'";
                                 $group_res = mysqli_query($self_con, $group_sql);
                                 $group_row = mysqli_fetch_array($group_res);
                                 $group_new_cont_count = $group_row[0];
 
-                                $group_card_sql = "select card_name,card_title from Gn_Iam_Name_Card where card_short_url = '$group_card_url'";
+                                $group_card_sql = "select card_name,card_title from Gn_Iam_Name_Card where card_short_url = '{$group_card_url}'";
                                 $group_card_res = mysqli_query($self_con, $group_card_sql);
                                 $group_card_row = mysqli_fetch_array($group_card_res);
 
-                                $group_check_sql = "select count(idx) from gn_group_member where group_id='$gkind' and mem_id='{$_SESSION['iam_member_id']}'";
+                                $group_check_sql = "select count(idx) from gn_group_member where group_id='{$gkind}' and mem_id='{$_SESSION['iam_member_id']}'";
                                 $group_check_res = mysqli_query($self_con, $group_check_sql);
                                 $group_check_row = mysqli_fetch_array($group_check_res);
                                 ?>
@@ -3958,7 +3958,7 @@ function encodeKorean($matches)
                                                     <?
                                                     $title_display = "inline-block";
                                                     $g_card_count = $g_cont_count = 0;
-                                                    $black_circle_sql = "select idx,card_short_url,card_title,card_name,phone_display,next_iam_link,mem_id from Gn_Iam_Name_Card where group_id = '$gkind' order by req_data asc";
+                                                    $black_circle_sql = "select idx,card_short_url,card_title,card_name,phone_display,next_iam_link,mem_id from Gn_Iam_Name_Card where group_id = '{$gkind}' order by req_data asc";
                                                     $black_circle_result = mysqli_query($self_con, $black_circle_sql);
                                                     while ($black_circle_row = mysqli_fetch_array($black_circle_result)) {
                                                         $private_class = ($black_circle_row['phone_display'] == 'N' ? "private" : "");
@@ -3966,11 +3966,11 @@ function encodeKorean($matches)
                                                         $card_link = $black_circle_row['card_short_url'] . $user_mem_code . '&cur_win=group-con&gkind=' . $gkind;
                                                         $card_idx = $black_circle_row['idx'];
                                                         $next_iam_link = $black_circle_row['next_iam_link'] ? ($black_circle_row['next_iam_link'] . $user_mem_code . '&cur_win=group-con&gkind=' . $gkind) : "";
-                                                        $cont_sql = "select count(*) from Gn_Iam_Contents where card_idx='$card_idx'";
+                                                        $cont_sql = "select count(*) from Gn_Iam_Contents where card_idx='{$card_idx}'";
                                                         $cont_res = mysqli_query($self_con, $cont_sql);
                                                         $cont_row = mysqli_fetch_array($cont_res);
                                                         $g_cont_count += $cont_row[0];
-                                                        $n_cont_sql = "select count(*) from Gn_Iam_Contents where card_idx = '$card_idx' and req_data > '$today'";
+                                                        $n_cont_sql = "select count(*) from Gn_Iam_Contents where card_idx = '{$card_idx}' and req_data > '{$today}'";
                                                         $n_cont_res = mysqli_query($self_con, $n_cont_sql);
                                                         $n_cont_row = mysqli_fetch_array($n_cont_res);
                                                     ?>
@@ -4224,11 +4224,11 @@ function encodeKorean($matches)
                         if ($w_offset < 0) {
                             $w_offset = 0;
                         }
-                        $sql8 = "select count(idx) from " . $content_table_name . " WHERE group_id = 0 and (mem_id = '$card_owner' or contents_share_text like '%$card_owner%')  and $search_sql order by idx desc, up_data desc";
+                        $sql8 = "select count(idx) from " . $content_table_name . " WHERE group_id = 0 and (mem_id = '{$card_owner}' or contents_share_text like '%$card_owner%')  and $search_sql order by idx desc, up_data desc";
                         $result_cnt = mysqli_query($self_con, $sql8) or die(mysqli_error($self_con));
                         $total_row = mysqli_fetch_array($result_cnt);
                         $cont_count = $total_row[0];
-                        $sql8 = "select * from " . $content_table_name . " WHERE group_id = 0 and (mem_id = '$card_owner' or contents_share_text like '%$card_owner%')  and $search_sql order by idx desc, up_data desc";
+                        $sql8 = "select * from " . $content_table_name . " WHERE group_id = 0 and (mem_id = '{$card_owner}' or contents_share_text like '%$card_owner%')  and $search_sql order by idx desc, up_data desc";
                         $sql8 .= " limit $contents_count_per_page , " . $w_offset;
                     }
                 } else if ($cur_win == "shared_receive" &&  $_SESSION['iam_member_id'] != "") {
@@ -4315,7 +4315,7 @@ function encodeKorean($matches)
                     }
                     if ($_GET['key1'] == 1) { //소속콘
                         $sql8 = "select count(c.idx) from Gn_Iam_Contents c use index(idx) INNER  JOIN  Gn_Member m on c.mem_id=m.mem_id 
-                            where m.site_iam =  '$bunyang_site' and contents_westory_display = 'Y' and public_display = 'Y' and $search_sql $block_contents_sql $block_user_sql";
+                            where m.site_iam =  '{$bunyang_site}' and contents_westory_display = 'Y' and public_display = 'Y' and $search_sql $block_contents_sql $block_user_sql";
                     } elseif ($_GET['key1'] == 2) { //영상콘
                         $sql8 = "select count(c.idx) from Gn_Iam_Contents c use index(idx) 
                             where contents_type = 2 and contents_westory_display = 'Y' and public_display = 'Y' and $search_sql $block_contents_sql $block_user_sql";
@@ -4397,7 +4397,7 @@ function encodeKorean($matches)
                     }
 
                     if ($_GET['key1'] == 1) { //소속콘
-                        $sql8 = "select c.* from Gn_Iam_Contents c use index(idx) INNER  JOIN  Gn_Member m on c.mem_id=m.mem_id where m.site_iam =  '$bunyang_site' and contents_westory_display = 'Y' and public_display = 'Y' and $search_sql $block_contents_sql $block_user_sql";
+                        $sql8 = "select c.* from Gn_Iam_Contents c use index(idx) INNER  JOIN  Gn_Member m on c.mem_id=m.mem_id where m.site_iam =  '{$bunyang_site}' and contents_westory_display = 'Y' and public_display = 'Y' and $search_sql $block_contents_sql $block_user_sql";
                     } elseif ($_GET['key1'] == 2) { //영상콘
                         $sql8 = "select c.* from Gn_Iam_Contents c use index(idx) where contents_type = 2 and contents_westory_display = 'Y' and public_display = 'Y' and $search_sql $block_contents_sql $block_user_sql";
                     } elseif ($_GET['key1'] == 3) { //콜이야
@@ -4737,7 +4737,7 @@ function encodeKorean($matches)
                             $sub_domain = "http://" . $HTTP_HOST;
                         else
                             $sub_domain = "http://www.kiam.kr";
-                        $sql = "select main_img1 from Gn_Iam_Service s where sub_domain = '$sub_domain'";
+                        $sql = "select main_img1 from Gn_Iam_Service s where sub_domain = '{$sub_domain}'";
                         $result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
                         $row = mysqli_fetch_array($result);
                         $default_avatar =  $row['main_img1'];

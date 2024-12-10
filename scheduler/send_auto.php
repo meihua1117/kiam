@@ -91,7 +91,7 @@ while ($row_mem_auto = mysqli_fetch_array($res_mem_auto)) {
 	if ($userid == "" || $sendnum == "" || $recvnum == "")
 		return;
 
-	$query = "select * from Gn_MMS_Number where mem_id='$userid' and sendnum='$sendnum'";
+	$query = "select * from Gn_MMS_Number where mem_id='{$userid}' and sendnum='{$sendnum}'";
 	$result = mysqli_query($self_con, $query);
 	$row = mysqli_fetch_array($result);
 	if ($row['pkey'] == "")
@@ -188,12 +188,12 @@ function send_mms($self_con, $mem_id, $mem_phone, $uni_id, $mem_point, $url, $he
 	$title = "포인트 충전 안내";
 	$txt = $mem_id . ", 고객님의 잔여 포인트가 " . $mem_point . " 포인트 이하입니다. 포인트가 부족할 경우 현재 이용중이신 기능이 중지되오니 충전해주시길 바랍니다. 감사합니다.";
 
-	$query = "insert into Gn_MMS set mem_id='$mem_id',
-									send_num='$mem_phone',
-									recv_num='$mem_phone',
-									uni_id='$uni_id',
-									content='$txt',
-									title='$title',
+	$query = "insert into Gn_MMS set mem_id='{$mem_id}',
+									send_num='{$mem_phone}',
+									recv_num='{$mem_phone}',
+									uni_id='{$uni_id}',
+									content='{$txt}',
+									title='{$title}',
 									delay='5',
 									delay2='15',
 									close='24',
@@ -205,7 +205,7 @@ function send_mms($self_con, $mem_id, $mem_phone, $uni_id, $mem_point, $url, $he
 	mysqli_query($self_con, $query) or die(mysqli_error($self_con));
 	$sidx = mysqli_insert_id($self_con);
 
-	$query = "select * from Gn_MMS_Number where mem_Id='$mem_id' and sendnum='$mem_phone'";
+	$query = "select * from Gn_MMS_Number where mem_Id='{$mem_id}' and sendnum='{$mem_phone}'";
 	$result = mysqli_query($self_con, $query);
 	$info = mysqli_fetch_array($result);
 	$pkey = $info['pkey'];

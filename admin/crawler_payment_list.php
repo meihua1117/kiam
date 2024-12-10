@@ -240,15 +240,15 @@ function uncomma(str) {
                 	$pageCnt = 20;
                 	
                     // 검색 조건을 적용한다.
-                    $searchStr .= $search_key ? " AND (a.buyer_id LIKE '%".$search_key."%' or b.mem_phone like '%".$search_key."%' or b.mem_name like '%".$search_key."%' or a.TotPrice='$search_key' ) " : null;
+                    $searchStr .= $search_key ? " AND (a.buyer_id LIKE '%".$search_key."%' or b.mem_phone like '%".$search_key."%' or b.mem_name like '%".$search_key."%' or a.TotPrice='{$search_key}' ) " : null;
                     if($search_start_date && $search_end_date) {
-                        $searchStr .= " AND date >= '$search_start_date' and date <= '$search_end_date'";
+                        $searchStr .= " AND date >= '{$search_start_date}' and date <= '{$search_end_date}'";
                     } 
                     if($search_leb ) {
-                        $searchStr .= " AND mem_leb='$search_leb'";
+                        $searchStr .= " AND mem_leb='{$search_leb}'";
                     }
                     if($search_status) {
-                        $searchStr .= " AND end_status='$search_status'";
+                        $searchStr .= " AND end_status='{$search_status}'";
                     }
                 	
                 	$order = $order?$order:"desc"; 		

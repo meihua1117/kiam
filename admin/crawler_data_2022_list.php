@@ -210,7 +210,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                     $searchStr .= " AND (a.info LIKE '%".$search_phone."%')";
                   }
                   if($data_type) {
-                      $searchStr .= " AND data_type='$data_type'";
+                      $searchStr .= " AND data_type='{$data_type}'";
                   }      	
 
                 	$query = "

@@ -70,7 +70,7 @@ free_use: N
 
 $date = date("Y-m-d H:i:00"); //"2019-02-11 10:30:00";
 //$date = "2019-04-17 09:00:00";
-$sql_all = "select * from Gn_MMS where reservation ='$date' and result = 1";
+$sql_all = "select * from Gn_MMS where reservation ='{$date}' and result = 1";
 $resul_all = mysqli_query($self_con, $sql_all);
 while ($row_all = mysqli_fetch_array($resul_all)) {
     $send_num = $row_all['send_num'];

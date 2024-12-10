@@ -383,12 +383,12 @@ $search_month = $search_month ? sprintf("%02d", $search_month) : sprintf("%02d",
                                 // 검색 조건을 적용한다.
                                 $searchStr .= $identifier ? " AND (mem_id LIKE '%" . $identifier . "%')" : null;
                                 $searchStr .= $search_key ? "AND ( order_mem_name like '%" . $search_key . "%')" : null;
-                                $searchStr .= $site ? " AND b.site = '$site' " : null;
-                                $searchStr .= $site_iam ? " AND b.site_iam = '$site_iam' " : null;
+                                $searchStr .= $site ? " AND b.site = '{$site}' " : null;
+                                $searchStr .= $site_iam ? " AND b.site_iam = '{$site_iam}' " : null;
                                 if ($search_year && $search_month) {
                                     $start = $search_year . "-" . $search_month . "-01";
                                     $end = $search_year . "-" . sprintf("%02d", ($search_month * 1 + 1)) . "-01";
-                                    $searchStr .= " AND reg_date >= '$start' and reg_date < '$end'";
+                                    $searchStr .= " AND reg_date >= '{$start}' and reg_date < '{$end}'";
                                 }
 
                                 if ($site || $site_iam) {

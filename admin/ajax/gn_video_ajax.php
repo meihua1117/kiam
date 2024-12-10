@@ -8,14 +8,14 @@ extract($_POST);
 $uploaddir = '../../upload/';
 $no = $_POST["no"];
 if($_POST['mode'] == "creat") {
-    $sql="insert into gn_video (`type`, title, link,use_status,display) values ('$type', '$title','$link','$use_status','$display')";
+    $sql="insert into gn_video (`type`, title, link,use_status,display) values ('{$type}', '{$title}','{$link}','{$use_status}','{$display}')";
     mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 }
 else if($_POST['mode'] == "updat") {
-    $sql="update gn_video set title='$title', use_status = '$use_status', display = '$display',link = '$link' where no = '$no'";
+    $sql="update gn_video set title='{$title}', use_status = '{$use_status}', display = '{$display}',link = '{$link}' where no = '{$no}'";
     mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 } else if($_POST['mode'] == "del") {
-    $query="delete  from gn_video WHERE no='$no'";
+    $query="delete  from gn_video WHERE no='{$no}'";
     mysqli_query($self_con,$query);	
 }
 if($type == 'iam')

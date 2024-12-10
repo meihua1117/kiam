@@ -163,7 +163,7 @@ if($get_idx){
         <?
                 // if($sms_idx != "")  {
                     if($get_idx){ $sms_idx = $get_idx; }
-                    $sql_cnt="select count(step) as cnt from Gn_event_sms_step_info where sms_idx ='$sms_idx'";
+                    $sql_cnt="select count(step) as cnt from Gn_event_sms_step_info where sms_idx ='{$sms_idx}'";
                     $result_cnt = mysqli_query($self_con,$sql_cnt) or die(mysqli_error($self_con));
                     $row_cnt=mysqli_fetch_array($result_cnt);
                     $intstepCount=$row_cnt['cnt'];
@@ -200,7 +200,7 @@ if($get_idx){
                                     </tr>
             <?
 
-                                    $sql_serch=" sms_idx ='$sms_idx' ";
+                                    $sql_serch=" sms_idx ='{$sms_idx}' ";
                                     if($_REQUEST['search_date']){
                                         if($_REQUEST['rday1']){
                                             $start_time=strtotime($_REQUEST['rday1']);
