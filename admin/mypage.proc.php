@@ -143,8 +143,6 @@ if ($mode == "land_save") {
                                      regdate=NOW(), 
                                      ip_addr='{$_SERVER['REMOTE_ADDR']}',
                                      m_id='{$_SESSION['one_member_id']}'";
-    echo $sql;
-    exit;
     $result = mysqli_query($self_con, $sql);
 
     $event_idx = mysqli_insert_id($self_con);
