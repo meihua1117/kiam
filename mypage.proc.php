@@ -776,16 +776,19 @@ if ($mode == "land_save") {
     fwrite($fp,$sql."\r\n");
     $gresult = mysqli_query($self_con, $sql);
 
+    fwrite($fp,"779\r\n");
     $num_arr = array();
     while ($mms_receive = mysqli_fetch_array($gresult)) {
         array_push($num_arr, $mms_receive['recv_num']);
     }
+    fwrite($fp,"784\r\n");
     $recv_num = implode(",", $num_arr);
 
     $mem_id = $event_data['m_id'];
     $time = 60 - date("i");
     $reservation = "";
     $interval = IntervalDays(date("Y-m-d", time()), $reservation_date);
+    fwrite($fp,"791\r\n");
     $sql = "select * from Gn_event_sms_info where sms_idx='{$step_idx}'";
     fwrite($fp,$sql."\r\n");
     $lresult = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
