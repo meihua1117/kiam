@@ -219,11 +219,15 @@ if ($mode == "land_save") {
                                      regdate=NOW(), 
                                      ip_addr='{$_SERVER['REMOTE_ADDR']}',
                                      m_id='{$_SESSION['one_member_id']}',
-                                     event_req_link='{$event_req_link}',
-                                     sms_idx1='{$step_idx1}',
-                                     sms_idx2='{$step_idx2}',
-                                     sms_idx3='{$step_idx3}',
-                                     stop_event_idx='{$stop_event_idx}'";
+                                     event_req_link='{$event_req_link}'";
+    if($step_idx1 != "")
+        $sql .= " ,sms_idx1='{$step_idx1}'";
+    if($step_idx2 != "")
+        $sql .= " ,sms_idx2='{$step_idx2}'";
+    if($step_idx3 != "")
+        $sql .= " ,sms_idx3='{$step_idx3}'";
+    if($stop_event_idx != "")
+        $sql .= " ,stop_event_idx='{$stop_event_idx}'";
     fwrite($fp,$sql."\r\n");
     $result = mysqli_query($self_con, $sql);
     $event_idx = mysqli_insert_id($self_con);
