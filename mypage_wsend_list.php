@@ -222,7 +222,7 @@ $(function(){
 											$sql_n="select mem_name from Gn_Member where mem_phone='{$row['recv_num']}' ";
 											$resul_rn=mysqli_query($self_con,$sql_n);
 											$row_rn=mysqli_fetch_array($resul_rn);
-											mysqli_free_result($resul_rn);
+											//mysqli_free_result($resul_rn);
 									?>
 											<tr>
 												<td><label><input type="checkbox" name="fs_idx" value="<?=$row['idx']?>"><?=$sort_no?></label></td>
