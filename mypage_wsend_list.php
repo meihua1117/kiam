@@ -237,11 +237,13 @@ $logs->add_log("start");
 													echo $row_rn['mem_name'];
 												} else {
 													$group_idx = $row['request_idx'] * -1;
-													$sql_group = "select * from Gn_MMS_GROUP where idx='{$group_idx}' ";
+													$sql_group = "select * from Gn_MMS_Group where idx='{$group_idx}' ";
 													$gresult = mysqli_query($self_con, $sql_group);
 													if (mysqli_num_rows($gresult) > 0) {
 														$grow = mysqli_fetch_array($gresult);
 														echo $grow['grp'];
+													}else{
+														echo "";
 													}
 												}
 												?>
