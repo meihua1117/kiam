@@ -1322,8 +1322,10 @@ if ($mode == "land_save") {
         }
         $query_step_add = "step_sms_idx='{$step_sms_idx}',
                         weekend_status='{$set_weekend}',
-                        max_count='{$max_count}',
                         step_count='{$step_count}',";
+        if($max_count != "")
+            $query_step_add .= "max_count='{$max_count}',";
+    
     }
 
     $query = "update Gn_daily set mem_id='{$_SESSION['one_member_id']}', 
@@ -1468,8 +1470,10 @@ if ($mode == "land_save") {
 
                 $query_step_add = "step_sms_idx='{$step_sms_idx}',
                                         weekend_status='{$set_weekend}',
-                                        max_count='{$max_count}',
                                         step_count='{$step_count}',";
+                if($max_count != "")
+                    $query_step_add .= "max_count='{$max_count}',";
+
                 $query = "insert into Gn_daily set 
                                         mem_id='{$_SESSION['one_member_id']}', 
                                         iam='{$iam}',
