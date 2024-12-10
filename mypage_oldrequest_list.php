@@ -463,7 +463,7 @@ $(function(){
                 <span class="layer_close close"><img src="/images/close_button_05.jpg"></span>
                 <form method="post" name="addFormEvent" id="addFormEvent" action="mypage.proc.php" enctype="multipart/form-data">
                     <input type="hidden" name="mode" value="old_customer_reservation">
-                    <input type="hidden" name="m_id" id="m_id" value="<?php echo $_SESSION['one_member_id']; ?>">
+                    <input type="hidden" name="m_id" id="m_id" value="<?= $_SESSION['one_member_id']; ?>">
                     <div class="pop_title">
                         새디비 예약하기
                     </div>
@@ -482,7 +482,7 @@ $(function(){
                                             $resul = mysqli_query($self_con, $query);
                                             while ($korow = mysqli_fetch_array($resul)) {
                                             ?>
-                                                <option value="<?= $korow['sendnum'] ?>" <?php echo $row['send_num'] == $korow['sendnum'] ? "selected" : "" ?>><?php echo $korow['sendnum']; ?></option>
+                                                <option value="<?= $korow['sendnum'] ?>" <?= $row['send_num'] == $korow['sendnum'] ? "selected" : "" ?>><?php echo $korow['sendnum']; ?></option>
                                             <?php } ?>
                                         </select>
                                     </td>

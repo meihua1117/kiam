@@ -190,6 +190,7 @@ if ($mode == "land_save") {
     echo "<script>alert('삭제되었습니다.');location='mypage_event_list.php';</script>";
     exit;
 } else if ($mode == "event_save") {
+    $fp = fopen("mypage.proc.log","w+");
     /*$sql="select * from Gn_event where event_name_eng='{$event_name_eng}'";
     $eresult=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));                                   
     $erow = mysqli_fetch_array($eresult);               
@@ -223,12 +224,14 @@ if ($mode == "land_save") {
                                      sms_idx2='{$step_idx2}',
                                      sms_idx3='{$step_idx3}',
                                      stop_event_idx='{$stop_event_idx}'";
+    fwrite($fp,$sql."\r\n");
     $result = mysqli_query($self_con, $sql);
     $event_idx = mysqli_insert_id($self_con);
 
     $transUrl = "https://" . $HTTP_HOST . "/event/event.html?pcode=$pcode&sp=$event_name_eng";
     $transUrl = get_short_url($transUrl);
-    $sql = "update Gn_event set short_url='{$transUrl}' where event_idx='$event_idx '";
+    $sql = "update Gn_event set short_url='{$transUrl}' where event_idx='{$event_idx}'";
+    fwrite($fp,$sql."\r\n");
     $result = mysqli_query($self_con, $sql);
     echo "<script>location='mypage_link_list.php';</script>";
     exit;
