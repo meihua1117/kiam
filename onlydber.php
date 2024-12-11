@@ -47,10 +47,6 @@ if ($domainData['status'] == "N" || $pay_data['stop_yn'] == "Y") {
   <meta name="description" content="온리원디버, DB수집프로그램, 타겟DB수집가능" />
   <meta name="keywords" content="온리원디버, DB수집프로그램, 타켓디비수집가능" />
 
-
-  <!--
-    <link rel="shortcut icon" href="logo.ico">
--->
   <link href='<?= $path ?>css/nanumgothic.css' rel='stylesheet' type='text/css' />
   <link href='<?= $path ?>css/main.css' rel='stylesheet' type='text/css' />
   <link href='/css/sub_4_re.css' rel='stylesheet' type='text/css' />

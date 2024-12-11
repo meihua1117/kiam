@@ -36,7 +36,7 @@ if(!$_SESSION['iam_member_id']){
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width,initial-scale=1">
 	<title>온리원 셀링</title>
-    <link rel="shortcut icon" href="img/common/icon-os.ico">
+    <link rel="shortcut icon" href="img/common/icon_os.ico">
 	<link rel="stylesheet" href="/m/css/notokr.css">
 	<link rel="stylesheet" href="/m/css/font-awesome.min.css">
 	<link rel="stylesheet" href="/m/css/style.css">

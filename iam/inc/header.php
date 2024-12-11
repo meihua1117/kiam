@@ -108,7 +108,6 @@ else{
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width,initial-scale=1">
 	<!--meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"-->
-	<link rel="shortcut icon" href="img/common/icon-os.ico">
 	<!--오픈그래프 (웹페이지 미리보기 -페이스북, 카카오톡)-->
 	<meta property="og:title" content="아이엠으로 나를 브랜딩하기">
 	<!--이미지-->

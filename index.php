@@ -494,7 +494,6 @@ function encodeKorean($matches)
     $meta_img = preg_replace_callback('/[\x{1100}-\x{11FF}\x{3130}-\x{318F}\x{AC00}-\x{D7AF}]+/u', 'encodeKorean', get_meta_image(cross_image($main_img1)));
     ?>
     <meta name="naver-site-verification" content="90176b5d8f3b8ebed40060734107b11e6ecdd9d3" />
-    <link rel="shortcut icon" href="/iam/img/common/icon-os.ico">
     <!--오픈그래프 (웹페이지 미리보기 -페이스북, 카카오톡)-->
     <meta property="og:title" content="아이엠 멀티명함 IAM Multicard">
     <!--meta name="description" content="아이엠으로 브랜딩하고 자동홍보하기,멀티명함,모바일명함,종이명함,자동콜백,리포트설문,멀티브랜딩"-->

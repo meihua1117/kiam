@@ -55,9 +55,6 @@ if ($domainData['status'] == "N" || $pay_data['stop_yn'] == "Y") {
         <meta name="keywords" content="온리원문자, 온리원셀링,PC-스마트폰 연동문자, 대량문자, 장문/포토 모두0.7원, 수신거부/수신동의/없는번호/번호변경 자동관리, 수신처관리" />
 
     <?php } ?>
-    <!--
-    <link rel="shortcut icon" href="logo.ico">
--->
     <link href='<?= $path ?>css/nanumgothic.css' rel='stylesheet' type='text/css' />
     <link href='<?= $path ?>css/main.css' rel='stylesheet' type='text/css' />
     <link href='/css/sub_4_re.css' rel='stylesheet' type='text/css' />

@@ -7,7 +7,6 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!--meta http-equiv="Content-Type" content="text/html; charset=utf-8"-->
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <link rel="shortcut icon" href="img/common/icon-os.ico">
     <!--오픈그래프 (웹페이지 미리보기 -페이스북, 카카오톡)-->
     <meta property="og:title" content="그룹으로 초대하기">
     <!--제목-->

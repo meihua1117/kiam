@@ -8,7 +8,7 @@ include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width,initial-scale=1">
 	<title>아이엠으로 날다</title>
-    <link rel="shortcut icon" href="img/icon-os.ico">
+    <link rel="shortcut icon" href="img/icon_os.ico">
 	<link rel="stylesheet" href="/m/css/notokr.css">
 	<link rel="stylesheet" href="/m/css/font-awesome.min.css">
 	<link rel="stylesheet" href="/m/css/style.css">
