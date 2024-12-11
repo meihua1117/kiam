@@ -88,7 +88,7 @@ window.onload=function()
 </head>
 <body>
 <form name="send_form" target="_parent" action="/pay_end.php" method="post">
-    <input type="hidden" name="goodname"  value="<?=$_POST[goodname]?>">
+    <input type="hidden" name="goodname"  value="<?=$_POST['goodname']?>">
     <input type="hidden" name="buyername"  value="<?=$member_1['mem_name']?>">
     <input type="hidden" name="buyeremail"  value="<?=$member_1['mem_email']?>">
     <input type="hidden" name="parentemail"  value="<?=$member_1['mem_email']?>">

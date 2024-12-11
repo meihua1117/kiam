@@ -101,7 +101,7 @@ $data=mysqli_fetch_array($sresul_num);
                                         $sql_serch.=" and (".$_REQUEST['search_key']." like '%{$_REQUEST['search_text']}%') ";
                                     }
                                     if($_REQUEST['channel'])
-                                        $sql_serch .= " and type='$_REQUEST[channel]' ";
+                                        $sql_serch .= " and type='{$_REQUEST['channel']}' ";
                                     // 상태 검색 추가
                                     if($_REQUEST['result'] == 1) {
                                         $sql_serch .= " and result = 0 and up_date is not null ";

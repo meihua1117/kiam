@@ -127,7 +127,7 @@ $row=mysqli_fetch_array($res);
 										</tr>
 										<tr>
 											<th class="w200">상품부제목</th>
-											<td><input type="text" name="sub_title" id="sub_title" value="<?=$row[sub_title]?>"></td>
+											<td><input type="text" name="sub_title" id="sub_title" value="<?=$row['sub_title']?>"></td>
 										</tr>
 										<tr>
 											<th class="w200">이미지</th>
@@ -139,7 +139,7 @@ $row=mysqli_fetch_array($res);
 										</tr>
 										<tr>
 											<th class="w200">검색키워드</th>
-											<td><input type="text" name="keyword" id="keyword" value="<?=$row[keyword]?>"></td>
+											<td><input type="text" name="keyword" id="keyword" value="<?=$row['keyword']?>"></td>
 										</tr>
 										<tr>
 											<th class="w200">상품정가</th>
@@ -147,7 +147,7 @@ $row=mysqli_fetch_array($res);
 										</tr>
 										<tr>
 											<th class="w200">판매가격</th>
-											<td><input type="text" name="sell_price" id="sell_price" value="<?=$row[sell_price]?>"></td>
+											<td><input type="text" name="sell_price" id="sell_price" value="<?=$row['sell_price']?>"></td>
 										</tr>
 									</table>
 								</div>

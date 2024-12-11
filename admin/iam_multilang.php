@@ -277,13 +277,13 @@ function goPage(pgNum) {
                       ?>
                           <tr>
                             <td><?=$number--?></td>
-                            <td><?=$row[big_menu]?></td>
-                            <td><?=$row[small_menu]?></td>
-                            <td><?=$row[english]?></td>
-                            <td><?=$row[china]?></td>
-                            <td><?=$row[japan]?></td>
-                            <td><?=$row[india]?></td>
-                            <td><?=$row[France]?></td>
+                            <td><?=$row['big_menu']?></td>
+                            <td><?=$row['small_menu']?></td>
+                            <td><?=$row['english']?></td>
+                            <td><?=$row['china']?></td>
+                            <td><?=$row['japan']?></td>
+                            <td><?=$row['india']?></td>
+                            <td><?=$row['France']?></td>
 
                       <?
                       }

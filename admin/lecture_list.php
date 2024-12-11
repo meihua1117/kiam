@@ -265,14 +265,14 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                         <td style="font-size:12px;"><?=$mrow['mem_name']?></td>
                         <td style="font-size:12px;"><?=$row['category']?></td>
                         <td style="font-size:12px;"><?=$row['start_date']?>~<?=$row['end_date']?></td>
-                        <td style="font-size:12px;"><?=$row[lecture_day]?></td>
-                        <td style="font-size:12px;"><?=$row[lecture_start_time]?>~<?=$row[lecture_end_time]?></td>
-                        <td style="font-size:12px;"><?=$row[lecture_info]?></td>
-                        <td style="font-size:12px;"><?=$row[instructor]?></td>
-                        <td style="font-size:12px;"><?=$row[area]?></td>
-                        <td style="font-size:12px;"><?=$row[max_num]?>명</td>
-                        <td style="font-size:12px;"><?=$row[fee]==0?"무료":$row[fee]."원"?></td>
-                        <td style="font-size:12px;"><?=$row[target]?></td>
+                        <td style="font-size:12px;"><?=$row['lecture_day']?></td>
+                        <td style="font-size:12px;"><?=$row['lecture_start_time']?>~<?=$row['lecture_end_time']?></td>
+                        <td style="font-size:12px;"><?=$row['lecture_info']?></td>
+                        <td style="font-size:12px;"><?=$row['instructor']?></td>
+                        <td style="font-size:12px;"><?=$row['area']?></td>
+                        <td style="font-size:12px;"><?=$row['max_num']?>명</td>
+                        <td style="font-size:12px;"><?=$row['fee']==0?"무료":$row['fee']."원"?></td>
+                        <td style="font-size:12px;"><?=$row['target']?></td>
                         <td style="font-size:12px;">
                             <input type="button" value="신청하기" class="button" onclick="viewEvent('<?php echo $crow['short_url']?>')">
                         </td>

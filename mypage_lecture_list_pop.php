@@ -266,13 +266,13 @@ $(function(){
                 <td><?=$sort_no?></td>
                 <td style="font-size:12px;"><?=$row['category']?></td>
                 <td style="font-size:12px;"><?=$row['start_date']?>~<?=$row['end_date']?></td>
-                <td style="font-size:12px;"><?=$row[lecture_day]?></td>
-                <td style="font-size:12px;"><?=$row[lecture_start_time]?>~<?=$row[lecture_end_time]?></td>
-                <td style="font-size:12px;"><?=$row[lecture_info]?></td>
-                <td style="font-size:12px;"><?=$row[instructor]?></td>
-                <td style="font-size:12px;"><?=$row[area]?></td>
-                <td style="font-size:12px;"><?=$row[max_num]?>명</td>
-                <td style="font-size:12px;"><?=$row[fee]==0?"무료":$row[fee]."원"?></td>
+                <td style="font-size:12px;"><?=$row['lecture_day']?></td>
+                <td style="font-size:12px;"><?=$row['lecture_start_time']?>~<?=$row['lecture_end_time']?></td>
+                <td style="font-size:12px;"><?=$row['lecture_info']?></td>
+                <td style="font-size:12px;"><?=$row['instructor']?></td>
+                <td style="font-size:12px;"><?=$row['area']?></td>
+                <td style="font-size:12px;"><?=$row['max_num']?>명</td>
+                <td style="font-size:12px;"><?=$row['fee']==0?"무료":$row['fee']."원"?></td>
                 <td style="font-size:12px;">
                     <input type="button" value="선택하기" class="button" onclick="useIt('<?php echo $row['lecture_id']?>','<?php echo $row['lecture_info']?>','<?php echo $row['instructor']?>','<?php echo $row['start_date']?>~<?php echo $row['end_date']?>','<?php echo $row['area']?>')">
                 </td>

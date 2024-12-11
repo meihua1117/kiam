@@ -96,8 +96,8 @@ if($idx) {
         <input type="hidden" name="contents_type" value="3" />
         <input type="hidden" name="mem_id" value="<?=$data['mem_id']?>" />
         <input type="hidden" name="admin" value="1" />
-        <input type="hidden" name="provider" value="<?=$_GET[provider]?>" />
-        <input type="hidden" name="member" value="<?=$_GET[member]?>" />
+        <input type="hidden" name="provider" value="<?=$_GET['provider']?>" />
+        <input type="hidden" name="member" value="<?=$_GET['member']?>" />
         <input type="hidden" name="card_short_url" value="<?=$data['card_short_url']?>" />
         <input type="hidden" name="westory_card_url" value="<?=$data['westory_card_url']?>" />
         <input type="hidden" name="contents_url_title" value="<?=$data['contents_url_title']?>" />

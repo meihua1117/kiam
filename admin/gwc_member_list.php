@@ -618,7 +618,7 @@ $case = -1;
                                 $searchStr .= $iam_type != 'a' ? " AND a.iam_type = ".$iam_type : null;
                                 if ($_SESSION['one_member_subadmin_id'] != "" && $_SESSION['one_member_subadmin_domain'] == $HTTP_HOST) {
                                     $do = explode(".", $HTTP_HOST);
-                                    $searchStr .= " and a.site = '$do[0]'";
+                                    $searchStr .= " and a.site = '{$do[0]}'";
                                 }
                                 if($case == "1") {
                                     $searchStr .= " and (REPLACE(a.mem_phone,'-','')=REPLACE(b.sendnum, '-','') and b.sendnum is not null and b.sendnum != '')";

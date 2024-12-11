@@ -35,9 +35,9 @@ if(!$fujia_pay)
    <div class="m_div onebook">
    		<?		
 				$sql_serch=" 1 ";
-				if($_REQUEST[book_text])
+				if($_REQUEST['book_text'])
 				{
-					$book_text=trim($_REQUEST[book_text]);
+					$book_text=trim($_REQUEST['book_text']);
 					$sql_serch.=" and ( ca_id like '10%' or ca_id like '20%')";
 					$sql_serch.=" and ( it_name like '%$book_text%' or 
 									   	it_name_ori like '%$book_text%' or 
@@ -98,7 +98,7 @@ if(!$fujia_pay)
             	<div><img src="images/sub_04_02_img_05.jpg" /></div>
                 <div style="padding:20px;">
                     <div class="a1">원북검색 &nbsp; 
-                        <input type="text" name="book_text" value="<?=$_REQUEST[book_text]?>" />
+                        <input type="text" name="book_text" value="<?=$_REQUEST['book_text']?>" />
                         <input type="image" src="images/sub_button_703.jpg" />
                         <a href="http://www.onepagebook.net" target="_blank"><img src="images/sub_04_02_img_12.jpg" /></a>
                     </div>
@@ -121,54 +121,54 @@ if(!$fujia_pay)
 								$propb2=explode("[|*|]",$row['propb2']);
 							else
 								$propb2[0]=$row['propb2'];							 
-							$row[opb3]=opb_text($row[propb3_title],$row[propb3_subject],$row[propb3])."<br>".$row[propb3_remember];
+							$row['opb3']=opb_text($row['propb3_title'],$row['propb3_subject'],$row['propb3'])."<br>".$row['propb3_remember'];
 							//주제와 요점
-							$row[opb1]=opb_text($row[propb1_title],$row[propb1_subject],$row[propb1]);
+							$row['opb1']=opb_text($row['propb1_title'],$row['propb1_subject'],$row['propb1']);
 							//1장
-							$row[opb2]=opb_text($propb2_title[0],$propb2_subject[0],$propb2[0]);
+							$row['opb2']=opb_text($propb2_title[0],$propb2_subject[0],$propb2[0]);
 							//저자이해
-							$row[prset1] = opb_text($row[prset1_title],$row[prset1_subject],$row[prset1]);
+							$row['prset1'] = opb_text($row['prset1_title'],$row['prset1_subject'],$row['prset1']);
 							//저자주장
-							$row[prset2] = opb_text($row[prset2_title],$row[prset2_subject],$row[prset2]);
+							$row['prset2'] = opb_text($row['prset2_title'],$row['prset2_subject'],$row['prset2']);
 							//저자의도와 목적
-							$row[prset3] = opb_text($row[prset3_title],$row[prset3_subject],$row[prset3]);							 
-							 ?>
-                                <input type="hidden" name="it_name" value="<?=$row[it_name]?>">
-                                <input type="hidden" name="it_origin" value="<?=$row[it_origin]?>">
-                                <input type="hidden" name="it_id" value="<?=$row[it_id]?>">
-                                <input type="hidden" name="opb1" value="<?=$row[opb1]?>">
-                                <input type="hidden" name="opb2" value="<?=$row[opb2]?>">
-                                <input type="hidden" name="opb3" value="<?=$row[opb3]?>">
+							$row['prset3'] = opb_text($row['prset3_title'],$row['prset3_subject'],$row['prset3']);							 
+							 ?>''
+                                <input type="hidden" name="it_name" value="<?=$row['it_name']?>">
+                                <input type="hidden" name="it_origin" value="<?=$row['it_origin']?>">
+                                <input type="hidden" name="it_id" value="<?=$row['it_id']?>">
+                                <input type="hidden" name="opb1" value="<?=$row['opb1']?>">
+                                <input type="hidden" name="opb2" value="<?=$row['opb2']?>">
+                                <input type="hidden" name="opb3" value="<?=$row['opb3']?>">
                                 
-                                <input type="hidden" name="prset1" value="<?=$row[prset1]?>">
-                                <input type="hidden" name="prset2" value="<?=$row[prset2]?>">
-                                <input type="hidden" name="prset3" value="<?=$row[prset3]?>">                             
+                                <input type="hidden" name="prset1" value="<?=$row['prset1']?>">
+                                <input type="hidden" name="prset2" value="<?=$row['prset2']?>">
+                                <input type="hidden" name="prset3" value="<?=$row['prset3']?>">                             
                              <?
-							if($row[it_publishday])
-							$pubday=" | ".str_replace(" ","",$row[it_publishday]);							 
-							if($row[it_maker])
-								$view2=$row[it_origin]." 저/".$row[it_maker]." 역 | ".$row[it_publisher].$pubday;
+							if($row['it_publishday'])
+							$pubday=" | ".str_replace(" ","",$row['it_publishday']);							 
+							if($row['it_maker'])
+								$view2=$row['it_origin']." 저/".$row['it_maker']." 역 | ".$row['it_publisher'].$pubday;
 							else
-								$view2=$row[it_origin]." 저 | ".$row[it_publisher].$pubday;
-							if(substr($row[ca_id],0,2)=="10")
+								$view2=$row['it_origin']." 저 | ".$row['it_publisher'].$pubday;
+							if(substr($row['ca_id'],0,2)=="10")
 								$icon_src="/opbkorea/img/btn/icon_f.gif";
-							else if(substr($row[ca_id],0,2)=="30")
+							else if(substr($row['ca_id'],0,2)=="30")
 							{
 								$icon_src="/opbkorea/img/btn/icon_m.gif";
-								if ($row[it_name_ori2])
-								$view2=$row[it_name_ori]." : ".$row[it_name_ori2];
+								if ($row['it_name_ori2'])
+								$view2=$row['it_name_ori']." : ".$row['it_name_ori2'];
 								else
-								$view2=$row[it_name_ori];
+								$view2=$row['it_name_ori'];
 							}
 							else
 								$icon_src="/opbkorea/img/btn/icon_o.gif";
 							?>
                             	<div class="a2_1">
-                                	<div class="a2_1_1"><img src="http://onepagebook.net/shop/data/item/<?=$row[it_id]?>_s" width="31" height="45"  /></div>
+                                	<div class="a2_1_1"><img src="http://onepagebook.net/shop/data/item/<?=$row['it_id']?>_s" width="31" height="45"  /></div>
                                     <div class="a2_1_1">
-                                    	<li class="a2_1_1_1"><?=$row[it_name]?> <input type="button" value="선택" onclick="book_select('<?=$i?>','<?=$member_1['mem_name']?>')" /></li>
+                                    	<li class="a2_1_1_1"><?=$row['it_name']?> <input type="button" value="선택" onclick="book_select('<?=$i?>','<?=$member_1['mem_name']?>')" /></li>
                                         <li class="a2_1_1_2">
-											<?=$row[it_name_ori]?"<br/>원제 : ".$row[it_name_ori]."<br>":""?>
+											<?=$row['it_name_ori']?"<br/>원제 : ".$row['it_name_ori']."<br>":""?>
                                             <?=$view2?>                                       
                                         </li>
                                     </div>

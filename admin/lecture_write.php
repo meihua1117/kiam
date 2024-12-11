@@ -111,40 +111,40 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                     <tr>
                         <th class="w200">시간</th>
                         <td>
-                            <input type="text" name="lecture_start_time" placeholder="" id="lecture_start_time" value="<?=$row[lecture_start_time]?>" style="width:100px"/> ~ 
-                            <input type="text" name="lecture_end_time" placeholder="" id="lecture_end_time" value="<?=$row[lecture_end_time]?>" style="width:100px"/>
+                            <input type="text" name="lecture_start_time" placeholder="" id="lecture_start_time" value="<?=$row['lecture_start_time']?>" style="width:100px"/> ~ 
+                            <input type="text" name="lecture_end_time" placeholder="" id="lecture_end_time" value="<?=$row['lecture_end_time']?>" style="width:100px"/>
                             </td>
                         
                     </tr>                    
                     <tr>
                         <th class="w200">강의내용</th>
-                        <td><input type="text" name="lecture_info" placeholder="" id="lecture_info" value="<?=$row[lecture_info]?>"/> </td>
+                        <td><input type="text" name="lecture_info" placeholder="" id="lecture_info" value="<?=$row['lecture_info']?>"/> </td>
                     </tr>      
                     
                     <tr>
                        <th class="w200">랜딩URL</th>
-                       <td><input type="text" name="lecture_url" placeholder="" id="lecture_url"   value="<?=$row[lecture_url]?>"/> </td>
+                       <td><input type="text" name="lecture_url" placeholder="" id="lecture_url"   value="<?=$row['lecture_url']?>"/> </td>
                     </tr>     
 
                     <tr>
                         <th class="w200">강사</th>
-                        <td><input type="text" name="instructor" placeholder="" id="instructor" value="<?=$row[instructor]?>"/> </td>
+                        <td><input type="text" name="instructor" placeholder="" id="instructor" value="<?=$row['instructor']?>"/> </td>
                     </tr>                    
                     <tr>
                         <th class="w200">지역</th>
-                        <td><input type="text" name="area" placeholder="" id="area" value="<?=$row[area]?>"/> </td>
+                        <td><input type="text" name="area" placeholder="" id="area" value="<?=$row['area']?>"/> </td>
                     </tr>                    
                     <tr>
                         <th class="w200">대상</th>
-                        <td><input type="text" name="target" placeholder="" id="target" value="<?=$row[target]?>"/> </td>
+                        <td><input type="text" name="target" placeholder="" id="target" value="<?=$row['target']?>"/> </td>
                     </tr>                                        
                     <tr>
                         <th class="w200">정원</th>
-                        <td><input type="text" name="max_num" placeholder="" id="max_num" value="<?=$row[max_num]?>" style="width:100px"/> 명 </td>
+                        <td><input type="text" name="max_num" placeholder="" id="max_num" value="<?=$row['max_num']?>" style="width:100px"/> 명 </td>
                     </tr>                    
                     <tr>
                         <th class="w200">비용</th>
-                        <td><input type="text" name="fee" placeholder="" id="fee" value="<?=$row[fee]?>" style="width:100px"/> 원 </td>
+                        <td><input type="text" name="fee" placeholder="" id="fee" value="<?=$row['fee']?>" style="width:100px"/> 원 </td>
                     </tr>                    
                     <tr>
                         <th class="w200">신청</th>

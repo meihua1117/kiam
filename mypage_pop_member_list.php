@@ -35,7 +35,7 @@ exit;
 }
 if(isset($_GET['eventid']))
 {
-	$sql="select * from Gn_event where event_idx='$_GET[eventid]' ";
+	$sql="select * from Gn_event where event_idx='{$_GET['eventid']}' ";
 	$result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
 	$data=mysqli_fetch_array($result);
 }

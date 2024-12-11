@@ -12,9 +12,9 @@ $item_name = "";
 $totprice = 0;
 $auto_mem = 'false';
 $item_type = "";
-if(isset($_GET[itemname]) && isset($_GET['TotPrice'])){
+if(isset($_GET['itemname']) && isset($_GET['TotPrice'])){
     $auto_mem = 'true';
-    $item_name = $_GET[itemname];
+    $item_name = $_GET['itemname'];
     $totprice = $_GET['TotPrice'];
     if(strpos($item_name, "회원IAM") !== false){
         $item_type = "오토회원";

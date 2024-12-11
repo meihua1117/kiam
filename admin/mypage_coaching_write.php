@@ -107,27 +107,27 @@ $(function(){
               
                 <tr>
                     <th class="w200">코칭제목</th>
-                    <td><input type="text" name="lecture_info" placeholder="" id="lecture_info" value="<?=$row[lecture_info]?>"/> </td>
+                    <td><input type="text" name="lecture_info" placeholder="" id="lecture_info" value="<?=$row['lecture_info']?>"/> </td>
                 </tr>                    
                 <tr>
                     <th class="w200">코칭내용</th>
-                    <td><input type="text" name="instructor" placeholder="" id="instructor" value="<?=$row[instructor]?>"/> </td>
+                    <td><input type="text" name="instructor" placeholder="" id="instructor" value="<?=$row['instructor']?>"/> </td>
                 </tr>                    
                 <tr>
                     <th class="w200">파일첨부</th>
-                    <td><input type="text" name="instructor" placeholder="" id="instructor" value="<?=$row[instructor]?>"/> </td>
+                    <td><input type="text" name="instructor" placeholder="" id="instructor" value="<?=$row['instructor']?>"/> </td>
                 </tr>                    
                 <tr>
                     <th class="w200">코치평가</th>
-                    <td><input type="text" name="instructor" placeholder="1=매우못함 2=못함 3=보통 4=잘함 5=아주잘함" id="instructor" value="<?=$row[instructor]?>"/> </td>
+                    <td><input type="text" name="instructor" placeholder="1=매우못함 2=못함 3=보통 4=잘함 5=아주잘함" id="instructor" value="<?=$row['instructor']?>"/> </td>
                 </tr>    
                 <tr>
                     <th class="w200">과제안내</th>
-                    <td><input type="text" name="instructor" placeholder="다음 코칭때까지 수행할 과제를 기록하세요" id="instructor" value="<?=$row[instructor]?>"/> </td>
+                    <td><input type="text" name="instructor" placeholder="다음 코칭때까지 수행할 과제를 기록하세요" id="instructor" value="<?=$row['instructor']?>"/> </td>
                 </tr>                    
                 <tr>
                     <th class="w200">코치의견</th>
-                    <td><input type="text" name="instructor" placeholder="오늘 수업에 대한 코치의견을 기록하세요" id="instructor" value="<?=$row[instructor]?>"/> </td>
+                    <td><input type="text" name="instructor" placeholder="오늘 수업에 대한 코치의견을 기록하세요" id="instructor" value="<?=$row['instructor']?>"/> </td>
                 </tr>                    
                 <tr>
                     <th class="w200">등록일시</th>

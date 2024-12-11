@@ -184,14 +184,14 @@ $(function(){
                 <td><?=$sort_no?></td>
                 <td style="font-size:12px;"><?=$row['category']?></td>
                 <td style="font-size:12px;"><?=$row['start_date']?>~<br><?=$row['end_date']?></td>
-                <td style="font-size:12px;"><?=$row[lecture_day]?></td>
-                <td style="font-size:12px;"><?=$row[lecture_start_time]?>~<br><?=$row[lecture_end_time]?></td>
-                <td style="font-size:12px;"><?=$row[lecture_info]?></td>
-                <td style="font-size:12px;"><?=$row[instructor]?></td>
-                <td style="font-size:12px;"><div style="width:100px;overflow-y:hidden;height:18px;" class="area_view"><?=$row[area]?></div></td>
-                <td style="font-size:12px;"><?=$row[target]?></td>
-                <td style="font-size:12px;"><?=$row[max_num]?>명</td>
-                <td style="font-size:12px;"><?=$row[fee]==0?"무료":$row[fee]."원"?></td>
+                <td style="font-size:12px;"><?=$row['lecture_day']?></td>
+                <td style="font-size:12px;"><?=$row['lecture_start_time']?>~<br><?=$row['lecture_end_time']?></td>
+                <td style="font-size:12px;"><?=$row['lecture_info']?></td>
+                <td style="font-size:12px;"><?=$row['instructor']?></td>
+                <td style="font-size:12px;"><div style="width:100px;overflow-y:hidden;height:18px;" class="area_view"><?=$row['area']?></div></td>
+                <td style="font-size:12px;"><?=$row['target']?></td>
+                <td style="font-size:12px;"><?=$row['max_num']?>명</td>
+                <td style="font-size:12px;"><?=$row['fee']==0?"무료":$row['fee']."원"?></td>
                 <td style="font-size:12px;">
                     <input type="button" value="신청확인" class="button" onclick="viewEvent('<?php echo $crow['short_url']?>')">
                 </td>

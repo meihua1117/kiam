@@ -101,7 +101,7 @@ window.onload=function()
 <body>
 <form name="auto_frm" action="" method="post">
     <input type="text" name="buyername" value="<?=$member_1['mem_name']?>">
-    <input type="text" name="goodname" value="<?=$_POST[goodname]?>">
+    <input type="text" name="goodname" value="<?=$_POST['goodname']?>">
     <input type="text" name="mid" value="<?=$_POST['mid']?>">
     <input type="text" name="price" value="<?=$_POST['price']?>">
     <input type="text" name="ini_offer_period" value="<?=date("Ymd").date("Ymd",strtotime("+{$_POST['month_cnt']} month"))?>">

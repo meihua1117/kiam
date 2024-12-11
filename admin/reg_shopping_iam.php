@@ -159,7 +159,7 @@ $row_sync = mysqli_fetch_array($res_sync);
                                         <input type="text" name="reg_title" id="reg_title" class="ai_reg_input" placeholder="자동생성을 위한 제목을 입력합니다." value="<?=$data['reg_title']?$data['reg_title']:"";?>">
                                     </td>
                                 </tr>
-                                <?if($_GET[store] != "Y"){?>
+                                <?if($_GET['store'] != "Y"){?>
                                 <tr id="search_str">
                                     <td>3</td>
                                     <td>검색조건</td>
@@ -211,7 +211,7 @@ $row_sync = mysqli_fetch_array($res_sync);
                                     </td>
                                 </tr>
                                 <?}?>
-                                <tr id="iam_store_link" <?=$_GET[store] != "Y"?"hidden":""?>>
+                                <tr id="iam_store_link" <?=$_GET['store'] != "Y"?"hidden":""?>>
                                     <td>3</td>
                                     <td>상품주소</td>
                                     <td>
@@ -219,14 +219,14 @@ $row_sync = mysqli_fetch_array($res_sync);
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td id="memo_no"><?=$_GET[store] != "Y"?"9":"4"?></td>
+                                    <td id="memo_no"><?=$_GET['store'] != "Y"?"9":"4"?></td>
                                     <td>메모남기기</td>
                                     <td>
                                         <input type="text" name="reg_memo" id="reg_memo" class="ai_reg_input" placeholder="IAM 자동생성에 필요한 정보를 메모장에 남긴다." value="<?=$data['reg_memo']?$data['reg_memo']:"";?>">
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td id="memo_regdate"><?=$_GET[store] != "Y"?"10":"5"?></td>
+                                    <td id="memo_regdate"><?=$_GET['store'] != "Y"?"10":"5"?></td>
                                     <td>등록일시</td>
                                     <td>
                                         <input type="text" name="reg_date" id="reg_date" value='<?=$data['reg_date']?$data['reg_date']:date('Y-m-d H:i:s')?>'>

@@ -17,11 +17,11 @@ $number	= $totalCnt - ($nowPage - 1) * $pageCnt;
 $orderQuery .= "ORDER BY idx desc $limitStr";
 
 $sql = "select * from gn_report_table where repo_id = $repo_id ";
-if($_REQUEST[sday]){
-    $sql.=" and reg_date >= '{$_REQUEST[sday]}' ";
+if($_REQUEST['sday']){
+    $sql.=" and reg_date >= '{$_REQUEST['sday']}' ";
 }
-if($_REQUEST[eday]){
-    $sql.=" and reg_date <= '{$_REQUEST[eday]}' ";
+if($_REQUEST['eday']){
+    $sql.=" and reg_date <= '{$_REQUEST['eday']}' ";
 }
 $excel_sql=str_replace("'","`",$sql);
 //$excel_sql=str_replace(" ","#",$excel_sql);
@@ -87,8 +87,8 @@ thead tr:nth-child(2) th { position: sticky; top: 57px; }
                     </div>
                     <form name="pay_form1" action="" method="post" class="my_pay" enctype="multipart/form-data" style="margin-top: 10px">
                         <div style="margin-top: 10px;margin-left: 20px;margin-right: 20px;">
-                            <input type="date" name="sday" value="<?=$_REQUEST[sday]?>"/> ~
-                            <input type="date" name="eday" value="<?=$_REQUEST[eday]?>"/>
+                            <input type="date" name="sday" value="<?=$_REQUEST['sday']?>"/> ~
+                            <input type="date" name="eday" value="<?=$_REQUEST['eday']?>"/>
                             <a onclick="pay_form1.submit();"><img src="/images/sub_mypage_11.jpg" /></a>
                             <a style="background-color: white;color: black;padding: 3px;border: 1px solid #000000;padding: 6px 5px;cursor: pointer" onclick="deleteMultiRow();">선택삭제</a>
                             <a onclick="excel_down('/excel_down/excel_report_list.php');return false;" style="background-color: white;color: black;padding: 3px;border: 1px solid #000000;padding: 6px 5px;cursor: pointer">엑셀저장</a>
@@ -119,7 +119,7 @@ thead tr:nth-child(2) th { position: sticky; top: 57px; }
                                     ?>
                                     <th colspan="<?=$row2[0]?>" style="border: 1px solid #ddd">
                                         <a href="javascript:show_more('<?=str_replace("\n", "<br>", $row1['item_title'])?>')"><?=cut_str($row1['item_title'], 10)?></a><br>
-                                        <a href="javascript:show_more('<?=str_replace("\n", "<br>", $row1[item_req])?>')"><?=cut_str($row1['item_req'], 10)?>
+                                        <a href="javascript:show_more('<?=str_replace("\n", "<br>", $row1['item_req'])?>')"><?=cut_str($row1['item_req'], 10)?>
                                     </th>
                                 <?}?>
                                     <th rowspan=2 style="border: 1px solid #ddd;width: 20px">서명</th>
@@ -134,7 +134,7 @@ thead tr:nth-child(2) th { position: sticky; top: 57px; }
                                             array_push($item_arr,$row2);
                                     ?>
                                             <th style="border: 1px solid #ddd">
-                                                <a href="javascript:show_more('<?=str_replace("\n", "<br>", $row2[tag_name])?>')"><?=cut_str($row2['tag_name'], 10)?>
+                                                <a href="javascript:show_more('<?=str_replace("\n", "<br>", $row2['tag_name'])?>')"><?=cut_str($row2['tag_name'], 10)?>
                                             </th>
                                     <?  }
                                     }

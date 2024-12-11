@@ -77,7 +77,7 @@ $res = mysqli_query($self_con,$query);
 $row = mysqli_fetch_array($res);
 $order_no = $row[pay_idx].date("Y").sprintf("%02d",$month);
 $pay_idx = $row[pay_idx];
-$amount = $row[amount];
+$amount = $row['amount'];
 $reg_date = $row['regdate'];
 $pos = strpos($reg_date,"-");
 $reg_date = substr($reg_date,0,$pos+1).sprintf("%02d",$month).substr($reg_date,$pos+3);
@@ -103,7 +103,7 @@ while($row1 = mysqli_fetch_array($res1)){
 }
 while($repo_row = mysqli_fetch_array($repo_res)){
     //$result = $repo_row['userid'].'|'.$repo_row['name'].'|'.$repo_row['phone'].'|'.$repo_row['reg_date'];
-    $sql = "insert into gn_report_table set userid='$repo_row[userid]',name='$repo_row['name']',phone='$repo_row['phone']',sign='$repo_row[sign]',reg_date='$repo_row['reg_date']',repo_id=$idx,cont=";
+    $sql = "insert into gn_report_table set userid='$repo_row['userid']',name='{$repo_row['name']}',phone='$repo_row['phone']',sign='{$repo_row['sign']}',reg_date='$repo_row['reg_date']',repo_id=$idx,cont=";
     $result = array();
     foreach($item_arr as $item){
         $arr = array($item['tag_id']=>$repo_row[$item['tag_id']]);
