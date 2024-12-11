@@ -165,6 +165,7 @@ if ($row['mem_id']) {
 		$ret['mem_phone'] = "";
 		$ret['mem_token'] = $row['mem_token'];
 		$ret['status'] = '0';
+		$ret['card_link'] = $card_url;
 	} else {
 		$ret["status"] = '1';
 	}
