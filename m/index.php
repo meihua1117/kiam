@@ -127,11 +127,11 @@ if($_GET['key'] && $_GET['key'] == session_id()) {
 			$query = "select * from Gn_App_Home_Manager where ad_position='M' and use_yn='Y' and site_iam='{$site_iam}' order by display_order asc";
 			$res = mysqli_query($self_con,$query);
 			while($data = mysqli_fetch_array($res)) {
-				if(strpos($data[move_url], "/iam/daily_write_iam.php") !== false){
-					$href = "javascript:go_move_url('".$_SESSION['iam_member_id']."', '".$data[move_url]."')";
+				if(strpos($data['move_url'], "/iam/daily_write_iam.php") !== false){
+					$href = "javascript:go_move_url('".$_SESSION['iam_member_id']."', '".$data['move_url']."')";
 				}
 				else{
-					$href = $data[move_url];
+					$href = $data['move_url'];
 				}
 			?>
 			<a href="<?=$href?>" class="menu-item">
@@ -230,10 +230,10 @@ if($_GET['key'] && $_GET['key'] == session_id()) {
 			}
 			while($data = mysqli_fetch_array($res)) {
 				if($data['title'] == "굿마켓"){
-					$href = "javascript:go_market_url('".$_SESSION['iam_member_id']."', '".$data[move_url]."')";
+					$href = "javascript:go_market_url('".$_SESSION['iam_member_id']."', '".$data['move_url']."')";
 				}
 				else{
-					$href = $data[move_url];
+					$href = $data['move_url'];
 				}
 			?>
 			<a href="<?=$href?>" class="menu-item">
@@ -269,7 +269,7 @@ if($_GET['key'] && $_GET['key'] == session_id()) {
 							while($data = mysqli_fetch_array($res)) {
 								?>
 								<div class="btmbrl_item">
-									<a href="<?=$data[move_url]?>" class="menu-item">
+									<a href="<?=$data['move_url']?>" class="menu-item">
 										<div class="outer">
 											<div class="inner">
 												<span class="icon-wrap">

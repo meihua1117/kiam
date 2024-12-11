@@ -242,8 +242,6 @@ $logs->add_log("start");
 													if (mysqli_num_rows($gresult) > 0) {
 														$grow = mysqli_fetch_array($gresult);
 														echo $grow['grp'];
-													}else{
-														echo "";
 													}
 												}
 												?>

@@ -4,7 +4,7 @@ $_POST['one_id']  = trim($_REQUEST['one_id']);
 $_POST['mem_code'] = trim($_REQUEST['mem_code']);
 if ($_POST['one_id'] && $_POST['mem_code']) {
 	$mem_code = $_POST['mem_code'];
-	$sql = "select mem_code, is_leave, mem_leb,site,site_iam,iam_leb from Gn_Member use index(login_index) where mem_leb>0 and mem_id = '{$_POST['one_id']}' and mem_code=('$mem_code') ";
+	$sql = "select mem_code, is_leave, mem_leb,site,site_iam,iam_leb from Gn_Member use index(login_index) where mem_leb>0 and mem_id = '{$_POST['one_id']}' and mem_code='{$mem_code}' ";
 	$resul = mysqli_query($self_con,$sql);
 
 	$row = mysqli_fetch_array($resul);
@@ -23,6 +23,7 @@ if ($_POST['one_id'] && $_POST['mem_code']) {
 		if ($row['site'] != "") {
 			$_SESSION['one_member_id'] = $_POST['one_id'];
 			$_SESSION['one_mem_lev'] = $row['mem_leb'];
+			$_SESSION['site'] = $row['site'];
 			$service_sql = "select mem_id,sub_domain from Gn_Service where mem_id = '{$_POST['one_id']}'";
 			$service_result = mysqli_query($self_con,$service_sql);
 			$service_row = mysqli_fetch_array($service_result);
@@ -33,8 +34,9 @@ if ($_POST['one_id'] && $_POST['mem_code']) {
 			}
 		}
 		if ($row['site_iam'] != "") {
-			$_SESSION['iam_member_id'] = $_POST['one_id'];;
+			$_SESSION['iam_member_id'] = $_POST['one_id'];
 			$_SESSION['iam_member_leb'] = $row['iam_leb'];
+			$_SESSION['site_iam'] = $row['site_iam'];
 			$iam_sql = "select mem_id,sub_domain from Gn_Iam_Service where mem_id= '{$_POST['one_id']}'";
 			$iam_result = mysqli_query($self_con,$iam_sql);
 			$iam_row = mysqli_fetch_array($iam_result);
