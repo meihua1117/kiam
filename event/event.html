@@ -10,7 +10,6 @@ $meta_img = "";
 if ($_GET['landing_idx'] != "") {
 	$landing_idx = $_GET['landing_idx'];
 	$sql = "update Gn_landing set read_cnt = read_cnt+1 where landing_idx='{$landing_idx}'";
-	echo $sql . "<br>";
 	mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
 
 	$sql = "select * from Gn_landing where landing_idx='{$landing_idx}'";
@@ -42,7 +41,6 @@ if ($_GET['landing_idx'] != "") {
 	}
 } else {
 	$sql = "update Gn_event set read_cnt = read_cnt+1 where pcode='{$pcode}'";
-	echo $sql . "<br>";
 	mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
 	$page_title = "";
 }
@@ -82,7 +80,6 @@ if ($landing_idx == "788") {
 	echo ("<script>location.href = '$direct_url';</script>");
 }
 $url_refer = str_replace("&", "###", $_SERVER['REQUEST_URI']);
-echo "start<br>";
 ?>
 
 <!DOCTYPE html>
@@ -411,7 +408,6 @@ if ($mode && $chk && $over == "yes") {
 											regdate=now()";
 	if($landing_idx != '')
 		$sql .= " ,landing_idx='{$landing_idx}'";
-	echo $sql . "<br>";
 	mysqli_query($self_con, $sql);
 	alert("접수 되었습니다. 감사합니다.", "/opb/index.php");
 } elseif ($mode && $chk) {
@@ -494,7 +490,6 @@ if ($_POST['mode'] == "speech") {
 			$sql .= " ,landing_idx='{$landing_idx}'";
 		if($rnum != '')
 			$sql .= " ,rnum='{$rnum}'";
-												echo $sql . "<br>";
 		$res1 = mysqli_query($self_con, $sql);
 		$request_idx = mysqli_insert_id($self_con);
 		$recv_num = $mobile;
@@ -535,8 +530,6 @@ if ($_POST['mode'] == "speech") {
 					$send_day = $row['send_day'];
 					$send_time = $row['send_time'];
 
-					//echo "====".$send_day;
-					//echo date("Y-m-d $send_time:00",strtotime("+$send_day days")) . "<br>";
 					if ($send_time == "") $send_time = "09:30";
 					if ($send_time == "00:00") $send_time = "09:30";
 					if ($send_day == 0) {
@@ -569,7 +562,6 @@ if ($_POST['mode'] == "speech") {
 															sms_detail_idx='{$row['sms_detail_idx']}',
 															request_idx='{$request_idx}',
 															up_date=NOW()";
-					echo $query."<BR>";
 					mysqli_query($self_con, $query) or die(mysqli_error($self_con));
 				}
 			}
@@ -642,8 +634,6 @@ if ($_POST['mode'] == "speech") {
 													mem_email='{$email}',
 													mem_sex='{$sex}',
 													join_ip='{$_SERVER['REMOTE_ADDR']}'";
-				echo $sql . "<br>";
-
 				mysqli_query($self_con, $query);
 				$mem_code = mysqli_insert_id($self_con);
 			}
@@ -664,7 +654,6 @@ if ($_POST['mode'] == "speech") {
 			} else {
 				echo "alert(msg);</script>";
 			}
-			//echo "<script>self.close();</script>";
 			unset($_POST);
 		}
 	}
@@ -1076,7 +1065,6 @@ if ($_POST['mode'] == "speech") {
 												$intPageCount = (int)(($intRowCount + $intPageSize - 1) / $intPageSize);
 												//$sql="select * from Gn_lecture where $sql_serch order by $order_name $order_status limit $int,$intPageSize";
 												$sql = "select * from Gn_lecture where $sql_serch order by start_date desc limit $int,$intPageSize";
-												echo "<!-- [ $sql ] -->";
 												$result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
 												while ($row = mysqli_fetch_array($result)) {
 													$sql_num = "select * from Gn_event where m_id='$row[mem_id]' and event_idx='$row[event_idx]' ";
