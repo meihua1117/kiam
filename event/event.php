@@ -10,6 +10,7 @@ $meta_img = "";
 if ($_GET['landing_idx'] != "") {
 	$landing_idx = $_GET['landing_idx'];
 	$sql = "update Gn_landing set read_cnt = read_cnt+1 where landing_idx='{$landing_idx}'";
+	echo $sql . "<br>";
 	mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
 
 	$sql = "select * from Gn_landing where landing_idx='{$landing_idx}'";
@@ -41,6 +42,7 @@ if ($_GET['landing_idx'] != "") {
 	}
 } else {
 	$sql = "update Gn_event set read_cnt = read_cnt+1 where pcode='{$pcode}'";
+	echo $sql . "<br>";
 	mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
 	$page_title = "";
 }
@@ -80,6 +82,7 @@ if ($landing_idx == "788") {
 	echo ("<script>location.href = '$direct_url';</script>");
 }
 $url_refer = str_replace("&", "###", $_SERVER['REQUEST_URI']);
+echo "start<br>";
 ?>
 
 <!DOCTYPE html>
@@ -394,7 +397,7 @@ function alertOn($msg)
 	echo "<script>alert('" . $msg . "');</script>";
 }
 if ($mode && $chk && $over == "yes") {
-	referer_check();
+	//referer_check();
 	if ($chk != $_SESSION['join'])
 		alert('중복가입이 방지 되었습니다.');
 	$ipcheck = $_SERVER['REMOTE_ADDR'];
@@ -410,7 +413,8 @@ if ($mode && $chk && $over == "yes") {
 											sp='{$sp}',
 											ip_addr='{$ipcheck}',
 											regdate=now()";
-	sql_query($sql);
+	echo $sql . "<br>";
+	mysqli_query($self_con, $sql);
 	alert("접수 되었습니다. 감사합니다.", "/opb/index.php");
 } elseif ($mode && $chk) {
 }
@@ -1459,7 +1463,7 @@ if ($_POST['mode'] == "speech") {
 				<input type="hidden" id="email_reg" name="email_reg" value="0">
 				<input type="hidden" id="nick_reg" name="nick_reg" value="0">
 				<input type="hidden" id="landing_idx" name="landing_idx" value="<?= $landing_idx; ?>">
-				<div id="apply" class="common-wrap" style="align:center;margin-top: 20px;max-width:600px;">
+				<div id="apply" class="common-wrap" style="text-align:center;margin-top: 20px;max-width:600px;">
 					<!-- 신청하기 -->
 					<div class="container" style="width: 100%;">
 						<div class="row" style="margin: 0px;">
@@ -1703,9 +1707,6 @@ if ($_POST['mode'] == "speech") {
 													</div>
 												</div>
 											</div>
-											<!--        <div class="button-wrap">
-	                                <input align="middle" src="pop_btn_regist3.png" type="image" class="button is-grey" value="신청하기" />
-								</div>  -->
 											<div class="agreement-field">
 												<div class="agreement-wrap">
 													<?php if ($event_data['event_desc']) { ?>
@@ -1730,18 +1731,15 @@ if ($_POST['mode'] == "speech") {
 		<Script>
 			function viewEvent(str) {
 				window.open(str, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=200,left=200,width=1000,height=1000");
-
 			}
 
 			function newpop_(str) {
 				window.open(str, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=200,left=200,width=1000,height=350");
-
 			}
 		</script>
 		<Script>
 			function newpop() {
 				var win = window.open("/mypage_lecture_list_pop.php?landing_idx=<?= $_REQUEST['landing_idx']; ?>", "event_pop", "toolbar=yes,scrollbars=yes,resizable=yes,top=200,left=200,width=1000,height=1000");
-
 			}
 			$(function() {
 				$('.area_view').on('click', function() {
@@ -1764,7 +1762,6 @@ if ($_POST['mode'] == "speech") {
 			var saveChk = false;
 			$(function() {
 				$('#saveBtn').on("click", function() {
-
 					if ($('#lecture_id').val() == "") {
 						alert('강의를 선택해 주세요.');
 						$('#lecture_id').focus();

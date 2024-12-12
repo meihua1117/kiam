@@ -449,35 +449,10 @@ function return_current_id()
 	}
 	$dirlist->close();
 }
-function sql_query($sql, $error = TRUE)
-{
-	global $self_con;
-	if ($error)
-		$result = @mysqli_query($self_con, $sql) or die("<p>$sql<p>" . mysqli_errno($self_con) . " : " .  mysqli_error($self_con) . "<p>error file : {$_SERVER['PHP_SELF']}");
-	else
-		$result = @mysqli_query($self_con, $sql);
-	return $result;
-}
-function sql_fetch($sql, $error = TRUE)
-{
-	$result = sql_query($sql, $error);
-	$row = sql_fetch_array($result);
-	return $row;
-}
-function sql_fetch_array($result)
-{
-	$row = @mysqli_fetch_assoc($result);
-	return $row;
-}
-function sql_free_result($result)
-{
-	return mysqli_free_result($result);
-}
+
 function sql_password($value)
 {
 	$value = md5($value);
-	//   $row = sql_fetch(" select MD5('$value') as pass ");
-	//    return $row[pass];
 	return $value;
 }
 function opb_text($db_value1, $db_value2, $db_value)

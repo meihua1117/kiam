@@ -115,15 +115,15 @@ else if($_POST['mode'] == 'seldel'){
         if($ct_chk) {
             $gs_id = $_POST['gs_id'][$i];
             $sql = " delete from Gn_Gwc_Order where id='$gs_id'";
-            sql_query($sql);
+            mysqli_query($self_con, $sql);
         }
     }
     goto_url("/iam/gwc_order_cart.php");
 }
 else if($_POST['mode'] == "alldel") // 모두 삭제이면
 {
-    $sql = " delete from Gn_Gwc_Order where page_type='1' and mem_id='{$_SESSION['iam_member_id']}' ";
-    sql_query($sql);
+    $sql = "delete from Gn_Gwc_Order where page_type='1' and mem_id='{$_SESSION['iam_member_id']}' ";
+    mysqli_query($self_con, $sql);
     goto_url("/iam/gwc_order_cart.php");
 }
 else if($_POST['mode'] == "buy")
@@ -138,8 +138,8 @@ else if($_POST['mode'] == "buy")
         if($ct_chk) {
 			$gs_id = $_POST['gs_id'][$i];
 			$sql = "select * from Gn_Gwc_Order where id='$gs_id' and page_type='1'";
-			$res = sql_query($sql);
-			while($row=sql_fetch_array($res)) {
+			$res = mysqli_query($self_con, $sql);
+			while($row=mysqli_fetch_array($res)) {
 				$ss_cart_id .= $comma . $row['contents_idx'];
 				$comma = ">>";
 			}

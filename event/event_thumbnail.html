@@ -293,10 +293,8 @@
 	pcode='$pcode',
 	sp='$sp',
 	ip_addr='$ipcheck',
-	regdate=now()
-
-	";
-	sql_query($sql);
+	regdate=now()";
+	mysqli_query($self_con, $sql);
 	alert("접수 되었습니다. 감사합니다.","/opb/index.php");
 	} elseif($mode && $chk) {
 	}

@@ -20,8 +20,8 @@
 
 	$phone = str_replace("-", "", $mem_phone);
 	$sql_grp = "select idx from Gn_MMS_Group where grp like '%{$phone}%' order by reg_date desc limit 1";
-	$res_grp = sql_query($sql_grp);
-	$row_grp = sql_fetch_array($res_grp);
+	$res_grp = mysqli_query($self_con, $sql_grp);
+	$row_grp = mysqli_fetch_array($res_grp);
 ?>
 <!DOCTYPE html>
 <html lang="ko">

@@ -129,7 +129,7 @@ $total_count = mysqli_num_rows($res);
 	<?php
 		$sep = chr(30);
 		$k = 0; $ar_mk = array();
-		for($i=0; $row=sql_fetch_array($result); $i++)
+		for($i=0; $row=mysqli_fetch_array($result); $i++)
 		{
 			$info = array();
 			$info[] = $row['name'];
