@@ -398,8 +398,7 @@ if ($mode && $chk && $over == "yes") {
 	if ($chk != $_SESSION['join'])
 		alert('중복가입이 방지 되었습니다.');
 	$ipcheck = $_SERVER['REMOTE_ADDR'];
-	$sql = "insert into Gn_event_request set landing_idx='{$landing_idx}',
-											event_idx='{$event_idx}',
+	$sql = "insert into Gn_event_request set event_idx='{$event_idx}',
 											event_code='{$event_code}',
 											name='{$name}',
 											mobile='{$mobile}',
@@ -410,6 +409,8 @@ if ($mode && $chk && $over == "yes") {
 											sp='{$sp}',
 											ip_addr='{$ipcheck}',
 											regdate=now()";
+	if($landing_idx != '')
+		$sql .= " ,landing_idx='{$landing_idx}'";
 	echo $sql . "<br>";
 	mysqli_query($self_con, $sql);
 	alert("접수 되었습니다. 감사합니다.", "/opb/index.php");
@@ -471,8 +472,7 @@ if ($_POST['mode'] == "speech") {
 			$m_id1 = $_SESSION['one_member_id'];
 		}
 
-		$sql = "insert into Gn_event_request set landing_idx='{$landing_idx}',
-												event_idx='{$event_idx}',
+		$sql = "insert into Gn_event_request set event_idx='{$event_idx}',
 												event_code='{$event_code}',
 												m_id='{$m_id}',
 												req_id='{$m_id1}',
@@ -485,12 +485,15 @@ if ($_POST['mode'] == "speech") {
 												other='{$other}',
 												mobile='{$mobile}',
 												email='{$email}',
-												rnum='{$rnum}',
 												job='{$job}',
 												pcode='{$pcode}',
 												sp='{$sp}',
 												ip_addr='{$ipcheck}',
 												regdate=now()";
+		if($landing_idx != '')
+			$sql .= " ,landing_idx='{$landing_idx}'";
+		if($rnum != '')
+			$sql .= " ,rnum='{$rnum}'";
 												echo $sql . "<br>";
 		$res1 = mysqli_query($self_con, $sql);
 		$request_idx = mysqli_insert_id($self_con);
