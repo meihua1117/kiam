@@ -21,6 +21,8 @@ if($_REQUEST['mode']=="inser")
 		$deny_info['jpg']=$row['jpg'];
 		$deny_info['jpg1']=$row['jpg1'];
 		$deny_info['jpg2']=$row['jpg2'];
+		if($row['up_date'] == "")
+			$row['up_date'] = 'now()';
 		$deny_info['up_date']=$row['up_date'];		
 		$deny_info['status']='A';		
 		$sql="insert into Gn_MMS_Agree set ";

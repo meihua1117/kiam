@@ -628,6 +628,9 @@ if ($mode == "land_save") {
                                                 content='{$row['content']}',
                                                 title='{$row['title']}',
                                                 jpg='{$jpg}',
+                                                jpg1='',
+                                                jpg2='',
+                                                up_date=NOW(),
                                                 reg_date=NOW(),
                                                 reservation='{$reservation}',
                                                 sms_idx='{$row['sms_idx']}',
@@ -920,16 +923,19 @@ if ($mode == "land_save") {
             for ($m = 0; $m < count($mobile); $m++) {
                 sendmms(3, $mem_id, $send_num, $mobile[$m], $reservation, $row['title'], $row['content'], $jpg, $jpg1, $jpg2, 'Y', $row['sms_idx'], $row['sms_detail_idx'], $request_idx[$m], "", $row['send_deny']);
                 $query = "insert into Gn_MMS_Agree set mem_id='{$mem_id}',
-                                                 send_num='{$send_num}',
-                                                 recv_num='$mobile[$m]',
-                                                 content='{$row['content']}',
-                                                 title='{$row['title']}',
-                                                 jpg='{$jpg}',
-                                                 reg_date=NOW(),
-                                                 reservation='{$reservation}',
-                                                 sms_idx='{$row['sms_idx']}',
-                                                 sms_detail_idx='{$row['sms_detail_idx']}',
-                                                 request_idx='$request_idx[$m]'";
+                                                send_num='{$send_num}',
+                                                recv_num='$mobile[$m]',
+                                                content='{$row['content']}',
+                                                title='{$row['title']}',
+                                                jpg='{$jpg}',
+                                                jpg1='',
+                                                jpg2='',
+                                                up_date=NOW(),
+                                                reg_date=NOW(),
+                                                reservation='{$reservation}',
+                                                sms_idx='{$row['sms_idx']}',
+                                                sms_detail_idx='{$row['sms_detail_idx']}',
+                                                request_idx='$request_idx[$m]'";
                 mysqli_query($self_con, $query) or die(mysqli_error($self_con));
             }
         }
@@ -1001,6 +1007,9 @@ if ($mode == "land_save") {
                                                  content='{$row['content']}',
                                                  title='{$row['title']}',
                                                  jpg='{$jpg}',
+                                                 jpg1='',
+                                                 jpg2='',
+                                                 up_date=NOW(),
                                                  reg_date=NOW(),
                                                  reservation='{$reservation}',
                                                  sms_idx='{$row['sms_idx']}',

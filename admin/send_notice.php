@@ -438,12 +438,14 @@ foreach ($memberList as $member) {
                                                      content='{$row['content']}',
                                                      title='{$row['title']}',
                                                      jpg='$jpg',
+                                                     jpg1='',
+                                                     jpg2='',
+                                                     up_date=NOW(),
                                                      reg_date=NOW(),
                                                      reservation='$reservation',
                                                      sms_idx='{$row['sms_idx']}',
                                                      sms_detail_idx='{$row['sms_detail_idx']}',
-                                                     request_idx=''
-                            ";
+                                                     request_idx=''";
                     //echo $query."<BR>";
                     mysqli_query($self_con, $query) or die(mysqli_error($self_con));
                 }
