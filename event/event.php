@@ -389,9 +389,6 @@ echo "start<br>";
 	</script>
 </head>
 <?
-$PG_table = $GnTable["member"];
-$JO_table = $GnTable["memberlevel"];
-$DOMAIN = str_replace('www.', '', $DOMAIN);
 function alertOn($msg)
 {
 	echo "<script>alert('" . $msg . "');</script>";
@@ -420,20 +417,16 @@ if ($mode && $chk && $over == "yes") {
 }
 if (!$mode) $mode = "JOIN";
 $_SESSION['join'] = md5(time());
-?>
-<?
 function alerting($msg)
 {
 	echo "<script>alert('" . $msg . "');</script>";
 }
 
-if ($_POST['mobile'] != "") {
+/*if ($_POST['mobile'] != "") {
 	$sql = "select mem_phone from Gn_Member where mem_phone='{$_POST['mobile']}'";
 	$res = mysqli_query($self_con, $sql);
 	$row333 = mysqli_fetch_array($res);
-}
-
-
+}*/
 if ($_POST['mode'] == "speech") {
 	if ($_POST['name'] == "") {
 		alerting('신청자명을 입력해주세요');
@@ -498,6 +491,7 @@ if ($_POST['mode'] == "speech") {
 												sp='{$sp}',
 												ip_addr='{$ipcheck}',
 												regdate=now()";
+												echo $sql . "<br>";
 		$res1 = mysqli_query($self_con, $sql);
 		$request_idx = mysqli_insert_id($self_con);
 		$recv_num = $mobile;
@@ -569,7 +563,7 @@ if ($_POST['mode'] == "speech") {
 															sms_idx='{$row['sms_idx']}',
 															sms_detail_idx='{$row['sms_detail_idx']}',
 															request_idx='{$request_idx}'";
-					//echo $query."<BR>";
+					echo $query."<BR>";
 					mysqli_query($self_con, $query) or die(mysqli_error($self_con));
 				}
 			}
@@ -642,6 +636,8 @@ if ($_POST['mode'] == "speech") {
 													mem_email='{$email}',
 													mem_sex='{$sex}',
 													join_ip='{$_SERVER['REMOTE_ADDR']}'";
+				echo $sql . "<br>";
+
 				mysqli_query($self_con, $query);
 				$mem_code = mysqli_insert_id($self_con);
 			}
@@ -1074,15 +1070,8 @@ if ($_POST['mode'] == "speech") {
 												$intPageCount = (int)(($intRowCount + $intPageSize - 1) / $intPageSize);
 												//$sql="select * from Gn_lecture where $sql_serch order by $order_name $order_status limit $int,$intPageSize";
 												$sql = "select * from Gn_lecture where $sql_serch order by start_date desc limit $int,$intPageSize";
-
 												echo "<!-- [ $sql ] -->";
-
-
 												$result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-											?>
-
-
-												<?
 												while ($row = mysqli_fetch_array($result)) {
 													$sql_num = "select * from Gn_event where m_id='$row[mem_id]' and event_idx='$row[event_idx]' ";
 													$resul_num = mysqli_query($self_con, $sql_num);
