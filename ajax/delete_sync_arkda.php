@@ -47,20 +47,19 @@ function send_mms($mem_id, $mem_phone, $uni_id, $contents_title, $url, $headers,
     $title = "굿마켓 상품 안내(아크팜스)";
     $txt = "[" . $contents_title . "]상품은 도매몰에서 더이상 공급하지 않아 굿마켓에서도 삭제가 되었습니다. 다른 상품을 가져오기 해주시길 바랍니다.";
 
-    $query = "insert into Gn_MMS set mem_id='$mem_id',
-		send_num='$mem_phone',
-		recv_num='$mem_phone',
-		uni_id='$uni_id',
-		content='$txt',
-		title='$title',
-		delay='5',
-		delay2='15',
-		close='24',
-		type='1',
-		reg_date=NOW(),
-		agreement_yn='Y',
-		recv_num_cnt=1
-	";
+    $query = "insert into Gn_MMS set mem_id='{$mem_id}',
+                                    send_num='{$mem_phone}',
+                                    recv_num='{$mem_phone}',
+                                    uni_id='{$uni_id}',
+                                    content='{$txt}',
+                                    title='{$title}',
+                                    delay='5',
+                                    delay2='15',
+                                    close='24',
+                                    type='1',
+                                    reg_date=NOW(),
+                                    agreement_yn='Y',
+                                    recv_num_cnt=1";
 
     mysqli_query($self_con, $query) or die(mysqli_error($self_con));
     $sidx = mysqli_insert_id($self_con);

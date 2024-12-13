@@ -33,28 +33,27 @@ $phone_num = $_REQUEST['phone_num'];
     }
 
     //sendmms(6, $memID, $sendNum, $recvNum, "", $title, $content, "", "", "", 'Y');
-    $query = "insert into Gn_MMS set mem_id='$memID',
-                send_num='$sendNum',
-                recv_num='$recvNum',
-                uni_id='$uni_id',
-                content='$content',
-                title='$title',
-                delay='60',
-                delay2='60',
-                close='24',
-                type='9',
-                result=0,
-                up_date=NOW(),
-                reg_date=NOW(),
-                agreement_yn='Y',
-                recv_num_cnt=1";
+    $query = "insert into Gn_MMS set mem_id='{$memID}',
+                                    send_num='{$sendNum}',
+                                    recv_num='{$recvNum}',
+                                    uni_id='{$uni_id}',
+                                    content='{$content}',
+                                    title='{$title}',
+                                    delay='60',
+                                    delay2='60',
+                                    close='24',
+                                    type='9',
+                                    result=0,
+                                    reg_date=NOW(),
+                                    agreement_yn='Y',
+                                    recv_num_cnt=1";
     mysqli_query($self_con,$query);
     $idx = mysqli_insert_id($self_con);
 
     if($status){
-        $sql_insert = "insert into Gn_MMS_status set idx='$idx',
-                                                    send_num='$sendNum',
-                                                    recv_num='$recvNum',
+        $sql_insert = "insert into Gn_MMS_status set idx='{$idx}',
+                                                    send_num='{$sendNum}',
+                                                    recv_num='{$recvNum}',
                                                     status='0',
                                                     regdate=now()";
         mysqli_query($self_con,$sql_insert);

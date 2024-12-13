@@ -209,7 +209,7 @@ function get_style($case, $active_case)
 										$row = mysqli_fetch_row($r);
 										$recv_num_cnt = $row[0] + 1;
 										// SET 절을 통해 전달한 데이터로 Gn_MMS_more10 테이블의 레코드를 수정하는 SQL 구문
-										$sql = "UPDATE Gn_MMS SET recv_num_cnt = '$recv_num_cnt' WHERE (idx = '$index_no') and (recv_num_cnt is NULL)";
+										$sql = "UPDATE Gn_MMS SET recv_num_cnt = '{$recv_num_cnt}' WHERE (idx = '{$index_no}') and (recv_num_cnt is NULL)";
 										mysqli_query($self_con, $sql);
 										//mysqli_affected_rows();
 										//mysqli_query($self_con,"COMMIT");

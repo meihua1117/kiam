@@ -90,7 +90,7 @@ if (!$token || !check_token($phone_num, $token)) {
 
 	$now = date("Y-m-d H:i:s");
 	if ($query) {
-		$upt_sql = "update Gn_MMS set result = '0', up_date = now() where idx = '" . $row['idx'] . "'";
+		$upt_sql = "update Gn_MMS set result = '0', up_date = now() where idx = '{$row['idx']}'";
 		$upt_query = mysqli_query($self_con, $upt_sql);
 	}
 	if (strstr($msg, "{|REP|}"))

@@ -401,26 +401,24 @@ foreach ($memberList as $member) {
                 $rown = mysqli_fetch_array($resultn);
                 if ($rown['pkey'] != "") {
                     $uni_id = $reg . sprintf("%02d", $k) . sprintf("%02d", 0);
-                    $query = "insert into Gn_MMS set mem_id='$mem_id',
-                                                     send_num='$send_num',
-                                                     recv_num='$send_num',
-                                                     uni_id='$uni_id',
+                    $query = "insert into Gn_MMS set mem_id='{$mem_id}',
+                                                     send_num='{$send_num}',
+                                                     recv_num='{$send_num}',
+                                                     uni_id='{$uni_id}',
                                                      content='{$row['content']}',
                                                      title='{$row['title']}',
                                                      type='5',
-                                                     jpg='$jpg',
-                                                     jpg1='$jpg1',
-                                                     jpg2='$jpg2',
+                                                     jpg='{$jpg}',
+                                                     jpg1='{$jpg1}',
+                                                     jpg2='{$jpg2}',
                                                      agreement_yn='Y',
                                                      reg_date=NOW(),
                                                      reservation='$reservation',
                                                      sms_idx='{$row['sms_idx']}',
                                                      sms_detail_idx='{$row['sms_detail_idx']}',
                                                      request_idx='',
-                                                     self_memo='$self_memo',
-                                                     recv_num_cnt=1                                      
-                                                     
-                    ";
+                                                     self_memo='{$self_memo}',
+                                                     recv_num_cnt=1 ";
                     mysqli_query($self_con, $query) or die(mysqli_error($self_con));
                     $last_id = mysqli_insert_id($self_con);
 
@@ -466,22 +464,22 @@ foreach ($memberList as $member) {
             $title = htmlspecialchars($title);
             //file_put_contents("query.txt", $send_img."\n", FILE_APPEND);
             $query = "insert into Gn_MMS set mem_id='{$member['mem_id']}',
-                                                         send_num='$send_num',
-                                                         recv_num='$send_num',
-                                                         uni_id='$req',
-                                                         content='$content',
-                                                         title='$title',
+                                                         send_num='{$send_num}',
+                                                         recv_num='{$send_num}',
+                                                         uni_id='{$req}',
+                                                         content='{$content}',
+                                                         title='{$title}',
                                                          type='5',
-                                                         delay='$sendDelay2',
-                                                         delay2='$sendDelay2',
-                                                         close='$sendClose',
-                                                         jpg='$send_img',
-                                                         jpg1='$send_img1',
-                                                         jpg2='$send_img2',
+                                                         delay='{$sendDelay2}',
+                                                         delay2='{$sendDelay2}',
+                                                         close='{$sendClose}',
+                                                         jpg='{$send_img}',
+                                                         jpg1='{$send_img1}',
+                                                         jpg2='{$send_img2}',
                                                          agreement_yn='N',
                                                          reg_date=NOW(),
-                                                         reservation='$reservation',
-                                                         self_memo='$self_memo',
+                                                         reservation='{$reservation}',
+                                                         self_memo='{$self_memo}',
                                                          recv_num_cnt=1";
             mysqli_query($self_con, $query) or die(mysqli_error($self_con));
             $last_id = mysqli_insert_id($self_con);

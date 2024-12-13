@@ -42,7 +42,7 @@ if($_POST['mode'] == "munja_send"){
             if($send_num == "" || $pkey == ""){
                 echo json_encode(array("result"=>"전송할 폰이 없습니다."));
             }else{
-                $query = "update Gn_MMS set content = '폰문자인증 완료' where mem_id='$mem_id' and type='10' and recv_num = '$recv_phone'";
+                $query = "update Gn_MMS set content = '폰문자인증 완료' where mem_id='{$mem_id}' and type='10' and recv_num = '{$recv_phone}'";
                 $res = mysqli_query($self_con,$query);
                 $content = "IAM플랫폼에서 발송한 인증문자입니다.인증번호 ".$rand_num."를 입력하세요.";
 		$send_num = '01067226400';
@@ -53,7 +53,7 @@ if($_POST['mode'] == "munja_send"){
                     echo json_encode(array("result"=>"인증문자가 발송되었습니다.","code"=>1));
             }
         }else{
-            $sql="select count(*) cnt from Gn_Member_Check_Sms where mem_phone='$recv_phone' and date_format(regdate, '%Y-%m-%d' )=curdate() ";
+            $sql="select count(*) cnt from Gn_Member_Check_Sms where mem_phone='{$recv_phone}' and date_format(regdate, '%Y-%m-%d' )=curdate() ";
             $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
             $data = $row=mysqli_fetch_array($result);
             if($data['cnt'] >=5) {

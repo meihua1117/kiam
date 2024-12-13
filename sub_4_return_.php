@@ -71,7 +71,7 @@ if ($_REQUEST['result'] == 1) {
 } elseif ($_REQUEST['result'] == 3) {
 	$sql_serch .= " and result = 3";
 } elseif ($_REQUEST['result'] == 4) {
-	$sql_serch .= " and reservation != '' ";
+	$sql_serch .= " and reservation <> '' ";
 }
 $sql = "select count(*) as cnt from $sql_table where $sql_serch ";
 $result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
