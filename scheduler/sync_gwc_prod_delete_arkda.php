@@ -116,12 +116,10 @@ function sendPush($url, $headers, $pkey, $sidx, $send_type, $send_num, $self_con
     $fields['android'] = array("priority" => "high");
     $fields = json_encode(array('message' => $fields));
 
-    $url = "https://nm.kiam.kr/fcm/send_fcm.php";
-    $fields = json_encode($fields);
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
     curl_setopt($ch, CURLOPT_POST, true);
-    //curl_setopt ( $ch, CURLOPT_HTTPHEADER, $headers );
+    curl_setopt ( $ch, CURLOPT_HTTPHEADER, $headers );
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
     curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
