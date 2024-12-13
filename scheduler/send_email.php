@@ -1,13 +1,6 @@
 #!/usr/bin/php
 <?php
 include_once "/home/kiam/lib/db_config.php";
-/*$mysql_host = 'localhost';
-$mysql_user = 'kiam';
-$mysql_password = '49155f27kiam';
-$mysql_db = 'kiam';
-$self_con=mysql_connect($mysql_host,$mysql_user,$mysql_password) or die(mysql_error());
-mysql_select_db($mysql_db) or die(mysql_error());
-mysql_query("set names utf8");*/
 
 $date = date("Y-m-d H:i:00"); //"2019-02-11 10:30:00";
 $sql_all = "select * from gn_mail where reservation ='{$date}' and up_date is null";

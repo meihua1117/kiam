@@ -364,7 +364,7 @@ $result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
 
 									$reg_date = strtotime($row['reg_date']);
 									$reg_date_1hour = strtotime("{$row['reg_date']} +1hours");
-									if ($success_cnt > $total_cnt) 
+									if ($success_cnt > $total_cnt)
 										$success_cnt = $total_cnt;
 							?>
 									<tr>
@@ -422,40 +422,41 @@ $result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
 												기본앱아님
 											<? } else { ?>
 												<?= substr($row_s['regdate'], 0, 16) ?>
-												<?php
-												if (time() > $reg_date_1hour && $row_s['regdate'] == "") {
-													if ($row['reservation'] != "" && $row['reservation'] > date("Y-m-d H:i:s")) { ?>
-														<a href="javascript:fs_del_num('<?= $row['idx'] ?>')">취소가능</a>
-													<? } else { ?>
-														<? if ($row['reservation']) { ?>
-															예약
-														<? } else { ?>
-															<a href="javascript:fs_del_num('<?= $row['idx'] ?>')">미수신</a>
-											<? }
-													}
-												}
-											} ?>
+													<?
+													if (time() > $reg_date_1hour && $row_s['regdate'] == "") {
+														if ($row['reservation'] != "" && $row['reservation'] > date("Y-m-d H:i:s")) { ?>
+															<a href="javascript:fs_del_num('<?= $row['idx'] ?>')">취소가능</a>
+													<? 	} else { ?>
+															<? if ($row['reservation']) { ?>
+																예약
+															<? } else { ?>
+																<a href="javascript:fs_del_num('<?= $row['idx'] ?>')">미수신</a>
+															<? }
+														}
+													}												
+												} ?>
 										</td>
 										<td style="font-size:12px;">
 											<?
 											if ($success_cnt == 0) {
 												if (time() > $reg_date_1hour && $row['up_date'] == "") {
 													if ($row['reservation'] > date("Y-m-d H:i:s")) {
-													} else { ?>
-														<?= "실패=" . $row['up_date']; ?>
-													<? }
+													} else { 
+														echo "실패=" . $row['up_date']; 
+													}
 												} else {
-													if (time() > $reg_date_1hour && $row['up_date'] != "") { ?>
-														발송실패
-														<? } else {
-														if ($row['up_date'] == "" && $row['reservation'] < date("Y-m-d H:i:s")) { ?>
+													if (time() > $reg_date_1hour && $row['up_date'] != "") { 
+														echo "발송실패";
+													} else {
+														if ($row['up_date'] == "" && $row['reservation'] < date("Y-m-d H:i:s")) { 
+													?>
 															<a href="sub_4_detail.php?idx=<?= $row['idx']; ?>">발송중</a>
-												<? }
+													<? 	}
 													}
 												}
 											} else { ?>
 												<a href="sub_4_detail.php?idx=<?= $row['idx']; ?>"><?= $success_cnt ?>/<?= $total_cnt - $success_cnt; ?>
-												<? } ?>
+										<? 	} ?>
 												<?php if ($row['reservation']) { ?>예약<?php } ?>
 										</td>
 										<td style="font-size:12px;">

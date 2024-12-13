@@ -1,12 +1,5 @@
 #!/usr/bin/php
 <?php
-/*$mysql_host = 'localhost';
-$mysql_user = 'kiam';
-$mysql_password = 'only12!@db';
-$mysql_db = 'kiam';
-$self_con=mysql_connect($mysql_host,$mysql_user,$mysql_password) or die(mysql_error());
-mysql_select_db($mysql_db) or die(mysql_error());
-mysql_query("set names utf8");*/
 include_once "/home/kiam/lib/db_config.php";
 require_once('/home/kiam/fcm/vendor/autoload.php');
 
@@ -97,34 +90,6 @@ function sendPush($self_con, $url, $headers, $pkey, $sidx, $send_type, $send_num
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
     curl_setopt($ch, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
 
-    /*$ title = '{"MMS Push"}';
-    $message = '{"Send":"Start","idx":"' . $sidx . '","send_type":"' . $send_type . '"}';
-    $fields = array(
-        'data' => array(
-            "body" => $message,
-            "title" => $title
-        )
-    );
-    if (is_array($pkey)) {
-        $fields['registration_ids'] = $pkey;
-    } else {
-        $fields['to'] = $pkey;
-    }
-
-    $fields['priority'] = "high";
-    $fields['token'] = $pkey;
-    $fields = http_build_query($fields);
-    $url = "https://nm.kiam.kr/fcm/send_fcm.php";
-    //$fields = json_encode ($fields);
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_POST, true);
-    //curl_setopt ( $ch, CURLOPT_HTTPHEADER, $headers );
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
-    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-*/
     $result = curl_exec($ch);
     if ($result === FALSE) {
         die('FCM Send Error: ' . curl_error($ch));

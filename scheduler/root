@@ -1,0 +1,53 @@
+#
+# Time setting
+14 03 * * * /usr/bin/rdate -s time.bora.net; /sbin/hwclock --systohc
+00 00 * * * /usr/sbin/logrotate /etc/logrotate.conf
+# Disk backup
+50 02 * * * rm -f /home/kiam/www/_session/*
+00 05 * * * tar -cvzf "/disk/backup/kiam/php_backup/www_$(date +\%Y-\%m-\%d).tgz" /home/kiam/www/*/*.php /home/kiam/www/*.php /home/kiam/www/*/*/*.php
+00 06 * * * /root/backup/rsync_backup.sh > /dev/null 2>&1
+
+# Monitoring service
+*/5 * * * * /root/monitor/apache.py > /var/log/_apache.log 2>&1
+*/5 * * * * /root/monitor/disk.py > /var/log/_disk.log 2>&1
+*/5 * * * * /root/monitor/mysql.py > /var/log/_mysql.log 2>&1
+*/5 * * * * /root/monitor/network.py > /var/log/_network.log 2>&1
+*/5 * * * * /root/monitor/uptime.py > /var/log/_uptime.log 2>&1
+*/5 * * * * /root/monitor/systeminfo.py > /var/log/_uptime.log 2>&1
+*/5 * * * * /root/monitor/checkSystem2.sh swap xml > /var/log/_checkSystem2.log 2>&1
+*/5 * * * * /root/monitor/checkSystem2.sh io xml > /var/log/_checkSystem2.log 2>&1
+*/5 * * * * /root/monitor/checkSystem2.sh count xml > /var/log/_checkSystem2.log 2>&1
+*/5 * * * * /root/monitor/checkSystem2.sh resource xml > /var/log/_checkSystem2.log 2>&1
+*/5 * * * * /root/monitor/checkSystem2.sh memory xml > /var/log/_checkSystem2.log 2>&1
+*/5 * * * * /root/monitor/checkSystem2.sh etc xml > /var/log/_checkSystem2.log 2>&1
+38,39 15 * * * /home/scheduler/www/crontab/test.php >> /home/scheduler/www/crontab/test.log
+# My scheduler
+00 03 * * * /home/scheduler/www/crontab/db_backup.sh >> /home/scheduler/www/crontab/db_backup.log
+00 01 * * * /home/scheduler/www/crontab/dber_supply_update.php >> /home/scheduler/www/crontab/dber_supply_update.log
+00 02 * * * /home/scheduler/www/crontab/dber_supply_remdup.php >> /home/scheduler/www/crontab/dber_supply_remdup.log
+00 10 * * * /home/scheduler/www/crontab/card_payment.php >> /home/scheduler/www/crontab/card_payment.log
+00 10 * * * /home/scheduler/www/crontab/group_card_payment.php >> /home/scheduler/www/crontab/group_card_payment.log
+*/10 * * * * /home/scheduler/www/crontab/send.php >> /home/scheduler/www/crontab/send.log
+*/10 * * * * /home/scheduler/www/crontab/send_email.php >> /home/scheduler/www/crontab/send_email.log
+00 * * * * /home/scheduler/www/crontab/send_auto.php >> /home/scheduler/www/crontab/send_auto.log
+00 * * * * /home/scheduler/www/crontab/bizinfo.php >> /home/scheduler/www/crontab/bizinfo.log
+00 01 * * * /home/scheduler/www/crontab/set_reduce_req_worker.php
+*/10 * * * * /home/scheduler/www/crontab/retry.php >> /home/scheduler/www/crontab/retry.log
+*/10 * * * * /home/scheduler/www/crontab/retry_email.php >> /home/scheduler/www/crontab/retry_email.log
+02,12,22,32,42,52 * * * * /home/scheduler/www/crontab/send_self.php >> /home/scheduler/www/crontab/send_self.log
+00 00 1 * * /home/scheduler/www/crontab/saveMonth.php >> /home/scheduler/www/crontab/saveMonth.log
+00 00 * * * /home/scheduler/www/crontab/resetCrawler.php >> /home/scheduler/www/crontab/resetCrawler.log
+00 00 * * * /home/scheduler/www/crontab/deleteHistory.php >> /home/scheduler/www/crontab/deleteHistory.log
+00 02 * * * /home/scheduler/www/crontab/set_daily_step.php >> /home/scheduler/www/crontab/set_daily_step.log
+00 10 * * 05 /home/scheduler/www/crontab/gwc_product_manage_mms.php >> /home/scheduler/www/crontab/gwc_product_manage_mms.log
+05 00 01 * * /home/scheduler/www/crontab/gwc_product_manage_month.php >> /home/scheduler/www/crontab/gwc_product_manage_month.log
+#58 * * * * /home/scheduler/www/crontab/gwc_product_manage_hour.php >> /home/scheduler/www/crontab/gwc_product_manage_hour.log
+30 11 * * * /home/scheduler/www/crontab/upate_end.php >> /home/scheduler/www/crontab/upate_end.log
+00 04 * * 07 /home/scheduler/www/crontab/sync_gwc_prod.php >> /home/scheduler/www/crontab/sync_gwc_prod.log
+59 16 * * * /home/scheduler/www/crontab/sync_gwc_prod_arkda.php >> /home/scheduler/www/crontab/sync_gwc_prod_arkda.log
+*/10 * * * * /home/scheduler/www/crontab/sync_gwc_prod_state.php >> /home/scheduler/www/crontab/sync_gwc_prod_state.log
+30 06 * * * /home/scheduler/www/crontab/sync_gwc_prod_delete.php >> /home/scheduler/www/crontab/sync_gwc_prod_delete.log
+# 35 06 * * * /home/scheduler/www/crontab/sync_gwc_prod_delete_arkda.php >> /home/scheduler/www/crontab/sync_gwc_prod_delete_arkda.log
+00 01 * * * /home/kiam/www/convert/test.php >> /home/kiam/www/convert/test.log
+#58 10 11 * * /home/scheduler/www/crontab/dber_convert_addr.php >> /home/scheduler/www/crontab/dber_convert_addr.log
+00 00 13 * * /home/scheduler/www/crontab/dber_add_company_type.php >> /home/scheduler/www/crontab/dber_add_company_type.log

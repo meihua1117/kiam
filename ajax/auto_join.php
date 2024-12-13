@@ -128,28 +128,28 @@ if (isset($_POST['mem_name']) || isset($_POST['mem_phone']) || isset($_POST['mem
 
 		$sql2 = "insert into Gn_Iam_Name_Card (mem_id, card_title, card_short_url, card_name, card_company, card_position, card_phone, card_email, card_addr, card_map, card_keyword, profile_logo, favorite, story_title4, story_online1_text," .
 			"story_online1, online1_check, story_online2_text, story_online2, online2_check,req_data,main_img1,main_img2,main_img3,story_title1,story_title2,story_title3,story_myinfo,story_company,story_career)" .
-			"values ('$mem_id', '$card_title', '$short_url_db1', '$mem_name', '', '', '$mem_phone', '@', '', '', '', '$img_url', 0, '온라인정보','','', '', '', '', '', '{$date}','','','','','','','','','')";
+			"values ('{$mem_id}', '{$card_title}', '{$short_url_db1}', '{$mem_name}', '', '', '{$mem_phone}', '@', '', '', '', '{$img_url}', 0, '온라인정보','','', '', '', '', '', '{$date}','','','','','','','','','')";
 		$result2 = mysqli_query($self_con, $sql2) or die(mysqli_error($self_con));
 
 		//added by amigo
 		$ipcheck = $_SERVER['REMOTE_ADDR'];
 		$mobile = $mem_phone;
-		$sql = "insert into Gn_event_request set event_idx='$event_id',
-					m_id='$mem_id',
-					name='$mem_name',
-					mobile='$mobile',
-					ip_addr='$ipcheck',
-					regdate=now()";
+		$sql = "insert into Gn_event_request set event_idx='{$event_id}',
+												m_id='{$mem_id}',
+												name='{$mem_name}',
+												mobile='{$mobile}',
+												ip_addr='{$ipcheck}',
+												regdate=now()";
 		$res1 = mysqli_query($self_con, $sql);
 		$request_idx = mysqli_insert_id($self_con);
 
-		$sql = "select * from Gn_event where event_idx='$event_id'";
+		$sql = "select * from Gn_event where event_idx='{$event_id}'";
 		$result = mysqli_query($self_con, $sql);
 		$event_data = mysqli_fetch_array($result);
 		$service_id = $event_data['m_id'];
 
 		$recv_num = $mem_phone;
-		$sql = "select * from gn_automem_sms_reserv where auto_event_id='$event_id' and allow_state=1";
+		$sql = "select * from gn_automem_sms_reserv where auto_event_id='{$event_id}' and allow_state=1";
 		$lresult = mysqli_query($self_con, $sql);
 		if (mysqli_num_rows($lresult) > 0) {
 			$row = mysqli_fetch_array($lresult);
@@ -157,7 +157,7 @@ if (isset($_POST['mem_name']) || isset($_POST['mem_phone']) || isset($_POST['mem
 				$sms_idx = $row['reserv_sms_id'];
 				$send_num = $row['send_num'];
 
-				$sql = "select * from Gn_event_sms_step_info where sms_idx='$sms_idx'";
+				$sql = "select * from Gn_event_sms_step_info where sms_idx='{$sms_idx}'";
 				$result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
 				$k = 0;
 				while ($row = mysqli_fetch_array($result)) {

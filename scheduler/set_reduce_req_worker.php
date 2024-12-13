@@ -1,14 +1,6 @@
 #!/usr/bin/php
 <?php
 include_once "/home/kiam/lib/db_config.php";
-/*$mysql_host = 'localhost';
-$mysql_user = 'kiam';
-$mysql_password = 'only12!@db';
-$mysql_db = 'kiam';
-$self_con=mysql_connect($mysql_host,$mysql_user,$mysql_password) or die(mysql_error());
-mysql_select_db($mysql_db) or die(mysql_error());
-mysql_query("set names utf8");
-*/
 echo date("Y-m-d H:i:s") . ">>";
 
 $sql_card_set = "select idx from Gn_Iam_Name_Card where sale_cnt_set != 0";
@@ -31,6 +23,5 @@ while ($row_worker = mysqli_fetch_array($res_worker)) {
         mysqli_query($self_con, $sql_update1);
     }
 }
-
 mysqli_close($self_con);
 ?>
