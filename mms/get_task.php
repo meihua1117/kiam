@@ -138,6 +138,6 @@ if (strpos($row['recv_num'], ",")) {
 	//$data = "{\"txt\":$msg,\"reqid\":\"$row['uni_id']\",\"type\":\"$row['type']\",\"idx\":\"$row['idx']\",\"delay\":\"$row['delay']\",\"delay2\":\"$row['delay2']\",\"close\":\"24\",\"title\":$title,\"jpg\":\"$row['jpg']\",\"jpg1\":\"$row['jpg1']\",\"jpg2\":\"$row['jpg2']\",\"pnum\":[{\"bnc\":\"$url\",\"num\":\"$row['recv_num']\",\"rep\":\"$row['replacement1']\",\"rep1\":\"$row['replacement2']\"}]}";
 }
 if ($row['idx']) {
-	$sql_j = "insert Gn_MMS_Json set mms_idx = '" . $row['idx'] . "', data = '" . $data . "', reg_date = now()";
+	$sql_j = "insert Gn_MMS_Json set mms_idx = '{$row['idx']}', data = '{$data}', reg_date = now()";
 	mysqli_query($self_con, $sql_j);
 }

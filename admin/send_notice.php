@@ -413,7 +413,7 @@ foreach ($memberList as $member) {
                                                      jpg2='{$jpg2}',
                                                      agreement_yn='Y',
                                                      reg_date=NOW(),
-                                                     reservation='$reservation',
+                                                     reservation='{$reservation}',
                                                      sms_idx='{$row['sms_idx']}',
                                                      sms_detail_idx='{$row['sms_detail_idx']}',
                                                      request_idx='',

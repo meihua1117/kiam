@@ -326,12 +326,12 @@ $result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
 									$sql_s = "select status,regdate from Gn_MMS_status where idx='{$row['idx']}' ";
 									$resul_s = mysqli_query($self_con, $sql_s);
 									$row_s = mysqli_fetch_array($resul_s);
-									mysqli_free_result($resul_s);
+									//mysqli_free_result($resul_s);
 
 									$sql_n = "select memo from Gn_MMS_Number where mem_id='{$_SESSION['one_member_id']}' and sendnum='{$row['send_num']}' ";
 									$resul_n = mysqli_query($self_con, $sql_n);
 									$row_n = mysqli_fetch_array($resul_n);
-									mysqli_free_result($resul_n);
+									//mysqli_free_result($resul_n);
 
 									$recv_num = explode(",", $row['recv_num']);
 									$recv_num_in = "'" . implode("','", $recv_num) . "'";
@@ -397,7 +397,13 @@ $result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
 											<input type="hidden" name="show_content" value="<?= $row['content'] ?>" />
 										</td>
 										<? if ($_REQUEST['status2'] == '2') { ?>
-											<td style="width:5%;"><? if ($row['up_date'] != '' && $row['result'] == 0) { ?>완료<? } elseif ($row['up_date'] == '' && $row['result'] == 1) { ?>대기<? } elseif ($row['result'] == 3) { ?>실패<? } ?></td>
+											<td style="width:5%;">
+												<?
+												if ($row['up_date'] != '' && $row['result'] == 0) echo "완료";
+												elseif ($row['up_date'] == '' && $row['result'] == 1) echo "대기";
+												elseif ($row['result'] == 3) echo "실패";
+												?>
+											</td>
 										<? } ?>
 										<td>
 											<? if ($_REQUEST['status2'] == 2) {
@@ -415,48 +421,48 @@ $result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
 											<?= substr($row['reg_date'], 0, 16) ?>
 										</td>
 										<td>
-											<?= $row['reservation'] ? $row['reservation'] : "" ?>
+											<?= $row['reservation']?>
 										</td>
 										<td style="font-size:12px;">
 											<? if ($row_s['status'] == "-1") { ?>
 												기본앱아님
 											<? } else { ?>
 												<?= substr($row_s['regdate'], 0, 16) ?>
-													<?
-													if (time() > $reg_date_1hour && $row_s['regdate'] == "") {
-														if ($row['reservation'] != "" && $row['reservation'] > date("Y-m-d H:i:s")) { ?>
-															<a href="javascript:fs_del_num('<?= $row['idx'] ?>')">취소가능</a>
+												<?
+												if (time() > $reg_date_1hour && $row_s['regdate'] == "") {
+													if ($row['reservation'] != "" && $row['reservation'] > date("Y-m-d H:i:s")) { ?>
+														<a href="javascript:fs_del_num('<?= $row['idx'] ?>')">취소가능</a>
 													<? 	} else { ?>
-															<? if ($row['reservation']) { ?>
-																예약
-															<? } else { ?>
-																<a href="javascript:fs_del_num('<?= $row['idx'] ?>')">미수신</a>
-															<? }
-														}
-													}												
-												} ?>
+														<? if ($row['reservation']) { ?>
+															예약
+														<? } else { ?>
+															<a href="javascript:fs_del_num('<?= $row['idx'] ?>')">미수신</a>
+											<? }
+													}
+												}
+											} ?>
 										</td>
 										<td style="font-size:12px;">
 											<?
 											if ($success_cnt == 0) {
 												if (time() > $reg_date_1hour && $row['up_date'] == "") {
 													if ($row['reservation'] > date("Y-m-d H:i:s")) {
-													} else { 
-														echo "실패=" . $row['up_date']; 
+													} else {
+														echo "실패=" . $row['up_date'];
 													}
 												} else {
-													if (time() > $reg_date_1hour && $row['up_date'] != "") { 
+													if (time() > $reg_date_1hour && $row['up_date'] != "") {
 														echo "발송실패";
 													} else {
-														if ($row['up_date'] == "" && $row['reservation'] < date("Y-m-d H:i:s")) { 
-													?>
+														if ($row['up_date'] == "" && $row['reservation'] < date("Y-m-d H:i:s")) {
+											?>
 															<a href="sub_4_detail.php?idx=<?= $row['idx']; ?>">발송중</a>
-													<? 	}
+												<? 	}
 													}
 												}
 											} else { ?>
 												<a href="sub_4_detail.php?idx=<?= $row['idx']; ?>"><?= $success_cnt ?>/<?= $total_cnt - $success_cnt; ?>
-										<? 	} ?>
+												<? 	} ?>
 												<?php if ($row['reservation']) { ?>예약<?php } ?>
 										</td>
 										<td style="font-size:12px;">
