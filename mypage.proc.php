@@ -337,14 +337,17 @@ if ($mode == "land_save") {
             if ($size[0] > 640) {
                 $ysize = $size[1] * (640 / $size[0]);
                 thumbnail($upload_file, "adjunct/mms/thum/" . $file_name, "", 640, $ysize, "");
-                $show_img = "http://www.kiam.kr/adjunct/mms/thum/" . $file_name;
+                //$show_img = "http://www.kiam.kr/adjunct/mms/thum/" . $file_name;
+                $show_img = "https://".$HTTP_HOST."/adjunct/mms/thum/" . $file_name;
             } else if ($size[1] > 480) {
                 $xsize = $size[0] * (480 / $size[1]);
                 thumbnail($upload_file, "adjunct/mms/thum/" . $file_name, "", $xsize, 480, "");
-                $show_img = "http://www.kiam.kr/adjunct/mms/thum/" . $file_name;
+                //$show_img = "http://www.kiam.kr/adjunct/mms/thum/" . $file_name;
+                $show_img = "https://".$HTTP_HOST."/adjunct/mms/thum/" . $file_name;
             } else {
                 copy($upload_file, "adjunct/mms/thum/" . $file_name);
-                $show_img = "http://www.kiam.kr/adjunct/mms/thum/" . $file_name;
+                //$show_img = "http://www.kiam.kr/adjunct/mms/thum/" . $file_name;
+                $show_img = "https://".$HTTP_HOST."/adjunct/mms/thum/" . $file_name;
             }
         }
     }
@@ -364,14 +367,17 @@ if ($mode == "land_save") {
             if ($size[0] > 640) {
                 $ysize = $size[1] * (640 / $size[0]);
                 thumbnail($upload_file, "adjunct/mms/thum/" . $file_name1, "", 640, $ysize, "");
-                $show_img = "http://www.kiam.kr/adjunct/mms/thum/" . $file_name1;
+                //$show_img = "http://www.kiam.kr/adjunct/mms/thum/" . $file_name1;
+                $show_img = "https://".$HTTP_HOST."/adjunct/mms/thum/" . $file_name1;
             } else if ($size[1] > 480) {
                 $xsize = $size[0] * (480 / $size[1]);
                 thumbnail($upload_file, "adjunct/mms/thum/" . $file_name1, "", $xsize, 480, "");
-                $show_img = "http://www.kiam.kr/adjunct/mms/thum/" . $file_name1;
+                //$show_img = "http://www.kiam.kr/adjunct/mms/thum/" . $file_name1;
+                $show_img = "https://".$HTTP_HOST."/adjunct/mms/thum/" . $file_name1;
             } else {
                 copy($upload_file, "adjunct/mms/thum/" . $file_name1);
-                $show_img = "http://www.kiam.kr/adjunct/mms/thum/" . $file_name1;
+                //$show_img = "http://www.kiam.kr/adjunct/mms/thum/" . $file_name1;
+                $show_img = "https://".$HTTP_HOST."/adjunct/mms/thum/" . $file_name1;
             }
         }
     }
@@ -391,14 +397,17 @@ if ($mode == "land_save") {
             if ($size[0] > 640) {
                 $ysize = $size[1] * (640 / $size[0]);
                 thumbnail($upload_file, "adjunct/mms/thum/" . $file_name2, "", 640, $ysize, "");
-                $show_img = "http://www.kiam.kr/adjunct/mms/thum/" . $file_name2;
+                //$show_img = "http://www.kiam.kr/adjunct/mms/thum/" . $file_name2;
+                $show_img = "https://".$HTTP_HOST."/adjunct/mms/thum/" . $file_name2;
             } else if ($size[1] > 480) {
                 $xsize = $size[0] * (480 / $size[1]);
                 thumbnail($upload_file, "adjunct/mms/thum/" . $file_name2, "", $xsize, 480, "");
-                $show_img = "http://www.kiam.kr/adjunct/mms/thum/" . $file_name2;
+                //$show_img = "http://www.kiam.kr/adjunct/mms/thum/" . $file_name2;
+                $show_img = "https://".$HTTP_HOST."/adjunct/mms/thum/" . $file_name2;
             } else {
                 copy($upload_file, "adjunct/mms/thum/" . $file_name2);
-                $show_img = "http://www.kiam.kr/adjunct/mms/thum/" . $file_name2;
+                //$show_img = "http://www.kiam.kr/adjunct/mms/thum/" . $file_name2;
+                $show_img = "https://".$HTTP_HOST."/adjunct/mms/thum/" . $file_name2;
             }
         }
     }
@@ -439,14 +448,17 @@ if ($mode == "land_save") {
             if ($size[0] > 640) {
                 $ysize = $size[1] * (640 / $size[0]);
                 thumbnail($upload_file, "adjunct/mms/thum/" . $file_name, "", 640, $ysize, "");
-                $show_img = "http://www.kiam.kr/adjunct/mms/thum/" . $file_name;
+                //$show_img = "http://www.kiam.kr/adjunct/mms/thum/" . $file_name;
+                $show_img = "https://".$HTTP_HOST."/adjunct/mms/thum/" . $file_name;
             } else if ($size[1] > 480) {
                 $xsize = $size[0] * (480 / $size[1]);
                 thumbnail($upload_file, "adjunct/mms/thum/" . $file_name, "", $xsize, 480, "");
-                $show_img = "http://www.kiam.kr/adjunct/mms/thum/" . $file_name;
+                //$show_img = "http://www.kiam.kr/adjunct/mms/thum/" . $file_name;
+                $show_img = "https://".$HTTP_HOST."/adjunct/mms/thum/" . $file_name;
             } else {
                 copy($upload_file, "adjunct/mms/thum/" . $file_name);
-                $show_img = "http://www.kiam.kr/adjunct/mms/thum/" . $file_name;
+                //$show_img = "http://www.kiam.kr/adjunct/mms/thum/" . $file_name;
+                $show_img = "https://".$HTTP_HOST."/adjunct/mms/thum/" . $file_name;
             }
         }
     }
@@ -466,14 +478,17 @@ if ($mode == "land_save") {
             if ($size[0] > 640) {
                 $ysize = $size[1] * (640 / $size[0]);
                 thumbnail($upload_file, "adjunct/mms/thum/" . $file_name1, "", 640, $ysize, "");
-                $show_img = "http://www.kiam.kr/adjunct/mms/thum/" . $file_name1;
+                //$show_img = "http://www.kiam.kr/adjunct/mms/thum/" . $file_name1;
+                $show_img = "https://".$HTTP_HOST."/adjunct/mms/thum/" . $file_name1;
             } else if ($size[1] > 480) {
                 $xsize = $size[0] * (480 / $size[1]);
                 thumbnail($upload_file, "adjunct/mms/thum/" . $file_name1, "", $xsize, 480, "");
-                $show_img = "http://www.kiam.kr/adjunct/mms/thum/" . $file_name1;
+                //$show_img = "http://www.kiam.kr/adjunct/mms/thum/" . $file_name1;
+                $show_img = "https://".$HTTP_HOST."/adjunct/mms/thum/" . $file_name1;
             } else {
                 copy($upload_file, "adjunct/mms/thum/" . $file_name1);
-                $show_img = "http://www.kiam.kr/adjunct/mms/thum/" . $file_name1;
+                //$show_img = "http://www.kiam.kr/adjunct/mms/thum/" . $file_name1;
+                $show_img = "https://".$HTTP_HOST."/adjunct/mms/thum/" . $file_name1;
             }
         }
     }
@@ -493,14 +508,17 @@ if ($mode == "land_save") {
             if ($size[0] > 640) {
                 $ysize = $size[1] * (640 / $size[0]);
                 thumbnail($upload_file, "adjunct/mms/thum/" . $file_name2, "", 640, $ysize, "");
-                $show_img = "http://www.kiam.kr/adjunct/mms/thum/" . $file_name2;
+                //$show_img = "http://www.kiam.kr/adjunct/mms/thum/" . $file_name2;
+                $show_img = "https://".$HTTP_HOST."/adjunct/mms/thum/" . $file_name2;
             } else if ($size[1] > 480) {
                 $xsize = $size[0] * (480 / $size[1]);
                 thumbnail($upload_file, "adjunct/mms/thum/" . $file_name2, "", $xsize, 480, "");
-                $show_img = "http://www.kiam.kr/adjunct/mms/thum/" . $file_name2;
+                //$show_img = "http://www.kiam.kr/adjunct/mms/thum/" . $file_name2;
+                $show_img = "https://".$HTTP_HOST."/adjunct/mms/thum/" . $file_name2;
             } else {
                 copy($upload_file, "adjunct/mms/thum/" . $file_name2);
-                $show_img = "http://www.kiam.kr/adjunct/mms/thum/" . $file_name2;
+                //$show_img = "http://www.kiam.kr/adjunct/mms/thum/" . $file_name2;
+                $show_img = "https://".$HTTP_HOST."/adjunct/mms/thum/" . $file_name2;
             }
         }
     }
@@ -595,10 +613,7 @@ if ($mode == "land_save") {
         while ($row = mysqli_fetch_array($result)) {
             // 시간 확인
             $k++;
-            //http://www.kiam.kr/adjunct/mms/thum/
             $uni_id = $reg . sprintf("%02d", $k);
-
-
             $send_day = $row['send_day'];
             if ($sel_step) {
                 $send_day = (int)$send_day - (int)$start_dif;
@@ -614,11 +629,14 @@ if ($mode == "land_save") {
 
             $jpg = $jpg1 = $jpg2 = '';
             if ($row['image'])
-                $jpg = "http://www.kiam.kr/adjunct/mms/thum/" . $row['image'];
+                $jpg = "https://".$HTTP_HOST."/adjunct/mms/thum/" . $row['image'];
+                //$jpg = "http://www.kiam.kr/adjunct/mms/thum/" . $row['image'];
             if ($row['image1'])
-                $jpg1 = "http://www.kiam.kr/adjunct/mms/thum/" . $row['image1'];
+                $jpg1 = "https://".$HTTP_HOST."/adjunct/mms/thum/" . $row['image1'];
+                //$jpg1 = "http://www.kiam.kr/adjunct/mms/thum/" . $row['image1'];
             if ($row['image2'])
-                $jpg2 = "http://www.kiam.kr/adjunct/mms/thum/" . $row['image2'];
+                $jpg2 = "https://".$HTTP_HOST."/adjunct/mms/thum/" . $row['image2'];
+                //$jpg2 = "http://www.kiam.kr/adjunct/mms/thum/" . $row['image2'];
 
             sendmms(3, $mem_id, $send_num, $recv_num, $reservation, $row['title'], $row['content'], $jpg, $jpg1, $jpg2, 'Y', $row['sms_idx'], $row['sms_detail_idx'], $request_idx, "", $row['send_deny']);
 
@@ -806,12 +824,14 @@ if ($mode == "land_save") {
 
             $jpg = $jpg1 = $jpg2 = '';
             if ($row['image'])
-                $jpg = "http://www.kiam.kr/adjunct/mms/thum/" . $row['image'];
+                $jpg = "https://".$HTTP_HOST."/adjunct/mms/thum/" . $row['image'];
+                //$jpg = "http://www.kiam.kr/adjunct/mms/thum/" . $row['image'];
             if ($row['image1'])
-                $jpg1 = "http://www.kiam.kr/adjunct/mms/thum/" . $row['image1'];
+                $jpg1 = "https://".$HTTP_HOST."/adjunct/mms/thum/" . $row['image1'];
+                //$jpg1 = "http://www.kiam.kr/adjunct/mms/thum/" . $row['image1'];
             if ($row['image2'])
-                $jpg2 = "http://www.kiam.kr/adjunct/mms/thum/" . $row['image2'];
-
+                $jpg2 = "https://".$HTTP_HOST."/adjunct/mms/thum/" . $row['image2'];
+                //$jpg2 = "http://www.kiam.kr/adjunct/mms/thum/" . $row['image2'];
             sendmms(8, $mem_id, $send_num, $recv_num, $reservation, $row['title'], $row['content'], $jpg, $jpg1, $jpg2, "Y", $row['sms_idx'], $row['sms_detail_idx'], "", "", "", $or_id);
         }
     }
@@ -900,7 +920,6 @@ if ($mode == "land_save") {
         while ($row = mysqli_fetch_array($result)) {
             // 시간 확인
             $k++;
-            //http://www.kiam.kr/adjunct/mms/thum/
             $send_day = $row['send_day'];
             if ($sel_step) {
                 $send_day = (int)$send_day - (int)$start_dif;
@@ -914,11 +933,14 @@ if ($mode == "land_save") {
                 $reservation = date("Y-m-d $send_time:00", strtotime("+$send_day days"));
             $jpg = $jpg1 = $jpg2 = '';
             if ($row['image'])
-                $jpg = "http://www.kiam.kr/adjunct/mms/thum/" . $row['image'];
+                $jpg = "https://".$HTTP_HOST."/adjunct/mms/thum/" . $row['image'];
+                //$jpg = "http://www.kiam.kr/adjunct/mms/thum/" . $row['image'];
             if ($row['image1'])
-                $jpg1 = "http://www.kiam.kr/adjunct/mms/thum/" . $row['image1'];
+                $jpg1 = "https://".$HTTP_HOST."/adjunct/mms/thum/" . $row['image1'];
+                //$jpg1 = "http://www.kiam.kr/adjunct/mms/thum/" . $row['image1'];
             if ($row['image2'])
-                $jpg2 = "http://www.kiam.kr/adjunct/mms/thum/" . $row['image2'];
+                $jpg2 = "https://".$HTTP_HOST."/adjunct/mms/thum/" . $row['image2'];
+                //$jpg2 = "http://www.kiam.kr/adjunct/mms/thum/" . $row['image2'];
 
             for ($m = 0; $m < count($mobile); $m++) {
                 sendmms(3, $mem_id, $send_num, $mobile[$m], $reservation, $row['title'], $row['content'], $jpg, $jpg1, $jpg2, 'Y', $row['sms_idx'], $row['sms_detail_idx'], $request_idx[$m], "", $row['send_deny']);
@@ -992,11 +1014,14 @@ if ($mode == "land_save") {
 
             $jpg = $jpg1 = $jpg2 = '';
             if ($row['image'])
-                $jpg = "http://www.kiam.kr/adjunct/mms/thum/" . $row['image'];
+                $jpg = "https://".$HTTP_HOST."/adjunct/mms/thum/" . $row['image'];
+                //$jpg = "http://www.kiam.kr/adjunct/mms/thum/" . $row['image'];
             if ($row['image1'])
-                $jpg1 = "http://www.kiam.kr/adjunct/mms/thum/" . $row['image1'];
+                $jpg1 = "https://".$HTTP_HOST."/adjunct/mms/thum/" . $row['image1'];
+                //$jpg1 = "http://www.kiam.kr/adjunct/mms/thum/" . $row['image1'];
             if ($row['image2'])
-                $jpg2 = "http://www.kiam.kr/adjunct/mms/thum/" . $row['image2'];
+                $jpg2 = "https://".$HTTP_HOST."/adjunct/mms/thum/" . $row['image2'];
+                //$jpg2 = "http://www.kiam.kr/adjunct/mms/thum/" . $row['image2'];
 
             for ($m = 0; $m < count($mobile); $m++) {
                 sendmms(3, $mem_id/*$_SESSION['one_member_id']*/, $send_num, $mobile[$m], $reservation, $row['title'], $row['content'], $jpg, $jpg1, $jpg2, 'Y', $row['sms_idx'], $row['sms_detail_idx'], $request_idx[$m], "", $row['send_deny']);
@@ -1324,12 +1349,14 @@ if ($mode == "land_save") {
             $title = $row_sms['title'];
             $txt = $row_sms['content'];
             $deny = $row_sms['send_deny'];
-            $row_sms['image'] ? $upimage_str = 'https://kiam.kr/upload/' . $row_sms['image'] : '';
-            $row_sms['image1'] ? $upimage_str1 = 'https://kiam.kr/upload/' . $row_sms['image1'] : '';
-            $row_sms['image2'] ? $upimage_str2 = 'https://kiam.kr/upload/' . $row_sms['image2'] : '';
+            $row_sms['image'] ? $upimage_str = "https://".$HTTP_HOST.'/upload/' . $row_sms['image'] : '';
+            $row_sms['image1'] ? $upimage_str1 = "https://".$HTTP_HOST.'/upload/' . $row_sms['image1'] : '';
+            $row_sms['image2'] ? $upimage_str2 = "https://".$HTTP_HOST.'/upload/' . $row_sms['image2'] : '';
 
-            if (isset($_POST['step_count'])) $step_count = $_POST['step_count'];
-            else $step_count = 1;
+            if (isset($_POST['step_count'])) 
+                $step_count = $_POST['step_count'];
+            else 
+                $step_count = 1;
             $daily_link = "";
         }
         $query_step_add = "step_sms_idx='{$step_sms_idx}',
@@ -1473,9 +1500,9 @@ if ($mode == "land_save") {
                 $title = $row_sms['title'];
                 $txt = $row_sms['content'];
                 $deny = $row_sms['send_deny'];
-                $row_sms['image'] ? $upimage_str = 'https://kiam.kr/upload/' . $row_sms['image'] : '';
-                $row_sms['image1'] ? $upimage_str1 = 'https://kiam.kr/upload/' . $row_sms['image1'] : '';
-                $row_sms['image2'] ? $upimage_str2 = 'https://kiam.kr/upload/' . $row_sms['image2'] : '';
+                $row_sms['image'] ? $upimage_str = "https://".$HTTP_HOST.'/upload/' . $row_sms['image'] : '';
+                $row_sms['image1'] ? $upimage_str1 = "https://".$HTTP_HOST.'/upload/' . $row_sms['image1'] : '';
+                $row_sms['image2'] ? $upimage_str2 = "https://".$HTTP_HOST.'/upload/' . $row_sms['image2'] : '';
 
                 $step_idx = $step_sms_idx;
                 $daily_link = "";
@@ -1980,12 +2007,14 @@ else if ($mode == "read_coaching_apply") {
 
             $jpg = $jpg1 = $jpg2 = '';
             if ($row['image'])
-                $jpg = "http://www.kiam.kr/adjunct/mms/thum/" . $row['image'];
+                $jpg = "https://".$HTTP_HOST."/adjunct/mms/thum/" . $row['image'];
+                //$jpg = "http://www.kiam.kr/adjunct/mms/thum/" . $row['image'];
             if ($row['image1'])
-                $jpg1 = "http://www.kiam.kr/adjunct/mms/thum/" . $row['image1'];
+                $jpg1 = "https://".$HTTP_HOST."/adjunct/mms/thum/" . $row['image1'];
+                //$jpg1 = "http://www.kiam.kr/adjunct/mms/thum/" . $row['image1'];
             if ($row['image2'])
-                $jpg2 = "http://www.kiam.kr/adjunct/mms/thum/" . $row['image2'];
-
+                $jpg2 = "https://".$HTTP_HOST."/adjunct/mms/thum/" . $row['image2'];
+                //$jpg2 = "http://www.kiam.kr/adjunct/mms/thum/" . $row['image2'];
             sendmms(8, $mem_id, $mobile, $recv_num, $reservation, $row['title'], $row['content'], $jpg, $jpg1, $jpg2, "Y", $row['sms_idx'], $row['sms_detail_idx'], "", "", "", $idx);
         }
     }

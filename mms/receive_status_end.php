@@ -2,7 +2,7 @@
 // header("Content-type: text/html; charset=utf-8");
 include_once $_SERVER['DOCUMENT_ROOT'] . "/lib/db_config.php";
 include_once $_SERVER['DOCUMENT_ROOT'] . "/lib/common_func.php";
-$fp = fopen("receive_status_end.log","w+");
+$fp = fopen("receive_status_end.log", "w+");
 /*
 수신번호별 발송상태를 
 IN
@@ -23,27 +23,27 @@ $_POST['recv_num'] = $_REQUEST['recv_num'];
 $_POST['status'] = $_REQUEST['status'];
 $_POST['end_time'] = $_REQUEST['end_time'];
 
-$idx = $_POST["idx"];
+
 $send_num = $num = $_POST["send_num"];
 
-
+$idx = explode(",", $_POST["idx"]);
 $recv_num = explode(",", $_POST["recv_num"]);
 $status = explode(",", $_POST['status']);
 $end_time = explode(",", $_POST['end_time']);
 
-$query = "insert into GN_MMS_status_log set idx='{$_POST['idx']}',
+$query = "insert into GN_MMS_status_log set idx='{$idx[0]}',
                                                 send_num='{$_POST['send_num']}',
                                                 recv_num='{$_POST['recv_num']}',
-                                                status='{$_POST['status']}',
-                                                end_time='{$_POST['end_time']}'";
-fwrite($fp,$query."\r\n");                                            
+                                                status='{$status[0]}',
+                                                end_time='{$end_time[0]}'";
+fwrite($fp, $query . "\r\n");
 mysqli_query($self_con, $query) or die(mysqli_error($self_con));
 if ($_POST['idx'] == "")  exit;
 if ($_POST['send_num'] == "")  exit;
 
 if (count($recv_num) == 1) {
     $sql = "select idx from Gn_MMS_status where idx='{$_POST['idx']}' and send_num='{$_POST['send_num']}' and recv_num='{$_POST['recv_num']}'";
-    fwrite($fp,$sql."\r\n");
+    fwrite($fp, $sql . "\r\n");
     $resul = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
     $row = mysqli_fetch_array($resul);
     if ($row['idx'] == "") {
@@ -52,21 +52,21 @@ if (count($recv_num) == 1) {
                                                              recv_num='{$_POST['recv_num']}',
                                                              status='{$_POST['status']}',
                                                              regdate='{$_POST['end_time']}'";
-                                                             fwrite($fp,$sql_insert."\r\n");
+        fwrite($fp, $sql_insert . "\r\n");
         mysqli_query($self_con, $sql_insert);
     }
 } else {
     for ($i = 0; $i < count($recv_num); $i++) {
-        $sql = "select idx from Gn_MMS_status where idx='{$idx}' and send_num='{$send_num}' and recv_num='{$recv_num[$i]}'";
+        $sql = "select idx from Gn_MMS_status where idx='{$idx[$i]}' and send_num='{$send_num}' and recv_num='{$recv_num[$i]}'";
         $resul = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
         $row = mysqli_fetch_array($resul);
         if ($row['idx'] == "") {
-            $sql_insert = "insert into Gn_MMS_status set idx='{$idx}',
+            $sql_insert = "insert into Gn_MMS_status set idx='{$idx[$i]}',
                                                                  send_num='{$send_num}',
                                                                  recv_num='{$recv_num[$i]}',
                                                                  status='{$status[$i]}',
                                                                  regdate='{$end_time[$i]}'";
-                                                                 fwrite($fp,"69:".$sql_insert."\r\n");
+            fwrite($fp, "69:" . $sql_insert . "\r\n");
             mysqli_query($self_con, $sql_insert);
         }
     }
@@ -84,11 +84,11 @@ if (count($send_arr)) {
         $row = mysqli_fetch_array($res);
         if ($row['idx'] != "") {
             $sql = "update call_api_log set receive_status_end='{$time}' where idx='{$row['idx']}'";
-            fwrite($fp,$sql."\r\n");
+            fwrite($fp, $sql . "\r\n");
             mysqli_query($self_con, $sql);
         } else {
             $sql = "insert into call_api_log set receive_status_end='{$time}', phone_num='{$phone_num}'";
-            fwrite($fp,$sql."\r\n");
+            fwrite($fp, $sql . "\r\n");
             mysqli_query($self_con, $sql);
         }
     }

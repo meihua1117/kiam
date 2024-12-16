@@ -175,7 +175,6 @@ $data = mysqli_fetch_array($sresul_num);
 								?>
 									<?
 									while ($row = mysqli_fetch_array($result)) {
-
 										$sql = "select * from Gn_MMS_Group where idx='{$row['group_idx']}'";
 										$sresult = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
 										$krow = mysqli_fetch_array($sresult);

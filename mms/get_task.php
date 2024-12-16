@@ -118,8 +118,6 @@ if (strpos($row['recv_num'], ",")) {
 	$data = json_encode($data);
 	$data = preg_replace('/null(?=([^,{}]*[},])|($))/', '""', $data);
 	echo $data;
-	//echo "{\"txt\":$msg,\"reqid\":\"$row['uni_id']\",\"delay\":\"$row['delay']\",\"delay2\":\"$row['delay2']\",\"close\":\"24\",\"idx\":\"$row['idx']\",\"type\":\"$row['type']\",\"title\":$title,\"jpg\":\"$row['jpg']\",\"jpg1\":\"$row['jpg1']\",\"jpg2\":\"$row['jpg2']\",\"pnum\":[$string]}";
-	//$data = "{\"txt\":$msg,\"reqid\":\"$row['uni_id']\",\"delay\":\"$row['delay']\",\"delay2\":\"$row['delay2']\",\"close\":\"24\",\"idx\":\"$row['idx']\",\"type\":\"$row['type']\",\"title\":$title,\"jpg\":\"$row['jpg']\",\"jpg1\":\"$row['jpg1']\",\"jpg2\":\"$row['jpg2']\",\"pnum\":[$string]}";
 } else {
 	$url = str_replace("null", "", $url);
 	$string = array();
@@ -134,7 +132,6 @@ if (strpos($row['recv_num'], ",")) {
 	$data = json_encode($data);
 	$data = preg_replace('/null(?=([^,{}]*[},])|($))/', '""', $data);
 	echo $data;
-	//echo "{\"txt\":$msg,\"reqid\":\"$row['uni_id']\",\"type\":\"$row['type']\",\"idx\":\"$row['idx']\",\"delay\":\"$row['delay']\",\"delay2\":\"$row['delay2']\",\"close\":\"24\",\"title\":$title,\"jpg\":\"$row['jpg']\",\"jpg1\":\"$row['jpg1']\",\"jpg2\":\"$row['jpg2']\",\"pnum\":[{\"bnc\":\"$url\",\"num\":\"$row['recv_num']\",\"rep\":\"$row['replacement1']\",\"rep1\":\"$row['replacement2']\"}]}";
 	//$data = "{\"txt\":$msg,\"reqid\":\"$row['uni_id']\",\"type\":\"$row['type']\",\"idx\":\"$row['idx']\",\"delay\":\"$row['delay']\",\"delay2\":\"$row['delay2']\",\"close\":\"24\",\"title\":$title,\"jpg\":\"$row['jpg']\",\"jpg1\":\"$row['jpg1']\",\"jpg2\":\"$row['jpg2']\",\"pnum\":[{\"bnc\":\"$url\",\"num\":\"$row['recv_num']\",\"rep\":\"$row['replacement1']\",\"rep1\":\"$row['replacement2']\"}]}";
 }
 if ($row['idx']) {

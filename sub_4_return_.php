@@ -432,12 +432,12 @@ $result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
 												if (time() > $reg_date_1hour && $row_s['regdate'] == "") {
 													if ($row['reservation'] != "" && $row['reservation'] > date("Y-m-d H:i:s")) { ?>
 														<a href="javascript:fs_del_num('<?= $row['idx'] ?>')">취소가능</a>
-													<? 	} else { ?>
-														<? if ($row['reservation']) { ?>
-															예약
-														<? } else { ?>
+												<? 	} else { 
+														if ($row['reservation']) { 
+															echo "예약";
+														} else { ?>
 															<a href="javascript:fs_del_num('<?= $row['idx'] ?>')">미수신</a>
-											<? }
+													<? 	}
 													}
 												}
 											} ?>
