@@ -30,6 +30,7 @@ if($_REQUEST['mode']=="inser")
 			$sql.=" $key='$v' , ";
 		$sql.=" reg_date=now() ";
 		echo $sql;
+		print_r($self_con);
 		$res = mysqli_query($self_con,	$sql);
 		echo "query_end";
 	}
