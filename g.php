@@ -1,5 +1,5 @@
 <?
-header("Content-type:text/html;charset=euc-kr");
+header("Content-type:text/html;charset=utf-8");
 include_once "lib/db_config.php";
 
 if($_REQUEST['mode']=="inser")
