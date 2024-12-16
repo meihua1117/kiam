@@ -29,7 +29,6 @@ if($_REQUEST['mode']=="inser")
 		foreach($deny_info as $key=>$v)
 			$sql.=" $key='$v' , ";
 		$sql.=" reg_date=now() ";
-		echo $sql;
 		mysqli_query($self_con,$sql);
 	}
 	$user_id = $row['mem_id'];
