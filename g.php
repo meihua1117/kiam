@@ -31,6 +31,7 @@ if($_REQUEST['mode']=="inser")
 		$sql.=" reg_date=now() ";
 		echo $sql;
 		mysqli_query($self_con,$sql);
+		echo "query_end";
 	}
 	$user_id = $row['mem_id'];
 	echo $user_id;
