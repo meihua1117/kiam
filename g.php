@@ -1,6 +1,6 @@
 <?
 header("Content-type:text/html;charset=euc-kr");
-include_once "lib/rlatjd_fun.php";
+include_once "lib/db_config.php";
 
 if($_REQUEST['mode']=="inser")
 {
