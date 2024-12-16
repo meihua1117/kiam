@@ -39,14 +39,14 @@ if($_REQUEST['mode']=="inser")
 	?>
 	<script>
 	    alert('귀하가 <?=date("Y");?>년<?=date("m");?>월<?=date("d");?>일에 요청하신 수신동의가 정상적으로 처리 되었습니다.'); 
-	    location.href='https://'.$HTTP_HOST; 
+	    location.href='https://' + <?=$HTTP_HOST?>; 
 	</script>
 	<?
 	}else{
 	?>
 	<script>
 	    alert('수신동의가 정상적으로 처리되었습니다.'); 
-	    location.href='https://'.$HTTP_HOST; 
+	    location.href='https://'+<?=$HTTP_HOST?>; 
 	</script>
 	<?	
 	}
@@ -57,7 +57,7 @@ if($_REQUEST['mode']=="inser")
 	if(confirm('무료 문자 수신동의를 하시겠습니까?'))
 	    location.href='<?=$PHP_SELF?>?u=<?=$_REQUEST['u']?>&n=<?=$_REQUEST['n']?>&mode=inser';		 
 	else
-	    location.href='https://'.$HTTP_HOST;	
+	    location.href='https://'+<?=$HTTP_HOST?>;	
 </script>
 <?}?>
 
