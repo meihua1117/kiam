@@ -34,6 +34,7 @@ if($_REQUEST['mode']=="inser")
 	$user_id = $row['mem_id'];
 	if($_REQUEST['u'])
 	{
+		echo "귀하가 ".date("Y")."년".date("m")."월".date("d")."일에 요청하신 수신동의가 정상적으로 처리 되었습니다.";
 	?>
 	<script>
 	    alert('귀하가 <?=date("Y");?>년<?=date("m");?>월<?=date("d");?>일에 요청하신 수신동의가 정상적으로 처리 되었습니다.'); 
