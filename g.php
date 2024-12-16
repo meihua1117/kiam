@@ -29,6 +29,7 @@ if($_REQUEST['mode']=="inser")
 		foreach($deny_info as $key=>$v)
 			$sql.=" $key='$v' , ";
 		$sql.=" reg_date=now() ";
+		$sql = mb_convert_encoding($sql, 'UTF-8', 'auto');
 		echo $sql;
 		print_r($self_con);
 		$res = mysqli_query($self_con,	$sql);
