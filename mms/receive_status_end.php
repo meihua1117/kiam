@@ -24,8 +24,7 @@ $_POST['status'] = $_REQUEST['status'];
 $_POST['end_time'] = $_REQUEST['end_time'];
 
 
-$send_num = $num = $_POST["send_num"];
-
+$send_num = explode(",",$_POST["send_num"]);
 $idx = explode(",", $_POST["idx"]);
 $recv_num = explode(",", $_POST["recv_num"]);
 $status = explode(",", $_POST['status']);
@@ -57,12 +56,12 @@ if (count($recv_num) == 1) {
     }
 } else {
     for ($i = 0; $i < count($recv_num); $i++) {
-        $sql = "select idx from Gn_MMS_status where idx='{$idx[$i]}' and send_num='{$send_num}' and recv_num='{$recv_num[$i]}'";
+        $sql = "select idx from Gn_MMS_status where idx='{$idx[$i]}' and send_num='{$send_num[$i]}' and recv_num='{$recv_num[$i]}'";
         $resul = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
         $row = mysqli_fetch_array($resul);
         if ($row['idx'] == "") {
             $sql_insert = "insert into Gn_MMS_status set idx='{$idx[$i]}',
-                                                                 send_num='{$send_num}',
+                                                                 send_num='{$send_num[$i]}',
                                                                  recv_num='{$recv_num[$i]}',
                                                                  status='{$status[$i]}',
                                                                  regdate='{$end_time[$i]}'";
