@@ -30,7 +30,7 @@ if($_REQUEST['mode']=="inser")
 			$sql.=" $key='$v' , ";
 		$sql.=" reg_date=now() ";
 		echo $sql;
-		mysqli_query($self_con,$sql);
+		mysqli_query($self_con,	$sql) or die(mysqli_error($self_con));
 		echo "query_end";
 	}
 	$user_id = $row['mem_id'];
