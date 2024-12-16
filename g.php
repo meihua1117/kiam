@@ -1,7 +1,7 @@
 <?
 header("Content-type:text/html;charset=utf-8");
 include_once "lib/db_config.php";
-
+$HTTP_HOST = str_replace("www.", "", $_SERVER['HTTP_HOST']);
 if($_REQUEST['mode']=="inser")
 {
 	$sql="select * from Gn_MMS where uni_id='{$_REQUEST['u']}' ";
@@ -30,27 +30,23 @@ if($_REQUEST['mode']=="inser")
 			$sql.=" $key='$v' , ";
 		$sql.=" reg_date=now() ";
 		$sql = mb_convert_encoding($sql, 'UTF-8', 'auto');
-		echo $sql;
-		print_r($self_con);
 		$res = mysqli_query($self_con,	$sql);
-		echo "query_end";
 	}
 	$user_id = $row['mem_id'];
-	echo $user_id;
 	if($_REQUEST['u'])
 	{
 		echo "귀하가 ".date("Y")."년".date("m")."월".date("d")."일에 요청하신 수신동의가 정상적으로 처리 되었습니다.";
 	?>
 	<script>
 	    alert('귀하가 <?=date("Y");?>년<?=date("m");?>월<?=date("d");?>일에 요청하신 수신동의가 정상적으로 처리 되었습니다.'); 
-	    location.href='https://kiam.kr'; 
+	    location.href='https://'.$HTTP_HOST; 
 	</script>
 	<?
 	}else{
 	?>
 	<script>
 	    alert('수신동의가 정상적으로 처리되었습니다.'); 
-	    location.href='https://kiam.kr'; 
+	    location.href='https://'.$HTTP_HOST; 
 	</script>
 	<?	
 	}
@@ -58,15 +54,11 @@ if($_REQUEST['mode']=="inser")
 }else{
 ?>
 <script>
-
 	if(confirm('무료 문자 수신동의를 하시겠습니까?'))
 	    location.href='<?=$PHP_SELF?>?u=<?=$_REQUEST['u']?>&n=<?=$_REQUEST['n']?>&mode=inser';		 
 	else
-	    location.href='https://kiam.kr';	
-
+	    location.href='https://'.$HTTP_HOST;	
 </script>
-<?
-}
-?>
+<?}?>
 
 
