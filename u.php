@@ -1,5 +1,5 @@
 <?
-header("Content-type:text/html;charset=euc-kr");
+header("Content-type:text/html;charset=utf-8");
 include_once "lib/db_config.php";
 $HTTP_HOST = str_replace("www.", "", $_SERVER['HTTP_HOST']);
 if ($_REQUEST['mode'] == "inser") {
