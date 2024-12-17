@@ -31,6 +31,7 @@ if ($_REQUEST['mode'] == "inser") {
     $k = 0;
 
     $sql_d = "select idx from Gn_MMS_Deny where send_num='{$row['send_num']}' and recv_num='{$_REQUEST['n']}'" . $search_str;
+    echo $sql_d."<br>";
     $resul_d = mysqli_query($self_con, $sql_d);
     $row_d = mysqli_fetch_array($resul_d);
     if ($row_d['idx'] != null) {
@@ -179,6 +180,4 @@ if ($_REQUEST['mode'] == "inser") {
         else
             location.href = 'https://<?=$HTTP_HOST?>';
     </script>
-<?
-}
-?>
+<?}?>
