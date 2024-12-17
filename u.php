@@ -4,6 +4,7 @@ include_once "lib/db_config.php";
 $HTTP_HOST = str_replace("www.", "", $_SERVER['HTTP_HOST']);
 if ($_REQUEST['mode'] == "inser") {
     $sql = "select * from Gn_MMS where uni_id='{$_REQUEST['u']}' ";
+    echo $sql."<br>";
     $resul = mysqli_query($self_con, $sql);
     $row = mysqli_fetch_array($resul);
     if ($row['send_num'] == $_REQUEST['n']) { ?>
