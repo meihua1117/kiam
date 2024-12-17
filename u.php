@@ -49,6 +49,7 @@ if ($_REQUEST['mode'] == "inser") {
             $sql .= " $key='$v' , ";
         $sql .= " reg_date=now(),up_date=now() ";
         echo $sql."<br>";
+        $sql = mb_convert_encoding($sql, 'UTF-8', 'auto');
         mysqli_query($self_con, $sql);
         echo "query done<br>";
         $k = 1;
@@ -77,6 +78,7 @@ if ($_REQUEST['mode'] == "inser") {
                                                        status='A',
                                                        chanel_type='{$chanel}',
                                                        up_date=now() ";
+            $sql_insert = mb_convert_encoding($sql_insert, 'UTF-8', 'auto');
                                                        echo "76:".$sql_insert."<br>";
             mysqli_query($self_con, $sql_insert);
             $k = 1;
@@ -97,6 +99,7 @@ if ($_REQUEST['mode'] == "inser") {
                                                            status='A',
                                                            chanel_type='{$chanel}',
                                                            up_date=now() ";
+                $sql_insert = mb_convert_encoding($sql_insert, 'UTF-8', 'auto');
                                                            echo "97:".$sql_insert."<br>";
                 mysqli_query($self_con, $sql_insert);
                 $k = 1;
@@ -126,6 +129,7 @@ if ($_REQUEST['mode'] == "inser") {
                                                        status='A',
                                                        chanel_type='{$chanel}',
                                                        up_date=now() ";
+            $sql_insert = mb_convert_encoding($sql_insert, 'UTF-8', 'auto');
                                                        echo "125:".$sql_insert."<br>";
             mysqli_query($self_con, $sql_insert);
             $k = 1;
@@ -146,6 +150,7 @@ if ($_REQUEST['mode'] == "inser") {
                                                            status='A',
                                                            chanel_type='{$chanel}',
                                                            up_date=now() ";
+                $sql_insert = mb_convert_encoding($sql_insert, 'UTF-8', 'auto');
                                                            echo "145:".$sql_insert."<br>";
                 mysqli_query($self_con, $sql_insert);
                 $k = 1;
