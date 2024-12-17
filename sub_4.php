@@ -1671,6 +1671,7 @@ $phone = str_replace("-", "", $mem_phone);
 							$order_name = "idx";
 						$intPageCount = (int)(($intRowCount + $intPageSize - 1) / $intPageSize);
 						$sql = "select * from Gn_MMS_Deny where $sql_serch order by $order_name $order_status limit $int,$intPageSize";
+						echo $sql;
 						$excel_sql = "select * from Gn_MMS_Deny where $sql_serch order by $order_name $order_status";
 						$excel_sql = str_replace("'", "`", $excel_sql);
 						$result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
