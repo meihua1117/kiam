@@ -4,7 +4,6 @@ include_once "lib/db_config.php";
 $HTTP_HOST = str_replace("www.", "", $_SERVER['HTTP_HOST']);
 if ($_REQUEST['mode'] == "inser") {
     $sql = "select * from Gn_MMS where uni_id='{$_REQUEST['u']}' ";
-    echo $sql."<br>";
     $resul = mysqli_query($self_con, $sql);
     $row = mysqli_fetch_array($resul);
     if ($row['send_num'] == $_REQUEST['n']) { ?>
@@ -32,7 +31,6 @@ if ($_REQUEST['mode'] == "inser") {
     $k = 0;
 
     $sql_d = "select idx from Gn_MMS_Deny where send_num='{$row['send_num']}' and recv_num='{$_REQUEST['n']}'" . $search_str;
-    echo $sql_d."<br>";
     $resul_d = mysqli_query($self_con, $sql_d);
     $row_d = mysqli_fetch_array($resul_d);
     if ($row_d['idx'] != null) {
@@ -48,10 +46,8 @@ if ($_REQUEST['mode'] == "inser") {
         foreach ($deny_info as $key => $v)
             $sql .= " $key='$v' , ";
         $sql .= " reg_date=now(),up_date=now() ";
-        echo $sql."<br>";
         $sql = mb_convert_encoding($sql, 'UTF-8', 'auto');
         mysqli_query($self_con, $sql);
-        echo "query done<br>";
         $k = 1;
     }
     $user_id = $row['mem_id'];
@@ -59,7 +55,6 @@ if ($_REQUEST['mode'] == "inser") {
     $send_num = $row['send_num'];
     // [새 번호]가 현재로그에 있는지 확인
     $query = "select now_num, old_nums from Gn_MMS_Receive_Change_Log where now_num = '{$now_num}'  ";
-    echo $query."<br>";
     $resultA = mysqli_query($self_con, $query);
     $rowA = mysqli_fetch_array($resultA);
     if ($rowA[0]) {
@@ -79,7 +74,6 @@ if ($_REQUEST['mode'] == "inser") {
                                                        chanel_type='{$chanel}',
                                                        up_date=now() ";
             $sql_insert = mb_convert_encoding($sql_insert, 'UTF-8', 'auto');
-                                                       echo "76:".$sql_insert."<br>";
             mysqli_query($self_con, $sql_insert);
             $k = 1;
         }
@@ -100,7 +94,6 @@ if ($_REQUEST['mode'] == "inser") {
                                                            chanel_type='{$chanel}',
                                                            up_date=now() ";
                 $sql_insert = mb_convert_encoding($sql_insert, 'UTF-8', 'auto');
-                                                           echo "97:".$sql_insert."<br>";
                 mysqli_query($self_con, $sql_insert);
                 $k = 1;
             }
@@ -110,7 +103,6 @@ if ($_REQUEST['mode'] == "inser") {
 
     // [새 번호]가 현재로그에 있는지 확인
     $query = "select now_num, old_nums from Gn_MMS_Receive_Change_Log where  old_nums like '$now_num%' ";
-    echo $query."<br>";
     $resultA = mysqli_query($self_con, $query);
     $rowA = mysqli_fetch_array($resultA);
     if ($rowA[0]) {
@@ -130,7 +122,6 @@ if ($_REQUEST['mode'] == "inser") {
                                                        chanel_type='{$chanel}',
                                                        up_date=now() ";
             $sql_insert = mb_convert_encoding($sql_insert, 'UTF-8', 'auto');
-                                                       echo "125:".$sql_insert."<br>";
             mysqli_query($self_con, $sql_insert);
             $k = 1;
         }
@@ -151,7 +142,6 @@ if ($_REQUEST['mode'] == "inser") {
                                                            chanel_type='{$chanel}',
                                                            up_date=now() ";
                 $sql_insert = mb_convert_encoding($sql_insert, 'UTF-8', 'auto');
-                                                           echo "145:".$sql_insert."<br>";
                 mysqli_query($self_con, $sql_insert);
                 $k = 1;
             }
@@ -162,21 +152,21 @@ if ($_REQUEST['mode'] == "inser") {
         ?>
             <script>
                 alert('이미 등록되어 있습니다.');
-                //location.href = 'https://<?=$HTTP_HOST?>';
+                location.href = 'https://<?=$HTTP_HOST?>';
             </script>
         <?
         } else {
         ?>
             <script>
                 alert('귀하가 <?= date("Y"); ?>년<?= date("m"); ?>월<?= date("d"); ?>일에 요청하신 수신동의가 정상적으로 수신거부 되었습니다.');
-                //location.href = 'https://<?=$HTTP_HOST?>';
+                location.href = 'https://<?=$HTTP_HOST?>';
             </script>
         <?  }
     } else {
         ?>
         <script>
             alert('새로 받은 문자부터 수신거부가능합니다.');
-            //location.href = 'https://<?=$HTTP_HOST?>';
+            location.href = 'https://<?=$HTTP_HOST?>';
         </script>
     <?
     }
