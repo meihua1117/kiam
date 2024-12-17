@@ -58,6 +58,7 @@ if ($_REQUEST['mode'] == "inser") {
     $send_num = $row['send_num'];
     // [새 번호]가 현재로그에 있는지 확인
     $query = "select now_num, old_nums from Gn_MMS_Receive_Change_Log where now_num = '{$now_num}'  ";
+    echo $query."<br>";
     $resultA = mysqli_query($self_con, $query);
     $rowA = mysqli_fetch_array($resultA);
     if ($rowA[0]) {
