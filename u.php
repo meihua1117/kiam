@@ -154,21 +154,21 @@ if ($_REQUEST['mode'] == "inser") {
         ?>
             <script>
                 alert('이미 등록되어 있습니다.');
-                location.href = 'https://<?=$HTTP_HOST?>';
+                //location.href = 'https://<?=$HTTP_HOST?>';
             </script>
         <?
         } else {
         ?>
             <script>
                 alert('귀하가 <?= date("Y"); ?>년<?= date("m"); ?>월<?= date("d"); ?>일에 요청하신 수신동의가 정상적으로 수신거부 되었습니다.');
-                location.href = 'https://<?=$HTTP_HOST?>';
+                //location.href = 'https://<?=$HTTP_HOST?>';
             </script>
         <?  }
     } else {
         ?>
         <script>
             alert('새로 받은 문자부터 수신거부가능합니다.');
-            location.href = 'https://<?=$HTTP_HOST?>';
+            //location.href = 'https://<?=$HTTP_HOST?>';
         </script>
     <?
     }
