@@ -463,8 +463,8 @@ $result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
 												}
 											} else { ?>
 												<a href="sub_4_detail.php?idx=<?= $row['idx']; ?>"><?= $success_cnt ?>/<?= $total_cnt - $success_cnt; ?>
-												<? 	} ?>
-												<?php if ($row['reservation']) { ?>예약<?php } ?>
+											<?}?>
+												<? if ($row['reservation']) { echo "예약"; } ?>
 										</td>
 										<td style="font-size:12px;">
 											<a href="sub_4_return_detail.php?idx=<?= $row['idx'] ?>&send_num=<?= $row['send_num'] ?>"><?= $intRowCount; ?></a>
