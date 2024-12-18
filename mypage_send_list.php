@@ -144,6 +144,7 @@ $data=mysqli_fetch_array($sresul_num);
                                     $intPageCount=(int)(($intRowCount+$intPageSize-1)/$intPageSize);
                                     $sql="select mms.*,sms.event_name_eng sp from Gn_MMS mms left join Gn_event_sms_info sms 
 									on sms.sms_idx=mms.sms_idx where $sql_serch  order by $order_name $order_status limit $int,$intPageSize";
+                                    echo $sql;
                                     $result=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
                                     $logs->add_log($sql);
                                     if($intRowCount)
