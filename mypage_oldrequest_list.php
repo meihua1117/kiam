@@ -91,7 +91,7 @@ $(function(){
                         <div>
                             <table class="list_table" width="100%" border="0" cellspacing="0" cellpadding="0">
                                 <tr>
-                                    <td style="width:2%;"><input type="checkbox" name="allChk" id="allChk" value="<?php echo $row['event_idx']; ?>"></td>
+                                    <td style="width:2%;"><input type="checkbox" name="allChk" id="allChk" value="<?= $row['event_idx']; ?>"></td>
                                     <td style="width:5%;">No</td>
                                     <td style="width:8%;">발송폰번호</td>
                                     <td style="width:8%;">주소록명</td>
@@ -175,7 +175,7 @@ $(function(){
                                         $date = $row['regdate'];
                                 ?>
                                         <tr>
-                                            <td><input type="checkbox" name="event_idx" value="<?php echo $row['idx']; ?>" data-reservation_title="<?= $row['reservation_title'] ?>" data-idx="<?= $row['idx'] ?>" data-name="<?= $row['name'] ?>" data-mobile="<?= $row['mobile'] ?>" data-email="<?= $row['email'] ?>" data-job="<?= $row['job'] ?>" data-event_code="<?= $row['event_code'] ?>" data-counsult_date="<?= $row['counsult_date'] ?>" data-sp="<?= $row['sp'] ?>" data-request_idx="<?php echo $row['request_idx']; ?>"></td>
+                                            <td><input type="checkbox" name="event_idx" value="<?= $row['idx']; ?>" data-reservation_title="<?= $row['reservation_title'] ?>" data-idx="<?= $row['idx'] ?>" data-name="<?= $row['name'] ?>" data-mobile="<?= $row['mobile'] ?>" data-email="<?= $row['email'] ?>" data-job="<?= $row['job'] ?>" data-event_code="<?= $row['event_code'] ?>" data-counsult_date="<?= $row['counsult_date'] ?>" data-sp="<?= $row['sp'] ?>" data-request_idx="<?= $row['request_idx']; ?>"></td>
                                             <td><?= $sort_no ?></td>
                                             <td><?= $row['send_num'] ?></td>
                                             <td><?= $addrrow['grp'] ?></td>
@@ -188,9 +188,9 @@ $(function(){
                                             <td><?= $row['end_date'] ?></td>
                                             <td><?= $row['reg_date'] ?></td>
                                             <td>
-                                                <!-- <a href="javascript:;;" onclick="updateRow('<?php echo $row['idx']; ?>')">수정</a> / -->
-                                                <a href="mypage_oldrequest_edit.php?idx=<?php echo $row['idx']; ?>">수정</a> /
-                                                <a href="javascript:;;" onclick="deleteRow('<?php echo $row['idx']; ?>','<?php echo $row['reservation_title']; ?>')">삭제</a>
+                                                <!-- <a href="javascript:;;" onclick="updateRow('<?= $row['idx']; ?>')">수정</a> / -->
+                                                <a href="mypage_oldrequest_edit.php?idx=<?= $row['idx']; ?>">수정</a> /
+                                                <a href="javascript:;;" onclick="deleteRow('<?= $row['idx']; ?>','<?= $row['reservation_title']; ?>')">삭제</a>
                                             </td>
 
                                         </tr>
@@ -476,13 +476,13 @@ $(function(){
                                     <td style="height:35px;text-align:left;">
                                         <input type="hidden" name="mem_code" placeholder="" id="mem_code" value="<?= $data['mem_code'] ?>" readonly style="width:200px" />
                                         <select id="send_num" name="send_num">
-                                            <!--option value="<?= str_replace("-", "", $data['mem_phone']) ?>"><?php echo str_replace("-", "", $data['mem_phone']); ?></option-->
+                                            <!--option value="<?= str_replace("-", "", $data['mem_phone']) ?>"><?= str_replace("-", "", $data['mem_phone']); ?></option-->
                                             <?php
                                             $query = "select * from Gn_MMS_Number where mem_id='{$_SESSION['one_member_id']}' order by sort_no asc, user_cnt desc , idx desc";
                                             $resul = mysqli_query($self_con, $query);
                                             while ($korow = mysqli_fetch_array($resul)) {
                                             ?>
-                                                <option value="<?= $korow['sendnum'] ?>" <?= $row['send_num'] == $korow['sendnum'] ? "selected" : "" ?>><?php echo $korow['sendnum']; ?></option>
+                                                <option value="<?= $korow['sendnum'] ?>" <?= $row['send_num'] == $korow['sendnum'] ? "selected" : "" ?>><?= $korow['sendnum']; ?></option>
                                             <?php } ?>
                                         </select>
                                     </td>
@@ -493,7 +493,7 @@ $(function(){
                                         <input type="hidden" name="group_idx" placeholder="" id="address_idx" value="" readonly style="width:200px" />
                                         <input type="text" id="address_name" name="address_name" placeholder="" id="address_name" value="" readonly style="width:200px; height: 27px;" />
                                         <input type="button" value="주소록 조회" class="button " id="searchAddressBtn">
-                                        [선택건수]<span id="address_cnt"><?php echo $row['total_count']; ?></span>
+                                        [선택건수]<span id="address_cnt"><?= $row['total_count']; ?></span>
                                     </td>
                                 </tr>
                                 <tr>
