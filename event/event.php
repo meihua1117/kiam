@@ -576,7 +576,7 @@ if ($_POST['mode'] == "speech") {
 				$cnt_row = mysqli_fetch_array($cnt_res);
 				if ($cnt_row[0] > 0) {
 					//중단정보테이블에 해당 값을 저장한다.
-					$query = "insert into gn_event_sms_stop_info set event_idx='{$stop_event_idx}', mobile='{$recv_num}'";
+					$query = "insert into Gn_event_sms_stop_info set event_idx='{$stop_event_idx}', mobile='{$recv_num}'";
 					mysqli_query($self_con, $query);
 
 					//문자테이블에서 해당 예약을 삭제한다.
