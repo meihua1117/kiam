@@ -239,7 +239,7 @@ include_once $path . "lib/rlatjd_fun.php";
                     <td>
                       <?
                       $stop_status = "";
-                      $sql = "select count(*) from Gn_event_sms_step_info where event_idx='{$data['event_idx']}' and mobile='{$row['mobile']}'";
+                      $sql = "select count(*) from Gn_event_sms_info where event_idx='{$data['event_idx']}' and mobile='{$row['mobile']}'";
                       echo $sql;
                       $stop_res = mysqli_query($self_con, $sql);
                       $stop_row = mysqli_fetch_array($stop_res);
