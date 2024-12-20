@@ -240,7 +240,6 @@ include_once $path . "lib/rlatjd_fun.php";
                       <?
                       $stop_status = "";
                       $sql = "select count(*) from Gn_event_sms_info where event_idx='{$data['event_idx']}' and mobile='{$row['mobile']}'";
-                      echo $sql;
                       $stop_res = mysqli_query($self_con, $sql);
                       $stop_row = mysqli_fetch_array($stop_res);
                       if ($stop_row[0] > 0)
