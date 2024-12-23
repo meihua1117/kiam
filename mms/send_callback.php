@@ -39,7 +39,9 @@ $query = "insert into Gn_MMS set mem_id='{$memID}',
                                     result=0,
                                     reg_date=NOW(),
                                     agreement_yn='Y',
-                                    recv_num_cnt=1";
+                                    recv_num_cnt=1,
+                                    jpg1='',
+                                    jpg2=''";
                                     fwrite($fp,$query."\r\n");
 mysqli_query($self_con, $query);
 $idx = mysqli_insert_id($self_con);
