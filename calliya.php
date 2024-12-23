@@ -106,7 +106,7 @@ $data = mysqli_fetch_array($sresul_num);
                                         break;
                                 }
 
-                                $count_query = "select count(idx) from Gn_Iam_Name_Card ca_1 WHERE worker_service_state=1 AND req_worker_id ='' AND group_id = 0 AND admin_shopping <> 0 $searchStr";
+                                $count_query = "select count(idx) from Gn_Iam_Name_Card ca_1 use index(idx_worker_service_state_req_worker_id_group_admin_shopping) WHERE worker_service_state=1 AND req_worker_id ='' AND group_id = 0 AND admin_shopping > 0 $searchStr";
                                 echo date("Y-m-d H:i:s").":".$count_query."<br>";
                                 $count_result = mysqli_query($self_con,$count_query);
                                 $count_row = mysqli_fetch_array($count_result);
@@ -133,8 +133,8 @@ $data = mysqli_fetch_array($sresul_num);
                                     $int = ($page - 1) * $intPageSize;
                                     $intPageCount = (int)(($intRowCount + $intPageSize - 1) / $intPageSize);
 
-                                    $query = "SELECT idx,mem_id,card_short_url,ai_map_gmarket,card_title,card_name,main_img1,card_addr,card_phone,req_data,iam_click FROM Gn_Iam_Name_Card ca_1";
-                                    $query .= " WHERE worker_service_state=1 AND req_worker_id ='' AND group_id = 0 AND admin_shopping <> 0 $searchStr";
+                                    $query = "SELECT idx,mem_id,card_short_url,ai_map_gmarket,card_title,card_name,main_img1,card_addr,card_phone,req_data,iam_click 
+                                                FROM Gn_Iam_Name_Card ca_1 use index(idx_worker_service_state_req_worker_id_group_admin_shopping) WHERE worker_service_state=1 AND req_worker_id ='' AND group_id = 0 AND admin_shopping > 0 $searchStr";
                                     $limitStr = " LIMIT $int,$intPageSize";
                                     $number    = $totalCnt - ($nowPage - 1) * $pageCnt;
                                     if (!$orderField)
