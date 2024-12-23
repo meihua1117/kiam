@@ -141,6 +141,7 @@ $data = mysqli_fetch_array($sresul_num);
                                     $i = 1;
                                     $c = 0;
                                     $query .= $orderQuery;
+                                    echo $query;
                                     $res = mysqli_query($self_con,$query);                                    
                                     while($row = mysqli_fetch_array($res)) {
                                     //$cache_list = $redisCache->get_query_to_array($query);
