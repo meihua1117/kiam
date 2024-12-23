@@ -92,7 +92,8 @@ $phone_num = $_POST['phone_num'];
                 }
             }
         }
-        echo '{"result":"success","token_res":"1"}';
+        //echo '{"result":"success","token_res":"1"}';
+        echo json_encode(array("result"=>"success","token_res"=>1));
         exit;
     }
     if($select_check_box == "Y"){
@@ -104,7 +105,8 @@ $phone_num = $_POST['phone_num'];
             $sql_update = "update Gn_Member set mem_callback_mun_state={$check_box_val} where mem_id='{$userid}'";
             mysqli_query($self_con,$sql_update);
         }
-        echo '{"result":"success","token_res":"1"}';
+        //echo '{"result":"success","token_res":"1"}';
+        echo json_encode(array("result"=>"success","token_res"=>1));
         exit;
     }
     
@@ -139,7 +141,8 @@ $phone_num = $_POST['phone_num'];
             }
         }
         mysqli_query($self_con,$sql_update);
-        echo '{"result":"success","token_res":"1"}';
+        //echo '{"result":"success","token_res":"1"}';
+        echo json_encode(array("result"=>"success","token_res"=>1));
         exit;
     }
     
@@ -184,34 +187,28 @@ $phone_num = $_POST['phone_num'];
     if($update_msg == "Y"){
         $add_query = "";
         if($msg_title)
-            $add_query .= " `title`   ='$msg_title', ";
+            $add_query .= " `title`   ='{$msg_title}', ";
         if($msg_content)
-            $add_query .= " `content` ='$msg_content', ";
+            $add_query .= " `content` ='{$msg_content}', ";
         if($msg_img_path)
-            $add_query .= " `img`     ='$msg_img_path', ";
+            $add_query .= " `img`     ='{$msg_img_path}', ";
         if($msg_link)
-            $add_query .= " `iam_link` ='$msg_link', ";
-        $query="update gn_mms_callback set 
-                $add_query
-                `regdate`    =NOW() 
-                where mb_id='$userid' and idx=$callback_idx
-                    ";
+            $add_query .= " `iam_link` ='{$msg_link}', ";
+        $query="update gn_mms_callback set $add_query `regdate`=NOW() where mb_id='{$userid}' and idx=$callback_idx";
         mysqli_query($self_con,$query);
     }
     else{
-        $query="insert into gn_mms_callback set 
-        `title`          ='$msg_title', 
-        `content`      ='$msg_content', 
-        `img`        ='$msg_img_path',
-        `iam_link`   = '$msg_link',
-        `regdate`    =NOW(),
-        `service_state` = 2,
-        `mb_id`      ='$userid'
-            ";
+        $query="insert into gn_mms_callback set `title`  ='{$msg_title}', 
+                                            `content`    ='{$msg_content}', 
+                                            `img`        ='{$msg_img_path}',
+                                            `iam_link`   = '{$msg_link}',
+                                            `regdate`    =NOW(),
+                                            `service_state` = 2,
+                                            `mb_id`      ='{$userid}'";
         mysqli_query($self_con,$query);
     }
     
-    $query2 = "select SQL_CALC_FOUND_ROWS * from gn_mms_callback where service_state=2 and mb_id='$userid' order by idx";
+    $query2 = "select SQL_CALC_FOUND_ROWS * from gn_mms_callback where service_state=2 and mb_id='{$userid}' order by idx";
     $res2   = mysqli_query($self_con,$query2);
     $items = array();
     while($rows_mem = mysqli_fetch_assoc($res2))
