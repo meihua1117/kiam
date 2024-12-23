@@ -10,7 +10,6 @@ if (!$_SESSION['one_member_id']) {
     exit;
 }
 $sql = "select * from Gn_Member  where mem_id='{$_SESSION['one_member_id']}'";
-echo date("Y-m-d H:i:s").":".$sql."<br>";
 $sresul_num = mysqli_query($self_con,$sql);
 $data = mysqli_fetch_array($sresul_num);
 ?>
@@ -107,7 +106,6 @@ $data = mysqli_fetch_array($sresul_num);
                                 }
 
                                 $count_query = "select count(idx) from Gn_Iam_Name_Card ca_1 use index(idx_worker_service_state_req_worker_id_group_admin_shopping) WHERE worker_service_state=1 AND req_worker_id ='' AND group_id = 0 AND admin_shopping > 0 $searchStr";
-                                echo date("Y-m-d H:i:s").":".$count_query."<br>";
                                 $count_result = mysqli_query($self_con,$count_query);
                                 $count_row = mysqli_fetch_array($count_result);
                                 //$redisCache = new RedisCache();
@@ -143,7 +141,6 @@ $data = mysqli_fetch_array($sresul_num);
                                     $i = 1;
                                     $c = 0;
                                     $query .= $orderQuery;
-                                    echo date("Y-m-d H:i:s").":".$query."<br>";
                                     $res = mysqli_query($self_con,$query);                                    
                                     while($row = mysqli_fetch_array($res)) {
                                     //$cache_list = $redisCache->get_query_to_array($query);
@@ -151,24 +148,20 @@ $data = mysqli_fetch_array($sresul_num);
                                     //    $row = $cache_list[$i];
 
                                         $mem_sql = "select mem_code from Gn_Member where mem_id='{$row['mem_id']}'";
-                                        echo date("Y-m-d H:i:s").":".$mem_sql."<br>";
                                         $mem_res = mysqli_query($self_con,$mem_sql);
                                         $mem_row = mysqli_fetch_array($mem_res);
 
                                         $fquery = "select count(*) from Gn_Iam_Friends where friends_card_idx = {$row['idx']}";
-                                        echo date("Y-m-d H:i:s").":".$fquery."<br>";
                                         $fresult = mysqli_query($self_con,$fquery);
                                         $frow = mysqli_fetch_array($fresult);
                                         //$friend_count	=  $frow[0];
 
                                         $sql_pay = "select sum(TotPrice) totPrice, date from tjd_pay_result where buyer_id = '{$row['mem_id']}' and end_status='Y'";
-                                        echo date("Y-m-d H:i:s").":".$sql_pay."<br>";
                                         $res_result = mysqli_query($self_con,$sql_pay);
                                         $totPriceRow = mysqli_fetch_row($res_result);
                                         $totPrice = $totPriceRow[0];
 
                                         $cquery = "select count(*) from Gn_Iam_Contents where westory_card_url = '{$row['card_short_url']}'";
-                                        echo date("Y-m-d H:i:s").":".$cquery."<br>";
                                         $cresult = mysqli_query($self_con,$cquery);
                                         $crow = mysqli_fetch_array($cresult);
 
