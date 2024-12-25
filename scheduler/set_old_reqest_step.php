@@ -32,7 +32,7 @@ while($row_old_req = mysqli_fetch_assoc($res_old_req)){
             if ($send_time == "") $send_time = "09:30";
             if ($send_time == "00:00") $send_time = "09:30";
             $reservation = date("Y-m-d $send_time:00", strtotime("+$send_day days"));
-            fwrite($fp,$reservation."\r\n");
+            fwrite($fp,"35:".$reservation."\r\n");
         }
     }
     $mem_id = $row_sms_info['row_sms_info'];
