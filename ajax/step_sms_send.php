@@ -145,11 +145,11 @@ function insert_db_reqlink($idx, $mem_id,$fp)
     $event_row = mysqli_fetch_assoc($event_res);
     $sms_idx1 = $sms_idx2 = $sms_idx3 = 0;
     if ($event_row['sms_idx1'] != 0)
-      $sms_idx1 = insert_db($event_row['sms_idx1'], $mem_id);
+      $sms_idx1 = insert_db($event_row['sms_idx1'], $mem_id,$fp);
     if ($event_row['sms_idx2'] != 0)
-      $sms_idx1 = insert_db($event_row['sms_idx2'], $mem_id);
+      $sms_idx1 = insert_db($event_row['sms_idx2'], $mem_id,$fp);
     if ($event_row['sms_idx2'] != 0)
-      $sms_idx1 = insert_db($event_row['sms_idx2'], $mem_id);
+      $sms_idx1 = insert_db($event_row['sms_idx2'], $mem_id,$fp);
 
     $sql = "INSERT INTO Gn_event set event_name_kor = '{$event_row['event_name_kor']}', 
                                 event_name_eng = '{$event_name_eng}', 
