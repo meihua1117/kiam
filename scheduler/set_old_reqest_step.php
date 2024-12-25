@@ -29,6 +29,7 @@ while($row_old_req = mysqli_fetch_assoc($res_old_req)){
             $jpg2 = "https://nm.kiam.kr/adjunct/mms/thum/" . $row_step_info['image2'];
         if ($send_day > 0) {
             $send_time = $row_step_info['send_time'];
+            fwrite($fp,$send_time."\r\n");
             if ($send_time == "") $send_time = "09:30";
             if ($send_time == "00:00") $send_time = "09:30";
             $reserveTime = new DateTime($send_time);
