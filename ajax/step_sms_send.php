@@ -165,14 +165,17 @@ function insert_db_reqlink($idx, $mem_id,$fp)
                                 m_id = '{$mem_id}', 
                                 short_url = '', 
                                 read_cnt = 0, 
-                                cnt = '{$event_row['cnt']}', 
                                 object = '{$event_row['object']}', 
                                 callback_no = '{$event_row['callback_no']}', 
-                                event_req_link = '{$event_row['event_req_link']}', 
-                                daily_req_link = '{$event_row['daily_req_link']}',
                                 sms_idx1 = '{$sms_idx1}',
                                 sms_idx2 = '{$sms_idx2}',
                                 sms_idx3 = '{$sms_idx3}'";
+    if($event_row['cnt'] <> "")
+      $sql.= ",cnt = '{$event_row['cnt']}'";
+    if($event_row['event_req_link'] <> "")
+      $sql.= ",event_req_link = '{$event_row['event_req_link']}'";
+    if($event_row['daily_req_link'] <> "")
+      $sql.= ",daily_req_link = '{$event_row['daily_req_link']}'";
                                 fwrite($fp,"176:".$sql."\r\n");
     mysqli_query($self_con, $sql);
 
