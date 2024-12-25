@@ -2,7 +2,7 @@
 <?php
 include_once "/home/kiam/lib/db_config.php";
 
-$date = date("Y-m-d");
+$curDate =  new DateTime();
 $date_now = date("Y-m-d H:i:s");
 $fp = fopen("set_old_request_step.log","w+");
 
@@ -31,8 +31,18 @@ while($row_old_req = mysqli_fetch_assoc($res_old_req)){
             $send_time = $row_step_info['send_time'];
             if ($send_time == "") $send_time = "09:30";
             if ($send_time == "00:00") $send_time = "09:30";
-            $reservation = date("Y-m-d $send_time:00", strtotime("+$send_day days"));
-            fwrite($fp,"35:".$reservation."\r\n");
+            $reserveTime = new DateTime($send_time);
+            $reserveMin = $reserveTime->format('i'); 
+            $reserveSec = $reserveTime->format('s');
+            $reserveDate = new DateTime($start_date);
+            $reserveDate->setTime($reserveMin, $reserveSec); 
+            $reserveDate->modify('+'.$send_day.' day');
+            if ($reserveDate->format('Y-m-d') == $curDate->format('Y-m-d')) {
+                fwrite($fp,"오늘과 같습니다\r\n");
+            } else {
+                fwrite($fp,"오늘과 다릅니다\r\n");
+            }
+            fwrite($fp,"35:".$reserveDate."\r\n");
         }
     }
     $mem_id = $row_sms_info['row_sms_info'];
