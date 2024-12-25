@@ -32,11 +32,9 @@ while($row_old_req = mysqli_fetch_assoc($res_old_req)){
             fwrite($fp,$send_time."\r\n");
             if ($send_time == "") $send_time = "09:30";
             if ($send_time == "00:00") $send_time = "09:30";
-            $reserveTime = new DateTime($send_time);
-            $reserveMin = $reserveTime->format('i'); 
-            $reserveSec = $reserveTime->format('s');
+            $send_time_array = explode(":",$send_time);
             $reserveDate = new DateTime($start_date);
-            $reserveDate->setTime($reserveMin, $reserveSec); 
+            $reserveDate->setTime($send_time_array[0], $send_time_array[1]); 
             $reserveDate->modify('+'.$send_day.' day');
             if ($reserveDate->format('Y-m-d') == $curDate->format('Y-m-d')) {
                 fwrite($fp,"오늘과 같습니다\r\n");
