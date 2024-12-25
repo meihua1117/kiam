@@ -6,7 +6,7 @@ $date = date("Y-m-d");
 $date_now = date("Y-m-d H:i:s");
 $fp = fopen("set_old_request_step.log","w+");
 
-$sql_old_req = "SELECT * FROM Gn_event_oldrequest WHERE end_date > $date_now";
+$sql_old_req = "SELECT * FROM Gn_event_oldrequest WHERE end_date > '{$date_now}'";
 fwrite($fp,$sql_old_req."\r\n");
 $res_old_req = mysqli_query($self_con, $sql_old_req);
 while($row_old_req = mysqli_fetch_assoc($res_old_req)){
