@@ -356,7 +356,11 @@ function delete_img(val, idx){
             type:"POST",
             url:"/ajax/step_sms_send.php",
             dataType:"json",
-            data:{delete_img:true, img:val, sms_detail_idx:idx},
+            data:{
+                delete_img:true, 
+                img:val, 
+                sms_detail_idx:idx
+            },
             success:function(data){
                 console.log(data);
                 $("span[id="+val+"]").html('');

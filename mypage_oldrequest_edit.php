@@ -15,7 +15,7 @@ exit;
 }
 	
 
-$sql="select * from Gn_event_oldrequest  where idx='".$idx."'";
+$sql="select * from Gn_event_oldrequest  where idx='{$idx}'";
 $sresul_num=mysqli_query($self_con,$sql);
 $row=mysqli_fetch_array($sresul_num);
 
