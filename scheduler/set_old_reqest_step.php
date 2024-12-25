@@ -42,7 +42,7 @@ while($row_old_req = mysqli_fetch_assoc($res_old_req)){
             } else {
                 fwrite($fp,"오늘과 다릅니다\r\n");
             }
-            fwrite($fp,"35:".$reserveDate."\r\n");
+            fwrite($fp,"35:".$reserveDate->format('Y-m-d H:i:s')."\r\n");
         }
     }
     $mem_id = $row_sms_info['row_sms_info'];
