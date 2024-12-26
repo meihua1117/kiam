@@ -7,6 +7,7 @@ $sql_req = "SELECT * FROM Gn_event_request WHERE step_end_time > now() AND targe
 echo $sql_req;
 $res_req = mysqli_query($self_con, $sql_req);
 while ($row_req = mysqli_fetch_assoc($res_req)) {
+    $mem_id = $row_req['m_id'];
     $start_date = $row_req['regdate'];
     $recv_num = str_replace("-", "", $row_req['mobile']);
     $request_idx = $row_req['request_idx'];
