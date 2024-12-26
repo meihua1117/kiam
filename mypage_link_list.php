@@ -227,7 +227,7 @@ extract($_POST);
 									<td style="width:2%;"><input type="checkbox" class="check" id="check_all_member" value="0"></td>
 									<td style="width:6%;">No</td>
 									<td style="width:15%;">신청그룹제목</td>
-									<td style="width:10%;">신쳥대상<br>[보기]</td>
+									<td style="width:10%;">신쳥대상</td>
 									<td style="width:10%;">미리보기<br>링크주소</td>
 									<td style="width:8%">발송폰번호</td>
 									<td style="width:10%">스탭문자<br>회차</td>
@@ -285,14 +285,17 @@ extract($_POST);
 									$excel_sql = "select * from Gn_event where $sql_serch order by $order_name $order_status";
 									$excel_sql = str_replace("'", "`", $excel_sql);
 									$result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-									while ($row = mysqli_fetch_array($result)) { ?>
+									while ($row = mysqli_fetch_array($result)) { 
+										$sql_event = "select count(*) as cnt from Gn_event_request where m_id ='$_SESSION[one_member_id]' and event_idx='{$row['event_idx']}' ";
+										$res_event = mysqli_query($self_con, $sql_event);
+										$row_event = mysqli_fetch_assoc($res_event);
+										$req_count = $row_event['cnt'];
+									?>
 										<tr>
 											<td><input type="checkbox" class="check" id="check_one_member" name="event_idx" value="<?= $row['event_idx']; ?>"></td>
 											<td><?= $sort_no ?></td>
 											<td style="font-size:12px;"><?= $row['event_title'] ?></td>
-											<td style="font-size:12px;"><?= $row['event_name_kor'] ?><br>
-												<a onclick="window.open('mypage_pop_member_list.php?eventid='+'<?= $row['event_idx'] ?>','','top=300,left=300,width=800,height=500,toolbar=no,menubar=no,scrollbars=yes, resizable=yes,location=no, status=no')">[보기]</a>
-											</td>
+											<td style="font-size:12px;"><?= $row['event_name_kor'] ?></td>
 											<td>
 												<?php
 												if ($row['event_name_kor'] == "단체회원자동가입및아이엠카드생성") {
@@ -333,7 +336,7 @@ extract($_POST);
 												}
 												?>
 											</td>
-											<td><?= $row['read_cnt'] ?></td>
+											<td><?= $row['read_cnt']."/" ?><a style="cursor:pointer" onclick="window.open('mypage_pop_member_list.php?eventid='+'<?=$row['event_idx']?>','','top=300,left=300,width=800,height=500,toolbar=no,menubar=no,scrollbars=yes, resizable=yes,location=no, status=no')" ><?=$req_count?></a></td>
 											<td><?= $row['regdate'] ?></td>
 											<td>
 												<a href='mypage_link_write.php?event_idx=<?php echo $row['event_idx']; ?>'>수정</a>/
