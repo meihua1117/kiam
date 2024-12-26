@@ -14,23 +14,25 @@ function add_event_request($event_code, $event_idx, $pcode)
     $addr = $mem_row['mem_add1'];
     $birthday = $mem_row['mem_birth'];
     $job = $mem_row['zy'];
-    $sql = "insert into Gn_event_request set event_idx='$event_idx',
-                                            event_code='$event_code',
-                                            m_id='$m_id',
-                                            name='$name',
-                                            mobile='$mobile',
-                                            email='$email',
-                                            sex='$sex',
-                                            addr='$addr',
-                                            birthday='$birthday',
-                                            job='$job',
-                                            pcode='$pcode',
-                                            sp='$pcode',
-                                            regdate=now()";
+    $sql = "insert into Gn_event_request set event_idx='{$event_idx}',
+                                            event_code='{$event_code}',
+                                            m_id='{$m_id}',
+                                            name='{$name}',
+                                            mobile='{$mobile}',
+                                            email='{$email}',
+                                            sex='{$sex}',
+                                            addr='{$addr}',
+                                            birthday='{$birthday}',
+                                            job='{$job}',
+                                            pcode='{$pcode}',
+                                            sp='{$pcode}',
+                                            regdate=now(),
+                                            step_end_time=now(),
+                                            target='3'";
     mysqli_query($self_con, $sql);
     $request_idx = mysqli_insert_id($self_con);
 
-    $event_sql = "select sms_idx1, sms_idx2, sms_idx3, mobile from Gn_event where event_idx='$event_idx'";
+    $event_sql = "select sms_idx1, sms_idx2, sms_idx3, mobile from Gn_event where event_idx='{$event_idx}'";
     $event_res = mysqli_query($self_con, $event_sql);
     $event_row = mysqli_fetch_array($event_res);
     $send_num = $event_row['mobile'];
@@ -41,50 +43,51 @@ function add_event_request($event_code, $event_idx, $pcode)
         $mem_id = $sms_row['m_id'];
         $sms_idx = $sms_row['sms_idx'];
         //알람등록
-        $reg = time();
-        $sql = "select * from Gn_event_sms_step_info where sms_idx='$sms_idx'";
+        $sql = "select * from Gn_event_sms_step_info where sms_idx='{$sms_idx}'";
         $result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-        $k = 0;
+        $step_end_time = date("Y-m-d H:i:s");
         while ($row = mysqli_fetch_array($result)) {
             // 시간 확인
-            $k++;
-            $uni_id = $reg . sprintf("%02d", $k);
             $send_day = $row['send_day'];
             $send_time = $row['send_time'];
 
             if ($send_time == "") $send_time = "09:30";
             if ($send_time == "00:00") $send_time = "09:30";
-            if ($send_day == "0")
+            if ($send_day == "0"){
                 $reservation = "";
-            else
+                $jpg = $jpg1 = $jpg2 = '';
+                if ($row['image'])
+                    $jpg = "http://www.kiam.kr/adjunct/mms/thum/" . $row['image'];
+                if ($row['image1'])
+                    $jpg1 = "http://www.kiam.kr/adjunct/mms/thum/" . $row['image1'];
+                if ($row['image2'])
+                    $jpg2 = "http://www.kiam.kr/adjunct/mms/thum/" . $row['image2'];
+    
+                sendmms(3, $mem_id, $send_num, $recv_num, $reservation, $row['title'], $row['content'], $jpg, $jpg1, $jpg2, 'Y', $row['sms_idx'], $row['sms_detail_idx'], $request_idx, "", $row['send_deny']);
+    
+                $query = "insert into Gn_MMS_Agree set mem_id='$mem_id',
+                                                    send_num='$send_num',
+                                                    recv_num='$recv_num',
+                                                    content='" . addslashes($row['content']) . "',
+                                                    title='" . addslashes($row['title']) . "',
+                                                    jpg='$jpg',
+                                                    jpg1='',
+                                                    jpg2='',
+                                                    up_date=NOW(),
+                                                    reg_date=NOW(),
+                                                    reservation='$reservation',
+                                                    sms_idx='{$row['sms_idx']}',
+                                                    sms_detail_idx='{$row['sms_detail_idx']}',
+                                                    request_idx='$request_idx'";
+                mysqli_query($self_con, $query) or die(mysqli_error($self_con));
+            }else{
                 $reservation = date("Y-m-d $send_time:00", strtotime("+$send_day days"));
-
-            $jpg = $jpg1 = $jpg2 = '';
-            if ($row['image'])
-                $jpg = "http://www.kiam.kr/adjunct/mms/thum/" . $row['image'];
-            if ($row['image1'])
-                $jpg1 = "http://www.kiam.kr/adjunct/mms/thum/" . $row['image1'];
-            if ($row['image2'])
-                $jpg2 = "http://www.kiam.kr/adjunct/mms/thum/" . $row['image2'];
-
-            sendmms(3, $mem_id, $send_num, $recv_num, $reservation, $row['title'], $row['content'], $jpg, $jpg1, $jpg2, 'Y', $row['sms_idx'], $row['sms_detail_idx'], $request_idx, "", $row['send_deny']);
-
-            $query = "insert into Gn_MMS_Agree set mem_id='$mem_id',
-                                                send_num='$send_num',
-                                                recv_num='$recv_num',
-                                                content='" . addslashes($row['content']) . "',
-                                                title='" . addslashes($row['title']) . "',
-                                                jpg='$jpg',
-                                                jpg1='',
-                                                jpg2='',
-                                                up_date=NOW(),
-                                                reg_date=NOW(),
-                                                reservation='$reservation',
-                                                sms_idx='{$row['sms_idx']}',
-                                                sms_detail_idx='{$row['sms_detail_idx']}',
-                                                request_idx='$request_idx'";
-            mysqli_query($self_con, $query) or die(mysqli_error($self_con));
+                if ($step_end_time < $reservation)
+                    $step_end_time = $reservation;
+            }
         }
+        $sql = "update Gn_event_request set step_end_time='{$step_end_time}' where request_idx = {$request_idx}";
+        mysqli_query($self_con, $sql);
     }
     return $request_idx;
 }

@@ -570,10 +570,10 @@ if ($mode == "land_save") {
                                            ip_addr='{$ipcheck}',
                                            sms_idx='{$sms_idx}',
                                            sms_step_num='{$step_num}',
-                                           regdate=now()";
+                                           regdate=now(),
+                                           step_end_time=now(),
+                                           target='3'";
     $res1 = mysqli_query($self_con, $sql);
-
-
     $request_idx = mysqli_insert_id($self_con);
     $recv_num = $mobile;
     $mem_id = $event_data['m_id'];
@@ -590,12 +590,6 @@ if ($mode == "land_save") {
         $sms_idx = $lrow['sms_idx'];
 
         //알람등록
-        $sql = "select * from Gn_event_sms_info where sms_idx='{$sms_idx}'";
-        $result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-        $row = mysqli_fetch_array($result);
-
-        $reg = time();
-
         $sel_step = 0;
         if ($_REQUEST['step_num'] != "") {
             $sql = "select * from Gn_event_sms_step_info where sms_idx='{$sms_idx}' and step>={$_REQUEST['step_num']}";
@@ -609,11 +603,9 @@ if ($mode == "land_save") {
         }
 
         $result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-        $k = 0;
+        $step_end_time = date("Y-m-d H:i:s");
         while ($row = mysqli_fetch_array($result)) {
             // 시간 확인
-            $k++;
-            $uni_id = $reg . sprintf("%02d", $k);
             $send_day = $row['send_day'];
             if ($sel_step) {
                 $send_day = (int)$send_day - (int)$start_dif;
@@ -622,41 +614,40 @@ if ($mode == "land_save") {
 
             if ($send_time == "") $send_time = "09:30";
             if ($send_time == "00:00") $send_time = "09:30";
-            if ($send_day == "0")
+            if ($send_day == "0") {
                 $reservation = "";
-            else
+                $jpg = $jpg1 = $jpg2 = '';
+                if ($row['image'])
+                    $jpg = "https://" . $HTTP_HOST . "/adjunct/mms/thum/" . $row['image'];
+                if ($row['image1'])
+                    $jpg1 = "https://" . $HTTP_HOST . "/adjunct/mms/thum/" . $row['image1'];
+                if ($row['image2'])
+                    $jpg2 = "https://" . $HTTP_HOST . "/adjunct/mms/thum/" . $row['image2'];
+                sendmms(3, $mem_id, $send_num, $recv_num, $reservation, $row['title'], $row['content'], $jpg, $jpg1, $jpg2, 'Y', $row['sms_idx'], $row['sms_detail_idx'], $request_idx, "", $row['send_deny']);
+
+                $query = "insert into Gn_MMS_Agree set mem_id='{$mem_id}',
+                                                    send_num='{$send_num}',
+                                                    recv_num='{$recv_num}',
+                                                    content='{$row['content']}',
+                                                    title='{$row['title']}',
+                                                    jpg='{$jpg}',
+                                                    jpg1='',
+                                                    jpg2='',
+                                                    up_date=NOW(),
+                                                    reg_date=NOW(),
+                                                    reservation='{$reservation}',
+                                                    sms_idx='{$row['sms_idx']}',
+                                                    sms_detail_idx='{$row['sms_detail_idx']}',
+                                                    request_idx='{$request_idx}'";
+                mysqli_query($self_con, $query) or die(mysqli_error($self_con));
+            } else {
                 $reservation = date("Y-m-d $send_time:00", strtotime("+$send_day days"));
-
-            $jpg = $jpg1 = $jpg2 = '';
-            if ($row['image'])
-                $jpg = "https://" . $HTTP_HOST . "/adjunct/mms/thum/" . $row['image'];
-            //$jpg = "http://www.kiam.kr/adjunct/mms/thum/" . $row['image'];
-            if ($row['image1'])
-                $jpg1 = "https://" . $HTTP_HOST . "/adjunct/mms/thum/" . $row['image1'];
-            //$jpg1 = "http://www.kiam.kr/adjunct/mms/thum/" . $row['image1'];
-            if ($row['image2'])
-                $jpg2 = "https://" . $HTTP_HOST . "/adjunct/mms/thum/" . $row['image2'];
-            //$jpg2 = "http://www.kiam.kr/adjunct/mms/thum/" . $row['image2'];
-
-            sendmms(3, $mem_id, $send_num, $recv_num, $reservation, $row['title'], $row['content'], $jpg, $jpg1, $jpg2, 'Y', $row['sms_idx'], $row['sms_detail_idx'], $request_idx, "", $row['send_deny']);
-
-            $query = "insert into Gn_MMS_Agree set mem_id='{$mem_id}',
-                                                send_num='{$send_num}',
-                                                recv_num='{$recv_num}',
-                                                content='{$row['content']}',
-                                                title='{$row['title']}',
-                                                jpg='{$jpg}',
-                                                jpg1='',
-                                                jpg2='',
-                                                up_date=NOW(),
-                                                reg_date=NOW(),
-                                                reservation='{$reservation}',
-                                                sms_idx='{$row['sms_idx']}',
-                                                sms_detail_idx='{$row['sms_detail_idx']}',
-                                                request_idx='{$request_idx}'";
-            //echo $query."<BR>";
-            mysqli_query($self_con, $query) or die(mysqli_error($self_con));
+                if ($step_end_time < $reservation)
+                    $step_end_time = $reservation;
+            }
         }
+        $sql = "update Gn_event_request set step_end_time='{$step_end_time}' where request_idx = {$request_idx}";
+        mysqli_query($self_con, $sql);
     }
     if ($join_yn == 'Y') {
         //회원가입
@@ -769,7 +760,6 @@ if ($mode == "land_save") {
         echo "시작건수와 종료건수를 다시 확인해주세요.";
         exit;
     }
-    $k = 0;
     $mms_idx = "";
     $mms_agree_idx = "";
     $grpId = $group_idx * -1;
@@ -806,12 +796,10 @@ if ($mode == "land_save") {
         $mem_id = $lrow['m_id'];
         $sms_idx = $step_idx;
         $reservation_title = $lrow['reservation_title'];
-        $reg = time();
         $sql = "select * from Gn_event_sms_step_info where sms_idx='{$sms_idx}'";
         $result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
 
         while ($row = mysqli_fetch_array($result)) {
-            $k++;
             $send_day = $row['send_day'];
             $jpg = $jpg1 = $jpg2 = '';
             if ($row['image'])
@@ -868,12 +856,10 @@ if ($mode == "land_save") {
     echo "<script>alert('삭제되었습니다.');location='mypage_landing_list.php';</script>";
     exit;
 } else if ($mode == "request_event_add") {
-
     for ($i = 0; $i < count($request_idx); $i++) {
         $idx =  $request_idx[$i];
-        $query = "
-        insert into Gn_event_request (m_id, event_idx, event_code, name, mobile, email, job, birthday, sex, addr, consult_date, join_yn, pcode, sp, ip_addr, regdate, sms_idx, sms_step_num)
-        select m_id, '{$event_idx_}', '{$event_pcode_}', name, mobile, email, job, birthday, sex, addr, consult_date, join_yn, '{$event_pcode_}', '{$sp_}', ip_addr, now(), '{$sms_idx}', '{$step_num}' from Gn_event_request where request_idx='{$idx}'";
+        $query = "insert into Gn_event_request (m_id, event_idx, event_code, name, mobile, email, job, birthday, sex, addr, consult_date, join_yn, pcode, sp, ip_addr, regdate, sms_idx, sms_step_num,step_end_time,target)
+                    select m_id, '{$event_idx_}', '{$event_pcode_}', name, mobile, email, job, birthday, sex, addr, consult_date, join_yn, '{$event_pcode_}', '{$sp_}', ip_addr, now(), '{$sms_idx}', '{$step_num}',now(),target from Gn_event_request where request_idx='{$idx}'";
         mysqli_query($self_con, $query);
     }
     $event_idx = $_POST['event_idx_'];
@@ -895,11 +881,6 @@ if ($mode == "land_save") {
         $mem_id = $lrow['m_id'];
         $sms_idx = $lrow['sms_idx'];
         //알람등록
-        $sql = "select * from Gn_event_sms_info where sms_idx='{$sms_idx}'";
-        //echo $sql;
-        $result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-        $row = mysqli_fetch_array($result);
-        $reg = time();
         $sel_step = 0;
         if ($_REQUEST['step_num'] != "") {
             $sql = "select * from Gn_event_sms_step_info where sms_idx='{$sms_idx}' and step>={$_REQUEST['step_num']}";
@@ -912,10 +893,9 @@ if ($mode == "land_save") {
             $sql = "select * from Gn_event_sms_step_info where sms_idx='{$sms_idx}'";
         }
         $result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-        $k = 0;
+        $step_end_time = date("Y-m-d H:i:s");
         while ($row = mysqli_fetch_array($result)) {
             // 시간 확인
-            $k++;
             $send_day = $row['send_day'];
             if ($sel_step) {
                 $send_day = (int)$send_day - (int)$start_dif;
@@ -923,20 +903,20 @@ if ($mode == "land_save") {
             $send_time = $row['send_time'];
             if ($send_time == "") $send_time = "09:30";
             if ($send_time == "00:00") $send_time = "09:30";
-            if ($send_day == "0")
+            if ($send_day == "0") {
                 $reservation = "";
-            else
+            } else {
                 $reservation = date("Y-m-d $send_time:00", strtotime("+$send_day days"));
+                if ($step_end_time < $reservation)
+                    $step_end_time = $reservation;
+            }
             $jpg = $jpg1 = $jpg2 = '';
             if ($row['image'])
                 $jpg = "https://" . $HTTP_HOST . "/adjunct/mms/thum/" . $row['image'];
-            //$jpg = "http://www.kiam.kr/adjunct/mms/thum/" . $row['image'];
             if ($row['image1'])
                 $jpg1 = "https://" . $HTTP_HOST . "/adjunct/mms/thum/" . $row['image1'];
-            //$jpg1 = "http://www.kiam.kr/adjunct/mms/thum/" . $row['image1'];
             if ($row['image2'])
                 $jpg2 = "https://" . $HTTP_HOST . "/adjunct/mms/thum/" . $row['image2'];
-            //$jpg2 = "http://www.kiam.kr/adjunct/mms/thum/" . $row['image2'];
 
             for ($m = 0; $m < count($mobile); $m++) {
                 sendmms(3, $mem_id, $send_num, $mobile[$m], $reservation, $row['title'], $row['content'], $jpg, $jpg1, $jpg2, 'Y', $row['sms_idx'], $row['sms_detail_idx'], $request_idx[$m], "", $row['send_deny']);
@@ -966,8 +946,8 @@ if ($mode == "land_save") {
     exit;
     for ($i = 0; $i < count($request_idx); $i++) {
         $idx =  $request_idx[$i];
-        $query = "insert into Gn_event_request (m_id, event_idx, event_code, name, mobile, email, job, birthday, sex, addr, consult_date, join_yn, pcode, sp, ip_addr, regdate)
-        select m_id, '{$event_idx_}', '{$sp_}', name, mobile, email, job, birthday, sex, addr, consult_date, join_yn, '{$sp_}', '{$event_pcode_}', ip_addr, now() from Gn_event_request where request_idx='{$idx}'";
+        $query = "insert into Gn_event_request (m_id, event_idx, event_code, name, mobile, email, job, birthday, sex, addr, consult_date, join_yn, pcode, sp, ip_addr, regdate,step_end_time,target)
+                    select m_id, '{$event_idx_}', '{$sp_}', name, mobile, email, job, birthday, sex, addr, consult_date, join_yn, '{$sp_}', '{$event_pcode_}', ip_addr, now(),now(),target from Gn_event_request where request_idx='{$idx}'";
         mysqli_query($self_con, $query);
     }
     $event_idx = $_POST['event_idx_'];
@@ -987,40 +967,32 @@ if ($mode == "land_save") {
         $sms_idx = $lrow['sms_idx'];
         $send_num = $lrow['mobile'];
         //알람등록
-        $sql = "select * from Gn_event_sms_info where sms_idx='{$sms_idx}'";
-        $result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-        $row = mysqli_fetch_array($result);
-
-        $reg = time();
         $sql = "select * from Gn_event_sms_step_info where sms_idx='{$sms_idx}'";
         $result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-        $k = 0;
+        $step_end_time = date("Y-m-d H:i:s");
         while ($row = mysqli_fetch_array($result)) {
             // 시간 확인
-            $k++;
             $send_day = $row['send_day'];
             $send_time = $row['send_time'];
 
             if ($send_time == "") $send_time = "09:30";
             if ($send_time == "00:00") $send_time = "09:30";
-            if ($send_day == "0")
+            if ($send_day == "0") {
                 $reservation = "";
-            else
+            } else {
                 $reservation = date("Y-m-d $send_time:00", strtotime("+$send_day days"));
-
+                if ($step_end_time < $reservation)
+                    $step_end_time = $reservation;
+            }
             $jpg = $jpg1 = $jpg2 = '';
             if ($row['image'])
                 $jpg = "https://" . $HTTP_HOST . "/adjunct/mms/thum/" . $row['image'];
-            //$jpg = "http://www.kiam.kr/adjunct/mms/thum/" . $row['image'];
             if ($row['image1'])
                 $jpg1 = "https://" . $HTTP_HOST . "/adjunct/mms/thum/" . $row['image1'];
-            //$jpg1 = "http://www.kiam.kr/adjunct/mms/thum/" . $row['image1'];
             if ($row['image2'])
                 $jpg2 = "https://" . $HTTP_HOST . "/adjunct/mms/thum/" . $row['image2'];
-            //$jpg2 = "http://www.kiam.kr/adjunct/mms/thum/" . $row['image2'];
-
             for ($m = 0; $m < count($mobile); $m++) {
-                sendmms(3, $mem_id/*$_SESSION['one_member_id']*/, $send_num, $mobile[$m], $reservation, $row['title'], $row['content'], $jpg, $jpg1, $jpg2, 'Y', $row['sms_idx'], $row['sms_detail_idx'], $request_idx[$m], "", $row['send_deny']);
+                sendmms(3, $mem_id, $send_num, $mobile[$m], $reservation, $row['title'], $row['content'], $jpg, $jpg1, $jpg2, 'Y', $row['sms_idx'], $row['sms_detail_idx'], $request_idx[$m], "", $row['send_deny']);
 
                 $query = "insert into Gn_MMS_Agree set mem_id='{$mem_id}',
                                                  send_num='{$send_num}',
@@ -1304,8 +1276,6 @@ if ($mode == "land_save") {
     echo "<script>alert('삭제되었습니다.');location='daily_list.php';</script>";
     exit;
 } else if ($mode == "daily_update") {
-    $reg = time();
-    $uni_id = $reg . sprintf("%02d", $k);
     $date = explode(",", $send_date);
     $end_date = max($date);
     $start_date = min($date);
@@ -1459,8 +1429,6 @@ if ($mode == "land_save") {
 
         $daily_link = "https://" . $HTTP_HOST . '/?' . $row_card[0] . $row_mem[0];
     }
-    $reg = time();
-    $uni_id = $reg . sprintf("%02d", $k);
     $date = explode(",", $send_date);
     $end_date = max($date);
     $start_date = min($date);
@@ -1984,12 +1952,10 @@ else if ($mode == "read_coaching_apply") {
     while ($lrow = mysqli_fetch_array($lresult)) {
         $mem_id = $lrow['m_id'];
         $sms_idx = $step_idx;
-        $reg = time();
         $sql = "select * from Gn_event_sms_step_info where sms_idx='{$sms_idx}'";
         $result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
 
         while ($row = mysqli_fetch_array($result)) {
-            $k++;
             $send_day = $row['send_day'];
             $send_time = $row['send_time'];
 
@@ -2003,13 +1969,10 @@ else if ($mode == "read_coaching_apply") {
             $jpg = $jpg1 = $jpg2 = '';
             if ($row['image'])
                 $jpg = "https://" . $HTTP_HOST . "/adjunct/mms/thum/" . $row['image'];
-            //$jpg = "http://www.kiam.kr/adjunct/mms/thum/" . $row['image'];
             if ($row['image1'])
                 $jpg1 = "https://" . $HTTP_HOST . "/adjunct/mms/thum/" . $row['image1'];
-            //$jpg1 = "http://www.kiam.kr/adjunct/mms/thum/" . $row['image1'];
             if ($row['image2'])
                 $jpg2 = "https://" . $HTTP_HOST . "/adjunct/mms/thum/" . $row['image2'];
-            //$jpg2 = "http://www.kiam.kr/adjunct/mms/thum/" . $row['image2'];
             sendmms(8, $mem_id, $mobile, $recv_num, $reservation, $row['title'], $row['content'], $jpg, $jpg1, $jpg2, "Y", $row['sms_idx'], $row['sms_detail_idx'], "", "", "", $idx);
         }
     }
