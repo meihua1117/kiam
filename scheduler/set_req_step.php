@@ -3,51 +3,65 @@
 include_once "/home/kiam/lib/db_config.php";
 
 $curDate =  new DateTime();
-$sql_old_req = "SELECT * FROM Gn_event_oldrequest WHERE end_date > '{$curDate->format('Y-m-d H:i:s')}'";
-$res_old_req = mysqli_query($self_con, $sql_old_req);
-while ($row_old_req = mysqli_fetch_assoc($res_old_req)) {
-    $start_date = $row_old_req['start_date'];
-    $sms_idx = $row_old_req['sms_idx'];
-    $sql_sms_info = "SELECT reservation_title FROM Gn_event_sms_info WHERE sms_idx='{$sms_idx}'";
-    $res_sms_info = mysqli_query($self_con, $sql_sms_info) or die(mysqli_error($self_con));
-    $row_sms_info = mysqli_fetch_assoc($res_sms_info);
-    $sql_step_info = "SELECT * FROM Gn_event_sms_step_info WHERE sms_idx='{$sms_idx}'";
-    $res_step_info = mysqli_query($self_con, $sql_step_info) or die(mysqli_error($self_con));
-    while ($row_step_info = mysqli_fetch_array($res_step_info)) {
-        $send_day = $row_step_info['send_day'];
-        if ($send_day > 0) {
-            $send_time = $row_step_info['send_time'];
-            if ($send_time == "") $send_time = "09:30";
-            if ($send_time == "00:00") $send_time = "09:30";
-            $send_time_array = explode(":", $send_time);
-            $reserveDate = new DateTime($start_date);
-            $reserveDate->setTime($send_time_array[0], $send_time_array[1]);
-            $reserveDate->modify('+' . $send_day . ' day');
-            if ($reserveDate->format('Y-m-d') == $curDate->format('Y-m-d')) {
-                $jpg = $jpg1 = $jpg2 = '';
-                if ($row_step_info['image'])
-                    $jpg = "https://nm.kiam.kr/adjunct/mms/thum/" . $row_step_info['image'];
-                if ($row_step_info['image1'])
-                    $jpg1 = "https://nm.kiam.kr/adjunct/mms/thum/" . $row_step_info['image1'];
-                if ($row_step_info['image2'])
-                    $jpg2 = "https://nm.kiam.kr/adjunct/mms/thum/" . $row_step_info['image2'];
-                $mem_id = $row_old_req['mem_id'];
-                $send_num = $row_old_req['send_num'];
-                $reservation_title = $row_sms_info['reservation_title'];
+$sql_req = "SELECT * FROM Gn_event_request WHERE step_end_time > now() AND target <> ''";
+$res_req = mysqli_query($self_con, $sql_req);
+while ($row_req = mysqli_fetch_assoc($res_req)) {
+    $start_date = $row_req['regdate'];
+    $recv_num = str_replace("-", "", $row_req['mobile']);
+    $request_idx = $row_req['request_idx'];
 
-                $start_index = $row_old_req['addr_start_index'] * 1;
-                $end_index =  $row_old_req['addr_end_index'] * 1;
-                $cnt = $end_index - $start_index + 1;
-                $group_idx = $row_old_req['address_idx'];
-                $num_arr = array();
-                $sql = "SELECT recv_num FROM Gn_MMS_Receive WHERE grp_id = '{$group_idx}' limit {$start_index}, {$cnt}";
-                $gresult = mysqli_query($self_con, $sql);
-                while ($mms_receive = mysqli_fetch_array($gresult)) {
-                    array_push($num_arr, $mms_receive['recv_num']);
+    $sql_event = "SELECT * FROM Gn_event WHERE event_idx='{$row_req['event_idx']}'";
+    $res_event = mysqli_query($self_con, $sql_event) or die(mysqli_error($self_con));
+    $row_event = mysqli_fetch_array($res_event);
+    $step_idx1 = $row_event['sms_idx1'];
+    $step_idx2 = $row_event['sms_idx2'];
+    $step_idx3 = $row_event['sms_idx3'];
+    $send_num = $row_event['mobile'];
+
+    $sql_sms_info = "SELECT sms_idx FROM Gn_event_sms_info WHERE sms_idx='{$step_idx1}' or sms_idx='{$step_idx2}' or sms_idx='{$step_idx3}'";
+    $res_sms_info = mysqli_query($self_con, $sql_sms_info) or die(mysqli_error($self_con));
+    while ($row_sms_info = mysqli_fetch_assoc($res_sms_info)) {
+        $sms_idx = $row_sms_info['sms_idx'];
+        //알람등록
+        $sql_step_info = "SELECT * FROM Gn_event_sms_step_info WHERE sms_idx='{$sms_idx}'";
+        $res_step_info = mysqli_query($self_con, $sql_step_info) or die(mysqli_error($self_con));
+        while ($row_step_info = mysqli_fetch_array($res_step_info)) {
+            $send_day = $row_step_info['send_day'];
+            if ($send_day > 0) {
+                $send_time = $row_step_info['send_time'];
+                if ($send_time == "") $send_time = "09:30";
+                if ($send_time == "00:00") $send_time = "09:30";
+                $send_time_array = explode(":", $send_time);
+                $reserveDate = new DateTime($start_date);
+                $reserveDate->setTime($send_time_array[0], $send_time_array[1]);
+                $reserveDate->modify('+' . $send_day . ' day');
+                if ($reserveDate->format('Y-m-d') == $curDate->format('Y-m-d')) {
+                    $jpg = $jpg1 = $jpg2 = '';
+                    if ($row_step_info['image'])
+                        $jpg = "https://nm.kiam.kr/adjunct/mms/thum/" . $row_step_info['image'];
+                    if ($row_step_info['image1'])
+                        $jpg1 = "https://nm.kiam.kr/adjunct/mms/thum/" . $row_step_info['image1'];
+                    if ($row_step_info['image2'])
+                        $jpg2 = "https://nm.kiam.kr/adjunct/mms/thum/" . $row_step_info['image2'];
+                    $result = sendmms($row_req['target'], $mem_id, $send_num, $recv_num, $reserveDate->format('Y-m-d H:i:s'), $row_step_info['title'], $row_step_info['content'], $jpg, $jpg1, $jpg2, "Y", $sms_idx, $row_step_info['sms_detail_idx'], $request_idx, "", $row_step_info['send_deny']);
+
+                    $sql_mms_agree = "insert into Gn_MMS_Agree set mem_id='{$mem_id}',
+															send_num='{$send_num}',
+															recv_num='{$recv_num}',
+															content='{$row_step_info['content']}',
+															title='{$row_step_info['title']}',
+															jpg='{$jpg}',
+															jpg1='',
+															jpg2='',
+															reg_date=NOW(),
+															reservation='{$reserveDate->format('Y-m-d H:i:s')}',
+															sms_idx='{$sms_idx}',
+															sms_detail_idx='{$row_step_info['sms_detail_idx']}',
+															request_idx='{$request_idx}',
+															up_date=NOW()";
+                    mysqli_query($self_con, $sql_mms_agree) or die(mysqli_error($self_con));
+                    echo "event request " . $request_idx . " : " . $result . PHP_EOL;
                 }
-                $recv_num = implode(",", $num_arr);
-                $result = sendmms(8, $mem_id, $send_num, $recv_num, $reserveDate->format('Y-m-d H:i:s'), $row_step_info['title'], $row_step_info['content'], $jpg, $jpg1, $jpg2, "Y", $sms_idx, $row_step_info['sms_detail_idx'], "", "", "", $row_old_req['idx']);
-                echo "old request ".$row_old_req['idx']." : ".$result . PHP_EOL;
             }
         }
     }
@@ -67,9 +81,6 @@ function sendmms($type, $userid, $sendnum, $recvnum, $rserv_time, $title, $conte
     //초기화 진행
     $send_go_num = array();
     $send_go_num[0] = $sendnum;
-    // $send_num = array();
-    // $send_num[0] = $recvnum;	
-
     $ch_mms = curl_init();
 
     //발송폰번호배열
