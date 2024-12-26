@@ -405,8 +405,9 @@ if ($mode && $chk && $over == "yes") {
 											pcode='{$pcode}',
 											sp='{$sp}',
 											ip_addr='{$ipcheck}',
-											regdate=now()";
-	if($landing_idx != '')
+											regdate=now(),
+											step_end_time=now()";
+	if ($landing_idx != '')
 		$sql .= " ,landing_idx='{$landing_idx}'";
 	mysqli_query($self_con, $sql);
 	alert("접수 되었습니다. 감사합니다.", "/opb/index.php");
@@ -485,10 +486,12 @@ if ($_POST['mode'] == "speech") {
 												pcode='{$pcode}',
 												sp='{$sp}',
 												ip_addr='{$ipcheck}',
-												regdate=now()";
-		if($landing_idx != '')
+												regdate=now(),
+												step_end_time=now(),
+												target='4'";
+		if ($landing_idx != '')
 			$sql .= " ,landing_idx='{$landing_idx}'";
-		if($rnum != '')
+		if ($rnum != '')
 			$sql .= " ,rnum='{$rnum}'";
 		$res1 = mysqli_query($self_con, $sql);
 		$request_idx = mysqli_insert_id($self_con);
@@ -498,8 +501,6 @@ if ($_POST['mode'] == "speech") {
 		if ($mem_id == "")
 			$mem_id = $m_id;
 		if ($mem_id != "") {
-			$reg = time();
-
 			// 접수내용 접수자에게 전송
 			$stitle = "이벤트 신청 내역";
 			$scontent = "신청해주셔서 감사합니다.\n\n
@@ -510,23 +511,16 @@ if ($_POST['mode'] == "speech") {
 
 			sendmms(1, $mem_id, $send_num, $recv_num, "", $stitle, $scontent, "", "", "", "Y");
 
-			$sql = "select * from Gn_event_sms_info where sms_idx='{$step_idx1}' or sms_idx='{$step_idx2}' or sms_idx='{$step_idx3}'";
+			$sql = "select sms_idx from Gn_event_sms_info where sms_idx='{$step_idx1}' or sms_idx='{$step_idx2}' or sms_idx='{$step_idx3}'";
 			$lresult = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
 			while ($lrow = mysqli_fetch_array($lresult)) {
 				$sms_idx = $lrow['sms_idx'];
 				//알람등록
-				$sql = "select * from Gn_event_sms_info where sms_idx='{$sms_idx}'";
-				$result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-				$row = mysqli_fetch_array($result);
-
 				$sql = "select * from Gn_event_sms_step_info where sms_idx='{$sms_idx}'";
 				$result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-
-				$k = 0;
+				$step_end_time = date("Y-m-d H:i:s");
 				while ($row = mysqli_fetch_array($result)) {
 					// 시간 확인
-					$k++;
-
 					$send_day = $row['send_day'];
 					$send_time = $row['send_time'];
 
@@ -534,21 +528,17 @@ if ($_POST['mode'] == "speech") {
 					if ($send_time == "00:00") $send_time = "09:30";
 					if ($send_day == 0) {
 						$reservation = "";
-					} else {
-						$reservation = date("Y-m-d $send_time:00", strtotime("+$send_day days"));
-					}
+						$jpg = $jpg1 = $jpg2 = '';
+						if ($row['image'])
+							$jpg = "https://kiam.kr/adjunct/mms/thum/" . $row['image'];
+						if ($row['image1'])
+							$jpg1 = "https://kiam.kr/adjunct/mms/thum/" . $row['image1'];
+						if ($row['image2'])
+							$jpg2 = "https://kiam.kr/adjunct/mms/thum/" . $row['image2'];
 
-					$jpg = $jpg1 = $jpg2 = '';
-					if ($row['image'])
-						$jpg = "https://kiam.kr/adjunct/mms/thum/" . $row['image'];
-					if ($row['image1'])
-						$jpg1 = "https://kiam.kr/adjunct/mms/thum/" . $row['image1'];
-					if ($row['image2'])
-						$jpg2 = "https://kiam.kr/adjunct/mms/thum/" . $row['image2'];
+						sendmms(4, $mem_id, $send_num, $recv_num, $reservation, $row['title'], $row['content'], $jpg, $jpg1, $jpg2, "Y", $row['sms_idx'], $row['sms_detail_idx'], $request_idx, "", $row['send_deny']);
 
-					sendmms(4, $mem_id, $send_num, $recv_num, $reservation, $row['title'], $row['content'], $jpg, $jpg1, $jpg2, "Y", $row['sms_idx'], $row['sms_detail_idx'], $request_idx, "", $row['send_deny']);
-
-					$query = "insert into Gn_MMS_Agree set mem_id='{$mem_id}',
+						$query = "insert into Gn_MMS_Agree set mem_id='{$mem_id}',
 															send_num='{$send_num}',
 															recv_num='{$recv_num}',
 															content='{$row['content']}',
@@ -562,8 +552,15 @@ if ($_POST['mode'] == "speech") {
 															sms_detail_idx='{$row['sms_detail_idx']}',
 															request_idx='{$request_idx}',
 															up_date=NOW()";
-					mysqli_query($self_con, $query) or die(mysqli_error($self_con));
+						mysqli_query($self_con, $query) or die(mysqli_error($self_con));
+					} else {
+						$reservation = date("Y-m-d $send_time:00", strtotime("+$send_day days"));
+						if ($step_end_time < $reservation)
+							$step_end_time = $reservation;
+					}
 				}
+				$sql = "update Gn_event_request set step_end_time='{$step_end_time}' where request_idx = {$request_idx}";
+				mysqli_query($self_con, $sql);
 			}
 			//중단예약처리를 진행한다.
 			if ($stop_event_idx != 0) {
@@ -719,9 +716,6 @@ if ($_POST['mode'] == "speech") {
 				return false;
 			}
 		}
-	</script>
-
-	<script>
 		$(function() {
 			$('#writeBtn').on("click", function() {
 				if ($('#writeForm').css("display") == "none") {
@@ -1070,7 +1064,7 @@ if ($_POST['mode'] == "speech") {
 													$sql_num = "select * from Gn_event where m_id='$row[mem_id]' and event_idx='$row[event_idx]' ";
 													$resul_num = mysqli_query($self_con, $sql_num);
 													$crow = mysqli_fetch_array($resul_num);
-												?>
+											?>
 													<tr>
 														<td>
 															<?= $sort_no ?>
