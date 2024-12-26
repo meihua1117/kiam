@@ -4,6 +4,7 @@ include_once "/home/kiam/lib/db_config.php";
 
 $curDate =  new DateTime();
 $sql_req = "SELECT * FROM Gn_event_request WHERE step_end_time > now() AND target <> ''";
+echo $sql_req;
 $res_req = mysqli_query($self_con, $sql_req);
 while ($row_req = mysqli_fetch_assoc($res_req)) {
     $start_date = $row_req['regdate'];
@@ -11,6 +12,7 @@ while ($row_req = mysqli_fetch_assoc($res_req)) {
     $request_idx = $row_req['request_idx'];
 
     $sql_event = "SELECT * FROM Gn_event WHERE event_idx='{$row_req['event_idx']}'";
+    echo $sql_event;
     $res_event = mysqli_query($self_con, $sql_event) or die(mysqli_error($self_con));
     $row_event = mysqli_fetch_array($res_event);
     $step_idx1 = $row_event['sms_idx1'];
@@ -19,11 +21,13 @@ while ($row_req = mysqli_fetch_assoc($res_req)) {
     $send_num = $row_event['mobile'];
 
     $sql_sms_info = "SELECT sms_idx FROM Gn_event_sms_info WHERE sms_idx='{$step_idx1}' or sms_idx='{$step_idx2}' or sms_idx='{$step_idx3}'";
+    echo $sql_sms_info;
     $res_sms_info = mysqli_query($self_con, $sql_sms_info) or die(mysqli_error($self_con));
     while ($row_sms_info = mysqli_fetch_assoc($res_sms_info)) {
         $sms_idx = $row_sms_info['sms_idx'];
         //알람등록
         $sql_step_info = "SELECT * FROM Gn_event_sms_step_info WHERE sms_idx='{$sms_idx}'";
+        echo $sql_step_info;
         $res_step_info = mysqli_query($self_con, $sql_step_info) or die(mysqli_error($self_con));
         while ($row_step_info = mysqli_fetch_array($res_step_info)) {
             $send_day = $row_step_info['send_day'];
@@ -59,6 +63,7 @@ while ($row_req = mysqli_fetch_assoc($res_req)) {
 															sms_detail_idx='{$row_step_info['sms_detail_idx']}',
 															request_idx='{$request_idx}',
 															up_date=NOW()";
+                    echo $sql_mms_agree;
                     mysqli_query($self_con, $sql_mms_agree) or die(mysqli_error($self_con));
                     echo "event request " . $request_idx . " : " . $result . PHP_EOL;
                 }
