@@ -426,6 +426,24 @@ if ($mode == "land_save") {
                                                 send_deny='{$deny}'
                                where   sms_detail_idx='{$sms_detail_idx}'";
     $result = mysqli_query($self_con, $sql);
+    if ($send_time == "") $send_time = "09:30";
+    if ($send_time == "00:00") $send_time = "09:30";
+    $curDate =  new DateTime();
+    $sql_old_req = "SELECT * FROM Gn_event_oldrequest WHERE sms_idx={$sms_idx}";
+    $res_old_req = mysqli_query($self_con, $sql_old_req);
+    while($row_old_req = mysqli_fetch_array($res_old_req)){
+        $start_date = $row_old_req['start_date'];
+        $send_time_array = explode(":", $send_time);
+        $reserveDate = new DateTime($start_date);
+        $reserveDate->setTime($send_time_array[0], $send_time_array[1]);
+        $reserveDate->modify('+' . $send_day . ' day');
+
+        $reserveDateOld = new DateTime($row_old_req['end_date']);
+        if ($reserveDateOld < $reserveDate) {
+            $sql = "UPDATE Gn_event_oldrequest set end_date = '{$reserveDate->format('Y-m-d H:i:s')}' WHERE idx={$row_old_req['idx']}";
+            mysqli_query($self_con, $sql);
+        }
+    }
     echo "<script>location='mypage_reservation_create.php?sms_idx=$sms_idx';</script>";
     exit;
 } else if ($mode == "step_add") {

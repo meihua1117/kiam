@@ -53,7 +53,7 @@ function add_event_request($event_code, $event_idx, $pcode)
 
             if ($send_time == "") $send_time = "09:30";
             if ($send_time == "00:00") $send_time = "09:30";
-            if ($send_day == "0"){
+            if ($send_day == "0") {
                 $reservation = "";
                 $jpg = $jpg1 = $jpg2 = '';
                 if ($row['image'])
@@ -62,9 +62,9 @@ function add_event_request($event_code, $event_idx, $pcode)
                     $jpg1 = "http://www.kiam.kr/adjunct/mms/thum/" . $row['image1'];
                 if ($row['image2'])
                     $jpg2 = "http://www.kiam.kr/adjunct/mms/thum/" . $row['image2'];
-    
+
                 sendmms(3, $mem_id, $send_num, $recv_num, $reservation, $row['title'], $row['content'], $jpg, $jpg1, $jpg2, 'Y', $row['sms_idx'], $row['sms_detail_idx'], $request_idx, "", $row['send_deny']);
-    
+
                 $query = "insert into Gn_MMS_Agree set mem_id='$mem_id',
                                                     send_num='$send_num',
                                                     recv_num='$recv_num',
@@ -80,7 +80,7 @@ function add_event_request($event_code, $event_idx, $pcode)
                                                     sms_detail_idx='{$row['sms_detail_idx']}',
                                                     request_idx='$request_idx'";
                 mysqli_query($self_con, $query) or die(mysqli_error($self_con));
-            }else{
+            } else {
                 $reservation = date("Y-m-d $send_time:00", strtotime("+$send_day days"));
                 if ($step_end_time < $reservation)
                     $step_end_time = $reservation;
@@ -602,7 +602,7 @@ if ($_POST['method'] == "create_format") {
 } else if ($_POST['method'] == "save_statistic") {
     $repo_id = $_POST['index'];
     $channel = $_POST['channel'];
-    $send_count = $_POST['send_count'];
+    $send_count = $_POST['send_count'] == "" ? 0 : $_POST['send_count'];
     $display_count = $_POST['display_count'];
     $ads_price = $_POST['ads_price'];
     //$total_payment = $_POST['total_payment'];

@@ -123,7 +123,6 @@ $logs->add_log("start");
 								if ($enddate)
 									$sql_serch .= " AND mms.reservation <= '$enddate 23:59:59'";
 
-								$sql_table = " Gn_MMS ";
 								if ($_REQUEST['search_text']) {
 									$sql_serch .= " and (" . $_REQUEST['search_key'] . " like '%{$_REQUEST['search_text']}%') ";
 									//$sql_serch.=" and (send_num like '$_REQUEST['search_text']%' or recv_num like '$_REQUEST['search_text']%'   or content like '%$_REQUEST['search_text']%' ) ";
@@ -302,8 +301,8 @@ $logs->add_log("start");
 							</table>
 						</div>
 					</div>
+				</form>
 			</div>
-			</form>
 		</div>
 	</div>
 </div>
