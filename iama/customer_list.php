@@ -241,6 +241,57 @@ if ($HTTP_HOST != "kiam.kr") {
                 });
             }
         }
+        function save_paper_cust() {
+            var action_mode = $("#paper_cust_mode").val();
+            var idx = $("#edit_paper_idx").val();
+            var mode = "edit";
+            var msg = "수정 하시겠습니까?";
+            var list_idx = $("#list_paper_idx").val();
+
+            var mem_id = '<?= $_SESSION['iam_member_id'] ?>';
+            var name = $("#paper_name").val();
+            var job = $("#paper_job").val();
+            var addr = $("#paper_addr").val();
+            var org_name = $("#paper_org").val();
+            var phone1 = $("#paper_phone1").val();
+            var phone2 = $("#paper_phone2").val();
+            var mobile = $("#paper_mobile").val();
+            var fax = $("#paper_fax").val();
+            var email1 = $("#paper_email1").val();
+            var email2 = $("#paper_email2").val();
+            var memo = $("#get_memo").val();
+
+            if (confirm(msg)) {
+                $.ajax({
+                    type: "POST",
+                    url: "/admin/ajax/manage_customers.php",
+                    data: {
+                        mode: mode,
+                        type: action_mode,
+                        idx: idx,
+                        mem_id: mem_id,
+                        name: name,
+                        job: job,
+                        addr: addr,
+                        org_name: org_name,
+                        phone1: phone1,
+                        phone2: phone2,
+                        mobile: mobile,
+                        fax: fax,
+                        email1: email1,
+                        email2: email2,
+                        memo: memo
+                    },
+                    success: function(data) {
+                        alert('수정되었습니다.');
+                        location.reload();
+                    },
+                    error: function() {
+                        alert('명함고객 수정 실패');
+                    }
+                });
+            }
+        }
 
         function show_memo(memo) {
             $("#mem_memo").html(memo);
@@ -502,7 +553,7 @@ if ($HTTP_HOST != "kiam.kr") {
                 <input type="button" id="reg_btn" style="font-size: 11px;color: white;<?= $color1 ?>" value="등록고객" onclick="show_tab('reg_cust');">
                 <input type="button" id="get_btn" style="font-size: 11px;color: white;<?= $color3 ?>" value="수집고객" onclick="show_tab('get_cust');">
                 <input type="button" id="req_btn" style="font-size: 11px;color: white;<?= $color2 ?>" value="신청고객" onclick="show_tab('req_cust');">
-                <input type="button" id="req_btn" style="font-size: 11px;color: white;<?= $color2 ?>" value="명함고객" onclick="show_tab('paper_cust');">
+                <input type="button" id="req_btn" style="font-size: 11px;color: white;<?= $color4 ?>" value="명함고객" onclick="show_tab('paper_cust');">
             </div>
             <? if ($_REQUEST['sel_tab'] == "reg_cust" || $_REQUEST['sel_tab'] == '') { ?>
                 <div id="reg_cu_list" <?= $hide1 ?>>
@@ -1087,7 +1138,10 @@ if ($HTTP_HOST != "kiam.kr") {
                                 </thead>
                                 <tbody>
                                     <tr id="edit_table_paper" hidden>
-                                        <th></th>
+                                        <th>
+                                            <input type="button" style="font-size: 11px;background-color: #99cc00;color: white;" value="저장" onclick="save_paper_cust()">
+                                            <input type="button" style="font-size: 11px;background-color: #99cc00;color: white;" value="취소" onclick="cancel_reg_cust('paper_cust')">
+                                        </th>
                                         <th><input type="text" name="paper_name" id="paper_name" class="edit_input" placeholder="성명"></th>
                                         <th><input type="text" name="paper_job" id="paper_job" class="edit_input" placeholder="직책"></th>
                                         <th><input type="text" name="paper_org" id="paper_org" class="edit_input" placeholder="기관명"></th>
@@ -1098,12 +1152,11 @@ if ($HTTP_HOST != "kiam.kr") {
                                         <th><input type="text" name="paper_fax" id="paper_fax" class="edit_input" placeholder="팩스폰"></th>
                                         <th><input type="text" name="paper_email1" id="paper_email1" class="edit_input" placeholder="이멜1"></th>
                                         <th><input type="text" name="paper_email2" id="paper_email2" class="edit_input" placeholder="이멜2"></th>
-                                        <th><input type="text" name="paper_memo" id="paper_memo" class="edit_input" placeholder="메모">
+                                        <th>
+                                            <input type="text" name="paper_memo" id="paper_memo" class="edit_input" placeholder="메모">
                                             <input type="hidden" name="paper_cust_mode" id="paper_cust_mode">
                                             <input type="hidden" name="edit_paper_idx" id="edit_paper_idx">
                                             <input type="hidden" name="list_paper_idx" id="list_paper_idx">
-                                            <input type="button" style="font-size: 11px;background-color: #99cc00;color: white;" value="저장" onclick="save_paper_cust()">
-                                            <input type="button" style="font-size: 11px;background-color: #99cc00;color: white;" value="취소" onclick="cancel_reg_cust('paper_cust')">
                                         </th>
                                     </tr>
                                     <?
