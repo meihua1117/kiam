@@ -1203,7 +1203,7 @@ if ($HTTP_HOST != "kiam.kr") {
                                     $totalRow4    =  mysqli_fetch_array($res4);
                                     $totalCnt4 = $totalRow4[0];
 
-                                    $query4 = "SELECT iam.idx,iam.display_top,card.* FROM Gn_MMS_Receive_Iam iam INNER JOIN Gn_Member_card card  ON iam.paper_seq=card.seq WHERE card.mem_id = '{$_SESSION['iam_member_id']}' $searchStr4";
+                                    $query4 = "SELECT iam.idx,iam.display_top,iam.name AS iam_name,card.* FROM Gn_MMS_Receive_Iam iam INNER JOIN Gn_Member_card card  ON iam.paper_seq=card.seq WHERE card.mem_id = '{$_SESSION['iam_member_id']}' $searchStr4";
                                     $limitStr4       = " LIMIT " . (($startPage4 - 1) * $pageCnt4) . ", " . $pageCnt4;
                                     $number4            = $totalCnt4 - ($nowPage4 - 1) * $pageCnt4;
                                     $orderQuery4 .= " ORDER BY iam.display_top DESC $limitStr4 ";
@@ -1220,7 +1220,7 @@ if ($HTTP_HOST != "kiam.kr") {
                                     ?>
                                         <tr>
                                             <td style="text-align:center;"> <?= $number4-- ?> <br> <a href="javascript:show_edit_input('<?= $row['seq'] ?>', 'paper_edit')"><img src="/iam/img/Picture_iama1.png" style="width:20px;"></a></td>
-                                            <td><?= $row['name'] ?></td>
+                                            <td><?= $row['name'] == '' ? $row['iam_name'] : $row['name'] ?></td>
                                             <td><?= $row['job'] ?></td>
                                             <td><?= $row['org_name'] ?></td>
                                             <td><?= $row['address'] ?></td>
