@@ -1011,7 +1011,6 @@ if ($HTTP_HOST != "kiam.kr") {
                                     $order3 = $order3 ? $order3 : "desc";
 
                                     $query3 = "SELECT count(seq) cnt FROM crawler_data_supply a WHERE 1=1 and user_id='{$_SESSION['iam_member_id']}' $searchStr3";
-                                    echo $query3."<br>";
                                     $res3        = mysqli_query($self_con, $query3);
                                     $totalRow3    =  mysqli_fetch_array($res3);
                                     $totalCnt3 = $totalRow3[0];
@@ -1024,7 +1023,6 @@ if ($HTTP_HOST != "kiam.kr") {
 
                                     $i = 1;
                                     $query3 .= $orderQuery3;
-                                    echo $query3."<br>";
                                     $res = mysqli_query($self_con, $query3);
                                     while ($row = mysqli_fetch_array($res)) {
                                         $sql_mem_reg = "select * from Gn_Member where mem_name='{$row['ceo']}' and mem_phone='{$row['cell']}' and is_leave='N' limit 1";
