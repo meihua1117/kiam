@@ -241,6 +241,7 @@ if ($HTTP_HOST != "kiam.kr") {
                 });
             }
         }
+
         function save_paper_cust() {
             var action_mode = $("#paper_cust_mode").val();
             var idx = $("#edit_paper_idx").val();
@@ -387,7 +388,7 @@ if ($HTTP_HOST != "kiam.kr") {
                             $("#get_link").val(data.get_link);
                             $("#get_memo").val(data.get_memo);
                             $("#edit_table_get").show();
-                        }else if (type == "paper_edit") {
+                        } else if (type == "paper_edit") {
                             $("#paper_name").val(data.name);
                             $("#paper_job").val(data.job);
                             $("#paper_org").val(data.org_name);
@@ -455,6 +456,13 @@ if ($HTTP_HOST != "kiam.kr") {
             if (height < 375)
                 height = 375;
             $(".box-body").css("height", height);
+            $(document).ajaxStart(function() {
+                    console.log("loading");
+                    $("#ajax-loading").show();
+                })
+                .ajaxStop(function() {
+                    $("#ajax-loading").delay(10).hide(1);
+                });
         });
     </script>
     <style>
@@ -1234,6 +1242,7 @@ if ($HTTP_HOST != "kiam.kr") {
                 </div>
                 <strong>Copyright &copy; 2016 Onlyone All rights reserved.
             </footer>
+            <div id="ajax-loading" style="display: none;"><img src="/iam/img/ajax-loader.gif"></div>
             <!-- Add the sidebar's background. This div must be placed
            immediately after the control sidebar -->
             <div class="control-sidebar-bg"></div>
