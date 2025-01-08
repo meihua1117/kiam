@@ -429,9 +429,10 @@ if ($mode == "land_save") {
     if ($send_time == "") $send_time = "09:30";
     if ($send_time == "00:00") $send_time = "09:30";
     $curDate =  new DateTime();
+    //기존고객스텝발송 마감일 수정
     $sql_old_req = "SELECT * FROM Gn_event_oldrequest WHERE sms_idx={$sms_idx}";
     $res_old_req = mysqli_query($self_con, $sql_old_req);
-    while($row_old_req = mysqli_fetch_array($res_old_req)){
+    while ($row_old_req = mysqli_fetch_array($res_old_req)) {
         $start_date = $row_old_req['start_date'];
         $send_time_array = explode(":", $send_time);
         $reserveDate = new DateTime($start_date);
@@ -442,6 +443,25 @@ if ($mode == "land_save") {
         if ($reserveDateOld < $reserveDate) {
             $sql = "UPDATE Gn_event_oldrequest set end_date = '{$reserveDate->format('Y-m-d H:i:s')}' WHERE idx={$row_old_req['idx']}";
             mysqli_query($self_con, $sql);
+        }
+    }
+    //신청창스텝발송마감일 수정
+    $sql_event = "SELECT event_idx FROM Gn_event WHERE sms_idx1={$sms_idx} OR sms_idx2={$sms_idx} OR sms_idx3={$sms_idx} ";
+    $res_event = mysqli_query($self_con, $sql_event) or die(mysqli_error($self_con));
+    while ($row_event = mysqli_fetch_array($res_event)) {
+        $sql_req = "SELECT request_idx,regdate,step_end_time FROM Gn_event_request WHERE event_idx = {$row_event['event_idx']} AND target <> ''";
+        $res_req = mysqli_query($self_con, $sql_req);
+        while ($row_req = mysqli_fetch_array($res_req)) {
+            $start_date = $row_req['regdate'];
+            $send_time_array = explode(":", $send_time);
+            $reserveDate = new DateTime($start_date);
+            $reserveDate->setTime($send_time_array[0], $send_time_array[1]);
+            $reserveDate->modify('+' . $send_day . ' day');
+            $reserveDateOld = new DateTime($row_req['step_end_time']);
+            if ($reserveDateOld < $reserveDate) {
+                $sql = "UPDATE Gn_event_request set step_end_time = '{$reserveDate->format('Y-m-d H:i:s')}' WHERE request_idx={$row_req['request_idx']}";
+                mysqli_query($self_con, $sql);
+            }
         }
     }
     echo "<script>location='mypage_reservation_create.php?sms_idx=$sms_idx';</script>";

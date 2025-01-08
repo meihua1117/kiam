@@ -232,7 +232,7 @@ extract($_POST);
 									<td style="width:8%">발송폰번호</td>
 									<td style="width:10%">스탭문자<br>회차</td>
 									<td style="width:6%">중단문자<br>ON/OFF</td>
-									<td style="width:10%;">조회수</td>
+									<td style="width:10%;">조회수/<br>신청수</td>
 									<td style="width:9%;">등록일</td>
 									<td style="width:9%;">수정/삭제</td>
 								</tr>

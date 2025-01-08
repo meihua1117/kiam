@@ -144,8 +144,6 @@ function arr_del($list_arr, $del_value) // 배열, 삭제할 값
 			$row_s = mysqli_fetch_array($resul_s);
 			$status_total_cnt = $row_s[0];
 
-
-
 			$sql_s = "select count(idx) as cnt from Gn_MMS_status where idx='{$_GET['idx']}' and status='0'";
 			$resul_s = mysqli_query($self_con, $sql_s);
 			$row_s = mysqli_fetch_array($resul_s);
@@ -166,12 +164,7 @@ function arr_del($list_arr, $del_value) // 배열, 삭제할 값
 				$recv_cnt = arr_del($recv_cnt, $srow_s['recv_num']);
 			}
 			$recv_cnt = arr_del($recv_cnt, "");
-			//print_R($fail);
-			//print_R($recv_cnt);
 			$fail = array_merge((array)$fail, (array)$recv_cnt);
-			//    			    print_r($fail);
-
-
 			?>
 			<div class="sub_4_4_t1">
 				<div class="sub_4_1_t3">
