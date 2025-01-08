@@ -1108,6 +1108,7 @@ if ($HTTP_HOST != "kiam.kr") {
                                         <? }
                                         $i++;
                                     }
+                                    echo $i;
                                     if ($i == 1) {
                                         ?>
                                         <tr>
