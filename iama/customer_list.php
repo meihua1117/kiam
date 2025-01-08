@@ -930,7 +930,7 @@ if ($HTTP_HOST != "kiam.kr") {
                                     if ($i == 1) {
                                         ?>
                                         <tr>
-                                            <td colspan="2" style="text-align:center;background:#fff">
+                                            <td colspan="15" style="text-align:center;background:#fff">
                                                 등록된 내용이 없습니다.
                                             </td>
                                         </tr>
@@ -1111,7 +1111,7 @@ if ($HTTP_HOST != "kiam.kr") {
                                     if ($i == 1) {
                                         ?>
                                         <tr>
-                                            <td colspan="2" style="text-align:center;background:#fff">
+                                            <td colspan="15" style="text-align:center;background:#fff">
                                                 등록된 내용이 없습니다.
                                             </td>
                                         </tr>
