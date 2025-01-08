@@ -25,14 +25,14 @@ if ($mode == "creat") {
         $res = mysqli_query($self_con, $sql_update);
     } else if ($type == "paper_edit") {
         $sql_update = "UPDATE Gn_Member_card SET name='{$name}',job='{$job}',addr='{$addr}',org_name='{$org_name}', phone1='{$phone1}', phone2='{$phone2}',mobile='{$mobile}',fax='{$fax}', email1='{$email1}', email2='{$email2}', memo='{$memo}' where seq='{$idx}'";
-        $res = mysqli_query($self_con, $sql_update);
+        //$res = mysqli_query($self_con, $sql_update);
     }
 
     if ($list_idx) {
         $sql_update_mem = "update Gn_Member set mem_name='{$name}', mem_phone='{$phone1}', mem_phone1='{$phone2}', mem_email='{$email}', mem_birth='{$birthday}', com_type='{$work_type}', zy='{$company_name}', mem_job='{$job}', com_add1='{$company_addr}', mem_add1='{$home_addr}', mem_memo='{$memo}' where mem_code='{$list_idx}'";
         $res = mysqli_query($self_con, $sql_update_mem);
     }
-    echo $res;
+    echo $sql_update;
 } else if ($mode == "edit_table") {
     if ($type == "member_reg_edit" || $type == "member_req_edit" || $type == "member_get_edit") {
         if ($type == "member_reg_edit") $prefix = "reg_";
