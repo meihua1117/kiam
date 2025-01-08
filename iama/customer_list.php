@@ -503,6 +503,28 @@ if ($HTTP_HOST != "kiam.kr") {
             vertical-align: middle;
             border: 1px solid #CCC;
         }
+
+        #ajax-loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 9000;
+            text-align: center;
+            display: none;
+            background-color: #fff;
+            opacity: 0.8;
+        }
+
+        #ajax-loading img {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 120px;
+            height: 120px;
+            margin: -60px 0 0 -60px;
+        }
     </style>
     <div class="loading_div"><img src="/images/ajax-loader.gif"></div>
     <div class="wrapper">
