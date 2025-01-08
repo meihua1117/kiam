@@ -260,7 +260,7 @@ if ($HTTP_HOST != "kiam.kr") {
             var fax = $("#paper_fax").val();
             var email1 = $("#paper_email1").val();
             var email2 = $("#paper_email2").val();
-            var memo = $("#get_memo").val();
+            var memo = $("#paper_memo").val();
 
             if (confirm(msg)) {
                 $.ajax({
@@ -457,7 +457,6 @@ if ($HTTP_HOST != "kiam.kr") {
                 height = 375;
             $(".box-body").css("height", height);
             $(document).ajaxStart(function() {
-                    console.log("loading");
                     $("#ajax-loading").show();
                 })
                 .ajaxStop(function() {
