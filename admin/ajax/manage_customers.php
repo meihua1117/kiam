@@ -24,7 +24,7 @@ if ($mode == "creat") {
         $sql_update = "update crawler_data_supply set ceo='{$name}', cell='{$phone1}', cell1='{$phone2}', email='{$email}', birthday='{$birthday}', company_type='{$work_type}', company_name='{$company_name}', address='{$company_addr}', address1='{$home_addr}', memo='{$memo}' where seq='{$idx}'";
         $res = mysqli_query($self_con, $sql_update);
     } else if ($type == "paper_edit") {
-        $sql_update = "UPDATE Gn_Member_card SET name='{$name}',job='{$job}',addr='{$addr}',org_name='{$org_name}', phone1='{$phone1}', phone2='{$phone2}',mobile='{$mobile}',fax='{$fax}', email1='{$email1}', email2='{$email2}', memo='{$memo}' where seq='{$idx}'";
+        $sql_update = "UPDATE Gn_Member_card SET name='{$name}',job='{$job}',address='{$addr}',org_name='{$org_name}', phone1='{$phone1}', phone2='{$phone2}',mobile='{$mobile}',fax='{$fax}', email1='{$email1}', email2='{$email2}', memo='{$memo}' where seq='{$idx}'";
         $res = mysqli_query($self_con, $sql_update);
     }
 
