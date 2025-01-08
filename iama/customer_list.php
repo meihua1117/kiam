@@ -1242,7 +1242,7 @@ if ($HTTP_HOST != "kiam.kr") {
                 </div>
                 <strong>Copyright &copy; 2016 Onlyone All rights reserved.
             </footer>
-            <div id="ajax-loading" style="display: none;"><img src="/iam/img/ajax-loader.gif"></div>
+            <div id="ajax-loading"><img src="/iam/img/ajax-loader.gif"></div>
             <!-- Add the sidebar's background. This div must be placed
            immediately after the control sidebar -->
             <div class="control-sidebar-bg"></div>
