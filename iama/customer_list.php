@@ -256,16 +256,18 @@ if ($HTTP_HOST != "kiam.kr") {
                     $("#reg_cust_mode").val(type);
                     $("#edit_reg_idx").val(val);
                     $("#list_reg_idx").val(list_id);
-                }
-                if (type == "req_cust_edit" || type == "member_req_edit") {
+                } else if (type == "req_cust_edit" || type == "member_req_edit") {
                     $("#req_cust_mode").val(type);
                     $("#edit_req_idx").val(val);
                     $("#list_req_idx").val(list_id);
-                }
-                if (type == "get_cust_edit" || type == "member_get_edit") {
+                } else if (type == "get_cust_edit" || type == "member_get_edit") {
                     $("#get_cust_mode").val(type);
                     $("#edit_get_idx").val(val);
                     $("#list_get_idx").val(list_id);
+                } else if (type == "paper_edit") {
+                    $("#paper_cust_mode").val(type);
+                    $("#edit_paper_idx").val(val);
+                    $("#list_paper_idx").val(list_id);
                 }
 
                 $.ajax({
@@ -320,6 +322,33 @@ if ($HTTP_HOST != "kiam.kr") {
                             $("#get_link").val(data.get_link);
                             $("#get_memo").val(data.get_memo);
                             $("#edit_table_get").show();
+                        } else if (type == "get_cust_edit" || type == "member_get_edit") {
+                            $("#get_name").val(data.get_name);
+                            $("#get_phone1").val(data.get_phone1);
+                            $("#get_phone2").val(data.get_phone2);
+                            $("#get_email").val(data.get_email);
+                            $("#get_birthday").val(data.get_birthday);
+                            $("#get_work_type").val(data.get_work_type);
+                            $("#get_company_name").val(data.get_company_name);
+                            $("#get_job").val(data.get_job);
+                            $("#get_company_addr").val(data.get_company_addr);
+                            $("#get_home_addr").val(data.get_home_addr);
+                            $("#get_link").val(data.get_link);
+                            $("#get_memo").val(data.get_memo);
+                            $("#edit_table_get").show();
+                        }else if (type == "paper_edit") {
+                            $("#paper_name").val(data.name);
+                            $("#paper_job").val(data.job);
+                            $("#paper_org").val(data.org_name);
+                            $("#paper_addr").val(data.address);
+                            $("#paper_phone1").val(data.phone1);
+                            $("#paper_phone2").val(data.phone2);
+                            $("#paper_mobile").val(data.mobile);
+                            $("#paper_fax").val(data.fax);
+                            $("#paper_email1").val(data.email1);
+                            $("#paper_email2").val(data.email2);
+                            $("#paper_memo").val(data._memo);
+                            $("#edit_table_paper").show();
                         }
                     },
                     error: function() {
@@ -1070,11 +1099,11 @@ if ($HTTP_HOST != "kiam.kr") {
                                         <th><input type="text" name="paper_email1" id="paper_email1" class="edit_input" placeholder="이멜1"></th>
                                         <th><input type="text" name="paper_email2" id="paper_email2" class="edit_input" placeholder="이멜2"></th>
                                         <th><input type="text" name="paper_memo" id="paper_memo" class="edit_input" placeholder="메모">
-                                        <input type="hidden" name="paper_cust_mode" id="paper_cust_mode">
-                                        <input type="hidden" name="edit_paper_idx" id="edit_paper_idx">
-                                        <input type="hidden" name="list_paper_idx" id="list_paper_idx">
-                                        <input type="button" style="font-size: 11px;background-color: #99cc00;color: white;" value="저장" onclick="save_paper_cust()">
-                                        <input type="button" style="font-size: 11px;background-color: #99cc00;color: white;" value="취소" onclick="cancel_reg_cust('paper_cust')">
+                                            <input type="hidden" name="paper_cust_mode" id="paper_cust_mode">
+                                            <input type="hidden" name="edit_paper_idx" id="edit_paper_idx">
+                                            <input type="hidden" name="list_paper_idx" id="list_paper_idx">
+                                            <input type="button" style="font-size: 11px;background-color: #99cc00;color: white;" value="저장" onclick="save_paper_cust()">
+                                            <input type="button" style="font-size: 11px;background-color: #99cc00;color: white;" value="취소" onclick="cancel_reg_cust('paper_cust')">
                                         </th>
                                     </tr>
                                     <?
@@ -1083,19 +1112,19 @@ if ($HTTP_HOST != "kiam.kr") {
                                     $pageCnt4 = 10;
 
                                     // 검색 조건을 적용한다.
-                                    $searchStr4 .= $search_key ? " AND (mem_id LIKE '%" . $search_key . "%' or name like '%" . $search_key . "%' or comment like '%" . $search_key . "%' or address like '%" . $search_key . "%' )" : null;
+                                    $searchStr4 .= $search_key ? " AND (card.mem_id LIKE '%" . $search_key . "%' or card.name like '%" . $search_key . "%' or card.comment like '%" . $search_key . "%' or card.address like '%" . $search_key . "%' )" : null;
 
                                     $order4 = $order4 ? $order4 : "desc";
 
-                                    $query4 = "SELECT count(seq) FROM Gn_Member_card WHERE mem_id = '{$_SESSION['iam_member_id']}' $searchStr4";
+                                    $query4 = "SELECT count(seq) FROM Gn_MMS_Receive_Iam iam INNER JOIN Gn_Member_card card  ON iam.paper_req=card.seq WHERE card.mem_id = '{$_SESSION['iam_member_id']}' $searchStr4";
                                     $res4        = mysqli_query($self_con, $query4);
                                     $totalRow4    =  mysqli_fetch_array($res4);
                                     $totalCnt4 = $totalRow4[0];
 
-                                    $query4 = "SELECT * FROM Gn_Member_card WHERE mem_id = '{$_SESSION['iam_member_id']}' $searchStr4";
+                                    $query4 = "SELECT iam.idx,iam.display_top,card.* FROM Gn_MMS_Receive_Iam iam INNER JOIN Gn_Member_card card  ON iam.paper_req=card.seq WHERE card.mem_id = '{$_SESSION['iam_member_id']}' $searchStr4";
                                     $limitStr4       = " LIMIT " . (($startPage4 - 1) * $pageCnt4) . ", " . $pageCnt4;
                                     $number4            = $totalCnt4 - ($nowPage4 - 1) * $pageCnt4;
-                                    $orderQuery4 .= " ORDER BY create_time $limitStr4 ";
+                                    $orderQuery4 .= " ORDER BY iam.display_top DESC $limitStr4 ";
 
                                     $i = 1;
                                     $query4 .= $orderQuery4;
@@ -1108,7 +1137,7 @@ if ($HTTP_HOST != "kiam.kr") {
                                         }
                                     ?>
                                         <tr>
-                                            <td style="text-align:center;"> <?= $number4-- ?> <br> <a href="javascript:show_edit_input('<?= $row['seq'] ?>', 'get_paper_edit')"><img src="/iam/img/Picture_iama1.png" style="width:20px;"></a><a href="javascript:move_reg_list('<?= $row['seq'] ?>', 'paper_cust')" style="margin-left:10px;"><img src="/iam/img/Picture_iama2.png" style="width:20px;"></a></td>
+                                            <td style="text-align:center;"> <?= $number4-- ?> <br> <a href="javascript:show_edit_input('<?= $row['seq'] ?>', 'paper_edit')"><img src="/iam/img/Picture_iama1.png" style="width:20px;"></a><a href="javascript:move_reg_list('<?= $row['seq'] ?>', 'paper_cust')" style="margin-left:10px;"><img src="/iam/img/Picture_iama2.png" style="width:20px;"></a></td>
                                             <td><?= $row['name'] ?></td>
                                             <td><?= $row['job'] ?></td>
                                             <td><?= $row['org_name'] ?></td>
@@ -1140,7 +1169,7 @@ if ($HTTP_HOST != "kiam.kr") {
                     </div><!-- /.box -->
                     <div class="row text-center">
                         <div class="col-sm-12">
-                            <?echo drawPagingAdminNavi_iama($totalCnt4, $nowPage4, $pageCnt4, "10", "goPage", "paper_cust");?>
+                            <? echo drawPagingAdminNavi_iama($totalCnt4, $nowPage4, $pageCnt4, "10", "goPage", "paper_cust"); ?>
                         </div>
                     </div>
                 </div>
