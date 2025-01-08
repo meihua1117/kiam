@@ -1008,10 +1008,10 @@ if ($HTTP_HOST != "kiam.kr") {
 
                                     // 검색 조건을 적용한다.
                                     $searchStr3 .= $search_key ? " AND (a.company_name LIKE '%" . $search_key . "%' or a.cell like '%" . $search_key . "%' or a.ceo like '%" . $search_key . "%' or a.company_type like '%" . $search_key . "%' or a.data_type like '%" . $search_key . "%' or a.address like '%" . $search_key . "%' or a.address1 like '%" . $search_key . "%' )" : null;
-
                                     $order3 = $order3 ? $order3 : "desc";
 
                                     $query3 = "SELECT count(seq) cnt FROM crawler_data_supply a WHERE 1=1 and user_id='{$_SESSION['iam_member_id']}' $searchStr3";
+                                    echo $query3."<br>";
                                     $res3        = mysqli_query($self_con, $query3);
                                     $totalRow3    =  mysqli_fetch_array($res3);
                                     $totalCnt3 = $totalRow3[0];
@@ -1024,7 +1024,7 @@ if ($HTTP_HOST != "kiam.kr") {
 
                                     $i = 1;
                                     $query3 .= $orderQuery3;
-                                    echo $query3;
+                                    echo $query3."<br>";
                                     $res = mysqli_query($self_con, $query3);
                                     while ($row = mysqli_fetch_array($res)) {
                                         $sql_mem_reg = "select * from Gn_Member where mem_name='{$row['ceo']}' and mem_phone='{$row['cell']}' and is_leave='N' limit 1";
