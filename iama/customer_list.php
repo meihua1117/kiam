@@ -1069,7 +1069,7 @@ if ($HTTP_HOST != "kiam.kr") {
                                         <th><input type="text" name="paper_fax" id="paper_fax" class="edit_input" placeholder="팩스폰"></th>
                                         <th><input type="text" name="paper_email1" id="paper_email1" class="edit_input" placeholder="이멜1"></th>
                                         <th><input type="text" name="paper_email2" id="paper_email2" class="edit_input" placeholder="이멜2"></th>
-                                        <th><input type="text" name="paper_memo" id="paper_memo" class="edit_input" placeholder="메모"></th>
+                                        <th><input type="text" name="paper_memo" id="paper_memo" class="edit_input" placeholder="메모">
                                         <input type="hidden" name="paper_cust_mode" id="paper_cust_mode">
                                         <input type="hidden" name="edit_paper_idx" id="edit_paper_idx">
                                         <input type="hidden" name="list_paper_idx" id="list_paper_idx">
