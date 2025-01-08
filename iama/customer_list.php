@@ -1116,12 +1116,12 @@ if ($HTTP_HOST != "kiam.kr") {
 
                                     $order4 = $order4 ? $order4 : "desc";
 
-                                    $query4 = "SELECT count(seq) FROM Gn_MMS_Receive_Iam iam INNER JOIN Gn_Member_card card  ON iam.paper_req=card.seq WHERE card.mem_id = '{$_SESSION['iam_member_id']}' $searchStr4";
+                                    $query4 = "SELECT count(seq) FROM Gn_MMS_Receive_Iam iam INNER JOIN Gn_Member_card card  ON iam.paper_seq=card.seq WHERE card.mem_id = '{$_SESSION['iam_member_id']}' $searchStr4";
                                     $res4        = mysqli_query($self_con, $query4);
                                     $totalRow4    =  mysqli_fetch_array($res4);
                                     $totalCnt4 = $totalRow4[0];
 
-                                    $query4 = "SELECT iam.idx,iam.display_top,card.* FROM Gn_MMS_Receive_Iam iam INNER JOIN Gn_Member_card card  ON iam.paper_req=card.seq WHERE card.mem_id = '{$_SESSION['iam_member_id']}' $searchStr4";
+                                    $query4 = "SELECT iam.idx,iam.display_top,card.* FROM Gn_MMS_Receive_Iam iam INNER JOIN Gn_Member_card card  ON iam.paper_seq=card.seq WHERE card.mem_id = '{$_SESSION['iam_member_id']}' $searchStr4";
                                     $limitStr4       = " LIMIT " . (($startPage4 - 1) * $pageCnt4) . ", " . $pageCnt4;
                                     $number4            = $totalCnt4 - ($nowPage4 - 1) * $pageCnt4;
                                     $orderQuery4 .= " ORDER BY iam.display_top DESC $limitStr4 ";
