@@ -1219,7 +1219,7 @@ if ($HTTP_HOST != "kiam.kr") {
                                         }
                                     ?>
                                         <tr>
-                                            <td style="text-align:center;"> <?= $number4-- ?> <br> <a href="javascript:show_edit_input('<?= $row['seq'] ?>', 'paper_edit')"><img src="/iam/img/Picture_iama1.png" style="width:20px;"></a><a href="javascript:move_reg_list('<?= $row['seq'] ?>', 'paper_cust')" style="margin-left:10px;"><img src="/iam/img/Picture_iama2.png" style="width:20px;"></a></td>
+                                            <td style="text-align:center;"> <?= $number4-- ?> <br> <a href="javascript:show_edit_input('<?= $row['seq'] ?>', 'paper_edit')"><img src="/iam/img/Picture_iama1.png" style="width:20px;"></a></td>
                                             <td><?= $row['name'] ?></td>
                                             <td><?= $row['job'] ?></td>
                                             <td><?= $row['org_name'] ?></td>
