@@ -2270,13 +2270,13 @@ function encodeKorean($matches)
                             <a class="nav-link" id="profile-tab" title="<?= $MENU['IAM_TAB']['T1_TITLE']; ?>" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="true"><b><?= $MENU['IAM_TAB']['T1']; ?></b><br><small id="my_profile_count"></small></a>
                         </li>
                         <li class="nav-item paper-tab tab_1" onclick="loginCheckShowModal()">
-                            <a class="nav-link" id="paper-tab" title="<?= $MENU['IAM_TAB']['T5_TITLE']; ?>" data-toggle="tab" href="#paper" role="tab" onclick="javascript:getIamPaper('<?= $card_owner ?>', '<?= $card_master ?>', '<?= $search_range ?>', '<?= $phone_count ?>', 1 );" aria-controls="paper" aria-selected="false"><b><?= $MENU['IAM_TAB']['T5']; ?></b><small><br>(<?= number_format($paper_total_count) ?>)</small></a>
+                            <a class="nav-link" id="paper-tab" title="<?= $MENU['IAM_TAB']['T5_TITLE']; ?>" data-toggle="tab" href="#paper" role="tab" onclick="getIamPaper('<?= $card_owner ?>', '<?= $card_master ?>', '<?= $search_range ?>', '<?= $phone_count ?>', 1 );" aria-controls="paper" aria-selected="false"><b><?= $MENU['IAM_TAB']['T5']; ?></b><small><br>(<?= number_format($paper_total_count) ?>)</small></a>
                         </li>
                         <li class="nav-item contact-tab tab_1" onclick="loginCheckShowModal()">
-                            <a class="nav-link" id="contact-tab" title="<?= $MENU['IAM_TAB']['T3_TITLE']; ?>" data-toggle="tab" href="#contact" role="tab" onclick="javascript:getIamContact('<?= $card_owner ?>', '<?= $card_master ?>', '<?= $search_range ?>', '<?= $phone_count ?>', 1, 0);" aria-controls="contact" aria-selected="false"><b><?= $MENU['IAM_TAB']['T3']; ?></b><small><br>(<?= number_format($contact_total_count) ?>)</small></a>
+                            <a class="nav-link" id="contact-tab" title="<?= $MENU['IAM_TAB']['T3_TITLE']; ?>" data-toggle="tab" href="#contact" role="tab" onclick="getIamContact('<?= $card_owner ?>', '<?= $card_master ?>', '<?= $search_range ?>', '<?= $phone_count ?>', 1, 0);" aria-controls="contact" aria-selected="false"><b><?= $MENU['IAM_TAB']['T3']; ?></b><small><br>(<?= number_format($contact_total_count) ?>)</small></a>
                         </li>
                         <li class="nav-item friends-tab tab_1" onclick="loginCheckShowModalFriends()">
-                            <a class="nav-link" id="friends-tab" title="<?= $MENU['IAM_TAB']['T4_TITLE']; ?>" data-toggle="tab" href="#friends" role="tab" onclick="javascript:getIamFriends('<?= $card_owner ?>', '<?= $card_master ?>', '<?= $phone_count ?>', '', 1 );" aria-controls="friends" aria-selected="false"><b><?= $MENU['IAM_TAB']['T4']; ?></b><small><br>(<?= number_format($card_count_row[0]) ?>)</small></a>
+                            <a class="nav-link" id="friends-tab" title="<?= $MENU['IAM_TAB']['T4_TITLE']; ?>" data-toggle="tab" href="#friends" role="tab" onclick="getIamFriends('<?= $card_owner ?>', '<?= $card_master ?>', '<?= $phone_count ?>', '', 1 );" aria-controls="friends" aria-selected="false"><b><?= $MENU['IAM_TAB']['T4']; ?></b><small><br>(<?= number_format($card_count_row[0]) ?>)</small></a>
                         </li>
                     </ul>
 
