@@ -843,7 +843,6 @@ if ($HTTP_HOST != "kiam.kr") {
                                     $orderQuery2 .= " ORDER BY regdate DESC $limitStr2";
                                     $i = 1;
                                     $query2 .= $orderQuery2;
-                                    echo $query;
                                     $res = mysqli_query($self_con, $query2);
                                     while ($row = mysqli_fetch_array($res)) {
                                         $sql_mem_reg = "select * from Gn_Member where mem_name='{$row['name']}' and mem_phone='{$row['mobile']}' and is_leave='N' limit 1";
@@ -1025,6 +1024,7 @@ if ($HTTP_HOST != "kiam.kr") {
 
                                     $i = 1;
                                     $query3 .= $orderQuery3;
+                                    echo $query3;
                                     $res = mysqli_query($self_con, $query3);
                                     while ($row = mysqli_fetch_array($res)) {
                                         $sql_mem_reg = "select * from Gn_Member where mem_name='{$row['ceo']}' and mem_phone='{$row['cell']}' and is_leave='N' limit 1";
