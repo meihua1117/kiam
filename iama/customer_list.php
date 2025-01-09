@@ -1209,7 +1209,7 @@ if ($HTTP_HOST != "kiam.kr") {
                                     $query4 = "SELECT iam.idx,iam.display_top,iam.name AS iam_name,card.* FROM Gn_MMS_Receive_Iam iam INNER JOIN Gn_Member_card card  ON iam.paper_seq=card.seq WHERE card.mem_id = '{$_SESSION['iam_member_id']}' $searchStr4";
                                     $limitStr4       = " LIMIT " . (($startPage4 - 1) * $pageCnt4) . ", " . $pageCnt4;
                                     $number4            = $totalCnt4 - ($nowPage4 - 1) * $pageCnt4;
-                                    $orderQuery4 .= " ORDER BY iam.display_top DESC $limitStr4 ";
+                                    $orderQuery4 .= " ORDER BY iam.display_top DESC,iam.reg_date DESC $limitStr4 ";
 
                                     $i = 1;
                                     $query4 .= $orderQuery4;
