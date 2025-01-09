@@ -1139,18 +1139,18 @@ if ($HTTP_HOST != "kiam.kr") {
                         <div class="box-body">
                             <table id="example1" class="table table-bordered table-striped" style="width:100%;font-size:12px;">
                                 <colgroup>
-                                    <col width="60px">
-                                    <col width="100px">
-                                    <col width="100px">
-                                    <col width="100px">
-                                    <col width="100px">
-                                    <col width="100px">
-                                    <col width="60px">
-                                    <col width="100px">
-                                    <col width="70px">
-                                    <col width="70px">
-                                    <col width="50px">
-                                    <col width="120px">
+                                    <col width="5%">
+                                    <col width="5%">
+                                    <col width="10%">
+                                    <col width="10%">
+                                    <col width="10%">
+                                    <col width="5%">
+                                    <col width="10%">
+                                    <col width="10%">
+                                    <col width="10%">
+                                    <col width="10%">
+                                    <col width="10%">
+                                    <col width="5%">
                                 </colgroup>
                                 <thead>
                                     <tr>
@@ -1163,8 +1163,8 @@ if ($HTTP_HOST != "kiam.kr") {
                                         <th>전화2</th>
                                         <th>휴대폰</th>
                                         <th>팩스폰</th>
-                                        <th>이멜1</th>
-                                        <th>이멜2</th>
+                                        <th>이메일</th>
+                                        <th>홈피</th>
                                         <th>메모</th>
                                     </tr>
                                 </thead>
