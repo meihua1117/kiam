@@ -451,7 +451,7 @@ if ($HTTP_HOST != "kiam.kr") {
             location.href = '?&nowPage_' + val + '=' + pgNum + "&search_key=<?= $search_key ?>&sel_tab=" + val;
         }
 
-        function goPage(pgNum,seltab) {
+        function goPage(pgNum, seltab) {
             location.href = '?&nowPage_' + seltab + '=' + pgNum + "&search_key=<?= $search_key ?>&sel_tab=" + seltab;
         }
         $(function() {
@@ -497,11 +497,13 @@ if ($HTTP_HOST != "kiam.kr") {
             white-space: normal;
             word-wrap: break-word;
         }
-        .table-bordered{
-            width:100%;
-            font-size:12px;
+
+        .table-bordered {
+            width: 100%;
+            font-size: 12px;
             table-layout: fixed;
         }
+
         #open_recv_div li {
             list-style: none;
         }
@@ -600,20 +602,20 @@ if ($HTTP_HOST != "kiam.kr") {
                         <div class="box-body">
                             <table id="example1" class="table table-bordered table-striped">
                                 <colgroup>
-                                    <col width="60px">
-                                    <col width="100px">
-                                    <col width="100px">
-                                    <col width="100px">
-                                    <col width="100px">
-                                    <col width="100px">
-                                    <col width="60px">
-                                    <col width="100px">
-                                    <col width="70px">
-                                    <col width="70px">
-                                    <col width="50px">
-                                    <col width="120px">
-                                    <col width="120px">
-                                    <col width="120px">
+                                    <col style="width:5%">
+                                    <col style="width:8%">
+                                    <col style="width:8%">
+                                    <col style="width:8%">
+                                    <col style="width:8%">
+                                    <col style="width:8%">
+                                    <col style="width:5%">
+                                    <col style="width:8%">
+                                    <col style="width:6%">
+                                    <col style="width:6%">
+                                    <col style="width:6%">
+                                    <col style="width:8%">
+                                    <col style="width:8%">
+                                    <col style="width:8%">
                                 </colgroup>
                                 <thead>
                                     <tr>
@@ -785,20 +787,20 @@ if ($HTTP_HOST != "kiam.kr") {
                         <div class="box-body">
                             <table id="example1" class="table table-bordered table-striped">
                                 <colgroup>
-                                    <col width="60px">
-                                    <col width="100px">
-                                    <col width="100px">
-                                    <col width="100px">
-                                    <col width="100px">
-                                    <col width="100px">
-                                    <col width="60px">
-                                    <col width="100px">
-                                    <col width="70px">
-                                    <col width="70px">
-                                    <col width="50px">
-                                    <col width="120px">
-                                    <col width="120px">
-                                    <col width="120px">
+                                    <col style="width:5%">
+                                    <col style="width:8%">
+                                    <col style="width:8%">
+                                    <col style="width:8%">
+                                    <col style="width:8%">
+                                    <col style="width:8%">
+                                    <col style="width:5%">
+                                    <col style="width:8%">
+                                    <col style="width:6%">
+                                    <col style="width:6%">
+                                    <col style="width:6%">
+                                    <col style="width:8%">
+                                    <col style="width:8%">
+                                    <col style="width:8%">
                                 </colgroup>
                                 <thead>
                                     <tr>
@@ -963,20 +965,20 @@ if ($HTTP_HOST != "kiam.kr") {
                         <div class="box-body">
                             <table id="example1" class="table table-bordered table-striped">
                                 <colgroup>
-                                    <col width="60px">
-                                    <col width="100px">
-                                    <col width="100px">
-                                    <col width="100px">
-                                    <col width="100px">
-                                    <col width="100px">
-                                    <col width="60px">
-                                    <col width="100px">
-                                    <col width="70px">
-                                    <col width="70px">
-                                    <col width="50px">
-                                    <col width="120px">
-                                    <col width="120px">
-                                    <col width="120px">
+                                    <col style="width:5%">
+                                    <col style="width:8%">
+                                    <col style="width:8%">
+                                    <col style="width:8%">
+                                    <col style="width:8%">
+                                    <col style="width:8%">
+                                    <col style="width:5%">
+                                    <col style="width:8%">
+                                    <col style="width:6%">
+                                    <col style="width:6%">
+                                    <col style="width:6%">
+                                    <col style="width:8%">
+                                    <col style="width:8%">
+                                    <col style="width:8%">
                                 </colgroup>
                                 <thead>
                                     <tr>
