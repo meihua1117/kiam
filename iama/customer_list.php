@@ -479,7 +479,7 @@ if ($HTTP_HOST != "kiam.kr") {
         }
 
         .edit_input {
-            width: 70px;
+            width: 100%;
         }
 
         .text-center {
@@ -613,6 +613,7 @@ if ($HTTP_HOST != "kiam.kr") {
                                     <col style="width:6%">
                                     <col style="width:6%">
                                     <col style="width:6%">
+                                    <col style="width:8%">
                                     <col style="width:8%">
                                     <col style="width:8%">
                                     <col style="width:8%">
@@ -801,6 +802,7 @@ if ($HTTP_HOST != "kiam.kr") {
                                     <col style="width:8%">
                                     <col style="width:8%">
                                     <col style="width:8%">
+                                    <col style="width:8%">
                                 </colgroup>
                                 <thead>
                                     <tr>
@@ -976,6 +978,7 @@ if ($HTTP_HOST != "kiam.kr") {
                                     <col style="width:6%">
                                     <col style="width:6%">
                                     <col style="width:6%">
+                                    <col style="width:8%">
                                     <col style="width:8%">
                                     <col style="width:8%">
                                     <col style="width:8%">
