@@ -114,7 +114,19 @@ if ($_POST['del'] == "Y") {
         }
     }
     $mobile = substr($row_data['mobile'], 0, 3) . "-" . substr($row_data['mobile'], 3, 4) . "-" . substr($row_data['mobile'], 7);
-    $res = json_encode(array("name" => $row_data['name'], "job" => $row_data['job'], "org_name" => $row_data['org_name'], "address" => $row_data['address'], "phone1" => $row_data['phone1'], "phone2" => $row_data['phone2'], "mobile" => $mobile, "fax" => $row_data['fax'], "email1" => $row_data['email1'], "email2" => $row_data['email2'], "memo" => $row_data['memo'], "contact_idx" => $contact_idx, "display_top" => $display_top));
+    $res = json_encode(array("name" => $row_data['name'], 
+                            "job" => $row_data['job'], 
+                            "org_name" => $row_data['org_name'], 
+                            "address" => $row_data['address'], 
+                            "phone1" => formatPhoneNumber($row_data['phone1']), 
+                            "phone2" => formatPhoneNumber($row_data['phone2']), 
+                            "mobile" => formatPhoneNumber($mobile), 
+                            "fax" => formatPhoneNumber($row_data['fax']), 
+                            "email1" => $row_data['email1'], 
+                            "email2" => $row_data['email2'], 
+                            "memo" => $row_data['memo'], 
+                            "contact_idx" => $contact_idx, 
+                            "display_top" => $display_top));
 } else if ($_POST['save_data'] == "Y") {
     $paper_phone1 = preg_replace('/\D/', '', $paper_phone1);
     $paper_phone2 = preg_replace('/\D/', '', $paper_phone2);
