@@ -20,6 +20,14 @@ if ($HTTP_HOST != "kiam.kr") {
     }
     $site = explode(".", "kiam.kr");
 }
+function formatPhoneNumber($str){
+    $phone = preg_replace('/\D/', '', $str);
+    if (preg_match('/^(\d{2,3})(\d{4})(\d{4})$/', $phone, $matches)) {
+        return $matches[1] . '-' . $matches[2] . '-' . $matches[3];
+    }else{
+        return $str;
+    }
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -1238,9 +1246,9 @@ if ($HTTP_HOST != "kiam.kr") {
                                             <td><?= $row['job'] ?></td>
                                             <td><?= $row['org_name'] ?></td>
                                             <td><?= $row['address'] ?></td>
-                                            <td><?= $row['phone1'] ?></td>
-                                            <td><?= $row['phone2'] ?></td>
-                                            <td><?= $row['mobile'] ?></td>
+                                            <td><?= formatPhoneNumber($row['phone1'])?></td>
+                                            <td><?= formatPhoneNumber($row['phone2'])?></td>
+                                            <td><?= formatPhoneNumber($row['mobile'])?></td>
                                             <td><?= $row['fax'] ?></td>
                                             <td><?= $row['email1'] ?></td>
                                             <td><?= $row['email2'] ?></td>
