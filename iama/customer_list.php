@@ -494,6 +494,8 @@ if ($HTTP_HOST != "kiam.kr") {
         .table-bordered>tbody>tr>td,
         .table-bordered>tfoot>tr>td {
             border: 1px solid #ddd !important;
+            white-space: normal;
+            word-wrap: break-word;
         }
 
         #open_recv_div li {
