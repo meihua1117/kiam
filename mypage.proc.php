@@ -1445,7 +1445,7 @@ if ($mode == "land_save") {
     echo "<script>alert('수정되었습니다.');location='daily_list.php';</script>";
     exit;
 } else if ($mode == "daily_save") {
-    $fp = fopen("mypage.proc.log", "w+");
+    $fp = fopen("mypage.proc".date("YmdHis").".log", "w+");
     $event_idx = 0;
     $query_step_add = "";
     $step_idx = "";

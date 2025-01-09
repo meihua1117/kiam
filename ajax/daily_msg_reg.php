@@ -146,9 +146,7 @@ insert into Gn_daily set mem_id='{$mem_id}',
                             htime='$htime',
                             mtime='$mtime',
                             send_deny='$deny',
-                            event_idx='$event_idx';
-                            
-";
+                            event_idx='$event_idx'";
 mysqli_query($self_con,$query);    
 //echo $query."<BR>";
 $gd_id = mysqli_insert_id($self_con);
