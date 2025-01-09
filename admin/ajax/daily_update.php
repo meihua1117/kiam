@@ -26,43 +26,36 @@ if($mode == "daily_update")
     
     $query = "
     update Gn_daily set mem_id='{$_SESSION['one_member_id']}', 
-                                send_num='$send_num',
-                                group_idx='$group_idx',
-                                total_count='$total_count',
-                                title='$title',
-                                content='$txt',
-                                daily_cnt='$daily_cnt',
-                                start_date='$start_date',
-                                end_date='$end_date',
-                                jpg='$upimage_str',
-                                jpg1='$upimage_str1',
-                                jpg2='$upimage_str2',
+                                send_num='{$send_num}',
+                                group_idx='{$group_idx}',
+                                total_count='{$total_count}',
+                                title='{$title}',
+                                content='{$txt}',
+                                daily_cnt='{$daily_cnt}',
+                                start_date='{$start_date}',
+                                end_date='{$end_date}',
+                                jpg='{$upimage_str}',
+                                jpg1='{$upimage_str1}',
+                                jpg2='{$upimage_str2}',
                                 status='Y',
-                                send_deny='$deny',
+                                send_deny='{$deny}',
                                 reg_date=NOW()
-                                /*
-                                ,
-                                htime='$htime',
-                                mtime='$mtime'
-                                */
-                        where gd_id='$gd_id'
-                                
-    ";
+                        where gd_id='{$gd_id}'";
     mysqli_query($self_con,$query);
     
     if($gd_id > 0)  {
-        $query = "delete from Gn_daily_date where gd_id='$gd_id';";
+        $query = "delete from Gn_daily_date where gd_id='{$gd_id}';";
         mysqli_query($self_con,$query);
         
-        $query = "delete from Gn_MMS where gd_id='$gd_id' ";
+        $query = "delete from Gn_MMS where gd_id='{$gd_id}' ";
         mysqli_query($self_con,$query);
 
-        $query = "delete from gn_mail where gd_id='$gd_id' ";
+        $query = "delete from gn_mail where gd_id='{$gd_id}' ";
         mysqli_query($self_con,$query);  
     }
     $k = 0;
     $kk = 0;
-    $sql="select * from Gn_MMS_Receive where grp_id = '$group_idx' ";
+    $sql="select * from Gn_MMS_Receive where grp_id = '{$group_idx}' ";
     $sresult = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
     while($srow=mysqli_fetch_array($sresult)) {
         if($kk == $daily_cnt) { 
@@ -81,7 +74,7 @@ if($mode == "daily_update")
     }
                 
     for($i=0;$i <count($date);$i++) {
-        $query = "insert into Gn_daily_date set gd_id='$gd_id', send_date='$date[$i]', recv_num='$recv_num_set[$i]'";
+        $query = "insert into Gn_daily_date set gd_id='{$gd_id}', send_date='{$date[$i]}', recv_num='{$recv_num_set[$i]}'";
         mysqli_query($self_con,$query);    
     }
     echo "<script>alert('수정되었습니다.');location='daily_msg_list_service.php';</script>";
