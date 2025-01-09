@@ -1161,7 +1161,7 @@ if ($HTTP_HOST != "kiam.kr") {
                                     <col style="width:10%">
                                     <col style="width:10%">
                                     <col style="width:10%">
-                                    <col style="width:5%">
+                                    <col style="width:8%">
                                 </colgroup>
                                 <thead>
                                     <tr>
