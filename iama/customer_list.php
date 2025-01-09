@@ -450,6 +450,10 @@ if ($HTTP_HOST != "kiam.kr") {
             var pgNum = 1;
             location.href = '?&nowPage_' + val + '=' + pgNum + "&search_key=<?= $search_key ?>&sel_tab=" + val;
         }
+
+        function goPage(pgNum,seltab) {
+            location.href = '?&nowPage_' + seltab + '=' + pgNum + "&search_key=<?= $search_key ?>&sel_tab=" + seltab;
+        }
         $(function() {
             var contHeaderH = $(".main-header").height();
             var height = window.outerHeight - contHeaderH - $(".content-header").height() - $("#toolbox").height() - $("#list_paginate").height() - 186;
