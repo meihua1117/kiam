@@ -2475,6 +2475,10 @@
                                 <td class="iam_table"><input type="text" style="width:100%;" name="paper_addr" id="paper_addr" value=""></td>
                             </tr>
                             <tr>
+                                <th class="iam_table" style="width:20%;">휴대폰</th>
+                                <td class="iam_table"><input type="text" name="paper_mobile" id="paper_mobile" style="width:200px;"><span id="autojoin_img_event"></span></td>
+                            </tr>
+                            <tr>
                                 <th class="iam_table" style="width:20%;">전화1</th>
                                 <td class="iam_table"><input type="text" style="width:100%;" name="paper_phone1" id="paper_phone1" value=""></td>
                             </tr>
@@ -2483,19 +2487,15 @@
                                 <td class="iam_table"><input type="text" style="width:100%;" name="paper_phone2" id="paper_phone2" value=""></td>
                             </tr>
                             <tr>
-                                <th class="iam_table" style="width:20%;">휴대폰</th>
-                                <td class="iam_table"><input type="text" name="paper_mobile" id="paper_mobile" style="width:200px;"><span id="autojoin_img_event"></span></td>
-                            </tr>
-                            <tr>
                                 <th class="iam_table" style="width:20%;">팩스폰</th>
                                 <td class="iam_table"><input type="text" name="paper_fax" id="paper_fax" style="width:200px;"><span id="autojoin_img_event"></span></td>
                             </tr>
                             <tr>
-                                <th class="iam_table" style="width:20%;">이멜1</th>
+                                <th class="iam_table" style="width:20%;">이메일</th>
                                 <td class="iam_table"><input type="text" name="paper_email1" id="paper_email1" style="width:200px;"><span id="autojoin_img_event"></span></td>
                             </tr>
                             <tr>
-                                <th class="iam_table" style="width:20%;">이멜2</th>
+                                <th class="iam_table" style="width:20%;">홈피</th>
                                 <td class="iam_table"><input type="text" name="paper_email2" id="paper_email2" style="width:200px;"><span id="autojoin_img_event"></span></td>
                             </tr>
                             <tr>

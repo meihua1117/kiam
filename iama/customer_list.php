@@ -22,8 +22,28 @@ if ($HTTP_HOST != "kiam.kr") {
 }
 function formatPhoneNumber($str){
     $phone = preg_replace('/\D/', '', $str);
-    if (preg_match('/^(\d{2,3})(\d{4})(\d{4})$/', $phone, $matches)) {
-        return $matches[1] . '-' . $matches[2] . '-' . $matches[3];
+    if (preg_match('/^01(\d{5})(\d{4})$/', $phone, $matches)) {
+        return '01'.substr($matches[1],0,1).'-' .substr($matches[1],1). '-' . $matches[2];
+    }else if (preg_match('/^050(\d{4,5})(\d{4})$/', $phone, $matches)) {
+        return '050'.substr($matches[1],0,1).'-' .substr($matches[1],1). '-' . $matches[2];
+    }else if (preg_match('/^060(\d{3,4})(\d{4})$/', $phone, $matches)) {
+        return '060-'.$matches[1]. '-' . $matches[2];
+    }else if (preg_match('/^070(\d{3,4})(\d{4})$/', $phone, $matches)) {
+        return '070-'.$matches[1]. '-' . $matches[2];
+    }else if (preg_match('/^080(\d{3,4})(\d{4})$/', $phone, $matches)) {
+        return '080-'.$matches[1]. '-' . $matches[2];
+    }else if (preg_match('/^1544(\d{4})$/', $phone, $matches)) {
+        return '1544-'.$matches[1];
+    }else if (preg_match('/^1566(\d{4})$/', $phone, $matches)) {
+        return '1566-'.$matches[1];
+    }else if (preg_match('/^1588(\d{4})$/', $phone, $matches)) {
+        return '1588-'.$matches[1];
+    }else if (preg_match('/^1644(\d{4})$/', $phone, $matches)) {
+        return '1644-'.$matches[1];
+    }else if (preg_match('/^02(\d{3,4})(\d{4})$/', $phone, $matches)) {
+        return '02-'.$matches[1]. '-' . $matches[2];
+    }else if (preg_match('/^(\d{3})(\d{3,4})(\d{4})$/', $phone, $matches)) {
+        return $matches[1]. '-' . $matches[2]. '-' . $matches[3];
     }else{
         return $str;
     }
@@ -1249,7 +1269,7 @@ function formatPhoneNumber($str){
                                             <td><?= formatPhoneNumber($row['phone1'])?></td>
                                             <td><?= formatPhoneNumber($row['phone2'])?></td>
                                             <td><?= formatPhoneNumber($row['mobile'])?></td>
-                                            <td><?= $row['fax'] ?></td>
+                                            <td><?= formatPhoneNumber($row['fax'])?></td>
                                             <td><?= $row['email1'] ?></td>
                                             <td><?= $row['email2'] ?></td>
                                             <td><a href="javascript:show_memo('<?= $row['memo'] ?>');" style="<?= $style3 ?>">메모</a></td>
