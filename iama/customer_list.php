@@ -1142,7 +1142,7 @@ if ($HTTP_HOST != "kiam.kr") {
                             <table id="example1" class="table table-bordered table-striped" style="width:100%;font-size:12px;table-layout: fixed;">
                                 <colgroup>
                                     <col style="width:5%">
-                                    <col style="width:5%">
+                                    <col style="width:10%">
                                     <col style="width:10%">
                                     <col style="width:10%">
                                     <col style="width:10%">
