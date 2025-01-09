@@ -497,7 +497,11 @@ if ($HTTP_HOST != "kiam.kr") {
             white-space: normal;
             word-wrap: break-word;
         }
-
+        .table-bordered{
+            width:100%;
+            font-size:12px;
+            table-layout: fixed;
+        }
         #open_recv_div li {
             list-style: none;
         }
@@ -594,7 +598,7 @@ if ($HTTP_HOST != "kiam.kr") {
                 <div id="reg_cu_list" <?= $hide1 ?>>
                     <div class="box" style="border-top:none;">
                         <div class="box-body">
-                            <table id="example1" class="table table-bordered table-striped" style="width:100%;font-size:12px;">
+                            <table id="example1" class="table table-bordered table-striped">
                                 <colgroup>
                                     <col width="60px">
                                     <col width="100px">
@@ -779,7 +783,7 @@ if ($HTTP_HOST != "kiam.kr") {
                 <div id="req_cu_list" <?= $hide2 ?>>
                     <div class="box" style="border-top:none;">
                         <div class="box-body">
-                            <table id="example1" class="table table-bordered table-striped" style="width:100%;font-size:12px;">
+                            <table id="example1" class="table table-bordered table-striped">
                                 <colgroup>
                                     <col width="60px">
                                     <col width="100px">
@@ -957,7 +961,7 @@ if ($HTTP_HOST != "kiam.kr") {
                 <div id="get_cu_list" <?= $hide3 ?>>
                     <div class="box" style="border-top:none;">
                         <div class="box-body">
-                            <table id="example1" class="table table-bordered table-striped" style="width:100%;font-size:12px;">
+                            <table id="example1" class="table table-bordered table-striped">
                                 <colgroup>
                                     <col width="60px">
                                     <col width="100px">
@@ -1139,7 +1143,7 @@ if ($HTTP_HOST != "kiam.kr") {
                 <div id="paper_cu_list" <?= $hide4 ?>>
                     <div class="box" style="border-top:none;">
                         <div class="box-body">
-                            <table id="example1" class="table table-bordered table-striped" style="width:100%;font-size:12px;table-layout: fixed;">
+                            <table id="example1" class="table table-bordered table-striped">
                                 <colgroup>
                                     <col style="width:5%">
                                     <col style="width:10%">
