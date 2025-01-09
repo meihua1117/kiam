@@ -1139,18 +1139,18 @@ if ($HTTP_HOST != "kiam.kr") {
                         <div class="box-body">
                             <table id="example1" class="table table-bordered table-striped" style="width:100%;font-size:12px;">
                                 <colgroup>
-                                    <col width="5%">
-                                    <col width="5%">
-                                    <col width="10%">
-                                    <col width="10%">
-                                    <col width="10%">
-                                    <col width="5%">
-                                    <col width="10%">
-                                    <col width="10%">
-                                    <col width="10%">
-                                    <col width="10%">
-                                    <col width="10%">
-                                    <col width="5%">
+                                    <col style="width:5%">
+                                    <col style="width:5%">
+                                    <col style="width:10%">
+                                    <col style="width:10%">
+                                    <col style="width:10%">
+                                    <col style="width:5%">
+                                    <col style="width:10%">
+                                    <col style="width:10%">
+                                    <col style="width:10%">
+                                    <col style="width:10%">
+                                    <col style="width:10%">
+                                    <col style="width:5%">
                                 </colgroup>
                                 <thead>
                                     <tr>
