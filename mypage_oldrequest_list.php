@@ -348,8 +348,8 @@ $(function(){
                         success: function(data) {
                             $($(".loading_div")[0]).hide();
                             alert(data);
-                            //$('#popEventSaveBtn').prop('disabled', false);
-                            location.reload();
+                            $('#popEventSaveBtn').prop('disabled', false);
+                            //location.reload();
                         }
                     });
                 });

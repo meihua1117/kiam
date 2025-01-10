@@ -26,7 +26,8 @@ if ($_POST['del'] == "Y") {
     if ((!$row_data['name'] || !$row_data['job'] || !$row_data['org_name'] || !$row_data['address'] || !$row_data['mobile'] || !$row_data['email1']) && $row_data['comment']) {
 
         $cur_url = "http://aiserver.kiam.kr:8080/get_profile_info.php";
-        $postvars = 'box_text=' . $row_data['comment'];
+    $cur_data = str_replace("&", " and ", $row_data['comment']);
+        $postvars = 'box_text='. $cur_data;
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $cur_url);
@@ -52,14 +53,17 @@ if ($_POST['del'] == "Y") {
                 //var_dump($jsonData);
                 if (is_array($jsonData)) {
                     foreach ($jsonData as $key => $value) {
-                        if (is_array($value)) {
-                            $result = implode(", ", $value);
+                        if(is_array($value))
+                        {
+                            $result = implode(" | ", $value) ;
                             $row_data[$key] = $result;
                         } else {
                             $row_data[$key] = $value;
                         }
                     }
                     $is_success = true;
+                    $row_data['name'] = preg_replace("/\s+/", "", $row_data['name']);
+                    $row_data['mobile'] = preg_replace("/[\s\-\.]/", "", $row_data['mobile']);
                 }
             }
         }
