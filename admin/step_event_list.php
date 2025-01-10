@@ -156,7 +156,7 @@ $date_today = date("Y-m-d");
             //$totalCnt	=  mysqli_num_rows($res);	
             $totalRow  =  mysqli_fetch_array($res);
             $totalCnt = $totalRow[0];
-            $query = "SELECT a.event_idx, a.m_id, a.event_name_eng, a.event_name_kor, a.pcode, a.short_url, a.mobile, a.regdate, a.read_cnt
+            $query = "SELECT a.event_idx, a.m_id, a.event_name_eng, a.event_name_kor,a.event_title,a.event_desc, a.pcode, a.short_url, a.mobile, a.regdate, a.read_cnt
                   FROM Gn_event a WHERE event_name_kor!='단체회원자동가입및아이엠카드생성' AND event_name_kor!='콜백메시지관리자설정동의' AND event_name_kor!='데일리문자세트자동생성' $searchStr";
             $limitStr       = " LIMIT " . (($startPage - 1) * $pageCnt) . ", " . $pageCnt;
             $number      = $totalCnt - ($nowPage - 1) * $pageCnt;
@@ -190,8 +190,8 @@ $date_today = date("Y-m-d");
                 <td style="font-size:12px;"><?= $srow['site'] . "/" . $srow['site_iam'] ?></td>
                 <td style="font-size:12px;"><?= $row['m_id'] ?></td>
                 <td style="font-size:12px;"><?= $srow['mem_name'] ?></td>
-                <td style="font-size:12px;"></td>
-                <td style="font-size:12px;"></td>
+                <td style="font-size:12px;"><?= $row['event_title'] ?></td>
+                <td style="font-size:12px;"><?= $row['event_desc'] ?></td>
                 <td>
                   <?
                   /*if ($row['event_name_kor'] == "단체회원자동가입및아이엠카드생성") {
