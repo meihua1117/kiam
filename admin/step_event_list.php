@@ -167,6 +167,11 @@ $date_today = date("Y-m-d");
             $query .= "$orderQuery";
             $res = mysqli_query($self_con, $query);
             while ($row = mysqli_fetch_array($res)) {
+              $sql_event = "select count(*) as cnt from Gn_event_request where event_idx='{$row['event_idx']}' ";
+              $res_event = mysqli_query($self_con, $sql_event);
+              $row_event = mysqli_fetch_assoc($res_event);
+              $req_count = $row_event['cnt'];
+
               $query = "SELECT mem_name,site,site_iam from Gn_Member where mem_id='{$row['m_id']}'";
               $sres = mysqli_query($self_con, $query);
               $srow = mysqli_fetch_array($sres);
@@ -234,7 +239,7 @@ $date_today = date("Y-m-d");
                   }
                   ?>
                 </td>
-                <td><?= $row['read_cnt'] ?></td>
+                <td><?= $row['read_cnt'] ."/" .$req_count ?></td>
                 <td><?= $row['regdate'] ?></td>
               </tr>
             <?
