@@ -156,7 +156,7 @@ $date_today = date("Y-m-d");
             //$totalCnt	=  mysqli_num_rows($res);	
             $totalRow  =  mysqli_fetch_array($res);
             $totalCnt = $totalRow[0];
-            $query = "SELECT a.event_idx, a.m_id, a.event_name_eng, a.event_name_kor,a.event_title,a.event_desc, a.pcode, a.short_url, a.mobile, a.regdate, a.read_cnt
+            $query = "SELECT a.event_idx, a.m_id, a.event_name_eng, a.event_name_kor,a.event_title,a.event_desc, a.pcode, a.short_url, a.mobile, a.regdate, a.read_cnt,a.sms_idx1
                   FROM Gn_event a WHERE event_name_kor!='단체회원자동가입및아이엠카드생성' AND event_name_kor!='콜백메시지관리자설정동의' AND event_name_kor!='데일리문자세트자동생성' $searchStr";
             $limitStr       = " LIMIT " . (($startPage - 1) * $pageCnt) . ", " . $pageCnt;
             $number      = $totalCnt - ($nowPage - 1) * $pageCnt;
@@ -173,20 +173,20 @@ $date_today = date("Y-m-d");
 
               $req_repo = "단독";
               $req_sql = "SELECT count(landing_idx) AS cnt FROM Gn_landing WHERE pcode='{$row['pcode']}'";
-              $req_res = mysqli_query($self_con,$req_sql);
+              $req_res = mysqli_query($self_con, $req_sql);
               $req_row = mysqli_fetch_assoc($req_res);
-              if($req_row['cnt'] > 0)
+              if ($req_row['cnt'] > 0)
                 $req_repo .= "<br>신청창";
               $repo_sql = "SELECT count(id) AS cnt FROM gn_report_form WHERE pcode = '{$row['event_idx']}'";
-              $repo_res = mysqli_query($self_con,$repo_sql);
+              $repo_res = mysqli_query($self_con, $repo_sql);
               $repo_row = mysqli_fetch_assoc($repo_res);
-              if($repo_row['cnt'] > 0)
+              if ($repo_row['cnt'] > 0)
                 $req_repo .= "<br>리포트";
             ?>
               <tr>
                 <td><input type="checkbox" name="event_idx" value="<?php echo $row['event_idx']; ?>"></td>
                 <td><?= $number-- ?></td>
-                <td style="font-size:12px;"><?=$req_repo?></td>
+                <td style="font-size:12px;"><?= $req_repo ?></td>
                 <td style="font-size:12px;"><?= $srow['site'] . "/" . $srow['site_iam'] ?></td>
                 <td style="font-size:12px;"><?= $row['m_id'] ?></td>
                 <td style="font-size:12px;"><?= $srow['mem_name'] ?></td>
@@ -209,7 +209,19 @@ $date_today = date("Y-m-d");
                   <input type="button" value="링크복사" class="button" id="copyBtn" onclick="copyHtml('<?php echo $row['short_url'] ?>')">
                 </td>
                 <td><?= $row['mobile'] ?></td>
-                <td></td>
+                <td>
+                  <?
+                  if ($row['sms_idx1'] != 0) {
+                    $sql = "select reservation_title from Gn_event_sms_info where sms_idx='{$row['sms_idx1']}'";
+                    $res = mysqli_query($self_con, $sql);
+                    $sms_row = mysqli_fetch_array($res);
+                    $sql = "select count(*) from Gn_event_sms_step_info where sms_idx='{$row['sms_idx1']}'";
+                    $res = mysqli_query($self_con, $sql);
+                    $step_row = mysqli_fetch_array($res);
+                    echo "<a onclick=\"javascript:window.open('/mypage_reservation_create.php?sms_idx={$row['sms_idx1']}','','toolbar=yes,scrollbars=yes,resizable=yes,top=200,left=200,width=1000,height=600');\">$sms_row[0]<br><strong>($step_row[0])</strong></a>";
+                  }
+                  ?>
+                </td>
                 <td></td>
                 <td><?= $row['read_cnt'] ?></td>
                 <td><?= $row['regdate'] ?></td>
