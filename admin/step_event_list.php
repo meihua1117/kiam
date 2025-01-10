@@ -82,7 +82,8 @@ $date_today = date("Y-m-d");
         <div class="col-xs-12" style="padding-bottom:20px">
           <div style="padding:10px">
           </div>
-          <?if ($_SESSION['one_member_admin_id'] != "onlyonemaket") { } ?>
+          <? if ($_SESSION['one_member_admin_id'] != "onlyonemaket") {
+          } ?>
           <!--button class="btn btn-primary pull-right" style="margin-right: 5px;" onclick="location='auto_join_list_member.php';return false;"><i class="fa fa-download"></i> 오토회원 가입 리스트</button-->
           <form method="get" name="search_form" id="search_form">
             <div class="box-tools">
@@ -169,12 +170,24 @@ $date_today = date("Y-m-d");
               $query = "SELECT mem_name,site,site_iam from Gn_Member where mem_id='{$row['m_id']}'";
               $sres = mysqli_query($self_con, $query);
               $srow = mysqli_fetch_array($sres);
+
+              $req_repo = "단독";
+              $req_sql = "SELECT count(landing_idx) AS cnt FROM Gn_landing WHERE pcode='{$row['pcode']}'";
+              $req_res = mysqli_query($self_con,$req_sql);
+              $req_row = mysqli_fetch_assoc($req_res);
+              if($req_row['cnt'] > 0)
+                $req_repo .= "<br>신청창";
+              $repo_sql = "SELECT count(id) AS cnt FROM gn_report_form WHERE pcode = '{$row['event_idx']}'";
+              $repo_res = mysqli_query($self_con,$repo_sql);
+              $repo_row = mysqli_fetch_assoc($repo_res);
+              if($repo_row['cnt'] > 0)
+                $req_repo .= "<br>리포트";
             ?>
               <tr>
                 <td><input type="checkbox" name="event_idx" value="<?php echo $row['event_idx']; ?>"></td>
                 <td><?= $number-- ?></td>
-                <td></td>
-                <td style="font-size:12px;"><?= $srow['site']."/".$srow['site_iam'] ?></td>
+                <td style="font-size:12px;"><?=$req_repo?></td>
+                <td style="font-size:12px;"><?= $srow['site'] . "/" . $srow['site_iam'] ?></td>
                 <td style="font-size:12px;"><?= $row['m_id'] ?></td>
                 <td style="font-size:12px;"><?= $srow['mem_name'] ?></td>
                 <td style="font-size:12px;"></td>
