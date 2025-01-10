@@ -192,7 +192,7 @@ $date_today = date("Y-m-d");
                 <td style="font-size:12px;"><?= $srow['mem_name'] ?></td>
                 <td style="font-size:12px;"><?= $row['event_title'] ?></td>
                 <td style="font-size:12px;"><?= $row['event_desc'] ?></td>
-                <td>
+                <td style="font-size:12px;">
                   <?
                   /*if ($row['event_name_kor'] == "단체회원자동가입및아이엠카드생성") {
                     $pop_url = '/event/automember.php?pcode=' . $row['pcode'] . '&eventidx=' . $row['event_idx'];
@@ -208,8 +208,8 @@ $date_today = date("Y-m-d");
                   <input type="button" value="미리보기" class="button" onclick="newpop('<?= $pop_url ?>')"><br>
                   <input type="button" value="링크복사" class="button" id="copyBtn" onclick="copyHtml('<?php echo $row['short_url'] ?>')">
                 </td>
-                <td><?= $row['mobile'] ?></td>
-                <td>
+                <td style="font-size:12px;text-align:center"><?= $row['mobile'] ?></td>
+                <td style="font-size:12px;text-align:center">
                   <?
                   if ($row['sms_idx1'] != 0) {
                     $sql = "select reservation_title from Gn_event_sms_info where sms_idx='{$row['sms_idx1']}'";
@@ -218,7 +218,7 @@ $date_today = date("Y-m-d");
                     $sql = "select count(*) from Gn_event_sms_step_info where sms_idx='{$row['sms_idx1']}'";
                     $res = mysqli_query($self_con, $sql);
                     $step_row = mysqli_fetch_array($res);
-                    echo "<a onclick=\"javascript:window.open('/mypage_reservation_create.php?sms_idx={$row['sms_idx1']}','','toolbar=yes,scrollbars=yes,resizable=yes,top=200,left=200,width=1000,height=600');\">$sms_row[0]<br><strong>($step_row[0])</strong></a>";
+                    echo "$sms_row[0]<br><strong>($step_row[0])</strong>";
                   }
                   ?>
                 </td>
