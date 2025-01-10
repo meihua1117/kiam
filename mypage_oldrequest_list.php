@@ -371,6 +371,9 @@ $(function(){
                     });
                     deleteRow(idx, reservation_title);
                 });
+                $(".layer_close").on("click",function(){
+                    location.reload();
+                });
             })
 
             function updateRow(request_id) {
