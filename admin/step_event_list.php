@@ -105,10 +105,10 @@ $date_today = date("Y-m-d");
             <col width="100px">
             <col width="100px">
             <col width="100px">
-            <col width="200px">
             <col width="100px">
-            <col width="220px">
-            <col width="60px">
+            <col width="100px">
+            <col width="100px">
+            <col width="100px">
             <col width="120px">
             <col width="120px">
             <col width="120px">
@@ -119,19 +119,19 @@ $date_today = date("Y-m-d");
           <thead>
             <tr>
               <td></td>
-              <td>No</td>
-              <td>신청창/<br>리포트</td>
-              <td>셀링/IAM<br>소속</td>
-              <td>작성자/<br>아이디</td>
-              <td>작성자/<br>이름</td>
-              <td>신청그룹<br>제목</td>
-              <td>신청대상/<br>이벤트설명</td>
-              <td>링크복사</td>
-              <td>발송번호</td>
-              <td>스텝문자<br>회차</td>
-              <td>중단문자<br>ON/OFF</td>
-              <td>조회수/<br>신청수</td>
-              <td>등록일</td>
+              <td style="text-align: center;">No</td>
+              <td style="text-align: center;">신청창/<br>리포트</td>
+              <td style="text-align: center;">셀링/IAM<br>소속</td>
+              <td style="text-align: center;">작성자<br>아이디</td>
+              <td style="text-align: center;">작성자<br>이름</td>
+              <td style="text-align: center;">신청그룹<br>제목</td>
+              <td style="text-align: center;">신청대상/<br>이벤트설명</td>
+              <td style="text-align: center;">링크복사</td>
+              <td style="text-align: center;">발송번호</td>
+              <td style="text-align: center;">스텝문자<br>회차</td>
+              <td style="text-align: center;">중단문자<br>ON/OFF</td>
+              <td style="text-align: center;">조회수/<br>신청수</td>
+              <td style="text-align: center;">등록일</td>
             </tr>
           </thead>
           <tbody>
