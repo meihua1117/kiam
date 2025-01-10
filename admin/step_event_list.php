@@ -156,8 +156,8 @@ $date_today = date("Y-m-d");
             //$totalCnt	=  mysqli_num_rows($res);	
             $totalRow  =  mysqli_fetch_array($res);
             $totalCnt = $totalRow[0];
-            $query = "SELECT a.event_idx, a.m_id, a.event_name_eng, a.event_name_kor,a.event_title,a.event_desc, a.pcode, a.short_url, a.mobile, a.regdate, a.read_cnt,a.sms_idx1
-                  FROM Gn_event a WHERE event_name_kor!='단체회원자동가입및아이엠카드생성' AND event_name_kor!='콜백메시지관리자설정동의' AND event_name_kor!='데일리문자세트자동생성' $searchStr";
+            $query = "SELECT a.event_idx, a.m_id, a.event_name_eng, a.event_name_kor,a.event_title,a.event_desc, a.pcode, a.short_url, a.mobile, a.regdate, a.read_cnt,a.sms_idx1,a.stop_event_idx 
+                        FROM Gn_event a WHERE event_name_kor!='단체회원자동가입및아이엠카드생성' AND event_name_kor!='콜백메시지관리자설정동의' AND event_name_kor!='데일리문자세트자동생성' $searchStr";
             $limitStr       = " LIMIT " . (($startPage - 1) * $pageCnt) . ", " . $pageCnt;
             $number      = $totalCnt - ($nowPage - 1) * $pageCnt;
             $orderQuery .= " ORDER BY a.event_idx DESC $limitStr ";
@@ -213,16 +213,27 @@ $date_today = date("Y-m-d");
                   <?
                   if ($row['sms_idx1'] != 0) {
                     $sql = "select reservation_title from Gn_event_sms_info where sms_idx='{$row['sms_idx1']}'";
-                    $res = mysqli_query($self_con, $sql);
-                    $sms_row = mysqli_fetch_array($res);
+                    $step_res = mysqli_query($self_con, $sql);
+                    $sms_row = mysqli_fetch_array($step_res);
                     $sql = "select count(*) from Gn_event_sms_step_info where sms_idx='{$row['sms_idx1']}'";
-                    $res = mysqli_query($self_con, $sql);
-                    $step_row = mysqli_fetch_array($res);
+                    $step_res = mysqli_query($self_con, $sql);
+                    $step_row = mysqli_fetch_array($step_res);
                     echo "$sms_row[0]<br><strong>($step_row[0])</strong>";
                   }
                   ?>
                 </td>
-                <td></td>
+                <td>
+                  <?
+                  if ($row['stop_event_idx'] != 0) {
+                    $sql = "select event_title from Gn_event where event_idx='{$row['stop_event_idx']}'";
+                    $stop_res = mysqli_query($self_con, $sql);
+                    $sms_row = mysqli_fetch_array($stop_res);
+                    echo $sms_row[0];
+                  } else {
+                    echo "<strong>OFF</strong>";
+                  }
+                  ?>
+                </td>
                 <td><?= $row['read_cnt'] ?></td>
                 <td><?= $row['regdate'] ?></td>
               </tr>
