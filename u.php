@@ -1,15 +1,24 @@
 <?
 header("Content-type:text/html;charset=utf-8");
 include_once "lib/db_config.php";
-$HTTP_HOST = str_replace("www.", "", $_SERVER['HTTP_HOST']);
+$sql = "select * from Gn_MMS where uni_id='{$_REQUEST['u']}' ";
+$resul = mysqli_query($self_con, $sql);
+$row = mysqli_fetch_array($resul);
+
+$mem_sql = "SELECT site_iam FROM Gn_Member WHERE mem_id='{$row['mem_id']}'";
+$mem_res = mysqli_query($self_con, $mem_sql);
+$mem_row = mysqli_fetch_assoc($mem_res);
+
+if($mem_row['site_iam'] == "kiam")
+	$HTTP_HOST = "kiam.kr";
+else
+	$HTTP_HOST = $mem_row['site_iam'].".kiam.kr";
+//$HTTP_HOST = str_replace("www.", "", $_SERVER['HTTP_HOST']);
 if ($_REQUEST['mode'] == "inser") {
-    $sql = "select * from Gn_MMS where uni_id='{$_REQUEST['u']}' ";
-    $resul = mysqli_query($self_con, $sql);
-    $row = mysqli_fetch_array($resul);
     if ($row['send_num'] == $_REQUEST['n']) { ?>
         <script>
             alert('셀프폰 거부 등록입니다.');
-            location.href = 'https://<?=$HTTP_HOST?>';
+            location.href = 'https://<?= $HTTP_HOST ?>';
         </script>
         <?
         exit;
@@ -152,21 +161,21 @@ if ($_REQUEST['mode'] == "inser") {
         ?>
             <script>
                 alert('이미 등록되어 있습니다.');
-                location.href = 'https://<?=$HTTP_HOST?>';
+                location.href = 'https://<?= $HTTP_HOST ?>';
             </script>
         <?
         } else {
         ?>
             <script>
                 alert('귀하가 <?= date("Y"); ?>년<?= date("m"); ?>월<?= date("d"); ?>일에 요청하신 수신동의가 정상적으로 수신거부 되었습니다.');
-                location.href = 'https://<?=$HTTP_HOST?>';
+                location.href = 'https://<?= $HTTP_HOST ?>';
             </script>
         <?  }
     } else {
         ?>
         <script>
             alert('새로 받은 문자부터 수신거부가능합니다.');
-            location.href = 'https://<?=$HTTP_HOST?>';
+            location.href = 'https://<?= $HTTP_HOST ?>';
         </script>
     <?
     }
@@ -176,6 +185,6 @@ if ($_REQUEST['mode'] == "inser") {
         if (confirm('문자 수신거부를 하실 경우 이벤트 및 정보를 받을 수 없습니다. 무료 문자 수신거부를 등록하시겠습니까?'))
             location.href = '<?= $PHP_SELF ?>?u=<?= $_REQUEST['u'] ?>&n=<?= $_REQUEST['n'] ?>&mode=inser';
         else
-            location.href = 'https://<?=$HTTP_HOST?>';
+            location.href = 'https://<?= $HTTP_HOST ?>';
     </script>
-<?}?>
+<? } ?>
