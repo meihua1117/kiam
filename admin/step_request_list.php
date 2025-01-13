@@ -242,7 +242,7 @@ $date_today = date("Y-m-d");
             $query .= $orderQuery;
             $res = mysqli_query($self_con, $query);
             while ($row = mysqli_fetch_array($res)) {
-              $query = "SELECT mem_name from Gn_Member where mem_id='{$row['m_id']}'";
+              $query = "SELECT mem_name,site,site_iam from Gn_Member where mem_id='{$row['m_id']}'";
               $sres = mysqli_query($self_con, $query);
               $srow = mysqli_fetch_array($sres);
 
@@ -268,6 +268,7 @@ $date_today = date("Y-m-d");
                 <td><input type="checkbox" name="event_idx" value="<?=$row['event_idx']; ?>" data-name="<?= $row['name'] ?>" data-mobile="<?= $row['mobile'] ?>" data-email="<?= $row['email'] ?>" data-job="<?= $row['job'] ?>" data-event_code="<?= $row['event_code'] ?>" data-sp="<?= $row['sp'] ?>" data-request_idx="<?=$row['request_idx']; ?>"></td>
                 <td><?= $number-- ?></td>
                 <td><?= $req_repo ?></td>
+                <td style="font-size:12px;"><?= $srow['site'] . "/" . $srow['site_iam'] ?></td>
                 <td style="font-size:12px;"><?= $row['m_id'] ?></td>
                 <td style="font-size:12px;"><?= $srow['mem_name'] ?></td>
                 <td><?= $row['event_title'] ?></td>
