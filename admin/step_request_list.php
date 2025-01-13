@@ -15,7 +15,7 @@ $date_today = date("Y-m-d");
   }
 
   function goPage(pgNum) {
-    location.href = '?<?= $nowPage ?>&nowPage=' + pgNum + "&search_key=<?php echo $_GET['search_key']; ?>&case=<?php echo $_GET['case']; ?>";
+    location.href = '?<?= $nowPage ?>&nowPage=' + pgNum + "&search_key=<?=$_GET['search_key']; ?>&case=<?=$_GET['case']; ?>";
   }
   //주소록 다운
   function excel_down_p_group(pno, one_member_id) {
@@ -138,13 +138,10 @@ $date_today = date("Y-m-d");
 </style>
 <div class="loading_div"><img src="/images/ajax-loader.gif"></div>
 <div class="wrapper">
-
   <!-- Top 메뉴 -->
   <? include_once $_SERVER['DOCUMENT_ROOT'] . "/admin/include/admin_header_menu.inc.php"; ?>
-
   <!-- Left 메뉴 -->
   <? include_once $_SERVER['DOCUMENT_ROOT'] . "/admin/include/admin_left_menu.inc.php"; ?>
-
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -169,10 +166,7 @@ $date_today = date("Y-m-d");
     <section class="content">
       <div class="row" id="toolbox">
         <div class="col-xs-12" style="padding-bottom:20px">
-          <div style="padding:10px">
-          </div>
-          <?php if ($_SESSION['one_member_admin_id'] != "onlyonemaket") { ?>
-          <?php } ?>
+          <div style="padding:10px"></div>
           <form method="get" name="search_form" id="search_form">
             <div class="box-tools">
               <div class="input-group" style="width: 250px;">
@@ -194,9 +188,12 @@ $date_today = date("Y-m-d");
             <col width="100px">
             <col width="100px">
             <col width="100px">
-            <col width="200px">
             <col width="100px">
-            <col width="220px">
+            <col width="100px">
+            <col width="100px">
+            <col width="150px">
+            <col width="120px">
+            <col width="120px">
             <col width="120px">
             <col width="120px">
             <col width="120px">
@@ -204,18 +201,20 @@ $date_today = date("Y-m-d");
           </colgroup>
           <thead>
             <tr>
-              <td><input type="checkbox" name="allChk" id="allChk" value="<?php echo $row['event_idx']; ?>"></td>
+              <td><input type="checkbox" name="allChk" id="allChk" value="<?= $row['event_idx']; ?>"></td>
               <td>No</td>
-              <td>아이디</td>
-              <td>이름</td>
-              <td>이벤트명</td>
-              <td>신청자</td>
-              <td>휴대폰번호</td>
-              <td>이메일</td>
-              <td>직업</td>
-              <td>기타</td>
-              <td>유입경로</td>
-              <td>등록일</td>
+              <td style="text-align: center;">신청창/<br>리포트</td>
+              <td style="text-align: center;">셀링/IAM<br>소속</td>
+              <td style="text-align: center;">작성자<br>아이디</td>
+              <td style="text-align: center;">작성자<br>이름</td>
+              <td style="text-align: center;">신청그룹<br>제목</td>
+              <td style="text-align: center;">링크복사</td>
+              <td style="text-align: center;">신청자<br>이름</td>
+              <td style="text-align: center;">신청자<br>폰번호</td>
+              <td style="text-align: center;">신청자<br>이메일</td>
+              <td style="text-align: center;">신청자<br>직업</td>
+              <td style="text-align: center;">신청자<br>기타</td>
+              <td style="text-align: center;">등록일</td>
             </tr>
           </thead>
           <tbody>
@@ -233,14 +232,14 @@ $date_today = date("Y-m-d");
             $totalRow  =  mysqli_fetch_array($res);
             $totalCnt = $totalRow[0];
 
-            $query = "SELECT a.m_id, a.sp, a.name, a.mobile, a.email, a.job, a.event_code, a.event_idx, a.request_idx, a.regdate, a.other,b.event_title,b.event_info
+            $query = "SELECT a.m_id, a.sp, a.name, a.mobile, a.email, a.job, a.event_code, a.event_idx, a.request_idx, a.regdate, a.other,b.event_title,b.event_info,b.pcode
                               FROM Gn_event_request a inner join Gn_event b on b.event_idx=a.event_idx WHERE 1=1 $searchStr";
             $limitStr       = " LIMIT " . (($startPage - 1) * $pageCnt) . ", " . $pageCnt;
             $number      = $totalCnt - ($nowPage - 1) * $pageCnt;
             $orderQuery .= " ORDER BY a.request_idx DESC $limitStr ";
             $i = 1;
             $c = 0;
-            $query .= "$orderQuery";
+            $query .= $orderQuery;
             $res = mysqli_query($self_con, $query);
             while ($row = mysqli_fetch_array($res)) {
               $query = "SELECT mem_name from Gn_Member where mem_id='{$row['m_id']}'";
@@ -252,10 +251,23 @@ $date_today = date("Y-m-d");
               } else {
                 $event_other_txt = "";
               }
+              $req_repo = "단독";
+              $req_sql = "SELECT count(landing_idx) AS cnt FROM Gn_landing WHERE pcode='{$row['pcode']}'";
+              $req_res = mysqli_query($self_con, $req_sql);
+              $req_row = mysqli_fetch_assoc($req_res);
+              if ($req_row['cnt'] > 0)
+                $req_repo .= "<br>신청창";
+              $repo_sql = "SELECT count(id) AS cnt FROM gn_report_form WHERE pcode = '{$row['event_idx']}'";
+              $repo_res = mysqli_query($self_con, $repo_sql);
+              $repo_row = mysqli_fetch_assoc($repo_res);
+              if ($repo_row['cnt'] > 0)
+                $req_repo .= "<br>리포트";
+
             ?>
               <tr>
-                <td><input type="checkbox" name="event_idx" value="<?php echo $row['event_idx']; ?>" data-name="<?= $row['name'] ?>" data-mobile="<?= $row['mobile'] ?>" data-email="<?= $row['email'] ?>" data-job="<?= $row['job'] ?>" data-event_code="<?= $row['event_code'] ?>" data-sp="<?= $row['sp'] ?>" data-request_idx="<?php echo $row['request_idx']; ?>"></td>
+                <td><input type="checkbox" name="event_idx" value="<?=$row['event_idx']; ?>" data-name="<?= $row['name'] ?>" data-mobile="<?= $row['mobile'] ?>" data-email="<?= $row['email'] ?>" data-job="<?= $row['job'] ?>" data-event_code="<?= $row['event_code'] ?>" data-sp="<?= $row['sp'] ?>" data-request_idx="<?=$row['request_idx']; ?>"></td>
                 <td><?= $number-- ?></td>
+                <td><?= $req_repo ?></td>
                 <td style="font-size:12px;"><?= $row['m_id'] ?></td>
                 <td style="font-size:12px;"><?= $srow['mem_name'] ?></td>
                 <td><?= $row['event_title'] ?></td>
@@ -293,9 +305,7 @@ $date_today = date("Y-m-d");
       <div class="dataTables_info" id="example1_info" role="status" aria-live="polite">총 <?= $totalCnt ?> 건</div>
     </div>
     <div class="col-sm-7">
-      <?
-      echo drawPagingAdminNavi($totalCnt, $nowPage);
-      ?>
+      <? echo drawPagingAdminNavi($totalCnt, $nowPage); ?>
     </div>
   </div>
 </div><!-- /.row -->
@@ -325,7 +335,6 @@ $date_today = date("Y-m-d");
 <script language="javascript">
   function viewEvent(str) {
     window.open(str, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=200,left=200,width=1000,height=1000");
-
   }
 </script>
 
@@ -335,7 +344,6 @@ $date_today = date("Y-m-d");
     <li class="open_2_2"><a href="javascript:void(0)" onClick="close_div(open_recv_div)"><img src="/images/div_pop_01.jpg" /></a></li>
   </div>
   <div class="open_recv open_3" style="width:300px;overflow:auto;word-break:break-all;">
-
   </div>
 </div>
 <script>
