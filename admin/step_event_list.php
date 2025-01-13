@@ -196,7 +196,7 @@ $date_today = date("Y-m-d");
                 <td style="font-size:12px;"><?= $row['m_id'] ?></td>
                 <td style="font-size:12px;"><?= $srow['mem_name'] ?></td>
                 <td style="font-size:12px;"><?= $row['event_title'] ?></td>
-                <td style="font-size:12px;"><?= $row['event_desc'] ?></td>
+                <td style="font-size:12px;"><?= $row['event_name_kor'] ?></td>
                 <td style="font-size:12px;">
                   <?
                   /*if ($row['event_name_kor'] == "단체회원자동가입및아이엠카드생성") {
