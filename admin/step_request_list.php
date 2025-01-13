@@ -49,6 +49,23 @@ $date_today = date("Y-m-d");
       }
     });
   }
+  function newpop(str) {
+    window.open(str, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=200,left=200,width=1000,height=1000");
+  }
+  function copyHtml(url) {
+    var aux1 = document.createElement("input");
+    // 지정된 요소의 값을 할당 한다.
+    aux1.setAttribute("value", url);
+    // bdy에 추가한다.
+    document.body.appendChild(aux1);
+    // 지정된 내용을 강조한다.
+    aux1.select();
+    // 텍스트를 카피 하는 변수를 생성
+    document.execCommand("copy");
+    // body 로 부터 다시 반환 한다.
+    document.body.removeChild(aux1);
+    alert("URL이 복사되었습니다. 원하는 곳에 붙여 넣으세요.");
+  }
   $(function() {
     var contHeaderH = $(".main-header").height();
     var navH = $(".navbar").height();
@@ -232,7 +249,7 @@ $date_today = date("Y-m-d");
             $totalRow  =  mysqli_fetch_array($res);
             $totalCnt = $totalRow[0];
 
-            $query = "SELECT a.m_id, a.sp, a.name, a.mobile, a.email, a.job, a.event_code, a.event_idx, a.request_idx, a.regdate, a.other,b.event_title,b.event_info,b.pcode
+            $query = "SELECT a.m_id, a.sp, a.name, a.mobile, a.email, a.job, a.event_code, a.event_idx, a.request_idx, a.regdate, a.other,b.event_title,b.event_info,b.pcode,b.event_name_eng,b.short_url
                               FROM Gn_event_request a inner join Gn_event b on b.event_idx=a.event_idx WHERE 1=1 $searchStr";
             $limitStr       = " LIMIT " . (($startPage - 1) * $pageCnt) . ", " . $pageCnt;
             $number      = $totalCnt - ($nowPage - 1) * $pageCnt;
@@ -272,7 +289,11 @@ $date_today = date("Y-m-d");
                 <td style="font-size:12px;"><?= $row['m_id'] ?></td>
                 <td style="font-size:12px;"><?= $srow['mem_name'] ?></td>
                 <td><?= $row['event_title'] ?></td>
-                <td></td>
+                <td>
+                <?$pop_url = '/event/event.html?pcode=' . $row['pcode'] . '&sp=' . $row['event_name_eng'];?>
+                  <input type="button" value="미리보기" class="button" onclick="newpop('<?= $pop_url ?>')"><br>
+                  <input type="button" value="링크복사" class="button" id="copyBtn" onclick="copyHtml('<?=$row['short_url'] ?>')">
+                </td>
                 <td style="font-size:12px;"><?= $row['name'] ?></td>
                 <td><?= $row['mobile'] ?></td>
                 <td><?= $row['email'] ?></td>
