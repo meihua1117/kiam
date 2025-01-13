@@ -147,4 +147,5 @@ if ($row['idx']) {
 	fwrite($fp,"147:".$sql_j."\r\n");
 	mysqli_query($self_con, $sql_j);
 }
+fwrite($fp,"150:end\r\n");
 ?>
