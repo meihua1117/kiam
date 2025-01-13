@@ -239,7 +239,7 @@ $date_today = date("Y-m-d");
                   }
                   ?>
                 </td>
-                <td><?= $row['read_cnt'] ."/" .$req_count ?></td>
+                <td><?= $row['read_cnt'] . "/" . $req_count ?></td>
                 <td><?= $row['regdate'] ?></td>
               </tr>
             <?
@@ -295,18 +295,29 @@ $date_today = date("Y-m-d");
   }
 
   function copyHtml(url) {
+    var aux1 = document.createElement("input");
+    // 지정된 요소의 값을 할당 한다.
+    aux1.setAttribute("value", url);
+    // bdy에 추가한다.
+    document.body.appendChild(aux1);
+    // 지정된 내용을 강조한다.
+    aux1.select();
+    // 텍스트를 카피 하는 변수를 생성
+    document.execCommand("copy");
+    // body 로 부터 다시 반환 한다.
+    document.body.removeChild(aux1);
+    alert("URL이 복사되었습니다. 원하는 곳에 붙여 넣으세요.");
     //oViewLink = $( "ViewLink" ).innerHTML;
     ////alert ( oViewLink.value );
     //window.clipboardData.setData("Text", oViewLink);
     //alert ( "주소가 복사되었습니다. \'Ctrl+V\'를 눌러 붙여넣기 해주세요." );
-    var IE = (document.all) ? true : false;
+    /*var IE = (document.all) ? true : false;
     if (IE) {
       if (confirm("이 소스코드를 복사하시겠습니까?")) {
         window.clipboardData.setData("Text", url);
       }
     } else {
       temp = prompt("Ctrl+C를 눌러 클립보드로 복사하세요", url);
-    }
-
+    }*/
   }
 </script>
