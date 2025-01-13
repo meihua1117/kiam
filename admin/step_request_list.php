@@ -272,12 +272,12 @@ $date_today = date("Y-m-d");
                 <td style="font-size:12px;"><?= $row['m_id'] ?></td>
                 <td style="font-size:12px;"><?= $srow['mem_name'] ?></td>
                 <td><?= $row['event_title'] ?></td>
+                <td></td>
                 <td style="font-size:12px;"><?= $row['name'] ?></td>
                 <td><?= $row['mobile'] ?></td>
                 <td><?= $row['email'] ?></td>
                 <td><?= $row['job'] ?></td>
-                <td><a href="javascript:show_txt_detail('<?= $event_other_txt ?>')"><?= cut_str($event_other_txt, 5) ?></a></td>
-                <td style="font-size:12px;"><?= $row['event_code'] ?></td>
+                <td><?= $row['other'] ?></td>
                 <td><?= $row['regdate'] ?></td>
               </tr>
             <?
