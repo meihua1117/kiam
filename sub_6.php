@@ -1169,7 +1169,7 @@ if (!empty($row_sum_b)) {
 											</div>
 											<div class="popup_holder">
 												<!--span onclick="$('#phone_address_upload').show();" style="cursor:pointer;font-weight:bold;font-size:16px;color: red;display: inline-block;width: 16px;height: 16px;text-align: center;line-height: 16px;border-radius: 50%;border:1px solid">?</span-->
-												<img src="/images/icon-question.png" onclick="$('#phone_address_upload').show();" style="cursor:pointer;display: inline-block;width: 16px;height: 16px;">
+												<img src="/images/icon-question.png" onclick="$('#phone_address_upload').show();" style="cursor:pointer;display: inline-block;width: 20px;height: 20px;">
 												<div id="phone_address_upload" class="popupbox" style="display:none; left:-220px; top:30px; height: 85px;width: 218px; line-height:1.5;">
 													클릭시 자동으로 나의 모바일 주소록이 업로드 됩니다.
 												</div>
