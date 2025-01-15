@@ -200,7 +200,9 @@ function get_style($case, $active_case)
 									echo $mem_sql."<br>";
 									$mem_res = mysqli_query($self_con, $mem_res);
 									$mem_row = mysqli_fetch_assoc($mem_res);
+									echo $mem_sql."<br>";
 									$selling_id_array = explode(",", $mem_row['mem_ids']);
+									echo $mem_sql."<br>";
 								} else {
 									$selling_id_array = array();
 								}
