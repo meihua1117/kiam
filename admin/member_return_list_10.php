@@ -184,12 +184,53 @@ function get_style($case, $active_case)
 								$startPage = $nowPage ? $nowPage : 1;
 								$pageCnt = 20;
 								// 검색 조건을 적용한다.
-								$searchStr .= $search_id ? " AND a.mem_id LIKE '%" . $search_id . "%' " : null;
-								$searchStr .= $search_name ? " AND m.mem_name LIKE '%" . $search_name . "%' " : null;
-								$searchStr .= $search_phone ? " AND a.send_num like '" . $search_phone . "%' " : null;
-								$searchStr .= $search_site ? " AND m.site like '%" . $search_site . "%' " : null;
-								$searchStr .= $search_site_iam ? " AND m.site_iam like '%" . $search_site_iam . "%' " : null;
-								$searchStr .= $search_content ? " AND a.content like '%" . $search_content . "%' " : null;
+								if ($search_name) {
+									$mem_sql = "SELECT GROUP_CONCAT(mem_id) AS mem_ids FROM Gn_Member WHERE mem_name LIKE '%{$search_name}%'";
+									$mem_res = mysqli_query($self_con, $mem_res);
+									$mem_row = mysqli_fetch_assoc($mem_res);
+									$name_id_array = explode(",", $mem_row['mem_ids']);
+								} else {
+									$name_id_array = array();
+								}
+								if ($search_site) {
+									$mem_sql = "SELECT GROUP_CONCAT(mem_id) AS mem_ids FROM Gn_Member WHERE site = '{$search_site}'";
+									$mem_res = mysqli_query($self_con, $mem_res);
+									$mem_row = mysqli_fetch_assoc($mem_res);
+									$selling_id_array = explode(",", $mem_row['mem_ids']);
+								} else {
+									$selling_id_array = array();
+								}
+								if ($search_site_iam) {
+									$mem_sql = "SELECT GROUP_CONCAT(mem_id) AS mem_ids FROM Gn_Member WHERE site_iam = '{$search_site_iam}'";
+									$mem_res = mysqli_query($self_con, $mem_res);
+									$mem_row = mysqli_fetch_assoc($mem_res);
+									$iam_id_array = explode(",", $mem_row['mem_ids']);
+								} else {
+									$iam_id_array = array();
+								}
+
+								if ($search_name || $search_site || $search_site_iam) {
+									$id_array = array_merge($name_id_array, $selling_id_array, $iam_id_array);
+									if (count($id_array) == 0)
+										$searchStr = "1<>1";
+									else {
+										$searchStr = "1 = 1";
+										if ($search_id) {
+											$id_array = array_filter($id_array, function ($item) {
+												return strpos($item, $search_id) !== false;
+											});
+											$id_str = implode("','",$id_array);
+											$searchStr .= " mem_id in ('{$id_str}')";
+										}
+										$searchStr .= $search_phone ? " AND a.send_num like '" . $search_phone . "%' " : null;
+										$searchStr .= $search_content ? " AND a.content like '%" . $search_content . "%' " : null;
+									}
+								} else {
+									$searchStr = "1 = 1";
+									$searchStr .= $search_id ? " AND a.mem_id LIKE '%" . $search_id . "%' " : null;
+									$searchStr .= $search_phone ? " AND a.send_num like '" . $search_phone . "%' " : null;
+									$searchStr .= $search_content ? " AND a.content like '%" . $search_content . "%' " : null;
+								}
 								if ($_GET['upd'] == 'yes') {
 									$searchStr .= " and recv_num_cnt is NULL ";
 								}
@@ -197,7 +238,7 @@ function get_style($case, $active_case)
 									$searchStr .= " and recv_num_cnt > 10 ";
 								}
 								$order = $order ? $order : "desc";
-								$query = "SELECT a.idx FROM Gn_MMS a inner join Gn_Member m on m.mem_id = a.mem_id WHERE 1=1 $searchStr";
+								$query = "SELECT a.idx FROM Gn_MMS a WHERE $searchStr";
 								$res   = mysqli_query($self_con, $query);
 								$totalCnt = mysqli_num_rows($res);
 								if ($_GET['upd'] == 'yes') {
@@ -218,8 +259,9 @@ function get_style($case, $active_case)
 									echo "<meta http-equiv='refresh' content='1; url=/admin/member_return_list_10.php?upd=&case=3'></meta>";
 									exit();
 								}
-								$query = "SELECT a.idx, a.send_num, a.recv_num, a.up_date, a.mem_id, a.reservation, a.reg_date, a.content,m.mem_name,m.site,m.site_iam
-                        					FROM Gn_MMS a inner join Gn_Member m on m.mem_id = a.mem_id WHERE 1=1 $searchStr";
+								$query = "SELECT a.idx, a.send_num, a.recv_num, a.up_date, a.mem_id, a.reservation, a.reg_date, a.content 
+											FROM Gn_MMS a WHERE $searchStr";
+								echo $query;
 								$limitStr = " LIMIT " . (($startPage - 1) * $pageCnt) . ", " . $pageCnt;
 								$number	= $totalCnt - ($nowPage - 1) * $pageCnt;
 								$orderQuery .= " ORDER BY a.reg_date DESC $limitStr";
@@ -229,6 +271,13 @@ function get_style($case, $active_case)
 								$query .= $orderQuery;
 								$res = mysqli_query($self_con, $query);
 								while ($row = mysqli_fetch_array($res)) {
+									$mem_sql = "SELECT mem_name,site,site_iam FROM Gn_Member WHERE mem_id = '{$row['mem_id']}'";
+									$mem_res = mysqli_query($self_con, $mem_res);
+									$mem_row = mysqli_fetch_assoc($mem_res);
+
+									$row['mem_name'] = $mem_row['mem_name'];
+									$row['site'] = $mem_row['site'];
+									$row['site_iam'] = $mem_row['site_iam'];
 									$sql_s = "select regdate from Gn_MMS_status where idx='{$row['idx']}' ";
 									$resul_s = mysqli_query($self_con, $sql_s);
 									$row_s = mysqli_fetch_array($resul_s);
