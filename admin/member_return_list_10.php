@@ -184,45 +184,42 @@ function get_style($case, $active_case)
 								$startPage = $nowPage ? $nowPage : 1;
 								$pageCnt = 20;
 								// 검색 조건을 적용한다.
+								$mem_sql = "SELECT GROUP_CONCAT(mem_id) AS mem_ids FROM Gn_Member WHERE 1 = 1 ";
+								$mem_sort = false;
 								if ($search_name) {
-									$mem_sql = "SELECT GROUP_CONCAT(mem_id) AS mem_ids FROM Gn_Member WHERE mem_name LIKE '%{$search_name}%'";
-									$mem_res = mysqli_query($self_con, $mem_sql);
-									$mem_row = mysqli_fetch_assoc($mem_res);
-									$name_id_array = explode(",", $mem_row['mem_ids']);
-								} else {
-									$name_id_array = array();
+									$mem_sql .= " AND mem_name LIKE '%{$search_name}%'";
+									$mem_sort = true;
 								}
 								if ($search_site) {
-									$mem_sql = "SELECT GROUP_CONCAT(mem_id) AS mem_ids FROM Gn_Member WHERE site = '{$search_site}'";
-									$mem_res = mysqli_query($self_con, $mem_sql);
-									$mem_row = mysqli_fetch_assoc($mem_res);
-									$selling_id_array = explode(",", $mem_row['mem_ids']);
-								} else {
-									$selling_id_array = array();
+									$mem_sql .= " AND site = '{$search_site}'";
+									$mem_sort = true;
 								}
 								if ($search_site_iam) {
-									$mem_sql = "SELECT GROUP_CONCAT(mem_id) AS mem_ids FROM Gn_Member WHERE site_iam = '{$search_site_iam}'";
+									$mem_sql .= " AND site_iam = '{$search_site_iam}'";
+									$mem_sort = true;
+								}
+								if ($mem_sort) {
 									$mem_res = mysqli_query($self_con, $mem_sql);
 									$mem_row = mysqli_fetch_assoc($mem_res);
-									$iam_id_array = explode(",", $mem_row['mem_ids']);
-								} else {
-									$iam_id_array = array();
-								}
-								if ($search_name || $search_site || $search_site_iam) {
-									$id_array = array_merge($name_id_array, $selling_id_array, $iam_id_array);
-									if (empty($id_array))
+									$mem_ids = explode(",", $mem_row["mem_ids"]);
+									if (empty($mem_ids))
 										$searchStr = "1 <> 1 ";
 									else {
-										$searchStr = "1 = 1 ";
+										$ids_array = array();
 										if ($search_id) {
-											$id_array = array_filter($id_array, function ($item) {
-												return strpos($item, $search_id) !== false;
-											});
+											foreach ($mem_ids as $mem_id) {
+												if (strpos($mem_id, $search_id) !== false)
+													array_push($ids_array, $mem_id);
+											}
 										}
-										$id_str = implode("','",$id_array);
-										$searchStr .= " AND mem_id in ('{$id_str}')";
-										$searchStr .= $search_phone ? " AND a.send_num like '" . $search_phone . "%' " : null;
-										$searchStr .= $search_content ? " AND a.content like '%" . $search_content . "%' " : null;
+										if ($search_id && empty($ids_array))
+											$searchStr = "1 <> 1 ";
+										else {
+											$id_str = implode("','", $id_array);
+											$searchStr .= " AND mem_id in ('{$id_str}')";
+											$searchStr .= $search_phone ? " AND a.send_num like '" . $search_phone . "%' " : null;
+											$searchStr .= $search_content ? " AND a.content like '%" . $search_content . "%' " : null;
+										}
 									}
 								} else {
 									$searchStr = "1 = 1";
