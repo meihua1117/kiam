@@ -69,7 +69,12 @@ $addQuery = " and idx ='$idx'";
 $sql = "select * from Gn_MMS where result > 0 and send_num = '{$userId}' and  (reg_date < now() and reg_date >= adddate(reg_date,INTERVAL -40 Minute)) and (reservation is null or reservation <= DATE_ADD(NOW(), INTERVAL 30 MINUTE))  $addQuery order by idx asc limit 1";
 fwrite($fp,"70:".$sql."\r\n");
 $query = mysqli_query($self_con, $sql);
-$row = mysqli_fetch_array($query);
+if(mysqli_num_rows($query) > 0){
+	$row = mysqli_fetch_array($query);
+	$upt_sql = "update Gn_MMS set result = '0', up_date = now() where idx = '{$row['idx']}'";
+	fwrite($fp,"86:".$upt_sql."\r\n");
+	$upt_query = mysqli_query($self_con, $upt_sql);
+}
 
 $msg = str_replace("{|name|}", "{|REP|}", $row['content']);
 $msg = str_replace("{|email|}", "{|REP1|}", $msg);
@@ -81,11 +86,6 @@ $url = $row['url'];
 $url = str_replace('"', '', $url);
 
 $now = date("Y-m-d H:i:s");
-if ($query) {
-	$upt_sql = "update Gn_MMS set result = '0', up_date = now() where idx = '{$row['idx']}'";
-	fwrite($fp,"86:".$upt_sql."\r\n");
-	$upt_query = mysqli_query($self_con, $upt_sql);
-}
 if (strstr($msg, "{|REP|}"))
 	$rep = "{|REP|}";
 else if (strstr($msg, "{|name|}"))
