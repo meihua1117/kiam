@@ -57,7 +57,7 @@ function get_style($case, $active_case = 0)
 						<div class="input-group" style="display:inline-flex;width: 100%">
 							<div class="form-group">
 								<?
-								$sql = "select idx from Gn_MMS where recv_num_cnt is NULL ";
+								$sql = "SELECT idx FROM Gn_MMS WHERE recv_num_cnt is NULL ";
 								$query = mysqli_query($self_con, $sql);
 								$num_rows = mysqli_num_rows($query);
 								mysqli_free_result($query);
@@ -163,42 +163,34 @@ function get_style($case, $active_case = 0)
 								$startPage = $nowPage ? $nowPage : 1;
 								$pageCnt = 20;
 								// 검색 조건을 적용한다.
+								$mem_sql = "SELECT GROUP_CONCAT(mem_id) AS mem_ids FROM Gn_Member WHERE 1 = 1 ";
+								$mem_sort = false;
 								if ($search_name) {
-									$mem_sql = "SELECT GROUP_CONCAT(mem_id) AS mem_ids FROM Gn_Member WHERE mem_name LIKE '%{$search_name}%'";
-									$mem_res = mysqli_query($self_con, $mem_sql);
-									$mem_row = mysqli_fetch_assoc($mem_res);
-									$name_id_array = explode(",", $mem_row['mem_ids']);
-								} else {
-									$name_id_array = array();
+									$mem_sql .= " AND mem_name LIKE '%{$search_name}%'";
+									$mem_sort = true;
 								}
 								if ($search_site) {
-									$mem_sql = "SELECT GROUP_CONCAT(mem_id) AS mem_ids FROM Gn_Member WHERE site = '{$search_site}'";
-									$mem_res = mysqli_query($self_con, $mem_sql);
-									$mem_row = mysqli_fetch_assoc($mem_res);
-									$selling_id_array = explode(",", $mem_row['mem_ids']);
-								} else {
-									$selling_id_array = array();
+									$mem_sql .= " AND site = '{$search_site}'";
+									$mem_sort = true;
 								}
 								if ($search_site_iam) {
-									$mem_sql = "SELECT GROUP_CONCAT(mem_id) AS mem_ids FROM Gn_Member WHERE site_iam = '{$search_site_iam}'";
+									$mem_sql .= " AND site_iam = '{$search_site_iam}'";
+									$mem_sort = true;
+								}
+								if($mem_sort){
 									$mem_res = mysqli_query($self_con, $mem_sql);
 									$mem_row = mysqli_fetch_assoc($mem_res);
-									$iam_id_array = explode(",", $mem_row['mem_ids']);
-								} else {
-									$iam_id_array = array();
-								}
-								if ($search_name || $search_site || $search_site_iam) {
-									$id_array = array_merge($name_id_array, $selling_id_array, $iam_id_array);
-									if (empty($id_array))
+									$mem_ids = explode(",",$mem_row["mem_ids"]);
+									if (empty($mem_ids))
 										$searchStr = "1 <> 1 ";
 									else {
 										$searchStr = "1 = 1 ";
 										if ($search_id) {
-											$id_array = array_filter($id_array, function ($item) {
+											$ids_array = array_filter($mem_ids, function ($item) {
 												return strpos($item, $search_id) !== false;
 											});
 										}
-										$id_str = implode("','",$id_array);
+										$id_str = implode("','",$ids_array);
 										$searchStr .= " AND mem_id in ('{$id_str}')";
 										$searchStr .= $search_phone ? " AND a.send_num like '" . $search_phone . "%' " : null;
 										$searchStr .= $search_content ? " AND a.content like '%" . $search_content . "%' " : null;
@@ -209,7 +201,17 @@ function get_style($case, $active_case = 0)
 									$searchStr .= $search_phone ? " AND a.send_num like '" . $search_phone . "%' " : null;
 									$searchStr .= $search_content ? " AND a.content like '%" . $search_content . "%' " : null;
 								}
-								
+								if($case == 1 ) {
+									$searchStr .= " AND a.title = 'app_check_process' ";
+								} else if($case == 2) {
+									$searchStr .= " AND a.title != 'app_check_process' ";
+								} else if($case == 4) {
+									$searchStr .= " AND (type=2 || type=3 || type=4) ";
+								} else if($case == 5) {
+									$searchStr .= " AND a.type = 6 ";
+								} else if($case == 6) {
+									$searchStr .= " AND a.type = 9 ";
+								}
 								$order = $order ? $order : "desc";
 								$query = "SELECT a.idx FROM Gn_MMS a WHERE $searchStr";
 								$res	    =  mysqli_query($self_con, $query);
@@ -234,12 +236,12 @@ function get_style($case, $active_case = 0)
 									$row['site'] = $mem_row['site'];
 									$row['site_iam'] = $mem_row['site_iam'];
 
-									$sql_s = "select * from Gn_MMS_status where idx='{$row['idx']}' ";
+									$sql_s = "SELECT * FROM Gn_MMS_status WHERE idx='{$row['idx']}' ";
 									$resul_s = mysqli_query($self_con, $sql_s);
 									$row_s = mysqli_fetch_array($resul_s);
 									mysqli_free_result($resul_s);
 
-									$sql_n = "select memo from Gn_MMS_Number where sendnum='{$row['send_num']}' ";
+									$sql_n = "SELECT memo FROM Gn_MMS_Number WHERE sendnum='{$row['send_num']}' ";
 									$resul_n = mysqli_query($self_con, $sql_n);
 									$row_n = mysqli_fetch_array($resul_n);
 									mysqli_free_result($resul_n);
@@ -250,23 +252,23 @@ function get_style($case, $active_case = 0)
 
 									$intRowCount = 0;
 									if ($date != "") {
-										$sql = "select count(seq) as cnt from call_app_log where api_name='receive_sms' and LENGTH(recv_num) >= 10 and  send_num='{$row['send_num']}' and recv_num in ($recv_num_in) and recv_num like '01%'  and regdate >= '$date' and sms not like '[%'";
+										$sql = "SELECT count(seq) as cnt FROM call_app_log WHERE api_name='receive_sms' AND LENGTH(recv_num) >= 10 AND  send_num='{$row['send_num']}' AND recv_num in ($recv_num_in) AND recv_num like '01%'  AND regdate >= '$date' AND sms not like '[%'";
 										$kresult = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
 										$krow = mysqli_fetch_array($kresult);
 										$intRowCount = $krow['cnt'];
 									}
 
-									$sql_as = "select count(idx) as cnt from Gn_MMS_status where idx='{$row['idx']}' ";
+									$sql_as = "SELECT count(idx) as cnt FROM Gn_MMS_status WHERE idx='{$row['idx']}' ";
 									$resul_as = mysqli_query($self_con, $sql_as);
 									$row_as = mysqli_fetch_array($resul_as);
 									$status_total_cnt = $row_as[0];
 
-									$sql_cs = "select count(idx) as cnt from Gn_MMS_status where idx='{$row['idx']}' and status='0'";
+									$sql_cs = "SELECT count(idx) as cnt FROM Gn_MMS_status WHERE idx='{$row['idx']}' AND status='0'";
 									$resul_cs = mysqli_query($self_con, $sql_cs);
 									$row_cs = mysqli_fetch_array($resul_cs);
 									$success_cnt = $row_cs[0];
 
-									$sql_sn = "select * from Gn_MMS where idx='{$row['idx']}' ";
+									$sql_sn = "SELECT * FROM Gn_MMS WHERE idx='{$row['idx']}' ";
 									$resul_sn = mysqli_query($self_con, $sql_sn);
 									$row_sn = mysqli_fetch_array($resul_sn);
 									$recv_cnt = explode(",", $row_sn['recv_num']);
