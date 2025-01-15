@@ -210,7 +210,6 @@ function get_style($case, $active_case)
 								}
 								if ($search_name || $search_site || $search_site_iam) {
 									$id_array = array_merge($name_id_array, $selling_id_array, $iam_id_array);
-									print_r($id_array);
 									if (empty($id_array))
 										$searchStr = "1 <> 1 ";
 									else {
@@ -231,6 +230,7 @@ function get_style($case, $active_case)
 									$searchStr .= $search_phone ? " AND a.send_num like '" . $search_phone . "%' " : null;
 									$searchStr .= $search_content ? " AND a.content like '%" . $search_content . "%' " : null;
 								}
+								echo "233";
 								if ($_GET['upd'] == 'yes') {
 									$searchStr .= " and recv_num_cnt is NULL ";
 								}
