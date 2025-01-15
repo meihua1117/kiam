@@ -192,6 +192,7 @@ function get_style($case, $active_case)
 								} else {
 									$name_id_array = array();
 								}
+								print_r($name_id_array);
 								if ($search_site) {
 									$mem_sql = "SELECT GROUP_CONCAT(mem_id) AS mem_ids FROM Gn_Member WHERE site = '{$search_site}'";
 									$mem_res = mysqli_query($self_con, $mem_res);
@@ -200,6 +201,7 @@ function get_style($case, $active_case)
 								} else {
 									$selling_id_array = array();
 								}
+								print_r($selling_id_array);
 								if ($search_site_iam) {
 									$mem_sql = "SELECT GROUP_CONCAT(mem_id) AS mem_ids FROM Gn_Member WHERE site_iam = '{$search_site_iam}'";
 									$mem_res = mysqli_query($self_con, $mem_res);
@@ -208,7 +210,7 @@ function get_style($case, $active_case)
 								} else {
 									$iam_id_array = array();
 								}
-
+								print_r($iam_id_array);
 								if ($search_name || $search_site || $search_site_iam) {
 									$id_array = array_merge($name_id_array, $selling_id_array, $iam_id_array);
 									print_r($id_array);
