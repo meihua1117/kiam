@@ -199,15 +199,12 @@ function get_style($case, $active_case)
 									$mem_sort = true;
 								}
 								if ($mem_sort) {
-									echo 1;
 									$mem_res = mysqli_query($self_con, $mem_sql);
 									$mem_row = mysqli_fetch_assoc($mem_res);
 									$mem_ids = explode(",", $mem_row["mem_ids"]);
-									echo 2;
 									if (empty($mem_ids))
 										$searchStr = "1 <> 1 ";
 									else {
-										echo 3;
 										$ids_array = array();
 										if ($search_id) {
 											foreach ($mem_ids as $mem_id) {
@@ -215,17 +212,15 @@ function get_style($case, $active_case)
 													array_push($ids_array, $mem_id);
 											}
 										}
-										echo 4;
 										if ($search_id && empty($ids_array))
 											$searchStr = "1 <> 1 ";
 										else {
-											$id_str = implode("','", $id_array);
+											$id_str = implode("','", $ids_array);
 											$searchStr .= " AND mem_id in ('{$id_str}')";
 											$searchStr .= $search_phone ? " AND a.send_num like '" . $search_phone . "%' " : null;
 											$searchStr .= $search_content ? " AND a.content like '%" . $search_content . "%' " : null;
 										}
 									}
-									echo 5;
 								} else {
 									$searchStr = "1 = 1";
 									$searchStr .= $search_id ? " AND a.mem_id LIKE '%" . $search_id . "%' " : null;
