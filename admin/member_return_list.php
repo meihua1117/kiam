@@ -177,40 +177,57 @@ function get_style($case, $active_case = 0)
 									$mem_sql .= " AND site_iam = '{$search_site_iam}'";
 									$mem_sort = true;
 								}
-								if($mem_sort){
+								if ($mem_sort) {
 									$mem_res = mysqli_query($self_con, $mem_sql);
 									$mem_row = mysqli_fetch_assoc($mem_res);
-									$mem_ids = explode(",",$mem_row["mem_ids"]);
+									$mem_ids = explode(",", $mem_row["mem_ids"]);
 									if (empty($mem_ids))
 										$searchStr = "1 <> 1 ";
 									else {
-										$searchStr = "1 = 1 ";
+										$ids_array = array();
 										if ($search_id) {
-											$ids_array = array_filter($mem_ids, function ($item) {
-												return strpos($item, $search_id) !== false;
-											});
+											foreach ($mem_ids as $mem_id) {
+												if (strpos($mem_id, $search_id) !== false)
+													array_push($ids_array, $mem_id);
+											}
 										}
-										$id_str = implode("','",$ids_array);
-										$searchStr .= " AND mem_id in ('{$id_str}')";
-										$searchStr .= $search_phone ? " AND a.send_num like '" . $search_phone . "%' " : null;
-										$searchStr .= $search_content ? " AND a.content like '%" . $search_content . "%' " : null;
+										if ($search_id && empty($ids_array))
+											$searchStr = "1 <> 1 ";
+										else {
+											$searchStr = "1 = 1 ";
+											$id_str = implode("','", $ids_array);
+											$searchStr .= " AND mem_id in ('{$id_str}')";
+											$searchStr .= $search_phone ? " AND a.send_num like '" . $search_phone . "%' " : null;
+											$searchStr .= $search_content ? " AND a.content like '%" . $search_content . "%' " : null;
+											if ($case == 1) {
+												$searchStr .= " AND a.title = 'app_check_process' ";
+											} else if ($case == 2) {
+												$searchStr .= " AND a.title != 'app_check_process' ";
+											} else if ($case == 4) {
+												$searchStr .= " AND (type=2 || type=3 || type=4) ";
+											} else if ($case == 5) {
+												$searchStr .= " AND a.type = 6 ";
+											} else if ($case == 6) {
+												$searchStr .= " AND a.type = 9 ";
+											}
+										}
 									}
 								} else {
 									$searchStr = "1 = 1";
 									$searchStr .= $search_id ? " AND a.mem_id LIKE '%" . $search_id . "%' " : null;
 									$searchStr .= $search_phone ? " AND a.send_num like '" . $search_phone . "%' " : null;
 									$searchStr .= $search_content ? " AND a.content like '%" . $search_content . "%' " : null;
-								}
-								if($case == 1 ) {
-									$searchStr .= " AND a.title = 'app_check_process' ";
-								} else if($case == 2) {
-									$searchStr .= " AND a.title != 'app_check_process' ";
-								} else if($case == 4) {
-									$searchStr .= " AND (type=2 || type=3 || type=4) ";
-								} else if($case == 5) {
-									$searchStr .= " AND a.type = 6 ";
-								} else if($case == 6) {
-									$searchStr .= " AND a.type = 9 ";
+									if ($case == 1) {
+										$searchStr .= " AND a.title = 'app_check_process' ";
+									} else if ($case == 2) {
+										$searchStr .= " AND a.title != 'app_check_process' ";
+									} else if ($case == 4) {
+										$searchStr .= " AND (type=2 || type=3 || type=4) ";
+									} else if ($case == 5) {
+										$searchStr .= " AND a.type = 6 ";
+									} else if ($case == 6) {
+										$searchStr .= " AND a.type = 9 ";
+									}
 								}
 								$order = $order ? $order : "desc";
 								$query = "SELECT a.idx FROM Gn_MMS a WHERE $searchStr";
