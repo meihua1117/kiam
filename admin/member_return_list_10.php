@@ -264,6 +264,7 @@ function get_style($case, $active_case)
 								$c = 0;
 								$excel_sql = $query;
 								$query .= $orderQuery;
+								echo $query;
 								$res = mysqli_query($self_con, $query);
 								while ($row = mysqli_fetch_array($res)) {
 									$mem_sql = "SELECT mem_name,site,site_iam FROM Gn_Member WHERE mem_id = '{$row['mem_id']}'";
