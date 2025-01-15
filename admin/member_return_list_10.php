@@ -236,7 +236,6 @@ function get_style($case, $active_case)
 								}
 								$order = $order ? $order : "desc";
 								$query = "SELECT a.idx FROM Gn_MMS a WHERE $searchStr";
-								echo $query;
 								$res   = mysqli_query($self_con, $query);
 								$totalCnt = mysqli_num_rows($res);
 								if ($_GET['upd'] == 'yes') {
