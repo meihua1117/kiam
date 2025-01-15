@@ -209,17 +209,7 @@ function get_style($case, $active_case = 0)
 									$searchStr .= $search_phone ? " AND a.send_num like '" . $search_phone . "%' " : null;
 									$searchStr .= $search_content ? " AND a.content like '%" . $search_content . "%' " : null;
 								}
-								if ($case == 1) {
-									$searchStr .= " and a.title = 'app_check_process' ";
-								} else if ($case == 2) {
-									$searchStr .= " and a.title != 'app_check_process' ";
-								} else if ($case == 4) {
-									$searchStr .= " and (type=2 || type=3 || type=4) ";
-								} else if ($case == 5) {
-									$searchStr .= " and a.type = 6 ";
-								} else if ($case == 6) {
-									$searchStr .= " and a.type = 9 ";
-								}
+								
 								$order = $order ? $order : "desc";
 								$query = "SELECT a.idx FROM Gn_MMS a WHERE $searchStr";
 								$res	    =  mysqli_query($self_con, $query);
