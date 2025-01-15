@@ -211,16 +211,16 @@ function get_style($case, $active_case)
 
 								if ($search_name || $search_site || $search_site_iam) {
 									$id_array = array_merge($name_id_array, $selling_id_array, $iam_id_array);
-									print_r($id_array,true);
-									if (count($id_array) == 0)
-										$searchStr = "1<>1";
+									print_r($id_array);
+									if (empty($id_array))
+										$searchStr = "1 <> 1 ";
 									else {
-										$searchStr = "1 = 1";
-										if ($search_id) {
+										$searchStr = "1 = 1 ";
+										/*if ($search_id) {
 											$id_array = array_filter($id_array, function ($item) {
 												return strpos($item, $search_id) !== false;
 											});
-										}
+										}*/
 										$id_str = implode("','",$id_array);
 										$searchStr .= " mem_id in ('{$id_str}')";
 										$searchStr .= $search_phone ? " AND a.send_num like '" . $search_phone . "%' " : null;
