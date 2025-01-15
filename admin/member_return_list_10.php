@@ -215,10 +215,12 @@ function get_style($case, $active_case)
 										if ($search_id && empty($ids_array))
 											$searchStr = "1 <> 1 ";
 										else {
+											echo 1;
 											$id_str = implode("','", $ids_array);
 											$searchStr .= " AND mem_id in ('{$id_str}')";
 											$searchStr .= $search_phone ? " AND a.send_num like '" . $search_phone . "%' " : null;
 											$searchStr .= $search_content ? " AND a.content like '%" . $search_content . "%' " : null;
+											echo 2;
 										}
 									}
 								} else {
