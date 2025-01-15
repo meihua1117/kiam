@@ -220,7 +220,7 @@ function get_style($case, $active_case)
 											});
 										}
 										$id_str = implode("','",$id_array);
-										$searchStr .= " mem_id in ('{$id_str}')";
+										$searchStr .= " AND mem_id in ('{$id_str}')";
 										$searchStr .= $search_phone ? " AND a.send_num like '" . $search_phone . "%' " : null;
 										$searchStr .= $search_content ? " AND a.content like '%" . $search_content . "%' " : null;
 									}
