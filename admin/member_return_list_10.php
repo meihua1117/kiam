@@ -239,6 +239,7 @@ function get_style($case, $active_case)
 								}
 								$order = $order ? $order : "desc";
 								$query = "SELECT a.idx FROM Gn_MMS a WHERE $searchStr";
+								echo $query;
 								$res   = mysqli_query($self_con, $query);
 								$totalCnt = mysqli_num_rows($res);
 								if ($_GET['upd'] == 'yes') {
@@ -272,7 +273,7 @@ function get_style($case, $active_case)
 								$res = mysqli_query($self_con, $query);
 								while ($row = mysqli_fetch_array($res)) {
 									$mem_sql = "SELECT mem_name,site,site_iam FROM Gn_Member WHERE mem_id = '{$row['mem_id']}'";
-									$mem_res = mysqli_query($self_con, $mem_res);
+									$mem_res = mysqli_query($self_con, $mem_sql);
 									$mem_row = mysqli_fetch_assoc($mem_res);
 
 									$row['mem_name'] = $mem_row['mem_name'];
