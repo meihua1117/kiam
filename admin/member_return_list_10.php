@@ -256,8 +256,7 @@ function get_style($case, $active_case)
 									echo "<meta http-equiv='refresh' content='1; url=/admin/member_return_list_10.php?upd=&case=3'></meta>";
 									exit();
 								}
-								$query = "SELECT a.idx, a.send_num, a.recv_num, a.up_date, a.mem_id, a.reservation, a.reg_date, a.content 
-											FROM Gn_MMS a WHERE $searchStr";
+								$query = "SELECT a.idx, a.send_num, a.recv_num, a.up_date, a.mem_id, a.reservation, a.reg_date, a.content FROM Gn_MMS a WHERE $searchStr";
 								$limitStr = " LIMIT " . (($startPage - 1) * $pageCnt) . ", " . $pageCnt;
 								$number	= $totalCnt - ($nowPage - 1) * $pageCnt;
 								$orderQuery .= " ORDER BY a.reg_date DESC $limitStr";
@@ -265,7 +264,6 @@ function get_style($case, $active_case)
 								$c = 0;
 								$excel_sql = $query;
 								$query .= $orderQuery;
-								echo $query;
 								$res = mysqli_query($self_con, $query);
 								while ($row = mysqli_fetch_array($res)) {
 									$mem_sql = "SELECT mem_name,site,site_iam FROM Gn_Member WHERE mem_id = '{$row['mem_id']}'";
