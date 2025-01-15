@@ -230,7 +230,6 @@ function get_style($case, $active_case)
 									$searchStr .= $search_phone ? " AND a.send_num like '" . $search_phone . "%' " : null;
 									$searchStr .= $search_content ? " AND a.content like '%" . $search_content . "%' " : null;
 								}
-								echo "233";
 								if ($_GET['upd'] == 'yes') {
 									$searchStr .= " and recv_num_cnt is NULL ";
 								}
@@ -239,7 +238,6 @@ function get_style($case, $active_case)
 								}
 								$order = $order ? $order : "desc";
 								$query = "SELECT a.idx FROM Gn_MMS a WHERE $searchStr";
-								echo $query;
 								$res   = mysqli_query($self_con, $query);
 								$totalCnt = mysqli_num_rows($res);
 								if ($_GET['upd'] == 'yes') {
@@ -262,7 +260,6 @@ function get_style($case, $active_case)
 								}
 								$query = "SELECT a.idx, a.send_num, a.recv_num, a.up_date, a.mem_id, a.reservation, a.reg_date, a.content 
 											FROM Gn_MMS a WHERE $searchStr";
-								echo $query;
 								$limitStr = " LIMIT " . (($startPage - 1) * $pageCnt) . ", " . $pageCnt;
 								$number	= $totalCnt - ($nowPage - 1) * $pageCnt;
 								$orderQuery .= " ORDER BY a.reg_date DESC $limitStr";
