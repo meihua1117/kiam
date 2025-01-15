@@ -187,7 +187,7 @@ function get_style($case, $active_case)
 								if ($search_name) {
 									$mem_sql = "SELECT GROUP_CONCAT(mem_id) AS mem_ids FROM Gn_Member WHERE mem_name LIKE '%{$search_name}%'";
 									echo $mem_sql."<br>";
-									$mem_res = mysqli_query($self_con, $mem_res);
+									$mem_res = mysqli_query($self_con, $mem_sql);
 									$mem_row = mysqli_fetch_assoc($mem_res);
 									$name_id_array = explode(",", $mem_row['mem_ids']);
 								} else {
@@ -198,7 +198,7 @@ function get_style($case, $active_case)
 								if ($search_site) {
 									$mem_sql = "SELECT GROUP_CONCAT(mem_id) AS mem_ids FROM Gn_Member WHERE site = '{$search_site}'";
 									echo $mem_sql."<br>";
-									$mem_res = mysqli_query($self_con, $mem_res);
+									$mem_res = mysqli_query($self_con, $mem_sql);
 									$mem_row = mysqli_fetch_assoc($mem_res);
 									echo $mem_sql."<br>";
 									$selling_id_array = explode(",", $mem_row['mem_ids']);
@@ -211,7 +211,7 @@ function get_style($case, $active_case)
 								if ($search_site_iam) {
 									$mem_sql = "SELECT GROUP_CONCAT(mem_id) AS mem_ids FROM Gn_Member WHERE site_iam = '{$search_site_iam}'";
 									echo $mem_sql."<br>";
-									$mem_res = mysqli_query($self_con, $mem_res);
+									$mem_res = mysqli_query($self_con, $mem_sql);
 									$mem_row = mysqli_fetch_assoc($mem_res);
 									$iam_id_array = explode(",", $mem_row['mem_ids']);
 								} else {
@@ -226,11 +226,11 @@ function get_style($case, $active_case)
 										$searchStr = "1 <> 1 ";
 									else {
 										$searchStr = "1 = 1 ";
-										/*if ($search_id) {
+										if ($search_id) {
 											$id_array = array_filter($id_array, function ($item) {
 												return strpos($item, $search_id) !== false;
 											});
-										}*/
+										}
 										$id_str = implode("','",$id_array);
 										$searchStr .= " mem_id in ('{$id_str}')";
 										$searchStr .= $search_phone ? " AND a.send_num like '" . $search_phone . "%' " : null;
