@@ -519,7 +519,7 @@ $event_data = $row = mysqli_fetch_array($result);
 								<td>
 									<input type="text" id="day" name="send_day" value="" style="width:70px;" maxlength="3">일후(0이면 신청직후발송)
 									<input type="text" id="send_time_hour" name="send_time_hour" value="" style="width:70px;" maxlength="2"> 시
-									<!--input type="text" id="send_time_min" name="send_time_min" value="" style="width:70px;" maxlength="2"> 분 (10분단위로 설정가능)-->$_COOKIE<select name="send_time_min" id="send_time_min" style="width:70px;">
+									<!--input type="text" id="send_time_min" name="send_time_min" value="" style="width:70px;" maxlength="2"> 분 (10분단위로 설정가능)-->
 										<select name="send_time_min" id="send_time_min" style="width:70px;">
 											<?
 											for ($i = 0; $i < 60; $i += 10) {
