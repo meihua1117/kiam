@@ -1445,7 +1445,6 @@ if ($mode == "land_save") {
     echo "<script>alert('수정되었습니다.');location='daily_list.php';</script>";
     exit;
 } else if ($mode == "daily_save") {
-    $fp = fopen("mypage.proc" . date("YmdHis") . ".log", "w+");
     $event_idx = 0;
     $query_step_add = "";
     $step_idx = "";
@@ -1536,7 +1535,6 @@ if ($mode == "land_save") {
                                         send_deny='{$deny}', 
                                         $query_step_add 
                                         event_idx='{$event_idx}'";
-                fwrite($fp, $query . "\r\n");
                 mysqli_query($self_con, $query);
                 $gd_id = mysqli_insert_id($self_con);
                 $txt .= "\n" . $daily_link;
@@ -1584,13 +1582,10 @@ if ($mode == "land_save") {
 
                 for ($i = 0; $i < count($date); $i++) {
                     $reservation = $date[$i] . " " . $htime . ":" . $mtime . ":00";
-                    fwrite($fp, $reservation . "\r\n");
                     if ($step_count == 0) {
                         $reservDate = new DateTime($reservation); // DateTime 객체로 변환
                         $reservDate->modify('+'.$row_cnt['step_count'].' day'); // 10일 더하기
-                        fwrite($fp, $reservDate->format('Y-m-d H:i:s') . "\r\n");
                         $reservation = $reservDate->format('Y-m-d H:i:s'); // 원하는 포맷으로 출력
-                        fwrite($fp, $reservation . "\r\n");
                     }
                     sendmms(6, $_SESSION['one_member_id'], $send_num, $recv_num_set[$i], $reservation, $title, $txt, $upimage_str, $upimage_str1, $upimage_str2, 'Y', "", "", "", $gd_id, $deny);
                 }
@@ -1599,7 +1594,6 @@ if ($mode == "land_save") {
                     $query = "insert into Gn_daily_date set gd_id='{$gd_id}',
                                                                 send_date='{$date[$i]}',
                                                                 recv_num='{$recv_num_set[$i]}'";
-                    fwrite($fp, $query . "\r\n");
                     mysqli_query($self_con, $query);
                 }
             }
@@ -1626,7 +1620,6 @@ if ($mode == "land_save") {
                                     send_deny='{$deny}',
                                     $query_step_add
                                     event_idx='{$event_idx}'";
-        fwrite($fp, $query . "\r\n");
         mysqli_query($self_con, $query);
         $gd_id = mysqli_insert_id($self_con);
 
@@ -1680,7 +1673,6 @@ if ($mode == "land_save") {
 
         for ($i = 0; $i < count($date); $i++) {
             $query = "insert into Gn_daily_date set gd_id='{$gd_id}',send_date='{$date[$i]}',recv_num='{$recv_num_set[$i]}'";
-            fwrite($fp, $query . "\r\n");
             mysqli_query($self_con, $query);
         }
     }
