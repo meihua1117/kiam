@@ -1445,7 +1445,7 @@ if ($mode == "land_save") {
     echo "<script>alert('수정되었습니다.');location='daily_list.php';</script>";
     exit;
 } else if ($mode == "daily_save") {
-    $fp = fopen("mypage.proc".date("YmdHis").".log", "w+");
+    $fp = fopen("mypage.proc" . date("YmdHis") . ".log", "w+");
     $event_idx = 0;
     $query_step_add = "";
     $step_idx = "";
@@ -1493,11 +1493,11 @@ if ($mode == "land_save") {
         if (mysqli_num_rows($res_sms)) {
             while ($row_sms = mysqli_fetch_array($res_sms)) {
                 $send_time = $row_sms['send_time'];
-                if (isset($_POST['step_count'])) {
-                    $time_arr = explode(":", $send_time);
-                    $htime = trim($time_arr[0]);
-                    $mtime = trim($time_arr[1]);
-                }
+                //if (isset($_POST['step_count'])) {
+                $time_arr = explode(":", $send_time);
+                $htime = trim($time_arr[0]);
+                $mtime = trim($time_arr[1]);
+                //}
                 $title = $row_sms['title'];
                 $txt = $row_sms['content'];
                 $deny = $row_sms['send_deny'];
@@ -1584,6 +1584,11 @@ if ($mode == "land_save") {
 
                 for ($i = 0; $i < count($date); $i++) {
                     $reservation = $date[$i] . " " . $htime . ":" . $mtime . ":00";
+                    if ($step_count == 0) {
+                        $date = new DateTime($reservation); // DateTime 객체로 변환
+                        $date->modify('+'.$row_cnt['step_count'].' days'); // 10일 더하기
+                        $reservation = $date->format('Y-m-d H:i:s'); // 원하는 포맷으로 출력
+                    }
                     sendmms(6, $_SESSION['one_member_id'], $send_num, $recv_num_set[$i], $reservation, $title, $txt, $upimage_str, $upimage_str1, $upimage_str2, 'Y', "", "", "", $gd_id, $deny);
                 }
 
