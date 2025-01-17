@@ -1586,10 +1586,11 @@ if ($mode == "land_save") {
                     $reservation = $date[$i] . " " . $htime . ":" . $mtime . ":00";
                     fwrite($fp, $reservation . "\r\n");
                     if ($step_count == 0) {
-                        $date = new DateTime($reservation); // DateTime 객체로 변환
-                        $date->modify('+'.$row_cnt['step_count'].' day'); // 10일 더하기
-                        $reservation = $date->format('Y-m-d H:i:s'); // 원하는 포맷으로 출력
-                        fwrite($fp, $date . "\r\n");
+                        $reservDate = new DateTime($reservation); // DateTime 객체로 변환
+                        $reservDate->modify('+'.$row_cnt['step_count'].' day'); // 10일 더하기
+                        fwrite($fp, $reservDate->format('Y-m-d H:i:s') . "\r\n");
+                        $reservation = $reservDate->format('Y-m-d H:i:s'); // 원하는 포맷으로 출력
+                        fwrite($fp, $reservation . "\r\n");
                     }
                     sendmms(6, $_SESSION['one_member_id'], $send_num, $recv_num_set[$i], $reservation, $title, $txt, $upimage_str, $upimage_str1, $upimage_str2, 'Y', "", "", "", $gd_id, $deny);
                 }
