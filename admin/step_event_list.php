@@ -239,7 +239,7 @@ $date_today = date("Y-m-d");
                   }
                   ?>
                 </td>
-                <td><?= $row['read_cnt'] . "/" . $req_count ?></td>
+                <td><?= $row['read_cnt'] . "/ "?><a onclick="window.open('mypage_pop_member_list.php?eventid='+'<?= $row['event_idx'] ?>','','top=300,left=300,width=800,height=500,toolbar=no,menubar=no,scrollbars=yes, resizable=yes,location=no, status=no')"><?=$req_count?></a></td>
                 <td><?= $row['regdate'] ?></td>
               </tr>
             <?
