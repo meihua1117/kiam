@@ -165,8 +165,8 @@ include_once $path . "lib/rlatjd_fun.php";
               </tr>
               <?
 
-              $sql_serch = " m_id ='{$_SESSION['one_member_id']}' and event_idx='{$data['event_idx']}'";
-
+              //$sql_serch = " m_id ='{$_SESSION['one_member_id']}' and event_idx='{$data['event_idx']}'";
+              $sql_serch = " event_idx='{$data['event_idx']}'";
               $sql = "select count(*) as cnt from Gn_event_request where $sql_serch ";
               $result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
               $row = mysqli_fetch_array($result);
