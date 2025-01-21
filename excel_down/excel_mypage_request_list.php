@@ -24,12 +24,15 @@ $activeWorksheet
 	->setCellValue("H1", "생년월일")
 	->setCellValue("I1", "직업")
 	->setCellValue("J1", "신청제목")
-	->setCellValue("K1", "신청채널")
+	->setCellValue("K1", "기타정보")
 	->setCellValue("L1", "회원가입")
 	->setCellValue("M1", "등록일");
 $h = 2;
 $No = 1;
 while ($row = mysqli_fetch_array($result)) {
+	$sql_event_data = "select event_title from Gn_event where event_idx={$row['event_idx']}";
+	$res_event_data = mysqli_query($self_con, $sql_event_data);
+	$row_event_data = mysqli_fetch_array($res_event_data);
 	$activeWorksheet
 		->setCellValue("A$h", $No++)
 		->setCellValue("B$h", $row['sp'])
@@ -40,8 +43,8 @@ while ($row = mysqli_fetch_array($result)) {
 		->setCellValue("G$h", $row['email'])
 		->setCellValue("H$h", $row['birthday'])
 		->setCellValue("I$h", $row['job'])
-		->setCellValue("J$h", $row['consult_date'])
-		->setCellValue("K$h", $row['event_code'])
+		->setCellValue("J$h", $row_event_data['event_title'])
+		->setCellValue("K$h", $row['consult_date'])
 		->setCellValue("L$h", $row['join_yn'])
 		->setCellValue("M$h", $row['regdate']);
 	$h++;
@@ -73,4 +76,3 @@ header('Pragma: public'); // HTTP/1.0
 $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
 $writer->save('php://output');
 exit;
-?>
