@@ -110,6 +110,8 @@ $mem_phone = str_replace("-", "", $data['mem_phone']);
                                 <option value="" <? if ($_REQUEST['search_key'] == "") echo "selected" ?>>전체</option>
                                 <option value="name" <? if ($_REQUEST['search_key'] == "name") echo "selected" ?>>신청자이름</option>
                                 <option value="mobile" <? if ($_REQUEST['search_key'] == "mobile") echo "selected" ?>>신청폰번호</option>
+                                <option value="title" <? if ($_REQUEST['search_key'] == "title") echo "selected" ?>>신청창제목</option>
+                                <option value="recv" <? if ($_REQUEST['search_key'] == "recv") echo "selected" ?>>발송폰번호</option>
                             </select>
                             <input type="text" name="search_text" placeholder="" id="search_text" value="<?= $_REQUEST['search_text'] ?>" />
                             <input type="text" name="sp" placeholder="" id="event_code" value="<?= $_REQUEST['sp'] ?>" readonly style="background:#efefef" />
