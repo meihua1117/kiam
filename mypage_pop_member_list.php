@@ -24,7 +24,7 @@ include_once $path . "lib/rlatjd_fun.php";
 </head>
 
 <body>
-  <?if (!$_SESSION['one_member_id']) {?>
+  <? if (!$_SESSION['one_member_id']) { ?>
     <script language="javascript">
       location.replace('/ma.php');
     </script>
@@ -161,7 +161,7 @@ include_once $path . "lib/rlatjd_fun.php";
 
               //$sql_serch = " m_id ='{$_SESSION['one_member_id']}' and event_idx='{$data['event_idx']}'";
               $sql_serch = " event_idx='{$data['event_idx']}'";
-              if(isset($_REQUEST['search_text']))
+              if (isset($_REQUEST['search_text']))
                 $sql_serch .= " AND (name like '%{$_REQUEST['search_text']}%' OR mobile like '%{$_REQUEST['search_text']}%')";
               $sql = "select count(*) as cnt from Gn_event_request where $sql_serch ";
               $result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
@@ -246,10 +246,17 @@ include_once $path . "lib/rlatjd_fun.php";
                 }
                 ?>
                 <tr>
-                  <td colspan="10">
+                  <td colspan="6">
                     <?
                     page_f($page, $page2, $intPageCount, "pay_form");
                     ?>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="6" style="text-align: right;">
+                    <div class="popup_holder" style="display:inline-block"> <!--Parent-->
+                      <input type="button" value="엑셀 다운받기" class="button" onclick="excel_down('/excel_down/excel_mypage_pop_member_list.php');return false;" style="cursor: pointer">
+                    </div>
                   </td>
                 </tr>
               <?
@@ -273,4 +280,5 @@ include_once $path . "lib/rlatjd_fun.php";
     </div>
   </div>
 </body>
+
 </html>
