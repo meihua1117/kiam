@@ -260,7 +260,7 @@ $mem_phone = str_replace("-", "", $data['mem_phone']);
                                             <td><?= $row['regdate'] ?></td>
                                             <td>
                                                 <div class="popup_holder popup_text">신청정보
-                                                    <div class="popupbox" style="height: 120px;width: 170px;left: 63px;top: -100px;display:none;">
+                                                    <div class="popupbox" style="height: auto;width: 170px;left: 63px;top: -100px;display:none;">
                                                         [신청정보보기]<br>
                                                         &nbsp;>성별:<? if ($row['sex'] == "m") echo " 남자";
                                                                     else if ($row['sex'] == "f") echo " 여자";
