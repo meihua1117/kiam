@@ -14,7 +14,7 @@ if (strlen($_SESSION['one_member_id']) > 0) {
    $date_today = date("Y-m-d");
    $mem_id = $_REQUEST['mem_id'];
    $excel_sql = "select * from Gn_Member gm left join tjd_pay_result p on p.buyer_id = gm.mem_id 
-                	      where recommend_id = '$mem_id' and end_status='Y' order by end_date desc";
+                	      where recommend_id = '{$mem_id}' and end_status='Y' order by end_date desc";
    $result = mysqli_query($self_con, $excel_sql) or die(mysqli_error($self_con));
    $totalCnt = mysqli_num_rows($result);
    $number         = $totalCnt;

@@ -194,6 +194,7 @@ include_once $path . "lib/rlatjd_fun.php";
                   $order_name = "request_idx";
                 $intPageCount = (int)(($intRowCount + $intPageSize - 1) / $intPageSize);
                 $sql = "select * from Gn_event_request where $sql_serch order by $order_name $order_status limit $int,$intPageSize";
+                $excel_sql = base64_encode("select * from Gn_event_request where $sql_serch order by $order_name $order_status");
                 $result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
               ?>
                 <?
@@ -253,8 +254,8 @@ include_once $path . "lib/rlatjd_fun.php";
                   </td>
                 </tr>
                 <tr>
-                  <td colspan="6" style="text-align: right;">
-                    <div class="popup_holder" style="display:inline-block"> <!--Parent-->
+                  <td colspan="6">
+                    <div class="popup_holder" style="display:inline-block">
                       <input type="button" value="엑셀 다운받기" class="button" onclick="excel_down('/excel_down/excel_mypage_pop_member_list.php');return false;" style="cursor: pointer">
                     </div>
                   </td>
@@ -277,6 +278,13 @@ include_once $path . "lib/rlatjd_fun.php";
           </div>
         </div>
       </form>
+      <form id="excel_down_form" name="excel_down_form" target="excel_iframe" method="post">
+        <input type="hidden" name="excel_sql" value="<?= $excel_sql ?>" />
+        <? if (isset($_GET['eventid'])) { ?>
+          <input type="hidden" name="eventid" value="<?= $_GET['eventid'] ?>" />
+        <? } ?>
+      </form>
+      <iframe name="excel_iframe" style="display:none;"></iframe>
     </div>
   </div>
 </body>
