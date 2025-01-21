@@ -69,10 +69,8 @@ include_once $path . "lib/rlatjd_fun.php";
           "left": (event.pageX - 600) + "px"
         });
         $(this).children(".popupbox").show();
-
       });
       $(".popup_holder").mouseout(function() {
-
         $(this).children(".popupbox").css("display", "none");
       });
 
@@ -98,7 +96,6 @@ include_once $path . "lib/rlatjd_fun.php";
       } else {
         temp = prompt("Ctrl+C를 눌러 클립보드로 복사하세요", url);
       }
-
     }
   </script>
   <script language="javascript" src="./js/rlatjd_fun.js?m=1574414201"></script>
@@ -130,11 +127,8 @@ include_once $path . "lib/rlatjd_fun.php";
     }
   </style>
   <div>
-
     <div class="m_body">
-
       <form name="pay_form" action="" method="post" class="my_pay">
-
         <input type="hidden" name="page" value="<?= $page ?>" />
         <input type="hidden" name="page2" value="<?= $page2 ?>" />
         <div class="a1">
@@ -167,13 +161,13 @@ include_once $path . "lib/rlatjd_fun.php";
 
               //$sql_serch = " m_id ='{$_SESSION['one_member_id']}' and event_idx='{$data['event_idx']}'";
               $sql_serch = " event_idx='{$data['event_idx']}'";
+              if(isset($_REQUEST['search_text']))
+                $sql_serch .= " AND (name like '%{$_REQUEST['search_text']}%' OR mobile like '%{$_REQUEST['search_text']}%')";
               $sql = "select count(*) as cnt from Gn_event_request where $sql_serch ";
               $result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
               $row = mysqli_fetch_array($result);
               $intRowCount = $row['cnt'];
-
               if ($intRowCount) {
-
                 if (!$_POST['lno'])
                   $intPageSize = 15;
                 else
@@ -207,7 +201,6 @@ include_once $path . "lib/rlatjd_fun.php";
                 ?>
                   <tr>
                     <td><?= $sort_no ?></td>
-
                     <td style="font-size:12px;"><?= $row['name'] ?></td>
                     <td style="font-size:12px;"><?= $row['mobile'] ?></td>
                     <td><?= $row['regdate'] ?></td>
