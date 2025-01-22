@@ -241,7 +241,10 @@ if ($mode == "land_save") {
     exit;
 } else if ($mode == "event_update") {
     $fp = fopen("mypage.proc.log","w+");
-    $event_info = implode(",", $_POST['event_info']);
+    if(isset($_POST['event_info']))
+        $event_info = implode(",", $_POST['event_info']);
+    else 
+        $event_info = "";
     $sql = "update Gn_event set event_name_kor='{$event_name_kor}',
                                 event_title='{$event_title}',
                                 event_info='{$event_info}',
