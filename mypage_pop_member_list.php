@@ -155,7 +155,7 @@ include_once $path . "lib/rlatjd_fun.php";
                 <td style="width:15%;">휴대폰번호</td>
                 <td style="width:15%">신청일짜</td>
                 <td style="width:10%">보기</td>
-                <td style="width:10%">그룹제외</td>
+                <td style="width:10%">발송제외</td>
               </tr>
               <?
 
@@ -239,7 +239,7 @@ include_once $path . "lib/rlatjd_fun.php";
                       if ($stop_row[0] > 0)
                         $stop_status = "checked";
                       ?>
-                      <input type="checkbox" id="exclude_group" name="exclude_group" <?= $stop_status ?> value="">
+                      <input type="checkbox" id="exclude_group" name="exclude_group" readonly <?= $stop_status ?> value="">
                     </td>
                   </tr>
                 <?
