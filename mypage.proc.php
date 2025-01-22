@@ -742,10 +742,12 @@ if ($mode == "land_save") {
                                         consult_date='{$consult_date}',
                                         join_yn='{$join_yn}',                                      
                                         edit_id='{$_SESSION['one_member_id']}',
-                                        edit_date=NOW(),
-                                        sms_idx='{$sms_idx}',
-                                        sms_step_num='{$step_num}'
-                                  where request_idx ='{$request_idx}'";
+                                        edit_date=NOW()";
+    if(isset($_REQUEST['sms_idx']) && $_REQUEST['sms_idx'] != "")
+        $sql .= ",sms_idx='{$sms_idx}'";
+    if(isset($_REQUEST['step_num']) && $_REQUEST['step_num'] != "")
+        $sql .= ",sms_step_num='{$step_num}'";
+    $sql .= " WHERE request_idx ='{$request_idx}'";
     fwrite($fp,$sql);
     $result = mysqli_query($self_con, $sql);
     echo "<script>location='mypage_request_list.php';</script>";
