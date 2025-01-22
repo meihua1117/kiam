@@ -9,7 +9,7 @@ if (!$_SESSION['one_member_id']) {
 <?
     exit;
 }
-$sql = "select * from Gn_Member  where mem_id='" . $_SESSION['one_member_id'] . "'";
+$sql = "SELECT * FROM Gn_Member  WHERE mem_id='{$_SESSION['one_member_id']}'";
 $sresul_num = mysqli_query($self_con, $sql);
 $data = mysqli_fetch_array($sresul_num);
 $mem_phone = str_replace("-", "", $data['mem_phone']);
@@ -161,23 +161,39 @@ $mem_phone = str_replace("-", "", $data['mem_phone']);
                                 if ($_REQUEST['search_date']) {
                                     if ($_REQUEST['rday1']) {
                                         $start_time = strtotime($_REQUEST['rday1']);
-                                        $sql_serch .= " and unix_timestamp({$_REQUEST['search_date']}) >=$start_time ";
+                                        $sql_serch .= " AND unix_timestamp({$_REQUEST['search_date']}) >=$start_time ";
                                     }
                                     if ($_REQUEST['rday2']) {
                                         $end_time = strtotime($_REQUEST['rday2']);
-                                        $sql_serch .= " and unix_timestamp({$_REQUEST['search_date']}) <= $end_time ";
+                                        $sql_serch .= " AND unix_timestamp({$_REQUEST['search_date']}) <= $end_time ";
                                     }
                                 }
                                 if ($_REQUEST['search_key'] && $_REQUEST['search_text']) {
                                     $search_text = $_REQUEST['search_text'];
-                                    $sql_serch .= " and " . $_REQUEST['search_key'] . " like '%$search_text%'";
+                                    if ($_REQUEST['search_key'] == "name" || $_REQUEST['search_key'] == "mobile") {
+                                        $sql_serch .= " AND " . $_REQUEST['search_key'] . " like '%$search_text%'";
+                                    } else if ($_REQUEST['search_key'] == "title") {
+                                        $serch_event_sql = "SELECT GROUP_CONCAT(event_idx) AS event_idxs FROM Gn_event WHERE event_title like '%{$_REQUEST['search_text']}%'";
+                                        $serch_event_res = mysqli_query($self_con, $serch_event_sql);
+                                        $serch_event_row = mysqli_fetch_assoc($serch_event_res);
+                                        $event_ids = explode(",", $serch_event_row["event_idxs"]);
+                                        $event_ids = implode("','", $event_ids);
+                                        $sql_serch .= " AND event_idx in ('{$event_ids}')";
+                                    } else if ($_REQUEST['search_key'] == "recv") {
+                                        $serch_event_sql = "SELECT GROUP_CONCAT(event_idx) AS event_idxs FROM Gn_event WHERE mobile like '%{$_REQUEST['search_text']}%'";
+                                        $serch_event_res = mysqli_query($self_con, $serch_event_sql);
+                                        $serch_event_row = mysqli_fetch_assoc($serch_event_res);
+                                        $event_ids = explode(",", $serch_event_row["event_idxs"]);
+                                        $event_ids = implode("','", $event_ids);
+                                        $sql_serch .= " AND event_idx in ('{$event_ids}')";
+                                    }
                                 }
                                 if ($_REQUEST['sp']) {
                                     $sp = $_REQUEST['sp'];
-                                    $sql_serch .= " and sp ='{$sp}'";
+                                    $sql_serch .= " AND sp ='{$sp}'";
                                 }
 
-                                $sql = "select count(request_idx) as cnt from Gn_event_request where $sql_serch ";
+                                $sql = "SELECT count(request_idx) as cnt FROM Gn_event_request WHERE $sql_serch ";
                                 $result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
                                 $row = mysqli_fetch_array($result);
                                 $intRowCount = $row['cnt'];
@@ -207,12 +223,12 @@ $mem_phone = str_replace("-", "", $data['mem_phone']);
                                     $order_name = "request_idx";
                                 $intPageCount = (int)(($intRowCount + $intPageSize - 1) / $intPageSize);
                                 if ($intRowCount) {
-                                    $sql = "select * from Gn_event_request where $sql_serch order by $order_name $order_status limit $int,$intPageSize";
-                                    $excel_sql = "select * from Gn_event_request where $sql_serch order by $order_name $order_status";
+                                    $sql = "SELECT * FROM Gn_event_request WHERE $sql_serch order by $order_name $order_status limit $int,$intPageSize";
+                                    $excel_sql = "SELECT * FROM Gn_event_request WHERE $sql_serch order by $order_name $order_status";
                                     $excel_sql = str_replace("'", "`", $excel_sql);
                                     $result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
                                     while ($row = mysqli_fetch_array($result)) {
-                                        $sql_event_data = "select * from Gn_event where event_idx={$row['event_idx']}";
+                                        $sql_event_data = "SELECT * FROM Gn_event WHERE event_idx={$row['event_idx']}";
                                         $res_event_data = mysqli_query($self_con, $sql_event_data);
                                         $row_event_data = mysqli_fetch_array($res_event_data);
 
@@ -234,13 +250,13 @@ $mem_phone = str_replace("-", "", $data['mem_phone']);
                                             <td>
                                                 <?
                                                 if ($row_event_data['sms_idx1'] != 0) {
-                                                    $sql = "select reservation_title from Gn_event_sms_info where sms_idx='{$row_event_data['sms_idx1']}'";
+                                                    $sql = "SELECT reservation_title FROM Gn_event_sms_info WHERE sms_idx='{$row_event_data['sms_idx1']}'";
                                                     $res = mysqli_query($self_con, $sql);
                                                     $sms_row = mysqli_fetch_array($res);
-                                                    $sql = "select count(*) from Gn_event_sms_step_info where sms_idx='{$row_event_data['sms_idx1']}'";
+                                                    $sql = "SELECT count(*) FROM Gn_event_sms_step_info WHERE sms_idx='{$row_event_data['sms_idx1']}'";
                                                     $res = mysqli_query($self_con, $sql);
                                                     $step_row = mysqli_fetch_array($res);
-                                                    $sql = "select count(*) from Gn_MMS where sms_idx='{$row_event_data['sms_idx1']}' and request_idx='{$row['request_idx']}' and result=0";
+                                                    $sql = "SELECT count(*) FROM Gn_MMS WHERE sms_idx='{$row_event_data['sms_idx1']}' AND request_idx='{$row['request_idx']}' AND result=0";
                                                     $res = mysqli_query($self_con, $sql);
                                                     $send_row = mysqli_fetch_array($res);
                                                     echo "<a onclick=\"javascript:window.open('/mypage_reservation_create.php?sms_idx={$row_event_data['sms_idx1']}','','toolbar=yes,scrollbars=yes,resizable=yes,top=200,left=200,width=1000,height=600');\">$sms_row[0]<br><strong>($step_row[0]/$send_row[0])</strong></a>";
@@ -249,7 +265,7 @@ $mem_phone = str_replace("-", "", $data['mem_phone']);
                                             </td>
                                             <td><?
                                                 if ($row_event_data['stop_event_idx'] != 0) {
-                                                    $sql = "select event_title from Gn_event where event_idx='{$row_event_data['stop_event_idx']}'";
+                                                    $sql = "SELECT event_title FROM Gn_event WHERE event_idx='{$row_event_data['stop_event_idx']}'";
                                                     $res = mysqli_query($self_con, $sql);
                                                     $sms_row = mysqli_fetch_array($res);
                                                     echo "$sms_row[0]";
@@ -616,7 +632,7 @@ $mem_phone = str_replace("-", "", $data['mem_phone']);
 
             .ui-widget-content {
                 border: none !important;
-                background: #ffffff url(images/ui-bg_flat_75_ffffff_40x100.png) 50% 50% repeat-x ;
+                background: #ffffff url(images/ui-bg_flat_75_ffffff_40x100.png) 50% 50% repeat-x;
                 color: #222222;
             }
         </style>
