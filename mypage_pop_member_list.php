@@ -239,7 +239,7 @@ include_once $path . "lib/rlatjd_fun.php";
                       if ($stop_row[0] > 0)
                         $stop_status = "checked";
                       ?>
-                      <input type="checkbox" id="exclude_group" name="exclude_group" readonly <?= $stop_status ?> value="">
+                      <input type="checkbox" id="exclude_group" name="exclude_group" disabled <?= $stop_status ?> value="">
                     </td>
                   </tr>
                 <?
