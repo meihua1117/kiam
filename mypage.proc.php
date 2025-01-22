@@ -722,14 +722,13 @@ if ($mode == "land_save") {
     echo "<script>alert('신청되었습니다.');location='mypage_request_list.php';</script>";
     exit;
 } else if ($mode == "request_update") {
-
+    $fp = fopen("mypage.proc.log","w+");
     if (isset($_REQUEST['event_name_eng_event']) && $_REQUEST['event_name_eng_event'] != "") {
         $sp = $_REQUEST['event_name_eng_event'];
     }
     if (isset($_REQUEST['event_code']) && $_REQUEST['event_code'] != "") {
         $pcode = $_REQUEST['event_code'];
     }
-
     $sql = "update Gn_event_request set name='{$name}',
                                         event_idx='{$event_idx}',
                                         event_code='{$pcode}',
@@ -747,6 +746,7 @@ if ($mode == "land_save") {
                                         sms_idx='{$sms_idx}',
                                         sms_step_num='{$step_num}'
                                   where request_idx ='{$request_idx}'";
+    fwrite($fp,$sql);
     $result = mysqli_query($self_con, $sql);
     echo "<script>location='mypage_request_list.php';</script>";
     exit;
