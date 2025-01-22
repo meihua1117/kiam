@@ -288,7 +288,7 @@ $mem_phone = str_replace("-", "", $data['mem_phone']);
                                                         &nbsp;>이메일:<?= $row['email']; ?><br>
                                                         &nbsp;>거주주소:<?= $row['addr']; ?><br>
                                                         &nbsp;>가입여부:<?= $row['join_yn']; ?><br>
-                                                        &nbsp;>기타정보:<?= $row['consult_date']; ?><br>
+                                                        &nbsp;>기타정보:<?= $row['other']; ?><br>
                                                     </div>
                                                 </div>
                                             </td>

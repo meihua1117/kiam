@@ -16,7 +16,6 @@ $data = mysqli_fetch_array($sresul_num);
 $mem_phone = str_replace("-", "", $data['mem_phone']);
 
 $sql = "select * from Gn_event  where event_idx='{$_GET['event_idx']}'";
-
 $sresul_num = mysqli_query($self_con, $sql);
 $row = mysqli_fetch_array($sresul_num);
 

@@ -44,7 +44,7 @@ while ($row = mysqli_fetch_array($result)) {
 		->setCellValue("H$h", $row['birthday'])
 		->setCellValue("I$h", $row['job'])
 		->setCellValue("J$h", $row_event_data['event_title'])
-		->setCellValue("K$h", $row['consult_date'])
+		->setCellValue("K$h", $row['other'])
 		->setCellValue("L$h", $row['join_yn'])
 		->setCellValue("M$h", $row['regdate']);
 	$h++;
