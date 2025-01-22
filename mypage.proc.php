@@ -240,6 +240,7 @@ if ($mode == "land_save") {
     echo "<script>location='mypage_link_list.php';</script>";
     exit;
 } else if ($mode == "event_update") {
+    $fp = fopen("mypage.proc.log","w+");
     $event_info = implode(",", $_POST['event_info']);
     $sql = "update Gn_event set event_name_kor='{$event_name_kor}',
                                 event_title='{$event_title}',
@@ -255,10 +256,12 @@ if ($mode == "land_save") {
                                 sms_idx3='{$step_idx3}',
                                 stop_event_idx='{$stop_event_idx}'
                         where event_idx='{$event_idx}'";
+    fwrite($fp,$sql."\r\n");
     $result = mysqli_query($self_con, $sql);
     $transUrl = "https://" . $HTTP_HOST . "/event/event.html?pcode=$pcode&sp=$event_name_eng";
     $transUrl = get_short_url($transUrl);
     $sql = "update Gn_event set short_url='{$transUrl}' where event_idx='$event_idx '";
+    fwrite($fp,$sql."\r\n");
     $result = mysqli_query($self_con, $sql);
     echo "<script>location='mypage_link_list.php';</script>";
     exit;
