@@ -14,8 +14,10 @@ if($request_ids == ''){
 	$excel_sql = $_POST['excel_sql'];
 	$excel_sql = str_replace("`", "'", $excel_sql);
 }
-else
-	$excel_sql = "SELECT * FROM Gn_event_request WHERE request_idx IN ('{$request_ids}')";
+else{
+
+	$excel_sql = "SELECT * FROM Gn_event_request WHERE request_idx IN ({$request_ids})";
+}
 $result = mysqli_query($self_con, $excel_sql) or die(mysqli_error($self_con));
 
 $activeWorksheet
@@ -54,7 +56,6 @@ while ($row = mysqli_fetch_array($result)) {
 		->setCellValue("M$h", $row['regdate']);
 	$h++;
 }
-$activeWorksheet->setCellValue("A10", $excel_sql);
 $activeWorksheet->setTitle("신청고객 리스트 ");
 $spreadsheet->setActiveSheetIndex(0);
 
