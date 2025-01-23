@@ -240,10 +240,10 @@ if ($mode == "land_save") {
     echo "<script>location='mypage_link_list.php';</script>";
     exit;
 } else if ($mode == "event_update") {
-    $fp = fopen("mypage.proc.log","w+");
-    if(isset($_POST['event_info']))
+    $fp = fopen("mypage.proc.log", "w+");
+    if (isset($_POST['event_info']))
         $event_info = implode(",", $_POST['event_info']);
-    else 
+    else
         $event_info = "";
     $sql = "update Gn_event set event_name_kor='{$event_name_kor}',
                                 event_title='{$event_title}',
@@ -259,12 +259,12 @@ if ($mode == "land_save") {
                                 sms_idx3='{$step_idx3}',
                                 stop_event_idx='{$stop_event_idx}'
                         where event_idx='{$event_idx}'";
-    fwrite($fp,$sql."\r\n");
+    fwrite($fp, $sql . "\r\n");
     $result = mysqli_query($self_con, $sql);
     $transUrl = "https://" . $HTTP_HOST . "/event/event.html?pcode=$pcode&sp=$event_name_eng";
     $transUrl = get_short_url($transUrl);
     $sql = "update Gn_event set short_url='{$transUrl}' where event_idx='$event_idx '";
-    fwrite($fp,$sql."\r\n");
+    fwrite($fp, $sql . "\r\n");
     $result = mysqli_query($self_con, $sql);
     echo "<script>location='mypage_link_list.php';</script>";
     exit;
@@ -748,13 +748,32 @@ if ($mode == "land_save") {
                                         join_yn='{$join_yn}',                                      
                                         edit_id='{$_SESSION['one_member_id']}',
                                         edit_date=NOW()";
-    if(isset($_REQUEST['sms_idx']) && $_REQUEST['sms_idx'] != "")
+    if (isset($_REQUEST['sms_idx']) && $_REQUEST['sms_idx'] != "")
         $sql .= ",sms_idx='{$sms_idx}'";
-    if(isset($_REQUEST['step_num']) && $_REQUEST['step_num'] != "")
+    if (isset($_REQUEST['step_num']) && $_REQUEST['step_num'] != "")
         $sql .= ",sms_step_num='{$step_num}'";
     $sql .= " WHERE request_idx ='{$request_idx}'";
     $result = mysqli_query($self_con, $sql);
     echo "<script>location='mypage_request_list.php';</script>";
+    exit;
+} else if ($mode == "request_except_update") {
+    $sql = "SELECT target FROM Gn_event_request WHERE request_idx ='{$request_idx}'";
+    $res = mysqli_query($self_con, $sql);
+    $row = mysqli_fetch_assoc($res);
+    if ($except_status == "Y") {
+        if ($row['target'] == '')
+            $target = 100;
+        else
+            $target = 100 + $row['target'] * 1;
+    } else {
+        if ($row['target'] == 100)
+            $target = '';
+        else
+            $target = $row['target'] * 1 - 100;
+    }
+    $sql = "UPDATE Gn_event_request SET target = '{$target}' WHERE request_idx ='{$request_idx}'";
+    $result = mysqli_query($self_con, $sql);
+    echo json_encode(array("result" => "success"));
     exit;
 } else if ($mode == "request_del") {
     $sql = "delete from Gn_event_request where request_idx ='{$request_idx}' and sp='{$org_event_code}'";
@@ -1499,7 +1518,7 @@ if ($mode == "land_save") {
             while ($row_sms = mysqli_fetch_array($res_sms)) {
                 $send_time = $row_sms['send_time'];
                 //if (isset($_POST['step_count'])) {
-                if($row_cnt['step_count'] > 0){
+                if ($row_cnt['step_count'] > 0) {
                     $time_arr = explode(":", $send_time);
                     $htime = trim($time_arr[0]);
                     $mtime = trim($time_arr[1]);

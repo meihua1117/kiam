@@ -81,11 +81,25 @@ include_once $path . "lib/rlatjd_fun.php";
         $(".popup_text").css("color", "black");
       });
       $('input[name="except_send"]').on('click', function() {
+        var request_idx = $(this).val();
+        var except_status = "";
         if ($(this).prop('checked')) {
-          console.log($(this).val() + " 체크됨");
+          except_status = "Y";
         } else {
-          console.log($(this).val() + " 체크 해제됨");
+          except_status = "N";
         }
+        $.ajax({
+          type: "POST",
+          url: "mypage.proc.php",
+          data: {
+            mode: "request_except_update",
+            request_idx: request_idx,
+            except_status : except_status
+          },
+          success: function(data) {
+            
+          }
+        });
       });
 
     });
