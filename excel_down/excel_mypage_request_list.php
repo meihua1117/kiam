@@ -9,8 +9,12 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 
 $spreadsheet = new Spreadsheet();
 $activeWorksheet = $spreadsheet->getActiveSheet();
-$excel_sql = $_POST['excel_sql'];
 $request_ids = $_POST['box_text'];
+if($request_ids == '')
+	$excel_sql = $_POST['excel_sql'];
+else
+	$excel_sql = "SELECT * FROM Gn_event_request WHERE request_idx IN ('{$request_ids}')";
+
 $excel_sql = str_replace("`", "'", $excel_sql);
 $result = mysqli_query($self_con, $excel_sql) or die(mysqli_error($self_con));
 
