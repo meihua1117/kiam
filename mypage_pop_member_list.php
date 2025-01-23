@@ -80,6 +80,13 @@ include_once $path . "lib/rlatjd_fun.php";
       }, function(e) {
         $(".popup_text").css("color", "black");
       });
+      $('input[name="except_send"]').on('click', function() {
+        if ($(this).prop('checked')) {
+          console.log($(this).val() + " 체크됨");
+        } else {
+          console.log($(this).val() + " 체크 해제됨");
+        }
+      });
 
     });
 
@@ -155,6 +162,7 @@ include_once $path . "lib/rlatjd_fun.php";
                 <td style="width:15%;">휴대폰번호</td>
                 <td style="width:15%">신청일짜</td>
                 <td style="width:10%">보기</td>
+                <td style="width:10%">그룹제외</td>
                 <td style="width:10%">발송제외</td>
               </tr>
               <?
@@ -241,13 +249,21 @@ include_once $path . "lib/rlatjd_fun.php";
                       ?>
                       <input type="checkbox" id="exclude_group" name="exclude_group" disabled <?= $stop_status ?> value="">
                     </td>
+                    <td>
+                      <?
+                      $except_status = "";
+                      if ($row['target'] >= 100)
+                        $except_status = "checked";
+                      ?>
+                      <input type="checkbox" id="except_send" name="except_send" <?= $except_status ?> value="<?= $row['request_idx'] ?>">
+                    </td>
                   </tr>
                 <?
                   $sort_no--;
                 }
                 ?>
                 <tr>
-                  <td colspan="6">
+                  <td colspan="7">
                     <?
                     page_f($page, $page2, $intPageCount, "pay_form");
                     ?>
