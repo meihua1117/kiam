@@ -239,7 +239,7 @@ $mem_phone = str_replace("-", "", $data['mem_phone']);
                                         }
                                 ?>
                                         <tr>
-                                            <td><input type="checkbox" class="check" name="event_idx" value="<?php echo $row['request_idx']; ?>" data-name="<?= $row['name'] ?>" data-mobile="<?= $row['mobile'] ?>" data-email="<?= $row['email'] ?>" data-job="<?= $row['job'] ?>" data-event_code="<?= $row['event_code'] ?>" data-counsult_date="<?= $row['counsult_date'] ?>" data-sp="<?= $row['sp'] ?>" data-request_idx="<?php echo $row['request_idx']; ?>"></td>
+                                            <td><input type="checkbox" class="check" name="event_idx" value="<?= $row['request_idx']; ?>" data-name="<?= $row['name'] ?>" data-mobile="<?= $row['mobile'] ?>" data-email="<?= $row['email'] ?>" data-job="<?= $row['job'] ?>" data-event_code="<?= $row['event_code'] ?>" data-counsult_date="<?= $row['counsult_date'] ?>" data-sp="<?= $row['sp'] ?>" data-request_idx="<?php echo $row['request_idx']; ?>"></td>
                                             <td><?= $sort_no ?></td>
                                             <td style="font-size:12px;"><?= $row['name'] ?><br>
                                                 <a onclick="window.open('mypage_pop_activity_list.php?request_idx='+'<?= $row['request_idx'] ?>','','top=300,left=300,width=800,height=500,toolbar=no,menubar=no,scrollbars=yes, resizable=yes,location=no, status=no')">[보기]</a>
@@ -331,8 +331,7 @@ $mem_phone = str_replace("-", "", $data['mem_phone']);
                     </div>
                 </form>
                 <form id="excel_down_form" name="excel_down_form" target="excel_iframe" method="post">
-                    <input type="hidden" name="grp_id" value="" />
-                    <input type="hidden" name="box_text" value="" />
+                    <input type="hidden" name="box_text" id="box_text" value="" />
                     <input type="hidden" name="excel_sql" value="<?= $excel_sql ?>" />
                 </form>
 
@@ -397,7 +396,13 @@ $mem_phone = str_replace("-", "", $data['mem_phone']);
                 $('#allChk').on("change", function() {
                     $('input[name=event_idx]').prop("checked", $(this).is(":checked"));
                 })
-
+                $('input[name=event_idx]').on("change", function() {
+                    let checkedValues = [];
+                    $('input[name=event_idx]:checked').each(function() {
+                        checkedValues.push($(this).val());
+                    });
+                    $("#box_text").val(checkedValues.join(", "));
+                })
                 $('#eventAddBtn').on("click", function() {
                     var cnt = 0;
                     var event_idx = "";
