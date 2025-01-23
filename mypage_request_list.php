@@ -395,6 +395,11 @@ $mem_phone = str_replace("-", "", $data['mem_phone']);
                 });
                 $('#allChk').on("change", function() {
                     $('input[name=event_idx]').prop("checked", $(this).is(":checked"));
+                    let checkedValues = [];
+                    $('input[name=event_idx]:checked').each(function() {
+                        checkedValues.push($(this).val());
+                    });
+                    $("#box_text").val(checkedValues.join(", "));
                 })
                 $('input[name=event_idx]').on("change", function() {
                     let checkedValues = [];

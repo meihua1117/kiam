@@ -10,6 +10,7 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 $spreadsheet = new Spreadsheet();
 $activeWorksheet = $spreadsheet->getActiveSheet();
 $excel_sql = $_POST['excel_sql'];
+$request_ids = $_POST['box_text'];
 $excel_sql = str_replace("`", "'", $excel_sql);
 $result = mysqli_query($self_con, $excel_sql) or die(mysqli_error($self_con));
 
