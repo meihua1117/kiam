@@ -535,11 +535,11 @@ if ($mode == "land_save") {
                                         email='{$email}',
                                         job='{$job}',
                                         sp='{$sp}',
-                                       sex='{$sex}',
-                                       addr='{$addr}',
-                                       birthday='{$birthday}',
-                                       consult_date='{$consult_date}',
-                                       join_yn='{$join_yn}',                                      
+                                        sex='{$sex}',
+                                        addr='{$addr}',
+                                        birthday='{$birthday}',
+                                        consult_date='{$consult_date}',
+                                        join_yn='{$join_yn}',                                      
                                         edit_id='{$_SESSION['one_member_id']}',
                                         edit_date=NOW()
                                   where request_idx ='{$request_idx}'";

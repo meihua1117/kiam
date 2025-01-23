@@ -3,7 +3,7 @@
 include_once "/home/kiam/lib/db_config.php";
 
 $curDate =  new DateTime();
-$sql_req = "SELECT * FROM Gn_event_request WHERE step_end_time > now() AND target <> ''";
+$sql_req = "SELECT * FROM Gn_event_request WHERE step_end_time > now() AND target <> '' AND target < 100 ";
 $res_req = mysqli_query($self_con, $sql_req);
 while ($row_req = mysqli_fetch_assoc($res_req)) {
     $mem_id = $row_req['m_id'];

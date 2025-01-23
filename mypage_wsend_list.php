@@ -203,10 +203,6 @@ $logs->add_log("start");
 										$recv_cnt = explode(",", $row_sn['recv_num']);
 										$total_cnt = count($recv_cnt);
 
-										// $sql_sn="select * from Gn_event_request where request_idx='$row['request_idx']' ";
-										// $sresul=mysqli_query($self_con,$sql_sn);
-										// $srow=mysqli_fetch_array($sresul);
-
 										$sql_sn = "select count(*) as cnt from Gn_event_sms_step_info where sms_idx='{$row['sms_idx']}' ";
 										$sresul = mysqli_query($self_con, $sql_sn);
 										$crow = mysqli_fetch_array($sresul);

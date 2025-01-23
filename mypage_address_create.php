@@ -29,7 +29,7 @@ $mem_phone = str_replace("-", "", $data['mem_phone']);
 
 
 
-$sql = "select * from Gn_event_request  where request_idx='" . $request_idx . "'";
+$sql = "select * from Gn_event_request  where request_idx='{$request_idx}'";
 $sresul_num = mysqli_query($self_con, $sql);
 $data = $row = mysqli_fetch_array($sresul_num);
 
