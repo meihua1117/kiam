@@ -6,7 +6,9 @@ $date = date("Y-m-d");
 $date_log = date("Y-m-d H:i:s");
 // echo $date_log; exit;
 
-$sql_daily = "select * from (select * from Gn_daily order by step_count desc) t where step_sms_idx <> 0 GROUP BY step_sms_idx";
+//$sql_daily = "select * from (select * from Gn_daily order by step_count desc) t where step_sms_idx <> 0 GROUP BY step_sms_idx";
+$sql_daily = "WITH Gn_daily_temp AS (SELECT *,ROW_NUMBER() OVER (PARTITION BY step_sms_idx ORDER BY step_count DESC) AS rn FROM Gn_daily WHERE step_sms_idx <> 0 )
+                SELECT * FROM Gn_daily_temp WHERE rn = 1;";
 $res_daily = mysqli_query($self_con, $sql_daily);
 while ($row_daily = mysqli_fetch_array($res_daily)) {
     $sql_day_betw = "select send_day from Gn_event_sms_step_info where sms_idx='{$row_daily['step_sms_idx']}' and send_day='{$row_daily['step_count']}'";

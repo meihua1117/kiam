@@ -15,7 +15,6 @@ if($request_ids == ''){
 	$excel_sql = str_replace("`", "'", $excel_sql);
 }
 else{
-
 	$excel_sql = "SELECT * FROM Gn_event_request WHERE request_idx IN ({$request_ids})";
 }
 $result = mysqli_query($self_con, $excel_sql) or die(mysqli_error($self_con));
