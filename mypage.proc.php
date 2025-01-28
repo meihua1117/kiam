@@ -1378,9 +1378,9 @@ if ($mode == "land_save") {
             $title = $row_sms['title'];
             $txt = $row_sms['content'];
             $deny = $row_sms['send_deny'];
-            $row_sms['image'] ? $upimage_str = "https://" . $HTTP_HOST . '/upload/' . $row_sms['image'] : '';
-            $row_sms['image1'] ? $upimage_str1 = "https://" . $HTTP_HOST . '/upload/' . $row_sms['image1'] : '';
-            $row_sms['image2'] ? $upimage_str2 = "https://" . $HTTP_HOST . '/upload/' . $row_sms['image2'] : '';
+            $upimage_str = $row_sms['image'] ? "https://" . $HTTP_HOST . '/upload/' . $row_sms['image'] : '';
+            $upimage_str1 = $row_sms['image1'] ? "https://" . $HTTP_HOST . '/upload/' . $row_sms['image1'] : '';
+            $upimage_str2 = $row_sms['image2'] ? "https://" . $HTTP_HOST . '/upload/' . $row_sms['image2'] : '';
 
             if (isset($_POST['step_count']))
                 $step_count = $_POST['step_count'];
