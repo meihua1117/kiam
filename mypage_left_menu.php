@@ -93,7 +93,7 @@ input:checked + .slider:before {
 <!--
        <div class="m_left_menu">
            <ul>
-               <li class="title">원스텝문자</li>
+               <li class="title">원퍼널문자</li>
                <?php if($rights >= 1) {?>
                <li><a href="mypage_link_list.php">이벤트신청페이지</a></li>
                <?php }?>
@@ -104,7 +104,7 @@ input:checked + .slider:before {
                <li><a href="mypage_request_list.php">이벤트신청리스트</a></li>
                <?php }?>
                <?php if($rights > 1) {?>
-               <li><a href="mypage_reservation_list.php">스텝예약문자내역</a></li>
+               <li><a href="mypage_reservation_list.php">퍼널예약문자내역</a></li>
                
                <li><a href="mypage_wsend_list.php">예약발신예정내역</a></li>
                <li><a href="mypage_send_list.php">예약문자발신결과</a></li>

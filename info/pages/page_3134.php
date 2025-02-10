@@ -295,7 +295,7 @@ $is_navbar_module=0;
 <li id="hmenu_43878_2_3135" depth="2"><a href="/pages/page_3135.php">온리원문자 매뉴얼</a></li>
 <li id="hmenu_43878_2_3136" depth="2"><a href="/pages/page_3136.php">온리원디버 매뉴얼</a></li>
 <li id="hmenu_43878_2_3137" depth="2"><a href="/pages/page_3137.php">메시지카피 매뉴얼</a></li>
-<li id="hmenu_43878_2_3138" depth="2"><a href="/pages/page_3138.php">원스탭문자 매뉴얼</a></li>
+<li id="hmenu_43878_2_3138" depth="2"><a href="/pages/page_3138.php">원퍼널문자 매뉴얼</a></li>
 <li id="hmenu_43878_2_3100" depth="2"><a href="/pages/page_3100.php">자주하는 질문</a></li>
 </ul>
 </li>
@@ -385,7 +385,7 @@ $cell_id='cell_124_131';
 <li id="vmenu_43828_3135" depth="2" num="0"><a href="/pages/page_3135.php" class="vmenu_depth_1">온리원문자 매뉴얼</a></li>
 <li id="vmenu_43828_3136" depth="2" num="0"><a href="/pages/page_3136.php" class="vmenu_depth_1">온리원디버 매뉴얼</a></li>
 <li id="vmenu_43828_3137" depth="2" num="0"><a href="/pages/page_3137.php" class="vmenu_depth_1">메시지카피 매뉴얼</a></li>
-<li id="vmenu_43828_3138" depth="2" num="0"><a href="/pages/page_3138.php" class="vmenu_depth_1">원스탭문자 매뉴얼</a></li>
+<li id="vmenu_43828_3138" depth="2" num="0"><a href="/pages/page_3138.php" class="vmenu_depth_1">원퍼널문자 매뉴얼</a></li>
 <li id="vmenu_43828_3100" depth="2" num="0"><a href="/pages/page_3100.php" class="vmenu_depth_1">자주하는 질문</a></li>
 </ul>
 <script type="text/javascript">

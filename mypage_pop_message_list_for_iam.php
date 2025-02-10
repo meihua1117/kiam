@@ -81,7 +81,7 @@ function copyHtml(url){
             <input type="hidden" name="page" value="<?=$page?>" />
             <input type="hidden" name="page2" value="<?=$page2?>" />        
         <div class="a1">
-        <li style="float:left;">스텝예약 메시지 리스트</li>
+        <li style="float:left;">퍼널예약 메시지 리스트</li>
         <li style="float:right;"></li>
         <p style="clear:both"></p>
         </div>

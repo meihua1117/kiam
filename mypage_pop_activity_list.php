@@ -168,7 +168,7 @@ include_once $path . "lib/rlatjd_fun.php";
               <tr>
                 <td style="width:6%;">No</td>
                 <td style="width:15%;">신청그룹명</td>
-                <td style="width:15%;">스탭문자</td>
+                <td style="width:15%;">퍼널문자</td>
                 <td style="width:15%">신청일짜</td>
                 <td style="width:10%">신청폰번호</td>
               </tr>

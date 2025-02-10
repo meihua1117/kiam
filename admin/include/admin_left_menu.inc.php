@@ -436,13 +436,13 @@
                                 <?}?>
                             </ul>
                         </li>
-                        <li <?=$fileName=="step_event_list.php"?" class='active'":""?> ><a href="javascript:;;"><i class="fa fa-book"></i> <span>스텝문자관리</span></a>
+                        <li <?=$fileName=="step_event_list.php"?" class='active'":""?> ><a href="javascript:;;"><i class="fa fa-book"></i> <span>퍼널문자관리</span></a>
                             <ul class="treeview-menu" style="display: block;">
                             <li><a href="step_event_list.php"><i class="fa fa-circle-o"></i> 신청페이지리스트</a></li>
                             <li><a href="step_landing_list.php"><i class="fa fa-circle-o"></i> 랜딩페이지리스트</a></li>
                             <li><a href="step_request_list.php"><i class="fa fa-circle-o"></i> 고객 신청리스트</a></li>
                             <li><a href="daily_msg_list_service.php"><i class="fa fa-circle-o"></i> 데일리메시지관리</a></li>
-                            <li><a href="step_reservation_list.php"><i class="fa fa-circle-o"></i> 스텝예약발신내역</a></li>
+                            <li><a href="step_reservation_list.php"><i class="fa fa-circle-o"></i> 퍼널예약발신내역</a></li>
                             <li><a href="step_wsend_list.php"><i class="fa fa-circle-o"></i> 예약발신예정내역</a></li>
                             <li><a href="step_send_list.php"><i class="fa fa-circle-o"></i> 예약메시지발신결과</a></li>
                             </ul>

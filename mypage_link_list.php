@@ -9,9 +9,6 @@ if (!$_SESSION['one_member_id']) {
 <?
 	exit;
 }
-$sql = "select * from Gn_Member  where mem_id='" . $_SESSION['one_member_id'] . "' and site != ''";
-$sresul_num = mysqli_query($self_con, $sql);
-$data = mysqli_fetch_array($sresul_num);
 extract($_POST);
 ?>
 <script>
@@ -42,6 +39,16 @@ extract($_POST);
 			} else if ($(this).prop("id") == "check_one_member") {
 				if (!$(this).prop("checked"))
 					$('#check_all_member').prop("checked", false);
+			}
+		});
+		$("#reserv_type").on("change", function() {
+			let reserv_type = $(this).val();
+			let params = new URLSearchParams(window.location.search);
+			if (reserv_type) {
+				params.set("reserv_type", reserv_type);
+				window.location.search = params.toString();
+			} else {
+				window.location.href = window.location.pathname;
 			}
 		});
 	});
@@ -179,7 +186,6 @@ extract($_POST);
 </style>
 <div class="big_div">
 	<div class="big_sub">
-		<?php include "mypage_step_navi.php"; ?>
 		<div class="m_div">
 			<?php include "mypage_left_menu.php"; ?>
 			<div class="m_body">
@@ -188,12 +194,19 @@ extract($_POST);
 					<input type="hidden" name="page2" value="<?= $page2 ?>" />
 					<div class="a1" style="margin-top:50px; margin-bottom:15px">
 						<li style="float:left;">
-							<div class="popup_holder popup_text"> 고객신청그룹 리스트
+							<div class="popup_holder popup_text" style="margin-top: 7px;margin-right:10px"> 고객신청그룹 리스트
 								<div class="popupbox" style="display:none; height: 75px;width: 240px;color: black;left: 160px;top: -37px;">자신의 이벤트 상품이나 서비스를 통해 고객정보를 받아올 수 있도록 만든 신청창을 리스트로 보는 기능입니다.<br><br>
 									<a class="detail_view" style="color: blue;" href="https://tinyurl.com/37ts8xrk" target="_blank">[자세히 보기]</a>
 								</div>
 							</div>
 						</li>
+						<?if($member_1['ai_status']){?>
+						<select name="reserv_type" id="reserv_type" class="select">
+							<option value="" <? if ($_GET['reserv_type'] == "") echo "selected" ?>>전체</option>
+							<option value="1" <? if ($_GET['reserv_type'] == "1") echo "selected" ?>>AI</option>
+							<option value="0" <? if ($_GET['reserv_type'] == "0") echo "selected" ?>>수동</option>
+						</select>
+						<?}?>
 						<li style="float:right;"></li>
 						<p style="clear:both"></p>
 					</div>
@@ -226,12 +239,12 @@ extract($_POST);
 								<tr>
 									<td style="width:2%;"><input type="checkbox" class="check" id="check_all_member" value="0"></td>
 									<td style="width:6%;">No</td>
+									<td style="width:6%;">구분</td>
 									<td style="width:15%;">신청그룹제목</td>
-									<td style="width:10%;">신쳥대상</td>
+									<td style="width:8%">발송폰</td>
+									<td style="width:15%;">퍼널메시지제목<br>총회차/총발송건수</td>
+									<td style="width:10%">퍼널중단설정<br>ON/OFF</td>
 									<td style="width:10%;">미리보기<br>링크주소</td>
-									<td style="width:8%">발송폰번호</td>
-									<td style="width:10%">스탭문자<br>회차</td>
-									<td style="width:6%">중단문자<br>ON/OFF</td>
 									<td style="width:10%;">조회수/<br>신청수</td>
 									<td style="width:9%;">등록일</td>
 									<td style="width:9%;">수정/삭제</td>
@@ -251,7 +264,10 @@ extract($_POST);
 								if ($_REQUEST['search_key'] && $_REQUEST['search_text']) {
 									$sql_serch .= " AND {$_REQUEST['search_key']} LIKE '%" . $search_text . "%'";
 								}
-								$sql = "select count(event_idx) as cnt from Gn_event where $sql_serch ";
+								if ($_REQUEST['reserv_type']) {
+									$sql_serch .= " AND reserv_type = '{$_REQUEST['reserv_type']}'";
+								}
+								$sql = "SELECT count(event_idx) as cnt FROM Gn_event WHERE $sql_serch ";
 								$result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
 								$row = mysqli_fetch_array($result);
 								$intRowCount = $row['cnt'];
@@ -281,21 +297,75 @@ extract($_POST);
 									else
 										$order_name = "event_idx";
 									$intPageCount = (int)(($intRowCount + $intPageSize - 1) / $intPageSize);
-									$sql = "select * from Gn_event where $sql_serch order by $order_name $order_status limit $int,$intPageSize";
-									$excel_sql = "select * from Gn_event where $sql_serch order by $order_name $order_status";
+									$sql = "SELECT * FROM Gn_event WHERE $sql_serch order by $order_name $order_status limit $int,$intPageSize";
+									$excel_sql = "SELECT * FROM Gn_event WHERE $sql_serch order by $order_name $order_status";
 									$excel_sql = str_replace("'", "`", $excel_sql);
 									$result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-									while ($row = mysqli_fetch_array($result)) { 
-										$sql_event = "select count(*) as cnt from Gn_event_request where m_id ='$_SESSION[one_member_id]' and event_idx='{$row['event_idx']}' ";
+									while ($row = mysqli_fetch_array($result)) {
+										$sql_event = "SELECT count(*) as cnt FROM Gn_event_request WHERE m_id ='{$_SESSION['one_member_id']}' and event_idx='{$row['event_idx']}' ";
 										$res_event = mysqli_query($self_con, $sql_event);
 										$row_event = mysqli_fetch_assoc($res_event);
 										$req_count = $row_event['cnt'];
-									?>
+								?>
 										<tr>
 											<td><input type="checkbox" class="check" id="check_one_member" name="event_idx" value="<?= $row['event_idx']; ?>"></td>
 											<td><?= $sort_no ?></td>
-											<td style="font-size:12px;"><?= $row['event_title'] ?></td>
-											<td style="font-size:12px;"><?= $row['event_name_kor'] ?></td>
+											<td style="font-size:12px;"><?= $row['reserv_type'] == 1 ? 'AI' : '수동'; ?></td>
+											<td style="font-size:12px;"><?= $row['event_title'] ?><br><a onclick="window.open('mypage_pop_member_list.php?eventid='+'<?= $row['event_idx'] ?>','','top=300,left=300,width=800,height=500,toolbar=no,menubar=no,scrollbars=yes, resizable=yes,location=no, status=no')">[신청자보기]</a></td>
+											<td><?= $row['mobile'] ?></td>
+											<td>
+												<?
+												if ($row['sms_idx1'] != 0) {
+													$sql = "SELECT reservation_title FROM Gn_event_sms_info WHERE sms_idx='{$row['sms_idx1']}'";
+													$res = mysqli_query($self_con, $sql);
+													$sms_row = mysqli_fetch_array($res);
+													$sql = "SELECT count(*) FROM Gn_event_sms_step_info WHERE sms_idx='{$row['sms_idx1']}'";
+													$res = mysqli_query($self_con, $sql);
+													$step_row = mysqli_fetch_array($res);
+													$sql = "SELECT count(idx) FROM Gn_MMS WHERE sms_idx='{$row['sms_idx1']}' AND result=0";
+													$res = mysqli_query($self_con, $sql);
+													$send_row = mysqli_fetch_array($res);
+													echo "<a onclick=\"javascript:window.open('/mypage_reservation_create.php?sms_idx={$row['sms_idx1']}','','toolbar=yes,scrollbars=yes,resizable=yes,top=200,left=200,width=1000,height=600');\">$sms_row[0]<br><strong>$step_row[0]회 / $send_row[0]건</strong></a>";
+												}
+												if ($row['sms_idx2'] != 0) {
+													echo "<br>";
+													$sql = "SELECT reservation_title FROM Gn_event_sms_info WHERE sms_idx='{$row['sms_idx2']}'";
+													$res = mysqli_query($self_con, $sql);
+													$sms_row = mysqli_fetch_array($res);
+													$sql = "SELECT count(*) FROM Gn_event_sms_step_info WHERE sms_idx='{$row['sms_idx2']}'";
+													$res = mysqli_query($self_con, $sql);
+													$step_row = mysqli_fetch_array($res);
+													$sql = "SELECT count(idx) FROM Gn_MMS WHERE sms_idx='{$row['sms_idx2']}' AND result=0";
+													$res = mysqli_query($self_con, $sql);
+													$send_row = mysqli_fetch_array($res);
+													echo "<a onclick=\"javascript:window.open('/mypage_reservation_create.php?sms_idx={$row['sms_idx2']}','','toolbar=yes,scrollbars=yes,resizable=yes,top=200,left=200,width=1000,height=600');\">$sms_row[0]<br><strong>$step_row[0]회 / $send_row[0]건</strong></a>";
+												}
+												if ($row['sms_idx3'] != 0) {
+													echo "<br>";
+													$sql = "SELECT reservation_title FROM Gn_event_sms_info WHERE sms_idx='{$row['sms_idx3']}'";
+													$res = mysqli_query($self_con, $sql);
+													$sms_row = mysqli_fetch_array($res);
+													$sql = "SELECT count(*) FROM Gn_event_sms_step_info WHERE sms_idx='{$row['sms_idx3']}'";
+													$res = mysqli_query($self_con, $sql);
+													$step_row = mysqli_fetch_array($res);
+													$sql = "SELECT count(idx) FROM Gn_MMS WHERE sms_idx='{$row['sms_idx3']}' AND result=0";
+													$res = mysqli_query($self_con, $sql);
+													$send_row = mysqli_fetch_array($res);
+													echo "<a onclick=\"javascript:window.open('/mypage_reservation_create.php?sms_idx={$row['sms_idx3']}','','toolbar=yes,scrollbars=yes,resizable=yes,top=200,left=200,width=1000,height=600');\">$sms_row[0]<br><strong>$step_row[0]회 / $send_row[0]건</strong></a>";
+												}
+												?>
+											</td>
+											<td><?
+												if ($row['stop_event_idx'] != 0) {
+													$sql = "SELECT event_title FROM Gn_event WHERE event_idx='{$row['stop_event_idx']}'";
+													$res = mysqli_query($self_con, $sql);
+													$sms_row = mysqli_fetch_array($res);
+													echo "$sms_row[0]";
+												} else {
+													echo "<strong>OFF</strong>";
+												}
+												?>
+											</td>
 											<td>
 												<?php
 												if ($row['event_name_kor'] == "단체회원자동가입및아이엠카드생성") {
@@ -311,32 +381,10 @@ extract($_POST);
 												<a onclick="newpop('<?= $pop_url ?>')">미리보기</a><br>
 												<a onclick="copyHtml('<?= $row['short_url'] ?>')">&nbsp;링크복사</a>
 											</td>
-											<td><?= $row['mobile'] ?></td>
-											<td>
-												<?
-												if ($row['sms_idx1'] != 0) {
-													$sql = "select reservation_title from Gn_event_sms_info where sms_idx='{$row['sms_idx1']}'";
-													$res = mysqli_query($self_con, $sql);
-													$sms_row = mysqli_fetch_array($res);
-													$sql = "select count(*) from Gn_event_sms_step_info where sms_idx='{$row['sms_idx1']}'";
-													$res = mysqli_query($self_con, $sql);
-													$step_row = mysqli_fetch_array($res);
-													echo "<a onclick=\"javascript:window.open('/mypage_reservation_create.php?sms_idx={$row['sms_idx1']}','','toolbar=yes,scrollbars=yes,resizable=yes,top=200,left=200,width=1000,height=600');\">$sms_row[0]<br><strong>($step_row[0])</strong></a>";
-												}
-												?>
-											</td>
-											<td><?
-												if ($row['stop_event_idx'] != 0) {
-													$sql = "select event_title from Gn_event where event_idx='{$row['stop_event_idx']}'";
-													$res = mysqli_query($self_con, $sql);
-													$sms_row = mysqli_fetch_array($res);
-													echo "$sms_row[0]";
-												} else {
-													echo "<strong>OFF</strong>";
-												}
-												?>
-											</td>
-											<td><?= $row['read_cnt']."/" ?><a style="cursor:pointer" onclick="window.open('mypage_pop_member_list.php?eventid='+'<?=$row['event_idx']?>','','top=300,left=300,width=800,height=500,toolbar=no,menubar=no,scrollbars=yes, resizable=yes,location=no, status=no')" ><?=$req_count?></a></td>
+
+
+
+											<td><?= $row['read_cnt'] . "회 / " ?><a style="cursor:pointer" onclick="window.open('mypage_pop_member_list.php?eventid='+'<?= $row['event_idx'] ?>','','top=300,left=300,width=800,height=500,toolbar=no,menubar=no,scrollbars=yes, resizable=yes,location=no, status=no')"><?= $req_count ?>건</a></td>
 											<td><?= $row['regdate'] ?></td>
 											<td>
 												<a href='mypage_link_write.php?event_idx=<?php echo $row['event_idx']; ?>'>수정</a>/

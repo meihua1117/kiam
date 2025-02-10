@@ -16,31 +16,17 @@ if (!isset($_REQUEST['sms_idx'])) {
 if (!isset($_REQUEST['get_idx'])) {
     $get_idx = 0;
 }
-$sql = "select * from Gn_Member  where mem_id='" . $_SESSION['one_member_id'] . "'";
-$sresul_num = mysqli_query($self_con, $sql);
-$data = mysqli_fetch_array($sresul_num);
-
-if ($data['intro_message'] == "") {
-    $data['intro_message'] = "안녕하세요\n
-                            \n
-                            귀하의 휴대폰으로\n
-                            기부문자발송을 시작합니다.\n
-                            \n
-                            협조해주셔서 감사합니다^^
-                            ";
-}
-$mem_phone = str_replace("-", "", $data['mem_phone']);
-$sql = "select * from Gn_event_sms_info  where sms_idx='" . $sms_idx . "'";
-$sresul_num = mysqli_query($self_con, $sql);
-$row = mysqli_fetch_array($sresul_num);
 
 if ($sms_idx) {
-    $sql = "select * from Gn_event_sms_info  where sms_idx='" . $sms_idx . "'";
+    if($reserv_type == 1)
+        $sql = "select * from Gn_aievent_ms_info  where sms_idx='{$sms_idx}'";
+    else
+        $sql = "select * from Gn_event_sms_info  where sms_idx='{$sms_idx}'";
     $sresul_num = mysqli_query($self_con, $sql);
     $row = mysqli_fetch_array($sresul_num);
 }
 if ($get_idx) {
-    $sql = "select * from Gn_event_sms_info  where sms_idx='" . $get_idx . "'";
+    $sql = "select * from Gn_event_sms_info  where sms_idx='{$get_idx}'";
     $sresul_num = mysqli_query($self_con, $sql);
     $row = mysqli_fetch_array($sresul_num);
 }
@@ -49,23 +35,6 @@ if ($get_idx) {
 <script src="/admin/bootstrap/js/bootstrap.min.js"></script>
 <script src="/iam/js/layer.min.js" type="application/javascript"></script>
 <script src="/iam/js/chat.js"></script>
-<script>
-    function newpop() {
-        var win = window.open("mypage_pop_link_list.php", "event_pop", "toolbar=yes,scrollbars=yes,resizable=yes,top=200,left=200,width=1000,height=1000");
-    }
-    $(function() {
-        $('#searchBtn').on("click", function() {
-            newpop();
-        });
-        /*$(".popbutton").click(function(){
-            $('.ad_layer_info').lightbox_me({
-                centered: true,
-                onLoad: function() {
-                }
-            });
-        })*/
-    });
-</script>
 <style>
     .w200 {
         width: 200px;
@@ -148,9 +117,25 @@ if ($get_idx) {
         background-color: #efefef;
         padding: 5px;
     }
+
+    .popup_holder {
+        position: relative;
+    }
+
+    .popupbox {
+        z-index: 1;
+        text-align: left;
+        font-size: 12px;
+        font-weight: normal;
+        background: white;
+        border-radius: 3px;
+        padding: 10px;
+        border: none;
+        position: absolute;
+        box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+    }
 </style>
 <div class="big_sub">
-    <? include "mypage_step_navi.php"; ?>
     <div class="m_div">
         <? include "mypage_left_menu.php"; ?>
         <div class="m_body">
@@ -158,7 +143,7 @@ if ($get_idx) {
             <input type="hidden" name="page2" value="<?= $page2 ?>" />
             <div class="a1" style="margin-top:50px; margin-bottom:15px">
                 <li style="float:left;">
-                    <div class="popup_holder popup_text">스텝예약메시지 세트 만들기
+                    <div class="popup_holder popup_text">퍼널예약메시지 세트 만들기
                         <div class="popupbox" style="display:none;height: 60px;width: 230px;left: 230px;top: -37px;">예약문자를 주기적으로 보내기 위한 예약문자의 세트를 만드는 기능입니다.<br>
                             <a class="detail_view" style="color: blue;" href="https://tinyurl.com/yh4e3n5y" target="_blank">[자세히 보기]</a>
                         </div>
@@ -168,11 +153,26 @@ if ($get_idx) {
                 <p style="clear:both"></p>
             </div>
             <form name="sform" id="sform" action="mypage.proc.php" method="post" enctype="multipart/form-data">
-                <input type="hidden" name="mode" value="<?php echo $sms_idx ? "sms_update" : "sms_save"; ?>" />
-                <input type="hidden" name="sms_idx" value="<?php echo $sms_idx; ?>" />
-                <input type="hidden" name="event_idx" id="event_idx" value="<?php echo $row['event_idx']; ?>" />
+                <input type="hidden" name="mode" value="<?= $sms_idx ? "sms_update" : "sms_save"; ?>" />
+                <input type="hidden" name="sms_idx" value="<?= $sms_idx; ?>" />
+                <input type="hidden" name="event_idx" id="event_idx" value="<?= $row['event_idx']; ?>" />
                 <div class="p1">
                     <table class="list_table1" width="100%" border="0" cellspacing="0" cellpadding="0">
+                        <?if(!$sms_idx){?>
+                        <tr>
+                            <th class="w200">예약메시지 형태</th>
+                            <td>
+                                <select name="reserv_type" id="reserv_type" style="padding: 5px;width: 150px;">
+                                    <option value="0" <?= $reserv_type == "0" ? "selected" : ""; ?>>수동예약</option>
+                                    <? if ($member_1['ai_status']) { ?>
+                                        <option value="1" <?= $reserv_type == "1" ? "selected" : ""; ?>>AI예약</option>
+                                    <? } ?>
+                                </select>
+                            </td>
+                        </tr>
+                        <?}else{?>
+                            <input type="hidden" name="reserv_type" id="reserv_type" value="<?= $reserv_type; ?>" />
+                        <?}?>
                         <tr>
                             <th class="w200">예약메시지 세트제목</th>
                             <td><input type="text" name="reservation_title" placeholder="" id="reservation_title" value="<?= $row['reservation_title'] ?>" /> </td>
@@ -185,16 +185,31 @@ if ($get_idx) {
                         </tr>
                         <? if ($get_idx) { ?>
                             <tr>
-                                <th class="w200">스텝문자세트 가져오기</th>
+                                <th class="w200">퍼널문자세트 가져오기</th>
                                 <td>
                                     <input type="hidden" id="event_idx_event" name="event_idx_event" value="<?= $row['event_idx'] ?>" style="width:250px;">
                                     <input type="hidden" id="mb_id_copy" name="mb_id_copy" value="<?= $_SESSION['one_member_id'] ?>" style="width:250px;">
                                     <input type="text" name="mb_id" id="mb_id" value="<?= $_SESSION['one_member_id'] ?>" style="width:250px; height: 27px;">
                                     <input type="hidden" id="ori_sms_idx" name="ori_sms_idx" value="<?= $get_idx ?>" style="width:95px;">
-                                    <input type="button" value="스텝문자세트 조회" class="button " id="searchEventBtn" onclick="newMessageEvent()">
+                                    <input type="button" value="퍼널문자세트 조회" class="button " id="searchEventBtn" onclick="newMessageEvent()">
                                 </td>
                             </tr>
-                        <? } ?>
+                        <?  }else if(!$sms_idx || $reserv_type == 1){?>
+                            <tr class="AI" style="<?=!$sms_idx?'display:none':'';?>">
+                                <th class="w200">메시지 회차/주기</th>
+                                <td>
+                                    <input type="text" name="ai_step" id="ai_step" value="<?=$row['ai_step']?>" style="width:50px; height: 27px;">회차
+                                    <input type="text" name="ai_day" id="ai_day" value="<?=$row['ai_day']?>" style="width:50px; height: 27px;">일
+                                    <input type="text" name="ai_hour" id="ai_hour" value="<?=$row['ai_hour']?>" style="width:50px; height: 27px;">시분
+                                </td>
+                            </tr>
+                            <tr class="AI" style="<?=!$sms_idx?'display:none':'';?>">
+                                <th class="w200">메시지 GPT prompt</th>
+                                <td>
+                                    <textarea name="ai_prompt" id="ai_prompt" style="max-width: 600px;"><?=$row['ai_prompt']?></textarea>
+                                </td>
+                            </tr>
+                        <?  } ?>
                     </table>
                 </div>
                 <div style="text-align:center;margin-top:10px">
@@ -203,7 +218,6 @@ if ($get_idx) {
                 </div>
             </form>
             <?
-            // if($sms_idx != "")  {
             if ($get_idx) {
                 $sms_idx = $get_idx;
             }
@@ -433,47 +447,6 @@ if ($get_idx) {
                 return false;
             }
         }
-
-        function change_message(form) {
-            if (form.intro_message.value == "") {
-                alert('정보를 입력해주세요.');
-                form.intro_message.focus();
-                return false;
-            }
-            $.ajax({
-                type: "POST",
-                url: "ajax/ajax.php",
-                data: {
-                    mode: "intro_message",
-                    intro_message: form.intro_message.value
-                },
-                success: function(data) {
-                    $("#ajax_div").html(data);
-                    alert('저장되었습니다.');
-                }
-            });
-            return false;
-        }
-    </script>
-    <style>
-        .popup_holder {
-            position: relative;
-        }
-
-        .popupbox {
-            z-index: 1;
-            text-align: left;
-            font-size: 12px;
-            font-weight: normal;
-            background: white;
-            border-radius: 3px;
-            padding: 10px;
-            border: none;
-            position: absolute;
-            box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
-        }
-    </style>
-    <script>
         $(function() {
             $('#saveBtn').on("click", function() {
                 if ($('#reservation_title').val() == "") {
@@ -504,7 +477,7 @@ if ($get_idx) {
                         }
                     });
                 <? } else { ?>
-                    alert("스텝예약메시지 세트정보를 먼저 입력하시고 저장을 클릭해주세요.");
+                    alert("퍼널예약메시지 세트정보를 먼저 입력하시고 저장을 클릭해주세요.");
                 <? } ?>
             });
             $('#send_day').on("change", function() {
@@ -560,8 +533,15 @@ if ($get_idx) {
                 <? if ($sms_idx) { ?>
                     $('#auto_making_modal').modal("show");
                 <? } else { ?>
-                    alert("스텝예약메시지 세트정보를 먼저 입력하시고 저장을 클릭해주세요.");
+                    alert("퍼널예약메시지 세트정보를 먼저 입력하시고 저장을 클릭해주세요.");
                 <? } ?>
+            });
+            $("#reserv_type").on("change",function(){
+                if($(this).val() == 1){
+                    $(".AI").show();
+                }else{
+                    $(".AI").hide();
+                }
             });
         });
 
@@ -627,7 +607,6 @@ if ($get_idx) {
                     return;
                 }
             }
-
             console.log(sms_idx, type, address, contents_cnt, send_time, contents_keyword, start_date, end_date);
             $.ajax({
                 type: "POST",

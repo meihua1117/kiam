@@ -180,7 +180,7 @@ if($platform == "mobile"){
                                 <?}?>
                             </tr>
                             <tr>
-                                <td>전체회원스텝문자기능</td>
+                                <td>전체회원퍼널문자기능</td>
                                 <?foreach($pay_row as $row){?>
                                 <td><?=$row['step'] == "Y"?"&#x2705;":""?></td>
                                 <?}?>
@@ -438,7 +438,7 @@ if($platform == "mobile"){
                                 <?}?>
                             </tr>
                             <tr>
-                                <td style="height: 40px;background-color: #f4f4f4;" colspan="6">IAM스탭</td>
+                                <td style="height: 40px;background-color: #f4f4f4;" colspan="6">IAM퍼널</td>
                             </tr>
                             <tr>
                                 <td>랜딩페이지</td>
@@ -453,7 +453,7 @@ if($platform == "mobile"){
                                 <?}?>
                             </tr>
                             <tr>
-                                <td>스텝예약발송</td>
+                                <td>퍼널예약발송</td>
                                 <?foreach($pay_row as $row){?>
                                 <td><?=$row['reserve_step'] == "Y"?"&#x2705;":""?></td>
                                 <?}?>
@@ -725,7 +725,7 @@ if($platform == "mobile"){
                                         </tr>
                                         <tr class="all-sta collapse">
                                             <td class="colored fw-bold" colspan="3">
-                                                <span style="font-size:14px">IAM스탭</span>
+                                                <span style="font-size:14px">IAM퍼널</span>
                                             </td>
                                         </tr>
                                         <tr class="all-sta collapse">
@@ -741,7 +741,7 @@ if($platform == "mobile"){
                                             </td>
                                         </tr>
                                         <tr class="all-sta collapse">
-                                            <td class="fw-bold">스텝예약발송</td>
+                                            <td class="fw-bold">퍼널예약발송</td>
                                             <td colspan="2">
                                                 <span id="step" data-value = "OFF">X</span>
                                             </td>
@@ -876,7 +876,7 @@ if($platform == "mobile"){
                                         </tr>
                                         <tr class="all-pro collapse in">
                                             <td class="colored fw-bold" colspan="3">
-                                                <span style="font-size:14px">IAM스탭</span>
+                                                <span style="font-size:14px">IAM퍼널</span>
                                             </td>
                                         </tr>
                                         <tr class="all-pro collapse in">
@@ -892,7 +892,7 @@ if($platform == "mobile"){
                                             </td>
                                         </tr>
                                         <tr class="all-pro collapse in">
-                                            <td class="fw-bold">스텝예약발송</td>
+                                            <td class="fw-bold">퍼널예약발송</td>
                                             <td colspan="2">
                                                 <span id="step" data-value = "<?=$pay_row[1]['reserve_step'] == "Y"?"ON":"OFF"?>"><?=$pay_row[1]['reserve_step'] == "Y"?"무제한":"불가"?></span>
                                             </td>
@@ -1028,7 +1028,7 @@ if($platform == "mobile"){
                                         </tr>
                                         <tr class="all-ent collapse">
                                             <td class="colored fw-bold" colspan="3">
-                                                <span style="font-size:14px">IAM스탭</span>
+                                                <span style="font-size:14px">IAM퍼널</span>
                                             </td>
                                         </tr>
                                         <tr class="all-ent collapse">
@@ -1044,7 +1044,7 @@ if($platform == "mobile"){
                                             </td>
                                         </tr>
                                         <tr class="all-ent collapse">
-                                            <td class="fw-bold">스텝예약발송</td>
+                                            <td class="fw-bold">퍼널예약발송</td>
                                             <td colspan="2">
                                                 <span id="step" data-value = "<?=$pay_row[2]['reserve_step'] == "Y"?"ON":"OFF"?>"><?=$pay_row[2]['reserve_step'] == "Y"?"무제한":"불가"?></span>
                                             </td>
@@ -1183,7 +1183,7 @@ if($platform == "mobile"){
                                         </tr>
                                         <tr>
                                             <td class="colored active fw-bold" colspan="3">
-                                                <span style="font-size:14px">IAM스탭</span>
+                                                <span style="font-size:14px">IAM퍼널</span>
                                             </td>
                                         </tr>
                                         <tr>
@@ -1199,7 +1199,7 @@ if($platform == "mobile"){
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td class="fw-bold">스텝예약발송</td>
+                                            <td class="fw-bold">퍼널예약발송</td>
                                             <td colspan="2">
                                                 <span id="step" data-value = "<?=$pay_row[3]['reserve_step'] == "Y"?"ON":"OFF"?>"><?=$pay_row[3]['reserve_step'] == "Y"?"무제한":"불가"?></span>
                                             </td>

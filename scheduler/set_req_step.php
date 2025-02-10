@@ -100,7 +100,7 @@ function sendmms($type, $userid, $sendnum, $recvnum, $rserv_time, $title, $conte
     $fields['send_img'] = $img;
     $fields['send_img1'] = $img1;
     $fields['send_img2'] = $img2;
-    //스텝문자 idx, 이벤트요청 idx
+    //퍼널문자 idx, 이벤트요청 idx
     if ($sms_idx != "")
         $fields['sms_idx'] = $sms_idx;
     if ($sms_detail_idx != "")

@@ -16,8 +16,6 @@ $data = mysqli_fetch_array($sresul_num);
 <script type="text/javascript" src="/js/mms_send.js"></script>
 <div class="big_div">
     <div class="big_sub">
-        <?php //include "mypage_step_navi.php";
-        ?>
         <div class="m_div">
             <?php include "mypage_left_menu.php"; ?>
             <div class="m_body">

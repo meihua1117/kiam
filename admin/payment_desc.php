@@ -184,7 +184,7 @@ while($row = mysqli_fetch_array($res)){
                                     <?}?>
                                 </tr>
                                 <tr>
-                                    <td>전체회원스텝문자기능</td>
+                                    <td>전체회원퍼널문자기능</td>
                                     <?foreach($pay_row as $row){?>
                                     <td><input type="checkbox" <?=$row['step'] == "Y"?"checked":""?> data-idx="<?=$row['idx']?>" data-name="step"></td>
                                     <?}?>
@@ -442,7 +442,7 @@ while($row = mysqli_fetch_array($res)){
                                     <?}?>
                                 </tr>
                                 <tr>
-                                    <td colspan="5">IAM스탭</td>
+                                    <td colspan="5">IAM퍼널</td>
                                 </tr>
                                 <tr>
                                     <td>랜딩페이지</td>
@@ -457,7 +457,7 @@ while($row = mysqli_fetch_array($res)){
                                     <?}?>
                                 </tr>
                                 <tr>
-                                    <td>스텝예약발송</td>
+                                    <td>퍼널예약발송</td>
                                     <?foreach($pay_row as $row){?>
                                     <td><input type="checkbox" <?=$row['reserve_step'] == "Y"?"checked":""?> data-idx="<?=$row['idx']?>" data-name="reserve_step"></td>
                                     <?}?>

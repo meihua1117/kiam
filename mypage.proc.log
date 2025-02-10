@@ -1,0 +1,14 @@
+update Gn_event set event_name_kor='AI TEST',
+                                event_title='ai test',
+                                event_info='sms,join,file',
+                                event_desc='',
+                                event_sms_desc='',
+                                event_type='',
+                                pcode='LNQlmIuVvb',
+                                mobile='01031235678',
+                                event_req_link='',
+                                sms_idx1='1200',
+                                sms_idx2='1199',
+                                sms_idx3='',
+                                stop_event_idx='0' ,reserv_type='1' ,file_cnt='3' where event_idx='1279'
+update Gn_event set short_url='https://test.kiam.kr/event/event.html?pcode=LNQlmIuVvb&sp=' where event_idx='1279 '

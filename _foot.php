@@ -178,7 +178,7 @@ if ($HTTP_HOST == "kookmin.kiam.kr") { ?>
                 <a href="/mypage_link_list.php">고객신청관리</a>
             </li>
             <li class="menu-item">
-                <a href="/mypage_landing_list.php">랜딩페이지</a>
+                <a href="/mypage_landing_list.php">인포랜딩</a>
             </li>
             <li class="menu-item">
                 <a href="sub_6_dbstar.php">포토문자</a>
@@ -241,20 +241,20 @@ if ($HTTP_HOST == "kookmin.kiam.kr") { ?>
                 </ul>
             </li>
             <li class="menu-item">
-                <a href="#">스텝문자</a>
+                <a href="#">퍼널문자</a>
                 <ul class="submenu">
-                    <li class="submenu-item"><a href="/sub_12.php">원스텝소개</a></li>
+                    <li class="submenu-item"><a href="/sub_12.php">원퍼널소개</a></li>
                     <?php if ($pay_data['onestep1'] != "ON" && $iam_type != 2) { ?>
-                        <li class="submenu-item"><a href="#" onclick="alert('결제 후 사용가능합니다.');">랜딩페이지</a></li>
+                        <li class="submenu-item"><a href="#" onclick="alert('결제 후 사용가능합니다.');">인포랜딩</a></li>
                         <li class="submenu-item"><a href="#" onclick="alert('결제 후 사용가능합니다.');">고객신청창</a></li>
-                        <li class="submenu-item"><a href="#" onclick="alert('결제 후 사용가능합니다.');">스텝예약관리</a></li>
+                        <li class="submenu-item"><a href="#" onclick="alert('결제 후 사용가능합니다.');">퍼널예약관리</a></li>
                         <li class="submenu-item"><a href="#" onclick="alert('결제 후 사용가능합니다.');">신청고객관리</a></li>
                         <li class="submenu-item"><a href="#" onclick="alert('결제 후 사용가능합니다.');">기존고객관리</a></li>
                         <li class="submenu-item"><a href="#" onclick="alert('결제 후 사용가능합니다.');">발송내역관리</a></li>
                     <?php } else { ?>
-                        <li class="submenu-item"><a href="mypage_landing_list.php">랜딩페이지</a></li>
+                        <li class="submenu-item"><a href="mypage_landing_list.php">인포랜딩</a></li>
                         <li class="submenu-item"><a href="/mypage_link_list.php">고객신청창</a></li>
-                        <li class="submenu-item"><a href="/mypage_reservation_list.php">스텝예약관리</a></li>
+                        <li class="submenu-item"><a href="/mypage_reservation_list.php">퍼널예약관리</a></li>
                         <li class="submenu-item"><a href="/mypage_request_list.php">신청고객관리</a></li>
                         <li class="submenu-item"><a href="/mypage_oldrequest_list.php">기존고객관리</a></li>
                         <li class="submenu-item"><a href="/mypage_wsend_list.php">발송내역관리</a></li>
@@ -336,7 +336,7 @@ if ($HTTP_HOST == "kookmin.kiam.kr") { ?>
                 <a href="sub_11.php">콜백문자발송</a>
             </li>
             <li class="menu-item">
-                <a href="daily_list.php">원스텝발송</a>
+                <a href="daily_list.php">원퍼널발송</a>
             </li>
             <li class="menu-item">
                 <a href="sub_4_return_.php">발신내역보기</a>
@@ -410,24 +410,32 @@ if ($HTTP_HOST == "kookmin.kiam.kr") { ?>
                 </ul>
             </li>
             <li class="menu-item">
-                <a href="#">스텝문자</a>
+                <a href="#">퍼널</a>
                 <ul class="submenu">
-                    <li class="submenu-item"><a href="/sub_12.php">원스텝소개</a></li>
+                    <li class="submenu-item"><a href="/sub_12.php">퍼널소개</a></li>
                     <?php if ($pay_data['onestep1'] != "ON" && $iam_type != 2) { ?>
-                        <li class="submenu-item"><a href="#" onclick="alert('결제 후 사용가능합니다.');">랜딩페이지</a></li>
-                        <li class="submenu-item"><a href="#" onclick="alert('결제 후 사용가능합니다.');">고객신청창</a></li>
-                        <li class="submenu-item"><a href="#" onclick="alert('결제 후 사용가능합니다.');">스텝예약관리</a></li>
-                        <li class="submenu-item"><a href="#" onclick="alert('결제 후 사용가능합니다.');">신청고객관리</a></li>
-                        <li class="submenu-item"><a href="#" onclick="alert('결제 후 사용가능합니다.');">기존고객관리</a></li>
-                        <li class="submenu-item"><a href="#" onclick="alert('결제 후 사용가능합니다.');">발송내역관리</a></li>
+                        <li class="submenu-item"><a href="#" onclick="alert('결제 후 사용가능합니다.');">인포랜딩</a></li>
+                        <li class="submenu-item"><a href="#" onclick="alert('결제 후 사용가능합니다.');">모듈랜딩</a></li>
+                        <li class="submenu-item"><a href="#" onclick="alert('결제 후 사용가능합니다.');">신청관리</a></li>
+                        <li class="submenu-item"><a href="#" onclick="alert('결제 후 사용가능합니다.');">고객관리</a></li>
+                        <li class="submenu-item"><a href="#" onclick="alert('결제 후 사용가능합니다.');">예약관리</a></li>
                     <?php } else { ?>
-                        <li class="submenu-item"><a href="mypage_landing_list.php">랜딩페이지</a></li>
-                        <li class="submenu-item"><a href="/mypage_link_list.php">고객신청창</a></li>
-                        <li class="submenu-item"><a href="/mypage_reservation_list.php">스텝예약관리</a></li>
-                        <li class="submenu-item"><a href="/mypage_request_list.php">신청고객관리</a></li>
-                        <li class="submenu-item"><a href="/mypage_oldrequest_list.php">기존고객관리</a></li>
-                        <li class="submenu-item"><a href="/mypage_wsend_list.php">발송내역관리</a></li>
+                        <li class="submenu-item"><a href="/mypage_landing_list.php">인포랜딩</a></li>
+                        <li class="submenu-item"><a href="/iam/mypage_report.php" target="_blank">모듈랜딩</a></li>
+                        <li class="submenu-item"><a href="/mypage_link_list.php">신청관리</a></li>
+                        <li class="submenu-item"><a href="/mypage_request_list.php">고객관리</a></li>
+                        <li class="submenu-item"><a href="/mypage_reservation_list.php">예약관리</a></li>
                     <?php } ?>
+                </ul>
+            </li>
+            <li class="menu-item">
+                <a href="#">데일리</a>
+                <ul class="submenu">
+                    <? if ($pay_data['onestep1'] != "ON" && $iam_type != 2) { ?>
+                        <li class="submenu-item"><a href="#" onclick="alert('결제 후 사용가능합니다.');">데일리발송</a></li>
+                    <? } else { ?>
+                        <li class="submenu-item"><a href="daily_list.php">데일리발송</a></li>
+                    <? } ?>
                 </ul>
             </li>
             <li class="menu-item">

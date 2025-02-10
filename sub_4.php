@@ -1281,7 +1281,7 @@ $phone = str_replace("-", "", $mem_phone);
 									<a href="sub_4.php?status=4" style="color:<?= $_REQUEST['status2'] == "" ? "#000" : "" ?>">전체내역</a> &nbsp;|&nbsp;
 									<a href="sub_4.php?status=4&status2=1" style="color:<?= $_REQUEST['status2'] == 1 ? "#000" : "" ?>">앱체크내역</a> &nbsp;|&nbsp;
 									<a href="sub_4_return_.php" style="color:<?= $_REQUEST['status2'] == 2 ? "#000" : "" ?>">발신/회신문자</a>&nbsp;|&nbsp;
-									<a href="sub_4_return_.php?chanel=2" style="color:<?= $_REQUEST['chanel'] == 2 ? "#000" : "" ?>">스텝문자</a>&nbsp;|&nbsp;
+									<a href="sub_4_return_.php?chanel=2" style="color:<?= $_REQUEST['chanel'] == 2 ? "#000" : "" ?>">퍼널문자</a>&nbsp;|&nbsp;
 									<a href="sub_4_return_.php?chanel=4" style="color:<?= $_REQUEST['chanel'] == 4 ? "#000" : "" ?>">데일리문자</a>&nbsp;|&nbsp;
 									<a href="sub_4_return_.php?chanel=9" style="color:<?= $_REQUEST['chanel'] == 9 ? "#000" : "" ?>">콜백문자</a>&nbsp;|&nbsp;
 									<a href="sub_4.php?status=4&status2=10" style="color:<?= $_REQUEST['status2'] == 10 ? "#000" : "" ?>">폰문자인증내역</a>
@@ -1714,7 +1714,7 @@ $phone = str_replace("-", "", $mem_phone);
 										<select name="serch_chanel">
 											<option value="">채널</option>
 											<?
-											$select_arr = array("1" => "폰문자", "2" => "스텝문자", "9" => "콜백문자", "4" => "데일리문자");
+											$select_arr = array("1" => "폰문자", "2" => "퍼널문자", "9" => "콜백문자", "4" => "데일리문자");
 											foreach ($select_arr as $key => $v) {
 												$selected = $_REQUEST['serch_chanel'] == $key ? "selected" : "";
 											?>
@@ -1768,7 +1768,7 @@ $phone = str_replace("-", "", $mem_phone);
 																	echo "폰문자";
 																	break;
 																case 2:
-																	echo "스텝문자";
+																	echo "퍼널문자";
 																	break;
 																case 9:
 																	echo "콜백문자";
@@ -1818,7 +1818,7 @@ $phone = str_replace("-", "", $mem_phone);
 												<td colspan="6" style="text-align:right;">
 													<select name="reg_chanel" id="reg_chanel">
 														<?
-														$select_arr = array("1" => "폰문자", "2" => "스텝문자", "9" => "콜백문자", "4" => "데일리문자");
+														$select_arr = array("1" => "폰문자", "2" => "퍼널문자", "9" => "콜백문자", "4" => "데일리문자");
 														foreach ($select_arr as $key => $v) {
 															$selected = $_REQUEST['serch_colum'] == $key ? "selected" : "";
 														?>

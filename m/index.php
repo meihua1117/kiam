@@ -207,7 +207,7 @@ if($_GET['key'] && $_GET['key'] == session_id()) {
 						<span class="icon-wrap">
 							<img src="img/menu/icon_namecard.png" style="width:36px;">
 						</span>
-						<p class="item-name">원스텝문자</p>
+						<p class="item-name">원퍼널문자</p>
 						<p class="item-sub">단계별자동홍보</p>
 					</div>
 				</div>
@@ -540,7 +540,7 @@ function openAndroid(){
     }
 }
 function change_site(idx){
-	var msg = "고급기능은 콜백, 데일리외에 폰문자, 스탭문자, 디비수집등의 자동홍보기능을 담고 있는 메인앱으로 변경됩니다. 메인 앱에서는 일부기능에 유료기능이 있습니다. 변경하시겠습니까?";
+	var msg = "고급기능은 콜백, 데일리외에 폰문자, 퍼널문자, 디비수집등의 자동홍보기능을 담고 있는 메인앱으로 변경됩니다. 메인 앱에서는 일부기능에 유료기능이 있습니다. 변경하시겠습니까?";
 
 	if(confirm(msg)){
 		$.ajax({

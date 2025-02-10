@@ -1376,12 +1376,12 @@ $logs->add_log("start");
                                 <input type="hidden" id="step_idx" name="step_idx" value="">
                                 <input type="text" id="reservation_title" name="reservation_title" value="" disabled style="font-size:15px;padding:5px 10px;width:35%">
                                 <input type="hidden" id="event_pcode_event" name="event_pcode_" value="">
-                                <input type="button" value="스텝예약관리 조회" class="button " id="searchEventBtn" onclick="newMessageEvent()">
+                                <input type="button" value="퍼널예약관리 조회" class="button " id="searchEventBtn" onclick="newMessageEvent()">
                             </div>
                         </div>
                         <div style="display:flex;justify-content: space-evenly;margin-top:20px">
                             <button type="button" class="btn btn-default btn-submit urlcopy" style="width: 35%;" onclick="window.open('https://tinyurl.com/yc5dw5ek')">
-                                스텝예약<br>세팅방법 보기
+                                퍼널예약<br>세팅방법 보기
                             </button>
                             <button id="auto_making_preview" type="button" class="btn btn-default btn-submit urlcopy" style="width: 35%;" onclick="automaking_preview();" disabled>
                                 유저화면<br>미리보기
@@ -1398,7 +1398,7 @@ $logs->add_log("start");
                 </form>
                 <!--div class="container" style="margin-top: 20px;text-align: center;width: 100%;">
                     <p style="margin-left: auto; margin-right: auto; font-size: 12px; margin-top: 20px;">
-                        * 스텝예약관리조회 : 미리 설정한 스텝문자세트를 선택<br>오토회원가입한 회원에게 자동으로 스텝문자가 발송<br>
+                        * 퍼널예약관리조회 : 미리 설정한 퍼널문자세트를 선택<br>오토회원가입한 회원에게 자동으로 퍼널문자가 발송<br>
                         * 이벤트신청주소 : 미리 설정한 고객신청창 주소를 입력<br>아이디 중복확인이 되면 이벤트신청하기 탭으로 변환
                     </p>
                 </div-->
@@ -1717,7 +1717,7 @@ $logs->add_log("start");
                                         <td class="iam_table"><input type="file" name="autojoin_img" style="width:200px;"><span id="autojoin_img_event"></span></td>
                                     </tr>
                                     <tr id="step_info_tr">
-                                        <th class="iam_table" style="width:20%;">스텝문자정보</th>
+                                        <th class="iam_table" style="width:20%;">퍼널문자정보</th>
                                         <td class="iam_table">
                                             <input type="text" style="width:45%;" name="step_title" id="step_title" value="" disabled>
                                             <input type="text" style="width:10%;" name="step_cnt" id="step_cnt" value="" disabled>
@@ -3348,7 +3348,7 @@ $logs->add_log("start");
                         $("#step_cnt").val('');
                         $("#step_allow_state").val('');
                         $("#step_allow_state").prop("checked", false);
-                        var href = '<a class="reserv_btn" href="javascript:view_step_list(' + data.id + ', `insert`)">스텝문자조회</a>';
+                        var href = '<a class="reserv_btn" href="javascript:view_step_list(' + data.id + ', `insert`)">퍼널문자조회</a>';
                         $("#step_info").html(href);
                     }
 

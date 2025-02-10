@@ -140,15 +140,10 @@ $dir = $_REQUEST['order_status'] == "desc" ? "asc" : "desc";
 </style>
 <div class="big_div">
 	<div class="big_sub">
-
-		<?php include "mypage_step_navi.php"; ?>
-
 		<div class="m_div">
 			<?php include "mypage_left_menu.php"; ?>
 			<div class="m_body">
-
 				<form name="pay_form" action="" method="post" class="my_pay">
-
 					<input type="hidden" name="page" value="<?= $page ?>" />
 					<input type="hidden" name="page2" value="<?= $page2 ?>" />
 					<div class="a1" style="margin-top:50px; margin-bottom:15px">

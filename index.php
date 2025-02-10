@@ -9647,7 +9647,7 @@ function encodeKorean($matches)
                         $("#step_cnt").val('');
                         $("#step_allow_state").val('');
                         $("#step_allow_state").prop("checked", false);
-                        var href = '<a class="reserv_btn" href="javascript:view_step_list(' + data.id + ', `insert`)">스텝문자조회</a>';
+                        var href = '<a class="reserv_btn" href="javascript:view_step_list(' + data.id + ', `insert`)">퍼널문자조회</a>';
                         $("#step_info").html(href);
                     }
 

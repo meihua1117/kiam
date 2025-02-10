@@ -135,19 +135,14 @@ $event_data = $row = mysqli_fetch_array($result);
 
 
 <div class="big_sub">
-
-	<?php include "mypage_step_navi.php"; ?>
-
+	<?php //include "mypage_step_navi.php"; ?>
 	<div class="m_div">
 		<?php include "mypage_left_menu.php"; ?>
 		<div class="m_body">
-
-
 			<input type="hidden" name="page" value="<?= $page ?>" />
 			<input type="hidden" name="page2" value="<?= $page2 ?>" />
 			<div class="a1" style="margin-top:15px; margin-bottom:15px">
 				<!--li style="float:left;">신청고객 수동추가</li-->
-
 				<li style="float:left;">
 					<div class="popup_holder popup_text">신청자 추가
 						<div id="_popupbox" class="popupbox" style="height: 75px;width: 260px;left: 160px;top: -37px;display:none ;">자신의 이벤트 상품이나 서비스를 소개하거나 상세페이지로 만든 랜딩페이지를 리스트로 보는 기능입니다.<br><br>
@@ -384,7 +379,7 @@ $event_data = $row = mysqli_fetch_array($result);
 					return;
 				}
 				if ($('#event_name_eng').val() == "" && $('#step_sms_title').val() == "") {
-					alert('이벤트명/스텝문자명을 입력해주세요.');
+					alert('이벤트명/퍼널문자명을 입력해주세요.');
 					return;
 				}
 				if ($('#reservation_title').val() == "") {

@@ -89,7 +89,7 @@
                                         <a href="https://pf.kakao.com/_jVafC/chat" target="_blank">카톡상담</a> |
                         		
                         				<a href="mypage.php">마이페이지</a>&nbsp;
-    				<!--| <a href="mypage_link_list.php">원스텝문자</a>&nbsp;-->
+    				<!--| <a href="mypage_link_list.php">원퍼널문자</a>&nbsp;-->
                                                         
                                         | <a href="/admin/member_list.php">관리자</a>&nbsp;
                     <!--| <a href="/pc_messenger.php">PC문자메신져</a>&nbsp;-->
@@ -160,12 +160,12 @@
                             </ul>                                       
                         </li>
                         <li class="menu-item">
-                            <a href="/sub_12.php">원스텝문자</a>
+                            <a href="/sub_12.php">원퍼널문자</a>
                             <ul class="submenu">
-                                <li class="submenu-item"><a href="/sub_12.php">원스텝문자소개</a></li>
+                                <li class="submenu-item"><a href="/sub_12.php">원퍼널문자소개</a></li>
                                 <li class="submenu-item"><a href="mypage_landing_list.php">랜딩페이지</a></li>
                                 <li class="submenu-item"><a href="/mypage_link_list.php">고객신청창</a></li>
-                                <li class="submenu-item"><a href="/mypage_reservation_list.php">스텝예약관리</a></li>
+                                <li class="submenu-item"><a href="/mypage_reservation_list.php">퍼널예약관리</a></li>
                                 <li class="submenu-item"><a href="/daily_list.php">데일리발송</a></li>
                                 <li class="submenu-item"><a href="/mypage_request_list.php">신청고객관리</a></li>
                                 <li class="submenu-item">
@@ -498,16 +498,16 @@ button {padding:20px;background:#81BEF7;font-size:20px;}
                         </ul>                                       
                     </li>
                     <li class="menu-item">
-                        <a href="/sub_12.php">원스텝문자</a>
+                        <a href="/sub_12.php">원퍼널문자</a>
                         <ul class="submenu">
-                            <li class="submenu-item"><a href="/sub_12.php">원스텝문자소개</a></li>
+                            <li class="submenu-item"><a href="/sub_12.php">원퍼널문자소개</a></li>
                             <li class="submenu-item"><a href="mypage_landing_list.php">랜딩페이지</a></li>
                             <li class="submenu-item"><a href="/mypage_link_list.php">고객신청창</a></li>
-                            <li class="submenu-item"><a href="/mypage_reservation_list.php">스텝예약관리</a></li>
+                            <li class="submenu-item"><a href="/mypage_reservation_list.php">퍼널예약관리</a></li>
                             <li class="submenu-item"><a href="/daily_list.php">데일리발송</a></li>
                             <li class="submenu-item"><a href="/mypage_request_list.php">신청고객관리</a></li>
-                            <li class="submenu-item"><a href="/mypage_wsend_list.php">스텝발신내역</a></li>
-                            <li class="submenu-item"><a href="/mypage_send_list.php">스텝발송결과</a></li>
+                            <li class="submenu-item"><a href="/mypage_wsend_list.php">퍼널발신내역</a></li>
+                            <li class="submenu-item"><a href="/mypage_send_list.php">퍼널발송결과</a></li>
                         </ul>                   
                     </li>
                     <li class="menu-item">

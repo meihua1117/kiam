@@ -10,39 +10,12 @@ if (!$_SESSION['one_member_id']) {
 <?
 	exit;
 }
-$sql = "select * from Gn_Member  where mem_id='" . $_SESSION['one_member_id'] . "'";
-$sresul_num = mysqli_query($self_con, $sql);
-$data = mysqli_fetch_array($sresul_num);
-
-if ($data['intro_message'] == "") {
-	$data['intro_message'] = "안녕하세요\n
-								\n
-								귀하의 휴대폰으로\n
-								기부문자발송을 시작합니다.\n
-								\n
-								협조해주셔서 감사합니다^^
-								";
-}
-
-$sql_mem_info = "select step_send_ids from Gn_Member where mem_id='{$_SESSION['one_member_id']}'";
-$res_mem_info = mysqli_query($self_con, $sql_mem_info);
-$row_mem_info = mysqli_fetch_array($res_mem_info);
-$send_ids = $row_mem_info['step_send_ids'];
+$send_ids = $member_1['step_send_ids'];
 if ($send_ids != "") {
 	$cnt = explode(",", $send_ids);
 	$send_ids_cnt = $cnt = count($cnt);
 }
 ?>
-<script>
-	$(function() {
-		$(".popbutton").click(function() {
-			$('.ad_layer_info').lightbox_me({
-				centered: true,
-				onLoad: function() {}
-			});
-		});
-	});
-</script>
 <style>
 	.tooltiptext-bottom {
 		width: 420px;
@@ -99,25 +72,29 @@ if ($send_ids != "") {
 </style>
 <div class="big_div">
 	<div class="big_sub">
-
-		<?php include "mypage_step_navi.php"; ?>
-
+		<?php //include "mypage_step_navi.php"; 
+		?>
 		<div class="m_div">
 			<?php include "mypage_left_menu.php"; ?>
 			<div class="m_body">
-
 				<form name="pay_form" action="" method="post" class="my_pay">
-
 					<input type="hidden" name="page" value="<?= $page ?>" />
 					<input type="hidden" name="page2" value="<?= $page2 ?>" />
 					<div class="a1" style="margin-top:50px; margin-bottom:15px">
 						<li style="float:left;">
-							<div class="popup_holder popup_text">스탭예약관리 리스트
-								<div class="popupbox" style="height: 75px;width: 245px;left: 200px;top: -37px;">스텝 예약문자 메시지 세트를 등록하여 활용할수 있는 기능과 예약세트메시지를 리스트로 보는 기능입니다.<br><br>
+							<div class="popup_holder popup_text" style="margin-top: 7px;margin-right:10px">퍼널예약관리 리스트
+								<div class="popupbox" style="height: 75px;width: 245px;left: 200px;top: -37px;">퍼널 예약문자 메시지 세트를 등록하여 활용할수 있는 기능과 예약세트메시지를 리스트로 보는 기능입니다.<br><br>
 									<a class="detail_view" style="color: blue;" href="https://tinyurl.com/2p8vsjm2" target="_blank">[자세히 보기]</a>
 								</div>
 							</div>
 						</li>
+						<? if ($member_1['ai_status']) { ?>
+							<select name="reserv_type" id="reserv_type" class="select">
+								<option value="" <? if ($_GET['reserv_type'] == "") echo "selected" ?>>전체</option>
+								<option value="1" <? if ($_GET['reserv_type'] == "1") echo "selected" ?>>AI</option>
+								<option value="0" <? if ($_GET['reserv_type'] == "0") echo "selected" ?>>수동</option>
+							</select>
+						<? } ?>
 						<li style="float:right;"></li>
 						<p style="clear:both"></p>
 					</div>
@@ -149,9 +126,9 @@ if ($send_ids != "") {
 						<div>
 							<table class="list_table" style="width:100%;border:none" cellspacing="0" cellpadding="0">
 								<tr>
-									<td style="width:2%;"><input type="checkbox" name="allChk" id="allChk" value="<?=$row['event_idx']; ?>"></td>
-									<!-- <td style="width:2%;"></td> -->
+									<td style="width:2%;"><input type="checkbox" name="allChk" id="allChk" value="<?= $row['event_idx']; ?>"></td>
 									<td style="width:6%;">No</td>
+									<td style="width:6%;">구분</td>
 									<td style="width:15%;">메시지세트제목</td>
 									<td style="width:15%;">메시지세트설명</td>
 									<td style="width:8%">단계</td>
@@ -178,7 +155,13 @@ if ($send_ids != "") {
 									$sql_serch .= " and (reservation_title like '%$search_text%' or reservation_desc like '%$search_text%')";
 								}
 
-								$sql = "select count(sms_idx) as cnt from Gn_event_sms_info where $sql_serch ";
+								if (!isset($_GET['reserv_type'])) {
+									$sql = "SELECT count(sms_idx) as cnt FROM (SELECT sms_idx,m_id FROM Gn_event_sms_info UNION ALL SELECT sms_idx,m_id FROM Gn_aievent_ms_info ) AS sms_info WHERE $sql_serch ";
+								} else if ($_GET['reserv_type'] == 1) {
+									$sql = "SELECT count(sms_idx) as cnt FROM Gn_aievent_ms_info WHERE $sql_serch ";
+								} else if ($_GET['reserv_type'] == 0) {
+									$sql = "SELECT count(sms_idx) as cnt FROM Gn_event_sms_info WHERE $sql_serch ";
+								}
 								$result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
 								$row = mysqli_fetch_array($result);
 								$intRowCount = $row['cnt'];
@@ -208,30 +191,41 @@ if ($send_ids != "") {
 									$order_name = "sms_idx";
 								$intPageCount = (int)(($intRowCount + $intPageSize - 1) / $intPageSize);
 								if ($intRowCount) {
-									$sql = "select * from Gn_event_sms_info where $sql_serch order by $order_name $order_status limit $int,$intPageSize";
+									//$sql = "SELECT * FROM {$table_name} WHERE $sql_serch order by $order_name $order_status limit $int,$intPageSize";
+									if (!isset($_GET['reserv_type'])) {
+										$sql = "SELECT * FROM (SELECT 0 AS reserv_type,sms_idx,sendable,reservation_title,reservation_desc,regdate,m_id FROM Gn_event_sms_info UNION ALL SELECT 1 AS reserv_type,sms_idx,sendable,reservation_title,reservation_desc,regdate,m_id FROM Gn_aievent_ms_info) AS sms_info WHERE $sql_serch order by $order_name $order_status limit $int,$intPageSize";
+									} else if ($_GET['reserv_type'] == 1) {
+										$sql = "SELECT 1 AS reserv_type,sms_idx,sendable,reservation_title,reservation_desc,regdate FROM Gn_aievent_ms_info WHERE $sql_serch order by $order_name $order_status limit $int,$intPageSize";
+									} else if ($_GET['reserv_type'] == 0) {
+										$sql = "SELECT 0 AS reserv_type,sms_idx,sendable,reservation_title,reservation_desc,regdate FROM Gn_event_sms_info WHERE $sql_serch order by $order_name $order_status limit $int,$intPageSize";
+									}
 									$result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
 
 								?>
 									<?
 									while ($row = mysqli_fetch_array($result)) {
-										$sql = "select count(*) as cnt from Gn_event_sms_step_info where sms_idx='{$row['sms_idx']}'";
+										if($row['reserv_type'] == 1)
+											$sql = "SELECT count(*) as cnt FROM Gn_aievent_message WHERE sms_idx='{$row['sms_idx']}'";
+										else
+											$sql = "SELECT count(*) as cnt FROM Gn_event_sms_step_info WHERE sms_idx='{$row['sms_idx']}'";
 										$sresult = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
 										$srow = mysqli_fetch_array($sresult);
 									?>
 										<tr>
 											<td>
 												<? if ($row['sendable'] == 1) { ?>
-													<input type="checkbox" class="check" name="sms_idx" value="<?=$row['sms_idx']; ?>" data-event-idx="<?= $row['event_idx'] ?>" data-name="<?= $row['m_id'] ?>" data-mobile="<?= $row['mobile'] ?>" data-event_name_eng="<?= $row['event_name_eng'] ?>" data-title="<?= $row['reservation_title'] ?>" data-desc="<?= $row['reservation_desc'] ?>">
+													<input type="checkbox" class="check" name="sms_idx" value="<?= $row['sms_idx']; ?>" data-event-idx="<?= $row['event_idx'] ?>" data-name="<?= $row['m_id'] ?>" data-mobile="<?= $row['mobile'] ?>" data-event_name_eng="<?= $row['event_name_eng'] ?>" data-title="<?= $row['reservation_title'] ?>" data-desc="<?= $row['reservation_desc'] ?>">
 											</td>
 										<? } ?>
 										<td><?= $sort_no ?></td>
+										<td style="font-size:12px;"><?= $row['reserv_type'] == "1" ? 'AI' : '수동'; ?></td>
 										<td style="font-size:12px;"><?= $row['reservation_title'] ?></td>
 										<td><?= $row['reservation_desc'] ?></td>
 										<td><?= number_format($srow['cnt']) ?></td>
 										<td><?= number_format($cnt) ?>/<?= number_format($cnt) ?></td>
 										<td><?= $row['regdate'] ?></td>
 										<td>
-											<a href='mypage_reservation_create.php?sms_idx=<?=$row['sms_idx']; ?>'>수정</a>/<a href="javascript:;;" onclick="deleteRow('<?=$row['sms_idx']; ?>')">삭제</a>
+											<a href='mypage_reservation_create.php?sms_idx=<?= $row['sms_idx']; ?>&reserv_type=<?= $row['reserv_type']; ?>'>수정</a>/<a href="javascript:;;" onclick="deleteRow('<?= $row['sms_idx']; ?>','<?= $row['reserv_type']; ?>')">삭제</a>
 										</td>
 										</tr>
 									<?
@@ -265,7 +259,7 @@ if ($send_ids != "") {
 	</div>
 </div>
 <span class="tooltiptext-bottom" id="tooltiptext_card_edit" style="display:none;">
-	<p class="title_app">스텝문자세트 전송하기</p>
+	<p class="title_app">퍼널문자세트 전송하기</p>
 	<table class="table table-bordered" style="width: 97%;">
 		<tbody>
 			<tr class="hide_spec">
@@ -385,53 +379,32 @@ if ($send_ids != "") {
 
 <div id="tutorial-loading"></div>
 <script>
-	function change_message(form) {
-		if (form.intro_message.value == "") {
-			alert('정보를 입력해주세요.');
-			form.intro_message.focus();
-			return false;
-		}
-
-		$.ajax({
-			type: "POST",
-			url: "ajax/ajax.php",
-			data: {
-				mode: "intro_message",
-				intro_message: form.intro_message.value
-			},
-			success: function(data) {
-				$("#ajax_div").html(data);
-				alert('저장되었습니다.');
-			}
-		});
-		return false;
-	}
-
-	function showInfo() {
-		if ($('#outLayer').css("display") == "none") {
-			$('#outLayer').show();
-		} else {
-			$('#outLayer').hide();
-		}
-	}
 	$('#allChk').on("change", function() {
 		$('input[name=sms_idx]').prop("checked", $(this).is(":checked"));
 	});
-</script>
+	$("#reserv_type").on("change", function() {
+		let reserv_type = $(this).val();
+		let params = new URLSearchParams(window.location.search);
+		if (reserv_type) {
+			params.set("reserv_type", reserv_type);
+			window.location.search = params.toString();
+		} else {
+			window.location.href = window.location.pathname;
+		}
+	});
 
-
-<script>
-	function deleteRow(sms_idx) {
+	function deleteRow(sms_idx, reserv_type) {
 		if (confirm('삭제하시겠습니까?')) {
 			$.ajax({
 				type: "POST",
 				url: "mypage.proc.php",
 				data: {
 					mode: "reservation_del",
+					reserv_type: reserv_type,
 					sms_idx: sms_idx
 				},
 				success: function(data) {
-					$("#ajax_div").html(data);
+					//$("#ajax_div").html(data);
 					alert('삭제되었습니다.');
 					location.reload();
 				}
@@ -471,76 +444,6 @@ if ($send_ids != "") {
 					}
 				}
 			})
-		}
-	}
-	//회원가입체크
-	function join_check(frm, modify) {
-		if (!wrestSubmit(frm))
-			return false;
-		var id_str = "";
-		var app_pwd = "";
-		var web_pwd = "";
-		var phone_str = "";
-		if (document.getElementsByName('pwd')[0])
-			app_pwd = document.getElementsByName('pwd')[0].value;
-		if (document.getElementsByName('pwd')[1])
-			web_pwd = document.getElementsByName('pwd')[1].value;
-		if (frm.id)
-			id_str = frm.id.value;
-		var msg = modify ? "수정하시겠습니까?" : "등록하시겠습니까?";
-		var email_str = frm.email_1.value + "@" + frm.email_2.value + frm.email_3.value;
-		if (!modify)
-			phone_str = frm.mobile_1.value + "-" + frm.mobile_2.value + "-" + frm.mobile_3.value;
-		var birth_str = frm.birth_1.value + "-" + frm.birth_2.value + "-" + frm.birth_3.value;
-		var is_message_str = frm.is_message.checked ? "Y" : "N";
-
-		var bank_name = frm.bank_name.value;
-		var bank_account = frm.bank_account.value;
-		var bank_owner = frm.bank_owner.value;
-
-		if (confirm(msg)) {
-			$.ajax({
-				type: "POST",
-				url: "ajax/ajax.php",
-				data: {
-					join_id: id_str,
-					join_nick: frm.nick.value,
-					join_pwd: app_pwd,
-					join_web_pwd: web_pwd,
-					join_name: frm.name.value,
-					join_email: email_str,
-					join_phone: phone_str,
-					join_add1: frm.add1.value,
-					join_zy: frm.zy.value,
-					join_birth: birth_str,
-					join_is_message: is_message_str,
-					join_modify: modify,
-					bank_name: bank_name,
-					bank_account: bank_account,
-					bank_owner: bank_owner
-				},
-				success: function(data) {
-					$("#ajax_div").html(data)
-				}
-			})
-		}
-	}
-
-	function monthly_remove(no) {
-		if (confirm('정기결제 해지신청하시겠습니까?')) {
-			$.ajax({
-				type: "POST",
-				url: "ajax/ajax_add.php",
-				data: {
-					mode: "monthly",
-					no: no
-				},
-				success: function(data) {
-					alert('신청되었습니다.');
-					location.reload();
-				}
-			})
-
 		}
 	}
 
@@ -611,32 +514,6 @@ if ($send_ids != "") {
 
 	function get_steplist() {
 		var win = window.open("../mypage_pop_message_list_for_copylist.php?mode=creat", "event_pop", "toolbar=yes,scrollbars=yes,resizable=yes,top=200,left=200,width=1000,height=1000");
-	}
-
-	function open_create_page(ori_sms_idx) {
-		location.href = "/mypage_reservation_create.php?get_idx=" + ori_sms_idx;
-	}
-
-	function delete_all() {
-		var msg = confirm('모든 페이지 데이타를 모두 삭제합니다.  삭제하시겠어요?');
-		if (msg) {
-			$.ajax({
-				type: "POST",
-				url: "/admin/ajax/delete_func.php",
-				data: {
-					admin: 0,
-					delete_name: "mypage_reservation_list",
-					mem_id: '<?= $_SESSION['one_member_id'] ?>'
-				},
-				success: function() {
-					alert('삭제되었습니다.');
-					location.reload();
-				},
-				error: function() {
-					alert('삭제 실패');
-				}
-			})
-		}
 	}
 
 	function sell_step() {

@@ -225,7 +225,7 @@ $result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
 					<a href="sub_4.php?status=4">전체내역</a> &nbsp;|&nbsp;
 					<a href="sub_4.php?status=4&status2=1" style="color:<?= $_REQUEST['status2'] == 1 ? "#000" : "" ?>">앱체크내역</a> &nbsp;|&nbsp;
 					<a href="sub_4_return_.php" style="color:<?= !$_REQUEST['chanel'] ? "#000" : "" ?>">발신/회신문자</a>&nbsp;|&nbsp;
-					<a href="sub_4_return_.php?chanel=2" style="color:<?= $_REQUEST['chanel'] == 2 ? "#000" : "" ?>">스텝문자</a>&nbsp;|&nbsp;
+					<a href="sub_4_return_.php?chanel=2" style="color:<?= $_REQUEST['chanel'] == 2 ? "#000" : "" ?>">퍼널문자</a>&nbsp;|&nbsp;
 					<a href="sub_4_return_.php?chanel=4" style="color:<?= $_REQUEST['chanel'] == 4 ? "#000" : "" ?>">데일리문자</a>&nbsp;|&nbsp;
 					<a href="sub_4_return_.php?chanel=9" style="color:<?= $_REQUEST['chanel'] == 9 ? "#000" : "" ?>">콜백문자</a>&nbsp;|&nbsp;
 					<a href="sub_4.php?status=4&status2=10" style="color:<?= $_REQUEST['status2'] == 10 ? "#000" : "" ?>">폰문자인증내역</a>
@@ -289,7 +289,7 @@ $result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
 								<div class="left_box">
 									<span class="button_type"><a href="javascript:void(0)" onclick="show_daily('all')">전체보기</a></span>
 									<span class="button_type"><a href="javascript:void(0)" onclick="show_daily('normal')">데일리발송</a></span>
-									<span class="button_type"><a href="javascript:void(0)" onclick="show_daily('step')">데일리스텝</a></span>
+									<span class="button_type"><a href="javascript:void(0)" onclick="show_daily('step')">데일리퍼널</a></span>
 								</div>
 							<? } ?>
 							</form>

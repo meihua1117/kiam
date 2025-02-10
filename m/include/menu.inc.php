@@ -159,7 +159,7 @@ $card_url.=$mem_row['mem_code'];
 				</div>
 			</li>
 			<li class="menu-item">
-				<span class="menu-name">원스텝 홍보솔루션 사용하기</span>
+				<span class="menu-name">원퍼널 홍보솔루션 사용하기</span>
 				<div class="menu-toggle">
 					<div class="toggle-wrap">
 						<input type="checkbox" class="check" id="toggle_05" checked>

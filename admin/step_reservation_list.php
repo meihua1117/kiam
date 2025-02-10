@@ -154,12 +154,12 @@ $date_today = date("Y-m-d");
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        스텝예약문자 내역
-        <small>스텝예약문자 내역를 관리합니다.</small>
+        퍼널예약문자 내역
+        <small>퍼널예약문자 내역를 관리합니다.</small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">스텝예약문자 내역페이지</li>
+        <li class="active">퍼널예약문자 내역페이지</li>
       </ol>
     </section>
     <!-- Main content -->

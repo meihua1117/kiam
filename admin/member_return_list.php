@@ -79,7 +79,7 @@ function get_style($case, $active_case = 0)
 								<a href="member_return_list.php?case=2&search_id=<?= $_GET['search_id']; ?>&search_name=<?= $_GET['search_name']; ?>&search_phone=<?= $_GET['search_phone']; ?>&search_site=<?= $_GET['search_site']; ?>&search_site_iam=<?= $_GET['search_site_iam']; ?>" style="<?= get_style($case, 2) ?>">발신문자</a>
 							</div>
 							<div class="form-group">
-								<a href="member_return_list.php?case=4&search_id=<?= $_GET['search_id']; ?>&search_name=<?= $_GET['search_name']; ?>&search_phone=<?= $_GET['search_phone']; ?>&search_site=<?= $_GET['search_site']; ?>&search_site_iam=<?= $_GET['search_site_iam']; ?>" style="<?= get_style($case, 4) ?>">스텝문자</a>
+								<a href="member_return_list.php?case=4&search_id=<?= $_GET['search_id']; ?>&search_name=<?= $_GET['search_name']; ?>&search_phone=<?= $_GET['search_phone']; ?>&search_site=<?= $_GET['search_site']; ?>&search_site_iam=<?= $_GET['search_site_iam']; ?>" style="<?= get_style($case, 4) ?>">퍼널문자</a>
 							</div>
 							<div class="form-group">
 								<a href="member_return_list.php?case=5&search_id=<?= $_GET['search_id']; ?>&search_name=<?= $_GET['search_name']; ?>&search_phone=<?= $_GET['search_phone']; ?>&search_site=<?= $_GET['search_site']; ?>&search_site_iam=<?= $_GET['search_site_iam']; ?>" style="<?= get_style($case, 5) ?>">데일리문자</a>

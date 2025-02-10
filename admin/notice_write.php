@@ -61,7 +61,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                             <label><input type="radio" value="전체" name="fl" onclick="oncategorychange(1)" id="c_all" <?=$row_no['fl']=="전체"?'checked':''?>>전체</label> &nbsp;
                             <label><input type="radio" value="문자" name="fl" onclick="oncategorychange(2)" id="c_text" <?=$row_no['fl']=='문자'?'checked':''?>>문자</label> &nbsp;
                             <label><input type="radio" value="디버" name="fl" onclick="oncategorychange(3)" id="c_diver" <?=$row_no['fl']=='디버'?'checked':''?>>디버</label> &nbsp;
-                            <label><input type="radio" value="윈스텝" name="fl" onclick="oncategorychange(4)" id="c_winstep" <?=$row_no['fl']=='윈스텝'?'checked':''?>>윈스텝</label> &nbsp;
+                            <label><input type="radio" value="윈퍼널" name="fl" onclick="oncategorychange(4)" id="c_winstep" <?=$row_no['fl']=='윈퍼널'?'checked':''?>>윈퍼널</label> &nbsp;
                             <label><input type="radio" value="아이엠" name="fl" onclick="oncategorychange(5)" id="c_iam" <?=$row_no['fl']=='아이엠'?'checked':''?>>아이엠</label> &nbsp;
                             <label><input type="radio" value="쇼핑" name="fl" onclick="oncategorychange(6)" id="c_shopping" <?=$row_no['fl']=='쇼핑'?'checked':''?>>쇼핑</label> &nbsp;
                         </div>

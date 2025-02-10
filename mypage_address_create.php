@@ -118,14 +118,9 @@ $event_data = $row = mysqli_fetch_array($result);
 </style>
 
 <div class="big_sub">
-
-	<?php include_once "mypage_step_navi.php"; ?>
-
 	<div class="m_div">
 		<?php include_once "mypage_left_menu.php"; ?>
 		<div class="m_body">
-
-
 			<input type="hidden" name="page" value="<?= $page ?>" />
 			<input type="hidden" name="page2" value="<?= $page2 ?>" />
 			<div class="a1" style="margin-top:15px; margin-bottom:15px">

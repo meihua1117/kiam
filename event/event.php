@@ -9,10 +9,10 @@ if (!$pcode)
 $meta_img = "";
 if ($_GET['landing_idx'] != "") {
 	$landing_idx = $_GET['landing_idx'];
-	$sql = "update Gn_landing set read_cnt = read_cnt+1 where landing_idx='{$landing_idx}'";
+	$sql = "UPDATE Gn_landing SET read_cnt = read_cnt+1 WHERE landing_idx='{$landing_idx}'";
 	mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
 
-	$sql = "select * from Gn_landing where landing_idx='{$landing_idx}'";
+	$sql = "SELECT * FROM Gn_landing WHERE landing_idx='{$landing_idx}'";
 	$result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
 	$data = mysqli_fetch_array($result);
 
@@ -40,12 +40,12 @@ if ($_GET['landing_idx'] != "") {
 		}
 	}
 } else {
-	$sql = "update Gn_event set read_cnt = read_cnt+1 where pcode='{$pcode}'";
+	$sql = "UPDATE Gn_event SET read_cnt = read_cnt+1 WHERE pcode='{$pcode}'";
 	mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
 	$page_title = "";
 }
 
-$sql = "select * from Gn_event where pcode='{$pcode}' order by event_idx desc";
+$sql = "SELECT * FROM Gn_event WHERE pcode='{$pcode}' order by event_idx desc";
 $result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
 $event_data = $row = mysqli_fetch_array($result);
 $m_id = $row['m_id'];
@@ -323,11 +323,6 @@ $url_refer = str_replace("&", "###", $_SERVER['REQUEST_URI']);
 			if (sms_approval.length != 6) {
 				document.getElementById('approval_text').innerHTML = '<span class="jftxt_b">인증번호를 입력해주세요.</span>';
 			}
-			//if(!pattern.test(hp)) {
-			//	alert("휴대폰 번호를 형식에 맞게 입력해 주세요. '-' 를 넣었는지 확인하세요.");
-			//	document.getElementById('id1').focus();
-			//	return false;
-			//}
 			document.getElementById('approval_reg').value = 0;
 			$.ajax({
 				url: '/opb/proc/sms_check.html',
@@ -395,7 +390,7 @@ if ($mode && $chk && $over == "yes") {
 	if ($chk != $_SESSION['join'])
 		alert('중복가입이 방지 되었습니다.');
 	$ipcheck = $_SERVER['REMOTE_ADDR'];
-	$sql = "insert into Gn_event_request set event_idx='{$event_idx}',
+	$sql = "INSERT INTO Gn_event_request SET event_idx='{$event_idx}',
 											event_code='{$event_code}',
 											name='{$name}',
 											mobile='{$mobile}',
@@ -420,41 +415,25 @@ function alerting($msg)
 	echo "<script>alert('" . $msg . "');</script>";
 }
 
-/*if ($_POST['mobile'] != "") {
-	$sql = "select mem_phone from Gn_Member where mem_phone='{$_POST['mobile']}'";
-	$res = mysqli_query($self_con, $sql);
-	$row333 = mysqli_fetch_array($res);
-}*/
 if ($_POST['mode'] == "speech") {
 	if ($_POST['name'] == "") {
 		alerting('신청자명을 입력해주세요');
-		//} else if($_POST['email']=="") {
-		//	alerting('신청자 이메일을 입력해주세요.');
-		//} else if(strpos($_POST['email'],"@")<=0) {
-		//alerting('이메일 형식에 맞게 입력해주세요.');
 	} else if ($_POST['mobile'] == "") {
 		alerting('전화번호를 입력해주세요. ');
-		//} else if($_POST['job']=="") {
-		//	alerting('직업을 입력해주세요.');
 	} else if ($_POST['sp'] == "") {
 		alerting('신청강좌를 입력해주세요.');
-	}
-	// 	else if($join_yn =='Y' && $row333){
-	// 		alerting('그 전화번호는 이미 등록되었습니다.');
-	// }
-	else {
+	} else {
 		$ipcheck = $_SERVER['REMOTE_ADDR'];
 		extract($_POST);
 
-		$sql = "select * from Gn_event where pcode='{$pcode}'";
+		$sql = "SELECT * FROM Gn_event WHERE pcode='{$pcode}'";
 		$result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
 		$event_data = $row = mysqli_fetch_array($result);
 		$mem_id = $event_data['m_id'];
 		$send_num = $event_data['mobile'];
 
-
 		if (strstr($event_data['event_info'], "sms") && $join_yn == 'Y') {
-			$sql = "select * from Gn_Event_Check_Sms where mem_phone='{$mobile}' order by idx desc";
+			$sql = "SELECT * FROM Gn_Event_Check_Sms WHERE mem_phone='{$mobile}' order by idx desc";
 			$result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
 			$check_data = $row = mysqli_fetch_array($result);
 			if ($check_data['secret_key'] != $rnum) {
@@ -469,7 +448,7 @@ if ($_POST['mode'] == "speech") {
 			$m_id1 = $_SESSION['one_member_id'];
 		}
 
-		$sql = "insert into Gn_event_request set event_idx='{$event_idx}',
+		$sql = "INSERT INTO Gn_event_request SET event_idx='{$event_idx}',
 												event_code='{$event_code}',
 												m_id='{$m_id}',
 												req_id='{$m_id1}',
@@ -511,12 +490,12 @@ if ($_POST['mode'] == "speech") {
 
 			sendmms(1, $mem_id, $send_num, $recv_num, "", $stitle, $scontent, "", "", "", "Y");
 
-			$sql = "select sms_idx from Gn_event_sms_info where sms_idx='{$step_idx1}' or sms_idx='{$step_idx2}' or sms_idx='{$step_idx3}'";
+			$sql = "SELECT sms_idx FROM Gn_event_sms_info WHERE sms_idx='{$step_idx1}' or sms_idx='{$step_idx2}' or sms_idx='{$step_idx3}'";
 			$lresult = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
 			while ($lrow = mysqli_fetch_array($lresult)) {
 				$sms_idx = $lrow['sms_idx'];
 				//알람등록
-				$sql = "select * from Gn_event_sms_step_info where sms_idx='{$sms_idx}'";
+				$sql = "SELECT * FROM Gn_event_sms_step_info WHERE sms_idx='{$sms_idx}'";
 				$result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
 				$step_end_time = date("Y-m-d H:i:s");
 				while ($row = mysqli_fetch_array($result)) {
@@ -538,7 +517,7 @@ if ($_POST['mode'] == "speech") {
 
 						sendmms(4, $mem_id, $send_num, $recv_num, $reservation, $row['title'], $row['content'], $jpg, $jpg1, $jpg2, "Y", $row['sms_idx'], $row['sms_detail_idx'], $request_idx, "", $row['send_deny']);
 
-						$query = "insert into Gn_MMS_Agree set mem_id='{$mem_id}',
+						$query = "INSERT INTO Gn_MMS_Agree SET mem_id='{$mem_id}',
 															send_num='{$send_num}',
 															recv_num='{$recv_num}',
 															content='{$row['content']}',
@@ -559,32 +538,32 @@ if ($_POST['mode'] == "speech") {
 							$step_end_time = $reservation;
 					}
 				}
-				$sql = "update Gn_event_request set step_end_time='{$step_end_time}' where request_idx = {$request_idx}";
+				$sql = "UPDATE Gn_event_request SET step_end_time='{$step_end_time}' WHERE request_idx = {$request_idx}";
 				mysqli_query($self_con, $sql);
 			}
 			//중단예약처리를 진행한다.
 			if ($stop_event_idx != 0) {
-				$query = "select sms_idx1, sms_idx2, sms_idx3 from Gn_event where evne_idx='{$stop_event_idx}'";
+				$query = "SELECT sms_idx1, sms_idx2, sms_idx3 FROM Gn_event WHERE evne_idx='{$stop_event_idx}'";
 				$stop_res = mysqli_query($self_con, $query);
 				$stop_row = mysqli_fetch_array($stop_res);
 
-				$query = "select count(*) from Gn_MMS where recv_num='{$recv_num}' and reservation is not null and result=1 and (sms_idx='{$stop_row[0]}' or sms_idx='{$stop_row[1]}' or sms_idx='{$stop_row[2]}')";
+				$query = "SELECT count(*) FROM Gn_MMS WHERE recv_num='{$recv_num}' and reservation is not null and result=1 and (sms_idx='{$stop_row[0]}' or sms_idx='{$stop_row[1]}' or sms_idx='{$stop_row[2]}')";
 				$cnt_res = mysqli_query($self_con, $query);
 				$cnt_row = mysqli_fetch_array($cnt_res);
 				if ($cnt_row[0] > 0) {
 					//중단정보테이블에 해당 값을 저장한다.
-					$query = "insert into Gn_event_sms_step_info set event_idx='{$stop_event_idx}', mobile='{$recv_num}'";
+					$query = "INSERT INTO Gn_event_sms_step_info SET event_idx='{$stop_event_idx}', mobile='{$recv_num}'";
 					mysqli_query($self_con, $query);
 
 					//문자테이블에서 해당 예약을 삭제한다.
-					$query = "delete from Gn_MMS where recv_num='{$recv_num}' and reservation is not null and result=1 and (sms_idx='{$stop_row[0]}' or sms_idx='{$stop_row[1]}' or sms_idx='{$stop_row[2]}')";
+					$query = "delete FROM Gn_MMS WHERE recv_num='{$recv_num}' and reservation is not null and result=1 and (sms_idx='{$stop_row[0]}' or sms_idx='{$stop_row[1]}' or sms_idx='{$stop_row[2]}')";
 					mysqli_query($self_con, $query);
 				}
 			}
 
 			if ($join_yn == 'Y') {
 				//회원가입
-				$sql3 = "select sub_domain FROM Gn_Service WHERE sub_domain like '%kiam.kr' And mem_id='{$m_id}'";
+				$sql3 = "SELECT sub_domain FROM Gn_Service WHERE sub_domain like '%kiam.kr' And mem_id='{$m_id}'";
 				$res = mysqli_query($self_con, $sql3);
 				$row1 = mysqli_fetch_array($res);
 				if ($row1['sub_domain']) {
@@ -592,12 +571,12 @@ if ($_POST['mode'] == "speech") {
 					$sites = explode(".", $parse['host']);
 					$site = $sites[0];
 				} else {
-					$sql3 = "select site from Gn_Member WHERE mem_id='{$m_id}'";
+					$sql3 = "SELECT site FROM Gn_Member WHERE mem_id='{$m_id}'";
 					$res = mysqli_query($self_con, $sql3);
 					$row1 = mysqli_fetch_array($res);
 					$site = $row1['site'];
 				}
-				$sql3_iam = "select sub_domain FROM Gn_Service_Iam WHERE sub_domain like '%kiam.kr' And mem_id='{$m_id}'";
+				$sql3_iam = "SELECT sub_domain FROM Gn_Service_Iam WHERE sub_domain like '%kiam.kr' And mem_id='{$m_id}'";
 				$res = mysqli_query($self_con, $sql3_iam);
 				$row1_iam = mysqli_fetch_array($res);
 				if ($row1_iam['sub_domain']) {
@@ -605,7 +584,7 @@ if ($_POST['mode'] == "speech") {
 					$sites = explode(".", $parse['host']);
 					$site_iam = $sites[0];
 				} else {
-					$sql3_iam = "select site from Gn_Member WHERE mem_id='{$m_id}'";
+					$sql3_iam = "SELECT site FROM Gn_Member WHERE mem_id='{$m_id}'";
 					$res = mysqli_query($self_con, $sql3_iam);
 					$row1_iam = mysqli_fetch_array($res);
 					$site_iam = $row1_iam['site'];
@@ -613,7 +592,7 @@ if ($_POST['mode'] == "speech") {
 				$userid = $id;
 				$passwd = substr($mobile, -4);
 
-				$query = "insert into Gn_Member set mem_id='$userid',
+				$query = "INSERT INTO Gn_Member SET mem_id='$userid',
 													mem_leb='22',
 													web_pwd=md5('$passwd'),
 													mem_pass=md5('$passwd'),
@@ -962,7 +941,7 @@ if ($_POST['mode'] == "speech") {
 								<?
 								//홍보렙인가를 체크한다		
 								$member_id = $data['m_id'];
-								$sql = "select mem_leb FROM Gn_Member WHERE mem_id='$member_id'";
+								$sql = "SELECT mem_leb FROM Gn_Member WHERE mem_id='$member_id'";
 								$res = mysqli_query($self_con, $sql);
 								$memrow = mysqli_fetch_array($res);
 								?>
@@ -1023,7 +1002,7 @@ if ($_POST['mode'] == "speech") {
 												$sql_serch .= " and (lecture_info like '%{$search_text}%' or area like '%{$search_text}%'or instructor like '%{$search_text}%')";
 											}
 
-											$sql = "select count(lecture_id) as cnt from Gn_lecture where $sql_serch ";
+											$sql = "SELECT count(lecture_id) as cnt FROM Gn_lecture WHERE $sql_serch ";
 											$result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
 											$row = mysqli_fetch_array($result);
 											$intRowCount = $row['cnt'];
@@ -1057,11 +1036,11 @@ if ($_POST['mode'] == "speech") {
 													$order_name = "start_date";
 
 												$intPageCount = (int)(($intRowCount + $intPageSize - 1) / $intPageSize);
-												//$sql="select * from Gn_lecture where $sql_serch order by $order_name $order_status limit $int,$intPageSize";
-												$sql = "select * from Gn_lecture where $sql_serch order by start_date desc limit $int,$intPageSize";
+												//$sql="SELECT * FROM Gn_lecture WHERE $sql_serch order by $order_name $order_status limit $int,$intPageSize";
+												$sql = "SELECT * FROM Gn_lecture WHERE $sql_serch order by start_date desc limit $int,$intPageSize";
 												$result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
 												while ($row = mysqli_fetch_array($result)) {
-													$sql_num = "select * from Gn_event where m_id='$row[mem_id]' and event_idx='$row[event_idx]' ";
+													$sql_num = "SELECT * FROM Gn_event WHERE m_id='$row[mem_id]' and event_idx='$row[event_idx]' ";
 													$resul_num = mysqli_query($self_con, $sql_num);
 													$crow = mysqli_fetch_array($resul_num);
 											?>
@@ -1162,12 +1141,9 @@ if ($_POST['mode'] == "speech") {
 				</div>
 			</div>
 	</div>
-
 	<div class="review-button clearfix">
 		<input type="button" value="강의신청하기" onClick="gotoApply()" style="height:60px; border:1px ;padding:15px 30px ;font-weight:bold;background-color:#0075FF;color:white;font-size: 20px;">>
-
 	</div>
-
 	<script>
 		function gotoApply() {
 			location.href = "#apply";
@@ -1239,7 +1215,7 @@ if ($_POST['mode'] == "speech") {
 						<div class="slide-wrap">
 							<div id="reviewSlider">
 								<?
-								$sql = "select * from Gn_lecture where $photo_sql order by start_date desc";
+								$sql = "SELECT * FROM Gn_lecture WHERE $photo_sql order by start_date desc";
 								$result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
 								$count = 0;
 								while ($row = mysqli_fetch_array($result)) {
@@ -1287,7 +1263,6 @@ if ($_POST['mode'] == "speech") {
 							</div>
 							<div class="slide-arrows"></div>
 						</div>
-
 						<div>
 							<table class="list_table" width="100%" border="0" cellspacing="0" cellpadding="0">
 								<?
@@ -1303,8 +1278,8 @@ if ($_POST['mode'] == "speech") {
 									$sql_serch .= " and (lecture_info like '%{$search_text_review}%' or area like '%{$search_text_review}%'or instructor like '%{$search_text_review}%')";
 								}
 
-								$sql = "select count(review_id) as cnt from Gn_review a inner join Gn_lecture b on a.lecture_id = b.lecture_id
-									                                where $sql_serch ";
+								$sql = "SELECT count(review_id) as cnt FROM Gn_review a inner join Gn_lecture b on a.lecture_id = b.lecture_id
+									                                WHERE $sql_serch ";
 								$result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
 								$row = mysqli_fetch_array($result);
 								$intRowCount = $row['cnt'];
@@ -1335,16 +1310,10 @@ if ($_POST['mode'] == "speech") {
 									else
 										$order_name = "review_id";
 									$intPageCount = (int)(($intRowCount + $intPageSize - 1) / $intPageSize);
-									$sql = "select * from Gn_review a
-									inner join Gn_lecture b
-									on  a.lecture_id = b.lecture_id
-									where $sql_serch order by start_date desc limit $int,$intPageSize";
+									$sql = "SELECT * FROM Gn_review a inner join Gn_lecture b on  a.lecture_id = b.lecture_id
+												WHERE $sql_serch order by start_date desc limit $int,$intPageSize";
 									$result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-								?>
-									<?
-									while ($row = mysqli_fetch_array($result)) {
-									?>
-
+									while ($row = mysqli_fetch_array($result)) { ?>
 										<tr>
 											<td class="photo" rowspan="3"><img src="/images/man.png" width="60" height="60"></td>
 											<td style="font-size:14px;font-weight:bold; text-align:left;" class="profile" colspan="3">
@@ -1353,20 +1322,16 @@ if ($_POST['mode'] == "speech") {
 												<?= $row['start_date'] ?>~
 												<?= $row['end_date'] ?> /
 												<?= $row['area'] ?>
-												<?php if ($row['score'] == "5") { ?>★★★★★
-											<?php } ?>
-											<?php if ($row['score'] == "4") { ?>★★★★
-										<?php } ?>
-										<?php if ($row['score'] == "3") { ?>★★★
-									<?php } ?>
-									<?php if ($row['score'] == "2") { ?>★★
-								<?php } ?>
-								<?php if ($row['score'] == "1") { ?>★
-							<?php } ?>
+												<? if ($row['score'] == "5") { ?>★★★★★
+												<? } else if ($row['score'] == "4") { ?>★★★★
+												<? } else if ($row['score'] == "3") { ?>★★★
+												<? } else if ($row['score'] == "2") { ?>★★
+												<? } else if ($row['score'] == "1") { ?>★
+											<? } ?>
 											</td>
 										</tr>
 										<tr>
-											<td class="content" colspan="3" style="">
+											<td class="content" colspan="3">
 												<div class="div_content">
 													<?= nl2br($row['content']) ?>
 												</div>
@@ -1424,12 +1389,12 @@ if ($_POST['mode'] == "speech") {
 					</form>
 				</div>
 			</div>
-		<?php } ?>
-		<?php if ($data['movie_url']) { ?>
+		<? 	}
+		if ($data['movie_url']) { ?>
 			<iframe width="100%" height="600px" src="<?= $data['movie_url']; ?>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
 				allowfullscreen></iframe>
-		<?php } ?>
-		<?php if (($landing_idx != "" && $data['request_yn'] == "Y") || $landing_idx == "") { ?>
+		<? 	}
+		if (($landing_idx != "" && $data['request_yn'] == "Y") || $landing_idx == "") { ?>
 			<form id="dform1" name="dform1" method="post" action="<?= $SERVER['PHP_SELF'] ?>" onsubmit="return checkForm()">
 				<input type="hidden" name="mode" value="speech">
 				<input type="hidden" name="pcode" value="<?= $pcode ?>">

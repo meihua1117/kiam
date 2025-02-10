@@ -1199,7 +1199,7 @@ type값을 다음과 같이 설정할수 있다.
 0: 개별발송
 1: 묶음발송,디폴트(현재 이용하지 않음)
 2: 오토회원가입
-3: 스텝문자 
+3: 퍼널문자 
 4: 이벤트
 5: 셀폰
 6: 데일리 문자
@@ -1244,7 +1244,7 @@ function sendmms($type, $userid, $sendnum, $recvnum, $rserv_time, $title, $conte
 	$fields['send_img'] = $img;
 	$fields['send_img1'] = $img1;
 	$fields['send_img2'] = $img2;
-	//스텝문자 idx, 이벤트요청 idx
+	//퍼널문자 idx, 이벤트요청 idx
 	if ($sms_idx != "")
 		$fields['sms_idx'] = $sms_idx;
 	if ($sms_detail_idx != "")

@@ -18,7 +18,7 @@
 								<div class="lines">
 									<a href="#" data-tab="seller">온리원셀러</a>
 									<a href="#" data-tab="mall">쇼핑몰과 마이몰</a>
-									<a href="#" data-tab="onestep">원스텝홍보</a>
+									<a href="#" data-tab="onestep">원퍼널홍보</a>
 									<a href="#" data-tab="db">온리원디버</a>
 								</div>
 							</div>-->
@@ -39,7 +39,7 @@
 <BR>제 2 조 [용어의 정의]
 <BR>이 약관에서 사용하는 용어의 정의는 다음과 같습니다.
 <BR>1. 온리원셀링 : 회사의 이름이자 상품의 브랜드명으로 자신의 상품과 서비스를 판매하기 위해 사용하는 솔루션입니다. 
-<BR>2. 솔루션구성 : 해당 솔루션에는 아이엠(모바일명함), 콜백문자, 메시지카피솔루션, 문자발송솔루션, 원스텝솔루션으로 구성된 유료 서비스입니다.
+<BR>2. 솔루션구성 : 해당 솔루션에는 아이엠(모바일명함), 콜백문자, 메시지카피솔루션, 문자발송솔루션, 원퍼널솔루션으로 구성된 유료 서비스입니다.
 <BR>3. 이용자 : 회사와 서비스 이용계약을 체결하거나 동의한자
 <BR>4. 이용신청 : 회사가 정한 별도의 기준과 절차에 따라 서비스 이용을 신청하는 것
 <BR>5. 이용계약 : 서비스를 제공 받기 위하여 회사와 이용자 간에 체결하는 계약
@@ -238,7 +238,7 @@
 								<div class="tab-inner" id="callback">온리원콜백 이용안내</div>
 								<div class="tab-inner" id="seller">온리원셀러 이용안내</div>
 								<div class="tab-inner" id="mall">쇼핑몰과 마이몰 이용안내</div>
-								<div class="tab-inner" id="onestep">원스텝홍보 이용안내</div>
+								<div class="tab-inner" id="onestep">원퍼널홍보 이용안내</div>
 								<div class="tab-inner" id="db">온리원디버 이용안내</div>
 							</div>
 

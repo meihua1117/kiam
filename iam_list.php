@@ -1302,7 +1302,7 @@ $data = mysqli_fetch_array($sresul_num);
                     <tr>
                         <td>코칭희망내용</td>
 
-                        <td><input id="coaching_want" type="text" name="coaching_want" required itemname='내용' style="width:100%;height:70px;padding: 5px;" placeholder="코칭받고 싶은 내용을 입력하세요.&#13;&#10;[예시] 디버검색기술,원스텝문자예약기능 등" /></td>
+                        <td><input id="coaching_want" type="text" name="coaching_want" required itemname='내용' style="width:100%;height:70px;padding: 5px;" placeholder="코칭받고 싶은 내용을 입력하세요.&#13;&#10;[예시] 디버검색기술,원퍼널문자예약기능 등" /></td>
                     </tr>
                 </div>
 

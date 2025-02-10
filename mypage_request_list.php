@@ -86,7 +86,7 @@ $mem_phone = str_replace("-", "", $data['mem_phone']);
 </style>
 <div class="big_div">
     <div class="big_sub">
-        <?php include "mypage_step_navi.php"; ?>
+        <?php //include "mypage_step_navi.php"; ?>
         <div class="m_div">
             <?php include "mypage_left_menu.php"; ?>
             <div class="m_body">
@@ -239,7 +239,7 @@ $mem_phone = str_replace("-", "", $data['mem_phone']);
                                         }
                                 ?>
                                         <tr>
-                                            <td><input type="checkbox" class="check" name="event_idx" value="<?= $row['request_idx']; ?>" data-name="<?= $row['name'] ?>" data-mobile="<?= $row['mobile'] ?>" data-email="<?= $row['email'] ?>" data-job="<?= $row['job'] ?>" data-event_code="<?= $row['event_code'] ?>" data-counsult_date="<?= $row['counsult_date'] ?>" data-sp="<?= $row['sp'] ?>" data-request_idx="<?php echo $row['request_idx']; ?>"></td>
+                                            <td><input type="checkbox" class="check" name="event_idx" value="<?= $row['request_idx']; ?>" data-name="<?= $row['name'] ?>" data-mobile="<?= $row['mobile'] ?>" data-email="<?= $row['email'] ?>" data-job="<?= $row['job'] ?>" data-event_code="<?= $row['event_code'] ?>" data-counsult_date="<?= $row['counsult_date'] ?>" data-sp="<?= $row['sp'] ?>" data-request_idx="<?=$row['request_idx']; ?>"></td>
                                             <td><?= $sort_no ?></td>
                                             <td style="font-size:12px;"><?= $row['name'] ?><br>
                                                 <a onclick="window.open('mypage_pop_activity_list.php?request_idx='+'<?= $row['request_idx'] ?>','','top=300,left=300,width=800,height=500,toolbar=no,menubar=no,scrollbars=yes, resizable=yes,location=no, status=no')">[보기]</a>
@@ -486,7 +486,7 @@ $mem_phone = str_replace("-", "", $data['mem_phone']);
                         return;
                     }
                     if ($('#step_sms_title').val() == "") {
-                        alert('스텝문자를 선택해주세요.')
+                        alert('퍼널문자를 선택해주세요.')
                         return;
                     }
                     $('#addFormstep').submit();
@@ -585,7 +585,7 @@ $mem_phone = str_replace("-", "", $data['mem_phone']);
                 //     }
                 // });
                 // if(cnt == 0) {
-                //     alert('스텝문자 추가하실 신청자를 선택해주세요.');
+                //     alert('퍼널문자 추가하실 신청자를 선택해주세요.');
                 //     return;
                 // }
 

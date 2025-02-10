@@ -145,6 +145,10 @@ if($_POST['video_upload']){
     $sql_update = "update Gn_Member set video_upload='{$status}' where mem_code='{$index}'";
     $result = mysqli_query($self_con,$sql_update);
 }
+if($_POST['ai_status']){
+    $sql_update = "update Gn_Member set ai_status='{$status}' where mem_code='{$index}'";
+    $result = mysqli_query($self_con,$sql_update);
+}
 echo json_encode(array("result"=>$result));
 function setPosition($user_id, $position)
 {

@@ -88,7 +88,7 @@ con.eq(i).show();
 	<?php if($sub_domain == true) {?>
     <!--<div class="bnt main-buttons" style="background-color: #585858; ">
       <div class="wrap2">
-        <a href="https://oog.kiam.kr/pages/page_3219.php" class="button" target="_blank" >원스텝문자 이용매뉴얼</a><br />
+        <a href="https://oog.kiam.kr/pages/page_3219.php" class="button" target="_blank" >원퍼널문자 이용매뉴얼</a><br />
         <a href="<?=$domainData['kakao'];?>" class="button2" target="_blank">카카오상담하기</a>
         <a href="https://oog.kiam.kr/pages/page_3214.php" class="button" target="_blank">FAQ</a>
       </div>
@@ -97,7 +97,7 @@ con.eq(i).show();
     
     <div class="bnt main-buttons" style="background-color: #585858; ">
       <div class="wrap2">
-        <a href="https://tinyurl.com/26trbfnj" class="button" target="_blank">원스텝문자 이용매뉴얼</a><br />
+        <a href="https://tinyurl.com/26trbfnj" class="button" target="_blank">원퍼널문자 이용매뉴얼</a><br />
         <a href="http://pf.kakao.com/_jVafC/chat" class="button2" target="_blank">카카오상담하기</a>
         <a href="https://tinyurl.com/yrnyd537" class="button" target="_blank">IAM플랫폼 통합매뉴얼</a>
       </div>
@@ -106,7 +106,7 @@ con.eq(i).show();
     
     <div class="text-wrap" style="background-color: #585858; max-height:200px">
       <p>
-        원스텝문자는 스텝문자발송 솔루션입니다. 본 솔루션을 통해 발송된 문자내용은 발송자가<br> 제공하는 정보로서 이를 신뢰하여 취한 조치에 대해 책임지지 않습니다.</br>
+        원퍼널문자는 퍼널문자발송 솔루션입니다. 본 솔루션을 통해 발송된 문자내용은 발송자가<br> 제공하는 정보로서 이를 신뢰하여 취한 조치에 대해 책임지지 않습니다.</br>
 
       </p>
     </div>

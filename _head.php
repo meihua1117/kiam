@@ -30,7 +30,7 @@ if ($_SESSION['one_member_id']) {
     /*$sql = "select * from tjd_pay_result where buyer_id='{$_SESSION['one_member_id']}' and gwc_cont_pay=0 and 
         ((member_type like '%standard%' or member_type like '%professional%' or member_type like '%enterprise%') or 
         (((iam_pay_type = '' or iam_pay_type = '0' or iam_pay_type = '전문가') and member_type != '포인트충전')) or member_type='베스트상품') and payMethod <> 'POINT' order by end_date desc";*/
-    $res_result = mysqli_query($self_con,$sql);
+    $res_result = mysqli_query($self_con, $sql);
     $pay_data = mysqli_fetch_array($res_result);
 }
 $mem_type = $member_1['mem_type'];
@@ -51,7 +51,7 @@ if ($HTTP_HOST == "kiam.kr")
 else
     $host = $HTTP_HOST;
 $query = "select * from Gn_Service where sub_domain like '%{$host}%'";
-$res = mysqli_query($self_con,$query);
+$res = mysqli_query($self_con, $query);
 $domainData = mysqli_fetch_array($res);
 if ($HTTP_HOST != "kiam.kr") {
     if ($domainData['idx'] != "") {
@@ -84,25 +84,25 @@ if ($domainData['status'] == "N") { ?>
 */
 
 $sql = "select * from Gn_Ad_Manager where ad_position = 'H' and use_yn ='Y'";
-$res_result = mysqli_query($self_con,$sql);
+$res_result = mysqli_query($self_con, $sql);
 $ad_data = mysqli_fetch_array($res_result);
 if ($domainData['status'] == "N") {
     $join_link = "ma.php";
 } else if ($_REQUEST['mem_code']) {
     $sql_recom_id = "select mem_id from Gn_Member where mem_code='{$_REQUEST['mem_code']}'";
-    $res_recom_id = mysqli_query($self_con,$sql_recom_id);
+    $res_recom_id = mysqli_query($self_con, $sql_recom_id);
     $row_recom_id = mysqli_fetch_array($res_recom_id);
     if ($HTTP_HOST != "kiam.kr") {
-        $join_link = get_join_link("http://" . $HTTP_HOST, $row_recom_id['mem_id'],"");
+        $join_link = get_join_link("http://" . $HTTP_HOST, $row_recom_id['mem_id'], "");
     } else {
-        $join_link = get_join_link("http://www.kiam.kr", $row_recom_id['mem_id'],"");
+        $join_link = get_join_link("http://www.kiam.kr", $row_recom_id['mem_id'], "");
     }
     //$join_link = "join.php?recom_id=" . $row_recom_id['mem_id'];
 } else {
     if ($HTTP_HOST != "kiam.kr") {
-        $join_link = get_join_link("http://" . $HTTP_HOST, "","");
+        $join_link = get_join_link("http://" . $HTTP_HOST, "", "");
     } else {
-        $join_link = get_join_link("http://www.kiam.kr", "","");
+        $join_link = get_join_link("http://www.kiam.kr", "", "");
     }
     //$join_link = "join.php";
 }
@@ -145,8 +145,6 @@ if ($domainData['status'] == "N") {
         }
         gtag('js', new Date());
         gtag('config', 'G-3E40Q09QGE');
-
-
         $(function() {
             $('.sub_menu').hide();
             $('.main_link').on("hover", function() {
@@ -221,16 +219,15 @@ if ($domainData['status'] == "N") {
             <div class="head_left" style="width: 225px;">
                 <? if (strpos($HTTP_HOST, "onefestival") !== false) { ?>
                     <a href=""><img src="images/onnury_logo.jpg" /></a>
-                <? } else { ?>
-                    <?php if ($sub_domain == true) { ?>
-                        <?
+                    <? } else {
+                    if ($sub_domain == true) {
                         if ($domainData['logo'] && $HTTP_HOST != 'kiam.kr') { ?>
                             <a href=""><img src="<?= $domainData['logo'] ?>" style="width:252px;height:70px" /></a>
-                        <? } ?>
-                    <?php } else { ?>
+                        <? }
+                    } else { ?>
                         <a href=""><img src="images/only_m_lo_03-1.png" style="width:252px;height:70px" /></a>
-                    <?php } ?>
-                <? } ?>
+                <?  }
+                } ?>
             </div>
             <div class="head_right">
                 <div class="head_right_1">
@@ -245,44 +242,42 @@ if ($domainData['status'] == "N") {
                                     <a href="/cliente_list.php?status=1">공지사항</a> |<? } ?>
                                     <a href=<?= $domainData['kakao'] ?> target="_blank">카톡상담</a> |
                                 <? }
-                        } else { ?>
-                                <? if ($is_pay_version) { ?><a href="https://tinyurl.com/hb2pp6n2" target="_blank">이용매뉴얼</a> |
+                        } else {
+                            if ($is_pay_version) { ?><a href="https://tinyurl.com/hb2pp6n2" target="_blank">이용매뉴얼</a> |
                                     <a href="/cliente_list.php?status=1">공지사항</a> |<? } ?>
                                     <a href="https://pf.kakao.com/_jVafC/chat" target="_blank">카톡상담</a> |
-                                <? } ?>
-                                <? if (!$_SESSION['one_member_id']) { ?>
+                                <? }
+                            if (!$_SESSION['one_member_id']) { ?>
                                     <a href="<?= $join_link ?>">회원가입</a> |
-                                    <a href="<?= $domainData['status'] == "N"?'ma.php' : 'id_pw.php' ?>">아이디/비밀번호찾기</a>&nbsp;
+                                    <a href="<?= $domainData['status'] == "N" ? 'ma.php' : 'id_pw.php' ?>">아이디/비밀번호찾기</a>&nbsp;
                                     <iframe name="login_iframe" style="display:none;"></iframe>
                                     <input type="text" name="one_id" itemname='아이디' placeholder="아이디" required style="width:100px;" />
                                     <input type="password" name="one_pwd" itemname='비밀번호' placeholder="비밀번호" style="width:100px;" required />
                                     <input type="image" src="images/main_top_button_03.jpg" />
-                                <? } else { ?>
-                                    <? if ($is_pay_version) { ?><a href="mypage.php">마이페이지</a>&nbsp;|<? } ?>
-                                        <!--| <a href="mypage_link_list.php">원스텝문자</a>&nbsp;-->
+                                    <? } else {
+                                    if ($is_pay_version) { ?><a href="mypage.php">마이페이지</a>&nbsp;|<? } ?>
+                                        <!--| <a href="mypage_link_list.php">원퍼널문자</a>&nbsp;-->
                                         <?
                                         if ($_SESSION['one_member_id'] == "db") {
                                         ?>
                                             <a href="/admin/crawler_member_list_v.php">관리자</a>&nbsp;
-                                        <?php } ?>
-                                        <?
+                                        <? }
                                         if ($_SESSION['one_member_id'] == "sungmheo") {
                                         ?>
                                             <a href="/admin/gwc_payment_list.php">관리자</a>&nbsp;
                                         <?php } ?>
                                         <?
                                         if (($_SESSION['one_member_subadmin_id'] != "" && $_SESSION['one_member_subadmin_domain'] == $HTTP_HOST) || $_SESSION['one_member_admin_id'] != "") {
-                                        ?>
-                                            <? if ($_SESSION['one_member_admin_id'] == "emi0542" || $_SESSION['one_member_admin_id'] == "gwunki") { ?>
+                                            if ($_SESSION['one_member_admin_id'] == "emi0542" || $_SESSION['one_member_admin_id'] == "gwunki") { ?>
                                                 <a href="/admin/member_list_con.php">관리자</a>
                                             <? } else { ?>
                                                 <a href="/admin/member_list.php">관리자</a>&nbsp;
-                                            <? } ?>
-                                        <?php } ?>
-                                        <? if ($_SESSION['one_member_id'] == "obmms01") { ?>
+                                            <? }
+                                        }
+                                        if ($_SESSION['one_member_id'] == "obmms01") { ?>
                                             <a href="permit_number.php">승인처리</a>&nbsp;
-                                        <? } ?>
-                                        <? if ($_SESSION['one_member_id'] == "lecturem") { ?>
+                                        <? }
+                                        if ($_SESSION['one_member_id'] == "lecturem") { ?>
                                             <a href="/admin/lecture_list.php">관리자</a>&nbsp;
                                         <? } ?>
                                         <span style="background-color:#43515e;padding:2px 20px 2px 5px;"><?= $member_1['mem_name'] ?> 님 환영합니다.</span>
@@ -381,7 +376,7 @@ if ($domainData['status'] == "N") {
                                 <a href="/mypage_link_list.php">고객신청관리</a>
                             </li>
                             <li class="menu-item">
-                                <a href="/mypage_landing_list.php">랜딩페이지</a>
+                                <a href="/mypage_landing_list.php">인포랜딩</a>
                             </li>
                             <li class="menu-item">
                                 <a href="/sub_6_dbstar.php">포토문자</a>
@@ -424,68 +419,21 @@ if ($domainData['status'] == "N") {
                         <ul>
                             <li class="menu-item" id="msub8">
                                 <a href="sub_8.php">솔루션시작</a>
-                                <ul class="submenu">
-                                    <li class="submenu-item"><a href="sub_8.php">셀링솔루션소개</a></li>
-                                    <li class="submenu-item"><a href="https://tinyurl.com/hb2pp6n2" target="_blank">매뉴얼따라하기</a></li>
-                                </ul>
                             </li>
                             <li class="menu-item" id="msub10">
                                 <a href="sub_10.php">아이엠</a>
-                                <ul class="submenu">
-                                    <li class="submenu-item"><a href="sub_10.php">아이엠소개</a></li>
-                                    <li class="submenu-item"><a href="/?cur_win=best_sample" target="_blank">아이엠샘플</a></li>
-                                    <li class="submenu-item"><a href="<?= $href ?>" target="_blank">아이엠접속</a></li>
-                                </ul>
                             </li>
                             <li class="menu-item" id="msub2">
                                 <a href="sub_2.php">디비수집</a>
-                                <ul class="submenu">
-                                    <li class="submenu-item"><a href="sub_2.php">디버알아보기</a></li>
-                                    <li class="submenu-item"><a href="/cliente_list.php?status=1&one_no=85">디버설치하기</a></li>
-                                    <li class="submenu-item"><a href="https://tinyurl.com/2p8ehzsm" target="_blank">디비수집하기</a></li>
-                                </ul>
                             </li>
                             <li class="menu-item" id="msub15">
                                 <a href="sub_11.php">콜백문자</a>
-                                <ul class="submenu">
-                                    <li class="submenu-item"><a href="sub_11.php">콜백알아보기</a></li>
-                                    <li class="submenu-item"><a href="https://play.google.com/store/apps/details?id=mms.onepagebook.com.onlyonesms&pli=1" target="_biank">콜백설치하기</a></li>
-                                    <li class="submenu-item"><a href="https://tinyurl.com/3teh9ez5" target="_blank">콜백이용하기</a></li>
-                                </ul>
                             </li>
                             <li class="menu-item" id="msub1">
                                 <a href="sub_1.php">폰문자</a>
-                                <ul class="submenu">
-                                    <li class="submenu-item"><a href="sub_1.php">폰문자소개</a></li>
-                                    <li class="submenu-item"><a href="sub_5.php">휴대폰등록</a></li>
-                                    <li class="submenu-item"><a href="sub_9.php#Introduce">메시지카피</a></li>
-                                    <li class="submenu-item"><a href="sub_6.php">폰문자발송</a></li>
-                                    <li class="submenu-item"><a href="daily_list.php">데일리발송</a></li>
-                                    <li class="submenu-item"><a href="sub_4_return_.php">발신내역보기</a></li>
-                                    <li class="submenu-item"><a href="sub_4.php?status=5&status2=3">수신내역보기</a></li>
-                                    <li class="submenu-item"><a href="sub_4.php?status=6">수신여부보기</a></li>
-                                </ul>
                             </li>
                             <li class="menu-item" id="msub12">
-                                <a href="/sub_12.php">스텝문자</a>
-                                <ul class="submenu">
-                                    <li class="submenu-item"><a href="/sub_12.php">원스텝소개</a></li>
-                                    <?php if ($pay_data['onestep1'] != "ON" && $iam_type != 2) { ?>
-                                        <li class="submenu-item"><a href="#" onclick="alert('결제 후 사용가능합니다.');">랜딩페이지</a></li>
-                                        <li class="submenu-item"><a href="#" onclick="alert('결제 후 사용가능합니다.');">고객신청창</a></li>
-                                        <li class="submenu-item"><a href="#" onclick="alert('결제 후 사용가능합니다.');">스텝예약관리</a></li>
-                                        <li class="submenu-item"><a href="#" onclick="alert('결제 후 사용가능합니다.');">신청고객관리</a></li>
-                                        <li class="submenu-item"><a href="#" onclick="alert('결제 후 사용가능합니다.');">기존고객관리</a></li>
-                                        <li class="submenu-item"><a href="#" onclick="alert('결제 후 사용가능합니다.');">발송내역관리</a></li>
-                                    <?php } else { ?>
-                                        <li class="submenu-item"><a href="mypage_landing_list.php">랜딩페이지</a></li>
-                                        <li class="submenu-item"><a href="/mypage_link_list.php">고객신청창</a></li>
-                                        <li class="submenu-item"><a href="/mypage_reservation_list.php">스텝예약관리</a></li>
-                                        <li class="submenu-item"><a href="/mypage_request_list.php">신청고객관리</a></li>
-                                        <li class="submenu-item"><a href="/mypage_oldrequest_list.php">기존고객관리</a></li>
-                                        <li class="submenu-item"><a href="/mypage_wsend_list.php">발송내역관리</a></li>
-                                    <?php } ?>
-                                </ul>
+                                <a href="/sub_12.php">퍼널</a>
                             </li>
                             <li class="menu-item" id="msms">
                                 <a href="http://rcs.kiam.kr" target="_balnk">웹문자</a>
@@ -533,7 +481,7 @@ if ($domainData['status'] == "N") {
                                 <a href="/mypage_link_list.php">고객신청관리</a>
                             </li>
                             <li class="menu-item">
-                                <a href="/mypage_landing_list.php">랜딩페이지</a>
+                                <a href="/mypage_landing_list.php">인포랜딩</a>
                             </li>
                             <li class="menu-item">
                                 <a href="/sub_6.php">포토문자발송</a>
@@ -580,7 +528,6 @@ if ($domainData['status'] == "N") {
                             <li class="menu-item">
                                 <a href="https://play.google.com/store/apps/details?id=mms.onepagebook.com.onlyonesms&pli=1" target="_blank">아이엠설치</a>
                             </li>
-
                             <li class="menu-item">
                                 <a href="<?= $href ?>">아이엠접속</a>
                             </li>
@@ -678,7 +625,7 @@ if ($domainData['status'] == "N") {
                                 <a href="sub_11.php">콜백문자발송</a>
                             </li>
                             <li class="menu-item">
-                                <a href="daily_list.php">원스텝발송</a>
+                                <a href="daily_list.php">퍼널문자발송</a>
                             </li>
                             <li class="menu-item">
                                 <a href="sub_4_return_.php">발신내역보기</a>
@@ -701,69 +648,24 @@ if ($domainData['status'] == "N") {
                         <ul>
                             <li class="menu-item" id="msub8">
                                 <a href="sub_8.php">솔루션시작</a>
-                                <ul class="submenu">
-                                    <li class="submenu-item"><a href="sub_8.php">셀링솔루션소개</a></li>
-                                    <li class="submenu-item"><a href="https://tinyurl.com/hb2pp6n2" target="_blank">매뉴얼따라하기</a></li>
-                                </ul>
                             </li>
                             <li class="menu-item" id="msub10">
                                 <a href="sub_10.php">아이엠</a>
-                                <ul class="submenu">
-                                    <li class="submenu-item"><a href="sub_10.php">아이엠소개</a></li>
-                                    <li class="submenu-item"><a href="/?cur_win=best_sample" target="_blank">아이엠샘플</a></li>
-                                    <li class="submenu-item"><a href="<?= $href ?>" target="_blank">아이엠접속</a></li>
-                                </ul>
                             </li>
-
                             <li class="menu-item" id="msub2">
                                 <a href="sub_2.php">디비수집</a>
-                                <ul class="submenu">
-                                    <li class="submenu-item"><a href="sub_2.php">디버알아보기</a></li>
-                                    <li class="submenu-item"><a href="/cliente_list.php?status=1&one_no=85">디버설치하기</a></li>
-                                    <li class="submenu-item"><a href="https://tinyurl.com/2p8ehzsm" target="_blank">디비수집하기</a></li>
-                                </ul>
                             </li>
                             <li class="menu-item" id="msub15">
                                 <a href="sub_11.php">콜백문자</a>
-                                <ul class="submenu">
-                                    <li class="submenu-item"><a href="sub_11.php">콜백알아보기</a></li>
-                                    <li class="submenu-item"><a href="https://play.google.com/store/apps/details?id=mms.onepagebook.com.onlyonesms&pli=1" target="_biank">콜백설치하기</a></li>
-                                    <li class="submenu-item"><a href="https://tinyurl.com/3teh9ez5" target="_blank">콜백이용하기</a></li>
-                                </ul>
                             </li>
                             <li class="menu-item" id="msub1">
                                 <a href="sub_1.php">폰문자</a>
-                                <ul class="submenu">
-                                    <li class="submenu-item"><a href="sub_1.php">폰문자소개</a></li>
-                                    <li class="submenu-item"><a href="sub_5.php">휴대폰등록</a></li>
-                                    <li class="submenu-item"><a href="sub_9.php#Introduce">메시지카피</a></li>
-                                    <li class="submenu-item"><a href="sub_6.php">폰문자발송</a></li>
-                                    <li class="submenu-item"><a href="daily_list.php">데일리발송</a></li>
-                                    <li class="submenu-item"><a href="sub_4_return_.php">발신내역보기</a></li>
-                                    <li class="submenu-item"><a href="sub_4.php?status=5&status2=3">수신내역보기</a></li>
-                                    <li class="submenu-item"><a href="sub_4.php?status=6">수신여부보기</a></li>
-                                </ul>
                             </li>
                             <li class="menu-item" id="msub12">
-                                <a href="/sub_12.php">스텝문자</a>
-                                <ul class="submenu">
-                                    <li class="submenu-item"><a href="/sub_12.php">원스텝소개</a></li>
-                                    <?php if ($pay_data['onestep1'] != "ON" && $iam_type != 2) { ?>
-                                        <li class="submenu-item"><a href="#" onclick="alert('결제 후 사용가능합니다.');">랜딩페이지</a></li>
-                                        <li class="submenu-item"><a href="#" onclick="alert('결제 후 사용가능합니다.');">고객신청창</a></li>
-                                        <li class="submenu-item"><a href="#" onclick="alert('결제 후 사용가능합니다.');">스텝예약관리</a></li>
-                                        <li class="submenu-item"><a href="#" onclick="alert('결제 후 사용가능합니다.');">신청고객관리</a></li>
-                                        <li class="submenu-item"><a href="#" onclick="alert('결제 후 사용가능합니다.');">기존고객관리</a></li>
-                                        <li class="submenu-item"><a href="#" onclick="alert('결제 후 사용가능합니다.');">발송내역관리</a></li>
-                                    <?php } else { ?>
-                                        <li class="submenu-item"><a href="mypage_landing_list.php">랜딩페이지</a></li>
-                                        <li class="submenu-item"><a href="/mypage_link_list.php">고객신청창</a></li>
-                                        <li class="submenu-item"><a href="/mypage_reservation_list.php">스텝예약관리</a></li>
-                                        <li class="submenu-item"><a href="/mypage_request_list.php">신청고객관리</a></li>
-                                        <li class="submenu-item"><a href="/mypage_oldrequest_list.php">기존고객관리</a></li>
-                                        <li class="submenu-item"><a href="/mypage_wsend_list.php">발송내역관리</a></li>
-                                    <?php } ?>
-                                </ul>
+                                <a href="/sub_12.php">퍼널</a>
+                            </li>
+                            <li class="menu-item" id="msub_daily">
+                                <a href="/daily_list.php">데일리</a>
                             </li>
                             <li class="menu-item" id="msms">
                                 <a href="http://rcs.kiam.kr" target="_balnk">웹문자</a>
@@ -817,7 +719,7 @@ if ($domainData['status'] == "N") {
                 <a href="https://tinyurl.com/557nca2b" target="_blank">아이엠매뉴얼</a> |
                 <?
                 $sql_chk = "select count(a.mem_code) as cnt from Gn_Member a inner join Gn_Iam_Service b on a.mem_id=b.mem_id where a.service_type>=2 and a.mem_id='{$_SESSION['one_member_id']}'";
-                $res_chk = mysqli_query($self_con,$sql_chk);
+                $res_chk = mysqli_query($self_con, $sql_chk);
                 $row_chk = mysqli_fetch_array($res_chk);
                 if ($row_chk[0] || $_SESSION['one_member_id'] == 'obmms02') {
                 ?>
@@ -853,26 +755,26 @@ if ($domainData['status'] == "N") {
         <div class="m_head_div" id="sub12">
             <div class="left_sub_menu">
                 <a href="./">홈</a> >
-                <a href="/sub_12.php">스텝발송</a>
+                <a href="/sub_12.php">퍼널발송</a>
             </div>
             <div class="right_sub_menu">&nbsp;
-                <a href="/sub_12.php">스텝문자소개</a> |
+                <a href="/sub_12.php">퍼널소개</a> |
                 <? if ($pay_data['onestep1'] != "ON" && $iam_type != 2) { ?>
-                    <a onclick="alert('결제 후 사용가능합니다.');">랜딩관리</a> |
+                    <a onclick="alert('결제 후 사용가능합니다.');">인포랜딩</a> |
+                    <a onclick="alert('결제 후 사용가능합니다.');">모듈랜딩</a> |
                     <a onclick="alert('결제 후 사용가능합니다.');">신청관리</a> |
                     <a onclick="alert('결제 후 사용가능합니다.');">고객관리</a> |
-                    <a onclick="alert('결제 후 사용가능합니다.');">예약관리</a> |
-                    <a onclick="alert('결제 후 사용가능합니다.');">데일리발송</a>
+                    <a onclick="alert('결제 후 사용가능합니다.');">예약관리</a>
                     <!-- <a onclick="alert('결제 후 사용가능합니다.');">기존고객관리</a> |
                     <a onclick="alert('결제 후 사용가능합니다.');">발송예정내역</a> |
                     <a onclick="alert('결제 후 사용가능합니다.');">발송결과내역</a> -->
 
                 <? } else { ?>
-                    <a href="mypage_landing_list.php">랜딩관리</a> |
+                    <a href="/mypage_landing_list.php">인포랜딩</a> |
+                    <a href="/iam/mypage_report.php" target="_blank">모듈랜딩</a> |
                     <a href="/mypage_link_list.php">신청관리</a> |
                     <a href="/mypage_request_list.php">고객관리</a> |
-                    <a href="/mypage_reservation_list.php">예약관리</a> |
-                    <a href="/daily_list.php">데일리발송</a>
+                    <a href="/mypage_reservation_list.php">예약관리</a>
                     <!-- <a href="/mypage_oldrequest_list.php">기존고객관리</a> |
                     <a href="/mypage_wsend_list.php">발송예정내역</a> |
                     <a href="/mypage_send_list.php">발송결과내역</a> -->
@@ -900,7 +802,7 @@ if ($domainData['status'] == "N") {
 			    <a href="sub_11.php">온리원콜백</a>
 			</div>
 			<div style="position:absolute;left:430px;">
-			    <a href="sub_11.php">콜백알아보기</a> ㅣ <a href="https://tinyurl.com/3ucs2vbt" target="_biank">콜백설치하기</a> ㅣ <a href="https://tinyurl.com/4j8ez8x3" target="_blank">콜백이용하기</a>
+			    <a href="sub_11.php">콜백알아보기</a> ㅣ <a href="https://play.google.com/store/apps/details?id=mms.onepagebook.com.onlyonesms&pli=1" target="_biank">콜백설치하기</a> ㅣ <a href="https://tinyurl.com/4j8ez8x3" target="_blank">콜백이용하기</a>
 			</div>
 			<p style="clear:both;"></p>
         </div> -->
@@ -993,6 +895,10 @@ if ($domainData['status'] == "N") {
         $('#msub2').mouseover(function() {
             pop_hide();
             $('#sub2').show();
+        });
+        $('#msub_daily').mouseover(function() {
+            pop_hide();
+            $('#sub_daily').show();
         });
         $('#msms').mouseover(function() {
             pop_hide();

@@ -28,7 +28,7 @@ $res = mysqli_query($self_con,$query);
             </div>
         </div>
         <section class="">
-            <p><h3 class="section-title" style="margin-top:10px;">스텝예약 메시지 리스트</h3></p>
+            <p><h3 class="section-title" style="margin-top:10px;">퍼널예약 메시지 리스트</h3></p>
         </section>
         <table class="table table-bordered" width="100%" border="0" cellspacing="0" cellpadding="0">
             <tr>

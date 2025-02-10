@@ -1101,7 +1101,7 @@ $member = $data = mysqli_fetch_array($sresul_num);
           <li style="float:left;">
             <?php
 
-            //$sql_serch =" recommend_id  ='{$_SESSION['one_member_id']}' and a.member_type in ('스텝문자','사업문자-정기','사업문자1년','기본형','사업형-일반결제','일반결제-연간타입')"; 
+            //$sql_serch =" recommend_id  ='{$_SESSION['one_member_id']}' and a.member_type in ('퍼널문자','사업문자-정기','사업문자1년','기본형','사업형-일반결제','일반결제-연간타입')"; 
             $sql_serch = " recommend_id  ='{$_SESSION['one_member_id']}' ";
             //$sql_serch=" recommend_id ='{$_SESSION['one_member_id']}' and a.member_type='기본문자'"; 
             if ($_REQUEST['search_date']) {

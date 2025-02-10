@@ -559,8 +559,7 @@ $row = mysqli_fetch_array($sresul_num);
 <link rel="stylesheet" type="text/css" href="/ckeditor5/build/styles.css">
 <div class="big_div">
     <div class="big_sub">
-
-        <? include "mypage_step_navi.php"; ?>
+        <?// include "mypage_step_navi.php"; ?>
         <div class="m_div">
             <? include "mypage_left_menu.php"; ?>
             <div class="m_body">

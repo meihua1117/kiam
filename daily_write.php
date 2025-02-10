@@ -222,7 +222,7 @@ $row_content = mysqli_fetch_array($res_content);
     function apply() {
         var msg_mode = $("input[name=set_msg_mode]:checked").val();
         if (msg_mode == "1" && $("#step_msg_info").val() == 0) {
-            alert("스텝메시지를 선택하세요.");
+            alert("퍼널메시지를 선택하세요.");
             return;
         }
         msg_mode = $("#step_sms_idx").val();
@@ -408,7 +408,7 @@ $row_content = mysqli_fetch_array($res_content);
     function get_steplist() {
         var msg_mode = $("input[name=set_msg_mode]:checked").val();
         if (msg_mode != "1") {
-            alert("스텝메시지를 선택하세요.");
+            alert("퍼널메시지를 선택하세요.");
             return;
         }
 
@@ -529,7 +529,6 @@ $row_content = mysqli_fetch_array($res_content);
     }
 </style>
 <div class="big_sub">
-    <?php include "mypage_step_navi.php"; ?>
     <div class="m_div">
         <?php include "mypage_left_menu.php"; ?>
         <div class="m_body">
@@ -688,7 +687,7 @@ $row_content = mysqli_fetch_array($res_content);
                                     <input type="radio" id="write_msg" name="set_msg_mode" value="0" onclick="set_write_mode()" style="float:left;" <?= $check_step0 ?>>
                                     <div style="float:left;">메시지입력</div>
                                     <input type="radio" id="step_msg" name="set_msg_mode" value="1" onclick="set_step_msg()" style="float:left;" <?= $check_step1 ?>>
-                                    <div style="float:left;">스텝메시지</div>
+                                    <div style="float:left;">퍼널메시지</div>
                                     <input type="text" id="step_msg_info" name="step_msg_info" style="float:left;width:30%;height:20px;margin:0 10px;" value="<?= $step_title ?>" readonly>
                                     <input type="hidden" id="step_sms_idx" name="step_sms_idx" value="<?= $step_idx ?>">
                                     <a href="javascript:get_steplist();" style="text-decoration-line: blink;background-color: #5f72e6;padding: 3px;color: white;border-radius: 5px;">조회</a>

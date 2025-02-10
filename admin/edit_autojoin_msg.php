@@ -189,7 +189,7 @@ if($row[0]) {
 											}
 										?>
 										<tr>
-											<th class="w200">스텝문자정보</th>
+											<th class="w200">퍼널문자정보</th>
 											<td>
 												<input type="text" style="width:45%;" name="step_title" id="step_title" value="<?=$row_step['title']?>" disabled>
 												<input type="text" style="width:100px;" name="step_phone" id="step_phone" value="<?=$row_step['send_num']?>" disabled>

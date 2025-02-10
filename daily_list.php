@@ -60,15 +60,10 @@ $data = mysqli_fetch_array($sresul_num);
 </style>
 <div class="big_div">
 	<div class="big_sub">
-
-		<?php include "mypage_step_navi.php"; ?>
-
 		<div class="m_div">
 			<?php include "mypage_left_menu.php"; ?>
 			<div class="m_body">
-
 				<form name="pay_form" action="" method="post" class="my_pay">
-
 					<input type="hidden" name="page" value="<?= $page ?>" />
 					<input type="hidden" name="page2" value="<?= $page2 ?>" />
 					<div class="a1" style="margin-top:50px; margin-bottom:15px">
@@ -87,7 +82,7 @@ $data = mysqli_fetch_array($sresul_num);
 						<div class="p1">
 							<select name="search_key" class="select">
 								<option value="all" <?= $_REQUEST['search_key'] == "all" ? "selected" : "" ?>>전체</option>
-								<option value="step" <?= $_REQUEST['search_key'] == "step" ? "selected" : "" ?>>데일리스텝</option>
+								<option value="step" <?= $_REQUEST['search_key'] == "step" ? "selected" : "" ?>>데일리퍼널</option>
 							</select>
 							<input type="text" name="search_text" placeholder="" id="search_text" value="<?= $_REQUEST['search_text'] ?>" />
 							<a href="javascript:void(0)" onclick="pay_form.submit()"><img src="images/sub_mypage_11.jpg" /></a>

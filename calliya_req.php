@@ -68,8 +68,6 @@ $data = mysqli_fetch_array($sresul_num);
 </style>
 <div class="big_div">
     <div class="big_sub">
-        <?php //include "mypage_step_navi.php";
-        ?>
         <div class="m_div">
             <?php include "mypage_left_menu.php"; ?>
             <div class="m_body">

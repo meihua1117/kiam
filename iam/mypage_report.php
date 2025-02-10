@@ -14,7 +14,7 @@ if ($_REQUEST['eday']) {
     $sql_serch .= " and reg_date <= '{$_REQUEST['eday']}' ";
 }
 $report_sql = "select * from gn_report_form where $sql_serch order by id desc";
-$report_res = mysqli_query($self_con,$report_sql);
+$report_res = mysqli_query($self_con, $report_sql);
 ?>
 <style>
     input[type=checkbox] {
@@ -104,9 +104,10 @@ $report_res = mysqli_query($self_con,$report_sql);
         font-size: 10px;
         cursor: pointer;
     }
-    .table_textarea{
+
+    .table_textarea {
         resize: none;
-        overflow:hidden;
+        overflow: hidden;
     }
 </style>
 <link href='/css/main.css' rel='stylesheet' type='text/css' />
@@ -235,27 +236,27 @@ $report_res = mysqli_query($self_con,$report_sql);
                                             <input type="hidden" id=<?= 'desc' . $index ?> value="<?= htmlspecialchars($report_row['descript']) ?>">
                                         </td>
                                         <td style="padding-top:1px !important">
-                                            <textarea id="<?= 'detail' . $report_row['id'] ?>" class = "table_textarea" style="width:100%;"><?= $report_row['detail'] ?></textarea>
+                                            <textarea id="<?= 'detail' . $report_row['id'] ?>" class="table_textarea" style="width:100%;"><?= $report_row['detail'] ?></textarea>
                                             <br>
                                             <button type="button" class="btn-default" style="margin-top:5px;padding:5px 10px;border:1px solid #ccc;cursor:pointer" onclick="show_detail(<?= $report_row['id'] ?>);">상세보기</button>
                                             <button type="button" class="btn-default" style="margin-top:5px;padding:5px 10px;border:1px solid #ccc;cursor:pointer" onclick="save_detail_idx(<?= $report_row['id'] ?>);">저장</button>
                                         </td>
                                         <?
                                         $sql = "select count(idx) from gn_report_table where repo_id={$report_row['id']}";
-                                        $res = mysqli_query($self_con,$sql);
+                                        $res = mysqli_query($self_con, $sql);
                                         $row = mysqli_fetch_array($res);
                                         $count = $row[0];
                                         if ($count == null)
                                             $count = 0;
                                         ?>
-                                        <td><?=(($report_row['display_count'] + $report_row['send_count']) > 0 ? $report_row['display_count'] + $report_row['send_count']." / ": ""). $report_row['visit']." / ". $count ?><br>
+                                        <td><?= (($report_row['display_count'] + $report_row['send_count']) > 0 ? $report_row['display_count'] + $report_row['send_count'] . " / " : "") . $report_row['visit'] . " / " . $count ?><br>
                                             <span id="<?= 'detail_' . $report_row['id'] ?>"><?= $report_row['channel'] ?></span><br><br>
-                                    <?if($report_row['price_per_reply'] != 0){
-                                        $style_detail = "cursor:pointer;background:blue;color:white;border:1px solid #ddd";
-                                    }else{
-                                        $style_detail = "cursor:pointer;background:white;border:1px solid #ddd";
-                                    }?>
-                                    <span id="<?='static_'.$report_row['id']?>" onclick="show_statistic(<?= $report_row['id'] ?>);" style="<?=$style_detail?>">상세보기</span>
+                                            <? if ($report_row['price_per_reply'] != 0) {
+                                                $style_detail = "cursor:pointer;background:blue;color:white;border:1px solid #ddd";
+                                            } else {
+                                                $style_detail = "cursor:pointer;background:white;border:1px solid #ddd";
+                                            } ?>
+                                            <span id="<?= 'static_' . $report_row['id'] ?>" onclick="show_statistic(<?= $report_row['id'] ?>);" style="<?= $style_detail ?>">상세보기</span>
                                         </td>
                                         <td><?= $report_row['reg_date'] ?></td>
                                         <td><a href="report_result.php?repo=<?= $report_row['id'] ?>" target="_blank">답변</a></td>
@@ -529,7 +530,7 @@ $report_res = mysqli_query($self_con,$report_sql);
             else
                 profit_total_ads = profit_total_ads.toFixed(1);
             $("#profit_total_ads").val(profit_total_ads);
-                    
+
         });
         $("#sale_discount").keyup(function() {
             var price_per_reply = Number($("#price_per_reply").val());
@@ -547,13 +548,13 @@ $report_res = mysqli_query($self_con,$report_sql);
             else
                 profit_ads = profit_ads.toFixed(1);
             $("#profit_ads").val(profit_ads);
-                    
+
             var profit_total_ads = (total_payment - ads_price - manage_price) / (ads_price + manage_price) * 100;
             if ((ads_price + manage_price) == 0)
                 profit_total_ads = 0;
             else
                 profit_total_ads = profit_total_ads.toFixed(1);
-            $("#profit_total_ads").val(profit_total_ads);       
+            $("#profit_total_ads").val(profit_total_ads);
         });
         $("#send_count").keyup(function() {
             var send_count = Number($(this).val());
@@ -587,7 +588,7 @@ $report_res = mysqli_query($self_con,$report_sql);
             else
                 price_per_ads = price_per_ads.toFixed(1);
             $("#price_per_ads").val(price_per_ads);
-            
+
             var total_payment = $("#total_payment").val();
             var manage_price = Number($("#manage_price").val());
             $("#profit").val(total_payment - ads_price - manage_price);
@@ -743,12 +744,13 @@ $report_res = mysqli_query($self_con,$report_sql);
         });
     });
 
-    function show_detail(repo_id){
+    function show_detail(repo_id) {
         $("#detail_repo_id").val(repo_id);
         var detail = $("#detail" + repo_id).val();
         $("#report_detail").val(detail);
         $("#report_detail_modal").modal("show");
     };
+
     function show_notice(key) {
         var msg = "";
         if (key == "sn_count")
@@ -927,8 +929,8 @@ $report_res = mysqli_query($self_con,$report_sql);
                 ads_price: ads_price,
                 manage_price: manage_price,
                 click_count_manual: click_count_manual,
-                sale_discount:sale_discount,
-                price_per_reply:price_per_reply,
+                sale_discount: sale_discount,
+                price_per_reply: price_per_reply,
                 reply_count_manual: reply_count_manual
             },
             success: function(data) {
@@ -936,10 +938,10 @@ $report_res = mysqli_query($self_con,$report_sql);
                     alert("성공적으로 저장되었습니다.");
                     $("#report_statistic").modal("hide");
                     $("#detail_" + repo_id).html(channel);
-                    if(price_per_reply != 0){
+                    if (price_per_reply != 0) {
                         $("#static_" + repo_id).css('background-color', 'blue');
                         $("#static_" + repo_id).css('color', 'white');
-                    }else{
+                    } else {
                         $("#static_" + repo_id).css('background-color', 'white');
                         $("#static_" + repo_id).css('color', 'black');
                     }
@@ -1069,7 +1071,7 @@ $report_res = mysqli_query($self_con,$report_sql);
         });
     }
 
-    function save_detail(){
+    function save_detail() {
         var idx = $("#detail_repo_id").val();
         $.ajax({
             type: "POST",
@@ -1087,7 +1089,8 @@ $report_res = mysqli_query($self_con,$report_sql);
             }
         });
     }
-    function save_detail_idx(idx){
+
+    function save_detail_idx(idx) {
         $.ajax({
             type: "POST",
             url: "/ajax/ajax.report.php",
@@ -1095,7 +1098,7 @@ $report_res = mysqli_query($self_con,$report_sql);
             data: {
                 method: "save_report_detail",
                 id: idx,
-                cont: $("#detail"+idx).val()
+                cont: $("#detail" + idx).val()
             },
             success: function(data) {
                 alert("성공적으로 저장되었습니다.");

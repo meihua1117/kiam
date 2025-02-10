@@ -30,7 +30,7 @@ if ($_REQUEST['cat'] && $_REQUEST['cat'] != 0 && $_REQUEST['status'] != 5) {
             $sql_serch .= "and (fl='디버')";
             break;
         case 3:
-            $sql_serch .= "and (fl='윈스텝')";
+            $sql_serch .= "and (fl='윈퍼널')";
             break;
         case 4:
             $sql_serch .= "and (fl='아이엠')";
@@ -54,7 +54,7 @@ if ($_REQUEST['cat'] && $_REQUEST['cat'] != 0 && $_REQUEST['status'] != 5) {
             $sql_serch .= "and (fl='콜백문자')";
             break;
         case 5:
-            $sql_serch .= "and (fl='스텝문자')";
+            $sql_serch .= "and (fl='퍼널문자')";
             break;
         case 6:
             $sql_serch .= "and (fl='웹문자')";
@@ -262,7 +262,7 @@ $result2 = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
                             <a href="cliente_list.php?status=<?= $_REQUEST['status'] ?>&one_no=<?= $row_no['no'] ?>&cat=0" class="bd_page bd_page_over">전체</a>
                             <a href="cliente_list.php?status=<?= $_REQUEST['status'] ?>&one_no=<?= $row_no['no'] ?>&cat=1" class="bd_page bd_page_over">문자</a>
                             <a href="cliente_list.php?status=<?= $_REQUEST['status'] ?>&one_no=<?= $row_no['no'] ?>&cat=2" class="bd_page bd_page_over">디버</a>
-                            <a href="cliente_list.php?status=<?= $_REQUEST['status'] ?>&one_no=<?= $row_no['no'] ?>&cat=3" class="bd_page bd_page_over">윈스텝</a>
+                            <a href="cliente_list.php?status=<?= $_REQUEST['status'] ?>&one_no=<?= $row_no['no'] ?>&cat=3" class="bd_page bd_page_over">윈퍼널</a>
                             <a href="cliente_list.php?status=<?= $_REQUEST['status'] ?>&one_no=<?= $row_no['no'] ?>&cat=4" class="bd_page bd_page_over">아이엠</a>
                             <a href="cliente_list.php?status=<?= $_REQUEST['status'] ?>&one_no=<?= $row_no['no'] ?>&cat=5" class="bd_page bd_page_over">쇼핑</a>
                         </div>
@@ -273,7 +273,7 @@ $result2 = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
                             <a href="cliente_list.php?status=<?= $_REQUEST['status'] ?>&one_no=<?= $row_no['no'] ?>&cat=2" class="bd_page bd_page_over">폰문자</a>
                             <a href="cliente_list.php?status=<?= $_REQUEST['status'] ?>&one_no=<?= $row_no['no'] ?>&cat=3" class="bd_page bd_page_over">디비수집</a>
                             <a href="cliente_list.php?status=<?= $_REQUEST['status'] ?>&one_no=<?= $row_no['no'] ?>&cat=4" class="bd_page bd_page_over">콜백문자</a>
-                            <a href="cliente_list.php?status=<?= $_REQUEST['status'] ?>&one_no=<?= $row_no['no'] ?>&cat=5" class="bd_page bd_page_over">스텝문자</a>
+                            <a href="cliente_list.php?status=<?= $_REQUEST['status'] ?>&one_no=<?= $row_no['no'] ?>&cat=5" class="bd_page bd_page_over">퍼널문자</a>
                             <a href="cliente_list.php?status=<?= $_REQUEST['status'] ?>&one_no=<?= $row_no['no'] ?>&cat=6" class="bd_page bd_page_over">웹문자</a>
                             <a href="cliente_list.php?status=<?= $_REQUEST['status'] ?>&one_no=<?= $row_no['no'] ?>&cat=7" class="bd_page bd_page_over">국제문자</a>
                             <a href="cliente_list.php?status=<?= $_REQUEST['status'] ?>&one_no=<?= $row_no['no'] ?>&cat=8" class="bd_page bd_page_over">결제</a>

@@ -424,14 +424,14 @@ $keyword_list = array();
                                 <div id="btnSendText" name="btnSendText"><a href="javascript:void(0)" onclick="send_message(sub_4_form, 1)"><img src="/images/sub_button_68.jpg"></a></div>
                             </div>
                         </form>
-                        <div class="text-center"><h3 class="section-title" target="Step"><i class="fa fa-circle-o"></i>스텝예약메시지 설정</h3></div>
+                        <div class="text-center"><h3 class="section-title" target="Step"><i class="fa fa-circle-o"></i>퍼널예약메시지 설정</h3></div>
                         <table class="table table-bordered">
                             <tbody class="text-center">
                                 <tr>
                                     <td>[예약메시지]</td>
                                     <td><input type="text" readonly style="width:100%;height:30px;margin-left:0px !important;" id="step_title" name="step_title"></td>
                                     <input type="hidden" id="step_idx" name="step_idx" />
-                                    <td><button class="btn btn-default" type="button" onclick="onStepReservation()">스텝예약관리 조회</button></td>
+                                    <td><button class="btn btn-default" type="button" onclick="onStepReservation()">퍼널예약관리 조회</button></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -892,7 +892,7 @@ $keyword_list = array();
 
             if($("#step_key").val() == "")
             {
-                alert("스텝예약을 선택해 주세요.");
+                alert("퍼널예약을 선택해 주세요.");
                 $("#step_key").focus();
                 return;
             }         

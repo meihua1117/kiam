@@ -62,7 +62,7 @@ thead tr th{position: sticky; top: 0; background: #ebeaea;z-index:10;}
                             <label><input type="radio" value="폰문자" name="fl" onclick="oncategorychange(2)" id="c_ptext" <?=$row_no['fl']=='폰문자'?'checked':''?>>폰문자</label> &nbsp;
                             <label><input type="radio" value="디비수집" name="fl" onclick="oncategorychange(3)" id="c_getdb" <?=$row_no['fl']=='디비수집'?'checked':''?>>디비수집</label> &nbsp;
                             <label><input type="radio" value="콜백문자" name="fl" onclick="oncategorychange(4)" id="c_cbtext" <?=$row_no['fl']=='콜백문자'?'checked':''?>>콜백문자</label> &nbsp;
-                            <label><input type="radio" value="스텝문자" name="fl" onclick="oncategorychange(5)" id="c_steptext" <?=$row_no['fl']=='스텝문자'?'checked':''?>>스텝문자</label> &nbsp;
+                            <label><input type="radio" value="퍼널문자" name="fl" onclick="oncategorychange(5)" id="c_steptext" <?=$row_no['fl']=='퍼널문자'?'checked':''?>>퍼널문자</label> &nbsp;
                             <label><input type="radio" value="웹문자" name="fl" onclick="oncategorychange(6)" id="c_webtext" <?=$row_no['fl']=='웹문자'?'checked':''?>>웹문자</label> &nbsp;
                             <label><input type="radio" value="국제문자" name="fl" onclick="oncategorychange(7)" id="c_intertext" <?=$row_no['fl']=='국제문자'?'checked':''?>>국제문자</label> &nbsp;
                             <label><input type="radio" value="결제" name="fl" onclick="oncategorychange(8)" id="c_settle" <?=$row_no['fl']=='결제'?'checked':''?>>결제</label> &nbsp;

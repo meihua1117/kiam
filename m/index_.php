@@ -97,7 +97,7 @@ if($_GET['key'] && $_GET['key'] == session_id()) {
 							<img src="img/main/icon-9.png">
 						</span>
 						<p class="item-name">
-							원스텝문자
+							원퍼널문자
 						</p>
 						<p class="item-sub">단계별자동홍보</p>
 					</div>
@@ -112,7 +112,7 @@ if($_GET['key'] && $_GET['key'] == session_id()) {
 							<img src="img/main/icon-9.png">
 						</span>
 						<p class="item-name">
-							원스텝문자
+							원퍼널문자
 						</p>
 						<p class="item-sub">단계별자동홍보</p>
 					</div>

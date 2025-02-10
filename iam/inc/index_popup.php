@@ -2149,7 +2149,7 @@
                                     <td class="iam_table"><input type="file" name="autojoin_img" style="width:200px;"><span id="autojoin_img_event"></span></td>
                                 </tr>
                                 <tr id="step_info_tr">
-                                    <th class="iam_table" style="width:20%;">스텝문자정보</th>
+                                    <th class="iam_table" style="width:20%;">퍼널문자정보</th>
                                     <td class="iam_table">
                                         <input type="text" style="width:45%;" name="step_title" id="step_title" value="" disabled>
                                         <input type="text" style="width:10%;" name="step_cnt" id="step_cnt" value="" disabled>

@@ -60,15 +60,11 @@ $(function(){
 </style>
 <div class="big_div">
     <div class="big_sub">
-
-        <?php include "mypage_step_navi.php"; ?>
-
+        <?php //include "mypage_step_navi.php"; ?>
         <div class="m_div">
             <?php include "mypage_left_menu.php"; ?>
             <div class="m_body">
-
                 <form name="pay_form" action="" method="post" class="my_pay">
-
                     <input type="hidden" name="page" value="<?= $page ?>" />
                     <input type="hidden" name="page2" value="<?= $page2 ?>" />
                     <div class="a1" style="margin-top:15px; margin-bottom:15px">
@@ -312,7 +308,7 @@ $(function(){
                         return;
                     }
                     if ($('#event_name_eng').val() == "") {
-                        alert("스텝예약문자를 선택해 주세요.");
+                        alert("퍼널예약문자를 선택해 주세요.");
                         $('#event_name_eng').focus();
                         return;
                     }
@@ -505,7 +501,7 @@ $(function(){
                                     <td style="height:35px;text-align:left;">
                                         <input type="text" id="reservation_title" name="reservation_title" value="" readonly style="width:250px; height: 27px;">
                                         <input type="hidden" id="step_idx" name="step_idx" value="" style="width:95px;">
-                                        <input type="button" value="스텝예약관리 조회" class="button " id="searchEventBtn">
+                                        <input type="button" value="퍼널예약관리 조회" class="button " id="searchEventBtn">
                                     </td>
                                 </tr>
                                 <tr>

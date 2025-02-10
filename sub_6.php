@@ -1187,7 +1187,7 @@ if (!empty($row_sum_b)) {
 									<div id="phone_address_tab" style="height: 30px;">
 										<input type="hidden" name="old_group" />
 										<div class="div_float" style="width: 49%;">
-											<input type="text" placeholder="주소록 제목을 입력" id="new_group" name="new_group" style="width: 100%;" />
+											<input type="text" placeholder="주소록 제목 입력하세요" id="new_group" name="new_group" style="width: 100%;" />
 								</div>
 										<div class="div_float" style="width: 49%;">
 											<input type="file" name='excel_file' style="font-size:12px;padding:5px 0px" />

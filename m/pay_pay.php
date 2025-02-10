@@ -87,7 +87,7 @@ function dbFree() {
     	}    
 }
 /*
-    $('#member_type').val('스텝문자');
+    $('#member_type').val('퍼널문자');
     $('#teacher_only').show();
     $('#money_type5').prop("checked", true);
     $('#total_amount').text('55,000');
@@ -95,7 +95,7 @@ function dbFree() {
     $('#add_phone').prop("readonly", true);
     $('#price').val('55000');
 
-    $('#goodname').val('스텝문자');
+    $('#goodname').val('퍼널문자');
     $('#month_cnt').val('1');    
     $('.payment_1').hide();
     $('.payment_2').show();       
@@ -477,7 +477,7 @@ var send_cnt = 9000;
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td class="colored" colspan="3">원스텝문자</td>
+                                            <td class="colored" colspan="3">원퍼널문자</td>
                                         </tr>
                                         <tr>
                                             <td class="fw-bold" colspan="2">
@@ -489,8 +489,8 @@ var send_cnt = 9000;
                                         <tr>
                                             <td class="fw-bold" colspan="2">
                                                 이벤트랜딩작성기능<br>
-                                                스텝예약발송기능<br>
-                                                스텝예약관리기능
+                                                퍼널예약발송기능<br>
+                                                퍼널예약관리기능
                                             </td>
                                             <td><input type="button" value="OFF" class="payoff" id="onestep1_2"  /></td>
                                         </tr>
@@ -559,7 +559,7 @@ var send_cnt = 9000;
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td class="colored" colspan="3">원스텝문자</td>
+                                            <td class="colored" colspan="3">원퍼널문자</td>
                                         </tr>
                                         <tr>
                                             <td class="fw-bold" colspan="2">
@@ -571,8 +571,8 @@ var send_cnt = 9000;
                                         <tr>
                                             <td class="fw-bold" colspan="2">
                                                 이벤트랜딩작성기능<br>
-                                                스텝예약발송기능<br>
-                                                스텝예약관리기능
+                                                퍼널예약발송기능<br>
+                                                퍼널예약관리기능
                                             </td>
                                             <td><input type="button" value="ON" class="payon" id="onestep2_2"  /></td>
                                         </tr>
@@ -640,7 +640,7 @@ var send_cnt = 9000;
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td class="colored" colspan="3">원스텝문자</td>
+                                            <td class="colored" colspan="3">원퍼널문자</td>
                                         </tr>
                                         <tr>
                                             <td class="fw-bold" colspan="2">
@@ -652,8 +652,8 @@ var send_cnt = 9000;
                                         <tr>
                                             <td class="fw-bold" colspan="2">
                                                 이벤트랜딩작성기능<br>
-                                                스텝예약발송기능<br>
-                                                스텝예약관리기능
+                                                퍼널예약발송기능<br>
+                                                퍼널예약관리기능
                                             </td>
                                             <td><input type="button" value="ON" class="payon" id="onestep3_2"  /></td>
                                         </tr>
@@ -723,7 +723,7 @@ var send_cnt = 9000;
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="colored" colspan="3">원스텝문자</td>
+                                        <td class="colored" colspan="3">원퍼널문자</td>
                                     </tr>
                                     <tr>
                                         <td class="fw-bold" colspan="2">
@@ -735,8 +735,8 @@ var send_cnt = 9000;
                                     <tr>
                                         <td class="fw-bold" colspan="2">
                                             이벤트랜딩작성기능<br>
-                                            스텝예약발송기능<br>
-                                            스텝예약관리기능
+                                            퍼널예약발송기능<br>
+                                            퍼널예약관리기능
                                         </td>
                                         <td><input type="button" value="OFF" class="payoff" id="onestep4_2"  /></td>
                                     </tr>
@@ -802,7 +802,7 @@ var send_cnt = 9000;
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td class="colored" colspan="3">원스텝문자</td>
+                                            <td class="colored" colspan="3">원퍼널문자</td>
                                         </tr>
                                         <tr>
                                             <td class="fw-bold" colspan="2">
@@ -814,8 +814,8 @@ var send_cnt = 9000;
                                         <tr>
                                             <td class="fw-bold" colspan="2">
                                                 이벤트랜딩작성기능<br>
-                                                스텝예약발송기능<br>
-                                                스텝예약관리기능
+                                                퍼널예약발송기능<br>
+                                                퍼널예약관리기능
                                             </td>
                                             <td><input type="button" value="ON" class="payon" id="onestep5_2"  /></td>
                                         </tr>
@@ -882,7 +882,7 @@ var send_cnt = 9000;
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td class="colored" colspan="3">원스텝문자</td>
+                                            <td class="colored" colspan="3">원퍼널문자</td>
                                         </tr>
                                         <tr>
                                             <td class="fw-bold" colspan="2">
@@ -894,8 +894,8 @@ var send_cnt = 9000;
                                         <tr>
                                             <td class="fw-bold" colspan="2">
                                                 이벤트랜딩작성기능<br>
-                                                스텝예약발송기능<br>
-                                                스텝예약관리기능
+                                                퍼널예약발송기능<br>
+                                                퍼널예약관리기능
                                             </td>
                                             <td><input type="button" value="ON" class="payon" id="onestep6_2"  /></td>
                                         </tr>
@@ -1102,22 +1102,22 @@ var send_cnt = 9000;
                         <table class="view_table" border="0" cellspacing="0" cellpadding="0">
                             <tr>
                                 <td style="width:100%;font-weight:bold;font-size:15px" colspan="2">
-                                    원스텝문자
+                                    원퍼널문자
                                 </td>
                             </tr>
                             
                             <tr>
                                 <td style="width:50%;padding:10px;" >
-                                    <a href="/cliente_list.php?status=1&one_no=118"  target="_blank">원스텝문자 매뉴얼 보기</a>
+                                    <a href="/cliente_list.php?status=1&one_no=118"  target="_blank">원퍼널문자 매뉴얼 보기</a>
                                 </td>
                                 <td style="width:50%;padding:10px;" >
-                                    <a href="/cliente_list.php?status=1&one_no=118"  target="_blank"> 원스텝문자 사용법 영상보기</a>
+                                    <a href="/cliente_list.php?status=1&one_no=118"  target="_blank"> 원퍼널문자 사용법 영상보기</a>
                                 </td>
                             </tr>
                             <tr>
                                 <td style="width:100%;text-align:left;padding:10px;height:171px;line-height:25px;vertical-align:top" colspan="2">
                                     <p style="font-weight:bold;font-size:14px;">유의사항</p>
-                                    <p>1. 사용가능폰 : 원스텝문자는 현재 온리원문자 소유폰에서만 발송이 가능합니다. 추가 휴대폰 연동은 곧 오픈예정입니다.<br/>
+                                    <p>1. 사용가능폰 : 원퍼널문자는 현재 온리원문자 소유폰에서만 발송이 가능합니다. 추가 휴대폰 연동은 곧 오픈예정입니다.<br/>
                                        2. 신청경로명 : 신청경로와 영문이벤트명의 중복이 있을 시 오류가 생깁니다. 이벤트명 뒤에 신청경로를 연결하여 사용하시기 바랍니다.
 </p>
                                 </td>
@@ -1244,7 +1244,7 @@ var send_cnt = 9000;
                                 <td><span class='add_money_span_' id="add_money_total_">11,000</span>원</td>
                             </tr>
                             <tr>
-                                <td><input type="checkbox" name="payment_yn" id="payment_yn_2" value="ST"  <?php if($_SERVER['SERVER_NAME'] != "center.kiam.kr") echo "checked";?>   >스텝<br />문자</td>
+                                <td><input type="checkbox" name="payment_yn" id="payment_yn_2" value="ST"  <?php if($_SERVER['SERVER_NAME'] != "center.kiam.kr") echo "checked";?>   >퍼널<br />문자</td>
                                 <td>1개월<BR>정기결제<BR>(1년 약정)</td>
                                 <td>3개</td>
                                 <td>27,000건</td>
@@ -1269,7 +1269,7 @@ var send_cnt = 9000;
                             </tr>
                             <tr>
                                 <td><input type="checkbox" name="payment_yn" id="payment_yn_3" value="BS"  >종합<br />문자</td>
-                                <td>3년<BR>스텝형포함</td>
+                                <td>3년<BR>퍼널형포함</td>
                                 <td>10개</td>
                                 <td>90,000건</td>
                                 <td>10,000개</td>
@@ -1277,7 +1277,7 @@ var send_cnt = 9000;
                             </tr>
                             <tr>
                                 <td><input type="checkbox" name="payment_yn" id="payment_yn_3" value="BC"  >종합<br />컨설팅</td>
-                                <td>3년<BR>스텝형포함</td>
+                                <td>3년<BR>퍼널형포함</td>
                                 <td>10개</td>
                                 <td>90,000건</td>
                                 <td>10,000개</td>
@@ -1768,14 +1768,14 @@ var send_cnt = 9000;
             $('.payment_1').hide();
             $('.payment_2').show();
             /*
-            $('#member_type').val('스텝문자');
+            $('#member_type').val('퍼널문자');
             $('#teacher_only').show();
             $('#money_type5').prop("checked", true);
             $('#total_amount').text('55,000');
             $('#add_phone').val(3);
             $('#add_phone').prop("readonly", true);
             $('#price').val('55000');
-            $('#goodname').val('스텝문자');
+            $('#goodname').val('퍼널문자');
             $('#month_cnt').val('1');
             $('.payment_1').hide();
             $('.payment_2').show();

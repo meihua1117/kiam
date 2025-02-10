@@ -7,7 +7,7 @@ $menu_id=3138;
 $ui_loginpage='/pages/page_37.php';
 $connect=dbconn();
 @access_right_chk(1, '/pages/page_37.php', '');
-$ui_og_arr=@print_board_title('원스탭문자 매뉴얼', '', '', '');
+$ui_og_arr=@print_board_title('원퍼널문자 매뉴얼', '', '', '');
 $member_share_info=array('use_share'=>'0','type'=>'site','connect'=>$connect,'ui_pages'=>$ui_pages,'ui_url'=>'');
 $global_script_arr=array();
 ?>
@@ -295,7 +295,7 @@ $is_navbar_module=0;
 <li id="hmenu_43878_2_3135" depth="2"><a href="/pages/page_3135.php">온리원문자 매뉴얼</a></li>
 <li id="hmenu_43878_2_3136" depth="2"><a href="/pages/page_3136.php">온리원디버 매뉴얼</a></li>
 <li id="hmenu_43878_2_3137" depth="2"><a href="/pages/page_3137.php">메시지카피 매뉴얼</a></li>
-<li id="hmenu_43878_2_3138" depth="2"><a href="/pages/page_3138.php" class="current">원스탭문자 매뉴얼</a></li>
+<li id="hmenu_43878_2_3138" depth="2"><a href="/pages/page_3138.php" class="current">원퍼널문자 매뉴얼</a></li>
 <li id="hmenu_43878_2_3100" depth="2"><a href="/pages/page_3100.php">자주하는 질문</a></li>
 </ul>
 </li>
@@ -361,9 +361,9 @@ function repos_movable43878() {
 <div id="cell_120_124" class="col-xs-12 col-sm-9  row">
 <div id="cell_124_130" class="row">
 <div id="cell_130_154">
-<h2 id="locwrap_43880"><span class="loccr_43880">원스탭문자 매뉴얼</span></h2></div>
+<h2 id="locwrap_43880"><span class="loccr_43880">원퍼널문자 매뉴얼</span></h2></div>
 <div id="cell_130_152" class="hidden-xs">
-<h2 id="locwrap_43879"><a href="/pages/page_3073.php?" class="lochm_43879">Home</a><span class="locsp_43879">></span><a href="/pages/page_3094.php" class="locmn_43879">이용안내</a><span class="locsp_43879">></span><span class="loccr_43879">원스탭문자 매뉴얼</span></h2></div>
+<h2 id="locwrap_43879"><a href="/pages/page_3073.php?" class="lochm_43879">Home</a><span class="locsp_43879">></span><a href="/pages/page_3094.php" class="locmn_43879">이용안내</a><span class="locsp_43879">></span><span class="loccr_43879">원퍼널문자 매뉴얼</span></h2></div>
 </div>
 <div id="cell_124_131">
 <article><?php
@@ -385,7 +385,7 @@ $cell_id='cell_124_131';
 <li id="vmenu_43828_3135" depth="2" num="0"><a href="/pages/page_3135.php" class="vmenu_depth_1">온리원문자 매뉴얼</a></li>
 <li id="vmenu_43828_3136" depth="2" num="0"><a href="/pages/page_3136.php" class="vmenu_depth_1">온리원디버 매뉴얼</a></li>
 <li id="vmenu_43828_3137" depth="2" num="0"><a href="/pages/page_3137.php" class="vmenu_depth_1">메시지카피 매뉴얼</a></li>
-<li id="vmenu_43828_3138" depth="2" num="0" class="on"><a href="/pages/page_3138.php" class="vmenu_depth_1 active">원스탭문자 매뉴얼</a></li>
+<li id="vmenu_43828_3138" depth="2" num="0" class="on"><a href="/pages/page_3138.php" class="vmenu_depth_1 active">원퍼널문자 매뉴얼</a></li>
 <li id="vmenu_43828_3100" depth="2" num="0"><a href="/pages/page_3100.php" class="vmenu_depth_1">자주하는 질문</a></li>
 </ul>
 <script type="text/javascript">

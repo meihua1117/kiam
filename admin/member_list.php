@@ -240,6 +240,22 @@ if ($case == 0)
                 }
             })
         });
+        $('.switch_ai_status').on("change", function() {
+            var id = $(this).find("input[type=checkbox]").val();
+            var status = $(this).find("input[type=checkbox]").is(":checked") == true ? 1 : 0;
+            $.ajax({
+                type: "POST",
+                url: "ajax/user_change.php",
+                data: {
+                    ai_status: 'change_ai_status',
+                    index: id,
+                    status: status
+                },
+                success: function(data) {
+                    //location.reload();
+                }
+            })
+        });
     });
     $(function() {
         var contHeaderH = $(".main-header").height();
@@ -343,6 +359,12 @@ if ($case == 0)
     }
 
     .switch_video_status {
+        position: relative;
+        display: inline-block;
+        width: 55px;
+        height: 28px;
+    }
+    .switch_ai_status {
         position: relative;
         display: inline-block;
         width: 55px;
@@ -547,7 +569,8 @@ if ($case == 0)
                                 <col width="100px">
                                 <col width="100px">
                                 <col width="100px">
-                                <col width="80px">
+                                <col width="100px">
+                                <col width="100px">
                                 <col width="100px">
                             </colgroup>
                             <thead>
@@ -563,7 +586,7 @@ if ($case == 0)
                                     <th style="text-align: center">약정</th>
                                     <th style="text-align: center">총결제</th>
                                     <th style="text-align: center">추천인</th>
-                                    <th style="text-align: center">가입일/접속일</th>
+                                    <th style="text-align: center">가입일/<br>접속일</th>
                                     <th style="text-align: center">오토회원</th>
                                     <th style="text-align: center">탈퇴회원</th>
                                     <? if ($_SESSION['one_member_admin_id'] != "" && $_SESSION['one_member_admin_id'] != "onlyonemaket") { ?>
@@ -572,9 +595,10 @@ if ($case == 0)
                                     <th style="text-align: center">역할등급</th>
                                     <th style="text-align: center">레벨등급</th>
                                     <th style="text-align: center">지원등급</th>
-                                    <th style="text-align: center">스페셜등급</th>
-                                    <th style="text-align: center">콜백발송횟수</th>
-                                    <th style="text-align: center">동영상업로드</th>
+                                    <th style="text-align: center">스페셜<br>등급</th>
+                                    <th style="text-align: center">콜백<br>발송횟수</th>
+                                    <th style="text-align: center">동영상<br>업로드</th>
+                                    <th style="text-align: center">AI<br>예약</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -802,6 +826,12 @@ if ($case == 0)
                                                 <span class="slider round" name="status_round" id="stauts_round_<?= $row['mem_code']; ?>"></span>
                                             </label>
                                         </td>
+                                        <td style="width:100px;text-align:center">
+                                            <label class="switch_ai_status" style="margin:0 25px;">
+                                                <input type="checkbox" name="ai_status" id="ai_reserv_<?= $row['mem_code']; ?>" value="<?= $row['mem_code']; ?>" <?= $row['ai_status'] == 1 ? "checked" : "" ?>>
+                                                <span class="slider round" name="ai_round" id="ai_round_<?= $row['mem_code']; ?>"></span>
+                                            </label>
+                                        </td>
                                     </tr>
                                 <?
                                     $i++;
@@ -809,7 +839,7 @@ if ($case == 0)
                                 if ($i == 1) {
                                 ?>
                                     <tr>
-                                        <td colspan="11" style="text-align:center;background:#fff">
+                                        <td colspan="12" style="text-align:center;background:#fff">
                                             등록된 내용이 없습니다.
                                         </td>
                                     </tr>

@@ -48,7 +48,7 @@ $logs->add_log("start");
 </style>
 <div class="big_div">
 	<div class="big_sub">
-		<?php include "mypage_step_navi.php"; ?>
+		<?php //include "mypage_step_navi.php"; ?>
 		<div class="m_div">
 			<?php include "mypage_left_menu.php"; ?>
 			<div class="m_body">
@@ -87,7 +87,7 @@ $logs->add_log("start");
 						<a href="?" style="color:">전체내역</a> &nbsp;|&nbsp;
 						<a href="?channel=2" style="color:<?= $_REQUEST['channel'] == 2 ? "#f00" : "" ?>">오토회원가입신청</a>&nbsp;|&nbsp;
 						<a href="?channel=3" style="color:<?= $_REQUEST['channel'] == 3 ? "#f00" : "" ?>">고객신청</a>&nbsp;|&nbsp;
-						<a href="?channel=4" style="color:<?= $_REQUEST['channel'] == 4 ? "#f00" : "" ?>">신청스텝예약</a>&nbsp;|&nbsp;
+						<a href="?channel=4" style="color:<?= $_REQUEST['channel'] == 4 ? "#f00" : "" ?>">신청퍼널예약</a>&nbsp;|&nbsp;
 						<a href="?channel=8" style="color:<?= $_REQUEST['channel'] == 8 ? "#f00" : "" ?>">새디비예약</a>
 					</div>
 					<div>
