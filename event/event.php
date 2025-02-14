@@ -414,7 +414,6 @@ function alerting($msg)
 {
 	echo "<script>alert('" . $msg . "');</script>";
 }
-
 if ($_POST['mode'] == "speech") {
 	if ($_POST['name'] == "") {
 		alerting('신청자명을 입력해주세요');
@@ -447,8 +446,64 @@ if ($_POST['mode'] == "speech") {
 		} else {
 			$m_id1 = $_SESSION['one_member_id'];
 		}
-
-		$sql = "INSERT INTO Gn_event_request SET event_idx='{$event_idx}',
+		if ($event_data['reserv_type']) {
+			$file1 = $_FILES['ai_file1']['tmp_name'];
+			$file2 = $_FILES['ai_file2']['tmp_name'];
+			$file3 = $_FILES['ai_file3']['tmp_name'];
+			$fquery = "";
+			if ($file1) {
+				$file_arr = explode(".", $_FILES['ai_file1']['name']);
+				$tmp_file_arr = explode("/", $file1);
+				$file_name = "ai_ms_event" . date("Ymds") . "." . $file_arr[count($file_arr) - 1];
+				$upload_file = "../upload/" . $file_name;
+				if (move_uploaded_file($_FILES['ai_file1']['tmp_name'], $upload_file)) {
+					uploadFTP($upload_file);
+					$fquery .= " ,file1='/upload/{$file_name}' ";
+				}
+			}
+			if ($file2) {
+				$file_arr = explode(".", $_FILES['ai_file2']['name']);
+				$tmp_file_arr = explode("/", $file2);
+				$file_name = "ai_ms_event" . date("Ymds") . "." . $file_arr[count($file_arr) - 1];
+				$upload_file = "../upload/" . $file_name;
+				if (move_uploaded_file($_FILES['ai_file2']['tmp_name'], $upload_file)) {
+					uploadFTP($upload_file);
+					$fquery .= " ,file2='/upload/{$file_name}' ";
+				}
+			}
+			if ($file3) {
+				$file_arr = explode(".", $_FILES['ai_file3']['name']);
+				$tmp_file_arr = explode("/", $file3);
+				$file_name = "ai_ms_event" . date("Ymds") . "." . $file_arr[count($file_arr) - 1];
+				$upload_file = "../upload/" . $file_name;
+				if (move_uploaded_file($_FILES['ai_file3']['tmp_name'], $upload_file)) {
+					uploadFTP($upload_file);
+					$fquery .= " ,file3='/upload/{$file_name}' ";
+				}
+			}
+			$sql = "INSERT INTO Gn_aievent_request SET event_idx='{$event_idx}',
+												event_code='{$event_code}',
+												m_id='{$m_id}',
+												req_id='{$m_id1}',
+												name='{$name}',
+												sex='{$sex}',
+												addr='{$addr}',
+												birthday='{$birthday}',
+												consult_date='{$consult_date}',
+												join_yn='{$join_yn}',
+												other='{$other}',
+												mobile='{$mobile}',
+												email='{$email}',
+												job='{$job}',
+												pcode='{$pcode}',
+												sp='{$sp}',
+												ip_addr='{$ipcheck}',
+												regdate=now(),
+												step_end_time=now(),
+												target='4'
+												$fquery";
+		} else {
+			$sql = "INSERT INTO Gn_event_request SET event_idx='{$event_idx}',
 												event_code='{$event_code}',
 												m_id='{$m_id}',
 												req_id='{$m_id1}',
@@ -468,6 +523,7 @@ if ($_POST['mode'] == "speech") {
 												regdate=now(),
 												step_end_time=now(),
 												target='4'";
+		}
 		if ($landing_idx != '')
 			$sql .= " ,landing_idx='{$landing_idx}'";
 		if ($rnum != '')
@@ -514,7 +570,7 @@ if ($_POST['mode'] == "speech") {
 							$jpg1 = "https://kiam.kr/adjunct/mms/thum/" . $row['image1'];
 						if ($row['image2'])
 							$jpg2 = "https://kiam.kr/adjunct/mms/thum/" . $row['image2'];
-
+						//ai 작업하면서 수정할것	
 						sendmms(4, $mem_id, $send_num, $recv_num, $reservation, $row['title'], $row['content'], $jpg, $jpg1, $jpg2, "Y", $row['sms_idx'], $row['sms_detail_idx'], $request_idx, "", $row['send_deny']);
 
 						$query = "INSERT INTO Gn_MMS_Agree SET mem_id='{$mem_id}',
@@ -680,10 +736,10 @@ if ($_POST['mode'] == "speech") {
 	<div class="content ck-content" style="min-width: 100%;">
 		<?= str_replace('img src="upload/', 'img src="/upload/', $data['content']); ?>
 	</div>
-	<?php if ($data['move_url'] != "") { ?>
+	<? if ($data['move_url'] != "") { ?>
 		<iframe width="100%" height="618" src="<?= $data['move_url']; ?>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
 			allowfullscreen></iframe>
-	<?php } ?>
+	<? } ?>
 	<script>
 		function checkForm() {
 			if ($('#agree').is(":checked") == false) {
@@ -799,11 +855,11 @@ if ($_POST['mode'] == "speech") {
 				<a href="<?= $data['file']; ?>" class="button-download" style="font-weight:bold;font-size:16px;border-radius: 200px;background-color: #418BCA;color:#FFFFFF;padding: 16px 28px;" target="_blank">첨부파일 다운로드</a>
 			</div>
 		<? } ?>
-		<?php
+		<?
 		if ($landing_idx != "" && $data['lecture_yn'] == "Y") { ?>
 			<div class="big_sub">
 				<div class="m_div">
-					<?php include "mypage_left_menu.php"; ?>
+					<? include "mypage_left_menu.php"; ?>
 					<div class="m_body">
 						<div style="text-align:center;background:#4b657c">
 							<p style="font-size:2.125rem;font-weight:bold;font-family:KoPubDotum; color: #FFFFFF;">온리원플랫폼 전국 설명회 및 교육 일정</p>
@@ -1064,18 +1120,18 @@ if ($_POST['mode'] == "speech") {
 														</td>
 
 														<td>
-															<?php if ($row['lecture_url']) { ?>
+															<? if ($row['lecture_url']) { ?>
 																<a href="<?= $row['lecture_url']; ?>" target="_blank">
-																<?php } ?>
+																<? } ?>
 																<div style="font-size:13px; text-align:left; font-weight:bold;color:blue;">
 																	<?= $row['lecture_info'] ?>
 																</div>
 																</a>
 														</td>
 														<!-- <td>
-														<?php if ($row['lecture_url']) { ?>
+														<? if ($row['lecture_url']) { ?>
 														<a href="<?= $row['lecture_url']; ?>" target="_blank">
-															<?php } ?>
+															<? } ?>
 															<?= $row['lecture_info'] ?></a></td> 
 														-->
 														<td>
@@ -1395,7 +1451,7 @@ if ($_POST['mode'] == "speech") {
 				allowfullscreen></iframe>
 		<? 	}
 		if (($landing_idx != "" && $data['request_yn'] == "Y") || $landing_idx == "") { ?>
-			<form id="dform1" name="dform1" method="post" action="<?= $SERVER['PHP_SELF'] ?>" onsubmit="return checkForm()">
+			<form id="dform1" name="dform1" method="post" action="<?= $_SERVER['PHP_SELF'] ?>" onsubmit="return checkForm()" enctype="multipart/form-data">
 				<input type="hidden" name="mode" value="speech">
 				<input type="hidden" name="pcode" value="<?= $pcode ?>">
 				<input type="hidden" name="event_code" value="<?= $pcode ?>">
@@ -1413,11 +1469,11 @@ if ($_POST['mode'] == "speech") {
 								<div class="inner-wrap">
 									<h2 class="title">
 										<!--<em>-->
-										<?php if ($event_data['event_title'] != "") { ?>
+										<? if ($event_data['event_title'] != "") { ?>
 											<?= $event_data['event_title']; ?>
-										<?php } else { ?>
+										<? } else { ?>
 											신청하기
-										<?php } ?>
+										<? } ?>
 										<!--</em>-->
 									</h2>
 
@@ -1441,7 +1497,7 @@ if ($_POST['mode'] == "speech") {
 											<span class="notice">회원가입과 동시에 e프로필이 생성됩니다.</span>
 											<a href="javascript:;" onclick="load_userinfo()" class="button">회원정보 가져오기(기존회원)</a> 
 										</div> -->
-										<?php if (strstr($event_data['event_info'], "join")) { ?>
+										<? if (strstr($event_data['event_info'], "join")) { ?>
 											<input type="hidden" name="join_yn" value="Y">
 											<!-- <div class="form-wrap" style="background-color: lemonchiffon">
 											<div class="attr-row">
@@ -1456,7 +1512,7 @@ if ($_POST['mode'] == "speech") {
 											</div>
 										</div> -->
 											<br>
-										<?php } else { ?>
+										<? } else { ?>
 											<input type="hidden" name="join_yn" value="N">
 										<? } ?>
 										<div class="form-wrap">
@@ -1512,20 +1568,20 @@ if ($_POST['mode'] == "speech") {
 												<div class="attr-name">휴대폰</div>
 												<div class="attr-value">
 													<div class="input-wrap">
-														<?php if (strstr($event_data['event_info'], "sms")) {
+														<? if (strstr($event_data['event_info'], "sms")) {
 															$width = "50%";
 														} else {
 															$width = "90%";
 														} ?>
 														<input type="tel" name="mobile" style="width:<?= $width ?>; height:40px; border:1px #cacaca solid;font-size: 14px;"
 															id="tel" onblur="checkPhon()" value="<?= $_POST['mobile'] ?>" placeholder="'-'를 빼고 입력(예 : 01012345678)" />
-														<?php if (strstr($event_data['event_info'], "sms")) { ?>
+														<? if (strstr($event_data['event_info'], "sms")) { ?>
 															<input type="button" value="인증번호 받기" class="button" onclick="chk_sms()" style=" height:42px; border:1px #cacaca solid;font-size: 14px;">
 														<? } ?>
 													</div>
 												</div>
 											</div>
-											<?php if (strstr($event_data['event_info'], "sms")) { ?>
+											<? if (strstr($event_data['event_info'], "sms")) { ?>
 												<div id="phone_verify" style="display: block;">
 													<div class="attr-row is-phone">
 														<div class="attr-name">인증번호</div>
@@ -1538,10 +1594,8 @@ if ($_POST['mode'] == "speech") {
 														</div>
 													</div>
 												</div>
-
-											<?php } ?>
-
-											<?php if (strstr($event_data['event_info'], "sex")) { ?>
+											<? }
+											if (strstr($event_data['event_info'], "sex")) { ?>
 												<div class="attr-row">
 													<div class="attr-name">성별</div>
 													<div class="attr-value">
@@ -1552,8 +1606,8 @@ if ($_POST['mode'] == "speech") {
 													</div>
 												</div>
 
-											<?php } ?>
-											<?php if (strstr($event_data['event_info'], "email")) { ?>
+											<? }
+											if (strstr($event_data['event_info'], "email")) { ?>
 												<div class="attr-row is-mail">
 													<div class="attr-name">이메일</div>
 													<div class="attr-value">
@@ -1563,9 +1617,8 @@ if ($_POST['mode'] == "speech") {
 														</div>
 													</div>
 												</div>
-
-											<?php } ?>
-											<?php if (strstr($event_data['event_info'], "job")) { ?>
+											<? }
+											if (strstr($event_data['event_info'], "job")) { ?>
 												<div class="attr-row">
 													<div class="attr-name">소속/직업</div>
 													<div class="attr-value">
@@ -1576,8 +1629,8 @@ if ($_POST['mode'] == "speech") {
 													</div>
 												</div>
 
-											<?php } ?>
-											<?php if (strstr($event_data['event_info'], "address")) { ?>
+											<? }
+											if (strstr($event_data['event_info'], "address")) { ?>
 												<div class="attr-row">
 													<div class="attr-name">주소</div>
 													<div class="attr-value">
@@ -1587,8 +1640,8 @@ if ($_POST['mode'] == "speech") {
 														</div>
 													</div>
 												</div>
-											<?php } ?>
-											<?php if (strstr($event_data['event_info'], "birth")) { ?>
+											<? }
+											if (strstr($event_data['event_info'], "birth")) { ?>
 
 												<div class="attr-row">
 													<div class="attr-name">출생년도</div>
@@ -1599,8 +1652,8 @@ if ($_POST['mode'] == "speech") {
 														</div>
 													</div>
 												</div>
-											<?php } ?>
-											<? if ($memrow['mem_leb'] == "60") { ?>
+											<? }
+											if ($memrow['mem_leb'] == "60") { ?>
 												<div class="attr-row">
 													<div class="attr-name">신청강좌명</div>
 													<div class="attr-value">
@@ -1614,8 +1667,8 @@ if ($_POST['mode'] == "speech") {
 														</div>
 													</div>
 												</div>
-											<?php } ?>
-											<?php if (strstr($event_data['event_info'], "other")) { ?>
+											<? }
+											if (strstr($event_data['event_info'], "other")) { ?>
 												<div class="attr-row">
 													<div class="attr-name">기타</div>
 													<div class="attr-value">
@@ -1625,10 +1678,21 @@ if ($_POST['mode'] == "speech") {
 														</div>
 													</div>
 												</div>
-											<?php } ?>
-
+											<? } ?>
 											<div class="attr-row is-account">
-
+												<div class="attr-name">파일등록<span style="margin-left:10px;font-weight: bold;cursor:pointer" onclick="add_file_tab();">+</span></div>
+												<div class="attr-value"><?= "(pdf,csv,jpg,png,txt,json,xlsx 파일 " . $event_data['file_cnt'] . "개까지 업로드 가능)" ?></div>
+											</div>
+											<? for ($i = 1; $i <= $event_data['file_cnt']; $i++) { ?>
+												<div class="attr-row is-account ai" style="display: none;" id="<?= 'ai_file_div' . $i ?>">
+													<div style="display: flex;justify-content: center;">
+														<span style="margin-right: 10px;"><?= "파일" . $i ?></span>
+														<input type="file" id="<?= 'ai_file' . $i ?>" name="<?= 'ai_file' . $i ?>" accept=".jpg,.jpeg,.png,.csv,.pdf,.txt,.json,.xlsx">
+														<span style="font-weight: bold;cursor:pointer" onclick="del_file_tab(<?= $i ?>);">X</span>
+													</div>
+												</div>
+											<? } ?>
+											<div class="attr-row is-account">
 												<div class="attr-name">신청<br>행사</div>
 												<div class="attr-value">
 													<div class="input-wrap" style="font-size: 14px;">
@@ -1651,16 +1715,17 @@ if ($_POST['mode'] == "speech") {
 											</div>
 											<div class="agreement-field">
 												<div class="agreement-wrap">
-													<?php if ($event_data['event_desc']) { ?>
+													<? if ($event_data['event_desc']) { ?>
 														<div class="agreement-item">
 															<?= nl2br($event_data['event_desc']); ?>
 														</div>
 												</div>
-											<?php } ?>
+											<? } ?>
 											</div>
 											<div class="button-wrap">
 												<input align="middle" src="pop_btn_regist3.png" type="image" class="button is-grey" value="신청하기" />
 											</div>
+										</div>
 									</section>
 								</div>
 							</div>
@@ -1669,8 +1734,69 @@ if ($_POST['mode'] == "speech") {
 				</div><!-- // 신청하기 끝 -->
 				<div id="ajax_div" style="display:none"></div>
 			</form>
-		<?php } ?>
-		<Script>
+		<? } ?>
+		<script>
+			function add_file_tab() {
+				if ($("#ai_file_div1").css('display') == "none")
+					$("#ai_file_div1").show();
+				else if ($("#ai_file_div2").css('display') == "none")
+					$("#ai_file_div2").show();
+				else if ($("#ai_file_div3").css('display') == "none")
+					$("#ai_file_div3").show();
+			}
+
+			function del_file_tab(idx) {
+				if (idx == 3) {
+					$("#ai_file_div3").hide();
+					$("#ai_file3").val('');
+				} else if (idx == 2) {
+					if ($("#ai_file_div3").css('display') == "none") {
+						$("#ai_file_div2").hide();
+						$("#ai_file2").val('');
+					} else {
+						if ($("#ai_file3")[0].files.length > 0) {
+							var file = $("#ai_file3")[0].files[0];
+							var dataTransfer = new DataTransfer();
+							dataTransfer.items.add(file);
+							$("#ai_file2")[0].files = dataTransfer.files;
+						}
+						$("#ai_file3").val('');
+						$("#ai_file_div3").hide();
+					}
+				} else {
+					if ($("#ai_file_div2").css('display') == "none") {
+						$("#ai_file_div1").hide();
+						$("#ai_file1").val('');
+					} else {
+						if ($("#ai_file_div3").css('display') == "none") {
+							if ($("#ai_file2")[0].files.length > 0) {
+								var file = $("#ai_file2")[0].files[0];
+								var dataTransfer = new DataTransfer();
+								dataTransfer.items.add(file);
+								$("#ai_file1")[0].files = dataTransfer.files;
+							}
+							$("#ai_file2").val('');
+							$("#ai_file_div2").hide();
+						} else {
+							if ($("#ai_file2")[0].files.length > 0) {
+								var file = $("#ai_file2")[0].files[0];
+								var dataTransfer = new DataTransfer();
+								dataTransfer.items.add(file);
+								$("#ai_file1")[0].files = dataTransfer.files;
+							}
+							if ($("#ai_file3")[0].files.length > 0) {
+								var file = $("#ai_file3")[0].files[0];
+								var dataTransfer = new DataTransfer();
+								dataTransfer.items.add(file);
+								$("#ai_file2")[0].files = dataTransfer.files;
+							}
+							$("#ai_file3").val('');
+							$("#ai_file_div3").hide();
+						}
+					}
+				}
+			}
+
 			function viewEvent(str) {
 				window.open(str, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=200,left=200,width=1000,height=1000");
 			}
@@ -1678,8 +1804,7 @@ if ($_POST['mode'] == "speech") {
 			function newpop_(str) {
 				window.open(str, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=200,left=200,width=1000,height=350");
 			}
-		</script>
-		<Script>
+
 			function newpop() {
 				var win = window.open("/mypage_lecture_list_pop.php?landing_idx=<?= $_REQUEST['landing_idx']; ?>", "event_pop", "toolbar=yes,scrollbars=yes,resizable=yes,top=200,left=200,width=1000,height=1000");
 			}
@@ -1773,11 +1898,11 @@ if ($_POST['mode'] == "speech") {
 		</div>
 		<div id="floating-menu">
 			<ul>
-				<?php if ($data['lecture_yn'] == "Y") { ?>
+				<? if ($data['lecture_yn'] == "Y") { ?>
 					<li class="menu"><a href="#" data-scroll="table"><img src="images/side_01.png" alt="강연일정 바로가기" width="200px"></a></li>
 					<li class="menu"><a href="#" data-scroll="review"><img src="images/side_02.png" alt="실시간리뷰 바로가기" width="200px"></a></li>
 					<li class="menu"><a href="#" data-scroll="apply"><img src="images/side_03.png" alt="강연교육신청하기" width="200px"></a></li>
-				<?php } ?>
+				<? } ?>
 			</ul>
 		</div>
 		<div id="contents_report_modal" class="modal fade in" tabindex="-1" role="dialog" aria-hidden="false">
