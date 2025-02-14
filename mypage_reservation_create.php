@@ -506,7 +506,7 @@ if ($get_idx) {
                 $show = "";
             }
             ?>
-            <form name="pay_form" action="" method="post" class="my_pay">
+            <form name="pay_form" action="" method="post" class="my_pay" style="<?=$reserv_type == 1 ? 'display:none':''?>">
                 <input type="hidden" name="page" value="<?= $page ?>" />
                 <input type="hidden" name="page2" value="<?= $page2 ?>" />
                 <div class="a1">
@@ -1064,8 +1064,10 @@ if ($get_idx) {
                 $("#reserv_file1").hide();
                 $("#reserv_file2").hide();
                 $("#reserv_file3").hide();
+                $(".my_pay").hide();
             } else {
                 $(".AI").hide();
+                $(".my_pay").show();
             }
         });
     });
