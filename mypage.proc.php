@@ -177,9 +177,9 @@ if ($mode == "land_save") {
     $row = mysqli_fetch_array($result);
 
     if ($row['event_name_eng'] == "") {
-        echo json_encode(array("result"=>"success","msg"=>"사용 가능합니다."));
+        echo json_encode(array("result" => "success", "msg" => "사용 가능합니다."));
     } else {
-        echo json_encode(array("result"=>"fail","msg"=>"중복된 값이 있습니다."));
+        echo json_encode(array("result" => "fail", "msg" => "중복된 값이 있습니다."));
     }
 
     exit;
@@ -285,6 +285,40 @@ if ($mode == "land_save") {
     if ($event_idx == "")
         $event_idx = 0;
     if ($reserv_type == 1) {
+        $ai_file1 = $_FILES['ai_file1']['tmp_name'];
+        $ai_file2 = $_FILES['ai_file2']['tmp_name'];
+        $ai_file3 = $_FILES['ai_file3']['tmp_name'];
+        $fquery = "";
+        if ($ai_file1) {
+            $file_arr = explode(".", $_FILES['ai_file1']['name']);
+            $tmp_file_arr = explode("/", $ai_file1);
+            $file_name = "ai_ms_".date("Ymds") . "." . $file_arr[count($file_arr) - 1];
+            $upload_file = "upload/" . $file_name;
+            if (move_uploaded_file($_FILES['ai_file1']['tmp_name'], $upload_file)) {
+                uploadFTP($upload_file);
+                $fquery .= " ,ai_file1='{$upload_file}' ";
+            }
+        }
+        if ($ai_file2) {
+            $file_arr = explode(".", $_FILES['ai_file2']['name']);
+            $tmp_file_arr = explode("/", $ai_file1);
+            $file_name = "ai_ms_".date("Ymds") . "." . $file_arr[count($file_arr) - 1];
+            $upload_file = "upload/" . $file_name;
+            if (move_uploaded_file($_FILES['ai_file2']['tmp_name'], $upload_file)) {
+                uploadFTP($upload_file);
+                $fquery .= " ,ai_file2='{$upload_file}' ";
+            }
+        }
+        if ($ai_file3) {
+            $file_arr = explode(".", $_FILES['ai_file3']['name']);
+            $tmp_file_arr = explode("/", $ai_file1);
+            $file_name = "ai_ms_".date("Ymds") . "." . $file_arr[count($file_arr) - 1];
+            $upload_file = "upload/" . $file_name;
+            if (move_uploaded_file($_FILES['ai_file3']['tmp_name'], $upload_file)) {
+                uploadFTP($upload_file);
+                $fquery .= " ,ai_file3='{$upload_file}' ";
+            }
+        }
         $sql = "INSERT INTO Gn_aievent_ms_info SET event_idx='{$event_idx}',
                                      event_name_eng='{$event_name_eng}',
                                      reservation_title='{$reservation_title}',
@@ -295,7 +329,8 @@ if ($mode == "land_save") {
                                      ai_day='{$ai_day}',
                                      ai_hour='{$ai_hour}',
                                      ai_prompt='{$ai_prompt}',
-                                     m_id='{$_SESSION['one_member_id']}'";
+                                     m_id='{$_SESSION['one_member_id']}'
+                                     $fquery";
         $result = mysqli_query($self_con, $sql);
         $sms_idx = mysqli_insert_id($self_con);
         if ($mb_id_copy != "") {
@@ -323,6 +358,47 @@ if ($mode == "land_save") {
     exit;
 } else if ($mode == "sms_update") {
     if ($reserv_type == 1) {
+        $ai_file1 = $_FILES['ai_file1']['tmp_name'];
+        $ai_file2 = $_FILES['ai_file2']['tmp_name'];
+        $ai_file3 = $_FILES['ai_file3']['tmp_name'];
+        $fquery = "";
+        if ($ai_file1) {
+            $file_arr = explode(".", $_FILES['ai_file1']['name']);
+            $tmp_file_arr = explode("/", $ai_file1);
+            $file_name = "ai_ms_".date("Ymds") . "." . $file_arr[count($file_arr) - 1];
+            $upload_file = "upload/" . $file_name;
+            if (move_uploaded_file($_FILES['ai_file1']['tmp_name'], $upload_file)) {
+                uploadFTP($upload_file);
+                $fquery .= " ,ai_file1='{$upload_file}' ";
+            }
+        }else{
+            $fquery .= " ,ai_file1='{$ai_file1_txt}' ";
+        }
+        if ($ai_file2) {
+            $file_arr = explode(".", $_FILES['ai_file2']['name']);
+            $tmp_file_arr = explode("/", $ai_file1);
+            $file_name = "ai_ms_".date("Ymds") . "." . $file_arr[count($file_arr) - 1];
+            $upload_file = "upload/" . $file_name;
+            if (move_uploaded_file($_FILES['ai_file2']['tmp_name'], $upload_file)) {
+                uploadFTP($upload_file);
+                $fquery .= " ,ai_file2='{$upload_file}' ";
+            }
+        }else{
+            $fquery .= " ,ai_file2='{$ai_file2_txt}' ";
+        }
+        if ($ai_file3) {
+            $file_arr = explode(".", $_FILES['ai_file3']['name']);
+            $tmp_file_arr = explode("/", $ai_file1);
+            $file_name = "ai_ms_".date("Ymds") . "." . $file_arr[count($file_arr) - 1];
+            $upload_file = "upload/" . $file_name;
+            if (move_uploaded_file($_FILES['ai_file3']['tmp_name'], $upload_file)) {
+                uploadFTP($upload_file);
+                $fquery .= " ,ai_file3='{$upload_file}' ";
+            }
+        }else{
+            $fquery .= " ,ai_file3='{$ai_file3_txt}' ";
+        }
+        
         $sql = "UPDATE Gn_aievent_ms_info SET event_idx='{$event_idx}',
                                      event_name_eng='{$event_name_eng}',
                                      reservation_title='{$reservation_title}',
@@ -334,6 +410,7 @@ if ($mode == "land_save") {
                                      ai_hour='{$ai_hour}',
                                      ai_prompt='{$ai_prompt}',
                                      m_id='{$_SESSION['one_member_id']}'
+                                     $fquery
                                WHERE sms_idx='{$sms_idx}'";
         $result = mysqli_query($self_con, $sql);
 
@@ -843,7 +920,7 @@ if ($mode == "land_save") {
         $sql = "DELETE FROM Gn_event_oldrequest WHERE idx ='$idxs[$i]'";
         $result = mysqli_query($self_con, $sql);
     }
-    echo json_encode(array("result"=>"success"));
+    echo json_encode(array("result" => "success"));
     exit;
 } else if ($mode == "old_customer_reservation") {
     if ($group_idx == "") {
@@ -946,7 +1023,7 @@ if ($mode == "land_save") {
 } else if ($mode == "sms_detail_del") {
     $sql = "DELETE FROM Gn_event_sms_step_info WHERE sms_detail_idx ='{$sms_detail_idx}' and sms_idx ='{$sms_idx}'";
     $result = mysqli_query($self_con, $sql);
-    echo json_encode(array("result"=>"success"));
+    echo json_encode(array("result" => "success"));
     exit;
 } else if ($mode == "sms_detail_info") {
     $sql = "SELECT * FROM Gn_event_sms_step_info WHERE sms_detail_idx ='{$sms_detail_idx}' and sms_idx ='{$sms_idx}'";

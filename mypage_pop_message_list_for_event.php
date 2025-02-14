@@ -11,12 +11,11 @@ if (!$_SESSION['one_member_id']) {
 <?
 	exit;
 }
-$sql = "select * from Gn_Member  where mem_id='{$_SESSION['one_member_id']}'";
-$sresul_num = mysqli_query($self_con, $sql);
-$data = mysqli_fetch_array($sresul_num);
-
 $addIndex = $_GET['addindex'];
-
+if(!isset($_GET['ai_type']))
+	$ai_type = 0;
+else
+	$ai_type = $_GET['ai_type'];
 ?>
 <script>
 	function copyHtml() {
@@ -119,7 +118,10 @@ $addIndex = $_GET['addindex'];
 							$sql_serch .= " and (reservation_title like '%$search_text%' or reservation_desc like '%$search_text%')";
 						}
 
-						$sql = "select count(sms_idx) as cnt from Gn_event_sms_info where $sql_serch ";
+						if($ai_type)
+							$sql = "select count(sms_idx) as cnt from Gn_aievent_ms_info where $sql_serch ";
+						else
+							$sql = "select count(sms_idx) as cnt from Gn_event_sms_info where $sql_serch ";
 						$result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
 						$row = mysqli_fetch_array($result);
 						$intRowCount = $row['cnt'];
@@ -149,10 +151,16 @@ $addIndex = $_GET['addindex'];
 							$order_name = "sms_idx";
 						$intPageCount = (int)(($intRowCount + $intPageSize - 1) / $intPageSize);
 						if ($intRowCount) {
-							$sql = "select * from Gn_event_sms_info where $sql_serch order by $order_name $order_status limit $int,$intPageSize";
+							if($ai_type)
+								$sql = "select * from Gn_aievent_ms_info where $sql_serch order by $order_name $order_status limit $int,$intPageSize";
+							else
+								$sql = "select * from Gn_event_sms_info where $sql_serch order by $order_name $order_status limit $int,$intPageSize";
 							$result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
 							while ($row = mysqli_fetch_array($result)) {
-								$sql = "select count(*) as cnt from Gn_event_sms_step_info where sms_idx='{$row['sms_idx']}'";
+								if($ai_type)
+									$sql = "select count(*) as cnt from Gn_aievent_ms_info where sms_idx='{$row['sms_idx']}'";
+								else
+									$sql = "select count(*) as cnt from Gn_event_sms_step_info where sms_idx='{$row['sms_idx']}'";
 								$sresult = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
 								$srow = mysqli_fetch_array($sresult);
 							?>

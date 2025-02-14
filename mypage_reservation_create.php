@@ -18,7 +18,7 @@ if (!isset($_REQUEST['get_idx'])) {
 }
 
 if ($sms_idx) {
-    if($reserv_type == 1)
+    if ($reserv_type == 1)
         $sql = "select * from Gn_aievent_ms_info  where sms_idx='{$sms_idx}'";
     else
         $sql = "select * from Gn_event_sms_info  where sms_idx='{$sms_idx}'";
@@ -32,9 +32,14 @@ if ($get_idx) {
 }
 ?>
 <link rel="stylesheet" href="/admin/bootstrap/css/bootstrap.min.css">
+<link rel='stylesheet' type='text/css' href='/css/sub_4_re.css' />
+
 <script src="/admin/bootstrap/js/bootstrap.min.js"></script>
 <script src="/iam/js/layer.min.js" type="application/javascript"></script>
 <script src="/iam/js/chat.js"></script>
+<script type="text/javascript" src="jquery.lightbox_me.js"></script>
+<script type="text/javascript" src="/js/mms_send.js"></script>
+<script type="text/javascript" src="/plugin/tablednd/js/jquery.tablednd.0.7.min.js"></script>
 <style>
     .w200 {
         width: 200px;
@@ -134,6 +139,234 @@ if ($get_idx) {
         position: absolute;
         box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
     }
+
+    .ad_layer4 {
+        width: 903px;
+        height: auto;
+        background-color: #fff;
+        border: 2px solid #24303e;
+        position: relative;
+        box-sizing: border-box;
+        padding: 30px 30px 50px 30px;
+        display: none;
+    }
+
+    #ajax-loading {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 9000;
+        text-align: center;
+        display: none;
+        background-color: #fff;
+        opacity: 0.8;
+    }
+
+    #ajax-loading img {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 120px;
+        height: 120px;
+        margin: -60px 0 0 -60px;
+    }
+
+    .chat_btn {
+        color: white;
+        border-radius: 7px;
+        background-color: red;
+        font-size: 12px;
+        border-color: red;
+        padding: 4px 0px;
+        margin-right: 3px;
+        position: absolute;
+        right: 45px;
+    }
+
+    #answer_side,
+    #answer_side1,
+    #answer_side2 {
+        width: 90%;
+        height: 400px;
+        background-color: white;
+        margin-right: auto;
+        margin-left: auto;
+        border-radius: 10px;
+        margin-top: 12px;
+        padding: 35px 30px 10px 30px;
+        overflow: auto;
+        text-align: left;
+        position: relative;
+    }
+
+    .search_keyword {
+        position: relative;
+        width: 99%;
+        margin: 0 auto;
+        margin-top: 10px;
+    }
+
+    .search_keyword textarea {
+        width: 78%;
+        height: 50px;
+        padding: 17px 60px 0 25px;
+        border-width: 0;
+        border-radius: 15px;
+        font-size: 15px;
+        border: 2px solid transparent;
+        background-color: #fff;
+        outline-width: 0;
+        box-shadow: 0 5px 10px -5px rgb(0 0 0 / 30%);
+        -webkit-transition: border-color 1000ms ease-out;
+        transition: border-color 1000ms ease-out;
+    }
+
+    .send_ask {
+        position: absolute;
+        top: 0;
+        right: 60px;
+        width: 58px;
+        height: 100%;
+        background-color: white;
+        border-radius: 20px;
+        border: none;
+    }
+
+    #gpt_req_list_title {
+        float: left;
+        padding: 7px;
+        margin-left: 40px;
+        background-color: #f18484;
+        border-radius: 10px;
+    }
+
+    .history {
+        position: absolute;
+        top: 5px;
+        left: 80px;
+    }
+
+    .gpt_act {
+        position: relative;
+        height: 35px;
+    }
+
+    .newpane,
+    .newpane:hover {
+        background-color: black;
+        color: white !important;
+        padding: 4px;
+        border-radius: 10px;
+        position: absolute;
+        top: 5px;
+        right: 80px;
+    }
+
+    @media only screen and (max-width: 720px) {
+        .send_ask {
+            position: absolute;
+            top: 0;
+            right: 60px;
+            width: 50px;
+            height: 100%;
+            background-color: white;
+            border-radius: 20px;
+            border: none;
+        }
+    }
+
+    @media only screen and (max-width: 600px) {
+        .send_ask {
+            position: absolute;
+            top: 0;
+            right: 60px;
+            width: 50px;
+            height: 100%;
+            background-color: white;
+            border-radius: 20px;
+            border: none;
+        }
+
+        .chat_btn {
+            color: white;
+            border-radius: 7px;
+            background-color: red;
+            font-size: 15px;
+            padding: 5px 20px;
+            position: absolute;
+            right: 45px;
+        }
+    }
+
+    @media only screen and (max-width: 450px) {
+        .send_ask {
+            position: absolute;
+            top: 0;
+            right: 60px;
+            width: 50px;
+            height: 98%;
+            background-color: white;
+            border-radius: 20px;
+        }
+
+        .history {
+            position: absolute;
+            top: 5px;
+            left: 35px;
+        }
+
+        .newpane {
+            background-color: black;
+            color: white !important;
+            padding: 4px;
+            border-radius: 10px;
+            position: absolute;
+            top: 5px;
+            right: 40px;
+        }
+
+        .chat_btn {
+            color: white;
+            border-radius: 7px;
+            background-color: red;
+            font-size: 15px;
+            padding: 5px 20px;
+            position: absolute;
+            right: 45px;
+        }
+    }
+
+    .chat_answer {
+        word-break: break-all;
+        word-wrap: break-word;
+        white-space: pre-wrap;
+    }
+
+    .article-title {
+        border-bottom: 1px solid lightgrey;
+        margin-bottom: 15px;
+        font-size: 15px;
+        text-align: left;
+    }
+
+    .article-content {
+        display: grid;
+        margin-bottom: 15px;
+        font-size: 15px;
+        text-align: left;
+    }
+
+    .hided {
+        display: none;
+    }
+
+    .copy_msg {
+        position: absolute;
+        right: 10px;
+        top: 10px;
+    }
 </style>
 <div class="big_sub">
     <div class="m_div">
@@ -158,21 +391,21 @@ if ($get_idx) {
                 <input type="hidden" name="event_idx" id="event_idx" value="<?= $row['event_idx']; ?>" />
                 <div class="p1">
                     <table class="list_table1" width="100%" border="0" cellspacing="0" cellpadding="0">
-                        <?if(!$sms_idx){?>
-                        <tr>
-                            <th class="w200">예약메시지 형태</th>
-                            <td>
-                                <select name="reserv_type" id="reserv_type" style="padding: 5px;width: 150px;">
-                                    <option value="0" <?= $reserv_type == "0" ? "selected" : ""; ?>>수동예약</option>
-                                    <? if ($member_1['ai_status']) { ?>
-                                        <option value="1" <?= $reserv_type == "1" ? "selected" : ""; ?>>AI예약</option>
-                                    <? } ?>
-                                </select>
-                            </td>
-                        </tr>
-                        <?}else{?>
+                        <? if (!$sms_idx) { ?>
+                            <tr>
+                                <th class="w200">예약메시지 형태</th>
+                                <td>
+                                    <select name="reserv_type" id="reserv_type" style="padding: 5px;width: 150px;">
+                                        <option value="0" <?= $reserv_type == "0" ? "selected" : ""; ?>>수동예약</option>
+                                        <? if ($member_1['ai_status']) { ?>
+                                            <option value="1" <?= $reserv_type == "1" ? "selected" : ""; ?>>AI예약</option>
+                                        <? } ?>
+                                    </select>
+                                </td>
+                            </tr>
+                        <? } else { ?>
                             <input type="hidden" name="reserv_type" id="reserv_type" value="<?= $reserv_type; ?>" />
-                        <?}?>
+                        <? } ?>
                         <tr>
                             <th class="w200">예약메시지 세트제목</th>
                             <td><input type="text" name="reservation_title" placeholder="" id="reservation_title" value="<?= $row['reservation_title'] ?>" /> </td>
@@ -194,19 +427,58 @@ if ($get_idx) {
                                     <input type="button" value="퍼널문자세트 조회" class="button " id="searchEventBtn" onclick="newMessageEvent()">
                                 </td>
                             </tr>
-                        <?  }else if(!$sms_idx || $reserv_type == 1){?>
-                            <tr class="AI" style="<?=!$sms_idx?'display:none':'';?>">
+                        <?  } else if (!$sms_idx || $reserv_type == 1) { ?>
+                            <tr class="AI" style="<?= !$sms_idx ? 'display:none' : ''; ?>">
                                 <th class="w200">메시지 회차/주기</th>
                                 <td>
-                                    <input type="text" name="ai_step" id="ai_step" value="<?=$row['ai_step']?>" style="width:50px; height: 27px;">회차
-                                    <input type="text" name="ai_day" id="ai_day" value="<?=$row['ai_day']?>" style="width:50px; height: 27px;">일
-                                    <input type="text" name="ai_hour" id="ai_hour" value="<?=$row['ai_hour']?>" style="width:50px; height: 27px;">시분
+                                    <input type="text" name="ai_step" id="ai_step" value="<?= $row['ai_step'] ?>" style="width:50px; height: 27px;">회차
+                                    <input type="text" name="ai_day" id="ai_day" value="<?= $row['ai_day'] ?>" style="width:50px; height: 27px;">일
+                                    <input type="text" name="ai_hour" id="ai_hour" value="<?= $row['ai_hour'] ?>" style="width:50px; height: 27px;">시분
                                 </td>
                             </tr>
-                            <tr class="AI" style="<?=!$sms_idx?'display:none':'';?>">
+                            <tr class="AI" style="<?= !$sms_idx ? 'display:none' : ''; ?>">
                                 <th class="w200">메시지 GPT prompt</th>
                                 <td>
-                                    <textarea name="ai_prompt" id="ai_prompt" style="max-width: 600px;"><?=$row['ai_prompt']?></textarea>
+                                    <textarea name="ai_prompt" id="ai_prompt" style="max-width: 600px;"><?= $row['ai_prompt'] ?></textarea>
+                                </td>
+                            </tr>
+                            <tr class="AI" style="<?= !$sms_idx ? 'display:none' : ''; ?>">
+                                <th class="w200">파일등록<span style="margin-left:10px;font-weight: bold;cursor:pointer" onclick="add_file_tab();">+</span></th>
+                                <td>
+                                    (신청자가 pdf,csv,jpg,png,txt,json,xlsx 파일 3개까지 업로드 가능)
+                                </td>
+                            </tr>
+                            <tr class="AI" style="<?= (!$sms_idx || $row['ai_file1'] == "") ? 'display:none' : ''; ?>" id="reserv_file1">
+                                <th class="w200"></th>
+                                <td>
+                                    <div style="display: flex;">
+                                        <span style="margin-right: 10px;">파일1</span>
+                                        <input type="file" id="ai_file1" name="ai_file1" accept=".jpg,.jpeg,.png,.csv,.pdf,.txt,.json,.xlsx">
+                                        <input type="hidden" id="ai_file1_txt" name="ai_file1_txt" value="<?= $row['ai_file1'] ?>">
+                                        <span style="font-weight: bold;cursor:pointer" onclick="del_file_tab(1);">X</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="AI" style="<?= (!$sms_idx || $row['ai_file2'] == "") ? 'display:none' : ''; ?>" id="reserv_file2">
+                                <th class="w200"></th>
+                                <td>
+                                    <div style="display: flex;">
+                                        <span style="margin-right: 10px;">파일2</span>
+                                        <input type="file" id="ai_file2" name="ai_file2" accept=".jpg,.jpeg,.png,.csv,.pdf,.txt,.json,.xlsx">
+                                        <input type="hidden" id="ai_file2_txt" name="ai_file2_txt" value="<?= $row['ai_file2'] ?>">
+                                        <span style="font-weight: bold;cursor:pointer" onclick="del_file_tab(2);">X</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="AI" style="<?= (!$sms_idx || $row['ai_file3'] == "") ? 'display:none' : ''; ?>" id="reserv_file3">
+                                <th class="w200"></th>
+                                <td>
+                                    <div style="display: flex;">
+                                        <span style="margin-right: 10px;">파일3</span>
+                                        <input type="file" id="ai_file3" name="ai_file3" accept=".jpg,.jpeg,.png,.csv,.pdf,.txt,.json,.xlsx">
+                                        <input type="hidden" id="ai_file3_txt" name="ai_file3_txt" value="<?= $row['ai_file3'] ?>">
+                                        <span style="font-weight: bold;cursor:pointer" onclick="del_file_tab(3);">X</span>
+                                    </div>
                                 </td>
                             </tr>
                         <?  } ?>
@@ -221,7 +493,10 @@ if ($get_idx) {
             if ($get_idx) {
                 $sms_idx = $get_idx;
             }
-            $sql_cnt = "select count(step) as cnt from Gn_event_sms_step_info where sms_idx ='{$sms_idx}'";
+            if ($reserv_type == 1)
+                $sql_cnt = "select count(step) as cnt from Gn_aievent_message where sms_idx ='{$sms_idx}'";
+            else
+                $sql_cnt = "select count(step) as cnt from Gn_event_sms_step_info where sms_idx ='{$sms_idx}'";
             $result_cnt = mysqli_query($self_con, $sql_cnt) or die(mysqli_error($self_con));
             $row_cnt = mysqli_fetch_array($result_cnt);
             $intstepCount = $row_cnt['cnt'];
@@ -246,17 +521,34 @@ if ($get_idx) {
                     </div>
                     <div>
                         <table class="list_table" width="100%" border="0" cellspacing="0" cellpadding="0">
-                            <tr>
-                                <td style="width:2%;"></td>
-                                <td style="width:6%;">회차</td>
-                                <td style="width:6%;">발송일시</td>
-                                <td style="width:20%;">메시지제목</td>
-                                <td style="width:40%;">메시지내용</td>
-                                <td style="width:15%;">이미지</td>
-                                <td style="width:15%;">수정/삭제</td>
-                            </tr>
-                            <?
-
+                            <? if ($reserv_type == 1) { ?>
+                                <tr>
+                                    <td style="width:2%;"></td>
+                                    <td style="width:5%;">구분</td>
+                                    <td style="width:6%;">수신자명</td>
+                                    <td style="width:6%;">수신자폰</td>
+                                    <td style="width:5%;">회차</td>
+                                    <td style="width:6%;">발송시간</td>
+                                    <td style="width:15%;">메시지제목</td>
+                                    <td style="width:15%;">메시지내용</td>
+                                    <td style="width:6%;">파일1</td>
+                                    <td style="width:6%;">파일2</td>
+                                    <td style="width:6%;">파일3</td>
+                                    <td style="width:10%;">등록일</td>
+                                    <td style="width:10%;">수정/삭제</td>
+                                </tr>
+                            <? } else { ?>
+                                <tr>
+                                    <td style="width:2%;"></td>
+                                    <td style="width:6%;">구분</td>
+                                    <td style="width:6%;">회차</td>
+                                    <td style="width:6%;">발송일시</td>
+                                    <td style="width:20%;">메시지제목</td>
+                                    <td style="width:35%;">메시지내용</td>
+                                    <td style="width:15%;">이미지</td>
+                                    <td style="width:10%;">수정/삭제</td>
+                                </tr>
+                                <? }
                             $sql_serch = " sms_idx ='{$sms_idx}' ";
                             if ($_REQUEST['search_date']) {
                                 if ($_REQUEST['rday1']) {
@@ -268,7 +560,10 @@ if ($get_idx) {
                                     $sql_serch .= " and unix_timestamp({$_REQUEST['search_date']}) <= $end_time ";
                                 }
                             }
-                            $sql = "select count(step) as cnt from Gn_event_sms_step_info where $sql_serch ";
+                            if ($reserv_type == 1)
+                                $sql = "select count(step) as cnt from Gn_aievent_message where $sql_serch ";
+                            else
+                                $sql = "select count(step) as cnt from Gn_event_sms_step_info where $sql_serch ";
                             $result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
                             $row = mysqli_fetch_array($result);
                             $intRowCount = $row['cnt'];
@@ -298,30 +593,45 @@ if ($get_idx) {
                                 $order_name = "step";
                             $intPageCount = (int)(($intRowCount + $intPageSize - 1) / $intPageSize);
                             if ($intRowCount) {
-                                $sql = "select * from Gn_event_sms_step_info where $sql_serch order by $order_name $order_status limit $int,$intPageSize";
+                                if ($reserv_type == 1)
+                                    $sql = "select * from Gn_aievent_message where $sql_serch order by $order_name $order_status limit $int,$intPageSize";
+                                else
+                                    $sql = "select * from Gn_event_sms_step_info where $sql_serch order by $order_name $order_status limit $int,$intPageSize";
                                 $result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
                                 $c = 0;
                                 while ($row = mysqli_fetch_array($result)) {
-                            ?>
+                                ?>
                                     <tr>
                                         <td><?= $sort_no ?></td>
+                                        <td><?= $reserv_type == 1 ? 'AI' : '수동' ?></td>
+                                        <? if ($reserv_type == 1) { ?>
+                                            <td>수신자명</td>
+                                            <td>수신자폰</td>
+                                        <? } ?>
                                         <td style="font-size:12px;"><?= $row['step'] ?></td>
-                                        <td style="font-size:12px;"><?= $row['send_day'] ?>일후</td>
+                                        <td style="font-size:12px;"><?= $reserv_type == 1 ? $row['ai_hour'] : $row['send_day'] . '일후' ?></td>
                                         <td><?= $row['title'] ?></td>
                                         <td>
                                             <a href="javascript:void(0)" onclick="show_recv('show_content','<?= $c ?>','문자내용')"><?= str_substr($row['content'], 0, 190, 'utf-8') ?></a><input type="hidden" name="show_content" value="<?= $row['content'] ?>" />
                                         </td>
-                                        <td>
-                                            <? if ($row['image']) { ?>
-                                                <img class="zoom" src="/upload/<?= $row['image'] ?>" style="max-height:50px">
-                                            <? }
-                                            if ($row['image1']) { ?>
-                                                <img class="zoom" src="/upload/<?= $row['image1'] ?>" style="max-height:50px">
-                                            <? }
-                                            if ($row['image2']) { ?>
-                                                <img class="zoom" src="/upload/<?= $row['image2'] ?>" style="max-height:50px">
-                                            <? } ?>
-                                        </td>
+                                        <? if ($reserv_type == 1) { ?>
+                                            <td>파일1</td>
+                                            <td>파일2</td>
+                                            <td>파일3</td>
+                                            <td><?= $row['regdate'] ?></td>
+                                        <? } else { ?>
+                                            <td>
+                                                <? if ($row['image']) { ?>
+                                                    <img class="zoom" src="/upload/<?= $row['image'] ?>" style="max-height:50px">
+                                                <? }
+                                                if ($row['image1']) { ?>
+                                                    <img class="zoom" src="/upload/<?= $row['image1'] ?>" style="max-height:50px">
+                                                <? }
+                                                if ($row['image2']) { ?>
+                                                    <img class="zoom" src="/upload/<?= $row['image2'] ?>" style="max-height:50px">
+                                                <? } ?>
+                                            </td>
+                                        <? } ?>
                                         <td>
                                             <a href="javascript:editRow('<?= $row['sms_detail_idx']; ?>','<?= $row['sms_idx']; ?>')">수정</a>/
                                             <a href="javascript:deleteRow('<?= $row['sms_detail_idx']; ?>','<?= $row['sms_idx']; ?>')">삭제</a>
@@ -333,7 +643,7 @@ if ($get_idx) {
                                 }
                                 ?>
                                 <tr>
-                                    <td colspan="10">
+                                    <td colspan="13">
                                         <? page_f($page, $page2, $intPageCount, "pay_form"); ?>
                                     </td>
                                 </tr>
@@ -341,7 +651,7 @@ if ($get_idx) {
                             } else {
                             ?>
                                 <tr>
-                                    <td colspan="10">
+                                    <td colspan="13">
                                         검색된 내용이 없습니다.
                                     </td>
                                 </tr>
@@ -356,758 +666,6 @@ if ($get_idx) {
             ?>
         </div> <!--mbody-->
     </div> <!--mdiv-->
-    <Script>
-        function editRow(sms_detail_idx, sms_idx) {
-            $.ajax({
-                type: "POST",
-                url: "mypage.proc.php",
-                dataType: "json",
-                data: {
-                    mode: "sms_detail_info",
-                    sms_detail_idx: sms_detail_idx,
-                    sms_idx: sms_idx
-                },
-                success: function(data) {
-                    $('.ad_layer4').lightbox_me({
-                        centered: true,
-                        onLoad: function() {
-                            $('#mode').val('step_update');
-                            $('#sms_detail_idx').val(data.data.sms_detail_idx);
-                            var send_time = (data.data.send_time).split(":");
-                            $('#step').val(data.data.step);
-                            $('#send_day').val(data.data.send_day);
-                            if (data.data.send_day != "0")
-                                $('#timeArea').show();
-                            $('#send_time_hour').val(send_time[0]);
-                            $('#send_time_min').val(send_time[1]);
-                            $('#title').val(data.data.title);
-                            $('#content').val(data.data.content);
-                            // $('#send_num').val(data.data.mobile);
-                            $('#image1').html('');
-                            $('#image2').html('');
-                            $('#image3').html('');
-                            if (data.data.send_deny == "Y") {
-                                $('#send_deny_msg').prop("checked", true);
-                                $('.deny_msg_span').html('ON');
-                                $('.deny_msg_span').css('color', '#00F');
-                            } else {
-                                $('#send_deny_msg').prop("checked", false);
-                                $('.deny_msg_span').html('OFF');
-                                $('.deny_msg_span').css('color', '#F00');
-                            }
-                            if (data.data.image1)
-                                $('#image2').html('<img class="zoom" src="/upload/' + data.data.image1 + '" style="width:80px">&nbsp;&nbsp;<a class="del_img_btn" href="javascript:delete_img(`image2`, ' + data.data.sms_detail_idx + ')">삭제</a>');
-                            if (data.data.image2)
-                                $('#image3').html('<img class="zoom" src="/upload/' + data.data.image2 + '" style="width:80px">&nbsp;&nbsp;<a class="del_img_btn" href="javascript:delete_img(`image3`, ' + data.data.sms_detail_idx + ')">삭제</a>');
-                            if (data.data.image)
-                                $('#image1').html('<img class="zoom" src="/upload/' + data.data.image + '" style="width:80px">&nbsp;&nbsp;<a class="del_img_btn" href="javascript:delete_img(`image1`, ' + data.data.sms_detail_idx + ')">삭제</a>');
-                        }
-                    });
-                }
-            });
-            return false;
-        }
-
-        function delete_img(val, idx) {
-            if (confirm("이미지를 삭제 하시겠습니까?")) {
-                $.ajax({
-                    type: "POST",
-                    url: "/ajax/step_sms_send.php",
-                    dataType: "json",
-                    data: {
-                        delete_img: true,
-                        img: val,
-                        sms_detail_idx: idx
-                    },
-                    success: function(data) {
-                        console.log(data);
-                        $("span[id=" + val + "]").html('');
-                        alert('이미지가 삭제 되었습니다.');
-                    }
-                })
-            }
-        }
-
-        function deleteRow(sms_detail_idx, sms_idx) {
-            if (confirm('삭제하시겠습니까?')) {
-                $.ajax({
-                    type: "POST",
-                    url: "mypage.proc.php",
-                    data: {
-                        mode: "sms_detail_del",
-                        sms_detail_idx: sms_detail_idx,
-                        sms_idx: sms_idx
-                    },
-                    success: function(data) {
-                        $("#ajax_div").html(data);
-                        alert('삭제되었습니다.');
-                        location.reload();
-                    }
-                });
-                return false;
-            }
-        }
-        $(function() {
-            $('#saveBtn').on("click", function() {
-                if ($('#reservation_title').val() == "") {
-                    alert('예약메시지 제목을 입력해주세요.');
-                    return;
-                }
-                $('#sform').submit();
-            });
-            $('#cancleBtn').on("click", function() {
-                location.href = "mypage_reservation_list.php";
-            });
-            $(".popbutton4").click(function() {
-                <? if ($sms_idx) { ?>
-                    $('.ad_layer4').lightbox_me({
-                        centered: true,
-                        onLoad: function() {
-                            $('#mode').val('step_add');
-                            $('#sms_detail_idx').val('');
-                            $('#step').val('');
-                            $('#day').val('');
-                            $('#send_time_hour').val('');
-                            $('#send_time_min').val('');
-                            $('#title').val('');
-                            $('#content').val('');
-                            $('#image1').html('');
-                            $('#image2').html('');
-                            $('#image3').html('');
-                        }
-                    });
-                <? } else { ?>
-                    alert("퍼널예약메시지 세트정보를 먼저 입력하시고 저장을 클릭해주세요.");
-                <? } ?>
-            });
-            $('#send_day').on("change", function() {
-                if ($(this).val() == "0") {
-                    $('#timeArea').hide();
-                } else {
-                    $('#timeArea').show();
-                }
-            });
-            $('#send_day').on("keyup", function() {
-                if ($(this).val() == "0") {
-                    $('#timeArea').hide();
-                } else {
-                    $('#timeArea').show();
-                }
-            });
-            $('#popSaveBtn').on("click", function() {
-                if ($('#step').val() == "") {
-                    alert('순서를 입력하세요.');
-                    return;
-                }
-                if ($('#send_day').val() == "") {
-                    alert('발송일시를 입력하세요.');
-                    return;
-                }
-                //if($('#send_time_hour').val() == "") {
-                //    alert('발송일시를 입력하세요.');
-                //    return;
-                //}	    
-                //
-                //if($('#send_time_min').val() == "") {
-                //    alert('발송일시를 입력하세요.');
-                //    return;
-                //}	    	    	    
-
-                if ($('#title').val() == "") {
-                    alert('제목을 입력하세요.');
-                    return;
-                }
-                if ($('#content').val() == "") {
-                    alert('내용을 입력하세요.');
-                    return;
-                }
-                $('#addForm').submit();
-            });
-
-            $('#popCloseBtn').on("click", function() {
-                $('.lb_overlay, .ad_layer4').hide();
-                location.reload();
-            });
-
-            $('.popbutton12').on("click", function() {
-                <? if ($sms_idx) { ?>
-                    $('#auto_making_modal').modal("show");
-                <? } else { ?>
-                    alert("퍼널예약메시지 세트정보를 먼저 입력하시고 저장을 클릭해주세요.");
-                <? } ?>
-            });
-            $("#reserv_type").on("change",function(){
-                if($(this).val() == 1){
-                    $(".AI").show();
-                }else{
-                    $(".AI").hide();
-                }
-            });
-        });
-
-        function start_making() {
-            var web_type = $('input[name=web_type]:checked').attr('id');
-            console.log(web_type);
-            if (web_type == undefined) {
-                alert('수집분야를 설정 하세요.');
-                return;
-            }
-            switch (web_type) {
-                case 'newsid':
-                    start_making_web('news');
-                    break;
-                case 'blogid':
-                    start_making_web('blog');
-                    break;
-                case 'youtubeid':
-                    start_making_web('youtube');
-                    break;
-                default:
-                    console.log("select type!");
-                    break;
-            }
-        }
-
-        //goodhow 크롤링 서버에 요청 보내기, 상태값 얻어 오기
-        function start_making_web(type) {
-            var slt = 0;
-            var url = '';
-            var mem_id_status = '';
-            var count_interval = 0;
-            var blog_link = 0;
-            var contents_keyword = '';
-            var sms_idx = <?= $sms_idx ?>;
-            address = $("#people_web_address").val();
-            if ($("#people_contents_start_date").val() != "") {
-                start_date = $("#people_contents_start_date").val().replace(/-/g, "");
-                end_date = $("#people_contents_end_date").val().replace(/-/g, "");
-            }
-            contents_cnt = $("#people_contents_cnt").val();
-            send_time = $("#send_time").val();
-            contents_keyword = $("#people_contents_key").val();
-            if (type == 'youtube') {
-                if (contents_cnt == "") {
-                    alert('갯수를 입력하세요.');
-                    return;
-                }
-            } else {
-                if (contents_cnt == "" || contents_keyword == "") {
-                    alert('키워드/갯수를 입력하세요.');
-                    return;
-                }
-            }
-
-            url = "https://www.goodhow.com/crawler/crawler/ai_step_mms.php";
-            if (type == 'youtube') {
-                if ((address.substring(0, 26) == "https://www.youtube.com/c/") || (address.substring(0, 32) == "https://www.youtube.com/channel/") || (address.substring(0, 44) == "https://www.youtube.com/results?search_query") || (address.substring(0, 29) == "https://www.youtube.com/user/")) {
-                    start_date = end_date = "";
-                    url = "https://www.goodhow.com/crawler/crawler/ai_step_mms.php";
-                } else {
-                    alert("웹주소 형식이 틀립니다. 옳바른 형식으로 이용 해주세요.");
-                    return;
-                }
-            }
-            console.log(sms_idx, type, address, contents_cnt, send_time, contents_keyword, start_date, end_date);
-            $.ajax({
-                type: "POST",
-                dataType: "json",
-                data: {
-                    sms_idx: sms_idx,
-                    type: type,
-                    address: address,
-                    contents_cnt: contents_cnt,
-                    send_time: send_time,
-                    contents_keyword: contents_keyword,
-                    start_date: start_date,
-                    end_date: end_date
-                },
-                url: url,
-                success: function(data) {
-                    console.log(data);
-                    if (data == 1) {
-                        alert("추가되었습니다.");
-                        location.reload();
-                    } else {
-                        alert("진행중 오류가 발생 하였습니다.");
-                        location.reload();
-                    }
-                }
-            });
-            $("#startmaking").attr('disabled', true);
-        }
-
-        function goback() {
-            $('#auto_making_modal').modal("hide");
-        }
-
-        //수집분야별에 따르는 설정값 입력창 현시
-        function show_keyword(val) {
-            if (val == 'news') {
-                $("#contents_key").attr('style', 'width:100%;display:inline-table;');
-                $("#contents_time").attr('style', 'width:100%;display:inline-table;');
-                $("#web_address").attr('style', 'width:100%;display:none;');
-                $("#sendtime").attr('style', 'width:100%;display:inline-table;');
-            } else if (val == 'blog') {
-                alert("특정 블로그에서 키워드와 매칭되는 게시물 크롤링을 원하시면 웹주소입력란에 다음의 블로그 주소를 입력하세요.\n 예시 : https://blog.naver.com/abcd123\n\n웹주소에 입력을 안하면 전체 블로그에서 키워드와 매칭되는 게시물을 크롤링합니다.");
-                $("#contents_key").attr('style', 'width:100%;display:inline-table;');
-                $("#contents_time").attr('style', 'width:100%;display:inline-table;');
-                $("#web_address").attr('style', 'width:100%;display:inline-table;');
-                $("#sendtime").attr('style', 'width:100%;display:inline-table;');
-            } else if (val == 'youtube') {
-                $("#contents_key").attr('style', 'width:100%;display:none;');
-                $("#contents_time").attr('style', 'width:100%;display:none;');
-                $("#web_address").attr('style', 'width:100%;display:inline-table;');
-                $("#sendtime").attr('style', 'width:100%;display:inline-table;');
-            }
-        }
-
-        function newMessageEvent() { // test 메시지조회
-            var win = window.open("../mypage_pop_message_list_for_copylist.php?mode=change", "event_pop", "toolbar=yes,scrollbars=yes,resizable=yes,top=200,left=200,width=1000,height=1000");
-        }
-
-        function open_change_page(ori_sms_idx) {
-            location.href = "/mypage_reservation_create.php?get_idx=" + ori_sms_idx;
-        }
-        //gpt chat script
-        var contextarray = [];
-
-        function show_chat(api) {
-            $("#gpt_chat_modal").modal('show');
-        }
-        $(document).ready(function() {
-            var textarea = document.getElementById("question");
-            var limit = 110; //height limit
-            var api_state = '<?= $member_1['gpt_chat_api_key'] ?>';
-
-            textarea.oninput = function() {
-                textarea.style.height = "";
-                textarea.style.height = Math.min(textarea.scrollHeight, limit) + "px";
-            };
-
-            $("#question").on('keydown', function(event) {
-                if (api_state == '') {
-                    alert("회원정보에서 본인의 API 키를 입력해주세요.");
-                    location.href = "mypage.php";
-                }
-                if (event.keyCode == 13) {
-                    if (event.shiftKey) {
-                        $("#kw-target").html($("#kw-target").html() + "\n");
-                        event.stopPropagation();
-                    } else {
-                        send_post('<?= $_SESSION['iam_member_id'] ?>');
-                    }
-                }
-            });
-        });
-
-        function check_login(id) {
-            if (id == '') {
-                $("#intro_modal").modal('show');
-            } else {
-                return;
-            }
-        }
-
-        function show_new_chat() {
-            $("#answer_side").hide();
-            $("#gpt_req_list_title").hide();
-            $("#answer_side1").show();
-            $("#answer_side2").hide();
-        }
-
-        function show(val) {
-            if ($('li[id=a' + val + ']').hasClass('hided')) {
-                $('li[id=a' + val + ']').removeClass('hided');
-                $('i[id=down' + val + ']').css('display', 'none');
-                $('i[id=up' + val + ']').css('display', 'inline-block');
-            } else {
-                $('li[id=a' + val + ']').addClass('hided');
-                $('i[id=down' + val + ']').css('display', 'inline-block');
-                $('i[id=up' + val + ']').css('display', 'none');
-            }
-        }
-
-        function show_req_history() {
-            $.ajax({
-                type: "POST",
-                url: "/iam/ajax/manage_gpt_chat.php",
-                data: {
-                    mem_id: "<?= $_SESSION['iam_member_id'] ?>",
-                    method: 'show_req_list'
-                },
-                dataType: 'html',
-                success: function(data) {
-                    // console.log(data);
-                    $("#answer_side").hide();
-                    $("#answer_side1").hide();
-                    $("#gpt_req_list_title").show();
-                    $("#answer_side2").html(data);
-                    $("#answer_side2").show();
-                }
-            });
-        }
-
-        function copy_msg() {
-            var value = $("#answer_side").text().trim();
-            console.log(value.trim());
-            // return;
-            var aux1 = document.createElement("input");
-            // 지정된 요소의 값을 할당 한다.
-            aux1.setAttribute("value", value);
-            // bdy에 추가한다.
-            document.body.appendChild(aux1);
-            // 지정된 내용을 강조한다.
-            aux1.select();
-            // 텍스트를 카피 하는 변수를 생성
-            document.execCommand("copy");
-            // body 로 부터 다시 반환 한다.
-            document.body.removeChild(aux1);
-            alert("복사되었습니다. 원하는 곳에 붙여 넣으세요.");
-        }
-
-        function del_list(id) {
-            $.ajax({
-                type: "POST",
-                url: "/iam/ajax/manage_gpt_chat.php",
-                data: {
-                    method: 'del_req_list',
-                    id: id
-                },
-                dataType: 'json',
-                success: function(data) {
-                    if (data.result == "1") {
-                        alert('삭제 되었습니다.');
-                        show_req_history();
-                    } else {
-                        alert('삭제실패 되었습니다.');
-                    }
-                }
-            });
-        }
-
-        function articlewrapper(question, answer, str) {
-            $("#answer_side").html('<li class="article-title" id="q' + answer + '"><img src="/iam/img/chat_Q.png" style="width:30px;margin-right: 10px;"><span class="chat_title"></span></li>');
-            let str_ = ''
-            let i = 0
-            let timer = setInterval(() => {
-                if (str_.length < question.length) {
-                    str_ += question[i++]
-                    $("#q" + answer).children('span').text(str_ + '_') //인쇄할 때 커서 추가
-                } else {
-                    clearInterval(timer)
-                    $("#q" + answer).children('span').text(str_) //인쇄할 때 커서 추가
-                }
-            }, 5)
-            $("#answer_side").append('<li class="article-content" id="' + answer + '"><img src="/iam/img/chat_A.png" style="width:30px;"><span class="chat_answer" style="margin-left: 35px;"></span></li>');
-            if (str == null || str == "") {
-                str = "서버가 응답하는 데 시간이 걸리면 나중에 다시 시도할 수 있습니다.";
-            }
-            let str2_ = ''
-            let i2 = 0
-            let timer2 = setInterval(() => {
-                if (str2_.length < str.length) {
-                    str2_ += str[i2++]
-                    $("#" + answer).children('span').text(str2_ + '_') //인쇄할 때 커서 추가
-                } else {
-                    clearInterval(timer2)
-                    $("#" + answer).children('span').text(str2_) //인쇄할 때 커서 추가
-
-                }
-
-                $('#answer_side').animate({
-                    scrollTop: 10000,
-                }, 10);
-            }, 25)
-        }
-
-        // function send_post(mem_id) {
-        //     $("#answer_side1").hide();
-        //     $("#answer_side2").hide();
-        //     $("#answer_side").show();
-        //     $("#ajax-loading").show();
-        //     var prompt = $("#question").val();
-        //     if (prompt == "") {
-        //         alert('질문을 입력해 주세요.');
-        //         return;
-        //     }
-
-        //     $.ajax({
-        //         cache: true,
-        //         type: "POST",
-        //         url: "/iam/ajax/message.php",
-        //         data: {
-        //             mem_id:mem_id,
-        //             message: prompt,
-        //             context:$("#keep").prop("checked")?JSON.stringify(contextarray):'[]',
-        //         },
-        //         dataType: "json",
-        //         success: function (results) {
-        //             $("#ajax-loading").hide();
-        //             $("#question").val("");
-        //             $("#question").css("height", "58px");
-        //             // $(".send_ask").css("height", "98%");
-        //             contextarray.push([prompt, results.raw_message]);
-        //             articlewrapper(prompt,randomString(16),results.raw_message);
-        //         }
-        //     });
-        // }
-
-        function randomString(len) {
-            len = len || 32;
-            var $chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678'; /****혼란스러운 문자는 기본적으로 제거됩니다oOLl,9gq,Vv,Uu,I1****/
-            var maxPos = $chars.length;
-            var pwd = '';
-            for (i = 0; i < len; i++) {
-                pwd += $chars.charAt(Math.floor(Math.random() * maxPos));
-            }
-            return pwd;
-        }
-
-        function send_chat() {
-            var title = $("#answer_side span.chat_title").text();
-            var detail = $("#answer_side span.chat_answer").text();
-            if (title == "") {
-                alert('질문해주세요.');
-                return;
-            }
-            $("#title").val(title);
-            $("#content").val(detail);
-            $("#gpt_chat_modal").modal('hide');
-        } //gpt chat
-    </script>
-    <link href='/css/sub_4_re.css' rel='stylesheet' type='text/css' />
-    <script type="text/javascript" src="jquery.lightbox_me.js"></script>
-    <script type="text/javascript" src="/js/mms_send.js"></script>
-    <script type="text/javascript" src="/plugin/tablednd/js/jquery.tablednd.0.7.min.js"></script>
-    <style>
-        .ad_layer4 {
-            width: 903px;
-            height: auto;
-            background-color: #fff;
-            border: 2px solid #24303e;
-            position: relative;
-            box-sizing: border-box;
-            padding: 30px 30px 50px 30px;
-            display: none;
-        }
-
-        #ajax-loading {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 9000;
-            text-align: center;
-            display: none;
-            background-color: #fff;
-            opacity: 0.8;
-        }
-
-        #ajax-loading img {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 120px;
-            height: 120px;
-            margin: -60px 0 0 -60px;
-        }
-
-        .chat_btn {
-            color: white;
-            border-radius: 7px;
-            background-color: red;
-            font-size: 12px;
-            border-color: red;
-            padding: 4px 0px;
-            margin-right: 3px;
-            position: absolute;
-            right: 45px;
-        }
-
-        #answer_side,
-        #answer_side1,
-        #answer_side2 {
-            width: 90%;
-            height: 400px;
-            background-color: white;
-            margin-right: auto;
-            margin-left: auto;
-            border-radius: 10px;
-            margin-top: 12px;
-            padding: 35px 30px 10px 30px;
-            overflow: auto;
-            text-align: left;
-            position: relative;
-        }
-
-        .search_keyword {
-            position: relative;
-            width: 99%;
-            margin: 0 auto;
-            margin-top: 10px;
-        }
-
-        .search_keyword textarea {
-            width: 78%;
-            height: 50px;
-            padding: 17px 60px 0 25px;
-            border-width: 0;
-            border-radius: 15px;
-            font-size: 15px;
-            border: 2px solid transparent;
-            background-color: #fff;
-            outline-width: 0;
-            box-shadow: 0 5px 10px -5px rgb(0 0 0 / 30%);
-            -webkit-transition: border-color 1000ms ease-out;
-            transition: border-color 1000ms ease-out;
-        }
-
-        .send_ask {
-            position: absolute;
-            top: 0;
-            right: 60px;
-            width: 58px;
-            height: 100%;
-            background-color: white;
-            border-radius: 20px;
-            border: none;
-        }
-
-        #gpt_req_list_title {
-            float: left;
-            padding: 7px;
-            margin-left: 40px;
-            background-color: #f18484;
-            border-radius: 10px;
-        }
-
-        .history {
-            position: absolute;
-            top: 5px;
-            left: 80px;
-        }
-
-        .gpt_act {
-            position: relative;
-            height: 35px;
-        }
-
-        .newpane,
-        .newpane:hover {
-            background-color: black;
-            color: white !important;
-            padding: 4px;
-            border-radius: 10px;
-            position: absolute;
-            top: 5px;
-            right: 80px;
-        }
-
-        @media only screen and (max-width: 720px) {
-            .send_ask {
-                position: absolute;
-                top: 0;
-                right: 60px;
-                width: 50px;
-                height: 100%;
-                background-color: white;
-                border-radius: 20px;
-                border: none;
-            }
-        }
-
-        @media only screen and (max-width: 600px) {
-            .send_ask {
-                position: absolute;
-                top: 0;
-                right: 60px;
-                width: 50px;
-                height: 100%;
-                background-color: white;
-                border-radius: 20px;
-                border: none;
-            }
-
-            .chat_btn {
-                color: white;
-                border-radius: 7px;
-                background-color: red;
-                font-size: 15px;
-                padding: 5px 20px;
-                position: absolute;
-                right: 45px;
-            }
-        }
-
-        @media only screen and (max-width: 450px) {
-            .send_ask {
-                position: absolute;
-                top: 0;
-                right: 60px;
-                width: 50px;
-                height: 98%;
-                background-color: white;
-                border-radius: 20px;
-            }
-
-            .history {
-                position: absolute;
-                top: 5px;
-                left: 35px;
-            }
-
-            .newpane {
-                background-color: black;
-                color: white !important;
-                padding: 4px;
-                border-radius: 10px;
-                position: absolute;
-                top: 5px;
-                right: 40px;
-            }
-
-            .chat_btn {
-                color: white;
-                border-radius: 7px;
-                background-color: red;
-                font-size: 15px;
-                padding: 5px 20px;
-                position: absolute;
-                right: 45px;
-            }
-        }
-
-        .chat_answer {
-            word-break: break-all;
-            word-wrap: break-word;
-            white-space: pre-wrap;
-        }
-
-        .article-title {
-            border-bottom: 1px solid lightgrey;
-            margin-bottom: 15px;
-            font-size: 15px;
-            text-align: left;
-        }
-
-        .article-content {
-            display: grid;
-            margin-bottom: 15px;
-            font-size: 15px;
-            text-align: left;
-        }
-
-        .hided {
-            display: none;
-        }
-
-        .copy_msg {
-            position: absolute;
-            right: 10px;
-            top: 10px;
-        }
-    </style>
     <div class="ad_layer4">
         <div class="layer_in">
             <span class="layer_close close" onclick="location.reload()"><img src="/images/close_button_05.jpg"></span>
@@ -1117,7 +675,7 @@ if ($get_idx) {
             <div class="info_box">
                 <button onclick="show_chat('<?= $member_1['gpt_chat_api_key'] ?>')" class="chat_btn">AI와 대화하기</button>
                 <form method="post" name="addForm" id="addForm" action="mypage.proc.php" enctype="multipart/form-data">
-                    <input type="hidden" name="sms_idx" value="<?php echo $sms_idx; ?>">
+                    <input type="hidden" name="sms_idx" value="<?= $sms_idx; ?>">
                     <input type="hidden" name="mode" id="mode" value="step_add">
                     <input type="hidden" name="sms_detail_idx" id="sms_detail_idx">
                     <table class="info_box_table" cellpadding="0" cellspacing="0">
@@ -1320,6 +878,598 @@ if ($get_idx) {
     </div>
 </div>
 <div id="ajax-loading"><img src="/iam/img/ajax-loader.gif"></div>
+<script>
+    function editRow(sms_detail_idx, sms_idx) {
+        $.ajax({
+            type: "POST",
+            url: "mypage.proc.php",
+            dataType: "json",
+            data: {
+                mode: "sms_detail_info",
+                sms_detail_idx: sms_detail_idx,
+                sms_idx: sms_idx
+            },
+            success: function(data) {
+                $('.ad_layer4').lightbox_me({
+                    centered: true,
+                    onLoad: function() {
+                        $('#mode').val('step_update');
+                        $('#sms_detail_idx').val(data.data.sms_detail_idx);
+                        var send_time = (data.data.send_time).split(":");
+                        $('#step').val(data.data.step);
+                        $('#send_day').val(data.data.send_day);
+                        if (data.data.send_day != "0")
+                            $('#timeArea').show();
+                        $('#send_time_hour').val(send_time[0]);
+                        $('#send_time_min').val(send_time[1]);
+                        $('#title').val(data.data.title);
+                        $('#content').val(data.data.content);
+                        // $('#send_num').val(data.data.mobile);
+                        $('#image1').html('');
+                        $('#image2').html('');
+                        $('#image3').html('');
+                        if (data.data.send_deny == "Y") {
+                            $('#send_deny_msg').prop("checked", true);
+                            $('.deny_msg_span').html('ON');
+                            $('.deny_msg_span').css('color', '#00F');
+                        } else {
+                            $('#send_deny_msg').prop("checked", false);
+                            $('.deny_msg_span').html('OFF');
+                            $('.deny_msg_span').css('color', '#F00');
+                        }
+                        if (data.data.image1)
+                            $('#image2').html('<img class="zoom" src="/upload/' + data.data.image1 + '" style="width:80px">&nbsp;&nbsp;<a class="del_img_btn" href="javascript:delete_img(`image2`, ' + data.data.sms_detail_idx + ')">삭제</a>');
+                        if (data.data.image2)
+                            $('#image3').html('<img class="zoom" src="/upload/' + data.data.image2 + '" style="width:80px">&nbsp;&nbsp;<a class="del_img_btn" href="javascript:delete_img(`image3`, ' + data.data.sms_detail_idx + ')">삭제</a>');
+                        if (data.data.image)
+                            $('#image1').html('<img class="zoom" src="/upload/' + data.data.image + '" style="width:80px">&nbsp;&nbsp;<a class="del_img_btn" href="javascript:delete_img(`image1`, ' + data.data.sms_detail_idx + ')">삭제</a>');
+                    }
+                });
+            }
+        });
+        return false;
+    }
+
+    function delete_img(val, idx) {
+        if (confirm("이미지를 삭제 하시겠습니까?")) {
+            $.ajax({
+                type: "POST",
+                url: "/ajax/step_sms_send.php",
+                dataType: "json",
+                data: {
+                    delete_img: true,
+                    img: val,
+                    sms_detail_idx: idx
+                },
+                success: function(data) {
+                    console.log(data);
+                    $("span[id=" + val + "]").html('');
+                    alert('이미지가 삭제 되었습니다.');
+                }
+            })
+        }
+    }
+
+    function deleteRow(sms_detail_idx, sms_idx) {
+        if (confirm('삭제하시겠습니까?')) {
+            $.ajax({
+                type: "POST",
+                url: "mypage.proc.php",
+                data: {
+                    mode: "sms_detail_del",
+                    sms_detail_idx: sms_detail_idx,
+                    sms_idx: sms_idx
+                },
+                success: function(data) {
+                    $("#ajax_div").html(data);
+                    alert('삭제되었습니다.');
+                    location.reload();
+                }
+            });
+            return false;
+        }
+    }
+    $(function() {
+        $('#saveBtn').on("click", function() {
+            if ($('#reservation_title').val() == "") {
+                alert('예약메시지 제목을 입력해주세요.');
+                return;
+            }
+            $('#sform').submit();
+        });
+        $('#cancleBtn').on("click", function() {
+            location.href = "mypage_reservation_list.php";
+        });
+        $(".popbutton4").click(function() {
+            <? if ($sms_idx) { ?>
+                $('.ad_layer4').lightbox_me({
+                    centered: true,
+                    onLoad: function() {
+                        $('#mode').val('step_add');
+                        $('#sms_detail_idx').val('');
+                        $('#step').val('');
+                        $('#day').val('');
+                        $('#send_time_hour').val('');
+                        $('#send_time_min').val('');
+                        $('#title').val('');
+                        $('#content').val('');
+                        $('#image1').html('');
+                        $('#image2').html('');
+                        $('#image3').html('');
+                    }
+                });
+            <? } else { ?>
+                alert("퍼널예약메시지 세트정보를 먼저 입력하시고 저장을 클릭해주세요.");
+            <? } ?>
+        });
+        $('#send_day').on("change", function() {
+            if ($(this).val() == "0") {
+                $('#timeArea').hide();
+            } else {
+                $('#timeArea').show();
+            }
+        });
+        $('#send_day').on("keyup", function() {
+            if ($(this).val() == "0") {
+                $('#timeArea').hide();
+            } else {
+                $('#timeArea').show();
+            }
+        });
+        $('#popSaveBtn').on("click", function() {
+            if ($('#step').val() == "") {
+                alert('순서를 입력하세요.');
+                return;
+            }
+            if ($('#send_day').val() == "") {
+                alert('발송일시를 입력하세요.');
+                return;
+            }
+            //if($('#send_time_hour').val() == "") {
+            //    alert('발송일시를 입력하세요.');
+            //    return;
+            //}	    
+            //
+            //if($('#send_time_min').val() == "") {
+            //    alert('발송일시를 입력하세요.');
+            //    return;
+            //}	    	    	    
+
+            if ($('#title').val() == "") {
+                alert('제목을 입력하세요.');
+                return;
+            }
+            if ($('#content').val() == "") {
+                alert('내용을 입력하세요.');
+                return;
+            }
+            $('#addForm').submit();
+        });
+
+        $('#popCloseBtn').on("click", function() {
+            $('.lb_overlay, .ad_layer4').hide();
+            location.reload();
+        });
+
+        $('.popbutton12').on("click", function() {
+            <? if ($sms_idx) { ?>
+                $('#auto_making_modal').modal("show");
+            <? } else { ?>
+                alert("퍼널예약메시지 세트정보를 먼저 입력하시고 저장을 클릭해주세요.");
+            <? } ?>
+        });
+        $("#reserv_type").on("change", function() {
+            if ($(this).val() == 1) {
+                $(".AI").show();
+                $("#reserv_file1").hide();
+                $("#reserv_file2").hide();
+                $("#reserv_file3").hide();
+            } else {
+                $(".AI").hide();
+            }
+        });
+    });
+
+    function start_making() {
+        var web_type = $('input[name=web_type]:checked').attr('id');
+        console.log(web_type);
+        if (web_type == undefined) {
+            alert('수집분야를 설정 하세요.');
+            return;
+        }
+        switch (web_type) {
+            case 'newsid':
+                start_making_web('news');
+                break;
+            case 'blogid':
+                start_making_web('blog');
+                break;
+            case 'youtubeid':
+                start_making_web('youtube');
+                break;
+            default:
+                console.log("select type!");
+                break;
+        }
+    }
+
+    //goodhow 크롤링 서버에 요청 보내기, 상태값 얻어 오기
+    function start_making_web(type) {
+        var slt = 0;
+        var url = '';
+        var mem_id_status = '';
+        var count_interval = 0;
+        var blog_link = 0;
+        var contents_keyword = '';
+        var sms_idx = <?= $sms_idx ?>;
+        address = $("#people_web_address").val();
+        if ($("#people_contents_start_date").val() != "") {
+            start_date = $("#people_contents_start_date").val().replace(/-/g, "");
+            end_date = $("#people_contents_end_date").val().replace(/-/g, "");
+        }
+        contents_cnt = $("#people_contents_cnt").val();
+        send_time = $("#send_time").val();
+        contents_keyword = $("#people_contents_key").val();
+        if (type == 'youtube') {
+            if (contents_cnt == "") {
+                alert('갯수를 입력하세요.');
+                return;
+            }
+        } else {
+            if (contents_cnt == "" || contents_keyword == "") {
+                alert('키워드/갯수를 입력하세요.');
+                return;
+            }
+        }
+
+        url = "https://www.goodhow.com/crawler/crawler/ai_step_mms.php";
+        if (type == 'youtube') {
+            if ((address.substring(0, 26) == "https://www.youtube.com/c/") || (address.substring(0, 32) == "https://www.youtube.com/channel/") || (address.substring(0, 44) == "https://www.youtube.com/results?search_query") || (address.substring(0, 29) == "https://www.youtube.com/user/")) {
+                start_date = end_date = "";
+                url = "https://www.goodhow.com/crawler/crawler/ai_step_mms.php";
+            } else {
+                alert("웹주소 형식이 틀립니다. 옳바른 형식으로 이용 해주세요.");
+                return;
+            }
+        }
+        console.log(sms_idx, type, address, contents_cnt, send_time, contents_keyword, start_date, end_date);
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            data: {
+                sms_idx: sms_idx,
+                type: type,
+                address: address,
+                contents_cnt: contents_cnt,
+                send_time: send_time,
+                contents_keyword: contents_keyword,
+                start_date: start_date,
+                end_date: end_date
+            },
+            url: url,
+            success: function(data) {
+                console.log(data);
+                if (data == 1) {
+                    alert("추가되었습니다.");
+                    location.reload();
+                } else {
+                    alert("진행중 오류가 발생 하였습니다.");
+                    location.reload();
+                }
+            }
+        });
+        $("#startmaking").attr('disabled', true);
+    }
+
+    function goback() {
+        $('#auto_making_modal').modal("hide");
+    }
+
+    //수집분야별에 따르는 설정값 입력창 현시
+    function show_keyword(val) {
+        if (val == 'news') {
+            $("#contents_key").attr('style', 'width:100%;display:inline-table;');
+            $("#contents_time").attr('style', 'width:100%;display:inline-table;');
+            $("#web_address").attr('style', 'width:100%;display:none;');
+            $("#sendtime").attr('style', 'width:100%;display:inline-table;');
+        } else if (val == 'blog') {
+            alert("특정 블로그에서 키워드와 매칭되는 게시물 크롤링을 원하시면 웹주소입력란에 다음의 블로그 주소를 입력하세요.\n 예시 : https://blog.naver.com/abcd123\n\n웹주소에 입력을 안하면 전체 블로그에서 키워드와 매칭되는 게시물을 크롤링합니다.");
+            $("#contents_key").attr('style', 'width:100%;display:inline-table;');
+            $("#contents_time").attr('style', 'width:100%;display:inline-table;');
+            $("#web_address").attr('style', 'width:100%;display:inline-table;');
+            $("#sendtime").attr('style', 'width:100%;display:inline-table;');
+        } else if (val == 'youtube') {
+            $("#contents_key").attr('style', 'width:100%;display:none;');
+            $("#contents_time").attr('style', 'width:100%;display:none;');
+            $("#web_address").attr('style', 'width:100%;display:inline-table;');
+            $("#sendtime").attr('style', 'width:100%;display:inline-table;');
+        }
+    }
+
+    function newMessageEvent() { // test 메시지조회
+        var win = window.open("../mypage_pop_message_list_for_copylist.php?mode=change", "event_pop", "toolbar=yes,scrollbars=yes,resizable=yes,top=200,left=200,width=1000,height=1000");
+    }
+
+    function open_change_page(ori_sms_idx) {
+        location.href = "/mypage_reservation_create.php?get_idx=" + ori_sms_idx;
+    }
+    //gpt chat script
+    var contextarray = [];
+
+    function show_chat(api) {
+        $("#gpt_chat_modal").modal('show');
+    }
+    $(document).ready(function() {
+        var textarea = document.getElementById("question");
+        var limit = 110; //height limit
+        var api_state = '<?= $member_1['gpt_chat_api_key'] ?>';
+
+        textarea.oninput = function() {
+            textarea.style.height = "";
+            textarea.style.height = Math.min(textarea.scrollHeight, limit) + "px";
+        };
+
+        $("#question").on('keydown', function(event) {
+            if (api_state == '') {
+                alert("회원정보에서 본인의 API 키를 입력해주세요.");
+                location.href = "mypage.php";
+            }
+            if (event.keyCode == 13) {
+                if (event.shiftKey) {
+                    $("#kw-target").html($("#kw-target").html() + "\n");
+                    event.stopPropagation();
+                } else {
+                    send_post('<?= $_SESSION['iam_member_id'] ?>');
+                }
+            }
+        });
+    });
+
+    function check_login(id) {
+        if (id == '') {
+            $("#intro_modal").modal('show');
+        } else {
+            return;
+        }
+    }
+
+    function show_new_chat() {
+        $("#answer_side").hide();
+        $("#gpt_req_list_title").hide();
+        $("#answer_side1").show();
+        $("#answer_side2").hide();
+    }
+
+    function show(val) {
+        if ($('li[id=a' + val + ']').hasClass('hided')) {
+            $('li[id=a' + val + ']').removeClass('hided');
+            $('i[id=down' + val + ']').css('display', 'none');
+            $('i[id=up' + val + ']').css('display', 'inline-block');
+        } else {
+            $('li[id=a' + val + ']').addClass('hided');
+            $('i[id=down' + val + ']').css('display', 'inline-block');
+            $('i[id=up' + val + ']').css('display', 'none');
+        }
+    }
+
+    function show_req_history() {
+        $.ajax({
+            type: "POST",
+            url: "/iam/ajax/manage_gpt_chat.php",
+            data: {
+                mem_id: "<?= $_SESSION['iam_member_id'] ?>",
+                method: 'show_req_list'
+            },
+            dataType: 'html',
+            success: function(data) {
+                // console.log(data);
+                $("#answer_side").hide();
+                $("#answer_side1").hide();
+                $("#gpt_req_list_title").show();
+                $("#answer_side2").html(data);
+                $("#answer_side2").show();
+            }
+        });
+    }
+
+    function copy_msg() {
+        var value = $("#answer_side").text().trim();
+        console.log(value.trim());
+        // return;
+        var aux1 = document.createElement("input");
+        // 지정된 요소의 값을 할당 한다.
+        aux1.setAttribute("value", value);
+        // bdy에 추가한다.
+        document.body.appendChild(aux1);
+        // 지정된 내용을 강조한다.
+        aux1.select();
+        // 텍스트를 카피 하는 변수를 생성
+        document.execCommand("copy");
+        // body 로 부터 다시 반환 한다.
+        document.body.removeChild(aux1);
+        alert("복사되었습니다. 원하는 곳에 붙여 넣으세요.");
+    }
+
+    function del_list(id) {
+        $.ajax({
+            type: "POST",
+            url: "/iam/ajax/manage_gpt_chat.php",
+            data: {
+                method: 'del_req_list',
+                id: id
+            },
+            dataType: 'json',
+            success: function(data) {
+                if (data.result == "1") {
+                    alert('삭제 되었습니다.');
+                    show_req_history();
+                } else {
+                    alert('삭제실패 되었습니다.');
+                }
+            }
+        });
+    }
+
+    function articlewrapper(question, answer, str) {
+        $("#answer_side").html('<li class="article-title" id="q' + answer + '"><img src="/iam/img/chat_Q.png" style="width:30px;margin-right: 10px;"><span class="chat_title"></span></li>');
+        let str_ = ''
+        let i = 0
+        let timer = setInterval(() => {
+            if (str_.length < question.length) {
+                str_ += question[i++]
+                $("#q" + answer).children('span').text(str_ + '_') //인쇄할 때 커서 추가
+            } else {
+                clearInterval(timer)
+                $("#q" + answer).children('span').text(str_) //인쇄할 때 커서 추가
+            }
+        }, 5)
+        $("#answer_side").append('<li class="article-content" id="' + answer + '"><img src="/iam/img/chat_A.png" style="width:30px;"><span class="chat_answer" style="margin-left: 35px;"></span></li>');
+        if (str == null || str == "") {
+            str = "서버가 응답하는 데 시간이 걸리면 나중에 다시 시도할 수 있습니다.";
+        }
+        let str2_ = ''
+        let i2 = 0
+        let timer2 = setInterval(() => {
+            if (str2_.length < str.length) {
+                str2_ += str[i2++]
+                $("#" + answer).children('span').text(str2_ + '_') //인쇄할 때 커서 추가
+            } else {
+                clearInterval(timer2)
+                $("#" + answer).children('span').text(str2_) //인쇄할 때 커서 추가
+
+            }
+
+            $('#answer_side').animate({
+                scrollTop: 10000,
+            }, 10);
+        }, 25)
+    }
+
+    // function send_post(mem_id) {
+    //     $("#answer_side1").hide();
+    //     $("#answer_side2").hide();
+    //     $("#answer_side").show();
+    //     $("#ajax-loading").show();
+    //     var prompt = $("#question").val();
+    //     if (prompt == "") {
+    //         alert('질문을 입력해 주세요.');
+    //         return;
+    //     }
+
+    //     $.ajax({
+    //         cache: true,
+    //         type: "POST",
+    //         url: "/iam/ajax/message.php",
+    //         data: {
+    //             mem_id:mem_id,
+    //             message: prompt,
+    //             context:$("#keep").prop("checked")?JSON.stringify(contextarray):'[]',
+    //         },
+    //         dataType: "json",
+    //         success: function (results) {
+    //             $("#ajax-loading").hide();
+    //             $("#question").val("");
+    //             $("#question").css("height", "58px");
+    //             // $(".send_ask").css("height", "98%");
+    //             contextarray.push([prompt, results.raw_message]);
+    //             articlewrapper(prompt,randomString(16),results.raw_message);
+    //         }
+    //     });
+    // }
+
+    function randomString(len) {
+        len = len || 32;
+        var $chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678'; /****혼란스러운 문자는 기본적으로 제거됩니다oOLl,9gq,Vv,Uu,I1****/
+        var maxPos = $chars.length;
+        var pwd = '';
+        for (i = 0; i < len; i++) {
+            pwd += $chars.charAt(Math.floor(Math.random() * maxPos));
+        }
+        return pwd;
+    }
+
+    function send_chat() {
+        var title = $("#answer_side span.chat_title").text();
+        var detail = $("#answer_side span.chat_answer").text();
+        if (title == "") {
+            alert('질문해주세요.');
+            return;
+        }
+        $("#title").val(title);
+        $("#content").val(detail);
+        $("#gpt_chat_modal").modal('hide');
+    } //gpt chat
+    function add_file_tab() {
+        if ($("#reserv_file1").css('display') == "none")
+            $("#reserv_file1").css('display', 'show');
+        else if ($("#reserv_file2").css('display') == "none")
+            $("#reserv_file2").css('display', 'show');
+        else if ($("#reserv_file3").css('display') == "none")
+            $("#reserv_file3").css('display', 'show');
+    }
+
+    function del_file_tab(idx) {
+        if (idx == 3) {
+            $("#reserv_file3").css('display', 'none');
+            $("#ai_file3").val('');
+            $("#ai_file3_txt").val('');
+        } else if (idx == 2) {
+            if ($("#reserv_file3").css('display') == "none") {
+                $("#reserv_file2").css('display', 'none');
+                $("#ai_file2").val('');
+                $("#ai_file2_txt").val('');
+            } else {
+                if ($("#ai_file3")[0].files.length > 0) {
+                    var file = $("#ai_file3")[0].files[0];
+                    var dataTransfer = new DataTransfer();
+                    dataTransfer.items.add(file);
+                    $("#ai_file2")[0].files = dataTransfer.files;
+                }
+                $("#ai_file2_txt").val($("#ai_file3_txt").val());
+                $("#ai_file3_txt").val('');
+                $("#ai_file3").val('');
+                $("#reserv_file3").css('display', 'none');
+            }
+        } else {
+            if ($("#reserv_file2").css('display') == "none") {
+                $("#reserv_file1").css('display', 'none');
+                $("#ai_file1").val('');
+                $("#ai_file1_txt").val('');
+            } else {
+                if ($("#reserv_file3").css('display') == "none") {
+                    if ($("#ai_file2")[0].files.length > 0) {
+                        var file = $("#ai_file2")[0].files[0];
+                        var dataTransfer = new DataTransfer();
+                        dataTransfer.items.add(file);
+                        $("#ai_file1")[0].files = dataTransfer.files;
+                    }
+                    $("#ai_file1_txt").val($("#ai_file2_txt").val());
+                    $("#ai_file2_txt").val('');
+                    $("#ai_file2").val('');
+                    $("#reserv_file2").css('display', 'none');
+                } else {
+                    if ($("#ai_file2")[0].files.length > 0) {
+                        var file = $("#ai_file2")[0].files[0];
+                        var dataTransfer = new DataTransfer();
+                        dataTransfer.items.add(file);
+                        $("#ai_file1")[0].files = dataTransfer.files;
+                    }
+                    if ($("#ai_file3")[0].files.length > 0) {
+                        var file = $("#ai_file3")[0].files[0];
+                        var dataTransfer = new DataTransfer();
+                        dataTransfer.items.add(file);
+                        $("#ai_file2")[0].files = dataTransfer.files;
+                    }
+                    $("#ai_file1_txt").val($("#ai_file2_txt").val());
+                    $("#ai_file2_txt").val($("#ai_file3_txt").val());
+                    $("#ai_file3_txt").val('');
+                    $("#ai_file3").val('');
+                    $("#reserv_file3").css('display', 'none');
+                }
+            }
+        }
+    }
+</script>
 <?
 include_once "_foot.php";
 ?>

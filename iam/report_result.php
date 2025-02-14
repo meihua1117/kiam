@@ -123,6 +123,7 @@ thead tr:nth-child(2) th { position: sticky; top: 57px; }
                                     </th>
                                 <?}?>
                                     <th rowspan=2 style="border: 1px solid #ddd;width: 20px">서명</th>
+                                    <th rowspan=2 style="border: 1px solid #ddd;width: 20px">보기</th>
                                 </tr>
                                 <tr>
                                     <?
@@ -186,6 +187,9 @@ thead tr:nth-child(2) th { position: sticky; top: 57px; }
                                                 $('#<?='sign'.$repo_row['idx']?>').signature('enable').signature('draw', $('#<?='signatureJSON'.$repo_row['idx']?>').val()).signature('disable');
                                             });
                                         </script>
+                                    </td>
+                                    <td style="border: 1px solid #ddd;">
+                                        <a href="report_view.php?repo=<?= $row['id'] ?>&idx=<?= $repo_row['idx'] ?>" target="_self">보기</a>
                                     </td>
                                 </tr>
                                 <?

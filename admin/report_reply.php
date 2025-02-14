@@ -166,10 +166,11 @@ thead tr:nth-child(2) th { position: sticky; top: 57px; }
                                     ?>
                                     <th colspan="<?=$row2[0]?>" style="border: 1px solid #ddd">
                                         <a href="javascript:show_more('<?=str_replace("\n", "<br>", $row1['item_title'])?>')"><?=cut_str($row1['item_title'], 10)?></a><br>
-                                        <a href="javascript:show_more('<?=str_replace("\n", "<br>", $row1[item_req])?>')"><?=cut_str($row1['item_req'], 10)?>
+                                        <a href="javascript:show_more('<?=str_replace("\n", "<br>", $row1['item_req'])?>')"><?=cut_str($row1['item_req'], 10)?>
                                     </th>
                                 <?}?>
                                 <th rowspan=2 style="border: 1px solid #ddd;width: 20px">서명</th>
+                                <th rowspan=2 style="border: 1px solid #ddd;width: 20px">보기</th>
                             </tr>
                             <tr>
                                 <?
@@ -181,7 +182,7 @@ thead tr:nth-child(2) th { position: sticky; top: 57px; }
                                         array_push($item_arr,$row2);
                                         ?>
                                         <th style="border: 1px solid #ddd">
-                                            <a href="javascript:show_more('<?=str_replace("\n", "<br>", $row2[tag_name])?>')"><?=cut_str($row2['tag_name'], 10)?>
+                                            <a href="javascript:show_more('<?=str_replace("\n", "<br>", $row2['tag_name'])?>')"><?=cut_str($row2['tag_name'], 10)?>
                                         </th>
                                     <?  }
                                 }
@@ -230,6 +231,9 @@ thead tr:nth-child(2) th { position: sticky; top: 57px; }
                                                 $('#<?='sign'.$repo_row['idx']?>').signature('enable').signature('draw', $('#<?='signatureJSON'.$repo_row['idx']?>').val()).signature('disable');
                                             });
                                         </script>
+                                    </td>
+                                    <td style="border: 1px solid #ddd;">
+                                        <a href="/iam/report_view.php?repo=<?= $row['id'] ?>&idx=<?= $repo_row['idx'] ?>" target="_self">보기</a>
                                     </td>
                                 </tr>
                             <?

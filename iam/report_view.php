@@ -5,10 +5,14 @@ $idx = $_GET['idx'];
 $sql = "select * from gn_report_form where id=$repo_id";
 $res = mysqli_query($self_con,$sql);
 $row = mysqli_fetch_array($res);
-$sql = "select * from gn_report_table where userid='{$_SESSION['iam_member_id']}' and repo_id = $repo_id";
+$sql = "select * from gn_report_table where repo_id = $repo_id and idx = $idx";
 $repo_res = mysqli_query($self_con,$sql);
 $repo_row = mysqli_fetch_array($repo_res);
 $conts = json_decode($repo_row['cont'],true);
+if($repo_row['userid'] == $_SESSION['iam_member_id'])
+    $other = false;
+else
+    $other = true;
 ?>
 <style>
 .report_item{
@@ -272,7 +276,9 @@ $conts = json_decode($repo_row['cont'],true);
                     <?if($row['sign_visible'] == 1){?>
                     <div class="report_item">
                         <div id="signature-pad" class="m-signature-pad">
+                            <?if(!$other){?>
                             <p class="marb3"><strong class="blink">아래 박스안에 서명을 남겨주세요.</strong><button type="button" id="clear" class="btn_ssmall bx-white">서명 초기화</button></p>
+                            <?}?>
                             <div id="sign"></div>
                             <textarea name="signatureJSON" id="signatureJSON" style="display: none" readonly=""><?=$repo_row['sign']?></textarea>
                         </div>
@@ -281,6 +287,7 @@ $conts = json_decode($repo_row['cont'],true);
                     <div> 
                     <hr align="center" style="border: solid 1px #92D050; width: 20%;">
                     </div>
+                    <?if(!$other){?>
                     <form id="dform1" name="dform1" method="post" action="<?=$SERVER['PHP_SELF']?>" onsubmit="return checkForm()">
                         <div class="report_item">
                             <div class="report_item_div" style="padding-left: 0px">
@@ -316,6 +323,7 @@ $conts = json_decode($repo_row['cont'],true);
                         <a href="javascript:save_format(<?=$repo_id?>,<?=$idx?>)" class="button is-pink">수정하기</a>
                         <a href="javascript:history.back();" class="button is-grey">나가기</a>
                     </div>
+                    <?}?>
                     <div id="ajax_div" style="display:none"></div>
 			</section>
 		</main>

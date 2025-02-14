@@ -246,7 +246,7 @@ $stop_title = $sms_info[0];
                                 <td style="height:35px;text-align:left;">
                                     <input type="text" id="reservation_title1" name="reservation_title1" value="<?= $reservation_title1 ?>" readonly style="width:250px; height: 27px;">
                                     <input type="hidden" id="step_idx1" name="step_idx1" value="<?= $row['sms_idx1'] ?>" style="width:95px;">
-                                    <input type="button" value="퍼널예약관리 조회" class="button " id="searchEventBtn1">
+                                    <input type="button" value="퍼널예약관리 조회" class="button " id="searchEventBtn1" data-ai="<?=$row['reserv_type']?>">
                                     <a class="btn  btn-link" title="" href="javascript:onAddStep()" style="padding:10px 3px">
                                         <span style="font-size:24px">+</span>
                                     </a>
@@ -356,15 +356,16 @@ $stop_title = $sms_info[0];
         });
 
         $('#searchEventBtn1').on("click", function() {
-            newMessageEvent(1);
+            var ai_type = $(this).data('ai');
+            newMessageEvent(1,ai_type);
         });
 
         $('#searchEventBtn2').on("click", function() {
-            newMessageEvent(2);
+            newMessageEvent(2,ai_type);
         });
 
         $('#searchEventBtn3').on("click", function() {
-            newMessageEvent(3);
+            newMessageEvent(3,ai_type);
         });
 
         $('#cancleBtn').on("click", function() {
@@ -408,8 +409,8 @@ $stop_title = $sms_info[0];
         })
     })
 
-    function newMessageEvent(type) { // test 메시지조회
-        var win = window.open("mypage_pop_message_list_for_event.php?addindex=" + type, "event_pop", "toolbar=yes,scrollbars=yes,resizable=yes,top=200,left=200,width=1000,height=1000");
+    function newMessageEvent(type,ai_type) { // test 메시지조회
+        var win = window.open("mypage_pop_message_list_for_event.php?addindex=" + type + "&ai_type=" + ai_type, "event_pop", "toolbar=yes,scrollbars=yes,resizable=yes,top=200,left=200,width=1000,height=1000");
     }
 
     function onAddStep() {
