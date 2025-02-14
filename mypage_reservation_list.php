@@ -90,9 +90,8 @@ if ($send_ids != "") {
 						</li>
 						<? if ($member_1['ai_status']) { ?>
 							<select name="reserv_type" id="reserv_type" class="select">
-								<option value="" <? if ($_GET['reserv_type'] == "") echo "selected" ?>>전체</option>
-								<option value="1" <? if ($_GET['reserv_type'] == "1") echo "selected" ?>>AI</option>
-								<option value="0" <? if ($_GET['reserv_type'] == "0") echo "selected" ?>>수동</option>
+								<option value="1" <? if ($_GET['reserv_type'] == 1) echo "selected" ?>>AI</option>
+								<option value="0" <? if ($_GET['reserv_type'] != 1) echo "selected" ?>>수동</option>
 							</select>
 						<? } ?>
 						<li style="float:right;"></li>
@@ -125,19 +124,35 @@ if ($send_ids != "") {
 						</div>
 						<div>
 							<table class="list_table" style="width:100%;border:none" cellspacing="0" cellpadding="0">
-								<tr>
-									<td style="width:2%;"><input type="checkbox" name="allChk" id="allChk" value="<?= $row['event_idx']; ?>"></td>
-									<td style="width:6%;">No</td>
-									<td style="width:6%;">구분</td>
-									<td style="width:15%;">메시지세트제목</td>
-									<td style="width:15%;">메시지세트설명</td>
-									<td style="width:8%">단계</td>
-									<td style="width:10%;">발신횟수/건수</td>
-									<td style="width:9%;">등록일</td>
-									<td style="width:9%;">관리</td>
-
-								</tr>
-								<?
+								<? if ($_GET['reserv_type'] == 1) { ?>
+									<tr>
+										<td style="width:2%;"><input type="checkbox" name="allChk" id="allChk" value="<?= $row['event_idx']; ?>"></td>
+										<td style="width:6%;">No</td>
+										<td style="width:6%;">구분</td>
+										<td style="width:15%;">메시지세트제목</td>
+										<td style="width:15%;">메시지세트설명</td>
+										<td style="width:6%;">생성회차</td>
+										<td style="width:6%;">발송주기</td>
+										<td style="width:6%;">발송시간</td>
+										<td style="width:15%">GPT프롬프트</td>
+										<td style="width:6%;">AI적용횟수</td>
+										<td style="width:9%;">등록일</td>
+										<td style="width:9%;">관리</td>
+									</tr>
+								<? } else { ?>
+									<tr>
+										<td style="width:2%;"><input type="checkbox" name="allChk" id="allChk" value="<?= $row['event_idx']; ?>"></td>
+										<td style="width:6%;">No</td>
+										<td style="width:6%;">구분</td>
+										<td style="width:15%;">메시지세트제목</td>
+										<td style="width:15%;">메시지세트설명</td>
+										<td style="width:8%">단계</td>
+										<td style="width:10%;">발신횟수/건수</td>
+										<td style="width:9%;">등록일</td>
+										<td style="width:9%;">관리</td>
+									</tr>
+									<?
+								}
 								$sql_serch = " m_id ='{$_SESSION['one_member_id']}' ";
 								if ($_REQUEST['search_date']) {
 									if ($_REQUEST['rday1']) {
@@ -155,11 +170,12 @@ if ($send_ids != "") {
 									$sql_serch .= " and (reservation_title like '%$search_text%' or reservation_desc like '%$search_text%')";
 								}
 
-								if (!isset($_GET['reserv_type'])) {
+								/*if (!isset($_GET['reserv_type'])) {
 									$sql = "SELECT count(sms_idx) as cnt FROM (SELECT sms_idx,m_id FROM Gn_event_sms_info UNION ALL SELECT sms_idx,m_id FROM Gn_aievent_ms_info ) AS sms_info WHERE $sql_serch ";
-								} else if ($_GET['reserv_type'] == 1) {
+								} */
+								if ($_GET['reserv_type'] == 1) {
 									$sql = "SELECT count(sms_idx) as cnt FROM Gn_aievent_ms_info WHERE $sql_serch ";
-								} else if ($_GET['reserv_type'] == 0) {
+								} else {
 									$sql = "SELECT count(sms_idx) as cnt FROM Gn_event_sms_info WHERE $sql_serch ";
 								}
 								$result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
@@ -192,19 +208,21 @@ if ($send_ids != "") {
 								$intPageCount = (int)(($intRowCount + $intPageSize - 1) / $intPageSize);
 								if ($intRowCount) {
 									//$sql = "SELECT * FROM {$table_name} WHERE $sql_serch order by $order_name $order_status limit $int,$intPageSize";
-									if (!isset($_GET['reserv_type'])) {
+									/*if (!isset($_GET['reserv_type'])) {
 										$sql = "SELECT * FROM (SELECT 0 AS reserv_type,sms_idx,sendable,reservation_title,reservation_desc,regdate,m_id FROM Gn_event_sms_info UNION ALL SELECT 1 AS reserv_type,sms_idx,sendable,reservation_title,reservation_desc,regdate,m_id FROM Gn_aievent_ms_info) AS sms_info WHERE $sql_serch order by $order_name $order_status limit $int,$intPageSize";
-									} else if ($_GET['reserv_type'] == 1) {
-										$sql = "SELECT 1 AS reserv_type,sms_idx,sendable,reservation_title,reservation_desc,regdate FROM Gn_aievent_ms_info WHERE $sql_serch order by $order_name $order_status limit $int,$intPageSize";
-									} else if ($_GET['reserv_type'] == 0) {
-										$sql = "SELECT 0 AS reserv_type,sms_idx,sendable,reservation_title,reservation_desc,regdate FROM Gn_event_sms_info WHERE $sql_serch order by $order_name $order_status limit $int,$intPageSize";
+									} else */
+									if ($_GET['reserv_type'] == 1) {
+										$sql = "SELECT * FROM Gn_aievent_ms_info WHERE $sql_serch order by $order_name $order_status limit $int,$intPageSize";
+									} else {
+										$sql = "SELECT * FROM Gn_event_sms_info WHERE $sql_serch order by $order_name $order_status limit $int,$intPageSize";
 									}
 									$result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
-
-								?>
-									<?
 									while ($row = mysqli_fetch_array($result)) {
-										if($row['reserv_type'] == 1)
+										if (isset($_GET['reserv_type']))
+											$row['reserv_type'] = $_GET['reserv_type'];
+										else
+											$row['reserv_type'] = 0;
+										if ($row['reserv_type'] == 1)
 											$sql = "SELECT count(*) as cnt FROM Gn_aievent_message WHERE sms_idx='{$row['sms_idx']}'";
 										else
 											$sql = "SELECT count(*) as cnt FROM Gn_event_sms_step_info WHERE sms_idx='{$row['sms_idx']}'";
@@ -221,8 +239,13 @@ if ($send_ids != "") {
 										<td style="font-size:12px;"><?= $row['reserv_type'] == "1" ? 'AI' : '수동'; ?></td>
 										<td style="font-size:12px;"><?= $row['reservation_title'] ?></td>
 										<td><?= $row['reservation_desc'] ?></td>
-										<td><?= number_format($srow['cnt']) ?></td>
-										<td><?= number_format($cnt) ?>/<?= number_format($cnt) ?></td>
+										<td><?= $row['reserv_type'] == 1 ? number_format($row['ai_step']) : number_format($srow['cnt']) ?>회</td>
+										<td><?= $row['reserv_type'] == 1 ? number_format($row['ai_day']) . '일' : number_format($cnt) . ' / ' . number_format($cnt) ?></td>
+										<? if ($row['reserv_type'] == 1) { ?>
+											<td><?= $row['ai_hour']?></td>
+											<td><?= $row['ai_prompt']?></td>
+											<td><?= $row['apply_count']?></td>
+										<? } ?>
 										<td><?= $row['regdate'] ?></td>
 										<td>
 											<a href='mypage_reservation_create.php?sms_idx=<?= $row['sms_idx']; ?>&reserv_type=<?= $row['reserv_type']; ?>'>수정</a>/<a href="javascript:;;" onclick="deleteRow('<?= $row['sms_idx']; ?>','<?= $row['reserv_type']; ?>')">삭제</a>
