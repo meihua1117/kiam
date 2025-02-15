@@ -16,7 +16,8 @@ if (!isset($_REQUEST['sms_idx'])) {
 if (!isset($_REQUEST['get_idx'])) {
     $get_idx = 0;
 }
-
+if(!isset($_GET['reserv_type']))
+	$reserv_type = $member_1['ai_status'];
 if ($sms_idx) {
     if ($reserv_type == 1)
         $sql = "select * from Gn_aievent_ms_info  where sms_idx='{$sms_idx}'";
@@ -428,7 +429,7 @@ if ($get_idx) {
                                 </td>
                             </tr>
                         <?  } else if (!$sms_idx || $reserv_type == 1) { ?>
-                            <tr class="AI" style="<?= !$sms_idx ? 'display:none' : ''; ?>">
+                            <tr class="AI" style="<?= $reserv_type != 1 ? 'display:none' : ''; ?>">
                                 <th class="w200">메시지 회차/주기</th>
                                 <td>
                                     <input type="text" name="ai_step" id="ai_step" value="<?= $row['ai_step'] ?>" style="width:50px; height: 27px;">회차
@@ -436,13 +437,13 @@ if ($get_idx) {
                                     <input type="text" name="ai_hour" id="ai_hour" value="<?= $row['ai_hour'] ?>" style="width:50px; height: 27px;">시분
                                 </td>
                             </tr>
-                            <tr class="AI" style="<?= !$sms_idx ? 'display:none' : ''; ?>">
+                            <tr class="AI" style="<?= $reserv_type != 1 ? 'display:none' : ''; ?>">
                                 <th class="w200">메시지 GPT prompt</th>
                                 <td>
                                     <textarea name="ai_prompt" id="ai_prompt" style="max-width: 600px;"><?= $row['ai_prompt'] ?></textarea>
                                 </td>
                             </tr>
-                            <tr class="AI" style="<?= !$sms_idx ? 'display:none' : ''; ?>">
+                            <tr class="AI" style="<?= $reserv_type != 1 ? 'display:none' : ''; ?>">
                                 <th class="w200">파일등록<span style="margin-left:10px;font-weight: bold;cursor:pointer" onclick="add_file_tab();">+</span></th>
                                 <td>
                                     (신청자가 pdf,csv,jpg,png,txt,json,xlsx 파일 3개까지 업로드 가능)

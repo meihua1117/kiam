@@ -9,9 +9,13 @@ if (!$_SESSION['one_member_id']) {
 <?
     exit;
 }
-$sql = "select * from Gn_event  where event_idx='{$_GET['event_idx']}'";
-$sresul_num = mysqli_query($self_con, $sql);
-$row = mysqli_fetch_array($sresul_num);
+if (isset($_GET['event_idx'])) {
+    $sql = "select * from Gn_event  where event_idx='{$_GET['event_idx']}'";
+    $sresul_num = mysqli_query($self_con, $sql);
+    $row = mysqli_fetch_array($sresul_num);
+} else {
+    $row['reserv_type'] = $member_1['ai_status'];
+}
 
 $sql = "select reservation_title from Gn_event_sms_info where sms_idx='{$row['sms_idx1']}'";
 $sms_res = mysqli_query($self_con, $sql);
@@ -164,7 +168,7 @@ $stop_title = $sms_info[0];
                 <input type="hidden" name="event_idx" value="<?= $_GET['event_idx']; ?>" />
                 <input type="hidden" name="event_req_link" id="event_req_link" value="<?= $row['event_req_link'] ? $row['event_req_link'] : ''; ?>" />
                 <input type="hidden" name="pcode" id="pcode" value="<?= $row['pcode'] ? $row['pcode'] : ''; ?>" />
-                <input type="hidden" name="shortUrl" id="shortUrl" value="<?= $row['short_url'];?>" />
+                <input type="hidden" name="shortUrl" id="shortUrl" value="<?= $row['short_url']; ?>" />
                 <div class="a1" style="margin-top:50px; margin-bottom:15px">
                     <li style="float:left;">
                         <div class="popup_holder popup_text">고객신청그룹 만들기
@@ -183,9 +187,9 @@ $stop_title = $sms_info[0];
                                 <th class="w200">예약구분</th>
                                 <td>
                                     <select name="reserv_type" id="reserv_type" style="padding: 5px;width: 150px;">
-                                        <option value="0" <?=$row['reserv_type'] == "0" ?"selected":"";?>>수동예약</option>
+                                        <option value="0" <?= $row['reserv_type'] == 0 ? "selected" : ""; ?>>수동예약</option>
                                         <? if ($member_1['ai_status']) { ?>
-                                            <option value="1" <?=$row['reserv_type'] == "1" ?"selected":"";?>>AI예약</option>
+                                            <option value="1" <?= $row['reserv_type'] != 0 ? "selected" : ""; ?>>AI예약</option>
                                         <? } ?>
                                     </select>
                                 </td>
@@ -215,9 +219,9 @@ $stop_title = $sms_info[0];
                                     <br>
                                     <div style="display: flex;">
                                         <input type="checkbox" name="event_info[]" placeholder="" id="event_info9" value="file" <?php if ($row['file_cnt'] > 0) echo "checked"; ?> /> 파일첨부
-                                        <?$file_staus = $row['file_cnt'] > 0 ?"":"display:none";?>
-                                        <input type="number" name="file_cnt" id="file_cnt" style="width:35px;<?=$file_staus?>" max="3" min="1" placeholder="" id="file_cnt" value="<?= $row['file_cnt'] * 1 ?>" />
-                                        <p id="file_cnt_for" style="<?=$file_staus?>">(신청자가 pdf,csv,jpg,png,txt,json,xlsx 파일 3개까지 업로드 가능)</p>
+                                        <? $file_staus = $row['file_cnt'] > 0 ? "" : "display:none"; ?>
+                                        <input type="number" name="file_cnt" id="file_cnt" style="width:35px;<?= $file_staus ?>" max="3" min="1" placeholder="" id="file_cnt" value="<?= $row['file_cnt'] * 1 ?>" />
+                                        <p id="file_cnt_for" style="<?= $file_staus ?>">(신청자가 pdf,csv,jpg,png,txt,json,xlsx 파일 3개까지 업로드 가능)</p>
                                     </div>
                                     <br>
                                     (※ 이름과 휴대전화는 자동선택됩니다)
@@ -227,7 +231,7 @@ $stop_title = $sms_info[0];
                                 <th class="w200">발송폰번호</th>
                                 <td>
                                     <select name="mobile" id="mobile" style="padding: 5px;width: 150px;">
-                                        <option value="<?= str_replace("-", "", $member_1['mem_phone']) ?>"><?=str_replace("-", "", $member_1['mem_phone']); ?></option>
+                                        <option value="<?= str_replace("-", "", $member_1['mem_phone']) ?>"><?= str_replace("-", "", $member_1['mem_phone']); ?></option>
                                         <?php
                                         $query = "select * from Gn_MMS_Number where mem_id='{$_SESSION['one_member_id']}' order by sort_no asc, user_cnt desc , idx desc";
                                         $resul = mysqli_query($self_con, $query);
@@ -236,7 +240,7 @@ $stop_title = $sms_info[0];
                                                 $send_num = str_replace("-", "", $row['mobile']);
                                             }
                                         ?>
-                                            <option value="<?= str_replace("-", "", $korow['sendnum']) ?>" <?=$send_num == str_replace("-", "", $korow['sendnum']) ? "selected" : "" ?>><?=str_replace("-", "", $korow['sendnum']); ?></option>
+                                            <option value="<?= str_replace("-", "", $korow['sendnum']) ?>" <?= $send_num == str_replace("-", "", $korow['sendnum']) ? "selected" : "" ?>><?= str_replace("-", "", $korow['sendnum']); ?></option>
                                         <?php } ?>
                                     </select>
                                 </td>
@@ -246,13 +250,13 @@ $stop_title = $sms_info[0];
                                 <td style="height:35px;text-align:left;">
                                     <input type="text" id="reservation_title1" name="reservation_title1" value="<?= $reservation_title1 ?>" readonly style="width:250px; height: 27px;">
                                     <input type="hidden" id="step_idx1" name="step_idx1" value="<?= $row['sms_idx1'] ?>" style="width:95px;">
-                                    <input type="button" value="퍼널예약관리 조회" class="button " id="searchEventBtn1" data-ai="<?=$row['reserv_type']?>">
+                                    <input type="button" value="퍼널예약관리 조회" class="button " id="searchEventBtn1" data-ai="<?= $row['reserv_type'] ?>">
                                     <a class="btn  btn-link" title="" href="javascript:onAddStep()" style="padding:10px 3px">
                                         <span style="font-size:24px">+</span>
                                     </a>
                                 </td>
                             </tr>
-                            <tr id="step2" style="<?= $row['sms_idx2'] == '0'?'display:none':'' ?>">
+                            <tr id="step2" style="<?= $row['sms_idx2'] == '0' ? 'display:none' : '' ?>">
                                 <th class="w200">퍼널문자연결2</td>
                                 <td style="height:35px;text-align:left;">
                                     <input type="text" id="reservation_title2" name="reservation_title2" value="<?= $reservation_title2 ?>" readonly style="width:250px; height: 27px;">
@@ -263,7 +267,7 @@ $stop_title = $sms_info[0];
                                     </a>
                                 </td>
                             </tr>
-                            <tr id="step3" style="<?= $row['sms_idx3'] == '0'?'display:none':'' ?>">
+                            <tr id="step3" style="<?= $row['sms_idx3'] == '0' ? 'display:none' : '' ?>">
                                 <th class="w200">퍼널문자연결3</td>
                                 <td style="height:35px;text-align:left;">
                                     <input type="text" id="reservation_title3" name="reservation_title3" value="<?= $reservation_title3 ?>" readonly style="width:250px; height: 27px;">
@@ -295,7 +299,7 @@ $stop_title = $sms_info[0];
                 </div>
                 <div class="p1" style="text-align:center;margin-top:20px;">
                     <input type="button" value="저장" class="button" id="saveBtn">
-                    <input type="button" value="미리보기" class="button" id="previewBtn" <?=isset($_GET['event_idx'])?"":"disabled"?>>
+                    <input type="button" value="미리보기" class="button" id="previewBtn" <?= isset($_GET['event_idx']) ? "" : "disabled" ?>>
                     <input type="button" value="나가기" class="button" id="cancleBtn">
                 </div>
         </div>
@@ -357,15 +361,15 @@ $stop_title = $sms_info[0];
 
         $('#searchEventBtn1').on("click", function() {
             var ai_type = $(this).data('ai');
-            newMessageEvent(1,ai_type);
+            newMessageEvent(1, ai_type);
         });
 
         $('#searchEventBtn2').on("click", function() {
-            newMessageEvent(2,ai_type);
+            newMessageEvent(2, ai_type);
         });
 
         $('#searchEventBtn3').on("click", function() {
-            newMessageEvent(3,ai_type);
+            newMessageEvent(3, ai_type);
         });
 
         $('#cancleBtn').on("click", function() {
@@ -409,7 +413,7 @@ $stop_title = $sms_info[0];
         })
     })
 
-    function newMessageEvent(type,ai_type) { // test 메시지조회
+    function newMessageEvent(type, ai_type) { // test 메시지조회
         var win = window.open("mypage_pop_message_list_for_event.php?addindex=" + type + "&ai_type=" + ai_type, "event_pop", "toolbar=yes,scrollbars=yes,resizable=yes,top=200,left=200,width=1000,height=1000");
     }
 
@@ -419,12 +423,13 @@ $stop_title = $sms_info[0];
         else
             $("#step3").css('display', 'show');
     }
-    function onDelStep(idx){
-        if(idx == 3){
+
+    function onDelStep(idx) {
+        if (idx == 3) {
             $("#step3").css('display', 'none');
             $("#reservation_title3").val('');
             $("#step_idx3").val('');
-        }else if(idx ==2){
+        } else if (idx == 2) {
             $("#reservation_title2").val($("#reservation_title3").val());
             $("#step_idx2").val($("#step_idx2").val());
             $("#step3").css('display', 'none');

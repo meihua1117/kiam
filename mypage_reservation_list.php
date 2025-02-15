@@ -15,6 +15,8 @@ if ($send_ids != "") {
 	$cnt = explode(",", $send_ids);
 	$send_ids_cnt = $cnt = count($cnt);
 }
+if(!isset($_GET['reserv_type']))
+	$_GET['reserv_type'] = $member_1['ai_status'];
 ?>
 <style>
 	.tooltiptext-bottom {
@@ -90,8 +92,8 @@ if ($send_ids != "") {
 						</li>
 						<? if ($member_1['ai_status']) { ?>
 							<select name="reserv_type" id="reserv_type" class="select">
-								<option value="1" <? if ($_GET['reserv_type'] == 1) echo "selected" ?>>AI</option>
-								<option value="0" <? if ($_GET['reserv_type'] != 1) echo "selected" ?>>수동</option>
+								<option value="1" <? if ($_GET['reserv_type'] != 0) echo "selected" ?>>AI</option>
+								<option value="0" <? if ($_GET['reserv_type'] == 0) echo "selected" ?>>수동</option>
 							</select>
 						<? } ?>
 						<li style="float:right;"></li>
