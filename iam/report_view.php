@@ -292,7 +292,7 @@ else
                         <div class="report_item">
                             <div class="report_item_div" style="padding-left: 0px">
                                 <div class="report_item_body" id="div_account" style="display: none">
-                                    <div class="report_item_tag" style="width: 15%;background-color: #ffffff;color: #000000;text-align: left">확인코드</div>
+                                    <div class="report_item_tag" style="width: 15%;background-color: #ffffff;color: #000000;text-align: left">아이디</div>
                                     <div class="report_item_tag_val" style="width: 85%">
                                         <div class="input-wrap">
                                             <input type="text" id="id" name="id" value="<?=$repo_row['userid']?>" placeholder="6-15자로 입력하세요." style="width:100%; height:40px; border:1px #cacaca solid;font-size: 14px;" />

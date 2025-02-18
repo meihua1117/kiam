@@ -335,12 +335,12 @@ $url_refer = str_replace("&", "###", $_SERVER['REQUEST_URI']);
                             <input type="radio" name="mem_type" id="iam_mem" style="margin-left:10px;" <? if ($_SESSION['iam_member_id'] != "") echo "checked" ?>>
                             <label for="iam_mem" style="font-size:17px;">IAM기존회원</label>
                             <br>
-                            <span class="main_info" id="no_txt"><text color="blue">신청정보의 수정/취소를 위해서는 확인코드(6-10자)를 꼭 입력해요. 비번은 휴대폰 뒷 4자리로 자동 설정됩니다.</color></span>
+                            <span class="main_info" id="no_txt"><text color="blue">신청정보의 수정/취소를 위해서는 아이디(6-10자)를 꼭 입력해요. 비번은 휴대폰 뒷 4자리로 자동 설정됩니다.</color></span>
                         </div>
                         <div class="report_item">
                             <div class="report_item_div" style="padding-left: 0px">
                                 <div class="report_item_body" id="div_account">
-                                    <div class="report_item_tag" style="width: 15%;background-color: #ffffff;color: #000000;text-align: left">확인<br>코드</div>
+                                    <div class="report_item_tag" style="width: 15%;background-color: #ffffff;color: #000000;text-align: left">아이디</div>
                                     <div class="report_item_tag_val" style="width: 85%">
                                         <div class="input-wrap">
                                             <input type="text" id="id" name="id" value="<?= $_SESSION['iam_member_id'] ?>" placeholder="영문 또는 숫자 6-10자로 입력하세요." style="width:100%; height:40px; border:1px #cacaca solid;font-size: 14px;" />
@@ -415,11 +415,11 @@ $url_refer = str_replace("&", "###", $_SERVER['REQUEST_URI']);
     function save_format(repo_id) {
         if ($("#no_mem").prop('checked')) {
             if ($("#no_mem").prop('checked') && $("#id_html").text() == '') {
-                alert('확인코드 중복확인을 해주세요.');
+                alert('아이디 중복확인을 해주세요.');
                 return false;
             }
             if (!$("#id").val()) {
-                alert("확인코드를 입력해주세요.");
+                alert("아이디를 입력해주세요.");
                 $("#id").focus();
                 return;
             }
@@ -585,18 +585,18 @@ $url_refer = str_replace("&", "###", $_SERVER['REQUEST_URI']);
     //아이디 중복확인
     function id_check(frm_str) {
         if (!$("#id").val()) {
-            alert("확인코드를 입력해주세요.");
+            alert("아이디를 입력해주세요.");
             $("#id").focus();
             return;
         }
         if ($("#id").val().length < 4 || $("#id").val().length > 15) {
-            alert('확인코드는 4자~15자를 입력해주세요.');
+            alert('아이디는 4자~15자를 입력해주세요.');
             $("#id").focus();
             return;
         }
         var pattern = /(^([a-z0-9]+)([a-z0-9_]+$))/;
         if (!pattern.test($("#id").val())) {
-            document.getElementById('id_html').innerHTML = '올바른 확인코드 형식이 아닙니다.';
+            document.getElementById('id_html').innerHTML = '올바른 아이디 형식이 아닙니다.';
             $("#id_status").val('');
             $("#id").val('');
             $("#id").focus();
