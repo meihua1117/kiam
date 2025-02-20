@@ -2,7 +2,6 @@
 // header("Content-type: text/html; charset=utf-8");
 include_once $_SERVER['DOCUMENT_ROOT'] . "/lib/db_config.php";
 include_once $_SERVER['DOCUMENT_ROOT'] . "/lib/common_func.php";
-$fp = fopen("receive_status.log","w+");
 /*
 수신번호별 발송상태를 
 IN
@@ -32,7 +31,6 @@ $recv_num = $_POST["recv_num"];
 $status = $_POST['status'];
 
 $sql = "select idx from Gn_MMS where idx='{$idx}' and send_num='{$send_num}'";
-fwrite($fp,$sql."\r\n");
 $resul = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
 $row = mysqli_fetch_array($resul);
 if ($row['idx'] != "") {
@@ -42,7 +40,6 @@ if ($row['idx'] != "") {
     if ($row['idx'] != "") {
         $sql_insert = "update Gn_MMS_status set status='{$status}',regdate=now() 
                                             where idx='{$idx}' and send_num='{$send_num}' and recv_num='{$recv_num}'";
-                                            fwrite($fp,"45:".$sql_insert."\r\n");
         mysqli_query($self_con, $sql_insert);
     } else {
         $sql_insert = "insert into Gn_MMS_status set idx='{$idx}',
@@ -50,7 +47,6 @@ if ($row['idx'] != "") {
                                                          recv_num='{$recv_num}',
                                                          status='{$status}',
                                                          regdate=now()";
-                                                         fwrite($fp,$sql_insert."\r\n");
         mysqli_query($self_con, $sql_insert);
     }
 

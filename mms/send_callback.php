@@ -2,7 +2,6 @@
 // include_once $_SERVER['DOCUMENT_ROOT']."/lib/rlatjd_fun.php";
 include_once $_SERVER['DOCUMENT_ROOT'] . "/lib/db_config.php";
 include_once $_SERVER['DOCUMENT_ROOT'] . "/lib/common_func.php";
-$fp = fopen("send_callback.log","w+");
 $res = array();
 $memID = $_REQUEST['mem_id'];
 $token = $_REQUEST['mem_token'];
@@ -42,7 +41,6 @@ $query = "insert into Gn_MMS set mem_id='{$memID}',
                                     recv_num_cnt=1,
                                     jpg1='',
                                     jpg2=''";
-                                    fwrite($fp,$query."\r\n");
 mysqli_query($self_con, $query);
 $idx = mysqli_insert_id($self_con);
 
@@ -52,7 +50,6 @@ if ($status) {
                                                     recv_num='{$recvNum}',
                                                     status='0',
                                                     regdate=now()";
-                                                    fwrite($fp,$sql_insert."\r\n");
     mysqli_query($self_con, $sql_insert);
 }
 $res['result'] = 0;
