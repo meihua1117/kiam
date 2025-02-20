@@ -307,8 +307,8 @@ if ($index != 0) {
                                                                     <input type="radio" name="repo_item_img_type" value="link" <?= !$repo_row['tag_link'] ? 'checked' : ''; ?> style="margin-left:10px" onclick="change_img_type(this);">
                                                                     <label>웹주소/유튜브주소 입력</label>
                                                                 </div>
-                                                                <div style="<?= $repo_row['tag_link'] ? 'display: flex' : 'display:none' ?>" class="img_file">
-                                                                    <input type="text" name="repo_item_link" class="input" placeholder="링크주소 입력 http://" value="<?= htmlspecialchars($repo_row['tag_link']) ?>">
+                                                                <div style="margin-top:10px;<?= $repo_row['tag_link'] ? 'display: flex' : 'display:none' ?>" class="img_file">
+                                                                    <input type="text" name="repo_item_link" class="input" placeholder="화면클릭시 이동할 웹페이지주소를 입력하세요." value="<?= htmlspecialchars($repo_row['tag_link']) ?>">
                                                                     <input type="file" name="repo_item_file" class="input" style="padding:2px;width:33%" accept=".jpg,.jpeg,.png,.gif,.svc" onchange="uploadImage(this)" data-file="<?= $repo_row['tag_img'] ?>">
                                                                     <input type="button" value="삭제" onclick="jesi_del(this)" class="button_delete">
                                                                 </div>
@@ -586,8 +586,8 @@ if ($index != 0) {
                 "<input type=\"radio\" name=\"repo_item_img_type\" value=\"link\" style=\"margin-left:10px\" onclick=\"change_img_type(this);\">" +
                 "<label>웹주소/유튜브주소 입력</label>" +
                 "</div>" +
-                "<div style=\"display: flex\" class=\"img_file\">" +
-                "<input type=\"text\" name=\"repo_item_link\" class=\"input\" placeholder=\"링크주소 입력 http://\" > " +
+                "<div style=\"margin-top:10px;display: flex\" class=\"img_file\">" +
+                "<input type=\"text\" name=\"repo_item_link\" class=\"input\" placeholder=\"화면클릭시 이동할 웹페이지주소를 입력하세요.\" > " +
                 "<input type=\"file\" name=\"repo_item_file\" class=\"input\" style=\"padding:2px;width:33%\" accept=\".jpg,.jpeg,.png,.gif,.svc\" onchange=\"uploadImage(this)\">" +
                 "<input type=\"button\" value=\"삭제\" onclick=\"jesi_del(this)\" class=\"button_delete\">" +
                 "</div>" +
@@ -673,8 +673,8 @@ if ($index != 0) {
                 "<input type=\"radio\" name=\"repo_item_img_type\" value=\"link\" style=\"margin-left:10px\" onclick=\"change_img_type(this);\">" +
                 "<label>웹주소/유튜브주소 입력</label>" +
                 "</div>" +
-                "<div style=\"display: flex\" class=\"img_file\">" +
-                "<input type=\"text\" name=\"repo_item_link\" class=\"input\" placeholder=\"링크주소 입력 http://\" > " +
+                "<div style=\"margin-top: 10px;display: flex\" class=\"img_file\">" +
+                "<input type=\"text\" name=\"repo_item_link\" class=\"input\" placeholder=\"화면클릭시 이동할 웹페이지주소를 입력하세요.\" > " +
                 "<input type=\"file\" name=\"repo_item_file\" class=\"input\" style=\"padding:2px;width:33%\" accept=\".jpg,.jpeg,.png,.gif,.svc\" onchange=\"uploadImage(this)\">" +
                 "<input type=\"button\" value=\"삭제\" onclick=\"jesi_del(this)\" class=\"button_delete\">" +
                 "</div>" +
