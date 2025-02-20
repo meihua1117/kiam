@@ -315,7 +315,9 @@ if ($_POST['method'] == "create_format") {
                 $tag_name = addslashes($tag_name);
                 $tag_link = $row_form2['tag_link'];
                 $tag_link = addslashes($tag_link);
-                $sql = "INSERT INTO gn_report_form2 set form_id=$form_id,item_id=$item_id,tag_name='{$tag_name}',tag_id='$tag_id',tag_link='$tag_link'";
+                $tag_img = $row_form2['tag_img'];
+                $tag_img = addslashes($tag_img);
+                $sql = "INSERT INTO gn_report_form2 set form_id=$form_id,item_id=$item_id,tag_name='{$tag_name}',tag_id='$tag_id',tag_link='$tag_link',tag_img='$tag_img'";
                 mysqli_query($self_con, $sql);
                 $i++;
             }
@@ -521,7 +523,7 @@ if ($_POST['method'] == "create_format") {
                         $index = 0;
                         while ($row1 = mysqli_fetch_array($res1)) {
                             $tag_id = $form_id . "a" . $item_id . "b" . $index;
-                            $sql = "insert into gn_report_form2 (form_id,item_id,tag_name,tag_id,tag_link) (select $form_id,$item_id,tag_name,'$tag_id',tag_link from gn_report_form2 where id={$row1['id']})";
+                            $sql = "insert into gn_report_form2 (form_id,item_id,tag_name,tag_id,tag_link,tag_img) (select $form_id,$item_id,tag_name,'$tag_id',tag_link,tag_img from gn_report_form2 where id={$row1['id']})";
                             mysqli_query($self_con, $sql);
                             $index++;
                         }
