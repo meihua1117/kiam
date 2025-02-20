@@ -127,13 +127,7 @@ if ($_POST['method'] == "create_format") {
     foreach ($items as $item) {
         $repo_type = $item->type;
         $repo_title = addslashes($item->title);
-        //$repo_title = str_replace("'", "\'", $repo_title);
-        //if ($repo_type == 1 || $repo_type == 2)
         $repo_req = $item->req;
-        //else
-        //    $repo_req = "";
-        //$repo_title = str_replace("'", "\'", $repo_title);
-        //$repo_req = str_replace("'", "\'", $repo_req);
         $repo_req = addslashes($repo_req);
         $repo_keys = $item->key;
         $repo_order = $item->order;
@@ -150,7 +144,8 @@ if ($_POST['method'] == "create_format") {
                 $cont = str_replace('---n---', '\n', $repo_key->desc);
                 $cont = str_replace("'", "\'", $cont);
                 $link = $repo_key->link;
-                $sql = "insert into gn_report_form2 set form_id=$repo_id,item_id=$item_id,tag_name='$cont',tag_id='$tag_id',tag_link='$link'";
+                $img = addslashes($repo_key->img);
+                $sql = "insert into gn_report_form2 set form_id=$repo_id,item_id=$item_id,tag_name='$cont',tag_id='$tag_id',tag_link='$link',tag_img='$img'";
             }
             mysqli_query($self_con, $sql);
             $i++;
@@ -223,7 +218,8 @@ if ($_POST['method'] == "create_format") {
                     $cont = str_replace('---n---', '\n', $repo_key->desc);
                     $cont = str_replace("'", "\'", $cont);
                     $link = addslashes($repo_key->link);
-                    $sql = "insert into gn_report_form2 set form_id=$index,item_id=$item_id,tag_name='$cont',tag_id='$tag_id',tag_link='$link'";
+                    $img = addslashes($repo_key->img);
+                    $sql = "insert into gn_report_form2 set form_id=$index,item_id=$item_id,tag_name='$cont',tag_id='$tag_id',tag_link='$link',tag_img='$img'";
                 }
                 mysqli_query($self_con, $sql);
                 $i++;
@@ -543,7 +539,8 @@ if ($_POST['method'] == "create_format") {
         $uploaddir = '../upload/';
         $up_dir = "/upload/";
     }
-    $date_file_name = date('dmYHis') . str_replace(" ", "", basename($_FILES["uploadFile"]["name"]));
+    $file_arr = explode(".", $_FILES['uploadFile']['name']);
+    $date_file_name = "repo_".date('YmdHis') .".". $file_arr[count($file_arr) - 1];
     $uploadfile = $uploaddir . basename($date_file_name);
     if (move_uploaded_file($_FILES['uploadFile']['tmp_name'], $uploadfile)) {
         $img_url = $up_dir . basename($date_file_name);

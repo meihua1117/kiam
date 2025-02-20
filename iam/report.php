@@ -7,13 +7,13 @@ $params = explode("&", $repo_id);
 $repo_id = $params[0];
 $meta_img = "";
 $sql = "select * from gn_report_form where id=$repo_id";
-$res = mysqli_query($self_con,$sql);
+$res = mysqli_query($self_con, $sql);
 $row = mysqli_fetch_array($res);
 if ($row['status'] == 0) {
     echo "<script>alert('노출승인되지 않은 리포트입니다.');location='/';</script>";
 }
 $sql = "update gn_report_form set visit = visit + 1 where id=$repo_id";
-mysqli_query($self_con,$sql);
+mysqli_query($self_con, $sql);
 $url_refer = str_replace("&", "###", $_SERVER['REQUEST_URI']);
 ?>
 <style>
@@ -210,7 +210,7 @@ $url_refer = str_replace("&", "###", $_SERVER['REQUEST_URI']);
                     </div>
                     <?
                     $sql1 = "select * from gn_report_form1 where form_id={$repo_id} order by item_order";
-                    $res1 = mysqli_query($self_con,$sql1);
+                    $res1 = mysqli_query($self_con, $sql1);
                     while ($row1 = mysqli_fetch_array($res1)) {
                         if ($row1['item_req']) { ?>
                             <div style="width:100%;margin-top:20px">
@@ -231,7 +231,7 @@ $url_refer = str_replace("&", "###", $_SERVER['REQUEST_URI']);
                             <div class="report_item_div" style="<?= $style ?>">
                                 <?
                                 $sql2 = "select * from gn_report_form2 where form_id={$repo_id} and item_id = {$row1['id']} order by id";
-                                $res2 = mysqli_query($self_con,$sql2);
+                                $res2 = mysqli_query($self_con, $sql2);
                                 while ($row2 = mysqli_fetch_array($res2)) {
                                     if ($row1['item_type'] == 0) {
                                 ?>
@@ -270,23 +270,36 @@ $url_refer = str_replace("&", "###", $_SERVER['REQUEST_URI']);
                                                 <br>
                                                 <?
                                                 $link = $row2['tag_link'];
-                                                $pos = strpos($row2['tag_link'], "youtu");
-                                                $pos_img = stripos($row2['tag_link'], ".jpg") + stripos($row2['tag_link'], ".jpeg") + stripos($row2['tag_link'], ".png") + stripos($row2['tag_link'], ".gif") + stripos($row2['tag_link'], ".svc");
+                                                $img = $row2['tag_img'];
+                                                $pos = strpos($row2['tag_img'], "youtu");
+                                                //$pos_img = stripos($row2['tag_img'], ".jpg") + stripos($row2['tag_img'], ".jpeg") + stripos($row2['tag_img'], ".png") + stripos($row2['tag_img'], ".gif") + stripos($row2['tag_img'], ".svc");
                                                 if ($pos >= 0) {
-                                                    if (strpos($row2['tag_link'], "youtu.be") != false) {
-                                                        $link = str_replace("youtu.be/", "www.youtube.com/embed/", $link);
-                                                    } else if (strpos($row2['tag_link'], "playlist") != false) {
-                                                        $code = substr($row2['tag_link'], strpos($row2['tag_link'], "playlist") + 14);
-                                                        $link = "https://www.youtube.com/embed/?listType=playlist&list=$code";
-                                                    } else if (strpos($row2['tag_link'], "watch?v=") != false) {
-                                                        $link = str_replace("watch?v=", "embed/", $link);
-                                                    } else if (strpos($row2['tag_link'], "shorts/") != false) {
-                                                        $link = str_replace("shorts/", "embed/", $link);
+                                                    if (strpos($row2['tag_img'], "youtu.be") != false) {
+                                                        $img = str_replace("youtu.be/", "www.youtube.com/embed/", $img);
+                                                    } else if (strpos($row2['tag_img'], "playlist") != false) {
+                                                        $code = substr($row2['tag_img'], strpos($row2['tag_img'], "playlist") + 14);
+                                                        $img = "https://www.youtube.com/embed/?listType=playlist&list=$code";
+                                                    } else if (strpos($row2['tag_img'], "watch?v=") != false) {
+                                                        $img = str_replace("watch?v=", "embed/", $img);
+                                                    } else if (strpos($row2['tag_img'], "shorts/") != false) {
+                                                        $img = str_replace("shorts/", "embed/", $img);
                                                     }
                                                 }
-                                                if ($pos == false && $pos_img == false) { ?>
+                                                if ($pos) { ?>
+                                                    <div style="background-color: #ffffff;border-radius: 10px;padding-bottom: 2px">
+                                                        <iframe style="width:100%;height:300px;border-radius: 10px;" src="<?= $link ?>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+                                                        </iframe>
+                                                    </div>
+                                                <? } else if ($img == "") { ?>
+                                                    <a href="<?= $link ?>" target="_blank"><?= $link ?></a>
+                                                <? } else if ($link == "") { ?>
+                                                    <img src="<?= $img ?>" style="width:100%">
+                                                <? } else { ?>
+                                                    <img src="<?= $img ?>" style="width:100%" onclick="window.open('<?= $link ?>')">
+                                                <? } ?>
+                                                <?/*else if ($img == "") { ?>
                                                     <a href="<?= $link ?>" target="_blank"><?= cut_str($link, 30) ?></a>
-                                                    <? } else if ($pos_img > 0) {
+                                                <? } else if ($pos_img > 0) {
                                                     if ($meta_img == "") {
                                                         $meta_img = $link; ?>
                                                         <script>
@@ -303,12 +316,7 @@ $url_refer = str_replace("&", "###", $_SERVER['REQUEST_URI']);
                                                     <?  } ?>
                                                     <img src="<?= $link ?>" style="width:100%">
                                                     <!--meta property="og:image" content="<?= $link ?>"-->
-                                                <? } else { ?>
-                                                    <div style="background-color: #ffffff;border-radius: 10px;padding-bottom: 2px">
-                                                        <iframe style="width:100%;height:300px;border-radius: 10px;" src="<?= $link ?>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
-                                                        </iframe>
-                                                    </div>
-                                                <? } ?>
+                                                <? } */ ?>
                                             </div>
                                         </div>
                                 <?  }
