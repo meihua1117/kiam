@@ -187,7 +187,10 @@ if ($_POST['method'] == "create_format") {
         $event_code = $obj->event_code;
         $pcode = $obj->pcode;
         $event_idx = $obj->event_idx;
-        $sql = "update gn_report_form set title='$title',descript='$desc',sign_visible=$sign,reg_date=now(),request_yn = '$req_yn',pcode='$event_idx' where id = $index";
+        $sql = "update gn_report_form set title='$title',descript='$desc',sign_visible=$sign,reg_date=now(),request_yn = '$req_yn'";
+        if($event_idx)
+            $sql .=",pcode='$event_idx'";
+        $sql .= " where id = $index";
         mysqli_query($self_con, $sql);
         $sql = "delete from gn_report_form1 where form_id = $index";
         mysqli_query($self_con, $sql);
