@@ -564,18 +564,6 @@ if ($index != 0) {
                 "</div>" +
                 "</div>";
         } else {
-            /*content = "<div class=\"attr-row\" style=\"margin-top: 5px\">" +
-                "<div class=\"attr-value\">" +
-                "<div class=\"input-wrap\">" +
-                "<textarea class=\"input\" placeholder=\"내용 입력\"  style='height: 200px' value=\"\"></textarea>" +
-                "<div style='display: flex'>" +
-                "<input type=\"text\" name=\"repo_item_value\" class=\"input\" placeholder=\"링크주소 입력 http://\" value=\"\">" +
-                "<input type=\"file\" name=\"repo_item_file\" class=\"input\" style=\"padding:2px;width:33%\" accept=\".jpg,.jpeg,.png,.gif,.svc\" onchange=\"uploadImage(this)\">" +
-                "<input type=\"button\" value=\"삭제\" onclick=\"jesi_del(this)\" class=\"button_delete\">" +
-                "</div>" +
-                "</div>" +
-                "</div>" +
-                "</div>";*/
             content = "<div class=\"attr-row\" style=\"margin-top: 5px\">" +
                 "<div class=\"attr-value\">" +
                 "<div class=\"input-wrap\">" +
@@ -607,7 +595,6 @@ if ($index != 0) {
         jesi_row.empty();
         var content = "";
         if (jesi_type == 0) {
-            //parent.find(".repo_req").hide();
             content = "<div class=\"attr-row\" style=\"margin-top: 5px\">" +
                 "<div class=\"attr-value\">" +
                 "<div class=\"input-wrap\">" +
@@ -623,7 +610,6 @@ if ($index != 0) {
                 "</div>";
             $(".repo_image").hide();
         } else if (jesi_type == 1) {
-            //parent.find(".repo_req").show();
             content = "<div class=\"attr-row\" style=\"margin-top: 5px\">" +
                 "<div class=\"attr-value\">" +
                 "<div class=\"input-wrap\" style=\"display: flex\">" +
@@ -634,7 +620,6 @@ if ($index != 0) {
                 "</div>";
             $(".repo_image").hide();
         } else if (jesi_type == 3) {
-            //parent.find(".repo_req").hide();
             content = "<div class=\"attr-row\" style=\"margin-top: 5px\">" +
                 "<div class=\"attr-value\" style=\"display:block;width:100%\">" +
                 "<div class=\"input-wrap\">" +
@@ -650,19 +635,6 @@ if ($index != 0) {
                 "</div>";
             $(".repo_image").hide();
         } else {
-            //parent.find(".repo_req").show();
-            /*content = "<div class=\"attr-row\" style=\"margin-top: 5px\">" +
-                "<div class=\"attr-value\">" +
-                "<div class=\"input-wrap\">" +
-                "<textarea class=\"input\" placeholder=\"내용 입력\"  style='height: 200px' value=\"\"></textarea>" +
-                "<div style='display: flex'>" +
-                "<input type=\"text\" name=\"repo_item_value\" class=\"input\" placeholder=\"링크주소 입력 http://\" value=\"\">" +
-                "<input type=\"file\" name=\"repo_item_file\" class=\"input\" style=\"padding:2px;width:33%\" accept=\".jpg,.jpeg,.png,.gif,.svc\" onchange=\"uploadImage(this)\">" +
-                "<input type=\"button\" value=\"삭제\" onclick=\"jesi_del(this)\" class=\"button_delete\">" +
-                "</div>" +
-                "</div>" +
-                "</div>" +
-                "</div>";*/
             content = "<div class=\"attr-row\" style=\"margin-top: 5px\">" +
                 "<div class=\"attr-value\">" +
                 "<div class=\"input-wrap\">" +

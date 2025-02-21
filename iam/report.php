@@ -153,12 +153,47 @@ $url_refer = str_replace("&", "###", $_SERVER['REQUEST_URI']);
 
     .ids {
         padding: 16px 20px;
-        border-bottom: 1px solid #ddd;
     }
 
     .ids_radio {
         margin: 0px !important;
         height: 14px !important;
+    }
+
+    .autologin .check:checked~label:before {
+        background-color: #ff0066;
+        border-color: #ff0066;
+    }
+
+    .autologin .check~label:before {
+        content: '';
+        position: absolute;
+        top: 2px;
+        left: 0;
+        width: 18px;
+        height: 18px;
+        background-color: #fff;
+        border: 1px solid #ccc;
+    }
+
+    .autologin .check:checked~label:after {
+        content: '\f00c';
+        position: absolute;
+        top: 2px;
+        left: 2px;
+        color: #fff;
+        font-family: 'Fontawesome';
+        font-size: 13px;
+    }
+
+    .login-button {
+        width: 100%;
+        padding: 12px 0;
+        background-color: #ff0066;
+        border: 0;
+        color: #fff;
+        font-size: 18px !important;
+        font-weight: 500 !important;
     }
 </style>
 <link rel="stylesheet" href="/admin/bootstrap/css/bootstrap.min.css">
@@ -409,6 +444,50 @@ $url_refer = str_replace("&", "###", $_SERVER['REQUEST_URI']);
         </div>
     </div>
 </div>
+<div id="login-modal" class="modal fade" tabindex="-1" role="dialog" style="z-index: 1100;top: 20px;height: 100%;overflow-x: hidden;overflow-y: auto;">
+    <div class="modal-dialog" role="document" style="margin-bottom: 30px;width:330px;max-width : 500px;margin-left:auto;margin-right:auto;">
+        <div class="modal-content" style="margin-right:0px;">
+            <div>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    <img src="/iam/img/menu/icon_close_white.png" class="close" data-dismiss="modal" aria-hidden="true">
+                </button>
+            </div>
+            <div class="modal-title">
+                <div>
+                    <label>로그인 하기</label>
+                </div>
+            </div>
+            <div class="modal-body popup-bottom" style="overflow-y:auto;padding:0px !important">
+                <div class="ids">
+                    <div class="input-wrap">
+                        <input type="text" class="input" style="width: 100%;" placeholder="아이디" name="one_id" id="one_id">
+                    </div>
+                    <div class="input-wrap" style="margin-top: 10px;">
+                        <input type="password" class="input" style="width: 100%;" placeholder="비밀번호" name="one_pwd" id="one_pwd">
+                    </div>
+                    <div class="input-wrap" style="margin-top: 10px;height:44px;">
+                        <div class="autologin" style="float: left;position:relative">
+                            <input type="checkbox" class="check" id="autoLogin" checked style="visibility: hidden;">
+                            <label for="autoLogin" style="margin-left: 5px;">자동로그인</label>
+                        </div>
+                        <div class="utils" style="float: right;">
+                            <a href="#" class="personal">개인정보처리방침</a>
+                        </div>
+                    </div>
+                    <div class="input-wrap" style="margin-top: 20px;">
+                        <input type="button" class="login-button" value="로그인" onclick="login();">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" style="justify-content: center;border-top:none;">
+                <div class="find-info">
+                    <a href="join.php">회원가입</a> |
+                    <a href="search_id.php">아이디/비밀번호 찾기</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <script>
     $("#id").bind("keyup", function() {
         $(this).val($(this).val().toLowerCase());
@@ -418,6 +497,43 @@ $url_refer = str_replace("&", "###", $_SERVER['REQUEST_URI']);
         var new_window = open(location, '_self');
         new_window.close();
         return false;
+    }
+
+    function login() {
+        if ($("#one_id").val() == "") {
+            alert("아이디를 입력해주세요.");
+            $("#one_id").focus();
+        } else if ($("#one_pwd").val() == "") {
+            alert("비밀번호를 입력해주세요.");
+            $("#one_pwd").focus();
+        }
+        $.ajax({
+            type: "POST",
+            url: "/iam/ajax/login.ajax.php",
+            dataType: "json",
+            data: {
+                one_id: $("#one_id").val(),
+                one_pwd: $("#one_pwd").val()
+            },
+            success: function(data) {
+                if(data.result == "success"){
+                    $("#login-modal").modal("hide");
+                    load_userinfo();
+                }else if(data.message == "payment_error"){
+                    window.open("/payment_pop.php?index="+data.code+"&type=user", "notice_pop", "toolbar=yes,scrollbars=yes,resizable=yes,top=200,left=200,width=600,height=350");
+                }else if(data.message == "leave_error"){
+                    alert("탈퇴한 회원아이디입니다.");
+                }else if(data.message == "login_error"){
+                    alert(data.code);
+                }else if(data.message == "login_error_over"){
+                    alert(data.code);
+                    window.location.replace("search_id.php");
+                }
+            },
+            error: function() {
+                alert('로그인 실패');
+            }
+        });
     }
 
     function save_format(repo_id) {
@@ -636,10 +752,11 @@ $url_refer = str_replace("&", "###", $_SERVER['REQUEST_URI']);
                     $('input[name =name]').val(data.card_name);
                     $('input[name =mobile]').val(data.card_phone);
                 } else {
-                    var data = saveRepoDataToLocalStorage();
+                    /*var data = saveRepoDataToLocalStorage();
                     data = CryptoJS.enc.Utf8.parse(data);
                     var ciphertext = CryptoJS.enc.Base64.stringify(data);
-                    location.href = "/m/login.php?refer2=" + '<?= $url_refer ?>' + "///" + ciphertext;
+                    location.href = "/m/login.php?refer2=" + '<?= $url_refer ?>' + "///" + ciphertext;*/
+                    $("#login-modal").modal("show");
                 }
             }
         });
