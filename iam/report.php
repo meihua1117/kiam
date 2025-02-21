@@ -153,6 +153,7 @@ $url_refer = str_replace("&", "###", $_SERVER['REQUEST_URI']);
 
     .ids {
         padding: 16px 20px;
+        border-bottom: 1px solid #ddd;
     }
 
     .ids_radio {
@@ -458,7 +459,7 @@ $url_refer = str_replace("&", "###", $_SERVER['REQUEST_URI']);
                 </div>
             </div>
             <div class="modal-body popup-bottom" style="overflow-y:auto;padding:0px !important">
-                <div class="ids">
+                <div class="ids" style="border-bottom: none;">
                     <div class="input-wrap">
                         <input type="text" class="input" style="width: 100%;" placeholder="아이디" name="one_id" id="one_id">
                     </div>
