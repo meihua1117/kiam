@@ -402,7 +402,7 @@ if ($index != 0) {
                         <section class="input-field" style="margin-top: 10px;">
                             <div class="form-wrap">
                                 <div class="attr-row">
-                                    <div class="attr-name" style="width: 100px">제출방식</div>
+                                    <div class="attr-name" style="width: 100px">제출모드</div>
                                     <div class="attr-value">
                                         <div class="input-wrap">
                                             <input type="radio" name="request_yn" id="request_y" value="Y" <?=$row_form['request_yn'] == "Y" ? "checked" : "" ?>>기본정보형

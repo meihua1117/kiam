@@ -276,7 +276,7 @@ $url_refer = str_replace("&", "###", $_SERVER['REQUEST_URI']);
                                                 <?= $row2['tag_name'] ?>
                                             </div>
                                             <div class="report_item_tag_val">
-                                                <input type="text" class="report_item_input" name="<?= $row2['tag_id'] ?>">
+                                                <input type="text" class="report_item_input" name="<?= $row2['tag_id'] ?>" autocomplete="off">
                                             </div>
                                         </div>
                                     <?  } else if ($row1['item_type'] == 1) { ?>
