@@ -21,7 +21,7 @@ $card_no = bin2hex(openssl_encrypt($card_num, 'AES-128-CBC', hex2bin($apikey), O
 // 검증값 생성
 $hash_value = hash("sha256", $mid.$pay_type.$pay_method.$order_no.$amount.$millis.$apikey);
 
-$card_expiry_ym='2107'; // 2021년 07월
+$card_expiry_ym='2507'; // 2021년 07월
 $user_name='테스터';
 $prodPrice='1000';
 $prodName='상품명';

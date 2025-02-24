@@ -619,18 +619,18 @@ $row = mysqli_fetch_array($sresul_num);
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th class="w200">신청창 자동 삽입</th>
+                                    <th class="w200">제출모드</th>
                                     <td>
                                         <?
                                         $sql = "select event_title from Gn_event where pcode='{$row['pcode']}'";
                                         $eres = mysqli_query($self_con,$sql);
                                         $erow = mysqli_fetch_array($eres);
                                         ?>
-                                        <input type="radio" name="request_yn" id="request_y" value="Y" <?php echo $row['request_yn'] == "Y" ? "checked" : "" ?>>사용
-                                        <input type="radio" name="request_yn" id="request_n" value="N" <?php echo $row['request_yn'] == "N" || $row['request_yn'] == "" ? "checked" : "" ?>>사용 안함
-                                        <input type="text" name="event_title" placeholder="" id="event_title" value="<?= $erow['event_title'] ?>" readonly style="width:100px" />
+                                        <input type="radio" name="request_yn" id="request_y" value="Y" <?= $row['request_yn'] == "Y" ? "checked" : "" ?>>기본정보형
+                                        <input type="radio" name="request_yn" id="request_n" value="N" <?= $row['request_yn'] == "N" || $row['request_yn'] == "" ? "checked" : "" ?>>상세정보형
+                                        <input type="text" class="request" name="event_title" placeholder="" id="event_title" value="<?= $erow['event_title'] ?>" readonly style="width:100px;<?=$row['request_yn'] == "N" || $row['request_yn'] == ""?"":"display:none"?>" />
                                         <input type="hidden" name="pcode" id="pcode" value="<?= $row['pcode'] ?>" />
-                                        <input type="button" value="신청창키워드조회" class="button " id="searchBtn">
+                                        <input type="button" value="조회" class="button request" id="searchBtn" style="<?=$row['request_yn'] == "N" || $row['request_yn'] == ""?"":"display:none"?>">
                                     </td>
                                 </tr>
                                 <? if ($_SESSION['one_member_admin_id'] != "" || $member_1['mem_leb'] == 21 || $member_1['mem_leb'] == 60) { ?>
@@ -837,6 +837,12 @@ $row = mysqli_fetch_array($sresul_num);
                 $('#ir2').val(window.editor2.getData());
             <? } ?>
             $('#sform').submit();
+        });
+        $("input[name=request_yn]").on("change", function() {
+            if($(this).val() == "Y")
+                $(".request").hide();
+            else
+                $(".request").show();
         });
     })
 

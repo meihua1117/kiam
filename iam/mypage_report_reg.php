@@ -205,20 +205,6 @@ if ($index != 0) {
                                         </div>
                                     </div>
                                 </div>
-                                <div class="attr-row">
-                                    <div class="attr-name" style="width: 100px">신청창 자동 삽입</div>
-                                    <div class="attr-value">
-                                        <div class="input-wrap">
-                                            <input type="radio" name="request_yn" id="request_y" value="Y" <?php echo $row_form['request_yn'] == "Y" ? "checked" : "" ?>>사용
-                                            <input type="radio" name="request_yn" id="request_n" value="N" <?php echo $row_form['request_yn'] == "N" || $row_form['request_yn'] == "" ? "checked" : "" ?>>사용 안함
-                                            <input type="text" class="input" name="event_name_eng" placeholder="" id="event_name_eng" value="<?= $erq_row['event_name_eng'] ?>" readonly style="width:100px" />
-                                            <input type="hidden" name="event-idx" id="event-idx" value="<?= $erq_row['event_idx']; ?>" />
-                                            <input type="hidden" name="event_code" id="event_code" value="<?= $erq_row['event_name_eng'] ?>" /><!--event_name_eng-->
-                                            <input type="hidden" name="pcode" id="pcode" value="<?= $erq_row['pcode'] ?>" />
-                                            <input type="button" value="신청창키워드조회" class="button" style="padding: 5px 10px;font-size: 12px" id="searchBtn">
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </section>
                         <section class="input-field repo_format">
@@ -413,6 +399,24 @@ if ($index != 0) {
                             <div id="sign"></div>
                             <textarea name="signatureJSON" id="signatureJSON" style="display: none" readonly=""></textarea>
                         </div>
+                        <section class="input-field" style="margin-top: 10px;">
+                            <div class="form-wrap">
+                                <div class="attr-row">
+                                    <div class="attr-name" style="width: 100px">제출방식</div>
+                                    <div class="attr-value">
+                                        <div class="input-wrap">
+                                            <input type="radio" name="request_yn" id="request_y" value="Y" <?=$row_form['request_yn'] == "Y" ? "checked" : "" ?>>기본정보형
+                                            <input type="radio" name="request_yn" id="request_n" value="N" <?=($row_form['request_yn'] == "N" || $row_form['request_yn'] == "") ? "checked" : "" ?>>상세정보형
+                                            <input type="text" class="input request" name="event_name_eng" placeholder="" id="event_name_eng" value="<?= $erq_row['event_name_eng'] ?>" readonly style="width:100px;<?=($row_form['request_yn'] == "N" || $row_form['request_yn'] == "") ? "":"display:none"?>" />
+                                            <input type="hidden" name="event-idx" id="event-idx" value="<?= $erq_row['event_idx']; ?>" />
+                                            <input type="hidden" name="event_code" id="event_code" value="<?= $erq_row['event_name_eng'] ?>" /><!--event_name_eng-->
+                                            <input type="hidden" name="pcode" id="pcode" value="<?= $erq_row['pcode'] ?>" />
+                                            <input type="button" value="조회" class="button request" style="padding: 5px 10px;font-size: 12px;<?=($row_form['request_yn'] == "N" || $row_form['request_yn'] == "") ? "":"display:none"?>" id="searchBtn">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
                         <div class="button-wrap">
                             <a href="javascript:save_format(<?= $index ?>)" class="button is-pink">저장하기</a>
                             <a href="javascript:location.href='mypage_report.php';" class="button is-grey">목록보기</a>
@@ -442,6 +446,12 @@ if ($index != 0) {
         });
         $('#searchBtn').on("click", function() {
             window.open("/mypage_pop_link_list.php", "event_pop", "toolbar=yes,scrollbars=yes,resizable=yes,top=200,left=200,width=1000,height=1000");
+        });
+        $("input[name=request_yn]").on("change", function() {
+            if($(this).val() == "Y")
+                $(".request").hide();
+            else
+                $(".request").show();
         });
     });
 

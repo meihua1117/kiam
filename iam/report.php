@@ -300,10 +300,9 @@ $url_refer = str_replace("&", "###", $_SERVER['REQUEST_URI']);
                                         if ($row2['tag_name'] != "")
                                             $pre_style = "white-space: pre-line";
                                     ?>
-                                        <div class="report_item_body" style="min-height: 100px">
+                                        <div class="report_item_body" style="min-height: 40px">
                                             <div class="report_item_tag1" style="vertical-align: top;<?= $pre_style ?>;padding:0px;border:none">
                                                 <?= $row2['tag_name'] ?>
-                                                <br>
                                                 <?
                                                 $link = $row2['tag_link'];
                                                 $img = $row2['tag_img'];
@@ -326,13 +325,15 @@ $url_refer = str_replace("&", "###", $_SERVER['REQUEST_URI']);
                                                         <iframe style="width:100%;height:300px;border-radius: 10px;" src="<?= $link ?>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
                                                         </iframe>
                                                     </div>
-                                                <? } else if ($img == "") { ?>
-                                                    <a href="<?= $link ?>" target="_blank"><?= $link ?></a>
-                                                <? } else if ($link == "") { ?>
+                                                    <?  } else if ($img == "") {
+                                                    if ($link) {  ?>
+                                                        <a href="<?= $link ?>" target="_blank"><?= $link ?></a>
+                                                    <?  }
+                                                    } else if ($link == "") { ?>
                                                     <img src="<?= $img ?>" style="width:100%">
-                                                <? } else { ?>
+                                                <?  } else { ?>
                                                     <img src="<?= $img ?>" style="width:100%" onclick="window.open('<?= $link ?>')">
-                                                <? } ?>
+                                                <?  } ?>
                                                 <?/*else if ($img == "") { ?>
                                                     <a href="<?= $link ?>" target="_blank"><?= cut_str($link, 30) ?></a>
                                                 <? } else if ($pos_img > 0) {
@@ -517,16 +518,16 @@ $url_refer = str_replace("&", "###", $_SERVER['REQUEST_URI']);
                 one_pwd: $("#one_pwd").val()
             },
             success: function(data) {
-                if(data.result == "success"){
+                if (data.result == "success") {
                     $("#login-modal").modal("hide");
                     load_userinfo();
-                }else if(data.message == "payment_error"){
-                    window.open("/payment_pop.php?index="+data.code+"&type=user", "notice_pop", "toolbar=yes,scrollbars=yes,resizable=yes,top=200,left=200,width=600,height=350");
-                }else if(data.message == "leave_error"){
+                } else if (data.message == "payment_error") {
+                    window.open("/payment_pop.php?index=" + data.code + "&type=user", "notice_pop", "toolbar=yes,scrollbars=yes,resizable=yes,top=200,left=200,width=600,height=350");
+                } else if (data.message == "leave_error") {
                     alert("탈퇴한 회원아이디입니다.");
-                }else if(data.message == "login_error"){
+                } else if (data.message == "login_error") {
                     alert(data.code);
-                }else if(data.message == "login_error_over"){
+                } else if (data.message == "login_error_over") {
                     alert(data.code);
                     window.location.replace("search_id.php");
                 }
