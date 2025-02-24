@@ -118,7 +118,7 @@ if ($_POST['method'] == "create_format") {
     $event_idx = $obj->event_idx;
     $sql = "insert into gn_report_form set title='$title',descript='$desc',sign_visible=$sign,user_id='{$_SESSION['iam_member_id']}',reg_date=now(),request_yn = '$req_yn'";
     if($event_idx)
-        $sql .= "pcode='$event_idx'";
+        $sql .= ",pcode='$event_idx'";
     mysqli_query($self_con, $sql);
     $repo_id = mysqli_insert_id($self_con);
     $link = "https://" . $HTTP_HOST . "/iam/report.php?repo=$repo_id";
