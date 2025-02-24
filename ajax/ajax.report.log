@@ -1,1 +1,0 @@
-insert into gn_report_form set title='tttt',descript='',sign_visible=0,user_id='kjh1',reg_date=now(),request_yn = 'N',pcode='2'
