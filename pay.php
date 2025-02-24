@@ -77,6 +77,7 @@ if($platform == "mobile"){
         <div style="border:1px solid #ddd;padding:10px;text-align: right;">
             <a href="pay_sprg.php" style="font-weight: 900;">특별정기결제</a>
             <a href="pay_spoc.php" style="margin-left:10px;font-weight: 900;">특별단회결제</a>
+            <a href="pay_welcome.php" style="margin-left:10px;font-weight: 900;">특별할부결제</a>
         </div>
         <!--div style= "display:flex;border:1px solid #ddd;padding:10px;justify-content: space-between;" onclick="activeTab(1)">
             <div style="margin-top:10px;margin-left:10px">

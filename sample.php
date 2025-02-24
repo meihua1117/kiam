@@ -5,15 +5,15 @@ function current_millis() {
     return round(((float)$usec + (float)$sec) * 1000);
 }
 
-$mid = '상점MID';
+$mid = 'M2587703';
 $pay_type = 'CREDIT_CARD';
 $pay_method = 'CREDIT_UNAUTH_API'; // 비인증: CREDIT_UNAUTH_API, 구인증: CREDIT_OLDAUTH_API
 $order_no = '상점의고유주문번호'; // 중복되면 안됩니다. 영문숫자로 구성 공백 및 특수문자 사용금지
 $amount = '1000';
 $millis = current_millis();
 $card_num = '1111222233334444'; // 승인되지 않는 번호입니다. 실제 승인테스트할 카드번호로 변경해주세요.
-$apikey = "API키 입력";
-$iv = "IV 값 입력";
+$apikey = "fa5159287186f86d2e76ccd007830776";
+$iv = "cac9dfa1320c22055cac9f8b5ac3aa0b";
 
 // 카드번호 암호화
 $card_no = bin2hex(openssl_encrypt($card_num, 'AES-128-CBC', hex2bin($apikey), OPENSSL_RAW_DATA,hex2bin($iv)));
