@@ -408,8 +408,7 @@ if ($post_type == "creat") {
                                   '$req_provide',
                                   '$deliver_id_code',";
                     }
-                    $sql2 .= " '$group_display'
-                                              )";
+                    $sql2 .= " '$group_display')";
                     $result2 = mysqli_query($self_con,$sql2) or die(mysqli_error($self_con));
                     $content_idx = mysqli_insert_id($self_con);
                     $sql2 = "insert into Gn_Iam_Con_Card set cont_idx=$content_idx,card_idx={$row_share_new['idx']},main_card={$row_share_new['idx']}";

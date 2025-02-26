@@ -405,13 +405,13 @@ if ($index != 0) {
                                     <div class="attr-name" style="width: 100px">제출모드</div>
                                     <div class="attr-value">
                                         <div class="input-wrap">
-                                            <input type="radio" name="request_yn" id="request_y" value="Y" <?=$row_form['request_yn'] == "Y" ? "checked" : "" ?>>기본정보형
-                                            <input type="radio" name="request_yn" id="request_n" value="N" <?=($row_form['request_yn'] == "N" || $row_form['request_yn'] == "") ? "checked" : "" ?>>상세정보형
-                                            <input type="text" class="input request" name="event_name_eng" placeholder="" id="event_name_eng" value="<?= $erq_row['event_name_eng'] ?>" readonly style="width:100px;<?=($row_form['request_yn'] == "N" || $row_form['request_yn'] == "") ? "":"display:none"?>" />
+                                            <input type="radio" name="request_yn" id="request_n" value="N" <?=($row_form['request_yn'] == "N" || $row_form['request_yn'] == "")? "checked" : "" ?>>기본정보형
+                                            <input type="radio" name="request_yn" id="request_y" value="Y" <?=$row_form['request_yn'] == "Y" ? "checked" : "" ?>>상세정보형
+                                            <input type="text" class="input request" name="event_name_eng" placeholder="" id="event_name_eng" value="<?= $erq_row['event_name_eng'] ?>" readonly style="width:100px;<?=($row_form['request_yn'] == "N" || $row_form['request_yn'] == "") ? "display:none":""?>" />
                                             <input type="hidden" name="event-idx" id="event-idx" value="<?= $erq_row['event_idx']; ?>" />
                                             <input type="hidden" name="event_code" id="event_code" value="<?= $erq_row['event_name_eng'] ?>" /><!--event_name_eng-->
                                             <input type="hidden" name="pcode" id="pcode" value="<?= $erq_row['pcode'] ?>" />
-                                            <input type="button" value="조회" class="button request" style="padding: 5px 10px;font-size: 12px;<?=($row_form['request_yn'] == "N" || $row_form['request_yn'] == "") ? "":"display:none"?>" id="searchBtn">
+                                            <input type="button" value="조회" class="button request" style="padding: 5px 10px;font-size: 12px;<?=($row_form['request_yn'] == "N" || $row_form['request_yn'] == "") ? "display:none":""?>" id="searchBtn">
                                         </div>
                                     </div>
                                 </div>
@@ -448,7 +448,7 @@ if ($index != 0) {
             window.open("/mypage_pop_link_list.php", "event_pop", "toolbar=yes,scrollbars=yes,resizable=yes,top=200,left=200,width=1000,height=1000");
         });
         $("input[name=request_yn]").on("change", function() {
-            if($(this).val() == "Y")
+            if($(this).val() == "N")
                 $(".request").hide();
             else
                 $(".request").show();

@@ -6481,7 +6481,8 @@ function encodeKorean($matches)
                         del: 'Y'
                     },
                     success: function(data) {
-                        AppScript.setClearCache();
+                        if (checkMobile())
+                            AppScript.setClearCache();
                         alert('삭제되었습니다.');
                         $("#paper_list_" + id).remove();
                         if ($(".paper_list").length == 0) {
@@ -10524,7 +10525,10 @@ function encodeKorean($matches)
                         }, 100);
                         $("#tutorial-loading").show();
                     <? } else { ?>
-                        location.reload();
+                        if (checkMobile())
+                            AppScript.setClearCache();
+                        else
+                            location.reload();
                     <? } ?>
                 }
             });
@@ -13233,7 +13237,10 @@ function encodeKorean($matches)
                             if (req_provide == 'Y') {
                                 location.href = "/iam/req_provider_list.php";
                             } else {
-                                location.reload();
+                                if (checkMobile())
+                                    AppScript.setClearCache();
+                                else
+                                    location.reload();
                             }
                         },
                         error: function(request, status, error) {

@@ -138,11 +138,7 @@ $data = mysqli_fetch_array($sresul_num);
               $intPageCount = (int)(($intRowCount + $intPageSize - 1) / $intPageSize);
               $sql = "select * from Gn_event where $sql_serch order by $order_name $order_status limit $int,$intPageSize";
               $result = mysqli_query($self_con,$sql) or die(mysqli_error($self_con));
-            ?>
-              <?
-              while ($row = mysqli_fetch_array($result)) {
-
-              ?>
+              while ($row = mysqli_fetch_array($result)) {?>
                 <tr>
                   <td><?= $sort_no ?></td>
                   <td style="font-size:12px;"><?= $row['event_name_eng'] ?></td>
