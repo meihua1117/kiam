@@ -16,18 +16,26 @@ if (isset($_GET['event_idx'])) {
 } else {
     $row['reserv_type'] = $member_1['ai_status'];
 }
-
-$sql = "select reservation_title from Gn_event_sms_info where sms_idx='{$row['sms_idx1']}'";
+if($row['reserv_type'])
+    $sql = "select reservation_title from Gn_aievent_ms_info where sms_idx='{$row['sms_idx1']}'";
+else
+    $sql = "select reservation_title from Gn_event_sms_info where sms_idx='{$row['sms_idx1']}'";
 $sms_res = mysqli_query($self_con, $sql);
 $sms_info = mysqli_fetch_array($sms_res);
 $reservation_title1 = $sms_info[0];
 
-$sql = "select reservation_title from Gn_event_sms_info where sms_idx='{$row['sms_idx2']}'";
+if($row['reserv_type'])
+    $sql = "select reservation_title from Gn_aievent_ms_info where sms_idx='{$row['sms_idx2']}'";
+else
+    $sql = "select reservation_title from Gn_event_sms_info where sms_idx='{$row['sms_idx2']}'";
 $sms_res = mysqli_query($self_con, $sql);
 $sms_info = mysqli_fetch_array($sms_res);
 $reservation_title2 = $sms_info[0];
 
-$sql = "select reservation_title from Gn_event_sms_info where sms_idx='{$row['sms_idx3']}'";
+if($row['reserv_type'])
+    $sql = "select reservation_title from Gn_aievent_ms_info where sms_idx='{$row['sms_idx3']}'";
+else
+    $sql = "select reservation_title from Gn_event_sms_info where sms_idx='{$row['sms_idx3']}'";
 $sms_res = mysqli_query($self_con, $sql);
 $sms_info = mysqli_fetch_array($sms_res);
 $reservation_title3 = $sms_info[0];
