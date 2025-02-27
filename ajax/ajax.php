@@ -20,9 +20,9 @@ if($_POST['id_che']){
 		$search = "";
 	}
     $sql="select mem_id from Gn_Member where mem_id='$id_che'".$search;
-	fwrite($fp,$sql);
-    $resul=mysqli_query($self_con,$sql);
+	$resul=mysqli_query($self_con,$sql);
     $row=mysqli_fetch_array($resul);
+	fwrite($fp,$sql);
     if($row['mem_id']){?>
     <script language="javascript">
 		alert('이미 가입되어있는 아이디입니다.');
