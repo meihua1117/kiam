@@ -9,10 +9,8 @@ if (!$_SESSION['one_member_id']) {
 <?
     exit;
 }
-$sql = "SELECT * FROM Gn_Member  WHERE mem_id='{$_SESSION['one_member_id']}'";
-$sresul_num = mysqli_query($self_con, $sql);
-$data = mysqli_fetch_array($sresul_num);
-$mem_phone = str_replace("-", "", $data['mem_phone']);
+if(!isset($_GET['reserv_type']))
+    $_GET['reserv_type'] = $member_1['ai_status'];
 ?>
 <script>
     function copyHtml() {
@@ -32,7 +30,17 @@ $mem_phone = str_replace("-", "", $data['mem_phone']);
                 centered: true,
                 onLoad: function() {}
             });
-        })
+        });
+        $("#reserv_type").on("change", function() {
+			let reserv_type = $(this).val();
+			let params = new URLSearchParams(window.location.search);
+			if (reserv_type) {
+				params.set("reserv_type", reserv_type);
+				window.location.search = params.toString();
+			} else {
+				window.location.href = window.location.pathname;
+			}
+		});
     });
 </script>
 <style>
@@ -86,7 +94,6 @@ $mem_phone = str_replace("-", "", $data['mem_phone']);
 </style>
 <div class="big_div">
     <div class="big_sub">
-        <?php //include "mypage_step_navi.php"; ?>
         <div class="m_div">
             <?php include "mypage_left_menu.php"; ?>
             <div class="m_body">
@@ -95,12 +102,18 @@ $mem_phone = str_replace("-", "", $data['mem_phone']);
                     <input type="hidden" name="page2" value="<?= $page2 ?>" />
                     <div class="a1" style="margin-top:50px; margin-bottom:15px">
                         <li style="float:left;">
-                            <div class="popup_holder popup_text">고객관리 리스트
+                            <div class="popup_holder popup_text" style="margin-top: 7px;margin-right:10px">고객관리 리스트
                                 <div class="popupbox" style="height: 56px;width: 215px;left: 180px;top: -37px;display:none">이벤트 신청그룹창을 통해 신청한 고객데이터를 조회하는 기능입니다.<br><br>
                                     <a class="detail_view" style="color: blue;" href="https://tinyurl.com/bddum95m" target="_blank">[자세히 보기]</a>
                                 </div>
                             </div>
                         </li>
+                        <? if ($member_1['ai_status']) { ?>
+                            <select name="reserv_type" id="reserv_type" class="select">
+                                <option value="1" <? if ($_GET['reserv_type'] == 1) echo "selected" ?>>AI</option>
+                                <option value="0" <? if ($_GET['reserv_type'] == 0) echo "selected" ?>>수동</option>
+                            </select>
+                        <? } ?>
                         <li style="float:right;"></li>
                         <p style="clear:both"></p>
                     </div>
@@ -146,6 +159,7 @@ $mem_phone = str_replace("-", "", $data['mem_phone']);
                                 <tr>
                                     <td style="width:2%;"><input type="checkbox" name="allChk" id="allChk" value="<?php echo $row['event_idx']; ?>"></td>
                                     <td style="width:5%;">No</td>
+                                    <td style="width:5%;">구분</td>
                                     <td style="width:7%;">신청자<br>[보기]</td>
                                     <td style="width:9%;">신청자<br>폰번호</td>
                                     <td style="width:9%;">신청창제목</td>
@@ -173,14 +187,14 @@ $mem_phone = str_replace("-", "", $data['mem_phone']);
                                     if ($_REQUEST['search_key'] == "name" || $_REQUEST['search_key'] == "mobile") {
                                         $sql_serch .= " AND " . $_REQUEST['search_key'] . " like '%$search_text%'";
                                     } else if ($_REQUEST['search_key'] == "title") {
-                                        $serch_event_sql = "SELECT GROUP_CONCAT(event_idx) AS event_idxs FROM Gn_event WHERE event_title like '%{$_REQUEST['search_text']}%'";
+                                        $serch_event_sql = "SELECT GROUP_CONCAT(event_idx) AS event_idxs FROM Gn_event WHERE reserv_type = {$_GET['reserv_type']} AND event_title like '%{$_REQUEST['search_text']}%'";
                                         $serch_event_res = mysqli_query($self_con, $serch_event_sql);
                                         $serch_event_row = mysqli_fetch_assoc($serch_event_res);
                                         $event_ids = explode(",", $serch_event_row["event_idxs"]);
                                         $event_ids = implode("','", $event_ids);
                                         $sql_serch .= " AND event_idx in ('{$event_ids}')";
                                     } else if ($_REQUEST['search_key'] == "recv") {
-                                        $serch_event_sql = "SELECT GROUP_CONCAT(event_idx) AS event_idxs FROM Gn_event WHERE mobile like '%{$_REQUEST['search_text']}%'";
+                                        $serch_event_sql = "SELECT GROUP_CONCAT(event_idx) AS event_idxs FROM Gn_event WHERE reserv_type = {$_GET['reserv_type']} AND mobile like '%{$_REQUEST['search_text']}%'";
                                         $serch_event_res = mysqli_query($self_con, $serch_event_sql);
                                         $serch_event_row = mysqli_fetch_assoc($serch_event_res);
                                         $event_ids = explode(",", $serch_event_row["event_idxs"]);
@@ -192,8 +206,12 @@ $mem_phone = str_replace("-", "", $data['mem_phone']);
                                     $sp = $_REQUEST['sp'];
                                     $sql_serch .= " AND sp ='{$sp}'";
                                 }
+                                
+                                if($_GET['reserv_type'] == 0)
+                                    $sql = "SELECT count(request_idx) as cnt FROM Gn_event_request WHERE $sql_serch ";
+                                else if($_GET['reserv_type'] == 1)
+                                    $sql = "SELECT count(request_idx) as cnt FROM Gn_aievent_request WHERE $sql_serch ";
 
-                                $sql = "SELECT count(request_idx) as cnt FROM Gn_event_request WHERE $sql_serch ";
                                 $result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
                                 $row = mysqli_fetch_array($result);
                                 $intRowCount = $row['cnt'];
@@ -223,8 +241,11 @@ $mem_phone = str_replace("-", "", $data['mem_phone']);
                                     $order_name = "request_idx";
                                 $intPageCount = (int)(($intRowCount + $intPageSize - 1) / $intPageSize);
                                 if ($intRowCount) {
-                                    $sql = "SELECT * FROM Gn_event_request WHERE $sql_serch order by $order_name $order_status limit $int,$intPageSize";
-                                    $excel_sql = "SELECT * FROM Gn_event_request WHERE $sql_serch order by $order_name $order_status";
+                                    if($_GET['reserv_type'] == 1)
+                                        $excel_sql = "SELECT * FROM Gn_aievent_request WHERE $sql_serch order by $order_name $order_status";
+                                    else if($_GET['reserv_type'] == 0)
+                                        $excel_sql = "SELECT * FROM Gn_event_request WHERE $sql_serch order by $order_name $order_status";
+                                    $sql  = $excel_sql." limit $int,$intPageSize";
                                     $excel_sql = str_replace("'", "`", $excel_sql);
                                     $result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
                                     while ($row = mysqli_fetch_array($result)) {
@@ -239,8 +260,9 @@ $mem_phone = str_replace("-", "", $data['mem_phone']);
                                         }
                                 ?>
                                         <tr>
-                                            <td><input type="checkbox" class="check" name="event_idx" value="<?= $row['request_idx']; ?>" data-name="<?= $row['name'] ?>" data-mobile="<?= $row['mobile'] ?>" data-email="<?= $row['email'] ?>" data-job="<?= $row['job'] ?>" data-event_code="<?= $row['event_code'] ?>" data-counsult_date="<?= $row['counsult_date'] ?>" data-sp="<?= $row['sp'] ?>" data-request_idx="<?=$row['request_idx']; ?>"></td>
+                                            <td><input type="checkbox" class="check" name="event_idx" value="<?= $row['request_idx']; ?>" data-name="<?= $row['name'] ?>" data-mobile="<?= $row['mobile'] ?>" data-email="<?= $row['email'] ?>" data-job="<?= $row['job'] ?>" data-event_code="<?= $row['event_code'] ?>" data-counsult_date="<?= $row['counsult_date'] ?>" data-sp="<?= $row['sp'] ?>" data-request_idx="<?= $row['request_idx']; ?>"></td>
                                             <td><?= $sort_no ?></td>
+                                            <td><?= $_GET['reserv_type'] == 1 ? "AI" : "수동" ?></td>
                                             <td style="font-size:12px;"><?= $row['name'] ?><br>
                                                 <a onclick="window.open('mypage_pop_activity_list.php?request_idx='+'<?= $row['request_idx'] ?>','','top=300,left=300,width=800,height=500,toolbar=no,menubar=no,scrollbars=yes, resizable=yes,location=no, status=no')">[보기]</a>
                                             </td>
@@ -250,10 +272,17 @@ $mem_phone = str_replace("-", "", $data['mem_phone']);
                                             <td>
                                                 <?
                                                 if ($row_event_data['sms_idx1'] != 0) {
-                                                    $sql = "SELECT reservation_title FROM Gn_event_sms_info WHERE sms_idx='{$row_event_data['sms_idx1']}'";
+                                                    if($_GET['reserv_type'] == 1)
+                                                        $sql = "SELECT reservation_title FROM Gn_aievent_ms_info WHERE sms_idx='{$row_event_data['sms_idx1']}'";
+                                                    else
+                                                        $sql = "SELECT reservation_title FROM Gn_event_sms_info WHERE sms_idx='{$row_event_data['sms_idx1']}'";
                                                     $res = mysqli_query($self_con, $sql);
                                                     $sms_row = mysqli_fetch_array($res);
-                                                    $sql = "SELECT count(*) FROM Gn_event_sms_step_info WHERE sms_idx='{$row_event_data['sms_idx1']}'";
+
+                                                    if($_GET['reserv_type'] == 1)
+                                                        $sql = "SELECT count(*) FROM Gn_aievent_message WHERE sms_idx='{$row_event_data['sms_idx1']}'";
+                                                    else
+                                                        $sql = "SELECT count(*) FROM Gn_event_sms_step_info WHERE sms_idx='{$row_event_data['sms_idx1']}'";
                                                     $res = mysqli_query($self_con, $sql);
                                                     $step_row = mysqli_fetch_array($res);
                                                     $sql = "SELECT count(*) FROM Gn_MMS WHERE sms_idx='{$row_event_data['sms_idx1']}' AND request_idx='{$row['request_idx']}' AND result=0";

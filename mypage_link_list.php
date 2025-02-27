@@ -302,7 +302,10 @@ extract($_POST);
 									$excel_sql = str_replace("'", "`", $excel_sql);
 									$result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
 									while ($row = mysqli_fetch_array($result)) {
-										$sql_event = "SELECT count(*) as cnt FROM Gn_event_request WHERE m_id ='{$_SESSION['one_member_id']}' and event_idx='{$row['event_idx']}' ";
+										if ($row['reserv_type'] == 0)
+											$sql_event = "SELECT count(*) as cnt FROM Gn_event_request WHERE m_id ='{$_SESSION['one_member_id']}' and event_idx='{$row['event_idx']}' ";
+										else
+											$sql_event = "SELECT count(*) as cnt FROM Gn_aievent_request WHERE m_id ='{$_SESSION['one_member_id']}' and event_idx='{$row['event_idx']}' ";
 										$res_event = mysqli_query($self_con, $sql_event);
 										$row_event = mysqli_fetch_assoc($res_event);
 										$req_count = $row_event['cnt'];
@@ -315,11 +318,19 @@ extract($_POST);
 											<td><?= $row['mobile'] ?></td>
 											<td>
 												<?
+												if ($row['reserv_type'] == 0){
+													$sms_table = "Gn_event_sms_info";
+													$sms_step_table = "Gn_event_sms_step_info";	
+												}else{
+													$sms_table = "Gn_aievent_ms_info";
+													$sms_step_table = "Gn_aievent_message";	
+												}
+													
 												if ($row['sms_idx1'] != 0) {
-													$sql = "SELECT reservation_title FROM Gn_event_sms_info WHERE sms_idx='{$row['sms_idx1']}'";
+													$sql = "SELECT reservation_title FROM {$sms_table} WHERE sms_idx='{$row['sms_idx1']}'";
 													$res = mysqli_query($self_con, $sql);
 													$sms_row = mysqli_fetch_array($res);
-													$sql = "SELECT count(*) FROM Gn_event_sms_step_info WHERE sms_idx='{$row['sms_idx1']}'";
+													$sql = "SELECT count(*) FROM {$sms_step_table} WHERE sms_idx='{$row['sms_idx1']}'";
 													$res = mysqli_query($self_con, $sql);
 													$step_row = mysqli_fetch_array($res);
 													$sql = "SELECT count(idx) FROM Gn_MMS WHERE sms_idx='{$row['sms_idx1']}' AND result=0";
@@ -329,10 +340,10 @@ extract($_POST);
 												}
 												if ($row['sms_idx2'] != 0) {
 													echo "<br>";
-													$sql = "SELECT reservation_title FROM Gn_event_sms_info WHERE sms_idx='{$row['sms_idx2']}'";
+													$sql = "SELECT reservation_title FROM {$sms_table} WHERE sms_idx='{$row['sms_idx2']}'";
 													$res = mysqli_query($self_con, $sql);
 													$sms_row = mysqli_fetch_array($res);
-													$sql = "SELECT count(*) FROM Gn_event_sms_step_info WHERE sms_idx='{$row['sms_idx2']}'";
+													$sql = "SELECT count(*) FROM {$sms_step_table} WHERE sms_idx='{$row['sms_idx2']}'";
 													$res = mysqli_query($self_con, $sql);
 													$step_row = mysqli_fetch_array($res);
 													$sql = "SELECT count(idx) FROM Gn_MMS WHERE sms_idx='{$row['sms_idx2']}' AND result=0";
@@ -342,10 +353,10 @@ extract($_POST);
 												}
 												if ($row['sms_idx3'] != 0) {
 													echo "<br>";
-													$sql = "SELECT reservation_title FROM Gn_event_sms_info WHERE sms_idx='{$row['sms_idx3']}'";
+													$sql = "SELECT reservation_title FROM {$sms_table} WHERE sms_idx='{$row['sms_idx3']}'";
 													$res = mysqli_query($self_con, $sql);
 													$sms_row = mysqli_fetch_array($res);
-													$sql = "SELECT count(*) FROM Gn_event_sms_step_info WHERE sms_idx='{$row['sms_idx3']}'";
+													$sql = "SELECT count(*) FROM {$sms_step_table} WHERE sms_idx='{$row['sms_idx3']}'";
 													$res = mysqli_query($self_con, $sql);
 													$step_row = mysqli_fetch_array($res);
 													$sql = "SELECT count(idx) FROM Gn_MMS WHERE sms_idx='{$row['sms_idx3']}' AND result=0";
@@ -387,8 +398,8 @@ extract($_POST);
 											<td><?= $row['read_cnt'] . "회 / " ?><a style="cursor:pointer" onclick="window.open('mypage_pop_member_list.php?eventid='+'<?= $row['event_idx'] ?>','','top=300,left=300,width=800,height=500,toolbar=no,menubar=no,scrollbars=yes, resizable=yes,location=no, status=no')"><?= $req_count ?>건</a></td>
 											<td><?= $row['regdate'] ?></td>
 											<td>
-												<a href='mypage_link_write.php?event_idx=<?php echo $row['event_idx']; ?>'>수정</a>/
-												<a href="javascript:;;" onclick="deleteRow('<?php echo $row['event_idx']; ?>')">삭제</a>
+												<a href='mypage_link_write.php?event_idx=<?=$row['event_idx']; ?>'>수정</a>/
+												<a href="javascript:;;" onclick="deleteRow('<?=$row['event_idx']; ?>')">삭제</a>
 											</td>
 										</tr>
 									<?

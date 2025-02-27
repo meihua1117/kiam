@@ -546,12 +546,18 @@ if ($_POST['mode'] == "speech") {
 
 			sendmms(1, $mem_id, $send_num, $recv_num, "", $stitle, $scontent, "", "", "", "Y");
 
-			$sql = "SELECT sms_idx FROM Gn_event_sms_info WHERE sms_idx='{$step_idx1}' or sms_idx='{$step_idx2}' or sms_idx='{$step_idx3}'";
+			if ($event_data['reserv_type']) 
+				$sql = "SELECT sms_idx FROM Gn_aievent_ms_info WHERE sms_idx='{$step_idx1}' or sms_idx='{$step_idx2}' or sms_idx='{$step_idx3}'";
+			else
+				$sql = "SELECT sms_idx FROM Gn_event_sms_info WHERE sms_idx='{$step_idx1}' or sms_idx='{$step_idx2}' or sms_idx='{$step_idx3}'";
 			$lresult = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
 			while ($lrow = mysqli_fetch_array($lresult)) {
 				$sms_idx = $lrow['sms_idx'];
 				//알람등록
-				$sql = "SELECT * FROM Gn_event_sms_step_info WHERE sms_idx='{$sms_idx}'";
+				if ($event_data['reserv_type']) 
+					$sql = "SELECT * FROM Gn_aievent_message WHERE sms_idx='{$sms_idx}'";
+				else
+					$sql = "SELECT * FROM Gn_event_sms_step_info WHERE sms_idx='{$sms_idx}'";
 				$result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
 				$step_end_time = date("Y-m-d H:i:s");
 				while ($row = mysqli_fetch_array($result)) {
@@ -594,7 +600,10 @@ if ($_POST['mode'] == "speech") {
 							$step_end_time = $reservation;
 					}
 				}
-				$sql = "UPDATE Gn_event_request SET step_end_time='{$step_end_time}' WHERE request_idx = {$request_idx}";
+				if ($event_data['reserv_type'])
+					$sql = "UPDATE Gn_aievent_request SET step_end_time='{$step_end_time}' WHERE request_idx = {$request_idx}";
+				else
+					$sql = "UPDATE Gn_event_request SET step_end_time='{$step_end_time}' WHERE request_idx = {$request_idx}";
 				mysqli_query($self_con, $sql);
 			}
 			//중단예약처리를 진행한다.
@@ -608,7 +617,10 @@ if ($_POST['mode'] == "speech") {
 				$cnt_row = mysqli_fetch_array($cnt_res);
 				if ($cnt_row[0] > 0) {
 					//중단정보테이블에 해당 값을 저장한다.
-					$query = "INSERT INTO Gn_event_sms_step_info SET event_idx='{$stop_event_idx}', mobile='{$recv_num}'";
+					if ($event_data['reserv_type'])
+						$query = "INSERT INTO Gn_aievent_message SET event_idx='{$stop_event_idx}', mobile='{$recv_num}'";
+					else
+						$query = "INSERT INTO Gn_event_sms_step_info SET event_idx='{$stop_event_idx}', mobile='{$recv_num}'";
 					mysqli_query($self_con, $query);
 
 					//문자테이블에서 해당 예약을 삭제한다.
@@ -820,7 +832,7 @@ if ($_POST['mode'] == "speech") {
 				document.getElementById('id_html').innerHTML = '';
 			$.ajax({
 				type: "POST",
-				url: "../ajax/ajax.php",
+				url: "/ajax/ajax.php",
 				data: {
 					id_che: frm.id.value,
 					id_che_form: frm_str
@@ -1684,7 +1696,7 @@ if ($_POST['mode'] == "speech") {
 												<div class="attr-value"><?= "(pdf,csv,jpg,png,txt,json,xlsx 파일 " . $event_data['file_cnt'] . "개까지 업로드 가능)" ?></div>
 											</div>
 											<? for ($i = 1; $i <= $event_data['file_cnt']; $i++) { ?>
-												<div class="attr-row is-account ai" style="display: none;" id="<?= 'ai_file_div' . $i ?>">
+												<div class="attr-row is-account ai" id="<?= 'ai_file_div' . $i ?>">
 													<div style="display: flex;justify-content: center;">
 														<span style="margin-right: 10px;"><?= "파일" . $i ?></span>
 														<input type="file" id="<?= 'ai_file' . $i ?>" name="<?= 'ai_file' . $i ?>" accept=".jpg,.jpeg,.png,.csv,.pdf,.txt,.json,.xlsx">
@@ -2108,8 +2120,7 @@ if ($_POST['mode'] == "speech") {
 					}
 				})
 			}
-		</script>
-		<script language="javascript">
+		
 			function checkUrl() {
 				if ($('#store_address').val() == "") {
 					alert('샵계정을 입력해주세요');
