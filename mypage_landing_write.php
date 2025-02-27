@@ -11,9 +11,8 @@ if (!$_SESSION['one_member_id']) {
     exit;
 }
 $sql = "select * from Gn_landing  where landing_idx='{$landing_idx}'";
-$sresul_num = mysqli_query($self_con,$sql);
+$sresul_num = mysqli_query($self_con, $sql);
 $row = mysqli_fetch_array($sresul_num);
-//clean code 22-01-19
 ?>
 <script>
     function copyHtml() {
@@ -559,7 +558,8 @@ $row = mysqli_fetch_array($sresul_num);
 <link rel="stylesheet" type="text/css" href="/ckeditor5/build/styles.css">
 <div class="big_div">
     <div class="big_sub">
-        <?// include "mypage_step_navi.php"; ?>
+        <? // include "mypage_step_navi.php"; 
+        ?>
         <div class="m_div">
             <? include "mypage_left_menu.php"; ?>
             <div class="m_body">
@@ -623,7 +623,7 @@ $row = mysqli_fetch_array($sresul_num);
                                     <td>
                                         <?
                                         $sql = "select event_title from Gn_event where pcode='{$row['pcode']}'";
-                                        $eres = mysqli_query($self_con,$sql);
+                                        $eres = mysqli_query($self_con, $sql);
                                         $erow = mysqli_fetch_array($eres);
                                         ?>
                                         <input type="radio" name="request_yn" id="request_y" value="Y" <?= $row['request_yn'] == "Y" ? "checked" : "" ?>>사용

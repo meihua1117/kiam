@@ -190,20 +190,6 @@ if ($mode == "land_save") {
     echo "<script>alert('삭제되었습니다.');location='mypage_event_list.php';</script>";
     exit;
 } else if ($mode == "event_save") {
-    /*$sql="SELECT * FROM Gn_event WHERE event_name_eng='{$event_name_eng}'";
-    $eresult=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));                                   
-    $erow = mysqli_fetch_array($eresult);               
-    if($erow['event_idx'] != "") {
-        echo "<script>alert('중복되는 이벤트 코드가 있습니다.');location='mypage_link_list.php';</script>";
-        exit;
-    }
-    $sql="SELECT * FROM Gn_event WHERE pcode='{$pcode}'";
-    $eresult=mysqli_query($self_con,$sql) or die(mysqli_error($self_con));                                   
-    $erow = mysqli_fetch_array($eresult);               
-    if($erow['event_idx'] != "") {
-        echo "<script>alert('중복되는 신청경로가 있습니다.');location='mypage_link_list.php';</script>";
-        exit;
-    }*/
     if ($_POST['event_info'] != "")
         $event_info = implode(",", $_POST['event_info']);
     else
@@ -412,7 +398,67 @@ if ($mode == "land_save") {
                                      m_id='{$_SESSION['one_member_id']}'
                                      $fquery
                                WHERE sms_idx='{$sms_idx}'";
-        $result = mysqli_query($self_con, $sql);
+        $result = mysql_query($sql);
+
+
+        ///////////////////////////////////////////////////////////////////Generate and save ai message///////////////////////////////////////////////////////////////////////////
+        
+        $url = "http://112.170.57.176:8080/get_ai_story.php";
+        $data = array(
+            'prompt' => $ai_prompt,
+            'profile' => '',
+            'round' => $ai_step
+        );
+        
+        // URL-encoded 쿼리 문자열로 변환
+        $postFields = $data;
+    
+        // cURL 세션 초기화
+        $ch = curl_init($url);
+    
+        // cURL 옵션 설정
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POST, true);
+        //curl_setopt($ch, CURLOPT_TIMEOUT, 300000);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $postFields);
+        
+        // 요청 실행 및 응답 받기
+        $response = curl_exec($ch);
+        
+        // 오류 체크
+        if (curl_errno($ch)) {
+            //echo 'cURL error: ' . curl_error($ch);
+            return "";
+        } 
+        // cURL 세션 닫기
+        curl_close($ch); 
+        $filter_response = str_replace("'", " ", $response);
+        $array_ai_data = explode('/////', $filter_response);
+        
+        try {
+            $step = 1;
+            
+            foreach($array_ai_data as $ai_message){
+                $sql_ai_text = "INSERT INTO gn_aievent_message SET sms_idx='{$sms_idx}',
+                                         step='{$step}',
+                                         title='{$reservation_title}',
+                                         content='{$ai_message}',
+                                         send_day='{$ai_day}',
+                                         send_time='{$ai_hour}',
+                                         regdate=NOW()";
+                
+                
+                mysql_query($sql_ai_text);
+                $step++; 
+    
+            }
+            
+        } catch (Exception $ex) {
+            //echo $ex;
+        }
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
         if ($mb_id_copy != "") {
             $sql_chk = "SELECT count(sms_detail_idx) as cnt FROM Gn_aievent_message WHERE sms_idx={$sms_idx}";

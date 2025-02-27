@@ -129,11 +129,10 @@ $date_today = date("Y-m-d");
                             <div class="input-group">
                                 <div class="form-group">
                                     <select name="search_type" class="form-control input-sm " style="margin-right:5px">
-                                        <option value="a" <? echo $search_type == 'a' || $search_type == '' ? "selected" : "" ?>>전체</option>
-                                        <!--option value="m.mem_name" <? echo $search_type == 'm.mem_name' ? "selected" : "" ?>>이름</option-->
-                                        <option value="r.user_id" <? echo $search_type == 'r.user_id' ? "selected" : "" ?>>아이디</option>
-                                        <option value="r.title" <? echo $search_type == 'r.title' ? "selected" : "" ?>>타이틀</option>
-                                        <option value="r.descript" <? echo $search_type == 'r.descript' ? "selected" : "" ?>>설명글</option>
+                                        <option value="a" <?= $search_type == 'a' || $search_type == '' ? "selected" : "" ?>>전체</option>
+                                        <option value="r.user_id" <?= $search_type == 'r.user_id' ? "selected" : "" ?>>아이디</option>
+                                        <option value="r.title" <?= $search_type == 'r.title' ? "selected" : "" ?>>타이틀</option>
+                                        <option value="r.descript" <?= $search_type == 'r.descript' ? "selected" : "" ?>>설명글</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
@@ -205,16 +204,15 @@ $date_today = date("Y-m-d");
                                     $searchStr .= " AND r.reg_date <= '$edate'";
                                 if ($search_key) {
                                     if ($search_type == 'a')
-                                        $searchStr .= " AND (r.user_id LIKE '%$search_key%' or r.title like '%$search_key%'  or r.descript like '%$search_key%' or m.mem_name like '%$search_key%')";
+                                        $searchStr .= " AND (r.user_id LIKE '%$search_key%' or r.title like '%$search_key%'  or r.descript like '%$search_key%')";
                                     else
                                         $searchStr .= " AND $search_type LIKE '%$search_key%'";
                                 }
 
-                                $query = "SELECT count(r.id) FROM gn_report_form r inner join Gn_Member m on m.mem_id = r.user_id WHERE $searchStr";
+                                $query = "SELECT count(r.id) FROM gn_report_form r WHERE $searchStr";
                                 $res    = mysqli_query($self_con, $query);
                                 $totalRow    =  mysqli_fetch_array($res);
                                 $totalCnt = $totalRow[0];
-                                //$query = "SELECT r.*,m.mem_name,m.site_iam FROM gn_report_form r inner join Gn_Member m on m.mem_id = r.user_id WHERE $searchStr ";
                                 $query = "SELECT r.* FROM gn_report_form r use index(user_id) WHERE $searchStr ";
                                 $limitStr = " LIMIT " . (($startPage - 1) * $pageCnt) . ", " . $pageCnt;
                                 $number    = $totalCnt - ($nowPage - 1) * $pageCnt;

@@ -117,7 +117,7 @@ if ($_POST['method'] == "create_format") {
     $pcode = $obj->pcode;
     $event_idx = $obj->event_idx;
     $sql = "insert into gn_report_form set title='$title',descript='$desc',sign_visible=$sign,user_id='{$_SESSION['iam_member_id']}',reg_date=now(),request_yn = '$req_yn'";
-    if($event_idx)
+    if ($event_idx)
         $sql .= ",pcode='$event_idx'";
     mysqli_query($self_con, $sql);
     $repo_id = mysqli_insert_id($self_con);
@@ -188,8 +188,8 @@ if ($_POST['method'] == "create_format") {
         $pcode = $obj->pcode;
         $event_idx = $obj->event_idx;
         $sql = "update gn_report_form set title='$title',descript='$desc',sign_visible=$sign,reg_date=now(),request_yn = '$req_yn'";
-        if($event_idx)
-            $sql .=",pcode='$event_idx'";
+        if ($event_idx)
+            $sql .= ",pcode='$event_idx'";
         $sql .= " where id = $index";
         mysqli_query($self_con, $sql);
         $sql = "delete from gn_report_form1 where form_id = $index";
@@ -547,7 +547,7 @@ if ($_POST['method'] == "create_format") {
         $up_dir = "/upload/";
     }
     $file_arr = explode(".", $_FILES['uploadFile']['name']);
-    $date_file_name = "repo_".date('YmdHis') .".". $file_arr[count($file_arr) - 1];
+    $date_file_name = "repo_" . date('YmdHis') . "." . $file_arr[count($file_arr) - 1];
     $uploadfile = $uploaddir . basename($date_file_name);
     if (move_uploaded_file($_FILES['uploadFile']['tmp_name'], $uploadfile)) {
         $img_url = $up_dir . basename($date_file_name);
@@ -626,6 +626,274 @@ if ($_POST['method'] == "create_format") {
                                             manage_price = {$manage_price} where id = {$repo_id}";
     mysqli_query($self_con, $report_sql);
     echo json_encode(array("result" => 'success', "msg" => $report_sql));
+} else if ($_POST['method'] == "report_request") {
+    $ipcheck = $_SERVER['REMOTE_ADDR'];
+    $sql = "SELECT * FROM Gn_event WHERE pcode='{$pcode}' order by event_idx desc";
+    $result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
+    $event_data = mysqli_fetch_array($result);
+    $mem_id = $event_data['m_id'];
+    $send_num = $event_data['mobile'];
+    $step_idx1 = $event_data['sms_idx1'];
+    $step_idx2 = $event_data['sms_idx2'];
+    $step_idx3 = $event_data['sms_idx3'];
+    $stop_event_idx = $event_data['stop_event_idx'];
+
+    if (strstr($event_data['event_info'], "sms") && $_POST['join_yn'] == 'Y') {
+        $sql = "SELECT * FROM Gn_Event_Check_Sms WHERE mem_phone='{$_POST['mobile']}' order by idx desc";
+        $result = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
+        $check_data = mysqli_fetch_array($result);
+        if ($check_data['secret_key'] != $_POST['rnum']) {
+            echo json_encode(array("result" => "fail", "code" => "secret_error", "message" => "인증번호를 확인해주세요."));
+            exit;
+        }
+    }
+
+    if ($id) {
+        $m_id1 = $_POST['id'];
+    } else {
+        $m_id1 = $_SESSION['iam_member_id'];
+    }
+    if ($event_data['reserv_type']) {
+        $file1 = $_FILES['ai_file1']['tmp_name'];
+        $file2 = $_FILES['ai_file2']['tmp_name'];
+        $file3 = $_FILES['ai_file3']['tmp_name'];
+        $fquery = "";
+        if ($file1) {
+            $file_arr = explode(".", $_FILES['ai_file1']['name']);
+            $tmp_file_arr = explode("/", $file1);
+            $file_name = "ai_ms_event" . date("Ymds") . "." . $file_arr[count($file_arr) - 1];
+            $upload_file = "../upload/" . $file_name;
+            if (move_uploaded_file($_FILES['ai_file1']['tmp_name'], $upload_file)) {
+                uploadFTP($upload_file);
+                $fquery .= " ,file1='/upload/{$file_name}' ";
+            }
+        }
+        if ($file2) {
+            $file_arr = explode(".", $_FILES['ai_file2']['name']);
+            $tmp_file_arr = explode("/", $file2);
+            $file_name = "ai_ms_event" . date("Ymds") . "." . $file_arr[count($file_arr) - 1];
+            $upload_file = "../upload/" . $file_name;
+            if (move_uploaded_file($_FILES['ai_file2']['tmp_name'], $upload_file)) {
+                uploadFTP($upload_file);
+                $fquery .= " ,file2='/upload/{$file_name}' ";
+            }
+        }
+        if ($file3) {
+            $file_arr = explode(".", $_FILES['ai_file3']['name']);
+            $tmp_file_arr = explode("/", $file3);
+            $file_name = "ai_ms_event" . date("Ymds") . "." . $file_arr[count($file_arr) - 1];
+            $upload_file = "../upload/" . $file_name;
+            if (move_uploaded_file($_FILES['ai_file3']['tmp_name'], $upload_file)) {
+                uploadFTP($upload_file);
+                $fquery .= " ,file3='/upload/{$file_name}' ";
+            }
+        }
+        $sql = "INSERT INTO Gn_aievent_request SET event_idx='{$_POST['event_idx']}',
+                                                    event_code='{$_POST['event_code']}',
+                                                    m_id='{$_POST['m_id']}',
+                                                    req_id='{$m_id1}',
+                                                    name='{$_POST['name']}',
+                                                    sex='{$_POST['sex']}',
+                                                    addr='{$_POST['addr']}',
+                                                    birthday='{$_POST['birthday']}',
+                                                    consult_date='{$_POST['consult_date']}',
+                                                    join_yn='{$_POST['join_yn']}',
+                                                    other='{$_POST['other']}',
+                                                    mobile='{$_POST['mobile']}',
+                                                    email='{$_POST['email']}',
+                                                    job='{$_POST['job']}',
+                                                    pcode='{$_POST['pcode']}',
+                                                    sp='{$_POST['sp']}',
+                                                    ip_addr='{$ipcheck}',
+                                                    regdate=now(),
+                                                    step_end_time=now(),
+                                                    target='4'
+                                                    $fquery";
+    } else {
+        $sql = "INSERT INTO Gn_event_request SET event_idx='{$_POST['event_idx']}',
+                                                    event_code='{$_POST['event_code']}',
+                                                    m_id='{$_POST['m_id']}',
+                                                    req_id='{$m_id1}',
+                                                    name='{$_POST['name']}',
+                                                    sex='{$_POST['sex']}',
+                                                    addr='{$_POST['addr']}',
+                                                    birthday='{$_POST['birthday']}',
+                                                    consult_date='{$_POST['consult_date']}',
+                                                    join_yn='{$_POST['join_yn']}',
+                                                    other='{$_POST['other']}',
+                                                    mobile='{$_POST['mobile']}',
+                                                    email='{$_POST['email']}',
+                                                    job='{$_POST['job']}',
+                                                    pcode='{$_POST['pcode']}',
+                                                    sp='{$_POST['sp']}',
+                                                    ip_addr='{$ipcheck}',
+                                                    regdate=now(),
+                                                    step_end_time=now(),
+                                                    target='4'";
+    }
+    if ($_POST['landing_idx'] != '')
+        $sql .= " ,landing_idx='{$_POST['landing_idx']}'";
+    if ($_POST['rnum'] != '')
+        $sql .= " ,rnum='{$_POST['rnum']}'";
+    $res1 = mysqli_query($self_con, $sql);
+    $request_idx = mysqli_insert_id($self_con);
+    $recv_num = $mobile;
+    $recv_num = str_replace("-", "", $recv_num);
+
+    if ($mem_id == "")
+        $mem_id = $m_id;
+    if ($mem_id != "") {
+        // 접수내용 접수자에게 전송
+        $stitle = "이벤트 신청 내역";
+        $scontent = "신청해주셔서 감사합니다.\n\n
+                    {$_POST['name']} 님!\n
+                    신청하신 내용이 잘 접수되었습니다.\n
+                    이후 필요한 안내나 정보로 연락드리겠습니다.\n
+                    늘 행복하세요!! \n";
+
+        sendmms(1, $mem_id, $send_num, $recv_num, "", $stitle, $scontent, "", "", "", "Y");
+
+        $sql = "SELECT sms_idx FROM Gn_event_sms_info WHERE sms_idx='{$step_idx1}' or sms_idx='{$step_idx2}' or sms_idx='{$step_idx3}'";
+        $sms_info_res = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
+        while ($sms_info_row = mysqli_fetch_array($sms_info_res)) {
+            $sms_idx = $sms_info_row['sms_idx'];
+            //알람등록
+            $sql = "SELECT * FROM Gn_event_sms_step_info WHERE sms_idx='{$sms_idx}'";
+            $step_res = mysqli_query($self_con, $sql) or die(mysqli_error($self_con));
+            $step_end_time = date("Y-m-d H:i:s");
+            while ($step_row = mysqli_fetch_array($step_res)) {
+                // 시간 확인
+                $send_day = $step_row['send_day'];
+                $send_time = $step_row['send_time'];
+
+                if ($send_time == "") $send_time = "09:30";
+                if ($send_time == "00:00") $send_time = "09:30";
+                if ($send_day == 0) {
+                    $reservation = "";
+                    $jpg = $jpg1 = $jpg2 = '';
+                    if ($step_row['image'])
+                        $jpg = "https://kiam.kr/adjunct/mms/thum/" . $step_row['image'];
+                    if ($step_row['image1'])
+                        $jpg1 = "https://kiam.kr/adjunct/mms/thum/" . $step_row['image1'];
+                    if ($step_row['image2'])
+                        $jpg2 = "https://kiam.kr/adjunct/mms/thum/" . $step_row['image2'];
+                    //ai 작업하면서 수정할것	
+                    sendmms(4, $mem_id, $send_num, $recv_num, $reservation, $step_row['title'], $step_row['content'], $jpg, $jpg1, $jpg2, "Y", $step_row['sms_idx'], $step_row['sms_detail_idx'], $request_idx, "", $step_row['send_deny']);
+
+                    $query = "INSERT INTO Gn_MMS_Agree SET mem_id='{$mem_id}',
+                                                                send_num='{$send_num}',
+                                                                recv_num='{$recv_num}',
+                                                                content='{$step_row['content']}',
+                                                                title='{$step_row['title']}',
+                                                                jpg='{$jpg}',
+                                                                jpg1='{$jpg1}',
+                                                                jpg2='{$jpg2}',
+                                                                reg_date=NOW(),
+                                                                reservation='{$reservation}',
+                                                                sms_idx='{$step_row['sms_idx']}',
+                                                                sms_detail_idx='{$step_row['sms_detail_idx']}',
+                                                                request_idx='{$request_idx}',
+                                                                up_date=NOW()";
+                    mysqli_query($self_con, $query) or die(mysqli_error($self_con));
+                } else {
+                    $reservation = date("Y-m-d $send_time:00", strtotime("+$send_day days"));
+                    if ($step_end_time < $reservation)
+                        $step_end_time = $reservation;
+                }
+            }
+            $sql = "UPDATE Gn_event_request SET step_end_time='{$step_end_time}' WHERE request_idx = {$request_idx}";
+            mysqli_query($self_con, $sql);
+        }
+        //중단예약처리를 진행한다.
+        if ($stop_event_idx != 0) {
+            $query = "SELECT sms_idx1, sms_idx2, sms_idx3 FROM Gn_event WHERE evne_idx='{$stop_event_idx}'";
+            $stop_res = mysqli_query($self_con, $query);
+            $stop_row = mysqli_fetch_array($stop_res);
+
+            $query = "SELECT count(*) FROM Gn_MMS WHERE recv_num='{$recv_num}' and reservation is not null and result=1 and (sms_idx='{$stop_row[0]}' or sms_idx='{$stop_row[1]}' or sms_idx='{$stop_row[2]}')";
+            $cnt_res = mysqli_query($self_con, $query);
+            $cnt_row = mysqli_fetch_array($cnt_res);
+            if ($cnt_row[0] > 0) {
+                //중단정보테이블에 해당 값을 저장한다.
+                $query = "INSERT INTO Gn_event_sms_step_info SET event_idx='{$stop_event_idx}', mobile='{$recv_num}'";
+                mysqli_query($self_con, $query);
+
+                //문자테이블에서 해당 예약을 삭제한다.
+                $query = "delete FROM Gn_MMS WHERE recv_num='{$recv_num}' and reservation is not null and result=1 and (sms_idx='{$stop_row[0]}' or sms_idx='{$stop_row[1]}' or sms_idx='{$stop_row[2]}')";
+                mysqli_query($self_con, $query);
+            }
+        }
+
+        if ($_POST['join_yn'] == 'Y') {
+            //회원가입
+            $sql3 = "SELECT sub_domain FROM Gn_Service WHERE sub_domain like '%kiam.kr' And mem_id='{$_POST['m_id']}'";
+            $res = mysqli_query($self_con, $sql3);
+            $row1 = mysqli_fetch_array($res);
+            if ($row1['sub_domain']) {
+                $parse = parse_url($row1['sub_domain']);
+                $sites = explode(".", $parse['host']);
+                $site = $sites[0];
+            } else {
+                $sql3 = "SELECT site FROM Gn_Member WHERE mem_id='{$m_id}'";
+                $res = mysqli_query($self_con, $sql3);
+                $row1 = mysqli_fetch_array($res);
+                $site = $row1['site'];
+            }
+            $sql3_iam = "SELECT sub_domain FROM Gn_Service_Iam WHERE sub_domain like '%kiam.kr' And mem_id='{$_POST['m_id']}'";
+            $res = mysqli_query($self_con, $sql3_iam);
+            $row1_iam = mysqli_fetch_array($res);
+            if ($row1_iam['sub_domain']) {
+                $parse = parse_url($row1_iam['sub_domain']);
+                $sites = explode(".", $parse['host']);
+                $site_iam = $sites[0];
+            } else {
+                $sql3_iam = "SELECT site FROM Gn_Member WHERE mem_id='{$_POST['m_id']}'";
+                $res = mysqli_query($self_con, $sql3_iam);
+                $row1_iam = mysqli_fetch_array($res);
+                $site_iam = $row1_iam['site'];
+            }
+            $userid = $_POST['id'];
+            $passwd = substr($mobile, -4);
+
+            $query = "INSERT INTO Gn_Member SET mem_id='{$userid}',
+                                                        mem_leb='22',
+                                                        web_pwd=md5('{$passwd}'),
+                                                        mem_pass=md5('{$passwd}'),
+                                                        mem_name='{$_POST['name']}',
+                                                        mem_nick='{$_POST['name']}',
+                                                        mem_type='A',
+                                                        recommend_id = '{$_POST['m_id']}',
+                                                        site='{$site}',
+                                                        site_iam='{$site_iam}',
+                                                        mem_phone='{$_POST['mobile']}',
+                                                        zy='{$_POST['job']}',
+                                                        first_regist=now() ,
+                                                        mem_check=now(),
+                                                        mem_add1='{$_POST['addr']}',
+                                                        mem_email='{$_POST['email']}',
+                                                        mem_sex='{$_POST['sex']}',
+                                                        join_ip='{$_SERVER['REMOTE_ADDR']}'";
+            mysqli_query($self_con, $query);
+            $mem_code = mysqli_insert_id($self_con);
+        }
+    }
+    if (!$res1) {
+        echo json_encode(array("result" => "fail", "code" => "request_error", "message" => "신청접수에 실패했습니다."));
+    } else {
+        $msg = "신청해주셔서 감사합니다.\\n\\n";
+        $msg .= $_POST['name'] ."님!\\n";
+        $msg .="신청하신 내용이 잘 접수되었습니다.\\n";
+        $msg .="이후 필요한 안내나 정보로 연락드리겠습니다.\\n";
+        $msg .="\\n";
+        $msg .="늘 행복하세요!!\\n";
+
+        if ($_POST['join_yn'] == 'Y') {
+            echo json_encode(array("result" => "success", "code" => "login", "message" => $msg,"userid"=>$userid,"passwd"=>$passwd,"mem_code"=>$mem_code));
+        }else{
+            echo json_encode(array("result" => "success", "code" => "success", "message" => $msg));
+        }
+        
+    }
 }
 
 function insert_db($idx, $mem_id)

@@ -507,7 +507,7 @@ if ($get_idx) {
                 $show = "";
             }
             ?>
-            <form name="pay_form" action="" method="post" class="my_pay" style="<?=$reserv_type == 1 ? 'display:none':''?>">
+            <form name="pay_form" action="" method="post" class="my_pay" style="<?=$reserv_type != 1 ? 'display:none':''?>">
                 <input type="hidden" name="page" value="<?= $page ?>" />
                 <input type="hidden" name="page2" value="<?= $page2 ?>" />
                 <div class="a1">
