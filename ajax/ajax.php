@@ -9,6 +9,7 @@ if($_POST['mode'] == "intro_message") {
 }
 //아이디 유무 판단
 if($_POST['id_che']){
+	$fp = fopen("ajax.log","w+");
     $solution_type = $_POST['solution_type'];
     $solution_name = $_POST['solution_name'];
     $id_che=trim($_POST['id_che']);
@@ -19,6 +20,7 @@ if($_POST['id_che']){
 		$search = "";
 	}
     $sql="select mem_id from Gn_Member where mem_id='$id_che'".$search;
+	fwrite($fp,$sql);
     $resul=mysqli_query($self_con,$sql);
     $row=mysqli_fetch_array($resul);
     if($row['mem_id']){?>
