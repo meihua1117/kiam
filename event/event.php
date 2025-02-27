@@ -820,7 +820,7 @@ if ($_POST['mode'] == "speech") {
 				document.getElementById('id_html').innerHTML = '';
 			$.ajax({
 				type: "POST",
-				url: "../ajax/ajax.php",
+				url: "/ajax/ajax.php",
 				data: {
 					id_che: frm.id.value,
 					id_che_form: frm_str
